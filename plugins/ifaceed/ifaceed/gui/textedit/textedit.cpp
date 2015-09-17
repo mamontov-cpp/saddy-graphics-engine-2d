@@ -28,11 +28,11 @@ void gui::textedit::TextEdit::setCompleter(QCompleter* completer)
     m_completer->setCompletionMode(QCompleter::PopupCompletion);
     m_completer->setCaseSensitivity(this->caseSensivity());
     QObject::connect(
-		m_completer, 
-		SIGNAL(activated(QString)),
+        m_completer, 
+        SIGNAL(activated(QString)),
         this, 
-		SLOT(insertCompletion(QString))
-	);
+        SLOT(insertCompletion(QString))
+    );
 }
 
 QCompleter* gui::textedit::TextEdit::completer() const
@@ -42,7 +42,7 @@ QCompleter* gui::textedit::TextEdit::completer() const
 
 Qt::CaseSensitivity gui::textedit::TextEdit::caseSensivity() const
 {
-	return Qt::CaseInsensitive;
+    return Qt::CaseInsensitive;
 }
 
 void gui::textedit::TextEdit::insertCompletion(const QString& completion)
@@ -59,7 +59,7 @@ void gui::textedit::TextEdit::insertCompletion(const QString& completion)
 
 void gui::textedit::TextEdit::emitTextEditingFinished()
 {
-	emit textEditingFinished();
+    emit textEditingFinished();
 }
 
 QString gui::textedit::TextEdit::textUnderCursor() const
@@ -71,7 +71,7 @@ QString gui::textedit::TextEdit::textUnderCursor() const
 
 int gui::textedit::TextEdit::minCompletionPrefixLength() const
 {
-	return 3;
+    return 3;
 }
 
 void gui::textedit::TextEdit::focusInEvent(QFocusEvent *e)
@@ -83,26 +83,26 @@ void gui::textedit::TextEdit::focusInEvent(QFocusEvent *e)
 
 void  gui::textedit::TextEdit::keyPressEvent(QKeyEvent *e)
 {
-	m_editing_finished_timer.stop();
-	m_editing_finished_timer.setSingleShot(true);
-	m_editing_finished_timer.setInterval(this->TIMEOUT);
-	m_editing_finished_timer.start();
+    m_editing_finished_timer.stop();
+    m_editing_finished_timer.setSingleShot(true);
+    m_editing_finished_timer.setInterval(this->TIMEOUT);
+    m_editing_finished_timer.start();
 
     if (m_completer && m_completer->popup()->isVisible()) 
-	{
+    {
         // The following keys are forwarded by the completer to the widget
-		switch (e->key()) 
-		{
-		case Qt::Key_Enter:
-		case Qt::Key_Return:
-		case Qt::Key_Escape:
-		case Qt::Key_Tab:
-		case Qt::Key_Backtab:
-				e->ignore();
-				return; // let the completer do default behavior
-		default:
-			break;
-		}
+        switch (e->key()) 
+        {
+        case Qt::Key_Enter:
+        case Qt::Key_Return:
+        case Qt::Key_Escape:
+        case Qt::Key_Tab:
+        case Qt::Key_Backtab:
+                e->ignore();
+                return; // let the completer do default behavior
+        default:
+            break;
+        }
     }
 
     bool isShortcut = ((e->modifiers() & Qt::ControlModifier) && e->key() == Qt::Key_Space); // CTRL+Space

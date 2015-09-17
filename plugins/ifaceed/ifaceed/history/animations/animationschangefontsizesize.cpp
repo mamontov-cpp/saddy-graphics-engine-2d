@@ -8,8 +8,8 @@
 
 history::animations::ChangeFontSizeSize::ChangeFontSizeSize(
     sad::animations::Animation* d,
-	const sad::String& propertyname,
-	QSpinBox* view,
+    const sad::String& propertyname,
+    QSpinBox* view,
     unsigned int oldvalue,
     unsigned int newvalue
 
@@ -30,7 +30,7 @@ history::animations::ChangeFontSizeSize::~ChangeFontSizeSize()
 
 void history::animations::ChangeFontSizeSize::updateUI(core::Editor* e, const unsigned int& value)
 {    
-	e->emitClosure( blocked_bind(
+    e->emitClosure( blocked_bind(
             m_view,
             &QSpinBox::setValue,
             value

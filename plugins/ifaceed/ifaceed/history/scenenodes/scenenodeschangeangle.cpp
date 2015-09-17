@@ -12,20 +12,20 @@ history::scenenodes::ChangeAngle::ChangeAngle(
     float newvalue
 ) : history::scenenodes::ChangeProperty<float>(d, "angle", oldvalue, newvalue)
 {
-	
+    
 }
 
 history::scenenodes::ChangeAngle::~ChangeAngle()
 {
-	
+    
 }
 
 void history::scenenodes::ChangeAngle::updateUI(core::Editor* e, const float& value)
 {
-	gui::anglewidget::AngleWidget* w = e->panel()->UI()->awSceneNodeAngle;
-	e->emitClosure( blocked_bind(
-		w, 
-		&gui::anglewidget::AngleWidget::setValue, 
-		static_cast<double>(value)
-	) );
+    gui::anglewidget::AngleWidget* w = e->panel()->UI()->awSceneNodeAngle;
+    e->emitClosure( blocked_bind(
+        w, 
+        &gui::anglewidget::AngleWidget::setValue, 
+        static_cast<double>(value)
+    ) );
 }

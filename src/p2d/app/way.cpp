@@ -21,227 +21,227 @@ sad::p2d::app::Way::~Way()
 
 
 void sad::p2d::app::Way::step(
-	sad::p2d::app::Way::WayLink * link, 
-	double step,
-	sad::p2d::Point & p
+    sad::p2d::app::Way::WayLink * link, 
+    double step,
+    sad::p2d::Point & p
 )
 {
-	assert( m_constructed );
-	if (m_waypoints.size() == 1)
-	{
-		p = m_waypoints[0];
-		link->CurrentTime += step;
-		return;
-	}
+    assert( m_constructed );
+    if (m_waypoints.size() == 1)
+    {
+        p = m_waypoints[0];
+        link->CurrentTime += step;
+        return;
+    }
 
-	double time = link->CurrentTime  + step;
-	if (time > m_totaltime  && !m_closed)
-	{
-		p = m_waypoints[m_waypoints.size() - 1];
-		link->CurrentTime += step;
-		return;
-	}
+    double time = link->CurrentTime  + step;
+    if (time > m_totaltime  && !m_closed)
+    {
+        p = m_waypoints[m_waypoints.size() - 1];
+        link->CurrentTime += step;
+        return;
+    }
 
-	while(time > m_totaltime)
-		time -= m_totaltime;
+    while(time > m_totaltime)
+        time -= m_totaltime;
 
-	int index = -1;
-	for(unsigned int i = 0; (i < m_times.size() - 1) && index == -1; i++)
-	{
-		if (time >= m_times[i] && time <= m_times[i+1])
-		{
-			index = i;
-		}
-	}
-	double timespan = m_times[index+1] - m_times[index];
-	double relativetime = time - m_times[index];
-	sad::p2d::Point p1 = m_waypoints[index]; 
-	sad::p2d::Point p2;
-	if (index + 1 == m_waypoints.size())
-	{
-		p2 = m_waypoints[0];
-	}
-	else
-	{
-		p2 = m_waypoints[index+1];
-	}
-	p = p1 + (p2-p1) * (relativetime / timespan);	
-	link->CurrentTime += step;
+    int index = -1;
+    for(unsigned int i = 0; (i < m_times.size() - 1) && index == -1; i++)
+    {
+        if (time >= m_times[i] && time <= m_times[i+1])
+        {
+            index = i;
+        }
+    }
+    double timespan = m_times[index+1] - m_times[index];
+    double relativetime = time - m_times[index];
+    sad::p2d::Point p1 = m_waypoints[index]; 
+    sad::p2d::Point p2;
+    if (index + 1 == m_waypoints.size())
+    {
+        p2 = m_waypoints[0];
+    }
+    else
+    {
+        p2 = m_waypoints[index+1];
+    }
+    p = p1 + (p2-p1) * (relativetime / timespan);	
+    link->CurrentTime += step;
 }
 
 
 void sad::p2d::app::Way::setPoint(int i,  const sad::p2d::app::WayPoint & p)
 {
-	m_waypoints[i] = p;
-	if (m_constructed)
-	{
-		construct();
-	}
+    m_waypoints[i] = p;
+    if (m_constructed)
+    {
+        construct();
+    }
 }
 
 void sad::p2d::app::Way::addPoint(const sad::p2d::app::WayPoint & p)
 {
-	m_waypoints << p;
-	if (m_constructed)
-	{
-		construct();
-	}
+    m_waypoints << p;
+    if (m_constructed)
+    {
+        construct();
+    }
 }
 
 void sad::p2d::app::Way::insertPoint(int i, const sad::p2d::app::WayPoint& p)
 {
-	m_waypoints.insert(p, i);
-	if (m_constructed)
-	{
-		construct();
-	}
+    m_waypoints.insert(p, i);
+    if (m_constructed)
+    {
+        construct();
+    }
 }
 
 void sad::p2d::app::Way::removePoint(int i)
 {
-	m_waypoints.removeAt(i);
-	if (m_constructed)
-	{
-		construct();
-	}
+    m_waypoints.removeAt(i);
+    if (m_constructed)
+    {
+        construct();
+    }
 }
 
 bool sad::p2d::app::Way::closed() const
 {
-	return m_closed;
+    return m_closed;
 }
 
 void sad::p2d::app::Way::setClosed(bool b)
 {
-	m_closed = b;
-	if (m_constructed)
-	{
-		construct();
-	}
+    m_closed = b;
+    if (m_constructed)
+    {
+        construct();
+    }
 }
 
 void sad::p2d::app::Way::makeClosed()
 {
-	m_closed = true;
-	if (m_constructed)
-	{
-		construct();
-	}
+    m_closed = true;
+    if (m_constructed)
+    {
+        construct();
+    }
 }
 
 void sad::p2d::app::Way::makeOpen()
 {
-	m_closed = false;
-	if (m_constructed)
-	{
-		construct();
-	}
+    m_closed = false;
+    if (m_constructed)
+    {
+        construct();
+    }
 }
 
 void sad::p2d::app::Way::setTotalTime(double time)
 {
-	m_totaltime = time;
-	if (m_constructed)
-	{
-		construct();
-	}
+    m_totaltime = time;
+    if (m_constructed)
+    {
+        construct();
+    }
 }
 
 double sad::p2d::app::Way::totalTime() const
 {
-	return m_totaltime;
+    return m_totaltime;
 }
 
 void sad::p2d::app::Way::startConstruction()
 {
-	m_constructed = false;
+    m_constructed = false;
 }
 
 
 void sad::p2d::app::Way::construct()
 {
-	m_constructed = true;
-	if (m_waypoints.size() <= 1 || sad::is_fuzzy_zero(m_totaltime))
-	{
-		return;
-	}
-	double curtime = 0;
-	double totaldistance = 0;
-	for(unsigned int i = 0; i < m_waypoints.size() - 1; i++)
-	{
-		totaldistance += m_waypoints[i].distance(m_waypoints[i+1]);
-	}
-	if (m_closed)
-	{
-		totaldistance +=  m_waypoints[0].distance(m_waypoints[m_waypoints.size()-1]);
-	}
+    m_constructed = true;
+    if (m_waypoints.size() <= 1 || sad::is_fuzzy_zero(m_totaltime))
+    {
+        return;
+    }
+    double curtime = 0;
+    double totaldistance = 0;
+    for(unsigned int i = 0; i < m_waypoints.size() - 1; i++)
+    {
+        totaldistance += m_waypoints[i].distance(m_waypoints[i+1]);
+    }
+    if (m_closed)
+    {
+        totaldistance +=  m_waypoints[0].distance(m_waypoints[m_waypoints.size()-1]);
+    }
 
-	double avspeed = totaldistance / m_totaltime;
-	m_times.clear();
-	m_times << 0;
-	for(unsigned int i = 1; i < m_waypoints.size(); i++)
-	{
-		double d = m_waypoints[i-1].distance(m_waypoints[i]);
-		curtime += d / avspeed;
-		m_times << curtime;
-	}
-	if (m_closed)
-	{
-		m_times << m_totaltime;
-	}
+    double avspeed = totaldistance / m_totaltime;
+    m_times.clear();
+    m_times << 0;
+    for(unsigned int i = 1; i < m_waypoints.size(); i++)
+    {
+        double d = m_waypoints[i-1].distance(m_waypoints[i]);
+        curtime += d / avspeed;
+        m_times << curtime;
+    }
+    if (m_closed)
+    {
+        m_times << m_totaltime;
+    }
 }
 
 static sad::String SadP2DAppWayName = "sad::p2d::app::Way";
 
 const sad::String&  sad::p2d::app::Way::serializableName() const
 {
-	return SadP2DAppWayName;
+    return SadP2DAppWayName;
 }
 
 static sad::db::schema::Schema* SadP2DAppWaySchema = NULL;
 
 sad::db::schema::Schema* sad::p2d::app::Way::basicSchema()
 {
-	if (SadP2DAppWaySchema == NULL)
-	{
-		SadP2DAppWaySchema = new sad::db::schema::Schema();
-		SadP2DAppWaySchema->addParent(sad::db::Object::basicSchema());
+    if (SadP2DAppWaySchema == NULL)
+    {
+        SadP2DAppWaySchema = new sad::db::schema::Schema();
+        SadP2DAppWaySchema->addParent(sad::db::Object::basicSchema());
 
-		SadP2DAppWaySchema->add(
-			"totaltime", 
-			new sad::db::MethodPair<sad::p2d::app::Way, double>(
-				&sad::p2d::app::Way::totalTime,
-				&sad::p2d::app::Way::setTotalTime
-			)
-		);
-		SadP2DAppWaySchema->add(
-			"closed", 
-			new sad::db::MethodPair<sad::p2d::app::Way, bool>(
-				&sad::p2d::app::Way::closed,
-				&sad::p2d::app::Way::setClosed
-			)
-		);
-		SadP2DAppWaySchema->add(
-			"waypoints", 
-			define_field(&sad::p2d::app::Way::m_waypoints)
-		);
+        SadP2DAppWaySchema->add(
+            "totaltime", 
+            new sad::db::MethodPair<sad::p2d::app::Way, double>(
+                &sad::p2d::app::Way::totalTime,
+                &sad::p2d::app::Way::setTotalTime
+            )
+        );
+        SadP2DAppWaySchema->add(
+            "closed", 
+            new sad::db::MethodPair<sad::p2d::app::Way, bool>(
+                &sad::p2d::app::Way::closed,
+                &sad::p2d::app::Way::setClosed
+            )
+        );
+        SadP2DAppWaySchema->add(
+            "waypoints", 
+            define_field(&sad::p2d::app::Way::m_waypoints)
+        );
 
-		sad::ClassMetaDataContainer::ref()->pushGlobalSchema(SadP2DAppWaySchema);
-	}
-	return SadP2DAppWaySchema;
+        sad::ClassMetaDataContainer::ref()->pushGlobalSchema(SadP2DAppWaySchema);
+    }
+    return SadP2DAppWaySchema;
 }
 
 sad::db::schema::Schema* sad::p2d::app::Way::schema() const
 {
-	return sad::p2d::app::Way::basicSchema();
+    return sad::p2d::app::Way::basicSchema();
 }
 
 bool sad::p2d::app::Way::load(const picojson::value& v)
 {
-	bool result = this->sad::db::Object::load(v);
-	if (result)
-	{
-		construct();
-	}
-	return result;
+    bool result = this->sad::db::Object::load(v);
+    if (result)
+    {
+        construct();
+    }
+    return result;
 }

@@ -32,7 +32,7 @@ history::animations::ChangeName::~ChangeName()
 void history::animations::ChangeName::tryUpdateUI(core::Editor* e, const sad::String& value)
 {
     this->history::animations::ChangeProperty<sad::String>::tryUpdateUI(e, value);
-	e->emitClosure(bind(e->panel(), &MainPanel::updateAnimationName, m_animation));	
+    e->emitClosure(bind(e->panel(), &MainPanel::updateAnimationName, m_animation));	
 }
 
 void history::animations::ChangeName::updateUI(core::Editor* e, const sad::String& value)

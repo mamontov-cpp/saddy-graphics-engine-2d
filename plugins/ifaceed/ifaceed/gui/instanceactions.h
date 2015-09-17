@@ -1,7 +1,7 @@
 /*! \file instanceactions.h
-	
+    
 
-	Describes a group of actions, linked to instances
+    Describes a group of actions, linked to instances
  */
 #pragma once
 #include <QObject>
@@ -26,26 +26,26 @@ class InstanceActions: public QObject
 {
 Q_OBJECT
 public:
-	/*! Creates new label actions
-		\param[in] parent a parent object
-	 */
-	InstanceActions(QObject* parent = NULL);
-	/*! This class could be inherited
-	 */
-	virtual ~InstanceActions();
-	/*! Sets panel, where actions belong to
-	 */
-	void setPanel(MainPanel* e);
-	/*! Returns panel, where actions belong to
-	 */
-	MainPanel* panel() const;
-	/*! Updates instance list for groups
-	 */
-	void updateGroupInstanceList();
-	/*! Updates animation for current instance
-		\param[in] a instance
-	 */
-	void updateCurrentInstanceAnimation(sad::animations::Instance* a);
+    /*! Creates new label actions
+        \param[in] parent a parent object
+     */
+    InstanceActions(QObject* parent = NULL);
+    /*! This class could be inherited
+     */
+    virtual ~InstanceActions();
+    /*! Sets panel, where actions belong to
+     */
+    void setPanel(MainPanel* e);
+    /*! Returns panel, where actions belong to
+     */
+    MainPanel* panel() const;
+    /*! Updates instance list for groups
+     */
+    void updateGroupInstanceList();
+    /*! Updates animation for current instance
+        \param[in] a instance
+     */
+    void updateCurrentInstanceAnimation(sad::animations::Instance* a);
     /*! Tries to remove animation instance from list
         \param[in] a instance
         \param[in] fromeditor whether instance is being removed from editor
@@ -57,60 +57,60 @@ public:
         int row = -1
     );
 public slots:
-	/*! Tries to add new animation instance
-	 */
-	void addInstance();
-	/*! Tries to remove animation instance
-	 */
-	void removeInstance();
-	/*! Called, when current instance is changed
-	 */
-	void currentInstanceChanged(int row);
-	/*!  Called, when user changes name of instance
-		\param[in] name a name of instance
-	 */
-	void nameChanged(const QString& name);
-	/*! Called, when user changes state for tree link
-		\param[in] state a state of button
-	 */
-	void treeLinkStateChanged(bool state);
-	/*! Called, when user changes state for database link
-		\param[in] state a state of link
-	 */
-	void databaseLinkStateChanged(bool state);
-	/*! Called, whether tree element changed
-		\param[in] newrow a row 
-	 */
-	void treeElementChanged(int newrow);
-	/*! Called, whether database element changed
-		\param[in] newrow a row 
-	 */
-	void databaseElementChanged(int newrow);
-	/*! Called, when object element changed
-		\param[in] newrow a row 
-	 */
-	void objectChanged(int newrow);
-	/*! Called, when start time changed
-		\param[in] newvalue new value
-	 */
-	void startTimeChanged(double newvalue);
-	/*! Called, when object element changed
-		\param[in] newrow a row 
-	 */
-	void wayChanged(int newrow);
-	/*! Starts an instance
-	 */
-	void start();
-	/*! Stops an instance 
-	 */
-	void stop();
+    /*! Tries to add new animation instance
+     */
+    void addInstance();
+    /*! Tries to remove animation instance
+     */
+    void removeInstance();
+    /*! Called, when current instance is changed
+     */
+    void currentInstanceChanged(int row);
+    /*!  Called, when user changes name of instance
+        \param[in] name a name of instance
+     */
+    void nameChanged(const QString& name);
+    /*! Called, when user changes state for tree link
+        \param[in] state a state of button
+     */
+    void treeLinkStateChanged(bool state);
+    /*! Called, when user changes state for database link
+        \param[in] state a state of link
+     */
+    void databaseLinkStateChanged(bool state);
+    /*! Called, whether tree element changed
+        \param[in] newrow a row 
+     */
+    void treeElementChanged(int newrow);
+    /*! Called, whether database element changed
+        \param[in] newrow a row 
+     */
+    void databaseElementChanged(int newrow);
+    /*! Called, when object element changed
+        \param[in] newrow a row 
+     */
+    void objectChanged(int newrow);
+    /*! Called, when start time changed
+        \param[in] newvalue new value
+     */
+    void startTimeChanged(double newvalue);
+    /*! Called, when object element changed
+        \param[in] newrow a row 
+     */
+    void wayChanged(int newrow);
+    /*! Starts an instance
+     */
+    void start();
+    /*! Stops an instance 
+     */
+    void stop();
 private:
-	/*! An panel, which actions are belong to
-	 */
-	MainPanel* m_panel;
-	/*! A running animation process 
-	 */
-	gui::AnimationInstanceProcess* m_animation;
+    /*! An panel, which actions are belong to
+     */
+    MainPanel* m_panel;
+    /*! A running animation process 
+     */
+    gui::AnimationInstanceProcess* m_animation;
 };
 
 }

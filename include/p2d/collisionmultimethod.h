@@ -1,8 +1,8 @@
 /*! \file collisionmultimethod.h
-	
+    
 
-	Describes a collision multi-method, used to call
-	various type-dependent functions
+    Describes a collision multi-method, used to call
+    various type-dependent functions
  */
 #pragma once
 #include "collisionshape.h"
@@ -20,17 +20,17 @@ template<typename _ReturnType>
 class BasicCollisionMultiMethodInstance
 {
  public:
-	 /*! Invokes a method
-		 \param[in] a1 first object
-		 \param[in] a2 second object
-		 \return returned type
-	  */
-	 virtual _ReturnType invoke(p2d::CollisionShape * a1, p2d::CollisionShape * a2) = 0;
-	 /*! Returns true, if arguments will be reversed on execution
-		 \return reverse flag
-	  */
-	 virtual bool reverse() const = 0;
-	 virtual ~BasicCollisionMultiMethodInstance() {}
+     /*! Invokes a method
+         \param[in] a1 first object
+         \param[in] a2 second object
+         \return returned type
+      */
+     virtual _ReturnType invoke(p2d::CollisionShape * a1, p2d::CollisionShape * a2) = 0;
+     /*! Returns true, if arguments will be reversed on execution
+         \return reverse flag
+      */
+     virtual bool reverse() const = 0;
+     virtual ~BasicCollisionMultiMethodInstance() {}
 };
 
 /*! Describes a basic method for invocation a multi-method with arguments
@@ -39,23 +39,23 @@ template<typename _ReturnType, typename _Arg>
 class BasicCollisionMultiMethodInstanceWithArg
 {
  public:
-	 /*! Invokes a method
-		 \param[in] a1 first object
-		 \param[in] ak1 argument, related to first object
-		 \param[in] a2 second object
-		 \param[in] ak2 argument, related to second object
-		 \return returned type
-	  */
-	 virtual _ReturnType invoke(
-		 p2d::CollisionShape * a1, 
-		 const _Arg & ak1, 
-		 p2d::CollisionShape * a2,
-		 const _Arg & ak2) = 0;
-	 /*! Returns true, if arguments will be reversed on execution
-		 \return reverse flag
-	  */
-	 virtual bool reverse() const = 0;
-	 virtual ~BasicCollisionMultiMethodInstanceWithArg() {}
+     /*! Invokes a method
+         \param[in] a1 first object
+         \param[in] ak1 argument, related to first object
+         \param[in] a2 second object
+         \param[in] ak2 argument, related to second object
+         \return returned type
+      */
+     virtual _ReturnType invoke(
+         p2d::CollisionShape * a1, 
+         const _Arg & ak1, 
+         p2d::CollisionShape * a2,
+         const _Arg & ak2) = 0;
+     /*! Returns true, if arguments will be reversed on execution
+         \return reverse flag
+      */
+     virtual bool reverse() const = 0;
+     virtual ~BasicCollisionMultiMethodInstanceWithArg() {}
 };
 
 template<
@@ -67,41 +67,41 @@ class CollisionMultiMethodInstance:
 public  p2d::BasicCollisionMultiMethodInstance<_ReturnType>
 { 
 public:
-	/*! Constructs new instance
-		\param[in] p pointer to free function
-		\param[in] reverse whether arguments should be reversed
-	 */
-	inline CollisionMultiMethodInstance(
-		  _ReturnType (*p)(_FirstObject * o1, _SecondObject * o2),
-		  bool reverse
+    /*! Constructs new instance
+        \param[in] p pointer to free function
+        \param[in] reverse whether arguments should be reversed
+     */
+    inline CollisionMultiMethodInstance(
+          _ReturnType (*p)(_FirstObject * o1, _SecondObject * o2),
+          bool reverse
     ) : m_p(p), m_reverse(reverse) {}
-	/*! Returns true, if arguments will be reversed on exectution
-		 \return reverse flag
-	  */
-	bool reverse() const { return m_reverse; }
-	 /*! Invokes a method
-		 \param[in] a1 first object
-		 \param[in] a2 second object
-		 \return returned type
-	  */
-	 virtual _ReturnType invoke(p2d::CollisionShape * a1, p2d::CollisionShape * a2)
-	 {
-		 // Checked casts are replaced with static cast, since
-		 // type-checking is performed in p2d::CollisionMultiMethod
-		 if (!m_reverse)
-		 {
-		  _FirstObject * _a1 = static_cast<_FirstObject *>(a1);
-		  _SecondObject * _a2 = static_cast<_SecondObject *>(a2);
-		  return m_p(_a1, _a2);
-		 }
-		 _FirstObject * _a1 = static_cast<_FirstObject *>(a2);
-		 _SecondObject * _a2 = static_cast<_SecondObject *>(a1);
-		 return m_p(_a1, _a2);
-	 }
-	 virtual ~CollisionMultiMethodInstance() {}
+    /*! Returns true, if arguments will be reversed on exectution
+         \return reverse flag
+      */
+    bool reverse() const { return m_reverse; }
+     /*! Invokes a method
+         \param[in] a1 first object
+         \param[in] a2 second object
+         \return returned type
+      */
+     virtual _ReturnType invoke(p2d::CollisionShape * a1, p2d::CollisionShape * a2)
+     {
+         // Checked casts are replaced with static cast, since
+         // type-checking is performed in p2d::CollisionMultiMethod
+         if (!m_reverse)
+         {
+          _FirstObject * _a1 = static_cast<_FirstObject *>(a1);
+          _SecondObject * _a2 = static_cast<_SecondObject *>(a2);
+          return m_p(_a1, _a2);
+         }
+         _FirstObject * _a1 = static_cast<_FirstObject *>(a2);
+         _SecondObject * _a2 = static_cast<_SecondObject *>(a1);
+         return m_p(_a1, _a2);
+     }
+     virtual ~CollisionMultiMethodInstance() {}
 private:
-	 _ReturnType (*m_p)(_FirstObject * o1, _SecondObject * o2); //!< An inner function to call
-	 bool m_reverse;  //!< Whether arguments should be reversed	
+     _ReturnType (*m_p)(_FirstObject * o1, _SecondObject * o2); //!< An inner function to call
+     bool m_reverse;  //!< Whether arguments should be reversed	
 };
 
 
@@ -115,52 +115,52 @@ class CollisionMultiMethodInstanceWithArg:
 public  p2d::BasicCollisionMultiMethodInstanceWithArg<_ReturnType, _Arg>
 {
 public:
-	 typedef _ReturnType (*inner_t)(_FirstObject * o1, 
-								const _Arg & a1, 
-								_SecondObject * o2,
-								const _Arg & a2
-							   );
+     typedef _ReturnType (*inner_t)(_FirstObject * o1, 
+                                const _Arg & a1, 
+                                _SecondObject * o2,
+                                const _Arg & a2
+                               );
 public:
-	/*! Constructs new instance
-		\param[in] p pointer to free function
-		\param[in] reverse whether arguments should be reversed
-	 */
-	inline CollisionMultiMethodInstanceWithArg(
-		  inner_t p,
-		  bool reverse
+    /*! Constructs new instance
+        \param[in] p pointer to free function
+        \param[in] reverse whether arguments should be reversed
+     */
+    inline CollisionMultiMethodInstanceWithArg(
+          inner_t p,
+          bool reverse
     ) : m_p(p), m_reverse(reverse) {}
-	/*! Returns true, if arguments will be reversed on exectution
-		 \return reverse flag
-	  */
-	bool reverse() const { return m_reverse; }
-	 /*! Invokes a method
-		 \param[in] a1 first object
-		 \param[in] ak1 argument, related to first object
-		 \param[in] a2 second object
-		 \param[in] ak2 argument, related to second object
-		 \return returned type
-	  */
-	 virtual _ReturnType invoke(
-		 p2d::CollisionShape * a1, 
-		 const _Arg & ak1, 
-		 p2d::CollisionShape * a2,
-		 const _Arg & ak2
-		 )
-	 {
-		 if (!m_reverse)
-		 {
-		  _FirstObject * _a1 = static_cast<_FirstObject*>(a1);
-		  _SecondObject * _a2 = static_cast<_SecondObject*>(a2);
-		  return m_p(_a1, ak1, _a2, ak2);
-		 }
-		 _FirstObject * _a1 = static_cast<_FirstObject*>(a2);
-		 _SecondObject * _a2 = static_cast<_SecondObject*>(a1);
-		 return m_p(_a1, ak2, _a2,  ak1);
-	 }
-	 virtual ~CollisionMultiMethodInstanceWithArg() {}
+    /*! Returns true, if arguments will be reversed on exectution
+         \return reverse flag
+      */
+    bool reverse() const { return m_reverse; }
+     /*! Invokes a method
+         \param[in] a1 first object
+         \param[in] ak1 argument, related to first object
+         \param[in] a2 second object
+         \param[in] ak2 argument, related to second object
+         \return returned type
+      */
+     virtual _ReturnType invoke(
+         p2d::CollisionShape * a1, 
+         const _Arg & ak1, 
+         p2d::CollisionShape * a2,
+         const _Arg & ak2
+         )
+     {
+         if (!m_reverse)
+         {
+          _FirstObject * _a1 = static_cast<_FirstObject*>(a1);
+          _SecondObject * _a2 = static_cast<_SecondObject*>(a2);
+          return m_p(_a1, ak1, _a2, ak2);
+         }
+         _FirstObject * _a1 = static_cast<_FirstObject*>(a2);
+         _SecondObject * _a2 = static_cast<_SecondObject*>(a1);
+         return m_p(_a1, ak2, _a2,  ak1);
+     }
+     virtual ~CollisionMultiMethodInstanceWithArg() {}
 private:
-	 inner_t m_p; //!< An inner function to call
-	 bool m_reverse;  //!< Whether arguments should be reversed	 
+     inner_t m_p; //!< An inner function to call
+     bool m_reverse;  //!< Whether arguments should be reversed	 
 };
 
 
@@ -173,102 +173,102 @@ private:
 template<typename _ReturnType>
 class CollisionMultiMethod
 {
-	public:
-		typedef p2d::BasicCollisionMultiMethodInstance<_ReturnType> instance_t;
-		typedef sad::PtrHash<sad::String, instance_t> group_t;
-		typedef instance_t * instances_t[MULTIMETHOD_REGISTERED_TYPES][MULTIMETHOD_REGISTERED_TYPES];
+    public:
+        typedef p2d::BasicCollisionMultiMethodInstance<_ReturnType> instance_t;
+        typedef sad::PtrHash<sad::String, instance_t> group_t;
+        typedef instance_t * instances_t[MULTIMETHOD_REGISTERED_TYPES][MULTIMETHOD_REGISTERED_TYPES];
     protected:
-		instances_t m_instances; //!< Instances of method
-		bool m_init;             //!< Whether multimethod initted
-		/*! This function inits all callbacks. 
-			You should add your dispatchers here 
-		 */
-		virtual void init() 
-		{
-			for(int i = 0; i < MULTIMETHOD_REGISTERED_TYPES; i++)
-			{
-				for(int j = 0; j < MULTIMETHOD_REGISTERED_TYPES; j++)
-				{
-					m_instances[i][j] = NULL;
-				}
-			}
-		}
-		/*!  Registers new callbacks. You should place calls of this 
-			 functions in init.
-		 */
-		template<typename _First, typename _Second>
-		void add( _ReturnType (*p)(_First *, _Second *) )
-		{
-			unsigned int fst = _First::globalMetaIndex();
-			unsigned int snd = _Second::globalMetaIndex();
-			assert( fst < MULTIMETHOD_REGISTERED_TYPES );
-			assert( snd < MULTIMETHOD_REGISTERED_TYPES );
-			if (m_instances[fst][snd] == NULL)
-			{
-				p2d::CollisionMultiMethodInstance<_ReturnType, _First, _Second>
-				* a = 
-				new  
-				p2d::CollisionMultiMethodInstance<_ReturnType, _First, _Second>(
-				p, false
-				);
-				m_instances[fst][snd] = a;
-			}
-			// Try insert reverse call
-			if (m_instances[snd][fst] == NULL)
-			{
-				p2d::CollisionMultiMethodInstance<_ReturnType, _First, _Second>
-				* a = 
-				new  
-				p2d::CollisionMultiMethodInstance<_ReturnType, _First, _Second>(
-				p, true
-				);
-				m_instances[snd][fst] = a;
-			}
-		}
-		/*! Lookups for needed instance of multimethod
-			\param[in] a first shape
-			\param[in] b second shape
-			\return instance if found
-		 */
-		instance_t * lookup(CollisionShape * a, CollisionShape * b)
-		{
-			unsigned int type1 = a->metaIndex();
-			unsigned int type2 = b->metaIndex();
-			instance_t * result = NULL;
-			result  = m_instances[type1][type2];;
-			return result;
-		}
-	public:
-		CollisionMultiMethod() { m_init = false;}
-		/*! Invokes a multi-method, if possible. Returns default object,
-			if can't handle.
-			\param[in] a first shape
-			\param[in] b second shape
-		 */
-		virtual _ReturnType invoke(CollisionShape * a, CollisionShape * b)
-		{
-			if (!m_init)
-			{
-				m_init = true;
-				init();
-			}
-			instance_t * d = lookup(a,b);
-			if (!d) return _ReturnType();
-			return d->invoke(a, b);
-		}
-		virtual ~CollisionMultiMethod()
-		{
-			if (m_init)
-			{
-				for(int i = 0; i < MULTIMETHOD_REGISTERED_TYPES; i++)
-				{
-					for(int j = 0; j < MULTIMETHOD_REGISTERED_TYPES; j++)
-					{
-						delete m_instances[i][j];
-					}
-				}
-			}
-		}
+        instances_t m_instances; //!< Instances of method
+        bool m_init;             //!< Whether multimethod initted
+        /*! This function inits all callbacks. 
+            You should add your dispatchers here 
+         */
+        virtual void init() 
+        {
+            for(int i = 0; i < MULTIMETHOD_REGISTERED_TYPES; i++)
+            {
+                for(int j = 0; j < MULTIMETHOD_REGISTERED_TYPES; j++)
+                {
+                    m_instances[i][j] = NULL;
+                }
+            }
+        }
+        /*!  Registers new callbacks. You should place calls of this 
+             functions in init.
+         */
+        template<typename _First, typename _Second>
+        void add( _ReturnType (*p)(_First *, _Second *) )
+        {
+            unsigned int fst = _First::globalMetaIndex();
+            unsigned int snd = _Second::globalMetaIndex();
+            assert( fst < MULTIMETHOD_REGISTERED_TYPES );
+            assert( snd < MULTIMETHOD_REGISTERED_TYPES );
+            if (m_instances[fst][snd] == NULL)
+            {
+                p2d::CollisionMultiMethodInstance<_ReturnType, _First, _Second>
+                * a = 
+                new  
+                p2d::CollisionMultiMethodInstance<_ReturnType, _First, _Second>(
+                p, false
+                );
+                m_instances[fst][snd] = a;
+            }
+            // Try insert reverse call
+            if (m_instances[snd][fst] == NULL)
+            {
+                p2d::CollisionMultiMethodInstance<_ReturnType, _First, _Second>
+                * a = 
+                new  
+                p2d::CollisionMultiMethodInstance<_ReturnType, _First, _Second>(
+                p, true
+                );
+                m_instances[snd][fst] = a;
+            }
+        }
+        /*! Lookups for needed instance of multimethod
+            \param[in] a first shape
+            \param[in] b second shape
+            \return instance if found
+         */
+        instance_t * lookup(CollisionShape * a, CollisionShape * b)
+        {
+            unsigned int type1 = a->metaIndex();
+            unsigned int type2 = b->metaIndex();
+            instance_t * result = NULL;
+            result  = m_instances[type1][type2];;
+            return result;
+        }
+    public:
+        CollisionMultiMethod() { m_init = false;}
+        /*! Invokes a multi-method, if possible. Returns default object,
+            if can't handle.
+            \param[in] a first shape
+            \param[in] b second shape
+         */
+        virtual _ReturnType invoke(CollisionShape * a, CollisionShape * b)
+        {
+            if (!m_init)
+            {
+                m_init = true;
+                init();
+            }
+            instance_t * d = lookup(a,b);
+            if (!d) return _ReturnType();
+            return d->invoke(a, b);
+        }
+        virtual ~CollisionMultiMethod()
+        {
+            if (m_init)
+            {
+                for(int i = 0; i < MULTIMETHOD_REGISTERED_TYPES; i++)
+                {
+                    for(int j = 0; j < MULTIMETHOD_REGISTERED_TYPES; j++)
+                    {
+                        delete m_instances[i][j];
+                    }
+                }
+            }
+        }
 };
 
 /*! Defines a multi-method as set of specific methods
@@ -276,113 +276,113 @@ class CollisionMultiMethod
 template<typename _ReturnType, typename _Arg>
 class CollisionMultiMethodWithArg
 {
-	public:
-		typedef p2d::BasicCollisionMultiMethodInstanceWithArg<_ReturnType, _Arg> instance_t;
-		typedef sad::PtrHash<sad::String, instance_t> group_t;
-		typedef instance_t * instances_t[MULTIMETHOD_REGISTERED_TYPES][MULTIMETHOD_REGISTERED_TYPES];
+    public:
+        typedef p2d::BasicCollisionMultiMethodInstanceWithArg<_ReturnType, _Arg> instance_t;
+        typedef sad::PtrHash<sad::String, instance_t> group_t;
+        typedef instance_t * instances_t[MULTIMETHOD_REGISTERED_TYPES][MULTIMETHOD_REGISTERED_TYPES];
     protected:
-		instances_t m_instances; //!< Instances of method
-		bool m_init;             //!< Whether multimethod initted
-		/*! This function inits all callbacks. 
-			You should add your dispatchers here 
-		 */
-		virtual void init() 
-		{ 
-			for(int i = 0; i < MULTIMETHOD_REGISTERED_TYPES; i++)
-			{
-				for(int j = 0; j < MULTIMETHOD_REGISTERED_TYPES; j++)
-				{
-					m_instances[i][j] = NULL;
-				}
-			}		
-		}
-		/*!  Registers new callbacks. You should place calls of this 
-			 functions in init.
-		 */
-		template<typename _First, typename _Second>
-		void add( _ReturnType (*p)(_First *,const _Arg&,  _Second *, const _Arg&) )
-		{
-			unsigned int fst = _First::globalMetaIndex();
-			unsigned int snd = _Second::globalMetaIndex();
-			assert( fst < MULTIMETHOD_REGISTERED_TYPES );
-			assert( snd < MULTIMETHOD_REGISTERED_TYPES );
-			if (m_instances[fst][snd] == NULL)
-			{
-				p2d::CollisionMultiMethodInstanceWithArg<_ReturnType, _Arg, _First, _Second>
-				* a = 
-				new  
-				p2d::CollisionMultiMethodInstanceWithArg<_ReturnType, _Arg, _First, _Second>(
-				p, false
-				);
-				m_instances[fst][snd] = a;
-			}
-			// Try insert reverse call
-			if (m_instances[snd][fst] == NULL)
-			{
-				p2d::CollisionMultiMethodInstanceWithArg<_ReturnType, _Arg, _First, _Second>
-				* a = 
-				new  
-				p2d::CollisionMultiMethodInstanceWithArg<_ReturnType, _Arg, _First, _Second>(
-				p, true
-				);
-				m_instances[snd][fst] = a;
-			}
-		}
-		/*! Lookups for needed instance of multimethod
-			\param[in] a first shape
-			\param[in] b second shape
-			\return instance if found
-		 */
-		instance_t * lookup(CollisionShape * a, CollisionShape * b)
-		{
-			unsigned int type1 = a->metaIndex();
-			unsigned int type2 = b->metaIndex();
-			instance_t * result = NULL;
-			result  = m_instances[type1][type2];;
-			return result;
-		}
-		/*! Reverses a parts return type if need to
-			\param[in] result result
-		 */
-		virtual void reverse(_ReturnType & result)
-		{
-		}
-	public:
-		CollisionMultiMethodWithArg() { m_init = false;}
-		/*! Invokes a multi-method, if possible. Returns default object,
-			if can't handle.
-			\param[in] a first shape
-			\param[in] ka argument, related to first shape
-			\param[in] b second shape
-			\param[in] kb argument, related to second shape			
-		 */
-		virtual _ReturnType invoke(CollisionShape * a, const _Arg & ka, CollisionShape * b, const _Arg & kb)
-		{
-			if (!m_init)
-			{
-				m_init = true;
-				init();
-			}
-			instance_t * d = lookup(a,b);
-			if (!d) return _ReturnType();
-			_ReturnType k = d->invoke(a, ka, b, kb);
-			if (d->reverse())
-				reverse(k);
-			return k;
-		}
-		virtual ~CollisionMultiMethodWithArg()
-		{
-			if (m_init)
-			{
-				for(int i = 0; i < MULTIMETHOD_REGISTERED_TYPES; i++)
-				{
-					for(int j = 0; j < MULTIMETHOD_REGISTERED_TYPES; j++)
-					{
-						delete m_instances[i][j];
-					}
-				}
-			}
-		}
+        instances_t m_instances; //!< Instances of method
+        bool m_init;             //!< Whether multimethod initted
+        /*! This function inits all callbacks. 
+            You should add your dispatchers here 
+         */
+        virtual void init() 
+        { 
+            for(int i = 0; i < MULTIMETHOD_REGISTERED_TYPES; i++)
+            {
+                for(int j = 0; j < MULTIMETHOD_REGISTERED_TYPES; j++)
+                {
+                    m_instances[i][j] = NULL;
+                }
+            }		
+        }
+        /*!  Registers new callbacks. You should place calls of this 
+             functions in init.
+         */
+        template<typename _First, typename _Second>
+        void add( _ReturnType (*p)(_First *,const _Arg&,  _Second *, const _Arg&) )
+        {
+            unsigned int fst = _First::globalMetaIndex();
+            unsigned int snd = _Second::globalMetaIndex();
+            assert( fst < MULTIMETHOD_REGISTERED_TYPES );
+            assert( snd < MULTIMETHOD_REGISTERED_TYPES );
+            if (m_instances[fst][snd] == NULL)
+            {
+                p2d::CollisionMultiMethodInstanceWithArg<_ReturnType, _Arg, _First, _Second>
+                * a = 
+                new  
+                p2d::CollisionMultiMethodInstanceWithArg<_ReturnType, _Arg, _First, _Second>(
+                p, false
+                );
+                m_instances[fst][snd] = a;
+            }
+            // Try insert reverse call
+            if (m_instances[snd][fst] == NULL)
+            {
+                p2d::CollisionMultiMethodInstanceWithArg<_ReturnType, _Arg, _First, _Second>
+                * a = 
+                new  
+                p2d::CollisionMultiMethodInstanceWithArg<_ReturnType, _Arg, _First, _Second>(
+                p, true
+                );
+                m_instances[snd][fst] = a;
+            }
+        }
+        /*! Lookups for needed instance of multimethod
+            \param[in] a first shape
+            \param[in] b second shape
+            \return instance if found
+         */
+        instance_t * lookup(CollisionShape * a, CollisionShape * b)
+        {
+            unsigned int type1 = a->metaIndex();
+            unsigned int type2 = b->metaIndex();
+            instance_t * result = NULL;
+            result  = m_instances[type1][type2];;
+            return result;
+        }
+        /*! Reverses a parts return type if need to
+            \param[in] result result
+         */
+        virtual void reverse(_ReturnType & result)
+        {
+        }
+    public:
+        CollisionMultiMethodWithArg() { m_init = false;}
+        /*! Invokes a multi-method, if possible. Returns default object,
+            if can't handle.
+            \param[in] a first shape
+            \param[in] ka argument, related to first shape
+            \param[in] b second shape
+            \param[in] kb argument, related to second shape			
+         */
+        virtual _ReturnType invoke(CollisionShape * a, const _Arg & ka, CollisionShape * b, const _Arg & kb)
+        {
+            if (!m_init)
+            {
+                m_init = true;
+                init();
+            }
+            instance_t * d = lookup(a,b);
+            if (!d) return _ReturnType();
+            _ReturnType k = d->invoke(a, ka, b, kb);
+            if (d->reverse())
+                reverse(k);
+            return k;
+        }
+        virtual ~CollisionMultiMethodWithArg()
+        {
+            if (m_init)
+            {
+                for(int i = 0; i < MULTIMETHOD_REGISTERED_TYPES; i++)
+                {
+                    for(int j = 0; j < MULTIMETHOD_REGISTERED_TYPES; j++)
+                    {
+                        delete m_instances[i][j];
+                    }
+                }
+            }
+        }
 };
 
 }

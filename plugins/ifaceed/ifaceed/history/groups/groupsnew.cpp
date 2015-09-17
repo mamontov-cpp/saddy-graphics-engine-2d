@@ -11,40 +11,40 @@ Q_DECLARE_METATYPE(sad::animations::Group*) //-V566
 
 history::groups::New::New(sad::animations::Group* d) : m_node(d)
 {
-	m_node->addRef();
+    m_node->addRef();
 }
 
 history::groups::New::~New()
 {
-	m_node->delRef();
+    m_node->delRef();
 }
 
 
 void history::groups::New::commit(core::Editor * ob)
 {
-	m_node->Active = true;
+    m_node->Active = true;
 
-	if(ob)
-	{
-		ob->emitClosure( bind(
-			ob->panel(),
-			&MainPanel::addGroupToList,
-			m_node
-		));
-	}
+    if(ob)
+    {
+        ob->emitClosure( bind(
+            ob->panel(),
+            &MainPanel::addGroupToList,
+            m_node
+        ));
+    }
 }
 
 void history::groups::New::rollback(core::Editor * ob)
 {
-	m_node->Active = false;
+    m_node->Active = false;
 
-	if (ob)
-	{
-		ob->emitClosure( bind(
-			ob->panel(),
-			&MainPanel::removeLastGroupFromList
-		));
-	}
+    if (ob)
+    {
+        ob->emitClosure( bind(
+            ob->panel(),
+            &MainPanel::removeLastGroupFromList
+        ));
+    }
 }
 
 

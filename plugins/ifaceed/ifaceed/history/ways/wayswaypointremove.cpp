@@ -6,12 +6,12 @@
 #include "../closuremethodcall.h"
 
 history::ways::WayPointRemove::WayPointRemove(
-	sad::p2d::app::Way* w,
-	int position
+    sad::p2d::app::Way* w,
+    int position
 ) : m_way(w), m_position(position)
 {
     m_way->addRef();
-	m_point = m_way->wayPoints()[position];
+    m_point = m_way->wayPoints()[position];
 }
 
 history::ways::WayPointRemove::~WayPointRemove()
@@ -48,11 +48,11 @@ void history::ways::WayPointRemove::rollback(core::Editor* ob)
         if (ob->shared()->selectedWay() == m_way)
         {
             MainPanel* p = ob->panel();
-			void (QListWidget::*f)(int, QListWidgetItem*) = &QListWidget::insertItem;
+            void (QListWidget::*f)(int, QListWidgetItem*) = &QListWidget::insertItem;
             ob->emitClosure( bind(
                 p->UI()->lstWayPoints,
-				f,
-				m_position,
+                f,
+                m_position,
                 new QListWidgetItem(p->nameForPoint(m_point))
             ));
         }

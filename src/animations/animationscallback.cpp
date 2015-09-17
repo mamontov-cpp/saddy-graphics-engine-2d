@@ -2,11 +2,11 @@
 
 sad::animations::Callback::Callback()
 {
-	
+    
 }
 
 sad::animations::Callback::~Callback()
 {
-	
+    
 }
 

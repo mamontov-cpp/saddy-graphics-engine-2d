@@ -28,10 +28,10 @@ GlueTask GlueTask::applyOrder(const GlueOrder& order)
     GlueOrder local = order;
     GlueEntry data = GlueEntry::merge(entries, local);
     size_t entriessize = entries.size();
-	size_t index1 = order.Images[1];
-	size_t index2 = order.Images[0];
-	assert(index1 < entriessize);
-	assert(index2 < entriessize);
+    size_t index1 = order.Images[1];
+    size_t index2 = order.Images[0];
+    assert(index1 < entriessize);
+    assert(index2 < entriessize);
     entries.remove(index1);
     entries.remove(index2);
     entries << data;

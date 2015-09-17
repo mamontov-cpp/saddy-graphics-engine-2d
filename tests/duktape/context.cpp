@@ -47,38 +47,38 @@ public:
 
 void print_something()
 {
-	printf("print_something(): zero argments \n");
+    printf("print_something(): zero argments \n");
 }
 
 void print_number_1(int a)
 {
-	printf("print_number_1: %d\n", a);	
+    printf("print_number_1: %d\n", a);	
 }
 
 void print_number_3(int a, int b, int c)
 {
-	printf("print_number_3: %d %d %d\n", a, b, c );	
+    printf("print_number_3: %d %d %d\n", a, b, c );	
 }
 
 int return_something()
 {
-	return 32;
+    return 32;
 }
 
 
 int return_number_1(int a)
 {
-	return a;
+    return a;
 }
 
 int return_number_3(int a, int b, int c)
 {
-	return a - b - c;
+    return a - b - c;
 }
 
 int return_number_3_decay(const int& a, int& b, int c)
 {
-	return a - b - c;
+    return a - b - c;
 }
 
 struct ContextTest : tpunit::TestFixture
@@ -381,79 +381,79 @@ public:
         ASSERT_TRUE( result.exists() );
         ASSERT_TRUE( result.value() == 2 );
     }
-	/*! Tests registering functions
-	 */
-	void testRegisterVoidFunctions()
+    /*! Tests registering functions
+     */
+    void testRegisterVoidFunctions()
     {
-		sad::String error; 	
+        sad::String error; 	
 
-	    sad::duktape::Context ctx;
+        sad::duktape::Context ctx;
         sad::duktape::register_callable(&ctx, "f00", print_something);
-		bool eval_result = ctx.eval(" f00(); f00(); ", true, &error);
-		ASSERT_TRUE( eval_result );
+        bool eval_result = ctx.eval(" f00(); f00(); ", true, &error);
+        ASSERT_TRUE( eval_result );
 
-		sad::duktape::register_callable(&ctx, "f01", print_number_1);
-		eval_result = ctx.eval(" f01(21); f01(32); ", true);
-		ASSERT_TRUE( eval_result );
+        sad::duktape::register_callable(&ctx, "f01", print_number_1);
+        eval_result = ctx.eval(" f01(21); f01(32); ", true);
+        ASSERT_TRUE( eval_result );
 
-		sad::duktape::register_callable(&ctx, "f03", print_number_3);
-		eval_result = ctx.eval(" f03(21, 44, 56); f03(32, 88, 93); ", true);
-		ASSERT_TRUE( eval_result );
+        sad::duktape::register_callable(&ctx, "f03", print_number_3);
+        eval_result = ctx.eval(" f03(21, 44, 56); f03(32, 88, 93); ", true);
+        ASSERT_TRUE( eval_result );
 
-		
-		eval_result = ctx.eval(" f03(21) ", true, &error);
-		ASSERT_TRUE( !eval_result );
+        
+        eval_result = ctx.eval(" f03(21) ", true, &error);
+        ASSERT_TRUE( !eval_result );
 
-		eval_result = ctx.eval(" f03(undefined, undefined, undefined) ", true, &error);
-		ASSERT_TRUE( !eval_result );
+        eval_result = ctx.eval(" f03(undefined, undefined, undefined) ", true, &error);
+        ASSERT_TRUE( !eval_result );
     }
 
-	void testRegisterReturnFunctions()
+    void testRegisterReturnFunctions()
     {
-		sad::String error; 	
+        sad::String error; 	
 
-	    sad::duktape::Context ctx;
+        sad::duktape::Context ctx;
         sad::duktape::register_callable(&ctx, "f00", return_something);
-		bool eval_result = ctx.eval(" f00(); f00(); ", false, &error);
-		ASSERT_TRUE( eval_result );
-		sad::Maybe<int> result = sad::duktape::GetValue<int>::perform(&ctx, -1);
+        bool eval_result = ctx.eval(" f00(); f00(); ", false, &error);
+        ASSERT_TRUE( eval_result );
+        sad::Maybe<int> result = sad::duktape::GetValue<int>::perform(&ctx, -1);
         ASSERT_TRUE( result.exists() );
         ASSERT_TRUE( result.value() == 32 );
 
-		sad::duktape::register_callable(&ctx, "f01", return_number_1);
-		eval_result = ctx.eval(" f01(21); f01(32); ", false);
-		ASSERT_TRUE( eval_result );
-		result = sad::duktape::GetValue<int>::perform(&ctx, -1);
+        sad::duktape::register_callable(&ctx, "f01", return_number_1);
+        eval_result = ctx.eval(" f01(21); f01(32); ", false);
+        ASSERT_TRUE( eval_result );
+        result = sad::duktape::GetValue<int>::perform(&ctx, -1);
         ASSERT_TRUE( result.exists() );
         ASSERT_TRUE( result.value() == 32 );
 
-		sad::duktape::register_callable(&ctx, "f03", return_number_3);
-		eval_result = ctx.eval(" f03(21, 44, 56); f03(32, 88, 93); ", false);
-		ASSERT_TRUE( eval_result );
-		result = sad::duktape::GetValue<int>::perform(&ctx, -1);
+        sad::duktape::register_callable(&ctx, "f03", return_number_3);
+        eval_result = ctx.eval(" f03(21, 44, 56); f03(32, 88, 93); ", false);
+        ASSERT_TRUE( eval_result );
+        result = sad::duktape::GetValue<int>::perform(&ctx, -1);
         ASSERT_TRUE( result.exists() );
         ASSERT_TRUE( result.value() == 32 - 88 - 93 );
 
-		sad::duktape::register_callable(&ctx, "f04", return_number_3_decay);
-		eval_result = ctx.eval(" f04(21, 44, 56); f04(32, 88, 93); ", false);
-		ASSERT_TRUE( eval_result );
-		result = sad::duktape::GetValue<int>::perform(&ctx, -1);
+        sad::duktape::register_callable(&ctx, "f04", return_number_3_decay);
+        eval_result = ctx.eval(" f04(21, 44, 56); f04(32, 88, 93); ", false);
+        ASSERT_TRUE( eval_result );
+        result = sad::duktape::GetValue<int>::perform(&ctx, -1);
         ASSERT_TRUE( result.exists() );
         ASSERT_TRUE( result.value() == 32 - 88 - 93 );
 
-		
-		eval_result = ctx.eval(" f03(21) ", false, &error);
-		ASSERT_TRUE( !eval_result );
+        
+        eval_result = ctx.eval(" f03(21) ", false, &error);
+        ASSERT_TRUE( !eval_result );
 
-		eval_result = ctx.eval(" f03(undefined, undefined, undefined) ", false, &error);
-		ASSERT_TRUE( !eval_result );	    
+        eval_result = ctx.eval(" f03(undefined, undefined, undefined) ", false, &error);
+        ASSERT_TRUE( !eval_result );	    
     }
 
     void testMethods()
     {
         sad::String error; 	
         
-	    sad::duktape::Context ctx;
+        sad::duktape::Context ctx;
         sad::duktape::register_constructor<sad::Point2D, double, double>(&ctx, "pnt");
         sad::duktape::register_callable(&ctx, "x", &sad::Point2D::x);
         sad::duktape::register_callable(&ctx, "y", &sad::Point2D::y);
@@ -462,8 +462,8 @@ public:
         sad::duktape::register_callable(&ctx, "setY", &sad::Point2D::setY);
 
         bool eval_result = ctx.eval(" var f = pnt(3, 4);  setX(f, 55); x(f) ", false);
-		ASSERT_TRUE( eval_result );
-		sad::Maybe<double> result = sad::duktape::GetValue<double>::perform(&ctx, -1);
+        ASSERT_TRUE( eval_result );
+        sad::Maybe<double> result = sad::duktape::GetValue<double>::perform(&ctx, -1);
         ASSERT_TRUE( result.exists() );
         ASSERT_TRUE( sad::is_fuzzy_equal(result.value(), 55) );
     }
@@ -474,7 +474,7 @@ public:
 
         sad::Point2D p(5, 7);
         
-	    sad::duktape::Context ctx;
+        sad::duktape::Context ctx;
         ctx.registerGlobal("pnt", &p);
 
         sad::duktape::register_ptr_method(&ctx, "x", &sad::Point2D::x);
@@ -484,8 +484,8 @@ public:
         sad::duktape::register_ptr_method(&ctx, "setY", &sad::Point2D::setY);
 
         bool eval_result = ctx.eval(" setX(pnt, 55); x(pnt) ", false);
-		ASSERT_TRUE( eval_result );
-		sad::Maybe<double> result = sad::duktape::GetValue<double>::perform(&ctx, -1);
+        ASSERT_TRUE( eval_result );
+        sad::Maybe<double> result = sad::duktape::GetValue<double>::perform(&ctx, -1);
         ASSERT_TRUE( result.exists() );
         ASSERT_TRUE( sad::is_fuzzy_equal(result.value(), 55) );
     }

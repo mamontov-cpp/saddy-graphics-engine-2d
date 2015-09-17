@@ -36,16 +36,16 @@ public:
      */
     ::irrklang::ISoundSource* s() const;
     /*! Loads a texture from specified file, using specified renderer for building mip maps.
-		\param[in] file a file, via which a resource should be loaded
-		\param[in] r  a renderer, which resource should be linked to (NULL if global renderer)
-		\param[in] options  an options for loading a resource
-		\return whether loading was successfull
-	 */
-	virtual bool load(
-		const sad::resource::PhysicalFile & file,
-		sad::Renderer * r,
-		const picojson::value& options
-	);
+        \param[in] file a file, via which a resource should be loaded
+        \param[in] r  a renderer, which resource should be linked to (NULL if global renderer)
+        \param[in] options  an options for loading a resource
+        \return whether loading was successfull
+     */
+    virtual bool load(
+        const sad::resource::PhysicalFile & file,
+        sad::Renderer * r,
+        const picojson::value& options
+    );
     /*! Sets default volume for a sound
         \param[in] volume a default volume
      */

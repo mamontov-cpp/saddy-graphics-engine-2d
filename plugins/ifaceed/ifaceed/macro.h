@@ -1,7 +1,7 @@
 /*! \file macro.h
-	
+    
 
-	A definitions for presetted defaults and other macro are stored here.
+    A definitions for presetted defaults and other macro are stored here.
  */
 #pragma once
 /*! A default width for a saddy renderer's window
@@ -29,6 +29,6 @@
  */
 #define ROTATION_ANGLE_STEP 0.07
 /**	A resource file, where icons are placed.
-	Must be loaded to "icons" tree of renderer in core::Editor::start()
+    Must be loaded to "icons" tree of renderer in core::Editor::start()
  */
 #define ICONS_PATH  "resources/resources.json"

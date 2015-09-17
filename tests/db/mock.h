@@ -1,6 +1,6 @@
 /*! \file mock.h
 
-	A mock object for item
+    A mock object for item
  */
 #pragma once
 #include "object.h"
@@ -10,21 +10,21 @@ class Mock: public sad::Object
 {
 SAD_OBJECT
 public:
-	Mock();
-	
-	int id();
-	int id_c() const;
-	int& id_r();
-	int& id_rc() const;
-	const int& id_cr();
-	const int& id_crc() const;
+    Mock();
+    
+    int id();
+    int id_c() const;
+    int& id_r();
+    int& id_rc() const;
+    const int& id_cr();
+    const int& id_crc() const;
 
-	void setId(int i);
-	void setIdC(int i) const;
-	void setIdR(int & i);
-	void setIdRC(int & i) const;
-	void setIdCR(const int & i);
-	void setIdCRC(const int & i) const;
+    void setId(int i);
+    void setIdC(int i) const;
+    void setIdR(int & i);
+    void setIdRC(int & i) const;
+    void setIdCR(const int & i);
+    void setIdCRC(const int & i) const;
 
-	int m_id;
+    int m_id;
 };

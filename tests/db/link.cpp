@@ -26,37 +26,37 @@
 struct SadDbLinkTest : tpunit::TestFixture
 {
 public:
-	SadDbLinkTest() : tpunit::TestFixture(		
-		TEST(SadDbLinkTest::test)
-	) { }
-	
-	void test()
-	{
-	
-		sad::db::Database db;
-		db.addTable("table", new sad::db::Table());
-		
-		Mock3 * mock = new Mock3();
-		mock->setObjectName("test");
-		mock->MajorId = 1;
-		mock->MinorId = 1;
-		db.table("table")->add(mock);
-		
-		sad::db::Link link;
-		ASSERT_TRUE( link.get() == NULL );
-		
-		link.setDatabase(&db);
-		link.setTableName("table");
-		
-		ASSERT_TRUE( link.get() == NULL );
-		
-		link.setMinorId(1);
-		ASSERT_TRUE( link.get() != NULL );
-	
-		sad::db::Link link2;
-		link2.setTable(db.table("table"));
-		link2.setName("test");
-		ASSERT_TRUE( link2.get() != NULL );
-	}
-	
+    SadDbLinkTest() : tpunit::TestFixture(		
+        TEST(SadDbLinkTest::test)
+    ) { }
+    
+    void test()
+    {
+    
+        sad::db::Database db;
+        db.addTable("table", new sad::db::Table());
+        
+        Mock3 * mock = new Mock3();
+        mock->setObjectName("test");
+        mock->MajorId = 1;
+        mock->MinorId = 1;
+        db.table("table")->add(mock);
+        
+        sad::db::Link link;
+        ASSERT_TRUE( link.get() == NULL );
+        
+        link.setDatabase(&db);
+        link.setTableName("table");
+        
+        ASSERT_TRUE( link.get() == NULL );
+        
+        link.setMinorId(1);
+        ASSERT_TRUE( link.get() != NULL );
+    
+        sad::db::Link link2;
+        link2.setTable(db.table("table"));
+        link2.setName("test");
+        ASSERT_TRUE( link2.get() != NULL );
+    }
+    
 } _sad_db_link_test;

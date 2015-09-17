@@ -26,11 +26,11 @@ public:
       */
     virtual ~ChangeWay();
 protected:
-	/*! Updates object in main list
-		\param[in] e editor
-		\param[in] value a value
-	 */
-	void updateItem(core::Editor* e, unsigned long long value);
+    /*! Updates object in main list
+        \param[in] e editor
+        \param[in] value a value
+     */
+    void updateItem(core::Editor* e, unsigned long long value);
     /*!
      * Updates current text in field with object name
      * \param[in] e editor

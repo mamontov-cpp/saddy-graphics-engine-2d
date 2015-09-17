@@ -8,27 +8,27 @@
 
 sad::MouseCursorImage::~MouseCursorImage()
 {
-	
+    
 }
 
 sad::MouseCursorSprite::MouseCursorSprite(sad::Sprite2D * a): m_a(a)
 {
-	
+    
 }
 
 void sad::MouseCursorSprite::setPos(const sad::Point2D & p)
 {
-	m_a->moveTo(p);
+    m_a->moveTo(p);
 }
 
 void sad::MouseCursorSprite::render()
 {
-	m_a->render();
+    m_a->render();
 }
 
 sad::MouseCursorSprite::~MouseCursorSprite()
 {
-	delete m_a;
+    delete m_a;
 }
 
 sad::MouseCursor::MouseCursor()
@@ -46,304 +46,304 @@ m_move_handler(NULL)
 
 sad::MouseCursor::~MouseCursor()
 {	
-	delete m_cursor;
+    delete m_cursor;
 }
 
 void sad::MouseCursor::setRenderer(sad::Renderer * r)
 {
-	m_renderer = r;
+    m_renderer = r;
 }
 
 sad::Renderer *  sad::MouseCursor::renderer() const
 {
-	return m_renderer;
+    return m_renderer;
 }
 
 sad::MaybePoint3D  sad::MouseCursor::position() const
 {
-	sad::MaybePoint3D result;
-	if (m_renderer != NULL)
-	{
-		if (m_renderer->hasValidContext())
-		{
-			bool successfullyqueried = false;
-			sad::Point2D point;
-	
+    sad::MaybePoint3D result;
+    if (m_renderer != NULL)
+    {
+        if (m_renderer->hasValidContext())
+        {
+            bool successfullyqueried = false;
+            sad::Point2D point;
+    
 #ifdef WIN32
-			POINT p;
-			GetCursorPos(&p);
-			successfullyqueried = (ScreenToClient(
-				m_renderer->window()->handles()->WND,
-				&p) != FALSE
-			);
-			point = sad::Point2D(p.x, p.y);
+            POINT p;
+            GetCursorPos(&p);
+            successfullyqueried = (ScreenToClient(
+                m_renderer->window()->handles()->WND,
+                &p) != FALSE
+            );
+            point = sad::Point2D(p.x, p.y);
 #endif
 
 #ifdef X11
-			int x=0, y=0;
-			int wx=0, wy=0;
-			unsigned int mask=0;
-			::Window rootw,childw;
-			successfullyqueried = (bool)XQueryPointer(
-				m_renderer->window()->handles()->Dpy, 
-				m_renderer->window()->handles()->Win, 
-				&rootw,
-				&childw, 
-				&x, 
-				&y, 
-				&wx, 
-				&wy, 
-				&mask
-			);
-			if (successfullyqueried)
-			{
-				sad::Rect2I rect = m_renderer->window()->rect();
-				// Check if x and y is on window
-				successfullyqueried = (x >= 0) && (x <= rect.width())
-								   && (y >= 0) && (y <= rect.width());
-			}
-			point = sad::Point2D(x, y);
+            int x=0, y=0;
+            int wx=0, wy=0;
+            unsigned int mask=0;
+            ::Window rootw,childw;
+            successfullyqueried = (bool)XQueryPointer(
+                m_renderer->window()->handles()->Dpy, 
+                m_renderer->window()->handles()->Win, 
+                &rootw,
+                &childw, 
+                &x, 
+                &y, 
+                &wx, 
+                &wy, 
+                &mask
+            );
+            if (successfullyqueried)
+            {
+                sad::Rect2I rect = m_renderer->window()->rect();
+                // Check if x and y is on window
+                successfullyqueried = (x >= 0) && (x <= rect.width())
+                                   && (y >= 0) && (y <= rect.width());
+            }
+            point = sad::Point2D(x, y);
 #endif
 
-			if (successfullyqueried)
-			{
-				point = m_renderer->window()->toClient(point);
-				bool ztest = m_renderer->settings().ztest();
-				result.setValue(
-					m_renderer->context()->mapToViewport(point, ztest)
-				);
-			}
-		}
-	}
-	return result;
+            if (successfullyqueried)
+            {
+                point = m_renderer->window()->toClient(point);
+                bool ztest = m_renderer->settings().ztest();
+                result.setValue(
+                    m_renderer->context()->mapToViewport(point, ztest)
+                );
+            }
+        }
+    }
+    return result;
 }
 
 
 void sad::MouseCursor::setPosition(const sad::Point2D & p)
 {
-	if (m_renderer != NULL)
-	{
-		if (m_renderer->hasValidContext())
-		{
+    if (m_renderer != NULL)
+    {
+        if (m_renderer->hasValidContext())
+        {
 #ifdef WIN32
-			POINT wp;
-			wp.x = (LONG)p.x();
-			wp.y = (LONG)p.y();
-			ClientToScreen(m_renderer->window()->handles()->WND, &wp);
-			SetCursorPos(wp.x, wp.y);
+            POINT wp;
+            wp.x = (LONG)p.x();
+            wp.y = (LONG)p.y();
+            ClientToScreen(m_renderer->window()->handles()->WND, &wp);
+            SetCursorPos(wp.x, wp.y);
 #endif
 
 #ifdef X11
-			XWarpPointer(
-				m_renderer->window()->handles()->Dpy, 
-				None, 
-				m_renderer->window()->handles()->Win, 
-				0, 
-				0, 
-				0, 
-				0, 
-				(int)(p.x()), 
-				(int)(p.y())
-			);
+            XWarpPointer(
+                m_renderer->window()->handles()->Dpy, 
+                None, 
+                m_renderer->window()->handles()->Win, 
+                0, 
+                0, 
+                0, 
+                0, 
+                (int)(p.x()), 
+                (int)(p.y())
+            );
 #endif
-		}
-	}
+        }
+    }
 }
 
 void sad::MouseCursor::show()
 {
-	if (m_usecustomcursor)
-	{
-		m_hidecustomcursor = false;
-	}
-	else
-	{
-		showDefaultCursor();
-	}
+    if (m_usecustomcursor)
+    {
+        m_hidecustomcursor = false;
+    }
+    else
+    {
+        showDefaultCursor();
+    }
 }
 
 void sad::MouseCursor::hide()
 {
-	if (m_usecustomcursor)
-	{
-		m_hidecustomcursor = true;
-	}
-	else
-	{
-		hideDefaultCursor();
-	}
+    if (m_usecustomcursor)
+    {
+        m_hidecustomcursor = true;
+    }
+    else
+    {
+        hideDefaultCursor();
+    }
 }
 
 sad::MouseCursorImage * sad::MouseCursor::cursorImage() const
 {
-	return m_cursor;
+    return m_cursor;
 }
 
 
 void sad::MouseCursor::setImage(sad::MouseCursorImage * image)
 {
-	if (image == NULL)
-		return;
+    if (image == NULL)
+        return;
 
-	delete m_cursor;
-	m_cursor = image;
-	insertHandlersIfNeeded();
-	if (m_usecustomcursor == false)
-	{
-		if (this->position().exists())
-			hideDefaultCursor();
-	} 
-	m_usecustomcursor = true;
+    delete m_cursor;
+    m_cursor = image;
+    insertHandlersIfNeeded();
+    if (m_usecustomcursor == false)
+    {
+        if (this->position().exists())
+            hideDefaultCursor();
+    } 
+    m_usecustomcursor = true;
 }
 
 void sad::MouseCursor::setImage(Sprite2D * a)
 {
-	setImage(new sad::MouseCursorSprite(a));	
+    setImage(new sad::MouseCursorSprite(a));	
 }
 
 
 void sad::MouseCursor::clearCursorImage()
 {
-	delete m_cursor;
-	m_cursor = NULL;
-	removeHandlersIfNeeded();
-	if (m_usecustomcursor)
-	{
-		showDefaultCursor();
-		m_hidden = false;
-	}
-	m_usecustomcursor = false;
+    delete m_cursor;
+    m_cursor = NULL;
+    removeHandlersIfNeeded();
+    if (m_usecustomcursor)
+    {
+        showDefaultCursor();
+        m_hidden = false;
+    }
+    m_usecustomcursor = false;
 }
 
 void sad::MouseCursor::insertHandlersIfNeeded()
 {
-	if (m_usecustomcursor)
-	{
-		m_enter_handler = m_renderer->controls()->add(
-			*sad::input::ET_MouseEnter, 
-			this, &sad::MouseCursor::showCustomCursorIfNeedTo
-		);
-		m_leave_handler = m_renderer->controls()->add(
-			*sad::input::ET_MouseLeave, 
-			this, &sad::MouseCursor::hideCustomCursorIfNeedTo
-		);
-		m_move_handler = m_renderer->controls()->add(
-			*sad::input::ET_MouseMove,  
-			this, &sad::MouseCursor::moveCustomCursor
-		);
-	}
+    if (m_usecustomcursor)
+    {
+        m_enter_handler = m_renderer->controls()->add(
+            *sad::input::ET_MouseEnter, 
+            this, &sad::MouseCursor::showCustomCursorIfNeedTo
+        );
+        m_leave_handler = m_renderer->controls()->add(
+            *sad::input::ET_MouseLeave, 
+            this, &sad::MouseCursor::hideCustomCursorIfNeedTo
+        );
+        m_move_handler = m_renderer->controls()->add(
+            *sad::input::ET_MouseMove,  
+            this, &sad::MouseCursor::moveCustomCursor
+        );
+    }
 }
 
 
 void sad::MouseCursor::removeHandlersIfNeeded()
 {
-	if (m_usecustomcursor)
-	{
-		m_renderer->controls()->remove(m_enter_handler);
-		m_renderer->controls()->remove(m_leave_handler);
-		m_renderer->controls()->remove(m_move_handler);
+    if (m_usecustomcursor)
+    {
+        m_renderer->controls()->remove(m_enter_handler);
+        m_renderer->controls()->remove(m_leave_handler);
+        m_renderer->controls()->remove(m_move_handler);
 
-		m_enter_handler = NULL;
-		m_leave_handler = NULL;
-		m_move_handler  = NULL;
-	} 
+        m_enter_handler = NULL;
+        m_leave_handler = NULL;
+        m_move_handler  = NULL;
+    } 
 }
 
 void sad::MouseCursor::showDefaultCursor()
 {
-	if (m_hidden)
-	{
-		m_hidden = false;
+    if (m_hidden)
+    {
+        m_hidden = false;
 
 #ifdef WIN32
-		ShowCursor(TRUE);
+        ShowCursor(TRUE);
 #endif
 
 #ifdef X11
-		XUndefineCursor(
-			m_renderer->window()->handles()->Dpy, 
-			m_renderer->window()->handles()->Win 
-		);
+        XUndefineCursor(
+            m_renderer->window()->handles()->Dpy, 
+            m_renderer->window()->handles()->Win 
+        );
 #endif
-	}
+    }
 }
 
 void sad::MouseCursor::hideDefaultCursor()
 {
-	if (!m_hidden)
-	{
-		m_hidden = true;
+    if (!m_hidden)
+    {
+        m_hidden = true;
 
 #ifdef WIN32
-		ShowCursor(FALSE);
+        ShowCursor(FALSE);
 #endif
 
 #ifdef X11
-	// Fairly copypasted from
-	// http://www.gamedev.net/topic/285005-anyone-knows-how-to-hideshow-mouse-pointer-under-linux-using-opengl/
-	Pixmap blank;
-	XColor dummy;
-	char data[1] = {0};
-	Cursor cursor;
+    // Fairly copypasted from
+    // http://www.gamedev.net/topic/285005-anyone-knows-how-to-hideshow-mouse-pointer-under-linux-using-opengl/
+    Pixmap blank;
+    XColor dummy;
+    char data[1] = {0};
+    Cursor cursor;
 
-	blank = XCreateBitmapFromData (
-		m_renderer->window()->handles()->Dpy, 
-		m_renderer->window()->handles()->Win, 
-		data, 
-		1, 
-		1
-	);
-	cursor = XCreatePixmapCursor(
-		m_renderer->window()->handles()->Dpy,
-		blank, 
-		blank, 
-		&dummy, 
-		&dummy, 
-		0, 
-		0
-	);
-	XFreePixmap (m_renderer->window()->handles()->Dpy, blank);
-	XDefineCursor(
-		m_renderer->window()->handles()->Dpy, 
-		m_renderer->window()->handles()->Win, 
-		cursor
-	);
+    blank = XCreateBitmapFromData (
+        m_renderer->window()->handles()->Dpy, 
+        m_renderer->window()->handles()->Win, 
+        data, 
+        1, 
+        1
+    );
+    cursor = XCreatePixmapCursor(
+        m_renderer->window()->handles()->Dpy,
+        blank, 
+        blank, 
+        &dummy, 
+        &dummy, 
+        0, 
+        0
+    );
+    XFreePixmap (m_renderer->window()->handles()->Dpy, blank);
+    XDefineCursor(
+        m_renderer->window()->handles()->Dpy, 
+        m_renderer->window()->handles()->Win, 
+        cursor
+    );
 #endif	
-	}
+    }
 }
 
 
 void sad::MouseCursor::renderCursorIfNeedTo()
 {
-	if (m_usecustomcursor && m_hidden && !m_hidecustomcursor && m_cursor != NULL)
-	{
-		m_cursor->render();
-	}
+    if (m_usecustomcursor && m_hidden && !m_hidecustomcursor && m_cursor != NULL)
+    {
+        m_cursor->render();
+    }
 }
 
 void sad::MouseCursor::showCustomCursorIfNeedTo(const sad::input::MouseEnterEvent & e)
 {
-	if (m_usecustomcursor && m_cursor != NULL)
-	{
-		hideDefaultCursor();
-		m_cursor->setPos(e.Point3D);
-	}
+    if (m_usecustomcursor && m_cursor != NULL)
+    {
+        hideDefaultCursor();
+        m_cursor->setPos(e.Point3D);
+    }
 }
 
 
 void sad::MouseCursor::hideCustomCursorIfNeedTo()
 {
-	if (m_usecustomcursor && m_cursor != NULL)
-	{
-		showDefaultCursor();
-	}	
+    if (m_usecustomcursor && m_cursor != NULL)
+    {
+        showDefaultCursor();
+    }	
 }
 
 void sad::MouseCursor::moveCustomCursor(const sad::input::MouseMoveEvent & e)
 {
-	if (m_usecustomcursor && m_cursor != NULL)
-	{
-		m_cursor->setPos(e.Point3D);
-	}	
+    if (m_usecustomcursor && m_cursor != NULL)
+    {
+        m_cursor->setPos(e.Point3D);
+    }	
 }
 

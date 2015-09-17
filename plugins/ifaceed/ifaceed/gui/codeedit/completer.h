@@ -1,7 +1,7 @@
 /*! \file gui/codeedit/completer.h
-	
+    
 
-	Defines a completer for javascript code
+    Defines a completer for javascript code
  */
 #pragma once
 #include <QCompleter>
@@ -13,10 +13,10 @@
 
 namespace gui
 {
-	
+    
 namespace codeedit
 {
-	
+    
 class Completer: public QCompleter
 {
 Q_OBJECT

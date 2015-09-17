@@ -35,11 +35,11 @@ history::scenenodes::ChangeName::~ChangeName()
 void history::scenenodes::ChangeName::tryUpdateUI(core::Editor* e, const sad::String& value)
 {
     this->history::scenenodes::ChangeProperty<sad::String>::tryUpdateUI(e, value);
-	if (m_node->scene() == e->panel()->currentScene())
-	{
-		e->emitClosure(bind(e->panel(), &MainPanel::updateSceneNodeName, m_node));
-	}
-	e->emitClosure( bind(this, &history::scenenodes::ChangeName::updateDependent, e));
+    if (m_node->scene() == e->panel()->currentScene())
+    {
+        e->emitClosure(bind(e->panel(), &MainPanel::updateSceneNodeName, m_node));
+    }
+    e->emitClosure( bind(this, &history::scenenodes::ChangeName::updateDependent, e));
 }
 
 void history::scenenodes::ChangeName::updateUI(core::Editor* e, const sad::String& value)
@@ -54,10 +54,10 @@ void history::scenenodes::ChangeName::updateUI(core::Editor* e, const sad::Strin
 
 void history::scenenodes::ChangeName::updateDependent(core::Editor * e)
 {
-	MainPanel* p = e->panel();
-	int pos = p->findInComboBox<sad::db::Object*>(p->UI()->cmbAnimationInstanceObject, m_node);
-	if (pos > - 1)
-	{
-		p->UI()->cmbAnimationInstanceObject->setItemText(pos, p->fullNameForNode(m_node));
-	}
+    MainPanel* p = e->panel();
+    int pos = p->findInComboBox<sad::db::Object*>(p->UI()->cmbAnimationInstanceObject, m_node);
+    if (pos > - 1)
+    {
+        p->UI()->cmbAnimationInstanceObject->setItemText(pos, p->fullNameForNode(m_node));
+    }
 }

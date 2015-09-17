@@ -1,7 +1,7 @@
 /*! \file platform.h
-	
+    
 
-	Describes a ball
+    Describes a ball
  */
 #include <p2d/app/object.h>
 #include <p2d/app/constants.h>
@@ -13,5 +13,5 @@ class Platform: public sad::p2d::app::Object
 {
  SAD_OBJECT
  public:
-	 Platform();
+     Platform();
 };

@@ -113,7 +113,7 @@ bool is_not_inherited(const sad::String & prop)
 bool sad::db::custom::Schema::load(const picojson::value& v)
 {
     m_properties_lock.lock();
-	bool result = false;
+    bool result = false;
     if (v.is<picojson::object>())
     {
         sad::Maybe<sad::String> maybename = picojson::to_type<sad::String>(
@@ -128,13 +128,13 @@ bool sad::db::custom::Schema::load(const picojson::value& v)
                 sad::Hash<sad::String, sad::db::Property*> props;
                 bool loadresult = true;
                 picojson::object o = maybeschema->get<picojson::object>();
-				for(picojson::object::iterator it = o.begin(); it != o.end(); ++it)
+                for(picojson::object::iterator it = o.begin(); it != o.end(); ++it)
                 {
                     bool entryloadresult = false;
                     const picojson::value * maybetypeentry = picojson::get_property(it->second, "type");
                     const picojson::value * maybevalueentry = picojson::get_property(it->second, "value");
                     const picojson::value * maybedefaultentry = picojson::get_property(it->second, "default");
-					if (maybetypeentry && maybevalueentry && sad::db::custom::is_not_inherited(it->first))
+                    if (maybetypeentry && maybevalueentry && sad::db::custom::is_not_inherited(it->first))
                     {
                         sad::Maybe<sad::String> maybeproptype = picojson::to_type<sad::String>(*maybetypeentry);
                         if (maybeproptype.exists())
@@ -230,7 +230,7 @@ void sad::db::custom::Schema::getCustomProperties(sad::Hash<sad::String, sad::db
         }
         if (isown)
         {
-			sad::db::Property* propclone = it.value()->clone();
+            sad::db::Property* propclone = it.value()->clone();
             props.insert(it.key(), propclone);
         }
     }
@@ -245,7 +245,7 @@ void sad::db::custom::Schema::getNamesOfCustomProperties(sad::Vector<sad::String
          it != m_properties.const_end();
         ++it)
     {
-		bool isown = true;
+        bool isown = true;
         for(size_t i = 0; (i < Sprite2DPropertiesLength) && isown; i++)
         {
             if (it.key() == Sprite2DOwnProperties[i])
@@ -253,10 +253,10 @@ void sad::db::custom::Schema::getNamesOfCustomProperties(sad::Vector<sad::String
                 isown = false;
             }
         }
-		if (isown)
-		{
-			names << it.key();
-		}
+        if (isown)
+        {
+            names << it.key();
+        }
     }
     m_properties_lock.unlock();
 }

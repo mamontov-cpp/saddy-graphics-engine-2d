@@ -1,7 +1,7 @@
 /*! \file   hfsmshared.h
-	
+    
 
-	Describes a shared data for state of hierarchical finite state machine
+    Describes a shared data for state of hierarchical finite state machine
  */
 #pragma once
 #include "../object.h"
@@ -17,12 +17,12 @@ class Shared: public sad::Object
 {
 SAD_OBJECT
 public:
-	/*! Creates empty shared data
-	 */
-	Shared();
-	/*! Destroys shared data
-	 */
-	virtual ~Shared();
+    /*! Creates empty shared data
+     */
+    Shared();
+    /*! Destroys shared data
+     */
+    virtual ~Shared();
 };
 
 }

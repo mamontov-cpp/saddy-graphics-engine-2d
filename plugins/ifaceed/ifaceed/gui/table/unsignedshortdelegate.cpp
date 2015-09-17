@@ -23,47 +23,47 @@ gui::table::UnsignedShortDelegate::UnsignedShortDelegate() : gui::table::Delegat
 
 gui::table::UnsignedShortDelegate::~UnsignedShortDelegate()
 {
-	
+    
 }
 
 void gui::table::UnsignedShortDelegate::set(const sad::db::Variant& v)
 {
-	bool b = m_my_widget->blockSignals(true);
-	unsigned short value = v.get<unsigned short>().value();
-	this->setCurrentValue<unsigned short>(value);
-	static_cast<QSpinBox*>(m_my_widget)->setValue(value);
-	m_my_widget->blockSignals(b);
+    bool b = m_my_widget->blockSignals(true);
+    unsigned short value = v.get<unsigned short>().value();
+    this->setCurrentValue<unsigned short>(value);
+    static_cast<QSpinBox*>(m_my_widget)->setValue(value);
+    m_my_widget->blockSignals(b);
 }
 
 void gui::table::UnsignedShortDelegate::widgetChanged(int i)
 {
-	unsigned short oldvalue = this->currentValue<unsigned short>();
-	if (this->isLinkedToDatabase())
-	{
-		m_editor->history()->add(new history::database::ChangeProperty<unsigned short>(oldvalue, i, this));
-	}
-	else
-	{
-		m_editor->history()->add( 
-			new history::customobject::ChangeProperty<unsigned short>(m_object, Q2STDSTRING(m_property_name), oldvalue, i)
-		);
-	}
-	this->setCurrentValue<unsigned short>(i);
+    unsigned short oldvalue = this->currentValue<unsigned short>();
+    if (this->isLinkedToDatabase())
+    {
+        m_editor->history()->add(new history::database::ChangeProperty<unsigned short>(oldvalue, i, this));
+    }
+    else
+    {
+        m_editor->history()->add( 
+            new history::customobject::ChangeProperty<unsigned short>(m_object, Q2STDSTRING(m_property_name), oldvalue, i)
+        );
+    }
+    this->setCurrentValue<unsigned short>(i);
 }
 
 void gui::table::UnsignedShortDelegate::makeEditor()
 {
-	unsigned short value = this->currentValue<unsigned short>();
-	QSpinBox * d = new QSpinBox();
-	d->setValue((int)(value));
-	d->setMinimum(0);
-	d->setMaximum(USHRT_MAX);
-	m_my_widget = d;
-	this->insertToTable();
-	QObject::connect(d, SIGNAL(valueChanged(int)), this, SLOT(widgetChanged(int)));	
+    unsigned short value = this->currentValue<unsigned short>();
+    QSpinBox * d = new QSpinBox();
+    d->setValue((int)(value));
+    d->setMinimum(0);
+    d->setMaximum(USHRT_MAX);
+    m_my_widget = d;
+    this->insertToTable();
+    QObject::connect(d, SIGNAL(valueChanged(int)), this, SLOT(widgetChanged(int)));	
 }
 
 void gui::table::UnsignedShortDelegate::disconnect()
 {
-	QObject::disconnect(this, SLOT(widgetChanged(int)));
+    QObject::disconnect(this, SLOT(widgetChanged(int)));
 }

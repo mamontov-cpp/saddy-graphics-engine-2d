@@ -1,7 +1,7 @@
 /*! \file animations/animationsfontlist.h
-	
+    
 
-	An animations as animation of changing fonts by time
+    An animations as animation of changing fonts by time
  */
 #pragma once
 
@@ -14,7 +14,7 @@
 
 namespace sad
 {
-	
+    
 namespace animations
 {
 
@@ -24,13 +24,13 @@ class FontList: public sad::animations::Animation
 {
 SAD_OBJECT
 public:
-	/*! Creates new empty animation
-	 */
-	FontList();
-	/*! Can be inherited
-	 */
-	virtual ~FontList();
-	/*! A basic schema for object
+    /*! Creates new empty animation
+     */
+    FontList();
+    /*! Can be inherited
+     */
+    virtual ~FontList();
+    /*! A basic schema for object
         \return a schema
      */
     static sad::db::schema::Schema* basicSchema();
@@ -43,15 +43,15 @@ public:
         \return whether it was successfull
      */
     virtual bool loadFromValue(const picojson::value& v);
-	/*! Sets list of fonts
-		\param[in] fonts a font list, used in animation
-	 */
-	void setFonts(const sad::Vector<sad::String>& fonts);
-	/*! Returns font list
-		\return font list
-	 */
-	const sad::Vector<sad::String> & fonts() const;
-	/*! Sets state of object from animation
+    /*! Sets list of fonts
+        \param[in] fonts a font list, used in animation
+     */
+    void setFonts(const sad::Vector<sad::String>& fonts);
+    /*! Returns font list
+        \return font list
+     */
+    const sad::Vector<sad::String> & fonts() const;
+    /*! Sets state of object from animation
         \param[in] i an animation instance
         \param[in] time a time of playing of animation
      */
@@ -67,9 +67,9 @@ public:
      */
     virtual bool applicableTo(sad::db::Object* o);
 protected:
-	/*! A list of fonts to be set in animation
-	 */
-	sad::Vector<sad::String> m_fonts;
+    /*! A list of fonts to be set in animation
+     */
+    sad::Vector<sad::String> m_fonts;
 };
 
 }

@@ -113,19 +113,19 @@ GlueMetric::OrdersAndSize GlueMetric::findOrder(const QVector<GlueEntry> & entri
                 }
                 else
                 {
-					QVector<GlueOrder> orders = this->findMinMetricOrder(task.Entries);
-					size_t sizeorders = orders.size();
+                    QVector<GlueOrder> orders = this->findMinMetricOrder(task.Entries);
+                    size_t sizeorders = orders.size();
                     for(size_t j = 0; j < sizeorders; j++)
                     {
-						GlueTask newtask =  task.applyOrder(orders[j]); 
+                        GlueTask newtask =  task.applyOrder(orders[j]); 
                         tasks << newtask;
                         /*
                         char c = ((orders[j].Mode == HORIZONTAL) ? 'H' : 'V');
                         printf("(%d,%d,%c) + {", orders[j].Images[0],orders[j].Images[1],  c);
-						for(size_t k = 0; k < task.Orders.size(); k++)
-						{
+                        for(size_t k = 0; k < task.Orders.size(); k++)
+                        {
                             printf("(%d,%d,%c) ", task.Orders[k].Images[0], task.Orders[k].Images[1], (task.Orders[k].Mode == HORIZONTAL) ? 'H' : 'V' );
-						}
+                        }
                         printf("}x%d = {", task.Entries.size());
 
                         for(size_t k = 0; k < newtask.Orders.size(); k++)
@@ -135,7 +135,7 @@ GlueMetric::OrdersAndSize GlueMetric::findOrder(const QVector<GlueEntry> & entri
 
                         printf("}x%d \n", newtask.Entries.size());
                         */
-					}
+                    }
                 }
             }
         }

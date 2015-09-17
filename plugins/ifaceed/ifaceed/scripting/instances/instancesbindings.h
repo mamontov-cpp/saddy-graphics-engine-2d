@@ -78,14 +78,14 @@ void remove(
 );
 
 /*! Sets readable or writable properties for animation instances
-	\param[in] obj object
-	\param[out] list a list of properties
-	\param[in] readable a readable or writable properties
+    \param[in] obj object
+    \param[out] list a list of properties
+    \param[in] readable a readable or writable properties
  */
 void checkProperties(
-	const sad::Maybe<sad::db::Object*>& obj,
-	QStringList& list,
-	bool readable
+    const sad::Maybe<sad::db::Object*>& obj,
+    QStringList& list,
+    bool readable
 );
 
 }

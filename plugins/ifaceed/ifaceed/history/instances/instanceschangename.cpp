@@ -13,7 +13,7 @@
 
 history::instances::ChangeName::ChangeName(
     sad::animations::Instance* d,
-	int position, 
+    int position, 
     const sad::String& oldvalue,
     const sad::String& newvalue
 
@@ -34,16 +34,16 @@ history::instances::ChangeName::~ChangeName()
 
 void history::instances::ChangeName::updateItem(core::Editor* e, const sad::String&)
 {
-	e->panel()->UI()->lstAnimationInstances->item(m_position)->setText(
-		e->panel()->nameForInstance(m_animation)
-	);
+    e->panel()->UI()->lstAnimationInstances->item(m_position)->setText(
+        e->panel()->nameForInstance(m_animation)
+    );
 }
 
 void history::instances::ChangeName::tryUpdateUI(core::Editor* e, const sad::String& value)
 {
     this->history::instances::ChangeProperty<sad::String>::tryUpdateUI(e, value);
-	e->emitClosure(bind(this, &history::instances::ChangeName::updateItem, e, value));
-	e->emitClosure(bind(e->panel()->instanceActions(), &gui::InstanceActions::updateGroupInstanceList));	
+    e->emitClosure(bind(this, &history::instances::ChangeName::updateItem, e, value));
+    e->emitClosure(bind(e->panel()->instanceActions(), &gui::InstanceActions::updateGroupInstanceList));	
 }
 
 void history::instances::ChangeName::updateUI(core::Editor* e, const sad::String& value)

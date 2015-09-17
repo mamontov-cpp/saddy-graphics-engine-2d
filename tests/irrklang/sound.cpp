@@ -33,18 +33,18 @@ public:
     void testValid()
     {
        sad::Renderer r;
-	   sad::resource::Tree tree;
-	   tree.setStoreLinks(true);
-	   tree.setRenderer(&r);
-	   // In debug, sad::fretype::Factory fonts becomes in font
-	   tree.factory()->registerResource<sad::irrklang::Sound>();
+       sad::resource::Tree tree;
+       tree.setStoreLinks(true);
+       tree.setRenderer(&r);
+       // In debug, sad::fretype::Factory fonts becomes in font
+       tree.factory()->registerResource<sad::irrklang::Sound>();
        tree.factory()->registerDefaultFileTypeFor<sad::irrklang::Sound>();
 
-	   sad::Vector<sad::resource::Error *> errors = tree.loadFromFile("tests/sound.json");
-		
-	   int count = errors.size();
-	   sad::util::free(errors);
-	   ASSERT_TRUE(count == 0);
+       sad::Vector<sad::resource::Error *> errors = tree.loadFromFile("tests/sound.json");
+        
+       int count = errors.size();
+       sad::util::free(errors);
+       ASSERT_TRUE(count == 0);
        sad::resource::Resource* k = tree.root()->resource("sound");
        ASSERT_TRUE( k );
        sad::irrklang::Sound* f = static_cast<sad::irrklang::Sound*>(k);
@@ -56,18 +56,18 @@ public:
     void testInvalid()
     {
        sad::Renderer r;
-	   sad::resource::Tree tree;
-	   tree.setStoreLinks(true);
-	   tree.setRenderer(&r);
-	   // In debug, sad::fretype::Factory fonts becomes in font
-	   tree.factory()->registerResource<sad::irrklang::Sound>();
+       sad::resource::Tree tree;
+       tree.setStoreLinks(true);
+       tree.setRenderer(&r);
+       // In debug, sad::fretype::Factory fonts becomes in font
+       tree.factory()->registerResource<sad::irrklang::Sound>();
        tree.factory()->registerDefaultFileTypeFor<sad::irrklang::Sound>();
 
-	   sad::Vector<sad::resource::Error *> errors = tree.loadFromFile("tests/nosound.json");
-		
-	   int count = errors.size();
-	   sad::util::free(errors);
-	   ASSERT_TRUE(count != 0);
+       sad::Vector<sad::resource::Error *> errors = tree.loadFromFile("tests/nosound.json");
+        
+       int count = errors.size();
+       sad::util::free(errors);
+       ASSERT_TRUE(count != 0);
     }
 
 } _sound_test;

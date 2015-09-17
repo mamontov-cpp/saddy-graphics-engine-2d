@@ -56,90 +56,90 @@ Q_DECLARE_METATYPE(sad::SceneNode*) //-V566
 
 core::Editor::Editor()
 {
-	// Add message data
-	m_qttarget = new core::QtTarget(this);
-	sad::Renderer::ref()->log()->addTarget(m_qttarget);
+    // Add message data
+    m_qttarget = new core::QtTarget(this);
+    sad::Renderer::ref()->log()->addTarget(m_qttarget);
 
-	// Add small user log
-	sad::log::FileTarget * t = new sad::log::FileTarget("{0}: [{1}] {3}{2}{4}", sad::log::MESSAGE);
-	t->open("user.txt");
-	sad::log::Log::ref()->addTarget(t);
+    // Add small user log
+    sad::log::FileTarget * t = new sad::log::FileTarget("{0}: [{1}] {3}{2}{4}", sad::log::MESSAGE);
+    t->open("user.txt");
+    sad::log::Log::ref()->addTarget(t);
 
-	// Add large debug log
-	t = new sad::log::FileTarget();
-	t->open("full.txt");
-	sad::log::Log::ref()->addTarget(t);
+    // Add large debug log
+    t = new sad::log::FileTarget();
+    t->open("full.txt");
+    sad::log::Log::ref()->addTarget(t);
 
     m_args = NULL;
     m_renderthread = new core::SaddyThread(this);
     m_qtapp = NULL;
     m_current_batchcommand = NULL;
-	m_history = new history::History();
+    m_history = new history::History();
 
-	m_machine = new sad::hfsm::Machine();
-	// A states for editing objects
-	m_machine->addState("idle", new sad::hfsm::State(), true);
-	m_machine->addState("selected", new sad::hfsm::State(), true);
-	m_machine->addState("selected/moving", new sad::hfsm::State(), true);
-	m_machine->addState("selected/resizing", new sad::hfsm::State(), true);
-	m_machine->addState("adding/label", new sad::hfsm::State(), true);
-	m_machine->addState("adding/sprite", new sad::hfsm::State(), true);
-	m_machine->addState("adding/sprite_diagonal", new sad::hfsm::State(), true);
-	m_machine->addState("adding/sprite_diagonal/point_placed", new sad::hfsm::State(), true);
-	m_machine->addState("adding/customobject", new sad::hfsm::State(), true);
-	m_machine->addState("adding/customobject_diagonal", new sad::hfsm::State(), true);
-	m_machine->addState("adding/customobject_diagonal/point_placed", new sad::hfsm::State(), true);
-	// A states for editing ways
-	m_machine->addState("ways/idle", new sad::hfsm::State(), true);
-	m_machine->addState("ways/selected", new sad::hfsm::State(), true);
-	m_machine->addState("ways/selected/moving", new sad::hfsm::State(), true);
-	m_machine->addState("picking_simple_movement_point", new sad::hfsm::State(), true);
+    m_machine = new sad::hfsm::Machine();
+    // A states for editing objects
+    m_machine->addState("idle", new sad::hfsm::State(), true);
+    m_machine->addState("selected", new sad::hfsm::State(), true);
+    m_machine->addState("selected/moving", new sad::hfsm::State(), true);
+    m_machine->addState("selected/resizing", new sad::hfsm::State(), true);
+    m_machine->addState("adding/label", new sad::hfsm::State(), true);
+    m_machine->addState("adding/sprite", new sad::hfsm::State(), true);
+    m_machine->addState("adding/sprite_diagonal", new sad::hfsm::State(), true);
+    m_machine->addState("adding/sprite_diagonal/point_placed", new sad::hfsm::State(), true);
+    m_machine->addState("adding/customobject", new sad::hfsm::State(), true);
+    m_machine->addState("adding/customobject_diagonal", new sad::hfsm::State(), true);
+    m_machine->addState("adding/customobject_diagonal/point_placed", new sad::hfsm::State(), true);
+    // A states for editing ways
+    m_machine->addState("ways/idle", new sad::hfsm::State(), true);
+    m_machine->addState("ways/selected", new sad::hfsm::State(), true);
+    m_machine->addState("ways/selected/moving", new sad::hfsm::State(), true);
+    m_machine->addState("picking_simple_movement_point", new sad::hfsm::State(), true);
 
 
-	m_machine->enterState("idle");
+    m_machine->enterState("idle");
 
-	m_shared = new core::Shared();
-	m_shared->setEditor(this);
+    m_shared = new core::Shared();
+    m_shared->setEditor(this);
 
-	m_active_border = new core::borders::ActiveBorder(m_shared);
-	m_selection_border = new core::borders::SelectionBorder(m_shared);
-	
+    m_active_border = new core::borders::ActiveBorder(m_shared);
+    m_selection_border = new core::borders::SelectionBorder(m_shared);
+    
     m_synchronization = new core::Synchronization();
 
-	sad::String idle = "idle";
-	sad::Renderer::ref()->controls()->add(*sad::input::ET_KeyPress & sad::Esc & (m_machine * idle), sad::Renderer::ref(), &sad::Renderer::quit);
-	sad::Renderer::ref()->controls()->add(*sad::input::ET_KeyPress & sad::Z & sad::HoldsControl, this, &core::Editor::undo);
-	sad::Renderer::ref()->controls()->add(*sad::input::ET_KeyPress & sad::R & sad::HoldsControl, this, &core::Editor::redo);
+    sad::String idle = "idle";
+    sad::Renderer::ref()->controls()->add(*sad::input::ET_KeyPress & sad::Esc & (m_machine * idle), sad::Renderer::ref(), &sad::Renderer::quit);
+    sad::Renderer::ref()->controls()->add(*sad::input::ET_KeyPress & sad::Z & sad::HoldsControl, this, &core::Editor::undo);
+    sad::Renderer::ref()->controls()->add(*sad::input::ET_KeyPress & sad::R & sad::HoldsControl, this, &core::Editor::redo);
 
-	sad::Renderer::ref()->pipeline()->append(m_selection_border);
-	sad::Renderer::ref()->pipeline()->append(m_active_border);
+    sad::Renderer::ref()->pipeline()->append(m_selection_border);
+    sad::Renderer::ref()->pipeline()->append(m_active_border);
     m_renderways = new gui::RenderWays(this);
     sad::Renderer::ref()->pipeline()->append(m_renderways);
 
 
-	m_selection = new core::Selection();
-	m_selection->setEditor(this);
+    m_selection = new core::Selection();
+    m_selection->setEditor(this);
 
-	// Fill conversion table with converters
-	this->initConversionTable();
+    // Fill conversion table with converters
+    this->initConversionTable();
 }
 core::Editor::~Editor()
 {	
     delete m_args;	
-	delete m_renderthread;
+    delete m_renderthread;
     delete m_parsed_args;
-	delete m_history;
-	delete m_shared;
-	delete m_machine;
+    delete m_history;
+    delete m_shared;
+    delete m_machine;
     delete m_synchronization;
-	delete m_selection;
+    delete m_selection;
     delete m_mainwindow;
     delete m_qtapp;
 }
 
 void core::Editor::init(int argc,char ** argv)
 {
-	// Create and parse command line arguments
+    // Create and parse command line arguments
     m_args = new sad::cli::Args(argc, argv);
     m_parsed_args = new sad::cli::Parser();
     m_parsed_args->addSingleValuedOption("resources");
@@ -147,26 +147,26 @@ void core::Editor::init(int argc,char ** argv)
     m_parsed_args->addSingleValuedOption("height");
     m_parsed_args->addFlag("debug");
     m_parsed_args->parse(argc, const_cast<const char **>(argv));
-	
+    
     m_qtapp = new QApplication(m_args->count(), m_args->arguments());
 
-	// This thread only runs qt event loop. SaddyThread runs only event loop of renderer of Saddy.
+    // This thread only runs qt event loop. SaddyThread runs only event loop of renderer of Saddy.
     m_synchronization->startSynchronizationWithSaddyThread();
-	m_renderthread->start();
-	// Wait for Saddy's window to show up
+    m_renderthread->start();
+    // Wait for Saddy's window to show up
     m_synchronization->waitForSaddyThread();
-	this->runQtEventLoop();
-	m_renderthread->wait();
+    this->runQtEventLoop();
+    m_renderthread->wait();
 }
 
 MainPanel* core::Editor::panel() const
 {
-	return m_mainwindow;
+    return m_mainwindow;
 }
 
 sad::hfsm::Machine* core::Editor::machine() const
 {
-	return m_machine;
+    return m_machine;
 }
 
 core::Shared* core::Editor::shared() const
@@ -201,12 +201,12 @@ core::Synchronization* core::Editor::synchronization() const
 
 core::borders::ActiveBorder* core::Editor::activeBorder() const
 {
-	return m_active_border;
+    return m_active_border;
 }
 
 core::borders::SelectionBorder* core::Editor::selectionBorder() const
 {
-	return m_selection_border;
+    return m_selection_border;
 }
 
 gui::RenderWays* core::Editor::renderWays() const
@@ -216,12 +216,12 @@ gui::RenderWays* core::Editor::renderWays() const
 
 core::Selection* core::Editor::selection() const
 {
-	return m_selection;
+    return m_selection;
 }
 
 sad::animations::Factory* core::Editor::animationFactory() const
 {
-	return const_cast<sad::animations::Factory*>(&m_animation_factory);
+    return const_cast<sad::animations::Factory*>(&m_animation_factory);
 }
 
 void core::Editor::quit()
@@ -236,18 +236,18 @@ void core::Editor::emitClosure(sad::ClosureBasic * closure)
 
 void core::Editor::cleanupBeforeAdding()
 {
-	if (this->machine()->isInState("adding"))
-	{
-		sad::Renderer::ref()->lockRendering();
+    if (this->machine()->isInState("adding"))
+    {
+        sad::Renderer::ref()->lockRendering();
 
-		sad::SceneNode* node = this->shared()->activeObject();
-		this->shared()->setActiveObject(NULL);
-		node->scene()->remove(node);
+        sad::SceneNode* node = this->shared()->activeObject();
+        this->shared()->setActiveObject(NULL);
+        node->scene()->remove(node);
 
-		sad::Renderer::ref()->unlockRendering();
+        sad::Renderer::ref()->unlockRendering();
 
-		this->panel()->clearCustomObjectPropertiesTable();
-	}
+        this->panel()->clearCustomObjectPropertiesTable();
+    }
 }
 
 bool core::Editor::isNodeSelected(sad::SceneNode* node) const
@@ -257,62 +257,62 @@ bool core::Editor::isNodeSelected(sad::SceneNode* node) const
 
 void core::Editor::enteredIdleState()
 {
-	m_mainwindow->highlightIdleState();
-	this->emitClosure( bind(m_mainwindow, &MainPanel::clearCustomObjectPropertiesTable));
+    m_mainwindow->highlightIdleState();
+    this->emitClosure( bind(m_mainwindow, &MainPanel::clearCustomObjectPropertiesTable));
 }
 
 static const size_t CoreEditorEditingStatesCount = 5; 
 
 static sad::String CoreEditorEditingStates[CoreEditorEditingStatesCount] = {
-	sad::String("adding"),
-	sad::String("selected/moving"),
-	sad::String("selected/resizing"),
-	sad::String("ways/selected/moving"),
+    sad::String("adding"),
+    sad::String("selected/moving"),
+    sad::String("selected/resizing"),
+    sad::String("ways/selected/moving"),
     sad::String("picking_simple_movement_point")
 };
 
 bool core::Editor::isInEditingState() const
 {
-	bool result = false;
-	for (size_t i = 0; i < CoreEditorEditingStatesCount; ++i)
-	{
-		result = result || m_machine->isInState(CoreEditorEditingStates[i]);
-	}
-	return result;
+    bool result = false;
+    for (size_t i = 0; i < CoreEditorEditingStatesCount; ++i)
+    {
+        result = result || m_machine->isInState(CoreEditorEditingStates[i]);
+    }
+    return result;
 }
 
 void core::Editor::cleanDatabase()
 {
-	m_machine->enterState("idle");
-	m_shared->setSelectedObject(NULL);
-	m_shared->setSelectedWay(NULL);
-	m_shared->setSelectedDialogue(NULL);
-	m_shared->setActiveObject(NULL);
-	m_shared->setSelectedAnimation(NULL);
-	m_shared->setSelectedInstance(NULL);
-	m_shared->setSelectedGroup(NULL);
-	m_history->clear();
-	m_mainwindow->clearDatabaseProperties();
-	sad::Renderer::ref()->clear();
-	m_mainwindow->UI()->lstSceneObjects->clear();
-	m_mainwindow->UI()->lstScenes->clear();
-	m_mainwindow->UI()->lstWays->clear();
-	m_mainwindow->UI()->lstWayPoints->clear();
-	m_mainwindow->UI()->lstDialogues->clear();
-	m_mainwindow->UI()->lstPhrases->clear();
-	m_mainwindow->UI()->lstAnimations->clear();
-	m_mainwindow->UI()->lstAnimationInstances->clear();
-	m_mainwindow->UI()->lstCompositeCandidates->clear();
-	m_mainwindow->UI()->lstCompositeList->clear();
-	m_mainwindow->UI()->cmbAnimationInstanceObject->clear();
-	m_mainwindow->UI()->cmbAnimationInstanceAnimationFromDatabase->clear();
-	m_mainwindow->UI()->cmbWayAnimationInstanceWay->clear();
-	m_mainwindow->UI()->cmbWayAnimationWay->clear();
-	m_mainwindow->UI()->lstAnimationInstances->clear();
-	m_mainwindow->UI()->lstAnimationsGroupAllAnimations->clear();
-	m_mainwindow->UI()->lstAnimationsGroupInGroup->clear();
-	m_mainwindow->clearDatabaseProperties();
-	sad::Renderer::ref()->removeDatabase("");
+    m_machine->enterState("idle");
+    m_shared->setSelectedObject(NULL);
+    m_shared->setSelectedWay(NULL);
+    m_shared->setSelectedDialogue(NULL);
+    m_shared->setActiveObject(NULL);
+    m_shared->setSelectedAnimation(NULL);
+    m_shared->setSelectedInstance(NULL);
+    m_shared->setSelectedGroup(NULL);
+    m_history->clear();
+    m_mainwindow->clearDatabaseProperties();
+    sad::Renderer::ref()->clear();
+    m_mainwindow->UI()->lstSceneObjects->clear();
+    m_mainwindow->UI()->lstScenes->clear();
+    m_mainwindow->UI()->lstWays->clear();
+    m_mainwindow->UI()->lstWayPoints->clear();
+    m_mainwindow->UI()->lstDialogues->clear();
+    m_mainwindow->UI()->lstPhrases->clear();
+    m_mainwindow->UI()->lstAnimations->clear();
+    m_mainwindow->UI()->lstAnimationInstances->clear();
+    m_mainwindow->UI()->lstCompositeCandidates->clear();
+    m_mainwindow->UI()->lstCompositeList->clear();
+    m_mainwindow->UI()->cmbAnimationInstanceObject->clear();
+    m_mainwindow->UI()->cmbAnimationInstanceAnimationFromDatabase->clear();
+    m_mainwindow->UI()->cmbWayAnimationInstanceWay->clear();
+    m_mainwindow->UI()->cmbWayAnimationWay->clear();
+    m_mainwindow->UI()->lstAnimationInstances->clear();
+    m_mainwindow->UI()->lstAnimationsGroupAllAnimations->clear();
+    m_mainwindow->UI()->lstAnimationsGroupInGroup->clear();
+    m_mainwindow->clearDatabaseProperties();
+    sad::Renderer::ref()->removeDatabase("");
 }
 
 void core::Editor::reportResourceLoadingErrors(
@@ -332,24 +332,24 @@ void core::Editor::reportResourceLoadingErrors(
 
 bool core::Editor::isInObjectEditingState() const
 {
-	return m_mainwindow->UI()->tabTypes->currentIndex() == 0;
+    return m_mainwindow->UI()->tabTypes->currentIndex() == 0;
 }
 
 bool core::Editor::isInWaysEditingState() const
 {
-	return m_mainwindow->UI()->tabTypes->currentIndex() == 1;
+    return m_mainwindow->UI()->tabTypes->currentIndex() == 1;
 }
 
 void core::Editor::tryEnterObjectEditingState()
 {
-	if (this->isInEditingState())
-	{
-		return;
-	}
-	this->m_machine->enterState("idle");
-	m_shared->setSelectedObject(NULL);
-	m_shared->setActiveObject(NULL);
-	m_shared->setSelectedWay(NULL);
+    if (this->isInEditingState())
+    {
+        return;
+    }
+    this->m_machine->enterState("idle");
+    m_shared->setSelectedObject(NULL);
+    m_shared->setActiveObject(NULL);
+    m_shared->setSelectedWay(NULL);
 
     int currentrow = m_mainwindow->UI()->lstSceneObjects->currentRow();
     if (currentrow > -1)
@@ -357,29 +357,29 @@ void core::Editor::tryEnterObjectEditingState()
         QVariant v = m_mainwindow->UI()->lstSceneObjects->item(currentrow)->data(Qt::UserRole);
         m_shared->setSelectedObject(v.value<sad::SceneNode*>());
     }
-	invoke_blocked(m_mainwindow->UI()->tabTypes, &QTabWidget::setCurrentIndex, 0);
+    invoke_blocked(m_mainwindow->UI()->tabTypes, &QTabWidget::setCurrentIndex, 0);
 }
 
 void core::Editor::tryEnterWayEditingState()
 {
-	if (this->isInEditingState())
-	{
-		return;
-	}
-	this->m_machine->enterState("idle");
-	this->m_machine->enterState("ways/idle");
-	m_shared->setSelectedObject(NULL);
-	m_shared->setActiveObject(NULL);
-	m_shared->setSelectedWay(NULL);	
-	invoke_blocked(m_mainwindow->UI()->tabTypes, &QTabWidget::setCurrentIndex, 1);
-	if (m_mainwindow->UI()->lstWays->currentRow() >= 0)
-	{
-		this->m_machine->enterState("ways/selected");
-		int row = m_mainwindow->UI()->lstWays->currentRow();
-		sad::p2d::app::Way* way = m_mainwindow->UI()->lstWays->item(row)->data(Qt::UserRole).value<sad::p2d::app::Way*>();
-		m_shared->setSelectedWay(way);	
-		m_mainwindow->wayActions()->wayChanged(row);
-	}
+    if (this->isInEditingState())
+    {
+        return;
+    }
+    this->m_machine->enterState("idle");
+    this->m_machine->enterState("ways/idle");
+    m_shared->setSelectedObject(NULL);
+    m_shared->setActiveObject(NULL);
+    m_shared->setSelectedWay(NULL);	
+    invoke_blocked(m_mainwindow->UI()->tabTypes, &QTabWidget::setCurrentIndex, 1);
+    if (m_mainwindow->UI()->lstWays->currentRow() >= 0)
+    {
+        this->m_machine->enterState("ways/selected");
+        int row = m_mainwindow->UI()->lstWays->currentRow();
+        sad::p2d::app::Way* way = m_mainwindow->UI()->lstWays->item(row)->data(Qt::UserRole).value<sad::p2d::app::Way*>();
+        m_shared->setSelectedWay(way);	
+        m_mainwindow->wayActions()->wayChanged(row);
+    }
 }
 
 void core::Editor::setCurrentBatchCommand(history::BatchCommand* c)
@@ -396,149 +396,149 @@ history::BatchCommand* core::Editor::currentBatchCommand() const
 
 void core::Editor::start()
 {
-	SL_SCOPE("core::Editor::start()");
-	bool mustquit = false;
+    SL_SCOPE("core::Editor::start()");
+    bool mustquit = false;
 
-	// Try load icons resources
-	sad::Renderer::ref()->addTree("icons", new sad::resource::Tree());
-	sad::Renderer::ref()->tree("icons")->factory()->registerResource<sad::freetype::Font>();
+    // Try load icons resources
+    sad::Renderer::ref()->addTree("icons", new sad::resource::Tree());
+    sad::Renderer::ref()->tree("icons")->factory()->registerResource<sad::freetype::Font>();
     sad::Vector<sad::resource::Error * > errors;
     errors = sad::Renderer::ref()->tree("icons")->loadFromFile(ICONS_PATH);
     if (errors.size())
-	{
-		mustquit = true;
-		this->reportResourceLoadingErrors(errors, ICONS_PATH);
-	}
+    {
+        mustquit = true;
+        this->reportResourceLoadingErrors(errors, ICONS_PATH);
+    }
 
-	// Try load specified resources, if need to
-	sad::Renderer::ref()->tree("")->factory()->registerResource<sad::freetype::Font>();
+    // Try load specified resources, if need to
+    sad::Renderer::ref()->tree("")->factory()->registerResource<sad::freetype::Font>();
     sad::Renderer::ref()->tree("")->setStoreLinks(true);
     sad::Maybe<sad::String> maybefilename = this->parsedArgs()->single("resources");
-	if (maybefilename.exists() && this->parsedArgs()->specified("resources"))
-	{
+    if (maybefilename.exists() && this->parsedArgs()->specified("resources"))
+    {
         errors = sad::Renderer::ref()->tree("")->loadFromFile(maybefilename.value());
-		if (errors.size())
-		{
-			mustquit = true;
-			this->reportResourceLoadingErrors(errors, maybefilename.value());
-		}
+        if (errors.size())
+        {
+            mustquit = true;
+            this->reportResourceLoadingErrors(errors, maybefilename.value());
+        }
         else
         {
             this->m_mainwindow->updateResourceViews();
         }
-	}
-	else
-	{
-		this->m_mainwindow->toggleEditingButtons(false);
-	}
-	
-	bool database_loaded = false;
-	if (this->m_mainwindow->isEditingEnabled() && this->parsedArgs()->defaultOption().exists() && !mustquit)
-	{		
-		// Try load database	
-		sad::String value = this->parsedArgs()->defaultOption().value();
-		sad::db::Database* tmp = new sad::db::Database();
-		tmp->setRenderer(sad::Renderer::ref());
-		tmp->setDefaultTreeName("");
-		if (tmp->loadFromFile(value, sad::Renderer::ref()))
-		{
-			this->shared()->setFileName(STD2QSTRING(value));
-			sad::Renderer::ref()->addDatabase("", tmp);
-			database_loaded = true;
-		}
-		else
-		{
-			delete tmp;
-			mustquit = true;
-			SL_FATAL("Failed to load database");
-		}
-	}
+    }
+    else
+    {
+        this->m_mainwindow->toggleEditingButtons(false);
+    }
+    
+    bool database_loaded = false;
+    if (this->m_mainwindow->isEditingEnabled() && this->parsedArgs()->defaultOption().exists() && !mustquit)
+    {		
+        // Try load database	
+        sad::String value = this->parsedArgs()->defaultOption().value();
+        sad::db::Database* tmp = new sad::db::Database();
+        tmp->setRenderer(sad::Renderer::ref());
+        tmp->setDefaultTreeName("");
+        if (tmp->loadFromFile(value, sad::Renderer::ref()))
+        {
+            this->shared()->setFileName(STD2QSTRING(value));
+            sad::Renderer::ref()->addDatabase("", tmp);
+            database_loaded = true;
+        }
+        else
+        {
+            delete tmp;
+            mustquit = true;
+            SL_FATAL("Failed to load database");
+        }
+    }
 
-	// If no database loaded, init default database, add a palette to it.
-	if (database_loaded == false)
-	{
-		// Create a default database
-		sad::db::Database * db = new sad::db::Database();
-		// Default database has empty name
-		sad::Renderer::ref()->addDatabase("", db);
-	}
-	this->m_mainwindow->viewDatabase();
+    // If no database loaded, init default database, add a palette to it.
+    if (database_loaded == false)
+    {
+        // Create a default database
+        sad::db::Database * db = new sad::db::Database();
+        // Default database has empty name
+        sad::Renderer::ref()->addDatabase("", db);
+    }
+    this->m_mainwindow->viewDatabase();
 
-	if (mustquit)
-	{
-		 QTimer::singleShot(0, this->panel(), SLOT(close()));
-	}
-	else
-	{
-		m_renderways->enable();
-	}
+    if (mustquit)
+    {
+         QTimer::singleShot(0, this->panel(), SLOT(close()));
+    }
+    else
+    {
+        m_renderways->enable();
+    }
 }
 
 void core::Editor::undo()
 {
-	if (m_shared->isAnyKindOfAnimationIsRunning() == false)
-	{
-		m_history->rollback(this);
-	}
+    if (m_shared->isAnyKindOfAnimationIsRunning() == false)
+    {
+        m_history->rollback(this);
+    }
 }
 
 void core::Editor::redo()
 {
-	if (m_shared->isAnyKindOfAnimationIsRunning() == false)
-	{
-		m_history->commit(this);
-	}
+    if (m_shared->isAnyKindOfAnimationIsRunning() == false)
+    {
+        m_history->commit(this);
+    }
 }
 
 // =================== PROTECTED METHODS ===================
 
 void core::Editor::initConversionTable()
 {
-	sad::db::ConversionTable::ref()->add(
-		"sad::Color", 
-		"QColor", 
-		new core::typeconverters::SadColorToQColor()
-	);
-	sad::db::ConversionTable::ref()->add(
-		"sad::AColor", 
-		"QColor", 
-		new core::typeconverters::SadAColorToQColor()
-	);
-	sad::db::ConversionTable::ref()->add(
-		"sad::String", 
-		"QString", 
-		new core::typeconverters::SadStringToQString()
-	);
-	sad::db::ConversionTable::ref()->add(
-		"sad::Vector<sad::Vector<sad::AColor> >", 
-		"QList<QList<QColor> >", 
-		new core::typeconverters::SadVectorSadVectorToAColorToQListQListQColor()
-	);
+    sad::db::ConversionTable::ref()->add(
+        "sad::Color", 
+        "QColor", 
+        new core::typeconverters::SadColorToQColor()
+    );
+    sad::db::ConversionTable::ref()->add(
+        "sad::AColor", 
+        "QColor", 
+        new core::typeconverters::SadAColorToQColor()
+    );
+    sad::db::ConversionTable::ref()->add(
+        "sad::String", 
+        "QString", 
+        new core::typeconverters::SadStringToQString()
+    );
+    sad::db::ConversionTable::ref()->add(
+        "sad::Vector<sad::Vector<sad::AColor> >", 
+        "QList<QList<QColor> >", 
+        new core::typeconverters::SadVectorSadVectorToAColorToQListQListQColor()
+    );
     sad::db::ConversionTable::ref()->add(
         "sad::Rect2D",
         "QRectF",
         new core::typeconverters::SadRect2DToQRectF()
     );
-	sad::db::ConversionTable::ref()->add(
-		"QColor", 
-		"sad::Color", 		
-		new core::typeconverters::QColorToSadColor()
-	);
-	sad::db::ConversionTable::ref()->add(
-		"QColor", 		
-		"sad::AColor", 
-		new core::typeconverters::QColorToSadAColor()
-	);
-	sad::db::ConversionTable::ref()->add(
-		"QString",
-		"sad::String",  
-		new core::typeconverters::QStringToSadString()
-	);
-	sad::db::ConversionTable::ref()->add(
-		"QList<QList<QColor> >", 
-		"sad::Vector<sad::Vector<sad::AColor> >", 
-		new core::typeconverters::QListQListQColorToSadVectorSadVectorToAColor()
-	);
+    sad::db::ConversionTable::ref()->add(
+        "QColor", 
+        "sad::Color", 		
+        new core::typeconverters::QColorToSadColor()
+    );
+    sad::db::ConversionTable::ref()->add(
+        "QColor", 		
+        "sad::AColor", 
+        new core::typeconverters::QColorToSadAColor()
+    );
+    sad::db::ConversionTable::ref()->add(
+        "QString",
+        "sad::String",  
+        new core::typeconverters::QStringToSadString()
+    );
+    sad::db::ConversionTable::ref()->add(
+        "QList<QList<QColor> >", 
+        "sad::Vector<sad::Vector<sad::AColor> >", 
+        new core::typeconverters::QListQListQColorToSadVectorSadVectorToAColor()
+    );
     sad::db::ConversionTable::ref()->add(
         "sad::Rect2D",
         "QRectF",
@@ -558,68 +558,68 @@ void core::Editor::saddyQuitSlot()
 
 void core::Editor::runQtEventLoop()
 {
-	m_mainwindow = new MainPanel();
-	m_mainwindow->setEditor(this);
+    m_mainwindow = new MainPanel();
+    m_mainwindow->setEditor(this);
 
-	// Called this explicitly, because entered state before
-	m_machine->state("idle")->addEnterHandler(this, &core::Editor::enteredIdleState);
-	m_machine->state("selected")->addEnterHandler(m_mainwindow, &MainPanel::highlightSelectedState);
-	m_machine->state("selected")->addEnterHandler(m_mainwindow, &MainPanel::updateUIForSelectedItem);
-	m_machine->state("adding/label")->addEnterHandler(m_mainwindow, &MainPanel::highlightLabelAddingState);
-	m_machine->state("ways/idle")->addEnterHandler(this, &core::Editor::enteredIdleState);
-	m_machine->state("ways/selected")->addEnterHandler(m_mainwindow, &MainPanel::highlightSelectedState);
+    // Called this explicitly, because entered state before
+    m_machine->state("idle")->addEnterHandler(this, &core::Editor::enteredIdleState);
+    m_machine->state("selected")->addEnterHandler(m_mainwindow, &MainPanel::highlightSelectedState);
+    m_machine->state("selected")->addEnterHandler(m_mainwindow, &MainPanel::updateUIForSelectedItem);
+    m_machine->state("adding/label")->addEnterHandler(m_mainwindow, &MainPanel::highlightLabelAddingState);
+    m_machine->state("ways/idle")->addEnterHandler(this, &core::Editor::enteredIdleState);
+    m_machine->state("ways/selected")->addEnterHandler(m_mainwindow, &MainPanel::highlightSelectedState);
 
-	m_mainwindow->highlightIdleState();
+    m_mainwindow->highlightIdleState();
 
-	sad::Renderer::ref()->controls()->add(*sad::input::ET_MouseMove, m_mainwindow, &MainPanel::updateMousePosition);
+    sad::Renderer::ref()->controls()->add(*sad::input::ET_MouseMove, m_mainwindow, &MainPanel::updateMousePosition);
 
     gui::EventFilter* filter = new gui::EventFilter();
     filter->setPanel(m_mainwindow);
     QCoreApplication::instance()->installEventFilter(filter);
 
-	QObject::connect(
-		this->m_qtapp,
-		SIGNAL(lastWindowClosed()),
-		this,
-		SLOT(qtQuitSlot()));
-	this->m_mainwindow->show();
+    QObject::connect(
+        this->m_qtapp,
+        SIGNAL(lastWindowClosed()),
+        this,
+        SLOT(qtQuitSlot()));
+    this->m_mainwindow->show();
 
-	QObject::connect(
-		this, 
-		SIGNAL(closureArrived(sad::ClosureBasic*)), 
-		this, 
+    QObject::connect(
+        this, 
+        SIGNAL(closureArrived(sad::ClosureBasic*)), 
+        this, 
         SLOT(runClosure(sad::ClosureBasic*))
-	);
-	m_qttarget->enable();
-	QTimer::singleShot(0, this, SLOT(start()));
-	this->m_qtapp->exec();
-	m_qttarget->disable();
+    );
+    m_qttarget->enable();
+    QTimer::singleShot(0, this, SLOT(start()));
+    this->m_qtapp->exec();
+    m_qttarget->disable();
 }
 
 void core::Editor::runSaddyEventLoop() 
 {
-	m_quit_reason = core::QR_NOTSET;
-	sad::Renderer::ref()->run();
-	// Quit reason can be set by main thread, when window is closed
-	if (m_quit_reason == core::QR_NOTSET)
-		this->saddyQuitSlot();
+    m_quit_reason = core::QR_NOTSET;
+    sad::Renderer::ref()->run();
+    // Quit reason can be set by main thread, when window is closed
+    if (m_quit_reason == core::QR_NOTSET)
+        this->saddyQuitSlot();
 }
 
 void core::Editor::qtQuitSlot()
 {
-	if (m_quit_reason == core::QR_NOTSET) {
-		m_quit_reason = core::QR_QTWINDOW;
-		this->onQuitActions();
-	}
+    if (m_quit_reason == core::QR_NOTSET) {
+        m_quit_reason = core::QR_QTWINDOW;
+        this->onQuitActions();
+    }
 }
 void core::Editor::onQuitActions()
 {
-	if (m_quit_reason == core::QR_SADDY) {
-		this->m_mainwindow->close();
-	}
-	if (m_quit_reason == core::QR_QTWINDOW) {
-		sad::Renderer::ref()->quit();
-	}
+    if (m_quit_reason == core::QR_SADDY) {
+        this->m_mainwindow->close();
+    }
+    if (m_quit_reason == core::QR_QTWINDOW) {
+        sad::Renderer::ref()->quit();
+    }
 }
 
 void core::Editor::runClosure(sad::ClosureBasic * closure)

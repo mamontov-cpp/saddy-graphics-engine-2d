@@ -1,7 +1,7 @@
 /*! \file optionvalue.h
-	
+    
 
-	Defined an option value for command-line parser
+    Defined an option value for command-line parser
  */
 #pragma once
 #include "../sadstring.h"
@@ -18,22 +18,22 @@ namespace cli
 class OptionValue
 {
 public:
-	/*! Whether option was specified explicitly by user
-	 */
-	bool Specified;
-	/*! A value for option as flag
-	 */
-	bool Flag;
-	/*! A value for option as simple options
-	 */
-	sad::String Single;
-	/*! A value for option as multiple options 
-	 */
-	sad::Vector<sad::String> Vector;
+    /*! Whether option was specified explicitly by user
+     */
+    bool Specified;
+    /*! A value for option as flag
+     */
+    bool Flag;
+    /*! A value for option as simple options
+     */
+    sad::String Single;
+    /*! A value for option as multiple options 
+     */
+    sad::Vector<sad::String> Vector;
 
-	/*! Creates default option value
-	 */
-	OptionValue();
+    /*! Creates default option value
+     */
+    OptionValue();
 };
 
 }

@@ -1,7 +1,7 @@
 /*! \file closure.h
-	
+    
 
-	Describes a closure-like thing in terms of C++
+    Describes a closure-like thing in terms of C++
  */
 #pragma once
 #ifdef QT_VERSION
@@ -18,8 +18,8 @@ class ClosureBasic
     /*! Executes a closure
      */
     virtual void run()=0;
-	/*! Destroys a closure
-	 */
+    /*! Destroys a closure
+     */
     virtual ~ClosureBasic();
 };
 
@@ -29,7 +29,7 @@ class ClosureBasic
 /*! Macro, that starts a closure definition
  */
 #define       CLOSURE      {                                      \
-							class ____: public sad::ClosureBasic  \
+                            class ____: public sad::ClosureBasic  \
                                 {                                 \
                                  public:                          \
                                          ClosureBasic  * ___()    \
@@ -53,5 +53,5 @@ class ClosureBasic
 #define CLSET(PROP,VAL) ______. PROP = VAL;
 
 #ifdef QT_VERSION
-	Q_DECLARE_METATYPE(sad::ClosureBasic*); //-V566
+    Q_DECLARE_METATYPE(sad::ClosureBasic*); //-V566
 #endif

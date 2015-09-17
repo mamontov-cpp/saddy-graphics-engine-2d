@@ -15,25 +15,25 @@ sad::Semaphore::Semaphore(const sad::Semaphore &)
 
 sad::Semaphore & sad::Semaphore::operator=(const sad::Semaphore & o)
 {
-	return *this;
+    return *this;
 }
 
 sad::Semaphore::~Semaphore()
 {
-	delete m_dptr;
+    delete m_dptr;
 }
 
 void sad::Semaphore::consume(unsigned int amount)
 {
-	m_dptr->consume(amount);
+    m_dptr->consume(amount);
 }
 
 void sad::Semaphore::release(unsigned int amount)
 {
-	m_dptr->release(amount);
+    m_dptr->release(amount);
 }
 
 int sad::Semaphore::value() const
 {
-	return m_dptr->value();
+    return m_dptr->value();
 }

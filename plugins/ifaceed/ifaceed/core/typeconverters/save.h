@@ -1,7 +1,7 @@
 /*! \file save.h
-	
+    
 
-	Defines overloads for saving data
+    Defines overloads for saving data
  */
 #pragma once
 #include <QColor>
@@ -20,7 +20,7 @@ namespace sad
 
 namespace db
 {
-	
+    
 /*! Specification for saving QColor values
  */
 template<>
@@ -28,13 +28,13 @@ class Save<QColor>
 {
 public:
 /*! Saves a value of specified type
-	\param[in] ptr a value to be saved
+    \param[in] ptr a value to be saved
  */
 static picojson::value perform(void * ptr)
 {
-	QColor * src = reinterpret_cast<QColor *>(ptr);
-	sad::AColor dest(src->red(), src->green(), src->blue(), src->alpha());
-	return sad::db::Save<sad::AColor>::perform(&dest);
+    QColor * src = reinterpret_cast<QColor *>(ptr);
+    sad::AColor dest(src->red(), src->green(), src->blue(), src->alpha());
+    return sad::db::Save<sad::AColor>::perform(&dest);
 }
 
 };
@@ -46,13 +46,13 @@ class Save<QString>
 {
 public:
 /*! Saves a value of specified type
-	\param[in] ptr a value to be saved
+    \param[in] ptr a value to be saved
  */
 static picojson::value perform(void * ptr)
 {
-	QString * src = reinterpret_cast<QString *>(ptr);
-	sad::String dest(Q2STDSTRING(*src));
-	return sad::db::Save<sad::String>::perform(&dest);
+    QString * src = reinterpret_cast<QString *>(ptr);
+    sad::String dest(Q2STDSTRING(*src));
+    return sad::db::Save<sad::String>::perform(&dest);
 }
 
 };
@@ -64,18 +64,18 @@ class Save<QList<QList<QColor> > >
 {
 public:
 /*! Saves a value of specified type
-	\param[in] ptr a value to be saved
+    \param[in] ptr a value to be saved
  */
 static picojson::value perform(void * ptr)
 {
-	QList<QList<QColor> >  * src = reinterpret_cast<QList<QList<QColor> > *>(ptr);
-	sad::Vector<sad::Vector<sad::AColor> > result;
+    QList<QList<QColor> >  * src = reinterpret_cast<QList<QList<QColor> > *>(ptr);
+    sad::Vector<sad::Vector<sad::AColor> > result;
 
-	core
-	::typeconverters
-	::QListQListQColorToSadVectorSadVectorToAColor
-	::convert(*src, result);
-	return sad::db::Save<sad::Vector<sad::Vector<sad::AColor> > >::perform(&result);
+    core
+    ::typeconverters
+    ::QListQListQColorToSadVectorSadVectorToAColor
+    ::convert(*src, result);
+    return sad::db::Save<sad::Vector<sad::Vector<sad::AColor> > >::perform(&result);
 }
 
 };

@@ -21,8 +21,8 @@ class WayPointSwap: public history::Command
 public:
     /*! Creates new command
         \param[in] w way
-		\param[in] pos1 first position
-		\param[in] pos2 second position
+        \param[in] pos1 first position
+        \param[in] pos2 second position
      */
     WayPointSwap(sad::p2d::app::Way* w, int pos1, int pos2);
     /*! Could be inherited
@@ -41,15 +41,15 @@ protected:
      */
     sad::p2d::app::Way* m_way;
     /*! A first index for a point
-	 */
-	int m_pos1;
-	/*! A second index for a point
-	 */
-	int m_pos2;
-	/*! Tries to update ui for swapped entries
-		\param[in] ob editor
-	 */
-	void tryUpdateUI(core::Editor* ob);
+     */
+    int m_pos1;
+    /*! A second index for a point
+     */
+    int m_pos2;
+    /*! Tries to update ui for swapped entries
+        \param[in] ob editor
+     */
+    void tryUpdateUI(core::Editor* ob);
 };
 
 }

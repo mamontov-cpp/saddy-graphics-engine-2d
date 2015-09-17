@@ -54,43 +54,43 @@ public:
      */
     virtual void commit(core::Editor * ob = NULL)
     {
-		sad::Renderer::ref()->lockRendering();
+        sad::Renderer::ref()->lockRendering();
         m_animation->setProperty<T>(m_property, m_newvalue);
         sad::Renderer::ref()->unlockRendering();
 
-		tryUpdateUI(ob, m_newvalue);
+        tryUpdateUI(ob, m_newvalue);
     }
     /*! Reverts changes, described in command
         \param[in] ob an observer for looking for command
      */
     virtual void rollback(core::Editor * ob = NULL)
     {
-		sad::Renderer::ref()->lockRendering();        
+        sad::Renderer::ref()->lockRendering();        
         m_animation->setProperty<T>(m_property, m_oldvalue);
         sad::Renderer::ref()->unlockRendering();
 
-		tryUpdateUI(ob, m_oldvalue);
+        tryUpdateUI(ob, m_oldvalue);
     }
-	/*! An old value for changed property
-		\return value
-	 */
-	const T& oldValue() const
+    /*! An old value for changed property
+        \return value
+     */
+    const T& oldValue() const
     {
-	    return m_oldvalue;
+        return m_oldvalue;
     }
-	/*! A new value for changed property
-		\return value
-	 */
-	const T& newValue() const
+    /*! A new value for changed property
+        \return value
+     */
+    const T& newValue() const
     {
-	    return m_newvalue;
+        return m_newvalue;
     }
-	/*! Returns linked animation
-		\return animation
-	 */
-	sad::animations::Group* group() const
+    /*! Returns linked animation
+        \return animation
+     */
+    sad::animations::Group* group() const
     {
-	    return m_animation;
+        return m_animation;
     }
 protected:
     /*! A changed animation
@@ -124,9 +124,9 @@ protected:
      * \param value a value of property
      */
     virtual void updateUI(core::Editor* e, const T& value)
-	{
-	
-	}
+    {
+    
+    }
 };
 
 }

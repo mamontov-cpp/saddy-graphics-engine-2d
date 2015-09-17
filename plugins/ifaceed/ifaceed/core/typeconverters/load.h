@@ -1,7 +1,7 @@
 /*! \file load.h
-	
+    
 
-	Defines overloads for loading data
+    Defines overloads for loading data
  */
 #pragma once
 #include <QColor>
@@ -27,15 +27,15 @@ class Load<QColor>
 public:                                                          
 static bool perform(void * ptr, const picojson::value & v)       
 {                                                               
-	if (!ptr)                                                    
-		throw sad::db::InvalidPointer();                         
-	sad::Maybe<sad::AColor>  cast = picojson::to_type<sad::AColor>(v);     
-	if (cast.exists())                                           
-	{                 
-		const sad::AColor & clr = cast.value();
-		*reinterpret_cast<QColor *>(ptr) = QColor(clr.r(), clr.g(), clr.b(), clr.a());                            
-	}                                                            
-	return cast.exists();                                        
+    if (!ptr)                                                    
+        throw sad::db::InvalidPointer();                         
+    sad::Maybe<sad::AColor>  cast = picojson::to_type<sad::AColor>(v);     
+    if (cast.exists())                                           
+    {                 
+        const sad::AColor & clr = cast.value();
+        *reinterpret_cast<QColor *>(ptr) = QColor(clr.r(), clr.g(), clr.b(), clr.a());                            
+    }                                                            
+    return cast.exists();                                        
 }                                                                
 };  
 
@@ -45,15 +45,15 @@ class Load<QString>
 public:                                                          
 static bool perform(void * ptr, const picojson::value & v)       
 {                                                               
-	if (!ptr)                                                    
-		throw sad::db::InvalidPointer();                         
-	sad::Maybe<sad::String>  cast = picojson::to_type<sad::String>(v);     
-	if (cast.exists())                                           
-	{                 
-		const sad::String & s = cast.value();
-		*reinterpret_cast<QString *>(ptr) = STD2QSTRING(s.c_str());                            
-	}                                                            
-	return cast.exists();                                        
+    if (!ptr)                                                    
+        throw sad::db::InvalidPointer();                         
+    sad::Maybe<sad::String>  cast = picojson::to_type<sad::String>(v);     
+    if (cast.exists())                                           
+    {                 
+        const sad::String & s = cast.value();
+        *reinterpret_cast<QString *>(ptr) = STD2QSTRING(s.c_str());                            
+    }                                                            
+    return cast.exists();                                        
 }                                                                
 };
 
@@ -64,22 +64,22 @@ class Load<QList<QList<QColor> > >
 public:                                                          
 static bool perform(void * ptr, const picojson::value & v)       
 {                                                               
-	if (!ptr)                                                    
-		throw sad::db::InvalidPointer();                         
-	sad::Maybe<sad::Vector<sad::Vector<sad::AColor> > >  cast = picojson::to_type<
-		sad::Vector<sad::Vector<sad::AColor> > 
-	>(v);     
-	if (cast.exists())                                           
-	{                 
-		const sad::Vector<sad::Vector<sad::AColor> > & src = cast.value();
-		QList<QList<QColor> > & dest = *reinterpret_cast<QList<QList<QColor> > *>(ptr);
-		
-		core
-		::typeconverters
-		::SadVectorSadVectorToAColorToQListQListQColor
-		::convert(src, dest);
-	}                                                            
-	return cast.exists();                                        
+    if (!ptr)                                                    
+        throw sad::db::InvalidPointer();                         
+    sad::Maybe<sad::Vector<sad::Vector<sad::AColor> > >  cast = picojson::to_type<
+        sad::Vector<sad::Vector<sad::AColor> > 
+    >(v);     
+    if (cast.exists())                                           
+    {                 
+        const sad::Vector<sad::Vector<sad::AColor> > & src = cast.value();
+        QList<QList<QColor> > & dest = *reinterpret_cast<QList<QList<QColor> > *>(ptr);
+        
+        core
+        ::typeconverters
+        ::SadVectorSadVectorToAColorToQListQListQColor
+        ::convert(src, dest);
+    }                                                            
+    return cast.exists();                                        
 }                                                                
 };
 

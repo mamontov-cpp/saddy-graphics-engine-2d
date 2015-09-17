@@ -4,11 +4,11 @@
 
 history::Command* history::scenenodes::changeVisibility(sad::SceneNode* d, bool oldvalue, bool newvalue)
 {
-	return new history::scenenodes::ChangePropertyWhichLinkedToCheckbox(
-		&MainPanel::visibilityCheckbox,
-		d,
+    return new history::scenenodes::ChangePropertyWhichLinkedToCheckbox(
+        &MainPanel::visibilityCheckbox,
+        d,
         "visible",
-		oldvalue,
-		newvalue
-	);	
+        oldvalue,
+        newvalue
+    );	
 }

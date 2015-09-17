@@ -33,7 +33,7 @@ void history::instances::ChangeStartTime::updateUI(core::Editor* e, const double
     e->emitClosure( bind(
             e->panel()->UI()->dsbAnimationInstanceStartTime,
             &QDoubleSpinBox::setValue,
-			value
+            value
         )
     );
 }

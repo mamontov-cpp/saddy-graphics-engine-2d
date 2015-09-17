@@ -21,9 +21,9 @@ class PhraseRemove: public history::Command
 public:
     /*! Creates new command
         \param[in] dialogue dialogue
-		\param[in] position  position of phrase in dialogue
+        \param[in] position  position of phrase in dialogue
      */
-	PhraseRemove(sad::dialogue::Dialogue* dialogue, int position);
+    PhraseRemove(sad::dialogue::Dialogue* dialogue, int position);
     /*! Could be inherited
      */
     virtual ~PhraseRemove();
@@ -39,12 +39,12 @@ protected:
     /*! A current dialogue
      */
     sad::dialogue::Dialogue* m_dialogue;
-	/*! A position for phrase
-	 */
-	int m_position;
-	/*! A phrase to be added into dialogue
-	 */
-	sad::dialogue::Phrase m_phrase;
+    /*! A position for phrase
+     */
+    int m_position;
+    /*! A phrase to be added into dialogue
+     */
+    sad::dialogue::Phrase m_phrase;
 };
 
 }

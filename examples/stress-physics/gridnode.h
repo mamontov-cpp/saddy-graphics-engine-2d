@@ -1,7 +1,7 @@
 /*! \file gridnode.h
-	
+    
 
-	Describes a basic grid node
+    Describes a basic grid node
  */
 #include <p2d/app/object.h>
 #include <p2d/app/constants.h>
@@ -13,5 +13,5 @@ class GridNode: public sad::p2d::app::Object
 {
  SAD_OBJECT
  public:
-	 GridNode();
+     GridNode();
 };

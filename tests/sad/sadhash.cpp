@@ -278,22 +278,22 @@ struct SadHashTest : tpunit::TestFixture
 {
  public:
    SadHashTest() : tpunit::TestFixture(
-	   TEST(SadHashTest::testBug261113)
+       TEST(SadHashTest::testBug261113)
    ) {}
    
    void testBug261113()
    {	
-		sad::Hash<unsigned long, sad::KeyboardKey> m_keys;
+        sad::Hash<unsigned long, sad::KeyboardKey> m_keys;
 
-		unsigned int i = 0;
-		for(i = 0; i < totalmappingsize; i += 2)
-		{
-			unsigned long syskey = mapping[i];
-			sad::KeyboardKey sadkey = (sad::KeyboardKey)mapping[i+1];
-			m_keys.insert(syskey, sadkey);
-		}
+        unsigned int i = 0;
+        for(i = 0; i < totalmappingsize; i += 2)
+        {
+            unsigned long syskey = mapping[i];
+            sad::KeyboardKey sadkey = (sad::KeyboardKey)mapping[i+1];
+            m_keys.insert(syskey, sadkey);
+        }
 
-		ASSERT_TRUE(m_keys.contains(65509));
+        ASSERT_TRUE(m_keys.contains(65509));
    }
 
 

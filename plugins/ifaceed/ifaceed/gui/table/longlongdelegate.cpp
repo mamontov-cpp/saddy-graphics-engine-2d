@@ -27,47 +27,47 @@ gui::table::LongLongDelegate::LongLongDelegate() : gui::table::Delegate()
 
 gui::table::LongLongDelegate::~LongLongDelegate()
 {
-	
+    
 }
 
 void gui::table::LongLongDelegate::set(const sad::db::Variant& v)
 {
-	bool b = m_my_widget->blockSignals(true);
-	long value = v.get<long long>().value();
-	this->setCurrentValue<long long>(value);
-	static_cast<QwwLongSpinBox*>(m_my_widget)->setValue(value);
-	m_my_widget->blockSignals(b);
+    bool b = m_my_widget->blockSignals(true);
+    long value = v.get<long long>().value();
+    this->setCurrentValue<long long>(value);
+    static_cast<QwwLongSpinBox*>(m_my_widget)->setValue(value);
+    m_my_widget->blockSignals(b);
 }
 
 void gui::table::LongLongDelegate::widgetChanged(qlonglong i)
 {
-	long long oldvalue = this->currentValue<long long>();
-	if (this->isLinkedToDatabase())
-	{
-		m_editor->history()->add(new history::database::ChangeProperty<long long>(oldvalue, i, this));
-	}
-	else
-	{
-		m_editor->history()->add( 
-			new history::customobject::ChangeProperty<long long>(m_object, Q2STDSTRING(m_property_name), oldvalue, i)
-		);
-	}
-	this->setCurrentValue<long long>(i);
+    long long oldvalue = this->currentValue<long long>();
+    if (this->isLinkedToDatabase())
+    {
+        m_editor->history()->add(new history::database::ChangeProperty<long long>(oldvalue, i, this));
+    }
+    else
+    {
+        m_editor->history()->add( 
+            new history::customobject::ChangeProperty<long long>(m_object, Q2STDSTRING(m_property_name), oldvalue, i)
+        );
+    }
+    this->setCurrentValue<long long>(i);
 }
 
 void gui::table::LongLongDelegate::makeEditor()
 {
-	long long value = this->currentValue<long long>();
-	QwwLongSpinBox * d = new QwwLongSpinBox();
-	d->setValue(value);
-	d->setMinimum(LLONG_MIN);
-	d->setMaximum(LLONG_MAX);
-	m_my_widget = d;
-	this->insertToTable();
-	QObject::connect(d, SIGNAL(valueChanged(qlonglong)), this, SLOT(widgetChanged(qlonglong)));	
+    long long value = this->currentValue<long long>();
+    QwwLongSpinBox * d = new QwwLongSpinBox();
+    d->setValue(value);
+    d->setMinimum(LLONG_MIN);
+    d->setMaximum(LLONG_MAX);
+    m_my_widget = d;
+    this->insertToTable();
+    QObject::connect(d, SIGNAL(valueChanged(qlonglong)), this, SLOT(widgetChanged(qlonglong)));	
 }
 
 void gui::table::LongLongDelegate::disconnect()
 {
-	QObject::disconnect(this, SLOT(widgetChanged(qlonglong)));
+    QObject::disconnect(this, SLOT(widgetChanged(qlonglong)));
 }

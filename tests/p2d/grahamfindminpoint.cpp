@@ -22,54 +22,54 @@ struct GrahamFindMinPointTest : tpunit::TestFixture
 {
  public:
    GrahamFindMinPointTest() : tpunit::TestFixture(
-	   TEST(GrahamFindMinPointTest::testEmpty),
-	   TEST(GrahamFindMinPointTest::testOne),
-	   TEST(GrahamFindMinPointTest::testTwoSequential),
-	   TEST(GrahamFindMinPointTest::testTwoReversal),
-	   TEST(GrahamFindMinPointTest::testThree)
+       TEST(GrahamFindMinPointTest::testEmpty),
+       TEST(GrahamFindMinPointTest::testOne),
+       TEST(GrahamFindMinPointTest::testTwoSequential),
+       TEST(GrahamFindMinPointTest::testTwoReversal),
+       TEST(GrahamFindMinPointTest::testThree)
    ) {}
    
    void testEmpty()
    {
-	   sad::Vector<sad::p2d::Point> p;
-	   int i = sad::p2d::find_min_point_on_y_axis(p);
-	   ASSERT_EQUAL(i, -1);
+       sad::Vector<sad::p2d::Point> p;
+       int i = sad::p2d::find_min_point_on_y_axis(p);
+       ASSERT_EQUAL(i, -1);
    }
 
    void testOne()
    {
-	   sad::Vector<sad::p2d::Point> p;
-	   p << sad::p2d::Point(2,2);
-	   int i = sad::p2d::find_min_point_on_y_axis(p);
-	   ASSERT_EQUAL(i, 0);
+       sad::Vector<sad::p2d::Point> p;
+       p << sad::p2d::Point(2,2);
+       int i = sad::p2d::find_min_point_on_y_axis(p);
+       ASSERT_EQUAL(i, 0);
    }
 
    void testTwoSequential()
    {
-	   sad::Vector<sad::p2d::Point> p;
-	   p << sad::p2d::Point(2,2);
-	   p << sad::p2d::Point(3,3);
-	   int i = sad::p2d::find_min_point_on_y_axis(p);
-	   ASSERT_EQUAL(i, 0);
+       sad::Vector<sad::p2d::Point> p;
+       p << sad::p2d::Point(2,2);
+       p << sad::p2d::Point(3,3);
+       int i = sad::p2d::find_min_point_on_y_axis(p);
+       ASSERT_EQUAL(i, 0);
    }
 
    void testTwoReversal()
    {
-	   sad::Vector<sad::p2d::Point> p;
-	   p << sad::p2d::Point(3,3);
-	   p << sad::p2d::Point(2,2);
-	   int i = sad::p2d::find_min_point_on_y_axis(p);
-	   ASSERT_EQUAL(i, 1);
+       sad::Vector<sad::p2d::Point> p;
+       p << sad::p2d::Point(3,3);
+       p << sad::p2d::Point(2,2);
+       int i = sad::p2d::find_min_point_on_y_axis(p);
+       ASSERT_EQUAL(i, 1);
    }
 
    void testThree()
    {
-	   sad::Vector<sad::p2d::Point> p;
-	   p << sad::p2d::Point(3,4);
-	   p << sad::p2d::Point(1,2);
-	   p << sad::p2d::Point(5,6);
-	   int i = sad::p2d::find_min_point_on_y_axis(p);
-	   ASSERT_EQUAL(i, 1);
+       sad::Vector<sad::p2d::Point> p;
+       p << sad::p2d::Point(3,4);
+       p << sad::p2d::Point(1,2);
+       p << sad::p2d::Point(5,6);
+       int i = sad::p2d::find_min_point_on_y_axis(p);
+       ASSERT_EQUAL(i, 1);
    }
 
 } test5;

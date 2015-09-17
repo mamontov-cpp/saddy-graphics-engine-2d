@@ -26,12 +26,12 @@ public:
       */
     virtual ~ChangeWayMovingWay();
 protected:
-	/*!
+    /*!
      * Updates current text in field with object name
      * \param[in] e editor
      * \param[in] value a value
      */
-	void performUpdateUI(core::Editor* e, unsigned long long value);
+    void performUpdateUI(core::Editor* e, unsigned long long value);
     /*!
      * Updates current text in field with object name
      * \param[in] e editor

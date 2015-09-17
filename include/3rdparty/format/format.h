@@ -30,21 +30,21 @@
 #include <cmath>
 
 #ifndef _SCL_SECURE_NO_WARNINGS
-	#define _SCL_SECURE_NO_WARNINGS
+    #define _SCL_SECURE_NO_WARNINGS
 #endif
 
 #ifdef max
-	#undef max
+    #undef max
 #endif
 
 #ifdef _MSC_VER
     #include <stddef.h>
-	#include "stdint.h"
-	#include <float.h>
-	#pragma warning(disable:4996)
+    #include "stdint.h"
+    #include <float.h>
+    #pragma warning(disable:4996)
 #else
     #include <stddef.h>
-	#include <stdint.h>	
+    #include <stdint.h>	
 #endif
 
 #include <cassert>

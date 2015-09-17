@@ -21,7 +21,7 @@ void history::dialogues::Remove::commit(core::Editor* ob)
     m_d->Active = false;
     if (ob)
     {
-		void (MainPanel::*f)(int) = &MainPanel::removeDialogueFromDialogueList;
+        void (MainPanel::*f)(int) = &MainPanel::removeDialogueFromDialogueList;
         ob->emitClosure( bind(ob->panel(), f, m_position) );
         if (ob->shared()->selectedDialogue() == m_d)
         {

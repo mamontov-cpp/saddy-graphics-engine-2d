@@ -1,7 +1,7 @@
 /*! \file labelactions.h
-	
+    
 
-	Describes a group of actions, linked to label
+    Describes a group of actions, linked to label
  */
 #pragma once
 #include <QObject>
@@ -31,38 +31,38 @@ public:
     /*! A command maker callback
      */
     typedef history::Command* (gui::LabelActions::*CommandMaker)(sad::SceneNode* node,  unsigned int oldvalue, unsigned int newvalue);
-	/*! Creates new label actions
-		\param[in] parent a parent object
-	 */
-	LabelActions(QObject* parent = NULL);
-	/*! This class could be inherited
-	 */
-	virtual ~LabelActions();
-	/*! Sets panel, where actions belong to
-	 */
-	void setPanel(MainPanel* e);
-	/*! Returns panel, where actions belong to
-	 */
-	MainPanel* panel() const;
-	/*! Cancels adding label state, enters previous state
-	 */
-	void cancelAddLabel();
-	/*! Moves label to a mouse position
-		\param[in] e event
-	 */
-	void moveLabel(const sad::input::MouseMoveEvent& e);
-	/*! Commits label adding to a scene
-		\param[in] e event
-	 */
-	void commitLabelAdd(const sad::input::MousePressEvent& e);
+    /*! Creates new label actions
+        \param[in] parent a parent object
+     */
+    LabelActions(QObject* parent = NULL);
+    /*! This class could be inherited
+     */
+    virtual ~LabelActions();
+    /*! Sets panel, where actions belong to
+     */
+    void setPanel(MainPanel* e);
+    /*! Returns panel, where actions belong to
+     */
+    MainPanel* panel() const;
+    /*! Cancels adding label state, enters previous state
+     */
+    void cancelAddLabel();
+    /*! Moves label to a mouse position
+        \param[in] e event
+     */
+    void moveLabel(const sad::input::MouseMoveEvent& e);
+    /*! Commits label adding to a scene
+        \param[in] e event
+     */
+    void commitLabelAdd(const sad::input::MousePressEvent& e);
 public slots:
-	/*! Adds new label to a scene, if all parameters in form are valid
-	 */
-	void addLabel();
+    /*! Adds new label to a scene, if all parameters in form are valid
+     */
+    void addLabel();
     /*! Handles label font changes for an editable node
-		\param[in] s a new resource name
-	 */
-	void labelFontChanged(sad::String s);
+        \param[in] s a new resource name
+     */
+    void labelFontChanged(sad::String s);
     /*!
      * Handles label size changes for an editable node
      * \param[in] newsize new label size
@@ -72,11 +72,11 @@ public slots:
      * Called, when user types in label text
      */
     void labelTextChanged();
-	/*!
-	 * Handles label line spacing changes
-	 * \param[in] newvalue a new value
-	 */
-	void labelLineSpacingChanged(double newvalue);
+    /*!
+     * Handles label line spacing changes
+     * \param[in] newvalue a new value
+     */
+    void labelLineSpacingChanged(double newvalue);
     /*! Handles change of label's maximal line width
      * \param[in] newvalue  a new value for property
      */
@@ -128,9 +128,9 @@ private:
     {
         return new T(node, oldvalue, newvalue);
     }
-	/*! An panel, which actions are belong to
-	 */
-	MainPanel* m_panel;
+    /*! An panel, which actions are belong to
+     */
+    MainPanel* m_panel;
 };
 
 }

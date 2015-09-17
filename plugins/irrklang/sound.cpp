@@ -13,9 +13,9 @@ sad::irrklang::Sound::Sound() : m_source(NULL)
 }
 
 bool sad::irrklang::Sound::load(
-	const sad::resource::PhysicalFile & file,
-	sad::Renderer*,
-	const picojson::value&
+    const sad::resource::PhysicalFile & file,
+    sad::Renderer*,
+    const picojson::value&
 )
 {
     ::irrklang::ISoundSource* newsource = sad::irrklang::Engine::ref()->tryLoad(file.name());

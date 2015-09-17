@@ -1,12 +1,12 @@
 /*! \file duktape_config.h
-	\author HiddenSeeker
+    \author HiddenSeeker
 
-	Defines a built-in timeout checker for sandboxing Duktape
+    Defines a built-in timeout checker for sandboxing Duktape
  */
 #pragma once
 
 #ifndef DUK_USE_INTERRUPT_COUNTER
-	#define DUK_USE_INTERRUPT_COUNTER 1
+    #define DUK_USE_INTERRUPT_COUNTER 1
 #endif
 
 #ifndef DUK_USE_EXEC_TIMEOUT_CHECK
@@ -16,10 +16,10 @@ namespace sad
 
 namespace duktape
 {
-	
+    
 /*! Checks for timeout of duktape
-	\param[in] ptr pointer
-	\return non-zero value if timeout is reached
+    \param[in] ptr pointer
+    \return non-zero value if timeout is reached
  */
 int ____check_timeout(void* ptr);
 

@@ -2,10 +2,10 @@
 
 scripting::ClassWrapper::ClassWrapper()
 {
-	
+    
 }
 
 scripting::ClassWrapper::~ClassWrapper()
 {
-	
+    
 }

@@ -17,36 +17,36 @@ struct sadSemaphoreTest : tpunit::TestFixture
 {
 public:
 
-	sadSemaphoreTest() : tpunit::TestFixture(
-		TEST(sadSemaphoreTest::test)
-	) {}
+    sadSemaphoreTest() : tpunit::TestFixture(
+        TEST(sadSemaphoreTest::test)
+    ) {}
 
-	int value;
+    int value;
 
-	sad::Semaphore * semaphore;
-	
-	void increment()
-	{
-	   semaphore->consume(1);
-	   sad::sleep(100);
-	   ++value;
-	   semaphore->release(1);
+    sad::Semaphore * semaphore;
+    
+    void increment()
+    {
+       semaphore->consume(1);
+       sad::sleep(100);
+       ++value;
+       semaphore->release(1);
    }
 
    void test()
    {
-	   value = 0;
-	   semaphore = new sad::Semaphore(1);
-	   sad::Thread thread1(this, &sadSemaphoreTest::increment);
-	   sad::Thread thread2(this, &sadSemaphoreTest::increment);
-	   thread1.run();
-	   thread2.run();
-	   thread1.wait();
-	   thread2.wait();
-	   ASSERT_TRUE(semaphore->value() == 1);
-	   delete semaphore;
+       value = 0;
+       semaphore = new sad::Semaphore(1);
+       sad::Thread thread1(this, &sadSemaphoreTest::increment);
+       sad::Thread thread2(this, &sadSemaphoreTest::increment);
+       thread1.run();
+       thread2.run();
+       thread1.wait();
+       thread2.wait();
+       ASSERT_TRUE(semaphore->value() == 1);
+       delete semaphore;
 
-	   ASSERT_TRUE(value == 2);
+       ASSERT_TRUE(value == 2);
    }
 
 } sad_semaphore_test;

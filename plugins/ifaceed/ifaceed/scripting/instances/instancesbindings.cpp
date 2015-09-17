@@ -118,11 +118,11 @@ unsigned long long scripting::instances::_addInstance(
             sad::db::Object* a = scripting::query_object(object);
             if (a)
             {
-				if (a->isInstanceOf("sad::Scene") || a->isInstanceOf("sad::SceneNode"))
-				{
+                if (a->isInstanceOf("sad::Scene") || a->isInstanceOf("sad::SceneNode"))
+                {
                  validobject = true;
                  objectid = a->MajorId;
-				}
+                }
             }
         }
         else
@@ -224,10 +224,10 @@ unsigned long long scripting::instances::_addWayInstance(
             if (a)
             {
                 if (a->isInstanceOf("sad::Scene") || a->isInstanceOf("sad::SceneNode"))
-				{
-					validobject = true;
-					objectid = a->MajorId;
-				}
+                {
+                    validobject = true;
+                    objectid = a->MajorId;
+                }
             }
         }
         else
@@ -270,21 +270,21 @@ void scripting::instances::remove(
 
 
 void scripting::instances::checkProperties(
-	const sad::Maybe<sad::db::Object*>& obj,
-	QStringList& list,
-	bool
+    const sad::Maybe<sad::db::Object*>& obj,
+    QStringList& list,
+    bool
 )
 {
-	if (obj.value()->isInstanceOf("sad::animations::Instance"))
-	{
-		list << "animation";
-		list << "animationmajorid";
-		list << "object";
-		list << "starttime";
-	}
+    if (obj.value()->isInstanceOf("sad::animations::Instance"))
+    {
+        list << "animation";
+        list << "animationmajorid";
+        list << "object";
+        list << "starttime";
+    }
 
-	if (obj.value()->isInstanceOf("sad::animations::WayInstance"))
-	{
-		list << "way";
-	}
+    if (obj.value()->isInstanceOf("sad::animations::WayInstance"))
+    {
+        list << "way";
+    }
 }

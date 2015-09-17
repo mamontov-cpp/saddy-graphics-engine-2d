@@ -53,11 +53,11 @@ sad::db::schema::Schema* sad::animations::Animation::basicSchema()
             AnimationAnimationSchema->add(
                 "looped",
                 new sad::db::MethodPair<sad::animations::Animation, bool>(
-				    &sad::animations::Animation::looped,
+                    &sad::animations::Animation::looped,
                     &sad::animations::Animation::setLooped
                 )
             );
-		    AnimationAnimationSchema->add(
+            AnimationAnimationSchema->add(
                 "time",
                 new sad::db::MethodPair<sad::animations::Animation, double>(
                     &sad::animations::Animation::time,
@@ -90,7 +90,7 @@ bool sad::animations::Animation::looped() const
 void sad::animations::Animation::setTime(double time)
 {
     m_time = time;
-	this->updateValidFlag();	
+    this->updateValidFlag();	
 }
 
 double sad::animations::Animation::time() const
@@ -116,7 +116,7 @@ bool sad::animations::Animation::loadFromValue(const picojson::value& v)
     {
         m_looped = looped.value();
         m_time = time.value();
-		this->updateValidFlag();
+        this->updateValidFlag();
     }
     return result;
 }
@@ -128,14 +128,14 @@ const sad::Vector<sad::animations::AbstractSavedObjectStateCreator*>& sad::anima
 
 void sad::animations::Animation::updateBeforePlaying()
 {
-	
+    
 }
 
 // =============================== PROTECTED METHODS ==========================
 
 void sad::animations::Animation::updateValidFlag()
 {
-	m_valid = m_inner_valid && !sad::is_fuzzy_zero(m_time);
+    m_valid = m_inner_valid && !sad::is_fuzzy_zero(m_time);
 }
 
 bool sad::animations::Animation::load(

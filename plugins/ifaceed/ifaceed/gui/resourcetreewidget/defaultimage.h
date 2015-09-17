@@ -1,7 +1,7 @@
 /*! \file defaultimage.h
-	
+    
 
-	Contains data for default image for resource cache
+    Contains data for default image for resource cache
  */
 #pragma once
 
@@ -18,15 +18,15 @@ namespace resourcetreewidget
 class DefaultImage
 {
 public:
-	/*! A height of default image
-	 */
-	static size_t Height;
-	/*! A width of default image
-	 */
-	static size_t Width;
-	/*! A data for default image
-	 */
-	static sad::uchar Data[22500];
+    /*! A height of default image
+     */
+    static size_t Height;
+    /*! A width of default image
+     */
+    static size_t Width;
+    /*! A data for default image
+     */
+    static sad::uchar Data[22500];
 };
 
 }

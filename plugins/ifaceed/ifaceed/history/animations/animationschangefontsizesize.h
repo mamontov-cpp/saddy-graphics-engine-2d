@@ -20,18 +20,18 @@ class ChangeFontSizeSize: public history::animations::ChangeProperty<unsigned in
 public:
      /*! Constructs new command for animation
          \param[in] d an animation
-		 \param[in] propertyname a name for property
+         \param[in] propertyname a name for property
          \param[in] view a view, that should be updated
-		 \param[in] oldvalue old value
+         \param[in] oldvalue old value
          \param[in] newvalue new value
       */
     ChangeFontSizeSize(
-		sad::animations::Animation* d, 
-		const sad::String& propertyname,
-		QSpinBox* view, 
-		unsigned int oldvalue, 
-		unsigned int newvalue
-	);
+        sad::animations::Animation* d, 
+        const sad::String& propertyname,
+        QSpinBox* view, 
+        unsigned int oldvalue, 
+        unsigned int newvalue
+    );
     /*! Erases link to an animation
       */
     virtual ~ChangeFontSizeSize();
@@ -42,9 +42,9 @@ protected:
      * \param[in] value a value
      */
     virtual void updateUI(core::Editor* e, const unsigned int& value);
-	/*! A color view, which should be updated
-	 */
-	QSpinBox* m_view;
+    /*! A color view, which should be updated
+     */
+    QSpinBox* m_view;
 };
 
 }

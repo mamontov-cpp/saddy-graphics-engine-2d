@@ -13,7 +13,7 @@ namespace sad
 {
     /*! \class Ptrie
         \brief tree-based associative array
-		
+        
         Defines a Ptrie class, that provides fast associative array,
         based on trie. You must be careful, because it works by byte
         comparing elements of key.

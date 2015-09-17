@@ -17,7 +17,7 @@ gui::RotationProcess::RotationProcess()
 
 gui::RotationProcess::~RotationProcess()
 {
-	
+    
 }
 
 void gui::RotationProcess::start(

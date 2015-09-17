@@ -22,7 +22,7 @@ class WayPointRemove: public history::Command
 public:
     /*! Creates new command
         \param[in] w way
-		\param[in] position a position of point
+        \param[in] position a position of point
      */
     WayPointRemove(sad::p2d::app::Way* w, int position);
     /*! Could be inherited
@@ -43,9 +43,9 @@ protected:
     /*! A stored point
      */
     sad::Point2D m_point;
-	/*! An index of point in way
-	 */
-	int m_position;
+    /*! An index of point in way
+     */
+    int m_position;
 };
 
 }

@@ -1,8 +1,8 @@
 /*! \file windowhandles.h
-	
+    
 
-	Defines window OS-dependent handles, which should be used for identifying window
-	and calling OS-dependent functions on them
+    Defines window OS-dependent handles, which should be used for identifying window
+    and calling OS-dependent functions on them
  */
 #pragma once
 #include "../sadstring.h"
@@ -47,73 +47,73 @@ namespace os
 {
 
 /*! This is	OS-dependent handles for window. Note that, GL context handles are stored
-	separately.
+    separately.
  */
 class WindowHandles
 {
 public:
 
 #ifdef WIN32
-	/*! Instance of current process, as module
-	 */
-	HINSTANCE    ProcessInstance;       
-	/*! Handle for a window
-	 */
-	HWND	     WND;				   
-	/*! Device context
-	 */
-	HDC		     DC;
-	/*! Adjusted window rectangle for window creation
-	 */
-	RECT         AdjustedWindowRect;
-	/*! A window class
-	 */
-	sad::String  Class;        
+    /*! Instance of current process, as module
+     */
+    HINSTANCE    ProcessInstance;       
+    /*! Handle for a window
+     */
+    HWND	     WND;				   
+    /*! Device context
+     */
+    HDC		     DC;
+    /*! Adjusted window rectangle for window creation
+     */
+    RECT         AdjustedWindowRect;
+    /*! A window class
+     */
+    sad::String  Class;        
 #endif
 
 #ifdef X11
-	/*! Display, where window is displayed 
-	 */
-	Display*     Dpy;                  
+    /*! Display, where window is displayed 
+     */
+    Display*     Dpy;                  
     /*! A screen, where window is displayed
-	 */
-	int          Screen;           
-	/*! A window
-	 */
+     */
+    int          Screen;           
+    /*! A window
+     */
     ::Window     Win;                   
-	/*! A visual information
-	 */
-	XVisualInfo * VisualInfo; 
-	/*! A color map for a window
-	 */
-	Colormap      ColorMap;
-	/*! A frame buffer config for window creation
-	 */
-	GLXFBConfig   FBC;
+    /*! A visual information
+     */
+    XVisualInfo * VisualInfo; 
+    /*! A color map for a window
+     */
+    Colormap      ColorMap;
+    /*! A frame buffer config for window creation
+     */
+    GLXFBConfig   FBC;
 #endif
-	/*! Creates new zero-filled handles
-	 */
-	inline WindowHandles() 
-	{ 
-		cleanup(); 
-	}
+    /*! Creates new zero-filled handles
+     */
+    inline WindowHandles() 
+    { 
+        cleanup(); 
+    }
 
-	inline void cleanup()
-	{
+    inline void cleanup()
+    {
 #ifdef WIN32
-		ProcessInstance = NULL;
-		WND = NULL;
-		DC = NULL;
-		Class.clear();
+        ProcessInstance = NULL;
+        WND = NULL;
+        DC = NULL;
+        Class.clear();
 #endif
 
 #ifdef X11
-		Dpy = NULL;
-		Screen = 0;
-		Win = None;
-		VisualInfo = 0;
+        Dpy = NULL;
+        Screen = 0;
+        Win = None;
+        VisualInfo = 0;
 #endif
-	}
+    }
 };
 
 }

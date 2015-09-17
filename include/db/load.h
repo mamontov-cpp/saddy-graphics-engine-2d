@@ -1,7 +1,7 @@
 /*! \file db/load,h
-	
-	
-	Describes a load operations for a type
+    
+    
+    Describes a load operations for a type
  */
 #pragma once
 #include "dberror.h"
@@ -16,25 +16,25 @@ namespace db
 {
 
 /*! Load a value of specified type
-	\param[in] ptr a value to be saved
-	\param[in] v a special value, from which we should load stuff
-	\return result
+    \param[in] ptr a value to be saved
+    \param[in] v a special value, from which we should load stuff
+    \return result
  */
 template<
-	typename _Type
+    typename _Type
 >
 bool Load<_Type>::perform(void * ptr, const picojson::value & v)
 {
-	if (!ptr)
-	{
-		throw sad::db::InvalidPointer();
-	}
-	if (sad::db::TypeName<_Type>::isSadObject())
-	{
-		return reinterpret_cast<sad::Object *>(ptr)->load(v);
-	}
-	throw sad::db::NotImplemented("sad::db::Load<_Type>::perform");
-	return false;
+    if (!ptr)
+    {
+        throw sad::db::InvalidPointer();
+    }
+    if (sad::db::TypeName<_Type>::isSadObject())
+    {
+        return reinterpret_cast<sad::Object *>(ptr)->load(v);
+    }
+    throw sad::db::NotImplemented("sad::db::Load<_Type>::perform");
+    return false;
 }
 
 /*! Declares template load for specified type
@@ -46,14 +46,14 @@ class Load< TYPE >                                               \
 public:                                                          \
 static bool perform(void * ptr, const picojson::value & v)       \
 {                                                                \
-	if (!ptr)                                                    \
-		throw sad::db::InvalidPointer();                         \
-	sad::Maybe< TYPE >  cast = picojson::to_type< TYPE >(v);     \
-	if (cast.exists())                                           \
-	{                                                            \
-		*( TYPE *)ptr = cast.value();                            \
-	}                                                            \
-	return cast.exists();                                        \
+    if (!ptr)                                                    \
+        throw sad::db::InvalidPointer();                         \
+    sad::Maybe< TYPE >  cast = picojson::to_type< TYPE >(v);     \
+    if (cast.exists())                                           \
+    {                                                            \
+        *( TYPE *)ptr = cast.value();                            \
+    }                                                            \
+    return cast.exists();                                        \
 }                                                                \
 };                
 

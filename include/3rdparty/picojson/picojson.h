@@ -93,7 +93,7 @@ namespace picojson {
     value(const std::string& s);
     value(const array& a);
     value(const object& o);
-	value(const char * s);
+    value(const char * s);
 #endif
     ~value();
     value(const value& x);
@@ -107,7 +107,7 @@ namespace picojson {
     std::string to_str() const;
     template <typename Iter> void serialize(Iter os, int indent=0) const;
     std::string serialize(int indent=0) const;
-	value & insert(const std::string & key,  const value & v);
+    value & insert(const std::string & key,  const value & v);
 #if 1
     value& push_back(const value& v)
     {
@@ -258,9 +258,9 @@ namespace picojson {
   
   inline value & value::insert(const std::string & key,  const value & v)
   {
-	assert(is<object>());
+    assert(is<object>());
     object_->insert(std::make_pair<std::string, value>(key, v));
-	return *this;
+    return *this;
   }
   
   inline std::string value::to_str() const {
@@ -291,24 +291,24 @@ namespace picojson {
     for (std::string::const_iterator i = s.begin(); i != s.end(); ++i) {
       switch (*i) {
 #define MAP(val, sym) case val: copy(sym, oi); break
-	MAP('"', "\\\"");
-	MAP('\\', "\\\\");
-	MAP('/', "\\/");
-	MAP('\b', "\\b");
-	MAP('\f', "\\f");
-	MAP('\n', "\\n");
-	MAP('\r', "\\r");
-	MAP('\t', "\\t");
+    MAP('"', "\\\"");
+    MAP('\\', "\\\\");
+    MAP('/', "\\/");
+    MAP('\b', "\\b");
+    MAP('\f', "\\f");
+    MAP('\n', "\\n");
+    MAP('\r', "\\r");
+    MAP('\t', "\\t");
 #undef MAP
       default:
-	if ((unsigned char)*i < 0x20 || *i == 0x7f) {
-	  char buf[7];
-	  SNPRINTF(buf, sizeof(buf), "\\u%04x", *i & 0xff);
-	  copy(buf, buf + 6, oi);
-	  } else {
-	  *oi++ = *i;
-	}
-	break;
+    if ((unsigned char)*i < 0x20 || *i == 0x7f) {
+      char buf[7];
+      SNPRINTF(buf, sizeof(buf), "\\u%04x", *i & 0xff);
+      copy(buf, buf + 6, oi);
+      } else {
+      *oi++ = *i;
+    }
+    break;
       }
     }
     *oi++ = '"';
@@ -374,12 +374,12 @@ namespace picojson {
     case array_type: {
       *oi++ = '[';
       for (array::const_iterator i = array_->begin(); i != array_->end(); ++i) {
-	if (i != array_->begin()) {
-	  *oi++ = ',';
-	}
-	  *oi++ = '\n';
+    if (i != array_->begin()) {
+      *oi++ = ',';
+    }
+      *oi++ = '\n';
       for (int i=0; i<(indent+1)*4; ++i) *oi++ = ' ';
-	i->serialize(oi, indent+1);
+    i->serialize(oi, indent+1);
       }
       *oi++ = '\n';
       for (int i=0; i<(indent)*4; ++i) *oi++ = ' ';
@@ -390,16 +390,16 @@ namespace picojson {
       *oi++ = '{';
       *oi++ = '\n';
       for (object::const_iterator i = object_->begin();
-	   i != object_->end();
-	   ++i) {
-	if (i != object_->begin()) {
-	  *oi++ = ',';
-	  *oi++ = '\n';
-	}
+       i != object_->end();
+       ++i) {
+    if (i != object_->begin()) {
+      *oi++ = ',';
+      *oi++ = '\n';
+    }
     for (int i=0; i<(indent+1)*4; ++i) *oi++ = ' ';
-	serialize_str(i->first, oi);
-	*oi++ = ':';
-	i->second.serialize(oi, indent+1);
+    serialize_str(i->first, oi);
+    *oi++ = ':';
+    i->second.serialize(oi, indent+1);
       }
       *oi++ = '\n';
       for (int i=0; i<(indent)*4; ++i) *oi++ = ' ';
@@ -432,52 +432,52 @@ namespace picojson {
     input(const Iter& first, const Iter& last) : cur_(first), end_(last), last_ch_(-1), ungot_(false), line_(1) {}
     int getc() {
       if (ungot_) {
-	ungot_ = false;
-	return last_ch_;
+    ungot_ = false;
+    return last_ch_;
       }
       if (cur_ == end_) {
-	last_ch_ = -1;
-	return -1;
+    last_ch_ = -1;
+    return -1;
       }
       if (last_ch_ == '\n') {
-	line_++;
+    line_++;
       }
       last_ch_ = *cur_++ & 0xff;
       return last_ch_;
     }
     void ungetc() {
       if (last_ch_ != -1) {
-	assert(! ungot_);
-	ungot_ = true;
+    assert(! ungot_);
+    ungot_ = true;
       }
     }
     Iter cur() const { return cur_; }
     int line() const { return line_; }
     void skip_ws() {
       while (1) {
-	int ch = getc();
-	if (! (ch == ' ' || ch == '\t' || ch == '\n' || ch == '\r')) {
-	  ungetc();
-	  break;
-	}
+    int ch = getc();
+    if (! (ch == ' ' || ch == '\t' || ch == '\n' || ch == '\r')) {
+      ungetc();
+      break;
+    }
       }
     }
     int expect(int expect) {
       skip_ws();
       if (getc() != expect) {
-	ungetc();
-	return static_cast<int>(false);
+    ungetc();
+    return static_cast<int>(false);
       }
       return static_cast<int>(true);
     }
     bool match(const std::string& pattern) {
       for (std::string::const_iterator pi(pattern.begin());
-	   pi != pattern.end();
-	   ++pi) {
-	if (getc() != *pi) {
-	  ungetc();
-	  return false;
-	}
+       pi != pattern.end();
+       ++pi) {
+    if (getc() != *pi) {
+      ungetc();
+      return false;
+    }
       }
       return true;
     }
@@ -487,17 +487,17 @@ namespace picojson {
     int uni_ch = 0, hex;
     for (int i = 0; i < 4; i++) {
       if ((hex = in.getc()) == -1) {
-	return -1;
+    return -1;
       }
       if ('0' <= hex && hex <= '9') {
-	hex -= '0';
+    hex -= '0';
       } else if ('A' <= hex && hex <= 'F') {
-	hex -= 'A' - 0xa;
+    hex -= 'A' - 0xa;
       } else if ('a' <= hex && hex <= 'f') {
-	hex -= 'a' - 0xa;
+    hex -= 'a' - 0xa;
       } else {
-	in.ungetc();
-	return -1;
+    in.ungetc();
+    return -1;
       }
       uni_ch = uni_ch * 16 + hex;
     }
@@ -511,17 +511,17 @@ namespace picojson {
     }
     if (0xd800 <= uni_ch && uni_ch <= 0xdfff) {
       if (0xdc00 <= uni_ch) {
-	// a second 16-bit of a surrogate pair appeared
-	return false;
+    // a second 16-bit of a surrogate pair appeared
+    return false;
       }
       // first 16-bit of surrogate pair, get the next one
       if (in.getc() != '\\' || in.getc() != 'u') {
-	in.ungetc();
-	return false;
+    in.ungetc();
+    return false;
       }
       int second = _parse_quadhex(in);
       if (! (0xdc00 <= second && second <= 0xdfff)) {
-	return false;
+    return false;
       }
       uni_ch = ((uni_ch - 0xd800) << 10) | ((second - 0xdc00) & 0x3ff);
       uni_ch += 0x10000;
@@ -530,15 +530,15 @@ namespace picojson {
       out.push_back(uni_ch);
     } else {
       if (uni_ch < 0x800) {
-	out.push_back(0xc0 | (uni_ch >> 6));
+    out.push_back(0xc0 | (uni_ch >> 6));
       } else {
-	if (uni_ch < 0x10000) {
-	  out.push_back(0xe0 | (uni_ch >> 12));
-	} else {
-	  out.push_back(0xf0 | (uni_ch >> 18));
-	  out.push_back(0x80 | ((uni_ch >> 12) & 0x3f));
-	}
-	out.push_back(0x80 | ((uni_ch >> 6) & 0x3f));
+    if (uni_ch < 0x10000) {
+      out.push_back(0xe0 | (uni_ch >> 12));
+    } else {
+      out.push_back(0xf0 | (uni_ch >> 18));
+      out.push_back(0x80 | ((uni_ch >> 12) & 0x3f));
+    }
+    out.push_back(0x80 | ((uni_ch >> 6) & 0x3f));
       }
       out.push_back(0x80 | (uni_ch & 0x3f));
     }
@@ -552,35 +552,35 @@ namespace picojson {
     while (1) {
       int ch = in.getc();
       if (ch < ' ') {
-	in.ungetc();
-	return false;
+    in.ungetc();
+    return false;
       } else if (ch == '"') {
-	return true;
+    return true;
       } else if (ch == '\\') {
-	if ((ch = in.getc()) == -1) {
-	  return false;
-	}
-	switch (ch) {
+    if ((ch = in.getc()) == -1) {
+      return false;
+    }
+    switch (ch) {
 #define MAP(sym, val) case sym: s.push_back(val); break
-	  MAP('"', '\"');
-	  MAP('\\', '\\');
-	  MAP('/', '/');
-	  MAP('b', '\b');
-	  MAP('f', '\f');
-	  MAP('n', '\n');
-	  MAP('r', '\r');
-	  MAP('t', '\t');
+      MAP('"', '\"');
+      MAP('\\', '\\');
+      MAP('/', '/');
+      MAP('b', '\b');
+      MAP('f', '\f');
+      MAP('n', '\n');
+      MAP('r', '\r');
+      MAP('t', '\t');
 #undef MAP
-	case 'u':
-	  if (! _parse_codepoint(s, in)) {
-	    return false;
-	  }
-	  break;
-	default:
-	  return false;
-	}
+    case 'u':
+      if (! _parse_codepoint(s, in)) {
+        return false;
+      }
+      break;
+    default:
+      return false;
+    }
       } else {
-	s.push_back(ch);
+    s.push_back(ch);
       }
     }
     return false;
@@ -595,7 +595,7 @@ namespace picojson {
     do {
       a.push_back(value());
       if (! _parse(a.back(), in)) {
-	return false;
+    return false;
       }
     } while (in.expect(','));
     return in.expect(']');
@@ -610,12 +610,12 @@ namespace picojson {
     do {
       value key, val;
       if (in.expect('"')
-	  && _parse_string(key, in)
-	  && in.expect(':')
-	  && _parse(val, in)) {
-	o[key.to_str()] = val;
+      && _parse_string(key, in)
+      && in.expect(':')
+      && _parse(val, in)) {
+    o[key.to_str()] = val;
       } else {
-	return false;
+    return false;
       }
     } while (in.expect(','));
     return in.expect('}');
@@ -626,11 +626,11 @@ namespace picojson {
     while (1) {
       int ch = in.getc();
       if (('0' <= ch && ch <= '9') || ch == '+' || ch == '-' || ch == '.'
-	  || ch == 'e' || ch == 'E') {
-	num_str.push_back(ch);
+      || ch == 'e' || ch == 'E') {
+    num_str.push_back(ch);
       } else {
-	in.ungetc();
-	break;
+    in.ungetc();
+    break;
       }
     }
     char* endp;
@@ -645,10 +645,10 @@ namespace picojson {
     switch (ch) {
 #define IS(ch, text, val) case ch: \
       if (in.match(text)) { \
-	out = val; \
-	return true; \
+    out = val; \
+    return true; \
       } else { \
-	return false; \
+    return false; \
       }
       IS('n', "ull", value());
       IS('f', "alse", value(false));
@@ -662,8 +662,8 @@ namespace picojson {
       return _parse_object(out, in);
     default:
       if (('0' <= ch && ch <= '9') || ch == '-') {
-	in.ungetc();
-	return _parse_number(out, in);
+    in.ungetc();
+    return _parse_number(out, in);
       }
       break;
     }
@@ -685,12 +685,12 @@ namespace picojson {
       SNPRINTF(buf, sizeof(buf), "syntax error at line %d near: ", in.line());
       *err = buf;
       while (1) {
-	int ch = in.getc();
-	if (ch == -1 || ch == '\n') {
-	  break;
-	} else if (ch >= ' ') {
-	  err->push_back(ch);
-	}
+    int ch = in.getc();
+    if (ch == -1 || ch == '\n') {
+      break;
+    } else if (ch >= ' ') {
+      err->push_back(ch);
+    }
       }
     }
     return in.cur();
@@ -699,7 +699,7 @@ namespace picojson {
   inline std::string parse(value& out, std::istream& is) {
     std::string err;
     parse(out, std::istreambuf_iterator<char>(is.rdbuf()),
-	  std::istreambuf_iterator<char>(), &err);
+      std::istreambuf_iterator<char>(), &err);
     return err;
   }
   
@@ -762,36 +762,36 @@ inline std::ostream& operator<<(std::ostream& os, const picojson::value& x)
 
 namespace picojson
 {
-	/*  Parses string to json value
-		\param[in] name a string pf JSON
-		\return a parsed value
-	 */
-	inline picojson::value parse_string(const std::string & name)
-	{
-		picojson::value v(picojson::null_type, false);
-		if (name.size() != 0)
-		{
-			sad::String tmp(name);
-			tmp.trim();
-			std::istringstream s(tmp);
-			s >> v;
-			if (picojson::get_last_error().size() != 0)
-			{
-				v = picojson::value(picojson::null_type, false);
-			}
-			else
-			{
-				// Not all stream could be read
-				char c = 0;
-				s.get(c);
-				if (s.fail() == false)
-				{
-					picojson::set_last_error("Failed to parse JSON");
-				}
-			}
-		}		
-		return v;
-	}
+    /*  Parses string to json value
+        \param[in] name a string pf JSON
+        \return a parsed value
+     */
+    inline picojson::value parse_string(const std::string & name)
+    {
+        picojson::value v(picojson::null_type, false);
+        if (name.size() != 0)
+        {
+            sad::String tmp(name);
+            tmp.trim();
+            std::istringstream s(tmp);
+            s >> v;
+            if (picojson::get_last_error().size() != 0)
+            {
+                v = picojson::value(picojson::null_type, false);
+            }
+            else
+            {
+                // Not all stream could be read
+                char c = 0;
+                s.get(c);
+                if (s.fail() == false)
+                {
+                    picojson::set_last_error("Failed to parse JSON");
+                }
+            }
+        }		
+        return v;
+    }
 }
 
 

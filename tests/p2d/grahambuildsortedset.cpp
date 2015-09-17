@@ -28,21 +28,21 @@ struct GrahamBuildSortedSet : tpunit::TestFixture
 {
  public:
    GrahamBuildSortedSet() : tpunit::TestFixture(
-	   TEST(GrahamBuildSortedSet::test1)
+       TEST(GrahamBuildSortedSet::test1)
    ) {}
    
    void test1()
    {
-	   sad::Vector<sad::p2d::Point> p;
-	   p << sad::p2d::Point(1, 0);
-	   p << sad::p2d::Point(0, 0);
-	   p << sad::p2d::Point(0, 1);
-	   p << sad::p2d::Point(1, 1);
-	   sad::Vector<sad::p2d::Point> r  = sad::p2d::build_sorted_set(p, 1);
-	   ASSERT_TRUE( sad::equal(r[0], p[1]) );
-	   ASSERT_TRUE( sad::equal(r[1], p[0]) );
-	   ASSERT_TRUE( sad::equal(r[2], p[3]) );
-	   ASSERT_TRUE( sad::equal(r[3], p[2]) );
+       sad::Vector<sad::p2d::Point> p;
+       p << sad::p2d::Point(1, 0);
+       p << sad::p2d::Point(0, 0);
+       p << sad::p2d::Point(0, 1);
+       p << sad::p2d::Point(1, 1);
+       sad::Vector<sad::p2d::Point> r  = sad::p2d::build_sorted_set(p, 1);
+       ASSERT_TRUE( sad::equal(r[0], p[1]) );
+       ASSERT_TRUE( sad::equal(r[1], p[0]) );
+       ASSERT_TRUE( sad::equal(r[2], p[3]) );
+       ASSERT_TRUE( sad::equal(r[3], p[2]) );
    }
 
 

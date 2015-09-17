@@ -34,7 +34,7 @@ public:
      */
     virtual sad::animations::SavedObjectState* create(sad::db::Object* o) = 0;
     /*! Returns a unique key, which defines how should state be saved in cache
-		\return unique key
+        \return unique key
      */
     inline const sad::String& name() const
     {

@@ -13,15 +13,15 @@ sad::animations::SavedObjectSize::SavedObjectSize(sad::db::Object* o)
 m_body(NULL), 
 m_shape(NULL)
 {
-	m_oldarea = o->getProperty<sad::Rect2D>("area").value();
-	m_oldcenter = (m_oldarea[0] + m_oldarea[2]) / 2.0;
+    m_oldarea = o->getProperty<sad::Rect2D>("area").value();
+    m_oldcenter = (m_oldarea[0] + m_oldarea[2]) / 2.0;
 }
 
 
 
 sad::animations::SavedObjectSize::~SavedObjectSize() 
 {
-	delete m_shape;
+    delete m_shape;
     if (m_body)
     {
         m_body->delRef();
@@ -30,15 +30,15 @@ sad::animations::SavedObjectSize::~SavedObjectSize()
 
 void sad::animations::SavedObjectSize::restore()
 {
-	sad::Rect2D area =  m_object->getProperty<sad::Rect2D>("area").value();
-	sad::Point2D center = (area[0] + area[2]) / 2.0;
-	sad::Rect2D newarea = m_oldarea;
-	sad::moveBy(center - m_oldcenter, newarea);
-	m_object->setProperty("area", newarea);
-	if (m_body)
-	{
-		m_body->setShape(m_shape->clone());
-	}
+    sad::Rect2D area =  m_object->getProperty<sad::Rect2D>("area").value();
+    sad::Point2D center = (area[0] + area[2]) / 2.0;
+    sad::Rect2D newarea = m_oldarea;
+    sad::moveBy(center - m_oldcenter, newarea);
+    m_object->setProperty("area", newarea);
+    if (m_body)
+    {
+        m_body->setShape(m_shape->clone());
+    }
 }
 
 void sad::animations::SavedObjectSize::storeBodyState(sad::p2d::Body* b)
@@ -47,9 +47,9 @@ void sad::animations::SavedObjectSize::storeBodyState(sad::p2d::Body* b)
     {
         m_body->delRef();
     }
-	delete m_shape;
-	m_body = b;
+    delete m_shape;
+    m_body = b;
     m_body->addRef();
-	m_shape = m_body->currentShape()->clone();
-	m_shape->move(sad::Point2D(0,0) - m_shape->center());
+    m_shape = m_body->currentShape()->clone();
+    m_shape->move(sad::Point2D(0,0) - m_shape->center());
 }

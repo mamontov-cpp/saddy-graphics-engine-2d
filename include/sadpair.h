@@ -1,9 +1,9 @@
 /*! \file    sadpair.h
     \author  mamontov-cpp
 
-	\brief   Definition of Pair class.
+    \brief   Definition of Pair class.
 
-	This file contains a definition of Pair container class.
+    This file contains a definition of Pair container class.
 */
 #pragma once
 
@@ -72,14 +72,14 @@ class Pair
               \param[in] p second property
           */
           inline Pair & set2(const T2 & p);
-		  /*! Returns a reference to property
-			  \return first property
-		  */
-		  inline T1 & _1() { return m_1; }
-		  /*! Returns a reference to property
-			  \return second property
-		  */
-		  inline T2 & _2() { return m_2; }
+          /*! Returns a reference to property
+              \return first property
+          */
+          inline T1 & _1() { return m_1; }
+          /*! Returns a reference to property
+              \return second property
+          */
+          inline T2 & _2() { return m_2; }
 };
 
 /*! \class  Triplet
@@ -93,7 +93,7 @@ class Triplet
   private:
           T1 m_1;  //!< First property
           T2 m_2;  //!< Second property
-		  T3 m_3;  //!< Third property
+          T3 m_3;  //!< Third property
   public:
           /*! Default constructor
           */
@@ -101,7 +101,7 @@ class Triplet
           /*! Parametric
               \param[in] m1 first property
               \param[in] m2 second propery
-			  \param[in] m3 third property
+              \param[in] m3 third property
           */
           Triplet(const T1 & m1, const T2 & m2,const T3 & m3);
           /*! Copy constructor
@@ -165,7 +165,7 @@ class Triplet
               \param[in] p second property
           */
           inline Triplet & set2(const T2 & p);
-		  /*! Sets third property
+          /*! Sets third property
               \param[in] p third property
           */
           inline Triplet & set3(const T3 & p);
@@ -182,8 +182,8 @@ class Quadruplet
   private:
           T1 m_1;  //!< First property
           T2 m_2;  //!< Second property
-		  T3 m_3;  //!< Third property
-		  T4 m_4;  //!< Fourth property
+          T3 m_3;  //!< Third property
+          T4 m_4;  //!< Fourth property
   public:
           /*! Default constructor
           */
@@ -191,8 +191,8 @@ class Quadruplet
           /*! Parametric
               \param[in] m1 first property
               \param[in] m2 second propery
-			  \param[in] m3 third property
-			  \param[in] m4 fourth property
+              \param[in] m3 third property
+              \param[in] m4 fourth property
           */
           Quadruplet(const T1 & m1, const T2 & m2,const T3 & m3, const T4 & m4);
           /*! Copy constructor
@@ -232,7 +232,7 @@ class Quadruplet
               \return m_3
           */
           T3 & _3();
-		  /*! Returns fourth property
+          /*! Returns fourth property
               \return m_4
           */
           T4 & _4();
@@ -264,15 +264,15 @@ class Quadruplet
               \param[in] p second property
           */
           inline Quadruplet & set2(const T2 & p);
-		  /*! Sets third property
+          /*! Sets third property
               \param[in] p third property
           */
           inline Quadruplet & set3(const T3 & p);
-		  /*! Sets fourth property
+          /*! Sets fourth property
               \param[in] p fourth property
           */
           inline Quadruplet & set4(const T4 & p);
-		  
+          
 };
 
 }

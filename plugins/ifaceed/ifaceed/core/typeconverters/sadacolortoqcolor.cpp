@@ -10,13 +10,13 @@ void core::typeconverters::SadAColorToQColor::convert(
 
 void core::typeconverters::SadAColorToQColor::convert(void * source, void * dest)
 {
-	sad::AColor * src = reinterpret_cast<sad::AColor*>(source);
-	QColor * dst = reinterpret_cast<QColor*>(dest);
+    sad::AColor * src = reinterpret_cast<sad::AColor*>(source);
+    QColor * dst = reinterpret_cast<QColor*>(dest);
 
     core::typeconverters::SadAColorToQColor::convert(*src, *dst);
 }
 
 core::typeconverters::SadAColorToQColor::~SadAColorToQColor()
 {
-	
+    
 }

@@ -1,7 +1,7 @@
 /*! \file animations/animationsblinking.h
-	
+    
 
-	An animations as animation of blinking for an object
+    An animations as animation of blinking for an object
  */
 #pragma once
 
@@ -11,7 +11,7 @@
 
 namespace sad
 {
-	
+    
 namespace animations
 {
 
@@ -21,13 +21,13 @@ class Blinking: public sad::animations::Animation
 {
 SAD_OBJECT
 public:
-	/*! Creates new empty animation
-	 */
-	Blinking();
-	/*! Can be inherited
-	 */
-	virtual ~Blinking();
-	/*! A basic schema for object
+    /*! Creates new empty animation
+     */
+    Blinking();
+    /*! Can be inherited
+     */
+    virtual ~Blinking();
+    /*! A basic schema for object
         \return a schema
      */
     static sad::db::schema::Schema* basicSchema();
@@ -40,14 +40,14 @@ public:
         \return whether it was successfull
      */
     virtual bool loadFromValue(const picojson::value& v);
-	/*! Sets frequency of blinking
-		\param[in] freq frequency of blinking
-	 */
-	void setFrequency(unsigned int freq);
-	/*! Returns frequency of blinking
-	 */
-	unsigned int frequency() const;
-	/*! Sets state of object from animation
+    /*! Sets frequency of blinking
+        \param[in] freq frequency of blinking
+     */
+    void setFrequency(unsigned int freq);
+    /*! Returns frequency of blinking
+     */
+    unsigned int frequency() const;
+    /*! Sets state of object from animation
         \param[in] i an animation instance
         \param[in] time a time of playing of animation
      */
@@ -63,9 +63,9 @@ public:
      */
     virtual bool applicableTo(sad::db::Object* o);
 protected:
-	/*! A frequency of blinking
-	 */
-	unsigned int m_frequency;
+    /*! A frequency of blinking
+     */
+    unsigned int m_frequency;
 };
 
 }

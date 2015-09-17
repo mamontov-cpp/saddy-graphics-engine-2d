@@ -25,43 +25,43 @@ sad::Thread& sad::Thread::operator=(const sad::Thread & o)
 
 sad::Thread::~Thread()
 {
-	delete m_dptr;
+    delete m_dptr;
 }
 
 
 void sad::Thread::initialize(sad::AbsractThreadExecutableFunction * f)
 {
-	m_dptr = new sad::os::ThreadImpl(f);
+    m_dptr = new sad::os::ThreadImpl(f);
 }
 
 bool sad::Thread::run()
 {
-	return m_dptr->run();
+    return m_dptr->run();
 }
 
 void sad::Thread::stop()
 {
-	m_dptr->stop();
+    m_dptr->stop();
 }
 
 int sad::Thread::exitCode() const
 {
-	return m_dptr->exitCode();
+    return m_dptr->exitCode();
 }
 
 void sad::Thread::wait()
 {
-	m_dptr->wait();
+    m_dptr->wait();
 }
 
 void sad::Thread::wait(int milliseconds)
 {
-	m_dptr->wait(milliseconds);
+    m_dptr->wait(milliseconds);
 }
 
 bool sad::Thread::running() const
 {
-	return m_dptr->running();
+    return m_dptr->running();
 }
 
 

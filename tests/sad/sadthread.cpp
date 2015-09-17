@@ -11,22 +11,22 @@
 bool vthreadvrunned = false;
 void vthreadv()
 {
-	vthreadvrunned = true;
+    vthreadvrunned = true;
 }
 
 int vthreadi()
 {
-	return 1;
+    return 1;
 }
 
 void vthreadav(bool f)
 {
-	vthreadvrunned = f;
+    vthreadvrunned = f;
 }
 
 int vthreadai(int f)
 {
-	return f;
+    return f;
 }
 
 
@@ -37,25 +37,25 @@ struct sadThreadTest : tpunit::TestFixture
 {
  public:
    sadThreadTest() : tpunit::TestFixture(
-	   TEST(sadThreadTest::testConstructors),
-	   TEST(sadThreadTest::testTerminate)
+       TEST(sadThreadTest::testConstructors),
+       TEST(sadThreadTest::testTerminate)
    ) {}
 
    void threadmv()
    {
-	   vthreadvrunned = true;
+       vthreadvrunned = true;
    }
    int threadmi()
    {
-		return 1;
+        return 1;
    }
    void threadmv1(bool flag)
    {
-	   vthreadvrunned = flag;
+       vthreadvrunned = flag;
    }
    int threadmi1(int flag)
    {
-		return flag;
+        return flag;
    }
 
    int sleepy()
@@ -82,69 +82,69 @@ struct sadThreadTest : tpunit::TestFixture
     */
    void testConstructors()
    {
-	   {
-	   sad::Thread thread;
-	   thread.run();
-	   ASSERT_TRUE( thread.exitCode() == 0 );
-	   }
-	   {
-	   sad::Thread thread(vthreadv);
-	   thread.run();
-	   thread.wait(100);
-	   ASSERT_TRUE( thread.exitCode() == 0 );
-	   ASSERT_TRUE( vthreadvrunned == true );
-	   }
-	   {
-	   sad::Thread thread(vthreadi);
-	   thread.run();
-	   ASSERT_TRUE( thread.exitCode() == 1 );
-	   }
-	   {
-	   vthreadvrunned = false;
-	   sad::Thread thread(vthreadav, true);
-	   thread.run();
-	   thread.wait(2000);
-	   ASSERT_TRUE( vthreadvrunned == true );
-	   }
-	   {
-	   sad::Thread thread(vthreadai, 1);
-	   thread.run();
-	   ASSERT_TRUE( thread.exitCode() == 1 );
-	   }
-	   {
-	   vthreadvrunned = false;
-	   sad::Thread thread(this, &sadThreadTest::threadmv);
-	   thread.run();
-	   thread.wait(100);
-	   ASSERT_TRUE( vthreadvrunned == true );
-	   }
-	   {
-	   sad::Thread thread(this, &sadThreadTest::threadmi);
-	   thread.run();
-	   ASSERT_TRUE( thread.exitCode() == 1 );
-	   }
-	   {
-	   vthreadvrunned = false;
-	   sad::Thread thread(this, &sadThreadTest::threadmv1, true);
-	   thread.run();
-	   thread.wait(100);
-	   ASSERT_TRUE( vthreadvrunned == true );
-	   }
-	   {
-	   sad::Thread thread(this, &sadThreadTest::threadmi1, 1);
-	   thread.run();
-	   ASSERT_TRUE( thread.exitCode() == 1 );
-	   }
+       {
+       sad::Thread thread;
+       thread.run();
+       ASSERT_TRUE( thread.exitCode() == 0 );
+       }
+       {
+       sad::Thread thread(vthreadv);
+       thread.run();
+       thread.wait(100);
+       ASSERT_TRUE( thread.exitCode() == 0 );
+       ASSERT_TRUE( vthreadvrunned == true );
+       }
+       {
+       sad::Thread thread(vthreadi);
+       thread.run();
+       ASSERT_TRUE( thread.exitCode() == 1 );
+       }
+       {
+       vthreadvrunned = false;
+       sad::Thread thread(vthreadav, true);
+       thread.run();
+       thread.wait(2000);
+       ASSERT_TRUE( vthreadvrunned == true );
+       }
+       {
+       sad::Thread thread(vthreadai, 1);
+       thread.run();
+       ASSERT_TRUE( thread.exitCode() == 1 );
+       }
+       {
+       vthreadvrunned = false;
+       sad::Thread thread(this, &sadThreadTest::threadmv);
+       thread.run();
+       thread.wait(100);
+       ASSERT_TRUE( vthreadvrunned == true );
+       }
+       {
+       sad::Thread thread(this, &sadThreadTest::threadmi);
+       thread.run();
+       ASSERT_TRUE( thread.exitCode() == 1 );
+       }
+       {
+       vthreadvrunned = false;
+       sad::Thread thread(this, &sadThreadTest::threadmv1, true);
+       thread.run();
+       thread.wait(100);
+       ASSERT_TRUE( vthreadvrunned == true );
+       }
+       {
+       sad::Thread thread(this, &sadThreadTest::threadmi1, 1);
+       thread.run();
+       ASSERT_TRUE( thread.exitCode() == 1 );
+       }
    }
    /*! Tests termination of thread
     */
    void testTerminate()
    {
-	  sad::Thread thread(this, &sadThreadTest::sleepy);
-	  thread.run();
+      sad::Thread thread(this, &sadThreadTest::sleepy);
+      thread.run();
       sad::sleep(100);
-	  thread.stop();
-	  ASSERT_TRUE( thread.exitCode() == sad::Thread::Cancelled );
+      thread.stop();
+      ASSERT_TRUE( thread.exitCode() == sad::Thread::Cancelled );
    }
 
 } sad_thread_test;

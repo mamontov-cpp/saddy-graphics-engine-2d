@@ -1,7 +1,7 @@
 #include "highlighter.h"
 
 #ifndef HAVE_QT5
-	#define HAVE_QT5 (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+    #define HAVE_QT5 (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
 #endif
 
 enum ScriptIds {
@@ -118,8 +118,8 @@ gui::codeedit::Highlighter::Highlighter(QTextDocument *document)
     m_formats[ScriptPreprocessorFormat].setForeground(Qt::darkBlue);
     m_formats[ScriptLabelFormat].setForeground(Qt::darkRed);
     m_formats[ScriptCommentFormat].setForeground(Qt::darkGreen);
-	m_formats[ScriptPredefinedConstant].setForeground(QColor(255, 0, 255));
-	m_formats[ScriptPredefinedFunction].setForeground(QColor(255, 0, 255));
+    m_formats[ScriptPredefinedConstant].setForeground(QColor(255, 0, 255));
+    m_formats[ScriptPredefinedFunction].setForeground(QColor(255, 0, 255));
     //m_formats[ScriptCommentFormat].setFontItalic(true);
 }
 
@@ -484,23 +484,23 @@ static QHash<QString, QString> predefinedConstants;
 static QHash<QString, QString> predefinedFuncs;
 
 void gui::codeedit::Highlighter::setPredefinedConstants(
-		const QStringList & list
+        const QStringList & list
 )
 {
-	for(size_t i = 0; i < list.size(); i++)
-	{
-		predefinedConstants.insert(list[i], list[i]);
-	}
+    for(size_t i = 0; i < list.size(); i++)
+    {
+        predefinedConstants.insert(list[i], list[i]);
+    }
 }
 
 void gui::codeedit::Highlighter::setPredefinedFunctions(
-		const QStringList & list
+        const QStringList & list
 )
 {
-	for(size_t i = 0; i < list.size(); i++)
-	{
-		predefinedFuncs.insert(list[i], list[i]);
-	}
+    for(size_t i = 0; i < list.size(); i++)
+    {
+        predefinedFuncs.insert(list[i], list[i]);
+    }
 }
 
 void gui::codeedit::Highlighter::highlightWord(int currentPos, const QString &buffer)
@@ -519,13 +519,13 @@ void gui::codeedit::Highlighter::highlightWord(int currentPos, const QString &bu
     } else {
         if (isKeyword(buffer))
             setFormat(currentPos - buffer.length(), buffer.length(), m_formats[ScriptKeywordFormat]);
-		if (predefinedConstants.contains(buffer))
-		{
-			setFormat(currentPos - buffer.length(), buffer.length(), m_formats[ScriptPredefinedConstant]);
-		}
-		if (predefinedFuncs.contains(buffer))
-		{
-			setFormat(currentPos - buffer.length(), buffer.length(), m_formats[ScriptPredefinedFunction]);
-		}
+        if (predefinedConstants.contains(buffer))
+        {
+            setFormat(currentPos - buffer.length(), buffer.length(), m_formats[ScriptPredefinedConstant]);
+        }
+        if (predefinedFuncs.contains(buffer))
+        {
+            setFormat(currentPos - buffer.length(), buffer.length(), m_formats[ScriptPredefinedFunction]);
+        }
     }
 }

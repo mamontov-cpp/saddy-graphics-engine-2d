@@ -1,7 +1,7 @@
 /*! \file animations/animationsoptionlist.h
-	
+    
 
-	An animations as animation of changing options of sprite by time
+    An animations as animation of changing options of sprite by time
  */
 #pragma once
 
@@ -15,7 +15,7 @@
 
 namespace sad
 {
-	
+    
 namespace animations
 {
 
@@ -25,13 +25,13 @@ class OptionList: public sad::animations::Animation
 {
 SAD_OBJECT
 public:
-	/*! Creates new empty animation
-	 */
-	OptionList();
-	/*! Can be inherited
-	 */
-	virtual ~OptionList();
-	/*! A basic schema for object
+    /*! Creates new empty animation
+     */
+    OptionList();
+    /*! Can be inherited
+     */
+    virtual ~OptionList();
+    /*! A basic schema for object
         \return a schema
      */
     static sad::db::schema::Schema* basicSchema();
@@ -44,15 +44,15 @@ public:
         \return whether it was successfull
      */
     virtual bool loadFromValue(const picojson::value& v);
-	/*! Sets list of options
-		\param[in] list an option list, used in animation
-	 */
-	void setList(const sad::Vector<sad::String>& list);
-	/*! Returns option list
-		\return option list
-	 */
-	const sad::Vector<sad::String> & list() const;
-	/*! Sets state of object from animation
+    /*! Sets list of options
+        \param[in] list an option list, used in animation
+     */
+    void setList(const sad::Vector<sad::String>& list);
+    /*! Returns option list
+        \return option list
+     */
+    const sad::Vector<sad::String> & list() const;
+    /*! Sets state of object from animation
         \param[in] i an animation instance
         \param[in] time a time of playing of animation
      */
@@ -68,9 +68,9 @@ public:
      */
     virtual bool applicableTo(sad::db::Object* o);
 protected:
-	/*! A list of texture coordinates to be set
-	 */
-	sad::Vector<sad::String> m_list;
+    /*! A list of texture coordinates to be set
+     */
+    sad::Vector<sad::String> m_list;
 };
 
 }

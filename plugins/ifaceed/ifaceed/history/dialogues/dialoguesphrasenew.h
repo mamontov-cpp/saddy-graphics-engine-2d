@@ -21,9 +21,9 @@ class PhraseNew: public history::Command
 public:
     /*! Creates new command
         \param[in] dialogue dialogue
-		\param[in] p phrase
+        \param[in] p phrase
      */
-	PhraseNew(sad::dialogue::Dialogue* dialogue, const sad::dialogue::Phrase& p);
+    PhraseNew(sad::dialogue::Dialogue* dialogue, const sad::dialogue::Phrase& p);
     /*! Could be inherited
      */
     virtual ~PhraseNew();
@@ -39,9 +39,9 @@ protected:
     /*! A current dialogue
      */
     sad::dialogue::Dialogue* m_dialogue;
-	/*! A phrase to be added into dialogue
-	 */
-	sad::dialogue::Phrase m_phrase;
+    /*! A phrase to be added into dialogue
+     */
+    sad::dialogue::Phrase m_phrase;
 };
 
 }

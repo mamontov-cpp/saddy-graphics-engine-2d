@@ -1,7 +1,7 @@
 /*! \file enemy.h
-	
+    
 
-	Describes an enemy
+    Describes an enemy
  */
 #pragma once
 #include "gameobject.h"
@@ -14,5 +14,5 @@ class Enemy: public GameObject
 {
  SAD_OBJECT
  public:
-	 Enemy();
+     Enemy();
 };

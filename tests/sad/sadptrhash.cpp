@@ -10,10 +10,10 @@
 class IncrementsInDestructor
 {
  private:
-	 int * m_counter;
+     int * m_counter;
  public:
-	 IncrementsInDestructor(int * c) { m_counter = c;}
-	 ~IncrementsInDestructor() {  *m_counter += 1; }
+     IncrementsInDestructor(int * c) { m_counter = c;}
+     ~IncrementsInDestructor() {  *m_counter += 1; }
 };
 /*!
  * Tests object logic
@@ -22,21 +22,21 @@ struct PtrHashTest : tpunit::TestFixture
 {
  public:
    PtrHashTest() : tpunit::TestFixture(
-	   TEST(PtrHashTest::testDestructor)	   
+       TEST(PtrHashTest::testDestructor)	   
    ) {}
    
    void testDestructor()
    {
-		int counter = 0;
-		int count = 10;
-		{
-			sad::PtrHash<int, IncrementsInDestructor> tested;
-			for(int i = 0; i < count; i++)
-			{
-				tested.insert(i, new IncrementsInDestructor(&counter));
-			}
-		}
-		ASSERT_EQUAL(counter, count);
+        int counter = 0;
+        int count = 10;
+        {
+            sad::PtrHash<int, IncrementsInDestructor> tested;
+            for(int i = 0; i < count; i++)
+            {
+                tested.insert(i, new IncrementsInDestructor(&counter));
+            }
+        }
+        ASSERT_EQUAL(counter, count);
    }
 
 } test_ptr_hash;

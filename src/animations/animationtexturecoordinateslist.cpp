@@ -37,12 +37,12 @@ sad::animations::TextureCoordinatesList::TextureCoordinatesList()
 m_cache_root_folder(NULL),
 m_renderer(NULL)
 {
-	m_creators.pushProperty<sad::Rect2D>("texturecoordinates", "texturecoordinates");
+    m_creators.pushProperty<sad::Rect2D>("texturecoordinates", "texturecoordinates");
 }
 
 sad::animations::TextureCoordinatesList::~TextureCoordinatesList()
 {
-	
+    
 }
 
 static sad::db::schema::Schema* AnimationTextureCoordinatesListSchema = NULL;
@@ -60,12 +60,12 @@ sad::db::schema::Schema* sad::animations::TextureCoordinatesList::basicSchema()
 
             AnimationTextureCoordinatesListSchema->add(
                 "list",
-			    new sad::db::MethodPair<sad::animations::TextureCoordinatesList, sad::Vector<sad::String> >(
-				    &sad::animations::TextureCoordinatesList::list,
+                new sad::db::MethodPair<sad::animations::TextureCoordinatesList, sad::Vector<sad::String> >(
+                    &sad::animations::TextureCoordinatesList::list,
                     &sad::animations::TextureCoordinatesList::setList
                 )
             );
-		        
+                
             sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationTextureCoordinatesListSchema);
         }
         AnimationTextureCoordinatesListSchemaInit.unlock();
@@ -79,58 +79,58 @@ sad::db::schema::Schema* sad::animations::TextureCoordinatesList::schema() const
 }
 
 void sad::animations::TextureCoordinatesList::setTreeName(
-	sad::Renderer* renderer,
-	const sad::String& treename
+    sad::Renderer* renderer,
+    const sad::String& treename
 )
 {
-	m_renderer = renderer;
-	m_tree_name = treename;
+    m_renderer = renderer;
+    m_tree_name = treename;
 }
 
 bool sad::animations::TextureCoordinatesList::loadFromValue(const picojson::value& v)
 {
-	bool flag = this->sad::animations::Animation::loadFromValue(v);
-	if (flag)
-	{
-		sad::Maybe<sad::Vector<sad::String> > list = picojson::to_type<sad::Vector<sad::String> >(
-														picojson::get_property(v, "list")
-													  );
-		bool result = list.exists();
-		if (result)
-		{
-			setList(list.value());			
-		}
+    bool flag = this->sad::animations::Animation::loadFromValue(v);
+    if (flag)
+    {
+        sad::Maybe<sad::Vector<sad::String> > list = picojson::to_type<sad::Vector<sad::String> >(
+                                                        picojson::get_property(v, "list")
+                                                      );
+        bool result = list.exists();
+        if (result)
+        {
+            setList(list.value());			
+        }
 
-		flag = flag && result;
-	}
-	return flag;
+        flag = flag && result;
+    }
+    return flag;
 }
 
 void sad::animations::TextureCoordinatesList::setList(const sad::Vector<sad::String>& list)
 {
-	m_list = list;
-	m_inner_valid = m_list.size() != 0;
-	this->updateValidFlag();
+    m_list = list;
+    m_inner_valid = m_list.size() != 0;
+    this->updateValidFlag();
 }
 
 const sad::Vector<sad::String> & sad::animations::TextureCoordinatesList::list() const
 {
-	return m_list;
+    return m_list;
 }
 
 
 void sad::animations::TextureCoordinatesList::setState(sad::animations::Instance* i, double time)
 {
-	double value = static_cast<double>(m_list.size()) * time / m_time;
-	unsigned int kvalue = static_cast<unsigned int>(value);
-	if (kvalue < m_list.size())
-	{
-		sad::Rect2D* r = this->coordinates(m_list[kvalue]);
-		if (r)
-		{
+    double value = static_cast<double>(m_list.size()) * time / m_time;
+    unsigned int kvalue = static_cast<unsigned int>(value);
+    if (kvalue < m_list.size())
+    {
+        sad::Rect2D* r = this->coordinates(m_list[kvalue]);
+        if (r)
+        {
             i->stateCommandAs<sad::Rect2D>()->call(*r);
-		}
-	}
+        }
+    }
 }
 
 
@@ -179,55 +179,55 @@ bool sad::animations::TextureCoordinatesList::applicableTo(sad::db::Object* o)
 
 sad::Rect2D* sad::animations::TextureCoordinatesList::coordinates(const sad::String& c)
 {
-	if (m_folder == NULL)
-	{
-		if (m_table && m_renderer == NULL)
-		{
-			if (m_table->database())
-			{
-				m_renderer = m_table->database()->renderer();
-			}
-		}
-		if (m_renderer != NULL)
-		{
-			m_folder = m_renderer->tree(m_tree_name)->root();
-		}
-		if (m_folder == NULL)
-		{
-			return NULL;
-		}
-	}
+    if (m_folder == NULL)
+    {
+        if (m_table && m_renderer == NULL)
+        {
+            if (m_table->database())
+            {
+                m_renderer = m_table->database()->renderer();
+            }
+        }
+        if (m_renderer != NULL)
+        {
+            m_folder = m_renderer->tree(m_tree_name)->root();
+        }
+        if (m_folder == NULL)
+        {
+            return NULL;
+        }
+    }
 
-	if (m_folder != m_cache_folder)
-	{
-		m_cache.clear();
-		m_cache_folder = m_folder;
-		m_cache_root_folder = m_folder;
-		while(m_cache_root_folder->parent() != NULL)
-		{
-			m_cache_root_folder = m_cache_root_folder->parent();
-		}
-	}
+    if (m_folder != m_cache_folder)
+    {
+        m_cache.clear();
+        m_cache_folder = m_folder;
+        m_cache_root_folder = m_folder;
+        while(m_cache_root_folder->parent() != NULL)
+        {
+            m_cache_root_folder = m_cache_root_folder->parent();
+        }
+    }
 
-	sad::Rect2D* result;
-	if (m_cache.contains(c))
-	{
-		result = &(m_cache[c]);
-	}
-	else
-	{
-		result = NULL;
-		sad::resource::Resource* r = m_cache_root_folder->resource(c);
-		if (r)
-		{
-			if (r->metaData()->canBeCastedTo("sad::Sprite2D::Options"))
-			{
-				sad::Sprite2D::Options* opts = static_cast<sad::Sprite2D::Options*>(r);
+    sad::Rect2D* result;
+    if (m_cache.contains(c))
+    {
+        result = &(m_cache[c]);
+    }
+    else
+    {
+        result = NULL;
+        sad::resource::Resource* r = m_cache_root_folder->resource(c);
+        if (r)
+        {
+            if (r->metaData()->canBeCastedTo("sad::Sprite2D::Options"))
+            {
+                sad::Sprite2D::Options* opts = static_cast<sad::Sprite2D::Options*>(r);
 
-				m_cache.insert(c, opts->TextureRectangle);
-				result = &(m_cache[c]);
-			}
-		}
-	}
-	return result;
+                m_cache.insert(c, opts->TextureRectangle);
+                result = &(m_cache[c]);
+            }
+        }
+    }
+    return result;
 }

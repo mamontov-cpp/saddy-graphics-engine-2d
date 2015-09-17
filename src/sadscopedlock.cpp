@@ -4,10 +4,10 @@
 sad::ScopedLock::ScopedLock(sad::Mutex * m)
 : m_m(m)
 {
-	m_m->lock();
+    m_m->lock();
 }
 
 sad::ScopedLock::~ScopedLock()
 {
-	m_m->unlock();
+    m_m->unlock();
 }

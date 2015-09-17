@@ -14,45 +14,45 @@
 #include <algorithm>
 
 #ifndef HAVE_QT5
-	#define HAVE_QT5 (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+    #define HAVE_QT5 (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
 #endif
 
 gui::codeedit::CodeEdit::CodeEdit(QWidget* parent) : gui::textedit::TextEdit(parent)
 {
-	m_line_number_area = new gui::codeedit::LineNumberArea(this);
+    m_line_number_area = new gui::codeedit::LineNumberArea(this);
 
-	m_highlighter = new gui::codeedit::Highlighter(this->document());
+    m_highlighter = new gui::codeedit::Highlighter(this->document());
 
-	connect(this->document(), SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
+    connect(this->document(), SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
     connect(this->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(updateLineNumberArea(int)));
     connect(this, SIGNAL(textChanged()), this, SLOT(updateLineNumberArea()));
     connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(updateLineNumberArea()));
     connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
 
-	m_alphabet.insert('.');
-	for(char i = 'a'; i <= 'z'; i++)
-	{
-		m_alphabet.insert(QChar(i));
-	}
-	for(char i = 'A'; i <= 'Z'; i++)
-	{
-		m_alphabet.insert(QChar(i));
-	}
-	for(char i = '0'; i <= '9'; i++)
-	{
-		m_alphabet.insert(QChar(i));
-	}
+    m_alphabet.insert('.');
+    for(char i = 'a'; i <= 'z'; i++)
+    {
+        m_alphabet.insert(QChar(i));
+    }
+    for(char i = 'A'; i <= 'Z'; i++)
+    {
+        m_alphabet.insert(QChar(i));
+    }
+    for(char i = '0'; i <= '9'; i++)
+    {
+        m_alphabet.insert(QChar(i));
+    }
 
 
-	updateLineNumberAreaWidth(0);
-	highlightCurrentLine();
+    updateLineNumberAreaWidth(0);
+    highlightCurrentLine();
 }
 
 gui::codeedit::CodeEdit::~CodeEdit()
 {
-	delete m_line_number_area;
+    delete m_line_number_area;
     m_line_number_area = NULL;
-	delete m_highlighter;
+    delete m_highlighter;
 }
 
 int gui::codeedit::CodeEdit::getFirstVisibleBlockId()
@@ -85,7 +85,7 @@ int gui::codeedit::CodeEdit::getFirstVisibleBlockId()
 
 void gui::codeedit::CodeEdit::lineNumberAreaPaintEvent(QPaintEvent* e)
 {
-	this->verticalScrollBar()->setSliderPosition(this->verticalScrollBar()->sliderPosition());
+    this->verticalScrollBar()->setSliderPosition(this->verticalScrollBar()->sliderPosition());
 
     QPainter painter(m_line_number_area);
     painter.fillRect(e->rect(), QColor(228,228,228));
@@ -137,12 +137,12 @@ void gui::codeedit::CodeEdit::lineNumberAreaPaintEvent(QPaintEvent* e)
         bottom = top + static_cast<int>(this->document()->documentLayout()->blockBoundingRect(block).height());
         ++blockNumber;
     }
-	
+    
 }
 
 int gui::codeedit::CodeEdit::lineNumberAreaWidth()
 {
-	int digits = 1;
+    int digits = 1;
     int max = qMax(1, this->document()->blockCount());
     while (max >= 10) {
         max /= 10;
@@ -156,7 +156,7 @@ int gui::codeedit::CodeEdit::lineNumberAreaWidth()
 
 Qt::CaseSensitivity gui::codeedit::CodeEdit::caseSensivity() const
 {
-	return Qt::CaseSensitive;
+    return Qt::CaseSensitive;
 }
 
 void gui::codeedit::CodeEdit::updateLineNumberAreaWidth(int)
@@ -293,26 +293,26 @@ void gui::codeedit::CodeEdit::unindentSelection(QTextCursor& cursor)
 
 QString  gui::codeedit::CodeEdit::textUnderCursor() const
 {
-	QTextCursor tc = textCursor();
-	int position = tc.position();
-	const QString& me  = this->toPlainText();
-	QString result  = "";
-	int i = position-1;
-	bool valid = true;
-	while(valid && i >= 0 && i < me.length())
-	{
-		if (m_alphabet.contains(me[i]))
-		{
-			result += me[i];
-		}
-		else
-		{
-			valid = false;
-		}
-		i--;
-	}
+    QTextCursor tc = textCursor();
+    int position = tc.position();
+    const QString& me  = this->toPlainText();
+    QString result  = "";
+    int i = position-1;
+    bool valid = true;
+    while(valid && i >= 0 && i < me.length())
+    {
+        if (m_alphabet.contains(me[i]))
+        {
+            result += me[i];
+        }
+        else
+        {
+            valid = false;
+        }
+        i--;
+    }
 
-	std::reverse(result.begin(), result.end());
+    std::reverse(result.begin(), result.end());
     if (position < me.length())
     {
         if (m_alphabet.contains(me[position]) == false && me[position] != '\n' && me[position] != '\r')
@@ -324,17 +324,17 @@ QString  gui::codeedit::CodeEdit::textUnderCursor() const
     {
         result = this->gui::textedit::TextEdit::textUnderCursor();
     }
-	return result;
+    return result;
 }
 
 int gui::codeedit::CodeEdit::minCompletionPrefixLength() const
 {
-	return 2;
+    return 2;
 }
 
 void gui::codeedit::CodeEdit::highlightCurrentLine()
 {
-	QList<QTextEdit::ExtraSelection> extraSelections;
+    QList<QTextEdit::ExtraSelection> extraSelections;
 
     if (!isReadOnly()) {
         QTextEdit::ExtraSelection selection;

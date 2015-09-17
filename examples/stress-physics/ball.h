@@ -1,7 +1,7 @@
 /*! \file ball.h
-	
+    
 
-	Describes a ball
+    Describes a ball
  */
 #pragma once
 #include <p2d/app/object.h>
@@ -15,17 +15,17 @@ class Ball: public sad::p2d::app::Object
 {
 SAD_OBJECT
 public:
-	 Ball();
+     Ball();
 
-	 ~Ball();
+     ~Ball();
 // This added only for testing physics engine
 #ifdef PHYSICS_ENGINE_DEBUG
-	 virtual void render();
-	 inline sad::log::Log * log() 
-	 {
-		return m_log;
-	 }
+     virtual void render();
+     inline sad::log::Log * log() 
+     {
+        return m_log;
+     }
 protected:
-	sad::log::Log * m_log;
+    sad::log::Log * m_log;
 #endif
 };

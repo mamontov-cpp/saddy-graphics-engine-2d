@@ -2,7 +2,7 @@
     
      
     Defines a simple defines for creating bindings for method, which will be used to call
-	method on pointer to object
+    method on pointer to object
  */
 #pragma once
 #include "duktapecallable.h"
@@ -2539,7 +2539,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 1)
+        if (c->getTop() != 1)
         {
             c->throwError(sad::String("Method receives 1 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;
@@ -2608,7 +2608,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 2)
+        if (c->getTop() != 2)
         {
             c->throwError(sad::String("Method receives 2 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;
@@ -2693,7 +2693,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 3)
+        if (c->getTop() != 3)
         {
             c->throwError(sad::String("Method receives 3 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;
@@ -2786,7 +2786,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 4)
+        if (c->getTop() != 4)
         {
             c->throwError(sad::String("Method receives 4 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;
@@ -2887,7 +2887,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 5)
+        if (c->getTop() != 5)
         {
             c->throwError(sad::String("Method receives 5 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;
@@ -2996,7 +2996,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 6)
+        if (c->getTop() != 6)
         {
             c->throwError(sad::String("Method receives 6 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;
@@ -3113,7 +3113,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 7)
+        if (c->getTop() != 7)
         {
             c->throwError(sad::String("Method receives 7 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;
@@ -3238,7 +3238,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 8)
+        if (c->getTop() != 8)
         {
             c->throwError(sad::String("Method receives 8 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;
@@ -3371,7 +3371,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 9)
+        if (c->getTop() != 9)
         {
             c->throwError(sad::String("Method receives 9 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;
@@ -3512,7 +3512,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 10)
+        if (c->getTop() != 10)
         {
             c->throwError(sad::String("Method receives 10 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;
@@ -3661,7 +3661,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 11)
+        if (c->getTop() != 11)
         {
             c->throwError(sad::String("Method receives 11 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;
@@ -3818,7 +3818,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 12)
+        if (c->getTop() != 12)
         {
             c->throwError(sad::String("Method receives 12 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;
@@ -3983,7 +3983,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 13)
+        if (c->getTop() != 13)
         {
             c->throwError(sad::String("Method receives 13 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;
@@ -4156,7 +4156,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 14)
+        if (c->getTop() != 14)
         {
             c->throwError(sad::String("Method receives 14 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;
@@ -4337,7 +4337,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 15)
+        if (c->getTop() != 15)
         {
             c->throwError(sad::String("Method receives 15 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;
@@ -4526,7 +4526,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 16)
+        if (c->getTop() != 16)
         {
             c->throwError(sad::String("Method receives 16 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;
@@ -4723,7 +4723,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 17)
+        if (c->getTop() != 17)
         {
             c->throwError(sad::String("Method receives 17 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;
@@ -7394,7 +7394,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 1)
+        if (c->getTop() != 1)
         {
             c->throwError(sad::String("Method receives 1 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;
@@ -7463,7 +7463,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 2)
+        if (c->getTop() != 2)
         {
             c->throwError(sad::String("Method receives 2 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;
@@ -7548,7 +7548,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 3)
+        if (c->getTop() != 3)
         {
             c->throwError(sad::String("Method receives 3 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;
@@ -7641,7 +7641,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 4)
+        if (c->getTop() != 4)
         {
             c->throwError(sad::String("Method receives 4 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;
@@ -7742,7 +7742,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 5)
+        if (c->getTop() != 5)
         {
             c->throwError(sad::String("Method receives 5 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;
@@ -7851,7 +7851,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 6)
+        if (c->getTop() != 6)
         {
             c->throwError(sad::String("Method receives 6 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;
@@ -7968,7 +7968,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 7)
+        if (c->getTop() != 7)
         {
             c->throwError(sad::String("Method receives 7 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;
@@ -8093,7 +8093,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 8)
+        if (c->getTop() != 8)
         {
             c->throwError(sad::String("Method receives 8 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;
@@ -8226,7 +8226,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 9)
+        if (c->getTop() != 9)
         {
             c->throwError(sad::String("Method receives 9 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;
@@ -8367,7 +8367,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 10)
+        if (c->getTop() != 10)
         {
             c->throwError(sad::String("Method receives 10 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;
@@ -8516,7 +8516,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 11)
+        if (c->getTop() != 11)
         {
             c->throwError(sad::String("Method receives 11 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;
@@ -8673,7 +8673,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 12)
+        if (c->getTop() != 12)
         {
             c->throwError(sad::String("Method receives 12 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;
@@ -8838,7 +8838,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 13)
+        if (c->getTop() != 13)
         {
             c->throwError(sad::String("Method receives 13 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;
@@ -9011,7 +9011,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 14)
+        if (c->getTop() != 14)
         {
             c->throwError(sad::String("Method receives 14 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;
@@ -9192,7 +9192,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 15)
+        if (c->getTop() != 15)
         {
             c->throwError(sad::String("Method receives 15 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;
@@ -9381,7 +9381,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 16)
+        if (c->getTop() != 16)
         {
             c->throwError(sad::String("Method receives 16 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;
@@ -9578,7 +9578,7 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
-		if (c->getTop() != 17)
+        if (c->getTop() != 17)
         {
             c->throwError(sad::String("Method receives 17 arguments, but ") + sad::String::number(c->getTop()) + " given");
             return 0;

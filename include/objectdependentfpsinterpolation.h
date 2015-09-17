@@ -1,7 +1,7 @@
 /*! \file fpsinterpolation.h
-	
+    
 
-	A class for computing FPS, with timing and interpolation between frames
+    A class for computing FPS, with timing and interpolation between frames
  */
 #pragma once
 #include "timer.h"
@@ -17,43 +17,43 @@ class Renderer;
 class ObjectDependentFPSInterpolation: public sad::FPSInterpolation
 {
 public:
-	/*! Creates new non-started FPS computation
-	 */
-	ObjectDependentFPSInterpolation();
-	/*! Can be inherited
-	 */
-	virtual ~ObjectDependentFPSInterpolation();
-	/*! Starts new ObjectFPSInterpolation iteration. Must be called at beginning
-		of new main loop
-	 */
-	virtual void reset();
-	/*! Starts measuring time for computing time interval
-	 */
-	virtual void start();
-	/*! Stops measuring time for computing time interval
-	 */
-	virtual void stop();
-	/*! Resets timing for FPS interpolation. Used to remove FPS jumps, when
-		window is not active
-	 */
-	virtual void resetTimer();
-	/*! Returns current FPS
-		\return FPS
-	 */
-	virtual double fps();
-	/*! Sets a renderer for interpolation
-	 */
-	void setRenderer(sad::Renderer * renderer);
+    /*! Creates new non-started FPS computation
+     */
+    ObjectDependentFPSInterpolation();
+    /*! Can be inherited
+     */
+    virtual ~ObjectDependentFPSInterpolation();
+    /*! Starts new ObjectFPSInterpolation iteration. Must be called at beginning
+        of new main loop
+     */
+    virtual void reset();
+    /*! Starts measuring time for computing time interval
+     */
+    virtual void start();
+    /*! Stops measuring time for computing time interval
+     */
+    virtual void stop();
+    /*! Resets timing for FPS interpolation. Used to remove FPS jumps, when
+        window is not active
+     */
+    virtual void resetTimer();
+    /*! Returns current FPS
+        \return FPS
+     */
+    virtual double fps();
+    /*! Sets a renderer for interpolation
+     */
+    void setRenderer(sad::Renderer * renderer);
 protected:
-	/*! Returns amount of rendererd items per time
-	 */
-	unsigned int m_total_renderer_items;
-	/*! Returns an interval of renderer per item
-	 */
-	sad::Maybe<double> m_interval_per_item;
-	/*! Sets a renderer for interpolation
-	 */
-	sad::Renderer * m_renderer;
+    /*! Returns amount of rendererd items per time
+     */
+    unsigned int m_total_renderer_items;
+    /*! Returns an interval of renderer per item
+     */
+    sad::Maybe<double> m_interval_per_item;
+    /*! Sets a renderer for interpolation
+     */
+    sad::Renderer * m_renderer;
 };
 
 }

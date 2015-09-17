@@ -1,7 +1,7 @@
 /*! \file animationsresize.h
-	
+    
 
-	Describes an animation for resizing an object
+    Describes an animation for resizing an object
  */
 #pragma once
 #include "animationsanimation.h"
@@ -11,7 +11,7 @@
 
 namespace sad
 {
-	
+    
 namespace animations
 {
 
@@ -21,13 +21,13 @@ class Resize: public sad::animations::Animation
 {
 SAD_OBJECT
 public:
-	/*! Creates new empty animation
-	 */
-	Resize();
-	/*! Can be inherited
-	 */
-	virtual ~Resize();
-	/*! A basic schema for object
+    /*! Creates new empty animation
+     */
+    Resize();
+    /*! Can be inherited
+     */
+    virtual ~Resize();
+    /*! A basic schema for object
         \return a schema
      */
     static sad::db::schema::Schema* basicSchema();
@@ -40,40 +40,40 @@ public:
         \return whether it was successfull
      */
     virtual bool loadFromValue(const picojson::value& v);
-	/*! Sets size of object on the start of animation
-		\param[in] v starting size
-	 */
-	void setStartSize(const sad::Point2D& v);
-   	/*! Sets size of object on the start of animation
-		\param[in] v starting size
-	 */
-	void setStartSize(const sad::Size2D& v);
+    /*! Sets size of object on the start of animation
+        \param[in] v starting size
+     */
+    void setStartSize(const sad::Point2D& v);
+    /*! Sets size of object on the start of animation
+        \param[in] v starting size
+     */
+    void setStartSize(const sad::Size2D& v);
     /*! Sets ending size of object on the end of animation
-		\param[in] v ending size
-	 */
-	void setEndSize(const sad::Point2D& v);
+        \param[in] v ending size
+     */
+    void setEndSize(const sad::Point2D& v);
     /*! Sets ending size of object on the end of animation
-		\param[in] v ending size
-	 */
-	void setEndSize(const sad::Size2D& v);
+        \param[in] v ending size
+     */
+    void setEndSize(const sad::Size2D& v);
     /*! Returns starting size for an animation
-		\return size
-	 */
-	const sad::Point2D& startSize() const;
+        \return size
+     */
+    const sad::Point2D& startSize() const;
     /*! Returns ending size for an animation
-		\return size
-	 */
-	const sad::Point2D& endSize() const;
-	/*! An animations instance
-		\param[in] i an instance for animation
-	 */
-	virtual void start(sad::animations::Instance* i);
-	/*! Sets state of object from animation
+        \return size
+     */
+    const sad::Point2D& endSize() const;
+    /*! An animations instance
+        \param[in] i an instance for animation
+     */
+    virtual void start(sad::animations::Instance* i);
+    /*! Sets state of object from animation
         \param[in] i an animation instance
         \param[in] time a time of playing of animation
      */
     virtual void setState(sad::animations::Instance* i, double time);
-	/*! Creates a state command for an object
+    /*! Creates a state command for an object
         \param[in] o object
         \return state command
      */
@@ -84,9 +84,9 @@ public:
      */
     virtual bool applicableTo(sad::db::Object* o);
 protected:
-	/*! A starting size for resizing objects
-	 */
-	sad::Point2D m_start_size;
+    /*! A starting size for resizing objects
+     */
+    sad::Point2D m_start_size;
     /*! An ending size for resizing objects
      */
     sad::Point2D m_end_size;

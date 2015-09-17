@@ -25,10 +25,10 @@ public:
         \param[in] newvalue new value
       */
     ChangeFontListFonts(
-		sad::animations::Animation* d, 
-		const sad::Vector<sad::String>& oldvalue, 
-		const sad::Vector<sad::String>& newvalue
-	);
+        sad::animations::Animation* d, 
+        const sad::Vector<sad::String>& oldvalue, 
+        const sad::Vector<sad::String>& newvalue
+    );
     /*! Erases link to an animation
       */
     virtual ~ChangeFontListFonts();

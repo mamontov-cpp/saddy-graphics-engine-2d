@@ -1,7 +1,7 @@
 /*! \file shooter.h
-	
+    
 
-	Describes a simple shooter, which shoots object
+    Describes a simple shooter, which shoots object
  */
 #include <p2d/app/object.h>
 #include <p2d/app/constants.h>
@@ -18,15 +18,15 @@ class Shooter: public sad::p2d::app::Object
  class Gun: public sad::p2d::app::RandomDirectionObjectEmitter<ColoredBullet>
  {
   protected:
-	Shooter * m_parent;
+    Shooter * m_parent;
   public:
-	 Gun(Shooter * parent);
-	 virtual sad::p2d::app::App * app();
-	 virtual void perform();
+     Gun(Shooter * parent);
+     virtual sad::p2d::app::App * app();
+     virtual void perform();
  };
  protected:
-	 Gun * m_gun;
+     Gun * m_gun;
  public:
-	 Shooter();
-	 void startShooting();
+     Shooter();
+     void startShooting();
 };

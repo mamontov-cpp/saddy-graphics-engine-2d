@@ -25,281 +25,281 @@
 struct SadDbDatabaseTest : tpunit::TestFixture
 {
 public:
-	SadDbDatabaseTest() : tpunit::TestFixture(		
-		TEST(SadDbDatabaseTest::test_save),
-		TEST(SadDbDatabaseTest::test_load_not_exists),
-		TEST(SadDbDatabaseTest::test_load_empty),
-		TEST(SadDbDatabaseTest::test_load_null),
-		TEST(SadDbDatabaseTest::test_load_emptyobject),
-		TEST(SadDbDatabaseTest::test_load_invalid_definitions),
-		TEST(SadDbDatabaseTest::test_load_invalid_property),
-		TEST(SadDbDatabaseTest::test_load_invalid_item),
-		TEST(SadDbDatabaseTest::test_load_valid),
-		TEST(SadDbDatabaseTest::test_load_valid2),
-		TEST(SadDbDatabaseTest::test_add),
-		TEST(SadDbDatabaseTest::test_remove),
-		TEST(SadDbDatabaseTest::test_properties),
-		TEST(SadDbDatabaseTest::test_query_by_majorid),
-		TEST(SadDbDatabaseTest::test_query_by_minorid),
-		TEST(SadDbDatabaseTest::test_query_by_name),
-		TEST(SadDbDatabaseTest::test_snapshot_change_table),
-		TEST(SadDbDatabaseTest::test_snapshot_reset_table),
-		TEST(SadDbDatabaseTest::test_snapshot_change_objects),
-		TEST(SadDbDatabaseTest::test_snapshot_reset_objects)
-	) {}
+    SadDbDatabaseTest() : tpunit::TestFixture(		
+        TEST(SadDbDatabaseTest::test_save),
+        TEST(SadDbDatabaseTest::test_load_not_exists),
+        TEST(SadDbDatabaseTest::test_load_empty),
+        TEST(SadDbDatabaseTest::test_load_null),
+        TEST(SadDbDatabaseTest::test_load_emptyobject),
+        TEST(SadDbDatabaseTest::test_load_invalid_definitions),
+        TEST(SadDbDatabaseTest::test_load_invalid_property),
+        TEST(SadDbDatabaseTest::test_load_invalid_item),
+        TEST(SadDbDatabaseTest::test_load_valid),
+        TEST(SadDbDatabaseTest::test_load_valid2),
+        TEST(SadDbDatabaseTest::test_add),
+        TEST(SadDbDatabaseTest::test_remove),
+        TEST(SadDbDatabaseTest::test_properties),
+        TEST(SadDbDatabaseTest::test_query_by_majorid),
+        TEST(SadDbDatabaseTest::test_query_by_minorid),
+        TEST(SadDbDatabaseTest::test_query_by_name),
+        TEST(SadDbDatabaseTest::test_snapshot_change_table),
+        TEST(SadDbDatabaseTest::test_snapshot_reset_table),
+        TEST(SadDbDatabaseTest::test_snapshot_change_objects),
+        TEST(SadDbDatabaseTest::test_snapshot_reset_objects)
+    ) {}
 
-	void test_save()
-	{
-		sad::db::Database db;
-		sad::String data;
-		db.save(data);
-		ASSERT_TRUE(data.size() != 0);
-		ASSERT_TRUE(db.load(data));
-	}
+    void test_save()
+    {
+        sad::db::Database db;
+        sad::String data;
+        db.save(data);
+        ASSERT_TRUE(data.size() != 0);
+        ASSERT_TRUE(db.load(data));
+    }
 
-	void test_load_not_exists()
-	{
-		sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
-		f->add<Mock3>("Mock3",  new sad::db::schema::Schema());
+    void test_load_not_exists()
+    {
+        sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
+        f->add<Mock3>("Mock3",  new sad::db::schema::Schema());
 
-		sad::db::Database * db = new sad::db::Database();
-		db->setFactory(f);
+        sad::db::Database * db = new sad::db::Database();
+        db->setFactory(f);
 
-		sad::Renderer r;
-		r.addDatabase("", db);
+        sad::Renderer r;
+        r.addDatabase("", db);
 
-		bool result = r.database("")->loadFromFile("tests/db/database/notexists.json");
-		ASSERT_FALSE( result );
-	}
+        bool result = r.database("")->loadFromFile("tests/db/database/notexists.json");
+        ASSERT_FALSE( result );
+    }
 
-	void test_load_empty()
-	{
-		sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
-		f->add<Mock3>("Mock3",  new sad::db::schema::Schema());
+    void test_load_empty()
+    {
+        sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
+        f->add<Mock3>("Mock3",  new sad::db::schema::Schema());
 
-		sad::db::Database * db = new sad::db::Database();
-		db->setFactory(f);
+        sad::db::Database * db = new sad::db::Database();
+        db->setFactory(f);
 
-		sad::Renderer r;
-		r.addDatabase("", db);
+        sad::Renderer r;
+        r.addDatabase("", db);
 
-		bool result = r.database("")->loadFromFile("tests/db/database/empty.json");
-		ASSERT_FALSE( result );
-	}
+        bool result = r.database("")->loadFromFile("tests/db/database/empty.json");
+        ASSERT_FALSE( result );
+    }
 
-	void test_load_null()
-	{
-		sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
-		f->add<Mock3>("Mock3",  new sad::db::schema::Schema());
+    void test_load_null()
+    {
+        sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
+        f->add<Mock3>("Mock3",  new sad::db::schema::Schema());
 
-		sad::db::Database * db = new sad::db::Database();
-		db->setFactory(f);
+        sad::db::Database * db = new sad::db::Database();
+        db->setFactory(f);
 
-		sad::Renderer r;
-		r.addDatabase("", db);
+        sad::Renderer r;
+        r.addDatabase("", db);
 
-		bool result = r.database("")->loadFromFile("tests/db/database/null.json");
-		ASSERT_FALSE( result );
-	}
+        bool result = r.database("")->loadFromFile("tests/db/database/null.json");
+        ASSERT_FALSE( result );
+    }
 
-	void test_load_emptyobject()
-	{
-		sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
-		f->add<Mock3>("Mock3",  new sad::db::schema::Schema());
+    void test_load_emptyobject()
+    {
+        sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
+        f->add<Mock3>("Mock3",  new sad::db::schema::Schema());
 
-		sad::db::Database * db = new sad::db::Database();
-		db->setFactory(f);
+        sad::db::Database * db = new sad::db::Database();
+        db->setFactory(f);
 
-		sad::Renderer r;
-		r.addDatabase("", db);
+        sad::Renderer r;
+        r.addDatabase("", db);
 
-		bool result = r.database("")->loadFromFile("tests/db/database/eo.json");
-		ASSERT_FALSE( result );
-	}
+        bool result = r.database("")->loadFromFile("tests/db/database/eo.json");
+        ASSERT_FALSE( result );
+    }
 
-	void test_load_invalid_definitions()
-	{
-		sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
-		f->add<Mock3>("Mock3",  new sad::db::schema::Schema());
+    void test_load_invalid_definitions()
+    {
+        sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
+        f->add<Mock3>("Mock3",  new sad::db::schema::Schema());
 
-		sad::db::Database * db = new sad::db::Database();
-		db->setFactory(f);
+        sad::db::Database * db = new sad::db::Database();
+        db->setFactory(f);
 
-		sad::Renderer r;
-		r.addDatabase("", db);
+        sad::Renderer r;
+        r.addDatabase("", db);
 
-		bool result = r.database("")->loadFromFile("tests/db/database/invaliddefs.json");
-		ASSERT_FALSE( result );
-	}
+        bool result = r.database("")->loadFromFile("tests/db/database/invaliddefs.json");
+        ASSERT_FALSE( result );
+    }
 
-	void test_load_invalid_property()
-	{
-		sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
-		f->add<Mock3>("Mock3",  new sad::db::schema::Schema());
+    void test_load_invalid_property()
+    {
+        sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
+        f->add<Mock3>("Mock3",  new sad::db::schema::Schema());
 
-		sad::db::Database * db = new sad::db::Database();
-		db->setFactory(f);
+        sad::db::Database * db = new sad::db::Database();
+        db->setFactory(f);
 
-		sad::Renderer r;
-		r.addDatabase("", db);
+        sad::Renderer r;
+        r.addDatabase("", db);
 
-		bool result = r.database("")->loadFromFile("tests/db/database/invalidtype.json");
-		ASSERT_FALSE( result );
-	}
+        bool result = r.database("")->loadFromFile("tests/db/database/invalidtype.json");
+        ASSERT_FALSE( result );
+    }
 
-	void test_load_invalid_item()
-	{
-		sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
-		f->add<Mock3>("Mock3",  new sad::db::schema::Schema());
+    void test_load_invalid_item()
+    {
+        sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
+        f->add<Mock3>("Mock3",  new sad::db::schema::Schema());
 
-		sad::db::Database * db = new sad::db::Database();
-		db->setFactory(f);
+        sad::db::Database * db = new sad::db::Database();
+        db->setFactory(f);
 
-		sad::Renderer r;
-		r.addDatabase("", db);
+        sad::Renderer r;
+        r.addDatabase("", db);
 
-		bool result = r.database("")->loadFromFile("tests/db/database/invaliditem.json");
-		ASSERT_FALSE( result );
-	}
+        bool result = r.database("")->loadFromFile("tests/db/database/invaliditem.json");
+        ASSERT_FALSE( result );
+    }
 
-	void test_load_valid()
-	{
-		sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
-		f->add<Mock3>("Mock3",  new sad::db::schema::Schema());
+    void test_load_valid()
+    {
+        sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
+        f->add<Mock3>("Mock3",  new sad::db::schema::Schema());
 
-		sad::db::Database * db = new sad::db::Database();
-		db->setFactory(f);
+        sad::db::Database * db = new sad::db::Database();
+        db->setFactory(f);
 
-		sad::Renderer r;
-		r.addDatabase("", db);
+        sad::Renderer r;
+        r.addDatabase("", db);
 
-		bool result = r.database("")->loadFromFile("tests/db/database/valid.json");
-		ASSERT_TRUE( result );
+        bool result = r.database("")->loadFromFile("tests/db/database/valid.json");
+        ASSERT_TRUE( result );
 
-		sad::db::Object * o = r.database("")->queryByMinorId(1)[0];
-		ASSERT_TRUE(o->objectName() == "test");
-	}
+        sad::db::Object * o = r.database("")->queryByMinorId(1)[0];
+        ASSERT_TRUE(o->objectName() == "test");
+    }
 
-	void test_load_valid2()
-	{
-		sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
-		f->add<Mock3>("Mock3",  new sad::db::schema::Schema());
+    void test_load_valid2()
+    {
+        sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
+        f->add<Mock3>("Mock3",  new sad::db::schema::Schema());
 
-		sad::db::Database * db = new sad::db::Database();
-		db->setFactory(f);
+        sad::db::Database * db = new sad::db::Database();
+        db->setFactory(f);
 
-		sad::Renderer r;
-		r.addDatabase("", db);
+        sad::Renderer r;
+        r.addDatabase("", db);
 
-		bool result = r.database("")->loadFromFile("tests/db/database/valid2.json");
-		ASSERT_TRUE( result );
-	}
-	
-	void test_add()
-	{
-		sad::db::Database db;
-		ASSERT_TRUE( db.addTable("table", new sad::db::Table()) );
-		
-		sad::db::Table* t2 = new sad::db::Table();
-		ASSERT_FALSE( db.addTable("table", t2) );
-		delete t2;
-		
-		ASSERT_TRUE( db.table("table") != NULL );
-		ASSERT_TRUE( db.table("table2") == NULL );		
-	}
-	
-	void test_remove()
-	{
-		sad::db::Database db;
-		ASSERT_TRUE( db.addTable("table", new sad::db::Table()) );
-		
-		ASSERT_TRUE( db.table("table") != NULL );
-		
-		db.removeTable("table");
-		db.removeTable("table2");
-		
-		ASSERT_TRUE( db.table("table") == NULL );		
-	}
-	
-	void test_properties()
-	{
-		sad::db::Database db;
-		
-		db.addProperty("test", new sad::db::StoredProperty<int>());
-		
-		ASSERT_TRUE( db.propertyByName("test") != NULL );
-		
-		ASSERT_TRUE( db.setProperty("test", 3) );
-		
-		ASSERT_TRUE( db.getProperty<int>("test").value() == 3);
-	
-		db.removeProperty("test");
-		ASSERT_TRUE( db.propertyByName("test") == NULL );		
-	}
-	
-	void test_query_by_majorid()
-	{
-		sad::db::Database db;
-		db.addTable("table", new sad::db::Table());
-		
-		Mock3 * mock = new Mock3();
-		mock->setObjectName("test");
-		mock->MajorId = 1;
-		mock->MinorId = 1;
-		db.table("table")->add(mock);
-	
-		ASSERT_TRUE( db.queryByMajorId(1)->objectName() == "test");
-		ASSERT_TRUE( db.queryByMajorId(22) == NULL );
+        bool result = r.database("")->loadFromFile("tests/db/database/valid2.json");
+        ASSERT_TRUE( result );
+    }
+    
+    void test_add()
+    {
+        sad::db::Database db;
+        ASSERT_TRUE( db.addTable("table", new sad::db::Table()) );
+        
+        sad::db::Table* t2 = new sad::db::Table();
+        ASSERT_FALSE( db.addTable("table", t2) );
+        delete t2;
+        
+        ASSERT_TRUE( db.table("table") != NULL );
+        ASSERT_TRUE( db.table("table2") == NULL );		
+    }
+    
+    void test_remove()
+    {
+        sad::db::Database db;
+        ASSERT_TRUE( db.addTable("table", new sad::db::Table()) );
+        
+        ASSERT_TRUE( db.table("table") != NULL );
+        
+        db.removeTable("table");
+        db.removeTable("table2");
+        
+        ASSERT_TRUE( db.table("table") == NULL );		
+    }
+    
+    void test_properties()
+    {
+        sad::db::Database db;
+        
+        db.addProperty("test", new sad::db::StoredProperty<int>());
+        
+        ASSERT_TRUE( db.propertyByName("test") != NULL );
+        
+        ASSERT_TRUE( db.setProperty("test", 3) );
+        
+        ASSERT_TRUE( db.getProperty<int>("test").value() == 3);
+    
+        db.removeProperty("test");
+        ASSERT_TRUE( db.propertyByName("test") == NULL );		
+    }
+    
+    void test_query_by_majorid()
+    {
+        sad::db::Database db;
+        db.addTable("table", new sad::db::Table());
+        
+        Mock3 * mock = new Mock3();
+        mock->setObjectName("test");
+        mock->MajorId = 1;
+        mock->MinorId = 1;
+        db.table("table")->add(mock);
+    
+        ASSERT_TRUE( db.queryByMajorId(1)->objectName() == "test");
+        ASSERT_TRUE( db.queryByMajorId(22) == NULL );
 
         ASSERT_TRUE( db.objectByMajorId<Mock3>(1)->objectName() == "test");
-	}
-	
-	void test_query_by_minorid()
-	{
-		sad::db::Database db;
-		db.addTable("table", new sad::db::Table());
-		
-		Mock3 * mock = new Mock3();
-		mock->setObjectName("test");
-		mock->MajorId = 1;
-		mock->MinorId = 1;
-		db.table("table")->add(mock);
-	
-		ASSERT_TRUE( db.queryByMinorId(1)[0]->objectName() == "test");
-		ASSERT_TRUE( db.queryByMinorId(22).size() == 0 );
+    }
+    
+    void test_query_by_minorid()
+    {
+        sad::db::Database db;
+        db.addTable("table", new sad::db::Table());
+        
+        Mock3 * mock = new Mock3();
+        mock->setObjectName("test");
+        mock->MajorId = 1;
+        mock->MinorId = 1;
+        db.table("table")->add(mock);
+    
+        ASSERT_TRUE( db.queryByMinorId(1)[0]->objectName() == "test");
+        ASSERT_TRUE( db.queryByMinorId(22).size() == 0 );
 
         ASSERT_TRUE( db.objectsByMinorId<Mock3>(1)[0]->objectName() == "test");
         ASSERT_TRUE( db.objectByMinorId<Mock3>(1)->objectName() == "test");
     }
-	
-	void test_query_by_name()
-	{
-		sad::db::Database db;
-		db.addTable("table", new sad::db::Table());
-		
-		Mock3 * mock = new Mock3();
-		mock->setObjectName("test");
-		mock->MajorId = 1;
-		mock->MinorId = 1;
-		db.table("table")->add(mock);
-	
-		ASSERT_TRUE( db.queryByName("test")[0]->MinorId == 1);
-		ASSERT_TRUE( db.queryByName("test2").size() == 0 );
+    
+    void test_query_by_name()
+    {
+        sad::db::Database db;
+        db.addTable("table", new sad::db::Table());
+        
+        Mock3 * mock = new Mock3();
+        mock->setObjectName("test");
+        mock->MajorId = 1;
+        mock->MinorId = 1;
+        db.table("table")->add(mock);
+    
+        ASSERT_TRUE( db.queryByName("test")[0]->MinorId == 1);
+        ASSERT_TRUE( db.queryByName("test2").size() == 0 );
         ASSERT_TRUE( db.objectsByName<Mock3>("test")[0]->objectName() == "test");
         ASSERT_TRUE( db.objectByName<Mock3>("test")->objectName() == "test");
 
     }
 
     void test_snapshot_change_table()
-	{
-	    sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
-		f->add<Mock3>("Mock3",  new sad::db::schema::Schema());
+    {
+        sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
+        f->add<Mock3>("Mock3",  new sad::db::schema::Schema());
 
-		sad::db::Database * db = new sad::db::Database();
-		db->setFactory(f);
+        sad::db::Database * db = new sad::db::Database();
+        db->setFactory(f);
 
-		sad::Renderer r;
-		r.addDatabase("", db);
+        sad::Renderer r;
+        r.addDatabase("", db);
 
         // Fill initial data for snapshots
         sad::db::Table* tbl = new sad::db::Table();
@@ -343,15 +343,15 @@ public:
     }
 
     void test_snapshot_reset_table()
-	{
-	    sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
-		f->add<Mock3>("Mock3",  new sad::db::schema::Schema());
+    {
+        sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
+        f->add<Mock3>("Mock3",  new sad::db::schema::Schema());
 
-		sad::db::Database * db = new sad::db::Database();
-		db->setFactory(f);
+        sad::db::Database * db = new sad::db::Database();
+        db->setFactory(f);
 
-		sad::Renderer r;
-		r.addDatabase("", db);
+        sad::Renderer r;
+        r.addDatabase("", db);
 
         // Fill initial data for snapshots
         sad::db::Table* tbl = new sad::db::Table();
@@ -382,18 +382,18 @@ public:
         ASSERT_TRUE( db->table("table2") == NULL );        
         ASSERT_TRUE( db->objectByName<Mock3>("m1") == mock1 );
         ASSERT_TRUE( db->objectByName<Mock3>("m2") == mock2 );
-	}
+    }
 
     void test_snapshot_change_objects()
-	{
-	    sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
-		f->add<Mock3>("Mock3",  new sad::db::schema::Schema());
+    {
+        sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
+        f->add<Mock3>("Mock3",  new sad::db::schema::Schema());
 
-		sad::db::Database * db = new sad::db::Database();
-		db->setFactory(f);
+        sad::db::Database * db = new sad::db::Database();
+        db->setFactory(f);
 
-		sad::Renderer r;
-		r.addDatabase("", db);
+        sad::Renderer r;
+        r.addDatabase("", db);
 
         // Fill initial data for snapshots
         sad::db::Table* tbl = new sad::db::Table();
@@ -433,18 +433,18 @@ public:
         ASSERT_TRUE( db->objectByName<Mock3>("m2") == mock2 );
         ASSERT_TRUE( mock2->id_c() == 23 );
         ASSERT_TRUE( db->objectByName<Mock3>("m3") == NULL );
-	}
+    }
 
     void test_snapshot_reset_objects()
-	{
-	    sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
-		f->add<Mock3>("Mock3",  new sad::db::schema::Schema());
+    {
+        sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
+        f->add<Mock3>("Mock3",  new sad::db::schema::Schema());
 
-		sad::db::Database * db = new sad::db::Database();
-		db->setFactory(f);
+        sad::db::Database * db = new sad::db::Database();
+        db->setFactory(f);
 
-		sad::Renderer r;
-		r.addDatabase("", db);
+        sad::Renderer r;
+        r.addDatabase("", db);
 
         // Fill initial data for snapshots
         sad::db::Table* tbl = new sad::db::Table();
@@ -477,6 +477,6 @@ public:
         ASSERT_TRUE( mock1->id_c() == 22 );
         ASSERT_TRUE( db->objectByName<Mock3>("m2") == mock2 );
         ASSERT_TRUE( mock2->id_c() == 23 );
-	}
-				
+    }
+                
 } _sad_db_database_test;

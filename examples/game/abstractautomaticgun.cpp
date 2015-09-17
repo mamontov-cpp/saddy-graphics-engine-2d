@@ -3,19 +3,19 @@
 
 AbstractAutomaticGun::AbstractAutomaticGun()
 {
-	m_object = NULL;
-	m_dangle = 0;
-	setInterval(200); // Fairly random number, as a default
+    m_object = NULL;
+    m_dangle = 0;
+    setInterval(200); // Fairly random number, as a default
 }
 
 double AbstractAutomaticGun::angle()
 {
-	return 0;
+    return 0;
 }
 
 void AbstractAutomaticGun::setAngleDifference(double delta)
 {
-	m_dangle = delta;
+    m_dangle = delta;
 }
 
 AbstractAutomaticGun::~AbstractAutomaticGun()
@@ -25,16 +25,16 @@ AbstractAutomaticGun::~AbstractAutomaticGun()
 
 void AbstractAutomaticGun::setObject(GameObject * o)
 {
-	m_object = o; 
+    m_object = o; 
 }
 
 void AbstractAutomaticGun::tryShoot()
 {
-	// Try to perform periodical event
-	this->tryPerform();
+    // Try to perform periodical event
+    this->tryPerform();
 }
 
 sad::p2d::app::App * AbstractAutomaticGun::app()
 {
-	return m_object->app();
+    return m_object->app();
 }

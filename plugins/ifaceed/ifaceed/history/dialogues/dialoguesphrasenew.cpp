@@ -7,8 +7,8 @@
 #include "../blockedclosuremethodcall.h"
 
 history::dialogues::PhraseNew::PhraseNew(
-	sad::dialogue::Dialogue* dialogue, 
-	const sad::dialogue::Phrase& p
+    sad::dialogue::Dialogue* dialogue, 
+    const sad::dialogue::Phrase& p
 ) : m_dialogue(dialogue), m_phrase(p)
 {
     m_dialogue->addRef();
@@ -22,7 +22,7 @@ history::dialogues::PhraseNew::~PhraseNew()
 
 void history::dialogues::PhraseNew::commit(core::Editor* ob)
 {
-	m_dialogue->phrases() << new sad::dialogue::Phrase(m_phrase);
+    m_dialogue->phrases() << new sad::dialogue::Phrase(m_phrase);
     if (ob)
     {
         if (ob->shared()->selectedDialogue() == m_dialogue)
@@ -41,7 +41,7 @@ void history::dialogues::PhraseNew::commit(core::Editor* ob)
 void history::dialogues::PhraseNew::rollback(core::Editor* ob)
 {
     int row = m_dialogue->phrases().size() - 1;
-	delete m_dialogue->phrases()[row];
+    delete m_dialogue->phrases()[row];
     m_dialogue->phrases().removeAt(row);
     if (ob)
     {
@@ -49,7 +49,7 @@ void history::dialogues::PhraseNew::rollback(core::Editor* ob)
         {
             ob->emitClosure(bind(
                 ob->panel(),
-				&MainPanel::removePhraseFromPhraseList,
+                &MainPanel::removePhraseFromPhraseList,
                 row
             ));
         }

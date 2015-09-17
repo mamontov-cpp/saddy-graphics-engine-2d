@@ -22,7 +22,7 @@ public:
     /*! Creates new command
         \param[in] dialogue dialogue
      */
-	New(sad::dialogue::Dialogue* dialogue);
+    New(sad::dialogue::Dialogue* dialogue);
     /*! Could be inherited
      */
     virtual ~New();

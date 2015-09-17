@@ -21,8 +21,8 @@ class RemoveFromComposite: public history::Command
 public:
     /*! Creates new command
         \param[in] a animations
-		\param[in] id id of animation
-		\param[in] position a position for removal
+        \param[in] id id of animation
+        \param[in] position a position for removal
      */
     RemoveFromComposite(sad::animations::Composite* a, unsigned long long id, int position);
     /*! Could be inherited
@@ -40,12 +40,12 @@ protected:
     /*! A current selected animation
      */
     sad::animations::Composite* m_animation;
-	/*! An id of added animations
-	 */
-	unsigned long long m_id;
-	/*! A position for animation
-	 */
-	int m_position;
+    /*! An id of added animations
+     */
+    unsigned long long m_id;
+    /*! A position for animation
+     */
+    int m_position;
 };
 
 }

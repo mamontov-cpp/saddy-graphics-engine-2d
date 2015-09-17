@@ -1,7 +1,7 @@
 /*! \file sadacolortoqcolor.h
-	
+    
 
-	Defines a converter from sad::AColor to QColor, used in conversion table
+    Defines a converter from sad::AColor to QColor, used in conversion table
  */
 #pragma once
 #include <QColor>
@@ -16,18 +16,18 @@ namespace core
 
 namespace typeconverters
 {
-	
+    
 /*! Defines a conversion from sad::AColor to QColor
  */
 class SadAColorToQColor: public sad::db::AbstractTypeConverter
 {
 public:
-	/*! Creates new converter
-	 */
-	inline SadAColorToQColor()
-	{
-		
-	}
+    /*! Creates new converter
+     */
+    inline SadAColorToQColor()
+    {
+        
+    }
     /*! Converts source color to another color type
         \param[in] source a source color
         \param[out] dest a destination color
@@ -36,16 +36,16 @@ public:
         const sad::AColor& source,
         QColor& dest
     );
-	/*! Converts source value from another and to another type
-		\param[in] source a pointer to sad::AColor value
-		\param[in] dest a pointer to QColor value
-	 */
+    /*! Converts source value from another and to another type
+        \param[in] source a pointer to sad::AColor value
+        \param[in] dest a pointer to QColor value
+     */
     virtual void convert(void* source, void* dest);
-	/*! Can be inherited
-	 */
-	virtual ~SadAColorToQColor();
+    /*! Can be inherited
+     */
+    virtual ~SadAColorToQColor();
 };
 
 }
-	
+    
 }

@@ -1,7 +1,7 @@
 /*! \file playerbullet.h
-	
+    
 
-	Describes a bullet owned by player
+    Describes a bullet owned by player
  */
 #pragma once
 #include "gameobject.h"
@@ -14,6 +14,6 @@ class PlayerBullet: public GameObject
 {
  SAD_OBJECT
  public:
-	 PlayerBullet();
+     PlayerBullet();
 };
 

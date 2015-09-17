@@ -24,15 +24,15 @@ public:
     virtual ~Writer();
     /*! Writes an atlas to output file
         \param[in] name a reading name
-		\param[in] filename a name for file
-		\param[in] outputTexture a file name for output texture
-		\param[in] withindex should we write an index to file
-		\return result
+        \param[in] filename a name for file
+        \param[in] outputTexture a file name for output texture
+        \param[in] withindex should we write an index to file
+        \return result
      */
     virtual bool write(
-		const Atlas& atlas,
-		const QString& filename,
-		const QString& outputTexture,
-		bool withindex
-	)  = 0;
+        const Atlas& atlas,
+        const QString& filename,
+        const QString& outputTexture,
+        bool withindex
+    )  = 0;
 };

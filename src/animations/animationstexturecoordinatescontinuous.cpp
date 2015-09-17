@@ -32,12 +32,12 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::TextureCoordinatesContinuous, sad::ani
 
 sad::animations::TextureCoordinatesContinuous::TextureCoordinatesContinuous() 
 {
-	m_creators.pushProperty<sad::Rect2D>("texturecoordinates", "texturecoordinates");	
+    m_creators.pushProperty<sad::Rect2D>("texturecoordinates", "texturecoordinates");	
 }
 
 sad::animations::TextureCoordinatesContinuous::~TextureCoordinatesContinuous()
 {
-	
+    
 }
 
 static sad::db::schema::Schema* AnimationTextureCoordinatesContinuousSchema = NULL;
@@ -56,19 +56,19 @@ sad::db::schema::Schema* sad::animations::TextureCoordinatesContinuous::basicSch
 
             AnimationTextureCoordinatesContinuousSchema->add(
                 "start_rect",
-			    new sad::db::MethodPair<sad::animations::TextureCoordinatesContinuous, sad::Rect2D>(
-				    &sad::animations::TextureCoordinatesContinuous::startRect,
+                new sad::db::MethodPair<sad::animations::TextureCoordinatesContinuous, sad::Rect2D>(
+                    &sad::animations::TextureCoordinatesContinuous::startRect,
                     &sad::animations::TextureCoordinatesContinuous::setStartRect
                 )
             );
-		    AnimationTextureCoordinatesContinuousSchema->add(
+            AnimationTextureCoordinatesContinuousSchema->add(
                 "end_rect",
-			    new sad::db::MethodPair<sad::animations::TextureCoordinatesContinuous, sad::Rect2D>(
-				    &sad::animations::TextureCoordinatesContinuous::endRect,
+                new sad::db::MethodPair<sad::animations::TextureCoordinatesContinuous, sad::Rect2D>(
+                    &sad::animations::TextureCoordinatesContinuous::endRect,
                     &sad::animations::TextureCoordinatesContinuous::setEndRect
                 )
             );
-		        
+                
             sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationTextureCoordinatesContinuousSchema);
         }
         AnimationTextureCoordinatesContinuousSchemaInit.unlock();
@@ -83,56 +83,56 @@ sad::db::schema::Schema* sad::animations::TextureCoordinatesContinuous::schema()
 
 bool sad::animations::TextureCoordinatesContinuous::loadFromValue(const picojson::value& v)
 {
-	bool flag = this->sad::animations::Animation::loadFromValue(v);
-	if (flag)
-	{
-		sad::Maybe<sad::Rect2D> startrect = picojson::to_type<sad::Rect2D>(
-												picojson::get_property(v, "start_rect")
-											);
-		sad::Maybe<sad::Rect2D> endrect = picojson::to_type<sad::Rect2D>(
-												picojson::get_property(v, "end_rect")
-											);
-		bool result = startrect.exists() && endrect.exists();
-		if (result)
-		{
-			setStartRect(startrect.value());
-			setEndRect(endrect.value());
-		}
+    bool flag = this->sad::animations::Animation::loadFromValue(v);
+    if (flag)
+    {
+        sad::Maybe<sad::Rect2D> startrect = picojson::to_type<sad::Rect2D>(
+                                                picojson::get_property(v, "start_rect")
+                                            );
+        sad::Maybe<sad::Rect2D> endrect = picojson::to_type<sad::Rect2D>(
+                                                picojson::get_property(v, "end_rect")
+                                            );
+        bool result = startrect.exists() && endrect.exists();
+        if (result)
+        {
+            setStartRect(startrect.value());
+            setEndRect(endrect.value());
+        }
 
-		flag = flag && result;
-	}
-	return flag;
+        flag = flag && result;
+    }
+    return flag;
 }
 
 void sad::animations::TextureCoordinatesContinuous::setStartRect(const sad::Rect2D& rect)
 {
-	m_start_rect = rect;
+    m_start_rect = rect;
 }
 
 const sad::Rect2D& sad::animations::TextureCoordinatesContinuous::startRect() const
 {
-	return m_start_rect;
+    return m_start_rect;
 }
 
 void sad::animations::TextureCoordinatesContinuous::setEndRect(const sad::Rect2D& rect)
 {
-	m_end_rect = rect;
+    m_end_rect = rect;
 }
 
 const sad::Rect2D& sad::animations::TextureCoordinatesContinuous::endRect() const
 {
-	return m_end_rect;
+    return m_end_rect;
 }
 
 
 void sad::animations::TextureCoordinatesContinuous::setState(sad::animations::Instance* i, double time)
 {
-	sad::Rect2D r;
-	for(size_t ii = 0; ii < 4; ii++)
-	{
-		r[ii] = m_start_rect[ii] + (m_end_rect[ii] - m_start_rect[ii]) * (time / m_time);
-	}
-	i->stateCommandAs<sad::Rect2D>()->call(r);
+    sad::Rect2D r;
+    for(size_t ii = 0; ii < 4; ii++)
+    {
+        r[ii] = m_start_rect[ii] + (m_end_rect[ii] - m_start_rect[ii]) * (time / m_time);
+    }
+    i->stateCommandAs<sad::Rect2D>()->call(r);
 }
 
 

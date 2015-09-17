@@ -20,18 +20,18 @@ class ChangeCameraAngle: public history::animations::ChangeProperty<double>
 public:
      /*! Constructs new command for animation
          \param[in] d an animation
-		 \param[in] propertyname a name for property
+         \param[in] propertyname a name for property
          \param[in] view a view, that should be updated
-		 \param[in] oldvalue old value
+         \param[in] oldvalue old value
          \param[in] newvalue new value
       */
     ChangeCameraAngle(
-		sad::animations::Animation* d, 
-		const sad::String& propertyname,
-		QDoubleSpinBox* view, 
-		double oldvalue, 
-		double newvalue
-	);
+        sad::animations::Animation* d, 
+        const sad::String& propertyname,
+        QDoubleSpinBox* view, 
+        double oldvalue, 
+        double newvalue
+    );
     /*! Erases link to an animation
       */
     virtual ~ChangeCameraAngle();
@@ -42,9 +42,9 @@ protected:
      * \param[in] value a value
      */
     virtual void updateUI(core::Editor* e, const double& value);
-	/*! A color view, which should be updated
-	 */
-	QDoubleSpinBox* m_view;
+    /*! A color view, which should be updated
+     */
+    QDoubleSpinBox* m_view;
 };
 
 }

@@ -23,8 +23,8 @@ class SwapInComposite: public history::Command
 public:
     /*! Creates new command
         \param[in] a animations
-		\param[in] pos1 first position
-		\param[in] pos2 second position
+        \param[in] pos1 first position
+        \param[in] pos2 second position
      */
     SwapInComposite(sad::animations::Composite* a, int pos1, int pos2);
     /*! Could be inherited
@@ -39,19 +39,19 @@ public:
      */
     virtual void rollback(core::Editor * ob = NULL);
 protected:
-	/*! Swaps items with positions with list
-		\param[in] w widget
-	 */
-	void swapItemsInList(QListWidget* w);
-	/*! A current selected animation
+    /*! Swaps items with positions with list
+        \param[in] w widget
+     */
+    void swapItemsInList(QListWidget* w);
+    /*! A current selected animation
      */
     sad::animations::Composite* m_animation;
-	/*! A first position
-	 */
-	int m_position1;
-	/*! A second position
-	 */
-	int m_position2;
+    /*! A first position
+     */
+    int m_position1;
+    /*! A second position
+     */
+    int m_position2;
 };
 
 }

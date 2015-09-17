@@ -67,7 +67,7 @@ public:
      * Constructs new instance of method call
      * \param o object
      * \param f method
-	 * \param a argument for calling
+     * \param a argument for calling
      */
     inline ClosureMethodCall1(_ClassName * o, _Method f, const _Arg & a) : m_o(o), m_f(f), m_a(a)
     {
@@ -180,14 +180,14 @@ public:
      * \param f method
      * \param a1 first argument
      * \param a2 second argument
-	 * \param a3 third argument
+     * \param a3 third argument
      */
     inline ClosureMethodCall3(_ClassName * o, _Method f, const _Arg1& a1, const _Arg2& a2, const _Arg3& a3) 
-	: m_o(o), 
-	m_f(f), 
-	m_a1(a1), 
-	m_a2(a2), 
-	m_a3(a3)
+    : m_o(o), 
+    m_f(f), 
+    m_a1(a1), 
+    m_a2(a2), 
+    m_a3(a3)
     {
 
     }
@@ -222,7 +222,7 @@ protected:
      * A second argument to be passed into method call
      */
     _Arg2 m_a2;
-	/*!
+    /*!
      * A third argument to be passed into method call
      */
     _Arg3 m_a3;

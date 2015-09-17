@@ -15,155 +15,155 @@ m_animation_is_running(false),
 m_animation_instance_is_running(false),
 m_animation_group_is_running(false)
 {
-	m_show_active_border = true;
-	m_nonresizeable_nodetypes << "sad::Label";
+    m_show_active_border = true;
+    m_nonresizeable_nodetypes << "sad::Label";
 }
 
 core::Shared::~Shared()
 {
-	
+    
 }
 
 void core::Shared::setEditor(core::Editor* e)
 {
-	m_editor = e;
+    m_editor = e;
 }
 
 core::Editor* core::Shared::editor() const
 {
-	return m_editor;
+    return m_editor;
 }
 
 void core::Shared::setSelectedObject(sad::SceneNode* o)
 {
-	m_selected = o;
+    m_selected = o;
 }
 
 void core::Shared::setActiveObject(sad::SceneNode* o)
 {
-	m_active = o;
+    m_active = o;
 }
 
 sad::SceneNode* core::Shared::selectedObject() const
 {
-	return m_selected;
+    return m_selected;
 }
 
 sad::SceneNode* core::Shared::activeObject() const
 {
-	return m_active;
+    return m_active;
 }
 
 
 bool core::Shared::canShowActiveBorder() const
 {
-	return m_show_active_border  && m_active != NULL;
+    return m_show_active_border  && m_active != NULL;
 }
 
 void core::Shared::toggleActiveBorder(bool flag) 
 {
-	m_show_active_border = flag;
+    m_show_active_border = flag;
 }
 
 void core::Shared::setPivotPoint(const sad::Point2D& p)
 {
-	m_pivot_point = p;
+    m_pivot_point = p;
 }
 
 const sad::Point2D& core::Shared::pivotPoint() const
 {
-	return m_pivot_point;
+    return m_pivot_point;
 }
 
 void core::Shared::setOldArea(const sad::Rect2D& r)
 {
-	m_old_area = r;
+    m_old_area = r;
 }
 
 const sad::Rect2D& core::Shared::oldArea() const
 {
-	return m_old_area;
+    return m_old_area;
 }
 
 bool core::Shared::isSelectionResizeable() const
 {
-	if (m_selected == NULL)
-		return false;
-	bool result  = true;
-	for(size_t i = 0; i < m_nonresizeable_nodetypes.size(); i++)
-	{
-		if (m_selected->metaData()->canBeCastedTo(m_nonresizeable_nodetypes[i]))
-		{
-			result = false;
-		}
-	}
-	if (m_selected->metaData()->canBeCastedTo("sad::db::custom::Object"))
-	{
-		sad::db::custom::Object* o  = static_cast<sad::db::custom::Object*>(m_selected);
-		result = o->innerTypeIs("sad::Label") == false;
-	}
-	return result;
+    if (m_selected == NULL)
+        return false;
+    bool result  = true;
+    for(size_t i = 0; i < m_nonresizeable_nodetypes.size(); i++)
+    {
+        if (m_selected->metaData()->canBeCastedTo(m_nonresizeable_nodetypes[i]))
+        {
+            result = false;
+        }
+    }
+    if (m_selected->metaData()->canBeCastedTo("sad::db::custom::Object"))
+    {
+        sad::db::custom::Object* o  = static_cast<sad::db::custom::Object*>(m_selected);
+        result = o->innerTypeIs("sad::Label") == false;
+    }
+    return result;
 }
 
 void core::Shared::setResizingIndexes(const sad::Pair<int, int>& indexes)
 {
-	m_resizing_indexes = indexes;
+    m_resizing_indexes = indexes;
 }
 
 const sad::Pair<int, int>& core::Shared::resizingIndexes() const
 {
-	return m_resizing_indexes;
+    return m_resizing_indexes;
 }
 
 void core::Shared::setResizingDirection(const sad::p2d::Vector& direction)
 {
-	m_resizing_direction = direction;
+    m_resizing_direction = direction;
 }
 
 const sad::p2d::Vector& core::Shared::resizingDirection() const
 {
-	return m_resizing_direction;
+    return m_resizing_direction;
 }
 
 void core::Shared::setNormalizedResizingDirection(const sad::p2d::Vector& direction)
 {
-	m_normalized_resizing_direction = direction;
+    m_normalized_resizing_direction = direction;
 }
 
 const sad::p2d::Vector& core::Shared::normalizedResizingDirection() const
 {
-	return m_normalized_resizing_direction;
+    return m_normalized_resizing_direction;
 }
 
 void core::Shared::setFileName(const QString& name)
 {
-	m_filename = name;
+    m_filename = name;
 }
 
 const QString& core::Shared::fileName() const
 {
-	return m_filename;
+    return m_filename;
 }
 
 void core::Shared::setOldRegion(const sad::Rect2D& r)
 {
-	m_old_region = r;
+    m_old_region = r;
 }
 
 const sad::Rect2D&  core::Shared::oldRegion() const
 {
-	return m_old_region;
+    return m_old_region;
 }
 
 
 void core::Shared::setSelectedWay(sad::p2d::app::Way* way)
 {
-	m_selected_way = way;
+    m_selected_way = way;
 }
 
 sad::p2d::app::Way* core::Shared::selectedWay() const
 {
-	return m_selected_way;
+    return m_selected_way;
 }
 
 void core::Shared::setWayPointPosition(int p)
@@ -189,64 +189,64 @@ const sad::Point2D& core::Shared::oldPoint() const
 
 void core::Shared::setSelectedDialogue(sad::dialogue::Dialogue* d)
 {
-	m_selected_dialogue = d;
+    m_selected_dialogue = d;
 }
 
 sad::dialogue::Dialogue*  core::Shared::selectedDialogue() const
 {
-	return m_selected_dialogue;
+    return m_selected_dialogue;
 }
 
 void core::Shared::setSelectedAnimation(sad::animations::Animation* a)
 {
-	m_selected_animation = a;
+    m_selected_animation = a;
 }
 
 sad::animations::Animation* core::Shared::selectedAnimation() const
 {
-	return m_selected_animation;	
+    return m_selected_animation;	
 }
 
 void core::Shared::setSelectedInstance(sad::animations::Instance* a)
 {
-	m_selected_instance = a;
+    m_selected_instance = a;
 }
 
 sad::animations::Instance* core::Shared::selectedInstance() const
 {
-	return m_selected_instance;	
+    return m_selected_instance;	
 }
 
 void core::Shared::setSelectedGroup(sad::animations::Group* a)
 {
-	m_selected_group = a;
+    m_selected_group = a;
 }
 
 sad::animations::Group* core::Shared::selectedGroup() const
 {
-	return m_selected_group;
+    return m_selected_group;
 }
 
 bool core::Shared::isAnyKindOfAnimationIsRunning() const
 {
-	return m_animation_is_running
-		|| m_animation_instance_is_running
-		|| m_animation_group_is_running;
+    return m_animation_is_running
+        || m_animation_instance_is_running
+        || m_animation_group_is_running;
 }
 
 void core::Shared::setAnimationIsRunning(bool flag)
 {
-	m_animation_is_running = flag;	
+    m_animation_is_running = flag;	
 }
 
 void core::Shared::setAnimationInstanceIsRunning(bool flag)
 {
-	m_animation_instance_is_running = flag;	
+    m_animation_instance_is_running = flag;	
 }
 
 void core::Shared::setAnimationGroupIsRunning(bool flag)
 {
-	m_animation_group_is_running = flag;	
+    m_animation_group_is_running = flag;	
 }
 
 void core::Shared::setEditingSimpleMovementProperty(const sad::String& name)

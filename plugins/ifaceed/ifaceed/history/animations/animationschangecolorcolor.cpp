@@ -11,8 +11,8 @@
 
 history::animations::ChangeColorColor::ChangeColorColor(
     sad::animations::Animation* d,
-	const sad::String& propertyname,
-	gui::colorview::ColorView* view,
+    const sad::String& propertyname,
+    gui::colorview::ColorView* view,
     const sad::AColor& oldvalue,
     const sad::AColor& newvalue
 
@@ -33,20 +33,20 @@ history::animations::ChangeColorColor::~ChangeColorColor()
 
 void history::animations::ChangeColorColor::updateUI(core::Editor* e, const sad::AColor& value)
 {
-	QColor color;
+    QColor color;
 
-	core::typeconverters::SadAColorToQColor::convert(value, color);
+    core::typeconverters::SadAColorToQColor::convert(value, color);
     
-	e->emitClosure( blocked_bind(
+    e->emitClosure( blocked_bind(
             m_view,
             &gui::colorview::ColorView::setBackgroundColor,
             color
         )
     );
 
-	void (QWidget::*f)() = &QWidget::update;
+    void (QWidget::*f)() = &QWidget::update;
 
-	e->emitClosure( bind(
+    e->emitClosure( bind(
             m_view,
             f
         )

@@ -1,8 +1,8 @@
 /*! \file ghostoptions.h
-	
+    
 
-	Describes an options for object, that defines it as a ghost, i.e.
-	an object, which does not collide with any other objects
+    Describes an options for object, that defines it as a ghost, i.e.
+    an object, which does not collide with any other objects
  */
 #pragma once
 #include "tickable.h"
@@ -19,7 +19,7 @@ template<>
 class TickableDefaultValue<bool>
 {
  public:
-	 static inline bool get() { return false; }
+     static inline bool get() { return false; }
 };
 
 

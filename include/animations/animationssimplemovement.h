@@ -1,7 +1,7 @@
 /*! \file animationssimplemovement.h
-	
+    
 
-	Describes an animation for simple movement of object on line
+    Describes an animation for simple movement of object on line
  */
 #pragma once
 #include "animationsanimation.h"
@@ -11,7 +11,7 @@
 
 namespace sad
 {
-	
+    
 namespace animations
 {
 
@@ -21,12 +21,12 @@ class SimpleMovement: public sad::animations::Animation
 {
 SAD_OBJECT
 public:
-	/*! Creates new empty animation
-	 */
-	SimpleMovement();
-	/*! Can be inherited
-	 */
-	virtual ~SimpleMovement();
+    /*! Creates new empty animation
+     */
+    SimpleMovement();
+    /*! Can be inherited
+     */
+    virtual ~SimpleMovement();
     /*! Sets starting point
         \param[in] p point
      */
@@ -56,12 +56,12 @@ public:
         \return whether it was successfull
      */
     virtual bool loadFromValue(const picojson::value& v);
-	/*! Sets state of object from animation
+    /*! Sets state of object from animation
         \param[in] i an animation instance
         \param[in] time a time of playing of animation
      */
     virtual void setState(sad::animations::Instance* i, double time);
-	/*! Creates a state command for an object
+    /*! Creates a state command for an object
         \param[in] o object
         \return state command
      */
@@ -72,9 +72,9 @@ public:
      */
     virtual bool applicableTo(sad::db::Object* o);
 protected:
-	/*! A starting point for animation
-	 */
-	sad::Point2D m_start_point;
+    /*! A starting point for animation
+     */
+    sad::Point2D m_start_point;
     /*! An ending point for animation
      */
     sad::Point2D m_end_point;

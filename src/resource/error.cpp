@@ -23,12 +23,12 @@ sad::resource::Error::~Error() throw()
 
 sad::resource::FileLoadError::~FileLoadError() throw()
 {
-	
+    
 }
 
 sad::resource::ResourceLoadError::~ResourceLoadError() throw()
 {
-	
+    
 }
 
 sad::resource::MissingResource::~MissingResource() throw()
@@ -38,37 +38,37 @@ sad::resource::MissingResource::~MissingResource() throw()
 
 sad::resource::ResourceAlreadyExists::~ResourceAlreadyExists() throw()
 {
-	
+    
 }
 
 sad::resource::CannotDeleteReferencedResource::~CannotDeleteReferencedResource() throw()
 {
-	
+    
 }
 
 sad::resource::UnregisteredFileType::~UnregisteredFileType() throw()
 {
-	
+    
 }
 
 sad::resource::UnregisteredResourceType::~UnregisteredResourceType() throw()
 {
-	
+    
 }
 
 sad::resource::AnonymousResource::~AnonymousResource() throw()
 {
-	
+    
 }
 
 sad::resource::FileLoadingNotImplemented::~FileLoadingNotImplemented() throw()
 {
-	
+    
 }
 
 sad::resource::JSONParseError::~JSONParseError() throw()
 {
-	
+    
 }
 
 sad::resource::MalformedResourceEntry::~MalformedResourceEntry() throw()
@@ -83,19 +83,19 @@ sad::resource::EmptyTextureAtlas::~EmptyTextureAtlas() throw()
 
 sad::resource::TreeNotFound::~TreeNotFound() throw()
 {
-	
+    
 }
 
 sad::String sad::resource::format(
-	const sad::Vector<sad::resource::Error *> & errors,
-	const sad::String & lineformat,
-	const sad::String & separator
+    const sad::Vector<sad::resource::Error *> & errors,
+    const sad::String & lineformat,
+    const sad::String & separator
 )
 {
-	sad::Vector<sad::String> list;
-	for(size_t i = 0; i < errors.size(); i++)
-	{
-		list << fmt::str(fmt::Format(lineformat) << sad::String(errors[i]->what()));
-	}
-	return sad::join(list, separator);
+    sad::Vector<sad::String> list;
+    for(size_t i = 0; i < errors.size(); i++)
+    {
+        list << fmt::str(fmt::Format(lineformat) << sad::String(errors[i]->what()));
+    }
+    return sad::join(list, separator);
 }

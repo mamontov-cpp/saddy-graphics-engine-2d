@@ -40,7 +40,7 @@ sad::animations::CameraShaking::CameraShaking() : m_frequency(0)
 
 sad::animations::CameraShaking::~CameraShaking()
 {
-	
+    
 }
 
 static sad::db::schema::Schema* AnimationCameraShakingSchema = NULL;
@@ -59,15 +59,15 @@ sad::db::schema::Schema* sad::animations::CameraShaking::basicSchema()
 
             AnimationCameraShakingSchema->add(
                 "offset",
-			    new sad::db::MethodPair<sad::animations::CameraShaking, sad::Point2D>(
-				    &sad::animations::CameraShaking::offset,
+                new sad::db::MethodPair<sad::animations::CameraShaking, sad::Point2D>(
+                    &sad::animations::CameraShaking::offset,
                     &sad::animations::CameraShaking::setOffset
                 )
             );
-		    AnimationCameraShakingSchema->add(
+            AnimationCameraShakingSchema->add(
                 "frequency",
-			    new sad::db::MethodPair<sad::animations::CameraShaking, int>(
-				    &sad::animations::CameraShaking::frequency,
+                new sad::db::MethodPair<sad::animations::CameraShaking, int>(
+                    &sad::animations::CameraShaking::frequency,
                     &sad::animations::CameraShaking::setFrequency
                 )
             );		        
@@ -86,56 +86,56 @@ sad::db::schema::Schema* sad::animations::CameraShaking::schema() const
 
 bool sad::animations::CameraShaking::loadFromValue(const picojson::value& v)
 {
-	bool flag = this->sad::animations::Animation::loadFromValue(v);
-	if (flag)
-	{
-		sad::Maybe<sad::Point2D> offset = picojson::to_type<sad::Point2D>(
-										      picojson::get_property(v, "offset")
-										  );
-		sad::Maybe<int> frequency       = picojson::to_type<int>(
-										      picojson::get_property(v, "frequency")
-										  );
+    bool flag = this->sad::animations::Animation::loadFromValue(v);
+    if (flag)
+    {
+        sad::Maybe<sad::Point2D> offset = picojson::to_type<sad::Point2D>(
+                                              picojson::get_property(v, "offset")
+                                          );
+        sad::Maybe<int> frequency       = picojson::to_type<int>(
+                                              picojson::get_property(v, "frequency")
+                                          );
 
-		bool result = offset.exists() && frequency.exists();
-		if (result)
-		{
-			m_offset = offset.value();
-			m_frequency = frequency.value();
+        bool result = offset.exists() && frequency.exists();
+        if (result)
+        {
+            m_offset = offset.value();
+            m_frequency = frequency.value();
 
-			m_inner_valid  = m_frequency != 0;
-			this->updateValidFlag();
-		}
+            m_inner_valid  = m_frequency != 0;
+            this->updateValidFlag();
+        }
 
-		flag = flag && result;
-	}
-	return flag;
+        flag = flag && result;
+    }
+    return flag;
 }
 
 void sad::animations::CameraShaking::setOffset(const sad::Point2D& offset)
 {
-	m_offset = offset;
+    m_offset = offset;
 }
 
 const sad::Point2D & sad::animations::CameraShaking::offset() const
 {
-	return m_offset;
+    return m_offset;
 }
 
 void sad::animations::CameraShaking::setFrequency(int freq)
 {
-	m_frequency = freq;
-	m_inner_valid  = m_frequency != 0;
-	this->updateValidFlag();
+    m_frequency = freq;
+    m_inner_valid  = m_frequency != 0;
+    this->updateValidFlag();
 }
 
 int sad::animations::CameraShaking::frequency() const
 {
-	return m_frequency;
+    return m_frequency;
 }
 
 void sad::animations::CameraShaking::setState(sad::animations::Instance* i, double time)
 {
-	sad::Point2D offset = m_offset * cos(time / m_time * static_cast<double>(m_frequency));	
+    sad::Point2D offset = m_offset * cos(time / m_time * static_cast<double>(m_frequency));	
     i->stateCommandAs<sad::Point3D>()->call(offset);
 }
 

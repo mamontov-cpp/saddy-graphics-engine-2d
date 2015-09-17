@@ -13,7 +13,7 @@ history::animations::ChangeFontListFonts::ChangeFontListFonts(
 : history::animations::ChangeList(
       d,
       "fonts",
-	  NULL,
+      NULL,
       oldvalue,
       newvalue
 )
@@ -27,6 +27,6 @@ history::animations::ChangeFontListFonts::~ChangeFontListFonts()
 
 void history::animations::ChangeFontListFonts::updateUI(core::Editor* e, const sad::Vector<sad::String>& value)
 {
-	m_view =  e->panel()->UI()->txtFontListList;
-	this->history::animations::ChangeList::updateUI(e, value);
+    m_view =  e->panel()->UI()->txtFontListList;
+    this->history::animations::ChangeList::updateUI(e, value);
 }

@@ -37,25 +37,25 @@ Q_DECLARE_METATYPE(sad::dialogue::Phrase)
 #define DECLARE_FROM_VALUE_AS_VARIANT(TYPE)                                           \
 QScriptValue scripting::FromValue<TYPE>::perform(const TYPE& v, QScriptEngine* e)         \
 {                                                                                         \
-	QVariant variant;                                                                     \
-	variant.setValue(v);                                                                  \
-	return e->newVariant(variant);                                                        \
+    QVariant variant;                                                                     \
+    variant.setValue(v);                                                                  \
+    return e->newVariant(variant);                                                        \
 }
 
 
 QScriptValue scripting::FromValue<double>::perform(const double& v, QScriptEngine* )
 {
-	return QScriptValue(v);
+    return QScriptValue(v);
 }
 
 QScriptValue scripting::FromValue<float>::perform(const float& v, QScriptEngine* )
 {
-	return QScriptValue(static_cast<double>(v));
+    return QScriptValue(static_cast<double>(v));
 }
 
 QScriptValue scripting::FromValue<int>::perform(const int& v, QScriptEngine* )
 {
-	return QScriptValue(v);
+    return QScriptValue(v);
 }
 
 DECLARE_FROM_VALUE_AS_VARIANT(long)
@@ -63,101 +63,101 @@ DECLARE_FROM_VALUE_AS_VARIANT(long long)
 
 QScriptValue scripting::FromValue<sad::Point2D>::perform(const sad::Point2D& v, QScriptEngine* e)
 {
-	return e->newQObject(new scripting::Point2D(v), QScriptEngine::AutoOwnership);
+    return e->newQObject(new scripting::Point2D(v), QScriptEngine::AutoOwnership);
 }
 
 QScriptValue scripting::FromValue<sad::Point2I>::perform(const sad::Point2I& v, QScriptEngine* e)
 {
-	return e->newQObject(new scripting::Point2I(v), QScriptEngine::AutoOwnership);
+    return e->newQObject(new scripting::Point2I(v), QScriptEngine::AutoOwnership);
 }
 
 QScriptValue scripting::FromValue<sad::Point3D>::perform(const sad::Point3D& v, QScriptEngine* e)
 {
-	return e->newQObject(new scripting::Point3D(v), QScriptEngine::AutoOwnership);
+    return e->newQObject(new scripting::Point3D(v), QScriptEngine::AutoOwnership);
 }
 
 QScriptValue scripting::FromValue<sad::Point3I>::perform(const sad::Point3I& v, QScriptEngine* e)
 {
-	return e->newQObject(new scripting::Point3I(v), QScriptEngine::AutoOwnership);
+    return e->newQObject(new scripting::Point3I(v), QScriptEngine::AutoOwnership);
 }
 
 QScriptValue scripting::FromValue<sad::Size2D>::perform(const sad::Size2D& v, QScriptEngine* e)
 {
-	return e->newQObject(new scripting::Size2D(v), QScriptEngine::AutoOwnership);
+    return e->newQObject(new scripting::Size2D(v), QScriptEngine::AutoOwnership);
 }
 
 QScriptValue scripting::FromValue<sad::Size2I>::perform(const sad::Size2I& v, QScriptEngine* e)
 {
-	return e->newQObject(new scripting::Size2I(v), QScriptEngine::AutoOwnership);
+    return e->newQObject(new scripting::Size2I(v), QScriptEngine::AutoOwnership);
 }
 
 QScriptValue scripting::FromValue<sad::Rect2D>::perform(const sad::Rect2D& v, QScriptEngine* e)
 {
-	return e->newQObject(new scripting::Rect2D(v), QScriptEngine::AutoOwnership);
+    return e->newQObject(new scripting::Rect2D(v), QScriptEngine::AutoOwnership);
 }
 
 QScriptValue scripting::FromValue<sad::Rect2I>::perform(const sad::Rect2I& v, QScriptEngine* e)
 {
-	return e->newQObject(new scripting::Rect2I(v), QScriptEngine::AutoOwnership);
+    return e->newQObject(new scripting::Rect2I(v), QScriptEngine::AutoOwnership);
 }
 
 QScriptValue scripting::FromValue<sad::Color>::perform(const sad::Color& v, QScriptEngine* e)
 {
-	return e->newQObject(new scripting::Color(v), QScriptEngine::AutoOwnership);
+    return e->newQObject(new scripting::Color(v), QScriptEngine::AutoOwnership);
 }
 
 QScriptValue scripting::FromValue<sad::AColor>::perform(const sad::AColor& v, QScriptEngine* e)
 {
-	return e->newQObject(new scripting::AColor(v), QScriptEngine::AutoOwnership);
+    return e->newQObject(new scripting::AColor(v), QScriptEngine::AutoOwnership);
 }
 
 QScriptValue scripting::FromValue<sad::String>::perform(const sad::String& v, QScriptEngine* )
 {
-	return QScriptValue(STD2QSTRING(v));
+    return QScriptValue(STD2QSTRING(v));
 }
 
 
 QScriptValue scripting::FromValue<std::string>::perform(const std::string& v, QScriptEngine* )
 {
-	return QScriptValue(STD2QSTRING(v));
+    return QScriptValue(STD2QSTRING(v));
 }
 
 QScriptValue scripting::FromValue<QString>::perform(const QString& v, QScriptEngine* )
 {
-	return QScriptValue(v);
+    return QScriptValue(v);
 }
 
 QScriptValue scripting::FromValue<short>::perform(const short& v, QScriptEngine* )
 {
-	return QScriptValue(static_cast<int>(v));
+    return QScriptValue(static_cast<int>(v));
 }
 
 QScriptValue scripting::FromValue<bool>::perform(const bool& v, QScriptEngine* )
 {
-	return QScriptValue(v);
+    return QScriptValue(v);
 }
 
 QScriptValue scripting::FromValue<char>::perform(const char& v, QScriptEngine* )
 {
-	char string[2] = { v, 0 };
-	return QScriptValue(STD2QSTRING(string));
+    char string[2] = { v, 0 };
+    return QScriptValue(STD2QSTRING(string));
 }
 
 QScriptValue scripting::FromValue<signed char>::perform(const signed char& v, QScriptEngine* )
 {
-	char string[2] = { v, 0 };
-	return QScriptValue(STD2QSTRING(string));
+    char string[2] = { v, 0 };
+    return QScriptValue(STD2QSTRING(string));
 }
 
 QScriptValue scripting::FromValue<unsigned char>::perform(const unsigned char& v, QScriptEngine* )
 {
-	char string[2] = { static_cast<signed char>(v), 0 };
-	return QScriptValue(STD2QSTRING(string));
+    char string[2] = { static_cast<signed char>(v), 0 };
+    return QScriptValue(STD2QSTRING(string));
 }
 
 QScriptValue scripting::FromValue<unsigned int>::perform(const unsigned int& v, QScriptEngine* )
 {
-	return QScriptValue(v);
+    return QScriptValue(v);
 }
 
 DECLARE_FROM_VALUE_AS_VARIANT(unsigned long)
@@ -165,25 +165,25 @@ DECLARE_FROM_VALUE_AS_VARIANT(unsigned long long)
 
 QScriptValue scripting::FromValue<unsigned short>::perform(const unsigned short& v, QScriptEngine* )
 {
-	return QScriptValue(static_cast<unsigned int>(v));
+    return QScriptValue(static_cast<unsigned int>(v));
 }
 
 QScriptValue scripting::FromValue<sad::db::Object*>::perform(const sad::db::Object*& v, QScriptEngine* e)
 {
-	unsigned long long majorid = 0;
-	if (v)
-	{
-		majorid = v->MajorId;
-	}
-	return scripting::FromValue<unsigned long long>::perform(majorid, e);
+    unsigned long long majorid = 0;
+    if (v)
+    {
+        majorid = v->MajorId;
+    }
+    return scripting::FromValue<unsigned long long>::perform(majorid, e);
 }
 
 #define DECLARE_FROM_VALUE_AS_DBOBJECT(TYPE)                                          \
 QScriptValue scripting::FromValue<TYPE>::perform(const TYPE& v, QScriptEngine* e)         \
 {                                                                                         \
-	TYPE a = const_cast<TYPE>(v);                                                         \
-	sad::db::Object const * o = a;                                                        \
-	return scripting::FromValue<sad::db::Object*>::perform(o, e);                         \
+    TYPE a = const_cast<TYPE>(v);                                                         \
+    sad::db::Object const * o = a;                                                        \
+    return scripting::FromValue<sad::db::Object*>::perform(o, e);                         \
 }
 
 DECLARE_FROM_VALUE_AS_DBOBJECT(sad::Scene*)

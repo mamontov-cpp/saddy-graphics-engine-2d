@@ -18,35 +18,35 @@ struct sadMutexScopedLockTest : tpunit::TestFixture
 {
 public:
 
-	sadMutexScopedLockTest() : tpunit::TestFixture(
-		TEST(sadMutexScopedLockTest::test)
-	) {}
+    sadMutexScopedLockTest() : tpunit::TestFixture(
+        TEST(sadMutexScopedLockTest::test)
+    ) {}
 
-	int value;
+    int value;
 
-	sad::Mutex * mutex;
-	
-	int increment()
-	{
-	   sad::ScopedLock lock(mutex);
-	   sad::sleep(100);
-	   ++value;
-	   return 0;
-	}
+    sad::Mutex * mutex;
+    
+    int increment()
+    {
+       sad::ScopedLock lock(mutex);
+       sad::sleep(100);
+       ++value;
+       return 0;
+    }
 
    void test()
    {
-	   value = 0;
-	   mutex = new sad::Mutex();
-	   sad::Thread thread1(this, &sadMutexScopedLockTest::increment);
-	   sad::Thread thread2(this, &sadMutexScopedLockTest::increment);
-	   thread1.run();
-	   thread2.run();
-	   thread1.wait();
-	   thread2.wait();
-	   delete mutex;
+       value = 0;
+       mutex = new sad::Mutex();
+       sad::Thread thread1(this, &sadMutexScopedLockTest::increment);
+       sad::Thread thread2(this, &sadMutexScopedLockTest::increment);
+       thread1.run();
+       thread2.run();
+       thread1.wait();
+       thread2.wait();
+       delete mutex;
 
-	   ASSERT_TRUE(value == 2);
+       ASSERT_TRUE(value == 2);
    }
 
 } sad_mutex_scoped_lock_test;

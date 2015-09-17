@@ -183,21 +183,21 @@ typedef void (*duk_debug_write_flush_function) (void *udata);
 typedef void (*duk_debug_detached_function) (void *udata);
 
 struct duk_memory_functions {
-	duk_alloc_function alloc_func;
-	duk_realloc_function realloc_func;
-	duk_free_function free_func;
-	void *udata;
+    duk_alloc_function alloc_func;
+    duk_realloc_function realloc_func;
+    duk_free_function free_func;
+    void *udata;
 };
 
 struct duk_function_list_entry {
-	const char *key;
-	duk_c_function value;
-	duk_idx_t nargs;
+    const char *key;
+    duk_c_function value;
+    duk_idx_t nargs;
 };
 
 struct duk_number_list_entry {
-	const char *key;
-	duk_double_t value;
+    const char *key;
+    duk_double_t value;
 };
 
 /*
@@ -374,7 +374,7 @@ duk_context *duk_create_heap(duk_alloc_function alloc_func,
 DUK_EXTERNAL_DECL void duk_destroy_heap(duk_context *ctx);
 
 #define duk_create_heap_default() \
-	duk_create_heap(NULL, NULL, NULL, NULL, NULL)
+    duk_create_heap(NULL, NULL, NULL, NULL, NULL)
 
 /*
  *  Memory management
@@ -402,7 +402,7 @@ DUK_API_NORETURN(DUK_EXTERNAL_DECL void duk_error_raw(duk_context *ctx, duk_errc
 
 #ifdef DUK_API_VARIADIC_MACROS
 #define duk_error(ctx,err_code,...)  \
-	duk_error_raw((ctx), (duk_errcode_t) (err_code), (const char *) (__FILE__), (duk_int_t) (__LINE__), __VA_ARGS__)
+    duk_error_raw((ctx), (duk_errcode_t) (err_code), (const char *) (__FILE__), (duk_int_t) (__LINE__), __VA_ARGS__)
 #else
 DUK_API_NORETURN(DUK_EXTERNAL_DECL void duk_error_stash(duk_context *ctx, duk_errcode_t err_code, const char *fmt, ...));
 /* One problem with this macro is that expressions like the following fail
@@ -410,14 +410,14 @@ DUK_API_NORETURN(DUK_EXTERNAL_DECL void duk_error_stash(duk_context *ctx, duk_er
  * they make little sense anyway.
  */
 #define duk_error  \
-	(duk_api_global_filename = (const char *) (__FILE__), \
-	 duk_api_global_line = (duk_int_t) (__LINE__), \
-	 duk_error_stash)  /* last value is func pointer, arguments follow in parens */
+    (duk_api_global_filename = (const char *) (__FILE__), \
+     duk_api_global_line = (duk_int_t) (__LINE__), \
+     duk_error_stash)  /* last value is func pointer, arguments follow in parens */
 #endif
 
 DUK_API_NORETURN(DUK_EXTERNAL_DECL void duk_error_va_raw(duk_context *ctx, duk_errcode_t err_code, const char *filename, duk_int_t line, const char *fmt, va_list ap));
 #define duk_error_va(ctx,err_code,fmt,ap)  \
-	duk_error_va_raw((ctx), (duk_errcode_t) (err_code), (const char *) (__FILE__), (duk_int_t) (__LINE__), (fmt), (ap))
+    duk_error_va_raw((ctx), (duk_errcode_t) (err_code), (const char *) (__FILE__), (duk_int_t) (__LINE__), (fmt), (ap))
 
 /*
  *  Other state related functions
@@ -467,9 +467,9 @@ DUK_EXTERNAL_DECL void duk_remove(duk_context *ctx, duk_idx_t index);
 DUK_EXTERNAL_DECL void duk_xcopymove_raw(duk_context *to_ctx, duk_context *from_ctx, duk_idx_t count, duk_bool_t is_copy);
 
 #define duk_xmove_top(to_ctx,from_ctx,count) \
-	duk_xcopymove_raw((to_ctx), (from_ctx), (count), 0 /*is_copy*/)
+    duk_xcopymove_raw((to_ctx), (from_ctx), (count), 0 /*is_copy*/)
 #define duk_xcopy_top(to_ctx,from_ctx,count) \
-	duk_xcopymove_raw((to_ctx), (from_ctx), (count), 1 /*is_copy*/)
+    duk_xcopymove_raw((to_ctx), (from_ctx), (count), 1 /*is_copy*/)
 
 /*
  *  Push operations
@@ -497,7 +497,7 @@ DUK_EXTERNAL_DECL const char *duk_push_vsprintf(duk_context *ctx, const char *fm
 
 DUK_EXTERNAL_DECL const char *duk_push_string_file_raw(duk_context *ctx, const char *path, duk_uint_t flags);
 #define duk_push_string_file(ctx,path) \
-	duk_push_string_file_raw((ctx), (path), 0)
+    duk_push_string_file_raw((ctx), (path), 0)
 
 DUK_EXTERNAL_DECL void duk_push_this(duk_context *ctx);
 DUK_EXTERNAL_DECL void duk_push_current_function(duk_context *ctx);
@@ -514,28 +514,28 @@ DUK_EXTERNAL_DECL duk_idx_t duk_push_c_lightfunc(duk_context *ctx, duk_c_functio
 DUK_EXTERNAL_DECL duk_idx_t duk_push_thread_raw(duk_context *ctx, duk_uint_t flags);
 
 #define duk_push_thread(ctx) \
-	duk_push_thread_raw((ctx), 0 /*flags*/)
+    duk_push_thread_raw((ctx), 0 /*flags*/)
 
 #define duk_push_thread_new_globalenv(ctx) \
-	duk_push_thread_raw((ctx), DUK_THREAD_NEW_GLOBAL_ENV /*flags*/)
+    duk_push_thread_raw((ctx), DUK_THREAD_NEW_GLOBAL_ENV /*flags*/)
 
 DUK_EXTERNAL_DECL duk_idx_t duk_push_error_object_raw(duk_context *ctx, duk_errcode_t err_code, const char *filename, duk_int_t line, const char *fmt, ...);
 
 #ifdef DUK_API_VARIADIC_MACROS
 #define duk_push_error_object(ctx,err_code,...)  \
-	duk_push_error_object_raw((ctx), (err_code), (const char *) (__FILE__), (duk_int_t) (__LINE__), __VA_ARGS__)
+    duk_push_error_object_raw((ctx), (err_code), (const char *) (__FILE__), (duk_int_t) (__LINE__), __VA_ARGS__)
 #else
 DUK_EXTERNAL_DECL duk_idx_t duk_push_error_object_stash(duk_context *ctx, duk_errcode_t err_code, const char *fmt, ...);
 /* Note: parentheses are required so that the comma expression works in assignments. */
 #define duk_push_error_object  \
-	(duk_api_global_filename = (const char *) (__FILE__), \
-	 duk_api_global_line = (duk_int_t) (__LINE__), \
-	 duk_push_error_object_stash)  /* last value is func pointer, arguments follow in parens */
+    (duk_api_global_filename = (const char *) (__FILE__), \
+     duk_api_global_line = (duk_int_t) (__LINE__), \
+     duk_push_error_object_stash)  /* last value is func pointer, arguments follow in parens */
 #endif
 
 DUK_EXTERNAL_DECL duk_idx_t duk_push_error_object_va_raw(duk_context *ctx, duk_errcode_t err_code, const char *filename, duk_int_t line, const char *fmt, va_list ap);
 #define duk_push_error_object_va(ctx,err_code,fmt,ap)  \
-	duk_push_error_object_va_raw((ctx), (err_code), (const char *) (__FILE__), (duk_int_t) (__LINE__), (fmt), (ap))
+    duk_push_error_object_va_raw((ctx), (err_code), (const char *) (__FILE__), (duk_int_t) (__LINE__), (fmt), (ap))
 
 #define DUK_BUF_FLAG_DYNAMIC   (1 << 0)    /* internal flag: dynamic buffer */
 #define DUK_BUF_FLAG_EXTERNAL  (1 << 1)    /* internal flag: external buffer */
@@ -544,13 +544,13 @@ DUK_EXTERNAL_DECL duk_idx_t duk_push_error_object_va_raw(duk_context *ctx, duk_e
 DUK_EXTERNAL_DECL void *duk_push_buffer_raw(duk_context *ctx, duk_size_t size, duk_small_uint_t flags);
 
 #define duk_push_buffer(ctx,size,dynamic) \
-	duk_push_buffer_raw((ctx), (size), (dynamic) ? DUK_BUF_FLAG_DYNAMIC : 0);
+    duk_push_buffer_raw((ctx), (size), (dynamic) ? DUK_BUF_FLAG_DYNAMIC : 0);
 #define duk_push_fixed_buffer(ctx,size) \
-	duk_push_buffer_raw((ctx), (size), 0 /*flags*/)
+    duk_push_buffer_raw((ctx), (size), 0 /*flags*/)
 #define duk_push_dynamic_buffer(ctx,size) \
-	duk_push_buffer_raw((ctx), (size), DUK_BUF_FLAG_DYNAMIC /*flags*/)
+    duk_push_buffer_raw((ctx), (size), DUK_BUF_FLAG_DYNAMIC /*flags*/)
 #define duk_push_external_buffer(ctx) \
-	((void) duk_push_buffer_raw((ctx), 0, DUK_BUF_FLAG_DYNAMIC | DUK_BUF_FLAG_EXTERNAL))
+    ((void) duk_push_buffer_raw((ctx), 0, DUK_BUF_FLAG_DYNAMIC | DUK_BUF_FLAG_EXTERNAL))
 
 #define DUK_BUFOBJ_CREATE_ARRBUF       (1 << 4)  /* internal flag: create backing ArrayBuffer; keep in one byte */
 #define DUK_BUFOBJ_DUKTAPE_BUFFER      0
@@ -617,27 +617,27 @@ DUK_EXTERNAL_DECL duk_bool_t duk_is_fixed_buffer(duk_context *ctx, duk_idx_t ind
 DUK_EXTERNAL_DECL duk_bool_t duk_is_external_buffer(duk_context *ctx, duk_idx_t index);
 
 #define duk_is_primitive(ctx,index) \
-	duk_check_type_mask((ctx), (index), DUK_TYPE_MASK_UNDEFINED | \
-	                                    DUK_TYPE_MASK_NULL | \
-	                                    DUK_TYPE_MASK_BOOLEAN | \
-	                                    DUK_TYPE_MASK_NUMBER | \
-	                                    DUK_TYPE_MASK_STRING | \
-	                                    DUK_TYPE_MASK_BUFFER | \
-	                                    DUK_TYPE_MASK_POINTER | \
-	                                    DUK_TYPE_MASK_LIGHTFUNC)
+    duk_check_type_mask((ctx), (index), DUK_TYPE_MASK_UNDEFINED | \
+                                        DUK_TYPE_MASK_NULL | \
+                                        DUK_TYPE_MASK_BOOLEAN | \
+                                        DUK_TYPE_MASK_NUMBER | \
+                                        DUK_TYPE_MASK_STRING | \
+                                        DUK_TYPE_MASK_BUFFER | \
+                                        DUK_TYPE_MASK_POINTER | \
+                                        DUK_TYPE_MASK_LIGHTFUNC)
 
 #define duk_is_object_coercible(ctx,index) \
-	duk_check_type_mask((ctx), (index), DUK_TYPE_MASK_BOOLEAN | \
-	                                    DUK_TYPE_MASK_NUMBER | \
-	                                    DUK_TYPE_MASK_STRING | \
-	                                    DUK_TYPE_MASK_OBJECT | \
-	                                    DUK_TYPE_MASK_BUFFER | \
-	                                    DUK_TYPE_MASK_POINTER | \
-	                                    DUK_TYPE_MASK_LIGHTFUNC)
+    duk_check_type_mask((ctx), (index), DUK_TYPE_MASK_BOOLEAN | \
+                                        DUK_TYPE_MASK_NUMBER | \
+                                        DUK_TYPE_MASK_STRING | \
+                                        DUK_TYPE_MASK_OBJECT | \
+                                        DUK_TYPE_MASK_BUFFER | \
+                                        DUK_TYPE_MASK_POINTER | \
+                                        DUK_TYPE_MASK_LIGHTFUNC)
 
 DUK_EXTERNAL_DECL duk_errcode_t duk_get_error_code(duk_context *ctx, duk_idx_t index);
 #define duk_is_error(ctx,index) \
-	(duk_get_error_code((ctx), (index)) != 0)
+    (duk_get_error_code((ctx), (index)) != 0)
 
 /*
  *  Get operations: no coercion, returns default value for invalid
@@ -667,7 +667,7 @@ DUK_EXTERNAL_DECL duk_size_t duk_get_length(duk_context *ctx, duk_idx_t index);
  */
 
 #define duk_require_type_mask(ctx,index,mask) \
-	((void) duk_check_type_mask((ctx), (index), (mask) | DUK_TYPE_MASK_THROW))
+    ((void) duk_check_type_mask((ctx), (index), (mask) | DUK_TYPE_MASK_THROW))
 
 DUK_EXTERNAL_DECL void duk_require_undefined(duk_context *ctx, duk_idx_t index);
 DUK_EXTERNAL_DECL void duk_require_null(duk_context *ctx, duk_idx_t index);
@@ -685,14 +685,14 @@ DUK_EXTERNAL_DECL duk_context *duk_require_context(duk_context *ctx, duk_idx_t i
 DUK_EXTERNAL_DECL void *duk_require_heapptr(duk_context *ctx, duk_idx_t index);
 
 #define duk_require_object_coercible(ctx,index) \
-	((void) duk_check_type_mask((ctx), (index), DUK_TYPE_MASK_BOOLEAN | \
-	                                            DUK_TYPE_MASK_NUMBER | \
-	                                            DUK_TYPE_MASK_STRING | \
-	                                            DUK_TYPE_MASK_OBJECT | \
-	                                            DUK_TYPE_MASK_BUFFER | \
-	                                            DUK_TYPE_MASK_POINTER | \
-	                                            DUK_TYPE_MASK_LIGHTFUNC | \
-	                                            DUK_TYPE_MASK_THROW))
+    ((void) duk_check_type_mask((ctx), (index), DUK_TYPE_MASK_BOOLEAN | \
+                                                DUK_TYPE_MASK_NUMBER | \
+                                                DUK_TYPE_MASK_STRING | \
+                                                DUK_TYPE_MASK_OBJECT | \
+                                                DUK_TYPE_MASK_BUFFER | \
+                                                DUK_TYPE_MASK_POINTER | \
+                                                DUK_TYPE_MASK_LIGHTFUNC | \
+                                                DUK_TYPE_MASK_THROW))
 
 /*
  *  Coercion operations: in-place coercion, return coerced value where
@@ -723,16 +723,16 @@ DUK_EXTERNAL_DECL void duk_to_primitive(duk_context *ctx, duk_idx_t index, duk_i
 #define DUK_BUF_MODE_DONTCARE   2   /* internal: don't care about fixed/dynamic nature */
 
 #define duk_to_buffer(ctx,index,out_size) \
-	duk_to_buffer_raw((ctx), (index), (out_size), DUK_BUF_MODE_DONTCARE)
+    duk_to_buffer_raw((ctx), (index), (out_size), DUK_BUF_MODE_DONTCARE)
 #define duk_to_fixed_buffer(ctx,index,out_size) \
-	duk_to_buffer_raw((ctx), (index), (out_size), DUK_BUF_MODE_FIXED)
+    duk_to_buffer_raw((ctx), (index), (out_size), DUK_BUF_MODE_FIXED)
 #define duk_to_dynamic_buffer(ctx,index,out_size) \
-	duk_to_buffer_raw((ctx), (index), (out_size), DUK_BUF_MODE_DYNAMIC)
+    duk_to_buffer_raw((ctx), (index), (out_size), DUK_BUF_MODE_DYNAMIC)
 
 /* safe variants of a few coercion operations */
 DUK_EXTERNAL_DECL const char *duk_safe_to_lstring(duk_context *ctx, duk_idx_t index, duk_size_t *out_len);
 #define duk_safe_to_string(ctx,index) \
-	duk_safe_to_lstring((ctx), (index), NULL)
+    duk_safe_to_lstring((ctx), (index), NULL)
 
 /*
  *  Misc conversion
@@ -884,119 +884,119 @@ DUK_EXTERNAL_DECL duk_int_t duk_compile_raw(duk_context *ctx, const char *src_bu
 
 /* plain */
 #define duk_eval(ctx)  \
-	((void) duk_push_string((ctx), (const char *) (__FILE__)), \
-	 (void) duk_eval_raw((ctx), NULL, 0, DUK_COMPILE_EVAL))
+    ((void) duk_push_string((ctx), (const char *) (__FILE__)), \
+     (void) duk_eval_raw((ctx), NULL, 0, DUK_COMPILE_EVAL))
 
 #define duk_eval_noresult(ctx)  \
-	((void) duk_push_string((ctx), (const char *) (__FILE__)), \
-	 (void) duk_eval_raw((ctx), NULL, 0, DUK_COMPILE_EVAL | DUK_COMPILE_NORESULT))
+    ((void) duk_push_string((ctx), (const char *) (__FILE__)), \
+     (void) duk_eval_raw((ctx), NULL, 0, DUK_COMPILE_EVAL | DUK_COMPILE_NORESULT))
 
 #define duk_peval(ctx)  \
-	((void) duk_push_string((ctx), (const char *) (__FILE__)), \
-	 duk_eval_raw((ctx), NULL, 0, DUK_COMPILE_EVAL | DUK_COMPILE_SAFE))
+    ((void) duk_push_string((ctx), (const char *) (__FILE__)), \
+     duk_eval_raw((ctx), NULL, 0, DUK_COMPILE_EVAL | DUK_COMPILE_SAFE))
 
 #define duk_peval_noresult(ctx)  \
-	((void) duk_push_string((ctx), (const char *) (__FILE__)), \
-	 duk_eval_raw((ctx), NULL, 0, DUK_COMPILE_EVAL | DUK_COMPILE_SAFE | DUK_COMPILE_NORESULT))
+    ((void) duk_push_string((ctx), (const char *) (__FILE__)), \
+     duk_eval_raw((ctx), NULL, 0, DUK_COMPILE_EVAL | DUK_COMPILE_SAFE | DUK_COMPILE_NORESULT))
 
 #define duk_compile(ctx,flags)  \
-	((void) duk_compile_raw((ctx), NULL, 0, (flags)))
+    ((void) duk_compile_raw((ctx), NULL, 0, (flags)))
 
 #define duk_pcompile(ctx,flags)  \
-	(duk_compile_raw((ctx), NULL, 0, (flags) | DUK_COMPILE_SAFE))
+    (duk_compile_raw((ctx), NULL, 0, (flags) | DUK_COMPILE_SAFE))
 
 /* string */
 #define duk_eval_string(ctx,src)  \
-	((void) duk_push_string((ctx), (const char *) (__FILE__)), \
-	 (void) duk_eval_raw((ctx), (src), 0, DUK_COMPILE_EVAL | DUK_COMPILE_NOSOURCE | DUK_COMPILE_STRLEN))
+    ((void) duk_push_string((ctx), (const char *) (__FILE__)), \
+     (void) duk_eval_raw((ctx), (src), 0, DUK_COMPILE_EVAL | DUK_COMPILE_NOSOURCE | DUK_COMPILE_STRLEN))
 
 #define duk_eval_string_noresult(ctx,src)  \
-	((void) duk_push_string((ctx), (const char *) (__FILE__)), \
-	 (void) duk_eval_raw((ctx), (src), 0, DUK_COMPILE_EVAL | DUK_COMPILE_NOSOURCE | DUK_COMPILE_STRLEN | DUK_COMPILE_NORESULT))
+    ((void) duk_push_string((ctx), (const char *) (__FILE__)), \
+     (void) duk_eval_raw((ctx), (src), 0, DUK_COMPILE_EVAL | DUK_COMPILE_NOSOURCE | DUK_COMPILE_STRLEN | DUK_COMPILE_NORESULT))
 
 #define duk_peval_string(ctx,src)  \
-	((void) duk_push_string((ctx), (const char *) (__FILE__)), \
-	 duk_eval_raw((ctx), (src), 0, DUK_COMPILE_EVAL | DUK_COMPILE_SAFE | DUK_COMPILE_NOSOURCE | DUK_COMPILE_STRLEN))
+    ((void) duk_push_string((ctx), (const char *) (__FILE__)), \
+     duk_eval_raw((ctx), (src), 0, DUK_COMPILE_EVAL | DUK_COMPILE_SAFE | DUK_COMPILE_NOSOURCE | DUK_COMPILE_STRLEN))
 
 #define duk_peval_string_noresult(ctx,src)  \
-	((void) duk_push_string((ctx), (const char *) (__FILE__)), \
-	 duk_eval_raw((ctx), (src), 0, DUK_COMPILE_EVAL | DUK_COMPILE_SAFE | DUK_COMPILE_NOSOURCE | DUK_COMPILE_STRLEN | DUK_COMPILE_NORESULT))
+    ((void) duk_push_string((ctx), (const char *) (__FILE__)), \
+     duk_eval_raw((ctx), (src), 0, DUK_COMPILE_EVAL | DUK_COMPILE_SAFE | DUK_COMPILE_NOSOURCE | DUK_COMPILE_STRLEN | DUK_COMPILE_NORESULT))
 
 #define duk_compile_string(ctx,flags,src)  \
-	((void) duk_push_string((ctx), (const char *) (__FILE__)), \
-	 (void) duk_compile_raw((ctx), (src), 0, (flags) | DUK_COMPILE_NOSOURCE | DUK_COMPILE_STRLEN))
+    ((void) duk_push_string((ctx), (const char *) (__FILE__)), \
+     (void) duk_compile_raw((ctx), (src), 0, (flags) | DUK_COMPILE_NOSOURCE | DUK_COMPILE_STRLEN))
 
 #define duk_compile_string_filename(ctx,flags,src)  \
-	((void) duk_compile_raw((ctx), (src), 0, (flags) | DUK_COMPILE_NOSOURCE | DUK_COMPILE_STRLEN))
+    ((void) duk_compile_raw((ctx), (src), 0, (flags) | DUK_COMPILE_NOSOURCE | DUK_COMPILE_STRLEN))
 
 #define duk_pcompile_string(ctx,flags,src)  \
-	((void) duk_push_string((ctx), (const char *) (__FILE__)), \
-	 duk_compile_raw((ctx), (src), 0, (flags) | DUK_COMPILE_SAFE | DUK_COMPILE_NOSOURCE | DUK_COMPILE_STRLEN))
+    ((void) duk_push_string((ctx), (const char *) (__FILE__)), \
+     duk_compile_raw((ctx), (src), 0, (flags) | DUK_COMPILE_SAFE | DUK_COMPILE_NOSOURCE | DUK_COMPILE_STRLEN))
 
 #define duk_pcompile_string_filename(ctx,flags,src)  \
-	(duk_compile_raw((ctx), (src), 0, (flags) | DUK_COMPILE_SAFE | DUK_COMPILE_NOSOURCE | DUK_COMPILE_STRLEN))
+    (duk_compile_raw((ctx), (src), 0, (flags) | DUK_COMPILE_SAFE | DUK_COMPILE_NOSOURCE | DUK_COMPILE_STRLEN))
 
 /* lstring */
 #define duk_eval_lstring(ctx,buf,len)  \
-	((void) duk_push_string((ctx), (const char *) (__FILE__)), \
-	 (void) duk_eval_raw((ctx), buf, len, DUK_COMPILE_EVAL | DUK_COMPILE_NOSOURCE))
+    ((void) duk_push_string((ctx), (const char *) (__FILE__)), \
+     (void) duk_eval_raw((ctx), buf, len, DUK_COMPILE_EVAL | DUK_COMPILE_NOSOURCE))
 
 #define duk_eval_lstring_noresult(ctx,buf,len)  \
-	((void) duk_push_string((ctx), (const char *) (__FILE__)), \
-	 (void) duk_eval_raw((ctx), buf, len, DUK_COMPILE_EVAL | DUK_COMPILE_NOSOURCE | DUK_COMPILE_NORESULT))
+    ((void) duk_push_string((ctx), (const char *) (__FILE__)), \
+     (void) duk_eval_raw((ctx), buf, len, DUK_COMPILE_EVAL | DUK_COMPILE_NOSOURCE | DUK_COMPILE_NORESULT))
 
 #define duk_peval_lstring(ctx,buf,len)  \
-	((void) duk_push_string((ctx), (const char *) (__FILE__)), \
-	 duk_eval_raw((ctx), buf, len, DUK_COMPILE_EVAL | DUK_COMPILE_NOSOURCE | DUK_COMPILE_SAFE))
+    ((void) duk_push_string((ctx), (const char *) (__FILE__)), \
+     duk_eval_raw((ctx), buf, len, DUK_COMPILE_EVAL | DUK_COMPILE_NOSOURCE | DUK_COMPILE_SAFE))
 
 #define duk_peval_lstring_noresult(ctx,buf,len)  \
-	((void) duk_push_string((ctx), (const char *) (__FILE__)), \
-	 duk_eval_raw((ctx), buf, len, DUK_COMPILE_EVAL | DUK_COMPILE_SAFE | DUK_COMPILE_NOSOURCE | DUK_COMPILE_NORESULT))
+    ((void) duk_push_string((ctx), (const char *) (__FILE__)), \
+     duk_eval_raw((ctx), buf, len, DUK_COMPILE_EVAL | DUK_COMPILE_SAFE | DUK_COMPILE_NOSOURCE | DUK_COMPILE_NORESULT))
 
 #define duk_compile_lstring(ctx,flags,buf,len)  \
-	((void) duk_push_string((ctx), (const char *) (__FILE__)), \
-	 (void) duk_compile_raw((ctx), buf, len, (flags) | DUK_COMPILE_NOSOURCE))
+    ((void) duk_push_string((ctx), (const char *) (__FILE__)), \
+     (void) duk_compile_raw((ctx), buf, len, (flags) | DUK_COMPILE_NOSOURCE))
 
 #define duk_compile_lstring_filename(ctx,flags,buf,len)  \
-	((void) duk_compile_raw((ctx), buf, len, (flags) | DUK_COMPILE_NOSOURCE))
+    ((void) duk_compile_raw((ctx), buf, len, (flags) | DUK_COMPILE_NOSOURCE))
 
 #define duk_pcompile_lstring(ctx,flags,buf,len)  \
-	((void) duk_push_string((ctx), (const char *) (__FILE__)), \
-	 duk_compile_raw((ctx), buf, len, (flags) | DUK_COMPILE_SAFE | DUK_COMPILE_NOSOURCE))
+    ((void) duk_push_string((ctx), (const char *) (__FILE__)), \
+     duk_compile_raw((ctx), buf, len, (flags) | DUK_COMPILE_SAFE | DUK_COMPILE_NOSOURCE))
 
 #define duk_pcompile_lstring_filename(ctx,flags,buf,len)  \
-	(duk_compile_raw((ctx), buf, len, (flags) | DUK_COMPILE_SAFE | DUK_COMPILE_NOSOURCE))
+    (duk_compile_raw((ctx), buf, len, (flags) | DUK_COMPILE_SAFE | DUK_COMPILE_NOSOURCE))
 
 /* file */
 #define duk_eval_file(ctx,path)  \
-	((void) duk_push_string_file_raw((ctx), (path), 0), \
-	 (void) duk_push_string((ctx), (path)), \
-	 (void) duk_eval_raw((ctx), NULL, 0, DUK_COMPILE_EVAL))
+    ((void) duk_push_string_file_raw((ctx), (path), 0), \
+     (void) duk_push_string((ctx), (path)), \
+     (void) duk_eval_raw((ctx), NULL, 0, DUK_COMPILE_EVAL))
 
 #define duk_eval_file_noresult(ctx,path)  \
-	((void) duk_push_string_file_raw((ctx), (path), 0), \
-	 (void) duk_push_string((ctx), (path)), \
-	 (void) duk_eval_raw((ctx), NULL, 0, DUK_COMPILE_EVAL | DUK_COMPILE_NORESULT))
+    ((void) duk_push_string_file_raw((ctx), (path), 0), \
+     (void) duk_push_string((ctx), (path)), \
+     (void) duk_eval_raw((ctx), NULL, 0, DUK_COMPILE_EVAL | DUK_COMPILE_NORESULT))
 
 #define duk_peval_file(ctx,path)  \
-	((void) duk_push_string_file_raw((ctx), (path), DUK_STRING_PUSH_SAFE), \
-	 (void) duk_push_string((ctx), (path)), \
-	 duk_eval_raw((ctx), NULL, 0, DUK_COMPILE_EVAL | DUK_COMPILE_SAFE))
+    ((void) duk_push_string_file_raw((ctx), (path), DUK_STRING_PUSH_SAFE), \
+     (void) duk_push_string((ctx), (path)), \
+     duk_eval_raw((ctx), NULL, 0, DUK_COMPILE_EVAL | DUK_COMPILE_SAFE))
 
 #define duk_peval_file_noresult(ctx,path)  \
-	((void) duk_push_string_file_raw((ctx), (path), DUK_STRING_PUSH_SAFE), \
-	 (void) duk_push_string((ctx), (path)), \
-	 duk_eval_raw((ctx), NULL, 0, DUK_COMPILE_EVAL | DUK_COMPILE_SAFE | DUK_COMPILE_NORESULT))
+    ((void) duk_push_string_file_raw((ctx), (path), DUK_STRING_PUSH_SAFE), \
+     (void) duk_push_string((ctx), (path)), \
+     duk_eval_raw((ctx), NULL, 0, DUK_COMPILE_EVAL | DUK_COMPILE_SAFE | DUK_COMPILE_NORESULT))
 
 #define duk_compile_file(ctx,flags,path)  \
-	((void) duk_push_string_file_raw((ctx), (path), 0), \
-	 (void) duk_push_string((ctx), (path)), \
-	 (void) duk_compile_raw((ctx), NULL, 0, (flags)))
+    ((void) duk_push_string_file_raw((ctx), (path), 0), \
+     (void) duk_push_string((ctx), (path)), \
+     (void) duk_compile_raw((ctx), NULL, 0, (flags)))
 
 #define duk_pcompile_file(ctx,flags,path)  \
-	((void) duk_push_string_file_raw((ctx), (path), DUK_STRING_PUSH_SAFE), \
-	 (void) duk_push_string((ctx), (path)), \
-	 duk_compile_raw((ctx), NULL, 0, (flags) | DUK_COMPILE_SAFE))
+    ((void) duk_push_string_file_raw((ctx), (path), DUK_STRING_PUSH_SAFE), \
+     (void) duk_push_string((ctx), (path)), \
+     duk_compile_raw((ctx), NULL, 0, (flags) | DUK_COMPILE_SAFE))
 
 /*
  *  Bytecode load/dump
@@ -1021,15 +1021,15 @@ DUK_EXTERNAL_DECL void duk_push_context_dump(duk_context *ctx);
 #if defined(DUK_USE_FILE_IO)
 /* internal use */
 #define duk_dump_context_filehandle(ctx,fh) \
-	(duk_push_context_dump((ctx)), \
-	 DUK_FPRINTF((fh), "%s\n", duk_safe_to_string(ctx, -1)), \
-	 duk_pop(ctx))
+    (duk_push_context_dump((ctx)), \
+     DUK_FPRINTF((fh), "%s\n", duk_safe_to_string(ctx, -1)), \
+     duk_pop(ctx))
 
 /* external use */
 #define duk_dump_context_stdout(ctx) \
-	duk_dump_context_filehandle((ctx), DUK_STDOUT)
+    duk_dump_context_filehandle((ctx), DUK_STDOUT)
 #define duk_dump_context_stderr(ctx) \
-	duk_dump_context_filehandle((ctx), DUK_STDERR)
+    duk_dump_context_filehandle((ctx), DUK_STDERR)
 #else  /* DUK_USE_FILE_IO */
 #define duk_dump_context_stdout(ctx)  ((void) 0)
 #define duk_dump_context_stderr(ctx)  ((void) 0)
@@ -1201,16 +1201,16 @@ DUK_EXTERNAL_DECL void duk_debugger_cooperate(duk_context *ctx);
  */
 
 union duk_double_union {
-	double d;
-	float f[2];
+    double d;
+    float f[2];
 #ifdef DUK_USE_64BIT_OPS
-	duk_uint64_t ull[1];
+    duk_uint64_t ull[1];
 #endif
-	duk_uint32_t ui[2];
-	duk_uint16_t us[4];
-	duk_uint8_t uc[8];
+    duk_uint32_t ui[2];
+    duk_uint16_t us[4];
+    duk_uint8_t uc[8];
 #ifdef DUK_USE_PACKED_TVAL_POSSIBLE
-	void *vp[2];  /* used by packed duk_tval, assumes sizeof(void *) == 4 */
+    void *vp[2];  /* used by packed duk_tval, assumes sizeof(void *) == 4 */
 #endif
 };
 
@@ -1290,33 +1290,33 @@ typedef union duk_double_union duk_double_union;
  */
 
 #define DUK_DBLUNION_SET_DOUBLE(u,v)  do {  \
-		(u)->d = (v); \
-	} while (0)
+        (u)->d = (v); \
+    } while (0)
 
 #define DUK_DBLUNION_SET_HIGH32(u,v)  do {  \
-		(u)->ui[DUK_DBL_IDX_UI0] = (duk_uint32_t) (v); \
-	} while (0)
+        (u)->ui[DUK_DBL_IDX_UI0] = (duk_uint32_t) (v); \
+    } while (0)
 
 #ifdef DUK_USE_64BIT_OPS
 #ifdef DUK_USE_DOUBLE_ME
 #define DUK_DBLUNION_SET_HIGH32_ZERO_LOW32(u,v)  do { \
-		(u)->ull[DUK_DBL_IDX_ULL0] = (duk_uint64_t) (v); \
-	} while (0)
+        (u)->ull[DUK_DBL_IDX_ULL0] = (duk_uint64_t) (v); \
+    } while (0)
 #else
 #define DUK_DBLUNION_SET_HIGH32_ZERO_LOW32(u,v)  do { \
-		(u)->ull[DUK_DBL_IDX_ULL0] = ((duk_uint64_t) (v)) << 32; \
-	} while (0)
+        (u)->ull[DUK_DBL_IDX_ULL0] = ((duk_uint64_t) (v)) << 32; \
+    } while (0)
 #endif
 #else  /* DUK_USE_64BIT_OPS */
 #define DUK_DBLUNION_SET_HIGH32_ZERO_LOW32(u,v)  do { \
-		(u)->ui[DUK_DBL_IDX_UI0] = (duk_uint32_t) (v); \
-		(u)->ui[DUK_DBL_IDX_UI1] = (duk_uint32_t) 0; \
-	} while (0)
+        (u)->ui[DUK_DBL_IDX_UI0] = (duk_uint32_t) (v); \
+        (u)->ui[DUK_DBL_IDX_UI1] = (duk_uint32_t) 0; \
+    } while (0)
 #endif  /* DUK_USE_64BIT_OPS */
 
 #define DUK_DBLUNION_SET_LOW32(u,v)  do {  \
-		(u)->ui[DUK_DBL_IDX_UI1] = (duk_uint32_t) (v); \
-	} while (0)
+        (u)->ui[DUK_DBL_IDX_UI1] = (duk_uint32_t) (v); \
+    } while (0)
 
 #define DUK_DBLUNION_GET_DOUBLE(u)  ((u)->d)
 #define DUK_DBLUNION_GET_HIGH32(u)  ((u)->ui[DUK_DBL_IDX_UI0])
@@ -1325,16 +1325,16 @@ typedef union duk_double_union duk_double_union;
 #ifdef DUK_USE_64BIT_OPS
 #ifdef DUK_USE_DOUBLE_ME
 #define DUK_DBLUNION_SET_UINT64(u,v)  do { \
-		(u)->ui[DUK_DBL_IDX_UI0] = (duk_uint32_t) ((v) >> 32); \
-		(u)->ui[DUK_DBL_IDX_UI1] = (duk_uint32_t) (v); \
-	} while (0)
+        (u)->ui[DUK_DBL_IDX_UI0] = (duk_uint32_t) ((v) >> 32); \
+        (u)->ui[DUK_DBL_IDX_UI1] = (duk_uint32_t) (v); \
+    } while (0)
 #define DUK_DBLUNION_GET_UINT64(u) \
-	((((duk_uint64_t) (u)->ui[DUK_DBL_IDX_UI0]) << 32) | \
-	 ((duk_uint64_t) (u)->ui[DUK_DBL_IDX_UI1]))
+    ((((duk_uint64_t) (u)->ui[DUK_DBL_IDX_UI0]) << 32) | \
+     ((duk_uint64_t) (u)->ui[DUK_DBL_IDX_UI1]))
 #else
 #define DUK_DBLUNION_SET_UINT64(u,v)  do { \
-		(u)->ull[DUK_DBL_IDX_ULL0] = (duk_uint64_t) (v); \
-	} while (0)
+        (u)->ull[DUK_DBL_IDX_ULL0] = (duk_uint64_t) (v); \
+    } while (0)
 #define DUK_DBLUNION_GET_UINT64(u)  ((u)->ull[DUK_DBL_IDX_ULL0])
 #endif
 #define DUK_DBLUNION_SET_INT64(u,v) DUK_DBLUNION_SET_UINT64((u), (duk_uint64_t) (v))
@@ -1369,78 +1369,78 @@ typedef union duk_double_union duk_double_union;
 #ifdef DUK_USE_64BIT_OPS
 #ifdef DUK_USE_DOUBLE_ME
 #define DUK__DBLUNION_SET_NAN_FULL(u)  do { \
-		(u)->ull[DUK_DBL_IDX_ULL0] = 0x000000007ff80000ULL; \
-	} while (0)
+        (u)->ull[DUK_DBL_IDX_ULL0] = 0x000000007ff80000ULL; \
+    } while (0)
 #else
 #define DUK__DBLUNION_SET_NAN_FULL(u)  do { \
-		(u)->ull[DUK_DBL_IDX_ULL0] = 0x7ff8000000000000ULL; \
-	} while (0)
+        (u)->ull[DUK_DBL_IDX_ULL0] = 0x7ff8000000000000ULL; \
+    } while (0)
 #endif
 #else  /* DUK_USE_64BIT_OPS */
 #define DUK__DBLUNION_SET_NAN_FULL(u)  do { \
-		(u)->ui[DUK_DBL_IDX_UI0] = (duk_uint32_t) 0x7ff80000UL; \
-		(u)->ui[DUK_DBL_IDX_UI1] = (duk_uint32_t) 0x00000000UL; \
-	} while (0)
+        (u)->ui[DUK_DBL_IDX_UI0] = (duk_uint32_t) 0x7ff80000UL; \
+        (u)->ui[DUK_DBL_IDX_UI1] = (duk_uint32_t) 0x00000000UL; \
+    } while (0)
 #endif  /* DUK_USE_64BIT_OPS */
 
 #define DUK__DBLUNION_SET_NAN_NOTFULL(u)  do { \
-		(u)->us[DUK_DBL_IDX_US0] = 0x7ff8UL; \
-	} while (0)
+        (u)->us[DUK_DBL_IDX_US0] = 0x7ff8UL; \
+    } while (0)
 
 #ifdef DUK_USE_64BIT_OPS
 #ifdef DUK_USE_DOUBLE_ME
 #define DUK__DBLUNION_IS_NAN_FULL(u) \
-	/* E == 0x7ff, F != 0 => NaN */ \
-	((((u)->us[DUK_DBL_IDX_US0] & 0x7ff0UL) == 0x7ff0UL) && \
-	 ((((u)->ull[DUK_DBL_IDX_ULL0]) & 0xffffffff000fffffULL) != 0))
+    /* E == 0x7ff, F != 0 => NaN */ \
+    ((((u)->us[DUK_DBL_IDX_US0] & 0x7ff0UL) == 0x7ff0UL) && \
+     ((((u)->ull[DUK_DBL_IDX_ULL0]) & 0xffffffff000fffffULL) != 0))
 #else
 #define DUK__DBLUNION_IS_NAN_FULL(u) \
-	/* E == 0x7ff, F != 0 => NaN */ \
-	((((u)->us[DUK_DBL_IDX_US0] & 0x7ff0UL) == 0x7ff0UL) && \
-	 ((((u)->ull[DUK_DBL_IDX_ULL0]) & 0x000fffffffffffffULL) != 0))
+    /* E == 0x7ff, F != 0 => NaN */ \
+    ((((u)->us[DUK_DBL_IDX_US0] & 0x7ff0UL) == 0x7ff0UL) && \
+     ((((u)->ull[DUK_DBL_IDX_ULL0]) & 0x000fffffffffffffULL) != 0))
 #endif
 #else  /* DUK_USE_64BIT_OPS */
 #define DUK__DBLUNION_IS_NAN_FULL(u) \
-	/* E == 0x7ff, F != 0 => NaN */ \
-	((((u)->ui[DUK_DBL_IDX_UI0] & 0x7ff00000UL) == 0x7ff00000UL) && \
-	 (((u)->ui[DUK_DBL_IDX_UI0] & 0x000fffffUL) != 0 || \
+    /* E == 0x7ff, F != 0 => NaN */ \
+    ((((u)->ui[DUK_DBL_IDX_UI0] & 0x7ff00000UL) == 0x7ff00000UL) && \
+     (((u)->ui[DUK_DBL_IDX_UI0] & 0x000fffffUL) != 0 || \
           (u)->ui[DUK_DBL_IDX_UI1] != 0))
 #endif  /* DUK_USE_64BIT_OPS */
 
 #define DUK__DBLUNION_IS_NAN_NOTFULL(u) \
-	/* E == 0x7ff, topmost four bits of F != 0 => assume NaN */ \
-	((((u)->us[DUK_DBL_IDX_US0] & 0x7ff0UL) == 0x7ff0UL) && \
-	 (((u)->us[DUK_DBL_IDX_US0] & 0x000fUL) != 0x0000UL))
+    /* E == 0x7ff, topmost four bits of F != 0 => assume NaN */ \
+    ((((u)->us[DUK_DBL_IDX_US0] & 0x7ff0UL) == 0x7ff0UL) && \
+     (((u)->us[DUK_DBL_IDX_US0] & 0x000fUL) != 0x0000UL))
 
 #ifdef DUK_USE_64BIT_OPS
 #ifdef DUK_USE_DOUBLE_ME
 #define DUK__DBLUNION_IS_NORMALIZED_NAN_FULL(u) \
-	((u)->ull[DUK_DBL_IDX_ULL0] == 0x000000007ff80000ULL)
+    ((u)->ull[DUK_DBL_IDX_ULL0] == 0x000000007ff80000ULL)
 #else
 #define DUK__DBLUNION_IS_NORMALIZED_NAN_FULL(u) \
-	((u)->ull[DUK_DBL_IDX_ULL0] == 0x7ff8000000000000ULL)
+    ((u)->ull[DUK_DBL_IDX_ULL0] == 0x7ff8000000000000ULL)
 #endif
 #else  /* DUK_USE_64BIT_OPS */
 #define DUK__DBLUNION_IS_NORMALIZED_NAN_FULL(u) \
-	(((u)->ui[DUK_DBL_IDX_UI0] == 0x7ff80000UL) && \
-	 ((u)->ui[DUK_DBL_IDX_UI1] == 0x00000000UL))
+    (((u)->ui[DUK_DBL_IDX_UI0] == 0x7ff80000UL) && \
+     ((u)->ui[DUK_DBL_IDX_UI1] == 0x00000000UL))
 #endif  /* DUK_USE_64BIT_OPS */
 
 #define DUK__DBLUNION_IS_NORMALIZED_NAN_NOTFULL(u) \
-	/* E == 0x7ff, F == 8 => normalized NaN */ \
-	((u)->us[DUK_DBL_IDX_US0] == 0x7ff8UL)
+    /* E == 0x7ff, F == 8 => normalized NaN */ \
+    ((u)->us[DUK_DBL_IDX_US0] == 0x7ff8UL)
 
 #define DUK__DBLUNION_NORMALIZE_NAN_CHECK_FULL(u)  do { \
-		if (DUK__DBLUNION_IS_NAN_FULL((u))) { \
-			DUK__DBLUNION_SET_NAN_FULL((u)); \
-		} \
-	} while (0)
+        if (DUK__DBLUNION_IS_NAN_FULL((u))) { \
+            DUK__DBLUNION_SET_NAN_FULL((u)); \
+        } \
+    } while (0)
 
 #define DUK__DBLUNION_NORMALIZE_NAN_CHECK_NOTFULL(u)  do { \
-		if (DUK__DBLUNION_IS_NAN_NOTFULL((u))) { \
-			DUK__DBLUNION_SET_NAN_NOTFULL((u)); \
-		} \
-	} while (0)
+        if (DUK__DBLUNION_IS_NAN_NOTFULL((u))) { \
+            DUK__DBLUNION_SET_NAN_NOTFULL((u)); \
+        } \
+    } while (0)
 
 /* Concrete macros for NaN handling used by the implementation internals.
  * Chosen so that they match the duk_tval representation: with a packed
@@ -1461,55 +1461,55 @@ typedef union duk_double_union duk_double_union;
 #define DUK_DBLUNION_SET_NAN(d)              DUK__DBLUNION_SET_NAN_NOTFULL((d))
 #endif
 #define DUK_DBLUNION_IS_NORMALIZED(u) \
-	(!DUK_DBLUNION_IS_NAN((u)) ||  /* either not a NaN */ \
-	 DUK_DBLUNION_IS_NORMALIZED_NAN((u)))  /* or is a normalized NaN */
+    (!DUK_DBLUNION_IS_NAN((u)) ||  /* either not a NaN */ \
+     DUK_DBLUNION_IS_NORMALIZED_NAN((u)))  /* or is a normalized NaN */
 #else  /* DUK_USE_PACKED_TVAL */
 #define DUK_DBLUNION_NORMALIZE_NAN_CHECK(u)  /* nop: no need to normalize */
 #define DUK_DBLUNION_IS_NAN(u)               (DUK_ISNAN((u)->d))
 #define DUK_DBLUNION_IS_NORMALIZED_NAN(u)    (DUK_ISNAN((u)->d))
 #define DUK_DBLUNION_IS_NORMALIZED(u)        1  /* all doubles are considered normalized */
 #define DUK_DBLUNION_SET_NAN(u)  do { \
-		/* in non-packed representation we don't care about which NaN is used */ \
-		(u)->d = DUK_DOUBLE_NAN; \
-	} while (0)
+        /* in non-packed representation we don't care about which NaN is used */ \
+        (u)->d = DUK_DOUBLE_NAN; \
+    } while (0)
 #endif  /* DUK_USE_PACKED_TVAL */
 
 /* XXX: native 64-bit byteswaps when available */
 
 /* 64-bit byteswap, same operation independent of target endianness. */
 #define DUK_DBLUNION_BSWAP64(u) do { \
-		duk_uint32_t duk__bswaptmp1, duk__bswaptmp2; \
-		duk__bswaptmp1 = (u)->ui[0]; \
-		duk__bswaptmp2 = (u)->ui[1]; \
-		duk__bswaptmp1 = DUK_BSWAP32(duk__bswaptmp1); \
-		duk__bswaptmp2 = DUK_BSWAP32(duk__bswaptmp2); \
-		(u)->ui[0] = duk__bswaptmp2; \
-		(u)->ui[1] = duk__bswaptmp1; \
-	} while (0)
+        duk_uint32_t duk__bswaptmp1, duk__bswaptmp2; \
+        duk__bswaptmp1 = (u)->ui[0]; \
+        duk__bswaptmp2 = (u)->ui[1]; \
+        duk__bswaptmp1 = DUK_BSWAP32(duk__bswaptmp1); \
+        duk__bswaptmp2 = DUK_BSWAP32(duk__bswaptmp2); \
+        (u)->ui[0] = duk__bswaptmp2; \
+        (u)->ui[1] = duk__bswaptmp1; \
+    } while (0)
 
 /* Byteswap an IEEE double in the duk_double_union from host to network
  * order.  For a big endian target this is a no-op.
  */
 #if defined(DUK_USE_DOUBLE_LE)
 #define DUK_DBLUNION_DOUBLE_HTON(u) do { \
-		duk_uint32_t duk__bswaptmp1, duk__bswaptmp2; \
-		duk__bswaptmp1 = (u)->ui[0]; \
-		duk__bswaptmp2 = (u)->ui[1]; \
-		duk__bswaptmp1 = DUK_BSWAP32(duk__bswaptmp1); \
-		duk__bswaptmp2 = DUK_BSWAP32(duk__bswaptmp2); \
-		(u)->ui[0] = duk__bswaptmp2; \
-		(u)->ui[1] = duk__bswaptmp1; \
-	} while (0)
+        duk_uint32_t duk__bswaptmp1, duk__bswaptmp2; \
+        duk__bswaptmp1 = (u)->ui[0]; \
+        duk__bswaptmp2 = (u)->ui[1]; \
+        duk__bswaptmp1 = DUK_BSWAP32(duk__bswaptmp1); \
+        duk__bswaptmp2 = DUK_BSWAP32(duk__bswaptmp2); \
+        (u)->ui[0] = duk__bswaptmp2; \
+        (u)->ui[1] = duk__bswaptmp1; \
+    } while (0)
 #elif defined(DUK_USE_DOUBLE_ME)
 #define DUK_DBLUNION_DOUBLE_HTON(u) do { \
-		duk_uint32_t duk__bswaptmp1, duk__bswaptmp2; \
-		duk__bswaptmp1 = (u)->ui[0]; \
-		duk__bswaptmp2 = (u)->ui[1]; \
-		duk__bswaptmp1 = DUK_BSWAP32(duk__bswaptmp1); \
-		duk__bswaptmp2 = DUK_BSWAP32(duk__bswaptmp2); \
-		(u)->ui[0] = duk__bswaptmp1; \
-		(u)->ui[1] = duk__bswaptmp2; \
-	} while (0)
+        duk_uint32_t duk__bswaptmp1, duk__bswaptmp2; \
+        duk__bswaptmp1 = (u)->ui[0]; \
+        duk__bswaptmp2 = (u)->ui[1]; \
+        duk__bswaptmp1 = DUK_BSWAP32(duk__bswaptmp1); \
+        duk__bswaptmp2 = DUK_BSWAP32(duk__bswaptmp2); \
+        (u)->ui[0] = duk__bswaptmp1; \
+        (u)->ui[1] = duk__bswaptmp2; \
+    } while (0)
 #elif defined(DUK_USE_DOUBLE_BE)
 #define DUK_DBLUNION_DOUBLE_HTON(u) do { } while (0)
 #else

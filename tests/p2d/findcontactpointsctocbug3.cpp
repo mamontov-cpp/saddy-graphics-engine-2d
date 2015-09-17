@@ -15,12 +15,12 @@ struct TestFindContactPointsCtoCBug3 : tpunit::TestFixture
 {
  public:
    TestFindContactPointsCtoCBug3() : tpunit::TestFixture(
-	   TEST(TestFindContactPointsCtoCBug3::test)
+       TEST(TestFindContactPointsCtoCBug3::test)
    ) {}
 
    void test()
    {
-	   // Reserved for other tests
+       // Reserved for other tests
    }
 
 } test_find_contact_points_ctoc_bug3;

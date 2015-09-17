@@ -21,14 +21,14 @@ class ChangeName: public history::Command
 public:
     /*! Creates new command
         \param[in] dialogue dialogue
-		\param[in] oldvalue old value for dialogue
-		\param[in] newvalue new value for dialogue
+        \param[in] oldvalue old value for dialogue
+        \param[in] newvalue new value for dialogue
      */
-	ChangeName(
-		sad::dialogue::Dialogue* dialogue, 
-		const sad::String& oldvalue, 
-		const sad::String& newvalue
-	);
+    ChangeName(
+        sad::dialogue::Dialogue* dialogue, 
+        const sad::String& oldvalue, 
+        const sad::String& newvalue
+    );
     /*! Could be inherited
      */
     virtual ~ChangeName();
@@ -44,12 +44,12 @@ protected:
     /*! A current dialogue
      */
     sad::dialogue::Dialogue* m_dialogue;
-	/*! Old value for name
-	 */
-	sad::String m_oldvalue;
-	/*! New value for name
-	 */
-	sad::String m_newvalue;
+    /*! Old value for name
+     */
+    sad::String m_oldvalue;
+    /*! New value for name
+     */
+    sad::String m_newvalue;
 };
 
 }

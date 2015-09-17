@@ -74,17 +74,17 @@
 #if defined(__GNUC__) && defined(__i386__) && defined(DUK_F_C99) && \
     !defined(__cplusplus) /* unsigned long long not standard */
 static __inline__ unsigned long long duk_rdtsc(void) {
-	unsigned long long int x;
-	__asm__ volatile (".byte 0x0f, 0x31" : "=A" (x));
-	return x;
+    unsigned long long int x;
+    __asm__ volatile (".byte 0x0f, 0x31" : "=A" (x));
+    return x;
 }
 #define DUK_USE_RDTSC()  duk_rdtsc()
 #elif defined(__GNUC__) && defined(__x86_64__) && defined(DUK_F_C99) && \
     !defined(__cplusplus) /* unsigned long long not standard */
 static __inline__ unsigned long long duk_rdtsc(void) {
-	unsigned hi, lo;
-	__asm__ __volatile__ ("rdtsc" : "=a"(lo), "=d"(hi));
-	return ((unsigned long long) lo) | (((unsigned long long) hi) << 32);
+    unsigned hi, lo;
+    __asm__ __volatile__ ("rdtsc" : "=a"(lo), "=d"(hi));
+    return ((unsigned long long) lo) | (((unsigned long long) hi) << 32);
 }
 #define DUK_USE_RDTSC()  duk_rdtsc()
 #else
@@ -1812,7 +1812,7 @@ typedef FILE duk_file;
 #define DUK_FPUTC        fputc
 
 #define DUK_MEMZERO(p,n) \
-	DUK_MEMSET((p), 0, (n))
+    DUK_MEMSET((p), 0, (n))
 
 /*
  *  Vararg macro wrappers.  We need va_copy() which is defined in C99 / C++11,
@@ -1877,8 +1877,8 @@ typedef FILE duk_file;
  */
 
 #define DUK_CAUSE_SEGFAULT()  do { \
-		*((volatile duk_uint32_t *) NULL) = (duk_uint32_t) 0xdeadbeefUL; \
-	} while (0)
+        *((volatile duk_uint32_t *) NULL) = (duk_uint32_t) 0xdeadbeefUL; \
+    } while (0)
 
 /*
  *  Macro for suppressing warnings for potentially unreferenced variables.
@@ -1890,8 +1890,8 @@ typedef FILE duk_file;
  */
 
 #define DUK_UNREF(x)  do { \
-		(void) (x); \
-	} while (0)
+        (void) (x); \
+    } while (0)
 
 /*
  *  DUK_NORETURN: macro for declaring a 'noreturn' function.
@@ -2144,14 +2144,14 @@ typedef FILE duk_file;
  */
 
 #define DUK_BSWAP32(x) \
-	((((duk_uint32_t) (x)) >> 24) | \
-	 ((((duk_uint32_t) (x)) >> 8) & 0xff00UL) | \
-	 ((((duk_uint32_t) (x)) << 8) & 0xff0000UL) | \
-	 (((duk_uint32_t) (x)) << 24))
+    ((((duk_uint32_t) (x)) >> 24) | \
+     ((((duk_uint32_t) (x)) >> 8) & 0xff00UL) | \
+     ((((duk_uint32_t) (x)) << 8) & 0xff0000UL) | \
+     (((duk_uint32_t) (x)) << 24))
 
 #define DUK_BSWAP16(x) \
-	((duk_uint16_t) (x) >> 8) | \
-	((duk_uint16_t) (x) << 8)
+    ((duk_uint16_t) (x) >> 8) | \
+    ((duk_uint16_t) (x) << 8)
 
 /*
  *  Architecture string, human readable value exposed in Duktape.env
@@ -3109,7 +3109,7 @@ DUK_INTERNAL_DECL duk_bool_t duk_bi_date_parse_string_getdate(duk_context *ctx, 
 #elif defined(DUK_USE_DATE_FMT_STRFTIME)
 DUK_INTERNAL_DECL duk_bool_t duk_bi_date_format_parts_strftime(duk_context *ctx, duk_int_t *parts, duk_int_t tzoffset, duk_small_uint_t flags);
 #define DUK_USE_DATE_FORMAT_STRING(ctx,parts,tzoffset,flags) \
-	duk_bi_date_format_parts_strftime((ctx), (parts), (tzoffset), (flags))
+    duk_bi_date_format_parts_strftime((ctx), (parts), (tzoffset), (flags))
 #else
 /* No provider for DUK_USE_DATE_FORMAT_STRING(), fall back to ISO 8601 only. */
 #endif

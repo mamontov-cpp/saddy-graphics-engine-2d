@@ -1,7 +1,7 @@
 /*! \file uncoloredbullet.h
-	
+    
 
-	Describes a uncolored bullet
+    Describes a uncolored bullet
  */
 #pragma once
 #include <p2d/app/object.h>
@@ -14,5 +14,5 @@ class UncoloredBullet: public sad::p2d::app::Object
 {
  SAD_OBJECT
  public:
-	 UncoloredBullet();
+     UncoloredBullet();
 };

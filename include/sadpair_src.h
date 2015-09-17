@@ -40,7 +40,7 @@ template<class T1,class T2,class T3> Triplet<T1,T2,T3>& Triplet<T1,T2,T3>::opera
 {
     set1(o.p1());
     set2(o.p2());
-	set3(o.p3());
+    set3(o.p3());
     return *this;
 }
 template<class T1,class T2,class T3> Triplet<T1,T2,T3>::~Triplet()
@@ -72,8 +72,8 @@ template<class T1,class T2,class T3,class T4> Quadruplet<T1,T2,T3,T4>& Quadruple
 {
     set1(o.p1());
     set2(o.p2());
-	set3(o.p3());
-	set4(o.p4());	
+    set3(o.p3());
+    set4(o.p4());	
     return *this;
 }
 template<class T1,class T2,class T3,class T4> Quadruplet<T1,T2,T3,T4>::~Quadruplet()

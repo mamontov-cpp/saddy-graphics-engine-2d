@@ -1,7 +1,7 @@
 /*! \file queryobject.h
-	
+    
 
-	A function for querying object from database
+    A function for querying object from database
  */
 #pragma once
 #include <QScriptValue>
@@ -14,27 +14,27 @@
 namespace scripting
 {
 /*! Queries object by name or by major id, depending from name
-	\param[in] v value
-	\return NULL if not found
+    \param[in] v value
+    \return NULL if not found
  */
 sad::db::Object* query_object(const QScriptValue& v);
 
 template<
-	typename T
+    typename T
 >
 sad::Maybe<T> query(const QScriptValue& v)
 {
-	sad::Maybe<T> result;
+    sad::Maybe<T> result;
     sad::db::Object* object = scripting::query_object(v);
-	if (object)
-	{
-		sad::db::TypeName<T>::init();
-		if (object->isInstanceOf(sad::db::TypeName<T>::baseName()))
-		{
-			result.setValue(static_cast<T>(object));
-		}
-	}
-	return result;
+    if (object)
+    {
+        sad::db::TypeName<T>::init();
+        if (object->isInstanceOf(sad::db::TypeName<T>::baseName()))
+        {
+            result.setValue(static_cast<T>(object));
+        }
+    }
+    return result;
 }
 
 }

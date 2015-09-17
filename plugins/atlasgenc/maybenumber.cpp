@@ -11,13 +11,13 @@ bool operator>(const MaybeNumber& n1, const MaybeNumber& n2)
     else
     {
         if (n2.exists()) 
-		{
+        {
             return n1.value() > n2.value();
         }
-		else
-		{
-			return false;
-		}
+        else
+        {
+            return false;
+        }
     }
     return true;
 }

@@ -1,7 +1,7 @@
 /*! \file   editor.h
-	
+    
 
-	Defines a main interface editor class
+    Defines a main interface editor class
  */
 #pragma once
 #include "../macro.h"
@@ -67,24 +67,24 @@ Q_OBJECT
 friend class core::SaddyThread;
 friend class core::QtTarget;
 public:
-	/*! Constructs editor with empty db
-	 */
-	Editor();
-	/*! Frees memory from db
-	 */
-	~Editor();
-	/*! Inits an editor, loading default data if nothing specified
-		\param[in] argc count of arguments
-		\param[in] argv arguments
-	 */
-	virtual void init(int argc,char ** argv);
-	/*! Returns editor's window, used by Qt part of application
-		\return editor's window
-	 */
+    /*! Constructs editor with empty db
+     */
+    Editor();
+    /*! Frees memory from db
+     */
+    ~Editor();
+    /*! Inits an editor, loading default data if nothing specified
+        \param[in] argc count of arguments
+        \param[in] argv arguments
+     */
+    virtual void init(int argc,char ** argv);
+    /*! Returns editor's window, used by Qt part of application
+        \return editor's window
+     */
     MainPanel* panel() const;
-	/*! Returns a machine for editor
-		\return machine editor
-	 */
+    /*! Returns a machine for editor
+        \return machine editor
+     */
     sad::hfsm::Machine* machine() const;
     /*! Returns shared state data
         \return shared state data information
@@ -110,26 +110,26 @@ public:
         \return synchronization primitive
      */
     core::Synchronization* synchronization() const;
-	/*! Returns active border, which renders borders of current active object
-		\return active border
-	 */
-	core::borders::ActiveBorder* activeBorder() const;
-	/*! Returns selection border, which is used for highlighting current item
-		\return selection border
-	 */
-	core::borders::SelectionBorder* selectionBorder() const;
+    /*! Returns active border, which renders borders of current active object
+        \return active border
+     */
+    core::borders::ActiveBorder* activeBorder() const;
+    /*! Returns selection border, which is used for highlighting current item
+        \return selection border
+     */
+    core::borders::SelectionBorder* selectionBorder() const;
     /*! Returns way to render elements
         \return stuff for rendering ways
      */
     gui::RenderWays* renderWays() const;
-	/*! Returns current selection algorithm for editor
-		\return selection
-	 */
-	core::Selection* selection() const;
-	/*! Returns current animation factory
-		\return animation factory
-	 */
-	sad::animations::Factory* animationFactory() const;
+    /*! Returns current selection algorithm for editor
+        \return selection
+     */
+    core::Selection* selection() const;
+    /*! Returns current animation factory
+        \return animation factory
+     */
+    sad::animations::Factory* animationFactory() const;
     /*! Quits an editor
      */
     void quit();
@@ -138,25 +138,25 @@ public:
         \param[in] closure closure signal argument
      */
     void emitClosure(sad::ClosureBasic* closure);
-	/*! Cleans up if we were adding stuff before clicking "Add XXX", like "Add label" or "Add sprite"
-	 */
-	void cleanupBeforeAdding();
+    /*! Cleans up if we were adding stuff before clicking "Add XXX", like "Add label" or "Add sprite"
+     */
+    void cleanupBeforeAdding();
     /*!
      * Tests whether editor is in selected state and current selected node equals passed
      * \param[in] node checked node
      * \return whether node is selected
      */
     bool isNodeSelected(sad::SceneNode* node) const;
-	/*! Performed, when editor entered idle state 
-	 */
-	void enteredIdleState();
-	/*! Tests, whether editor is in state of adding or editing mode
-		\return whether editor is in state of adding or editing mode
-	 */
-	bool isInEditingState() const;
-	/*! Sets idle state, cleans database, erasing all objects and history
-	 */
-	void cleanDatabase();
+    /*! Performed, when editor entered idle state 
+     */
+    void enteredIdleState();
+    /*! Tests, whether editor is in state of adding or editing mode
+        \return whether editor is in state of adding or editing mode
+     */
+    bool isInEditingState() const;
+    /*! Sets idle state, cleans database, erasing all objects and history
+     */
+    void cleanDatabase();
     /*! Reports errors to log
         \param[in, out] errors a list of errors
         \param[in] name a name of file, which has been loading
@@ -165,20 +165,20 @@ public:
         sad::Vector<sad::resource::Error *> & errors,
         const sad::String& name
     );
-	/*! Returns true, if current tab of main tab widget is for editing objects
-		\return whether editor could be used for editing objects
-	 */
-	bool isInObjectEditingState() const;
-	/*! Returns true, if current tab of main tab widget is for editing states
-		\return whether editor could be used for editing objects
-	 */
-	bool isInWaysEditingState() const;
-	/*! Tries to enter object editing state
-	 */
-	void tryEnterObjectEditingState();
-	/*! Tries to enter way editing state
-	 */ 
-	void tryEnterWayEditingState();
+    /*! Returns true, if current tab of main tab widget is for editing objects
+        \return whether editor could be used for editing objects
+     */
+    bool isInObjectEditingState() const;
+    /*! Returns true, if current tab of main tab widget is for editing states
+        \return whether editor could be used for editing objects
+     */
+    bool isInWaysEditingState() const;
+    /*! Tries to enter object editing state
+     */
+    void tryEnterObjectEditingState();
+    /*! Tries to enter way editing state
+     */ 
+    void tryEnterWayEditingState();
     /*! Sets current batch command for editor scripting
         \param[in] c a command
      */
@@ -188,21 +188,21 @@ public:
      */
     history::BatchCommand* currentBatchCommand() const;
 public slots:
-	/*! Called, when Qt Event Loop is started. Used to load default resources and pre-set
-		default behaviour
-	 */
-	void start();
-	/*! Undoes history action 
-	 */
-	void undo();
-	/*! Redoes history action
-	 */
-	void redo();
-signals:
-	/*! Signal is emitted, when closure is arrived
-		\param[in] closure data for closure
+    /*! Called, when Qt Event Loop is started. Used to load default resources and pre-set
+        default behaviour
      */
-	void closureArrived(sad::ClosureBasic * closure);	
+    void start();
+    /*! Undoes history action 
+     */
+    void undo();
+    /*! Redoes history action
+     */
+    void redo();
+signals:
+    /*! Signal is emitted, when closure is arrived
+        \param[in] closure data for closure
+     */
+    void closureArrived(sad::ClosureBasic * closure);	
 protected:
     /*! Target for sending information
      */
@@ -238,21 +238,21 @@ protected:
     /*! A reason, while editor must be quit
      */
     core::QuitReason  m_quit_reason;
-	/*! An active border, which renders current active object
-	 */
-	core::borders::ActiveBorder* m_active_border;
-	/*! A selection border, which is used for higlighting current item
-	 */
-	core::borders::SelectionBorder* m_selection_border;
+    /*! An active border, which renders current active object
+     */
+    core::borders::ActiveBorder* m_active_border;
+    /*! A selection border, which is used for higlighting current item
+     */
+    core::borders::SelectionBorder* m_selection_border;
     /*! A way to render ways
      */
     gui::RenderWays* m_renderways;
-	/*! Current selection algorithm
-	 */
-	core::Selection* m_selection;
-	/*! A factory, used for creating animations
-	 */
-	sad::animations::Factory m_animation_factory;
+    /*! Current selection algorithm
+     */
+    core::Selection* m_selection;
+    /*! A factory, used for creating animations
+     */
+    sad::animations::Factory m_animation_factory;
     /*! A current batch command for scripting
      */
     history::BatchCommand* m_current_batchcommand;
@@ -269,12 +269,12 @@ protected slots:
         sets up global key handlers and starts event loop,
         calling core::Editor::start(), after event loop is started
      */
-	virtual void runQtEventLoop();
+    virtual void runQtEventLoop();
     /*! Runs saddy renderer's event loop. Called inside SaddyThread::run,
         sets quit flag,
-		when saddy quits working
+        when saddy quits working
      */
-	virtual void runSaddyEventLoop();
+    virtual void runSaddyEventLoop();
     /*! Сalled, when user closes last Qt window. Sets reason, why editor is quit
         and calls quit actions
      */
@@ -282,10 +282,10 @@ protected slots:
     /*! Depending on reasons, why editor is quit closes saddy renderer's window
      *  or panel window
      */
-	void onQuitActions();
+    void onQuitActions();
     /*! Runs a closure. Used by main thread to work
         with user-defined actions.
-		\param[in] closure closure data
+        \param[in] closure closure data
      */
     virtual void runClosure(sad::ClosureBasic * closure);
 };

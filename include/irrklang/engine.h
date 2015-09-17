@@ -18,9 +18,9 @@ namespace irrklang
 class Engine
 {
 public:
-	/*! Returns global reference to an engine
-	 */
-	static sad::irrklang::Engine* ref();
+    /*! Returns global reference to an engine
+     */
+    static sad::irrklang::Engine* ref();
     /*! Tries to load file from source
         \param[in] source a source
         \return source data
@@ -35,17 +35,17 @@ public:
         ::irrklang::ISoundSource* source,
         const sad::String& name
     );
-	/*! Frees engine instance
+    /*! Frees engine instance
      */
     ~Engine();
-	/*! Returns engine for global wrapper	
-		\return global engine
-	 */
-	::irrklang::ISoundEngine* get() const;
-	/*! Equiualent for calling ref()->get()
-		\return global engine
-	 */ 
-	static ::irrklang::ISoundEngine* eref();
+    /*! Returns engine for global wrapper	
+        \return global engine
+     */
+    ::irrklang::ISoundEngine* get() const;
+    /*! Equiualent for calling ref()->get()
+        \return global engine
+     */ 
+    static ::irrklang::ISoundEngine* eref();
     /*! In some cases, we should explicitly call this at the end of program, since
         calling it via atexit() may damage sound manager. This is some kind of a bug in
         irrKlang

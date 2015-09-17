@@ -85,10 +85,10 @@ public:
         m_referenced = false;
     }
 
-	/*! Sets tree for a name
+    /*! Sets tree for a name
         \param[in] tree a tree
      */
-	void setTree(sad::resource::Tree * tree)
+    void setTree(sad::resource::Tree * tree)
     {
         if (m_referenced)
         {

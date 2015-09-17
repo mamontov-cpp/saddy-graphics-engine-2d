@@ -1,7 +1,7 @@
 /*! \file animationswaymoving.h
-	
+    
 
-	Describes an animation for moving an object
+    Describes an animation for moving an object
  */
 #pragma once
 #include "animationsanimation.h"
@@ -13,7 +13,7 @@
 
 namespace sad
 {
-	
+    
 namespace animations
 {
 
@@ -23,13 +23,13 @@ class WayMoving: public sad::animations::Animation
 {
 SAD_OBJECT
 public:
-	/*! Creates new empty animation
-	 */
-	WayMoving();
-	/*! Can be inherited
-	 */
-	virtual ~WayMoving();
-	/*! A basic schema for object
+    /*! Creates new empty animation
+     */
+    WayMoving();
+    /*! Can be inherited
+     */
+    virtual ~WayMoving();
+    /*! A basic schema for object
         \return a schema
      */
     static sad::db::schema::Schema* basicSchema();
@@ -37,38 +37,38 @@ public:
         \return schema
      */
     virtual sad::db::schema::Schema* schema() const;
-	/*! Sets database for working with way, when loading
-		\param[in] table a table
-	 */
-	virtual void setTable(sad::db::Table * table);
+    /*! Sets database for working with way, when loading
+        \param[in] table a table
+     */
+    virtual void setTable(sad::db::Table * table);
     /*! Tries to load animation from value
         \param[in] v value
         \return whether it was successfull
      */
     virtual bool loadFromValue(const picojson::value& v);
-	/*! Sets way for animation
-		\param[in] way a way
-	 */ 
-	void setWay(sad::p2d::app::Way * way);
-	/*! Returns way
-		\param[in] check  whether we should type-check wat
-		\return way
-	 */
-	sad::p2d::app::Way* way(bool check = true) const;
-	/*! Sets way object id
-		\param[in] id
-	 */
-	void setWayObjectId(unsigned long long id);
-	/*! Returns way object id
-		\return way object id
-	 */
-	unsigned long long wayObjectId() const;
-	/*! Sets state of object from animation
+    /*! Sets way for animation
+        \param[in] way a way
+     */ 
+    void setWay(sad::p2d::app::Way * way);
+    /*! Returns way
+        \param[in] check  whether we should type-check wat
+        \return way
+     */
+    sad::p2d::app::Way* way(bool check = true) const;
+    /*! Sets way object id
+        \param[in] id
+     */
+    void setWayObjectId(unsigned long long id);
+    /*! Returns way object id
+        \return way object id
+     */
+    unsigned long long wayObjectId() const;
+    /*! Sets state of object from animation
         \param[in] i an animation instance
         \param[in] time a time of playing of animation
      */
     virtual void setState(sad::animations::Instance* i, double time);
-	/*! Creates a state command for an object
+    /*! Creates a state command for an object
         \param[in] o object
         \return state command
      */
@@ -79,9 +79,9 @@ public:
      */
     virtual bool applicableTo(sad::db::Object* o);
 protected:
-	/*! Fetches a link for animation
-	 */
-	sad::db::Link m_way;
+    /*! Fetches a link for animation
+     */
+    sad::db::Link m_way;
 };
 
 }

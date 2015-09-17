@@ -35,45 +35,45 @@ sad::String & sad::String::operator<<(char c)
 
 bool sad::String::operator>(const sad::String &o) const
 {
-	unsigned long minlen=(this->length()<o.length())?this->length():o.length();
-	unsigned long i;
-	for (i=0;i<minlen;i++)
-	{
-	  if ((*this)[i]!=o[i])
-		if (cmpchar((*this)[i],o[i]))
-			return false;
-		else
-			return true;
-	}
-	if (this->length()>o.length())
-		return true;
-	return false;
+    unsigned long minlen=(this->length()<o.length())?this->length():o.length();
+    unsigned long i;
+    for (i=0;i<minlen;i++)
+    {
+      if ((*this)[i]!=o[i])
+        if (cmpchar((*this)[i],o[i]))
+            return false;
+        else
+            return true;
+    }
+    if (this->length()>o.length())
+        return true;
+    return false;
 }
 bool sad::String::operator>=(const sad::String & o) const
 {
-	return (*this>o) || (*this==o);
+    return (*this>o) || (*this==o);
 }
 bool sad::String::operator<=(const sad::String & o) const
 {
-	return !(*this>o);
+    return !(*this>o);
 }
 bool sad::String::operator<(const sad::String & o) const
 {
-	return !(*this>=o);
+    return !(*this>=o);
 }
 void sad::String::remove(long i)
 {
-	if (i > -1 && i <= (long)(this->length()))
-	{
-		this->erase(this->begin() + i);
-	}
+    if (i > -1 && i <= (long)(this->length()))
+    {
+        this->erase(this->begin() + i);
+    }
 }
 
 //Split a sad::String to a list, using specified delimiter
 sad::String & sad::String::operator<<(const sad::String & o)
 {
-	(*this)+=o;
-	return *this;
+    (*this)+=o;
+    return *this;
 }
 
 sad::StringList sad::String::split(
@@ -85,17 +85,17 @@ sad::StringList sad::String::split(
   sad::String buffer;
   for(unsigned long i = 0; i < this->length(); i++)
   {
-	char cur = (*this)[i];
-	if (strrchr(delimiters,cur) != NULL)
-	{
-		if (buffer.empty() == false || b == sad::String::KEEP_EMPTY_PARTS)
-			result << buffer;
-		buffer.clear();
-	}
-	else 
-	{
-		buffer << cur;
-	}
+    char cur = (*this)[i];
+    if (strrchr(delimiters,cur) != NULL)
+    {
+        if (buffer.empty() == false || b == sad::String::KEEP_EMPTY_PARTS)
+            result << buffer;
+        buffer.clear();
+    }
+    else 
+    {
+        buffer << cur;
+    }
   }
   if (buffer.empty() == false)
       result << buffer;
@@ -106,15 +106,15 @@ sad::StringList sad::String::split(
     sad::String::SplitBehaviour b
 ) const
 {
-	char s[2]={delimiter, 0x0};
-	return split(s, b);
+    char s[2]={delimiter, 0x0};
+    return split(s, b);
 }
 
 sad::String  sad::String::getLastCharacters(long i) const
 {
-	if (i<0) return sad::String();
-	if ((unsigned long)i>=this->length()) return sad::String();
-	return this->substr(this->length()-i);
+    if (i<0) return sad::String();
+    if ((unsigned long)i>=this->length()) return sad::String();
+    return this->substr(this->length()-i);
 }
 sad::String sad::String::getExtension() const
 {
@@ -130,7 +130,7 @@ void sad::String::removeExtension()
 }
 void  sad::String::addExtension(const sad::String & newext)
 {
-	(*this)<<'.'<<newext;
+    (*this)<<'.'<<newext;
 }
 void  sad::String::changeExtension(const sad::String & newext)
 {
@@ -146,22 +146,22 @@ sad::String  sad::String::operator+(const sad::String & o) const
 
 sad::String  sad::String::operator+(const std::string & o) const
 {
-	return *this + sad::String(o);
+    return *this + sad::String(o);
 }
 
 sad::String  sad::String::operator+(const char * o) const
 {
-	return *this + sad::String(o);
+    return *this + sad::String(o);
 }
 
 sad::String & sad::String::insert(char c,long i)
 {
-	if (i<0) i=0;
-	if ((unsigned long)i>=length())  return (*this)<<c;
-	std::string str;
-	str.push_back(c);
-	this->std::string::insert(i,str);
-	return *this;
+    if (i<0) i=0;
+    if ((unsigned long)i>=length())  return (*this)<<c;
+    std::string str;
+    str.push_back(c);
+    this->std::string::insert(i,str);
+    return *this;
 }
 
 void sad::String::trimSpaces()
@@ -184,26 +184,26 @@ void sad::String::trimSpaces()
 }
 void sad::String::removeSpaces()
 {
-	this->removeAllOccurences(sad::String(" "));
+    this->removeAllOccurences(sad::String(" "));
 }
 
 sad::String & sad::String::removeRange(long beg,long rlen)
 {
-	long k;
-	for (k=0;k<rlen;k++) 
-		 this->remove(beg);   
-	return *this;
+    long k;
+    for (k=0;k<rlen;k++) 
+         this->remove(beg);   
+    return *this;
 }
 sad::String & sad::String::insert(const sad::String & o,long i)
 {
-	if (i < 0) return *this;
-	if (static_cast<unsigned long>(i) > this->length()) 
-	{
-		*this << o;
-		return *this;
-	}
-	this->std::string::insert(i, o);
-	return *this;
+    if (i < 0) return *this;
+    if (static_cast<unsigned long>(i) > this->length()) 
+    {
+        *this << o;
+        return *this;
+    }
+    this->std::string::insert(i, o);
+    return *this;
 }
 
 sad::String  sad::String::number(int a,int radix)
@@ -219,7 +219,7 @@ bool  sad::String::queryPointer(const sad::String & str, long * addr)
    long cwt=-32768;
    if (str.empty())
    {
-	   return 0;
+       return 0;
    }
    sscanf(str.data(),"%lX",&cwt);
    *addr=0;
@@ -244,9 +244,9 @@ float sad::String::toFloat(const sad::String & str)
 
 double sad::String::toDouble(const sad::String & str)
 {
-	double result = 0;
-	sscanf(str.data(), "%lf", &result);
-	return result;
+    double result = 0;
+    sscanf(str.data(), "%lf", &result);
+    return result;
 }
 
 sad::String  sad::String::subString(long beg,long len) const
@@ -256,7 +256,7 @@ sad::String  sad::String::subString(long beg,long len) const
     {
         return "";
     }
-	return substr(beg, len);
+    return substr(beg, len);
 }
 sad::String  sad::String::getRightPart(long len) const
 {
@@ -268,14 +268,14 @@ sad::String  sad::String::getLeftPart(long len) const
 }
 long sad::String::getOccurences(const sad::String & sstr) const
 {
-	long count = 0;
-	size_t pos = this->find(sstr);
-	while(pos != std::string::npos)
-	{
-		++count;
-		pos = this->find(sstr, pos + sstr.length());
-	}
-	return count;
+    long count = 0;
+    size_t pos = this->find(sstr);
+    while(pos != std::string::npos)
+    {
+        ++count;
+        pos = this->find(sstr, pos + sstr.length());
+    }
+    return count;
 }
 long sad::String::getOccurence(const sad::String & sstr,long omax) const
 {
@@ -285,9 +285,9 @@ long sad::String::getOccurence(const sad::String & sstr,long omax) const
   while(pos != std::string::npos)
   {
     if (count == omax)
-		result = pos;
+        result = pos;
     ++count;
-	pos = this->find(sstr, pos + sstr.length());
+    pos = this->find(sstr, pos + sstr.length());
   }
   return result;
 }
@@ -297,8 +297,8 @@ long sad::String::getLastOccurence(const sad::String & sstr) const
   size_t pos = this->find(sstr);
   while(pos != std::string::npos)
   {
-	result = pos;
-	pos = this->find(sstr, pos + sstr.length());
+    result = pos;
+    pos = this->find(sstr, pos + sstr.length());
   }
   return result;
 }
@@ -312,8 +312,8 @@ void sad::String::removeAllOccurences(const sad::String & sstr)
    long pos=getOccurence(sstr,0);
    while (pos!=-1)
    {
-	   removeRange(pos,sstr.length());
-	   pos=getOccurence(sstr,0);
+       removeRange(pos,sstr.length());
+       pos=getOccurence(sstr,0);
    }
 }
 void sad::String::removeLastOccurence(const sad::String & sstr)
@@ -326,8 +326,8 @@ void sad::String::replaceOccurence(const sad::String & sstr,const sad::String & 
    long pos=getOccurence(sstr,omax);
    if (pos!=-1)
    {
-	   removeRange(pos,sstr.length());
-	   insert(to,pos);
+       removeRange(pos,sstr.length());
+       insert(to,pos);
    }
 }
 void sad::String::replaceAllOccurences(const sad::String & sstr,const sad::String & to)
@@ -335,9 +335,9 @@ void sad::String::replaceAllOccurences(const sad::String & sstr,const sad::Strin
    long pos=getOccurence(sstr,0);
    while (pos!=-1)
    {
-	   removeRange(pos,sstr.length());
-	   insert(to,pos);
-	   pos=getOccurence(sstr,0);
+       removeRange(pos,sstr.length());
+       insert(to,pos);
+       pos=getOccurence(sstr,0);
    }
 }
 
@@ -346,56 +346,56 @@ void sad::String::replaceLastOccurence(const sad::String & sstr,const sad::Strin
    long pos=getLastOccurence(sstr);
    if (pos!=-1)
    {
-	   removeRange(pos,sstr.length());
-	   insert(to,pos);
+       removeRange(pos,sstr.length());
+       insert(to,pos);
    }
 }
 
 bool sad::String::consistsOfWhitespaceCharacters() const
 {
-	bool result = true;
-	for(size_t i = 0; i < this->size(); i++)
-	{
-		char c = (*this)[i];
-		if (c != ' ' && c != '\t' && c != '\n' && c != '\r')
-		{
-			result = false;
-		}
-	}
-	return result;
+    bool result = true;
+    for(size_t i = 0; i < this->size(); i++)
+    {
+        char c = (*this)[i];
+        if (c != ' ' && c != '\t' && c != '\n' && c != '\r')
+        {
+            result = false;
+        }
+    }
+    return result;
 }
 
 void sad::String::trim()
 {
-	if (!trimLeft())
-	{
-	    trimRight();
-	}
+    if (!trimLeft())
+    {
+        trimRight();
+    }
 }
 
 bool sad::String::trimLeft()
 {
     bool is_whitespace = false;
     int length = 0;
-	bool found = false;
-	for(size_t  i = 0; (i < this->size()) && !found; i++)
-	{
-		char c = (*this)[i];
-		if (c != ' ' && c != '\t' && c != '\n' && c != '\r')
-		{
-			found = true;
-			length = i;
-		}
-	}
-	if (found)
-	{
-		this->erase(0, length);
-	}
-	else
-	{		
-		this->clear();
+    bool found = false;
+    for(size_t  i = 0; (i < this->size()) && !found; i++)
+    {
+        char c = (*this)[i];
+        if (c != ' ' && c != '\t' && c != '\n' && c != '\r')
+        {
+            found = true;
+            length = i;
+        }
+    }
+    if (found)
+    {
+        this->erase(0, length);
+    }
+    else
+    {		
+        this->clear();
         is_whitespace = true;
-	}
+    }
     return is_whitespace;
 }
 
@@ -403,20 +403,20 @@ bool sad::String::trimRight()
 {
     bool is_whitespace = false;
     bool found = false;
-	int pos = 0;
-	for(int  i = this->size() - 1; (i > -1) && !found; i--)
-	{
-		char c = (*this)[i];
-		if (c != ' ' && c != '\t' && c != '\n' && c != '\r')
-		{
-			found = true;
-			pos = i;
-		}
-	}
-	if (found)
-	{
-		this->erase(this->begin() + pos + 1, this->end());
-	}
+    int pos = 0;
+    for(int  i = this->size() - 1; (i > -1) && !found; i--)
+    {
+        char c = (*this)[i];
+        if (c != ' ' && c != '\t' && c != '\n' && c != '\r')
+        {
+            found = true;
+            pos = i;
+        }
+    }
+    if (found)
+    {
+        this->erase(this->begin() + pos + 1, this->end());
+    }
     else
     {
         this->clear();
@@ -427,55 +427,55 @@ bool sad::String::trimRight()
 
 bool sad::String::cmpchar(char c1,char c2) const //Return false if c1 is bigger than c2
 {
-	int priority1,priority2;
-	if (c1>=65 && c1<=90)
-		priority1=8;
-	else if (c1>=97 && c1<=122)
-		priority1=7;
-	else if (c1<=-123)
-		priority1=6;
-	else if (c1==-16)
-		priority1=5;
-	else if (c1>=-122 && c1<=-97)
-		priority1=4;
-	else if (c1>=-96 && c1<=-91)
-		priority1=3;
-	else if (c1==-15)
-		priority1=2;
-	else if ((c1>=-90 && c1<=-81) || (c1>=-32 && c1<=-17))
-		priority1=1;
-	else priority1=0;
+    int priority1,priority2;
+    if (c1>=65 && c1<=90)
+        priority1=8;
+    else if (c1>=97 && c1<=122)
+        priority1=7;
+    else if (c1<=-123)
+        priority1=6;
+    else if (c1==-16)
+        priority1=5;
+    else if (c1>=-122 && c1<=-97)
+        priority1=4;
+    else if (c1>=-96 && c1<=-91)
+        priority1=3;
+    else if (c1==-15)
+        priority1=2;
+    else if ((c1>=-90 && c1<=-81) || (c1>=-32 && c1<=-17))
+        priority1=1;
+    else priority1=0;
 
     if (c2>=65 && c2<=90)
-		priority2=8;
-	else if (c2>=97 && c2<=122)
-		priority2=7;
-	else if (c2<=-123)
-		priority2=6;
-	else if (c2==-16)
-		priority2=5;
-	else if (c2>=-122 && c2<=-97)
-		priority2=4;
-	else if (c2>=-96 && c2<=-91)
-		priority2=3;
-	else if (c2==-15)
-		priority2=2;
-	else if ((c2>=-90 && c2<=-81) || (c2>=-32 && c2<=-17))
-		priority2=1;
-	else priority2=0;
+        priority2=8;
+    else if (c2>=97 && c2<=122)
+        priority2=7;
+    else if (c2<=-123)
+        priority2=6;
+    else if (c2==-16)
+        priority2=5;
+    else if (c2>=-122 && c2<=-97)
+        priority2=4;
+    else if (c2>=-96 && c2<=-91)
+        priority2=3;
+    else if (c2==-15)
+        priority2=2;
+    else if ((c2>=-90 && c2<=-81) || (c2>=-32 && c2<=-17))
+        priority2=1;
+    else priority2=0;
     if (priority1>priority2) return true;
-	else if (priority1<priority2) return false;
-	return c1<c2;
+    else if (priority1<priority2) return false;
+    return c1<c2;
 }
 
 sad::String sad::join(const sad::StringList list, const sad::String & sep)
 {
-	if (list.count() == 0)
-		return sad::String();
-	sad::String result = list[0];
-	for(unsigned int i = 1; i < list.count(); i++)
-	{
-		result << sep << list[i];
-	}
-	return result;
+    if (list.count() == 0)
+        return sad::String();
+    sad::String result = list[0];
+    for(unsigned int i = 1; i < list.count(); i++)
+    {
+        result << sep << list[i];
+    }
+    return result;
 }

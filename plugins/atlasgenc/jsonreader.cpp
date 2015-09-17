@@ -14,58 +14,58 @@ JSONReader::~JSONReader()
 
 void JSONReader::read(const QString& name)
 {
-	this->Successfull = false;
-	QFile file(name); 
-	if (!file.open(QIODevice::ReadOnly)) {
-		this->Errors << QString("Can\'t open file \"") + name + QString("\"");
-		Result->Errors << this->Errors;
-		return;
-	}
-	QTextStream in(&file);
-	QString contents = in.readAll();
-	file.close();
+    this->Successfull = false;
+    QFile file(name); 
+    if (!file.open(QIODevice::ReadOnly)) {
+        this->Errors << QString("Can\'t open file \"") + name + QString("\"");
+        Result->Errors << this->Errors;
+        return;
+    }
+    QTextStream in(&file);
+    QString contents = in.readAll();
+    file.close();
 
-	picojson::value root = picojson::parse_string(contents.toStdString());
-	if (picojson::get_last_error().size() == 0)
-	{
-		if (root.is<picojson::object>())
-		{
-			picojson::object ro = root.get<picojson::object>();
+    picojson::value root = picojson::parse_string(contents.toStdString());
+    if (picojson::get_last_error().size() == 0)
+    {
+        if (root.is<picojson::object>())
+        {
+            picojson::object ro = root.get<picojson::object>();
 
-			// Parse texture
+            // Parse texture
             if (ro.find("texture") != ro.end())
-			{
-				if (ro["texture"].is<std::string>())
-				{
-					this->OutputTexture = ro["texture"].get<std::string>().c_str();
-				}
-				else
-				{
-					this->Errors << "Output texture is not a string";
-				}
-			}
-			else
-			{
-				this->Errors << "Output texture is not defined";
-			}
+            {
+                if (ro["texture"].is<std::string>())
+                {
+                    this->OutputTexture = ro["texture"].get<std::string>().c_str();
+                }
+                else
+                {
+                    this->Errors << "Output texture is not a string";
+                }
+            }
+            else
+            {
+                this->Errors << "Output texture is not defined";
+            }
 
 
-			// Parse config
-			if (ro.find("config") != ro.end())
-			{
-				if (ro["config"].is<std::string>())
-				{
-					this->OutputName = ro["config"].get<std::string>().c_str();
-				}
-				else
-				{
-					this->Errors << "Output atlas config filename is not a string";
-				}
-			}
-			else
-			{
-				this->Errors << "Output atlas config filename is not defined";
-			}
+            // Parse config
+            if (ro.find("config") != ro.end())
+            {
+                if (ro["config"].is<std::string>())
+                {
+                    this->OutputName = ro["config"].get<std::string>().c_str();
+                }
+                else
+                {
+                    this->Errors << "Output atlas config filename is not a string";
+                }
+            }
+            else
+            {
+                this->Errors << "Output atlas config filename is not defined";
+            }
 
             // Parse texture resource name
             if (ro.find("resource") != ro.end())
@@ -111,19 +111,19 @@ void JSONReader::read(const QString& name)
                  this->Errors << "Sprites list is not defined";
             }
 
-		}
-		else
-		{
-			this->Errors << QString("Root element of file \"") + name + QString("\" is not an object");
-		}
-	}
-	else
-	{
-		this->Errors << QString("Can\'t parse file \"") + name + QString("\"");
-	}
+        }
+        else
+        {
+            this->Errors << QString("Root element of file \"") + name + QString("\" is not an object");
+        }
+    }
+    else
+    {
+        this->Errors << QString("Can\'t parse file \"") + name + QString("\"");
+    }
 
-	this->Successfull = this->Errors.size() == 0;
-	Result->Errors << this->Errors;
+    this->Successfull = this->Errors.size() == 0;
+    Result->Errors << this->Errors;
 }
 
 
@@ -234,9 +234,9 @@ void JSONReader::readElement(picojson::object& e)
             QStringList list = size.split(";");
             if (list.size() == 3)
             {
-				int r = std::min(std::max(0, list[0].toInt()), 255);
-				int g = std::min(std::max(0, list[1].toInt()), 255);
-				int b = std::min(std::max(0, list[2].toInt()), 255);
+                int r = std::min(std::max(0, list[0].toInt()), 255);
+                int g = std::min(std::max(0, list[1].toInt()), 255);
+                int b = std::min(std::max(0, list[2].toInt()), 255);
                 entry.Transparent.setValue(QColor(r, g, b));
             }
             else

@@ -1,7 +1,7 @@
 /*! \file animationswayinstance.h
-	
+    
 
-	A way instance for working with way path moving
+    A way instance for working with way path moving
  */
 #pragma once
 #include "animationsinstance.h"
@@ -12,7 +12,7 @@
 
 namespace sad
 {
-	
+    
 namespace animations
 {
 
@@ -53,42 +53,42 @@ public:
         \return a serializable name
      */
     virtual const sad::String& serializableName() const;
-	/*! Sets major id for instance
-		\param[in] majorid
-	 */
-	void setWayMajorId(unsigned long long majorid);
-	/*! A major id for way
-		\return major id
-	 */
-	unsigned long long wayMajorId() const;
-	/*! Sets way instance
-		\param[in] i way
-	 */
-	void setWay(sad::p2d::app::Way* i);
-	/*! Returns current way
-		\return way
-	 */
-	sad::p2d::app::Way* way() const;
+    /*! Sets major id for instance
+        \param[in] majorid
+     */
+    void setWayMajorId(unsigned long long majorid);
+    /*! A major id for way
+        \return major id
+     */
+    unsigned long long wayMajorId() const;
+    /*! Sets way instance
+        \param[in] i way
+     */
+    void setWay(sad::p2d::app::Way* i);
+    /*! Returns current way
+        \return way
+     */
+    sad::p2d::app::Way* way() const;
 protected:
-	/*! Starts an animation instance
+    /*! Starts an animation instance
         \param[in] animations an animations
      */
     virtual void start(sad::animations::Animations* animations);
-	/*!  Computes time, which should be used to animate. Finishes
+    /*!  Computes time, which should be used to animate. Finishes
          animations to be finished
          \param[in] animations an animations
      */
     virtual double computeTime(sad::animations::Animations* animations);
-	/*! Processes animation instance with specified time
+    /*! Processes animation instance with specified time
         \param[in] animations an animation part
         \param[in] time a time
      */
     virtual void processTime(sad::animations::Animations* animations, double time);
-	/*! Checks, whether instance is valid
-		\param[in] animations an animation list
-	 */
-	virtual void checkIfValid(sad::animations::Animations* animations);
-	/*! Compiles fast call and saves an animtions
+    /*! Checks, whether instance is valid
+        \param[in] animations an animation list
+     */
+    virtual void checkIfValid(sad::animations::Animations* animations);
+    /*! Compiles fast call and saves an animtions
         \param[in] animations an animations
      */
     virtual void saveStateAndCompile(sad::animations::Animations* animations);
@@ -96,14 +96,14 @@ protected:
         \param[in] animations animations, which is calling process for this instance
      */
     virtual void restoreObjectState(sad::animations::Animations* animations);
-	/*! Returns a way link
-	 */
-	sad::db::Link m_way_link;
-	/*! A local link to way
-	 */
-	sad::p2d::app::Way::WayLink m_local_link;
+    /*! Returns a way link
+     */
+    sad::db::Link m_way_link;
+    /*! A local link to way
+     */
+    sad::p2d::app::Way::WayLink m_local_link;
 };
-	
+    
 }
 
 }

@@ -42,98 +42,98 @@ gui::SceneNodeActions::~SceneNodeActions()
 
 void gui::SceneNodeActions::setPanel(MainPanel* e)
 {
-	m_panel = e;
+    m_panel = e;
 }
 
 MainPanel* gui::SceneNodeActions::panel() const
 {
-	return m_panel;
+    return m_panel;
 }
 
 void gui::SceneNodeActions::moveObject(const sad::input::MouseMoveEvent& e)
 {
-	sad::Point2D direction = e.pos2D() - m_panel->editor()->shared()->pivotPoint();
-	sad::Rect2D area = m_panel->editor()->shared()->oldArea();
-	sad::moveBy(direction, area);
-	m_panel->editor()->shared()->selectedObject()->setProperty("area", area);
-	this->updateRegionForNode();
+    sad::Point2D direction = e.pos2D() - m_panel->editor()->shared()->pivotPoint();
+    sad::Rect2D area = m_panel->editor()->shared()->oldArea();
+    sad::moveBy(direction, area);
+    m_panel->editor()->shared()->selectedObject()->setProperty("area", area);
+    this->updateRegionForNode();
 }
 
 void gui::SceneNodeActions::commitObjectMoving(const sad::input::MouseReleaseEvent& e)
 {
-	sad::input::MouseMoveEvent ev;
-	ev.Point3D = e.Point3D;
-	this->moveObject(ev);
+    sad::input::MouseMoveEvent ev;
+    ev.Point3D = e.Point3D;
+    this->moveObject(ev);
 
-	sad::SceneNode * node = m_panel->editor()->shared()->selectedObject();
-	sad::Maybe<sad::Rect2D> newvalue = node->getProperty<sad::Rect2D>("area");
+    sad::SceneNode * node = m_panel->editor()->shared()->selectedObject();
+    sad::Maybe<sad::Rect2D> newvalue = node->getProperty<sad::Rect2D>("area");
     if (newvalue.exists()) {
         sad::Rect2D nv = newvalue.value();
-		sad::Rect2D ov = m_panel->editor()->shared()->oldArea();
+        sad::Rect2D ov = m_panel->editor()->shared()->oldArea();
         bool eq = sad::equal(nv, ov);
         if (!eq)
         {
             m_panel->editor()->history()->add(new history::scenenodes::ChangeArea(node, ov, nv));
         }
     }
-	m_panel->editor()->machine()->enterState("selected");
+    m_panel->editor()->machine()->enterState("selected");
 }
 
 void gui::SceneNodeActions::resizeObject(const sad::input::MouseMoveEvent& e)
 {
-	sad::Rect2D area = m_panel->editor()->shared()->oldRegion();
-	
-	// Compute movement distance
-	sad::Point2D direction = e.pos2D() - m_panel->editor()->shared()->pivotPoint();
-	sad::p2d::Vector movement = m_panel->editor()->shared()->resizingDirection();
-	movement *= sad::p2d::scalar(direction, m_panel->editor()->shared()->resizingDirection());
+    sad::Rect2D area = m_panel->editor()->shared()->oldRegion();
+    
+    // Compute movement distance
+    sad::Point2D direction = e.pos2D() - m_panel->editor()->shared()->pivotPoint();
+    sad::p2d::Vector movement = m_panel->editor()->shared()->resizingDirection();
+    movement *= sad::p2d::scalar(direction, m_panel->editor()->shared()->resizingDirection());
 
-	// Apply distance
-	const sad::Pair<int, int> & indexes = m_panel->editor()->shared()->resizingIndexes();
-	area[indexes.p1()] += movement;
-	area[indexes.p2()] += movement;
+    // Apply distance
+    const sad::Pair<int, int> & indexes = m_panel->editor()->shared()->resizingIndexes();
+    area[indexes.p1()] += movement;
+    area[indexes.p2()] += movement;
 
-	sad::SceneNode* node = m_panel->editor()->shared()->selectedObject(); 
-	sad::Maybe<double> angle = node->getProperty<double>("angle");
-	if (angle.exists())
-	{
-		sad::rotate(area, angle.value() * -1);
+    sad::SceneNode* node = m_panel->editor()->shared()->selectedObject(); 
+    sad::Maybe<double> angle = node->getProperty<double>("angle");
+    if (angle.exists())
+    {
+        sad::rotate(area, angle.value() * -1);
 
-		node->setProperty("area", area);
-		this->updateRegionForNode();
-	}
+        node->setProperty("area", area);
+        this->updateRegionForNode();
+    }
 }
 
 void gui::SceneNodeActions::commitObjectResizing(const sad::input::MouseReleaseEvent& e)
 {
-	sad::input::MouseMoveEvent ev;
-	ev.Point3D = e.Point3D;
-	this->resizeObject(ev);
+    sad::input::MouseMoveEvent ev;
+    ev.Point3D = e.Point3D;
+    this->resizeObject(ev);
 
-	sad::SceneNode * node = m_panel->editor()->shared()->selectedObject();
-	sad::Maybe<sad::Rect2D> newvalue = node->getProperty<sad::Rect2D>("area");
+    sad::SceneNode * node = m_panel->editor()->shared()->selectedObject();
+    sad::Maybe<sad::Rect2D> newvalue = node->getProperty<sad::Rect2D>("area");
     if (newvalue.exists()) {
         sad::Rect2D nv = newvalue.value();
-		sad::Rect2D ov = m_panel->editor()->shared()->oldArea();
+        sad::Rect2D ov = m_panel->editor()->shared()->oldArea();
         bool eq = sad::equal(nv, ov);
         if (!eq)
         {
             m_panel->editor()->history()->add(new history::scenenodes::ChangeArea(node, ov, nv));
         }
     }
-	m_panel->editor()->machine()->enterState("selected");
+    m_panel->editor()->machine()->enterState("selected");
 }
 
 void gui::SceneNodeActions::navigateOrRotate(const sad::input::MouseWheelEvent& e)
 {
-	if (m_panel->editor()->selection()->isSelectionPending())
-	{
-		m_panel->editor()->selection()->navigateSelection(e);
-	}
-	else
-	{
-		this->rotate(e);
-	}
+    if (m_panel->editor()->selection()->isSelectionPending())
+    {
+        m_panel->editor()->selection()->navigateSelection(e);
+    }
+    else
+    {
+        this->rotate(e);
+    }
 }
 
 void gui::SceneNodeActions::rotate(const sad::input::MouseWheelEvent& e)
@@ -169,64 +169,64 @@ void gui::SceneNodeActions::rotate(const sad::input::MouseWheelEvent& e)
 
 void gui::SceneNodeActions::cancelSelection()
 {
-	m_panel->editor()->machine()->enterState("idle");
-	m_panel->editor()->shared()->setSelectedObject(NULL);
-	QListWidget* w = m_panel->UI()->lstSceneObjects;
+    m_panel->editor()->machine()->enterState("idle");
+    m_panel->editor()->shared()->setSelectedObject(NULL);
+    QListWidget* w = m_panel->UI()->lstSceneObjects;
 
-	void (QListWidget::*setrow)(int) = &QListWidget::setCurrentRow;
-	m_panel->editor()->emitClosure(blocked_bind(
-		w,
-		setrow,
-		-1
-	));
+    void (QListWidget::*setrow)(int) = &QListWidget::setCurrentRow;
+    m_panel->editor()->emitClosure(blocked_bind(
+        w,
+        setrow,
+        -1
+    ));
 }
 
 void gui::SceneNodeActions::updateRegionForNode()
 {
-	core::Shared* s = this->m_panel->editor()->shared();
-	sad::SceneNode* node = s->activeObject();
-	if (node == NULL)
-	{
-		node  = s->selectedObject(); 
-	}
-	if (node)
-	{
-		sad::Renderer::ref()->lockRendering();
-		sad::Maybe<sad::Rect2D> maybearea = node->getProperty<sad::Rect2D>("area");
-		sad::Renderer::ref()->unlockRendering();
-		if (maybearea.exists())
-		{
-			const sad::Rect2D & v = maybearea.value();
+    core::Shared* s = this->m_panel->editor()->shared();
+    sad::SceneNode* node = s->activeObject();
+    if (node == NULL)
+    {
+        node  = s->selectedObject(); 
+    }
+    if (node)
+    {
+        sad::Renderer::ref()->lockRendering();
+        sad::Maybe<sad::Rect2D> maybearea = node->getProperty<sad::Rect2D>("area");
+        sad::Renderer::ref()->unlockRendering();
+        if (maybearea.exists())
+        {
+            const sad::Rect2D & v = maybearea.value();
             QRectF newrect = QRectF(v[0].x(), v[0].y(), v.width(), v.height());
             m_panel->editor()->emitClosure( blocked_bind(
                 m_panel->UI()->rwSceneNodeRect,
                 &gui::rectwidget::RectWidget::setValue,
                 newrect
             ));
-		}
-	}
+        }
+    }
 }
 
 // ============================= PUBLIC SLOTS METHODS =============================
 
 void gui::SceneNodeActions::nameEdited(const QString& name)
 {
-	sad::String newvalue = Q2STDSTRING(name);
-	if (m_panel->editor()->shared()->activeObject() != NULL)
+    sad::String newvalue = Q2STDSTRING(name);
+    if (m_panel->editor()->shared()->activeObject() != NULL)
     {
         m_panel->editor()->shared()->activeObject()->setObjectName(newvalue);
-		m_panel->updateSceneNodeName(m_panel->editor()->shared()->activeObject());
+        m_panel->updateSceneNodeName(m_panel->editor()->shared()->activeObject());
     }
     else
     {
         sad::SceneNode* node = m_panel->editor()->shared()->selectedObject();
         if (node)
         {
-			sad::String oldvalue = node->objectName();            
-			if (newvalue != oldvalue)
+            sad::String oldvalue = node->objectName();            
+            if (newvalue != oldvalue)
             {
                 node->setObjectName(newvalue);
-				m_panel->updateSceneNodeName(m_panel->editor()->shared()->selectedObject());
+                m_panel->updateSceneNodeName(m_panel->editor()->shared()->selectedObject());
                 m_panel->editor()->history()->add(new history::scenenodes::ChangeName(node, oldvalue, newvalue));
             }            
         }
@@ -235,29 +235,29 @@ void gui::SceneNodeActions::nameEdited(const QString& name)
 
 void gui::SceneNodeActions::visibilityChanged(bool state)
 {
-	bool newvalue = state;
-	if (m_panel->editor()->shared()->activeObject() != NULL)
+    bool newvalue = state;
+    if (m_panel->editor()->shared()->activeObject() != NULL)
     {
-		m_panel->UI()->cbSceneNodeVisible->setCheckState(Qt::Checked);
+        m_panel->UI()->cbSceneNodeVisible->setCheckState(Qt::Checked);
     }
     else
     {
         sad::SceneNode* node = m_panel->editor()->shared()->selectedObject();
         if (node)
         {
-			sad::Maybe<bool> oldvalue = node->getProperty<bool>("visible");
-			if (oldvalue.exists())
-			{
-				if (newvalue != oldvalue.value())
-				{
-					node->setProperty("visible", newvalue);
-					m_panel->editor()->history()->add(history::scenenodes::changeVisibility(
-						node, 
-						oldvalue.value(), 
-						newvalue
-					));
-				}
-			}
+            sad::Maybe<bool> oldvalue = node->getProperty<bool>("visible");
+            if (oldvalue.exists())
+            {
+                if (newvalue != oldvalue.value())
+                {
+                    node->setProperty("visible", newvalue);
+                    m_panel->editor()->history()->add(history::scenenodes::changeVisibility(
+                        node, 
+                        oldvalue.value(), 
+                        newvalue
+                    ));
+                }
+            }
         }
     }
 }
@@ -322,16 +322,16 @@ void gui::SceneNodeActions::areaChanged(QRectF newarea)
 
 void gui::SceneNodeActions::angleChanged(double newvalue)
 {
-	// Block changing in diagonal placing state
-	if (m_panel->editor()->machine()->isInState("adding/sprite_diagonal")
-		&& m_panel->editor()->machine()->isInState("adding/customobject_diagonal"))
-	{
-		gui::anglewidget::AngleWidget* w = m_panel->UI()->awSceneNodeAngle;
-		bool b = w->blockSignals(true);
-		w->setValue(0);
-		w->blockSignals(b);
-		return;
-	}
+    // Block changing in diagonal placing state
+    if (m_panel->editor()->machine()->isInState("adding/sprite_diagonal")
+        && m_panel->editor()->machine()->isInState("adding/customobject_diagonal"))
+    {
+        gui::anglewidget::AngleWidget* w = m_panel->UI()->awSceneNodeAngle;
+        bool b = w->blockSignals(true);
+        w->setValue(0);
+        w->blockSignals(b);
+        return;
+    }
 
     m_rotation->setEditor(m_panel->editor());
 
@@ -359,54 +359,54 @@ void gui::SceneNodeActions::angleChanged(double newvalue)
 
 void gui::SceneNodeActions::removeSceneNode(sad::SceneNode* node, bool from_editor)
 {
-	int row = m_panel->findSceneNodeInList(node);
-	if (row == -1)
-	{
-		row = static_cast<int>(node->scene()->findLayer(node));
-	}
-			
+    int row = m_panel->findSceneNodeInList(node);
+    if (row == -1)
+    {
+        row = static_cast<int>(node->scene()->findLayer(node));
+    }
+            
 
-	int posininstance = m_panel->findInComboBox<sad::db::Object*>(m_panel->UI()->cmbAnimationInstanceObject, node);
-	sad::Vector<sad::db::Object*> objects;
-	sad::Renderer::ref()->database("")->table("animationinstances")->objects(objects);
-	sad::Vector<sad::animations::Instance*> instances;
-	for(size_t i = 0; i < objects.size(); i++)
-	{
-		sad::db::Object* o = objects[i];
-		if (o->isInstanceOf("sad::animations::Instance") || o->isInstanceOf("sad::animations::WayInstance"))
-		{
-			sad::animations::Instance* instance = static_cast<sad::animations::Instance*>(o);
-			if (instance->objectId() == node->MajorId)
-			{
-				instances << instance;
-			}
-		}
-	}
+    int posininstance = m_panel->findInComboBox<sad::db::Object*>(m_panel->UI()->cmbAnimationInstanceObject, node);
+    sad::Vector<sad::db::Object*> objects;
+    sad::Renderer::ref()->database("")->table("animationinstances")->objects(objects);
+    sad::Vector<sad::animations::Instance*> instances;
+    for(size_t i = 0; i < objects.size(); i++)
+    {
+        sad::db::Object* o = objects[i];
+        if (o->isInstanceOf("sad::animations::Instance") || o->isInstanceOf("sad::animations::WayInstance"))
+        {
+            sad::animations::Instance* instance = static_cast<sad::animations::Instance*>(o);
+            if (instance->objectId() == node->MajorId)
+            {
+                instances << instance;
+            }
+        }
+    }
 
 
-	history::scenenodes::Remove* c = new history::scenenodes::Remove(node, row);
-	c->set(posininstance, instances);
-	if (from_editor) 
-	{
-		m_panel->editor()->history()->add(c);
-	} 
-	else
-	{
-		m_panel->editor()->currentBatchCommand()->add(c);	
-	}
-	c->commit(m_panel->editor());
+    history::scenenodes::Remove* c = new history::scenenodes::Remove(node, row);
+    c->set(posininstance, instances);
+    if (from_editor) 
+    {
+        m_panel->editor()->history()->add(c);
+    } 
+    else
+    {
+        m_panel->editor()->currentBatchCommand()->add(c);	
+    }
+    c->commit(m_panel->editor());
 }
 
 void gui::SceneNodeActions::removeSceneNode()
 {
-	if (m_panel->editor()->machine()->isInState("selected"))
-	{
-		sad::SceneNode* node = m_panel->editor()->shared()->selectedObject();
-		if (node)
-		{
-			this->removeSceneNode(node, true);
-		}
-	}
+    if (m_panel->editor()->machine()->isInState("selected"))
+    {
+        sad::SceneNode* node = m_panel->editor()->shared()->selectedObject();
+        if (node)
+        {
+            this->removeSceneNode(node, true);
+        }
+    }
 }
 
 // ============================= PRIVATE METHODS =============================

@@ -13,72 +13,72 @@
 
 gui::AnimationProcess::AnimationProcess() : m_editor(NULL), m_instance(NULL)
 {
-	m_timer.setSingleShot(false);
-	connect(&m_timer, SIGNAL(timeout()), this, SLOT(timerExpired()));
+    m_timer.setSingleShot(false);
+    connect(&m_timer, SIGNAL(timeout()), this, SLOT(timerExpired()));
 }
 
 gui::AnimationProcess::~AnimationProcess()
 {
-	if (m_instance)
-	{
-		m_instance->delRef();
-	}
+    if (m_instance)
+    {
+        m_instance->delRef();
+    }
 }
 
 void gui::AnimationProcess::start(sad::animations::Instance* i)
 {
-	if (m_editor)
-	{
-		if (m_editor->shared()->isAnyKindOfAnimationIsRunning() == false)
-		{
-			m_editor->shared()->setAnimationIsRunning(true);
-			m_editor->panel()->lockTypesTab(true);
-			m_editor->panel()->toggleAnimationPropertiesEditable(false);
+    if (m_editor)
+    {
+        if (m_editor->shared()->isAnyKindOfAnimationIsRunning() == false)
+        {
+            m_editor->shared()->setAnimationIsRunning(true);
+            m_editor->panel()->lockTypesTab(true);
+            m_editor->panel()->toggleAnimationPropertiesEditable(false);
 
-			m_instance = i;
-			m_instance->addRef();
+            m_instance = i;
+            m_instance->addRef();
 
-			m_timer.setSingleShot(false);
-			m_timer.setInterval(gui::AnimationProcess::TIMEOUT);
+            m_timer.setSingleShot(false);
+            m_timer.setInterval(gui::AnimationProcess::TIMEOUT);
 
-			sad::Renderer::ref()->animations()->add(m_instance);
+            sad::Renderer::ref()->animations()->add(m_instance);
 
-			m_timer.start();
-		}
-	}
+            m_timer.start();
+        }
+    }
 }
 
 void gui::AnimationProcess::stop()
 {
-	m_mutex.lock();
-	if (m_instance != NULL)
-	{
-		if (m_editor->shared()->isAnyKindOfAnimationIsRunning())
-		{
-			m_editor->shared()->setAnimationIsRunning(false);
-			m_editor->emitClosure( bind(m_editor->panel(), &MainPanel::toggleAnimationPropertiesEditable, true) );
-			m_editor->emitClosure( bind(m_editor->panel(), &MainPanel::lockTypesTab, false) );
+    m_mutex.lock();
+    if (m_instance != NULL)
+    {
+        if (m_editor->shared()->isAnyKindOfAnimationIsRunning())
+        {
+            m_editor->shared()->setAnimationIsRunning(false);
+            m_editor->emitClosure( bind(m_editor->panel(), &MainPanel::toggleAnimationPropertiesEditable, true) );
+            m_editor->emitClosure( bind(m_editor->panel(), &MainPanel::lockTypesTab, false) );
 
-			if (m_instance->finished() == false)
-			{
-				sad::Renderer::ref()->lockRendering();
-				sad::Renderer::ref()->animations()->remove(m_instance);
-				m_instance->cancel(sad::Renderer::ref()->animations());
-				sad::Renderer::ref()->unlockRendering();
-			}
+            if (m_instance->finished() == false)
+            {
+                sad::Renderer::ref()->lockRendering();
+                sad::Renderer::ref()->animations()->remove(m_instance);
+                m_instance->cancel(sad::Renderer::ref()->animations());
+                sad::Renderer::ref()->unlockRendering();
+            }
 
-			m_instance->delRef();
-			m_instance = NULL;
+            m_instance->delRef();
+            m_instance = NULL;
 
-			m_editor->emitClosure( bind(&m_timer, &QTimer::stop) );
-		}
-	}
-	m_mutex.unlock();
+            m_editor->emitClosure( bind(&m_timer, &QTimer::stop) );
+        }
+    }
+    m_mutex.unlock();
 }
 
 void  gui::AnimationProcess::setEditor(core::Editor* e)
 {
-	m_editor = e;
+    m_editor = e;
 }
 
 const int gui::AnimationProcess::TIMEOUT = 100;
@@ -89,25 +89,25 @@ void gui::AnimationProcess::timerExpired()
 {
     if (m_editor && m_instance)
     {
-		if (m_editor->shared()->isAnyKindOfAnimationIsRunning())
-		{
-			if (m_instance)
-			{
-				// Update animation time if instance updates it (WayMoving animation type could do it)
-				double animationtime = m_instance->animation(false)->time();
-				QDoubleSpinBox* timebox = m_editor->panel()->UI()->dsbAnimationTime;
-				double animationbeforetime = timebox->value();
-				if (sad::is_fuzzy_equal(animationtime, animationbeforetime) == false)
-				{
-					invoke_blocked(timebox, &QDoubleSpinBox::setValue, animationtime);
-				}
+        if (m_editor->shared()->isAnyKindOfAnimationIsRunning())
+        {
+            if (m_instance)
+            {
+                // Update animation time if instance updates it (WayMoving animation type could do it)
+                double animationtime = m_instance->animation(false)->time();
+                QDoubleSpinBox* timebox = m_editor->panel()->UI()->dsbAnimationTime;
+                double animationbeforetime = timebox->value();
+                if (sad::is_fuzzy_equal(animationtime, animationbeforetime) == false)
+                {
+                    invoke_blocked(timebox, &QDoubleSpinBox::setValue, animationtime);
+                }
 
-				if (m_instance->finished())
-				{					
-					this->stop();					
-				}
-			}
-		}
+                if (m_instance->finished())
+                {					
+                    this->stop();					
+                }
+            }
+        }
     }
 }
 

@@ -51,22 +51,22 @@ typedef bool SDL_bool;
 
 struct SDL_MessageBoxColor
 {
-	unsigned char r;
-	unsigned char g;
-	unsigned char b;   
+    unsigned char r;
+    unsigned char g;
+    unsigned char b;   
 };
 
 struct SDL_Rect
 {
-	int x;
-	int y;
-	int w;
-	int h;
+    int x;
+    int y;
+    int w;
+    int h;
 };
 
 struct SDL_WindowData
 {
-	Window xwindow;
+    Window xwindow;
 };
 
 /**
@@ -207,13 +207,13 @@ typedef struct SDL_MessageBoxDataX11
 static void
 GetTextWidthHeight( SDL_MessageBoxDataX11 *data, const char *str, int nbytes, int *pwidth, int *pheight )
 {    
-	XCharStruct text_structure;
-	int font_direction, font_ascent, font_descent;
-	XTextExtents( data->font_struct, str, nbytes,
-				  &font_direction, &font_ascent, &font_descent,
-				  &text_structure );
-	*pwidth = text_structure.width;
-	*pheight = text_structure.ascent + text_structure.descent;   
+    XCharStruct text_structure;
+    int font_direction, font_ascent, font_descent;
+    XTextExtents( data->font_struct, str, nbytes,
+                  &font_direction, &font_ascent, &font_descent,
+                  &text_structure );
+    *pwidth = text_structure.width;
+    *pheight = text_structure.ascent + text_structure.descent;   
 }
 
 /* Return index of button if position x,y is contained therein. */
@@ -266,13 +266,13 @@ X11_MessageBoxInit( SDL_MessageBoxDataX11 *data, const SDL_MessageBoxData * mess
     }
 
     data->font_struct = XLoadQueryFont( data->display, g_MessageBoxFontLatin1 );
-	if ( data->font_struct == NULL ) {
-		data->font_struct = XLoadQueryFont( data->display, g_MessageBoxFont);
-		if (data->font_struct == NULL) {
-			//printf("No such font\n");
-			return -1;
-		}
-	}
+    if ( data->font_struct == NULL ) {
+        data->font_struct = XLoadQueryFont( data->display, g_MessageBoxFont);
+        if (data->font_struct == NULL) {
+            //printf("No such font\n");
+            return -1;
+        }
+    }
 
     if ( messageboxdata->colorScheme ) {
         colorhints = messageboxdata->colorScheme->colors;
@@ -519,7 +519,7 @@ X11_MessageBoxDraw( SDL_MessageBoxDataX11 *data, GC ctx )
     for ( i = 0; i < data->numlines; i++ ) {
         TextLineData *plinedata = &data->linedata[ i ];
 
-	XDrawString( display, window, ctx,
+    XDrawString( display, window, ctx,
                          data->xtext, data->ytext + i * data->text_height,
                          plinedata->text, plinedata->length );
     }
@@ -700,16 +700,16 @@ static sad::Mutex  XInitThreadsCalledLock;
 
 void SafeXInitThreads()
 {
-	if (!XInitThreadsCalled)
-	{
-		XInitThreadsCalledLock.lock();
-		if (!XInitThreadsCalled)
-		{
-			XInitThreadsCalled = true;
-			XInitThreads();
-		}
-		XInitThreadsCalledLock.unlock();
-	}
+    if (!XInitThreadsCalled)
+    {
+        XInitThreadsCalledLock.lock();
+        if (!XInitThreadsCalled)
+        {
+            XInitThreadsCalled = true;
+            XInitThreads();
+        }
+        XInitThreadsCalledLock.unlock();
+    }
 }
 
 static int
@@ -750,11 +750,11 @@ X11_ShowMessageBoxImpl(const SDL_MessageBoxData *messageboxdata, int *buttonid)
             if ( ret != -1 ) {
                 ret = X11_MessageBoxLoop( &data );
             } else {
-		//printf("Failed to create window\n");
-	    }
+        //printf("Failed to create window\n");
+        }
         } else {
-	    //printf("Failed to init positions\n");
-	}
+        //printf("Failed to init positions\n");
+    }
     } else {
       //printf("Failed to init\n");
     }
@@ -775,7 +775,7 @@ X11_ShowMessageBoxImpl(const SDL_MessageBoxData *messageboxdata, int *buttonid)
 int
 X11_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonid)
 {
-	return X11_ShowMessageBoxImpl(messageboxdata, buttonid);
+    return X11_ShowMessageBoxImpl(messageboxdata, buttonid);
 }
 
 
@@ -822,11 +822,11 @@ bool SDL_MessageBoxError(
   const char * message
 )
 {
-	return SDL_ShowSimpleMessageBox(
-		SDL_MESSAGEBOX_ERROR,
-		title,
-		message
-	) == 0;
+    return SDL_ShowSimpleMessageBox(
+        SDL_MESSAGEBOX_ERROR,
+        title,
+        message
+    ) == 0;
 }
 
 bool SDL_MessageBoxInformation(
@@ -834,11 +834,11 @@ bool SDL_MessageBoxInformation(
   const char * message
 )
 {
-	return SDL_ShowSimpleMessageBox(
-		SDL_MESSAGEBOX_INFORMATION,
-		title,
-		message
-	) == 0;
+    return SDL_ShowSimpleMessageBox(
+        SDL_MESSAGEBOX_INFORMATION,
+        title,
+        message
+    ) == 0;
 }
 
 bool SDL_MessageBoxWarning(
@@ -846,11 +846,11 @@ bool SDL_MessageBoxWarning(
   const char * message
 )
 {
-	return SDL_ShowSimpleMessageBox(
-		SDL_MESSAGEBOX_WARNING,
-		title,
-		message
-	) == 0;
+    return SDL_ShowSimpleMessageBox(
+        SDL_MESSAGEBOX_WARNING,
+        title,
+        message
+    ) == 0;
 }
 
 #endif
@@ -868,12 +868,12 @@ bool SDL_MessageBoxError(
   const char * message
 )
 {
-	return MessageBoxA(
-		NULL,
-		title,
-		message,
-		MB_ICONERROR|MB_OK
-	) != 0;
+    return MessageBoxA(
+        NULL,
+        title,
+        message,
+        MB_ICONERROR|MB_OK
+    ) != 0;
 }
 
 bool SDL_MessageBoxInformation(
@@ -881,12 +881,12 @@ bool SDL_MessageBoxInformation(
   const char * message
 )
 {
-	return MessageBoxA(
-		NULL,
-		title,
-		message,
-		MB_ICONINFORMATION|MB_OK
-	) != 0;
+    return MessageBoxA(
+        NULL,
+        title,
+        message,
+        MB_ICONINFORMATION|MB_OK
+    ) != 0;
 }
 
 bool SDL_MessageBoxWarning(
@@ -894,12 +894,12 @@ bool SDL_MessageBoxWarning(
   const char * message
 )
 {
-	return MessageBoxA(
-		NULL,
-		title,
-		message,
-		MB_ICONWARNING|MB_OK
-	) != 0;
+    return MessageBoxA(
+        NULL,
+        title,
+        message,
+        MB_ICONWARNING|MB_OK
+    ) != 0;
 }
 
 #endif

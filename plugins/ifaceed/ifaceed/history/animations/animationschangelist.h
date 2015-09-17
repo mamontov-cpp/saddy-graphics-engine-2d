@@ -23,18 +23,18 @@ class ChangeList: public history::animations::ChangeProperty< sad::Vector<sad::S
 public:
      /*! Constructs new command for animation
         \param[in] d an animation
-		\param[in] propertyname a property for editing
-		\param[in] view a view for editing
+        \param[in] propertyname a property for editing
+        \param[in] view a view for editing
         \param[in] oldvalue old value
         \param[in] newvalue new value
       */
     ChangeList(
-		sad::animations::Animation* d, 
-		const sad::String& propertyname,
-		QTextEdit* view,
-		const sad::Vector<sad::String>& oldvalue, 
-		const sad::Vector<sad::String>& newvalue
-	);
+        sad::animations::Animation* d, 
+        const sad::String& propertyname,
+        QTextEdit* view,
+        const sad::Vector<sad::String>& oldvalue, 
+        const sad::Vector<sad::String>& newvalue
+    );
     /*! Erases link to an animation
       */
     virtual ~ChangeList();
@@ -45,9 +45,9 @@ protected:
      * \param[in] value a value
      */
     virtual void updateUI(core::Editor* e, const sad::Vector<sad::String>& value);
-	/*! A view for text edit
-	 */
-	QTextEdit* m_view;
+    /*! A view for text edit
+     */
+    QTextEdit* m_view;
 };
 
 }

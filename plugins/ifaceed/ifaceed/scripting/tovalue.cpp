@@ -191,39 +191,39 @@ scripting::ToValue<sad::AColor>::perform(
 )
 {
     sad::Maybe<sad::AColor> result;
-	if (v.isQObject())
-	{
-		QObject* o = v.toQObject();
-		scripting::Color* oo = qobject_cast<scripting::Color*>(o);
-		if (oo)
-		{
-			sad::Color clr = oo->toColor();
-			sad::AColor aclr(clr.r(), clr.g(), clr.b(), 0);
-			result.setValue(aclr);
-		}
-		scripting::AColor* ooo = qobject_cast<scripting::AColor*>(o);
-		if (ooo)
-		{
-			result.setValue(ooo->toColor());
-		}
-	} 
-	else
-	{
-		if (v.isVariant())
-		{
-			QVariant var = v.toVariant();
-			if (var.canConvert<sad::AColor>())
-			{
-				result.setValue(var.value<sad::AColor>());
-			}
-			if (var.canConvert<sad::Color>())
-			{
-				sad::Color clr = var.value<sad::Color>();
-				sad::AColor aclr(clr.r(), clr.g(), clr.b(), 0);
-				result.setValue(aclr);
-			}
-		}
-	}
+    if (v.isQObject())
+    {
+        QObject* o = v.toQObject();
+        scripting::Color* oo = qobject_cast<scripting::Color*>(o);
+        if (oo)
+        {
+            sad::Color clr = oo->toColor();
+            sad::AColor aclr(clr.r(), clr.g(), clr.b(), 0);
+            result.setValue(aclr);
+        }
+        scripting::AColor* ooo = qobject_cast<scripting::AColor*>(o);
+        if (ooo)
+        {
+            result.setValue(ooo->toColor());
+        }
+    } 
+    else
+    {
+        if (v.isVariant())
+        {
+            QVariant var = v.toVariant();
+            if (var.canConvert<sad::AColor>())
+            {
+                result.setValue(var.value<sad::AColor>());
+            }
+            if (var.canConvert<sad::Color>())
+            {
+                sad::Color clr = var.value<sad::Color>();
+                sad::AColor aclr(clr.r(), clr.g(), clr.b(), 0);
+                result.setValue(aclr);
+            }
+        }
+    }
     return result;
 }
 
@@ -233,40 +233,40 @@ scripting::ToValue<sad::Color>::perform(
 )
 {
     sad::Maybe<sad::Color> result;
-	if (v.isQObject())
-	{
-		QObject* o = v.toQObject();
-		scripting::Color* oo = qobject_cast<scripting::Color*>(o);
-		if (oo)
-		{
-			result.setValue(oo->toColor());
-		}
-		scripting::AColor* ooo = qobject_cast<scripting::AColor*>(o);
-		if (ooo)
-		{
-			result.setValue(ooo->toColor());
-		}
-	} 
-	else
-	{
-		if (v.isVariant())
-		{
-			QVariant var = v.toVariant();
-			if (var.canConvert<sad::Color>())
-			{
-				result.setValue(var.value<sad::Color>());
-			}
-			else
-			{
-				if (var.canConvert<sad::AColor>())
-				{
-					sad::AColor color = var.value<sad::AColor>();
-					sad::Color c(color.r(), color.g(), color.b());
-					result.setValue(c);
-				}
-			}
-		}
-	}
+    if (v.isQObject())
+    {
+        QObject* o = v.toQObject();
+        scripting::Color* oo = qobject_cast<scripting::Color*>(o);
+        if (oo)
+        {
+            result.setValue(oo->toColor());
+        }
+        scripting::AColor* ooo = qobject_cast<scripting::AColor*>(o);
+        if (ooo)
+        {
+            result.setValue(ooo->toColor());
+        }
+    } 
+    else
+    {
+        if (v.isVariant())
+        {
+            QVariant var = v.toVariant();
+            if (var.canConvert<sad::Color>())
+            {
+                result.setValue(var.value<sad::Color>());
+            }
+            else
+            {
+                if (var.canConvert<sad::AColor>())
+                {
+                    sad::AColor color = var.value<sad::AColor>();
+                    sad::Color c(color.r(), color.g(), color.b());
+                    result.setValue(c);
+                }
+            }
+        }
+    }
     return result;
 }
 
@@ -276,42 +276,42 @@ scripting::ToValue<sad::Point2D>::perform(
 )
 {
     sad::Maybe<sad::Point2D> result;
-	if (v.isQObject())
-	{
-		QObject* o = v.toQObject();
-		scripting::Point2D* oo = qobject_cast<scripting::Point2D*>(o);
-		if (oo)
-		{
-			result.setValue(oo->toPoint());
-		}
-		else 
-		{
-			scripting::ways::PointRef* pr = qobject_cast<scripting::ways::PointRef*>(o);
-			if (pr)
-			{
-				result.setValue(pr->toPoint());
-			}
-			else
-			{
-				scripting::Point3D* ooo = qobject_cast<scripting::Point3D*>(o);
-				if (ooo)
-				{
-					result.setValue(ooo->toPoint());
-				}
-			}
-		}
-	} 
-	else
-	{
-		if (v.isVariant())
-		{
-			QVariant var = v.toVariant();
-			if (var.canConvert<sad::Point2D>())
-			{
-				result.setValue(var.value<sad::Point2D>());
-			}
-		}
-	}
+    if (v.isQObject())
+    {
+        QObject* o = v.toQObject();
+        scripting::Point2D* oo = qobject_cast<scripting::Point2D*>(o);
+        if (oo)
+        {
+            result.setValue(oo->toPoint());
+        }
+        else 
+        {
+            scripting::ways::PointRef* pr = qobject_cast<scripting::ways::PointRef*>(o);
+            if (pr)
+            {
+                result.setValue(pr->toPoint());
+            }
+            else
+            {
+                scripting::Point3D* ooo = qobject_cast<scripting::Point3D*>(o);
+                if (ooo)
+                {
+                    result.setValue(ooo->toPoint());
+                }
+            }
+        }
+    } 
+    else
+    {
+        if (v.isVariant())
+        {
+            QVariant var = v.toVariant();
+            if (var.canConvert<sad::Point2D>())
+            {
+                result.setValue(var.value<sad::Point2D>());
+            }
+        }
+    }
     return result;
 }
 
@@ -321,26 +321,26 @@ scripting::ToValue<sad::Point2I>::perform(
 )
 {
     sad::Maybe<sad::Point2I> result;
-	if (v.isQObject())
-	{
-		QObject* o = v.toQObject();
-		scripting::Point2I* oo = qobject_cast<scripting::Point2I*>(o);
-		if (oo)
-		{
-			result.setValue(oo->toPoint());
-		}
-	} 
-	else
-	{
-		if (v.isVariant())
-		{
-			QVariant var = v.toVariant();
-			if (var.canConvert<sad::Point2I>())
-			{
-				result.setValue(var.value<sad::Point2I>());
-			}
-		}
-	}
+    if (v.isQObject())
+    {
+        QObject* o = v.toQObject();
+        scripting::Point2I* oo = qobject_cast<scripting::Point2I*>(o);
+        if (oo)
+        {
+            result.setValue(oo->toPoint());
+        }
+    } 
+    else
+    {
+        if (v.isVariant())
+        {
+            QVariant var = v.toVariant();
+            if (var.canConvert<sad::Point2I>())
+            {
+                result.setValue(var.value<sad::Point2I>());
+            }
+        }
+    }
     return result;
 }
 
@@ -350,34 +350,34 @@ scripting::ToValue<sad::Point3D>::perform(
 )
 {
     sad::Maybe<sad::Point3D> result;
-	if (v.isQObject())
-	{
-		QObject* o = v.toQObject();
-		scripting::Point3D* oo = qobject_cast<scripting::Point3D*>(o);
-		if (oo)
-		{
-			result.setValue(oo->toPoint());
-		} 
-		else 
-		{
-			scripting::Point2D* ooo = qobject_cast<scripting::Point2D*>(o);
-			if (ooo)
-			{
-				result.setValue(ooo->toPoint());
-			}
-		}
-	} 
-	else
-	{
-		if (v.isVariant())
-		{
-			QVariant var = v.toVariant();
-			if (var.canConvert<sad::Point3D>())
-			{
-				result.setValue(var.value<sad::Point3D>());
-			}
-		}
-	}
+    if (v.isQObject())
+    {
+        QObject* o = v.toQObject();
+        scripting::Point3D* oo = qobject_cast<scripting::Point3D*>(o);
+        if (oo)
+        {
+            result.setValue(oo->toPoint());
+        } 
+        else 
+        {
+            scripting::Point2D* ooo = qobject_cast<scripting::Point2D*>(o);
+            if (ooo)
+            {
+                result.setValue(ooo->toPoint());
+            }
+        }
+    } 
+    else
+    {
+        if (v.isVariant())
+        {
+            QVariant var = v.toVariant();
+            if (var.canConvert<sad::Point3D>())
+            {
+                result.setValue(var.value<sad::Point3D>());
+            }
+        }
+    }
     return result;
 }
 
@@ -387,26 +387,26 @@ scripting::ToValue<sad::Point3I>::perform(
 )
 {
     sad::Maybe<sad::Point3I> result;
-	if (v.isQObject())
-	{
-		QObject* o = v.toQObject();
-		scripting::Point3I* oo = qobject_cast<scripting::Point3I*>(o);
-		if (oo)
-		{
-			result.setValue(oo->toPoint());
-		}
-	} 
-	else
-	{
-		if (v.isVariant())
-		{
-			QVariant var = v.toVariant();
-			if (var.canConvert<sad::Point3I>())
-			{
-				result.setValue(var.value<sad::Point3I>());
-			}
-		}
-	}
+    if (v.isQObject())
+    {
+        QObject* o = v.toQObject();
+        scripting::Point3I* oo = qobject_cast<scripting::Point3I*>(o);
+        if (oo)
+        {
+            result.setValue(oo->toPoint());
+        }
+    } 
+    else
+    {
+        if (v.isVariant())
+        {
+            QVariant var = v.toVariant();
+            if (var.canConvert<sad::Point3I>())
+            {
+                result.setValue(var.value<sad::Point3I>());
+            }
+        }
+    }
     return result;
 }
 
@@ -416,26 +416,26 @@ scripting::ToValue<sad::Size2D>::perform(
 )
 {
     sad::Maybe<sad::Size2D> result;
-	if (v.isQObject())
-	{
-		QObject* o = v.toQObject();
-		scripting::Size2D* oo = qobject_cast<scripting::Size2D*>(o);
-		if (oo)
-		{
-			result.setValue(oo->toSize());
-		}
-	} 
-	else
-	{
-		if (v.isVariant())
-		{
-			QVariant var = v.toVariant();
-			if (var.canConvert<sad::Size2D>())
-			{
-				result.setValue(var.value<sad::Size2D>());
-			}
-		}
-	}
+    if (v.isQObject())
+    {
+        QObject* o = v.toQObject();
+        scripting::Size2D* oo = qobject_cast<scripting::Size2D*>(o);
+        if (oo)
+        {
+            result.setValue(oo->toSize());
+        }
+    } 
+    else
+    {
+        if (v.isVariant())
+        {
+            QVariant var = v.toVariant();
+            if (var.canConvert<sad::Size2D>())
+            {
+                result.setValue(var.value<sad::Size2D>());
+            }
+        }
+    }
     return result;
 }
 
@@ -445,26 +445,26 @@ scripting::ToValue<sad::Size2I>::perform(
 )
 {
     sad::Maybe<sad::Size2I> result;
-	if (v.isQObject())
-	{
-		QObject* o = v.toQObject();
-		scripting::Size2I* oo = qobject_cast<scripting::Size2I*>(o);
-		if (oo)
-		{
-			result.setValue(oo->toSize());
-		}
-	} 
-	else 
-	{
-		if (v.isVariant())
-		{
-			QVariant var = v.toVariant();
-			if (var.canConvert<sad::Size2I>())
-			{
-				result.setValue(var.value<sad::Size2I>());
-			}
-		}
-	}
+    if (v.isQObject())
+    {
+        QObject* o = v.toQObject();
+        scripting::Size2I* oo = qobject_cast<scripting::Size2I*>(o);
+        if (oo)
+        {
+            result.setValue(oo->toSize());
+        }
+    } 
+    else 
+    {
+        if (v.isVariant())
+        {
+            QVariant var = v.toVariant();
+            if (var.canConvert<sad::Size2I>())
+            {
+                result.setValue(var.value<sad::Size2I>());
+            }
+        }
+    }
     return result;
 }
 
@@ -474,26 +474,26 @@ scripting::ToValue<sad::Rect2D>::perform(
 )
 {
     sad::Maybe<sad::Rect2D> result;
-	if (v.isQObject())
-	{
-		QObject* o = v.toQObject();
-		scripting::Rect2D* oo = qobject_cast<scripting::Rect2D*>(o);
-		if (oo)
-		{
-			result.setValue(oo->toRect());
-		}
-	} 
-	else
-	{
-		if (v.isVariant())
-		{
-			QVariant var = v.toVariant();
-			if (var.canConvert<sad::Rect2D>())
-			{
-				result.setValue(var.value<sad::Rect2D>());
-			}
-		}
-	}
+    if (v.isQObject())
+    {
+        QObject* o = v.toQObject();
+        scripting::Rect2D* oo = qobject_cast<scripting::Rect2D*>(o);
+        if (oo)
+        {
+            result.setValue(oo->toRect());
+        }
+    } 
+    else
+    {
+        if (v.isVariant())
+        {
+            QVariant var = v.toVariant();
+            if (var.canConvert<sad::Rect2D>())
+            {
+                result.setValue(var.value<sad::Rect2D>());
+            }
+        }
+    }
     return result;
 }
 
@@ -504,26 +504,26 @@ scripting::ToValue<sad::Rect2I>::perform(
 )
 {
     sad::Maybe<sad::Rect2I> result;
-	if (v.isQObject())
-	{
-		QObject* o = v.toQObject();
-		scripting::Rect2I* oo = qobject_cast<scripting::Rect2I*>(o);
-		if (oo)
-		{
-			result.setValue(oo->toRect());
-		}
-	} 
-	else
-	{
-		if (v.isVariant())
-		{
-			QVariant var = v.toVariant();
-			if (var.canConvert<sad::Rect2I>())
-			{
-				result.setValue(var.value<sad::Rect2I>());
-			}
-		}
-	}
+    if (v.isQObject())
+    {
+        QObject* o = v.toQObject();
+        scripting::Rect2I* oo = qobject_cast<scripting::Rect2I*>(o);
+        if (oo)
+        {
+            result.setValue(oo->toRect());
+        }
+    } 
+    else
+    {
+        if (v.isVariant())
+        {
+            QVariant var = v.toVariant();
+            if (var.canConvert<sad::Rect2I>())
+            {
+                result.setValue(var.value<sad::Rect2I>());
+            }
+        }
+    }
     return result;
 }
 
@@ -842,7 +842,7 @@ scripting::ToValue< TYPE >::perform(                        \
         const QScriptValue& v                               \
 )                                                           \
 {                                                           \
-	return scripting::query< TYPE >(v);                     \
+    return scripting::query< TYPE >(v);                     \
 }
 
 DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::db::Object*)
@@ -892,51 +892,51 @@ scripting::ToValue<sad::dialogue::Phrase>::perform(
             result.setValue(var.value<sad::dialogue::Phrase>());
         }
     }
-	else
-	{
-		if (v.isQObject()) 
-		{
-			scripting::dialogues::PhraseRef* pr = qobject_cast<scripting::dialogues::PhraseRef*>(v.toQObject());
-			if (pr)
-			{
-				result.setValue(pr->toPhrase());
-			}
-		}
-		else
-		{
-			if (v.isObject())
-			{
-				if (v.property("actorName").isValid()
-					&& v.property("actorPortrait").isValid()
-					&& v.property("text").isValid()
-					&& v.property("duration").isValid()
-					&& v.property("viewHint").isValid())
-				{
-					sad::Maybe<sad::String> maybeActorName = scripting::ToValue<sad::String>::perform(v.property("actorName"));
-					sad::Maybe<sad::String> maybeActorPortrait = scripting::ToValue<sad::String>::perform(v.property("actorPortrait"));
-					sad::Maybe<sad::String> maybeText = scripting::ToValue<sad::String>::perform(v.property("text"));
-					sad::Maybe<double> maybeDuration = scripting::ToValue<double>::perform(v.property("duration"));
-					sad::Maybe<sad::String> maybeViewHint = scripting::ToValue<sad::String>::perform(v.property("viewHint"));
-				
-					if (maybeActorName.exists() 
-						&& maybeActorPortrait.exists() 
-						&& maybeText.exists()
-						&& maybeDuration.exists()
-						&& maybeViewHint.exists())
-					{
-						sad::dialogue::Phrase phrase;
-						phrase.setActorName(maybeActorName.value());
-						phrase.setActorPortrait(maybeActorPortrait.value());
-						phrase.setPhrase(maybeText.value());
-						phrase.setDuration(maybeDuration.value());
-						phrase.setViewHint(maybeViewHint.value());
+    else
+    {
+        if (v.isQObject()) 
+        {
+            scripting::dialogues::PhraseRef* pr = qobject_cast<scripting::dialogues::PhraseRef*>(v.toQObject());
+            if (pr)
+            {
+                result.setValue(pr->toPhrase());
+            }
+        }
+        else
+        {
+            if (v.isObject())
+            {
+                if (v.property("actorName").isValid()
+                    && v.property("actorPortrait").isValid()
+                    && v.property("text").isValid()
+                    && v.property("duration").isValid()
+                    && v.property("viewHint").isValid())
+                {
+                    sad::Maybe<sad::String> maybeActorName = scripting::ToValue<sad::String>::perform(v.property("actorName"));
+                    sad::Maybe<sad::String> maybeActorPortrait = scripting::ToValue<sad::String>::perform(v.property("actorPortrait"));
+                    sad::Maybe<sad::String> maybeText = scripting::ToValue<sad::String>::perform(v.property("text"));
+                    sad::Maybe<double> maybeDuration = scripting::ToValue<double>::perform(v.property("duration"));
+                    sad::Maybe<sad::String> maybeViewHint = scripting::ToValue<sad::String>::perform(v.property("viewHint"));
+                
+                    if (maybeActorName.exists() 
+                        && maybeActorPortrait.exists() 
+                        && maybeText.exists()
+                        && maybeDuration.exists()
+                        && maybeViewHint.exists())
+                    {
+                        sad::dialogue::Phrase phrase;
+                        phrase.setActorName(maybeActorName.value());
+                        phrase.setActorPortrait(maybeActorPortrait.value());
+                        phrase.setPhrase(maybeText.value());
+                        phrase.setDuration(maybeDuration.value());
+                        phrase.setViewHint(maybeViewHint.value());
 
-						result.setValue(phrase);
-					}
-				}
-			}
-		}
-	}
+                        result.setValue(phrase);
+                    }
+                }
+            }
+        }
+    }
     return result;
 }
 
@@ -947,36 +947,36 @@ scripting::ToValue< sad::Vector<sad::p2d::app::WayPoint> >::perform(
 )
 {
     sad::Maybe< sad::Vector<sad::p2d::app::WayPoint> > result;
-	if (v.isArray())
-	{
-		bool valid = true;
-		sad::Vector<sad::p2d::app::WayPoint> k;
+    if (v.isArray())
+    {
+        bool valid = true;
+        sad::Vector<sad::p2d::app::WayPoint> k;
 
-		QScriptValueIterator it(v);
-		while(it.hasNext() && valid)
-		{
-			it.next();
-			bool ok = false;
-			it.name().toInt(&ok);
-			if (ok) 
-			{
-				sad::Maybe<sad::Point2D> maybepoint = scripting::ToValue<sad::Point2D>::perform(it.value());
-				if (maybepoint.exists())
-				{
-					k << maybepoint.value();
-				}
-				else
-				{
-					valid = false;
-				}
-			}
-		}
+        QScriptValueIterator it(v);
+        while(it.hasNext() && valid)
+        {
+            it.next();
+            bool ok = false;
+            it.name().toInt(&ok);
+            if (ok) 
+            {
+                sad::Maybe<sad::Point2D> maybepoint = scripting::ToValue<sad::Point2D>::perform(it.value());
+                if (maybepoint.exists())
+                {
+                    k << maybepoint.value();
+                }
+                else
+                {
+                    valid = false;
+                }
+            }
+        }
 
-		if (valid)
-		{
-			result.setValue(k);
-		}		
-	}
+        if (valid)
+        {
+            result.setValue(k);
+        }		
+    }
     
     return result;
 }
@@ -988,36 +988,36 @@ scripting::ToValue< sad::Vector<sad::dialogue::Phrase> >::perform(
 )
 {
     sad::Maybe< sad::Vector<sad::dialogue::Phrase> > result;
-	if (v.isArray())
-	{
-		bool valid = true;
-		sad::Vector<sad::dialogue::Phrase> k;
+    if (v.isArray())
+    {
+        bool valid = true;
+        sad::Vector<sad::dialogue::Phrase> k;
 
-		QScriptValueIterator it(v);
-		while(it.hasNext() && valid)
-		{
-			it.next();
-			bool ok = false;
-			it.name().toInt(&ok);
-			if (ok) 
-			{
-				sad::Maybe<sad::dialogue::Phrase> maybepoint = scripting::ToValue<sad::dialogue::Phrase>::perform(it.value());
-				if (maybepoint.exists())
-				{
-					k << maybepoint.value();
-				}
-				else
-				{
-					valid = false;
-				}
-			}
-		}
+        QScriptValueIterator it(v);
+        while(it.hasNext() && valid)
+        {
+            it.next();
+            bool ok = false;
+            it.name().toInt(&ok);
+            if (ok) 
+            {
+                sad::Maybe<sad::dialogue::Phrase> maybepoint = scripting::ToValue<sad::dialogue::Phrase>::perform(it.value());
+                if (maybepoint.exists())
+                {
+                    k << maybepoint.value();
+                }
+                else
+                {
+                    valid = false;
+                }
+            }
+        }
 
-		if (valid)
-		{
-			result.setValue(k);
-		}		
-	}
+        if (valid)
+        {
+            result.setValue(k);
+        }		
+    }
     
     return result;
 }
@@ -1029,36 +1029,36 @@ scripting::ToValue< sad::Vector<sad::String> >::perform(
 )
 {
     sad::Maybe< sad::Vector<sad::String> > result;
-	if (v.isArray())
-	{
-		bool valid = true;
-		sad::Vector<sad::String> k;
+    if (v.isArray())
+    {
+        bool valid = true;
+        sad::Vector<sad::String> k;
 
-		QScriptValueIterator it(v);
-		while(it.hasNext() && valid)
-		{
-			it.next();
-			bool ok = false;
-			it.name().toInt(&ok);
-			if (ok) 
-			{
-				sad::Maybe<sad::String> maybepoint = scripting::ToValue<sad::String>::perform(it.value());
-				if (maybepoint.exists())
-				{
-					k << maybepoint.value();
-				}
-				else
-				{
-					valid = false;
-				}
-			}
-		}
+        QScriptValueIterator it(v);
+        while(it.hasNext() && valid)
+        {
+            it.next();
+            bool ok = false;
+            it.name().toInt(&ok);
+            if (ok) 
+            {
+                sad::Maybe<sad::String> maybepoint = scripting::ToValue<sad::String>::perform(it.value());
+                if (maybepoint.exists())
+                {
+                    k << maybepoint.value();
+                }
+                else
+                {
+                    valid = false;
+                }
+            }
+        }
 
-		if (valid)
-		{
-			result.setValue(k);
-		}		
-	}
+        if (valid)
+        {
+            result.setValue(k);
+        }		
+    }
     
     return result;
 }
@@ -1072,7 +1072,7 @@ scripting::ToValue< A >::~ToValue()      \
 }										 \
 sad::Maybe< A > scripting::ToValue< A >::toValue(const QScriptValue& v) \
 {										 \
-	 return perform(v);                  \
+     return perform(v);                  \
 }
 
 DEFINE_BASIC_METHODS_FOR_TYPE( double )

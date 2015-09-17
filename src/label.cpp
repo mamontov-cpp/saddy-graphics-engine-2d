@@ -31,13 +31,13 @@ m_maximum_lines(0),
 m_overflow_strategy_for_lines(sad::Label::LOS_VISIBLE),
 m_text_ellipsis_position_for_lines(sad::Label::LTEP_MIDDLE)
 {
-	
+    
 }
 
 sad::Label::Label(
-	sad::Font *  font,
-	const sad::Point2D  & point,
-	const sad::String & string
+    sad::Font *  font,
+    const sad::Point2D  & point,
+    const sad::String & string
 ) : 
 m_string(string), 
 m_maximal_line_width(0), m_point(point),  m_angle(0), 
@@ -50,15 +50,15 @@ m_maximum_lines(0),
 m_overflow_strategy_for_lines(sad::Label::LOS_VISIBLE),
 m_text_ellipsis_position_for_lines(sad::Label::LTEP_MIDDLE)
 {
-	m_font.attach(font);
-	recomputeRenderedString();
+    m_font.attach(font);
+    recomputeRenderedString();
 }
 
 sad::Label::Label(
-	const sad::String &  font,
-	const sad::Point2D  & point,
-	const sad::String & string,
-	const sad::String & tree
+    const sad::String &  font,
+    const sad::Point2D  & point,
+    const sad::String & string,
+    const sad::String & tree
 ) :
 m_string(string), 
 m_maximal_line_width(0), m_point(point),  m_angle(0), 
@@ -71,19 +71,19 @@ m_maximum_lines(0),
 m_overflow_strategy_for_lines(sad::Label::LOS_VISIBLE),
 m_text_ellipsis_position_for_lines(sad::Label::LTEP_MIDDLE)
 {
-	m_font.setTree(NULL, tree);
-	m_font.setPath(font);
-	recomputeRenderedString();
+    m_font.setTree(NULL, tree);
+    m_font.setPath(font);
+    recomputeRenderedString();
 }
 
 void sad::Label::setTreeName(sad::Renderer* r, const sad::String& treename)
 {
-	m_font.setTree(r, treename);	
+    m_font.setTree(r, treename);	
 }
 
 void sad::Label::regions(sad::Vector<sad::Rect2D> & r)
 {
-	r << m_cached_region;
+    r << m_cached_region;
 }
 
 static sad::db::schema::Schema* LabelBasicSchema = NULL;
@@ -92,188 +92,188 @@ static sad::Mutex LabelBasicSchemaInit;
 
 sad::db::schema::Schema* sad::Label::basicSchema()
 {
-	if (LabelBasicSchema == NULL)
-	{
+    if (LabelBasicSchema == NULL)
+    {
         LabelBasicSchemaInit.lock();
         if (LabelBasicSchema == NULL)
-	    {
-		    LabelBasicSchema = new sad::db::schema::Schema();
-		    LabelBasicSchema->addParent(sad::SceneNode::basicSchema());
-		    LabelBasicSchema->add(
-			    "font", 
-			    new sad::db::MethodPair<sad::Label, sad::String>(
-				    &sad::Label::fontName,
-				    &sad::Label::setFontName
-			    )
-		    );
-		    LabelBasicSchema->add(
-			    "fontsize", 
-			    new sad::db::MethodPair<sad::Label, unsigned int>(
-				    &sad::Label::size,
-				    &sad::Label::setSize
-			    )
-		    );
-		    LabelBasicSchema->add(
-			    "linespacing", 
-			    new sad::db::MethodPair<sad::Label, float>(
-				    &sad::Label::lineSpacingRatio,
-				    &sad::Label::setLineSpacingRatio
-			    )
-		    );
-		    LabelBasicSchema->add(
-			    "angle", 
-			    new sad::db::MethodPair<sad::Label, double>(
-				    &sad::Label::angle,
-				    &sad::Label::setAngle
-			    )
-		    );
-		    LabelBasicSchema->add(
-			    "area", 
-			    new sad::db::MethodPair<sad::Label, sad::Rect2D>(
-				    &sad::Label::area,
-				    &sad::Label::setArea
-			    )
-		    );		
-		    LabelBasicSchema->add(
-			    "text", 
-			    new sad::db::MethodPair<sad::Label, sad::String>(
-				    &sad::Label::string,
-				    &sad::Label::setString
-			    )
-		    );
-		    void (sad::Label::*p)(const sad::AColor&)= &sad::Label::setColor;
-		    LabelBasicSchema->add(
-			    "color", 
-			    new sad::db::MethodPair<sad::Label, sad::AColor>(
-				    &sad::Label::color,
-				    p
-			    )
-		    );
+        {
+            LabelBasicSchema = new sad::db::schema::Schema();
+            LabelBasicSchema->addParent(sad::SceneNode::basicSchema());
+            LabelBasicSchema->add(
+                "font", 
+                new sad::db::MethodPair<sad::Label, sad::String>(
+                    &sad::Label::fontName,
+                    &sad::Label::setFontName
+                )
+            );
+            LabelBasicSchema->add(
+                "fontsize", 
+                new sad::db::MethodPair<sad::Label, unsigned int>(
+                    &sad::Label::size,
+                    &sad::Label::setSize
+                )
+            );
+            LabelBasicSchema->add(
+                "linespacing", 
+                new sad::db::MethodPair<sad::Label, float>(
+                    &sad::Label::lineSpacingRatio,
+                    &sad::Label::setLineSpacingRatio
+                )
+            );
+            LabelBasicSchema->add(
+                "angle", 
+                new sad::db::MethodPair<sad::Label, double>(
+                    &sad::Label::angle,
+                    &sad::Label::setAngle
+                )
+            );
+            LabelBasicSchema->add(
+                "area", 
+                new sad::db::MethodPair<sad::Label, sad::Rect2D>(
+                    &sad::Label::area,
+                    &sad::Label::setArea
+                )
+            );		
+            LabelBasicSchema->add(
+                "text", 
+                new sad::db::MethodPair<sad::Label, sad::String>(
+                    &sad::Label::string,
+                    &sad::Label::setString
+                )
+            );
+            void (sad::Label::*p)(const sad::AColor&)= &sad::Label::setColor;
+            LabelBasicSchema->add(
+                "color", 
+                new sad::db::MethodPair<sad::Label, sad::AColor>(
+                    &sad::Label::color,
+                    p
+                )
+            );
 
-			sad::db::Property* mlw_property = new sad::db::MethodPair<sad::Label, unsigned int>(
-				&sad::Label::maximalLineWidth,
-				&sad::Label::setMaximalLineWidth
-			);
-			mlw_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(static_cast<unsigned int>(0)));
-			LabelBasicSchema->add("maximallinewidth", mlw_property);
+            sad::db::Property* mlw_property = new sad::db::MethodPair<sad::Label, unsigned int>(
+                &sad::Label::maximalLineWidth,
+                &sad::Label::setMaximalLineWidth
+            );
+            mlw_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(static_cast<unsigned int>(0)));
+            LabelBasicSchema->add("maximallinewidth", mlw_property);
 
             sad::db::Property* os_property = new sad::db::MethodPair<sad::Label, unsigned int>(
-				&sad::Label::overflowStrategyAsIndex,
-				&sad::Label::setOverflowStrategyFromIndex
-			);
-			os_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(static_cast<unsigned int>(0)));
-			LabelBasicSchema->add("overflowstrategy", os_property);
+                &sad::Label::overflowStrategyAsIndex,
+                &sad::Label::setOverflowStrategyFromIndex
+            );
+            os_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(static_cast<unsigned int>(0)));
+            LabelBasicSchema->add("overflowstrategy", os_property);
 
              sad::db::Property* bt_property = new sad::db::MethodPair<sad::Label, unsigned int>(
-				&sad::Label::breakTextAsIndex,
-				&sad::Label::setBreakTextFromIndex
-			);
-			bt_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(static_cast<unsigned int>(0)));
-			LabelBasicSchema->add("breaktext", bt_property);
+                &sad::Label::breakTextAsIndex,
+                &sad::Label::setBreakTextFromIndex
+            );
+            bt_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(static_cast<unsigned int>(0)));
+            LabelBasicSchema->add("breaktext", bt_property);
 
             sad::db::Property* tep_property = new sad::db::MethodPair<sad::Label, unsigned int>(
-				&sad::Label::textEllipsisAsIndex,
-				&sad::Label::setTextEllipsisPositionAsIndex
-			);
-			tep_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(static_cast<unsigned int>(0)));
-			LabelBasicSchema->add("textellipsisposition", tep_property);
+                &sad::Label::textEllipsisAsIndex,
+                &sad::Label::setTextEllipsisPositionAsIndex
+            );
+            tep_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(static_cast<unsigned int>(0)));
+            LabelBasicSchema->add("textellipsisposition", tep_property);
 
 
             sad::db::Property* mlines_property = new sad::db::MethodPair<sad::Label, unsigned int>(
-				&sad::Label::maximalLinesCount,
-				&sad::Label::setMaximalLinesCount
-			);
-			mlines_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(static_cast<unsigned int>(0)));
-			LabelBasicSchema->add("maximallinescount", mlines_property);
+                &sad::Label::maximalLinesCount,
+                &sad::Label::setMaximalLinesCount
+            );
+            mlines_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(static_cast<unsigned int>(0)));
+            LabelBasicSchema->add("maximallinescount", mlines_property);
 
             sad::db::Property* oslines_property = new sad::db::MethodPair<sad::Label, unsigned int>(
-				&sad::Label::overflowStrategyForLinesAsIndex,
-				&sad::Label::setOverflowStrategyForLinesFromIndex
-			);
-			oslines_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(static_cast<unsigned int>(0)));
-			LabelBasicSchema->add("overflowstrategyforlines", oslines_property);
+                &sad::Label::overflowStrategyForLinesAsIndex,
+                &sad::Label::setOverflowStrategyForLinesFromIndex
+            );
+            oslines_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(static_cast<unsigned int>(0)));
+            LabelBasicSchema->add("overflowstrategyforlines", oslines_property);
 
             sad::db::Property* teplines_property = new sad::db::MethodPair<sad::Label, unsigned int>(
-				&sad::Label::textEllipsisForLinesAsIndex,
-				&sad::Label::setTextEllipsisPositionForLinesAsIndex
-			);
-			teplines_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(static_cast<unsigned int>(0)));
-			LabelBasicSchema->add("textellipsispositionforlines", teplines_property);
+                &sad::Label::textEllipsisForLinesAsIndex,
+                &sad::Label::setTextEllipsisPositionForLinesAsIndex
+            );
+            teplines_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(static_cast<unsigned int>(0)));
+            LabelBasicSchema->add("textellipsispositionforlines", teplines_property);
 
 
-		    sad::ClassMetaDataContainer::ref()->pushGlobalSchema(LabelBasicSchema);
+            sad::ClassMetaDataContainer::ref()->pushGlobalSchema(LabelBasicSchema);
         }
         LabelBasicSchemaInit.unlock();
-	}
-	return LabelBasicSchema;
+    }
+    return LabelBasicSchema;
 }
 
 sad::db::schema::Schema* sad::Label::schema() const
 {
-	return sad::Label::basicSchema();
+    return sad::Label::basicSchema();
 }
 
 void sad::Label::render()
 {
-	sad::Font * font = m_font.get();
-	if (!font)
-		return;
+    sad::Font * font = m_font.get();
+    if (!font)
+        return;
 
-	font->setSize(m_size);
-	font->setColor(m_color);
-	font->setLineSpacingRatio(m_linespacing_ratio);
+    font->setSize(m_size);
+    font->setColor(m_color);
+    font->setLineSpacingRatio(m_linespacing_ratio);
 
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glTranslatef(static_cast<GLfloat>(m_center.x()), static_cast<GLfloat>(m_center.y()), 0.0f);
-	glRotatef(static_cast<GLfloat>(m_angle / M_PI * 180.0f), 0.0f, 0.0f, 1.0f);
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glTranslatef(static_cast<GLfloat>(m_center.x()), static_cast<GLfloat>(m_center.y()), 0.0f);
+    glRotatef(static_cast<GLfloat>(m_angle / M_PI * 180.0f), 0.0f, 0.0f, 1.0f);
 
-	if (m_size > 0)
-	{
-		if (font)
-			font->render(m_rendered_string, m_halfpadding);
-	}
-	glPopMatrix();
+    if (m_size > 0)
+    {
+        if (font)
+            font->render(m_rendered_string, m_halfpadding);
+    }
+    glPopMatrix();
 }
 
 
 void sad::Label::rendererChanged()
 {
-	if (m_font.dependsOnRenderer())
-	{
-		m_font.setRenderer(this->renderer());
-	}
+    if (m_font.dependsOnRenderer())
+    {
+        m_font.setRenderer(this->renderer());
+    }
 }
 
 void sad::Label::setArea(const sad::Rect2D & r)
 {
-	m_point = r[0];
-	recomputeRenderingPoint();
+    m_point = r[0];
+    recomputeRenderingPoint();
 }
 
 sad::Rect2D sad::Label::area() const
 {
-	// Preserve linkage to a renderer
-	sad::Font * font = m_font.get();
-	if (!font)
-		return sad::Rect2D();
+    // Preserve linkage to a renderer
+    sad::Font * font = m_font.get();
+    if (!font)
+        return sad::Rect2D();
 
-	font->setSize(m_size);
-	font->setLineSpacingRatio(m_linespacing_ratio);
+    font->setSize(m_size);
+    font->setLineSpacingRatio(m_linespacing_ratio);
 
-	sad::Size2D  size = font->size(m_rendered_string);
-	sad::Rect2D  result(m_point.x(), 
-						m_point.y(), 
-						m_point.x() + size.Width,
-						m_point.y() - size.Height);
-	return result;
+    sad::Size2D  size = font->size(m_rendered_string);
+    sad::Rect2D  result(m_point.x(), 
+                        m_point.y(), 
+                        m_point.x() + size.Width,
+                        m_point.y() - size.Height);
+    return result;
 }
 
 sad::Rect2D sad::Label::region() const
 {
-	sad::Rect2D result = this->area();
-	sad::rotate(result, static_cast<float>(m_angle));
-	return result;
+    sad::Rect2D result = this->area();
+    sad::rotate(result, static_cast<float>(m_angle));
+    return result;
 }
 
 
@@ -285,88 +285,88 @@ sad::Label::~Label()
 
 void sad::Label::setScene(sad::Scene * scene)
 {
-	this->sad::SceneNode::setScene(scene);
-	if (m_font.dependsOnRenderer() && scene)
-	{
-		m_font.setRenderer(scene->renderer());
-		reloadFont();
-	}
+    this->sad::SceneNode::setScene(scene);
+    if (m_font.dependsOnRenderer() && scene)
+    {
+        m_font.setRenderer(scene->renderer());
+        reloadFont();
+    }
 }
 
 void sad::Label::setPoint(const sad::Point2D & point)
 {
-	m_point = point;
-	recomputeRenderingPoint();
+    m_point = point;
+    recomputeRenderingPoint();
 }
 
 void sad::Label::setFontName(const sad::String & name)
 {
-	m_font.setPath(name);
-	reloadFont();
+    m_font.setPath(name);
+    reloadFont();
 }
 
 void sad::Label::setFont(sad::Font * font)
 {
-	m_font.attach(font);
-	recomputeRenderingPoint();
+    m_font.attach(font);
+    recomputeRenderingPoint();
 }
 
 void sad::Label::setFont(const sad::String & name, sad::Renderer * r, const sad::String & tree)
 {
-	if (!r)
-		r = sad::Renderer::ref();
-	m_font.setPath(name);
-	m_font.setTree(r, tree);
+    if (!r)
+        r = sad::Renderer::ref();
+    m_font.setPath(name);
+    m_font.setTree(r, tree);
 }
 
 void sad::Label::setString(const sad::String & string)
 {
-	m_string = string;
-	recomputeRenderedString();
+    m_string = string;
+    recomputeRenderedString();
 }
 
 void sad::Label::setSize(unsigned int size)
 {
-	m_size = size;
-	recomputeRenderingPoint();
+    m_size = size;
+    recomputeRenderingPoint();
 }
 
 float sad::Label::builtinLineSpacing() const
 {
-	// 0.1f is placed to avoid division by zero
-	sad::Font * font = m_font.get();
-	if (!font)
-		return 0.1f;
-	font->setSize(m_size);
-	return font->builtinLineSpacing();
+    // 0.1f is placed to avoid division by zero
+    sad::Font * font = m_font.get();
+    if (!font)
+        return 0.1f;
+    font->setSize(m_size);
+    return font->builtinLineSpacing();
 }
 
 void sad::Label::setLineSpacing(float spacing)
 {
-	setLineSpacingRatio(spacing / this->builtinLineSpacing());
+    setLineSpacingRatio(spacing / this->builtinLineSpacing());
 }
 
 void sad::Label::setLineSpacingRatio(float ratio)
 {
-	m_linespacing_ratio = ratio;
-	recomputeRenderingPoint();
+    m_linespacing_ratio = ratio;
+    recomputeRenderingPoint();
 }
 
 void sad::Label::setTreeName(const sad::String & treename)
 {
-	m_font.setTree(m_font.renderer(), treename);
-	recomputeRenderingPoint();
+    m_font.setTree(m_font.renderer(), treename);
+    recomputeRenderingPoint();
 }
 
 void sad::Label::setMaximalLineWidth(unsigned int width)
 {
-	m_maximal_line_width = width;
-	recomputeRenderedString();
+    m_maximal_line_width = width;
+    recomputeRenderedString();
 }
 
 unsigned int sad::Label::maximalLineWidth() const
 {
-	return m_maximal_line_width;
+    return m_maximal_line_width;
 }
 
 void sad::Label::setOverflowStrategy(sad::Label::OverflowStrategy s)
@@ -519,81 +519,81 @@ sad::String sad::Label::makeRenderingString(
 {
     sad::String result;
     if (maximal_line_width == 0 && maximum_lines == 0)
-	{
-		result = string;
-	} 
-	else
-	{
-		bool has_n =  string.getLastOccurence("\n") != -1;
-		bool has_r =  string.getLastOccurence("\r") != -1;
-		sad::String tmp = string;
-		if (has_n && has_r)
-		{
-			// Windows string preprocessing
-			tmp.replaceAllOccurences("\r", "");
-		} 
-		else
-		{
-			// MacOSX 
-			if (!has_n && has_r)
-			{
-				tmp.replaceAllOccurences("\r", "\n");				
-			}
-		}
+    {
+        result = string;
+    } 
+    else
+    {
+        bool has_n =  string.getLastOccurence("\n") != -1;
+        bool has_r =  string.getLastOccurence("\r") != -1;
+        sad::String tmp = string;
+        if (has_n && has_r)
+        {
+            // Windows string preprocessing
+            tmp.replaceAllOccurences("\r", "");
+        } 
+        else
+        {
+            // MacOSX 
+            if (!has_n && has_r)
+            {
+                tmp.replaceAllOccurences("\r", "\n");				
+            }
+        }
         bool last_line_changed = false;
-		sad::StringList lines = string.split("\n", sad::String::KEEP_EMPTY_PARTS);
-		sad::StringList new_lines;
+        sad::StringList lines = string.split("\n", sad::String::KEEP_EMPTY_PARTS);
+        sad::StringList new_lines;
         if (maximal_line_width == 0)
         {
             new_lines = lines;
             last_line_changed = true;
         }
-		for(size_t i = 0; i < lines.size() && (maximal_line_width != 0); i++)
-		{
+        for(size_t i = 0; i < lines.size() && (maximal_line_width != 0); i++)
+        {
             if (bt == sad::Label::LBT_BREAK_WORD)
             {
-			    sad::StringList words = lines[i].split(' ');
-			    new_lines << "";
-			    sad::String* current_word = &(new_lines[new_lines.size() - 1]);			
-			    for(size_t j = 0; j <  words.size(); j++)
-			    {
-				    // In case that word  is larger than line width - we can do nothing to prevent it from 
-				    // becoming larger
-				    sad::String candidate_word = words[j];
-				    candidate_word.replaceAllOccurences("\n", "");
-				    if (candidate_word.length() > maximal_line_width && current_word->length() == 0)
-				    {
-					    *current_word = sad::Label::formatTextLine(
+                sad::StringList words = lines[i].split(' ');
+                new_lines << "";
+                sad::String* current_word = &(new_lines[new_lines.size() - 1]);			
+                for(size_t j = 0; j <  words.size(); j++)
+                {
+                    // In case that word  is larger than line width - we can do nothing to prevent it from 
+                    // becoming larger
+                    sad::String candidate_word = words[j];
+                    candidate_word.replaceAllOccurences("\n", "");
+                    if (candidate_word.length() > maximal_line_width && current_word->length() == 0)
+                    {
+                        *current_word = sad::Label::formatTextLine(
                             candidate_word,
                             maximal_line_width,
                             s,
                             tep
                         );
-					    new_lines << "";
-					    current_word = &(new_lines[new_lines.size() - 1]);
+                        new_lines << "";
+                        current_word = &(new_lines[new_lines.size() - 1]);
                         last_line_changed = false;
-				    }
-				    else
-				    {
-					    int offset = (current_word->length() == 0) ? 0 : 1; 
-					    if (current_word->length() + offset + candidate_word.length() > maximal_line_width)
-					    {
-						    new_lines << "";
-						    current_word = &(new_lines[new_lines.size() - 1]);								
-						    --j;
+                    }
+                    else
+                    {
+                        int offset = (current_word->length() == 0) ? 0 : 1; 
+                        if (current_word->length() + offset + candidate_word.length() > maximal_line_width)
+                        {
+                            new_lines << "";
+                            current_word = &(new_lines[new_lines.size() - 1]);								
+                            --j;
                             last_line_changed = false;
-					    }
-					    else
-					    {
-						    if (current_word->length())
-						    {
-							    *current_word += " ";
-						    }
-						    *current_word += candidate_word;
+                        }
+                        else
+                        {
+                            if (current_word->length())
+                            {
+                                *current_word += " ";
+                            }
+                            *current_word += candidate_word;
                             last_line_changed = true;
-					    }
-				    }
-			    }
+                        }
+                    }
+                }
             }
             if (bt == sad::Label::LBT_NORMAL)
             {
@@ -606,7 +606,7 @@ sad::String sad::Label::makeRenderingString(
                     tep
                 );                
             }
-		}
+        }
         if (bt == sad::Label::LBT_BREAK_WORD && new_lines.size() != 0 && !last_line_changed)
         {
             new_lines.removeAt(new_lines.size() - 1);
@@ -654,8 +654,8 @@ sad::String sad::Label::makeRenderingString(
                 }
             }
         }
-		result = sad::join(new_lines, "\n");
-	}
+        result = sad::join(new_lines, "\n");
+    }
     return result;
 }
 
@@ -740,32 +740,32 @@ sad::String sad::Label::formatTextLine(
 
 void sad::Label::reloadFont()
 {
-	sad::Font * font = m_font.get();
-	if (font)
-	{
-		recomputeRenderedString();
-	}
+    sad::Font * font = m_font.get();
+    if (font)
+    {
+        recomputeRenderedString();
+    }
 }
 
 
 void sad::Label::recomputeRenderingPoint()
 {
-	sad::Font * font = m_font.get();
-	if (!font)
-		return;
+    sad::Font * font = m_font.get();
+    if (!font)
+        return;
 
-	sad::Size2D size = font->size(m_rendered_string);
-	m_center.setX(m_point.x() + size.Width / 2);
-	m_center.setY(m_point.y() - size.Height / 2);
-	m_halfpadding.setX(size.Width / -2.0);
-	m_halfpadding.setY(size.Height / 2.0);
+    sad::Size2D size = font->size(m_rendered_string);
+    m_center.setX(m_point.x() + size.Width / 2);
+    m_center.setY(m_point.y() - size.Height / 2);
+    m_halfpadding.setX(size.Width / -2.0);
+    m_halfpadding.setY(size.Height / 2.0);
 
-	m_cached_region = this->region();
+    m_cached_region = this->region();
 }
 
 void sad::Label::recomputeRenderedString()
 {
-	m_rendered_string = sad::Label::makeRenderingString(
+    m_rendered_string = sad::Label::makeRenderingString(
         m_string,
         m_maximal_line_width,
         m_overflow_strategy,
@@ -775,5 +775,5 @@ void sad::Label::recomputeRenderedString()
         m_overflow_strategy_for_lines,
         m_text_ellipsis_position_for_lines
     );
-	recomputeRenderingPoint();
+    recomputeRenderingPoint();
 }

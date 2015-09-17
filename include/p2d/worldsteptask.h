@@ -1,7 +1,7 @@
 /*! \file worldsteptask.h
-	
+    
 
-	A world step task can perform world step, basing on rendering intervals
+    A world step task can perform world step, basing on rendering intervals
  */
 #pragma once
 #include "world.h"
@@ -19,21 +19,21 @@ namespace p2d
 class WorldStepTask: public sad::pipeline::AbstractProcess
 {
 public:
-	 /*! Constructs new step task
-		 \param[in] w world
-		 \param[in] r renderer
-	  */
-	 WorldStepTask(p2d::World* w, sad::Renderer* r = sad::Renderer::ref());
-	 /*! Sets a world
-		 \param[in] world a world
-	  */
-	 void setWorld(p2d::World* world);
+     /*! Constructs new step task
+         \param[in] w world
+         \param[in] r renderer
+      */
+     WorldStepTask(p2d::World* w, sad::Renderer* r = sad::Renderer::ref());
+     /*! Sets a world
+         \param[in] world a world
+      */
+     void setWorld(p2d::World* world);
 protected:
      sad::Renderer* m_renderer; //!< A renderer
-	 p2d::World* m_world;    //!< A stepped world
-	/*! Invokes a delegate inside of process
-	 */ 
-	virtual void _process();
+     p2d::World* m_world;    //!< A stepped world
+    /*! Invokes a delegate inside of process
+     */ 
+    virtual void _process();
 };
 
 }

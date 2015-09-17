@@ -35,7 +35,7 @@ void history::animations::ChangeCameraOffset::updateUI(core::Editor* e, const sa
             value.x()
         )
     );
-	 e->emitClosure( blocked_bind(
+     e->emitClosure( blocked_bind(
             e->panel()->UI()->dsbCameraShakingOffsetY,
             &QDoubleSpinBox::setValue,
             value.y()

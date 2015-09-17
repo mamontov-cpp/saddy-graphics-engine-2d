@@ -1,7 +1,7 @@
 /*! \file scriptinghelp.h
-	
+    
 
-	Describes a dialog for showing scripting help
+    Describes a dialog for showing scripting help
  */
 #pragma once
 
@@ -17,34 +17,34 @@ class ScriptingHelp: public QDialog
 {
 Q_OBJECT
 public:
-	/*! Creates new file list for reloading
-		\param[in] parent a parent widget for selecting
-	 */
+    /*! Creates new file list for reloading
+        \param[in] parent a parent widget for selecting
+     */
     ScriptingHelp(QWidget* parent = NULL);
-	/*! Could be inherited
-	 */
-	virtual ~ScriptingHelp();
-	/*! Sets help text
-	 */
-	void setText(const QString& text);
+    /*! Could be inherited
+     */
+    virtual ~ScriptingHelp();
+    /*! Sets help text
+     */
+    void setText(const QString& text);
 public slots:
-	/*! Applies search Called, when return on request edit is pressed
-	 */
-	void applySearch();
-	/*! Cancels search in scripting help
-	 */
-	void cancelSearch();
+    /*! Applies search Called, when return on request edit is pressed
+     */
+    void applySearch();
+    /*! Cancels search in scripting help
+     */
+    void cancelSearch();
 protected:
-	/*! UI for dialog
-	 */
-	Ui::ScriptingHelp  m_ui;
-	/*! A last requested part
-	 */
-	QString m_last_request;
-	/*! A list of extra selections
-	 */
-	QList<QTextEdit::ExtraSelection> m_extra_selections;
-	/*! A position in extra selection list
-	 */
-	int m_position;
+    /*! UI for dialog
+     */
+    Ui::ScriptingHelp  m_ui;
+    /*! A last requested part
+     */
+    QString m_last_request;
+    /*! A list of extra selections
+     */
+    QList<QTextEdit::ExtraSelection> m_extra_selections;
+    /*! A position in extra selection list
+     */
+    int m_position;
 };

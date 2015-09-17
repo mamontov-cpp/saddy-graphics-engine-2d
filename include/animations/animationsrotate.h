@@ -1,7 +1,7 @@
 /*! \file animations/animationsrotate.h
-	
+    
 
-	An animations as animation of rotating an object
+    An animations as animation of rotating an object
  */
 #pragma once
 
@@ -11,7 +11,7 @@
 
 namespace sad
 {
-	
+    
 namespace animations
 {
 
@@ -21,13 +21,13 @@ class Rotate: public sad::animations::Animation
 {
 SAD_OBJECT
 public:
-	/*! Creates new empty animation
-	 */
-	Rotate();
-	/*! Can be inherited
-	 */
-	virtual ~Rotate();
-	/*! A basic schema for object
+    /*! Creates new empty animation
+     */
+    Rotate();
+    /*! Can be inherited
+     */
+    virtual ~Rotate();
+    /*! A basic schema for object
         \return a schema
      */
     static sad::db::schema::Schema* basicSchema();
@@ -40,23 +40,23 @@ public:
         \return whether it was successfull
      */
     virtual bool loadFromValue(const picojson::value& v);
-	/*! Sets minimal angle
-		\param[in] angle minimal angle
-	 */
-	void setMinAngle(double angle);
-	/*! Returns minimal angle
-		\return minimal angle
-	 */
-	double minAngle() const;
-	/*! Sets maximal angle
-		\param[in] angle maximal angle
-	 */
-	void setMaxAngle(double angle);
-	/*! Returns maximal angle
-		\return maximal angle
-	 */
-	double maxAngle() const;
-	/*! Sets state of object from animation
+    /*! Sets minimal angle
+        \param[in] angle minimal angle
+     */
+    void setMinAngle(double angle);
+    /*! Returns minimal angle
+        \return minimal angle
+     */
+    double minAngle() const;
+    /*! Sets maximal angle
+        \param[in] angle maximal angle
+     */
+    void setMaxAngle(double angle);
+    /*! Returns maximal angle
+        \return maximal angle
+     */
+    double maxAngle() const;
+    /*! Sets state of object from animation
         \param[in] i an animation instance
         \param[in] time a time of playing of animation
      */
@@ -72,12 +72,12 @@ public:
      */
     virtual bool applicableTo(sad::db::Object* o);
 protected:
-	/*! A minimal angle
-	 */
-	double m_min_angle;
-	/*! A maximal angle
-	 */
-	double m_max_angle;
+    /*! A minimal angle
+     */
+    double m_min_angle;
+    /*! A maximal angle
+     */
+    double m_max_angle;
 };
 
 }

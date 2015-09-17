@@ -38,7 +38,7 @@ sad::animations::FontList::FontList()
 
 sad::animations::FontList::~FontList()
 {
-	
+    
 }
 
 static sad::db::schema::Schema* AnimationFontListSchema = NULL;
@@ -57,12 +57,12 @@ sad::db::schema::Schema* sad::animations::FontList::basicSchema()
 
             AnimationFontListSchema->add(
                 "fonts",
-			    new sad::db::MethodPair<sad::animations::FontList, sad::Vector<sad::String> >(
-				    &sad::animations::FontList::fonts,
+                new sad::db::MethodPair<sad::animations::FontList, sad::Vector<sad::String> >(
+                    &sad::animations::FontList::fonts,
                     &sad::animations::FontList::setFonts
                 )
             );
-		        
+                
             sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationFontListSchema);
         }
         AnimationFontListSchemaInit.unlock();
@@ -78,43 +78,43 @@ sad::db::schema::Schema* sad::animations::FontList::schema() const
 
 bool sad::animations::FontList::loadFromValue(const picojson::value& v)
 {
-	bool flag = this->sad::animations::Animation::loadFromValue(v);
-	if (flag)
-	{
-		sad::Maybe<sad::Vector<sad::String> > fonts = picojson::to_type<sad::Vector<sad::String> >(
-														picojson::get_property(v, "fonts")
-													  );
-		bool result = fonts.exists();
-		if (result)
-		{
-			setFonts(fonts.value());
-		}
+    bool flag = this->sad::animations::Animation::loadFromValue(v);
+    if (flag)
+    {
+        sad::Maybe<sad::Vector<sad::String> > fonts = picojson::to_type<sad::Vector<sad::String> >(
+                                                        picojson::get_property(v, "fonts")
+                                                      );
+        bool result = fonts.exists();
+        if (result)
+        {
+            setFonts(fonts.value());
+        }
 
-		flag = flag && result;
-	}
-	return flag;
+        flag = flag && result;
+    }
+    return flag;
 }
 
 void sad::animations::FontList::setFonts(const sad::Vector<sad::String>& fonts)
 {
-	m_fonts = fonts;
-	m_inner_valid = m_fonts.size() != 0;
-	this->updateValidFlag();
+    m_fonts = fonts;
+    m_inner_valid = m_fonts.size() != 0;
+    this->updateValidFlag();
 }
 
 const sad::Vector<sad::String> & sad::animations::FontList::fonts() const
 {
-	return m_fonts;
+    return m_fonts;
 }
 
 void sad::animations::FontList::setState(sad::animations::Instance* i, double time)
 {
-	double value = static_cast<double>(m_fonts.size()) * time / m_time;
-	unsigned int kvalue = static_cast<unsigned int>(value);
-	if (kvalue < m_fonts.size())
-	{
+    double value = static_cast<double>(m_fonts.size()) * time / m_time;
+    unsigned int kvalue = static_cast<unsigned int>(value);
+    if (kvalue < m_fonts.size())
+    {
         i->stateCommandAs<sad::String>()->call(m_fonts[kvalue]);
-	}
+    }
 }
 
 sad::animations::setstate::AbstractSetStateCommand* sad::animations::FontList::stateCommand(sad::db::Object* o)

@@ -23,47 +23,47 @@ gui::table::DoubleDelegate::DoubleDelegate() : gui::table::Delegate()
 
 gui::table::DoubleDelegate::~DoubleDelegate()
 {
-	
+    
 }
 
 void gui::table::DoubleDelegate::set(const sad::db::Variant& v)
 {
-	bool b = m_my_widget->blockSignals(true);
-	double value = v.get<double>().value();
-	this->setCurrentValue<double>(value);
-	static_cast<QDoubleSpinBox*>(m_my_widget)->setValue(value);
-	m_my_widget->blockSignals(b);
+    bool b = m_my_widget->blockSignals(true);
+    double value = v.get<double>().value();
+    this->setCurrentValue<double>(value);
+    static_cast<QDoubleSpinBox*>(m_my_widget)->setValue(value);
+    m_my_widget->blockSignals(b);
 }
 
 void gui::table::DoubleDelegate::widgetChanged(double i)
 {
-	double oldvalue = this->currentValue<double>();
-	if (this->isLinkedToDatabase())
-	{
-		m_editor->history()->add(new history::database::ChangeProperty<double>(oldvalue, i, this));
-	}
-	else
-	{
-		m_editor->history()->add( 
-			new history::customobject::ChangeProperty<double>(m_object, Q2STDSTRING(m_property_name), oldvalue, i)
-		);
-	}
-	this->setCurrentValue<double>(i);
+    double oldvalue = this->currentValue<double>();
+    if (this->isLinkedToDatabase())
+    {
+        m_editor->history()->add(new history::database::ChangeProperty<double>(oldvalue, i, this));
+    }
+    else
+    {
+        m_editor->history()->add( 
+            new history::customobject::ChangeProperty<double>(m_object, Q2STDSTRING(m_property_name), oldvalue, i)
+        );
+    }
+    this->setCurrentValue<double>(i);
 }
 
 void gui::table::DoubleDelegate::makeEditor()
 {
-	double value = this->currentValue<double>();
-	QDoubleSpinBox * d = new QDoubleSpinBox();
-	d->setValue(value);
-	d->setMinimum(-1.0E+6);
-	d->setMaximum(1.0E+6);
-	m_my_widget = d;
-	this->insertToTable();
-	QObject::connect(d, SIGNAL(valueChanged(double)), this, SLOT(widgetChanged(double)));	
+    double value = this->currentValue<double>();
+    QDoubleSpinBox * d = new QDoubleSpinBox();
+    d->setValue(value);
+    d->setMinimum(-1.0E+6);
+    d->setMaximum(1.0E+6);
+    m_my_widget = d;
+    this->insertToTable();
+    QObject::connect(d, SIGNAL(valueChanged(double)), this, SLOT(widgetChanged(double)));	
 }
 
 void gui::table::DoubleDelegate::disconnect()
 {
-	QObject::disconnect(this, SLOT(widgetChanged(double)));
+    QObject::disconnect(this, SLOT(widgetChanged(double)));
 }

@@ -33,22 +33,22 @@ Q_DECLARE_METATYPE(sad::p2d::app::Way*) //-V566
 
 gui::WayActions::WayActions(QObject* parent) : QObject(parent)
 {
-	
+    
 }
 
 gui::WayActions::~WayActions()
 {
-	
+    
 }
 
 void gui::WayActions::setPanel(MainPanel* e)
 {
-	m_panel = e;
+    m_panel = e;
 }
 
 MainPanel* gui::WayActions::panel() const
 {
-	return m_panel;
+    return m_panel;
 }
 
 void gui::WayActions::moveWayPoint(const sad::input::MouseMoveEvent& e)
@@ -114,60 +114,60 @@ void gui::WayActions::addWay()
 
 void gui::WayActions::removeWayFromDatabase(sad::p2d::app::Way* w, bool fromeditor, int row)
 {
-	sad::Vector<sad::db::Object*> animationlist;
-	sad::Renderer::ref()->database("")->table("animations")->objects(animationlist);
+    sad::Vector<sad::db::Object*> animationlist;
+    sad::Renderer::ref()->database("")->table("animations")->objects(animationlist);
 
-	if (row == -1)
-	{
-		row = this->m_panel->findWayInList(w);
-	}
+    if (row == -1)
+    {
+        row = this->m_panel->findWayInList(w);
+    }
 
-	sad::Vector<sad::animations::WayMoving*> dependentanimations;
-	for(size_t i = 0; i < animationlist.size(); i++)
-	{
-		sad::db::Object* tmp = animationlist[i];
-		if (tmp->isInstanceOf("sad::animations::WayMoving"))
-		{
-			sad::animations::WayMoving* a = static_cast<sad::animations::WayMoving*>(tmp);
-			if (a->wayObjectId() == w->MajorId)
-			{
-				dependentanimations << a;
-			}
-		}
-	}
+    sad::Vector<sad::animations::WayMoving*> dependentanimations;
+    for(size_t i = 0; i < animationlist.size(); i++)
+    {
+        sad::db::Object* tmp = animationlist[i];
+        if (tmp->isInstanceOf("sad::animations::WayMoving"))
+        {
+            sad::animations::WayMoving* a = static_cast<sad::animations::WayMoving*>(tmp);
+            if (a->wayObjectId() == w->MajorId)
+            {
+                dependentanimations << a;
+            }
+        }
+    }
 
-	sad::Vector<sad::db::Object*> animationinstancelist;
-	sad::Renderer::ref()->database("")->table("animationinstances")->objects(animationinstancelist);
+    sad::Vector<sad::db::Object*> animationinstancelist;
+    sad::Renderer::ref()->database("")->table("animationinstances")->objects(animationinstancelist);
 
-	sad::Vector<sad::animations::WayInstance*> dependentinstances;
-	for(size_t i = 0; i < animationinstancelist.size(); i++)
-	{
-		sad::db::Object* tmp = animationinstancelist[i];
-		if (tmp->isInstanceOf("sad::animations::WayInstance"))
-		{
-			sad::animations::WayInstance* a = static_cast<sad::animations::WayInstance*>(tmp);
-			if (a->wayMajorId() == w->MajorId)
-			{
-				dependentinstances << a;
-			}
-		}
-	}
+    sad::Vector<sad::animations::WayInstance*> dependentinstances;
+    for(size_t i = 0; i < animationinstancelist.size(); i++)
+    {
+        sad::db::Object* tmp = animationinstancelist[i];
+        if (tmp->isInstanceOf("sad::animations::WayInstance"))
+        {
+            sad::animations::WayInstance* a = static_cast<sad::animations::WayInstance*>(tmp);
+            if (a->wayMajorId() == w->MajorId)
+            {
+                dependentinstances << a;
+            }
+        }
+    }
 
-	int waymovingcombopos = m_panel->findInComboBox(m_panel->UI()->cmbWayAnimationWay, w);
-	int wayinstancecombopos = m_panel->findInComboBox(m_panel->UI()->cmbWayAnimationInstanceWay, w);
+    int waymovingcombopos = m_panel->findInComboBox(m_panel->UI()->cmbWayAnimationWay, w);
+    int wayinstancecombopos = m_panel->findInComboBox(m_panel->UI()->cmbWayAnimationInstanceWay, w);
 
     history::ways::Remove* c = new history::ways::Remove(w, row);
     c->setDependencies(dependentanimations, waymovingcombopos, wayinstancecombopos, dependentinstances);
-	c->commit(m_panel->editor());
+    c->commit(m_panel->editor());
     core::Editor* editor = m_panel->editor();
-	if (fromeditor)
-	{
-		editor->history()->add(c);
-	} 
-	else
-	{
-		editor->currentBatchCommand()->add(c);
-	}
+    if (fromeditor)
+    {
+        editor->history()->add(c);
+    } 
+    else
+    {
+        editor->currentBatchCommand()->add(c);
+    }
 }
 void gui::WayActions::removeWay()
 {
@@ -177,7 +177,7 @@ void gui::WayActions::removeWay()
         QVariant variant = m_panel->UI()->lstWays->item(row)->data(Qt::UserRole);
         sad::p2d::app::Way* w = variant.value<sad::p2d::app::Way*>();
 
-		this->removeWayFromDatabase(w, true, row);
+        this->removeWayFromDatabase(w, true, row);
     }
 }
 
@@ -261,17 +261,17 @@ void gui::WayActions::addWayPoint()
 
 void gui::WayActions::removeWayPoint()
 {
-	sad::p2d::app::Way* w = m_panel->editor()->shared()->selectedWay();
+    sad::p2d::app::Way* w = m_panel->editor()->shared()->selectedWay();
     if (w)
     {
-		int row = m_panel->UI()->lstWayPoints->currentRow();
-		if (row >= 0 && row < m_panel->UI()->lstWayPoints->count())
-		{
-			history::Command* c = new history::ways::WayPointRemove(w, row);
-			c->commit(m_panel->editor());
-		    m_panel->editor()->history()->add(c);
-		}
-	}
+        int row = m_panel->UI()->lstWayPoints->currentRow();
+        if (row >= 0 && row < m_panel->UI()->lstWayPoints->count())
+        {
+            history::Command* c = new history::ways::WayPointRemove(w, row);
+            c->commit(m_panel->editor());
+            m_panel->editor()->history()->add(c);
+        }
+    }
 }
 
 void gui::WayActions::viewPoint(int i)
@@ -291,70 +291,70 @@ void gui::WayActions::viewPoint(int i)
 
 void gui::WayActions::wayPointXChanged(double value)
 {
-	sad::p2d::app::Way* w = m_panel->editor()->shared()->selectedWay();
+    sad::p2d::app::Way* w = m_panel->editor()->shared()->selectedWay();
     if (w)
     {
-		int row = m_panel->UI()->lstWayPoints->currentRow();
-		if (row >= 0 && row < m_panel->UI()->lstWayPoints->count())
-		{
-			sad::Point2D oldvalue = w->wayPoints()[row];
-			sad::Point2D newvalue(value, m_panel->UI()->dsbWayPointY->value());
-			if (sad::is_fuzzy_equal(newvalue.x(), oldvalue.x()) == false)
-			{
-				history::Command* c = new history::ways::WayPointChange(w, row, oldvalue, newvalue);
-				c->commit(m_panel->editor());
-			    m_panel->editor()->history()->add(c);
-			}
-		}
-	}
+        int row = m_panel->UI()->lstWayPoints->currentRow();
+        if (row >= 0 && row < m_panel->UI()->lstWayPoints->count())
+        {
+            sad::Point2D oldvalue = w->wayPoints()[row];
+            sad::Point2D newvalue(value, m_panel->UI()->dsbWayPointY->value());
+            if (sad::is_fuzzy_equal(newvalue.x(), oldvalue.x()) == false)
+            {
+                history::Command* c = new history::ways::WayPointChange(w, row, oldvalue, newvalue);
+                c->commit(m_panel->editor());
+                m_panel->editor()->history()->add(c);
+            }
+        }
+    }
 }
 
 void gui::WayActions::wayPointYChanged(double value)
 {
-	sad::p2d::app::Way* w = m_panel->editor()->shared()->selectedWay();
+    sad::p2d::app::Way* w = m_panel->editor()->shared()->selectedWay();
     if (w)
     {
-		int row = m_panel->UI()->lstWayPoints->currentRow();
-		if (row >= 0 && row < m_panel->UI()->lstWayPoints->count())
-		{
-			sad::Point2D oldvalue = w->wayPoints()[row];
-			sad::Point2D newvalue(m_panel->UI()->dsbWayPointX->value(), value);
-			if (sad::is_fuzzy_equal(newvalue.y(), oldvalue.y()) == false)
-			{
-				history::Command* c = new history::ways::WayPointChange(w, row, oldvalue, newvalue);
-				c->commit(m_panel->editor());
-			    m_panel->editor()->history()->add(c);
-			}
-		}
-	}
+        int row = m_panel->UI()->lstWayPoints->currentRow();
+        if (row >= 0 && row < m_panel->UI()->lstWayPoints->count())
+        {
+            sad::Point2D oldvalue = w->wayPoints()[row];
+            sad::Point2D newvalue(m_panel->UI()->dsbWayPointX->value(), value);
+            if (sad::is_fuzzy_equal(newvalue.y(), oldvalue.y()) == false)
+            {
+                history::Command* c = new history::ways::WayPointChange(w, row, oldvalue, newvalue);
+                c->commit(m_panel->editor());
+                m_panel->editor()->history()->add(c);
+            }
+        }
+    }
 }
 
 void gui::WayActions::wayPointMoveBack()
 {
-	sad::p2d::app::Way* w = m_panel->editor()->shared()->selectedWay();
+    sad::p2d::app::Way* w = m_panel->editor()->shared()->selectedWay();
     if (w)
     {
-		int row = m_panel->UI()->lstWayPoints->currentRow();
-		if (row > 0 && row < m_panel->UI()->lstWayPoints->count())
-		{
-			history::Command* c = new history::ways::WayPointSwap(w, row - 1, row);
-			c->commit(m_panel->editor());
-		    m_panel->editor()->history()->add(c);
-		}
-	}
+        int row = m_panel->UI()->lstWayPoints->currentRow();
+        if (row > 0 && row < m_panel->UI()->lstWayPoints->count())
+        {
+            history::Command* c = new history::ways::WayPointSwap(w, row - 1, row);
+            c->commit(m_panel->editor());
+            m_panel->editor()->history()->add(c);
+        }
+    }
 }
 
 void gui::WayActions::wayPointMoveFront()
 {
-	sad::p2d::app::Way* w = m_panel->editor()->shared()->selectedWay();
+    sad::p2d::app::Way* w = m_panel->editor()->shared()->selectedWay();
     if (w)
     {
-		int row = m_panel->UI()->lstWayPoints->currentRow();
-		if (row >= 0 && row < m_panel->UI()->lstWayPoints->count() - 1)
-		{
-			history::Command* c = new history::ways::WayPointSwap(w, row, row + 1);
-			c->commit(m_panel->editor());
-		    m_panel->editor()->history()->add(c);
-		}
-	}
+        int row = m_panel->UI()->lstWayPoints->currentRow();
+        if (row >= 0 && row < m_panel->UI()->lstWayPoints->count() - 1)
+        {
+            history::Command* c = new history::ways::WayPointSwap(w, row, row + 1);
+            c->commit(m_panel->editor());
+            m_panel->editor()->history()->add(c);
+        }
+    }
 }

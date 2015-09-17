@@ -8,10 +8,10 @@
 #include "../../closuremethodcall.h"
 
 history::label::ChangeFontName::ChangeFontName(
-	sad::SceneNode* d,
-	const sad::String& oldvalue,
-	const sad::String& newvalue
-	
+    sad::SceneNode* d,
+    const sad::String& oldvalue,
+    const sad::String& newvalue
+    
 )
 : history::scenenodes::ChangeProperty<sad::String>(
       d,

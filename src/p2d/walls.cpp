@@ -9,8 +9,8 @@ DECLARE_SOBJ(sad::p2d::Wall);
 
 sad::p2d::Wall::Wall(double padding) :m_padding(padding)
 {
-	m_body = NULL;
-	m_opposite_body = NULL;
+    m_body = NULL;
+    m_opposite_body = NULL;
 }
 
 void sad::p2d::Wall::tryTeleport(sad::p2d::Body * b)
@@ -21,8 +21,8 @@ void sad::p2d::Wall::tryTeleport(sad::p2d::Body * b)
   sad::p2d::Cutter1D projection = s.project(n);
 
   sad::p2d::Point P = bound->boundingLine().intersection(
-				sad::p2d::InfiniteLine::appliedVector(s.center(), n)
-			 ).value();
+                sad::p2d::InfiniteLine::appliedVector(s.center(), n)
+             ).value();
   double On = std::min(projection.p1(), projection.p2());
   double O =  p2d::scalar(s.center(), n);
 
@@ -35,69 +35,69 @@ void sad::p2d::Wall::tryTeleport(sad::p2d::Body * b)
 
 sad::p2d::Walls::Walls(double padding) : m_padding(padding)
 {
-	this->makeWalls(
-		sad::Renderer::ref()->settings().width(), 
-		sad::Renderer::ref()->settings().height()
-	);
+    this->makeWalls(
+        sad::Renderer::ref()->settings().width(), 
+        sad::Renderer::ref()->settings().height()
+    );
 }
 
 sad::p2d::Walls::Walls(double width, double height, double padding) : m_padding(padding)
 {
-	this->makeWalls(width, height);
+    this->makeWalls(width, height);
 }
 
 void sad::p2d::Walls::makeWalls(double width, double height)
 {
-	double w = width;
-	double h = height;
-	
-	sad::Vector< minimal_t > pairs;
-	pairs << minimal_t( sad::p2d::BT_LEFT, -m_padding );
-	pairs << minimal_t( sad::p2d::BT_RIGHT, w + m_padding);
-	pairs << minimal_t( sad::p2d::BT_UP, h + m_padding );
-	pairs << minimal_t( sad::p2d::BT_DOWN, -m_padding );
+    double w = width;
+    double h = height;
+    
+    sad::Vector< minimal_t > pairs;
+    pairs << minimal_t( sad::p2d::BT_LEFT, -m_padding );
+    pairs << minimal_t( sad::p2d::BT_RIGHT, w + m_padding);
+    pairs << minimal_t( sad::p2d::BT_UP, h + m_padding );
+    pairs << minimal_t( sad::p2d::BT_DOWN, -m_padding );
 
-	for(size_t i = 0; i < pairs.size(); i++)
-	{
-		sad::p2d::Bound * bound = new p2d::Bound();
-		bound->setPosition(pairs[i].p2());
-		bound->setType(pairs[i].p1());
-		
-		sad::p2d::Body * b = new p2d::Body();
-		b->setShape(bound);
-		b->setWeight( p2d::Weight::infinite() );
-		m_bodies << b;
+    for(size_t i = 0; i < pairs.size(); i++)
+    {
+        sad::p2d::Bound * bound = new p2d::Bound();
+        bound->setPosition(pairs[i].p2());
+        bound->setType(pairs[i].p1());
+        
+        sad::p2d::Body * b = new p2d::Body();
+        b->setShape(bound);
+        b->setWeight( p2d::Weight::infinite() );
+        m_bodies << b;
 
-		sad::p2d::Wall * w = new sad::p2d::Wall(m_padding);
-		b->setUserObject(w);
-		b->setFixed(true);
-		w->setBody(b);
-		m_walls << w;
-	}
+        sad::p2d::Wall * w = new sad::p2d::Wall(m_padding);
+        b->setUserObject(w);
+        b->setFixed(true);
+        w->setBody(b);
+        m_walls << w;
+    }
 
-	m_walls[0]->setOppositeBody(m_walls[1]->body());
-	m_walls[1]->setOppositeBody(m_walls[0]->body());
-	m_walls[2]->setOppositeBody(m_walls[3]->body());
-	m_walls[3]->setOppositeBody(m_walls[2]->body());
+    m_walls[0]->setOppositeBody(m_walls[1]->body());
+    m_walls[1]->setOppositeBody(m_walls[0]->body());
+    m_walls[2]->setOppositeBody(m_walls[3]->body());
+    m_walls[3]->setOppositeBody(m_walls[2]->body());
 }
 
 const sad::Vector<sad::p2d::Body *> sad::p2d::Walls::bodies() const
 {
-	return m_bodies;
+    return m_bodies;
 }
 
 
 sad::p2d::Walls::~Walls()
 {
-	for(size_t i = 0; i < m_walls.count(); i++)
-	{
-		delete m_walls[i];
-	}
+    for(size_t i = 0; i < m_walls.count(); i++)
+    {
+        delete m_walls[i];
+    }
 }
 
 
 sad::p2d::BoundType  sad::p2d::Wall::type() const
 {
-	return 	static_cast<p2d::Bound *>(this->body()->currentShape())
-			->type();
+    return 	static_cast<p2d::Bound *>(this->body()->currentShape())
+            ->type();
 }

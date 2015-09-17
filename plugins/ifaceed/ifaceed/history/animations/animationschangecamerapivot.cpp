@@ -34,7 +34,7 @@ void history::animations::ChangeCameraPivot::updateUI(core::Editor* e, const sad
             value.x()
         )
     );
-	 e->emitClosure( blocked_bind(
+     e->emitClosure( blocked_bind(
             e->panel()->UI()->dsbCameraRotationPivotY,
             &QDoubleSpinBox::setValue,
             value.y()

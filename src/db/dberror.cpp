@@ -11,10 +11,10 @@ sad::db::Error::~Error() throw()
 
 sad::db::NotImplemented::~NotImplemented() throw()
 {
-	
+    
 }
 
 sad::db::InvalidPointer::~InvalidPointer() throw()
 {
-	
+    
 }

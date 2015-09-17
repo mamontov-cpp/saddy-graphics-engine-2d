@@ -31,18 +31,18 @@ QScriptValue scripting::scenenodes::list(
     QScriptEngine* engine
 )
 {
-	return scripting::query_table("scenenodes", "sad::SceneNode", ctx, engine);
+    return scripting::query_table("scenenodes", "sad::SceneNode", ctx, engine);
 }
 
 QVector<unsigned long long> scripting::scenenodes::listScene(scripting::Scripting* scripting, sad::Scene* scene)
 {
-	QVector<unsigned long long> result;
-	const sad::Vector<sad::SceneNode*>& scenenodes = scene->objects();
-	for(size_t i = 0; i < scenenodes.size(); i++)
-	{
-		result << scenenodes[i]->MajorId;
-	}
-	return result;
+    QVector<unsigned long long> result;
+    const sad::Vector<sad::SceneNode*>& scenenodes = scene->objects();
+    for(size_t i = 0; i < scenenodes.size(); i++)
+    {
+        result << scenenodes[i]->MajorId;
+    }
+    return result;
 }
 
 
@@ -206,13 +206,13 @@ unsigned long long scripting::scenenodes::_addCustomObject(
 
 void scripting::scenenodes::makeBackground(
     scripting::Scripting* scripting,
-	sad::SceneNode* node
+    sad::SceneNode* node
 )
 {
-	scripting->panel()->sprite2DActions()->setSceneNodeAsBackground(node, false);
+    scripting->panel()->sprite2DActions()->setSceneNodeAsBackground(node, false);
 }
 
 void scripting::scenenodes::remove(scripting::Scripting* scripting,  sad::SceneNode* node)
 {
-	scripting->panel()->sceneNodeActions()->removeSceneNode(node, false);
+    scripting->panel()->sceneNodeActions()->removeSceneNode(node, false);
 }

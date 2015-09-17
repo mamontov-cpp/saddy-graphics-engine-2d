@@ -2,5 +2,5 @@
 
 sad::animations::Process::~Process()
 {
-	
+    
 }

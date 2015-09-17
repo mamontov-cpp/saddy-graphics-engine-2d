@@ -78,7 +78,7 @@ public:
      */
     void setAnimation(sad::animations::Animation* o);
     /*! Returns animation object
-		\param[in] check whether we should perform type checking
+        \param[in] check whether we should perform type checking
         \return animation object
      */
     sad::animations::Animation* animation(bool check = true) const;
@@ -91,7 +91,7 @@ public:
      */
     sad::db::Object* object() const;
     /*! Sets animation name. If name length is not equal to zero, makes animation be linked to
-		resource tree
+        resource tree
         \param[in] name name for animation
      */
     void setAnimationName(const sad::String& name);
@@ -99,23 +99,23 @@ public:
         \return animation name
      */
     const sad::String& animationName() const;
-	/*! Sets a mahor id for animation. If id is not equal to zero maked animation be linked to
-		a database
-		\param[in] majorid an id
-	 */
-	void setAnimationMajorId(unsigned long long majorid);
-	/*! Returns a major id for animation. 0 if animation is not linked to database
-		\return a major id for aimation.
-	 */
-	unsigned long long animationMajorId();
-	/*! Sets time, which will be added to timer when playing animation
-		\param[in] time a starting time
-	 */
-	void setStartTime(double time);
-	/*! Returns start time, which will be added to timer, when playing animation
-		\return time
-	 */
-	double startTime() const;
+    /*! Sets a mahor id for animation. If id is not equal to zero maked animation be linked to
+        a database
+        \param[in] majorid an id
+     */
+    void setAnimationMajorId(unsigned long long majorid);
+    /*! Returns a major id for animation. 0 if animation is not linked to database
+        \return a major id for aimation.
+     */
+    unsigned long long animationMajorId();
+    /*! Sets time, which will be added to timer when playing animation
+        \param[in] time a starting time
+     */
+    void setStartTime(double time);
+    /*! Returns start time, which will be added to timer, when playing animation
+        \return time
+     */
+    double startTime() const;
     /*! Sets object id for animation instance
         \param[in] id an id for object
      */
@@ -234,9 +234,9 @@ public:
     {
         addCallbackOnEnd(new sad::animations::MethodCall3<_Object, _Method, _Arg1, _Arg2, _Arg3>(o, m, a1, a2, a3));
     }
-	/*! Restarts an animation process
+    /*! Restarts an animation process
         \param[in] animations an animations process
-	 */
+     */
     virtual void restart(sad::animations::Animations* animations);
     /*! Clears finished flag
      */
@@ -255,34 +255,34 @@ public:
      */
     virtual void resume();
     /*! Cancels an animation
-		\param[in] animations an animations for work
+        \param[in] animations an animations for work
      */
-	virtual void cancel(sad::animations::Animations* animations);
-	/*! Called, when process is added to pipeline
-	 */
-	virtual void addedToPipeline();
-	/*! Called, when process is removed from pipeline
-	 */
-	virtual void removedFromPipeline();
-	/*! Sets a command for setting state
-		\param[in] call a command to be set
-		\param[in] own whether instance owns state command
-	 */
-	void setStateCommand(sad::animations::setstate::AbstractSetStateCommand* call, bool own = true);
-	/*! Returns a command for setting state
-		\return a command for setting state
-	 */
-	sad::animations::setstate::AbstractSetStateCommand* stateCommand() const;
-	/*! Returns a command for setting state as specified type
-		\return a command for setting state
-	 */
-	template<
-		typename T
-	>
-	sad::animations::setstate::TypedCommmand<T>* stateCommandAs() const
-	{
-		return static_cast<sad::animations::setstate::TypedCommmand<T> *>(this->stateCommand());
-	}
+    virtual void cancel(sad::animations::Animations* animations);
+    /*! Called, when process is added to pipeline
+     */
+    virtual void addedToPipeline();
+    /*! Called, when process is removed from pipeline
+     */
+    virtual void removedFromPipeline();
+    /*! Sets a command for setting state
+        \param[in] call a command to be set
+        \param[in] own whether instance owns state command
+     */
+    void setStateCommand(sad::animations::setstate::AbstractSetStateCommand* call, bool own = true);
+    /*! Returns a command for setting state
+        \return a command for setting state
+     */
+    sad::animations::setstate::AbstractSetStateCommand* stateCommand() const;
+    /*! Returns a command for setting state as specified type
+        \return a command for setting state
+     */
+    template<
+        typename T
+    >
+    sad::animations::setstate::TypedCommmand<T>* stateCommandAs() const
+    {
+        return static_cast<sad::animations::setstate::TypedCommmand<T> *>(this->stateCommand());
+    }
     /*! Marks animatimation instance as valid
      */
     inline void markAsValid()
@@ -305,44 +305,44 @@ public:
         \return stored body
      */
     sad::p2d::Body* body() const;
-	/*! Sets basic area for rectangle
-		\param[in] r rectangle
-	 */
-	void setBasicArea(const sad::Rect2D& r);
-	/*! A basic area for rectangle
-		\return basic area
-	 */
-	const sad::Rect2D& basicArea() const;
-	/*! Returns basic center for rectangle
-		\return basic center
-	 */
-	const sad::Point2D& basicCenter() const;
-	/*! Sets basic string, needed for animation
-		\param[in] s string
-	 */
-	void setBasicString(const sad::String& s);
-	/*! Returns basic string, needed for animation
-		\return basic string
-	 */
-	const sad::String& basicString() const;
-	/*! Set state commands for instance
-		\param[in] c an animation
-	 */
-	void setStateCommands(const sad::Vector<sad::animations::setstate::AbstractSetStateCommand*>& c);
-	/*! Returns state commands for animation instance
-		\return instance
-	 */
-	const sad::Vector<sad::animations::setstate::AbstractSetStateCommand*>& stateCommands() const;
-	/*! If current instance is related to specified object, removes it from animations
-		\param[in] object a related object
-		\param[in] a animations list
-	 */
-	virtual void stopInstanceRelatedToObject(sad::db::Object* object, sad::animations::Animations* a);
-	/*! Returns true of if object is related to this process
-		\param[in] object a tested object
-		\return true if related
-	 */
-	virtual bool isRelatedToObject(sad::db::Object* object);
+    /*! Sets basic area for rectangle
+        \param[in] r rectangle
+     */
+    void setBasicArea(const sad::Rect2D& r);
+    /*! A basic area for rectangle
+        \return basic area
+     */
+    const sad::Rect2D& basicArea() const;
+    /*! Returns basic center for rectangle
+        \return basic center
+     */
+    const sad::Point2D& basicCenter() const;
+    /*! Sets basic string, needed for animation
+        \param[in] s string
+     */
+    void setBasicString(const sad::String& s);
+    /*! Returns basic string, needed for animation
+        \return basic string
+     */
+    const sad::String& basicString() const;
+    /*! Set state commands for instance
+        \param[in] c an animation
+     */
+    void setStateCommands(const sad::Vector<sad::animations::setstate::AbstractSetStateCommand*>& c);
+    /*! Returns state commands for animation instance
+        \return instance
+     */
+    const sad::Vector<sad::animations::setstate::AbstractSetStateCommand*>& stateCommands() const;
+    /*! If current instance is related to specified object, removes it from animations
+        \param[in] object a related object
+        \param[in] a animations list
+     */
+    virtual void stopInstanceRelatedToObject(sad::db::Object* object, sad::animations::Animations* a);
+    /*! Returns true of if object is related to this process
+        \param[in] object a tested object
+        \return true if related
+     */
+    virtual bool isRelatedToObject(sad::db::Object* object);
 protected:
     /*!  Computes time, which should be used to animate. Finishes
          animations to be finished
@@ -374,8 +374,8 @@ protected:
      */
     virtual void restoreObjectState(sad::animations::Animations* animations);
     /*! Clears a state call on animation instance
-	 */
-	void clearSetState();
+     */
+    void clearSetState();
     /*! Copies state from instance
         \param[in] o instance        
      */
@@ -389,15 +389,15 @@ protected:
     /*! A linked animation for instance
      */
     sad::resource::Link<sad::animations::Animation> m_animation;
-	/*! A database link for animation
+    /*! A database link for animation
      */
-	sad::db::Link m_animation_db_link;
-	/*! Whether active is tree link or database link
-	 */
-	bool m_tree_link_active;
-	/*! A time of animation, which would be added to timer time, when playing animation
-	 */
-	double m_start_time;
+    sad::db::Link m_animation_db_link;
+    /*! Whether active is tree link or database link
+     */
+    bool m_tree_link_active;
+    /*! A time of animation, which would be added to timer time, when playing animation
+     */
+    double m_start_time;
     /*! Whether instance is paused
      */
     bool m_paused;
@@ -416,15 +416,15 @@ protected:
     /*! A callbacks for starting an instance
      */
     sad::PtrVector<sad::animations::Callback> m_callbacks_on_start;
-	/*! Sets vector of state commands
-	 */
-	sad::Vector<sad::animations::setstate::AbstractSetStateCommand*> m_state_commands;
-	/*! A command for setting state
-	 */
-	sad::animations::setstate::AbstractSetStateCommand* m_state_command;
-	/*! Whether we own state command
-	 */
-	bool m_state_command_own;
+    /*! Sets vector of state commands
+     */
+    sad::Vector<sad::animations::setstate::AbstractSetStateCommand*> m_state_commands;
+    /*! A command for setting state
+     */
+    sad::animations::setstate::AbstractSetStateCommand* m_state_command;
+    /*! Whether we own state command
+     */
+    bool m_state_command_own;
     /*! Whether animation instance is valid
      */
     bool m_valid;
@@ -434,15 +434,15 @@ protected:
     /*! A body, stored in instance
      */
     sad::p2d::Body* m_body;
-	/*! A basic area
-	 */
-	sad::Rect2D m_basic_area;
-	/*! A basic center
-	 */
-	sad::Point2D m_basic_center;
-	/*! A basic string, needed for animation of text
-	 */
-	sad::String m_basic_string;
+    /*! A basic area
+     */
+    sad::Rect2D m_basic_area;
+    /*! A basic center
+     */
+    sad::Point2D m_basic_center;
+    /*! A basic string, needed for animation of text
+     */
+    sad::String m_basic_string;
     /*! Whether object is referenced in animation
      */
     bool m_object_referenced;

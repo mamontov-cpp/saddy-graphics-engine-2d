@@ -38,7 +38,7 @@ sad::animations::OptionList::OptionList()
 
 sad::animations::OptionList::~OptionList()
 {
-	
+    
 }
 
 static sad::db::schema::Schema* AnimationOptionListSchema = NULL;
@@ -57,12 +57,12 @@ sad::db::schema::Schema* sad::animations::OptionList::basicSchema()
 
             AnimationOptionListSchema->add(
                 "list",
-			    new sad::db::MethodPair<sad::animations::OptionList, sad::Vector<sad::String> >(
-				    &sad::animations::OptionList::list,
+                new sad::db::MethodPair<sad::animations::OptionList, sad::Vector<sad::String> >(
+                    &sad::animations::OptionList::list,
                     &sad::animations::OptionList::setList
                 )
             );
-		        
+                
             sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationOptionListSchema);
         }
         AnimationOptionListSchemaLock.unlock();
@@ -78,44 +78,44 @@ sad::db::schema::Schema* sad::animations::OptionList::schema() const
 
 bool sad::animations::OptionList::loadFromValue(const picojson::value& v)
 {
-	bool flag = this->sad::animations::Animation::loadFromValue(v);
-	if (flag)
-	{
-		sad::Maybe<sad::Vector<sad::String> > list = picojson::to_type<sad::Vector<sad::String> >(
-														picojson::get_property(v, "list")
-													  );
-		bool result = list.exists();
-		if (result)
-		{
-			setList(list.value());
-		}
+    bool flag = this->sad::animations::Animation::loadFromValue(v);
+    if (flag)
+    {
+        sad::Maybe<sad::Vector<sad::String> > list = picojson::to_type<sad::Vector<sad::String> >(
+                                                        picojson::get_property(v, "list")
+                                                      );
+        bool result = list.exists();
+        if (result)
+        {
+            setList(list.value());
+        }
 
-		flag = flag && result;
-	}
-	return flag;
+        flag = flag && result;
+    }
+    return flag;
 }
 
 void sad::animations::OptionList::setList(const sad::Vector<sad::String>& list)
 {
-	m_list = list;
+    m_list = list;
     m_inner_valid = m_list.size() != 0;
     this->updateValidFlag();
 }
 
 const sad::Vector<sad::String> & sad::animations::OptionList::list() const
 {
-	return m_list;
+    return m_list;
 }
 
 
 void sad::animations::OptionList::setState(sad::animations::Instance* i, double time)
 {
-	double value = static_cast<double>(m_list.size()) * time / m_time;
-	unsigned int kvalue = static_cast<unsigned int>(value);
-	if (kvalue < m_list.size())
-	{
+    double value = static_cast<double>(m_list.size()) * time / m_time;
+    unsigned int kvalue = static_cast<unsigned int>(value);
+    if (kvalue < m_list.size())
+    {
         i->stateCommandAs<sad::String>()->call(m_list[kvalue]);
-	}
+    }
 }
 
 

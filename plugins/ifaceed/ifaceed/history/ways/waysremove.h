@@ -31,18 +31,18 @@ public:
     /*! Could be inherited
      */
     virtual ~Remove();
-	/*! Sets dependencies for command
-		\param[in] dependent_animations list of dependent animations
-		\param[in] position_in_animation_combo a position in combo for way moving animation
-		\param[in] position_in_animation_instances_combo a position in combo for animation instances
-		\param[in] dependent_instances a list of dependent instances for a command
-	 */
-	void setDependencies(
-		const sad::Vector<sad::animations::WayMoving*>& dependent_animations,
-		int position_in_animation_combo,
-		int position_in_animation_instances_combo,
-		const sad::Vector<sad::animations::WayInstance*>& dependent_instances
-	);
+    /*! Sets dependencies for command
+        \param[in] dependent_animations list of dependent animations
+        \param[in] position_in_animation_combo a position in combo for way moving animation
+        \param[in] position_in_animation_instances_combo a position in combo for animation instances
+        \param[in] dependent_instances a list of dependent instances for a command
+     */
+    void setDependencies(
+        const sad::Vector<sad::animations::WayMoving*>& dependent_animations,
+        int position_in_animation_combo,
+        int position_in_animation_instances_combo,
+        const sad::Vector<sad::animations::WayInstance*>& dependent_instances
+    );
     /*! Makes way inactive, removes it from list
         \param[in] ob an observer for looking for command
      */
@@ -58,18 +58,18 @@ protected:
     /*! A position of item in list
      */
     int m_position;
-	/*! List of dependent animations for restoring links
-	 */
-	sad::Vector<sad::animations::WayMoving*> m_dependent_animations;
-	/*! A position of way in animation combo
-	 */
-	int m_position_in_animation_combo;
-	/*! A position of way in animation instance combo
-	 */
-	int m_position_in_animation_instances_combo;
-	/*! A list of dependent instances
-	 */
-	sad::Vector<sad::animations::WayInstance*> m_dependent_instances;
+    /*! List of dependent animations for restoring links
+     */
+    sad::Vector<sad::animations::WayMoving*> m_dependent_animations;
+    /*! A position of way in animation combo
+     */
+    int m_position_in_animation_combo;
+    /*! A position of way in animation instance combo
+     */
+    int m_position_in_animation_instances_combo;
+    /*! A list of dependent instances
+     */
+    sad::Vector<sad::animations::WayInstance*> m_dependent_instances;
 };
 
 }

@@ -1,7 +1,7 @@
 /*! \file animations/animationsfontsize.h
-	
+    
 
-	An animations as animation of font size by time
+    An animations as animation of font size by time
  */
 #pragma once
 
@@ -11,7 +11,7 @@
 
 namespace sad
 {
-	
+    
 namespace animations
 {
 
@@ -21,13 +21,13 @@ class FontSize: public sad::animations::Animation
 {
 SAD_OBJECT
 public:
-	/*! Creates new empty animation
-	 */
-	FontSize();
-	/*! Can be inherited
-	 */
-	virtual ~FontSize();
-	/*! A basic schema for object
+    /*! Creates new empty animation
+     */
+    FontSize();
+    /*! Can be inherited
+     */
+    virtual ~FontSize();
+    /*! A basic schema for object
         \return a schema
      */
     static sad::db::schema::Schema* basicSchema();
@@ -40,23 +40,23 @@ public:
         \return whether it was successfull
      */
     virtual bool loadFromValue(const picojson::value& v);
-	/*! Sets minimal font size
-		\param[in] size minimal font size
-	 */
-	void setMinSize(unsigned int size);
-	/*! Returns minimal font size
-		\return minimal font size
-	 */
-	unsigned int minSize() const;
-	/*! Sets maximal font size
-		\param[in] size maximal font size
-	 */
-	void setMaxSize(unsigned int size);
-	/*! Returns maximal font size
-		\return maximal font size
-	 */
-	unsigned int maxSize() const;
-	/*! Sets state of object from animation
+    /*! Sets minimal font size
+        \param[in] size minimal font size
+     */
+    void setMinSize(unsigned int size);
+    /*! Returns minimal font size
+        \return minimal font size
+     */
+    unsigned int minSize() const;
+    /*! Sets maximal font size
+        \param[in] size maximal font size
+     */
+    void setMaxSize(unsigned int size);
+    /*! Returns maximal font size
+        \return maximal font size
+     */
+    unsigned int maxSize() const;
+    /*! Sets state of object from animation
         \param[in] i an animation instance
         \param[in] time a time of playing of animation
      */
@@ -72,12 +72,12 @@ public:
      */
     virtual bool applicableTo(sad::db::Object* o);
 protected:
-	/*! A minimal font size
-	 */
-	unsigned int m_min_size;
-	/*! A maximal font size
-	 */
-	unsigned int m_max_size;
+    /*! A minimal font size
+     */
+    unsigned int m_min_size;
+    /*! A maximal font size
+     */
+    unsigned int m_max_size;
 };
 
 }

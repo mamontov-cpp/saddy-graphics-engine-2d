@@ -10,64 +10,64 @@ sad::GLContext::GLContext()
 
 sad::GLContext::~GLContext()
 {
-	delete m_dptr;
+    delete m_dptr;
 }
 
 bool sad::GLContext::valid() const
 {
-	return m_dptr->valid();
+    return m_dptr->valid();
 }
 
 void sad::GLContext::swapBuffers()
 {
-	m_dptr->swapBuffers();
+    m_dptr->swapBuffers();
 }
 
 sad::Point3D sad::GLContext::mapToViewport(const sad::Point2D & p, bool ztest)
 {
-	return m_dptr->mapToViewport(p, ztest);
+    return m_dptr->mapToViewport(p, ztest);
 }
 
 sad::os::GLContextHandle * sad::GLContext::handle() const
 {
-	return m_dptr->handle();
+    return m_dptr->handle();
 }
 
 sad::Window * sad::GLContext::window() const
 {
-	return m_dptr->window();
+    return m_dptr->window();
 }
 
 bool sad::GLContext::isOpenGL3compatible() const
 {
-	return m_dptr->isOpenGL3compatible();
+    return m_dptr->isOpenGL3compatible();
 }
 
 
 bool sad::GLContext::createFor(sad::Window * win)
 {
-	return m_dptr->createFor(win);
+    return m_dptr->createFor(win);
 }
 
 void sad::GLContext::destroy()
 {
-	m_dptr->destroy();
+    m_dptr->destroy();
 }
 
 void sad::GLContext::setImplementation(sad::os::GLContextImpl * i)
 {
-	delete m_dptr;
-	m_dptr = i;
+    delete m_dptr;
+    m_dptr = i;
 }
 
 sad::Renderer * sad::GLContext::renderer() const
 {
-	return m_dptr->renderer();
+    return m_dptr->renderer();
 }
 
 
 void sad::GLContext::makeCurrent()
 {
-	m_dptr->makeCurrent();
+    m_dptr->makeCurrent();
 }
 

@@ -30,59 +30,59 @@ m_dispatcher(new sad::os::SystemEventDispatcher())
 
 sad::MainLoop::~MainLoop()
 {
-	delete m_dispatcher;
+    delete m_dispatcher;
 }
 
 void sad::MainLoop::setRenderer(sad::Renderer * r)
 {
-	m_renderer = r;
-	m_dispatcher->setRenderer(r);
+    m_renderer = r;
+    m_dispatcher->setRenderer(r);
 }
 
 sad::Renderer * sad::MainLoop::renderer() const
 {
-	return m_renderer;
+    return m_renderer;
 }
 
 
 void sad::MainLoop::run()
 {
-	tryElevatePriority();
-	trySetEmergencyShudownHandler();
-	registerRenderer();
-	initKeyboardInput();
-	perform();
-	unregisterRenderer();
+    tryElevatePriority();
+    trySetEmergencyShudownHandler();
+    registerRenderer();
+    initKeyboardInput();
+    perform();
+    unregisterRenderer();
 }
 
 void sad::MainLoop::stop()
 {
-	m_running = false;
+    m_running = false;
 }
 
 
 sad::os::SystemEventDispatcher *  sad::MainLoop::dispatcher()
 {
-	return m_dispatcher;
+    return m_dispatcher;
 }
 
 bool sad::MainLoop::running() const
 {
-	return m_running;
+    return m_running;
 }
 
 void sad::MainLoop::tryElevatePriority()
 {
-	if (this->renderer() == NULL) 
-	{
-		return;
-	}
-	SL_COND_INTERNAL_SCOPE("sad::MainLoop::tryElevatePriority()", this->renderer());
+    if (this->renderer() == NULL) 
+    {
+        return;
+    }
+    SL_COND_INTERNAL_SCOPE("sad::MainLoop::tryElevatePriority()", this->renderer());
 
-	bool ok = false;
+    bool ok = false;
     bool affinityresult = false;
 #ifdef WIN32
-	ok = SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS) != FALSE;
+    ok = SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS) != FALSE;
     affinityresult = SetThreadIdealProcessor(GetCurrentThread(), 1) != static_cast<DWORD>(-1);
     DWORD   dwLastError = ::GetLastError();
     // See http://stackoverflow.com/questions/3006229/get-a-text-from-the-error-code-returns-from-the-getlasterror-function
@@ -104,26 +104,26 @@ void sad::MainLoop::tryElevatePriority()
 #endif
 
 #ifdef LINUX
-	pid_t myprocesspid = getpid();
-	sched_param param;
-	param.sched_priority = 77; // Don't set too much, since we still may need to switch to other windows	
-	ok = sched_setscheduler(myprocesspid, SCHED_FIFO, &param) == 0;
+    pid_t myprocesspid = getpid();
+    sched_param param;
+    param.sched_priority = 77; // Don't set too much, since we still may need to switch to other windows	
+    ok = sched_setscheduler(myprocesspid, SCHED_FIFO, &param) == 0;
 
     {
-		cpu_set_t set;
-		CPU_ZERO(&set);
-		CPU_SET(0, &set);
-		CPU_SET(1, &set);
-		affinityresult  = (sched_setaffinity(myprocesspid, sizeof(set), &set) == 0);
-	}
+        cpu_set_t set;
+        CPU_ZERO(&set);
+        CPU_SET(0, &set);
+        CPU_SET(1, &set);
+        affinityresult  = (sched_setaffinity(myprocesspid, sizeof(set), &set) == 0);
+    }
 #endif
-	if (ok == false)
-	{
-		SL_COND_LOCAL_INTERNAL("Failed to elevate priority", this->renderer());
-	}
+    if (ok == false)
+    {
+        SL_COND_LOCAL_INTERNAL("Failed to elevate priority", this->renderer());
+    }
     if (affinityresult == false)
     {
-		SL_COND_LOCAL_INTERNAL("Failed to set affinity", this->renderer());        
+        SL_COND_LOCAL_INTERNAL("Failed to set affinity", this->renderer());        
     }
 }
 
@@ -136,16 +136,16 @@ static  sad::Mutex RegisteredRenderersLock;
 // This function should handle every console close event
 static int WINAPI  handle_console_close_event(DWORD dwCtrlType)
 {
-	if (dwCtrlType == CTRL_CLOSE_EVENT)
-	{
-		for(RegisteredRenderersTable::iterator it = RegisteredRenderers.begin();
-			it != RegisteredRenderers.end();
-			it++)
-		{
-			it.value()->emergencyShutdown();
-		}
-	}
-	return FALSE;
+    if (dwCtrlType == CTRL_CLOSE_EVENT)
+    {
+        for(RegisteredRenderersTable::iterator it = RegisteredRenderers.begin();
+            it != RegisteredRenderers.end();
+            it++)
+        {
+            it.value()->emergencyShutdown();
+        }
+    }
+    return FALSE;
 }
 
 #endif
@@ -153,71 +153,71 @@ static int WINAPI  handle_console_close_event(DWORD dwCtrlType)
 void sad::MainLoop::trySetEmergencyShudownHandler()
 {
 #ifdef WIN32
-	SetConsoleCtrlHandler(handle_console_close_event, FALSE);
-	SetConsoleCtrlHandler(handle_console_close_event, TRUE);
+    SetConsoleCtrlHandler(handle_console_close_event, FALSE);
+    SetConsoleCtrlHandler(handle_console_close_event, TRUE);
 #endif
 }
 
 
 void sad::MainLoop::registerRenderer()
 {
-	if (this->renderer() == NULL) 
-	{
-		return;
-	}
+    if (this->renderer() == NULL) 
+    {
+        return;
+    }
 
 #ifdef WIN32
-	RegisteredRenderersLock.lock();
-	HWND WND = this->renderer()->window()->handles()->WND;
-	if (RegisteredRenderers.contains(WND)) 
-	{
-		RegisteredRenderers[WND] =  this->renderer();
-	}
-	else
-	{
-		RegisteredRenderers.insert(WND,  this->renderer());
-	}
-	RegisteredRenderersLock.unlock();
+    RegisteredRenderersLock.lock();
+    HWND WND = this->renderer()->window()->handles()->WND;
+    if (RegisteredRenderers.contains(WND)) 
+    {
+        RegisteredRenderers[WND] =  this->renderer();
+    }
+    else
+    {
+        RegisteredRenderers.insert(WND,  this->renderer());
+    }
+    RegisteredRenderersLock.unlock();
 #endif
 }
 
 void sad::MainLoop::unregisterRenderer()
 {
-	if (this->renderer() == NULL) 
-	{
-		return;
-	}
+    if (this->renderer() == NULL) 
+    {
+        return;
+    }
 
 #ifdef WIN32
-	RegisteredRenderersLock.lock();
-	HWND WND = this->renderer()->window()->handles()->WND;
-	RegisteredRenderers.remove(WND);
-	RegisteredRenderersLock.unlock();
+    RegisteredRenderersLock.lock();
+    HWND WND = this->renderer()->window()->handles()->WND;
+    RegisteredRenderers.remove(WND);
+    RegisteredRenderersLock.unlock();
 #endif
 }
 
 #ifdef X11
-	static char * main_loop_locale_block = NULL;
-	sad::Mutex  main_loop_locale_mtx;
+    static char * main_loop_locale_block = NULL;
+    sad::Mutex  main_loop_locale_mtx;
 
-	void main_loop_destroy_modifiers()
-	{
-		free(main_loop_locale_block);
-	}
+    void main_loop_destroy_modifiers()
+    {
+        free(main_loop_locale_block);
+    }
 #endif
 
 void sad::MainLoop::initKeyboardInput()
 {
 #ifdef X11
-	setlocale(LC_CTYPE, "");
-	main_loop_locale_mtx.lock();
-	char* oldvalue =  main_loop_locale_block;
-	main_loop_locale_block = XSetLocaleModifiers("");
-	if (main_loop_locale_block != NULL &&  oldvalue == NULL)
-	{
-		atexit(main_loop_destroy_modifiers);
-	}
-	main_loop_locale_mtx.unlock();
+    setlocale(LC_CTYPE, "");
+    main_loop_locale_mtx.lock();
+    char* oldvalue =  main_loop_locale_block;
+    main_loop_locale_block = XSetLocaleModifiers("");
+    if (main_loop_locale_block != NULL &&  oldvalue == NULL)
+    {
+        atexit(main_loop_destroy_modifiers);
+    }
+    main_loop_locale_mtx.unlock();
 #endif
 }
 
@@ -225,11 +225,11 @@ void sad::MainLoop::initKeyboardInput()
 void sad::MainLoop::forceSchedulerSwitchToOtherProcesses()
 {
 #ifdef WIN32
-			sad::sleep(50);
+            sad::sleep(50);
 #endif
 
 #ifdef LINUX
-			sched_yield();
+            sched_yield();
 #endif	
 }
 
@@ -238,22 +238,22 @@ void sad::MainLoop::forceSchedulerSwitchToOtherProcesses()
 
 LRESULT CALLBACK sad_renderer_window_proc (HWND wnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
-	bool handled = false;
-	RegisteredRenderersLock.lock();
-	sad::os::SystemWindowEventDispatchResult result;
-	if (RegisteredRenderers.contains(wnd))
-	{
-		sad::os::SystemWindowEvent e(wnd, msg, wparam, lparam);
-		const sad::Renderer * r = RegisteredRenderers[wnd];
-		result = r->mainLoop()->dispatcher()->dispatch(e);
-	}
-	RegisteredRenderersLock.unlock();
-	if (result.exists())
-	{
-		return (LRESULT)(result.value());
-	}
+    bool handled = false;
+    RegisteredRenderersLock.lock();
+    sad::os::SystemWindowEventDispatchResult result;
+    if (RegisteredRenderers.contains(wnd))
+    {
+        sad::os::SystemWindowEvent e(wnd, msg, wparam, lparam);
+        const sad::Renderer * r = RegisteredRenderers[wnd];
+        result = r->mainLoop()->dispatcher()->dispatch(e);
+    }
+    RegisteredRenderersLock.unlock();
+    if (result.exists())
+    {
+        return (LRESULT)(result.value());
+    }
 
-	return DefWindowProcA(wnd, msg, wparam, lparam);				
+    return DefWindowProcA(wnd, msg, wparam, lparam);				
 }
 
 #endif
@@ -264,93 +264,93 @@ LRESULT CALLBACK sad_renderer_window_proc (HWND wnd, UINT msg, WPARAM wparam, LP
  */
 static int predicate(Display *, XEvent * e, char *)
 {
-	return true;
+    return true;
 }
 #endif
 
 void sad::MainLoop::perform()
 {
-	m_running = true;
-	this->m_renderer->window()->setActive(true);
-	this->m_renderer->fpsInterpolation()->reset();
-	m_dispatcher->reset();
+    m_running = true;
+    this->m_renderer->window()->setActive(true);
+    this->m_renderer->fpsInterpolation()->reset();
+    m_dispatcher->reset();
 
 #ifdef WIN32
-	MSG msg;
-	//POINT cursorpos;
-	//RECT  windowrect;
+    MSG msg;
+    //POINT cursorpos;
+    //RECT  windowrect;
 #endif
 
 #ifdef X11
-	sad::os::SystemWindowEvent msg;
+    sad::os::SystemWindowEvent msg;
 #endif
-	while(m_running)
-	{
+    while(m_running)
+    {
 #ifdef WIN32
-		// There was some kind of bug, when mouse leave was not generated
-		// If this occurs one more time try uncommenting this code
-		/*
-		GetWindowRect(m_renderer->window()->handles()->WND, &windowrect);
-		GetCursorPos(&cursorpos);
-		if (!PtInRect(&windowrect, cursorpos) && m_dispatcher->m_is_in_window)
-		{
+        // There was some kind of bug, when mouse leave was not generated
+        // If this occurs one more time try uncommenting this code
+        /*
+        GetWindowRect(m_renderer->window()->handles()->WND, &windowrect);
+        GetCursorPos(&cursorpos);
+        if (!PtInRect(&windowrect, cursorpos) && m_dispatcher->m_is_in_window)
+        {
 #ifdef EVENT_LOGGING
-			SL_COND_LOCAL_INTERNAL("Cursor pos is outside of window, posting MouseLeave", m_renderer);
+            SL_COND_LOCAL_INTERNAL("Cursor pos is outside of window, posting MouseLeave", m_renderer);
 #endif
-			sad::os::SystemWindowEvent ev(
-				m_renderer->window()->handles()->WND,
-				WM_MOUSELEAVE,
-				0,
-				0
-			);
-			m_dispatcher->dispatch(ev);
-		}
-		*/
-		while (PeekMessage (
-						 &msg, 
-						 // A PeekMessage docs state, that multithreading
-						 // should work with zero, since sad::Renderer-s must
-						 // be running at separate threads. Also, moving here
-						 // a handle to window  causes problems with switching
-						 // keyboard layout on Windows XP
-						 0
-						 /*m_renderer->window()->handles()->WND*/, 
-						 0, 
-						 0, 
-						 PM_REMOVE
-						) != 0
-		   )
-		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);			
-		}		
+            sad::os::SystemWindowEvent ev(
+                m_renderer->window()->handles()->WND,
+                WM_MOUSELEAVE,
+                0,
+                0
+            );
+            m_dispatcher->dispatch(ev);
+        }
+        */
+        while (PeekMessage (
+                         &msg, 
+                         // A PeekMessage docs state, that multithreading
+                         // should work with zero, since sad::Renderer-s must
+                         // be running at separate threads. Also, moving here
+                         // a handle to window  causes problems with switching
+                         // keyboard layout on Windows XP
+                         0
+                         /*m_renderer->window()->handles()->WND*/, 
+                         0, 
+                         0, 
+                         PM_REMOVE
+                        ) != 0
+           )
+        {
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);			
+        }		
 #endif
 
 #ifdef X11
-		// In fact in linux we get big slowdown if 
-		// all events is not dispatched
-		while (XCheckIfEvent(m_renderer->window()->handles()->Dpy, &(msg.Event), predicate, NULL) != False)
-		{
-			m_dispatcher->dispatch(msg);
-		}
+        // In fact in linux we get big slowdown if 
+        // all events is not dispatched
+        while (XCheckIfEvent(m_renderer->window()->handles()->Dpy, &(msg.Event), predicate, NULL) != False)
+        {
+            m_dispatcher->dispatch(msg);
+        }
 #endif
-		// Try render scene if can
-		if (this->m_renderer->window()->hidden() == false 
-			&& this->m_renderer->window()->minimized() == false
-			&& m_running)
-		{
-			this->m_renderer->pipeline()->run();
+        // Try render scene if can
+        if (this->m_renderer->window()->hidden() == false 
+            && this->m_renderer->window()->minimized() == false
+            && m_running)
+        {
+            this->m_renderer->pipeline()->run();
 #ifdef X11
-			XFlush(m_renderer->window()->handles()->Dpy);
+            XFlush(m_renderer->window()->handles()->Dpy);
 #endif
-		}
-		else 
-		{
-			this->m_renderer->fpsInterpolation()->resetTimer();
-			this->forceSchedulerSwitchToOtherProcesses();
-		} 
-	}
-	this->m_renderer->window()->setActive(false);
-	m_running = false;
+        }
+        else 
+        {
+            this->m_renderer->fpsInterpolation()->resetTimer();
+            this->forceSchedulerSwitchToOtherProcesses();
+        } 
+    }
+    this->m_renderer->window()->setActive(false);
+    m_running = false;
 }
 

@@ -22,16 +22,16 @@ class PhraseChangeDuration: public history::Command
 public:
     /*! Creates new command
         \param[in] dialogue dialogue
-		\param[in] i position of phrase in dialogue
-		\param[in] oldvalue old value 
-		\param[in] newvalue new value 
+        \param[in] i position of phrase in dialogue
+        \param[in] oldvalue old value 
+        \param[in] newvalue new value 
      */
-	PhraseChangeDuration(
-		sad::dialogue::Dialogue* dialogue, 
-		int i,
-		double oldvalue, 
-		double newvalue
-	);
+    PhraseChangeDuration(
+        sad::dialogue::Dialogue* dialogue, 
+        int i,
+        double oldvalue, 
+        double newvalue
+    );
     /*! Could be inherited
      */
     virtual ~PhraseChangeDuration();
@@ -47,20 +47,20 @@ protected:
     /*! A current dialogue
      */
     sad::dialogue::Dialogue* m_dialogue;
-	/*! A position of phrase in dialogue
-	 */
-	int m_position;
-	/*! Old value for name
-	 */
-	double m_oldvalue;
-	/*! New value for name
-	 */
-	double m_newvalue;
-	/*! Tries to update UI with new value
-		\param[in] e editor
-		\param[in] v value
-	 */
-	void tryUpdateUI(core::Editor* e, double v);
+    /*! A position of phrase in dialogue
+     */
+    int m_position;
+    /*! Old value for name
+     */
+    double m_oldvalue;
+    /*! New value for name
+     */
+    double m_newvalue;
+    /*! Tries to update UI with new value
+        \param[in] e editor
+        \param[in] v value
+     */
+    void tryUpdateUI(core::Editor* e, double v);
 };
 
 }

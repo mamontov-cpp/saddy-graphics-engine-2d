@@ -30,7 +30,7 @@ public:
     /*! Must be inherited
      */
     virtual ~Animation();
-	/*! A basic schema for object
+    /*! A basic schema for object
         \return a schema
      */
     static sad::db::schema::Schema* basicSchema();
@@ -59,10 +59,10 @@ public:
         \return playback time for animation
      */
     virtual double time() const;
-	/*! Starts an animation. Called on start of instance.
-		\param[in] i animation instance
-	 */
-	virtual void start(sad::animations::Instance* i);
+    /*! Starts an animation. Called on start of instance.
+        \param[in] i animation instance
+     */
+    virtual void start(sad::animations::Instance* i);
     /*! Sets state of object from animation
         \param[in] i an animation instance
         \param[in] time a time of playing of animation
@@ -88,14 +88,14 @@ public:
     /*! Returns creators for saving object states
         \return creators list
      */
-	virtual const sad::Vector<sad::animations::AbstractSavedObjectStateCreator*>& creators() const;
-	/*! Update animation before starting to play
-	 */
-	virtual void updateBeforePlaying();
+    virtual const sad::Vector<sad::animations::AbstractSavedObjectStateCreator*>& creators() const;
+    /*! Update animation before starting to play
+     */
+    virtual void updateBeforePlaying();
 protected:
-	/*! Updates flag of validity
-	 */
-	void updateValidFlag();
+    /*! Updates flag of validity
+     */
+    void updateValidFlag();
     /*! Loads an animation from specified file, using specified renderer for resolving some
         properties.
         \param[in] file a file, via which a resource should be loaded
@@ -114,12 +114,12 @@ protected:
     /*! A total time of animation playback
      */
     double m_time;
-	/*! Whether animation's specific implementation is valid
-	 */
-	bool m_inner_valid;
-	/*! Whether all animation is valid
-	 */
-	bool m_valid;
+    /*! Whether animation's specific implementation is valid
+     */
+    bool m_inner_valid;
+    /*! Whether all animation is valid
+     */
+    bool m_valid;
     /*! A creator list for creating a saved object state
      */
     sad::animations::SavedObjectStateCreators m_creators;

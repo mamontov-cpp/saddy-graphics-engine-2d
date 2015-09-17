@@ -1,7 +1,7 @@
 /*! \file movingsmile.h
-	
+    
 
-	Describes a moving smile
+    Describes a moving smile
  */
  #include <p2d/app/way.h>
 #include <p2d/app/object.h>
@@ -14,10 +14,10 @@ class MovingSmile: public sad::p2d::app::Object
 {
  SAD_OBJECT
  protected:
-	 sad::p2d::app::Way::WayLink m_link;
+     sad::p2d::app::Way::WayLink m_link;
  public:
-	 MovingSmile(sad::p2d::app::Way * o);
-	 void step(double time);
+     MovingSmile(sad::p2d::app::Way * o);
+     void step(double time);
 
-	 virtual void render();
+     virtual void render();
 };

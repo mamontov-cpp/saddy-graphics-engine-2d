@@ -1,7 +1,7 @@
 /*! \file customobjectchangeproperty.h
-	
+    
 
-	Describes a command, which defines changing property of a custom object
+    Describes a command, which defines changing property of a custom object
  */
 #pragma once
 #include "../history/scenenodes/scenenodeschangeproperty.h"
@@ -10,7 +10,7 @@
 
 namespace history
 {
-	
+    
 namespace customobject
 {
 
@@ -20,7 +20,7 @@ template<typename T>
 class ChangeProperty: public history::scenenodes::ChangeProperty<T>
 {
 public:
-	 /*! Constructs new command for node
+     /*! Constructs new command for node
         \param[in] d a node
         \param[in] property a property name
         \param[in] oldvalue old value of property
@@ -36,25 +36,25 @@ public:
     {
         
     }
-	/*! Can be inherited
-	 */
-	virtual ~ChangeProperty()
+    /*! Can be inherited
+     */
+    virtual ~ChangeProperty()
     {
-	    
+        
     }
 protected:
-	 /*! Updates a main panel to current value
-		 \param[in] e editor
-		 \param[in] value a value for element
-	  */
-	 void updateUI(core::Editor* e, const T& value)
-	 {
-		 e->panel()->updateCustomObjectPropertyValue(
-			 this->history::scenenodes::ChangeProperty<T>::m_node,
-			 this->history::scenenodes::ChangeProperty<T>::m_property,
-			 sad::db::Variant(value)
-		);
-	 }
+     /*! Updates a main panel to current value
+         \param[in] e editor
+         \param[in] value a value for element
+      */
+     void updateUI(core::Editor* e, const T& value)
+     {
+         e->panel()->updateCustomObjectPropertyValue(
+             this->history::scenenodes::ChangeProperty<T>::m_node,
+             this->history::scenenodes::ChangeProperty<T>::m_property,
+             sad::db::Variant(value)
+        );
+     }
 };
 
 }

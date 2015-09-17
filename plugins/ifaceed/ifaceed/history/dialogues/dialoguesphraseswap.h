@@ -21,10 +21,10 @@ class PhraseSwap: public history::Command
 public:
     /*! Creates new command
         \param[in] dialogue dialogue
-		\param[in] p1 a first position
-		\param[in] p2 a second position
+        \param[in] p1 a first position
+        \param[in] p2 a second position
      */
-	PhraseSwap(sad::dialogue::Dialogue* dialogue, int p1, int p2);
+    PhraseSwap(sad::dialogue::Dialogue* dialogue, int p1, int p2);
     /*! Could be inherited
      */
     virtual ~PhraseSwap();
@@ -40,12 +40,12 @@ protected:
     /*! A current dialogue
      */
     sad::dialogue::Dialogue* m_dialogue;
-	/*! A first position
-	 */
-	int m_position1;
-	/*! A second position
-	 */
-	int m_position2;	
+    /*! A first position
+     */
+    int m_position1;
+    /*! A second position
+     */
+    int m_position2;	
 };
 
 }

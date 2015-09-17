@@ -39,12 +39,12 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::Resize, sad::animations::Animation);
 
 sad::animations::Resize::Resize()
 {
-	m_creators.pushCreator<sad::animations::SavedObjectSize>("sad::animations::SavedObjectSize");
+    m_creators.pushCreator<sad::animations::SavedObjectSize>("sad::animations::SavedObjectSize");
 }
 
 sad::animations::Resize::~Resize()
 {
-	
+    
 }
 
 static sad::db::schema::Schema* AnimationResizeSchema = NULL;
@@ -66,19 +66,19 @@ sad::db::schema::Schema* sad::animations::Resize::basicSchema()
 
             AnimationResizeSchema->add(
                 "start_size",
-			    new sad::db::MethodPair<sad::animations::Resize, sad::Point2D>(
-				    &sad::animations::Resize::startSize,
+                new sad::db::MethodPair<sad::animations::Resize, sad::Point2D>(
+                    &sad::animations::Resize::startSize,
                     setstartsize
                 )
             );
             AnimationResizeSchema->add(
                 "end_size",
-			    new sad::db::MethodPair<sad::animations::Resize, sad::Point2D>(
-				    &sad::animations::Resize::endSize,
+                new sad::db::MethodPair<sad::animations::Resize, sad::Point2D>(
+                    &sad::animations::Resize::endSize,
                     setendsize
                 )
             );
-		        
+                
             sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationResizeSchema);
         }
         AnimationResizeSchemaLock.unlock();
@@ -93,47 +93,47 @@ sad::db::schema::Schema* sad::animations::Resize::schema() const
 
 bool sad::animations::Resize::loadFromValue(const picojson::value& v)
 {
-	bool flag = this->sad::animations::Animation::loadFromValue(v);
-	if (flag)
-	{
-		sad::Maybe<sad::Point2D> startsize = picojson::to_type<sad::Point2D>(
-										      picojson::get_property(v, "start_size")
-										  );
+    bool flag = this->sad::animations::Animation::loadFromValue(v);
+    if (flag)
+    {
+        sad::Maybe<sad::Point2D> startsize = picojson::to_type<sad::Point2D>(
+                                              picojson::get_property(v, "start_size")
+                                          );
         sad::Maybe<sad::Point2D> endsize   = picojson::to_type<sad::Point2D>(
-										      picojson::get_property(v, "end_size")
-										  );
-		bool result = startsize.exists() && endsize.exists();
-		if (result)
-		{
-			m_start_size = startsize.value();
+                                              picojson::get_property(v, "end_size")
+                                          );
+        bool result = startsize.exists() && endsize.exists();
+        if (result)
+        {
+            m_start_size = startsize.value();
             m_end_size = endsize.value();
-		}
+        }
 
-		flag = flag && result;
-	}
-	return flag;
+        flag = flag && result;
+    }
+    return flag;
 }
 
 
 void sad::animations::Resize::setStartSize(const sad::Point2D& v)
 {
-	m_start_size = v;
+    m_start_size = v;
 }
 
 void sad::animations::Resize::setStartSize(const sad::Size2D& v)
 {
-	m_start_size.setX(v.Width);
+    m_start_size.setX(v.Width);
     m_start_size.setY(v.Height);
 }
 
 void sad::animations::Resize::setEndSize(const sad::Point2D& v)
 {
-	m_end_size = v;
+    m_end_size = v;
 }
 
 void sad::animations::Resize::setEndSize(const sad::Size2D& v)
 {
-	m_end_size.setX(v.Width);
+    m_end_size.setX(v.Width);
     m_end_size.setY(v.Height);
 }
 
@@ -150,7 +150,7 @@ const sad::Point2D& sad::animations::Resize::endSize() const
 
 void sad::animations::Resize::start(sad::animations::Instance* i)
 {
-	i->setBasicArea(i->object()->getProperty<sad::Rect2D>("area").value());
+    i->setBasicArea(i->object()->getProperty<sad::Rect2D>("area").value());
 }
 
 void sad::animations::Resize::setState(sad::animations::Instance* i, double time)
@@ -159,64 +159,64 @@ void sad::animations::Resize::setState(sad::animations::Instance* i, double time
     double disty = m_end_size.y() - m_start_size.y();
     double px =  (m_start_size.x() + distx * (time / m_time)) / 2.0;
     double py = (m_start_size.y() + disty * (time / m_time)) / 2.0;
-	
+    
     sad::Rect2D area = i->object()->getProperty<sad::Rect2D>("area").value();
-	
-	sad::Point2D pr = area.p0();
-	pr += area.p2();
-	pr /= 2.0;
+    
+    sad::Point2D pr = area.p0();
+    pr += area.p2();
+    pr /= 2.0;
 
     sad::Rect2D r(
         -px, -py, 
         px, py
     );
 
-	sad::moveBy(pr, r);
+    sad::moveBy(pr, r);
 
-	i->stateCommandAs<sad::Rect2D>()->call(r);
-	if (i->body())
-	{
-		sad::p2d::CollisionShape* s = i->shape()->clone();
-		s->resizeBy(sad::Point2D(px, py));
-		i->body()->setShape(s);
-	}
+    i->stateCommandAs<sad::Rect2D>()->call(r);
+    if (i->body())
+    {
+        sad::p2d::CollisionShape* s = i->shape()->clone();
+        s->resizeBy(sad::Point2D(px, py));
+        i->body()->setShape(s);
+    }
 }
 
 sad::animations::setstate::AbstractSetStateCommand* sad::animations::Resize::stateCommand(sad::db::Object* o)
 {
-	if (this->applicableTo(o))
+    if (this->applicableTo(o))
     {
         sad::animations::setstate::AbstractSetStateCommand* c = NULL;
         if (o->isInstanceOf("sad::Label"))
         {
             c = sad::animations::setstate::make(
                     o,
-					&sad::Label::setArea
+                    &sad::Label::setArea
                 );
         }
         else
         {
-			if (o->isInstanceOf("sad::Sprite2D"))
-			{
-				c = sad::animations::setstate::make(
-						o,
-						&sad::Sprite2D::setArea
-					);
-			}
-			else
-			{
-				if (o->isInstanceOf("sad::db::custom::Object"))
-				{
-					c = sad::animations::setstate::make(
-							o,
-							&sad::db::custom::Object::setArea
-						);
-				}
-				else
-				{
-					c = new sad::animations::setstate::SetProperty<sad::Rect2D>(o, "area");
-				}
-			}
+            if (o->isInstanceOf("sad::Sprite2D"))
+            {
+                c = sad::animations::setstate::make(
+                        o,
+                        &sad::Sprite2D::setArea
+                    );
+            }
+            else
+            {
+                if (o->isInstanceOf("sad::db::custom::Object"))
+                {
+                    c = sad::animations::setstate::make(
+                            o,
+                            &sad::db::custom::Object::setArea
+                        );
+                }
+                else
+                {
+                    c = new sad::animations::setstate::SetProperty<sad::Rect2D>(o, "area");
+                }
+            }
         }
         return c;
     }
@@ -226,10 +226,10 @@ sad::animations::setstate::AbstractSetStateCommand* sad::animations::Resize::sta
 
 bool sad::animations::Resize::applicableTo(sad::db::Object* o)
 {
-	bool result = false;
+    bool result = false;
     if (o && m_valid)
     {
-		result = o->getProperty<sad::Rect2D>("area").exists();
+        result = o->getProperty<sad::Rect2D>("area").exists();
     }
     return result;
 }

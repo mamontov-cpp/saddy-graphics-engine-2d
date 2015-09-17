@@ -10,45 +10,45 @@ DECLARE_SOBJ_INHERITANCE(Player,GameObject)
 
 Player::Player()
 {
-	m_score = 0;
-	m_hp = 10;
+    m_score = 0;
+    m_hp = 10;
 
-	this->initFromConstants<Player>();
-	m_gun = new AutomaticGun<PlayerBullet>();
-	m_gun->setAngleDifference(0);
-	m_gun->disable();
-	this->addGun( m_gun );
+    this->initFromConstants<Player>();
+    m_gun = new AutomaticGun<PlayerBullet>();
+    m_gun->setAngleDifference(0);
+    m_gun->disable();
+    this->addGun( m_gun );
 }
 
 void Player::tryLookAt(const sad::input::MouseMoveEvent & p)
 {
-	if (this->game()->isPlaying())
-	{
-		this->lookAt(p.pos2D());
-	}
+    if (this->game()->isPlaying())
+    {
+        this->lookAt(p.pos2D());
+    }
 }
 
 
 void Player::startShooting()
 {
-	m_gun->enable();
+    m_gun->enable();
 }
 
 void Player::stopShooting()
 {
-	m_gun->disable();
+    m_gun->disable();
 }
 
 int Player::score() const
 {
-	return m_score;
+    return m_score;
 }
 
 int Player::increaseScore(int delta)
 {
-	m_score +=delta;
-	this->game()->trySetHighscore(m_score);
-	return m_score;
+    m_score +=delta;
+    this->game()->trySetHighscore(m_score);
+    return m_score;
 }
 
 /*! A positive speed as passed distance in second
@@ -60,53 +60,53 @@ int Player::increaseScore(int delta)
 
 void Player::tryStartMovingLeft(const sad::input::KeyPressEvent & e)
 {
-	if (this->game()->isPlaying())
-	{
-	    this->setHorizontalSpeed(N_SPEED);
-		m_stopkeys[0] = e.Key;
-	}
+    if (this->game()->isPlaying())
+    {
+        this->setHorizontalSpeed(N_SPEED);
+        m_stopkeys[0] = e.Key;
+    }
 }
 
 void Player::tryStartMovingRight(const sad::input::KeyPressEvent & e)
 {
-	if (this->game()->isPlaying())
-	{
-		this->setHorizontalSpeed(P_SPEED);
-		m_stopkeys[0] = e.Key;
-	}
+    if (this->game()->isPlaying())
+    {
+        this->setHorizontalSpeed(P_SPEED);
+        m_stopkeys[0] = e.Key;
+    }
 }
 
 void Player::tryStartMovingUp(const sad::input::KeyPressEvent & e)
 {
-	if (this->game()->isPlaying())
-	{
-		this->setVerticalSpeed(P_SPEED);
-		m_stopkeys[1] = e.Key;
-	}
+    if (this->game()->isPlaying())
+    {
+        this->setVerticalSpeed(P_SPEED);
+        m_stopkeys[1] = e.Key;
+    }
 }
 
 void Player::tryStartMovingDown(const sad::input::KeyPressEvent & e)
 {
-	if (this->game()->isPlaying())
-	{
-		this->setVerticalSpeed(N_SPEED);
-		m_stopkeys[1] = e.Key;
-	}
+    if (this->game()->isPlaying())
+    {
+        this->setVerticalSpeed(N_SPEED);
+        m_stopkeys[1] = e.Key;
+    }
 }
 
 void Player::tryStopMovingHorizontally(const sad::input::KeyReleaseEvent & e)
 {
-	if (e.Key == m_stopkeys[0])
-	{
-		this->setHorizontalSpeed(0);
-	}
+    if (e.Key == m_stopkeys[0])
+    {
+        this->setHorizontalSpeed(0);
+    }
 }
 
 void Player::tryStopMovingVertically(const sad::input::KeyReleaseEvent & e)
 {
-	if (e.Key == m_stopkeys[1])
-	{
-		this->setVerticalSpeed(0);
-	}
+    if (e.Key == m_stopkeys[1])
+    {
+        this->setVerticalSpeed(0);
+    }
 }
 

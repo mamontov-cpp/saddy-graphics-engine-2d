@@ -26,7 +26,7 @@ sad::animations::SavedObjectStateCreators& sad::animations::SavedObjectStateCrea
     {
         this->push_back(o[i]->clone());
     }
-	return *this;
+    return *this;
 }
 
 sad::animations::SavedObjectStateCreators::~SavedObjectStateCreators()

@@ -27,7 +27,7 @@ class EventFilter : public QObject
     Q_OBJECT
 public:
     /*! Creates new event filter
-		\param[in] parent a parent object
+        \param[in] parent a parent object
      */
     explicit EventFilter(QObject *parent = 0);
     /*!

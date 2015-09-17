@@ -1,8 +1,8 @@
 /*! \file rotationprocess.h
-	
+    
 
-	Describes a simple model of rotation process, which delays adding of angle change
-	for scene node to history
+    Describes a simple model of rotation process, which delays adding of angle change
+    for scene node to history
  */
 #pragma once
 #include <QObject>
@@ -17,56 +17,56 @@ class Editor;
 
 namespace gui
 {
-	
+    
 /*! Defines a simple model of process of rotation, which delays adding of angle change
-	for scene node to history
+    for scene node to history
  */
 class RotationProcess:public QObject
 {
 Q_OBJECT
 public:
-	/*! Creates new rotation process
-	 */
-	RotationProcess();
-	/*! Could be inherited
-	 */
-	virtual ~RotationProcess();
-	/*! Starts new rotation process
-		\param[in] node a node
-		\param[in] oldvalue an old value for process
-		\param[in] newvalue a new value for process
-	 */
-	void start(sad::SceneNode* node, float oldvalue, float newvalue);
+    /*! Creates new rotation process
+     */
+    RotationProcess();
+    /*! Could be inherited
+     */
+    virtual ~RotationProcess();
+    /*! Starts new rotation process
+        \param[in] node a node
+        \param[in] oldvalue an old value for process
+        \param[in] newvalue a new value for process
+     */
+    void start(sad::SceneNode* node, float oldvalue, float newvalue);
     /*! Sets a editor for rotation process
         \param[in] e editor
-	 */
+     */
     void setEditor(core::Editor* e);
     /*! Defines a timeout for rotation process in milliseconds
-	 */
-	static const int TIMEOUT; 
+     */
+    static const int TIMEOUT; 
 public slots:
-	/*! Called, when timer is expired, makes process add angle change for
-		scene node to history
-	 */
-	void timerExpired();
+    /*! Called, when timer is expired, makes process add angle change for
+        scene node to history
+     */
+    void timerExpired();
 protected:
-	/*! A timer, which determines, whether rotation process is pending
-	 */
-	QTimer m_timer;
-	/*! Whether rotation process is pending
-	 */
-	bool m_pending;
+    /*! A timer, which determines, whether rotation process is pending
+     */
+    QTimer m_timer;
+    /*! Whether rotation process is pending
+     */
+    bool m_pending;
     /*! A linked editor
-	 */
+     */
     core::Editor* m_editor;
-	/*! A pending node
-	 */
-	sad::SceneNode* m_node;
-	/*! An old value for angle
-	 */
+    /*! A pending node
+     */
+    sad::SceneNode* m_node;
+    /*! An old value for angle
+     */
     float m_oldvalue;
-	/*! A new value for angle
-	 */
+    /*! A new value for angle
+     */
     float m_newvalue;
 
     /*!

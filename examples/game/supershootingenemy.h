@@ -1,7 +1,7 @@
 /*! \file supershootingenemy.h
-	
+    
 
-	Describes an enemy, that shoots with shooting enemies in four directions
+    Describes an enemy, that shoots with shooting enemies in four directions
  */
 #pragma once
 #include "gameobject.h"
@@ -13,5 +13,5 @@ class SuperShootingEnemy: public GameObject
 {
  SAD_OBJECT
  public:
-	 SuperShootingEnemy();
+     SuperShootingEnemy();
 };

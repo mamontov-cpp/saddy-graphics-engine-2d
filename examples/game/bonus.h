@@ -1,7 +1,7 @@
 /*! \file bonus.h
-	
+    
 
-	Describes a bonus item
+    Describes a bonus item
  */
 #pragma once
 #include "gameobject.h"
@@ -14,5 +14,5 @@ class Bonus: public GameObject
 {
  SAD_OBJECT
  public:
-	 Bonus();
+     Bonus();
 };

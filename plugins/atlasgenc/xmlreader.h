@@ -26,8 +26,8 @@ public:
        \param name a reading name
      */
     virtual void read(const QString& name);
-	/*! Reads a DOM element
-		\param[in] e element
-	 */
-	void readElement(const QDomElement& e);
+    /*! Reads a DOM element
+        \param[in] e element
+     */
+    void readElement(const QDomElement& e);
 };

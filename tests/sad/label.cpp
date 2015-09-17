@@ -13,9 +13,9 @@ struct LabelTest : tpunit::TestFixture
 {
  public:
    LabelTest() : tpunit::TestFixture(
-	   TEST(LabelTest::testFormatTextLineZeroWidth),
-	   TEST(LabelTest::testFormatTextLineLesserThanLimit),
-	   TEST(LabelTest::testFormatTextLineOverflowVisible),
+       TEST(LabelTest::testFormatTextLineZeroWidth),
+       TEST(LabelTest::testFormatTextLineLesserThanLimit),
+       TEST(LabelTest::testFormatTextLineOverflowVisible),
        TEST(LabelTest::testFormatTextLineOverflowHidden),
        TEST(LabelTest::testFormatTextLineEllipsis1),
        TEST(LabelTest::testFormatTextLineEllipsis2),

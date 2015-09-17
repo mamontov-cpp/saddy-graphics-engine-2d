@@ -14,7 +14,7 @@
 scripting::scenenodes::OptionsSetter::OptionsSetter(QScriptEngine* e)
     : scripting::scenenodes::AbstractSetter<sad::String>(e)
 {
-	addMatched("options");
+    addMatched("options");
 }
 
 scripting::scenenodes::OptionsSetter::~OptionsSetter()
@@ -46,12 +46,12 @@ scripting::MatchResult  scripting::scenenodes::OptionsSetter::canBeCalled(QScrip
 }
 
 history::Command* scripting::scenenodes::OptionsSetter::command(
-	sad::SceneNode* obj, 
-	const sad::String&, 
-	sad::String oldvalue,  
-	sad::String newvalue
+    sad::SceneNode* obj, 
+    const sad::String&, 
+    sad::String oldvalue,  
+    sad::String newvalue
 )
 {
-	sad::Maybe<sad::Rect2D> area = obj->getProperty<sad::Rect2D>("area");
-	return new history::sprite2d::ChangeOptions(obj, area.value(), oldvalue, newvalue);
+    sad::Maybe<sad::Rect2D> area = obj->getProperty<sad::Rect2D>("area");
+    return new history::sprite2d::ChangeOptions(obj, area.value(), oldvalue, newvalue);
 }

@@ -1,8 +1,8 @@
 /** \file batchcommand.h
-	
+    
 
-	Describes a complex command, which can consist of several commands an apply all of them at the same time
-	when committing
+    Describes a complex command, which can consist of several commands an apply all of them at the same time
+    when committing
  */
 #pragma once
 
@@ -23,36 +23,36 @@ namespace history
 class BatchCommand: public history::Command
 {
 public:
-	/*! Creates new empty batch command
-	 */
-	BatchCommand();
+    /*! Creates new empty batch command
+     */
+    BatchCommand();
     /*! Must be inherited
-	*/
-	virtual ~BatchCommand();
-	/*! Applies changes, described in command
-		\param[in] ob an observer for looking for command
-	*/
-	virtual void commit(core::Editor * ob = NULL);
-	/*! Reverts changes, described in command
-		\param[in] ob an observer for looking for command
-	*/
-	virtual void rollback(core::Editor * ob = NULL);
-	/*! Adds a command to batch
-		\param[in] c command
-	 */
-	void add(history::Command* c);
-	/*! Removes a command from batch
-		\param[in] c command
-	 */
-	void remove(history::Command* c);
+    */
+    virtual ~BatchCommand();
+    /*! Applies changes, described in command
+        \param[in] ob an observer for looking for command
+    */
+    virtual void commit(core::Editor * ob = NULL);
+    /*! Reverts changes, described in command
+        \param[in] ob an observer for looking for command
+    */
+    virtual void rollback(core::Editor * ob = NULL);
+    /*! Adds a command to batch
+        \param[in] c command
+     */
+    void add(history::Command* c);
+    /*! Removes a command from batch
+        \param[in] c command
+     */
+    void remove(history::Command* c);
     /*! Returns count of commands inside of editor
         \return cound of commands
      */
     size_t count() const;
 protected:
-	/*! A list of commands to be applied
-	 */
-	sad::Vector<history::Command*> m_commands;
+    /*! A list of commands to be applied
+     */
+    sad::Vector<history::Command*> m_commands;
 };
 
 }

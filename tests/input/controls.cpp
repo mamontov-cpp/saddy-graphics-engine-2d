@@ -13,36 +13,36 @@ static int _triggered_count = 0;
 
 void trigger_no_arg()
 {
-	++_triggered_count;
+    ++_triggered_count;
 }
 
 void trigger_arg(const sad::input::QuitEvent & q)
 {
-	++_triggered_count;
+    ++_triggered_count;
 }
 
 
 struct sadControlsTestPrimitive
 {
 public:
-	void trigger_no_arg()
+    void trigger_no_arg()
    {
-		++_triggered_count;
+        ++_triggered_count;
    }
 
    void trigger_arg(const sad::input::QuitEvent & q)
    {
-		++_triggered_count;
+        ++_triggered_count;
    }
    
    void trigger_no_arg_const() const
    {
-		++_triggered_count;
+        ++_triggered_count;
    }
 
    void trigger_arg_const(const sad::input::QuitEvent & q) const
    {
-		++_triggered_count;
+        ++_triggered_count;
    }
 
 } _sad_controls_primitive;
@@ -55,8 +55,8 @@ struct SadControlsTest : tpunit::TestFixture
 {
  public:
    SadControlsTest() : tpunit::TestFixture(
-	   TEST(SadControlsTest::testCallbacks),
-	   TEST(SadControlsTest::testWorkflow),
+       TEST(SadControlsTest::testCallbacks),
+       TEST(SadControlsTest::testWorkflow),
        TEST(SadControlsTest::testKeyChangeForKeyHoldCondition),
        TEST(SadControlsTest::testSpecialKeyChangeForSpecialKeyHoldPosition),
        TEST(SadControlsTest::testButtonChangeForMouseButtonCondition)
@@ -65,112 +65,112 @@ struct SadControlsTest : tpunit::TestFixture
 
    sadControlsTestPrimitive * primitive()
    {
-		return &_sad_controls_primitive;
+        return &_sad_controls_primitive;
    }
 
    sadControlsTestPrimitive * primitive_const() const
    {
-		return &_sad_controls_primitive;
+        return &_sad_controls_primitive;
    }
 
 
    void trigger_no_arg()
    {
-		++_triggered_count;
+        ++_triggered_count;
    }
 
    void trigger_arg(const sad::input::QuitEvent & q)
    {
-		++_triggered_count;
+        ++_triggered_count;
    }
    
    void trigger_no_arg_const() const
    {
-		++_triggered_count;
+        ++_triggered_count;
    }
 
    void trigger_arg_const(const sad::input::QuitEvent & q) const
    {
-		++_triggered_count;
+        ++_triggered_count;
    }
 
    void testCallbacks()
    {
-	   sad::input::Controls c;
-	 
-	   c.add(*sad::input::ET_Quit, ::trigger_no_arg);
-	   c.add(*sad::input::ET_Quit, ::trigger_arg);
-	   c.add(::trigger_arg);
-	  
-	   c.add(*sad::input::ET_Quit, this, &SadControlsTest::trigger_no_arg);
-	   c.add(*sad::input::ET_Quit, this, &SadControlsTest::trigger_arg);
-	   c.add(this, &SadControlsTest::trigger_arg);
+       sad::input::Controls c;
+     
+       c.add(*sad::input::ET_Quit, ::trigger_no_arg);
+       c.add(*sad::input::ET_Quit, ::trigger_arg);
+       c.add(::trigger_arg);
+      
+       c.add(*sad::input::ET_Quit, this, &SadControlsTest::trigger_no_arg);
+       c.add(*sad::input::ET_Quit, this, &SadControlsTest::trigger_arg);
+       c.add(this, &SadControlsTest::trigger_arg);
 
-	   c.add(*sad::input::ET_Quit, this, &SadControlsTest::trigger_no_arg_const);
-	   c.add(*sad::input::ET_Quit, this, &SadControlsTest::trigger_arg_const);
-	   c.add(this, &SadControlsTest::trigger_arg_const);
+       c.add(*sad::input::ET_Quit, this, &SadControlsTest::trigger_no_arg_const);
+       c.add(*sad::input::ET_Quit, this, &SadControlsTest::trigger_arg_const);
+       c.add(this, &SadControlsTest::trigger_arg_const);
 
-	   c.add(*sad::input::ET_Quit, this, &SadControlsTest::primitive, &sadControlsTestPrimitive::trigger_arg),
-	   c.add(*sad::input::ET_Quit, this, &SadControlsTest::primitive, &sadControlsTestPrimitive::trigger_no_arg),
-	   c.add(this, &SadControlsTest::primitive, &sadControlsTestPrimitive::trigger_arg),
+       c.add(*sad::input::ET_Quit, this, &SadControlsTest::primitive, &sadControlsTestPrimitive::trigger_arg),
+       c.add(*sad::input::ET_Quit, this, &SadControlsTest::primitive, &sadControlsTestPrimitive::trigger_no_arg),
+       c.add(this, &SadControlsTest::primitive, &sadControlsTestPrimitive::trigger_arg),
 
-	   c.add(*sad::input::ET_Quit, this, &SadControlsTest::primitive_const, &sadControlsTestPrimitive::trigger_arg),
-	   c.add(*sad::input::ET_Quit, this, &SadControlsTest::primitive_const, &sadControlsTestPrimitive::trigger_no_arg),
-	   c.add(this, &SadControlsTest::primitive_const, &sadControlsTestPrimitive::trigger_arg),
+       c.add(*sad::input::ET_Quit, this, &SadControlsTest::primitive_const, &sadControlsTestPrimitive::trigger_arg),
+       c.add(*sad::input::ET_Quit, this, &SadControlsTest::primitive_const, &sadControlsTestPrimitive::trigger_no_arg),
+       c.add(this, &SadControlsTest::primitive_const, &sadControlsTestPrimitive::trigger_arg),
 
-	   c.add(*sad::input::ET_Quit, this, &SadControlsTest::primitive, &sadControlsTestPrimitive::trigger_arg_const),
-	   c.add(*sad::input::ET_Quit, this, &SadControlsTest::primitive, &sadControlsTestPrimitive::trigger_no_arg_const),
-	   c.add(this, &SadControlsTest::primitive, &sadControlsTestPrimitive::trigger_arg_const),
+       c.add(*sad::input::ET_Quit, this, &SadControlsTest::primitive, &sadControlsTestPrimitive::trigger_arg_const),
+       c.add(*sad::input::ET_Quit, this, &SadControlsTest::primitive, &sadControlsTestPrimitive::trigger_no_arg_const),
+       c.add(this, &SadControlsTest::primitive, &sadControlsTestPrimitive::trigger_arg_const),
 
-	   c.add(*sad::input::ET_Quit, this, &SadControlsTest::primitive_const, &sadControlsTestPrimitive::trigger_arg_const),
-	   c.add(*sad::input::ET_Quit, this, &SadControlsTest::primitive_const, &sadControlsTestPrimitive::trigger_no_arg_const),
-	   c.add(this, &SadControlsTest::primitive_const, &sadControlsTestPrimitive::trigger_arg_const),
+       c.add(*sad::input::ET_Quit, this, &SadControlsTest::primitive_const, &sadControlsTestPrimitive::trigger_arg_const),
+       c.add(*sad::input::ET_Quit, this, &SadControlsTest::primitive_const, &sadControlsTestPrimitive::trigger_no_arg_const),
+       c.add(this, &SadControlsTest::primitive_const, &sadControlsTestPrimitive::trigger_arg_const),
 
 
-	   _triggered_count = 0;
+       _triggered_count = 0;
 
-	   c.startReceivingEvents();
-	   c.postEvent(sad::input::ET_Quit, sad::input::QuitEvent());
-	   c.finishRecevingEvents();
+       c.startReceivingEvents();
+       c.postEvent(sad::input::ET_Quit, sad::input::QuitEvent());
+       c.finishRecevingEvents();
 
-	   ASSERT_TRUE(_triggered_count == 21);
+       ASSERT_TRUE(_triggered_count == 21);
    }
 
    void testWorkflow()
    {
-		sad::input::Controls c;
-		_triggered_count = 0;
-		c.startReceivingEvents();
-		sad::input::AbstractHandler* h = new sad::input::FreeFunctionHandler<sad::input::QuitEvent>(::trigger_arg);
-		c.add(*sad::input::ET_Quit, h);
-		// Handler will not be added
-		c.postEvent(sad::input::ET_Quit, sad::input::QuitEvent());
-		ASSERT_TRUE(_triggered_count == 0);
-		// Here handler will be added
-		c.finishRecevingEvents();
-		
-		c.startReceivingEvents();
-		// Here handler will not be removed
-		c.remove(h);
-		c.postEvent(sad::input::ET_Quit, sad::input::QuitEvent());
-		ASSERT_TRUE(_triggered_count == 1);
-		// Here handler will be removed
-		c.finishRecevingEvents();
+        sad::input::Controls c;
+        _triggered_count = 0;
+        c.startReceivingEvents();
+        sad::input::AbstractHandler* h = new sad::input::FreeFunctionHandler<sad::input::QuitEvent>(::trigger_arg);
+        c.add(*sad::input::ET_Quit, h);
+        // Handler will not be added
+        c.postEvent(sad::input::ET_Quit, sad::input::QuitEvent());
+        ASSERT_TRUE(_triggered_count == 0);
+        // Here handler will be added
+        c.finishRecevingEvents();
+        
+        c.startReceivingEvents();
+        // Here handler will not be removed
+        c.remove(h);
+        c.postEvent(sad::input::ET_Quit, sad::input::QuitEvent());
+        ASSERT_TRUE(_triggered_count == 1);
+        // Here handler will be removed
+        c.finishRecevingEvents();
 
-		c.startReceivingEvents();
-		c.postEvent(sad::input::ET_Quit, sad::input::QuitEvent());
-		c.finishRecevingEvents();
-		ASSERT_TRUE(_triggered_count == 1);
+        c.startReceivingEvents();
+        c.postEvent(sad::input::ET_Quit, sad::input::QuitEvent());
+        c.finishRecevingEvents();
+        ASSERT_TRUE(_triggered_count == 1);
    }
 
    void testKeyChangeForKeyHoldCondition()
    {
        sad::input::Controls c;
-		_triggered_count = 0;
+        _triggered_count = 0;
         c.startReceivingEvents();
         
         sad::input::AbstractHandler* h = new sad::input::FreeFunctionHandler<sad::input::QuitEvent>(::trigger_arg);
-		sad::input::HandlerTypeAndConditions conditions;
+        sad::input::HandlerTypeAndConditions conditions;
         sad::KeyHoldCondition* condition = new sad::KeyHoldCondition(sad::Z);
         conditions.set1(sad::input::ET_KeyPress);
         conditions._2() << condition;
@@ -204,11 +204,11 @@ struct SadControlsTest : tpunit::TestFixture
    void testSpecialKeyChangeForSpecialKeyHoldPosition()
    {
        sad::input::Controls c;
-		_triggered_count = 0;
+        _triggered_count = 0;
         c.startReceivingEvents();
         
         sad::input::AbstractHandler* h = new sad::input::FreeFunctionHandler<sad::input::QuitEvent>(::trigger_arg);
-		sad::input::HandlerTypeAndConditions conditions;
+        sad::input::HandlerTypeAndConditions conditions;
         sad::SpecialKeyHoldCondition* condition = new sad::SpecialKeyHoldCondition(sad::HoldsControl);
         conditions.set1(sad::input::ET_KeyPress);
         conditions._2() << condition;
@@ -243,11 +243,11 @@ struct SadControlsTest : tpunit::TestFixture
    void testButtonChangeForMouseButtonCondition()
    {
        sad::input::Controls c;
-		_triggered_count = 0;
+        _triggered_count = 0;
         c.startReceivingEvents();
         
         sad::input::AbstractHandler* h = new sad::input::FreeFunctionHandler<sad::input::QuitEvent>(::trigger_arg);
-		sad::input::HandlerTypeAndConditions conditions;
+        sad::input::HandlerTypeAndConditions conditions;
         sad::MouseButtonHoldCondition* condition = new sad::MouseButtonHoldCondition(sad::MouseLeft);
         conditions.set1(sad::input::ET_MousePress);
         conditions._2() << condition;

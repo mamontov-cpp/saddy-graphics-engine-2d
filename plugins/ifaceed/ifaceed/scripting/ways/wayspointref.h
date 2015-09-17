@@ -1,7 +1,7 @@
 /*! \file wayspointref.h
-	
+    
 
-	A wrapper for reference to way point
+    A wrapper for reference to way point
  */
 #pragma once
 #include "../classwrapper.h"
@@ -25,62 +25,62 @@ class PointRef: public scripting::ClassWrapper
  Q_PROPERTY(double y READ y WRITE setY)
  Q_PROPERTY(unsigned int position READ position)
 public:
-	/*! Constructs new wrapper
-	 */
-	PointRef();
-	/*! Constructs new wrapper
-		\param[in] way a way, whose point is referenced
-		\param[in] pos a position
-	 */
-	PointRef(sad::p2d::app::Way* way, unsigned int pos);
-	/*! Could be inherited
-	 */
-	virtual ~PointRef();
-	/*! Tests, whether point ref is valid
-		\return whether is valid
-	 */
-	bool valid() const;
-	/*! Converts a point to original point
-	 */
-	const sad::Point2D& toPoint() const;
-	/*! Returns x coordinate
-		\return x coordinate
-	 */
-	double x() const;
-	/*! Returns y coordinate
-		\return y coordinate
-	 */
-	double y() const;
-	/*! Sets x coordinate
-		\param[in] x x coordinate
-	 */ 
-	void setX(double x);
-	/*! Sets y coordinate
-		\param[in] y y coordinate
-	 */
-	void setY(double y);
-	/*! Contains to string
-		\return object to string
-	 */
-	QString toString() const;
-	/*! Returns a position to point ref
-		\return position
-	 */
-	unsigned int position() const;
+    /*! Constructs new wrapper
+     */
+    PointRef();
+    /*! Constructs new wrapper
+        \param[in] way a way, whose point is referenced
+        \param[in] pos a position
+     */
+    PointRef(sad::p2d::app::Way* way, unsigned int pos);
+    /*! Could be inherited
+     */
+    virtual ~PointRef();
+    /*! Tests, whether point ref is valid
+        \return whether is valid
+     */
+    bool valid() const;
+    /*! Converts a point to original point
+     */
+    const sad::Point2D& toPoint() const;
+    /*! Returns x coordinate
+        \return x coordinate
+     */
+    double x() const;
+    /*! Returns y coordinate
+        \return y coordinate
+     */
+    double y() const;
+    /*! Sets x coordinate
+        \param[in] x x coordinate
+     */ 
+    void setX(double x);
+    /*! Sets y coordinate
+        \param[in] y y coordinate
+     */
+    void setY(double y);
+    /*! Contains to string
+        \return object to string
+     */
+    QString toString() const;
+    /*! Returns a position to point ref
+        \return position
+     */
+    unsigned int position() const;
 public slots:
-	/*! Moves point back in list
-	 */
-	void moveBack();
-	/*! Moves point front in list
-	 */
-	void moveFront();
+    /*! Moves point back in list
+     */
+    void moveBack();
+    /*! Moves point front in list
+     */
+    void moveFront();
 protected:
-	/*! An inner point wrapper
-	 */
-	sad::p2d::app::Way* m_way;
-	/*! A position of reference in list
-	 */
-	unsigned int m_pos;
+    /*! An inner point wrapper
+     */
+    sad::p2d::app::Way* m_way;
+    /*! A position of reference in list
+     */
+    unsigned int m_pos;
 };
 
 }

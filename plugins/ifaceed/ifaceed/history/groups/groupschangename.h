@@ -18,7 +18,7 @@ class ChangeName: public history::groups::ChangeProperty<sad::String>
 public:
      /*! Constructs new command for animation
         \param[in] d a node
-		\param[in] position a position of instance
+        \param[in] position a position of instance
         \param[in] oldvalue old text
         \param[in] newvalue new text
       */
@@ -27,11 +27,11 @@ public:
       */
     virtual ~ChangeName();
 protected:
-	/*! Updates item in main list
-		\param[in] e editor
-		\param[in] value a value
-	 */
-	void updateItem(core::Editor* e, const sad::String& value);
+    /*! Updates item in main list
+        \param[in] e editor
+        \param[in] value a value
+     */
+    void updateItem(core::Editor* e, const sad::String& value);
     /*! Tries to update UI in case if node is selected
         \param[in] e editor
         \param[in] value a value
@@ -43,9 +43,9 @@ protected:
      * \param[in] value a value
      */
     virtual void updateUI(core::Editor* e, const sad::String& value);
-	/*! A position
-	 */
-	int m_position;
+    /*! A position
+     */
+    int m_position;
 };
 
 }

@@ -1,8 +1,8 @@
 /*! \file tpunitw.h
-	
+    
 
-	A cleaner version of including tpunit++, since there were a lot of overhead
-	for it, due warnings in C++ or printf declaration
+    A cleaner version of including tpunit++, since there were a lot of overhead
+    for it, due warnings in C++ or printf declaration
  */
 #pragma once
 
@@ -16,7 +16,7 @@
 /*! A macro, which runs all registered tests
  */ 
 #define MAIN_RUNS_ALL_REGISTERED_TESTS     \
-	int main(int argc, char ** argv)       \
+    int main(int argc, char ** argv)       \
     {									   \
         int result = tpunit::Tests::Run(); \
         return 0;                          \

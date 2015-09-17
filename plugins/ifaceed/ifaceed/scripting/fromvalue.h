@@ -35,7 +35,7 @@ class Object;
 
 namespace p2d
 {
-	
+    
 namespace app
 {
 
@@ -69,7 +69,7 @@ public:
      */
     inline static QScriptValue perform(const T&, QScriptEngine*)
     {
-	    return QScriptValue();
+        return QScriptValue();
     }
 };
 

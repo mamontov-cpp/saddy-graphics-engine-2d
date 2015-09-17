@@ -18,23 +18,23 @@ struct SadCanBeCastedFromToTest : tpunit::TestFixture
 {
  public:
    SadCanBeCastedFromToTest() : tpunit::TestFixture(
-	   TEST(SadCanBeCastedFromToTest::test)
+       TEST(SadCanBeCastedFromToTest::test)
    ) {}
 
-	void test()
-	{
-		ASSERT_TRUE( sad::db::can_be_casted_from_to("int", false, 0,  "int", false, 0) );
-		ASSERT_TRUE( sad::db::can_be_casted_from_to("int", false, 0, "unsigned int", false, 0) );
+    void test()
+    {
+        ASSERT_TRUE( sad::db::can_be_casted_from_to("int", false, 0,  "int", false, 0) );
+        ASSERT_TRUE( sad::db::can_be_casted_from_to("int", false, 0, "unsigned int", false, 0) );
 
-		ASSERT_FALSE( sad::db::can_be_casted_from_to("float", false, 0, "sad::String", false, 0) );
+        ASSERT_FALSE( sad::db::can_be_casted_from_to("float", false, 0, "sad::String", false, 0) );
 
-		sad::ClassMetaData * meta = sad::Font::globalMetaData();
-		ASSERT_TRUE(meta != NULL);
+        sad::ClassMetaData * meta = sad::Font::globalMetaData();
+        ASSERT_TRUE(meta != NULL);
 
-		ASSERT_FALSE( sad::db::can_be_casted_from_to("sad::Font", true, 0, "sad::Object", true, 0) );
-		ASSERT_FALSE( sad::db::can_be_casted_from_to("sad::Font", true, 1, "sad::Object", true, 0) );
-		ASSERT_FALSE( sad::db::can_be_casted_from_to("sad::Font", true, 0, "sad::Object", true, 1) );
-		ASSERT_TRUE( sad::db::can_be_casted_from_to("sad::Font", true, 1, "sad::Object", true, 1) );
-	}
+        ASSERT_FALSE( sad::db::can_be_casted_from_to("sad::Font", true, 0, "sad::Object", true, 0) );
+        ASSERT_FALSE( sad::db::can_be_casted_from_to("sad::Font", true, 1, "sad::Object", true, 0) );
+        ASSERT_FALSE( sad::db::can_be_casted_from_to("sad::Font", true, 0, "sad::Object", true, 1) );
+        ASSERT_TRUE( sad::db::can_be_casted_from_to("sad::Font", true, 1, "sad::Object", true, 1) );
+    }
 
 } _sad_can_be_casted_from_to_test;

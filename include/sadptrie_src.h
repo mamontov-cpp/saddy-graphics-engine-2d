@@ -32,12 +32,12 @@ namespace sad
 
   TEMPLATE_DEF Ptrie<Key,T>::node::~node()
   {
-	  if (m_children) { for (int i=0;i<256;i++) if (m_children[i]) delete m_children[i]; free(m_children); }
+      if (m_children) { for (int i=0;i<256;i++) if (m_children[i]) delete m_children[i]; free(m_children); }
   }
   TEMPLATE_DEF void Ptrie<Key,T>::makeClear()
   {
       m_list.clear();
-	  if (m_root) { delete m_root;m_root=NULL; }
+      if (m_root) { delete m_root;m_root=NULL; }
   }
   TEMPLATE_DEF  Ptrie<Key,T>::~Ptrie() { makeClear(); }
   TEMPLATE_DEF  Ptrie<Key,T> & Ptrie<Key,T>::add(const Key & key, const T & val)
@@ -129,7 +129,7 @@ namespace sad
   }
   TEMPLATE_DEF typename Ptrie<Key,T>::iterator  Ptrie<Key,T>::last()
   {
-	typename hst::deque<hst::triplet<Key,T,void *> >::iterator ll=m_list.end();
+    typename hst::deque<hst::triplet<Key,T,void *> >::iterator ll=m_list.end();
     if (ll.hasPrevious())
         --ll;
     return iterator(ll);

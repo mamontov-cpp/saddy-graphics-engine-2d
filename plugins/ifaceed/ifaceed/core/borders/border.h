@@ -1,7 +1,7 @@
 /*! \file border.h
-	
+    
 
-	Describes a border, used to render different buttons around sprite and a border
+    Describes a border, used to render different buttons around sprite and a border
  */
 #pragma once
 #include <sadvector.h>
@@ -16,7 +16,7 @@
 
 namespace core
 {
-	
+    
 namespace borders
 {
 
@@ -25,17 +25,17 @@ namespace borders
 class Border: public sad::pipeline::AbstractProcess
 {
 public:
-	/*! Creates new border, linked to specified shared data
-		\param[in] data a shared data, where all border data is stored
-	 */
-	Border(core::Shared* data);
-	/*! This class could be inherited
-	 */
-	virtual ~Border();
+    /*! Creates new border, linked to specified shared data
+        \param[in] data a shared data, where all border data is stored
+     */
+    Border(core::Shared* data);
+    /*! This class could be inherited
+     */
+    virtual ~Border();
 protected:
-	/*! A linked data for a border, where selected or active object is stored
-	 */
-	core::Shared* m_data;
+    /*! A linked data for a border, where selected or active object is stored
+     */
+    core::Shared* m_data;
 };
 
 }

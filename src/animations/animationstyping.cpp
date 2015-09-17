@@ -34,47 +34,47 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::Typing, sad::animations::Animation);
 
 sad::animations::Typing::Typing()
 {
-	m_creators.pushProperty<sad::String>("text", "text");
+    m_creators.pushProperty<sad::String>("text", "text");
 }
 
 sad::animations::Typing::~Typing()
 {
-	
+    
 }
 
 
 void sad::animations::Typing::start(sad::animations::Instance* i)
 {
-	sad::Maybe<sad::String> text = i->object()->getProperty<sad::String>("text");
-	i->setBasicString(text.value());
+    sad::Maybe<sad::String> text = i->object()->getProperty<sad::String>("text");
+    i->setBasicString(text.value());
 }
 
 void sad::animations::Typing::setState(sad::animations::Instance* i, double time)
 {
-	if (i->basicString().size() != 0)
-	{
-		// Make it possible to reach end
-		double pos = ((time + 100) / m_time) * i->basicString().size();
-		sad::String text = i->basicString().subString(0, static_cast<long>(pos));
-		i->stateCommandAs<sad::String>()->call(text);
-	}
+    if (i->basicString().size() != 0)
+    {
+        // Make it possible to reach end
+        double pos = ((time + 100) / m_time) * i->basicString().size();
+        sad::String text = i->basicString().subString(0, static_cast<long>(pos));
+        i->stateCommandAs<sad::String>()->call(text);
+    }
 }
 
 sad::animations::setstate::AbstractSetStateCommand* sad::animations::Typing::stateCommand(sad::db::Object* o)
 {
-	if (this->applicableTo(o))
+    if (this->applicableTo(o))
     {
         sad::animations::setstate::AbstractSetStateCommand* c;
         if (o->isInstanceOf("sad::Label"))
         {
             c = sad::animations::setstate::make(
                     o,
-					&sad::Label::setString
+                    &sad::Label::setString
                 );
         }
         else
         {
-			c = new sad::animations::setstate::SetProperty<sad::String>(o, "text");
+            c = new sad::animations::setstate::SetProperty<sad::String>(o, "text");
         }
         return c;
     }
@@ -84,10 +84,10 @@ sad::animations::setstate::AbstractSetStateCommand* sad::animations::Typing::sta
 
 bool sad::animations::Typing::applicableTo(sad::db::Object* o)
 {
-	bool result = false;
+    bool result = false;
     if (o && m_valid)
     {
-		result = o->getProperty<sad::String>("text").exists();
+        result = o->getProperty<sad::String>("text").exists();
     }
     return result;
 }

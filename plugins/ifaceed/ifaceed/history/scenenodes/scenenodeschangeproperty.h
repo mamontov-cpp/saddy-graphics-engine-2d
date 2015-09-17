@@ -54,12 +54,12 @@ public:
      */
     virtual void commit(core::Editor * ob = NULL)
     {
-		sad::Renderer::ref()->lockRendering();
+        sad::Renderer::ref()->lockRendering();
         m_node->setProperty<T>(m_property, m_newvalue);
         sad::Renderer::ref()->unlockRendering();
         if (m_enable_update_ui)
         {
-		    tryUpdateUI(ob, m_newvalue);
+            tryUpdateUI(ob, m_newvalue);
         }
     }
     /*! Reverts changes, described in command
@@ -67,12 +67,12 @@ public:
      */
     virtual void rollback(core::Editor * ob = NULL)
     {
-		sad::Renderer::ref()->lockRendering();        
+        sad::Renderer::ref()->lockRendering();        
         m_node->setProperty<T>(m_property, m_oldvalue);
         sad::Renderer::ref()->unlockRendering();
         if (m_enable_update_ui)
         {
-		    tryUpdateUI(ob, m_oldvalue);
+            tryUpdateUI(ob, m_oldvalue);
         }
     }
 protected:

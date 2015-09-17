@@ -35,288 +35,288 @@ sad::Texture::Texture()
 
 sad::Texture::~Texture()
 {
-	if (this->renderer())
-	{
-		if (this->renderer()->context()->valid())
-		{
-			if (this->renderer()->isOwnThread())
-			{
-				this->unload();
-			}
-			else
-			{
-				if (this->renderer()->running())
-				{
+    if (this->renderer())
+    {
+        if (this->renderer()->context()->valid())
+        {
+            if (this->renderer()->isOwnThread())
+            {
+                this->unload();
+            }
+            else
+            {
+                if (this->renderer()->running())
+                {
                     // Added since, constructor can generate exception
                     try
                     { 
-					    this->renderer()->pipeline()->append(new  sad::util::DeleteTextureTask(Id));
+                        this->renderer()->pipeline()->append(new  sad::util::DeleteTextureTask(Id));
                     }
                     catch(...)
                     {
                         
                     }
-				}
-			}
-		}
-	}
+                }
+            }
+        }
+    }
 }
 
 void sad::Texture::upload()
 {
-	// We must not upload on our own to not cause
-	// undefined behaviour
-	sad::Renderer * r = renderer();
-	if (!r || Width == 0 || Height == 0)
-		return;
+    // We must not upload on our own to not cause
+    // undefined behaviour
+    sad::Renderer * r = renderer();
+    if (!r || Width == 0 || Height == 0)
+        return;
 
-	OnGPU = true;
-	
-	// Get texture type and components
-	GLuint type = GL_RGBA, components = 4;
-	if (Bpp == 24)
-	{
-		 type = GL_RGB;  
-		 components = 3;
-	}
+    OnGPU = true;
+    
+    // Get texture type and components
+    GLuint type = GL_RGBA, components = 4;
+    if (Bpp == 24)
+    {
+         type = GL_RGB;  
+         components = 3;
+    }
 
-	if ((Width & (Width - 1)) != 0 || (Height & (Height - 1)) !=0 || Width != Height)
-	{
-		if (r->opengl()->supportsExtension("GL_ARB_texture_rectangle") == false
-			|| r->opengl()->supportsExtension("GL_ARB_texture_non_power_of_two") == false)
-		{
-			convertToPOTTexture();
-		}
-	}
-	// Create ID of texture and bind it
+    if ((Width & (Width - 1)) != 0 || (Height & (Height - 1)) !=0 || Width != Height)
+    {
+        if (r->opengl()->supportsExtension("GL_ARB_texture_rectangle") == false
+            || r->opengl()->supportsExtension("GL_ARB_texture_non_power_of_two") == false)
+        {
+            convertToPOTTexture();
+        }
+    }
+    // Create ID of texture and bind it
     glGenTextures(1, static_cast<GLuint *>(&Id));
-	glBindTexture(GL_TEXTURE_2D, Id);
+    glBindTexture(GL_TEXTURE_2D, Id);
 
     glPixelStorei(GL_UNPACK_ALIGNMENT,1);	
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);	
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);	
 
 
-	// Build Mip Maps	
-	GLint res;
-	unsigned char const * errorstring;
-	sad::Pair<int,int> version = r->opengl()->version();
-	if (version.p1() < 3) // In OpenGL 3.0  glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);  is deprecated
-	{
-		if (version.p1() == 1 && version.p2() < 4)
-		{
-			res=gluBuild2DMipmaps(GL_TEXTURE_2D, components, Width, Height, type, GL_UNSIGNED_BYTE, Data.data());
-		}
-		else
-		{
-			  glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE); 
-			  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, Width, Height, 0, type, GL_UNSIGNED_BYTE, Data.data());
-			  res = glGetError();
-			  errorstring = gluErrorString(res);
-		}
-	} 
-	else
-	{
-		float max  = (float)((Width > Height) ? Width : Height);
-		int levels = (int)(::log(max)/::log(2.0f));
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  Width, Height, 0, type, GL_UNSIGNED_BYTE, Data.data());			  
-		res = glGetError();
-		sad::os::generateMipMaps30(r, GL_TEXTURE_2D);		
-		res = glGetError(); //-V519
-	}
-	if (res)
-	{
-		SL_COND_LOCAL_INTERNAL(gluErrorString(res), r);
-	}
+    // Build Mip Maps	
+    GLint res;
+    unsigned char const * errorstring;
+    sad::Pair<int,int> version = r->opengl()->version();
+    if (version.p1() < 3) // In OpenGL 3.0  glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);  is deprecated
+    {
+        if (version.p1() == 1 && version.p2() < 4)
+        {
+            res=gluBuild2DMipmaps(GL_TEXTURE_2D, components, Width, Height, type, GL_UNSIGNED_BYTE, Data.data());
+        }
+        else
+        {
+              glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE); 
+              glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, Width, Height, 0, type, GL_UNSIGNED_BYTE, Data.data());
+              res = glGetError();
+              errorstring = gluErrorString(res);
+        }
+    } 
+    else
+    {
+        float max  = (float)((Width > Height) ? Width : Height);
+        int levels = (int)(::log(max)/::log(2.0f));
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  Width, Height, 0, type, GL_UNSIGNED_BYTE, Data.data());			  
+        res = glGetError();
+        sad::os::generateMipMaps30(r, GL_TEXTURE_2D);		
+        res = glGetError(); //-V519
+    }
+    if (res)
+    {
+        SL_COND_LOCAL_INTERNAL(gluErrorString(res), r);
+    }
 }
 
 void sad::Texture::loadDefaultTexture()
 {
-	Bpp = 32;
-	Width = 64;
-	Height = 64;
-	for (unsigned int i = 0; i < cnt; i++) 
-		Data << texdata[i]; 
+    Bpp = 32;
+    Width = 64;
+    Height = 64;
+    for (unsigned int i = 0; i < cnt; i++) 
+        Data << texdata[i]; 
 }
 
 void sad::Texture::unloadFromGPU()
 {
-	this->unload();
+    this->unload();
 }
 
 bool sad::Texture::load(
-		const sad::resource::PhysicalFile & file,
-		sad::Renderer * r,
-		const picojson::value& options
+        const sad::resource::PhysicalFile & file,
+        sad::Renderer * r,
+        const picojson::value& options
 )
 {
-	bool result = load(file.name(), r);
-	if (!result && !util::isAbsolutePath(file.name()))
-	{
-		sad::String newpath = util::concatPaths(r->executablePath(), file.name());
-		result = load(newpath, r);
-	}
-	if (result)
-	{
-		sad::Maybe<sad::Color> maybecolor = picojson::to_type<sad::Color>(
-			picojson::get_property(options, "transparent")
-		);		
-		if (maybecolor.exists())
-		{
-			this->setAlpha(255, maybecolor.value());
-		}
-	}
-	return result;
+    bool result = load(file.name(), r);
+    if (!result && !util::isAbsolutePath(file.name()))
+    {
+        sad::String newpath = util::concatPaths(r->executablePath(), file.name());
+        result = load(newpath, r);
+    }
+    if (result)
+    {
+        sad::Maybe<sad::Color> maybecolor = picojson::to_type<sad::Color>(
+            picojson::get_property(options, "transparent")
+        );		
+        if (maybecolor.exists())
+        {
+            this->setAlpha(255, maybecolor.value());
+        }
+    }
+    return result;
 }
 
 bool sad::Texture::load(const sad::String & filename, sad::Renderer * r)
 {
-	if (!r)
-	{
-		r = sad::Renderer::ref();
-	}
-	m_renderer = r;
-	sad::String ff(filename.getExtension());
-	char * f=const_cast<char *>(ff.data());
-	while(*f) { *f=toupper(*f); ++f; }
+    if (!r)
+    {
+        r = sad::Renderer::ref();
+    }
+    m_renderer = r;
+    sad::String ff(filename.getExtension());
+    char * f=const_cast<char *>(ff.data());
+    while(*f) { *f=toupper(*f); ++f; }
 
-	sad::imageformats::Loader * l = r->textureLoader(ff);
-	if (l)
-	{
-		FILE * fl = fopen(filename.data(), "rb");
-		if (fl)
-		{
-			bool result = l->load(fl, this);
-			fclose(fl);
-			return result;
-		}
-	}
-	return false;
+    sad::imageformats::Loader * l = r->textureLoader(ff);
+    if (l)
+    {
+        FILE * fl = fopen(filename.data(), "rb");
+        if (fl)
+        {
+            bool result = l->load(fl, this);
+            fclose(fl);
+            return result;
+        }
+    }
+    return false;
 }
 
 bool sad::Texture::load(const sad::WString & filename, sad::Renderer * r)
 {
-	if (!r)
-	{
-		r = sad::Renderer::ref();
-	}
-	m_renderer = r;
-	char * tmp=new char[2*filename.length()+2];
-	wcstombs(tmp,filename.data(),2*filename.length()+2);
-	sad::String tt(tmp);
-	delete[] tmp;
-	return load(tt, r);
+    if (!r)
+    {
+        r = sad::Renderer::ref();
+    }
+    m_renderer = r;
+    char * tmp=new char[2*filename.length()+2];
+    wcstombs(tmp,filename.data(),2*filename.length()+2);
+    sad::String tt(tmp);
+    delete[] tmp;
+    return load(tt, r);
 }
 
 void sad::Texture::bind()
 {
-	if (!OnGPU)
-		upload();
-	glBindTexture(GL_TEXTURE_2D, Id);
+    if (!OnGPU)
+        upload();
+    glBindTexture(GL_TEXTURE_2D, Id);
 }
 
 void sad::Texture::unload()
 {
-	if (OnGPU)
-		glDeleteTextures(1, &Id);
-	OnGPU = false;
+    if (OnGPU)
+        glDeleteTextures(1, &Id);
+    OnGPU = false;
 }
 
 
 void sad::Texture::setAlpha(sad::uchar a)
 {
-	assert(Bpp == 32);
-	for (unsigned int i = 3 ; i < Data.count(); i += 4)
-	{
-		Data[i] = 255 - a;
-	}
+    assert(Bpp == 32);
+    for (unsigned int i = 3 ; i < Data.count(); i += 4)
+    {
+        Data[i] = 255 - a;
+    }
 }
 
 void sad::Texture::setAlpha(sad::uchar a, const sad::Color & clr)
 {
-	assert(Bpp == 32);
-	for (unsigned int i = 0 ; i < Data.count(); i += 4)
-	{
-		bool matches = Data[i  ] == clr.r()
-			        && Data[i+1] == clr.g()
-					&& Data[i+2] == clr.b();
-		if (matches)
-		{
-			Data[i + 3] = 255 - a;
-		}
-	}
+    assert(Bpp == 32);
+    for (unsigned int i = 0 ; i < Data.count(); i += 4)
+    {
+        bool matches = Data[i  ] == clr.r()
+                    && Data[i+1] == clr.g()
+                    && Data[i+2] == clr.b();
+        if (matches)
+        {
+            Data[i + 3] = 255 - a;
+        }
+    }
 }
 
 void sad::Texture::setAlpha(sad::uchar a, const sad::Color & clr,const sad::Rect2D & rect)
 {
-	sad::Rect2I tmp = sad::_(rect);
-	for (int i=0;i<4;i++)
-	{
-		if (tmp[i].x() < 0) tmp[i].setX(0);
-		if (tmp[i].y() < 0) tmp[i].setY(0);
-		if (tmp[i].x() > static_cast<int>(width()-1)) tmp[i].setX(this->width()-1);
-		if (tmp[i].y() > static_cast<int>(height()-1)) tmp[i].setY(this->height()-1);
-	}
-	int minx = static_cast<int>(tmp[0].x());
-	int maxx = static_cast<int>(tmp[2].x());
-	int miny = static_cast<int>(tmp[0].y());
-	int maxy = static_cast<int>(tmp[2].y());
-	if (maxx < minx)
-	{
-		std::swap(maxx, minx);
-	}
-	if (maxy < miny)
-	{
-		std::swap(maxy, miny);
-	}
-	for (int row = minx;row <= maxx; row++)
-	{
-		for (int col = miny;col <= maxy; col++)
-		{
-			sad::uchar * pix=this->pixel(row,col);
+    sad::Rect2I tmp = sad::_(rect);
+    for (int i=0;i<4;i++)
+    {
+        if (tmp[i].x() < 0) tmp[i].setX(0);
+        if (tmp[i].y() < 0) tmp[i].setY(0);
+        if (tmp[i].x() > static_cast<int>(width()-1)) tmp[i].setX(this->width()-1);
+        if (tmp[i].y() > static_cast<int>(height()-1)) tmp[i].setY(this->height()-1);
+    }
+    int minx = static_cast<int>(tmp[0].x());
+    int maxx = static_cast<int>(tmp[2].x());
+    int miny = static_cast<int>(tmp[0].y());
+    int maxy = static_cast<int>(tmp[2].y());
+    if (maxx < minx)
+    {
+        std::swap(maxx, minx);
+    }
+    if (maxy < miny)
+    {
+        std::swap(maxy, miny);
+    }
+    for (int row = minx;row <= maxx; row++)
+    {
+        for (int col = miny;col <= maxy; col++)
+        {
+            sad::uchar * pix=this->pixel(row,col);
             bool redmatches   = clr.r() == pix[0];
             bool greenmatches = clr.g() == pix[1];
             bool bluematches  = clr.b() == pix[2];
-			if (redmatches && greenmatches && bluematches)
-			{
-				setPixelAlpha(row, col, a);
-			}
-		}
-	}
+            if (redmatches && greenmatches && bluematches)
+            {
+                setPixelAlpha(row, col, a);
+            }
+        }
+    }
 }
 
 
 sad::Renderer * sad::Texture::renderer() const
 {
-	return m_renderer;
+    return m_renderer;
 }
 
 void sad::Texture::convertToPOTTexture()
 {
-	unsigned int  maxside = std::max(Width, Height);
-	unsigned int  size = 1;
-	while(size < maxside)
-	{
-		size =  size << 1;
-	}
-	// Copy old buffer
-	sad::Vector<sad::uchar> OldBuffer = Data;
-	
-	// Resize buffer and fill it with zero
-	Data.resize(size * size * Bpp / 8, 0);	
-	std::fill_n(Data.begin(), size * size * Bpp / 8, 0);
+    unsigned int  maxside = std::max(Width, Height);
+    unsigned int  size = 1;
+    while(size < maxside)
+    {
+        size =  size << 1;
+    }
+    // Copy old buffer
+    sad::Vector<sad::uchar> OldBuffer = Data;
+    
+    // Resize buffer and fill it with zero
+    Data.resize(size * size * Bpp / 8, 0);	
+    std::fill_n(Data.begin(), size * size * Bpp / 8, 0);
 
-	// Copy data from old buffer
-	for(unsigned int x = 0; x < Height; x++)
-	{
-		std::copy(OldBuffer.begin() + (Width * (Bpp / 8) * x), 
-				  OldBuffer.begin() + (Width * (Bpp / 8) * (x+1)),
-				  Data.begin() + (size * (Bpp / 8) * x)
-				 );
-	}
-	Width = size;
-	Height = size;
+    // Copy data from old buffer
+    for(unsigned int x = 0; x < Height; x++)
+    {
+        std::copy(OldBuffer.begin() + (Width * (Bpp / 8) * x), 
+                  OldBuffer.begin() + (Width * (Bpp / 8) * (x+1)),
+                  Data.begin() + (size * (Bpp / 8) * x)
+                 );
+    }
+    Width = size;
+    Height = size;
 }

@@ -15,17 +15,17 @@ static sad::Mutex sad_irrklang_engine_instance;
 
 sad::irrklang::Engine* sad::irrklang::Engine::ref()
 {
-	if (m_instance == NULL)
-	{
+    if (m_instance == NULL)
+    {
         sad_irrklang_engine_instance.lock();
         if (m_instance == NULL)
         {
-		    m_instance = new sad::irrklang::Engine();
+            m_instance = new sad::irrklang::Engine();
             atexit(sad::irrklang::Engine::freeInstance);
         }
         sad_irrklang_engine_instance.unlock();
-	}
-	return m_instance;
+    }
+    return m_instance;
 }
 
 ::irrklang::ISoundSource* sad::irrklang::Engine::tryLoad(const sad::String& source)
@@ -47,9 +47,9 @@ sad::irrklang::Engine* sad::irrklang::Engine::ref()
         }
     }
     if (!result && !util::isAbsolutePath(source))
-	{
-		sad::String newpath = util::concatPaths(sad::Renderer::ref()->executablePath(), source);
-		result = m_engine->addSoundSourceFromFile(newpath.c_str());
+    {
+        sad::String newpath = util::concatPaths(sad::Renderer::ref()->executablePath(), source);
+        result = m_engine->addSoundSourceFromFile(newpath.c_str());
         if (result)
         {
             ::irrklang::ISound* test = m_engine->play2D(result, false, true, true);
@@ -64,7 +64,7 @@ sad::irrklang::Engine* sad::irrklang::Engine::ref()
                 test->drop();
             }
         }
-	}
+    }
     m_add_lock.unlock();
     return result;
 }
@@ -84,18 +84,18 @@ sad::irrklang::Engine::~Engine()
 {
     if (m_engine) 
     {
-	    m_engine->drop();
+        m_engine->drop();
     }
 }
 
 ::irrklang::ISoundEngine* sad::irrklang::Engine::get() const
 {
-	return m_engine;
+    return m_engine;
 }
 
 ::irrklang::ISoundEngine* sad::irrklang::Engine::eref()
 {
-	return ref()->get();
+    return ref()->get();
 }
 
 // ============================= PROTECTED METHODS =============================
@@ -106,21 +106,21 @@ sad::irrklang::Engine* sad::irrklang::Engine::m_instance = NULL;
 
 sad::irrklang::Engine::Engine()
 {
-	m_engine = ::irrklang::createIrrKlangDevice();
-	assert( m_engine );
+    m_engine = ::irrklang::createIrrKlangDevice();
+    assert( m_engine );
 }
 
 sad::irrklang::Engine::Engine(const Engine& o)
 : m_engine(o.m_engine) 
 {
-	m_engine->grab();
+    m_engine->grab();
 }
 
 sad::irrklang::Engine& sad::irrklang::Engine::operator=(const sad::irrklang::Engine& o)
 {
-	m_engine = o.m_engine;
-	m_engine->grab();
-	return *this;
+    m_engine = o.m_engine;
+    m_engine->grab();
+    return *this;
 }
 
 void sad::irrklang::Engine::freeInstance()

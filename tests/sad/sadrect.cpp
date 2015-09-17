@@ -19,26 +19,26 @@ struct sadRect2DTest : tpunit::TestFixture
 {
  public:
    sadRect2DTest() : tpunit::TestFixture(
-	   TEST(sadRect2DTest::test1),
-	   TEST(sadRect2DTest::test2)
+       TEST(sadRect2DTest::test1),
+       TEST(sadRect2DTest::test2)
    ) {}
    
    void test1()
    {
-		sad::Rect2D r(sad::Point2D(-12,-12), sad::Point2D(12, 12));
-		ASSERT_TRUE(sad::equal(r[0], sad::Point2D(-12, -12)));
-		ASSERT_TRUE(sad::equal(r[1], sad::Point2D(12, -12)));
-		ASSERT_TRUE(sad::equal(r[2], sad::Point2D(12, 12)));
-		ASSERT_TRUE(sad::equal(r[3], sad::Point2D(-12, 12)));
+        sad::Rect2D r(sad::Point2D(-12,-12), sad::Point2D(12, 12));
+        ASSERT_TRUE(sad::equal(r[0], sad::Point2D(-12, -12)));
+        ASSERT_TRUE(sad::equal(r[1], sad::Point2D(12, -12)));
+        ASSERT_TRUE(sad::equal(r[2], sad::Point2D(12, 12)));
+        ASSERT_TRUE(sad::equal(r[3], sad::Point2D(-12, 12)));
    }
 
    void test2()
    {
-		sad::Rect2D r(sad::Point2D(-24,-6), sad::Point2D(25, 7));
-		ASSERT_TRUE(sad::equal(r[0], sad::Point2D(-24, -6)));
-		ASSERT_TRUE(sad::equal(r[1], sad::Point2D(25, -6)));
-		ASSERT_TRUE(sad::equal(r[2], sad::Point2D(25, 7)));
-		ASSERT_TRUE(sad::equal(r[3], sad::Point2D(-24, 7)));
+        sad::Rect2D r(sad::Point2D(-24,-6), sad::Point2D(25, 7));
+        ASSERT_TRUE(sad::equal(r[0], sad::Point2D(-24, -6)));
+        ASSERT_TRUE(sad::equal(r[1], sad::Point2D(25, -6)));
+        ASSERT_TRUE(sad::equal(r[2], sad::Point2D(25, 7)));
+        ASSERT_TRUE(sad::equal(r[3], sad::Point2D(-24, 7)));
    }
 
 

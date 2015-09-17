@@ -15,22 +15,22 @@ struct SadSizeTest : tpunit::TestFixture
 {
  public:
    SadSizeTest() : tpunit::TestFixture(
-	   TEST(SadSizeTest::testDefaultConstructor),
-	   TEST(SadSizeTest::testParametetricConstructor)
+       TEST(SadSizeTest::testDefaultConstructor),
+       TEST(SadSizeTest::testParametetricConstructor)
    ) {}
    
    void testDefaultConstructor()
    {
-	   sad::Size2D s;
-	   ASSERT_TRUE( sad::is_fuzzy_zero(s.Width) );
-	   ASSERT_TRUE( sad::is_fuzzy_zero(s.Height) );
+       sad::Size2D s;
+       ASSERT_TRUE( sad::is_fuzzy_zero(s.Width) );
+       ASSERT_TRUE( sad::is_fuzzy_zero(s.Height) );
    }
 
    void testParametetricConstructor()
    {
-	   sad::Size2D s(3.0, 4.0);
-	   ASSERT_TRUE( sad::is_fuzzy_equal(s.Width, 3.0) );
-	   ASSERT_TRUE( sad::is_fuzzy_equal(s.Height, 4.0) );
+       sad::Size2D s(3.0, 4.0);
+       ASSERT_TRUE( sad::is_fuzzy_equal(s.Width, 3.0) );
+       ASSERT_TRUE( sad::is_fuzzy_equal(s.Height, 4.0) );
    }
 
 } _sad_size_test;

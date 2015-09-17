@@ -33,24 +33,24 @@ history::instances::ChangeWay::~ChangeWay()
 
 void history::instances::ChangeWay::updateItem(core::Editor* e, unsigned long long value)
 {
-	int pos = 0;
-	if (value > 0)
-	{
-		pos = e->panel()->findInComboBoxByMajorId<sad::p2d::app::Way*>(
-			e->panel()->UI()->cmbWayAnimationInstanceWay,
-			value
-		);
-		if (pos < 0)
-		{
-			pos = 0;
-		}
-	}
+    int pos = 0;
+    if (value > 0)
+    {
+        pos = e->panel()->findInComboBoxByMajorId<sad::p2d::app::Way*>(
+            e->panel()->UI()->cmbWayAnimationInstanceWay,
+            value
+        );
+        if (pos < 0)
+        {
+            pos = 0;
+        }
+    }
 
-	invoke_blocked(
-		e->panel()->UI()->cmbWayAnimationInstanceWay,
-		&QComboBox::setCurrentIndex,
-		pos
-	);
+    invoke_blocked(
+        e->panel()->UI()->cmbWayAnimationInstanceWay,
+        &QComboBox::setCurrentIndex,
+        pos
+    );
 }
 
 void history::instances::ChangeWay::updateUI(core::Editor* e, const unsigned long long& value)
@@ -59,7 +59,7 @@ void history::instances::ChangeWay::updateUI(core::Editor* e, const unsigned lon
             this,
             &history::instances::ChangeWay::updateItem,
             e,
-			value
+            value
         )
     );
 }

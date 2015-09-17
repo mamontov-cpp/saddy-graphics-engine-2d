@@ -21,7 +21,7 @@ class AddToComposite: public history::Command
 public:
     /*! Creates new command
         \param[in] a animations
-		\param[in] id id of animation
+        \param[in] id id of animation
      */
     AddToComposite(sad::animations::Composite* a, unsigned long long id);
     /*! Could be inherited
@@ -39,9 +39,9 @@ protected:
     /*! A current selected animation
      */
     sad::animations::Composite* m_animation;
-	/*! An id of added animations
-	 */
-	unsigned long long m_id;
+    /*! An id of added animations
+     */
+    unsigned long long m_id;
 };
 
 }

@@ -31,9 +31,9 @@ history::animations::ChangeWayMovingWay::~ChangeWayMovingWay()
 
 void history::animations::ChangeWayMovingWay::performUpdateUI(core::Editor* e, unsigned long long value)
 {
-	MainPanel* panel = e->panel();
-	QComboBox* list = panel->UI()->cmbWayAnimationWay;
-	invoke_blocked(list, &QComboBox::setCurrentIndex,  panel->findInComboBoxByMajorId<sad::p2d::app::Way*>(list,value));
+    MainPanel* panel = e->panel();
+    QComboBox* list = panel->UI()->cmbWayAnimationWay;
+    invoke_blocked(list, &QComboBox::setCurrentIndex,  panel->findInComboBoxByMajorId<sad::p2d::app::Way*>(list,value));
 }
 
 void history::animations::ChangeWayMovingWay::updateUI(core::Editor* e, const unsigned long long& value)
@@ -42,7 +42,7 @@ void history::animations::ChangeWayMovingWay::updateUI(core::Editor* e, const un
             this,
             &history::animations::ChangeWayMovingWay::performUpdateUI,
             e,
-			value
+            value
         )
     );
 }

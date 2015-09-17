@@ -35,7 +35,7 @@ void history::animations::ChangeResizeStartingSize::updateUI(core::Editor* e, co
             value.x()
         )
     );
-	e->emitClosure( blocked_bind(
+    e->emitClosure( blocked_bind(
             e->panel()->UI()->dabResizeStartingSizeY,
 
             &QDoubleSpinBox::setValue,

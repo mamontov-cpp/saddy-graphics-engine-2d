@@ -45,7 +45,7 @@ class Phrase;
 
 namespace animations
 {
-	
+    
 class Animation;
 class Composite;
 class Blinking;
@@ -83,32 +83,32 @@ template<
 class ToValue: public scripting::AbstractToValue<T>
 {
 public:
-	/*! Converts a value to value
-	 */
-	inline ToValue()
-	{
-		
-	}
-	/*! Can be inherited
-	 */
-	virtual ~ToValue()
-	{
-		
-	}
-	/*! Converts a resulting value to a value
-		\param[in] v value
-		\return result
-	 */
-	virtual sad::Maybe<T> toValue(const QScriptValue& v)
-	{
-		return perform(v);
-	}
+    /*! Converts a value to value
+     */
+    inline ToValue()
+    {
+        
+    }
+    /*! Can be inherited
+     */
+    virtual ~ToValue()
+    {
+        
+    }
+    /*! Converts a resulting value to a value
+        \param[in] v value
+        \return result
+     */
+    virtual sad::Maybe<T> toValue(const QScriptValue& v)
+    {
+        return perform(v);
+    }
     /*! Tries to perform conversion to specified type
      *  \return value, if it exists
      */
     inline static sad::Maybe<T> perform(const QScriptValue&)
     {
-	    return sad::Maybe<T>();
+        return sad::Maybe<T>();
     }
 };
 
@@ -120,9 +120,9 @@ template<                                                        \
 class ToValue< A >: public scripting::AbstractToValue< A >       \
 {                                                                \
 public:                                                          \
-	ToValue();                                                   \
-	~ToValue();                                                  \
-	sad::Maybe< A > toValue(const QScriptValue& v);              \
+    ToValue();                                                   \
+    ~ToValue();                                                  \
+    sad::Maybe< A > toValue(const QScriptValue& v);              \
     static sad::Maybe< A > perform(const QScriptValue& v);       \
 };
 

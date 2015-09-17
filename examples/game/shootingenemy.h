@@ -1,7 +1,7 @@
 /*! \file shootingenemy.h
-	
+    
 
-	Describes an enemy, that shoots with enemy bullets
+    Describes an enemy, that shoots with enemy bullets
  */
 #pragma once
 #include "gameobject.h"
@@ -13,5 +13,5 @@ class ShootingEnemy: public GameObject
 {
  SAD_OBJECT
  public:
-	 ShootingEnemy();
+     ShootingEnemy();
 };

@@ -2,21 +2,21 @@
 
 bool sad::pipeline::AbstractProcess::shouldBeDestroyedAfterProcessing()
 {
-	return false;
+    return false;
 }
 
 sad::pipeline::Process::~Process()
 {
-	delete m_delegate;
+    delete m_delegate;
 }
 
 void sad::pipeline::Process::_process()
 {
-	m_delegate->call();
+    m_delegate->call();
 }
 
 void sad::pipeline::Process::changeObject(void * o)
 {
-	m_delegate->changeObject(o);
+    m_delegate->changeObject(o);
 }
 

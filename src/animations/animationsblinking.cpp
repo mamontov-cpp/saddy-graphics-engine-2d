@@ -34,12 +34,12 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::Blinking, sad::animations::Animation);
 
 sad::animations::Blinking::Blinking()
 {
-	m_creators.pushProperty<bool>("visible", "visible");
+    m_creators.pushProperty<bool>("visible", "visible");
 }
 
 sad::animations::Blinking::~Blinking()
 {
-	
+    
 }
 
 
@@ -55,12 +55,12 @@ sad::db::schema::Schema* sad::animations::Blinking::basicSchema()
         if (AnimationBlinkingSchema == NULL)
         {
             AnimationBlinkingSchema = new sad::db::schema::Schema();
-		    AnimationBlinkingSchema->addParent(sad::animations::Animation::basicSchema());
+            AnimationBlinkingSchema->addParent(sad::animations::Animation::basicSchema());
 
             AnimationBlinkingSchema->add(
                 "frequency",
                 new sad::db::MethodPair<sad::animations::Blinking, unsigned int>(
-				    &sad::animations::Blinking::frequency,
+                    &sad::animations::Blinking::frequency,
                     &sad::animations::Blinking::setFrequency
                 )
             );		
@@ -79,41 +79,41 @@ sad::db::schema::Schema* sad::animations::Blinking::schema() const
 
 bool sad::animations::Blinking::loadFromValue(const picojson::value& v)
 {
-	bool flag = this->sad::animations::Animation::loadFromValue(v);
-	if (flag)
-	{
-		sad::Maybe<unsigned int> frequency = picojson::to_type<unsigned int>(
-												picojson::get_property(v, "frequency")
-											);
-		bool result = frequency.exists();
-		if (result)
-		{
-			setFrequency(frequency.value());
-		}
+    bool flag = this->sad::animations::Animation::loadFromValue(v);
+    if (flag)
+    {
+        sad::Maybe<unsigned int> frequency = picojson::to_type<unsigned int>(
+                                                picojson::get_property(v, "frequency")
+                                            );
+        bool result = frequency.exists();
+        if (result)
+        {
+            setFrequency(frequency.value());
+        }
 
-		flag = flag && result;
-	}
-	return flag;
+        flag = flag && result;
+    }
+    return flag;
 }
 
 
 void sad::animations::Blinking::setFrequency(unsigned int value)
 {
-	m_frequency = value;
-	m_inner_valid = m_frequency != 0;
-	this->updateValidFlag();
+    m_frequency = value;
+    m_inner_valid = m_frequency != 0;
+    this->updateValidFlag();
 }
 
 unsigned int sad::animations::Blinking::frequency() const
 {
-	return m_frequency;
+    return m_frequency;
 }
 
 
 void sad::animations::Blinking::setState(sad::animations::Instance* i, double time)
 {	
-	unsigned int pos = static_cast<unsigned int>(time / (m_time / m_frequency));
-	i->stateCommandAs<bool>()->call((pos % 2) != 0);
+    unsigned int pos = static_cast<unsigned int>(time / (m_time / m_frequency));
+    i->stateCommandAs<bool>()->call((pos % 2) != 0);
 }
 
 
@@ -136,7 +136,7 @@ sad::animations::setstate::AbstractSetStateCommand* sad::animations::Blinking::s
         }
         return c;
     }
-	return new sad::animations::setstate::DummyCommand<bool>();
+    return new sad::animations::setstate::DummyCommand<bool>();
 }
 
 bool sad::animations::Blinking::applicableTo(sad::db::Object* o)
@@ -144,7 +144,7 @@ bool sad::animations::Blinking::applicableTo(sad::db::Object* o)
     bool result = false;
     if (o && m_valid)
     {
-		result = o->getProperty<bool>("visible").exists();
+        result = o->getProperty<bool>("visible").exists();
     }
     return result;
 }

@@ -242,7 +242,7 @@ static int sad_duktape_context_invoke_wrapper(duk_context *ctx) {
     duk_get_prop_string(ctx, -1, SAD_DUKTAPE_NATIVE_FUNCTION_SIGNATURE_PROPERTY);
     void* callableptr = duk_to_pointer(ctx, -1);
     duk_pop(ctx);
-	duk_pop(ctx);
+    duk_pop(ctx);
 
     assert(callableptr);
     sad::duktape::Context* c = sad::duktape::Context::getContext(ctx);

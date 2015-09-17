@@ -16,26 +16,26 @@ struct SadPausableTimer : tpunit::TestFixture
 {
 public:
 
-	SadPausableTimer() : tpunit::TestFixture(
-		TEST(SadPausableTimer::test)
-	) {}
+    SadPausableTimer() : tpunit::TestFixture(
+        TEST(SadPausableTimer::test)
+    ) {}
 
    void test()
    {
-	   sad::PausableTimer t;
-	   t.start();
-	   sad::sleep(200);
-	   t.pause();
-	   sad::sleep(200);
-	   t.resume();
-	   sad::sleep(200);
-	   double beforestop = t.elapsed();
-	   t.stop();
-	   sad::sleep(200);	
-	   double afterstop = t.elapsed();
+       sad::PausableTimer t;
+       t.start();
+       sad::sleep(200);
+       t.pause();
+       sad::sleep(200);
+       t.resume();
+       sad::sleep(200);
+       double beforestop = t.elapsed();
+       t.stop();
+       sad::sleep(200);	
+       double afterstop = t.elapsed();
 
-	   ASSERT_TRUE(beforestop >= 395.0 && beforestop <= 600.0);
-	   ASSERT_TRUE(afterstop >= 395 && afterstop <= 600.0);
+       ASSERT_TRUE(beforestop >= 395.0 && beforestop <= 600.0);
+       ASSERT_TRUE(afterstop >= 395 && afterstop <= 600.0);
    }
 
 } _pausable_timer_test;

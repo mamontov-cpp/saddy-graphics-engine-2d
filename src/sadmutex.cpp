@@ -15,20 +15,20 @@ sad::Mutex::Mutex(const sad::Mutex &)
 
 sad::Mutex & sad::Mutex::operator=(const sad::Mutex & o)
 {
-	return *this;
+    return *this;
 }
 
 sad::Mutex::~Mutex()
 {
-	delete m_dptr;
+    delete m_dptr;
 }
 
 void sad::Mutex::lock()
 {
-	m_dptr->lock();
+    m_dptr->lock();
 }
 
 void sad::Mutex::unlock()
 {
-	m_dptr->unlock();
+    m_dptr->unlock();
 }

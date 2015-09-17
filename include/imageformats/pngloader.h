@@ -1,7 +1,7 @@
 /*! \file pngloader.h
-	
+    
 
-	Defines a loader for PNG images, using PicoPNG
+    Defines a loader for PNG images, using PicoPNG
  */
 #pragma once
 #include "loader.h"
@@ -16,15 +16,15 @@ namespace imageformats
 class PNGLoader: public sad::imageformats::Loader
 {
 public:
-	/*! Loads a texture from file stream. file must be opened in binary format for reading
-		\param[in] file
-		\param[in] texture
-		\return true on success
-	 */
-	virtual bool load(FILE * file, sad::Texture * texture);
-	/*! Kept for purpose of inheritance
-	 */
-	virtual ~PNGLoader();
+    /*! Loads a texture from file stream. file must be opened in binary format for reading
+        \param[in] file
+        \param[in] texture
+        \return true on success
+     */
+    virtual bool load(FILE * file, sad::Texture * texture);
+    /*! Kept for purpose of inheritance
+     */
+    virtual ~PNGLoader();
 };
 
 }

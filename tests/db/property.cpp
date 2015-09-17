@@ -184,21 +184,21 @@ struct SadDbPropertyTest : tpunit::TestFixture
         ASSERT_TRUE( p->defaultValue() == NULL );
         delete p;
     }
-	
-	void testSadStringToStdString()
-	{
-		sad::db::custom::Object o;
-		o.schema()->add("prop", new sad::db::StoredProperty<std::string>());
-		o.setProperty("prop", sad::String("test"));
-		ASSERT_TRUE(  o.getProperty<std::string>("prop").value() == "test" );
-	}
-	
-	void testStdStringToSadString()
-	{
-		sad::db::custom::Object o;
-		o.schema()->add("prop", new sad::db::StoredProperty<sad::String>());
-		o.setProperty("prop", std::string("test"));
-		ASSERT_TRUE(  o.getProperty<sad::String>("prop").value() == "test" );		
-	}
+    
+    void testSadStringToStdString()
+    {
+        sad::db::custom::Object o;
+        o.schema()->add("prop", new sad::db::StoredProperty<std::string>());
+        o.setProperty("prop", sad::String("test"));
+        ASSERT_TRUE(  o.getProperty<std::string>("prop").value() == "test" );
+    }
+    
+    void testStdStringToSadString()
+    {
+        sad::db::custom::Object o;
+        o.schema()->add("prop", new sad::db::StoredProperty<sad::String>());
+        o.setProperty("prop", std::string("test"));
+        ASSERT_TRUE(  o.getProperty<sad::String>("prop").value() == "test" );		
+    }
 
 } _sad_property;
