@@ -1,0 +1,18 @@
+[
+{
+ "name" : "myobject",
+ "resource": "1",
+ "schema" : {
+	"prop1" : {"type" : "int", "value" : 0 },
+	"prop2" : {"type" : "int", "value" : 0 }
+ }
+},
+{
+ "name" : "myobject_incompatible",
+ "resource": "1",
+ "schema" : {
+	"prop1" : {"type" : "int", "value" : 0 },
+	"prop3" : {"type" : "int", "value" : 0 }
+ }
+}
+]

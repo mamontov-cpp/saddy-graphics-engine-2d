@@ -23,7 +23,9 @@ struct SadDbCustomObjectTest : tpunit::TestFixture
 	   TEST(SadDbCustomObjectTest::test_change_prop_type_on_reload),	   
 	   TEST(SadDbCustomObjectTest::test_reload_same_type),
 	   TEST(SadDbCustomObjectTest::test_non_required_invalid_schema),
-	   TEST(SadDbCustomObjectTest::test_non_required)	   
+	   TEST(SadDbCustomObjectTest::test_non_required),
+	   TEST(SadDbCustomObjectTest::test_copy_incompatible),
+	   TEST(SadDbCustomObjectTest::test_copy)	   
     )
    {
 
@@ -313,5 +315,92 @@ struct SadDbCustomObjectTest : tpunit::TestFixture
 	   ASSERT_TRUE(object.getProperty<int>("prop").value() == 15);
    }
 
+   void test_copy_incompatible()
+   {
+	   sad::Renderer r;
+	   sad::resource::Tree* tree = new sad::resource::Tree();
+	   tree->setStoreLinks(true);
+	   tree->setRenderer(&r);
+	   r.addTree("", tree);
+
+	   sad::Vector<sad::resource::Error *> errors = tree->loadFromString(
+		   "["
+				"{"
+				    "\"type\"   : \"sad::resource::TextureAtlasFile\","
+					"\"filename\": \"tests/icons.json\""
+				"},"
+				"{"
+					"\"type\"   : \"sad::TextureMappedFont\","
+					"\"filename\": \"examples/game/font\","
+					"\"name\"    : \"objects\""
+				"},"
+				"{"
+					"\"type\"   : \"sad::db::custom::SchemaFile\","
+					"\"filename\": \"tests/db/multiple_sprites.json\""
+				"}"				
+			"]"
+		);
+	   int count = (int)(errors.size());
+	   sad::util::free(errors);
+	   ASSERT_TRUE(count == 0);
+
+	   sad::db::custom::Object object;
+	   object.setTreeName(&r, "");
+	   object.setProperty("schema", sad::String("myobject"));
+	   object.setProperty("prop1", 3);
+	   object.setProperty("prop2", 4);
+	   
+	   sad::db::custom::Object object2;
+	   object2.setTreeName(&r, "");
+	   object2.setProperty("schema", sad::String("myobject_incompatible"));
+	   object2.setProperty("prop1", 15);
+
+	   ASSERT_TRUE( !object.copyCustomPropertyValuesFrom(&object2) );
+	   ASSERT_TRUE(object.getProperty<int>("prop1").value() == 3);
+   }
+   
+   void test_copy()
+   {
+	   sad::Renderer r;
+	   sad::resource::Tree* tree = new sad::resource::Tree();
+	   tree->setStoreLinks(true);
+	   tree->setRenderer(&r);
+	   r.addTree("", tree);
+
+	   sad::Vector<sad::resource::Error *> errors = tree->loadFromString(
+		   "["
+				"{"
+				    "\"type\"   : \"sad::resource::TextureAtlasFile\","
+					"\"filename\": \"tests/icons.json\""
+				"},"
+				"{"
+					"\"type\"   : \"sad::TextureMappedFont\","
+					"\"filename\": \"examples/game/font\","
+					"\"name\"    : \"objects\""
+				"},"
+				"{"
+					"\"type\"   : \"sad::db::custom::SchemaFile\","
+					"\"filename\": \"tests/db/multiple_sprites.json\""
+				"}"				
+			"]"
+		);
+	   int count = (int)(errors.size());
+	   sad::util::free(errors);
+	   ASSERT_TRUE(count == 0);
+
+	   sad::db::custom::Object object;
+	   object.setTreeName(&r, "");
+	   object.setProperty("schema", sad::String("myobject"));
+	   object.setProperty("prop1", 3);
+	   object.setProperty("prop2", 4);
+	   
+	   sad::db::custom::Object object2;
+	   object2.setTreeName(&r, "");
+	   object2.setProperty("schema", sad::String("myobject"));
+	   object2.setProperty("prop1", 15);
+
+	   ASSERT_TRUE( object.copyCustomPropertyValuesFrom(&object2) );
+	   ASSERT_TRUE(object.getProperty<int>("prop1").value() == 15);
+   }
 
 } _sad_db_custom_object_test;
