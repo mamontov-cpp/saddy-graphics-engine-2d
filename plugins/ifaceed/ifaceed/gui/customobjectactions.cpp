@@ -183,39 +183,7 @@ void gui::CustomObjectActions::add()
 
 void gui::CustomObjectActions::addBySimplePlacing()
 {
-    sad::db::custom::Object* object = new sad::db::custom::Object();
-    object->setTreeName(sad::Renderer::ref(), "");
-    object->setSchemaName(m_panel->UI()->rtwCustomObjectSchemas->selectedResourceName().value());
-    sad::AColor acolor;
-    core::typeconverters::QColorToSadAColor::convert(m_panel->UI()->clpSceneNodeColor->selectedColor(), acolor);
-    object->setColor(acolor);
-    object->setFontSize(m_panel->UI()->fswLabelFontSize->value());
-    object->setLineSpacingRatio(m_panel->UI()->dsbLineSpacingRatio->value());
-    object->setString(Q2STDSTRING(m_panel->UI()->txtLabelText->toPlainText()));
-    
-    object->setMaximalLineWidth(m_panel->UI()->spbMaximalLineWidth->value());
-    object->setBreakTextFromIndex(m_panel->UI()->cmbLabelBreakText->currentIndex());
-    object->setOverflowStrategyFromIndex(m_panel->UI()->cmbLabelOverflowStrategy->currentIndex());
-    object->setTextEllipsisPositionAsIndex(m_panel->UI()->cmbLabelTextEllipsis->currentIndex());
-
-    object->setMaximalLinesCount(m_panel->UI()->spbMaximalLinesCount->value());
-    object->setOverflowStrategyForLinesFromIndex(m_panel->UI()->cmbLabelOverflowStrategyForLines->currentIndex());
-    object->setTextEllipsisPositionForLinesAsIndex(m_panel->UI()->cmbLabelTextEllipsisForLines->currentIndex());
-
-    
-    sad::Rect2D area = object->area();
-    const sad::Settings & settings = sad::Renderer::ref()->settings();
-
-    sad::Point2D middle = (area[0] + area[2]) / 2.0;
-    sad::Point2D screeenmiddle =  sad::Point2D(settings.width() / 2.0, settings.height() / 2.0);
-    sad::moveBy(screeenmiddle - middle, area);
-    object->setArea(area);
-
-    QString name = m_panel->UI()->txtObjectName->text();
-    if (name.length())
-    {
-        object->setObjectName(Q2STDSTRING(name));
-    }
+    sad::db::custom::Object* object = this->makeNewCustomObject();
 
     m_panel->currentScene()->add(object);
     m_panel->editor()->shared()->setActiveObject(object);
@@ -231,39 +199,7 @@ void gui::CustomObjectActions::addBySimplePlacing()
 
 void gui::CustomObjectActions::addByDiagonalPlacing()
 {
-    sad::db::custom::Object* object = new sad::db::custom::Object();
-    object->setTreeName(sad::Renderer::ref(), "");
-    object->setSchemaName(m_panel->UI()->rtwCustomObjectSchemas->selectedResourceName().value());
-    sad::AColor acolor;
-    core::typeconverters::QColorToSadAColor::convert(m_panel->UI()->clpSceneNodeColor->selectedColor(), acolor);
-    object->setColor(acolor);
-    object->setFontSize(m_panel->UI()->fswLabelFontSize->value());
-    object->setLineSpacingRatio(m_panel->UI()->dsbLineSpacingRatio->value());
-    object->setString(Q2STDSTRING(m_panel->UI()->txtLabelText->toPlainText()));
-
-    object->setMaximalLineWidth(m_panel->UI()->spbMaximalLineWidth->value());
-    object->setBreakTextFromIndex(m_panel->UI()->cmbLabelBreakText->currentIndex());
-    object->setOverflowStrategyFromIndex(m_panel->UI()->cmbLabelOverflowStrategy->currentIndex());
-    object->setTextEllipsisPositionAsIndex(m_panel->UI()->cmbLabelTextEllipsis->currentIndex());
-
-    object->setMaximalLinesCount(m_panel->UI()->spbMaximalLinesCount->value());
-    object->setOverflowStrategyForLinesFromIndex(m_panel->UI()->cmbLabelOverflowStrategyForLines->currentIndex());
-    object->setTextEllipsisPositionForLinesAsIndex(m_panel->UI()->cmbLabelTextEllipsisForLines->currentIndex());
-
-    sad::Rect2D area = object->area();
-    const sad::Settings & settings = sad::Renderer::ref()->settings();
-
-    sad::Point2D middle = (area[0] + area[2]) / 2.0;
-    sad::Point2D screeenmiddle =  sad::Point2D(settings.width() / 2.0, settings.height() / 2.0);
-    sad::moveBy(screeenmiddle - middle, area);
-    object->setArea(area);
-
-    QString name = m_panel->UI()->txtObjectName->text();
-    if (name.length())
-    {
-        object->setObjectName(Q2STDSTRING(name));
-    }
-
+    sad::db::custom::Object* object = this->makeNewCustomObject();
     object->setVisible(false);
 
     m_panel->currentScene()->add(object);
@@ -306,6 +242,59 @@ void gui::CustomObjectActions::schemaChanged(sad::String s)
                     m_panel->editor()->history()->add(c);
                     c->commit(m_panel->editor());						
                 }
+            }
+        }
+    }
+}
+
+sad::db::custom::Object* gui::CustomObjectActions::makeNewCustomObject()
+{
+    sad::db::custom::Object* object = new sad::db::custom::Object();
+    object->setTreeName(sad::Renderer::ref(), "");
+    object->setSchemaName(m_panel->UI()->rtwCustomObjectSchemas->selectedResourceName().value());
+    sad::AColor acolor;
+    core::typeconverters::QColorToSadAColor::convert(m_panel->UI()->clpSceneNodeColor->selectedColor(), acolor);
+    object->setColor(acolor);
+    object->setFontSize(m_panel->UI()->fswLabelFontSize->value());
+    object->setLineSpacingRatio(m_panel->UI()->dsbLineSpacingRatio->value());
+    object->setString(Q2STDSTRING(m_panel->UI()->txtLabelText->toPlainText()));
+
+    object->setMaximalLineWidth(m_panel->UI()->spbMaximalLineWidth->value());
+    object->setBreakTextFromIndex(m_panel->UI()->cmbLabelBreakText->currentIndex());
+    object->setOverflowStrategyFromIndex(m_panel->UI()->cmbLabelOverflowStrategy->currentIndex());
+    object->setTextEllipsisPositionAsIndex(m_panel->UI()->cmbLabelTextEllipsis->currentIndex());
+
+    object->setMaximalLinesCount(m_panel->UI()->spbMaximalLinesCount->value());
+    object->setOverflowStrategyForLinesFromIndex(m_panel->UI()->cmbLabelOverflowStrategyForLines->currentIndex());
+    object->setTextEllipsisPositionForLinesAsIndex(m_panel->UI()->cmbLabelTextEllipsisForLines->currentIndex());
+    tryCopySelectedObjectCustomProperties(object);
+    sad::Rect2D area = object->area();
+    const sad::Settings & settings = sad::Renderer::ref()->settings();
+
+    sad::Point2D middle = (area[0] + area[2]) / 2.0;
+    sad::Point2D screeenmiddle =  sad::Point2D(settings.width() / 2.0, settings.height() / 2.0);
+    sad::moveBy(screeenmiddle - middle, area);
+    object->setArea(area);
+
+    QString name = m_panel->UI()->txtObjectName->text();
+    if (name.length())
+    {
+        object->setObjectName(Q2STDSTRING(name));
+    }
+    return object;
+}
+
+void gui::CustomObjectActions::tryCopySelectedObjectCustomProperties(sad::db::custom::Object* object)
+{
+    sad::SceneNode* node = m_panel->editor()->shared()->selectedObject();
+    if (node)
+    {
+        if (node->isInstanceOf("sad::db::custom::Object"))
+        {
+            sad::db::custom::Object* selected_object = static_cast<sad::db::custom::Object*>(node);
+            if (selected_object->schemaName() == object->schemaName())
+            {
+                object->copyCustomPropertyValuesFrom(selected_object);
             }
         }
     }

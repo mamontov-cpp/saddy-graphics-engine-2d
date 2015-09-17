@@ -10,6 +10,23 @@
 
 class MainPanel;
 
+namespace sad
+{
+
+namespace db
+{
+
+namespace custom
+{
+
+class Object;
+
+}
+
+}
+
+}
+
 namespace gui
 {
 /*! A group of actions, linked to custom objects
@@ -65,6 +82,14 @@ public slots:
      */
     void schemaChanged(sad::String s);
 private:
+    /*! Makes new custom object
+        \return new custom object
+     */
+    sad::db::custom::Object* makeNewCustomObject();
+    /*! Try copy custom properties for selected object
+        \param[in] object an object values
+     */
+    void tryCopySelectedObjectCustomProperties(sad::db::custom::Object* object);
     /*! An panel, which actions are belong to
      */
     MainPanel* m_panel;
