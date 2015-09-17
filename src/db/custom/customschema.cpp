@@ -245,7 +245,18 @@ void sad::db::custom::Schema::getNamesOfCustomProperties(sad::Vector<sad::String
          it != m_properties.const_end();
         ++it)
     {
-        names << it.key();
+		bool isown = true;
+        for(size_t i = 0; (i < Sprite2DPropertiesLength) && isown; i++)
+        {
+            if (it.key() == Sprite2DOwnProperties[i])
+            {
+                isown = false;
+            }
+        }
+		if (isown)
+		{
+			names << it.key();
+		}
     }
     m_properties_lock.unlock();
 }

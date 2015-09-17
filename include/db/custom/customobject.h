@@ -273,8 +273,9 @@ public:
 		\return text ellipsis position as index
 	 */
 	unsigned int textEllipsisForLinesAsIndex() const;
-    /*! Copies state of custom property values from other object
-        \param[in] other object
+    /*! Copies state of custom property values from other object. Please, note that this will overwrite
+		in  case that this object has properties, which o doesn't, if they have same schema and fail otherwise
+        \param[in] o other object
         \return whether it was successfull. In case of non-successfull old values are preserved
      */
     bool copyCustomPropertyValuesFrom(sad::db::custom::Object* o);

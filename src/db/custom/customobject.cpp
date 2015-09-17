@@ -365,28 +365,25 @@ bool sad::db::custom::Object::copyCustomPropertyValuesFrom(sad::db::custom::Obje
     {
         if (this->schemaName() == o->schemaName())
         {
-            if (o->schema())
-            {
-                if (o->schema()->isInstanceOf("sad::db::custom::Schema"))
-                {
-                    sad::db::custom::Schema* s = static_cast<sad::db::custom::Schema*>(o->schema());
-                    s->getNamesOfCustomProperties(names);
-                    can_copy = true;
-                    for(size_t i = 0; i < names.size(); i++)
-                    {
-                        bool can_copy_property = false;
-                        sad::db::Property* myprop = this->getObjectProperty(names[i]);
-                        sad::db::Property* oprop = o->getObjectProperty(names[i]);
-                        if (myprop != NULL && oprop != NULL)
-                        {
-                            sad::db::Variant v;
-                            oprop->get(o, v);
-                            can_copy_property = myprop->couldBeSetFrom(v);
-                        }
-                        can_copy =  can_copy && can_copy_property;
-                    }
-                }
-            }
+			const sad::Hash<sad::String, sad::db::Property*>& props = o->schemaProperties();
+			for(sad::Hash<sad::String, sad::db::Property*>::const_iterator it = props.const_begin(); it != props.const_end(); ++it)
+			{
+				names << it.key();
+			}
+            can_copy = true;
+			for(size_t i = 0; i < names.size(); i++)
+			{
+				bool can_copy_property = false;
+				sad::db::Property* myprop = this->getObjectProperty(names[i]);
+				sad::db::Property* oprop = o->getObjectProperty(names[i]);
+				if (myprop != NULL && oprop != NULL)
+				{
+					sad::db::Variant v;
+					oprop->get(o, v);
+					can_copy_property = myprop->couldBeSetFrom(v);
+				}
+				can_copy =  can_copy && can_copy_property;
+			}
         }
     }
 
