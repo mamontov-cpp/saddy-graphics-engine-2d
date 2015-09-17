@@ -355,6 +355,58 @@ unsigned int sad::db::custom::Object::textEllipsisForLinesAsIndex() const
     return static_cast<unsigned int>(textEllipsisForLines());    
 }
 
+
+bool sad::db::custom::Object::copyCustomPropertyValuesFrom(sad::db::custom::Object* o)
+{
+    bool can_copy = false;
+    sad::Vector<sad::String> names;
+
+    if (o)
+    {
+        if (this->schemaName() == o->schemaName())
+        {
+            if (o->schema())
+            {
+                if (o->schema()->isInstanceOf("sad::db::custom::Schema"))
+                {
+                    sad::db::custom::Schema* s = static_cast<sad::db::custom::Schema*>(o->schema());
+                    s->getNamesOfCustomProperties(names);
+                    can_copy = true;
+                    for(size_t i = 0; i < names.size(); i++)
+                    {
+                        bool can_copy_property = false;
+                        sad::db::Property* myprop = this->getObjectProperty(names[i]);
+                        sad::db::Property* oprop = o->getObjectProperty(names[i]);
+                        if (myprop != NULL && oprop != NULL)
+                        {
+                            sad::db::Variant v;
+                            oprop->get(o, v);
+                            can_copy_property = myprop->couldBeSetFrom(v);
+                        }
+                        can_copy =  can_copy && can_copy_property;
+                    }
+                }
+            }
+        }
+    }
+
+    if (can_copy)
+    {
+        for(size_t i = 0; i < names.size(); i++)
+        {
+            sad::db::Property* myprop = this->getObjectProperty(names[i]);
+            sad::db::Property* oprop = o->getObjectProperty(names[i]);
+            if (myprop != NULL && oprop != NULL)
+            {
+                sad::db::Variant v;
+                oprop->get(o, v);
+                myprop->set(this, v);
+            }
+        }
+    }
+    return can_copy;
+}
+
 bool sad::db::custom::Object::load(const picojson::value& v)
 {
 	m_sprite2d->toggleLoadingMode();

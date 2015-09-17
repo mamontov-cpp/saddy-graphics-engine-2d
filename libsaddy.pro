@@ -486,8 +486,10 @@ win32 {
 unix {
     target.path = /usr/lib
     INSTALLS += target
-	INCLUDEPATH += /usr/include/
+    INCLUDEPATH += /usr/include/
 }
+
+INCLUDEPATH += include/
 
 CONFIG(debug, debug|release) {
     TARGET = saddy-debug

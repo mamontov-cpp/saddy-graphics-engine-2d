@@ -63,6 +63,10 @@ public:
 		\param[out] props a new property list
 	 */
 	void getCustomProperties(sad::Hash<sad::String, sad::db::Property*>& props);
+    /*!  Returns names for custom properties of schemas
+     *   \param[out] names list of names of properties
+     */
+    void getNamesOfCustomProperties(sad::Vector<sad::String>& names);
 protected:
 	/*! A linked resource item for a schema
 	 */
