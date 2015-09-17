@@ -469,7 +469,7 @@ HEADERS += include/camera.h \
     include/equalto.h
 
 
-DESTDIR = ../saddy/lib/
+DESTDIR = lib/
 
 unix {
 	DEFINES += "UNIX=1"
