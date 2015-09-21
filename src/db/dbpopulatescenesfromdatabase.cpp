@@ -24,13 +24,16 @@ struct scenenodes_comparator_t
     }	
 };
 
-void sad::db::populateScenesFromDatabase(sad::Renderer * r, sad::db::Database * db)
+void sad::db::populateScenesFromDatabase(sad::Renderer * r, sad::db::Database * db, bool clear)
 {
     sad::db::Table* scenes = db->table("scenes");
     sad::db::Table* scenenodes = db->table("scenenodes");
     if (scenes && scenenodes)
     {
-        r->clear();
+        if (clear)
+        {
+            r->clear();
+        }
         // A vector of scenes
         sad::Vector<sad::db::Object *> scenesdata;
         scenes->objects(scenesdata);
