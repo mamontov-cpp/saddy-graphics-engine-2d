@@ -484,7 +484,8 @@ void gui::resourcetreewidget::ResourceTreeWidget::populateTree(
     sad::resource::FolderIterator it = currentfolder->folderListBegin();
     while(it != currentfolder->folderListEnd())
     {
-        result = result || findSuitableFolders(it.value(), suitability);
+        bool suitabilityValue = findSuitableFolders(it.value(), suitability);
+        result = result || suitabilityValue;
         ++it;
     }
 
@@ -496,7 +497,8 @@ void gui::resourcetreewidget::ResourceTreeWidget::populateTree(
         if (list.count())
         {
             const sad::String & name = cur.value()->metaData()->name();
-            result = result || list.indexOf(STD2QSTRING(name)) != -1;
+            bool hasSuitableItem = list.indexOf(STD2QSTRING(name)) != -1;
+            result = result || hasSuitableItem;
         }		
     }
 
