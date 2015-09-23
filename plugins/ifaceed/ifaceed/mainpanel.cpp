@@ -2820,16 +2820,7 @@ void MainPanel::loadResources()
 
                 this->updateAnimationsListFromTree();
 
-                if (ui.rtwLabelFont->filter().length() == 0)
-                {
-                    this->updateResourceViews();
-                }
-                else
-                {
-                    ui.rtwLabelFont->updateTree();
-                    ui.rtwSpriteSprite->updateTree();
-                    ui.rtwCustomObjectSchemas->updateTree();
-                }
+                this->updateResourceViews();
                 this->toggleEditingButtons(true);
             }
         }
@@ -2871,16 +2862,7 @@ void MainPanel::reloadResources()
 
             this->updateAnimationsListFromTree();
 
-            if (ui.rtwLabelFont->filter().length() == 0)
-            {
-                this->updateResourceViews();
-            }
-            else
-            {
-                ui.rtwLabelFont->updateTree();
-                ui.rtwSpriteSprite->updateTree();
-                ui.rtwCustomObjectSchemas->updateTree();
-            }
+            this->updateResourceViews();
         }
         else
         {
