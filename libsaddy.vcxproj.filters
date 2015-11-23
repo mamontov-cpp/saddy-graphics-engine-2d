@@ -202,6 +202,15 @@
     <Filter Include="Заголовочные файлы\3rdparty\boost-dist\boost\bimap\views">
       <UniqueIdentifier>{4018c7d1-c17b-45c0-8a1e-f66fc540016e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Заголовочные файлы\3rdparty\boost-dist\boost\functional">
+      <UniqueIdentifier>{102d9104-2218-42a0-bd8a-fd77938128be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\3rdparty\boost-dist\boost\functional\hash">
+      <UniqueIdentifier>{d3f1eeba-806a-4e65-ab50-14dbe1c66004}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\3rdparty\boost-dist\boost\functional\hash\detail">
+      <UniqueIdentifier>{9abfd9a4-54a6-47c2-a1f4-450194ba1e38}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\camera.cpp">
@@ -770,6 +779,9 @@
     </ClCompile>
     <ClCompile Include="src\animations\animationssimplemovement.cpp">
       <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\utilsadhash.cpp">
+      <Filter>Файлы исходного кода\util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2116,6 +2128,36 @@
     </ClInclude>
     <ClInclude Include="include\3rdparty\boost-dist\boost\weak_ptr.hpp">
       <Filter>Заголовочные файлы\3rdparty\boost-dist\boost</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\boost-dist\boost\functional\hash.hpp">
+      <Filter>Заголовочные файлы\3rdparty\boost-dist\boost\functional</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\boost-dist\boost\functional\hash_fwd.hpp">
+      <Filter>Заголовочные файлы\3rdparty\boost-dist\boost\functional</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\boost-dist\boost\functional\hash\extensions.hpp">
+      <Filter>Заголовочные файлы\3rdparty\boost-dist\boost\functional\hash</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\boost-dist\boost\functional\hash\hash.hpp">
+      <Filter>Заголовочные файлы\3rdparty\boost-dist\boost\functional\hash</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\boost-dist\boost\functional\hash\hash_fwd.hpp">
+      <Filter>Заголовочные файлы\3rdparty\boost-dist\boost\functional\hash</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\boost-dist\boost\functional\hash\detail\float_functions.hpp">
+      <Filter>Заголовочные файлы\3rdparty\boost-dist\boost\functional\hash\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\boost-dist\boost\functional\hash\detail\hash_float.hpp">
+      <Filter>Заголовочные файлы\3rdparty\boost-dist\boost\functional\hash\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\boost-dist\boost\functional\hash\detail\limits.hpp">
+      <Filter>Заголовочные файлы\3rdparty\boost-dist\boost\functional\hash\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\sadhash_src.h">
+      <Filter>Заголовочные файлы\util</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\sadhash.h">
+      <Filter>Заголовочные файлы\util</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

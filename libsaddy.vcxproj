@@ -44,11 +44,13 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">saddy-debug</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">saddy-release</TargetName>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>include/config;include/primitives;include/templates;include;include/extra;include/p2d;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include/config;include/primitives;include/templates;include;include/extra;include/p2d;include/3rdparty/boost-dist/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;_SCL_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>StackFrameRuntimeCheck</BasicRuntimeChecks>
@@ -67,7 +69,7 @@
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>include/config;include/primitives;include/templates;include;include/extra;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include/config;include/3rdparty/boost-dist/;include/primitives;include/templates;include;include/extra;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;MSVC_RELEASE;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_SCL_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -130,6 +132,7 @@
     <ClCompile Include="src\texture.cpp" />
     <ClCompile Include="src\texturemappedfont.cpp" />
     <ClCompile Include="src\timer.cpp" />
+    <ClCompile Include="src\util\utilsadhash.cpp" />
     <ClCompile Include="src\window.cpp" />
     <ClCompile Include="src\cli\clioptionvalue.cpp" />
     <ClCompile Include="src\cli\cliparser.cpp" />
@@ -391,6 +394,14 @@
     <ClInclude Include="include\3rdparty\boost-dist\boost\foreach.hpp" />
     <ClInclude Include="include\3rdparty\boost-dist\boost\foreach_fwd.hpp" />
     <ClInclude Include="include\3rdparty\boost-dist\boost\function.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\functional\hash.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\functional\hash\detail\float_functions.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\functional\hash\detail\hash_float.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\functional\hash\detail\limits.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\functional\hash\extensions.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\functional\hash\hash.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\functional\hash\hash_fwd.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\functional\hash_fwd.hpp" />
     <ClInclude Include="include\3rdparty\boost-dist\boost\function_equal.hpp" />
     <ClInclude Include="include\3rdparty\boost-dist\boost\get_pointer.hpp" />
     <ClInclude Include="include\3rdparty\boost-dist\boost\implicit_cast.hpp" />
@@ -521,6 +532,8 @@
     <ClInclude Include="include\timer.h" />
     <ClInclude Include="include\treedblink.h" />
     <ClInclude Include="include\unused.h" />
+    <ClInclude Include="include\util\sadhash.h" />
+    <ClInclude Include="include\util\sadhash_src.h" />
     <ClInclude Include="include\window.h" />
     <ClInclude Include="include\cli\args.h" />
     <ClInclude Include="include\cli\optiontype.h" />

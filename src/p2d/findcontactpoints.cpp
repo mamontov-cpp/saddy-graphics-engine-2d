@@ -1,6 +1,7 @@
 #include "p2d/findcontactpoints.h"
 #include <geometry2d.h>
 #include <limits>
+#include "../sadlinkedlist.h"
 
 #undef max
 #undef min
