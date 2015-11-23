@@ -197,6 +197,7 @@ int thread(void * p)
     sad::Label * l2 = new sad::Label("tmfont", sad::Point2D(400,400), "TextureMappedFont is a nice option for those who don't want to work with\ncomplex stuff");
     l1->setColor(255, 255, 255, 0);
     l2->setColor(255, 255, 255, 0);
+	l2->setBreakText(sad::Label::LBT_BREAK_WORD);
     l2->setMaximalLineWidth(15);
     scene->add(l1);
     scene->add(l2);
