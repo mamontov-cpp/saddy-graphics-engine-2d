@@ -13,18 +13,18 @@
 # pragma once
 #endif
 
-#include <boost/ref.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/or.hpp>
-#include <boost/mpl/plus.hpp>
-#include <boost/mpl/times.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/mpl/size_t.hpp>
-#include <boost/mpl/equal_to.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/detail/static/type_traits.hpp>
-#include <boost/proto/traits.hpp>
+#include "../../../../boost/ref.hpp"
+#include "../../../../boost/mpl/if.hpp"
+#include "../../../../boost/mpl/or.hpp"
+#include "../../../../boost/mpl/plus.hpp"
+#include "../../../../boost/mpl/times.hpp"
+#include "../../../../boost/mpl/assert.hpp"
+#include "../../../../boost/mpl/size_t.hpp"
+#include "../../../../boost/mpl/equal_to.hpp"
+#include "../../../../boost/type_traits/is_same.hpp"
+#include "../../../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../../../boost/xpressive/detail/static/type_traits.hpp"
+#include "../../../../boost/proto/traits.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

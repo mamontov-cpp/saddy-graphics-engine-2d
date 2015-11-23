@@ -13,13 +13,13 @@
 # pragma once
 #endif
 
-#include <boost/mpl/not.hpp>
-#include <boost/mpl/placeholders.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/detail/core/quant_style.hpp>
-#include <boost/xpressive/detail/core/matcher/action_matcher.hpp>
-#include <boost/xpressive/detail/core/state.hpp>
-#include <boost/proto/core.hpp>
+#include "../../../../../boost/mpl/not.hpp"
+#include "../../../../../boost/mpl/placeholders.hpp"
+#include "../../../../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../../../../boost/xpressive/detail/core/quant_style.hpp"
+#include "../../../../../boost/xpressive/detail/core/matcher/action_matcher.hpp"
+#include "../../../../../boost/xpressive/detail/core/state.hpp"
+#include "../../../../../boost/proto/core.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

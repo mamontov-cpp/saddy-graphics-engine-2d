@@ -9,18 +9,18 @@
 #ifndef BOOST_MPI_DETAIL_MPI_DATATYPE_OARCHIVE_HPP
 #define BOOST_MPI_DETAIL_MPI_DATATYPE_OARCHIVE_HPP
 
-#include <boost/type_traits/is_enum.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/archive/detail/oserializer.hpp>
-#include <boost/archive/detail/auto_link_archive.hpp>
-#include <boost/archive/basic_archive.hpp>
-#include <boost/mpi/detail/ignore_skeleton_oarchive.hpp>
-#include <boost/mpi/detail/mpi_datatype_primitive.hpp>
-#include <boost/mpi/datatype_fwd.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/static_assert.hpp>
-#include <boost/integer.hpp>
-#include <boost/archive/detail/register_archive.hpp>
+#include "../../../boost/type_traits/is_enum.hpp"
+#include "../../../boost/mpl/bool.hpp"
+#include "../../../boost/archive/detail/oserializer.hpp"
+#include "../../../boost/archive/detail/auto_link_archive.hpp"
+#include "../../../boost/archive/basic_archive.hpp"
+#include "../../../boost/mpi/detail/ignore_skeleton_oarchive.hpp"
+#include "../../../boost/mpi/detail/mpi_datatype_primitive.hpp"
+#include "../../../boost/mpi/datatype_fwd.hpp"
+#include "../../../boost/mpl/assert.hpp"
+#include "../../../boost/static_assert.hpp"
+#include "../../../boost/integer.hpp"
+#include "../../../boost/archive/detail/register_archive.hpp"
 
 namespace boost { namespace mpi { namespace detail {
 

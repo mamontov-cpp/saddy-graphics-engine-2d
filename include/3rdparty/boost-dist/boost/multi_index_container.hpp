@@ -15,51 +15,51 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp> /* keep it first to prevent nasty warns in MSVC */
+#include "../boost/config.hpp" /* keep it first to prevent nasty warns in MSVC */
 #include <algorithm>
-#include <boost/detail/allocator_utilities.hpp>
-#include <boost/detail/no_exceptions_support.hpp>
-#include <boost/detail/workaround.hpp>
-#include <boost/move/core.hpp>
-#include <boost/mpl/at.hpp>
-#include <boost/mpl/contains.hpp>
-#include <boost/mpl/find_if.hpp>
-#include <boost/mpl/identity.hpp>
-#include <boost/mpl/int.hpp>
-#include <boost/mpl/size.hpp>
-#include <boost/mpl/deref.hpp>
-#include <boost/multi_index_container_fwd.hpp>
-#include <boost/multi_index/detail/access_specifier.hpp>
-#include <boost/multi_index/detail/adl_swap.hpp>
-#include <boost/multi_index/detail/base_type.hpp>
-#include <boost/multi_index/detail/do_not_copy_elements_tag.hpp>
-#include <boost/multi_index/detail/converter.hpp>
-#include <boost/multi_index/detail/header_holder.hpp>
-#include <boost/multi_index/detail/has_tag.hpp>
-#include <boost/multi_index/detail/no_duplicate_tags.hpp>
-#include <boost/multi_index/detail/safe_mode.hpp>
-#include <boost/multi_index/detail/scope_guard.hpp>
-#include <boost/multi_index/detail/vartempl_support.hpp>
-#include <boost/static_assert.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/utility/base_from_member.hpp>
+#include "../boost/detail/allocator_utilities.hpp"
+#include "../boost/detail/no_exceptions_support.hpp"
+#include "../boost/detail/workaround.hpp"
+#include "../boost/move/core.hpp"
+#include "../boost/mpl/at.hpp"
+#include "../boost/mpl/contains.hpp"
+#include "../boost/mpl/find_if.hpp"
+#include "../boost/mpl/identity.hpp"
+#include "../boost/mpl/int.hpp"
+#include "../boost/mpl/size.hpp"
+#include "../boost/mpl/deref.hpp"
+#include "../boost/multi_index_container_fwd.hpp"
+#include "../boost/multi_index/detail/access_specifier.hpp"
+#include "../boost/multi_index/detail/adl_swap.hpp"
+#include "../boost/multi_index/detail/base_type.hpp"
+#include "../boost/multi_index/detail/do_not_copy_elements_tag.hpp"
+#include "../boost/multi_index/detail/converter.hpp"
+#include "../boost/multi_index/detail/header_holder.hpp"
+#include "../boost/multi_index/detail/has_tag.hpp"
+#include "../boost/multi_index/detail/no_duplicate_tags.hpp"
+#include "../boost/multi_index/detail/safe_mode.hpp"
+#include "../boost/multi_index/detail/scope_guard.hpp"
+#include "../boost/multi_index/detail/vartempl_support.hpp"
+#include "../boost/static_assert.hpp"
+#include "../boost/type_traits/is_same.hpp"
+#include "../boost/utility/base_from_member.hpp"
 
 #if !defined(BOOST_NO_CXX11_HDR_INITIALIZER_LIST)
 #include <initializer_list>
 #endif
 
 #if !defined(BOOST_MULTI_INDEX_DISABLE_SERIALIZATION)
-#include <boost/multi_index/detail/archive_constructed.hpp>
-#include <boost/multi_index/detail/serialization_version.hpp>
-#include <boost/serialization/collection_size_type.hpp>
-#include <boost/serialization/nvp.hpp>
-#include <boost/serialization/split_member.hpp>
-#include <boost/serialization/version.hpp>
-#include <boost/throw_exception.hpp> 
+#include "../boost/multi_index/detail/archive_constructed.hpp"
+#include "../boost/multi_index/detail/serialization_version.hpp"
+#include "../boost/serialization/collection_size_type.hpp"
+#include "../boost/serialization/nvp.hpp"
+#include "../boost/serialization/split_member.hpp"
+#include "../boost/serialization/version.hpp"
+#include "../boost/throw_exception.hpp" 
 #endif
 
 #if defined(BOOST_MULTI_INDEX_ENABLE_INVARIANT_CHECKING)
-#include <boost/multi_index/detail/invariant_assert.hpp>
+#include "../boost/multi_index/detail/invariant_assert.hpp"
 #define BOOST_MULTI_INDEX_CHECK_INVARIANT_OF(x)                              \
   detail::scope_guard BOOST_JOIN(check_invariant_,__LINE__)=                 \
     detail::make_obj_guard(x,&multi_index_container::check_invariant_);      \

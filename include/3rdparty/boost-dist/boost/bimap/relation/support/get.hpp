@@ -16,15 +16,15 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../../boost/config.hpp"
 
-#include <boost/bimap/relation/support/value_type_of.hpp>
+#include "../../../../boost/bimap/relation/support/value_type_of.hpp"
 
-#include <boost/bimap/relation/detail/access_builder.hpp>
+#include "../../../../boost/bimap/relation/detail/access_builder.hpp"
 
-#include <boost/mpl/if.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/type_traits/is_const.hpp>
+#include "../../../../boost/mpl/if.hpp"
+#include "../../../../boost/type_traits/is_same.hpp"
+#include "../../../../boost/type_traits/is_const.hpp"
 
 #ifdef BOOST_BIMAP_ONLY_DOXYGEN_WILL_PROCESS_THE_FOLLOWING_LINES
 

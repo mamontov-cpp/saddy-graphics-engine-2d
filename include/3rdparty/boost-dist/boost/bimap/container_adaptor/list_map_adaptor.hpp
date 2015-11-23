@@ -16,18 +16,18 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
-#include <boost/mpl/list.hpp>
-#include <boost/mpl/push_front.hpp>
+#include "../../../boost/mpl/list.hpp"
+#include "../../../boost/mpl/push_front.hpp"
 
-#include <boost/bimap/container_adaptor/list_adaptor.hpp>
-#include <boost/bimap/container_adaptor/detail/identity_converters.hpp>
-#include <boost/bimap/container_adaptor/detail/key_extractor.hpp>
-#include <boost/bimap/container_adaptor/detail/comparison_adaptor.hpp>
-#include <boost/mpl/vector.hpp>
-#include <boost/mpl/aux_/na.hpp>
-#include <boost/mpl/if.hpp>
+#include "../../../boost/bimap/container_adaptor/list_adaptor.hpp"
+#include "../../../boost/bimap/container_adaptor/detail/identity_converters.hpp"
+#include "../../../boost/bimap/container_adaptor/detail/key_extractor.hpp"
+#include "../../../boost/bimap/container_adaptor/detail/comparison_adaptor.hpp"
+#include "../../../boost/mpl/vector.hpp"
+#include "../../../boost/mpl/aux_/na.hpp"
+#include "../../../boost/mpl/if.hpp"
 
 namespace boost {
 namespace bimaps {

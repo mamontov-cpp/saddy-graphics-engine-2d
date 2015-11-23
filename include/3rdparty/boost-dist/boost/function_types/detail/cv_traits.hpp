@@ -10,15 +10,15 @@
 #define BOOST_FT_DETAIL_CV_TRAITS_HPP_INCLUDED
 
 #include <cstddef>
-#include <boost/detail/workaround.hpp>
+#include "../../../boost/detail/workaround.hpp"
 
 #if BOOST_WORKAROUND(__BORLANDC__, <= 0x582)
-#   include <boost/type_traits/remove_cv.hpp>
-#   include <boost/type_traits/remove_pointer.hpp>
-#   include <boost/type_traits/remove_reference.hpp>
+#include "../../../boost/type_traits/remove_cv.hpp"
+#include "../../../boost/type_traits/remove_pointer.hpp"
+#include "../../../boost/type_traits/remove_reference.hpp"
 #endif
 
-#include <boost/function_types/property_tags.hpp>
+#include "../../../boost/function_types/property_tags.hpp"
 
 namespace boost { namespace function_types { namespace detail {
 

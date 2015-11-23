@@ -34,10 +34,10 @@
 # pragma once
 #endif 
 
-#include <boost/assert.hpp>
-#include <boost/config.hpp>
-#include <boost/noncopyable.hpp>
-#include <boost/serialization/force_include.hpp>
+#include "../../boost/assert.hpp"
+#include "../../boost/config.hpp"
+#include "../../boost/noncopyable.hpp"
+#include "../../boost/serialization/force_include.hpp"
 
 #ifdef BOOST_MSVC
 #  pragma warning(push)

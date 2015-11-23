@@ -6,29 +6,29 @@
 #ifndef BOOST_ITERATOR_CONCEPTS_HPP
 #define BOOST_ITERATOR_CONCEPTS_HPP
 
-#include <boost/concept_check.hpp>
-#include <boost/iterator/iterator_categories.hpp>
+#include "../../boost/concept_check.hpp"
+#include "../../boost/iterator/iterator_categories.hpp"
 
 // Use boost::detail::iterator_traits to work around some MSVC/Dinkumware problems.
-#include <boost/detail/iterator.hpp>
+#include "../../boost/detail/iterator.hpp"
 
-#include <boost/type_traits/is_same.hpp>
-#include <boost/type_traits/is_integral.hpp>
+#include "../../boost/type_traits/is_same.hpp"
+#include "../../boost/type_traits/is_integral.hpp"
 
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/and.hpp>
-#include <boost/mpl/or.hpp>
+#include "../../boost/mpl/bool.hpp"
+#include "../../boost/mpl/if.hpp"
+#include "../../boost/mpl/and.hpp"
+#include "../../boost/mpl/or.hpp"
 
-#include <boost/static_assert.hpp>
+#include "../../boost/static_assert.hpp"
 
 // Use boost/limits to work around missing limits headers on some compilers
-#include <boost/limits.hpp>
-#include <boost/config.hpp>
+#include "../../boost/limits.hpp"
+#include "../../boost/config.hpp"
 
 #include <algorithm>
 
-#include <boost/concept/detail/concept_def.hpp>
+#include "../../boost/concept/detail/concept_def.hpp"
 
 namespace boost_concepts
 {
@@ -270,6 +270,6 @@ namespace boost_concepts
 
 } // namespace boost_concepts
 
-#include <boost/concept/detail/concept_undef.hpp>
+#include "../../boost/concept/detail/concept_undef.hpp"
 
 #endif // BOOST_ITERATOR_CONCEPTS_HPP

@@ -7,15 +7,15 @@
 #if !defined(FUSION_BEGIN_04052005_1132)
 #define FUSION_BEGIN_04052005_1132
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/utility/enable_if.hpp>
-#include <boost/mpl/empty_base.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/fusion/sequence/intrinsic_fwd.hpp>
-#include <boost/fusion/support/tag_of.hpp>
-#include <boost/fusion/support/is_sequence.hpp>
-#include <boost/fusion/support/is_segmented.hpp>
-#include <boost/fusion/sequence/intrinsic/detail/segmented_begin.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/utility/enable_if.hpp"
+#include "../../../../boost/mpl/empty_base.hpp"
+#include "../../../../boost/mpl/if.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic_fwd.hpp"
+#include "../../../../boost/fusion/support/tag_of.hpp"
+#include "../../../../boost/fusion/support/is_sequence.hpp"
+#include "../../../../boost/fusion/support/is_segmented.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic/detail/segmented_begin.hpp"
 
 namespace boost { namespace fusion
 {

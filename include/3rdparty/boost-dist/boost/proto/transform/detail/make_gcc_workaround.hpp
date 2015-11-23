@@ -1,7 +1,7 @@
 #if !defined(BOOST_PROTO_DONT_USE_PREPROCESSED_FILES)
 
     #if BOOST_WORKAROUND(__GNUC__, == 3) || (BOOST_WORKAROUND(__GNUC__, == 4) && __GNUC_MINOR__ == 0)
-        #include <boost/proto/transform/detail/preprocessed/make_gcc_workaround.hpp>
+        #include "../../../../boost/proto/transform/detail/preprocessed/make_gcc_workaround.hpp"
     #endif
 
 #elif !defined(BOOST_PP_IS_ITERATING)

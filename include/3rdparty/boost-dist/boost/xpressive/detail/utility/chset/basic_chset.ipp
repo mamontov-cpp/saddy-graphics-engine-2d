@@ -12,7 +12,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 #include <bitset>
-#include <boost/xpressive/detail/utility/chset/basic_chset.hpp>
+#include "../../../../../boost/xpressive/detail/utility/chset/basic_chset.hpp"
 
 ///////////////////////////////////////////////////////////////////////////////
 namespace boost { namespace xpressive { namespace detail

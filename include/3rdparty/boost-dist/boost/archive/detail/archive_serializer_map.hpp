@@ -20,9 +20,9 @@
 // note: this is nothing more than the thinest of wrappers around
 // basic_serializer_map so we can have a one map / archive type. 
 
-#include <boost/config.hpp>
-#include <boost/archive/detail/auto_link_archive.hpp>
-#include <boost/archive/detail/abi_prefix.hpp> // must be the last header
+#include "../../../boost/config.hpp"
+#include "../../../boost/archive/detail/auto_link_archive.hpp"
+#include "../../../boost/archive/detail/abi_prefix.hpp" // must be the last header
 
 namespace boost {
 
@@ -49,6 +49,6 @@ public:
 } // namespace archive
 } // namespace boost
 
-#include <boost/archive/detail/abi_suffix.hpp> // must be the last header
+#include "../../../boost/archive/detail/abi_suffix.hpp" // must be the last header
 
 #endif //BOOST_ARCHIVE_SERIALIZER_MAP_HPP

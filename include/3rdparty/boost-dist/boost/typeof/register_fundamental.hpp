@@ -6,7 +6,7 @@
 #ifndef BOOST_TYPEOF_REGISTER_FUNDAMENTAL_HPP_INCLUDED
 #define BOOST_TYPEOF_REGISTER_FUNDAMENTAL_HPP_INCLUDED
 
-#include <boost/typeof/typeof.hpp>
+#include "../../boost/typeof/typeof.hpp"
 
 #include BOOST_TYPEOF_INCREMENT_REGISTRATION_GROUP()
 

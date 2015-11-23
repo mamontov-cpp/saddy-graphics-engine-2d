@@ -9,23 +9,23 @@
 #ifndef BOOST_MPI_DETAIL_MPI_DATATYPE_OPRIMITIVE_HPP
 #define BOOST_MPI_DETAIL_MPI_DATATYPE_OPRIMITIVE_HPP
 
-#include <boost/mpi/config.hpp>
+#include "../../../boost/mpi/config.hpp"
 #include <cstddef> // size_t
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 #if defined(BOOST_NO_STDC_NAMESPACE)
 namespace std{
     using ::size_t;
 } // namespace std
 #endif
 
-#include <boost/mpi/datatype_fwd.hpp>
-#include <boost/mpi/exception.hpp>
-#include <boost/throw_exception.hpp>
-#include <boost/assert.hpp>
-#include <boost/mpl/placeholders.hpp>
-#include <boost/serialization/array.hpp>
-#include <boost/serialization/detail/get_data.hpp>
+#include "../../../boost/mpi/datatype_fwd.hpp"
+#include "../../../boost/mpi/exception.hpp"
+#include "../../../boost/throw_exception.hpp"
+#include "../../../boost/assert.hpp"
+#include "../../../boost/mpl/placeholders.hpp"
+#include "../../../boost/serialization/array.hpp"
+#include "../../../boost/serialization/detail/get_data.hpp"
 #include <stdexcept>
 #include <iostream>
 #include <vector>

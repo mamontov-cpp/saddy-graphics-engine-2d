@@ -7,19 +7,19 @@
 #if !defined(FUSION_FUSION_ITERATOR_10012005_1551)
 #define FUSION_FUSION_ITERATOR_10012005_1551
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/iterator/value_of.hpp>
-#include <boost/fusion/iterator/next.hpp>
-#include <boost/fusion/iterator/prior.hpp>
-#include <boost/fusion/iterator/advance.hpp>
-#include <boost/fusion/iterator/distance.hpp>
-#include <boost/fusion/support/category_of.hpp>
-#include <boost/mpl/next_prior.hpp>
-#include <boost/mpl/advance_fwd.hpp>
-#include <boost/mpl/distance_fwd.hpp>
-#include <boost/mpl/iterator_tags.hpp>
-#include <boost/mpl/eval_if.hpp>
-#include <boost/type_traits/is_base_of.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/fusion/iterator/value_of.hpp"
+#include "../../../../boost/fusion/iterator/next.hpp"
+#include "../../../../boost/fusion/iterator/prior.hpp"
+#include "../../../../boost/fusion/iterator/advance.hpp"
+#include "../../../../boost/fusion/iterator/distance.hpp"
+#include "../../../../boost/fusion/support/category_of.hpp"
+#include "../../../../boost/mpl/next_prior.hpp"
+#include "../../../../boost/mpl/advance_fwd.hpp"
+#include "../../../../boost/mpl/distance_fwd.hpp"
+#include "../../../../boost/mpl/iterator_tags.hpp"
+#include "../../../../boost/mpl/eval_if.hpp"
+#include "../../../../boost/type_traits/is_base_of.hpp"
 
 namespace boost { namespace fusion { namespace detail
 {

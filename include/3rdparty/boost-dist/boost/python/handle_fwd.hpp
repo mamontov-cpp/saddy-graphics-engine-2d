@@ -5,7 +5,7 @@
 #ifndef HANDLE_FWD_DWA2002615_HPP
 # define HANDLE_FWD_DWA2002615_HPP
 
-# include <boost/python/detail/prefix.hpp>
+#include "../../boost/python/detail/prefix.hpp"
 
 namespace boost { namespace python { 
 

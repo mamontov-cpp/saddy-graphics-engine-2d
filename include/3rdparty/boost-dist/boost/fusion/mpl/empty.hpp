@@ -7,9 +7,9 @@
 #if !defined(FUSION_EMPTY_10022005_1619)
 #define FUSION_EMPTY_10022005_1619
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/mpl/empty.hpp>
-#include <boost/fusion/sequence/intrinsic/empty.hpp>
+#include "../../../boost/fusion/support/config.hpp"
+#include "../../../boost/mpl/empty.hpp"
+#include "../../../boost/fusion/sequence/intrinsic/empty.hpp"
 
 namespace boost { namespace mpl
 {

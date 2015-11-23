@@ -5,7 +5,7 @@
 #ifndef BOOST_PYTHON_OBJECT_PICKLE_SUPPORT_RWGK20020603_HPP
 # define BOOST_PYTHON_OBJECT_PICKLE_SUPPORT_RWGK20020603_HPP
 
-# include <boost/python/detail/prefix.hpp>
+#include "../../../boost/python/detail/prefix.hpp"
 
 namespace boost { namespace python {
 

@@ -11,16 +11,16 @@
 #include <algorithm>
 #include <cstring>
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 #if defined(BOOST_NO_STDC_NAMESPACE)
 namespace std{ 
     using ::memcpy; 
 }
 #endif
 
-#include <boost/detail/workaround.hpp>
-#include <boost/serialization/string.hpp>
-#include <boost/archive/basic_text_iarchive.hpp>
+#include "../../../boost/detail/workaround.hpp"
+#include "../../../boost/serialization/string.hpp"
+#include "../../../boost/archive/basic_text_iarchive.hpp"
 
 namespace boost {
 namespace archive {

@@ -4,7 +4,7 @@
 // http://www.boost.org/LICENSE_1_0.txt)
 #ifndef AS_TO_PYTHON_FUNCTION_DWA2002121_HPP
 # define AS_TO_PYTHON_FUNCTION_DWA2002121_HPP
-# include <boost/python/converter/to_python_function_type.hpp>
+#include "../../../boost/python/converter/to_python_function_type.hpp"
 
 namespace boost { namespace python { namespace converter { 
 

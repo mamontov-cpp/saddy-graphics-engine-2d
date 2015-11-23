@@ -23,22 +23,22 @@
 
 //  See http://www.boost.org for updates, documentation, and revision history.
 
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/detail/workaround.hpp"
 
-#include <boost/archive/basic_archive.hpp>
-#include <boost/archive/detail/common_iarchive.hpp>
-#include <boost/serialization/collection_size_type.hpp>
-#include <boost/serialization/string.hpp>
-#include <boost/serialization/item_version_type.hpp>
-#include <boost/integer_traits.hpp>
+#include "../../boost/archive/basic_archive.hpp"
+#include "../../boost/archive/detail/common_iarchive.hpp"
+#include "../../boost/serialization/collection_size_type.hpp"
+#include "../../boost/serialization/string.hpp"
+#include "../../boost/serialization/item_version_type.hpp"
+#include "../../boost/integer_traits.hpp"
 
 #ifdef BOOST_MSVC
 #  pragma warning(push)
 #  pragma warning(disable : 4511 4512)
 #endif
 
-#include <boost/archive/detail/abi_prefix.hpp> // must be the last header
+#include "../../boost/archive/detail/abi_prefix.hpp" // must be the last header
 
 namespace boost { 
 namespace archive {
@@ -199,6 +199,6 @@ protected:
 #pragma warning(pop)
 #endif
 
-#include <boost/archive/detail/abi_suffix.hpp> // pops abi_suffix.hpp pragmas
+#include "../../boost/archive/detail/abi_suffix.hpp" // pops abi_suffix.hpp pragmas
 
 #endif // BOOST_ARCHIVE_BASIC_BINARY_IARCHIVE_HPP

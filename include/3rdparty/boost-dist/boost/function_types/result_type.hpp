@@ -9,15 +9,15 @@
 #ifndef BOOST_FT_RESULT_TYPE_HPP_INCLUDED
 #define BOOST_FT_RESULT_TYPE_HPP_INCLUDED
 
-#include <boost/blank.hpp>
-#include <boost/mpl/if.hpp>
+#include "../../boost/blank.hpp"
+#include "../../boost/mpl/if.hpp"
 
-#include <boost/mpl/aux_/lambda_support.hpp>
+#include "../../boost/mpl/aux_/lambda_support.hpp"
 
-#include <boost/mpl/at.hpp>
+#include "../../boost/mpl/at.hpp"
 
-#include <boost/function_types/is_callable_builtin.hpp>
-#include <boost/function_types/components.hpp>
+#include "../../boost/function_types/is_callable_builtin.hpp"
+#include "../../boost/function_types/components.hpp"
 
 namespace boost 
 { 

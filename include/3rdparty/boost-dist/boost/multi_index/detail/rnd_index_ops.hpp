@@ -13,9 +13,9 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp> /* keep it first to prevent nasty warns in MSVC */
+#include "../../../boost/config.hpp" /* keep it first to prevent nasty warns in MSVC */
 #include <algorithm>
-#include <boost/multi_index/detail/rnd_index_ptr_array.hpp>
+#include "../../../boost/multi_index/detail/rnd_index_ptr_array.hpp"
 
 namespace boost{
 

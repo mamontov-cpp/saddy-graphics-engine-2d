@@ -7,10 +7,10 @@
 #if !defined(BOOST_FUSION_SEQUENCE_INTRINSIC_FWD_HPP_INCLUDED)
 #define BOOST_FUSION_SEQUENCE_INTRINSIC_FWD_HPP_INCLUDED
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/type_traits/is_const.hpp>
-#include <boost/utility/enable_if.hpp>
-#include <boost/fusion/support/is_sequence.hpp>
+#include "../../../boost/fusion/support/config.hpp"
+#include "../../../boost/type_traits/is_const.hpp"
+#include "../../../boost/utility/enable_if.hpp"
+#include "../../../boost/fusion/support/is_sequence.hpp"
 
 namespace boost { namespace fusion
 {

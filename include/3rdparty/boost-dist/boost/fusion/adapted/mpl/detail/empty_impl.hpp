@@ -8,8 +8,8 @@
 #if !defined(BOOST_FUSION_EMPTY_IMPL_31122005_1554)
 #define BOOST_FUSION_EMPTY_IMPL_31122005_1554
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/mpl/empty.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/mpl/empty.hpp"
 
 namespace boost { namespace fusion
 {

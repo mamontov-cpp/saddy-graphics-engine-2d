@@ -7,12 +7,12 @@
 #if !defined(FUSION_BUILD_CONS_09232005_1222)
 #define FUSION_BUILD_CONS_09232005_1222
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/container/list/cons.hpp>
-#include <boost/fusion/iterator/equal_to.hpp>
-#include <boost/fusion/iterator/next.hpp>
-#include <boost/fusion/iterator/value_of.hpp>
-#include <boost/fusion/iterator/deref.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/fusion/container/list/cons.hpp"
+#include "../../../../../boost/fusion/iterator/equal_to.hpp"
+#include "../../../../../boost/fusion/iterator/next.hpp"
+#include "../../../../../boost/fusion/iterator/value_of.hpp"
+#include "../../../../../boost/fusion/iterator/deref.hpp"
 
 namespace boost { namespace fusion { namespace detail
 {

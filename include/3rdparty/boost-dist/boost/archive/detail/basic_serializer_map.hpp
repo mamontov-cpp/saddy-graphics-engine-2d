@@ -18,11 +18,11 @@
 
 #include <set>
 
-#include <boost/config.hpp>
-#include <boost/noncopyable.hpp>
-#include <boost/archive/detail/auto_link_archive.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/noncopyable.hpp"
+#include "../../../boost/archive/detail/auto_link_archive.hpp"
 
-#include <boost/archive/detail/abi_prefix.hpp> // must be the last header
+#include "../../../boost/archive/detail/abi_prefix.hpp" // must be the last header
 
 namespace boost { 
 namespace serialization {
@@ -64,6 +64,6 @@ private:
 } // namespace archive
 } // namespace boost
 
-#include <boost/archive/detail/abi_suffix.hpp> // must be the last header
+#include "../../../boost/archive/detail/abi_suffix.hpp" // must be the last header
 
 #endif // BOOST_SERIALIZER_MAP_HPP

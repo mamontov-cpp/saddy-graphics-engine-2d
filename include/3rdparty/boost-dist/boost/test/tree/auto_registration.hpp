@@ -16,14 +16,14 @@
 #define BOOST_TEST_TREE_AUTO_REGISTRATION_HPP_100211GER
 
 // Boost.Test
-#include <boost/test/detail/config.hpp>
-#include <boost/test/tree/decorator.hpp>
-#include <boost/test/tree/test_unit.hpp>
+#include "../../../boost/test/detail/config.hpp"
+#include "../../../boost/test/tree/decorator.hpp"
+#include "../../../boost/test/tree/test_unit.hpp"
 
 // STL
 #include <list>
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -47,7 +47,7 @@ struct BOOST_TEST_DECL auto_test_unit_registrar {
 } // namespace unit_test
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_TREE_AUTO_REGISTRATION_HPP_100211GER
 

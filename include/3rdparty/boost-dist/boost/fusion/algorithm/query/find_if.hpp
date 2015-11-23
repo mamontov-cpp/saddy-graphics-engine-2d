@@ -8,18 +8,18 @@
 #if !defined(FUSION_FIND_IF_05052005_1108)
 #define FUSION_FIND_IF_05052005_1108
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/algorithm/query/find_if_fwd.hpp>
-#include <boost/fusion/algorithm/query/detail/find_if.hpp>
-#include <boost/fusion/algorithm/query/detail/segmented_find_if.hpp>
-#include <boost/fusion/iterator/value_of.hpp>
-#include <boost/fusion/support/is_segmented.hpp>
-#include <boost/utility/enable_if.hpp>
-#include <boost/type_traits/is_const.hpp>
-#include <boost/mpl/bind.hpp>
-#include <boost/mpl/lambda.hpp>
-#include <boost/mpl/placeholders.hpp>
-#include <boost/mpl/quote.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/fusion/algorithm/query/find_if_fwd.hpp"
+#include "../../../../boost/fusion/algorithm/query/detail/find_if.hpp"
+#include "../../../../boost/fusion/algorithm/query/detail/segmented_find_if.hpp"
+#include "../../../../boost/fusion/iterator/value_of.hpp"
+#include "../../../../boost/fusion/support/is_segmented.hpp"
+#include "../../../../boost/utility/enable_if.hpp"
+#include "../../../../boost/type_traits/is_const.hpp"
+#include "../../../../boost/mpl/bind.hpp"
+#include "../../../../boost/mpl/lambda.hpp"
+#include "../../../../boost/mpl/placeholders.hpp"
+#include "../../../../boost/mpl/quote.hpp"
 
 namespace boost { namespace fusion
 {

@@ -12,6 +12,6 @@
 // The header file at this path is deprecated;
 // use boost/core/lightweight_test.hpp instead.
 
-#include <boost/core/lightweight_test.hpp>
+#include "../../boost/core/lightweight_test.hpp"
 
 #endif

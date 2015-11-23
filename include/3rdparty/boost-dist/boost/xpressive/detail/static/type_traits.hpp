@@ -14,11 +14,11 @@
 #endif
 
 #include <string>
-#include <boost/config.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/iterator/iterator_traits.hpp>
-#include <boost/type_traits/is_convertible.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
+#include "../../../../boost/config.hpp"
+#include "../../../../boost/mpl/bool.hpp"
+#include "../../../../boost/iterator/iterator_traits.hpp"
+#include "../../../../boost/type_traits/is_convertible.hpp"
+#include "../../../../boost/xpressive/detail/detail_fwd.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

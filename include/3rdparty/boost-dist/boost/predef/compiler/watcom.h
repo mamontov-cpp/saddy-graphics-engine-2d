@@ -8,8 +8,8 @@ http://www.boost.org/LICENSE_1_0.txt)
 #ifndef BOOST_PREDEF_COMPILER_WATCOM_H
 #define BOOST_PREDEF_COMPILER_WATCOM_H
 
-#include <boost/predef/version_number.h>
-#include <boost/predef/make.h>
+#include "../../../boost/predef/version_number.h"
+#include "../../../boost/predef/make.h"
 
 /*`
 [heading `BOOST_COMP_WATCOM`]
@@ -40,17 +40,17 @@ Version number available as major, and minor.
 #       define BOOST_COMP_WATCOM BOOST_COMP_WATCOM_DETECTION
 #   endif
 #   define BOOST_COMP_WATCOM_AVAILABLE
-#   include <boost/predef/detail/comp_detected.h>
+#include "../../../boost/predef/detail/comp_detected.h"
 #endif
 
 #define BOOST_COMP_WATCOM_NAME "Watcom C++"
 
 #endif
 
-#include <boost/predef/detail/test.h>
+#include "../../../boost/predef/detail/test.h"
 BOOST_PREDEF_DECLARE_TEST(BOOST_COMP_WATCOM,BOOST_COMP_WATCOM_NAME)
 
 #ifdef BOOST_COMP_WATCOM_EMULATED
-#include <boost/predef/detail/test.h>
+#include "../../../boost/predef/detail/test.h"
 BOOST_PREDEF_DECLARE_TEST(BOOST_COMP_WATCOM_EMULATED,BOOST_COMP_WATCOM_NAME)
 #endif

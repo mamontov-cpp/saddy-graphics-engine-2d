@@ -22,14 +22,14 @@
 // compiles recognize the same set of primitive types, the possibility
 // exists for archives to be non-portable if class information for primitive
 // types is included.  This is addressed by the following macros.
-#include <boost/config.hpp>
-#include <boost/mpl/integral_c.hpp>
-#include <boost/mpl/integral_c_tag.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/mpl/integral_c.hpp"
+#include "../../boost/mpl/integral_c_tag.hpp"
 
-#include <boost/cstdint.hpp>
-#include <boost/integer_traits.hpp>
+#include "../../boost/cstdint.hpp"
+#include "../../boost/integer_traits.hpp"
 #include <climits> // ULONG_MAX
-#include <boost/serialization/level.hpp>
+#include "../../boost/serialization/level.hpp"
 
 #define BOOST_SERIALIZATION_COLLECTION_TRAITS_HELPER(T, C)          \
 template<>                                                          \

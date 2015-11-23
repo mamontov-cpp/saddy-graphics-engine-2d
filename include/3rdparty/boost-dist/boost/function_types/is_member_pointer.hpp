@@ -8,9 +8,9 @@
 #ifndef BOOST_FT_IS_MEMBER_POINTER_HPP_INCLUDED
 #define BOOST_FT_IS_MEMBER_POINTER_HPP_INCLUDED
 
-#include <boost/mpl/aux_/lambda_support.hpp>
+#include "../../boost/mpl/aux_/lambda_support.hpp"
 
-#include <boost/function_types/components.hpp>
+#include "../../boost/function_types/components.hpp"
 
 namespace boost 
 { 

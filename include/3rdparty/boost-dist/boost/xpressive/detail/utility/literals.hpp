@@ -13,9 +13,9 @@
 # pragma once
 #endif
 
-#include <boost/config.hpp> // for BOOST_STATIC_CONSTANT
-#include <boost/cstdint.hpp> // for BOOST_STATIC_CONSTANT
-#include <boost/detail/workaround.hpp>
+#include "../../../../boost/config.hpp" // for BOOST_STATIC_CONSTANT
+#include "../../../../boost/cstdint.hpp" // for BOOST_STATIC_CONSTANT
+#include "../../../../boost/detail/workaround.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

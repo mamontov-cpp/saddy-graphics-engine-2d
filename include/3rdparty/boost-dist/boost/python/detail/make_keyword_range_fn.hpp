@@ -5,12 +5,12 @@
 #ifndef MAKE_KEYWORD_RANGE_FN_DWA2002927_HPP
 # define MAKE_KEYWORD_RANGE_FN_DWA2002927_HPP
 
-# include <boost/python/make_function.hpp>
-# include <boost/python/args_fwd.hpp>
+#include "../../../boost/python/make_function.hpp"
+#include "../../../boost/python/args_fwd.hpp"
 
-# include <boost/python/object/make_holder.hpp>
+#include "../../../boost/python/object/make_holder.hpp"
 
-# include <boost/mpl/size.hpp>
+#include "../../../boost/mpl/size.hpp"
 
 
 namespace boost { namespace python { namespace detail { 

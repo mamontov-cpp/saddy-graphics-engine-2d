@@ -21,8 +21,8 @@
 # pragma once
 #endif
 
-#include <boost/mpl/bool.hpp>
-#include <boost/type_traits/is_arithmetic.hpp>
+#include "../../boost/mpl/bool.hpp"
+#include "../../boost/type_traits/is_arithmetic.hpp"
 
 namespace boost {
 namespace serialization {

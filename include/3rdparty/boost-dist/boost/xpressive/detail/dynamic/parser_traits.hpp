@@ -15,16 +15,16 @@
 
 #include <string>
 #include <climits>
-#include <boost/config.hpp>
-#include <boost/assert.hpp>
-#include <boost/throw_exception.hpp>
-#include <boost/xpressive/regex_error.hpp>
-#include <boost/xpressive/regex_traits.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/detail/dynamic/matchable.hpp>
-#include <boost/xpressive/detail/dynamic/parser_enum.hpp>
-#include <boost/xpressive/detail/utility/literals.hpp>
-#include <boost/xpressive/detail/utility/algorithm.hpp>
+#include "../../../../boost/config.hpp"
+#include "../../../../boost/assert.hpp"
+#include "../../../../boost/throw_exception.hpp"
+#include "../../../../boost/xpressive/regex_error.hpp"
+#include "../../../../boost/xpressive/regex_traits.hpp"
+#include "../../../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../../../boost/xpressive/detail/dynamic/matchable.hpp"
+#include "../../../../boost/xpressive/detail/dynamic/parser_enum.hpp"
+#include "../../../../boost/xpressive/detail/utility/literals.hpp"
+#include "../../../../boost/xpressive/detail/utility/algorithm.hpp"
 
 namespace boost { namespace xpressive
 {

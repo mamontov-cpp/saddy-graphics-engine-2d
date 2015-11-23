@@ -16,9 +16,9 @@
 #define BOOST_TEST_UTILS_RUNTIME_CLA_ARGV_TRAVERSER_IPP
 
 // Boost.Runtime.Parameter
-#include <boost/test/utils/runtime/trace.hpp>
+#include "../../../../../boost/test/utils/runtime/trace.hpp"
 
-#include <boost/test/utils/runtime/cla/argv_traverser.hpp>
+#include "../../../../../boost/test/utils/runtime/cla/argv_traverser.hpp"
 
 // STL
 #include <memory>

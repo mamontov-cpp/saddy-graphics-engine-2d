@@ -13,10 +13,10 @@
 # pragma once
 #endif
 
-#include <boost/config.hpp>
-#include <boost/mpl/has_xxx.hpp>
-#include <boost/xpressive/detail/utility/width.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
+#include "../../../../boost/config.hpp"
+#include "../../../../boost/mpl/has_xxx.hpp"
+#include "../../../../boost/xpressive/detail/utility/width.hpp"
+#include "../../../../boost/xpressive/detail/detail_fwd.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

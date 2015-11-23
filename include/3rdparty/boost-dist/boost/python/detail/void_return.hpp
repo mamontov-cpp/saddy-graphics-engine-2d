@@ -5,7 +5,7 @@
 #ifndef VOID_RETURN_DWA200274_HPP
 # define VOID_RETURN_DWA200274_HPP
 
-# include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
 namespace boost { namespace python { namespace detail { 
 

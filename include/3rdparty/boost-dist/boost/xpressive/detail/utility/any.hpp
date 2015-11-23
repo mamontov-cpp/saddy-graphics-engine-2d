@@ -8,27 +8,27 @@
 #ifndef BOOST_XPRESSIVE_DETAIL_UTILITY_ANY_HPP_EAN_11_19_2005
 #define BOOST_XPRESSIVE_DETAIL_UTILITY_ANY_HPP_EAN_11_19_2005
 
-#include <boost/version.hpp>
+#include "../../../../boost/version.hpp"
 
 #if BOOST_VERSION >= 103300
 
 // In Boost 1.33+, we have a cons list in Fusion, so just include it.
 
 # if BOOST_VERSION >= 103500
-#  include <boost/fusion/include/any.hpp> // Boost 1.35+ has Fusion2
+#include "../../../../boost/fusion/include/any.hpp" // Boost 1.35+ has Fusion2
 # else
-#  include <boost/spirit/fusion/algorithm/any.hpp> // Fusion1
+#include "../../../../boost/spirit/fusion/algorithm/any.hpp" // Fusion1
 # endif
 
 #else
 
-# include <boost/spirit/fusion/sequence/begin.hpp>
-# include <boost/spirit/fusion/sequence/end.hpp>
-# include <boost/spirit/fusion/iterator/equal_to.hpp>
-# include <boost/mpl/bool.hpp>
-# include <boost/spirit/fusion/iterator/equal_to.hpp>
-# include <boost/spirit/fusion/iterator/next.hpp>
-# include <boost/spirit/fusion/iterator/deref.hpp>
+#include "../../../../boost/spirit/fusion/sequence/begin.hpp"
+#include "../../../../boost/spirit/fusion/sequence/end.hpp"
+#include "../../../../boost/spirit/fusion/iterator/equal_to.hpp"
+#include "../../../../boost/mpl/bool.hpp"
+#include "../../../../boost/spirit/fusion/iterator/equal_to.hpp"
+#include "../../../../boost/spirit/fusion/iterator/next.hpp"
+#include "../../../../boost/spirit/fusion/iterator/deref.hpp"
 
 namespace boost { namespace fusion
 {

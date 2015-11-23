@@ -13,9 +13,9 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp> /* keep it first to prevent nasty warns in MSVC */
-#include <boost/mpl/fold.hpp>
-#include <boost/mpl/set/set0.hpp>
+#include "../../../boost/config.hpp" /* keep it first to prevent nasty warns in MSVC */
+#include "../../../boost/mpl/fold.hpp"
+#include "../../../boost/mpl/set/set0.hpp"
 
 namespace boost{
 

@@ -7,11 +7,11 @@
 #if !defined(FUSION_DEREF_IMPL_07162005_1026)
 #define FUSION_DEREF_IMPL_07162005_1026
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/mpl/apply.hpp>
-#include <boost/fusion/iterator/deref.hpp>
-#include <boost/fusion/iterator/value_of.hpp>
-#include <boost/fusion/view/transform_view/detail/apply_transform_result.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/mpl/apply.hpp"
+#include "../../../../../boost/fusion/iterator/deref.hpp"
+#include "../../../../../boost/fusion/iterator/value_of.hpp"
+#include "../../../../../boost/fusion/view/transform_view/detail/apply_transform_result.hpp"
 
 namespace boost { namespace fusion
 {

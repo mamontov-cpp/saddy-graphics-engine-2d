@@ -13,8 +13,8 @@
 #ifndef BOOST_LAMBDA_ARITY_CODE_HPP
 #define BOOST_LAMBDA_ARITY_CODE_HPP
 
-#include "boost/type_traits/cv_traits.hpp"
-#include "boost/type_traits/transform_traits.hpp"
+#include "../../../boost/type_traits/cv_traits.hpp"
+#include "../../../boost/type_traits/transform_traits.hpp"
 
 namespace boost { 
 namespace lambda {

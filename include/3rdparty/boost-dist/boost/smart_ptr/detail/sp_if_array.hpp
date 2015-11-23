@@ -9,7 +9,7 @@
 #ifndef BOOST_SMART_PTR_DETAIL_SP_IF_ARRAY_HPP
 #define BOOST_SMART_PTR_DETAIL_SP_IF_ARRAY_HPP
 
-#include <boost/smart_ptr/shared_ptr.hpp>
+#include "../../../boost/smart_ptr/shared_ptr.hpp"
 
 namespace boost {
     namespace detail {

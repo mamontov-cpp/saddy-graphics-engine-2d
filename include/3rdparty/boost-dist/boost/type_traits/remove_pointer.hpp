@@ -9,16 +9,16 @@
 #ifndef BOOST_TT_REMOVE_POINTER_HPP_INCLUDED
 #define BOOST_TT_REMOVE_POINTER_HPP_INCLUDED
 
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/detail/workaround.hpp"
 
 #if defined(BOOST_MSVC)
-#include <boost/type_traits/remove_cv.hpp>
-#include <boost/type_traits/is_pointer.hpp>
+#include "../../boost/type_traits/remove_cv.hpp"
+#include "../../boost/type_traits/is_pointer.hpp"
 #endif
 
 // should be the last #include
-#include <boost/type_traits/detail/type_trait_def.hpp>
+#include "../../boost/type_traits/detail/type_trait_def.hpp"
 
 namespace boost {
 
@@ -78,6 +78,6 @@ BOOST_TT_AUX_TYPE_TRAIT_PARTIAL_SPEC1_1(typename T,remove_pointer,T* const volat
 
 } // namespace boost
 
-#include <boost/type_traits/detail/type_trait_undef.hpp>
+#include "../../boost/type_traits/detail/type_trait_undef.hpp"
 
 #endif // BOOST_TT_REMOVE_POINTER_HPP_INCLUDED

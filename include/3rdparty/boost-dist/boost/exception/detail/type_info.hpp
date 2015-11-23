@@ -12,10 +12,10 @@
 #pragma warning(push,1)
 #endif
 
-#include <boost/core/typeinfo.hpp>
-#include <boost/core/demangle.hpp>
-#include <boost/current_function.hpp>
-#include <boost/config.hpp>
+#include "../../../boost/core/typeinfo.hpp"
+#include "../../../boost/core/demangle.hpp"
+#include "../../../boost/current_function.hpp"
+#include "../../../boost/config.hpp"
 #include <string>
 
 namespace

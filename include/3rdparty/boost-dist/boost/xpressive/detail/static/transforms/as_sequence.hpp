@@ -13,10 +13,10 @@
 # pragma once
 #endif
 
-#include <boost/mpl/assert.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/detail/static/static.hpp>
+#include "../../../../../boost/mpl/assert.hpp"
+#include "../../../../../boost/type_traits/is_same.hpp"
+#include "../../../../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../../../../boost/xpressive/detail/static/static.hpp"
 
 namespace boost { namespace xpressive { namespace grammar_detail
 {

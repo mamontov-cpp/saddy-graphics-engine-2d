@@ -13,10 +13,10 @@
 
 // NO INCLUDE GUARDS, THE HEADER IS INTENDED FOR MULTIPLE INCLUSION!
 
-#include <boost/mpl/aux_/config/workaround.hpp>
+#include "../../../../boost/mpl/aux_/config/workaround.hpp"
 
-#include <boost/preprocessor/cat.hpp>
-#include <boost/preprocessor/stringize.hpp>
+#include "../../../../boost/preprocessor/cat.hpp"
+#include "../../../../boost/preprocessor/stringize.hpp"
 
 #   define AUX778076_HEADER \
     aux_/preprocessed/plain/BOOST_MPL_PREPROCESSED_HEADER \

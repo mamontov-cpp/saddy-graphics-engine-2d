@@ -19,7 +19,7 @@
 
 #if defined(BOOST_TEST_FWD_ITERABLE_CXX03)
 // Boost
-#include <boost/mpl/bool.hpp>
+#include "../../../boost/mpl/bool.hpp"
 
 // STL
 #include <list>
@@ -30,11 +30,11 @@
 #else
 
 // Boost
-#include <boost/utility/declval.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/type_traits/remove_reference.hpp>
-#include <boost/type_traits/remove_cv.hpp>
-#include <boost/test/utils/is_cstring.hpp>
+#include "../../../boost/utility/declval.hpp"
+#include "../../../boost/type_traits/is_same.hpp"
+#include "../../../boost/type_traits/remove_reference.hpp"
+#include "../../../boost/type_traits/remove_cv.hpp"
+#include "../../../boost/test/utils/is_cstring.hpp"
 
 // STL
 #include <utility>

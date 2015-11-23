@@ -4,8 +4,8 @@
 // http://www.boost.org/LICENSE_1_0.txt)
 #ifndef TO_PYTHON_FUNCTION_TYPE_DWA200236_HPP
 # define TO_PYTHON_FUNCTION_TYPE_DWA200236_HPP
-# include <boost/python/detail/prefix.hpp>
-# include <boost/static_assert.hpp>
+#include "../../../boost/python/detail/prefix.hpp"
+#include "../../../boost/static_assert.hpp"
 
 namespace boost { namespace python { namespace converter { 
 

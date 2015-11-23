@@ -12,6 +12,6 @@
 // The header file at this path is deprecated;
 // use boost/core/checked_delete.hpp instead.
 
-#include <boost/core/checked_delete.hpp>
+#include "../boost/core/checked_delete.hpp"
 
 #endif

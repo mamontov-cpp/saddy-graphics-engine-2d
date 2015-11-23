@@ -16,11 +16,11 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../../boost/config.hpp"
 
-#include <boost/bimap/relation/support/pair_type_by.hpp>
-#include <boost/bimap/relation/detail/mutant.hpp>
-#include <boost/bimap/relation/mutant_relation.hpp>
+#include "../../../../boost/bimap/relation/support/pair_type_by.hpp"
+#include "../../../../boost/bimap/relation/detail/mutant.hpp"
+#include "../../../../boost/bimap/relation/mutant_relation.hpp"
 
 namespace boost {
 namespace bimaps {

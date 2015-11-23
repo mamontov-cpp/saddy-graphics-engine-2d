@@ -10,8 +10,8 @@
 #ifndef VECTOR_PROPERTY_MAP_HPP_VP_2003_03_04
 #define VECTOR_PROPERTY_MAP_HPP_VP_2003_03_04
 
-#include <boost/property_map/property_map.hpp>
-#include <boost/shared_ptr.hpp>
+#include "../../boost/property_map/property_map.hpp"
+#include "../../boost/shared_ptr.hpp"
 #include <vector>
 
 namespace boost {
@@ -93,7 +93,7 @@ namespace boost {
 }
 
 #ifdef BOOST_GRAPH_USE_MPI
-#include <boost/property_map/parallel/vector_property_map.hpp>
+#include "../../boost/property_map/parallel/vector_property_map.hpp"
 #endif
 
 #endif

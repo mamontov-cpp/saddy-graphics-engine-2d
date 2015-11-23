@@ -12,8 +12,8 @@
 #ifndef CONFIG_DWA052200_H_
 # define CONFIG_DWA052200_H_
 
-# include <boost/config.hpp>
-# include <boost/detail/workaround.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/detail/workaround.hpp"
 
 # ifdef BOOST_NO_OPERATORS_IN_NAMESPACE
    // A gcc bug forces some symbols into the global namespace
@@ -128,7 +128,7 @@
 //
 // And include the header that does the work:
 //
-#include <boost/config/auto_link.hpp>
+#include "../../../boost/config/auto_link.hpp"
 #endif  // auto-linking disabled
 
 #ifndef BOOST_PYTHON_NO_PY_SIGNATURES

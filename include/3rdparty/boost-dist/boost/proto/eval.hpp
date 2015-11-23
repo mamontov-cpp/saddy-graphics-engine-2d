@@ -9,8 +9,8 @@
 #ifndef BOOST_PROTO_EVAL_HPP_EAN_03_29_2007
 #define BOOST_PROTO_EVAL_HPP_EAN_03_29_2007
 
-#include <boost/proto/proto_fwd.hpp> // BOOST_PROTO_CALLABLE
-#include <boost/type_traits/remove_reference.hpp>
+#include "../../boost/proto/proto_fwd.hpp" // BOOST_PROTO_CALLABLE
+#include "../../boost/type_traits/remove_reference.hpp"
 
 namespace boost { namespace proto
 {

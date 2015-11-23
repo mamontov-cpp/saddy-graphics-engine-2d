@@ -10,4 +10,4 @@
 // a particular pointer.
 
 // File moved
-#include <boost/property_map/parallel/simple_trigger.hpp>
+#include "../../../boost/property_map/parallel/simple_trigger.hpp"

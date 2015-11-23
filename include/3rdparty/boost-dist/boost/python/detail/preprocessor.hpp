@@ -5,10 +5,10 @@
 #ifndef PREPROCESSOR_DWA200247_HPP
 # define PREPROCESSOR_DWA200247_HPP
 
-# include <boost/preprocessor/cat.hpp>
-# include <boost/preprocessor/comma_if.hpp>
-# include <boost/preprocessor/repeat.hpp>
-# include <boost/preprocessor/tuple/elem.hpp>
+#include "../../../boost/preprocessor/cat.hpp"
+#include "../../../boost/preprocessor/comma_if.hpp"
+#include "../../../boost/preprocessor/repeat.hpp"
+#include "../../../boost/preprocessor/tuple/elem.hpp"
 
 // stuff that should be in the preprocessor library
 

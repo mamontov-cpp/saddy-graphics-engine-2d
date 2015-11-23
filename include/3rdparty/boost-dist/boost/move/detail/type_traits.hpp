@@ -17,21 +17,21 @@
 #define BOOST_MOVE_DETAIL_TYPE_TRAITS_HPP
 
 #ifndef BOOST_CONFIG_HPP
-#  include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 #endif
 #
 #if defined(BOOST_HAS_PRAGMA_ONCE)
 #  pragma once
 #endif
 
-#include <boost/move/detail/config_begin.hpp>
-#include <boost/move/detail/workaround.hpp>
+#include "../../../boost/move/detail/config_begin.hpp"
+#include "../../../boost/move/detail/workaround.hpp"
 
 // move/detail
-#include <boost/move/detail/meta_utils.hpp>
+#include "../../../boost/move/detail/meta_utils.hpp"
 // other
-#include <boost/assert.hpp>
-#include <boost/static_assert.hpp>
+#include "../../../boost/assert.hpp"
+#include "../../../boost/static_assert.hpp"
 // std
 #include <cstddef>
 
@@ -1073,6 +1073,6 @@ struct aligned_storage
 }  //namespace move_detail {
 }  //namespace boost {
 
-#include <boost/move/detail/config_end.hpp>
+#include "../../../boost/move/detail/config_end.hpp"
 
 #endif   //#ifndef BOOST_MOVE_DETAIL_TYPE_TRAITS_HPP

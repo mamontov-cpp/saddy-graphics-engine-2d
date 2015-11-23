@@ -8,8 +8,8 @@
 #ifndef BOOST_TYPEOF_ENCODE_DECODE_HPP_INCLUDED
 #define BOOST_TYPEOF_ENCODE_DECODE_HPP_INCLUDED
 
-#include <boost/mpl/deref.hpp>
-#include <boost/mpl/next.hpp>
+#include "../../boost/mpl/deref.hpp"
+#include "../../boost/mpl/next.hpp"
 
 #ifndef BOOST_TYPEOF_SUPPRESS_UNNAMED_NAMESPACE
 
@@ -24,7 +24,7 @@
 #   define BOOST_TYPEOF_ENCODE_NS_QUALIFIER boost::type_of
 
 #   define BOOST_TYPEOF_TEXT "unnamed namespace is off"
-#   include <boost/typeof/message.hpp>
+#include "../../boost/typeof/message.hpp"
 
 #endif
 

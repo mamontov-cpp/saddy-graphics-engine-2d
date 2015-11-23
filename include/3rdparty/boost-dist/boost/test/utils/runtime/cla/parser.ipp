@@ -16,22 +16,22 @@
 #define BOOST_TEST_UTILS_RUNTIME_CLA_PARSER_IPP
 
 // Boost.Runtime.Parameter
-#include <boost/test/utils/runtime/config.hpp>
-#include <boost/test/utils/runtime/trace.hpp>
-#include <boost/test/utils/runtime/argument.hpp>
+#include "../../../../../boost/test/utils/runtime/config.hpp"
+#include "../../../../../boost/test/utils/runtime/trace.hpp"
+#include "../../../../../boost/test/utils/runtime/argument.hpp"
 
-#include <boost/test/utils/runtime/cla/argv_traverser.hpp>
-#include <boost/test/utils/runtime/cla/parameter.hpp>
-#include <boost/test/utils/runtime/cla/modifier.hpp>
-#include <boost/test/utils/runtime/cla/validation.hpp>
-#include <boost/test/utils/runtime/cla/parser.hpp>
+#include "../../../../../boost/test/utils/runtime/cla/argv_traverser.hpp"
+#include "../../../../../boost/test/utils/runtime/cla/parameter.hpp"
+#include "../../../../../boost/test/utils/runtime/cla/modifier.hpp"
+#include "../../../../../boost/test/utils/runtime/cla/validation.hpp"
+#include "../../../../../boost/test/utils/runtime/cla/parser.hpp"
 
 // Boost.Test
-#include <boost/test/utils/basic_cstring/io.hpp>
-#include <boost/test/utils/foreach.hpp>
+#include "../../../../../boost/test/utils/basic_cstring/io.hpp"
+#include "../../../../../boost/test/utils/foreach.hpp"
 
 // Boost
-#include <boost/lexical_cast.hpp>
+#include "../../../../../boost/lexical_cast.hpp"
 
 namespace boost {
 

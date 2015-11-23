@@ -5,14 +5,14 @@
 #ifndef VALUE_IS_XXX_DWA2003224_HPP
 # define VALUE_IS_XXX_DWA2003224_HPP
 
-# include <boost/config.hpp>
-# include <boost/mpl/bool.hpp>
-# include <boost/preprocessor/enum_params.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/mpl/bool.hpp"
+#include "../../../boost/preprocessor/enum_params.hpp"
 
 
-#  include <boost/type_traits/remove_reference.hpp>
-#  include <boost/type_traits/remove_cv.hpp>
-#  include <boost/python/detail/is_xxx.hpp>
+#include "../../../boost/type_traits/remove_reference.hpp"
+#include "../../../boost/type_traits/remove_cv.hpp"
+#include "../../../boost/python/detail/is_xxx.hpp"
 
 #  define BOOST_PYTHON_VALUE_IS_XXX_DEF(name, qualified_name, nargs)    \
 template <class X_>                                                     \

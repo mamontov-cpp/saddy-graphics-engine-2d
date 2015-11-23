@@ -8,8 +8,8 @@
 #if !defined(FUSION_SUPPORT_CONFIG_01092014_1718)
 #define FUSION_SUPPORT_CONFIG_01092014_1718
 
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/detail/workaround.hpp"
 #include <utility>
 
 #ifndef BOOST_FUSION_GPU_ENABLED

@@ -15,28 +15,28 @@ namespace std{
 } //std
 #endif
 
-#include <boost/config.hpp> // msvc 6.0 needs this to suppress warnings
+#include "../../../boost/config.hpp" // msvc 6.0 needs this to suppress warnings
 #ifndef BOOST_NO_STD_WSTREAMBUF
 
-#include <boost/assert.hpp>
+#include "../../../boost/assert.hpp"
 #include <algorithm> // std::copy
 
-#include <boost/detail/workaround.hpp> // Dinkumware and RogueWave
+#include "../../../boost/detail/workaround.hpp" // Dinkumware and RogueWave
 #if BOOST_WORKAROUND(BOOST_DINKUMWARE_STDLIB, == 1)
-#include <boost/archive/dinkumware.hpp>
+#include "../../../boost/archive/dinkumware.hpp"
 #endif
 
-#include <boost/io/ios_state.hpp>
-#include <boost/core/no_exceptions_support.hpp>
-#include <boost/serialization/string.hpp>
+#include "../../../boost/io/ios_state.hpp"
+#include "../../../boost/core/no_exceptions_support.hpp"
+#include "../../../boost/serialization/string.hpp"
 
-#include <boost/archive/basic_xml_archive.hpp>
-#include <boost/archive/xml_wiarchive.hpp>
+#include "../../../boost/archive/basic_xml_archive.hpp"
+#include "../../../boost/archive/xml_wiarchive.hpp"
 
-#include <boost/archive/add_facet.hpp>
+#include "../../../boost/archive/add_facet.hpp"
 
-#include <boost/archive/xml_archive_exception.hpp>
-#include <boost/archive/iterators/mb_from_wchar.hpp>
+#include "../../../boost/archive/xml_archive_exception.hpp"
+#include "../../../boost/archive/iterators/mb_from_wchar.hpp"
 
 #include "basic_xml_grammar.hpp"
 

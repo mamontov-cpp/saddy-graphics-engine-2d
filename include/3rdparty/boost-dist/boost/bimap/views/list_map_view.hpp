@@ -16,14 +16,14 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
-#include <boost/bimap/container_adaptor/list_map_adaptor.hpp>
-#include <boost/bimap/relation/support/pair_by.hpp>
-#include <boost/bimap/support/iterator_type_by.hpp>
-#include <boost/bimap/detail/map_view_base.hpp>
-#include <boost/bimap/relation/support/data_extractor.hpp>
-#include <boost/bimap/relation/detail/to_mutable_relation_functor.hpp>
+#include "../../../boost/bimap/container_adaptor/list_map_adaptor.hpp"
+#include "../../../boost/bimap/relation/support/pair_by.hpp"
+#include "../../../boost/bimap/support/iterator_type_by.hpp"
+#include "../../../boost/bimap/detail/map_view_base.hpp"
+#include "../../../boost/bimap/relation/support/data_extractor.hpp"
+#include "../../../boost/bimap/relation/detail/to_mutable_relation_functor.hpp"
 
 namespace boost {
 namespace bimaps {

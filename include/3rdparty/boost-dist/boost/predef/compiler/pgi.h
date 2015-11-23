@@ -8,8 +8,8 @@ http://www.boost.org/LICENSE_1_0.txt)
 #ifndef BOOST_PREDEF_COMPILER_PGI_H
 #define BOOST_PREDEF_COMPILER_PGI_H
 
-#include <boost/predef/version_number.h>
-#include <boost/predef/make.h>
+#include "../../../boost/predef/version_number.h"
+#include "../../../boost/predef/make.h"
 
 /*`
 [heading `BOOST_COMP_PGI`]
@@ -44,17 +44,17 @@ http://www.boost.org/LICENSE_1_0.txt)
 #       define BOOST_COMP_PGI BOOST_COMP_PGI_DETECTION
 #   endif
 #   define BOOST_COMP_PGI_AVAILABLE
-#   include <boost/predef/detail/comp_detected.h>
+#include "../../../boost/predef/detail/comp_detected.h"
 #endif
 
 #define BOOST_COMP_PGI_NAME "Portland Group C/C++"
 
 #endif
 
-#include <boost/predef/detail/test.h>
+#include "../../../boost/predef/detail/test.h"
 BOOST_PREDEF_DECLARE_TEST(BOOST_COMP_PGI,BOOST_COMP_PGI_NAME)
 
 #ifdef BOOST_COMP_PGI_EMULATED
-#include <boost/predef/detail/test.h>
+#include "../../../boost/predef/detail/test.h"
 BOOST_PREDEF_DECLARE_TEST(BOOST_COMP_PGI_EMULATED,BOOST_COMP_PGI_NAME)
 #endif

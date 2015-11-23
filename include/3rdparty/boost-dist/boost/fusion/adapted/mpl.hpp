@@ -8,16 +8,16 @@
 #if !defined(BOOST_FUSION_MPL_31122005_1152)
 #define BOOST_FUSION_MPL_31122005_1152
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/adapted/mpl/detail/begin_impl.hpp>
-#include <boost/fusion/adapted/mpl/detail/end_impl.hpp>
-#include <boost/fusion/adapted/mpl/detail/is_sequence_impl.hpp>
-#include <boost/fusion/adapted/mpl/detail/size_impl.hpp>
-#include <boost/fusion/adapted/mpl/detail/value_at_impl.hpp>
-#include <boost/fusion/adapted/mpl/detail/at_impl.hpp>
-#include <boost/fusion/adapted/mpl/detail/has_key_impl.hpp>
-#include <boost/fusion/adapted/mpl/detail/category_of_impl.hpp>
-#include <boost/fusion/adapted/mpl/detail/is_view_impl.hpp>
-#include <boost/fusion/adapted/mpl/detail/empty_impl.hpp>
+#include "../../../boost/fusion/support/config.hpp"
+#include "../../../boost/fusion/adapted/mpl/detail/begin_impl.hpp"
+#include "../../../boost/fusion/adapted/mpl/detail/end_impl.hpp"
+#include "../../../boost/fusion/adapted/mpl/detail/is_sequence_impl.hpp"
+#include "../../../boost/fusion/adapted/mpl/detail/size_impl.hpp"
+#include "../../../boost/fusion/adapted/mpl/detail/value_at_impl.hpp"
+#include "../../../boost/fusion/adapted/mpl/detail/at_impl.hpp"
+#include "../../../boost/fusion/adapted/mpl/detail/has_key_impl.hpp"
+#include "../../../boost/fusion/adapted/mpl/detail/category_of_impl.hpp"
+#include "../../../boost/fusion/adapted/mpl/detail/is_view_impl.hpp"
+#include "../../../boost/fusion/adapted/mpl/detail/empty_impl.hpp"
 
 #endif

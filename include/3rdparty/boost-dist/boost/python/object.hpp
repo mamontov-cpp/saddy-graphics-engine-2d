@@ -5,13 +5,13 @@
 #ifndef OBJECT_DWA2002612_HPP
 # define OBJECT_DWA2002612_HPP
 
-# include <boost/python/ssize_t.hpp>
-# include <boost/python/object_core.hpp>
-# include <boost/python/object_attributes.hpp>
-# include <boost/python/object_items.hpp>
-# include <boost/python/object_slices.hpp>
-# include <boost/python/object_operators.hpp>
-# include <boost/python/converter/arg_to_python.hpp>
+#include "../../boost/python/ssize_t.hpp"
+#include "../../boost/python/object_core.hpp"
+#include "../../boost/python/object_attributes.hpp"
+#include "../../boost/python/object_items.hpp"
+#include "../../boost/python/object_slices.hpp"
+#include "../../boost/python/object_operators.hpp"
+#include "../../boost/python/converter/arg_to_python.hpp"
 
 namespace boost { namespace python {
 

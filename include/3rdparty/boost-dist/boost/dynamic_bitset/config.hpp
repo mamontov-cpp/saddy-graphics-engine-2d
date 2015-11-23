@@ -12,8 +12,8 @@
 #ifndef BOOST_DYNAMIC_BITSET_CONFIG_HPP_GP_20040424
 #define BOOST_DYNAMIC_BITSET_CONFIG_HPP_GP_20040424
 
-#include "boost/config.hpp"
-#include "boost/detail/workaround.hpp"
+#include "../../boost/config.hpp"
+#include "../../boost/detail/workaround.hpp"
 
 // support for pre 3.0 libstdc++ - thanks Phil Edwards!
 #if defined (__STL_CONFIG_H) && !defined (__STL_USE_NEW_IOSTREAMS)

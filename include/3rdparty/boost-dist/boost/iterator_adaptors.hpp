@@ -8,6 +8,6 @@
 # define ITERATOR_ADAPTORS_DWA2004725_HPP
 
 #define BOOST_ITERATOR_ADAPTORS_VERSION 0x0200
-#include <boost/iterator/iterator_adaptor.hpp>
+#include "../boost/iterator/iterator_adaptor.hpp"
 
 #endif // ITERATOR_ADAPTORS_DWA2004725_HPP

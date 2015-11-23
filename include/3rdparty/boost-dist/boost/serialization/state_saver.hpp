@@ -22,18 +22,18 @@
 // variables upon exit from scope.
 
 
-#include <boost/config.hpp>
+#include "../../boost/config.hpp"
 #ifndef BOOST_NO_EXCEPTIONS
     #include <exception>
 #endif
 
-#include <boost/call_traits.hpp>
-#include <boost/noncopyable.hpp>
-#include <boost/type_traits/has_nothrow_copy.hpp>
-#include <boost/core/no_exceptions_support.hpp>
+#include "../../boost/call_traits.hpp"
+#include "../../boost/noncopyable.hpp"
+#include "../../boost/type_traits/has_nothrow_copy.hpp"
+#include "../../boost/core/no_exceptions_support.hpp"
 
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/identity.hpp>
+#include "../../boost/mpl/eval_if.hpp"
+#include "../../boost/mpl/identity.hpp"
 
 namespace boost {
 namespace serialization {

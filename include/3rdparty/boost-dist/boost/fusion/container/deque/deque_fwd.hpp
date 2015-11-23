@@ -8,8 +8,8 @@
 #if !defined(FUSION_DEQUE_FORWARD_02092007_0749)
 #define FUSION_DEQUE_FORWARD_02092007_0749
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/config.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/config.hpp"
 
 #if (defined(BOOST_NO_CXX11_VARIADIC_TEMPLATES)   \
   || defined(BOOST_NO_CXX11_FUNCTION_TEMPLATE_DEFAULT_ARGS))   \
@@ -34,7 +34,7 @@
 // With no variadics, we will use the C++03 version
 ///////////////////////////////////////////////////////////////////////////////
 #if !defined(BOOST_FUSION_HAS_VARIADIC_DEQUE)
-# include <boost/fusion/container/deque/detail/cpp03/deque_fwd.hpp>
+#include "../../../../boost/fusion/container/deque/detail/cpp03/deque_fwd.hpp"
 #else
 
 ///////////////////////////////////////////////////////////////////////////////

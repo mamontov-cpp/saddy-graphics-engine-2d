@@ -7,13 +7,13 @@
 #ifndef FUSION_VECTOR10_11052014_2316
 #define FUSION_VECTOR10_11052014_2316
 
-#include <boost/config.hpp>
-#include <boost/fusion/support/config.hpp>
+#include "../../../../boost/config.hpp"
+#include "../../../../boost/fusion/support/config.hpp"
 
 ///////////////////////////////////////////////////////////////////////////////
 // Without variadics, we will use the PP version
 ///////////////////////////////////////////////////////////////////////////////
-#   include <boost/fusion/container/vector/detail/cpp03/vector10.hpp>
+#include "../../../../boost/fusion/container/vector/detail/cpp03/vector10.hpp"
 
 #endif
 

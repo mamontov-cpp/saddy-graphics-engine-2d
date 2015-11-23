@@ -23,7 +23,7 @@
 
 #include <cstddef> // NULL
 #include <istream>
-#include <boost/iterator/iterator_facade.hpp>
+#include "../../../boost/iterator/iterator_facade.hpp"
 
 namespace boost { 
 namespace archive {

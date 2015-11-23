@@ -8,7 +8,7 @@
 #ifndef BOOST_MPI_PYTHON_HPP
 #define BOOST_MPI_PYTHON_HPP
 
-#include <boost/python/object.hpp>
+#include "../../boost/python/object.hpp"
 
 /** @file python.hpp
  *
@@ -70,8 +70,8 @@ register_skeleton_and_content(const T& value = T(), PyTypeObject* type = 0);
 } } } // end namespace boost::mpi::python
 
 #ifndef BOOST_MPI_PYTHON_FORWARD_ONLY
-#  include <boost/mpi/python/serialize.hpp>
-#  include <boost/mpi/python/skeleton_and_content.hpp>
+#include "../../boost/mpi/python/serialize.hpp"
+#include "../../boost/mpi/python/skeleton_and_content.hpp"
 #else
 #  undef BOOST_MPI_PYTHON_FORWARD_ONLY
 #endif

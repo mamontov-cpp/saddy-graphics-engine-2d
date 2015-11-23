@@ -8,8 +8,8 @@
 #if !defined(BOOST_FUSION_SIZE_IMPL_31122005_1508)
 #define BOOST_FUSION_SIZE_IMPL_31122005_1508
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/mpl/size.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/mpl/size.hpp"
 
 namespace boost { namespace fusion 
 {

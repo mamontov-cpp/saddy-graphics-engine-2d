@@ -46,12 +46,12 @@
 #ifndef BOOST_OLD_NUMERIC_CAST_HPP
 #define BOOST_OLD_NUMERIC_CAST_HPP
 
-# include <boost/config.hpp>
+#include "../../../../boost/config.hpp"
 # include <cassert>
 # include <typeinfo>
-# include <boost/type.hpp>
-# include <boost/limits.hpp>
-# include <boost/numeric/conversion/converter_policies.hpp>
+#include "../../../../boost/type.hpp"
+#include "../../../../boost/limits.hpp"
+#include "../../../../boost/numeric/conversion/converter_policies.hpp"
 
 //  It has been demonstrated numerous times that MSVC 6.0 fails silently at link
 //  time if you use a template function which has template parameters that don't

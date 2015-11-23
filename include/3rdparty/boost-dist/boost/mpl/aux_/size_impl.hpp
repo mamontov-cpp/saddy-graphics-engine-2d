@@ -14,11 +14,11 @@
 // $Date$
 // $Revision$
 
-#include <boost/mpl/size_fwd.hpp>
-#include <boost/mpl/begin_end.hpp>
-#include <boost/mpl/distance.hpp>
-#include <boost/mpl/aux_/traits_lambda_spec.hpp>
-#include <boost/mpl/aux_/config/workaround.hpp>
+#include "../../../boost/mpl/size_fwd.hpp"
+#include "../../../boost/mpl/begin_end.hpp"
+#include "../../../boost/mpl/distance.hpp"
+#include "../../../boost/mpl/aux_/traits_lambda_spec.hpp"
+#include "../../../boost/mpl/aux_/config/workaround.hpp"
 
 namespace boost { namespace mpl {
 

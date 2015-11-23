@@ -33,7 +33,7 @@
 #  define __STDC_CONSTANT_MACROS
 #endif
 
-#include <boost/config.hpp>
+#include "../boost/config.hpp"
 
 //
 // Note that GLIBC is a bit inconsistent about whether int64_t is defined or not
@@ -190,7 +190,7 @@ namespace boost {
 
 #else  // BOOST_HAS_STDINT_H
 
-# include <boost/limits.hpp> // implementation artifact; not part of interface
+#include "../boost/limits.hpp" // implementation artifact; not part of interface
 # include <limits.h>         // needed for limits macros
 
 

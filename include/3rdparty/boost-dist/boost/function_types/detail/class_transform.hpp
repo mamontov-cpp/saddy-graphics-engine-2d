@@ -9,14 +9,14 @@
 #ifndef BOOST_FT_DETAIL_CLASS_TRANSFORM_HPP_INCLUDED
 #define BOOST_FT_DETAIL_CLASS_TRANSFORM_HPP_INCLUDED
 
-#include <boost/mpl/apply.hpp>
-#include <boost/mpl/always.hpp>
-#include <boost/mpl/identity.hpp>
-#include <boost/mpl/placeholders.hpp>
+#include "../../../boost/mpl/apply.hpp"
+#include "../../../boost/mpl/always.hpp"
+#include "../../../boost/mpl/identity.hpp"
+#include "../../../boost/mpl/placeholders.hpp"
 
-#include <boost/type_traits/remove_cv.hpp>
-#include <boost/type_traits/add_pointer.hpp>
-#include <boost/type_traits/add_reference.hpp>
+#include "../../../boost/type_traits/remove_cv.hpp"
+#include "../../../boost/type_traits/add_pointer.hpp"
+#include "../../../boost/type_traits/add_reference.hpp"
 
 namespace boost { namespace function_types { namespace detail {
 

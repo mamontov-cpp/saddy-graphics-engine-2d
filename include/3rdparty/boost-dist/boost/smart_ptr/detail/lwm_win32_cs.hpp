@@ -18,7 +18,7 @@
 // http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#include <boost/predef.h>
+#include "../../../boost/predef.h"
 
 #ifdef BOOST_USE_WINDOWS_H
 #  include <windows.h>

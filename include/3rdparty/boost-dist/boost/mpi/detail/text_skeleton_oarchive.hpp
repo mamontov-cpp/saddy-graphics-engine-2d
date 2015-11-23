@@ -9,11 +9,11 @@
 #ifndef BOOST_MPI_TEXT_SKELETON_OARCHIVE_HPP
 #define BOOST_MPI_TEXT_SKELETON_OARCHIVE_HPP
 
-#include <boost/archive/detail/auto_link_archive.hpp>
-#include <boost/archive/text_oarchive.hpp>
-#include <boost/mpi/detail/forward_skeleton_oarchive.hpp>
-#include <boost/mpi/detail/ignore_oprimitive.hpp>
-#include <boost/archive/detail/register_archive.hpp>
+#include "../../../boost/archive/detail/auto_link_archive.hpp"
+#include "../../../boost/archive/text_oarchive.hpp"
+#include "../../../boost/mpi/detail/forward_skeleton_oarchive.hpp"
+#include "../../../boost/mpi/detail/ignore_oprimitive.hpp"
+#include "../../../boost/archive/detail/register_archive.hpp"
 
 namespace boost { namespace mpi {
 

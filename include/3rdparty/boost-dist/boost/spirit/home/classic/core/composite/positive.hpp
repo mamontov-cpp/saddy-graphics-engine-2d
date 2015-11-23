@@ -10,11 +10,11 @@
 #if !defined(BOOST_SPIRIT_POSITIVE_HPP)
 #define BOOST_SPIRIT_POSITIVE_HPP
 
-#include <boost/spirit/home/classic/namespace.hpp>
-#include <boost/spirit/home/classic/core/parser.hpp>
-#include <boost/spirit/home/classic/core/primitives/primitives.hpp>
-#include <boost/spirit/home/classic/core/composite/composite.hpp>
-#include <boost/spirit/home/classic/meta/as_parser.hpp>
+#include "../../../../../../boost/spirit/home/classic/namespace.hpp"
+#include "../../../../../../boost/spirit/home/classic/core/parser.hpp"
+#include "../../../../../../boost/spirit/home/classic/core/primitives/primitives.hpp"
+#include "../../../../../../boost/spirit/home/classic/core/composite/composite.hpp"
+#include "../../../../../../boost/spirit/home/classic/meta/as_parser.hpp"
 
 namespace boost { namespace spirit {
 
@@ -109,4 +109,4 @@ BOOST_SPIRIT_CLASSIC_NAMESPACE_END
 
 #endif
 
-#include <boost/spirit/home/classic/core/composite/impl/positive.ipp>
+#include "../../../../../../boost/spirit/home/classic/core/composite/impl/positive.ipp"

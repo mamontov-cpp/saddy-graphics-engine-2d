@@ -16,14 +16,14 @@
 
 //  See http://www.boost.org for updates, documentation, and revision history.
 
-#include <boost/config.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/mpl/int.hpp>
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/identity.hpp>
-#include <boost/mpl/integral_c_tag.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/mpl/assert.hpp"
+#include "../../boost/mpl/int.hpp"
+#include "../../boost/mpl/eval_if.hpp"
+#include "../../boost/mpl/identity.hpp"
+#include "../../boost/mpl/integral_c_tag.hpp"
 
-#include <boost/type_traits/is_base_and_derived.hpp>
+#include "../../boost/type_traits/is_base_and_derived.hpp"
 
 namespace boost { 
 namespace serialization {
@@ -69,11 +69,11 @@ const int version<T>::value;
  * ALL the serialization traits are available.  Included the implementation
  * here with this comment as a reminder not to do this!
  */
-//#include <boost/serialization/level.hpp>
-//#include <boost/mpl/equal_to.hpp>
+//#include "../../boost/serialization/level.hpp"
+//#include "../../boost/mpl/equal_to.hpp"
 
-#include <boost/mpl/less.hpp>
-#include <boost/mpl/comparison.hpp>
+#include "../../boost/mpl/less.hpp"
+#include "../../boost/mpl/comparison.hpp"
 
 // specify the current version number for the class
 // version numbers limited to 8 bits !!!

@@ -12,8 +12,8 @@
 #ifndef BOOST_TEST_GLOBAL_TYPEDEF_HPP_021005GER
 #define BOOST_TEST_GLOBAL_TYPEDEF_HPP_021005GER
 
-#include <boost/test/utils/basic_cstring/basic_cstring.hpp>
-#include <boost/test/detail/workaround.hpp>
+#include "../../../boost/test/utils/basic_cstring/basic_cstring.hpp"
+#include "../../../boost/test/detail/workaround.hpp"
 
 #define BOOST_TEST_L( s )         ::boost::unit_test::const_string( s, sizeof( s ) - 1 )
 #define BOOST_TEST_STRINGIZE( s ) BOOST_TEST_L( BOOST_STRINGIZE( s ) )
@@ -26,7 +26,7 @@
     ut_detail::ignore_unused_variable_warning( sc )             \
 /**/
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -95,6 +95,6 @@ T static_constant<T>::value;
 
 //____________________________________________________________________________//
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_GLOBAL_TYPEDEF_HPP_021005GER

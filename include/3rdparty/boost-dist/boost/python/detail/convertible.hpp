@@ -6,8 +6,8 @@
 # define CONVERTIBLE_DWA2002614_HPP
 
 # if defined(__EDG_VERSION__) && __EDG_VERSION__ <= 241
-#  include <boost/mpl/if.hpp>
-#  include <boost/type_traits/conversion_traits.hpp>
+#include "../../../boost/mpl/if.hpp"
+#include "../../../boost/type_traits/conversion_traits.hpp"
 # endif 
 
 // Supplies a runtime is_convertible check which can be used with tag

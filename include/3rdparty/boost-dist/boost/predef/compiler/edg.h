@@ -8,8 +8,8 @@ http://www.boost.org/LICENSE_1_0.txt)
 #ifndef BOOST_PREDEF_COMPILER_EDG_H
 #define BOOST_PREDEF_COMPILER_EDG_H
 
-#include <boost/predef/version_number.h>
-#include <boost/predef/make.h>
+#include "../../../boost/predef/version_number.h"
+#include "../../../boost/predef/make.h"
 
 /*`
 [heading `BOOST_COMP_EDG`]
@@ -40,17 +40,17 @@ Version number available as major, minor, and patch.
 #       define BOOST_COMP_EDG BOOST_COMP_EDG_DETECTION
 #   endif
 #   define BOOST_COMP_EDG_AVAILABLE
-#   include <boost/predef/detail/comp_detected.h>
+#include "../../../boost/predef/detail/comp_detected.h"
 #endif
 
 #define BOOST_COMP_EDG_NAME "EDG C++ Frontend"
 
 #endif
 
-#include <boost/predef/detail/test.h>
+#include "../../../boost/predef/detail/test.h"
 BOOST_PREDEF_DECLARE_TEST(BOOST_COMP_EDG,BOOST_COMP_EDG_NAME)
 
 #ifdef BOOST_COMP_EDG_EMULATED
-#include <boost/predef/detail/test.h>
+#include "../../../boost/predef/detail/test.h"
 BOOST_PREDEF_DECLARE_TEST(BOOST_COMP_EDG_EMULATED,BOOST_COMP_EDG_NAME)
 #endif

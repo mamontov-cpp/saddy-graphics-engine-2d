@@ -5,34 +5,34 @@
 #ifndef DATA_MEMBERS_DWA2002328_HPP
 # define DATA_MEMBERS_DWA2002328_HPP
 
-# include <boost/python/detail/prefix.hpp>
+#include "../../boost/python/detail/prefix.hpp"
 
-# include <boost/python/handle.hpp>
+#include "../../boost/python/handle.hpp"
 
-# include <boost/python/return_value_policy.hpp>
-# include <boost/python/return_by_value.hpp>
-# include <boost/python/return_internal_reference.hpp>
-# include <boost/python/make_function.hpp>
+#include "../../boost/python/return_value_policy.hpp"
+#include "../../boost/python/return_by_value.hpp"
+#include "../../boost/python/return_internal_reference.hpp"
+#include "../../boost/python/make_function.hpp"
 
-# include <boost/python/converter/builtin_converters.hpp>
+#include "../../boost/python/converter/builtin_converters.hpp"
 
-# include <boost/python/detail/indirect_traits.hpp>
-# include <boost/python/detail/not_specified.hpp>
-# include <boost/python/detail/value_arg.hpp>
+#include "../../boost/python/detail/indirect_traits.hpp"
+#include "../../boost/python/detail/not_specified.hpp"
+#include "../../boost/python/detail/value_arg.hpp"
 
-# include <boost/type_traits/add_const.hpp>
-# include <boost/type_traits/add_reference.hpp>
-# include <boost/type_traits/is_member_pointer.hpp>
+#include "../../boost/type_traits/add_const.hpp"
+#include "../../boost/type_traits/add_reference.hpp"
+#include "../../boost/type_traits/is_member_pointer.hpp"
 
 # if BOOST_WORKAROUND(__MWERKS__, BOOST_TESTED_AT(0x3003))
-#  include <boost/type_traits/remove_cv.hpp>
+#include "../../boost/type_traits/remove_cv.hpp"
 # endif 
 
-# include <boost/mpl/eval_if.hpp>
-# include <boost/mpl/if.hpp>
-# include <boost/mpl/vector/vector10.hpp>
+#include "../../boost/mpl/eval_if.hpp"
+#include "../../boost/mpl/if.hpp"
+#include "../../boost/mpl/vector/vector10.hpp"
 
-# include <boost/detail/workaround.hpp>
+#include "../../boost/detail/workaround.hpp"
 
 namespace boost { namespace python { 
 

@@ -7,11 +7,11 @@
 #if !defined(FUSION_INSERT_10022005_1837)
 #define FUSION_INSERT_10022005_1837
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/mpl/insert.hpp>
-#include <boost/fusion/support/tag_of.hpp>
-#include <boost/fusion/algorithm/transformation/insert.hpp>
-#include <boost/fusion/sequence/convert.hpp>
+#include "../../../boost/fusion/support/config.hpp"
+#include "../../../boost/mpl/insert.hpp"
+#include "../../../boost/fusion/support/tag_of.hpp"
+#include "../../../boost/fusion/algorithm/transformation/insert.hpp"
+#include "../../../boost/fusion/sequence/convert.hpp"
 
 namespace boost { namespace mpl
 {

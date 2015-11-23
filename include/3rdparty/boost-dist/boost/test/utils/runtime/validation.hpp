@@ -16,14 +16,14 @@
 #define BOOST_TEST_UTILS_RUNTIME_VALIDATION_HPP
 
 // Boost.Runtime.Parameter
-#include <boost/test/utils/runtime/config.hpp>
+#include "../../../../boost/test/utils/runtime/config.hpp"
 
 // Boost.Test
-#include <boost/test/utils/class_properties.hpp>
-#include <boost/test/detail/throw_exception.hpp>
+#include "../../../../boost/test/utils/class_properties.hpp"
+#include "../../../../boost/test/detail/throw_exception.hpp"
 
 // Boost
-#include <boost/shared_ptr.hpp>
+#include "../../../../boost/shared_ptr.hpp"
 
 // STL
 #ifdef BOOST_TEST_UTILS_RUNTIME_PARAM_EXCEPTION_INHERIT_STD

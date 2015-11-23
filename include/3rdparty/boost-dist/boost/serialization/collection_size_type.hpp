@@ -7,10 +7,10 @@
 // http://www.boost.org/LICENSE_1_0.txt)
 
 #include <cstddef> // size_t
-#include <boost/serialization/strong_typedef.hpp>
-#include <boost/serialization/level.hpp>
-#include <boost/serialization/split_free.hpp>
-#include <boost/serialization/is_bitwise_serializable.hpp>
+#include "../../boost/serialization/strong_typedef.hpp"
+#include "../../boost/serialization/level.hpp"
+#include "../../boost/serialization/split_free.hpp"
+#include "../../boost/serialization/is_bitwise_serializable.hpp"
 
 namespace boost { 
 namespace serialization {

@@ -5,8 +5,8 @@
 #ifndef EXEC_SS20050616_HPP
 # define EXEC_SS20050616_HPP
 
-# include <boost/python/object.hpp>
-# include <boost/python/str.hpp>
+#include "../../boost/python/object.hpp"
+#include "../../boost/python/str.hpp"
 
 namespace boost 
 { 

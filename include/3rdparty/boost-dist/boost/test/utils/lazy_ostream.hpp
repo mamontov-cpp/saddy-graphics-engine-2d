@@ -12,12 +12,12 @@
 #define BOOST_TEST_UTILS_LAZY_OSTREAM_HPP
 
 // Boost.Test
-#include <boost/test/detail/config.hpp>
+#include "../../../boost/test/detail/config.hpp"
 
 // STL
 #include <iosfwd>
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -125,6 +125,6 @@ operator<<( lazy_ostream_impl<PrevPrevType,TPrev> const& prev, R& (BOOST_TEST_CA
 
 //____________________________________________________________________________//
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_UTILS_LAZY_OSTREAM_HPP

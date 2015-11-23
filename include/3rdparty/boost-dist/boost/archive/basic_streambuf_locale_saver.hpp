@@ -29,8 +29,8 @@
 #include <locale>     // for std::locale
 #include <streambuf>  // for std::basic_streambuf
 
-#include <boost/config.hpp>
-#include <boost/noncopyable.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/noncopyable.hpp"
 
 #ifdef BOOST_MSVC
 #  pragma warning(push)

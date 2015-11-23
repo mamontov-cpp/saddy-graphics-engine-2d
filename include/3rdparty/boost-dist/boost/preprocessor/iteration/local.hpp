@@ -12,9 +12,9 @@
 # ifndef BOOST_PREPROCESSOR_ITERATION_LOCAL_HPP
 # define BOOST_PREPROCESSOR_ITERATION_LOCAL_HPP
 #
-# include <boost/preprocessor/config/config.hpp>
-# include <boost/preprocessor/slot/slot.hpp>
-# include <boost/preprocessor/tuple/elem.hpp>
+#include "../../../boost/preprocessor/config/config.hpp"
+#include "../../../boost/preprocessor/slot/slot.hpp"
+#include "../../../boost/preprocessor/tuple/elem.hpp"
 #
 # /* BOOST_PP_LOCAL_ITERATE */
 #

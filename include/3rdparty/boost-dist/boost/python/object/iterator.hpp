@@ -5,30 +5,30 @@
 #ifndef ITERATOR_DWA2002510_HPP
 # define ITERATOR_DWA2002510_HPP
 
-# include <boost/python/detail/prefix.hpp>
+#include "../../../boost/python/detail/prefix.hpp"
 
-# include <boost/python/class.hpp>
-# include <boost/python/return_value_policy.hpp>
-# include <boost/python/return_by_value.hpp>
-# include <boost/python/handle.hpp>
-# include <boost/python/make_function.hpp>
+#include "../../../boost/python/class.hpp"
+#include "../../../boost/python/return_value_policy.hpp"
+#include "../../../boost/python/return_by_value.hpp"
+#include "../../../boost/python/handle.hpp"
+#include "../../../boost/python/make_function.hpp"
 
-# include <boost/python/object/iterator_core.hpp>
-# include <boost/python/object/class_detail.hpp>
-# include <boost/python/object/function_object.hpp>
+#include "../../../boost/python/object/iterator_core.hpp"
+#include "../../../boost/python/object/class_detail.hpp"
+#include "../../../boost/python/object/function_object.hpp"
 
-# include <boost/mpl/vector/vector10.hpp>
-# include <boost/mpl/if.hpp>
+#include "../../../boost/mpl/vector/vector10.hpp"
+#include "../../../boost/mpl/if.hpp"
 
-# include <boost/python/detail/raw_pyobject.hpp>
+#include "../../../boost/python/detail/raw_pyobject.hpp"
 
-# include <boost/type.hpp>
+#include "../../../boost/type.hpp"
 
-# include <boost/type_traits/is_same.hpp>
-# include <boost/type_traits/add_reference.hpp>
-# include <boost/type_traits/add_const.hpp>
+#include "../../../boost/type_traits/is_same.hpp"
+#include "../../../boost/type_traits/add_reference.hpp"
+#include "../../../boost/type_traits/add_const.hpp"
 
-# include <boost/detail/iterator.hpp>
+#include "../../../boost/detail/iterator.hpp"
 
 namespace boost { namespace python { namespace objects {
 

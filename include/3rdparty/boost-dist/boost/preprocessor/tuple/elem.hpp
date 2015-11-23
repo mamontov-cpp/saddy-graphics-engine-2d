@@ -15,13 +15,13 @@
 # ifndef BOOST_PREPROCESSOR_TUPLE_ELEM_HPP
 # define BOOST_PREPROCESSOR_TUPLE_ELEM_HPP
 #
-# include <boost/preprocessor/cat.hpp>
-# include <boost/preprocessor/config/config.hpp>
-# include <boost/preprocessor/facilities/expand.hpp>
-# include <boost/preprocessor/facilities/overload.hpp>
-# include <boost/preprocessor/tuple/rem.hpp>
-# include <boost/preprocessor/variadic/elem.hpp>
-# include <boost/preprocessor/tuple/detail/is_single_return.hpp>
+#include "../../../boost/preprocessor/cat.hpp"
+#include "../../../boost/preprocessor/config/config.hpp"
+#include "../../../boost/preprocessor/facilities/expand.hpp"
+#include "../../../boost/preprocessor/facilities/overload.hpp"
+#include "../../../boost/preprocessor/tuple/rem.hpp"
+#include "../../../boost/preprocessor/variadic/elem.hpp"
+#include "../../../boost/preprocessor/tuple/detail/is_single_return.hpp"
 #
 # if BOOST_PP_VARIADICS
 #    if BOOST_PP_VARIADICS_MSVC

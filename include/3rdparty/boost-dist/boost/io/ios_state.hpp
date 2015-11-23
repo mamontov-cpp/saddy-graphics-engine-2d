@@ -9,8 +9,8 @@
 #ifndef BOOST_IO_IOS_STATE_HPP
 #define BOOST_IO_IOS_STATE_HPP
 
-#include <boost/io_fwd.hpp>  // self include
-#include <boost/detail/workaround.hpp>
+#include "../../boost/io_fwd.hpp"  // self include
+#include "../../boost/detail/workaround.hpp"
 
 #include <ios>        // for std::ios_base, std::basic_ios, etc.
 #ifndef BOOST_NO_STD_LOCALE

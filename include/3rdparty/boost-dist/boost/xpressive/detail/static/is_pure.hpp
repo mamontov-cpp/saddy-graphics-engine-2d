@@ -13,13 +13,13 @@
 # pragma once
 #endif
 
-#include <boost/ref.hpp>
-#include <boost/mpl/and.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/mpl/not_equal_to.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/detail/static/width_of.hpp>
+#include "../../../../boost/ref.hpp"
+#include "../../../../boost/mpl/and.hpp"
+#include "../../../../boost/mpl/bool.hpp"
+#include "../../../../boost/mpl/assert.hpp"
+#include "../../../../boost/mpl/not_equal_to.hpp"
+#include "../../../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../../../boost/xpressive/detail/static/width_of.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

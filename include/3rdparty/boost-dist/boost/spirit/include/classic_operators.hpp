@@ -8,5 +8,5 @@
 =============================================================================*/
 #ifndef BOOST_SPIRIT_INCLUDE_CLASSIC_OPERATORS
 #define BOOST_SPIRIT_INCLUDE_CLASSIC_OPERATORS
-#include <boost/spirit/home/classic/core/composite/operators.hpp>
+#include "../../../boost/spirit/home/classic/core/composite/operators.hpp"
 #endif

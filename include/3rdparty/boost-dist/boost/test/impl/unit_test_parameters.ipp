@@ -19,34 +19,34 @@
 #define BOOST_TEST_UNIT_TEST_PARAMETERS_IPP_012205GER
 
 // Boost.Test
-#include <boost/test/unit_test_parameters.hpp>
-#include <boost/test/utils/basic_cstring/basic_cstring.hpp>
-#include <boost/test/utils/basic_cstring/compare.hpp>
-#include <boost/test/utils/basic_cstring/io.hpp>
-#include <boost/test/utils/fixed_mapping.hpp>
-#include <boost/test/debug.hpp>
-#include <boost/test/framework.hpp>
+#include "../../../boost/test/unit_test_parameters.hpp"
+#include "../../../boost/test/utils/basic_cstring/basic_cstring.hpp"
+#include "../../../boost/test/utils/basic_cstring/compare.hpp"
+#include "../../../boost/test/utils/basic_cstring/io.hpp"
+#include "../../../boost/test/utils/fixed_mapping.hpp"
+#include "../../../boost/test/debug.hpp"
+#include "../../../boost/test/framework.hpp"
 
-#include <boost/test/detail/throw_exception.hpp>
+#include "../../../boost/test/detail/throw_exception.hpp"
 
 // Boost.Runtime.Param
-#include <boost/test/utils/runtime/cla/dual_name_parameter.hpp>
-#include <boost/test/utils/runtime/cla/parser.hpp>
+#include "../../../boost/test/utils/runtime/cla/dual_name_parameter.hpp"
+#include "../../../boost/test/utils/runtime/cla/parser.hpp"
 
 namespace rt  = boost::runtime;
 namespace cla = rt::cla;
 
 #ifndef UNDER_CE
-#include <boost/test/utils/runtime/env/variable.hpp>
+#include "../../../boost/test/utils/runtime/env/variable.hpp"
 
 namespace env = rt::env;
 #endif
 
 // Boost
-#include <boost/config.hpp>
-#include <boost/test/detail/suppress_warnings.hpp>
-#include <boost/lexical_cast.hpp>
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/test/detail/suppress_warnings.hpp"
+#include "../../../boost/lexical_cast.hpp"
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 // STL
 #include <map>
@@ -54,7 +54,7 @@ namespace env = rt::env;
 #include <iostream>
 #include <fstream>
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -635,6 +635,6 @@ random_seed()
 } // namespace unit_test
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_UNIT_TEST_PARAMETERS_IPP_012205GER

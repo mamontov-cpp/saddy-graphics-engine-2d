@@ -17,7 +17,7 @@
 // http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#include <boost/smart_ptr/detail/sp_interlocked.hpp>
+#include "../../../boost/smart_ptr/detail/sp_interlocked.hpp"
 
 namespace boost
 {

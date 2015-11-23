@@ -7,15 +7,15 @@
 #if !defined(FUSION_NEXT_IMPL_06052005_0900)
 #define FUSION_NEXT_IMPL_06052005_0900
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/algorithm/query/detail/find_if.hpp>
-#include <boost/fusion/iterator/value_of.hpp>
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/identity.hpp>
-#include <boost/mpl/lambda.hpp>
-#include <boost/mpl/quote.hpp>
-#include <boost/mpl/bind.hpp>
-#include <boost/mpl/placeholders.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/fusion/algorithm/query/detail/find_if.hpp"
+#include "../../../../../boost/fusion/iterator/value_of.hpp"
+#include "../../../../../boost/mpl/eval_if.hpp"
+#include "../../../../../boost/mpl/identity.hpp"
+#include "../../../../../boost/mpl/lambda.hpp"
+#include "../../../../../boost/mpl/quote.hpp"
+#include "../../../../../boost/mpl/bind.hpp"
+#include "../../../../../boost/mpl/placeholders.hpp"
 
 namespace boost { namespace fusion
 {

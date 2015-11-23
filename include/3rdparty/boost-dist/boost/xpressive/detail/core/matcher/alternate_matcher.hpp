@@ -13,7 +13,7 @@
 # pragma once
 #endif
 
-#include <boost/version.hpp>
+#include "../../../../../boost/version.hpp"
 #if BOOST_VERSION <= 103200
 // WORKAROUND for Fusion bug in Boost 1.32
 namespace boost { namespace fusion
@@ -23,13 +23,13 @@ namespace boost { namespace fusion
 }}
 #endif
 
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/detail/core/quant_style.hpp>
-#include <boost/xpressive/detail/core/state.hpp>
-#include <boost/xpressive/detail/dynamic/matchable.hpp>
-#include <boost/xpressive/detail/utility/hash_peek_bitset.hpp>
-#include <boost/xpressive/detail/utility/algorithm.hpp>
-#include <boost/xpressive/detail/utility/any.hpp>
+#include "../../../../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../../../../boost/xpressive/detail/core/quant_style.hpp"
+#include "../../../../../boost/xpressive/detail/core/state.hpp"
+#include "../../../../../boost/xpressive/detail/dynamic/matchable.hpp"
+#include "../../../../../boost/xpressive/detail/utility/hash_peek_bitset.hpp"
+#include "../../../../../boost/xpressive/detail/utility/algorithm.hpp"
+#include "../../../../../boost/xpressive/detail/utility/any.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

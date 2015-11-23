@@ -19,14 +19,14 @@
 // for now, extended type info is part of the serialization libraries
 // this could change in the future.
 #include <cstdarg>
-#include <boost/assert.hpp>
+#include "../../boost/assert.hpp"
 #include <cstddef> // NULL
-#include <boost/config.hpp>
-#include <boost/noncopyable.hpp>
-#include <boost/mpl/bool.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/noncopyable.hpp"
+#include "../../boost/mpl/bool.hpp"
 
-#include <boost/serialization/config.hpp>
-#include <boost/config/abi_prefix.hpp> // must be the last header
+#include "../../boost/serialization/config.hpp"
+#include "../../boost/config/abi_prefix.hpp" // must be the last header
 #ifdef BOOST_MSVC
 #  pragma warning(push)
 #  pragma warning(disable : 4251 4231 4660 4275)
@@ -115,6 +115,6 @@ inline const char * guid(){
 #pragma warning(pop)
 #endif
 
-#include <boost/config/abi_suffix.hpp> // pops abi_suffix.hpp pragmas
+#include "../../boost/config/abi_suffix.hpp" // pops abi_suffix.hpp pragmas
 
 #endif // BOOST_SERIALIZATION_EXTENDED_TYPE_INFO_HPP

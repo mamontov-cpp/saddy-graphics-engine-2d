@@ -16,10 +16,10 @@
 #endif
 
 #if !defined(BOOST_PP_VALUE)
-#   include <boost/preprocessor/slot/slot.hpp>
-#   include <boost/preprocessor/facilities/empty.hpp>
-#   include <boost/preprocessor/facilities/expand.hpp>
-#   include <boost/function_types/detail/encoding/def.hpp>
+#include "../../../../boost/preprocessor/slot/slot.hpp"
+#include "../../../../boost/preprocessor/facilities/empty.hpp"
+#include "../../../../boost/preprocessor/facilities/expand.hpp"
+#include "../../../../boost/function_types/detail/encoding/def.hpp"
 
 BOOST_PP_EXPAND(#) define BOOST_FT_mfp 0
 BOOST_PP_EXPAND(#) define BOOST_FT_syntax BOOST_FT_type_function
@@ -107,7 +107,7 @@ BOOST_PP_EXPAND(#) define BOOST_FT_syntax BOOST_FT_type_member_function_pointer
 BOOST_PP_EXPAND(#) undef  BOOST_FT_syntax
 BOOST_PP_EXPAND(#) undef  BOOST_FT_mfp
 
-#   include <boost/function_types/detail/encoding/undef.hpp>
+#include "../../../../boost/function_types/detail/encoding/undef.hpp"
 #else 
 
 #   include BOOST_PP_ASSIGN_SLOT(1)

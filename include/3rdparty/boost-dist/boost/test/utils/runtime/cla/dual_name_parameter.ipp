@@ -16,10 +16,10 @@
 #define BOOST_TEST_UTILS_RUNTIME_CLA_DUAL_NAME_PARAMETER_IPP
 
 // Boost.Runtime.Parameter
-#include <boost/test/utils/runtime/config.hpp>
-#include <boost/test/utils/runtime/validation.hpp>
+#include "../../../../../boost/test/utils/runtime/config.hpp"
+#include "../../../../../boost/test/utils/runtime/validation.hpp"
 
-#include <boost/test/utils/runtime/cla/dual_name_parameter.hpp>
+#include "../../../../../boost/test/utils/runtime/cla/dual_name_parameter.hpp"
 
 namespace boost {
 

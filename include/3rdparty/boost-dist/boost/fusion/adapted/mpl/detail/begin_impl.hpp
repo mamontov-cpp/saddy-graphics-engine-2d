@@ -8,10 +8,10 @@
 #if !defined(BOOST_FUSION_BEGIN_IMPL_31122005_1209)
 #define BOOST_FUSION_BEGIN_IMPL_31122005_1209
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/adapted/mpl/mpl_iterator.hpp>
-#include <boost/mpl/begin.hpp>
-#include <boost/type_traits/remove_const.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/fusion/adapted/mpl/mpl_iterator.hpp"
+#include "../../../../../boost/mpl/begin.hpp"
+#include "../../../../../boost/type_traits/remove_const.hpp"
 
 namespace boost { namespace fusion {
     

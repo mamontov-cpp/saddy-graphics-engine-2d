@@ -18,7 +18,7 @@
 #ifndef BOOST_LEXICAL_CAST_DETAIL_LCAST_CHAR_CONSTANTS_HPP
 #define BOOST_LEXICAL_CAST_DETAIL_LCAST_CHAR_CONSTANTS_HPP
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 #ifdef BOOST_HAS_PRAGMA_ONCE
 #   pragma once
 #endif

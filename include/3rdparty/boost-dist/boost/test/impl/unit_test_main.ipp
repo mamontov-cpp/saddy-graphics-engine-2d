@@ -16,21 +16,21 @@
 #define BOOST_TEST_UNIT_TEST_MAIN_IPP_012205GER
 
 // Boost.Test
-#include <boost/test/framework.hpp>
-#include <boost/test/results_collector.hpp>
-#include <boost/test/results_reporter.hpp>
+#include "../../../boost/test/framework.hpp"
+#include "../../../boost/test/results_collector.hpp"
+#include "../../../boost/test/results_reporter.hpp"
 
-#include <boost/test/tree/visitor.hpp>
-#include <boost/test/tree/test_unit.hpp>
-#include <boost/test/tree/traverse.hpp>
+#include "../../../boost/test/tree/visitor.hpp"
+#include "../../../boost/test/tree/test_unit.hpp"
+#include "../../../boost/test/tree/traverse.hpp"
 
-#include <boost/test/unit_test_parameters.hpp>
+#include "../../../boost/test/unit_test_parameters.hpp"
 
-#include <boost/test/utils/foreach.hpp>
-#include <boost/test/utils/basic_cstring/io.hpp>
+#include "../../../boost/test/utils/foreach.hpp"
+#include "../../../boost/test/utils/basic_cstring/io.hpp"
 
 // Boost
-#include <boost/cstdlib.hpp>
+#include "../../../boost/cstdlib.hpp"
 
 // STL
 #include <cstdio>
@@ -39,7 +39,7 @@
 #include <iomanip>
 #include <set>
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -287,6 +287,6 @@ main( int argc, char* argv[] )
 
 //____________________________________________________________________________//
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_UNIT_TEST_MAIN_IPP_012205GER

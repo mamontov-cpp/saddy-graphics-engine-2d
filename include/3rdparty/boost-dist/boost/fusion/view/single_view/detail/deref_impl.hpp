@@ -8,10 +8,10 @@
 #if !defined(BOOST_FUSION_SINGLE_VIEW_DEREF_IMPL_05052005_0258)
 #define BOOST_FUSION_SINGLE_VIEW_DEREF_IMPL_05052005_0258
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/mpl/int.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/mpl/equal_to.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/mpl/int.hpp"
+#include "../../../../../boost/mpl/assert.hpp"
+#include "../../../../../boost/mpl/equal_to.hpp"
 
 namespace boost { namespace fusion
 {

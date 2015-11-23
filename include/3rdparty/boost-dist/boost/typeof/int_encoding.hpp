@@ -5,9 +5,9 @@
 #ifndef BOOST_TYPEOF_INT_ENCODING_HPP_INCLUDED
 #define BOOST_TYPEOF_INT_ENCODING_HPP_INCLUDED
 
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/size_t.hpp>
-#include <boost/config.hpp>
+#include "../../boost/mpl/if.hpp"
+#include "../../boost/mpl/size_t.hpp"
+#include "../../boost/config.hpp"
 
 namespace boost { namespace type_of {
 

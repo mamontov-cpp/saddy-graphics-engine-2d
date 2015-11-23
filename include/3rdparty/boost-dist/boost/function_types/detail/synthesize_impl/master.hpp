@@ -12,11 +12,11 @@
 
 #   ifndef BOOST_FT_DETAIL_SYNTHESIZE_IMPL_MASTER_HPP_INCLUDED
 #   define BOOST_FT_DETAIL_SYNTHESIZE_IMPL_MASTER_HPP_INCLUDED
-#     include <boost/preprocessor/cat.hpp>
-#     include <boost/preprocessor/arithmetic/dec.hpp>
-#     include <boost/preprocessor/iteration/local.hpp>
-#     include <boost/preprocessor/facilities/empty.hpp>
-#     include <boost/preprocessor/facilities/identity.hpp>
+#include "../../../../boost/preprocessor/cat.hpp"
+#include "../../../../boost/preprocessor/arithmetic/dec.hpp"
+#include "../../../../boost/preprocessor/iteration/local.hpp"
+#include "../../../../boost/preprocessor/facilities/empty.hpp"
+#include "../../../../boost/preprocessor/facilities/identity.hpp"
 #   endif
 
 #   define BOOST_FT_type_name type

@@ -13,11 +13,11 @@
 # ifndef BOOST_PREPROCESSOR_ARRAY_TO_SEQ_HPP
 # define BOOST_PREPROCESSOR_ARRAY_TO_SEQ_HPP
 #
-# include <boost/preprocessor/cat.hpp>
-# include <boost/preprocessor/config/config.hpp>
-# include <boost/preprocessor/array/size.hpp>
-# include <boost/preprocessor/control/if.hpp>
-# include <boost/preprocessor/tuple/to_seq.hpp>
+#include "../../../boost/preprocessor/cat.hpp"
+#include "../../../boost/preprocessor/config/config.hpp"
+#include "../../../boost/preprocessor/array/size.hpp"
+#include "../../../boost/preprocessor/control/if.hpp"
+#include "../../../boost/preprocessor/tuple/to_seq.hpp"
 #
 # /* BOOST_PP_ARRAY_TO_SEQ */
 #

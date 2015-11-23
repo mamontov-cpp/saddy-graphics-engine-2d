@@ -17,12 +17,12 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../../boost/config.hpp"
 
-#include <boost/bimap/relation/support/is_tag_of_member_at.hpp>
-#include <boost/bimap/detail/debug/static_error.hpp>
-#include <boost/utility/enable_if.hpp>
-#include <boost/preprocessor/cat.hpp>
+#include "../../../../boost/bimap/relation/support/is_tag_of_member_at.hpp"
+#include "../../../../boost/bimap/detail/debug/static_error.hpp"
+#include "../../../../boost/utility/enable_if.hpp"
+#include "../../../../boost/preprocessor/cat.hpp"
 
 
 

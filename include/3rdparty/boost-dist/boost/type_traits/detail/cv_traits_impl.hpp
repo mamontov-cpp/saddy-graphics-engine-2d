@@ -12,8 +12,8 @@
 #define BOOST_TT_DETAIL_CV_TRAITS_IMPL_HPP_INCLUDED
 
 #include <cstddef>
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/detail/workaround.hpp"
 
 
 // implementation helper:

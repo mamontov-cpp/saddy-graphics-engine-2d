@@ -8,17 +8,17 @@
 # ifndef SIGNATURE_DWA20021121_HPP
 #  define SIGNATURE_DWA20021121_HPP
 
-#  include <boost/python/type_id.hpp>
+#include "../../../boost/python/type_id.hpp"
 
-#  include <boost/python/detail/preprocessor.hpp>
-#  include <boost/python/detail/indirect_traits.hpp>
-#  include <boost/python/converter/pytype_function.hpp>
+#include "../../../boost/python/detail/preprocessor.hpp"
+#include "../../../boost/python/detail/indirect_traits.hpp"
+#include "../../../boost/python/converter/pytype_function.hpp"
 
-#  include <boost/preprocessor/iterate.hpp>
-#  include <boost/preprocessor/iteration/local.hpp>
+#include "../../../boost/preprocessor/iterate.hpp"
+#include "../../../boost/preprocessor/iteration/local.hpp"
 
-#  include <boost/mpl/at.hpp>
-#  include <boost/mpl/size.hpp>
+#include "../../../boost/mpl/at.hpp"
+#include "../../../boost/mpl/size.hpp"
 
 namespace boost { namespace python { namespace detail { 
 

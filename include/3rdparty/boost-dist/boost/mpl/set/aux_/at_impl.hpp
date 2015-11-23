@@ -14,11 +14,11 @@
 // $Date$
 // $Revision$
 
-#include <boost/mpl/at_fwd.hpp>
-#include <boost/mpl/set/aux_/has_key_impl.hpp>
-#include <boost/mpl/set/aux_/tag.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/void.hpp>
+#include "../../../../boost/mpl/at_fwd.hpp"
+#include "../../../../boost/mpl/set/aux_/has_key_impl.hpp"
+#include "../../../../boost/mpl/set/aux_/tag.hpp"
+#include "../../../../boost/mpl/if.hpp"
+#include "../../../../boost/mpl/void.hpp"
 
 namespace boost { namespace mpl {
 

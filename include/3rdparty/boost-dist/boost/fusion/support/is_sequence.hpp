@@ -7,14 +7,14 @@
 #if !defined(FUSION_IS_SEQUENCE_05052005_1002)
 #define FUSION_IS_SEQUENCE_05052005_1002
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/support/sequence_base.hpp>
-#include <boost/fusion/support/tag_of.hpp>
-#include <boost/mpl/is_sequence.hpp>
-#include <boost/mpl/or.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/type_traits/is_convertible.hpp>
-#include <boost/type_traits/is_same.hpp>
+#include "../../../boost/fusion/support/config.hpp"
+#include "../../../boost/fusion/support/sequence_base.hpp"
+#include "../../../boost/fusion/support/tag_of.hpp"
+#include "../../../boost/mpl/is_sequence.hpp"
+#include "../../../boost/mpl/or.hpp"
+#include "../../../boost/mpl/bool.hpp"
+#include "../../../boost/type_traits/is_convertible.hpp"
+#include "../../../boost/type_traits/is_same.hpp"
 
 namespace boost { namespace fusion
 {

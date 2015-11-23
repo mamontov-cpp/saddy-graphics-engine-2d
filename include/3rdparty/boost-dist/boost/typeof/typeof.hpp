@@ -96,7 +96,7 @@
 #       ifndef BOOST_TYPEOF_NATIVE
 #           define BOOST_TYPEOF_NATIVE
 #       endif
-#       include <boost/typeof/dmc/typeof_impl.hpp>
+#include "../../boost/typeof/dmc/typeof_impl.hpp"
 #       define MSVC_TYPEOF_HACK
 #   endif
 #elif defined(_MSC_VER)
@@ -105,7 +105,7 @@
 #           ifndef BOOST_TYPEOF_NATIVE
 #               define BOOST_TYPEOF_NATIVE
 #           endif
-#           include <boost/typeof/msvc/typeof_impl.hpp>
+#include "../../boost/typeof/msvc/typeof_impl.hpp"
 #           define MSVC_TYPEOF_HACK
 #       else
 #           error typeof emulation is not supported
@@ -121,7 +121,7 @@
 #           endif
 #       endif
 #       ifdef BOOST_TYPEOF_NATIVE
-#           include <boost/typeof/msvc/typeof_impl.hpp>
+#include "../../boost/typeof/msvc/typeof_impl.hpp"
 #           define MSVC_TYPEOF_HACK
 #       endif
 #   endif
@@ -191,22 +191,22 @@
      <boost/typeof/incr_registration_group.hpp>
 
 #ifdef BOOST_TYPEOF_EMULATION_UNSUPPORTED
-#   include <boost/typeof/unsupported.hpp>
+#include "../../boost/typeof/unsupported.hpp"
 #elif defined BOOST_TYPEOF_EMULATION
 #   define BOOST_TYPEOF_TEXT "using typeof emulation"
-#   include <boost/typeof/message.hpp>
-#   include <boost/typeof/typeof_impl.hpp>
-#   include <boost/typeof/type_encoding.hpp>
-#   include <boost/typeof/template_encoding.hpp>
-#   include <boost/typeof/modifiers.hpp>
-#   include <boost/typeof/pointers_data_members.hpp>
-#   include <boost/typeof/register_functions.hpp>
-#   include <boost/typeof/register_fundamental.hpp>
+#include "../../boost/typeof/message.hpp"
+#include "../../boost/typeof/typeof_impl.hpp"
+#include "../../boost/typeof/type_encoding.hpp"
+#include "../../boost/typeof/template_encoding.hpp"
+#include "../../boost/typeof/modifiers.hpp"
+#include "../../boost/typeof/pointers_data_members.hpp"
+#include "../../boost/typeof/register_functions.hpp"
+#include "../../boost/typeof/register_fundamental.hpp"
 
 #elif defined(BOOST_TYPEOF_NATIVE)
 #   define BOOST_TYPEOF_TEXT "using native typeof"
-#   include <boost/typeof/message.hpp>
-#   include <boost/typeof/native.hpp>
+#include "../../boost/typeof/message.hpp"
+#include "../../boost/typeof/native.hpp"
 #else
 #   error typeof configuration error
 #endif

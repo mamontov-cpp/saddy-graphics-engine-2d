@@ -13,30 +13,30 @@
 #define BOOST_GRAPH_DETAIL_ADJACENCY_LIST_HPP
 
 #include <map> // for vertex_map in copy_impl
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
-#include <boost/operators.hpp>
-#include <boost/property_map/property_map.hpp>
-#include <boost/pending/container_traits.hpp>
-#include <boost/range/irange.hpp>
-#include <boost/graph/graph_traits.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/detail/workaround.hpp"
+#include "../../../boost/operators.hpp"
+#include "../../../boost/property_map/property_map.hpp"
+#include "../../../boost/pending/container_traits.hpp"
+#include "../../../boost/range/irange.hpp"
+#include "../../../boost/graph/graph_traits.hpp"
 #include <memory>
 #include <algorithm>
-#include <boost/limits.hpp>
+#include "../../../boost/limits.hpp"
 
-#include <boost/iterator/iterator_adaptor.hpp>
+#include "../../../boost/iterator/iterator_adaptor.hpp"
 
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/not.hpp>
-#include <boost/mpl/and.hpp>
-#include <boost/graph/graph_concepts.hpp>
-#include <boost/pending/container_traits.hpp>
-#include <boost/graph/detail/adj_list_edge_iterator.hpp>
-#include <boost/graph/properties.hpp>
-#include <boost/pending/property.hpp>
-#include <boost/graph/adjacency_iterator.hpp>
-#include <boost/static_assert.hpp>
-#include <boost/assert.hpp>
+#include "../../../boost/mpl/if.hpp"
+#include "../../../boost/mpl/not.hpp"
+#include "../../../boost/mpl/and.hpp"
+#include "../../../boost/graph/graph_concepts.hpp"
+#include "../../../boost/pending/container_traits.hpp"
+#include "../../../boost/graph/detail/adj_list_edge_iterator.hpp"
+#include "../../../boost/graph/properties.hpp"
+#include "../../../boost/pending/property.hpp"
+#include "../../../boost/graph/adjacency_iterator.hpp"
+#include "../../../boost/static_assert.hpp"
+#include "../../../boost/assert.hpp"
 
 #ifdef BOOST_NO_CXX11_RVALUE_REFERENCES
 #define BOOST_GRAPH_MOVE_IF_POSSIBLE(x) (x)

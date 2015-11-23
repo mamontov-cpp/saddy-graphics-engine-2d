@@ -7,25 +7,25 @@
 #if !defined(FUSION_TRANSFORM_VIEW_07162005_1037)
 #define FUSION_TRANSFORM_VIEW_07162005_1037
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/static_assert.hpp>
-#include <boost/fusion/support/detail/access.hpp>
-#include <boost/fusion/support/is_view.hpp>
-#include <boost/fusion/support/category_of.hpp>
-#include <boost/fusion/view/transform_view/transform_view_iterator.hpp>
-#include <boost/fusion/view/transform_view/transform_view_fwd.hpp>
-#include <boost/fusion/view/transform_view/detail/begin_impl.hpp>
-#include <boost/fusion/view/transform_view/detail/end_impl.hpp>
-#include <boost/fusion/view/transform_view/detail/at_impl.hpp>
-#include <boost/fusion/view/transform_view/detail/value_at_impl.hpp>
-#include <boost/fusion/view/detail/strictest_traversal.hpp>
-#include <boost/fusion/container/vector/vector10.hpp>
-#include <boost/fusion/sequence/intrinsic/size.hpp>
-#include <boost/fusion/support/sequence_base.hpp>
-#include <boost/fusion/sequence/intrinsic/begin.hpp>
-#include <boost/fusion/sequence/intrinsic/end.hpp>
-#include <boost/fusion/sequence/intrinsic/size.hpp>
-#include <boost/mpl/bool.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/static_assert.hpp"
+#include "../../../../boost/fusion/support/detail/access.hpp"
+#include "../../../../boost/fusion/support/is_view.hpp"
+#include "../../../../boost/fusion/support/category_of.hpp"
+#include "../../../../boost/fusion/view/transform_view/transform_view_iterator.hpp"
+#include "../../../../boost/fusion/view/transform_view/transform_view_fwd.hpp"
+#include "../../../../boost/fusion/view/transform_view/detail/begin_impl.hpp"
+#include "../../../../boost/fusion/view/transform_view/detail/end_impl.hpp"
+#include "../../../../boost/fusion/view/transform_view/detail/at_impl.hpp"
+#include "../../../../boost/fusion/view/transform_view/detail/value_at_impl.hpp"
+#include "../../../../boost/fusion/view/detail/strictest_traversal.hpp"
+#include "../../../../boost/fusion/container/vector/vector10.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic/size.hpp"
+#include "../../../../boost/fusion/support/sequence_base.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic/begin.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic/end.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic/size.hpp"
+#include "../../../../boost/mpl/bool.hpp"
 
 namespace boost { namespace fusion
 {

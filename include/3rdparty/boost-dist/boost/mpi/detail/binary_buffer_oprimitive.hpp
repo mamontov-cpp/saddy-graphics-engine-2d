@@ -12,16 +12,16 @@
 #include <mpi.h>
 #include <iostream>
 #include <cstddef> // size_t
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
-#include <boost/serialization/array.hpp>
-#include <boost/serialization/is_bitwise_serializable.hpp>
-#include <boost/assert.hpp>
-#include <boost/mpl/assert.hpp>
+#include "../../../boost/serialization/array.hpp"
+#include "../../../boost/serialization/is_bitwise_serializable.hpp"
+#include "../../../boost/assert.hpp"
+#include "../../../boost/mpl/assert.hpp"
 #include <vector>
-#include <boost/mpi/allocator.hpp>
-#include <boost/mpl/always.hpp>
-#include <boost/type_traits/remove_const.hpp>
+#include "../../../boost/mpi/allocator.hpp"
+#include "../../../boost/mpl/always.hpp"
+#include "../../../boost/type_traits/remove_const.hpp"
 
 namespace boost { namespace mpi {
 

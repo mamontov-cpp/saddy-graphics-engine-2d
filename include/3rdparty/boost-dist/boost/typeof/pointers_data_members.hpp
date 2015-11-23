@@ -5,8 +5,8 @@
 #ifndef BOOST_TYPEOF_POINTERS_DATA_MEMBERS_HPP_INCLUDED
 #define BOOST_TYPEOF_POINTERS_DATA_MEMBERS_HPP_INCLUDED
 
-#include <boost/typeof/encode_decode_params.hpp>
-#include <boost/typeof/encode_decode.hpp>
+#include "../../boost/typeof/encode_decode_params.hpp"
+#include "../../boost/typeof/encode_decode.hpp"
 
 #include BOOST_TYPEOF_INCREMENT_REGISTRATION_GROUP()
 

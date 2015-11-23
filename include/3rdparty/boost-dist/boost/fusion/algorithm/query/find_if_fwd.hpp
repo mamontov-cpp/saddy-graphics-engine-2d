@@ -7,9 +7,9 @@
 #if !defined(BOOST_FUSION_FIND_IF_FWD_HPP_INCLUDED)
 #define BOOST_FUSION_FIND_IF_FWD_HPP_INCLUDED
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/utility/enable_if.hpp>
-#include <boost/type_traits/is_const.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/utility/enable_if.hpp"
+#include "../../../../boost/type_traits/is_const.hpp"
 
 // Forward declaration of find_if algorithm
 namespace boost { namespace fusion

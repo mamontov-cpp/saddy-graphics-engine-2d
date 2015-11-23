@@ -2,7 +2,7 @@
 // Use, modification and distribution is subject to the Boost Software
 // License, Version 1.0. (http://www.boost.org/LICENSE_1_0.txt)
 
-#include <boost/typeof/encode_decode_params.hpp>
+#include "../../boost/typeof/encode_decode_params.hpp"
 
 // member functions
 

@@ -16,29 +16,29 @@
 # pragma once
 #endif
 
-#include <boost/config.hpp>
-#include <boost/version.hpp>
-#include <boost/ref.hpp>
-#include <boost/assert.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/throw_exception.hpp>
-#include <boost/utility/result_of.hpp>
-#include <boost/type_traits/is_const.hpp>
-#include <boost/type_traits/remove_reference.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/detail/core/quant_style.hpp>
-#include <boost/xpressive/detail/core/action.hpp>
-#include <boost/xpressive/detail/core/state.hpp>
-#include <boost/proto/core.hpp>
-#include <boost/proto/context.hpp>
-#include <boost/xpressive/match_results.hpp> // for type_info_less
-#include <boost/xpressive/detail/static/transforms/as_action.hpp> // for 'read_attr'
+#include "../../../../../boost/config.hpp"
+#include "../../../../../boost/version.hpp"
+#include "../../../../../boost/ref.hpp"
+#include "../../../../../boost/assert.hpp"
+#include "../../../../../boost/mpl/if.hpp"
+#include "../../../../../boost/throw_exception.hpp"
+#include "../../../../../boost/utility/result_of.hpp"
+#include "../../../../../boost/type_traits/is_const.hpp"
+#include "../../../../../boost/type_traits/remove_reference.hpp"
+#include "../../../../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../../../../boost/xpressive/detail/core/quant_style.hpp"
+#include "../../../../../boost/xpressive/detail/core/action.hpp"
+#include "../../../../../boost/xpressive/detail/core/state.hpp"
+#include "../../../../../boost/proto/core.hpp"
+#include "../../../../../boost/proto/context.hpp"
+#include "../../../../../boost/xpressive/match_results.hpp" // for type_info_less
+#include "../../../../../boost/xpressive/detail/static/transforms/as_action.hpp" // for 'read_attr'
 #if BOOST_VERSION >= 103500
-# include <boost/proto/fusion.hpp>
-# include <boost/fusion/include/transform_view.hpp>
-# include <boost/fusion/include/invoke.hpp>
-# include <boost/fusion/include/push_front.hpp>
-# include <boost/fusion/include/pop_front.hpp>
+#include "../../../../../boost/proto/fusion.hpp"
+#include "../../../../../boost/fusion/include/transform_view.hpp"
+#include "../../../../../boost/fusion/include/invoke.hpp"
+#include "../../../../../boost/fusion/include/push_front.hpp"
+#include "../../../../../boost/fusion/include/pop_front.hpp"
 #endif
 
 #if BOOST_MSVC

@@ -12,10 +12,10 @@
 #ifndef BOOST_MPI_REQUEST_HPP
 #define BOOST_MPI_REQUEST_HPP
 
-#include <boost/mpi/config.hpp>
-#include <boost/optional.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/mpi/packed_iarchive.hpp>
+#include "../../boost/mpi/config.hpp"
+#include "../../boost/optional.hpp"
+#include "../../boost/shared_ptr.hpp"
+#include "../../boost/mpi/packed_iarchive.hpp"
 
 namespace boost { namespace mpi {
 

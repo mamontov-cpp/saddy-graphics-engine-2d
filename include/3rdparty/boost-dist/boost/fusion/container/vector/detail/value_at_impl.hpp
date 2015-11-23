@@ -7,13 +7,13 @@
 #ifndef FUSION_VALUE_AT_IMPL_16122014_1641
 #define FUSION_VALUE_AT_IMPL_16122014_1641
 
-#include <boost/config.hpp>
-#include <boost/fusion/support/config.hpp>
+#include "../../../../../boost/config.hpp"
+#include "../../../../../boost/fusion/support/config.hpp"
 
 ///////////////////////////////////////////////////////////////////////////////
 // Without variadics, we will use the PP version
 ///////////////////////////////////////////////////////////////////////////////
-# include <boost/fusion/container/vector/detail/cpp03/value_at_impl.hpp>
+#include "../../../../../boost/fusion/container/vector/detail/cpp03/value_at_impl.hpp"
 
 #endif
 

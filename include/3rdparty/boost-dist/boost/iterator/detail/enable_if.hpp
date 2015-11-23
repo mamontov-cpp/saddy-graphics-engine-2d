@@ -7,10 +7,10 @@
 #ifndef BOOST_ENABLE_IF_23022003THW_HPP
 #define BOOST_ENABLE_IF_23022003THW_HPP
 
-#include <boost/detail/workaround.hpp>
-#include <boost/mpl/identity.hpp>
+#include "../../../boost/detail/workaround.hpp"
+#include "../../../boost/mpl/identity.hpp"
 
-#include <boost/iterator/detail/config_def.hpp>
+#include "../../../boost/iterator/detail/config_def.hpp"
 
 //
 // Boost iterators uses its own enable_if cause we need
@@ -78,6 +78,6 @@ namespace boost
 
 } // namespace boost
 
-#include <boost/iterator/detail/config_undef.hpp>
+#include "../../../boost/iterator/detail/config_undef.hpp"
 
 #endif // BOOST_ENABLE_IF_23022003THW_HPP

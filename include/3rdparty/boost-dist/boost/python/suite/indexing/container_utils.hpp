@@ -8,11 +8,11 @@
 # define PY_CONTAINER_UTILS_JDG20038_HPP
 
 # include <utility>
-# include <boost/foreach.hpp>
-# include <boost/python/object.hpp>
-# include <boost/python/handle.hpp>
-# include <boost/python/extract.hpp>
-# include <boost/python/stl_iterator.hpp>
+#include "../../../../boost/foreach.hpp"
+#include "../../../../boost/python/object.hpp"
+#include "../../../../boost/python/handle.hpp"
+#include "../../../../boost/python/extract.hpp"
+#include "../../../../boost/python/stl_iterator.hpp"
 
 namespace boost { namespace python { namespace container_utils {
         

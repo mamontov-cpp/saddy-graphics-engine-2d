@@ -11,6 +11,6 @@
 //  http://www.boost.org/libs/smart_ptr/scoped_ptr.htm
 //
 
-#include <boost/smart_ptr/scoped_ptr.hpp>
+#include "../boost/smart_ptr/scoped_ptr.hpp"
 
 #endif // #ifndef BOOST_SCOPED_PTR_HPP_INCLUDED

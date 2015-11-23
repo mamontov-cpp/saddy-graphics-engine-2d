@@ -17,6 +17,6 @@
 //  http://www.boost.org/LICENSE_1_0.txt
 //
 
-#include <boost/smart_ptr/detail/lightweight_mutex.hpp>
+#include "../../boost/smart_ptr/detail/lightweight_mutex.hpp"
 
 #endif // #ifndef BOOST_DETAIL_LIGHTWEIGHT_MUTEX_HPP_INCLUDED

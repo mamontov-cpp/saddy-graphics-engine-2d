@@ -7,14 +7,14 @@
 #if !defined(FUSION_ENABLE_COMPARISON_09232005_1958)
 #define FUSION_ENABLE_COMPARISON_09232005_1958
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/mpl/or.hpp>
-#include <boost/mpl/and.hpp>
-#include <boost/mpl/not.hpp>
-#include <boost/mpl/equal_to.hpp>
-#include <boost/fusion/support/sequence_base.hpp>
-#include <boost/fusion/support/is_sequence.hpp>
-#include <boost/fusion/sequence/intrinsic/size.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/mpl/or.hpp"
+#include "../../../../boost/mpl/and.hpp"
+#include "../../../../boost/mpl/not.hpp"
+#include "../../../../boost/mpl/equal_to.hpp"
+#include "../../../../boost/fusion/support/sequence_base.hpp"
+#include "../../../../boost/fusion/support/is_sequence.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic/size.hpp"
 
 namespace boost { namespace fusion { namespace traits
 {

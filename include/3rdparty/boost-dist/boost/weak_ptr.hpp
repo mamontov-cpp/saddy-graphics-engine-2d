@@ -13,6 +13,6 @@
 //  See http://www.boost.org/libs/smart_ptr/weak_ptr.htm for documentation.
 //
 
-#include <boost/smart_ptr/weak_ptr.hpp>
+#include "../boost/smart_ptr/weak_ptr.hpp"
 
 #endif  // #ifndef BOOST_WEAK_PTR_HPP_INCLUDED

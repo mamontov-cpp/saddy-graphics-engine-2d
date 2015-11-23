@@ -6,13 +6,13 @@
 
 //  Authors: Douglas Gregor
 //           Andrew Lumsdaine
-#include <boost/optional.hpp>
+#include "../../../../boost/optional.hpp"
 #include <cassert>
-#include <boost/graph/parallel/algorithm.hpp>
-#include <boost/graph/parallel/process_group.hpp>
+#include "../../../../boost/graph/parallel/algorithm.hpp"
+#include "../../../../boost/graph/parallel/process_group.hpp"
 #include <functional>
 #include <algorithm>
-#include <boost/graph/parallel/simple_trigger.hpp>
+#include "../../../../boost/graph/parallel/simple_trigger.hpp"
 
 #ifndef BOOST_GRAPH_USE_MPI
 #error "Parallel BGL files should not be included unless <boost/graph/use_mpi.hpp> has been included"

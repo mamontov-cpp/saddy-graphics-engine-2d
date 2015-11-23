@@ -16,23 +16,23 @@
 #define BOOST_TEST_TOOLS_INTERFACE_HPP_111712GER
 
 // Boost.Test
-#include <boost/test/unit_test_log.hpp>
+#include "../../../boost/test/unit_test_log.hpp"
 #ifdef BOOST_TEST_TOOLS_DEBUGGABLE
-#include <boost/test/debug.hpp>
+#include "../../../boost/test/debug.hpp"
 #endif
 #ifdef BOOST_NO_CXX11_AUTO_DECLARATIONS
-#include <boost/test/tools/detail/expression_holder.hpp>
+#include "../../../boost/test/tools/detail/expression_holder.hpp"
 #endif
 
-#include <boost/test/detail/pp_variadic.hpp>
+#include "../../../boost/test/detail/pp_variadic.hpp"
 
 #ifdef BOOST_TEST_NO_OLD_TOOLS
-#include <boost/preprocessor/seq/to_tuple.hpp>
+#include "../../../boost/preprocessor/seq/to_tuple.hpp"
 
 #include <iterator>
 #endif // BOOST_TEST_NO_OLD_TOOLS
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -371,6 +371,6 @@ do { try {                                                                  \
 
 #endif // BOOST_TEST_NO_OLD_TOOLS
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_TOOLS_INTERFACE_HPP_111712GER

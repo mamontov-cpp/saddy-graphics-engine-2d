@@ -18,10 +18,10 @@
 #include <vector>
 #include <climits> // for INT_MAX
 #include <typeinfo>
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/size_t.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/xpressive/xpressive_fwd.hpp>
+#include "../../../boost/mpl/bool.hpp"
+#include "../../../boost/mpl/size_t.hpp"
+#include "../../../boost/shared_ptr.hpp"
+#include "../../../boost/xpressive/xpressive_fwd.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

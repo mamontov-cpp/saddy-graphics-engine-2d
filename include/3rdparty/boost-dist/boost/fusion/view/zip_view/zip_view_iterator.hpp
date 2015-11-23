@@ -8,18 +8,18 @@
 #if !defined(FUSION_ZIP_VIEW_ITERATOR_23012006_0814)
 #define FUSION_ZIP_VIEW_ITERATOR_23012006_0814
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/view/zip_view/zip_view_iterator_fwd.hpp>
-#include <boost/fusion/support/iterator_base.hpp>
-#include <boost/fusion/view/zip_view/detail/deref_impl.hpp>
-#include <boost/fusion/view/zip_view/detail/next_impl.hpp>
-#include <boost/fusion/view/zip_view/detail/prior_impl.hpp>
-#include <boost/fusion/view/zip_view/detail/advance_impl.hpp>
-#include <boost/fusion/view/zip_view/detail/distance_impl.hpp>
-#include <boost/fusion/view/zip_view/detail/value_of_impl.hpp>
-#include <boost/fusion/view/zip_view/detail/equal_to_impl.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/fusion/view/zip_view/zip_view_iterator_fwd.hpp"
+#include "../../../../boost/fusion/support/iterator_base.hpp"
+#include "../../../../boost/fusion/view/zip_view/detail/deref_impl.hpp"
+#include "../../../../boost/fusion/view/zip_view/detail/next_impl.hpp"
+#include "../../../../boost/fusion/view/zip_view/detail/prior_impl.hpp"
+#include "../../../../boost/fusion/view/zip_view/detail/advance_impl.hpp"
+#include "../../../../boost/fusion/view/zip_view/detail/distance_impl.hpp"
+#include "../../../../boost/fusion/view/zip_view/detail/value_of_impl.hpp"
+#include "../../../../boost/fusion/view/zip_view/detail/equal_to_impl.hpp"
 
-#include <boost/fusion/container/vector/convert.hpp>
+#include "../../../../boost/fusion/container/vector/convert.hpp"
 
 namespace boost { namespace fusion {
     

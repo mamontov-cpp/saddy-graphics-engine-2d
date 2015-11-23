@@ -13,22 +13,22 @@
 # pragma once
 #endif
 
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/proto/core.hpp>
-#include <boost/xpressive/detail/static/is_pure.hpp>
-#include <boost/xpressive/detail/static/transforms/as_matcher.hpp>
-#include <boost/xpressive/detail/static/transforms/as_alternate.hpp>
-#include <boost/xpressive/detail/static/transforms/as_sequence.hpp>
-#include <boost/xpressive/detail/static/transforms/as_quantifier.hpp>
-#include <boost/xpressive/detail/static/transforms/as_marker.hpp>
-#include <boost/xpressive/detail/static/transforms/as_set.hpp>
-#include <boost/xpressive/detail/static/transforms/as_independent.hpp>
-#include <boost/xpressive/detail/static/transforms/as_modifier.hpp>
-#include <boost/xpressive/detail/static/transforms/as_inverse.hpp>
-#include <boost/xpressive/detail/static/transforms/as_action.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
+#include "../../../../boost/mpl/if.hpp"
+#include "../../../../boost/mpl/bool.hpp"
+#include "../../../../boost/mpl/assert.hpp"
+#include "../../../../boost/proto/core.hpp"
+#include "../../../../boost/xpressive/detail/static/is_pure.hpp"
+#include "../../../../boost/xpressive/detail/static/transforms/as_matcher.hpp"
+#include "../../../../boost/xpressive/detail/static/transforms/as_alternate.hpp"
+#include "../../../../boost/xpressive/detail/static/transforms/as_sequence.hpp"
+#include "../../../../boost/xpressive/detail/static/transforms/as_quantifier.hpp"
+#include "../../../../boost/xpressive/detail/static/transforms/as_marker.hpp"
+#include "../../../../boost/xpressive/detail/static/transforms/as_set.hpp"
+#include "../../../../boost/xpressive/detail/static/transforms/as_independent.hpp"
+#include "../../../../boost/xpressive/detail/static/transforms/as_modifier.hpp"
+#include "../../../../boost/xpressive/detail/static/transforms/as_inverse.hpp"
+#include "../../../../boost/xpressive/detail/static/transforms/as_action.hpp"
+#include "../../../../boost/xpressive/detail/detail_fwd.hpp"
 
 #define BOOST_XPRESSIVE_CHECK_REGEX(Expr, Char)\
     BOOST_MPL_ASSERT\

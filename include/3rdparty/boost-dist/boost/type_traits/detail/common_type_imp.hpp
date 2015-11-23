@@ -21,30 +21,30 @@
 
 #include <cstddef>
 
-#include <boost/mpl/assert.hpp>
-#include <boost/mpl/at.hpp>
-#include <boost/mpl/begin_end.hpp>
-#include <boost/mpl/contains.hpp>
-#include <boost/mpl/copy.hpp>
-#include <boost/mpl/deref.hpp>
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/inserter.hpp>
-#include <boost/mpl/next.hpp>
-#include <boost/mpl/or.hpp>
-#include <boost/mpl/placeholders.hpp>
-#include <boost/mpl/push_back.hpp>
-#include <boost/mpl/size.hpp>
-#include <boost/mpl/vector/vector0.hpp>
-#include <boost/mpl/vector/vector10.hpp>
-#include <boost/type_traits/integral_constant.hpp>
-#include <boost/type_traits/is_enum.hpp>
-#include <boost/type_traits/is_integral.hpp>
-#include <boost/type_traits/make_signed.hpp>
-#include <boost/type_traits/make_unsigned.hpp>
-#include <boost/type_traits/remove_cv.hpp>
-#include <boost/type_traits/remove_reference.hpp>
-#include <boost/utility/declval.hpp>
+#include "../../../boost/mpl/assert.hpp"
+#include "../../../boost/mpl/at.hpp"
+#include "../../../boost/mpl/begin_end.hpp"
+#include "../../../boost/mpl/contains.hpp"
+#include "../../../boost/mpl/copy.hpp"
+#include "../../../boost/mpl/deref.hpp"
+#include "../../../boost/mpl/eval_if.hpp"
+#include "../../../boost/mpl/if.hpp"
+#include "../../../boost/mpl/inserter.hpp"
+#include "../../../boost/mpl/next.hpp"
+#include "../../../boost/mpl/or.hpp"
+#include "../../../boost/mpl/placeholders.hpp"
+#include "../../../boost/mpl/push_back.hpp"
+#include "../../../boost/mpl/size.hpp"
+#include "../../../boost/mpl/vector/vector0.hpp"
+#include "../../../boost/mpl/vector/vector10.hpp"
+#include "../../../boost/type_traits/integral_constant.hpp"
+#include "../../../boost/type_traits/is_enum.hpp"
+#include "../../../boost/type_traits/is_integral.hpp"
+#include "../../../boost/type_traits/make_signed.hpp"
+#include "../../../boost/type_traits/make_unsigned.hpp"
+#include "../../../boost/type_traits/remove_cv.hpp"
+#include "../../../boost/type_traits/remove_reference.hpp"
+#include "../../../boost/utility/declval.hpp"
 
 namespace boost
 {

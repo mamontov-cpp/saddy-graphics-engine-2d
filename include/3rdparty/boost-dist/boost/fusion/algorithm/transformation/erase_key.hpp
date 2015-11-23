@@ -7,11 +7,11 @@
 #if !defined(FUSION_ERASE_KEY_10022005_1851)
 #define FUSION_ERASE_KEY_10022005_1851
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/algorithm/query/find.hpp>
-#include <boost/fusion/algorithm/transformation/erase.hpp>
-#include <boost/mpl/not.hpp>
-#include <boost/type_traits/is_same.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/fusion/algorithm/query/find.hpp"
+#include "../../../../boost/fusion/algorithm/transformation/erase.hpp"
+#include "../../../../boost/mpl/not.hpp"
+#include "../../../../boost/type_traits/is_same.hpp"
 
 namespace boost { namespace fusion
 {

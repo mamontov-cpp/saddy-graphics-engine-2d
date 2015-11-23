@@ -17,14 +17,14 @@
 //  See http://www.boost.org for updates, documentation, and revision history.
 
 #include <cstddef> // NULL
-#include <boost/config.hpp>
-#include <boost/noncopyable.hpp>
-#include <boost/scoped_ptr.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/noncopyable.hpp"
+#include "../../../boost/scoped_ptr.hpp"
 
-#include <boost/archive/basic_archive.hpp>
-#include <boost/serialization/tracking_enum.hpp>
-#include <boost/archive/detail/helper_collection.hpp>
-#include <boost/archive/detail/abi_prefix.hpp> // must be the last header
+#include "../../../boost/archive/basic_archive.hpp"
+#include "../../../boost/serialization/tracking_enum.hpp"
+#include "../../../boost/archive/detail/helper_collection.hpp"
+#include "../../../boost/archive/detail/abi_prefix.hpp" // must be the last header
 
 namespace boost {
 namespace serialization {
@@ -95,6 +95,6 @@ public:
 } // namespace archive
 } // namespace boost
 
-#include <boost/archive/detail/abi_suffix.hpp> // pops abi_suffix.hpp pragmas
+#include "../../../boost/archive/detail/abi_suffix.hpp" // pops abi_suffix.hpp pragmas
 
 #endif //BOOST_ARCHIVE_BASIC_OARCHIVE_HPP

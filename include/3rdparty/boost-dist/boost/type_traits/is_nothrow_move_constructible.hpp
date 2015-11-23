@@ -11,19 +11,19 @@
 #ifndef BOOST_TT_IS_NOTHROW_MOVE_CONSTRUCTIBLE_HPP_INCLUDED
 #define BOOST_TT_IS_NOTHROW_MOVE_CONSTRUCTIBLE_HPP_INCLUDED
 
-#include <boost/config.hpp>
-#include <boost/type_traits/intrinsics.hpp>
-#include <boost/type_traits/has_trivial_move_constructor.hpp>
-#include <boost/type_traits/has_nothrow_copy.hpp>
-#include <boost/type_traits/is_array.hpp>
-#include <boost/type_traits/is_reference.hpp>
-#include <boost/type_traits/detail/ice_or.hpp>
-#include <boost/type_traits/detail/ice_and.hpp>
-#include <boost/utility/declval.hpp>
-#include <boost/utility/enable_if.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/type_traits/intrinsics.hpp"
+#include "../../boost/type_traits/has_trivial_move_constructor.hpp"
+#include "../../boost/type_traits/has_nothrow_copy.hpp"
+#include "../../boost/type_traits/is_array.hpp"
+#include "../../boost/type_traits/is_reference.hpp"
+#include "../../boost/type_traits/detail/ice_or.hpp"
+#include "../../boost/type_traits/detail/ice_and.hpp"
+#include "../../boost/utility/declval.hpp"
+#include "../../boost/utility/enable_if.hpp"
 
 // should be the last #include
-#include <boost/type_traits/detail/bool_trait_def.hpp>
+#include "../../boost/type_traits/detail/bool_trait_def.hpp"
 
 namespace boost {
 
@@ -104,6 +104,6 @@ BOOST_TT_AUX_BOOL_TRAIT_SPEC1(is_nothrow_move_constructible,void volatile,false)
 
 } // namespace boost
 
-#include <boost/type_traits/detail/bool_trait_undef.hpp>
+#include "../../boost/type_traits/detail/bool_trait_undef.hpp"
 
 #endif // BOOST_TT_IS_NOTHROW_MOVE_CONSTRUCTIBLE_HPP_INCLUDED

@@ -40,7 +40,7 @@
    >::value
 
 
-#include <boost/type_traits/detail/has_binary_operator.hpp>
+#include "../../boost/type_traits/detail/has_binary_operator.hpp"
 
 #undef BOOST_TT_TRAIT_NAME
 #undef BOOST_TT_TRAIT_OP

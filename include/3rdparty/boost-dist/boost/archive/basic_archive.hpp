@@ -16,14 +16,14 @@
 
 //  See http://www.boost.org for updates, documentation, and revision history.
 #include <cstring> // count
-#include <boost/assert.hpp>
-#include <boost/config.hpp>
-#include <boost/cstdint.hpp> // size_t
-#include <boost/noncopyable.hpp>
-#include <boost/integer_traits.hpp>
+#include "../../boost/assert.hpp"
+#include "../../boost/config.hpp"
+#include "../../boost/cstdint.hpp" // size_t
+#include "../../boost/noncopyable.hpp"
+#include "../../boost/integer_traits.hpp"
 
-#include <boost/archive/detail/auto_link_archive.hpp>
-#include <boost/archive/detail/abi_prefix.hpp> // must be the last header
+#include "../../boost/archive/detail/auto_link_archive.hpp"
+#include "../../boost/archive/detail/abi_prefix.hpp" // must be the last header
 
 namespace boost {
 namespace archive {
@@ -269,9 +269,9 @@ BOOST_ARCHIVE_STRONG_TYPEDEF(object_id_type, object_reference_type)
 }// namespace archive
 }// namespace boost
 
-#include <boost/archive/detail/abi_suffix.hpp> // pops abi_suffix.hpp pragmas
+#include "../../boost/archive/detail/abi_suffix.hpp" // pops abi_suffix.hpp pragmas
 
-#include <boost/serialization/level.hpp>
+#include "../../boost/serialization/level.hpp"
 
 // set implementation level to primitive for all types
 // used internally by the serialization library
@@ -286,7 +286,7 @@ BOOST_CLASS_IMPLEMENTATION(boost::archive::object_id_type, primitive_type)
 BOOST_CLASS_IMPLEMENTATION(boost::archive::object_reference_type, primitive_type)
 BOOST_CLASS_IMPLEMENTATION(boost::archive::tracking_type, primitive_type)
 
-#include <boost/serialization/is_bitwise_serializable.hpp>
+#include "../../boost/serialization/is_bitwise_serializable.hpp"
 
 // set types used internally by the serialization library 
 // to be bitwise serializable

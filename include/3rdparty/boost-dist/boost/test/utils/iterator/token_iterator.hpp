@@ -16,22 +16,22 @@
 #define BOOST_TEST_UTILS_TOKEN_ITERATOR_HPP
 
 // Boost
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
+#include "../../../../boost/config.hpp"
+#include "../../../../boost/detail/workaround.hpp"
 
-#include <boost/iterator/iterator_categories.hpp>
-#include <boost/iterator/iterator_traits.hpp>
+#include "../../../../boost/iterator/iterator_categories.hpp"
+#include "../../../../boost/iterator/iterator_traits.hpp"
 
-#include <boost/test/utils/iterator/input_iterator_facade.hpp>
-#include <boost/test/utils/basic_cstring/basic_cstring.hpp>
-#include <boost/test/utils/named_params.hpp>
-#include <boost/test/utils/foreach.hpp>
+#include "../../../../boost/test/utils/iterator/input_iterator_facade.hpp"
+#include "../../../../boost/test/utils/basic_cstring/basic_cstring.hpp"
+#include "../../../../boost/test/utils/named_params.hpp"
+#include "../../../../boost/test/utils/foreach.hpp"
 
 // STL
 #include <iosfwd>
 #include <cctype>
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -412,7 +412,7 @@ make_range_token_iterator( Iter begin, Iter end, Modifier const& m )
 
 //____________________________________________________________________________//
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_UTILS_TOKEN_ITERATOR_HPP
 

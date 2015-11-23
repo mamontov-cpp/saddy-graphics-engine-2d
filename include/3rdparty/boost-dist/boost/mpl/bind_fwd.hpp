@@ -19,28 +19,28 @@
 // $Revision$
 
 #if !defined(BOOST_MPL_PREPROCESSING_MODE)
-#   include <boost/mpl/aux_/na.hpp>
+#include "../../boost/mpl/aux_/na.hpp"
 #endif
 
-#include <boost/mpl/aux_/config/bind.hpp>
-#include <boost/mpl/aux_/config/use_preprocessed.hpp>
+#include "../../boost/mpl/aux_/config/bind.hpp"
+#include "../../boost/mpl/aux_/config/use_preprocessed.hpp"
 
 #if !defined(BOOST_MPL_CFG_NO_PREPROCESSED_HEADERS) \
     && !defined(BOOST_MPL_PREPROCESSING_MODE)
 
 #   define BOOST_MPL_PREPROCESSED_HEADER bind_fwd.hpp
-#   include <boost/mpl/aux_/include_preprocessed.hpp>
+#include "../../boost/mpl/aux_/include_preprocessed.hpp"
 
 #else
 
-#   include <boost/mpl/limits/arity.hpp>
-#   include <boost/mpl/aux_/preprocessor/params.hpp>
-#   include <boost/mpl/aux_/preprocessor/default_params.hpp>
-#   include <boost/mpl/aux_/config/dmc_ambiguous_ctps.hpp>
+#include "../../boost/mpl/limits/arity.hpp"
+#include "../../boost/mpl/aux_/preprocessor/params.hpp"
+#include "../../boost/mpl/aux_/preprocessor/default_params.hpp"
+#include "../../boost/mpl/aux_/config/dmc_ambiguous_ctps.hpp"
 
-#   include <boost/preprocessor/comma_if.hpp>
-#   include <boost/preprocessor/iterate.hpp>
-#   include <boost/preprocessor/cat.hpp>
+#include "../../boost/preprocessor/comma_if.hpp"
+#include "../../boost/preprocessor/iterate.hpp"
+#include "../../boost/preprocessor/cat.hpp"
 
 namespace boost { namespace mpl {
 

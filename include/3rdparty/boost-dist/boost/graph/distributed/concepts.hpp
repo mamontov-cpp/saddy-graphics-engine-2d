@@ -18,13 +18,13 @@
 #error "Parallel BGL files should not be included unless <boost/graph/use_mpi.hpp> has been included"
 #endif
 
-#include <boost/version.hpp>
-#include <boost/graph/graph_traits.hpp>
-#include <boost/graph/graph_concepts.hpp>
-#include <boost/concept/assert.hpp>
+#include "../../../boost/version.hpp"
+#include "../../../boost/graph/graph_traits.hpp"
+#include "../../../boost/graph/graph_concepts.hpp"
+#include "../../../boost/concept/assert.hpp"
 
 #if BOOST_VERSION >= 103500
-#  include <boost/concept/detail/concept_def.hpp>
+#include "../../../boost/concept/detail/concept_def.hpp"
 #endif
 
 namespace boost { 
@@ -207,7 +207,7 @@ struct DistributedEdgeListGraphConcept
 } // end namespace boost
 
 #if BOOST_VERSION >= 103500
-#  include <boost/concept/detail/concept_undef.hpp>
+#include "../../../boost/concept/detail/concept_undef.hpp"
 #endif
 
 #endif // BOOST_GRAPH_DISTRIBUTED_CONCEPTS_HPP

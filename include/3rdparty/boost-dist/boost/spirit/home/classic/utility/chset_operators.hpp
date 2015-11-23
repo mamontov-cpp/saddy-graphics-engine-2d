@@ -10,8 +10,8 @@
 #define BOOST_SPIRIT_CHSET_OPERATORS_HPP
 
 ///////////////////////////////////////////////////////////////////////////////
-#include <boost/spirit/home/classic/namespace.hpp>
-#include <boost/spirit/home/classic/utility/chset.hpp>
+#include "../../../../../boost/spirit/home/classic/namespace.hpp"
+#include "../../../../../boost/spirit/home/classic/utility/chset.hpp"
 
 ///////////////////////////////////////////////////////////////////////////////
 namespace boost { namespace spirit {
@@ -399,4 +399,4 @@ BOOST_SPIRIT_CLASSIC_NAMESPACE_END
 
 #endif
 
-#include <boost/spirit/home/classic/utility/impl/chset_operators.ipp>
+#include "../../../../../boost/spirit/home/classic/utility/impl/chset_operators.ipp"

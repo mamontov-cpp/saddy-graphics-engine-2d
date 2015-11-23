@@ -16,13 +16,13 @@
 #define BOOST_TEST_UTILS_RUNTIME_CLA_IFACE_ID_POLICY_HPP
 
 // Boost.Runtime.Parameter
-#include <boost/test/utils/runtime/config.hpp>
+#include "../../../../../../boost/test/utils/runtime/config.hpp"
 
-#include <boost/test/utils/runtime/cla/fwd.hpp>
+#include "../../../../../../boost/test/utils/runtime/cla/fwd.hpp"
 
 // Boost.Test
-#include <boost/test/utils/class_properties.hpp>
-#include <boost/test/utils/rtti.hpp>
+#include "../../../../../../boost/test/utils/class_properties.hpp"
+#include "../../../../../../boost/test/utils/rtti.hpp"
 
 namespace boost {
 

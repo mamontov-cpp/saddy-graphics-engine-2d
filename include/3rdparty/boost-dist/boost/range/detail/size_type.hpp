@@ -11,7 +11,7 @@
 #ifndef BOOST_RANGE_DETAIL_SIZE_TYPE_HPP
 #define BOOST_RANGE_DETAIL_SIZE_TYPE_HPP
 
-#include <boost/range/detail/common.hpp>
+#include "../../../boost/range/detail/common.hpp"
 
 //////////////////////////////////////////////////////////////////////////////
 // missing partial specialization  workaround.

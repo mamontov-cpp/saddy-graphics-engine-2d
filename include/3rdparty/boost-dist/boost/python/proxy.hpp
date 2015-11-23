@@ -4,9 +4,9 @@
 // http://www.boost.org/LICENSE_1_0.txt)
 #ifndef PROXY_DWA2002615_HPP
 # define PROXY_DWA2002615_HPP
-# include <boost/python/detail/prefix.hpp>
-# include <boost/python/object_core.hpp>
-# include <boost/python/object_operators.hpp>
+#include "../../boost/python/detail/prefix.hpp"
+#include "../../boost/python/object_core.hpp"
+#include "../../boost/python/object_operators.hpp"
 
 namespace boost { namespace python { namespace api {
 

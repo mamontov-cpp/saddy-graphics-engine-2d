@@ -13,18 +13,18 @@
 # pragma once
 #endif
 
-#include <boost/mpl/bool.hpp>
-#include <boost/iterator/iterator_traits.hpp>
-#include <boost/proto/core.hpp>
-#include <boost/xpressive/regex_traits.hpp>
-#include <boost/xpressive/detail/core/regex_impl.hpp>
-#include <boost/xpressive/detail/core/linker.hpp>
-#include <boost/xpressive/detail/core/optimize.hpp>
-#include <boost/xpressive/detail/core/adaptor.hpp>
-#include <boost/xpressive/detail/core/matcher/end_matcher.hpp>
-#include <boost/xpressive/detail/static/static.hpp>
-#include <boost/xpressive/detail/static/visitor.hpp>
-#include <boost/xpressive/detail/static/grammar.hpp>
+#include "../../../../boost/mpl/bool.hpp"
+#include "../../../../boost/iterator/iterator_traits.hpp"
+#include "../../../../boost/proto/core.hpp"
+#include "../../../../boost/xpressive/regex_traits.hpp"
+#include "../../../../boost/xpressive/detail/core/regex_impl.hpp"
+#include "../../../../boost/xpressive/detail/core/linker.hpp"
+#include "../../../../boost/xpressive/detail/core/optimize.hpp"
+#include "../../../../boost/xpressive/detail/core/adaptor.hpp"
+#include "../../../../boost/xpressive/detail/core/matcher/end_matcher.hpp"
+#include "../../../../boost/xpressive/detail/static/static.hpp"
+#include "../../../../boost/xpressive/detail/static/visitor.hpp"
+#include "../../../../boost/xpressive/detail/static/grammar.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

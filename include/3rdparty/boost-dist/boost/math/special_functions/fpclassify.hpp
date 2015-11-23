@@ -12,12 +12,12 @@
 #endif
 
 #include <math.h>
-#include <boost/config/no_tr1/cmath.hpp>
-#include <boost/limits.hpp>
-#include <boost/math/tools/real_cast.hpp>
-#include <boost/type_traits/is_floating_point.hpp>
-#include <boost/math/special_functions/math_fwd.hpp>
-#include <boost/math/special_functions/detail/fp_traits.hpp>
+#include "../../../boost/config/no_tr1/cmath.hpp"
+#include "../../../boost/limits.hpp"
+#include "../../../boost/math/tools/real_cast.hpp"
+#include "../../../boost/type_traits/is_floating_point.hpp"
+#include "../../../boost/math/special_functions/math_fwd.hpp"
+#include "../../../boost/math/special_functions/detail/fp_traits.hpp"
 /*!
   \file fpclassify.hpp
   \brief Classify floating-point value as normal, subnormal, zero, infinite, or NaN.

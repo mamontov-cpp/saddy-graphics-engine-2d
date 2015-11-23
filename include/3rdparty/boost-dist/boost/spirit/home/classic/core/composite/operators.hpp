@@ -10,16 +10,16 @@
 #if !defined(BOOST_SPIRIT_OPERATORS_HPP)
 #define BOOST_SPIRIT_OPERATORS_HPP
 
-#include <boost/spirit/home/classic/core/composite/sequence.hpp>
-#include <boost/spirit/home/classic/core/composite/sequential_and.hpp>
-#include <boost/spirit/home/classic/core/composite/sequential_or.hpp>
-#include <boost/spirit/home/classic/core/composite/alternative.hpp>
-#include <boost/spirit/home/classic/core/composite/difference.hpp>
-#include <boost/spirit/home/classic/core/composite/intersection.hpp>
-#include <boost/spirit/home/classic/core/composite/exclusive_or.hpp>
-#include <boost/spirit/home/classic/core/composite/kleene_star.hpp>
-#include <boost/spirit/home/classic/core/composite/positive.hpp>
-#include <boost/spirit/home/classic/core/composite/optional.hpp>
-#include <boost/spirit/home/classic/core/composite/list.hpp>
+#include "../../../../../../boost/spirit/home/classic/core/composite/sequence.hpp"
+#include "../../../../../../boost/spirit/home/classic/core/composite/sequential_and.hpp"
+#include "../../../../../../boost/spirit/home/classic/core/composite/sequential_or.hpp"
+#include "../../../../../../boost/spirit/home/classic/core/composite/alternative.hpp"
+#include "../../../../../../boost/spirit/home/classic/core/composite/difference.hpp"
+#include "../../../../../../boost/spirit/home/classic/core/composite/intersection.hpp"
+#include "../../../../../../boost/spirit/home/classic/core/composite/exclusive_or.hpp"
+#include "../../../../../../boost/spirit/home/classic/core/composite/kleene_star.hpp"
+#include "../../../../../../boost/spirit/home/classic/core/composite/positive.hpp"
+#include "../../../../../../boost/spirit/home/classic/core/composite/optional.hpp"
+#include "../../../../../../boost/spirit/home/classic/core/composite/list.hpp"
 
 #endif

@@ -8,16 +8,16 @@
 #if !defined(FUSION_VALUE_AT_IMPL_20060124_2129)
 #define FUSION_VALUE_AT_IMPL_20060124_2129
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/container/vector/convert.hpp>
-#include <boost/fusion/algorithm/transformation/transform.hpp>
-#include <boost/fusion/sequence/intrinsic/value_at.hpp>
-#include <boost/type_traits/remove_reference.hpp>
-#include <boost/fusion/support/unused.hpp>
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/identity.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/config.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/fusion/container/vector/convert.hpp"
+#include "../../../../../boost/fusion/algorithm/transformation/transform.hpp"
+#include "../../../../../boost/fusion/sequence/intrinsic/value_at.hpp"
+#include "../../../../../boost/type_traits/remove_reference.hpp"
+#include "../../../../../boost/fusion/support/unused.hpp"
+#include "../../../../../boost/mpl/eval_if.hpp"
+#include "../../../../../boost/mpl/identity.hpp"
+#include "../../../../../boost/type_traits/is_same.hpp"
+#include "../../../../../boost/config.hpp"
 
 namespace boost { namespace fusion {
     

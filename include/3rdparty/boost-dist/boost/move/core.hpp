@@ -17,15 +17,15 @@
 #define BOOST_MOVE_CORE_HPP
 
 #ifndef BOOST_CONFIG_HPP
-#  include <boost/config.hpp>
+#include "../../boost/config.hpp"
 #endif
 #
 #if defined(BOOST_HAS_PRAGMA_ONCE)
 #  pragma once
 #endif
 
-#include <boost/move/detail/config_begin.hpp>
-#include <boost/move/detail/workaround.hpp>
+#include "../../boost/move/detail/config_begin.hpp"
+#include "../../boost/move/detail/workaround.hpp"
 
 //boost_move_no_copy_constructor_or_assign typedef
 //used to detect noncopyable types for other Boost libraries.
@@ -51,7 +51,7 @@
 
 #if defined(BOOST_NO_CXX11_RVALUE_REFERENCES) && !defined(BOOST_MOVE_DOXYGEN_INVOKED)
 
-   #include <boost/move/detail/type_traits.hpp>
+   #include "../../boost/move/detail/type_traits.hpp"
 
    #if defined(BOOST_MOVE_ADDRESS_SANITIZER_ON)
       #define BOOST_MOVE_TO_RV_CAST(RV_TYPE, ARG) reinterpret_cast<RV_TYPE>(ARG)
@@ -440,7 +440,7 @@
 
    #else //!defined(BOOST_MOVE_MSVC_AUTO_MOVE_RETURN_BUG) || defined(BOOST_MOVE_DOXYGEN_INVOKED)
 
-      #include <boost/move/detail/meta_utils.hpp>
+      #include "../../boost/move/detail/meta_utils.hpp"
 
       namespace boost {
       namespace move_detail {
@@ -492,6 +492,6 @@
 
 #endif   //BOOST_NO_CXX11_RVALUE_REFERENCES
 
-#include <boost/move/detail/config_end.hpp>
+#include "../../boost/move/detail/config_end.hpp"
 
 #endif //#ifndef BOOST_MOVE_CORE_HPP

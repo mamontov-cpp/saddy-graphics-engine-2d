@@ -20,29 +20,29 @@
 #ifndef BOOST_MPI_PYTHON_SERIALIZE_HPP
 #define BOOST_MPI_PYTHON_SERIALIZE_HPP
 
-#include <boost/mpi/python/config.hpp>
+#include "../../../boost/mpi/python/config.hpp"
 
-#include <boost/python/object.hpp>
-#include <boost/python/str.hpp>
-#include <boost/python/extract.hpp>
+#include "../../../boost/python/object.hpp"
+#include "../../../boost/python/str.hpp"
+#include "../../../boost/python/extract.hpp"
 
 #include <memory>
 #include <map>
 
-#include <boost/function/function3.hpp>
+#include "../../../boost/function/function3.hpp"
 
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/if.hpp>
+#include "../../../boost/mpl/bool.hpp"
+#include "../../../boost/mpl/if.hpp"
 
-#include <boost/serialization/split_free.hpp>
-#include <boost/serialization/array.hpp>
+#include "../../../boost/serialization/split_free.hpp"
+#include "../../../boost/serialization/array.hpp"
 
-#include <boost/assert.hpp>
+#include "../../../boost/assert.hpp"
 
-#include <boost/type_traits/is_fundamental.hpp>
+#include "../../../boost/type_traits/is_fundamental.hpp"
 
 #define BOOST_MPI_PYTHON_FORWARD_ONLY
-#include <boost/mpi/python.hpp>
+#include "../../../boost/mpi/python.hpp"
 
 /************************************************************************
  * Boost.Python Serialization Section                                   *

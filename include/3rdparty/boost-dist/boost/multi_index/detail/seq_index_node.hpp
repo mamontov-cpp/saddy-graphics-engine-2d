@@ -13,10 +13,10 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp> /* keep it first to prevent nasty warns in MSVC */
+#include "../../../boost/config.hpp" /* keep it first to prevent nasty warns in MSVC */
 #include <algorithm>
-#include <boost/detail/allocator_utilities.hpp>
-#include <boost/multi_index/detail/raw_ptr.hpp>
+#include "../../../boost/detail/allocator_utilities.hpp"
+#include "../../../boost/multi_index/detail/raw_ptr.hpp"
 
 namespace boost{
 

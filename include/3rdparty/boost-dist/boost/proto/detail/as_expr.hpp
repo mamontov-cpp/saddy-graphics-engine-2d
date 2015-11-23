@@ -11,11 +11,11 @@
 #ifndef BOOST_PROTO_DETAIL_AS_EXPR_HPP_EAN_06_09_2010
 #define BOOST_PROTO_DETAIL_AS_EXPR_HPP_EAN_06_09_2010
 
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
-#include <boost/type_traits/remove_const.hpp>
-#include <boost/proto/proto_fwd.hpp>
-#include <boost/proto/args.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/detail/workaround.hpp"
+#include "../../../boost/type_traits/remove_const.hpp"
+#include "../../../boost/proto/proto_fwd.hpp"
+#include "../../../boost/proto/args.hpp"
 
 #if defined(_MSC_VER)
 # pragma warning(push)

@@ -5,8 +5,8 @@
 #ifndef IMPORT_SS20050624_HPP
 # define IMPORT_SS20050624_HPP
 
-# include <boost/python/object.hpp>
-# include <boost/python/str.hpp>
+#include "../../boost/python/object.hpp"
+#include "../../boost/python/str.hpp"
 
 namespace boost 
 { 

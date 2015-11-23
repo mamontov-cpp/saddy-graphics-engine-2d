@@ -10,8 +10,8 @@
 #ifndef BOOST_RANGE_ITERATOR_RANGE_IO_HPP_INCLUDED
 #define BOOST_RANGE_ITERATOR_RANGE_IO_HPP_INCLUDED
 
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/detail/workaround.hpp"
 
 #if BOOST_WORKAROUND(BOOST_MSVC, BOOST_TESTED_AT(1500))
     #pragma warning( push )
@@ -35,7 +35,7 @@
 # endif
 #endif // _STLP_NO_IOSTREAMS
 
-#include <boost/range/iterator_range_core.hpp>
+#include "../../boost/range/iterator_range_core.hpp"
 #include <iterator>
 #include <algorithm>
 #include <cstddef>

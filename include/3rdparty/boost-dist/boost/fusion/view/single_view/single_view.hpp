@@ -8,19 +8,19 @@
 #if !defined(BOOST_FUSION_SINGLE_VIEW_05052005_0335)
 #define BOOST_FUSION_SINGLE_VIEW_05052005_0335
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/support/detail/access.hpp>
-#include <boost/fusion/support/detail/as_fusion_element.hpp>
-#include <boost/fusion/support/sequence_base.hpp>
-#include <boost/fusion/view/single_view/single_view_iterator.hpp>
-#include <boost/fusion/view/single_view/detail/at_impl.hpp>
-#include <boost/fusion/view/single_view/detail/begin_impl.hpp>
-#include <boost/fusion/view/single_view/detail/end_impl.hpp>
-#include <boost/fusion/view/single_view/detail/size_impl.hpp>
-#include <boost/fusion/view/single_view/detail/value_at_impl.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/int.hpp>
-#include <boost/config.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/fusion/support/detail/access.hpp"
+#include "../../../../boost/fusion/support/detail/as_fusion_element.hpp"
+#include "../../../../boost/fusion/support/sequence_base.hpp"
+#include "../../../../boost/fusion/view/single_view/single_view_iterator.hpp"
+#include "../../../../boost/fusion/view/single_view/detail/at_impl.hpp"
+#include "../../../../boost/fusion/view/single_view/detail/begin_impl.hpp"
+#include "../../../../boost/fusion/view/single_view/detail/end_impl.hpp"
+#include "../../../../boost/fusion/view/single_view/detail/size_impl.hpp"
+#include "../../../../boost/fusion/view/single_view/detail/value_at_impl.hpp"
+#include "../../../../boost/mpl/bool.hpp"
+#include "../../../../boost/mpl/int.hpp"
+#include "../../../../boost/config.hpp"
 
 #if defined (BOOST_MSVC)
 #  pragma warning(push)

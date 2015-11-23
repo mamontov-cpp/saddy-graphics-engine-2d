@@ -15,9 +15,9 @@
 #endif
 
 #include <string>
-#include <boost/config.hpp>
-#include <boost/version.hpp>
-#include <boost/iterator/iterator_traits.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/version.hpp"
+#include "../../boost/iterator/iterator_traits.hpp"
 
 #if BOOST_VERSION >= 103500
 # define BOOST_PROTO_FUSION_V2
@@ -47,7 +47,7 @@
 # endif
 #endif
 
-#include <boost/proto/proto_fwd.hpp>
+#include "../../boost/proto/proto_fwd.hpp"
 
 namespace boost { namespace xpressive
 {

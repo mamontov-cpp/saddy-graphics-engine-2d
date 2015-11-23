@@ -7,19 +7,19 @@
 #if !defined(FUSION_ERASE_07232005_0534)
 #define FUSION_ERASE_07232005_0534
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/iterator/equal_to.hpp>
-#include <boost/fusion/iterator/mpl/convert_iterator.hpp>
-#include <boost/fusion/container/vector/vector10.hpp>
-#include <boost/fusion/view/joint_view/joint_view.hpp>
-#include <boost/fusion/view/iterator_range/iterator_range.hpp>
-#include <boost/fusion/support/detail/as_fusion_element.hpp>
-#include <boost/fusion/sequence/intrinsic/begin.hpp>
-#include <boost/fusion/sequence/intrinsic/end.hpp>
-#include <boost/fusion/adapted/mpl/mpl_iterator.hpp>
-#include <boost/fusion/support/is_sequence.hpp>
-#include <boost/utility/enable_if.hpp>
-#include <boost/mpl/if.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/fusion/iterator/equal_to.hpp"
+#include "../../../../boost/fusion/iterator/mpl/convert_iterator.hpp"
+#include "../../../../boost/fusion/container/vector/vector10.hpp"
+#include "../../../../boost/fusion/view/joint_view/joint_view.hpp"
+#include "../../../../boost/fusion/view/iterator_range/iterator_range.hpp"
+#include "../../../../boost/fusion/support/detail/as_fusion_element.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic/begin.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic/end.hpp"
+#include "../../../../boost/fusion/adapted/mpl/mpl_iterator.hpp"
+#include "../../../../boost/fusion/support/is_sequence.hpp"
+#include "../../../../boost/utility/enable_if.hpp"
+#include "../../../../boost/mpl/if.hpp"
 
 namespace boost { namespace fusion
 {

@@ -9,10 +9,10 @@
 #ifndef BOOST_PROTO_DETAIL_ANY_HPP_EAN_18_07_2012
 #define BOOST_PROTO_DETAIL_ANY_HPP_EAN_18_07_2012
 
-#include <boost/preprocessor/facilities/intercept.hpp>
-#include <boost/preprocessor/repetition/repeat.hpp>
-#include <boost/preprocessor/repetition/enum_params.hpp>
-#include <boost/proto/proto_fwd.hpp>
+#include "../../../boost/preprocessor/facilities/intercept.hpp"
+#include "../../../boost/preprocessor/repetition/repeat.hpp"
+#include "../../../boost/preprocessor/repetition/enum_params.hpp"
+#include "../../../boost/proto/proto_fwd.hpp"
 
 namespace boost { namespace proto
 {

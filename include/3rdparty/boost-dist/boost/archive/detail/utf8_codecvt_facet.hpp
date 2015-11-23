@@ -13,7 +13,7 @@
     #define BOOST_UTF8_DECL
     #define BOOST_UTF8_END_NAMESPACE }}}
 
-    #include <boost/detail/utf8_codecvt_facet.hpp>
+    #include "../../../boost/detail/utf8_codecvt_facet.hpp"
 
     #undef BOOST_UTF8_END_NAMESPACE
     #undef BOOST_UTF8_DECL

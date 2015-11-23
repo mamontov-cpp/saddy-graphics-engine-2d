@@ -23,19 +23,19 @@
 // IN GENERAL, ARCHIVES CREATED WITH THIS CLASS WILL NOT BE READABLE
 // ON PLATFORM APART FROM THE ONE THEY ARE CREATE ON
 
-#include <boost/assert.hpp>
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
+#include "../../boost/assert.hpp"
+#include "../../boost/config.hpp"
+#include "../../boost/detail/workaround.hpp"
 
-#include <boost/integer.hpp>
-#include <boost/integer_traits.hpp>
+#include "../../boost/integer.hpp"
+#include "../../boost/integer_traits.hpp"
 
-#include <boost/archive/detail/common_oarchive.hpp>
-#include <boost/serialization/string.hpp>
-#include <boost/serialization/collection_size_type.hpp>
-#include <boost/serialization/item_version_type.hpp>
+#include "../../boost/archive/detail/common_oarchive.hpp"
+#include "../../boost/serialization/string.hpp"
+#include "../../boost/serialization/collection_size_type.hpp"
+#include "../../boost/serialization/item_version_type.hpp"
 
-#include <boost/archive/detail/abi_prefix.hpp> // must be the last header
+#include "../../boost/archive/detail/abi_prefix.hpp" // must be the last header
 
 #ifdef BOOST_MSVC
 #  pragma warning(push)
@@ -180,6 +180,6 @@ protected:
 #pragma warning(pop)
 #endif
 
-#include <boost/archive/detail/abi_suffix.hpp> // pops abi_suffix.hpp pragmas
+#include "../../boost/archive/detail/abi_suffix.hpp" // pops abi_suffix.hpp pragmas
 
 #endif // BOOST_ARCHIVE_BASIC_BINARY_OARCHIVE_HPP

@@ -15,9 +15,9 @@
 // $Date$
 // $Revision$
 
-#include <boost/mpl/key_type_fwd.hpp>
-#include <boost/mpl/pair.hpp>
-#include <boost/mpl/map/aux_/tag.hpp>
+#include "../../../../boost/mpl/key_type_fwd.hpp"
+#include "../../../../boost/mpl/pair.hpp"
+#include "../../../../boost/mpl/map/aux_/tag.hpp"
 
 namespace boost {
 namespace mpl {

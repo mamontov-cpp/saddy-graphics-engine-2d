@@ -9,12 +9,12 @@
 #ifndef BOOST_MPI_DETAIL_TYPE_MPI_DATATYPE_CACHE_HPP
 #define BOOST_MPI_DETAIL_TYPE_MPI_DATATYPE_CACHE_HPP
 
-#include <boost/mpi/datatype_fwd.hpp>
-#include <boost/mpi/detail/mpi_datatype_oarchive.hpp>
-#include <boost/mpi/exception.hpp>
-#include <boost/utility/enable_if.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/noncopyable.hpp>
+#include "../../../boost/mpi/datatype_fwd.hpp"
+#include "../../../boost/mpi/detail/mpi_datatype_oarchive.hpp"
+#include "../../../boost/mpi/exception.hpp"
+#include "../../../boost/utility/enable_if.hpp"
+#include "../../../boost/mpl/assert.hpp"
+#include "../../../boost/noncopyable.hpp"
 #include <typeinfo>
 
 // The std::type_info::before function in Visual C++ 8.0 (and probably earlier)

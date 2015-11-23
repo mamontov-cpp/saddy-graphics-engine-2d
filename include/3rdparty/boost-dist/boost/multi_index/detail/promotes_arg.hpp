@@ -13,9 +13,9 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp> /* keep it first to prevent nasty warns in MSVC */
-#include <boost/mpl/bool.hpp>
-#include <boost/type_traits/intrinsics.hpp>
+#include "../../../boost/config.hpp" /* keep it first to prevent nasty warns in MSVC */
+#include "../../../boost/mpl/bool.hpp"
+#include "../../../boost/type_traits/intrinsics.hpp"
 
 /* Metafunctions to check if f(arg1,arg2) promotes either arg1 to the type of
  * arg2 or viceversa. By default, (i.e. if it cannot be determined), no
@@ -44,10 +44,10 @@ struct promotes_2nd_arg:mpl::false_{};
 
 #else
 
-#include <boost/mpl/and.hpp>
-#include <boost/mpl/not.hpp>
-#include <boost/multi_index/detail/is_transparent.hpp>
-#include <boost/type_traits/is_convertible.hpp>
+#include "../../../boost/mpl/and.hpp"
+#include "../../../boost/mpl/not.hpp"
+#include "../../../boost/multi_index/detail/is_transparent.hpp"
+#include "../../../boost/type_traits/is_convertible.hpp"
 
 namespace boost{
 

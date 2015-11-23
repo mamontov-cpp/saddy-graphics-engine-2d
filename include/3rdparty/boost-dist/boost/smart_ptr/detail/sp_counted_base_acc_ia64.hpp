@@ -15,7 +15,7 @@
 //  Lock-free algorithm by Alexander Terekhov
 //
 
-#include <boost/detail/sp_typeinfo.hpp>
+#include "../../../boost/detail/sp_typeinfo.hpp"
 #include <machine/sys/inline.h>
 
 namespace boost

@@ -9,22 +9,22 @@
 #ifndef BOOST_PROTO_TRANSFORM_DETAIL_PACK_HPP_EAN_2012_07_11
 #define BOOST_PROTO_TRANSFORM_DETAIL_PACK_HPP_EAN_2012_07_11
 
-#include <boost/preprocessor/cat.hpp>
-#include <boost/preprocessor/arithmetic/inc.hpp>
-#include <boost/preprocessor/arithmetic/dec.hpp>
-#include <boost/preprocessor/arithmetic/sub.hpp>
-#include <boost/preprocessor/punctuation/comma_if.hpp>
-#include <boost/preprocessor/repetition/enum.hpp>
-#include <boost/preprocessor/repetition/enum_params.hpp>
-#include <boost/preprocessor/repetition/enum_trailing_params.hpp>
-#include <boost/preprocessor/repetition/enum_params_with_a_default.hpp>
-#include <boost/preprocessor/repetition/repeat.hpp>
-#include <boost/preprocessor/iteration/local.hpp>
-#include <boost/preprocessor/iteration/iterate.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/proto/proto_fwd.hpp>
+#include "../../../../boost/preprocessor/cat.hpp"
+#include "../../../../boost/preprocessor/arithmetic/inc.hpp"
+#include "../../../../boost/preprocessor/arithmetic/dec.hpp"
+#include "../../../../boost/preprocessor/arithmetic/sub.hpp"
+#include "../../../../boost/preprocessor/punctuation/comma_if.hpp"
+#include "../../../../boost/preprocessor/repetition/enum.hpp"
+#include "../../../../boost/preprocessor/repetition/enum_params.hpp"
+#include "../../../../boost/preprocessor/repetition/enum_trailing_params.hpp"
+#include "../../../../boost/preprocessor/repetition/enum_params_with_a_default.hpp"
+#include "../../../../boost/preprocessor/repetition/repeat.hpp"
+#include "../../../../boost/preprocessor/iteration/local.hpp"
+#include "../../../../boost/preprocessor/iteration/iterate.hpp"
+#include "../../../../boost/mpl/bool.hpp"
+#include "../../../../boost/mpl/assert.hpp"
+#include "../../../../boost/type_traits/is_same.hpp"
+#include "../../../../boost/proto/proto_fwd.hpp"
 
 #if defined(_MSC_VER)
 # pragma warning(push)
@@ -70,7 +70,7 @@ namespace boost { namespace proto
             typedef mpl::true_ applied;
         };
 
-        #include <boost/proto/transform/detail/expand_pack.hpp>
+        #include "../../../../boost/proto/transform/detail/expand_pack.hpp"
 
         template<long Arity, typename Fun, typename Cont>
         struct expand_pattern;
@@ -86,7 +86,7 @@ namespace boost { namespace proto
             );
         };
 
-        #include <boost/proto/transform/detail/pack_impl.hpp>
+        #include "../../../../boost/proto/transform/detail/pack_impl.hpp"
     }
 }}
 

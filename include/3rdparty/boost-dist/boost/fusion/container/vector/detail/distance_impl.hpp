@@ -7,8 +7,8 @@
 #if !defined(FUSION_DISTANCE_IMPL_09172005_0751)
 #define FUSION_DISTANCE_IMPL_09172005_0751
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/mpl/minus.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/mpl/minus.hpp"
 
 namespace boost { namespace fusion
 {

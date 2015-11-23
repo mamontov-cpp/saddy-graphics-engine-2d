@@ -17,12 +17,12 @@
 # pragma warning(disable : 4127) // conditional expression is constant
 #endif
 
-#include <boost/assert.hpp>
-#include <boost/xpressive/regex_constants.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/detail/core/matchers.hpp>
-#include <boost/xpressive/detail/utility/ignore_unused.hpp>
-#include <boost/xpressive/detail/dynamic/dynamic.hpp>
+#include "../../../../boost/assert.hpp"
+#include "../../../../boost/xpressive/regex_constants.hpp"
+#include "../../../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../../../boost/xpressive/detail/core/matchers.hpp"
+#include "../../../../boost/xpressive/detail/utility/ignore_unused.hpp"
+#include "../../../../boost/xpressive/detail/dynamic/dynamic.hpp"
 
 // The Regular Expression grammar, in pseudo BNF:
 //

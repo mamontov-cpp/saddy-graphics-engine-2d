@@ -26,16 +26,16 @@
 
 #include <iomanip>
 #include <locale>
-#include <boost/assert.hpp>
+#include "../../boost/assert.hpp"
 #include <cstddef> // size_t
 
-#include <boost/config.hpp>
-#include <boost/static_assert.hpp>
-#include <boost/detail/workaround.hpp>
-#include <boost/io/ios_state.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/static_assert.hpp"
+#include "../../boost/detail/workaround.hpp"
+#include "../../boost/io/ios_state.hpp"
 
 #if BOOST_WORKAROUND(BOOST_DINKUMWARE_STDLIB, == 1)
-#include <boost/archive/dinkumware.hpp>
+#include "../../boost/archive/dinkumware.hpp"
 #endif
 
 #if defined(BOOST_NO_STDC_NAMESPACE)
@@ -47,16 +47,16 @@ namespace std{
 } // namespace std
 #endif
 
-#include <boost/type_traits/is_floating_point.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/limits.hpp>
-#include <boost/integer.hpp>
-#include <boost/io/ios_state.hpp>
-#include <boost/scoped_ptr.hpp>
-#include <boost/serialization/throw_exception.hpp>
-#include <boost/archive/archive_exception.hpp>
-#include <boost/archive/basic_streambuf_locale_saver.hpp>
-#include <boost/archive/detail/abi_prefix.hpp> // must be the last header
+#include "../../boost/type_traits/is_floating_point.hpp"
+#include "../../boost/mpl/bool.hpp"
+#include "../../boost/limits.hpp"
+#include "../../boost/integer.hpp"
+#include "../../boost/io/ios_state.hpp"
+#include "../../boost/scoped_ptr.hpp"
+#include "../../boost/serialization/throw_exception.hpp"
+#include "../../boost/archive/archive_exception.hpp"
+#include "../../boost/archive/basic_streambuf_locale_saver.hpp"
+#include "../../boost/archive/detail/abi_prefix.hpp" // must be the last header
 
 namespace boost {
 namespace archive {
@@ -199,6 +199,6 @@ public:
 } //namespace boost 
 } //namespace archive 
 
-#include <boost/archive/detail/abi_suffix.hpp> // pops abi_suffix.hpp pragmas
+#include "../../boost/archive/detail/abi_suffix.hpp" // pops abi_suffix.hpp pragmas
 
 #endif // BOOST_ARCHIVE_BASIC_TEXT_OPRIMITIVE_HPP

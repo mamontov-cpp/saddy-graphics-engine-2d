@@ -18,7 +18,7 @@
 #ifndef BOOST_LEXICAL_CAST_DETAIL_LCAST_UNSIGNED_CONVERTERS_HPP
 #define BOOST_LEXICAL_CAST_DETAIL_LCAST_UNSIGNED_CONVERTERS_HPP
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 #ifdef BOOST_HAS_PRAGMA_ONCE
 #   pragma once
 #endif
@@ -28,10 +28,10 @@
 #include <string>
 #include <cstring>
 #include <cstdio>
-#include <boost/limits.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/static_assert.hpp>
-#include <boost/detail/workaround.hpp>
+#include "../../../boost/limits.hpp"
+#include "../../../boost/mpl/if.hpp"
+#include "../../../boost/static_assert.hpp"
+#include "../../../boost/detail/workaround.hpp"
 
 
 #ifndef BOOST_NO_STD_LOCALE
@@ -47,10 +47,10 @@
 #   endif
 #endif
 
-#include <boost/lexical_cast/detail/lcast_char_constants.hpp>
-#include <boost/type_traits/make_unsigned.hpp>
-#include <boost/type_traits/is_signed.hpp>
-#include <boost/noncopyable.hpp>
+#include "../../../boost/lexical_cast/detail/lcast_char_constants.hpp"
+#include "../../../boost/type_traits/make_unsigned.hpp"
+#include "../../../boost/type_traits/is_signed.hpp"
+#include "../../../boost/noncopyable.hpp"
 
 namespace boost 
 {

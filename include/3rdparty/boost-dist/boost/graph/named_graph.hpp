@@ -10,24 +10,24 @@
 #ifndef BOOST_GRAPH_NAMED_GRAPH_HPP
 #define BOOST_GRAPH_NAMED_GRAPH_HPP
 
-#include <boost/config.hpp>
-#include <boost/static_assert.hpp>
-#include <boost/functional/hash.hpp>
-#include <boost/graph/graph_traits.hpp>
-#include <boost/graph/properties.hpp>
-#include <boost/multi_index/hashed_index.hpp>
-#include <boost/multi_index/member.hpp>
-#include <boost/multi_index_container.hpp>
-#include <boost/optional.hpp>
-#include <boost/pending/property.hpp> // for boost::lookup_one_property
-#include <boost/pending/container_traits.hpp>
-#include <boost/throw_exception.hpp>
-#include <boost/tuple/tuple.hpp> // for boost::make_tuple
-#include <boost/type_traits/is_same.hpp>
-#include <boost/type_traits/is_base_of.hpp>
-#include <boost/type_traits/remove_cv.hpp>
-#include <boost/type_traits/remove_reference.hpp>
-#include <boost/utility/enable_if.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/static_assert.hpp"
+#include "../../boost/functional/hash.hpp"
+#include "../../boost/graph/graph_traits.hpp"
+#include "../../boost/graph/properties.hpp"
+#include "../../boost/multi_index/hashed_index.hpp"
+#include "../../boost/multi_index/member.hpp"
+#include "../../boost/multi_index_container.hpp"
+#include "../../boost/optional.hpp"
+#include "../../boost/pending/property.hpp" // for boost::lookup_one_property
+#include "../../boost/pending/container_traits.hpp"
+#include "../../boost/throw_exception.hpp"
+#include "../../boost/tuple/tuple.hpp" // for boost::make_tuple
+#include "../../boost/type_traits/is_same.hpp"
+#include "../../boost/type_traits/is_base_of.hpp"
+#include "../../boost/type_traits/remove_cv.hpp"
+#include "../../boost/type_traits/remove_reference.hpp"
+#include "../../boost/utility/enable_if.hpp"
 #include <functional> // for std::equal_to
 #include <stdexcept> // for std::runtime_error
 #include <utility> // for std::pair

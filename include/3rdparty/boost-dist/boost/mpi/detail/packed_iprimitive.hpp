@@ -9,16 +9,16 @@
 #ifndef BOOST_MPI_PACKED_IPRIMITIVE_HPP
 #define BOOST_MPI_PACKED_IPRIMITIVE_HPP
 
-#include <boost/mpi/config.hpp>
+#include "../../../boost/mpi/config.hpp"
 #include <cstddef> // size_t
-#include <boost/config.hpp>
-#include <boost/mpi/datatype.hpp>
-#include <boost/mpi/exception.hpp>
-#include <boost/assert.hpp>
-#include <boost/serialization/array.hpp>
-#include <boost/serialization/detail/get_data.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/mpi/datatype.hpp"
+#include "../../../boost/mpi/exception.hpp"
+#include "../../../boost/assert.hpp"
+#include "../../../boost/serialization/array.hpp"
+#include "../../../boost/serialization/detail/get_data.hpp"
 #include <vector>
-#include <boost/mpi/allocator.hpp>
+#include "../../../boost/mpi/allocator.hpp"
 
 namespace boost { namespace mpi {
 

@@ -6,7 +6,7 @@
 #ifndef BOOST_PARAMETER_IS_MAYBE_050329_HPP
 #define BOOST_PARAMETER_IS_MAYBE_050329_HPP
 
-#include <boost/type_traits/is_base_and_derived.hpp>
+#include "../../../boost/type_traits/is_base_and_derived.hpp"
 
 namespace boost {
 namespace parameter {

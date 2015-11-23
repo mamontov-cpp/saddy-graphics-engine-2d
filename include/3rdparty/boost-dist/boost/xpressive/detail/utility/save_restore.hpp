@@ -13,7 +13,7 @@
 # pragma once
 #endif
 
-#include <boost/noncopyable.hpp>
+#include "../../../../boost/noncopyable.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

@@ -7,8 +7,8 @@
 #if !defined(BOOST_FUSION_REVERSE_CONS_HPP_INCLUDED)
 #define BOOST_FUSION_REVERSE_CONS_HPP_INCLUDED
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/container/list/cons_fwd.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/fusion/container/list/cons_fwd.hpp"
 
 namespace boost { namespace fusion { namespace detail
 {

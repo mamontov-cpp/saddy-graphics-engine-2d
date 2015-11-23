@@ -10,7 +10,7 @@
 /// @deprecated
 /// To convert to Unit Test Framework simply rewrite:
 /// @code
-/// #include <boost/test/minimal.hpp>
+/// #include "../../boost/test/minimal.hpp"
 ///
 /// int test_main( int, char *[] )
 /// {
@@ -19,7 +19,7 @@
 /// @endcode
 /// as
 /// @code
-/// #include <boost/test/included/unit_test.hpp>
+/// #include "../../boost/test/included/unit_test.hpp"
 ///
 /// BOOST_AUTO_TEST_CASE(test_main)
 /// {
@@ -49,21 +49,21 @@
 //____________________________________________________________________________//
 
 // Boost.Test
-#include <boost/test/detail/global_typedef.hpp>
-#include <boost/test/impl/execution_monitor.ipp>
-#include <boost/test/impl/debug.ipp>
-#include <boost/test/utils/class_properties.hpp>
-#include <boost/test/utils/basic_cstring/io.hpp>
+#include "../../boost/test/detail/global_typedef.hpp"
+#include "../../boost/test/impl/execution_monitor.ipp"
+#include "../../boost/test/impl/debug.ipp"
+#include "../../boost/test/utils/class_properties.hpp"
+#include "../../boost/test/utils/basic_cstring/io.hpp"
 
 // Boost
-#include <boost/cstdlib.hpp>            // for exit codes
-#include <boost/current_function.hpp>   // for BOOST_CURRENT_FUNCTION
+#include "../../boost/cstdlib.hpp"            // for exit codes
+#include "../../boost/current_function.hpp"   // for BOOST_CURRENT_FUNCTION
 
 // STL
 #include <iostream>                     // std::cerr, std::endl
 #include <string>                       // std::string
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -151,6 +151,6 @@ int BOOST_TEST_CALL_DECL main( int argc, char* argv[] )
 
 //____________________________________________________________________________//
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_MINIMAL_HPP_071894GER

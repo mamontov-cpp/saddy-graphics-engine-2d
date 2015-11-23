@@ -8,11 +8,11 @@
 
 //  See http://www.boost.org for updates, documentation, and revision history.
 
-#include <boost/assert.hpp>
+#include "../../../boost/assert.hpp"
 #include <cstddef> // size_t, NULL
 #include <cstring> // memcpy
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 #if defined(BOOST_NO_STDC_NAMESPACE)
 namespace std{ 
     using ::size_t;
@@ -20,15 +20,15 @@ namespace std{
 } // namespace std
 #endif
 
-#include <boost/detail/workaround.hpp> // fixup for RogueWave
+#include "../../../boost/detail/workaround.hpp" // fixup for RogueWave
 
-#include <boost/serialization/throw_exception.hpp>
+#include "../../../boost/serialization/throw_exception.hpp"
 
-#include <boost/core/no_exceptions_support.hpp>
-#include <boost/archive/archive_exception.hpp>
-#include <boost/archive/codecvt_null.hpp>
-#include <boost/archive/add_facet.hpp>
-#include <boost/archive/basic_binary_iprimitive.hpp> 
+#include "../../../boost/core/no_exceptions_support.hpp"
+#include "../../../boost/archive/archive_exception.hpp"
+#include "../../../boost/archive/codecvt_null.hpp"
+#include "../../../boost/archive/add_facet.hpp"
+#include "../../../boost/archive/basic_binary_iprimitive.hpp" 
 
 namespace boost {
 namespace archive {

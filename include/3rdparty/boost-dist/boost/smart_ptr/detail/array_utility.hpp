@@ -9,9 +9,9 @@
 #ifndef BOOST_SMART_PTR_DETAIL_ARRAY_UTILITY_HPP
 #define BOOST_SMART_PTR_DETAIL_ARRAY_UTILITY_HPP
 
-#include <boost/config.hpp>
-#include <boost/type_traits/has_trivial_constructor.hpp>
-#include <boost/type_traits/has_trivial_destructor.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/type_traits/has_trivial_constructor.hpp"
+#include "../../../boost/type_traits/has_trivial_destructor.hpp"
 #if !defined(BOOST_NO_CXX11_ALLOCATOR)
 #include <memory>
 #endif

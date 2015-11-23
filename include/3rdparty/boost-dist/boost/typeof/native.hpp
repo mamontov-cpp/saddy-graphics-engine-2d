@@ -18,8 +18,8 @@ namespace boost { namespace type_of {
 
 #else
 
-#include <boost/type_traits/is_function.hpp> 
-#include <boost/utility/enable_if.hpp>
+#include "../../boost/type_traits/is_function.hpp" 
+#include "../../boost/utility/enable_if.hpp"
 
 namespace boost { namespace type_of {
 # ifdef BOOST_NO_SFINAE

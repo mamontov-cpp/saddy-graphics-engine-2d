@@ -7,21 +7,21 @@
 # ifndef CALL_METHOD_DWA2002411_HPP
 #  define CALL_METHOD_DWA2002411_HPP
 
-# include <boost/python/detail/prefix.hpp>
+#include "../../boost/python/detail/prefix.hpp"
 
-#  include <boost/type.hpp>
+#include "../../boost/type.hpp"
 
-#  include <boost/python/converter/arg_to_python.hpp>
-#  include <boost/python/converter/return_from_python.hpp>
-#  include <boost/python/detail/preprocessor.hpp>
-#  include <boost/python/detail/void_return.hpp>
+#include "../../boost/python/converter/arg_to_python.hpp"
+#include "../../boost/python/converter/return_from_python.hpp"
+#include "../../boost/python/detail/preprocessor.hpp"
+#include "../../boost/python/detail/void_return.hpp"
 
-#  include <boost/preprocessor/comma_if.hpp>
-#  include <boost/preprocessor/iterate.hpp>
-#  include <boost/preprocessor/repeat.hpp>
-#  include <boost/preprocessor/debug/line.hpp>
-#  include <boost/preprocessor/repetition/enum_trailing_params.hpp>
-#  include <boost/preprocessor/repetition/enum_binary_params.hpp>
+#include "../../boost/preprocessor/comma_if.hpp"
+#include "../../boost/preprocessor/iterate.hpp"
+#include "../../boost/preprocessor/repeat.hpp"
+#include "../../boost/preprocessor/debug/line.hpp"
+#include "../../boost/preprocessor/repetition/enum_trailing_params.hpp"
+#include "../../boost/preprocessor/repetition/enum_binary_params.hpp"
 
 namespace boost { namespace python {
 

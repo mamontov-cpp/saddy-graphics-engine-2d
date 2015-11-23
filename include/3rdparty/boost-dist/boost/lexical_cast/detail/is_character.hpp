@@ -18,13 +18,13 @@
 #ifndef BOOST_LEXICAL_CAST_DETAIL_IS_CHARACTER_HPP
 #define BOOST_LEXICAL_CAST_DETAIL_IS_CHARACTER_HPP
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 #ifdef BOOST_HAS_PRAGMA_ONCE
 #   pragma once
 #endif
 
-#include <boost/mpl/bool.hpp>
-#include <boost/type_traits/is_same.hpp>
+#include "../../../boost/mpl/bool.hpp"
+#include "../../../boost/type_traits/is_same.hpp"
 
 namespace boost {
 

@@ -10,8 +10,8 @@
 
 // Note: this header is a header template and must NOT have multiple-inclusion
 // protection.
-#include <boost/function/detail/prologue.hpp>
-#include <boost/detail/no_exceptions_support.hpp>
+#include "../../boost/function/detail/prologue.hpp"
+#include "../../boost/detail/no_exceptions_support.hpp"
 
 #if defined(BOOST_MSVC)
 #   pragma warning( push )
@@ -29,7 +29,7 @@
 #ifdef BOOST_NO_CXX11_RVALUE_REFERENCES
 #   define BOOST_FUNCTION_ARGS BOOST_PP_ENUM_PARAMS(BOOST_FUNCTION_NUM_ARGS, a)
 #else
-#   include <boost/move/utility_core.hpp>
+#include "../../boost/move/utility_core.hpp"
 #   define BOOST_FUNCTION_ARG(J,I,D) ::boost::forward< BOOST_PP_CAT(T,I) >(BOOST_PP_CAT(a,I))
 #   define BOOST_FUNCTION_ARGS BOOST_PP_ENUM(BOOST_FUNCTION_NUM_ARGS,BOOST_FUNCTION_ARG,BOOST_PP_EMPTY)
 #endif

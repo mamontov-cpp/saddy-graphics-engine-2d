@@ -24,32 +24,32 @@
 // ON PLATFORM APART FROM THE ONE THEY ARE CREATE ON
 
 #include <iosfwd>
-#include <boost/assert.hpp>
+#include "../../boost/assert.hpp"
 #include <locale>
 #include <streambuf> // basic_streambuf
 #include <string>
 #include <cstddef> // size_t
 
-#include <boost/config.hpp>
+#include "../../boost/config.hpp"
 #if defined(BOOST_NO_STDC_NAMESPACE)
 namespace std{ 
     using ::size_t; 
 } // namespace std
 #endif
 
-#include <boost/cstdint.hpp>
-#include <boost/integer.hpp>
-#include <boost/integer_traits.hpp>
-#include <boost/scoped_ptr.hpp>
-#include <boost/serialization/throw_exception.hpp>
+#include "../../boost/cstdint.hpp"
+#include "../../boost/integer.hpp"
+#include "../../boost/integer_traits.hpp"
+#include "../../boost/scoped_ptr.hpp"
+#include "../../boost/serialization/throw_exception.hpp"
 
-#include <boost/archive/basic_streambuf_locale_saver.hpp>
-#include <boost/archive/archive_exception.hpp>
-#include <boost/serialization/is_bitwise_serializable.hpp>
-#include <boost/mpl/placeholders.hpp>
-#include <boost/serialization/array.hpp>
-#include <boost/archive/detail/auto_link_archive.hpp>
-#include <boost/archive/detail/abi_prefix.hpp> // must be the last header
+#include "../../boost/archive/basic_streambuf_locale_saver.hpp"
+#include "../../boost/archive/archive_exception.hpp"
+#include "../../boost/serialization/is_bitwise_serializable.hpp"
+#include "../../boost/mpl/placeholders.hpp"
+#include "../../boost/serialization/array.hpp"
+#include "../../boost/archive/detail/auto_link_archive.hpp"
+#include "../../boost/archive/detail/abi_prefix.hpp" // must be the last header
 
 namespace boost {
 namespace archive {
@@ -182,6 +182,6 @@ basic_binary_oprimitive<Archive, Elem, Tr>::save_binary(
 } //namespace boost 
 } //namespace archive 
 
-#include <boost/archive/detail/abi_suffix.hpp> // pop pragmas
+#include "../../boost/archive/detail/abi_suffix.hpp" // pop pragmas
 
 #endif // BOOST_ARCHIVE_BASIC_BINARY_OPRIMITIVE_HPP

@@ -8,8 +8,8 @@ http://www.boost.org/LICENSE_1_0.txt)
 #ifndef BOOST_PREDEF_COMPILER_DIGITALMARS_H
 #define BOOST_PREDEF_COMPILER_DIGITALMARS_H
 
-#include <boost/predef/version_number.h>
-#include <boost/predef/make.h>
+#include "../../../boost/predef/version_number.h"
+#include "../../../boost/predef/make.h"
 
 /*`
 [heading `BOOST_COMP_DMC`]
@@ -40,17 +40,17 @@ Version number available as major, minor, and patch.
 #       define BOOST_COMP_DMC BOOST_COMP_DMC_DETECTION
 #   endif
 #   define BOOST_COMP_DMC_AVAILABLE
-#   include <boost/predef/detail/comp_detected.h>
+#include "../../../boost/predef/detail/comp_detected.h"
 #endif
 
 #define BOOST_COMP_DMC_NAME "Digital Mars"
 
 #endif
 
-#include <boost/predef/detail/test.h>
+#include "../../../boost/predef/detail/test.h"
 BOOST_PREDEF_DECLARE_TEST(BOOST_COMP_DMC,BOOST_COMP_DMC_NAME)
 
 #ifdef BOOST_COMP_DMC_EMULATED
-#include <boost/predef/detail/test.h>
+#include "../../../boost/predef/detail/test.h"
 BOOST_PREDEF_DECLARE_TEST(BOOST_COMP_DMC_EMULATED,BOOST_COMP_DMC_NAME)
 #endif

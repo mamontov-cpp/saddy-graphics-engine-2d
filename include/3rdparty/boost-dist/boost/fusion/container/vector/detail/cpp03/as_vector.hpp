@@ -8,17 +8,17 @@
 #if !defined(FUSION_AS_VECTOR_09222005_0950)
 #define FUSION_AS_VECTOR_09222005_0950
 
-#include <boost/preprocessor/iterate.hpp>
-#include <boost/preprocessor/repetition/enum_params.hpp>
-#include <boost/preprocessor/repetition/enum_binary_params.hpp>
-#include <boost/preprocessor/repetition/repeat.hpp>
-#include <boost/preprocessor/cat.hpp>
-#include <boost/preprocessor/inc.hpp>
-#include <boost/preprocessor/dec.hpp>
-#include <boost/fusion/container/vector/vector.hpp>
-#include <boost/fusion/iterator/value_of.hpp>
-#include <boost/fusion/iterator/deref.hpp>
-#include <boost/fusion/iterator/next.hpp>
+#include "../../../../../../boost/preprocessor/iterate.hpp"
+#include "../../../../../../boost/preprocessor/repetition/enum_params.hpp"
+#include "../../../../../../boost/preprocessor/repetition/enum_binary_params.hpp"
+#include "../../../../../../boost/preprocessor/repetition/repeat.hpp"
+#include "../../../../../../boost/preprocessor/cat.hpp"
+#include "../../../../../../boost/preprocessor/inc.hpp"
+#include "../../../../../../boost/preprocessor/dec.hpp"
+#include "../../../../../../boost/fusion/container/vector/vector.hpp"
+#include "../../../../../../boost/fusion/iterator/value_of.hpp"
+#include "../../../../../../boost/fusion/iterator/deref.hpp"
+#include "../../../../../../boost/fusion/iterator/next.hpp"
 
 namespace boost { namespace fusion { namespace detail
 {
@@ -49,7 +49,7 @@ BOOST_FUSION_BARRIER_END
 }}}
 
 #if !defined(BOOST_FUSION_DONT_USE_PREPROCESSED_FILES)
-#include <boost/fusion/container/vector/detail/cpp03/preprocessed/as_vector.hpp>
+#include "../../../../../../boost/fusion/container/vector/detail/cpp03/preprocessed/as_vector.hpp"
 #else
 #if defined(__WAVE__) && defined(BOOST_FUSION_CREATE_PREPROCESSED_FILES)
 #pragma wave option(preserve: 2, line: 0, output: "preprocessed/as_vector" FUSION_MAX_VECTOR_SIZE_STR ".hpp")

@@ -13,9 +13,9 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp> /* keep it first to prevent nasty warns in MSVC */
-#include <boost/mpl/bool.hpp>
-#include <boost/type_traits/is_same.hpp>
+#include "../../../boost/config.hpp" /* keep it first to prevent nasty warns in MSVC */
+#include "../../../boost/mpl/bool.hpp"
+#include "../../../boost/type_traits/is_same.hpp"
 
 namespace boost{
 

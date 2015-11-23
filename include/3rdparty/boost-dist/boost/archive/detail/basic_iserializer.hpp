@@ -17,13 +17,13 @@
 //  See http://www.boost.org for updates, documentation, and revision history.
 
 #include <cstdlib> // NULL
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
-#include <boost/archive/basic_archive.hpp>
-#include <boost/archive/detail/decl.hpp>
-#include <boost/archive/detail/basic_serializer.hpp>
-#include <boost/archive/detail/auto_link_archive.hpp>
-#include <boost/archive/detail/abi_prefix.hpp> // must be the last header
+#include "../../../boost/archive/basic_archive.hpp"
+#include "../../../boost/archive/detail/decl.hpp"
+#include "../../../boost/archive/detail/basic_serializer.hpp"
+#include "../../../boost/archive/detail/auto_link_archive.hpp"
+#include "../../../boost/archive/detail/abi_prefix.hpp" // must be the last header
 
 #ifdef BOOST_MSVC
 #  pragma warning(push)
@@ -90,6 +90,6 @@ public:
 #pragma warning(pop)
 #endif
 
-#include <boost/archive/detail/abi_suffix.hpp> // pops abi_suffix.hpp pragmas
+#include "../../../boost/archive/detail/abi_suffix.hpp" // pops abi_suffix.hpp pragmas
 
 #endif // BOOST_ARCHIVE_DETAIL_BASIC_ISERIALIZER_HPP

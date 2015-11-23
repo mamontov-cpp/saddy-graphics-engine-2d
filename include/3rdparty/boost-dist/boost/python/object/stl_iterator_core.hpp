@@ -5,8 +5,8 @@
 #ifndef STL_ITERATOR_CORE_EAN20051028_HPP
 # define STL_ITERATOR_CORE_EAN20051028_HPP
 
-# include <boost/python/object_fwd.hpp>
-# include <boost/python/handle_fwd.hpp>
+#include "../../../boost/python/object_fwd.hpp"
+#include "../../../boost/python/handle_fwd.hpp"
 
 namespace boost { namespace python { namespace objects {
 

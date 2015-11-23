@@ -16,10 +16,10 @@
 #define BOOST_TEST_UTILS_IS_CSTRING_HPP
 
 // Boost
-#include <boost/mpl/bool.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/type_traits/decay.hpp>
-#include <boost/type_traits/remove_pointer.hpp>
+#include "../../../boost/mpl/bool.hpp"
+#include "../../../boost/type_traits/is_same.hpp"
+#include "../../../boost/type_traits/decay.hpp"
+#include "../../../boost/type_traits/remove_pointer.hpp"
 
 //____________________________________________________________________________//
 

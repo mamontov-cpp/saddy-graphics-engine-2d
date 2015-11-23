@@ -4,8 +4,8 @@
 #ifndef IS_WRAPPER_DWA2004723_HPP
 # define IS_WRAPPER_DWA2004723_HPP
 
-# include <boost/python/detail/prefix.hpp>
-# include <boost/mpl/bool.hpp>
+#include "../../../boost/python/detail/prefix.hpp"
+#include "../../../boost/mpl/bool.hpp"
 
 namespace boost { namespace python {
 

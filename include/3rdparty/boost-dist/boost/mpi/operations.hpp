@@ -18,12 +18,12 @@
 #ifndef BOOST_MPI_IS_MPI_OP_HPP
 #define BOOST_MPI_IS_MPI_OP_HPP
 
-#include <boost/mpi/config.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/and.hpp>
-#include <boost/mpi/datatype.hpp>
-#include <boost/utility/enable_if.hpp>
+#include "../../boost/mpi/config.hpp"
+#include "../../boost/mpl/bool.hpp"
+#include "../../boost/mpl/if.hpp"
+#include "../../boost/mpl/and.hpp"
+#include "../../boost/mpi/datatype.hpp"
+#include "../../boost/utility/enable_if.hpp"
 #include <functional>
 
 namespace boost { namespace mpi {

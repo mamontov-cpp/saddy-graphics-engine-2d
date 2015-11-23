@@ -8,8 +8,8 @@
 #if !defined(FUSION_DISTANCE_IMPL_13122005_2139)
 #define FUSION_DISTANCE_IMPL_13122005_2139
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/iterator/distance.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/fusion/iterator/distance.hpp"
 
 namespace boost { namespace fusion {
     

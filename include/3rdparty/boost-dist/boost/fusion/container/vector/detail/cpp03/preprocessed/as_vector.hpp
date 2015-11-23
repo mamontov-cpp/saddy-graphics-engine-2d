@@ -8,15 +8,15 @@
 ==============================================================================*/
 
 #if FUSION_MAX_VECTOR_SIZE <= 10
-#include <boost/fusion/container/vector/detail/cpp03/preprocessed/as_vector10.hpp>
+#include "../../../../../../../boost/fusion/container/vector/detail/cpp03/preprocessed/as_vector10.hpp"
 #elif FUSION_MAX_VECTOR_SIZE <= 20
-#include <boost/fusion/container/vector/detail/cpp03/preprocessed/as_vector20.hpp>
+#include "../../../../../../../boost/fusion/container/vector/detail/cpp03/preprocessed/as_vector20.hpp"
 #elif FUSION_MAX_VECTOR_SIZE <= 30
-#include <boost/fusion/container/vector/detail/cpp03/preprocessed/as_vector30.hpp>
+#include "../../../../../../../boost/fusion/container/vector/detail/cpp03/preprocessed/as_vector30.hpp"
 #elif FUSION_MAX_VECTOR_SIZE <= 40
-#include <boost/fusion/container/vector/detail/cpp03/preprocessed/as_vector40.hpp>
+#include "../../../../../../../boost/fusion/container/vector/detail/cpp03/preprocessed/as_vector40.hpp"
 #elif FUSION_MAX_VECTOR_SIZE <= 50
-#include <boost/fusion/container/vector/detail/cpp03/preprocessed/as_vector50.hpp>
+#include "../../../../../../../boost/fusion/container/vector/detail/cpp03/preprocessed/as_vector50.hpp"
 #else
 #error "FUSION_MAX_VECTOR_SIZE out of bounds for preprocessed headers"
 #endif

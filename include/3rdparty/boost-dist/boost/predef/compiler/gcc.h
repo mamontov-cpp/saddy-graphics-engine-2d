@@ -10,10 +10,10 @@ http://www.boost.org/LICENSE_1_0.txt)
 
 /* Other compilers that emulate this one need to be detected first. */
 
-#include <boost/predef/compiler/clang.h>
+#include "../../../boost/predef/compiler/clang.h"
 
-#include <boost/predef/version_number.h>
-#include <boost/predef/make.h>
+#include "../../../boost/predef/version_number.h"
+#include "../../../boost/predef/make.h"
 
 /*`
 [heading `BOOST_COMP_GNUC`]
@@ -52,17 +52,17 @@ Version number available as major, minor, and patch (if available).
 #       define BOOST_COMP_GNUC BOOST_COMP_GNUC_DETECTION
 #   endif
 #   define BOOST_COMP_GNUC_AVAILABLE
-#   include <boost/predef/detail/comp_detected.h>
+#include "../../../boost/predef/detail/comp_detected.h"
 #endif
 
 #define BOOST_COMP_GNUC_NAME "Gnu GCC C/C++"
 
 #endif
 
-#include <boost/predef/detail/test.h>
+#include "../../../boost/predef/detail/test.h"
 BOOST_PREDEF_DECLARE_TEST(BOOST_COMP_GNUC,BOOST_COMP_GNUC_NAME)
 
 #ifdef BOOST_COMP_GNUC_EMULATED
-#include <boost/predef/detail/test.h>
+#include "../../../boost/predef/detail/test.h"
 BOOST_PREDEF_DECLARE_TEST(BOOST_COMP_GNUC_EMULATED,BOOST_COMP_GNUC_NAME)
 #endif

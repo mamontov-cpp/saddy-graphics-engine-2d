@@ -10,13 +10,13 @@
 // Please see the comments in <boost/detail/utf8_codecvt_facet.hpp> to
 // learn how this file should be used.
 
-#include <boost/detail/utf8_codecvt_facet.hpp>
+#include "../../boost/detail/utf8_codecvt_facet.hpp"
 
 #include <cstdlib> // for multi-byte converson routines
 #include <cassert>
 
-#include <boost/limits.hpp>
-#include <boost/config.hpp>
+#include "../../boost/limits.hpp"
+#include "../../boost/config.hpp"
 
 // If we don't have wstring, then Unicode support 
 // is not available anyway, so we don't need to even

@@ -16,10 +16,10 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
-#include <boost/bimap/relation/detail/metadata_access_builder.hpp>
-#include <boost/bimap/relation/detail/static_access_builder.hpp>
+#include "../../../boost/bimap/relation/detail/metadata_access_builder.hpp"
+#include "../../../boost/bimap/relation/detail/static_access_builder.hpp"
 
 /** \struct boost::bimaps::support::iterator_type_by
 

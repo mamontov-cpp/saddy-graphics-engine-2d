@@ -8,8 +8,8 @@
 #if !defined(BOOST_FUSION_IS_SEQUENCE_IMPL_31122005_1505)
 #define BOOST_FUSION_IS_SEQUENCE_IMPL_31122005_1505
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/mpl/bool.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/mpl/bool.hpp"
 
 namespace boost { namespace fusion
 {

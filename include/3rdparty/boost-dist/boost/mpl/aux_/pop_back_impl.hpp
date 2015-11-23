@@ -14,8 +14,8 @@
 // $Date$
 // $Revision$
 
-#include <boost/mpl/pop_back_fwd.hpp>
-#include <boost/mpl/aux_/traits_lambda_spec.hpp>
+#include "../../../boost/mpl/pop_back_fwd.hpp"
+#include "../../../boost/mpl/aux_/traits_lambda_spec.hpp"
 
 namespace boost { namespace mpl {
 

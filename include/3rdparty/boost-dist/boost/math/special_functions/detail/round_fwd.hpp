@@ -8,8 +8,8 @@
 #ifndef BOOST_MATH_SPECIAL_ROUND_FWD_HPP
 #define BOOST_MATH_SPECIAL_ROUND_FWD_HPP
 
-#include <boost/config.hpp>
-#include <boost/math/tools/promotion.hpp>
+#include "../../../../boost/config.hpp"
+#include "../../../../boost/math/tools/promotion.hpp"
 
 #ifdef _MSC_VER
 #pragma once

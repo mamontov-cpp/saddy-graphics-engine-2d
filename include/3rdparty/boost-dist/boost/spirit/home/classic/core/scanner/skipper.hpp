@@ -11,11 +11,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include <cctype>
 
-#include <boost/spirit/home/classic/namespace.hpp>
-#include <boost/spirit/home/classic/core/scanner/scanner.hpp>
-#include <boost/spirit/home/classic/core/primitives/impl/primitives.ipp>
+#include "../../../../../../boost/spirit/home/classic/namespace.hpp"
+#include "../../../../../../boost/spirit/home/classic/core/scanner/scanner.hpp"
+#include "../../../../../../boost/spirit/home/classic/core/primitives/impl/primitives.ipp"
 
-#include <boost/spirit/home/classic/core/scanner/skipper_fwd.hpp>
+#include "../../../../../../boost/spirit/home/classic/core/scanner/skipper_fwd.hpp"
 
 namespace boost { namespace spirit {
 
@@ -192,6 +192,6 @@ BOOST_SPIRIT_CLASSIC_NAMESPACE_END
 
 }} // namespace BOOST_SPIRIT_CLASSIC_NS
 
-#include <boost/spirit/home/classic/core/scanner/impl/skipper.ipp>
+#include "../../../../../../boost/spirit/home/classic/core/scanner/impl/skipper.ipp"
 #endif
 

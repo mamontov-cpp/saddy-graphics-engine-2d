@@ -14,7 +14,7 @@
 #ifndef BOOST_CORE_ENABLE_IF_HPP
 #define BOOST_CORE_ENABLE_IF_HPP
 
-#include "boost/config.hpp"
+#include "../../boost/config.hpp"
 
 // Even the definition of enable_if causes problems on some compilers,
 // so it's macroed out for all compilers that do not support SFINAE

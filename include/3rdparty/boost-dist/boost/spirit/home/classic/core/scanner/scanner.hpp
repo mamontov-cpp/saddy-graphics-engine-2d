@@ -9,13 +9,13 @@
 #define BOOST_SPIRIT_SCANNER_HPP
 
 #include <iterator>
-#include <boost/config.hpp>
-#include <boost/spirit/home/classic/namespace.hpp>
-#include <boost/spirit/home/classic/core/match.hpp>
-#include <boost/spirit/home/classic/core/non_terminal/parser_id.hpp>
-#include <boost/detail/iterator.hpp> // for boost::detail::iterator_traits
+#include "../../../../../../boost/config.hpp"
+#include "../../../../../../boost/spirit/home/classic/namespace.hpp"
+#include "../../../../../../boost/spirit/home/classic/core/match.hpp"
+#include "../../../../../../boost/spirit/home/classic/core/non_terminal/parser_id.hpp"
+#include "../../../../../../boost/detail/iterator.hpp" // for boost::detail::iterator_traits
 
-#include <boost/spirit/home/classic/core/scanner/scanner_fwd.hpp>
+#include "../../../../../../boost/spirit/home/classic/core/scanner/scanner_fwd.hpp"
 
 namespace boost { namespace spirit {
 

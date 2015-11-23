@@ -15,22 +15,22 @@
 // as part of refactoring out all parallel code from sequential property map
 // library.
 
-#include <boost/assert.hpp>
-#include <boost/config.hpp>
-#include <boost/static_assert.hpp>
+#include "../../../boost/assert.hpp"
+#include "../../../boost/config.hpp"
+#include "../../../boost/static_assert.hpp"
 #include <cstddef>
-#include <boost/detail/iterator.hpp>
-#include <boost/concept_check.hpp>
-#include <boost/concept_archetype.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/mpl/or.hpp>
-#include <boost/mpl/and.hpp>
-#include <boost/mpl/has_xxx.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/property_map/property_map.hpp>
+#include "../../../boost/detail/iterator.hpp"
+#include "../../../boost/concept_check.hpp"
+#include "../../../boost/concept_archetype.hpp"
+#include "../../../boost/mpl/assert.hpp"
+#include "../../../boost/mpl/or.hpp"
+#include "../../../boost/mpl/and.hpp"
+#include "../../../boost/mpl/has_xxx.hpp"
+#include "../../../boost/type_traits/is_same.hpp"
+#include "../../../boost/property_map/property_map.hpp"
 
-#include <boost/property_map/parallel/distributed_property_map.hpp>
-#include <boost/property_map/parallel/local_property_map.hpp>
+#include "../../../boost/property_map/parallel/distributed_property_map.hpp"
+#include "../../../boost/property_map/parallel/local_property_map.hpp"
 
 namespace boost {
 /** Distributed iterator property map.
@@ -227,7 +227,7 @@ public:
 
 }
 
-#include <boost/property_map/vector_property_map.hpp>
+#include "../../../boost/property_map/vector_property_map.hpp"
 
 #endif /* BOOST_PROPERTY_MAP_PARALLEL_PROPERTY_MAPS_HPP */
 

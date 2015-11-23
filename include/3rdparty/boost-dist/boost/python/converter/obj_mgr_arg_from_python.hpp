@@ -5,13 +5,13 @@
 #ifndef OBJ_MGR_ARG_FROM_PYTHON_DWA2002628_HPP
 # define OBJ_MGR_ARG_FROM_PYTHON_DWA2002628_HPP
 
-# include <boost/python/detail/prefix.hpp>
-# include <boost/python/detail/referent_storage.hpp>
-# include <boost/python/detail/destroy.hpp>
-# include <boost/python/detail/construct.hpp>
-# include <boost/python/converter/object_manager.hpp>
-# include <boost/python/detail/raw_pyobject.hpp>
-# include <boost/python/tag.hpp>
+#include "../../../boost/python/detail/prefix.hpp"
+#include "../../../boost/python/detail/referent_storage.hpp"
+#include "../../../boost/python/detail/destroy.hpp"
+#include "../../../boost/python/detail/construct.hpp"
+#include "../../../boost/python/converter/object_manager.hpp"
+#include "../../../boost/python/detail/raw_pyobject.hpp"
+#include "../../../boost/python/tag.hpp"
 
 //
 // arg_from_python converters for Python type wrappers, to be used as

@@ -9,13 +9,13 @@
 #ifndef BOOST_SPIRIT_NUMERICS_HPP
 #define BOOST_SPIRIT_NUMERICS_HPP
 
-#include <boost/config.hpp>
-#include <boost/spirit/home/classic/namespace.hpp>
-#include <boost/spirit/home/classic/core/parser.hpp>
-#include <boost/spirit/home/classic/core/composite/directives.hpp>
+#include "../../../../../../boost/config.hpp"
+#include "../../../../../../boost/spirit/home/classic/namespace.hpp"
+#include "../../../../../../boost/spirit/home/classic/core/parser.hpp"
+#include "../../../../../../boost/spirit/home/classic/core/composite/directives.hpp"
 
-#include <boost/spirit/home/classic/core/primitives/numerics_fwd.hpp>
-#include <boost/spirit/home/classic/core/primitives/impl/numerics.ipp>
+#include "../../../../../../boost/spirit/home/classic/core/primitives/numerics_fwd.hpp"
+#include "../../../../../../boost/spirit/home/classic/core/primitives/impl/numerics.ipp"
 
 namespace boost { namespace spirit {
 

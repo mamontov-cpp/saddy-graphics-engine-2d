@@ -8,7 +8,7 @@
 
 //  See http://www.boost.org for updates, documentation, and revision history.
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 #ifndef BOOST_NO_STD_WSTREAMBUF
 
 #include <cstring>
@@ -22,7 +22,7 @@ namespace std{
 
 #include <ostream>
 
-#include <boost/archive/text_woarchive.hpp>
+#include "../../../boost/archive/text_woarchive.hpp"
 
 namespace boost {
 namespace archive {

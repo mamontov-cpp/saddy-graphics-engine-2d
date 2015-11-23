@@ -7,15 +7,15 @@
 #if !defined(BOOST_FUSION_SEGMENTED_FOLD_UNTIL_HPP_INCLUDED)
 #define BOOST_FUSION_SEGMENTED_FOLD_UNTIL_HPP_INCLUDED
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/type_traits/is_const.hpp>
-#include <boost/utility/enable_if.hpp>
-#include <boost/fusion/support/detail/segmented_fold_until_impl.hpp>
-#include <boost/fusion/view/iterator_range.hpp>
-#include <boost/fusion/sequence/intrinsic/begin.hpp>
-#include <boost/fusion/sequence/intrinsic/end.hpp>
-#include <boost/fusion/sequence/intrinsic/empty.hpp>
-#include <boost/fusion/container/list/cons.hpp>
+#include "../../../boost/fusion/support/config.hpp"
+#include "../../../boost/type_traits/is_const.hpp"
+#include "../../../boost/utility/enable_if.hpp"
+#include "../../../boost/fusion/support/detail/segmented_fold_until_impl.hpp"
+#include "../../../boost/fusion/view/iterator_range.hpp"
+#include "../../../boost/fusion/sequence/intrinsic/begin.hpp"
+#include "../../../boost/fusion/sequence/intrinsic/end.hpp"
+#include "../../../boost/fusion/sequence/intrinsic/empty.hpp"
+#include "../../../boost/fusion/container/list/cons.hpp"
 
 namespace boost { namespace fusion
 {

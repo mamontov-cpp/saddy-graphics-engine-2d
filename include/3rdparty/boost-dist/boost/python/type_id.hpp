@@ -5,16 +5,16 @@
 #ifndef TYPE_ID_DWA2002517_HPP
 # define TYPE_ID_DWA2002517_HPP
 
-# include <boost/python/detail/prefix.hpp>
+#include "../../boost/python/detail/prefix.hpp"
 
-# include <boost/python/detail/msvc_typeinfo.hpp>
-# include <boost/operators.hpp>
+#include "../../boost/python/detail/msvc_typeinfo.hpp"
+#include "../../boost/operators.hpp"
 # include <typeinfo>
 # include <cstring>
 # include <ostream>
-# include <boost/static_assert.hpp>
-# include <boost/detail/workaround.hpp>
-# include <boost/type_traits/same_traits.hpp>
+#include "../../boost/static_assert.hpp"
+#include "../../boost/detail/workaround.hpp"
+#include "../../boost/type_traits/same_traits.hpp"
 
 #  ifndef BOOST_PYTHON_HAVE_GCC_CP_DEMANGLE
 #   if defined(__GNUC__)                                                \

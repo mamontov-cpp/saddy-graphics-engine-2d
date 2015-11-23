@@ -13,11 +13,11 @@
 # pragma once
 #endif
 
-#include <boost/ref.hpp>
-#include <boost/implicit_cast.hpp>
-#include <boost/intrusive_ptr.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/detail/dynamic/matchable.hpp>
+#include "../../../../boost/ref.hpp"
+#include "../../../../boost/implicit_cast.hpp"
+#include "../../../../boost/intrusive_ptr.hpp"
+#include "../../../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../../../boost/xpressive/detail/dynamic/matchable.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

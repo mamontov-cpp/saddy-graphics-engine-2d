@@ -21,9 +21,9 @@
 //  See http://www.boost.org/libs/bind/mem_fn.html for documentation.
 //
 
-#include <boost/config.hpp>
-#include <boost/get_pointer.hpp>
-#include <boost/detail/workaround.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/get_pointer.hpp"
+#include "../../boost/detail/workaround.hpp"
 
 namespace boost
 {
@@ -44,7 +44,7 @@ template<class V> struct mf
 #define BOOST_MEM_FN_NAME(X) inner_##X
 #define BOOST_MEM_FN_CC
 
-#include <boost/bind/mem_fn_template.hpp>
+#include "../../boost/bind/mem_fn_template.hpp"
 
 #undef BOOST_MEM_FN_CC
 #undef BOOST_MEM_FN_NAME
@@ -54,7 +54,7 @@ template<class V> struct mf
 #define BOOST_MEM_FN_NAME(X) inner_##X##_cdecl
 #define BOOST_MEM_FN_CC __cdecl
 
-#include <boost/bind/mem_fn_template.hpp>
+#include "../../boost/bind/mem_fn_template.hpp"
 
 #undef BOOST_MEM_FN_CC
 #undef BOOST_MEM_FN_NAME
@@ -66,7 +66,7 @@ template<class V> struct mf
 #define BOOST_MEM_FN_NAME(X) inner_##X##_stdcall
 #define BOOST_MEM_FN_CC __stdcall
 
-#include <boost/bind/mem_fn_template.hpp>
+#include "../../boost/bind/mem_fn_template.hpp"
 
 #undef BOOST_MEM_FN_CC
 #undef BOOST_MEM_FN_NAME
@@ -78,7 +78,7 @@ template<class V> struct mf
 #define BOOST_MEM_FN_NAME(X) inner_##X##_fastcall
 #define BOOST_MEM_FN_CC __fastcall
 
-#include <boost/bind/mem_fn_template.hpp>
+#include "../../boost/bind/mem_fn_template.hpp"
 
 #undef BOOST_MEM_FN_CC
 #undef BOOST_MEM_FN_NAME
@@ -97,7 +97,7 @@ template<> struct mf<void>
 #define BOOST_MEM_FN_NAME(X) inner_##X
 #define BOOST_MEM_FN_CC
 
-#include <boost/bind/mem_fn_template.hpp>
+#include "../../boost/bind/mem_fn_template.hpp"
 
 #undef BOOST_MEM_FN_CC
 #undef BOOST_MEM_FN_NAME
@@ -107,7 +107,7 @@ template<> struct mf<void>
 #define BOOST_MEM_FN_NAME(X) inner_##X##_cdecl
 #define BOOST_MEM_FN_CC __cdecl
 
-#include <boost/bind/mem_fn_template.hpp>
+#include "../../boost/bind/mem_fn_template.hpp"
 
 #undef BOOST_MEM_FN_CC
 #undef BOOST_MEM_FN_NAME
@@ -119,7 +119,7 @@ template<> struct mf<void>
 #define BOOST_MEM_FN_NAME(X) inner_##X##_stdcall
 #define BOOST_MEM_FN_CC __stdcall
 
-#include <boost/bind/mem_fn_template.hpp>
+#include "../../boost/bind/mem_fn_template.hpp"
 
 #undef BOOST_MEM_FN_CC
 #undef BOOST_MEM_FN_NAME
@@ -131,7 +131,7 @@ template<> struct mf<void>
 #define BOOST_MEM_FN_NAME(X) inner_##X##_fastcall
 #define BOOST_MEM_FN_CC __fastcall
 
-#include <boost/bind/mem_fn_template.hpp>
+#include "../../boost/bind/mem_fn_template.hpp"
 
 #undef BOOST_MEM_FN_CC
 #undef BOOST_MEM_FN_NAME
@@ -149,7 +149,7 @@ template<> struct mf<void>
 #define BOOST_MEM_FN_NAME2(X) inner_##X
 #define BOOST_MEM_FN_CC
 
-#include <boost/bind/mem_fn_vw.hpp>
+#include "../../boost/bind/mem_fn_vw.hpp"
 
 #undef BOOST_MEM_FN_NAME
 #undef BOOST_MEM_FN_NAME2
@@ -161,7 +161,7 @@ template<> struct mf<void>
 #define BOOST_MEM_FN_NAME2(X) inner_##X##_cdecl
 #define BOOST_MEM_FN_CC __cdecl
 
-#include <boost/bind/mem_fn_vw.hpp>
+#include "../../boost/bind/mem_fn_vw.hpp"
 
 #undef BOOST_MEM_FN_NAME
 #undef BOOST_MEM_FN_NAME2
@@ -175,7 +175,7 @@ template<> struct mf<void>
 #define BOOST_MEM_FN_NAME2(X) inner_##X##_stdcall
 #define BOOST_MEM_FN_CC __stdcall
 
-#include <boost/bind/mem_fn_vw.hpp>
+#include "../../boost/bind/mem_fn_vw.hpp"
 
 #undef BOOST_MEM_FN_NAME
 #undef BOOST_MEM_FN_NAME2
@@ -189,7 +189,7 @@ template<> struct mf<void>
 #define BOOST_MEM_FN_NAME2(X) inner_##X##_fastcall
 #define BOOST_MEM_FN_CC __fastcall
 
-#include <boost/bind/mem_fn_vw.hpp>
+#include "../../boost/bind/mem_fn_vw.hpp"
 
 #undef BOOST_MEM_FN_NAME
 #undef BOOST_MEM_FN_NAME2
@@ -212,7 +212,7 @@ namespace _mfi
 #define BOOST_MEM_FN_NAME(X) X
 #define BOOST_MEM_FN_CC
 
-#include <boost/bind/mem_fn_template.hpp>
+#include "../../boost/bind/mem_fn_template.hpp"
 
 #undef BOOST_MEM_FN_CC
 #undef BOOST_MEM_FN_NAME
@@ -222,7 +222,7 @@ namespace _mfi
 #define BOOST_MEM_FN_NAME(X) X##_cdecl
 #define BOOST_MEM_FN_CC __cdecl
 
-#include <boost/bind/mem_fn_template.hpp>
+#include "../../boost/bind/mem_fn_template.hpp"
 
 #undef BOOST_MEM_FN_CC
 #undef BOOST_MEM_FN_NAME
@@ -234,7 +234,7 @@ namespace _mfi
 #define BOOST_MEM_FN_NAME(X) X##_stdcall
 #define BOOST_MEM_FN_CC __stdcall
 
-#include <boost/bind/mem_fn_template.hpp>
+#include "../../boost/bind/mem_fn_template.hpp"
 
 #undef BOOST_MEM_FN_CC
 #undef BOOST_MEM_FN_NAME
@@ -246,7 +246,7 @@ namespace _mfi
 #define BOOST_MEM_FN_NAME(X) X##_fastcall
 #define BOOST_MEM_FN_CC __fastcall
 
-#include <boost/bind/mem_fn_template.hpp>
+#include "../../boost/bind/mem_fn_template.hpp"
 
 #undef BOOST_MEM_FN_CC
 #undef BOOST_MEM_FN_NAME
@@ -265,7 +265,7 @@ namespace _mfi
 #define BOOST_MEM_FN_NAME(X) X
 #define BOOST_MEM_FN_CC
 
-#include <boost/bind/mem_fn_cc.hpp>
+#include "../../boost/bind/mem_fn_cc.hpp"
 
 #undef BOOST_MEM_FN_NAME
 #undef BOOST_MEM_FN_CC
@@ -275,7 +275,7 @@ namespace _mfi
 #define BOOST_MEM_FN_NAME(X) X##_cdecl
 #define BOOST_MEM_FN_CC __cdecl
 
-#include <boost/bind/mem_fn_cc.hpp>
+#include "../../boost/bind/mem_fn_cc.hpp"
 
 #undef BOOST_MEM_FN_NAME
 #undef BOOST_MEM_FN_CC
@@ -287,7 +287,7 @@ namespace _mfi
 #define BOOST_MEM_FN_NAME(X) X##_stdcall
 #define BOOST_MEM_FN_CC __stdcall
 
-#include <boost/bind/mem_fn_cc.hpp>
+#include "../../boost/bind/mem_fn_cc.hpp"
 
 #undef BOOST_MEM_FN_NAME
 #undef BOOST_MEM_FN_CC
@@ -299,7 +299,7 @@ namespace _mfi
 #define BOOST_MEM_FN_NAME(X) X##_fastcall
 #define BOOST_MEM_FN_CC __fastcall
 
-#include <boost/bind/mem_fn_cc.hpp>
+#include "../../boost/bind/mem_fn_cc.hpp"
 
 #undef BOOST_MEM_FN_NAME
 #undef BOOST_MEM_FN_CC

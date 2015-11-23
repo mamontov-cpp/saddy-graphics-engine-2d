@@ -18,8 +18,8 @@
 #ifndef BOOST_MPI_COLLECTIVES_HPP
 #define BOOST_MPI_COLLECTIVES_HPP
 
-#include <boost/mpi/communicator.hpp>
-#include <boost/mpi/inplace.hpp>
+#include "../../boost/mpi/communicator.hpp"
+#include "../../boost/mpi/inplace.hpp"
 #include <vector>
 
 namespace boost { namespace mpi {
@@ -683,15 +683,15 @@ scan(const communicator& comm, const T* in_values, int n, T* out_values, Op op);
 
 #ifndef BOOST_MPI_COLLECTIVES_FORWARD_ONLY
 // Include implementations of each of the collectives
-#  include <boost/mpi/collectives/all_gather.hpp>
-#  include <boost/mpi/collectives/all_reduce.hpp>
-#  include <boost/mpi/collectives/all_to_all.hpp>
-#  include <boost/mpi/collectives/broadcast.hpp>
-#  include <boost/mpi/collectives/gather.hpp>
-#  include <boost/mpi/collectives/gatherv.hpp>
-#  include <boost/mpi/collectives/scatter.hpp>
-#  include <boost/mpi/collectives/scatterv.hpp>
-#  include <boost/mpi/collectives/reduce.hpp>
-#  include <boost/mpi/collectives/scan.hpp>
+#include "../../boost/mpi/collectives/all_gather.hpp"
+#include "../../boost/mpi/collectives/all_reduce.hpp"
+#include "../../boost/mpi/collectives/all_to_all.hpp"
+#include "../../boost/mpi/collectives/broadcast.hpp"
+#include "../../boost/mpi/collectives/gather.hpp"
+#include "../../boost/mpi/collectives/gatherv.hpp"
+#include "../../boost/mpi/collectives/scatter.hpp"
+#include "../../boost/mpi/collectives/scatterv.hpp"
+#include "../../boost/mpi/collectives/reduce.hpp"
+#include "../../boost/mpi/collectives/scan.hpp"
 #endif
 

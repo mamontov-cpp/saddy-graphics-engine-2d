@@ -15,8 +15,8 @@
 
 #include <cctype>
 #include <cstring>
-#include <boost/mpl/assert.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
+#include "../../../../boost/mpl/assert.hpp"
+#include "../../../../boost/xpressive/detail/detail_fwd.hpp"
 
 #ifndef BOOST_XPRESSIVE_NO_WREGEX
 # include <cwchar>

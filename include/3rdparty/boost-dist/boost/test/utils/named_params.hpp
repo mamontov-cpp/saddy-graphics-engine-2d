@@ -16,20 +16,20 @@
 #define BOOST_TEST_UTILS_NAMED_PARAM
 
 // Boost
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
-#include <boost/mpl/bool.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/detail/workaround.hpp"
+#include "../../../boost/mpl/bool.hpp"
 
 // Boost.Test
-#include <boost/test/utils/rtti.hpp>
-#include <boost/test/utils/assign_op.hpp>
+#include "../../../boost/test/utils/rtti.hpp"
+#include "../../../boost/test/utils/assign_op.hpp"
 
-#include <boost/type_traits/remove_reference.hpp>
-#include <boost/type_traits/remove_cv.hpp>
+#include "../../../boost/type_traits/remove_reference.hpp"
+#include "../../../boost/type_traits/remove_cv.hpp"
 
-#include <boost/test/detail/throw_exception.hpp>
+#include "../../../boost/test/detail/throw_exception.hpp"
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -364,7 +364,7 @@ struct param_type<nfp_detail::named_parameter_combine<named_parameter<T,unique_i
 } // namespace nfp
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_UTILS_NAMED_PARAM
 

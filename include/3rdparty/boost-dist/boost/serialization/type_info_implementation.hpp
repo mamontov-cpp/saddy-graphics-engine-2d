@@ -17,14 +17,14 @@
 //  See http://www.boost.org for updates, documentation, and revision history.
 
 
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/detail/workaround.hpp"
 
-#include <boost/static_assert.hpp>
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/identity.hpp>
-#include <boost/type_traits/is_base_and_derived.hpp>
-#include <boost/serialization/traits.hpp>
+#include "../../boost/static_assert.hpp"
+#include "../../boost/mpl/eval_if.hpp"
+#include "../../boost/mpl/identity.hpp"
+#include "../../boost/type_traits/is_base_and_derived.hpp"
+#include "../../boost/serialization/traits.hpp"
 
 namespace boost {
 namespace serialization {

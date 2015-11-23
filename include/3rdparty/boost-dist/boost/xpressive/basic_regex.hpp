@@ -15,18 +15,18 @@
 # pragma once
 #endif
 
-#include <boost/config.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/xpressive/xpressive_fwd.hpp>
-#include <boost/xpressive/regex_constants.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/detail/core/regex_impl.hpp>
-#include <boost/xpressive/detail/core/regex_domain.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/mpl/bool.hpp"
+#include "../../boost/xpressive/xpressive_fwd.hpp"
+#include "../../boost/xpressive/regex_constants.hpp"
+#include "../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../boost/xpressive/detail/core/regex_impl.hpp"
+#include "../../boost/xpressive/detail/core/regex_domain.hpp"
 
 // Doxygen can't handle proto :-(
 #ifndef BOOST_XPRESSIVE_DOXYGEN_INVOKED
-# include <boost/xpressive/detail/static/grammar.hpp>
-# include <boost/proto/extends.hpp>
+#include "../../boost/xpressive/detail/static/grammar.hpp"
+#include "../../boost/proto/extends.hpp"
 #endif
 
 #if BOOST_XPRESSIVE_HAS_MS_STACK_GUARD

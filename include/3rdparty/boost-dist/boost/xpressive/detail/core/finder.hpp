@@ -14,10 +14,10 @@
 # pragma warning(disable : 4189) // local variable is initialized but not referenced
 #endif
 
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/detail/core/regex_impl.hpp>
-#include <boost/xpressive/detail/utility/boyer_moore.hpp>
-#include <boost/xpressive/detail/utility/hash_peek_bitset.hpp>
+#include "../../../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../../../boost/xpressive/detail/core/regex_impl.hpp"
+#include "../../../../boost/xpressive/detail/utility/boyer_moore.hpp"
+#include "../../../../boost/xpressive/detail/utility/hash_peek_bitset.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

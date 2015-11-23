@@ -18,11 +18,11 @@
 
 #include <string>
 
-#include <boost/type_traits/is_convertible.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/and.hpp>
-#include <boost/spirit/home/classic/namespace.hpp>
-#include <boost/spirit/home/classic/core/primitives/primitives.hpp> // for iscntrl_
+#include "../../../../../boost/type_traits/is_convertible.hpp"
+#include "../../../../../boost/mpl/if.hpp"
+#include "../../../../../boost/mpl/and.hpp"
+#include "../../../../../boost/spirit/home/classic/namespace.hpp"
+#include "../../../../../boost/spirit/home/classic/core/primitives/primitives.hpp" // for iscntrl_
 
 namespace boost { namespace spirit {
 

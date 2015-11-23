@@ -13,16 +13,16 @@
 #define BOOST_TEST_TOOLS_DETAIL_BITWISE_MANIP_HPP_012705GER
 
 // Boost Test
-#include <boost/test/tools/detail/fwd.hpp>
-#include <boost/test/tools/detail/indirections.hpp>
+#include "../../../../boost/test/tools/detail/fwd.hpp"
+#include "../../../../boost/test/tools/detail/indirections.hpp"
 
-#include <boost/test/tools/assertion_result.hpp>
-#include <boost/test/tools/assertion.hpp>
+#include "../../../../boost/test/tools/assertion_result.hpp"
+#include "../../../../boost/test/tools/assertion.hpp"
 
 // STL
 #include <climits>          // for CHAR_BIT
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -118,6 +118,6 @@ operator<<( assertion_type const& , bitwise )
 } // namespace test_tools
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_TOOLS_DETAIL_BITWISE_MANIP_HPP_012705GER

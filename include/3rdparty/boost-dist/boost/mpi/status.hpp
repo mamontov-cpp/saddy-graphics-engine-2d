@@ -12,8 +12,8 @@
 #ifndef BOOST_MPI_STATUS_HPP
 #define BOOST_MPI_STATUS_HPP
 
-#include <boost/mpi/config.hpp>
-#include <boost/optional.hpp>
+#include "../../boost/mpi/config.hpp"
+#include "../../boost/optional.hpp"
 
 namespace boost { namespace mpi {
 

@@ -18,12 +18,12 @@
 
 // helper function templates for serialization of collections
 
-#include <boost/config.hpp>
-#include <boost/serialization/nvp.hpp>
-#include <boost/serialization/serialization.hpp>
-#include <boost/serialization/version.hpp>
-#include <boost/serialization/collection_size_type.hpp>
-#include <boost/serialization/item_version_type.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/serialization/nvp.hpp"
+#include "../../boost/serialization/serialization.hpp"
+#include "../../boost/serialization/version.hpp"
+#include "../../boost/serialization/collection_size_type.hpp"
+#include "../../boost/serialization/item_version_type.hpp"
 
 namespace boost{
 namespace serialization {

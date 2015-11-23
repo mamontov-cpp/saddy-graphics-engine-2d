@@ -19,27 +19,27 @@
 // $Revision$
 
 #if !defined(BOOST_MPL_PREPROCESSING_MODE)
-#   include <boost/mpl/prior.hpp>
-#   include <boost/mpl/apply_wrap.hpp>
+#include "../../../boost/mpl/prior.hpp"
+#include "../../../boost/mpl/apply_wrap.hpp"
 #endif
 
-#include <boost/mpl/aux_/config/use_preprocessed.hpp>
+#include "../../../boost/mpl/aux_/config/use_preprocessed.hpp"
 
 #if    !defined(BOOST_MPL_CFG_NO_PREPROCESSED_HEADERS) \
     && !defined(BOOST_MPL_PREPROCESSING_MODE)
 
 #   define BOOST_MPL_PREPROCESSED_HEADER advance_backward.hpp
-#   include <boost/mpl/aux_/include_preprocessed.hpp>
+#include "../../../boost/mpl/aux_/include_preprocessed.hpp"
 
 #else
 
-#   include <boost/mpl/limits/unrolling.hpp>
-#   include <boost/mpl/aux_/nttp_decl.hpp>
-#   include <boost/mpl/aux_/config/eti.hpp>
+#include "../../../boost/mpl/limits/unrolling.hpp"
+#include "../../../boost/mpl/aux_/nttp_decl.hpp"
+#include "../../../boost/mpl/aux_/config/eti.hpp"
 
-#   include <boost/preprocessor/iterate.hpp>
-#   include <boost/preprocessor/cat.hpp>
-#   include <boost/preprocessor/inc.hpp>
+#include "../../../boost/preprocessor/iterate.hpp"
+#include "../../../boost/preprocessor/cat.hpp"
+#include "../../../boost/preprocessor/inc.hpp"
 
 namespace boost { namespace mpl { namespace aux {
 

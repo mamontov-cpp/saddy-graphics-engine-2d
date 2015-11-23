@@ -17,7 +17,7 @@
 
 #ifdef BOOST_NO_CXX11_AUTO_DECLARATIONS
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -63,7 +63,7 @@ hold_expression( E const& e )
 } // namespace test_tools
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../../boost/test/detail/enable_warnings.hpp"
 
 #endif
 

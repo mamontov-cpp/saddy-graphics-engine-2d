@@ -9,8 +9,8 @@
 #define BOOST_SPIRIT_COMPOSITE_HPP
 
 ///////////////////////////////////////////////////////////////////////////////
-#include <boost/compressed_pair.hpp>
-#include <boost/spirit/home/classic/namespace.hpp>
+#include "../../../../../../boost/compressed_pair.hpp"
+#include "../../../../../../boost/spirit/home/classic/namespace.hpp"
 
 ///////////////////////////////////////////////////////////////////////////////
 namespace boost { namespace spirit {

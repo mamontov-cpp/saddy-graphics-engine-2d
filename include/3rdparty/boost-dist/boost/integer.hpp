@@ -15,12 +15,12 @@
 #ifndef BOOST_INTEGER_HPP
 #define BOOST_INTEGER_HPP
 
-#include <boost/integer_fwd.hpp>  // self include
+#include "../boost/integer_fwd.hpp"  // self include
 
-#include <boost/integer_traits.hpp>  // for boost::::boost::integer_traits
-#include <boost/limits.hpp>          // for ::std::numeric_limits
-#include <boost/cstdint.hpp>         // for boost::int64_t and BOOST_NO_INTEGRAL_INT64_T
-#include <boost/static_assert.hpp>
+#include "../boost/integer_traits.hpp"  // for boost::::boost::integer_traits
+#include "../boost/limits.hpp"          // for ::std::numeric_limits
+#include "../boost/cstdint.hpp"         // for boost::int64_t and BOOST_NO_INTEGRAL_INT64_T
+#include "../boost/static_assert.hpp"
 
 //
 // We simply cannot include this header on gcc without getting copious warnings of the kind:

@@ -7,13 +7,13 @@
 #if !defined(BOOST_FUSION_SEGMENTED_BEGIN_IMPL_HPP_INCLUDED)
 #define BOOST_FUSION_SEGMENTED_BEGIN_IMPL_HPP_INCLUDED
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/type_traits/remove_const.hpp>
-#include <boost/fusion/container/list/cons_fwd.hpp>
-#include <boost/fusion/sequence/intrinsic_fwd.hpp>
-#include <boost/fusion/support/is_segmented.hpp>
-#include <boost/fusion/sequence/intrinsic/detail/segmented_end_impl.hpp>
-#include <boost/fusion/support/detail/segmented_fold_until_impl.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/type_traits/remove_const.hpp"
+#include "../../../../../boost/fusion/container/list/cons_fwd.hpp"
+#include "../../../../../boost/fusion/sequence/intrinsic_fwd.hpp"
+#include "../../../../../boost/fusion/support/is_segmented.hpp"
+#include "../../../../../boost/fusion/sequence/intrinsic/detail/segmented_end_impl.hpp"
+#include "../../../../../boost/fusion/support/detail/segmented_fold_until_impl.hpp"
 
 namespace boost { namespace fusion
 {

@@ -14,12 +14,12 @@
 // $Date$
 // $Revision$
 
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/aux_/type_wrapper.hpp>
-#include <boost/mpl/aux_/yes_no.hpp>
+#include "../../../boost/mpl/if.hpp"
+#include "../../../boost/mpl/bool.hpp"
+#include "../../../boost/mpl/aux_/type_wrapper.hpp"
+#include "../../../boost/mpl/aux_/yes_no.hpp"
 
-#include <boost/type_traits/is_reference.hpp>
+#include "../../../boost/type_traits/is_reference.hpp"
 
 namespace boost { namespace mpl { namespace aux {
 

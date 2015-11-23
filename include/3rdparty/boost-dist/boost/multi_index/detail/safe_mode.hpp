@@ -50,7 +50,7 @@
 #define BOOST_MULTI_INDEX_SAFE_MODE_ASSERT(expr,error_code) ((void)0)
 #else
 #if !defined(BOOST_MULTI_INDEX_SAFE_MODE_ASSERT)
-#include <boost/assert.hpp>
+#include "../../../boost/assert.hpp"
 #define BOOST_MULTI_INDEX_SAFE_MODE_ASSERT(expr,error_code) BOOST_ASSERT(expr)
 #endif
 #endif
@@ -106,21 +106,21 @@
     safe_mode::same_container);
 
 #if defined(BOOST_MULTI_INDEX_ENABLE_SAFE_MODE)
-#include <boost/config.hpp> /* keep it first to prevent nasty warns in MSVC */
+#include "../../../boost/config.hpp" /* keep it first to prevent nasty warns in MSVC */
 #include <algorithm>
-#include <boost/detail/iterator.hpp>
-#include <boost/multi_index/detail/access_specifier.hpp>
-#include <boost/multi_index/detail/iter_adaptor.hpp>
-#include <boost/multi_index/safe_mode_errors.hpp>
-#include <boost/noncopyable.hpp>
+#include "../../../boost/detail/iterator.hpp"
+#include "../../../boost/multi_index/detail/access_specifier.hpp"
+#include "../../../boost/multi_index/detail/iter_adaptor.hpp"
+#include "../../../boost/multi_index/safe_mode_errors.hpp"
+#include "../../../boost/noncopyable.hpp"
 
 #if !defined(BOOST_MULTI_INDEX_DISABLE_SERIALIZATION)
-#include <boost/serialization/split_member.hpp>
-#include <boost/serialization/version.hpp>
+#include "../../../boost/serialization/split_member.hpp"
+#include "../../../boost/serialization/version.hpp"
 #endif
 
 #if defined(BOOST_HAS_THREADS)
-#include <boost/detail/lightweight_mutex.hpp>
+#include "../../../boost/detail/lightweight_mutex.hpp"
 #endif
 
 namespace boost{

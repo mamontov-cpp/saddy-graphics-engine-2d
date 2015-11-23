@@ -7,8 +7,8 @@
 #if !defined(FUSION_ADAPT_DEREF_TRAITS_05062005_0900)
 #define FUSION_ADAPT_DEREF_TRAITS_05062005_0900
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/iterator/deref.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/fusion/iterator/deref.hpp"
 
 namespace boost { namespace fusion { namespace detail
 {

@@ -10,7 +10,7 @@
 #ifndef BOOST_GRAPH_SELECTORS_HPP
 #define BOOST_GRAPH_SELECTORS_HPP
 
-#include <boost/mpl/bool.hpp>
+#include "../../boost/mpl/bool.hpp"
 
 namespace boost {
 

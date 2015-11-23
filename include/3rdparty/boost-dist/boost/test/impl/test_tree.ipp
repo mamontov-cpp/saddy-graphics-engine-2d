@@ -14,30 +14,30 @@
 #define BOOST_TEST_UNIT_TEST_SUITE_IPP_012205GER
 
 // Boost.Test
-#include <boost/detail/workaround.hpp>
+#include "../../../boost/detail/workaround.hpp"
 
-#include <boost/test/framework.hpp>
-#include <boost/test/results_collector.hpp>
+#include "../../../boost/test/framework.hpp"
+#include "../../../boost/test/results_collector.hpp"
 
-#include <boost/test/tree/test_unit.hpp>
-#include <boost/test/tree/visitor.hpp>
-#include <boost/test/tree/traverse.hpp>
-#include <boost/test/tree/auto_registration.hpp>
-#include <boost/test/tree/global_fixture.hpp>
+#include "../../../boost/test/tree/test_unit.hpp"
+#include "../../../boost/test/tree/visitor.hpp"
+#include "../../../boost/test/tree/traverse.hpp"
+#include "../../../boost/test/tree/auto_registration.hpp"
+#include "../../../boost/test/tree/global_fixture.hpp"
 
-#include <boost/test/utils/foreach.hpp>
-#include <boost/test/utils/basic_cstring/io.hpp>
+#include "../../../boost/test/utils/foreach.hpp"
+#include "../../../boost/test/utils/basic_cstring/io.hpp"
 
-#include <boost/test/unit_test_parameters.hpp>
+#include "../../../boost/test/unit_test_parameters.hpp"
 
 // Boost
-#include <boost/timer.hpp>
+#include "../../../boost/timer.hpp"
 
 // STL
 #include <algorithm>
 #include <vector>
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 #if BOOST_WORKAROUND(__BORLANDC__, < 0x600) && BOOST_WORKAROUND(_STLPORT_VERSION, <= 0x450)
     using std::rand; // rand is in std and random_shuffle is in _STL
@@ -454,6 +454,6 @@ global_fixture::global_fixture()
 } // namespace unit_test
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_UNIT_TEST_SUITE_IPP_012205GER

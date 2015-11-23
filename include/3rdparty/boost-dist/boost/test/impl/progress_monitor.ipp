@@ -16,19 +16,19 @@
 #define BOOST_TEST_PROGRESS_MONITOR_IPP_020105GER
 
 // Boost.Test
-#include <boost/test/progress_monitor.hpp>
+#include "../../../boost/test/progress_monitor.hpp"
 
-#include <boost/test/unit_test_parameters.hpp>
-#include <boost/test/utils/setcolor.hpp>
+#include "../../../boost/test/unit_test_parameters.hpp"
+#include "../../../boost/test/utils/setcolor.hpp"
 
-#include <boost/test/tree/test_unit.hpp>
-#include <boost/test/tree/test_case_counter.hpp>
-#include <boost/test/tree/traverse.hpp>
+#include "../../../boost/test/tree/test_unit.hpp"
+#include "../../../boost/test/tree/test_case_counter.hpp"
+#include "../../../boost/test/tree/traverse.hpp"
 
 // Boost
-#include <boost/scoped_ptr.hpp>
+#include "../../../boost/scoped_ptr.hpp"
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -170,6 +170,6 @@ progress_monitor_t::set_stream( std::ostream& ostr )
 } // namespace unit_test
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_PROGRESS_MONITOR_IPP_020105GER

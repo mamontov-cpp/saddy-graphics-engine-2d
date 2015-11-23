@@ -5,10 +5,10 @@
 #ifndef INSTANCE_HOLDER_DWA2002517_HPP
 # define INSTANCE_HOLDER_DWA2002517_HPP
 
-# include <boost/python/detail/prefix.hpp>
+#include "../../boost/python/detail/prefix.hpp"
 
-# include <boost/noncopyable.hpp>
-# include <boost/python/type_id.hpp>
+#include "../../boost/noncopyable.hpp"
+#include "../../boost/python/type_id.hpp"
 # include <cstddef>
 
 namespace boost { namespace python { 

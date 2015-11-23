@@ -10,11 +10,11 @@ http://www.boost.org/LICENSE_1_0.txt)
 #define BOOST_PREDEF_LIBRARY_C_H
 #endif
 
-#include <boost/predef/library/c/_prefix.h>
+#include "../../../boost/predef/library/c/_prefix.h"
 
-#include <boost/predef/library/c/gnu.h>
-#include <boost/predef/library/c/uc.h>
-#include <boost/predef/library/c/vms.h>
-#include <boost/predef/library/c/zos.h>
+#include "../../../boost/predef/library/c/gnu.h"
+#include "../../../boost/predef/library/c/uc.h"
+#include "../../../boost/predef/library/c/vms.h"
+#include "../../../boost/predef/library/c/zos.h"
 
 #endif

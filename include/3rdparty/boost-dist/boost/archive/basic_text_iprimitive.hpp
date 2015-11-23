@@ -24,11 +24,11 @@
 // in such cases.   So we can't use basic_ostream<IStream::char_type> but rather
 // use two template parameters
 
-#include <boost/assert.hpp>
+#include "../../boost/assert.hpp"
 #include <locale>
 #include <cstddef> // size_t
 
-#include <boost/config.hpp>
+#include "../../boost/config.hpp"
 #if defined(BOOST_NO_STDC_NAMESPACE)
 namespace std{ 
     using ::size_t; 
@@ -38,20 +38,20 @@ namespace std{
 } // namespace std
 #endif
 
-#include <boost/detail/workaround.hpp>
+#include "../../boost/detail/workaround.hpp"
 #if BOOST_WORKAROUND(BOOST_DINKUMWARE_STDLIB, == 1)
-#include <boost/archive/dinkumware.hpp>
+#include "../../boost/archive/dinkumware.hpp"
 #endif
 
-#include <boost/limits.hpp>
-#include <boost/io/ios_state.hpp>
-#include <boost/scoped_ptr.hpp>
-#include <boost/static_assert.hpp>
+#include "../../boost/limits.hpp"
+#include "../../boost/io/ios_state.hpp"
+#include "../../boost/scoped_ptr.hpp"
+#include "../../boost/static_assert.hpp"
 
-#include <boost/serialization/throw_exception.hpp>
-#include <boost/archive/archive_exception.hpp>
-#include <boost/archive/basic_streambuf_locale_saver.hpp>
-#include <boost/archive/detail/abi_prefix.hpp> // must be the last header
+#include "../../boost/serialization/throw_exception.hpp"
+#include "../../boost/archive/archive_exception.hpp"
+#include "../../boost/archive/basic_streambuf_locale_saver.hpp"
+#include "../../boost/archive/detail/abi_prefix.hpp" // must be the last header
 
 namespace boost {
 namespace archive {
@@ -132,6 +132,6 @@ public:
 } // namespace archive
 } // namespace boost
 
-#include <boost/archive/detail/abi_suffix.hpp> // pop pragmas
+#include "../../boost/archive/detail/abi_suffix.hpp" // pop pragmas
 
 #endif // BOOST_ARCHIVE_BASIC_TEXT_IPRIMITIVE_HPP

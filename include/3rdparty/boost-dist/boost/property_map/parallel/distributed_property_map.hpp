@@ -12,34 +12,34 @@
 // the #ifndef/#define pair below. However, this placement is
 // extremely important to allow the various property map headers to be
 // included in any order.
-#include <boost/property_map/property_map.hpp>
+#include "../../../boost/property_map/property_map.hpp"
 
 #ifndef BOOST_PARALLEL_DISTRIBUTED_PROPERTY_MAP_HPP
 #define BOOST_PARALLEL_DISTRIBUTED_PROPERTY_MAP_HPP
 
-#include <boost/assert.hpp>
-#include <boost/type_traits/is_base_and_derived.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
-#include <boost/optional.hpp>
-#include <boost/property_map/parallel/process_group.hpp>
-#include <boost/function/function1.hpp>
+#include "../../../boost/assert.hpp"
+#include "../../../boost/type_traits/is_base_and_derived.hpp"
+#include "../../../boost/shared_ptr.hpp"
+#include "../../../boost/weak_ptr.hpp"
+#include "../../../boost/optional.hpp"
+#include "../../../boost/property_map/parallel/process_group.hpp"
+#include "../../../boost/function/function1.hpp"
 #include <vector>
 #include <set>
-#include <boost/property_map/parallel/basic_reduce.hpp>
-#include <boost/property_map/parallel/detail/untracked_pair.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/property_map/parallel/local_property_map.hpp>
+#include "../../../boost/property_map/parallel/basic_reduce.hpp"
+#include "../../../boost/property_map/parallel/detail/untracked_pair.hpp"
+#include "../../../boost/type_traits/is_same.hpp"
+#include "../../../boost/property_map/parallel/local_property_map.hpp"
 #include <map>
-#include <boost/version.hpp>
-#include <boost/property_map/parallel/unsafe_serialize.hpp>
-#include <boost/multi_index_container.hpp>
-#include <boost/multi_index/hashed_index.hpp>
-#include <boost/multi_index/member.hpp>
-#include <boost/multi_index/sequenced_index.hpp>
+#include "../../../boost/version.hpp"
+#include "../../../boost/property_map/parallel/unsafe_serialize.hpp"
+#include "../../../boost/multi_index_container.hpp"
+#include "../../../boost/multi_index/hashed_index.hpp"
+#include "../../../boost/multi_index/member.hpp"
+#include "../../../boost/multi_index/sequenced_index.hpp"
 
 // Serialization functions for constructs we use
-#include <boost/serialization/utility.hpp>
+#include "../../../boost/serialization/utility.hpp"
 
 namespace boost { namespace parallel {
 
@@ -686,7 +686,7 @@ make_distributed_property_map(const ProcessGroup& pg, GlobalMap global,
 
 } } // end namespace boost::parallel
 
-#include <boost/property_map/parallel/impl/distributed_property_map.ipp>
+#include "../../../boost/property_map/parallel/impl/distributed_property_map.ipp"
 
 #undef PBGL_DISTRIB_PMAP
 

@@ -8,8 +8,8 @@ http://www.boost.org/LICENSE_1_0.txt)
 #ifndef BOOST_PREDEF_COMPILER_METAWARE_H
 #define BOOST_PREDEF_COMPILER_METAWARE_H
 
-#include <boost/predef/version_number.h>
-#include <boost/predef/make.h>
+#include "../../../boost/predef/version_number.h"
+#include "../../../boost/predef/make.h"
 
 /*`
 [heading `BOOST_COMP_HIGHC`]
@@ -37,17 +37,17 @@ MetaWare High C/C++ compiler.
 #       define BOOST_COMP_HIGHC BOOST_COMP_HIGHC_DETECTION
 #   endif
 #   define BOOST_COMP_HIGHC_AVAILABLE
-#   include <boost/predef/detail/comp_detected.h>
+#include "../../../boost/predef/detail/comp_detected.h"
 #endif
 
 #define BOOST_COMP_HIGHC_NAME "MetaWare High C/C++"
 
 #endif
 
-#include <boost/predef/detail/test.h>
+#include "../../../boost/predef/detail/test.h"
 BOOST_PREDEF_DECLARE_TEST(BOOST_COMP_HIGHC,BOOST_COMP_HIGHC_NAME)
 
 #ifdef BOOST_COMP_HIGHC_EMULATED
-#include <boost/predef/detail/test.h>
+#include "../../../boost/predef/detail/test.h"
 BOOST_PREDEF_DECLARE_TEST(BOOST_COMP_HIGHC_EMULATED,BOOST_COMP_HIGHC_NAME)
 #endif

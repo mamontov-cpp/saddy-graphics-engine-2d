@@ -12,12 +12,12 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include <algorithm>
 
-#include <boost/spirit/home/classic/namespace.hpp>
-#include <boost/spirit/home/classic/core/parser.hpp>
-#include <boost/spirit/home/classic/core/scanner/skipper.hpp> 
-#include <boost/spirit/home/classic/core/primitives/primitives.hpp>
-#include <boost/spirit/home/classic/core/composite/composite.hpp>
-#include <boost/spirit/home/classic/core/composite/impl/directives.ipp>
+#include "../../../../../../boost/spirit/home/classic/namespace.hpp"
+#include "../../../../../../boost/spirit/home/classic/core/parser.hpp"
+#include "../../../../../../boost/spirit/home/classic/core/scanner/skipper.hpp" 
+#include "../../../../../../boost/spirit/home/classic/core/primitives/primitives.hpp"
+#include "../../../../../../boost/spirit/home/classic/core/composite/composite.hpp"
+#include "../../../../../../boost/spirit/home/classic/core/composite/impl/directives.ipp"
 
 namespace boost { namespace spirit {
 

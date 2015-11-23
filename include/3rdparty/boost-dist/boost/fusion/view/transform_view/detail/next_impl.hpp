@@ -7,8 +7,8 @@
 #if !defined(FUSION_NEXT_IMPL_07162005_1029)
 #define FUSION_NEXT_IMPL_07162005_1029
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/iterator/next.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/fusion/iterator/next.hpp"
 
 namespace boost { namespace fusion
 {

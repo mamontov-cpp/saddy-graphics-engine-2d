@@ -13,11 +13,11 @@
 # ifndef BOOST_PREPROCESSOR_VARIADIC_HPP
 # define BOOST_PREPROCESSOR_VARIADIC_HPP
 #
-# include <boost/preprocessor/variadic/elem.hpp>
-# include <boost/preprocessor/variadic/size.hpp>
-# include <boost/preprocessor/variadic/to_array.hpp>
-# include <boost/preprocessor/variadic/to_list.hpp>
-# include <boost/preprocessor/variadic/to_seq.hpp>
-# include <boost/preprocessor/variadic/to_tuple.hpp>
+#include "../../boost/preprocessor/variadic/elem.hpp"
+#include "../../boost/preprocessor/variadic/size.hpp"
+#include "../../boost/preprocessor/variadic/to_array.hpp"
+#include "../../boost/preprocessor/variadic/to_list.hpp"
+#include "../../boost/preprocessor/variadic/to_seq.hpp"
+#include "../../boost/preprocessor/variadic/to_tuple.hpp"
 #
 # endif

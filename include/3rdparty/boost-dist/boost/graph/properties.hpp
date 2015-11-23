@@ -10,22 +10,22 @@
 #ifndef BOOST_GRAPH_PROPERTIES_HPP
 #define BOOST_GRAPH_PROPERTIES_HPP
 
-#include <boost/config.hpp>
-#include <boost/assert.hpp>
-#include <boost/pending/property.hpp>
-#include <boost/detail/workaround.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/assert.hpp"
+#include "../../boost/pending/property.hpp"
+#include "../../boost/detail/workaround.hpp"
 
 // Include the property map library and extensions in the BGL.
-#include <boost/property_map/property_map.hpp>
-#include <boost/graph/property_maps/constant_property_map.hpp>
-#include <boost/graph/property_maps/null_property_map.hpp>
+#include "../../boost/property_map/property_map.hpp"
+#include "../../boost/graph/property_maps/constant_property_map.hpp"
+#include "../../boost/graph/property_maps/null_property_map.hpp"
 
-#include <boost/graph/graph_traits.hpp>
-#include <boost/type_traits.hpp>
-#include <boost/limits.hpp>
-#include <boost/mpl/and.hpp>
-#include <boost/mpl/not.hpp>
-#include <boost/mpl/if.hpp>
+#include "../../boost/graph/graph_traits.hpp"
+#include "../../boost/type_traits.hpp"
+#include "../../boost/limits.hpp"
+#include "../../boost/mpl/and.hpp"
+#include "../../boost/mpl/not.hpp"
+#include "../../boost/mpl/if.hpp"
 
 namespace boost {
 

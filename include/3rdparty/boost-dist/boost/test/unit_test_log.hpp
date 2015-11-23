@@ -15,22 +15,22 @@
 #define BOOST_TEST_UNIT_TEST_LOG_HPP_071894GER
 
 // Boost.Test
-#include <boost/test/tree/observer.hpp>
+#include "../../boost/test/tree/observer.hpp"
 
-#include <boost/test/detail/global_typedef.hpp>
-#include <boost/test/detail/log_level.hpp>
-#include <boost/test/detail/fwd_decl.hpp>
+#include "../../boost/test/detail/global_typedef.hpp"
+#include "../../boost/test/detail/log_level.hpp"
+#include "../../boost/test/detail/fwd_decl.hpp"
 
-#include <boost/test/utils/wrap_stringstream.hpp>
-#include <boost/test/utils/trivial_singleton.hpp>
-#include <boost/test/utils/lazy_ostream.hpp>
+#include "../../boost/test/utils/wrap_stringstream.hpp"
+#include "../../boost/test/utils/trivial_singleton.hpp"
+#include "../../boost/test/utils/lazy_ostream.hpp"
 
 // Boost
 
 // STL
 #include <iosfwd>   // for std::ostream&
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -166,7 +166,7 @@ BOOST_TEST_SINGLETON_INST( unit_test_log )
 
 //____________________________________________________________________________//
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_UNIT_TEST_LOG_HPP_071894GER
 

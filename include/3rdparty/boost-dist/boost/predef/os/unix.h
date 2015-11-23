@@ -8,8 +8,8 @@ http://www.boost.org/LICENSE_1_0.txt)
 #ifndef BOOST_PREDEF_OS_UNIX_H
 #define BOOST_PREDEF_OS_UNIX_H
 
-#include <boost/predef/version_number.h>
-#include <boost/predef/make.h>
+#include "../../../boost/predef/version_number.h"
+#include "../../../boost/predef/make.h"
 
 /*`
 [heading `BOOST_OS_UNIX`]
@@ -71,6 +71,6 @@ http://www.boost.org/LICENSE_1_0.txt)
 
 #endif
 
-#include <boost/predef/detail/test.h>
+#include "../../../boost/predef/detail/test.h"
 BOOST_PREDEF_DECLARE_TEST(BOOST_OS_UNIX,BOOST_OS_UNIX_NAME)
 BOOST_PREDEF_DECLARE_TEST(BOOST_OS_SVR4,BOOST_OS_SVR4_NAME)

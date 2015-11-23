@@ -15,8 +15,8 @@
 # pragma once
 #endif
 
-#include <boost/range/reverse_iterator.hpp>
-#include <boost/type_traits/remove_reference.hpp>
+#include "../../boost/range/reverse_iterator.hpp"
+#include "../../boost/type_traits/remove_reference.hpp"
 
 namespace boost
 {

@@ -1,6 +1,6 @@
 #if !defined(BOOST_PROTO_DONT_USE_PREPROCESSED_FILES)
 
-    #include <boost/proto/transform/detail/preprocessed/pack_impl.hpp>
+    #include "../../../../boost/proto/transform/detail/preprocessed/pack_impl.hpp"
 
 #elif !defined(BOOST_PP_IS_ITERATING)
 

@@ -17,8 +17,8 @@
 #   error "this file used with two-pass preprocessing, only"
 #endif
 
-#include <boost/preprocessor/slot/slot.hpp>
-#include <boost/function_types/detail/encoding/def.hpp>
+#include "../../../../boost/preprocessor/slot/slot.hpp"
+#include "../../../../boost/function_types/detail/encoding/def.hpp"
 
 namespace boost { namespace function_types {
 

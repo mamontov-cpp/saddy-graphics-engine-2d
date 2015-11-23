@@ -8,10 +8,10 @@ http://www.boost.org/LICENSE_1_0.txt)
 #ifndef BOOST_PREDEF_LIBRARY_STD_CXX_H
 #define BOOST_PREDEF_LIBRARY_STD_CXX_H
 
-#include <boost/predef/library/std/_prefix.h>
+#include "../../../../boost/predef/library/std/_prefix.h"
 
-#include <boost/predef/version_number.h>
-#include <boost/predef/make.h>
+#include "../../../../boost/predef/version_number.h"
+#include "../../../../boost/predef/make.h"
 
 /*`
 [heading `BOOST_LIB_STD_CXX`]
@@ -42,5 +42,5 @@ http://www.boost.org/LICENSE_1_0.txt)
 
 #endif
 
-#include <boost/predef/detail/test.h>
+#include "../../../../boost/predef/detail/test.h"
 BOOST_PREDEF_DECLARE_TEST(BOOST_LIB_STD_CXX,BOOST_LIB_STD_CXX_NAME)

@@ -13,7 +13,7 @@
 #ifndef BOOST_NONE_17SEP2003_HPP
 #define BOOST_NONE_17SEP2003_HPP
 
-#include "boost/none_t.hpp"
+#include "../boost/none_t.hpp"
 
 // NOTE: Borland users have to include this header outside any precompiled headers
 // (bcc<=5.64 cannot include instance data in a precompiled header)

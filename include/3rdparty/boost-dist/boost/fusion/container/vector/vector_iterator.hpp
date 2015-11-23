@@ -7,17 +7,17 @@
 #if !defined(FUSION_VECTOR_ITERATOR_05042005_0635)
 #define FUSION_VECTOR_ITERATOR_05042005_0635
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/support/iterator_base.hpp>
-#include <boost/fusion/container/vector/detail/deref_impl.hpp>
-#include <boost/fusion/container/vector/detail/value_of_impl.hpp>
-#include <boost/fusion/container/vector/detail/next_impl.hpp>
-#include <boost/fusion/container/vector/detail/prior_impl.hpp>
-#include <boost/fusion/container/vector/detail/equal_to_impl.hpp>
-#include <boost/fusion/container/vector/detail/distance_impl.hpp>
-#include <boost/fusion/container/vector/detail/advance_impl.hpp>
-#include <boost/type_traits/add_const.hpp>
-#include <boost/mpl/int.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/fusion/support/iterator_base.hpp"
+#include "../../../../boost/fusion/container/vector/detail/deref_impl.hpp"
+#include "../../../../boost/fusion/container/vector/detail/value_of_impl.hpp"
+#include "../../../../boost/fusion/container/vector/detail/next_impl.hpp"
+#include "../../../../boost/fusion/container/vector/detail/prior_impl.hpp"
+#include "../../../../boost/fusion/container/vector/detail/equal_to_impl.hpp"
+#include "../../../../boost/fusion/container/vector/detail/distance_impl.hpp"
+#include "../../../../boost/fusion/container/vector/detail/advance_impl.hpp"
+#include "../../../../boost/type_traits/add_const.hpp"
+#include "../../../../boost/mpl/int.hpp"
 
 namespace boost { namespace fusion
 {

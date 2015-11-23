@@ -16,26 +16,26 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../boost/config.hpp"
 
-#include <boost/bimap/detail/user_interface_config.hpp>
+#include "../../boost/bimap/detail/user_interface_config.hpp"
 
-#include <boost/mpl/bool.hpp>
+#include "../../boost/mpl/bool.hpp"
 
-#include <boost/concept_check.hpp>
+#include "../../boost/concept_check.hpp"
 
-#include <boost/bimap/detail/concept_tags.hpp>
+#include "../../boost/bimap/detail/concept_tags.hpp"
 
-#include <boost/bimap/tags/support/value_type_of.hpp>
+#include "../../boost/bimap/tags/support/value_type_of.hpp"
 
-#include <boost/bimap/detail/generate_index_binder.hpp>
-#include <boost/bimap/detail/generate_view_binder.hpp>
-#include <boost/bimap/detail/generate_relation_binder.hpp>
+#include "../../boost/bimap/detail/generate_index_binder.hpp"
+#include "../../boost/bimap/detail/generate_view_binder.hpp"
+#include "../../boost/bimap/detail/generate_relation_binder.hpp"
 
-#include <boost/multi_index/sequenced_index.hpp>
+#include "../../boost/multi_index/sequenced_index.hpp"
 
-#include <boost/bimap/views/list_map_view.hpp>
-#include <boost/bimap/views/list_set_view.hpp>
+#include "../../boost/bimap/views/list_map_view.hpp"
+#include "../../boost/bimap/views/list_set_view.hpp"
 
 namespace boost {
 namespace bimaps {

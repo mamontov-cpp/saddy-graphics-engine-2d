@@ -24,13 +24,13 @@
 // it has to work the same on all platforms in order for archives
 // to be portable accross platforms.
 
-#include <boost/config.hpp>
-#include <boost/static_assert.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/static_assert.hpp"
 
-#include <boost/mpl/int.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/serialization/level_enum.hpp>
-#include <boost/serialization/tracking_enum.hpp>
+#include "../../boost/mpl/int.hpp"
+#include "../../boost/mpl/bool.hpp"
+#include "../../boost/serialization/level_enum.hpp"
+#include "../../boost/serialization/tracking_enum.hpp"
 
 namespace boost {
 namespace serialization {

@@ -9,9 +9,9 @@ http://www.boost.org/LICENSE_1_0.txt)
 #ifndef BOOST_PREDEF_PLAT_WINDOWS_STORE_H
 #define BOOST_PREDEF_PLAT_WINDOWS_STORE_H
 
-#include <boost/predef/version_number.h>
-#include <boost/predef/make.h>
-#include <boost/predef/os/windows.h>
+#include "../../../boost/predef/version_number.h"
+#include "../../../boost/predef/make.h"
+#include "../../../boost/predef/os/windows.h"
 
 /*`
 [heading `BOOST_PLAT_WINDOWS_STORE`]
@@ -32,12 +32,12 @@ http://www.boost.org/LICENSE_1_0.txt)
  
 #if BOOST_PLAT_WINDOWS_STORE
 #   define BOOST_PLAT_WINDOWS_STORE_AVALIABLE
-#   include <boost/predef/detail/platform_detected.h>
+#include "../../../boost/predef/detail/platform_detected.h"
 #endif
 
 #define BOOST_PLAT_WINDOWS_STORE_NAME "Windows Store"
 
 #endif
 
-#include <boost/predef/detail/test.h>
+#include "../../../boost/predef/detail/test.h"
 BOOST_PREDEF_DECLARE_TEST(BOOST_PLAT_WINDOWS_STORE,BOOST_PLAT_WINDOWS_STORE_NAME)

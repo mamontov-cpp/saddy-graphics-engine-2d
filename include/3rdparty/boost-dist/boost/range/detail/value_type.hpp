@@ -11,9 +11,9 @@
 #ifndef BOOST_RANGE_DETAIL_VALUE_TYPE_HPP
 #define BOOST_RANGE_DETAIL_VALUE_TYPE_HPP
 
-#include <boost/range/detail/common.hpp>
-#include <boost/range/detail/remove_extent.hpp>
-#include <boost/iterator/iterator_traits.hpp>
+#include "../../../boost/range/detail/common.hpp"
+#include "../../../boost/range/detail/remove_extent.hpp"
+#include "../../../boost/iterator/iterator_traits.hpp"
 
 //////////////////////////////////////////////////////////////////////////////
 // missing partial specialization  workaround.

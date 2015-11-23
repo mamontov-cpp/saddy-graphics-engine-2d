@@ -6,9 +6,9 @@
 #ifndef BOOST_TYPE_TRAITS_INTEGRAL_CONSTANT_HPP
 #define BOOST_TYPE_TRAITS_INTEGRAL_CONSTANT_HPP
 
-#include <boost/config.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/integral_c.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/mpl/bool.hpp"
+#include "../../boost/mpl/integral_c.hpp"
 
 namespace boost{
 

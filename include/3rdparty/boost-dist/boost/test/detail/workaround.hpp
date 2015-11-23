@@ -13,12 +13,12 @@
 #define BOOST_TEST_WORKAROUND_HPP_021005GER
 
 // Boost
-#include <boost/config.hpp> // compilers workarounds and std::ptrdiff_t
+#include "../../../boost/config.hpp" // compilers workarounds and std::ptrdiff_t
 
 // STL
 #include <iterator>     // for std::distance
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -51,6 +51,6 @@ template <class T> inline void ignore_unused_variable_warning(const T&) {}
 
 //____________________________________________________________________________//
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_WORKAROUND_HPP_021005GER

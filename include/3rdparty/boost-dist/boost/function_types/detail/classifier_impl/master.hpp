@@ -12,7 +12,7 @@
 
 #   ifndef BOOST_FT_DETAIL_CLASSIFIER_IMPL_MASTER_HPP_INCLUDED
 #   define BOOST_FT_DETAIL_CLASSIFIER_IMPL_MASTER_HPP_INCLUDED
-#     include <boost/preprocessor/facilities/identity.hpp>
+#include "../../../../boost/preprocessor/facilities/identity.hpp"
 #   endif
 
 #   define BOOST_FT_type_name

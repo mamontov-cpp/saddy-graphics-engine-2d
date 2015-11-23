@@ -7,8 +7,8 @@
 #if !defined(FUSION_BEGIN_IMPL_05042005_1136)
 #define FUSION_BEGIN_IMPL_05042005_1136
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/container/vector/vector_iterator.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/fusion/container/vector/vector_iterator.hpp"
 
 namespace boost { namespace fusion
 {

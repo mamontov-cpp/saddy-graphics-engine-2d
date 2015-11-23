@@ -7,18 +7,18 @@
 # ifndef INVOKE_DWA20021122_HPP
 #  define INVOKE_DWA20021122_HPP
 
-#  include <boost/python/detail/prefix.hpp>
-#  include <boost/python/detail/preprocessor.hpp>
-#  include <boost/python/detail/none.hpp>
+#include "../../../boost/python/detail/prefix.hpp"
+#include "../../../boost/python/detail/preprocessor.hpp"
+#include "../../../boost/python/detail/none.hpp"
 
-#  include <boost/type_traits/is_member_function_pointer.hpp>
+#include "../../../boost/type_traits/is_member_function_pointer.hpp"
 
-#  include <boost/preprocessor/iterate.hpp>
-#  include <boost/preprocessor/facilities/intercept.hpp>
-#  include <boost/preprocessor/repetition/enum_trailing_params.hpp>
-#  include <boost/preprocessor/repetition/enum_trailing_binary_params.hpp>
-#  include <boost/preprocessor/repetition/enum_binary_params.hpp>
-#  include <boost/python/to_python_value.hpp>
+#include "../../../boost/preprocessor/iterate.hpp"
+#include "../../../boost/preprocessor/facilities/intercept.hpp"
+#include "../../../boost/preprocessor/repetition/enum_trailing_params.hpp"
+#include "../../../boost/preprocessor/repetition/enum_trailing_binary_params.hpp"
+#include "../../../boost/preprocessor/repetition/enum_binary_params.hpp"
+#include "../../../boost/python/to_python_value.hpp"
 
 // This file declares a series of overloaded invoke(...)  functions,
 // used to invoke wrapped C++ function (object)s from Python. Each one

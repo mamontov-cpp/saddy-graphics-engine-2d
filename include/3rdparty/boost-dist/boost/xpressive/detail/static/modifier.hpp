@@ -16,9 +16,9 @@
 # pragma warning(disable : 4610) // user defined constructor required
 #endif
 
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/proto/traits.hpp>
-#include <boost/xpressive/regex_constants.hpp>
+#include "../../../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../../../boost/proto/traits.hpp"
+#include "../../../../boost/xpressive/regex_constants.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

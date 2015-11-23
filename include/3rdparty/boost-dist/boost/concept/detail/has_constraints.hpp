@@ -4,9 +4,9 @@
 #ifndef BOOST_CONCEPT_DETAIL_HAS_CONSTRAINTS_DWA2006429_HPP
 # define BOOST_CONCEPT_DETAIL_HAS_CONSTRAINTS_DWA2006429_HPP
 
-# include <boost/mpl/bool.hpp>
-# include <boost/detail/workaround.hpp>
-# include <boost/concept/detail/backward_compatibility.hpp>
+#include "../../../boost/mpl/bool.hpp"
+#include "../../../boost/detail/workaround.hpp"
+#include "../../../boost/concept/detail/backward_compatibility.hpp"
 
 namespace boost { namespace concepts {
 

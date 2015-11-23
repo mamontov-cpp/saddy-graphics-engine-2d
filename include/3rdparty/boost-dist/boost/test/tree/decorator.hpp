@@ -16,22 +16,22 @@
 #define BOOST_TEST_TREE_DECORATOR_HPP_091911GER
 
 // Boost.Test
-#include <boost/test/detail/config.hpp>
-#include <boost/test/detail/global_typedef.hpp>
+#include "../../../boost/test/detail/config.hpp"
+#include "../../../boost/test/detail/global_typedef.hpp"
 
-#include <boost/test/tree/fixture.hpp>
+#include "../../../boost/test/tree/fixture.hpp"
 
-#include <boost/test/tools/assertion_result.hpp>
+#include "../../../boost/test/tools/assertion_result.hpp"
 
-#include <boost/test/utils/basic_cstring/basic_cstring.hpp>
-#include <boost/test/utils/trivial_singleton.hpp>
+#include "../../../boost/test/utils/basic_cstring/basic_cstring.hpp"
+#include "../../../boost/test/utils/trivial_singleton.hpp"
 
 // Boost
-#include <boost/shared_ptr.hpp>
-#include <boost/function/function0.hpp>
-#include <boost/function/function1.hpp>
+#include "../../../boost/shared_ptr.hpp"
+#include "../../../boost/function/function0.hpp"
+#include "../../../boost/function/function1.hpp"
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 // STL
 #include <vector>
@@ -272,6 +272,6 @@ using decorator::precondition;
 } // namespace unit_test
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_TREE_DECORATOR_HPP_091911GER

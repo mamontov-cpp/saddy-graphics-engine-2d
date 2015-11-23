@@ -4,14 +4,14 @@
 // http://www.boost.org/LICENSE_1_0.txt)
 #ifndef BUILTIN_CONVERTERS_DWA2002124_HPP
 # define BUILTIN_CONVERTERS_DWA2002124_HPP
-# include <boost/python/detail/prefix.hpp>
-# include <boost/python/detail/none.hpp>
-# include <boost/python/handle.hpp>
-# include <boost/python/ssize_t.hpp>
-# include <boost/implicit_cast.hpp>
+#include "../../../boost/python/detail/prefix.hpp"
+#include "../../../boost/python/detail/none.hpp"
+#include "../../../boost/python/handle.hpp"
+#include "../../../boost/python/ssize_t.hpp"
+#include "../../../boost/implicit_cast.hpp"
 # include <string>
 # include <complex>
-# include <boost/limits.hpp>
+#include "../../../boost/limits.hpp"
 
 // Since all we can use to decide how to convert an object to_python
 // is its C++ type, there can be only one such converter for each

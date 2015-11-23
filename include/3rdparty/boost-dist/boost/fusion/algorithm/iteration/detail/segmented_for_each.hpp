@@ -7,11 +7,11 @@
 #if !defined(BOOST_FUSION_SEGMENTED_FOR_EACH_HPP_INCLUDED)
 #define BOOST_FUSION_SEGMENTED_FOR_EACH_HPP_INCLUDED
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/fusion/support/void.hpp>
-#include <boost/fusion/algorithm/iteration/for_each_fwd.hpp>
-#include <boost/fusion/support/segmented_fold_until.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/mpl/bool.hpp"
+#include "../../../../../boost/fusion/support/void.hpp"
+#include "../../../../../boost/fusion/algorithm/iteration/for_each_fwd.hpp"
+#include "../../../../../boost/fusion/support/segmented_fold_until.hpp"
 
 namespace boost { namespace fusion { namespace detail
 {

@@ -13,16 +13,16 @@
 # pragma once
 #endif
 
-#include <boost/assert.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/xpressive/regex_error.hpp>
-#include <boost/xpressive/regex_constants.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/detail/core/quant_style.hpp>
-#include <boost/xpressive/detail/core/state.hpp>
-#include <boost/xpressive/detail/core/regex_impl.hpp>
-#include <boost/xpressive/detail/core/adaptor.hpp>
+#include "../../../../../boost/assert.hpp"
+#include "../../../../../boost/mpl/assert.hpp"
+#include "../../../../../boost/shared_ptr.hpp"
+#include "../../../../../boost/xpressive/regex_error.hpp"
+#include "../../../../../boost/xpressive/regex_constants.hpp"
+#include "../../../../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../../../../boost/xpressive/detail/core/quant_style.hpp"
+#include "../../../../../boost/xpressive/detail/core/state.hpp"
+#include "../../../../../boost/xpressive/detail/core/regex_impl.hpp"
+#include "../../../../../boost/xpressive/detail/core/adaptor.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

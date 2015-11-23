@@ -10,22 +10,22 @@
 #ifndef BOOST_GRAPH_TRAITS_HPP
 #define BOOST_GRAPH_TRAITS_HPP
 
-#include <boost/config.hpp>
+#include "../../boost/config.hpp"
 #include <iterator>
 #include <utility> /* Primarily for std::pair */
-#include <boost/tuple/tuple.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/not.hpp>
-#include <boost/mpl/has_xxx.hpp>
-#include <boost/mpl/void.hpp>
-#include <boost/mpl/identity.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/iterator/iterator_categories.hpp>
-#include <boost/iterator/iterator_adaptor.hpp>
-#include <boost/pending/property.hpp>
-#include <boost/detail/workaround.hpp>
+#include "../../boost/tuple/tuple.hpp"
+#include "../../boost/mpl/if.hpp"
+#include "../../boost/mpl/eval_if.hpp"
+#include "../../boost/mpl/bool.hpp"
+#include "../../boost/mpl/not.hpp"
+#include "../../boost/mpl/has_xxx.hpp"
+#include "../../boost/mpl/void.hpp"
+#include "../../boost/mpl/identity.hpp"
+#include "../../boost/type_traits/is_same.hpp"
+#include "../../boost/iterator/iterator_categories.hpp"
+#include "../../boost/iterator/iterator_adaptor.hpp"
+#include "../../boost/pending/property.hpp"
+#include "../../boost/detail/workaround.hpp"
 
 namespace boost {
 

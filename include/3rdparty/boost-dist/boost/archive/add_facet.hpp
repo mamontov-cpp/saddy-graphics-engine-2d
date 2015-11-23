@@ -17,8 +17,8 @@
 //  See http://www.boost.org for updates, documentation, and revision history.
 
 #include <locale>
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/detail/workaround.hpp"
 
 // does STLport uses native STL for locales?
 #if (defined(__SGI_STL_PORT)&& defined(_STLP_NO_OWN_IOSTREAMS))

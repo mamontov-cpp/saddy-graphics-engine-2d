@@ -10,8 +10,8 @@
 #  pragma warning (disable : 4675) // suppress ADL warning
 #endif
 
-#include <boost/config.hpp>
-#include <boost/serialization/strong_typedef.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/serialization/strong_typedef.hpp"
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
 // serialization.hpp: interface for serialization system.
@@ -40,7 +40,7 @@
 // this is what permits us to grant access to private class member functions
 // by specifying friend class boost::serialization::access
 
-#include <boost/serialization/access.hpp>
+#include "../../boost/serialization/access.hpp"
 
 /////////////////////////////////////////////////////////////////////////////
 // layer 2 - default implementation of non-intrusive serialization.

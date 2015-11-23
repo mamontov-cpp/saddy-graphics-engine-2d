@@ -4,9 +4,9 @@
 #ifndef WRAPPER_BASE_DWA2004722_HPP
 # define WRAPPER_BASE_DWA2004722_HPP
 
-# include <boost/python/detail/prefix.hpp>
-# include <boost/type_traits/is_polymorphic.hpp>
-# include <boost/mpl/bool.hpp>
+#include "../../../boost/python/detail/prefix.hpp"
+#include "../../../boost/type_traits/is_polymorphic.hpp"
+#include "../../../boost/mpl/bool.hpp"
 
 namespace boost { namespace python {
 

@@ -5,25 +5,25 @@
 #ifndef ARG_FROM_PYTHON_DWA2002127_HPP
 # define ARG_FROM_PYTHON_DWA2002127_HPP
 
-# include <boost/python/detail/prefix.hpp>
-# include <boost/python/converter/from_python.hpp>
-# include <boost/python/detail/indirect_traits.hpp>
-# include <boost/type_traits/transform_traits.hpp>
-# include <boost/type_traits/cv_traits.hpp>
-# include <boost/python/converter/rvalue_from_python_data.hpp>
-# include <boost/mpl/eval_if.hpp>
-# include <boost/mpl/if.hpp>
-# include <boost/mpl/identity.hpp>
-# include <boost/mpl/and.hpp>
-# include <boost/mpl/or.hpp>
-# include <boost/mpl/not.hpp>
-# include <boost/python/converter/registry.hpp>
-# include <boost/python/converter/registered.hpp>
-# include <boost/python/converter/registered_pointee.hpp>
-# include <boost/python/detail/void_ptr.hpp>
-# include <boost/python/back_reference.hpp>
-# include <boost/python/detail/referent_storage.hpp>
-# include <boost/python/converter/obj_mgr_arg_from_python.hpp>
+#include "../../../boost/python/detail/prefix.hpp"
+#include "../../../boost/python/converter/from_python.hpp"
+#include "../../../boost/python/detail/indirect_traits.hpp"
+#include "../../../boost/type_traits/transform_traits.hpp"
+#include "../../../boost/type_traits/cv_traits.hpp"
+#include "../../../boost/python/converter/rvalue_from_python_data.hpp"
+#include "../../../boost/mpl/eval_if.hpp"
+#include "../../../boost/mpl/if.hpp"
+#include "../../../boost/mpl/identity.hpp"
+#include "../../../boost/mpl/and.hpp"
+#include "../../../boost/mpl/or.hpp"
+#include "../../../boost/mpl/not.hpp"
+#include "../../../boost/python/converter/registry.hpp"
+#include "../../../boost/python/converter/registered.hpp"
+#include "../../../boost/python/converter/registered_pointee.hpp"
+#include "../../../boost/python/detail/void_ptr.hpp"
+#include "../../../boost/python/back_reference.hpp"
+#include "../../../boost/python/detail/referent_storage.hpp"
+#include "../../../boost/python/converter/obj_mgr_arg_from_python.hpp"
 
 namespace boost { namespace python
 {

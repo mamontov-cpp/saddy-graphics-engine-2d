@@ -7,27 +7,27 @@
 #ifndef BOOST_TRANSFORM_ITERATOR_23022003THW_HPP
 #define BOOST_TRANSFORM_ITERATOR_23022003THW_HPP
 
-#include <boost/iterator.hpp>
-#include <boost/iterator/detail/enable_if.hpp>
-#include <boost/iterator/iterator_adaptor.hpp>
-#include <boost/iterator/iterator_categories.hpp>
-#include <boost/mpl/not.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/type_traits/function_traits.hpp>
-#include <boost/type_traits/is_const.hpp>
-#include <boost/type_traits/is_class.hpp>
-#include <boost/type_traits/is_function.hpp>
-#include <boost/type_traits/is_reference.hpp>
-#include <boost/type_traits/remove_const.hpp>
-#include <boost/type_traits/remove_reference.hpp>
-#include <boost/utility/result_of.hpp>
+#include "../../boost/iterator.hpp"
+#include "../../boost/iterator/detail/enable_if.hpp"
+#include "../../boost/iterator/iterator_adaptor.hpp"
+#include "../../boost/iterator/iterator_categories.hpp"
+#include "../../boost/mpl/not.hpp"
+#include "../../boost/mpl/bool.hpp"
+#include "../../boost/type_traits/function_traits.hpp"
+#include "../../boost/type_traits/is_const.hpp"
+#include "../../boost/type_traits/is_class.hpp"
+#include "../../boost/type_traits/is_function.hpp"
+#include "../../boost/type_traits/is_reference.hpp"
+#include "../../boost/type_traits/remove_const.hpp"
+#include "../../boost/type_traits/remove_reference.hpp"
+#include "../../boost/utility/result_of.hpp"
 
 
 #if BOOST_WORKAROUND(BOOST_MSVC, BOOST_TESTED_AT(1310))
-# include <boost/type_traits/is_base_and_derived.hpp>
+#include "../../boost/type_traits/is_base_and_derived.hpp"
 
 #endif
-#include <boost/iterator/detail/config_def.hpp>
+#include "../../boost/iterator/detail/config_def.hpp"
 
 
 namespace boost {
@@ -166,6 +166,6 @@ using iterators::make_transform_iterator;
 
 } // namespace boost
 
-#include <boost/iterator/detail/config_undef.hpp>
+#include "../../boost/iterator/detail/config_undef.hpp"
 
 #endif // BOOST_TRANSFORM_ITERATOR_23022003THW_HPP

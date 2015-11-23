@@ -10,16 +10,16 @@
 #ifndef BOOST_PROTO_OPERATORS_HPP_EAN_04_01_2005
 #define BOOST_PROTO_OPERATORS_HPP_EAN_04_01_2005
 
-#include <boost/config.hpp>
-#include <boost/preprocessor/punctuation/comma.hpp>
-#include <boost/mpl/logical.hpp>
-#include <boost/utility/enable_if.hpp>
-#include <boost/proto/proto_fwd.hpp>
-#include <boost/proto/tags.hpp>
-#include <boost/proto/domain.hpp>
-#include <boost/proto/matches.hpp>
-#include <boost/proto/generate.hpp>
-#include <boost/proto/make_expr.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/preprocessor/punctuation/comma.hpp"
+#include "../../boost/mpl/logical.hpp"
+#include "../../boost/utility/enable_if.hpp"
+#include "../../boost/proto/proto_fwd.hpp"
+#include "../../boost/proto/tags.hpp"
+#include "../../boost/proto/domain.hpp"
+#include "../../boost/proto/matches.hpp"
+#include "../../boost/proto/generate.hpp"
+#include "../../boost/proto/make_expr.hpp"
 
 #if defined(_MSC_VER)
 # pragma warning(push)

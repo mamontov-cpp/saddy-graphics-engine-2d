@@ -5,11 +5,11 @@
 #ifndef ENUM_DWA200298_HPP
 # define ENUM_DWA200298_HPP
 
-# include <boost/python/detail/prefix.hpp>
+#include "../../boost/python/detail/prefix.hpp"
 
-# include <boost/python/object/enum_base.hpp>
-# include <boost/python/converter/rvalue_from_python_data.hpp>
-# include <boost/python/converter/registered.hpp>
+#include "../../boost/python/object/enum_base.hpp"
+#include "../../boost/python/converter/rvalue_from_python_data.hpp"
+#include "../../boost/python/converter/registered.hpp"
 
 namespace boost { namespace python { 
 

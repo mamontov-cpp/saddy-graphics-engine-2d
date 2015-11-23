@@ -11,9 +11,9 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 #include <algorithm> // for std::lower_bound
-#include <boost/limits.hpp>
-#include <boost/assert.hpp>
-#include <boost/xpressive/detail/utility/chset/range_run.hpp>
+#include "../../../../../boost/limits.hpp"
+#include "../../../../../boost/assert.hpp"
+#include "../../../../../boost/xpressive/detail/utility/chset/range_run.hpp"
 
 ///////////////////////////////////////////////////////////////////////////////
 namespace boost { namespace xpressive { namespace detail

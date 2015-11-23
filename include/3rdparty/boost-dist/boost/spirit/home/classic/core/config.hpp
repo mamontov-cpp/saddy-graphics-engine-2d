@@ -8,7 +8,7 @@
 #if !defined(BOOST_SPIRIT_CONFIG_HPP)
 #define BOOST_SPIRIT_CONFIG_HPP
 
-#include <boost/config.hpp>
+#include "../../../../../boost/config.hpp"
 
 ///////////////////////////////////////////////////////////////////////////////
 //

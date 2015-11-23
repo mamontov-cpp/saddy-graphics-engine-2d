@@ -19,20 +19,20 @@
 #include <ostream>
 #include <cstddef> // std::size_t
 
-#include <boost/config.hpp>
+#include "../../boost/config.hpp"
 #if defined(BOOST_NO_STDC_NAMESPACE)
 namespace std{ 
     using ::size_t; 
 } // namespace std
 #endif
 
-#include <boost/archive/detail/auto_link_archive.hpp>
-#include <boost/archive/basic_text_oprimitive.hpp>
-#include <boost/archive/basic_text_oarchive.hpp>
-#include <boost/archive/detail/register_archive.hpp>
-#include <boost/serialization/item_version_type.hpp>
+#include "../../boost/archive/detail/auto_link_archive.hpp"
+#include "../../boost/archive/basic_text_oprimitive.hpp"
+#include "../../boost/archive/basic_text_oarchive.hpp"
+#include "../../boost/archive/detail/register_archive.hpp"
+#include "../../boost/serialization/item_version_type.hpp"
 
-#include <boost/archive/detail/abi_prefix.hpp> // must be the last header
+#include "../../boost/archive/detail/abi_prefix.hpp" // must be the last header
 
 #ifdef BOOST_MSVC
 #  pragma warning(push)
@@ -124,6 +124,6 @@ BOOST_SERIALIZATION_REGISTER_ARCHIVE(boost::archive::text_oarchive)
 #pragma warning(pop)
 #endif
 
-#include <boost/archive/detail/abi_suffix.hpp> // pops abi_suffix.hpp pragmas
+#include "../../boost/archive/detail/abi_suffix.hpp" // pops abi_suffix.hpp pragmas
 
 #endif // BOOST_ARCHIVE_TEXT_OARCHIVE_HPP

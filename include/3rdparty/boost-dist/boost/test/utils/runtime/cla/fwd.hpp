@@ -16,10 +16,10 @@
 #define BOOST_TEST_UTILS_RUNTIME_CLA_FWD_HPP
 
 // Boost.Runtime.Parameter
-#include <boost/test/utils/runtime/config.hpp>
+#include "../../../../../boost/test/utils/runtime/config.hpp"
 
 // Boost
-#include <boost/shared_ptr.hpp>
+#include "../../../../../boost/shared_ptr.hpp"
 
 namespace boost {
 

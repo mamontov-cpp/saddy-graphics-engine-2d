@@ -18,7 +18,7 @@
 
 #ifdef _MSC_VER
 
-#include <boost/config/compiler/visualc.hpp>
+#include "../../../boost/config/compiler/visualc.hpp"
 
 #if (__INTEL_COMPILER >= 1500) && (_MSC_VER >= 1900)
 //
@@ -34,7 +34,7 @@
 
 #else
 
-#include <boost/config/compiler/gcc.hpp>
+#include "../../../boost/config/compiler/gcc.hpp"
 
 #endif
 
@@ -84,7 +84,7 @@
 
 #else
 
-#include "boost/config/compiler/common_edg.hpp"
+#include "../../../boost/config/compiler/common_edg.hpp"
 
 #if defined(__INTEL_COMPILER)
 #if __INTEL_COMPILER == 9999

@@ -13,9 +13,9 @@
 # ifndef BOOST_PREPROCESSOR_SEQ_TO_LIST_HPP
 # define BOOST_PREPROCESSOR_SEQ_TO_LIST_HPP
 #
-# include <boost/preprocessor/punctuation/comma.hpp>
-# include <boost/preprocessor/punctuation/paren.hpp>
-# include <boost/preprocessor/seq/detail/binary_transform.hpp>
+#include "../../../boost/preprocessor/punctuation/comma.hpp"
+#include "../../../boost/preprocessor/punctuation/paren.hpp"
+#include "../../../boost/preprocessor/seq/detail/binary_transform.hpp"
 #
 # /* BOOST_PP_SEQ_TO_LIST */
 #

@@ -13,8 +13,8 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp> /* keep it first to prevent nasty warns in MSVC */
-#include <boost/mpl/bool.hpp>
+#include "../../../boost/config.hpp" /* keep it first to prevent nasty warns in MSVC */
+#include "../../../boost/mpl/bool.hpp"
 
 namespace boost{
 

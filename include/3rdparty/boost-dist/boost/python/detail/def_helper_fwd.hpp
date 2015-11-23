@@ -5,7 +5,7 @@
 #ifndef DEF_HELPER_FWD_DWA2003810_HPP
 # define DEF_HELPER_FWD_DWA2003810_HPP
 
-# include <boost/python/detail/not_specified.hpp>
+#include "../../../boost/python/detail/not_specified.hpp"
 
 namespace boost { namespace python { namespace detail { 
 

@@ -16,16 +16,16 @@
 #define BOOST_TEST_UTILS_BCS_CHAR_TRAITS_HPP
 
 // Boost
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
-#include <boost/test/detail/config.hpp>
-#include <boost/type_traits/add_const.hpp>
+#include "../../../../boost/config.hpp"
+#include "../../../../boost/detail/workaround.hpp"
+#include "../../../../boost/test/detail/config.hpp"
+#include "../../../../boost/type_traits/add_const.hpp"
 
 // STL
 #include <string>                       // std::char_traits
 #include <cstddef>                      // std::size_t
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -145,6 +145,6 @@ public:
 
 //____________________________________________________________________________//
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_UTILS_BCS_CHAR_TRAITS_HPP

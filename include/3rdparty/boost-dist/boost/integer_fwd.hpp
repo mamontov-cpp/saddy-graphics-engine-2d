@@ -12,9 +12,9 @@
 #include <climits>  // for UCHAR_MAX, etc.
 #include <cstddef>  // for std::size_t
 
-#include <boost/config.hpp>  // for BOOST_NO_INTRINSIC_WCHAR_T
-#include <boost/limits.hpp>  // for std::numeric_limits
-#include <boost/cstdint.hpp>  // For intmax_t
+#include "../boost/config.hpp"  // for BOOST_NO_INTRINSIC_WCHAR_T
+#include "../boost/limits.hpp"  // for std::numeric_limits
+#include "../boost/cstdint.hpp"  // For intmax_t
 
 
 namespace boost

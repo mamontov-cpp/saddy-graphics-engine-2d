@@ -5,9 +5,9 @@
 #ifndef CLASS_DWA20011214_HPP
 # define CLASS_DWA20011214_HPP
 
-# include <boost/python/detail/prefix.hpp>
-# include <boost/python/object_core.hpp>
-# include <boost/python/type_id.hpp>
+#include "../../../boost/python/detail/prefix.hpp"
+#include "../../../boost/python/object_core.hpp"
+#include "../../../boost/python/type_id.hpp"
 # include <cstddef>
 
 namespace boost { namespace python {

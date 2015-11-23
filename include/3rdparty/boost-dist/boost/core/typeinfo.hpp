@@ -15,11 +15,11 @@
 //  See accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
 
-#include <boost/config.hpp>
+#include "../../boost/config.hpp"
 
 #if defined( BOOST_NO_TYPEID )
 
-#include <boost/current_function.hpp>
+#include "../../boost/current_function.hpp"
 #include <functional>
 
 namespace boost
@@ -116,7 +116,7 @@ template<class T> struct core_typeid_< T const volatile >: core_typeid_< T >
 
 #else
 
-#include <boost/core/demangle.hpp>
+#include "../../boost/core/demangle.hpp"
 #include <typeinfo>
 
 namespace boost

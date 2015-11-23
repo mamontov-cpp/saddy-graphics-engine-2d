@@ -7,24 +7,24 @@
 #if !defined(FUSION_FILTER_VIEW_ITERATOR_05062005_0849)
 #define FUSION_FILTER_VIEW_ITERATOR_05062005_0849
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/iterator/mpl/convert_iterator.hpp>
-#include <boost/fusion/adapted/mpl/mpl_iterator.hpp>
-#include <boost/fusion/iterator/value_of.hpp>
-#include <boost/fusion/support/iterator_base.hpp>
-#include <boost/fusion/algorithm/query/detail/find_if.hpp>
-#include <boost/mpl/lambda.hpp>
-#include <boost/mpl/quote.hpp>
-#include <boost/mpl/bind.hpp>
-#include <boost/mpl/placeholders.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/fusion/iterator/mpl/convert_iterator.hpp"
+#include "../../../../boost/fusion/adapted/mpl/mpl_iterator.hpp"
+#include "../../../../boost/fusion/iterator/value_of.hpp"
+#include "../../../../boost/fusion/support/iterator_base.hpp"
+#include "../../../../boost/fusion/algorithm/query/detail/find_if.hpp"
+#include "../../../../boost/mpl/lambda.hpp"
+#include "../../../../boost/mpl/quote.hpp"
+#include "../../../../boost/mpl/bind.hpp"
+#include "../../../../boost/mpl/placeholders.hpp"
 
-#include <boost/fusion/view/filter_view/detail/deref_impl.hpp>
-#include <boost/fusion/view/filter_view/detail/next_impl.hpp>
-#include <boost/fusion/view/filter_view/detail/value_of_impl.hpp>
-#include <boost/fusion/view/filter_view/detail/equal_to_impl.hpp>
-#include <boost/fusion/view/filter_view/detail/deref_data_impl.hpp>
-#include <boost/fusion/view/filter_view/detail/value_of_data_impl.hpp>
-#include <boost/fusion/view/filter_view/detail/key_of_impl.hpp>
+#include "../../../../boost/fusion/view/filter_view/detail/deref_impl.hpp"
+#include "../../../../boost/fusion/view/filter_view/detail/next_impl.hpp"
+#include "../../../../boost/fusion/view/filter_view/detail/value_of_impl.hpp"
+#include "../../../../boost/fusion/view/filter_view/detail/equal_to_impl.hpp"
+#include "../../../../boost/fusion/view/filter_view/detail/deref_data_impl.hpp"
+#include "../../../../boost/fusion/view/filter_view/detail/value_of_data_impl.hpp"
+#include "../../../../boost/fusion/view/filter_view/detail/key_of_impl.hpp"
 
 namespace boost { namespace fusion
 {

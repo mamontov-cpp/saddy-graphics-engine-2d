@@ -6,7 +6,7 @@
 # define MSVC_TYPEINFO_DWA200222_HPP
 
 #include <typeinfo>
-#include <boost/type.hpp>
+#include "../../../boost/type.hpp"
 
 //
 // Fix for icc's broken typeid() implementation which doesn't strip

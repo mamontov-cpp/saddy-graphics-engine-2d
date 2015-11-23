@@ -17,7 +17,7 @@
 #define BOOST_TEST_UTILS_WRAP_STRINGSTREAM_HPP
 
 // Boost.Test
-#include <boost/test/detail/config.hpp>
+#include "../../../boost/test/detail/config.hpp"
 
 // STL
 #ifdef BOOST_NO_STRINGSTREAM
@@ -26,7 +26,7 @@
 #include <sstream>          // for std::ostringstream
 #endif // BOOST_NO_STRINGSTREAM
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -157,6 +157,6 @@ typedef basic_wrap_stringstream<wchar_t>    wrap_wstringstream;
 
 }  // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif  // BOOST_TEST_UTILS_WRAP_STRINGSTREAM_HPP

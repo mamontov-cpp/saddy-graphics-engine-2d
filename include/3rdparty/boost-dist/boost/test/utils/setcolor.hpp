@@ -16,13 +16,13 @@
 #define BOOST_TEST_UTILS_SETCOLOR_HPP
 
 // Boost.Test
-#include <boost/test/detail/config.hpp>
+#include "../../../boost/test/detail/config.hpp"
 
 // STL
 #include <iostream>
 #include <cstdio>
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -112,6 +112,6 @@ private:
 } // namespace unit_test
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_UTILS_SETCOLOR_HPP

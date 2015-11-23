@@ -14,8 +14,8 @@
 #ifndef BOOST_GRAPH_OVERLOADING_HPP
 #define BOOST_GRAPH_OVERLOADING_HPP
 
-#include <boost/type_traits/is_base_and_derived.hpp>
-#include <boost/utility/enable_if.hpp>
+#include "../../boost/type_traits/is_base_and_derived.hpp"
+#include "../../boost/utility/enable_if.hpp"
 
 namespace boost {  namespace graph { namespace detail {
 

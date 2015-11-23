@@ -13,14 +13,14 @@
 # pragma once
 #endif
 
-#include <boost/mpl/sizeof.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/detail/static/static.hpp>
-#include <boost/proto/core.hpp>
-#include <boost/proto/transform/arg.hpp>
-#include <boost/proto/transform/when.hpp>
-#include <boost/proto/transform/fold.hpp>
-#include <boost/proto/transform/fold_tree.hpp>
+#include "../../../../../boost/mpl/sizeof.hpp"
+#include "../../../../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../../../../boost/xpressive/detail/static/static.hpp"
+#include "../../../../../boost/proto/core.hpp"
+#include "../../../../../boost/proto/transform/arg.hpp"
+#include "../../../../../boost/proto/transform/when.hpp"
+#include "../../../../../boost/proto/transform/fold.hpp"
+#include "../../../../../boost/proto/transform/fold_tree.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

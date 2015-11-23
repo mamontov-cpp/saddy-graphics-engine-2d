@@ -19,8 +19,8 @@
 
 #include <string>
 
-#include <boost/config.hpp>
-#include <boost/serialization/level.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/serialization/level.hpp"
 
 BOOST_CLASS_IMPLEMENTATION(std::string, boost::serialization::primitive_type)
 #ifndef BOOST_NO_STD_WSTRING

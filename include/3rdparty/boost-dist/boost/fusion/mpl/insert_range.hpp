@@ -7,11 +7,11 @@
 #if !defined(FUSION_INSERT_RANGE_10022005_1838)
 #define FUSION_INSERT_RANGE_10022005_1838
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/mpl/insert_range.hpp>
-#include <boost/fusion/support/tag_of.hpp>
-#include <boost/fusion/algorithm/transformation/insert_range.hpp>
-#include <boost/fusion/sequence/convert.hpp>
+#include "../../../boost/fusion/support/config.hpp"
+#include "../../../boost/mpl/insert_range.hpp"
+#include "../../../boost/fusion/support/tag_of.hpp"
+#include "../../../boost/fusion/algorithm/transformation/insert_range.hpp"
+#include "../../../boost/fusion/sequence/convert.hpp"
 
 namespace boost { namespace mpl
 {

@@ -8,13 +8,13 @@
 #if !defined(FUSION_NEXT_IMPL_07172005_0836)
 #define FUSION_NEXT_IMPL_07172005_0836
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/iterator/next.hpp>
-#include <boost/fusion/iterator/equal_to.hpp>
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/identity.hpp>
-#include <boost/type_traits/is_const.hpp>
-#include <boost/type_traits/add_const.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/fusion/iterator/next.hpp"
+#include "../../../../../boost/fusion/iterator/equal_to.hpp"
+#include "../../../../../boost/mpl/eval_if.hpp"
+#include "../../../../../boost/mpl/identity.hpp"
+#include "../../../../../boost/type_traits/is_const.hpp"
+#include "../../../../../boost/type_traits/add_const.hpp"
 
 namespace boost { namespace fusion
 {

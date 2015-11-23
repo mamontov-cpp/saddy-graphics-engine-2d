@@ -11,6 +11,6 @@
 //  http://www.boost.org/libs/smart_ptr/scoped_array.htm
 //
 
-#include <boost/smart_ptr/scoped_array.hpp>
+#include "../boost/smart_ptr/scoped_array.hpp"
 
 #endif  // #ifndef BOOST_SCOPED_ARRAY_HPP_INCLUDED

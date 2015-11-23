@@ -6,12 +6,12 @@
 #ifndef BOOST_PROPERTY_HPP
 #define BOOST_PROPERTY_HPP
 
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/has_xxx.hpp>
-#include <boost/utility/enable_if.hpp>
-#include <boost/type_traits.hpp>
-#include <boost/static_assert.hpp>
+#include "../../boost/mpl/bool.hpp"
+#include "../../boost/mpl/if.hpp"
+#include "../../boost/mpl/has_xxx.hpp"
+#include "../../boost/utility/enable_if.hpp"
+#include "../../boost/type_traits.hpp"
+#include "../../boost/static_assert.hpp"
 
 namespace boost {
 
@@ -182,7 +182,7 @@ namespace boost {
 
 } // namespace boost
 
-#include <boost/pending/detail/property.hpp>
+#include "../../boost/pending/detail/property.hpp"
 
 namespace boost {
 

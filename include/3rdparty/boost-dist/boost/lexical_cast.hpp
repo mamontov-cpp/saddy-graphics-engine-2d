@@ -18,7 +18,7 @@
 #ifndef BOOST_LEXICAL_CAST_INCLUDED
 #define BOOST_LEXICAL_CAST_INCLUDED
 
-#include <boost/config.hpp>
+#include "../boost/config.hpp"
 #ifdef BOOST_HAS_PRAGMA_ONCE
 #   pragma once
 #endif
@@ -27,10 +27,10 @@
 #define BOOST_LCAST_NO_WCHAR_T
 #endif
 
-#include <boost/range/iterator_range_core.hpp>
-#include <boost/lexical_cast/bad_lexical_cast.hpp>
-#include <boost/lexical_cast/try_lexical_convert.hpp>
-#include <boost/utility/value_init.hpp>
+#include "../boost/range/iterator_range_core.hpp"
+#include "../boost/lexical_cast/bad_lexical_cast.hpp"
+#include "../boost/lexical_cast/try_lexical_convert.hpp"
+#include "../boost/utility/value_init.hpp"
 
 namespace boost 
 {

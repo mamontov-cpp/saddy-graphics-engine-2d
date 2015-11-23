@@ -43,7 +43,7 @@
 //             namespace boost { namespace program_options {
 //    #define BOOST_UTF8_END_NAMESPACE }}
 //    #define BOOST_UTF8_DECL BOOST_PROGRAM_OPTIONS_DECL
-//    #include <boost/detail/utf8_codecvt_facet.ipp>
+//    #include "../../boost/detail/utf8_codecvt_facet.ipp"
 //
 // Essentially, each library will have its own copy of utf8 code, in
 // different namespaces. 
@@ -83,8 +83,8 @@
 #include <cwchar>   // for mbstate_t
 #include <cstddef>  // for std::size_t
 
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/detail/workaround.hpp"
 
 #if defined(BOOST_NO_STDC_NAMESPACE)
 namespace std {

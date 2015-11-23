@@ -14,11 +14,11 @@
  * \file
  * \brief Defines the BOOST_PROTO_REMOVE_TYPENAME macro
  */
-#include <boost/preprocessor/cat.hpp>
-#include <boost/preprocessor/expand.hpp>
-#include <boost/preprocessor/tuple/eat.hpp>
-#include <boost/preprocessor/control/iif.hpp>
-#include <boost/preprocessor/detail/is_unary.hpp>
+#include "../../../boost/preprocessor/cat.hpp"
+#include "../../../boost/preprocessor/expand.hpp"
+#include "../../../boost/preprocessor/tuple/eat.hpp"
+#include "../../../boost/preprocessor/control/iif.hpp"
+#include "../../../boost/preprocessor/detail/is_unary.hpp"
 
 //==============================================================================
 // Boost.Preprocessor author P. Mensodines confirmed on an Boost email thread

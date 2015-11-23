@@ -13,16 +13,16 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp> /* keep it first to prevent nasty warns in MSVC */
-#include <boost/multi_index/detail/no_duplicate_tags.hpp>
-#include <boost/mpl/identity.hpp>
-#include <boost/mpl/transform.hpp>
-#include <boost/mpl/vector.hpp>
-#include <boost/preprocessor/facilities/intercept.hpp> 
-#include <boost/preprocessor/repetition/enum_binary_params.hpp> 
-#include <boost/preprocessor/repetition/enum_params.hpp> 
-#include <boost/static_assert.hpp>
-#include <boost/type_traits/is_base_and_derived.hpp>
+#include "../../boost/config.hpp" /* keep it first to prevent nasty warns in MSVC */
+#include "../../boost/multi_index/detail/no_duplicate_tags.hpp"
+#include "../../boost/mpl/identity.hpp"
+#include "../../boost/mpl/transform.hpp"
+#include "../../boost/mpl/vector.hpp"
+#include "../../boost/preprocessor/facilities/intercept.hpp" 
+#include "../../boost/preprocessor/repetition/enum_binary_params.hpp" 
+#include "../../boost/preprocessor/repetition/enum_params.hpp" 
+#include "../../boost/static_assert.hpp"
+#include "../../boost/type_traits/is_base_and_derived.hpp"
 
 /* A wrapper of mpl::vector used to hide MPL from the user.
  * tag contains types used as tag names for indices in get() functions.

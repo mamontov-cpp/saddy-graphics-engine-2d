@@ -5,7 +5,7 @@
 #ifndef SCOPE_DWA2002927_HPP
 # define SCOPE_DWA2002927_HPP
 
-# include <boost/python/detail/config.hpp>
+#include "../../../boost/python/detail/config.hpp"
 
 namespace boost { namespace python { namespace detail {
 

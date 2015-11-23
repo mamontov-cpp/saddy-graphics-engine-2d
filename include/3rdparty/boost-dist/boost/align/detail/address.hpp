@@ -9,7 +9,7 @@ http://boost.org/LICENSE_1_0.txt
 #ifndef BOOST_ALIGN_DETAIL_ADDRESS_HPP
 #define BOOST_ALIGN_DETAIL_ADDRESS_HPP
 
-#include <boost/cstdint.hpp>
+#include "../../../boost/cstdint.hpp"
 #include <cstddef>
 
 namespace boost {

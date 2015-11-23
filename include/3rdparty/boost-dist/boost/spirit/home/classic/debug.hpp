@@ -12,7 +12,7 @@
 ///////////////////////////////////////////////////////////////////////////
 #if defined(BOOST_SPIRIT_DEBUG)
 
-#include <boost/spirit/home/classic/version.hpp>
+#include "../../../../boost/spirit/home/classic/version.hpp"
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -142,11 +142,11 @@
     #endif // !defined(BOOST_SPIRIT_DEBUG_TRACE_GRAMMAR_NAME)
 
     //////////////////////////////////
-    #include <boost/spirit/home/classic/debug/debug_node.hpp>
+    #include "../../../../boost/spirit/home/classic/debug/debug_node.hpp"
 
 #else
     //////////////////////////////////
-    #include <boost/spirit/home/classic/debug/minimal.hpp>
+    #include "../../../../boost/spirit/home/classic/debug/minimal.hpp"
 
 #endif // BOOST_SPIRIT_DEBUG
 

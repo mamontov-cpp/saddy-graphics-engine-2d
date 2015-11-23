@@ -10,20 +10,20 @@
 #define BOOST_SPIRIT_RULE_IPP
 
 #if BOOST_SPIRIT_RULE_SCANNERTYPE_LIMIT > 1
-#include <boost/preprocessor/repeat.hpp>
-#include <boost/preprocessor/repeat_from_to.hpp>
-#include <boost/preprocessor/enum_params.hpp>
-#include <boost/preprocessor/enum_params_with_defaults.hpp>
-#include <boost/preprocessor/facilities/intercept.hpp>
-#include <boost/preprocessor/inc.hpp>
-#include <boost/preprocessor/cat.hpp>
+#include "../../../../../../../boost/preprocessor/repeat.hpp"
+#include "../../../../../../../boost/preprocessor/repeat_from_to.hpp"
+#include "../../../../../../../boost/preprocessor/enum_params.hpp"
+#include "../../../../../../../boost/preprocessor/enum_params_with_defaults.hpp"
+#include "../../../../../../../boost/preprocessor/facilities/intercept.hpp"
+#include "../../../../../../../boost/preprocessor/inc.hpp"
+#include "../../../../../../../boost/preprocessor/cat.hpp"
 #endif
 
-#include <boost/spirit/home/classic/core/parser.hpp>
-#include <boost/spirit/home/classic/core/scanner/scanner.hpp>
-#include <boost/spirit/home/classic/core/non_terminal/parser_context.hpp>
-#include <boost/spirit/home/classic/core/non_terminal/parser_id.hpp>
-#include <boost/type_traits/is_base_and_derived.hpp>
+#include "../../../../../../../boost/spirit/home/classic/core/parser.hpp"
+#include "../../../../../../../boost/spirit/home/classic/core/scanner/scanner.hpp"
+#include "../../../../../../../boost/spirit/home/classic/core/non_terminal/parser_context.hpp"
+#include "../../../../../../../boost/spirit/home/classic/core/non_terminal/parser_id.hpp"
+#include "../../../../../../../boost/type_traits/is_base_and_derived.hpp"
 
 ///////////////////////////////////////////////////////////////////////////////
 namespace boost { namespace spirit {

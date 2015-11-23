@@ -16,14 +16,14 @@
 #define BOOST_TEST_TREE_FIXTURE_HPP_100311GER
 
 // Boost.Test
-#include <boost/test/detail/config.hpp>
+#include "../../../boost/test/detail/config.hpp"
 
 // Boost
-#include <boost/shared_ptr.hpp>
-#include <boost/scoped_ptr.hpp>
-#include <boost/function/function0.hpp>
+#include "../../../boost/shared_ptr.hpp"
+#include "../../../boost/scoped_ptr.hpp"
+#include "../../../boost/function/function0.hpp"
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -110,7 +110,7 @@ private:
 } // namespace unit_test
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_TREE_FIXTURE_HPP_100311GER
 

@@ -16,13 +16,13 @@
 #define BOOST_TEST_TOOLS_DETAIL_FWD_HPP_012705GER
 
 // Boost.Test
-#include <boost/test/detail/config.hpp>
-#include <boost/test/utils/basic_cstring/io.hpp>
+#include "../../../../boost/test/detail/config.hpp"
+#include "../../../../boost/test/utils/basic_cstring/io.hpp"
 
 // STL
 #include <cstddef>          // for std::size_t
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -116,6 +116,6 @@ equal_impl( char const* left, char const* right );
 } // namespace test_tools
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_TOOLS_DETAIL_FWD_HPP_012705GER

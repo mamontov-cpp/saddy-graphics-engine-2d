@@ -12,6 +12,6 @@
 #ifndef BOOST_DYNAMIC_BITSET_HPP
 #define BOOST_DYNAMIC_BITSET_HPP
 
-#include "boost/dynamic_bitset/dynamic_bitset.hpp"
+#include "../boost/dynamic_bitset/dynamic_bitset.hpp"
 
 #endif // include guard

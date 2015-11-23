@@ -12,24 +12,24 @@
 #ifndef BOOST_MPI_REDUCE_HPP
 #define BOOST_MPI_REDUCE_HPP
 
-#include <boost/mpi/exception.hpp>
-#include <boost/mpi/datatype.hpp>
+#include "../../../boost/mpi/exception.hpp"
+#include "../../../boost/mpi/datatype.hpp"
 
 // For (de-)serializing sends and receives
-#include <boost/mpi/packed_oarchive.hpp>
-#include <boost/mpi/packed_iarchive.hpp>
+#include "../../../boost/mpi/packed_oarchive.hpp"
+#include "../../../boost/mpi/packed_iarchive.hpp"
 
 // For packed_[io]archive sends and receives
-#include <boost/mpi/detail/point_to_point.hpp>
+#include "../../../boost/mpi/detail/point_to_point.hpp"
 
-#include <boost/mpi/communicator.hpp>
-#include <boost/mpi/environment.hpp>
-#include <boost/mpi/detail/computation_tree.hpp>
-#include <boost/mpi/operations.hpp>
+#include "../../../boost/mpi/communicator.hpp"
+#include "../../../boost/mpi/environment.hpp"
+#include "../../../boost/mpi/detail/computation_tree.hpp"
+#include "../../../boost/mpi/operations.hpp"
 #include <algorithm>
 #include <exception>
-#include <boost/assert.hpp>
-#include <boost/scoped_array.hpp>
+#include "../../../boost/assert.hpp"
+#include "../../../boost/scoped_array.hpp"
 
 namespace boost { namespace mpi {
 

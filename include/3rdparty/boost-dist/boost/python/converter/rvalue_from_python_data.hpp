@@ -5,12 +5,12 @@
 #ifndef FROM_PYTHON_AUX_DATA_DWA2002128_HPP
 # define FROM_PYTHON_AUX_DATA_DWA2002128_HPP
 
-# include <boost/python/converter/constructor_function.hpp>
-# include <boost/python/detail/referent_storage.hpp>
-# include <boost/python/detail/destroy.hpp>
-# include <boost/static_assert.hpp>
-# include <boost/type_traits/add_reference.hpp>
-# include <boost/type_traits/add_cv.hpp>
+#include "../../../boost/python/converter/constructor_function.hpp"
+#include "../../../boost/python/detail/referent_storage.hpp"
+#include "../../../boost/python/detail/destroy.hpp"
+#include "../../../boost/static_assert.hpp"
+#include "../../../boost/type_traits/add_reference.hpp"
+#include "../../../boost/type_traits/add_cv.hpp"
 # include <cstddef>
 
 // Data management for potential rvalue conversions from Python to C++

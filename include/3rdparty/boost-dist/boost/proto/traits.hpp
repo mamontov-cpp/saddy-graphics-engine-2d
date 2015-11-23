@@ -11,26 +11,26 @@
 #ifndef BOOST_PROTO_ARG_TRAITS_HPP_EAN_04_01_2005
 #define BOOST_PROTO_ARG_TRAITS_HPP_EAN_04_01_2005
 
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
-#include <boost/preprocessor/iteration/iterate.hpp>
-#include <boost/preprocessor/repetition/enum.hpp>
-#include <boost/preprocessor/repetition/enum_params.hpp>
-#include <boost/preprocessor/repetition/enum_trailing_params.hpp>
-#include <boost/preprocessor/repetition/repeat.hpp>
-#include <boost/preprocessor/repetition/repeat_from_to.hpp>
-#include <boost/preprocessor/facilities/intercept.hpp>
-#include <boost/preprocessor/arithmetic/sub.hpp>
-#include <boost/static_assert.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/proto/detail/template_arity.hpp>
-#include <boost/type_traits/is_pod.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/type_traits/add_const.hpp>
-#include <boost/proto/proto_fwd.hpp>
-#include <boost/proto/args.hpp>
-#include <boost/proto/domain.hpp>
-#include <boost/proto/transform/pass_through.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/detail/workaround.hpp"
+#include "../../boost/preprocessor/iteration/iterate.hpp"
+#include "../../boost/preprocessor/repetition/enum.hpp"
+#include "../../boost/preprocessor/repetition/enum_params.hpp"
+#include "../../boost/preprocessor/repetition/enum_trailing_params.hpp"
+#include "../../boost/preprocessor/repetition/repeat.hpp"
+#include "../../boost/preprocessor/repetition/repeat_from_to.hpp"
+#include "../../boost/preprocessor/facilities/intercept.hpp"
+#include "../../boost/preprocessor/arithmetic/sub.hpp"
+#include "../../boost/static_assert.hpp"
+#include "../../boost/mpl/bool.hpp"
+#include "../../boost/proto/detail/template_arity.hpp"
+#include "../../boost/type_traits/is_pod.hpp"
+#include "../../boost/type_traits/is_same.hpp"
+#include "../../boost/type_traits/add_const.hpp"
+#include "../../boost/proto/proto_fwd.hpp"
+#include "../../boost/proto/args.hpp"
+#include "../../boost/proto/domain.hpp"
+#include "../../boost/proto/transform/pass_through.hpp"
 
 #if defined(_MSC_VER)
 # pragma warning(push)
@@ -621,7 +621,7 @@ namespace boost { namespace proto
     #undef BOOST_PROTO_DEFINE_UNARY_METAFUNCTION
     #undef BOOST_PROTO_DEFINE_BINARY_METAFUNCTION
 
-    #include <boost/proto/detail/traits.hpp>
+    #include "../../boost/proto/detail/traits.hpp"
 
     namespace functional
     {

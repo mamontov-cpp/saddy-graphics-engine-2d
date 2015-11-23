@@ -8,8 +8,8 @@
 #if !defined(BOOST_SPIRIT_SKIPPER_FWD_HPP)
 #define BOOST_SPIRIT_SKIPPER_FWD_HPP
 
-#include <boost/spirit/home/classic/namespace.hpp>
-#include <boost/spirit/home/classic/core/scanner/scanner_fwd.hpp>
+#include "../../../../../../boost/spirit/home/classic/namespace.hpp"
+#include "../../../../../../boost/spirit/home/classic/core/scanner/scanner_fwd.hpp"
 
 namespace boost { namespace spirit {
 

@@ -49,9 +49,9 @@
 #ifndef BOOST_POLYMORPHIC_CAST_HPP
 #define BOOST_POLYMORPHIC_CAST_HPP
 
-# include <boost/config.hpp>
-# include <boost/assert.hpp>
-# include <boost/throw_exception.hpp>
+#include "../boost/config.hpp"
+#include "../boost/assert.hpp"
+#include "../boost/throw_exception.hpp"
 # include <typeinfo>
 
 #ifdef BOOST_HAS_PRAGMA_ONCE

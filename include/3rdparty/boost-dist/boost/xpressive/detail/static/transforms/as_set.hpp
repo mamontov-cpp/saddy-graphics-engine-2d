@@ -13,12 +13,12 @@
 # pragma once
 #endif
 
-#include <boost/mpl/assert.hpp>
-#include <boost/proto/core.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/detail/static/static.hpp>
-#include <boost/xpressive/detail/utility/chset/chset.hpp>
-#include <boost/xpressive/detail/utility/traits_utils.hpp>
+#include "../../../../../boost/mpl/assert.hpp"
+#include "../../../../../boost/proto/core.hpp"
+#include "../../../../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../../../../boost/xpressive/detail/static/static.hpp"
+#include "../../../../../boost/xpressive/detail/utility/chset/chset.hpp"
+#include "../../../../../boost/xpressive/detail/utility/traits_utils.hpp"
 
 namespace boost { namespace xpressive { namespace grammar_detail
 {

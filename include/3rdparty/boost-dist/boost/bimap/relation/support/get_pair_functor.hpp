@@ -16,9 +16,9 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../../boost/config.hpp"
 
-#include <boost/bimap/relation/support/pair_by.hpp>
+#include "../../../../boost/bimap/relation/support/pair_by.hpp"
 
 namespace boost {
 namespace bimaps {

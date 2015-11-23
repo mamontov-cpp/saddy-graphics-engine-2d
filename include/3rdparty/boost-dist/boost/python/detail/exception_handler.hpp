@@ -5,9 +5,9 @@
 #ifndef EXCEPTION_HANDLER_DWA2002810_HPP
 # define EXCEPTION_HANDLER_DWA2002810_HPP
 
-# include <boost/python/detail/config.hpp>
-# include <boost/function/function0.hpp>
-# include <boost/function/function2.hpp>
+#include "../../../boost/python/detail/config.hpp"
+#include "../../../boost/function/function0.hpp"
+#include "../../../boost/function/function2.hpp"
 
 namespace boost { namespace python { namespace detail {
 

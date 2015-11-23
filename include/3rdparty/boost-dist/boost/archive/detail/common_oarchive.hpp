@@ -16,10 +16,10 @@
 
 //  See http://www.boost.org for updates, documentation, and revision history.
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
-#include <boost/archive/detail/basic_oarchive.hpp>
-#include <boost/archive/detail/interface_oarchive.hpp>
+#include "../../../boost/archive/detail/basic_oarchive.hpp"
+#include "../../../boost/archive/detail/interface_oarchive.hpp"
 
 #ifdef BOOST_MSVC
 #  pragma warning(push)

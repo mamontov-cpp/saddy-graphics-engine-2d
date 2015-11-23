@@ -14,11 +14,11 @@
 #endif
 
 #if !defined(BOOST_PP_VALUE)
-#   include <boost/preprocessor/slot/slot.hpp>
-#   include <boost/preprocessor/iteration/self.hpp>
+#include "../../../../boost/preprocessor/slot/slot.hpp"
+#include "../../../../boost/preprocessor/iteration/self.hpp"
 
-#   include <boost/function_types/detail/encoding/def.hpp>
-#   include <boost/function_types/detail/encoding/aliases_def.hpp>
+#include "../../../../boost/function_types/detail/encoding/def.hpp"
+#include "../../../../boost/function_types/detail/encoding/aliases_def.hpp"
 
 namespace boost { namespace function_types {
 
@@ -83,8 +83,8 @@ namespace detail
 
 } } } // namespace ::boost::function_types::detail
 
-#   include <boost/function_types/detail/encoding/aliases_undef.hpp>
-#   include <boost/function_types/detail/encoding/undef.hpp>
+#include "../../../../boost/function_types/detail/encoding/aliases_undef.hpp"
+#include "../../../../boost/function_types/detail/encoding/undef.hpp"
 
 #else // if defined(BOOST_PP_VALUE)
 

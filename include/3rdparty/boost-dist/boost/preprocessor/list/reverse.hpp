@@ -14,8 +14,8 @@
 # ifndef BOOST_PREPROCESSOR_LIST_REVERSE_HPP
 # define BOOST_PREPROCESSOR_LIST_REVERSE_HPP
 #
-# include <boost/preprocessor/config/config.hpp>
-# include <boost/preprocessor/list/fold_left.hpp>
+#include "../../../boost/preprocessor/config/config.hpp"
+#include "../../../boost/preprocessor/list/fold_left.hpp"
 #
 # /* BOOST_PP_LIST_REVERSE */
 #

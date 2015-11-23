@@ -16,10 +16,10 @@
 #define BOOST_TEST_TOOLS_FPC_TOLERANCE_HPP_121612GER
 
 // Boost Test
-#include <boost/test/tree/decorator.hpp>
-#include <boost/test/tools/floating_point_comparison.hpp>
+#include "../../../boost/test/tree/decorator.hpp"
+#include "../../../boost/test/tools/floating_point_comparison.hpp"
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -98,6 +98,6 @@ using decorator::tolerance;
 } // namespace unit_test
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_TOOLS_FPC_TOLERANCE_HPP_121612GER

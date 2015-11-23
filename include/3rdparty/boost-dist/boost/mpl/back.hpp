@@ -14,11 +14,11 @@
 // $Date$
 // $Revision$
 
-#include <boost/mpl/back_fwd.hpp>
-#include <boost/mpl/aux_/back_impl.hpp>
-#include <boost/mpl/sequence_tag.hpp>
-#include <boost/mpl/aux_/na_spec.hpp>
-#include <boost/mpl/aux_/lambda_support.hpp>
+#include "../../boost/mpl/back_fwd.hpp"
+#include "../../boost/mpl/aux_/back_impl.hpp"
+#include "../../boost/mpl/sequence_tag.hpp"
+#include "../../boost/mpl/aux_/na_spec.hpp"
+#include "../../boost/mpl/aux_/lambda_support.hpp"
 
 namespace boost { namespace mpl {
 

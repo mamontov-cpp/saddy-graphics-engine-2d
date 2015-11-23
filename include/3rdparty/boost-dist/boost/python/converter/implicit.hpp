@@ -5,11 +5,11 @@
 #ifndef IMPLICIT_DWA2002326_HPP
 # define IMPLICIT_DWA2002326_HPP
 
-# include <boost/python/converter/rvalue_from_python_data.hpp>
-# include <boost/python/converter/registrations.hpp>
-# include <boost/python/converter/registered.hpp>
+#include "../../../boost/python/converter/rvalue_from_python_data.hpp"
+#include "../../../boost/python/converter/registrations.hpp"
+#include "../../../boost/python/converter/registered.hpp"
 
-# include <boost/python/extract.hpp>
+#include "../../../boost/python/extract.hpp"
 
 namespace boost { namespace python { namespace converter { 
 

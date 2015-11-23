@@ -10,7 +10,7 @@
 
 // Convenience header
 
-#include <boost/bimap/bimap.hpp>
+#include "../boost/bimap/bimap.hpp"
 
 namespace boost
 {

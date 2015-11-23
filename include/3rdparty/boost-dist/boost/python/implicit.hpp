@@ -5,14 +5,14 @@
 #ifndef IMPLICIT_DWA2002325_HPP
 # define IMPLICIT_DWA2002325_HPP
 
-# include <boost/python/detail/prefix.hpp>
-# include <boost/type.hpp>
-# include <boost/python/converter/implicit.hpp>
-# include <boost/python/converter/registry.hpp>
+#include "../../boost/python/detail/prefix.hpp"
+#include "../../boost/type.hpp"
+#include "../../boost/python/converter/implicit.hpp"
+#include "../../boost/python/converter/registry.hpp"
 #ifndef BOOST_PYTHON_NO_PY_SIGNATURES
-# include <boost/python/converter/pytype_function.hpp>
+#include "../../boost/python/converter/pytype_function.hpp"
 #endif
-# include <boost/python/type_id.hpp>
+#include "../../boost/python/type_id.hpp"
 
 namespace boost { namespace python { 
 

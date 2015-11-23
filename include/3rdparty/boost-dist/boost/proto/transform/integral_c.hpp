@@ -9,8 +9,8 @@
 #ifndef BOOST_PROTO_TRANSFORM_INTEGRAL_C_HPP_EAN_04_28_2011
 #define BOOST_PROTO_TRANSFORM_INTEGRAL_C_HPP_EAN_04_28_2011
 
-#include <boost/proto/proto_fwd.hpp>
-#include <boost/proto/transform/impl.hpp>
+#include "../../../boost/proto/proto_fwd.hpp"
+#include "../../../boost/proto/transform/impl.hpp"
 
 namespace boost { namespace proto
 {

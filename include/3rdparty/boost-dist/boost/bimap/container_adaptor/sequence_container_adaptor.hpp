@@ -16,17 +16,17 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
 #include <utility>
 
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/vector.hpp>
-#include <boost/mpl/aux_/na.hpp>
-#include <boost/bimap/container_adaptor/detail/identity_converters.hpp>
-#include <boost/bimap/container_adaptor/container_adaptor.hpp>
-#include <boost/call_traits.hpp>
-#include <boost/operators.hpp>
+#include "../../../boost/mpl/if.hpp"
+#include "../../../boost/mpl/vector.hpp"
+#include "../../../boost/mpl/aux_/na.hpp"
+#include "../../../boost/bimap/container_adaptor/detail/identity_converters.hpp"
+#include "../../../boost/bimap/container_adaptor/container_adaptor.hpp"
+#include "../../../boost/call_traits.hpp"
+#include "../../../boost/operators.hpp"
 
 namespace boost {
 namespace bimaps {

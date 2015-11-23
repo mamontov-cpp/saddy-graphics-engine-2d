@@ -16,17 +16,17 @@
 #define BOOST_TEST_UTILS_RUNTIME_CLA_ID_POLICY_HPP
 
 // Boost.Runtime.Parameter
-#include <boost/test/utils/runtime/config.hpp>
+#include "../../../../../boost/test/utils/runtime/config.hpp"
 
-#include <boost/test/utils/runtime/cla/fwd.hpp>
-#include <boost/test/utils/runtime/cla/modifier.hpp>
-#include <boost/test/utils/runtime/cla/argv_traverser.hpp>
+#include "../../../../../boost/test/utils/runtime/cla/fwd.hpp"
+#include "../../../../../boost/test/utils/runtime/cla/modifier.hpp"
+#include "../../../../../boost/test/utils/runtime/cla/argv_traverser.hpp"
 
-#include <boost/test/utils/runtime/cla/iface/id_policy.hpp>
+#include "../../../../../boost/test/utils/runtime/cla/iface/id_policy.hpp"
 
 // Boost.Test
-#include <boost/test/utils/class_properties.hpp>
-#include <boost/test/utils/rtti.hpp>
+#include "../../../../../boost/test/utils/class_properties.hpp"
+#include "../../../../../boost/test/utils/rtti.hpp"
 
 namespace boost {
 
@@ -140,7 +140,7 @@ protected:
 #ifndef BOOST_TEST_UTILS_RUNTIME_PARAM_INLINE
 #   define BOOST_TEST_UTILS_RUNTIME_PARAM_INLINE inline
 #endif
-#   include <boost/test/utils/runtime/cla/id_policy.ipp>
+#include "../../../../../boost/test/utils/runtime/cla/id_policy.ipp"
 
 #endif
 

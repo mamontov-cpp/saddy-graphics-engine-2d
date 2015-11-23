@@ -13,8 +13,8 @@
 # ifndef BOOST_PREPROCESSOR_VARIADIC_TO_LIST_HPP
 # define BOOST_PREPROCESSOR_VARIADIC_TO_LIST_HPP
 #
-# include <boost/preprocessor/config/config.hpp>
-# include <boost/preprocessor/tuple/to_list.hpp>
+#include "../../../boost/preprocessor/config/config.hpp"
+#include "../../../boost/preprocessor/tuple/to_list.hpp"
 #
 # /* BOOST_PP_VARIADIC_TO_LIST */
 #

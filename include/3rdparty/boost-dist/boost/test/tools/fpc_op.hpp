@@ -13,16 +13,16 @@
 #define BOOST_TEST_TOOLS_FPC_OP_HPP_050915GER
 
 // Boost.Test
-#include <boost/test/tools/assertion.hpp>
+#include "../../../boost/test/tools/assertion.hpp"
 
-#include <boost/test/tools/floating_point_comparison.hpp>
-#include <boost/test/tools/fpc_tolerance.hpp>
+#include "../../../boost/test/tools/floating_point_comparison.hpp"
+#include "../../../boost/test/tools/fpc_tolerance.hpp"
 
 // Boost
-#include <boost/type_traits/common_type.hpp>
-#include <boost/utility/enable_if.hpp>
+#include "../../../boost/type_traits/common_type.hpp"
+#include "../../../boost/utility/enable_if.hpp"
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -218,7 +218,7 @@ BOOST_TEST_FOR_EACH_COMP_OP( DEFINE_FPV_COMPARISON )
 } // namespace test_tools
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_TOOLS_FPC_OP_HPP_050915GER
 

@@ -17,17 +17,17 @@
 #ifndef BOOST_MPI_DATATYPE_HPP
 #define BOOST_MPI_DATATYPE_HPP
 
-#include <boost/mpi/config.hpp>
-#include <boost/mpi/datatype_fwd.hpp>
+#include "../../boost/mpi/config.hpp"
+#include "../../boost/mpi/datatype_fwd.hpp"
 #include <mpi.h>
-#include <boost/config.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/or.hpp>
-#include <boost/mpl/and.hpp>
-#include <boost/mpi/detail/mpi_datatype_cache.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/archive/basic_archive.hpp>
-#include <boost/serialization/item_version_type.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/mpl/bool.hpp"
+#include "../../boost/mpl/or.hpp"
+#include "../../boost/mpl/and.hpp"
+#include "../../boost/mpi/detail/mpi_datatype_cache.hpp"
+#include "../../boost/mpl/assert.hpp"
+#include "../../boost/archive/basic_archive.hpp"
+#include "../../boost/serialization/item_version_type.hpp"
 #include <utility> // for std::pair
 
 namespace boost { namespace mpi {

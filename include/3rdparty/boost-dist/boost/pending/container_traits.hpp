@@ -12,7 +12,7 @@
 // instead of pulling in all the headers. Too bad that
 // is not legal. There ought to be a standard <stlfwd> header. -JGS 
 
-#include <boost/next_prior.hpp>
+#include "../../boost/next_prior.hpp"
 
 #include <algorithm>   // for std::remove
 #include <utility>
@@ -20,8 +20,8 @@
 #include <list>
 #include <map>
 #include <set>
-#include <boost/unordered_set.hpp>
-#include <boost/unordered_map.hpp>
+#include "../../boost/unordered_set.hpp"
+#include "../../boost/unordered_map.hpp"
 
 #if !defined BOOST_NO_SLIST
 #  ifdef BOOST_SLIST_HEADER

@@ -7,8 +7,8 @@
 #ifndef FUSION_LIST_FORWARD_10262014_0528
 #define FUSION_LIST_FORWARD_10262014_0528
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/config.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/config.hpp"
 
 #if  defined(BOOST_NO_CXX11_VARIADIC_TEMPLATES) \
   || (defined(__WAVE__) && defined(BOOST_FUSION_CREATE_PREPROCESSED_FILES))
@@ -25,7 +25,7 @@
 // With no variadics, we will use the C++03 version
 ///////////////////////////////////////////////////////////////////////////////
 #if !defined(BOOST_FUSION_HAS_VARIADIC_LIST)
-# include <boost/fusion/container/list/detail/cpp03/list_fwd.hpp>
+#include "../../../../boost/fusion/container/list/detail/cpp03/list_fwd.hpp"
 #else
 
 ///////////////////////////////////////////////////////////////////////////////

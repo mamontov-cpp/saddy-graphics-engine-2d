@@ -7,12 +7,12 @@
 #if !defined(FUSION_PUSH_FRONT_07162005_0749)
 #define FUSION_PUSH_FRONT_07162005_0749
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/support/detail/as_fusion_element.hpp>
-#include <boost/fusion/view/joint_view/joint_view.hpp>
-#include <boost/fusion/view/single_view/single_view.hpp>
-#include <boost/fusion/support/is_sequence.hpp>
-#include <boost/utility/enable_if.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/fusion/support/detail/as_fusion_element.hpp"
+#include "../../../../boost/fusion/view/joint_view/joint_view.hpp"
+#include "../../../../boost/fusion/view/single_view/single_view.hpp"
+#include "../../../../boost/fusion/support/is_sequence.hpp"
+#include "../../../../boost/utility/enable_if.hpp"
 
 namespace boost { namespace fusion
 {

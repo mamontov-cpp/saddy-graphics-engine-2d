@@ -16,7 +16,7 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
 #include <functional>
 

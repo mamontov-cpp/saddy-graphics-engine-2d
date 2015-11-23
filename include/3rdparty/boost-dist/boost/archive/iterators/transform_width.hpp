@@ -24,8 +24,8 @@
 // character and 8 bit bytes. Lowest common multiple is 24 => 4 6 bit characters
 // or 3 8 bit characters
 
-#include <boost/iterator/iterator_adaptor.hpp>
-#include <boost/iterator/iterator_traits.hpp>
+#include "../../../boost/iterator/iterator_adaptor.hpp"
+#include "../../../boost/iterator/iterator_traits.hpp"
 
 #include <algorithm> // std::min
 

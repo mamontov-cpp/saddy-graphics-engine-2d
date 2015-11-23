@@ -17,12 +17,12 @@
 #define BOOST_TEST_UNIT_TEST_MONITOR_IPP_012205GER
 
 // Boost.Test
-#include <boost/test/unit_test_monitor.hpp>
-#include <boost/test/framework.hpp>
-#include <boost/test/tree/test_unit.hpp>
-#include <boost/test/unit_test_parameters.hpp>
+#include "../../../boost/test/unit_test_monitor.hpp"
+#include "../../../boost/test/framework.hpp"
+#include "../../../boost/test/tree/test_unit.hpp"
+#include "../../../boost/test/unit_test_parameters.hpp"
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -70,6 +70,6 @@ unit_test_monitor_t::execute_and_translate( boost::function<void ()> const& func
 } // namespace unit_test
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_UNIT_TEST_MONITOR_IPP_012205GER

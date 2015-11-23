@@ -5,13 +5,13 @@
 #ifndef BY_VALUE_DWA20021015_HPP
 # define BY_VALUE_DWA20021015_HPP
 
-# include <boost/python/detail/prefix.hpp>
+#include "../../boost/python/detail/prefix.hpp"
 
-# include <boost/python/to_python_value.hpp>
-# include <boost/type_traits/add_reference.hpp>
-# include <boost/type_traits/add_const.hpp>
+#include "../../boost/python/to_python_value.hpp"
+#include "../../boost/type_traits/add_reference.hpp"
+#include "../../boost/type_traits/add_const.hpp"
 
-# include <boost/python/detail/value_arg.hpp>
+#include "../../boost/python/detail/value_arg.hpp"
 
 namespace boost { namespace python { 
 

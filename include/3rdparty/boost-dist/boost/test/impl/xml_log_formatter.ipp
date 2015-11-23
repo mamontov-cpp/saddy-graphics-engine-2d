@@ -16,20 +16,20 @@
 #define BOOST_TEST_XML_LOG_FORMATTER_IPP_020105GER
 
 // Boost.Test
-#include <boost/test/output/xml_log_formatter.hpp>
-#include <boost/test/execution_monitor.hpp>
-#include <boost/test/framework.hpp>
-#include <boost/test/tree/test_unit.hpp>
-#include <boost/test/utils/basic_cstring/io.hpp>
-#include <boost/test/utils/xml_printer.hpp>
+#include "../../../boost/test/output/xml_log_formatter.hpp"
+#include "../../../boost/test/execution_monitor.hpp"
+#include "../../../boost/test/framework.hpp"
+#include "../../../boost/test/tree/test_unit.hpp"
+#include "../../../boost/test/utils/basic_cstring/io.hpp"
+#include "../../../boost/test/utils/xml_printer.hpp"
 
 // Boost
-#include <boost/version.hpp>
+#include "../../../boost/version.hpp"
 
 // STL
 #include <iostream>
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -219,6 +219,6 @@ xml_log_formatter::log_entry_context( std::ostream& ostr, const_string context_d
 } // namespace unit_test
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_XML_LOG_FORMATTER_IPP_020105GER

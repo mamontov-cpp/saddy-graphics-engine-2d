@@ -16,23 +16,23 @@
 #define BOOST_TEST_PLAIN_REPORT_FORMATTER_IPP_020105GER
 
 // Boost.Test
-#include <boost/test/output/plain_report_formatter.hpp>
-#include <boost/test/utils/custom_manip.hpp>
-#include <boost/test/results_collector.hpp>
+#include "../../../boost/test/output/plain_report_formatter.hpp"
+#include "../../../boost/test/utils/custom_manip.hpp"
+#include "../../../boost/test/results_collector.hpp"
 
-#include <boost/test/tree/test_unit.hpp>
+#include "../../../boost/test/tree/test_unit.hpp"
 
-#include <boost/test/utils/basic_cstring/io.hpp>
-#include <boost/test/utils/setcolor.hpp>
+#include "../../../boost/test/utils/basic_cstring/io.hpp"
+#include "../../../boost/test/utils/setcolor.hpp"
 
-#include <boost/test/unit_test_parameters.hpp>
+#include "../../../boost/test/unit_test_parameters.hpp"
 
 // STL
 #include <iomanip>
-#include <boost/config/no_tr1/cmath.hpp>
+#include "../../../boost/config/no_tr1/cmath.hpp"
 #include <iostream>
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 # ifdef BOOST_NO_STDC_NAMESPACE
 namespace std { using ::log10; }
@@ -202,6 +202,6 @@ plain_report_formatter::do_confirmation_report( test_unit const& tu, std::ostrea
 } // namespace unit_test
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_PLAIN_REPORT_FORMATTER_IPP_020105GER

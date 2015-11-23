@@ -8,10 +8,10 @@ http://www.boost.org/LICENSE_1_0.txt)
 #ifndef BOOST_PREDEF_LIBRARY_STD_LIBCOMO_H
 #define BOOST_PREDEF_LIBRARY_STD_LIBCOMO_H
 
-#include <boost/predef/library/std/_prefix.h>
+#include "../../../../boost/predef/library/std/_prefix.h"
 
-#include <boost/predef/version_number.h>
-#include <boost/predef/make.h>
+#include "../../../../boost/predef/version_number.h"
+#include "../../../../boost/predef/make.h"
 
 /*`
 [heading `BOOST_LIB_STD_COMO`]
@@ -43,5 +43,5 @@ Version number available as major.
 
 #endif
 
-#include <boost/predef/detail/test.h>
+#include "../../../../boost/predef/detail/test.h"
 BOOST_PREDEF_DECLARE_TEST(BOOST_LIB_STD_COMO,BOOST_LIB_STD_COMO_NAME)

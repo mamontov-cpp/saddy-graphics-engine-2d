@@ -5,12 +5,12 @@
 // accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-# include <boost/config.hpp>
-# include <boost/type.hpp>
-# include <boost/mpl/if.hpp>
-# include <boost/type_traits/object_traits.hpp>
-# include <boost/type_traits/cv_traits.hpp>
-# include <boost/python/tag.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/type.hpp"
+#include "../../../boost/mpl/if.hpp"
+#include "../../../boost/type_traits/object_traits.hpp"
+#include "../../../boost/type_traits/cv_traits.hpp"
+#include "../../../boost/python/tag.hpp"
 
 namespace boost { namespace python { namespace detail {
 

@@ -11,12 +11,12 @@
 #ifndef BOOST_PROTO_DOMAIN_HPP_EAN_02_13_2007
 #define BOOST_PROTO_DOMAIN_HPP_EAN_02_13_2007
 
-#include <boost/ref.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/proto/proto_fwd.hpp>
-#include <boost/proto/generate.hpp>
-#include <boost/proto/detail/as_expr.hpp>
-#include <boost/proto/detail/deduce_domain.hpp>
+#include "../../boost/ref.hpp"
+#include "../../boost/type_traits/is_same.hpp"
+#include "../../boost/proto/proto_fwd.hpp"
+#include "../../boost/proto/generate.hpp"
+#include "../../boost/proto/detail/as_expr.hpp"
+#include "../../boost/proto/detail/deduce_domain.hpp"
 
 #if defined(_MSC_VER)
 # pragma warning(push)

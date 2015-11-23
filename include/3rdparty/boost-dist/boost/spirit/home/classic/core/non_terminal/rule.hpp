@@ -8,7 +8,7 @@
 #if !defined(BOOST_SPIRIT_RULE_HPP)
 #define BOOST_SPIRIT_RULE_HPP
 
-#include <boost/static_assert.hpp>
+#include "../../../../../../boost/static_assert.hpp"
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -28,12 +28,12 @@
 //  Ensure a meaningful maximum number of simultaneously usable scanner types
 BOOST_STATIC_ASSERT(BOOST_SPIRIT_RULE_SCANNERTYPE_LIMIT > 0);
 
-#include <boost/scoped_ptr.hpp>
-#include <boost/spirit/home/classic/namespace.hpp>
-#include <boost/spirit/home/classic/core/non_terminal/impl/rule.ipp>
+#include "../../../../../../boost/scoped_ptr.hpp"
+#include "../../../../../../boost/spirit/home/classic/namespace.hpp"
+#include "../../../../../../boost/spirit/home/classic/core/non_terminal/impl/rule.ipp"
 
 #if BOOST_SPIRIT_RULE_SCANNERTYPE_LIMIT > 1
-#  include <boost/preprocessor/enum_params.hpp>
+#include "../../../../../../boost/preprocessor/enum_params.hpp"
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////

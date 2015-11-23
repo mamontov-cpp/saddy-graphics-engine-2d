@@ -18,11 +18,11 @@
 #endif
 
 #include <algorithm>
-#include <boost/mpl/assert.hpp>
-#include <boost/type_traits/same_traits.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/detail/core/quant_style.hpp>
-#include <boost/xpressive/detail/core/state.hpp>
+#include "../../../../../boost/mpl/assert.hpp"
+#include "../../../../../boost/type_traits/same_traits.hpp"
+#include "../../../../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../../../../boost/xpressive/detail/core/quant_style.hpp"
+#include "../../../../../boost/xpressive/detail/core/state.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

@@ -39,26 +39,26 @@
  * templates and move semantics natively.
  */
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
 #if defined(BOOST_NO_CXX11_RVALUE_REFERENCES)||\
     defined(BOOST_NO_CXX11_VARIADIC_TEMPLATES)
 
-#include <boost/move/core.hpp>
-#include <boost/move/utility.hpp>
-#include <boost/preprocessor/arithmetic/add.hpp>
-#include <boost/preprocessor/arithmetic/sub.hpp>
-#include <boost/preprocessor/cat.hpp>
-#include <boost/preprocessor/control/if.hpp>
-#include <boost/preprocessor/facilities/empty.hpp>
-#include <boost/preprocessor/facilities/intercept.hpp>
-#include <boost/preprocessor/logical/and.hpp>
-#include <boost/preprocessor/punctuation/comma.hpp>
-#include <boost/preprocessor/punctuation/comma_if.hpp>
-#include <boost/preprocessor/repetition/enum.hpp>
-#include <boost/preprocessor/repetition/enum_params.hpp>
-#include <boost/preprocessor/repetition/repeat_from_to.hpp>
-#include <boost/preprocessor/seq/elem.hpp>
+#include "../../../boost/move/core.hpp"
+#include "../../../boost/move/utility.hpp"
+#include "../../../boost/preprocessor/arithmetic/add.hpp"
+#include "../../../boost/preprocessor/arithmetic/sub.hpp"
+#include "../../../boost/preprocessor/cat.hpp"
+#include "../../../boost/preprocessor/control/if.hpp"
+#include "../../../boost/preprocessor/facilities/empty.hpp"
+#include "../../../boost/preprocessor/facilities/intercept.hpp"
+#include "../../../boost/preprocessor/logical/and.hpp"
+#include "../../../boost/preprocessor/punctuation/comma.hpp"
+#include "../../../boost/preprocessor/punctuation/comma_if.hpp"
+#include "../../../boost/preprocessor/repetition/enum.hpp"
+#include "../../../boost/preprocessor/repetition/enum_params.hpp"
+#include "../../../boost/preprocessor/repetition/repeat_from_to.hpp"
+#include "../../../boost/preprocessor/seq/elem.hpp"
 
 #if !defined(BOOST_MULTI_INDEX_LIMIT_VARTEMPL_ARGS)
 #define BOOST_MULTI_INDEX_LIMIT_VARTEMPL_ARGS 5

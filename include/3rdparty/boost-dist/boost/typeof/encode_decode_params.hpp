@@ -5,8 +5,8 @@
 #ifndef BOOST_TYPEOF_ENCODE_DECODE_PARAMS_HPP_INCLUDED
 #define BOOST_TYPEOF_ENCODE_DECODE_PARAMS_HPP_INCLUDED
 
-#include <boost/preprocessor/cat.hpp>
-#include <boost/preprocessor/repetition/repeat.hpp>
+#include "../../boost/preprocessor/cat.hpp"
+#include "../../boost/preprocessor/repetition/repeat.hpp"
 
 // Assumes iter0 contains initial iterator
 

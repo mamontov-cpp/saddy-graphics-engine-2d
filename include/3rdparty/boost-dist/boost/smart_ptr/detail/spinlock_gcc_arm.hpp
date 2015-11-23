@@ -9,7 +9,7 @@
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#include <boost/smart_ptr/detail/yield_k.hpp>
+#include "../../../boost/smart_ptr/detail/yield_k.hpp"
 
 #if defined(__ARM_ARCH_7__) || defined(__ARM_ARCH_7A__) || defined(__ARM_ARCH_7R__) || defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__) || defined(__ARM_ARCH_7S__)
 

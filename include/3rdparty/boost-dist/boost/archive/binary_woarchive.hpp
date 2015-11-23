@@ -16,14 +16,14 @@
 
 //  See http://www.boost.org for updates, documentation, and revision history.
 
-#include <boost/config.hpp>
+#include "../../boost/config.hpp"
 #ifdef BOOST_NO_STD_WSTREAMBUF
 #error "wide char i/o not supported on this platform"
 #else
 
 #include <ostream>
-#include <boost/archive/binary_oarchive_impl.hpp>
-#include <boost/archive/detail/register_archive.hpp>
+#include "../../boost/archive/binary_oarchive_impl.hpp"
+#include "../../boost/archive/detail/register_archive.hpp"
 
 namespace boost { 
 namespace archive {

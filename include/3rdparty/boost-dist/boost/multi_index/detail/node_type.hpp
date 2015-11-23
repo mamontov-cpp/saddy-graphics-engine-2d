@@ -13,16 +13,16 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp> /* keep it first to prevent nasty warns in MSVC */
-#include <boost/detail/workaround.hpp>
-#include <boost/mpl/bind.hpp>
-#include <boost/mpl/reverse_iter_fold.hpp>
-#include <boost/mpl/deref.hpp>
-#include <boost/multi_index_container_fwd.hpp>
-#include <boost/multi_index/detail/header_holder.hpp>
-#include <boost/multi_index/detail/index_node_base.hpp>
-#include <boost/multi_index/detail/is_index_list.hpp>
-#include <boost/static_assert.hpp>
+#include "../../../boost/config.hpp" /* keep it first to prevent nasty warns in MSVC */
+#include "../../../boost/detail/workaround.hpp"
+#include "../../../boost/mpl/bind.hpp"
+#include "../../../boost/mpl/reverse_iter_fold.hpp"
+#include "../../../boost/mpl/deref.hpp"
+#include "../../../boost/multi_index_container_fwd.hpp"
+#include "../../../boost/multi_index/detail/header_holder.hpp"
+#include "../../../boost/multi_index/detail/index_node_base.hpp"
+#include "../../../boost/multi_index/detail/is_index_list.hpp"
+#include "../../../boost/static_assert.hpp"
 
 namespace boost{
 

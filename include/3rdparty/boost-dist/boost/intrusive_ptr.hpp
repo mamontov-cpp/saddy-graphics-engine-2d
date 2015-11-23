@@ -13,6 +13,6 @@
 //  See http://www.boost.org/libs/smart_ptr/intrusive_ptr.html for documentation.
 //
 
-#include <boost/smart_ptr/intrusive_ptr.hpp>
+#include "../boost/smart_ptr/intrusive_ptr.hpp"
 
 #endif  // #ifndef BOOST_INTRUSIVE_PTR_HPP_INCLUDED

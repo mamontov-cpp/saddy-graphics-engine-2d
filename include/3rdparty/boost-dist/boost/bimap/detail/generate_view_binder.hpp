@@ -16,9 +16,9 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
-#include <boost/multi_index/tag.hpp>
+#include "../../../boost/multi_index/tag.hpp"
 
 /*===========================================================================*/
 #define BOOST_BIMAP_GENERATE_MAP_VIEW_BINDER(                                 \

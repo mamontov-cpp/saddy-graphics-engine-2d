@@ -11,5 +11,5 @@
 #ifdef BOOST_MSVC
 #pragma warning(pop)
 #endif
-#include <boost/config/abi_suffix.hpp> // pops abi_suffix.hpp pragmas
+#include "../../../boost/config/abi_suffix.hpp" // pops abi_suffix.hpp pragmas
 

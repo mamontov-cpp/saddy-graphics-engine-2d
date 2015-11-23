@@ -14,9 +14,9 @@
 // $Date$
 // $Revision$
 
-#include <boost/mpl/aux_/single_element_iter.hpp>
-#include <boost/mpl/iterator_range.hpp>
-#include <boost/mpl/aux_/na_spec.hpp>
+#include "../../boost/mpl/aux_/single_element_iter.hpp"
+#include "../../boost/mpl/iterator_range.hpp"
+#include "../../boost/mpl/aux_/na_spec.hpp"
 
 namespace boost { namespace mpl {
 

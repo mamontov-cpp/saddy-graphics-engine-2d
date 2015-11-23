@@ -14,12 +14,12 @@
 #endif
 
 #include <cstddef>
-#include <boost/detail/workaround.hpp>
-#include <boost/assert.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/detail/core/list.hpp>
-#include <boost/xpressive/detail/core/access.hpp>
-#include <boost/xpressive/match_results.hpp>
+#include "../../../../boost/detail/workaround.hpp"
+#include "../../../../boost/assert.hpp"
+#include "../../../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../../../boost/xpressive/detail/core/list.hpp"
+#include "../../../../boost/xpressive/detail/core/access.hpp"
+#include "../../../../boost/xpressive/match_results.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

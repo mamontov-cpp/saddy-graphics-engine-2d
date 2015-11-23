@@ -13,13 +13,13 @@
 
 // NO INCLUDE GUARDS, THE HEADER IS INTENDED FOR MULTIPLE INCLUSION!
 
-#include <boost/mpl/aux_/config/typeof.hpp>
-#include <boost/mpl/aux_/config/ctps.hpp>
-#include <boost/mpl/aux_/config/preprocessor.hpp>
-#include <boost/mpl/aux_/config/workaround.hpp>
+#include "../../../../boost/mpl/aux_/config/typeof.hpp"
+#include "../../../../boost/mpl/aux_/config/ctps.hpp"
+#include "../../../../boost/mpl/aux_/config/preprocessor.hpp"
+#include "../../../../boost/mpl/aux_/config/workaround.hpp"
 
-#include <boost/preprocessor/cat.hpp>
-#include <boost/preprocessor/stringize.hpp>
+#include "../../../../boost/preprocessor/cat.hpp"
+#include "../../../../boost/preprocessor/stringize.hpp"
 
 #if defined(BOOST_MPL_CFG_TYPEOF_BASED_SEQUENCES)
 #   define AUX778076_INCLUDE_DIR typeof_based

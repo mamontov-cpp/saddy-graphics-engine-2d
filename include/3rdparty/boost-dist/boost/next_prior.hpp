@@ -14,16 +14,16 @@
 
 #include <iterator>
 #if defined(_MSC_VER) && _MSC_VER <= 1310
-#include <boost/mpl/and.hpp>
-#include <boost/type_traits/is_integral.hpp>
+#include "../boost/mpl/and.hpp"
+#include "../boost/type_traits/is_integral.hpp"
 #endif
-#include <boost/type_traits/is_unsigned.hpp>
-#include <boost/type_traits/integral_promotion.hpp>
-#include <boost/type_traits/make_signed.hpp>
-#include <boost/type_traits/has_plus.hpp>
-#include <boost/type_traits/has_plus_assign.hpp>
-#include <boost/type_traits/has_minus.hpp>
-#include <boost/type_traits/has_minus_assign.hpp>
+#include "../boost/type_traits/is_unsigned.hpp"
+#include "../boost/type_traits/integral_promotion.hpp"
+#include "../boost/type_traits/make_signed.hpp"
+#include "../boost/type_traits/has_plus.hpp"
+#include "../boost/type_traits/has_plus_assign.hpp"
+#include "../boost/type_traits/has_minus.hpp"
+#include "../boost/type_traits/has_minus_assign.hpp"
 
 namespace boost {
 

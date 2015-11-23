@@ -13,14 +13,14 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp> /* keep it first to prevent nasty warns in MSVC */
-#include <boost/type_traits/aligned_storage.hpp>
-#include <boost/type_traits/alignment_of.hpp> 
+#include "../../../boost/config.hpp" /* keep it first to prevent nasty warns in MSVC */
+#include "../../../boost/type_traits/aligned_storage.hpp"
+#include "../../../boost/type_traits/alignment_of.hpp" 
 
 #if !defined(BOOST_MULTI_INDEX_DISABLE_SERIALIZATION)
-#include <boost/archive/archive_exception.hpp>
-#include <boost/serialization/access.hpp>
-#include <boost/throw_exception.hpp> 
+#include "../../../boost/archive/archive_exception.hpp"
+#include "../../../boost/serialization/access.hpp"
+#include "../../../boost/throw_exception.hpp" 
 #endif
 
 namespace boost{

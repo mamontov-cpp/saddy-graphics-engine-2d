@@ -13,7 +13,7 @@
 
 #include <iterator>
 #include <utility>
-#include <boost/detail/workaround.hpp>
+#include "../../../boost/detail/workaround.hpp"
 
 #if BOOST_WORKAROUND( __IBMCPP__, <= 600 )
 #  define BOOST_GRAPH_NO_OPTIONAL
@@ -23,7 +23,7 @@
 #  define BOOST_GRAPH_MEMBER .
 #else 
 #  define BOOST_GRAPH_MEMBER ->
-#  include <boost/optional.hpp>
+#include "../../../boost/optional.hpp"
 #endif // ndef BOOST_GRAPH_NO_OPTIONAL
 
 namespace boost {

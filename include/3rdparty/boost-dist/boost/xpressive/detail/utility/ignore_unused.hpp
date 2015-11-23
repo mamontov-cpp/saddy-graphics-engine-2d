@@ -13,7 +13,7 @@
 # pragma once
 #endif
 
-#include "boost/proto/detail/ignore_unused.hpp"
+#include "../../../../boost/proto/detail/ignore_unused.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

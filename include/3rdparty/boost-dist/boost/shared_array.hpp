@@ -14,6 +14,6 @@
 //  See http://www.boost.org/libs/smart_ptr/shared_array.htm for documentation.
 //
 
-#include <boost/smart_ptr/shared_array.hpp>
+#include "../boost/smart_ptr/shared_array.hpp"
 
 #endif  // #ifndef BOOST_SHARED_ARRAY_HPP_INCLUDED

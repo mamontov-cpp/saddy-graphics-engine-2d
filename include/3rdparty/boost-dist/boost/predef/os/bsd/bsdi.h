@@ -8,7 +8,7 @@ http://www.boost.org/LICENSE_1_0.txt)
 #ifndef BOOST_PREDEF_OS_BSD_BSDI_H
 #define BOOST_PREDEF_OS_BSD_BSDI_H
 
-#include <boost/predef/os/bsd.h>
+#include "../../../../boost/predef/os/bsd.h"
 
 /*`
 [heading `BOOST_OS_BSD_BSDI`]
@@ -37,12 +37,12 @@ http://www.boost.org/LICENSE_1_0.txt)
 
 #if BOOST_OS_BSD_BSDI
 #   define BOOST_OS_BSD_BSDI_AVAILABLE
-#   include <boost/predef/detail/os_detected.h>
+#include "../../../../boost/predef/detail/os_detected.h"
 #endif
 
 #define BOOST_OS_BSD_BSDI_NAME "BSDi BSD/OS"
 
 #endif
 
-#include <boost/predef/detail/test.h>
+#include "../../../../boost/predef/detail/test.h"
 BOOST_PREDEF_DECLARE_TEST(BOOST_OS_BSD_BSDI,BOOST_OS_BSD_BSDI_NAME)

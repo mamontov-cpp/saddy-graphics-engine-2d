@@ -15,27 +15,27 @@
 #include <string>
 #include <memory>
 #include <new>
-#include <boost/config.hpp>
-#include <boost/detail/sp_typeinfo.hpp>
-#include <boost/assert.hpp>
-#include <boost/integer.hpp>
-#include <boost/type_traits/has_trivial_copy.hpp>
-#include <boost/type_traits/has_trivial_destructor.hpp>
-#include <boost/type_traits/is_const.hpp>
-#include <boost/type_traits/is_integral.hpp>
-#include <boost/type_traits/is_volatile.hpp>
-#include <boost/type_traits/composite_traits.hpp>
-#include <boost/ref.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/detail/workaround.hpp>
-#include <boost/type_traits/alignment_of.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/detail/sp_typeinfo.hpp"
+#include "../../boost/assert.hpp"
+#include "../../boost/integer.hpp"
+#include "../../boost/type_traits/has_trivial_copy.hpp"
+#include "../../boost/type_traits/has_trivial_destructor.hpp"
+#include "../../boost/type_traits/is_const.hpp"
+#include "../../boost/type_traits/is_integral.hpp"
+#include "../../boost/type_traits/is_volatile.hpp"
+#include "../../boost/type_traits/composite_traits.hpp"
+#include "../../boost/ref.hpp"
+#include "../../boost/mpl/if.hpp"
+#include "../../boost/detail/workaround.hpp"
+#include "../../boost/type_traits/alignment_of.hpp"
 #ifndef BOOST_NO_SFINAE
-#  include "boost/utility/enable_if.hpp"
+#include "../../boost/utility/enable_if.hpp"
 #else
-#  include "boost/mpl/bool.hpp"
+#include "../../boost/mpl/bool.hpp"
 #endif
-#include <boost/function_equal.hpp>
-#include <boost/function/function_fwd.hpp>
+#include "../../boost/function_equal.hpp"
+#include "../../boost/function/function_fwd.hpp"
 
 #if defined(BOOST_MSVC)
 #   pragma warning( push )

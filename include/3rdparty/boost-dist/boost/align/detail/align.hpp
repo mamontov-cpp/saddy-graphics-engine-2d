@@ -9,9 +9,9 @@ http://boost.org/LICENSE_1_0.txt
 #ifndef BOOST_ALIGN_DETAIL_ALIGN_HPP
 #define BOOST_ALIGN_DETAIL_ALIGN_HPP
 
-#include <boost/assert.hpp>
-#include <boost/align/detail/address.hpp>
-#include <boost/align/detail/is_alignment.hpp>
+#include "../../../boost/assert.hpp"
+#include "../../../boost/align/detail/address.hpp"
+#include "../../../boost/align/detail/is_alignment.hpp"
 #include <cstddef>
 
 namespace boost {

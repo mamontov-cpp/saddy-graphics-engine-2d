@@ -16,10 +16,10 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../../boost/config.hpp"
 
-#include <boost/mpl/assert.hpp>
-#include <boost/preprocessor/cat.hpp>
+#include "../../../../boost/mpl/assert.hpp"
+#include "../../../../boost/preprocessor/cat.hpp"
 
 // Easier way to call BOOST_MPL_ASSERT_MSG in class scope to generate
 // a static error.

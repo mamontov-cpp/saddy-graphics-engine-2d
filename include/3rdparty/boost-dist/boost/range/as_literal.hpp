@@ -16,13 +16,13 @@
 #endif
 
 #ifdef BOOST_NO_FUNCTION_TEMPLATE_ORDERING
-#include <boost/range/detail/as_literal.hpp>
+#include "../../boost/range/detail/as_literal.hpp"
 #else
 
-#include <boost/range/iterator_range.hpp>
-#include <boost/range/detail/str_types.hpp>
+#include "../../boost/range/iterator_range.hpp"
+#include "../../boost/range/detail/str_types.hpp"
 
-#include <boost/detail/workaround.hpp>
+#include "../../boost/detail/workaround.hpp"
 
 #include <cstring>
 #ifndef BOOST_NO_CWCHAR

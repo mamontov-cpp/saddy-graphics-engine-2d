@@ -13,10 +13,10 @@
 #ifndef BOOST_LAMBDA_IS_INSTANCE_OF
 #define BOOST_LAMBDA_IS_INSTANCE_OF
 
-#include "boost/config.hpp" // for BOOST_STATIC_CONSTANT
-#include "boost/type_traits/conversion_traits.hpp" // for is_convertible
-#include "boost/preprocessor/enum_shifted_params.hpp"
-#include "boost/preprocessor/repeat_2nd.hpp"
+#include "../../../boost/config.hpp" // for BOOST_STATIC_CONSTANT
+#include "../../../boost/type_traits/conversion_traits.hpp" // for is_convertible
+#include "../../../boost/preprocessor/enum_shifted_params.hpp"
+#include "../../../boost/preprocessor/repeat_2nd.hpp"
 
 // is_instance_of --------------------------------
 // 

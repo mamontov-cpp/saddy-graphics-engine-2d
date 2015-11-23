@@ -8,16 +8,16 @@
 # ifndef TARGET_DWA2002521_HPP
 #  define TARGET_DWA2002521_HPP
 
-#  include <boost/python/detail/preprocessor.hpp>
+#include "../../../boost/python/detail/preprocessor.hpp"
 
-#  include <boost/type.hpp>
+#include "../../../boost/type.hpp"
 
-#  include <boost/preprocessor/comma_if.hpp>
-#  include <boost/preprocessor/if.hpp>
-#  include <boost/preprocessor/iterate.hpp>
-#  include <boost/preprocessor/debug/line.hpp>
-#  include <boost/preprocessor/enum_params.hpp>
-#  include <boost/preprocessor/repetition/enum_trailing_params.hpp>
+#include "../../../boost/preprocessor/comma_if.hpp"
+#include "../../../boost/preprocessor/if.hpp"
+#include "../../../boost/preprocessor/iterate.hpp"
+#include "../../../boost/preprocessor/debug/line.hpp"
+#include "../../../boost/preprocessor/enum_params.hpp"
+#include "../../../boost/preprocessor/repetition/enum_trailing_params.hpp"
 
 namespace boost { namespace python { namespace detail {
 

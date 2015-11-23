@@ -3,41 +3,41 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 #ifndef CLASS_METADATA_DWA2004719_HPP
 # define CLASS_METADATA_DWA2004719_HPP
-# include <boost/python/converter/shared_ptr_from_python.hpp>
+#include "../../../boost/python/converter/shared_ptr_from_python.hpp"
 
-# include <boost/python/object/inheritance.hpp>
-# include <boost/python/object/class_wrapper.hpp>
-# include <boost/python/object/make_instance.hpp>
-# include <boost/python/object/value_holder.hpp>
-# include <boost/python/object/pointer_holder.hpp>
-# include <boost/python/object/make_ptr_instance.hpp>
+#include "../../../boost/python/object/inheritance.hpp"
+#include "../../../boost/python/object/class_wrapper.hpp"
+#include "../../../boost/python/object/make_instance.hpp"
+#include "../../../boost/python/object/value_holder.hpp"
+#include "../../../boost/python/object/pointer_holder.hpp"
+#include "../../../boost/python/object/make_ptr_instance.hpp"
 
-# include <boost/python/detail/force_instantiate.hpp>
-# include <boost/python/detail/not_specified.hpp>
+#include "../../../boost/python/detail/force_instantiate.hpp"
+#include "../../../boost/python/detail/not_specified.hpp"
 
-# include <boost/python/has_back_reference.hpp>
-# include <boost/python/bases.hpp>
+#include "../../../boost/python/has_back_reference.hpp"
+#include "../../../boost/python/bases.hpp"
 
-# include <boost/type_traits/add_pointer.hpp>
-# include <boost/type_traits/is_convertible.hpp>
-# include <boost/type_traits/is_polymorphic.hpp>
+#include "../../../boost/type_traits/add_pointer.hpp"
+#include "../../../boost/type_traits/is_convertible.hpp"
+#include "../../../boost/type_traits/is_polymorphic.hpp"
 
-# include <boost/mpl/if.hpp>
-# include <boost/mpl/eval_if.hpp>
-# include <boost/mpl/bool.hpp>
-# include <boost/mpl/or.hpp>
-# include <boost/mpl/identity.hpp>
-# include <boost/mpl/for_each.hpp>
-# include <boost/mpl/placeholders.hpp>
-# include <boost/mpl/single_view.hpp>
+#include "../../../boost/mpl/if.hpp"
+#include "../../../boost/mpl/eval_if.hpp"
+#include "../../../boost/mpl/bool.hpp"
+#include "../../../boost/mpl/or.hpp"
+#include "../../../boost/mpl/identity.hpp"
+#include "../../../boost/mpl/for_each.hpp"
+#include "../../../boost/mpl/placeholders.hpp"
+#include "../../../boost/mpl/single_view.hpp"
 
-# include <boost/mpl/assert.hpp>
-# include <boost/type_traits/is_same.hpp>
+#include "../../../boost/mpl/assert.hpp"
+#include "../../../boost/type_traits/is_same.hpp"
 
-# include <boost/type_traits/is_convertible.hpp>
+#include "../../../boost/type_traits/is_convertible.hpp"
 
-# include <boost/noncopyable.hpp>
-# include <boost/detail/workaround.hpp>
+#include "../../../boost/noncopyable.hpp"
+#include "../../../boost/detail/workaround.hpp"
 
 namespace boost { namespace python { namespace objects { 
 

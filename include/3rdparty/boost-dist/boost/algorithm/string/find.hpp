@@ -11,17 +11,17 @@
 #ifndef BOOST_STRING_FIND_HPP
 #define BOOST_STRING_FIND_HPP
 
-#include <boost/algorithm/string/config.hpp>
+#include "../../../boost/algorithm/string/config.hpp"
 
-#include <boost/range/iterator_range_core.hpp>
-#include <boost/range/begin.hpp>
-#include <boost/range/end.hpp>
-#include <boost/range/iterator.hpp>
-#include <boost/range/as_literal.hpp>
+#include "../../../boost/range/iterator_range_core.hpp"
+#include "../../../boost/range/begin.hpp"
+#include "../../../boost/range/end.hpp"
+#include "../../../boost/range/iterator.hpp"
+#include "../../../boost/range/as_literal.hpp"
 
-#include <boost/algorithm/string/finder.hpp>
-#include <boost/algorithm/string/compare.hpp>
-#include <boost/algorithm/string/constants.hpp>
+#include "../../../boost/algorithm/string/finder.hpp"
+#include "../../../boost/algorithm/string/compare.hpp"
+#include "../../../boost/algorithm/string/constants.hpp"
 
 /*! \file
     Defines a set of find algorithms. The algorithms are searching

@@ -19,6 +19,6 @@
 //  See http://www.boost.org/libs/bind/mem_fn.html for documentation.
 //
 
-#include <boost/bind/mem_fn.hpp>
+#include "../boost/bind/mem_fn.hpp"
 
 #endif // #ifndef BOOST_MEM_FN_HPP_INCLUDED

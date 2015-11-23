@@ -16,10 +16,10 @@
 
 //  See http://www.boost.org for updates, documentation, and revision history.
 
-#include <boost/archive/archive_exception.hpp>
+#include "../../boost/archive/archive_exception.hpp"
 
-#include <boost/archive/detail/auto_link_archive.hpp>
-#include <boost/archive/detail/abi_prefix.hpp> // must be the last header
+#include "../../boost/archive/detail/auto_link_archive.hpp"
+#include "../../boost/archive/detail/abi_prefix.hpp" // must be the last header
 
 namespace boost { 
 namespace archive {
@@ -61,7 +61,7 @@ BOOST_ARCHIVE_XML_SIGNATURE();
 }// namespace archive
 }// namespace boost
 
-#include <boost/archive/detail/abi_suffix.hpp> // pops abi_suffix.hpp pragmas
+#include "../../boost/archive/detail/abi_suffix.hpp" // pops abi_suffix.hpp pragmas
 
 #endif // BOOST_ARCHIVE_BASIC_XML_TEXT_ARCHIVE_HPP
 

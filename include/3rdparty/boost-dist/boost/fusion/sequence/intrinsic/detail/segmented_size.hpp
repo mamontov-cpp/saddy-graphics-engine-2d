@@ -7,17 +7,17 @@
 #if !defined(BOOST_FUSION_SEGMENTED_SIZE_08112006_1141)
 #define BOOST_FUSION_SEGMENTED_SIZE_08112006_1141
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/type_traits/add_const.hpp>
-#include <boost/type_traits/remove_reference.hpp>
-#include <boost/mpl/fold.hpp>
-#include <boost/mpl/plus.hpp>
-#include <boost/mpl/size_t.hpp>
-#include <boost/mpl/placeholders.hpp>
-#include <boost/fusion/sequence/intrinsic_fwd.hpp>
-#include <boost/fusion/mpl/begin.hpp>
-#include <boost/fusion/mpl/end.hpp>
-#include <boost/fusion/support/is_segmented.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/type_traits/add_const.hpp"
+#include "../../../../../boost/type_traits/remove_reference.hpp"
+#include "../../../../../boost/mpl/fold.hpp"
+#include "../../../../../boost/mpl/plus.hpp"
+#include "../../../../../boost/mpl/size_t.hpp"
+#include "../../../../../boost/mpl/placeholders.hpp"
+#include "../../../../../boost/fusion/sequence/intrinsic_fwd.hpp"
+#include "../../../../../boost/fusion/mpl/begin.hpp"
+#include "../../../../../boost/fusion/mpl/end.hpp"
+#include "../../../../../boost/fusion/support/is_segmented.hpp"
 
 namespace boost { namespace fusion { namespace detail
 {

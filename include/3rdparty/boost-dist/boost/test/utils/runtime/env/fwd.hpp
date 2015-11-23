@@ -20,7 +20,7 @@
 #endif
 
 // Boost.Runtime.Parameter
-#include <boost/test/utils/runtime/config.hpp>
+#include "../../../../../boost/test/utils/runtime/config.hpp"
 
 namespace boost {
 

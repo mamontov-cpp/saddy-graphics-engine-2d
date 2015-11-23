@@ -16,11 +16,11 @@
 #endif
 
 #include <vector>
-#include <boost/assert.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/type_traits/is_convertible.hpp>
-#include <boost/xpressive/regex_iterator.hpp>
+#include "../../boost/assert.hpp"
+#include "../../boost/mpl/assert.hpp"
+#include "../../boost/type_traits/is_same.hpp"
+#include "../../boost/type_traits/is_convertible.hpp"
+#include "../../boost/xpressive/regex_iterator.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

@@ -5,12 +5,12 @@
 #ifndef COUNTING_ITERATOR_DWA200348_HPP
 # define COUNTING_ITERATOR_DWA200348_HPP
 
-# include <boost/iterator/iterator_adaptor.hpp>
-# include <boost/detail/numeric_traits.hpp>
-# include <boost/mpl/bool.hpp>
-# include <boost/mpl/if.hpp>
-# include <boost/mpl/identity.hpp>
-# include <boost/mpl/eval_if.hpp>
+#include "../../boost/iterator/iterator_adaptor.hpp"
+#include "../../boost/detail/numeric_traits.hpp"
+#include "../../boost/mpl/bool.hpp"
+#include "../../boost/mpl/if.hpp"
+#include "../../boost/mpl/identity.hpp"
+#include "../../boost/mpl/eval_if.hpp"
 
 namespace boost {
 namespace iterators {

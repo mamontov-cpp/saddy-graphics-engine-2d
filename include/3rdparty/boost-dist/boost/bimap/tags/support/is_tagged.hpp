@@ -16,10 +16,10 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../../boost/config.hpp"
 
-#include <boost/mpl/bool.hpp>
-#include <boost/bimap/tags/tagged.hpp>
+#include "../../../../boost/mpl/bool.hpp"
+#include "../../../../boost/bimap/tags/tagged.hpp"
 
 /** \struct boost::bimaps::tags::support::is_tagged
 \brief Type trait to check if a type is tagged.

@@ -9,14 +9,14 @@
 #ifndef BOOST_PROTO_TRANSFORM_LAZY_HPP_EAN_12_02_2007
 #define BOOST_PROTO_TRANSFORM_LAZY_HPP_EAN_12_02_2007
 
-#include <boost/preprocessor/iteration/iterate.hpp>
-#include <boost/preprocessor/repetition/enum_params.hpp>
-#include <boost/preprocessor/repetition/enum_trailing_params.hpp>
-#include <boost/proto/proto_fwd.hpp>
-#include <boost/proto/transform/make.hpp>
-#include <boost/proto/transform/call.hpp>
-#include <boost/proto/transform/impl.hpp>
-#include <boost/proto/transform/detail/pack.hpp>
+#include "../../../boost/preprocessor/iteration/iterate.hpp"
+#include "../../../boost/preprocessor/repetition/enum_params.hpp"
+#include "../../../boost/preprocessor/repetition/enum_trailing_params.hpp"
+#include "../../../boost/proto/proto_fwd.hpp"
+#include "../../../boost/proto/transform/make.hpp"
+#include "../../../boost/proto/transform/call.hpp"
+#include "../../../boost/proto/transform/impl.hpp"
+#include "../../../boost/proto/transform/detail/pack.hpp"
 
 namespace boost { namespace proto
 {
@@ -45,7 +45,7 @@ namespace boost { namespace proto
       : lazy<Fun>
     {};
 
-    #include <boost/proto/transform/detail/lazy.hpp>
+    #include "../../../boost/proto/transform/detail/lazy.hpp"
 
     /// INTERNAL ONLY
     ///

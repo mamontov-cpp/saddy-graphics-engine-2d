@@ -7,9 +7,9 @@
 #if !defined(FUSION_SIZE_10022005_1617)
 #define FUSION_SIZE_10022005_1617
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/mpl/size.hpp>
-#include <boost/fusion/sequence/intrinsic/size.hpp>
+#include "../../../boost/fusion/support/config.hpp"
+#include "../../../boost/mpl/size.hpp"
+#include "../../../boost/fusion/sequence/intrinsic/size.hpp"
 
 namespace boost { namespace mpl
 {

@@ -15,12 +15,12 @@
 # pragma once
 #endif
 
-#include <boost/noncopyable.hpp>
-#include <boost/intrusive_ptr.hpp>
-#include <boost/iterator/iterator_traits.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/detail/core/access.hpp>
-#include <boost/xpressive/detail/utility/counted_base.hpp>
+#include "../../boost/noncopyable.hpp"
+#include "../../boost/intrusive_ptr.hpp"
+#include "../../boost/iterator/iterator_traits.hpp"
+#include "../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../boost/xpressive/detail/core/access.hpp"
+#include "../../boost/xpressive/detail/utility/counted_base.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

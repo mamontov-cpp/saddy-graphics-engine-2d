@@ -7,16 +7,16 @@
 #if !defined(FUSION_POP_BACK_09172005_1038)
 #define FUSION_POP_BACK_09172005_1038
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/view/iterator_range/iterator_range.hpp>
-#include <boost/fusion/sequence/intrinsic/begin.hpp>
-#include <boost/fusion/sequence/intrinsic/end.hpp>
-#include <boost/fusion/sequence/intrinsic/empty.hpp>
-#include <boost/fusion/iterator/iterator_adapter.hpp>
-#include <boost/fusion/iterator/next.hpp>
-#include <boost/mpl/minus.hpp>
-#include <boost/mpl/int.hpp>
-#include <boost/mpl/if.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/fusion/view/iterator_range/iterator_range.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic/begin.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic/end.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic/empty.hpp"
+#include "../../../../boost/fusion/iterator/iterator_adapter.hpp"
+#include "../../../../boost/fusion/iterator/next.hpp"
+#include "../../../../boost/mpl/minus.hpp"
+#include "../../../../boost/mpl/int.hpp"
+#include "../../../../boost/mpl/if.hpp"
 
 namespace boost { namespace fusion
 {

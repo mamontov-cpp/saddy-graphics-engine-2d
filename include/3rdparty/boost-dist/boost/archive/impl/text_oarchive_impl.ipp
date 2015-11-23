@@ -9,11 +9,11 @@
 //  See http://www.boost.org for updates, documentation, and revision history.
 
 #include <string>
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 #include <locale>
 #include <cstddef> // size_t
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 #if defined(BOOST_NO_STDC_NAMESPACE)
 namespace std{ 
     using ::size_t; 
@@ -27,8 +27,8 @@ namespace std{ using ::wcslen; }
 #endif
 #endif
 
-#include <boost/archive/add_facet.hpp>
-#include <boost/archive/text_oarchive.hpp>
+#include "../../../boost/archive/add_facet.hpp"
+#include "../../../boost/archive/text_oarchive.hpp"
 
 namespace boost { 
 namespace archive {

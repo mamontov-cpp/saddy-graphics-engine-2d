@@ -10,15 +10,15 @@
 #ifndef BOOST_UTILITY_BASE_FROM_MEMBER_HPP
 #define BOOST_UTILITY_BASE_FROM_MEMBER_HPP
 
-#include <boost/config.hpp>
-#include <boost/preprocessor/arithmetic/inc.hpp>
-#include <boost/preprocessor/repetition/enum_binary_params.hpp>
-#include <boost/preprocessor/repetition/enum_params.hpp>
-#include <boost/preprocessor/repetition/repeat_from_to.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/type_traits/remove_cv.hpp>
-#include <boost/type_traits/remove_reference.hpp>
-#include <boost/utility/enable_if.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/preprocessor/arithmetic/inc.hpp"
+#include "../../boost/preprocessor/repetition/enum_binary_params.hpp"
+#include "../../boost/preprocessor/repetition/enum_params.hpp"
+#include "../../boost/preprocessor/repetition/repeat_from_to.hpp"
+#include "../../boost/type_traits/is_same.hpp"
+#include "../../boost/type_traits/remove_cv.hpp"
+#include "../../boost/type_traits/remove_reference.hpp"
+#include "../../boost/utility/enable_if.hpp"
 
 
 //  Base-from-member arity configuration macro  ------------------------------//

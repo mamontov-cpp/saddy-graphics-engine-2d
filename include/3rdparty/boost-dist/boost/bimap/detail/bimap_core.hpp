@@ -16,37 +16,37 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
-#include <boost/mpl/placeholders.hpp>
-#include <boost/mpl/push_front.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/and.hpp>
-#include <boost/mpl/not.hpp>
-#include <boost/mpl/vector.hpp>
+#include "../../../boost/mpl/placeholders.hpp"
+#include "../../../boost/mpl/push_front.hpp"
+#include "../../../boost/mpl/if.hpp"
+#include "../../../boost/mpl/and.hpp"
+#include "../../../boost/mpl/not.hpp"
+#include "../../../boost/mpl/vector.hpp"
 
-#include <boost/type_traits/add_const.hpp>
-#include <boost/type_traits/is_same.hpp>
+#include "../../../boost/type_traits/add_const.hpp"
+#include "../../../boost/type_traits/is_same.hpp"
 
-#include <boost/concept_check.hpp>
+#include "../../../boost/concept_check.hpp"
 
 // Boost.MultiIndex
-#include <boost/multi_index_container.hpp>
-#include <boost/multi_index/member.hpp>
+#include "../../../boost/multi_index_container.hpp"
+#include "../../../boost/multi_index/member.hpp"
 
 // Boost.Bimap
-#include <boost/bimap/relation/mutant_relation.hpp>
-#include <boost/bimap/relation/member_at.hpp>
-#include <boost/bimap/relation/support/data_extractor.hpp>
-#include <boost/bimap/tags/support/default_tagged.hpp>
-#include <boost/bimap/tags/tagged.hpp>
-#include <boost/bimap/detail/manage_bimap_key.hpp>
-#include <boost/bimap/detail/manage_additional_parameters.hpp>
-#include <boost/bimap/detail/map_view_iterator.hpp>
-#include <boost/bimap/detail/set_view_iterator.hpp>
+#include "../../../boost/bimap/relation/mutant_relation.hpp"
+#include "../../../boost/bimap/relation/member_at.hpp"
+#include "../../../boost/bimap/relation/support/data_extractor.hpp"
+#include "../../../boost/bimap/tags/support/default_tagged.hpp"
+#include "../../../boost/bimap/tags/tagged.hpp"
+#include "../../../boost/bimap/detail/manage_bimap_key.hpp"
+#include "../../../boost/bimap/detail/manage_additional_parameters.hpp"
+#include "../../../boost/bimap/detail/map_view_iterator.hpp"
+#include "../../../boost/bimap/detail/set_view_iterator.hpp"
 
-#include <boost/bimap/set_of.hpp>
-#include <boost/bimap/unconstrained_set_of.hpp>
+#include "../../../boost/bimap/set_of.hpp"
+#include "../../../boost/bimap/unconstrained_set_of.hpp"
 
 namespace boost {
 namespace bimaps {

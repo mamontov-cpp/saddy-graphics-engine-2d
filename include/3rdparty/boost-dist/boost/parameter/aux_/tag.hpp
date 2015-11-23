@@ -4,8 +4,8 @@
 #ifndef BOOST_PARAMETER_AUX_TAG_DWA2005610_HPP
 # define BOOST_PARAMETER_AUX_TAG_DWA2005610_HPP
 
-# include <boost/parameter/aux_/unwrap_cv_reference.hpp>
-# include <boost/parameter/aux_/tagged_argument.hpp>
+#include "../../../boost/parameter/aux_/unwrap_cv_reference.hpp"
+#include "../../../boost/parameter/aux_/tagged_argument.hpp"
 
 namespace boost { namespace parameter { namespace aux { 
 

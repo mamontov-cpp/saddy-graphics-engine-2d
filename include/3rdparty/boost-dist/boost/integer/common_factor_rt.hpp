@@ -15,12 +15,12 @@
 #ifndef BOOST_INTEGER_COMMON_FACTOR_RT_HPP
 #define BOOST_INTEGER_COMMON_FACTOR_RT_HPP
 
-#include <boost/integer_fwd.hpp>  // self include
+#include "../../boost/integer_fwd.hpp"  // self include
 
-#include <boost/config.hpp>  // for BOOST_NESTED_TEMPLATE, etc.
-#include <boost/limits.hpp>  // for std::numeric_limits
+#include "../../boost/config.hpp"  // for BOOST_NESTED_TEMPLATE, etc.
+#include "../../boost/limits.hpp"  // for std::numeric_limits
 #include <climits>           // for CHAR_MIN
-#include <boost/detail/workaround.hpp>
+#include "../../boost/detail/workaround.hpp"
 
 #ifdef BOOST_MSVC
 #pragma warning(push)

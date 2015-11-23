@@ -11,18 +11,18 @@
 #ifndef BOOST_PROPERTY_MAP_HPP
 #define BOOST_PROPERTY_MAP_HPP
 
-#include <boost/assert.hpp>
-#include <boost/config.hpp>
-#include <boost/static_assert.hpp>
+#include "../../boost/assert.hpp"
+#include "../../boost/config.hpp"
+#include "../../boost/static_assert.hpp"
 #include <cstddef>
-#include <boost/detail/iterator.hpp>
-#include <boost/concept_check.hpp>
-#include <boost/concept_archetype.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/mpl/or.hpp>
-#include <boost/mpl/and.hpp>
-#include <boost/mpl/has_xxx.hpp>
-#include <boost/type_traits/is_same.hpp>
+#include "../../boost/detail/iterator.hpp"
+#include "../../boost/concept_check.hpp"
+#include "../../boost/concept_archetype.hpp"
+#include "../../boost/mpl/assert.hpp"
+#include "../../boost/mpl/or.hpp"
+#include "../../boost/mpl/and.hpp"
+#include "../../boost/mpl/has_xxx.hpp"
+#include "../../boost/type_traits/is_same.hpp"
 
 namespace boost {
 
@@ -594,10 +594,10 @@ namespace boost {
 } // namespace boost
 
 #ifdef BOOST_GRAPH_USE_MPI
-#include <boost/property_map/parallel/parallel_property_maps.hpp>
+#include "../../boost/property_map/parallel/parallel_property_maps.hpp"
 #endif
 
-#include <boost/property_map/vector_property_map.hpp>
+#include "../../boost/property_map/vector_property_map.hpp"
 
 #endif /* BOOST_PROPERTY_MAP_HPP */
 

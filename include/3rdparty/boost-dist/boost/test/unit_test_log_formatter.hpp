@@ -16,15 +16,15 @@
 #define BOOST_TEST_UNIT_TEST_LOG_FORMATTER_HPP_071894GER
 
 // Boost.Test
-#include <boost/test/detail/global_typedef.hpp>
-#include <boost/test/detail/log_level.hpp>
-#include <boost/test/detail/fwd_decl.hpp>
+#include "../../boost/test/detail/global_typedef.hpp"
+#include "../../boost/test/detail/log_level.hpp"
+#include "../../boost/test/detail/fwd_decl.hpp"
 
 // STL
 #include <iosfwd>
 #include <string> // for std::string
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -242,7 +242,7 @@ public:
 
 //____________________________________________________________________________//
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_UNIT_TEST_LOG_FORMATTER_HPP_071894GER
 

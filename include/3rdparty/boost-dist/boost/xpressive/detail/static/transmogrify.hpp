@@ -14,16 +14,16 @@
 #endif
 
 #include <cstring> // for std::strlen
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/or.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/detail/core/matchers.hpp>
-#include <boost/xpressive/detail/static/placeholders.hpp>
-#include <boost/xpressive/detail/utility/dont_care.hpp>
-#include <boost/xpressive/detail/utility/traits_utils.hpp>
+#include "../../../../boost/mpl/if.hpp"
+#include "../../../../boost/mpl/or.hpp"
+#include "../../../../boost/mpl/bool.hpp"
+#include "../../../../boost/mpl/assert.hpp"
+#include "../../../../boost/type_traits/is_same.hpp"
+#include "../../../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../../../boost/xpressive/detail/core/matchers.hpp"
+#include "../../../../boost/xpressive/detail/static/placeholders.hpp"
+#include "../../../../boost/xpressive/detail/utility/dont_care.hpp"
+#include "../../../../boost/xpressive/detail/utility/traits_utils.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

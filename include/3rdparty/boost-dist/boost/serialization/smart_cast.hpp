@@ -38,25 +38,25 @@
 #include <typeinfo>
 #include <cstddef> // NULL
 
-#include <boost/config.hpp>
-#include <boost/static_assert.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/static_assert.hpp"
 
-#include <boost/type_traits/is_base_and_derived.hpp>
-#include <boost/type_traits/is_polymorphic.hpp>
-#include <boost/type_traits/is_pointer.hpp>
-#include <boost/type_traits/is_reference.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/type_traits/remove_pointer.hpp>
-#include <boost/type_traits/remove_reference.hpp>
+#include "../../boost/type_traits/is_base_and_derived.hpp"
+#include "../../boost/type_traits/is_polymorphic.hpp"
+#include "../../boost/type_traits/is_pointer.hpp"
+#include "../../boost/type_traits/is_reference.hpp"
+#include "../../boost/type_traits/is_same.hpp"
+#include "../../boost/type_traits/remove_pointer.hpp"
+#include "../../boost/type_traits/remove_reference.hpp"
 
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/or.hpp>
-#include <boost/mpl/and.hpp>
-#include <boost/mpl/not.hpp>
-#include <boost/mpl/identity.hpp>
+#include "../../boost/mpl/eval_if.hpp"
+#include "../../boost/mpl/if.hpp"
+#include "../../boost/mpl/or.hpp"
+#include "../../boost/mpl/and.hpp"
+#include "../../boost/mpl/not.hpp"
+#include "../../boost/mpl/identity.hpp"
 
-#include <boost/serialization/throw_exception.hpp>
+#include "../../boost/serialization/throw_exception.hpp"
 
 namespace boost {
 namespace serialization {

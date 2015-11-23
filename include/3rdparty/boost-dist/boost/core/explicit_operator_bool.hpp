@@ -18,7 +18,7 @@
 #ifndef BOOST_CORE_EXPLICIT_OPERATOR_BOOL_HPP
 #define BOOST_CORE_EXPLICIT_OPERATOR_BOOL_HPP
 
-#include <boost/config.hpp>
+#include "../../boost/config.hpp"
 
 #ifdef BOOST_HAS_PRAGMA_ONCE
 #pragma once

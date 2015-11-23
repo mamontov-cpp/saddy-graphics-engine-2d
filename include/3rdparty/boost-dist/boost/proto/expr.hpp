@@ -9,22 +9,22 @@
 #ifndef BOOST_PROTO_EXPR_HPP_EAN_04_01_2005
 #define BOOST_PROTO_EXPR_HPP_EAN_04_01_2005
 
-#include <boost/preprocessor/cat.hpp>
-#include <boost/preprocessor/arithmetic/dec.hpp>
-#include <boost/preprocessor/selection/max.hpp>
-#include <boost/preprocessor/iteration/iterate.hpp>
-#include <boost/preprocessor/facilities/intercept.hpp>
-#include <boost/preprocessor/repetition/repeat.hpp>
-#include <boost/preprocessor/repetition/repeat_from_to.hpp>
-#include <boost/preprocessor/repetition/enum_trailing.hpp>
-#include <boost/preprocessor/repetition/enum_params.hpp>
-#include <boost/preprocessor/repetition/enum_binary_params.hpp>
-#include <boost/preprocessor/repetition/enum_trailing_params.hpp>
-#include <boost/preprocessor/repetition/enum_trailing_binary_params.hpp>
-#include <boost/utility/addressof.hpp>
-#include <boost/proto/proto_fwd.hpp>
-#include <boost/proto/args.hpp>
-#include <boost/proto/traits.hpp>
+#include "../../boost/preprocessor/cat.hpp"
+#include "../../boost/preprocessor/arithmetic/dec.hpp"
+#include "../../boost/preprocessor/selection/max.hpp"
+#include "../../boost/preprocessor/iteration/iterate.hpp"
+#include "../../boost/preprocessor/facilities/intercept.hpp"
+#include "../../boost/preprocessor/repetition/repeat.hpp"
+#include "../../boost/preprocessor/repetition/repeat_from_to.hpp"
+#include "../../boost/preprocessor/repetition/enum_trailing.hpp"
+#include "../../boost/preprocessor/repetition/enum_params.hpp"
+#include "../../boost/preprocessor/repetition/enum_binary_params.hpp"
+#include "../../boost/preprocessor/repetition/enum_trailing_params.hpp"
+#include "../../boost/preprocessor/repetition/enum_trailing_binary_params.hpp"
+#include "../../boost/utility/addressof.hpp"
+#include "../../boost/proto/proto_fwd.hpp"
+#include "../../boost/proto/args.hpp"
+#include "../../boost/proto/traits.hpp"
 
 #if defined(_MSC_VER)
 # pragma warning(push)
@@ -123,18 +123,18 @@ namespace boost { namespace proto
         template<typename Sig, typename This, typename Domain>
         struct funop;
 
-        #include <boost/proto/detail/funop.hpp>
+        #include "../../boost/proto/detail/funop.hpp"
     }
 
     namespace exprns_
     {
         // This is where the basic_expr specializations are
         // actually defined:
-        #include <boost/proto/detail/basic_expr.hpp>
+        #include "../../boost/proto/detail/basic_expr.hpp"
 
         // This is where the expr specialization are
         // actually defined:
-        #include <boost/proto/detail/expr.hpp>
+        #include "../../boost/proto/detail/expr.hpp"
     }
 
     /// \brief Lets you inherit the interface of an expression

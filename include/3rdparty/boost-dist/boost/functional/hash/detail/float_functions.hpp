@@ -6,12 +6,12 @@
 #if !defined(BOOST_FUNCTIONAL_HASH_DETAIL_FLOAT_FUNCTIONS_HPP)
 #define BOOST_FUNCTIONAL_HASH_DETAIL_FLOAT_FUNCTIONS_HPP
 
-#include <boost/config.hpp>
+#include "../../../../boost/config.hpp"
 #if defined(BOOST_HAS_PRAGMA_ONCE)
 #pragma once
 #endif
 
-#include <boost/config/no_tr1/cmath.hpp>
+#include "../../../../boost/config/no_tr1/cmath.hpp"
 
 // Set BOOST_HASH_CONFORMANT_FLOATS to 1 for libraries known to have
 // sufficiently good floating point support to not require any

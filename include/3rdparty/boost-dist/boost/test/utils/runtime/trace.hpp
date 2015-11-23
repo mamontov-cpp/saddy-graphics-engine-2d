@@ -16,7 +16,7 @@
 #define BOOST_TEST_UTILS_RUNTIME_TRACE_HPP
 
 // Boost.Runtime.Parameter
-#include <boost/test/utils/runtime/config.hpp>
+#include "../../../../boost/test/utils/runtime/config.hpp"
 
 #ifdef BOOST_TEST_UTILS_RUNTIME_PARAM_DEBUG
 

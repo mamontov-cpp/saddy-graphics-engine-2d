@@ -12,18 +12,18 @@
 
 #include <functional>
 #include <vector>
-#include <boost/limits.hpp>
-#include <boost/ref.hpp>
-#include <boost/utility/result_of.hpp>
-#include <boost/preprocessor.hpp>
-#include <boost/parameter/name.hpp>
-#include <boost/parameter/binding.hpp>
-#include <boost/type_traits.hpp>
-#include <boost/mpl/not.hpp>
-#include <boost/graph/properties.hpp>
-#include <boost/graph/detail/d_ary_heap.hpp>
-#include <boost/property_map/property_map.hpp>
-#include <boost/property_map/shared_array_property_map.hpp>
+#include "../../boost/limits.hpp"
+#include "../../boost/ref.hpp"
+#include "../../boost/utility/result_of.hpp"
+#include "../../boost/preprocessor.hpp"
+#include "../../boost/parameter/name.hpp"
+#include "../../boost/parameter/binding.hpp"
+#include "../../boost/type_traits.hpp"
+#include "../../boost/mpl/not.hpp"
+#include "../../boost/graph/properties.hpp"
+#include "../../boost/graph/detail/d_ary_heap.hpp"
+#include "../../boost/property_map/property_map.hpp"
+#include "../../boost/property_map/shared_array_property_map.hpp"
 
 namespace boost {
 

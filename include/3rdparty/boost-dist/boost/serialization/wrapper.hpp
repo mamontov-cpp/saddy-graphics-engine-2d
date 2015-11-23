@@ -6,10 +6,10 @@
 // License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#include <boost/serialization/traits.hpp>
-#include <boost/type_traits/is_base_and_derived.hpp>
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/bool.hpp>
+#include "../../boost/serialization/traits.hpp"
+#include "../../boost/type_traits/is_base_and_derived.hpp"
+#include "../../boost/mpl/eval_if.hpp"
+#include "../../boost/mpl/bool.hpp"
 
 namespace boost { namespace serialization {
 

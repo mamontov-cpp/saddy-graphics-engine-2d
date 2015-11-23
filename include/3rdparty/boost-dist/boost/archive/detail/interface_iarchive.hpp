@@ -16,13 +16,13 @@
 
 //  See http://www.boost.org for updates, documentation, and revision history.
 #include <cstddef> // NULL
-#include <boost/cstdint.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/archive/detail/auto_link_archive.hpp>
-#include <boost/archive/detail/iserializer.hpp>
-#include <boost/archive/detail/helper_collection.hpp>
-#include <boost/serialization/singleton.hpp>
-#include <boost/archive/detail/abi_prefix.hpp> // must be the last header
+#include "../../../boost/cstdint.hpp"
+#include "../../../boost/mpl/bool.hpp"
+#include "../../../boost/archive/detail/auto_link_archive.hpp"
+#include "../../../boost/archive/detail/iserializer.hpp"
+#include "../../../boost/archive/detail/helper_collection.hpp"
+#include "../../../boost/serialization/singleton.hpp"
+#include "../../../boost/archive/detail/abi_prefix.hpp" // must be the last header
 
 namespace boost {
 namespace archive {
@@ -80,6 +80,6 @@ public:
 } // namespace archive
 } // namespace boost
 
-#include <boost/archive/detail/abi_suffix.hpp> // pops abi_suffix.hpp pragmas
+#include "../../../boost/archive/detail/abi_suffix.hpp" // pops abi_suffix.hpp pragmas
 
 #endif // BOOST_ARCHIVE_DETAIL_INTERFACE_IARCHIVE_HPP

@@ -7,7 +7,7 @@
 #if !defined(FUSION_CONVERT_10022005_1442)
 #define FUSION_CONVERT_10022005_1442
 
-#include <boost/fusion/support/config.hpp>
+#include "../../../boost/fusion/support/config.hpp"
 
 namespace boost { namespace fusion
 {

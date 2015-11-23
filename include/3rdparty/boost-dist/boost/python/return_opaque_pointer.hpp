@@ -8,12 +8,12 @@
 # ifndef RETURN_OPAQUE_POINTER_HPP_
 # define RETURN_OPAQUE_POINTER_HPP_
 
-# include <boost/python/detail/prefix.hpp>
-# include <boost/python/opaque_pointer_converter.hpp>
-# include <boost/python/detail/force_instantiate.hpp>
-# include <boost/python/to_python_value.hpp>
-# include <boost/python/detail/value_arg.hpp>
-# include <boost/mpl/assert.hpp>
+#include "../../boost/python/detail/prefix.hpp"
+#include "../../boost/python/opaque_pointer_converter.hpp"
+#include "../../boost/python/detail/force_instantiate.hpp"
+#include "../../boost/python/to_python_value.hpp"
+#include "../../boost/python/detail/value_arg.hpp"
+#include "../../boost/mpl/assert.hpp"
 
 namespace boost { namespace python {
 

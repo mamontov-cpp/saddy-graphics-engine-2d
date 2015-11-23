@@ -5,32 +5,32 @@
 #ifndef ARG_TO_PYTHON_DWA200265_HPP
 # define ARG_TO_PYTHON_DWA200265_HPP
 
-# include <boost/python/ptr.hpp>
-# include <boost/python/tag.hpp>
-# include <boost/python/to_python_indirect.hpp>
+#include "../../../boost/python/ptr.hpp"
+#include "../../../boost/python/tag.hpp"
+#include "../../../boost/python/to_python_indirect.hpp"
 
-# include <boost/python/converter/registered.hpp>
-# include <boost/python/converter/registered_pointee.hpp>
-# include <boost/python/converter/arg_to_python_base.hpp>
-# include <boost/python/converter/shared_ptr_to_python.hpp>
+#include "../../../boost/python/converter/registered.hpp"
+#include "../../../boost/python/converter/registered_pointee.hpp"
+#include "../../../boost/python/converter/arg_to_python_base.hpp"
+#include "../../../boost/python/converter/shared_ptr_to_python.hpp"
 // Bring in specializations
-# include <boost/python/converter/builtin_converters.hpp>
+#include "../../../boost/python/converter/builtin_converters.hpp"
 
-# include <boost/python/object/function_handle.hpp>
+#include "../../../boost/python/object/function_handle.hpp"
 
-# include <boost/python/base_type_traits.hpp>
+#include "../../../boost/python/base_type_traits.hpp"
 
-# include <boost/python/detail/indirect_traits.hpp>
-# include <boost/python/detail/convertible.hpp>
-# include <boost/python/detail/string_literal.hpp>
-# include <boost/python/detail/value_is_shared_ptr.hpp>
+#include "../../../boost/python/detail/indirect_traits.hpp"
+#include "../../../boost/python/detail/convertible.hpp"
+#include "../../../boost/python/detail/string_literal.hpp"
+#include "../../../boost/python/detail/value_is_shared_ptr.hpp"
 
-# include <boost/type_traits/cv_traits.hpp>
-# include <boost/type_traits/composite_traits.hpp>
-# include <boost/type_traits/function_traits.hpp>
+#include "../../../boost/type_traits/cv_traits.hpp"
+#include "../../../boost/type_traits/composite_traits.hpp"
+#include "../../../boost/type_traits/function_traits.hpp"
 
 
-# include <boost/mpl/or.hpp>
+#include "../../../boost/mpl/or.hpp"
 
 namespace boost { namespace python { namespace converter { 
 

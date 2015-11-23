@@ -7,9 +7,9 @@
 #if !defined(FUSION_IS_SEGMENTED_03202006_0015)
 #define FUSION_IS_SEGMENTED_03202006_0015
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/fusion/support/tag_of.hpp>
+#include "../../../boost/fusion/support/config.hpp"
+#include "../../../boost/mpl/bool.hpp"
+#include "../../../boost/fusion/support/tag_of.hpp"
 
 namespace boost { namespace fusion 
 {

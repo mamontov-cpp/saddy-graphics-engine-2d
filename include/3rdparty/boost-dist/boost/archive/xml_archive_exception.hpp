@@ -17,13 +17,13 @@
 //  See http://www.boost.org for updates, documentation, and revision history.
 
 #include <exception>
-#include <boost/assert.hpp>
+#include "../../boost/assert.hpp"
 
-#include <boost/config.hpp> 
-#include <boost/archive/detail/decl.hpp>
-#include <boost/archive/archive_exception.hpp>
+#include "../../boost/config.hpp" 
+#include "../../boost/archive/detail/decl.hpp"
+#include "../../boost/archive/archive_exception.hpp"
 
-#include <boost/archive/detail/abi_prefix.hpp> // must be the last header
+#include "../../boost/archive/detail/abi_prefix.hpp" // must be the last header
 
 namespace boost {
 namespace archive {
@@ -50,6 +50,6 @@ public:
 }// namespace archive
 }// namespace boost
 
-#include <boost/archive/detail/abi_suffix.hpp> // pops abi_suffix.hpp pragmas
+#include "../../boost/archive/detail/abi_suffix.hpp" // pops abi_suffix.hpp pragmas
 
 #endif //BOOST_XML_ARCHIVE_ARCHIVE_EXCEPTION_HPP

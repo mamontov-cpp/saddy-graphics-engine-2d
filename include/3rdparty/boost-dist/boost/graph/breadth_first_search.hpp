@@ -14,20 +14,20 @@
 /*
   Breadth First Search Algorithm (Cormen, Leiserson, and Rivest p. 470)
 */
-#include <boost/config.hpp>
+#include "../../boost/config.hpp"
 #include <vector>
-#include <boost/pending/queue.hpp>
-#include <boost/graph/graph_traits.hpp>
-#include <boost/graph/graph_concepts.hpp>
-#include <boost/graph/visitors.hpp>
-#include <boost/graph/named_function_params.hpp>
-#include <boost/graph/overloading.hpp>
-#include <boost/graph/graph_concepts.hpp>
-#include <boost/graph/two_bit_color_map.hpp>
-#include <boost/concept/assert.hpp>
+#include "../../boost/pending/queue.hpp"
+#include "../../boost/graph/graph_traits.hpp"
+#include "../../boost/graph/graph_concepts.hpp"
+#include "../../boost/graph/visitors.hpp"
+#include "../../boost/graph/named_function_params.hpp"
+#include "../../boost/graph/overloading.hpp"
+#include "../../boost/graph/graph_concepts.hpp"
+#include "../../boost/graph/two_bit_color_map.hpp"
+#include "../../boost/concept/assert.hpp"
 
 #ifdef BOOST_GRAPH_USE_MPI
-#include <boost/graph/distributed/concepts.hpp>
+#include "../../boost/graph/distributed/concepts.hpp"
 #endif // BOOST_GRAPH_USE_MPI
 
 namespace boost {
@@ -406,7 +406,7 @@ namespace boost {
 } // namespace boost
 
 #ifdef BOOST_GRAPH_USE_MPI
-#  include <boost/graph/distributed/breadth_first_search.hpp>
+#include "../../boost/graph/distributed/breadth_first_search.hpp"
 #endif
 
 #endif // BOOST_GRAPH_BREADTH_FIRST_SEARCH_HPP

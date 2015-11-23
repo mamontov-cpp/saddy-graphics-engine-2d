@@ -24,7 +24,7 @@
 #include <utility> //for std::swap (C++11)
 #include <algorithm> //for std::swap (C++98)
 #include <cstddef> //for std::size_t
-#include <boost/config.hpp>
+#include "../../boost/config.hpp"
 
 namespace boost_swap_impl
 {

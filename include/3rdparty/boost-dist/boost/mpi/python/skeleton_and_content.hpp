@@ -12,12 +12,12 @@
  *
  *  This file reflects the skeleton/content facilities into Python.
  */
-#include <boost/python.hpp>
-#include <boost/mpi.hpp>
-#include <boost/function/function1.hpp>
+#include "../../../boost/python.hpp"
+#include "../../../boost/mpi.hpp"
+#include "../../../boost/function/function1.hpp"
 #define BOOST_MPI_PYTHON_FORWARD_ONLY
-#include <boost/mpi/python.hpp>
-#include <boost/mpi/python/serialize.hpp>
+#include "../../../boost/mpi/python.hpp"
+#include "../../../boost/mpi/python/serialize.hpp"
 
 
 namespace boost { namespace mpi { namespace python {

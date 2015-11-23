@@ -8,10 +8,10 @@
 #ifndef BOOST_MPI_BROADCAST_HPP
 #define BOOST_MPI_BROADCAST_HPP
 
-#include <boost/mpi/collectives_fwd.hpp>
-#include <boost/mpi/exception.hpp>
-#include <boost/mpi/datatype.hpp>
-#include <boost/mpi/communicator.hpp>
+#include "../../../boost/mpi/collectives_fwd.hpp"
+#include "../../../boost/mpi/exception.hpp"
+#include "../../../boost/mpi/datatype.hpp"
+#include "../../../boost/mpi/communicator.hpp"
 
 namespace boost { namespace mpi {
 
@@ -139,7 +139,7 @@ void broadcast(const communicator& comm, T* values, int n, int root)
 // If the user has already included skeleton_and_content.hpp, include
 // the code to broadcast skeletons and content.
 #ifdef BOOST_MPI_SKELETON_AND_CONTENT_HPP
-#  include <boost/mpi/detail/broadcast_sc.hpp>
+#include "../../../boost/mpi/detail/broadcast_sc.hpp"
 #endif
 
 #endif // BOOST_MPI_BROADCAST_HPP

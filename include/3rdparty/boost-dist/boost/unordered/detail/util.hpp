@@ -7,20 +7,20 @@
 #ifndef BOOST_UNORDERED_DETAIL_UTIL_HPP_INCLUDED
 #define BOOST_UNORDERED_DETAIL_UTIL_HPP_INCLUDED
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 #if defined(BOOST_HAS_PRAGMA_ONCE)
 #pragma once
 #endif
 
-#include <boost/type_traits/is_convertible.hpp>
-#include <boost/type_traits/is_empty.hpp>
-#include <boost/iterator/iterator_categories.hpp>
-#include <boost/utility/enable_if.hpp>
-#include <boost/detail/select_type.hpp>
-#include <boost/move/move.hpp>
-#include <boost/preprocessor/seq/size.hpp>
-#include <boost/preprocessor/seq/enum.hpp>
-#include <boost/swap.hpp>
+#include "../../../boost/type_traits/is_convertible.hpp"
+#include "../../../boost/type_traits/is_empty.hpp"
+#include "../../../boost/iterator/iterator_categories.hpp"
+#include "../../../boost/utility/enable_if.hpp"
+#include "../../../boost/detail/select_type.hpp"
+#include "../../../boost/move/move.hpp"
+#include "../../../boost/preprocessor/seq/size.hpp"
+#include "../../../boost/preprocessor/seq/enum.hpp"
+#include "../../../boost/swap.hpp"
 
 namespace boost { namespace unordered { namespace detail {
 

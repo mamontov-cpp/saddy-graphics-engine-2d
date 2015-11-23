@@ -7,8 +7,8 @@
 #if !defined(FUSION_BEGIN_IMPL_07162005_1031)
 #define FUSION_BEGIN_IMPL_07162005_1031
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/view/transform_view/transform_view_fwd.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/fusion/view/transform_view/transform_view_fwd.hpp"
 
 namespace boost { namespace fusion
 {

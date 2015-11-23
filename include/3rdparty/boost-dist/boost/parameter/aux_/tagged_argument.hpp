@@ -6,16 +6,16 @@
 #ifndef BOOST_PARAMETER_TAGGED_ARGUMENT_050328_HPP
 # define BOOST_PARAMETER_TAGGED_ARGUMENT_050328_HPP
 
-# include <boost/parameter/aux_/void.hpp>
-# include <boost/parameter/aux_/arg_list.hpp>
-# include <boost/parameter/aux_/result_of0.hpp>
-# include <boost/mpl/if.hpp>
-# include <boost/mpl/apply_wrap.hpp>
-# include <boost/mpl/and.hpp>
-# include <boost/mpl/not.hpp>
-# include <boost/type_traits/is_same.hpp>
-# include <boost/type_traits/is_convertible.hpp>
-# include <boost/type_traits/is_reference.hpp>
+#include "../../../boost/parameter/aux_/void.hpp"
+#include "../../../boost/parameter/aux_/arg_list.hpp"
+#include "../../../boost/parameter/aux_/result_of0.hpp"
+#include "../../../boost/mpl/if.hpp"
+#include "../../../boost/mpl/apply_wrap.hpp"
+#include "../../../boost/mpl/and.hpp"
+#include "../../../boost/mpl/not.hpp"
+#include "../../../boost/type_traits/is_same.hpp"
+#include "../../../boost/type_traits/is_convertible.hpp"
+#include "../../../boost/type_traits/is_reference.hpp"
 
 namespace boost { namespace parameter { namespace aux {
 

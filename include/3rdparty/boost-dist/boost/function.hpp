@@ -12,8 +12,8 @@
 
 #include <functional> // unary_function, binary_function
 
-#include <boost/preprocessor/iterate.hpp>
-#include <boost/detail/workaround.hpp>
+#include "../boost/preprocessor/iterate.hpp"
+#include "../boost/detail/workaround.hpp"
 
 #ifndef BOOST_FUNCTION_MAX_ARGS
 #  define BOOST_FUNCTION_MAX_ARGS 10
@@ -21,42 +21,42 @@
 
 // Include the prologue here so that the use of file-level iteration
 // in anything that may be included by function_template.hpp doesn't break
-#include <boost/function/detail/prologue.hpp>
+#include "../boost/function/detail/prologue.hpp"
 
 // Older Visual Age C++ version do not handle the file iteration well
 #if BOOST_WORKAROUND(__IBMCPP__, >= 500) && BOOST_WORKAROUND(__IBMCPP__, < 800)
 #  if BOOST_FUNCTION_MAX_ARGS >= 0
-#    include <boost/function/function0.hpp>
+#include "../boost/function/function0.hpp"
 #  endif
 #  if BOOST_FUNCTION_MAX_ARGS >= 1
-#    include <boost/function/function1.hpp>
+#include "../boost/function/function1.hpp"
 #  endif
 #  if BOOST_FUNCTION_MAX_ARGS >= 2
-#    include <boost/function/function2.hpp>
+#include "../boost/function/function2.hpp"
 #  endif
 #  if BOOST_FUNCTION_MAX_ARGS >= 3
-#    include <boost/function/function3.hpp>
+#include "../boost/function/function3.hpp"
 #  endif
 #  if BOOST_FUNCTION_MAX_ARGS >= 4
-#    include <boost/function/function4.hpp>
+#include "../boost/function/function4.hpp"
 #  endif
 #  if BOOST_FUNCTION_MAX_ARGS >= 5
-#    include <boost/function/function5.hpp>
+#include "../boost/function/function5.hpp"
 #  endif
 #  if BOOST_FUNCTION_MAX_ARGS >= 6
-#    include <boost/function/function6.hpp>
+#include "../boost/function/function6.hpp"
 #  endif
 #  if BOOST_FUNCTION_MAX_ARGS >= 7
-#    include <boost/function/function7.hpp>
+#include "../boost/function/function7.hpp"
 #  endif
 #  if BOOST_FUNCTION_MAX_ARGS >= 8
-#    include <boost/function/function8.hpp>
+#include "../boost/function/function8.hpp"
 #  endif
 #  if BOOST_FUNCTION_MAX_ARGS >= 9
-#    include <boost/function/function9.hpp>
+#include "../boost/function/function9.hpp"
 #  endif
 #  if BOOST_FUNCTION_MAX_ARGS >= 10
-#    include <boost/function/function10.hpp>
+#include "../boost/function/function10.hpp"
 #  endif
 #else
 // What is the '3' for?

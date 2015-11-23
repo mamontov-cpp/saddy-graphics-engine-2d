@@ -15,22 +15,22 @@
 // $Date$
 // $Revision$
 
-#include <boost/mpl/at_fwd.hpp>
-#include <boost/mpl/long.hpp>
-#include <boost/mpl/map/aux_/tag.hpp>
-#include <boost/mpl/aux_/order_impl.hpp>
-#include <boost/mpl/aux_/overload_names.hpp>
-#include <boost/mpl/aux_/type_wrapper.hpp>
-#include <boost/mpl/aux_/ptr_to_ref.hpp>
-#include <boost/mpl/aux_/static_cast.hpp>
-#include <boost/mpl/aux_/config/typeof.hpp>
-#include <boost/mpl/aux_/config/ctps.hpp>
+#include "../../../../boost/mpl/at_fwd.hpp"
+#include "../../../../boost/mpl/long.hpp"
+#include "../../../../boost/mpl/map/aux_/tag.hpp"
+#include "../../../../boost/mpl/aux_/order_impl.hpp"
+#include "../../../../boost/mpl/aux_/overload_names.hpp"
+#include "../../../../boost/mpl/aux_/type_wrapper.hpp"
+#include "../../../../boost/mpl/aux_/ptr_to_ref.hpp"
+#include "../../../../boost/mpl/aux_/static_cast.hpp"
+#include "../../../../boost/mpl/aux_/config/typeof.hpp"
+#include "../../../../boost/mpl/aux_/config/ctps.hpp"
 
 #if !defined(BOOST_MPL_CFG_TYPEOF_BASED_SEQUENCES)
-#   include <boost/mpl/eval_if.hpp>
-#   include <boost/mpl/pair.hpp>
-#   include <boost/mpl/void.hpp>
-#   include <boost/mpl/aux_/config/static_constant.hpp>
+#include "../../../../boost/mpl/eval_if.hpp"
+#include "../../../../boost/mpl/pair.hpp"
+#include "../../../../boost/mpl/void.hpp"
+#include "../../../../boost/mpl/aux_/config/static_constant.hpp"
 #endif
 
 namespace boost { namespace mpl {

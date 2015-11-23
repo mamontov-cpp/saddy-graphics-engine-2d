@@ -15,7 +15,7 @@
 //  http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#include <boost/smart_ptr/detail/yield_k.hpp>
+#include "../../../boost/smart_ptr/detail/yield_k.hpp"
 #include <atomic>
 
 namespace boost

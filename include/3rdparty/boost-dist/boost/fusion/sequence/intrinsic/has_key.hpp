@@ -7,13 +7,13 @@
 #if !defined(FUSION_HAS_KEY_09232005_1454)
 #define FUSION_HAS_KEY_09232005_1454
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/sequence/intrinsic_fwd.hpp>
-#include <boost/fusion/support/tag_of.hpp>
-#include <boost/fusion/iterator/equal_to.hpp>
-#include <boost/fusion/algorithm/query/find.hpp>
-#include <boost/fusion/sequence/intrinsic/end.hpp>
-#include <boost/mpl/not.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic_fwd.hpp"
+#include "../../../../boost/fusion/support/tag_of.hpp"
+#include "../../../../boost/fusion/iterator/equal_to.hpp"
+#include "../../../../boost/fusion/algorithm/query/find.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic/end.hpp"
+#include "../../../../boost/mpl/not.hpp"
 
 namespace boost { namespace fusion
 {

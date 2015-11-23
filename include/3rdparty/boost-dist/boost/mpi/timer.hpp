@@ -12,8 +12,8 @@
 #ifndef BOOST_MPI_TIMER_HPP
 #define BOOST_MPI_TIMER_HPP
 
-#include <boost/mpi/config.hpp>
-#include <boost/limits.hpp>
+#include "../../boost/mpi/config.hpp"
+#include "../../boost/limits.hpp"
 
 namespace boost { namespace mpi {
 

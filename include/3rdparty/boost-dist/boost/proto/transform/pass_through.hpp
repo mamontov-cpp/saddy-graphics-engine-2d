@@ -12,17 +12,17 @@
 #ifndef BOOST_PROTO_TRANSFORM_PASS_THROUGH_HPP_EAN_12_26_2006
 #define BOOST_PROTO_TRANSFORM_PASS_THROUGH_HPP_EAN_12_26_2006
 
-#include <boost/preprocessor/cat.hpp>
-#include <boost/preprocessor/repetition/enum.hpp>
-#include <boost/preprocessor/iteration/iterate.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/type_traits/remove_reference.hpp>
-#include <boost/proto/proto_fwd.hpp>
-#include <boost/proto/args.hpp>
-#include <boost/proto/transform/impl.hpp>
-#include <boost/proto/detail/ignore_unused.hpp>
+#include "../../../boost/preprocessor/cat.hpp"
+#include "../../../boost/preprocessor/repetition/enum.hpp"
+#include "../../../boost/preprocessor/iteration/iterate.hpp"
+#include "../../../boost/mpl/bool.hpp"
+#include "../../../boost/mpl/if.hpp"
+#include "../../../boost/type_traits/is_same.hpp"
+#include "../../../boost/type_traits/remove_reference.hpp"
+#include "../../../boost/proto/proto_fwd.hpp"
+#include "../../../boost/proto/args.hpp"
+#include "../../../boost/proto/transform/impl.hpp"
+#include "../../../boost/proto/detail/ignore_unused.hpp"
 
 #if defined(_MSC_VER)
 # pragma warning(push)
@@ -44,7 +44,7 @@ namespace boost { namespace proto
         struct pass_through_impl
         {};
 
-        #include <boost/proto/transform/detail/pass_through_impl.hpp>
+        #include "../../../boost/proto/transform/detail/pass_through_impl.hpp"
 
         template<typename Grammar, typename Domain, typename Expr, typename State, typename Data>
         struct pass_through_impl<Grammar, Domain, Expr, State, Data, 0>

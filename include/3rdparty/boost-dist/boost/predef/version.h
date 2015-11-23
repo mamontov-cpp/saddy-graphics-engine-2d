@@ -8,7 +8,7 @@ http://www.boost.org/LICENSE_1_0.txt)
 #ifndef BOOST_PREDEF_VERSION_H
 #define BOOST_PREDEF_VERSION_H
 
-#include <boost/predef/version_number.h>
+#include "../../boost/predef/version_number.h"
 
 #define BOOST_PREDEF_VERSION BOOST_VERSION_NUMBER(1,3,0)
 

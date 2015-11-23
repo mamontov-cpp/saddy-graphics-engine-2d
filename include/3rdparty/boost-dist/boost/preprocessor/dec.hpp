@@ -12,6 +12,6 @@
 # ifndef BOOST_PREPROCESSOR_DEC_HPP
 # define BOOST_PREPROCESSOR_DEC_HPP
 #
-# include <boost/preprocessor/arithmetic/dec.hpp>
+#include "../../boost/preprocessor/arithmetic/dec.hpp"
 #
 # endif

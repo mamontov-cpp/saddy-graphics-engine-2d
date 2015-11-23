@@ -8,14 +8,14 @@
 #ifndef BOOST_MPI_ALL_GATHER_HPP
 #define BOOST_MPI_ALL_GATHER_HPP
 
-#include <boost/mpi/exception.hpp>
-#include <boost/mpi/datatype.hpp>
+#include "../../../boost/mpi/exception.hpp"
+#include "../../../boost/mpi/datatype.hpp"
 #include <vector>
-#include <boost/serialization/vector.hpp>
+#include "../../../boost/serialization/vector.hpp"
 
 // all_gather falls back to gather+broadcast in some cases
-#include <boost/mpi/collectives/broadcast.hpp>
-#include <boost/mpi/collectives/gather.hpp>
+#include "../../../boost/mpi/collectives/broadcast.hpp"
+#include "../../../boost/mpi/collectives/gather.hpp"
 
 namespace boost { namespace mpi {
 

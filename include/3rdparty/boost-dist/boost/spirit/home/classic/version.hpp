@@ -13,7 +13,7 @@
 //  This checks, whether the used Boost library is at least V1.32.0
 //
 ///////////////////////////////////////////////////////////////////////////////
-#include <boost/version.hpp>
+#include "../../../../boost/version.hpp"
 
 #if BOOST_VERSION < 103200
 #error "Spirit v1.8.x needs at least Boost V1.32.0 to compile successfully."

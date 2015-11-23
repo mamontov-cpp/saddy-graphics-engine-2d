@@ -8,18 +8,18 @@
 #if !defined(FUSION_AT_IMPL_20060124_1933)
 #define FUSION_AT_IMPL_20060124_1933
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/container/vector.hpp>
-#include <boost/fusion/sequence/intrinsic/at.hpp>
-#include <boost/fusion/container/vector/convert.hpp>
-#include <boost/fusion/algorithm/transformation/transform.hpp>
-#include <boost/type_traits/remove_reference.hpp>
-#include <boost/type_traits/is_reference.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/fusion/support/unused.hpp>
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/identity.hpp>
-#include <boost/type_traits/is_same.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/fusion/container/vector.hpp"
+#include "../../../../../boost/fusion/sequence/intrinsic/at.hpp"
+#include "../../../../../boost/fusion/container/vector/convert.hpp"
+#include "../../../../../boost/fusion/algorithm/transformation/transform.hpp"
+#include "../../../../../boost/type_traits/remove_reference.hpp"
+#include "../../../../../boost/type_traits/is_reference.hpp"
+#include "../../../../../boost/mpl/assert.hpp"
+#include "../../../../../boost/fusion/support/unused.hpp"
+#include "../../../../../boost/mpl/eval_if.hpp"
+#include "../../../../../boost/mpl/identity.hpp"
+#include "../../../../../boost/type_traits/is_same.hpp"
 
 
 namespace boost { namespace fusion 

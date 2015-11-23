@@ -1,7 +1,7 @@
 #ifndef PTR_DWA20020601_HPP
 # define PTR_DWA20020601_HPP
 
-# include <boost/python/detail/prefix.hpp>
+#include "../../boost/python/detail/prefix.hpp"
 // Copyright David Abrahams 2002.
 // Distributed under the Boost Software License, Version 1.0. (See
 // accompanying file LICENSE_1_0.txt or copy at
@@ -13,8 +13,8 @@
 
 # pragma once
 
-# include <boost/config.hpp>
-# include <boost/mpl/bool.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/mpl/bool.hpp"
 
 namespace boost { namespace python {
 

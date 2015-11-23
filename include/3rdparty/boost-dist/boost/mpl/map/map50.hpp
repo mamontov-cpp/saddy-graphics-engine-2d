@@ -16,20 +16,20 @@
 // $Revision$
 
 #if !defined(BOOST_MPL_PREPROCESSING_MODE)
-#   include <boost/mpl/map/map40.hpp>
+#include "../../../boost/mpl/map/map40.hpp"
 #endif
 
-#include <boost/mpl/aux_/config/use_preprocessed.hpp>
+#include "../../../boost/mpl/aux_/config/use_preprocessed.hpp"
 
 #if !defined(BOOST_MPL_CFG_NO_PREPROCESSED_HEADERS) \
     && !defined(BOOST_MPL_PREPROCESSING_MODE)
 
 #   define BOOST_MPL_PREPROCESSED_HEADER map50.hpp
-#   include <boost/mpl/map/aux_/include_preprocessed.hpp>
+#include "../../../boost/mpl/map/aux_/include_preprocessed.hpp"
 
 #else
 
-#   include <boost/preprocessor/iterate.hpp>
+#include "../../../boost/preprocessor/iterate.hpp"
 
 namespace boost { namespace mpl {
 

@@ -7,12 +7,12 @@
 #if !defined(FUSION_CONVERT_09222005_1104)
 #define FUSION_CONVERT_09222005_1104
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/container/vector/detail/as_vector.hpp>
-#include <boost/fusion/container/vector/detail/convert_impl.hpp>
-#include <boost/fusion/container/vector/vector.hpp>
-#include <boost/fusion/sequence/intrinsic/begin.hpp>
-#include <boost/fusion/sequence/intrinsic/size.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/fusion/container/vector/detail/as_vector.hpp"
+#include "../../../../boost/fusion/container/vector/detail/convert_impl.hpp"
+#include "../../../../boost/fusion/container/vector/vector.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic/begin.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic/size.hpp"
 
 namespace boost { namespace fusion
 {

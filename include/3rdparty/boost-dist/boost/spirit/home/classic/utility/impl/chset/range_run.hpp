@@ -11,7 +11,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include <vector>
 
-#include <boost/spirit/home/classic/namespace.hpp>
+#include "../../../../../../../boost/spirit/home/classic/namespace.hpp"
 
 ///////////////////////////////////////////////////////////////////////////////
 namespace boost { namespace spirit { 
@@ -124,4 +124,4 @@ BOOST_SPIRIT_CLASSIC_NAMESPACE_END
 
 #endif
 
-#include <boost/spirit/home/classic/utility/impl/chset/range_run.ipp>
+#include "../../../../../../../boost/spirit/home/classic/utility/impl/chset/range_run.ipp"

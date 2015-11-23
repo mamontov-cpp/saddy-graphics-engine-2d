@@ -16,14 +16,14 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/identity.hpp>
+#include "../../../boost/mpl/eval_if.hpp"
+#include "../../../boost/mpl/identity.hpp"
 
-#include <boost/bimap/detail/is_set_type_of.hpp>
+#include "../../../boost/bimap/detail/is_set_type_of.hpp"
 
-#include <boost/bimap/set_of.hpp>
+#include "../../../boost/bimap/set_of.hpp"
 
 namespace boost {
 namespace bimaps {

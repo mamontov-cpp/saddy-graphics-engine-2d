@@ -16,12 +16,12 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
-#include <boost/bimap/container_adaptor/multimap_adaptor.hpp>
-#include <boost/bimap/detail/non_unique_views_helper.hpp>
-#include <boost/bimap/support/iterator_type_by.hpp>
-#include <boost/bimap/detail/map_view_base.hpp>
+#include "../../../boost/bimap/container_adaptor/multimap_adaptor.hpp"
+#include "../../../boost/bimap/detail/non_unique_views_helper.hpp"
+#include "../../../boost/bimap/support/iterator_type_by.hpp"
+#include "../../../boost/bimap/detail/map_view_base.hpp"
 
 namespace boost {
 namespace bimaps {

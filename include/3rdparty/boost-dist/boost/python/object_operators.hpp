@@ -5,14 +5,14 @@
 #ifndef OBJECT_OPERATORS_DWA2002617_HPP
 # define OBJECT_OPERATORS_DWA2002617_HPP
 
-# include <boost/python/detail/prefix.hpp>
+#include "../../boost/python/detail/prefix.hpp"
 
-# include <boost/python/object_core.hpp>
-# include <boost/python/call.hpp>
-# include <boost/iterator/detail/enable_if.hpp>
-# include <boost/mpl/bool.hpp>
+#include "../../boost/python/object_core.hpp"
+#include "../../boost/python/call.hpp"
+#include "../../boost/iterator/detail/enable_if.hpp"
+#include "../../boost/mpl/bool.hpp"
 
-# include <boost/iterator/detail/config_def.hpp>
+#include "../../boost/iterator/detail/config_def.hpp"
 
 namespace boost { namespace python { namespace api {
 
@@ -131,6 +131,6 @@ BOOST_PYTHON_INPLACE_OPERATOR(|=)
 
 }}} // namespace boost::python
 
-#include <boost/iterator/detail/config_undef.hpp>
+#include "../../boost/iterator/detail/config_undef.hpp"
 
 #endif // OBJECT_OPERATORS_DWA2002617_HPP

@@ -16,16 +16,16 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
-#include <boost/mpl/if.hpp>
-#include <boost/type_traits/remove_const.hpp>
+#include "../../../boost/mpl/if.hpp"
+#include "../../../boost/type_traits/remove_const.hpp"
 
 // Boost.Bimap
-#include <boost/bimap/tags/tagged.hpp>
-#include <boost/bimap/tags/support/default_tagged.hpp>
+#include "../../../boost/bimap/tags/tagged.hpp"
+#include "../../../boost/bimap/tags/support/default_tagged.hpp"
 
-#include <boost/bimap/relation/member_at.hpp>
+#include "../../../boost/bimap/relation/member_at.hpp"
 
 
 namespace boost {

@@ -4,13 +4,13 @@
 #ifndef BOOST_CONCEPT_DETAIL_GENERAL_DWA2006429_HPP
 # define BOOST_CONCEPT_DETAIL_GENERAL_DWA2006429_HPP
 
-# include <boost/config.hpp>
-# include <boost/preprocessor/cat.hpp>
-# include <boost/concept/detail/backward_compatibility.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/preprocessor/cat.hpp"
+#include "../../../boost/concept/detail/backward_compatibility.hpp"
 
 # ifdef BOOST_OLD_CONCEPT_SUPPORT
-#  include <boost/concept/detail/has_constraints.hpp>
-#  include <boost/mpl/if.hpp>
+#include "../../../boost/concept/detail/has_constraints.hpp"
+#include "../../../boost/mpl/if.hpp"
 # endif
 
 // This implementation works on Comeau and GCC, all the way back to

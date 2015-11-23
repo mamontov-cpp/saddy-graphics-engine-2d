@@ -9,20 +9,20 @@
 #ifndef BOOST_TT_HAS_TRIVIAL_COPY_HPP_INCLUDED
 #define BOOST_TT_HAS_TRIVIAL_COPY_HPP_INCLUDED
 
-#include <boost/type_traits/config.hpp>
-#include <boost/type_traits/intrinsics.hpp>
-#include <boost/type_traits/is_volatile.hpp>
-#include <boost/type_traits/is_pod.hpp>
-#include <boost/type_traits/detail/ice_and.hpp>
-#include <boost/type_traits/detail/ice_or.hpp>
-#include <boost/type_traits/detail/ice_not.hpp>
+#include "../../boost/type_traits/config.hpp"
+#include "../../boost/type_traits/intrinsics.hpp"
+#include "../../boost/type_traits/is_volatile.hpp"
+#include "../../boost/type_traits/is_pod.hpp"
+#include "../../boost/type_traits/detail/ice_and.hpp"
+#include "../../boost/type_traits/detail/ice_or.hpp"
+#include "../../boost/type_traits/detail/ice_not.hpp"
 
 #ifdef __clang__
-#include <boost/type_traits/is_copy_constructible.hpp>
+#include "../../boost/type_traits/is_copy_constructible.hpp"
 #endif
 
 // should be the last #include
-#include <boost/type_traits/detail/bool_trait_def.hpp>
+#include "../../boost/type_traits/detail/bool_trait_def.hpp"
 
 namespace boost {
 
@@ -77,6 +77,6 @@ BOOST_TT_AUX_BOOL_TRAIT_SPEC1(has_trivial_copy_constructor,void volatile,false)
 
 } // namespace boost
 
-#include <boost/type_traits/detail/bool_trait_undef.hpp>
+#include "../../boost/type_traits/detail/bool_trait_undef.hpp"
 
 #endif // BOOST_TT_HAS_TRIVIAL_COPY_HPP_INCLUDED

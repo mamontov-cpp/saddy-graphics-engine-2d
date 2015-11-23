@@ -13,16 +13,16 @@
 // of template parameters used to implement a text_iprimitive
 
 #include <cstddef> // size_t, NULL
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 #if defined(BOOST_NO_STDC_NAMESPACE)
 namespace std{ 
     using ::size_t; 
 } // namespace std
 #endif
 
-#include <boost/detail/workaround.hpp> // RogueWave
+#include "../../../boost/detail/workaround.hpp" // RogueWave
 
-#include <boost/archive/text_iarchive.hpp>
+#include "../../../boost/archive/text_iarchive.hpp"
 
 namespace boost {
 namespace archive {

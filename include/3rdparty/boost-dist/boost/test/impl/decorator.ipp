@@ -16,17 +16,17 @@
 #define BOOST_TEST_TREE_DECORATOR_IPP_091911GER
 
 // Boost.Test
-#include <boost/test/tree/decorator.hpp>
-#include <boost/test/tree/test_unit.hpp>
+#include "../../../boost/test/tree/decorator.hpp"
+#include "../../../boost/test/tree/test_unit.hpp"
 
-#include <boost/test/framework.hpp>
+#include "../../../boost/test/framework.hpp"
 #if BOOST_TEST_SUPPORT_TOKEN_ITERATOR
-#include <boost/test/utils/iterator/token_iterator.hpp>
+#include "../../../boost/test/utils/iterator/token_iterator.hpp"
 #endif
 
-#include <boost/test/detail/throw_exception.hpp>
+#include "../../../boost/test/detail/throw_exception.hpp"
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -197,6 +197,6 @@ precondition::apply( test_unit& tu )
 } // namespace unit_test
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_TREE_DECORATOR_IPP_091911GER

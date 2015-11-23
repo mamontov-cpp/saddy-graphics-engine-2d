@@ -14,12 +14,12 @@
 #endif
 
 #include <vector>
-#include <boost/intrusive_ptr.hpp>
-#include <boost/xpressive/regex_traits.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/detail/dynamic/matchable.hpp>
-#include <boost/xpressive/detail/utility/tracking_ptr.hpp>
-#include <boost/xpressive/detail/utility/counted_base.hpp>
+#include "../../../../boost/intrusive_ptr.hpp"
+#include "../../../../boost/xpressive/regex_traits.hpp"
+#include "../../../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../../../boost/xpressive/detail/dynamic/matchable.hpp"
+#include "../../../../boost/xpressive/detail/utility/tracking_ptr.hpp"
+#include "../../../../boost/xpressive/detail/utility/counted_base.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

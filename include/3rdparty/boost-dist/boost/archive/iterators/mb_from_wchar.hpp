@@ -16,11 +16,11 @@
 
 //  See http://www.boost.org for updates, documentation, and revision history.
 
-#include <boost/assert.hpp>
+#include "../../../boost/assert.hpp"
 #include <cstddef> // size_t
 #include <cstdlib> // for wctomb()
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 #if defined(BOOST_NO_STDC_NAMESPACE)
 namespace std{ 
     using ::size_t; 
@@ -28,7 +28,7 @@ namespace std{
 } // namespace std
 #endif
 
-#include <boost/iterator/iterator_adaptor.hpp>
+#include "../../../boost/iterator/iterator_adaptor.hpp"
 
 namespace boost { 
 namespace archive {

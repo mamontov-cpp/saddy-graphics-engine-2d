@@ -28,35 +28,35 @@
 //  #define BOOST_DETAIL_SPINLOCK_INIT <unspecified>
 //
 
-#include <boost/config.hpp>
-#include <boost/smart_ptr/detail/sp_has_sync.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/smart_ptr/detail/sp_has_sync.hpp"
 
 #if defined( BOOST_SP_USE_STD_ATOMIC )
 # if !defined( __clang__ )
-#   include <boost/smart_ptr/detail/spinlock_std_atomic.hpp>
+#include "../../../boost/smart_ptr/detail/spinlock_std_atomic.hpp"
 # else
 //  Clang (at least up to 3.4) can't compile spinlock_pool when
 //  using std::atomic, so substitute the __sync implementation instead.
-#   include <boost/smart_ptr/detail/spinlock_sync.hpp>
+#include "../../../boost/smart_ptr/detail/spinlock_sync.hpp"
 # endif
 
 #elif defined( BOOST_SP_USE_PTHREADS )
-#  include <boost/smart_ptr/detail/spinlock_pt.hpp>
+#include "../../../boost/smart_ptr/detail/spinlock_pt.hpp"
 
 #elif defined(__GNUC__) && defined( __arm__ ) && !defined( __thumb__ )
-#  include <boost/smart_ptr/detail/spinlock_gcc_arm.hpp>
+#include "../../../boost/smart_ptr/detail/spinlock_gcc_arm.hpp"
 
 #elif defined( BOOST_SP_HAS_SYNC )
-#  include <boost/smart_ptr/detail/spinlock_sync.hpp>
+#include "../../../boost/smart_ptr/detail/spinlock_sync.hpp"
 
 #elif defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__CYGWIN__)
-#  include <boost/smart_ptr/detail/spinlock_w32.hpp>
+#include "../../../boost/smart_ptr/detail/spinlock_w32.hpp"
 
 #elif defined(BOOST_HAS_PTHREADS)
-#  include <boost/smart_ptr/detail/spinlock_pt.hpp>
+#include "../../../boost/smart_ptr/detail/spinlock_pt.hpp"
 
 #elif !defined(BOOST_HAS_THREADS)
-#  include <boost/smart_ptr/detail/spinlock_nt.hpp>
+#include "../../../boost/smart_ptr/detail/spinlock_nt.hpp"
 
 #else
 #  error Unrecognized threading platform

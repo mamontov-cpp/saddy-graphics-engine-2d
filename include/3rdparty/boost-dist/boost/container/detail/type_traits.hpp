@@ -17,14 +17,14 @@
 #define BOOST_CONTAINER_CONTAINER_DETAIL_TYPE_TRAITS_HPP
 
 #ifndef BOOST_CONFIG_HPP
-#  include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 #endif
 
 #if defined(BOOST_HAS_PRAGMA_ONCE)
 #  pragma once
 #endif
 
-#include <boost/move/detail/type_traits.hpp>
+#include "../../../boost/move/detail/type_traits.hpp"
 
 namespace boost {
 namespace container {

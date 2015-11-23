@@ -13,8 +13,8 @@
 # pragma once
 #endif
 
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/match_results.hpp> // for type_info_less
+#include "../../../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../../../boost/xpressive/match_results.hpp" // for type_info_less
 
 namespace boost { namespace xpressive { namespace detail
 {

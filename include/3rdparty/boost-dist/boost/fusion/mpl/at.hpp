@@ -7,9 +7,9 @@
 #if !defined(FUSION_AT_10022005_1616)
 #define FUSION_AT_10022005_1616
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/mpl/at.hpp>
-#include <boost/fusion/sequence/intrinsic/value_at.hpp>
+#include "../../../boost/fusion/support/config.hpp"
+#include "../../../boost/mpl/at.hpp"
+#include "../../../boost/fusion/sequence/intrinsic/value_at.hpp"
 
 namespace boost { 
 namespace fusion

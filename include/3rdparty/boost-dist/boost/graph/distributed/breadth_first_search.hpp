@@ -13,15 +13,15 @@
 #error "Parallel BGL files should not be included unless <boost/graph/use_mpi.hpp> has been included"
 #endif
 
-#include <boost/graph/breadth_first_search.hpp>
-#include <boost/graph/overloading.hpp>
-#include <boost/graph/distributed/concepts.hpp>
-#include <boost/graph/distributed/detail/filtered_queue.hpp>
-#include <boost/graph/distributed/queue.hpp>
-#include <boost/dynamic_bitset.hpp>
-#include <boost/pending/queue.hpp>
-#include <boost/graph/parallel/properties.hpp>
-#include <boost/graph/parallel/container_traits.hpp>
+#include "../../../boost/graph/breadth_first_search.hpp"
+#include "../../../boost/graph/overloading.hpp"
+#include "../../../boost/graph/distributed/concepts.hpp"
+#include "../../../boost/graph/distributed/detail/filtered_queue.hpp"
+#include "../../../boost/graph/distributed/queue.hpp"
+#include "../../../boost/dynamic_bitset.hpp"
+#include "../../../boost/pending/queue.hpp"
+#include "../../../boost/graph/parallel/properties.hpp"
+#include "../../../boost/graph/parallel/container_traits.hpp"
 
 namespace boost {
   namespace detail {

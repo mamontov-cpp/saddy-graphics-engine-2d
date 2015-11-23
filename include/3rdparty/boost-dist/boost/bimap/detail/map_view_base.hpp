@@ -16,28 +16,28 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
 #include <stdexcept>
 #include <utility>
 
-#include <boost/throw_exception.hpp>
-#include <boost/type_traits/is_const.hpp>
-#include <boost/mpl/if.hpp>
+#include "../../../boost/throw_exception.hpp"
+#include "../../../boost/type_traits/is_const.hpp"
+#include "../../../boost/mpl/if.hpp"
 
-#include <boost/bimap/relation/support/get_pair_functor.hpp>
-#include <boost/bimap/relation/detail/to_mutable_relation_functor.hpp>
-#include <boost/bimap/container_adaptor/support/iterator_facade_converters.hpp>
-#include <boost/bimap/relation/support/data_extractor.hpp>
-#include <boost/bimap/relation/support/opposite_tag.hpp>
-#include <boost/bimap/relation/support/pair_type_by.hpp>
-//#include <boost/bimap/support/iterator_type_by.hpp>
-#include <boost/bimap/support/key_type_by.hpp>
-#include <boost/bimap/support/data_type_by.hpp>
-#include <boost/bimap/support/value_type_by.hpp>
-#include <boost/bimap/detail/modifier_adaptor.hpp>
-#include <boost/bimap/detail/debug/static_error.hpp>
-#include <boost/bimap/detail/map_view_iterator.hpp>
+#include "../../../boost/bimap/relation/support/get_pair_functor.hpp"
+#include "../../../boost/bimap/relation/detail/to_mutable_relation_functor.hpp"
+#include "../../../boost/bimap/container_adaptor/support/iterator_facade_converters.hpp"
+#include "../../../boost/bimap/relation/support/data_extractor.hpp"
+#include "../../../boost/bimap/relation/support/opposite_tag.hpp"
+#include "../../../boost/bimap/relation/support/pair_type_by.hpp"
+//#include "../../../boost/bimap/support/iterator_type_by.hpp"
+#include "../../../boost/bimap/support/key_type_by.hpp"
+#include "../../../boost/bimap/support/data_type_by.hpp"
+#include "../../../boost/bimap/support/value_type_by.hpp"
+#include "../../../boost/bimap/detail/modifier_adaptor.hpp"
+#include "../../../boost/bimap/detail/debug/static_error.hpp"
+#include "../../../boost/bimap/detail/map_view_iterator.hpp"
 
 namespace boost {
 namespace bimaps {

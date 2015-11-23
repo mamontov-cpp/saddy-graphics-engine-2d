@@ -7,21 +7,21 @@
 #if !defined(FUSION_ITERATOR_RANGE_05062005_1224)
 #define FUSION_ITERATOR_RANGE_05062005_1224
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/support/detail/access.hpp>
-#include <boost/fusion/support/sequence_base.hpp>
-#include <boost/fusion/support/category_of.hpp>
-#include <boost/fusion/iterator/distance.hpp>
-#include <boost/fusion/iterator/mpl/convert_iterator.hpp>
-#include <boost/fusion/view/iterator_range/detail/begin_impl.hpp>
-#include <boost/fusion/view/iterator_range/detail/end_impl.hpp>
-#include <boost/fusion/view/iterator_range/detail/at_impl.hpp>
-#include <boost/fusion/view/iterator_range/detail/size_impl.hpp>
-#include <boost/fusion/view/iterator_range/detail/value_at_impl.hpp>
-#include <boost/fusion/view/iterator_range/detail/is_segmented_impl.hpp>
-#include <boost/fusion/view/iterator_range/detail/segments_impl.hpp>
-#include <boost/fusion/adapted/mpl/mpl_iterator.hpp>
-#include <boost/config.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/fusion/support/detail/access.hpp"
+#include "../../../../boost/fusion/support/sequence_base.hpp"
+#include "../../../../boost/fusion/support/category_of.hpp"
+#include "../../../../boost/fusion/iterator/distance.hpp"
+#include "../../../../boost/fusion/iterator/mpl/convert_iterator.hpp"
+#include "../../../../boost/fusion/view/iterator_range/detail/begin_impl.hpp"
+#include "../../../../boost/fusion/view/iterator_range/detail/end_impl.hpp"
+#include "../../../../boost/fusion/view/iterator_range/detail/at_impl.hpp"
+#include "../../../../boost/fusion/view/iterator_range/detail/size_impl.hpp"
+#include "../../../../boost/fusion/view/iterator_range/detail/value_at_impl.hpp"
+#include "../../../../boost/fusion/view/iterator_range/detail/is_segmented_impl.hpp"
+#include "../../../../boost/fusion/view/iterator_range/detail/segments_impl.hpp"
+#include "../../../../boost/fusion/adapted/mpl/mpl_iterator.hpp"
+#include "../../../../boost/config.hpp"
 
 #if defined (BOOST_MSVC)
 #  pragma warning(push)

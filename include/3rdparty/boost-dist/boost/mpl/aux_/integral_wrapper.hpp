@@ -13,13 +13,13 @@
 
 // NO INCLUDE GUARDS, THE HEADER IS INTENDED FOR MULTIPLE INCLUSION!
 
-#include <boost/mpl/integral_c_tag.hpp>
-#include <boost/mpl/aux_/static_cast.hpp>
-#include <boost/mpl/aux_/nttp_decl.hpp>
-#include <boost/mpl/aux_/config/static_constant.hpp>
-#include <boost/mpl/aux_/config/workaround.hpp>
+#include "../../../boost/mpl/integral_c_tag.hpp"
+#include "../../../boost/mpl/aux_/static_cast.hpp"
+#include "../../../boost/mpl/aux_/nttp_decl.hpp"
+#include "../../../boost/mpl/aux_/config/static_constant.hpp"
+#include "../../../boost/mpl/aux_/config/workaround.hpp"
 
-#include <boost/preprocessor/cat.hpp>
+#include "../../../boost/preprocessor/cat.hpp"
 
 #if !defined(AUX_WRAPPER_NAME)
 #   define AUX_WRAPPER_NAME BOOST_PP_CAT(AUX_WRAPPER_VALUE_TYPE,_)

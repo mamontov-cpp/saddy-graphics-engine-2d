@@ -11,55 +11,55 @@
 
 #include <cstddef>
 
-#include <boost/config.hpp>
+#include "../../boost/config.hpp"
 
-#include <boost/detail/workaround.hpp>
-#include <boost/mpl/aux_/lambda_support.hpp>
+#include "../../boost/detail/workaround.hpp"
+#include "../../boost/mpl/aux_/lambda_support.hpp"
 
-#include <boost/type_traits/integral_constant.hpp>
+#include "../../boost/type_traits/integral_constant.hpp"
 
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/integral_c.hpp>
-#include <boost/mpl/vector/vector0.hpp>
+#include "../../boost/mpl/if.hpp"
+#include "../../boost/mpl/integral_c.hpp"
+#include "../../boost/mpl/vector/vector0.hpp"
 
 #if BOOST_WORKAROUND(__BORLANDC__, <= 0x565)
-#   include <boost/type_traits/remove_cv.hpp>
+#include "../../boost/type_traits/remove_cv.hpp"
 
-#   include <boost/mpl/identity.hpp>
-#   include <boost/mpl/bitand.hpp>
-#   include <boost/mpl/vector/vector10.hpp>
-#   include <boost/mpl/front.hpp>
-#   include <boost/mpl/begin.hpp>
-#   include <boost/mpl/advance.hpp>
-#   include <boost/mpl/iterator_range.hpp>
-#   include <boost/mpl/joint_view.hpp>
-#   include <boost/mpl/equal_to.hpp>
-#   include <boost/mpl/copy.hpp>
-#   include <boost/mpl/front_inserter.hpp>
+#include "../../boost/mpl/identity.hpp"
+#include "../../boost/mpl/bitand.hpp"
+#include "../../boost/mpl/vector/vector10.hpp"
+#include "../../boost/mpl/front.hpp"
+#include "../../boost/mpl/begin.hpp"
+#include "../../boost/mpl/advance.hpp"
+#include "../../boost/mpl/iterator_range.hpp"
+#include "../../boost/mpl/joint_view.hpp"
+#include "../../boost/mpl/equal_to.hpp"
+#include "../../boost/mpl/copy.hpp"
+#include "../../boost/mpl/front_inserter.hpp"
 
-#   include <boost/function_types/detail/classifier.hpp>
+#include "../../boost/function_types/detail/classifier.hpp"
 #endif
 
 #ifndef BOOST_FT_NO_CV_FUNC_SUPPORT
-#   include <boost/mpl/remove.hpp>
+#include "../../boost/mpl/remove.hpp"
 #endif
 
-#include <boost/function_types/config/config.hpp>
+#include "../../boost/function_types/config/config.hpp"
 
 #   if   BOOST_FT_MAX_ARITY < 10
-#     include <boost/mpl/vector/vector10.hpp>
+#include "../../boost/mpl/vector/vector10.hpp"
 #   elif BOOST_FT_MAX_ARITY < 20
-#     include <boost/mpl/vector/vector20.hpp>
+#include "../../boost/mpl/vector/vector20.hpp"
 #   elif BOOST_FT_MAX_ARITY < 30
-#     include <boost/mpl/vector/vector30.hpp>
+#include "../../boost/mpl/vector/vector30.hpp"
 #   elif BOOST_FT_MAX_ARITY < 40
-#     include <boost/mpl/vector/vector40.hpp>
+#include "../../boost/mpl/vector/vector40.hpp"
 #   elif BOOST_FT_MAX_ARITY < 50
-#     include <boost/mpl/vector/vector50.hpp>
+#include "../../boost/mpl/vector/vector50.hpp"
 #   endif
 
-#include <boost/function_types/detail/class_transform.hpp>
-#include <boost/function_types/property_tags.hpp>
+#include "../../boost/function_types/detail/class_transform.hpp"
+#include "../../boost/function_types/property_tags.hpp"
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -411,14 +411,14 @@ namespace boost
 #endif // end of BORLAND WORKAROUND
 
 #define BOOST_FT_al_path boost/function_types/detail/components_impl
-#include <boost/function_types/detail/pp_loop.hpp>
+#include "../../boost/function_types/detail/pp_loop.hpp"
 
   } } // namespace function_types::detail
 
 } // namespace ::boost
 
-#include <boost/function_types/detail/components_as_mpl_sequence.hpp>
-#include <boost/function_types/detail/retag_default_cc.hpp>
+#include "../../boost/function_types/detail/components_as_mpl_sequence.hpp"
+#include "../../boost/function_types/detail/retag_default_cc.hpp"
 
 #endif
 

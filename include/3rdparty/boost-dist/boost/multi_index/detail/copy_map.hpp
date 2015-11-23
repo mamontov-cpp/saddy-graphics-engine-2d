@@ -13,12 +13,12 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp> /* keep it first to prevent nasty warns in MSVC */
+#include "../../../boost/config.hpp" /* keep it first to prevent nasty warns in MSVC */
 #include <algorithm>
-#include <boost/detail/no_exceptions_support.hpp>
-#include <boost/multi_index/detail/auto_space.hpp>
-#include <boost/multi_index/detail/raw_ptr.hpp>
-#include <boost/noncopyable.hpp>
+#include "../../../boost/detail/no_exceptions_support.hpp"
+#include "../../../boost/multi_index/detail/auto_space.hpp"
+#include "../../../boost/multi_index/detail/raw_ptr.hpp"
+#include "../../../boost/noncopyable.hpp"
 #include <cstddef>
 #include <functional>
 

@@ -9,17 +9,17 @@
 #ifndef BOOST_FT_DETAIL_COMPONENTS_AS_MPL_SEQUENCE_HPP_INCLUDED
 #define BOOST_FT_DETAIL_COMPONENTS_AS_MPL_SEQUENCE_HPP_INCLUDED
 
-#include <boost/mpl/size_fwd.hpp>
-#include <boost/mpl/empty_fwd.hpp>
-#include <boost/mpl/front_fwd.hpp>
-#include <boost/mpl/back_fwd.hpp>
-#include <boost/mpl/at_fwd.hpp>
-#include <boost/mpl/begin_end_fwd.hpp>
-#include <boost/mpl/clear_fwd.hpp>
-#include <boost/mpl/push_front_fwd.hpp>
-#include <boost/mpl/pop_front_fwd.hpp>
-#include <boost/mpl/push_back_fwd.hpp>
-#include <boost/mpl/pop_back_fwd.hpp>
+#include "../../../boost/mpl/size_fwd.hpp"
+#include "../../../boost/mpl/empty_fwd.hpp"
+#include "../../../boost/mpl/front_fwd.hpp"
+#include "../../../boost/mpl/back_fwd.hpp"
+#include "../../../boost/mpl/at_fwd.hpp"
+#include "../../../boost/mpl/begin_end_fwd.hpp"
+#include "../../../boost/mpl/clear_fwd.hpp"
+#include "../../../boost/mpl/push_front_fwd.hpp"
+#include "../../../boost/mpl/pop_front_fwd.hpp"
+#include "../../../boost/mpl/push_back_fwd.hpp"
+#include "../../../boost/mpl/pop_back_fwd.hpp"
 
 namespace boost { namespace mpl {
 

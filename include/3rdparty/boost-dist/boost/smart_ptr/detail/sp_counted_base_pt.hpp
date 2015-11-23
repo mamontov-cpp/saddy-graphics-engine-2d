@@ -18,8 +18,8 @@
 // http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#include <boost/detail/sp_typeinfo.hpp>
-#include <boost/assert.hpp>
+#include "../../../boost/detail/sp_typeinfo.hpp"
+#include "../../../boost/assert.hpp"
 #include <pthread.h>
 
 namespace boost

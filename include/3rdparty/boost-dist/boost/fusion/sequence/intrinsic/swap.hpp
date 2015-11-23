@@ -8,16 +8,16 @@
 #if !defined(BOOST_FUSION_SWAP_20070501_1956)
 #define BOOST_FUSION_SWAP_20070501_1956
 
-#include <boost/fusion/support/config.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
 #include <algorithm>
 
-#include <boost/fusion/support/is_sequence.hpp>
-#include <boost/fusion/view/zip_view.hpp>
-#include <boost/fusion/algorithm/iteration/for_each.hpp>
-#include <boost/fusion/sequence/intrinsic/front.hpp>
-#include <boost/fusion/sequence/intrinsic/back.hpp>
-#include <boost/core/enable_if.hpp>
-#include <boost/mpl/and.hpp>
+#include "../../../../boost/fusion/support/is_sequence.hpp"
+#include "../../../../boost/fusion/view/zip_view.hpp"
+#include "../../../../boost/fusion/algorithm/iteration/for_each.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic/front.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic/back.hpp"
+#include "../../../../boost/core/enable_if.hpp"
+#include "../../../../boost/mpl/and.hpp"
 
 namespace boost { namespace fusion {
 

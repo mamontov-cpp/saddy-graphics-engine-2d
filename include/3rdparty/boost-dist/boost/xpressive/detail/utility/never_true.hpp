@@ -8,7 +8,7 @@
 #ifndef BOOST_XPRESSIVE_DETAIL_UTILITY_NEVER_TRUE_HPP_EAN_10_04_2005
 #define BOOST_XPRESSIVE_DETAIL_UTILITY_NEVER_TRUE_HPP_EAN_10_04_2005
 
-#include <boost/mpl/bool.hpp>
+#include "../../../../boost/mpl/bool.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

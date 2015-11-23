@@ -8,14 +8,14 @@
 #if !defined(FUSION_CONS_ITERATOR_07172005_0849)
 #define FUSION_CONS_ITERATOR_07172005_0849
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/type_traits/add_const.hpp>
-#include <boost/fusion/support/iterator_base.hpp>
-#include <boost/fusion/container/list/detail/deref_impl.hpp>
-#include <boost/fusion/container/list/detail/next_impl.hpp>
-#include <boost/fusion/container/list/detail/value_of_impl.hpp>
-#include <boost/fusion/container/list/detail/equal_to_impl.hpp>
-#include <boost/fusion/container/list/list_fwd.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/type_traits/add_const.hpp"
+#include "../../../../boost/fusion/support/iterator_base.hpp"
+#include "../../../../boost/fusion/container/list/detail/deref_impl.hpp"
+#include "../../../../boost/fusion/container/list/detail/next_impl.hpp"
+#include "../../../../boost/fusion/container/list/detail/value_of_impl.hpp"
+#include "../../../../boost/fusion/container/list/detail/equal_to_impl.hpp"
+#include "../../../../boost/fusion/container/list/list_fwd.hpp"
 
 namespace boost { namespace fusion
 {

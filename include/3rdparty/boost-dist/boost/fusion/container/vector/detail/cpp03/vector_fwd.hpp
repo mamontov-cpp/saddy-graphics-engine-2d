@@ -8,26 +8,26 @@
 #if !defined(FUSION_VECTOR_FORWARD_07072005_0125)
 #define FUSION_VECTOR_FORWARD_07072005_0125
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/container/vector/detail/cpp03/limits.hpp>
-#include <boost/preprocessor/repetition/enum_params_with_a_default.hpp>
+#include "../../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../../boost/fusion/container/vector/detail/cpp03/limits.hpp"
+#include "../../../../../../boost/preprocessor/repetition/enum_params_with_a_default.hpp"
 
-#include <boost/fusion/container/vector/detail/cpp03/vector10.hpp>
+#include "../../../../../../boost/fusion/container/vector/detail/cpp03/vector10.hpp"
 #if (FUSION_MAX_VECTOR_SIZE > 10)
-#include <boost/fusion/container/vector/detail/cpp03/vector20.hpp>
+#include "../../../../../../boost/fusion/container/vector/detail/cpp03/vector20.hpp"
 #endif
 #if (FUSION_MAX_VECTOR_SIZE > 20)
-#include <boost/fusion/container/vector/detail/cpp03/vector30.hpp>
+#include "../../../../../../boost/fusion/container/vector/detail/cpp03/vector30.hpp"
 #endif
 #if (FUSION_MAX_VECTOR_SIZE > 30)
-#include <boost/fusion/container/vector/detail/cpp03/vector40.hpp>
+#include "../../../../../../boost/fusion/container/vector/detail/cpp03/vector40.hpp"
 #endif
 #if (FUSION_MAX_VECTOR_SIZE > 40)
-#include <boost/fusion/container/vector/detail/cpp03/vector50.hpp>
+#include "../../../../../../boost/fusion/container/vector/detail/cpp03/vector50.hpp"
 #endif
 
 #if !defined(BOOST_FUSION_DONT_USE_PREPROCESSED_FILES)
-#include <boost/fusion/container/vector/detail/cpp03/preprocessed/vector_fwd.hpp>
+#include "../../../../../../boost/fusion/container/vector/detail/cpp03/preprocessed/vector_fwd.hpp"
 #else
 #if defined(__WAVE__) && defined(BOOST_FUSION_CREATE_PREPROCESSED_FILES)
 #pragma wave option(preserve: 2, line: 0, output: "preprocessed/vvector" FUSION_MAX_VECTOR_SIZE_STR "_fwd.hpp")

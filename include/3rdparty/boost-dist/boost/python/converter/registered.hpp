@@ -4,15 +4,15 @@
 // http://www.boost.org/LICENSE_1_0.txt)
 #ifndef REGISTERED_DWA2002710_HPP
 # define REGISTERED_DWA2002710_HPP
-# include <boost/python/type_id.hpp>
-# include <boost/python/converter/registry.hpp>
-# include <boost/python/converter/registrations.hpp>
-# include <boost/type_traits/transform_traits.hpp>
-# include <boost/type_traits/cv_traits.hpp>
-# include <boost/type_traits/is_void.hpp>
-# include <boost/detail/workaround.hpp>
-# include <boost/python/type_id.hpp>
-# include <boost/type.hpp>
+#include "../../../boost/python/type_id.hpp"
+#include "../../../boost/python/converter/registry.hpp"
+#include "../../../boost/python/converter/registrations.hpp"
+#include "../../../boost/type_traits/transform_traits.hpp"
+#include "../../../boost/type_traits/cv_traits.hpp"
+#include "../../../boost/type_traits/is_void.hpp"
+#include "../../../boost/detail/workaround.hpp"
+#include "../../../boost/python/type_id.hpp"
+#include "../../../boost/type.hpp"
 
 namespace boost {
 

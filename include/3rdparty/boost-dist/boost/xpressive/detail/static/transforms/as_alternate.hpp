@@ -13,14 +13,14 @@
 # pragma once
 #endif
 
-#include <boost/config.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/proto/core.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/detail/static/static.hpp>
-#include <boost/xpressive/detail/core/matcher/alternate_matcher.hpp>
-#include <boost/xpressive/detail/utility/cons.hpp>
+#include "../../../../../boost/config.hpp"
+#include "../../../../../boost/mpl/assert.hpp"
+#include "../../../../../boost/type_traits/is_same.hpp"
+#include "../../../../../boost/proto/core.hpp"
+#include "../../../../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../../../../boost/xpressive/detail/static/static.hpp"
+#include "../../../../../boost/xpressive/detail/core/matcher/alternate_matcher.hpp"
+#include "../../../../../boost/xpressive/detail/utility/cons.hpp"
 
 namespace boost { namespace xpressive
 {

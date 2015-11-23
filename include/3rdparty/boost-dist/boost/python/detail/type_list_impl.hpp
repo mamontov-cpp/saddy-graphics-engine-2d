@@ -6,15 +6,15 @@
 # ifndef TYPE_LIST_IMPL_DWA2002913_HPP
 #  define TYPE_LIST_IMPL_DWA2002913_HPP
 
-#  include <boost/python/detail/type_list.hpp>
+#include "../../../boost/python/detail/type_list.hpp"
 
-#  include <boost/preprocessor/enum_params.hpp>
-#  include <boost/preprocessor/enum_params_with_a_default.hpp>
-#  include <boost/preprocessor/repetition/enum.hpp>
-#  include <boost/preprocessor/comma_if.hpp>
-#  include <boost/preprocessor/arithmetic/sub.hpp>
-#  include <boost/preprocessor/iterate.hpp>
-#  include <boost/preprocessor/repetition/enum_trailing.hpp>
+#include "../../../boost/preprocessor/enum_params.hpp"
+#include "../../../boost/preprocessor/enum_params_with_a_default.hpp"
+#include "../../../boost/preprocessor/repetition/enum.hpp"
+#include "../../../boost/preprocessor/comma_if.hpp"
+#include "../../../boost/preprocessor/arithmetic/sub.hpp"
+#include "../../../boost/preprocessor/iterate.hpp"
+#include "../../../boost/preprocessor/repetition/enum_trailing.hpp"
 
 namespace boost { namespace python { namespace detail { 
 

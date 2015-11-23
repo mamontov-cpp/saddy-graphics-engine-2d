@@ -12,7 +12,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 #include <bitset>
-#include <boost/spirit/home/classic/utility/impl/chset/basic_chset.hpp>
+#include "../../../../../../../boost/spirit/home/classic/utility/impl/chset/basic_chset.hpp"
 
 ///////////////////////////////////////////////////////////////////////////////
 namespace boost { namespace spirit {

@@ -13,10 +13,10 @@
 # pragma once
 #endif
 
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/detail/core/regex_impl.hpp>
-#include <boost/xpressive/detail/core/state.hpp>
-#include <boost/xpressive/detail/utility/ignore_unused.hpp>
+#include "../../../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../../../boost/xpressive/detail/core/regex_impl.hpp"
+#include "../../../../boost/xpressive/detail/core/state.hpp"
+#include "../../../../boost/xpressive/detail/utility/ignore_unused.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

@@ -13,23 +13,23 @@
 #define BOOST_TEST_TOOLS_ASSERTION_HPP_100911GER
 
 // Boost.Test
-#include <boost/test/tools/assertion_result.hpp>
-#include <boost/test/tools/detail/print_helper.hpp>
-#include <boost/test/tools/detail/fwd.hpp>
+#include "../../../boost/test/tools/assertion_result.hpp"
+#include "../../../boost/test/tools/detail/print_helper.hpp"
+#include "../../../boost/test/tools/detail/fwd.hpp"
 
 // Boost
-#include <boost/type.hpp>
-#include <boost/type_traits/decay.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/utility/declval.hpp>
-#include <boost/type_traits/remove_reference.hpp>
+#include "../../../boost/type.hpp"
+#include "../../../boost/type_traits/decay.hpp"
+#include "../../../boost/mpl/assert.hpp"
+#include "../../../boost/utility/declval.hpp"
+#include "../../../boost/type_traits/remove_reference.hpp"
 
 // STL
 #ifndef BOOST_NO_CXX11_RVALUE_REFERENCES
 #include <utility>
 #endif
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -402,6 +402,6 @@ public:
 } // namespace test_tools
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_TOOLS_ASSERTION_HPP_100911GER

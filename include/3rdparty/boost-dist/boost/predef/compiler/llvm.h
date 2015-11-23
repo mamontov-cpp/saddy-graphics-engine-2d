@@ -10,10 +10,10 @@ http://www.boost.org/LICENSE_1_0.txt)
 
 /* Other compilers that emulate this one need to be detected first. */
 
-#include <boost/predef/compiler/clang.h>
+#include "../../../boost/predef/compiler/clang.h"
 
-#include <boost/predef/version_number.h>
-#include <boost/predef/make.h>
+#include "../../../boost/predef/version_number.h"
+#include "../../../boost/predef/make.h"
 
 /*`
 [heading `BOOST_COMP_LLVM`]
@@ -41,17 +41,17 @@ http://www.boost.org/LICENSE_1_0.txt)
 #       define BOOST_COMP_LLVM BOOST_COMP_LLVM_DETECTION
 #   endif
 #   define BOOST_COMP_LLVM_AVAILABLE
-#   include <boost/predef/detail/comp_detected.h>
+#include "../../../boost/predef/detail/comp_detected.h"
 #endif
 
 #define BOOST_COMP_LLVM_NAME "LLVM"
 
 #endif
 
-#include <boost/predef/detail/test.h>
+#include "../../../boost/predef/detail/test.h"
 BOOST_PREDEF_DECLARE_TEST(BOOST_COMP_LLVM,BOOST_COMP_LLVM_NAME)
 
 #ifdef BOOST_COMP_LLVM_EMULATED
-#include <boost/predef/detail/test.h>
+#include "../../../boost/predef/detail/test.h"
 BOOST_PREDEF_DECLARE_TEST(BOOST_COMP_LLVM_EMULATED,BOOST_COMP_LLVM_NAME)
 #endif

@@ -16,13 +16,13 @@
 #define BOOST_TEST_UTILS_RUNTIME_CLA_NAMED_PARAMETER_IPP
 
 // Boost.Runtime.Parameter
-#include <boost/test/utils/runtime/config.hpp>
+#include "../../../../../boost/test/utils/runtime/config.hpp"
 
-#include <boost/test/utils/runtime/cla/named_parameter.hpp>
-#include <boost/test/utils/runtime/cla/char_parameter.hpp>
+#include "../../../../../boost/test/utils/runtime/cla/named_parameter.hpp"
+#include "../../../../../boost/test/utils/runtime/cla/char_parameter.hpp"
 
 // Boost.Test
-#include <boost/test/utils/algorithm.hpp>
+#include "../../../../../boost/test/utils/algorithm.hpp"
 
 namespace boost {
 

@@ -7,9 +7,9 @@
 #if !defined(FUSION_BEGIN_IMPL_07162005_0115)
 #define FUSION_BEGIN_IMPL_07162005_0115
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/iterator/equal_to.hpp>
-#include <boost/mpl/if.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/fusion/iterator/equal_to.hpp"
+#include "../../../../../boost/mpl/if.hpp"
 
 namespace boost { namespace fusion
 {

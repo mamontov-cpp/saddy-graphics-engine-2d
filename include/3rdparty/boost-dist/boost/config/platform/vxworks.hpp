@@ -363,7 +363,7 @@ namespace std {
 //typedef int              locale_t;                     // locale_t is a POSIX-extension, currently unpresent in vxWorks!
 
 // #include boilerplate code:
-#include <boost/config/posix_features.hpp>
+#include "../../../boost/config/posix_features.hpp"
 
 // vxWorks lies about XSI conformance, there is no nl_types.h:
 #undef BOOST_HAS_NL_TYPES_H

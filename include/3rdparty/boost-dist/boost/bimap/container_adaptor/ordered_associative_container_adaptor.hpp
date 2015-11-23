@@ -16,16 +16,16 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
-#include <boost/bimap/container_adaptor/associative_container_adaptor.hpp>
-#include <boost/bimap/container_adaptor/detail/comparison_adaptor.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/vector.hpp>
-#include <boost/mpl/push_front.hpp>
-#include <boost/mpl/aux_/na.hpp>
-#include <boost/operators.hpp>
-#include <boost/call_traits.hpp>
+#include "../../../boost/bimap/container_adaptor/associative_container_adaptor.hpp"
+#include "../../../boost/bimap/container_adaptor/detail/comparison_adaptor.hpp"
+#include "../../../boost/mpl/if.hpp"
+#include "../../../boost/mpl/vector.hpp"
+#include "../../../boost/mpl/push_front.hpp"
+#include "../../../boost/mpl/aux_/na.hpp"
+#include "../../../boost/operators.hpp"
+#include "../../../boost/call_traits.hpp"
 
 namespace boost {
 namespace bimaps {

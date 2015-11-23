@@ -1,6 +1,6 @@
 #if !defined(BOOST_PROTO_DONT_USE_PREPROCESSED_FILES)
 
-    #include <boost/proto/detail/preprocessed/lambda_matches.hpp>
+    #include "../../../boost/proto/detail/preprocessed/lambda_matches.hpp"
 
 #elif !defined(BOOST_PP_IS_ITERATING)
 

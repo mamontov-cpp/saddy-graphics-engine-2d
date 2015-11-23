@@ -5,8 +5,8 @@
 #ifndef BOOST_TYPEOF_MODIFIERS_HPP_INCLUDED
 #define BOOST_TYPEOF_MODIFIERS_HPP_INCLUDED
 
-#include <boost/typeof/encode_decode.hpp>
-#include <boost/preprocessor/facilities/identity.hpp>
+#include "../../boost/typeof/encode_decode.hpp"
+#include "../../boost/preprocessor/facilities/identity.hpp"
 
 #include BOOST_TYPEOF_INCREMENT_REGISTRATION_GROUP()
 

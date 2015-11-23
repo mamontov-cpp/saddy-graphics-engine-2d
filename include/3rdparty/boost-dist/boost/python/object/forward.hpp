@@ -5,14 +5,14 @@
 #ifndef FORWARD_DWA20011215_HPP
 # define FORWARD_DWA20011215_HPP
 
-# include <boost/mpl/if.hpp>
-# include <boost/type_traits/is_scalar.hpp>
-# include <boost/type_traits/add_const.hpp>
-# include <boost/type_traits/add_reference.hpp>
-# include <boost/ref.hpp>
-# include <boost/python/detail/value_arg.hpp>
-# include <boost/python/detail/copy_ctor_mutates_rhs.hpp>
-# include <boost/mpl/or.hpp>
+#include "../../../boost/mpl/if.hpp"
+#include "../../../boost/type_traits/is_scalar.hpp"
+#include "../../../boost/type_traits/add_const.hpp"
+#include "../../../boost/type_traits/add_reference.hpp"
+#include "../../../boost/ref.hpp"
+#include "../../../boost/python/detail/value_arg.hpp"
+#include "../../../boost/python/detail/copy_ctor_mutates_rhs.hpp"
+#include "../../../boost/mpl/or.hpp"
 
 namespace boost { namespace python { namespace objects { 
 

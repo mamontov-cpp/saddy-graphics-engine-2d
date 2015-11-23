@@ -11,8 +11,8 @@
 #ifndef BOOST_RANGE_DETAIL_DETAIL_STR_HPP
 #define BOOST_RANGE_DETAIL_DETAIL_STR_HPP
 
-#include <boost/config.hpp> // BOOST_MSVC
-#include <boost/range/iterator.hpp>
+#include "../../../boost/config.hpp" // BOOST_MSVC
+#include "../../../boost/range/iterator.hpp"
 
 namespace boost 
 {
@@ -132,11 +132,11 @@ namespace boost
     }
 }
 
-#include <boost/range/detail/begin.hpp>
-#include <boost/range/detail/end.hpp>
-#include <boost/range/detail/size_type.hpp>
-#include <boost/range/detail/value_type.hpp>
-#include <boost/range/detail/common.hpp>
+#include "../../../boost/range/detail/begin.hpp"
+#include "../../../boost/range/detail/end.hpp"
+#include "../../../boost/range/detail/size_type.hpp"
+#include "../../../boost/range/detail/value_type.hpp"
+#include "../../../boost/range/detail/common.hpp"
 
 namespace boost 
 {

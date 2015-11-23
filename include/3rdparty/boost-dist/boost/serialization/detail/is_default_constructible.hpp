@@ -16,7 +16,7 @@
 
 //  See http://www.boost.org for updates, documentation, and revision history.
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
 #if defined(_LIBCPP_VERSION) && (_LIBCPP_VERSION >= 1101) \
 || ! defined(BOOST_NO_CXX11_HDR_TYPE_TRAITS)
@@ -32,7 +32,7 @@
     } // serializaition
     } // boost
 #else
-    #include <boost/type_traits/has_trivial_constructor.hpp>
+    #include "../../../boost/type_traits/has_trivial_constructor.hpp"
     namespace boost{
     namespace serialization {
     namespace detail {

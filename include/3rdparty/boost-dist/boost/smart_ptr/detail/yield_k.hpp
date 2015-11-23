@@ -24,8 +24,8 @@
 //  http://www.boost.org/LICENSE_1_0.txt
 //
 
-#include <boost/config.hpp>
-#include <boost/predef.h>
+#include "../../../boost/config.hpp"
+#include "../../../boost/predef.h"
 
 #if BOOST_PLAT_WINDOWS_RUNTIME
 #include <thread>

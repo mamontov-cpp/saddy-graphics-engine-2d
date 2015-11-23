@@ -5,20 +5,20 @@
 #ifndef OPERATORS_DWA2002530_HPP
 # define OPERATORS_DWA2002530_HPP
 
-# include <boost/python/detail/prefix.hpp>
+#include "../../boost/python/detail/prefix.hpp"
 
-# include <boost/python/def_visitor.hpp>
-# include <boost/python/converter/arg_to_python.hpp>
-# include <boost/python/detail/operator_id.hpp>
-# include <boost/python/detail/not_specified.hpp>
-# include <boost/python/back_reference.hpp>
-# include <boost/mpl/if.hpp>
-# include <boost/mpl/eval_if.hpp>
-# include <boost/python/self.hpp>
-# include <boost/python/other.hpp>
-# include <boost/lexical_cast.hpp>
-# include <boost/python/refcount.hpp>
-# include <boost/python/detail/unwrap_wrapper.hpp>
+#include "../../boost/python/def_visitor.hpp"
+#include "../../boost/python/converter/arg_to_python.hpp"
+#include "../../boost/python/detail/operator_id.hpp"
+#include "../../boost/python/detail/not_specified.hpp"
+#include "../../boost/python/back_reference.hpp"
+#include "../../boost/mpl/if.hpp"
+#include "../../boost/mpl/eval_if.hpp"
+#include "../../boost/python/self.hpp"
+#include "../../boost/python/other.hpp"
+#include "../../boost/lexical_cast.hpp"
+#include "../../boost/python/refcount.hpp"
+#include "../../boost/python/detail/unwrap_wrapper.hpp"
 # include <string>
 # include <complex>
 

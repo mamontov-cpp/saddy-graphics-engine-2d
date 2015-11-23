@@ -16,11 +16,11 @@
 #define BOOST_TEST_TREE_VISITOR_HPP_100211GER
 
 // Boost.Test
-#include <boost/test/detail/config.hpp>
+#include "../../../boost/test/detail/config.hpp"
 
-#include <boost/test/tree/test_unit.hpp>
+#include "../../../boost/test/tree/test_unit.hpp"
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -46,7 +46,7 @@ protected:
 } // namespace unit_test
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_TREE_VISITOR_HPP_100211GER
 

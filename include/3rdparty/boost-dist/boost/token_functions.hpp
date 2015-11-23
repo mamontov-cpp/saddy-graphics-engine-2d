@@ -36,11 +36,11 @@
 #include <string>
 #include <cctype>
 #include <algorithm> // for find_if
-#include <boost/config.hpp>
-#include <boost/assert.hpp>
-#include <boost/detail/workaround.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/throw_exception.hpp>
+#include "../boost/config.hpp"
+#include "../boost/assert.hpp"
+#include "../boost/detail/workaround.hpp"
+#include "../boost/mpl/if.hpp"
+#include "../boost/throw_exception.hpp"
 #if !defined(BOOST_NO_CWCTYPE)
 #include <cwctype>
 #endif

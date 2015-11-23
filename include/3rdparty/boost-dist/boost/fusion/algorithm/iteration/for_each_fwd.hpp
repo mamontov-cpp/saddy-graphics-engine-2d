@@ -7,9 +7,9 @@
 #if !defined(BOOST_FUSION_FOR_EACH_FWD_HPP_INCLUDED)
 #define BOOST_FUSION_FOR_EACH_FWD_HPP_INCLUDED
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/support/is_sequence.hpp>
-#include <boost/utility/enable_if.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/fusion/support/is_sequence.hpp"
+#include "../../../../boost/utility/enable_if.hpp"
 
 namespace boost { namespace fusion
 {

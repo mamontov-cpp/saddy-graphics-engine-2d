@@ -6,7 +6,7 @@
 #define BOOST_TYPEOF_STD_utility_hpp_INCLUDED
 
 #include <utility>
-#include <boost/typeof/typeof.hpp>
+#include "../../../boost/typeof/typeof.hpp"
 
 #include BOOST_TYPEOF_INCREMENT_REGISTRATION_GROUP()
 

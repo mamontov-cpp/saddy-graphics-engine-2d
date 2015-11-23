@@ -16,10 +16,10 @@
 #define BOOST_TEST_UTILS_RUNTIME_CLA_NAMED_PARAMETER_HPP
 
 // Boost.Runtime.Parameter
-#include <boost/test/utils/runtime/config.hpp>
+#include "../../../../../boost/test/utils/runtime/config.hpp"
 
-#include <boost/test/utils/runtime/cla/basic_parameter.hpp>
-#include <boost/test/utils/runtime/cla/id_policy.hpp>
+#include "../../../../../boost/test/utils/runtime/cla/basic_parameter.hpp"
+#include "../../../../../boost/test/utils/runtime/cla/id_policy.hpp"
 
 namespace boost {
 
@@ -88,7 +88,7 @@ BOOST_TEST_UTILS_RUNTIME_CLA_NAMED_PARAM_GENERATORS( named_parameter )
 #ifndef BOOST_TEST_UTILS_RUNTIME_PARAM_INLINE
 # 	define BOOST_TEST_UTILS_RUNTIME_PARAM_INLINE inline
 #endif
-#   include <boost/test/utils/runtime/cla/named_parameter.ipp>
+#include "../../../../../boost/test/utils/runtime/cla/named_parameter.ipp"
 
 #endif
 

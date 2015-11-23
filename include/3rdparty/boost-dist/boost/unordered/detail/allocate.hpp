@@ -9,27 +9,27 @@
 #ifndef BOOST_UNORDERED_ALLOCATE_HPP
 #define BOOST_UNORDERED_ALLOCATE_HPP
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 #if defined(BOOST_HAS_PRAGMA_ONCE)
 #pragma once
 #endif
 
-#include <boost/unordered/detail/fwd.hpp>
-#include <boost/move/move.hpp>
-#include <boost/preprocessor/cat.hpp>
-#include <boost/preprocessor/inc.hpp>
-#include <boost/preprocessor/dec.hpp>
-#include <boost/preprocessor/repetition/enum.hpp>
-#include <boost/preprocessor/repetition/enum_params.hpp>
-#include <boost/preprocessor/repetition/enum_binary_params.hpp>
-#include <boost/preprocessor/repetition/repeat_from_to.hpp>
-#include <boost/type_traits/is_class.hpp>
-#include <boost/type_traits/add_lvalue_reference.hpp>
-#include <boost/tuple/tuple.hpp>
-#include <boost/utility/enable_if.hpp>
-#include <boost/utility/addressof.hpp>
-#include <boost/detail/select_type.hpp>
-#include <boost/assert.hpp>
+#include "../../../boost/unordered/detail/fwd.hpp"
+#include "../../../boost/move/move.hpp"
+#include "../../../boost/preprocessor/cat.hpp"
+#include "../../../boost/preprocessor/inc.hpp"
+#include "../../../boost/preprocessor/dec.hpp"
+#include "../../../boost/preprocessor/repetition/enum.hpp"
+#include "../../../boost/preprocessor/repetition/enum_params.hpp"
+#include "../../../boost/preprocessor/repetition/enum_binary_params.hpp"
+#include "../../../boost/preprocessor/repetition/repeat_from_to.hpp"
+#include "../../../boost/type_traits/is_class.hpp"
+#include "../../../boost/type_traits/add_lvalue_reference.hpp"
+#include "../../../boost/tuple/tuple.hpp"
+#include "../../../boost/utility/enable_if.hpp"
+#include "../../../boost/utility/addressof.hpp"
+#include "../../../boost/detail/select_type.hpp"
+#include "../../../boost/assert.hpp"
 #include <utility>
 
 #if !defined(BOOST_NO_CXX11_HDR_TUPLE)
@@ -338,11 +338,11 @@ namespace boost { namespace unordered { namespace detail {
 
 #if BOOST_UNORDERED_USE_ALLOCATOR_TRAITS == 0
 
-#   include <boost/limits.hpp>
-#   include <boost/utility/enable_if.hpp>
-#   include <boost/pointer_to_other.hpp>
+#include "../../../boost/limits.hpp"
+#include "../../../boost/utility/enable_if.hpp"
+#include "../../../boost/pointer_to_other.hpp"
 #   if defined(BOOST_NO_SFINAE_EXPR)
-#       include <boost/type_traits/is_same.hpp>
+#include "../../../boost/type_traits/is_same.hpp"
 #   endif
 
 #   if !defined(BOOST_NO_CXX11_VARIADIC_TEMPLATES) && \
@@ -742,7 +742,7 @@ namespace boost { namespace unordered { namespace detail {
 
 #elif BOOST_UNORDERED_USE_ALLOCATOR_TRAITS == 2
 
-#   include <boost/container/allocator_traits.hpp>
+#include "../../../boost/container/allocator_traits.hpp"
 
 #   define BOOST_UNORDERED_DETAIL_FULL_CONSTRUCT 0
 

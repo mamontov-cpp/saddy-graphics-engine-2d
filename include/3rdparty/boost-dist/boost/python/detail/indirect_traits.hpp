@@ -4,7 +4,7 @@
 #ifndef INDIRECT_TRAITS_DWA2004915_HPP
 # define INDIRECT_TRAITS_DWA2004915_HPP
 
-# include <boost/detail/indirect_traits.hpp>
+#include "../../../boost/detail/indirect_traits.hpp"
 
 namespace boost { namespace python {
 namespace indirect_traits = boost::detail::indirect_traits;

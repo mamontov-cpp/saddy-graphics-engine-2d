@@ -13,9 +13,9 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp> /* keep it first to prevent nasty warns in MSVC */
-#include <boost/serialization/split_member.hpp>
-#include <boost/serialization/version.hpp>
+#include "../../../boost/config.hpp" /* keep it first to prevent nasty warns in MSVC */
+#include "../../../boost/serialization/split_member.hpp"
+#include "../../../boost/serialization/version.hpp"
 
 namespace boost{
 

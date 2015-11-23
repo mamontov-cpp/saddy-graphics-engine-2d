@@ -16,21 +16,21 @@
 
 //  See http://www.boost.org for updates, documentation, and revision history.
 
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/detail/workaround.hpp"
 
-#include <boost/type_traits/is_fundamental.hpp>
-#include <boost/type_traits/is_enum.hpp>
-#include <boost/type_traits/is_array.hpp>
-#include <boost/type_traits/is_class.hpp>
-#include <boost/type_traits/is_base_and_derived.hpp>
+#include "../../boost/type_traits/is_fundamental.hpp"
+#include "../../boost/type_traits/is_enum.hpp"
+#include "../../boost/type_traits/is_array.hpp"
+#include "../../boost/type_traits/is_class.hpp"
+#include "../../boost/type_traits/is_base_and_derived.hpp"
 
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/int.hpp>
-#include <boost/mpl/integral_c.hpp>
-#include <boost/mpl/integral_c_tag.hpp>
+#include "../../boost/mpl/eval_if.hpp"
+#include "../../boost/mpl/int.hpp"
+#include "../../boost/mpl/integral_c.hpp"
+#include "../../boost/mpl/integral_c_tag.hpp"
 
-#include <boost/serialization/level_enum.hpp>
+#include "../../boost/serialization/level_enum.hpp"
 
 namespace boost {
 namespace serialization {

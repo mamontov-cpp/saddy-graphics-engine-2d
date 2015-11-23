@@ -9,12 +9,12 @@
 #if !defined(BOOST_SPIRIT_PRIMITIVES_HPP)
 #define BOOST_SPIRIT_PRIMITIVES_HPP
 
-#include <boost/ref.hpp>
-#include <boost/spirit/home/classic/namespace.hpp>
-#include <boost/spirit/home/classic/core/assert.hpp>
-#include <boost/spirit/home/classic/core/parser.hpp>
-#include <boost/spirit/home/classic/core/composite/impl/directives.ipp>
-#include <boost/spirit/home/classic/core/primitives/impl/primitives.ipp>
+#include "../../../../../../boost/ref.hpp"
+#include "../../../../../../boost/spirit/home/classic/namespace.hpp"
+#include "../../../../../../boost/spirit/home/classic/core/assert.hpp"
+#include "../../../../../../boost/spirit/home/classic/core/parser.hpp"
+#include "../../../../../../boost/spirit/home/classic/core/composite/impl/directives.ipp"
+#include "../../../../../../boost/spirit/home/classic/core/primitives/impl/primitives.ipp"
 
 #ifdef BOOST_MSVC
 #pragma warning (push)

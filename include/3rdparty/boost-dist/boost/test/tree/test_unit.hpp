@@ -14,27 +14,27 @@
 #define BOOST_TEST_TREE_TEST_UNIT_HPP_100211GER
 
 // Boost.Test
-#include <boost/test/detail/config.hpp>
-#include <boost/test/detail/global_typedef.hpp>
-#include <boost/test/detail/fwd_decl.hpp>
+#include "../../../boost/test/detail/config.hpp"
+#include "../../../boost/test/detail/global_typedef.hpp"
+#include "../../../boost/test/detail/fwd_decl.hpp"
 
-#include <boost/test/tree/decorator.hpp>
-#include <boost/test/tree/fixture.hpp>
+#include "../../../boost/test/tree/decorator.hpp"
+#include "../../../boost/test/tree/fixture.hpp"
 
-#include <boost/test/tools/assertion_result.hpp>
+#include "../../../boost/test/tools/assertion_result.hpp"
 
-#include <boost/test/utils/class_properties.hpp>
+#include "../../../boost/test/utils/class_properties.hpp"
 
 // Boost
-#include <boost/function/function0.hpp>
-#include <boost/function/function1.hpp>
+#include "../../../boost/function/function0.hpp"
+#include "../../../boost/function/function1.hpp"
 
 // STL
 #include <vector>
 #include <string>
 #include <map>
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -270,6 +270,6 @@ make_test_case( void (UserTestCase::*           test_method )(),
 } // namespace unit_test
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_TREE_TEST_UNIT_HPP_100211GER

@@ -14,7 +14,7 @@
 #ifndef BOOST_CAST_HPP
 #define BOOST_CAST_HPP
 
-# include <boost/polymorphic_cast.hpp>
-# include <boost/numeric/conversion/cast.hpp>
+#include "../boost/polymorphic_cast.hpp"
+#include "../boost/numeric/conversion/cast.hpp"
 
 #endif  // BOOST_CAST_HPP

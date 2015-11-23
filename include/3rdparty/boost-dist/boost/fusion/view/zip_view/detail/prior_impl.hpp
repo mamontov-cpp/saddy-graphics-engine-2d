@@ -8,16 +8,16 @@
 #if !defined(FUSION_PRIOR_IMPL_20060124_2006)
 #define FUSION_PRIOR_IMPL_20060124_2006
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/view/zip_view/zip_view_iterator_fwd.hpp>
-#include <boost/fusion/iterator/prior.hpp>
-#include <boost/fusion/algorithm/transformation/transform.hpp>
-#include <boost/fusion/support/unused.hpp>
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/identity.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/type_traits/remove_reference.hpp>
-#include <boost/type_traits/remove_const.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/fusion/view/zip_view/zip_view_iterator_fwd.hpp"
+#include "../../../../../boost/fusion/iterator/prior.hpp"
+#include "../../../../../boost/fusion/algorithm/transformation/transform.hpp"
+#include "../../../../../boost/fusion/support/unused.hpp"
+#include "../../../../../boost/mpl/eval_if.hpp"
+#include "../../../../../boost/mpl/identity.hpp"
+#include "../../../../../boost/type_traits/is_same.hpp"
+#include "../../../../../boost/type_traits/remove_reference.hpp"
+#include "../../../../../boost/type_traits/remove_const.hpp"
 
 namespace boost { namespace fusion {
 

@@ -11,23 +11,23 @@
 #include <cstddef> // size_t
 #include <cstddef> // NULL
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 #if defined(BOOST_NO_STDC_NAMESPACE)
 namespace std{ 
     using ::size_t; 
 } // namespace std
 #endif
 
-#include <boost/serialization/throw_exception.hpp>
+#include "../../../boost/serialization/throw_exception.hpp"
 
-#include <boost/archive/basic_text_iprimitive.hpp>
-#include <boost/archive/codecvt_null.hpp>
-#include <boost/archive/add_facet.hpp>
+#include "../../../boost/archive/basic_text_iprimitive.hpp"
+#include "../../../boost/archive/codecvt_null.hpp"
+#include "../../../boost/archive/add_facet.hpp"
 
-#include <boost/archive/iterators/remove_whitespace.hpp>
-#include <boost/archive/iterators/istream_iterator.hpp>
-#include <boost/archive/iterators/binary_from_base64.hpp>
-#include <boost/archive/iterators/transform_width.hpp>
+#include "../../../boost/archive/iterators/remove_whitespace.hpp"
+#include "../../../boost/archive/iterators/istream_iterator.hpp"
+#include "../../../boost/archive/iterators/binary_from_base64.hpp"
+#include "../../../boost/archive/iterators/transform_width.hpp"
 
 namespace boost {
 namespace archive {

@@ -8,7 +8,7 @@
 #if !defined(BOOST_SPIRIT_NIL_HPP)
 #define BOOST_SPIRIT_NIL_HPP
 
-#include <boost/spirit/home/classic/namespace.hpp>
+#include "../../../../../boost/spirit/home/classic/namespace.hpp"
 
 namespace boost { namespace spirit {
 

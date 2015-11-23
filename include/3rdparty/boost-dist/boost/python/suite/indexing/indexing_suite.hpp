@@ -6,15 +6,15 @@
 #ifndef INDEXING_SUITE_JDG20036_HPP
 # define INDEXING_SUITE_JDG20036_HPP
 
-# include <boost/python/class.hpp>
-# include <boost/python/def_visitor.hpp>
-# include <boost/python/register_ptr_to_python.hpp>
-# include <boost/python/suite/indexing/detail/indexing_suite_detail.hpp>
-# include <boost/python/return_internal_reference.hpp>
-# include <boost/python/iterator.hpp>
-# include <boost/mpl/or.hpp>
-# include <boost/mpl/not.hpp>
-# include <boost/type_traits/is_same.hpp>
+#include "../../../../boost/python/class.hpp"
+#include "../../../../boost/python/def_visitor.hpp"
+#include "../../../../boost/python/register_ptr_to_python.hpp"
+#include "../../../../boost/python/suite/indexing/detail/indexing_suite_detail.hpp"
+#include "../../../../boost/python/return_internal_reference.hpp"
+#include "../../../../boost/python/iterator.hpp"
+#include "../../../../boost/mpl/or.hpp"
+#include "../../../../boost/mpl/not.hpp"
+#include "../../../../boost/type_traits/is_same.hpp"
 
 namespace boost { namespace python {
 

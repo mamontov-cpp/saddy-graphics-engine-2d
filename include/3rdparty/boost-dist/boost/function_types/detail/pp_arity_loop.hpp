@@ -69,16 +69,16 @@ BOOST_PP_EXPAND(#) include BOOST_FT_AL_PREPROCESSED
 
 #     ifndef BOOST_FT_DETAIL_ARITY_LOOP_HPP_INCLUDED
 #     define BOOST_FT_DETAIL_ARITY_LOOP_HPP_INCLUDED
-#         include <boost/preprocessor/cat.hpp>
-#         include <boost/preprocessor/tuple/eat.hpp>
-#         include <boost/preprocessor/control/if.hpp>
-#         include <boost/preprocessor/arithmetic/inc.hpp>
-#         include <boost/preprocessor/facilities/empty.hpp>
-#         include <boost/preprocessor/facilities/expand.hpp>
-#         include <boost/preprocessor/iteration/iterate.hpp>
-#         include <boost/preprocessor/repetition/enum_params.hpp>
-#         include <boost/preprocessor/repetition/enum_shifted_params.hpp>
-#         include <boost/preprocessor/repetition/enum_trailing_params.hpp>
+#include "../../../boost/preprocessor/cat.hpp"
+#include "../../../boost/preprocessor/tuple/eat.hpp"
+#include "../../../boost/preprocessor/control/if.hpp"
+#include "../../../boost/preprocessor/arithmetic/inc.hpp"
+#include "../../../boost/preprocessor/facilities/empty.hpp"
+#include "../../../boost/preprocessor/facilities/expand.hpp"
+#include "../../../boost/preprocessor/iteration/iterate.hpp"
+#include "../../../boost/preprocessor/repetition/enum_params.hpp"
+#include "../../../boost/preprocessor/repetition/enum_shifted_params.hpp"
+#include "../../../boost/preprocessor/repetition/enum_trailing_params.hpp"
 #     endif
 
 #     define BOOST_FT_AL_INCLUDE_FILE <BOOST_FT_al_path/master.hpp>

@@ -9,7 +9,7 @@
 #ifndef BOOST_TT_HAS_PRE_INCREMENT_HPP_INCLUDED
 #define BOOST_TT_HAS_PRE_INCREMENT_HPP_INCLUDED
 
-#include <boost/type_traits/is_array.hpp>
+#include "../../boost/type_traits/is_array.hpp"
 
 #define BOOST_TT_TRAIT_NAME has_pre_increment
 #define BOOST_TT_TRAIT_OP ++
@@ -35,7 +35,7 @@
    >::value
 
 
-#include <boost/type_traits/detail/has_prefix_operator.hpp>
+#include "../../boost/type_traits/detail/has_prefix_operator.hpp"
 
 #undef BOOST_TT_TRAIT_NAME
 #undef BOOST_TT_TRAIT_OP

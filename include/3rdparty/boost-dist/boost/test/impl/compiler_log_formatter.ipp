@@ -16,22 +16,22 @@
 #define BOOST_TEST_COMPILER_LOG_FORMATTER_IPP_020105GER
 
 // Boost.Test
-#include <boost/test/framework.hpp>
-#include <boost/test/execution_monitor.hpp>
-#include <boost/test/tree/test_unit.hpp>
-#include <boost/test/utils/basic_cstring/io.hpp>
-#include <boost/test/utils/lazy_ostream.hpp>
-#include <boost/test/utils/setcolor.hpp>
-#include <boost/test/output/compiler_log_formatter.hpp>
-#include <boost/test/unit_test_parameters.hpp>
+#include "../../../boost/test/framework.hpp"
+#include "../../../boost/test/execution_monitor.hpp"
+#include "../../../boost/test/tree/test_unit.hpp"
+#include "../../../boost/test/utils/basic_cstring/io.hpp"
+#include "../../../boost/test/utils/lazy_ostream.hpp"
+#include "../../../boost/test/utils/setcolor.hpp"
+#include "../../../boost/test/output/compiler_log_formatter.hpp"
+#include "../../../boost/test/unit_test_parameters.hpp"
 
 // Boost
-#include <boost/version.hpp>
+#include "../../../boost/version.hpp"
 
 // STL
 #include <iostream>
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -278,6 +278,6 @@ compiler_log_formatter::log_entry_context( std::ostream& output, const_string co
 } // namespace unit_test
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_COMPILER_LOG_FORMATTER_IPP_020105GER

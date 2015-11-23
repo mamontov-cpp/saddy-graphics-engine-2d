@@ -16,12 +16,12 @@
 
 //  See http://www.boost.org for updates, documentation, and revision history.
 
-#include <boost/assert.hpp>
+#include "../../../boost/assert.hpp"
 #include <cctype>
 #include <cstddef> // size_t
 #include <cstdlib> // mblen
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 #if defined(BOOST_NO_STDC_NAMESPACE)
 namespace std{ 
     using ::mblen; 
@@ -29,10 +29,10 @@ namespace std{
 } // namespace std
 #endif
 
-#include <boost/serialization/throw_exception.hpp>
+#include "../../../boost/serialization/throw_exception.hpp"
 
-#include <boost/iterator/iterator_adaptor.hpp>
-#include <boost/archive/iterators/dataflow_exception.hpp>
+#include "../../../boost/iterator/iterator_adaptor.hpp"
+#include "../../../boost/archive/iterators/dataflow_exception.hpp"
 
 namespace boost { 
 namespace archive {

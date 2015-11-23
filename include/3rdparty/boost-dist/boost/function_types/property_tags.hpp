@@ -11,8 +11,8 @@
 
 #include <cstddef>
 
-#include <boost/type_traits/integral_constant.hpp>
-#include <boost/mpl/bitxor.hpp>
+#include "../../boost/type_traits/integral_constant.hpp"
+#include "../../boost/mpl/bitxor.hpp"
 
 
 namespace boost { namespace function_types { 
@@ -136,11 +136,11 @@ template<class Tag, class QueryTag> struct extract
 
 } } // namespace ::boost::function_types
 
-#include <boost/function_types/detail/pp_tags/preprocessed.hpp>
+#include "../../boost/function_types/detail/pp_tags/preprocessed.hpp"
 
 namespace boost { namespace function_types {
 #define BOOST_FT_cc_file <boost/function_types/detail/pp_tags/cc_tag.hpp>
-#include <boost/function_types/detail/pp_loop.hpp>
+#include "../../boost/function_types/detail/pp_loop.hpp"
 } } // namespace boost::function_types
 
 #endif

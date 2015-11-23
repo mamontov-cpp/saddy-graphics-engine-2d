@@ -16,10 +16,10 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
-#include <boost/bimap/support/map_type_by.hpp>
-#include <boost/bimap/relation/detail/access_builder.hpp>
+#include "../../../boost/bimap/support/map_type_by.hpp"
+#include "../../../boost/bimap/relation/detail/access_builder.hpp"
 
 
 #ifdef BOOST_BIMAP_ONLY_DOXYGEN_WILL_PROCESS_THE_FOLLOWING_LINES

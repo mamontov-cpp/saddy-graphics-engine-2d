@@ -5,10 +5,10 @@
 #ifndef ARGS_FWD_DWA2002927_HPP
 # define ARGS_FWD_DWA2002927_HPP
 
-# include <boost/python/detail/prefix.hpp>
+#include "../../boost/python/detail/prefix.hpp"
 
-# include <boost/python/handle.hpp>
-# include <boost/config.hpp>
+#include "../../boost/python/handle.hpp"
+#include "../../boost/config.hpp"
 # include <cstddef>
 # include <utility>
 

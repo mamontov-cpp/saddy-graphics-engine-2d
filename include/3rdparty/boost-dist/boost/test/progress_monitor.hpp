@@ -13,13 +13,13 @@
 #define BOOST_TEST_PROGRESS_MONITOR_HPP_020105GER
 
 // Boost.Test
-#include <boost/test/tree/observer.hpp>
-#include <boost/test/utils/trivial_singleton.hpp>
+#include "../../boost/test/tree/observer.hpp"
+#include "../../boost/test/utils/trivial_singleton.hpp"
 
 // STL
 #include <iosfwd>   // for std::ostream&
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -60,7 +60,7 @@ BOOST_TEST_SINGLETON_INST( progress_monitor )
 
 //____________________________________________________________________________//
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_PROGRESS_MONITOR_HPP_020105GER
 

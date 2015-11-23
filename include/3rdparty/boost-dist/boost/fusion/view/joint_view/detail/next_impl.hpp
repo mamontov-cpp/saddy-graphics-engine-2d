@@ -7,10 +7,10 @@
 #if !defined(FUSION_NEXT_IMPL_07162005_0136)
 #define FUSION_NEXT_IMPL_07162005_0136
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/iterator/next.hpp>
-#include <boost/fusion/iterator/equal_to.hpp>
-#include <boost/mpl/if.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/fusion/iterator/next.hpp"
+#include "../../../../../boost/fusion/iterator/equal_to.hpp"
+#include "../../../../../boost/mpl/if.hpp"
 
 namespace boost { namespace fusion
 {

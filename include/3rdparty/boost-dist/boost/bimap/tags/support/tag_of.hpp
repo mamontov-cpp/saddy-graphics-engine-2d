@@ -16,10 +16,10 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../../boost/config.hpp"
 
-#include <boost/bimap/tags/tagged.hpp>
-#include <boost/bimap/detail/debug/static_error.hpp>
+#include "../../../../boost/bimap/tags/tagged.hpp"
+#include "../../../../boost/bimap/detail/debug/static_error.hpp"
 
 /** \struct boost::bimaps::tags::support::tag_of
 \brief Metafunction to obtain the tag of a type.

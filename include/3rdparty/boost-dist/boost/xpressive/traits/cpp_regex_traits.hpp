@@ -21,15 +21,15 @@
 #include <locale>
 #include <sstream>
 #include <climits>
-#include <boost/config.hpp>
-#include <boost/assert.hpp>
-#include <boost/integer.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/static_assert.hpp>
-#include <boost/detail/workaround.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/detail/utility/literals.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/assert.hpp"
+#include "../../../boost/integer.hpp"
+#include "../../../boost/mpl/assert.hpp"
+#include "../../../boost/static_assert.hpp"
+#include "../../../boost/detail/workaround.hpp"
+#include "../../../boost/type_traits/is_same.hpp"
+#include "../../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../../boost/xpressive/detail/utility/literals.hpp"
 
 // From John Maddock:
 // Fix for gcc prior to 3.4: std::ctype<wchar_t> doesn't allow masks to be combined, for example:

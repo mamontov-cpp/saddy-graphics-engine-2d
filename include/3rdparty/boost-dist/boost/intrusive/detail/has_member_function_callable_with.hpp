@@ -19,8 +19,8 @@
    #define BOOST_INTRUSIVE_DETAIL_HAS_MEMBER_FUNCTION_CALLABLE_WITH_0_ARGS_UNSUPPORTED
 #endif
 #include <cstddef>
-#include <boost/move/utility_core.hpp>
-#include <boost/move/detail/fwd_macros.hpp>
+#include "../../../boost/move/utility_core.hpp"
+#include "../../../boost/move/detail/fwd_macros.hpp"
 
 namespace boost_intrusive_hmfcw {
 

@@ -5,8 +5,8 @@
 #ifndef RETURN_VALUE_POLICY_DWA2002131_HPP
 # define RETURN_VALUE_POLICY_DWA2002131_HPP
 
-# include <boost/python/detail/prefix.hpp>
-# include <boost/python/default_call_policies.hpp>
+#include "../../boost/python/detail/prefix.hpp"
+#include "../../boost/python/default_call_policies.hpp"
 
 namespace boost { namespace python { 
 

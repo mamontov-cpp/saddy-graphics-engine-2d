@@ -18,7 +18,7 @@
 
 // this is useful for compilers which don't support the boost::is_abstract
 
-#include <boost/type_traits/is_abstract.hpp>
+#include "../../boost/type_traits/is_abstract.hpp"
 
 #ifndef BOOST_NO_IS_ABSTRACT
 

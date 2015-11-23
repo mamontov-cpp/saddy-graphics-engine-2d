@@ -12,8 +12,8 @@
 #ifndef BOOST_CORE_ADDRESSOF_HPP
 #define BOOST_CORE_ADDRESSOF_HPP
 
-# include <boost/config.hpp>
-# include <boost/detail/workaround.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/detail/workaround.hpp"
 # include <cstddef>
 
 namespace boost

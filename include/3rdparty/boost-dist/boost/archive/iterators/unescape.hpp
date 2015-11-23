@@ -16,10 +16,10 @@
 
 //  See http://www.boost.org for updates, documentation, and revision history.
 
-#include <boost/assert.hpp>
+#include "../../../boost/assert.hpp"
 
-#include <boost/iterator/iterator_adaptor.hpp>
-#include <boost/pointee.hpp>
+#include "../../../boost/iterator/iterator_adaptor.hpp"
+#include "../../../boost/pointee.hpp"
 
 namespace boost { 
 namespace archive {

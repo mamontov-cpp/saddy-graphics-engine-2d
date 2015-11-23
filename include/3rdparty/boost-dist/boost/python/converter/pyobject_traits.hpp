@@ -5,8 +5,8 @@
 #ifndef PYOBJECT_TRAITS_DWA2002720_HPP
 # define PYOBJECT_TRAITS_DWA2002720_HPP
 
-# include <boost/python/detail/prefix.hpp>
-# include <boost/python/converter/pyobject_type.hpp>
+#include "../../../boost/python/detail/prefix.hpp"
+#include "../../../boost/python/converter/pyobject_type.hpp"
 
 namespace boost { namespace python { namespace converter { 
 

@@ -11,18 +11,18 @@
 #ifndef DEFAULTS_DEF_JDG20020811_HPP
 #define DEFAULTS_DEF_JDG20020811_HPP
 
-#include <boost/python/detail/defaults_gen.hpp>
-#include <boost/type_traits.hpp>
-#include <boost/mpl/front.hpp>
-#include <boost/mpl/size.hpp>
-#include <boost/static_assert.hpp>
-#include <boost/preprocessor/iterate.hpp>
-#include <boost/python/class_fwd.hpp>
-#include <boost/python/scope.hpp>
-#include <boost/preprocessor/debug/line.hpp>
-#include <boost/python/detail/scope.hpp>
-#include <boost/python/detail/make_keyword_range_fn.hpp>
-#include <boost/python/object/add_to_namespace.hpp>
+#include "../../../boost/python/detail/defaults_gen.hpp"
+#include "../../../boost/type_traits.hpp"
+#include "../../../boost/mpl/front.hpp"
+#include "../../../boost/mpl/size.hpp"
+#include "../../../boost/static_assert.hpp"
+#include "../../../boost/preprocessor/iterate.hpp"
+#include "../../../boost/python/class_fwd.hpp"
+#include "../../../boost/python/scope.hpp"
+#include "../../../boost/preprocessor/debug/line.hpp"
+#include "../../../boost/python/detail/scope.hpp"
+#include "../../../boost/python/detail/make_keyword_range_fn.hpp"
+#include "../../../boost/python/object/add_to_namespace.hpp"
 
 ///////////////////////////////////////////////////////////////////////////////
 namespace boost { namespace python {

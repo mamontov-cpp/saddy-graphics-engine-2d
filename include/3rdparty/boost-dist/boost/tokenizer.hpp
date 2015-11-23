@@ -17,7 +17,7 @@
 #ifndef BOOST_TOKENIZER_JRB070303_HPP_
 #define BOOST_TOKENIZER_JRB070303_HPP_
 
-#include <boost/token_iterator.hpp>
+#include "../boost/token_iterator.hpp"
 
 namespace boost {
 

@@ -4,7 +4,7 @@
 // http://www.boost.org/LICENSE_1_0.txt)
 #ifndef ARG_TO_PYTHON_BASE_DWA200237_HPP
 # define ARG_TO_PYTHON_BASE_DWA200237_HPP
-# include <boost/python/handle.hpp>
+#include "../../../boost/python/handle.hpp"
 
 namespace boost { namespace python { namespace converter {
 

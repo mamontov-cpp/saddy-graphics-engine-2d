@@ -11,10 +11,10 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 #include <algorithm> // for std::lower_bound
-#include <boost/spirit/home/classic/core/assert.hpp> // for BOOST_SPIRIT_ASSERT
-#include <boost/spirit/home/classic/utility/impl/chset/range_run.hpp>
-#include <boost/spirit/home/classic/debug.hpp>
-#include <boost/limits.hpp>
+#include "../../../../../../../boost/spirit/home/classic/core/assert.hpp" // for BOOST_SPIRIT_ASSERT
+#include "../../../../../../../boost/spirit/home/classic/utility/impl/chset/range_run.hpp"
+#include "../../../../../../../boost/spirit/home/classic/debug.hpp"
+#include "../../../../../../../boost/limits.hpp"
 
 ///////////////////////////////////////////////////////////////////////////////
 namespace boost { namespace spirit {

@@ -17,9 +17,9 @@
 //  See http://www.boost.org for updates, documentation, and revision history.
 
 #include <ostream>
-#include <boost/config.hpp>
-#include <boost/archive/binary_oarchive_impl.hpp>
-#include <boost/archive/detail/register_archive.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/archive/binary_oarchive_impl.hpp"
+#include "../../boost/archive/detail/register_archive.hpp"
 
 #ifdef BOOST_MSVC
 #  pragma warning(push)

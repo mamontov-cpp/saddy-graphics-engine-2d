@@ -11,19 +11,19 @@
 #define BOOST_LAMBDA_LAMBDA_HPP
 
 
-#include "boost/lambda/core.hpp"
+#include "../../boost/lambda/core.hpp"
 
 #ifdef BOOST_NO_FDECL_TEMPLATES_AS_TEMPLATE_TEMPLATE_PARAMS
 #include <istream>
 #include <ostream>
 #endif
 
-#include "boost/lambda/detail/operator_actions.hpp"
-#include "boost/lambda/detail/operator_lambda_func_base.hpp"
-#include "boost/lambda/detail/operator_return_type_traits.hpp"
+#include "../../boost/lambda/detail/operator_actions.hpp"
+#include "../../boost/lambda/detail/operator_lambda_func_base.hpp"
+#include "../../boost/lambda/detail/operator_return_type_traits.hpp"
 
 
-#include "boost/lambda/detail/operators.hpp"
-#include "boost/lambda/detail/member_ptr.hpp"
+#include "../../boost/lambda/detail/operators.hpp"
+#include "../../boost/lambda/detail/member_ptr.hpp"
 
 #endif

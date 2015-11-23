@@ -8,23 +8,23 @@
 #if !defined(FUSION_EQUAL_TO_IMPL_20060128_1423)
 #define FUSION_EQUAL_TO_IMPL_20060128_1423
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/mpl.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/fusion/mpl.hpp"
 
-#include <boost/mpl/lambda.hpp>
-#include <boost/mpl/and.hpp>
-#include <boost/mpl/transform_view.hpp>
-#include <boost/mpl/zip_view.hpp>
-#include <boost/mpl/vector.hpp>
-#include <boost/mpl/unpack_args.hpp>
-#include <boost/mpl/find_if.hpp>
-#include <boost/mpl/end.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/equal_to.hpp>
+#include "../../../../../boost/mpl/lambda.hpp"
+#include "../../../../../boost/mpl/and.hpp"
+#include "../../../../../boost/mpl/transform_view.hpp"
+#include "../../../../../boost/mpl/zip_view.hpp"
+#include "../../../../../boost/mpl/vector.hpp"
+#include "../../../../../boost/mpl/unpack_args.hpp"
+#include "../../../../../boost/mpl/find_if.hpp"
+#include "../../../../../boost/mpl/end.hpp"
+#include "../../../../../boost/mpl/bool.hpp"
+#include "../../../../../boost/mpl/equal_to.hpp"
 
-#include <boost/type_traits/is_same.hpp>
+#include "../../../../../boost/type_traits/is_same.hpp"
 
-#include <boost/fusion/iterator/equal_to.hpp>
+#include "../../../../../boost/fusion/iterator/equal_to.hpp"
 
 namespace boost { namespace fusion {
 

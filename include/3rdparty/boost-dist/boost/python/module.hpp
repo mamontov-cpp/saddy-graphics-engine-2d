@@ -5,9 +5,9 @@
 #ifndef MODULE_DWA2001128_HPP
 # define MODULE_DWA2001128_HPP
 
-# include <boost/python/detail/prefix.hpp>
+#include "../../boost/python/detail/prefix.hpp"
 
-# include <boost/python/module_init.hpp>
+#include "../../boost/python/module_init.hpp"
 # define BOOST_PYTHON_MODULE BOOST_PYTHON_MODULE_INIT
 
 #endif // MODULE_DWA20011221_HPP

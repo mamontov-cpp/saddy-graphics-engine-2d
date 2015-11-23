@@ -8,26 +8,26 @@
 # ifndef MAKE_HOLDER_DWA20011215_HPP
 #  define MAKE_HOLDER_DWA20011215_HPP
 
-#  include <boost/python/detail/prefix.hpp>
+#include "../../../boost/python/detail/prefix.hpp"
 
-#  include <boost/python/object/instance.hpp>
-#  include <boost/python/converter/registry.hpp>
+#include "../../../boost/python/object/instance.hpp"
+#include "../../../boost/python/converter/registry.hpp"
 #if !defined( BOOST_PYTHON_NO_PY_SIGNATURES) && defined( BOOST_PYTHON_PY_SIGNATURES_PROPER_INIT_SELF_TYPE)
-#  include <boost/python/detail/python_type.hpp>
+#include "../../../boost/python/detail/python_type.hpp"
 #endif
 
-#  include <boost/python/object/forward.hpp>
-#  include <boost/python/detail/preprocessor.hpp>
+#include "../../../boost/python/object/forward.hpp"
+#include "../../../boost/python/detail/preprocessor.hpp"
 
-#  include <boost/mpl/next.hpp>
-#  include <boost/mpl/begin_end.hpp>
-#  include <boost/mpl/deref.hpp>
+#include "../../../boost/mpl/next.hpp"
+#include "../../../boost/mpl/begin_end.hpp"
+#include "../../../boost/mpl/deref.hpp"
 
-#  include <boost/preprocessor/iterate.hpp>
-#  include <boost/preprocessor/iteration/local.hpp>
-#  include <boost/preprocessor/repeat.hpp>
-#  include <boost/preprocessor/debug/line.hpp>
-#  include <boost/preprocessor/repetition/enum_trailing_binary_params.hpp>
+#include "../../../boost/preprocessor/iterate.hpp"
+#include "../../../boost/preprocessor/iteration/local.hpp"
+#include "../../../boost/preprocessor/repeat.hpp"
+#include "../../../boost/preprocessor/debug/line.hpp"
+#include "../../../boost/preprocessor/repetition/enum_trailing_binary_params.hpp"
 
 #  include <cstddef>
 

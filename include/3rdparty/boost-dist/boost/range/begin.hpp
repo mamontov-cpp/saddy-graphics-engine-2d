@@ -15,13 +15,13 @@
 # pragma once
 #endif
 
-#include <boost/range/config.hpp>
+#include "../../boost/range/config.hpp"
 
 #ifdef BOOST_NO_FUNCTION_TEMPLATE_ORDERING
-#include <boost/range/detail/begin.hpp>
+#include "../../boost/range/detail/begin.hpp"
 #else
 
-#include <boost/range/iterator.hpp>
+#include "../../boost/range/iterator.hpp"
 
 namespace boost
 {

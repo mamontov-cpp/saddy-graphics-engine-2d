@@ -4,9 +4,9 @@
 #ifndef UNWRAP_TYPE_ID_DWA2004722_HPP
 # define UNWRAP_TYPE_ID_DWA2004722_HPP
 
-# include <boost/python/type_id.hpp>
+#include "../../../boost/python/type_id.hpp"
 
-# include <boost/mpl/bool.hpp>
+#include "../../../boost/mpl/bool.hpp"
 
 namespace boost { namespace python {
 

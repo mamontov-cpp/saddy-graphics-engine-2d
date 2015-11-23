@@ -16,12 +16,12 @@
 // http://www.boost.org/LICENSE_1_0.txt)
 
 //  See http://www.boost.org for updates, documentation, and revision history.
-#include <boost/config.hpp>
-#include <boost/noncopyable.hpp>
-#include <boost/archive/detail/auto_link_archive.hpp>
-#include <boost/archive/detail/basic_serializer.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/noncopyable.hpp"
+#include "../../../boost/archive/detail/auto_link_archive.hpp"
+#include "../../../boost/archive/detail/basic_serializer.hpp"
 
-#include <boost/archive/detail/abi_prefix.hpp> // must be the last header
+#include "../../../boost/archive/detail/abi_prefix.hpp" // must be the last header
 
 #ifdef BOOST_MSVC
 #  pragma warning(push)
@@ -67,6 +67,6 @@ public:
 #pragma warning(pop)
 #endif
 
-#include <boost/archive/detail/abi_suffix.hpp> // pops abi_suffix.hpp pragmas
+#include "../../../boost/archive/detail/abi_suffix.hpp" // pops abi_suffix.hpp pragmas
 
 #endif // BOOST_ARCHIVE_BASIC_POINTER_OSERIALIZER_HPP

@@ -7,7 +7,7 @@
 #if !defined(FUSION_LIST_LIMITS_07172005_0112)
 #define FUSION_LIST_LIMITS_07172005_0112
 
-#include <boost/fusion/support/detail/pp_round.hpp>
+#include "../../../../../../boost/fusion/support/detail/pp_round.hpp"
 
 #if !defined(FUSION_MAX_LIST_SIZE)
 # define FUSION_MAX_LIST_SIZE 10

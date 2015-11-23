@@ -4,10 +4,10 @@
 #ifndef WRAPPER_DWA2004720_HPP
 # define WRAPPER_DWA2004720_HPP
 
-# include <boost/python/detail/wrapper_base.hpp>
-# include <boost/python/override.hpp>
-# include <boost/python/converter/registered.hpp>
-# include <boost/python/detail/sfinae.hpp>
+#include "../../boost/python/detail/wrapper_base.hpp"
+#include "../../boost/python/override.hpp"
+#include "../../boost/python/converter/registered.hpp"
+#include "../../boost/python/detail/sfinae.hpp"
 
 namespace boost { namespace python { 
 

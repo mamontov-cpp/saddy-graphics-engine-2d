@@ -7,15 +7,15 @@
 #if !defined(FUSION_VALUE_AT_05052005_0229)
 #define FUSION_VALUE_AT_05052005_0229
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/mpl/int.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/or.hpp>
-#include <boost/mpl/less.hpp>
-#include <boost/mpl/empty_base.hpp>
-#include <boost/fusion/sequence/intrinsic_fwd.hpp>
-#include <boost/fusion/support/tag_of.hpp>
-#include <boost/fusion/support/category_of.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/mpl/int.hpp"
+#include "../../../../boost/mpl/if.hpp"
+#include "../../../../boost/mpl/or.hpp"
+#include "../../../../boost/mpl/less.hpp"
+#include "../../../../boost/mpl/empty_base.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic_fwd.hpp"
+#include "../../../../boost/fusion/support/tag_of.hpp"
+#include "../../../../boost/fusion/support/category_of.hpp"
 
 namespace boost { namespace fusion
 {

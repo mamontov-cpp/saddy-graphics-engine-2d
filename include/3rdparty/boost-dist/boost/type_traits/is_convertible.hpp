@@ -12,31 +12,31 @@
 #ifndef BOOST_TT_IS_CONVERTIBLE_HPP_INCLUDED
 #define BOOST_TT_IS_CONVERTIBLE_HPP_INCLUDED
 
-#include <boost/type_traits/intrinsics.hpp>
+#include "../../boost/type_traits/intrinsics.hpp"
 #ifndef BOOST_IS_CONVERTIBLE
-#include <boost/type_traits/detail/yes_no_type.hpp>
-#include <boost/type_traits/config.hpp>
-#include <boost/type_traits/is_array.hpp>
-#include <boost/type_traits/ice.hpp>
-#include <boost/type_traits/is_arithmetic.hpp>
-#include <boost/type_traits/is_void.hpp>
+#include "../../boost/type_traits/detail/yes_no_type.hpp"
+#include "../../boost/type_traits/config.hpp"
+#include "../../boost/type_traits/is_array.hpp"
+#include "../../boost/type_traits/ice.hpp"
+#include "../../boost/type_traits/is_arithmetic.hpp"
+#include "../../boost/type_traits/is_void.hpp"
 #ifndef BOOST_NO_IS_ABSTRACT
-#include <boost/type_traits/is_abstract.hpp>
+#include "../../boost/type_traits/is_abstract.hpp"
 #endif
-#include <boost/type_traits/add_lvalue_reference.hpp>
-#include <boost/type_traits/add_rvalue_reference.hpp>
-#include <boost/type_traits/is_function.hpp>
+#include "../../boost/type_traits/add_lvalue_reference.hpp"
+#include "../../boost/type_traits/add_rvalue_reference.hpp"
+#include "../../boost/type_traits/is_function.hpp"
 
 #if defined(__MWERKS__)
-#include <boost/type_traits/remove_reference.hpp>
+#include "../../boost/type_traits/remove_reference.hpp"
 #endif
 #if !defined(BOOST_NO_SFINAE_EXPR) && !defined(BOOST_NO_CXX11_RVALUE_REFERENCES)
-#  include <boost/utility/declval.hpp>
+#include "../../boost/utility/declval.hpp"
 #endif
 #endif // BOOST_IS_CONVERTIBLE
 
 // should be always the last #include directive
-#include <boost/type_traits/detail/bool_trait_def.hpp>
+#include "../../boost/type_traits/detail/bool_trait_def.hpp"
 
 namespace boost {
 
@@ -489,6 +489,6 @@ BOOST_TT_AUX_BOOL_TRAIT_DEF2(is_convertible,From,To,BOOST_IS_CONVERTIBLE(From,To
 
 } // namespace boost
 
-#include <boost/type_traits/detail/bool_trait_undef.hpp>
+#include "../../boost/type_traits/detail/bool_trait_undef.hpp"
 
 #endif // BOOST_TT_IS_CONVERTIBLE_HPP_INCLUDED

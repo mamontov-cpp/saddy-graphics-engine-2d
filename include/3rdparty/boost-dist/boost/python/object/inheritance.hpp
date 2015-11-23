@@ -5,12 +5,12 @@
 #ifndef INHERITANCE_DWA200216_HPP
 # define INHERITANCE_DWA200216_HPP
 
-# include <boost/python/type_id.hpp>
-# include <boost/shared_ptr.hpp>
-# include <boost/mpl/if.hpp>
-# include <boost/type_traits/is_polymorphic.hpp>
-# include <boost/type_traits/is_base_and_derived.hpp>
-# include <boost/detail/workaround.hpp>
+#include "../../../boost/python/type_id.hpp"
+#include "../../../boost/shared_ptr.hpp"
+#include "../../../boost/mpl/if.hpp"
+#include "../../../boost/type_traits/is_polymorphic.hpp"
+#include "../../../boost/type_traits/is_base_and_derived.hpp"
+#include "../../../boost/detail/workaround.hpp"
 
 namespace boost { namespace python { namespace objects {
 

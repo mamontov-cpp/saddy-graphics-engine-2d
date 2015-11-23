@@ -10,11 +10,11 @@
 #ifndef BOOST_PROPERTY_MAP_PARALLEL_VECTOR_PROPERTY_MAP_HPP_VP_2003_03_04
 #define BOOST_PROPERTY_MAP_PARALLEL_VECTOR_PROPERTY_MAP_HPP_VP_2003_03_04
 
-#include <boost/property_map/property_map.hpp>
-#include <boost/shared_ptr.hpp>
+#include "../../../boost/property_map/property_map.hpp"
+#include "../../../boost/shared_ptr.hpp"
 #include <vector>
-#include <boost/property_map/parallel/distributed_property_map.hpp>
-#include <boost/property_map/parallel/local_property_map.hpp>
+#include "../../../boost/property_map/parallel/distributed_property_map.hpp"
+#include "../../../boost/property_map/parallel/local_property_map.hpp"
 
 namespace boost {
 

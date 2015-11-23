@@ -6,20 +6,20 @@
 #ifndef BOOST_ITERATOR_CATEGORIES_HPP
 # define BOOST_ITERATOR_CATEGORIES_HPP
 
-# include <boost/config.hpp>
-# include <boost/detail/iterator.hpp>
-# include <boost/iterator/detail/config_def.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/detail/iterator.hpp"
+#include "../../boost/iterator/detail/config_def.hpp"
 
-# include <boost/detail/workaround.hpp>
+#include "../../boost/detail/workaround.hpp"
 
-# include <boost/mpl/eval_if.hpp>
-# include <boost/mpl/identity.hpp>
-# include <boost/mpl/placeholders.hpp>
-# include <boost/mpl/aux_/lambda_support.hpp>
+#include "../../boost/mpl/eval_if.hpp"
+#include "../../boost/mpl/identity.hpp"
+#include "../../boost/mpl/placeholders.hpp"
+#include "../../boost/mpl/aux_/lambda_support.hpp"
 
-# include <boost/type_traits/is_convertible.hpp>
+#include "../../boost/type_traits/is_convertible.hpp"
 
-# include <boost/static_assert.hpp>
+#include "../../boost/static_assert.hpp"
 
 namespace boost {
 namespace iterators {
@@ -210,6 +210,6 @@ using iterators::pure_traversal_tag;
 
 } // namespace boost
 
-#include <boost/iterator/detail/config_undef.hpp>
+#include "../../boost/iterator/detail/config_undef.hpp"
 
 #endif // BOOST_ITERATOR_CATEGORIES_HPP

@@ -7,17 +7,17 @@
 #if !defined(FUSION_RESULT_OF_10272014_0654)
 #define FUSION_RESULT_OF_10272014_0654
 
-#include <boost/config.hpp>
-#include <boost/utility/result_of.hpp>
+#include "../../../../boost/config.hpp"
+#include "../../../../boost/utility/result_of.hpp"
 
 #if !defined(BOOST_RESULT_OF_USE_DECLTYPE) || defined(BOOST_NO_CXX11_VARIADIC_TEMPLATES)
 #define BOOST_FUSION_NO_DECLTYPE_BASED_RESULT_OF
 #endif
 
 #if !defined(BOOST_FUSION_NO_DECLTYPE_BASED_RESULT_OF)
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/or.hpp>
-#include <boost/mpl/has_xxx.hpp>
+#include "../../../../boost/mpl/if.hpp"
+#include "../../../../boost/mpl/or.hpp"
+#include "../../../../boost/mpl/has_xxx.hpp"
 #endif
 
 namespace boost { namespace fusion { namespace detail

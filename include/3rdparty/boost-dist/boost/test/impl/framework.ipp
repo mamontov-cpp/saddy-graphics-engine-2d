@@ -16,36 +16,36 @@
 #define BOOST_TEST_FRAMEWORK_IPP_021005GER
 
 // Boost.Test
-#include <boost/test/framework.hpp>
-#include <boost/test/execution_monitor.hpp>
-#include <boost/test/debug.hpp>
-#include <boost/test/unit_test_parameters.hpp>
+#include "../../../boost/test/framework.hpp"
+#include "../../../boost/test/execution_monitor.hpp"
+#include "../../../boost/test/debug.hpp"
+#include "../../../boost/test/unit_test_parameters.hpp"
 
-#include <boost/test/unit_test_log.hpp>
-#include <boost/test/unit_test_monitor.hpp>
-#include <boost/test/results_collector.hpp>
-#include <boost/test/progress_monitor.hpp>
-#include <boost/test/results_reporter.hpp>
+#include "../../../boost/test/unit_test_log.hpp"
+#include "../../../boost/test/unit_test_monitor.hpp"
+#include "../../../boost/test/results_collector.hpp"
+#include "../../../boost/test/progress_monitor.hpp"
+#include "../../../boost/test/results_reporter.hpp"
 
-#include <boost/test/tree/observer.hpp>
-#include <boost/test/tree/test_unit.hpp>
-#include <boost/test/tree/visitor.hpp>
-#include <boost/test/tree/traverse.hpp>
-#include <boost/test/tree/test_case_counter.hpp>
+#include "../../../boost/test/tree/observer.hpp"
+#include "../../../boost/test/tree/test_unit.hpp"
+#include "../../../boost/test/tree/visitor.hpp"
+#include "../../../boost/test/tree/traverse.hpp"
+#include "../../../boost/test/tree/test_case_counter.hpp"
 
 #if BOOST_TEST_SUPPORT_TOKEN_ITERATOR
-#include <boost/test/utils/iterator/token_iterator.hpp>
+#include "../../../boost/test/utils/iterator/token_iterator.hpp"
 #endif
 
-#include <boost/test/utils/foreach.hpp>
-#include <boost/test/utils/basic_cstring/io.hpp>
+#include "../../../boost/test/utils/foreach.hpp"
+#include "../../../boost/test/utils/basic_cstring/io.hpp"
 
-#include <boost/test/detail/global_typedef.hpp>
-#include <boost/test/detail/throw_exception.hpp>
+#include "../../../boost/test/detail/global_typedef.hpp"
+#include "../../../boost/test/detail/throw_exception.hpp"
 
 // Boost
-#include <boost/timer.hpp>
-#include <boost/bind.hpp>
+#include "../../../boost/timer.hpp"
+#include "../../../boost/bind.hpp"
 
 // STL
 #include <limits>
@@ -58,7 +58,7 @@
 namespace std { using ::time; using ::srand; }
 #endif
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -1278,6 +1278,6 @@ test_unit_aborted( test_unit const& tu )
 } // namespace unit_test
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_FRAMEWORK_IPP_021005GER

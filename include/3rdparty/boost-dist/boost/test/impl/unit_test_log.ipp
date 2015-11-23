@@ -16,24 +16,24 @@
 #define BOOST_TEST_UNIT_TEST_LOG_IPP_012205GER
 
 // Boost.Test
-#include <boost/test/unit_test_log.hpp>
-#include <boost/test/unit_test_log_formatter.hpp>
-#include <boost/test/execution_monitor.hpp>
-#include <boost/test/framework.hpp>
+#include "../../../boost/test/unit_test_log.hpp"
+#include "../../../boost/test/unit_test_log_formatter.hpp"
+#include "../../../boost/test/execution_monitor.hpp"
+#include "../../../boost/test/framework.hpp"
 
-#include <boost/test/unit_test_parameters.hpp>
+#include "../../../boost/test/unit_test_parameters.hpp"
 
-#include <boost/test/utils/basic_cstring/compare.hpp>
+#include "../../../boost/test/utils/basic_cstring/compare.hpp"
 
-#include <boost/test/output/compiler_log_formatter.hpp>
-#include <boost/test/output/xml_log_formatter.hpp>
+#include "../../../boost/test/output/compiler_log_formatter.hpp"
+#include "../../../boost/test/output/xml_log_formatter.hpp"
 
 // Boost
-#include <boost/scoped_ptr.hpp>
-#include <boost/io/ios_state.hpp>
+#include "../../../boost/scoped_ptr.hpp"
+#include "../../../boost/io/ios_state.hpp"
 typedef ::boost::io::ios_base_all_saver io_saver_type;
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -462,6 +462,6 @@ unit_test_log_formatter::log_entry_value( std::ostream& ostr, lazy_ostream const
 } // namespace unit_test
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_UNIT_TEST_LOG_IPP_012205GER

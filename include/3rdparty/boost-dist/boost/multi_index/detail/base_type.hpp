@@ -13,14 +13,14 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp> /* keep it first to prevent nasty warns in MSVC */
-#include <boost/detail/workaround.hpp>
-#include <boost/mpl/at.hpp>
-#include <boost/mpl/apply.hpp>
-#include <boost/mpl/size.hpp>
-#include <boost/multi_index/detail/index_base.hpp>
-#include <boost/multi_index/detail/is_index_list.hpp>
-#include <boost/static_assert.hpp>
+#include "../../../boost/config.hpp" /* keep it first to prevent nasty warns in MSVC */
+#include "../../../boost/detail/workaround.hpp"
+#include "../../../boost/mpl/at.hpp"
+#include "../../../boost/mpl/apply.hpp"
+#include "../../../boost/mpl/size.hpp"
+#include "../../../boost/multi_index/detail/index_base.hpp"
+#include "../../../boost/multi_index/detail/is_index_list.hpp"
+#include "../../../boost/static_assert.hpp"
 
 namespace boost{
 

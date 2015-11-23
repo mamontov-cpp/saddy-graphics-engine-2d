@@ -40,17 +40,17 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp> /* keep it first to prevent nasty warns in MSVC */
+#include "../../../boost/config.hpp" /* keep it first to prevent nasty warns in MSVC */
 #include <cstddef>
-#include <boost/detail/allocator_utilities.hpp>
-#include <boost/multi_index/detail/raw_ptr.hpp>
+#include "../../../boost/detail/allocator_utilities.hpp"
+#include "../../../boost/multi_index/detail/raw_ptr.hpp"
 
 #if !defined(BOOST_MULTI_INDEX_DISABLE_COMPRESSED_ORDERED_INDEX_NODES)
-#include <boost/mpl/and.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/multi_index/detail/uintptr_type.hpp>
-#include <boost/type_traits/alignment_of.hpp>
-#include <boost/type_traits/is_same.hpp>
+#include "../../../boost/mpl/and.hpp"
+#include "../../../boost/mpl/if.hpp"
+#include "../../../boost/multi_index/detail/uintptr_type.hpp"
+#include "../../../boost/type_traits/alignment_of.hpp"
+#include "../../../boost/type_traits/is_same.hpp"
 #endif
 
 namespace boost{

@@ -9,13 +9,13 @@
 #ifndef BOOST_PROTO_TRANSFORM_IMPL_HPP_EAN_04_03_2008
 #define BOOST_PROTO_TRANSFORM_IMPL_HPP_EAN_04_03_2008
 
-#include <boost/config.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/type_traits/add_const.hpp>
-#include <boost/type_traits/add_reference.hpp>
-#include <boost/proto/proto_fwd.hpp>
-#include <boost/proto/detail/any.hpp>
-#include <boost/proto/detail/static_const.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/mpl/bool.hpp"
+#include "../../../boost/type_traits/add_const.hpp"
+#include "../../../boost/type_traits/add_reference.hpp"
+#include "../../../boost/proto/proto_fwd.hpp"
+#include "../../../boost/proto/detail/any.hpp"
+#include "../../../boost/proto/detail/static_const.hpp"
 
 #if defined(_MSC_VER)
 # pragma warning(push)

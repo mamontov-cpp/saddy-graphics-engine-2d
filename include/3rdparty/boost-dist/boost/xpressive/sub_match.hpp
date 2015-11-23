@@ -20,12 +20,12 @@
 #include <utility>
 #include <iterator>
 #include <algorithm>
-#include <boost/mpl/assert.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/iterator/iterator_traits.hpp>
-#include <boost/range/const_iterator.hpp>
-#include <boost/range/mutable_iterator.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
+#include "../../boost/mpl/assert.hpp"
+#include "../../boost/type_traits/is_same.hpp"
+#include "../../boost/iterator/iterator_traits.hpp"
+#include "../../boost/range/const_iterator.hpp"
+#include "../../boost/range/mutable_iterator.hpp"
+#include "../../boost/xpressive/detail/detail_fwd.hpp"
 
 //{{AFX_DOC_COMMENT
 ///////////////////////////////////////////////////////////////////////////////

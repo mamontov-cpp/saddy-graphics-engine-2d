@@ -19,6 +19,6 @@
 //  See http://www.boost.org/libs/bind/bind.html for documentation.
 //
 
-#include <boost/bind/bind.hpp>
+#include "../boost/bind/bind.hpp"
 
 #endif // #ifndef BOOST_BIND_HPP_INCLUDED

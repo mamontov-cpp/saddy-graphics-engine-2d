@@ -12,6 +12,6 @@
 # ifndef BOOST_PREPROCESSOR_ENUM_SHIFTED_PARAMS_HPP
 # define BOOST_PREPROCESSOR_ENUM_SHIFTED_PARAMS_HPP
 #
-# include <boost/preprocessor/repetition/enum_shifted_params.hpp>
+#include "../../boost/preprocessor/repetition/enum_shifted_params.hpp"
 #
 # endif

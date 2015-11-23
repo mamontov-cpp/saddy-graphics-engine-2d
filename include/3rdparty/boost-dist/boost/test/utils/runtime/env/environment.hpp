@@ -20,17 +20,17 @@
 #endif
 
 // Boost.Runtime.Parameter
-#include <boost/test/utils/runtime/config.hpp>
-#include <boost/test/utils/runtime/fwd.hpp>
-#include <boost/test/utils/runtime/argument.hpp>
-#include <boost/test/utils/runtime/interpret_argument_value.hpp>
+#include "../../../../../boost/test/utils/runtime/config.hpp"
+#include "../../../../../boost/test/utils/runtime/fwd.hpp"
+#include "../../../../../boost/test/utils/runtime/argument.hpp"
+#include "../../../../../boost/test/utils/runtime/interpret_argument_value.hpp"
 
-#include <boost/test/utils/runtime/env/fwd.hpp>
-#include <boost/test/utils/runtime/env/modifier.hpp>
-#include <boost/test/utils/runtime/env/variable.hpp>
+#include "../../../../../boost/test/utils/runtime/env/fwd.hpp"
+#include "../../../../../boost/test/utils/runtime/env/modifier.hpp"
+#include "../../../../../boost/test/utils/runtime/env/variable.hpp"
 
 // Boost
-#include <boost/optional.hpp>
+#include "../../../../../boost/optional.hpp"
 
 namespace boost {
 
@@ -164,7 +164,7 @@ namespace env = environment;
 #ifndef BOOST_TEST_UTILS_RUNTIME_PARAM_INLINE
 #   define BOOST_TEST_UTILS_RUNTIME_PARAM_INLINE inline
 #endif
-# include <boost/test/utils/runtime/env/environment.ipp>
+#include "../../../../../boost/test/utils/runtime/env/environment.ipp"
 
 #endif
 

@@ -10,7 +10,7 @@
 // Unfortunately, Boost.Python needs to #include <limits.h> first, at
 // least... but this gets us as close as possible.
 
-# include <boost/python/detail/wrap_python.hpp>
-# include <boost/python/detail/config.hpp>
+#include "../../../boost/python/detail/wrap_python.hpp"
+#include "../../../boost/python/detail/config.hpp"
 
 #endif // PREFIX_DWA2003531_HPP

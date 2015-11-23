@@ -8,7 +8,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 #ifndef BOOST_CONFIG_HPP
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 #endif
 
 #ifdef BOOST_MSVC

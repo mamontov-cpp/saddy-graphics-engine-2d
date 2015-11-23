@@ -16,12 +16,12 @@
 #define BOOST_TEST_TREE_TRAVERSE_HPP_100211GER
 
 // Boost.Test
-#include <boost/test/detail/config.hpp>
+#include "../../../boost/test/detail/config.hpp"
 
-#include <boost/test/tree/test_unit.hpp>
-#include <boost/test/tree/visitor.hpp>
+#include "../../../boost/test/tree/test_unit.hpp"
+#include "../../../boost/test/tree/visitor.hpp"
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 
 //____________________________________________________________________________//
@@ -53,6 +53,6 @@ traverse_test_tree( test_unit const& tu, test_tree_visitor& V, bool ignore_statu
 } // namespace unit_test
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_TREE_TRAVERSE_HPP_100211GER

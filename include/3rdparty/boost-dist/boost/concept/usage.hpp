@@ -4,9 +4,9 @@
 #ifndef BOOST_CONCEPT_USAGE_DWA2006919_HPP
 # define BOOST_CONCEPT_USAGE_DWA2006919_HPP
 
-# include <boost/concept/assert.hpp>
-# include <boost/detail/workaround.hpp>
-# include <boost/concept/detail/backward_compatibility.hpp>
+#include "../../boost/concept/assert.hpp"
+#include "../../boost/detail/workaround.hpp"
+#include "../../boost/concept/detail/backward_compatibility.hpp"
 
 namespace boost { namespace concepts { 
 

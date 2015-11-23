@@ -15,7 +15,7 @@
 # pragma once
 #endif
 
-#include <boost/mpl/identity.hpp>
+#include "../../boost/mpl/identity.hpp"
 
 #ifndef BOOST_XPRESSIVE_DOXYGEN_INVOKED
 # define icase icase_

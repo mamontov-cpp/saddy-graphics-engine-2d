@@ -22,11 +22,11 @@
 #include <cstddef>  // for std::ptrdiff_t
 #include <utility>  // for std::max
 #include <vector>
-#include <boost/mpl/bool.hpp>
-#include <boost/noncopyable.hpp>
-#include <boost/iterator/iterator_traits.hpp>
-#include <boost/type_traits/is_convertible.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
+#include "../../../../boost/mpl/bool.hpp"
+#include "../../../../boost/noncopyable.hpp"
+#include "../../../../boost/iterator/iterator_traits.hpp"
+#include "../../../../boost/type_traits/is_convertible.hpp"
+#include "../../../../boost/xpressive/detail/detail_fwd.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

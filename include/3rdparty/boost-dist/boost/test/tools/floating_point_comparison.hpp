@@ -13,23 +13,23 @@
 #define BOOST_TEST_FLOATING_POINT_COMPARISON_HPP_071894GER
 
 // Boost.Test
-#include <boost/test/detail/global_typedef.hpp>
-#include <boost/test/tools/assertion_result.hpp>
+#include "../../../boost/test/detail/global_typedef.hpp"
+#include "../../../boost/test/tools/assertion_result.hpp"
 
 // Boost
-#include <boost/limits.hpp>  // for std::numeric_limits
-#include <boost/static_assert.hpp>
-#include <boost/assert.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/type_traits/is_floating_point.hpp>
-#include <boost/type_traits/is_array.hpp>
-#include <boost/type_traits/conditional.hpp>
-#include <boost/utility/enable_if.hpp>
+#include "../../../boost/limits.hpp"  // for std::numeric_limits
+#include "../../../boost/static_assert.hpp"
+#include "../../../boost/assert.hpp"
+#include "../../../boost/mpl/bool.hpp"
+#include "../../../boost/type_traits/is_floating_point.hpp"
+#include "../../../boost/type_traits/is_array.hpp"
+#include "../../../boost/type_traits/conditional.hpp"
+#include "../../../boost/utility/enable_if.hpp"
 
 // STL
 #include <iosfwd>
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -310,6 +310,6 @@ is_small( FPT fpv, FPT tolerance )
 } // namespace math
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_FLOATING_POINT_COMAPARISON_HPP_071894GER

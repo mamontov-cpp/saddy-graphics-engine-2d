@@ -15,13 +15,13 @@
 # pragma once
 #endif
 
-#include <boost/range/begin.hpp>
-#include <boost/range/end.hpp>
-#include <boost/range/size.hpp>
-#include <boost/range/distance.hpp>
-#include <boost/range/empty.hpp>
-#include <boost/range/rbegin.hpp>
-#include <boost/range/rend.hpp>
+#include "../../boost/range/begin.hpp"
+#include "../../boost/range/end.hpp"
+#include "../../boost/range/size.hpp"
+#include "../../boost/range/distance.hpp"
+#include "../../boost/range/empty.hpp"
+#include "../../boost/range/rbegin.hpp"
+#include "../../boost/range/rend.hpp"
 
 #endif
 

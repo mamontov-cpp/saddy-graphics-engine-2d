@@ -7,10 +7,10 @@
 #if !defined(FUSION_REMOVE_07162005_0818)
 #define FUSION_REMOVE_07162005_0818
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/view/filter_view/filter_view.hpp>
-#include <boost/mpl/not.hpp>
-#include <boost/type_traits/is_same.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/fusion/view/filter_view/filter_view.hpp"
+#include "../../../../boost/mpl/not.hpp"
+#include "../../../../boost/type_traits/is_same.hpp"
 
 namespace boost { namespace fusion
 {

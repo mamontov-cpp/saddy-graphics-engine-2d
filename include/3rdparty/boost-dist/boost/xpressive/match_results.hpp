@@ -27,41 +27,41 @@
 #include <iterator>
 #include <typeinfo>
 #include <algorithm>
-#include <boost/config.hpp>
-#include <boost/assert.hpp>
-#include <boost/integer.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/not.hpp>
-#include <boost/mpl/size_t.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/intrusive_ptr.hpp>
-#include <boost/throw_exception.hpp>
-#include <boost/iterator_adaptors.hpp>
-#include <boost/utility/enable_if.hpp>
-#include <boost/detail/workaround.hpp>
-#include <boost/numeric/conversion/converter.hpp>
-#include <boost/optional.hpp>
-#include <boost/range/end.hpp>
-#include <boost/range/begin.hpp>
-#include <boost/range/as_literal.hpp>
-#include <boost/range/const_iterator.hpp>
-#include <boost/type_traits/is_function.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/assert.hpp"
+#include "../../boost/integer.hpp"
+#include "../../boost/mpl/if.hpp"
+#include "../../boost/mpl/not.hpp"
+#include "../../boost/mpl/size_t.hpp"
+#include "../../boost/mpl/assert.hpp"
+#include "../../boost/intrusive_ptr.hpp"
+#include "../../boost/throw_exception.hpp"
+#include "../../boost/iterator_adaptors.hpp"
+#include "../../boost/utility/enable_if.hpp"
+#include "../../boost/detail/workaround.hpp"
+#include "../../boost/numeric/conversion/converter.hpp"
+#include "../../boost/optional.hpp"
+#include "../../boost/range/end.hpp"
+#include "../../boost/range/begin.hpp"
+#include "../../boost/range/as_literal.hpp"
+#include "../../boost/range/const_iterator.hpp"
+#include "../../boost/type_traits/is_function.hpp"
 #if BOOST_ITERATOR_ADAPTORS_VERSION >= 0x0200
-# include <boost/iterator/filter_iterator.hpp>
+#include "../../boost/iterator/filter_iterator.hpp"
 #endif
-#include <boost/xpressive/regex_constants.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/detail/core/regex_impl.hpp>
-#include <boost/xpressive/detail/core/sub_match_vector.hpp>
-#include <boost/xpressive/detail/utility/sequence_stack.hpp>
-#include <boost/xpressive/detail/core/results_cache.hpp>
-#include <boost/xpressive/detail/utility/literals.hpp>
-#include <boost/xpressive/detail/utility/algorithm.hpp>
-#include <boost/xpressive/detail/utility/counted_base.hpp>
+#include "../../boost/xpressive/regex_constants.hpp"
+#include "../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../boost/xpressive/detail/core/regex_impl.hpp"
+#include "../../boost/xpressive/detail/core/sub_match_vector.hpp"
+#include "../../boost/xpressive/detail/utility/sequence_stack.hpp"
+#include "../../boost/xpressive/detail/core/results_cache.hpp"
+#include "../../boost/xpressive/detail/utility/literals.hpp"
+#include "../../boost/xpressive/detail/utility/algorithm.hpp"
+#include "../../boost/xpressive/detail/utility/counted_base.hpp"
 // Doxygen can't handle proto :-(
 #ifndef BOOST_XPRESSIVE_DOXYGEN_INVOKED
-# include <boost/proto/proto_fwd.hpp>
-# include <boost/proto/traits.hpp>
+#include "../../boost/proto/proto_fwd.hpp"
+#include "../../boost/proto/traits.hpp"
 #endif
 
 namespace boost { namespace xpressive { namespace detail

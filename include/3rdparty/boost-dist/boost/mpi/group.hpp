@@ -15,9 +15,9 @@
 #ifndef BOOST_MPI_GROUP_HPP
 #define BOOST_MPI_GROUP_HPP
 
-#include <boost/mpi/exception.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/optional.hpp>
+#include "../../boost/mpi/exception.hpp"
+#include "../../boost/shared_ptr.hpp"
+#include "../../boost/optional.hpp"
 #include <vector>
 
 namespace boost { namespace mpi {

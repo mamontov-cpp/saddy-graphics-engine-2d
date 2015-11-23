@@ -8,8 +8,8 @@ http://www.boost.org/LICENSE_1_0.txt)
 #ifndef BOOST_PREDEF_OS_QNXNTO_H
 #define BOOST_PREDEF_OS_QNXNTO_H
 
-#include <boost/predef/version_number.h>
-#include <boost/predef/make.h>
+#include "../../../boost/predef/version_number.h"
+#include "../../../boost/predef/make.h"
 
 /*`
 [heading `BOOST_OS_QNX`]
@@ -48,12 +48,12 @@ version 4 is specifically detected.
 
 #if BOOST_OS_QNX
 #   define BOOST_OS_QNX_AVAILABLE
-#   include <boost/predef/detail/os_detected.h>
+#include "../../../boost/predef/detail/os_detected.h"
 #endif
 
 #define BOOST_OS_QNX_NAME "QNX"
 
 #endif
 
-#include <boost/predef/detail/test.h>
+#include "../../../boost/predef/detail/test.h"
 BOOST_PREDEF_DECLARE_TEST(BOOST_OS_QNX,BOOST_OS_QNX_NAME)

@@ -16,11 +16,11 @@
 #define BOOST_TEST_UTILS_TRIVIAL_SIGNLETON_HPP
 
 // Boost.Test
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/detail/workaround.hpp"
 
 // Boost
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -74,6 +74,6 @@ namespace { BOOST_JOIN( inst, _t)& inst = BOOST_JOIN( inst, _t)::instance(); }
 } // namespace boost
 
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_UTILS_TRIVIAL_SIGNLETON_HPP

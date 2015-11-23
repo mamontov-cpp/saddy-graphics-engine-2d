@@ -16,14 +16,14 @@
 #define BOOST_TEST_XML_REPORT_FORMATTER_IPP_020105GER
 
 // Boost.Test
-#include <boost/test/results_collector.hpp>
-#include <boost/test/output/xml_report_formatter.hpp>
+#include "../../../boost/test/results_collector.hpp"
+#include "../../../boost/test/output/xml_report_formatter.hpp"
 
-#include <boost/test/tree/test_unit.hpp>
-#include <boost/test/utils/xml_printer.hpp>
-#include <boost/test/utils/basic_cstring/io.hpp>
+#include "../../../boost/test/tree/test_unit.hpp"
+#include "../../../boost/test/utils/xml_printer.hpp"
+#include "../../../boost/test/utils/basic_cstring/io.hpp"
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -107,6 +107,6 @@ xml_report_formatter::do_confirmation_report( test_unit const& tu, std::ostream&
 } // namespace unit_test
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_XML_REPORT_FORMATTER_IPP_020105GER

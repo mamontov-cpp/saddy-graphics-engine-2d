@@ -11,10 +11,10 @@
 // $Date$
 // $Revision$
 
-#include <boost/type_traits/detail/template_arity_spec.hpp>
-#include <boost/type_traits/integral_constant.hpp>
-#include <boost/mpl/aux_/lambda_support.hpp>
-#include <boost/mpl/size_t.hpp>
+#include "../../../boost/type_traits/detail/template_arity_spec.hpp"
+#include "../../../boost/type_traits/integral_constant.hpp"
+#include "../../../boost/mpl/aux_/lambda_support.hpp"
+#include "../../../boost/mpl/size_t.hpp"
 
 #include <cstddef>
 

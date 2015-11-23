@@ -8,5 +8,5 @@
 =============================================================================*/
 #ifndef BOOST_SPIRIT_INCLUDE_CLASSIC_RULE
 #define BOOST_SPIRIT_INCLUDE_CLASSIC_RULE
-#include <boost/spirit/home/classic/core/non_terminal/rule.hpp>
+#include "../../../boost/spirit/home/classic/core/non_terminal/rule.hpp"
 #endif

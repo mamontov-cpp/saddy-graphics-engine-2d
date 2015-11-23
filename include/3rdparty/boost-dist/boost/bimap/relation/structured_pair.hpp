@@ -16,26 +16,26 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
 #include <utility>
 
-#include <boost/type_traits/remove_const.hpp>
+#include "../../../boost/type_traits/remove_const.hpp"
 
-#include <boost/mpl/aux_/na.hpp>
+#include "../../../boost/mpl/aux_/na.hpp"
 
-#include <boost/call_traits.hpp>
+#include "../../../boost/call_traits.hpp"
 
-#include <boost/utility/enable_if.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/vector.hpp>
+#include "../../../boost/utility/enable_if.hpp"
+#include "../../../boost/type_traits/is_same.hpp"
+#include "../../../boost/mpl/if.hpp"
+#include "../../../boost/mpl/vector.hpp"
 
-#include <boost/bimap/detail/debug/static_error.hpp>
-#include <boost/bimap/relation/pair_layout.hpp>
-#include <boost/bimap/relation/symmetrical_base.hpp>
-#include <boost/bimap/relation/support/get.hpp>
-#include <boost/bimap/tags/support/value_type_of.hpp>
+#include "../../../boost/bimap/detail/debug/static_error.hpp"
+#include "../../../boost/bimap/relation/pair_layout.hpp"
+#include "../../../boost/bimap/relation/symmetrical_base.hpp"
+#include "../../../boost/bimap/relation/support/get.hpp"
+#include "../../../boost/bimap/tags/support/value_type_of.hpp"
 
 
 

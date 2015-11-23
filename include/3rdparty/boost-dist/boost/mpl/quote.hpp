@@ -19,12 +19,12 @@
 // $Revision$
 
 #if !defined(BOOST_MPL_PREPROCESSING_MODE)
-#   include <boost/mpl/void.hpp>
-#   include <boost/mpl/aux_/has_type.hpp>
+#include "../../boost/mpl/void.hpp"
+#include "../../boost/mpl/aux_/has_type.hpp"
 #endif
 
-#include <boost/mpl/aux_/config/bcc.hpp>
-#include <boost/mpl/aux_/config/ttp.hpp>
+#include "../../boost/mpl/aux_/config/bcc.hpp"
+#include "../../boost/mpl/aux_/config/ttp.hpp"
 
 #if defined(BOOST_MPL_CFG_NO_TEMPLATE_TEMPLATE_PARAMETERS) \
     && !defined(BOOST_MPL_CFG_BCC590_WORKAROUNDS)
@@ -36,23 +36,23 @@
 #   define BOOST_MPL_CFG_NO_IMPLICIT_METAFUNCTIONS
 #endif
 
-#include <boost/mpl/aux_/config/use_preprocessed.hpp>
+#include "../../boost/mpl/aux_/config/use_preprocessed.hpp"
 
 #if !defined(BOOST_MPL_CFG_NO_PREPROCESSED_HEADERS) \
  && !defined(BOOST_MPL_PREPROCESSING_MODE)
 
 #   define BOOST_MPL_PREPROCESSED_HEADER quote.hpp
-#   include <boost/mpl/aux_/include_preprocessed.hpp>
+#include "../../boost/mpl/aux_/include_preprocessed.hpp"
 
 #else
 
-#   include <boost/mpl/limits/arity.hpp>
-#   include <boost/mpl/aux_/preprocessor/params.hpp>
-#   include <boost/mpl/aux_/config/ctps.hpp>
-#   include <boost/mpl/aux_/config/workaround.hpp>
+#include "../../boost/mpl/limits/arity.hpp"
+#include "../../boost/mpl/aux_/preprocessor/params.hpp"
+#include "../../boost/mpl/aux_/config/ctps.hpp"
+#include "../../boost/mpl/aux_/config/workaround.hpp"
 
-#   include <boost/preprocessor/iterate.hpp>
-#   include <boost/preprocessor/cat.hpp>
+#include "../../boost/preprocessor/iterate.hpp"
+#include "../../boost/preprocessor/cat.hpp"
 
 #if !defined(BOOST_MPL_CFG_NO_QUOTE_TEMPLATE)
 

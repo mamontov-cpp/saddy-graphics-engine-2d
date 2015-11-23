@@ -16,9 +16,9 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
-#include <boost/mpl/apply.hpp>
+#include "../../../boost/mpl/apply.hpp"
 
 /*===========================================================================*/
 #define BOOST_BIMAP_GENERATE_RELATION_BINDER_0CP(                             \

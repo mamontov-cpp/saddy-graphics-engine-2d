@@ -16,21 +16,21 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
 // Boost
 
 #ifndef BOOST_BIMAP_DISABLE_SERIALIZATION
-  #include <boost/serialization/nvp.hpp>
+  #include "../../../boost/serialization/nvp.hpp"
 #endif // BOOST_BIMAP_DISABLE_SERIALIZATION
 
-#include <boost/iterator/detail/enable_if.hpp>
-#include <boost/iterator/iterator_adaptor.hpp>
-#include <boost/bimap/relation/support/pair_by.hpp>
+#include "../../../boost/iterator/detail/enable_if.hpp"
+#include "../../../boost/iterator/iterator_adaptor.hpp"
+#include "../../../boost/bimap/relation/support/pair_by.hpp"
 
 // check
-#include <boost/bimap/relation/detail/metadata_access_builder.hpp>
-#include <boost/bimap/relation/detail/static_access_builder.hpp>
+#include "../../../boost/bimap/relation/detail/metadata_access_builder.hpp"
+#include "../../../boost/bimap/relation/detail/static_access_builder.hpp"
 
 namespace boost {
 namespace bimaps {

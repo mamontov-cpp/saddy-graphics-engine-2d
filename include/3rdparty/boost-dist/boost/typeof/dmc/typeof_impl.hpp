@@ -6,9 +6,9 @@
 #ifndef BOOST_TYPEOF_MSVC_TYPEOF_IMPL_HPP_INCLUDED
 # define BOOST_TYPEOF_MSVC_TYPEOF_IMPL_HPP_INCLUDED
 
-# include <boost/config.hpp>
-# include <boost/detail/workaround.hpp>
-# include <boost/mpl/int.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/detail/workaround.hpp"
+#include "../../../boost/mpl/int.hpp"
 
 namespace boost
 {

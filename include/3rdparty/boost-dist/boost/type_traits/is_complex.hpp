@@ -8,10 +8,10 @@
 #ifndef BOOST_TT_IS_COMPLEX_HPP
 #define BOOST_TT_IS_COMPLEX_HPP
 
-#include <boost/type_traits/is_convertible.hpp>
+#include "../../boost/type_traits/is_convertible.hpp"
 #include <complex>
 // should be the last #include
-#include <boost/type_traits/detail/bool_trait_def.hpp>
+#include "../../boost/type_traits/detail/bool_trait_def.hpp"
 
 
 namespace boost {
@@ -29,6 +29,6 @@ BOOST_TT_AUX_BOOL_TRAIT_DEF1(is_complex,T,(::boost::is_convertible<T, boost::det
 
 } // namespace boost
 
-#include <boost/type_traits/detail/bool_trait_undef.hpp>
+#include "../../boost/type_traits/detail/bool_trait_undef.hpp"
 
 #endif //BOOST_TT_IS_COMPLEX_HPP

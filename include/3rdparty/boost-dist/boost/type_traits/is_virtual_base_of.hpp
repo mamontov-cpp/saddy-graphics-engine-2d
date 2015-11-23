@@ -8,13 +8,13 @@
 #ifndef BOOST_TT_IS_VIRTUAL_BASE_OF_HPP_INCLUDED
 #define BOOST_TT_IS_VIRTUAL_BASE_OF_HPP_INCLUDED
 
-#include <boost/type_traits/is_base_of.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/mpl/and.hpp>
-#include <boost/mpl/not.hpp>
+#include "../../boost/type_traits/is_base_of.hpp"
+#include "../../boost/type_traits/is_same.hpp"
+#include "../../boost/mpl/and.hpp"
+#include "../../boost/mpl/not.hpp"
 
 // should be the last #include
-#include <boost/type_traits/detail/bool_trait_def.hpp>
+#include "../../boost/type_traits/detail/bool_trait_def.hpp"
 
 namespace boost {
 namespace detail {
@@ -112,6 +112,6 @@ BOOST_TT_AUX_BOOL_TRAIT_PARTIAL_SPEC2_2(typename Base,typename Derived,is_virtua
 
 } // namespace boost
 
-#include <boost/type_traits/detail/bool_trait_undef.hpp>
+#include "../../boost/type_traits/detail/bool_trait_undef.hpp"
 
 #endif

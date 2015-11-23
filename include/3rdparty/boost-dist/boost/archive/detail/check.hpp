@@ -22,24 +22,24 @@
 
 //  See http://www.boost.org for updates, documentation, and revision history.
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
-#include <boost/static_assert.hpp>
-#include <boost/type_traits/is_const.hpp>
+#include "../../../boost/static_assert.hpp"
+#include "../../../boost/type_traits/is_const.hpp"
 
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/or.hpp>
-#include <boost/mpl/equal_to.hpp>
-#include <boost/mpl/int.hpp>
-#include <boost/mpl/not.hpp>
-#include <boost/mpl/greater.hpp>
-#include <boost/mpl/assert.hpp>
+#include "../../../boost/mpl/eval_if.hpp"
+#include "../../../boost/mpl/or.hpp"
+#include "../../../boost/mpl/equal_to.hpp"
+#include "../../../boost/mpl/int.hpp"
+#include "../../../boost/mpl/not.hpp"
+#include "../../../boost/mpl/greater.hpp"
+#include "../../../boost/mpl/assert.hpp"
 
-#include <boost/serialization/static_warning.hpp>
-#include <boost/serialization/version.hpp>
-#include <boost/serialization/level.hpp>
-#include <boost/serialization/tracking.hpp>
-#include <boost/serialization/wrapper.hpp>
+#include "../../../boost/serialization/static_warning.hpp"
+#include "../../../boost/serialization/version.hpp"
+#include "../../../boost/serialization/level.hpp"
+#include "../../../boost/serialization/tracking.hpp"
+#include "../../../boost/serialization/wrapper.hpp"
 
 namespace boost {
 namespace archive {

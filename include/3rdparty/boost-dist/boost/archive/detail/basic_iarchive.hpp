@@ -18,15 +18,15 @@
 
 // can't use this - much as I'd like to as borland doesn't support it
 
-#include <boost/config.hpp>
-#include <boost/noncopyable.hpp>
-#include <boost/scoped_ptr.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/noncopyable.hpp"
+#include "../../../boost/scoped_ptr.hpp"
 
-#include <boost/serialization/tracking_enum.hpp>
-#include <boost/archive/basic_archive.hpp>
-#include <boost/archive/detail/decl.hpp>
-#include <boost/archive/detail/helper_collection.hpp>
-#include <boost/archive/detail/abi_prefix.hpp> // must be the last header
+#include "../../../boost/serialization/tracking_enum.hpp"
+#include "../../../boost/archive/basic_archive.hpp"
+#include "../../../boost/archive/detail/decl.hpp"
+#include "../../../boost/archive/detail/helper_collection.hpp"
+#include "../../../boost/archive/detail/abi_prefix.hpp" // must be the last header
 
 namespace boost {
 namespace serialization {
@@ -104,6 +104,6 @@ public:
 } // namespace archive
 } // namespace boost
 
-#include <boost/archive/detail/abi_suffix.hpp> // pops abi_suffix.hpp pragmas
+#include "../../../boost/archive/detail/abi_suffix.hpp" // pops abi_suffix.hpp pragmas
 
 #endif //BOOST_ARCHIVE_DETAIL_BASIC_IARCHIVE_HPP

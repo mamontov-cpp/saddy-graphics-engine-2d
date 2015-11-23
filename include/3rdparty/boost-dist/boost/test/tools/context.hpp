@@ -16,9 +16,9 @@
 #define BOOST_TEST_TOOLS_CONTEXT_HPP_111712GER
 
 // Boost.Test
-#include <boost/test/utils/lazy_ostream.hpp>
+#include "../../../boost/test/utils/lazy_ostream.hpp"
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -60,6 +60,6 @@ private:
 } // namespace test_tools
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_TOOLS_CONTEXT_HPP_111712GER

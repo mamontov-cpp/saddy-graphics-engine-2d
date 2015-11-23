@@ -17,21 +17,21 @@
 #define BOOST_TEST_UTILS_CLASS_PROPERTIES_HPP
 
 // Boost.Test
-#include <boost/test/detail/config.hpp>
+#include "../../../boost/test/detail/config.hpp"
 
 // Boost
 #if !BOOST_WORKAROUND(__IBMCPP__, BOOST_TESTED_AT(600))
-#include <boost/preprocessor/seq/for_each.hpp>
+#include "../../../boost/preprocessor/seq/for_each.hpp"
 #endif
-#include <boost/call_traits.hpp>
-#include <boost/type_traits/add_pointer.hpp>
-#include <boost/type_traits/add_const.hpp>
-#include <boost/utility/addressof.hpp>
+#include "../../../boost/call_traits.hpp"
+#include "../../../boost/type_traits/add_pointer.hpp"
+#include "../../../boost/type_traits/add_const.hpp"
+#include "../../../boost/utility/addressof.hpp"
 
 // STL
 #include <iosfwd>
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -188,7 +188,7 @@ public:
 } // unit_test
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #undef BOOST_TEST_NO_PROTECTED_USING
 

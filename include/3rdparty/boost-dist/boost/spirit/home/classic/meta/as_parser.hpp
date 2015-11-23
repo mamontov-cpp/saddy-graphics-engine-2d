@@ -9,8 +9,8 @@
 #if !defined(BOOST_SPIRIT_AS_PARSER_HPP)
 #define BOOST_SPIRIT_AS_PARSER_HPP
 
-#include <boost/spirit/home/classic/namespace.hpp>
-#include <boost/spirit/home/classic/core/primitives/primitives.hpp>
+#include "../../../../../boost/spirit/home/classic/namespace.hpp"
+#include "../../../../../boost/spirit/home/classic/core/primitives/primitives.hpp"
 
 namespace boost { namespace spirit {
 

@@ -9,8 +9,8 @@
 #ifndef BOOST_SMART_PTR_ALLOCATE_SHARED_ARRAY_HPP
 #define BOOST_SMART_PTR_ALLOCATE_SHARED_ARRAY_HPP
 
-#include <boost/smart_ptr/detail/array_count_impl.hpp>
-#include <boost/smart_ptr/detail/sp_if_array.hpp>
+#include "../../boost/smart_ptr/detail/array_count_impl.hpp"
+#include "../../boost/smart_ptr/detail/sp_if_array.hpp"
 
 namespace boost {
     template<class T, class A>

@@ -5,11 +5,11 @@
 #ifndef MAKE_PTR_INSTANCE_DWA200296_HPP
 # define MAKE_PTR_INSTANCE_DWA200296_HPP
 
-# include <boost/python/object/make_instance.hpp>
-# include <boost/python/converter/registry.hpp>
-# include <boost/type_traits/is_polymorphic.hpp>
-# include <boost/get_pointer.hpp>
-# include <boost/detail/workaround.hpp>
+#include "../../../boost/python/object/make_instance.hpp"
+#include "../../../boost/python/converter/registry.hpp"
+#include "../../../boost/type_traits/is_polymorphic.hpp"
+#include "../../../boost/get_pointer.hpp"
+#include "../../../boost/detail/workaround.hpp"
 # include <typeinfo>
 
 namespace boost { namespace python { namespace objects { 

@@ -9,11 +9,11 @@
 #ifndef BOOST_TYPEOF_MSVC_TYPEOF_IMPL_HPP_INCLUDED
 # define BOOST_TYPEOF_MSVC_TYPEOF_IMPL_HPP_INCLUDED
 
-# include <boost/config.hpp>
-# include <boost/detail/workaround.hpp>
-# include <boost/mpl/int.hpp>
-# include <boost/type_traits/is_function.hpp>
-# include <boost/utility/enable_if.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/detail/workaround.hpp"
+#include "../../../boost/mpl/int.hpp"
+#include "../../../boost/type_traits/is_function.hpp"
+#include "../../../boost/utility/enable_if.hpp"
 
 # if BOOST_WORKAROUND(BOOST_MSVC,>=1310)
 #  include <typeinfo>

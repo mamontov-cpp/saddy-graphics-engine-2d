@@ -24,7 +24,7 @@
 #include <vector>
 #include <climits>      // for CHAR_BIT
 
-#include "boost/dynamic_bitset/config.hpp"
+#include "../../boost/dynamic_bitset/config.hpp"
 
 #ifndef BOOST_NO_STD_LOCALE
 #  include <locale>
@@ -38,16 +38,16 @@
 #  include <ostream>
 #endif
 
-#include "boost/dynamic_bitset_fwd.hpp"
-#include "boost/detail/dynamic_bitset.hpp"
-#include "boost/detail/iterator.hpp" // used to implement append(Iter, Iter)
-#include "boost/move/move.hpp"
-#include "boost/limits.hpp"
-#include "boost/pending/lowest_bit.hpp"
-#include "boost/static_assert.hpp"
-#include "boost/utility/addressof.hpp"
-#include "boost/detail/no_exceptions_support.hpp"
-#include "boost/throw_exception.hpp"
+#include "../../boost/dynamic_bitset_fwd.hpp"
+#include "../../boost/detail/dynamic_bitset.hpp"
+#include "../../boost/detail/iterator.hpp" // used to implement append(Iter, Iter)
+#include "../../boost/move/move.hpp"
+#include "../../boost/limits.hpp"
+#include "../../boost/pending/lowest_bit.hpp"
+#include "../../boost/static_assert.hpp"
+#include "../../boost/utility/addressof.hpp"
+#include "../../boost/detail/no_exceptions_support.hpp"
+#include "../../boost/throw_exception.hpp"
 
 
 namespace boost {

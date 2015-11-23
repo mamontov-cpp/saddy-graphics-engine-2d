@@ -14,12 +14,12 @@
 #define BOOST_GRAPH_GRAPH_SEARCH_VISITORS_HPP
 
 #include <iosfwd>
-#include <boost/config.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/property_map/property_map.hpp>
-#include <boost/graph/graph_traits.hpp>
-#include <boost/limits.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/type_traits/is_same.hpp"
+#include "../../boost/mpl/bool.hpp"
+#include "../../boost/property_map/property_map.hpp"
+#include "../../boost/graph/graph_traits.hpp"
+#include "../../boost/limits.hpp"
 
 namespace boost {
 

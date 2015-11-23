@@ -9,14 +9,14 @@
 #ifndef BOOST_PROTO_REPEAT_HPP_EAN_11_24_2008
 #define BOOST_PROTO_REPEAT_HPP_EAN_11_24_2008
 
-#include <boost/preprocessor/cat.hpp>
-#include <boost/preprocessor/facilities/intercept.hpp>
-#include <boost/preprocessor/repetition/enum.hpp>
-#include <boost/preprocessor/repetition/enum_params.hpp>
-#include <boost/preprocessor/repetition/enum_binary_params.hpp>
-#include <boost/preprocessor/iteration/local.hpp>
-#include <boost/preprocessor/tuple/elem.hpp>
-#include <boost/proto/proto_fwd.hpp> // for BOOST_PROTO_MAX_ARITY
+#include "../../boost/preprocessor/cat.hpp"
+#include "../../boost/preprocessor/facilities/intercept.hpp"
+#include "../../boost/preprocessor/repetition/enum.hpp"
+#include "../../boost/preprocessor/repetition/enum_params.hpp"
+#include "../../boost/preprocessor/repetition/enum_binary_params.hpp"
+#include "../../boost/preprocessor/iteration/local.hpp"
+#include "../../boost/preprocessor/tuple/elem.hpp"
+#include "../../boost/proto/proto_fwd.hpp" // for BOOST_PROTO_MAX_ARITY
 
 ////////////////////////////////////////////
 /// INTERNAL ONLY

@@ -16,6 +16,6 @@
 //  See accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt
 
-#include <boost/smart_ptr/detail/atomic_count.hpp>
+#include "../../boost/smart_ptr/detail/atomic_count.hpp"
 
 #endif // #ifndef BOOST_DETAIL_ATOMIC_COUNT_HPP_INCLUDED

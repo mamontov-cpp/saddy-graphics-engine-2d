@@ -7,10 +7,10 @@
 #if !defined(BOOST_FUSION_SEGMENTED_ITERATOR_HPP_INCLUDED)
 #define BOOST_FUSION_SEGMENTED_ITERATOR_HPP_INCLUDED
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/iterator/detail/segmented_iterator.hpp>
-#include <boost/fusion/iterator/detail/segmented_next_impl.hpp>
-#include <boost/fusion/sequence/intrinsic/begin.hpp>
-#include <boost/fusion/container/list/cons.hpp>
+#include "../../../boost/fusion/support/config.hpp"
+#include "../../../boost/fusion/iterator/detail/segmented_iterator.hpp"
+#include "../../../boost/fusion/iterator/detail/segmented_next_impl.hpp"
+#include "../../../boost/fusion/sequence/intrinsic/begin.hpp"
+#include "../../../boost/fusion/container/list/cons.hpp"
 
 #endif

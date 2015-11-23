@@ -13,12 +13,12 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp> /* keep it first to prevent nasty warns in MSVC */
-#include <boost/operators.hpp>
+#include "../../../boost/config.hpp" /* keep it first to prevent nasty warns in MSVC */
+#include "../../../boost/operators.hpp"
 
 #if !defined(BOOST_MULTI_INDEX_DISABLE_SERIALIZATION)
-#include <boost/serialization/nvp.hpp>
-#include <boost/serialization/split_member.hpp>
+#include "../../../boost/serialization/nvp.hpp"
+#include "../../../boost/serialization/split_member.hpp"
 #endif
 
 namespace boost{

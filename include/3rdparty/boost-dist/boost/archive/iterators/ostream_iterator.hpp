@@ -22,7 +22,7 @@
 // type but rather a synonym for some integer type.
 
 #include <ostream>
-#include <boost/iterator/iterator_facade.hpp>
+#include "../../../boost/iterator/iterator_facade.hpp"
 
 namespace boost { 
 namespace archive {

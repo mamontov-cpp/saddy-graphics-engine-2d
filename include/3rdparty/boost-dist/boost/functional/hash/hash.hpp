@@ -16,18 +16,18 @@
 #if !defined(BOOST_FUNCTIONAL_HASH_HASH_HPP)
 #define BOOST_FUNCTIONAL_HASH_HASH_HPP
 
-#include <boost/functional/hash/hash_fwd.hpp>
+#include "../../../boost/functional/hash/hash_fwd.hpp"
 #include <functional>
-#include <boost/functional/hash/detail/hash_float.hpp>
+#include "../../../boost/functional/hash/detail/hash_float.hpp"
 #include <string>
-#include <boost/limits.hpp>
-#include <boost/type_traits/is_enum.hpp>
-#include <boost/type_traits/is_integral.hpp>
-#include <boost/utility/enable_if.hpp>
-#include <boost/cstdint.hpp>
+#include "../../../boost/limits.hpp"
+#include "../../../boost/type_traits/is_enum.hpp"
+#include "../../../boost/type_traits/is_integral.hpp"
+#include "../../../boost/utility/enable_if.hpp"
+#include "../../../boost/cstdint.hpp"
 
 #if defined(BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION)
-#include <boost/type_traits/is_pointer.hpp>
+#include "../../../boost/type_traits/is_pointer.hpp"
 #endif
 
 #if !defined(BOOST_NO_CXX11_HDR_TYPEINDEX)
@@ -555,5 +555,5 @@ namespace boost
 
 #if !defined(BOOST_HASH_NO_EXTENSIONS) \
     && !defined(BOOST_FUNCTIONAL_HASH_EXTENSIONS_HPP)
-#include <boost/functional/hash/extensions.hpp>
+#include "../../../boost/functional/hash/extensions.hpp"
 #endif

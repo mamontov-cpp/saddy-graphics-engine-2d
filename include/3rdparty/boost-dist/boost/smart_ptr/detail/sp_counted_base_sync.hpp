@@ -15,7 +15,7 @@
 //  See accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt
 
-#include <boost/detail/sp_typeinfo.hpp>
+#include "../../../boost/detail/sp_typeinfo.hpp"
 #include <limits.h>
 
 #if defined( __ia64__ ) && defined( __INTEL_COMPILER )

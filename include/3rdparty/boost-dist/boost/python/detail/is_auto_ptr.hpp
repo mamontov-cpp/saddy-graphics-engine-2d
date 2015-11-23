@@ -6,7 +6,7 @@
 # define IS_AUTO_PTR_DWA2003224_HPP
 
 # ifndef BOOST_NO_AUTO_PTR
-#  include <boost/python/detail/is_xxx.hpp>
+#include "../../../boost/python/detail/is_xxx.hpp"
 #  include <memory>
 # endif
 

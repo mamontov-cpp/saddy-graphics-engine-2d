@@ -16,16 +16,16 @@
 #define BOOST_TEST_UTILS_RUNTIME_CLA_PARSER_HPP
 
 // Boost.Runtime.Parameter
-#include <boost/test/utils/runtime/config.hpp>
-#include <boost/test/utils/runtime/fwd.hpp>
-#include <boost/test/utils/runtime/argument.hpp>
+#include "../../../../../boost/test/utils/runtime/config.hpp"
+#include "../../../../../boost/test/utils/runtime/fwd.hpp"
+#include "../../../../../boost/test/utils/runtime/argument.hpp"
 
-#include <boost/test/utils/runtime/cla/fwd.hpp>
-#include <boost/test/utils/runtime/cla/modifier.hpp>
-#include <boost/test/utils/runtime/cla/argv_traverser.hpp>
+#include "../../../../../boost/test/utils/runtime/cla/fwd.hpp"
+#include "../../../../../boost/test/utils/runtime/cla/modifier.hpp"
+#include "../../../../../boost/test/utils/runtime/cla/argv_traverser.hpp"
 
 // Boost
-#include <boost/optional.hpp>
+#include "../../../../../boost/optional.hpp"
 
 // STL
 #include <list>
@@ -151,7 +151,7 @@ private:
 #ifndef BOOST_TEST_UTILS_RUNTIME_PARAM_INLINE
 #   define BOOST_TEST_UTILS_RUNTIME_PARAM_INLINE inline
 #endif
-# include <boost/test/utils/runtime/cla/parser.ipp>
+#include "../../../../../boost/test/utils/runtime/cla/parser.ipp"
 
 #endif
 

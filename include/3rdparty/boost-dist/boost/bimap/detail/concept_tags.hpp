@@ -16,11 +16,11 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
-#include <boost/mpl/identity.hpp>
-#include <boost/mpl/placeholders.hpp>
-#include <boost/mpl/bool.hpp>
+#include "../../../boost/mpl/identity.hpp"
+#include "../../../boost/mpl/placeholders.hpp"
+#include "../../../boost/mpl/bool.hpp"
 
 namespace boost {
 namespace bimaps {

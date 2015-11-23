@@ -8,8 +8,8 @@ http://www.boost.org/LICENSE_1_0.txt)
 #ifndef BOOST_PREDEF_COMPILER_BORLAND_H
 #define BOOST_PREDEF_COMPILER_BORLAND_H
 
-#include <boost/predef/version_number.h>
-#include <boost/predef/make.h>
+#include "../../../boost/predef/version_number.h"
+#include "../../../boost/predef/make.h"
 
 /*`
 [heading `BOOST_COMP_BORLAND`]
@@ -47,17 +47,17 @@ Version number available as major, minor, and patch.
 #       undef BOOST_COMP_BORLAND
 #       define BOOST_COMP_BORLAND BOOST_COMP_BORLAND_DETECTION
 #   endif
-#   include <boost/predef/detail/comp_detected.h>
+#include "../../../boost/predef/detail/comp_detected.h"
 #endif
 
 #define BOOST_COMP_BORLAND_NAME "Borland C++"
 
 #endif
 
-#include <boost/predef/detail/test.h>
+#include "../../../boost/predef/detail/test.h"
 BOOST_PREDEF_DECLARE_TEST(BOOST_COMP_BORLAND,BOOST_COMP_BORLAND_NAME)
 
 #ifdef BOOST_COMP_BORLAND_EMULATED
-#include <boost/predef/detail/test.h>
+#include "../../../boost/predef/detail/test.h"
 BOOST_PREDEF_DECLARE_TEST(BOOST_COMP_BORLAND_EMULATED,BOOST_COMP_BORLAND_NAME)
 #endif

@@ -7,23 +7,23 @@
 #if !defined(FUSION_JOINT_VIEW_07162005_0140)
 #define FUSION_JOINT_VIEW_07162005_0140
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/view/joint_view/joint_view_fwd.hpp>
-#include <boost/fusion/support/detail/access.hpp>
-#include <boost/fusion/support/is_view.hpp>
-#include <boost/fusion/sequence/intrinsic/begin.hpp>
-#include <boost/fusion/sequence/intrinsic/end.hpp>
-#include <boost/fusion/sequence/intrinsic/size.hpp>
-#include <boost/fusion/view/joint_view/joint_view_iterator.hpp>
-#include <boost/fusion/view/joint_view/detail/begin_impl.hpp>
-#include <boost/fusion/view/joint_view/detail/end_impl.hpp>
-#include <boost/fusion/support/sequence_base.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/plus.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/inherit.hpp>
-#include <boost/mpl/identity.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/fusion/view/joint_view/joint_view_fwd.hpp"
+#include "../../../../boost/fusion/support/detail/access.hpp"
+#include "../../../../boost/fusion/support/is_view.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic/begin.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic/end.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic/size.hpp"
+#include "../../../../boost/fusion/view/joint_view/joint_view_iterator.hpp"
+#include "../../../../boost/fusion/view/joint_view/detail/begin_impl.hpp"
+#include "../../../../boost/fusion/view/joint_view/detail/end_impl.hpp"
+#include "../../../../boost/fusion/support/sequence_base.hpp"
+#include "../../../../boost/mpl/if.hpp"
+#include "../../../../boost/mpl/plus.hpp"
+#include "../../../../boost/mpl/bool.hpp"
+#include "../../../../boost/mpl/eval_if.hpp"
+#include "../../../../boost/mpl/inherit.hpp"
+#include "../../../../boost/mpl/identity.hpp"
 
 namespace boost { namespace fusion
 {

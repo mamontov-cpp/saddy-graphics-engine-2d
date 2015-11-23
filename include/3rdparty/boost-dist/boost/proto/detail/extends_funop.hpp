@@ -5,7 +5,7 @@
         BOOST_PROTO_DEFINE_FUN_OP_VARIADIC_IMPL_(BOOST_PP_EMPTY)
         BOOST_PROTO_DEFINE_FUN_OP_VARIADIC_IMPL_(BOOST_PROTO_CONST)
     #else
-        #include <boost/proto/detail/preprocessed/extends_funop.hpp>
+        #include "../../../boost/proto/detail/preprocessed/extends_funop.hpp"
     #endif
 
 #else

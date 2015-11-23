@@ -10,19 +10,19 @@
 #ifndef BOOST_PROTO_GENERATE_HPP_EAN_02_13_2007
 #define BOOST_PROTO_GENERATE_HPP_EAN_02_13_2007
 
-#include <boost/config.hpp>
-#include <boost/version.hpp>
-#include <boost/preprocessor/cat.hpp>
-#include <boost/preprocessor/iteration/iterate.hpp>
-#include <boost/preprocessor/facilities/intercept.hpp>
-#include <boost/preprocessor/repetition/enum_params.hpp>
-#include <boost/preprocessor/repetition/enum_binary_params.hpp>
-#include <boost/preprocessor/repetition/enum_trailing_params.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/utility/enable_if.hpp>
-#include <boost/utility/result_of.hpp>
-#include <boost/proto/proto_fwd.hpp>
-#include <boost/proto/args.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/version.hpp"
+#include "../../boost/preprocessor/cat.hpp"
+#include "../../boost/preprocessor/iteration/iterate.hpp"
+#include "../../boost/preprocessor/facilities/intercept.hpp"
+#include "../../boost/preprocessor/repetition/enum_params.hpp"
+#include "../../boost/preprocessor/repetition/enum_binary_params.hpp"
+#include "../../boost/preprocessor/repetition/enum_trailing_params.hpp"
+#include "../../boost/mpl/bool.hpp"
+#include "../../boost/utility/enable_if.hpp"
+#include "../../boost/utility/result_of.hpp"
+#include "../../boost/proto/proto_fwd.hpp"
+#include "../../boost/proto/args.hpp"
 
 #if defined(_MSC_VER)
 # pragma warning(push)
@@ -76,7 +76,7 @@ namespace boost { namespace proto
         };
 
         // Include the other specializations of by_value_generator_
-        #include <boost/proto/detail/generate_by_value.hpp>
+        #include "../../boost/proto/detail/generate_by_value.hpp"
     }
 
     /// \brief Annotate a generator to indicate that it would

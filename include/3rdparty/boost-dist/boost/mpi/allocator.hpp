@@ -12,11 +12,11 @@
 #ifndef BOOST_MPI_ALLOCATOR_HPP
 #define BOOST_MPI_ALLOCATOR_HPP
 
-#include <boost/mpi/config.hpp>
-#include <boost/mpi/exception.hpp>
+#include "../../boost/mpi/config.hpp"
+#include "../../boost/mpi/exception.hpp"
 #include <cstddef>
 #include <memory>
-#include <boost/limits.hpp>
+#include "../../boost/limits.hpp"
 
 namespace boost { namespace mpi {
 

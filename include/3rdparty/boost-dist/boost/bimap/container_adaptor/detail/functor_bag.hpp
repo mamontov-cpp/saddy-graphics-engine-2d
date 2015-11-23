@@ -16,7 +16,7 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../../boost/config.hpp"
 
 #if defined(BOOST_MSVC)
 // This bogus warning will appear when add_const is applied to a
@@ -27,13 +27,13 @@
 // warning C4181: qualifier applied to reference type ignored
 #endif
 
-#include <boost/mpl/placeholders.hpp>
+#include "../../../../boost/mpl/placeholders.hpp"
 
-#include <boost/type_traits/add_reference.hpp>
-#include <boost/type_traits/is_base_of.hpp>
+#include "../../../../boost/type_traits/add_reference.hpp"
+#include "../../../../boost/type_traits/is_base_of.hpp"
 
-#include <boost/mpl/inherit_linearly.hpp>
-#include <boost/mpl/inherit.hpp>
+#include "../../../../boost/mpl/inherit_linearly.hpp"
+#include "../../../../boost/mpl/inherit.hpp"
 
 namespace boost {
 namespace bimaps {

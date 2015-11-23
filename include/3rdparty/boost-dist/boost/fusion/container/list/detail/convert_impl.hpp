@@ -8,12 +8,12 @@
 #if !defined(FUSION_CONVERT_IMPL_09232005_1215)
 #define FUSION_CONVERT_IMPL_09232005_1215
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/container/list/cons.hpp>
-#include <boost/fusion/container/list/detail/build_cons.hpp>
-#include <boost/fusion/sequence/intrinsic/empty.hpp>
-#include <boost/fusion/sequence/intrinsic/begin.hpp>
-#include <boost/fusion/sequence/intrinsic/end.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/fusion/container/list/cons.hpp"
+#include "../../../../../boost/fusion/container/list/detail/build_cons.hpp"
+#include "../../../../../boost/fusion/sequence/intrinsic/empty.hpp"
+#include "../../../../../boost/fusion/sequence/intrinsic/begin.hpp"
+#include "../../../../../boost/fusion/sequence/intrinsic/end.hpp"
 
 namespace boost { namespace fusion
 {

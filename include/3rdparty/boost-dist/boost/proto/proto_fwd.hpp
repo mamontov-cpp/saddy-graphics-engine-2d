@@ -11,21 +11,21 @@
 
 #include <cstddef>
 #include <climits>
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
-#include <boost/preprocessor/cat.hpp>
-#include <boost/preprocessor/arithmetic/inc.hpp>
-#include <boost/preprocessor/punctuation/comma.hpp>
-#include <boost/preprocessor/repetition/enum_params.hpp>
-#include <boost/preprocessor/repetition/enum_params_with_a_default.hpp>
-#include <boost/preprocessor/repetition/enum_trailing_binary_params.hpp>
-#include <boost/preprocessor/repetition/repeat_from_to.hpp>
-#include <boost/ref.hpp>
-#include <boost/mpl/long.hpp>
-#include <boost/type_traits/remove_const.hpp>
-#include <boost/type_traits/remove_reference.hpp>
-#include <boost/mpl/aux_/config/ttp.hpp>
-#include <boost/utility/result_of.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/detail/workaround.hpp"
+#include "../../boost/preprocessor/cat.hpp"
+#include "../../boost/preprocessor/arithmetic/inc.hpp"
+#include "../../boost/preprocessor/punctuation/comma.hpp"
+#include "../../boost/preprocessor/repetition/enum_params.hpp"
+#include "../../boost/preprocessor/repetition/enum_params_with_a_default.hpp"
+#include "../../boost/preprocessor/repetition/enum_trailing_binary_params.hpp"
+#include "../../boost/preprocessor/repetition/repeat_from_to.hpp"
+#include "../../boost/ref.hpp"
+#include "../../boost/mpl/long.hpp"
+#include "../../boost/type_traits/remove_const.hpp"
+#include "../../boost/type_traits/remove_reference.hpp"
+#include "../../boost/mpl/aux_/config/ttp.hpp"
+#include "../../boost/utility/result_of.hpp"
 
 #ifndef BOOST_PROTO_MAX_ARITY
 # define BOOST_PROTO_MAX_ARITY 10
@@ -70,8 +70,8 @@
 #endif
 
 #ifdef BOOST_PROTO_BROKEN_CONST_OVERLOADS
-# include <boost/utility/enable_if.hpp>
-# include <boost/type_traits/is_const.hpp>
+#include "../../boost/utility/enable_if.hpp"
+#include "../../boost/type_traits/is_const.hpp"
 # define BOOST_PROTO_DISABLE_IF_IS_CONST(T)\
     , typename boost::disable_if_c<boost::is_const<T>::value, boost::proto::detail::undefined>::type * = 0
 #else
@@ -79,8 +79,8 @@
 #endif
 
 #ifdef BOOST_PROTO_BROKEN_CONST_QUALIFIED_FUNCTIONS
-# include <boost/utility/enable_if.hpp>
-# include <boost/type_traits/is_function.hpp>
+#include "../../boost/utility/enable_if.hpp"
+#include "../../boost/type_traits/is_function.hpp"
 # define BOOST_PROTO_DISABLE_IF_IS_FUNCTION(T)\
     , typename boost::disable_if_c<boost::is_function<T>::value, boost::proto::detail::undefined>::type * = 0
 #else

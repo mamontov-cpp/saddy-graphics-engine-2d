@@ -10,9 +10,9 @@
 #ifndef BOOST_NUMERIC_CONVERSION_BOUNDS_DETAIL_FLC_12NOV2002_HPP
 #define BOOST_NUMERIC_CONVERSION_BOUNDS_DETAIL_FLC_12NOV2002_HPP
 
-#include "boost/limits.hpp"
-#include "boost/config.hpp"
-#include "boost/mpl/if.hpp"
+#include "../../../../boost/limits.hpp"
+#include "../../../../boost/config.hpp"
+#include "../../../../boost/mpl/if.hpp"
 
 namespace boost { namespace numeric { namespace boundsdetail
 {

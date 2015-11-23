@@ -5,8 +5,8 @@
 #ifndef POINTER_TYPE_ID_DWA2002222_HPP
 # define POINTER_TYPE_ID_DWA2002222_HPP
 
-# include <boost/python/type_id.hpp>
-# include <boost/type_traits/composite_traits.hpp>
+#include "../../../boost/python/type_id.hpp"
+#include "../../../boost/type_traits/composite_traits.hpp"
 
 namespace boost { namespace python { namespace converter { 
 

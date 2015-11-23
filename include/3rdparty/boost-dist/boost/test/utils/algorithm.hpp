@@ -17,7 +17,7 @@
 #include <algorithm> // std::find
 #include <functional> // std::bind1st
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -216,7 +216,7 @@ find_last_not_of( BidirectionalIterator1 first1, BidirectionalIterator1 last1,
 } // namespace unit_test
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_UTILS_ALGORITHM_HPP
 

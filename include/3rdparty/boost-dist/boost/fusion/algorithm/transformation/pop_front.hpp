@@ -7,11 +7,11 @@
 #if !defined(FUSION_POP_FRONT_09172005_1115)
 #define FUSION_POP_FRONT_09172005_1115
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/view/iterator_range/iterator_range.hpp>
-#include <boost/fusion/sequence/intrinsic/begin.hpp>
-#include <boost/fusion/sequence/intrinsic/end.hpp>
-#include <boost/fusion/iterator/next.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/fusion/view/iterator_range/iterator_range.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic/begin.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic/end.hpp"
+#include "../../../../boost/fusion/iterator/next.hpp"
 
 namespace boost { namespace fusion
 {

@@ -9,13 +9,13 @@
 #ifndef BOOST_FT_DETAIL_TO_SEQUENCE_HPP_INCLUDED
 #define BOOST_FT_DETAIL_TO_SEQUENCE_HPP_INCLUDED
 
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/identity.hpp>
-#include <boost/mpl/is_sequence.hpp>
-#include <boost/mpl/placeholders.hpp>
-#include <boost/type_traits/add_reference.hpp>
+#include "../../../boost/mpl/eval_if.hpp"
+#include "../../../boost/mpl/identity.hpp"
+#include "../../../boost/mpl/is_sequence.hpp"
+#include "../../../boost/mpl/placeholders.hpp"
+#include "../../../boost/type_traits/add_reference.hpp"
 
-#include <boost/function_types/is_callable_builtin.hpp>
+#include "../../../boost/function_types/is_callable_builtin.hpp"
 
 namespace boost { namespace function_types { namespace detail {
 

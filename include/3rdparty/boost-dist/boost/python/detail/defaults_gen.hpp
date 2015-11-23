@@ -9,23 +9,23 @@
 #ifndef DEFAULTS_GEN_JDG20020807_HPP
 #define DEFAULTS_GEN_JDG20020807_HPP
 
-#include <boost/python/detail/preprocessor.hpp>
-#include <boost/preprocessor/repeat.hpp>
-#include <boost/preprocessor/repeat_from_to.hpp>
-#include <boost/preprocessor/enum.hpp>
-#include <boost/preprocessor/enum_params.hpp>
-#include <boost/preprocessor/repetition/enum_binary_params.hpp>
-#include <boost/preprocessor/tuple.hpp>
-#include <boost/preprocessor/cat.hpp>
-#include <boost/preprocessor/arithmetic/sub.hpp>
-#include <boost/preprocessor/stringize.hpp>
-#include <boost/preprocessor/inc.hpp>
-#include <boost/preprocessor/empty.hpp>
-#include <boost/preprocessor/comma_if.hpp>
-#include <boost/config.hpp>
-#include <boost/mpl/begin_end.hpp>
-#include <boost/mpl/next.hpp>
-#include <boost/mpl/deref.hpp>
+#include "../../../boost/python/detail/preprocessor.hpp"
+#include "../../../boost/preprocessor/repeat.hpp"
+#include "../../../boost/preprocessor/repeat_from_to.hpp"
+#include "../../../boost/preprocessor/enum.hpp"
+#include "../../../boost/preprocessor/enum_params.hpp"
+#include "../../../boost/preprocessor/repetition/enum_binary_params.hpp"
+#include "../../../boost/preprocessor/tuple.hpp"
+#include "../../../boost/preprocessor/cat.hpp"
+#include "../../../boost/preprocessor/arithmetic/sub.hpp"
+#include "../../../boost/preprocessor/stringize.hpp"
+#include "../../../boost/preprocessor/inc.hpp"
+#include "../../../boost/preprocessor/empty.hpp"
+#include "../../../boost/preprocessor/comma_if.hpp"
+#include "../../../boost/config.hpp"
+#include "../../../boost/mpl/begin_end.hpp"
+#include "../../../boost/mpl/next.hpp"
+#include "../../../boost/mpl/deref.hpp"
 #include <cstddef>
 
 namespace boost { namespace python {

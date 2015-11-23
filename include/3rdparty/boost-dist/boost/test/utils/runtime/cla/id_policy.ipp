@@ -16,10 +16,10 @@
 #define BOOST_TEST_UTILS_RUNTIME_CLA_ID_POLICY_IPP
 
 // Boost.Runtime.Parameter
-#include <boost/test/utils/runtime/config.hpp>
+#include "../../../../../boost/test/utils/runtime/config.hpp"
 
-#include <boost/test/utils/runtime/cla/id_policy.hpp>
-#include <boost/test/utils/runtime/cla/parameter.hpp>
+#include "../../../../../boost/test/utils/runtime/cla/id_policy.hpp"
+#include "../../../../../boost/test/utils/runtime/cla/parameter.hpp"
 
 namespace boost {
 

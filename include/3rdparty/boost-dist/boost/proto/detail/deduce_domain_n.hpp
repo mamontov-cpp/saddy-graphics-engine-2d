@@ -1,6 +1,6 @@
 #if !defined(BOOST_PROTO_DONT_USE_PREPROCESSED_FILES)
 
-    #include <boost/proto/detail/preprocessed/deduce_domain_n.hpp>
+    #include "../../../boost/proto/detail/preprocessed/deduce_domain_n.hpp"
 
 #elif !defined(BOOST_PP_IS_ITERATING)
 

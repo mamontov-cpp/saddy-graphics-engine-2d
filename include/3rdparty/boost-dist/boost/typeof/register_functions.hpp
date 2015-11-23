@@ -5,15 +5,15 @@
 #ifndef BOOST_TYPEOF_REGISTER_FUNCTIONS_HPP_INCLUDED
 #define BOOST_TYPEOF_REGISTER_FUNCTIONS_HPP_INCLUDED
 
-#include <boost/preprocessor/repetition/enum.hpp>
-#include <boost/preprocessor/repetition/enum_params.hpp>
-#include <boost/preprocessor/repetition/enum_trailing_params.hpp>
-#include <boost/preprocessor/cat.hpp>
-#include <boost/preprocessor/inc.hpp>
-#include <boost/preprocessor/dec.hpp>
-#include <boost/preprocessor/if.hpp>
-#include <boost/preprocessor/arithmetic/add.hpp>
-#include <boost/preprocessor/iteration/iterate.hpp>
+#include "../../boost/preprocessor/repetition/enum.hpp"
+#include "../../boost/preprocessor/repetition/enum_params.hpp"
+#include "../../boost/preprocessor/repetition/enum_trailing_params.hpp"
+#include "../../boost/preprocessor/cat.hpp"
+#include "../../boost/preprocessor/inc.hpp"
+#include "../../boost/preprocessor/dec.hpp"
+#include "../../boost/preprocessor/if.hpp"
+#include "../../boost/preprocessor/arithmetic/add.hpp"
+#include "../../boost/preprocessor/iteration/iterate.hpp"
 
 #include BOOST_TYPEOF_INCREMENT_REGISTRATION_GROUP()
 

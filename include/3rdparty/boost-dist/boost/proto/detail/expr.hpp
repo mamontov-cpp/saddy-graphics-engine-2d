@@ -1,9 +1,9 @@
 #if !defined(BOOST_PROTO_DONT_USE_PREPROCESSED_FILES)
 
     #ifndef BOOST_NO_CXX11_VARIADIC_TEMPLATES
-        #include <boost/proto/detail/preprocessed/expr_variadic.hpp>
+        #include "../../../boost/proto/detail/preprocessed/expr_variadic.hpp"
     #else
-        #include <boost/proto/detail/preprocessed/expr.hpp>
+        #include "../../../boost/proto/detail/preprocessed/expr.hpp"
     #endif
 
 #elif !defined(BOOST_PP_IS_ITERATING)

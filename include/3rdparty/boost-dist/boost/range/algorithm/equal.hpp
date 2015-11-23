@@ -10,8 +10,8 @@
 #ifndef BOOST_RANGE_ALGORITHM_EQUAL_HPP_INCLUDED
 #define BOOST_RANGE_ALGORITHM_EQUAL_HPP_INCLUDED
 
-#include <boost/config.hpp>
-#include <boost/range/concepts.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/range/concepts.hpp"
 #include <iterator>
 
 namespace boost

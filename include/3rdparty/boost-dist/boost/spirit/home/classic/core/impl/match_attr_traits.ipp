@@ -9,11 +9,11 @@
 #if !defined(BOOST_SPIRIT_MATCH_ATTR_TRAITS_IPP)
 #define BOOST_SPIRIT_MATCH_ATTR_TRAITS_IPP
 
-#include <boost/optional.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/or.hpp>
-#include <boost/type_traits/is_convertible.hpp>
-#include <boost/type_traits/is_same.hpp>
+#include "../../../../../../boost/optional.hpp"
+#include "../../../../../../boost/mpl/bool.hpp"
+#include "../../../../../../boost/mpl/or.hpp"
+#include "../../../../../../boost/type_traits/is_convertible.hpp"
+#include "../../../../../../boost/type_traits/is_same.hpp"
 
 namespace boost { namespace spirit { 
 

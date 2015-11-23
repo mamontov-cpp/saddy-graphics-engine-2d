@@ -11,20 +11,20 @@
 #ifndef BOOST_PROTO_DETAIL_POLY_FUNCTION_EAN_2008_05_02
 #define BOOST_PROTO_DETAIL_POLY_FUNCTION_EAN_2008_05_02
 
-#include <boost/ref.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/void.hpp>
-#include <boost/mpl/size_t.hpp>
-#include <boost/mpl/eval_if.hpp>
-#include <boost/preprocessor/cat.hpp>
-#include <boost/preprocessor/facilities/intercept.hpp>
-#include <boost/preprocessor/iteration/iterate.hpp>
-#include <boost/preprocessor/repetition/enum.hpp>
-#include <boost/preprocessor/repetition/enum_params.hpp>
-#include <boost/preprocessor/repetition/enum_trailing_params.hpp>
-#include <boost/preprocessor/repetition/enum_binary_params.hpp>
-#include <boost/proto/proto_fwd.hpp>
-#include <boost/proto/detail/is_noncopyable.hpp>
+#include "../../../boost/ref.hpp"
+#include "../../../boost/mpl/bool.hpp"
+#include "../../../boost/mpl/void.hpp"
+#include "../../../boost/mpl/size_t.hpp"
+#include "../../../boost/mpl/eval_if.hpp"
+#include "../../../boost/preprocessor/cat.hpp"
+#include "../../../boost/preprocessor/facilities/intercept.hpp"
+#include "../../../boost/preprocessor/iteration/iterate.hpp"
+#include "../../../boost/preprocessor/repetition/enum.hpp"
+#include "../../../boost/preprocessor/repetition/enum_params.hpp"
+#include "../../../boost/preprocessor/repetition/enum_trailing_params.hpp"
+#include "../../../boost/preprocessor/repetition/enum_binary_params.hpp"
+#include "../../../boost/proto/proto_fwd.hpp"
+#include "../../../boost/proto/detail/is_noncopyable.hpp"
 
 #ifdef _MSC_VER
 # pragma warning(push)
@@ -184,7 +184,7 @@ namespace boost { namespace proto { namespace detail
             return impl();
         }
 
-        #include <boost/proto/detail/poly_function_funop.hpp>
+        #include "../../../boost/proto/detail/poly_function_funop.hpp"
     };
 
     template<typename T>
@@ -222,7 +222,7 @@ namespace boost { namespace proto { namespace detail
     template<typename PolyFunSig>
     struct as_mono_function;
 
-    #include <boost/proto/detail/poly_function_traits.hpp>
+    #include "../../../boost/proto/detail/poly_function_traits.hpp"
 
 }}} // namespace boost::proto::detail
 

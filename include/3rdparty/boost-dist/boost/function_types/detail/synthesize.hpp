@@ -11,13 +11,13 @@
 
 #include <cstddef>
 
-#include <boost/mpl/at.hpp>
-#include <boost/mpl/size.hpp>
+#include "../../../boost/mpl/at.hpp"
+#include "../../../boost/mpl/size.hpp"
 
-#include <boost/function_types/config/config.hpp>
-#include <boost/function_types/property_tags.hpp>
-#include <boost/function_types/detail/cv_traits.hpp>
-#include <boost/function_types/detail/retag_default_cc.hpp>
+#include "../../../boost/function_types/config/config.hpp"
+#include "../../../boost/function_types/property_tags.hpp"
+#include "../../../boost/function_types/detail/cv_traits.hpp"
+#include "../../../boost/function_types/detail/retag_default_cc.hpp"
 
 namespace boost { namespace function_types { namespace detail {
 
@@ -71,7 +71,7 @@ struct synthesize_mop
 
 #define BOOST_FT_variations BOOST_FT_function|BOOST_FT_member_pointer
 #define BOOST_FT_al_path boost/function_types/detail/synthesize_impl
-#include <boost/function_types/detail/pp_loop.hpp>
+#include "../../../boost/function_types/detail/pp_loop.hpp"
 
 } } } // namespace ::boost::function_types::detail
 

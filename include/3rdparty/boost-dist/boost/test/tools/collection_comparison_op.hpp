@@ -13,16 +13,16 @@
 #define BOOST_TEST_TOOLS_COLLECTION_COMPARISON_OP_HPP_050815GER
 
 // Boost.Test
-#include <boost/test/tools/assertion.hpp>
+#include "../../../boost/test/tools/assertion.hpp"
 
-#include <boost/test/utils/is_forward_iterable.hpp>
+#include "../../../boost/test/utils/is_forward_iterable.hpp"
 
 // Boost
-#include <boost/mpl/bool.hpp>
-#include <boost/utility/enable_if.hpp>
-#include <boost/type_traits/decay.hpp>
+#include "../../../boost/mpl/bool.hpp"
+#include "../../../boost/utility/enable_if.hpp"
+#include "../../../boost/type_traits/decay.hpp"
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -369,7 +369,7 @@ BOOST_TEST_FOR_EACH_COMP_OP( DEFINE_COLLECTION_COMPARISON )
 } // namespace test_tools
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_TOOLS_COLLECTION_COMPARISON_OP_HPP_050815GER
 

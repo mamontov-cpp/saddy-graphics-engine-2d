@@ -5,7 +5,7 @@
 #ifndef DOCSTRING_OPTIONS_RWGK20060111_HPP
 # define DOCSTRING_OPTIONS_RWGK20060111_HPP
 
-#include <boost/python/object/function.hpp>
+#include "../../boost/python/object/function.hpp"
 
 namespace boost { namespace python {
 

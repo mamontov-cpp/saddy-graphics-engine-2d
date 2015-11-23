@@ -23,16 +23,16 @@
 #ifndef BOOST_MPI_SKELETON_AND_CONTENT_HPP
 #define BOOST_MPI_SKELETON_AND_CONTENT_HPP
 
-#include <boost/mpi/config.hpp>
-#include <boost/archive/detail/auto_link_archive.hpp>
-#include <boost/mpi/packed_iarchive.hpp>
-#include <boost/mpi/packed_oarchive.hpp>
-#include <boost/mpi/detail/forward_skeleton_iarchive.hpp>
-#include <boost/mpi/detail/forward_skeleton_oarchive.hpp>
-#include <boost/mpi/detail/ignore_iprimitive.hpp>
-#include <boost/mpi/detail/ignore_oprimitive.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/archive/detail/register_archive.hpp>
+#include "../../boost/mpi/config.hpp"
+#include "../../boost/archive/detail/auto_link_archive.hpp"
+#include "../../boost/mpi/packed_iarchive.hpp"
+#include "../../boost/mpi/packed_oarchive.hpp"
+#include "../../boost/mpi/detail/forward_skeleton_iarchive.hpp"
+#include "../../boost/mpi/detail/forward_skeleton_oarchive.hpp"
+#include "../../boost/mpi/detail/ignore_iprimitive.hpp"
+#include "../../boost/mpi/detail/ignore_oprimitive.hpp"
+#include "../../boost/shared_ptr.hpp"
+#include "../../boost/archive/detail/register_archive.hpp"
 
 namespace boost { namespace mpi {
 
@@ -365,7 +365,7 @@ namespace detail {
 
 } } // end namespace boost::mpi
 
-#include <boost/mpi/detail/content_oarchive.hpp>
+#include "../../boost/mpi/detail/content_oarchive.hpp"
 
 // For any headers that have provided declarations based on forward
 // declarations of the contents of this header, include definitions
@@ -373,11 +373,11 @@ namespace detail {
 // skeleton_and_content.hpp enables the use of skeleton/content
 // transmission throughout the library.
 #ifdef BOOST_MPI_BROADCAST_HPP
-#  include <boost/mpi/detail/broadcast_sc.hpp>
+#include "../../boost/mpi/detail/broadcast_sc.hpp"
 #endif
 
 #ifdef BOOST_MPI_COMMUNICATOR_HPP
-#  include <boost/mpi/detail/communicator_sc.hpp>
+#include "../../boost/mpi/detail/communicator_sc.hpp"
 #endif
 
 // required by export

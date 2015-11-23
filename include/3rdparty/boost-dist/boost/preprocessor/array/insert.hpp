@@ -12,15 +12,15 @@
 # ifndef BOOST_PREPROCESSOR_ARRAY_INSERT_HPP
 # define BOOST_PREPROCESSOR_ARRAY_INSERT_HPP
 #
-# include <boost/preprocessor/arithmetic/inc.hpp>
-# include <boost/preprocessor/array/elem.hpp>
-# include <boost/preprocessor/array/push_back.hpp>
-# include <boost/preprocessor/array/size.hpp>
-# include <boost/preprocessor/comparison/not_equal.hpp>
-# include <boost/preprocessor/control/deduce_d.hpp>
-# include <boost/preprocessor/control/iif.hpp>
-# include <boost/preprocessor/control/while.hpp>
-# include <boost/preprocessor/tuple/elem.hpp>
+#include "../../../boost/preprocessor/arithmetic/inc.hpp"
+#include "../../../boost/preprocessor/array/elem.hpp"
+#include "../../../boost/preprocessor/array/push_back.hpp"
+#include "../../../boost/preprocessor/array/size.hpp"
+#include "../../../boost/preprocessor/comparison/not_equal.hpp"
+#include "../../../boost/preprocessor/control/deduce_d.hpp"
+#include "../../../boost/preprocessor/control/iif.hpp"
+#include "../../../boost/preprocessor/control/while.hpp"
+#include "../../../boost/preprocessor/tuple/elem.hpp"
 #
 # /* BOOST_PP_ARRAY_INSERT */
 #

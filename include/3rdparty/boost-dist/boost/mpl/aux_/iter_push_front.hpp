@@ -14,8 +14,8 @@
 // $Date$
 // $Revision$
 
-#include <boost/mpl/push_front.hpp>
-#include <boost/mpl/deref.hpp>
+#include "../../../boost/mpl/push_front.hpp"
+#include "../../../boost/mpl/deref.hpp"
 
 namespace boost { namespace mpl { namespace aux {
 

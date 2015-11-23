@@ -8,22 +8,22 @@
 #if !defined(FUSION_END_IMPL_20060123_2208)
 #define FUSION_END_IMPL_20060123_2208
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/view/zip_view/zip_view_iterator_fwd.hpp>
-#include <boost/fusion/sequence/intrinsic/end.hpp>
-#include <boost/fusion/sequence/intrinsic/begin.hpp>
-#include <boost/fusion/sequence/intrinsic/size.hpp>
-#include <boost/fusion/sequence/intrinsic/front.hpp>
-#include <boost/fusion/iterator/advance.hpp>
-#include <boost/fusion/algorithm/transformation/transform.hpp>
-#include <boost/type_traits/remove_reference.hpp>
-#include <boost/type_traits/is_reference.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/mpl/min.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/fusion/view/zip_view/zip_view_iterator_fwd.hpp"
+#include "../../../../../boost/fusion/sequence/intrinsic/end.hpp"
+#include "../../../../../boost/fusion/sequence/intrinsic/begin.hpp"
+#include "../../../../../boost/fusion/sequence/intrinsic/size.hpp"
+#include "../../../../../boost/fusion/sequence/intrinsic/front.hpp"
+#include "../../../../../boost/fusion/iterator/advance.hpp"
+#include "../../../../../boost/fusion/algorithm/transformation/transform.hpp"
+#include "../../../../../boost/type_traits/remove_reference.hpp"
+#include "../../../../../boost/type_traits/is_reference.hpp"
+#include "../../../../../boost/mpl/assert.hpp"
+#include "../../../../../boost/mpl/min.hpp"
 
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/identity.hpp>
-#include <boost/type_traits/is_same.hpp>
+#include "../../../../../boost/mpl/eval_if.hpp"
+#include "../../../../../boost/mpl/identity.hpp"
+#include "../../../../../boost/type_traits/is_same.hpp"
 
 namespace boost { namespace fusion {
 

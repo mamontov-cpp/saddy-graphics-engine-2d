@@ -8,8 +8,8 @@
 #if !defined(BOOST_FUSION_SINGLE_VIEW_END_IMPL_05052005_0332)
 #define BOOST_FUSION_SINGLE_VIEW_END_IMPL_05052005_0332
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/mpl/int.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/mpl/int.hpp"
 
 namespace boost { namespace fusion
 {

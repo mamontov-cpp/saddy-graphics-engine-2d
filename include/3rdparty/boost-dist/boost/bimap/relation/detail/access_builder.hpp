@@ -16,15 +16,15 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../../boost/config.hpp"
 
-#include <boost/bimap/relation/support/member_with_tag.hpp>
-#include <boost/bimap/relation/member_at.hpp>
-#include <boost/call_traits.hpp>
-#include <boost/type_traits/is_const.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/not.hpp>
-#include <boost/utility/enable_if.hpp>
+#include "../../../../boost/bimap/relation/support/member_with_tag.hpp"
+#include "../../../../boost/bimap/relation/member_at.hpp"
+#include "../../../../boost/call_traits.hpp"
+#include "../../../../boost/type_traits/is_const.hpp"
+#include "../../../../boost/mpl/if.hpp"
+#include "../../../../boost/mpl/not.hpp"
+#include "../../../../boost/utility/enable_if.hpp"
 
 
 /******************************************************************************

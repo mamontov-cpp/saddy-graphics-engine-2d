@@ -13,9 +13,9 @@
 #error "Parallel BGL files should not be included unless <boost/graph/use_mpi.hpp> has been included"
 #endif
 
-#include <boost/graph/parallel/process_group.hpp>
-#include <boost/optional.hpp>
-#include <boost/shared_ptr.hpp>
+#include "../../../boost/graph/parallel/process_group.hpp"
+#include "../../../boost/optional.hpp"
+#include "../../../boost/shared_ptr.hpp"
 #include <vector>
 
 namespace boost { namespace graph { namespace distributed {
@@ -270,7 +270,7 @@ make_distributed_queue(const ProcessGroup& process_group,
 
 } } } // end namespace boost::graph::distributed
 
-#include <boost/graph/distributed/detail/queue.ipp>
+#include "../../../boost/graph/distributed/detail/queue.ipp"
 
 #undef BOOST_DISTRIBUTED_QUEUE_TYPE
 #undef BOOST_DISTRIBUTED_QUEUE_PARMS

@@ -8,11 +8,11 @@
 #ifndef BOOST_UTILITY_DECLVAL_HPP
 #define BOOST_UTILITY_DECLVAL_HPP
 
-#include <boost/config.hpp>
+#include "../../boost/config.hpp"
 
 //----------------------------------------------------------------------------//
 
-#include <boost/type_traits/add_rvalue_reference.hpp>
+#include "../../boost/type_traits/add_rvalue_reference.hpp"
 
 //----------------------------------------------------------------------------//
 //                                                                            //

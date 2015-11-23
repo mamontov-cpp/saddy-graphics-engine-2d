@@ -8,10 +8,10 @@
 #if !defined(BOOST_FUSION_AT_IMPL_20061029_1946)
 #define BOOST_FUSION_AT_IMPL_20061029_1946
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/mpl/apply.hpp>
-#include <boost/fusion/view/transform_view/detail/apply_transform_result.hpp>
-#include <boost/fusion/sequence/intrinsic/at.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/mpl/apply.hpp"
+#include "../../../../../boost/fusion/view/transform_view/detail/apply_transform_result.hpp"
+#include "../../../../../boost/fusion/sequence/intrinsic/at.hpp"
 
 namespace boost { namespace fusion {
     struct transform_view_tag;

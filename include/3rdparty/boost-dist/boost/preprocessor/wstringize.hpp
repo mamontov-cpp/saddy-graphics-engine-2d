@@ -12,7 +12,7 @@
 # ifndef BOOST_PREPROCESSOR_WSTRINGIZE_HPP
 # define BOOST_PREPROCESSOR_WSTRINGIZE_HPP
 #
-# include <boost/preprocessor/config/config.hpp>
+#include "../../boost/preprocessor/config/config.hpp"
 #
 # /* BOOST_PP_WSTRINGIZE */
 #

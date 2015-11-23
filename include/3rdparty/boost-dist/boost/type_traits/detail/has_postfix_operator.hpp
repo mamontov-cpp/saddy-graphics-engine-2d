@@ -6,20 +6,20 @@
 //
 //  See http://www.boost.org/libs/type_traits for most recent version including documentation.
 
-#include <boost/config.hpp>
-#include <boost/type_traits/ice.hpp>
-#include <boost/type_traits/integral_constant.hpp>
-#include <boost/type_traits/is_const.hpp>
-#include <boost/type_traits/is_fundamental.hpp>
-#include <boost/type_traits/is_pointer.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/type_traits/is_void.hpp>
-#include <boost/type_traits/remove_cv.hpp>
-#include <boost/type_traits/remove_pointer.hpp>
-#include <boost/type_traits/remove_reference.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/type_traits/ice.hpp"
+#include "../../../boost/type_traits/integral_constant.hpp"
+#include "../../../boost/type_traits/is_const.hpp"
+#include "../../../boost/type_traits/is_fundamental.hpp"
+#include "../../../boost/type_traits/is_pointer.hpp"
+#include "../../../boost/type_traits/is_same.hpp"
+#include "../../../boost/type_traits/is_void.hpp"
+#include "../../../boost/type_traits/remove_cv.hpp"
+#include "../../../boost/type_traits/remove_pointer.hpp"
+#include "../../../boost/type_traits/remove_reference.hpp"
 
 // should be the last #include
-#include <boost/type_traits/detail/bool_trait_def.hpp>
+#include "../../../boost/type_traits/detail/bool_trait_def.hpp"
 
 // avoid warnings
 #if defined(__GNUC__)
@@ -199,4 +199,4 @@ BOOST_TT_AUX_BOOL_TRAIT_DEF2(BOOST_TT_TRAIT_NAME, Lhs, Ret=::boost::detail::BOOS
 #   pragma warning ( pop )
 #endif
 
-#include <boost/type_traits/detail/bool_trait_undef.hpp>
+#include "../../../boost/type_traits/detail/bool_trait_undef.hpp"

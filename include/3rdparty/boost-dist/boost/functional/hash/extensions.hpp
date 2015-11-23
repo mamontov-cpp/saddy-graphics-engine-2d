@@ -13,17 +13,17 @@
 #if !defined(BOOST_FUNCTIONAL_HASH_EXTENSIONS_HPP)
 #define BOOST_FUNCTIONAL_HASH_EXTENSIONS_HPP
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 #if defined(BOOST_HAS_PRAGMA_ONCE)
 #pragma once
 #endif
 
-#include <boost/functional/hash/hash.hpp>
-#include <boost/detail/container_fwd.hpp>
-#include <boost/utility/enable_if.hpp>
-#include <boost/static_assert.hpp>
-#include <boost/preprocessor/repetition/repeat_from_to.hpp>
-#include <boost/preprocessor/repetition/enum_params.hpp>
+#include "../../../boost/functional/hash/hash.hpp"
+#include "../../../boost/detail/container_fwd.hpp"
+#include "../../../boost/utility/enable_if.hpp"
+#include "../../../boost/static_assert.hpp"
+#include "../../../boost/preprocessor/repetition/repeat_from_to.hpp"
+#include "../../../boost/preprocessor/repetition/enum_params.hpp"
 
 #if !defined(BOOST_NO_CXX11_HDR_ARRAY)
 #   include <array>
@@ -38,7 +38,7 @@
 #endif
 
 #if defined(BOOST_NO_FUNCTION_TEMPLATE_ORDERING)
-#include <boost/type_traits/is_array.hpp>
+#include "../../../boost/type_traits/is_array.hpp"
 #endif
 
 namespace boost

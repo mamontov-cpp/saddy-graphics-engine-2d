@@ -13,16 +13,16 @@
 # pragma once
 #endif
 
-#include <boost/config.hpp>
-#include <boost/integer.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/throw_exception.hpp>
-#include <boost/numeric/conversion/converter.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/detail/dynamic/parser_enum.hpp>
-#include <boost/xpressive/detail/utility/literals.hpp>
-#include <boost/xpressive/detail/utility/chset/chset.hpp>
-#include <boost/xpressive/regex_constants.hpp>
+#include "../../../../boost/config.hpp"
+#include "../../../../boost/integer.hpp"
+#include "../../../../boost/mpl/bool.hpp"
+#include "../../../../boost/throw_exception.hpp"
+#include "../../../../boost/numeric/conversion/converter.hpp"
+#include "../../../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../../../boost/xpressive/detail/dynamic/parser_enum.hpp"
+#include "../../../../boost/xpressive/detail/utility/literals.hpp"
+#include "../../../../boost/xpressive/detail/utility/chset/chset.hpp"
+#include "../../../../boost/xpressive/regex_constants.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

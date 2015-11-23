@@ -16,16 +16,16 @@
 #define BOOST_TEST_UTILS_RUNTIME_INTERPRET_ARGUMENT_VALUE_HPP
 
 // Boost.Runtime.Parameter
-#include <boost/test/utils/runtime/config.hpp>
-#include <boost/test/utils/runtime/trace.hpp>
+#include "../../../../boost/test/utils/runtime/config.hpp"
+#include "../../../../boost/test/utils/runtime/trace.hpp"
 
 // Boost.Test
-#include <boost/test/utils/basic_cstring/io.hpp>
-#include <boost/test/utils/basic_cstring/compare.hpp>
+#include "../../../../boost/test/utils/basic_cstring/io.hpp"
+#include "../../../../boost/test/utils/basic_cstring/compare.hpp"
 
 // Boost
-#include <boost/optional.hpp>
-#include <boost/lexical_cast.hpp>
+#include "../../../../boost/optional.hpp"
+#include "../../../../boost/lexical_cast.hpp"
 
 // STL
 // !! could we eliminate these includes?

@@ -5,11 +5,11 @@
 #ifndef ARG_FROM_PYTHON_DWA2002128_HPP
 # define ARG_FROM_PYTHON_DWA2002128_HPP
 
-# include <boost/python/detail/prefix.hpp>
-# include <boost/python/converter/arg_from_python.hpp>
+#include "../../boost/python/detail/prefix.hpp"
+#include "../../boost/python/converter/arg_from_python.hpp"
 # if BOOST_WORKAROUND(BOOST_MSVC, BOOST_TESTED_AT(1400)) \
     || BOOST_WORKAROUND(BOOST_INTEL_WIN, BOOST_TESTED_AT(800))
-# include <boost/type_traits/remove_cv.hpp>
+#include "../../boost/type_traits/remove_cv.hpp"
 #endif
 
 namespace boost { namespace python { 

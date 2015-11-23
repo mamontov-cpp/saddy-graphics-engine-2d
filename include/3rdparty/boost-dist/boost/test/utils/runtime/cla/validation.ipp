@@ -13,15 +13,15 @@
 #define BOOST_TEST_UTILS_RUNTIME_CLA_VALIDATION_IPP
 
 // Boost.Runtime.Parameter
-#include <boost/test/utils/runtime/config.hpp>
+#include "../../../../../boost/test/utils/runtime/config.hpp"
 
-#include <boost/test/utils/runtime/cla/argv_traverser.hpp>
-#include <boost/test/utils/runtime/cla/validation.hpp>
-#include <boost/test/utils/runtime/validation.hpp> // BOOST_TEST_UTILS_RUNTIME_PARAM_NAMESPACE::logic_error
+#include "../../../../../boost/test/utils/runtime/cla/argv_traverser.hpp"
+#include "../../../../../boost/test/utils/runtime/cla/validation.hpp"
+#include "../../../../../boost/test/utils/runtime/validation.hpp" // BOOST_TEST_UTILS_RUNTIME_PARAM_NAMESPACE::logic_error
 
 // Boost.Test
-#include <boost/test/utils/basic_cstring/io.hpp>
-#include <boost/test/detail/throw_exception.hpp>
+#include "../../../../../boost/test/utils/basic_cstring/io.hpp"
+#include "../../../../../boost/test/detail/throw_exception.hpp"
 
 namespace boost {
 

@@ -17,35 +17,35 @@
 #define BOOST_CONTAINER_ALLOCATOR_ALLOCATOR_TRAITS_HPP
 
 #ifndef BOOST_CONFIG_HPP
-#  include <boost/config.hpp>
+#include "../../boost/config.hpp"
 #endif
 
 #if defined(BOOST_HAS_PRAGMA_ONCE)
 #  pragma once
 #endif
 
-#include <boost/container/detail/config_begin.hpp>
-#include <boost/container/detail/workaround.hpp>
+#include "../../boost/container/detail/config_begin.hpp"
+#include "../../boost/container/detail/workaround.hpp"
 
 // container
-#include <boost/container/container_fwd.hpp>
-#include <boost/container/detail/mpl.hpp>
-#include <boost/container/detail/type_traits.hpp>  //is_empty
-#include <boost/container/detail/placement_new.hpp>
+#include "../../boost/container/container_fwd.hpp"
+#include "../../boost/container/detail/mpl.hpp"
+#include "../../boost/container/detail/type_traits.hpp"  //is_empty
+#include "../../boost/container/detail/placement_new.hpp"
 #ifndef BOOST_CONTAINER_DETAIL_STD_FWD_HPP
-#include <boost/container/detail/std_fwd.hpp>
+#include "../../boost/container/detail/std_fwd.hpp"
 #endif
 // intrusive
-#include <boost/intrusive/pointer_traits.hpp>
-#include <boost/intrusive/detail/mpl.hpp>
+#include "../../boost/intrusive/pointer_traits.hpp"
+#include "../../boost/intrusive/detail/mpl.hpp"
 // move
-#include <boost/move/utility_core.hpp>
+#include "../../boost/move/utility_core.hpp"
 // move/detail
 #if defined(BOOST_NO_CXX11_VARIADIC_TEMPLATES)
-#include <boost/move/detail/fwd_macros.hpp>
+#include "../../boost/move/detail/fwd_macros.hpp"
 #endif
 // other boost
-#include <boost/static_assert.hpp>
+#include "../../boost/static_assert.hpp"
 
 #ifndef BOOST_CONTAINER_DOXYGEN_INVOKED
 
@@ -54,21 +54,21 @@
 #define BOOST_INTRUSIVE_HAS_MEMBER_FUNCTION_CALLABLE_WITH_NS_END   }}}
 #define BOOST_INTRUSIVE_HAS_MEMBER_FUNCTION_CALLABLE_WITH_MIN 2
 #define BOOST_INTRUSIVE_HAS_MEMBER_FUNCTION_CALLABLE_WITH_MAX 2
-#include <boost/intrusive/detail/has_member_function_callable_with.hpp>
+#include "../../boost/intrusive/detail/has_member_function_callable_with.hpp"
 
 #define BOOST_INTRUSIVE_HAS_MEMBER_FUNCTION_CALLABLE_WITH_FUNCNAME destroy
 #define BOOST_INTRUSIVE_HAS_MEMBER_FUNCTION_CALLABLE_WITH_NS_BEG namespace boost { namespace container { namespace container_detail {
 #define BOOST_INTRUSIVE_HAS_MEMBER_FUNCTION_CALLABLE_WITH_NS_END   }}}
 #define BOOST_INTRUSIVE_HAS_MEMBER_FUNCTION_CALLABLE_WITH_MIN 1
 #define BOOST_INTRUSIVE_HAS_MEMBER_FUNCTION_CALLABLE_WITH_MAX 1
-#include <boost/intrusive/detail/has_member_function_callable_with.hpp>
+#include "../../boost/intrusive/detail/has_member_function_callable_with.hpp"
 
 #define BOOST_INTRUSIVE_HAS_MEMBER_FUNCTION_CALLABLE_WITH_FUNCNAME construct
 #define BOOST_INTRUSIVE_HAS_MEMBER_FUNCTION_CALLABLE_WITH_NS_BEG namespace boost { namespace container { namespace container_detail {
 #define BOOST_INTRUSIVE_HAS_MEMBER_FUNCTION_CALLABLE_WITH_NS_END   }}}
 #define BOOST_INTRUSIVE_HAS_MEMBER_FUNCTION_CALLABLE_WITH_MIN 1
 #define BOOST_INTRUSIVE_HAS_MEMBER_FUNCTION_CALLABLE_WITH_MAX 9
-#include <boost/intrusive/detail/has_member_function_callable_with.hpp>
+#include "../../boost/intrusive/detail/has_member_function_callable_with.hpp"
 
 #endif   //#ifndef BOOST_CONTAINER_DOXYGEN_INVOKED
 
@@ -465,6 +465,6 @@ struct allocator_traits
 }  //namespace container {
 }  //namespace boost {
 
-#include <boost/container/detail/config_end.hpp>
+#include "../../boost/container/detail/config_end.hpp"
 
 #endif // ! defined(BOOST_CONTAINER_ALLOCATOR_ALLOCATOR_TRAITS_HPP)

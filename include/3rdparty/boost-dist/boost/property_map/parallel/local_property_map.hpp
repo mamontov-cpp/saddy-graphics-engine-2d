@@ -11,12 +11,12 @@
 // the #ifndef/#define pair below. However, this placement is
 // extremely important to allow the various property map headers to be
 // included in any order.
-#include <boost/property_map/property_map.hpp>
+#include "../../../boost/property_map/property_map.hpp"
 
 #ifndef BOOST_PARALLEL_LOCAL_PROPERTY_MAP_HPP
 #define BOOST_PARALLEL_LOCAL_PROPERTY_MAP_HPP
 
-#include <boost/assert.hpp>
+#include "../../../boost/assert.hpp"
 
 namespace boost {
   /** Property map that accesses an underlying, local property map

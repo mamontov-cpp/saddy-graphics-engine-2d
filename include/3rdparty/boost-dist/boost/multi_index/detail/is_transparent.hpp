@@ -13,9 +13,9 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp> /* keep it first to prevent nasty warns in MSVC */
-#include <boost/mpl/bool.hpp>
-#include <boost/type_traits/intrinsics.hpp>
+#include "../../../boost/config.hpp" /* keep it first to prevent nasty warns in MSVC */
+#include "../../../boost/mpl/bool.hpp"
+#include "../../../boost/type_traits/intrinsics.hpp"
 
 namespace boost{
 
@@ -41,17 +41,17 @@ struct is_transparent:mpl::true_{};
     !defined(BOOST_NO_CXX11_DECLTYPE)&& \
     (defined(BOOST_NO_CXX11_FINAL)||defined(BOOST_IS_FINAL))
 
-#include <boost/mpl/and.hpp>
-#include <boost/mpl/not.hpp>
-#include <boost/mpl/or.hpp>
-#include <boost/type_traits/function_traits.hpp>
-#include <boost/type_traits/is_class.hpp>
-#include <boost/type_traits/is_final.hpp>
-#include <boost/type_traits/is_function.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/type_traits/remove_pointer.hpp>
-#include <boost/utility/declval.hpp>
-#include <boost/utility/enable_if.hpp>
+#include "../../../boost/mpl/and.hpp"
+#include "../../../boost/mpl/not.hpp"
+#include "../../../boost/mpl/or.hpp"
+#include "../../../boost/type_traits/function_traits.hpp"
+#include "../../../boost/type_traits/is_class.hpp"
+#include "../../../boost/type_traits/is_final.hpp"
+#include "../../../boost/type_traits/is_function.hpp"
+#include "../../../boost/type_traits/is_same.hpp"
+#include "../../../boost/type_traits/remove_pointer.hpp"
+#include "../../../boost/utility/declval.hpp"
+#include "../../../boost/utility/enable_if.hpp"
 
 namespace boost{
 

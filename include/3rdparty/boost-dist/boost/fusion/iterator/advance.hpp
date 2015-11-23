@@ -7,14 +7,14 @@
 #if !defined(FUSION_ADVANCE_09172005_1146)
 #define FUSION_ADVANCE_09172005_1146
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/iterator/detail/advance.hpp>
-#include <boost/fusion/support/category_of.hpp>
+#include "../../../boost/fusion/support/config.hpp"
+#include "../../../boost/fusion/iterator/detail/advance.hpp"
+#include "../../../boost/fusion/support/category_of.hpp"
 
-#include <boost/mpl/int.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/fusion/support/tag_of.hpp>
+#include "../../../boost/mpl/int.hpp"
+#include "../../../boost/mpl/assert.hpp"
+#include "../../../boost/type_traits/is_same.hpp"
+#include "../../../boost/fusion/support/tag_of.hpp"
 
 namespace boost { namespace fusion
 {

@@ -7,9 +7,9 @@
 #if !defined(BOOST_FUSION_ITERATOR_RANGE_IS_SEGMENTED_HPP_INCLUDED)
 #define BOOST_FUSION_ITERATOR_RANGE_IS_SEGMENTED_HPP_INCLUDED
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/mpl/bool.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/mpl/assert.hpp"
+#include "../../../../../boost/mpl/bool.hpp"
 
 namespace boost { namespace fusion
 {

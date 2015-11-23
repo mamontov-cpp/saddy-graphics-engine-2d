@@ -17,7 +17,7 @@
 
 #ifdef BOOST_TEST_NO_OLD_TOOLS
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -67,7 +67,7 @@ make_it_pair( T const* b, T const* e ) { return it_pair<T const*>( b, e ); }
 } // namespace test_tools
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_NO_OLD_TOOLS
 

@@ -5,7 +5,7 @@
 #ifndef FIND_INSTANCE_DWA2002312_HPP
 # define FIND_INSTANCE_DWA2002312_HPP
 
-# include <boost/python/type_id.hpp>
+#include "../../../boost/python/type_id.hpp"
 
 namespace boost { namespace python { namespace objects { 
 

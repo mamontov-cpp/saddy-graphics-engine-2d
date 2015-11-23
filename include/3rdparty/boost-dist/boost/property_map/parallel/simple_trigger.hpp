@@ -12,7 +12,7 @@
 #ifndef BOOST_PROPERTY_MAP_PARALLEL_SIMPLE_TRIGGER_HPP
 #define BOOST_PROPERTY_MAP_PARALLEL_SIMPLE_TRIGGER_HPP
 
-#include <boost/property_map/parallel/process_group.hpp>
+#include "../../../boost/property_map/parallel/process_group.hpp"
 
 namespace boost { namespace parallel {
 

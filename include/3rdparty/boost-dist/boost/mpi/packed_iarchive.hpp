@@ -18,16 +18,16 @@
 #ifndef BOOST_MPI_PACKED_IARCHIVE_HPP
 #define BOOST_MPI_PACKED_IARCHIVE_HPP
 
-#include <boost/mpi/datatype.hpp>
-#include <boost/archive/detail/auto_link_archive.hpp>
-#include <boost/archive/detail/common_iarchive.hpp>
-#include <boost/archive/basic_archive.hpp>
-#include <boost/mpi/detail/packed_iprimitive.hpp>
-#include <boost/mpi/detail/binary_buffer_iprimitive.hpp>
-#include <boost/serialization/string.hpp>
-#include <boost/serialization/collection_size_type.hpp>
-#include <boost/serialization/item_version_type.hpp>
-#include <boost/assert.hpp>
+#include "../../boost/mpi/datatype.hpp"
+#include "../../boost/archive/detail/auto_link_archive.hpp"
+#include "../../boost/archive/detail/common_iarchive.hpp"
+#include "../../boost/archive/basic_archive.hpp"
+#include "../../boost/mpi/detail/packed_iprimitive.hpp"
+#include "../../boost/mpi/detail/binary_buffer_iprimitive.hpp"
+#include "../../boost/serialization/string.hpp"
+#include "../../boost/serialization/collection_size_type.hpp"
+#include "../../boost/serialization/item_version_type.hpp"
+#include "../../boost/assert.hpp"
 
 namespace boost { namespace mpi {
 

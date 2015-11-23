@@ -15,10 +15,10 @@
 #include <cstddef>
 #include <algorithm>
 #include <utility>
-#include <boost/assert.hpp>
-#include <boost/static_assert.hpp>
-#include <boost/shared_array.hpp>
-#include <boost/property_map/property_map.hpp>
+#include "../../../boost/assert.hpp"
+#include "../../../boost/static_assert.hpp"
+#include "../../../boost/shared_array.hpp"
+#include "../../../boost/property_map/property_map.hpp"
 
 // WARNING: it is not safe to copy a d_ary_heap_indirect and then modify one of
 // the copies.  The class is required to be copyable so it can be passed around

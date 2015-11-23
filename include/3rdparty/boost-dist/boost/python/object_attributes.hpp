@@ -5,11 +5,11 @@
 #ifndef OBJECT_ATTRIBUTES_DWA2002615_HPP
 # define OBJECT_ATTRIBUTES_DWA2002615_HPP
 
-# include <boost/python/detail/prefix.hpp>
+#include "../../boost/python/detail/prefix.hpp"
 
-# include <boost/python/proxy.hpp>
-# include <boost/python/object_core.hpp>
-# include <boost/python/object_protocol.hpp>
+#include "../../boost/python/proxy.hpp"
+#include "../../boost/python/object_core.hpp"
+#include "../../boost/python/object_protocol.hpp"
 
 namespace boost { namespace python { namespace api {
 

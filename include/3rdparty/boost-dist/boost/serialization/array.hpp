@@ -6,7 +6,7 @@
 // License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#include <boost/config.hpp> // msvc 6.0 needs this for warning suppression
+#include "../../boost/config.hpp" // msvc 6.0 needs this for warning suppression
 
 #include <iostream>
 #include <cstddef> // std::size_t
@@ -20,14 +20,14 @@ namespace std{
 } // namespace std
 #endif
 
-#include <boost/serialization/nvp.hpp>
-#include <boost/serialization/split_member.hpp>
-#include <boost/serialization/wrapper.hpp>
-#include <boost/mpl/always.hpp>
-#include <boost/mpl/apply.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/type_traits/remove_const.hpp>
-#include <boost/array.hpp>
+#include "../../boost/serialization/nvp.hpp"
+#include "../../boost/serialization/split_member.hpp"
+#include "../../boost/serialization/wrapper.hpp"
+#include "../../boost/mpl/always.hpp"
+#include "../../boost/mpl/apply.hpp"
+#include "../../boost/mpl/bool.hpp"
+#include "../../boost/type_traits/remove_const.hpp"
+#include "../../boost/array.hpp"
 
 namespace boost { namespace serialization {
 

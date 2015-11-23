@@ -16,11 +16,11 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
-#include <boost/bimap/container_adaptor/unordered_multiset_adaptor.hpp>
-#include <boost/bimap/detail/non_unique_views_helper.hpp>
-#include <boost/bimap/detail/set_view_base.hpp>
+#include "../../../boost/bimap/container_adaptor/unordered_multiset_adaptor.hpp"
+#include "../../../boost/bimap/detail/non_unique_views_helper.hpp"
+#include "../../../boost/bimap/detail/set_view_base.hpp"
 
 namespace boost {
 namespace bimaps {

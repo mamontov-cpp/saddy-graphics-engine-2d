@@ -8,29 +8,29 @@
 #if !defined(FUSION_CONS_07172005_0843)
 #define FUSION_CONS_07172005_0843
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/container/list/cons_fwd.hpp>
-#include <boost/fusion/support/detail/access.hpp>
-#include <boost/fusion/sequence/intrinsic/begin.hpp>
-#include <boost/fusion/sequence/intrinsic/end.hpp>
-#include <boost/fusion/iterator/next.hpp>
-#include <boost/fusion/iterator/deref.hpp>
-#include <boost/fusion/container/list/nil.hpp>
-#include <boost/fusion/container/list/cons_iterator.hpp>
-#include <boost/fusion/container/list/detail/begin_impl.hpp>
-#include <boost/fusion/container/list/detail/end_impl.hpp>
-#include <boost/fusion/container/list/detail/at_impl.hpp>
-#include <boost/fusion/container/list/detail/value_at_impl.hpp>
-#include <boost/fusion/container/list/detail/empty_impl.hpp>
-#include <boost/type_traits/is_convertible.hpp>
-#include <boost/type_traits/is_base_of.hpp>
-#include <boost/utility/enable_if.hpp>
-#include <boost/fusion/support/sequence_base.hpp>
-#include <boost/fusion/support/is_sequence.hpp>
-#include <boost/mpl/int.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/and.hpp>
-#include <boost/mpl/not.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/fusion/container/list/cons_fwd.hpp"
+#include "../../../../boost/fusion/support/detail/access.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic/begin.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic/end.hpp"
+#include "../../../../boost/fusion/iterator/next.hpp"
+#include "../../../../boost/fusion/iterator/deref.hpp"
+#include "../../../../boost/fusion/container/list/nil.hpp"
+#include "../../../../boost/fusion/container/list/cons_iterator.hpp"
+#include "../../../../boost/fusion/container/list/detail/begin_impl.hpp"
+#include "../../../../boost/fusion/container/list/detail/end_impl.hpp"
+#include "../../../../boost/fusion/container/list/detail/at_impl.hpp"
+#include "../../../../boost/fusion/container/list/detail/value_at_impl.hpp"
+#include "../../../../boost/fusion/container/list/detail/empty_impl.hpp"
+#include "../../../../boost/type_traits/is_convertible.hpp"
+#include "../../../../boost/type_traits/is_base_of.hpp"
+#include "../../../../boost/utility/enable_if.hpp"
+#include "../../../../boost/fusion/support/sequence_base.hpp"
+#include "../../../../boost/fusion/support/is_sequence.hpp"
+#include "../../../../boost/mpl/int.hpp"
+#include "../../../../boost/mpl/bool.hpp"
+#include "../../../../boost/mpl/and.hpp"
+#include "../../../../boost/mpl/not.hpp"
 
 namespace boost { namespace fusion
 {

@@ -9,8 +9,8 @@
 #ifndef BOOST_SMART_PTR_DETAIL_ARRAY_COUNT_IMPL_HPP
 #define BOOST_SMART_PTR_DETAIL_ARRAY_COUNT_IMPL_HPP
 
-#include <boost/smart_ptr/detail/array_allocator.hpp>
-#include <boost/smart_ptr/detail/sp_counted_impl.hpp>
+#include "../../../boost/smart_ptr/detail/array_allocator.hpp"
+#include "../../../boost/smart_ptr/detail/sp_counted_impl.hpp"
 
 namespace boost {
     namespace detail {

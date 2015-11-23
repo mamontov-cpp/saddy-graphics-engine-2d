@@ -12,9 +12,9 @@
 #define BOOST_CALL_TRAITS_HPP
 
 #ifndef BOOST_CONFIG_HPP
-#include <boost/config.hpp>
+#include "../boost/config.hpp"
 #endif
 
-#include <boost/detail/call_traits.hpp>
+#include "../boost/detail/call_traits.hpp"
 
 #endif // BOOST_CALL_TRAITS_HPP

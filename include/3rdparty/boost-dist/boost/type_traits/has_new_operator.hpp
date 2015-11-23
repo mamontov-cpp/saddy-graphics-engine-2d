@@ -11,12 +11,12 @@
 
 #include <new> // std::nothrow_t
 #include <cstddef> // std::size_t
-#include <boost/type_traits/config.hpp>
-#include <boost/type_traits/detail/yes_no_type.hpp>
-#include <boost/type_traits/detail/ice_or.hpp>
+#include "../../boost/type_traits/config.hpp"
+#include "../../boost/type_traits/detail/yes_no_type.hpp"
+#include "../../boost/type_traits/detail/ice_or.hpp"
 
 // should be the last #include
-#include <boost/type_traits/detail/bool_trait_def.hpp>
+#include "../../boost/type_traits/detail/bool_trait_def.hpp"
 
 #if defined(new) 
 #  if BOOST_WORKAROUND(BOOST_MSVC, >= 1310)
@@ -149,6 +149,6 @@ BOOST_TT_AUX_BOOL_TRAIT_DEF1(has_new_operator,T,::boost::detail::has_new_operato
 #  pragma pop_macro("new")
 #endif
 
-#include <boost/type_traits/detail/bool_trait_undef.hpp>
+#include "../../boost/type_traits/detail/bool_trait_undef.hpp"
 
 #endif // BOOST_TT_HAS_NEW_OPERATOR_HPP_INCLUDED

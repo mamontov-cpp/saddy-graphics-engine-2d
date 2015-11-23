@@ -12,7 +12,7 @@
 #if defined(BOOST_SPIRIT_DEBUG)
 #   include <ostream>
 #endif
-#include <boost/spirit/home/classic/namespace.hpp>
+#include "../../../../../../boost/spirit/home/classic/namespace.hpp"
 
 ///////////////////////////////////////////////////////////////////////////////
 namespace boost { namespace spirit {

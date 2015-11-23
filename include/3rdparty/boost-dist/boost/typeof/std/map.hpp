@@ -6,10 +6,10 @@
 #define BOOST_TYPEOF_STD_map_hpp_INCLUDED
 
 #include <map>
-#include <boost/typeof/typeof.hpp>
-#include <boost/typeof/std/memory.hpp>
-#include <boost/typeof/std/functional.hpp>
-#include <boost/typeof/std/utility.hpp>
+#include "../../../boost/typeof/typeof.hpp"
+#include "../../../boost/typeof/std/memory.hpp"
+#include "../../../boost/typeof/std/functional.hpp"
+#include "../../../boost/typeof/std/utility.hpp"
 
 #include BOOST_TYPEOF_INCREMENT_REGISTRATION_GROUP()
 

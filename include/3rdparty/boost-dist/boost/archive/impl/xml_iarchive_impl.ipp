@@ -8,7 +8,7 @@
 
 //  See http://www.boost.org for updates, documentation, and revision history.
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 #include <cstring> // memcpy
 #include <cstddef> // NULL
 #if defined(BOOST_NO_STDC_NAMESPACE)
@@ -26,17 +26,17 @@ namespace std{
 #endif
 #endif // BOOST_NO_CWCHAR
 
-#include <boost/detail/workaround.hpp> // RogueWave and Dinkumware
+#include "../../../boost/detail/workaround.hpp" // RogueWave and Dinkumware
 #if BOOST_WORKAROUND(BOOST_DINKUMWARE_STDLIB, == 1)
-#include <boost/archive/dinkumware.hpp>
+#include "../../../boost/archive/dinkumware.hpp"
 #endif
 
-#include <boost/core/no_exceptions_support.hpp>
+#include "../../../boost/core/no_exceptions_support.hpp"
 
-#include <boost/archive/xml_archive_exception.hpp>
-#include <boost/archive/iterators/dataflow_exception.hpp>
-#include <boost/archive/basic_xml_archive.hpp>
-#include <boost/archive/xml_iarchive.hpp>
+#include "../../../boost/archive/xml_archive_exception.hpp"
+#include "../../../boost/archive/iterators/dataflow_exception.hpp"
+#include "../../../boost/archive/basic_xml_archive.hpp"
+#include "../../../boost/archive/xml_iarchive.hpp"
 
 #include "basic_xml_grammar.hpp"
 

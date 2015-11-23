@@ -6,12 +6,12 @@
 #ifndef INDEXING_SUITE_DETAIL_JDG20036_HPP
 # define INDEXING_SUITE_DETAIL_JDG20036_HPP
 
-# include <boost/python/extract.hpp>
-# include <boost/scoped_ptr.hpp>
-# include <boost/get_pointer.hpp>
-# include <boost/detail/binary_search.hpp>
-# include <boost/numeric/conversion/cast.hpp>
-# include <boost/type_traits/is_pointer.hpp>
+#include "../../../../../boost/python/extract.hpp"
+#include "../../../../../boost/scoped_ptr.hpp"
+#include "../../../../../boost/get_pointer.hpp"
+#include "../../../../../boost/detail/binary_search.hpp"
+#include "../../../../../boost/numeric/conversion/cast.hpp"
+#include "../../../../../boost/type_traits/is_pointer.hpp"
 # include <vector>
 # include <map>
 #include <iostream>

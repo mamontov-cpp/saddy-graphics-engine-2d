@@ -8,9 +8,9 @@
 #if !defined(FUSION_BEGIN_IMPL_07172005_0824)
 #define FUSION_BEGIN_IMPL_07172005_0824
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/type_traits/is_const.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/mpl/if.hpp"
+#include "../../../../../boost/type_traits/is_const.hpp"
 
 namespace boost { namespace fusion
 {

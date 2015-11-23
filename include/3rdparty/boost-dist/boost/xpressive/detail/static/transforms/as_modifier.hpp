@@ -13,10 +13,10 @@
 # pragma once
 #endif
 
-#include <boost/mpl/sizeof.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/detail/static/static.hpp>
-#include <boost/proto/core.hpp>
+#include "../../../../../boost/mpl/sizeof.hpp"
+#include "../../../../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../../../../boost/xpressive/detail/static/static.hpp"
+#include "../../../../../boost/proto/core.hpp"
 
 #define UNCV(x) typename remove_const<x>::type
 #define UNREF(x) typename remove_reference<x>::type

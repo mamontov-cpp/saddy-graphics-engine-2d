@@ -15,11 +15,11 @@
 #define BOOST_TEST_UNIT_TEST_MONITOR_HPP_020905GER
 
 // Boost.Test
-#include <boost/test/execution_monitor.hpp>
-#include <boost/test/detail/fwd_decl.hpp>
-#include <boost/test/utils/trivial_singleton.hpp>
+#include "../../boost/test/execution_monitor.hpp"
+#include "../../boost/test/detail/fwd_decl.hpp"
+#include "../../boost/test/utils/trivial_singleton.hpp"
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -55,6 +55,6 @@ BOOST_TEST_SINGLETON_INST( unit_test_monitor )
 } // namespace unit_test
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_UNIT_TEST_MONITOR_HPP_020905GER

@@ -16,11 +16,11 @@
 #define BOOST_TEST_TOOLS_OLD_INTERFACE_HPP_111712GER
 
 // Boost
-#include <boost/preprocessor/seq/for_each.hpp>
-#include <boost/preprocessor/seq/size.hpp>
-#include <boost/preprocessor/seq/to_tuple.hpp>
+#include "../../../../boost/preprocessor/seq/for_each.hpp"
+#include "../../../../boost/preprocessor/seq/size.hpp"
+#include "../../../../boost/preprocessor/seq/to_tuple.hpp"
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -273,6 +273,6 @@ do {                                                                            
 
 //____________________________________________________________________________//
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_TOOLS_OLD_INTERFACE_HPP_111712GER

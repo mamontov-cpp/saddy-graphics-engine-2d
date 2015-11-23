@@ -9,8 +9,8 @@
 #ifndef BOOST_FT_CONFIG_HPP_INCLUDED
 #define BOOST_FT_CONFIG_HPP_INCLUDED
 
-#include <boost/function_types/config/compiler.hpp>
-#include <boost/function_types/config/cc_names.hpp>
+#include "../../../boost/function_types/config/compiler.hpp"
+#include "../../../boost/function_types/config/cc_names.hpp"
 
 // maximum allowed arity
 #ifndef BOOST_FT_MAX_ARITY

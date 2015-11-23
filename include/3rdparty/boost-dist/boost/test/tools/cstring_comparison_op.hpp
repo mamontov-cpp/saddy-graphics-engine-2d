@@ -13,15 +13,15 @@
 #define BOOST_TEST_TOOLS_CSTRING_COMPARISON_OP_HPP_050815GER
 
 // Boost.Test
-#include <boost/test/tools/assertion.hpp>
+#include "../../../boost/test/tools/assertion.hpp"
 
-#include <boost/test/utils/is_cstring.hpp>
-#include <boost/test/utils/basic_cstring/compare.hpp>
+#include "../../../boost/test/utils/is_cstring.hpp"
+#include "../../../boost/test/utils/basic_cstring/compare.hpp"
 
 // Boost
-#include <boost/utility/enable_if.hpp>
+#include "../../../boost/utility/enable_if.hpp"
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -85,7 +85,7 @@ BOOST_TEST_FOR_EACH_COMP_OP( DEFINE_CSTRING_COMPARISON )
 } // namespace test_tools
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_TOOLS_CSTRING_COMPARISON_OP_HPP_050815GER
 

@@ -8,28 +8,28 @@
 # ifndef VALUE_HOLDER_DWA20011215_HPP
 #  define VALUE_HOLDER_DWA20011215_HPP 
 
-#  include <boost/python/object/value_holder_fwd.hpp>
+#include "../../../boost/python/object/value_holder_fwd.hpp"
 
-#  include <boost/python/instance_holder.hpp>
-#  include <boost/python/type_id.hpp>
-#  include <boost/python/wrapper.hpp>
+#include "../../../boost/python/instance_holder.hpp"
+#include "../../../boost/python/type_id.hpp"
+#include "../../../boost/python/wrapper.hpp"
 
-#  include <boost/python/object/inheritance_query.hpp>
-#  include <boost/python/object/forward.hpp>
+#include "../../../boost/python/object/inheritance_query.hpp"
+#include "../../../boost/python/object/forward.hpp"
 
-#  include <boost/python/detail/force_instantiate.hpp>
-#  include <boost/python/detail/preprocessor.hpp>
+#include "../../../boost/python/detail/force_instantiate.hpp"
+#include "../../../boost/python/detail/preprocessor.hpp"
 
-#  include <boost/preprocessor/comma_if.hpp>
-#  include <boost/preprocessor/enum_params.hpp>
-#  include <boost/preprocessor/iterate.hpp>
-#  include <boost/preprocessor/repeat.hpp>
-#  include <boost/preprocessor/debug/line.hpp>
+#include "../../../boost/preprocessor/comma_if.hpp"
+#include "../../../boost/preprocessor/enum_params.hpp"
+#include "../../../boost/preprocessor/iterate.hpp"
+#include "../../../boost/preprocessor/repeat.hpp"
+#include "../../../boost/preprocessor/debug/line.hpp"
 
-#  include <boost/preprocessor/repetition/enum_params.hpp>
-#  include <boost/preprocessor/repetition/enum_binary_params.hpp>
+#include "../../../boost/preprocessor/repetition/enum_params.hpp"
+#include "../../../boost/preprocessor/repetition/enum_binary_params.hpp"
 
-#  include <boost/utility/addressof.hpp>
+#include "../../../boost/utility/addressof.hpp"
 
 namespace boost { namespace python { namespace objects { 
 

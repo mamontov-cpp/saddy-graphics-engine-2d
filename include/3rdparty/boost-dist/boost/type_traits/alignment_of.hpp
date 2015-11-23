@@ -9,12 +9,12 @@
 #ifndef BOOST_TT_ALIGNMENT_OF_HPP_INCLUDED
 #define BOOST_TT_ALIGNMENT_OF_HPP_INCLUDED
 
-#include <boost/config.hpp>
+#include "../../boost/config.hpp"
 #include <cstddef>
 
-#include <boost/type_traits/intrinsics.hpp>
+#include "../../boost/type_traits/intrinsics.hpp"
 // should be the last #include
-#include <boost/type_traits/detail/size_t_trait_def.hpp>
+#include "../../boost/type_traits/detail/size_t_trait_def.hpp"
 
 #ifdef BOOST_MSVC
 #   pragma warning(push)
@@ -120,7 +120,7 @@ BOOST_TT_AUX_SIZE_T_TRAIT_SPEC1(alignment_of,void const volatile,0)
 #   pragma warning(pop)
 #endif
 
-#include <boost/type_traits/detail/size_t_trait_undef.hpp>
+#include "../../boost/type_traits/detail/size_t_trait_undef.hpp"
 
 #endif // BOOST_TT_ALIGNMENT_OF_HPP_INCLUDED
 

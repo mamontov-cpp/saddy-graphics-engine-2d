@@ -11,26 +11,26 @@
 
 #include <vector>
 #include <climits>
-#include <boost/config.hpp>
-#include <boost/assert.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/and.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/detail/workaround.hpp>
-#include <boost/preprocessor/cat.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/detail/core/matchers.hpp>
-#include <boost/xpressive/detail/core/regex_domain.hpp>
-#include <boost/xpressive/detail/utility/ignore_unused.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/assert.hpp"
+#include "../../boost/mpl/if.hpp"
+#include "../../boost/mpl/and.hpp"
+#include "../../boost/mpl/assert.hpp"
+#include "../../boost/detail/workaround.hpp"
+#include "../../boost/preprocessor/cat.hpp"
+#include "../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../boost/xpressive/detail/core/matchers.hpp"
+#include "../../boost/xpressive/detail/core/regex_domain.hpp"
+#include "../../boost/xpressive/detail/utility/ignore_unused.hpp"
 
 // Doxygen can't handle proto :-(
 #ifndef BOOST_XPRESSIVE_DOXYGEN_INVOKED
-# include <boost/proto/core.hpp>
-# include <boost/proto/transform/arg.hpp>
-# include <boost/proto/transform/when.hpp>
-# include <boost/xpressive/detail/core/icase.hpp>
-# include <boost/xpressive/detail/static/compile.hpp>
-# include <boost/xpressive/detail/static/modifier.hpp>
+#include "../../boost/proto/core.hpp"
+#include "../../boost/proto/transform/arg.hpp"
+#include "../../boost/proto/transform/when.hpp"
+#include "../../boost/xpressive/detail/core/icase.hpp"
+#include "../../boost/xpressive/detail/static/compile.hpp"
+#include "../../boost/xpressive/detail/static/modifier.hpp"
 #endif
 
 namespace boost { namespace xpressive { namespace detail

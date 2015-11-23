@@ -5,7 +5,7 @@
 #ifndef PYOBJECT_TYPE_DWA2002720_HPP
 # define PYOBJECT_TYPE_DWA2002720_HPP
 
-# include <boost/python/cast.hpp>
+#include "../../../boost/python/cast.hpp"
 
 namespace boost { namespace python { namespace converter { 
 

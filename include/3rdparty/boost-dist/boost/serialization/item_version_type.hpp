@@ -6,13 +6,13 @@
 // License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#include <boost/cstdint.hpp> // uint_least8_t
-#include <boost/integer_traits.hpp>
-#include <boost/serialization/level.hpp>
-#include <boost/serialization/is_bitwise_serializable.hpp>
+#include "../../boost/cstdint.hpp" // uint_least8_t
+#include "../../boost/integer_traits.hpp"
+#include "../../boost/serialization/level.hpp"
+#include "../../boost/serialization/is_bitwise_serializable.hpp"
 
 // fixes broken example build on x86_64-linux-gnu-gcc-4.6.0
-#include <boost/assert.hpp>
+#include "../../boost/assert.hpp"
 
 namespace boost { 
 namespace serialization {

@@ -11,13 +11,13 @@
 #ifndef BOOST_RANGE_CONFIG_HPP
 #define BOOST_RANGE_CONFIG_HPP
 
-#include <boost/detail/workaround.hpp>
+#include "../../boost/detail/workaround.hpp"
 
 #if defined(_MSC_VER)
 # pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../boost/config.hpp"
 
 #ifdef BOOST_RANGE_DEDUCED_TYPENAME
 #error "macro already defined!"

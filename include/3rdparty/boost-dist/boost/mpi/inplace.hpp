@@ -14,7 +14,7 @@
 #ifndef BOOST_MPI_INPLACE_HPP
 #define BOOST_MPI_INPLACE_HPP
 
-#include <boost/mpi/communicator.hpp>
+#include "../../boost/mpi/communicator.hpp"
 #include <vector>
 
 namespace boost { namespace mpi {

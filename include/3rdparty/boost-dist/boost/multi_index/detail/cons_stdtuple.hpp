@@ -13,9 +13,9 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp> /* keep it first to prevent nasty warns in MSVC */
-#include <boost/mpl/if.hpp>
-#include <boost/tuple/tuple.hpp>
+#include "../../../boost/config.hpp" /* keep it first to prevent nasty warns in MSVC */
+#include "../../../boost/mpl/if.hpp"
+#include "../../../boost/tuple/tuple.hpp"
 #include <tuple>
 
 namespace boost{

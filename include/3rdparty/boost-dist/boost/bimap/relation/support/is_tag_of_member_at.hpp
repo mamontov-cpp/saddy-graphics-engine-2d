@@ -16,14 +16,14 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../../boost/config.hpp"
 
-#include <boost/bimap/relation/member_at.hpp>
-#include <boost/type_traits/is_same.hpp>
+#include "../../../../boost/bimap/relation/member_at.hpp"
+#include "../../../../boost/type_traits/is_same.hpp"
 
-#include <boost/mpl/bool.hpp>
-#include <boost/utility/enable_if.hpp>
-#include <boost/bimap/relation/support/member_with_tag.hpp>
+#include "../../../../boost/mpl/bool.hpp"
+#include "../../../../boost/utility/enable_if.hpp"
+#include "../../../../boost/bimap/relation/support/member_with_tag.hpp"
 
 /** \struct boost::bimaps::relation::support::is_tag_of_member_at_left
 

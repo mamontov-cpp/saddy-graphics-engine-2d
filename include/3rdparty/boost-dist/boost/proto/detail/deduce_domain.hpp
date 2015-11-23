@@ -15,18 +15,18 @@
 #ifndef BOOST_PROTO_DEDUCE_DOMAIN_HPP_EAN_05_22_2010
 #define BOOST_PROTO_DEDUCE_DOMAIN_HPP_EAN_05_22_2010
 
-#include <boost/config.hpp>
-#include <boost/preprocessor/cat.hpp>
-#include <boost/preprocessor/facilities/intercept.hpp>
-#include <boost/preprocessor/iteration/local.hpp>
-#include <boost/preprocessor/iteration/iterate.hpp>
-#include <boost/preprocessor/repetition/enum_params.hpp>
-#include <boost/preprocessor/repetition/enum_binary_params.hpp>
-#include <boost/preprocessor/repetition/repeat_from_to.hpp>
-#include <boost/preprocessor/arithmetic/inc.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/proto/proto_fwd.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/preprocessor/cat.hpp"
+#include "../../../boost/preprocessor/facilities/intercept.hpp"
+#include "../../../boost/preprocessor/iteration/local.hpp"
+#include "../../../boost/preprocessor/iteration/iterate.hpp"
+#include "../../../boost/preprocessor/repetition/enum_params.hpp"
+#include "../../../boost/preprocessor/repetition/enum_binary_params.hpp"
+#include "../../../boost/preprocessor/repetition/repeat_from_to.hpp"
+#include "../../../boost/preprocessor/arithmetic/inc.hpp"
+#include "../../../boost/mpl/assert.hpp"
+#include "../../../boost/type_traits/is_same.hpp"
+#include "../../../boost/proto/proto_fwd.hpp"
 
 #ifndef BOOST_PROTO_ASSERT_VALID_DOMAIN
 # define BOOST_PROTO_ASSERT_VALID_DOMAIN(DOM) BOOST_MPL_ASSERT_NOT((boost::is_same<DOM, boost::proto::detail::not_a_domain>))
@@ -192,7 +192,7 @@ namespace boost
                 >
             {};
 
-            #include <boost/proto/detail/deduce_domain_n.hpp>
+            #include "../../../boost/proto/detail/deduce_domain_n.hpp"
         }
     }
 }

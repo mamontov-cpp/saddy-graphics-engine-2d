@@ -13,7 +13,7 @@
 #define BOOST_TEST_DETAIL_THROW_EXCEPTION_HPP
 
 // Boost
-#include <boost/config.hpp> // BOOST_NO_EXCEPTION
+#include "../../../boost/config.hpp" // BOOST_NO_EXCEPTION
 
 #ifdef BOOST_NO_EXCEPTION
 // C RUNTIME
@@ -21,7 +21,7 @@
 
 #endif
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -64,6 +64,6 @@ throw_exception(E const& e) { throw e; return 0; }
 
 //____________________________________________________________________________//
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_DETAIL_THROW_EXCEPTION_HPP

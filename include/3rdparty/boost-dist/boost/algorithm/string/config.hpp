@@ -11,8 +11,8 @@
 #ifndef BOOST_STRING_CONFIG_HPP
 #define BOOST_STRING_CONFIG_HPP
 
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/detail/workaround.hpp"
 
 #ifdef BOOST_STRING_DEDUCED_TYPENAME
 #   error "macro already defined!"

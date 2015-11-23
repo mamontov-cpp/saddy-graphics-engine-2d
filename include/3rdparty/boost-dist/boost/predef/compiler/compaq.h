@@ -8,8 +8,8 @@ http://www.boost.org/LICENSE_1_0.txt)
 #ifndef BOOST_PREDEF_COMPILER_COMPAQ_H
 #define BOOST_PREDEF_COMPILER_COMPAQ_H
 
-#include <boost/predef/version_number.h>
-#include <boost/predef/make.h>
+#include "../../../boost/predef/version_number.h"
+#include "../../../boost/predef/make.h"
 
 /*`
 [heading `BOOST_COMP_DEC`]
@@ -50,17 +50,17 @@ Version number available as major, minor, and patch.
 #       define BOOST_COMP_DEC BOOST_COMP_DEC_DETECTION
 #   endif
 #   define BOOST_COMP_DEC_AVAILABLE
-#   include <boost/predef/detail/comp_detected.h>
+#include "../../../boost/predef/detail/comp_detected.h"
 #endif
 
 #define BOOST_COMP_DEC_NAME "Compaq C/C++"
 
 #endif
 
-#include <boost/predef/detail/test.h>
+#include "../../../boost/predef/detail/test.h"
 BOOST_PREDEF_DECLARE_TEST(BOOST_COMP_DEC,BOOST_COMP_DEC_NAME)
 
 #ifdef BOOST_COMP_DEC_EMULATED
-#include <boost/predef/detail/test.h>
+#include "../../../boost/predef/detail/test.h"
 BOOST_PREDEF_DECLARE_TEST(BOOST_COMP_DEC_EMULATED,BOOST_COMP_DEC_NAME)
 #endif

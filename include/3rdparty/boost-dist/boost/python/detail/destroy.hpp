@@ -5,8 +5,8 @@
 #ifndef DESTROY_DWA2002221_HPP
 # define DESTROY_DWA2002221_HPP
 
-# include <boost/type_traits/is_array.hpp>
-# include <boost/detail/workaround.hpp>
+#include "../../../boost/type_traits/is_array.hpp"
+#include "../../../boost/detail/workaround.hpp"
 namespace boost { namespace python { namespace detail { 
 
 template <bool array> struct value_destroyer;

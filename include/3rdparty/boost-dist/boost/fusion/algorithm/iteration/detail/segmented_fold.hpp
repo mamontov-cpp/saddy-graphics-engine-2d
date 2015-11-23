@@ -7,9 +7,9 @@
 #if !defined(BOOST_FUSION_FOLD_S_HPP_INCLUDED)
 #define BOOST_FUSION_FOLD_S_HPP_INCLUDED
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/algorithm/iteration/fold_fwd.hpp>
-#include <boost/fusion/support/segmented_fold_until.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/fusion/algorithm/iteration/fold_fwd.hpp"
+#include "../../../../../boost/fusion/support/segmented_fold_until.hpp"
 
 namespace boost { namespace fusion { namespace detail
 {

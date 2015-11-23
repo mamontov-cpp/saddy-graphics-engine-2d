@@ -24,9 +24,9 @@
 //  formulation
 //
 
-#include <boost/smart_ptr/detail/sp_interlocked.hpp>
-#include <boost/detail/workaround.hpp>
-#include <boost/detail/sp_typeinfo.hpp>
+#include "../../../boost/smart_ptr/detail/sp_interlocked.hpp"
+#include "../../../boost/detail/workaround.hpp"
+#include "../../../boost/detail/sp_typeinfo.hpp"
 
 namespace boost
 {

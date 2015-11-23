@@ -9,9 +9,9 @@
 #define BOOST_MPI_DETAIL_POINT_TO_POINT_HPP
 
 // For (de-)serializing sends and receives
-#include <boost/mpi/config.hpp>
-#include <boost/mpi/packed_oarchive.hpp>
-#include <boost/mpi/packed_iarchive.hpp>
+#include "../../../boost/mpi/config.hpp"
+#include "../../../boost/mpi/packed_oarchive.hpp"
+#include "../../../boost/mpi/packed_iarchive.hpp"
 
 namespace boost { namespace mpi { namespace detail {
 

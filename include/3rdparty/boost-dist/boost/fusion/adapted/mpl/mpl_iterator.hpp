@@ -7,15 +7,15 @@
 #if !defined(FUSION_MPL_ITERATOR_05052005_0731)
 #define FUSION_MPL_ITERATOR_05052005_0731
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/support/detail/mpl_iterator_category.hpp>
-#include <boost/fusion/iterator/iterator_facade.hpp>
-#include <boost/type_traits/remove_const.hpp>
-#include <boost/mpl/deref.hpp>
-#include <boost/mpl/next.hpp>
-#include <boost/mpl/prior.hpp>
-#include <boost/mpl/advance.hpp>
-#include <boost/mpl/distance.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/fusion/support/detail/mpl_iterator_category.hpp"
+#include "../../../../boost/fusion/iterator/iterator_facade.hpp"
+#include "../../../../boost/type_traits/remove_const.hpp"
+#include "../../../../boost/mpl/deref.hpp"
+#include "../../../../boost/mpl/next.hpp"
+#include "../../../../boost/mpl/prior.hpp"
+#include "../../../../boost/mpl/advance.hpp"
+#include "../../../../boost/mpl/distance.hpp"
 
 namespace boost { namespace fusion
 {

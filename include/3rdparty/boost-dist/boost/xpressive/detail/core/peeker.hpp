@@ -15,17 +15,17 @@
 
 #include <string>
 #include <typeinfo>
-#include <boost/assert.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/mpl/size_t.hpp>
-#include <boost/mpl/equal_to.hpp>
-#include <boost/utility/enable_if.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/detail/core/matchers.hpp>
-#include <boost/xpressive/detail/utility/hash_peek_bitset.hpp>
-#include <boost/xpressive/detail/utility/never_true.hpp>
-#include <boost/xpressive/detail/utility/algorithm.hpp>
+#include "../../../../boost/assert.hpp"
+#include "../../../../boost/mpl/bool.hpp"
+#include "../../../../boost/mpl/assert.hpp"
+#include "../../../../boost/mpl/size_t.hpp"
+#include "../../../../boost/mpl/equal_to.hpp"
+#include "../../../../boost/utility/enable_if.hpp"
+#include "../../../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../../../boost/xpressive/detail/core/matchers.hpp"
+#include "../../../../boost/xpressive/detail/utility/hash_peek_bitset.hpp"
+#include "../../../../boost/xpressive/detail/utility/never_true.hpp"
+#include "../../../../boost/xpressive/detail/utility/algorithm.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

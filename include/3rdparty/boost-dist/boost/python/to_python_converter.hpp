@@ -5,14 +5,14 @@
 #ifndef TO_PYTHON_CONVERTER_DWA200221_HPP
 # define TO_PYTHON_CONVERTER_DWA200221_HPP
 
-# include <boost/python/detail/prefix.hpp>
+#include "../../boost/python/detail/prefix.hpp"
 
-# include <boost/python/converter/registry.hpp>
-# include <boost/python/converter/as_to_python_function.hpp>
+#include "../../boost/python/converter/registry.hpp"
+#include "../../boost/python/converter/as_to_python_function.hpp"
 #ifndef BOOST_PYTHON_NO_PY_SIGNATURES
-# include <boost/python/converter/pytype_function.hpp>
+#include "../../boost/python/converter/pytype_function.hpp"
 #endif
-# include <boost/python/type_id.hpp>
+#include "../../boost/python/type_id.hpp"
 
 namespace boost { namespace python { 
 

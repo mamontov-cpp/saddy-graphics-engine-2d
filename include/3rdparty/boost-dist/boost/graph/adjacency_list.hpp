@@ -12,13 +12,13 @@
 #define BOOST_GRAPH_ADJACENCY_LIST_HPP
 
 
-#include <boost/config.hpp>
+#include "../../boost/config.hpp"
 
 #include <vector>
 #include <list>
 #include <set>
 
-#include <boost/unordered_set.hpp>
+#include "../../boost/unordered_set.hpp"
 
 #if !defined BOOST_NO_SLIST
 #  ifdef BOOST_SLIST_HEADER
@@ -28,21 +28,21 @@
 #  endif
 #endif
 
-#include <boost/scoped_ptr.hpp>
+#include "../../boost/scoped_ptr.hpp"
 
-#include <boost/graph/graph_traits.hpp>
-#include <boost/graph/graph_mutability_traits.hpp>
-#include <boost/graph/graph_selectors.hpp>
-#include <boost/property_map/property_map.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/and.hpp>
-#include <boost/mpl/not.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/graph/detail/edge.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/detail/workaround.hpp>
-#include <boost/graph/properties.hpp>
-#include <boost/graph/named_graph.hpp>
+#include "../../boost/graph/graph_traits.hpp"
+#include "../../boost/graph/graph_mutability_traits.hpp"
+#include "../../boost/graph/graph_selectors.hpp"
+#include "../../boost/property_map/property_map.hpp"
+#include "../../boost/mpl/if.hpp"
+#include "../../boost/mpl/and.hpp"
+#include "../../boost/mpl/not.hpp"
+#include "../../boost/mpl/bool.hpp"
+#include "../../boost/graph/detail/edge.hpp"
+#include "../../boost/type_traits/is_same.hpp"
+#include "../../boost/detail/workaround.hpp"
+#include "../../boost/graph/properties.hpp"
+#include "../../boost/graph/named_graph.hpp"
 
 namespace boost {
 
@@ -243,7 +243,7 @@ namespace boost {
 
 } // namespace boost
 
-#include <boost/graph/detail/adjacency_list.hpp>
+#include "../../boost/graph/detail/adjacency_list.hpp"
 
 namespace boost {
 

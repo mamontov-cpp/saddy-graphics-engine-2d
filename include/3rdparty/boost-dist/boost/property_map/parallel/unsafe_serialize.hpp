@@ -13,13 +13,13 @@
 #ifndef BOOST_PROPERTY_MAP_UNSAFE_SERIALIZE_HPP
 #define BOOST_PROPERTY_MAP_UNSAFE_SERIALIZE_HPP
 
-#include <boost/mpi/datatype.hpp>
-#include <boost/serialization/is_bitwise_serializable.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/cstdint.hpp>
-#include <boost/static_assert.hpp>
-#include <boost/type_traits.hpp>
+#include "../../../boost/mpi/datatype.hpp"
+#include "../../../boost/serialization/is_bitwise_serializable.hpp"
+#include "../../../boost/mpl/bool.hpp"
+#include "../../../boost/mpl/if.hpp"
+#include "../../../boost/cstdint.hpp"
+#include "../../../boost/static_assert.hpp"
+#include "../../../boost/type_traits.hpp"
 #include <utility>
 
 BOOST_IS_BITWISE_SERIALIZABLE(void*)

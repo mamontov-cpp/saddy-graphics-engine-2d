@@ -4,22 +4,22 @@
 // http://www.boost.org/LICENSE_1_0.txt)
 #ifndef RETURN_ARG_DWA2003719_HPP
 # define RETURN_ARG_DWA2003719_HPP
-# include <boost/python/default_call_policies.hpp>
-# include <boost/python/detail/none.hpp>
-# include <boost/python/detail/value_arg.hpp>
+#include "../../boost/python/default_call_policies.hpp"
+#include "../../boost/python/detail/none.hpp"
+#include "../../boost/python/detail/value_arg.hpp"
 
 #ifndef BOOST_PYTHON_NO_PY_SIGNATURES
-# include <boost/python/converter/pytype_function.hpp>
+#include "../../boost/python/converter/pytype_function.hpp"
 #endif
 
-# include <boost/type_traits/add_reference.hpp>
-# include <boost/type_traits/add_const.hpp>
+#include "../../boost/type_traits/add_reference.hpp"
+#include "../../boost/type_traits/add_const.hpp"
 
-# include <boost/mpl/int.hpp>
-# include <boost/mpl/at.hpp>
+#include "../../boost/mpl/int.hpp"
+#include "../../boost/mpl/at.hpp"
 
-# include <boost/static_assert.hpp>
-# include <boost/python/refcount.hpp>
+#include "../../boost/static_assert.hpp"
+#include "../../boost/python/refcount.hpp"
 
 # include <cstddef>
 

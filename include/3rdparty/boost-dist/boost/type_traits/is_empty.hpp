@@ -9,17 +9,17 @@
 #ifndef BOOST_TT_IS_EMPTY_HPP_INCLUDED
 #define BOOST_TT_IS_EMPTY_HPP_INCLUDED
 
-#include <boost/type_traits/is_convertible.hpp>
-#include <boost/type_traits/detail/ice_or.hpp>
-#include <boost/type_traits/config.hpp>
-#include <boost/type_traits/intrinsics.hpp>
+#include "../../boost/type_traits/is_convertible.hpp"
+#include "../../boost/type_traits/detail/ice_or.hpp"
+#include "../../boost/type_traits/config.hpp"
+#include "../../boost/type_traits/intrinsics.hpp"
 
-#   include <boost/type_traits/remove_cv.hpp>
-#   include <boost/type_traits/is_class.hpp>
-#   include <boost/type_traits/add_reference.hpp>
+#include "../../boost/type_traits/remove_cv.hpp"
+#include "../../boost/type_traits/is_class.hpp"
+#include "../../boost/type_traits/add_reference.hpp"
 
 // should be always the last #include directive
-#include <boost/type_traits/detail/bool_trait_def.hpp>
+#include "../../boost/type_traits/detail/bool_trait_def.hpp"
 
 #ifndef BOOST_INTERNAL_IS_EMPTY
 #define BOOST_INTERNAL_IS_EMPTY(T) false
@@ -134,7 +134,7 @@ BOOST_TT_AUX_BOOL_TRAIT_DEF1(is_empty,T,::boost::detail::is_empty_impl<T>::value
 
 } // namespace boost
 
-#include <boost/type_traits/detail/bool_trait_undef.hpp>
+#include "../../boost/type_traits/detail/bool_trait_undef.hpp"
 
 #undef BOOST_INTERNAL_IS_EMPTY
 

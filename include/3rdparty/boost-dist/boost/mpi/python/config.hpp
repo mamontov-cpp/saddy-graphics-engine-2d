@@ -12,7 +12,7 @@
 #ifndef BOOST_MPI_PYTHON_CONFIG_HPP
 #define BOOST_MPI_PYTHON_CONFIG_HPP
 
-#include <boost/mpi/config.hpp>
+#include "../../../boost/mpi/config.hpp"
 
 /*****************************************************************************
  *                                                                           *
@@ -41,7 +41,7 @@
 #  ifdef BOOST_MPI_PYTHON_DIAG
 #     define BOOST_LIB_DIAGNOSTIC
 #  endif
-#  include <boost/config/auto_link.hpp>
+#include "../../../boost/config/auto_link.hpp"
 #endif
 
 #endif // BOOST_MPI_PYTHON_CONFIG_HPP

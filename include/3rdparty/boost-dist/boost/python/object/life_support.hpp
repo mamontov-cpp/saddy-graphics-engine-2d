@@ -4,7 +4,7 @@
 // http://www.boost.org/LICENSE_1_0.txt)
 #ifndef LIFE_SUPPORT_DWA200222_HPP
 # define LIFE_SUPPORT_DWA200222_HPP
-# include <boost/python/detail/prefix.hpp>
+#include "../../../boost/python/detail/prefix.hpp"
 
 namespace boost { namespace python { namespace objects { 
 

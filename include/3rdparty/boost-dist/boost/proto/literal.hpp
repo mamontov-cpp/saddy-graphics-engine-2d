@@ -10,11 +10,11 @@
 #ifndef BOOST_PROTO_LITERAL_HPP_EAN_01_03_2007
 #define BOOST_PROTO_LITERAL_HPP_EAN_01_03_2007
 
-#include <boost/config.hpp>
-#include <boost/proto/proto_fwd.hpp>
-#include <boost/proto/expr.hpp>
-#include <boost/proto/traits.hpp>
-#include <boost/proto/extends.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/proto/proto_fwd.hpp"
+#include "../../boost/proto/expr.hpp"
+#include "../../boost/proto/traits.hpp"
+#include "../../boost/proto/extends.hpp"
 
 namespace boost { namespace proto
 {

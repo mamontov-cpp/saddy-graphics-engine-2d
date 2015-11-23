@@ -16,17 +16,17 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
 #include <memory>
 
 // Boost.MPL
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/aux_/na.hpp>
-#include <boost/type_traits/is_same.hpp>
+#include "../../../boost/mpl/bool.hpp"
+#include "../../../boost/mpl/if.hpp"
+#include "../../../boost/mpl/aux_/na.hpp"
+#include "../../../boost/type_traits/is_same.hpp"
 
-#include <boost/bimap/detail/is_set_type_of.hpp>
+#include "../../../boost/bimap/detail/is_set_type_of.hpp"
 
 namespace boost {
 namespace bimaps {

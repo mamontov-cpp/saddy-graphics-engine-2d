@@ -47,15 +47,15 @@
 =============================================================================*/
 #include <string>
 
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/detail/workaround.hpp"
 
-#include <boost/spirit/include/classic_rule.hpp>
-#include <boost/spirit/include/classic_chset.hpp>
+#include "../../../boost/spirit/include/classic_rule.hpp"
+#include "../../../boost/spirit/include/classic_chset.hpp"
 
-#include <boost/archive/basic_archive.hpp>
-#include <boost/serialization/tracking.hpp>
-#include <boost/serialization/version.hpp>
+#include "../../../boost/archive/basic_archive.hpp"
+#include "../../../boost/serialization/tracking.hpp"
+#include "../../../boost/serialization/version.hpp"
 
 namespace boost {
 namespace archive {

@@ -8,8 +8,8 @@
 #if !defined(FUSION_ADVANCE_IMPL_13122005_1906)
 #define FUSION_ADVANCE_IMPL_13122005_1906
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/iterator/advance.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/fusion/iterator/advance.hpp"
 
 namespace boost { namespace fusion 
 {

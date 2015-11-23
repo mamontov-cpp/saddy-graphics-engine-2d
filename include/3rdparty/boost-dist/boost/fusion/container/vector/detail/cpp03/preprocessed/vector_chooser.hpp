@@ -7,15 +7,15 @@
     This is an auto-generated file. Do not edit!
 ==============================================================================*/
 #if FUSION_MAX_VECTOR_SIZE <= 10
-#include <boost/fusion/container/vector/detail/cpp03/preprocessed/vector_chooser10.hpp>
+#include "../../../../../../../boost/fusion/container/vector/detail/cpp03/preprocessed/vector_chooser10.hpp"
 #elif FUSION_MAX_VECTOR_SIZE <= 20
-#include <boost/fusion/container/vector/detail/cpp03/preprocessed/vector_chooser20.hpp>
+#include "../../../../../../../boost/fusion/container/vector/detail/cpp03/preprocessed/vector_chooser20.hpp"
 #elif FUSION_MAX_VECTOR_SIZE <= 30
-#include <boost/fusion/container/vector/detail/cpp03/preprocessed/vector_chooser30.hpp>
+#include "../../../../../../../boost/fusion/container/vector/detail/cpp03/preprocessed/vector_chooser30.hpp"
 #elif FUSION_MAX_VECTOR_SIZE <= 40
-#include <boost/fusion/container/vector/detail/cpp03/preprocessed/vector_chooser40.hpp>
+#include "../../../../../../../boost/fusion/container/vector/detail/cpp03/preprocessed/vector_chooser40.hpp"
 #elif FUSION_MAX_VECTOR_SIZE <= 50
-#include <boost/fusion/container/vector/detail/cpp03/preprocessed/vector_chooser50.hpp>
+#include "../../../../../../../boost/fusion/container/vector/detail/cpp03/preprocessed/vector_chooser50.hpp"
 #else
 #error "FUSION_MAX_VECTOR_SIZE out of bounds for preprocessed headers"
 #endif

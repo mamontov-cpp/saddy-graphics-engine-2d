@@ -14,22 +14,22 @@
 # pragma warning(disable: 4714) // function 'xxx' marked as __forceinline not inlined
 #endif
 
-#include <boost/preprocessor/cat.hpp>
-#include <boost/preprocessor/facilities/intercept.hpp>
-#include <boost/preprocessor/iteration/iterate.hpp>
-#include <boost/preprocessor/repetition/enum.hpp>
-#include <boost/preprocessor/repetition/repeat.hpp>
-#include <boost/preprocessor/repetition/enum_params.hpp>
-#include <boost/preprocessor/repetition/enum_binary_params.hpp>
-#include <boost/preprocessor/repetition/enum_trailing_params.hpp>
-#include <boost/ref.hpp>
-#include <boost/utility/result_of.hpp>
-#include <boost/proto/proto_fwd.hpp>
-#include <boost/proto/traits.hpp>
-#include <boost/proto/transform/impl.hpp>
-#include <boost/proto/detail/as_lvalue.hpp>
-#include <boost/proto/detail/poly_function.hpp>
-#include <boost/proto/transform/detail/pack.hpp>
+#include "../../../boost/preprocessor/cat.hpp"
+#include "../../../boost/preprocessor/facilities/intercept.hpp"
+#include "../../../boost/preprocessor/iteration/iterate.hpp"
+#include "../../../boost/preprocessor/repetition/enum.hpp"
+#include "../../../boost/preprocessor/repetition/repeat.hpp"
+#include "../../../boost/preprocessor/repetition/enum_params.hpp"
+#include "../../../boost/preprocessor/repetition/enum_binary_params.hpp"
+#include "../../../boost/preprocessor/repetition/enum_trailing_params.hpp"
+#include "../../../boost/ref.hpp"
+#include "../../../boost/utility/result_of.hpp"
+#include "../../../boost/proto/proto_fwd.hpp"
+#include "../../../boost/proto/traits.hpp"
+#include "../../../boost/proto/transform/impl.hpp"
+#include "../../../boost/proto/detail/as_lvalue.hpp"
+#include "../../../boost/proto/detail/poly_function.hpp"
+#include "../../../boost/proto/transform/detail/pack.hpp"
 
 namespace boost { namespace proto
 {
@@ -383,7 +383,7 @@ namespace boost { namespace proto
         {};
     };
 
-    #include <boost/proto/transform/detail/call.hpp>
+    #include "../../../boost/proto/transform/detail/call.hpp"
 
     /// INTERNAL ONLY
     ///

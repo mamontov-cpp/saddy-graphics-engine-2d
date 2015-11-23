@@ -17,20 +17,20 @@
 #ifndef BOOST_CONCEPT_CHECKS_HPP
 # define BOOST_CONCEPT_CHECKS_HPP
 
-# include <boost/concept/assert.hpp>
+#include "../boost/concept/assert.hpp"
 
-# include <boost/iterator.hpp>
-# include <boost/type_traits/conversion_traits.hpp>
+#include "../boost/iterator.hpp"
+#include "../boost/type_traits/conversion_traits.hpp"
 # include <utility>
-# include <boost/type_traits/is_same.hpp>
-# include <boost/type_traits/is_void.hpp>
-# include <boost/mpl/assert.hpp>
-# include <boost/mpl/bool.hpp>
-# include <boost/detail/workaround.hpp>
-# include <boost/detail/iterator.hpp>
+#include "../boost/type_traits/is_same.hpp"
+#include "../boost/type_traits/is_void.hpp"
+#include "../boost/mpl/assert.hpp"
+#include "../boost/mpl/bool.hpp"
+#include "../boost/detail/workaround.hpp"
+#include "../boost/detail/iterator.hpp"
 
-# include <boost/concept/usage.hpp>
-# include <boost/concept/detail/concept_def.hpp>
+#include "../boost/concept/usage.hpp"
+#include "../boost/concept/detail/concept_def.hpp"
 
 #if (defined _MSC_VER)
 # pragma warning( push )
@@ -1077,7 +1077,7 @@ namespace boost
 # pragma warning( pop )
 #endif
 
-# include <boost/concept/detail/concept_undef.hpp>
+#include "../boost/concept/detail/concept_undef.hpp"
 
 #endif // BOOST_CONCEPT_CHECKS_HPP
 

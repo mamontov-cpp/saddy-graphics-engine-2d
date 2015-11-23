@@ -5,12 +5,12 @@
 #ifndef PURE_VIRTUAL_DWA2003810_HPP
 # define PURE_VIRTUAL_DWA2003810_HPP
 
-# include <boost/python/def_visitor.hpp>
-# include <boost/python/default_call_policies.hpp>
-# include <boost/mpl/push_front.hpp>
-# include <boost/mpl/pop_front.hpp>
+#include "../../boost/python/def_visitor.hpp"
+#include "../../boost/python/default_call_policies.hpp"
+#include "../../boost/mpl/push_front.hpp"
+#include "../../boost/mpl/pop_front.hpp"
 
-# include <boost/python/detail/nullary_function_adaptor.hpp>
+#include "../../boost/python/detail/nullary_function_adaptor.hpp"
 
 namespace boost { namespace python { 
 

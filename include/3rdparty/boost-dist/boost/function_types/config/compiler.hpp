@@ -9,8 +9,8 @@
 #ifndef BOOST_FT_CONFIG_COMPILER_HPP_INCLUDED
 #define BOOST_FT_CONFIG_COMPILER_HPP_INCLUDED
 
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/detail/workaround.hpp"
 
 #if defined(BOOST_MSVC)
 

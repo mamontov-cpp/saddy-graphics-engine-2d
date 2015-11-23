@@ -8,5 +8,5 @@
 =============================================================================*/
 #ifndef BOOST_SPIRIT_INCLUDE_CLASSIC_NUMERICS
 #define BOOST_SPIRIT_INCLUDE_CLASSIC_NUMERICS
-#include <boost/spirit/home/classic/core/primitives/numerics.hpp>
+#include "../../../boost/spirit/home/classic/core/primitives/numerics.hpp"
 #endif

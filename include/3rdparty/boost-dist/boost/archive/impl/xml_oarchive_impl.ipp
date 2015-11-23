@@ -12,19 +12,19 @@
 #include <string>
 
 #include <cstring> // strlen
-#include <boost/config.hpp> // msvc 6.0 needs this to suppress warnings
+#include "../../../boost/config.hpp" // msvc 6.0 needs this to suppress warnings
 #if defined(BOOST_NO_STDC_NAMESPACE)
 namespace std{ 
     using ::strlen; 
 } // namespace std
 #endif
 
-#include <boost/archive/iterators/xml_escape.hpp>
-#include <boost/archive/iterators/ostream_iterator.hpp>
+#include "../../../boost/archive/iterators/xml_escape.hpp"
+#include "../../../boost/archive/iterators/ostream_iterator.hpp"
 
 #ifndef BOOST_NO_CWCHAR
-#include <boost/archive/wcslen.hpp>
-#include <boost/archive/iterators/mb_from_wchar.hpp>
+#include "../../../boost/archive/wcslen.hpp"
+#include "../../../boost/archive/iterators/mb_from_wchar.hpp"
 #endif
 
 namespace boost {

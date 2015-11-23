@@ -12,11 +12,11 @@
 #ifndef BOOST_LAMBDA_LAMBDA_TRAITS_HPP
 #define BOOST_LAMBDA_LAMBDA_TRAITS_HPP
 
-#include "boost/type_traits/transform_traits.hpp"
-#include "boost/type_traits/cv_traits.hpp"
-#include "boost/type_traits/function_traits.hpp"
-#include "boost/type_traits/object_traits.hpp"
-#include "boost/tuple/tuple.hpp"
+#include "../../../boost/type_traits/transform_traits.hpp"
+#include "../../../boost/type_traits/cv_traits.hpp"
+#include "../../../boost/type_traits/function_traits.hpp"
+#include "../../../boost/type_traits/object_traits.hpp"
+#include "../../../boost/tuple/tuple.hpp"
 
 namespace boost {
 namespace lambda {

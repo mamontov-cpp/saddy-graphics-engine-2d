@@ -12,9 +12,9 @@
 #define BOOST_COMPRESSED_PAIR_HPP
 
 #ifndef BOOST_CONFIG_HPP
-#include <boost/config.hpp>
+#include "../boost/config.hpp"
 #endif
 
-#include <boost/detail/compressed_pair.hpp>
+#include "../boost/detail/compressed_pair.hpp"
 
 #endif // BOOST_COMPRESSED_PAIR_HPP

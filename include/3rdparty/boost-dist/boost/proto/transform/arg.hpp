@@ -9,12 +9,12 @@
 #ifndef BOOST_PROTO_TRANSFORM_ARG_HPP_EAN_11_01_2007
 #define BOOST_PROTO_TRANSFORM_ARG_HPP_EAN_11_01_2007
 
-#include <boost/mpl/if.hpp>
-#include <boost/proto/proto_fwd.hpp>
-#include <boost/proto/traits.hpp>
-#include <boost/proto/transform/impl.hpp>
-#include <boost/type_traits/is_array.hpp>
-#include <boost/proto/transform/env.hpp>
+#include "../../../boost/mpl/if.hpp"
+#include "../../../boost/proto/proto_fwd.hpp"
+#include "../../../boost/proto/traits.hpp"
+#include "../../../boost/proto/transform/impl.hpp"
+#include "../../../boost/type_traits/is_array.hpp"
+#include "../../../boost/proto/transform/env.hpp"
 
 namespace boost { namespace proto
 {

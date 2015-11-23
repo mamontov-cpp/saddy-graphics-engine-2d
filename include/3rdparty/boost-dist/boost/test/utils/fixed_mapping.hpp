@@ -16,10 +16,10 @@
 #define BOOST_TEST_UTILS_FIXED_MAPPING_HPP
 
 // Boost
-#include <boost/preprocessor/repetition/repeat.hpp>
-#include <boost/preprocessor/arithmetic/add.hpp>
-#include <boost/call_traits.hpp>
-#include <boost/detail/binary_search.hpp>
+#include "../../../boost/preprocessor/repetition/repeat.hpp"
+#include "../../../boost/preprocessor/arithmetic/add.hpp"
+#include "../../../boost/call_traits.hpp"
+#include "../../../boost/detail/binary_search.hpp"
 
 // STL
 #include <vector>
@@ -27,7 +27,7 @@
 #include <algorithm>
 #include <utility>
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -108,7 +108,7 @@ private:
 } // namespace unit_test
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #undef MAX_MAP_SIZE
 #undef CONSTR_DECL_MID

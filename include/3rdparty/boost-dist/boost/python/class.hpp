@@ -5,42 +5,42 @@
 #ifndef CLASS_DWA200216_HPP
 # define CLASS_DWA200216_HPP
 
-# include <boost/python/detail/prefix.hpp>
+#include "../../boost/python/detail/prefix.hpp"
 
-# include <boost/noncopyable.hpp>
+#include "../../boost/noncopyable.hpp"
 
-# include <boost/python/class_fwd.hpp>
-# include <boost/python/object/class.hpp>
+#include "../../boost/python/class_fwd.hpp"
+#include "../../boost/python/object/class.hpp"
 
-# include <boost/python/object.hpp>
-# include <boost/python/type_id.hpp>
-# include <boost/python/data_members.hpp>
-# include <boost/python/make_function.hpp>
-# include <boost/python/signature.hpp>
-# include <boost/python/init.hpp>
-# include <boost/python/args_fwd.hpp>
+#include "../../boost/python/object.hpp"
+#include "../../boost/python/type_id.hpp"
+#include "../../boost/python/data_members.hpp"
+#include "../../boost/python/make_function.hpp"
+#include "../../boost/python/signature.hpp"
+#include "../../boost/python/init.hpp"
+#include "../../boost/python/args_fwd.hpp"
 
-# include <boost/python/object/class_metadata.hpp>
-# include <boost/python/object/pickle_support.hpp>
-# include <boost/python/object/add_to_namespace.hpp>
+#include "../../boost/python/object/class_metadata.hpp"
+#include "../../boost/python/object/pickle_support.hpp"
+#include "../../boost/python/object/add_to_namespace.hpp"
 
-# include <boost/python/detail/overloads_fwd.hpp>
-# include <boost/python/detail/operator_id.hpp>
-# include <boost/python/detail/def_helper.hpp>
-# include <boost/python/detail/force_instantiate.hpp>
-# include <boost/python/detail/unwrap_type_id.hpp>
-# include <boost/python/detail/unwrap_wrapper.hpp>
+#include "../../boost/python/detail/overloads_fwd.hpp"
+#include "../../boost/python/detail/operator_id.hpp"
+#include "../../boost/python/detail/def_helper.hpp"
+#include "../../boost/python/detail/force_instantiate.hpp"
+#include "../../boost/python/detail/unwrap_type_id.hpp"
+#include "../../boost/python/detail/unwrap_wrapper.hpp"
 
-# include <boost/type_traits/is_same.hpp>
-# include <boost/type_traits/is_member_function_pointer.hpp>
-# include <boost/type_traits/is_polymorphic.hpp>
+#include "../../boost/type_traits/is_same.hpp"
+#include "../../boost/type_traits/is_member_function_pointer.hpp"
+#include "../../boost/type_traits/is_polymorphic.hpp"
 
-# include <boost/mpl/size.hpp>
-# include <boost/mpl/for_each.hpp>
-# include <boost/mpl/bool.hpp>
-# include <boost/mpl/not.hpp>
+#include "../../boost/mpl/size.hpp"
+#include "../../boost/mpl/for_each.hpp"
+#include "../../boost/mpl/bool.hpp"
+#include "../../boost/mpl/not.hpp"
 
-# include <boost/detail/workaround.hpp>
+#include "../../boost/detail/workaround.hpp"
 
 # if BOOST_WORKAROUND(__MWERKS__, <= 0x3004)                        \
     /* pro9 reintroduced the bug */                                 \
@@ -52,8 +52,8 @@
 # endif
 
 # ifdef BOOST_PYTHON_NO_MEMBER_POINTER_ORDERING
-#  include <boost/mpl/and.hpp>
-#  include <boost/type_traits/is_member_pointer.hpp>
+#include "../../boost/mpl/and.hpp"
+#include "../../boost/type_traits/is_member_pointer.hpp"
 # endif
 
 namespace boost { namespace python {

@@ -9,17 +9,17 @@
 #ifndef BOOST_PROTO_TRANSFORM_FOLD_HPP_EAN_11_04_2007
 #define BOOST_PROTO_TRANSFORM_FOLD_HPP_EAN_11_04_2007
 
-#include <boost/preprocessor/cat.hpp>
-#include <boost/preprocessor/iteration/iterate.hpp>
-#include <boost/preprocessor/arithmetic/inc.hpp>
-#include <boost/preprocessor/arithmetic/sub.hpp>
-#include <boost/preprocessor/repetition/repeat.hpp>
-#include <boost/fusion/include/fold.hpp>
-#include <boost/fusion/include/reverse_fold.hpp>
-#include <boost/proto/proto_fwd.hpp>
-#include <boost/proto/traits.hpp>
-#include <boost/proto/transform/impl.hpp>
-#include <boost/proto/transform/when.hpp>
+#include "../../../boost/preprocessor/cat.hpp"
+#include "../../../boost/preprocessor/iteration/iterate.hpp"
+#include "../../../boost/preprocessor/arithmetic/inc.hpp"
+#include "../../../boost/preprocessor/arithmetic/sub.hpp"
+#include "../../../boost/preprocessor/repetition/repeat.hpp"
+#include "../../../boost/fusion/include/fold.hpp"
+#include "../../../boost/fusion/include/reverse_fold.hpp"
+#include "../../../boost/proto/proto_fwd.hpp"
+#include "../../../boost/proto/traits.hpp"
+#include "../../../boost/proto/transform/impl.hpp"
+#include "../../../boost/proto/transform/when.hpp"
 
 namespace boost { namespace proto
 {
@@ -76,7 +76,7 @@ namespace boost { namespace proto
         struct reverse_fold_impl
         {};
 
-        #include <boost/proto/transform/detail/fold_impl.hpp>
+        #include "../../../boost/proto/transform/detail/fold_impl.hpp"
 
     } // namespace detail
 

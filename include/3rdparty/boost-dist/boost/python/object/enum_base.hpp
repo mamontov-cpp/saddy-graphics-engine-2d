@@ -5,11 +5,11 @@
 #ifndef ENUM_BASE_DWA200298_HPP
 # define ENUM_BASE_DWA200298_HPP
 
-# include <boost/python/object_core.hpp>
-# include <boost/python/type_id.hpp>
-# include <boost/python/converter/to_python_function_type.hpp>
-# include <boost/python/converter/convertible_function.hpp>
-# include <boost/python/converter/constructor_function.hpp>
+#include "../../../boost/python/object_core.hpp"
+#include "../../../boost/python/type_id.hpp"
+#include "../../../boost/python/converter/to_python_function_type.hpp"
+#include "../../../boost/python/converter/convertible_function.hpp"
+#include "../../../boost/python/converter/constructor_function.hpp"
 
 namespace boost { namespace python { namespace objects { 
 

@@ -13,22 +13,22 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp> /* keep it first to prevent nasty warns in MSVC */
+#include "../../../boost/config.hpp" /* keep it first to prevent nasty warns in MSVC */
 #include <algorithm>
-#include <boost/multi_index/detail/auto_space.hpp>
-#include <boost/multi_index/detail/hash_index_node.hpp>
-#include <boost/noncopyable.hpp>
-#include <boost/preprocessor/repetition/repeat.hpp>
-#include <boost/preprocessor/seq/elem.hpp>
-#include <boost/preprocessor/seq/enum.hpp>
-#include <boost/preprocessor/seq/size.hpp>
+#include "../../../boost/multi_index/detail/auto_space.hpp"
+#include "../../../boost/multi_index/detail/hash_index_node.hpp"
+#include "../../../boost/noncopyable.hpp"
+#include "../../../boost/preprocessor/repetition/repeat.hpp"
+#include "../../../boost/preprocessor/seq/elem.hpp"
+#include "../../../boost/preprocessor/seq/enum.hpp"
+#include "../../../boost/preprocessor/seq/size.hpp"
 #include <cstddef>
 #include <limits.h>
 
 #if !defined(BOOST_MULTI_INDEX_DISABLE_SERIALIZATION)
-#include <boost/archive/archive_exception.hpp>
-#include <boost/serialization/access.hpp>
-#include <boost/throw_exception.hpp> 
+#include "../../../boost/archive/archive_exception.hpp"
+#include "../../../boost/serialization/access.hpp"
+#include "../../../boost/throw_exception.hpp" 
 #endif
 
 namespace boost{

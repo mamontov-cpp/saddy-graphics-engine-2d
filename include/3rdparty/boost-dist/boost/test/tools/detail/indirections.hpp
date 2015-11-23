@@ -16,11 +16,11 @@
 #define BOOST_TEST_TOOLS_DETAIL_INDIRECTIONS_HPP_112812GER
 
 // Boost.Test
-#include <boost/test/tools/detail/fwd.hpp>
+#include "../../../../boost/test/tools/detail/fwd.hpp"
 
-#include <boost/test/tools/assertion_result.hpp>
+#include "../../../../boost/test/tools/assertion_result.hpp"
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -89,6 +89,6 @@ operator<<( assertion_type const& at, T const& ) { return at; }
 } // namespace test_tools
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_TOOLS_DETAIL_INDIRECTIONS_HPP_112812GER

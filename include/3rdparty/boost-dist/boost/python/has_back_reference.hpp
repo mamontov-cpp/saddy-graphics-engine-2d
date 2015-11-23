@@ -5,8 +5,8 @@
 #ifndef HAS_BACK_REFERENCE_DWA2002323_HPP
 # define HAS_BACK_REFERENCE_DWA2002323_HPP
 
-# include <boost/python/detail/prefix.hpp>
-# include <boost/mpl/bool.hpp>
+#include "../../boost/python/detail/prefix.hpp"
+#include "../../boost/mpl/bool.hpp"
 
 namespace boost { namespace python { 
 

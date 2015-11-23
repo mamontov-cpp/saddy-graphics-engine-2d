@@ -6,20 +6,20 @@
 #ifndef OVERRIDE_DWA2004721_HPP
 # define OVERRIDE_DWA2004721_HPP
 
-# include <boost/python/detail/prefix.hpp>
+#include "../../boost/python/detail/prefix.hpp"
 
-# include <boost/python/converter/return_from_python.hpp>
+#include "../../boost/python/converter/return_from_python.hpp"
 
-# include <boost/python/extract.hpp>
-# include <boost/python/handle.hpp>
+#include "../../boost/python/extract.hpp"
+#include "../../boost/python/handle.hpp"
 
-#  include <boost/preprocessor/iterate.hpp>
-#  include <boost/preprocessor/repeat.hpp>
-#  include <boost/preprocessor/debug/line.hpp>
-#  include <boost/preprocessor/repetition/enum_params.hpp>
-#  include <boost/preprocessor/repetition/enum_binary_params.hpp>
+#include "../../boost/preprocessor/iterate.hpp"
+#include "../../boost/preprocessor/repeat.hpp"
+#include "../../boost/preprocessor/debug/line.hpp"
+#include "../../boost/preprocessor/repetition/enum_params.hpp"
+#include "../../boost/preprocessor/repetition/enum_binary_params.hpp"
 
-#  include <boost/type.hpp>
+#include "../../boost/type.hpp"
 
 namespace boost { namespace python {
 

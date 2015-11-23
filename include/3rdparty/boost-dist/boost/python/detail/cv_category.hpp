@@ -4,7 +4,7 @@
 // http://www.boost.org/LICENSE_1_0.txt)
 #ifndef CV_CATEGORY_DWA200222_HPP
 # define CV_CATEGORY_DWA200222_HPP
-# include <boost/type_traits/cv_traits.hpp>
+#include "../../../boost/type_traits/cv_traits.hpp"
 
 namespace boost { namespace python { namespace detail { 
 

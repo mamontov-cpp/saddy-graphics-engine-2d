@@ -17,9 +17,9 @@
 #ifndef BOOST_TIMER_HPP
 #define BOOST_TIMER_HPP
 
-#include <boost/config.hpp>
+#include "../boost/config.hpp"
 #include <ctime>
-#include <boost/limits.hpp>
+#include "../boost/limits.hpp"
 
 # ifdef BOOST_NO_STDC_NAMESPACE
     namespace std { using ::clock_t; using ::clock; }

@@ -12,16 +12,16 @@
 #ifndef BOOST_MPI_NONBLOCKING_HPP
 #define BOOST_MPI_NONBLOCKING_HPP
 
-#include <boost/mpi/config.hpp>
+#include "../../boost/mpi/config.hpp"
 #include <vector>
 #include <iterator> // for std::iterator_traits
-#include <boost/optional.hpp>
+#include "../../boost/optional.hpp"
 #include <utility> // for std::pair
 #include <algorithm> // for iter_swap, reverse
-#include <boost/static_assert.hpp>
-#include <boost/mpi/request.hpp>
-#include <boost/mpi/status.hpp>
-#include <boost/mpi/exception.hpp>
+#include "../../boost/static_assert.hpp"
+#include "../../boost/mpi/request.hpp"
+#include "../../boost/mpi/status.hpp"
+#include "../../boost/mpi/exception.hpp"
 
 namespace boost { namespace mpi {
 

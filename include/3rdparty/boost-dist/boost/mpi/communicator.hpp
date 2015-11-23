@@ -13,30 +13,30 @@
 #ifndef BOOST_MPI_COMMUNICATOR_HPP
 #define BOOST_MPI_COMMUNICATOR_HPP
 
-#include <boost/assert.hpp>
-#include <boost/mpi/config.hpp>
-#include <boost/mpi/exception.hpp>
-#include <boost/optional.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/mpi/datatype.hpp>
-#include <boost/mpi/nonblocking.hpp>
+#include "../../boost/assert.hpp"
+#include "../../boost/mpi/config.hpp"
+#include "../../boost/mpi/exception.hpp"
+#include "../../boost/optional.hpp"
+#include "../../boost/shared_ptr.hpp"
+#include "../../boost/mpi/datatype.hpp"
+#include "../../boost/mpi/nonblocking.hpp"
 #include <utility>
 #include <iterator>
 #include <stdexcept> // for std::range_error
 
 // For (de-)serializing sends and receives
-#include <boost/mpi/packed_oarchive.hpp>
-#include <boost/mpi/packed_iarchive.hpp>
+#include "../../boost/mpi/packed_oarchive.hpp"
+#include "../../boost/mpi/packed_iarchive.hpp"
 
 // For (de-)serializing skeletons and content
-#include <boost/mpi/skeleton_and_content_fwd.hpp>
+#include "../../boost/mpi/skeleton_and_content_fwd.hpp"
 
 // For (de-)serializing arrays
-#include <boost/serialization/array.hpp>
+#include "../../boost/serialization/array.hpp"
 
-#include <boost/mpi/detail/point_to_point.hpp>
-#include <boost/mpi/status.hpp>
-#include <boost/mpi/request.hpp>
+#include "../../boost/mpi/detail/point_to_point.hpp"
+#include "../../boost/mpi/status.hpp"
+#include "../../boost/mpi/request.hpp"
 
 #ifdef BOOST_MSVC
 #  pragma warning(push)
@@ -1782,7 +1782,7 @@ communicator::irecv<content>(int source, int tag,
 // If the user has already included skeleton_and_content.hpp, include
 // the code to send/receive skeletons and content.
 #ifdef BOOST_MPI_SKELETON_AND_CONTENT_HPP
-#  include <boost/mpi/detail/communicator_sc.hpp>
+#include "../../boost/mpi/detail/communicator_sc.hpp"
 #endif
 
 #ifdef BOOST_MSVC

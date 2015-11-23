@@ -18,14 +18,14 @@
 #ifndef BOOST_LEXICAL_CAST_BAD_LEXICAL_CAST_HPP
 #define BOOST_LEXICAL_CAST_BAD_LEXICAL_CAST_HPP
 
-#include <boost/config.hpp>
+#include "../../boost/config.hpp"
 #ifdef BOOST_HAS_PRAGMA_ONCE
 #   pragma once
 #endif
 
 #include <typeinfo>
 #include <exception>
-#include <boost/throw_exception.hpp>
+#include "../../boost/throw_exception.hpp"
 
 namespace boost
 {

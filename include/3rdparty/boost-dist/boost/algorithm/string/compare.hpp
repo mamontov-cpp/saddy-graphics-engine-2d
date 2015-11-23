@@ -11,7 +11,7 @@
 #ifndef BOOST_STRING_COMPARE_HPP
 #define BOOST_STRING_COMPARE_HPP
 
-#include <boost/algorithm/string/config.hpp>
+#include "../../../boost/algorithm/string/config.hpp"
 #include <locale>
 
 /*! \file

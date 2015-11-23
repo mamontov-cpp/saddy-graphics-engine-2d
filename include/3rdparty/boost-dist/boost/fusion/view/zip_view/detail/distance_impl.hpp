@@ -8,16 +8,16 @@
 #if !defined(FUSION_DISTANCE_IMPL_20060124_2033)
 #define FUSION_DISTANCE_IMPL_20060124_2033
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/placeholders.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/fusion/iterator/distance.hpp>
-#include <boost/fusion/support/category_of.hpp>
-#include <boost/fusion/algorithm/query/find_if.hpp>
-#include <boost/fusion/sequence/intrinsic/end.hpp>
-#include <boost/fusion/sequence/intrinsic/value_at.hpp>
-#include <boost/type_traits/is_same.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/mpl/eval_if.hpp"
+#include "../../../../../boost/mpl/placeholders.hpp"
+#include "../../../../../boost/mpl/assert.hpp"
+#include "../../../../../boost/fusion/iterator/distance.hpp"
+#include "../../../../../boost/fusion/support/category_of.hpp"
+#include "../../../../../boost/fusion/algorithm/query/find_if.hpp"
+#include "../../../../../boost/fusion/sequence/intrinsic/end.hpp"
+#include "../../../../../boost/fusion/sequence/intrinsic/value_at.hpp"
+#include "../../../../../boost/type_traits/is_same.hpp"
 
 namespace boost { namespace fusion {
 

@@ -12,8 +12,8 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 #include <bitset>
-#include <boost/mpl/bool.hpp>
-#include <boost/xpressive/detail/utility/chset/range_run.ipp>
+#include "../../../../../boost/mpl/bool.hpp"
+#include "../../../../../boost/xpressive/detail/utility/chset/range_run.ipp"
 
 namespace boost { namespace xpressive { namespace detail
 {

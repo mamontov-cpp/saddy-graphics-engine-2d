@@ -71,7 +71,7 @@
 
 // boilerplate code:
 #define BOOST_HAS_UNISTD_H
-#include <boost/config/posix_features.hpp>
+#include "../../../boost/config/posix_features.hpp"
 #ifdef __USE_GNU
 #define BOOST_HAS_PTHREAD_YIELD
 #endif

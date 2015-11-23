@@ -9,10 +9,10 @@
 #ifndef BOOST_SMART_PTR_DETAIL_ARRAY_ALLOCATOR_HPP
 #define BOOST_SMART_PTR_DETAIL_ARRAY_ALLOCATOR_HPP
 
-#include <boost/align/align.hpp>
-#include <boost/smart_ptr/detail/array_traits.hpp>
-#include <boost/smart_ptr/detail/array_utility.hpp>
-#include <boost/type_traits/alignment_of.hpp>
+#include "../../../boost/align/align.hpp"
+#include "../../../boost/smart_ptr/detail/array_traits.hpp"
+#include "../../../boost/smart_ptr/detail/array_utility.hpp"
+#include "../../../boost/type_traits/alignment_of.hpp"
 
 namespace boost {
     namespace detail {

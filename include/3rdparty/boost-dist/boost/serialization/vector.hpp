@@ -19,23 +19,23 @@
 
 #include <vector>
 
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/detail/workaround.hpp"
 
-#include <boost/archive/detail/basic_iarchive.hpp>
-#include <boost/serialization/access.hpp>
-#include <boost/serialization/nvp.hpp>
-#include <boost/serialization/collection_size_type.hpp>
-#include <boost/serialization/item_version_type.hpp>
+#include "../../boost/archive/detail/basic_iarchive.hpp"
+#include "../../boost/serialization/access.hpp"
+#include "../../boost/serialization/nvp.hpp"
+#include "../../boost/serialization/collection_size_type.hpp"
+#include "../../boost/serialization/item_version_type.hpp"
 
-#include <boost/serialization/collections_save_imp.hpp>
-#include <boost/serialization/collections_load_imp.hpp>
-#include <boost/serialization/split_free.hpp>
-#include <boost/serialization/array.hpp>
-#include <boost/serialization/detail/get_data.hpp>
-#include <boost/serialization/detail/stack_constructor.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/if.hpp>
+#include "../../boost/serialization/collections_save_imp.hpp"
+#include "../../boost/serialization/collections_load_imp.hpp"
+#include "../../boost/serialization/split_free.hpp"
+#include "../../boost/serialization/array.hpp"
+#include "../../boost/serialization/detail/get_data.hpp"
+#include "../../boost/serialization/detail/stack_constructor.hpp"
+#include "../../boost/mpl/bool.hpp"
+#include "../../boost/mpl/if.hpp"
 
 // default is being compatible with version 1.34.1 files, not 1.35 files
 #ifndef BOOST_SERIALIZATION_VECTOR_VERSIONED
@@ -219,7 +219,7 @@ inline void serialize(
 } // serialization
 } // namespace boost
 
-#include <boost/serialization/collection_traits.hpp>
+#include "../../boost/serialization/collection_traits.hpp"
 
 BOOST_SERIALIZATION_COLLECTION_TRAITS(std::vector)
 #undef STD

@@ -16,24 +16,24 @@
 #endif
 
 #include <map>
-#include <boost/config.hpp>
-#include <boost/assert.hpp>
-#include <boost/next_prior.hpp>
-#include <boost/range/begin.hpp>
-#include <boost/range/end.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/throw_exception.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/type_traits/is_pointer.hpp>
-#include <boost/utility/enable_if.hpp>
-#include <boost/iterator/iterator_traits.hpp>
-#include <boost/xpressive/basic_regex.hpp>
-#include <boost/xpressive/detail/dynamic/parser.hpp>
-#include <boost/xpressive/detail/dynamic/parse_charset.hpp>
-#include <boost/xpressive/detail/dynamic/parser_enum.hpp>
-#include <boost/xpressive/detail/dynamic/parser_traits.hpp>
-#include <boost/xpressive/detail/core/linker.hpp>
-#include <boost/xpressive/detail/core/optimize.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/assert.hpp"
+#include "../../boost/next_prior.hpp"
+#include "../../boost/range/begin.hpp"
+#include "../../boost/range/end.hpp"
+#include "../../boost/mpl/assert.hpp"
+#include "../../boost/throw_exception.hpp"
+#include "../../boost/type_traits/is_same.hpp"
+#include "../../boost/type_traits/is_pointer.hpp"
+#include "../../boost/utility/enable_if.hpp"
+#include "../../boost/iterator/iterator_traits.hpp"
+#include "../../boost/xpressive/basic_regex.hpp"
+#include "../../boost/xpressive/detail/dynamic/parser.hpp"
+#include "../../boost/xpressive/detail/dynamic/parse_charset.hpp"
+#include "../../boost/xpressive/detail/dynamic/parser_enum.hpp"
+#include "../../boost/xpressive/detail/dynamic/parser_traits.hpp"
+#include "../../boost/xpressive/detail/core/linker.hpp"
+#include "../../boost/xpressive/detail/core/optimize.hpp"
 
 namespace boost { namespace xpressive
 {

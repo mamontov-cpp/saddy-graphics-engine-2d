@@ -16,18 +16,18 @@
 
 #include <string>
 #include <iterator>
-#include <boost/mpl/or.hpp>
-#include <boost/range/end.hpp>
-#include <boost/range/begin.hpp>
-#include <boost/mpl/identity.hpp>
-#include <boost/utility/enable_if.hpp>
-#include <boost/type_traits/add_const.hpp>
-#include <boost/type_traits/is_pointer.hpp>
-#include <boost/type_traits/remove_const.hpp>
-#include <boost/xpressive/match_results.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/detail/core/state.hpp>
-#include <boost/xpressive/detail/utility/save_restore.hpp>
+#include "../../boost/mpl/or.hpp"
+#include "../../boost/range/end.hpp"
+#include "../../boost/range/begin.hpp"
+#include "../../boost/mpl/identity.hpp"
+#include "../../boost/utility/enable_if.hpp"
+#include "../../boost/type_traits/add_const.hpp"
+#include "../../boost/type_traits/is_pointer.hpp"
+#include "../../boost/type_traits/remove_const.hpp"
+#include "../../boost/xpressive/match_results.hpp"
+#include "../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../boost/xpressive/detail/core/state.hpp"
+#include "../../boost/xpressive/detail/utility/save_restore.hpp"
 
 /// INTERNAL ONLY
 ///

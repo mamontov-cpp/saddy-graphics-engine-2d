@@ -21,18 +21,18 @@
 #ifndef BOOST_MPI_GRAPH_COMMUNICATOR_HPP
 #define BOOST_MPI_GRAPH_COMMUNICATOR_HPP
 
-#include <boost/mpi/communicator.hpp>
+#include "../../boost/mpi/communicator.hpp"
 #include <vector>
 #include <utility>
 
 // Headers required to implement graph topologies
-#include <boost/graph/graph_traits.hpp>
-#include <boost/graph/properties.hpp>
-#include <boost/property_map/property_map.hpp>
-#include <boost/iterator/counting_iterator.hpp>
-#include <boost/graph/iteration_macros.hpp>
-#include <boost/shared_array.hpp>
-#include <boost/assert.hpp>
+#include "../../boost/graph/graph_traits.hpp"
+#include "../../boost/graph/properties.hpp"
+#include "../../boost/property_map/property_map.hpp"
+#include "../../boost/iterator/counting_iterator.hpp"
+#include "../../boost/graph/iteration_macros.hpp"
+#include "../../boost/shared_array.hpp"
+#include "../../boost/assert.hpp"
 
 namespace boost { namespace mpi {
 

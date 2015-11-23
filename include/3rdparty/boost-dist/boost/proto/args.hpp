@@ -10,20 +10,20 @@
 #ifndef BOOST_PROTO_ARGS_HPP_EAN_04_01_2005
 #define BOOST_PROTO_ARGS_HPP_EAN_04_01_2005
 
-#include <boost/preprocessor/cat.hpp>
-#include <boost/preprocessor/arithmetic/dec.hpp>
-#include <boost/preprocessor/iteration/iterate.hpp>
-#include <boost/preprocessor/repetition/enum_params.hpp>
-#include <boost/preprocessor/repetition/repeat.hpp>
-#include <boost/preprocessor/repetition/repeat_from_to.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/void.hpp>
-#include <boost/proto/proto_fwd.hpp>
-#include <boost/proto/detail/is_noncopyable.hpp>
+#include "../../boost/preprocessor/cat.hpp"
+#include "../../boost/preprocessor/arithmetic/dec.hpp"
+#include "../../boost/preprocessor/iteration/iterate.hpp"
+#include "../../boost/preprocessor/repetition/enum_params.hpp"
+#include "../../boost/preprocessor/repetition/repeat.hpp"
+#include "../../boost/preprocessor/repetition/repeat_from_to.hpp"
+#include "../../boost/mpl/if.hpp"
+#include "../../boost/mpl/void.hpp"
+#include "../../boost/proto/proto_fwd.hpp"
+#include "../../boost/proto/detail/is_noncopyable.hpp"
 
-#include <boost/mpl/or.hpp>
-#include <boost/type_traits/is_function.hpp>
-#include <boost/type_traits/is_abstract.hpp>
+#include "../../boost/mpl/or.hpp"
+#include "../../boost/type_traits/is_function.hpp"
+#include "../../boost/type_traits/is_abstract.hpp"
 
 namespace boost { namespace proto
 {
@@ -123,7 +123,7 @@ namespace boost { namespace proto
     namespace argsns_
     {
         // This is where term and all the different listN templates are defined
-        #include <boost/proto/detail/args.hpp>
+        #include "../../boost/proto/detail/args.hpp"
     }
 
 }}

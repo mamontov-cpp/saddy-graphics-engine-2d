@@ -7,13 +7,13 @@
 #ifndef BOOST_UNORDERED_DETAIL_EQUIVALENT_HPP_INCLUDED
 #define BOOST_UNORDERED_DETAIL_EQUIVALENT_HPP_INCLUDED
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 #if defined(BOOST_HAS_PRAGMA_ONCE)
 #pragma once
 #endif
 
-#include <boost/unordered/detail/table.hpp>
-#include <boost/unordered/detail/extract_key.hpp>
+#include "../../../boost/unordered/detail/table.hpp"
+#include "../../../boost/unordered/detail/extract_key.hpp"
 
 namespace boost { namespace unordered { namespace detail {
 

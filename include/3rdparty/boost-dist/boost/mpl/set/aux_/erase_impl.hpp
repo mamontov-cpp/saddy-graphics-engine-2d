@@ -15,9 +15,9 @@
 // $Date$
 // $Revision$
 
-#include <boost/mpl/erase_fwd.hpp>
-#include <boost/mpl/set/aux_/erase_key_impl.hpp>
-#include <boost/mpl/set/aux_/tag.hpp>
+#include "../../../../boost/mpl/erase_fwd.hpp"
+#include "../../../../boost/mpl/set/aux_/erase_key_impl.hpp"
+#include "../../../../boost/mpl/set/aux_/tag.hpp"
 
 namespace boost { namespace mpl {
 

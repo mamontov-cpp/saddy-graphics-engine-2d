@@ -7,13 +7,13 @@
 #if !defined(FUSION_ADVANCE_09172005_1149)
 #define FUSION_ADVANCE_09172005_1149
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/mpl/int.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/identity.hpp>
-#include <boost/fusion/iterator/next.hpp>
-#include <boost/fusion/iterator/prior.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/mpl/int.hpp"
+#include "../../../../boost/mpl/if.hpp"
+#include "../../../../boost/mpl/eval_if.hpp"
+#include "../../../../boost/mpl/identity.hpp"
+#include "../../../../boost/fusion/iterator/next.hpp"
+#include "../../../../boost/fusion/iterator/prior.hpp"
 
 namespace boost { namespace fusion { namespace advance_detail
 {

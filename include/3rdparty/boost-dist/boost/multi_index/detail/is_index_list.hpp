@@ -13,9 +13,9 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp> /* keep it first to prevent nasty warns in MSVC */
-#include <boost/mpl/empty.hpp>
-#include <boost/mpl/is_sequence.hpp>
+#include "../../../boost/config.hpp" /* keep it first to prevent nasty warns in MSVC */
+#include "../../../boost/mpl/empty.hpp"
+#include "../../../boost/mpl/is_sequence.hpp"
 
 namespace boost{
 

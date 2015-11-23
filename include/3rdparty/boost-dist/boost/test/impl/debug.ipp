@@ -16,12 +16,12 @@
 #define BOOST_TEST_DEBUG_API_IPP_112006GER
 
 // Boost.Test
-#include <boost/test/detail/config.hpp>
-#include <boost/test/detail/workaround.hpp>
-#include <boost/test/detail/global_typedef.hpp>
+#include "../../../boost/test/detail/config.hpp"
+#include "../../../boost/test/detail/workaround.hpp"
+#include "../../../boost/test/detail/global_typedef.hpp"
 
-#include <boost/test/debug.hpp>
-#include <boost/test/debug_config.hpp>
+#include "../../../boost/test/debug.hpp"
+#include "../../../boost/test/debug_config.hpp"
 
 // Implementation on Windows
 #if defined(_WIN32) && !defined(UNDER_CE) && !defined(BOOST_DISABLE_WIN32) // ******* WIN32
@@ -49,8 +49,8 @@ namespace std { using ::memset; using ::sprintf; }
 #  define BOOST_UNIX_BASED_DEBUG
 
 // Boost.Test
-#include <boost/test/utils/class_properties.hpp>
-#include <boost/test/utils/algorithm.hpp>
+#include "../../../boost/test/utils/class_properties.hpp"
+#include "../../../boost/test/utils/algorithm.hpp"
 
 // STL
 #include <cstring>  // std::memcpy
@@ -104,7 +104,7 @@ namespace std { using ::memset; using ::sprintf; }
 
 #endif
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -971,7 +971,7 @@ break_memory_alloc( long mem_alloc_order_num )
 } // namespace debug
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_DEBUG_API_IPP_112006GER
 

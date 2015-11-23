@@ -13,11 +13,11 @@
 #ifndef BOOST_MPI_EXCEPTION_HPP
 #define BOOST_MPI_EXCEPTION_HPP
 
-#include <boost/mpi/config.hpp>
+#include "../../boost/mpi/config.hpp"
 #include <exception>
 #include <string>
-#include <boost/config.hpp>
-#include <boost/throw_exception.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/throw_exception.hpp"
 
 namespace boost { namespace mpi {
 

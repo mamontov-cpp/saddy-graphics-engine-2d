@@ -10,17 +10,17 @@
 
 #include <cstddef> // size_t, NULL
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 #if defined(BOOST_NO_STDC_NAMESPACE)
 namespace std{ 
     using ::size_t; 
 } // namespace std
 #endif
 
-#include <boost/detail/workaround.hpp>  // fixup for RogueWave
+#include "../../../boost/detail/workaround.hpp"  // fixup for RogueWave
 
 #ifndef BOOST_NO_STD_WSTREAMBUF
-#include <boost/archive/basic_text_iprimitive.hpp>
+#include "../../../boost/archive/basic_text_iprimitive.hpp"
 
 namespace boost { 
 namespace archive {

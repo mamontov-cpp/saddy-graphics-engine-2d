@@ -9,15 +9,15 @@
 #ifndef BOOST_FT_PARAMETER_TYPES_HPP_INCLUDED
 #define BOOST_FT_PARAMETER_TYPES_HPP_INCLUDED
 
-#include <boost/blank.hpp>
-#include <boost/mpl/if.hpp>
+#include "../../boost/blank.hpp"
+#include "../../boost/mpl/if.hpp"
 
-#include <boost/mpl/aux_/lambda_support.hpp>
+#include "../../boost/mpl/aux_/lambda_support.hpp"
 
-#include <boost/mpl/pop_front.hpp>
+#include "../../boost/mpl/pop_front.hpp"
 
-#include <boost/function_types/is_callable_builtin.hpp>
-#include <boost/function_types/components.hpp>
+#include "../../boost/function_types/is_callable_builtin.hpp"
+#include "../../boost/function_types/components.hpp"
 
 namespace boost 
 { 

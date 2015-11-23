@@ -16,14 +16,14 @@
 #ifndef BOOST_RANGE_CONCEPTS_HPP
 #define BOOST_RANGE_CONCEPTS_HPP
 
-#include <boost/concept_check.hpp>
-#include <boost/iterator/iterator_concepts.hpp>
-#include <boost/range/begin.hpp>
-#include <boost/range/end.hpp>
-#include <boost/range/iterator.hpp>
-#include <boost/range/value_type.hpp>
-#include <boost/range/detail/misc_concept.hpp>
-#include <boost/type_traits/remove_reference.hpp>
+#include "../../boost/concept_check.hpp"
+#include "../../boost/iterator/iterator_concepts.hpp"
+#include "../../boost/range/begin.hpp"
+#include "../../boost/range/end.hpp"
+#include "../../boost/range/iterator.hpp"
+#include "../../boost/range/value_type.hpp"
+#include "../../boost/range/detail/misc_concept.hpp"
+#include "../../boost/type_traits/remove_reference.hpp"
 
 /*!
  * \file

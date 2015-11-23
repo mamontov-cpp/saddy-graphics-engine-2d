@@ -8,4 +8,4 @@
 //           Andrew Lumsdaine
 
 // File moved
-#include <boost/property_map/parallel/process_group.hpp>
+#include "../../../boost/property_map/parallel/process_group.hpp"

@@ -25,65 +25,65 @@
 #include <new>     // for placement new
 #include <cstddef> // size_t, NULL
 
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/detail/workaround.hpp"
 #if defined(BOOST_NO_STDC_NAMESPACE)
 namespace std{ 
     using ::size_t; 
 } // namespace std
 #endif
 
-#include <boost/static_assert.hpp>
+#include "../../../boost/static_assert.hpp"
 
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/identity.hpp>
-#include <boost/mpl/greater_equal.hpp>
-#include <boost/mpl/equal_to.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/core/no_exceptions_support.hpp>
+#include "../../../boost/mpl/eval_if.hpp"
+#include "../../../boost/mpl/identity.hpp"
+#include "../../../boost/mpl/greater_equal.hpp"
+#include "../../../boost/mpl/equal_to.hpp"
+#include "../../../boost/mpl/bool.hpp"
+#include "../../../boost/core/no_exceptions_support.hpp"
 
 #ifndef BOOST_SERIALIZATION_DEFAULT_TYPE_INFO   
-    #include <boost/serialization/extended_type_info_typeid.hpp>   
+    #include "../../../boost/serialization/extended_type_info_typeid.hpp"   
 #endif
-#include <boost/serialization/throw_exception.hpp>
-#include <boost/serialization/smart_cast.hpp>
-#include <boost/serialization/static_warning.hpp>
+#include "../../../boost/serialization/throw_exception.hpp"
+#include "../../../boost/serialization/smart_cast.hpp"
+#include "../../../boost/serialization/static_warning.hpp"
 
-#include <boost/type_traits/is_pointer.hpp>
-#include <boost/type_traits/is_enum.hpp>
-#include <boost/type_traits/is_const.hpp>
-#include <boost/type_traits/remove_const.hpp>
-#include <boost/type_traits/remove_extent.hpp>
-#include <boost/type_traits/is_polymorphic.hpp>
+#include "../../../boost/type_traits/is_pointer.hpp"
+#include "../../../boost/type_traits/is_enum.hpp"
+#include "../../../boost/type_traits/is_const.hpp"
+#include "../../../boost/type_traits/remove_const.hpp"
+#include "../../../boost/type_traits/remove_extent.hpp"
+#include "../../../boost/type_traits/is_polymorphic.hpp"
 
-#include <boost/serialization/assume_abstract.hpp>
+#include "../../../boost/serialization/assume_abstract.hpp"
 #define DONT_USE_HAS_NEW_OPERATOR (                    \
        BOOST_WORKAROUND(__IBMCPP__, < 1210)            \
     || defined(__SUNPRO_CC) && (__SUNPRO_CC < 0x590)   \
 )
 #if ! DONT_USE_HAS_NEW_OPERATOR
-#include <boost/type_traits/has_new_operator.hpp>
+#include "../../../boost/type_traits/has_new_operator.hpp"
 #endif
 
-#include <boost/serialization/serialization.hpp>
-#include <boost/serialization/version.hpp>
-#include <boost/serialization/level.hpp>
-#include <boost/serialization/tracking.hpp>
-#include <boost/serialization/type_info_implementation.hpp>
-#include <boost/serialization/nvp.hpp>
-#include <boost/serialization/void_cast.hpp>
-#include <boost/serialization/array.hpp>
-#include <boost/serialization/collection_size_type.hpp>
-#include <boost/serialization/singleton.hpp>
-#include <boost/serialization/wrapper.hpp>
+#include "../../../boost/serialization/serialization.hpp"
+#include "../../../boost/serialization/version.hpp"
+#include "../../../boost/serialization/level.hpp"
+#include "../../../boost/serialization/tracking.hpp"
+#include "../../../boost/serialization/type_info_implementation.hpp"
+#include "../../../boost/serialization/nvp.hpp"
+#include "../../../boost/serialization/void_cast.hpp"
+#include "../../../boost/serialization/array.hpp"
+#include "../../../boost/serialization/collection_size_type.hpp"
+#include "../../../boost/serialization/singleton.hpp"
+#include "../../../boost/serialization/wrapper.hpp"
 
 // the following is need only for dynamic cast of polymorphic pointers
-#include <boost/archive/archive_exception.hpp>
-#include <boost/archive/detail/basic_iarchive.hpp>
-#include <boost/archive/detail/basic_iserializer.hpp>
-#include <boost/archive/detail/basic_pointer_iserializer.hpp>
-#include <boost/archive/detail/archive_serializer_map.hpp>
-#include <boost/archive/detail/check.hpp>
+#include "../../../boost/archive/archive_exception.hpp"
+#include "../../../boost/archive/detail/basic_iarchive.hpp"
+#include "../../../boost/archive/detail/basic_iserializer.hpp"
+#include "../../../boost/archive/detail/basic_pointer_iserializer.hpp"
+#include "../../../boost/archive/detail/archive_serializer_map.hpp"
+#include "../../../boost/archive/detail/check.hpp"
 
 namespace boost {
 

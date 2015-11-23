@@ -16,11 +16,11 @@
 #define BOOST_TEST_UTILS_RUNTIME_CLA_CHAR_PARAMETER_HPP
 
 // Boost.Runtime.Parameter
-#include <boost/test/utils/runtime/config.hpp>
-#include <boost/test/utils/runtime/validation.hpp>
+#include "../../../../../boost/test/utils/runtime/config.hpp"
+#include "../../../../../boost/test/utils/runtime/validation.hpp"
 
-#include <boost/test/utils/runtime/cla/basic_parameter.hpp>
-#include <boost/test/utils/runtime/cla/id_policy.hpp>
+#include "../../../../../boost/test/utils/runtime/cla/basic_parameter.hpp"
+#include "../../../../../boost/test/utils/runtime/cla/id_policy.hpp"
 
 namespace boost {
 
@@ -93,7 +93,7 @@ char_parameter( char_type name )
 #ifndef BOOST_TEST_UTILS_RUNTIME_PARAM_INLINE
 #   define BOOST_TEST_UTILS_RUNTIME_PARAM_INLINE inline
 #endif
-#   include <boost/test/utils/runtime/cla/char_parameter.ipp>
+#include "../../../../../boost/test/utils/runtime/cla/char_parameter.ipp"
 
 #endif
 

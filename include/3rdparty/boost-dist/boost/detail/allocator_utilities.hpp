@@ -9,10 +9,10 @@
 #ifndef BOOST_DETAIL_ALLOCATOR_UTILITIES_HPP
 #define BOOST_DETAIL_ALLOCATOR_UTILITIES_HPP
 
-#include <boost/config.hpp> /* keep it first to prevent nasty warns in MSVC */
-#include <boost/detail/workaround.hpp>
-#include <boost/mpl/eval_if.hpp>
-#include <boost/type_traits/is_same.hpp>
+#include "../../boost/config.hpp" /* keep it first to prevent nasty warns in MSVC */
+#include "../../boost/detail/workaround.hpp"
+#include "../../boost/mpl/eval_if.hpp"
+#include "../../boost/type_traits/is_same.hpp"
 #include <cstddef>
 #include <memory>
 #include <new>

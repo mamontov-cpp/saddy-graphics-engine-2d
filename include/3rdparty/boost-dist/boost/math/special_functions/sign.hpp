@@ -13,9 +13,9 @@
 #pragma once
 #endif
 
-#include <boost/math/tools/config.hpp>
-#include <boost/math/special_functions/math_fwd.hpp>
-#include <boost/math/special_functions/detail/fp_traits.hpp>
+#include "../../../boost/math/tools/config.hpp"
+#include "../../../boost/math/special_functions/math_fwd.hpp"
+#include "../../../boost/math/special_functions/detail/fp_traits.hpp"
 
 namespace boost{ namespace math{ 
 

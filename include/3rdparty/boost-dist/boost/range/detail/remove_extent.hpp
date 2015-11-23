@@ -12,11 +12,11 @@
 #ifndef BOOST_RANGE_DETAIL_REMOVE_BOUNDS_HPP
 #define BOOST_RANGE_DETAIL_REMOVE_BOUNDS_HPP
 
-#include <boost/config.hpp>  // MSVC, NO_INTRINSIC_WCHAR_T, put size_t in std.
+#include "../../../boost/config.hpp"  // MSVC, NO_INTRINSIC_WCHAR_T, put size_t in std.
 #include <cstddef>
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/identity.hpp>
-#include <boost/type_traits/is_same.hpp>
+#include "../../../boost/mpl/eval_if.hpp"
+#include "../../../boost/mpl/identity.hpp"
+#include "../../../boost/type_traits/is_same.hpp"
 
 namespace boost 
 {

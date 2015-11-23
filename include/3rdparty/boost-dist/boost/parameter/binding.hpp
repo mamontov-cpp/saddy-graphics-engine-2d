@@ -4,12 +4,12 @@
 #ifndef BOOST_PARAMETER_BINDING_DWA200558_HPP
 # define BOOST_PARAMETER_BINDING_DWA200558_HPP
 
-# include <boost/mpl/apply.hpp>
-# include <boost/mpl/assert.hpp>
-# include <boost/mpl/and.hpp>
-# include <boost/parameter/aux_/result_of0.hpp>
-# include <boost/parameter/aux_/void.hpp>
-# include <boost/type_traits/is_same.hpp>
+#include "../../boost/mpl/apply.hpp"
+#include "../../boost/mpl/assert.hpp"
+#include "../../boost/mpl/and.hpp"
+#include "../../boost/parameter/aux_/result_of0.hpp"
+#include "../../boost/parameter/aux_/void.hpp"
+#include "../../boost/type_traits/is_same.hpp"
 
 namespace boost { namespace parameter { 
 

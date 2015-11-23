@@ -16,10 +16,10 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../../boost/config.hpp"
 
-#include <boost/bimap/tags/tagged.hpp>
-#include <boost/mpl/apply.hpp>
+#include "../../../../boost/bimap/tags/tagged.hpp"
+#include "../../../../boost/mpl/apply.hpp"
 
 /** \struct boost::bimaps::tags::support::apply_to_value_type
 \brief Higger order metafunction similar to mpl::apply but for tagged types.

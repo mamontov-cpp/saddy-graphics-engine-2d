@@ -7,18 +7,18 @@
 #if !defined(FUSION_JOINT_VIEW_ITERATOR_07162005_0140)
 #define FUSION_JOINT_VIEW_ITERATOR_07162005_0140
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/support/iterator_base.hpp>
-#include <boost/fusion/iterator/equal_to.hpp>
-#include <boost/fusion/iterator/mpl/convert_iterator.hpp>
-#include <boost/fusion/adapted/mpl/mpl_iterator.hpp>
-#include <boost/fusion/view/joint_view/detail/deref_impl.hpp>
-#include <boost/fusion/view/joint_view/detail/next_impl.hpp>
-#include <boost/fusion/view/joint_view/detail/value_of_impl.hpp>
-#include <boost/fusion/view/joint_view/detail/deref_data_impl.hpp>
-#include <boost/fusion/view/joint_view/detail/value_of_data_impl.hpp>
-#include <boost/fusion/view/joint_view/detail/key_of_impl.hpp>
-#include <boost/static_assert.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/fusion/support/iterator_base.hpp"
+#include "../../../../boost/fusion/iterator/equal_to.hpp"
+#include "../../../../boost/fusion/iterator/mpl/convert_iterator.hpp"
+#include "../../../../boost/fusion/adapted/mpl/mpl_iterator.hpp"
+#include "../../../../boost/fusion/view/joint_view/detail/deref_impl.hpp"
+#include "../../../../boost/fusion/view/joint_view/detail/next_impl.hpp"
+#include "../../../../boost/fusion/view/joint_view/detail/value_of_impl.hpp"
+#include "../../../../boost/fusion/view/joint_view/detail/deref_data_impl.hpp"
+#include "../../../../boost/fusion/view/joint_view/detail/value_of_data_impl.hpp"
+#include "../../../../boost/fusion/view/joint_view/detail/key_of_impl.hpp"
+#include "../../../../boost/static_assert.hpp"
 
 namespace boost { namespace fusion
 {

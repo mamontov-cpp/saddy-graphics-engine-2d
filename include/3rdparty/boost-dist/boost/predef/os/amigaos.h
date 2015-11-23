@@ -8,8 +8,8 @@ http://www.boost.org/LICENSE_1_0.txt)
 #ifndef BOOST_PREDEF_OS_AMIGAOS_H
 #define BOOST_PREDEF_OS_AMIGAOS_H
 
-#include <boost/predef/version_number.h>
-#include <boost/predef/make.h>
+#include "../../../boost/predef/version_number.h"
+#include "../../../boost/predef/make.h"
 
 /*`
 [heading `BOOST_OS_AMIGAOS`]
@@ -35,12 +35,12 @@ http://www.boost.org/LICENSE_1_0.txt)
 
 #if BOOST_OS_AMIGAOS
 #   define BOOST_OS_AMIGAOS_AVAILABLE
-#   include <boost/predef/detail/os_detected.h>
+#include "../../../boost/predef/detail/os_detected.h"
 #endif
 
 #define BOOST_OS_AMIGAOS_NAME "AmigaOS"
 
 #endif
 
-#include <boost/predef/detail/test.h>
+#include "../../../boost/predef/detail/test.h"
 BOOST_PREDEF_DECLARE_TEST(BOOST_OS_AMIGAOS,BOOST_OS_AMIGAOS_NAME)

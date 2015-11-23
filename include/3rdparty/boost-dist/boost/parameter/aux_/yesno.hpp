@@ -6,7 +6,7 @@
 #ifndef YESNO_050328_HPP
 #define YESNO_050328_HPP
 
-#include <boost/mpl/bool.hpp>
+#include "../../../boost/mpl/bool.hpp"
 
 namespace boost { namespace parameter { namespace aux {
 

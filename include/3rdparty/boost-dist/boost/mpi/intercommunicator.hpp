@@ -15,7 +15,7 @@
 #ifndef BOOST_MPI_INTERCOMMUNICATOR_HPP
 #define BOOST_MPI_INTERCOMMUNICATOR_HPP
 
-#include <boost/mpi/communicator.hpp>
+#include "../../boost/mpi/communicator.hpp"
 
 namespace boost { namespace mpi {
 

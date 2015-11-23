@@ -10,29 +10,29 @@
 #define BOOST_PROTO_EXTENDS_HPP_EAN_11_1_2006
 
 #include <cstddef> // for offsetof
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
-#include <boost/preprocessor/facilities/empty.hpp>
-#include <boost/preprocessor/tuple/elem.hpp>
-#include <boost/preprocessor/control/if.hpp>
-#include <boost/preprocessor/arithmetic/inc.hpp>
-#include <boost/preprocessor/arithmetic/dec.hpp>
-#include <boost/preprocessor/iteration/local.hpp>
-#include <boost/preprocessor/repetition/enum_params.hpp>
-#include <boost/preprocessor/repetition/repeat_from_to.hpp>
-#include <boost/preprocessor/repetition/enum_binary_params.hpp>
-#include <boost/preprocessor/repetition/enum_trailing_params.hpp>
-#include <boost/preprocessor/repetition/enum_trailing_binary_params.hpp>
-#include <boost/preprocessor/seq/for_each.hpp>
-#include <boost/utility/addressof.hpp>
-#include <boost/utility/result_of.hpp>
-#include <boost/proto/proto_fwd.hpp>
-#include <boost/proto/traits.hpp>
-#include <boost/proto/expr.hpp>
-#include <boost/proto/args.hpp>
-#include <boost/proto/traits.hpp>
-#include <boost/proto/generate.hpp>
-#include <boost/proto/detail/remove_typename.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/detail/workaround.hpp"
+#include "../../boost/preprocessor/facilities/empty.hpp"
+#include "../../boost/preprocessor/tuple/elem.hpp"
+#include "../../boost/preprocessor/control/if.hpp"
+#include "../../boost/preprocessor/arithmetic/inc.hpp"
+#include "../../boost/preprocessor/arithmetic/dec.hpp"
+#include "../../boost/preprocessor/iteration/local.hpp"
+#include "../../boost/preprocessor/repetition/enum_params.hpp"
+#include "../../boost/preprocessor/repetition/repeat_from_to.hpp"
+#include "../../boost/preprocessor/repetition/enum_binary_params.hpp"
+#include "../../boost/preprocessor/repetition/enum_trailing_params.hpp"
+#include "../../boost/preprocessor/repetition/enum_trailing_binary_params.hpp"
+#include "../../boost/preprocessor/seq/for_each.hpp"
+#include "../../boost/utility/addressof.hpp"
+#include "../../boost/utility/result_of.hpp"
+#include "../../boost/proto/proto_fwd.hpp"
+#include "../../boost/proto/traits.hpp"
+#include "../../boost/proto/expr.hpp"
+#include "../../boost/proto/args.hpp"
+#include "../../boost/proto/traits.hpp"
+#include "../../boost/proto/generate.hpp"
+#include "../../boost/proto/detail/remove_typename.hpp"
 
 #if defined(_MSC_VER)
 # pragma warning(push)
@@ -523,7 +523,7 @@ namespace boost { namespace proto
             // Instead of using BOOST_PROTO_EXTENDS_FUNCTION, which uses
             // nested preprocessor loops, use file iteration here to generate
             // the operator() overloads, which is more efficient.
-            #include <boost/proto/detail/extends_funop_const.hpp>
+            #include "../../boost/proto/detail/extends_funop_const.hpp"
         };
 
         /// \brief extends\<\> class template for adding behaviors to a Proto expression template
@@ -554,7 +554,7 @@ namespace boost { namespace proto
             // Instead of using BOOST_PROTO_EXTENDS_FUNCTION, which uses
             // nested preprocessor loops, use file iteration here to generate
             // the operator() overloads, which is more efficient.
-            #include <boost/proto/detail/extends_funop.hpp>
+            #include "../../boost/proto/detail/extends_funop.hpp"
         };
 
         /// INTERNAL ONLY
@@ -585,7 +585,7 @@ namespace boost { namespace proto
             // nested preprocessor loops, use file iteration here to generate
             // the operator() overloads, which is more efficient.
             #define BOOST_PROTO_NO_WAVE_OUTPUT
-            #include <boost/proto/detail/extends_funop.hpp>
+            #include "../../boost/proto/detail/extends_funop.hpp"
             #undef BOOST_PROTO_NO_WAVE_OUTPUT
 
             BOOST_FORCEINLINE

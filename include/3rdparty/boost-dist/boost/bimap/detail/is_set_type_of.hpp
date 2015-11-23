@@ -16,10 +16,10 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
-#include <boost/type_traits/is_base_of.hpp>
-#include <boost/bimap/detail/concept_tags.hpp>
+#include "../../../boost/type_traits/is_base_of.hpp"
+#include "../../../boost/bimap/detail/concept_tags.hpp"
 
 /** \struct boost::bimaps::detail::is_set_type_of
 

@@ -12,14 +12,14 @@
 #define BOOST_CONTAINER_DETAIL_WORKAROUND_HPP
 
 #ifndef BOOST_CONFIG_HPP
-#  include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 #endif
 
 #if defined(BOOST_HAS_PRAGMA_ONCE)
 #  pragma once
 #endif
 
-#include <boost/container/detail/config_begin.hpp>
+#include "../../../boost/container/detail/config_begin.hpp"
 
 #if    !defined(BOOST_NO_CXX11_RVALUE_REFERENCES) && !defined(BOOST_NO_CXX11_VARIADIC_TEMPLATES)\
     && !defined(BOOST_INTERPROCESS_DISABLE_VARIADIC_TMPL)
@@ -59,6 +59,6 @@
 #define BOOST_CONTAINER_DOCIGN(T) T
 #define BOOST_CONTAINER_DOCONLY(T)
 
-#include <boost/container/detail/config_end.hpp>
+#include "../../../boost/container/detail/config_end.hpp"
 
 #endif   //#ifndef BOOST_CONTAINER_DETAIL_WORKAROUND_HPP

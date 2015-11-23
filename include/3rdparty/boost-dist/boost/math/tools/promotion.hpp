@@ -23,20 +23,20 @@
 #endif
 
 // Boost type traits:
-#include <boost/math/tools/config.hpp>
-#include <boost/type_traits/is_floating_point.hpp> // for boost::is_floating_point;
-#include <boost/type_traits/is_integral.hpp> // for boost::is_integral
-#include <boost/type_traits/is_convertible.hpp> // for boost::is_convertible
-#include <boost/type_traits/is_same.hpp>// for boost::is_same
-#include <boost/type_traits/remove_cv.hpp>// for boost::remove_cv
+#include "../../../boost/math/tools/config.hpp"
+#include "../../../boost/type_traits/is_floating_point.hpp" // for boost::is_floating_point;
+#include "../../../boost/type_traits/is_integral.hpp" // for boost::is_integral
+#include "../../../boost/type_traits/is_convertible.hpp" // for boost::is_convertible
+#include "../../../boost/type_traits/is_same.hpp"// for boost::is_same
+#include "../../../boost/type_traits/remove_cv.hpp"// for boost::remove_cv
 // Boost Template meta programming:
-#include <boost/mpl/if.hpp> // for boost::mpl::if_c.
-#include <boost/mpl/and.hpp> // for boost::mpl::if_c.
-#include <boost/mpl/or.hpp> // for boost::mpl::if_c.
-#include <boost/mpl/not.hpp> // for boost::mpl::if_c.
+#include "../../../boost/mpl/if.hpp" // for boost::mpl::if_c.
+#include "../../../boost/mpl/and.hpp" // for boost::mpl::if_c.
+#include "../../../boost/mpl/or.hpp" // for boost::mpl::if_c.
+#include "../../../boost/mpl/not.hpp" // for boost::mpl::if_c.
 
 #ifdef BOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS
-#include <boost/static_assert.hpp>
+#include "../../../boost/static_assert.hpp"
 #endif
 
 namespace boost

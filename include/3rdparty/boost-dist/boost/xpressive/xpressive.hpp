@@ -15,7 +15,7 @@
 # pragma once
 #endif
 
-#include <boost/xpressive/xpressive_static.hpp>
-#include <boost/xpressive/xpressive_dynamic.hpp>
+#include "../../boost/xpressive/xpressive_static.hpp"
+#include "../../boost/xpressive/xpressive_dynamic.hpp"
 
 #endif

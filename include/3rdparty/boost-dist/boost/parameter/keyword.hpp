@@ -6,9 +6,9 @@
 #ifndef KEYWORD_050328_HPP
 #define KEYWORD_050328_HPP
 
-#include <boost/parameter/aux_/unwrap_cv_reference.hpp>
-#include <boost/parameter/aux_/tag.hpp>
-#include <boost/parameter/aux_/default.hpp>
+#include "../../boost/parameter/aux_/unwrap_cv_reference.hpp"
+#include "../../boost/parameter/aux_/tag.hpp"
+#include "../../boost/parameter/aux_/default.hpp"
 
 namespace boost { namespace parameter {
 

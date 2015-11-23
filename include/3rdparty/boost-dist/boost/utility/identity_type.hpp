@@ -13,7 +13,7 @@ even if they contain commas.
 #ifndef BOOST_IDENTITY_TYPE_HPP_
 #define BOOST_IDENTITY_TYPE_HPP_
 
-#include <boost/type_traits/function_traits.hpp>
+#include "../../boost/type_traits/function_traits.hpp"
 
 /**
 @brief This macro allows to wrap the specified type expression within extra

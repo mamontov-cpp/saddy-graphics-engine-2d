@@ -16,13 +16,13 @@
 #define BOOST_TEST_UTILS_BASIC_CSTRING_COMPARE_HPP
 
 // Boost.Test
-#include <boost/test/utils/basic_cstring/basic_cstring.hpp>
+#include "../../../../boost/test/utils/basic_cstring/basic_cstring.hpp"
 
 // STL
 #include <functional>
 #include <cctype>
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -142,6 +142,6 @@ operator >=( boost::unit_test::basic_cstring<CharT> const& x,
 
 //____________________________________________________________________________//
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_BASIC_CSTRING_COMPARE_HPP_071894GER

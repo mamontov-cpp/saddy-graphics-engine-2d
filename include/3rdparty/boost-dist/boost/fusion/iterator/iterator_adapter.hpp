@@ -7,17 +7,17 @@
 #if !defined(FUSION_ITERATOR_ADAPTER_08112011_0942)
 #define FUSION_ITERATOR_ADAPTER_08112011_0942
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/support/category_of.hpp>
-#include <boost/fusion/iterator/advance.hpp>
-#include <boost/fusion/iterator/deref.hpp>
-#include <boost/fusion/iterator/distance.hpp>
-#include <boost/fusion/iterator/equal_to.hpp>
-#include <boost/fusion/iterator/iterator_facade.hpp>
-#include <boost/fusion/iterator/next.hpp>
-#include <boost/fusion/iterator/prior.hpp>
-#include <boost/fusion/iterator/value_of.hpp>
-#include <boost/type_traits/remove_const.hpp>
+#include "../../../boost/fusion/support/config.hpp"
+#include "../../../boost/fusion/support/category_of.hpp"
+#include "../../../boost/fusion/iterator/advance.hpp"
+#include "../../../boost/fusion/iterator/deref.hpp"
+#include "../../../boost/fusion/iterator/distance.hpp"
+#include "../../../boost/fusion/iterator/equal_to.hpp"
+#include "../../../boost/fusion/iterator/iterator_facade.hpp"
+#include "../../../boost/fusion/iterator/next.hpp"
+#include "../../../boost/fusion/iterator/prior.hpp"
+#include "../../../boost/fusion/iterator/value_of.hpp"
+#include "../../../boost/type_traits/remove_const.hpp"
 
 namespace boost { namespace fusion
 {

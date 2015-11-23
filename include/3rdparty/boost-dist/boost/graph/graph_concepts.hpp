@@ -13,20 +13,20 @@
 #ifndef BOOST_GRAPH_CONCEPTS_HPP
 #define BOOST_GRAPH_CONCEPTS_HPP
 
-#include <boost/config.hpp>
-#include <boost/property_map/property_map.hpp>
-#include <boost/graph/graph_traits.hpp>
-#include <boost/graph/properties.hpp>
-#include <boost/graph/numeric_values.hpp>
-#include <boost/graph/buffer_concepts.hpp>
-#include <boost/concept_check.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/mpl/not.hpp>
-#include <boost/static_assert.hpp>
-#include <boost/detail/workaround.hpp>
-#include <boost/concept/assert.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/property_map/property_map.hpp"
+#include "../../boost/graph/graph_traits.hpp"
+#include "../../boost/graph/properties.hpp"
+#include "../../boost/graph/numeric_values.hpp"
+#include "../../boost/graph/buffer_concepts.hpp"
+#include "../../boost/concept_check.hpp"
+#include "../../boost/type_traits/is_same.hpp"
+#include "../../boost/mpl/not.hpp"
+#include "../../boost/static_assert.hpp"
+#include "../../boost/detail/workaround.hpp"
+#include "../../boost/concept/assert.hpp"
 
-#include <boost/concept/detail/concept_def.hpp>
+#include "../../boost/concept/detail/concept_def.hpp"
 namespace boost
 {
 // dwa 2003/7/11 -- This clearly shouldn't be necessary, but if
@@ -613,6 +613,6 @@ using boost::concepts::DegreeMeasureConcept;
 
 
 } /* namespace boost */
-#include <boost/concept/detail/concept_undef.hpp>
+#include "../../boost/concept/detail/concept_undef.hpp"
 
 #endif /* BOOST_GRAPH_CONCEPTS_H */

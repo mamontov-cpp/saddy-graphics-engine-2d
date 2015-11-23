@@ -9,19 +9,19 @@
 #if !defined(FUSION_FIND_IF_05052005_1107)
 #define FUSION_FIND_IF_05052005_1107
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/mpl/apply.hpp>
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/identity.hpp>
-#include <boost/mpl/lambda.hpp>
-#include <boost/mpl/or.hpp>
-#include <boost/fusion/iterator/advance.hpp>
-#include <boost/fusion/iterator/distance.hpp>
-#include <boost/fusion/iterator/equal_to.hpp>
-#include <boost/fusion/iterator/next.hpp>
-#include <boost/fusion/sequence/intrinsic/begin.hpp>
-#include <boost/fusion/sequence/intrinsic/end.hpp>
-#include <boost/fusion/support/category_of.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/mpl/apply.hpp"
+#include "../../../../../boost/mpl/eval_if.hpp"
+#include "../../../../../boost/mpl/identity.hpp"
+#include "../../../../../boost/mpl/lambda.hpp"
+#include "../../../../../boost/mpl/or.hpp"
+#include "../../../../../boost/fusion/iterator/advance.hpp"
+#include "../../../../../boost/fusion/iterator/distance.hpp"
+#include "../../../../../boost/fusion/iterator/equal_to.hpp"
+#include "../../../../../boost/fusion/iterator/next.hpp"
+#include "../../../../../boost/fusion/sequence/intrinsic/begin.hpp"
+#include "../../../../../boost/fusion/sequence/intrinsic/end.hpp"
+#include "../../../../../boost/fusion/support/category_of.hpp"
 
 namespace boost { namespace fusion { 
     struct random_access_traversal_tag;

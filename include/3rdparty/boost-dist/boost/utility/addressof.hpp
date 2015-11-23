@@ -12,6 +12,6 @@
 // The header file at this path is deprecated;
 // use boost/core/addressof.hpp instead.
 
-#include <boost/core/addressof.hpp>
+#include "../../boost/core/addressof.hpp"
 
 #endif

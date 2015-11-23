@@ -5,15 +5,15 @@
 #ifndef DEFAULT_CALL_POLICIES_DWA2002131_HPP
 # define DEFAULT_CALL_POLICIES_DWA2002131_HPP
 
-# include <boost/python/detail/prefix.hpp>
-# include <boost/mpl/if.hpp>
-# include <boost/python/to_python_value.hpp>
-# include <boost/python/detail/value_arg.hpp>
-# include <boost/type_traits/transform_traits.hpp>
-# include <boost/type_traits/is_pointer.hpp>
-# include <boost/type_traits/is_reference.hpp>
-# include <boost/mpl/or.hpp>
-# include <boost/mpl/front.hpp>
+#include "../../boost/python/detail/prefix.hpp"
+#include "../../boost/mpl/if.hpp"
+#include "../../boost/python/to_python_value.hpp"
+#include "../../boost/python/detail/value_arg.hpp"
+#include "../../boost/type_traits/transform_traits.hpp"
+#include "../../boost/type_traits/is_pointer.hpp"
+#include "../../boost/type_traits/is_reference.hpp"
+#include "../../boost/mpl/or.hpp"
+#include "../../boost/mpl/front.hpp"
 
 namespace boost { namespace python { 
 

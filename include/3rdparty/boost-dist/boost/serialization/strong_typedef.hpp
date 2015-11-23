@@ -22,8 +22,8 @@
 // a new type.  BOOST_STRONG_TYPEDEF(T, D) creates a new type named D
 // that operates as a type T.
 
-#include <boost/config.hpp>
-#include <boost/operators.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/operators.hpp"
 
 #define BOOST_STRONG_TYPEDEF(T, D)                              \
 struct D                                                        \

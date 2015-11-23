@@ -16,16 +16,16 @@
 #include <vector>
 #include <utility>
 #include <algorithm>
-#include <boost/assert.hpp>
-#include <boost/mpl/int.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/throw_exception.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/detail/core/quant_style.hpp>
-#include <boost/xpressive/detail/dynamic/matchable.hpp>
-#include <boost/xpressive/detail/dynamic/sequence.hpp>
-#include <boost/xpressive/detail/core/icase.hpp>
+#include "../../../../boost/assert.hpp"
+#include "../../../../boost/mpl/int.hpp"
+#include "../../../../boost/mpl/assert.hpp"
+#include "../../../../boost/throw_exception.hpp"
+#include "../../../../boost/type_traits/is_same.hpp"
+#include "../../../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../../../boost/xpressive/detail/core/quant_style.hpp"
+#include "../../../../boost/xpressive/detail/dynamic/matchable.hpp"
+#include "../../../../boost/xpressive/detail/dynamic/sequence.hpp"
+#include "../../../../boost/xpressive/detail/core/icase.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

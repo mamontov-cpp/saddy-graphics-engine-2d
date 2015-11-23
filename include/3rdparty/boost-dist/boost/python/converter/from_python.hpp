@@ -5,8 +5,8 @@
 #ifndef FIND_FROM_PYTHON_DWA2002223_HPP
 # define FIND_FROM_PYTHON_DWA2002223_HPP
 
-# include <boost/python/detail/prefix.hpp>
-# include <boost/python/converter/rvalue_from_python_data.hpp>
+#include "../../../boost/python/detail/prefix.hpp"
+#include "../../../boost/python/converter/rvalue_from_python_data.hpp"
 
 namespace boost { namespace python { namespace converter { 
 

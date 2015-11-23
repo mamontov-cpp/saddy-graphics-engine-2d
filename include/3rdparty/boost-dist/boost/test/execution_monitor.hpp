@@ -14,20 +14,20 @@
 #define BOOST_TEST_EXECUTION_MONITOR_HPP_071894GER
 
 // Boost.Test
-#include <boost/test/detail/global_typedef.hpp>
-#include <boost/test/detail/fwd_decl.hpp>
-#include <boost/test/detail/throw_exception.hpp>
+#include "../../boost/test/detail/global_typedef.hpp"
+#include "../../boost/test/detail/fwd_decl.hpp"
+#include "../../boost/test/detail/throw_exception.hpp"
 
-#include <boost/test/utils/class_properties.hpp>
+#include "../../boost/test/utils/class_properties.hpp"
 
 // Boost
-#include <boost/shared_ptr.hpp>
-#include <boost/scoped_array.hpp>
-#include <boost/type.hpp>
-#include <boost/cstdlib.hpp>
-#include <boost/function/function0.hpp>
+#include "../../boost/shared_ptr.hpp"
+#include "../../boost/scoped_array.hpp"
+#include "../../boost/type.hpp"
+#include "../../boost/cstdlib.hpp"
+#include "../../boost/function/function0.hpp"
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../boost/test/detail/suppress_warnings.hpp"
 
 #ifdef BOOST_SEH_BASED_SIGNAL_HANDLING
 
@@ -61,7 +61,7 @@
 #else // based on ISO C standard
 
 #if !defined(BOOST_NO_FENV_H)
-  #include <boost/detail/fenv.hpp>
+  #include "../../boost/detail/fenv.hpp"
 #endif
 
 #endif
@@ -515,6 +515,6 @@ unsigned BOOST_TEST_DECL disable( unsigned mask );
 }  // namespace boost
 
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../boost/test/detail/enable_warnings.hpp"
 
 #endif

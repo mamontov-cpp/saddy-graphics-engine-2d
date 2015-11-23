@@ -21,7 +21,7 @@
 //  formulation
 //
 
-#include <boost/detail/sp_typeinfo.hpp>
+#include "../../../boost/detail/sp_typeinfo.hpp"
 
 extern "builtin" void __lwsync(void);
 extern "builtin" void __isync(void);

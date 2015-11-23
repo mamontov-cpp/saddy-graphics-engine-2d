@@ -8,8 +8,8 @@
 #if !defined(FUSION_AS_FUSION_ELEMENT_05052005_0338)
 #define FUSION_AS_FUSION_ELEMENT_05052005_0338
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/ref.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/ref.hpp"
 
 #ifndef BOOST_NO_CXX11_HDR_FUNCTIONAL
 #include <functional>

@@ -21,8 +21,8 @@
 //  See http://www.boost.org/libs/bind/bind.html for documentation.
 //
 
-#include <boost/config.hpp>
-#include <boost/bind/arg.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/bind/arg.hpp"
 
 #ifdef BOOST_MSVC
 # pragma warning(push)

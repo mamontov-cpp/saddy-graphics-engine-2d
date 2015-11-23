@@ -12,6 +12,6 @@
 // The header file at this path is deprecated;
 // use boost/core/no_exceptions_support.hpp instead.
 
-#include <boost/core/no_exceptions_support.hpp>
+#include "../../boost/core/no_exceptions_support.hpp"
 
 #endif

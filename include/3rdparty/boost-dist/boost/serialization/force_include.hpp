@@ -16,7 +16,7 @@
 
 //  See http://www.boost.org for updates, documentation, and revision history.
 
-#include <boost/config.hpp>
+#include "../../boost/config.hpp"
 
 // the following help macro is to guarentee that certain coded
 // is not removed by over-eager linker optimiser.  In certain cases

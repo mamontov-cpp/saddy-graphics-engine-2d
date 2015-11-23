@@ -10,13 +10,13 @@
 
 #include <string>
 #include <utility>
-#include <boost/mpl/bool.hpp>
-#include <boost/intrusive_ptr.hpp>
-#include <boost/iterator/iterator_traits.hpp>
-#include <boost/xpressive/detail/core/finder.hpp>
-#include <boost/xpressive/detail/core/linker.hpp>
-#include <boost/xpressive/detail/core/peeker.hpp>
-#include <boost/xpressive/detail/core/regex_impl.hpp>
+#include "../../../../boost/mpl/bool.hpp"
+#include "../../../../boost/intrusive_ptr.hpp"
+#include "../../../../boost/iterator/iterator_traits.hpp"
+#include "../../../../boost/xpressive/detail/core/finder.hpp"
+#include "../../../../boost/xpressive/detail/core/linker.hpp"
+#include "../../../../boost/xpressive/detail/core/peeker.hpp"
+#include "../../../../boost/xpressive/detail/core/regex_impl.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

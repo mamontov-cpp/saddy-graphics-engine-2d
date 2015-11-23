@@ -8,8 +8,8 @@
 #if !defined(BOOST_FUSION_SINGLE_VIEW_DISTANCE_IMPL_JUL_07_2011_1348PM)
 #define BOOST_FUSION_SINGLE_VIEW_DISTANCE_IMPL_JUL_07_2011_1348PM
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/mpl/minus.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/mpl/minus.hpp"
 
 namespace boost { namespace fusion 
 {

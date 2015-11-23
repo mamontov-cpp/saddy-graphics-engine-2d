@@ -7,10 +7,10 @@
 #if !defined(FUSION_CLEAR_10022005_1817)
 #define FUSION_CLEAR_10022005_1817
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/mpl/clear.hpp>
-#include <boost/fusion/support/tag_of.hpp>
-#include <boost/fusion/mpl/detail/clear.hpp>
+#include "../../../boost/fusion/support/config.hpp"
+#include "../../../boost/mpl/clear.hpp"
+#include "../../../boost/fusion/support/tag_of.hpp"
+#include "../../../boost/fusion/mpl/detail/clear.hpp"
 
 namespace boost { namespace mpl
 {

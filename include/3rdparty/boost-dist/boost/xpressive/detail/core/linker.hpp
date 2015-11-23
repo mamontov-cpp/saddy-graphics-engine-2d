@@ -13,28 +13,28 @@
 # pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../../boost/config.hpp"
 #ifndef BOOST_NO_STD_LOCALE
 # include <locale>
 #endif
 #include <stack>
 #include <limits>
 #include <typeinfo>
-#include <boost/shared_ptr.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/version.hpp>
+#include "../../../../boost/shared_ptr.hpp"
+#include "../../../../boost/type_traits/is_same.hpp"
+#include "../../../../boost/version.hpp"
 
 #if BOOST_VERSION >= 103500
-# include <boost/fusion/include/for_each.hpp>
+#include "../../../../boost/fusion/include/for_each.hpp"
 #else
-# include <boost/spirit/fusion/algorithm/for_each.hpp>
+#include "../../../../boost/spirit/fusion/algorithm/for_each.hpp"
 #endif
 
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/detail/dynamic/matchable.hpp>
-#include <boost/xpressive/detail/core/matchers.hpp>
-#include <boost/xpressive/detail/core/peeker.hpp>
-#include <boost/xpressive/detail/utility/never_true.hpp>
+#include "../../../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../../../boost/xpressive/detail/dynamic/matchable.hpp"
+#include "../../../../boost/xpressive/detail/core/matchers.hpp"
+#include "../../../../boost/xpressive/detail/core/peeker.hpp"
+#include "../../../../boost/xpressive/detail/utility/never_true.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

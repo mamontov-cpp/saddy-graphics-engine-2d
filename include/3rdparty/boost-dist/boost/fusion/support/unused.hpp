@@ -7,10 +7,10 @@
 #if !defined(BOOST_FUSION_SUPPORT_UNUSED_20070305_1038)
 #define BOOST_FUSION_SUPPORT_UNUSED_20070305_1038
 
-#include <boost/fusion/support/config.hpp>
+#include "../../../boost/fusion/support/config.hpp"
 #include <iosfwd>
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 #if defined(BOOST_MSVC)
 # pragma warning(push)
 # pragma warning(disable: 4522) // multiple assignment operators specified warning

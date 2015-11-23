@@ -19,7 +19,7 @@
 // output: BOOST_FT_tplargs(p) template arguments with given prefix
 // output: BOOST_FT_params(p)  parameters with given prefix
 
-# include <boost/function_types/detail/synthesize_impl/arity20_1.hpp>
+#include "../../../../boost/function_types/detail/synthesize_impl/arity20_1.hpp"
 # define BOOST_FT_make_type(flags,cc,arity) BOOST_FT_make_type_impl(flags,cc,arity)
 # define BOOST_FT_make_type_impl(flags,cc,arity) make_type_ ## flags ## _ ## cc ## _ ## arity
 template< typename R , typename T0 , typename T1 , typename T2 , typename T3 , typename T4 , typename T5 , typename T6 , typename T7 , typename T8 , typename T9 , typename T10 , typename T11 , typename T12 , typename T13 , typename T14 , typename T15 , typename T16 , typename T17 , typename T18 , typename T19 , typename T20 >

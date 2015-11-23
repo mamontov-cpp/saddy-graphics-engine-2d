@@ -16,31 +16,31 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
-#include <boost/mpl/vector.hpp>
-#include <boost/operators.hpp>
-#include <boost/call_traits.hpp>
+#include "../../../boost/mpl/vector.hpp"
+#include "../../../boost/operators.hpp"
+#include "../../../boost/call_traits.hpp"
 
 #ifndef BOOST_BIMAP_DISABLE_SERIALIZATION
-  #include <boost/serialization/nvp.hpp>
+  #include "../../../boost/serialization/nvp.hpp"
 #endif // BOOST_BIMAP_DISABLE_SERIALIZATION
 
-#include <boost/functional/hash/hash.hpp>
+#include "../../../boost/functional/hash/hash.hpp"
 
-#include <boost/mpl/aux_/na.hpp>
+#include "../../../boost/mpl/aux_/na.hpp"
 
 // Boost.Bimap
-#include <boost/bimap/tags/tagged.hpp>
-#include <boost/bimap/tags/support/default_tagged.hpp>
-#include <boost/bimap/tags/support/tag_of.hpp>
-#include <boost/bimap/tags/support/value_type_of.hpp>
+#include "../../../boost/bimap/tags/tagged.hpp"
+#include "../../../boost/bimap/tags/support/default_tagged.hpp"
+#include "../../../boost/bimap/tags/support/tag_of.hpp"
+#include "../../../boost/bimap/tags/support/value_type_of.hpp"
 
-#include <boost/bimap/relation/member_at.hpp>
-#include <boost/bimap/relation/detail/mutant.hpp>
-#include <boost/bimap/relation/structured_pair.hpp>
-#include <boost/bimap/relation/symmetrical_base.hpp>
-#include <boost/bimap/relation/support/get.hpp>
+#include "../../../boost/bimap/relation/member_at.hpp"
+#include "../../../boost/bimap/relation/detail/mutant.hpp"
+#include "../../../boost/bimap/relation/structured_pair.hpp"
+#include "../../../boost/bimap/relation/symmetrical_base.hpp"
+#include "../../../boost/bimap/relation/support/get.hpp"
 
 namespace boost {
 namespace bimaps {

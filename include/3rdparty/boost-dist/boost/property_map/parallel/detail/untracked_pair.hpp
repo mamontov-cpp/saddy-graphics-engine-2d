@@ -9,9 +9,9 @@
 #ifndef BOOST_PARALLEL_DETAIL_UNTRACKED_PAIR_HPP
 #define BOOST_PARALLEL_DETAIL_UNTRACKED_PAIR_HPP
 
-#include <boost/mpi/datatype.hpp>
+#include "../../../../boost/mpi/datatype.hpp"
 #include <utility> // for std::pair
-#include <boost/serialization/utility.hpp>
+#include "../../../../boost/serialization/utility.hpp"
 
 namespace boost { namespace parallel { namespace detail {
 

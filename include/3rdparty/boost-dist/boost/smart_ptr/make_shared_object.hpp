@@ -12,11 +12,11 @@
 //  See http://www.boost.org/libs/smart_ptr/make_shared.html
 //  for documentation.
 
-#include <boost/config.hpp>
-#include <boost/smart_ptr/shared_ptr.hpp>
-#include <boost/smart_ptr/detail/sp_forward.hpp>
-#include <boost/type_traits/type_with_alignment.hpp>
-#include <boost/type_traits/alignment_of.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/smart_ptr/shared_ptr.hpp"
+#include "../../boost/smart_ptr/detail/sp_forward.hpp"
+#include "../../boost/type_traits/type_with_alignment.hpp"
+#include "../../boost/type_traits/alignment_of.hpp"
 #include <cstddef>
 #include <new>
 

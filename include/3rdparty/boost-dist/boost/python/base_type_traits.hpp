@@ -5,7 +5,7 @@
 #ifndef BASE_TYPE_TRAITS_DWA2002614_HPP
 # define BASE_TYPE_TRAITS_DWA2002614_HPP
 
-# include <boost/python/detail/prefix.hpp>
+#include "../../boost/python/detail/prefix.hpp"
 
 namespace boost { namespace python { 
 

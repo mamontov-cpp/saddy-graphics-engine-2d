@@ -9,24 +9,24 @@
 #ifndef BOOST_TT_MAKE_UNSIGNED_HPP_INCLUDED
 #define BOOST_TT_MAKE_UNSIGNED_HPP_INCLUDED
 
-#include <boost/mpl/if.hpp>
-#include <boost/type_traits/is_integral.hpp>
-#include <boost/type_traits/is_signed.hpp>
-#include <boost/type_traits/is_unsigned.hpp>
-#include <boost/type_traits/is_enum.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/type_traits/remove_cv.hpp>
-#include <boost/type_traits/is_const.hpp>
-#include <boost/type_traits/is_volatile.hpp>
-#include <boost/type_traits/add_const.hpp>
-#include <boost/type_traits/add_volatile.hpp>
-#include <boost/type_traits/detail/ice_or.hpp>
-#include <boost/type_traits/detail/ice_and.hpp>
-#include <boost/type_traits/detail/ice_not.hpp>
-#include <boost/static_assert.hpp>
+#include "../../boost/mpl/if.hpp"
+#include "../../boost/type_traits/is_integral.hpp"
+#include "../../boost/type_traits/is_signed.hpp"
+#include "../../boost/type_traits/is_unsigned.hpp"
+#include "../../boost/type_traits/is_enum.hpp"
+#include "../../boost/type_traits/is_same.hpp"
+#include "../../boost/type_traits/remove_cv.hpp"
+#include "../../boost/type_traits/is_const.hpp"
+#include "../../boost/type_traits/is_volatile.hpp"
+#include "../../boost/type_traits/add_const.hpp"
+#include "../../boost/type_traits/add_volatile.hpp"
+#include "../../boost/type_traits/detail/ice_or.hpp"
+#include "../../boost/type_traits/detail/ice_and.hpp"
+#include "../../boost/type_traits/detail/ice_not.hpp"
+#include "../../boost/static_assert.hpp"
 
 // should be the last #include
-#include <boost/type_traits/detail/type_trait_def.hpp>
+#include "../../boost/type_traits/detail/type_trait_def.hpp"
 
 namespace boost {
 
@@ -145,7 +145,7 @@ BOOST_TT_AUX_TYPE_TRAIT_DEF1(make_unsigned,T,typename boost::detail::make_unsign
 
 } // namespace boost
 
-#include <boost/type_traits/detail/type_trait_undef.hpp>
+#include "../../boost/type_traits/detail/type_trait_undef.hpp"
 
 #endif // BOOST_TT_ADD_REFERENCE_HPP_INCLUDED
 

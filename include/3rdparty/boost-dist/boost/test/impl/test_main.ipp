@@ -14,14 +14,14 @@
 #define BOOST_TEST_TEST_MAIN_IPP_012205GER
 
 // Boost.Test
-#include <boost/test/framework.hpp>
-#include <boost/test/test_tools.hpp>
-#include <boost/test/unit_test_suite.hpp>
+#include "../../../boost/test/framework.hpp"
+#include "../../../boost/test/test_tools.hpp"
+#include "../../../boost/test/unit_test_suite.hpp"
 
 // Boost
-#include <boost/cstdlib.hpp>
+#include "../../../boost/cstdlib.hpp"
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -60,6 +60,6 @@ init_unit_test_suite( int argc, char* argv[] ) {
 
 //____________________________________________________________________________//
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_TEST_MAIN_IPP_012205GER

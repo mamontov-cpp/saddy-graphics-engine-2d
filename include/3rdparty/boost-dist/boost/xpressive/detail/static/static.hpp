@@ -13,13 +13,13 @@
 # pragma once
 #endif
 
-#include <boost/mpl/assert.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/detail/core/state.hpp>
-#include <boost/xpressive/detail/core/linker.hpp>
-#include <boost/xpressive/detail/core/peeker.hpp>
-#include <boost/xpressive/detail/static/placeholders.hpp>
-#include <boost/xpressive/detail/utility/width.hpp>
+#include "../../../../boost/mpl/assert.hpp"
+#include "../../../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../../../boost/xpressive/detail/core/state.hpp"
+#include "../../../../boost/xpressive/detail/core/linker.hpp"
+#include "../../../../boost/xpressive/detail/core/peeker.hpp"
+#include "../../../../boost/xpressive/detail/static/placeholders.hpp"
+#include "../../../../boost/xpressive/detail/utility/width.hpp"
 
 // Random thoughts:
 // - must support indirect repeat counts {$n,$m}

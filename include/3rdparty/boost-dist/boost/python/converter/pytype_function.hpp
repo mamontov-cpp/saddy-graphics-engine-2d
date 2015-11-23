@@ -5,9 +5,9 @@
 #ifndef WRAP_PYTYPE_NM20070606_HPP
 # define WRAP_PYTYPE_NM20070606_HPP
 
-# include <boost/python/detail/prefix.hpp>
-# include <boost/python/converter/registered.hpp>
-#  include <boost/python/detail/unwind_type.hpp>
+#include "../../../boost/python/detail/prefix.hpp"
+#include "../../../boost/python/converter/registered.hpp"
+#include "../../../boost/python/detail/unwind_type.hpp"
 
 
 namespace boost { namespace python {

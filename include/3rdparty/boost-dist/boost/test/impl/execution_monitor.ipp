@@ -25,19 +25,19 @@
 #define BOOST_TEST_EXECUTION_MONITOR_IPP_012205GER
 
 // Boost.Test
-#include <boost/test/detail/config.hpp>
-#include <boost/test/detail/workaround.hpp>
-#include <boost/test/detail/throw_exception.hpp>
-#include <boost/test/execution_monitor.hpp>
-#include <boost/test/debug.hpp>
+#include "../../../boost/test/detail/config.hpp"
+#include "../../../boost/test/detail/workaround.hpp"
+#include "../../../boost/test/detail/throw_exception.hpp"
+#include "../../../boost/test/execution_monitor.hpp"
+#include "../../../boost/test/debug.hpp"
 
 // Boost
-#include <boost/cstdlib.hpp>    // for exit codes
-#include <boost/config.hpp>     // for workarounds
-#include <boost/core/ignore_unused.hpp> // for ignore_unused
+#include "../../../boost/cstdlib.hpp"    // for exit codes
+#include "../../../boost/config.hpp"     // for workarounds
+#include "../../../boost/core/ignore_unused.hpp" // for ignore_unused
 #ifndef BOOST_NO_EXCEPTION
-#include <boost/exception/get_error_info.hpp> // for get_error_info
-#include <boost/exception/current_exception_cast.hpp> // for current_exception_cast
+#include "../../../boost/exception/get_error_info.hpp" // for get_error_info
+#include "../../../boost/exception/current_exception_cast.hpp" // for current_exception_cast
 #endif
 
 // STL
@@ -186,7 +186,7 @@ namespace { void _set_se_translator( void* ) {} }
 #  include <cxxabi.h>
 #endif
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -1432,7 +1432,7 @@ disable( unsigned mask )
 
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_EXECUTION_MONITOR_IPP_012205GER
 

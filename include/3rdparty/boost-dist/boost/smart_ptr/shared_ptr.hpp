@@ -14,24 +14,24 @@
 //  See http://www.boost.org/libs/smart_ptr/shared_ptr.htm for documentation.
 //
 
-#include <boost/config.hpp>   // for broken compiler workarounds
+#include "../../boost/config.hpp"   // for broken compiler workarounds
 
 // In order to avoid circular dependencies with Boost.TR1
 // we make sure that our include of <memory> doesn't try to
 // pull in the TR1 headers: that's why we use this header 
 // rather than including <memory> directly:
-#include <boost/config/no_tr1/memory.hpp>  // std::auto_ptr
+#include "../../boost/config/no_tr1/memory.hpp"  // std::auto_ptr
 
-#include <boost/assert.hpp>
-#include <boost/checked_delete.hpp>
-#include <boost/throw_exception.hpp>
-#include <boost/smart_ptr/detail/shared_count.hpp>
-#include <boost/detail/workaround.hpp>
-#include <boost/smart_ptr/detail/sp_convertible.hpp>
-#include <boost/smart_ptr/detail/sp_nullptr_t.hpp>
+#include "../../boost/assert.hpp"
+#include "../../boost/checked_delete.hpp"
+#include "../../boost/throw_exception.hpp"
+#include "../../boost/smart_ptr/detail/shared_count.hpp"
+#include "../../boost/detail/workaround.hpp"
+#include "../../boost/smart_ptr/detail/sp_convertible.hpp"
+#include "../../boost/smart_ptr/detail/sp_nullptr_t.hpp"
 
 #if !defined(BOOST_SP_NO_ATOMIC_ACCESS)
-#include <boost/smart_ptr/detail/spinlock_pool.hpp>
+#include "../../boost/smart_ptr/detail/spinlock_pool.hpp"
 #endif
 
 #include <algorithm>            // for std::swap
@@ -703,7 +703,7 @@ public:
     }
 
 // implicit conversion to "bool"
-#include <boost/smart_ptr/detail/operator_bool.hpp>
+#include "../../boost/smart_ptr/detail/operator_bool.hpp"
 
     bool unique() const BOOST_NOEXCEPT
     {

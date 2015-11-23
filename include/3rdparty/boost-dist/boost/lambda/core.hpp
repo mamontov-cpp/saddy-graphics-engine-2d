@@ -22,10 +22,10 @@
 #ifndef BOOST_LAMBDA_CORE_HPP
 #define BOOST_LAMBDA_CORE_HPP
 
-#include "boost/type_traits/transform_traits.hpp"
-#include "boost/type_traits/cv_traits.hpp"
+#include "../../boost/type_traits/transform_traits.hpp"
+#include "../../boost/type_traits/cv_traits.hpp"
 
-#include "boost/tuple/tuple.hpp"
+#include "../../boost/tuple/tuple.hpp"
 
 // inject some of the tuple names into lambda 
 namespace boost {
@@ -37,24 +37,24 @@ using ::boost::tuples::null_type;
 } // lambda
 } // boost
 
-#include "boost/lambda/detail/lambda_config.hpp"
-#include "boost/lambda/detail/lambda_fwd.hpp"
+#include "../../boost/lambda/detail/lambda_config.hpp"
+#include "../../boost/lambda/detail/lambda_fwd.hpp"
 
-#include "boost/lambda/detail/arity_code.hpp"
-#include "boost/lambda/detail/actions.hpp"
+#include "../../boost/lambda/detail/arity_code.hpp"
+#include "../../boost/lambda/detail/actions.hpp"
 
-#include "boost/lambda/detail/lambda_traits.hpp"
+#include "../../boost/lambda/detail/lambda_traits.hpp"
 
-#include "boost/lambda/detail/function_adaptors.hpp"
-#include "boost/lambda/detail/return_type_traits.hpp"
+#include "../../boost/lambda/detail/function_adaptors.hpp"
+#include "../../boost/lambda/detail/return_type_traits.hpp"
 
-#include "boost/lambda/detail/select_functions.hpp"
+#include "../../boost/lambda/detail/select_functions.hpp"
 
-#include "boost/lambda/detail/lambda_functor_base.hpp"
+#include "../../boost/lambda/detail/lambda_functor_base.hpp"
 
-#include "boost/lambda/detail/lambda_functors.hpp"
+#include "../../boost/lambda/detail/lambda_functors.hpp"
 
-#include "boost/lambda/detail/ret.hpp"
+#include "../../boost/lambda/detail/ret.hpp"
 
 namespace boost {
 namespace lambda {

@@ -7,13 +7,13 @@
 #if !defined(FUSION_EQUAL_TO_05052005_1208)
 #define FUSION_EQUAL_TO_05052005_1208
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/fusion/support/tag_of.hpp>
-#include <boost/type_traits/add_const.hpp>
-#include <boost/fusion/support/is_iterator.hpp>
-#include <boost/mpl/and.hpp>
-#include <boost/utility/enable_if.hpp>
+#include "../../../boost/fusion/support/config.hpp"
+#include "../../../boost/type_traits/is_same.hpp"
+#include "../../../boost/fusion/support/tag_of.hpp"
+#include "../../../boost/type_traits/add_const.hpp"
+#include "../../../boost/fusion/support/is_iterator.hpp"
+#include "../../../boost/mpl/and.hpp"
+#include "../../../boost/utility/enable_if.hpp"
 
 namespace boost { namespace fusion
 {

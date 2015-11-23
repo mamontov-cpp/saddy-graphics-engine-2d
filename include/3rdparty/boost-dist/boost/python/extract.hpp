@@ -5,21 +5,21 @@
 #ifndef EXTRACT_DWA200265_HPP
 # define EXTRACT_DWA200265_HPP
 
-# include <boost/python/detail/prefix.hpp>
+#include "../../boost/python/detail/prefix.hpp"
 
-# include <boost/python/converter/object_manager.hpp>
-# include <boost/python/converter/from_python.hpp>
-# include <boost/python/converter/rvalue_from_python_data.hpp>
-# include <boost/python/converter/registered.hpp>
-# include <boost/python/converter/registered_pointee.hpp>
+#include "../../boost/python/converter/object_manager.hpp"
+#include "../../boost/python/converter/from_python.hpp"
+#include "../../boost/python/converter/rvalue_from_python_data.hpp"
+#include "../../boost/python/converter/registered.hpp"
+#include "../../boost/python/converter/registered_pointee.hpp"
 
-# include <boost/python/object_core.hpp>
-# include <boost/python/refcount.hpp>
+#include "../../boost/python/object_core.hpp"
+#include "../../boost/python/refcount.hpp"
 
-# include <boost/python/detail/copy_ctor_mutates_rhs.hpp>
-# include <boost/python/detail/void_ptr.hpp>
-# include <boost/python/detail/void_return.hpp>
-# include <boost/call_traits.hpp>
+#include "../../boost/python/detail/copy_ctor_mutates_rhs.hpp"
+#include "../../boost/python/detail/void_ptr.hpp"
+#include "../../boost/python/detail/void_return.hpp"
+#include "../../boost/call_traits.hpp"
 
 #if BOOST_WORKAROUND(BOOST_INTEL_WIN, <= 900)
 # define BOOST_EXTRACT_WORKAROUND ()

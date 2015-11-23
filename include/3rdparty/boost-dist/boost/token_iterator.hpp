@@ -18,10 +18,10 @@
 #ifndef BOOST_TOKENIZER_POLICY_JRB070303_HPP_
 #define BOOST_TOKENIZER_POLICY_JRB070303_HPP_
 
-#include <boost/assert.hpp>
-#include <boost/iterator/iterator_adaptor.hpp>
-#include <boost/iterator/minimum_category.hpp>
-#include <boost/token_functions.hpp>
+#include "../boost/assert.hpp"
+#include "../boost/iterator/iterator_adaptor.hpp"
+#include "../boost/iterator/minimum_category.hpp"
+#include "../boost/token_functions.hpp"
 #include <utility>
 
 namespace boost

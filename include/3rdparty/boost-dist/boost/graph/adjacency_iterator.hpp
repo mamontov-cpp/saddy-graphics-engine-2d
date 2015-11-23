@@ -10,8 +10,8 @@
 #ifndef BOOST_ADJACENCY_ITERATOR_HPP
 #define BOOST_ADJACENCY_ITERATOR_HPP
 
-#include <boost/iterator/iterator_adaptor.hpp>
-#include <boost/graph/graph_traits.hpp>
+#include "../../boost/iterator/iterator_adaptor.hpp"
+#include "../../boost/graph/graph_traits.hpp"
 
 namespace boost
 {

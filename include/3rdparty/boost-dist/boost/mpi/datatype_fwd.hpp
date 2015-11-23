@@ -14,7 +14,7 @@
 #ifndef BOOST_MPI_DATATYPE_FWD_HPP
 #define BOOST_MPI_DATATYPE_FWD_HPP
 
-#include <boost/mpi/config.hpp>
+#include "../../boost/mpi/config.hpp"
 
 namespace boost { namespace mpi {
 

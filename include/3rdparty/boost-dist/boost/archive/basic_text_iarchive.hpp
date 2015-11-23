@@ -24,12 +24,12 @@
 // in such cases.   So we can't use basic_ostream<IStream::char_type> but rather
 // use two template parameters
 
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/detail/workaround.hpp"
 
-#include <boost/archive/detail/common_iarchive.hpp>
+#include "../../boost/archive/detail/common_iarchive.hpp"
 
-#include <boost/archive/detail/abi_prefix.hpp> // must be the last header
+#include "../../boost/archive/detail/abi_prefix.hpp" // must be the last header
 
 #ifdef BOOST_MSVC
 #  pragma warning(push)
@@ -91,6 +91,6 @@ protected:
 #pragma warning(pop)
 #endif
 
-#include <boost/archive/detail/abi_suffix.hpp> // pops abi_suffix.hpp pragmas
+#include "../../boost/archive/detail/abi_suffix.hpp" // pops abi_suffix.hpp pragmas
 
 #endif // BOOST_ARCHIVE_BASIC_TEXT_IARCHIVE_HPP

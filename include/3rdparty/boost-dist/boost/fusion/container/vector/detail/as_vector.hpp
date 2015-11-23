@@ -7,12 +7,12 @@
 #ifndef FUSION_AS_VECTOR_11052014_1801
 #define FUSION_AS_VECTOR_11052014_1801
 
-#include <boost/fusion/support/config.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
 
 ///////////////////////////////////////////////////////////////////////////////
 // Without variadics, we will use the PP version
 ///////////////////////////////////////////////////////////////////////////////
-# include <boost/fusion/container/vector/detail/cpp03/as_vector.hpp>
+#include "../../../../../boost/fusion/container/vector/detail/cpp03/as_vector.hpp"
 
 #endif
 

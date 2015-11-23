@@ -5,8 +5,8 @@
 #ifndef SLICE_NIL_DWA2002620_HPP
 # define SLICE_NIL_DWA2002620_HPP
 
-# include <boost/python/detail/prefix.hpp>
-# include <boost/python/object_core.hpp>
+#include "../../boost/python/detail/prefix.hpp"
+#include "../../boost/python/object_core.hpp"
 
 namespace boost { namespace python { namespace api {
 

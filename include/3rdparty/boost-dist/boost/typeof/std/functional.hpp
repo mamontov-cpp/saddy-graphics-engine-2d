@@ -6,7 +6,7 @@
 #define BOOST_TYPEOF_STD_functional_hpp_INCLUDED
 
 #include <functional>
-#include <boost/typeof/typeof.hpp>
+#include "../../../boost/typeof/typeof.hpp"
 
 #include BOOST_TYPEOF_INCREMENT_REGISTRATION_GROUP()
 

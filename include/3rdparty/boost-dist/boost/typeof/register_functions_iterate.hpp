@@ -2,7 +2,7 @@
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#include <boost/typeof/encode_decode_params.hpp>
+#include "../../boost/typeof/encode_decode_params.hpp"
 
 #define n BOOST_PP_ITERATION()
 
@@ -117,19 +117,19 @@ struct decode_type_impl<boost::mpl::size_t<FUN_VAR_PTR_ID + n>, Iter>
 
 #define BOOST_TYPEOF_qualifier
 #define BOOST_TYPEOF_id MEM_FUN_ID
-#include <boost/typeof/register_mem_functions.hpp>
+#include "../../boost/typeof/register_mem_functions.hpp"
 
 #define BOOST_TYPEOF_qualifier const
 #define BOOST_TYPEOF_id CONST_MEM_FUN_ID
-#include <boost/typeof/register_mem_functions.hpp>
+#include "../../boost/typeof/register_mem_functions.hpp"
 
 #define BOOST_TYPEOF_qualifier volatile
 #define BOOST_TYPEOF_id VOLATILE_MEM_FUN_ID
-#include <boost/typeof/register_mem_functions.hpp>
+#include "../../boost/typeof/register_mem_functions.hpp"
 
 #define BOOST_TYPEOF_qualifier volatile const
 #define BOOST_TYPEOF_id VOLATILE_CONST_MEM_FUN_ID
-#include <boost/typeof/register_mem_functions.hpp>
+#include "../../boost/typeof/register_mem_functions.hpp"
 
 #undef n
 #endif

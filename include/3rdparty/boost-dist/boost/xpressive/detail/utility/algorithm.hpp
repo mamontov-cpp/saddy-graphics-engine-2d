@@ -16,14 +16,14 @@
 #include <string>
 #include <climits>
 #include <algorithm>
-#include <boost/version.hpp>
-#include <boost/range/end.hpp>
-#include <boost/range/begin.hpp>
-#include <boost/range/size.hpp>
-#include <boost/range/value_type.hpp>
-#include <boost/type_traits/remove_const.hpp>
-#include <boost/iterator/iterator_traits.hpp>
-#include <boost/xpressive/detail/utility/ignore_unused.hpp>
+#include "../../../../boost/version.hpp"
+#include "../../../../boost/range/end.hpp"
+#include "../../../../boost/range/begin.hpp"
+#include "../../../../boost/range/size.hpp"
+#include "../../../../boost/range/value_type.hpp"
+#include "../../../../boost/type_traits/remove_const.hpp"
+#include "../../../../boost/iterator/iterator_traits.hpp"
+#include "../../../../boost/xpressive/detail/utility/ignore_unused.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

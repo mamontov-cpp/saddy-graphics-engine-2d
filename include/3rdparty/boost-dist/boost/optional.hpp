@@ -12,7 +12,7 @@
 #ifndef BOOST_OPTIONAL_FLC_19NOV2002_HPP
 #define BOOST_OPTIONAL_FLC_19NOV2002_HPP
 
-#include "boost/optional/optional.hpp"
+#include "../boost/optional/optional.hpp"
 
 #endif
 

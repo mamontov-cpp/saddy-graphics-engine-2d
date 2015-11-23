@@ -10,24 +10,24 @@
 #ifndef BOOST_PROTO_TRANSFORM_DEFAULT_HPP_EAN_04_04_2008
 #define BOOST_PROTO_TRANSFORM_DEFAULT_HPP_EAN_04_04_2008
 
-#include <boost/preprocessor/iteration/iterate.hpp>
-#include <boost/preprocessor/repetition/repeat.hpp>
-#include <boost/preprocessor/arithmetic/add.hpp>
-#include <boost/preprocessor/arithmetic/sub.hpp>
-#include <boost/preprocessor/repetition/enum.hpp>
-#include <boost/preprocessor/repetition/enum_shifted.hpp>
-#include <boost/preprocessor/repetition/enum_shifted_params.hpp>
-#include <boost/ref.hpp>
-#include <boost/get_pointer.hpp>
-#include <boost/utility/enable_if.hpp>
-#include <boost/type_traits/is_member_pointer.hpp>
-#include <boost/type_traits/is_member_object_pointer.hpp>
-#include <boost/type_traits/is_member_function_pointer.hpp>
-#include <boost/proto/proto_fwd.hpp>
-#include <boost/proto/traits.hpp>
-#include <boost/proto/transform/impl.hpp>
-#include <boost/proto/transform/arg.hpp>
-#include <boost/proto/detail/decltype.hpp>
+#include "../../../boost/preprocessor/iteration/iterate.hpp"
+#include "../../../boost/preprocessor/repetition/repeat.hpp"
+#include "../../../boost/preprocessor/arithmetic/add.hpp"
+#include "../../../boost/preprocessor/arithmetic/sub.hpp"
+#include "../../../boost/preprocessor/repetition/enum.hpp"
+#include "../../../boost/preprocessor/repetition/enum_shifted.hpp"
+#include "../../../boost/preprocessor/repetition/enum_shifted_params.hpp"
+#include "../../../boost/ref.hpp"
+#include "../../../boost/get_pointer.hpp"
+#include "../../../boost/utility/enable_if.hpp"
+#include "../../../boost/type_traits/is_member_pointer.hpp"
+#include "../../../boost/type_traits/is_member_object_pointer.hpp"
+#include "../../../boost/type_traits/is_member_function_pointer.hpp"
+#include "../../../boost/proto/proto_fwd.hpp"
+#include "../../../boost/proto/traits.hpp"
+#include "../../../boost/proto/transform/impl.hpp"
+#include "../../../boost/proto/transform/arg.hpp"
+#include "../../../boost/proto/detail/decltype.hpp"
 
 namespace boost { namespace proto
 {
@@ -567,7 +567,7 @@ namespace boost { namespace proto
             }
         };
 
-        #include <boost/proto/transform/detail/default_function_impl.hpp>
+        #include "../../../boost/proto/transform/detail/default_function_impl.hpp"
 
         #undef BOOST_PROTO_DEFAULT_EVAL_TYPE
         #undef BOOST_PROTO_DEFAULT_EVAL

@@ -27,8 +27,8 @@
 #include <cstddef>
 #include <utility>  // for std::pair
 
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
+#include "../boost/config.hpp"
+#include "../boost/detail/workaround.hpp"
 
 // Some compilers let us detect even const-qualified rvalues at compile-time
 #if !defined(BOOST_NO_CXX11_RVALUE_REFERENCES)                                                   \
@@ -65,31 +65,31 @@
 # endif
 #endif
 
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/mpl/logical.hpp>
-#include <boost/mpl/eval_if.hpp>
-#include <boost/noncopyable.hpp>
-#include <boost/range/end.hpp>
-#include <boost/range/begin.hpp>
-#include <boost/range/rend.hpp>
-#include <boost/range/rbegin.hpp>
-#include <boost/range/iterator.hpp>
-#include <boost/range/reverse_iterator.hpp>
-#include <boost/type_traits/is_array.hpp>
-#include <boost/type_traits/is_const.hpp>
-#include <boost/type_traits/is_abstract.hpp>
-#include <boost/type_traits/is_base_and_derived.hpp>
-#include <boost/type_traits/is_rvalue_reference.hpp>
-#include <boost/iterator/iterator_traits.hpp>
-#include <boost/utility/addressof.hpp>
-#include <boost/foreach_fwd.hpp>
+#include "../boost/mpl/if.hpp"
+#include "../boost/mpl/assert.hpp"
+#include "../boost/mpl/logical.hpp"
+#include "../boost/mpl/eval_if.hpp"
+#include "../boost/noncopyable.hpp"
+#include "../boost/range/end.hpp"
+#include "../boost/range/begin.hpp"
+#include "../boost/range/rend.hpp"
+#include "../boost/range/rbegin.hpp"
+#include "../boost/range/iterator.hpp"
+#include "../boost/range/reverse_iterator.hpp"
+#include "../boost/type_traits/is_array.hpp"
+#include "../boost/type_traits/is_const.hpp"
+#include "../boost/type_traits/is_abstract.hpp"
+#include "../boost/type_traits/is_base_and_derived.hpp"
+#include "../boost/type_traits/is_rvalue_reference.hpp"
+#include "../boost/iterator/iterator_traits.hpp"
+#include "../boost/utility/addressof.hpp"
+#include "../boost/foreach_fwd.hpp"
 
 #ifdef BOOST_FOREACH_RUN_TIME_CONST_RVALUE_DETECTION
 # include <new>
-# include <boost/aligned_storage.hpp>
-# include <boost/utility/enable_if.hpp>
-# include <boost/type_traits/remove_const.hpp>
+#include "../boost/aligned_storage.hpp"
+#include "../boost/utility/enable_if.hpp"
+#include "../boost/type_traits/remove_const.hpp"
 #endif
 
 namespace boost

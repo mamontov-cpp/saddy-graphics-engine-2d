@@ -5,26 +5,26 @@
 #ifndef KEYWORDS_DWA2002323_HPP
 # define KEYWORDS_DWA2002323_HPP
 
-# include <boost/python/detail/prefix.hpp>
+#include "../../boost/python/detail/prefix.hpp"
 
-# include <boost/python/args_fwd.hpp>
-# include <boost/config.hpp>
-# include <boost/python/detail/preprocessor.hpp>
-# include <boost/python/detail/type_list.hpp>
+#include "../../boost/python/args_fwd.hpp"
+#include "../../boost/config.hpp"
+#include "../../boost/python/detail/preprocessor.hpp"
+#include "../../boost/python/detail/type_list.hpp"
 
-# include <boost/type_traits/is_reference.hpp>
-# include <boost/type_traits/remove_reference.hpp>
-# include <boost/type_traits/remove_cv.hpp>
+#include "../../boost/type_traits/is_reference.hpp"
+#include "../../boost/type_traits/remove_reference.hpp"
+#include "../../boost/type_traits/remove_cv.hpp"
 
-# include <boost/preprocessor/enum_params.hpp>
-# include <boost/preprocessor/repeat.hpp>
-# include <boost/preprocessor/facilities/intercept.hpp>
-# include <boost/preprocessor/iteration/local.hpp>
+#include "../../boost/preprocessor/enum_params.hpp"
+#include "../../boost/preprocessor/repeat.hpp"
+#include "../../boost/preprocessor/facilities/intercept.hpp"
+#include "../../boost/preprocessor/iteration/local.hpp"
 
-# include <boost/python/detail/mpl_lambda.hpp>
-# include <boost/python/object_core.hpp>
+#include "../../boost/python/detail/mpl_lambda.hpp"
+#include "../../boost/python/object_core.hpp"
 
-# include <boost/mpl/bool.hpp>
+#include "../../boost/mpl/bool.hpp"
 
 # include <cstddef>
 # include <algorithm>

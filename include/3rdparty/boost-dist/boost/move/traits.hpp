@@ -15,20 +15,20 @@
 #define BOOST_MOVE_TRAITS_HPP
 
 #ifndef BOOST_CONFIG_HPP
-#  include <boost/config.hpp>
+#include "../../boost/config.hpp"
 #endif
 #
 #if defined(BOOST_HAS_PRAGMA_ONCE)
 #  pragma once
 #endif
 
-#include <boost/move/detail/config_begin.hpp>
+#include "../../boost/move/detail/config_begin.hpp"
 
 #ifndef BOOST_NO_CXX11_RVALUE_REFERENCES
-#include <boost/move/core.hpp>
+#include "../../boost/move/core.hpp"
 #endif
-#include <boost/move/detail/meta_utils.hpp>
-#include <boost/move/detail/type_traits.hpp>
+#include "../../boost/move/detail/meta_utils.hpp"
+#include "../../boost/move/detail/type_traits.hpp"
 
 namespace boost {
 
@@ -72,6 +72,6 @@ struct is_nothrow_move_constructible_or_uncopyable
 }  //move_detail {
 }  //namespace boost {
 
-#include <boost/move/detail/config_end.hpp>
+#include "../../boost/move/detail/config_end.hpp"
 
 #endif //#ifndef BOOST_MOVE_TRAITS_HPP

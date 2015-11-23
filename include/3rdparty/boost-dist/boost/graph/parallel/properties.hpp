@@ -14,8 +14,8 @@
 #error "Parallel BGL files should not be included unless <boost/graph/use_mpi.hpp> has been included"
 #endif
 
-#include <boost/graph/properties.hpp>
-#include <boost/property_map/parallel/distributed_property_map.hpp>
+#include "../../../boost/graph/properties.hpp"
+#include "../../../boost/property_map/parallel/distributed_property_map.hpp"
 
 namespace boost {
   /***************************************************************************

@@ -4,7 +4,7 @@
 // http://www.boost.org/LICENSE_1_0.txt)
 #ifndef REFERENT_STORAGE_DWA200278_HPP
 # define REFERENT_STORAGE_DWA200278_HPP
-# include <boost/mpl/if.hpp>
+#include "../../../boost/mpl/if.hpp"
 # include <cstddef>
 
 namespace boost { namespace python { namespace detail {

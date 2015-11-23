@@ -5,7 +5,7 @@
 #ifndef INHERITANCE_QUERY_DWA2003520_HPP
 # define INHERITANCE_QUERY_DWA2003520_HPP
 
-# include <boost/python/type_id.hpp>
+#include "../../../boost/python/type_id.hpp"
 
 namespace boost { namespace python { namespace objects {
 

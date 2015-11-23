@@ -16,29 +16,29 @@
 # pragma once
 #endif
 
-#include <boost/assign/assignment_exception.hpp>
-#include <boost/range/iterator_range.hpp>
-#include <boost/config.hpp>
-#include <boost/tuple/tuple.hpp>
-#include <boost/type_traits/remove_const.hpp>
-#include <boost/type_traits/remove_reference.hpp>
-#include <boost/type_traits/is_reference.hpp>
-#include <boost/static_assert.hpp>
-#include <boost/type_traits/detail/yes_no_type.hpp>
-#include <boost/type_traits/decay.hpp>
-#include <boost/type_traits/is_array.hpp>
-#include <boost/mpl/if.hpp>
+#include "../../boost/assign/assignment_exception.hpp"
+#include "../../boost/range/iterator_range.hpp"
+#include "../../boost/config.hpp"
+#include "../../boost/tuple/tuple.hpp"
+#include "../../boost/type_traits/remove_const.hpp"
+#include "../../boost/type_traits/remove_reference.hpp"
+#include "../../boost/type_traits/is_reference.hpp"
+#include "../../boost/static_assert.hpp"
+#include "../../boost/type_traits/detail/yes_no_type.hpp"
+#include "../../boost/type_traits/decay.hpp"
+#include "../../boost/type_traits/is_array.hpp"
+#include "../../boost/mpl/if.hpp"
 #include <deque>
 #include <cstddef>
 #include <utility>
 
-#include <boost/preprocessor/repetition/enum_binary_params.hpp>
-#include <boost/preprocessor/repetition/enum_params.hpp>
-#include <boost/preprocessor/iteration/local.hpp>
+#include "../../boost/preprocessor/repetition/enum_binary_params.hpp"
+#include "../../boost/preprocessor/repetition/enum_params.hpp"
+#include "../../boost/preprocessor/iteration/local.hpp"
 
 #if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
 // BCB requires full type definition for is_array<> to work correctly.
-#include <boost/array.hpp>
+#include "../../boost/array.hpp"
 #endif
 
 namespace boost

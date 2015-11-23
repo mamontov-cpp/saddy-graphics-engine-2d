@@ -7,14 +7,14 @@
 #if !defined(FUSION_DISTANCE_09172005_0730)
 #define FUSION_DISTANCE_09172005_0730
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/mpl/int.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/next.hpp>
-#include <boost/mpl/identity.hpp>
-#include <boost/fusion/iterator/next.hpp>
-#include <boost/fusion/iterator/equal_to.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/mpl/int.hpp"
+#include "../../../../boost/mpl/if.hpp"
+#include "../../../../boost/mpl/eval_if.hpp"
+#include "../../../../boost/mpl/next.hpp"
+#include "../../../../boost/mpl/identity.hpp"
+#include "../../../../boost/fusion/iterator/next.hpp"
+#include "../../../../boost/fusion/iterator/equal_to.hpp"
 
 namespace boost { namespace fusion { namespace distance_detail
 {

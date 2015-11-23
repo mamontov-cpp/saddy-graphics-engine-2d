@@ -7,20 +7,20 @@
 #if !defined(FUSION_SEQUENCE_FILTER_VIEW_HPP)
 #define FUSION_SEQUENCE_FILTER_VIEW_HPP
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/support/detail/access.hpp>
-#include <boost/fusion/support/sequence_base.hpp>
-#include <boost/fusion/support/is_view.hpp>
-#include <boost/fusion/view/filter_view/filter_view_iterator.hpp>
-#include <boost/fusion/view/filter_view/detail/begin_impl.hpp>
-#include <boost/fusion/view/filter_view/detail/end_impl.hpp>
-#include <boost/fusion/view/filter_view/detail/size_impl.hpp>
-#include <boost/fusion/sequence/intrinsic/begin.hpp>
-#include <boost/fusion/sequence/intrinsic/end.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/inherit.hpp>
-#include <boost/mpl/identity.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/fusion/support/detail/access.hpp"
+#include "../../../../boost/fusion/support/sequence_base.hpp"
+#include "../../../../boost/fusion/support/is_view.hpp"
+#include "../../../../boost/fusion/view/filter_view/filter_view_iterator.hpp"
+#include "../../../../boost/fusion/view/filter_view/detail/begin_impl.hpp"
+#include "../../../../boost/fusion/view/filter_view/detail/end_impl.hpp"
+#include "../../../../boost/fusion/view/filter_view/detail/size_impl.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic/begin.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic/end.hpp"
+#include "../../../../boost/mpl/bool.hpp"
+#include "../../../../boost/mpl/eval_if.hpp"
+#include "../../../../boost/mpl/inherit.hpp"
+#include "../../../../boost/mpl/identity.hpp"
 
 namespace boost { namespace fusion
 {

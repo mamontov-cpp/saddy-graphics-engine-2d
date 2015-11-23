@@ -19,8 +19,8 @@
 #include <cstddef>
 #include <iterator>
 #include <algorithm>
-#include <boost/assert.hpp>
-#include <boost/iterator/iterator_facade.hpp>
+#include "../../../../boost/assert.hpp"
+#include "../../../../boost/iterator/iterator_facade.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

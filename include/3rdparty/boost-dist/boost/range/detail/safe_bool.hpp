@@ -10,8 +10,8 @@
 #ifndef BOOST_RANGE_SAFE_BOOL_INCLUDED_HPP
 #define BOOST_RANGE_SAFE_BOOL_INCLUDED_HPP
 
-#include <boost/config.hpp>
-#include <boost/range/config.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/range/config.hpp"
 
 namespace boost
 {

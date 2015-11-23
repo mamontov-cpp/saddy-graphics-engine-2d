@@ -16,9 +16,9 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../../boost/config.hpp"
 
-#include <boost/bimap/tags/tagged.hpp>
+#include "../../../../boost/bimap/tags/tagged.hpp"
 
 /** \struct boost::bimaps::tags::support::default_tagged
 \brief Weak tagging metafunction

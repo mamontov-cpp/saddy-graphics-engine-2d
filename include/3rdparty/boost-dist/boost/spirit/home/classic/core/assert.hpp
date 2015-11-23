@@ -9,8 +9,8 @@
 #if !defined(BOOST_SPIRIT_ASSERT_HPP)
 #define BOOST_SPIRIT_ASSERT_HPP
 
-#include <boost/config.hpp>
-#include <boost/throw_exception.hpp>
+#include "../../../../../boost/config.hpp"
+#include "../../../../../boost/throw_exception.hpp"
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -30,7 +30,7 @@
         BOOST_SPIRIT_ASSERT_EXCEPTION(f "(" #l "): " #x)); } while(0)
     #define BOOST_SPIRIT_ASSERT(x) BOOST_SPIRIT_ASSERT_AUX(__FILE__, __LINE__, x)
 #else
-    #include <boost/assert.hpp>
+    #include "../../../../../boost/assert.hpp"
     #define BOOST_SPIRIT_ASSERT(x) BOOST_ASSERT(x)
 #endif
 #endif // !defined(BOOST_SPIRIT_ASSERT)

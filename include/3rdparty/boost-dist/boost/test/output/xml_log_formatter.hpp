@@ -16,13 +16,13 @@
 #define BOOST_TEST_XML_LOG_FORMATTER_020105GER
 
 // Boost.Test
-#include <boost/test/detail/global_typedef.hpp>
-#include <boost/test/unit_test_log_formatter.hpp>
+#include "../../../boost/test/detail/global_typedef.hpp"
+#include "../../../boost/test/unit_test_log_formatter.hpp"
 
 // STL
 #include <cstddef> // std::size_t
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -67,6 +67,6 @@ private:
 } // namespace unit_test
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_XML_LOG_FORMATTER_020105GER

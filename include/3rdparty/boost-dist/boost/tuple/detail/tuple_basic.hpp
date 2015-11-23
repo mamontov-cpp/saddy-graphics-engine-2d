@@ -35,11 +35,11 @@
 
 #include <utility> // needed for the assignment from pair to tuple
 
-#include "boost/type_traits/cv_traits.hpp"
-#include "boost/type_traits/function_traits.hpp"
-#include "boost/utility/swap.hpp"
+#include "../../../boost/type_traits/cv_traits.hpp"
+#include "../../../boost/type_traits/function_traits.hpp"
+#include "../../../boost/utility/swap.hpp"
 
-#include "boost/detail/workaround.hpp" // needed for BOOST_WORKAROUND
+#include "../../../boost/detail/workaround.hpp" // needed for BOOST_WORKAROUND
 
 #if BOOST_GCC >= 40700
 #pragma GCC diagnostic push

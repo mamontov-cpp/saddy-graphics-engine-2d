@@ -6,11 +6,11 @@
 # define STRING_LITERAL_DWA2002629_HPP
 
 # include <cstddef>
-# include <boost/type.hpp>
-# include <boost/type_traits/array_traits.hpp>
-# include <boost/type_traits/same_traits.hpp>
-# include <boost/mpl/bool.hpp>
-# include <boost/detail/workaround.hpp>
+#include "../../../boost/type.hpp"
+#include "../../../boost/type_traits/array_traits.hpp"
+#include "../../../boost/type_traits/same_traits.hpp"
+#include "../../../boost/mpl/bool.hpp"
+#include "../../../boost/detail/workaround.hpp"
 
 namespace boost { namespace python { namespace detail { 
 

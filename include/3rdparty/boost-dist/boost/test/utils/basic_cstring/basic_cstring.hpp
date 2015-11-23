@@ -17,16 +17,16 @@
 #define BOOST_TEST_UTILS_BASIC_CSTRING_HPP
 
 // Boost.Test
-#include <boost/test/utils/basic_cstring/basic_cstring_fwd.hpp>
-#include <boost/test/utils/basic_cstring/bcs_char_traits.hpp>
+#include "../../../../boost/test/utils/basic_cstring/basic_cstring_fwd.hpp"
+#include "../../../../boost/test/utils/basic_cstring/bcs_char_traits.hpp"
 
 // Boost
-#include <boost/type_traits/remove_cv.hpp>
+#include "../../../../boost/type_traits/remove_cv.hpp"
 
 // STL
 #include <string>
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -733,6 +733,6 @@ operator+( std::basic_string<CharT1> const& lhs, basic_cstring<CharT2> const& rh
 
 //____________________________________________________________________________//
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_UTILS_BASIC_CSTRING_HPP

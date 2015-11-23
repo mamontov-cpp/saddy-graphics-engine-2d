@@ -16,7 +16,7 @@
 #define BOOST_TEST_UTILS_RUNTIME_CONFIG_HPP
 
 // Boost
-#include <boost/config.hpp>
+#include "../../../../boost/config.hpp"
 #ifdef BOOST_MSVC
 # pragma warning(disable: 4511) // copy constructor could not be generated
 # pragma warning(disable: 4512) // assignment operator could not be generated
@@ -25,10 +25,10 @@
 #endif
 
 // Boost.Test
-#include <boost/test/detail/config.hpp>
-#include <boost/test/utils/basic_cstring/basic_cstring.hpp>
-#include <boost/test/utils/wrap_stringstream.hpp>
-#include <boost/test/utils/basic_cstring/io.hpp> // operator<<(boost::runtime::cstring)
+#include "../../../../boost/test/detail/config.hpp"
+#include "../../../../boost/test/utils/basic_cstring/basic_cstring.hpp"
+#include "../../../../boost/test/utils/wrap_stringstream.hpp"
+#include "../../../../boost/test/utils/basic_cstring/io.hpp" // operator<<(boost::runtime::cstring)
 
 // STL
 #include <string>

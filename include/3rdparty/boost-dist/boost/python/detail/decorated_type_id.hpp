@@ -5,9 +5,9 @@
 #ifndef DECORATED_TYPE_ID_DWA2002517_HPP
 # define DECORATED_TYPE_ID_DWA2002517_HPP
 
-# include <boost/python/type_id.hpp>
-# include <boost/python/detail/indirect_traits.hpp>
-# include <boost/type_traits/cv_traits.hpp>
+#include "../../../boost/python/type_id.hpp"
+#include "../../../boost/python/detail/indirect_traits.hpp"
+#include "../../../boost/type_traits/cv_traits.hpp"
 
 namespace boost { namespace python { namespace detail { 
 

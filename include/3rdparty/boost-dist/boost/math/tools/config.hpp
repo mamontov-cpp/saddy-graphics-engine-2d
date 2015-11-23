@@ -10,12 +10,12 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
-#include <boost/cstdint.hpp> // for boost::uintmax_t
-#include <boost/detail/workaround.hpp>
-#include <boost/type_traits/is_integral.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/cstdint.hpp" // for boost::uintmax_t
+#include "../../../boost/detail/workaround.hpp"
+#include "../../../boost/type_traits/is_integral.hpp"
 #include <algorithm>  // for min and max
-#include <boost/config/no_tr1/cmath.hpp>
+#include "../../../boost/config/no_tr1/cmath.hpp"
 #include <climits>
 #include <cfloat>
 #if (defined(macintosh) || defined(__APPLE__) || defined(__APPLE_CC__))
@@ -25,7 +25,7 @@
 #  include <limits>
 #endif
 
-#include <boost/math/tools/user.hpp>
+#include "../../../boost/math/tools/user.hpp"
 
 #if (defined(__CYGWIN__) || defined(__FreeBSD__) || defined(__NetBSD__) \
    || (defined(__hppa) && !defined(__OpenBSD__)) || (defined(__NO_LONG_DOUBLE_MATH) && (DBL_MANT_DIG != LDBL_MANT_DIG))) \
@@ -127,8 +127,8 @@
 
 #if BOOST_WORKAROUND(__SUNPRO_CC, <= 0x590)
 
-#  include "boost/type.hpp"
-#  include "boost/non_type.hpp"
+#include "../../../boost/type.hpp"
+#include "../../../boost/non_type.hpp"
 
 #  define BOOST_MATH_EXPLICIT_TEMPLATE_TYPE(t)         boost::type<t>* = 0
 #  define BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(t)    boost::type<t>*
@@ -344,7 +344,7 @@ struct is_integer_for_rounding
 // Much more information in this message thread: https://groups.google.com/forum/#!topic/boost-list/ZT99wtIFlb4
 //
 
-   #include <boost/detail/fenv.hpp>
+   #include "../../../boost/detail/fenv.hpp"
 
 #  ifdef FE_ALL_EXCEPT
 

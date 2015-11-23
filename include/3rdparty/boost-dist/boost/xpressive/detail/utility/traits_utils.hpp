@@ -16,12 +16,12 @@
 #endif
 
 #include <string>
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/utility/enable_if.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/iterator/transform_iterator.hpp>
-#include <boost/xpressive/detail/utility/algorithm.hpp>
+#include "../../../../boost/mpl/bool.hpp"
+#include "../../../../boost/mpl/assert.hpp"
+#include "../../../../boost/utility/enable_if.hpp"
+#include "../../../../boost/type_traits/is_same.hpp"
+#include "../../../../boost/iterator/transform_iterator.hpp"
+#include "../../../../boost/xpressive/detail/utility/algorithm.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

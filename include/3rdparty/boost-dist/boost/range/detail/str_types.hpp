@@ -11,8 +11,8 @@
 #ifndef BOOST_RANGE_DETAIL_STR_TYPES_HPP
 #define BOOST_RANGE_DETAIL_STR_TYPES_HPP
 
-#include <boost/range/size_type.hpp>
-#include <boost/range/iterator.hpp>
+#include "../../../boost/range/size_type.hpp"
+#include "../../../boost/range/iterator.hpp"
 
 namespace boost
 {

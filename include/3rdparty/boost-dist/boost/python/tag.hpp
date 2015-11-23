@@ -5,7 +5,7 @@
 #ifndef TAG_DWA2002720_HPP
 # define TAG_DWA2002720_HPP
 
-# include <boost/python/detail/prefix.hpp>
+#include "../../boost/python/detail/prefix.hpp"
 
 namespace boost { namespace python { 
 

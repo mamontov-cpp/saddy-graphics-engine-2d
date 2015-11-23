@@ -14,11 +14,11 @@
 
 #include <vector>
 
-#include <boost/mpi/inplace.hpp>
+#include "../../../boost/mpi/inplace.hpp"
 
 // All-reduce falls back to reduce() + broadcast() in some cases.
-#include <boost/mpi/collectives/broadcast.hpp>
-#include <boost/mpi/collectives/reduce.hpp>
+#include "../../../boost/mpi/collectives/broadcast.hpp"
+#include "../../../boost/mpi/collectives/reduce.hpp"
 
 namespace boost { namespace mpi {
 namespace detail {

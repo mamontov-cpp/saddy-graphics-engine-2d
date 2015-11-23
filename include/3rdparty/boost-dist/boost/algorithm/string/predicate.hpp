@@ -11,17 +11,17 @@
 #ifndef BOOST_STRING_PREDICATE_HPP
 #define BOOST_STRING_PREDICATE_HPP
 
-#include <boost/algorithm/string/config.hpp>
-#include <boost/range/begin.hpp>
-#include <boost/range/end.hpp>
-#include <boost/range/iterator.hpp>
-#include <boost/range/const_iterator.hpp>
-#include <boost/range/as_literal.hpp>
-#include <boost/range/iterator_range_core.hpp>
+#include "../../../boost/algorithm/string/config.hpp"
+#include "../../../boost/range/begin.hpp"
+#include "../../../boost/range/end.hpp"
+#include "../../../boost/range/iterator.hpp"
+#include "../../../boost/range/const_iterator.hpp"
+#include "../../../boost/range/as_literal.hpp"
+#include "../../../boost/range/iterator_range_core.hpp"
 
-#include <boost/algorithm/string/compare.hpp>
-#include <boost/algorithm/string/find.hpp>
-#include <boost/algorithm/string/detail/predicate.hpp>
+#include "../../../boost/algorithm/string/compare.hpp"
+#include "../../../boost/algorithm/string/find.hpp"
+#include "../../../boost/algorithm/string/detail/predicate.hpp"
 
 /*! \file boost/algorithm/string/predicate.hpp
     Defines string-related predicates. 

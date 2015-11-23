@@ -13,8 +13,8 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/detail/workaround.hpp"
 
 /* In those compilers that do not accept the member template friend syntax,
  * some protected and private sections might need to be specified as

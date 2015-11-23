@@ -49,24 +49,24 @@ the next step will be:
 #pragma once
 #endif
 
-#include <boost/config.hpp>
-#include <boost/bimap/detail/user_interface_config.hpp>
-#include <boost/mpl/aux_/na.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/bimap/detail/user_interface_config.hpp"
+#include "../../boost/mpl/aux_/na.hpp"
 
 #ifndef BOOST_BIMAP_DISABLE_SERIALIZATION
-    #include <boost/serialization/nvp.hpp>
+    #include "../../boost/serialization/nvp.hpp"
 #endif // BOOST_BIMAP_DISABLE_SERIALIZATION
 
 // Boost.Bimap
-#include <boost/bimap/detail/bimap_core.hpp>
-#include <boost/bimap/detail/map_view_base.hpp>
-#include <boost/bimap/detail/modifier_adaptor.hpp>
-#include <boost/bimap/relation/support/data_extractor.hpp>
-#include <boost/bimap/relation/support/member_with_tag.hpp>
+#include "../../boost/bimap/detail/bimap_core.hpp"
+#include "../../boost/bimap/detail/map_view_base.hpp"
+#include "../../boost/bimap/detail/modifier_adaptor.hpp"
+#include "../../boost/bimap/relation/support/data_extractor.hpp"
+#include "../../boost/bimap/relation/support/member_with_tag.hpp"
 
-#include <boost/bimap/support/map_type_by.hpp>
-#include <boost/bimap/support/map_by.hpp>
-#include <boost/bimap/support/iterator_type_by.hpp>
+#include "../../boost/bimap/support/map_type_by.hpp"
+#include "../../boost/bimap/support/map_by.hpp"
+#include "../../boost/bimap/support/iterator_type_by.hpp"
 
 /// \brief The namespace where all the boost libraries lives.
 
@@ -417,9 +417,9 @@ class bimap
 
 // Include basic tools for user commodity
 
-#include <boost/bimap/tags/tagged.hpp>
-#include <boost/bimap/relation/member_at.hpp>
-#include <boost/multi_index/detail/unbounded.hpp>
+#include "../../boost/bimap/tags/tagged.hpp"
+#include "../../boost/bimap/relation/member_at.hpp"
+#include "../../boost/multi_index/detail/unbounded.hpp"
 
 // Bring the most used namespaces directly to the user main namespace
 namespace boost {

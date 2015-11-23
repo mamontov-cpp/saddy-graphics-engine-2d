@@ -21,8 +21,8 @@
 
 
 #if !defined(BOOST_MPL_PREPROCESSING_MODE)
-#   include <boost/mpl/arg.hpp>
-#   include <boost/mpl/aux_/adl_barrier.hpp>
+#include "../../boost/mpl/arg.hpp"
+#include "../../boost/mpl/aux_/adl_barrier.hpp"
 
 #   if !defined(BOOST_MPL_CFG_NO_ADL_BARRIER_NAMESPACE)
 #       define BOOST_MPL_AUX_ARG_ADL_BARRIER_DECL(type) \
@@ -34,20 +34,20 @@
 
 #endif
 
-#include <boost/mpl/aux_/config/use_preprocessed.hpp>
+#include "../../boost/mpl/aux_/config/use_preprocessed.hpp"
 
 #if !defined(BOOST_MPL_CFG_NO_PREPROCESSED_HEADERS) \
  && !defined(BOOST_MPL_PREPROCESSING_MODE)
 
 #   define BOOST_MPL_PREPROCESSED_HEADER placeholders.hpp
-#   include <boost/mpl/aux_/include_preprocessed.hpp>
+#include "../../boost/mpl/aux_/include_preprocessed.hpp"
 
 #else
 
-#   include <boost/mpl/aux_/nttp_decl.hpp>
-#   include <boost/mpl/limits/arity.hpp>
-#   include <boost/preprocessor/iterate.hpp>
-#   include <boost/preprocessor/cat.hpp>
+#include "../../boost/mpl/aux_/nttp_decl.hpp"
+#include "../../boost/mpl/limits/arity.hpp"
+#include "../../boost/preprocessor/iterate.hpp"
+#include "../../boost/preprocessor/cat.hpp"
 
 // watch out for GNU gettext users, who #define _(x)
 #if !defined(_) || defined(BOOST_MPL_CFG_NO_UNNAMED_PLACEHOLDER_SUPPORT)

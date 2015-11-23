@@ -9,28 +9,28 @@
 #ifndef INIT_JDG20020820_HPP
 #define INIT_JDG20020820_HPP
 
-# include <boost/python/detail/prefix.hpp>
+#include "../../boost/python/detail/prefix.hpp"
 
-#include <boost/python/detail/type_list.hpp>
-#include <boost/python/args_fwd.hpp>
-#include <boost/python/detail/make_keyword_range_fn.hpp>
-#include <boost/python/def_visitor.hpp>
+#include "../../boost/python/detail/type_list.hpp"
+#include "../../boost/python/args_fwd.hpp"
+#include "../../boost/python/detail/make_keyword_range_fn.hpp"
+#include "../../boost/python/def_visitor.hpp"
 
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/size.hpp>
-#include <boost/mpl/iterator_range.hpp>
-#include <boost/mpl/empty.hpp>
-#include <boost/mpl/begin_end.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/prior.hpp>
-#include <boost/mpl/joint_view.hpp>
-#include <boost/mpl/back.hpp>
+#include "../../boost/mpl/if.hpp"
+#include "../../boost/mpl/eval_if.hpp"
+#include "../../boost/mpl/size.hpp"
+#include "../../boost/mpl/iterator_range.hpp"
+#include "../../boost/mpl/empty.hpp"
+#include "../../boost/mpl/begin_end.hpp"
+#include "../../boost/mpl/bool.hpp"
+#include "../../boost/mpl/prior.hpp"
+#include "../../boost/mpl/joint_view.hpp"
+#include "../../boost/mpl/back.hpp"
 
-#include <boost/type_traits/is_same.hpp>
+#include "../../boost/type_traits/is_same.hpp"
 
-#include <boost/preprocessor/enum_params_with_a_default.hpp>
-#include <boost/preprocessor/enum_params.hpp>
+#include "../../boost/preprocessor/enum_params_with_a_default.hpp"
+#include "../../boost/preprocessor/enum_params.hpp"
 
 #include <utility>
 

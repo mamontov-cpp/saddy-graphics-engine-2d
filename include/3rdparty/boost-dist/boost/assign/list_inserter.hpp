@@ -15,20 +15,20 @@
 # pragma once
 #endif
 
-#include <boost/detail/workaround.hpp>
+#include "../../boost/detail/workaround.hpp"
 
-#include <boost/mpl/if.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/range/begin.hpp>
-#include <boost/range/end.hpp>
-#include <boost/config.hpp>
+#include "../../boost/mpl/if.hpp"
+#include "../../boost/type_traits/is_same.hpp"
+#include "../../boost/range/begin.hpp"
+#include "../../boost/range/end.hpp"
+#include "../../boost/config.hpp"
 #include <cstddef>
 
-#include <boost/preprocessor/repetition/enum_binary_params.hpp>
-#include <boost/preprocessor/repetition/enum_params.hpp>
-#include <boost/preprocessor/cat.hpp>
-#include <boost/preprocessor/iteration/local.hpp>
-#include <boost/preprocessor/arithmetic/inc.hpp>
+#include "../../boost/preprocessor/repetition/enum_binary_params.hpp"
+#include "../../boost/preprocessor/repetition/enum_params.hpp"
+#include "../../boost/preprocessor/cat.hpp"
+#include "../../boost/preprocessor/iteration/local.hpp"
+#include "../../boost/preprocessor/arithmetic/inc.hpp"
 
 namespace boost
 {

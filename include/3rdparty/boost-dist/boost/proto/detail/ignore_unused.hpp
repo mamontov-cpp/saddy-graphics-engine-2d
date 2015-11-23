@@ -10,7 +10,7 @@
 #ifndef BOOST_PROTO_DETAIL_IGNORE_UNUSED_HPP_EAN_03_03_2008
 #define BOOST_PROTO_DETAIL_IGNORE_UNUSED_HPP_EAN_03_03_2008
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
 #if defined(_MSC_VER)
 # pragma warning(push)

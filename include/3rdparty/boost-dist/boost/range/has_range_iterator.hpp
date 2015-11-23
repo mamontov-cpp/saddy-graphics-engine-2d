@@ -13,12 +13,12 @@
 #ifndef BOOST_RANGE_HAS_ITERATOR_HPP_INCLUDED
 #define BOOST_RANGE_HAS_ITERATOR_HPP_INCLUDED
 
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/has_xxx.hpp>
-#include <boost/range/iterator.hpp>
-#include <boost/type_traits/remove_reference.hpp>
-#include <boost/utility/enable_if.hpp>
+#include "../../boost/mpl/bool.hpp"
+#include "../../boost/mpl/eval_if.hpp"
+#include "../../boost/mpl/has_xxx.hpp"
+#include "../../boost/range/iterator.hpp"
+#include "../../boost/type_traits/remove_reference.hpp"
+#include "../../boost/utility/enable_if.hpp"
 
 namespace boost
 {

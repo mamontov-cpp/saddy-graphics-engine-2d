@@ -23,7 +23,7 @@
 
 //  enable automatic library variant selection  ------------------------------// 
 
-#include <boost/archive/detail/decl.hpp>
+#include "../../../boost/archive/detail/decl.hpp"
 
 #if !defined(BOOST_WARCHIVE_SOURCE) \
 && !defined(BOOST_ALL_NO_LIB) && !defined(BOOST_SERIALIZATION_NO_LIB)
@@ -41,7 +41,7 @@
 //
 // And include the header that does the work:
 //
-#include <boost/config/auto_link.hpp>
+#include "../../../boost/config/auto_link.hpp"
 #endif  // auto-linking disabled
 
 #endif // ARCHIVE_DETAIL_AUTO_LINK_ARCHIVE_HPP

@@ -10,46 +10,46 @@
 #if !defined(BOOST_FUSION_FUNCTIONAL_INVOCATION_INVOKE_HPP_INCLUDED)
 #if !defined(BOOST_PP_IS_ITERATING)
 
-#include <boost/preprocessor/cat.hpp>
-#include <boost/preprocessor/iteration/iterate.hpp>
-#include <boost/preprocessor/arithmetic/dec.hpp>
-#include <boost/preprocessor/repetition/repeat_from_to.hpp>
-#include <boost/preprocessor/repetition/enum.hpp>
-#include <boost/preprocessor/repetition/enum_shifted.hpp>
-#include <boost/preprocessor/repetition/enum_params.hpp>
-#include <boost/preprocessor/repetition/enum_shifted_params.hpp>
+#include "../../../../boost/preprocessor/cat.hpp"
+#include "../../../../boost/preprocessor/iteration/iterate.hpp"
+#include "../../../../boost/preprocessor/arithmetic/dec.hpp"
+#include "../../../../boost/preprocessor/repetition/repeat_from_to.hpp"
+#include "../../../../boost/preprocessor/repetition/enum.hpp"
+#include "../../../../boost/preprocessor/repetition/enum_shifted.hpp"
+#include "../../../../boost/preprocessor/repetition/enum_params.hpp"
+#include "../../../../boost/preprocessor/repetition/enum_shifted_params.hpp"
 
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/or.hpp>
-#include <boost/mpl/front.hpp>
-#include <boost/mpl/identity.hpp>
+#include "../../../../boost/mpl/if.hpp"
+#include "../../../../boost/mpl/eval_if.hpp"
+#include "../../../../boost/mpl/or.hpp"
+#include "../../../../boost/mpl/front.hpp"
+#include "../../../../boost/mpl/identity.hpp"
 
-#include <boost/type_traits/add_const.hpp>
-#include <boost/type_traits/remove_cv.hpp>
-#include <boost/type_traits/add_reference.hpp>
-#include <boost/type_traits/remove_reference.hpp>
-#include <boost/type_traits/is_convertible.hpp>
+#include "../../../../boost/type_traits/add_const.hpp"
+#include "../../../../boost/type_traits/remove_cv.hpp"
+#include "../../../../boost/type_traits/add_reference.hpp"
+#include "../../../../boost/type_traits/remove_reference.hpp"
+#include "../../../../boost/type_traits/is_convertible.hpp"
 
-#include <boost/function_types/is_function.hpp>
-#include <boost/function_types/is_callable_builtin.hpp>
-#include <boost/function_types/is_member_pointer.hpp>
-#include <boost/function_types/is_member_function_pointer.hpp>
-#include <boost/function_types/result_type.hpp>
-#include <boost/function_types/parameter_types.hpp>
+#include "../../../../boost/function_types/is_function.hpp"
+#include "../../../../boost/function_types/is_callable_builtin.hpp"
+#include "../../../../boost/function_types/is_member_pointer.hpp"
+#include "../../../../boost/function_types/is_member_function_pointer.hpp"
+#include "../../../../boost/function_types/result_type.hpp"
+#include "../../../../boost/function_types/parameter_types.hpp"
 
-#include <boost/utility/result_of.hpp>
+#include "../../../../boost/utility/result_of.hpp"
 
-#include <boost/fusion/support/category_of.hpp>
-#include <boost/fusion/support/detail/enabler.hpp>
-#include <boost/fusion/sequence/intrinsic/at.hpp>
-#include <boost/fusion/sequence/intrinsic/size.hpp>
-#include <boost/fusion/sequence/intrinsic/front.hpp>
-#include <boost/fusion/sequence/intrinsic/begin.hpp>
-#include <boost/fusion/iterator/next.hpp>
-#include <boost/fusion/iterator/deref.hpp>
-#include <boost/fusion/functional/invocation/limits.hpp>
-#include <boost/fusion/functional/invocation/detail/that_ptr.hpp>
+#include "../../../../boost/fusion/support/category_of.hpp"
+#include "../../../../boost/fusion/support/detail/enabler.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic/at.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic/size.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic/front.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic/begin.hpp"
+#include "../../../../boost/fusion/iterator/next.hpp"
+#include "../../../../boost/fusion/iterator/deref.hpp"
+#include "../../../../boost/fusion/functional/invocation/limits.hpp"
+#include "../../../../boost/fusion/functional/invocation/detail/that_ptr.hpp"
 
 namespace boost { namespace fusion
 {

@@ -16,16 +16,16 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
-#include <boost/bimap/relation/member_at.hpp>
-#include <boost/bimap/relation/support/data_extractor.hpp>
-#include <boost/bimap/detail/modifier_adaptor.hpp>
-#include <boost/bimap/detail/set_view_iterator.hpp>
-#include <boost/bimap/relation/support/get_pair_functor.hpp>
-#include <boost/bimap/relation/detail/to_mutable_relation_functor.hpp>
-#include <boost/bimap/relation/mutant_relation.hpp>
-#include <boost/bimap/container_adaptor/support/iterator_facade_converters.hpp>
+#include "../../../boost/bimap/relation/member_at.hpp"
+#include "../../../boost/bimap/relation/support/data_extractor.hpp"
+#include "../../../boost/bimap/detail/modifier_adaptor.hpp"
+#include "../../../boost/bimap/detail/set_view_iterator.hpp"
+#include "../../../boost/bimap/relation/support/get_pair_functor.hpp"
+#include "../../../boost/bimap/relation/detail/to_mutable_relation_functor.hpp"
+#include "../../../boost/bimap/relation/mutant_relation.hpp"
+#include "../../../boost/bimap/container_adaptor/support/iterator_facade_converters.hpp"
 
 namespace boost {
 namespace bimaps {

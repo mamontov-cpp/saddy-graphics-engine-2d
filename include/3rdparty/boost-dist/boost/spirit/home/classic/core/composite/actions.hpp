@@ -8,9 +8,9 @@
 #ifndef BOOST_SPIRIT_ACTIONS_HPP
 #define BOOST_SPIRIT_ACTIONS_HPP
 
-#include <boost/spirit/home/classic/namespace.hpp>
-#include <boost/spirit/home/classic/core/parser.hpp>
-#include <boost/spirit/home/classic/core/composite/composite.hpp>
+#include "../../../../../../boost/spirit/home/classic/namespace.hpp"
+#include "../../../../../../boost/spirit/home/classic/core/parser.hpp"
+#include "../../../../../../boost/spirit/home/classic/core/composite/composite.hpp"
 
 namespace boost { namespace spirit {
 

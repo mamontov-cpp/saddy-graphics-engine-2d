@@ -10,7 +10,7 @@ http://www.boost.org/LICENSE_1_0.txt)
 #define BOOST_PREDEF_LIBRARY_H
 #endif
 
-#include <boost/predef/library/c.h>
-#include <boost/predef/library/std.h>
+#include "../../boost/predef/library/c.h"
+#include "../../boost/predef/library/std.h"
 
 #endif

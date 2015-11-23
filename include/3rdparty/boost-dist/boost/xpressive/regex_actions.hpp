@@ -14,42 +14,42 @@
 # pragma once
 #endif
 
-#include <boost/config.hpp>
-#include <boost/preprocessor/punctuation/comma_if.hpp>
-#include <boost/ref.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/or.hpp>
-#include <boost/mpl/int.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/noncopyable.hpp>
-#include <boost/lexical_cast.hpp>
-#include <boost/throw_exception.hpp>
-#include <boost/utility/enable_if.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/type_traits/is_const.hpp>
-#include <boost/type_traits/is_integral.hpp>
-#include <boost/type_traits/decay.hpp>
-#include <boost/type_traits/remove_cv.hpp>
-#include <boost/type_traits/remove_reference.hpp>
-#include <boost/range/iterator_range.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/detail/core/state.hpp>
-#include <boost/xpressive/detail/core/matcher/attr_matcher.hpp>
-#include <boost/xpressive/detail/core/matcher/attr_end_matcher.hpp>
-#include <boost/xpressive/detail/core/matcher/attr_begin_matcher.hpp>
-#include <boost/xpressive/detail/core/matcher/predicate_matcher.hpp>
-#include <boost/xpressive/detail/utility/ignore_unused.hpp>
-#include <boost/xpressive/detail/static/type_traits.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/preprocessor/punctuation/comma_if.hpp"
+#include "../../boost/ref.hpp"
+#include "../../boost/mpl/if.hpp"
+#include "../../boost/mpl/or.hpp"
+#include "../../boost/mpl/int.hpp"
+#include "../../boost/mpl/assert.hpp"
+#include "../../boost/noncopyable.hpp"
+#include "../../boost/lexical_cast.hpp"
+#include "../../boost/throw_exception.hpp"
+#include "../../boost/utility/enable_if.hpp"
+#include "../../boost/type_traits/is_same.hpp"
+#include "../../boost/type_traits/is_const.hpp"
+#include "../../boost/type_traits/is_integral.hpp"
+#include "../../boost/type_traits/decay.hpp"
+#include "../../boost/type_traits/remove_cv.hpp"
+#include "../../boost/type_traits/remove_reference.hpp"
+#include "../../boost/range/iterator_range.hpp"
+#include "../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../boost/xpressive/detail/core/state.hpp"
+#include "../../boost/xpressive/detail/core/matcher/attr_matcher.hpp"
+#include "../../boost/xpressive/detail/core/matcher/attr_end_matcher.hpp"
+#include "../../boost/xpressive/detail/core/matcher/attr_begin_matcher.hpp"
+#include "../../boost/xpressive/detail/core/matcher/predicate_matcher.hpp"
+#include "../../boost/xpressive/detail/utility/ignore_unused.hpp"
+#include "../../boost/xpressive/detail/static/type_traits.hpp"
 
 // These are very often needed by client code.
-#include <boost/typeof/std/map.hpp>
-#include <boost/typeof/std/string.hpp>
+#include "../../boost/typeof/std/map.hpp"
+#include "../../boost/typeof/std/string.hpp"
 
 // Doxygen can't handle proto :-(
 #ifndef BOOST_XPRESSIVE_DOXYGEN_INVOKED
-# include <boost/proto/core.hpp>
-# include <boost/proto/transform.hpp>
-# include <boost/xpressive/detail/core/matcher/action_matcher.hpp>
+#include "../../boost/proto/core.hpp"
+#include "../../boost/proto/transform.hpp"
+#include "../../boost/xpressive/detail/core/matcher/action_matcher.hpp"
 #endif
 
 #if BOOST_MSVC

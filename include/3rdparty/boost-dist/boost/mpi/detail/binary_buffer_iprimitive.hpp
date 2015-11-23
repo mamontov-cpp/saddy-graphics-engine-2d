@@ -12,14 +12,14 @@
 #include <mpi.h>
 #include <iostream>
 #include <cstddef> // size_t
-#include <boost/config.hpp>
-#include <boost/mpi/exception.hpp>
-#include <boost/assert.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/serialization/array.hpp>
-#include <boost/serialization/is_bitwise_serializable.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/mpi/exception.hpp"
+#include "../../../boost/assert.hpp"
+#include "../../../boost/mpl/assert.hpp"
+#include "../../../boost/serialization/array.hpp"
+#include "../../../boost/serialization/is_bitwise_serializable.hpp"
 #include <vector>
-#include <boost/mpi/allocator.hpp>
+#include "../../../boost/mpi/allocator.hpp"
 #include <cstring> // for memcpy
 #include <cassert>
 

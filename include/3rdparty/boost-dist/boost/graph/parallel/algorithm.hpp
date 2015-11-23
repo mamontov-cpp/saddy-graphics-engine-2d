@@ -13,8 +13,8 @@
 #error "Parallel BGL files should not be included unless <boost/graph/use_mpi.hpp> has been included"
 #endif
 
-#include <boost/optional.hpp>
-#include <boost/config.hpp> // for BOOST_STATIC_CONSTANT
+#include "../../../boost/optional.hpp"
+#include "../../../boost/config.hpp" // for BOOST_STATIC_CONSTANT
 #include <vector>
 #include <functional>
 
@@ -79,6 +79,6 @@ namespace boost { namespace parallel {
              std::vector<T>& out);
 } } // end namespace boost::parallel
 
-#include <boost/graph/parallel/detail/inplace_all_to_all.hpp>
+#include "../../../boost/graph/parallel/detail/inplace_all_to_all.hpp"
 
 #endif // BOOST_PARALLEL_ALGORITHM_HPP

@@ -12,10 +12,10 @@
 // implementation of basic_text_iprimitive overrides for the combination
 // of template parameters used to implement a text_iprimitive
 
-#include <boost/config.hpp>
-#include <boost/archive/detail/archive_serializer_map.hpp>
-#include <boost/archive/detail/basic_serializer_map.hpp>
-#include <boost/serialization/singleton.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/archive/detail/archive_serializer_map.hpp"
+#include "../../../boost/archive/detail/basic_serializer_map.hpp"
+#include "../../../boost/serialization/singleton.hpp"
 
 namespace boost {
 namespace archive {

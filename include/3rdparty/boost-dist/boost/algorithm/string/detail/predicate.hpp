@@ -12,7 +12,7 @@
 #define BOOST_STRING_PREDICATE_DETAIL_HPP
 
 #include <iterator>
-#include <boost/algorithm/string/find.hpp>
+#include "../../../../boost/algorithm/string/find.hpp"
 
 namespace boost {
     namespace algorithm {

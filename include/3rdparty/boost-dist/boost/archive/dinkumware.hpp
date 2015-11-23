@@ -22,8 +22,8 @@
 #include <iterator>
 #include <string>
 
-#include <boost/config.hpp>
-#include <boost/cstdint.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/cstdint.hpp"
 
 namespace std {
 

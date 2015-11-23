@@ -8,12 +8,12 @@
 #if !defined(FUSION_DETAIL_IS_MPL_SEQUENCE_29122006_1105)
 #define FUSION_DETAIL_IS_MPL_SEQUENCE_29122006_1105
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/support/sequence_base.hpp>
-#include <boost/mpl/is_sequence.hpp>
-#include <boost/mpl/and.hpp>
-#include <boost/mpl/not.hpp>
-#include <boost/type_traits/is_convertible.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/fusion/support/sequence_base.hpp"
+#include "../../../../boost/mpl/is_sequence.hpp"
+#include "../../../../boost/mpl/and.hpp"
+#include "../../../../boost/mpl/not.hpp"
+#include "../../../../boost/type_traits/is_convertible.hpp"
 
 namespace boost { namespace fusion { namespace detail
 {

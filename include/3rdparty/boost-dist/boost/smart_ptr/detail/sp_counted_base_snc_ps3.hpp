@@ -19,7 +19,7 @@
 //
 //  Thanks to Michael van der Westhuizen
 
-#include <boost/detail/sp_typeinfo.hpp>
+#include "../../../boost/detail/sp_typeinfo.hpp"
 #include <inttypes.h> // uint32_t
 
 namespace boost

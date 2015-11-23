@@ -21,7 +21,7 @@
 // This header implements separate compilation features as described in
 // http://www.boost.org/more/separate_compilation.html
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
 #if (defined(BOOST_ALL_DYN_LINK) || defined(BOOST_SERIALIZATION_DYN_LINK))
     #if defined(BOOST_ARCHIVE_SOURCE)

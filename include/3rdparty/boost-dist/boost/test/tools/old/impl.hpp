@@ -16,26 +16,26 @@
 #define BOOST_TEST_TOOLS_OLD_IMPL_HPP_012705GER
 
 // Boost.Test
-#include <boost/test/unit_test_log.hpp>
-#include <boost/test/tools/assertion_result.hpp>
-#include <boost/test/tools/floating_point_comparison.hpp>
+#include "../../../../boost/test/unit_test_log.hpp"
+#include "../../../../boost/test/tools/assertion_result.hpp"
+#include "../../../../boost/test/tools/floating_point_comparison.hpp"
 
-#include <boost/test/tools/detail/fwd.hpp>
-#include <boost/test/tools/detail/print_helper.hpp>
+#include "../../../../boost/test/tools/detail/fwd.hpp"
+#include "../../../../boost/test/tools/detail/print_helper.hpp"
 
 // Boost
-#include <boost/limits.hpp>
-#include <boost/numeric/conversion/conversion_traits.hpp> // for numeric::conversion_traits
-#include <boost/type_traits/is_array.hpp>
+#include "../../../../boost/limits.hpp"
+#include "../../../../boost/numeric/conversion/conversion_traits.hpp" // for numeric::conversion_traits
+#include "../../../../boost/type_traits/is_array.hpp"
 
-#include <boost/preprocessor/repetition/repeat.hpp>
-#include <boost/preprocessor/arithmetic/add.hpp>
+#include "../../../../boost/preprocessor/repetition/repeat.hpp"
+#include "../../../../boost/preprocessor/arithmetic/add.hpp"
 
 // STL
 #include <cstddef>          // for std::size_t
 #include <climits>          // for CHAR_BIT
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -353,6 +353,6 @@ check_is_small( FPT fpv, FPT tolerance )
 } // namespace test_tools
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_TOOLS_OLD_IMPL_HPP_012705GER

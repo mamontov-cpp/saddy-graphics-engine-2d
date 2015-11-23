@@ -13,11 +13,11 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../../boost/config.hpp"
 
-#include <boost/mpl/assert.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/preprocessor/cat.hpp>
+#include "../../../../boost/mpl/assert.hpp"
+#include "../../../../boost/type_traits/is_same.hpp"
+#include "../../../../boost/preprocessor/cat.hpp"
 
 
 // Easier way to call BOOST_MPL_ASSERT_MSG in class scope

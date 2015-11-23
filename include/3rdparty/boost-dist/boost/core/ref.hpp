@@ -7,9 +7,9 @@
 # pragma once
 #endif
 
-#include <boost/config.hpp>
-#include <boost/utility/addressof.hpp>
-#include <boost/detail/workaround.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/utility/addressof.hpp"
+#include "../../boost/detail/workaround.hpp"
 
 //
 //  ref.hpp - ref/cref, useful helper functions

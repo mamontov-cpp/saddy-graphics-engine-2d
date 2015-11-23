@@ -9,27 +9,27 @@
 #ifndef BOOST_TT_IS_COPY_ASSIGNABLE_HPP_INCLUDED
 #define BOOST_TT_IS_COPY_ASSIGNABLE_HPP_INCLUDED
 
-#include <boost/config.hpp>
-#include <boost/type_traits/detail/yes_no_type.hpp>
-#include <boost/type_traits/is_base_and_derived.hpp>
-#include <boost/noncopyable.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/type_traits/detail/yes_no_type.hpp"
+#include "../../boost/type_traits/is_base_and_derived.hpp"
+#include "../../boost/noncopyable.hpp"
 
 #if !defined(BOOST_NO_CXX11_DELETED_FUNCTIONS) && !defined(BOOST_NO_CXX11_DECLTYPE) \
    && !defined(BOOST_INTEL_CXX_VERSION) && \
       !(defined(BOOST_MSVC) && _MSC_VER == 1800)
 #define BOOST_TT_CXX11_IS_COPY_ASSIGNABLE
-#include <boost/utility/declval.hpp>
+#include "../../boost/utility/declval.hpp"
 #else
    //For compilers without decltype
-   #include <boost/type_traits/is_const.hpp>
-   #include <boost/type_traits/is_array.hpp>
-   #include <boost/type_traits/add_reference.hpp>
-   #include <boost/type_traits/remove_reference.hpp>
+   #include "../../boost/type_traits/is_const.hpp"
+   #include "../../boost/type_traits/is_array.hpp"
+   #include "../../boost/type_traits/add_reference.hpp"
+   #include "../../boost/type_traits/remove_reference.hpp"
 #endif
 
 
 // should be the last #include
-#include <boost/type_traits/detail/bool_trait_def.hpp>
+#include "../../boost/type_traits/detail/bool_trait_def.hpp"
 
 namespace boost {
 
@@ -142,6 +142,6 @@ BOOST_TT_AUX_BOOL_TRAIT_SPEC1(is_copy_assignable,void volatile,false)
 
 } // namespace boost
 
-#include <boost/type_traits/detail/bool_trait_undef.hpp>
+#include "../../boost/type_traits/detail/bool_trait_undef.hpp"
 
 #endif // BOOST_TT_IS_COPY_ASSIGNABLE_HPP_INCLUDED

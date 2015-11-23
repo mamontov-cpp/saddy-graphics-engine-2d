@@ -6,12 +6,12 @@
 #ifndef REVERSE_GRAPH_DWA092300_H_
 # define REVERSE_GRAPH_DWA092300_H_
 
-#include <boost/graph/adjacency_iterator.hpp>
-#include <boost/graph/properties.hpp>
-#include <boost/iterator/transform_iterator.hpp>
-#include <boost/tuple/tuple.hpp>
-#include <boost/type_traits.hpp>
-#include <boost/mpl/if.hpp>
+#include "../../boost/graph/adjacency_iterator.hpp"
+#include "../../boost/graph/properties.hpp"
+#include "../../boost/iterator/transform_iterator.hpp"
+#include "../../boost/tuple/tuple.hpp"
+#include "../../boost/type_traits.hpp"
+#include "../../boost/mpl/if.hpp"
 
 namespace boost {
 

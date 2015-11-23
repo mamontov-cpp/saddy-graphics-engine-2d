@@ -12,14 +12,14 @@
 #ifndef BOOST_LAMBDA_FUNCTION_ADAPTORS_HPP
 #define BOOST_LAMBDA_FUNCTION_ADAPTORS_HPP
 
-#include "boost/mpl/has_xxx.hpp"
-#include "boost/tuple/tuple.hpp"
-#include "boost/type_traits/same_traits.hpp"
-#include "boost/type_traits/remove_reference.hpp"
-#include "boost/type_traits/remove_cv.hpp"
-#include "boost/type_traits/add_const.hpp"
-#include "boost/type_traits/add_volatile.hpp"
-#include "boost/utility/result_of.hpp"
+#include "../../../boost/mpl/has_xxx.hpp"
+#include "../../../boost/tuple/tuple.hpp"
+#include "../../../boost/type_traits/same_traits.hpp"
+#include "../../../boost/type_traits/remove_reference.hpp"
+#include "../../../boost/type_traits/remove_cv.hpp"
+#include "../../../boost/type_traits/add_const.hpp"
+#include "../../../boost/type_traits/add_volatile.hpp"
+#include "../../../boost/utility/result_of.hpp"
 
 namespace boost { 
 namespace lambda {

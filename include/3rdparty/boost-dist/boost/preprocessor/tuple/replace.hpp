@@ -12,13 +12,13 @@
 # ifndef BOOST_PREPROCESSOR_TUPLE_REPLACE_HPP
 # define BOOST_PREPROCESSOR_TUPLE_REPLACE_HPP
 #
-# include <boost/preprocessor/config/config.hpp>
+#include "../../../boost/preprocessor/config/config.hpp"
 #
 # if BOOST_PP_VARIADICS
 #
-# include <boost/preprocessor/array/replace.hpp>
-# include <boost/preprocessor/array/to_tuple.hpp>
-# include <boost/preprocessor/tuple/to_array.hpp>
+#include "../../../boost/preprocessor/array/replace.hpp"
+#include "../../../boost/preprocessor/array/to_tuple.hpp"
+#include "../../../boost/preprocessor/tuple/to_array.hpp"
 #
 # /* BOOST_PP_TUPLE_REPLACE */
 #

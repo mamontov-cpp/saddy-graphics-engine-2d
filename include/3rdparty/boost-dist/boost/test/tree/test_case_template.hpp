@@ -16,35 +16,35 @@
 #define BOOST_TEST_TREE_TEST_CASE_TEMPLATE_HPP_091911GER
 
 // Boost.Test
-#include <boost/test/detail/config.hpp>
-#include <boost/test/detail/global_typedef.hpp>
-#include <boost/test/detail/fwd_decl.hpp>
-#include <boost/test/detail/workaround.hpp>
+#include "../../../boost/test/detail/config.hpp"
+#include "../../../boost/test/detail/global_typedef.hpp"
+#include "../../../boost/test/detail/fwd_decl.hpp"
+#include "../../../boost/test/detail/workaround.hpp"
 
-#include <boost/test/utils/class_properties.hpp>
+#include "../../../boost/test/utils/class_properties.hpp"
 
-#include <boost/test/tree/observer.hpp>
+#include "../../../boost/test/tree/observer.hpp"
 
 
 // Boost
-#include <boost/shared_ptr.hpp>
-#include <boost/mpl/for_each.hpp>
-#include <boost/mpl/identity.hpp>
-#include <boost/type.hpp>
-#include <boost/type_traits/is_const.hpp>
-#include <boost/function/function0.hpp>
+#include "../../../boost/shared_ptr.hpp"
+#include "../../../boost/mpl/for_each.hpp"
+#include "../../../boost/mpl/identity.hpp"
+#include "../../../boost/type.hpp"
+#include "../../../boost/type_traits/is_const.hpp"
+#include "../../../boost/function/function0.hpp"
 
 #ifndef BOOST_NO_RTTI
 #include <typeinfo> // for typeid
 #else
-#include <boost/current_function.hpp>
+#include "../../../boost/current_function.hpp"
 #endif
 
 // STL
 #include <string>   // for std::string
 #include <list>     // for std::list
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 
 //____________________________________________________________________________//
@@ -139,6 +139,6 @@ public:
 } // unit_test
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_TREE_TEST_CASE_TEMPLATE_HPP_091911GER

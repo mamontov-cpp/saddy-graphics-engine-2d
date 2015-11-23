@@ -13,12 +13,12 @@
 #ifndef BOOST_DETAIL_REFERENCE_CONTENT_HPP
 #define BOOST_DETAIL_REFERENCE_CONTENT_HPP
 
-#include "boost/config.hpp"
+#include "../../boost/config.hpp"
 
-#   include "boost/mpl/bool.hpp"
-#   include "boost/type_traits/has_nothrow_copy.hpp"
+#include "../../boost/mpl/bool.hpp"
+#include "../../boost/type_traits/has_nothrow_copy.hpp"
 
-#include "boost/mpl/void.hpp"
+#include "../../boost/mpl/void.hpp"
 
 namespace boost {
 

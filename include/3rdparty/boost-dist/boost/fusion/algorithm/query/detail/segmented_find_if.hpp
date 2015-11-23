@@ -7,13 +7,13 @@
 #if !defined(BOOST_FUSION_SEGMENTED_FIND_IF_HPP_INCLUDED)
 #define BOOST_FUSION_SEGMENTED_FIND_IF_HPP_INCLUDED
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/identity.hpp>
-#include <boost/fusion/algorithm/query/find_if_fwd.hpp>
-#include <boost/fusion/iterator/equal_to.hpp>
-#include <boost/fusion/sequence/intrinsic/end.hpp>
-#include <boost/fusion/support/segmented_fold_until.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/mpl/eval_if.hpp"
+#include "../../../../../boost/mpl/identity.hpp"
+#include "../../../../../boost/fusion/algorithm/query/find_if_fwd.hpp"
+#include "../../../../../boost/fusion/iterator/equal_to.hpp"
+#include "../../../../../boost/fusion/sequence/intrinsic/end.hpp"
+#include "../../../../../boost/fusion/support/segmented_fold_until.hpp"
 
 namespace boost { namespace fusion { namespace detail
 {

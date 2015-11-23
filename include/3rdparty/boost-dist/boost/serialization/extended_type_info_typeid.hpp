@@ -20,25 +20,25 @@
 
 #include <typeinfo>
 #include <cstdarg>
-#include <boost/assert.hpp>
-#include <boost/config.hpp>
+#include "../../boost/assert.hpp"
+#include "../../boost/config.hpp"
 
-#include <boost/static_assert.hpp>
-#include <boost/serialization/static_warning.hpp>
-#include <boost/type_traits/is_polymorphic.hpp>
-#include <boost/type_traits/remove_const.hpp>
+#include "../../boost/static_assert.hpp"
+#include "../../boost/serialization/static_warning.hpp"
+#include "../../boost/type_traits/is_polymorphic.hpp"
+#include "../../boost/type_traits/remove_const.hpp"
 
-#include <boost/serialization/config.hpp>
-#include <boost/serialization/singleton.hpp>
-#include <boost/serialization/extended_type_info.hpp>
-#include <boost/serialization/factory.hpp>
+#include "../../boost/serialization/config.hpp"
+#include "../../boost/serialization/singleton.hpp"
+#include "../../boost/serialization/extended_type_info.hpp"
+#include "../../boost/serialization/factory.hpp"
 
 // hijack serialization access
-#include <boost/serialization/access.hpp>
+#include "../../boost/serialization/access.hpp"
 
-#include <boost/mpl/if.hpp>
+#include "../../boost/mpl/if.hpp"
 
-#include <boost/config/abi_prefix.hpp> // must be the last header
+#include "../../boost/config/abi_prefix.hpp" // must be the last header
 
 #ifdef BOOST_MSVC
 #  pragma warning(push)
@@ -160,6 +160,6 @@ public:
 #ifdef BOOST_MSVC
 #pragma warning(pop)
 #endif
-#include <boost/config/abi_suffix.hpp> // pops abi_suffix.hpp pragmas
+#include "../../boost/config/abi_suffix.hpp" // pops abi_suffix.hpp pragmas
 
 #endif // BOOST_SERIALIZATION_EXTENDED_TYPE_INFO_TYPEID_HPP

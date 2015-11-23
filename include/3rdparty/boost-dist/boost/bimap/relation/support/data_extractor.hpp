@@ -16,9 +16,9 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../../boost/config.hpp"
 
-#include <boost/bimap/relation/detail/metadata_access_builder.hpp>
+#include "../../../../boost/bimap/relation/detail/metadata_access_builder.hpp"
 #include <functional>
 
 /** \struct boost::bimaps::relation::support::data_extractor

@@ -9,13 +9,13 @@
 #ifndef BOOST_FT_DETAIL_CLASSIFIER_HPP_INCLUDED
 #define BOOST_FT_DETAIL_CLASSIFIER_HPP_INCLUDED
 
-#include <boost/type.hpp>
-#include <boost/config.hpp>
-#include <boost/type_traits/is_reference.hpp>
-#include <boost/type_traits/add_reference.hpp>
+#include "../../../boost/type.hpp"
+#include "../../../boost/config.hpp"
+#include "../../../boost/type_traits/is_reference.hpp"
+#include "../../../boost/type_traits/add_reference.hpp"
 
-#include <boost/function_types/config/config.hpp>
-#include <boost/function_types/property_tags.hpp>
+#include "../../../boost/function_types/config/config.hpp"
+#include "../../../boost/function_types/property_tags.hpp"
 
 namespace boost { namespace function_types { namespace detail {
 
@@ -51,7 +51,7 @@ char BOOST_FT_DECL classifier_impl(...);
     R BOOST_PP_EMPTY,BOOST_PP_LPAREN,cc,T0::** BOOST_PP_EMPTY,name,BOOST_PP_RPAREN)
 
 #define BOOST_FT_al_path boost/function_types/detail/classifier_impl
-#include <boost/function_types/detail/pp_loop.hpp>
+#include "../../../boost/function_types/detail/pp_loop.hpp"
 
 template<typename T> struct classifier_bits
 {

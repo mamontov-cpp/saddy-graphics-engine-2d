@@ -8,34 +8,34 @@
 # ifndef POINTER_HOLDER_DWA20011215_HPP
 #  define POINTER_HOLDER_DWA20011215_HPP 
 
-# include <boost/get_pointer.hpp>
-#  include <boost/type.hpp>
+#include "../../../boost/get_pointer.hpp"
+#include "../../../boost/type.hpp"
 
-#  include <boost/python/instance_holder.hpp>
-#  include <boost/python/object/inheritance_query.hpp>
-#  include <boost/python/object/forward.hpp>
+#include "../../../boost/python/instance_holder.hpp"
+#include "../../../boost/python/object/inheritance_query.hpp"
+#include "../../../boost/python/object/forward.hpp"
 
-#  include <boost/python/pointee.hpp>
-#  include <boost/python/type_id.hpp>
+#include "../../../boost/python/pointee.hpp"
+#include "../../../boost/python/type_id.hpp"
 
-#  include <boost/python/detail/wrapper_base.hpp>
-#  include <boost/python/detail/force_instantiate.hpp>
-#  include <boost/python/detail/preprocessor.hpp>
+#include "../../../boost/python/detail/wrapper_base.hpp"
+#include "../../../boost/python/detail/force_instantiate.hpp"
+#include "../../../boost/python/detail/preprocessor.hpp"
 
 
-#  include <boost/mpl/if.hpp>
-#  include <boost/mpl/apply.hpp>
+#include "../../../boost/mpl/if.hpp"
+#include "../../../boost/mpl/apply.hpp"
 
-#  include <boost/preprocessor/comma_if.hpp>
-#  include <boost/preprocessor/iterate.hpp>
-#  include <boost/preprocessor/repeat.hpp>
-#  include <boost/preprocessor/debug/line.hpp>
-#  include <boost/preprocessor/enum_params.hpp>
-#  include <boost/preprocessor/repetition/enum_binary_params.hpp>
+#include "../../../boost/preprocessor/comma_if.hpp"
+#include "../../../boost/preprocessor/iterate.hpp"
+#include "../../../boost/preprocessor/repeat.hpp"
+#include "../../../boost/preprocessor/debug/line.hpp"
+#include "../../../boost/preprocessor/enum_params.hpp"
+#include "../../../boost/preprocessor/repetition/enum_binary_params.hpp"
 
-#  include <boost/detail/workaround.hpp>
+#include "../../../boost/detail/workaround.hpp"
 
-#  include <boost/type_traits/remove_const.hpp>
+#include "../../../boost/type_traits/remove_const.hpp"
 
 namespace boost { namespace python {
 

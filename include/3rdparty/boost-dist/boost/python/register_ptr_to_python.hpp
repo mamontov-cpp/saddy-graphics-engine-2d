@@ -5,9 +5,9 @@
 #ifndef REGISTER_PTR_TO_PYTHON_HPP
 #define REGISTER_PTR_TO_PYTHON_HPP
 
-#include <boost/python/pointee.hpp>
-#include <boost/python/object.hpp>
-#include <boost/python/object/class_wrapper.hpp>
+#include "../../boost/python/pointee.hpp"
+#include "../../boost/python/object.hpp"
+#include "../../boost/python/object/class_wrapper.hpp"
 
 namespace boost { namespace python {
     

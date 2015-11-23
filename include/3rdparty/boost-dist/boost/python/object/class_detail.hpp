@@ -5,8 +5,8 @@
 #ifndef CLASS_DETAIL_DWA200295_HPP
 # define CLASS_DETAIL_DWA200295_HPP
 
-# include <boost/python/handle.hpp>
-# include <boost/python/type_id.hpp>
+#include "../../../boost/python/handle.hpp"
+#include "../../../boost/python/type_id.hpp"
 
 namespace boost { namespace python { namespace objects { 
 

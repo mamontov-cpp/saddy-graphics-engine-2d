@@ -17,18 +17,18 @@
 // $Date$
 // $Revision$
 
-#   include <boost/mpl/aux_/config/ctps.hpp>
-#   include <boost/mpl/aux_/config/static_constant.hpp>
-#   include <boost/mpl/aux_/nttp_decl.hpp>
+#include "../../../boost/mpl/aux_/config/ctps.hpp"
+#include "../../../boost/mpl/aux_/config/static_constant.hpp"
+#include "../../../boost/mpl/aux_/nttp_decl.hpp"
 
-#   include <boost/preprocessor/arithmetic/sub.hpp>
-#   include <boost/preprocessor/tuple/elem.hpp>
-#   include <boost/preprocessor/enum_params_with_a_default.hpp>
-#   include <boost/preprocessor/enum_params.hpp>
-#   include <boost/preprocessor/enum.hpp>
-#   include <boost/preprocessor/repeat.hpp>
-#   include <boost/preprocessor/comma_if.hpp>
-#   include <boost/preprocessor/iterate.hpp>
+#include "../../../boost/preprocessor/arithmetic/sub.hpp"
+#include "../../../boost/preprocessor/tuple/elem.hpp"
+#include "../../../boost/preprocessor/enum_params_with_a_default.hpp"
+#include "../../../boost/preprocessor/enum_params.hpp"
+#include "../../../boost/preprocessor/enum.hpp"
+#include "../../../boost/preprocessor/repeat.hpp"
+#include "../../../boost/preprocessor/comma_if.hpp"
+#include "../../../boost/preprocessor/iterate.hpp"
 
 #if defined(BOOST_MPL_PREPROCESSING_MODE)
 #   undef LONG_MAX
@@ -174,7 +174,7 @@ namespace aux {
 #define AUX778076_COUNT_ARGS_TEMPLATE_PARAM AUX778076_SEQUENCE_TEMPLATE_PARAM
 #define AUX778076_COUNT_ARGS_ARITY          AUX778076_SEQUENCE_LIMIT
 #define AUX778076_COUNT_ARGS_USE_STANDARD_PP_PRIMITIVES
-#include <boost/mpl/aux_/count_args.hpp>
+#include "../../../boost/mpl/aux_/count_args.hpp"
 
 template<
       AUX778076_SEQUENCE_PARAMS()

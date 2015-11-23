@@ -8,10 +8,10 @@ http://www.boost.org/LICENSE_1_0.txt)
 #ifndef BOOST_PREDEF_LIBRARY_C_GNU_H
 #define BOOST_PREDEF_LIBRARY_C_GNU_H
 
-#include <boost/predef/version_number.h>
-#include <boost/predef/make.h>
+#include "../../../../boost/predef/version_number.h"
+#include "../../../../boost/predef/make.h"
 
-#include <boost/predef/library/c/_prefix.h>
+#include "../../../../boost/predef/library/c/_prefix.h"
 
 #if defined(__STDC__)
 #include <stddef.h>
@@ -57,5 +57,5 @@ Version number available as major, and minor.
 
 #endif
 
-#include <boost/predef/detail/test.h>
+#include "../../../../boost/predef/detail/test.h"
 BOOST_PREDEF_DECLARE_TEST(BOOST_LIB_C_GNU,BOOST_LIB_C_GNU_NAME)

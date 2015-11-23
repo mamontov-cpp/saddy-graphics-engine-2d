@@ -13,12 +13,12 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp> /* keep it first to prevent nasty warns in MSVC */
-#include <boost/mpl/vector.hpp>
-#include <boost/preprocessor/cat.hpp>
-#include <boost/preprocessor/control/expr_if.hpp>
-#include <boost/preprocessor/repetition/enum.hpp>
-#include <boost/preprocessor/repetition/enum_params.hpp> 
+#include "../../boost/config.hpp" /* keep it first to prevent nasty warns in MSVC */
+#include "../../boost/mpl/vector.hpp"
+#include "../../boost/preprocessor/cat.hpp"
+#include "../../boost/preprocessor/control/expr_if.hpp"
+#include "../../boost/preprocessor/repetition/enum.hpp"
+#include "../../boost/preprocessor/repetition/enum_params.hpp" 
 
 /* An alias to mpl::vector used to hide MPL from the user.
  * indexed_by contains the index specifiers for instantiation

@@ -13,14 +13,14 @@
 # pragma once
 #endif
 
-#include <boost/noncopyable.hpp>
-#include <boost/xpressive/detail/detail_fwd.hpp>
-#include <boost/xpressive/detail/core/access.hpp>
-#include <boost/xpressive/detail/core/action.hpp>
-#include <boost/xpressive/detail/core/sub_match_vector.hpp>
-#include <boost/xpressive/detail/utility/sequence_stack.hpp>
-#include <boost/xpressive/detail/core/regex_impl.hpp>
-#include <boost/xpressive/regex_constants.hpp>
+#include "../../../../boost/noncopyable.hpp"
+#include "../../../../boost/xpressive/detail/detail_fwd.hpp"
+#include "../../../../boost/xpressive/detail/core/access.hpp"
+#include "../../../../boost/xpressive/detail/core/action.hpp"
+#include "../../../../boost/xpressive/detail/core/sub_match_vector.hpp"
+#include "../../../../boost/xpressive/detail/utility/sequence_stack.hpp"
+#include "../../../../boost/xpressive/detail/core/regex_impl.hpp"
+#include "../../../../boost/xpressive/regex_constants.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

@@ -40,33 +40,33 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp> /* keep it first to prevent nasty warns in MSVC */
+#include "../../../boost/config.hpp" /* keep it first to prevent nasty warns in MSVC */
 #include <algorithm>
-#include <boost/call_traits.hpp>
-#include <boost/detail/no_exceptions_support.hpp>
-#include <boost/detail/workaround.hpp>
-#include <boost/foreach_fwd.hpp>
-#include <boost/iterator/reverse_iterator.hpp>
-#include <boost/move/core.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/push_front.hpp>
-#include <boost/multi_index/detail/access_specifier.hpp>
-#include <boost/multi_index/detail/bidir_node_iterator.hpp>
-#include <boost/multi_index/detail/do_not_copy_elements_tag.hpp>
-#include <boost/multi_index/detail/index_node_base.hpp>
-#include <boost/multi_index/detail/modify_key_adaptor.hpp>
-#include <boost/multi_index/detail/ord_index_node.hpp>
-#include <boost/multi_index/detail/ord_index_ops.hpp>
-#include <boost/multi_index/detail/safe_mode.hpp>
-#include <boost/multi_index/detail/scope_guard.hpp>
-#include <boost/multi_index/detail/unbounded.hpp>
-#include <boost/multi_index/detail/value_compare.hpp>
-#include <boost/multi_index/detail/vartempl_support.hpp>
-#include <boost/multi_index/detail/ord_index_impl_fwd.hpp>
-#include <boost/ref.hpp>
-#include <boost/tuple/tuple.hpp>
-#include <boost/type_traits/is_same.hpp>
+#include "../../../boost/call_traits.hpp"
+#include "../../../boost/detail/no_exceptions_support.hpp"
+#include "../../../boost/detail/workaround.hpp"
+#include "../../../boost/foreach_fwd.hpp"
+#include "../../../boost/iterator/reverse_iterator.hpp"
+#include "../../../boost/move/core.hpp"
+#include "../../../boost/mpl/bool.hpp"
+#include "../../../boost/mpl/if.hpp"
+#include "../../../boost/mpl/push_front.hpp"
+#include "../../../boost/multi_index/detail/access_specifier.hpp"
+#include "../../../boost/multi_index/detail/bidir_node_iterator.hpp"
+#include "../../../boost/multi_index/detail/do_not_copy_elements_tag.hpp"
+#include "../../../boost/multi_index/detail/index_node_base.hpp"
+#include "../../../boost/multi_index/detail/modify_key_adaptor.hpp"
+#include "../../../boost/multi_index/detail/ord_index_node.hpp"
+#include "../../../boost/multi_index/detail/ord_index_ops.hpp"
+#include "../../../boost/multi_index/detail/safe_mode.hpp"
+#include "../../../boost/multi_index/detail/scope_guard.hpp"
+#include "../../../boost/multi_index/detail/unbounded.hpp"
+#include "../../../boost/multi_index/detail/value_compare.hpp"
+#include "../../../boost/multi_index/detail/vartempl_support.hpp"
+#include "../../../boost/multi_index/detail/ord_index_impl_fwd.hpp"
+#include "../../../boost/ref.hpp"
+#include "../../../boost/tuple/tuple.hpp"
+#include "../../../boost/type_traits/is_same.hpp"
 #include <utility>
 
 #if !defined(BOOST_NO_CXX11_HDR_INITIALIZER_LIST)
@@ -74,10 +74,10 @@
 #endif
 
 #if !defined(BOOST_MULTI_INDEX_DISABLE_SERIALIZATION)
-#include <boost/archive/archive_exception.hpp>
-#include <boost/bind.hpp>
-#include <boost/multi_index/detail/duplicates_iterator.hpp>
-#include <boost/throw_exception.hpp> 
+#include "../../../boost/archive/archive_exception.hpp"
+#include "../../../boost/bind.hpp"
+#include "../../../boost/multi_index/detail/duplicates_iterator.hpp"
+#include "../../../boost/throw_exception.hpp" 
 #endif
 
 #if defined(BOOST_MULTI_INDEX_ENABLE_INVARIANT_CHECKING)

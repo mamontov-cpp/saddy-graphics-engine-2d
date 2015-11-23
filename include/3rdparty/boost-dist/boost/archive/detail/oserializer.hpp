@@ -22,49 +22,49 @@
 
 //  See http://www.boost.org for updates, documentation, and revision history.
 
-#include <boost/assert.hpp>
+#include "../../../boost/assert.hpp"
 #include <cstddef> // NULL
 
-#include <boost/config.hpp>
-#include <boost/static_assert.hpp>
-#include <boost/detail/workaround.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/static_assert.hpp"
+#include "../../../boost/detail/workaround.hpp"
 
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/equal_to.hpp>
-#include <boost/mpl/greater_equal.hpp>
-#include <boost/mpl/identity.hpp>
+#include "../../../boost/mpl/eval_if.hpp"
+#include "../../../boost/mpl/equal_to.hpp"
+#include "../../../boost/mpl/greater_equal.hpp"
+#include "../../../boost/mpl/identity.hpp"
 
 #ifndef BOOST_SERIALIZATION_DEFAULT_TYPE_INFO   
-    #include <boost/serialization/extended_type_info_typeid.hpp>   
+    #include "../../../boost/serialization/extended_type_info_typeid.hpp"   
 #endif
-#include <boost/serialization/throw_exception.hpp>
-#include <boost/serialization/smart_cast.hpp>
-#include <boost/serialization/assume_abstract.hpp>
-#include <boost/serialization/static_warning.hpp>
+#include "../../../boost/serialization/throw_exception.hpp"
+#include "../../../boost/serialization/smart_cast.hpp"
+#include "../../../boost/serialization/assume_abstract.hpp"
+#include "../../../boost/serialization/static_warning.hpp"
 
-#include <boost/type_traits/is_pointer.hpp>
-#include <boost/type_traits/is_enum.hpp>
-#include <boost/type_traits/is_const.hpp>
-#include <boost/type_traits/is_polymorphic.hpp>
-#include <boost/type_traits/remove_extent.hpp>
+#include "../../../boost/type_traits/is_pointer.hpp"
+#include "../../../boost/type_traits/is_enum.hpp"
+#include "../../../boost/type_traits/is_const.hpp"
+#include "../../../boost/type_traits/is_polymorphic.hpp"
+#include "../../../boost/type_traits/remove_extent.hpp"
 
-#include <boost/serialization/serialization.hpp>
-#include <boost/serialization/version.hpp>
-#include <boost/serialization/level.hpp>
-#include <boost/serialization/tracking.hpp>
-#include <boost/serialization/type_info_implementation.hpp>
-#include <boost/serialization/nvp.hpp>
-#include <boost/serialization/void_cast.hpp>
-#include <boost/serialization/array.hpp>
-#include <boost/serialization/collection_size_type.hpp>
-#include <boost/serialization/singleton.hpp>
+#include "../../../boost/serialization/serialization.hpp"
+#include "../../../boost/serialization/version.hpp"
+#include "../../../boost/serialization/level.hpp"
+#include "../../../boost/serialization/tracking.hpp"
+#include "../../../boost/serialization/type_info_implementation.hpp"
+#include "../../../boost/serialization/nvp.hpp"
+#include "../../../boost/serialization/void_cast.hpp"
+#include "../../../boost/serialization/array.hpp"
+#include "../../../boost/serialization/collection_size_type.hpp"
+#include "../../../boost/serialization/singleton.hpp"
 
-#include <boost/archive/archive_exception.hpp>
-#include <boost/archive/detail/basic_oarchive.hpp>
-#include <boost/archive/detail/basic_oserializer.hpp>
-#include <boost/archive/detail/basic_pointer_oserializer.hpp>
-#include <boost/archive/detail/archive_serializer_map.hpp>
-#include <boost/archive/detail/check.hpp>
+#include "../../../boost/archive/archive_exception.hpp"
+#include "../../../boost/archive/detail/basic_oarchive.hpp"
+#include "../../../boost/archive/detail/basic_oserializer.hpp"
+#include "../../../boost/archive/detail/basic_pointer_oserializer.hpp"
+#include "../../../boost/archive/detail/archive_serializer_map.hpp"
+#include "../../../boost/archive/detail/check.hpp"
 
 namespace boost {
 

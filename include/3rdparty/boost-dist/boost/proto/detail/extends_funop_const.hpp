@@ -4,7 +4,7 @@
         BOOST_PROTO_EXTENDS_FUNCTION_()
         BOOST_PROTO_DEFINE_FUN_OP_VARIADIC_IMPL_(BOOST_PROTO_CONST)
     #else
-        #include <boost/proto/detail/preprocessed/extends_funop_const.hpp>
+        #include "../../../boost/proto/detail/preprocessed/extends_funop_const.hpp"
     #endif
 
 #else

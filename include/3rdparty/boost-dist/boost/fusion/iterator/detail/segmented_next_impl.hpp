@@ -7,13 +7,13 @@
 #if !defined(BOOST_FUSION_SEGMENTED_ITERATOR_NEXT_IMPL_HPP_INCLUDED)
 #define BOOST_FUSION_SEGMENTED_ITERATOR_NEXT_IMPL_HPP_INCLUDED
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/type_traits/add_const.hpp>
-#include <boost/type_traits/remove_reference.hpp>
-#include <boost/fusion/iterator/equal_to.hpp>
-#include <boost/fusion/container/list/cons_fwd.hpp>
-#include <boost/fusion/iterator/next.hpp>
-#include <boost/fusion/iterator/deref.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/type_traits/add_const.hpp"
+#include "../../../../boost/type_traits/remove_reference.hpp"
+#include "../../../../boost/fusion/iterator/equal_to.hpp"
+#include "../../../../boost/fusion/container/list/cons_fwd.hpp"
+#include "../../../../boost/fusion/iterator/next.hpp"
+#include "../../../../boost/fusion/iterator/deref.hpp"
 
 namespace boost { namespace fusion
 {

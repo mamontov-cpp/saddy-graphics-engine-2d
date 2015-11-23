@@ -9,13 +9,13 @@
 #ifndef BOOST_PROTO_DETAIL_IS_NONCOPYABLE_HPP_EAN_19_07_2012
 #define BOOST_PROTO_DETAIL_IS_NONCOPYABLE_HPP_EAN_19_07_2012
 
-#include <boost/noncopyable.hpp>
-#include <boost/mpl/or.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/type_traits/is_base_of.hpp>
-#include <boost/type_traits/is_abstract.hpp>
-#include <boost/type_traits/is_function.hpp>
-#include <boost/proto/proto_fwd.hpp>
+#include "../../../boost/noncopyable.hpp"
+#include "../../../boost/mpl/or.hpp"
+#include "../../../boost/mpl/bool.hpp"
+#include "../../../boost/type_traits/is_base_of.hpp"
+#include "../../../boost/type_traits/is_abstract.hpp"
+#include "../../../boost/type_traits/is_function.hpp"
+#include "../../../boost/proto/proto_fwd.hpp"
 
 namespace boost { namespace proto { namespace detail
 {

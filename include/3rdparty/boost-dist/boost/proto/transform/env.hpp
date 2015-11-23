@@ -9,23 +9,23 @@
 #ifndef BOOST_PROTO_TRANSFORM_ENV_HPP_EAN_18_07_2012
 #define BOOST_PROTO_TRANSFORM_ENV_HPP_EAN_18_07_2012
 
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
-#include <boost/ref.hpp>
-#include <boost/utility/enable_if.hpp>
-#include <boost/type_traits/is_const.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/type_traits/add_const.hpp>
-#include <boost/type_traits/add_reference.hpp>
-#include <boost/type_traits/remove_const.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/not.hpp>
-#include <boost/proto/proto_fwd.hpp>
-#include <boost/proto/transform/impl.hpp>
-#include <boost/proto/detail/poly_function.hpp>
-#include <boost/proto/detail/is_noncopyable.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/detail/workaround.hpp"
+#include "../../../boost/ref.hpp"
+#include "../../../boost/utility/enable_if.hpp"
+#include "../../../boost/type_traits/is_const.hpp"
+#include "../../../boost/type_traits/is_same.hpp"
+#include "../../../boost/type_traits/add_const.hpp"
+#include "../../../boost/type_traits/add_reference.hpp"
+#include "../../../boost/type_traits/remove_const.hpp"
+#include "../../../boost/mpl/assert.hpp"
+#include "../../../boost/mpl/bool.hpp"
+#include "../../../boost/mpl/if.hpp"
+#include "../../../boost/mpl/not.hpp"
+#include "../../../boost/proto/proto_fwd.hpp"
+#include "../../../boost/proto/transform/impl.hpp"
+#include "../../../boost/proto/detail/poly_function.hpp"
+#include "../../../boost/proto/detail/is_noncopyable.hpp"
 
 #ifdef _MSC_VER
 # pragma warning(push)

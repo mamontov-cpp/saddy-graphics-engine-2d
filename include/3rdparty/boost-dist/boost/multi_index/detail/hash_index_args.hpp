@@ -13,15 +13,15 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp> /* keep it first to prevent nasty warns in MSVC */
-#include <boost/functional/hash.hpp>
-#include <boost/mpl/aux_/na.hpp>
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/identity.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/multi_index/tag.hpp>
-#include <boost/static_assert.hpp>
-#include <boost/type_traits/is_same.hpp>
+#include "../../../boost/config.hpp" /* keep it first to prevent nasty warns in MSVC */
+#include "../../../boost/functional/hash.hpp"
+#include "../../../boost/mpl/aux_/na.hpp"
+#include "../../../boost/mpl/eval_if.hpp"
+#include "../../../boost/mpl/identity.hpp"
+#include "../../../boost/mpl/if.hpp"
+#include "../../../boost/multi_index/tag.hpp"
+#include "../../../boost/static_assert.hpp"
+#include "../../../boost/type_traits/is_same.hpp"
 #include <functional>
 
 namespace boost{

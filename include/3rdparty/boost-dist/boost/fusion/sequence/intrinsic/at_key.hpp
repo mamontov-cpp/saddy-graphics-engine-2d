@@ -8,18 +8,18 @@
 #if !defined(BOOST_FUSION_AT_KEY_20060304_1755)
 #define BOOST_FUSION_AT_KEY_20060304_1755
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/type_traits/is_const.hpp>
-#include <boost/fusion/sequence/intrinsic_fwd.hpp>
-#include <boost/fusion/sequence/intrinsic/has_key.hpp>
-#include <boost/fusion/algorithm/query/find.hpp>
-#include <boost/fusion/iterator/deref_data.hpp>
-#include <boost/fusion/support/tag_of.hpp>
-#include <boost/fusion/support/category_of.hpp>
-#include <boost/fusion/support/detail/access.hpp>
-#include <boost/mpl/empty_base.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/or.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/type_traits/is_const.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic_fwd.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic/has_key.hpp"
+#include "../../../../boost/fusion/algorithm/query/find.hpp"
+#include "../../../../boost/fusion/iterator/deref_data.hpp"
+#include "../../../../boost/fusion/support/tag_of.hpp"
+#include "../../../../boost/fusion/support/category_of.hpp"
+#include "../../../../boost/fusion/support/detail/access.hpp"
+#include "../../../../boost/mpl/empty_base.hpp"
+#include "../../../../boost/mpl/if.hpp"
+#include "../../../../boost/mpl/or.hpp"
 
 namespace boost { namespace fusion
 {

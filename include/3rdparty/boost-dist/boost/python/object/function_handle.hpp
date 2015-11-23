@@ -4,11 +4,11 @@
 // http://www.boost.org/LICENSE_1_0.txt)
 #ifndef FUNCTION_HANDLE_DWA2002725_HPP
 # define FUNCTION_HANDLE_DWA2002725_HPP
-# include <boost/python/handle.hpp>
-# include <boost/python/detail/caller.hpp>
-# include <boost/python/default_call_policies.hpp>
-# include <boost/python/object/py_function.hpp>
-# include <boost/python/signature.hpp>
+#include "../../../boost/python/handle.hpp"
+#include "../../../boost/python/detail/caller.hpp"
+#include "../../../boost/python/default_call_policies.hpp"
+#include "../../../boost/python/object/py_function.hpp"
+#include "../../../boost/python/signature.hpp"
 
 namespace boost { namespace python { namespace objects { 
 

@@ -10,8 +10,8 @@
 #ifndef BOOST_SHARED_ARRAY_PROPERTY_MAP_HPP
 #define BOOST_SHARED_ARRAY_PROPERTY_MAP_HPP
 
-#include <boost/smart_ptr/shared_array.hpp>
-#include <boost/property_map/property_map.hpp>
+#include "../../boost/smart_ptr/shared_array.hpp"
+#include "../../boost/property_map/property_map.hpp"
 
 namespace boost {
 

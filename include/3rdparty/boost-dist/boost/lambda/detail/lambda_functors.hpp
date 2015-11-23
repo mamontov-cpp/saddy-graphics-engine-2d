@@ -13,15 +13,15 @@
 #ifndef BOOST_LAMBDA_LAMBDA_FUNCTORS_HPP
 #define BOOST_LAMBDA_LAMBDA_FUNCTORS_HPP
 
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
-#include <boost/utility/result_of.hpp>
+#include "../../../boost/config.hpp"
+#include "../../../boost/detail/workaround.hpp"
+#include "../../../boost/utility/result_of.hpp"
 
 #if BOOST_WORKAROUND(BOOST_MSVC, == 1310)
 
-#include <boost/mpl/or.hpp>
-#include <boost/utility/enable_if.hpp>
-#include <boost/type_traits/is_array.hpp>
+#include "../../../boost/mpl/or.hpp"
+#include "../../../boost/utility/enable_if.hpp"
+#include "../../../boost/type_traits/is_array.hpp"
 
 #define BOOST_LAMBDA_DISABLE_IF_ARRAY1(A1, R1)\
   typename lazy_disable_if<is_array<A1>, typename R1 >::type
@@ -332,7 +332,7 @@ struct tr1_result_of<const boost::lambda::lambda_functor<T>()>
 
 // is_placeholder
 
-#include <boost/is_placeholder.hpp>
+#include "../../../boost/is_placeholder.hpp"
 
 namespace boost
 {

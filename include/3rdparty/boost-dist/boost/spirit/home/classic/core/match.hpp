@@ -8,16 +8,16 @@
 #if !defined(BOOST_SPIRIT_MATCH_HPP)
 #define BOOST_SPIRIT_MATCH_HPP
 
-#include <boost/spirit/home/classic/namespace.hpp>
-#include <boost/spirit/home/classic/core/config.hpp>
-#include <boost/spirit/home/classic/core/nil.hpp>
-#include <boost/call_traits.hpp>
-#include <boost/optional.hpp>
-#include <boost/spirit/home/classic/core/assert.hpp>
-#include <boost/spirit/home/classic/core/safe_bool.hpp>
-#include <boost/spirit/home/classic/core/impl/match_attr_traits.ipp>
-#include <boost/type_traits/add_const.hpp>
-#include <boost/type_traits/is_reference.hpp>
+#include "../../../../../boost/spirit/home/classic/namespace.hpp"
+#include "../../../../../boost/spirit/home/classic/core/config.hpp"
+#include "../../../../../boost/spirit/home/classic/core/nil.hpp"
+#include "../../../../../boost/call_traits.hpp"
+#include "../../../../../boost/optional.hpp"
+#include "../../../../../boost/spirit/home/classic/core/assert.hpp"
+#include "../../../../../boost/spirit/home/classic/core/safe_bool.hpp"
+#include "../../../../../boost/spirit/home/classic/core/impl/match_attr_traits.ipp"
+#include "../../../../../boost/type_traits/add_const.hpp"
+#include "../../../../../boost/type_traits/is_reference.hpp"
 
 namespace boost { namespace spirit {
 
@@ -181,5 +181,5 @@ BOOST_SPIRIT_CLASSIC_NAMESPACE_END
 }} // namespace BOOST_SPIRIT_CLASSIC_NS
 
 #endif
-#include <boost/spirit/home/classic/core/impl/match.ipp>
+#include "../../../../../boost/spirit/home/classic/core/impl/match.ipp"
 

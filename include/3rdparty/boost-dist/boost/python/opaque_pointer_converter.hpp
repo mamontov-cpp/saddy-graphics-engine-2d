@@ -8,24 +8,24 @@
 # ifndef OPAQUE_POINTER_CONVERTER_HPP_
 # define OPAQUE_POINTER_CONVERTER_HPP_
 
-# include <boost/python/detail/prefix.hpp>
-# include <boost/python/lvalue_from_pytype.hpp>
-# include <boost/python/to_python_converter.hpp>
-# include <boost/python/converter/registrations.hpp>
-# include <boost/python/detail/dealloc.hpp>
-# include <boost/python/detail/none.hpp>
-# include <boost/python/type_id.hpp>
-# include <boost/python/errors.hpp>
+#include "../../boost/python/detail/prefix.hpp"
+#include "../../boost/python/lvalue_from_pytype.hpp"
+#include "../../boost/python/to_python_converter.hpp"
+#include "../../boost/python/converter/registrations.hpp"
+#include "../../boost/python/detail/dealloc.hpp"
+#include "../../boost/python/detail/none.hpp"
+#include "../../boost/python/type_id.hpp"
+#include "../../boost/python/errors.hpp"
 
-# include <boost/type_traits/remove_pointer.hpp>
-# include <boost/type_traits/is_pointer.hpp>
-# include <boost/type_traits/is_void.hpp>
+#include "../../boost/type_traits/remove_pointer.hpp"
+#include "../../boost/type_traits/is_pointer.hpp"
+#include "../../boost/type_traits/is_void.hpp"
 
-# include <boost/implicit_cast.hpp>
+#include "../../boost/implicit_cast.hpp"
 
-# include <boost/mpl/eval_if.hpp>
-# include <boost/mpl/identity.hpp>
-# include <boost/mpl/assert.hpp>
+#include "../../boost/mpl/eval_if.hpp"
+#include "../../boost/mpl/identity.hpp"
+#include "../../boost/mpl/assert.hpp"
 
 // opaque --
 //

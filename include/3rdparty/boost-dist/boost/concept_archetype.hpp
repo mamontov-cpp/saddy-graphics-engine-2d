@@ -14,9 +14,9 @@
 #ifndef BOOST_CONCEPT_ARCHETYPES_HPP
 #define BOOST_CONCEPT_ARCHETYPES_HPP
 
-#include <boost/config.hpp>
-#include <boost/iterator.hpp>
-#include <boost/mpl/identity.hpp>
+#include "../boost/config.hpp"
+#include "../boost/iterator.hpp"
+#include "../boost/mpl/identity.hpp"
 #include <functional>
 
 namespace boost {

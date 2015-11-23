@@ -10,13 +10,13 @@
 #if !defined(BOOST_FUNCTIONAL_HASH_FWD_HPP)
 #define BOOST_FUNCTIONAL_HASH_FWD_HPP
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 #if defined(BOOST_HAS_PRAGMA_ONCE)
 #pragma once
 #endif
 
 #include <cstddef>
-#include <boost/detail/workaround.hpp>
+#include "../../../boost/detail/workaround.hpp"
 
 namespace boost
 {

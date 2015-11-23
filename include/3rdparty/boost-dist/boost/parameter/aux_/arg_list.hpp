@@ -6,25 +6,25 @@
 #ifndef ARG_LIST_050329_HPP
 #define ARG_LIST_050329_HPP
 
-#include <boost/parameter/aux_/void.hpp>
-#include <boost/parameter/aux_/result_of0.hpp>
-#include <boost/parameter/aux_/default.hpp>
-#include <boost/parameter/aux_/parameter_requirements.hpp>
-#include <boost/parameter/aux_/yesno.hpp>
-#include <boost/parameter/aux_/is_maybe.hpp>
-#include <boost/parameter/config.hpp>
+#include "../../../boost/parameter/aux_/void.hpp"
+#include "../../../boost/parameter/aux_/result_of0.hpp"
+#include "../../../boost/parameter/aux_/default.hpp"
+#include "../../../boost/parameter/aux_/parameter_requirements.hpp"
+#include "../../../boost/parameter/aux_/yesno.hpp"
+#include "../../../boost/parameter/aux_/is_maybe.hpp"
+#include "../../../boost/parameter/config.hpp"
 
-#include <boost/mpl/apply.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/mpl/begin.hpp>
-#include <boost/mpl/end.hpp>
-#include <boost/mpl/iterator_tags.hpp>
+#include "../../../boost/mpl/apply.hpp"
+#include "../../../boost/mpl/assert.hpp"
+#include "../../../boost/mpl/begin.hpp"
+#include "../../../boost/mpl/end.hpp"
+#include "../../../boost/mpl/iterator_tags.hpp"
 
-#include <boost/type_traits/add_reference.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/preprocessor/repetition/enum_params.hpp>
-#include <boost/preprocessor/repetition/enum_binary_params.hpp>
-#include <boost/preprocessor/facilities/intercept.hpp>
+#include "../../../boost/type_traits/add_reference.hpp"
+#include "../../../boost/type_traits/is_same.hpp"
+#include "../../../boost/preprocessor/repetition/enum_params.hpp"
+#include "../../../boost/preprocessor/repetition/enum_binary_params.hpp"
+#include "../../../boost/preprocessor/facilities/intercept.hpp"
 
 namespace boost { namespace parameter {
 

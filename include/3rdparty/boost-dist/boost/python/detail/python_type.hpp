@@ -5,7 +5,7 @@
 #ifndef BOOST_PYTHON_OBJECT_PYTHON_TYPE_H
 #define BOOST_PYTHON_OBJECT_PYTHON_TYPE_H
 
-#include <boost/python/converter/registered.hpp>
+#include "../../../boost/python/converter/registered.hpp"
 
 namespace boost {namespace python {namespace detail{
 

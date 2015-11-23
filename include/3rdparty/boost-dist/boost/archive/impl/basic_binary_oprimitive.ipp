@@ -12,7 +12,7 @@
 #include <cstddef> // NULL
 #include <cstring>
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
 #if defined(BOOST_NO_STDC_NAMESPACE) && ! defined(__LIBCOMO__)
 namespace std{ 
@@ -27,12 +27,12 @@ namespace std{ using ::wcslen; }
 #endif
 #endif
 
-#include <boost/detail/workaround.hpp>
+#include "../../../boost/detail/workaround.hpp"
 
-#include <boost/archive/add_facet.hpp>
-#include <boost/archive/codecvt_null.hpp>
-#include <boost/archive/basic_binary_oprimitive.hpp>
-#include <boost/core/no_exceptions_support.hpp>
+#include "../../../boost/archive/add_facet.hpp"
+#include "../../../boost/archive/codecvt_null.hpp"
+#include "../../../boost/archive/basic_binary_oprimitive.hpp"
+#include "../../../boost/core/no_exceptions_support.hpp"
 
 namespace boost {
 namespace archive {

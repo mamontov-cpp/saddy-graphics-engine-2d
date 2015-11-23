@@ -6,19 +6,19 @@
 #ifndef FILE_boost_type_traits_floating_point_promotion_hpp_INCLUDED
 #define FILE_boost_type_traits_floating_point_promotion_hpp_INCLUDED
 
-#include <boost/config.hpp>
+#include "../../boost/config.hpp"
 
 #ifdef BOOST_NO_CV_SPECIALIZATIONS
-#include <boost/mpl/at.hpp>
-#include <boost/mpl/int.hpp>
-#include <boost/mpl/multiplies.hpp>
-#include <boost/mpl/plus.hpp>
-#include <boost/mpl/vector.hpp>
-#include <boost/type_traits/is_same.hpp>
+#include "../../boost/mpl/at.hpp"
+#include "../../boost/mpl/int.hpp"
+#include "../../boost/mpl/multiplies.hpp"
+#include "../../boost/mpl/plus.hpp"
+#include "../../boost/mpl/vector.hpp"
+#include "../../boost/type_traits/is_same.hpp"
 #endif
 
 // Should be the last #include
-#include <boost/type_traits/detail/type_trait_def.hpp>
+#include "../../boost/type_traits/detail/type_trait_def.hpp"
 
 namespace boost {
 
@@ -85,7 +85,7 @@ BOOST_TT_AUX_TYPE_TRAIT_DEF1(
     )
 }
 
-#include <boost/type_traits/detail/type_trait_undef.hpp>
+#include "../../boost/type_traits/detail/type_trait_undef.hpp"
 
 #endif // #ifndef FILE_boost_type_traits_floating_point_promotion_hpp_INCLUDED
 

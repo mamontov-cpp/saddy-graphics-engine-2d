@@ -14,18 +14,18 @@
 // $Date$
 // $Revision$
 
-#include <boost/mpl/placeholders.hpp>
-#include <boost/mpl/fold.hpp>
-#include <boost/mpl/insert.hpp>
-#include <boost/mpl/clear.hpp>
-#include <boost/mpl/joint_view.hpp>
-#include <boost/mpl/iterator_range.hpp>
-#include <boost/mpl/aux_/na_spec.hpp>
-#include <boost/mpl/aux_/iter_push_front.hpp>
-#include <boost/mpl/aux_/traits_lambda_spec.hpp>
-#include <boost/mpl/aux_/config/forwarding.hpp>
+#include "../../../boost/mpl/placeholders.hpp"
+#include "../../../boost/mpl/fold.hpp"
+#include "../../../boost/mpl/insert.hpp"
+#include "../../../boost/mpl/clear.hpp"
+#include "../../../boost/mpl/joint_view.hpp"
+#include "../../../boost/mpl/iterator_range.hpp"
+#include "../../../boost/mpl/aux_/na_spec.hpp"
+#include "../../../boost/mpl/aux_/iter_push_front.hpp"
+#include "../../../boost/mpl/aux_/traits_lambda_spec.hpp"
+#include "../../../boost/mpl/aux_/config/forwarding.hpp"
 
-#include <boost/type_traits/same_traits.hpp>
+#include "../../../boost/type_traits/same_traits.hpp"
 
 namespace boost { namespace mpl {
 

@@ -13,7 +13,7 @@
 #ifndef BOOST_LAMBDA_OPERATORS_HPP
 #define BOOST_LAMBDA_OPERATORS_HPP
 
-#include "boost/lambda/detail/is_instance_of.hpp"
+#include "../../../boost/lambda/detail/is_instance_of.hpp"
 
 namespace boost { 
 namespace lambda {

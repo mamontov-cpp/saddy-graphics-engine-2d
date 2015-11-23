@@ -7,12 +7,12 @@
 #if !defined(BOOST_FUSION_MAP_IMPL_02032013_2233)
 #define BOOST_FUSION_MAP_IMPL_02032013_2233
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/support/detail/access.hpp>
-#include <boost/fusion/iterator/deref.hpp>
-#include <boost/fusion/iterator/next.hpp>
-#include <boost/mpl/int.hpp>
-#include <boost/mpl/identity.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/fusion/support/detail/access.hpp"
+#include "../../../../../boost/fusion/iterator/deref.hpp"
+#include "../../../../../boost/fusion/iterator/next.hpp"
+#include "../../../../../boost/mpl/int.hpp"
+#include "../../../../../boost/mpl/identity.hpp"
 
 namespace boost { namespace fusion
 {

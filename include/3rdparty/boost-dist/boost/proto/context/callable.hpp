@@ -13,23 +13,23 @@
 #ifndef BOOST_PROTO_CONTEXT_CALLABLE_HPP_EAN_06_23_2007
 #define BOOST_PROTO_CONTEXT_CALLABLE_HPP_EAN_06_23_2007
 
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
-#include <boost/preprocessor/cat.hpp>
-#include <boost/preprocessor/iteration/iterate.hpp>
-#include <boost/preprocessor/facilities/intercept.hpp>
-#include <boost/preprocessor/repetition/repeat.hpp>
-#include <boost/preprocessor/repetition/enum_params.hpp>
-#include <boost/preprocessor/repetition/enum_trailing.hpp>
-#include <boost/preprocessor/repetition/enum_trailing_params.hpp>
-#include <boost/preprocessor/arithmetic/inc.hpp>
-#include <boost/preprocessor/selection/max.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/utility/result_of.hpp>
-#include <boost/type_traits/remove_cv.hpp>
-#include <boost/proto/proto_fwd.hpp>
-#include <boost/proto/traits.hpp> // for child_c
+#include "../../../boost/config.hpp"
+#include "../../../boost/detail/workaround.hpp"
+#include "../../../boost/preprocessor/cat.hpp"
+#include "../../../boost/preprocessor/iteration/iterate.hpp"
+#include "../../../boost/preprocessor/facilities/intercept.hpp"
+#include "../../../boost/preprocessor/repetition/repeat.hpp"
+#include "../../../boost/preprocessor/repetition/enum_params.hpp"
+#include "../../../boost/preprocessor/repetition/enum_trailing.hpp"
+#include "../../../boost/preprocessor/repetition/enum_trailing_params.hpp"
+#include "../../../boost/preprocessor/arithmetic/inc.hpp"
+#include "../../../boost/preprocessor/selection/max.hpp"
+#include "../../../boost/mpl/if.hpp"
+#include "../../../boost/mpl/bool.hpp"
+#include "../../../boost/utility/result_of.hpp"
+#include "../../../boost/type_traits/remove_cv.hpp"
+#include "../../../boost/proto/proto_fwd.hpp"
+#include "../../../boost/proto/traits.hpp" // for child_c
 
 namespace boost { namespace proto
 {
@@ -222,7 +222,7 @@ namespace boost { namespace proto
         };
     }
 
-    #include <boost/proto/context/detail/callable_eval.hpp>
+    #include "../../../boost/proto/context/detail/callable_eval.hpp"
 
 }}
 

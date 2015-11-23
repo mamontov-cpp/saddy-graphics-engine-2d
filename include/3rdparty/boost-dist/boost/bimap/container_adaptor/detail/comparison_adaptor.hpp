@@ -16,9 +16,9 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../../boost/config.hpp"
 
-#include <boost/call_traits.hpp>
+#include "../../../../boost/call_traits.hpp"
 #include <functional>
 
 namespace boost {

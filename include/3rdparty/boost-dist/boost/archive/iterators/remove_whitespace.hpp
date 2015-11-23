@@ -16,11 +16,11 @@
 
 //  See http://www.boost.org for updates, documentation, and revision history.
 
-#include <boost/assert.hpp>
+#include "../../../boost/assert.hpp"
 
-#include <boost/iterator/iterator_adaptor.hpp>
-#include <boost/iterator/filter_iterator.hpp>
-#include <boost/iterator/iterator_traits.hpp>
+#include "../../../boost/iterator/iterator_adaptor.hpp"
+#include "../../../boost/iterator/filter_iterator.hpp"
+#include "../../../boost/iterator/iterator_traits.hpp"
 
 // here is the default standard implementation of the functor used
 // by the filter iterator to remove spaces.  Unfortunately usage

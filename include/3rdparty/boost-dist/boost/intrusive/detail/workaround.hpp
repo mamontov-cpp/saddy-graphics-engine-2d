@@ -12,7 +12,7 @@
 #define BOOST_INTRUSIVE_DETAIL_WORKAROUND_HPP
 
 #ifndef BOOST_CONFIG_HPP
-#  include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 #endif
 
 #if defined(BOOST_HAS_PRAGMA_ONCE)
@@ -20,7 +20,7 @@
 #endif
 
 #ifndef BOOST_CONFIG_HPP
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 #endif
 
 #if    !defined(BOOST_NO_CXX11_RVALUE_REFERENCES) && !defined(BOOST_NO_CXX11_VARIADIC_TEMPLATES)

@@ -13,17 +13,17 @@
 #ifndef BOOST_BLANK_HPP
 #define BOOST_BLANK_HPP
 
-#include "boost/blank_fwd.hpp"
+#include "../boost/blank_fwd.hpp"
 
 #if !defined(BOOST_NO_IOSTREAM)
 #include <iosfwd> // for std::basic_ostream forward declare
-#include "boost/detail/templated_streams.hpp"
+#include "../boost/detail/templated_streams.hpp"
 #endif // BOOST_NO_IOSTREAM
 
-#include "boost/mpl/bool.hpp"
-#include "boost/type_traits/is_empty.hpp"
-#include "boost/type_traits/is_pod.hpp"
-#include "boost/type_traits/is_stateless.hpp"
+#include "../boost/mpl/bool.hpp"
+#include "../boost/type_traits/is_empty.hpp"
+#include "../boost/type_traits/is_pod.hpp"
+#include "../boost/type_traits/is_stateless.hpp"
 
 namespace boost {
 

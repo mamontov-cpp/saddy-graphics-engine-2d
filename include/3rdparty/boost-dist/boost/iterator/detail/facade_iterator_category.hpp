@@ -4,26 +4,26 @@
 #ifndef FACADE_ITERATOR_CATEGORY_DWA20031118_HPP
 # define FACADE_ITERATOR_CATEGORY_DWA20031118_HPP
 
-# include <boost/iterator/iterator_categories.hpp>
+#include "../../../boost/iterator/iterator_categories.hpp"
 
-# include <boost/mpl/or.hpp>  // used in iterator_tag inheritance logic
-# include <boost/mpl/and.hpp>
-# include <boost/mpl/if.hpp>
-# include <boost/mpl/eval_if.hpp>
-# include <boost/mpl/identity.hpp>
-# include <boost/mpl/assert.hpp>
+#include "../../../boost/mpl/or.hpp"  // used in iterator_tag inheritance logic
+#include "../../../boost/mpl/and.hpp"
+#include "../../../boost/mpl/if.hpp"
+#include "../../../boost/mpl/eval_if.hpp"
+#include "../../../boost/mpl/identity.hpp"
+#include "../../../boost/mpl/assert.hpp"
 
-# include <boost/type_traits/is_same.hpp>
-# include <boost/type_traits/is_const.hpp>
-# include <boost/type_traits/is_reference.hpp>
-# include <boost/type_traits/is_convertible.hpp>
+#include "../../../boost/type_traits/is_same.hpp"
+#include "../../../boost/type_traits/is_const.hpp"
+#include "../../../boost/type_traits/is_reference.hpp"
+#include "../../../boost/type_traits/is_convertible.hpp"
 
-# include <boost/type_traits/is_same.hpp>
+#include "../../../boost/type_traits/is_same.hpp"
 
-# include <boost/iterator/detail/config_def.hpp> // try to keep this last
+#include "../../../boost/iterator/detail/config_def.hpp" // try to keep this last
 
 # ifdef BOOST_ITERATOR_REF_CONSTNESS_KILLS_WRITABILITY
-#  include <boost/detail/indirect_traits.hpp>
+#include "../../../boost/detail/indirect_traits.hpp"
 # endif
 
 //
@@ -188,6 +188,6 @@ struct facade_iterator_category
 
 }}} // namespace boost::iterators::detail
 
-# include <boost/iterator/detail/config_undef.hpp>
+#include "../../../boost/iterator/detail/config_undef.hpp"
 
 #endif // FACADE_ITERATOR_CATEGORY_DWA20031118_HPP

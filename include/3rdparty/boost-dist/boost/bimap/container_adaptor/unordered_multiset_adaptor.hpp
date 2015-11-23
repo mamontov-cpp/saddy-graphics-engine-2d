@@ -16,12 +16,12 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
-#include <boost/bimap/container_adaptor/unordered_associative_container_adaptor.hpp>
-#include <boost/bimap/container_adaptor/detail/non_unique_container_helper.hpp>
-#include <boost/mpl/aux_/na.hpp>
-#include <boost/mpl/vector.hpp>
+#include "../../../boost/bimap/container_adaptor/unordered_associative_container_adaptor.hpp"
+#include "../../../boost/bimap/container_adaptor/detail/non_unique_container_helper.hpp"
+#include "../../../boost/mpl/aux_/na.hpp"
+#include "../../../boost/mpl/vector.hpp"
 
 namespace boost {
 namespace bimaps {

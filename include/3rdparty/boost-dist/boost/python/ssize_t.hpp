@@ -6,7 +6,7 @@
 #ifndef BOOST_PYTHON_SSIZE_T_RWGK20060924_HPP
 # define BOOST_PYTHON_SSIZE_T_RWGK20060924_HPP
 
-# include <boost/python/detail/prefix.hpp>
+#include "../../boost/python/detail/prefix.hpp"
 
 namespace boost { namespace python {
 

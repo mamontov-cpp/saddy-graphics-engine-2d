@@ -6,7 +6,7 @@
 // accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 #ifndef BOOST_NO_STD_WSTREAMBUF
 
 #include <ostream>
@@ -18,7 +18,7 @@
 #include <cstdlib> // mbtowc
 #include <cwchar>  // wcslen
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 #if defined(BOOST_NO_STDC_NAMESPACE)
 namespace std{ 
     using ::strlen; 
@@ -29,15 +29,15 @@ namespace std{
 } // namespace std
 #endif
 
-#include <boost/archive/xml_woarchive.hpp>
-#include <boost/serialization/throw_exception.hpp>
+#include "../../../boost/archive/xml_woarchive.hpp"
+#include "../../../boost/serialization/throw_exception.hpp"
 
-#include <boost/archive/iterators/xml_escape.hpp>
-#include <boost/archive/iterators/wchar_from_mb.hpp>
-#include <boost/archive/iterators/ostream_iterator.hpp>
-#include <boost/archive/iterators/dataflow_exception.hpp>
+#include "../../../boost/archive/iterators/xml_escape.hpp"
+#include "../../../boost/archive/iterators/wchar_from_mb.hpp"
+#include "../../../boost/archive/iterators/ostream_iterator.hpp"
+#include "../../../boost/archive/iterators/dataflow_exception.hpp"
 
-#include <boost/archive/add_facet.hpp>
+#include "../../../boost/archive/add_facet.hpp"
 
 namespace boost {
 namespace archive {

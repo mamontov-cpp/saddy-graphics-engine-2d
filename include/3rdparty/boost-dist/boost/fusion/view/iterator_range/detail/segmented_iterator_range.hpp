@@ -7,23 +7,23 @@
 #if !defined(BOOST_FUSION_SEGMENTED_ITERATOR_RANGE_HPP_INCLUDED)
 #define BOOST_FUSION_SEGMENTED_ITERATOR_RANGE_HPP_INCLUDED
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/type_traits/add_const.hpp>
-#include <boost/type_traits/remove_reference.hpp>
-#include <boost/fusion/support/tag_of.hpp>
-#include <boost/fusion/sequence/intrinsic/begin.hpp>
-#include <boost/fusion/sequence/intrinsic/end.hpp>
-#include <boost/fusion/iterator/next.hpp>
-#include <boost/fusion/iterator/deref.hpp>
-#include <boost/fusion/sequence/intrinsic/segments.hpp>
-#include <boost/fusion/algorithm/transformation/push_back.hpp>
-#include <boost/fusion/algorithm/transformation/push_front.hpp>
-#include <boost/fusion/iterator/equal_to.hpp>
-#include <boost/fusion/container/list/detail/reverse_cons.hpp>
-#include <boost/fusion/iterator/detail/segment_sequence.hpp>
-#include <boost/fusion/support/is_sequence.hpp>
-#include <boost/utility/enable_if.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/mpl/assert.hpp"
+#include "../../../../../boost/type_traits/add_const.hpp"
+#include "../../../../../boost/type_traits/remove_reference.hpp"
+#include "../../../../../boost/fusion/support/tag_of.hpp"
+#include "../../../../../boost/fusion/sequence/intrinsic/begin.hpp"
+#include "../../../../../boost/fusion/sequence/intrinsic/end.hpp"
+#include "../../../../../boost/fusion/iterator/next.hpp"
+#include "../../../../../boost/fusion/iterator/deref.hpp"
+#include "../../../../../boost/fusion/sequence/intrinsic/segments.hpp"
+#include "../../../../../boost/fusion/algorithm/transformation/push_back.hpp"
+#include "../../../../../boost/fusion/algorithm/transformation/push_front.hpp"
+#include "../../../../../boost/fusion/iterator/equal_to.hpp"
+#include "../../../../../boost/fusion/container/list/detail/reverse_cons.hpp"
+#include "../../../../../boost/fusion/iterator/detail/segment_sequence.hpp"
+#include "../../../../../boost/fusion/support/is_sequence.hpp"
+#include "../../../../../boost/utility/enable_if.hpp"
 
 //  Invariants:
 //  - Each segmented iterator has a stack

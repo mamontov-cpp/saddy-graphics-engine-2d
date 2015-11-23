@@ -9,15 +9,15 @@
 #if !defined(FUSION_ANY_05052005_1229)
 #define FUSION_ANY_05052005_1229
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/fusion/sequence/intrinsic/begin.hpp>
-#include <boost/fusion/sequence/intrinsic/end.hpp>
-#include <boost/fusion/iterator/advance.hpp>
-#include <boost/fusion/iterator/equal_to.hpp>
-#include <boost/fusion/iterator/next.hpp>
-#include <boost/fusion/iterator/deref.hpp>
-#include <boost/fusion/iterator/distance.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/mpl/bool.hpp"
+#include "../../../../../boost/fusion/sequence/intrinsic/begin.hpp"
+#include "../../../../../boost/fusion/sequence/intrinsic/end.hpp"
+#include "../../../../../boost/fusion/iterator/advance.hpp"
+#include "../../../../../boost/fusion/iterator/equal_to.hpp"
+#include "../../../../../boost/fusion/iterator/next.hpp"
+#include "../../../../../boost/fusion/iterator/deref.hpp"
+#include "../../../../../boost/fusion/iterator/distance.hpp"
 
 namespace boost { namespace fusion { 
     struct random_access_traversal_tag;

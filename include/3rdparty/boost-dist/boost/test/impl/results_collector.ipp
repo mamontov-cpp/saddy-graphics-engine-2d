@@ -16,22 +16,22 @@
 #define BOOST_TEST_RESULTS_COLLECTOR_IPP_021105GER
 
 // Boost.Test
-#include <boost/test/unit_test_log.hpp>
-#include <boost/test/results_collector.hpp>
-#include <boost/test/framework.hpp>
+#include "../../../boost/test/unit_test_log.hpp"
+#include "../../../boost/test/results_collector.hpp"
+#include "../../../boost/test/framework.hpp"
 
-#include <boost/test/tree/test_unit.hpp>
-#include <boost/test/tree/visitor.hpp>
-#include <boost/test/tree/test_case_counter.hpp>
-#include <boost/test/tree/traverse.hpp>
+#include "../../../boost/test/tree/test_unit.hpp"
+#include "../../../boost/test/tree/visitor.hpp"
+#include "../../../boost/test/tree/test_case_counter.hpp"
+#include "../../../boost/test/tree/traverse.hpp"
 
 // Boost
-#include <boost/cstdlib.hpp>
+#include "../../../boost/cstdlib.hpp"
 
 // STL
 #include <map>
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -271,6 +271,6 @@ results_collector_t::results( test_unit_id id ) const
 } // namespace unit_test
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_RESULTS_COLLECTOR_IPP_021105GER

@@ -16,13 +16,13 @@
 #define BOOST_TEST_TOOLS_DETAIL_TOLERANCE_MANIP_HPP_012705GER
 
 // Boost Test
-#include <boost/test/tools/detail/fwd.hpp>
-#include <boost/test/tools/detail/indirections.hpp>
+#include "../../../../boost/test/tools/detail/fwd.hpp"
+#include "../../../../boost/test/tools/detail/indirections.hpp"
 
-#include <boost/test/tools/fpc_tolerance.hpp>
-#include <boost/test/tools/floating_point_comparison.hpp>
+#include "../../../../boost/test/tools/fpc_tolerance.hpp"
+#include "../../../../boost/test/tools/floating_point_comparison.hpp"
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -125,6 +125,6 @@ tolerance()
 } // namespace test_tools
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_TOOLS_DETAIL_TOLERANCE_MANIP_HPP_012705GER

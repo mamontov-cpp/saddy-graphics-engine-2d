@@ -9,12 +9,12 @@
 #if !defined(BOOST_FUNCTIONAL_HASH_DETAIL_LIMITS_HEADER)
 #define BOOST_FUNCTIONAL_HASH_DETAIL_LIMITS_HEADER
 
-#include <boost/config.hpp>
+#include "../../../../boost/config.hpp"
 #if defined(BOOST_HAS_PRAGMA_ONCE)
 #pragma once
 #endif
 
-#include <boost/limits.hpp>
+#include "../../../../boost/limits.hpp"
 
 // On OpenBSD, numeric_limits is not reliable for long doubles, but
 // the macros defined in <float.h> are and support long double when STLport

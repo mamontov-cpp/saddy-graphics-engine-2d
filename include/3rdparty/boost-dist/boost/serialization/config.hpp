@@ -15,8 +15,8 @@
 // This header implements separate compilation features as described in
 // http://www.boost.org/more/separate_compilation.html
 
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/detail/workaround.hpp"
 
 // note: this version incorporates the related code into the the 
 // the same library as BOOST_ARCHIVE.  This could change some day in the
@@ -67,7 +67,7 @@
     //
     // And include the header that does the work:
     //
-    #include <boost/config/auto_link.hpp>
+    #include "../../boost/config/auto_link.hpp"
 
 #endif  
 

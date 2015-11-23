@@ -11,9 +11,9 @@
 #ifndef BOOST_RANGE_IRANGE_HPP_INCLUDED
 #define BOOST_RANGE_IRANGE_HPP_INCLUDED
 
-#include <boost/assert.hpp>
-#include <boost/iterator/iterator_facade.hpp>
-#include <boost/range/iterator_range.hpp>
+#include "../../boost/assert.hpp"
+#include "../../boost/iterator/iterator_facade.hpp"
+#include "../../boost/range/iterator_range.hpp"
 
 namespace boost
 {

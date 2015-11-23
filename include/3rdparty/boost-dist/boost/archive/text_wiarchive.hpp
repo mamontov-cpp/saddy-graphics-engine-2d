@@ -16,20 +16,20 @@
 
 //  See http://www.boost.org for updates, documentation, and revision history.
 
-#include <boost/config.hpp>
+#include "../../boost/config.hpp"
 #ifdef BOOST_NO_STD_WSTREAMBUF
 #error "wide char i/o not supported on this platform"
 #else
 
 #include <istream>
 
-#include <boost/archive/detail/auto_link_warchive.hpp>
-#include <boost/archive/basic_text_iprimitive.hpp>
-#include <boost/archive/basic_text_iarchive.hpp>
-#include <boost/archive/detail/register_archive.hpp>
-#include <boost/serialization/item_version_type.hpp>
+#include "../../boost/archive/detail/auto_link_warchive.hpp"
+#include "../../boost/archive/basic_text_iprimitive.hpp"
+#include "../../boost/archive/basic_text_iarchive.hpp"
+#include "../../boost/archive/detail/register_archive.hpp"
+#include "../../boost/serialization/item_version_type.hpp"
 
-#include <boost/archive/detail/abi_prefix.hpp> // must be the last header
+#include "../../boost/archive/detail/abi_prefix.hpp" // must be the last header
 
 #ifdef BOOST_MSVC
 #  pragma warning(push)
@@ -104,7 +104,7 @@ protected:
 #pragma warning(pop)
 #endif
 
-#include <boost/archive/detail/abi_suffix.hpp> // pops abi_suffix.hpp pragmas
+#include "../../boost/archive/detail/abi_suffix.hpp" // pops abi_suffix.hpp pragmas
 
 #ifdef BOOST_MSVC
 #  pragma warning(push)

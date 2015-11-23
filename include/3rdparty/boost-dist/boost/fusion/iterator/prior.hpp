@@ -7,8 +7,8 @@
 #if !defined(FUSION_PRIOR_05042005_1144)
 #define FUSION_PRIOR_05042005_1144
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/support/tag_of.hpp>
+#include "../../../boost/fusion/support/config.hpp"
+#include "../../../boost/fusion/support/tag_of.hpp"
 
 namespace boost { namespace fusion
 {

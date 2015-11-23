@@ -16,7 +16,7 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
 /*===========================================================================*/
 #define BOOST_BIMAP_NON_UNIQUE_VIEW_INSERT_FUNCTIONS                         \

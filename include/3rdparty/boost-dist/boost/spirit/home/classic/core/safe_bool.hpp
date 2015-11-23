@@ -8,9 +8,9 @@
 #if !defined(BOOST_SPIRIT_SAFE_BOOL_HPP)
 #define BOOST_SPIRIT_SAFE_BOOL_HPP
 
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
-#include <boost/spirit/home/classic/namespace.hpp>
+#include "../../../../../boost/config.hpp"
+#include "../../../../../boost/detail/workaround.hpp"
+#include "../../../../../boost/spirit/home/classic/namespace.hpp"
 
 namespace boost { namespace spirit {
 

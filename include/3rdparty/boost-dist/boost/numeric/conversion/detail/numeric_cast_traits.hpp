@@ -9,18 +9,18 @@
 
 #if !defined(BOOST_NUMERIC_CONVERSION_DONT_USE_PREPROCESSED_FILES)
 
-    #include <boost/numeric/conversion/detail/preprocessed/numeric_cast_traits_common.hpp>
+    #include "../../../../boost/numeric/conversion/detail/preprocessed/numeric_cast_traits_common.hpp"
 	
 	#if !defined(BOOST_NO_LONG_LONG)
-        #include <boost/numeric/conversion/detail/preprocessed/numeric_cast_traits_long_long.hpp>
+        #include "../../../../boost/numeric/conversion/detail/preprocessed/numeric_cast_traits_long_long.hpp"
 	#endif
 	
 #else
 #if !BOOST_PP_IS_ITERATING
 
-    #include <boost/preprocessor/seq/elem.hpp>
-    #include <boost/preprocessor/seq/size.hpp>
-    #include <boost/preprocessor/iteration/iterate.hpp>
+    #include "../../../../boost/preprocessor/seq/elem.hpp"
+    #include "../../../../boost/preprocessor/seq/size.hpp"
+    #include "../../../../boost/preprocessor/iteration/iterate.hpp"
     
     #if defined(__WAVE__) && defined(BOOST_NUMERIC_CONVERSION_CREATE_PREPROCESSED_FILES)
         #pragma wave option(preserve: 2, line: 0, output: "preprocessed/numeric_cast_traits_common.hpp")

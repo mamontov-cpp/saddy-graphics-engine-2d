@@ -11,8 +11,8 @@
 #define BOOST_SPIRIT_CHSET_IPP
 
 ///////////////////////////////////////////////////////////////////////////////
-#include <boost/limits.hpp>
-#include <boost/spirit/home/classic/utility/chset.hpp>
+#include "../../../../../../boost/limits.hpp"
+#include "../../../../../../boost/spirit/home/classic/utility/chset.hpp"
 
 ///////////////////////////////////////////////////////////////////////////////
 namespace boost { namespace spirit {

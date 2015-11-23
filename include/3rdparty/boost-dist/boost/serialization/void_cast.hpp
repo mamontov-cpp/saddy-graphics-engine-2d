@@ -18,19 +18,19 @@
 //  See http://www.boost.org for updates, documentation, and revision history.
 
 #include <cstddef> // for ptrdiff_t
-#include <boost/config.hpp>
-#include <boost/noncopyable.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/noncopyable.hpp"
 
-#include <boost/serialization/smart_cast.hpp>
-#include <boost/serialization/singleton.hpp>
-#include <boost/serialization/force_include.hpp>
-#include <boost/serialization/type_info_implementation.hpp>
-#include <boost/serialization/extended_type_info.hpp>
-#include <boost/type_traits/is_virtual_base_of.hpp>
-#include <boost/serialization/void_cast_fwd.hpp>
+#include "../../boost/serialization/smart_cast.hpp"
+#include "../../boost/serialization/singleton.hpp"
+#include "../../boost/serialization/force_include.hpp"
+#include "../../boost/serialization/type_info_implementation.hpp"
+#include "../../boost/serialization/extended_type_info.hpp"
+#include "../../boost/type_traits/is_virtual_base_of.hpp"
+#include "../../boost/serialization/void_cast_fwd.hpp"
 
-#include <boost/serialization/config.hpp>
-#include <boost/config/abi_prefix.hpp> // must be the last header
+#include "../../boost/serialization/config.hpp"
+#include "../../boost/config/abi_prefix.hpp" // must be the last header
 
 #ifdef BOOST_MSVC
 #  pragma warning(push)
@@ -293,6 +293,6 @@ class BOOST_SYMBOL_VISIBLE void_caster :
 #  pragma warning(pop)  
 #endif
 
-#include <boost/config/abi_suffix.hpp> // pops abi_suffix.hpp pragmas
+#include "../../boost/config/abi_suffix.hpp" // pops abi_suffix.hpp pragmas
 
 #endif // BOOST_SERIALIZATION_VOID_CAST_HPP

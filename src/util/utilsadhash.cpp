@@ -9,3 +9,24 @@ unsigned long sad::HashFunction<sad::String>::call(const sad::String & name,unsi
 }
 
 #endif
+
+// Disable warnings about unreachable parts for this compilation unit for util sad::Hash
+namespace sad
+{
+	
+namespace util
+{
+	
+namespace hash
+{
+
+void ___dummy()
+{
+	
+}
+
+}
+
+}
+
+}

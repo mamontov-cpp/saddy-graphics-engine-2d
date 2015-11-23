@@ -14,19 +14,19 @@
 // $Date$
 // $Revision$
 
-#include <boost/mpl/is_sequence.hpp>
-#include <boost/mpl/begin_end.hpp>
-#include <boost/mpl/apply.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/next_prior.hpp>
-#include <boost/mpl/deref.hpp>
-#include <boost/mpl/identity.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/mpl/aux_/config/gpu.hpp>
-#include <boost/mpl/aux_/unwrap.hpp>
+#include "../../boost/mpl/is_sequence.hpp"
+#include "../../boost/mpl/begin_end.hpp"
+#include "../../boost/mpl/apply.hpp"
+#include "../../boost/mpl/bool.hpp"
+#include "../../boost/mpl/next_prior.hpp"
+#include "../../boost/mpl/deref.hpp"
+#include "../../boost/mpl/identity.hpp"
+#include "../../boost/mpl/assert.hpp"
+#include "../../boost/mpl/aux_/config/gpu.hpp"
+#include "../../boost/mpl/aux_/unwrap.hpp"
 
-#include <boost/type_traits/is_same.hpp>
-#include <boost/utility/value_init.hpp>
+#include "../../boost/type_traits/is_same.hpp"
+#include "../../boost/utility/value_init.hpp"
 
 namespace boost { namespace mpl {
 

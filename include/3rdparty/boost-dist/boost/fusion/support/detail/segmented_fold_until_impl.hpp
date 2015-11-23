@@ -7,22 +7,22 @@
 #if !defined(BOOST_FUSION_SEGMENTED_FOLD_UNTIL_IMPL_HPP_INCLUDED)
 #define BOOST_FUSION_SEGMENTED_FOLD_UNTIL_IMPL_HPP_INCLUDED
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/identity.hpp>
-#include <boost/utility/result_of.hpp>
-#include <boost/type_traits/add_const.hpp>
-#include <boost/type_traits/remove_reference.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/mpl/bool.hpp"
+#include "../../../../boost/mpl/eval_if.hpp"
+#include "../../../../boost/mpl/identity.hpp"
+#include "../../../../boost/utility/result_of.hpp"
+#include "../../../../boost/type_traits/add_const.hpp"
+#include "../../../../boost/type_traits/remove_reference.hpp"
 
-#include <boost/fusion/support/void.hpp>
-#include <boost/fusion/container/list/cons_fwd.hpp>
-#include <boost/fusion/sequence/intrinsic_fwd.hpp>
-#include <boost/fusion/iterator/equal_to.hpp>
-#include <boost/fusion/iterator/deref.hpp>
-#include <boost/fusion/iterator/next.hpp>
-#include <boost/fusion/support/is_segmented.hpp>
-#include <boost/fusion/sequence/intrinsic/segments.hpp>
+#include "../../../../boost/fusion/support/void.hpp"
+#include "../../../../boost/fusion/container/list/cons_fwd.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic_fwd.hpp"
+#include "../../../../boost/fusion/iterator/equal_to.hpp"
+#include "../../../../boost/fusion/iterator/deref.hpp"
+#include "../../../../boost/fusion/iterator/next.hpp"
+#include "../../../../boost/fusion/support/is_segmented.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic/segments.hpp"
 
 // fun(seq, state, context)
 //  seq: a non-segmented range

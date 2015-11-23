@@ -7,13 +7,13 @@
 #ifndef FUSION_VECTOR_FORWARD_11052014_1626
 #define FUSION_VECTOR_FORWARD_11052014_1626
 
-#include <boost/config.hpp>
-#include <boost/fusion/support/config.hpp>
+#include "../../../../boost/config.hpp"
+#include "../../../../boost/fusion/support/config.hpp"
 
 ///////////////////////////////////////////////////////////////////////////////
 // With no variadics, we will use the C++03 version
 ///////////////////////////////////////////////////////////////////////////////
-# include <boost/fusion/container/vector/detail/cpp03/vector_fwd.hpp>
+#include "../../../../boost/fusion/container/vector/detail/cpp03/vector_fwd.hpp"
 
 #endif
 

@@ -5,9 +5,9 @@
 #ifndef OBJECT_PROTOCOL_CORE_DWA2002615_HPP
 # define OBJECT_PROTOCOL_CORE_DWA2002615_HPP
 
-# include <boost/python/detail/prefix.hpp>
+#include "../../boost/python/detail/prefix.hpp"
 
-# include <boost/python/handle_fwd.hpp>
+#include "../../boost/python/handle_fwd.hpp"
 
 namespace boost { namespace python { 
 

@@ -16,12 +16,12 @@
 
 //  See http://www.boost.org for updates, documentation, and revision history.
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 #ifndef BOOST_NO_EXCEPTIONS
 #include <exception>
 #endif //BOOST_NO_EXCEPTIONS
 
-#include <boost/assert.hpp>
+#include "../../../boost/assert.hpp"
 
 namespace boost {
 namespace archive {

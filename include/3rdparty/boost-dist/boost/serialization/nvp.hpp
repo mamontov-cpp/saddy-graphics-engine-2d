@@ -18,18 +18,18 @@
 
 #include <utility>
 
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/detail/workaround.hpp"
 
-#include <boost/mpl/integral_c.hpp>
-#include <boost/mpl/integral_c_tag.hpp>
+#include "../../boost/mpl/integral_c.hpp"
+#include "../../boost/mpl/integral_c_tag.hpp"
 
-#include <boost/serialization/level.hpp>
-#include <boost/serialization/tracking.hpp>
-#include <boost/serialization/split_member.hpp>
-#include <boost/serialization/base_object.hpp>
-#include <boost/serialization/traits.hpp>
-#include <boost/serialization/wrapper.hpp>
+#include "../../boost/serialization/level.hpp"
+#include "../../boost/serialization/tracking.hpp"
+#include "../../boost/serialization/split_member.hpp"
+#include "../../boost/serialization/base_object.hpp"
+#include "../../boost/serialization/traits.hpp"
+#include "../../boost/serialization/wrapper.hpp"
 
 namespace boost {
 namespace serialization {
@@ -119,7 +119,7 @@ struct tracking_level<nvp< T > >
 } // seralization
 } // boost
 
-#include <boost/preprocessor/stringize.hpp>
+#include "../../boost/preprocessor/stringize.hpp"
 
 #define BOOST_SERIALIZATION_NVP(name)                              \
     boost::serialization::make_nvp(BOOST_PP_STRINGIZE(name), name)

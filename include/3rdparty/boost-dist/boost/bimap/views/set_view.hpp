@@ -16,10 +16,10 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 
-#include <boost/bimap/container_adaptor/set_adaptor.hpp>
-#include <boost/bimap/detail/set_view_base.hpp>
+#include "../../../boost/bimap/container_adaptor/set_adaptor.hpp"
+#include "../../../boost/bimap/detail/set_view_base.hpp"
 
 namespace boost {
 namespace bimaps {

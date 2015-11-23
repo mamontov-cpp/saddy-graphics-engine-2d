@@ -15,9 +15,9 @@
 // $Date$
 // $Revision$
 
-#include <boost/mpl/begin_end_fwd.hpp>
-#include <boost/mpl/next_prior.hpp>
-#include <boost/mpl/map/aux_/iterator.hpp>
+#include "../../../../boost/mpl/begin_end_fwd.hpp"
+#include "../../../../boost/mpl/next_prior.hpp"
+#include "../../../../boost/mpl/map/aux_/iterator.hpp"
 
 namespace boost { namespace mpl {
 

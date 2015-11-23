@@ -7,10 +7,10 @@
 #if !defined(FUSION_SIZE_IMPL_09232005_1058)
 #define FUSION_SIZE_IMPL_09232005_1058
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/iterator/distance.hpp>
-#include <boost/fusion/sequence/intrinsic/begin.hpp>
-#include <boost/fusion/sequence/intrinsic/end.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/fusion/iterator/distance.hpp"
+#include "../../../../../boost/fusion/sequence/intrinsic/begin.hpp"
+#include "../../../../../boost/fusion/sequence/intrinsic/end.hpp"
 
 namespace boost { namespace fusion
 {

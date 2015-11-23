@@ -7,11 +7,11 @@
 #if !defined(FUSION_FRONT_09162005_0343)
 #define FUSION_FRONT_09162005_0343
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/sequence/intrinsic_fwd.hpp>
-#include <boost/fusion/sequence/intrinsic/begin.hpp>
-#include <boost/fusion/iterator/deref.hpp>
-#include <boost/mpl/bool.hpp>
+#include "../../../../boost/fusion/support/config.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic_fwd.hpp"
+#include "../../../../boost/fusion/sequence/intrinsic/begin.hpp"
+#include "../../../../boost/fusion/iterator/deref.hpp"
+#include "../../../../boost/mpl/bool.hpp"
 
 namespace boost { namespace fusion
 {

@@ -6,22 +6,22 @@
 #ifndef BOOST_TYPEOF_TEMPLATE_ENCODING_HPP_INCLUDED
 #define BOOST_TYPEOF_TEMPLATE_ENCODING_HPP_INCLUDED
 
-#include <boost/preprocessor/cat.hpp>
-#include <boost/preprocessor/repetition/enum_trailing.hpp>
-#include <boost/preprocessor/control/iif.hpp>
-#include <boost/preprocessor/detail/is_unary.hpp>
-#include <boost/preprocessor/repetition/repeat.hpp>
-#include <boost/preprocessor/tuple/eat.hpp>
-#include <boost/preprocessor/seq/transform.hpp>
-#include <boost/preprocessor/seq/for_each_i.hpp>
-#include <boost/preprocessor/seq/cat.hpp>
+#include "../../boost/preprocessor/cat.hpp"
+#include "../../boost/preprocessor/repetition/enum_trailing.hpp"
+#include "../../boost/preprocessor/control/iif.hpp"
+#include "../../boost/preprocessor/detail/is_unary.hpp"
+#include "../../boost/preprocessor/repetition/repeat.hpp"
+#include "../../boost/preprocessor/tuple/eat.hpp"
+#include "../../boost/preprocessor/seq/transform.hpp"
+#include "../../boost/preprocessor/seq/for_each_i.hpp"
+#include "../../boost/preprocessor/seq/cat.hpp"
 
-#include <boost/typeof/encode_decode.hpp>
-#include <boost/typeof/int_encoding.hpp>
+#include "../../boost/typeof/encode_decode.hpp"
+#include "../../boost/typeof/int_encoding.hpp"
 
-#include <boost/typeof/type_template_param.hpp>
-#include <boost/typeof/integral_template_param.hpp>
-#include <boost/typeof/template_template_param.hpp>
+#include "../../boost/typeof/type_template_param.hpp"
+#include "../../boost/typeof/integral_template_param.hpp"
+#include "../../boost/typeof/template_template_param.hpp"
 
 #ifdef __BORLANDC__
 #define BOOST_TYPEOF_QUALIFY(P) self_t::P

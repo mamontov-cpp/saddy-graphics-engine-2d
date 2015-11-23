@@ -8,15 +8,15 @@
 #ifndef BOOST_MPI_GATHERV_HPP
 #define BOOST_MPI_GATHERV_HPP
 
-#include <boost/mpi/exception.hpp>
-#include <boost/mpi/datatype.hpp>
+#include "../../../boost/mpi/exception.hpp"
+#include "../../../boost/mpi/datatype.hpp"
 #include <vector>
-#include <boost/mpi/packed_oarchive.hpp>
-#include <boost/mpi/packed_iarchive.hpp>
-#include <boost/mpi/detail/point_to_point.hpp>
-#include <boost/mpi/communicator.hpp>
-#include <boost/mpi/environment.hpp>
-#include <boost/assert.hpp>
+#include "../../../boost/mpi/packed_oarchive.hpp"
+#include "../../../boost/mpi/packed_iarchive.hpp"
+#include "../../../boost/mpi/detail/point_to_point.hpp"
+#include "../../../boost/mpi/communicator.hpp"
+#include "../../../boost/mpi/environment.hpp"
+#include "../../../boost/assert.hpp"
 
 namespace boost { namespace mpi {
 

@@ -11,17 +11,17 @@
 #ifndef BOOST_STRING_FINDER_HPP
 #define BOOST_STRING_FINDER_HPP
 
-#include <boost/algorithm/string/config.hpp>
+#include "../../../boost/algorithm/string/config.hpp"
 
-#include <boost/range/iterator_range_core.hpp>
-#include <boost/range/begin.hpp>
-#include <boost/range/end.hpp>
-#include <boost/range/iterator.hpp>
-#include <boost/range/const_iterator.hpp>
+#include "../../../boost/range/iterator_range_core.hpp"
+#include "../../../boost/range/begin.hpp"
+#include "../../../boost/range/end.hpp"
+#include "../../../boost/range/iterator.hpp"
+#include "../../../boost/range/const_iterator.hpp"
 
-#include <boost/algorithm/string/constants.hpp>
-#include <boost/algorithm/string/detail/finder.hpp>
-#include <boost/algorithm/string/compare.hpp>
+#include "../../../boost/algorithm/string/constants.hpp"
+#include "../../../boost/algorithm/string/detail/finder.hpp"
+#include "../../../boost/algorithm/string/compare.hpp"
 
 /*! \file
     Defines Finder generators. Finder object is a functor which is able to 

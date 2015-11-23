@@ -9,10 +9,10 @@
 #ifndef BOOST_XPRESSIVE_DETAIL_CORE_REGEX_DOMAIN_HPP_EAN_12_12_2009
 #define BOOST_XPRESSIVE_DETAIL_CORE_REGEX_DOMAIN_HPP_EAN_12_12_2009
 
-#include <boost/xpressive/xpressive_fwd.hpp>
-#include <boost/proto/traits.hpp>
-#include <boost/proto/domain.hpp>
-#include <boost/proto/generate.hpp>
+#include "../../../../boost/xpressive/xpressive_fwd.hpp"
+#include "../../../../boost/proto/traits.hpp"
+#include "../../../../boost/proto/domain.hpp"
+#include "../../../../boost/proto/generate.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

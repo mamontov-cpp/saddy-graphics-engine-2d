@@ -82,9 +82,9 @@
 #ifndef BOOST_OPERATORS_HPP
 #define BOOST_OPERATORS_HPP
 
-#include <boost/config.hpp>
-#include <boost/iterator.hpp>
-#include <boost/detail/workaround.hpp>
+#include "../boost/config.hpp"
+#include "../boost/iterator.hpp"
+#include "../boost/detail/workaround.hpp"
 
 #if defined(__sgi) && !defined(__GNUC__)
 #   pragma set woff 1234

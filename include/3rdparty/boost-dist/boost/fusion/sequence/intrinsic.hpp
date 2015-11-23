@@ -7,19 +7,19 @@
 #if !defined(FUSION_SEQUENCE_INTRINSIC_10022005_0618)
 #define FUSION_SEQUENCE_INTRINSIC_10022005_0618
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/sequence/intrinsic/at.hpp>
-#include <boost/fusion/sequence/intrinsic/back.hpp>
-#include <boost/fusion/sequence/intrinsic/begin.hpp>
-#include <boost/fusion/sequence/intrinsic/empty.hpp>
-#include <boost/fusion/sequence/intrinsic/end.hpp>
-#include <boost/fusion/sequence/intrinsic/front.hpp>
-#include <boost/fusion/sequence/intrinsic/has_key.hpp>
-#include <boost/fusion/sequence/intrinsic/segments.hpp>
-#include <boost/fusion/sequence/intrinsic/size.hpp>
-#include <boost/fusion/sequence/intrinsic/value_at.hpp>
-#include <boost/fusion/sequence/intrinsic/at_key.hpp>
-#include <boost/fusion/sequence/intrinsic/value_at_key.hpp>
-#include <boost/fusion/sequence/intrinsic/swap.hpp>
+#include "../../../boost/fusion/support/config.hpp"
+#include "../../../boost/fusion/sequence/intrinsic/at.hpp"
+#include "../../../boost/fusion/sequence/intrinsic/back.hpp"
+#include "../../../boost/fusion/sequence/intrinsic/begin.hpp"
+#include "../../../boost/fusion/sequence/intrinsic/empty.hpp"
+#include "../../../boost/fusion/sequence/intrinsic/end.hpp"
+#include "../../../boost/fusion/sequence/intrinsic/front.hpp"
+#include "../../../boost/fusion/sequence/intrinsic/has_key.hpp"
+#include "../../../boost/fusion/sequence/intrinsic/segments.hpp"
+#include "../../../boost/fusion/sequence/intrinsic/size.hpp"
+#include "../../../boost/fusion/sequence/intrinsic/value_at.hpp"
+#include "../../../boost/fusion/sequence/intrinsic/at_key.hpp"
+#include "../../../boost/fusion/sequence/intrinsic/value_at_key.hpp"
+#include "../../../boost/fusion/sequence/intrinsic/swap.hpp"
 
 #endif

@@ -14,7 +14,7 @@
 #endif
 
 #include <climits> // for INT_MAX
-#include <boost/mpl/size_t.hpp>
+#include "../../../../boost/mpl/size_t.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

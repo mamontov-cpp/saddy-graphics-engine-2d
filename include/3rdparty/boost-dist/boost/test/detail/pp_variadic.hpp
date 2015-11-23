@@ -13,9 +13,9 @@
 #define BOOST_TEST_PP_VARIADIC_HPP_021515GER
 
 // Boost
-#include <boost/preprocessor/control/iif.hpp>
-#include <boost/preprocessor/comparison/equal.hpp>
-#include <boost/preprocessor/variadic/size.hpp>
+#include "../../../boost/preprocessor/control/iif.hpp"
+#include "../../../boost/preprocessor/comparison/equal.hpp"
+#include "../../../boost/preprocessor/variadic/size.hpp"
 
 //____________________________________________________________________________//
 

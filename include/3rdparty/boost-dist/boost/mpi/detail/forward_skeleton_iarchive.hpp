@@ -9,11 +9,11 @@
 #ifndef BOOST_MPI_DETAIL_FORWARD_SKELETON_IARCHIVE_HPP
 #define BOOST_MPI_DETAIL_FORWARD_SKELETON_IARCHIVE_HPP
 
-#include <boost/archive/detail/auto_link_archive.hpp>
-#include <boost/archive/detail/iserializer.hpp>
-#include <boost/archive/detail/interface_iarchive.hpp>
-#include <boost/archive/detail/common_iarchive.hpp>
-#include <boost/serialization/collection_size_type.hpp>
+#include "../../../boost/archive/detail/auto_link_archive.hpp"
+#include "../../../boost/archive/detail/iserializer.hpp"
+#include "../../../boost/archive/detail/interface_iarchive.hpp"
+#include "../../../boost/archive/detail/common_iarchive.hpp"
+#include "../../../boost/serialization/collection_size_type.hpp"
 
 namespace boost { namespace mpi { namespace detail {
 

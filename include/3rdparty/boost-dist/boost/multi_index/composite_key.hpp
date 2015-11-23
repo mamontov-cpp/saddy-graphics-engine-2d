@@ -13,35 +13,35 @@
 #pragma once
 #endif
 
-#include <boost/config.hpp> /* keep it first to prevent nasty warns in MSVC */
-#include <boost/functional/hash_fwd.hpp>
-#include <boost/multi_index/detail/access_specifier.hpp>
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/identity.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/or.hpp>
-#include <boost/preprocessor/cat.hpp>
-#include <boost/preprocessor/control/expr_if.hpp>
-#include <boost/preprocessor/list/at.hpp>
-#include <boost/preprocessor/repetition/enum.hpp>
-#include <boost/preprocessor/repetition/enum_params.hpp> 
-#include <boost/static_assert.hpp>
-#include <boost/tuple/tuple.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/utility/enable_if.hpp>
+#include "../../boost/config.hpp" /* keep it first to prevent nasty warns in MSVC */
+#include "../../boost/functional/hash_fwd.hpp"
+#include "../../boost/multi_index/detail/access_specifier.hpp"
+#include "../../boost/mpl/eval_if.hpp"
+#include "../../boost/mpl/identity.hpp"
+#include "../../boost/mpl/if.hpp"
+#include "../../boost/mpl/or.hpp"
+#include "../../boost/preprocessor/cat.hpp"
+#include "../../boost/preprocessor/control/expr_if.hpp"
+#include "../../boost/preprocessor/list/at.hpp"
+#include "../../boost/preprocessor/repetition/enum.hpp"
+#include "../../boost/preprocessor/repetition/enum_params.hpp" 
+#include "../../boost/static_assert.hpp"
+#include "../../boost/tuple/tuple.hpp"
+#include "../../boost/type_traits/is_same.hpp"
+#include "../../boost/utility/enable_if.hpp"
 #include <functional>
 
 #if !defined(BOOST_NO_FUNCTION_TEMPLATE_ORDERING)
-#include <boost/ref.hpp>
+#include "../../boost/ref.hpp"
 #endif
 
 #if !defined(BOOST_NO_SFINAE)
-#include <boost/type_traits/is_convertible.hpp>
+#include "../../boost/type_traits/is_convertible.hpp"
 #endif
 
 #if !defined(BOOST_NO_CXX11_HDR_TUPLE)&&\
     !defined(BOOST_NO_CXX11_VARIADIC_TEMPLATES)
-#include <boost/multi_index/detail/cons_stdtuple.hpp>
+#include "../../boost/multi_index/detail/cons_stdtuple.hpp"
 #endif
 
 /* A composite key stores n key extractors and "computes" the

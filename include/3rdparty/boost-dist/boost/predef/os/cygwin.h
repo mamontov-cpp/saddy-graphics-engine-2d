@@ -8,8 +8,8 @@ http://www.boost.org/LICENSE_1_0.txt)
 #ifndef BOOST_PREDEF_OS_CYGWIN_H
 #define BOOST_PREDEF_OS_CYGWIN_H
 
-#include <boost/predef/version_number.h>
-#include <boost/predef/make.h>
+#include "../../../boost/predef/version_number.h"
+#include "../../../boost/predef/make.h"
 
 /*`
 [heading `BOOST_OS_CYGWIN`]
@@ -34,12 +34,12 @@ http://www.boost.org/LICENSE_1_0.txt)
 
 #if BOOST_OS_CYGWIN
 #   define BOOST_OS_CYGWIN_AVAILABLE
-#   include <boost/predef/detail/os_detected.h>
+#include "../../../boost/predef/detail/os_detected.h"
 #endif
 
 #define BOOST_OS_CYGWIN_NAME "Cygwin"
 
 #endif
 
-#include <boost/predef/detail/test.h>
+#include "../../../boost/predef/detail/test.h"
 BOOST_PREDEF_DECLARE_TEST(BOOST_OS_CYGWIN,BOOST_OS_CYGWIN_NAME)

@@ -13,8 +13,8 @@
 #define BOOST_TEST_CONFIG_HPP_071894GER
 
 // Boost
-#include <boost/config.hpp> // compilers workarounds
-#include <boost/detail/workaround.hpp>
+#include "../../../boost/config.hpp" // compilers workarounds
+#include "../../../boost/detail/workaround.hpp"
 
 #if defined(_WIN32) && !defined(BOOST_DISABLE_WIN32) &&                  \
     (!defined(__COMO__) && !defined(__MWERKS__) && !defined(__GNUC__) || \

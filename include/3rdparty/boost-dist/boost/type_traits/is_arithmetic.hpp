@@ -10,14 +10,14 @@
 #define BOOST_TT_IS_ARITHMETIC_HPP_INCLUDED
 
 #if !defined( __CODEGEARC__ )
-#include <boost/type_traits/is_integral.hpp>
-#include <boost/type_traits/is_float.hpp>
-#include <boost/type_traits/detail/ice_or.hpp>
-#include <boost/config.hpp>
+#include "../../boost/type_traits/is_integral.hpp"
+#include "../../boost/type_traits/is_float.hpp"
+#include "../../boost/type_traits/detail/ice_or.hpp"
+#include "../../boost/config.hpp"
 #endif
 
 // should be the last #include
-#include <boost/type_traits/detail/bool_trait_def.hpp>
+#include "../../boost/type_traits/detail/bool_trait_def.hpp"
 
 namespace boost {
 
@@ -46,6 +46,6 @@ BOOST_TT_AUX_BOOL_TRAIT_DEF1(is_arithmetic,T,::boost::detail::is_arithmetic_impl
 
 } // namespace boost
 
-#include <boost/type_traits/detail/bool_trait_undef.hpp>
+#include "../../boost/type_traits/detail/bool_trait_undef.hpp"
 
 #endif // BOOST_TT_IS_ARITHMETIC_HPP_INCLUDED

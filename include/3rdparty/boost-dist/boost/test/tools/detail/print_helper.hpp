@@ -16,18 +16,18 @@
 #define BOOST_TEST_TOOLS_IMPL_COMMON_HPP_012705GER
 
 // Boost.Test
-#include <boost/test/detail/config.hpp>
-#include <boost/test/detail/global_typedef.hpp>
-#include <boost/test/detail/workaround.hpp>
+#include "../../../../boost/test/detail/config.hpp"
+#include "../../../../boost/test/detail/global_typedef.hpp"
+#include "../../../../boost/test/detail/workaround.hpp"
 
 // Boost
-#include <boost/mpl/or.hpp>
-#include <boost/type_traits/is_array.hpp>
-#include <boost/type_traits/is_function.hpp>
-#include <boost/type_traits/is_abstract.hpp>
+#include "../../../../boost/mpl/or.hpp"
+#include "../../../../boost/type_traits/is_array.hpp"
+#include "../../../../boost/type_traits/is_function.hpp"
+#include "../../../../boost/type_traits/is_abstract.hpp"
 #include <limits>
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -194,6 +194,6 @@ struct print_log_value<the_type > {                         \
 } // namespace test_tools
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_TOOLS_IMPL_COMMON_HPP_012705GER

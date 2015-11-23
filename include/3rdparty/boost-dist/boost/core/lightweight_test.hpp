@@ -19,9 +19,9 @@
 //  http://www.boost.org/LICENSE_1_0.txt
 //
 
-#include <boost/assert.hpp>
-#include <boost/current_function.hpp>
-#include <boost/core/no_exceptions_support.hpp>
+#include "../../boost/assert.hpp"
+#include "../../boost/current_function.hpp"
+#include "../../boost/core/no_exceptions_support.hpp"
 #include <iostream>
 
 //  IDE's like Visual Studio perform better if output goes to std::cout or

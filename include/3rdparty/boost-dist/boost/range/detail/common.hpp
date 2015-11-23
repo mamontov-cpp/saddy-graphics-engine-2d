@@ -15,13 +15,13 @@
 # pragma once
 #endif
 
-#include <boost/range/config.hpp>
-#include <boost/range/detail/sfinae.hpp>
-#include <boost/type_traits/is_void.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/int.hpp>
-#include <boost/mpl/or.hpp>
+#include "../../../boost/range/config.hpp"
+#include "../../../boost/range/detail/sfinae.hpp"
+#include "../../../boost/type_traits/is_void.hpp"
+#include "../../../boost/mpl/bool.hpp"
+#include "../../../boost/mpl/if.hpp"
+#include "../../../boost/mpl/int.hpp"
+#include "../../../boost/mpl/or.hpp"
 #include <cstddef>
 
 //////////////////////////////////////////////////////////////////////////////

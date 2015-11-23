@@ -16,8 +16,8 @@
 
 //  See http://www.boost.org for updates, documentation, and revision history.
 
-#include <boost/assert.hpp>
-#include <boost/archive/iterators/escape.hpp>
+#include "../../../boost/assert.hpp"
+#include "../../../boost/archive/iterators/escape.hpp"
 
 namespace boost { 
 namespace archive {

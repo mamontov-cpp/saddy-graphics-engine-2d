@@ -18,23 +18,23 @@
 #ifndef BOOST_LEXICAL_CAST_DETAIL_CONVERTER_NUMERIC_HPP
 #define BOOST_LEXICAL_CAST_DETAIL_CONVERTER_NUMERIC_HPP
 
-#include <boost/config.hpp>
+#include "../../../boost/config.hpp"
 #ifdef BOOST_HAS_PRAGMA_ONCE
 #   pragma once
 #endif
 
-#include <boost/limits.hpp>
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/identity.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/type_traits/make_unsigned.hpp>
-#include <boost/type_traits/is_signed.hpp>
-#include <boost/type_traits/is_integral.hpp>
-#include <boost/type_traits/is_arithmetic.hpp>
-#include <boost/type_traits/is_base_of.hpp>
-#include <boost/type_traits/is_float.hpp>
+#include "../../../boost/limits.hpp"
+#include "../../../boost/mpl/eval_if.hpp"
+#include "../../../boost/mpl/identity.hpp"
+#include "../../../boost/mpl/if.hpp"
+#include "../../../boost/type_traits/make_unsigned.hpp"
+#include "../../../boost/type_traits/is_signed.hpp"
+#include "../../../boost/type_traits/is_integral.hpp"
+#include "../../../boost/type_traits/is_arithmetic.hpp"
+#include "../../../boost/type_traits/is_base_of.hpp"
+#include "../../../boost/type_traits/is_float.hpp"
 
-#include <boost/numeric/conversion/cast.hpp>
+#include "../../../boost/numeric/conversion/cast.hpp"
 
 namespace boost { namespace detail {
 

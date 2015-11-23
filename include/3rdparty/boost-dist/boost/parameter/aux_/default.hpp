@@ -6,7 +6,7 @@
 #ifndef DEFAULT_050329_HPP
 # define DEFAULT_050329_HPP
 
-# include <boost/detail/workaround.hpp>
+#include "../../../boost/detail/workaround.hpp"
 
 namespace boost { namespace parameter { namespace aux {
 

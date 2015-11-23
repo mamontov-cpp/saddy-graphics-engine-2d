@@ -17,11 +17,11 @@
 //  See http://www.boost.org for updates, documentation, and revision history.
 
 #include <exception>
-#include <boost/assert.hpp>
+#include "../../boost/assert.hpp"
 #include <string>
 
-#include <boost/config.hpp> 
-#include <boost/archive/detail/decl.hpp>
+#include "../../boost/config.hpp" 
+#include "../../boost/archive/detail/decl.hpp"
 
 // note: the only reason this is in here is that windows header
 // includes #define exception_code _exception_code (arrrgghhhh!).
@@ -31,7 +31,7 @@
 #include <excpt.h> 
 #endif 
 
-#include <boost/archive/detail/abi_prefix.hpp> // must be the last header
+#include "../../boost/archive/detail/abi_prefix.hpp" // must be the last header
 
 namespace boost {
 namespace archive {
@@ -94,6 +94,6 @@ public:
 }// namespace archive
 }// namespace boost
 
-#include <boost/archive/detail/abi_suffix.hpp> // pops abi_suffix.hpp pragmas
+#include "../../boost/archive/detail/abi_suffix.hpp" // pops abi_suffix.hpp pragmas
 
 #endif //BOOST_ARCHIVE_ARCHIVE_EXCEPTION_HPP

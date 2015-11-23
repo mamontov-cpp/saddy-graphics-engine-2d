@@ -8,11 +8,11 @@
 #if !defined(BOOST_SPIRIT_PARSER_HPP)
 #define BOOST_SPIRIT_PARSER_HPP
 
-#include <boost/config.hpp>
-#include <boost/type_traits/remove_reference.hpp>
-#include <boost/spirit/home/classic/namespace.hpp>
-#include <boost/spirit/home/classic/core/scanner/scanner.hpp>
-#include <boost/spirit/home/classic/core/nil.hpp>
+#include "../../../../../boost/config.hpp"
+#include "../../../../../boost/type_traits/remove_reference.hpp"
+#include "../../../../../boost/spirit/home/classic/namespace.hpp"
+#include "../../../../../boost/spirit/home/classic/core/scanner/scanner.hpp"
+#include "../../../../../boost/spirit/home/classic/core/nil.hpp"
 
 namespace boost { namespace spirit {
 
@@ -220,4 +220,4 @@ BOOST_SPIRIT_CLASSIC_NAMESPACE_END
 
 #endif
 
-#include <boost/spirit/home/classic/core/impl/parser.ipp>
+#include "../../../../../boost/spirit/home/classic/core/impl/parser.ipp"

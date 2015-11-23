@@ -21,12 +21,12 @@
 # pragma once
 #endif
 
-#include <boost/noncopyable.hpp>
-#include <boost/range/begin.hpp>
-#include <boost/range/end.hpp>
-#include <boost/range/value_type.hpp>
-#include <boost/range/const_iterator.hpp>
-#include <boost/shared_ptr.hpp>
+#include "../../../../boost/noncopyable.hpp"
+#include "../../../../boost/range/begin.hpp"
+#include "../../../../boost/range/end.hpp"
+#include "../../../../boost/range/value_type.hpp"
+#include "../../../../boost/range/const_iterator.hpp"
+#include "../../../../boost/shared_ptr.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

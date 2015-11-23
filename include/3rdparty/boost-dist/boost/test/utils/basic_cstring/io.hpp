@@ -16,13 +16,13 @@
 #define BOOST_TEST_UTILS_BASIC_CSTRING_IO_HPP
 
 // Boost.Test
-#include <boost/test/utils/basic_cstring/basic_cstring.hpp>
+#include "../../../../boost/test/utils/basic_cstring/basic_cstring.hpp"
 
 // STL
 #include <iosfwd>
 #include <string>
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -68,6 +68,6 @@ operator<<( std::basic_ostream<CharT1,Tr>& os, basic_cstring<CharT2> const& str 
 
 //____________________________________________________________________________//
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_BASIC_CSTRING_IO_HPP_071894GER

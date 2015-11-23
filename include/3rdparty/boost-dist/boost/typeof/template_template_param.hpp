@@ -6,9 +6,9 @@
 #ifndef BOOST_TYPEOF_TEMPLATE_TEMPLATE_PARAM_HPP_INCLUDED
 #define BOOST_TYPEOF_TEMPLATE_TEMPLATE_PARAM_HPP_INCLUDED
 
-#include <boost/preprocessor/logical/or.hpp>
-#include <boost/preprocessor/seq/fold_left.hpp>
-#include <boost/preprocessor/seq/enum.hpp>
+#include "../../boost/preprocessor/logical/or.hpp"
+#include "../../boost/preprocessor/seq/fold_left.hpp"
+#include "../../boost/preprocessor/seq/enum.hpp"
 
 #define BOOST_TYPEOF_MAKE_OBJ_template(x)   BOOST_TYPEOF_TEMPLATE_PARAM(x)
 #define BOOST_TYPEOF_TEMPLATE(X) template(X) BOOST_TYPEOF_EAT

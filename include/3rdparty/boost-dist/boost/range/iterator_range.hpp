@@ -10,7 +10,7 @@
 #ifndef BOOST_RANGE_ITERATOR_RANGE_HPP_INCLUDED
 #define BOOST_RANGE_ITERATOR_RANGE_HPP_INCLUDED
 
-#include "boost/range/iterator_range_core.hpp"
-#include "boost/range/iterator_range_io.hpp"
+#include "../../boost/range/iterator_range_core.hpp"
+#include "../../boost/range/iterator_range_io.hpp"
 
 #endif // include guard

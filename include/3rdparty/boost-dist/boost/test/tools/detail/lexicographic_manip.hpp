@@ -13,13 +13,13 @@
 #define BOOST_TEST_TOOLS_DETAIL_LEXICOGRAPHIC_MANIP_HPP_050815GER
 
 // Boost Test
-#include <boost/test/tools/detail/fwd.hpp>
-#include <boost/test/tools/detail/indirections.hpp>
+#include "../../../../boost/test/tools/detail/fwd.hpp"
+#include "../../../../boost/test/tools/detail/indirections.hpp"
 
-#include <boost/test/tools/assertion.hpp>
-#include <boost/test/tools/collection_comparison_op.hpp>
+#include "../../../../boost/test/tools/assertion.hpp"
+#include "../../../../boost/test/tools/collection_comparison_op.hpp"
 
-#include <boost/test/detail/suppress_warnings.hpp>
+#include "../../../../boost/test/detail/suppress_warnings.hpp"
 
 //____________________________________________________________________________//
 
@@ -64,6 +64,6 @@ operator<<( assertion_type const&, lexicographic )
 } // namespace test_tools
 } // namespace boost
 
-#include <boost/test/detail/enable_warnings.hpp>
+#include "../../../../boost/test/detail/enable_warnings.hpp"
 
 #endif // BOOST_TEST_TOOLS_DETAIL_LEXICOGRAPHIC_MANIP_HPP_050815GER

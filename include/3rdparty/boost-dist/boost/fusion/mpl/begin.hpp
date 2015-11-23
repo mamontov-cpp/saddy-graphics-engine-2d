@@ -7,11 +7,11 @@
 #if !defined(FUSION_BEGIN_10022005_1620)
 #define FUSION_BEGIN_10022005_1620
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/mpl/begin_end.hpp>
-#include <boost/fusion/sequence/intrinsic/begin.hpp>
-#include <boost/fusion/adapted/mpl/detail/begin_impl.hpp>
-#include <boost/fusion/iterator/mpl/fusion_iterator.hpp>
+#include "../../../boost/fusion/support/config.hpp"
+#include "../../../boost/mpl/begin_end.hpp"
+#include "../../../boost/fusion/sequence/intrinsic/begin.hpp"
+#include "../../../boost/fusion/adapted/mpl/detail/begin_impl.hpp"
+#include "../../../boost/fusion/iterator/mpl/fusion_iterator.hpp"
 
 namespace boost { namespace mpl
 {

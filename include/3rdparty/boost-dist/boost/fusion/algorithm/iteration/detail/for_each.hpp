@@ -7,15 +7,15 @@
 #if !defined(FUSION_FOR_EACH_05052005_1028)
 #define FUSION_FOR_EACH_05052005_1028
 
-#include <boost/fusion/support/config.hpp>
-#include <boost/fusion/sequence/intrinsic/begin.hpp>
-#include <boost/fusion/sequence/intrinsic/end.hpp>
-#include <boost/fusion/iterator/equal_to.hpp>
-#include <boost/fusion/iterator/next.hpp>
-#include <boost/fusion/iterator/deref.hpp>
-#include <boost/fusion/iterator/distance.hpp>
-#include <boost/fusion/support/category_of.hpp>
-#include <boost/mpl/bool.hpp>
+#include "../../../../../boost/fusion/support/config.hpp"
+#include "../../../../../boost/fusion/sequence/intrinsic/begin.hpp"
+#include "../../../../../boost/fusion/sequence/intrinsic/end.hpp"
+#include "../../../../../boost/fusion/iterator/equal_to.hpp"
+#include "../../../../../boost/fusion/iterator/next.hpp"
+#include "../../../../../boost/fusion/iterator/deref.hpp"
+#include "../../../../../boost/fusion/iterator/distance.hpp"
+#include "../../../../../boost/fusion/support/category_of.hpp"
+#include "../../../../../boost/mpl/bool.hpp"
 
 namespace boost { namespace fusion {
 namespace detail

@@ -19,17 +19,17 @@
 #ifndef BOOST_MPI_HPP
 #define BOOST_MPI_HPP
 
-#include <boost/mpi/allocator.hpp>
-#include <boost/mpi/collectives.hpp>
-#include <boost/mpi/communicator.hpp>
-#include <boost/mpi/datatype.hpp>
-#include <boost/mpi/environment.hpp>
-#include <boost/mpi/graph_communicator.hpp>
-#include <boost/mpi/group.hpp>
-#include <boost/mpi/intercommunicator.hpp>
-#include <boost/mpi/nonblocking.hpp>
-#include <boost/mpi/operations.hpp>
-#include <boost/mpi/skeleton_and_content.hpp>
-#include <boost/mpi/timer.hpp>
+#include "../boost/mpi/allocator.hpp"
+#include "../boost/mpi/collectives.hpp"
+#include "../boost/mpi/communicator.hpp"
+#include "../boost/mpi/datatype.hpp"
+#include "../boost/mpi/environment.hpp"
+#include "../boost/mpi/graph_communicator.hpp"
+#include "../boost/mpi/group.hpp"
+#include "../boost/mpi/intercommunicator.hpp"
+#include "../boost/mpi/nonblocking.hpp"
+#include "../boost/mpi/operations.hpp"
+#include "../boost/mpi/skeleton_and_content.hpp"
+#include "../boost/mpi/timer.hpp"
 
 #endif // BOOST_MPI_HPP

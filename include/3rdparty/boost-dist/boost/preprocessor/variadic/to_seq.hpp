@@ -13,8 +13,8 @@
 # ifndef BOOST_PREPROCESSOR_VARIADIC_TO_SEQ_HPP
 # define BOOST_PREPROCESSOR_VARIADIC_TO_SEQ_HPP
 #
-# include <boost/preprocessor/config/config.hpp>
-# include <boost/preprocessor/tuple/to_seq.hpp>
+#include "../../../boost/preprocessor/config/config.hpp"
+#include "../../../boost/preprocessor/tuple/to_seq.hpp"
 #
 # /* BOOST_PP_VARIADIC_TO_SEQ */
 #

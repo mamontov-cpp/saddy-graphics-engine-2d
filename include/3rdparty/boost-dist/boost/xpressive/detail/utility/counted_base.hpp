@@ -7,9 +7,9 @@
 #ifndef BOOST_XPRESSIVE_DETAIL_UTILITY_COUNTED_BASE_HPP_EAN_04_16_2006
 #define BOOST_XPRESSIVE_DETAIL_UTILITY_COUNTED_BASE_HPP_EAN_04_16_2006
 
-#include <boost/assert.hpp>
-#include <boost/checked_delete.hpp>
-#include <boost/detail/atomic_count.hpp>
+#include "../../../../boost/assert.hpp"
+#include "../../../../boost/checked_delete.hpp"
+#include "../../../../boost/detail/atomic_count.hpp"
 
 namespace boost { namespace xpressive { namespace detail
 {

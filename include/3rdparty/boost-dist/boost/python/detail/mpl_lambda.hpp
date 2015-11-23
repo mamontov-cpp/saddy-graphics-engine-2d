@@ -6,7 +6,7 @@
 # define MPL_LAMBDA_DWA2002122_HPP
 
 // this header should go away soon
-# include <boost/mpl/aux_/lambda_support.hpp>
+#include "../../../boost/mpl/aux_/lambda_support.hpp"
 # define BOOST_PYTHON_MPL_LAMBDA_SUPPORT BOOST_MPL_AUX_LAMBDA_SUPPORT
 
 #endif // MPL_LAMBDA_DWA2002122_HPP

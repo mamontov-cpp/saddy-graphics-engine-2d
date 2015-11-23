@@ -20,23 +20,23 @@
 // this is to permit BOOST_EXPORT etc to be included in a 
 // file declaration header
 
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
+#include "../../boost/config.hpp"
+#include "../../boost/detail/workaround.hpp"
 
-#include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/int.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/identity.hpp>
+#include "../../boost/mpl/eval_if.hpp"
+#include "../../boost/mpl/int.hpp"
+#include "../../boost/mpl/bool.hpp"
+#include "../../boost/mpl/identity.hpp"
 
-#include <boost/type_traits/is_base_and_derived.hpp>
-#include <boost/type_traits/is_pointer.hpp>
-#include <boost/type_traits/is_const.hpp>
-#include <boost/type_traits/is_polymorphic.hpp>
+#include "../../boost/type_traits/is_base_and_derived.hpp"
+#include "../../boost/type_traits/is_pointer.hpp"
+#include "../../boost/type_traits/is_const.hpp"
+#include "../../boost/type_traits/is_polymorphic.hpp"
 
-#include <boost/static_assert.hpp>
-#include <boost/serialization/access.hpp>
-#include <boost/serialization/force_include.hpp>
-#include <boost/serialization/void_cast_fwd.hpp>
+#include "../../boost/static_assert.hpp"
+#include "../../boost/serialization/access.hpp"
+#include "../../boost/serialization/force_include.hpp"
+#include "../../boost/serialization/void_cast_fwd.hpp"
 
 namespace boost {
 namespace serialization {
