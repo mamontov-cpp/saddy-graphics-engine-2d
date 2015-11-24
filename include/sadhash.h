@@ -5,7 +5,7 @@
 */
 #pragma once
 #ifdef USE_OLD_SAD_HASH_IMPLEMENTATION
-	#include "util/sadhash.h"
+    #include "util/sadhash.h"
 #else
 
 #ifdef USE_EXTERNAL_BOOST 
@@ -30,14 +30,14 @@ namespace sad
 {
 
 /*! Returns hash value for sad::String type
-	\param[in] b value
+    \param[in] b value
  */
 std::size_t hash_value(const sad::String& b);
 /*! Returns hash value for sad::String type
-	\param[in] b value
+    \param[in] b value
  */
 std::size_t hash_value(const sad::WString& b);
-	
+    
 /*! \class Hash
     Class of a simple hash-based dictionary, based on boost::unordered_map
 */
@@ -57,39 +57,39 @@ public:
          */
         const_iterator()
         {
-	        
+            
         }
-		/*! A copy constructor for iterator
-			\param[in] it other iterator
-		 */
-		const_iterator(const typename boost::unordered_map<Key, T>::const_iterator& it)
-		: boost::unordered_map<Key, T>::const_iterator(it)
+        /*! A copy constructor for iterator
+            \param[in] it other iterator
+         */
+        const_iterator(const typename boost::unordered_map<Key, T>::const_iterator& it)
+        : boost::unordered_map<Key, T>::const_iterator(it)
         {
-	        
+            
         }
         /*! Destructor
          */
         ~const_iterator()
         {
-	        
+            
         }
-		/*! Returns a key for iterator
-			\return a key value for iterator
-		 */
+        /*! Returns a key for iterator
+            \return a key value for iterator
+         */
         const Key& key() const
         {
-	        return (*this)->first;
+            return (*this)->first;
         }
-		/*! Returns a value for iterator
-			\return a value for iterator
-		 */ 
+        /*! Returns a value for iterator
+            \return a value for iterator
+         */ 
         const T&  value() const
         {
-	        return (*this)->second;
+            return (*this)->second;
         }
     };
-	/*! A common iterator for hash
-	 */
+    /*! A common iterator for hash
+     */
     class iterator: public boost::unordered_map<Key, T>::iterator
     {
     public:
@@ -97,73 +97,73 @@ public:
          */
         iterator()
         {
-	        
+            
         }
-		/*! A copy constructor for iterator
-			\param[in] it other iterator
-		 */
-		iterator(const typename boost::unordered_map<Key, T>::iterator& it)
-		: boost::unordered_map<Key, T>::iterator(it)
+        /*! A copy constructor for iterator
+            \param[in] it other iterator
+         */
+        iterator(const typename boost::unordered_map<Key, T>::iterator& it)
+        : boost::unordered_map<Key, T>::iterator(it)
         {
-	        
+            
         }
         /*! Destructor
          */
         ~iterator()
         {
-	        
+            
         }
-		/*! Returns a key for iterator
-			\return a key value for iterator
-		 */
+        /*! Returns a key for iterator
+            \return a key value for iterator
+         */
         const Key& key() const
         {
-	        return (*this)->first;
+            return (*this)->first;
         }
-		/*! Returns a value for iterator
-			\return a value for iterator
-		 */ 
+        /*! Returns a value for iterator
+            \return a value for iterator
+         */ 
         T &  value() const
         {
-	        return (*this)->second;
+            return (*this)->second;
         }
     };
        
     /*! Returns a begin iterator
-		\return an iterator for starting element
+        \return an iterator for starting element
      */
     iterator begin()
     {
-	    return iterator(this->boost::unordered_map<Key, T>::begin());
+        return iterator(this->boost::unordered_map<Key, T>::begin());
     }
     /*! Returns an end iterator
-		\return an iterator for ending element
-	*/
+        \return an iterator for ending element
+    */
     iterator end()
     {
-	    return iterator(this->boost::unordered_map<Key, T>::end());
+        return iterator(this->boost::unordered_map<Key, T>::end());
     }
 
     /*! Returns a begin iterator
-		\return  an iterator for stating element
+        \return  an iterator for stating element
      */
     const_iterator const_begin() const
     {
-	    return const_iterator(this->boost::unordered_map<Key, T>::begin());
+        return const_iterator(this->boost::unordered_map<Key, T>::begin());
     }
     /*! Returns an end iterator
-		\return an iterator for ending element
+        \return an iterator for ending element
      */
     const_iterator const_end() const
     {
-	    return const_iterator(this->boost::unordered_map<Key, T>::end());
+        return const_iterator(this->boost::unordered_map<Key, T>::end());
     }
 
     /*! Inits an empty hash
      */
     Hash()
     {
-	    
+        
     }
     /*! Creates a hash, with one key and one value
         \param[in] k1 first key
@@ -197,34 +197,34 @@ public:
         this->insert(std::make_pair(k1, v1));
         this->insert(std::make_pair(k2, v2));
         this->insert(std::make_pair(k3, v3));
-	}		
+    }		
     /*! Seeks a key-value pair in hash. If not found, the default value is
        returned. Note, that it could change contains of hash table, if element
-	   is absent, it would be inserted into container with default value.
+       is absent, it would be inserted into container with default value.
        \param[in] k key
        \return value
     */
     const T & operator[](const Key & k) const
     {
-	    return this->at(k);
+        return this->at(k);
     }
     /*! Seeks a key-value pair in hash. If not found, the default value is
        returned. Note, that it could change contains of hash table, if element
-	   is absent, it would be inserted into container with default value.
+       is absent, it would be inserted into container with default value.
         \param[in] k key
         \return value
      */
     T & operator[](const Key & k)
     {
-	    return this->at(k);
+        return this->at(k);
     }
     /*! Detects, whether exists some key
         \param[in] k key
-		\return if value with key exists in table
+        \return if value with key exists in table
      */
     bool contains(const Key & k) const
     {
-	    return this->find(k) != this->const_end();
+        return this->find(k) != this->const_end();
     }
     /*! Appends a value to a table
         \param[in] k key;
@@ -232,21 +232,21 @@ public:
      */
     void insert(const Key & k, const T & v)
     {
-	    this->boost::unordered_map<Key, T>::insert(std::make_pair(k, v));
+        this->boost::unordered_map<Key, T>::insert(std::make_pair(k, v));
     }
     /*! Removes a value from a table
         \param[in] k key
      */
     void remove(const Key & k)
     {
-	    this->erase(k);
+        this->erase(k);
     }
     /*! Returns amount of elements in table
-		\return amount of elements
+        \return amount of elements
      */
     unsigned long count() const
     {
-	    return this->size();
+        return this->size();
     }
 };
 
