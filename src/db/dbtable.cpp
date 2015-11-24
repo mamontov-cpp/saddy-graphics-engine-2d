@@ -356,3 +356,16 @@ void sad::db::Table::changeObjectName(
         }
     }
 }
+
+void sad::db::Table::clear()
+{
+    for(sad::Hash<unsigned long long, sad::db::Object*>::iterator it = m_objects_by_minorid.begin(); 
+        it != m_objects_by_minorid.end();
+        ++it)
+    {
+        it.value()->delRef();
+    }
+    m_objects_by_minorid.clear();
+    m_objects_by_majorid.clear();
+    m_object_by_name.clear();
+}

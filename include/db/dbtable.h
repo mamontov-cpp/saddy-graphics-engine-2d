@@ -117,6 +117,9 @@ public:
         const sad::String & oldname,
         const sad::String & name
     );
+    /*! Clears a table
+     */
+    void clear();
 protected: 
     /*! Maximum minor id 
      */

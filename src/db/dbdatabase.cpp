@@ -23,6 +23,13 @@ sad::db::Database::~Database()
         ++it
        )
     {
+        it.value()->clear();
+    }
+    for(sad::Hash<sad::String, sad::db::Table*>::iterator it = m_names_to_tables.begin();
+        it != m_names_to_tables.end();
+        ++it
+       )
+    {
         delete it.value();
     }
 }
