@@ -278,7 +278,8 @@ struct SadHashTest : tpunit::TestFixture
 {
  public:
    SadHashTest() : tpunit::TestFixture(
-       TEST(SadHashTest::testBug261113)
+       TEST(SadHashTest::testBug261113),
+       TEST(SadHashTest::testRepeatInsert)
    ) {}
    
    void testBug261113()
@@ -294,6 +295,15 @@ struct SadHashTest : tpunit::TestFixture
         }
 
         ASSERT_TRUE(m_keys.contains(65509));
+   }
+
+   void testRepeatInsert()
+   {
+       sad::Hash<int,int> hash;
+       hash.insert(1,1);
+       hash.insert(1,2);
+       int value = hash[1];
+       ASSERT_TRUE(value == 2);
    }
 
 

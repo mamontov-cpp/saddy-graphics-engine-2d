@@ -226,12 +226,18 @@ public:
     {
         return this->find(k) != this->const_end();
     }
-    /*! Appends a value to a table
+    /*! Appends a value to a table. If the key does not exists, replaces it.
         \param[in] k key;
         \param[in] v value
      */
     void insert(const Key & k, const T & v)
     {
+        // boost::unordered_map cannot replace the already existing pair, so we need to
+        // do it ourselves. 
+        if (this->find(k) != this->const_end())
+        {
+            this->erase(k);
+        }
         this->boost::unordered_map<Key, T>::insert(std::make_pair(k, v));
     }
     /*! Removes a value from a table
