@@ -181,8 +181,8 @@ public:
     */
     Hash(const Key & k1, const T & v1, const Key & k2, const T & v2)
     {
-        this->insert(std::make_pair(k1, v1));
-        this->insert(std::make_pair(k2, v2));
+        this->insert(k1, v1);
+        this->insert(k2, v2);
     }
     /*! Creates a hash, with three keys and three values. 
         \param[in] k1 first key
@@ -194,9 +194,9 @@ public:
     */
     Hash(const Key & k1, const T & v1, const Key & k2, const T & v2, const Key & k3, const T & v3)
     {
-        this->insert(std::make_pair(k1, v1));
-        this->insert(std::make_pair(k2, v2));
-        this->insert(std::make_pair(k3, v3));
+        this->insert(k1, v1);
+        this->insert(k2, v2);
+        this->insert(k3, v3);
     }		
     /*! Seeks a key-value pair in hash. If not found, the default value is
        returned. Note, that it could change contains of hash table, if element
@@ -206,7 +206,12 @@ public:
     */
     const T & operator[](const Key & k) const
     {
-        return this->at(k);
+        try {
+            return this->at(k);
+        } catch(...) {
+            return m_default_value;
+        }
+        return m_default_value;
     }
     /*! Seeks a key-value pair in hash. If not found, the default value is
        returned. Note, that it could change contains of hash table, if element
@@ -216,7 +221,12 @@ public:
      */
     T & operator[](const Key & k)
     {
-        return this->at(k);
+        try {
+            return this->at(k);
+        } catch(...) {
+            return m_default_value;
+        }
+        return m_default_value;
     }
     /*! Detects, whether exists some key
         \param[in] k key
@@ -254,6 +264,10 @@ public:
     {
         return this->size();
     }
+protected:
+    /*! Preserve default value, which will be returned in some cases
+     */
+    T m_default_value;
 };
 
 }

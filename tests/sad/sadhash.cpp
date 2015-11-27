@@ -279,7 +279,11 @@ struct SadHashTest : tpunit::TestFixture
  public:
    SadHashTest() : tpunit::TestFixture(
        TEST(SadHashTest::testBug261113),
-       TEST(SadHashTest::testRepeatInsert)
+       TEST(SadHashTest::testRepeatInsert),
+       TEST(SadHashTest::testMultipleRemoval),
+       TEST(SadHashTest::testNoElementLookup),
+       TEST(SadHashTest::testMultipleHashes),
+       TEST(SadHashTest::testLookup)		
    ) {}
    
    void testBug261113()
@@ -304,6 +308,76 @@ struct SadHashTest : tpunit::TestFixture
        hash.insert(1,2);
        int value = hash[1];
        ASSERT_TRUE(value == 2);
+   }
+   
+   void testMultipleRemoval()
+   {
+       sad::Hash<int,int> hash;
+       hash.insert(1,1);
+       hash.remove(1);
+       hash.remove(2);
+       hash.remove(1);
+       hash.remove(2);
+       ASSERT_TRUE( !(hash.contains(1)) );
+       ASSERT_TRUE( !(hash.contains(2)) );	   
+   }
+   
+   // This test should not segfault
+   void testNoElementLookup()
+   {
+       sad::Hash<int, int> hash;
+       int a = hash[1];
+   }
+   
+   // Tests multiple hashes inclusion
+   void testMultipleHashes()
+   {
+       sad::Hash<int, sad::Hash<int, int> > hash;
+       sad::Hash<int, int> hash1;
+       hash1.insert(1, 1);
+       hash1.insert(2, 2);
+       hash1.insert(3, 3);
+       hash1.insert(4, 4);
+       hash.insert(1, hash1);
+       sad::Hash<int, int> hash2;
+       hash2.insert(5, 5);
+       hash2.insert(6, 6);
+       hash2.insert(7, 7);
+       hash2.insert(8, 8);
+       hash2.insert(9, 9);
+       hash.insert(0, hash2);
+       // Map from keys to count of their occurences
+       int keys_ethalon[10]   = {1,2,1,1,1,1,1,1,1,1};
+       int values_ethalon[10] = {0,1,1,1,1,1,1,1,1,1};
+       int keys[10]   = {0,0,0,0,0,0,0,0,0,0};
+       int values[10] = {0,0,0,0,0,0,0,0,0,0};
+       for(sad::Hash<int, sad::Hash<int, int> >::iterator it1 = hash.begin();
+           it1 != hash.end();
+           ++it1)
+        {
+            keys[it1.key()] += 1;
+            sad::Hash<int,int>& inner_hash = it1.value();
+            for(sad::Hash<int, int>::iterator it2 = inner_hash.begin();
+                it2 != inner_hash.end();
+                ++it2)
+            {
+                keys[it2.key()] += 1;
+                values[it2.value()] += 1;				
+            }
+        }
+        for(size_t i = 0; i < 10; i++)
+        {
+            ASSERT_TRUE( keys[i] == keys_ethalon[i] );
+            ASSERT_TRUE( values[i] == values_ethalon[i] );			
+        }
+   }
+   
+   void testLookup()
+   {
+       sad::Hash<int,int> hash;
+       hash.insert(1,1);
+       int value = hash[1];
+       ASSERT_TRUE(value == 1);
    }
 
 
