@@ -291,11 +291,12 @@ public:
         \return flag
      */
     bool changeSizeWhenOptionsAreChanged() const;
-    /*! Enables loading mode for sprite. In loading mode, when sprite changes options,
+    /*! Enables or disables loading mode for sprite. In loading mode, when sprite changes options,
         it's area will not be reset. Also, it works only once, so you can call it
         before set method to make sure, that area will be preserved
+        \param[in] load whether loading mode is enabled
      */
-    void toggleLoadingMode();
+    void toggleLoadingMode(bool load);
     /*! Loads sprite from picojson object
         \param[in] v a picojson object
         \return  whether it as successfull
