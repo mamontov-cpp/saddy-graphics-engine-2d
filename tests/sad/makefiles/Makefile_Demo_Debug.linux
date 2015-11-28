@@ -21,14 +21,16 @@ else
 CCOPTS = -O2
 endif
 
-BUILD    = build/geometry2d_$(TYPE).o build/geometry3d_$(TYPE).o build/label_$(TYPE).o build/main_$(TYPE).o build/matrix2x2_$(TYPE).o build/object_$(TYPE).o build/pausabletimer_$(TYPE).o build/picojson_$(TYPE).o build/renderer_$(TYPE).o build/sadhash_$(TYPE).o build/sadmutexscopedlock_$(TYPE).o build/sadptrhash_$(TYPE).o build/sadrect_$(TYPE).o build/sadsemaphore_$(TYPE).o build/sadsize_$(TYPE).o build/sadstring_$(TYPE).o build/sadthread_$(TYPE).o build/sadwindow_$(TYPE).o build/texture_$(TYPE).o
+BUILD    = build/fs_$(TYPE).o build/geometry2d_$(TYPE).o build/geometry3d_$(TYPE).o build/label_$(TYPE).o build/main_$(TYPE).o build/matrix2x2_$(TYPE).o build/object_$(TYPE).o build/pausabletimer_$(TYPE).o build/picojson_$(TYPE).o build/renderer_$(TYPE).o build/sadhash_$(TYPE).o build/sadmutexscopedlock_$(TYPE).o build/sadptrhash_$(TYPE).o build/sadrect_$(TYPE).o build/sadsemaphore_$(TYPE).o build/sadsize_$(TYPE).o build/sadstring_$(TYPE).o build/sadthread_$(TYPE).o build/sadwindow_$(TYPE).o build/texture_$(TYPE).o
 all: build ../../lib/libsaddy-$(TYPE).a $(OUTPUT)
 build:
 	mkdir build
 ../../lib/libsaddy-$(TYPE).a:
 	echo "You forgot to build a library!"
-$(OUTPUT): build/geometry2d_$(TYPE).o build/geometry3d_$(TYPE).o build/label_$(TYPE).o build/main_$(TYPE).o build/matrix2x2_$(TYPE).o build/object_$(TYPE).o build/pausabletimer_$(TYPE).o build/picojson_$(TYPE).o build/renderer_$(TYPE).o build/sadhash_$(TYPE).o build/sadmutexscopedlock_$(TYPE).o build/sadptrhash_$(TYPE).o build/sadrect_$(TYPE).o build/sadsemaphore_$(TYPE).o build/sadsize_$(TYPE).o build/sadstring_$(TYPE).o build/sadthread_$(TYPE).o build/sadwindow_$(TYPE).o build/texture_$(TYPE).o
+$(OUTPUT): build/fs_$(TYPE).o build/geometry2d_$(TYPE).o build/geometry3d_$(TYPE).o build/label_$(TYPE).o build/main_$(TYPE).o build/matrix2x2_$(TYPE).o build/object_$(TYPE).o build/pausabletimer_$(TYPE).o build/picojson_$(TYPE).o build/renderer_$(TYPE).o build/sadhash_$(TYPE).o build/sadmutexscopedlock_$(TYPE).o build/sadptrhash_$(TYPE).o build/sadrect_$(TYPE).o build/sadsemaphore_$(TYPE).o build/sadsize_$(TYPE).o build/sadstring_$(TYPE).o build/sadthread_$(TYPE).o build/sadwindow_$(TYPE).o build/texture_$(TYPE).o
 	g++ $(BUILD)   $(CCOPTS)  -o  $(OUTPUT)    $(LDFLAGS)
+build/fs_$(TYPE).o: fs.cpp
+	g++ -c $(CCOPTS) fs.cpp -o build/fs_$(TYPE).o $(INCLUDE) $(DEFINES)
 build/geometry2d_$(TYPE).o: geometry2d.cpp
 	g++ -c $(CCOPTS) geometry2d.cpp -o build/geometry2d_$(TYPE).o $(INCLUDE) $(DEFINES)
 build/geometry3d_$(TYPE).o: geometry3d.cpp

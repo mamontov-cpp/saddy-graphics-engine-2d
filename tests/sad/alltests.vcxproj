@@ -92,6 +92,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="fs.cpp" />
     <ClCompile Include="geometry2d.cpp" />
     <ClCompile Include="geometry3d.cpp" />
     <ClCompile Include="label.cpp" />

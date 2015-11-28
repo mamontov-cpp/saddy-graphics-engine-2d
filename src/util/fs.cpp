@@ -16,22 +16,127 @@ sad::String sad::util::pathDelimiter()
 }
 
 
+sad::String sad::util::canonicalizePath(const sad::String& path)
+{
+	sad::String escaped = path;
+	sad::String delimiter = "/";
+	if (escaped.getOccurence("\\")!=-1) 
+    {
+        if (escaped.getOccurence("/")!=-1)
+            escaped.replaceAllOccurences("/","\\");
+		delimiter = "\\";
+	}
+	else
+	{
+		escaped.replaceAllOccurences("\\", "/");
+	}
+	sad::StringList list = escaped.split(delimiter[0]);
+	bool isAbsolute = sad::util::isAbsolutePath(path);
+	sad::StringList resultinglist;
+	for(size_t i = 0; i < list.size(); i++)
+	{
+		if (list[i] != ".")
+		{
+			if (list[i] != "..")
+			{
+				resultinglist << list[i];
+			} 
+			else
+			{
+				if (resultinglist.size() >= 2)
+				{
+					bool everything_is_go_upper = !isAbsolute;
+					if (everything_is_go_upper)
+					{
+						for(size_t i = 0; i < resultinglist.size(); i++)
+						{
+							everything_is_go_upper = everything_is_go_upper && resultinglist[i] == "..";
+						}
+					}
+					if (!everything_is_go_upper) 
+					{
+						resultinglist.removeAt(resultinglist.size() - 1);
+					} 
+					else
+					{
+						resultinglist << "..";
+					}
+				} 
+				else
+				{
+					if (resultinglist.size() == 0)
+					{
+						if (!isAbsolute)
+						{
+							resultinglist << list[i];
+						}
+					} 
+					else
+					{
+						if (resultinglist.size() == 1)
+						{
+							if (!isAbsolute)
+							{
+								if (resultinglist[0] != "..") 
+								{
+									resultinglist.removeAt(0);
+								} 
+								else 
+								{
+									resultinglist << list[i];
+								}
+							}
+							else
+							{
+								if (delimiter == "/")
+								{
+									resultinglist.removeAt(0);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	sad::String result = sad::join(resultinglist, delimiter);
+	bool isLinuxAbsolutePath = false;
+	if (path.length() != 0)
+	{
+		isLinuxAbsolutePath = path[0] == '/';
+	}
+	if (isAbsolute && isLinuxAbsolutePath && delimiter == "/")
+	{
+		if (result.length() != 0)
+		{
+			if (result[0] != '/')
+			{
+				result.insert('/', 0);
+			}
+		}
+		else
+		{
+			result = "/";
+		}
+	}
+	return result;
+}
+
 bool sad::util::isAbsolutePath(const sad::String & path)
 {
     bool result = false;
     if (path.length() != 0)
     {
-
-#ifdef WIN32
-    if(path.length() > 1)
-    {
-        result = ((path[0] >= 'A' && path[0] <= 'Z') || (path[0] >= 'a' && path[0] <= 'z')) && (path[1] == ':');
-    }
-#endif
-
-#ifdef LINUX
-        result = path[0] == '/';
-#endif
+		// Window absolute path template
+		if(path.length() > 1)
+		{
+			result = ((path[0] >= 'A' && path[0] <= 'Z') || (path[0] >= 'a' && path[0] <= 'z')) && (path[1] == ':');
+		}
+		// Linux absolute path template
+		if (!result) 
+		{
+			result = path[0] == '/';
+		}
     }
     return result;
 }
@@ -53,7 +158,9 @@ sad::String sad::util::concatPaths(const sad::String & parent,const sad::String 
             escpath.replaceAllOccurences("/","\\");
         if (escpath[0] == '\\')
             escpath.remove(0);
-        return escaped + "\\" + escpath;
+        sad::String result = escaped + "\\" + escpath;
+		result = sad::util::canonicalizePath(result);
+		return result;
     }
 
     if (escaped[escaped.length()-1] == '/')
@@ -65,7 +172,9 @@ sad::String sad::util::concatPaths(const sad::String & parent,const sad::String 
         return sad::String();
     if (escpath[0] == '/')
         escpath.remove(0);
-    return escaped + "/" + escpath;
+    sad::String result = escaped + "/" + escpath;
+	result = sad::util::canonicalizePath(result);
+	return result;
 }
 
 sad::String sad::util::folder(const sad::String & path)
