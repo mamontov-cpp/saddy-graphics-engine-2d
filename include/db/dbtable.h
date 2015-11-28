@@ -120,6 +120,9 @@ public:
     /*! Clears a table
      */
     void clear();
+	/*! Returns, whether table is empty
+	 */
+	bool empty() const;
 protected: 
     /*! Maximum minor id 
      */

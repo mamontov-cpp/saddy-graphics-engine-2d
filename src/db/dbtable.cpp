@@ -369,3 +369,8 @@ void sad::db::Table::clear()
     m_objects_by_majorid.clear();
     m_object_by_name.clear();
 }
+
+bool sad::db::Table::empty() const
+{
+	return m_objects_by_majorid.empty();
+}

@@ -316,6 +316,10 @@ public:
         \return whether it was successfull (false if index is out of range)
      */
     bool restoreSnapshot(unsigned long index = 0);
+	/*! Tests, whether all tables are empty
+		\reutrn true if all tables are empty
+	 */
+	bool tablesAreEmpty() const;
 protected: 
     /*! Clears properties of table
      */

@@ -468,6 +468,19 @@ bool sad::db::Database::restoreSnapshot(unsigned long index)
     m_max_major_id = snapshot.MaxId;
     return true;
 }
+
+
+bool sad::db::Database::tablesAreEmpty() const
+{
+	bool result = true;
+	for(sad::Hash<sad::String, sad::db::Table*>::const_iterator it = m_names_to_tables.const_begin();
+        it != m_names_to_tables.const_end();
+        ++it)
+    {
+        result = result && it.value()->empty();
+    }
+	return result;
+}
 // ===================================  PROTECTED METHODS ===================================
 
 
