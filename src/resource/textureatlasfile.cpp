@@ -59,18 +59,18 @@ sad::Vector<sad::resource::Error*> sad::resource::TextureAtlasFile::load(
                 picojson::value(picojson::object()), 
                 this->tree()->shouldStoreLinks()
             );
-			if (!ok && !sad::util::isAbsolutePath(result.p2()))
-			{
-				sad::String my_folder = sad::util::folder(this->name()); 
-				sad::String new_path = sad::util::concatPaths(my_folder, result.p2()) ;
-				m_my_texture->setName(new_path);
-				ok = linkedresource->tryLoad(
-					*m_my_texture, 
-					this->tree()->renderer(), 
-					picojson::value(picojson::object()), 
-					this->tree()->shouldStoreLinks()
-				);
-			}
+            if (!ok && !sad::util::isAbsolutePath(result.p2()))
+            {
+                sad::String my_folder = sad::util::folder(this->name()); 
+                sad::String new_path = sad::util::concatPaths(my_folder, result.p2()) ;
+                m_my_texture->setName(new_path);
+                ok = linkedresource->tryLoad(
+                    *m_my_texture, 
+                    this->tree()->renderer(), 
+                    picojson::value(picojson::object()), 
+                    this->tree()->shouldStoreLinks()
+                );
+            }
             if (!ok)
             {
                 delete linkedresource;

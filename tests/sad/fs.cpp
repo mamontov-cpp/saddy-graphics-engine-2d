@@ -25,59 +25,59 @@ struct SadUtilFSTest : tpunit::TestFixture
    void testCanonicalizeAbsolutePathOnWindows()
    {
       sad::String result;
-	  result = sad::util::canonicalizePath("C:\\1\\2\\3.txt");
-	  ASSERT_TRUE( result == "C:\\1\\2\\3.txt");
-	  result = sad::util::canonicalizePath("C:\\1\\2\\..\\..\\3.txt");
-	  ASSERT_TRUE( result == "C:\\3.txt");
-	  result = sad::util::canonicalizePath("C:\\1\\2\\..\\..\\..\\..\\..\\");
-	  ASSERT_TRUE( result == "C:");
-	  result = sad::util::canonicalizePath("C:\\1\\2\\..\\..\\..\\..\\..\\3.txt");
-	  ASSERT_TRUE( result == "C:\\3.txt");
-	  result = sad::util::canonicalizePath("C:\\1\\2\\..\\..\\..\\..\\../2/3.txt");
-	  ASSERT_TRUE( result == "C:\\2\\3.txt");
+      result = sad::util::canonicalizePath("C:\\1\\2\\3.txt");
+      ASSERT_TRUE( result == "C:\\1\\2\\3.txt");
+      result = sad::util::canonicalizePath("C:\\1\\2\\..\\..\\3.txt");
+      ASSERT_TRUE( result == "C:\\3.txt");
+      result = sad::util::canonicalizePath("C:\\1\\2\\..\\..\\..\\..\\..\\");
+      ASSERT_TRUE( result == "C:");
+      result = sad::util::canonicalizePath("C:\\1\\2\\..\\..\\..\\..\\..\\3.txt");
+      ASSERT_TRUE( result == "C:\\3.txt");
+      result = sad::util::canonicalizePath("C:\\1\\2\\..\\..\\..\\..\\../2/3.txt");
+      ASSERT_TRUE( result == "C:\\2\\3.txt");
    }
 
    void testCanonicalizeRelativePathOnWindows()
    {
       sad::String result;
-	  result = sad::util::canonicalizePath("1\\2\\3.txt");
-	  ASSERT_TRUE( result == "1\\2\\3.txt");
-	  result = sad::util::canonicalizePath("1\\2\\..\\..\\3.txt");
-	  ASSERT_TRUE( result == "3.txt");
-	  result = sad::util::canonicalizePath("1\\2\\..\\..\\..\\..\\..\\");
-	  ASSERT_TRUE( result == "..\\..\\..");
-	  result = sad::util::canonicalizePath("1\\2\\..\\..\\..\\..\\..\\3.txt");
-	  ASSERT_TRUE( result == "..\\..\\..\\3.txt");
-	  result = sad::util::canonicalizePath("1\\2\\..\\..\\..\\..\\../2/3.txt");
-	  ASSERT_TRUE( result == "..\\..\\..\\2\\3.txt");	   
+      result = sad::util::canonicalizePath("1\\2\\3.txt");
+      ASSERT_TRUE( result == "1\\2\\3.txt");
+      result = sad::util::canonicalizePath("1\\2\\..\\..\\3.txt");
+      ASSERT_TRUE( result == "3.txt");
+      result = sad::util::canonicalizePath("1\\2\\..\\..\\..\\..\\..\\");
+      ASSERT_TRUE( result == "..\\..\\..");
+      result = sad::util::canonicalizePath("1\\2\\..\\..\\..\\..\\..\\3.txt");
+      ASSERT_TRUE( result == "..\\..\\..\\3.txt");
+      result = sad::util::canonicalizePath("1\\2\\..\\..\\..\\..\\../2/3.txt");
+      ASSERT_TRUE( result == "..\\..\\..\\2\\3.txt");	   
    }
 
    void testCanonicalizeAbsolutePathOnLinux()
    {
       sad::String result;
-	  
-	  result = sad::util::canonicalizePath("/1/2/3.txt");
-	  ASSERT_TRUE( result == "/1/2/3.txt");
-	  result = sad::util::canonicalizePath("/1/2/../../3.txt");
-	  ASSERT_TRUE( result == "/3.txt");
-	  result = sad::util::canonicalizePath("/1/2/../../../../../");
-	  ASSERT_TRUE( result == "/");
-	  result = sad::util::canonicalizePath("/1/2/../../../../../3.txt");
-	  ASSERT_TRUE( result == "/3.txt");	   
+      
+      result = sad::util::canonicalizePath("/1/2/3.txt");
+      ASSERT_TRUE( result == "/1/2/3.txt");
+      result = sad::util::canonicalizePath("/1/2/../../3.txt");
+      ASSERT_TRUE( result == "/3.txt");
+      result = sad::util::canonicalizePath("/1/2/../../../../../");
+      ASSERT_TRUE( result == "/");
+      result = sad::util::canonicalizePath("/1/2/../../../../../3.txt");
+      ASSERT_TRUE( result == "/3.txt");	   
    }
 
    void testCanonicalizeRelativePathOnLinux()
    {
       sad::String result;
 
-	  result = sad::util::canonicalizePath("1/2/3.txt");
-	  ASSERT_TRUE( result == "1/2/3.txt");
-	  result = sad::util::canonicalizePath("1/2/../../3.txt");
-	  ASSERT_TRUE( result == "3.txt");
-	  result = sad::util::canonicalizePath("1/2/../../../../../");
-	  ASSERT_TRUE( result == "../../..");
-	  result = sad::util::canonicalizePath("1/2/../../../../../3.txt");
-	  ASSERT_TRUE( result == "../../../3.txt");	   	   
+      result = sad::util::canonicalizePath("1/2/3.txt");
+      ASSERT_TRUE( result == "1/2/3.txt");
+      result = sad::util::canonicalizePath("1/2/../../3.txt");
+      ASSERT_TRUE( result == "3.txt");
+      result = sad::util::canonicalizePath("1/2/../../../../../");
+      ASSERT_TRUE( result == "../../..");
+      result = sad::util::canonicalizePath("1/2/../../../../../3.txt");
+      ASSERT_TRUE( result == "../../../3.txt");	   	   
    }
 
 

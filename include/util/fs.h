@@ -18,8 +18,8 @@ namespace util
 sad::String pathDelimiter();
 
 /*! Canonicalizes path for filesystem
-	\param[in] path source path for file system
-	\return canonicalizedPath
+    \param[in] path source path for file system
+    \return canonicalizedPath
  */
 sad::String canonicalizePath(const sad::String& path);
 

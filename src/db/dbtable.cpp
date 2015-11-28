@@ -372,5 +372,5 @@ void sad::db::Table::clear()
 
 bool sad::db::Table::empty() const
 {
-	return m_objects_by_majorid.empty();
+    return m_objects_by_majorid.empty();
 }

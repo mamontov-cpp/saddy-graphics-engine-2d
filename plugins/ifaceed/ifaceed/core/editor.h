@@ -187,10 +187,10 @@ public:
         \return current batch command
      */
     history::BatchCommand* currentBatchCommand() const;
-	/*! Tests, whether database is empty
-		\return whether database is empty
-	 */
-	bool isDatabaseEmpty() const;
+    /*! Tests, whether database is empty
+        \return whether database is empty
+     */
+    bool isDatabaseEmpty() const;
 public slots:
     /*! Called, when Qt Event Loop is started. Used to load default resources and pre-set
         default behaviour
