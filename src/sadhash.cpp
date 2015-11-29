@@ -1,7 +1,17 @@
 #include "sadhash.h"
 
-unsigned long sad::HashFunction<sad::String>::call(const sad::String & name,unsigned long size)
+// ===============================  sad::hash_value ===============================
+
+std::size_t sad::hash_value(const sad::String& s)
 {
-    unsigned long tmp=basicHash((unsigned char*)name.data());
-    return tmp % size;
+    boost::hash<std::string> hasher;
+    return hasher(s);
 }
+
+std::size_t sad::hash_value(const sad::WString& s)
+{
+    boost::hash<std::wstring> hasher;
+    return hasher(s);
+}
+
+// ===============================================================================

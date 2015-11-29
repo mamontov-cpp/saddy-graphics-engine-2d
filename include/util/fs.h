@@ -17,6 +17,12 @@ namespace util
  */
 sad::String pathDelimiter();
 
+/*! Canonicalizes path for filesystem
+    \param[in] path source path for file system
+    \return canonicalizedPath
+ */
+sad::String canonicalizePath(const sad::String& path);
+
 /*! Tests whether path is absolute
     \param[in] path a path to resource
     \return whether path is absolute

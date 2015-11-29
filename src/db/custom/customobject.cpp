@@ -406,8 +406,10 @@ bool sad::db::custom::Object::copyCustomPropertyValuesFrom(sad::db::custom::Obje
 
 bool sad::db::custom::Object::load(const picojson::value& v)
 {
-    m_sprite2d->toggleLoadingMode();
-    return this->sad::SceneNode::load(v);
+    m_sprite2d->toggleLoadingMode(true);
+    bool result = this->sad::SceneNode::load(v);
+    m_sprite2d->toggleLoadingMode(false);
+    return result;
 }
 
 void sad::db::custom::Object::initDefaultSchema()

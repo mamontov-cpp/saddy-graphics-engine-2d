@@ -392,6 +392,23 @@ history::BatchCommand* core::Editor::currentBatchCommand() const
     return m_current_batchcommand;
 }
 
+bool core::Editor::isDatabaseEmpty() const
+{
+    bool result = true;
+    sad::db::Database* db = sad::Renderer::ref()->database("");
+      for(sad::db::Database::Properties::const_iterator it = db->begin();
+        it != db->end();
+        ++it)
+    {
+        // Skip palette
+        if (it.key() != "palette")
+        {
+            result = false;
+        }
+    }
+    result = result && db->tablesAreEmpty();
+    return result; 
+}
 // =================== PUBLIC SLOTS METHODS ===================
 
 void core::Editor::start()

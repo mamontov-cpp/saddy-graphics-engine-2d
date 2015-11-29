@@ -117,6 +117,12 @@ public:
         const sad::String & oldname,
         const sad::String & name
     );
+    /*! Clears a table
+     */
+    void clear();
+    /*! Returns, whether table is empty
+     */
+    bool empty() const;
 protected: 
     /*! Maximum minor id 
      */

@@ -583,15 +583,17 @@ bool sad::Sprite2D::changeSizeWhenOptionsAreChanged() const
     return m_changesizeifoptionssizechanged;
 }
 
-void sad::Sprite2D::toggleLoadingMode()
+void sad::Sprite2D::toggleLoadingMode(bool on)
 {
-    m_loading = true;
+    m_loading = on;
 }
 
 bool sad::Sprite2D::load(const picojson::value& v)
 {
-    toggleLoadingMode();
-    return this->sad::SceneNode::load(v);
+    toggleLoadingMode(true);
+    bool result =  this->sad::SceneNode::load(v);
+    toggleLoadingMode(false);
+    return result;
 }
 
 void sad::Sprite2D::setTreeName(sad::Renderer* r, const sad::String & tree_name)
@@ -692,7 +694,6 @@ void sad::Sprite2D::onOptionsChange(sad::Sprite2D::Options * opts)
     {
         this->buildRenderableArea();
         m_explicit_set = false;
-        m_loading = false;
     }
     else 
     {

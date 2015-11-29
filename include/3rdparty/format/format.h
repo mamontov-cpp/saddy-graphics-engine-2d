@@ -39,7 +39,7 @@
 
 #ifdef _MSC_VER
     #include <stddef.h>
-    #include "stdint.h"
+    #include <stdint.h>
     #include <float.h>
     #pragma warning(disable:4996)
 #else

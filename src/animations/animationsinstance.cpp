@@ -90,7 +90,11 @@ sad::animations::Instance::~Instance()
 {
     if (m_object_referenced)
     {
-        m_object.get()->delRef();
+        sad::db::Object* o = m_object.get();
+        if (o)
+        {
+            o->delRef();
+        }
     }
     if (m_state_command_own) 
     {

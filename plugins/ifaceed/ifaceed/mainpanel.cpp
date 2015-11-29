@@ -2777,8 +2777,21 @@ void MainPanel::loadResources()
     {
         return;
     }
-    QMessageBox::StandardButton btn = QMessageBox::warning(NULL, "Database will be erased", "Database will be erased. Proceed loading?", QMessageBox::Ok | QMessageBox::Cancel, QMessageBox::Ok);
-    if (btn == QMessageBox::Ok)
+    bool message_box_needed=  true;
+    bool proceed = true;
+    if (ui.btnUndo->isEnabled() == false)
+    {
+        message_box_needed = false;
+    }
+    else
+    {
+        message_box_needed = (this->editor()->isDatabaseEmpty() == false);
+    }
+    if (message_box_needed) {
+        QMessageBox::StandardButton btn = QMessageBox::warning(NULL, "Database will be erased", "Database will be erased. Proceed loading?", QMessageBox::Ok | QMessageBox::Cancel, QMessageBox::Ok);
+        proceed = (btn == QMessageBox::Ok);    
+    }
+    if (proceed)
     {
         QString name = QFileDialog::getOpenFileName(this, "Enter new resource file", "", "*.json");
         if (name.length())
