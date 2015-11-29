@@ -1,5 +1,4 @@
-/*! \file duktape_config.h
-    \author HiddenSeeker
+/*! \file duktape_custom.h
 
     Defines a built-in timeout checker for sandboxing Duktape
  */
