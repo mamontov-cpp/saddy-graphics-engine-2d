@@ -1,0 +1,633 @@
+ifaceed/core/editor.cpp:
+	UI()->lstSceneObjects
+	UI()->lstScenes
+	UI()->lstWays
+	UI()->lstWayPoints
+	UI()->lstDialogues
+	UI()->lstPhrases
+	UI()->lstAnimations
+	UI()->lstAnimationInstances
+	UI()->lstCompositeCandidates
+	UI()->lstCompositeList
+	UI()->cmbAnimationInstanceObject
+	UI()->cmbAnimationInstanceAnimationFromDatabase
+	UI()->cmbWayAnimationInstanceWay
+	UI()->cmbWayAnimationWay
+	UI()->lstAnimationInstances
+	UI()->lstAnimationsGroupAllAnimations
+	UI()->lstAnimationsGroupInGroup
+	UI()->tabTypes
+	UI()->tabTypes
+	UI()->lstSceneObjects
+	UI()->lstSceneObjects
+	UI()->tabTypes
+	UI()->tabTypes
+	UI()->lstWays
+	UI()->lstWays
+	UI()->lstWays
+ifaceed/core/selection.cpp:
+	UI()->lstWayPoints
+	UI()->lstWayPoints
+	UI()->lstWays
+	UI()->lstWayPoints
+	UI()->lstWayPoints
+	UI()->lstWays
+	UI()->lstWayPoints
+	UI()->lstWays
+	UI()->lstWayPoints
+ifaceed/gui/animationactions.cpp:
+	UI()->lstAnimations
+	UI()->cmbAnimationInstanceAnimationFromDatabase
+	UI()->cmbAddedAnimationType
+	UI()->cbAnimationLooped
+	UI()->dsbAnimationTime
+	UI()->txtAnimationName
+	UI()->sbBlinkingFrequency
+	UI()->cwColorStartingColor
+	UI()->cwColorEndingColor
+	UI()->dabResizeStartingSizeX
+	UI()->dabResizeStartingSizeY
+	UI()->dabResizeEndingSizeX
+	UI()->dabResizeEndingSizeY
+	UI()->dsbRotateStartingAngle
+	UI()->dsbRotateEndingAngle
+	UI()->cmbWayAnimationWay
+	UI()->cmbWayAnimationWay
+	UI()->txtFontListList
+	UI()->sbFontSizeStartingSize
+	UI()->sbFontSizeEndingSize
+	UI()->dabSimpleMovementStartingPointX
+	UI()->dabSimpleMovementStartingPointY
+	UI()->dabSimpleMovementEndingPointX
+	UI()->dabSimpleMovementEndingPointY
+	UI()->txtOptionListList
+	UI()->txtTextureCoordinatesList
+	UI()->rctTCCStartingRect
+	UI()->rctTCCEndingRect
+	UI()->dsbCameraRotationPivotX
+	UI()->dsbCameraRotationPivotY
+	UI()->dsbCameraRotationStartingAngle
+	UI()->dsbCameraRotationEndingAngle
+	UI()->dsbCameraShakingOffsetX
+	UI()->dsbCameraShakingOffsetY
+	UI()->sbCameraShakingFrequency
+	UI()->lstCompositeList
+	UI()->lstAnimations
+	UI()->lstAnimations
+	UI()->lstAnimations
+	UI()->txtAnimationName
+	UI()->dsbAnimationTime
+	UI()->cbAnimationLooped
+	UI()->sbBlinkingFrequency
+	UI()->cwColorStartingColor
+	UI()->cwColorEndingColor
+	UI()->dabResizeStartingSizeX
+	UI()->dabResizeStartingSizeY
+	UI()->dabResizeEndingSizeX
+	UI()->dabResizeEndingSizeY
+	UI()->dsbRotateStartingAngle
+	UI()->dsbRotateEndingAngle
+	UI()->dabSimpleMovementStartingPointX
+	UI()->dabSimpleMovementStartingPointY
+	UI()->dabSimpleMovementEndingPointX
+	UI()->dabSimpleMovementEndingPointY
+	UI()->cmbWayAnimationWay
+	UI()->cmbWayAnimationWay
+	UI()->txtFontListList
+	UI()->sbFontSizeStartingSize
+	UI()->sbFontSizeEndingSize
+	UI()->txtOptionListList
+	UI()->txtTextureCoordinatesList
+	UI()->rctTCCStartingRect
+	UI()->rctTCCEndingRect
+	UI()->dsbCameraRotationPivotX
+	UI()->dsbCameraRotationPivotY
+	UI()->dsbCameraRotationStartingAngle
+	UI()->dsbCameraRotationEndingAngle
+	UI()->dsbCameraShakingOffsetX
+	UI()->dsbCameraShakingOffsetY
+	UI()->sbCameraShakingFrequency
+	UI()->cwColorStartingColor
+	UI()->cwColorEndingColor
+	UI()->dsbRotateStartingAngle
+	UI()->dsbRotateEndingAngle
+	UI()->cmbWayAnimationWay
+	UI()->txtFontListList
+	UI()->sbFontSizeStartingSize
+	UI()->sbFontSizeEndingSize
+	UI()->txtOptionListList
+	UI()->txtTextureCoordinatesList
+	UI()->rctTCCStartingRect
+	UI()->rctTCCEndingRect
+	UI()->dsbCameraRotationPivotY
+	UI()->dsbCameraRotationPivotX
+	UI()->dsbCameraRotationStartingAngle
+	UI()->dsbCameraRotationEndingAngle
+	UI()->dsbCameraShakingOffsetY
+	UI()->dsbCameraShakingOffsetX
+	UI()->lstCompositeCandidates
+	UI()->lstAnimations
+	UI()->lstCompositeList
+	UI()->lstCompositeCandidates
+	UI()->lstCompositeList
+	UI()->lstCompositeList
+	UI()->lstCompositeList
+	UI()->dabSimpleMovementStartingPointY
+	UI()->dabSimpleMovementStartingPointX
+	UI()->dabSimpleMovementStartingPointY
+	UI()->dabSimpleMovementStartingPointX
+	UI()->dabSimpleMovementStartingPointX
+	UI()->dabSimpleMovementStartingPointY
+	UI()->dabSimpleMovementEndingPointY
+	UI()->dabSimpleMovementEndingPointX
+	UI()->dabSimpleMovementEndingPointY
+	UI()->dabSimpleMovementEndingPointX
+	UI()->dabSimpleMovementEndingPointX
+	UI()->dabSimpleMovementEndingPointY
+	UI()->dabSimpleMovementEndingPointX
+	UI()->dabSimpleMovementEndingPointY
+	UI()->dabSimpleMovementStartingPointX
+	UI()->dabSimpleMovementStartingPointY
+ifaceed/gui/animationinstanceprocess.cpp:
+	UI()->dsbAnimationTime
+ifaceed/gui/animationprocess.cpp:
+	UI()->dsbAnimationTime
+ifaceed/gui/customobjectactions.cpp:
+	UI()->rtwCustomObjectSchemas
+	UI()->awSceneNodeAngle
+	UI()->clpSceneNodeColor
+	UI()->cbSceneNodeVisible
+	UI()->cbFlipX
+	UI()->cbFlipY
+	UI()->rbCustomObjectPlaceAndRotate
+	UI()->rtwCustomObjectSchemas
+	UI()->clpSceneNodeColor
+	UI()->fswLabelFontSize
+	UI()->dsbLineSpacingRatio
+	UI()->txtLabelText
+	UI()->spbMaximalLineWidth
+	UI()->cmbLabelBreakText
+	UI()->cmbLabelOverflowStrategy
+	UI()->cmbLabelTextEllipsis
+	UI()->spbMaximalLinesCount
+	UI()->cmbLabelOverflowStrategyForLines
+	UI()->cmbLabelTextEllipsisForLines
+	UI()->txtObjectName
+ifaceed/gui/dialogueactions.cpp:
+	UI()->txtPhraseActorName
+	UI()->txtPhraseActorPortrait
+	UI()->txtPhrasePhrase
+	UI()->dsbPhraseDuration
+	UI()->txtPhraseViewHint
+	UI()->lstPhrases
+	UI()->txtPhraseActorName
+	UI()->txtPhraseActorPortrait
+	UI()->txtPhraseViewHint
+	UI()->txtDialogueName
+	UI()->lstDialogues
+	UI()->lstDialogues
+	UI()->lstDialogues
+	UI()->lstDialogues
+	UI()->txtPhraseActorName
+	UI()->txtPhraseActorPortrait
+	UI()->txtPhrasePhrase
+	UI()->dsbPhraseDuration
+	UI()->txtPhraseViewHint
+	UI()->lstPhrases
+	UI()->lstPhrases
+	UI()->lstPhrases
+	UI()->lstPhrases
+	UI()->lstPhrases
+	UI()->lstPhrases
+	UI()->lstDialogues
+	UI()->lstPhrases
+	UI()->lstPhrases
+	UI()->txtPhrasePhrase
+	UI()->lstPhrases
+	UI()->lstPhrases
+	UI()->lstPhrases
+	UI()->lstPhrases
+	UI()->lstPhrases
+	UI()->lstPhrases
+	UI()->lstPhrases
+	UI()->lstPhrases
+ifaceed/gui/eventfilter.cpp:
+	UI()->tabTypes
+	UI()->tabTypes
+	UI()->tabTypes
+	UI()->tabTypes
+	UI()->tabTypes
+	UI()->tabObjects
+ifaceed/gui/groupactions.cpp:
+	UI()->lstAnimationsGroup
+	UI()->txtAnimationsGroupName
+	UI()->cbAnimationsGroupLooped
+	UI()->lstAnimationsGroupInGroup
+	UI()->lstAnimationsGroup
+	UI()->lstAnimationsGroup
+	UI()->lstAnimationsGroup
+	UI()->txtAnimationsGroupName
+	UI()->cbAnimationsGroupLooped
+	UI()->lstAnimationsGroup
+	UI()->lstAnimationsGroup
+	UI()->lstAnimationsGroup
+	UI()->lstAnimationsGroup
+	UI()->lstAnimationsGroup
+	UI()->lstAnimationsGroup
+	UI()->lstAnimationsGroup
+	UI()->lstAnimationsGroupAllAnimations
+	UI()->lstAnimationsGroup
+	UI()->lstAnimationsGroupAllAnimations
+	UI()->lstAnimationsGroup
+	UI()->lstAnimationsGroupInGroup
+	UI()->lstAnimationsGroup
+	UI()->lstAnimationsGroupInGroup
+ifaceed/gui/instanceactions.cpp:
+	UI()->lstAnimationInstances
+	UI()->lstAnimationsGroupAllAnimations
+	UI()->lstAnimationsGroupInGroup
+	UI()->lstAnimationsGroupAllAnimations
+	UI()->lstAnimationsGroupInGroup
+	UI()->rbAnimationInstanceFromTree
+	UI()->cmbAnimationInstanceAnimationFromTree
+	UI()->cmbAnimationInstanceAnimationFromTree
+	UI()->cmbAnimationInstanceAnimationFromTree
+	UI()->cmbAnimationInstanceAnimationFromTree
+	UI()->cmbAnimationInstanceAnimationFromTree
+	UI()->rbAnimationInstanceFromDatabase
+	UI()->cmbAnimationInstanceAnimationFromDatabase
+	UI()->cmbAnimationInstanceAnimationFromDatabase
+	UI()->cmbAnimationInstanceAnimationFromDatabase
+	UI()->lstAnimationInstances
+	UI()->rbAnimationInstanceFromDatabase
+	UI()->rbAnimationInstanceFromTree
+	UI()->cmbAddedAnimationInstanceType
+	UI()->rbAnimationInstanceFromTree
+	UI()->cmbAnimationInstanceAnimationFromTree
+	UI()->cmbAnimationInstanceAnimationFromTree
+	UI()->rbAnimationInstanceFromDatabase
+	UI()->cmbAnimationInstanceAnimationFromDatabase
+	UI()->cmbAnimationInstanceAnimationFromDatabase
+	UI()->cmbAnimationInstanceAnimationFromDatabase
+	UI()->cmbAddedAnimationInstanceType
+	UI()->cmbWayAnimationInstanceWay
+	UI()->cmbWayAnimationInstanceWay
+	UI()->cmbWayAnimationInstanceWay
+	UI()->cmbAnimationInstanceObject
+	UI()->cmbAnimationInstanceObject
+	UI()->cmbAnimationInstanceObject
+	UI()->dsbAnimationInstanceStartTime
+	UI()->txtAnimationInstanceName
+	UI()->lstAnimationInstances
+	UI()->lstAnimationInstances
+	UI()->lstAnimationInstances
+	UI()->lstAnimationInstances
+	UI()->lstAnimationInstances
+	UI()->cmbWayAnimationInstanceWay
+	UI()->cmbWayAnimationInstanceWay
+	UI()->cmbWayAnimationInstanceWay
+	UI()->cmbAnimationInstanceObject
+	UI()->cmbAnimationInstanceObject
+	UI()->cmbAnimationInstanceObject
+	UI()->dsbAnimationInstanceStartTime
+	UI()->txtAnimationInstanceName
+	UI()->lstAnimationInstances
+	UI()->lstAnimationInstances
+	UI()->lstAnimationInstances
+	UI()->lstAnimationInstances
+	UI()->cmbAnimationInstanceAnimationFromTree
+	UI()->cmbAnimationInstanceAnimationFromTree
+	UI()->rbAnimationInstanceFromDatabase
+	UI()->rbAnimationInstanceFromTree
+	UI()->lstAnimationInstances
+	UI()->lstAnimationInstances
+	UI()->cmbAnimationInstanceAnimationFromDatabase
+	UI()->rbAnimationInstanceFromTree
+	UI()->rbAnimationInstanceFromDatabase
+	UI()->rbAnimationInstanceFromTree
+	UI()->lstAnimationInstances
+	UI()->lstAnimationInstances
+	UI()->cmbAnimationInstanceAnimationFromTree
+	UI()->rbAnimationInstanceFromDatabase
+	UI()->lstAnimationInstances
+	UI()->lstAnimationInstances
+	UI()->cmbAnimationInstanceAnimationFromDatabase
+	UI()->lstAnimationInstances
+	UI()->lstAnimationInstances
+	UI()->cmbAnimationInstanceObject
+	UI()->lstAnimationInstances
+	UI()->lstAnimationInstances
+	UI()->lstAnimationInstances
+	UI()->lstAnimationInstances
+	UI()->cmbWayAnimationInstanceWay
+ifaceed/gui/labelactions.cpp:
+	UI()->txtLabelText
+	UI()->rtwLabelFont
+	UI()->cbSceneNodeVisible
+	UI()->cbSceneNodeVisible
+	UI()->cbSceneNodeVisible
+	UI()->rtwLabelFont
+	UI()->txtLabelText
+	UI()->fswLabelFontSize
+	UI()->dsbLineSpacingRatio
+	UI()->awSceneNodeAngle
+	UI()->spbMaximalLineWidth
+	UI()->cmbLabelBreakText
+	UI()->cmbLabelOverflowStrategy
+	UI()->cmbLabelTextEllipsis
+	UI()->spbMaximalLinesCount
+	UI()->cmbLabelOverflowStrategyForLines
+	UI()->cmbLabelTextEllipsisForLines
+	UI()->clpSceneNodeColor
+	UI()->txtObjectName
+	UI()->txtLabelText
+ifaceed/gui/renderways.cpp:
+	UI()->lstWayPoints
+ifaceed/gui/scenenodeactions.cpp:
+	UI()->awSceneNodeAngle
+	UI()->lstSceneObjects
+	UI()->rwSceneNodeRect
+	UI()->cbSceneNodeVisible
+	UI()->awSceneNodeAngle
+	UI()->cmbAnimationInstanceObject
+ifaceed/gui/sprite2dactions.cpp:
+	UI()->rtwSpriteSprite
+	UI()->cbSceneNodeVisible
+	UI()->rbPlaceAndRotate
+	UI()->rtwSpriteSprite
+	UI()->awSceneNodeAngle
+	UI()->clpSceneNodeColor
+	UI()->cbFlipX
+	UI()->cbFlipY
+	UI()->txtObjectName
+	UI()->awSceneNodeAngle
+	UI()->rtwSpriteSprite
+	UI()->clpSceneNodeColor
+	UI()->txtObjectName
+	UI()->cbFlipX
+	UI()->cbFlipY
+ifaceed/gui/wayactions.cpp:
+	UI()->lstWayPoints
+	UI()->txtWayName
+	UI()->cbWayClosed
+	UI()->dsbWayTotalTime
+	UI()->lstWays
+	UI()->lstWays
+	UI()->cmbWayAnimationWay
+	UI()->cmbWayAnimationInstanceWay
+	UI()->lstWays
+	UI()->lstWays
+	UI()->lstWays
+	UI()->lstWayPoints
+	UI()->lstWayPoints
+	UI()->lstWayPoints
+	UI()->lstWayPoints
+	UI()->dsbWayPointX
+	UI()->dsbWayPointY
+	UI()->lstWayPoints
+	UI()->lstWayPoints
+	UI()->dsbWayPointY
+	UI()->lstWayPoints
+	UI()->lstWayPoints
+	UI()->dsbWayPointX
+	UI()->lstWayPoints
+	UI()->lstWayPoints
+	UI()->lstWayPoints
+	UI()->lstWayPoints
+ifaceed/history/animations/animationschangeblinkingfrequency.cpp:
+	UI()->sbBlinkingFrequency
+ifaceed/history/animations/animationschangecameraoffset.cpp:
+	UI()->dsbCameraShakingOffsetX
+	UI()->dsbCameraShakingOffsetY
+ifaceed/history/animations/animationschangecamerapivot.cpp:
+	UI()->dsbCameraRotationPivotX
+	UI()->dsbCameraRotationPivotY
+ifaceed/history/animations/animationschangefontlistfonts.cpp:
+	UI()->txtFontListList
+ifaceed/history/animations/animationschangelooped.cpp:
+	UI()->cbAnimationLooped
+ifaceed/history/animations/animationschangename.cpp:
+	UI()->txtAnimationName
+ifaceed/history/animations/animationschangeresizeendingsize.cpp:
+	UI()->dabResizeEndingSizeX
+	UI()->dabResizeEndingSizeY
+ifaceed/history/animations/animationschangeresizestartingsize.cpp:
+	UI()->dabResizeStartingSizeX
+	UI()->dabResizeStartingSizeY
+ifaceed/history/animations/animationschangeshakingfrequency.cpp:
+	UI()->sbCameraShakingFrequency
+ifaceed/history/animations/animationschangetime.cpp:
+	UI()->dsbAnimationTime
+ifaceed/history/animations/animationschangewaymovingway.cpp:
+	UI()->cmbWayAnimationWay
+ifaceed/history/animations/animationsremove.cpp:
+	UI()->cmbAnimationInstanceAnimationFromDatabase
+	UI()->cmbAnimationInstanceAnimationFromDatabase
+	UI()->lstAnimations
+	UI()->cmbAnimationInstanceAnimationFromDatabase
+ifaceed/history/animations/animationsswapincomposite.cpp:
+	UI()->lstCompositeList
+	UI()->lstCompositeList
+ifaceed/history/customobject/customobjectchangeschema.cpp:
+	UI()->rtwCustomObjectSchemas
+ifaceed/history/database/removeproperty.cpp:
+	UI()->twDatabaseProperties
+ifaceed/history/dialogues/dialogueschangename.cpp:
+	UI()->txtDialogueName
+	UI()->txtDialogueName
+ifaceed/history/dialogues/dialoguesphrasechangeduration.cpp:
+	UI()->lstPhrases
+	UI()->lstPhrases
+	UI()->dsbPhraseDuration
+ifaceed/history/dialogues/dialoguesphrasechangelineeditbasedproperty.cpp:
+	UI()->lstPhrases
+	UI()->lstPhrases
+ifaceed/history/dialogues/dialoguesphrasechangephrase.cpp:
+	UI()->lstPhrases
+	UI()->lstPhrases
+	UI()->txtPhrasePhrase
+ifaceed/history/dialogues/dialoguesphrasenew.cpp:
+	UI()->lstPhrases
+ifaceed/history/dialogues/dialoguesphraseremove.cpp:
+	UI()->lstPhrases
+ifaceed/history/dialogues/dialoguesphraseswap.cpp:
+	UI()->lstPhrases
+	UI()->lstPhrases
+	UI()->lstPhrases
+	UI()->lstPhrases
+ifaceed/history/groups/groupsaddinstance.cpp:
+	UI()->lstAnimationsGroupInGroup
+	UI()->lstAnimationsGroupAllAnimations
+	UI()->lstAnimationsGroupAllAnimations
+	UI()->lstAnimationsGroupInGroup
+ifaceed/history/groups/groupschangelooped.cpp:
+	UI()->cbAnimationsGroupLooped
+ifaceed/history/groups/groupschangename.cpp:
+	UI()->lstAnimationsGroup
+	UI()->txtAnimationsGroupName
+ifaceed/history/instances/instanceschangename.cpp:
+	UI()->lstAnimationInstances
+	UI()->txtAnimationInstanceName
+ifaceed/history/instances/instanceschangenimation.cpp:
+	UI()->rbAnimationInstanceFromTree
+	UI()->rbAnimationInstanceFromDatabase
+	UI()->rbAnimationInstanceFromTree
+	UI()->rbAnimationInstanceFromDatabase
+	UI()->cmbAnimationInstanceAnimationFromTree
+	UI()->cmbAnimationInstanceAnimationFromTree
+	UI()->cmbAnimationInstanceAnimationFromTree
+	UI()->cmbAnimationInstanceAnimationFromDatabase
+	UI()->cmbAnimationInstanceAnimationFromDatabase
+	UI()->cmbAnimationInstanceAnimationFromDatabase
+ifaceed/history/instances/instanceschangeobject.cpp:
+	UI()->cmbAnimationInstanceObject
+	UI()->cmbAnimationInstanceObject
+ifaceed/history/instances/instanceschangestarttime.cpp:
+	UI()->dsbAnimationInstanceStartTime
+ifaceed/history/instances/instanceschangeway.cpp:
+	UI()->cmbWayAnimationInstanceWay
+	UI()->cmbWayAnimationInstanceWay
+ifaceed/history/instances/instancesnew.cpp:
+	UI()->lstAnimationInstances
+	UI()->lstAnimationsGroupAllAnimations
+	UI()->lstAnimationInstances
+	UI()->lstAnimationsGroupAllAnimations
+ifaceed/history/instances/instancesremove.cpp:
+	UI()->lstAnimationInstances
+	UI()->lstAnimationInstances
+ifaceed/history/label/changebreaktext.cpp:
+	UI()->cmbLabelBreakText
+ifaceed/history/label/changefontname.cpp:
+	UI()->rtwLabelFont
+ifaceed/history/label/changefontsize.cpp:
+	UI()->fswLabelFontSize
+ifaceed/history/label/changelinespacing.cpp:
+	UI()->dsbLineSpacingRatio
+ifaceed/history/label/changemaximallinescount.cpp:
+	UI()->spbMaximalLinesCount
+ifaceed/history/label/changemaximallinewidth.cpp:
+	UI()->spbMaximalLineWidth
+ifaceed/history/label/changeoverflowstrategy.cpp:
+	UI()->cmbLabelOverflowStrategy
+ifaceed/history/label/changeoverflowstrategyforlines.cpp:
+	UI()->cmbLabelOverflowStrategyForLines
+ifaceed/history/label/changetext.cpp:
+	UI()->txtLabelText
+ifaceed/history/label/changetextellipsis.cpp:
+	UI()->cmbLabelTextEllipsis
+ifaceed/history/label/changetextellipsisforlines.cpp:
+	UI()->cmbLabelTextEllipsisForLines
+ifaceed/history/scenenodes/scenenodeschangeangle.cpp:
+	UI()->awSceneNodeAngle
+ifaceed/history/scenenodes/scenenodeschangearea.cpp:
+	UI()->rwSceneNodeRect
+ifaceed/history/scenenodes/scenenodeschangecolor.cpp:
+	UI()->clpSceneNodeColor
+ifaceed/history/scenenodes/scenenodesnew.cpp:
+	UI()->cmbAnimationInstanceObject
+	UI()->cmbAnimationInstanceObject
+	UI()->cmbAnimationInstanceObject
+ifaceed/history/scenenodes/scenenodesremove.cpp:
+	UI()->cmbAnimationInstanceObject
+	UI()->cmbAnimationInstanceObject
+	UI()->cmbAnimationInstanceObject
+	UI()->cmbAnimationInstanceObject
+ifaceed/history/scenenodes/scenesnodeschangename.cpp:
+	UI()->txtSceneName
+	UI()->cmbAnimationInstanceObject
+	UI()->cmbAnimationInstanceObject
+ifaceed/history/scenes/sceneschangename.cpp:
+	UI()->cmbAnimationInstanceObject
+	UI()->cmbAnimationInstanceObject
+	UI()->cmbAnimationInstanceObject
+	UI()->cmbAnimationInstanceObject
+ifaceed/history/scenes/scenesclear.cpp:
+	UI()->lstSceneObjects
+	UI()->cmbAnimationInstanceObject
+	UI()->cmbAnimationInstanceObject
+	UI()->cmbAnimationInstanceObject
+	UI()->cmbAnimationInstanceObject
+ifaceed/history/scenes/scenesremove.cpp:
+	UI()->cmbAnimationInstanceObject
+	UI()->cmbAnimationInstanceObject
+	UI()->cmbAnimationInstanceObject
+	UI()->cmbAnimationInstanceObject
+	UI()->cmbAnimationInstanceObject
+	UI()->cmbAnimationInstanceObject
+	UI()->cmbAnimationInstanceObject
+	UI()->cmbAnimationInstanceObject
+ifaceed/history/sprite2d/changeoptions.cpp:
+	UI()->rtwSpriteSprite
+ifaceed/history/sprite2d/makebackground.cpp:
+	UI()->awSceneNodeAngle
+ifaceed/history/ways/wayschangeclosed.cpp:
+	UI()->cbWayClosed
+ifaceed/history/ways/wayschangename.cpp:
+	UI()->txtWayName
+ifaceed/history/ways/wayschangetotaltime.cpp:
+	UI()->dsbWayTotalTime
+ifaceed/history/ways/waysremove.cpp:
+	UI()->cmbWayAnimationWay
+	UI()->cmbWayAnimationWay
+	UI()->cmbWayAnimationInstanceWay
+	UI()->cmbWayAnimationInstanceWay
+	UI()->cmbWayAnimationWay
+	UI()->cmbWayAnimationWay
+	UI()->cmbWayAnimationInstanceWay
+	UI()->cmbWayAnimationInstanceWay
+ifaceed/history/ways/wayswaypointnew.cpp:
+	UI()->lstWayPoints
+ifaceed/history/ways/wayswaypointremove.cpp:
+	UI()->lstWayPoints
+ifaceed/history/ways/wayswaypointswap.cpp:
+	UI()->lstWayPoints
+	UI()->dsbWayPointX
+	UI()->dsbWayPointY
+	UI()->dsbWayPointX
+	UI()->dsbWayPointY
+ifaceed/mainpanel.cpp:
+	UI()->cmbAnimationInstanceObject
+	UI()->cmbAnimationInstanceObject
+ifaceed/scripting/groups/groupsbindings.cpp:
+	UI()->lstAnimationsGroup
+	UI()->lstAnimationInstances
+ifaceed/scripting/groups/groupsnamesetter.cpp:
+	UI()->lstAnimationsGroup
+ifaceed/scripting/instances/instancesanimationdbsetter.cpp:
+	UI()->lstAnimationInstances
+	UI()->rbAnimationInstanceFromTree
+	UI()->rbAnimationInstanceFromDatabase
+ifaceed/scripting/instances/instancesanimationsetter.cpp:
+	UI()->lstAnimationInstances
+	UI()->rbAnimationInstanceFromTree
+	UI()->rbAnimationInstanceFromDatabase
+ifaceed/scripting/instances/instancesnamesetter.cpp:
+	UI()->lstAnimationInstances
+ifaceed/scripting/scenes/scenesbindings.cpp:
+	UI()->lstScenes
+	UI()->lstScenes
+	UI()->lstScenes
+ifaceed/scripting/scripting.cpp:
+	UI()->txtConsoleResults
+	UI()->txtConsoleCode
+	UI()->txtConsoleResults
+	UI()->dsbCameraRotationStartingAngle
+	UI()->dsbCameraRotationEndingAngle
+	UI()->cwColorStartingColor
+	UI()->cwColorEndingColor
+	UI()->sbFontSizeStartingSize
+	UI()->sbFontSizeEndingSize
+	UI()->dsbRotateStartingAngle
+	UI()->dsbRotateEndingAngle
+	UI()->txtOptionListList
+	UI()->txtTextureCoordinatesList
+	UI()->dabSimpleMovementStartingPointX
+	UI()->dabSimpleMovementStartingPointY
+	UI()->dabSimpleMovementEndingPointX
+	UI()->dabSimpleMovementEndingPointY
+	UI()->rctTCCStartingRect
+	UI()->rctTCCEndingRect
+	UI()->txtConsoleCode
+	UI()->txtConsoleCode
+ifaceed/scripting/scriptinglog.cpp:
+	UI()->txtConsoleResults
