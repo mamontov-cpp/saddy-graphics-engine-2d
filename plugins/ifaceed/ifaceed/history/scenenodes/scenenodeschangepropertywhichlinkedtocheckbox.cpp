@@ -2,6 +2,10 @@
 
 #include "../../core/editor.h"
 
+#include "../../mainpanel.h"
+
+#include <QCheckBox>
+
 #include "../../blockedclosuremethodcall.h"
 
 history::scenenodes::ChangePropertyWhichLinkedToCheckbox::ChangePropertyWhichLinkedToCheckbox(

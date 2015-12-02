@@ -8,6 +8,7 @@
 
 #include "../../blockedclosuremethodcall.h"
 
+#include "../../mainpanel.h"
 
 history::sprite2d::ChangeOptions::ChangeOptions(
         sad::SceneNode* d, 

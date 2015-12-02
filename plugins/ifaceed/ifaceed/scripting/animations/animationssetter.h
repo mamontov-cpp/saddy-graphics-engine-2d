@@ -10,6 +10,8 @@
 
 #include "../../core/editor.h"
 
+#include "../../mainpanel.h"
+
 namespace scripting
 {
     

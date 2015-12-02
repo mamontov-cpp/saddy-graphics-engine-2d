@@ -12,9 +12,6 @@
 #include "../core/qttarget.h"
 #include "../core/quitreason.h"
 
-
-#include "../mainpanel.h"
-
 #include "shared.h"
 
 #include <scene.h>

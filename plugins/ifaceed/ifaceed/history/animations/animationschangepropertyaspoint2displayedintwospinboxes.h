@@ -6,6 +6,7 @@
  */
 #pragma once
 #include "animationschangeproperty.h"
+#include <QDoubleSpinBox>
 
 namespace history
 {

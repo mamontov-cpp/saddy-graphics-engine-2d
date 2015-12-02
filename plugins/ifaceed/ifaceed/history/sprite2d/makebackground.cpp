@@ -7,6 +7,8 @@
 #include "../../blockedclosuremethodcall.h"
 #include "../../closuremethodcall.h"
 
+#include "../../mainpanel.h"
+
 history::sprite2d::MakeBackground::MakeBackground(
         sad::SceneNode* d, 
         const sad::Rect2D& oldarea,

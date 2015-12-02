@@ -50,6 +50,8 @@
 
 #include "../blockedclosuremethodcall.h"
 
+#include "../mainpanel.h"
+
 Q_DECLARE_METATYPE(sad::p2d::app::Way*) //-V566
 Q_DECLARE_METATYPE(sad::SceneNode*) //-V566
 // =================== PUBLIC METHODS ===================

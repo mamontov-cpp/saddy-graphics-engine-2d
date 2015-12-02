@@ -4,6 +4,7 @@
 
 #include "../core/editor.h"
 
+#include "../mainpanel.h"
 
 core::QtTarget::~QtTarget()
 {

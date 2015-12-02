@@ -5,7 +5,7 @@
  */
 #pragma once
 #include "scenenodeschangeproperty.h"
-
+#include <QCheckBox>
 
 class MainPanel;
 
