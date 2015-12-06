@@ -124,6 +124,21 @@ def pollGroup(match, groups)
 	end
 end
 
+def printNamespaces(tree)
+	result = ""
+	tree.each_pair{
+		|k, v|
+		if (v.length == 0)
+			result << "class " + k + ";\n\n"
+		else
+			result << "namespace " + k + "\n{\n\n"
+			result << printNamespaces(v)
+			result << "}\n\n"
+		end
+	}
+	return result
+end
+
 # Classify matches by groups
 mlen = matches.length - 1;
 for i in 0..mlen do
@@ -150,6 +165,7 @@ for i in 0..mlen do
 		end
 	end
 end
+
 
 # Write classification to file
 File.write("ui_classification.rb", "@classification = " + @classification.pretty_inspect)
@@ -289,5 +305,61 @@ File.write("ifaceed/gui/uiblocks/uiblocks.cpp", uiblocksSourceFileContent)
 @classification.each_pair{
 	|key, value|
 	lowerkey = key.downcase
-
+	if key != "excluded"
+		different_headers = []
+		basic_headers = []
+		value.each{
+			|x|
+			if (typesToIncludes.key?(x[0]))
+				if (different_headers.include?(x[0]) == false)
+					different_headers.push(x[0])
+				end
+			else
+				if (basic_headers.include?(x[0]) == false)
+					basic_headers.push(x[0])
+				end
+			end
+		}
+		
+		headerFileContent = "/* \\file ui" + lowerkey + "block.h\n\n"  +		
+							"\tContains definition of UI group for " + key + " group of widgets\n" +
+							" */\n\n"
+		if (different_headers.length > 0)
+			tree = {}
+			different_headers.each{
+				|header|
+				current = tree
+				header.split("::").each{
+					|header_part|
+					if (current.key?(header_part) == false)
+						current[header_part] = Hash.new
+					end
+					current = current[header_part]
+				}
+			}
+			headerFileContent += printNamespaces(tree)
+			headerFileContent += "\n"
+		end
+		
+		basic_headers.each{
+			|basic_header|
+			headerFileContent += "class " +  basic_header + ";\n"
+		}
+		
+		headerFileContent += "\n\n"
+		headerFileContent += "namespace gui\n{\n\n"
+		headerFileContent += "namespace uiblocks\n{\n\n"
+		
+		headerFileContent += "class UI" + key + "Block\n{\n\n"
+		
+		headerFileContent += "};\n\n"	
+		headerFileContent += "}\n\n"	
+		headerFileContent += "}\n"
+		
+		
+		headerSourceContent = "#include \"ui" + lowerkey + "block.h\"\n"
+		
+		File.write("ifaceed/gui/uiblocks/ui" + lowerkey + "block.h", headerFileContent)
+		File.write("ifaceed/gui/uiblocks/ui" + lowerkey + "block.cpp", headerSourceContent)
+	end
 }
