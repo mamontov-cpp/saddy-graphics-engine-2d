@@ -1,3 +1,7 @@
+#ifdef _MSC_VER
+    #pragma warning(disable: 4506)
+#endif
+
 #include "animationschangepropertyaspoint2displayedintwospinboxes.h"
 #include <blockedclosuremethodcall.h>
 
