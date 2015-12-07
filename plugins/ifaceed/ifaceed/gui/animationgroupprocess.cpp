@@ -5,7 +5,8 @@
 #include "../closuremethodcall.h"
 #include "../core/editor.h"
 #include "../core/shared.h"
-#include "../mainpanel.h"
+
+#include "mainpanelproxy.h"
 
 // ============================ PUBLIC METHODS ============================
 
@@ -30,8 +31,8 @@ void gui::AnimationGroupProcess::start(sad::animations::Group* i)
         if (m_editor->shared()->isAnyKindOfAnimationIsRunning() == false)
         {
             m_editor->shared()->setAnimationGroupIsRunning(true);
-            m_editor->panel()->lockTypesTab(true);
-            m_editor->panel()->toggleAnimationPropertiesEditable(false);
+            m_editor->panelProxy()->lockTypesTab(true);
+            m_editor->panelProxy()->toggleAnimationPropertiesEditable(false);
 
             m_instance = i;
             m_instance->addRef();
@@ -54,8 +55,8 @@ void gui::AnimationGroupProcess::stop()
         if (m_editor->shared()->isAnyKindOfAnimationIsRunning())
         {
             m_editor->shared()->setAnimationGroupIsRunning(false);
-            m_editor->emitClosure( bind(m_editor->panel(), &MainPanel::toggleAnimationPropertiesEditable, true) );
-            m_editor->emitClosure( bind(m_editor->panel(), &MainPanel::lockTypesTab, false) );
+            m_editor->emitClosure( bind(m_editor->panelProxy(), &MainPanelProxy::toggleAnimationPropertiesEditable, true) );
+            m_editor->emitClosure( bind(m_editor->panelProxy(), &MainPanelProxy::lockTypesTab, false) );
 
             if (m_instance->finished() == false)
             {

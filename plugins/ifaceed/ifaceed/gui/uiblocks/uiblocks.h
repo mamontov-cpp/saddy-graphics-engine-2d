@@ -2,6 +2,7 @@
     
     Contains data about all UIBlocks, used in the program
 */    
+#pragma once
 
 class QWidget;
 
@@ -46,91 +47,91 @@ public:
     /*! Returns UI group for Scene group of widgets
         \return UI group for Scene objects
     */
-    inline gui::uiblocks::UISceneBlock* UISceneBlock()
+    inline gui::uiblocks::UISceneBlock* uiSceneBlock()
     {
         return m_ui_scene_block;
     }
     /*! Returns UI group for SceneNode group of widgets
         \return UI group for SceneNode objects
     */
-    inline gui::uiblocks::UISceneNodeBlock* UISceneNodeBlock()
+    inline gui::uiblocks::UISceneNodeBlock* uiSceneNodeBlock()
     {
         return m_ui_scenenode_block;
     }
     /*! Returns UI group for Label group of widgets
         \return UI group for Label objects
     */
-    inline gui::uiblocks::UILabelBlock* UILabelBlock()
+    inline gui::uiblocks::UILabelBlock* uiLabelBlock()
     {
         return m_ui_label_block;
     }
     /*! Returns UI group for Sprite group of widgets
         \return UI group for Sprite objects
     */
-    inline gui::uiblocks::UISpriteBlock* UISpriteBlock()
+    inline gui::uiblocks::UISpriteBlock* uiSpriteBlock()
     {
         return m_ui_sprite_block;
     }
     /*! Returns UI group for CustomObject group of widgets
         \return UI group for CustomObject objects
     */
-    inline gui::uiblocks::UICustomObjectBlock* UICustomObjectBlock()
+    inline gui::uiblocks::UICustomObjectBlock* uiCustomObjectBlock()
     {
         return m_ui_customobject_block;
     }
     /*! Returns UI group for Way group of widgets
         \return UI group for Way objects
     */
-    inline gui::uiblocks::UIWayBlock* UIWayBlock()
+    inline gui::uiblocks::UIWayBlock* uiWayBlock()
     {
         return m_ui_way_block;
     }
     /*! Returns UI group for Dialogue group of widgets
         \return UI group for Dialogue objects
     */
-    inline gui::uiblocks::UIDialogueBlock* UIDialogueBlock()
+    inline gui::uiblocks::UIDialogueBlock* uiDialogueBlock()
     {
         return m_ui_dialogue_block;
     }
     /*! Returns UI group for Phrase group of widgets
         \return UI group for Phrase objects
     */
-    inline gui::uiblocks::UIPhraseBlock* UIPhraseBlock()
+    inline gui::uiblocks::UIPhraseBlock* uiPhraseBlock()
     {
         return m_ui_phrase_block;
     }
     /*! Returns UI group for Animation group of widgets
         \return UI group for Animation objects
     */
-    inline gui::uiblocks::UIAnimationBlock* UIAnimationBlock()
+    inline gui::uiblocks::UIAnimationBlock* uiAnimationBlock()
     {
         return m_ui_animation_block;
     }
     /*! Returns UI group for AnimationInstance group of widgets
         \return UI group for AnimationInstance objects
     */
-    inline gui::uiblocks::UIAnimationInstanceBlock* UIAnimationInstanceBlock()
+    inline gui::uiblocks::UIAnimationInstanceBlock* uiAnimationInstanceBlock()
     {
         return m_ui_animationinstance_block;
     }
     /*! Returns UI group for AnimationsGroup group of widgets
         \return UI group for AnimationsGroup objects
     */
-    inline gui::uiblocks::UIAnimationsGroupBlock* UIAnimationsGroupBlock()
+    inline gui::uiblocks::UIAnimationsGroupBlock* uiAnimationsGroupBlock()
     {
         return m_ui_animationsgroup_block;
     }
     /*! Returns UI group for Common group of widgets
         \return UI group for Common objects
     */
-    inline gui::uiblocks::UICommonBlock* UICommonBlock()
+    inline gui::uiblocks::UICommonBlock* uiCommonBlock()
     {
         return m_ui_common_block;
     }
     /*! Returns UI group for Console group of widgets
         \return UI group for Console objects
     */
-    inline gui::uiblocks::UIConsoleBlock* UIConsoleBlock()
+    inline gui::uiblocks::UIConsoleBlock* uiConsoleBlock()
     {
         return m_ui_console_block;
     }

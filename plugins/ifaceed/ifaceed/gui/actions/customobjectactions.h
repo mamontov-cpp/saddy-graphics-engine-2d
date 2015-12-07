@@ -8,6 +8,10 @@
 
 #include <input/events.h>
 
+#include <sadstring.h>
+
+#include "abstractactions.h"
+
 class MainPanel;
 
 namespace sad
@@ -29,9 +33,13 @@ class Object;
 
 namespace gui
 {
+
+namespace actions
+{
+
 /*! A group of actions, linked to custom objects
  */	
-class CustomObjectActions: public QObject
+class CustomObjectActions: public QObject, public gui::actions::AbstractActions
 {
 Q_OBJECT
 public:
@@ -42,12 +50,6 @@ public:
     /*! This class could be inherited
      */
     virtual ~CustomObjectActions();
-    /*! Sets panel, where actions belong to
-     */
-    void setPanel(MainPanel* e);
-    /*! Returns panel, where actions belong to
-     */
-    MainPanel* panel() const;
     /*! Cancels adding sprite to scene
      */
     void cancelAdd();
@@ -90,9 +92,8 @@ private:
         \param[in] object an object values
      */
     void tryCopySelectedObjectCustomProperties(sad::db::custom::Object* object);
-    /*! An panel, which actions are belong to
-     */
-    MainPanel* m_panel;
 };
+
+}
 
 }

@@ -2,7 +2,7 @@
 
     Contains definition of UI group for Label group of widgets
  */
-
+#pragma once
 namespace gui
 {
 

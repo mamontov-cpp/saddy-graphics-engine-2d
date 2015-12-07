@@ -19,15 +19,6 @@
 
 #include "history/scenenodes/scenenodeslayerswap.h"
 
-#include "gui/scenenodeactions.h"
-#include "gui/labelactions.h"
-#include "gui/sprite2dactions.h"
-#include "gui/customobjectactions.h"
-#include "gui/wayactions.h"
-#include "gui/dialogueactions.h"
-#include "gui/animationactions.h"
-#include "gui/instanceactions.h"
-#include "gui/groupactions.h"
 #include "gui/updateelement.h"
 
 #include "gui/codeedit/highlighter.h"
@@ -121,33 +112,6 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
     c->setModel(new QStringListModel());
     ui.txtTextureCoordinatesList->setCompleter(c);
 
-    m_scene_node_actions = new gui::SceneNodeActions();
-    m_scene_node_actions->setPanel(this);
-
-    m_label_actions = new gui::LabelActions();
-    m_label_actions->setPanel(this);
-
-    m_sprite2d_actions = new gui::Sprite2DActions();
-    m_sprite2d_actions->setPanel(this);
-
-    m_custom_object_actions = new gui::CustomObjectActions();
-    m_custom_object_actions->setPanel(this);
-
-    m_way_actions = new gui::WayActions();
-    m_way_actions->setPanel(this);
-    
-    m_dialogue_actions = new gui::DialogueActions();
-    m_dialogue_actions->setPanel(this);
-
-    m_animation_actions = new gui::AnimationActions();
-    m_animation_actions->setPanel(this);
-
-    m_instance_actions = new gui::InstanceActions();
-    m_instance_actions->setPanel(this);
-
-    m_group_actions = new gui::GroupActions();
-    m_group_actions->setPanel(this);
-
     m_scripting = new scripting::Scripting();
     m_scripting->setPanel(this);
 
@@ -196,15 +160,6 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 
 MainPanel::~MainPanel()
 {
-    delete m_label_actions;
-    delete m_sprite2d_actions;
-    delete m_scene_node_actions;
-    delete m_custom_object_actions;
-    delete m_way_actions;
-    delete m_dialogue_actions;
-    delete m_animation_actions;
-    delete m_instance_actions;
-    delete m_group_actions;
     delete m_scripting;
     for(sad::PtrHash<sad::String, gui::table::Delegate>::iterator it = m_property_delegates.begin();
         it != m_property_delegates.end();
@@ -723,51 +678,6 @@ core::Editor* MainPanel::editor() const
 sad::Hash<sad::String, gui::table::Delegate*>& MainPanel::delegatesByName()
 {
     return m_delegates_by_names;
-}
-
-gui::SceneNodeActions* MainPanel::sceneNodeActions() const
-{
-    return m_scene_node_actions;
-}
-
-gui::LabelActions* MainPanel::labelActions() const
-{
-    return m_label_actions;
-}
-
-gui::Sprite2DActions* MainPanel::sprite2DActions() const
-{
-    return m_sprite2d_actions;
-}
-
-gui::CustomObjectActions* MainPanel::customObjectActions() const
-{
-    return m_custom_object_actions;
-}
-
-gui::WayActions* MainPanel::wayActions() const
-{
-    return m_way_actions;
-}
-
-gui::DialogueActions* MainPanel::dialogueActions() const
-{
-    return m_dialogue_actions;
-}
-
-gui::AnimationActions* MainPanel::animationActions() const
-{
-    return m_animation_actions;
-}
-
-gui::InstanceActions* MainPanel::instanceActions() const
-{
-    return m_instance_actions;
-}
-
-gui::GroupActions*  MainPanel::groupActions() const
-{
-    return m_group_actions;
 }
 
 Ui::MainPanelClass* MainPanel::UI()
@@ -1493,20 +1403,6 @@ QString MainPanel::nameForPhrase(const sad::dialogue::Phrase& p) const
     return QString("%1(%2)")
            .arg(STD2QSTRING(p.actorName()))
            .arg(STD2QSTRING(s));
-}
-
-QString MainPanel::nameForAnimation(sad::animations::Animation* a) const
-{
-    QString result = const_cast<MainPanel*>(this)->viewableObjectName(a);
-    if (a)
-    {
-        sad::String s = a->serializableName();
-        s.removeAllOccurences("sad::animations::");
-        s.insert('[', 0);
-        s << "] ";
-        result = QString(STD2QSTRING(s)) + result;
-    }
-    return result;
 }
 
 QString MainPanel::nameForInstance(sad::animations::Instance* i) const
@@ -2411,18 +2307,6 @@ void MainPanel::clearDatabaseProperties()
         it.value()->delRef();
     }
     m_property_delegates.clear();
-}
-
-QString MainPanel::viewableObjectName(sad::db::Object* o)
-{
-    QString result = STD2QSTRING(o->objectName());
-    if (result.length() == 0)
-    {
-        char buffer[20];
-        sprintf(buffer, "%p", o);
-        result = QString(buffer);
-    }
-    return result;
 }
 
 void MainPanel::lockTypesTab(bool lock)

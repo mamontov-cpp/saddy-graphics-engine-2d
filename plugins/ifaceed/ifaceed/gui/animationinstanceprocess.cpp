@@ -1,3 +1,4 @@
+#include <QDoubleSpinBox>
 #include "animationinstanceprocess.h"
 
 #include <animations/animationsanimations.h>
@@ -7,7 +8,11 @@
 #include "../closuremethodcall.h"
 #include "../core/editor.h"
 #include "../core/shared.h"
-#include "../mainpanel.h"
+
+#include "mainpanelproxy.h"
+
+#include "uiblocks/uiblocks.h"
+#include "uiblocks/uianimationblock.h"
 
 // ============================ PUBLIC METHODS ============================
 
@@ -32,8 +37,8 @@ void gui::AnimationInstanceProcess::start(sad::animations::Instance* i)
         if (m_editor->shared()->isAnyKindOfAnimationIsRunning() == false)
         {
             m_editor->shared()->setAnimationInstanceIsRunning(true);
-            m_editor->panel()->lockTypesTab(true);
-            m_editor->panel()->toggleAnimationPropertiesEditable(false);
+            m_editor->panelProxy()->lockTypesTab(true);
+            m_editor->panelProxy()->toggleAnimationPropertiesEditable(false);
 
             m_instance = i;
             m_instance->addRef();
@@ -56,8 +61,8 @@ void gui::AnimationInstanceProcess::stop()
         if (m_editor->shared()->isAnyKindOfAnimationIsRunning())
         {
             m_editor->shared()->setAnimationInstanceIsRunning(false);
-            m_editor->emitClosure( bind(m_editor->panel(), &MainPanel::toggleAnimationPropertiesEditable, true) );
-            m_editor->emitClosure( bind(m_editor->panel(), &MainPanel::lockTypesTab, false) );
+            m_editor->emitClosure( bind(m_editor->panelProxy(), &MainPanelProxy::toggleAnimationPropertiesEditable, true) );
+            m_editor->emitClosure( bind(m_editor->panelProxy(), &MainPanelProxy::lockTypesTab, false) );
 
             if (m_instance->finished() == false)
             {
@@ -96,7 +101,7 @@ void gui::AnimationInstanceProcess::timerExpired()
                 if (m_instance->animation(false))
                 {
                     double animationtime = m_instance->animation(false)->time();
-                    QDoubleSpinBox* timebox = m_editor->panel()->UI()->dsbAnimationTime;
+                    QDoubleSpinBox* timebox = m_editor->uiBlocks()->uiAnimationBlock()->dsbAnimationTime;
                     double animationbeforetime = timebox->value();
                     if (sad::is_fuzzy_equal(animationtime, animationbeforetime) == false)
                     {

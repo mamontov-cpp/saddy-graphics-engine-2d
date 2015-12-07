@@ -71,6 +71,9 @@ public:
         \param[in] from_editor true, if node is removed from editor, false if from scripting part
      */
     void removeSceneNode(sad::SceneNode* node, bool from_editor); 
+	/*! Selects last scene node in list
+	 */
+	void selectLastSceneNode();
 public slots:
     /*! Called, when node name is edited
         \param[in] name a name for action

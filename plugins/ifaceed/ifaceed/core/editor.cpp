@@ -34,7 +34,10 @@
 #include "gui/eventfilter.h"
 #include "gui/renderways.h"
 #include "gui/wayactions.h"
+#include "gui/mainpanelproxy.h"
+
 #include "gui/uiblocks/uiblocks.h"
+#include "gui/actions/actions.h"
 
 #include "typeconverters/save.h"
 #include "typeconverters/load.h"
@@ -127,6 +130,12 @@ core::Editor::Editor()
     this->initConversionTable();
 
 	m_ui_blocks = new gui::uiblocks::UIBlocks();
+
+	m_actions = new gui::actions::Actions();
+	m_actions->setEditor(this);
+
+	m_panel_proxy = new gui::MainPanelProxy();
+	m_panel_proxy->setEditor(this);
 }
 core::Editor::~Editor()
 {	
@@ -141,6 +150,8 @@ core::Editor::~Editor()
     delete m_mainwindow;
     delete m_qtapp;
 	delete m_ui_blocks;
+	delete m_actions;
+	delete m_panel_proxy;
 }
 
 void core::Editor::init(int argc,char ** argv)
@@ -419,6 +430,28 @@ bool core::Editor::isDatabaseEmpty() const
 gui::uiblocks::UIBlocks* core::Editor::uiBlocks() const
 {
 	return m_ui_blocks;
+}
+
+gui::actions::Actions* core::Editor::actions() const
+{
+	return m_actions;
+}
+
+gui::MainPanelProxy* core::Editor::panelProxy() const
+{
+	return m_panel_proxy;
+}
+
+void core::Editor::addToHistory(history::Command* c, bool fromeditor)
+{
+	if (fromeditor)
+    {
+        this->history()->add(c);
+    }
+    else
+    {
+        this->currentBatchCommand()->add(c);
+    }
 }
 // =================== PUBLIC SLOTS METHODS ===================
 

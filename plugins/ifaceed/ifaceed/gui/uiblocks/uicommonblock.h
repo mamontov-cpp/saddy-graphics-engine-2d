@@ -2,7 +2,7 @@
 
     Contains definition of UI group for Common group of widgets
  */
-
+#pragma once
 class QWidget;
 class QLineEdit;
 class QTabWidget;

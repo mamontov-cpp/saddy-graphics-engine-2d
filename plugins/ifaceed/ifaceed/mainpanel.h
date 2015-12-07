@@ -104,42 +104,6 @@ public:
     /*! A delegates by their property names
      */
     sad::Hash<sad::String, gui::table::Delegate*>& delegatesByName();
-    /*! Returns actions for scene nodes
-        \return actions for scene nodes
-     */
-    gui::SceneNodeActions* sceneNodeActions() const;
-    /*! Returns label actions
-     *  \return label actions 
-     */
-    gui::LabelActions* labelActions() const;
-    /*! Returns sprite actions
-     *  \return sprite actions 
-     */
-    gui::Sprite2DActions* sprite2DActions() const;
-    /*! Returns actions for custom object
-     *  \return actions for custom object 
-     */
-    gui::CustomObjectActions* customObjectActions() const;
-    /*! Returns actions for way editing
-     *  \return actions for way editing
-     */
-    gui::WayActions* wayActions() const;
-    /*! Returns actions for dialogue editing
-     *  \return actions for dialogue editing
-     */
-    gui::DialogueActions* dialogueActions() const;
-    /*! Returns actions for animation editing
-     *  \return actions for animation editing
-     */
-    gui::AnimationActions* animationActions() const;
-    /*! Returns actions for animation instance editing
-     *  \return actions for animation instance editing
-     */
-    gui::InstanceActions* instanceActions() const;
-        /*! Returns actions for animation group editing
-     *  \return actions for animation group editing
-     */
-    gui::GroupActions* groupActions() const;
     /*! Returns ui for main panel
         \return main panel's ui
      */
@@ -343,11 +307,6 @@ public:
         \return name for phrase
      */
     QString nameForPhrase(const sad::dialogue::Phrase& p) const;
-    /*! Returns name for animation
-        \param[in] a animation
-        \return name for animation
-     */
-    QString nameForAnimation(sad::animations::Animation* a) const;
     /*! Returns name for animation instance
         \param[in] i instance
         \return name for instance
@@ -440,89 +399,13 @@ public:
     /*! Clears database properties
      */
     void clearDatabaseProperties();
-    /*! Fetches object name, which can be used in object list
-        \param[in] o object
-        \return object name
-     */
-    QString viewableObjectName(sad::db::Object* o);
     /*! Locks types tab if it should be locked
         \param[in] lock whether it should be looked
      */
     void lockTypesTab(bool lock);
     /*! Tries to update combo boox with animations from tree with list of actual animations
      */
-    void updateAnimationsListFromTree();
-    /*! Tries to find an item to a list
-        \param[in] w widget
-        \param[in] userdata a data
-        \return index
-     */
-    template<
-        typename T
-    >
-    static unsigned int findInList(QListWidget* w, T userdata)
-    {
-        size_t pos = - 1;
-        for(size_t i = 0; i < w->count(); i++)
-        {
-            if (w->item(i)->data(Qt::UserRole).value<T>() == userdata)
-            {
-                pos = i;
-            }
-        }
-        return pos;
-    }
-    /*! Tries to find an item to a combo box
-        \param[in] w widget
-        \param[in] userdata a data
-        \return index (-1 if not found)
-     */
-    template<
-        typename T
-    >
-    static int findInComboBox(QComboBox* w, T userdata)
-    {
-        int pos = - 1;
-        for(size_t i = 0; i < w->count(); i++)
-        {
-            if (w->itemData(i, Qt::UserRole).value<T>() == userdata)
-            {
-                pos = static_cast<int>(i);
-            }
-        }
-        return pos;
-    }
-    /*! Tries to find an item to a combo box by major id
-        \param[in] w widget
-        \param[in] id id to identify item in combo box
-        \return index (-1 if not found)
-     */
-    template<
-        typename T
-    >
-    static int findInComboBoxByMajorId(QComboBox* w, unsigned long long id)
-    {
-        int pos = - 1;
-        for(size_t i = 0; i < w->count(); i++)
-        {
-            T tmp = w->itemData(i, Qt::UserRole).value<T>(); 
-            if (tmp)
-            {
-                if (tmp->MajorId == id)
-                {
-                    pos = static_cast<int>(i);
-                }
-            }
-            else
-            {
-                if (id == 0)
-                {
-                    pos = static_cast<int>(i);
-                }
-            }
-        }
-        return pos;
-    }
+    void updateAnimationsListFromTree();    
     /*! Returns list of resources by filter
         \param[in] root a root folder
         \param[in] prefix a prefix
@@ -592,32 +475,7 @@ protected:
      */
     gui::table::DelegateFactory m_dbdelegate_factory;
     /*! An actions, linked to scene nodes editing
-     */
-    gui::SceneNodeActions* m_scene_node_actions;
-    /*! An actions, linked to label editing
-     */
-    gui::LabelActions* m_label_actions;
-    /*! An actions, linked to sprite editing
-     */
-    gui::Sprite2DActions* m_sprite2d_actions;
-    /*! An actions, linked to custom object editing
-     */
-    gui::CustomObjectActions* m_custom_object_actions;
-    /*! An actions, linked to way editing 
-     */
-    gui::WayActions* m_way_actions;
-    /*! An actions, linked to dialogue editing
-     */
-    gui::DialogueActions* m_dialogue_actions;
-    /*! An actions, linked to animations editing
-     */
-    gui::AnimationActions* m_animation_actions;
-    /*! An actions, linked to animation instance editing
-     */
-    gui::InstanceActions* m_instance_actions;
-    /*! An actions, linked to animation groups editing
-     */
-    gui::GroupActions* m_group_actions;
+     */   
     /*! A main scripting capabilities and bindings
      */
     scripting::Scripting* m_scripting;

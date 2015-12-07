@@ -2,7 +2,7 @@
 
     Contains definition of UI group for Animation group of widgets
  */
-
+#pragma once
 namespace gui
 {
 

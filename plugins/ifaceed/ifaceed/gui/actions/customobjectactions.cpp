@@ -1,10 +1,16 @@
+#include <QDebug>
+#include <QCheckBox>
+#include <QRadioButton>
+
 #include "customobjectactions.h"
+
+#include <db/dbdatabase.h>
 
 #include "../closuremethodcall.h"
 #include "../blockedclosuremethodcall.h"
 #include "../qstdstring.h"
 
-#include "../mainpanel.h"
+#include "../mainpanelproxy.h"
 
 #include "../core/editor.h"
 
@@ -14,48 +20,44 @@
 
 #include "../history/customobject/customobjectchangeschema.h"
 
-#include "../gui/scenenodeactions.h"
+#include "actions.h"
+#include "scenenodeactions.h"
+
 
 #include <sprite2d.h>
 #include <geometry2d.h>
 
 #include <db/custom/customobject.h>
 
-#include <QDebug>
-#include <QCheckBox>
+#include "../uiblocks/uiblocks.h"
+#include "../uiblocks/uiscenenodeblock.h"
+#include "../uiblocks/uicustomobjectblock.h"
+
+#include "../resourcetreewidget/resourcetreewidget.h"
+
 
 // ===============================  PUBLIC METHODS ===============================
 
-gui::CustomObjectActions::CustomObjectActions(QObject* parent) : QObject(parent), m_panel(NULL)
+gui::actions::CustomObjectActions::CustomObjectActions(QObject* parent) : QObject(parent), gui::actions::AbstractActions()
 {
 
 }
 
-gui::CustomObjectActions::~CustomObjectActions()
+gui::actions::CustomObjectActions::~CustomObjectActions()
 {
     
 }
 
-void gui::CustomObjectActions::setPanel(MainPanel* e)
+void gui::actions::CustomObjectActions::cancelAdd()
 {
-    m_panel = e;
-}
-
-MainPanel* gui::CustomObjectActions::panel() const
-{
-    return m_panel;
-}
-
-void gui::CustomObjectActions::cancelAdd()
-{
-    core::Shared* s = this->m_panel->editor()->shared();
+    core::Shared* s = m_editor->shared();
     sad::SceneNode* node = s->activeObject();
     sad::Renderer::ref()->lockRendering();
     s->setActiveObject(NULL);
     node->scene()->remove(node);
     sad::Renderer::ref()->unlockRendering();
     
-    sad::hfsm::Machine* m = m_panel->editor()->machine();
+    sad::hfsm::Machine* m = m_editor->machine();
     m->enterState(m->previousState());
     if (m->isInState("adding") || (m->isInState("selected") && s->selectedObject() == NULL))
     {
@@ -63,15 +65,15 @@ void gui::CustomObjectActions::cancelAdd()
     }
     else
     {
-        m_panel->editor()->emitClosure(bind(m_panel, &MainPanel::clearCustomObjectPropertiesTable));
-        m_panel->updateUIForSelectedItem();
+        m_editor->emitClosure(bind(m_editor->panelProxy(), &MainPanelProxy::clearCustomObjectPropertiesTable));
+        m_editor->panelProxy()->updateUIForSelectedItem();
     }
 }
 
-void gui::CustomObjectActions::moveCenterOfObject(const sad::input::MouseMoveEvent & e)
+void gui::actions::CustomObjectActions::moveCenterOfObject(const sad::input::MouseMoveEvent & e)
 {
     const sad::Point2D& p = e.pos2D();
-    sad::SceneNode* node = m_panel->editor()->shared()->activeObject();
+    sad::SceneNode* node = m_editor->shared()->activeObject();
     if (node)
     {
         sad::db::custom::Object* o = static_cast<sad::db::custom::Object*>(node);
@@ -79,98 +81,95 @@ void gui::CustomObjectActions::moveCenterOfObject(const sad::input::MouseMoveEve
         sad::Point2D oldmiddle = (area[0] + area[2]) / 2.0;
         sad::moveBy(p - oldmiddle, area);
         o->setArea(area);
-        this->m_panel->sceneNodeActions()->updateRegionForNode();
+        m_editor->actions()->sceneNodeActions()->updateRegionForNode();
     }
 }
 
-void gui::CustomObjectActions::commitAdd(const sad::input::MousePressEvent& e)
+void gui::actions::CustomObjectActions::commitAdd(const sad::input::MousePressEvent& e)
 {
-    core::Shared* s = m_panel->editor()->shared();
+    core::Shared* s = m_editor->shared();
     sad::SceneNode* node = s->activeObject();
     sad::Renderer::ref()->database("")->table("scenenodes")->add(node);
     history::Command* c = new history::scenenodes::New(node);
     s->setActiveObject(NULL);
     s->setSelectedObject(node);
-    m_panel->editor()->history()->add(c);
-    c->commit(m_panel->editor());
-    m_panel->editor()->machine()->enterState("selected");
+    m_editor->history()->add(c);
+    c->commit(m_editor);
+    m_editor->machine()->enterState("selected");
 
-    m_panel->editor()->emitClosure(blocked_bind(
-        m_panel,
-        &MainPanel::selectLastSceneNode
-    ));
+	m_editor->actions()->sceneNodeActions()->selectLastSceneNode();
 }
 
-void gui::CustomObjectActions::placeFirstPoint(const sad::input::MousePressEvent& e)
+void gui::actions::CustomObjectActions::placeFirstPoint(const sad::input::MousePressEvent& e)
 {
     const sad::Point2D& p = e.pos2D();
-    core::Shared* s = m_panel->editor()->shared();
+    core::Shared* s = m_editor->shared();
     sad::SceneNode* node = s->activeObject();
     sad::db::custom::Object* o = static_cast<sad::db::custom::Object*>(node);
     o->setArea(sad::Rect2D(p, p));
     o->setVisible(true);
 
-    m_panel->editor()->shared()->toggleActiveBorder(true);
+    m_editor->shared()->toggleActiveBorder(true);
 
-    m_panel->editor()->machine()->enterState("adding/customobject_diagonal/point_placed");
-    m_panel->highlightState("Click, where you want lower point to be placed");
+    m_editor->machine()->enterState("adding/customobject_diagonal/point_placed");
+    m_editor->panelProxy()->highlightState("Click, where you want lower point to be placed");
 
-    m_panel->sceneNodeActions()->updateRegionForNode();
+    m_editor->actions()->sceneNodeActions()->updateRegionForNode();
 }
 
-void gui::CustomObjectActions::moveLowerPoint(const sad::input::MouseMoveEvent & e)
+void gui::actions::CustomObjectActions::moveLowerPoint(const sad::input::MouseMoveEvent & e)
 {
     const sad::Point2D& p = e.pos2D();
-    sad::SceneNode* node = m_panel->editor()->shared()->activeObject();
+    sad::SceneNode* node = m_editor->shared()->activeObject();
     if (node)
     {
         sad::db::custom::Object* o = static_cast<sad::db::custom::Object*>(node);
         sad::Rect2D area = o->area();
         area = sad::Rect2D(p, area[3]);
         o->setArea(area);
-        this->m_panel->sceneNodeActions()->updateRegionForNode();
+		m_editor->actions()->sceneNodeActions()->updateRegionForNode();
     }
 }
 
 // ===============================  PUBLIC SLOTS METHODS ===============================
 
-void gui::CustomObjectActions::add()
+void gui::actions::CustomObjectActions::add()
 {
     bool valid = true;
     valid = valid && m_panel->currentScene() != NULL;
-    valid = valid && m_panel->UI()->rtwCustomObjectSchemas->selectedResourceName().exists();
-    valid = valid && m_panel->editor()->machine()->isInState("adding") == false;
+    valid = valid && m_editor->uiBlocks()->uiCustomObjectBlock()->rtwCustomObjectSchemas->selectedResourceName().exists();
+    valid = valid && m_editor->machine()->isInState("adding") == false;
     if (valid)
     {
-        m_panel->editor()->emitClosure(blocked_bind(
+        m_editor->emitClosure(blocked_bind(
             m_panel->UI()->awSceneNodeAngle,
             &gui::anglewidget::AngleWidget::setValue,
             0
         ));
-        m_panel->editor()->emitClosure(blocked_bind(
+        m_editor->emitClosure(blocked_bind(
             m_panel->UI()->clpSceneNodeColor,
             &gui::colorpicker::ColorPicker::setSelectedColor,
             QColor(255, 255, 255)
         ));
-        m_panel->editor()->emitClosure(blocked_bind(
+        m_editor->emitClosure(blocked_bind(
             m_panel->UI()->cbSceneNodeVisible,
             &QCheckBox::setCheckState,
             Qt::Checked
         ));
-        m_panel->editor()->emitClosure(blocked_bind(
+        m_editor->emitClosure(blocked_bind(
             m_panel->UI()->cbFlipX,
             &QCheckBox::setCheckState,
             Qt::Unchecked
         ));
-        m_panel->editor()->emitClosure(blocked_bind(
+        m_editor->emitClosure(blocked_bind(
             m_panel->UI()->cbFlipY,
             &QCheckBox::setCheckState,
             Qt::Unchecked
         ));
 
-        m_panel->editor()->cleanupBeforeAdding();
+        m_editor->cleanupBeforeAdding();
 
-        if (m_panel->UI()->rbCustomObjectPlaceAndRotate->isChecked())
+        if (m_editor->uiBlocks()->uiCustomObjectBlock()->rbCustomObjectPlaceAndRotate->isChecked())
         {
             this->addBySimplePlacing();
         }

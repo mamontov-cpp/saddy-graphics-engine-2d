@@ -274,6 +274,12 @@
     <Filter Include="Source Files\gui\uiblocks">
       <UniqueIdentifier>{4c0c4953-7d25-42f2-a1c8-70e3ca6a2bb4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\gui\actions">
+      <UniqueIdentifier>{a1c1f0fc-1be7-4c62-81fe-745d25aa9bd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui\actions">
+      <UniqueIdentifier>{5b40465e-7944-4966-8eec-68a73b411e5e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="acolordialog.cpp">
@@ -1149,24 +1155,6 @@
     <ClCompile Include="GeneratedFiles\GUITests\moc_wayactions.cpp">
       <Filter>Generated Files\GUITests</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_animationactions.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\GUITests\moc_animationactions.cpp">
-      <Filter>Generated Files\GUITests</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_animationactions.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Template\moc_animationactions.cpp">
-      <Filter>Generated Files\Template</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\UnitTests\moc_animationactions.cpp">
-      <Filter>Generated Files\UnitTests</Filter>
-    </ClCompile>
-    <ClCompile Include="gui\animationactions.cpp">
-      <Filter>Source Files\gui</Filter>
-    </ClCompile>
     <ClCompile Include="history\animations\animationsnew.cpp">
       <Filter>Source Files\history\animations</Filter>
     </ClCompile>
@@ -1845,9 +1833,6 @@
     <ClCompile Include="history\label\changetextellipsisforlines.cpp">
       <Filter>Source Files\history\label</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_animationactions.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\DebugQt4\moc_customobjectactions.cpp">
       <Filter>Generated Files\DebugQt4</Filter>
     </ClCompile>
@@ -2235,9 +2220,6 @@
     <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_anglewidget.cpp">
       <Filter>Generated Files\ReleaseQt4</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_animationactions.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_animationgroupprocess.cpp">
       <Filter>Generated Files\ReleaseQt4</Filter>
     </ClCompile>
@@ -2291,6 +2273,39 @@
     </ClCompile>
     <ClCompile Include="gui\uiblocks\uiwayblock.cpp">
       <Filter>Source Files\gui\uiblocks</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\actions\abstractactions.cpp">
+      <Filter>Source Files\gui\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\DebugQt4\moc_animationactions.cpp">
+      <Filter>Generated Files\DebugQt4</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_animationactions.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_animationactions.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_animationactions.cpp">
+      <Filter>Generated Files\ReleaseQt4</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_animationactions.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_animationactions.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_animationactions.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\actions\animationactions.cpp">
+      <Filter>Source Files\gui\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\actions\actions.cpp">
+      <Filter>Source Files\gui\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\mainpanelproxy.cpp">
+      <Filter>Source Files\gui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2906,6 +2921,15 @@
     <ClInclude Include="gui\uiblocks\uiwayblock.h">
       <Filter>Header Files\gui\uiblocks</Filter>
     </ClInclude>
+    <ClInclude Include="gui\actions\abstractactions.h">
+      <Filter>Header Files\gui\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\actions\actions.h">
+      <Filter>Header Files\gui\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\mainpanelproxy.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="acolordialog.h">
@@ -3049,9 +3073,6 @@
     <CustomBuild Include="reloadfilelist.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="gui\animationactions.h">
-      <Filter>Header Files\gui</Filter>
-    </CustomBuild>
     <CustomBuild Include="gui\animationprocess.h">
       <Filter>Header Files\gui</Filter>
     </CustomBuild>
@@ -3129,6 +3150,9 @@
     </CustomBuild>
     <CustomBuild Include="gui\table\booldelegate.h">
       <Filter>Header Files\gui\table</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\actions\animationactions.h">
+      <Filter>Header Files\gui\actions</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>
