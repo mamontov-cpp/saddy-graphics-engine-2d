@@ -112,10 +112,10 @@ public slots:
      * Called, when user removes scene node
      */
     void removeSceneNode();
+	/*! A slot for selecting last scene node slot
+	 */
+	void selectLastSceneNodeSlot();
 private:
-    /*! An panel, which actions are belong to
-     */
-    MainPanel* m_panel;
     /*!
      * A rotation process to work with
      */

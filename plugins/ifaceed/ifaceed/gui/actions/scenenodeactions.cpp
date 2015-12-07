@@ -4,6 +4,8 @@
 #include "sceneactions.h"
 #include "scenenodeactions.h"
 
+#include "../../closuremethodcall.h"
+
 #include "../qstdstring.h"
 
 #include "../core/editor.h"
@@ -39,9 +41,11 @@
 #include <p2d/vector.h>
 
 #include <db/dbdatabase.h>
+#include <db/save.h>
 
 
 Q_DECLARE_METATYPE(sad::db::Object*) //-V566
+Q_DECLARE_METATYPE(sad::SceneNode*)
 
 // ============================= PUBLIC METHODS =============================
 
@@ -370,14 +374,16 @@ void gui::actions::SceneNodeActions::angleChanged(double newvalue)
 
 void gui::actions::SceneNodeActions::removeSceneNode(sad::SceneNode* node, bool from_editor)
 {
-    int row = m_panel->findSceneNodeInList(node);
+	gui::uiblocks::UISceneBlock* blk = m_editor->uiBlocks()->uiSceneBlock();
+    QListWidget* w = blk->lstSceneObjects;
+    int row = this->findInList(w, node);
     if (row == -1)
     {
         row = static_cast<int>(node->scene()->findLayer(node));
     }
             
-
-    int posininstance = this->findInComboBox<sad::db::Object*>(m_panel->UI()->cmbAnimationInstanceObject, node);
+	gui::uiblocks::UIAnimationInstanceBlock* aiblk = m_editor->uiBlocks()->uiAnimationInstanceBlock(); 
+    int posininstance = this->findInComboBox<sad::db::Object*>(aiblk->cmbAnimationInstanceObject, node);
     sad::Vector<sad::db::Object*> objects;
     sad::Renderer::ref()->database("")->table("animationinstances")->objects(objects);
     sad::Vector<sad::animations::Instance*> instances;
@@ -420,6 +426,17 @@ void gui::actions::SceneNodeActions::removeSceneNode()
     }
 }
 
+void gui::actions::SceneNodeActions::selectLastSceneNodeSlot()
+{
+	gui::uiblocks::UISceneBlock* blk = m_editor->uiBlocks()->uiSceneBlock();
+	QListWidget* lst = blk->lstSceneObjects;
+    if (lst->count() != 0)
+    {
+        bool b = lst->blockSignals(true);
+        lst->setCurrentRow(lst->count() - 1);
+        lst->blockSignals(b);
+    }	
+}
 
 void gui::actions::SceneNodeActions::updateSceneNodeName(sad::SceneNode* s)
 {
@@ -460,6 +477,11 @@ QString gui::actions::SceneNodeActions::fullNameForNode(sad::SceneNode* node)
     }
     result += this->viewableObjectName(node);
     return result;
+}
+
+void gui::actions::SceneNodeActions::selectLastSceneNode()
+{
+	m_editor->emitClosure(bind(this, &gui::actions::SceneNodeActions::selectLastSceneNodeSlot));
 }
 
 // ============================= PRIVATE METHODS =============================

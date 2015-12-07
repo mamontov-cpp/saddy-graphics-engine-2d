@@ -1126,27 +1126,6 @@ int MainPanel::findSceneNodeInList(sad::SceneNode* s)
     return row;
 }
 
-void MainPanel::updateSceneNodeName(sad::SceneNode* s)
-{
-    int row = this->findSceneNodeInList(s);
-    if (row != -1)
-    {
-        ui.lstSceneObjects->item(row)->setText(this->viewableObjectName(s));
-    }
-    if (s == m_editor->shared()->selectedObject() || s == m_editor->shared()->activeObject())
-    {
-        bool b = ui.txtSceneName->blockSignals(true);
-        ui.txtSceneName->setText(STD2QSTRING(s->objectName()));
-        ui.txtSceneName->blockSignals(b);
-    }
-
-    int pos = this->findInComboBox<sad::db::Object*>(this->UI()->cmbAnimationInstanceObject, s);
-    if (pos > - 1)
-    {
-        this->UI()->cmbAnimationInstanceObject->setItemText(pos, this->fullNameForNode(s));
-    }
-}
-
 void MainPanel::addLastWayToEnd(sad::p2d::app::Way* way)
 {
     QString nameforway = this->viewableObjectName(way);
@@ -1424,24 +1403,6 @@ QString MainPanel::nameForGroup(sad::animations::Group* g) const
     return const_cast<MainPanel*>(this)->viewableObjectName(g);
 }
 
-QString MainPanel::nameForScene(sad::Scene* scene)
-{
-    return this->viewableObjectName(scene);
-}
-
-QString MainPanel::fullNameForNode(sad::SceneNode* node)
-{
-    QString result;
-    if (node->scene())
-    {
-        result += "[";
-        result += this->nameForScene(node->scene());
-        result += "] ";
-    }
-    result += this->viewableObjectName(node);
-    return result;
-}
-
 void MainPanel::addAnimationToViewingLists(sad::animations::Animation* a)
 {
     QString name = this->nameForAnimation(a);
@@ -1685,15 +1646,6 @@ void MainPanel::fillCustomObjectProperties(
     }
 }
 
-void MainPanel::selectLastSceneNode()
-{
-    if (ui.lstSceneObjects->count() != 0)
-    {
-        bool b = ui.lstSceneObjects->blockSignals(true);
-        ui.lstSceneObjects->setCurrentRow(ui.lstSceneObjects->count() - 1);
-        ui.lstSceneObjects->blockSignals(b);
-    }
-}
 
 //====================  PUBLIC SLOTS METHODS HERE ====================
 
@@ -1716,7 +1668,7 @@ void MainPanel::updateUIForSelectedItemNow()
         invoke_blocked(ui.txtObjectName, &QLineEdit::setText, STD2QSTRING(node->objectName()));
 
         // SceneNode tab
-        m_scene_node_actions->updateRegionForNode();
+        m_editor->actions()->sceneNoeActions()->updateRegionForNode();
         sad::Maybe<bool> maybevisible = node->getProperty<bool>("visible");
         if (maybevisible.exists())
         {

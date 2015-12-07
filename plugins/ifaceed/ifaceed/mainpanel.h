@@ -212,10 +212,6 @@ public:
         \return scene row (-1 if not found)
      */
     int findSceneNodeInList(sad::SceneNode* s);
-    /*! Updates scene node name, finding it in list, settting it to current name
-        \param[in] s scene
-     */
-    void updateSceneNodeName(sad::SceneNode* s);
     /*! Adds last way to end of items
         \param[in] way a selected way
      */
@@ -317,15 +313,6 @@ public:
         \return name for group
      */
     QString nameForGroup(sad::animations::Group* g) const;
-    /*! Returns name for a scene
-        \param[in] scene a scene name
-     */
-    QString nameForScene(sad::Scene* scene);
-    /*! Returns full name for a node
-        \param[in] node node, which shoulde be found
-        \return name for node
-     */
-    QString fullNameForNode(sad::SceneNode* node);
     /*! Adds animation to a lists
         \param[in] a animation an animation
      */
@@ -378,9 +365,6 @@ public:
     void fillCustomObjectProperties(
         sad::SceneNode* node	
     );
-    /*! Selects last scene node in panel
-     */
-    void selectLastSceneNode();
     /*! Synchronizes database with an editor
      */
     void synchronizeDatabase();
