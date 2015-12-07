@@ -9,6 +9,8 @@
 namespace sad
 {
 class String;	
+class Scene;
+class SceneNode;
 }
 
 namespace core
@@ -63,6 +65,16 @@ public:
 	/* Updates UI for selected item
 	 */
 	void updateUIForSelectedItem();
+	/*! Returns current scene
+		\return current scene
+	 */
+	sad::Scene* currentScene() const;
+	/*! Fills list of properties for custom objects
+        \param[in] node a node object
+     */
+    void fillCustomObjectProperties(
+        sad::SceneNode* node	
+    );
 protected:
 	/*! An editor part
 	 */

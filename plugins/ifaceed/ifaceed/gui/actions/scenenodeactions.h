@@ -12,14 +12,21 @@
 
 #include <input/events.h>
 
+#include "abstractactions.h"
+
 class MainPanel;
 
 namespace gui
 {
+
 class RotationProcess;
+
+namespace actions 
+{
+
 /*! A group of actions, linked to scene nodes
  */
-class SceneNodeActions: public QObject
+class SceneNodeActions: public QObject, public gui::actions::AbstractActions
 {
 Q_OBJECT
 public:
@@ -30,12 +37,6 @@ public:
     /*! This class could be inherited
      */
     virtual ~SceneNodeActions();
-    /*! Sets panel, where actions belong to
-     */
-    void setPanel(MainPanel* e);
-    /*! Returns panel, where actions belong to
-     */
-    MainPanel* panel() const;
     /*! Moves object, according to pivot point (used in moving substate)
         \param[in] e event object
      */
@@ -74,6 +75,15 @@ public:
 	/*! Selects last scene node in list
 	 */
 	void selectLastSceneNode();
+    /*! Updates scene node name, finding it in list, settting it to current name
+        \param[in] s scene
+     */
+    void updateSceneNodeName(sad::SceneNode* s);
+    /*! Returns full name for a node
+        \param[in] node node, which shoulde be found
+        \return name for node
+     */
+    QString fullNameForNode(sad::SceneNode* node);
 public slots:
     /*! Called, when node name is edited
         \param[in] name a name for action
@@ -119,5 +129,7 @@ private:
      */
     float computeChangedAngle(float angle, float delta);
 };
+
+}
 
 }

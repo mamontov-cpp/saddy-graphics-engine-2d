@@ -1,5 +1,7 @@
 #include <QDebug>
 #include <QCheckBox>
+#include <QLineEdit>
+#include <QPlainTextEdit>
 #include <QRadioButton>
 
 #include "customobjectactions.h"
@@ -32,9 +34,13 @@
 #include "../uiblocks/uiblocks.h"
 #include "../uiblocks/uiscenenodeblock.h"
 #include "../uiblocks/uicustomobjectblock.h"
+#include "../uiblocks/uispriteblock.h"
+#include "../uiblocks/uilabelblock.h"
 
 #include "../resourcetreewidget/resourcetreewidget.h"
-
+#include "../anglewidget/anglewidget.h"
+#include "../colorpicker/colorpicker.h"
+#include "../fontsizewidget/fontsizewidget.h"
 
 // ===============================  PUBLIC METHODS ===============================
 
@@ -136,33 +142,33 @@ void gui::actions::CustomObjectActions::moveLowerPoint(const sad::input::MouseMo
 void gui::actions::CustomObjectActions::add()
 {
     bool valid = true;
-    valid = valid && m_panel->currentScene() != NULL;
+    valid = valid && m_editor->panelProxy()->currentScene() != NULL;
     valid = valid && m_editor->uiBlocks()->uiCustomObjectBlock()->rtwCustomObjectSchemas->selectedResourceName().exists();
     valid = valid && m_editor->machine()->isInState("adding") == false;
     if (valid)
     {
         m_editor->emitClosure(blocked_bind(
-            m_panel->UI()->awSceneNodeAngle,
+            m_editor->uiBlocks()->uiSceneNodeBlock()->awSceneNodeAngle,
             &gui::anglewidget::AngleWidget::setValue,
             0
         ));
         m_editor->emitClosure(blocked_bind(
-            m_panel->UI()->clpSceneNodeColor,
+            m_editor->uiBlocks()->uiSceneNodeBlock()->clpSceneNodeColor,
             &gui::colorpicker::ColorPicker::setSelectedColor,
             QColor(255, 255, 255)
         ));
         m_editor->emitClosure(blocked_bind(
-            m_panel->UI()->cbSceneNodeVisible,
+            m_editor->uiBlocks()->uiSceneNodeBlock()->cbSceneNodeVisible,
             &QCheckBox::setCheckState,
             Qt::Checked
         ));
         m_editor->emitClosure(blocked_bind(
-            m_panel->UI()->cbFlipX,
+            m_editor->uiBlocks()->uiSpriteBlock()->cbFlipX,
             &QCheckBox::setCheckState,
             Qt::Unchecked
         ));
         m_editor->emitClosure(blocked_bind(
-            m_panel->UI()->cbFlipY,
+            m_editor->uiBlocks()->uiSpriteBlock()->cbFlipY,
             &QCheckBox::setCheckState,
             Qt::Unchecked
         ));
@@ -180,51 +186,51 @@ void gui::actions::CustomObjectActions::add()
     }
 }
 
-void gui::CustomObjectActions::addBySimplePlacing()
+void gui::actions::CustomObjectActions::addBySimplePlacing()
 {
     sad::db::custom::Object* object = this->makeNewCustomObject();
 
-    m_panel->currentScene()->add(object);
-    m_panel->editor()->shared()->setActiveObject(object);
-    m_panel->editor()->shared()->toggleActiveBorder(true);
+    m_editor->panelProxy()->currentScene()->add(object);
+    m_editor->shared()->setActiveObject(object);
+    m_editor->shared()->toggleActiveBorder(true);
 
-    m_panel->editor()->machine()->enterState("adding/customobject");
-    m_panel->highlightState("Click, where you want object to be placed");
+    m_editor->machine()->enterState("adding/customobject");
+    m_editor->panelProxy()->highlightState("Click, where you want object to be placed");
 
-    m_panel->sceneNodeActions()->updateRegionForNode();
-    m_panel->fillCustomObjectProperties(object);
+    m_editor->actions()->sceneNodeActions()->updateRegionForNode();
+    m_editor->panelProxy()->fillCustomObjectProperties(object);
 }
 
 
-void gui::CustomObjectActions::addByDiagonalPlacing()
+void gui::actions::CustomObjectActions::addByDiagonalPlacing()
 {
     sad::db::custom::Object* object = this->makeNewCustomObject();
     object->setVisible(false);
 
-    m_panel->currentScene()->add(object);
-    m_panel->editor()->shared()->setActiveObject(object);
-    m_panel->editor()->shared()->toggleActiveBorder(false);
+    m_editor->panelProxy()->currentScene()->add(object);
+    m_editor->shared()->setActiveObject(object);
+    m_editor->shared()->toggleActiveBorder(false);
 
-    m_panel->editor()->machine()->enterState("adding/customobject_diagonal");
-    m_panel->highlightState("Click, where you want upper point to be placed");
+    m_editor->machine()->enterState("adding/customobject_diagonal");
+    m_editor->panelProxy()->highlightState("Click, where you want upper point to be placed");
 
-    m_panel->sceneNodeActions()->updateRegionForNode();
-    m_panel->fillCustomObjectProperties(object);
+    m_editor->actions()->sceneNodeActions()->updateRegionForNode();
+    m_editor->panelProxy()->fillCustomObjectProperties(object);
 }
 
-void gui::CustomObjectActions::schemaChanged(sad::String s)
+void gui::actions::CustomObjectActions::schemaChanged(sad::String s)
 {
-    if (m_panel->editor()->shared()->activeObject() != NULL)
+    if (m_editor->shared()->activeObject() != NULL)
     {
         sad::Renderer::ref()->lockRendering();
-        m_panel->editor()->shared()->activeObject()->setProperty("schema", s);
-        m_panel->sceneNodeActions()->updateRegionForNode();
-        m_panel->fillCustomObjectProperties(m_panel->editor()->shared()->activeObject());
+        m_editor->shared()->activeObject()->setProperty("schema", s);
+        m_editor->actions()->sceneNodeActions()->updateRegionForNode();
+        m_editor->panelProxy()->fillCustomObjectProperties(m_editor->shared()->activeObject());
         sad::Renderer::ref()->unlockRendering();
     }
     else
     {
-        sad::SceneNode* node = m_panel->editor()->shared()->selectedObject();
+        sad::SceneNode* node = m_editor->shared()->selectedObject();
         if (node)
         {
             sad::Maybe<sad::String> oldvalue = node->getProperty<sad::String>("schema");
@@ -233,39 +239,43 @@ void gui::CustomObjectActions::schemaChanged(sad::String s)
                 if (oldvalue.value() != s)
                 {
                     sad::db::custom::Object* o  = static_cast<sad::db::custom::Object*>(
-                        m_panel->editor()->shared()->selectedObject()
+                        m_editor->shared()->selectedObject()
                     );
                     history::Command* c = new history::customobject::ChangeSchema(
                         o, oldvalue.value(), s
                     );
-                    m_panel->editor()->history()->add(c);
-                    c->commit(m_panel->editor());						
+                    m_editor->history()->add(c);
+                    c->commit(m_editor);						
                 }
             }
         }
     }
 }
 
-sad::db::custom::Object* gui::CustomObjectActions::makeNewCustomObject()
+sad::db::custom::Object* gui::actions::CustomObjectActions::makeNewCustomObject()
 {
+	gui::uiblocks::UILabelBlock* lblk = m_editor->uiBlocks()->uiLabelBlock();
+	gui::uiblocks::UICustomObjectBlock* cublk = m_editor->uiBlocks()->uiCustomObjectBlock();
+	gui::uiblocks::UISceneNodeBlock* scblk = m_editor->uiBlocks()->uiSceneNodeBlock();
+
     sad::db::custom::Object* object = new sad::db::custom::Object();
     object->setTreeName(sad::Renderer::ref(), "");
-    object->setSchemaName(m_panel->UI()->rtwCustomObjectSchemas->selectedResourceName().value());
+    object->setSchemaName(cublk->rtwCustomObjectSchemas->selectedResourceName().value());
     sad::AColor acolor;
-    core::typeconverters::QColorToSadAColor::convert(m_panel->UI()->clpSceneNodeColor->selectedColor(), acolor);
+    core::typeconverters::QColorToSadAColor::convert(scblk->clpSceneNodeColor->selectedColor(), acolor);
     object->setColor(acolor);
-    object->setFontSize(m_panel->UI()->fswLabelFontSize->value());
-    object->setLineSpacingRatio(m_panel->UI()->dsbLineSpacingRatio->value());
-    object->setString(Q2STDSTRING(m_panel->UI()->txtLabelText->toPlainText()));
+    object->setFontSize(lblk->fswLabelFontSize->value());
+    object->setLineSpacingRatio(lblk->dsbLineSpacingRatio->value());
+    object->setString(Q2STDSTRING(lblk->txtLabelText->toPlainText()));
 
-    object->setMaximalLineWidth(m_panel->UI()->spbMaximalLineWidth->value());
-    object->setBreakTextFromIndex(m_panel->UI()->cmbLabelBreakText->currentIndex());
-    object->setOverflowStrategyFromIndex(m_panel->UI()->cmbLabelOverflowStrategy->currentIndex());
-    object->setTextEllipsisPositionAsIndex(m_panel->UI()->cmbLabelTextEllipsis->currentIndex());
+    object->setMaximalLineWidth(lblk->spbMaximalLineWidth->value());
+    object->setBreakTextFromIndex(lblk->cmbLabelBreakText->currentIndex());
+    object->setOverflowStrategyFromIndex(lblk->cmbLabelOverflowStrategy->currentIndex());
+    object->setTextEllipsisPositionAsIndex(lblk->cmbLabelTextEllipsis->currentIndex());
 
-    object->setMaximalLinesCount(m_panel->UI()->spbMaximalLinesCount->value());
-    object->setOverflowStrategyForLinesFromIndex(m_panel->UI()->cmbLabelOverflowStrategyForLines->currentIndex());
-    object->setTextEllipsisPositionForLinesAsIndex(m_panel->UI()->cmbLabelTextEllipsisForLines->currentIndex());
+    object->setMaximalLinesCount(lblk->spbMaximalLinesCount->value());
+    object->setOverflowStrategyForLinesFromIndex(lblk->cmbLabelOverflowStrategyForLines->currentIndex());
+    object->setTextEllipsisPositionForLinesAsIndex(lblk->cmbLabelTextEllipsisForLines->currentIndex());
     tryCopySelectedObjectCustomProperties(object);
     sad::Rect2D area = object->area();
     const sad::Settings & settings = sad::Renderer::ref()->settings();
@@ -275,7 +285,7 @@ sad::db::custom::Object* gui::CustomObjectActions::makeNewCustomObject()
     sad::moveBy(screeenmiddle - middle, area);
     object->setArea(area);
 
-    QString name = m_panel->UI()->txtObjectName->text();
+    QString name = m_editor->uiBlocks()->uiSceneNodeBlock()->txtObjectName->text();
     if (name.length())
     {
         object->setObjectName(Q2STDSTRING(name));
@@ -283,9 +293,9 @@ sad::db::custom::Object* gui::CustomObjectActions::makeNewCustomObject()
     return object;
 }
 
-void gui::CustomObjectActions::tryCopySelectedObjectCustomProperties(sad::db::custom::Object* object)
+void gui::actions::CustomObjectActions::tryCopySelectedObjectCustomProperties(sad::db::custom::Object* object)
 {
-    sad::SceneNode* node = m_panel->editor()->shared()->selectedObject();
+    sad::SceneNode* node = m_editor->shared()->selectedObject();
     if (node)
     {
         if (node->isInstanceOf("sad::db::custom::Object"))

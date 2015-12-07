@@ -1,5 +1,6 @@
 #include "actions.h"
 
+#include "sceneactions.h"
 #include "scenenodeactions.h"
 #include "labelactions.h"
 #include "sprite2dactions.h"
@@ -10,7 +11,8 @@
 #include "instanceactions.h"
 #include "groupactions.h"
 
-gui::actions::Actions::Actions() : m_scene_node_actions(new gui::actions::SceneNodeActions()),
+gui::actions::Actions::Actions() : m_scene_actions(new gui::actions::SceneActions())
+m_scene_node_actions(new gui::actions::SceneNodeActions()),
 m_label_actions(new gui::actions::LabelActions()),
 m_sprite2d_actions(new gui::actions::Sprite2DActions()),
 m_custom_object_actions(new gui::actions::CustomObjectActions()),
@@ -26,6 +28,7 @@ m_group_actions(new gui::actions::GroupActions())
 
 void gui::actions::Actions::setEditor(core::Editor* e)
 {
+	m_scene_actions->setEditor(e);
 	m_scene_node_actions->setEditor(e);
 	m_label_actions->setEditor(e);
 	m_sprite2d_actions->setEditor(e);
@@ -39,6 +42,7 @@ void gui::actions::Actions::setEditor(core::Editor* e)
 
 gui::actions::Actions::~Actions()
 {
+	delete m_scene_actions;
 	delete m_scene_node_actions;
 	delete m_label_actions;
 	delete m_sprite2d_actions;
@@ -48,6 +52,11 @@ gui::actions::Actions::~Actions()
 	delete m_dialogue_actions;
 	delete m_instance_actions;
 	delete m_group_actions;
+}
+
+gui::actions::SceneActions* gui::actions::Actions::sceneActions() const
+{
+	return m_scene_actions;
 }
 
 gui::actions::SceneNodeActions* gui::actions::Actions::sceneNodeActions() const

@@ -58,3 +58,15 @@ void gui::MainPanelProxy::updateUIForSelectedItem()
 {
 	m_editor->panel()->updateUIForSelectedItem();
 }
+
+sad::Scene* gui::MainPanelProxy::currentScene() const
+{
+	return m_editor->panel()->currentScene();
+}
+
+void gui::MainPanelProxy::fillCustomObjectProperties(
+	sad::SceneNode* node	
+)
+{
+	m_editor->panel()->fillCustomObjectProperties(node);
+}

@@ -23,6 +23,7 @@ class DialogueActions;
 class AnimationActions;
 class InstanceActions;
 class GroupActions;
+class SceneActions;
 
 /*! A container for actions, grouped by node
  */
@@ -39,6 +40,10 @@ public:
 	/*! Deletes inner actions list
 	 */
 	~Actions();
+	/*! Returns actions for scenes
+		\return actions for scenes
+	 */
+	gui::actions::SceneActions* sceneActions() const;
 	/*! Returns actions for scene nodes
         \return actions for scene nodes
      */
@@ -76,6 +81,9 @@ public:
      */
     gui::actions::GroupActions* groupActions() const;
 protected:
+	/*! An actions, linkes to scenes
+	 */
+	gui::actions::SceneActions* m_scene_actions;
 	/*! An actions, linked to scene nodes
 	 */
 	gui::actions::SceneNodeActions* m_scene_node_actions;
