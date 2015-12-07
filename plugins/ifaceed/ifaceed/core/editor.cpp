@@ -34,6 +34,7 @@
 #include "gui/eventfilter.h"
 #include "gui/renderways.h"
 #include "gui/wayactions.h"
+#include "gui/uiblocks/uiblocks.h"
 
 #include "typeconverters/save.h"
 #include "typeconverters/load.h"
@@ -124,6 +125,8 @@ core::Editor::Editor()
 
     // Fill conversion table with converters
     this->initConversionTable();
+
+	m_ui_blocks = new gui::uiblocks::UIBlocks();
 }
 core::Editor::~Editor()
 {	
@@ -137,6 +140,7 @@ core::Editor::~Editor()
     delete m_selection;
     delete m_mainwindow;
     delete m_qtapp;
+	delete m_ui_blocks;
 }
 
 void core::Editor::init(int argc,char ** argv)
@@ -411,6 +415,11 @@ bool core::Editor::isDatabaseEmpty() const
     result = result && db->tablesAreEmpty();
     return result; 
 }
+
+gui::uiblocks::UIBlocks* core::Editor::uiBlocks() const
+{
+	return m_ui_blocks;
+}
 // =================== PUBLIC SLOTS METHODS ===================
 
 void core::Editor::start()
@@ -579,6 +588,7 @@ void core::Editor::runQtEventLoop()
 {
     m_mainwindow = new MainPanel();
     m_mainwindow->setEditor(this);
+	m_ui_blocks->init(m_mainwindow);
 
     // Called this explicitly, because entered state before
     m_machine->state("idle")->addEnterHandler(this, &core::Editor::enteredIdleState);

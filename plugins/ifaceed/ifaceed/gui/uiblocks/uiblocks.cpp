@@ -14,19 +14,19 @@
 #include "uiconsoleblock.h"
 
 
-gui::uiblocks::UIBlocks::UIBlocks() : m_ui_scene_block(new gui::iblocks::UISceneBlock()),
-m_ui_scenenode_block(new gui::iblocks::UISceneNodeBlock()),
-m_ui_label_block(new gui::iblocks::UILabelBlock()),
-m_ui_sprite_block(new gui::iblocks::UISpriteBlock()),
-m_ui_customobject_block(new gui::iblocks::UICustomObjectBlock()),
-m_ui_way_block(new gui::iblocks::UIWayBlock()),
-m_ui_dialogue_block(new gui::iblocks::UIDialogueBlock()),
-m_ui_phrase_block(new gui::iblocks::UIPhraseBlock()),
-m_ui_animation_block(new gui::iblocks::UIAnimationBlock()),
-m_ui_animationinstance_block(new gui::iblocks::UIAnimationInstanceBlock()),
-m_ui_animationsgroup_block(new gui::iblocks::UIAnimationsGroupBlock()),
-m_ui_common_block(new gui::iblocks::UICommonBlock()),
-m_ui_console_block(new gui::iblocks::UIConsoleBlock())
+gui::uiblocks::UIBlocks::UIBlocks() : m_ui_scene_block(new gui::uiblocks::UISceneBlock()),
+m_ui_scenenode_block(new gui::uiblocks::UISceneNodeBlock()),
+m_ui_label_block(new gui::uiblocks::UILabelBlock()),
+m_ui_sprite_block(new gui::uiblocks::UISpriteBlock()),
+m_ui_customobject_block(new gui::uiblocks::UICustomObjectBlock()),
+m_ui_way_block(new gui::uiblocks::UIWayBlock()),
+m_ui_dialogue_block(new gui::uiblocks::UIDialogueBlock()),
+m_ui_phrase_block(new gui::uiblocks::UIPhraseBlock()),
+m_ui_animation_block(new gui::uiblocks::UIAnimationBlock()),
+m_ui_animationinstance_block(new gui::uiblocks::UIAnimationInstanceBlock()),
+m_ui_animationsgroup_block(new gui::uiblocks::UIAnimationsGroupBlock()),
+m_ui_common_block(new gui::uiblocks::UICommonBlock()),
+m_ui_console_block(new gui::uiblocks::UIConsoleBlock())
 {
 
 }
@@ -48,7 +48,7 @@ void gui::uiblocks::UIBlocks::init(QWidget* w)
     m_ui_console_block->init(w);
 }
 
-void gui::uiblocks::UIBlocks::~UIBlocks()
+gui::uiblocks::UIBlocks::~UIBlocks()
 {
     delete m_ui_scene_block;
     delete m_ui_scenenode_block;

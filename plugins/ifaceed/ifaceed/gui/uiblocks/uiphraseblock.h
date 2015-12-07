@@ -3,6 +3,7 @@
     Contains definition of UI group for Phrase group of widgets
  */
 
+class QWidget;
 class QListWidget;
 class QDoubleSpinBox;
 class QLineEdit;
@@ -16,9 +17,32 @@ namespace gui
 namespace uiblocks
 {
 
+/* A definition of UI group for Phrase group of widgets
+ */
 class UIPhraseBlock
 {
+public:
+    /*! Constructs new UI group
+     */
+    UIPhraseBlock();
+    /*! Inits block with children of main widget
+        param[in] w widget
+     */
+    void init(QWidget* w);
+    /*! Destroys object
+     */
+    ~UIPhraseBlock();
 
+    QListWidget* lstPhrases;
+    QDoubleSpinBox* dsbPhraseDuration;
+    QLineEdit* txtPhraseViewHint;
+    QLineEdit* txtPhraseActorName;
+    QLineEdit* txtPhraseActorPortrait;
+    QPlainTextEdit* txtPhrasePhrase;
+    QPushButton* btnPhraseAdd;
+    QPushButton* btnPhraseRemove;
+    QPushButton* btnPhraseMoveBack;
+    QPushButton* btnPhraseMoveFront;
 };
 
 }

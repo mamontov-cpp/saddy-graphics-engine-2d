@@ -24,7 +24,7 @@ typesToIncludes = {
 	"gui::textedit::TextEdit"  => "../gui/textedit/textedit.h",
 	"gui::tuplewidget::DoubleTupleWidget" => "../gui/tuplewidget/doubletuplewidget.h",
 	"gui::tuplewidget::Int64TupleWidget" => "../gui/tuplewidget/int64tuplewidget.h",
-	"gui::codeedit::CodeEdit" => "../gui/textedit/codeedit.h"
+	"gui::codeedit::CodeEdit" => "../gui/codeedit/codeedit.h"
 }
 
 alreadyDiscovered = {
@@ -178,6 +178,8 @@ uiblocksHeaderFileContent = "/* \\file uiblocks.h
 	Contains data about all UIBlocks, used in the program
 */	
 
+class QWidget;
+
 namespace gui 
 {
 
@@ -203,8 +205,8 @@ public:
 	/*! Constructs new UIBlocks
 	 */
 	UIBlocks();
-	/*! Inits with widgets of uiblocks
-		\\param[in] w widgets
+	/*! Inits blocks with children of main widget
+		\\param[in] w widget
 	 */
 	void init(QWidget* w);
 	/*! Destroys object
@@ -264,7 +266,7 @@ data = [];
 	lowerkey = key.downcase
 	
 	if key != "excluded"
-		data.push("m_ui_" + lowerkey + "_block(new gui::iblocks::UI" + key + "Block())");
+		data.push("m_ui_" + lowerkey + "_block(new gui::uiblocks::UI" + key + "Block())");
 	end
 }
 
@@ -282,7 +284,7 @@ uiblocksSourceFileContent += "void gui::uiblocks::UIBlocks::init(QWidget* w)\n{\
 }
 uiblocksSourceFileContent += "}\n"
 
-uiblocksSourceFileContent += "\nvoid gui::uiblocks::UIBlocks::~UIBlocks()\n{\n"
+uiblocksSourceFileContent += "\ngui::uiblocks::UIBlocks::~UIBlocks()\n{\n"
 @classification.each_pair{
 	|key, value|
 	lowerkey = key.downcase
@@ -298,12 +300,13 @@ if (File.exist?("ifaceed/gui/uiblocks/") == false || File.directory?("ifaceed/gu
 	Dir.mkdir("ifaceed/gui/uiblocks/")
 end
 
-File.write("ifaceed/gui/uiblocks/uiblocks.h", uiblocksHeaderFileContent)
-File.write("ifaceed/gui/uiblocks/uiblocks.cpp", uiblocksSourceFileContent)
+File.write("ifaceed/gui/uiblocks/uiblocks.h", uiblocksHeaderFileContent.gsub("\t", "    "))
+File.write("ifaceed/gui/uiblocks/uiblocks.cpp", uiblocksSourceFileContent.gsub("\t", "    "))
 
-# Write headers
+# Write UI blocks
 @classification.each_pair{
 	|key, value|
+	# Make header source code
 	lowerkey = key.downcase
 	if key != "excluded"
 		different_headers = []
@@ -341,6 +344,7 @@ File.write("ifaceed/gui/uiblocks/uiblocks.cpp", uiblocksSourceFileContent)
 			headerFileContent += "\n"
 		end
 		
+		headerFileContent += "class QWidget;\n"		
 		basic_headers.each{
 			|basic_header|
 			headerFileContent += "class " +  basic_header + ";\n"
@@ -350,16 +354,64 @@ File.write("ifaceed/gui/uiblocks/uiblocks.cpp", uiblocksSourceFileContent)
 		headerFileContent += "namespace gui\n{\n\n"
 		headerFileContent += "namespace uiblocks\n{\n\n"
 		
-		headerFileContent += "class UI" + key + "Block\n{\n\n"
-		
+		headerFileContent += "/* A definition of UI group for " + key + " group of widgets\n */\n"		
+		headerFileContent += "class UI" + key + "Block\n{\npublic:\n"
+		headerFileContent += "\t/*! Constructs new UI group\n\t */\n\tUI" + key + "Block();\n"
+		headerFileContent += "\t/*! Inits block with children of main widget\n"
+		headerFileContent += "\t    \param[in] w widget\n"
+		headerFileContent += "\t */\n"
+		headerFileContent += "\tvoid init(QWidget* w);\n"
+		headerFileContent += "\t/*! Destroys object\n"
+		headerFileContent += "\t */\n"
+		headerFileContent += "\t~UI" + key + "Block();\n\n"
+		value.each{|m| headerFileContent += "\t" + m[0] + "* " + m[1] + ";\n"  }
 		headerFileContent += "};\n\n"	
 		headerFileContent += "}\n\n"	
 		headerFileContent += "}\n"
 		
+		# Make source source code
+
+		headerSourceContent = "#include <new>\n#include <cassert>\n"
+		headerSourceContent += "#include \"ui" + lowerkey + "block.h\"\n"
 		
-		headerSourceContent = "#include \"ui" + lowerkey + "block.h\"\n"
+		includes1 = []
+		includes2 = []
+		value.each{
+			|x|
+			if (typesToIncludes.key?(x[0]))
+				includes1.push("#include \"" + typesToIncludes[x[0]] + "\"\n")
+			else
+				includes2.push("#include <" + x[0] + ">\n")
+			end
+		}
+		headerSourceContent += includes2.uniq.join('')
+		headerSourceContent += includes1.uniq.join('')
 		
-		File.write("ifaceed/gui/uiblocks/ui" + lowerkey + "block.h", headerFileContent)
-		File.write("ifaceed/gui/uiblocks/ui" + lowerkey + "block.cpp", headerSourceContent)
+		headerSourceContent += "\n"
+		
+		headerSourceContent += "gui::uiblocks::UI" + key + "Block::UI" + key + "Block() : "
+		@initializatons = []
+		value.each{
+			|m|
+			@initializatons.push(m[1] + "(NULL)")
+		}
+		headerSourceContent += @initializatons.join(",\n")
+		headerSourceContent += "\n"
+		headerSourceContent += "{\n"
+		headerSourceContent += "\n}\n\n"
+		
+		headerSourceContent += "void gui::uiblocks::UI" + key + "Block::init(QWidget* w)\n{\n"
+		headerSourceContent += "\tassert(w);\n"
+		value.each{
+			|m|
+			headerSourceContent += "\tthis->" + m[1] + " = w->findChild<" + m[0] + "*>(\"" + m[1] + "\");\n"
+			headerSourceContent += "\tassert(this->" + m[1] + ");\n"
+		}
+		headerSourceContent += "}\n\n"
+
+		headerSourceContent += "gui::uiblocks::UI" + key + "Block::~UI" + key + "Block()\n{\n\n}\n"
+		
+		File.write("ifaceed/gui/uiblocks/ui" + lowerkey + "block.h", headerFileContent.gsub("\t", "    "))
+		File.write("ifaceed/gui/uiblocks/ui" + lowerkey + "block.cpp", headerSourceContent.gsub("\t", "    "))
 	end
 }

@@ -40,6 +40,12 @@ class MainPanel;
 namespace gui
 {
 class RenderWays;
+
+namespace uiblocks
+{
+class UIBlocks;	
+}
+
 }
 
 namespace core
@@ -188,6 +194,9 @@ public:
         \return whether database is empty
      */
     bool isDatabaseEmpty() const;
+	/*! Returns a UI blocks for editor
+	 */
+	gui::uiblocks::UIBlocks* uiBlocks() const;
 public slots:
     /*! Called, when Qt Event Loop is started. Used to load default resources and pre-set
         default behaviour
@@ -257,6 +266,9 @@ protected:
     /*! A current batch command for scripting
      */
     history::BatchCommand* m_current_batchcommand;
+	/*! A UI blocks for editor
+	 */
+	gui::uiblocks::UIBlocks* m_ui_blocks;
     /*! Initializes conversion table with all conversion table
      */
     void initConversionTable();

@@ -1,7 +1,9 @@
 /* \file uiblocks.h
     
     Contains data about all UIBlocks, used in the program
-*/	
+*/    
+
+class QWidget;
 
 namespace gui 
 {
@@ -34,8 +36,8 @@ public:
     /*! Constructs new UIBlocks
      */
     UIBlocks();
-    /*! Inits with widgets of uiblocks
-        \param[in] w widgets
+    /*! Inits blocks with children of main widget
+        \param[in] w widget
      */
     void init(QWidget* w);
     /*! Destroys object

@@ -268,6 +268,12 @@
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
+    <Filter Include="Header Files\gui\uiblocks">
+      <UniqueIdentifier>{dd239388-f861-486a-a2da-1e25cea7becc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui\uiblocks">
+      <UniqueIdentifier>{4c0c4953-7d25-42f2-a1c8-70e3ca6a2bb4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="acolordialog.cpp">
@@ -2244,6 +2250,48 @@
     <ClCompile Include="GeneratedFiles\DebugQt4\moc_qwwulongspinbox.cpp">
       <Filter>Generated Files\DebugQt4</Filter>
     </ClCompile>
+    <ClCompile Include="gui\uiblocks\uianimationblock.cpp">
+      <Filter>Source Files\gui\uiblocks</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\uiblocks\uianimationinstanceblock.cpp">
+      <Filter>Source Files\gui\uiblocks</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\uiblocks\uianimationsgroupblock.cpp">
+      <Filter>Source Files\gui\uiblocks</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\uiblocks\uiblocks.cpp">
+      <Filter>Source Files\gui\uiblocks</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\uiblocks\uicommonblock.cpp">
+      <Filter>Source Files\gui\uiblocks</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\uiblocks\uiconsoleblock.cpp">
+      <Filter>Source Files\gui\uiblocks</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\uiblocks\uicustomobjectblock.cpp">
+      <Filter>Source Files\gui\uiblocks</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\uiblocks\uidialogueblock.cpp">
+      <Filter>Source Files\gui\uiblocks</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\uiblocks\uilabelblock.cpp">
+      <Filter>Source Files\gui\uiblocks</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\uiblocks\uiphraseblock.cpp">
+      <Filter>Source Files\gui\uiblocks</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\uiblocks\uisceneblock.cpp">
+      <Filter>Source Files\gui\uiblocks</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\uiblocks\uiscenenodeblock.cpp">
+      <Filter>Source Files\gui\uiblocks</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\uiblocks\uispriteblock.cpp">
+      <Filter>Source Files\gui\uiblocks</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\uiblocks\uiwayblock.cpp">
+      <Filter>Source Files\gui\uiblocks</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -2815,6 +2863,48 @@
     </ClInclude>
     <ClInclude Include="history\label\changetextellipsisforlines.h">
       <Filter>Header Files\history\label</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\uiblocks\uianimationblock.h">
+      <Filter>Header Files\gui\uiblocks</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\uiblocks\uianimationinstanceblock.h">
+      <Filter>Header Files\gui\uiblocks</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\uiblocks\uianimationsgroupblock.h">
+      <Filter>Header Files\gui\uiblocks</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\uiblocks\uiblocks.h">
+      <Filter>Header Files\gui\uiblocks</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\uiblocks\uicommonblock.h">
+      <Filter>Header Files\gui\uiblocks</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\uiblocks\uiconsoleblock.h">
+      <Filter>Header Files\gui\uiblocks</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\uiblocks\uicustomobjectblock.h">
+      <Filter>Header Files\gui\uiblocks</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\uiblocks\uidialogueblock.h">
+      <Filter>Header Files\gui\uiblocks</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\uiblocks\uilabelblock.h">
+      <Filter>Header Files\gui\uiblocks</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\uiblocks\uiphraseblock.h">
+      <Filter>Header Files\gui\uiblocks</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\uiblocks\uisceneblock.h">
+      <Filter>Header Files\gui\uiblocks</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\uiblocks\uiscenenodeblock.h">
+      <Filter>Header Files\gui\uiblocks</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\uiblocks\uispriteblock.h">
+      <Filter>Header Files\gui\uiblocks</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\uiblocks\uiwayblock.h">
+      <Filter>Header Files\gui\uiblocks</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
