@@ -32,6 +32,8 @@
 #include <p2d/app/way.h>
 
 #include <db/dbdatabase.h>
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
 
 #include <animations/animationswaymoving.h>
 #include <animations/animationswayinstance.h>

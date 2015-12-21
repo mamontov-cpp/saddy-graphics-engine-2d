@@ -13,6 +13,8 @@
 #include "../anglewidget/anglewidget.h"
 
 #include <db/dbdatabase.h>
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
 
 #include "../mainpanelproxy.h"
 

@@ -4,6 +4,8 @@
 #include "sprite2dactions.h"
 
 #include <db/dbdatabase.h>
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
 
 #include "../../blockedclosuremethodcall.h"
 

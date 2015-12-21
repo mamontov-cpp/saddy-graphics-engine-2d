@@ -7,6 +7,8 @@
 
 
 #include <db/dbdatabase.h>
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
 
 #include "../../blockedclosuremethodcall.h"
 #include "../../qstdstring.h"

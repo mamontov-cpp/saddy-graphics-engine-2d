@@ -3,6 +3,9 @@
 #include <scene.h>
 
 #include <db/dbdatabase.h>
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
 
 #include "../../qstdstring.h"
 #include "../../blockedclosuremethodcall.h"
@@ -22,6 +25,7 @@
 
 Q_DECLARE_METATYPE(sad::Scene*) //-V566
 Q_DECLARE_METATYPE(sad::SceneNode*) //-V566
+Q_DECLARE_METATYPE(sad::db::Object*) //-V566
 
 
 // ============================= PUBLIC METHODS =============================
