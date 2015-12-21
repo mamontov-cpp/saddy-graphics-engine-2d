@@ -8,6 +8,8 @@
 
 #include <input/events.h>
 
+#include "abstractactions.h"
+
 class MainPanel;
 
 namespace history
@@ -22,15 +24,19 @@ class SceneNode;
 
 namespace gui
 {
+
+namespace actions
+{
+
 /*! A group of actions, linked to labels
  */	
-class LabelActions: public QObject
+class LabelActions: public QObject, public gui::actions::AbstractActions
 {
 Q_OBJECT
 public:
     /*! A command maker callback
      */
-    typedef history::Command* (gui::LabelActions::*CommandMaker)(sad::SceneNode* node,  unsigned int oldvalue, unsigned int newvalue);
+    typedef history::Command* (gui::actions::LabelActions::*CommandMaker)(sad::SceneNode* node,  unsigned int oldvalue, unsigned int newvalue);
     /*! Creates new label actions
         \param[in] parent a parent object
      */
@@ -38,12 +44,6 @@ public:
     /*! This class could be inherited
      */
     virtual ~LabelActions();
-    /*! Sets panel, where actions belong to
-     */
-    void setPanel(MainPanel* e);
-    /*! Returns panel, where actions belong to
-     */
-    MainPanel* panel() const;
     /*! Cancels adding label state, enters previous state
      */
     void cancelAddLabel();
@@ -114,7 +114,7 @@ private:
     void unsignedIntPropertyChanged(
         int newvalue,
         const sad::String& prop,
-        gui::LabelActions::CommandMaker maker
+        gui::actions::LabelActions::CommandMaker maker
     );
     /*! Returns command, related to label actions
         \param[in] node a node value
@@ -128,9 +128,9 @@ private:
     {
         return new T(node, oldvalue, newvalue);
     }
-    /*! An panel, which actions are belong to
-     */
-    MainPanel* m_panel;
+
 };
+
+}
 
 }

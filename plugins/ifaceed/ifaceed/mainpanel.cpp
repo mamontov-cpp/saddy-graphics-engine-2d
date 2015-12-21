@@ -10,16 +10,13 @@
 #include "gui/actions/actions.h"
 #include "gui/actions/sceneactions.h"
 #include "gui/actions/scenenodeactions.h"
+#include "gui/actions/labelactions.h"
 #include "gui/actions/customobjectactions.h"
 #include "gui/actions/animationactions.h"
 
 #include "core/borders/selectionborder.h"
 
 #include "history/database/newproperty.h"
-
-#include "history/scenenodes/scenenodeslayerswap.h"
-
-#include "gui/updateelement.h"
 
 #include "gui/codeedit/highlighter.h"
 #include "gui/codeedit/completer.h"
@@ -29,6 +26,7 @@
 #include <keymouseconditions.h>
 #include <keycodes.h>
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <db/save.h>
 #include <db/dbdatabase.h>
 #include <db/dbtable.h>
@@ -39,11 +37,14 @@
 #include <freetype/font.h>
 
 #include <QFileDialog>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QHeaderView>
 #include <QStringListModel>
 #include <QLinkedList>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QSet>
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <cstdio>
 
 Q_DECLARE_METATYPE(sad::db::Object*) //-V566
@@ -281,6 +282,7 @@ void MainPanel::setEditor(core::Editor* editor)
 	gui::actions::SceneActions* s_actions = m_editor->actions()->sceneActions();
 	gui::actions::CustomObjectActions* co_actions = m_editor->actions()->customObjectActions();
 	gui::actions::AnimationActions* a_actions = m_editor->actions()->animationActions();
+	gui::actions::LabelActions* l_actions = m_editor->actions()->labelActions();
 
 
     // A bindings for idle state
@@ -334,18 +336,18 @@ void MainPanel::setEditor(core::Editor* editor)
     // A bindings for adding label
     sad::Renderer::ref()->controls()->add(
         *sad::input::ET_KeyPress & sad::Esc & (m * la), 
-        m_label_actions, 
-        &gui::LabelActions::cancelAddLabel
+        l_actions, 
+        &gui::actions::LabelActions::cancelAddLabel
     );
     sad::Renderer::ref()->controls()->add(
         *sad::input::ET_MouseMove & (m * la),
-        m_label_actions,
-        &gui::LabelActions::moveLabel
+        l_actions,
+        &gui::actions::LabelActions::moveLabel
     );
     sad::Renderer::ref()->controls()->add(
         *sad::input::ET_MousePress & sad::MouseLeft & (m * la),
-        m_label_actions,
-        &gui::LabelActions::commitLabelAdd
+        l_actions,
+        &gui::actions::LabelActions::commitLabelAdd
     );
     sad::Renderer::ref()->controls()->add(
         *sad::input::ET_MouseWheel & (m * la),
@@ -525,18 +527,18 @@ void MainPanel::setEditor(core::Editor* editor)
     connect(ui.btnSceneNodeMoveBack, SIGNAL(clicked()), this, SLOT(sceneNodeMoveBack()));
     connect(ui.btnSceneNodeMoveFront, SIGNAL(clicked()), this, SLOT(sceneNodeMoveFront()));
 
-    connect(ui.btnLabelAdd, SIGNAL(clicked()), m_label_actions, SLOT(addLabel()));
-    connect(ui.rtwLabelFont, SIGNAL(selectionChanged(sad::String)), m_label_actions, SLOT(labelFontChanged(sad::String)));
-    connect(ui.fswLabelFontSize, SIGNAL(valueChanged(unsigned int)), m_label_actions, SLOT(labelSizeChanged(unsigned int)));
-    connect(ui.txtLabelText, SIGNAL(textChanged()), m_label_actions, SLOT(labelTextChanged()));
-    connect(ui.dsbLineSpacingRatio, SIGNAL(valueChanged(double)), m_label_actions, SLOT(labelLineSpacingChanged(double)));
-    connect(ui.spbMaximalLineWidth, SIGNAL(valueChanged(int)), m_label_actions, SLOT(labelMaximalLineWidthChanged(int)));
-    connect(ui.cmbLabelBreakText, SIGNAL(currentIndexChanged(int)), m_label_actions, SLOT(labelBreakTextChanged(int)));
-    connect(ui.cmbLabelOverflowStrategy, SIGNAL(currentIndexChanged(int)), m_label_actions, SLOT(labelOverflowStrategyChanged(int)));
-    connect(ui.cmbLabelTextEllipsis, SIGNAL(currentIndexChanged(int)), m_label_actions, SLOT(labelTextEllipsisChanged(int)));	
-    connect(ui.spbMaximalLinesCount, SIGNAL(valueChanged(int)), m_label_actions, SLOT(labelMaximalLinesCountChanged(int)));
-    connect(ui.cmbLabelOverflowStrategyForLines, SIGNAL(currentIndexChanged(int)), m_label_actions, SLOT(labelOverflowStrategyForLinesChanged(int)));
-    connect(ui.cmbLabelTextEllipsisForLines, SIGNAL(currentIndexChanged(int)), m_label_actions, SLOT(labelTextEllipsisForLinesChanged(int)));	
+    connect(ui.btnLabelAdd, SIGNAL(clicked()), l_actions, SLOT(addLabel()));
+    connect(ui.rtwLabelFont, SIGNAL(selectionChanged(sad::String)), l_actions, SLOT(labelFontChanged(sad::String)));
+    connect(ui.fswLabelFontSize, SIGNAL(valueChanged(unsigned int)), l_actions, SLOT(labelSizeChanged(unsigned int)));
+    connect(ui.txtLabelText, SIGNAL(textChanged()), l_actions, SLOT(labelTextChanged()));
+    connect(ui.dsbLineSpacingRatio, SIGNAL(valueChanged(double)), l_actions, SLOT(labelLineSpacingChanged(double)));
+    connect(ui.spbMaximalLineWidth, SIGNAL(valueChanged(int)), l_actions, SLOT(labelMaximalLineWidthChanged(int)));
+    connect(ui.cmbLabelBreakText, SIGNAL(currentIndexChanged(int)), l_actions, SLOT(labelBreakTextChanged(int)));
+    connect(ui.cmbLabelOverflowStrategy, SIGNAL(currentIndexChanged(int)), l_actions, SLOT(labelOverflowStrategyChanged(int)));
+    connect(ui.cmbLabelTextEllipsis, SIGNAL(currentIndexChanged(int)), l_actions, SLOT(labelTextEllipsisChanged(int)));	
+    connect(ui.spbMaximalLinesCount, SIGNAL(valueChanged(int)), l_actions, SLOT(labelMaximalLinesCountChanged(int)));
+    connect(ui.cmbLabelOverflowStrategyForLines, SIGNAL(currentIndexChanged(int)), l_actions, SLOT(labelOverflowStrategyForLinesChanged(int)));
+    connect(ui.cmbLabelTextEllipsisForLines, SIGNAL(currentIndexChanged(int)), l_actions, SLOT(labelTextEllipsisForLinesChanged(int)));	
     
 
     connect(ui.btnSpriteAdd, SIGNAL(clicked()), m_sprite2d_actions, SLOT(add()));
@@ -713,11 +715,11 @@ void MainPanel::viewDatabase()
         // Skip palette
         if (it.key() != "palette" && it.value()->pointerStarsCount() == 0)
         {
-            gui::table::Delegate* d = m_dbdelegate_factory.create(STD2QSTRING(it.value()->baseType()));
+            gui::table::Delegate* d = m_dbdelegate_factory.create(STD2QSTRING(it.value()->baseType().c_str()));
             if (d)
             {
                 d->makeLinkedTo(ui.twDatabaseProperties, m_editor);
-                d->setPropertyName(STD2QSTRING(it.key()));
+                d->setPropertyName(STD2QSTRING(it.key().c_str()));
                 d->linkToDatabase();
                 d->add();
 
