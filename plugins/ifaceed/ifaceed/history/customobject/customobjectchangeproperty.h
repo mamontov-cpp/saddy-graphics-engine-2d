@@ -6,7 +6,8 @@
 #pragma once
 #include "../history/scenenodes/scenenodeschangeproperty.h"
 
-#include "../../mainpanel.h"
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/customobjectactions.h"
 
 namespace history
 {
@@ -49,7 +50,7 @@ protected:
       */
      void updateUI(core::Editor* e, const T& value)
      {
-         e->panel()->updateCustomObjectPropertyValue(
+         e->actions()->customObjectActions()->updateCustomObjectPropertyValue(
              this->history::scenenodes::ChangeProperty<T>::m_node,
              this->history::scenenodes::ChangeProperty<T>::m_property,
              sad::db::Variant(value)
