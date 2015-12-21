@@ -135,7 +135,7 @@ void gui::actions::LabelActions::addLabel()
 
 	gui::actions::SceneNodeActions* sn_actions = m_editor->actions()->sceneNodeActions();
 
-    valid = valid && s_actions != NULL;
+    valid = valid && s_actions->currentScene() != NULL;
     valid = valid && lblk->txtLabelText->toPlainText().length() != 0;
     valid = valid && lblk->rtwLabelFont->selectedResourceName().exists();
     valid = valid && m_editor->machine()->isInState("adding") == false;

@@ -13,6 +13,7 @@
 #include "gui/actions/labelactions.h"
 #include "gui/actions/customobjectactions.h"
 #include "gui/actions/animationactions.h"
+#include "gui/actions/sprite2dactions.h"
 
 #include "core/borders/selectionborder.h"
 
@@ -283,6 +284,7 @@ void MainPanel::setEditor(core::Editor* editor)
 	gui::actions::CustomObjectActions* co_actions = m_editor->actions()->customObjectActions();
 	gui::actions::AnimationActions* a_actions = m_editor->actions()->animationActions();
 	gui::actions::LabelActions* l_actions = m_editor->actions()->labelActions();
+	gui::actions::Sprite2DActions* sp_actions = m_editor->actions()->sprite2DActions();
 
 
     // A bindings for idle state
@@ -359,18 +361,18 @@ void MainPanel::setEditor(core::Editor* editor)
     // A binding for adding sprite actions (just placing)
     sad::Renderer::ref()->controls()->add(
         *sad::input::ET_KeyPress & sad::Esc & (m * ssa), 
-        m_sprite2d_actions, 
-        &gui::Sprite2DActions::cancelAddSprite
+        sp_actions, 
+        &gui::actions::Sprite2DActions::cancelAddSprite
     );
     sad::Renderer::ref()->controls()->add(
         *sad::input::ET_MouseMove & (m * ssa),
-        m_sprite2d_actions,
-        &gui::Sprite2DActions::moveCenterOfSprite
+        sp_actions,
+        &gui::actions::Sprite2DActions::moveCenterOfSprite
     );
     sad::Renderer::ref()->controls()->add(
         *sad::input::ET_MousePress & sad::MouseLeft & (m * ssa),
-        m_sprite2d_actions,
-        &gui::Sprite2DActions::commitAdd
+        sp_actions,
+        &gui::actions::Sprite2DActions::commitAdd
     );
     sad::Renderer::ref()->controls()->add(
         *sad::input::ET_MouseWheel & (m * ssa),
@@ -381,30 +383,30 @@ void MainPanel::setEditor(core::Editor* editor)
     // A binding for adding sprite (after first click)
     sad::Renderer::ref()->controls()->add(
         *sad::input::ET_KeyPress & sad::Esc & (m * sdap), 
-        m_sprite2d_actions, 
-        &gui::Sprite2DActions::cancelAddSprite
+        sp_actions, 
+        &gui::actions::Sprite2DActions::cancelAddSprite
     );
     sad::Renderer::ref()->controls()->add(
         *sad::input::ET_MousePress & sad::MouseLeft & (m * sdap),
-        m_sprite2d_actions, 
-        &gui::Sprite2DActions::commitAdd
+        sp_actions, 
+        &gui::actions::Sprite2DActions::commitAdd
     );
     sad::Renderer::ref()->controls()->add(
         *sad::input::ET_MouseMove & (m * sdap),
-        m_sprite2d_actions,
-        &gui::Sprite2DActions::moveLowerPointOfSprite
+        sp_actions,
+        &gui::actions::Sprite2DActions::moveLowerPointOfSprite
     );
 
     // A binding for adding sprite (when first click determines upper-left corner)
     sad::Renderer::ref()->controls()->add(
         *sad::input::ET_KeyPress & sad::Esc & (m * sda), 
-        m_sprite2d_actions, 
-        &gui::Sprite2DActions::cancelAddSprite
+        sp_actions, 
+        &gui::actions::Sprite2DActions::cancelAddSprite
     );
     sad::Renderer::ref()->controls()->add(
         *sad::input::ET_MousePress & sad::MouseLeft & (m * sda),
-        m_sprite2d_actions, 
-        &gui::Sprite2DActions::placeFirstPointForSprite
+        sp_actions, 
+        &gui::actions::Sprite2DActions::placeFirstPointForSprite
     );
 
     // A binding for adding custom object actions (just placing)
@@ -541,11 +543,11 @@ void MainPanel::setEditor(core::Editor* editor)
     connect(ui.cmbLabelTextEllipsisForLines, SIGNAL(currentIndexChanged(int)), l_actions, SLOT(labelTextEllipsisForLinesChanged(int)));	
     
 
-    connect(ui.btnSpriteAdd, SIGNAL(clicked()), m_sprite2d_actions, SLOT(add()));
-    connect(ui.rtwSpriteSprite, SIGNAL(selectionChanged(sad::String)), m_sprite2d_actions, SLOT(spriteOptionsChanged(sad::String)));
-    connect(ui.btnSpriteMakeBackground, SIGNAL(clicked()), m_sprite2d_actions, SLOT(makeBackground()));
-    connect(ui.cbFlipX, SIGNAL(clicked(bool)), m_sprite2d_actions, SLOT(flipXChanged(bool)));
-    connect(ui.cbFlipY, SIGNAL(clicked(bool)), m_sprite2d_actions, SLOT(flipYChanged(bool)));
+    connect(ui.btnSpriteAdd, SIGNAL(clicked()), sp_actions, SLOT(add()));
+    connect(ui.rtwSpriteSprite, SIGNAL(selectionChanged(sad::String)), sp_actions, SLOT(spriteOptionsChanged(sad::String)));
+    connect(ui.btnSpriteMakeBackground, SIGNAL(clicked()), sp_actions, SLOT(makeBackground()));
+    connect(ui.cbFlipX, SIGNAL(clicked(bool)), sp_actions, SLOT(flipXChanged(bool)));
+    connect(ui.cbFlipY, SIGNAL(clicked(bool)), sp_actions, SLOT(flipYChanged(bool)));
     
     connect(ui.btnCustomObjectAdd, SIGNAL(clicked()), co_actions, SLOT(add()));
     connect(ui.rtwCustomObjectSchemas, SIGNAL(selectionChanged(sad::String)), co_actions, SLOT(schemaChanged(sad::String)));
