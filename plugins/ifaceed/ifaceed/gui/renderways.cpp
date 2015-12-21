@@ -1,6 +1,6 @@
-#include "renderways.h"
+#include <QListWidget>
 
-#include "../mainpanel.h"
+#include "renderways.h"
 
 #include "../core/editor.h"
 #include "../core/shared.h"
@@ -8,8 +8,12 @@
 #include <renderer.h>
 #include <geometry2d.h>
 
+#include <db/dbdatabase.h>
+
 #include <p2d/app/way.h>
 
+#include "uiblocks/uiblocks.h"
+#include "uiblocks/uiwayblock.h"
 
 gui::RenderWays::RenderWays(core::Editor* editor)
 : m_editor(editor),
@@ -81,8 +85,9 @@ void gui::RenderWays::_process()
                     if (way->closed() && pts.size() > 1)
                     {
                         this->renderArrow(pts[pts.size() - 1], pts[0], *c);
-                    }                    
-                    int currentrow = m_editor->panel()->UI()->lstWayPoints->currentRow();
+                    }  
+					gui::uiblocks::UIWayBlock* ui_way_block = m_editor->uiBlocks()->uiWayBlock();
+                    int currentrow = ui_way_block->lstWayPoints->currentRow();
                     for(int j = 0; j < pts.size(); j++)
                     {
                         s->setMiddle(pts[j]);
