@@ -74,20 +74,20 @@ void gui::RenderWays::_process()
                         selected = true;
                     }
                     const sad::Vector<sad::Point2D>& pts = way->wayPoints();
-                    for(int i = 1; i < pts.size(); i++)
+                    for(int j = 1; j < pts.size(); j++)
                     {
-                        this->renderArrow(pts[i-1], pts[i], *c);
+                        this->renderArrow(pts[j-1], pts[j], *c);
                     }
                     if (way->closed() && pts.size() > 1)
                     {
                         this->renderArrow(pts[pts.size() - 1], pts[0], *c);
                     }                    
                     int currentrow = m_editor->panel()->UI()->lstWayPoints->currentRow();
-                    for(int i = 0; i < pts.size(); i++)
+                    for(int j = 0; j < pts.size(); j++)
                     {
-                        s->setMiddle(pts[i]);
+                        s->setMiddle(pts[j]);
                         s->render();
-                        if (selected && i == currentrow)
+                        if (selected && j == currentrow)
                         {
                             sad::Renderer::ref()->render()->rectangle(s->area(), *c);
                         }                        
