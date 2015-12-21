@@ -197,11 +197,6 @@ public:
     /*! Removes group from group list
      */
     void removeGroupFromList(int pos);
-    /*! Returns name for animation instance
-        \param[in] i instance
-        \return name for instance
-     */
-    QString nameForInstance(sad::animations::Instance* i) const;
     /*! Returns name for animation group
         \param[in] g group
         \return name for group

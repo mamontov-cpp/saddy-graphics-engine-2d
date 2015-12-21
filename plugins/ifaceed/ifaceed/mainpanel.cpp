@@ -13,6 +13,7 @@
 #include "gui/actions/labelactions.h"
 #include "gui/actions/customobjectactions.h"
 #include "gui/actions/animationactions.h"
+#include "gui/actions/animationinstanceactions.h"
 #include "gui/actions/sprite2dactions.h"
 #include "gui/actions/dialogueactions.h"
 
@@ -287,7 +288,7 @@ void MainPanel::setEditor(core::Editor* editor)
 	gui::actions::LabelActions* l_actions = m_editor->actions()->labelActions();
 	gui::actions::Sprite2DActions* sp_actions = m_editor->actions()->sprite2DActions();
 	gui::actions::DialogueActions* d_actions = m_editor->actions()->dialogueActions();
-
+	gui::actions::AnimationInstanceActions* ai_actions = m_editor->actions()->instanceActions();
 
     // A bindings for idle state
     sad::Renderer::ref()->controls()->add(
@@ -626,19 +627,19 @@ void MainPanel::setEditor(core::Editor* editor)
     connect(ui.btnSimpleMovementPickStartingPoint, SIGNAL(clicked()), a_actions, SLOT(startPickingStartingPointForSimpleMovement()));
     connect(ui.btnSimpleMovementPickEndingPoint, SIGNAL(clicked()), a_actions, SLOT(startPickingEndingPointForSimpleMovement()));
 
-    connect(ui.btnAnimationsInstanceAdd, SIGNAL(clicked()), m_instance_actions, SLOT(addInstance()));
-    connect(ui.btnAnimationsInstanceRemove, SIGNAL(clicked()), m_instance_actions, SLOT(removeInstance()));	
-    connect(ui.lstAnimationInstances, SIGNAL(currentRowChanged(int)), m_instance_actions, SLOT(currentInstanceChanged(int)));
-    connect(ui.txtAnimationInstanceName, SIGNAL(textEdited(const QString&)), m_instance_actions, SLOT(nameChanged(const QString&)));
-    connect(ui.rbAnimationInstanceFromDatabase, SIGNAL(toggled(bool)), m_instance_actions, SLOT(databaseLinkStateChanged(bool)));
-    connect(ui.rbAnimationInstanceFromTree, SIGNAL(toggled(bool)), m_instance_actions, SLOT(treeLinkStateChanged(bool)));
-    connect(ui.cmbAnimationInstanceAnimationFromTree, SIGNAL(currentIndexChanged(int)), m_instance_actions, SLOT(treeElementChanged(int)));
-    connect(ui.cmbAnimationInstanceAnimationFromDatabase, SIGNAL(currentIndexChanged(int)), m_instance_actions, SLOT(databaseElementChanged(int)));
-    connect(ui.cmbAnimationInstanceObject, SIGNAL(currentIndexChanged(int)), m_instance_actions, SLOT(objectChanged(int)));
-    connect(ui.dsbAnimationInstanceStartTime, SIGNAL(valueChanged(double)), m_instance_actions, SLOT(startTimeChanged(double)));
-    connect(ui.cmbWayAnimationInstanceWay, SIGNAL(currentIndexChanged(int)), m_instance_actions, SLOT(wayChanged(int)));
-    connect(ui.btnAnimationsInstanceStart, SIGNAL(clicked()), m_instance_actions, SLOT(start()));
-    connect(ui.btnAnimationsInstanceCancel, SIGNAL(clicked()), m_instance_actions, SLOT(stop()));
+    connect(ui.btnAnimationsInstanceAdd, SIGNAL(clicked()), ai_actions, SLOT(addInstance()));
+    connect(ui.btnAnimationsInstanceRemove, SIGNAL(clicked()), ai_actions, SLOT(removeInstance()));	
+    connect(ui.lstAnimationInstances, SIGNAL(currentRowChanged(int)), ai_actions, SLOT(currentInstanceChanged(int)));
+    connect(ui.txtAnimationInstanceName, SIGNAL(textEdited(const QString&)), ai_actions, SLOT(nameChanged(const QString&)));
+    connect(ui.rbAnimationInstanceFromDatabase, SIGNAL(toggled(bool)), ai_actions, SLOT(databaseLinkStateChanged(bool)));
+    connect(ui.rbAnimationInstanceFromTree, SIGNAL(toggled(bool)), ai_actions, SLOT(treeLinkStateChanged(bool)));
+    connect(ui.cmbAnimationInstanceAnimationFromTree, SIGNAL(currentIndexChanged(int)), ai_actions, SLOT(treeElementChanged(int)));
+    connect(ui.cmbAnimationInstanceAnimationFromDatabase, SIGNAL(currentIndexChanged(int)), ai_actions, SLOT(databaseElementChanged(int)));
+    connect(ui.cmbAnimationInstanceObject, SIGNAL(currentIndexChanged(int)), ai_actions, SLOT(objectChanged(int)));
+    connect(ui.dsbAnimationInstanceStartTime, SIGNAL(valueChanged(double)), ai_actions, SLOT(startTimeChanged(double)));
+    connect(ui.cmbWayAnimationInstanceWay, SIGNAL(currentIndexChanged(int)), ai_actions, SLOT(wayChanged(int)));
+    connect(ui.btnAnimationsInstanceStart, SIGNAL(clicked()), ai_actions, SLOT(start()));
+    connect(ui.btnAnimationsInstanceCancel, SIGNAL(clicked()), ai_actions, SLOT(stop()));
     
     connect(ui.btnAnimationsGroupAdd, SIGNAL(clicked()), m_group_actions, SLOT(addGroup()));
     connect(ui.btnAnimationsGroupRemove, SIGNAL(clicked()), m_group_actions, SLOT(removeGroup()));	
@@ -832,6 +833,7 @@ void MainPanel::viewDatabase()
     sad::Vector<sad::db::Object*> animationinstancelist;
     sad::db::Table* animationinstancetable = db->table("animationinstances");
     animationinstancetable->objects(animationinstancelist);
+	gui::actions::AnimationInstanceActions* ai_actions = m_editor->actions()->instanceActions();
     for(unsigned int i = 0; i < animationinstancelist.size(); i++)
     {
         sad::db::Object* o = animationinstancelist[i];
@@ -841,7 +843,7 @@ void MainPanel::viewDatabase()
             QVariant v;
             v.setValue(w);
 
-            QString name = this->nameForInstance(w);
+            QString name = ai_actions->nameForInstance(w);
 
             QListWidgetItem* item = new QListWidgetItem(name);
             item->setData(Qt::UserRole, v);
@@ -850,7 +852,7 @@ void MainPanel::viewDatabase()
         }
     }
 
-    this->instanceActions()->updateGroupInstanceList();
+    ai_actions->updateGroupInstanceList();
 
     sad::Vector<sad::db::Object*> animationgrouplist;
     sad::db::Table* animationgrouptable = db->table("animationgroups");
@@ -1107,20 +1109,6 @@ void MainPanel::insertGroupToList(int pos, sad::animations::Group* g)
 void MainPanel::removeGroupFromList(int pos)
 {
     delete ui.lstAnimationsGroup->takeItem(pos);
-}
-
-QString MainPanel::nameForInstance(sad::animations::Instance* i) const
-{
-    QString result = "[I] ";
-    if (i)
-    {
-        if (i->isInstanceOf("sad::animations::WayInstance"))
-        {
-            result = "[WI] ";
-        }
-        result += const_cast<MainPanel*>(this)->viewableObjectName(i); 
-    }
-    return result;
 }
 
 QString MainPanel::nameForGroup(sad::animations::Group* g) const
@@ -1926,7 +1914,7 @@ void MainPanel::tabTypeChanged(int index)
         {
             sad::animations::Instance* w = ui.lstAnimationInstances->item(row)->data(Qt::UserRole).value<sad::animations::Instance*>();
             m_editor->shared()->setSelectedInstance(w);
-            m_editor->panel()->instanceActions()->currentInstanceChanged(row);
+            m_editor->actions()->instanceActions()->currentInstanceChanged(row);
         }
     }
 

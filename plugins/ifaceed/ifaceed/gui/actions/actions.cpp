@@ -8,7 +8,7 @@
 #include "wayactions.h"
 #include "dialogueactions.h"
 #include "animationactions.h"
-#include "instanceactions.h"
+#include "animationinstanceactions.h"
 #include "groupactions.h"
 
 gui::actions::Actions::Actions() : m_scene_actions(new gui::actions::SceneActions())
@@ -19,7 +19,7 @@ m_custom_object_actions(new gui::actions::CustomObjectActions()),
 m_way_actions(new gui::actions::WayActions()),
 m_dialogue_actions(new gui::actions::DialogueActions()),
 m_animation_actions(new gui::actions::AnimationActions()),
-m_instance_actions(new gui::actions::InstanceActions()),
+m_instance_actions(new gui::actions::AnimationInstanceActions()),
 m_group_actions(new gui::actions::GroupActions())
 {
 	
@@ -94,7 +94,7 @@ gui::actions::AnimationActions* gui::actions::Actions::animationActions() const
     return m_animation_actions;
 }
 
-gui::actions::InstanceActions* gui::actions::Actions::instanceActions() const
+gui::actions::AnimationInstanceActions* gui::actions::Actions::instanceActions() const
 {
     return m_instance_actions;
 }

@@ -21,7 +21,7 @@ class CustomObjectActions;
 class WayActions;
 class DialogueActions;
 class AnimationActions;
-class InstanceActions;
+class AnimationInstanceActions;
 class GroupActions;
 class SceneActions;
 
@@ -75,7 +75,7 @@ public:
     /*! Returns actions for animation instance editing
      *  \return actions for animation instance editing
      */
-    gui::actions::InstanceActions* instanceActions() const;
+    gui::actions::AnimationInstanceActions* instanceActions() const;
         /*! Returns actions for animation group editing
      *  \return actions for animation group editing
      */
@@ -107,7 +107,7 @@ protected:
     gui::actions::AnimationActions* m_animation_actions;
     /*! An actions, linked to animation instance editing
      */
-    gui::actions::InstanceActions* m_instance_actions;
+    gui::actions::AnimationInstanceActions* m_instance_actions;
     /*! An actions, linked to animation groups editing
      */
     gui::actions::GroupActions* m_group_actions;
