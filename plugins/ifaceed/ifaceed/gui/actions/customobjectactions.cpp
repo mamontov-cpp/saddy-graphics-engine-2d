@@ -23,8 +23,13 @@
 
 #include "../history/customobject/customobjectchangeschema.h"
 
+#include "../gui/table/delegate.h"
+#include "../gui/table/delegatefactory.h"
+
+
 #include "actions.h"
 #include "scenenodeactions.h"
+#include "sceneactions.h"
 
 
 #include <sprite2d.h>
@@ -72,8 +77,8 @@ void gui::actions::CustomObjectActions::cancelAdd()
     }
     else
     {
-        m_editor->emitClosure(bind(m_editor->panelProxy(), &MainPanelProxy::clearCustomObjectPropertiesTable));
-        m_editor->panelProxy()->updateUIForSelectedItem();
+        m_editor->emitClosure(bind(this, &gui::actions::CustomObjectActions::clearCustomObjectPropertiesTable));
+        m_editor->actions()->sceneNodeActions()->updateUIForSelectedSceneNode();
     }
 }
 
@@ -138,12 +143,87 @@ void gui::actions::CustomObjectActions::moveLowerPoint(const sad::input::MouseMo
     }
 }
 
+
+void gui::actions::CustomObjectActions::fillCustomObjectProperties(
+    sad::SceneNode* node	
+)
+{
+    this->clearCustomObjectPropertiesTable();
+    if (node)
+    {
+        if (node->metaData()->canBeCastedTo("sad::db::custom::Object"))
+        {
+            sad::db::custom::Object* o = static_cast<sad::db::custom::Object*>(node);
+            const sad::Hash<sad::String, sad::db::Property*>& db = o->schemaProperties();
+            for(sad::Hash<sad::String, sad::db::Property*>::const_iterator it = db.const_begin();
+                it != db.const_end();
+                ++it)
+            {
+                gui::table::Delegate* d = m_editor->panelProxy()->delegateFactory()->create(STD2QSTRING(it.value()->baseType().c_str()));
+                if (d)
+                {
+                    d->makeLinkedTo(m_editor->uiBlocks()->uiCustomObjectBlock()->twCustomObjectProperties, m_editor);
+                    d->setPropertyName(STD2QSTRING(it.key().c_str()));
+                    d->linkToCustomObject(o);
+                    d->add();				
+                }
+            }
+        }
+    }
+}
+
+void gui::actions::CustomObjectActions::clearCustomObjectPropertiesTable()
+{
+	QTableWidget* twCustomObjectProperties = m_editor->uiBlocks()->uiCustomObjectBlock()->twCustomObjectProperties; 
+    for(size_t i = 0; i < twCustomObjectProperties->rowCount(); i++)
+    {
+        QVariant  v = twCustomObjectProperties->item(i, 0)->data(Qt::UserRole);
+        gui::table::Delegate* d = v.value<gui::table::Delegate*>();
+        if (d)
+        {
+            d->disconnectSlots();
+            delete d;
+        }
+    }
+    twCustomObjectProperties->clear();
+    twCustomObjectProperties->setRowCount(0);	
+}
+
+gui::table::Delegate* gui::actions::CustomObjectActions::delegateForCustomObjectProperty(const QString& name)
+{
+	QTableWidget* twCustomObjectProperties = m_editor->uiBlocks()->uiCustomObjectBlock()->twCustomObjectProperties; 
+    
+     for(size_t i = 0; i < twCustomObjectProperties->rowCount(); i++)
+     {
+         if (twCustomObjectProperties->item(i, 0)->text() == name) {
+             QVariant  v = twCustomObjectProperties->item(i, 0)->data(Qt::UserRole);
+             gui::table::Delegate* d = v.value<gui::table::Delegate*>();
+             return d;
+         }
+     }
+     return NULL;
+}
+
+void gui::actions::CustomObjectActions::updateCustomObjectPropertyValue(
+     sad::SceneNode* node,
+     const sad::String& name,
+     const sad::db::Variant& value
+)
+{
+    if (m_editor->isNodeSelected(node))
+    {
+        m_custom_object_property_name = name;
+        m_custom_object_property_value = value;
+        QTimer::singleShot(0, this, SLOT(updateCustomObjectPropertyValueNow()));
+    }
+}
+
 // ===============================  PUBLIC SLOTS METHODS ===============================
 
 void gui::actions::CustomObjectActions::add()
 {
     bool valid = true;
-    valid = valid && m_editor->panelProxy()->currentScene() != NULL;
+    valid = valid && m_editor->actions()->sceneActions()->currentScene() != NULL;
     valid = valid && m_editor->uiBlocks()->uiCustomObjectBlock()->rtwCustomObjectSchemas->selectedResourceName().exists();
     valid = valid && m_editor->machine()->isInState("adding") == false;
     if (valid)
@@ -191,7 +271,7 @@ void gui::actions::CustomObjectActions::addBySimplePlacing()
 {
     sad::db::custom::Object* object = this->makeNewCustomObject();
 
-    m_editor->panelProxy()->currentScene()->add(object);
+    m_editor->actions()->sceneActions()->currentScene()->add(object);
     m_editor->shared()->setActiveObject(object);
     m_editor->shared()->toggleActiveBorder(true);
 
@@ -199,7 +279,7 @@ void gui::actions::CustomObjectActions::addBySimplePlacing()
     m_editor->panelProxy()->highlightState("Click, where you want object to be placed");
 
     m_editor->actions()->sceneNodeActions()->updateRegionForNode();
-    m_editor->panelProxy()->fillCustomObjectProperties(object);
+    this->fillCustomObjectProperties(object);
 }
 
 
@@ -208,7 +288,7 @@ void gui::actions::CustomObjectActions::addByDiagonalPlacing()
     sad::db::custom::Object* object = this->makeNewCustomObject();
     object->setVisible(false);
 
-    m_editor->panelProxy()->currentScene()->add(object);
+    m_editor->actions()->sceneActions()->currentScene()->add(object);
     m_editor->shared()->setActiveObject(object);
     m_editor->shared()->toggleActiveBorder(false);
 
@@ -216,7 +296,7 @@ void gui::actions::CustomObjectActions::addByDiagonalPlacing()
     m_editor->panelProxy()->highlightState("Click, where you want upper point to be placed");
 
     m_editor->actions()->sceneNodeActions()->updateRegionForNode();
-    m_editor->panelProxy()->fillCustomObjectProperties(object);
+    this->fillCustomObjectProperties(object);
 }
 
 void gui::actions::CustomObjectActions::schemaChanged(sad::String s)
@@ -226,7 +306,7 @@ void gui::actions::CustomObjectActions::schemaChanged(sad::String s)
         sad::Renderer::ref()->lockRendering();
         m_editor->shared()->activeObject()->setProperty("schema", s);
         m_editor->actions()->sceneNodeActions()->updateRegionForNode();
-        m_editor->panelProxy()->fillCustomObjectProperties(m_editor->shared()->activeObject());
+        this->fillCustomObjectProperties(m_editor->shared()->activeObject());
         sad::Renderer::ref()->unlockRendering();
     }
     else
@@ -252,6 +332,17 @@ void gui::actions::CustomObjectActions::schemaChanged(sad::String s)
         }
     }
 }
+
+void gui::actions::CustomObjectActions::updateCustomObjectPropertyValueNow()
+{
+    gui::table::Delegate* d = this->delegateForCustomObjectProperty(STD2QSTRING(m_custom_object_property_name.c_str()));
+    if (d)
+    {
+        d->set(m_custom_object_property_value);
+    }
+}
+
+// =================================================== PRIVATE METHODS ===================================================
 
 sad::db::custom::Object* gui::actions::CustomObjectActions::makeNewCustomObject()
 {

@@ -49,24 +49,7 @@ void gui::MainPanelProxy::toggleAnimationPropertiesEditable(bool flag)
 	m_editor->panel()->toggleAnimationPropertiesEditable(flag);
 }
 
-void gui::MainPanelProxy::clearCustomObjectPropertiesTable()
+gui::table::DelegateFactory* gui::MainPanelProxy::delegateFactory() const
 {
-	m_editor->panel()->clearCustomObjectPropertiesTable();
-}
-
-void gui::MainPanelProxy::updateUIForSelectedItem()
-{
-	m_editor->panel()->updateUIForSelectedItem();
-}
-
-sad::Scene* gui::MainPanelProxy::currentScene() const
-{
-	return m_editor->panel()->currentScene();
-}
-
-void gui::MainPanelProxy::fillCustomObjectProperties(
-	sad::SceneNode* node	
-)
-{
-	m_editor->panel()->fillCustomObjectProperties(node);
+	return m_editor->panel()->delegateFactory();
 }

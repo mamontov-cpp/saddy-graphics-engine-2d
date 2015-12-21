@@ -1,28 +1,33 @@
 #include <QLineEdit>
+#include <QPlainTextEdit>
 
 #include "actions.h"
 #include "sceneactions.h"
 #include "scenenodeactions.h"
+#include "customobjectactions.h"
+
 
 #include "../../closuremethodcall.h"
 
-#include "../qstdstring.h"
+#include "../../qstdstring.h"
 
-#include "../core/editor.h"
-#include "../core/shared.h"
-#include "../core/selection.h"
+#include "../../core/editor.h"
+#include "../../core/shared.h"
+#include "../../core/selection.h"
 
-#include "../core/typeconverters/qcolortosadacolor.h"
-#include "../core/typeconverters/qrectftosadrect2d.h"
+#include "../../core/typeconverters/qcolortosadacolor.h"
+#include "../../core/typeconverters/qrectftosadrect2d.h"
 
-#include "../gui/rotationprocess.h"
+#include "../../gui/rotationprocess.h"
+#include "../../gui/updateelement.h"
 
-#include "../history/scenenodes/scenenodesnew.h"
-#include "../history/scenenodes/scenenodesremove.h"
-#include "../history/scenenodes/scenenodeschangename.h"
-#include "../history/scenenodes/scenenodeschangevisibility.h"
-#include "../history/scenenodes/scenenodeschangecolor.h"
-#include "../history/scenenodes/scenenodeschangearea.h"
+//#include "../history/scenenodes/scenenodesnew.h"
+#include "../../history/scenenodes/scenenodesremove.h"
+#include "../../history/scenenodes/scenenodeschangename.h"
+#include "../../history/scenenodes/scenenodeschangevisibility.h"
+#include "../../history/scenenodes/scenenodeschangecolor.h"
+#include "../../history/scenenodes/scenenodeschangearea.h"
+#include "../../history/scenenodes/scenenodeslayerswap.h"
 
 #include "../blockedclosuremethodcall.h"
 
@@ -30,17 +35,29 @@
 
 #include "../rectwidget/rectwidget.h"
 
+#include "../colorpicker/colorpicker.h"
+
+#include "../resourcetreewidget/resourcetreewidget.h"
+
+#include "../fontsizewidget/fontsizewidget.h"
+
+
 #include "../uiblocks/uiblocks.h"
 #include "../uiblocks/uiscenenodeblock.h"
 #include "../uiblocks/uisceneblock.h"
+#include "../uiblocks/uilabelblock.h"
+#include "../uiblocks/uispriteblock.h"
+#include "../uiblocks/uicustomobjectblock.h"
 #include "../uiblocks/uianimationinstanceblock.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <label.h>
 #include <geometry2d.h>
 
 #include <p2d/vector.h>
 
 #include <db/dbdatabase.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <db/save.h>
 
 
@@ -218,6 +235,95 @@ void gui::actions::SceneNodeActions::updateRegionForNode()
             ));
         }
     }
+}
+
+
+void gui::actions::SceneNodeActions::addSceneNodeToSceneNodeList(sad::SceneNode* s)
+{
+	QListWidget* lstSceneObjects = m_editor->uiBlocks()->uiSceneBlock()->lstSceneObjects;
+    QString name = this->viewableObjectName(s);
+    QListWidgetItem* i =  new QListWidgetItem();
+    i->setText(name);
+    
+    QVariant v;
+    v.setValue(s);
+    i->setData(Qt::UserRole, v);
+    lstSceneObjects->addItem(i);
+}
+
+void gui::actions::SceneNodeActions::removeLastSceneNodeFromSceneNodeList()
+{
+    QListWidget* lstSceneObjects = m_editor->uiBlocks()->uiSceneBlock()->lstSceneObjects;    
+	if (lstSceneObjects->count())
+    {
+        QListWidgetItem* i = lstSceneObjects->takeItem(lstSceneObjects->count() - 1);
+        delete i;
+    }
+}
+
+void gui::actions::SceneNodeActions::insertSceneNodeToSceneNodeList(sad::SceneNode* s, int position)
+{
+	QListWidget* lstSceneObjects = m_editor->uiBlocks()->uiSceneBlock()->lstSceneObjects;
+    
+    QString name = this->viewableObjectName(s);
+    QListWidgetItem* i =  new QListWidgetItem();
+    i->setText(name);
+    
+    QVariant v;
+    v.setValue(s);
+    i->setData(Qt::UserRole, v);
+    lstSceneObjects->insertItem(position, i);
+}
+
+void gui::actions::SceneNodeActions::removeSceneNodeFromSceneNodeList(int position)
+{
+	QListWidget* lstSceneObjects = m_editor->uiBlocks()->uiSceneBlock()->lstSceneObjects;    
+    QListWidgetItem* i =  lstSceneObjects->takeItem(position);
+    delete i;
+}
+
+void gui::actions::SceneNodeActions::removeSceneNodeFromSceneNodeListByNode(sad::SceneNode* s)
+{
+    int position = this->findSceneNodeInList(s);
+    if (position >= 0)
+    {
+        removeSceneNodeFromSceneNodeList(position);
+    }
+}
+
+void gui::actions::SceneNodeActions::setSceneNodesInList(sad::SceneNode* n1, sad::SceneNode* n2, int pos1, int pos2)
+{
+	QListWidget* lstSceneObjects = m_editor->uiBlocks()->uiSceneBlock()->lstSceneObjects;
+    
+    sad::SceneNode* s = this->editor()->shared()->selectedObject();
+    lstSceneObjects->item(pos1)->setText(this->viewableObjectName(n1));
+    QVariant v1;
+    v1.setValue(n1);
+    lstSceneObjects->item(pos1)->setData(Qt::UserRole, v1);
+
+    lstSceneObjects->item(pos2)->setText(this->viewableObjectName(n2));
+    QVariant v2;
+    v2.setValue(n2);
+    lstSceneObjects->item(pos2)->setData(Qt::UserRole, v2);
+
+    if (s == n1)
+    {
+        void (QListWidget::*row)(int) = &QListWidget::setCurrentRow;
+        invoke_blocked(lstSceneObjects, row, pos1);
+        this->currentSceneNodeChanged(lstSceneObjects->currentRow());
+    }
+    if (s == n2)
+    {
+        void (QListWidget::*row)(int) = &QListWidget::setCurrentRow;
+        invoke_blocked(lstSceneObjects, row, pos2);
+        this->currentSceneNodeChanged(lstSceneObjects->currentRow());
+    }
+}
+
+int gui::actions::SceneNodeActions::findSceneNodeInList(sad::SceneNode* s)
+{
+	QListWidget* lstSceneObjects = m_editor->uiBlocks()->uiSceneBlock()->lstSceneObjects;
+	return this->findInList(lstSceneObjects, s);    
 }
 
 // ============================= PUBLIC SLOTS METHODS =============================
@@ -509,3 +615,167 @@ float gui::actions::SceneNodeActions::computeChangedAngle(float angle, float del
     return result;
 }
 
+void gui::actions::SceneNodeActions::currentSceneNodeChanged(int index)
+{
+	gui::uiblocks::UISceneBlock* blk = m_editor->uiBlocks()->uiSceneBlock();
+	QListWidget* lstSceneObjects = blk->lstSceneObjects;
+
+	if (m_editor->machine()->isInState("adding")
+        || (m_editor->machine()->isInState("selected") 
+            && m_editor->machine()->currentState() != "selected"))
+    {		
+        if (this->editor()->shared()->selectedObject())
+        {
+            bool b = lstSceneObjects->blockSignals(true);
+            int row = this->findSceneNodeInList(this->editor()->shared()->selectedObject());
+            if (row != -1)
+            {
+                lstSceneObjects->setCurrentRow(row);
+            }
+            lstSceneObjects->blockSignals(b);
+            return;
+        }
+    }
+    if (index != -1) 
+    {
+        QListWidgetItem* i = lstSceneObjects->item(index);
+        sad::SceneNode* s = i->data(Qt::UserRole).value<sad::SceneNode*>();
+
+        if (m_editor->machine()->isInState("idle"))
+        {
+            m_editor->machine()->enterState("selected");
+        }
+        if (m_editor->machine()->isInState("selected"))
+        {
+            m_editor->shared()->setSelectedObject(s);
+            this->updateUIForSelectedSceneNode();
+        }
+    }
+}
+
+
+void  gui::actions::SceneNodeActions::sceneNodeMoveBack()
+{
+	gui::uiblocks::UISceneBlock* blk = m_editor->uiBlocks()->uiSceneBlock();
+	QListWidget* lstSceneObjects = blk->lstSceneObjects;
+
+    if (m_editor->machine()->isInState("selected"))
+    {
+        sad::SceneNode* node = m_editor->shared()->selectedObject();
+        if (node)
+        {
+            int row = lstSceneObjects->currentRow();
+            int row2 = this->findSceneNodeInList(node);
+            if (row > 0 && row == row2)
+            {
+                sad::SceneNode* previousnode = lstSceneObjects->item(row - 1)->data(Qt::UserRole).value<sad::SceneNode*>();
+
+                history::Command* c = new history::scenenodes::LayerSwap(node, previousnode, row, row - 1);
+                this->m_editor->history()->add(c);
+                c->commit(m_editor);
+
+                invoke_blocked<QListWidget, void (QListWidget::*)(int), int>(lstSceneObjects, &QListWidget::setCurrentRow, row - 1);
+            }
+        }
+    }
+}
+
+void gui::actions::SceneNodeActions::sceneNodeMoveFront()
+{
+	gui::uiblocks::UISceneBlock* blk = m_editor->uiBlocks()->uiSceneBlock();
+	QListWidget* lstSceneObjects = blk->lstSceneObjects;
+    if (m_editor->machine()->isInState("selected"))
+    {
+        sad::SceneNode* node = m_editor->shared()->selectedObject();
+        if (node)
+        {
+            int row = lstSceneObjects->currentRow();
+            int row2 = this->findSceneNodeInList(node);
+            if (row < lstSceneObjects->count() - 1 && row > -1 && row == row2)
+            {
+                sad::SceneNode* nextnode = lstSceneObjects->item(row + 1)->data(Qt::UserRole).value<sad::SceneNode*>();
+
+                history::Command* c = new history::scenenodes::LayerSwap(node, nextnode, row, row + 1);
+                this->m_editor->history()->add(c);
+                c->commit(m_editor);
+
+                invoke_blocked<QListWidget, void (QListWidget::*)(int), int>(lstSceneObjects, &QListWidget::setCurrentRow, row + 1);
+            }
+        }
+    }
+}
+
+void gui::actions::SceneNodeActions::updateUIForSelectedSceneNode()
+{
+    QTimer::singleShot(0, this, SLOT(updateUIForSelectedSceneNodeNow()));
+}
+
+void gui::actions::SceneNodeActions::updateUIForSelectedSceneNodeNow()
+{
+	gui::uiblocks::UISceneBlock* blk = m_editor->uiBlocks()->uiSceneBlock();
+	gui::uiblocks::UISceneNodeBlock* nblk = m_editor->uiBlocks()->uiSceneNodeBlock();
+	gui::uiblocks::UILabelBlock* lblk = m_editor->uiBlocks()->uiLabelBlock();
+	gui::uiblocks::UISpriteBlock* sblk = m_editor->uiBlocks()->uiSpriteBlock();
+	gui::uiblocks::UICustomObjectBlock* coblock = m_editor->uiBlocks()->uiCustomObjectBlock();
+
+	QListWidget* lstSceneObjects = blk->lstSceneObjects;
+    sad::SceneNode* node = m_editor->shared()->selectedObject();
+    if (node)
+    {
+        // Scene tab
+        int row = this->findSceneNodeInList(node);
+        if (row != lstSceneObjects->currentRow()) {
+            void (QListWidget::*setRow)(int) = &QListWidget::setCurrentRow;
+            invoke_blocked(lstSceneObjects, setRow, row);
+        }
+        invoke_blocked(nblk->txtObjectName, &QLineEdit::setText, STD2QSTRING(node->objectName().c_str()));
+
+        // SceneNode tab
+        this->updateRegionForNode();
+        sad::Maybe<bool> maybevisible = node->getProperty<bool>("visible");
+        if (maybevisible.exists())
+        {
+            invoke_blocked(nblk->cbSceneNodeVisible, &QCheckBox::setCheckState, (maybevisible.value()) ? Qt::Checked : Qt::Unchecked);
+        }
+        gui::UpdateElement<double>::with(node, "angle", nblk->awSceneNodeAngle, &gui::anglewidget::AngleWidget::setValue);
+        gui::UpdateElement<QColor>::with(node, "color", nblk->clpSceneNodeColor, &gui::colorpicker::ColorPicker::setSelectedColor);
+
+        // Label tab
+        gui::UpdateElement<sad::String>::with(node, "font", lblk->rtwLabelFont, &gui::resourcetreewidget::ResourceTreeWidget::setSelectedResourceName);
+        gui::UpdateElement<unsigned int>::with(node, "fontsize", lblk->fswLabelFontSize, &gui::fontsizewidget::FontSizeWidget::setValue);
+        gui::UpdateElement<float>::with(node, "linespacing", lblk->dsbLineSpacingRatio, &QDoubleSpinBox::setValue);
+        gui::UpdateElement<QString>::with(node, "text", lblk->txtLabelText, &QPlainTextEdit::setPlainText);
+        gui::UpdateElement<unsigned int>::with(node, "maximallinewidth", lblk->spbMaximalLineWidth, &QSpinBox::setValue);
+        gui::UpdateElement<unsigned int>::with(node, "overflowstrategy", lblk->cmbLabelOverflowStrategy, &QComboBox::setCurrentIndex);
+        gui::UpdateElement<unsigned int>::with(node, "breaktext", lblk->cmbLabelBreakText, &QComboBox::setCurrentIndex);
+        gui::UpdateElement<unsigned int>::with(node, "textellipsisposition", lblk->cmbLabelTextEllipsis, &QComboBox::setCurrentIndex);
+        gui::UpdateElement<unsigned int>::with(node, "maximallinescount", lblk->spbMaximalLinesCount, &QSpinBox::setValue);
+        gui::UpdateElement<unsigned int>::with(node, "overflowstrategyforlines", lblk->cmbLabelOverflowStrategyForLines, &QComboBox::setCurrentIndex);
+        gui::UpdateElement<unsigned int>::with(node, "textellipsispositionforlines", lblk->cmbLabelTextEllipsisForLines, &QComboBox::setCurrentIndex);
+        
+        // Sprite2D tab
+        gui::UpdateElement<sad::String>::with(node, "options", sblk->rtwSpriteSprite, &gui::resourcetreewidget::ResourceTreeWidget::setSelectedResourceName);
+        sad::Maybe<bool> maybeflipx = node->getProperty<bool>("flipx");
+        if (maybeflipx.exists())
+        {
+            invoke_blocked(sblk->cbFlipX, &QCheckBox::setCheckState, (maybeflipx.value()) ? Qt::Checked : Qt::Unchecked);
+        }
+        sad::Maybe<bool> maybeflipy = node->getProperty<bool>("flipy");
+        if (maybeflipy.exists())
+        {
+            invoke_blocked(sblk->cbFlipY, &QCheckBox::setCheckState, (maybeflipy.value()) ? Qt::Checked : Qt::Unchecked);
+        }
+
+
+        // Custom object tab
+        gui::UpdateElement<sad::String>::with(node, "schema", coblock->rtwCustomObjectSchemas, &gui::resourcetreewidget::ResourceTreeWidget::setSelectedResourceName);
+        if (node->metaData()->canBeCastedTo("sad::db::custom::Object"))
+        {
+            m_editor->actions()->customObjectActions()->fillCustomObjectProperties(node);
+        }
+        else
+        {
+            m_editor->actions()->customObjectActions()->clearCustomObjectPropertiesTable();
+        }
+    }
+}

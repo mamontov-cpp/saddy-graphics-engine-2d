@@ -272,6 +272,99 @@ QString gui::actions::AnimationActions::nameForAnimation(sad::animations::Animat
     return result;
 }
 
+
+void gui::actions::AnimationActions::addAnimationToViewingLists(sad::animations::Animation* a)
+{
+    QString name = this->nameForAnimation(a);
+
+	QListWidget* lstAnimations = m_editor->uiBlocks()->uiAnimationBlock()->lstAnimations;
+	QListWidget* lstCompositeCandidates = m_editor->uiBlocks()->uiAnimationBlock()->lstCompositeCandidates;
+	QComboBox* cmbAnimationInstanceAnimationFromDatabase = m_editor->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceAnimationFromDatabase;
+
+    QVariant v;
+    v.setValue(a);
+
+    QListWidget* listofanimations = lstAnimations;
+    listofanimations->addItem(name);
+    listofanimations->item(listofanimations->count() - 1)->setData(Qt::UserRole, v);
+
+    QComboBox* listofanimationsforinstances = cmbAnimationInstanceAnimationFromDatabase;
+    listofanimationsforinstances->addItem(name);
+    listofanimationsforinstances->setItemData(listofanimationsforinstances->count() - 1, v, Qt::UserRole);
+
+    QListWidget* listofanimationcandidates = lstCompositeCandidates;
+    listofanimationcandidates->addItem(name);
+    listofanimationcandidates->item(listofanimationcandidates->count() - 1)->setData(Qt::UserRole, v);
+}
+
+
+void gui::actions::AnimationActions::removeAnimationFromViewingLists(sad::animations::Animation* a)
+{
+	QListWidget* lstAnimations = m_editor->uiBlocks()->uiAnimationBlock()->lstAnimations;
+	QListWidget* lstCompositeList = m_editor->uiBlocks()->uiAnimationBlock()->lstCompositeList;
+	QListWidget* lstCompositeCandidates = m_editor->uiBlocks()->uiAnimationBlock()->lstCompositeCandidates;	
+	QComboBox* cmbAnimationInstanceAnimationFromDatabase = m_editor->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceAnimationFromDatabase;
+	
+    int pos = this->findInList(lstAnimations, a);
+
+    if (a == m_editor->shared()->selectedAnimation())
+    {
+        lstCompositeList->clear();
+    }
+
+    if (pos > -1)
+    {
+        delete lstAnimations->takeItem(pos);
+    }
+
+    pos = this->findInComboBox(cmbAnimationInstanceAnimationFromDatabase, a);
+    if (pos > - 1)
+    {
+        cmbAnimationInstanceAnimationFromDatabase->removeItem(pos);
+    }
+
+    pos = this->findInList(lstCompositeCandidates, a);
+    if (pos > -1)
+    {
+        delete lstCompositeCandidates->takeItem(pos);
+    }
+
+}
+
+void gui::actions::AnimationActions::updateAnimationName(sad::animations::Animation* a)
+{
+	QListWidget* lstAnimations = m_editor->uiBlocks()->uiAnimationBlock()->lstAnimations;
+	QListWidget* lstCompositeList = m_editor->uiBlocks()->uiAnimationBlock()->lstCompositeList;
+	QListWidget* lstCompositeCandidates = m_editor->uiBlocks()->uiAnimationBlock()->lstCompositeCandidates;	
+	QComboBox* cmbAnimationInstanceAnimationFromDatabase = m_editor->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceAnimationFromDatabase;
+
+    QString name = this->nameForAnimation(a);
+
+    int pos = this->findInList(lstAnimations, a);
+    if (pos > -1)
+    {
+        lstAnimations->item(pos)->setText(name);
+    }
+
+    pos = this->findInComboBox(cmbAnimationInstanceAnimationFromDatabase, a);
+    if (pos > - 1)
+    {
+        cmbAnimationInstanceAnimationFromDatabase->setItemText(pos, name);
+    }
+
+    pos = this->findInList(lstCompositeCandidates, a);
+    if (pos > -1)
+    {
+        lstCompositeCandidates->item(pos)->setText(name);
+    }
+
+    pos = this->findInList(lstCompositeList, a);
+    if (pos > -1)
+    {
+        lstCompositeList->item(pos)->setText(name);
+    }
+}
+
 // ===============================  PUBLIC SLOTS METHODS ===============================
 
 void gui::actions::AnimationActions::addAnimation()

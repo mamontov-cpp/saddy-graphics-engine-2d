@@ -21,6 +21,13 @@ class Editor;
 namespace gui
 {
 
+namespace table
+{
+
+class DelegateFactory;
+
+}
+
 /*! A proxy class for main panel to separate compilation of main panel from influence to other classes
  */
 class MainPanelProxy
@@ -59,22 +66,10 @@ public:
         \param[in] flag a flag
      */
     void toggleAnimationPropertiesEditable(bool flag);
-	/*! Cleans table of properties of custom object
-     */
-    void clearCustomObjectPropertiesTable();
-	/* Updates UI for selected item
+	/*! Returns a delegate factory for a panel
+		\return delegate factory
 	 */
-	void updateUIForSelectedItem();
-	/*! Returns current scene
-		\return current scene
-	 */
-	sad::Scene* currentScene() const;
-	/*! Fills list of properties for custom objects
-        \param[in] node a node object
-     */
-    void fillCustomObjectProperties(
-        sad::SceneNode* node	
-    );
+	gui::table::DelegateFactory* delegateFactory() const;
 protected:
 	/*! An editor part
 	 */

@@ -84,6 +84,38 @@ public:
         \return name for node
      */
     QString fullNameForNode(sad::SceneNode* node);
+	/*! Adds scene to scene node list
+        \param[in] s scene node
+     */
+    void addSceneNodeToSceneNodeList(sad::SceneNode* s);
+    /*! Removes last scene node from scene list
+     */
+    void removeLastSceneNodeFromSceneNodeList();
+    /*! Inserts scene node to a scene node list
+        \param[in] s scene node
+        \param[in] position a position in scene list
+     */
+    void insertSceneNodeToSceneNodeList(sad::SceneNode* s, int position);
+    /*! Removes scene node from a scene node list
+        \param[in] position a position, where scene must be removed
+     */
+    void removeSceneNodeFromSceneNodeList(int position);
+    /*! Removes scene node from a scene node list
+        \param[in] s scene node
+     */
+    void removeSceneNodeFromSceneNodeListByNode(sad::SceneNode* s);
+    /*! Sets scene nodes' positions in list
+        \param[in] n1 first node
+        \param[in] n2 second node
+        \param[in] pos1 position of first node
+        \param[in] pos2 position of second node
+     */
+    void setSceneNodesInList(sad::SceneNode* n1, sad::SceneNode* n2, int pos1, int pos2);
+    /*! Finds scene node in scene list
+        \param[in] s scene
+        \return scene row (-1 if not found)
+     */
+    int findSceneNodeInList(sad::SceneNode* s);
 public slots:
     /*! Called, when node name is edited
         \param[in] name a name for action
@@ -115,12 +147,27 @@ public slots:
 	/*! A slot for selecting last scene node slot
 	 */
 	void selectLastSceneNodeSlot();
+    /*! Emitted, when current scene node is changed
+        \param[in] index a new index for node in list
+     */
+    void currentSceneNodeChanged(int index);
+    /*! Moves scene back
+     */
+    void sceneNodeMoveBack();
+    /*! Moves scene front
+     */
+    void sceneNodeMoveFront();
+    /*! Fires signal for updating UI from selected item
+     */
+    void updateUIForSelectedSceneNode();
+    /*! Updates UI views with values from selected item
+     */
+    void updateUIForSelectedSceneNodeNow();
 private:
     /*!
      * A rotation process to work with
      */
     gui::RotationProcess* m_rotation;
-
     /*!
      * Computes angle, after mouse wheel
      * \param angle  a previous angle value

@@ -122,43 +122,7 @@ public:
         \param[in] name a name of delegate by property
         \return if ownership is taken - returns true, if panel does not own it - false
      */
-    bool takeDelegateByPropertyName(const QString & name);
-    /*! Adds scene to scene list
-        \param[in] s scene 
-     */
-    void addSceneToSceneList(sad::Scene* s);
-    /*! Removes last scene from scene list
-     */
-    void removeLastSceneFromSceneList();
-    /*! Inserts scene to a scene list
-        \param[in] s scene
-        \param[in] position a position in scene list
-     */
-    void insertSceneToSceneList(sad::Scene* s, int position);
-    /*! Removes scene from a scene list
-        \param[in] position a position, where scene must be removed
-     */
-    void removeSceneFromSceneList(int position);
-    /*! Returns current scene for main panel
-        \return current scene
-     */
-    sad::Scene* currentScene();
-    /*! Updates scene name, finding it in list, settting it to current name
-        \param[in] s scene
-     */
-    void updateSceneName(sad::Scene* s);
-    /*! Finds scene in scene list
-        \param[in] s scene
-        \return scene row
-     */
-    int findSceneInList(sad::Scene* s);
-    /*! Sets scenes' positions in list
-        \param[in] s1 first scene
-        \param[in] s2 second scene
-        \param[in] pos1 position of first scene
-        \param[in] pos2 position of second scene
-     */
-    void setScenesInList(sad::Scene* s1, sad::Scene* s2, int pos1, int pos2);
+    bool takeDelegateByPropertyName(const QString & name);    
     /*! Updates labels with coordinates on mouse move
         \param[in] e event objects
      */
@@ -179,39 +143,7 @@ public:
     void highlightSelectedState();
     /*! Highlights state, when label is adding
      */
-    void highlightLabelAddingState();
-    /*! Adds scene to scene node list
-        \param[in] s scene node
-     */
-    void addSceneNodeToSceneNodeList(sad::SceneNode* s);
-    /*! Removes last scene node from scene list
-     */
-    void removeLastSceneNodeFromSceneNodeList();
-    /*! Inserts scene node to a scene node list
-        \param[in] s scene node
-        \param[in] position a position in scene list
-     */
-    void insertSceneNodeToSceneNodeList(sad::SceneNode* s, int position);
-    /*! Removes scene node from a scene node list
-        \param[in] position a position, where scene must be removed
-     */
-    void removeSceneNodeFromSceneNodeList(int position);
-    /*! Removes scene node from a scene node list
-        \param[in] s scene node
-     */
-    void removeSceneNodeFromSceneNodeListByNode(sad::SceneNode* s);
-    /*! Sets scene nodes' positions in list
-        \param[in] n1 first node
-        \param[in] n2 second node
-        \param[in] pos1 position of first node
-        \param[in] pos2 position of second node
-     */
-    void setSceneNodesInList(sad::SceneNode* n1, sad::SceneNode* n2, int pos1, int pos2);
-    /*! Finds scene node in scene list
-        \param[in] s scene
-        \return scene row (-1 if not found)
-     */
-    int findSceneNodeInList(sad::SceneNode* s);
+    void highlightLabelAddingState();    
     /*! Adds last way to end of items
         \param[in] way a selected way
      */
@@ -313,18 +245,6 @@ public:
         \return name for group
      */
     QString nameForGroup(sad::animations::Group* g) const;
-    /*! Adds animation to a lists
-        \param[in] a animation an animation
-     */
-    void addAnimationToViewingLists(sad::animations::Animation* a);
-    /*! Removes animation from a viewing lists
-        \param[in] a animation an animation to be removed
-     */
-    void removeAnimationFromViewingLists(sad::animations::Animation* a);
-    /*! Updates animation name in lists
-        \param[in] a an animation
-     */
-    void updateAnimationName(sad::animations::Animation* a);
     /*! Toggles, whether animation is editable
         \param[in] flag a flag
      */
@@ -340,31 +260,7 @@ public:
     /*! Returns check box for flipY property
         \return checkbox
      */
-    QCheckBox* flipYCheckbox() const;
-    /*! Cleans table of properties of custom object
-     */
-    void clearCustomObjectPropertiesTable();
-    /*! Finds delegate for custom object property in table
-     * \param[in] name a name for delegate for custom object
-     * \return found delegate, or NULL
-     */
-    gui::table::Delegate* delegateForCustomObjectProperty(const QString& name);
-    /*! Updates custom object property value in UI, if it's selected
-     *  \param[in] node a node, which must be selected
-     *  \param[in] name a name of property
-     *  \param[in] value a value for a property
-     */
-    void updateCustomObjectPropertyValue(
-            sad::SceneNode* node,
-            const sad::String& name,
-            const sad::db::Variant& value
-     );
-    /*! Fills list of properties for custom objects
-        \param[in] node a node object
-     */
-    void fillCustomObjectProperties(
-        sad::SceneNode* node	
-    );
+    QCheckBox* flipYCheckbox() const;   
     /*! Synchronizes database with an editor
      */
     void synchronizeDatabase();
@@ -400,32 +296,17 @@ public:
         const QString& prefix, 
         const QString& filter
     );
-    /*! Adds scene with name 
-        \param[in] name a name withname
-        \param[in] fromeditor whether it's run from editor or script
-     */
-    unsigned long long addSceneWithName(const QString& name, bool fromeditor);
-    /*! Removes scene. Could be scripted
-        \param[in] scene a scene
-        \param[in] fromeditor whether it's run from editor or script
-     */
-    void scriptableRemoveScene(sad::Scene* scene, bool fromeditor);
     /*! Adds new scriptable property to a database
         \param[in] propertytype a type of property
         \param[in] propertyname a name of property
         \param[in] fromeditor a from editor
      */
     bool scriptableAddProperty(const sad::String& propertytype, const sad::String& propertyname, bool fromeditor);
+	/*! Returns a delegate factory for a panel
+		\return delegate factory
+	 */
+	gui::table::DelegateFactory* delegateFactory() const;
 public slots:
-    /*! Fires signal for updating UI from selected item
-     */
-    void updateUIForSelectedItem();
-    /*! Updates UI views with values from selected item
-     */
-    void updateUIForSelectedItemNow();
-    /*! Updates value for updating custom object property in UI now
-     */
-    void updateCustomObjectPropertyValueNow();
     /*! Fires signal for updating UI from selected way
      */
     void updateUIForSelectedWay();
@@ -473,14 +354,6 @@ protected:
     /*! State of main panel, which must be set, when called MainPanel::highlightStateNow
      */
     QString m_highlight_state;
-    /*! A temporary value for custom object property name slot, which accessed in
-        MainPanel::updateCustomObjectPropertyValueNow
-     */
-    sad::String m_custom_object_property_name;
-    /*! A temporary value for custom object propert value slot, which accessed in
-        MainPanel::updateCustomObjectPropertyValueNow
-     */
-    sad::db::Variant m_custom_object_property_value;
     /*! An utility flags, which could be used to prevent recursive calls of slots, due to
         widget value changes
      */
@@ -500,33 +373,6 @@ protected slots:
     /*! Adds a property to database slot
      */
     void addDatabaseProperty();
-    /*! Adds new scene to a database
-     */
-    void addScene();
-    /*! Emitted, when current scene is chaned
-        \param[in] index index of scene in list
-     */
-    void currentSceneChanged(int index);
-    /*! Emitted, when scene name is changed
-        \param[in] name new scene name
-     */
-    void sceneNameChanged(const QString& name);
-    /*! Emitted, when current scene node is changed
-        \param[in] index a new index for node in list
-     */
-    void currentSceneNodeChanged(int index);
-    /*! Removes scene from a database (making it inactive)
-     */
-    void removeScene();
-    /*! Moves scene back
-     */
-    void sceneMoveBack();
-    /*! Moves scene front
-     */
-    void sceneMoveFront();
-    /*! Clears scene
-     */
-    void clearScene();
     /*! A slot version of MainPanel::updateMousePosition, which takes value 
         from MainPanel::m_mousemove_point
      */
@@ -541,12 +387,6 @@ protected slots:
     /*! Redoes editor actions
      */
     void redo();
-    /*! Moves scene back
-     */
-    void sceneNodeMoveBack();
-    /*! Moves scene front
-     */
-    void sceneNodeMoveFront();
     /*! Tries to save database
      */
     void save();

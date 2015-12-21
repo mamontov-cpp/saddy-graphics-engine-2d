@@ -92,6 +92,18 @@ public:
         \return name for animation
      */
     QString nameForAnimation(sad::animations::Animation* a) const;
+    /*! Adds animation to a lists
+        \param[in] a animation an animation
+     */
+    void addAnimationToViewingLists(sad::animations::Animation* a);
+    /*! Removes animation from a viewing lists
+        \param[in] a animation an animation to be removed
+     */
+    void removeAnimationFromViewingLists(sad::animations::Animation* a);
+    /*! Updates animation name in lists
+        \param[in] a an animation
+     */
+    void updateAnimationName(sad::animations::Animation* a);
 public slots:
     /*! Tries to add new animation to a list
      */

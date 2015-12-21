@@ -8,6 +8,8 @@
 
 #include <input/events.h>
 
+#include <db/dbvariant.h>
+
 #include <sadstring.h>
 
 #include "abstractactions.h"
@@ -17,8 +19,12 @@ class MainPanel;
 namespace sad
 {
 
+class SceneNode;
+
 namespace db
 {
+
+class Variant;
 
 namespace custom
 {
@@ -33,6 +39,11 @@ class Object;
 
 namespace gui
 {
+
+namespace table
+{
+class Delegate;	
+}
 
 namespace actions
 {
@@ -69,6 +80,30 @@ public:
         \param[in] e a sprite
      */
     void moveLowerPoint(const sad::input::MouseMoveEvent & e);
+	/*! Fills list of properties for custom objects
+        \param[in] node a node object
+     */
+    void fillCustomObjectProperties(
+        sad::SceneNode* node	
+    );
+	/*! Cleans table of properties of custom object
+     */
+    void clearCustomObjectPropertiesTable();
+    /*! Finds delegate for custom object property in table
+     * \param[in] name a name for delegate for custom object
+     * \return found delegate, or NULL
+     */
+    gui::table::Delegate* delegateForCustomObjectProperty(const QString& name);
+    /*! Updates custom object property value in UI, if it's selected
+     *  \param[in] node a node, which must be selected
+     *  \param[in] name a name of property
+     *  \param[in] value a value for a property
+     */
+    void updateCustomObjectPropertyValue(
+            sad::SceneNode* node,
+            const sad::String& name,
+            const sad::db::Variant& value
+     ); 
 public slots:
     /*! Starts placing custom objects
      */
@@ -83,6 +118,9 @@ public slots:
         \param[in] s  a schema name
      */
     void schemaChanged(sad::String s);
+    /*! Updates value for updating custom object property in UI now
+     */
+    void updateCustomObjectPropertyValueNow();
 private:
     /*! Makes new custom object
         \return new custom object
@@ -92,6 +130,15 @@ private:
         \param[in] object an object values
      */
     void tryCopySelectedObjectCustomProperties(sad::db::custom::Object* object);
+
+    /*! A temporary value for custom object property name slot, which accessed in
+        gui::actions::CustomObjectActions::updateCustomObjectPropertyValueNow
+     */
+    sad::String m_custom_object_property_name;
+    /*! A temporary value for custom object propert value slot, which accessed in
+        gui::actions::CustomObjectActions::updateCustomObjectPropertyValueNow
+     */
+    sad::db::Variant m_custom_object_property_value;
 };
 
 }
