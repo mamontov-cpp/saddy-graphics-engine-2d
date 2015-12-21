@@ -6,7 +6,7 @@
 
 #include "borders/selectionborder.h"
 
-#include "gui/wayactions.h"
+#include "gui/actions/wayactions.h"
 #include "gui/actions/actions.h"
 #include "gui/actions/scenenodeactions.h"
 #include "gui/actions/sceneactions.h"
@@ -324,9 +324,9 @@ void core::Selection::tryEnterToMovingStateWithWayObject(const sad::input::Mouse
 void core::Selection::commitWaySelection(int i, int j)
 {
     m_editor->panel()->UI()->lstWays->setCurrentRow(i);
-    m_editor->panel()->updateUIForSelectedWayNow();
+    m_editor->actions()->wayActions()->updateUIForSelectedWayNow();
     m_editor->panel()->UI()->lstWayPoints->setCurrentRow(j);
-    m_editor->panel()->wayActions()->viewPoint(j);
+    m_editor->actions()->wayActions()->viewPoint(j);
 }
 
 void core::Selection::commitIdleWaySelection()

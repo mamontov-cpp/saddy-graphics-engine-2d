@@ -17,6 +17,7 @@
 #include "gui/actions/animationinstanceactions.h"
 #include "gui/actions/animationgroupactions.h"
 #include "gui/actions/dialogueactions.h"
+#include "gui/actions/wayactions.h"
 
 #include "core/borders/selectionborder.h"
 
@@ -291,6 +292,7 @@ void MainPanel::setEditor(core::Editor* editor)
 	gui::actions::DialogueActions* d_actions = m_editor->actions()->dialogueActions();
 	gui::actions::AnimationInstanceActions* ai_actions = m_editor->actions()->instanceActions();
 	gui::actions::AnimationGroupActions* ag_actions = m_editor->actions()->groupActions();
+	gui::actions::WayActions* w_actions = m_editor->actions()->wayActions();    
 
     // A bindings for idle state
     sad::Renderer::ref()->controls()->add(
@@ -468,13 +470,13 @@ void MainPanel::setEditor(core::Editor* editor)
     // A binding for ways/selected/moving
     sad::Renderer::ref()->controls()->add(
         *sad::input::ET_MouseMove & (m * wsm),
-        m_way_actions,
-        &gui::WayActions::moveWayPoint
+        w_actions,
+        &gui::actions::WayActions::moveWayPoint
     );
     sad::Renderer::ref()->controls()->add(
         *sad::input::ET_MouseRelease & (m * wsm),
-        m_way_actions,
-        &gui::WayActions::commitWayPointMoving
+        w_actions,
+        &gui::actions::WayActions::commitWayPointMoving
     );
 
     // A binding for ways/selected
@@ -557,19 +559,19 @@ void MainPanel::setEditor(core::Editor* editor)
     connect(ui.btnCustomObjectAdd, SIGNAL(clicked()), co_actions, SLOT(add()));
     connect(ui.rtwCustomObjectSchemas, SIGNAL(selectionChanged(sad::String)), co_actions, SLOT(schemaChanged(sad::String)));
 
-    connect(ui.lstWays, SIGNAL(currentRowChanged(int)), m_way_actions, SLOT(wayChanged(int)));
-    connect(ui.btnWayAdd, SIGNAL(clicked()), m_way_actions, SLOT(addWay()));
-    connect(ui.btnWayRemove, SIGNAL(clicked()), m_way_actions, SLOT(removeWay()));
-    connect(ui.txtWayName, SIGNAL(textEdited(const QString&)), m_way_actions, SLOT(nameEdited(const QString&)));
-    connect(ui.cbWayClosed, SIGNAL(clicked(bool)), m_way_actions, SLOT(closednessChanged(bool)));
-    connect(ui.dsbWayTotalTime, SIGNAL(valueChanged(double)), m_way_actions, SLOT(totalTimeChanged(double)));
-    connect(ui.lstWayPoints, SIGNAL(currentRowChanged(int)), m_way_actions, SLOT(viewPoint(int)));
-    connect(ui.btnWayPointAdd, SIGNAL(clicked()), m_way_actions, SLOT(addWayPoint()));
-    connect(ui.btnWayPointRemove, SIGNAL(clicked()), m_way_actions, SLOT(removeWayPoint()));
-    connect(ui.dsbWayPointX, SIGNAL(valueChanged(double)), m_way_actions, SLOT(wayPointXChanged(double)));
-    connect(ui.dsbWayPointY, SIGNAL(valueChanged(double)), m_way_actions, SLOT(wayPointYChanged(double)));
-    connect(ui.btnWayPointMoveBack, SIGNAL(clicked()), m_way_actions, SLOT(wayPointMoveBack()));
-    connect(ui.btnWayPointMoveFront, SIGNAL(clicked()), m_way_actions, SLOT(wayPointMoveFront()));
+    connect(ui.lstWays, SIGNAL(currentRowChanged(int)), w_actions, SLOT(wayChanged(int)));
+    connect(ui.btnWayAdd, SIGNAL(clicked()), w_actions, SLOT(addWay()));
+    connect(ui.btnWayRemove, SIGNAL(clicked()), w_actions, SLOT(removeWay()));
+    connect(ui.txtWayName, SIGNAL(textEdited(const QString&)), w_actions, SLOT(nameEdited(const QString&)));
+    connect(ui.cbWayClosed, SIGNAL(clicked(bool)), w_actions, SLOT(closednessChanged(bool)));
+    connect(ui.dsbWayTotalTime, SIGNAL(valueChanged(double)), w_actions, SLOT(totalTimeChanged(double)));
+    connect(ui.lstWayPoints, SIGNAL(currentRowChanged(int)), w_actions, SLOT(viewPoint(int)));
+    connect(ui.btnWayPointAdd, SIGNAL(clicked()), w_actions, SLOT(addWayPoint()));
+    connect(ui.btnWayPointRemove, SIGNAL(clicked()), w_actions, SLOT(removeWayPoint()));
+    connect(ui.dsbWayPointX, SIGNAL(valueChanged(double)), w_actions, SLOT(wayPointXChanged(double)));
+    connect(ui.dsbWayPointY, SIGNAL(valueChanged(double)), w_actions, SLOT(wayPointYChanged(double)));
+    connect(ui.btnWayPointMoveBack, SIGNAL(clicked()), w_actions, SLOT(wayPointMoveBack()));
+    connect(ui.btnWayPointMoveFront, SIGNAL(clicked()), w_actions, SLOT(wayPointMoveFront()));
 
     connect(ui.lstDialogues, SIGNAL(currentRowChanged(int)), d_actions, SLOT(dialogueChanged(int)));
     connect(ui.lstPhrases, SIGNAL(currentRowChanged(int)), d_actions, SLOT(phraseChanged(int)));
@@ -769,12 +771,13 @@ void MainPanel::viewDatabase()
 
     sad::Vector<sad::db::Object*> wayslist;
     db->table("ways")->objects(wayslist);
-    for(unsigned int i = 0; i < wayslist.size(); i++)
+    gui::actions::WayActions* w_actions = m_editor->actions()->wayActions();    
+	for(unsigned int i = 0; i < wayslist.size(); i++)
     {
         if (wayslist[i]->isInstanceOf("sad::p2d::app::Way"))
         {
             sad::p2d::app::Way* w = static_cast<sad::p2d::app::Way*>(wayslist[i]);
-            addLastWayToEnd(w);
+            w_actions->addLastWayToEnd(w);
         }
     }
 
@@ -952,133 +955,6 @@ void MainPanel::highlightLabelAddingState()
     this->highlightState("Click, where you want label to be placed");
 }
 
-void MainPanel::addLastWayToEnd(sad::p2d::app::Way* way)
-{
-    QString nameforway = this->viewableObjectName(way);
-    
-    ui.lstWays->addItem(nameforway);
-    
-    QVariant v;
-    v.setValue(way);
-    ui.lstWays->item(ui.lstWays->count()-1)->setData(Qt::UserRole, v);
-
-    ui.cmbWayAnimationWay->addItem(nameforway, v);
-    ui.cmbWayAnimationInstanceWay->addItem(nameforway, v);
-
-}
-
-void MainPanel::removeLastWayFromWayList()
-{
-    if (ui.lstWays->count() > 0)
-    {
-        QVariant v = ui.lstWays->item(ui.lstWays->count() - 1)->data(Qt::UserRole);
-        sad::p2d::app::Way* w  = v.value<sad::p2d::app::Way*>();
-        if (w == m_editor->shared()->selectedWay())
-        {
-            m_editor->shared()->setSelectedWay(NULL);
-            m_editor->machine()->enterState("ways/idle");
-        }
-        delete ui.lstWays->takeItem(ui.lstWays->count() - 1);
-
-        int pos = this->findInComboBox(ui.cmbWayAnimationWay, w);
-        if (pos >= 0)
-        {
-            ui.cmbWayAnimationWay->removeItem(pos);
-        }
-
-        pos = this->findInComboBox(ui.cmbWayAnimationInstanceWay, w);
-        if (pos >= 0)
-        {
-            ui.cmbWayAnimationInstanceWay->removeItem(pos);
-        }
-    }
-}
-
-void MainPanel::insertWayToWayList(sad::p2d::app::Way* s, int position)
-{
-    QListWidgetItem* i = new QListWidgetItem(this->viewableObjectName(s));
-    QVariant v;
-    v.setValue(s);
-    i->setData(Qt::UserRole, v);
-    ui.lstWays->insertItem(position, i);
-}
-
-void MainPanel::removeWayFromWayList(int position)
-{
-    QVariant v = ui.lstWays->item(position)->data(Qt::UserRole);
-    sad::p2d::app::Way* w  = v.value<sad::p2d::app::Way*>();
-    if (w == m_editor->shared()->selectedWay())
-    {
-        m_editor->shared()->setSelectedWay(NULL);
-        m_editor->machine()->enterState("ways/idle");
-    }
-    delete ui.lstWays->takeItem(position);
-}
-
-void MainPanel::removeWayFromWayList(sad::p2d::app::Way* s)
-{
-    int pos = this->findWayInList(s);
-    if (s == m_editor->shared()->selectedWay())
-    {
-        m_editor->shared()->setSelectedWay(NULL);
-        m_editor->machine()->enterState("ways/idle");
-    }
-    if (pos >= 0)
-    {
-        delete ui.lstWays->takeItem(pos);
-    }
-}
-
-int MainPanel::findWayInList(sad::p2d::app::Way* s)
-{
-    for(int i = 0; i < ui.lstWays->count(); i++)
-    {
-        QVariant v = ui.lstWays->item(i)->data(Qt::UserRole);
-        sad::p2d::app::Way* w  = v.value<sad::p2d::app::Way*>();
-        if (w == s)
-        {
-            return i;
-        }
-    }
-    return -1;
-}
-
-void MainPanel::updateWayName(sad::p2d::app::Way* s)
-{
-    QString name = this->viewableObjectName(s);
-    int row = this->findWayInList(s);
-    if (row != -1)
-    {
-        ui.lstWays->item(row)->setText(name);
-    }
-
-    int pos = this->findInComboBox(ui.cmbWayAnimationWay, s);
-    if (pos >= 0)
-    {
-        ui.cmbWayAnimationWay->setItemText(pos, name);
-    }
-
-    pos = this->findInComboBox(ui.cmbWayAnimationInstanceWay, s);
-    if (pos >= 0)
-    {
-        ui.cmbWayAnimationInstanceWay->setItemText(pos, name);
-    }
-}
-
-void MainPanel::removeRowInWayPointList(int row)
-{
-    if (row >=0  && row < ui.lstWayPoints->count()) {
-        delete ui.lstWayPoints->takeItem(row);
-    }
-}
-
-QString MainPanel::nameForPoint(const sad::Point2D& p) const
-{
-    return QString("(%1,%2)")
-           .arg(static_cast<int>(p.x()))
-           .arg(static_cast<int>(p.y()));
-}
-
 void MainPanel::toggleAnimationPropertiesEditable(bool flag)
 {
     QWidget* widgets[] = {
@@ -1174,27 +1050,6 @@ QCheckBox* MainPanel::flipYCheckbox() const
 }
 
 //====================  PUBLIC SLOTS METHODS HERE ====================
-
-void MainPanel::updateUIForSelectedWay()
-{
-    QTimer::singleShot(0, this, SLOT(updateUIForSelectedWayNow()));
-}
-
-void MainPanel::updateUIForSelectedWayNow()
-{
-    if (m_editor->shared()->selectedWay())
-    {
-        ui.lstWayPoints->clear();
-        sad::p2d::app::Way* p = m_editor->shared()->selectedWay();
-        for(size_t i = 0; i < p->wayPoints().size(); ++i)
-        {
-            ui.lstWayPoints->addItem(this->nameForPoint(p->wayPoints()[i]));
-        }
-        invoke_blocked(ui.txtWayName, &QLineEdit::setText, STD2QSTRING(p->objectName().c_str()));
-        invoke_blocked(ui.dsbWayTotalTime, &QDoubleSpinBox::setValue, p->totalTime());
-        invoke_blocked(ui.cbWayClosed, &QCheckBox::setCheckState,  (p->closed()) ? Qt::Checked : Qt::Unchecked);
-    }
-}
 
 void MainPanel::clearObjectSelection()
 {

@@ -135,45 +135,7 @@ public:
     void highlightSelectedState();
     /*! Highlights state, when label is adding
      */
-    void highlightLabelAddingState();    
-    /*! Adds last way to end of items
-        \param[in] way a selected way
-     */
-    void addLastWayToEnd(sad::p2d::app::Way* way);
-    /*! Removes last way from way list
-     */
-    void removeLastWayFromWayList();
-    /*! Inserts way to a way list
-        \param[in] s scene node
-        \param[in] position a position in scene list
-     */
-    void insertWayToWayList(sad::p2d::app::Way* s, int position);
-    /*! Removes way from a way list
-        \param[in] position a position, where scene must be removed
-     */
-    void removeWayFromWayList(int position);
-    /*! Removes way from a way list
-        \param[in] s way
-     */
-    void removeWayFromWayList(sad::p2d::app::Way* s);
-    /*! Finds way in way list
-        \param[in] s scene
-        \return scene row (-1 if not found)
-     */
-    int findWayInList(sad::p2d::app::Way* s);
-    /*!  Updates way name in list
-        \param[in] s a way
-     */
-    void updateWayName(sad::p2d::app::Way* s);
-    /*!  Removes row from way point list
-         \param[in] row a row index
-     */
-    void removeRowInWayPointList(int row);
-    /*! Returns viewable name for a point
-        \param[in] p point
-        \return name for point
-     */
-    QString nameForPoint(const sad::Point2D& p) const;    
+    void highlightLabelAddingState();        
     /*! Toggles, whether animation is editable
         \param[in] flag a flag
      */
@@ -235,13 +197,6 @@ public:
 		\return delegate factory
 	 */
 	gui::table::DelegateFactory* delegateFactory() const;
-public slots:
-    /*! Fires signal for updating UI from selected way
-     */
-    void updateUIForSelectedWay();
-    /*! Updates UI, using properties from current way
-     */
-    void updateUIForSelectedWayNow();
     /*! Clears selection
      */
     void clearObjectSelection();
