@@ -14,6 +14,7 @@
 #include "gui/actions/customobjectactions.h"
 #include "gui/actions/animationactions.h"
 #include "gui/actions/sprite2dactions.h"
+#include "gui/actions/dialogueactions.h"
 
 #include "core/borders/selectionborder.h"
 
@@ -285,6 +286,7 @@ void MainPanel::setEditor(core::Editor* editor)
 	gui::actions::AnimationActions* a_actions = m_editor->actions()->animationActions();
 	gui::actions::LabelActions* l_actions = m_editor->actions()->labelActions();
 	gui::actions::Sprite2DActions* sp_actions = m_editor->actions()->sprite2DActions();
+	gui::actions::DialogueActions* d_actions = m_editor->actions()->dialogueActions();
 
 
     // A bindings for idle state
@@ -566,20 +568,20 @@ void MainPanel::setEditor(core::Editor* editor)
     connect(ui.btnWayPointMoveBack, SIGNAL(clicked()), m_way_actions, SLOT(wayPointMoveBack()));
     connect(ui.btnWayPointMoveFront, SIGNAL(clicked()), m_way_actions, SLOT(wayPointMoveFront()));
 
-    connect(ui.lstDialogues, SIGNAL(currentRowChanged(int)), m_dialogue_actions, SLOT(dialogueChanged(int)));
-    connect(ui.lstPhrases, SIGNAL(currentRowChanged(int)), m_dialogue_actions, SLOT(phraseChanged(int)));
-    connect(ui.btnDialogueAdd, SIGNAL(clicked()), m_dialogue_actions, SLOT(addDialogue()));
-    connect(ui.btnDialogueRemove, SIGNAL(clicked()), m_dialogue_actions, SLOT(removeDialogue()));
-    connect(ui.txtDialogueName, SIGNAL(textEdited(const QString&)), m_dialogue_actions, SLOT(nameEdited(const QString&)));
-    connect(ui.btnPhraseAdd, SIGNAL(clicked()), m_dialogue_actions, SLOT(addPhrase()));
-    connect(ui.btnPhraseRemove, SIGNAL(clicked()), m_dialogue_actions, SLOT(removePhrase()));
-    connect(ui.btnPhraseMoveBack, SIGNAL(clicked()), m_dialogue_actions, SLOT(movePhraseBack()));
-    connect(ui.btnPhraseMoveFront, SIGNAL(clicked()), m_dialogue_actions, SLOT(movePhraseFront()));
-    connect(ui.dsbPhraseDuration, SIGNAL(valueChanged(double)), m_dialogue_actions, SLOT(durationChanged(double)));
-    connect(ui.txtPhrasePhrase, SIGNAL(textChanged()), m_dialogue_actions, SLOT(phraseTextChanged()));
-    connect(ui.txtPhraseActorName, SIGNAL(textEdited(const QString&)), m_dialogue_actions, SLOT(actorNameChanged(const QString&)));
-    connect(ui.txtPhraseActorPortrait, SIGNAL(textEdited(const QString&)), m_dialogue_actions, SLOT(actorPortraitChanged(const QString&)));
-    connect(ui.txtPhraseViewHint, SIGNAL(textEdited(const QString&)), m_dialogue_actions, SLOT(viewHintChanged(const QString&)));
+    connect(ui.lstDialogues, SIGNAL(currentRowChanged(int)), d_actions, SLOT(dialogueChanged(int)));
+    connect(ui.lstPhrases, SIGNAL(currentRowChanged(int)), d_actions, SLOT(phraseChanged(int)));
+    connect(ui.btnDialogueAdd, SIGNAL(clicked()), d_actions, SLOT(addDialogue()));
+    connect(ui.btnDialogueRemove, SIGNAL(clicked()), d_actions, SLOT(removeDialogue()));
+    connect(ui.txtDialogueName, SIGNAL(textEdited(const QString&)), d_actions, SLOT(nameEdited(const QString&)));
+    connect(ui.btnPhraseAdd, SIGNAL(clicked()), d_actions, SLOT(addPhrase()));
+    connect(ui.btnPhraseRemove, SIGNAL(clicked()), d_actions, SLOT(removePhrase()));
+    connect(ui.btnPhraseMoveBack, SIGNAL(clicked()), d_actions, SLOT(movePhraseBack()));
+    connect(ui.btnPhraseMoveFront, SIGNAL(clicked()), d_actions, SLOT(movePhraseFront()));
+    connect(ui.dsbPhraseDuration, SIGNAL(valueChanged(double)), d_actions, SLOT(durationChanged(double)));
+    connect(ui.txtPhrasePhrase, SIGNAL(textChanged()), d_actions, SLOT(phraseTextChanged()));
+    connect(ui.txtPhraseActorName, SIGNAL(textEdited(const QString&)), d_actions, SLOT(actorNameChanged(const QString&)));
+    connect(ui.txtPhraseActorPortrait, SIGNAL(textEdited(const QString&)), d_actions, SLOT(actorPortraitChanged(const QString&)));
+    connect(ui.txtPhraseViewHint, SIGNAL(textEdited(const QString&)), d_actions, SLOT(viewHintChanged(const QString&)));
 
     connect(ui.btnAnimationsAdd, SIGNAL(clicked()), a_actions, SLOT(addAnimation()));
     connect(ui.btnAnimationsRemove, SIGNAL(clicked()), a_actions, SLOT(removeAnimation()));
@@ -775,12 +777,13 @@ void MainPanel::viewDatabase()
 
     sad::Vector<sad::db::Object*> dialoguelist;
     db->table("dialogues")->objects(dialoguelist);
+	gui::actions::DialogueActions* d_actions = m_editor->actions()->dialogueActions();
     for(unsigned int i = 0; i < dialoguelist.size(); i++)
     {
         if (dialoguelist[i]->isInstanceOf("sad::dialogue::Dialogue"))
         {
             sad::dialogue::Dialogue* w = static_cast<sad::dialogue::Dialogue*>(dialoguelist[i]);
-            addDialogueToDialogueList(w);
+            d_actions->addDialogueToDialogueList(w);
         }
     }
 
@@ -1071,61 +1074,6 @@ QString MainPanel::nameForPoint(const sad::Point2D& p) const
            .arg(static_cast<int>(p.y()));
 }
 
-void MainPanel::addDialogueToDialogueList(sad::dialogue::Dialogue* dialogue)
-{
-    ui.lstDialogues->addItem(this->viewableObjectName(dialogue));
-    QVariant v;
-    v.setValue(dialogue);
-    ui.lstDialogues->item(ui.lstDialogues->count()-1)->setData(Qt::UserRole, v);
-}
-
-void MainPanel::removeLastDialogueFromDialogueList()
-{
-    if (ui.lstDialogues->count() > 0)
-    {
-        QVariant v = ui.lstDialogues->item(ui.lstDialogues->count() - 1)->data(Qt::UserRole);
-        sad::dialogue::Dialogue* w  = v.value<sad::dialogue::Dialogue*>();
-        if (w == m_editor->shared()->selectedDialogue())
-        {
-            m_editor->shared()->setSelectedDialogue(NULL);
-        }
-        delete ui.lstDialogues->takeItem(ui.lstDialogues->count() - 1);
-    }
-}
-
-void MainPanel::insertDialogueToDialogueList(sad::dialogue::Dialogue* s, int position)
-{
-    QListWidgetItem* i = new QListWidgetItem(this->viewableObjectName(s));
-    QVariant v;
-    v.setValue(s);
-    i->setData(Qt::UserRole, v);
-    ui.lstDialogues->insertItem(position, i);
-}
-
-void MainPanel::removeDialogueFromDialogueList(int position)
-{
-    QVariant v = ui.lstDialogues->item(position)->data(Qt::UserRole);
-    sad::dialogue::Dialogue* w  = v.value<sad::dialogue::Dialogue*>();
-    if (w == m_editor->shared()->selectedDialogue())
-    {
-        m_editor->shared()->setSelectedDialogue(NULL);
-    }
-    delete ui.lstDialogues->takeItem(position);
-}
-
-void MainPanel::removeDialogueFromDialogueList(sad::dialogue::Dialogue* s)
-{
-    int pos = this->findDialogueInList(s);
-    if (s == m_editor->shared()->selectedDialogue())
-    {
-        m_editor->shared()->setSelectedDialogue(NULL);
-    }
-    if (pos >= 0)
-    {
-        delete ui.lstDialogues->takeItem(pos);
-    }
-}
-
 void MainPanel::addGroupToList(sad::animations::Group* g)
 {
     QListWidgetItem* item = new QListWidgetItem(this->nameForGroup(g));
@@ -1159,47 +1107,6 @@ void MainPanel::insertGroupToList(int pos, sad::animations::Group* g)
 void MainPanel::removeGroupFromList(int pos)
 {
     delete ui.lstAnimationsGroup->takeItem(pos);
-}
-
-int MainPanel::findDialogueInList(sad::dialogue::Dialogue* s)
-{
-    for(int i = 0; i < ui.lstDialogues->count(); i++)
-    {
-        QVariant v = ui.lstDialogues->item(i)->data(Qt::UserRole);
-        sad::dialogue::Dialogue* w  = v.value<sad::dialogue::Dialogue*>();
-        if (w == s)
-        {
-            return i;
-        }
-    }
-    return -1;
-}
-
-void MainPanel::updateDialogueName(sad::dialogue::Dialogue* s)
-{
-    int row = this->findDialogueInList(s);
-    if (row != -1)
-    {
-        ui.lstDialogues->item(row)->setText(this->viewableObjectName(s));
-    }
-}
-
-void MainPanel::removePhraseFromPhraseList(int row)
-{
-    delete ui.lstPhrases->takeItem(row);
-}
-
-QString MainPanel::nameForPhrase(const sad::dialogue::Phrase& p) const
-{
-    sad::String s = p.phrase();
-    if (s.length() > 3)
-    {
-        s = s.subString(0, 3);
-        s += "...";
-    }
-    return QString("%1(%2)")
-           .arg(STD2QSTRING(p.actorName()))
-           .arg(STD2QSTRING(s));
 }
 
 QString MainPanel::nameForInstance(sad::animations::Instance* i) const
@@ -1996,7 +1903,7 @@ void MainPanel::tabTypeChanged(int index)
         {
             sad::dialogue::Dialogue* w = ui.lstDialogues->item(row)->data(Qt::UserRole).value<sad::dialogue::Dialogue*>();
             m_editor->shared()->setSelectedDialogue(w);
-            m_editor->panel()->dialogueActions()->dialogueChanged(row);
+            m_editor->actions()->dialogueActions()->dialogueChanged(row);
         }
     }
 

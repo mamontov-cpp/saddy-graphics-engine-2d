@@ -70,6 +70,17 @@ public:
 		\return delegate factory
 	 */
 	gui::table::DelegateFactory* delegateFactory() const;
+	/*! Clears object selection
+	 */
+	void clearObjectSelection();
+	/*! Sets current tab index of main object type selection widget
+		\param[in] index an index
+	 */
+	void setCurrentTabWidgetIndex(int index);
+	/*! Sets current tab index for scene node type selection widget
+		\param[in] index an index
+	 */
+	void setCurrentTabObjectsIndex(int index);
 protected:
 	/*! An editor part
 	 */

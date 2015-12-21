@@ -181,40 +181,7 @@ public:
         \param[in] p point
         \return name for point
      */
-    QString nameForPoint(const sad::Point2D& p) const;
-    /*! Adds last dialogue to end of items
-        \param[in] dialogue a dialogue
-     */
-    void addDialogueToDialogueList(sad::dialogue::Dialogue* dialogue);
-    /*! Removes last dialogue from dialogue list
-     */
-    void removeLastDialogueFromDialogueList();
-    /*! Inserts dialogue to a dialogue list
-        \param[in] s dialogue
-        \param[in] position a position in dialogue list
-     */
-    void insertDialogueToDialogueList(sad::dialogue::Dialogue* s, int position);
-    /*! Removes dialogue from a dialogue list
-        \param[in] position a position, where dialogue must be removed
-     */
-    void removeDialogueFromDialogueList(int position);
-    /*! Removes way from a way list
-        \param[in] s dialogue, to be removed
-     */
-    void removeDialogueFromDialogueList(sad::dialogue::Dialogue* s);
-    /*! Finds dialogue in dialogue list
-        \param[in] s scene
-        \return scene row (-1 if not found)
-     */
-    int findDialogueInList(sad::dialogue::Dialogue* s);
-    /*!  Updates dialogue in list
-        \param[in] s a way
-     */
-    void updateDialogueName(sad::dialogue::Dialogue* s);
-    /*! Removes phrase from a phrase list
-        \param[in] row a row
-     */
-    void removePhraseFromPhraseList(int row);
+    QString nameForPoint(const sad::Point2D& p) const;    
     /*! Adds group to group list
         \param[in] g group
      */
@@ -230,11 +197,6 @@ public:
     /*! Removes group from group list
      */
     void removeGroupFromList(int pos);
-    /*! Returns viewable name for a phrase
-        \param[in] p phrase
-        \return name for phrase
-     */
-    QString nameForPhrase(const sad::dialogue::Phrase& p) const;
     /*! Returns name for animation instance
         \param[in] i instance
         \return name for instance

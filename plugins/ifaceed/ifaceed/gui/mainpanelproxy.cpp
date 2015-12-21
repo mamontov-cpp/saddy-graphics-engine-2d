@@ -53,3 +53,18 @@ gui::table::DelegateFactory* gui::MainPanelProxy::delegateFactory() const
 {
 	return m_editor->panel()->delegateFactory();
 }
+
+void gui::MainPanelProxy::clearObjectSelection()
+{
+	m_editor->panel()->clearObjectSelection();
+}
+
+void gui::MainPanelProxy::setCurrentTabWidgetIndex(int index)
+{
+	m_editor->panel()->UI()->tabTypes->setCurrentIndex(index);
+}
+
+void gui::MainPanelProxy::setCurrentTabObjectsIndex(int index)
+{
+	m_editor->panel()->UI()->tabObjects->setCurrentIndex(index);
+}

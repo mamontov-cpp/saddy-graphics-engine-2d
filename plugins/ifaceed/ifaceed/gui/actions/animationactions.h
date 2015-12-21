@@ -25,7 +25,7 @@ namespace actions
 
 /*! A group of actions, linked to animations
  */	
-class AnimationActions: public QObject,public gui::actions::AbstractActions
+class AnimationActions: public QObject, public gui::actions::AbstractActions
 {
 Q_OBJECT
 public:

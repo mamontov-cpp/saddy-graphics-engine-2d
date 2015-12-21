@@ -636,7 +636,7 @@ void core::Editor::runQtEventLoop()
     sad::Renderer::ref()->controls()->add(*sad::input::ET_MouseMove, m_mainwindow, &MainPanel::updateMousePosition);
 
     gui::EventFilter* filter = new gui::EventFilter();
-    filter->setPanel(m_mainwindow);
+    filter->setEditor(this);
     QCoreApplication::instance()->installEventFilter(filter);
 
     QObject::connect(
