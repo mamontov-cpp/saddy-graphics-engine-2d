@@ -9,9 +9,9 @@
 #include "dialogueactions.h"
 #include "animationactions.h"
 #include "animationinstanceactions.h"
-#include "groupactions.h"
+#include "animationgroupactions.h"
 
-gui::actions::Actions::Actions() : m_scene_actions(new gui::actions::SceneActions())
+gui::actions::Actions::Actions() : m_scene_actions(new gui::actions::SceneActions()),
 m_scene_node_actions(new gui::actions::SceneNodeActions()),
 m_label_actions(new gui::actions::LabelActions()),
 m_sprite2d_actions(new gui::actions::Sprite2DActions()),
@@ -20,7 +20,7 @@ m_way_actions(new gui::actions::WayActions()),
 m_dialogue_actions(new gui::actions::DialogueActions()),
 m_animation_actions(new gui::actions::AnimationActions()),
 m_instance_actions(new gui::actions::AnimationInstanceActions()),
-m_group_actions(new gui::actions::GroupActions())
+m_group_actions(new gui::actions::AnimationGroupActions())
 {
 	
 }
@@ -99,7 +99,7 @@ gui::actions::AnimationInstanceActions* gui::actions::Actions::instanceActions()
     return m_instance_actions;
 }
 
-gui::actions::GroupActions*  gui::actions::Actions::groupActions() const
+gui::actions::AnimationGroupActions*  gui::actions::Actions::groupActions() const
 {
     return m_group_actions;
 }

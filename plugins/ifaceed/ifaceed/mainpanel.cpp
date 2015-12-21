@@ -11,10 +11,11 @@
 #include "gui/actions/sceneactions.h"
 #include "gui/actions/scenenodeactions.h"
 #include "gui/actions/labelactions.h"
+#include "gui/actions/sprite2dactions.h"
 #include "gui/actions/customobjectactions.h"
 #include "gui/actions/animationactions.h"
 #include "gui/actions/animationinstanceactions.h"
-#include "gui/actions/sprite2dactions.h"
+#include "gui/actions/animationgroupactions.h"
 #include "gui/actions/dialogueactions.h"
 
 #include "core/borders/selectionborder.h"
@@ -289,6 +290,7 @@ void MainPanel::setEditor(core::Editor* editor)
 	gui::actions::Sprite2DActions* sp_actions = m_editor->actions()->sprite2DActions();
 	gui::actions::DialogueActions* d_actions = m_editor->actions()->dialogueActions();
 	gui::actions::AnimationInstanceActions* ai_actions = m_editor->actions()->instanceActions();
+	gui::actions::AnimationGroupActions* ag_actions = m_editor->actions()->groupActions();
 
     // A bindings for idle state
     sad::Renderer::ref()->controls()->add(
@@ -641,15 +643,15 @@ void MainPanel::setEditor(core::Editor* editor)
     connect(ui.btnAnimationsInstanceStart, SIGNAL(clicked()), ai_actions, SLOT(start()));
     connect(ui.btnAnimationsInstanceCancel, SIGNAL(clicked()), ai_actions, SLOT(stop()));
     
-    connect(ui.btnAnimationsGroupAdd, SIGNAL(clicked()), m_group_actions, SLOT(addGroup()));
-    connect(ui.btnAnimationsGroupRemove, SIGNAL(clicked()), m_group_actions, SLOT(removeGroup()));	
-    connect(ui.lstAnimationsGroup, SIGNAL(currentRowChanged(int)), m_group_actions, SLOT(currentGroupChanged(int)));
-    connect(ui.txtAnimationsGroupName, SIGNAL(textEdited(const QString&)), m_group_actions, SLOT(nameChanged(const QString&)));
-    connect(ui.cbAnimationsGroupLooped, SIGNAL(clicked(bool)), m_group_actions, SLOT(loopedChanged(bool)));
-    connect(ui.btnAnimationsGroupAddToList, SIGNAL(clicked()), m_group_actions, SLOT(addInstance()));	
-    connect(ui.btnAnimationsGroupRemoveFromList, SIGNAL(clicked()), m_group_actions, SLOT(removeInstance()));	
-    connect(ui.btnAnimationsGroupStart, SIGNAL(clicked()), m_group_actions, SLOT(start()));	
-    connect(ui.btnAnimationsGroupCancel, SIGNAL(clicked()), m_group_actions, SLOT(stop()));	
+    connect(ui.btnAnimationsGroupAdd, SIGNAL(clicked()), ag_actions, SLOT(addGroup()));
+    connect(ui.btnAnimationsGroupRemove, SIGNAL(clicked()), ag_actions, SLOT(removeGroup()));	
+    connect(ui.lstAnimationsGroup, SIGNAL(currentRowChanged(int)), ag_actions, SLOT(currentGroupChanged(int)));
+    connect(ui.txtAnimationsGroupName, SIGNAL(textEdited(const QString&)), ag_actions, SLOT(nameChanged(const QString&)));
+    connect(ui.cbAnimationsGroupLooped, SIGNAL(clicked(bool)), ag_actions, SLOT(loopedChanged(bool)));
+    connect(ui.btnAnimationsGroupAddToList, SIGNAL(clicked()), ag_actions, SLOT(addInstance()));	
+    connect(ui.btnAnimationsGroupRemoveFromList, SIGNAL(clicked()), ag_actions, SLOT(removeInstance()));	
+    connect(ui.btnAnimationsGroupStart, SIGNAL(clicked()), ag_actions, SLOT(start()));	
+    connect(ui.btnAnimationsGroupCancel, SIGNAL(clicked()), ag_actions, SLOT(stop()));	
     
     connect(ui.btnConsoleRun, SIGNAL(clicked()), m_scripting, SLOT(runScript()));
     connect(ui.btnConsoleHelp, SIGNAL(clicked()), m_scripting, SLOT(showHelp()));
@@ -857,13 +859,14 @@ void MainPanel::viewDatabase()
     sad::Vector<sad::db::Object*> animationgrouplist;
     sad::db::Table* animationgrouptable = db->table("animationgroups");
     animationgrouptable->objects(animationgrouplist);
+	gui::actions::AnimationGroupActions* ag_actions = m_editor->actions()->groupActions();
     for(unsigned int i = 0; i < animationgrouplist.size(); i++)
     {
         sad::db::Object* o = animationgrouplist[i];
         if (o->isInstanceOf("sad::animations::Group"))
         {
             sad::animations::Group* g = static_cast<sad::animations::Group*>(o);
-            this->addGroupToList(g);
+            ag_actions->addGroupToList(g);
         }
     }
 }
@@ -1074,46 +1077,6 @@ QString MainPanel::nameForPoint(const sad::Point2D& p) const
     return QString("(%1,%2)")
            .arg(static_cast<int>(p.x()))
            .arg(static_cast<int>(p.y()));
-}
-
-void MainPanel::addGroupToList(sad::animations::Group* g)
-{
-    QListWidgetItem* item = new QListWidgetItem(this->nameForGroup(g));
-    
-    QVariant v;
-    v.setValue(g);
-    item->setData(Qt::UserRole, v);
-    
-    ui.lstAnimationsGroup->addItem(item);
-}
-
-void MainPanel::removeLastGroupFromList()
-{
-    if (ui.lstAnimationsGroup->count())
-    {
-        delete ui.lstAnimationsGroup->takeItem(ui.lstAnimationsGroup->count() - 1);
-    }
-}
-
-void MainPanel::insertGroupToList(int pos, sad::animations::Group* g)
-{
-    QListWidgetItem* item = new QListWidgetItem(this->nameForGroup(g));
-    
-    QVariant v;
-    v.setValue(g);
-    item->setData(Qt::UserRole, v);
-    
-    ui.lstAnimationsGroup->insertItem(pos, item);
-}
-
-void MainPanel::removeGroupFromList(int pos)
-{
-    delete ui.lstAnimationsGroup->takeItem(pos);
-}
-
-QString MainPanel::nameForGroup(sad::animations::Group* g) const
-{
-    return const_cast<MainPanel*>(this)->viewableObjectName(g);
 }
 
 void MainPanel::toggleAnimationPropertiesEditable(bool flag)
@@ -1923,9 +1886,10 @@ void MainPanel::tabTypeChanged(int index)
         int row = ui.lstAnimationsGroup->currentRow(); 
         if (row >= 0)
         {
+			gui::actions::AnimationGroupActions* ag_actions = m_editor->actions()->groupActions();
             sad::animations::Group* w = ui.lstAnimationsGroup->item(row)->data(Qt::UserRole).value<sad::animations::Group*>();
             m_editor->shared()->setSelectedGroup(w);
-            m_editor->panel()->groupActions()->currentGroupChanged(row);
+            ag_actions->currentGroupChanged(row);
         }
     }
     m_editor->selectionBorder()->toggleShowHotspot(index == 0);

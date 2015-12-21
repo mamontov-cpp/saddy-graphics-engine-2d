@@ -54,15 +54,7 @@ class Editor;
 }
 namespace gui
 {
-class SceneNodeActions;
-class LabelActions;
-class Sprite2DActions;
-class CustomObjectActions;
 class WayActions;
-class DialogueActions;
-class AnimationActions;
-class InstanceActions;
-class GroupActions;
 }
 
 namespace scripting
@@ -182,26 +174,6 @@ public:
         \return name for point
      */
     QString nameForPoint(const sad::Point2D& p) const;    
-    /*! Adds group to group list
-        \param[in] g group
-     */
-    void addGroupToList(sad::animations::Group* g);
-    /*! Removes group from group list
-     */
-    void removeLastGroupFromList();
-    /*! Insert group to group list
-        \param[in] pos a position
-        \param[in] g group
-     */
-    void insertGroupToList(int pos, sad::animations::Group* g);
-    /*! Removes group from group list
-     */
-    void removeGroupFromList(int pos);
-    /*! Returns name for animation group
-        \param[in] g group
-        \return name for group
-     */
-    QString nameForGroup(sad::animations::Group* g) const;
     /*! Toggles, whether animation is editable
         \param[in] flag a flag
      */

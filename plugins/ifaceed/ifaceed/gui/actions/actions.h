@@ -22,7 +22,7 @@ class WayActions;
 class DialogueActions;
 class AnimationActions;
 class AnimationInstanceActions;
-class GroupActions;
+class AnimationGroupActions;
 class SceneActions;
 
 /*! A container for actions, grouped by node
@@ -79,7 +79,7 @@ public:
         /*! Returns actions for animation group editing
      *  \return actions for animation group editing
      */
-    gui::actions::GroupActions* groupActions() const;
+    gui::actions::AnimationGroupActions* groupActions() const;
 protected:
 	/*! An actions, linkes to scenes
 	 */
@@ -110,7 +110,7 @@ protected:
     gui::actions::AnimationInstanceActions* m_instance_actions;
     /*! An actions, linked to animation groups editing
      */
-    gui::actions::GroupActions* m_group_actions;
+    gui::actions::AnimationGroupActions* m_group_actions;
 
 };
 
