@@ -7,6 +7,11 @@
 #include "borders/selectionborder.h"
 
 #include "gui/wayactions.h"
+#include "gui/actions/actions.h"
+#include "gui/actions/scenenodeactions.h"
+#include "gui/actions/sceneactions.h"
+
+
 
 #include "../mainpanel.h"
 #include "../closuremethodcall.h"
@@ -88,7 +93,7 @@ void core::Selection::navigateSelection(const sad::input::MouseWheelEvent& e)
     {
         m_editor->shared()->setSelectedObject(m_selection_chain[m_current_position]);
         m_editor->machine()->enterState("selected");
-        m_editor->panel()->updateUIForSelectedItem();
+        m_editor->actions()->sceneNodeActions()->updateUIForSelectedSceneNode();
         m_editor->emitClosure( bind(this, &core::Selection::startTimer));
     }
 }
@@ -163,7 +168,7 @@ void core::Selection::removeItem()
     sad::SceneNode* node = m_editor->shared()->selectedObject();
     if (node)
     {
-        int row = m_editor->panel()->findSceneNodeInList(node);
+        int row = m_editor->actions()->sceneNodeActions()->findSceneNodeInList(node);
         if (row == -1)
         {
             row = static_cast<int>(node->scene()->findLayer(node));
@@ -213,10 +218,11 @@ void core::Selection::trySelectObject(const sad::input::MousePressEvent& e)
 
 
     // Fill navigation chain
-    if (m_editor->panel()->currentScene())
+	sad::Scene* current_scene = m_editor->actions()->sceneActions()->currentScene();
+    if (current_scene)
     {
         m_selection_chain.clear();
-        const sad::Vector<sad::SceneNode*>& objects = m_editor->panel()->currentScene()->objects();
+        const sad::Vector<sad::SceneNode*>& objects = current_scene->objects();
         for(int i = objects.size() - 1; i > -1; i--)
         {
             if (objects[i]->active() && objects[i]->visible())
@@ -239,7 +245,7 @@ void core::Selection::trySelectObject(const sad::input::MousePressEvent& e)
         {
             m_editor->shared()->setSelectedObject(m_selection_chain[0]);
             m_editor->machine()->enterState("selected");
-            m_editor->panel()->updateUIForSelectedItem();
+            m_editor->actions()->sceneNodeActions()->updateUIForSelectedSceneNode();
             m_current_position = 0;
             m_editor->emitClosure( bind(this, &core::Selection::startTimer));
             m_editor->emitClosure( bind(this, &core::Selection::forceEditorEnterMovingState, e));
@@ -268,8 +274,8 @@ void core::Selection::trySelectWay(const sad::input::MousePressEvent& e)
     for(int i = lw->count() - 1; i > -1; i--)
     {
         QVariant v = lw->item(i)->data(Qt::UserRole);
-        sad::p2d::app::Way* w = v.value<sad::p2d::app::Way*>();
-        const sad::Vector<sad::Point2D> & pts = w->wayPoints();
+        sad::p2d::app::Way* local_way = v.value<sad::p2d::app::Way*>();
+        const sad::Vector<sad::Point2D> & pts = local_way->wayPoints();
         for(int j = pts.size() - 1; j > -1; j--)
         {
             if (e.pos2D().distance(pts[j]) <= radius)
