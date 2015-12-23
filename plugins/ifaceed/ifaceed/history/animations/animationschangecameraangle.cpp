@@ -1,8 +1,10 @@
 #include "animationschangecameraangle.h"
 
-#include "../../core/editor.h"
+#include <animations/animationsanimation.h>
 
-#include "../../mainpanel.h"
+#include <QDoubleSpinBox>
+
+#include "../../core/editor.h"
 
 #include "../../blockedclosuremethodcall.h"
 
