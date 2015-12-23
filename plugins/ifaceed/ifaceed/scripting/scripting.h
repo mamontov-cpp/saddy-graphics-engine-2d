@@ -10,8 +10,6 @@
 #include <QThread>
 #include <QSet>
 
-class MainPanel;
-
 namespace scripting
 {
     
@@ -61,14 +59,14 @@ protected:
     /*! This class could be inherited
      */
     virtual ~Scripting();
-    /*! Sets a main panel for scripting
-        \param[in] panel a panel
+    /*! Sets an editor, where scripting object belongs to
+        \param[in] e editor
      */
-    void setPanel(MainPanel* panel);
-    /*! Returns panel
-        \return panel
+    void setEditor(core::Editor* e);
+    /*! Returns linked editor to scripting
+        \return an editor
      */
-    MainPanel* panel() const;
+    core::Editor* editor() const;
     /*! Returns an engine
         \return engine
      */
@@ -163,9 +161,9 @@ protected:
         \param[out] v a global value (E)
      */
     void initAnimationGroupBindings(QScriptValue& v);
-    /*! A panel for scripting
+    /*! An editor, where scripting object belongs to
      */
-    MainPanel* m_panel;
+    core::Editor* m_editor;
     /*! An engine to be run
      */
     QScriptEngine* m_engine;

@@ -13,7 +13,6 @@
 #include <animations/animationssimplemovement.h>
 
 #include "../scriptinghelp.h"
-#include "../mainpanel.h"
 
 #include "../core/editor.h"
 
@@ -204,17 +203,17 @@ scripting::Scripting::~Scripting()
     }
 }
 
-void scripting::Scripting::setPanel(MainPanel* panel)
+void scripting::Scripting::setEditor(core::Editor* editor)
 {
-    m_panel = panel;
+    m_editor = editor;
     this->initAnimationsBindings(m_value);
     this->initAnimationInstanceBindings(m_value);
     this->initAnimationGroupBindings(m_value);
 }
 
-MainPanel* scripting::Scripting::panel() const
+core::Editor* scripting::Scripting::editor() const
 {
-    return m_panel;
+    return m_editor;
 }
 
 QScriptEngine* scripting::Scripting::engine() const
