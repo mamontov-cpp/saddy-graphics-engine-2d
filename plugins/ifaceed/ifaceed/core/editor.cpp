@@ -131,13 +131,13 @@ core::Editor::Editor()
     // Fill conversion table with converters
     this->initConversionTable();
 
-	m_ui_blocks = new gui::uiblocks::UIBlocks();
+    m_ui_blocks = new gui::uiblocks::UIBlocks();
 
-	m_actions = new gui::actions::Actions();
-	m_actions->setEditor(this);
+    m_actions = new gui::actions::Actions();
+    m_actions->setEditor(this);
 
-	m_panel_proxy = new gui::MainPanelProxy();
-	m_panel_proxy->setEditor(this);
+    m_panel_proxy = new gui::MainPanelProxy();
+    m_panel_proxy->setEditor(this);
 }
 core::Editor::~Editor()
 {	
@@ -151,9 +151,9 @@ core::Editor::~Editor()
     delete m_selection;
     delete m_mainwindow;
     delete m_qtapp;
-	delete m_ui_blocks;
-	delete m_actions;
-	delete m_panel_proxy;
+    delete m_ui_blocks;
+    delete m_actions;
+    delete m_panel_proxy;
 }
 
 void core::Editor::init(int argc,char ** argv)
@@ -431,22 +431,27 @@ bool core::Editor::isDatabaseEmpty() const
 
 gui::uiblocks::UIBlocks* core::Editor::uiBlocks() const
 {
-	return m_ui_blocks;
+    return m_ui_blocks;
 }
 
 gui::actions::Actions* core::Editor::actions() const
 {
-	return m_actions;
+    return m_actions;
 }
 
 gui::MainPanelProxy* core::Editor::panelProxy() const
 {
-	return m_panel_proxy;
+    return m_panel_proxy;
+}
+
+QWidget* core::Editor::panelAsWidget() const
+{
+    return m_panel;
 }
 
 void core::Editor::addToHistory(history::Command* c, bool fromeditor)
 {
-	if (fromeditor)
+    if (fromeditor)
     {
         this->history()->add(c);
     }
@@ -623,7 +628,7 @@ void core::Editor::runQtEventLoop()
 {
     m_mainwindow = new MainPanel();
     m_mainwindow->setEditor(this);
-	m_ui_blocks->init(m_mainwindow);
+    m_ui_blocks->init(m_mainwindow);
 
     // Called this explicitly, because entered state before
     m_machine->state("idle")->addEnterHandler(this, &core::Editor::enteredIdleState);
