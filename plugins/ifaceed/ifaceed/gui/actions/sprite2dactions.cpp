@@ -176,10 +176,10 @@ void gui::actions::Sprite2DActions::add()
 {
     bool valid = true;
 
-	gui::actions::SceneActions* s_actions = m_editor->actions()->sceneActions();
+    gui::actions::SceneActions* s_actions = m_editor->actions()->sceneActions();
 
-	gui::uiblocks::UISpriteBlock* sblk = m_editor->uiBlocks()->uiSpriteBlock();
-	gui::uiblocks::UISceneNodeBlock* snblk = m_editor->uiBlocks()->uiSceneNodeBlock();
+    gui::uiblocks::UISpriteBlock* sblk = m_editor->uiBlocks()->uiSpriteBlock();
+    gui::uiblocks::UISceneNodeBlock* snblk = m_editor->uiBlocks()->uiSceneNodeBlock();
 
 
     valid = valid && s_actions->currentScene() != NULL;
@@ -208,10 +208,10 @@ void gui::actions::Sprite2DActions::add()
 
 void gui::actions::Sprite2DActions::addBySimplePlacing()
 {
-	gui::actions::SceneActions* s_actions = m_editor->actions()->sceneActions();
+    gui::actions::SceneActions* s_actions = m_editor->actions()->sceneActions();
 
-	gui::uiblocks::UISpriteBlock* sblk = m_editor->uiBlocks()->uiSpriteBlock();
-	gui::uiblocks::UISceneNodeBlock* snblk = m_editor->uiBlocks()->uiSceneNodeBlock();
+    gui::uiblocks::UISpriteBlock* sblk = m_editor->uiBlocks()->uiSpriteBlock();
+    gui::uiblocks::UISceneNodeBlock* snblk = m_editor->uiBlocks()->uiSceneNodeBlock();
 
     sad::Sprite2D* sprite = new sad::Sprite2D();
     sprite->setTreeName("");
@@ -257,10 +257,10 @@ void gui::actions::Sprite2DActions::addBySimplePlacing()
 
 void gui::actions::Sprite2DActions::addByDiagonalPlacing()
 {
-	gui::actions::SceneActions* s_actions = m_editor->actions()->sceneActions();
+    gui::actions::SceneActions* s_actions = m_editor->actions()->sceneActions();
 
-	gui::uiblocks::UISpriteBlock* sblk = m_editor->uiBlocks()->uiSpriteBlock();
-	gui::uiblocks::UISceneNodeBlock* snblk = m_editor->uiBlocks()->uiSceneNodeBlock();
+    gui::uiblocks::UISpriteBlock* sblk = m_editor->uiBlocks()->uiSpriteBlock();
+    gui::uiblocks::UISceneNodeBlock* snblk = m_editor->uiBlocks()->uiSceneNodeBlock();
 
 
 

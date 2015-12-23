@@ -103,7 +103,7 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/scenes/scenesremove.h \
     ifaceed/core/synchronization.h \
     ifaceed/history/scenenodes/scenenodesnew.h \
-    ifaceed/gui/labelactions.h \
+    ifaceed/gui/actions/labelactions.h \
     ifaceed/gui/actions/scenenodeactions.h \
     ifaceed/gui/actions/sceneactions.h \	
     ifaceed/core/borders/activeborder.h \
@@ -133,7 +133,7 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/scenenodes/scenenodeschangepropertywhichlinkedtocheckbox.h \
     ifaceed/history/scenenodes/scenenodeschangevisibility.h \
     ifaceed/gui/rotationprocess.h \
-    ifaceed/gui/sprite2dactions.h \
+    ifaceed/gui/actions/sprite2dactions.h \
     ifaceed/history/sprite2d/changeflipx.h \
     ifaceed/history/sprite2d/changeflipy.h \
     ifaceed/history/sprite2d/changeoptions.h \
@@ -150,7 +150,7 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/core/selection.h \
     ifaceed/reloadfilelist.h \
     ifaceed/gui/renderways.h \
-    ifaceed/gui/wayactions.h \
+    ifaceed/gui/actions/wayactions.h \
     ifaceed/history/ways/waysnew.h \
     ifaceed/history/ways/waysremove.h \
     ifaceed/history/ways/wayschangeproperty.h \
@@ -161,7 +161,7 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/ways/wayswaypointchange.h \
     ifaceed/history/ways/wayswaypointremove.h \
     ifaceed/history/ways/wayswaypointswap.h \
-    ifaceed/gui/dialogueactions.h \
+    ifaceed/gui/actions/dialogueactions.h \
     ifaceed/history/dialogues/dialoguesremove.h \
     ifaceed/history/dialogues/dialogueschangename.h \
     ifaceed/history/dialogues/dialoguesnew.h \
@@ -216,8 +216,8 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/gui/animationgroupprocess.h \
     ifaceed/gui/animationinstanceprocess.h \
     ifaceed/gui/animationprocess.h \
-    ifaceed/gui/groupactions.h \
-    ifaceed/gui/instanceactions.h \
+    ifaceed/gui/actions/animationgroupactions.h \
+    ifaceed/gui/actions/animationinstanceactions.h \
     ifaceed/scripting/scripting.h \
     ifaceed/scripting/tovalue.h \
     ifaceed/scripting/callable.h \
@@ -373,7 +373,8 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/history/scenes/scenesremove.cpp \
     ifaceed/core/synchronization.cpp \
     ifaceed/history/scenenodes/scenenodesnew.cpp \
-    ifaceed/gui/labelactions.cpp \
+    ifaceed/gui/actions/labelactions.cpp \
+    ifaceed/gui/actions/sceneactions.cpp \
     ifaceed/gui/actions/scenenodeactions.cpp \
     ifaceed/core/borders/activeborder.cpp \
     ifaceed/core/borders/border.cpp \
@@ -399,7 +400,7 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/history/scenenodes/scenenodeschangepropertywhichlinkedtocheckbox.cpp \
     ifaceed/history/scenenodes/scenenodeschangevisibility.cpp \
     ifaceed/gui/rotationprocess.cpp \
-    ifaceed/gui/sprite2dactions.cpp \
+    ifaceed/gui/actions/sprite2dactions.cpp \
     ifaceed/history/sprite2d/changeflipx.cpp \
     ifaceed/history/sprite2d/changeflipy.cpp \
     ifaceed/history/sprite2d/changeoptions.cpp \
@@ -414,7 +415,7 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/core/selection.cpp \
     ifaceed/reloadfilelist.cpp \
     ifaceed/gui/renderways.cpp \
-    ifaceed/gui/wayactions.cpp \
+    ifaceed/gui/actions/wayactions.cpp \
     ifaceed/history/ways/waysnew.cpp \
     ifaceed/history/ways/waysremove.cpp \
     ifaceed/history/ways/wayschangename.cpp \
@@ -424,7 +425,7 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/history/ways/wayswaypointchange.cpp \
     ifaceed/history/ways/wayswaypointremove.cpp \
     ifaceed/history/ways/wayswaypointswap.cpp \
-    ifaceed/gui/dialogueactions.cpp \
+    ifaceed/gui/actions/dialogueactions.cpp \
     ifaceed/history/dialogues/dialogueschangename.cpp \
     ifaceed/history/dialogues/dialoguesnew.cpp \
     ifaceed/history/dialogues/dialoguesphrasechangeduration.cpp \
@@ -473,12 +474,11 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/gui/codeedit/linenumberarea.cpp \
     ifaceed/gui/textedit/textedit.cpp \
     ifaceed/gui/actions/animationactions.cpp \
-    ifaceed/gui/actions/sceneactions.cpp \	
     ifaceed/gui/animationgroupprocess.cpp \
     ifaceed/gui/animationinstanceprocess.cpp \
     ifaceed/gui/animationprocess.cpp \
-    ifaceed/gui/groupactions.cpp \
-    ifaceed/gui/instanceactions.cpp \
+    ifaceed/gui/actions/animationgroupactions.cpp \
+    ifaceed/gui/actions/animationinstanceactions.cpp \
     ifaceed/scripting/scripting.cpp \
     ifaceed/scripting/tovalue.cpp \
     ifaceed/scripting/callable.cpp \

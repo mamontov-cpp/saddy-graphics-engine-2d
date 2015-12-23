@@ -72,9 +72,9 @@ public:
         \param[in] from_editor true, if node is removed from editor, false if from scripting part
      */
     void removeSceneNode(sad::SceneNode* node, bool from_editor); 
-	/*! Selects last scene node in list
-	 */
-	void selectLastSceneNode();
+    /*! Selects last scene node in list
+     */
+    void selectLastSceneNode();
     /*! Updates scene node name, finding it in list, settting it to current name
         \param[in] s scene
      */
@@ -84,7 +84,7 @@ public:
         \return name for node
      */
     QString fullNameForNode(sad::SceneNode* node);
-	/*! Adds scene to scene node list
+    /*! Adds scene to scene node list
         \param[in] s scene node
      */
     void addSceneNodeToSceneNodeList(sad::SceneNode* s);
@@ -144,9 +144,9 @@ public slots:
      * Called, when user removes scene node
      */
     void removeSceneNode();
-	/*! A slot for selecting last scene node slot
-	 */
-	void selectLastSceneNodeSlot();
+    /*! A slot for selecting last scene node slot
+     */
+    void selectLastSceneNodeSlot();
     /*! Emitted, when current scene node is changed
         \param[in] index a new index for node in list
      */

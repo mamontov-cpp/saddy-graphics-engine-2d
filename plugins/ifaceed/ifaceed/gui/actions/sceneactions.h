@@ -1,6 +1,6 @@
 /*! \file sceneactions.h
-	
-	Defines a basic scene actions
+    
+    Defines a basic scene actions
  */
 #pragma once
 #include <QObject>
@@ -15,7 +15,7 @@ class Scene;
 
 namespace gui
 {
-	
+    
 namespace actions
 {
 
@@ -25,25 +25,25 @@ class SceneActions: public QObject, public gui::actions::AbstractActions
 {
 Q_OBJECT
 public:
-	/*! Creates new action for scene nodes
+    /*! Creates new action for scene nodes
         \param[in] parent a parent object
      */
     SceneActions(QObject* parent = NULL);
     /*! This class could be inherited
      */
     virtual ~SceneActions();
-	/*! Returns name for a scene
+    /*! Returns name for a scene
         \param[in] scene a scene name
      */
     QString nameForScene(sad::Scene* scene);
-	/*! Adds scene to scene list
+    /*! Adds scene to scene list
         \param[in] s scene 
      */
     void addSceneToSceneList(sad::Scene* s);
-	/*! Removes last scene from scene list
+    /*! Removes last scene from scene list
      */
     void removeLastSceneFromSceneList();
-	/*! Inserts scene to a scene list
+    /*! Inserts scene to a scene list
         \param[in] s scene
         \param[in] position a position in scene list
      */

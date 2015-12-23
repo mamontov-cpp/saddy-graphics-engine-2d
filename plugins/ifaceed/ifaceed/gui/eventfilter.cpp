@@ -17,7 +17,7 @@ void gui::EventFilter::setEditor(core::Editor* e)
  bool gui::EventFilter::eventFilter(QObject *o, QEvent *e)
  {
      bool handled = false;
-	 gui::MainPanelProxy* proxy = m_editor->panelProxy();
+     gui::MainPanelProxy* proxy = m_editor->panelProxy();
      if(e->type() == QEvent::KeyPress && m_editor)
      {
         QKeyEvent* ev = static_cast<QKeyEvent*>(e);
