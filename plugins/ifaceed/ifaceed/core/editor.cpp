@@ -446,7 +446,7 @@ gui::MainPanelProxy* core::Editor::panelProxy() const
 
 QWidget* core::Editor::panelAsWidget() const
 {
-    return m_panel;
+    return m_mainwindow;
 }
 
 void core::Editor::addToHistory(history::Command* c, bool fromeditor)
