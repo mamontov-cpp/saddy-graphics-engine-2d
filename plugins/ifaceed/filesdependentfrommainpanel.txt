@@ -1,4 +1,3 @@
-./ifaceed/gui/table/delegate.cpp
 ./ifaceed/history/animations/animationsaddtocomposite.cpp
 ./ifaceed/history/animations/animationschangeblinkingfrequency.cpp
 ./ifaceed/history/animations/animationschangecameraangle.cpp

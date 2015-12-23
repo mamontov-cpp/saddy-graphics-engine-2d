@@ -2,8 +2,6 @@
 
 #include "core/editor.h"
 
-#include "../../mainpanel.h"
-
 #include "../../history/database/removeproperty.h"
 
 
