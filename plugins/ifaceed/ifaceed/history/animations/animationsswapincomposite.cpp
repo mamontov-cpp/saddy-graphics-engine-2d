@@ -1,12 +1,11 @@
 #include "animationsswapincomposite.h"
 
-
-#include "../../gui/animationactions.h"
-
-#include "../../mainpanel.h"
 #include "../core/editor.h"
 
 #include "../closuremethodcall.h"
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uianimationblock.h"
 
 history::animations::SwapInComposite::SwapInComposite(
     sad::animations::Composite* a, 
@@ -30,7 +29,7 @@ void history::animations::SwapInComposite::commit(core::Editor * ob)
     {
         if (ob->shared()->selectedAnimation() == m_animation)
         {
-            QListWidget* w = ob->panel()->UI()->lstCompositeList;
+            QListWidget* w = ob->uiBlocks()->uiAnimationBlock()->lstCompositeList;
             this->swapItemsInList(w);
         }
     }
@@ -43,7 +42,7 @@ void history::animations::SwapInComposite::rollback(core::Editor * ob) //-V524
     {
         if (ob->shared()->selectedAnimation() == m_animation)
         {
-            QListWidget* w = ob->panel()->UI()->lstCompositeList;
+            QListWidget* w = ob->uiBlocks()->uiAnimationBlock()->lstCompositeList;
             this->swapItemsInList(w);
         }
     }

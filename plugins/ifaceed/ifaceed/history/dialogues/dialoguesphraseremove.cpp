@@ -1,10 +1,15 @@
 #include "dialoguesphraseremove.h"
 
-#include "../mainpanel.h"
 #include "../core/editor.h"
 
 #include "../closuremethodcall.h"
 #include "../blockedclosuremethodcall.h"
+
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/dialogueactions.h"
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uiphraseblock.h"
 
 history::dialogues::PhraseRemove::PhraseRemove(
     sad::dialogue::Dialogue* dialogue, 
@@ -29,8 +34,8 @@ void history::dialogues::PhraseRemove::commit(core::Editor* ob)
         if (ob->shared()->selectedDialogue() == m_dialogue)
         {
             ob->emitClosure(bind(
-                ob->panel(),
-                &MainPanel::removePhraseFromPhraseList,
+                ob->actions()->dialogueActions(),
+                &gui::actions::DialogueActions::removePhraseFromPhraseList,
                 m_position
             ));
         }
@@ -45,13 +50,13 @@ void history::dialogues::PhraseRemove::rollback(core::Editor* ob)
     {
         if (ob->shared()->selectedDialogue() == m_dialogue)
         {
+            QListWidget* lst = ob->uiBlocks()->uiPhraseBlock()->lstPhrases;			
             void (QListWidget::*f)(int, const QString&) = &QListWidget::insertItem;
-            MainPanel* p = ob->panel();            
             ob->emitClosure( bind(
-                p->UI()->lstPhrases,
+                lst,
                 f,
                 m_position, 
-                p->nameForPhrase(m_phrase)
+                ob->actions()->dialogueActions()->nameForPhrase(m_phrase)
             ));
         }
     }

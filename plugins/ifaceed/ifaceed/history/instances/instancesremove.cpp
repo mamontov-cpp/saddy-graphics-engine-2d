@@ -2,11 +2,14 @@
 
 #include "../../core/editor.h"
 
-#include "../../gui/instanceactions.h"
-
-#include "../../mainpanel.h"
-
 #include "../../closuremethodcall.h"
+
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/animationinstanceactions.h"
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uianimationinstanceblock.h"
+#include "../../gui/uiblocks/uianimationsgroupblock.h"
 
 Q_DECLARE_METATYPE(sad::animations::Instance*) //-V566
 
@@ -37,12 +40,12 @@ void history::instances::Remove::commit(core::Editor * ob)
         ob->emitClosure(bind(
             this,
             &history::instances::Remove::removeItem,			
-            ob->panel()->UI()->lstAnimationInstances	
+            ob->uiBlocks()->uiAnimationInstanceBlock()->lstAnimationInstances	
         ));
 
         ob->emitClosure(bind(
-            ob->panel()->instanceActions(),
-            &gui::InstanceActions::updateGroupInstanceList
+            ob->actions()->instanceActions(),
+            &gui::actions::AnimationInstanceActions::updateGroupInstanceList
         ));
     }
 }
@@ -60,13 +63,13 @@ void history::instances::Remove::rollback(core::Editor * ob)
         ob->emitClosure(bind(
             this,
             &history::instances::Remove::insertItem,			
-            ob->panel()->UI()->lstAnimationInstances,
-            ob->panel()->nameForInstance(m_node)
+            ob->uiBlocks()->uiAnimationInstanceBlock()->lstAnimationInstances,	
+            ob->actions()->instanceActions()->nameForInstance(m_node)
         ));
 
         ob->emitClosure(bind(
-            ob->panel()->instanceActions(),
-            &gui::InstanceActions::updateGroupInstanceList
+            ob->actions()->instanceActions(),
+            &gui::actions::AnimationInstanceActions::updateGroupInstanceList
         ));
     }
 }

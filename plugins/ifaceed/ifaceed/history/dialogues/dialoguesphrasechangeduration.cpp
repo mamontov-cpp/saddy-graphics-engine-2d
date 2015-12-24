@@ -1,11 +1,17 @@
 #include "dialoguesphrasechangeduration.h"
 
-#include "../../core/editor.h"
+#include <QDoubleSpinBox>
 
-#include "../../mainpanel.h"
+#include "../../core/editor.h"
 
 #include "../../blockedclosuremethodcall.h"
 #include "../../closuremethodcall.h"
+
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/dialogueactions.h"
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uiphraseblock.h"
 
 history::dialogues::PhraseChangeDuration::PhraseChangeDuration(
     sad::dialogue::Dialogue* dialogue, 
@@ -41,15 +47,16 @@ void history::dialogues::PhraseChangeDuration::tryUpdateUI(core::Editor* e, doub
     {
         if (e->shared()->selectedDialogue() == m_dialogue)
         {
+			QListWidget* lst = e->uiBlocks()->uiPhraseBlock()->lstPhrases;
             e->emitClosure(bind(
-                e->panel()->UI()->lstPhrases->item(m_position),
+                lst->item(m_position),
                 &QListWidgetItem::setText,
-                e->panel()->nameForPhrase(*(m_dialogue->phrases()[m_position]))
+                e->actions()->dialogueActions()->nameForPhrase(*(m_dialogue->phrases()[m_position]))
             ));
-            if (e->panel()->UI()->lstPhrases->currentRow() == m_position)
+            if (lst->currentRow() == m_position)
             {
                 e->emitClosure(blocked_bind(
-                    e->panel()->UI()->dsbPhraseDuration,
+                    e->uiBlocks()->uiPhraseBlock()->dsbPhraseDuration,
                     &QDoubleSpinBox::setValue,
                     v
                 ));

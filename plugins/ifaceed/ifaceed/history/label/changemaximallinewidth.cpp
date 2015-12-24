@@ -1,11 +1,14 @@
 #include "changemaximallinewidth.h"
 
+#include <QSpinBox>
+
 #include "../../core/editor.h"
 
-#include "../../mainpanel.h"
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uilabelblock.h"
 
-#include "../../gui/labelactions.h"
-#include "../../gui/scenenodeactions.h"
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/scenenodeactions.h"
 
 #include "../../blockedclosuremethodcall.h"
 #include "../../closuremethodcall.h"
@@ -36,10 +39,10 @@ void history::label::ChangeMaximalLineWidth::updateUI(
     const unsigned int& value)
 {
     e->emitClosure( blocked_bind(
-            e->panel()->UI()->spbMaximalLineWidth,
+            e->uiBlocks()->uiLabelBlock()->spbMaximalLineWidth,
             &QSpinBox::setValue,
             value
         )
     );
-    e->panel()->sceneNodeActions()->updateRegionForNode();
+    e->actions()->sceneNodeActions()->updateRegionForNode();
 }

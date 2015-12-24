@@ -2,10 +2,14 @@
 
 #include "../../core/editor.h"
 
-#include "../../mainpanel.h"
-
 #include "../../closuremethodcall.h"
 #include "../../blockedclosuremethodcall.h"
+
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/animationactions.h"
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uianimationblock.h"
 
 Q_DECLARE_METATYPE(sad::p2d::app::Way*) //-V566
 
@@ -31,9 +35,9 @@ history::animations::ChangeWayMovingWay::~ChangeWayMovingWay()
 
 void history::animations::ChangeWayMovingWay::performUpdateUI(core::Editor* e, unsigned long long value)
 {
-    MainPanel* panel = e->panel();
-    QComboBox* list = panel->UI()->cmbWayAnimationWay;
-    invoke_blocked(list, &QComboBox::setCurrentIndex,  panel->findInComboBoxByMajorId<sad::p2d::app::Way*>(list,value));
+    QComboBox* list = e->uiBlocks()->uiAnimationBlock()->cmbWayAnimationWay;
+	gui::actions::AnimationActions* a_actions  = e->actions()->animationActions();
+    invoke_blocked(list, &QComboBox::setCurrentIndex,  a_actions->findInComboBoxByMajorId<sad::p2d::app::Way*>(list,value));
 }
 
 void history::animations::ChangeWayMovingWay::updateUI(core::Editor* e, const unsigned long long& value)

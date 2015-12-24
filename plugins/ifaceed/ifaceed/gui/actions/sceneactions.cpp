@@ -63,12 +63,12 @@ void gui::actions::SceneActions::addSceneToSceneList(sad::Scene* s)
 
 void  gui::actions::SceneActions::removeLastSceneFromSceneList()
 {
-	QListWidget* lstScenes = m_editor->uiBlocks()->uiSceneBlock()->lstScenes;
+    QListWidget* lstScenes = m_editor->uiBlocks()->uiSceneBlock()->lstScenes;
     if (lstScenes->count())
     {
         QListWidgetItem* i = lstScenes->takeItem(lstScenes->count() - 1);
         QComboBox* cmbAnimationInstanceObject = m_editor->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceObject;
-		sad::Scene* s  = i->data(Qt::UserRole).value<sad::Scene*>();
+        sad::Scene* s  = i->data(Qt::UserRole).value<sad::Scene*>();
         delete i;
 
         int pos = this->findInComboBox<sad::db::Object*>(cmbAnimationInstanceObject, s);
@@ -82,7 +82,7 @@ void  gui::actions::SceneActions::removeLastSceneFromSceneList()
 
 void gui::actions::SceneActions::insertSceneToSceneList(sad::Scene* s, int position)
 {
-	QListWidget* lstScenes = m_editor->uiBlocks()->uiSceneBlock()->lstScenes;
+    QListWidget* lstScenes = m_editor->uiBlocks()->uiSceneBlock()->lstScenes;
     QString name = this->viewableObjectName(s);
     QListWidgetItem* i =  new QListWidgetItem();
     i->setText(name);
@@ -95,7 +95,7 @@ void gui::actions::SceneActions::insertSceneToSceneList(sad::Scene* s, int posit
 
 void gui::actions::SceneActions::removeSceneFromSceneList(int position)
 {
-	QListWidget* lstScenes = m_editor->uiBlocks()->uiSceneBlock()->lstScenes;
+    QListWidget* lstScenes = m_editor->uiBlocks()->uiSceneBlock()->lstScenes;
     QListWidgetItem* i =  lstScenes->takeItem(position);
     delete i;
 }
@@ -103,7 +103,7 @@ void gui::actions::SceneActions::removeSceneFromSceneList(int position)
 sad::Scene* gui::actions::SceneActions::currentScene()
 {
     QListWidget* lstScenes = m_editor->uiBlocks()->uiSceneBlock()->lstScenes;    
-	QListWidgetItem* item = lstScenes->currentItem();
+    QListWidgetItem* item = lstScenes->currentItem();
     sad::Scene* scene = NULL;
     if (item)
     {
@@ -115,14 +115,14 @@ sad::Scene* gui::actions::SceneActions::currentScene()
 void gui::actions::SceneActions::updateSceneName(sad::Scene* s)
 {
     int row = this->findSceneInList(s);
-	QListWidget* lstScenes = m_editor->uiBlocks()->uiSceneBlock()->lstScenes;    
+    QListWidget* lstScenes = m_editor->uiBlocks()->uiSceneBlock()->lstScenes;    
     if (row != -1)
     {
         lstScenes->item(row)->setText(this->viewableObjectName(s));
     }
     if (s == currentScene())
     {
-		QLineEdit* txtSceneName = m_editor->uiBlocks()->uiSceneBlock()->txtSceneName;    
+        QLineEdit* txtSceneName = m_editor->uiBlocks()->uiSceneBlock()->txtSceneName;    
         bool b = txtSceneName->blockSignals(true);
         txtSceneName->setText(STD2QSTRING(s->objectName().c_str()));
         txtSceneName->blockSignals(b);
@@ -137,7 +137,7 @@ int gui::actions::SceneActions::findSceneInList(sad::Scene* s)
 
 void gui::actions::SceneActions::setScenesInList(sad::Scene* s1, sad::Scene* s2, int pos1, int pos2)
 {
-	QListWidget* lstScenes = m_editor->uiBlocks()->uiSceneBlock()->lstScenes;   
+    QListWidget* lstScenes = m_editor->uiBlocks()->uiSceneBlock()->lstScenes;   
     sad::Scene* s = this->currentScene();
     lstScenes->item(pos1)->setText(this->viewableObjectName(s1));
     QVariant v1;
@@ -159,8 +159,8 @@ void gui::actions::SceneActions::setScenesInList(sad::Scene* s1, sad::Scene* s2,
 unsigned long long  gui::actions::SceneActions::addSceneWithName(const QString& name, bool fromeditor)
 {
     sad::Scene* s  = new sad::Scene();
-	QLineEdit* txtSceneName = m_editor->uiBlocks()->uiSceneBlock()->txtSceneName; 
-	QListWidget* lstScenes = m_editor->uiBlocks()->uiSceneBlock()->lstScenes; 
+    QLineEdit* txtSceneName = m_editor->uiBlocks()->uiSceneBlock()->txtSceneName; 
+    QListWidget* lstScenes = m_editor->uiBlocks()->uiSceneBlock()->lstScenes; 
     if (fromeditor)
     {
         QString kname = txtSceneName->text();
@@ -203,8 +203,8 @@ void gui::actions::SceneActions::scriptableRemoveScene(sad::Scene* scene, bool f
     {
         scene = currentScene();
     }
-	QListWidget* lstScenes = m_editor->uiBlocks()->uiSceneBlock()->lstScenes; 
-	QComboBox* cmbAnimationInstanceObject = m_editor->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceObject;
+    QListWidget* lstScenes = m_editor->uiBlocks()->uiSceneBlock()->lstScenes; 
+    QComboBox* cmbAnimationInstanceObject = m_editor->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceObject;
     if (scene)
     {
         if (m_editor->machine()->isInState("selected"))
@@ -293,9 +293,9 @@ void gui::actions::SceneActions::addScene()
 
 void gui::actions::SceneActions::currentSceneChanged(int index)
 {
-	QListWidget* lstScenes = m_editor->uiBlocks()->uiSceneBlock()->lstScenes; 
-	QLineEdit* txtSceneName = m_editor->uiBlocks()->uiSceneBlock()->txtSceneName; 
-	QListWidget* lstSceneObjects = m_editor->uiBlocks()->uiSceneBlock()->lstSceneObjects;
+    QListWidget* lstScenes = m_editor->uiBlocks()->uiSceneBlock()->lstScenes; 
+    QLineEdit* txtSceneName = m_editor->uiBlocks()->uiSceneBlock()->txtSceneName; 
+    QListWidget* lstSceneObjects = m_editor->uiBlocks()->uiSceneBlock()->lstSceneObjects;
     if (m_editor->machine()->isInState("adding")
         || (m_editor->machine()->isInState("selected") 
             && m_editor->machine()->currentState() != "selected"))
@@ -341,7 +341,7 @@ void gui::actions::SceneActions::currentSceneChanged(int index)
 void gui::actions::SceneActions::sceneNameChanged(const QString&)
 {
     sad::Scene* scene = currentScene();
-	QLineEdit* txtSceneName = m_editor->uiBlocks()->uiSceneBlock()->txtSceneName; 
+    QLineEdit* txtSceneName = m_editor->uiBlocks()->uiSceneBlock()->txtSceneName; 
     if (scene)
     {
         sad::String oldname = scene->objectName();
@@ -364,7 +364,7 @@ void gui::actions::SceneActions::removeScene()
 void gui::actions::SceneActions::sceneMoveBack()
 {
     sad::Scene* scene = currentScene();
-	QListWidget* lstScenes = m_editor->uiBlocks()->uiSceneBlock()->lstScenes; 
+    QListWidget* lstScenes = m_editor->uiBlocks()->uiSceneBlock()->lstScenes; 
     if (scene)
     {
         int row = lstScenes->currentRow();
@@ -382,7 +382,7 @@ void gui::actions::SceneActions::sceneMoveBack()
 void  gui::actions::SceneActions::sceneMoveFront()
 {
     sad::Scene* scene = currentScene();
-	QListWidget* lstScenes = m_editor->uiBlocks()->uiSceneBlock()->lstScenes; 
+    QListWidget* lstScenes = m_editor->uiBlocks()->uiSceneBlock()->lstScenes; 
     if (scene)
     {
         int row = lstScenes->currentRow();
@@ -399,8 +399,8 @@ void  gui::actions::SceneActions::sceneMoveFront()
 
 void gui::actions::SceneActions::clearScene()
 {
-	sad::Scene* scene = currentScene();
-	QComboBox* cmbAnimationInstanceObject = m_editor->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceObject;
+    sad::Scene* scene = currentScene();
+    QComboBox* cmbAnimationInstanceObject = m_editor->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceObject;
     if (scene)
     {
 

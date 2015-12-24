@@ -88,15 +88,15 @@ void gui::actions::WayActions::commitWayPointMoving(const sad::input::MouseRelea
 
 void gui::actions::WayActions::updateWayPoint(int row, const sad::Point2D& p)
 {
-	gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
+    gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
     blk->lstWayPoints->item(row)->setText(this->nameForPoint(p));
 }
 
 void gui::actions::WayActions::addWay()
 {
-	gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
+    gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
 
-	sad::p2d::app::Way* w = new sad::p2d::app::Way();
+    sad::p2d::app::Way* w = new sad::p2d::app::Way();
     w->setObjectName(Q2STDSTRING(blk->txtWayName->text()));
     if (blk->cbWayClosed->checkState() == Qt::Checked) 
     {
@@ -121,8 +121,8 @@ void gui::actions::WayActions::removeWayFromDatabase(sad::p2d::app::Way* w, bool
 {
     sad::Vector<sad::db::Object*> animationlist;
     sad::Renderer::ref()->database("")->table("animations")->objects(animationlist);
-	gui::uiblocks::UIAnimationBlock* ablk = m_editor->uiBlocks()->uiAnimationBlock(); 
-	gui::uiblocks::UIAnimationInstanceBlock* aiblk = m_editor->uiBlocks()->uiAnimationInstanceBlock(); 
+    gui::uiblocks::UIAnimationBlock* ablk = m_editor->uiBlocks()->uiAnimationBlock(); 
+    gui::uiblocks::UIAnimationInstanceBlock* aiblk = m_editor->uiBlocks()->uiAnimationInstanceBlock(); 
 
     if (row == -1)
     {
@@ -183,9 +183,9 @@ void gui::actions::WayActions::addLastWayToEnd(sad::p2d::app::Way* way)
 {
     QString nameforway = this->viewableObjectName(way);
 
-	gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
-	gui::uiblocks::UIAnimationBlock* ablk = m_editor->uiBlocks()->uiAnimationBlock(); 
-	gui::uiblocks::UIAnimationInstanceBlock* aiblk = m_editor->uiBlocks()->uiAnimationInstanceBlock(); 
+    gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
+    gui::uiblocks::UIAnimationBlock* ablk = m_editor->uiBlocks()->uiAnimationBlock(); 
+    gui::uiblocks::UIAnimationInstanceBlock* aiblk = m_editor->uiBlocks()->uiAnimationInstanceBlock(); 
 
     blk->lstWays->addItem(nameforway);
     
@@ -200,9 +200,9 @@ void gui::actions::WayActions::addLastWayToEnd(sad::p2d::app::Way* way)
 
 void gui::actions::WayActions::removeLastWayFromWayList()
 {
-	gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
-	gui::uiblocks::UIAnimationBlock* ablk = m_editor->uiBlocks()->uiAnimationBlock(); 
-	gui::uiblocks::UIAnimationInstanceBlock* aiblk = m_editor->uiBlocks()->uiAnimationInstanceBlock(); 
+    gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
+    gui::uiblocks::UIAnimationBlock* ablk = m_editor->uiBlocks()->uiAnimationBlock(); 
+    gui::uiblocks::UIAnimationInstanceBlock* aiblk = m_editor->uiBlocks()->uiAnimationInstanceBlock(); 
 
     if (blk->lstWays->count() > 0)
     {
@@ -231,9 +231,9 @@ void gui::actions::WayActions::removeLastWayFromWayList()
 
 void gui::actions::WayActions::insertWayToWayList(sad::p2d::app::Way* s, int position)
 {
-	gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
+    gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
 
-	QListWidgetItem* i = new QListWidgetItem(this->viewableObjectName(s));
+    QListWidgetItem* i = new QListWidgetItem(this->viewableObjectName(s));
     QVariant v;
     v.setValue(s);
     i->setData(Qt::UserRole, v);
@@ -242,7 +242,7 @@ void gui::actions::WayActions::insertWayToWayList(sad::p2d::app::Way* s, int pos
 
 void gui::actions::WayActions::removeWayFromWayList(int position)
 {
-	gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
+    gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
 
     QVariant v = blk->lstWays->item(position)->data(Qt::UserRole);
     sad::p2d::app::Way* w  = v.value<sad::p2d::app::Way*>();
@@ -256,7 +256,7 @@ void gui::actions::WayActions::removeWayFromWayList(int position)
 
 void gui::actions::WayActions::removeWayFromWayList(sad::p2d::app::Way* s)
 {
-	gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
+    gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
 
     int pos = this->findWayInList(s);
     if (s == m_editor->shared()->selectedWay())
@@ -272,15 +272,15 @@ void gui::actions::WayActions::removeWayFromWayList(sad::p2d::app::Way* s)
 
 int gui::actions::WayActions::findWayInList(sad::p2d::app::Way* s)
 {
-	gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
-	return this->findInList(blk->lstWays, s);
+    gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
+    return this->findInList(blk->lstWays, s);
 }
 
 void gui::actions::WayActions::updateWayName(sad::p2d::app::Way* s)
 {
-	gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
-	gui::uiblocks::UIAnimationBlock* ablk = m_editor->uiBlocks()->uiAnimationBlock(); 
-	gui::uiblocks::UIAnimationInstanceBlock* aiblk = m_editor->uiBlocks()->uiAnimationInstanceBlock(); 
+    gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
+    gui::uiblocks::UIAnimationBlock* ablk = m_editor->uiBlocks()->uiAnimationBlock(); 
+    gui::uiblocks::UIAnimationInstanceBlock* aiblk = m_editor->uiBlocks()->uiAnimationInstanceBlock(); 
 
 
     QString name = this->viewableObjectName(s);
@@ -305,7 +305,7 @@ void gui::actions::WayActions::updateWayName(sad::p2d::app::Way* s)
 
 void gui::actions::WayActions::removeRowInWayPointList(int row)
 {
-	gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
+    gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
 
     if (row >=0  && row < blk->lstWayPoints->count()) {
         delete blk->lstWayPoints->takeItem(row);
@@ -321,8 +321,8 @@ QString gui::actions::WayActions::nameForPoint(const sad::Point2D& p) const
 
 void gui::actions::WayActions::removeWay()
 {
-	gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
-	
+    gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
+    
     int row = blk->lstWays->currentRow();
     if (row > -1)
     {
@@ -335,8 +335,8 @@ void gui::actions::WayActions::removeWay()
 
 void gui::actions::WayActions::wayChanged(int i)
 {
-	gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
-	
+    gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
+    
     if (i >= 0)
     {
         QListWidgetItem* item = blk->lstWays->item(i);
@@ -401,9 +401,9 @@ void gui::actions::WayActions::totalTimeChanged(double value)
 
 void gui::actions::WayActions::addWayPoint()
 {
-	gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
-	
-	sad::p2d::app::Way* w = m_editor->shared()->selectedWay();
+    gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
+    
+    sad::p2d::app::Way* w = m_editor->shared()->selectedWay();
     if (w)
     {
         history::Command* c = new history::ways::WayPointNew(w);
@@ -417,8 +417,8 @@ void gui::actions::WayActions::addWayPoint()
 
 void gui::actions::WayActions::removeWayPoint()
 {
-	gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
-	
+    gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
+    
     sad::p2d::app::Way* w = m_editor->shared()->selectedWay();
     if (w)
     {
@@ -434,8 +434,8 @@ void gui::actions::WayActions::removeWayPoint()
 
 void gui::actions::WayActions::viewPoint(int i)
 {
-	gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
-	
+    gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
+    
     sad::p2d::app::Way* w = m_editor->shared()->selectedWay();
     if (w)
     {
@@ -451,8 +451,8 @@ void gui::actions::WayActions::viewPoint(int i)
 
 void gui::actions::WayActions::wayPointXChanged(double value)
 {
-	gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
-	
+    gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
+    
     sad::p2d::app::Way* w = m_editor->shared()->selectedWay();
     if (w)
     {
@@ -473,8 +473,8 @@ void gui::actions::WayActions::wayPointXChanged(double value)
 
 void gui::actions::WayActions::wayPointYChanged(double value)
 {
-	gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
-	
+    gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
+    
     sad::p2d::app::Way* w = m_editor->shared()->selectedWay();
     if (w)
     {
@@ -495,8 +495,8 @@ void gui::actions::WayActions::wayPointYChanged(double value)
 
 void gui::actions::WayActions::wayPointMoveBack()
 {
-	gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
-	
+    gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
+    
     sad::p2d::app::Way* w = m_editor->shared()->selectedWay();
     if (w)
     {
@@ -512,8 +512,8 @@ void gui::actions::WayActions::wayPointMoveBack()
 
 void gui::actions::WayActions::wayPointMoveFront()
 {
-	gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
-	
+    gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
+    
     sad::p2d::app::Way* w = m_editor->shared()->selectedWay();
     if (w)
     {
@@ -537,7 +537,7 @@ void gui::actions::WayActions::updateUIForSelectedWayNow()
 {
     if (m_editor->shared()->selectedWay())
     {
-		gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
+        gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
 
         blk->lstWayPoints->clear();
         sad::p2d::app::Way* p = m_editor->shared()->selectedWay();

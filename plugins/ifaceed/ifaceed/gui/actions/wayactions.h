@@ -52,7 +52,7 @@ public:
         \param[in] row a row to be found in editor
      */
     void removeWayFromDatabase(sad::p2d::app::Way* w, bool fromeditor, int row = -1);
-	/*! Adds last way to end of items
+    /*! Adds last way to end of items
         \param[in] way a selected way
      */
     void addLastWayToEnd(sad::p2d::app::Way* way);

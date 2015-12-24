@@ -86,7 +86,7 @@ void gui::RenderWays::_process()
                     {
                         this->renderArrow(pts[pts.size() - 1], pts[0], *c);
                     }  
-					gui::uiblocks::UIWayBlock* ui_way_block = m_editor->uiBlocks()->uiWayBlock();
+                    gui::uiblocks::UIWayBlock* ui_way_block = m_editor->uiBlocks()->uiWayBlock();
                     int currentrow = ui_way_block->lstWayPoints->currentRow();
                     for(int j = 0; j < pts.size(); j++)
                     {

@@ -62,7 +62,7 @@ public:
     {
         QScriptValue main = this->engine()->globalObject().property("---");
         scripting::Scripting* e = static_cast<scripting::Scripting*>(main.toQObject());
-        core::Editor* editor =  e->panel()->editor();
+        core::Editor* editor =  e->editor();
 
         history::Command* c =  new _CommandType(obj, propertyname, oldvalue, newvalue, m_xwidget, m_ywidget);							
         editor->currentBatchCommand()->add(c);

@@ -1,14 +1,16 @@
 #include "animationsbindings.h"
 
+#include <db/dbdatabase.h>
+
 #include "../querytable.h"
 #include "../scripting.h"
 
-#include "../../mainpanel.h"
 #include "../../qstdstring.h"
 
 #include "../../core/editor.h"
 
-#include "../../gui/animationactions.h"
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/animationactions.h"
 
 #include "../../history/animations/animationsnew.h"
 #include "../../history/animations/animationsswapincomposite.h"
@@ -30,11 +32,10 @@ unsigned long long scripting::animations::_add(
     bool looped
 )
 {
-    MainPanel* panel = scripting->panel();
-
+    core::Editor* e = scripting->editor();
     QString	animationtypename = QString("sad::animations::") + STD2QSTRING(type);
 
-    sad::animations::Animation* a = panel->editor()->animationFactory()->create(animationtypename.toStdString());
+    sad::animations::Animation* a = e->animationFactory()->create(animationtypename.toStdString());
     unsigned long long result  = 0;
     if (a)
     {
@@ -45,8 +46,8 @@ unsigned long long scripting::animations::_add(
         sad::Renderer::ref()->database("")->table("animations")->add(a);		
         
         history::animations::New* c = new history::animations::New(a);
-        c->commit(panel->editor());
-        panel->editor()->currentBatchCommand()->add(c);
+        c->commit(e);
+        e->currentBatchCommand()->add(c);
 
         result = a->MajorId;
     }
@@ -62,7 +63,7 @@ void scripting::animations::remove(
     sad::animations::Animation* a
 )
 {
-    scripting->panel()->animationActions()->removeAnimationFromDatabase(a, false);
+    scripting->editor()->actions()->animationActions()->removeAnimationFromDatabase(a, false);
 }
 
 bool scripting::animations::addToComposite(
@@ -71,7 +72,7 @@ bool scripting::animations::addToComposite(
     sad::animations::Animation* a
 )
 {
-    return scripting->panel()->animationActions()->addAnimationToCompositeList(list, a, false);
+    return scripting->editor()->actions()->animationActions()->addAnimationToCompositeList(list, a, false);
 }
 
 bool scripting::animations::removeFromComposite(
@@ -80,7 +81,7 @@ bool scripting::animations::removeFromComposite(
     sad::animations::Animation* a
 )
 {
-    return scripting->panel()->animationActions()->removeAnimationFromCompositeList(list, a, false, -1);
+    return scripting->editor()->actions()->animationActions()->removeAnimationFromCompositeList(list, a, false, -1);
 }
 
 int scripting::animations::compositeLength(
@@ -116,7 +117,7 @@ bool scripting::animations::moveBackInCompositeList(
     sad::Vector<unsigned long long> v = list->animationMajorIds();
     if (pos < v.count() - 1)
     {
-        core::Editor* e = scripting->panel()->editor();
+        core::Editor* e = scripting->editor();
         history::Command* c = new history::animations::SwapInComposite(list, pos, pos + 1);
         c->commit(e);
         e->currentBatchCommand()->add(c);
@@ -134,7 +135,7 @@ bool scripting::animations::moveFrontInCompositeList(
     sad::Vector<unsigned long long> v = list->animationMajorIds();
     if (pos > 0 && pos < v.count() - 1)
     {
-        core::Editor* e = scripting->panel()->editor();
+        core::Editor* e = scripting->editor();
         history::Command* c = new history::animations::SwapInComposite(list, pos - 1, pos);
         c->commit(e);
         e->currentBatchCommand()->add(c);

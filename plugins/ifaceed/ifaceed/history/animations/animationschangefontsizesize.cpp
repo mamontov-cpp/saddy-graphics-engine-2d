@@ -1,8 +1,10 @@
 #include "animationschangefontsizesize.h"
 
-#include "../../core/editor.h"
+#include <QSpinBox>
 
-#include "../../mainpanel.h"
+#include "animations/animationsanimation.h"
+
+#include "../../core/editor.h"
 
 #include "../../blockedclosuremethodcall.h"
 

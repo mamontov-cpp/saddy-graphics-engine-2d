@@ -1,8 +1,11 @@
 #include "animationschangeblinkingfrequency.h"
 
+#include <QDoubleSpinBox>
+
 #include "../../core/editor.h"
 
-#include "../../mainpanel.h"
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uianimationblock.h"
 
 #include "../../blockedclosuremethodcall.h"
 
@@ -29,7 +32,7 @@ history::animations::ChangeBlinkingFrequency::~ChangeBlinkingFrequency()
 void history::animations::ChangeBlinkingFrequency::updateUI(core::Editor* e, const unsigned int& value)
 {
     e->emitClosure( blocked_bind(
-            e->panel()->UI()->sbBlinkingFrequency,
+            e->uiBlocks()->uiAnimationBlock()->sbBlinkingFrequency,
             &QSpinBox::setValue,
             value
         )

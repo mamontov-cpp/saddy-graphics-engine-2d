@@ -1,10 +1,18 @@
 #include "wayswaypointchange.h"
 
-#include "../mainpanel.h"
+#include <QListWidget>
+#include <QDoubleSpinBox>
+
 #include "../core/editor.h"
 
 #include "../closuremethodcall.h"
 #include "../blockedclosuremethodcall.h"
+
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/wayactions.h"
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uiwayblock.h"
 
 history::ways::WayPointChange::WayPointChange(
     sad::p2d::app::Way* w, 
@@ -43,12 +51,12 @@ void history::ways::WayPointChange::tryUpdateUI(core::Editor* ob, const sad::Poi
 {
     if (ob->shared()->selectedWay() == m_way)
     {
-        Ui::MainPanelClass* ui = ob->panel()->UI(); 
-        ui->lstWayPoints->item(m_position)->setText(ob->panel()->nameForPoint(p));
-        if (m_position == ui->lstWayPoints->currentRow())
+        gui::uiblocks::UIWayBlock* blk = ob->uiBlocks()->uiWayBlock();
+        blk->lstWayPoints->item(m_position)->setText(ob->actions()->wayActions()->nameForPoint(p));
+        if (m_position == blk->lstWayPoints->currentRow())
         {
-            invoke_blocked(ui->dsbWayPointX, &QDoubleSpinBox::setValue, p.x());
-            invoke_blocked(ui->dsbWayPointY, &QDoubleSpinBox::setValue, p.y());
+            invoke_blocked(blk->dsbWayPointX, &QDoubleSpinBox::setValue, p.x());
+            invoke_blocked(blk->dsbWayPointY, &QDoubleSpinBox::setValue, p.y());
         }
     }
 }

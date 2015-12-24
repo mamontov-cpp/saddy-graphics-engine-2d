@@ -2,9 +2,14 @@
 
 #include "../../core/editor.h"
 
-#include "../../mainpanel.h"
-
 #include "../../closuremethodcall.h"
+
+#include ".././gui/uiblocks/uiblocks.h"
+#include ".././gui/uiblocks/uianimationinstanceblock.h"
+
+#include ".././gui/actions/actions.h"
+#include ".././gui/actions/sceneactions.h"
+#include ".././gui/actions/scenenodeactions.h"
 
 Q_DECLARE_METATYPE(sad::db::Object*) //-V566
 
@@ -22,10 +27,14 @@ void history::scenenodes::New::commit(core::Editor * ob)
 {
     if (!ob)
         return;
+    
+    gui::actions::SceneNodeActions* sn_actions = ob->actions()->sceneNodeActions();
+    gui::actions::SceneActions* s_actions = ob->actions()->sceneActions();
+    
     m_node->setActive(true);
-    if (m_node->scene() == ob->panel()->currentScene())
+    if (m_node->scene() == s_actions->currentScene())
     {
-        ob->panel()->addSceneNodeToSceneNodeList(m_node);
+        sn_actions->addSceneNodeToSceneNodeList(m_node);
     }
 
     QVariant v;
@@ -34,9 +43,9 @@ void history::scenenodes::New::commit(core::Editor * ob)
     {
         void (QComboBox::*f)(const QString&, const QVariant&) = &QComboBox::addItem;
         ob->emitClosure( bind(
-            ob->panel()->UI()->cmbAnimationInstanceObject,
+            ob->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceObject,
             f,
-            ob->panel()->fullNameForNode(m_node),
+            sn_actions->fullNameForNode(m_node),
             v
         ));
     }
@@ -45,9 +54,14 @@ void history::scenenodes::New::commit(core::Editor * ob)
 void history::scenenodes::New::rollback(core::Editor * ob)
 {
     m_node->setActive(false);
-    if (m_node->scene() == ob->panel()->currentScene())
+    
+    gui::actions::SceneNodeActions* sn_actions = ob->actions()->sceneNodeActions();
+    gui::actions::SceneActions* s_actions = ob->actions()->sceneActions();
+    
+    
+    if (m_node->scene() == s_actions->currentScene())
     {
-        ob->panel()->removeLastSceneNodeFromSceneNodeList();
+        sn_actions->removeLastSceneNodeFromSceneNodeList();
     }
     if (ob->shared()->selectedObject() == m_node)
     {
@@ -66,10 +80,12 @@ void history::scenenodes::New::rollback(core::Editor * ob)
 
 void history::scenenodes::New::eraseFromAnimationObjectsCombo(core::Editor* e)
 {
-    int pos  = e->panel()->findInComboBox<sad::db::Object*>(e->panel()->UI()->cmbAnimationInstanceObject, m_node);
+    QComboBox* ai_objects = e->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceObject;
+    gui::actions::SceneNodeActions* sn_actions = e->actions()->sceneNodeActions();
+    int pos  = sn_actions->findInComboBox<sad::db::Object*>(ai_objects, m_node);
     if (pos > -1)
     {
-        e->panel()->UI()->cmbAnimationInstanceObject->removeItem(pos);
+        ai_objects->removeItem(pos);
     }
 }
 

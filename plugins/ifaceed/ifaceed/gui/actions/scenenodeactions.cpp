@@ -181,7 +181,7 @@ void gui::actions::SceneNodeActions::rotate(const sad::input::MouseWheelEvent& e
         {
             float nextangle = this->computeChangedAngle(maybeangle.value(), e.Delta);
             node->setProperty("angle", nextangle);
-			gui::uiblocks::UISceneNodeBlock* blk = m_editor->uiBlocks()->uiSceneNodeBlock();
+            gui::uiblocks::UISceneNodeBlock* blk = m_editor->uiBlocks()->uiSceneNodeBlock();
             m_editor->emitClosure(blocked_bind(
                 blk->awSceneNodeAngle,
                 &gui::anglewidget::AngleWidget::setValue,
@@ -199,7 +199,7 @@ void gui::actions::SceneNodeActions::cancelSelection()
 {
     m_editor->machine()->enterState("idle");
     m_editor->shared()->setSelectedObject(NULL);
-	gui::uiblocks::UISceneBlock* blk = m_editor->uiBlocks()->uiSceneBlock();
+    gui::uiblocks::UISceneBlock* blk = m_editor->uiBlocks()->uiSceneBlock();
     QListWidget* w = blk->lstSceneObjects;
 
     void (QListWidget::*setrow)(int) = &QListWidget::setCurrentRow;
@@ -227,7 +227,7 @@ void gui::actions::SceneNodeActions::updateRegionForNode()
         {
             const sad::Rect2D & v = maybearea.value();
             QRectF newrect = QRectF(v[0].x(), v[0].y(), v.width(), v.height());
-			gui::uiblocks::UISceneNodeBlock* blk = m_editor->uiBlocks()->uiSceneNodeBlock();
+            gui::uiblocks::UISceneNodeBlock* blk = m_editor->uiBlocks()->uiSceneNodeBlock();
             m_editor->emitClosure( blocked_bind(
                 blk->rwSceneNodeRect,
                 &gui::rectwidget::RectWidget::setValue,
@@ -240,7 +240,7 @@ void gui::actions::SceneNodeActions::updateRegionForNode()
 
 void gui::actions::SceneNodeActions::addSceneNodeToSceneNodeList(sad::SceneNode* s)
 {
-	QListWidget* lstSceneObjects = m_editor->uiBlocks()->uiSceneBlock()->lstSceneObjects;
+    QListWidget* lstSceneObjects = m_editor->uiBlocks()->uiSceneBlock()->lstSceneObjects;
     QString name = this->viewableObjectName(s);
     QListWidgetItem* i =  new QListWidgetItem();
     i->setText(name);
@@ -254,7 +254,7 @@ void gui::actions::SceneNodeActions::addSceneNodeToSceneNodeList(sad::SceneNode*
 void gui::actions::SceneNodeActions::removeLastSceneNodeFromSceneNodeList()
 {
     QListWidget* lstSceneObjects = m_editor->uiBlocks()->uiSceneBlock()->lstSceneObjects;    
-	if (lstSceneObjects->count())
+    if (lstSceneObjects->count())
     {
         QListWidgetItem* i = lstSceneObjects->takeItem(lstSceneObjects->count() - 1);
         delete i;
@@ -263,7 +263,7 @@ void gui::actions::SceneNodeActions::removeLastSceneNodeFromSceneNodeList()
 
 void gui::actions::SceneNodeActions::insertSceneNodeToSceneNodeList(sad::SceneNode* s, int position)
 {
-	QListWidget* lstSceneObjects = m_editor->uiBlocks()->uiSceneBlock()->lstSceneObjects;
+    QListWidget* lstSceneObjects = m_editor->uiBlocks()->uiSceneBlock()->lstSceneObjects;
     
     QString name = this->viewableObjectName(s);
     QListWidgetItem* i =  new QListWidgetItem();
@@ -277,7 +277,7 @@ void gui::actions::SceneNodeActions::insertSceneNodeToSceneNodeList(sad::SceneNo
 
 void gui::actions::SceneNodeActions::removeSceneNodeFromSceneNodeList(int position)
 {
-	QListWidget* lstSceneObjects = m_editor->uiBlocks()->uiSceneBlock()->lstSceneObjects;    
+    QListWidget* lstSceneObjects = m_editor->uiBlocks()->uiSceneBlock()->lstSceneObjects;    
     QListWidgetItem* i =  lstSceneObjects->takeItem(position);
     delete i;
 }
@@ -293,7 +293,7 @@ void gui::actions::SceneNodeActions::removeSceneNodeFromSceneNodeListByNode(sad:
 
 void gui::actions::SceneNodeActions::setSceneNodesInList(sad::SceneNode* n1, sad::SceneNode* n2, int pos1, int pos2)
 {
-	QListWidget* lstSceneObjects = m_editor->uiBlocks()->uiSceneBlock()->lstSceneObjects;
+    QListWidget* lstSceneObjects = m_editor->uiBlocks()->uiSceneBlock()->lstSceneObjects;
     
     sad::SceneNode* s = this->editor()->shared()->selectedObject();
     lstSceneObjects->item(pos1)->setText(this->viewableObjectName(n1));
@@ -322,8 +322,8 @@ void gui::actions::SceneNodeActions::setSceneNodesInList(sad::SceneNode* n1, sad
 
 int gui::actions::SceneNodeActions::findSceneNodeInList(sad::SceneNode* s)
 {
-	QListWidget* lstSceneObjects = m_editor->uiBlocks()->uiSceneBlock()->lstSceneObjects;
-	return this->findInList(lstSceneObjects, s);    
+    QListWidget* lstSceneObjects = m_editor->uiBlocks()->uiSceneBlock()->lstSceneObjects;
+    return this->findInList(lstSceneObjects, s);    
 }
 
 // ============================= PUBLIC SLOTS METHODS =============================
@@ -355,7 +355,7 @@ void gui::actions::SceneNodeActions::nameEdited(const QString& name)
 void gui::actions::SceneNodeActions::visibilityChanged(bool state)
 {
     bool newvalue = state;
-	gui::uiblocks::UISceneNodeBlock* blk = m_editor->uiBlocks()->uiSceneNodeBlock();
+    gui::uiblocks::UISceneNodeBlock* blk = m_editor->uiBlocks()->uiSceneNodeBlock();
     if (m_editor->shared()->activeObject() != NULL)
     {
         blk->cbSceneNodeVisible->setCheckState(Qt::Checked);
@@ -443,7 +443,7 @@ void gui::actions::SceneNodeActions::areaChanged(QRectF newarea)
 void gui::actions::SceneNodeActions::angleChanged(double newvalue)
 {
     // Block changing in diagonal placing state
-	gui::uiblocks::UISceneNodeBlock* blk = m_editor->uiBlocks()->uiSceneNodeBlock();
+    gui::uiblocks::UISceneNodeBlock* blk = m_editor->uiBlocks()->uiSceneNodeBlock();
     if (m_editor->machine()->isInState("adding/sprite_diagonal")
         && m_editor->machine()->isInState("adding/customobject_diagonal"))
     {
@@ -480,7 +480,7 @@ void gui::actions::SceneNodeActions::angleChanged(double newvalue)
 
 void gui::actions::SceneNodeActions::removeSceneNode(sad::SceneNode* node, bool from_editor)
 {
-	gui::uiblocks::UISceneBlock* blk = m_editor->uiBlocks()->uiSceneBlock();
+    gui::uiblocks::UISceneBlock* blk = m_editor->uiBlocks()->uiSceneBlock();
     QListWidget* w = blk->lstSceneObjects;
     int row = this->findInList(w, node);
     if (row == -1)
@@ -488,7 +488,7 @@ void gui::actions::SceneNodeActions::removeSceneNode(sad::SceneNode* node, bool 
         row = static_cast<int>(node->scene()->findLayer(node));
     }
             
-	gui::uiblocks::UIAnimationInstanceBlock* aiblk = m_editor->uiBlocks()->uiAnimationInstanceBlock(); 
+    gui::uiblocks::UIAnimationInstanceBlock* aiblk = m_editor->uiBlocks()->uiAnimationInstanceBlock(); 
     int posininstance = this->findInComboBox<sad::db::Object*>(aiblk->cmbAnimationInstanceObject, node);
     sad::Vector<sad::db::Object*> objects;
     sad::Renderer::ref()->database("")->table("animationinstances")->objects(objects);
@@ -534,8 +534,8 @@ void gui::actions::SceneNodeActions::removeSceneNode()
 
 void gui::actions::SceneNodeActions::selectLastSceneNodeSlot()
 {
-	gui::uiblocks::UISceneBlock* blk = m_editor->uiBlocks()->uiSceneBlock();
-	QListWidget* lst = blk->lstSceneObjects;
+    gui::uiblocks::UISceneBlock* blk = m_editor->uiBlocks()->uiSceneBlock();
+    QListWidget* lst = blk->lstSceneObjects;
     if (lst->count() != 0)
     {
         bool b = lst->blockSignals(true);
@@ -546,8 +546,8 @@ void gui::actions::SceneNodeActions::selectLastSceneNodeSlot()
 
 void gui::actions::SceneNodeActions::updateSceneNodeName(sad::SceneNode* s)
 {
-	gui::uiblocks::UISceneBlock* blk = m_editor->uiBlocks()->uiSceneBlock();
-	gui::uiblocks::UISceneNodeBlock* nblk = m_editor->uiBlocks()->uiSceneNodeBlock();
+    gui::uiblocks::UISceneBlock* blk = m_editor->uiBlocks()->uiSceneBlock();
+    gui::uiblocks::UISceneNodeBlock* nblk = m_editor->uiBlocks()->uiSceneNodeBlock();
     QListWidget* w = blk->lstSceneObjects;
     int row = this->findInList(w, s);
     if (row != -1)
@@ -556,15 +556,15 @@ void gui::actions::SceneNodeActions::updateSceneNodeName(sad::SceneNode* s)
     }
     if (s == m_editor->shared()->selectedObject() || s == m_editor->shared()->activeObject())
     {
-		QLineEdit* edit  = nblk->txtObjectName;
+        QLineEdit* edit  = nblk->txtObjectName;
         bool b = edit->blockSignals(true);
-		std::string on  = s->objectName().c_str(); 
-		edit->setText(STD2QSTRING(on));
+        std::string on  = s->objectName().c_str(); 
+        edit->setText(STD2QSTRING(on));
         edit->blockSignals(b);
     }
 
-	gui::uiblocks::UIAnimationInstanceBlock* aiblk = m_editor->uiBlocks()->uiAnimationInstanceBlock();
-	QComboBox* aiobox = aiblk->cmbAnimationInstanceObject;
+    gui::uiblocks::UIAnimationInstanceBlock* aiblk = m_editor->uiBlocks()->uiAnimationInstanceBlock();
+    QComboBox* aiobox = aiblk->cmbAnimationInstanceObject;
     int pos = this->findInComboBox<sad::db::Object*>(aiobox, s);
     if (pos > - 1)
     {
@@ -587,7 +587,7 @@ QString gui::actions::SceneNodeActions::fullNameForNode(sad::SceneNode* node)
 
 void gui::actions::SceneNodeActions::selectLastSceneNode()
 {
-	m_editor->emitClosure(bind(this, &gui::actions::SceneNodeActions::selectLastSceneNodeSlot));
+    m_editor->emitClosure(bind(this, &gui::actions::SceneNodeActions::selectLastSceneNodeSlot));
 }
 
 // ============================= PRIVATE METHODS =============================
@@ -617,10 +617,10 @@ float gui::actions::SceneNodeActions::computeChangedAngle(float angle, float del
 
 void gui::actions::SceneNodeActions::currentSceneNodeChanged(int index)
 {
-	gui::uiblocks::UISceneBlock* blk = m_editor->uiBlocks()->uiSceneBlock();
-	QListWidget* lstSceneObjects = blk->lstSceneObjects;
+    gui::uiblocks::UISceneBlock* blk = m_editor->uiBlocks()->uiSceneBlock();
+    QListWidget* lstSceneObjects = blk->lstSceneObjects;
 
-	if (m_editor->machine()->isInState("adding")
+    if (m_editor->machine()->isInState("adding")
         || (m_editor->machine()->isInState("selected") 
             && m_editor->machine()->currentState() != "selected"))
     {		
@@ -656,8 +656,8 @@ void gui::actions::SceneNodeActions::currentSceneNodeChanged(int index)
 
 void  gui::actions::SceneNodeActions::sceneNodeMoveBack()
 {
-	gui::uiblocks::UISceneBlock* blk = m_editor->uiBlocks()->uiSceneBlock();
-	QListWidget* lstSceneObjects = blk->lstSceneObjects;
+    gui::uiblocks::UISceneBlock* blk = m_editor->uiBlocks()->uiSceneBlock();
+    QListWidget* lstSceneObjects = blk->lstSceneObjects;
 
     if (m_editor->machine()->isInState("selected"))
     {
@@ -682,8 +682,8 @@ void  gui::actions::SceneNodeActions::sceneNodeMoveBack()
 
 void gui::actions::SceneNodeActions::sceneNodeMoveFront()
 {
-	gui::uiblocks::UISceneBlock* blk = m_editor->uiBlocks()->uiSceneBlock();
-	QListWidget* lstSceneObjects = blk->lstSceneObjects;
+    gui::uiblocks::UISceneBlock* blk = m_editor->uiBlocks()->uiSceneBlock();
+    QListWidget* lstSceneObjects = blk->lstSceneObjects;
     if (m_editor->machine()->isInState("selected"))
     {
         sad::SceneNode* node = m_editor->shared()->selectedObject();
@@ -712,13 +712,13 @@ void gui::actions::SceneNodeActions::updateUIForSelectedSceneNode()
 
 void gui::actions::SceneNodeActions::updateUIForSelectedSceneNodeNow()
 {
-	gui::uiblocks::UISceneBlock* blk = m_editor->uiBlocks()->uiSceneBlock();
-	gui::uiblocks::UISceneNodeBlock* nblk = m_editor->uiBlocks()->uiSceneNodeBlock();
-	gui::uiblocks::UILabelBlock* lblk = m_editor->uiBlocks()->uiLabelBlock();
-	gui::uiblocks::UISpriteBlock* sblk = m_editor->uiBlocks()->uiSpriteBlock();
-	gui::uiblocks::UICustomObjectBlock* coblock = m_editor->uiBlocks()->uiCustomObjectBlock();
+    gui::uiblocks::UISceneBlock* blk = m_editor->uiBlocks()->uiSceneBlock();
+    gui::uiblocks::UISceneNodeBlock* nblk = m_editor->uiBlocks()->uiSceneNodeBlock();
+    gui::uiblocks::UILabelBlock* lblk = m_editor->uiBlocks()->uiLabelBlock();
+    gui::uiblocks::UISpriteBlock* sblk = m_editor->uiBlocks()->uiSpriteBlock();
+    gui::uiblocks::UICustomObjectBlock* coblock = m_editor->uiBlocks()->uiCustomObjectBlock();
 
-	QListWidget* lstSceneObjects = blk->lstSceneObjects;
+    QListWidget* lstSceneObjects = blk->lstSceneObjects;
     sad::SceneNode* node = m_editor->shared()->selectedObject();
     if (node)
     {

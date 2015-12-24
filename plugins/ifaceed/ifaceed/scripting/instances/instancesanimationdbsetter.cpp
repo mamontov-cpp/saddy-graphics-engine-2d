@@ -1,13 +1,21 @@
 #include "instancesanimationdbsetter.h"
 
+#include <QRadioButton>
+
+#include <db/dbdatabase.h>
+
 #include "../scripting.h"
 #include "../queryobject.h"
 #include "../tovalue.h"
 
-
-#include "../../mainpanel.h"
-
 #include "../../core/editor.h"
+
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/animationinstanceactions.h"
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uianimationinstanceblock.h"
+
 
 #include "../../history/instances/instanceschangeanimation.h"
 
@@ -104,16 +112,18 @@ void scripting::instances::AnimationDBSetter::setProperty(
 {
     QScriptValue main = this->engine()->globalObject().property("---");
     scripting::Scripting* e = static_cast<scripting::Scripting*>(main.toQObject());
-    MainPanel* panel = e->panel();
-    core::Editor* editor =  panel->editor();
+    core::Editor* editor =  e->editor();
+    
+    gui::actions::AnimationInstanceActions* ai_actions = editor->actions()->instanceActions();
+    gui::uiblocks::UIAnimationInstanceBlock* ai_blk = editor->uiBlocks()->uiAnimationInstanceBlock();
 
-    int row = panel->findInList<sad::animations::Instance*>(panel->UI()->lstAnimationInstances, obj);
+    int row = ai_actions->findInList<sad::animations::Instance*>(ai_blk->lstAnimationInstances, obj);
     sad::String name = obj->getProperty<sad::String>("animation").value();
     if (row > - 1)
     {
         history::Command* c  = NULL;
-        QRadioButton* treebutton = panel->UI()->rbAnimationInstanceFromTree;
-        QRadioButton* dbbutton = panel->UI()->rbAnimationInstanceFromDatabase;
+        QRadioButton* treebutton = ai_blk->rbAnimationInstanceFromTree;
+        QRadioButton* dbbutton = ai_blk->rbAnimationInstanceFromDatabase;
         if (newid > 0)
         {
             if (oldid > 0)

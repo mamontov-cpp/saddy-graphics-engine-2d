@@ -119,7 +119,6 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
     ui.txtTextureCoordinatesList->setCompleter(c);
 
     m_scripting = new scripting::Scripting();
-    m_scripting->setPanel(this);
 
     QStringList constantslist;
     QStringList functionlist;
@@ -260,6 +259,8 @@ bool MainPanel::isEditingEnabled() const
 void MainPanel::setEditor(core::Editor* editor)
 {  
     m_editor = editor; 
+
+    m_scripting->setEditor(editor);
 
     sad::hfsm::Machine* m = editor->machine();
     sad::String la = "adding/label";

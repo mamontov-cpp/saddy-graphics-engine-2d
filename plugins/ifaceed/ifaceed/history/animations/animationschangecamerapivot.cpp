@@ -1,8 +1,11 @@
 #include "animationschangecamerapivot.h"
 
+#include <QDoubleSpinBox>
+
 #include "../../core/editor.h"
 
-#include "../../mainpanel.h"
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uianimationblock.h"
 
 #include "../../blockedclosuremethodcall.h"
 
@@ -28,14 +31,16 @@ history::animations::ChangeCameraPivot::~ChangeCameraPivot()
 
 void history::animations::ChangeCameraPivot::updateUI(core::Editor* e, const sad::Point3D& value)
 {
-    e->emitClosure( blocked_bind(
-            e->panel()->UI()->dsbCameraRotationPivotX,
+	gui::uiblocks::UIAnimationBlock* blk = e->uiBlocks()->uiAnimationBlock();
+    
+	e->emitClosure( blocked_bind(
+            blk->dsbCameraRotationPivotX,
             &QDoubleSpinBox::setValue,
             value.x()
         )
     );
      e->emitClosure( blocked_bind(
-            e->panel()->UI()->dsbCameraRotationPivotY,
+            blk->dsbCameraRotationPivotY,
             &QDoubleSpinBox::setValue,
             value.y()
         )

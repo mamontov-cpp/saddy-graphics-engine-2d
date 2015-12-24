@@ -2,7 +2,15 @@
 
 #include <QComboBox>
 
-#include "../mainpanel.h"
+#include <animations/animationswaymoving.h>
+
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/wayactions.h"
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uianimationblock.h"
+#include "../../gui/uiblocks/uianimationinstanceblock.h"
+
 #include "../core/editor.h"
 
 #include "../closuremethodcall.h"
@@ -42,8 +50,8 @@ void history::ways::Remove::commit(core::Editor* ob)
     m_way->Active = false;
     if (ob)
     {
-        void (MainPanel::*f)(int) = &MainPanel::removeWayFromWayList;
-        ob->emitClosure( bind(ob->panel(), f, m_position) );
+        void (gui::actions::WayActions::*f)(int) = &gui::actions::WayActions::removeWayFromWayList;
+        ob->emitClosure( bind(ob->actions()->wayActions(), f, m_position) );
         if (ob->shared()->selectedWay() == m_way)
         {
             ob->machine()->enterState("ways/idle");
@@ -58,7 +66,7 @@ void history::ways::Remove::commit(core::Editor* ob)
             {
                 // Toggle as not set
                 ob->emitClosure( blocked_bind(
-                    ob->panel()->UI()->cmbWayAnimationWay, 
+                    ob->uiBlocks()->uiAnimationBlock()->cmbWayAnimationWay, 
                     &QComboBox::setCurrentIndex,
                     0
                 ));
@@ -69,7 +77,7 @@ void history::ways::Remove::commit(core::Editor* ob)
         if (m_position_in_animation_combo >= 0)
         {
             ob->emitClosure( bind(
-                ob->panel()->UI()->cmbWayAnimationWay, 
+                ob->uiBlocks()->uiAnimationBlock()->cmbWayAnimationWay, 
                 &QComboBox::removeItem,
                 m_position_in_animation_combo
             ));
@@ -82,7 +90,7 @@ void history::ways::Remove::commit(core::Editor* ob)
             if (ob->shared()->selectedInstance() == m_dependent_instances[i])
             {
                 ob->emitClosure( bind(
-                    ob->panel()->UI()->cmbWayAnimationInstanceWay, 
+                    ob->uiBlocks()->uiAnimationInstanceBlock()->cmbWayAnimationInstanceWay, 
                     &QComboBox::setCurrentIndex, 
                     0
                 ));
@@ -93,7 +101,7 @@ void history::ways::Remove::commit(core::Editor* ob)
         if (m_position_in_animation_instances_combo >= 0)
         {
             ob->emitClosure( bind(
-                ob->panel()->UI()->cmbWayAnimationInstanceWay, 
+                ob->uiBlocks()->uiAnimationInstanceBlock()->cmbWayAnimationInstanceWay, 
                 &QComboBox::removeItem, 
                 m_position_in_animation_instances_combo
             ));
@@ -106,18 +114,20 @@ void history::ways::Remove::rollback(core::Editor* ob)
     m_way->Active = true;
     if (ob)
     {
-        ob->emitClosure( bind(ob->panel(), &MainPanel::insertWayToWayList, m_way, m_position) );
+        gui::actions::WayActions* w_actions = ob->actions()->wayActions();
+        ob->emitClosure( bind(w_actions, &gui::actions::WayActions::insertWayToWayList, m_way, m_position) );
 
-        QString name = ob->panel()->viewableObjectName(m_way);
+        QString name = w_actions->viewableObjectName(m_way);
         QVariant w;
         w.setValue(m_way);
 
         void (QComboBox::*f)(int, const QString&, const QVariant&) = &QComboBox::insertItem;
 
+        QComboBox* waw = ob->uiBlocks()->uiAnimationBlock()->cmbWayAnimationWay;
         if (m_position_in_animation_combo >= 0)
         {
             ob->emitClosure( bind(
-                    ob->panel()->UI()->cmbWayAnimationWay, 
+                    waw, 
                     f,
                     m_position_in_animation_combo,
                     name,
@@ -132,18 +142,19 @@ void history::ways::Remove::rollback(core::Editor* ob)
             {
                 // Toggle as not set
                 ob->emitClosure( blocked_bind(
-                    ob->panel()->UI()->cmbWayAnimationWay, 
+                    waw, 
                     &QComboBox::setCurrentIndex,
                     m_position_in_animation_combo
                 ));
             }
         }
 
-
+        
+        QComboBox* waiw = ob->uiBlocks()->uiAnimationInstanceBlock()->cmbWayAnimationInstanceWay;
         if (m_position_in_animation_instances_combo >= 0)
         {
             ob->emitClosure( bind(
-                    ob->panel()->UI()->cmbWayAnimationInstanceWay, 
+                    waiw, 
                     f,
                     m_position_in_animation_instances_combo,
                     name,
@@ -157,7 +168,7 @@ void history::ways::Remove::rollback(core::Editor* ob)
             if (ob->shared()->selectedInstance() == m_dependent_instances[i] && m_position_in_animation_instances_combo >= 0)
             {
                 ob->emitClosure( bind(
-                    ob->panel()->UI()->cmbWayAnimationInstanceWay, 
+                    waiw, 
                     &QComboBox::setCurrentIndex, 
                     m_position_in_animation_instances_combo
                 ));

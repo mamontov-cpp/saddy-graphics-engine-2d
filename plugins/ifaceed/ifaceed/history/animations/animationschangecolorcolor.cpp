@@ -1,8 +1,11 @@
 #include "animationschangecolorcolor.h"
 
+#include <sadstring.h>
+
 #include "../../core/editor.h"
 
-#include "../../mainpanel.h"
+#include "../../gui/colorview/colorview.h"
+
 
 #include "../../blockedclosuremethodcall.h"
 #include "../../closuremethodcall.h"

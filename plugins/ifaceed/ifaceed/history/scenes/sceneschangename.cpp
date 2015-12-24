@@ -2,9 +2,16 @@
 
 #include "../../core/editor.h"
 
-#include "../../mainpanel.h"
-
 #include "../../closuremethodcall.h"
+
+#include <db/dbobject.h>
+
+#include ".././gui/uiblocks/uiblocks.h"
+#include ".././gui/uiblocks/uianimationinstanceblock.h"
+
+#include ".././gui/actions/actions.h"
+#include ".././gui/actions/sceneactions.h"
+#include ".././gui/actions/scenenodeactions.h"
 
 Q_DECLARE_METATYPE(sad::db::Object*) //-V566
 
@@ -27,7 +34,9 @@ void history::scenes::ChangeName::commit(core::Editor * ob)
     m_scene->setObjectName(m_new);
     if (ob)
     {
-        ob->panel()->updateSceneName(m_scene);
+        gui::actions::SceneActions* s_actions = ob->actions()->sceneActions();
+
+        s_actions->updateSceneName(m_scene);
         ob->emitClosure( bind(this, &history::scenes::ChangeName::updateDependent, ob));		
     }
 }
@@ -37,26 +46,32 @@ void history::scenes::ChangeName::rollback(core::Editor * ob)
     m_scene->setObjectName(m_old);
     if (ob)
     {
-        ob->panel()->updateSceneName(m_scene);
+        gui::actions::SceneActions* s_actions = ob->actions()->sceneActions();
+
+        s_actions->updateSceneName(m_scene);
         ob->emitClosure( bind(this, &history::scenes::ChangeName::updateDependent, ob));
     }
 }
 
 void history::scenes::ChangeName::updateDependent(core::Editor* e)
 {
-    MainPanel* p = e->panel();
-    int pos = p->findInComboBox<sad::db::Object*>(p->UI()->cmbAnimationInstanceObject, m_scene);
+    gui::uiblocks::UIAnimationInstanceBlock* ai_blk = e->uiBlocks()->uiAnimationInstanceBlock();
+    
+    gui::actions::SceneActions* s_actions = e->actions()->sceneActions();
+    gui::actions::SceneNodeActions* sn_actions = e->actions()->sceneNodeActions();
+    
+    int pos = s_actions->findInComboBox<sad::db::Object*>(ai_blk->cmbAnimationInstanceObject, m_scene);
     if (pos > - 1)
     {
-        p->UI()->cmbAnimationInstanceObject->setItemText(pos, p->nameForScene(m_scene));
+        ai_blk->cmbAnimationInstanceObject->setItemText(pos, s_actions->nameForScene(m_scene));
     }
     sad::Vector<sad::SceneNode*> nodes = m_scene->objects();
     for(size_t i = 0; i < nodes.size(); i++)
     {
-        pos = p->findInComboBox<sad::db::Object*>(p->UI()->cmbAnimationInstanceObject, nodes[i]);
+        pos = s_actions->findInComboBox<sad::db::Object*>(ai_blk->cmbAnimationInstanceObject, nodes[i]);
         if (pos > - 1)
         {
-            p->UI()->cmbAnimationInstanceObject->setItemText(pos, p->fullNameForNode(nodes[i]));
+            ai_blk->cmbAnimationInstanceObject->setItemText(pos, sn_actions->fullNameForNode(nodes[i]));
         }
     }
 }

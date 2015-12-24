@@ -1,15 +1,19 @@
 #include "changetext.h"
 
+#include <QPlainTextEdit>
+
 #include "../../core/editor.h"
 
-#include "../../mainpanel.h"
 #include "../../qstdstring.h"
 
 #include "../../blockedclosuremethodcall.h"
 #include "../../closuremethodcall.h"
 
-#include "../../gui/labelactions.h"
-#include "../../gui/scenenodeactions.h"
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uilabelblock.h"
+
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/scenenodeactions.h"
 
 history::label::ChangeText::ChangeText(
     sad::SceneNode* d,
@@ -34,10 +38,10 @@ history::label::ChangeText::~ChangeText()
 void history::label::ChangeText::updateUI(core::Editor* e, const sad::String& value)
 {
     e->emitClosure( blocked_bind(
-            e->panel()->UI()->txtLabelText,
+            e->uiBlocks()->uiLabelBlock()->txtLabelText,
             &QPlainTextEdit::setPlainText,
             STD2QSTRING(value)
         )
     );
-    e->panel()->sceneNodeActions()->updateRegionForNode();
+    e->actions()->sceneNodeActions()->updateRegionForNode();
 }

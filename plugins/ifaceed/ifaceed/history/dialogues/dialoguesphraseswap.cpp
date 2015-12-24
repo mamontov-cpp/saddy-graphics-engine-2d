@@ -1,13 +1,15 @@
 #include "dialoguesphraseswap.h"
 
-#include "../mainpanel.h"
-
-#include "../gui/dialogueactions.h"
-
 #include "../core/editor.h"
 
 #include "../closuremethodcall.h"
 #include "../blockedclosuremethodcall.h"
+
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/dialogueactions.h"
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uiphraseblock.h"
 
 history::dialogues::PhraseSwap::PhraseSwap(
     sad::dialogue::Dialogue* dialogue, 
@@ -32,30 +34,32 @@ void history::dialogues::PhraseSwap::commit(core::Editor * ob)
     {
         if (ob->shared()->selectedDialogue() == m_dialogue)
         {
+            QListWidget* lst = ob->uiBlocks()->uiPhraseBlock()->lstPhrases;	
+			gui::actions::DialogueActions* d_actions = ob->actions()->dialogueActions(); 
             ob->emitClosure(bind(
-                ob->panel()->UI()->lstPhrases->item(m_position1),
+                lst->item(m_position1),
                 &QListWidgetItem::setText,
-                ob->panel()->nameForPhrase(*(m_dialogue->phrases()[m_position1]))
+                d_actions->nameForPhrase(*(m_dialogue->phrases()[m_position1]))
             ));
             ob->emitClosure(bind(
-                ob->panel()->UI()->lstPhrases->item(m_position2),
+                lst->item(m_position2),
                 &QListWidgetItem::setText,
-                ob->panel()->nameForPhrase(*(m_dialogue->phrases()[m_position2]))
+                d_actions->nameForPhrase(*(m_dialogue->phrases()[m_position2]))
             ));
 
-            if (m_position1 == ob->panel()->UI()->lstPhrases->currentRow())
+            if (m_position1 == lst->currentRow())
             {
                 ob->emitClosure(bind(
-                    ob->panel()->dialogueActions(),
-                    &gui::DialogueActions::viewPhrase,
+                    d_actions,
+                    &gui::actions::DialogueActions::viewPhrase,
                     m_dialogue->phrases()[m_position1]
                 ));
             }
-            if (m_position2 == ob->panel()->UI()->lstPhrases->currentRow())
+            if (m_position2 == lst->currentRow())
             {
                 ob->emitClosure(bind(
-                    ob->panel()->dialogueActions(),
-                    &gui::DialogueActions::viewPhrase,
+                    d_actions,
+                    &gui::actions::DialogueActions::viewPhrase,
                     m_dialogue->phrases()[m_position2]
                 ));
             }
