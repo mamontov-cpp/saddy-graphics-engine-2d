@@ -39,7 +39,6 @@
 ./ifaceed/history/instances/instancesremove.cpp
 ./ifaceed/history/label/changebreaktext.cpp
 ./ifaceed/history/label/changefontname.cpp
-./ifaceed/history/label/changefontsize.cpp
 ./ifaceed/history/label/changelinespacing.cpp
 ./ifaceed/history/label/changemaximallinescount.cpp
 ./ifaceed/history/label/changemaximallinewidth.cpp
@@ -54,7 +53,6 @@
 ./ifaceed/history/scenenodes/scenenodeschangepropertywhichlinkedtocheckbox.cpp
 ./ifaceed/history/scenenodes/scenenodeschangevisibility.cpp
 ./ifaceed/history/scenenodes/scenenodeslayerswap.cpp
-./ifaceed/history/scenenodes/scenenodesnew.cpp
 ./ifaceed/history/scenenodes/scenenodesremove.cpp
 ./ifaceed/history/scenenodes/scenesnodeschangename.cpp
 ./ifaceed/history/scenes/scenesclear.cpp
