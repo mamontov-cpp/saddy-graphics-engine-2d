@@ -1,9 +1,15 @@
 #include "wayswaypointnew.h"
 
-#include "../mainpanel.h"
 #include "../core/editor.h"
 
 #include "../closuremethodcall.h"
+
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/wayactions.h"
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uiwayblock.h"
+
 
 history::ways::WayPointNew::WayPointNew(sad::p2d::app::Way* w) : m_way(w)
 {
@@ -31,12 +37,11 @@ void history::ways::WayPointNew::commit(core::Editor* ob)
     {
         if (ob->shared()->selectedWay() == m_way)
         {
-            MainPanel* p = ob->panel();
             void (QListWidget::*f)(const QString&) = &QListWidget::addItem;
             ob->emitClosure( bind(
-                p->UI()->lstWayPoints,
+                ob->uiBlocks()->uiWayBlock()->lstWayPoints,
                 f,
-                p->nameForPoint(m_point)
+                ob->actions()->wayActions()->nameForPoint(m_point)
             ));
         }
     }
@@ -53,8 +58,8 @@ void history::ways::WayPointNew::rollback(core::Editor* ob)
         if (ob->shared()->selectedWay() == m_way)
         {
             ob->emitClosure(bind(
-                ob->panel(),
-                &MainPanel::removeRowInWayPointList,
+                ob->actions()->wayActions(),
+                &gui::actions::WayActions::removeRowInWayPointList,
                 row
             ));
         }

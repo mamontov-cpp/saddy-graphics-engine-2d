@@ -10,6 +10,7 @@
 #include <algorithm>
 
 #include ".././gui/uiblocks/uiblocks.h"
+#include ".././gui/uiblocks/uisceneblock.h"
 #include ".././gui/uiblocks/uianimationinstanceblock.h"
 
 #include ".././gui/actions/actions.h"
@@ -74,7 +75,7 @@ void history::scenes::Clear::commit(core::Editor * ob)
     }
     if (ob)
     {
-        if (ob->panel()->currentScene() == m_scene)
+        if (ob->actions()->sceneActions()->currentScene() == m_scene)
         {
             ob->emitClosure( bind(ob->uiBlocks()->uiSceneBlock()->lstSceneObjects, &QListWidget::clear) );
         }
@@ -114,11 +115,11 @@ void history::scenes::Clear::rollback(core::Editor * ob)
     }
     if (ob)
     {
-        if (ob->panel()->currentScene() == m_scene)
+        if (ob->actions()->sceneActions()->currentScene() == m_scene)
         {
             for(size_t i = 0; i < m_nodes.size(); i++)
             {
-                ob->emitClosure( bind(ob->actions()->sceneActions(), &MainPanel::addSceneNodeToSceneNodeList, m_nodes[i]) );
+                ob->emitClosure( bind(ob->actions()->sceneNodeActions(), &gui::actions::SceneNodeActions::addSceneNodeToSceneNodeList, m_nodes[i]) );
             }
         }
         for(int i = m_positions.size() - 1; i > -1; i--)
@@ -126,7 +127,7 @@ void history::scenes::Clear::rollback(core::Editor * ob)
             QVariant v;
             v.setValue(static_cast<sad::db::Object*>(m_positions[i].p1()));
 
-            QString name = ob->panel()->fullNameForNode(m_positions[i].p1());
+            QString name = ob->actions()->sceneNodeActions()->fullNameForNode(m_positions[i].p1());
             int pos = m_positions[i].p2();
 
             void (QComboBox::*f)(int, const QString&, const QVariant&) = &QComboBox::insertItem;

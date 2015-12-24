@@ -2,13 +2,17 @@
 
 #include <sprite2d.h>
 
-#include "../../gui/scenenodeactions.h"
-
 #include "../../gui/resourcetreewidget/resourcetreewidget.h"
 
 #include "../../blockedclosuremethodcall.h"
 
-#include "../../mainpanel.h"
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uispriteblock.h"
+
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/sprite2dactions.h"
+#include "../../gui/actions/scenenodeactions.h"
 
 history::sprite2d::ChangeOptions::ChangeOptions(
         sad::SceneNode* d, 
@@ -35,7 +39,7 @@ void history::sprite2d::ChangeOptions::rollback(core::Editor* e)
     {
         if (e->isNodeSelected(m_node))
         {
-            e->panel()->sceneNodeActions()->updateRegionForNode();
+            e->actions()->sceneNodeActions()->updateRegionForNode();
         }
     }
 }
@@ -47,7 +51,7 @@ void history::sprite2d::ChangeOptions::updateUI(
 {
     if (!e)
         return;
-    e->emitClosure( blocked_bind(e->panel()->UI()->rtwSpriteSprite,
+    e->emitClosure( blocked_bind(e->uiBlocks()->uiSpriteBlock()->rtwSpriteSprite,
         &gui::resourcetreewidget::ResourceTreeWidget::setSelectedResourceName,
         value
     ));
@@ -58,7 +62,7 @@ void history::sprite2d::ChangeOptions::updateUI(
     {
         if (e->isNodeSelected(m_node))
         {
-            e->panel()->sceneNodeActions()->updateRegionForNode();
+            e->actions()->sceneNodeActions()->updateRegionForNode();
         }
     }
     sad::Renderer::ref()->unlockRendering();
