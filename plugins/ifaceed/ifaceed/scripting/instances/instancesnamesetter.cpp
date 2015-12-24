@@ -1,5 +1,9 @@
 #include "instancesnamesetter.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
+// ReSharper disable once CppUnusedIncludeDirective
 #include <db/dbdatabase.h>
 
 #include "../scripting.h"

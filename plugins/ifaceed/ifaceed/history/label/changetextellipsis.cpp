@@ -1,5 +1,9 @@
 #include "changetextellipsis.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QComboBox>
 
 #include "../../core/editor.h"
@@ -11,6 +15,8 @@
 #include "../../gui/actions/scenenodeactions.h"
 
 #include "../../blockedclosuremethodcall.h"
+
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../../closuremethodcall.h"
 
 history::label::ChangeTextEllipsis::ChangeTextEllipsis(

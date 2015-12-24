@@ -1,5 +1,9 @@
 #include "animationschangefontsizesize.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QSpinBox>
 
 #include "animations/animationsanimation.h"

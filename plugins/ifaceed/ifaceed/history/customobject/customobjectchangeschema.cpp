@@ -1,5 +1,8 @@
 #include "customobjectchangeschema.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
 #include "../../gui/resourcetreewidget/resourcetreewidget.h"
 
 #include "../../gui/actions/actions.h"

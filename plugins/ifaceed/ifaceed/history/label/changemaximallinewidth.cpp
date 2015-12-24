@@ -1,5 +1,9 @@
 #include "changemaximallinewidth.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QSpinBox>
 
 #include "../../core/editor.h"

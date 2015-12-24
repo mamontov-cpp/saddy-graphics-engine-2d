@@ -1,5 +1,9 @@
 #include "changetext.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QPlainTextEdit>
 
 #include "../../core/editor.h"
@@ -7,7 +11,6 @@
 #include "../../qstdstring.h"
 
 #include "../../blockedclosuremethodcall.h"
-#include "../../closuremethodcall.h"
 
 #include "../../gui/uiblocks/uiblocks.h"
 #include "../../gui/uiblocks/uilabelblock.h"

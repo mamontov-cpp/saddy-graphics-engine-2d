@@ -1,5 +1,8 @@
 #include "changefontsize.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
 #include "../../core/editor.h"
 
 #include "../../gui/actions/actions.h"
@@ -11,7 +14,6 @@
 #include "../../gui/fontsizewidget/fontsizewidget.h"
 
 #include "../../blockedclosuremethodcall.h"
-#include "../../closuremethodcall.h"
 
 history::label::ChangeFontSize::ChangeFontSize(
     sad::SceneNode* d,

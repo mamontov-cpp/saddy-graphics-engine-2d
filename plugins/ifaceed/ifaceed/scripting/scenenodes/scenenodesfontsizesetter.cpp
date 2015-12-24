@@ -1,9 +1,9 @@
 #include "scenenodesfontsizesetter.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
 #include "../tovalue.h"
-
-#include <geometry2d.h>
-
 
 scripting::scenenodes::FontSizeSetter::FontSizeSetter(QScriptEngine* e)
 : scripting::scenenodes::Setter<unsigned int, history::label::ChangeFontSize>(e, "fontsize")

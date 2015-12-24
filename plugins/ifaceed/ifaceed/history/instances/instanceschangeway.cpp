@@ -1,5 +1,8 @@
 #include "instanceschangeway.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
 #include "../../core/editor.h"
 
 #include "../../blockedclosuremethodcall.h"

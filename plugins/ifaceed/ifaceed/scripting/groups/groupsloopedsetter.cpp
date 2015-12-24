@@ -1,5 +1,8 @@
 #include "groupsloopedsetter.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
 #include "../scripting.h"
 
 #include "../../core/editor.h"

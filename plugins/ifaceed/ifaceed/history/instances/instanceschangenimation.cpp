@@ -1,5 +1,8 @@
 #include "instanceschangeanimation.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
 #include "../../qstdstring.h"
 
 #include "../../core/editor.h"

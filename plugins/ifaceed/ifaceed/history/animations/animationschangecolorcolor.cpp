@@ -1,5 +1,8 @@
 #include "animationschangecolorcolor.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
 #include <sadstring.h>
 
 #include "../../core/editor.h"

@@ -2,6 +2,10 @@
 
 #include <animations/animationsanimation.h>
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QDoubleSpinBox>
 
 #include "../../core/editor.h"

@@ -2328,6 +2328,27 @@
     <ClCompile Include="gui\actions\wayactions.cpp">
       <Filter>Source Files\gui\actions</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\DebugQt4\moc_customobjectactions.cpp">
+      <Filter>Generated Files\DebugQt4</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_customobjectactions.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_customobjectactions.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_customobjectactions.cpp">
+      <Filter>Generated Files\ReleaseQt4</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_customobjectactions.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_customobjectactions.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_customobjectactions.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -3151,9 +3172,6 @@
     <CustomBuild Include="gui\actions\animationactions.h">
       <Filter>Header Files\gui\actions</Filter>
     </CustomBuild>
-    <CustomBuild Include="gui\actions\customobjectactions.h">
-      <Filter>Header Files\gui\actions</Filter>
-    </CustomBuild>
     <CustomBuild Include="gui\actions\scenenodeactions.h">
       <Filter>Header Files\gui\actions</Filter>
     </CustomBuild>
@@ -3176,6 +3194,9 @@
       <Filter>Header Files\gui\actions</Filter>
     </CustomBuild>
     <CustomBuild Include="gui\actions\wayactions.h">
+      <Filter>Header Files\gui\actions</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\actions\customobjectactions.h">
       <Filter>Header Files\gui\actions</Filter>
     </CustomBuild>
   </ItemGroup>

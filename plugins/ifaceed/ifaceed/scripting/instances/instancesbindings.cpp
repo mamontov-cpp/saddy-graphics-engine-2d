@@ -1,5 +1,8 @@
 #include "instancesbindings.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
 #include <db/dbdatabase.h>
 
 #include "../querytable.h"

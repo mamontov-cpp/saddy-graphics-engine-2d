@@ -1,5 +1,9 @@
 #include "wayschangename.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QLineEdit>
 
 #include "../../core/editor.h"
@@ -7,7 +11,6 @@
 #include "../../qstdstring.h"
 
 #include "../../blockedclosuremethodcall.h"
-#include "../../closuremethodcall.h"
 
 #include "../../gui/actions/actions.h"
 #include "../../gui/actions/wayactions.h"

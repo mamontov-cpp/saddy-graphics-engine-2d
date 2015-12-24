@@ -1,5 +1,9 @@
 #include "changeoptions.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
+// ReSharper disable once CppUnusedIncludeDirective
 #include <sprite2d.h>
 
 #include "../../gui/resourcetreewidget/resourcetreewidget.h"

@@ -1,5 +1,8 @@
 #include "animationswaysetter.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
 #include "../tovalue.h"
 #include "../queryobject.h"
 

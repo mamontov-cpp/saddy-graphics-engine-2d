@@ -1,5 +1,9 @@
 #include "makebackground.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../../gui/resourcetreewidget/resourcetreewidget.h"
 
 #include "../../blockedclosuremethodcall.h"
@@ -7,7 +11,6 @@
 
 #include "../../gui/uiblocks/uiblocks.h"
 #include "../../gui/uiblocks/uiscenenodeblock.h"
-#include "../../gui/uiblocks/uispriteblock.h"
 
 #include "../../gui/actions/actions.h"
 #include "../../gui/actions/sceneactions.h"

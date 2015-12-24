@@ -1,9 +1,14 @@
 #include "animationschangefontlistfonts.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
 #include "../../core/editor.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QPlainTextEdit>
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../../gui/textedit/textedit.h"
 
 #include "../../gui/uiblocks/uiblocks.h"

@@ -1,5 +1,9 @@
 #include "changeoverflowstrategyforlines.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QComboBox>
 
 #include "../../core/editor.h"
@@ -11,7 +15,6 @@
 #include "../../gui/actions/scenenodeactions.h"
 
 #include "../../blockedclosuremethodcall.h"
-#include "../../closuremethodcall.h"
 
 history::label::ChangeOverflowStrategyForLines::ChangeOverflowStrategyForLines(
     sad::SceneNode* d,

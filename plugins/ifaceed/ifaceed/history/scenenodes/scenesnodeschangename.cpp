@@ -1,5 +1,9 @@
 #include "scenenodeschangename.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QLineEdit>
 
 #include "../../core/editor.h"

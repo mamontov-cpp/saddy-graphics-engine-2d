@@ -1,5 +1,8 @@
 #include "animationschangewaymovingway.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
 #include "../../core/editor.h"
 
 #include "../../closuremethodcall.h"
@@ -36,7 +39,7 @@ history::animations::ChangeWayMovingWay::~ChangeWayMovingWay()
 void history::animations::ChangeWayMovingWay::performUpdateUI(core::Editor* e, unsigned long long value)
 {
     QComboBox* list = e->uiBlocks()->uiAnimationBlock()->cmbWayAnimationWay;
-	gui::actions::AnimationActions* a_actions  = e->actions()->animationActions();
+    gui::actions::AnimationActions* a_actions  = e->actions()->animationActions();
     invoke_blocked(list, &QComboBox::setCurrentIndex,  a_actions->findInComboBoxByMajorId<sad::p2d::app::Way*>(list,value));
 }
 

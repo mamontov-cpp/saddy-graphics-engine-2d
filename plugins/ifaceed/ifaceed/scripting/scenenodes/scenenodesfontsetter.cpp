@@ -1,5 +1,8 @@
 #include "scenenodesfontsetter.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
 #include "../tovalue.h"
 
 #include "../../qstdstring.h"
