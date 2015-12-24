@@ -11,7 +11,9 @@
 #include <animations/animationscomposite.h>
 #include <animations/animationswayinstance.h>
 
-#include "animationinstanceprocess.h"
+#include "abstractactions.h"
+
+#include "../animationinstanceprocess.h"
 
 class MainPanel;
 
@@ -20,25 +22,34 @@ namespace gui
 
 class InstanceProcess;
 
+namespace uiblocks
+{
+
+class UIAnimationInstanceBlock;
+
+}
+
+namespace actions
+{
+
+
 /*! A group of actions, linked to animation instances
  */	
-class InstanceActions: public QObject
+class AnimationInstanceActions: public QObject, public gui::actions::AbstractActions
 {
 Q_OBJECT
 public:
     /*! Creates new label actions
         \param[in] parent a parent object
      */
-    InstanceActions(QObject* parent = NULL);
+    AnimationInstanceActions(QObject* parent = NULL);
     /*! This class could be inherited
      */
-    virtual ~InstanceActions();
-    /*! Sets panel, where actions belong to
-     */
-    void setPanel(MainPanel* e);
-    /*! Returns panel, where actions belong to
-     */
-    MainPanel* panel() const;
+    virtual ~AnimationInstanceActions();
+	/*! Sets inner editor link of process
+		\param[in] e editor
+	 */
+	virtual void setEditor(core::Editor* e);
     /*! Updates instance list for groups
      */
     void updateGroupInstanceList();
@@ -56,6 +67,11 @@ public:
         bool fromeditor,
         int row = -1
     );
+	/*! Returns name for animation instance
+        \param[in] i instance
+        \return name for instance
+     */
+    QString nameForInstance(sad::animations::Instance* i) const;
 public slots:
     /*! Tries to add new animation instance
      */
@@ -105,12 +121,14 @@ public slots:
      */
     void stop();
 private:
-    /*! An panel, which actions are belong to
-     */
-    MainPanel* m_panel;
     /*! A running animation process 
      */
     gui::AnimationInstanceProcess* m_animation;
+	/*! Block for editor
+	 */
+	gui::uiblocks::UIAnimationInstanceBlock* m_blk;
 };
+
+}
 
 }

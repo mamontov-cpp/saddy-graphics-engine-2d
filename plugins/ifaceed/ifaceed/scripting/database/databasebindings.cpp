@@ -3,17 +3,16 @@
 
 #include <renderer.h>
 
-#include <db/dbdatabase.h>
-
 #include "../tovalue.h"
 #include "../fromvalue.h"
 
-#include "../../mainpanel.h"
 #include "../../qstdstring.h"
 
 #include "../../core/editor.h"
 
 #include "../../gui/table/delegate.h"
+
+#include "../../gui/mainpanelproxy.h"
 
 #include "../animations/animationsbindings.h"
 #include "../instances/instancesbindings.h"
@@ -21,12 +20,12 @@
 
 bool scripting::database::addProperty(scripting::Scripting* s, sad::String type, sad::String name)
 {
-    return s->panel()->scriptableAddProperty(type, name, false);	
+    return s->editor()->panelProxy()->scriptableAddProperty(type, name, false);	
 }
 
 bool scripting::database::removeProperty(scripting::Scripting* s, sad::String name)
 {
-    MainPanel* panel = s->panel();
+    gui::MainPanelProxy* panel = s->editor()->panelProxy();
     bool result = false;
     if(sad::Renderer::ref()->database("")->propertyByName(name) != NULL)
     {

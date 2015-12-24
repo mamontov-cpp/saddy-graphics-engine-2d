@@ -4,8 +4,6 @@
 
 #include "../core/editor.h"
 
-#include "../mainpanel.h"
-
 core::QtTarget::~QtTarget()
 {
 
@@ -34,7 +32,7 @@ void core::QtTarget::critical(const sad::String & m)
     CLOSURE
     CLOSURE_DATA(core::Editor * ed; QString w;)
     CLOSURE_CODE(
-        QMessageBox::critical(ed->panel(), "", w);
+        QMessageBox::critical(ed->panelAsWidget(), "", w);
     )
     INITCLOSURE( CLSET(ed, m_editor); CLSET(w, STD2QSTRING(m.c_str())); )
     SUBMITCLOSURE( m_editor->emitClosure );
@@ -47,7 +45,7 @@ void core::QtTarget::warning(const sad::String & m)
     CLOSURE
     CLOSURE_DATA(core::Editor * ed; QString w;)
     CLOSURE_CODE(
-        QMessageBox::warning(ed->panel(), "", w);
+        QMessageBox::warning(ed->panelAsWidget(), "", w);
     )
     INITCLOSURE( CLSET(ed, m_editor); CLSET(w, STD2QSTRING(m.c_str())); )
     SUBMITCLOSURE( m_editor->emitClosure );

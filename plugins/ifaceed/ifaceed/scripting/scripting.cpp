@@ -13,9 +13,15 @@
 #include <animations/animationssimplemovement.h>
 
 #include "../scriptinghelp.h"
-#include "../mainpanel.h"
 
 #include "../core/editor.h"
+
+#include "../gui/codeedit/codeedit.h"
+
+#include "../gui/uiblocks/uiblocks.h"
+#include "../gui/uiblocks/uiconsoleblock.h"
+#include "../gui/uiblocks/uianimationblock.h"
+
 
 #include "../history/scenenodes/scenenodeschangename.h"
 #include "../history/scenenodes/scenenodeschangeangle.h"
@@ -162,7 +168,7 @@ void scripting::Scripting::Thread::run()
 }
 
 // ================================== PUBLIC METHODS OF scripting::Scripting ==================================
-scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_panel(NULL)
+scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_editor(NULL)
 {
     m_flags = QScriptValue::ReadOnly|QScriptValue::Undeletable;
     m_engine = new QScriptEngine();
@@ -184,14 +190,7 @@ scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_panel(NULL
 
     scripting::Callable* oresourceschema = scripting::make_scripting_call(scripting::resource_schema, this);
     m_registered_classes << oresourceschema;
-    m_value.setProperty("resourceSchema", m_engine->newObject(oresourceschema), m_flags);
-
-    this->initSadTypeConstructors();
-    this->initDatabasePropertyBindings(m_value);
-    this->initSceneBindings(m_value);
-    this->initSceneNodesBindings(m_value);
-    this->initWaysBindings(m_value);
-    this->initDialoguesBindings(m_value);
+    m_value.setProperty("resourceSchema", m_engine->newObject(oresourceschema), m_flags);    
 }
 
 scripting::Scripting::~Scripting()
@@ -204,17 +203,23 @@ scripting::Scripting::~Scripting()
     }
 }
 
-void scripting::Scripting::setPanel(MainPanel* panel)
+void scripting::Scripting::setEditor(core::Editor* editor)
 {
-    m_panel = panel;
+    m_editor = editor;
+    this->initSadTypeConstructors();
+    this->initDatabasePropertyBindings(m_value);
+    this->initSceneBindings(m_value);
+    this->initSceneNodesBindings(m_value);
+    this->initWaysBindings(m_value);
+    this->initDialoguesBindings(m_value);
     this->initAnimationsBindings(m_value);
     this->initAnimationInstanceBindings(m_value);
     this->initAnimationGroupBindings(m_value);
 }
 
-MainPanel* scripting::Scripting::panel() const
+core::Editor* scripting::Scripting::editor() const
 {
-    return m_panel;
+    return m_editor;
 }
 
 QScriptEngine* scripting::Scripting::engine() const
@@ -327,10 +332,11 @@ void scripting::Scripting::runScript()
         return;
     }
     history::BatchCommand* c = new history::BatchCommand();
-    m_panel->editor()->setCurrentBatchCommand(c);
+    m_editor->setCurrentBatchCommand(c);
 
-    m_panel->UI()->txtConsoleResults->setText("");
-    QString text = m_panel->UI()->txtConsoleCode->toPlainText();
+    gui::uiblocks::UIConsoleBlock* cblk = m_editor->uiBlocks()->uiConsoleBlock();
+    cblk->txtConsoleResults->setText("");
+    QString text = cblk->txtConsoleCode->toPlainText();
     
     QScriptValue globalValue = m_engine->globalObject();
     globalValue.setProperty("console", m_value, m_flags);
@@ -344,20 +350,20 @@ void scripting::Scripting::runScript()
 
     if (result.isError())
     {
-        m_panel->UI()->txtConsoleResults->append(QString("<font color=\"red\">")
-                                                 + result.toString()
-                                                 + QString("<br/>Backtrace:<br/>")
-                                                 + m_engine->uncaughtExceptionBacktrace().join("<br/>")
-                                                 + QString("</font>")
+        cblk->txtConsoleResults->append(QString("<font color=\"red\">")
+                                        + result.toString()
+                                        + QString("<br/>Backtrace:<br/>")
+                                        + m_engine->uncaughtExceptionBacktrace().join("<br/>")
+                                        + QString("</font>")
         );
-        c->rollback(m_panel->editor());
+        c->rollback(m_editor);
         delete c;
     }
     else
     {
         if (c->count())
         {
-            m_panel->editor()->history()->add(c);
+            m_editor->history()->add(c);
         }
         else
         {
@@ -365,7 +371,7 @@ void scripting::Scripting::runScript()
         }
     }
 
-    m_panel->editor()->setCurrentBatchCommand(NULL);
+    m_editor->setCurrentBatchCommand(NULL);
     poller.wait();
 }
 
@@ -1102,7 +1108,7 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
 
     scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
     // All props
-    set->add(new scripting::scenenodes::FlagSetter(m_engine, "visible", history::scenenodes::changeVisibility));
+    set->add(new scripting::scenenodes::FlagSetter(m_editor, m_engine, "visible", history::scenenodes::changeVisibility));
     set->add(new scripting::scenenodes::Setter<sad::String, history::scenenodes::ChangeName>(m_engine, "name"));
     set->add(new scripting::scenenodes::AreaSetter(m_engine));
     set->add(new scripting::scenenodes::Setter<double, history::scenenodes::ChangeAngle>(m_engine, "angle"));
@@ -1121,8 +1127,8 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
 
     set->add(new scripting::scenenodes::FontSetter(m_engine));
     // sad::Sprite2D props
-    set->add(new scripting::scenenodes::FlagSetter(m_engine, "flipx", history::sprite2d::changeFlipX));
-    set->add(new scripting::scenenodes::FlagSetter(m_engine, "flipy", history::sprite2d::changeFlipY));
+    set->add(new scripting::scenenodes::FlagSetter(m_editor, m_engine, "flipx", history::sprite2d::changeFlipX));
+    set->add(new scripting::scenenodes::FlagSetter(m_editor, m_engine, "flipy", history::sprite2d::changeFlipY));
     set->add(new scripting::scenenodes::OptionsSetter(m_engine));
     // sad::db::CustomObject props
     set->add(new scripting::scenenodes::SchemaSetter(m_engine));
@@ -1519,33 +1525,35 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
     set->add(new scripting::animations::Setter<sad::animations::CameraShaking, sad::Point2D, history::animations::ChangeCameraOffset>(m_engine, "offset"));
     set->add(new scripting::animations::Setter<sad::animations::CameraShaking, int, history::animations::ChangeShakingFrequency>(m_engine, "frequency"));
     set->add(new scripting::animations::Setter<sad::animations::CameraRotation, sad::Point3D, history::animations::ChangeCameraPivot>(m_engine, "pivot"));
+
+    gui::uiblocks::UIAnimationBlock* ablk = m_editor->uiBlocks()->uiAnimationBlock();
     set->add(new scripting::animations::WidgetSetter<
                 sad::animations::CameraRotation, 
                 QDoubleSpinBox*,
                 double, 
                 history::animations::ChangeCameraAngle
-            >(m_engine,  m_panel->UI()->dsbCameraRotationStartingAngle, "min_angle")
+            >(m_engine,  ablk->dsbCameraRotationStartingAngle, "min_angle")
     );
     set->add(new scripting::animations::WidgetSetter<
                 sad::animations::CameraRotation, 
                 QDoubleSpinBox*,
                 double, 
                 history::animations::ChangeCameraAngle
-            >(m_engine,  m_panel->UI()->dsbCameraRotationEndingAngle, "max_angle")
+            >(m_engine,  ablk->dsbCameraRotationEndingAngle, "max_angle")
     );
     set->add(new scripting::animations::WidgetSetter<
                 sad::animations::Color, 
                 gui::colorview::ColorView*,
                 sad::AColor, 
                 history::animations::ChangeColorColor
-            >(m_engine, m_panel->UI()->cwColorStartingColor, "min_color")
+            >(m_engine, ablk->cwColorStartingColor, "min_color")
     );
     set->add(new scripting::animations::WidgetSetter<
                 sad::animations::Color, 
                 gui::colorview::ColorView*,
                 sad::AColor, 
                 history::animations::ChangeColorColor
-            >(m_engine, m_panel->UI()->cwColorEndingColor, "max_color")
+            >(m_engine, ablk->cwColorEndingColor, "max_color")
     );
     set->add(new scripting::animations::Setter<sad::animations::FontList, sad::Vector<sad::String>, history::animations::ChangeFontListFonts>(m_engine, "fonts"));
     set->add(new scripting::animations::WidgetSetter<
@@ -1553,14 +1561,14 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
                 QSpinBox*,
                 unsigned int, 
                 history::animations::ChangeFontSizeSize
-            >(m_engine, m_panel->UI()->sbFontSizeStartingSize, "min_size")
+            >(m_engine, ablk->sbFontSizeStartingSize, "min_size")
     );
     set->add(new scripting::animations::WidgetSetter<
                 sad::animations::FontSize, 
                 QSpinBox*,
                 unsigned int, 
                 history::animations::ChangeFontSizeSize
-            >(m_engine, m_panel->UI()->sbFontSizeEndingSize, "max_size")
+            >(m_engine, ablk->sbFontSizeEndingSize, "max_size")
     );
     set->add(new scripting::animations::Setter<sad::animations::Resize, sad::Point2D, history::animations::ChangeResizeStartingSize>(m_engine, "start_size"));
     set->add(new scripting::animations::Setter<sad::animations::Resize, sad::Point2D, history::animations::ChangeResizeEndingSize>(m_engine, "end_size"));
@@ -1569,38 +1577,38 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
                 QDoubleSpinBox*,
                 double, 
                 history::animations::ChangeRotateAngle
-            >(m_engine, m_panel->UI()->dsbRotateStartingAngle, "min_angle")
+            >(m_engine, ablk->dsbRotateStartingAngle, "min_angle")
     );
     set->add(new scripting::animations::WidgetSetter<
                 sad::animations::Rotate, 
                 QDoubleSpinBox*,
                 double, 
                 history::animations::ChangeRotateAngle
-            >(m_engine, m_panel->UI()->dsbRotateEndingAngle, "max_angle")
+            >(m_engine, ablk->dsbRotateEndingAngle, "max_angle")
     );
     set->add(new scripting::animations::WidgetSetter<
                 sad::animations::OptionList, 
                 QTextEdit*,
                 sad::Vector<sad::String>, 
                 history::animations::ChangeList
-            >(m_engine, m_panel->UI()->txtOptionListList, "list")
+            >(m_engine, ablk->txtOptionListList, "list")
     );
     set->add(new scripting::animations::WidgetSetter<
                 sad::animations::TextureCoordinatesList, 
                 QTextEdit*,
                 sad::Vector<sad::String>, 
                 history::animations::ChangeList
-            >(m_engine, m_panel->UI()->txtTextureCoordinatesList, "list")
+            >(m_engine, ablk->txtTextureCoordinatesList, "list")
     );
     set->add(new scripting::animations::Point2DSetter<
                 sad::animations::SimpleMovement, 
                 history::animations::ChangePropertyAsPoint2DDisplayedInTwoSpinboxes
-            >(m_engine, "start_point", m_panel->UI()->dabSimpleMovementStartingPointX,m_panel->UI()->dabSimpleMovementStartingPointY)
+            >(m_engine, "start_point", ablk->dabSimpleMovementStartingPointX,ablk->dabSimpleMovementStartingPointY)
     );
     set->add(new scripting::animations::Point2DSetter<
                 sad::animations::SimpleMovement, 
                 history::animations::ChangePropertyAsPoint2DDisplayedInTwoSpinboxes
-            >(m_engine, "end_point", m_panel->UI()->dabSimpleMovementEndingPointX,m_panel->UI()->dabSimpleMovementEndingPointY)
+            >(m_engine, "end_point", ablk->dabSimpleMovementEndingPointX,ablk->dabSimpleMovementEndingPointY)
     );
 
     scripting::animations::WidgetSetter<
@@ -1613,7 +1621,7 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
         gui::rectwidget::RectWidget*,
         sad::Rect2D,
         history::animations::ChangeRect
-    >(m_engine,  m_panel->UI()->rctTCCStartingRect, "start_rect");
+    >(m_engine,  ablk->rctTCCStartingRect, "start_rect");
     rect1->addCondition(new IsAABB());
     set->add(rect1);
 
@@ -1627,7 +1635,7 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
         gui::rectwidget::RectWidget*,
         sad::Rect2D,
         history::animations::ChangeRect
-    >(m_engine,  m_panel->UI()->rctTCCEndingRect, "end_rect");
+    >(m_engine,  ablk->rctTCCEndingRect, "end_rect");
     rect2->addCondition(new IsAABB());
     set->add(rect2);
 
@@ -1946,25 +1954,26 @@ void scripting::Scripting::initAnimationGroupBindings(QScriptValue& v)
 
 void scripting::Scripting::saveScript()
 {
-    QString name = QFileDialog::getSaveFileName(this->panel(), "Enter file, where we should store source code", "", "*.js");
+    QString name = QFileDialog::getSaveFileName(this->editor()->panelAsWidget(), "Enter file, where we should store source code", "", "*.js");
     if (name.length() != 0)
     {
         QFile file(name);
         if (file.open(QIODevice::WriteOnly))
         {
             QTextStream stream(&file);
-            stream << this->panel()->UI()->txtConsoleCode->toPlainText();
+            gui::uiblocks::UIConsoleBlock* cblk = m_editor->uiBlocks()->uiConsoleBlock();
+            stream << cblk->txtConsoleCode->toPlainText();
         }
         else
         {
-            QMessageBox::critical(this->panel(), "Saddy Interface Editor", "Cannot open file " + name);
+            QMessageBox::critical(this->editor()->panelAsWidget(), "Saddy Interface Editor", "Cannot open file " + name);
         }
     }
 }
 
 void scripting::Scripting::loadScript()
 {
-    QString name = QFileDialog::getOpenFileName(this->panel(), "Enter file, where code is stored", "", "*.js");
+    QString name = QFileDialog::getOpenFileName(this->editor()->panelAsWidget(), "Enter file, where code is stored", "", "*.js");
     if (name.length() != 0)
     {
         QFile file(name);
@@ -1973,11 +1982,12 @@ void scripting::Scripting::loadScript()
             QTextStream stream(&file);
             QString string;
             string = stream.readAll();
-            this->panel()->UI()->txtConsoleCode->setPlainText(string);
+            gui::uiblocks::UIConsoleBlock* cblk = m_editor->uiBlocks()->uiConsoleBlock();
+            cblk->txtConsoleCode->setPlainText(string);
         }
         else
         {
-            QMessageBox::critical(this->panel(), "Saddy Interface Editor", "Cannot open file " + name);
+            QMessageBox::critical(this->editor()->panelAsWidget(), "Saddy Interface Editor", "Cannot open file " + name);
         }
     }
 }

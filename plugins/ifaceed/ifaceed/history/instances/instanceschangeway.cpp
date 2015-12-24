@@ -1,13 +1,20 @@
 #include "instanceschangeway.h"
 
-#include "../../core/editor.h"
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
 
-#include "../../mainpanel.h"
+#include "../../core/editor.h"
 
 #include "../../blockedclosuremethodcall.h"
 #include "../../closuremethodcall.h"
 
 #include <p2d/app/way.h>
+
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/animationinstanceactions.h"
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uianimationinstanceblock.h"
 
 Q_DECLARE_METATYPE(sad::p2d::app::Way*) //-V566
 
@@ -36,8 +43,8 @@ void history::instances::ChangeWay::updateItem(core::Editor* e, unsigned long lo
     int pos = 0;
     if (value > 0)
     {
-        pos = e->panel()->findInComboBoxByMajorId<sad::p2d::app::Way*>(
-            e->panel()->UI()->cmbWayAnimationInstanceWay,
+        pos = e->actions()->instanceActions()->findInComboBoxByMajorId<sad::p2d::app::Way*>(
+            e->uiBlocks()->uiAnimationInstanceBlock()->cmbWayAnimationInstanceWay,
             value
         );
         if (pos < 0)
@@ -47,7 +54,7 @@ void history::instances::ChangeWay::updateItem(core::Editor* e, unsigned long lo
     }
 
     invoke_blocked(
-        e->panel()->UI()->cmbWayAnimationInstanceWay,
+        e->uiBlocks()->uiAnimationInstanceBlock()->cmbWayAnimationInstanceWay,
         &QComboBox::setCurrentIndex,
         pos
     );

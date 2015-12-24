@@ -2,8 +2,6 @@
 
 #include "../scripting.h"
 
-#include "../../mainpanel.h"
-
 #include "../../core/editor.h"
 
 #include "../../history/scenes/sceneschangename.h"
@@ -29,7 +27,7 @@ void scripting::scenes::NameSetter::setProperty(
 {
     QScriptValue main = this->engine()->globalObject().property("---");
     scripting::Scripting* e = static_cast<scripting::Scripting*>(main.toQObject());
-    core::Editor* editor =  e->panel()->editor();
+    core::Editor* editor =  e->editor();
 
     history::Command* c = new history::scenes::ChangeName(obj, oldvalue, newvalue);								
     editor->currentBatchCommand()->add(c);

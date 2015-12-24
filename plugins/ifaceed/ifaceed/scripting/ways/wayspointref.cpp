@@ -4,8 +4,6 @@
 
 #include "../scripting.h"
 
-#include "../../mainpanel.h"
-
 #include "../../core/editor.h"
 
 #include "../../history/ways/wayswaypointchange.h"
@@ -85,7 +83,7 @@ void  scripting::ways::PointRef::setX(double x)
         return ;
     }
     scripting::Scripting* e = static_cast<scripting::Scripting*>(this->engine()->globalObject().property("---").toQObject());
-    core::Editor* editor = e->panel()->editor();
+    core::Editor* editor = e->editor();
     if (sad::is_fuzzy_equal(x, this->x()) == false)
     {
         sad::Point2D oldpoint = this->toPoint();
@@ -104,7 +102,7 @@ void scripting::ways::PointRef::setY(double y)
         return ;
     }
     scripting::Scripting* e = static_cast<scripting::Scripting*>(this->engine()->globalObject().property("---").toQObject());
-    core::Editor* editor = e->panel()->editor();
+    core::Editor* editor = e->editor();
     if (sad::is_fuzzy_equal(y, this->y()) == false)
     {
         sad::Point2D oldpoint = this->toPoint();
@@ -144,7 +142,7 @@ void scripting::ways::PointRef::moveBack()
     if (m_pos > 0)
     {
         scripting::Scripting* e = static_cast<scripting::Scripting*>(this->engine()->globalObject().property("---").toQObject());
-        core::Editor* editor = e->panel()->editor();
+        core::Editor* editor = e->editor();
 
         history::Command* c = new history::ways::WayPointSwap(m_way, m_pos - 1, m_pos);
         c->commit();
@@ -163,7 +161,7 @@ void scripting::ways::PointRef::moveFront()
     if (m_pos < m_way->wayPoints().count() - 1)
     {
         scripting::Scripting* e = static_cast<scripting::Scripting*>(this->engine()->globalObject().property("---").toQObject());
-        core::Editor* editor = e->panel()->editor();
+        core::Editor* editor = e->editor();
 
         history::Command* c = new history::ways::WayPointSwap(m_way, m_pos, m_pos + 1);
         c->commit();

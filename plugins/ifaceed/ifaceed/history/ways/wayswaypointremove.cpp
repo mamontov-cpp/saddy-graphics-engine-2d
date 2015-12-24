@@ -1,9 +1,15 @@
 #include "wayswaypointremove.h"
 
-#include "../mainpanel.h"
 #include "../core/editor.h"
 
 #include "../closuremethodcall.h"
+
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/wayactions.h"
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uiwayblock.h"
+
 
 history::ways::WayPointRemove::WayPointRemove(
     sad::p2d::app::Way* w,
@@ -30,8 +36,8 @@ void history::ways::WayPointRemove::commit(core::Editor* ob)
         if (ob->shared()->selectedWay() == m_way)
         {
              ob->emitClosure(bind(
-                ob->panel(),
-                &MainPanel::removeRowInWayPointList,
+                ob->actions()->wayActions(),
+                &gui::actions::WayActions::removeRowInWayPointList,
                 m_position
             ));
         }
@@ -47,13 +53,13 @@ void history::ways::WayPointRemove::rollback(core::Editor* ob)
     {
         if (ob->shared()->selectedWay() == m_way)
         {
-            MainPanel* p = ob->panel();
+            gui::uiblocks::UIWayBlock* blk = ob->uiBlocks()->uiWayBlock();			
             void (QListWidget::*f)(int, QListWidgetItem*) = &QListWidget::insertItem;
             ob->emitClosure( bind(
-                p->UI()->lstWayPoints,
+                blk->lstWayPoints,
                 f,
                 m_position,
-                new QListWidgetItem(p->nameForPoint(m_point))
+                new QListWidgetItem(ob->actions()->wayActions()->nameForPoint(m_point))
             ));
         }
     }

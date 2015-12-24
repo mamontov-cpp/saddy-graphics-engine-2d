@@ -2,9 +2,15 @@
 
 #include "../../core/editor.h"
 
-#include "../../mainpanel.h"
-
 #include "../../closuremethodcall.h"
+
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/animationinstanceactions.h"
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uianimationinstanceblock.h"
+#include "../../gui/uiblocks/uianimationsgroupblock.h"
+
 
 Q_DECLARE_METATYPE(sad::animations::Instance*) //-V566
 
@@ -29,7 +35,7 @@ void history::instances::New::commit(core::Editor * ob)
 
     if(ob)
     {
-        QString name = ob->panel()->nameForInstance(m_node);
+        QString name = ob->actions()->instanceActions()->nameForInstance(m_node);
 
 
         void (QListWidget::*f)(QListWidgetItem*) = &QListWidget::addItem;
@@ -38,7 +44,7 @@ void history::instances::New::commit(core::Editor * ob)
         item->setData(Qt::UserRole, v);
 
         ob->emitClosure( bind(
-            ob->panel()->UI()->lstAnimationInstances,
+            ob->uiBlocks()->uiAnimationInstanceBlock()->lstAnimationInstances,
             f,
             item
         ));
@@ -47,7 +53,7 @@ void history::instances::New::commit(core::Editor * ob)
         item->setData(Qt::UserRole, v);
 
         ob->emitClosure( bind(
-            ob->panel()->UI()->lstAnimationsGroupAllAnimations,
+            ob->uiBlocks()->uiAnimationsGroupBlock()->lstAnimationsGroupAllAnimations,
             f,
             item
         ));
@@ -63,13 +69,13 @@ void history::instances::New::rollback(core::Editor * ob)
         ob->emitClosure( bind(
             this,
             &history::instances::New::eraseFromList,
-            ob->panel()->UI()->lstAnimationInstances
+             ob->uiBlocks()->uiAnimationInstanceBlock()->lstAnimationInstances
         ));
 
         ob->emitClosure( bind(
             this,
             &history::instances::New::eraseFromList,
-            ob->panel()->UI()->lstAnimationsGroupAllAnimations
+            ob->uiBlocks()->uiAnimationsGroupBlock()->lstAnimationsGroupAllAnimations
         ));
     }
 }

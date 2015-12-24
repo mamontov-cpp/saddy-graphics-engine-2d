@@ -10,7 +10,12 @@
 #include <QObject>
 #include <QKeyEvent>
 
-class MainPanel;
+namespace core
+{
+
+class Editor;
+
+}
 
 namespace gui
 {
@@ -31,10 +36,10 @@ public:
      */
     explicit EventFilter(QObject *parent = 0);
     /*!
-     * Sets panel for event filter
-     * \param panel new panel
+     * Sets editor for event filter
+     * \param e editor
      */
-    void setPanel(MainPanel* panel);
+    void setEditor(core::Editor* e);
     /*!
      * Handled events for filter
      * \param[in] o an object, which emitted 
@@ -44,9 +49,9 @@ public:
     virtual bool eventFilter(QObject *o, QEvent *e);
 protected:
     /*!
-     * A linked panel to event filter
+     * A linked editor
      */
-    MainPanel* m_panel;
+    core::Editor* m_editor;
 };
 
 }

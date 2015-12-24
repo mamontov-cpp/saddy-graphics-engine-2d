@@ -14,7 +14,7 @@
 // ============================ PUBLIC METHODS ============================
 
 gui::RotationProcess::RotationProcess()
-: m_node(NULL), m_editor(NULL), m_pending(false)
+: m_pending(false), m_editor(NULL), m_node(NULL)
 {
     connect(&m_timer, SIGNAL(timeout()), this, SLOT(timerExpired()));
 }

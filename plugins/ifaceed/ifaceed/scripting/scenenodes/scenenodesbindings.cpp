@@ -3,16 +3,15 @@
 #include "../querytable.h"
 #include "../scripting.h"
 
-#include "../../mainpanel.h"
 #include "../../qstdstring.h"
-
 
 #include "../../core/editor.h"
 
 #include "../../history/scenenodes/scenenodesnew.h"
 
-#include "../../gui/scenenodeactions.h"
-#include "../../gui/sprite2dactions.h"
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/scenenodeactions.h"
+#include "../../gui/actions/sprite2dactions.h"
 
 #include <renderer.h>
 #include <label.h>
@@ -86,7 +85,7 @@ unsigned long long scripting::scenenodes::_addLabel(
     sad::Renderer::ref()->unlockRendering();
 
     history::scenenodes::New* cmd = new history::scenenodes::New(label);
-    core::Editor* c = scripting->panel()->editor();
+    core::Editor* c = scripting->editor();
     cmd->commit(c);
     c->currentBatchCommand()->add(cmd);
 
@@ -139,7 +138,7 @@ unsigned long long scripting::scenenodes::_addSprite2D(
     sad::Renderer::ref()->unlockRendering();
 
     history::scenenodes::New* cmd = new history::scenenodes::New(sprite);
-    core::Editor* c = scripting->panel()->editor();
+    core::Editor* c = scripting->editor();
     cmd->commit(c);
     c->currentBatchCommand()->add(cmd);
 
@@ -197,7 +196,7 @@ unsigned long long scripting::scenenodes::_addCustomObject(
     sad::Renderer::ref()->unlockRendering();
 
     history::scenenodes::New* cmd = new history::scenenodes::New(obj);
-    core::Editor* c = scripting->panel()->editor();
+    core::Editor* c = scripting->editor();
     cmd->commit(c);
     c->currentBatchCommand()->add(cmd);
 
@@ -209,10 +208,10 @@ void scripting::scenenodes::makeBackground(
     sad::SceneNode* node
 )
 {
-    scripting->panel()->sprite2DActions()->setSceneNodeAsBackground(node, false);
+    scripting->editor()->actions()->sprite2DActions()->setSceneNodeAsBackground(node, false);
 }
 
 void scripting::scenenodes::remove(scripting::Scripting* scripting,  sad::SceneNode* node)
 {
-    scripting->panel()->sceneNodeActions()->removeSceneNode(node, false);
+    scripting->editor()->actions()->sceneNodeActions()->removeSceneNode(node, false);
 }

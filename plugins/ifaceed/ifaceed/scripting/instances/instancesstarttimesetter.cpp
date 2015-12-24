@@ -1,8 +1,9 @@
 #include "instancesstarttimesetter.h"
 
-#include "../scripting.h"
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
 
-#include "../../mainpanel.h"
+#include "../scripting.h"
 
 #include "../../core/editor.h"
 
@@ -31,8 +32,7 @@ void scripting::instances::StartTimeSetter::setProperty(
 {
     QScriptValue main = this->engine()->globalObject().property("---");
     scripting::Scripting* e = static_cast<scripting::Scripting*>(main.toQObject());
-    MainPanel* panel = e->panel();
-    core::Editor* editor =  panel->editor();
+    core::Editor* editor =  e->editor();
 
     history::Command* c = new history::instances::ChangeStartTime(obj, oldvalue, newvalue);								
     editor->currentBatchCommand()->add(c);

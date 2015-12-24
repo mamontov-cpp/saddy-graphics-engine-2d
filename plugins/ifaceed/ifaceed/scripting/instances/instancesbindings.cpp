@@ -1,17 +1,22 @@
 #include "instancesbindings.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
+#include <db/dbdatabase.h>
+
 #include "../querytable.h"
 #include "../queryobject.h"
 #include "../tovalue.h"
 #include "../fromvalue.h"
 #include "../scripting.h"
 
-#include "../../mainpanel.h"
 #include "../../qstdstring.h"
 
 #include "../../core/editor.h"
 
-#include "../../gui/instanceactions.h"
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/animationinstanceactions.h"
 
 #include "../../history/instances/instancesnew.h"
 #include "../../history/instances/instancesremove.h"
@@ -147,7 +152,7 @@ unsigned long long scripting::instances::_addInstance(
     sad::Renderer::ref()->database("")->table("animationinstances")->add(instance);
 
     result = instance->MajorId;
-    core::Editor* e = scripting->panel()->editor();
+    core::Editor* e = scripting->editor();
     history::instances::New* c  = new history::instances::New(instance);
     c->commit(e);
     e->currentBatchCommand()->add(c);
@@ -252,7 +257,7 @@ unsigned long long scripting::instances::_addWayInstance(
     sad::Renderer::ref()->database("")->table("animationinstances")->add(instance);
 
     result = instance->MajorId;
-    core::Editor* e = scripting->panel()->editor();
+    core::Editor* e = scripting->editor();
     history::instances::New* c  = new history::instances::New(instance);
     c->commit(e);
     e->currentBatchCommand()->add(c);
@@ -265,7 +270,7 @@ void scripting::instances::remove(
     sad::animations::Instance* instance
 )
 {
-    scripting->panel()->instanceActions()->removeInstanceFromDatabase(instance, false);
+    scripting->editor()->actions()->instanceActions()->removeInstanceFromDatabase(instance, false);
 }
 
 

@@ -1,9 +1,17 @@
 #include "newproperty.h"
 
-#include "../../mainpanel.h"
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
+#include <db/dbdatabase.h>
+
+#include "../../core/editor.h"
+
+#include "../../gui/mainpanelproxy.h"
+
 #include "../../qstdstring.h"
 
-history::database::NewProperty::NewProperty(gui::table::Delegate* d, MainPanel* p)
+history::database::NewProperty::NewProperty(gui::table::Delegate* d)
 {
     m_delegate = d;
     m_delegate->addRef();
@@ -12,8 +20,6 @@ history::database::NewProperty::NewProperty(gui::table::Delegate* d, MainPanel* 
     ->database("")
     ->propertyByName(Q2STDSTRING(d->propertyName()))
     ->clone();
-
-    m_panel =  p;
 }
 
 history::database::NewProperty::~NewProperty()
@@ -31,7 +37,7 @@ void history::database::NewProperty::commit(core::Editor * ob)
 
     m_delegate->add();
 
-    m_panel->delegatesByName().insert(Q2STDSTRING(m_delegate->propertyName()), m_delegate);
+    ob->panelProxy()->delegatesByName().insert(Q2STDSTRING(m_delegate->propertyName()), m_delegate);
 }
 
 void history::database::NewProperty::rollback(core::Editor * ob)
@@ -42,5 +48,5 @@ void history::database::NewProperty::rollback(core::Editor * ob)
     
     m_delegate->remove();
 
-    m_panel->delegatesByName().remove(Q2STDSTRING(m_delegate->propertyName()));
+    ob->panelProxy()->delegatesByName().remove(Q2STDSTRING(m_delegate->propertyName()));
 }

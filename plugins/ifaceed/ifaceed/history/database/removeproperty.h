@@ -10,9 +10,12 @@
 
 #include <db/dbproperty.h>
 
-#include <refcountable.h>
+namespace core
+{
 
-class MainPanel;
+class Editor;
+
+}
 
 namespace history
 {
@@ -27,7 +30,7 @@ public:
         \param[in] d delegate
         \param[in] panel a panel
       */
-     RemoveProperty(gui::table::Delegate* d, MainPanel* panel);
+     RemoveProperty(gui::table::Delegate* d);
      /*! Erases link to a property
       */
      virtual ~RemoveProperty();
@@ -46,12 +49,14 @@ protected:
     /*! A delegate for removed property
      */
     gui::table::Delegate * m_delegate;
-    /*! An editable panel
-     */
-    MainPanel* m_panel;
     /*! A row, where delegate has been previously located
      */
     int m_row;
+    /*! Finds property
+        \param[in] ob editor
+        \return property
+     */
+    int findProperty(core::Editor* ob) const;
 };
 
 }

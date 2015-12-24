@@ -1,7 +1,4 @@
 #include <QFontComboBox>
-#include <QFontDatabase>
-#include <QMessageBox>
-#include <QFileDialog>
 #include <QTimer>
 
 #include "editor.h"
@@ -9,16 +6,16 @@
 
 #include <freetype/font.h>
 
-#include <label.h>
 #include <renderer.h>
 #include <keymouseconditions.h>
 
 #include <input/controls.h>
 
-#include <pipeline/pipelinetask.h>
 #include <pipeline/pipeline.h>
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <db/load.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <db/save.h>
 #include <db/dbdatabase.h>
 
@@ -33,15 +30,20 @@
 
 #include "gui/eventfilter.h"
 #include "gui/renderways.h"
-#include "gui/wayactions.h"
+#include "gui/actions/wayactions.h"
+#include "gui/mainpanelproxy.h"
+
 #include "gui/uiblocks/uiblocks.h"
+#include "gui/actions/actions.h"
 
 #include "typeconverters/save.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "typeconverters/load.h"
 #include "typeconverters/qcolortosadcolor.h"
 #include "typeconverters/qcolortosadacolor.h"
 #include "typeconverters/qstringtosadstring.h"
 #include "typeconverters/qlistqlistqcolortosadvectorsadvectoracolor.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "typeconverters/qrectftosadrect2d.h"
 #include "typeconverters/sadcolortoqcolor.h"
 #include "typeconverters/sadacolortoqcolor.h"
@@ -52,6 +54,9 @@
 #include "../blockedclosuremethodcall.h"
 
 #include "../mainpanel.h"
+
+#include "../gui/actions/customobjectactions.h"
+#include "../gui/actions/scenenodeactions.h"
 
 Q_DECLARE_METATYPE(sad::p2d::app::Way*) //-V566
 Q_DECLARE_METATYPE(sad::SceneNode*) //-V566
@@ -126,7 +131,13 @@ core::Editor::Editor()
     // Fill conversion table with converters
     this->initConversionTable();
 
-	m_ui_blocks = new gui::uiblocks::UIBlocks();
+    m_ui_blocks = new gui::uiblocks::UIBlocks();
+
+    m_actions = new gui::actions::Actions();
+    m_actions->setEditor(this);
+
+    m_panel_proxy = new gui::MainPanelProxy();
+    m_panel_proxy->setEditor(this);
 }
 core::Editor::~Editor()
 {	
@@ -140,7 +151,9 @@ core::Editor::~Editor()
     delete m_selection;
     delete m_mainwindow;
     delete m_qtapp;
-	delete m_ui_blocks;
+    delete m_ui_blocks;
+    delete m_actions;
+    delete m_panel_proxy;
 }
 
 void core::Editor::init(int argc,char ** argv)
@@ -252,7 +265,7 @@ void core::Editor::cleanupBeforeAdding()
 
         sad::Renderer::ref()->unlockRendering();
 
-        this->panel()->clearCustomObjectPropertiesTable();
+        m_actions->customObjectActions()->clearCustomObjectPropertiesTable();
     }
 }
 
@@ -264,7 +277,7 @@ bool core::Editor::isNodeSelected(sad::SceneNode* node) const
 void core::Editor::enteredIdleState()
 {
     m_mainwindow->highlightIdleState();
-    this->emitClosure( bind(m_mainwindow, &MainPanel::clearCustomObjectPropertiesTable));
+    this->emitClosure( bind(m_actions->customObjectActions(), &gui::actions::CustomObjectActions::clearCustomObjectPropertiesTable));
 }
 
 static const size_t CoreEditorEditingStatesCount = 5; 
@@ -384,7 +397,7 @@ void core::Editor::tryEnterWayEditingState()
         int row = m_mainwindow->UI()->lstWays->currentRow();
         sad::p2d::app::Way* way = m_mainwindow->UI()->lstWays->item(row)->data(Qt::UserRole).value<sad::p2d::app::Way*>();
         m_shared->setSelectedWay(way);	
-        m_mainwindow->wayActions()->wayChanged(row);
+        this->actions()->wayActions()->wayChanged(row);
     }
 }
 
@@ -418,7 +431,34 @@ bool core::Editor::isDatabaseEmpty() const
 
 gui::uiblocks::UIBlocks* core::Editor::uiBlocks() const
 {
-	return m_ui_blocks;
+    return m_ui_blocks;
+}
+
+gui::actions::Actions* core::Editor::actions() const
+{
+    return m_actions;
+}
+
+gui::MainPanelProxy* core::Editor::panelProxy() const
+{
+    return m_panel_proxy;
+}
+
+QWidget* core::Editor::panelAsWidget() const
+{
+    return m_mainwindow;
+}
+
+void core::Editor::addToHistory(history::Command* c, bool fromeditor)
+{
+    if (fromeditor)
+    {
+        this->history()->add(c);
+    }
+    else
+    {
+        this->currentBatchCommand()->add(c);
+    }
 }
 // =================== PUBLIC SLOTS METHODS ===================
 
@@ -470,7 +510,7 @@ void core::Editor::start()
         tmp->setDefaultTreeName("");
         if (tmp->loadFromFile(value, sad::Renderer::ref()))
         {
-            this->shared()->setFileName(STD2QSTRING(value));
+            this->shared()->setFileName(STD2QSTRING(value.c_str()));
             sad::Renderer::ref()->addDatabase("", tmp);
             database_loaded = true;
         }
@@ -588,12 +628,12 @@ void core::Editor::runQtEventLoop()
 {
     m_mainwindow = new MainPanel();
     m_mainwindow->setEditor(this);
-	m_ui_blocks->init(m_mainwindow);
+    m_ui_blocks->init(m_mainwindow);
 
     // Called this explicitly, because entered state before
     m_machine->state("idle")->addEnterHandler(this, &core::Editor::enteredIdleState);
     m_machine->state("selected")->addEnterHandler(m_mainwindow, &MainPanel::highlightSelectedState);
-    m_machine->state("selected")->addEnterHandler(m_mainwindow, &MainPanel::updateUIForSelectedItem);
+    m_machine->state("selected")->addEnterHandler(m_actions->sceneNodeActions(), &gui::actions::SceneNodeActions::updateUIForSelectedSceneNode);
     m_machine->state("adding/label")->addEnterHandler(m_mainwindow, &MainPanel::highlightLabelAddingState);
     m_machine->state("ways/idle")->addEnterHandler(this, &core::Editor::enteredIdleState);
     m_machine->state("ways/selected")->addEnterHandler(m_mainwindow, &MainPanel::highlightSelectedState);
@@ -603,7 +643,7 @@ void core::Editor::runQtEventLoop()
     sad::Renderer::ref()->controls()->add(*sad::input::ET_MouseMove, m_mainwindow, &MainPanel::updateMousePosition);
 
     gui::EventFilter* filter = new gui::EventFilter();
-    filter->setPanel(m_mainwindow);
+    filter->setEditor(this);
     QCoreApplication::instance()->installEventFilter(filter);
 
     QObject::connect(

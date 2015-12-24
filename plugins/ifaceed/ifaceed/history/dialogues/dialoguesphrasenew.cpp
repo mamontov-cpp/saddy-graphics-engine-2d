@@ -1,10 +1,17 @@
 #include "history/dialogues/dialoguesphrasenew.h"
 
-#include "../mainpanel.h"
+#include <QListWidget>
+
 #include "../core/editor.h"
 
 #include "../closuremethodcall.h"
 #include "../blockedclosuremethodcall.h"
+
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/dialogueactions.h"
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uiphraseblock.h"
 
 history::dialogues::PhraseNew::PhraseNew(
     sad::dialogue::Dialogue* dialogue, 
@@ -27,12 +34,12 @@ void history::dialogues::PhraseNew::commit(core::Editor* ob)
     {
         if (ob->shared()->selectedDialogue() == m_dialogue)
         {
-            MainPanel* p = ob->panel();
+            QListWidget* lst = ob->uiBlocks()->uiPhraseBlock()->lstPhrases;
             void (QListWidget::*f)(const QString&) = &QListWidget::addItem;
             ob->emitClosure( bind(
-                p->UI()->lstPhrases,
+                lst,
                 f,
-                p->nameForPhrase(m_phrase)
+                ob->actions()->dialogueActions()->nameForPhrase(m_phrase)
             ));
         }
     }
@@ -48,8 +55,8 @@ void history::dialogues::PhraseNew::rollback(core::Editor* ob)
         if (ob->shared()->selectedDialogue() == m_dialogue)
         {
             ob->emitClosure(bind(
-                ob->panel(),
-                &MainPanel::removePhraseFromPhraseList,
+                ob->actions()->dialogueActions(),
+                &gui::actions::DialogueActions::removePhraseFromPhraseList,
                 row
             ));
         }

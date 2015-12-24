@@ -12,14 +12,21 @@
 
 #include <input/events.h>
 
+#include "abstractactions.h"
+
 class MainPanel;
 
 namespace gui
 {
+
 class RotationProcess;
+
+namespace actions 
+{
+
 /*! A group of actions, linked to scene nodes
  */
-class SceneNodeActions: public QObject
+class SceneNodeActions: public QObject, public gui::actions::AbstractActions
 {
 Q_OBJECT
 public:
@@ -30,12 +37,6 @@ public:
     /*! This class could be inherited
      */
     virtual ~SceneNodeActions();
-    /*! Sets panel, where actions belong to
-     */
-    void setPanel(MainPanel* e);
-    /*! Returns panel, where actions belong to
-     */
-    MainPanel* panel() const;
     /*! Moves object, according to pivot point (used in moving substate)
         \param[in] e event object
      */
@@ -71,6 +72,50 @@ public:
         \param[in] from_editor true, if node is removed from editor, false if from scripting part
      */
     void removeSceneNode(sad::SceneNode* node, bool from_editor); 
+    /*! Selects last scene node in list
+     */
+    void selectLastSceneNode();
+    /*! Updates scene node name, finding it in list, settting it to current name
+        \param[in] s scene
+     */
+    void updateSceneNodeName(sad::SceneNode* s);
+    /*! Returns full name for a node
+        \param[in] node node, which shoulde be found
+        \return name for node
+     */
+    QString fullNameForNode(sad::SceneNode* node);
+    /*! Adds scene to scene node list
+        \param[in] s scene node
+     */
+    void addSceneNodeToSceneNodeList(sad::SceneNode* s);
+    /*! Removes last scene node from scene list
+     */
+    void removeLastSceneNodeFromSceneNodeList();
+    /*! Inserts scene node to a scene node list
+        \param[in] s scene node
+        \param[in] position a position in scene list
+     */
+    void insertSceneNodeToSceneNodeList(sad::SceneNode* s, int position);
+    /*! Removes scene node from a scene node list
+        \param[in] position a position, where scene must be removed
+     */
+    void removeSceneNodeFromSceneNodeList(int position);
+    /*! Removes scene node from a scene node list
+        \param[in] s scene node
+     */
+    void removeSceneNodeFromSceneNodeListByNode(sad::SceneNode* s);
+    /*! Sets scene nodes' positions in list
+        \param[in] n1 first node
+        \param[in] n2 second node
+        \param[in] pos1 position of first node
+        \param[in] pos2 position of second node
+     */
+    void setSceneNodesInList(sad::SceneNode* n1, sad::SceneNode* n2, int pos1, int pos2);
+    /*! Finds scene node in scene list
+        \param[in] s scene
+        \return scene row (-1 if not found)
+     */
+    int findSceneNodeInList(sad::SceneNode* s);
 public slots:
     /*! Called, when node name is edited
         \param[in] name a name for action
@@ -99,15 +144,30 @@ public slots:
      * Called, when user removes scene node
      */
     void removeSceneNode();
-private:
-    /*! An panel, which actions are belong to
+    /*! A slot for selecting last scene node slot
      */
-    MainPanel* m_panel;
+    void selectLastSceneNodeSlot();
+    /*! Emitted, when current scene node is changed
+        \param[in] index a new index for node in list
+     */
+    void currentSceneNodeChanged(int index);
+    /*! Moves scene back
+     */
+    void sceneNodeMoveBack();
+    /*! Moves scene front
+     */
+    void sceneNodeMoveFront();
+    /*! Fires signal for updating UI from selected item
+     */
+    void updateUIForSelectedSceneNode();
+    /*! Updates UI views with values from selected item
+     */
+    void updateUIForSelectedSceneNodeNow();
+private:
     /*!
      * A rotation process to work with
      */
     gui::RotationProcess* m_rotation;
-
     /*!
      * Computes angle, after mouse wheel
      * \param angle  a previous angle value
@@ -116,5 +176,7 @@ private:
      */
     float computeChangedAngle(float angle, float delta);
 };
+
+}
 
 }

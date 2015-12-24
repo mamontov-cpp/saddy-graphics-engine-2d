@@ -2,7 +2,7 @@
 
 #include "core/editor.h"
 
-#include "../../mainpanel.h"
+#include "../mainpanelproxy.h"
 
 #include "../../history/database/removeproperty.h"
 
@@ -21,7 +21,8 @@ gui::table::Delegate::Delegate()
 m_widget(NULL), 
 m_object(NULL),
 m_editor(NULL),
-m_my_widget(NULL)
+m_my_widget(NULL),
+m_row(-1)
 {
     
 }
@@ -131,9 +132,9 @@ void gui::table::Delegate::remove()
 
 void gui::table::Delegate::removeWithCommand()
 {
-    m_editor->panel()->takeDelegateByPropertyName(this->propertyName());
-    history::database::RemoveProperty* p = new history::database::RemoveProperty(this, m_editor->panel());
-    p->commit();
+    m_editor->panelProxy()->takeDelegateByPropertyName(this->propertyName());
+    history::database::RemoveProperty* p = new history::database::RemoveProperty(this);
+    p->commit(m_editor);
     if (m_editor->currentBatchCommand())
     {
         m_editor->currentBatchCommand()->add(p);
@@ -144,7 +145,7 @@ void gui::table::Delegate::removeWithCommand()
     }
 }
 
-int gui::table::Delegate::findPropertyInTable()
+int gui::table::Delegate::findPropertyInTable() const
 {
     unsigned int findrow = -1;
     for(unsigned int i = 0; i < m_widget->rowCount(); i++)
@@ -158,7 +159,7 @@ int gui::table::Delegate::findPropertyInTable()
 }
 
 
-void gui::table::Delegate::insertToTable()
+void gui::table::Delegate::insertToTable() const
 {
     m_widget->setCellWidget(m_row, 1, m_my_widget);
     m_widget->resizeRowToContents(m_row);

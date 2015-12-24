@@ -11,13 +11,17 @@
 
 #include <p2d/app/way.h>
 
-class MainPanel;
+#include "abstractactions.h"
 
 namespace gui
 {
+
+namespace actions
+{
+
 /*! A group of actions, linked to ways
  */	
-class WayActions: public QObject
+class WayActions: public QObject, public gui::actions::AbstractActions
 {
 Q_OBJECT
 public:
@@ -27,13 +31,7 @@ public:
     WayActions(QObject* parent = NULL);
     /*! This class could be inherited
      */
-    virtual ~WayActions();
-    /*! Sets panel, where actions belong to
-     */
-    void setPanel(MainPanel* e);
-    /*! Returns panel, where actions belong to
-     */
-    MainPanel* panel() const;    
+    virtual ~WayActions();  
     /*! Moves way point, according to pivot point (used in moving substate)
         \param[in] e event object
      */
@@ -54,6 +52,44 @@ public:
         \param[in] row a row to be found in editor
      */
     void removeWayFromDatabase(sad::p2d::app::Way* w, bool fromeditor, int row = -1);
+    /*! Adds last way to end of items
+        \param[in] way a selected way
+     */
+    void addLastWayToEnd(sad::p2d::app::Way* way);
+    /*! Removes last way from way list
+     */
+    void removeLastWayFromWayList();
+    /*! Inserts way to a way list
+        \param[in] s scene node
+        \param[in] position a position in scene list
+     */
+    void insertWayToWayList(sad::p2d::app::Way* s, int position);
+    /*! Removes way from a way list
+        \param[in] position a position, where scene must be removed
+     */
+    void removeWayFromWayList(int position);
+    /*! Removes way from a way list
+        \param[in] s way
+     */
+    void removeWayFromWayList(sad::p2d::app::Way* s);
+    /*! Finds way in way list
+        \param[in] s scene
+        \return scene row (-1 if not found)
+     */
+    int findWayInList(sad::p2d::app::Way* s);
+    /*!  Updates way name in list
+        \param[in] s a way
+     */
+    void updateWayName(sad::p2d::app::Way* s);
+    /*!  Removes row from way point list
+         \param[in] row a row index
+     */
+    void removeRowInWayPointList(int row);
+    /*! Returns viewable name for a point
+        \param[in] p point
+        \return name for point
+     */
+    QString nameForPoint(const sad::Point2D& p) const;
 public slots:
     /*! Adds new way to a list
      */
@@ -100,11 +136,15 @@ public slots:
     void wayPointMoveBack();
     /*! Moves front current way point
      */
-    void wayPointMoveFront();    
-private:
-    /*! An panel, which actions are belong to
+    void wayPointMoveFront(); 
+    /*! Fires signal for updating UI from selected way
      */
-    MainPanel* m_panel;
+    void updateUIForSelectedWay();
+    /*! Updates UI, using properties from current way
+     */
+    void updateUIForSelectedWayNow();
 };
+
+}
 
 }

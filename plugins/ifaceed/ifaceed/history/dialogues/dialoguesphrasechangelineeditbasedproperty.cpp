@@ -1,12 +1,18 @@
 #include "dialoguesphrasechangelineeditbasedproperty.h"
 
+#include <QLineEdit>
+
 #include "../../core/editor.h"
 #include "../../qstdstring.h"
 
-#include "../../mainpanel.h"
-
 #include "../../blockedclosuremethodcall.h"
 #include "../../closuremethodcall.h"
+
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/dialogueactions.h"
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uiphraseblock.h"
 
 history::dialogues::PhraseChangeLineEditBasedProperty::PhraseChangeLineEditBasedProperty(
     QLineEdit* widget,
@@ -51,15 +57,17 @@ void history::dialogues::PhraseChangeLineEditBasedProperty::tryUpdateUI(core::Ed
     {
         if (e->shared()->selectedDialogue() == m_dialogue)
         {
+			QListWidget* lst = e->uiBlocks()->uiPhraseBlock()->lstPhrases;
+			
             if (m_update)
             {
                 e->emitClosure(bind(
-                    e->panel()->UI()->lstPhrases->item(m_position),
+                    lst->item(m_position),
                     &QListWidgetItem::setText,
-                    e->panel()->nameForPhrase(*(m_dialogue->phrases()[m_position]))
+                    e->actions()->dialogueActions()->nameForPhrase(*(m_dialogue->phrases()[m_position]))
                 ));
             }
-            if (e->panel()->UI()->lstPhrases->currentRow() == m_position)
+            if (lst->currentRow() == m_position)
             {
                 e->emitClosure(blocked_bind(
                     m_widget,

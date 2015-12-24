@@ -6,9 +6,16 @@
 
 #include "borders/selectionborder.h"
 
-#include "gui/wayactions.h"
+#include "gui/actions/wayactions.h"
+#include "gui/actions/actions.h"
+#include "gui/actions/scenenodeactions.h"
+#include "gui/actions/sceneactions.h"
 
-#include "../mainpanel.h"
+#include "gui/uiblocks/uiblocks.h"
+#include "gui/uiblocks/uiwayblock.h"
+
+#include "gui/mainpanelproxy.h"
+
 #include "../closuremethodcall.h"
 
 #include <geometry2d.h>
@@ -88,7 +95,7 @@ void core::Selection::navigateSelection(const sad::input::MouseWheelEvent& e)
     {
         m_editor->shared()->setSelectedObject(m_selection_chain[m_current_position]);
         m_editor->machine()->enterState("selected");
-        m_editor->panel()->updateUIForSelectedItem();
+        m_editor->actions()->sceneNodeActions()->updateUIForSelectedSceneNode();
         m_editor->emitClosure( bind(this, &core::Selection::startTimer));
     }
 }
@@ -163,7 +170,7 @@ void core::Selection::removeItem()
     sad::SceneNode* node = m_editor->shared()->selectedObject();
     if (node)
     {
-        int row = m_editor->panel()->findSceneNodeInList(node);
+        int row = m_editor->actions()->sceneNodeActions()->findSceneNodeInList(node);
         if (row == -1)
         {
             row = static_cast<int>(node->scene()->findLayer(node));
@@ -213,10 +220,11 @@ void core::Selection::trySelectObject(const sad::input::MousePressEvent& e)
 
 
     // Fill navigation chain
-    if (m_editor->panel()->currentScene())
+	sad::Scene* current_scene = m_editor->actions()->sceneActions()->currentScene();
+    if (current_scene)
     {
         m_selection_chain.clear();
-        const sad::Vector<sad::SceneNode*>& objects = m_editor->panel()->currentScene()->objects();
+        const sad::Vector<sad::SceneNode*>& objects = current_scene->objects();
         for(int i = objects.size() - 1; i > -1; i--)
         {
             if (objects[i]->active() && objects[i]->visible())
@@ -239,7 +247,7 @@ void core::Selection::trySelectObject(const sad::input::MousePressEvent& e)
         {
             m_editor->shared()->setSelectedObject(m_selection_chain[0]);
             m_editor->machine()->enterState("selected");
-            m_editor->panel()->updateUIForSelectedItem();
+            m_editor->actions()->sceneNodeActions()->updateUIForSelectedSceneNode();
             m_current_position = 0;
             m_editor->emitClosure( bind(this, &core::Selection::startTimer));
             m_editor->emitClosure( bind(this, &core::Selection::forceEditorEnterMovingState, e));
@@ -251,10 +259,11 @@ void core::Selection::trySelectWay(const sad::input::MousePressEvent& e)
 {
     const double radius = 11.0; // Radius of active area for a point
     sad::p2d::app::Way* w = m_editor->shared()->selectedWay();
+	gui::uiblocks::UIWayBlock* ui_way_block = m_editor->uiBlocks()->uiWayBlock();
     if (w != NULL)
     {
-        int row = m_editor->panel()->UI()->lstWayPoints->currentRow();
-        if (row >= 0 && row < m_editor->panel()->UI()->lstWayPoints->count())
+        int row = ui_way_block->lstWayPoints->currentRow();
+        if (row >= 0 && row < ui_way_block->lstWayPoints->count())
         {
             if (e.pos2D().distance(w->wayPoints()[row]) <= radius)
             {
@@ -264,12 +273,12 @@ void core::Selection::trySelectWay(const sad::input::MousePressEvent& e)
         }
     }
 
-    QListWidget* lw = m_editor->panel()->UI()->lstWays;
+    QListWidget* lw = ui_way_block->lstWays;
     for(int i = lw->count() - 1; i > -1; i--)
     {
         QVariant v = lw->item(i)->data(Qt::UserRole);
-        sad::p2d::app::Way* w = v.value<sad::p2d::app::Way*>();
-        const sad::Vector<sad::Point2D> & pts = w->wayPoints();
+        sad::p2d::app::Way* local_way = v.value<sad::p2d::app::Way*>();
+        const sad::Vector<sad::Point2D> & pts = local_way->wayPoints();
         for(int j = pts.size() - 1; j > -1; j--)
         {
             if (e.pos2D().distance(pts[j]) <= radius)
@@ -299,13 +308,14 @@ void core::Selection::trySelectWay(const sad::input::MousePressEvent& e)
 
 void core::Selection::tryEnterToMovingStateWithWayObject(const sad::input::MousePressEvent& e)
 {
-    sad::p2d::app::Way* w = m_editor->shared()->selectedWay();
+	gui::uiblocks::UIWayBlock* ui_way_block = m_editor->uiBlocks()->uiWayBlock();
+	sad::p2d::app::Way* w = m_editor->shared()->selectedWay();
     if (w != NULL)
     {
-        int row = m_editor->panel()->UI()->lstWayPoints->currentRow();
-        if (row >= 0 && row < m_editor->panel()->UI()->lstWayPoints->count())
+        int row = ui_way_block->lstWayPoints->currentRow();
+        if (row >= 0 && row < ui_way_block->lstWayPoints->count())
         {
-            m_editor->panel()->highlightState("Moving point");
+            m_editor->panelProxy()->highlightState("Moving point");
             m_editor->machine()->enterState("ways/selected/moving");
             m_editor->shared()->setPivotPoint(e.pos2D());
             m_editor->shared()->setOldPoint(w->wayPoints()[row]);
@@ -317,14 +327,18 @@ void core::Selection::tryEnterToMovingStateWithWayObject(const sad::input::Mouse
 
 void core::Selection::commitWaySelection(int i, int j)
 {
-    m_editor->panel()->UI()->lstWays->setCurrentRow(i);
-    m_editor->panel()->updateUIForSelectedWayNow();
-    m_editor->panel()->UI()->lstWayPoints->setCurrentRow(j);
-    m_editor->panel()->wayActions()->viewPoint(j);
+	gui::uiblocks::UIWayBlock* ui_way_block = m_editor->uiBlocks()->uiWayBlock();
+	
+    ui_way_block->lstWays->setCurrentRow(i);
+    m_editor->actions()->wayActions()->updateUIForSelectedWayNow();
+    ui_way_block->lstWayPoints->setCurrentRow(j);
+    m_editor->actions()->wayActions()->viewPoint(j);
 }
 
 void core::Selection::commitIdleWaySelection()
 {
-    m_editor->panel()->UI()->lstWays->clearSelection();
-    m_editor->panel()->UI()->lstWayPoints->clearSelection();
+	gui::uiblocks::UIWayBlock* ui_way_block = m_editor->uiBlocks()->uiWayBlock();
+
+    ui_way_block->lstWays->clearSelection();
+    ui_way_block->lstWayPoints->clearSelection();
 }

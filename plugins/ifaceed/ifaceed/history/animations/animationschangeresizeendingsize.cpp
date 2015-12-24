@@ -1,10 +1,16 @@
 #include "animationschangeresizeendingsize.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
 #include "../../core/editor.h"
 
-#include "../../mainpanel.h"
-
 #include "../../blockedclosuremethodcall.h"
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uianimationblock.h"
+
+#include <QDoubleSpinBox>
 
 history::animations::ChangeResizeEndingSize::ChangeResizeEndingSize(
     sad::animations::Animation* d,
@@ -28,16 +34,15 @@ history::animations::ChangeResizeEndingSize::~ChangeResizeEndingSize()
 
 void history::animations::ChangeResizeEndingSize::updateUI(core::Editor* e, const sad::Point2D& value)
 {
+    gui::uiblocks::UIAnimationBlock* blk = e->uiBlocks()->uiAnimationBlock();
     e->emitClosure( blocked_bind(
-            e->panel()->UI()->dabResizeEndingSizeX,
-
+            blk->dabResizeEndingSizeX,
             &QDoubleSpinBox::setValue,
             value.x()
         )
     );
     e->emitClosure( blocked_bind(
-            e->panel()->UI()->dabResizeEndingSizeY,
-
+            blk->dabResizeEndingSizeY,
             &QDoubleSpinBox::setValue,
             value.y()
         )

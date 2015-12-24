@@ -1,12 +1,23 @@
 #include "groupschangename.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
+// ReSharper disable once CppUnusedIncludeDirective
+#include <QLineEdit>
+
 #include "../../core/editor.h"
 
-#include "../../mainpanel.h"
 #include "../../qstdstring.h"
 
 #include "../../blockedclosuremethodcall.h"
 #include "../../closuremethodcall.h"
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uianimationsgroupblock.h"
+
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/animationgroupactions.h"
 
 
 history::groups::ChangeName::ChangeName(
@@ -32,8 +43,8 @@ history::groups::ChangeName::~ChangeName()
 
 void history::groups::ChangeName::updateItem(core::Editor* e, const sad::String&)
 {
-    e->panel()->UI()->lstAnimationsGroup->item(m_position)->setText(
-        e->panel()->nameForGroup(m_animation)
+    e->uiBlocks()->uiAnimationsGroupBlock()->lstAnimationsGroup->item(m_position)->setText(
+        e->actions()->groupActions()->nameForGroup(m_animation)
     );
 }
 
@@ -46,7 +57,7 @@ void history::groups::ChangeName::tryUpdateUI(core::Editor* e, const sad::String
 void history::groups::ChangeName::updateUI(core::Editor* e, const sad::String& value)
 {
     e->emitClosure( blocked_bind(
-            e->panel()->UI()->txtAnimationsGroupName,
+            e->uiBlocks()->uiAnimationsGroupBlock()->txtAnimationsGroupName,
             &QLineEdit::setText,
             STD2QSTRING(value)
         )

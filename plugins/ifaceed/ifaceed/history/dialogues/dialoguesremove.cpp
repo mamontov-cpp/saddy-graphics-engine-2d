@@ -1,9 +1,11 @@
 #include "dialoguesremove.h"
 
-#include "../mainpanel.h"
 #include "../core/editor.h"
 
 #include "../closuremethodcall.h"
+
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/dialogueactions.h"
 
 history::dialogues::Remove::Remove(sad::dialogue::Dialogue* w, int pos) : m_d(w), m_position(pos)
 {
@@ -21,8 +23,8 @@ void history::dialogues::Remove::commit(core::Editor* ob)
     m_d->Active = false;
     if (ob)
     {
-        void (MainPanel::*f)(int) = &MainPanel::removeDialogueFromDialogueList;
-        ob->emitClosure( bind(ob->panel(), f, m_position) );
+        void (gui::actions::DialogueActions::*f)(int) = &gui::actions::DialogueActions::removeDialogueFromDialogueList;
+        ob->emitClosure( bind(ob->actions()->dialogueActions(), f, m_position) );
         if (ob->shared()->selectedDialogue() == m_d)
         {
             ob->shared()->setSelectedDialogue(NULL);
@@ -35,7 +37,7 @@ void history::dialogues::Remove::rollback(core::Editor* ob)
     m_d->Active = true;
     if (ob)
     {
-        ob->emitClosure( bind(ob->panel(), &MainPanel::insertDialogueToDialogueList, m_d, m_position) );
+        ob->emitClosure( bind(ob->actions()->dialogueActions(), &gui::actions::DialogueActions::insertDialogueToDialogueList, m_d, m_position) );
     }
 }
 

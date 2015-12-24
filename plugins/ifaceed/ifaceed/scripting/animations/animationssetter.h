@@ -10,8 +10,6 @@
 
 #include "../../core/editor.h"
 
-#include "../../mainpanel.h"
-
 namespace scripting
 {
     
@@ -58,7 +56,7 @@ public:
     {
         QScriptValue main = this->engine()->globalObject().property("---");
         scripting::Scripting* e = static_cast<scripting::Scripting*>(main.toQObject());
-        core::Editor* editor =  e->panel()->editor();
+        core::Editor* editor =  e->editor();
 
         history::Command* c =  new _CommandType(obj, oldvalue, newvalue);							
         editor->currentBatchCommand()->add(c);

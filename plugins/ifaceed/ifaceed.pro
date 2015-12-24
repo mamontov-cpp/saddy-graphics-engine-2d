@@ -103,8 +103,9 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/scenes/scenesremove.h \
     ifaceed/core/synchronization.h \
     ifaceed/history/scenenodes/scenenodesnew.h \
-    ifaceed/gui/labelactions.h \
-    ifaceed/gui/scenenodeactions.h \
+    ifaceed/gui/actions/labelactions.h \
+    ifaceed/gui/actions/scenenodeactions.h \
+    ifaceed/gui/actions/sceneactions.h \	
     ifaceed/core/borders/activeborder.h \
     ifaceed/core/borders/border.h \
     ifaceed/core/borders/selectionborder.h \
@@ -132,7 +133,9 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/scenenodes/scenenodeschangepropertywhichlinkedtocheckbox.h \
     ifaceed/history/scenenodes/scenenodeschangevisibility.h \
     ifaceed/gui/rotationprocess.h \
-    ifaceed/gui/sprite2dactions.h \
+    ifaceed/gui/actions/abstractactions.h \
+    ifaceed/gui/actions/actions.h \
+    ifaceed/gui/actions/sprite2dactions.h \
     ifaceed/history/sprite2d/changeflipx.h \
     ifaceed/history/sprite2d/changeflipy.h \
     ifaceed/history/sprite2d/changeoptions.h \
@@ -141,7 +144,7 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/scenenodes/scenenodeslayerswap.h \
     ifaceed/history/scenes/scenesclear.h \
     ifaceed/history/customobject/customobjectchangeproperty.h \
-    ifaceed/gui/customobjectactions.h \
+    ifaceed/gui/actions/customobjectactions.h \
     ifaceed/history/customobject/customobjectchangeschema.h \
     ifaceed/gui/updateelement.h \
     ifaceed/core/borders/deletehotspot.h \
@@ -149,7 +152,7 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/core/selection.h \
     ifaceed/reloadfilelist.h \
     ifaceed/gui/renderways.h \
-    ifaceed/gui/wayactions.h \
+    ifaceed/gui/actions/wayactions.h \
     ifaceed/history/ways/waysnew.h \
     ifaceed/history/ways/waysremove.h \
     ifaceed/history/ways/wayschangeproperty.h \
@@ -160,7 +163,7 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/ways/wayswaypointchange.h \
     ifaceed/history/ways/wayswaypointremove.h \
     ifaceed/history/ways/wayswaypointswap.h \
-    ifaceed/gui/dialogueactions.h \
+    ifaceed/gui/actions/dialogueactions.h \
     ifaceed/history/dialogues/dialoguesremove.h \
     ifaceed/history/dialogues/dialogueschangename.h \
     ifaceed/history/dialogues/dialoguesnew.h \
@@ -211,12 +214,12 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/gui/codeedit/highlighter.h \
     ifaceed/gui/codeedit/linenumberarea.h \
     ifaceed/gui/textedit/textedit.h \
-    ifaceed/gui/animationactions.h \
+    ifaceed/gui/actions/animationactions.h \
     ifaceed/gui/animationgroupprocess.h \
     ifaceed/gui/animationinstanceprocess.h \
     ifaceed/gui/animationprocess.h \
-    ifaceed/gui/groupactions.h \
-    ifaceed/gui/instanceactions.h \
+    ifaceed/gui/actions/animationgroupactions.h \
+    ifaceed/gui/actions/animationinstanceactions.h \
     ifaceed/scripting/scripting.h \
     ifaceed/scripting/tovalue.h \
     ifaceed/scripting/callable.h \
@@ -290,7 +293,22 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/animations/animationschangepropertyaspoint2displayedintwospinboxes.h \
     ifaceed/history/animations/animationschangeresizeendingsize.h \
     ifaceed/history/animations/animationschangeresizestartingsize.h \
-    ifaceed/scripting/animations/animationspoint2dsetter.h
+    ifaceed/scripting/animations/animationspoint2dsetter.h \
+    ifaceed/gui/uiblocks/uianimationblock.h \
+    ifaceed/gui/uiblocks/uianimationinstanceblock.h \
+    ifaceed/gui/uiblocks/uianimationsgroupblock.h \
+    ifaceed/gui/uiblocks/uiblocks.h \
+    ifaceed/gui/uiblocks/uicommonblock.h \
+    ifaceed/gui/uiblocks/uiconsoleblock.h \
+    ifaceed/gui/uiblocks/uicustomobjectblock.h \
+    ifaceed/gui/uiblocks/uidialogueblock.h \
+    ifaceed/gui/uiblocks/uilabelblock.h \
+    ifaceed/gui/uiblocks/uiphraseblock.h \
+    ifaceed/gui/uiblocks/uisceneblock.h \
+    ifaceed/gui/uiblocks/uiscenenodeblock.h \
+    ifaceed/gui/uiblocks/uispriteblock.h \
+    ifaceed/gui/uiblocks/uiwayblock.h \
+    ifaceed/gui/mainpanelproxy.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui \
     ifaceed/reloadfilelist.ui \
@@ -357,8 +375,11 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/history/scenes/scenesremove.cpp \
     ifaceed/core/synchronization.cpp \
     ifaceed/history/scenenodes/scenenodesnew.cpp \
-    ifaceed/gui/labelactions.cpp \
-    ifaceed/gui/scenenodeactions.cpp \
+    ifaceed/gui/actions/abstractactions.cpp \
+    ifaceed/gui/actions/actions.cpp \
+    ifaceed/gui/actions/labelactions.cpp \
+    ifaceed/gui/actions/sceneactions.cpp \
+    ifaceed/gui/actions/scenenodeactions.cpp \
     ifaceed/core/borders/activeborder.cpp \
     ifaceed/core/borders/border.cpp \
     ifaceed/core/borders/selectionborder.cpp \
@@ -383,7 +404,7 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/history/scenenodes/scenenodeschangepropertywhichlinkedtocheckbox.cpp \
     ifaceed/history/scenenodes/scenenodeschangevisibility.cpp \
     ifaceed/gui/rotationprocess.cpp \
-    ifaceed/gui/sprite2dactions.cpp \
+    ifaceed/gui/actions/sprite2dactions.cpp \
     ifaceed/history/sprite2d/changeflipx.cpp \
     ifaceed/history/sprite2d/changeflipy.cpp \
     ifaceed/history/sprite2d/changeoptions.cpp \
@@ -391,14 +412,14 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/history/scenenodes/scenenodesremove.cpp \
     ifaceed/history/scenenodes/scenenodeslayerswap.cpp \
     ifaceed/history/scenes/scenesclear.cpp \
-    ifaceed/gui/customobjectactions.cpp \
+    ifaceed/gui/actions/customobjectactions.cpp \
     ifaceed/history/customobject/customobjectchangeschema.cpp \
     ifaceed/core/borders/deletehotspot.cpp \
     ifaceed/core/borders/resizehotspot.cpp \
     ifaceed/core/selection.cpp \
     ifaceed/reloadfilelist.cpp \
     ifaceed/gui/renderways.cpp \
-    ifaceed/gui/wayactions.cpp \
+    ifaceed/gui/actions/wayactions.cpp \
     ifaceed/history/ways/waysnew.cpp \
     ifaceed/history/ways/waysremove.cpp \
     ifaceed/history/ways/wayschangename.cpp \
@@ -408,7 +429,7 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/history/ways/wayswaypointchange.cpp \
     ifaceed/history/ways/wayswaypointremove.cpp \
     ifaceed/history/ways/wayswaypointswap.cpp \
-    ifaceed/gui/dialogueactions.cpp \
+    ifaceed/gui/actions/dialogueactions.cpp \
     ifaceed/history/dialogues/dialogueschangename.cpp \
     ifaceed/history/dialogues/dialoguesnew.cpp \
     ifaceed/history/dialogues/dialoguesphrasechangeduration.cpp \
@@ -456,12 +477,12 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/gui/codeedit/highlighter.cpp \
     ifaceed/gui/codeedit/linenumberarea.cpp \
     ifaceed/gui/textedit/textedit.cpp \
-    ifaceed/gui/animationactions.cpp \
+    ifaceed/gui/actions/animationactions.cpp \
     ifaceed/gui/animationgroupprocess.cpp \
     ifaceed/gui/animationinstanceprocess.cpp \
     ifaceed/gui/animationprocess.cpp \
-    ifaceed/gui/groupactions.cpp \
-    ifaceed/gui/instanceactions.cpp \
+    ifaceed/gui/actions/animationgroupactions.cpp \
+    ifaceed/gui/actions/animationinstanceactions.cpp \
     ifaceed/scripting/scripting.cpp \
     ifaceed/scripting/tovalue.cpp \
     ifaceed/scripting/callable.cpp \
@@ -513,7 +534,22 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/scripting/instances/instanceswaysetter.cpp \
     ifaceed/history/animations/animationschangepropertyaspoint2displayedintwospinboxes.cpp \
     ifaceed/history/animations/animationschangeresizeendingsize.cpp \
-    ifaceed/history/animations/animationschangeresizestartingsize.cpp
+    ifaceed/history/animations/animationschangeresizestartingsize.cpp \
+    ifaceed/gui/uiblocks/uianimationblock.cpp \
+    ifaceed/gui/uiblocks/uianimationinstanceblock.cpp \
+    ifaceed/gui/uiblocks/uianimationsgroupblock.cpp \
+    ifaceed/gui/uiblocks/uiblocks.cpp \
+    ifaceed/gui/uiblocks/uicommonblock.cpp \
+    ifaceed/gui/uiblocks/uiconsoleblock.cpp \
+    ifaceed/gui/uiblocks/uicustomobjectblock.cpp \
+    ifaceed/gui/uiblocks/uidialogueblock.cpp \
+    ifaceed/gui/uiblocks/uilabelblock.cpp \
+    ifaceed/gui/uiblocks/uiphraseblock.cpp \
+    ifaceed/gui/uiblocks/uisceneblock.cpp \
+    ifaceed/gui/uiblocks/uiscenenodeblock.cpp \
+    ifaceed/gui/uiblocks/uispriteblock.cpp \
+    ifaceed/gui/uiblocks/uiwayblock.cpp \
+    ifaceed/gui/mainpanelproxy.cpp
 
 
 DESTDIR = ../../bin/ifaceed/

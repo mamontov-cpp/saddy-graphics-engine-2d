@@ -2,12 +2,12 @@
 
 #include "../scripting.h"
 
-#include "../../mainpanel.h"
 #include "../../qstdstring.h"
 
 #include "../../core/editor.h"
 
-#include "../../gui/dialogueactions.h"
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/dialogueactions.h"
 
 #include "../../history/dialogues/dialoguesphraseswap.h"
 
@@ -60,10 +60,10 @@ const sad::dialogue::Phrase& scripting::dialogues::PhraseRef::toPhrase() const
     return *(m_d->phrases()[m_pos]);
 }
 
-gui::DialogueActions* scripting::dialogues::PhraseRef::actions() const
+gui::actions::DialogueActions* scripting::dialogues::PhraseRef::actions() const
 {
     scripting::Scripting* e = static_cast<scripting::Scripting*>(this->engine()->globalObject().property("---").toQObject());
-    return e->panel()->dialogueActions();
+    return e->editor()->actions()->dialogueActions();
 }
 
 void scripting::dialogues::PhraseRef::setActorName(QString name)
@@ -188,7 +188,7 @@ void scripting::dialogues::PhraseRef::moveBack()
     if (m_pos > 0)
     {
         scripting::Scripting* e = static_cast<scripting::Scripting*>(this->engine()->globalObject().property("---").toQObject());
-        core::Editor* editor = e->panel()->editor();
+        core::Editor* editor = e->editor();
 
         history::Command* c = new history::dialogues::PhraseSwap(m_d, m_pos - 1, m_pos);
         c->commit();
@@ -207,7 +207,7 @@ void scripting::dialogues::PhraseRef::moveFront()
     if (m_pos < m_d->phrases().count() - 1)
     {
         scripting::Scripting* e = static_cast<scripting::Scripting*>(this->engine()->globalObject().property("---").toQObject());
-        core::Editor* editor = e->panel()->editor();
+        core::Editor* editor = e->editor();
 
         history::Command* c = new history::dialogues::PhraseSwap(m_d, m_pos, m_pos + 1);
         c->commit();

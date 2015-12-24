@@ -1,10 +1,17 @@
 #include "wayswaypointswap.h"
 
-#include "../mainpanel.h"
+#include <QDoubleSpinBox>
+
 #include "../core/editor.h"
 
 #include "../closuremethodcall.h"
 #include "../blockedclosuremethodcall.h"
+
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/wayactions.h"
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uiwayblock.h"
 
 history::ways::WayPointSwap::WayPointSwap(
     sad::p2d::app::Way* w,
@@ -51,22 +58,26 @@ void history::ways::WayPointSwap::tryUpdateUI(core::Editor* ob)
 {
     if (ob->shared()->selectedWay() == m_way)
     {
-        MainPanel* panel = ob->panel();
-        QListWidget* list = panel->UI()->lstWayPoints;
+        gui::uiblocks::UIWayBlock* blk = ob->uiBlocks()->uiWayBlock();				
+        
+        gui::actions::WayActions* wa = ob->actions()->wayActions();				
+
+            
+        QListWidget* list = blk->lstWayPoints;
         int currentrow = list->currentRow();
         const sad::Point2D& p1 = m_way->wayPoints()[m_pos1];
         const sad::Point2D& p2 = m_way->wayPoints()[m_pos2];
-        list->item(m_pos1)->setText(panel->nameForPoint(p1));
-        list->item(m_pos2)->setText(panel->nameForPoint(p2));
+        list->item(m_pos1)->setText(wa->nameForPoint(p1));
+        list->item(m_pos2)->setText(wa->nameForPoint(p2));
         if (currentrow == m_pos1)
         {
-            invoke_blocked(panel->UI()->dsbWayPointX, &QDoubleSpinBox::setValue, p1.x());
-            invoke_blocked(panel->UI()->dsbWayPointY, &QDoubleSpinBox::setValue, p1.y());
+            invoke_blocked(blk->dsbWayPointX, &QDoubleSpinBox::setValue, p1.x());
+            invoke_blocked(blk->dsbWayPointY, &QDoubleSpinBox::setValue, p1.y());
         }
         if (currentrow == m_pos2)
         {
-            invoke_blocked(panel->UI()->dsbWayPointX, &QDoubleSpinBox::setValue, p2.x());
-            invoke_blocked(panel->UI()->dsbWayPointY, &QDoubleSpinBox::setValue, p2.y());
+            invoke_blocked(blk->dsbWayPointX, &QDoubleSpinBox::setValue, p2.x());
+            invoke_blocked(blk->dsbWayPointY, &QDoubleSpinBox::setValue, p2.y());
         }
     }
 }

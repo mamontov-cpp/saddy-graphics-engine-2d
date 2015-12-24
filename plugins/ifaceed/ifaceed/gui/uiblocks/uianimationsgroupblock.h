@@ -2,7 +2,7 @@
 
     Contains definition of UI group for AnimationsGroup group of widgets
  */
-
+#pragma once
 class QWidget;
 class QListWidget;
 class QPushButton;

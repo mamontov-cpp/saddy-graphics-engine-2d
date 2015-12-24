@@ -1,13 +1,22 @@
 #include "makebackground.h"
 
-#include "../../gui/scenenodeactions.h"
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../../gui/resourcetreewidget/resourcetreewidget.h"
 
 #include "../../blockedclosuremethodcall.h"
 #include "../../closuremethodcall.h"
 
-#include "../../mainpanel.h"
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uiscenenodeblock.h"
+
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/sceneactions.h"
+#include "../../gui/actions/scenenodeactions.h"
+
+#include "../../gui/anglewidget/anglewidget.h"
 
 history::sprite2d::MakeBackground::MakeBackground(
         sad::SceneNode* d, 
@@ -61,25 +70,25 @@ void history::sprite2d::MakeBackground::update(
         if (e->isNodeSelected(m_node))
         {
             e->emitClosure( bind(
-                e->panel()->sceneNodeActions(),
-                &gui::SceneNodeActions::updateRegionForNode
+                e->actions()->sceneNodeActions(),
+                &gui::actions::SceneNodeActions::updateRegionForNode
             ));	
             e->emitClosure( blocked_bind(
-                e->panel()->UI()->awSceneNodeAngle,
+                e->uiBlocks()->uiSceneNodeBlock()->awSceneNodeAngle,
                 &gui::anglewidget::AngleWidget::setValue,
                 angle
             ));	
         }
-        if (e->panel()->currentScene() == m_node->scene())
+        if (e->actions()->sceneActions()->currentScene() == m_node->scene())
         {
             e->emitClosure( bind(
-                e->panel(),
-                &MainPanel::removeSceneNodeFromSceneNodeListByNode,
+                e->actions()->sceneNodeActions(),
+                &gui::actions::SceneNodeActions::removeSceneNodeFromSceneNodeListByNode,
                 m_node
             ));
             e->emitClosure( bind(
-                e->panel(),
-                &MainPanel::insertSceneNodeToSceneNodeList,
+                e->actions()->sceneNodeActions(),
+                &gui::actions::SceneNodeActions::insertSceneNodeToSceneNodeList,
                 m_node, layer
             ));
         }

@@ -1,9 +1,8 @@
 #include "animationsaddtocomposite.h"
 
-#include "../../gui/animationactions.h"
-
-#include "../../mainpanel.h"
 #include "../core/editor.h"
+#include "../gui/actions/actions.h"
+#include "../gui/actions/animationactions.h"
 
 #include "../closuremethodcall.h"
 
@@ -25,7 +24,7 @@ void history::animations::AddToComposite::commit(core::Editor * ob)
     {
         if (ob->shared()->selectedAnimation() == m_animation)
         {
-            ob->panel()->animationActions()->updateCompositeList();
+            ob->actions()->animationActions()->updateCompositeList();
         }
     }
 }
@@ -37,7 +36,7 @@ void history::animations::AddToComposite::rollback(core::Editor * ob)
     {
         if (ob->shared()->selectedAnimation() == m_animation)
         {
-            ob->panel()->animationActions()->updateCompositeList();
+            ob->actions()->animationActions()->updateCompositeList();
         }
     }
 }

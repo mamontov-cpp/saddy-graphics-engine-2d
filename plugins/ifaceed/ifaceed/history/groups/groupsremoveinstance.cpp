@@ -1,12 +1,11 @@
 #include "groupsremoveinstance.h"
 
-#include "../../gui/instanceactions.h"
-
 #include "../../core/editor.h"
 
-#include "../../mainpanel.h"
-
 #include "../../closuremethodcall.h"
+
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/animationinstanceactions.h"
 
 Q_DECLARE_METATYPE(sad::animations::Group*) //-V566
 Q_DECLARE_METATYPE(sad::animations::Instance*) //-V566
@@ -35,8 +34,8 @@ void history::groups::RemoveInstance::commit(core::Editor * ob)
         if (ob->shared()->selectedGroup() == m_node)
         {
             ob->emitClosure(bind(
-                ob->panel()->instanceActions(),
-                &gui::InstanceActions::updateGroupInstanceList
+                ob->actions()->instanceActions(),
+                &gui::actions::AnimationInstanceActions::updateGroupInstanceList
             ));
         }
     }
@@ -51,8 +50,8 @@ void history::groups::RemoveInstance::rollback(core::Editor * ob)
         if (ob->shared()->selectedGroup() == m_node)
         {
             ob->emitClosure(bind(
-                ob->panel()->instanceActions(),
-                &gui::InstanceActions::updateGroupInstanceList
+                ob->actions()->instanceActions(),
+                &gui::actions::AnimationInstanceActions::updateGroupInstanceList
             ));
         }
     }

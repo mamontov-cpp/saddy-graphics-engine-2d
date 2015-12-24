@@ -1,10 +1,17 @@
 #include "customobjectchangeschema.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
 #include "../../gui/resourcetreewidget/resourcetreewidget.h"
 
-#include "../../gui/scenenodeactions.h"
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/scenenodeactions.h"
+#include "../../gui/actions/customobjectactions.h"
 
-#include "../../mainpanel.h"
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uicustomobjectblock.h"
+
 #include "../../closuremethodcall.h"
 #include "../../blockedclosuremethodcall.h"
 #include "../../qstdstring.h"
@@ -72,10 +79,10 @@ void history::customobject::ChangeSchema::updateUI(
     if (e)
     {
         sad::db::custom::Object* o = static_cast<sad::db::custom::Object*>(m_node);
-        e->panel()->sceneNodeActions()->updateRegionForNode();
-        e->emitClosure(bind(e->panel(), &MainPanel::fillCustomObjectProperties, o));
+        e->actions()->sceneNodeActions()->updateRegionForNode();
+        e->emitClosure(bind(e->actions()->customObjectActions(), &gui::actions::CustomObjectActions::fillCustomObjectProperties, o));
         e->emitClosure(blocked_bind(
-            e->panel()->UI()->rtwCustomObjectSchemas,
+            e->uiBlocks()->uiCustomObjectBlock()->rtwCustomObjectSchemas,
             &gui::resourcetreewidget::ResourceTreeWidget::setSelectedResourceName,
             value
         ));

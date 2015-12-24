@@ -2,9 +2,14 @@
 
 #include "../../core/editor.h"
 
-#include "../../mainpanel.h"
-
 #include "../../closuremethodcall.h"
+
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uianimationsgroupblock.h"
+
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/animationgroupactions.h"
 
 Q_DECLARE_METATYPE(sad::animations::Group*) //-V566
 
@@ -27,8 +32,8 @@ void history::groups::Remove::commit(core::Editor * ob)
     if(ob)
     {
         ob->emitClosure( bind(
-            ob->panel(),
-            &MainPanel::removeGroupFromList,
+            ob->actions()->groupActions(),
+            &gui::actions::AnimationGroupActions::removeGroupFromList,
             m_position
         ));
     }
@@ -41,8 +46,8 @@ void history::groups::Remove::rollback(core::Editor * ob)
     if (ob)
     {
         ob->emitClosure( bind(
-            ob->panel(),
-            &MainPanel::insertGroupToList,
+            ob->actions()->groupActions(),
+            &gui::actions::AnimationGroupActions::insertGroupToList,
             m_position,
             m_node
         ));

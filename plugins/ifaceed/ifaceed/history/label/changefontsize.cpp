@@ -1,14 +1,19 @@
 #include "changefontsize.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
 #include "../../core/editor.h"
 
-#include "../../mainpanel.h"
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/scenenodeactions.h"
 
-#include "../../gui/labelactions.h"
-#include "../../gui/scenenodeactions.h"
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uilabelblock.h"
+
+#include "../../gui/fontsizewidget/fontsizewidget.h"
 
 #include "../../blockedclosuremethodcall.h"
-#include "../../closuremethodcall.h"
 
 history::label::ChangeFontSize::ChangeFontSize(
     sad::SceneNode* d,
@@ -36,10 +41,10 @@ void history::label::ChangeFontSize::updateUI(
     const unsigned int& value)
 {
     e->emitClosure( blocked_bind(
-            e->panel()->UI()->fswLabelFontSize,
+            e->uiBlocks()->uiLabelBlock()->fswLabelFontSize,
             &gui::fontsizewidget::FontSizeWidget::setValue,
             value
         )
     );
-    e->panel()->sceneNodeActions()->updateRegionForNode();
+    e->actions()->sceneNodeActions()->updateRegionForNode();
 }

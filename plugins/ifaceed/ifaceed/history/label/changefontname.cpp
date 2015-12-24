@@ -1,11 +1,16 @@
 #include "changefontname.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
 #include "../../core/editor.h"
 
-#include "../../mainpanel.h"
-
-#include "../../blockedclosuremethodcall.h"
 #include "../../closuremethodcall.h"
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uilabelblock.h"
+
+#include "../../gui/resourcetreewidget/resourcetreewidget.h"
 
 history::label::ChangeFontName::ChangeFontName(
     sad::SceneNode* d,
@@ -32,7 +37,7 @@ history::label::ChangeFontName::~ChangeFontName()
 void history::label::ChangeFontName::updateUI(core::Editor* e, const sad::String& value)
 {
     e->emitClosure( bind(
-            e->panel()->UI()->rtwLabelFont,
+            e->uiBlocks()->uiLabelBlock()->rtwLabelFont,
             &gui::resourcetreewidget::ResourceTreeWidget::setSelectedResourceName,
             value
         )

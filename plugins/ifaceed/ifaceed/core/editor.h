@@ -40,10 +40,16 @@ class MainPanel;
 namespace gui
 {
 class RenderWays;
+class MainPanelProxy;
 
 namespace uiblocks
 {
 class UIBlocks;	
+}
+
+namespace actions
+{
+class Actions;	
 }
 
 }
@@ -194,9 +200,25 @@ public:
         \return whether database is empty
      */
     bool isDatabaseEmpty() const;
-	/*! Returns a UI blocks for editor
-	 */
-	gui::uiblocks::UIBlocks* uiBlocks() const;
+    /*! Returns a UI blocks for editor
+     */
+    gui::uiblocks::UIBlocks* uiBlocks() const;
+    /*! Returns different actions for gui
+     */
+    gui::actions::Actions* actions() const;
+    /*! Returns a proxy for main panel methods
+        \return proxy
+     */
+    gui::MainPanelProxy* panelProxy() const;
+    /*! Returns main panel as widget
+        \return main panel as widget
+     */
+    QWidget* panelAsWidget() const;
+    /*! Adds a command to history
+        \param[in] c command
+        \param[in] fromeditor whether it was added from editor or from script
+     */
+    void addToHistory(history::Command* c, bool fromeditor);
 public slots:
     /*! Called, when Qt Event Loop is started. Used to load default resources and pre-set
         default behaviour
@@ -266,9 +288,15 @@ protected:
     /*! A current batch command for scripting
      */
     history::BatchCommand* m_current_batchcommand;
-	/*! A UI blocks for editor
-	 */
-	gui::uiblocks::UIBlocks* m_ui_blocks;
+    /*! A UI blocks for editor
+     */
+    gui::uiblocks::UIBlocks* m_ui_blocks;
+    /*! An actions, related to editor
+     */
+    gui::actions::Actions* m_actions;
+    /*! A panel proxy
+     */
+    gui::MainPanelProxy* m_panel_proxy;
     /*! Initializes conversion table with all conversion table
      */
     void initConversionTable();

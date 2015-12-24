@@ -1,12 +1,20 @@
 #include "instancesanimationsetter.h"
 
-#include "../scripting.h"
+#include <QRadioButton>
 
-#include "../../mainpanel.h"
+#include <db/dbdatabase.h>
+
+#include "../scripting.h"
 
 #include "../../core/editor.h"
 
 #include "../../history/instances/instanceschangeanimation.h"
+
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/animationinstanceactions.h"
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uianimationinstanceblock.h"
 
 Q_DECLARE_METATYPE(sad::animations::Instance*); //-V566
 
@@ -67,16 +75,18 @@ void scripting::instances::AnimationSetter::setProperty(
 {
     QScriptValue main = this->engine()->globalObject().property("---");
     scripting::Scripting* e = static_cast<scripting::Scripting*>(main.toQObject());
-    MainPanel* panel = e->panel();
-    core::Editor* editor =  panel->editor();
+    core::Editor* editor =  e->editor();
+    
+    gui::actions::AnimationInstanceActions* ai_actions = editor->actions()->instanceActions();
+    gui::uiblocks::UIAnimationInstanceBlock* ai_blk = editor->uiBlocks()->uiAnimationInstanceBlock();	
 
-    int row = panel->findInList<sad::animations::Instance*>(panel->UI()->lstAnimationInstances, obj);
+    int row = ai_actions->findInList<sad::animations::Instance*>(ai_blk->lstAnimationInstances, obj);
     unsigned long long majorid = obj->getProperty<unsigned long long>("animationmajorid").value();
     if (row > - 1)
     {
         history::Command* c  = NULL;
-        QRadioButton* treebutton = panel->UI()->rbAnimationInstanceFromTree;
-        QRadioButton* dbbutton = panel->UI()->rbAnimationInstanceFromDatabase;
+        QRadioButton* treebutton = ai_blk->rbAnimationInstanceFromTree;
+        QRadioButton* dbbutton = ai_blk->rbAnimationInstanceFromDatabase;
         if (newvalue.length() == 0)
         {
             c = new history::instances::ChangeAnimation(

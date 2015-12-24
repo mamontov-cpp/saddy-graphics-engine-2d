@@ -1,6 +1,6 @@
-#include "renderways.h"
+#include <QListWidget>
 
-#include "../mainpanel.h"
+#include "renderways.h"
 
 #include "../core/editor.h"
 #include "../core/shared.h"
@@ -8,8 +8,12 @@
 #include <renderer.h>
 #include <geometry2d.h>
 
+#include <db/dbdatabase.h>
+
 #include <p2d/app/way.h>
 
+#include "uiblocks/uiblocks.h"
+#include "uiblocks/uiwayblock.h"
 
 gui::RenderWays::RenderWays(core::Editor* editor)
 : m_editor(editor),
@@ -74,20 +78,21 @@ void gui::RenderWays::_process()
                         selected = true;
                     }
                     const sad::Vector<sad::Point2D>& pts = way->wayPoints();
-                    for(int i = 1; i < pts.size(); i++)
+                    for(int j = 1; j < pts.size(); j++)
                     {
-                        this->renderArrow(pts[i-1], pts[i], *c);
+                        this->renderArrow(pts[j-1], pts[j], *c);
                     }
                     if (way->closed() && pts.size() > 1)
                     {
                         this->renderArrow(pts[pts.size() - 1], pts[0], *c);
-                    }                    
-                    int currentrow = m_editor->panel()->UI()->lstWayPoints->currentRow();
-                    for(int i = 0; i < pts.size(); i++)
+                    }  
+                    gui::uiblocks::UIWayBlock* ui_way_block = m_editor->uiBlocks()->uiWayBlock();
+                    int currentrow = ui_way_block->lstWayPoints->currentRow();
+                    for(int j = 0; j < pts.size(); j++)
                     {
-                        s->setMiddle(pts[i]);
+                        s->setMiddle(pts[j]);
                         s->render();
-                        if (selected && i == currentrow)
+                        if (selected && j == currentrow)
                         {
                             sad::Renderer::ref()->render()->rectangle(s->area(), *c);
                         }                        

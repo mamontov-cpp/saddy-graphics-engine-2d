@@ -1,8 +1,14 @@
 #include "animationschangecameraangle.h"
 
-#include "../../core/editor.h"
+#include <animations/animationsanimation.h>
 
-#include "../../mainpanel.h"
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
+// ReSharper disable once CppUnusedIncludeDirective
+#include <QDoubleSpinBox>
+
+#include "../../core/editor.h"
 
 #include "../../blockedclosuremethodcall.h"
 

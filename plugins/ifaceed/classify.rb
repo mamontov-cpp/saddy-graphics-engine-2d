@@ -177,6 +177,7 @@ uiblocksHeaderFileContent = "/* \\file uiblocks.h
 	
 	Contains data about all UIBlocks, used in the program
 */	
+#pragma once
 
 class QWidget;
 
@@ -221,7 +222,7 @@ public:
 	if key != "excluded"
 		uiblocksHeaderFileContent += "" + 
 		"\t/*! Returns UI group for " + key + " group of widgets\n\t    \\return UI group for " + key + " objects\n\t*/\n" + 
-		"\tinline gui::uiblocks::UI" + key + "Block* UI" + key + "Block()\n\t{\n\t\treturn m_ui_" + lowerkey + "_block;\n\t}\n";
+		"\tinline gui::uiblocks::UI" + key + "Block* ui" + key + "Block()\n\t{\n\t\treturn m_ui_" + lowerkey + "_block;\n\t}\n";
 	end
 }
 
@@ -326,7 +327,7 @@ File.write("ifaceed/gui/uiblocks/uiblocks.cpp", uiblocksSourceFileContent.gsub("
 		
 		headerFileContent = "/* \\file ui" + lowerkey + "block.h\n\n"  +		
 							"\tContains definition of UI group for " + key + " group of widgets\n" +
-							" */\n\n"
+							" */\n#pragma once\n"
 		if (different_headers.length > 0)
 			tree = {}
 			different_headers.each{

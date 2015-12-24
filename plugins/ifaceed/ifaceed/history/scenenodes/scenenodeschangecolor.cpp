@@ -4,10 +4,16 @@
 
 #include "../../core/typeconverters/sadacolortoqcolor.h"
 
-#include "../../mainpanel.h"
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uiscenenodeblock.h"
+
+#include "../../gui/colorpicker/colorpicker.h"
 
 #include "../../blockedclosuremethodcall.h"
-#include "../../closuremethodcall.h"
+
 
 history::scenenodes::ChangeColor::ChangeColor(
     sad::SceneNode* d,
@@ -34,7 +40,7 @@ void history::scenenodes::ChangeColor::updateUI(core::Editor* e, const sad::ACol
     QColor result;
     core::typeconverters::SadAColorToQColor::convert(value, result);
     e->emitClosure( blocked_bind(
-            e->panel()->UI()->clpSceneNodeColor,
+            e->uiBlocks()->uiSceneNodeBlock()->clpSceneNodeColor,
             &gui::colorpicker::ColorPicker::setSelectedColor,
             result
         )

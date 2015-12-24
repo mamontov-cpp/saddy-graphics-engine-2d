@@ -10,13 +10,17 @@
 #include <input/events.h>
 #include <dialogue/dialogue.h>
 
-class MainPanel;
+#include "abstractactions.h"
 
 namespace gui
 {
+
+namespace actions
+{
+
 /*! A group of actions, linked to dialogues
  */	
-class DialogueActions: public QObject
+class DialogueActions: public QObject, public gui::actions::AbstractActions
 {
 Q_OBJECT
 public:
@@ -27,12 +31,6 @@ public:
     /*! This class could be inherited
      */
     virtual ~DialogueActions();
-    /*! Sets panel, where actions belong to
-     */
-    void setPanel(MainPanel* e);
-    /*! Returns panel, where actions belong to
-     */
-    MainPanel* panel() const;
     /*! Updates UI with dialogue properties
         \param[in] d dialogue
      */
@@ -110,6 +108,44 @@ public:
         bool fromeditor,
         int row = -1
     );
+	/*! Adds last dialogue to end of items
+        \param[in] dialogue a dialogue
+     */
+    void addDialogueToDialogueList(sad::dialogue::Dialogue* dialogue);
+    /*! Removes last dialogue from dialogue list
+     */
+    void removeLastDialogueFromDialogueList();
+    /*! Inserts dialogue to a dialogue list
+        \param[in] s dialogue
+        \param[in] position a position in dialogue list
+     */
+    void insertDialogueToDialogueList(sad::dialogue::Dialogue* s, int position);
+    /*! Removes dialogue from a dialogue list
+        \param[in] position a position, where dialogue must be removed
+     */
+    void removeDialogueFromDialogueList(int position);
+    /*! Removes way from a way list
+        \param[in] s dialogue, to be removed
+     */
+    void removeDialogueFromDialogueList(sad::dialogue::Dialogue* s);
+    /*! Finds dialogue in dialogue list
+        \param[in] s scene
+        \return scene row (-1 if not found)
+     */
+    int findDialogueInList(sad::dialogue::Dialogue* s);
+    /*!  Updates dialogue in list
+        \param[in] s a way
+     */
+    void updateDialogueName(sad::dialogue::Dialogue* s);
+    /*! Removes phrase from a phrase list
+        \param[in] row a row
+     */
+    void removePhraseFromPhraseList(int row);
+    /*! Returns viewable name for a phrase
+        \param[in] p phrase
+        \return name for phrase
+     */
+    QString nameForPhrase(const sad::dialogue::Phrase& p) const;
 public slots:
     /*! Called, when user clicks on button for adding a dialogue
      */
@@ -160,10 +196,8 @@ public slots:
         \param[in] newvalue new value for view hint
      */
     void viewHintChanged(const QString& newvalue);
-private:
-    /*! An panel, which actions are belong to
-     */
-    MainPanel* m_panel;
 };
+
+}
 
 }

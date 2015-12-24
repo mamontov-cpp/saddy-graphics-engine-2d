@@ -11,6 +11,8 @@
 #include <animations/animationscomposite.h>
 #include <input/controls.h>
 
+#include "abstractactions.h"
+
 class MainPanel;
 
 namespace gui
@@ -18,9 +20,12 @@ namespace gui
 
 class AnimationProcess;
 
+namespace actions
+{
+
 /*! A group of actions, linked to animations
  */	
-class AnimationActions: public QObject
+class AnimationActions: public QObject, public gui::actions::AbstractActions
 {
 Q_OBJECT
 public:
@@ -28,16 +33,13 @@ public:
         \param[in] parent a parent object
      */
     AnimationActions(QObject* parent = NULL);
+	/*! Sets inner editor link of process
+		\param[in] e editor
+	 */
+	virtual void setEditor(core::Editor* e);
     /*! This class could be inherited
      */
     virtual ~AnimationActions();
-    /*! Sets panel, where actions belong to
-        \param[in] e main panel
-     */
-    void setPanel(MainPanel* e);
-    /*! Returns panel, where actions belong to
-     */
-    MainPanel* panel() const;
     /*! Returns true if adding second animation into children of first produces loop
         \param[in] first first loop
         \param[in] second second loop
@@ -85,6 +87,23 @@ public:
         bool fromeditor,
         int row = -1
     );
+    /*! Returns name for animation
+        \param[in] a animation
+        \return name for animation
+     */
+    QString nameForAnimation(sad::animations::Animation* a) const;
+    /*! Adds animation to a lists
+        \param[in] a animation an animation
+     */
+    void addAnimationToViewingLists(sad::animations::Animation* a);
+    /*! Removes animation from a viewing lists
+        \param[in] a animation an animation to be removed
+     */
+    void removeAnimationFromViewingLists(sad::animations::Animation* a);
+    /*! Updates animation name in lists
+        \param[in] a an animation
+     */
+    void updateAnimationName(sad::animations::Animation* a);
 public slots:
     /*! Tries to add new animation to a list
      */
@@ -261,12 +280,11 @@ public slots:
      */
     void pickedPointForSimpleMovement(const sad::input::MousePressEvent& e);
 private:
-    /*! An panel, which actions are belong to
-     */
-    MainPanel* m_panel;
     /*! A running animation process 
      */
     gui::AnimationProcess* m_animation;
 };
+
+}
 
 }

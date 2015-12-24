@@ -1,15 +1,21 @@
 #include "changelinespacing.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
+// ReSharper disable once CppUnusedIncludeDirective
+#include <QDoubleSpinBox>
+
 #include "../../core/editor.h"
 
-#include "../../mainpanel.h"
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uilabelblock.h"
 
-#include "../../gui/labelactions.h"
-#include "../../gui/scenenodeactions.h"
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/scenenodeactions.h"
 
 
 #include "../../blockedclosuremethodcall.h"
-#include "../../closuremethodcall.h"
 
 history::label::ChangeLineSpacing::ChangeLineSpacing(
     sad::SceneNode* d,
@@ -37,10 +43,10 @@ void history::label::ChangeLineSpacing::updateUI(
 )
 {    
     e->emitClosure( blocked_bind(
-            e->panel()->UI()->dsbLineSpacingRatio,
+            e->uiBlocks()->uiLabelBlock()->dsbLineSpacingRatio,
             &QDoubleSpinBox::setValue,
             static_cast<double>(value)
         )
     );
-    e->panel()->sceneNodeActions()->updateRegionForNode();
+    e->actions()->sceneNodeActions()->updateRegionForNode();
 }

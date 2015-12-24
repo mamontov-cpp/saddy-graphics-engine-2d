@@ -1,11 +1,13 @@
 #include "instancesobjectsetter.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
+#include <db/dbdatabase.h>
+
 #include "../scripting.h"
 #include "../queryobject.h"
 #include "../tovalue.h"
-
-
-#include "../../mainpanel.h"
 
 #include "../../core/editor.h"
 
@@ -107,8 +109,7 @@ void scripting::instances::ObjectSetter::setProperty(
 {
     QScriptValue main = this->engine()->globalObject().property("---");
     scripting::Scripting* e = static_cast<scripting::Scripting*>(main.toQObject());
-    MainPanel* panel = e->panel();
-    core::Editor* editor =  panel->editor();
+    core::Editor* editor =  e->editor();
 
     history::Command* c  = new history::instances::ChangeObject(obj, oldid, newid);		
     editor->currentBatchCommand()->add(c);

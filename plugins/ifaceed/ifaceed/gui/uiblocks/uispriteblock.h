@@ -2,7 +2,7 @@
 
     Contains definition of UI group for Sprite group of widgets
  */
-
+#pragma once
 namespace gui
 {
 

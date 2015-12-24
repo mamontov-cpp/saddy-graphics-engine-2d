@@ -1,9 +1,20 @@
 #include "removeproperty.h"
 
-#include "../../mainpanel.h"
 #include "../../qstdstring.h"
 
-history::database::RemoveProperty::RemoveProperty(gui::table::Delegate* d, MainPanel* panel)
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
+#include "../../core/editor.h"
+
+#include "../../gui/mainpanelproxy.h"
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uicommonblock.h"
+
+// ================================= PUBLIC METHODS =================================
+
+history::database::RemoveProperty::RemoveProperty(gui::table::Delegate* d)
 {
     m_delegate = d;
     m_delegate->addRef();
@@ -13,17 +24,7 @@ history::database::RemoveProperty::RemoveProperty(gui::table::Delegate* d, MainP
     ->propertyByName(Q2STDSTRING(d->propertyName()))
     ->clone();
 
-    m_panel = panel;
-
-    m_row = -1;
-    QTableWidget* props = m_panel->UI()->twDatabaseProperties;
-    for(size_t i = 0; i < props->rowCount() && m_row == -1; i++)
-    {
-        if (props->item(i, 0)->text() == d->propertyName())
-        {
-            m_row = i;
-        }
-    }
+    m_row = -1;    
 }
 
 history::database::RemoveProperty::~RemoveProperty()
@@ -35,13 +36,18 @@ history::database::RemoveProperty::~RemoveProperty()
 
 void history::database::RemoveProperty::commit(core::Editor * ob)
 {
+    if (m_row == -1 && ob)
+    {
+        m_row = findProperty(ob);
+    }
+
     sad::Renderer::ref()
     ->database("")
     ->removeProperty(Q2STDSTRING(m_delegate->propertyName()));
     
     m_delegate->remove();
 
-    m_panel->delegatesByName().remove(Q2STDSTRING(m_delegate->propertyName()));
+    ob->panelProxy()->delegatesByName().remove(Q2STDSTRING(m_delegate->propertyName()));
 }
 
 void history::database::RemoveProperty::rollback(core::Editor * ob)
@@ -57,5 +63,22 @@ void history::database::RemoveProperty::rollback(core::Editor * ob)
     {
         m_delegate->insert(m_row);
     }
-    m_panel->delegatesByName().insert(Q2STDSTRING(m_delegate->propertyName()), m_delegate);
+    ob->panelProxy()->delegatesByName().insert(Q2STDSTRING(m_delegate->propertyName()), m_delegate);
+}
+
+
+// ================================= PROTECTED METHODS =================================
+
+int history::database::RemoveProperty::findProperty(core::Editor* ob) const
+{
+    int row = -1;
+    QTableWidget* props = ob->uiBlocks()->uiCommonBlock()->twDatabaseProperties;
+    for(size_t i = 0; i < props->rowCount() && m_row == -1; i++)
+    {
+        if (props->item(i, 0)->text() == m_delegate->propertyName())
+        {
+            row = i;
+        }
+    }
+    return row;
 }

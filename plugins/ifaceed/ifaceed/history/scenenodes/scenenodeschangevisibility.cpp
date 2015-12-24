@@ -1,11 +1,19 @@
 #include "scenenodeschangevisibility.h"
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
 
-#include "../../mainpanel.h"
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uiscenenodeblock.h"
 
-history::Command* history::scenenodes::changeVisibility(sad::SceneNode* d, bool oldvalue, bool newvalue)
+history::Command* history::scenenodes::changeVisibility(
+    core::Editor* blk, 
+    sad::SceneNode* d, 
+    bool oldvalue, 
+    bool newvalue
+)
 {
     return new history::scenenodes::ChangePropertyWhichLinkedToCheckbox(
-        &MainPanel::visibilityCheckbox,
+        blk->uiBlocks()->uiSceneNodeBlock()->cbSceneNodeVisible,
         d,
         "visible",
         oldvalue,

@@ -1,12 +1,22 @@
 #include "instancesnamesetter.h"
 
-#include "../scripting.h"
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
 
-#include "../../mainpanel.h"
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/dbdatabase.h>
+
+#include "../scripting.h"
 
 #include "../../core/editor.h"
 
 #include "../../history/instances/instanceschangename.h"
+
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/animationinstanceactions.h"
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uianimationinstanceblock.h"
 
 Q_DECLARE_METATYPE(sad::animations::Instance*); //-V566
 
@@ -31,10 +41,13 @@ void scripting::instances::NameSetter::setProperty(
 {
     QScriptValue main = this->engine()->globalObject().property("---");
     scripting::Scripting* e = static_cast<scripting::Scripting*>(main.toQObject());
-    MainPanel* panel = e->panel();
-    core::Editor* editor =  panel->editor();
+    core::Editor* editor =  e->editor();
 
-    int row = panel->findInList<sad::animations::Instance*>(panel->UI()->lstAnimationInstances, obj);
+    gui::actions::AnimationInstanceActions* ai_actions = editor->actions()->instanceActions();
+    gui::uiblocks::UIAnimationInstanceBlock* ai_blk = editor->uiBlocks()->uiAnimationInstanceBlock();	
+    
+    
+    int row = ai_actions->findInList<sad::animations::Instance*>(ai_blk->lstAnimationInstances, obj);
 
     if (row > - 1)
     {

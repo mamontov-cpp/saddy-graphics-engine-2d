@@ -6,6 +6,10 @@
 #pragma once
 #include "scenenodesabstractsetter.h"
 
+namespace core
+{
+class Editor;    
+}
 
 namespace scripting
 {
@@ -20,13 +24,15 @@ class FlagSetter: public scripting::scenenodes::AbstractSetter<bool>
 public: 
     /*! A callback for building command 
      */
-    typedef history::Command* (*Callback)(sad::SceneNode*, bool, bool);
+    typedef history::Command* (*Callback)(core::Editor*, sad::SceneNode*, bool, bool);
     /*! Constructs new visibility setter 
+        \param[in] ed editor
         \param[in] e engine
         \param[in] prop a property to be set
         \param[in] f flag
      */
     FlagSetter(
+        core::Editor* ed,
         QScriptEngine* e, 
         const QString& prop, 
         scripting::scenenodes::FlagSetter::Callback f
@@ -46,6 +52,9 @@ protected:
     /*! A callback
      */
     Callback m_f;
+    /*! An editor
+     */
+    core::Editor* m_editor;
 };
 
 

@@ -6,7 +6,9 @@
 #pragma once
 #include <QObject>
 
-#include "animationgroupprocess.h"
+#include "abstractactions.h"
+
+#include "../animationgroupprocess.h"
 
 #include <animations/animationsgroup.h>
 
@@ -16,25 +18,26 @@ class MainPanel;
 namespace gui
 {
 
+namespace actions
+{
+
 /*! A group of actions, linked to animation instances
  */	
-class GroupActions: public QObject
+class AnimationGroupActions: public QObject, public gui::actions::AbstractActions
 {
 Q_OBJECT
 public:
     /*! Creates new label actions
         \param[in] parent a parent object
      */
-    GroupActions(QObject* parent = NULL);
+    AnimationGroupActions(QObject* parent = NULL);
+	/*! Sets inner editor link of process
+		\param[in] e editor
+	 */
+	virtual void setEditor(core::Editor* e);
     /*! This class could be inherited
      */
-    virtual ~GroupActions();
-    /*! Sets panel, where actions belong to
-     */
-    void setPanel(MainPanel* e);
-    /*! Returns panel, where actions belong to
-     */
-    MainPanel* panel() const;
+    virtual ~AnimationGroupActions();
     /*! Removes group from database
         \param[in] g group
         \param[in] fromeditor whether group is being editor
@@ -45,6 +48,26 @@ public:
         bool fromeditor,
         int row = -1
     );
+    /*! Adds group to group list
+        \param[in] g group
+     */
+    void addGroupToList(sad::animations::Group* g);
+    /*! Removes group from group list
+     */
+    void removeLastGroupFromList();
+    /*! Insert group to group list
+        \param[in] pos a position
+        \param[in] g group
+     */
+    void insertGroupToList(int pos, sad::animations::Group* g);
+    /*! Removes group from group list
+     */
+    void removeGroupFromList(int pos);
+    /*! Returns name for animation group
+        \param[in] g group
+        \return name for group
+     */
+    QString nameForGroup(sad::animations::Group* g) const;
 public slots:
     /*! Tries to add new animation group
      */
@@ -77,12 +100,11 @@ public slots:
      */
     void stop();
 private:
-    /*! An panel, which actions are belong to
-     */
-    MainPanel* m_panel;
     /*! A running animation process 
      */
     gui::AnimationGroupProcess* m_animation;
 };
+
+}
 
 }

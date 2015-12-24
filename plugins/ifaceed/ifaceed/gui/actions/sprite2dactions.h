@@ -1,7 +1,7 @@
 /*! \file sprite2dactions.h
     
 
-    Describes a group of actions, linked to sprited
+    Describes a group of actions, linked to sprites
  */
 #pragma once
 #include <QObject>
@@ -10,13 +10,27 @@
 
 #include <input/events.h>
 
-class MainPanel;
+#include "abstractactions.h"
+
+namespace history
+{
+class Command;    
+}
+
+namespace sad
+{
+class SceneNode;    
+}
 
 namespace gui
 {
+
+namespace actions
+{
+
 /*! A group of actions, linked to sprites
  */	
-class Sprite2DActions: public QObject
+class Sprite2DActions: public QObject, public gui::actions::AbstractActions
 {
 Q_OBJECT
 public:
@@ -27,12 +41,6 @@ public:
     /*! This class could be inherited
      */
     virtual ~Sprite2DActions();
-    /*! Sets panel, where actions belong to
-     */
-    void setPanel(MainPanel* e);
-    /*! Returns panel, where actions belong to
-     */
-    MainPanel* panel() const;
     /*! Cancels adding sprite to scene
      */
     void cancelAddSprite();
@@ -80,10 +88,8 @@ public slots:
     /*! Called, when user clicks on "Flip Y" checkbox
      */
     void flipYChanged(bool state);
-private:
-    /*! An panel, which actions are belong to
-     */
-    MainPanel* m_panel;
 };
+
+}
 
 }

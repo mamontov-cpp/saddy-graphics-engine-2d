@@ -1,17 +1,23 @@
 #include "groupsbindings.h"
 
+#include <db/dbdatabase.h>
+
 #include "../querytable.h"
 #include "../queryobject.h"
 #include "../tovalue.h"
 #include "../fromvalue.h"
 #include "../scripting.h"
 
-#include "../../mainpanel.h"
 #include "../../qstdstring.h"
 
 #include "../../core/editor.h"
 
-#include "../../gui/groupactions.h"
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/animationgroupactions.h"
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uianimationsgroupblock.h"
+#include "../../gui/uiblocks/uianimationinstanceblock.h"
 
 #include "../../history/groups/groupsnew.h"
 #include "../../history/groups/groupsaddinstance.h"
@@ -36,7 +42,7 @@ unsigned long long scripting::groups::_add(
     bool looped
 )
 {
-    MainPanel* panel = scripting->panel();
+    core::Editor* e = scripting->editor();
 
     sad::animations::Group* d = new sad::animations::Group();
     d->setObjectName(name);
@@ -45,8 +51,8 @@ unsigned long long scripting::groups::_add(
 
     sad::Renderer::ref()->database("")->table("animationgroups")->add(d);
     history::groups::New* c = new history::groups::New(d);
-    c->commit(panel->editor());
-    panel->editor()->currentBatchCommand()->add(c);
+    c->commit(e);
+    e->currentBatchCommand()->add(c);
 
     return d->MajorId;
 }
@@ -57,7 +63,7 @@ void scripting::groups::remove(
     sad::animations::Group* group
 )
 {
-    scripting->panel()->groupActions()->removeFromDatabase(group, false);
+    scripting->editor()->actions()->groupActions()->removeFromDatabase(group, false);
 }
 
 unsigned int scripting::groups::length(
@@ -95,12 +101,16 @@ bool scripting::groups::addInstance(
     int instanceposition = -1;
     bool result = false;
 
-    MainPanel* panel = scripting->panel();
-    groupposition =  panel->findInList<sad::animations::Group*>(panel->UI()->lstAnimationsGroup, group);
+    core::Editor* e = scripting->editor();
+    gui::actions::AnimationGroupActions* ag_actions = e->actions()->groupActions();
+    gui::uiblocks::UIAnimationsGroupBlock* blk = e->uiBlocks()->uiAnimationsGroupBlock();
+    gui::uiblocks::UIAnimationInstanceBlock* ai_blk = e->uiBlocks()->uiAnimationInstanceBlock();
+    
+    groupposition =  ag_actions->findInList<sad::animations::Group*>(blk->lstAnimationsGroup, group);
     if (groupposition > -1)
     {
         sad::Vector<unsigned long long> ids = group->instances();
-        QListWidget* list = panel->UI()->lstAnimationInstances;
+        QListWidget* list = ai_blk->lstAnimationInstances;
         
         if (std::find(ids.begin(), ids.end(), minstance->MajorId) != ids.end())
         {
@@ -129,9 +139,9 @@ bool scripting::groups::addInstance(
                 result = true;
 
                 history::groups::AddInstance* c = new history::groups::AddInstance(group, minstance, instanceposition);
-                c->commit(panel->editor());
+                c->commit(e);
 
-                panel->editor()->currentBatchCommand()->add(c);
+                e->currentBatchCommand()->add(c);
             }
         }
     }
@@ -158,8 +168,7 @@ bool scripting::groups::removeInstance(
                 sad::animations::Instance* i = static_cast<sad::animations::Instance*>(d);
                 result = true;
 
-                MainPanel* panel = scripting->panel();
-                core::Editor* editor = panel->editor();
+                core::Editor* editor = scripting->editor();
 
                 history::groups::RemoveInstance* c = new history::groups::RemoveInstance(group, i, pos);
                 c->commit(editor);

@@ -1,8 +1,14 @@
 #include "animationschangefontsizesize.h"
 
-#include "../../core/editor.h"
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
 
-#include "../../mainpanel.h"
+// ReSharper disable once CppUnusedIncludeDirective
+#include <QSpinBox>
+
+#include "animations/animationsanimation.h"
+
+#include "../../core/editor.h"
 
 #include "../../blockedclosuremethodcall.h"
 

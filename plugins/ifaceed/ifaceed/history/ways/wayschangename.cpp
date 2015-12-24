@@ -1,12 +1,22 @@
 #include "wayschangename.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
+// ReSharper disable once CppUnusedIncludeDirective
+#include <QLineEdit>
+
 #include "../../core/editor.h"
 
-#include "../../mainpanel.h"
 #include "../../qstdstring.h"
 
 #include "../../blockedclosuremethodcall.h"
-#include "../../closuremethodcall.h"
+
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/wayactions.h"
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uiwayblock.h"
 
 history::ways::ChangeName::ChangeName(
   sad::p2d::app::Way* d,
@@ -31,8 +41,8 @@ void history::ways::ChangeName::tryUpdateUI(core::Editor* e, const sad::String& 
 {
     this->history::ways::ChangeProperty<sad::String>::tryUpdateUI(e, value);
     e->emitClosure( blocked_bind(
-            e->panel(),
-            &MainPanel::updateWayName,
+            e->actions()->wayActions(),
+            &gui::actions::WayActions::updateWayName,
             this->m_way
         )
     );
@@ -40,9 +50,9 @@ void history::ways::ChangeName::tryUpdateUI(core::Editor* e, const sad::String& 
 void history::ways::ChangeName::updateUI(core::Editor* e, const sad::String& value)
 {
     e->emitClosure( blocked_bind(
-            e->panel()->UI()->txtWayName,
+            e->uiBlocks()->uiWayBlock()->txtWayName,
             &QLineEdit::setText,
-            STD2QSTRING(value)
+            STD2QSTRING(value.c_str())
         )
     );
 }

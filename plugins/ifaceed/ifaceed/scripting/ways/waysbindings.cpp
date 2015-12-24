@@ -1,14 +1,18 @@
 #include "waysbindings.h"
 #include "wayspointref.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
+#include <db/dbdatabase.h>
+
 #include "../querytable.h"
 #include "../scripting.h"
 
-#include "../../mainpanel.h"
-
 #include "../../core/editor.h"
 
-#include "../../gui/wayactions.h"
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/wayactions.h"
 
 #include "../../history/ways/waysnew.h"
 #include "../../history/ways/wayswaypointnew.h"
@@ -31,7 +35,7 @@ unsigned long long scripting::ways::_add(
     sad::Vector<sad::p2d::app::WayPoint> points
 )
 {
-    MainPanel* panel = scripting->panel();
+    core::Editor* e = scripting->editor();
 
     sad::p2d::app::Way* w = new sad::p2d::app::Way();
     w->setObjectName(name);
@@ -41,16 +45,16 @@ unsigned long long scripting::ways::_add(
 
     sad::Renderer::ref()->database("")->table("ways")->add(w);
     history::ways::New* c = new history::ways::New(w);
-    c->commit(panel->editor());
-    panel->editor()->currentBatchCommand()->add(c);
+    c->commit(e);
+    e->currentBatchCommand()->add(c);
 
     return w->MajorId;
 }
 
 void scripting::ways::remove(scripting::Scripting* scripting, sad::p2d::app::Way* node)
 {
-    MainPanel* panel = scripting->panel();
-    panel->wayActions()->removeWayFromDatabase(node, false);
+    core::Editor* e = scripting->editor();
+    e->actions()->wayActions()->removeWayFromDatabase(node, false);
 }
 
 unsigned int scripting::ways::length(scripting::Scripting*, sad::p2d::app::Way* way)
@@ -63,7 +67,7 @@ void scripting::ways::addPoint(scripting::Scripting* scripting, sad::p2d::app::W
     history::ways::WayPointNew* command = new history::ways::WayPointNew(way);
     command->setPoint(point);
 
-    core::Editor* e = scripting->panel()->editor();
+    core::Editor* e = scripting->editor();
     command->commit(e);
     e->currentBatchCommand()->add(command);
 }
@@ -77,7 +81,7 @@ bool scripting::ways::removePoint(scripting::Scripting* scripting, sad::p2d::app
 
     history::ways::WayPointRemove* command = new history::ways::WayPointRemove(way, pos);
 
-    core::Editor* e = scripting->panel()->editor();
+    core::Editor* e = scripting->editor();
     command->commit(e);
     e->currentBatchCommand()->add(command);
     return true;

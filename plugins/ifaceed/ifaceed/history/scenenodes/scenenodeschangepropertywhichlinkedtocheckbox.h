@@ -7,8 +7,6 @@
 #include "scenenodeschangeproperty.h"
 #include <QCheckBox>
 
-class MainPanel;
-
 namespace history
 {
     
@@ -21,14 +19,14 @@ class ChangePropertyWhichLinkedToCheckbox:public history::scenenodes::ChangeProp
 {
 public:
     /*! Constructs new command for node
-        \param[in] method a method to get checkbox to set in property
+        \param[in] cb a checkbox
         \param[in] d a node
         \param[in] property a property name
         \param[in] oldvalue old value of property
         \param[in] newvalue new value of property
       */
     ChangePropertyWhichLinkedToCheckbox(
-        QCheckBox* (MainPanel::*method)() const,
+        QCheckBox* cb,
         sad::SceneNode* d,
         const sad::String& property,
         bool oldvalue,
@@ -39,9 +37,9 @@ public:
      */
     virtual ~ChangePropertyWhichLinkedToCheckbox();
 protected:
-    /*! A method, for getting a checkbox to set value to 
+    /*! A checkbox to be set
      */ 
-    QCheckBox* (MainPanel::*m_method)() const;
+    QCheckBox* m_cb;
      /*!
      * Updates a checkbox with new value
      * \param e editor

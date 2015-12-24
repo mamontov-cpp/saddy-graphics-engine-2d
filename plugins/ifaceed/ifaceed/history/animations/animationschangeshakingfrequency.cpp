@@ -2,9 +2,15 @@
 
 #include "../../core/editor.h"
 
-#include "../../mainpanel.h"
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uianimationblock.h"
 
 #include "../../blockedclosuremethodcall.h"
+
+#include <QSpinBox>
 
 history::animations::ChangeShakingFrequency::ChangeShakingFrequency(
     sad::animations::Animation* d,
@@ -29,7 +35,7 @@ history::animations::ChangeShakingFrequency::~ChangeShakingFrequency()
 void history::animations::ChangeShakingFrequency::updateUI(core::Editor* e, const int& value)
 {
     e->emitClosure( blocked_bind(
-            e->panel()->UI()->sbCameraShakingFrequency,
+            e->uiBlocks()->uiAnimationBlock()->sbCameraShakingFrequency,
             &QSpinBox::setValue,
             value
         )

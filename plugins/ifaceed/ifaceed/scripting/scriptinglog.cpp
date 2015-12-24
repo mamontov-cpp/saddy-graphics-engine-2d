@@ -4,12 +4,13 @@
 
 #include "classwrapper.h"
 
-#include "../mainpanel.h"
-
 #include "../core/editor.h"
 
+#include "../gui/uiblocks/uiblocks.h"
+#include "../gui/uiblocks/uiconsoleblock.h"
 
 #include <QScriptValueIterator>
+#include <QTextEdit>
 
 QString  scripting::scripting_log_object(const QScriptValue& v, QScriptEngine *engine)
 {
@@ -91,7 +92,7 @@ QScriptValue scripting::scripting_log(QScriptContext *context, QScriptEngine *en
 {
     QScriptValue main = engine->globalObject().property("---");
     scripting::Scripting* e = static_cast<scripting::Scripting*>(main.toQObject());
-    QTextEdit* edit = e->panel()->UI()->txtConsoleResults;
+    QTextEdit* edit = e->editor()->uiBlocks()->uiConsoleBlock()->txtConsoleResults;
     for(size_t i = 0; i < context->argumentCount(); ++i)
     {
         QScriptValue arg = context->argument(i);
