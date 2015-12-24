@@ -1,8 +1,9 @@
 #include "scenesadd.h"
 
-#include "../../mainpanel.h"
-
 #include "../../core/editor.h"
+
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/sceneactions.h"
 
 #include <QListWidget>
 #include <QListWidgetItem>
@@ -24,7 +25,7 @@ void history::scenes::Add::commit(core::Editor * ob)
 
     if (ob)
     {
-        ob->panel()->addSceneToSceneList(m_scene);
+        ob->actions()->sceneActions()->addSceneToSceneList(m_scene);
     }
 }
 
@@ -35,6 +36,6 @@ void history::scenes::Add::rollback(core::Editor * ob)
 
     if (ob)
     {
-        ob->panel()->removeLastSceneFromSceneList();
+        ob->actions()->sceneActions()->removeLastSceneFromSceneList();
     }
 }

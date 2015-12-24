@@ -68,3 +68,8 @@ void gui::MainPanelProxy::setCurrentTabObjectsIndex(int index)
 {
     m_editor->panel()->UI()->tabObjects->setCurrentIndex(index);
 }
+
+bool gui::MainPanelProxy::takeDelegateByPropertyName(const QString & name)
+{
+    return m_editor->panel()->takeDelegateByPropertyName(name);	
+}

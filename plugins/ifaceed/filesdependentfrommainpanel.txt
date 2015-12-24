@@ -57,11 +57,7 @@
 ./ifaceed/history/scenenodes/scenenodesnew.cpp
 ./ifaceed/history/scenenodes/scenenodesremove.cpp
 ./ifaceed/history/scenenodes/scenesnodeschangename.cpp
-./ifaceed/history/scenes/scenelayerswap.cpp
-./ifaceed/history/scenes/scenesadd.cpp
-./ifaceed/history/scenes/sceneschangename.cpp
 ./ifaceed/history/scenes/scenesclear.cpp
-./ifaceed/history/scenes/scenesremove.cpp
 ./ifaceed/history/sprite2d/changeflipx.cpp
 ./ifaceed/history/sprite2d/changeflipy.cpp
 ./ifaceed/history/sprite2d/changeoptions.cpp

@@ -2,14 +2,19 @@
 
 #include "../../core/editor.h"
 
-#include "../../mainpanel.h"
-
 #include "../../closuremethodcall.h"
 #include "../../blockedclosuremethodcall.h"
 
 #include <renderer.h>
 
 #include <algorithm>
+
+#include ".././gui/uiblocks/uiblocks.h"
+#include ".././gui/uiblocks/uianimationinstanceblock.h"
+
+#include ".././gui/actions/actions.h"
+#include ".././gui/actions/sceneactions.h"
+#include ".././gui/actions/scenenodeactions.h"
 
 Q_DECLARE_METATYPE(sad::db::Object*) //-V566
 
@@ -71,7 +76,7 @@ void history::scenes::Clear::commit(core::Editor * ob)
     {
         if (ob->panel()->currentScene() == m_scene)
         {
-            ob->emitClosure( bind(ob->panel()->UI()->lstSceneObjects, &QListWidget::clear) );
+            ob->emitClosure( bind(ob->uiBlocks()->uiSceneBlock()->lstSceneObjects, &QListWidget::clear) );
         }
         for(size_t i = 0; i < m_nodes.size(); i++)
         {
@@ -87,7 +92,7 @@ void history::scenes::Clear::commit(core::Editor * ob)
 
         for(size_t i = 0; i < m_positions.size(); i++)
         {
-            ob->emitClosure( bind(ob->panel()->UI()->cmbAnimationInstanceObject, &QComboBox::removeItem, m_positions[i].p2()));
+            ob->emitClosure( bind(ob->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceObject, &QComboBox::removeItem, m_positions[i].p2()));
         }
 
         for(size_t i = 0; i < m_dependent.size(); i++)
@@ -95,7 +100,7 @@ void history::scenes::Clear::commit(core::Editor * ob)
             m_dependent[i].p1()->setObjectId(0);
             if (m_dependent[i].p1() == ob->shared()->selectedInstance())
             {
-                ob->emitClosure( blocked_bind(ob->panel()->UI()->cmbAnimationInstanceObject, &QComboBox::setCurrentIndex, 0));
+                ob->emitClosure( blocked_bind(ob->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceObject, &QComboBox::setCurrentIndex, 0));
             }
         }
     }
@@ -113,7 +118,7 @@ void history::scenes::Clear::rollback(core::Editor * ob)
         {
             for(size_t i = 0; i < m_nodes.size(); i++)
             {
-                ob->emitClosure( bind(ob->panel(), &MainPanel::addSceneNodeToSceneNodeList, m_nodes[i]) );
+                ob->emitClosure( bind(ob->actions()->sceneActions(), &MainPanel::addSceneNodeToSceneNodeList, m_nodes[i]) );
             }
         }
         for(int i = m_positions.size() - 1; i > -1; i--)
@@ -126,7 +131,7 @@ void history::scenes::Clear::rollback(core::Editor * ob)
 
             void (QComboBox::*f)(int, const QString&, const QVariant&) = &QComboBox::insertItem;
             ob->emitClosure( bind(
-                ob->panel()->UI()->cmbAnimationInstanceObject, 
+                ob->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceObject, 
                 f, 
                 pos,
                 name,
@@ -149,7 +154,7 @@ void history::scenes::Clear::rollback(core::Editor * ob)
                 }
                 if (pos != -1)
                 {
-                    ob->emitClosure( blocked_bind(ob->panel()->UI()->cmbAnimationInstanceObject, &QComboBox::setCurrentIndex, pos));
+                    ob->emitClosure( blocked_bind(ob->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceObject, &QComboBox::setCurrentIndex, pos));
                 }
             }
         }

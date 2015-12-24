@@ -110,7 +110,7 @@ public:
     /*! Sets palette for node's palette
      */
     void setColorPalette(const QList<QList<QColor> >& palette);
-    /*! Takes delegate ownership by propert name
+    /*! Takes delegate ownership by property name
         \param[in] name a name of delegate by property
         \return if ownership is taken - returns true, if panel does not own it - false
      */

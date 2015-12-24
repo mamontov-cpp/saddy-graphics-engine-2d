@@ -21,6 +21,8 @@
 
 #include <climits>
 
+#include "../mainpanelproxy.h"
+
 #include "../../qstdstring.h"
 
 
@@ -47,13 +49,13 @@ void gui::table::SadAColorDelegate::clicked()
 {
     QColor oldvalue = this->currentValue<QColor>();
     AColorDialog dlg;
-    dlg.setColorPalette(m_editor->panel()->colorPalette());
+    dlg.setColorPalette(m_editor->panelProxy()->colorPalette());
     dlg.setSelectedColor(oldvalue);
     
     if (dlg.exec() == QDialog::Accepted)
     {
         QColor i = dlg.selectedColor();
-        m_editor->panel()->setColorPalette(dlg.colorPalette());
+        m_editor->panelProxy()->setColorPalette(dlg.colorPalette());
         if (this->isLinkedToDatabase())
         {
             m_editor->history()->add(new history::database::ChangeProperty<QColor>(oldvalue, i, this));
@@ -76,7 +78,7 @@ void gui::table::SadAColorDelegate::clicked()
 void gui::table::SadAColorDelegate::makeEditor()
 {
     // Take first color from palette
-    QList<QList<QColor> > palette = m_editor->panel()->colorPalette();
+    QList<QList<QColor> > palette = m_editor->panelProxy()->colorPalette();
     QColor value = palette[0][0];
     this->setCurrentValue<QColor>(value);
     gui::colorview::ColorView * d = new gui::colorview::ColorView();

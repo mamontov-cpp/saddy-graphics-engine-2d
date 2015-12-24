@@ -2,6 +2,8 @@
 
 #include "core/editor.h"
 
+#include "../mainpanelproxy.h"
+
 #include "../../history/database/removeproperty.h"
 
 
@@ -129,7 +131,7 @@ void gui::table::Delegate::remove()
 
 void gui::table::Delegate::removeWithCommand()
 {
-    m_editor->panel()->takeDelegateByPropertyName(this->propertyName());
+    m_editor->panelProxy()->takeDelegateByPropertyName(this->propertyName());
     history::database::RemoveProperty* p = new history::database::RemoveProperty(this, m_editor->panel());
     p->commit();
     if (m_editor->currentBatchCommand())

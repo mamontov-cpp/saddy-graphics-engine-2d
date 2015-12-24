@@ -81,6 +81,11 @@ public:
         \param[in] index an index
      */
     void setCurrentTabObjectsIndex(int index);
+    /*! Takes delegate ownership by property name
+        \param[in] name a name of delegate by property
+        \return if ownership is taken - returns true, if panel does not own it - false
+     */
+    bool takeDelegateByPropertyName(const QString & name);  	
 protected:
     /*! An editor part
      */
