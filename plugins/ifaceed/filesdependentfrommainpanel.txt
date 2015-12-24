@@ -37,14 +37,10 @@
 ./ifaceed/history/instances/instanceschangeway.cpp
 ./ifaceed/history/instances/instancesnew.cpp
 ./ifaceed/history/instances/instancesremove.cpp
-./ifaceed/history/label/changebreaktext.cpp
 ./ifaceed/history/label/changefontname.cpp
-./ifaceed/history/label/changelinespacing.cpp
 ./ifaceed/history/label/changemaximallinescount.cpp
-./ifaceed/history/label/changemaximallinewidth.cpp
 ./ifaceed/history/label/changeoverflowstrategy.cpp
 ./ifaceed/history/label/changeoverflowstrategyforlines.cpp
-./ifaceed/history/label/changetext.cpp
 ./ifaceed/history/label/changetextellipsis.cpp
 ./ifaceed/history/label/changetextellipsisforlines.cpp
 ./ifaceed/history/scenenodes/scenenodeschangeangle.cpp
