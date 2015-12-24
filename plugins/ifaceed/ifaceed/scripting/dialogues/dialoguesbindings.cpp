@@ -1,14 +1,15 @@
 #include "dialoguesbindings.h"
 #include "dialoguesphraseref.h"
 
+#include <db/dbdatabase.h>
+
 #include "../querytable.h"
 #include "../scripting.h"
 
-#include "../../mainpanel.h"
-
 #include "../../core/editor.h"
 
-#include "../../gui/dialogueactions.h"
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/dialogueactions.h"
 
 #include "../../history/dialogues/dialoguesnew.h"
 #include "../../history/dialogues/dialoguesphrasenew.h"
@@ -28,7 +29,7 @@ unsigned long long scripting::dialogues::_add(
     sad::Vector<sad::dialogue::Phrase> phrases
 )
 {
-    MainPanel* panel = scripting->panel();
+    core::Editor* e = scripting->editor();
 
     sad::dialogue::Dialogue* d = new sad::dialogue::Dialogue();
     d->setObjectName(name);
@@ -40,8 +41,8 @@ unsigned long long scripting::dialogues::_add(
 
     sad::Renderer::ref()->database("")->table("dialogues")->add(d);
     history::dialogues::New* c = new history::dialogues::New(d);
-    c->commit(panel->editor());
-    panel->editor()->currentBatchCommand()->add(c);
+    c->commit(e);
+    e->currentBatchCommand()->add(c);
 
     return d->MajorId;
 }
@@ -49,8 +50,8 @@ unsigned long long scripting::dialogues::_add(
 
 void scripting::dialogues::remove(scripting::Scripting* scripting, sad::dialogue::Dialogue* d)
 {
-    MainPanel* panel = scripting->panel();
-    panel->dialogueActions()->removeDialogueFromDatabase(d, false);	
+    core::Editor* e = scripting->editor();
+    e->actions()->dialogueActions()->removeDialogueFromDatabase(d, false);	
 }
 
 
@@ -60,11 +61,11 @@ void scripting::dialogues::addPhrase(
     sad::dialogue::Phrase phrase
 )
 {
-    MainPanel* panel = scripting->panel();
+    core::Editor* e = scripting->editor();
 
     history::dialogues::PhraseNew* c = new history::dialogues::PhraseNew(d, phrase);
-    c->commit(panel->editor());
-    panel->editor()->currentBatchCommand()->add(c);
+    c->commit(e);
+    e->currentBatchCommand()->add(c);
 }
 
 bool scripting::dialogues::removePhrase(
@@ -80,7 +81,7 @@ bool scripting::dialogues::removePhrase(
 
     history::dialogues::PhraseRemove* command = new history::dialogues::PhraseRemove(d, pos);
 
-    core::Editor* e = scripting->panel()->editor();
+    core::Editor* e = scripting->editor();
     command->commit(e);
     e->currentBatchCommand()->add(command);
     return true;

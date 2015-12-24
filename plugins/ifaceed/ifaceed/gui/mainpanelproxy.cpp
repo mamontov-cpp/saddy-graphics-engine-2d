@@ -71,10 +71,16 @@ void gui::MainPanelProxy::setCurrentTabObjectsIndex(int index)
 
 bool gui::MainPanelProxy::takeDelegateByPropertyName(const QString & name)
 {
-	return m_editor->panel()->takeDelegateByPropertyName(name);	
+    return m_editor->panel()->takeDelegateByPropertyName(name);	
 }
 
 sad::Hash<sad::String, gui::table::Delegate*>& gui::MainPanelProxy::delegatesByName()
 {
-	return m_editor->panel()->delegatesByName();		
+    return m_editor->panel()->delegatesByName();		
 }	
+
+ bool gui::MainPanelProxy::scriptableAddProperty(const sad::String& propertytype, const sad::String& propertyname, bool fromeditor)
+ {
+    return m_editor->panel()->scriptableAddProperty(propertytype, propertyname, fromeditor);
+ }
+ 

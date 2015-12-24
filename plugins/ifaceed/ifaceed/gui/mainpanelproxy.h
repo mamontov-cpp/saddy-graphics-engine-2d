@@ -6,6 +6,8 @@
 #include <QList>
 #include <QColor>
 
+#include <sadhash.h>
+
 namespace sad
 {
 class String;	
@@ -23,7 +25,7 @@ namespace gui
 
 namespace table
 {
-	
+    
 class Delegate;
 class DelegateFactory;
 
@@ -88,9 +90,15 @@ public:
      */
     bool takeDelegateByPropertyName(const QString & name); 
     /*! A delegates by their property names
-		\returns key-value storage for database properties delegates
+        \returns key-value storage for database properties delegates
      */
-    sad::Hash<sad::String, gui::table::Delegate*>& delegatesByName();	
+    sad::Hash<sad::String, gui::table::Delegate*>& delegatesByName();
+    /*! Adds new scriptable property to a database
+        \param[in] propertytype a type of property
+        \param[in] propertyname a name of property
+        \param[in] fromeditor a from editor
+     */
+    bool scriptableAddProperty(const sad::String& propertytype, const sad::String& propertyname, bool fromeditor);	
 protected:
     /*! An editor part
      */

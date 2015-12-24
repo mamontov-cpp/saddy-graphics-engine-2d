@@ -11,7 +11,14 @@
 
 namespace gui
 {
+    
+namespace actions
+{
+    
 class DialogueActions;
+
+}
+
 }
 
 namespace scripting
@@ -53,7 +60,7 @@ public:
     /*! Returns actions, linked to main panel
         \return actions
      */
-    gui::DialogueActions* actions() const;
+    gui::actions::DialogueActions* actions() const;
     /*! Sets actor name for phrase
         \param[in] name a name for actor
      */
