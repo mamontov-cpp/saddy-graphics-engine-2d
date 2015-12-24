@@ -4,10 +4,18 @@
 
 #include "../../core/typeconverters/sadrect2dtoqrectf.h"
 
-#include "../../mainpanel.h"
+// ReSharper disable once CppUnusedIncludeDirective
+#include <QRectF>
 
 #include "../../blockedclosuremethodcall.h"
-#include "../../closuremethodcall.h"
+
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uiscenenodeblock.h"
+
+#include "../../gui/rectwidget/rectwidget.h"
 
 history::scenenodes::ChangeArea::ChangeArea(
     sad::SceneNode* d,
@@ -34,7 +42,7 @@ void history::scenenodes::ChangeArea::updateUI(core::Editor* e, const sad::Rect2
     QRectF result;
     core::typeconverters::SadRect2DToQRectF::convert(value, result);
     e->emitClosure( blocked_bind(
-            e->panel()->UI()->rwSceneNodeRect,
+            e->uiBlocks()->uiSceneNodeBlock()->rwSceneNodeRect,
             &gui::rectwidget::RectWidget::setValue,
             result
         )

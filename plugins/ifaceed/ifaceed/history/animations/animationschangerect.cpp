@@ -1,12 +1,15 @@
 #include "animationschangerect.h"
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
 
 #include "../../core/editor.h"
-
-#include "../../mainpanel.h"
 
 #include "../../blockedclosuremethodcall.h"
 
 #include "../../core/typeconverters/sadrect2dtoqrectf.h"
+
+// ReSharper disable once CppUnusedIncludeDirective
+#include "../../gui/rectwidget/rectwidget.h"
 
 history::animations::ChangeRect::ChangeRect(
     sad::animations::Animation* d,

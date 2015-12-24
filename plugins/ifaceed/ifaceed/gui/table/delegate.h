@@ -165,11 +165,11 @@ protected:
     /*! Finds property in table widget
         \return row index
      */
-    int findPropertyInTable();
+    int findPropertyInTable() const;
     /*! Inserts linked widget to table. MUST be called inside gui::table::Delegate::createWidget to make sure, that
         widget is inserted to table
      */
-    void insertToTable();
+    void insertToTable() const;
 };
 
 }

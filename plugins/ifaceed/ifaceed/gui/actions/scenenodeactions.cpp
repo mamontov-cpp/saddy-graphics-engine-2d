@@ -372,6 +372,7 @@ void gui::actions::SceneNodeActions::visibilityChanged(bool state)
                 {
                     node->setProperty("visible", newvalue);
                     m_editor->history()->add(history::scenenodes::changeVisibility(
+                        m_editor,
                         node, 
                         oldvalue.value(), 
                         newvalue

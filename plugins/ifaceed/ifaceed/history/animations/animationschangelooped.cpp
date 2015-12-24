@@ -1,8 +1,11 @@
 #include "animationschangelooped.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
 #include "../../core/editor.h"
 
-#include "../../mainpanel.h"
+#include <QCheckBox>
 
 #include "../../blockedclosuremethodcall.h"
 
@@ -29,7 +32,7 @@ history::animations::ChangeLooped::~ChangeLooped()
 void history::animations::ChangeLooped::updateUI(core::Editor* e, const bool& value)
 {
     e->emitClosure( blocked_bind(
-            e->panel()->UI()->cbAnimationLooped,
+            e->panelAsWidget()->findChild<QCheckBox*>("cbAnimationLooped"),
             &QCheckBox::setCheckState,
             (value ? Qt::Checked : Qt::Unchecked)
         )

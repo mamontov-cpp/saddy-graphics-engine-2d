@@ -190,14 +190,7 @@ scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_editor(NUL
 
     scripting::Callable* oresourceschema = scripting::make_scripting_call(scripting::resource_schema, this);
     m_registered_classes << oresourceschema;
-    m_value.setProperty("resourceSchema", m_engine->newObject(oresourceschema), m_flags);
-
-    this->initSadTypeConstructors();
-    this->initDatabasePropertyBindings(m_value);
-    this->initSceneBindings(m_value);
-    this->initSceneNodesBindings(m_value);
-    this->initWaysBindings(m_value);
-    this->initDialoguesBindings(m_value);
+    m_value.setProperty("resourceSchema", m_engine->newObject(oresourceschema), m_flags);    
 }
 
 scripting::Scripting::~Scripting()
@@ -213,6 +206,12 @@ scripting::Scripting::~Scripting()
 void scripting::Scripting::setEditor(core::Editor* editor)
 {
     m_editor = editor;
+    this->initSadTypeConstructors();
+    this->initDatabasePropertyBindings(m_value);
+    this->initSceneBindings(m_value);
+    this->initSceneNodesBindings(m_value);
+    this->initWaysBindings(m_value);
+    this->initDialoguesBindings(m_value);
     this->initAnimationsBindings(m_value);
     this->initAnimationInstanceBindings(m_value);
     this->initAnimationGroupBindings(m_value);
@@ -335,7 +334,7 @@ void scripting::Scripting::runScript()
     history::BatchCommand* c = new history::BatchCommand();
     m_editor->setCurrentBatchCommand(c);
 
-	gui::uiblocks::UIConsoleBlock* cblk = m_editor->uiBlocks()->uiConsoleBlock();
+    gui::uiblocks::UIConsoleBlock* cblk = m_editor->uiBlocks()->uiConsoleBlock();
     cblk->txtConsoleResults->setText("");
     QString text = cblk->txtConsoleCode->toPlainText();
     
@@ -1109,7 +1108,7 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
 
     scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
     // All props
-    set->add(new scripting::scenenodes::FlagSetter(m_engine, "visible", history::scenenodes::changeVisibility));
+    set->add(new scripting::scenenodes::FlagSetter(m_editor, m_engine, "visible", history::scenenodes::changeVisibility));
     set->add(new scripting::scenenodes::Setter<sad::String, history::scenenodes::ChangeName>(m_engine, "name"));
     set->add(new scripting::scenenodes::AreaSetter(m_engine));
     set->add(new scripting::scenenodes::Setter<double, history::scenenodes::ChangeAngle>(m_engine, "angle"));
@@ -1128,8 +1127,8 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
 
     set->add(new scripting::scenenodes::FontSetter(m_engine));
     // sad::Sprite2D props
-    set->add(new scripting::scenenodes::FlagSetter(m_engine, "flipx", history::sprite2d::changeFlipX));
-    set->add(new scripting::scenenodes::FlagSetter(m_engine, "flipy", history::sprite2d::changeFlipY));
+    set->add(new scripting::scenenodes::FlagSetter(m_editor, m_engine, "flipx", history::sprite2d::changeFlipX));
+    set->add(new scripting::scenenodes::FlagSetter(m_editor, m_engine, "flipy", history::sprite2d::changeFlipY));
     set->add(new scripting::scenenodes::OptionsSetter(m_engine));
     // sad::db::CustomObject props
     set->add(new scripting::scenenodes::SchemaSetter(m_engine));
@@ -1527,7 +1526,7 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
     set->add(new scripting::animations::Setter<sad::animations::CameraShaking, int, history::animations::ChangeShakingFrequency>(m_engine, "frequency"));
     set->add(new scripting::animations::Setter<sad::animations::CameraRotation, sad::Point3D, history::animations::ChangeCameraPivot>(m_engine, "pivot"));
 
-	gui::uiblocks::UIAnimationBlock* ablk = m_editor->uiBlocks()->uiAnimationBlock();
+    gui::uiblocks::UIAnimationBlock* ablk = m_editor->uiBlocks()->uiAnimationBlock();
     set->add(new scripting::animations::WidgetSetter<
                 sad::animations::CameraRotation, 
                 QDoubleSpinBox*,
@@ -1962,7 +1961,7 @@ void scripting::Scripting::saveScript()
         if (file.open(QIODevice::WriteOnly))
         {
             QTextStream stream(&file);
-			gui::uiblocks::UIConsoleBlock* cblk = m_editor->uiBlocks()->uiConsoleBlock();
+            gui::uiblocks::UIConsoleBlock* cblk = m_editor->uiBlocks()->uiConsoleBlock();
             stream << cblk->txtConsoleCode->toPlainText();
         }
         else
@@ -1983,7 +1982,7 @@ void scripting::Scripting::loadScript()
             QTextStream stream(&file);
             QString string;
             string = stream.readAll();
-			gui::uiblocks::UIConsoleBlock* cblk = m_editor->uiBlocks()->uiConsoleBlock();
+            gui::uiblocks::UIConsoleBlock* cblk = m_editor->uiBlocks()->uiConsoleBlock();
             cblk->txtConsoleCode->setPlainText(string);
         }
         else

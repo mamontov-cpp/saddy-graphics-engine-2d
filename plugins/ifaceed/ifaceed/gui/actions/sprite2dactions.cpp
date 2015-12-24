@@ -372,6 +372,7 @@ void gui::actions::Sprite2DActions::flipXChanged(bool state)
                 {
                     node->setProperty("flipx", newvalue);
                     m_editor->history()->add(history::sprite2d::changeFlipX(
+                        m_editor,
                         node, 
                         oldvalue.value(), 
                         newvalue
@@ -401,6 +402,7 @@ void gui::actions::Sprite2DActions::flipYChanged(bool state)
                 {
                     node->setProperty("flipy", newvalue);
                     m_editor->history()->add(history::sprite2d::changeFlipY(
+                        m_editor,
                         node, 
                         oldvalue.value(), 
                         newvalue

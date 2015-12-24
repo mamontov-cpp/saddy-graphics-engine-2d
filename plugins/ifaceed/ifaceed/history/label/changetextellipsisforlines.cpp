@@ -1,10 +1,9 @@
 #include "changetextellipsisforlines.h"
 
-#include <QComboBox>
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
 
 #include "../../core/editor.h"
-
-#include "../../mainpanel.h"
 
 #include "../../gui/uiblocks/uiblocks.h"
 #include "../../gui/uiblocks/uilabelblock.h"
@@ -13,7 +12,6 @@
 #include "../../gui/actions/scenenodeactions.h"
 
 #include "../../blockedclosuremethodcall.h"
-#include "../../closuremethodcall.h"
 
 history::label::ChangeTextEllipsisForLines::ChangeTextEllipsisForLines(
     sad::SceneNode* d,

@@ -1,8 +1,9 @@
 #include "scenenodeslayerswap.h"
 
-#include "../../core/editor.h"
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
 
-#include "../../mainpanel.h"
+#include "../../core/editor.h"
 
 #include "../../gui/actions/actions.h"
 #include "../../gui/actions/sceneactions.h"

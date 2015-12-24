@@ -2,10 +2,16 @@
 
 #include "../../core/editor.h"
 
-#include "../../mainpanel.h"
-
-#include "../../blockedclosuremethodcall.h"
 #include "../../closuremethodcall.h"
+
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uianimationinstanceblock.h"
+
+// ReSharper disable once CppUnusedIncludeDirective
+#include <QDoubleSpinBox>
 
 history::instances::ChangeStartTime::ChangeStartTime(
     sad::animations::Instance* d,
@@ -31,7 +37,7 @@ history::instances::ChangeStartTime::~ChangeStartTime()
 void history::instances::ChangeStartTime::updateUI(core::Editor* e, const double& value)
 {
     e->emitClosure( bind(
-            e->panel()->UI()->dsbAnimationInstanceStartTime,
+            e->uiBlocks()->uiAnimationInstanceBlock()->dsbAnimationInstanceStartTime,
             &QDoubleSpinBox::setValue,
             value
         )

@@ -10,10 +10,6 @@
 
 #include <db/dbproperty.h>
 
-#include <refcountable.h>
-
-class MainPanel;
-
 namespace history
 {
     
@@ -27,7 +23,7 @@ public:
         \param[in] d delegate
         \param[in] p panel
       */
-     NewProperty(gui::table::Delegate* d, MainPanel* p);
+     NewProperty(gui::table::Delegate* d);
      /*! Erases link to a property
       */
      virtual ~NewProperty();
@@ -46,9 +42,6 @@ protected:
     /*! A delegate for removed property
      */
     gui::table::Delegate * m_delegate;
-    /*! A panel
-     */
-    MainPanel* m_panel;
 };
 
 }

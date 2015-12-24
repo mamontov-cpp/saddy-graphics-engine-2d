@@ -11,7 +11,7 @@ gui::MainPanelProxy::MainPanelProxy() : m_editor(NULL)
 
 void gui::MainPanelProxy::setEditor(core::Editor* editor)
 {
-    m_editor = NULL;
+    m_editor = editor;
 }
 
 core::Editor* gui::MainPanelProxy::editor() const

@@ -1,6 +1,8 @@
 #include "animationsnew.h"
 
-#include "../../mainpanel.h"
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
 #include "../../core/editor.h"
 
 #include "../../closuremethodcall.h"
@@ -26,7 +28,7 @@ void history::animations::New::commit(core::Editor* ob)
     {
         if (ob->panel())
         {
-			gui::actions::AnimationActions* a_actions  = ob->actions()->animationActions();						
+            gui::actions::AnimationActions* a_actions  = ob->actions()->animationActions();						
             ob->emitClosure( bind(a_actions, &gui::actions::AnimationActions::addAnimationToViewingLists, m_animation) );
         }
     }
@@ -39,7 +41,7 @@ void history::animations::New::rollback(core::Editor* ob)
     {
         if (ob->panel())
         {
-			gui::actions::AnimationActions* a_actions  = ob->actions()->animationActions();						            			
+            gui::actions::AnimationActions* a_actions  = ob->actions()->animationActions();						            			
             ob->emitClosure( bind(a_actions, &gui::actions::AnimationActions::removeAnimationFromViewingLists, m_animation) );
         }
         if (ob->shared()->selectedAnimation() == m_animation)

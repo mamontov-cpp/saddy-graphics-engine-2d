@@ -1,10 +1,14 @@
 #include "animationschangerotateangle.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
 #include "../../core/editor.h"
 
-#include "../../mainpanel.h"
-
 #include "../../blockedclosuremethodcall.h"
+
+// ReSharper disable once CppUnusedIncludeDirective
+#include <QDoubleSpinBox>
 
 history::animations::ChangeRotateAngle::ChangeRotateAngle(
     sad::animations::Animation* d,

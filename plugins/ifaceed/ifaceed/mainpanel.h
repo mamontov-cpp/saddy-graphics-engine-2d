@@ -141,18 +141,6 @@ public:
         \param[in] flag a flag
      */
     void toggleAnimationPropertiesEditable(bool flag);
-    /*! Returns check box for visibility property
-        \return checkbox
-     */
-    QCheckBox* visibilityCheckbox() const;
-    /*! Returns check box for flipX property
-        \return checkbox
-     */
-    QCheckBox* flipXCheckbox() const;
-    /*! Returns check box for flipY property
-        \return checkbox
-     */
-    QCheckBox* flipYCheckbox() const;   
     /*! Synchronizes database with an editor
      */
     void synchronizeDatabase();
@@ -198,12 +186,6 @@ public:
         \return delegate factory
      */
     gui::table::DelegateFactory* delegateFactory() const;
-    /*! Clears selection
-     */
-    void clearObjectSelection();
-    /*! Fixes texture coordinates in all objects
-     */
-    void fixTextureCoordinates();
 protected:
     /*! Stores all widget for main panel
      */
@@ -254,6 +236,13 @@ protected:
     /*! Fixes database scenes and scene nodes tables and palette if need to
      */
     void fixDatabase();
+public slots:
+    /*! Clears selection
+     */
+    void clearObjectSelection();
+    /*! Fixes texture coordinates in all objects
+     */
+    void fixTextureCoordinates();
 protected slots:
     /*! Adds a property to database slot
      */

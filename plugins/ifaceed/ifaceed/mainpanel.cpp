@@ -532,10 +532,10 @@ void MainPanel::setEditor(core::Editor* editor)
     connect(ui.clpSceneNodeColor, SIGNAL(selectedColorChanged(QColor)), sn_actions, SLOT(colorChanged(QColor)));
     connect(ui.rwSceneNodeRect, SIGNAL(valueChanged(QRectF)), sn_actions, SLOT(areaChanged(QRectF)));
     connect(ui.awSceneNodeAngle, SIGNAL(valueChanged(double)), sn_actions, SLOT(angleChanged(double)));
-    connect(ui.lstSceneObjects, SIGNAL(currentRowChanged(int)), this, SLOT(currentSceneNodeChanged(int)));
+    connect(ui.lstSceneObjects, SIGNAL(currentRowChanged(int)), sn_actions, SLOT(currentSceneNodeChanged(int)));
     connect(ui.btnSceneNodeDelete, SIGNAL(clicked()), sn_actions, SLOT(removeSceneNode()));
-    connect(ui.btnSceneNodeMoveBack, SIGNAL(clicked()), this, SLOT(sceneNodeMoveBack()));
-    connect(ui.btnSceneNodeMoveFront, SIGNAL(clicked()), this, SLOT(sceneNodeMoveFront()));
+    connect(ui.btnSceneNodeMoveBack, SIGNAL(clicked()), sn_actions, SLOT(sceneNodeMoveBack()));
+    connect(ui.btnSceneNodeMoveFront, SIGNAL(clicked()), sn_actions, SLOT(sceneNodeMoveFront()));
 
     connect(ui.btnLabelAdd, SIGNAL(clicked()), l_actions, SLOT(addLabel()));
     connect(ui.rtwLabelFont, SIGNAL(selectionChanged(sad::String)), l_actions, SLOT(labelFontChanged(sad::String)));
@@ -1035,21 +1035,6 @@ void MainPanel::toggleAnimationPropertiesEditable(bool flag)
     }
 }
 
-QCheckBox* MainPanel::visibilityCheckbox() const
-{
-    return ui.cbSceneNodeVisible;	
-}
-
-QCheckBox* MainPanel::flipXCheckbox() const
-{
-    return ui.cbFlipX;	
-}
-
-QCheckBox* MainPanel::flipYCheckbox() const
-{
-    return ui.cbFlipY;	
-}
-
 //====================  PUBLIC SLOTS METHODS HERE ====================
 
 void MainPanel::clearObjectSelection()
@@ -1484,7 +1469,7 @@ bool MainPanel::scriptableAddProperty(const sad::String& propertytype, const sad
 
             m_delegates_by_names.insert(propertyname, d);
             
-            history::database::NewProperty* p = new history::database::NewProperty(d, this);
+            history::database::NewProperty* p = new history::database::NewProperty(d);
             if (fromeditor)
             {
                 m_editor->history()->add(p);

@@ -45,9 +45,9 @@ gui::actions::AnimationInstanceActions::~AnimationInstanceActions()
 
 void gui::actions::AnimationInstanceActions::setEditor(core::Editor* e)
 {
-	this->gui::actions::AbstractActions::setEditor(e);
-	m_animation->setEditor(e);
-	m_blk = m_editor->uiBlocks()->uiAnimationInstanceBlock();
+    this->gui::actions::AbstractActions::setEditor(e);
+    m_animation->setEditor(e);
+    m_blk = m_editor->uiBlocks()->uiAnimationInstanceBlock();
 }
 
 void gui::actions::AnimationInstanceActions::updateGroupInstanceList()
@@ -57,7 +57,7 @@ void gui::actions::AnimationInstanceActions::updateGroupInstanceList()
     {
         ids = m_editor->shared()->selectedGroup()->instances();
     }
-	gui::uiblocks::UIAnimationsGroupBlock* gblk = m_editor->uiBlocks()->uiAnimationsGroupBlock(); 
+    gui::uiblocks::UIAnimationsGroupBlock* gblk = m_editor->uiBlocks()->uiAnimationsGroupBlock(); 
 
     QListWidget* list = m_blk->lstAnimationInstances;
     QListWidget* destlist = gblk->lstAnimationsGroupAllAnimations;

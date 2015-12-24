@@ -1,11 +1,21 @@
 #include "changeflipx.h"
 
-#include "../../mainpanel.h"
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
 
-history::Command* history::sprite2d::changeFlipX(sad::SceneNode* d, bool oldvalue, bool newvalue)
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uispriteblock.h"
+
+history::Command* history::sprite2d::changeFlipX(
+    core::Editor* e, 
+    sad::SceneNode* d, 
+    bool oldvalue, 
+    bool newvalue
+)
 {
     return new history::scenenodes::ChangePropertyWhichLinkedToCheckbox(
-        &MainPanel::flipXCheckbox,
+        e->uiBlocks()->uiSpriteBlock()->cbFlipX,
         d,
         "flipx",
         oldvalue,

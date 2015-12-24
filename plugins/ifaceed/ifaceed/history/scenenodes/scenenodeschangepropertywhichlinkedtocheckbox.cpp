@@ -1,20 +1,19 @@
 #include "scenenodeschangepropertywhichlinkedtocheckbox.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
+
 #include "../../core/editor.h"
-
-#include "../../mainpanel.h"
-
-#include <QCheckBox>
 
 #include "../../blockedclosuremethodcall.h"
 
 history::scenenodes::ChangePropertyWhichLinkedToCheckbox::ChangePropertyWhichLinkedToCheckbox(
-    QCheckBox* (MainPanel::*method)() const,
+    QCheckBox* cb,
     sad::SceneNode* d,
     const sad::String& property,
     bool oldvalue,
     bool newvalue
-) : history::scenenodes::ChangeProperty<bool>(d, property, oldvalue, newvalue), m_method(method)
+) : history::scenenodes::ChangeProperty<bool>(d, property, oldvalue, newvalue), m_cb(cb)
 {
     
 }
@@ -31,8 +30,6 @@ void history::scenenodes::ChangePropertyWhichLinkedToCheckbox::updateUI(core::Ed
     {
         state = Qt::Checked;
     }
-
-    QCheckBox* checkbox = (e->panel()->*m_method)();
-
-    e->emitClosure( blocked_bind(checkbox, &QCheckBox::setCheckState, state) );
+  
+    e->emitClosure( blocked_bind(m_cb, &QCheckBox::setCheckState, state) );
 }

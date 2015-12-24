@@ -1,13 +1,17 @@
 #include "animationschangelist.h"
 
-#include "../../core/editor.h"
+// ReSharper disable once CppUnusedIncludeDirective
+#include <db/save.h>
 
-#include "../../mainpanel.h"
+#include "../../core/editor.h"
 
 #include "../../blockedclosuremethodcall.h"
 
 #include "../../qstdstring.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
+#include <QTextEdit>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QStringList>
 
 history::animations::ChangeList::ChangeList(
