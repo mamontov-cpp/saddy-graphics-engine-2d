@@ -1,5 +1,7 @@
 #include "animationschangeblinkingfrequency.h"
 
+#include <QDoubleSpinBox>
+
 #include "../../core/editor.h"
 
 #include "../../gui/uiblocks/uiblocks.h"

@@ -94,6 +94,7 @@ public:
      */
     core::Editor* editor() const;
     /*! A delegates by their property names
+		\returns key-value storage for database properties delegates
      */
     sad::Hash<sad::String, gui::table::Delegate*>& delegatesByName();
     /*! Returns ui for main panel

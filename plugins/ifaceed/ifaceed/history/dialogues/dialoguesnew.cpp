@@ -1,9 +1,11 @@
 #include "dialoguesnew.h"
 
-#include "../mainpanel.h"
 #include "../core/editor.h"
 
 #include "../closuremethodcall.h"
+
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/dialogueactions.h"
 
 history::dialogues::New::New(sad::dialogue::Dialogue* dialogue) : m_dialogue(dialogue)
 {
@@ -21,7 +23,7 @@ void history::dialogues::New::commit(core::Editor* ob)
     m_dialogue->Active = true;
     if (ob)
     {
-        ob->emitClosure( bind(ob->panel(), &MainPanel::addDialogueToDialogueList, m_dialogue) );
+        ob->emitClosure( bind(ob->actions()->dialogueActions(), &gui::actions::DialogueActions::addDialogueToDialogueList, m_dialogue) );
     }
 }
 
@@ -30,7 +32,7 @@ void history::dialogues::New::rollback(core::Editor* ob)
     m_dialogue->Active = false;
     if (ob)
     {
-        ob->emitClosure( bind(ob->panel(), &MainPanel::removeLastDialogueFromDialogueList) );
+        ob->emitClosure( bind(ob->actions()->dialogueActions(), &gui::actions::DialogueActions::removeLastDialogueFromDialogueList) );
         if (ob->shared()->selectedDialogue() == m_dialogue)
         {
             ob->shared()->setSelectedDialogue(NULL);

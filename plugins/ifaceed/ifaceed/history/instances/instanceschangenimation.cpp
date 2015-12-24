@@ -1,11 +1,17 @@
 #include "instanceschangeanimation.h"
 
-#include "../../core/editor.h"
+#include "../../qstdstring.h"
 
-#include "../../mainpanel.h"
+#include "../../core/editor.h"
 
 #include "../../blockedclosuremethodcall.h"
 #include "../../closuremethodcall.h"
+
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/animationinstanceactions.h"
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uianimationinstanceblock.h"
 
 Q_DECLARE_METATYPE(sad::animations::Instance*) //-V566
 Q_DECLARE_METATYPE(sad::animations::Animation*) //-V566
@@ -97,7 +103,7 @@ void history::instances::ChangeAnimation::commit(core::Editor * ob)
                 if (m_button == NULL && m_maybe_new_name.value().length() > 0)
                 {
                     ob->emitClosure(blocked_bind(
-                        ob->panel()->UI()->rbAnimationInstanceFromTree,
+                        ob->uiBlocks()->uiAnimationInstanceBlock()->rbAnimationInstanceFromTree,
                         &QRadioButton::setChecked,
                         true
                     ));
@@ -116,7 +122,7 @@ void history::instances::ChangeAnimation::commit(core::Editor * ob)
                 if (m_button == NULL && m_maybe_new_id.value() > 0)
                 {
                     ob->emitClosure(blocked_bind(
-                        ob->panel()->UI()->rbAnimationInstanceFromDatabase,
+                        ob->uiBlocks()->uiAnimationInstanceBlock()->rbAnimationInstanceFromDatabase,
                         &QRadioButton::setChecked,
                         true
                     ));
@@ -163,7 +169,7 @@ void history::instances::ChangeAnimation::rollback(core::Editor * ob)
                 if (m_button == NULL && m_maybe_old_name.value().length() > 0)
                 {
                     ob->emitClosure(blocked_bind(
-                        ob->panel()->UI()->rbAnimationInstanceFromTree,
+                        ob->uiBlocks()->uiAnimationInstanceBlock()->rbAnimationInstanceFromTree,
                         &QRadioButton::setChecked,
                         true
                     ));
@@ -182,7 +188,7 @@ void history::instances::ChangeAnimation::rollback(core::Editor * ob)
                 if (m_button == NULL && m_maybe_old_id.value() > 0)
                 {
                     ob->emitClosure(blocked_bind(
-                        ob->panel()->UI()->rbAnimationInstanceFromDatabase,
+                        ob->uiBlocks()->uiAnimationInstanceBlock()->rbAnimationInstanceFromDatabase,
                         &QRadioButton::setChecked,
                         true
                     ));
@@ -198,14 +204,14 @@ void history::instances::ChangeAnimation::updateTreeComboValue(core::Editor* e, 
     if (value.size() == 0)
     {
         invoke_blocked(
-            e->panel()->UI()->cmbAnimationInstanceAnimationFromTree,
+            e->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceAnimationFromTree,
             &QComboBox::setCurrentIndex,
             0
         );
     }
     else
     {
-        QComboBox* box = e->panel()->UI()->cmbAnimationInstanceAnimationFromTree;
+        QComboBox* box = e->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceAnimationFromTree;
         int pos = -1;
         QString stringttosearch = STD2QSTRING(value);
         for(size_t i = 1; (i < box->count()) && pos == -1; i++)
@@ -221,7 +227,7 @@ void history::instances::ChangeAnimation::updateTreeComboValue(core::Editor* e, 
         }
 
         invoke_blocked(
-            e->panel()->UI()->cmbAnimationInstanceAnimationFromTree,
+           e->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceAnimationFromTree,
             &QComboBox::setCurrentIndex,
             pos
         );
@@ -233,15 +239,15 @@ void history::instances::ChangeAnimation::updateDatabaseComboValue(core::Editor*
     if (value == 0)
     {
         invoke_blocked(
-            e->panel()->UI()->cmbAnimationInstanceAnimationFromDatabase,
+            e->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceAnimationFromDatabase,
             &QComboBox::setCurrentIndex,
             0
         );
     }
     else
     {
-        int pos = e->panel()->findInComboBoxByMajorId<sad::animations::Animation*>(
-            e->panel()->UI()->cmbAnimationInstanceAnimationFromDatabase, 
+        int pos = e->actions()->instanceActions()->findInComboBoxByMajorId<sad::animations::Animation*>(
+            e->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceAnimationFromDatabase, 
             value
         );
         if (pos < 0)
@@ -249,7 +255,7 @@ void history::instances::ChangeAnimation::updateDatabaseComboValue(core::Editor*
             pos = 0;
         }
         invoke_blocked(
-            e->panel()->UI()->cmbAnimationInstanceAnimationFromDatabase,
+            e->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceAnimationFromDatabase,
             &QComboBox::setCurrentIndex,
             pos
         );

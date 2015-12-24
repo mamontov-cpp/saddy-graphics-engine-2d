@@ -2,9 +2,14 @@
 
 #include "../../core/editor.h"
 
-#include "../../mainpanel.h"
-
 #include "../../closuremethodcall.h"
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uianimationsgroupblock.h"
+
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/animationinstanceactions.h"
+
 
 Q_DECLARE_METATYPE(sad::animations::Group*) //-V566
 Q_DECLARE_METATYPE(sad::animations::Instance*) //-V566
@@ -63,12 +68,12 @@ void history::groups::AddInstance::updateUIWhileCommitting(core::Editor* e)
     QVariant v;
     v.setValue(m_instance);
 
-    QListWidgetItem* item = new QListWidgetItem(e->panel()->nameForInstance(m_instance));
+    QListWidgetItem* item = new QListWidgetItem(e->actions()->instanceActions()->nameForInstance(m_instance));
     item->setData(Qt::UserRole, v);
     
-    e->panel()->UI()->lstAnimationsGroupInGroup->addItem(item);
+    e->uiBlocks()->uiAnimationsGroupBlock()->lstAnimationsGroupInGroup->addItem(item);
 
-    delete e->panel()->UI()->lstAnimationsGroupAllAnimations->takeItem(m_position);
+    delete e->uiBlocks()->uiAnimationsGroupBlock()->lstAnimationsGroupAllAnimations->takeItem(m_position);
 }
 
 void history::groups::AddInstance::updateUIWhileRollingBack(core::Editor* e)
@@ -76,11 +81,11 @@ void history::groups::AddInstance::updateUIWhileRollingBack(core::Editor* e)
     QVariant v;
     v.setValue(m_instance);
 
-    QListWidgetItem* item = new QListWidgetItem(e->panel()->nameForInstance(m_instance));
+    QListWidgetItem* item = new QListWidgetItem(e->actions()->instanceActions()->nameForInstance(m_instance));
     item->setData(Qt::UserRole, v);
     
-    e->panel()->UI()->lstAnimationsGroupAllAnimations->insertItem(m_position, item);
+    e->uiBlocks()->uiAnimationsGroupBlock()->lstAnimationsGroupAllAnimations->insertItem(m_position, item);
 
-    QListWidget* w = e->panel()->UI()->lstAnimationsGroupInGroup;
+    QListWidget* w = e->uiBlocks()->uiAnimationsGroupBlock()->lstAnimationsGroupInGroup;
     delete w->takeItem(w->count() - 1);
 }

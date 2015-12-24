@@ -4,6 +4,8 @@
 
 #include <QPlainTextEdit>
 
+#include "../../gui/textedit/textedit.h"
+
 #include "../../gui/uiblocks/uiblocks.h"
 #include "../../gui/uiblocks/uianimationblock.h"
 

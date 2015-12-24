@@ -1,13 +1,19 @@
 #include "dialoguesphrasechangephrase.h"
 
+#include <QPlainTextEdit>
+
 #include "../../core/editor.h"
 
 #include "../../qstdstring.h"
 
-#include "../../mainpanel.h"
-
 #include "../../blockedclosuremethodcall.h"
 #include "../../closuremethodcall.h"
+
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/dialogueactions.h"
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uiphraseblock.h"
 
 history::dialogues::PhraseChangePhrase::PhraseChangePhrase(
     sad::dialogue::Dialogue* dialogue, 
@@ -43,17 +49,19 @@ void history::dialogues::PhraseChangePhrase::tryUpdateUI(core::Editor* e, const 
     {
         if (e->shared()->selectedDialogue() == m_dialogue)
         {
+			QListWidget* lst = e->uiBlocks()->uiPhraseBlock()->lstPhrases;
+			
             e->emitClosure(bind(
-                e->panel()->UI()->lstPhrases->item(m_position),
+                lst->item(m_position),
                 &QListWidgetItem::setText,
-                e->panel()->nameForPhrase(*(m_dialogue->phrases()[m_position]))
+                 e->actions()->dialogueActions()->nameForPhrase(*(m_dialogue->phrases()[m_position]))
             ));
-            if (e->panel()->UI()->lstPhrases->currentRow() == m_position)
+            if (lst->currentRow() == m_position)
             {
                 e->emitClosure(blocked_bind(
-                    e->panel()->UI()->txtPhrasePhrase,
+                    e->uiBlocks()->uiPhraseBlock()->txtPhrasePhrase,
                     &QPlainTextEdit::setPlainText,
-                    STD2QSTRING(v)
+                    STD2QSTRING(v.c_str())
                 ));
             }
         }

@@ -15,9 +15,9 @@
 #include "../callable.h"
 #include "../scripting.h"
 
-#include "../../mainpanel.h"
-
 #include "../../core/editor.h"
+
+#include "../../gui/mainpanelproxy.h"
 
 #include "../../history/database/changeproperty.h"
 
@@ -98,11 +98,11 @@ public:
         std::equal_to<T> comparator;
         if (comparator(newvalue.value(), oldvalue.value()) == false)
         {
-            MainPanel* p = static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject())->panel();
-            gui::table::Delegate* d = p->delegatesByName()[propname.value()];
+            core::Editor* p = static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject())->editor();
+            gui::table::Delegate* d = p->panelProxy()->delegatesByName()[propname.value()];
             history::Command* c = new history::database::ChangeProperty<T>(oldvalue.value(), newvalue.value(), d);
-            c->commit(p->editor());
-            p->editor()->currentBatchCommand()->add(c);
+            c->commit(p);
+            p->currentBatchCommand()->add(c);
         }
         return ctx->thisObject();
     }

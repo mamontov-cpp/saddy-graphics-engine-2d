@@ -1,11 +1,15 @@
 #include "animationsremove.h"
 
-#include "../../mainpanel.h"
 #include "../../core/editor.h"
 
 #include "../../closuremethodcall.h"
 
-#include "../../gui/animationactions.h"
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/animationactions.h"
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uianimationblock.h"
+#include "../../gui/uiblocks/uianimationinstanceblock.h"
 
 #include <QListWidgetItem>
 
@@ -57,18 +61,15 @@ void history::animations::Remove::commit(core::Editor * ob)
     }
     if (ob)
     {
-        if (ob->panel())
-        {
-            ob->emitClosure( bind(ob->panel(), &MainPanel::removeAnimationFromViewingLists, m_animation) );
-            ob->emitClosure( bind(ob->panel()->animationActions(), &gui::AnimationActions::updateCompositeList));
-            for(size_t i = 0; i < m_dependent_instances.size(); i++)
-            {
-                if (m_dependent_instances[i] == ob->shared()->selectedInstance())
-                {
-                    ob->emitClosure( bind(ob->panel()->UI()->cmbAnimationInstanceAnimationFromDatabase, &QComboBox::setCurrentIndex, 0));
-                }
-            }
-        }
+        ob->emitClosure( bind(ob->actions()->animationActions(), &gui::actions::AnimationActions::removeAnimationFromViewingLists, m_animation) );
+		ob->emitClosure( bind(ob->actions()->animationActions(), &gui::actions::AnimationActions::updateCompositeList));
+		for(size_t i = 0; i < m_dependent_instances.size(); i++)
+		{
+			if (m_dependent_instances[i] == ob->shared()->selectedInstance())
+			{
+				ob->emitClosure( bind(ob->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceAnimationFromDatabase, &QComboBox::setCurrentIndex, 0));
+			}
+		}
     }
 }
 
@@ -92,12 +93,12 @@ void history::animations::Remove::rollback(core::Editor * ob)
         if (ob->panel())
         {
             ob->emitClosure( bind(this, &history::animations::Remove::insertAnimationIntoUI, ob) );
-            ob->emitClosure( bind(ob->panel()->animationActions(), &gui::AnimationActions::updateCompositeList));
+            ob->emitClosure( bind(ob->actions()->animationActions(), &gui::actions::AnimationActions::updateCompositeList));
             for(size_t i = 0; i < m_dependent_instances.size(); i++)
             {
                 if (m_dependent_instances[i] == ob->shared()->selectedInstance())
                 {
-                    ob->emitClosure( bind(ob->panel()->UI()->cmbAnimationInstanceAnimationFromDatabase, &QComboBox::setCurrentIndex, m_position_in_animation_instance_list));
+                    ob->emitClosure( bind(ob->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceAnimationFromDatabase, &QComboBox::setCurrentIndex, m_position_in_animation_instance_list));
                 }
             }
         }
@@ -106,8 +107,7 @@ void history::animations::Remove::rollback(core::Editor * ob)
 
 void history::animations::Remove::insertAnimationIntoUI(core::Editor* editor)
 {
-    MainPanel* panel = editor->panel();
-    QString name =	panel->nameForAnimation(m_animation);
+    QString name =	editor->actions()->animationActions()->nameForAnimation(m_animation);
     
     QVariant v;
     v.setValue(m_animation);
@@ -116,11 +116,11 @@ void history::animations::Remove::insertAnimationIntoUI(core::Editor* editor)
     {
         QListWidgetItem* item  = new QListWidgetItem(name);
         item->setData(Qt::UserRole, v);
-        panel->UI()->lstAnimations->insertItem(m_position_in_animation_list, item);
+        editor->uiBlocks()->uiAnimationBlock()->lstAnimations->insertItem(m_position_in_animation_list, item);
     }
 
     if (m_position_in_animation_instance_list > -1)
     {
-        panel->UI()->cmbAnimationInstanceAnimationFromDatabase->insertItem(m_position_in_animation_instance_list, name, v);
+        editor->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceAnimationFromDatabase->insertItem(m_position_in_animation_instance_list, name, v);
     }
 }

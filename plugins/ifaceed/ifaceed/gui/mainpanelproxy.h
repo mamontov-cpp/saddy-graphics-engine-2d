@@ -23,7 +23,8 @@ namespace gui
 
 namespace table
 {
-
+	
+class Delegate;
 class DelegateFactory;
 
 }
@@ -85,7 +86,11 @@ public:
         \param[in] name a name of delegate by property
         \return if ownership is taken - returns true, if panel does not own it - false
      */
-    bool takeDelegateByPropertyName(const QString & name);  	
+    bool takeDelegateByPropertyName(const QString & name); 
+    /*! A delegates by their property names
+		\returns key-value storage for database properties delegates
+     */
+    sad::Hash<sad::String, gui::table::Delegate*>& delegatesByName();	
 protected:
     /*! An editor part
      */

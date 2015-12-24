@@ -10,6 +10,11 @@
 #include <QThread>
 #include <QSet>
 
+namespace core
+{
+class Editor;	
+}
+
 namespace scripting
 {
     
@@ -59,14 +64,6 @@ protected:
     /*! This class could be inherited
      */
     virtual ~Scripting();
-    /*! Sets an editor, where scripting object belongs to
-        \param[in] e editor
-     */
-    void setEditor(core::Editor* e);
-    /*! Returns linked editor to scripting
-        \return an editor
-     */
-    core::Editor* editor() const;
     /*! Returns an engine
         \return engine
      */
@@ -109,6 +106,14 @@ protected:
         \return screen height
      */
     static int screenHeight();
+    /*! Sets an editor, where scripting object belongs to
+        \param[in] e editor
+     */
+    void setEditor(core::Editor* e);
+    /*! Returns linked editor to scripting
+        \return an editor
+     */
+    core::Editor* editor() const;	
 public slots:
     /*! Run script in console
      */

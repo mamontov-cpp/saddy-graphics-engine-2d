@@ -1,7 +1,5 @@
 #include "animationsaddtocomposite.h"
 
-#include "../../gui/animationactions.h"
-
 #include "../core/editor.h"
 #include "../gui/actions/actions.h"
 #include "../gui/actions/animationactions.h"

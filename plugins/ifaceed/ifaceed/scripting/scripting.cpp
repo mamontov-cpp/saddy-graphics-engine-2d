@@ -16,6 +16,8 @@
 
 #include "../core/editor.h"
 
+#include "../gui/codeedit/codeedit.h"
+
 #include "../gui/uiblocks/uiblocks.h"
 #include "../gui/uiblocks/uiconsoleblock.h"
 #include "../gui/uiblocks/uianimationblock.h"
@@ -166,7 +168,7 @@ void scripting::Scripting::Thread::run()
 }
 
 // ================================== PUBLIC METHODS OF scripting::Scripting ==================================
-scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_panel(NULL)
+scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_editor(NULL)
 {
     m_flags = QScriptValue::ReadOnly|QScriptValue::Undeletable;
     m_engine = new QScriptEngine();
@@ -333,7 +335,7 @@ void scripting::Scripting::runScript()
     history::BatchCommand* c = new history::BatchCommand();
     m_editor->setCurrentBatchCommand(c);
 
-    gui::uiblocks::UIConsoleBlock* cblk = m_editor->uiBlocks()->uiConsoleBlock();
+	gui::uiblocks::UIConsoleBlock* cblk = m_editor->uiBlocks()->uiConsoleBlock();
     cblk->txtConsoleResults->setText("");
     QString text = cblk->txtConsoleCode->toPlainText();
     
@@ -349,11 +351,11 @@ void scripting::Scripting::runScript()
 
     if (result.isError())
     {
-        cblk->append(QString("<font color=\"red\">")
-                             + result.toString()
-                             + QString("<br/>Backtrace:<br/>")
-                             + m_engine->uncaughtExceptionBacktrace().join("<br/>")
-                             + QString("</font>")
+        cblk->txtConsoleResults->append(QString("<font color=\"red\">")
+                                        + result.toString()
+                                        + QString("<br/>Backtrace:<br/>")
+                                        + m_engine->uncaughtExceptionBacktrace().join("<br/>")
+                                        + QString("</font>")
         );
         c->rollback(m_editor);
         delete c;
@@ -1525,7 +1527,7 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
     set->add(new scripting::animations::Setter<sad::animations::CameraShaking, int, history::animations::ChangeShakingFrequency>(m_engine, "frequency"));
     set->add(new scripting::animations::Setter<sad::animations::CameraRotation, sad::Point3D, history::animations::ChangeCameraPivot>(m_engine, "pivot"));
 
-    gui::uiblocks::UIAnimationBlock* ablk = m_editor->uiBlocks()->uiAnimationBlock();
+	gui::uiblocks::UIAnimationBlock* ablk = m_editor->uiBlocks()->uiAnimationBlock();
     set->add(new scripting::animations::WidgetSetter<
                 sad::animations::CameraRotation, 
                 QDoubleSpinBox*,
@@ -1953,26 +1955,26 @@ void scripting::Scripting::initAnimationGroupBindings(QScriptValue& v)
 
 void scripting::Scripting::saveScript()
 {
-    QString name = QFileDialog::getSaveFileName(this->panel(), "Enter file, where we should store source code", "", "*.js");
+    QString name = QFileDialog::getSaveFileName(this->editor()->panelAsWidget(), "Enter file, where we should store source code", "", "*.js");
     if (name.length() != 0)
     {
         QFile file(name);
         if (file.open(QIODevice::WriteOnly))
         {
             QTextStream stream(&file);
-            gui::uiblocks::UIConsoleBlock* cblk = m_editor->uiBlocks()->uiConsoleBlock();
+			gui::uiblocks::UIConsoleBlock* cblk = m_editor->uiBlocks()->uiConsoleBlock();
             stream << cblk->txtConsoleCode->toPlainText();
         }
         else
         {
-            QMessageBox::critical(this->panel(), "Saddy Interface Editor", "Cannot open file " + name);
+            QMessageBox::critical(this->editor()->panelAsWidget(), "Saddy Interface Editor", "Cannot open file " + name);
         }
     }
 }
 
 void scripting::Scripting::loadScript()
 {
-    QString name = QFileDialog::getOpenFileName(this->panel(), "Enter file, where code is stored", "", "*.js");
+    QString name = QFileDialog::getOpenFileName(this->editor()->panelAsWidget(), "Enter file, where code is stored", "", "*.js");
     if (name.length() != 0)
     {
         QFile file(name);
@@ -1981,12 +1983,12 @@ void scripting::Scripting::loadScript()
             QTextStream stream(&file);
             QString string;
             string = stream.readAll();
-            gui::uiblocks::UIConsoleBlock* cblk = m_editor->uiBlocks()->uiConsoleBlock();
+			gui::uiblocks::UIConsoleBlock* cblk = m_editor->uiBlocks()->uiConsoleBlock();
             cblk->txtConsoleCode->setPlainText(string);
         }
         else
         {
-            QMessageBox::critical(this->panel(), "Saddy Interface Editor", "Cannot open file " + name);
+            QMessageBox::critical(this->editor()->panelAsWidget(), "Saddy Interface Editor", "Cannot open file " + name);
         }
     }
 }

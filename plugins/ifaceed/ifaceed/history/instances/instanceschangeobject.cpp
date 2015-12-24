@@ -2,10 +2,14 @@
 
 #include "../../core/editor.h"
 
-#include "../../mainpanel.h"
-
 #include "../../blockedclosuremethodcall.h"
 #include "../../closuremethodcall.h"
+
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/animationinstanceactions.h"
+
+#include "../../gui/uiblocks/uiblocks.h"
+#include "../../gui/uiblocks/uianimationinstanceblock.h"
 
 Q_DECLARE_METATYPE(sad::db::Object*) //-V566
 
@@ -34,8 +38,8 @@ void history::instances::ChangeObject::updateItem(core::Editor* e, unsigned long
     int pos = 0;
     if (value > 0)
     {
-        pos = e->panel()->findInComboBoxByMajorId<sad::db::Object*>(
-            e->panel()->UI()->cmbAnimationInstanceObject,
+        pos = e->actions()->instanceActions()->findInComboBoxByMajorId<sad::db::Object*>(
+            e->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceObject,
             value
         );
         if (pos < 0)
@@ -45,7 +49,7 @@ void history::instances::ChangeObject::updateItem(core::Editor* e, unsigned long
     }
 
     invoke_blocked(
-        e->panel()->UI()->cmbAnimationInstanceObject,
+        e->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceObject,
         &QComboBox::setCurrentIndex,
         pos
     );
