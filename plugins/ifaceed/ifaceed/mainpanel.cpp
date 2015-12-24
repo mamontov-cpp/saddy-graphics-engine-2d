@@ -283,16 +283,16 @@ void MainPanel::setEditor(core::Editor* editor)
 
     sad::String psmp = "picking_simple_movement_point";
 
-	gui::actions::SceneNodeActions* sn_actions = m_editor->actions()->sceneNodeActions();
-	gui::actions::SceneActions* s_actions = m_editor->actions()->sceneActions();
-	gui::actions::CustomObjectActions* co_actions = m_editor->actions()->customObjectActions();
-	gui::actions::AnimationActions* a_actions = m_editor->actions()->animationActions();
-	gui::actions::LabelActions* l_actions = m_editor->actions()->labelActions();
-	gui::actions::Sprite2DActions* sp_actions = m_editor->actions()->sprite2DActions();
-	gui::actions::DialogueActions* d_actions = m_editor->actions()->dialogueActions();
-	gui::actions::AnimationInstanceActions* ai_actions = m_editor->actions()->instanceActions();
-	gui::actions::AnimationGroupActions* ag_actions = m_editor->actions()->groupActions();
-	gui::actions::WayActions* w_actions = m_editor->actions()->wayActions();    
+    gui::actions::SceneNodeActions* sn_actions = m_editor->actions()->sceneNodeActions();
+    gui::actions::SceneActions* s_actions = m_editor->actions()->sceneActions();
+    gui::actions::CustomObjectActions* co_actions = m_editor->actions()->customObjectActions();
+    gui::actions::AnimationActions* a_actions = m_editor->actions()->animationActions();
+    gui::actions::LabelActions* l_actions = m_editor->actions()->labelActions();
+    gui::actions::Sprite2DActions* sp_actions = m_editor->actions()->sprite2DActions();
+    gui::actions::DialogueActions* d_actions = m_editor->actions()->dialogueActions();
+    gui::actions::AnimationInstanceActions* ai_actions = m_editor->actions()->instanceActions();
+    gui::actions::AnimationGroupActions* ag_actions = m_editor->actions()->groupActions();
+    gui::actions::WayActions* w_actions = m_editor->actions()->wayActions();    
 
     // A bindings for idle state
     sad::Renderer::ref()->controls()->add(
@@ -747,14 +747,14 @@ void MainPanel::viewDatabase()
     const sad::Vector<sad::Scene*>& scenes = sad::Renderer::ref()->scenes(); 
 
     sad::Vector<sad::SceneNode*> nodes;
-	gui::actions::SceneActions* s_actions = m_editor->actions()->sceneActions();
+    gui::actions::SceneActions* s_actions = m_editor->actions()->sceneActions();
     for(unsigned int i = 0; i < scenes.size(); i++)
     {
         s_actions->addSceneToSceneList(scenes[i]);
         nodes << scenes[i]->objects();
     }
-	gui::actions::SceneNodeActions* sn_actions = m_editor->actions()->sceneNodeActions();
-	for(unsigned int i = 0; i < nodes.size(); i++)
+    gui::actions::SceneNodeActions* sn_actions = m_editor->actions()->sceneNodeActions();
+    for(unsigned int i = 0; i < nodes.size(); i++)
     {
         QVariant v;
         v.setValue(static_cast<sad::db::Object*>(nodes[i]));
@@ -772,7 +772,7 @@ void MainPanel::viewDatabase()
     sad::Vector<sad::db::Object*> wayslist;
     db->table("ways")->objects(wayslist);
     gui::actions::WayActions* w_actions = m_editor->actions()->wayActions();    
-	for(unsigned int i = 0; i < wayslist.size(); i++)
+    for(unsigned int i = 0; i < wayslist.size(); i++)
     {
         if (wayslist[i]->isInstanceOf("sad::p2d::app::Way"))
         {
@@ -783,7 +783,7 @@ void MainPanel::viewDatabase()
 
     sad::Vector<sad::db::Object*> dialoguelist;
     db->table("dialogues")->objects(dialoguelist);
-	gui::actions::DialogueActions* d_actions = m_editor->actions()->dialogueActions();
+    gui::actions::DialogueActions* d_actions = m_editor->actions()->dialogueActions();
     for(unsigned int i = 0; i < dialoguelist.size(); i++)
     {
         if (dialoguelist[i]->isInstanceOf("sad::dialogue::Dialogue"))
@@ -820,7 +820,7 @@ void MainPanel::viewDatabase()
         "sad::animations::Typing",                      // 16
         "sad::animations::WayMoving"                    // 17
     };
-	gui::actions::AnimationActions* a_actions = m_editor->actions()->animationActions();
+    gui::actions::AnimationActions* a_actions = m_editor->actions()->animationActions();
     for(unsigned int i = 0; i < animationlist.size(); i++)
     {
         bool valid = false;
@@ -838,7 +838,7 @@ void MainPanel::viewDatabase()
     sad::Vector<sad::db::Object*> animationinstancelist;
     sad::db::Table* animationinstancetable = db->table("animationinstances");
     animationinstancetable->objects(animationinstancelist);
-	gui::actions::AnimationInstanceActions* ai_actions = m_editor->actions()->instanceActions();
+    gui::actions::AnimationInstanceActions* ai_actions = m_editor->actions()->instanceActions();
     for(unsigned int i = 0; i < animationinstancelist.size(); i++)
     {
         sad::db::Object* o = animationinstancelist[i];
@@ -862,7 +862,7 @@ void MainPanel::viewDatabase()
     sad::Vector<sad::db::Object*> animationgrouplist;
     sad::db::Table* animationgrouptable = db->table("animationgroups");
     animationgrouptable->objects(animationgrouplist);
-	gui::actions::AnimationGroupActions* ag_actions = m_editor->actions()->groupActions();
+    gui::actions::AnimationGroupActions* ag_actions = m_editor->actions()->groupActions();
     for(unsigned int i = 0; i < animationgrouplist.size(); i++)
     {
         sad::db::Object* o = animationgrouplist[i];
@@ -1504,7 +1504,7 @@ bool MainPanel::scriptableAddProperty(const sad::String& propertytype, const sad
 
 gui::table::DelegateFactory* MainPanel::delegateFactory() const
 {
-	return &(const_cast<MainPanel*>(this)->m_dbdelegate_factory);
+    return &(const_cast<MainPanel*>(this)->m_dbdelegate_factory);
 }
 
 void MainPanel::save()
@@ -1719,7 +1719,7 @@ void MainPanel::tabTypeChanged(int index)
         if (row >= 0)
         {
             sad::animations::Animation* w = ui.lstAnimations->item(row)->data(Qt::UserRole).value<sad::animations::Animation*>();
-			gui::actions::AnimationActions* actions = m_editor->actions()->animationActions();
+            gui::actions::AnimationActions* actions = m_editor->actions()->animationActions();
             m_editor->shared()->setSelectedAnimation(w);
             actions->currentAnimationChanged(row);
         }
@@ -1741,7 +1741,7 @@ void MainPanel::tabTypeChanged(int index)
         int row = ui.lstAnimationsGroup->currentRow(); 
         if (row >= 0)
         {
-			gui::actions::AnimationGroupActions* ag_actions = m_editor->actions()->groupActions();
+            gui::actions::AnimationGroupActions* ag_actions = m_editor->actions()->groupActions();
             sad::animations::Group* w = ui.lstAnimationsGroup->item(row)->data(Qt::UserRole).value<sad::animations::Group*>();
             m_editor->shared()->setSelectedGroup(w);
             ag_actions->currentGroupChanged(row);

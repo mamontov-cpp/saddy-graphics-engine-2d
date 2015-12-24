@@ -193,10 +193,10 @@ public:
         \param[in] fromeditor a from editor
      */
     bool scriptableAddProperty(const sad::String& propertytype, const sad::String& propertyname, bool fromeditor);
-	/*! Returns a delegate factory for a panel
-		\return delegate factory
-	 */
-	gui::table::DelegateFactory* delegateFactory() const;
+    /*! Returns a delegate factory for a panel
+        \return delegate factory
+     */
+    gui::table::DelegateFactory* delegateFactory() const;
     /*! Clears selection
      */
     void clearObjectSelection();
