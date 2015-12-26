@@ -276,6 +276,8 @@ void MainPanel::setEditor(core::Editor* editor)
     sad::String s = "selected";
     sad::String sm = "selected/moving";
     sad::String sr = "selected/resizing";
+	sad::String ssfp = "selected/spanning/firstpoint";
+	sad::String sssp = "selected/spanning/secondpoint";
 
     sad::String wi = "ways/idle";
     sad::String ws = "ways/selected";
@@ -324,6 +326,34 @@ void MainPanel::setEditor(core::Editor* editor)
         *sad::input::ET_MouseRelease & (m * sr),
         sn_actions,
         &gui::actions::SceneNodeActions::commitObjectResizing
+    );
+
+	// A bindings for placing first point, when user are going to span object between two points
+	sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_MouseRelease & (m * ssfp),
+        sn_actions,
+        &gui::actions::SceneNodeActions::placeFirstPointForSpanning
+    );
+	sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_KeyPress & sad::Esc & (m * ssfp) ,
+        sn_actions,
+        &gui::actions::SceneNodeActions::cancelSpanningObject
+    );
+	// A bindings for placing second point, when user are going to span object between two points
+	sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_MouseRelease & (m * sssp),
+        sn_actions,
+        &gui::actions::SceneNodeActions::commitSecondPointForSpanning
+    );
+	sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_MouseMove & (m * sssp),
+        sn_actions,
+        &gui::actions::SceneNodeActions::moveSecondPointForSpanning
+    );
+	sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_KeyPress & sad::Esc & (m * sssp) ,
+        sn_actions,
+        &gui::actions::SceneNodeActions::cancelSpanningObject
     );
 
     // A bindings for selected node actions
@@ -536,6 +566,8 @@ void MainPanel::setEditor(core::Editor* editor)
     connect(ui.btnSceneNodeDelete, SIGNAL(clicked()), sn_actions, SLOT(removeSceneNode()));
     connect(ui.btnSceneNodeMoveBack, SIGNAL(clicked()), sn_actions, SLOT(sceneNodeMoveBack()));
     connect(ui.btnSceneNodeMoveFront, SIGNAL(clicked()), sn_actions, SLOT(sceneNodeMoveFront()));
+    connect(ui.btnSceneNodeSpanBetweenTwoPoints, SIGNAL(clicked()), sn_actions, SLOT(enterSpanningObjectBetweenTwoPoints()));
+
 
     connect(ui.btnLabelAdd, SIGNAL(clicked()), l_actions, SLOT(addLabel()));
     connect(ui.rtwLabelFont, SIGNAL(selectionChanged(sad::String)), l_actions, SLOT(labelFontChanged(sad::String)));

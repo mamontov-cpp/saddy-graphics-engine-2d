@@ -178,7 +178,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <property name="usesScrollButtons">
        <bool>false</bool>
@@ -463,9 +463,9 @@ coordinates</string>
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>20</y>
+          <y>30</y>
           <width>461</width>
-          <height>71</height>
+          <height>61</height>
          </rect>
         </property>
        </widget>
@@ -493,6 +493,19 @@ coordinates</string>
         </property>
         <property name="checked">
          <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnSceneNodeSpanBetweenTwoPoints">
+        <property name="geometry">
+         <rect>
+          <x>334</x>
+          <y>3</y>
+          <width>131</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Span between two points</string>
         </property>
        </widget>
       </widget>

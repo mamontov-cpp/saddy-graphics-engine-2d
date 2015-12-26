@@ -90,7 +90,9 @@ core::Editor::Editor()
     m_machine->addState("selected", new sad::hfsm::State(), true);
     m_machine->addState("selected/moving", new sad::hfsm::State(), true);
     m_machine->addState("selected/resizing", new sad::hfsm::State(), true);
-    m_machine->addState("adding/label", new sad::hfsm::State(), true);
+	m_machine->addState("selected/spanning/firstpoint", new sad::hfsm::State(), true);
+	m_machine->addState("selected/spanning/secondpoint", new sad::hfsm::State(), true);
+	m_machine->addState("adding/label", new sad::hfsm::State(), true);
     m_machine->addState("adding/sprite", new sad::hfsm::State(), true);
     m_machine->addState("adding/sprite_diagonal", new sad::hfsm::State(), true);
     m_machine->addState("adding/sprite_diagonal/point_placed", new sad::hfsm::State(), true);
@@ -280,12 +282,14 @@ void core::Editor::enteredIdleState()
     this->emitClosure( bind(m_actions->customObjectActions(), &gui::actions::CustomObjectActions::clearCustomObjectPropertiesTable));
 }
 
-static const size_t CoreEditorEditingStatesCount = 5; 
+static const size_t CoreEditorEditingStatesCount = 7; 
 
 static sad::String CoreEditorEditingStates[CoreEditorEditingStatesCount] = {
     sad::String("adding"),
     sad::String("selected/moving"),
     sad::String("selected/resizing"),
+    sad::String("selected/spanning/firstpoint"),
+    sad::String("selected/spanning/secondpoint"),
     sad::String("ways/selected/moving"),
     sad::String("picking_simple_movement_point")
 };

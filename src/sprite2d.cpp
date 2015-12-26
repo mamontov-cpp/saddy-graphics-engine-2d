@@ -538,6 +538,15 @@ const sad::String & sad::Sprite2D::treeName() const
     return m_texture.treeName();
 }
 
+void sad::Sprite2D::makeSpanBetweenPoints(
+    const sad::Point2D & p1, 
+	const sad::Point2D & p2
+)
+{
+	sad::Rect2D area = this->area();
+	return makeSpanBetweenPoints(area, p1, p2);
+}
+
 void sad::Sprite2D::makeSpanBetweenPoints(const sad::Rect2D & r, const sad::Point2D & p1, const sad::Point2D & p2)
 {
     sad::Rect2D kr(r);
