@@ -328,22 +328,22 @@ int gui::actions::SceneNodeActions::findSceneNodeInList(sad::SceneNode* s)
 
 void gui::actions::SceneNodeActions::placeFirstPointForSpanning(const sad::input::MouseReleaseEvent& e)
 {
-	
+    
 }
 
 void gui::actions::SceneNodeActions::moveSecondPointForSpanning(const sad::input::MouseMoveEvent& e)
 {
-	
+    
 }
 
 void gui::actions::SceneNodeActions::commitSecondPointForSpanning(const sad::input::MouseReleaseEvent& e)
 {
-	
+    
 }
 
 void gui::actions::SceneNodeActions::cancelSpanningObject(const sad::input::KeyPressEvent& e)
 {
-	
+    
 }
 
 // ============================= PUBLIC SLOTS METHODS =============================
@@ -804,5 +804,5 @@ void gui::actions::SceneNodeActions::updateUIForSelectedSceneNodeNow()
 
 void gui::actions::SceneNodeActions::enterSpanningObjectBetweenTwoPoints()
 {
-	
+    
 }

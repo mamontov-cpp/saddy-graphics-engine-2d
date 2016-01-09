@@ -43,9 +43,9 @@ void scripting::scenes::remove(scripting::Scripting* s, sad::Scene* scene)
 
 void scripting::scenes::moveBack(scripting::Scripting* s, sad::Scene* scene)
 {
-	core::Editor* e = s->editor();	
+    core::Editor* e = s->editor();	
     int row = s->editor()->actions()->sceneActions()->findSceneInList(scene);
-	QListWidget* lst = e->uiBlocks()->uiSceneBlock()->lstScenes;	
+    QListWidget* lst = e->uiBlocks()->uiSceneBlock()->lstScenes;	
     if (row > 0)
     {
         sad::Scene* previousscene = lst->item(row -1)->data(Qt::UserRole).value<sad::Scene*>();
@@ -57,9 +57,9 @@ void scripting::scenes::moveBack(scripting::Scripting* s, sad::Scene* scene)
 
 void scripting::scenes::moveFront(scripting::Scripting* s, sad::Scene* scene)
 {
-	core::Editor* e = s->editor();
+    core::Editor* e = s->editor();
     int row = e->actions()->sceneActions()->findSceneInList(scene);
-	QListWidget* lst = e->uiBlocks()->uiSceneBlock()->lstScenes;
+    QListWidget* lst = e->uiBlocks()->uiSceneBlock()->lstScenes;
     if (row < lst->count() - 1)
     {
         sad::Scene* nextscene = lst->item(row + 1)->data(Qt::UserRole).value<sad::Scene*>();

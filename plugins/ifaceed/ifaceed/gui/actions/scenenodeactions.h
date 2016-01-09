@@ -116,22 +116,22 @@ public:
         \return scene row (-1 if not found)
      */
     int findSceneNodeInList(sad::SceneNode* s);
-	/*! Forces placing first point for spanning object between two points
+    /*! Forces placing first point for spanning object between two points
         \param[in] e event object
      */
     void placeFirstPointForSpanning(const sad::input::MouseReleaseEvent& e);
-	/*! Emitted, when user moves second point for spaning object
+    /*! Emitted, when user moves second point for spaning object
         \param[in] e event object
      */
     void moveSecondPointForSpanning(const sad::input::MouseMoveEvent& e);
-	/*! Emitted, when places second point for spaning object
+    /*! Emitted, when places second point for spaning object
         \param[in] e event object
      */
     void commitSecondPointForSpanning(const sad::input::MouseReleaseEvent& e);
-	/*! Cancel spanning object between two points forcing it to enter object
-		\param[in] e event
-	 */ 
-	void cancelSpanningObject(const sad::input::KeyPressEvent& e);
+    /*! Cancel spanning object between two points forcing it to enter object
+        \param[in] e event
+     */ 
+    void cancelSpanningObject(const sad::input::KeyPressEvent& e);
 public slots:
     /*! Called, when node name is edited
         \param[in] name a name for action
@@ -179,9 +179,9 @@ public slots:
     /*! Updates UI views with values from selected item
      */
     void updateUIForSelectedSceneNodeNow();
-	/*! Makes actions enter state for spanning object between two points
-	 */
-	void enterSpanningObjectBetweenTwoPoints();
+    /*! Makes actions enter state for spanning object between two points
+     */
+    void enterSpanningObjectBetweenTwoPoints();
 private:
     /*!
      * A rotation process to work with

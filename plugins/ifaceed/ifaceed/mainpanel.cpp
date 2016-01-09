@@ -276,8 +276,8 @@ void MainPanel::setEditor(core::Editor* editor)
     sad::String s = "selected";
     sad::String sm = "selected/moving";
     sad::String sr = "selected/resizing";
-	sad::String ssfp = "selected/spanning/firstpoint";
-	sad::String sssp = "selected/spanning/secondpoint";
+    sad::String ssfp = "selected/spanning/firstpoint";
+    sad::String sssp = "selected/spanning/secondpoint";
 
     sad::String wi = "ways/idle";
     sad::String ws = "ways/selected";
@@ -328,29 +328,29 @@ void MainPanel::setEditor(core::Editor* editor)
         &gui::actions::SceneNodeActions::commitObjectResizing
     );
 
-	// A bindings for placing first point, when user are going to span object between two points
-	sad::Renderer::ref()->controls()->add(
+    // A bindings for placing first point, when user are going to span object between two points
+    sad::Renderer::ref()->controls()->add(
         *sad::input::ET_MouseRelease & (m * ssfp),
         sn_actions,
         &gui::actions::SceneNodeActions::placeFirstPointForSpanning
     );
-	sad::Renderer::ref()->controls()->add(
+    sad::Renderer::ref()->controls()->add(
         *sad::input::ET_KeyPress & sad::Esc & (m * ssfp) ,
         sn_actions,
         &gui::actions::SceneNodeActions::cancelSpanningObject
     );
-	// A bindings for placing second point, when user are going to span object between two points
-	sad::Renderer::ref()->controls()->add(
+    // A bindings for placing second point, when user are going to span object between two points
+    sad::Renderer::ref()->controls()->add(
         *sad::input::ET_MouseRelease & (m * sssp),
         sn_actions,
         &gui::actions::SceneNodeActions::commitSecondPointForSpanning
     );
-	sad::Renderer::ref()->controls()->add(
+    sad::Renderer::ref()->controls()->add(
         *sad::input::ET_MouseMove & (m * sssp),
         sn_actions,
         &gui::actions::SceneNodeActions::moveSecondPointForSpanning
     );
-	sad::Renderer::ref()->controls()->add(
+    sad::Renderer::ref()->controls()->add(
         *sad::input::ET_KeyPress & sad::Esc & (m * sssp) ,
         sn_actions,
         &gui::actions::SceneNodeActions::cancelSpanningObject
