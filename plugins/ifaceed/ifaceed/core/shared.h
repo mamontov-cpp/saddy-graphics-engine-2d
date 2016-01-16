@@ -212,6 +212,14 @@ public:
         \return name
      */
     const sad::String& editingSimpleMovementProperty() const;
+	/*! Sets old angle of object, for backing it up
+		\param[in] angle old angle
+	 */
+	void setOldAngle(double angle);
+	/*! Returns old angle
+		\return old angle
+	 */
+	double oldAngle() const;
 private:
     /*! A scene node, selected by user
      */ 
@@ -282,6 +290,9 @@ private:
     /*! A property for simple movement editing
      */
     sad::String m_editing_simple_movement_property;
+	/*! —тарый угол дл€ всевозможных изменений углов
+	 */
+	double m_old_angle;
 };
 
 }

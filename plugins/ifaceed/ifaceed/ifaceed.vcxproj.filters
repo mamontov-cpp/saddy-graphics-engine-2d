@@ -2349,6 +2349,9 @@
     <ClCompile Include="GeneratedFiles\UnitTests\moc_customobjectactions.cpp">
       <Filter>Generated Files\UnitTests</Filter>
     </ClCompile>
+    <ClCompile Include="history\scenenodes\scenenodesspan.cpp">
+      <Filter>Source Files\history\scenenodes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -2971,6 +2974,9 @@
     </ClInclude>
     <ClInclude Include="gui\mainpanelproxy.h">
       <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="history\scenenodes\scenenodesspan.h">
+      <Filter>Header Files\history\scenenodes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

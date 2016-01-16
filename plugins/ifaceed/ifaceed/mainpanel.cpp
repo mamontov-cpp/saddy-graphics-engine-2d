@@ -177,7 +177,7 @@ MainPanel::~MainPanel()
 
 void MainPanel::toggleEditingButtons(bool enabled)
 {
-    const int affectedpushbuttonscount = 49;
+    const int affectedpushbuttonscount = 50;
     QPushButton* affectedpushbuttons[affectedpushbuttonscount] = {
         ui.btnReloadResources,
         ui.btnUndo,
@@ -197,6 +197,7 @@ void MainPanel::toggleEditingButtons(bool enabled)
 
         ui.btnSceneClear,
         ui.btnSceneNodeDelete,
+		ui.btnSceneNodeSpanBetweenTwoPoints,
         ui.btnLabelAdd,
 
         ui.btnSpriteMakeBackground,
@@ -327,35 +328,7 @@ void MainPanel::setEditor(core::Editor* editor)
         sn_actions,
         &gui::actions::SceneNodeActions::commitObjectResizing
     );
-
-    // A bindings for placing first point, when user are going to span object between two points
-    sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MouseRelease & (m * ssfp),
-        sn_actions,
-        &gui::actions::SceneNodeActions::placeFirstPointForSpanning
-    );
-    sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_KeyPress & sad::Esc & (m * ssfp) ,
-        sn_actions,
-        &gui::actions::SceneNodeActions::cancelSpanningObject
-    );
-    // A bindings for placing second point, when user are going to span object between two points
-    sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MouseRelease & (m * sssp),
-        sn_actions,
-        &gui::actions::SceneNodeActions::commitSecondPointForSpanning
-    );
-    sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MouseMove & (m * sssp),
-        sn_actions,
-        &gui::actions::SceneNodeActions::moveSecondPointForSpanning
-    );
-    sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_KeyPress & sad::Esc & (m * sssp) ,
-        sn_actions,
-        &gui::actions::SceneNodeActions::cancelSpanningObject
-    );
-
+    
     // A bindings for selected node actions
     sad::Renderer::ref()->controls()->add(
         *sad::input::ET_MouseWheel & (m * s),
@@ -535,7 +508,35 @@ void MainPanel::setEditor(core::Editor* editor)
         a_actions,
         &gui::actions::AnimationActions::cancelPickingPointForSimpleMovement
     );
+	
+    // A bindings for placing second point, when user are going to span object between two points
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_MouseRelease & (m * sssp),
+        sn_actions,
+        &gui::actions::SceneNodeActions::commitSecondPointForSpanning
+    );
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_MouseMove & (m * sssp),
+        sn_actions,
+        &gui::actions::SceneNodeActions::moveSecondPointForSpanning
+    );
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_KeyPress & sad::Esc & (m * sssp) ,
+        sn_actions,
+        &gui::actions::SceneNodeActions::cancelSpanningObject
+    );
 
+	// A bindings for placing first point, when user are going to span object between two points
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_MouseRelease & (m * ssfp),
+        sn_actions,
+        &gui::actions::SceneNodeActions::placeFirstPointForSpanning
+    );
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_KeyPress & sad::Esc & (m * ssfp) ,
+        sn_actions,
+        &gui::actions::SceneNodeActions::cancelSpanningObject
+    );
 
     connect(ui.tabTypes, SIGNAL(currentChanged(int)), this, SLOT(tabTypeChanged(int)));
 

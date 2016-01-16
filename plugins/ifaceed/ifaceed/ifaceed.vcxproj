@@ -2427,6 +2427,7 @@
     <ClCompile Include="history\label\changeoverflowstrategyforlines.cpp" />
     <ClCompile Include="history\label\changetextellipsis.cpp" />
     <ClCompile Include="history\label\changetextellipsisforlines.cpp" />
+    <ClCompile Include="history\scenenodes\scenenodesspan.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainpanel.cpp">
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">SCL_SECURE_NO_WARNINGS;SCL_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -4442,6 +4443,7 @@
     <ClInclude Include="history\label\changeoverflowstrategyforlines.h" />
     <ClInclude Include="history\label\changetextellipsis.h" />
     <ClInclude Include="history\label\changetextellipsisforlines.h" />
+    <ClInclude Include="history\scenenodes\scenenodesspan.h" />
     <ClInclude Include="macro.h" />
     <CustomBuild Include="mainpanel.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing mainpanel.h...</Message>

@@ -1,6 +1,8 @@
 #include <QLineEdit>
 #include <QPlainTextEdit>
 
+#include <db/custom/customobject.h>
+
 #include "actions.h"
 #include "sceneactions.h"
 #include "scenenodeactions.h"
@@ -14,12 +16,15 @@
 #include "../../core/editor.h"
 #include "../../core/shared.h"
 #include "../../core/selection.h"
+#include "../../core/borders/selectionborder.h"
+
 
 #include "../../core/typeconverters/qcolortosadacolor.h"
 #include "../../core/typeconverters/qrectftosadrect2d.h"
 
 #include "../../gui/rotationprocess.h"
 #include "../../gui/updateelement.h"
+#include "../../gui/mainpanelproxy.h"
 
 //#include "../history/scenenodes/scenenodesnew.h"
 #include "../../history/scenenodes/scenenodesremove.h"
@@ -28,6 +33,7 @@
 #include "../../history/scenenodes/scenenodeschangecolor.h"
 #include "../../history/scenenodes/scenenodeschangearea.h"
 #include "../../history/scenenodes/scenenodeslayerswap.h"
+#include "../../history/scenenodes/scenenodesspan.h"
 
 #include "../blockedclosuremethodcall.h"
 
@@ -237,6 +243,31 @@ void gui::actions::SceneNodeActions::updateRegionForNode()
     }
 }
 
+void gui::actions::SceneNodeActions::updateAngleForNode()
+{
+	core::Shared* s = this->m_editor->shared();
+    sad::SceneNode* node = s->activeObject();
+    if (node == NULL)
+    {
+        node  = s->selectedObject(); 
+    }
+    if (node)
+    {
+        sad::Renderer::ref()->lockRendering();
+        sad::Maybe<double> maybeangle = node->getProperty<double>("angle");
+        sad::Renderer::ref()->unlockRendering();
+        if (maybeangle.exists())
+        {
+            gui::uiblocks::UISceneNodeBlock* blk = m_editor->uiBlocks()->uiSceneNodeBlock();
+            m_editor->emitClosure( blocked_bind(
+                blk->awSceneNodeAngle,
+                &gui::anglewidget::AngleWidget::setValue,
+                maybeangle.value()
+            ));
+        }
+    }
+}
+
 
 void gui::actions::SceneNodeActions::addSceneNodeToSceneNodeList(sad::SceneNode* s)
 {
@@ -328,22 +359,81 @@ int gui::actions::SceneNodeActions::findSceneNodeInList(sad::SceneNode* s)
 
 void gui::actions::SceneNodeActions::placeFirstPointForSpanning(const sad::input::MouseReleaseEvent& e)
 {
-    
+    core::Shared* shared = m_editor->shared();
+	shared->setPivotPoint(e.pos2D());
+	m_editor->panelProxy()->highlightState("Please, place second point...");
+	m_editor->machine()->enterState("selected/spanning/secondpoint");
 }
 
 void gui::actions::SceneNodeActions::moveSecondPointForSpanning(const sad::input::MouseMoveEvent& e)
 {
-    
+	core::Shared* shared = m_editor->shared();
+	this->spanSelectedObjectBetweenTwoPoints(shared->pivotPoint(), e.pos2D());
+	this->updateRegionForNode();
+	this->updateAngleForNode();
 }
 
 void gui::actions::SceneNodeActions::commitSecondPointForSpanning(const sad::input::MouseReleaseEvent& e)
 {
-    
+    core::Shared* shared = m_editor->shared();
+	sad::SceneNode* node = shared->selectedObject();
+	this->spanSelectedObjectBetweenTwoPoints(shared->pivotPoint(), e.pos2D());
+	this->updateRegionForNode();
+	this->updateAngleForNode();
+
+	sad::Maybe<sad::Rect2D> old_area_maybe = node->getProperty<sad::Rect2D>("area");
+	sad::Maybe<double> old_angle_maybe = node->getProperty<double>("angle");
+	if (old_area_maybe.exists() && old_angle_maybe.exists()) {
+		m_editor->history()->add(new history::scenenodes::Span(
+			node,
+			shared->oldArea(),
+			shared->oldAngle(),
+			old_area_maybe.value(),
+			old_angle_maybe.value()
+		));
+	}
+	m_editor->panelProxy()->highlightState("Editing item...");
+	m_editor->machine()->enterState("selected");
+	m_editor->selectionBorder()->toggleShowHotspot(true);
 }
 
-void gui::actions::SceneNodeActions::cancelSpanningObject(const sad::input::KeyPressEvent& e)
+void gui::actions::SceneNodeActions::cancelSpanningObject(const sad::input::KeyPressEvent&)
 {
-    
+     m_editor->panelProxy()->highlightState("Editing item...");
+	 m_editor->machine()->enterState("selected");
+	 core::Shared* shared = m_editor->shared();
+	 sad::SceneNode* node = shared->selectedObject();
+	 if (node)
+	 {
+		 node->setProperty("area", shared->oldArea());
+		 node->setProperty("angle", shared->oldAngle());
+		 this->updateRegionForNode();
+		 this->updateAngleForNode();
+	 }
+	 m_editor->selectionBorder()->toggleShowHotspot(true);
+}
+
+void gui::actions::SceneNodeActions::spanObjectBetweenTwoPoints(
+	sad::SceneNode* node,
+	sad::Point2D p1,
+	sad::Point2D p2
+)
+{
+	if (node)
+	{
+		if (node->isInstanceOf("sad::Label"))
+		{
+			static_cast<sad::Label*>(node)->makeSpanBetweenPoints(p1, p2);
+		}
+		if (node->isInstanceOf("sad::Sprite2D"))
+		{
+			static_cast<sad::Sprite2D*>(node)->makeSpanBetweenPoints(p1, p2);
+		}
+		if (node->isInstanceOf("sad::db::custom::Object"))
+		{
+			static_cast<sad::db::custom::Object*>(node)->makeSpanBetweenPoints(p1, p2);
+		}
+	}
 }
 
 // ============================= PUBLIC SLOTS METHODS =============================
@@ -804,5 +894,29 @@ void gui::actions::SceneNodeActions::updateUIForSelectedSceneNodeNow()
 
 void gui::actions::SceneNodeActions::enterSpanningObjectBetweenTwoPoints()
 {
-    
+	sad::SceneNode* node = m_editor->shared()->selectedObject();
+	if (m_editor->isInEditingState() == false 
+		&&  m_editor->shared()->isAnyKindOfAnimationIsRunning() == false
+		&& 	node != NULL
+		&&  m_editor->machine()->isInState("selected"))
+    {
+		sad::Maybe<sad::Rect2D> old_area_maybe = node->getProperty<sad::Rect2D>("area");
+		sad::Maybe<double> old_angle_maybe = node->getProperty<double>("angle");
+		if (old_area_maybe.exists() && old_angle_maybe.exists()) {
+			m_editor->shared()->setOldArea(old_area_maybe.value());
+			m_editor->shared()->setOldAngle(old_angle_maybe.value());
+			m_editor->selectionBorder()->toggleShowHotspot(false);
+			m_editor->machine()->enterState("selected/spanning/firstpoint");
+			m_editor->panelProxy()->highlightState("Please, place first point");
+		}
+    }
+}
+
+
+void gui::actions::SceneNodeActions::spanSelectedObjectBetweenTwoPoints(
+	sad::Point2D p1,
+	sad::Point2D p2
+)
+{
+	this->spanObjectBetweenTwoPoints(m_editor->shared()->selectedObject(), p1, p2);
 }

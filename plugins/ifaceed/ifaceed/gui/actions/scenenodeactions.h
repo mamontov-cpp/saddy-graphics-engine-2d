@@ -132,6 +132,19 @@ public:
         \param[in] e event
      */ 
     void cancelSpanningObject(const sad::input::KeyPressEvent& e);
+	/*!
+	 * Spans selected object in editor, between two points (if can)
+	 * \param[in] p1 first point
+	 * \param[in] p2 second point
+	 */
+	void spanObjectBetweenTwoPoints(
+		sad::SceneNode* node,
+		sad::Point2D p1,
+		sad::Point2D p2
+	);
+	/*! Updates angle for scene node
+	 */
+	void updateAngleForNode();
 public slots:
     /*! Called, when node name is edited
         \param[in] name a name for action
@@ -194,6 +207,15 @@ private:
      * \return next angle
      */
     float computeChangedAngle(float angle, float delta);
+	/*!
+	 * Spans selected object in editor, between two points (if can)
+	 * \param[in] p1 first point
+	 * \param[in] p2 second point
+	 */
+	void spanSelectedObjectBetweenTwoPoints(
+		sad::Point2D p1,
+		sad::Point2D p2
+	);
 };
 
 }

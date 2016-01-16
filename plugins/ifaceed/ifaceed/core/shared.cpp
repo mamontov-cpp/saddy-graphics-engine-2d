@@ -5,15 +5,17 @@
 core::Shared::Shared() : 
 m_selected(NULL),
 m_active(NULL),
-m_editor(NULL),
 m_selected_way(NULL),
 m_selected_dialogue(NULL),
 m_selected_animation(NULL),
 m_selected_instance(NULL),
 m_selected_group(NULL),
+m_way_point_position(0),
+m_editor(NULL),
 m_animation_is_running(false),
 m_animation_instance_is_running(false),
-m_animation_group_is_running(false)
+m_animation_group_is_running(false),
+m_old_angle(0.0)
 {
     m_show_active_border = true;
     m_nonresizeable_nodetypes << "sad::Label";
@@ -257,4 +259,14 @@ void core::Shared::setEditingSimpleMovementProperty(const sad::String& name)
 const sad::String& core::Shared::editingSimpleMovementProperty() const
 {
     return m_editing_simple_movement_property;
+}
+
+void core::Shared::setOldAngle(double angle)
+{
+	m_old_angle = angle;
+}
+
+double core::Shared::oldAngle() const
+{
+	return m_old_angle;
 }
