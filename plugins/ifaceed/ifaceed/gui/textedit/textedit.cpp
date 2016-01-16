@@ -7,6 +7,7 @@
 gui::textedit::TextEdit::TextEdit(QWidget *parent)
  : QTextEdit(parent), m_completer(0)
 {
+	 this->setAcceptRichText(false);
      connect(&m_editing_finished_timer, SIGNAL(timeout()), this, SLOT(emitTextEditingFinished()));
 }
 
