@@ -1,7 +1,0 @@
-<sprites config="test_xml/passthrough_output.xml" texture="test_imgs/passthrough.png">
-    <test1-dev texture="test_imgs/gnu.png" />
-    <test2-dev texture="test_imgs/kde.png" index="2" />
-    <test2-dev texture="test_imgs/kde.png" size="64;64" />
-    <test3-dev texture="test_imgs/tux.png" size="64;120" transparent="120;120;120" />
-    <test4-dev texture="test_imgs/lena.jpg" transparent="120;120;120" />
-</sprites>

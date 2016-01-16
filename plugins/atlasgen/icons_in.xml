@@ -1,8 +1,0 @@
-<sprites config="icons.xml" texture="icons.png">
-    <rotate texture="rotate.png" transparent="255;255;255" />
-    <delete texture="delete.png" transparent="255;255;255" />
-    <top texture="top.png" transparent="255;255;255" />
-    <bottom texture="bottom.png" transparent="255;255;255" />
-    <left texture="left.png" transparent="255;255;255" />
-    <right texture="right.png" transparent="255;255;255" />   
-</sprites>

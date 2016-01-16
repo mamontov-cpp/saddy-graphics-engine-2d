@@ -21,7 +21,7 @@ then
 	exit 1
 fi
 eval $BatchToRun
-cd plugins/atlasgenc
+cd plugins/atlasgen
 qmake CONFIG+=$QtConfig atlasgen.pro
 make
 cd ../..
