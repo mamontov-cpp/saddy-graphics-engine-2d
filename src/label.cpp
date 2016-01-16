@@ -512,7 +512,7 @@ void sad::Label::makeSpanBetweenPoints(
 )
 {
     sad::Font * font = m_font.get();
-    if (!font) {
+    if (font) {
         sad::Size2D  size = font->size(m_rendered_string);
         double dy2 = p2.y() - p1.y();
         double dx2 = p2.x() - p1.x();
@@ -520,6 +520,10 @@ void sad::Label::makeSpanBetweenPoints(
         if (sad::is_fuzzy_zero(dx2) == false || sad::is_fuzzy_zero(dy2) == false)
         {
             angle2 = atan2(dy2, dx2);
+			if (angle2 < 0)
+			{
+				angle2 += 2 * M_PI;
+			}
         }
         setPoint((p1.x() + p2.x() - size.Width) / 2, (p1.y() + p2.y() + size.Height) / 2);
         setAngle(angle2);
