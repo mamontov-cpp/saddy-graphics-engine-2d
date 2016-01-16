@@ -464,6 +464,17 @@ void core::Editor::addToHistory(history::Command* c, bool fromeditor)
         this->currentBatchCommand()->add(c);
     }
 }
+
+unsigned int core::Editor::fastModeCounter() const
+{
+	return m_fast_mode_counter;
+}
+
+void core::Editor::incrementFastModeCounter()
+{
+	++m_fast_mode_counter;
+}
+
 // =================== PUBLIC SLOTS METHODS ===================
 
 void core::Editor::start()
@@ -560,6 +571,11 @@ void core::Editor::redo()
     {
         m_history->commit(this);
     }
+}
+
+void core::Editor::clearFastModeCounter()
+{
+	m_fast_mode_counter = 0;
 }
 
 // =================== PROTECTED METHODS ===================

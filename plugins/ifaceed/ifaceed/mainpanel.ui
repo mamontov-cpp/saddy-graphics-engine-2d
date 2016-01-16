@@ -178,7 +178,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>2</number>
       </property>
       <property name="usesScrollButtons">
        <bool>false</bool>
@@ -442,6 +442,46 @@ coordinates</string>
         </property>
         <property name="text">
          <string>Clear</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="cbFastMode">
+        <property name="geometry">
+         <rect>
+          <x>390</x>
+          <y>90</y>
+          <width>91</width>
+          <height>17</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Fast mode?</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnClearCounters">
+        <property name="geometry">
+         <rect>
+          <x>390</x>
+          <y>120</y>
+          <width>91</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Clear counters</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnFastModeHelp">
+        <property name="geometry">
+         <rect>
+          <x>390</x>
+          <y>150</y>
+          <width>91</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Help
+on fast mode</string>
         </property>
        </widget>
       </widget>
@@ -936,7 +976,7 @@ displayed lines (0 for all):</string>
          </rect>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="tabSchema">
          <attribute name="title">
