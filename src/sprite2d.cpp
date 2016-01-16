@@ -563,10 +563,10 @@ void sad::Sprite2D::makeSpanBetweenPoints(const sad::Rect2D & r, const sad::Poin
     this->setRenderableArea(kr);
     this->moveTo( (p1 + p2) / 2);
     double angle = atan2(p2.y() - p1.y(), p2.x() - p1.x());
-	if (angle < 0)
-	{
-		angle += 2 * M_PI;
-	}
+    if (angle < 0)
+    {
+        angle += 2 * M_PI;
+    }
     this->rotate(angle);
 }
 

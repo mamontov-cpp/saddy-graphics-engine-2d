@@ -218,35 +218,35 @@ void scripting::scenenodes::remove(scripting::Scripting* scripting,  sad::SceneN
 
 
 void scripting::scenenodes::spanBetweenTwoPoints(
-	scripting::Scripting* scripting,
-	sad::SceneNode* node,
-	sad::Point2D p1,
-	sad::Point2D p2
+    scripting::Scripting* scripting,
+    sad::SceneNode* node,
+    sad::Point2D p1,
+    sad::Point2D p2
 )
 {
-	if (node)
-	{
-		sad::Maybe<sad::Rect2D> old_area_maybe = node->getProperty<sad::Rect2D>("area");
-		sad::Maybe<double> old_angle_maybe = node->getProperty<double>("angle");
-		if (old_angle_maybe.exists() && old_area_maybe.exists())
-		{
-			core::Editor* e = scripting->editor(); 
-			gui::actions::SceneNodeActions* scene_node_actions = e->actions()->sceneNodeActions();
-			scene_node_actions->spanObjectBetweenTwoPoints(node, p1, p2);
-			sad::Maybe<sad::Rect2D> new_area_maybe = node->getProperty<sad::Rect2D>("area");
-			sad::Maybe<double> new_angle_maybe = node->getProperty<double>("angle");
-			e->currentBatchCommand()->add(new history::scenenodes::Span(
-				node,
-				old_area_maybe.value(),
-				old_angle_maybe.value(),
-				new_area_maybe.value(),
-				new_angle_maybe.value()
-			));
-			if (e->shared()->selectedObject() == node)
-			{
-				scene_node_actions->updateRegionForNode();
-				scene_node_actions->updateAngleForNode();
-			}
-		}
-	}
+    if (node)
+    {
+        sad::Maybe<sad::Rect2D> old_area_maybe = node->getProperty<sad::Rect2D>("area");
+        sad::Maybe<double> old_angle_maybe = node->getProperty<double>("angle");
+        if (old_angle_maybe.exists() && old_area_maybe.exists())
+        {
+            core::Editor* e = scripting->editor(); 
+            gui::actions::SceneNodeActions* scene_node_actions = e->actions()->sceneNodeActions();
+            scene_node_actions->spanObjectBetweenTwoPoints(node, p1, p2);
+            sad::Maybe<sad::Rect2D> new_area_maybe = node->getProperty<sad::Rect2D>("area");
+            sad::Maybe<double> new_angle_maybe = node->getProperty<double>("angle");
+            e->currentBatchCommand()->add(new history::scenenodes::Span(
+                node,
+                old_area_maybe.value(),
+                old_angle_maybe.value(),
+                new_area_maybe.value(),
+                new_angle_maybe.value()
+            ));
+            if (e->shared()->selectedObject() == node)
+            {
+                scene_node_actions->updateRegionForNode();
+                scene_node_actions->updateAngleForNode();
+            }
+        }
+    }
 }

@@ -19,9 +19,9 @@
 
 gui::codeedit::CodeEdit::CodeEdit(QWidget* parent) : gui::textedit::TextEdit(parent)
 {
-	this->setAcceptRichText(false);
+    this->setAcceptRichText(false);
 
-	m_line_number_area = new gui::codeedit::LineNumberArea(this);
+    m_line_number_area = new gui::codeedit::LineNumberArea(this);
 
     m_highlighter = new gui::codeedit::Highlighter(this->document());
 

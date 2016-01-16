@@ -119,16 +119,16 @@ void makeBackground(
 void remove(scripting::Scripting* scripting, sad::SceneNode* node);
 
 /*! Spans an object between two points
-	\param[in] scripting a scripting part
-	\param[in] node node to be spanned
-	\param[in] p1  first point
-	\param[in] p2  second point
+    \param[in] scripting a scripting part
+    \param[in] node node to be spanned
+    \param[in] p1  first point
+    \param[in] p2  second point
  */
 void spanBetweenTwoPoints(
-	scripting::Scripting* scripting,
-	sad::SceneNode* node,
-	sad::Point2D p1,
-	sad::Point2D p2
+    scripting::Scripting* scripting,
+    sad::SceneNode* node,
+    sad::Point2D p1,
+    sad::Point2D p2
 );
 
 }

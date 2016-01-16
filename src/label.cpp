@@ -520,10 +520,10 @@ void sad::Label::makeSpanBetweenPoints(
         if (sad::is_fuzzy_zero(dx2) == false || sad::is_fuzzy_zero(dy2) == false)
         {
             angle2 = atan2(dy2, dx2);
-			if (angle2 < 0)
-			{
-				angle2 += 2 * M_PI;
-			}
+            if (angle2 < 0)
+            {
+                angle2 += 2 * M_PI;
+            }
         }
         setPoint((p1.x() + p2.x() - size.Width) / 2, (p1.y() + p2.y() + size.Height) / 2);
         setAngle(angle2);

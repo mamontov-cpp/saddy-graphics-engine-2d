@@ -197,7 +197,7 @@ void MainPanel::toggleEditingButtons(bool enabled)
 
         ui.btnSceneClear,
         ui.btnSceneNodeDelete,
-		ui.btnSceneNodeSpanBetweenTwoPoints,
+        ui.btnSceneNodeSpanBetweenTwoPoints,
         ui.btnLabelAdd,
 
         ui.btnSpriteMakeBackground,
@@ -508,7 +508,7 @@ void MainPanel::setEditor(core::Editor* editor)
         a_actions,
         &gui::actions::AnimationActions::cancelPickingPointForSimpleMovement
     );
-	
+    
     // A bindings for placing second point, when user are going to span object between two points
     sad::Renderer::ref()->controls()->add(
         *sad::input::ET_MouseRelease & (m * sssp),
@@ -526,7 +526,7 @@ void MainPanel::setEditor(core::Editor* editor)
         &gui::actions::SceneNodeActions::cancelSpanningObject
     );
 
-	// A bindings for placing first point, when user are going to span object between two points
+    // A bindings for placing first point, when user are going to span object between two points
     sad::Renderer::ref()->controls()->add(
         *sad::input::ET_MouseRelease & (m * ssfp),
         sn_actions,
@@ -697,8 +697,8 @@ void MainPanel::setEditor(core::Editor* editor)
     connect(ui.btnClearObjectSelection, SIGNAL(clicked()), this, SLOT(clearObjectSelection()));
     connect(ui.btnFixTextureCoordinates, SIGNAL(clicked()), this, SLOT(fixTextureCoordinates()));
 
-	connect(ui.btnClearCounters, SIGNAL(clicked()), m_editor, SLOT(clearFastModeCounter()));
-	connect(ui.btnFastModeHelp, SIGNAL(clicked()), this, SLOT(showFastModeHelp()));
+    connect(ui.btnClearCounters, SIGNAL(clicked()), m_editor, SLOT(clearFastModeCounter()));
+    connect(ui.btnFastModeHelp, SIGNAL(clicked()), this, SLOT(showFastModeHelp()));
 
     // Initialize UI from editor
     if (editor)
@@ -1141,13 +1141,13 @@ void MainPanel::fixTextureCoordinates()
 
 void MainPanel::showFastModeHelp()
 {
-	QMessageBox::information(
-		this,
-		"Help on fast mode",
-		"Fast mode allows you to make simpler tedious placement of large amount of objects with similar names.\n"
-		"It changes behaviour, so every placement of old objects just adds movable copy of it, until Escape is pressed.\n"
-		"Names for objects are created via adding to current name a special counter, which could be cleared with \"Clear counters\" button."
-	);
+    QMessageBox::information(
+        this,
+        "Help on fast mode",
+        "Fast mode allows you to make simpler tedious placement of large amount of objects with similar names.\n"
+        "It changes behaviour, so every placement of old objects just adds movable copy of it, until Escape is pressed.\n"
+        "Names for objects are created via adding to current name a special counter, which could be cleared with \"Clear counters\" button."
+    );
 }
 
 //====================  PROTECTED METHODS HERE ====================

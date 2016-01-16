@@ -219,13 +219,13 @@ public:
         \param[in] fromeditor whether it was added from editor or from script
      */
     void addToHistory(history::Command* c, bool fromeditor);
-	/*! Takes current value for fast mode counter
-		\return current value for fast mode counter
-	 */
-	unsigned int fastModeCounter() const;
-	/*! Increments fast mode counter
-	 */
-	void incrementFastModeCounter();
+    /*! Takes current value for fast mode counter
+        \return current value for fast mode counter
+     */
+    unsigned int fastModeCounter() const;
+    /*! Increments fast mode counter
+     */
+    void incrementFastModeCounter();
 public slots:
     /*! Called, when Qt Event Loop is started. Used to load default resources and pre-set
         default behaviour
@@ -237,9 +237,9 @@ public slots:
     /*! Redoes history action
      */
     void redo();
-	/*! Clears fast mode counter
-	 */
-	void clearFastModeCounter();
+    /*! Clears fast mode counter
+     */
+    void clearFastModeCounter();
 signals:
     /*! Signal is emitted, when closure is arrived
         \param[in] closure data for closure
@@ -307,9 +307,9 @@ protected:
     /*! A panel proxy
      */
     gui::MainPanelProxy* m_panel_proxy;
-	/*! A counter, whose value will be appended to name in fast mode
-	 */
-	unsigned int m_fast_mode_counter;
+    /*! A counter, whose value will be appended to name in fast mode
+     */
+    unsigned int m_fast_mode_counter;
     /*! Initializes conversion table with all conversion table
      */
     void initConversionTable();

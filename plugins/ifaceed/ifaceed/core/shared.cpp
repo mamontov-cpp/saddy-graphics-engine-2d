@@ -263,10 +263,10 @@ const sad::String& core::Shared::editingSimpleMovementProperty() const
 
 void core::Shared::setOldAngle(double angle)
 {
-	m_old_angle = angle;
+    m_old_angle = angle;
 }
 
 double core::Shared::oldAngle() const
 {
-	return m_old_angle;
+    return m_old_angle;
 }
