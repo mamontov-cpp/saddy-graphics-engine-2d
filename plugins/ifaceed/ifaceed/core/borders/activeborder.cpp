@@ -18,10 +18,13 @@ void core::borders::ActiveBorder::_process()
     sad::SceneNode * o = this->m_data->activeObject();
     if (o && this->m_data->canShowActiveBorder()) 
     {
-        sad::Vector<sad::Rect2D> regions;
-        o->regions(regions);
-        sad::Renderer::ref()->render()
-                            ->rectangle(regions[0], sad::AColor(255, 0, 0, 255));
+        if (o->visible())
+        {
+            sad::Vector<sad::Rect2D> regions;
+            o->regions(regions);
+            sad::Renderer::ref()->render()
+                                ->rectangle(regions[0], sad::AColor(255, 0, 0, 255));
+        }
     }
 }
 

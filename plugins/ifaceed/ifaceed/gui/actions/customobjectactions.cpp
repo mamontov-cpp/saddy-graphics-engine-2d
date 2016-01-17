@@ -2,6 +2,7 @@
 #include <QCheckBox>
 #include <QLineEdit>
 #include <QPlainTextEdit>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QRadioButton>
 
 #include "customobjectactions.h"
@@ -34,7 +35,6 @@
 #include "sceneactions.h"
 
 
-#include <sprite2d.h>
 #include <geometry2d.h>
 
 #include <db/custom/customobject.h>
@@ -84,6 +84,7 @@ void gui::actions::CustomObjectActions::cancelAdd()
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::CustomObjectActions::moveCenterOfObject(const sad::input::MouseMoveEvent & e)
 {
     const sad::Point2D& p = e.pos2D();
@@ -96,9 +97,15 @@ void gui::actions::CustomObjectActions::moveCenterOfObject(const sad::input::Mou
         sad::moveBy(p - oldmiddle, area);
         o->setArea(area);
         m_editor->actions()->sceneNodeActions()->updateRegionForNode();
+        // Do it only in case of moving first
+        if (m_editor->machine()->isInState("adding/customobject_diagonal") == false)
+        {
+            node->setVisible(m_editor->uiBlocks()->uiSceneNodeBlock()->cbSceneNodeVisible->isChecked());
+        }
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::CustomObjectActions::commitAdd(const sad::input::MousePressEvent& e)
 {
     core::Shared* s = m_editor->shared();
@@ -111,9 +118,23 @@ void gui::actions::CustomObjectActions::commitAdd(const sad::input::MousePressEv
     c->commit(m_editor);
     m_editor->machine()->enterState("selected");
 
-	m_editor->actions()->sceneNodeActions()->selectLastSceneNode();
+    m_editor->actions()->sceneNodeActions()->selectLastSceneNode();
+    if (m_editor->panelProxy()->isFastModeEnabled())
+    {
+        m_editor->incrementFastModeCounter();
+        m_editor->emitClosure(bind(
+            this,
+            &gui::actions::CustomObjectActions::triggerAddFromFastMode
+        ));        
+        //if (m_editor->uiBlocks()->uiSpriteBlock()->rbTwoClicksPlaces->isChecked())
+        //{
+            //m_block_first_point_for_fast_mode = true;
+        //}
+    }
 }
 
+
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::CustomObjectActions::placeFirstPoint(const sad::input::MousePressEvent& e)
 {
     const sad::Point2D& p = e.pos2D();
@@ -131,6 +152,7 @@ void gui::actions::CustomObjectActions::placeFirstPoint(const sad::input::MouseP
     m_editor->actions()->sceneNodeActions()->updateRegionForNode();
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::CustomObjectActions::moveLowerPoint(const sad::input::MouseMoveEvent & e)
 {
     const sad::Point2D& p = e.pos2D();
@@ -141,7 +163,7 @@ void gui::actions::CustomObjectActions::moveLowerPoint(const sad::input::MouseMo
         sad::Rect2D area = o->area();
         area = sad::Rect2D(p, area[3]);
         o->setArea(area);
-		m_editor->actions()->sceneNodeActions()->updateRegionForNode();
+        m_editor->actions()->sceneNodeActions()->updateRegionForNode();
     }
 }
 
@@ -174,9 +196,10 @@ void gui::actions::CustomObjectActions::fillCustomObjectProperties(
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::CustomObjectActions::clearCustomObjectPropertiesTable()
 {
-	QTableWidget* twCustomObjectProperties = m_editor->uiBlocks()->uiCustomObjectBlock()->twCustomObjectProperties; 
+    QTableWidget* twCustomObjectProperties = m_editor->uiBlocks()->uiCustomObjectBlock()->twCustomObjectProperties; 
     for(size_t i = 0; i < twCustomObjectProperties->rowCount(); i++)
     {
         QVariant  v = twCustomObjectProperties->item(i, 0)->data(Qt::UserRole);
@@ -191,9 +214,10 @@ void gui::actions::CustomObjectActions::clearCustomObjectPropertiesTable()
     twCustomObjectProperties->setRowCount(0);	
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 gui::table::Delegate* gui::actions::CustomObjectActions::delegateForCustomObjectProperty(const QString& name)
 {
-	QTableWidget* twCustomObjectProperties = m_editor->uiBlocks()->uiCustomObjectBlock()->twCustomObjectProperties; 
+    QTableWidget* twCustomObjectProperties = m_editor->uiBlocks()->uiCustomObjectBlock()->twCustomObjectProperties; 
     
      for(size_t i = 0; i < twCustomObjectProperties->rowCount(); i++)
      {
@@ -301,6 +325,14 @@ void gui::actions::CustomObjectActions::addByDiagonalPlacing()
     this->fillCustomObjectProperties(object);
 }
 
+void gui::actions::CustomObjectActions::triggerAddFromFastMode()
+{
+    core::Shared* s = m_editor->shared();
+    s->setTriggeredByFastMode(true);        
+    this->add();
+    s->setTriggeredByFastMode(false);            
+}
+
 void gui::actions::CustomObjectActions::schemaChanged(sad::String s)
 {
     if (m_editor->shared()->activeObject() != NULL)
@@ -348,9 +380,9 @@ void gui::actions::CustomObjectActions::updateCustomObjectPropertyValueNow()
 
 sad::db::custom::Object* gui::actions::CustomObjectActions::makeNewCustomObject()
 {
-	gui::uiblocks::UILabelBlock* lblk = m_editor->uiBlocks()->uiLabelBlock();
-	gui::uiblocks::UICustomObjectBlock* cublk = m_editor->uiBlocks()->uiCustomObjectBlock();
-	gui::uiblocks::UISceneNodeBlock* scblk = m_editor->uiBlocks()->uiSceneNodeBlock();
+    gui::uiblocks::UILabelBlock* lblk = m_editor->uiBlocks()->uiLabelBlock();
+    gui::uiblocks::UICustomObjectBlock* cublk = m_editor->uiBlocks()->uiCustomObjectBlock();
+    gui::uiblocks::UISceneNodeBlock* scblk = m_editor->uiBlocks()->uiSceneNodeBlock();
 
     sad::db::custom::Object* object = new sad::db::custom::Object();
     object->setTreeName(sad::Renderer::ref(), "");
@@ -380,13 +412,26 @@ sad::db::custom::Object* gui::actions::CustomObjectActions::makeNewCustomObject(
     object->setArea(area);
 
     QString name = m_editor->uiBlocks()->uiSceneNodeBlock()->txtObjectName->text();
+    if (m_editor->panelProxy()->isFastModeEnabled() && !(m_editor->shared()->triggeredByFastMode()))
+    {
+        m_editor->shared()->setNameForFastMode(name);
+    }
     if (name.length())
     {
+        if (m_editor->panelProxy()->isFastModeEnabled())
+        {
+            name = m_editor->shared()->nameForFastMode() + QString::number(m_editor->fastModeCounter());
+            if (m_editor->shared()->triggeredByFastMode())
+            {
+                object->setVisible(false);
+            }
+        }
         object->setObjectName(Q2STDSTRING(name));
     }
     return object;
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::CustomObjectActions::tryCopySelectedObjectCustomProperties(sad::db::custom::Object* object)
 {
     sad::SceneNode* node = m_editor->shared()->selectedObject();

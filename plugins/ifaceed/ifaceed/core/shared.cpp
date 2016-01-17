@@ -15,7 +15,8 @@ m_editor(NULL),
 m_animation_is_running(false),
 m_animation_instance_is_running(false),
 m_animation_group_is_running(false),
-m_old_angle(0.0)
+m_old_angle(0.0),
+m_triggered_by_fast_mode(false)
 {
     m_show_active_border = true;
     m_nonresizeable_nodetypes << "sad::Label";
@@ -269,4 +270,26 @@ void core::Shared::setOldAngle(double angle)
 double core::Shared::oldAngle() const
 {
     return m_old_angle;
+}
+
+void core::Shared::setNameForFastMode(
+    const QString& name
+)
+{
+    m_name_for_fast_mode = name;    
+}
+
+const QString& core::Shared::nameForFastMode() const
+{
+    return m_name_for_fast_mode;
+}
+
+void core::Shared::setTriggeredByFastMode(bool flag)
+{
+    m_triggered_by_fast_mode = flag;
+}
+
+bool core::Shared::triggeredByFastMode() const
+{
+    return m_triggered_by_fast_mode;
 }

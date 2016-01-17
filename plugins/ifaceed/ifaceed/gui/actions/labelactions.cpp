@@ -66,6 +66,7 @@ gui::actions::LabelActions::~LabelActions()
     
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::LabelActions::cancelAddLabel()
 {
     core::Shared* s = this->m_editor->shared();
@@ -87,6 +88,7 @@ void gui::actions::LabelActions::cancelAddLabel()
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::LabelActions::moveLabel(const sad::input::MouseMoveEvent & e)
 {
     const sad::Point2D& p = e.pos2D();
@@ -102,11 +104,13 @@ void gui::actions::LabelActions::moveLabel(const sad::input::MouseMoveEvent & e)
 
             r = sad::Rect2D(p.x() - width, p.y() + height, p.x() + width, p.y() - height);
             node->setProperty("area", r);
-             m_editor->actions()->sceneNodeActions()->updateRegionForNode();
+            m_editor->actions()->sceneNodeActions()->updateRegionForNode();
+            node->setVisible(m_editor->uiBlocks()->uiSceneNodeBlock()->cbSceneNodeVisible->isChecked());
         }
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::LabelActions::commitLabelAdd(const sad::input::MousePressEvent&)
 {
     core::Shared* s = m_editor->shared();
@@ -117,25 +121,35 @@ void gui::actions::LabelActions::commitLabelAdd(const sad::input::MousePressEven
     s->setSelectedObject(node);
     m_editor->history()->add(c);
     c->commit(m_editor);
+    QString oldName = m_editor->panelProxy()->getSceneNodeNameFromUI();
     m_editor->machine()->enterState("selected");
-
+    
     m_editor->emitClosure(blocked_bind(
         m_editor->actions()->sceneNodeActions(),
         &gui::actions::SceneNodeActions::selectLastSceneNode
     ));
+
+    if (m_editor->panelProxy()->isFastModeEnabled())
+    {
+        m_editor->incrementFastModeCounter();
+        s->setTriggeredByFastMode(true);
+        this->addLabel();
+        s->setTriggeredByFastMode(false);
+    }        
 }
 
 // ===============================  PUBLIC SLOTS METHODS ===============================
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::LabelActions::addLabel()
 {
     bool valid = true;	
-	gui::actions::SceneActions* s_actions = m_editor->actions()->sceneActions();
+    gui::actions::SceneActions* s_actions = m_editor->actions()->sceneActions();
 
-	gui::uiblocks::UILabelBlock* lblk = m_editor->uiBlocks()->uiLabelBlock();
-	gui::uiblocks::UISceneNodeBlock* snblk = m_editor->uiBlocks()->uiSceneNodeBlock();
+    gui::uiblocks::UILabelBlock* lblk = m_editor->uiBlocks()->uiLabelBlock();
+    gui::uiblocks::UISceneNodeBlock* snblk = m_editor->uiBlocks()->uiSceneNodeBlock();
 
-	gui::actions::SceneNodeActions* sn_actions = m_editor->actions()->sceneNodeActions();
+    gui::actions::SceneNodeActions* sn_actions = m_editor->actions()->sceneNodeActions();
 
     valid = valid && s_actions->currentScene() != NULL;
     valid = valid && lblk->txtLabelText->toPlainText().length() != 0;
@@ -176,8 +190,20 @@ void gui::actions::LabelActions::addLabel()
         label->setColor(clr);
 
         QString name = snblk->txtObjectName->text();
+        if (m_editor->panelProxy()->isFastModeEnabled() && !(m_editor->shared()->triggeredByFastMode()))
+        {
+            m_editor->shared()->setNameForFastMode(name);
+        }
         if (name.length())
         {
+            if (m_editor->panelProxy()->isFastModeEnabled())
+            {
+                name = m_editor->shared()->nameForFastMode() + QString::number(m_editor->fastModeCounter());
+                if (m_editor->shared()->triggeredByFastMode())
+                {
+                    label->setVisible(false);
+                }
+            }
             label->setObjectName(Q2STDSTRING(name));
         }
 
@@ -193,6 +219,7 @@ void gui::actions::LabelActions::addLabel()
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::LabelActions::labelFontChanged(sad::String s)
 {
     if (m_editor->shared()->activeObject() != NULL)
@@ -221,9 +248,10 @@ void gui::actions::LabelActions::labelFontChanged(sad::String s)
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::LabelActions::labelSizeChanged(unsigned int s)
 {
-	gui::actions::SceneNodeActions* sn_actions = m_editor->actions()->sceneNodeActions();
+    gui::actions::SceneNodeActions* sn_actions = m_editor->actions()->sceneNodeActions();
 
     if (m_editor->shared()->activeObject() != NULL)
     {
@@ -255,11 +283,12 @@ void gui::actions::LabelActions::labelSizeChanged(unsigned int s)
 }
 
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::LabelActions::labelTextChanged()
 {
-	gui::uiblocks::UILabelBlock* lblk = m_editor->uiBlocks()->uiLabelBlock();
-	
-	gui::actions::SceneNodeActions* sn_actions = m_editor->actions()->sceneNodeActions();
+    gui::uiblocks::UILabelBlock* lblk = m_editor->uiBlocks()->uiLabelBlock();
+    
+    gui::actions::SceneNodeActions* sn_actions = m_editor->actions()->sceneNodeActions();
 
     sad::String newvalue = Q2STDSTRING(lblk->txtLabelText->toPlainText());
     if (m_editor->shared()->activeObject() != NULL)
@@ -286,11 +315,12 @@ void gui::actions::LabelActions::labelTextChanged()
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::LabelActions::labelLineSpacingChanged(double newvalue)
 {
-	gui::actions::SceneNodeActions* sn_actions = m_editor->actions()->sceneNodeActions();
+    gui::actions::SceneNodeActions* sn_actions = m_editor->actions()->sceneNodeActions();
  
-	if (m_editor->shared()->activeObject() != NULL)
+    if (m_editor->shared()->activeObject() != NULL)
     {
         m_editor->shared()->activeObject()->setProperty("linespacing", newvalue);
         sn_actions->updateRegionForNode();
@@ -378,13 +408,14 @@ void gui::actions::LabelActions::labelTextEllipsisForLinesChanged(int newvalue)
 }
 
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::LabelActions::unsignedIntPropertyChanged(
     int newvalue,
     const sad::String& prop,
     gui::actions::LabelActions::CommandMaker maker
 )
 {
-	gui::actions::SceneNodeActions* sn_actions = m_editor->actions()->sceneNodeActions();
+    gui::actions::SceneNodeActions* sn_actions = m_editor->actions()->sceneNodeActions();
 
     unsigned int nv = static_cast<unsigned int>(newvalue);
     if (m_editor->shared()->activeObject() != NULL)

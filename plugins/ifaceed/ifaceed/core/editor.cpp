@@ -140,6 +140,8 @@ core::Editor::Editor()
 
     m_panel_proxy = new gui::MainPanelProxy();
     m_panel_proxy->setEditor(this);
+
+    m_fast_mode_counter = 0;
 }
 core::Editor::~Editor()
 {	
