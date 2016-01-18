@@ -453,6 +453,11 @@ coordinates</string>
           <height>17</height>
          </rect>
         </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>Fast mode?</string>
         </property>
@@ -466,6 +471,11 @@ coordinates</string>
           <height>23</height>
          </rect>
         </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>Clear counters</string>
         </property>
@@ -478,6 +488,11 @@ coordinates</string>
           <width>91</width>
           <height>41</height>
          </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
         </property>
         <property name="text">
          <string>Help
@@ -640,8 +655,8 @@ on fast mode</string>
            <rect>
             <x>10</x>
             <y>10</y>
-            <width>441</width>
-            <height>241</height>
+            <width>451</width>
+            <height>296</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="layoutFontOptions">
@@ -2009,7 +2024,7 @@ current object</string>
            <x>10</x>
            <y>20</y>
            <width>289</width>
-           <height>26</height>
+           <height>29</height>
           </rect>
          </property>
          <layout class="QHBoxLayout" name="hlStartingPoint">
@@ -2070,7 +2085,7 @@ current object</string>
            <x>10</x>
            <y>50</y>
            <width>289</width>
-           <height>26</height>
+           <height>29</height>
           </rect>
          </property>
          <layout class="QHBoxLayout" name="hlEndingPoint">
@@ -3170,6 +3185,11 @@ rect:</string>
       <width>121</width>
       <height>23</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>8</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>Clear Object Selection</string>
