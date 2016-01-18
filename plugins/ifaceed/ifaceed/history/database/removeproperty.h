@@ -28,7 +28,6 @@ class RemoveProperty: public history::Command
 public:
      /*! Constructs new property for delegate
         \param[in] d delegate
-        \param[in] panel a panel
       */
      RemoveProperty(gui::table::Delegate* d);
      /*! Erases link to a property

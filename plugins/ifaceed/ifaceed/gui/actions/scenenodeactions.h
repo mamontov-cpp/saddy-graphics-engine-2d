@@ -134,6 +134,7 @@ public:
     void cancelSpanningObject(const sad::input::KeyPressEvent& e);
     /*!
      * Spans selected object in editor, between two points (if can)
+     * \param[in] node a node, which is being edited	 
      * \param[in] p1 first point
      * \param[in] p2 second point
      */

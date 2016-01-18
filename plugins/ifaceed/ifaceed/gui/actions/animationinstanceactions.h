@@ -1,4 +1,4 @@
-/*! \file instanceactions.h
+/*! \file animationinstanceactions.h
     
 
     Describes a group of actions, linked to instances
@@ -46,10 +46,10 @@ public:
     /*! This class could be inherited
      */
     virtual ~AnimationInstanceActions();
-	/*! Sets inner editor link of process
-		\param[in] e editor
-	 */
-	virtual void setEditor(core::Editor* e);
+    /*! Sets inner editor link of process
+        \param[in] e editor
+     */
+    virtual void setEditor(core::Editor* e);
     /*! Updates instance list for groups
      */
     void updateGroupInstanceList();
@@ -67,7 +67,7 @@ public:
         bool fromeditor,
         int row = -1
     );
-	/*! Returns name for animation instance
+    /*! Returns name for animation instance
         \param[in] i instance
         \return name for instance
      */
@@ -124,9 +124,9 @@ private:
     /*! A running animation process 
      */
     gui::AnimationInstanceProcess* m_animation;
-	/*! Block for editor
-	 */
-	gui::uiblocks::UIAnimationInstanceBlock* m_blk;
+    /*! Block for editor
+     */
+    gui::uiblocks::UIAnimationInstanceBlock* m_blk;
 };
 
 }

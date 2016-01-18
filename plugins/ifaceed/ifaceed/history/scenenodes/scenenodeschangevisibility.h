@@ -19,7 +19,7 @@ namespace scenenodes
 {
 
 /*! Creates command for visibility change of node
-    \param[in] e editor
+    \param[in] blk editor
     \param[in] d a node
     \param[in] oldvalue an oldvalue for visibility of node
     \param[in] newvalue a newvalue for visibility of ode

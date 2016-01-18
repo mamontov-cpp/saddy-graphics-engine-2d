@@ -94,6 +94,7 @@ protected:
     /*! Populates tree with an items
         \param[in, out] parentitem a parent item for widget
         \param[in] parentfolder a folder
+        \param[in] suitability a suitability map
      */
     void populateTree(
         QTreeWidgetItem* parentitem, 
@@ -101,6 +102,9 @@ protected:
         const  QHash<sad::resource::Folder*, bool>& suitability
     );
     /*! Seeks suitable folders, which has resources of specified types
+        \param[in] currentfolder a folder to be scanned
+        \param[in] suitability a suitability map
+        \return whether folder has suitable assets
      */ 
     bool findSuitableFolders(
         sad::resource::Folder* currentfolder,

@@ -1,4 +1,4 @@
-/*! \file groupactions.h
+/*! \file animationgroupactions.h
     
 
     Describes a group of actions, linked to instances
@@ -31,10 +31,10 @@ public:
         \param[in] parent a parent object
      */
     AnimationGroupActions(QObject* parent = NULL);
-	/*! Sets inner editor link of process
-		\param[in] e editor
-	 */
-	virtual void setEditor(core::Editor* e);
+    /*! Sets inner editor link of process
+        \param[in] e editor
+     */
+    virtual void setEditor(core::Editor* e);
     /*! This class could be inherited
      */
     virtual ~AnimationGroupActions();

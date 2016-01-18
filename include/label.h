@@ -285,7 +285,7 @@ public:
     /*! Sets the strategy for text overflow, which should be applied,
         when text overflows a line with one word in case that BreakText parameter set to LBT_BREAK_WORD or
         maximal line width is non-zero and BreakText parameter is set to LBT_NORMAL.
-        \param[in] ovstrategy a strategy value
+        \param[in] s a strategy value
      */
     void setOverflowStrategy(sad::Label::OverflowStrategy s);
     /*! Sets the strategy for text overflow. Clamps a value to enumeration bounds if needed.
@@ -342,7 +342,7 @@ public:
     unsigned int maximalLinesCount() const;
     /*! Sets the strategy for text overflow, which should be applied,
         when text overflows amount of lines. 
-        \param[in] ovstrategy a strategy value
+        \param[in] s a strategy value
      */
     void setOverflowStrategyForLines(sad::Label::OverflowStrategy s);
     /*! Sets the strategy for text overflow for lines. Clamps a value to enumeration bounds if needed.

@@ -21,7 +21,6 @@ class NewProperty: public history::Command
 public:
      /*! Constructs new property for delegate
         \param[in] d delegate
-        \param[in] p panel
       */
      NewProperty(gui::table::Delegate* d);
      /*! Erases link to a property
