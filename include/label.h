@@ -373,14 +373,14 @@ public:
         \return text ellipsis position as index
      */
     unsigned int textEllipsisForLinesAsIndex() const;
-	/*! Places label in the center between two points, with angle rotated to p1
+    /*! Places label in the center between two points, with angle rotated to p1
         \param[in] p1 first point
         \param[in] p2 second point
      */
-	void makeSpanBetweenPoints(
+    void makeSpanBetweenPoints(
         const sad::Point2D & p1, 
         const sad::Point2D & p2
-	);
+    );
     /*! Creates string, that could be rendered with label, 
         using specified settings. Used to create rendering string
         for label
