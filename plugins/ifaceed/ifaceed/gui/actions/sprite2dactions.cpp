@@ -43,7 +43,7 @@
 
 // ===============================  PUBLIC METHODS ===============================
 
-gui::actions::Sprite2DActions::Sprite2DActions(QObject* parent) : QObject(parent)
+gui::actions::Sprite2DActions::Sprite2DActions(QObject* parent) : QObject(parent), m_block_first_point_for_fast_mode(false)
 {
 
 }
@@ -53,6 +53,7 @@ gui::actions::Sprite2DActions::~Sprite2DActions()
     
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::Sprite2DActions::cancelAddSprite()
 {
     core::Shared* s = this->m_editor->shared();
@@ -74,6 +75,7 @@ void gui::actions::Sprite2DActions::cancelAddSprite()
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::Sprite2DActions::moveCenterOfSprite(const sad::input::MouseMoveEvent & e)
 {
     const sad::Point2D& p = e.pos2D();
@@ -82,9 +84,15 @@ void gui::actions::Sprite2DActions::moveCenterOfSprite(const sad::input::MouseMo
     {
         static_cast<sad::Sprite2D*>(node)->setMiddle(p);
         m_editor->actions()->sceneNodeActions()->updateRegionForNode();
+        // Do it only in case of moving sprite
+        if (m_editor->machine()->isInState("adding/sprite_diagonal") == false)
+        {
+            node->setVisible(m_editor->uiBlocks()->uiSceneNodeBlock()->cbSceneNodeVisible->isChecked());
+        }
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::Sprite2DActions::commitAdd(const sad::input::MousePressEvent& e)
 {
     core::Shared* s = m_editor->shared();
@@ -101,10 +109,28 @@ void gui::actions::Sprite2DActions::commitAdd(const sad::input::MousePressEvent&
         m_editor->actions()->sceneNodeActions(),
         &gui::actions::SceneNodeActions::selectLastSceneNode
     ));
+
+    if (m_editor->panelProxy()->isFastModeEnabled())
+    {
+        m_editor->incrementFastModeCounter();
+        s->setTriggeredByFastMode(true);
+        this->add();
+        s->setTriggeredByFastMode(false);
+        if (m_editor->uiBlocks()->uiSpriteBlock()->rbTwoClicksPlaces->isChecked())
+        {
+            m_block_first_point_for_fast_mode = true;
+        }
+    }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::Sprite2DActions::placeFirstPointForSprite(const sad::input::MousePressEvent& e)
 {
+    if (m_block_first_point_for_fast_mode)
+    {
+        m_block_first_point_for_fast_mode = false;
+        return;
+    }
     const sad::Point2D& p = e.pos2D();
     core::Shared* s = m_editor->shared();
     sad::SceneNode* node = s->activeObject();
@@ -120,6 +146,7 @@ void gui::actions::Sprite2DActions::placeFirstPointForSprite(const sad::input::M
     m_editor->actions()->sceneNodeActions()->updateRegionForNode();
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::Sprite2DActions::moveLowerPointOfSprite(const sad::input::MouseMoveEvent & e)
 {
     const sad::Point2D& p = e.pos2D();
@@ -135,6 +162,7 @@ void gui::actions::Sprite2DActions::moveLowerPointOfSprite(const sad::input::Mou
 }
 
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::Sprite2DActions::setSceneNodeAsBackground(sad::SceneNode* node, bool from_editor)
 {
     const sad::Settings& settings = sad::Renderer::ref()->settings();
@@ -206,6 +234,7 @@ void gui::actions::Sprite2DActions::add()
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::Sprite2DActions::addBySimplePlacing()
 {
     gui::actions::SceneActions* s_actions = m_editor->actions()->sceneActions();
@@ -240,8 +269,20 @@ void gui::actions::Sprite2DActions::addBySimplePlacing()
     }
 
     QString name = snblk->txtObjectName->text();
+    if (m_editor->panelProxy()->isFastModeEnabled() && !(m_editor->shared()->triggeredByFastMode()))
+    {
+        m_editor->shared()->setNameForFastMode(name);
+    }
     if (name.length())
     {
+        if (m_editor->panelProxy()->isFastModeEnabled())
+        {
+            name = m_editor->shared()->nameForFastMode() + QString::number(m_editor->fastModeCounter());
+            if (m_editor->shared()->triggeredByFastMode())
+            {
+                sprite->setVisible(false);
+            }
+        }
         sprite->setObjectName(Q2STDSTRING(name));
     }
 
@@ -255,6 +296,7 @@ void gui::actions::Sprite2DActions::addBySimplePlacing()
     m_editor->actions()->sceneNodeActions()->updateRegionForNode();
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::Sprite2DActions::addByDiagonalPlacing()
 {
     gui::actions::SceneActions* s_actions = m_editor->actions()->sceneActions();
@@ -283,8 +325,20 @@ void gui::actions::Sprite2DActions::addByDiagonalPlacing()
     sprite->setColor(clr);
 
     QString name = snblk->txtObjectName->text();
+    if (m_editor->panelProxy()->isFastModeEnabled() && !(m_editor->shared()->triggeredByFastMode()))
+    {
+        m_editor->shared()->setNameForFastMode(name);
+    }
     if (name.length())
     {
+        if (m_editor->panelProxy()->isFastModeEnabled())
+        {
+            name = m_editor->shared()->nameForFastMode() + QString::number(m_editor->fastModeCounter());
+            if (m_editor->shared()->triggeredByFastMode())
+            {
+                sprite->setVisible(false);
+            }
+        }
         sprite->setObjectName(Q2STDSTRING(name));
     }
 
@@ -303,6 +357,7 @@ void gui::actions::Sprite2DActions::addByDiagonalPlacing()
 }
 
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::Sprite2DActions::spriteOptionsChanged(sad::String s)
 {
     if (m_editor->shared()->activeObject() != NULL)
@@ -353,6 +408,7 @@ void gui::actions::Sprite2DActions::makeBackground()
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::Sprite2DActions::flipXChanged(bool state)
 {
     bool newvalue = state;
@@ -383,6 +439,7 @@ void gui::actions::Sprite2DActions::flipXChanged(bool state)
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::Sprite2DActions::flipYChanged(bool state)
 {
     bool newvalue = state;

@@ -243,6 +243,9 @@ public slots:
     /*! Fixes texture coordinates in all objects
      */
     void fixTextureCoordinates();
+    /*! Shows help on fast mode
+     */
+    void showFastModeHelp();
 protected slots:
     /*! Adds a property to database slot
      */

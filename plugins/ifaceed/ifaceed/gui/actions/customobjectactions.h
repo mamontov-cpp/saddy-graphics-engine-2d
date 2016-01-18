@@ -80,13 +80,13 @@ public:
         \param[in] e a sprite
      */
     void moveLowerPoint(const sad::input::MouseMoveEvent & e);
-	/*! Fills list of properties for custom objects
+    /*! Fills list of properties for custom objects
         \param[in] node a node object
      */
     void fillCustomObjectProperties(
         sad::SceneNode* node	
     );
-	/*! Cleans table of properties of custom object
+    /*! Cleans table of properties of custom object
      */
     void clearCustomObjectPropertiesTable();
     /*! Finds delegate for custom object property in table
@@ -114,6 +114,9 @@ public slots:
     /*! Adds new custom object to a scene by diagonal placing
      */
     void addByDiagonalPlacing();
+    /*! Triggers adding a custom object from a fast mode
+     */
+    void triggerAddFromFastMode();
     /*! Emitted, when schema changed
         \param[in] s  a schema name
      */

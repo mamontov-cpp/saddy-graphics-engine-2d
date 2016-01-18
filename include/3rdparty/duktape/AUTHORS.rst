@@ -26,6 +26,7 @@ and agreed to irrevocably license their contributions under the Duktape
 * Legimet <legimet.calc@gmail.com>
 * Karl Skomski <karl@skomski.com>
 * Bruce Pascoe <fatcerberus1@gmail.com>
+* René Hollander <rene@rene8888.at>
 
 Other contributions
 ===================
@@ -62,6 +63,7 @@ bugs, provided ideas, etc; roughly in order of appearance):
 * https://github.com/sstruchtrup
 * Michael Drake (https://github.com/tlsa)
 * https://github.com/chris-y
+* Laurent Zubiaur (https://github.com/lzubiaur)
 
 If you are accidentally missing from this list, send me an e-mail
 (``sami.vaarala@iki.fi``) and I'll fix the omission.

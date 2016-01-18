@@ -116,6 +116,35 @@ public:
         \return scene row (-1 if not found)
      */
     int findSceneNodeInList(sad::SceneNode* s);
+    /*! Forces placing first point for spanning object between two points
+        \param[in] e event object
+     */
+    void placeFirstPointForSpanning(const sad::input::MouseReleaseEvent& e);
+    /*! Emitted, when user moves second point for spaning object
+        \param[in] e event object
+     */
+    void moveSecondPointForSpanning(const sad::input::MouseMoveEvent& e);
+    /*! Emitted, when places second point for spaning object
+        \param[in] e event object
+     */
+    void commitSecondPointForSpanning(const sad::input::MouseReleaseEvent& e);
+    /*! Cancel spanning object between two points forcing it to enter object
+        \param[in] e event
+     */ 
+    void cancelSpanningObject(const sad::input::KeyPressEvent& e);
+    /*!
+     * Spans selected object in editor, between two points (if can)
+     * \param[in] p1 first point
+     * \param[in] p2 second point
+     */
+    void spanObjectBetweenTwoPoints(
+        sad::SceneNode* node,
+        sad::Point2D p1,
+        sad::Point2D p2
+    );
+    /*! Updates angle for scene node
+     */
+    void updateAngleForNode();
 public slots:
     /*! Called, when node name is edited
         \param[in] name a name for action
@@ -163,6 +192,9 @@ public slots:
     /*! Updates UI views with values from selected item
      */
     void updateUIForSelectedSceneNodeNow();
+    /*! Makes actions enter state for spanning object between two points
+     */
+    void enterSpanningObjectBetweenTwoPoints();
 private:
     /*!
      * A rotation process to work with
@@ -175,6 +207,15 @@ private:
      * \return next angle
      */
     float computeChangedAngle(float angle, float delta);
+    /*!
+     * Spans selected object in editor, between two points (if can)
+     * \param[in] p1 first point
+     * \param[in] p2 second point
+     */
+    void spanSelectedObjectBetweenTwoPoints(
+        sad::Point2D p1,
+        sad::Point2D p2
+    );
 };
 
 }

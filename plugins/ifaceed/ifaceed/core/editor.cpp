@@ -90,6 +90,8 @@ core::Editor::Editor()
     m_machine->addState("selected", new sad::hfsm::State(), true);
     m_machine->addState("selected/moving", new sad::hfsm::State(), true);
     m_machine->addState("selected/resizing", new sad::hfsm::State(), true);
+    m_machine->addState("selected/spanning/firstpoint", new sad::hfsm::State(), true);
+    m_machine->addState("selected/spanning/secondpoint", new sad::hfsm::State(), true);
     m_machine->addState("adding/label", new sad::hfsm::State(), true);
     m_machine->addState("adding/sprite", new sad::hfsm::State(), true);
     m_machine->addState("adding/sprite_diagonal", new sad::hfsm::State(), true);
@@ -138,6 +140,8 @@ core::Editor::Editor()
 
     m_panel_proxy = new gui::MainPanelProxy();
     m_panel_proxy->setEditor(this);
+
+    m_fast_mode_counter = 0;
 }
 core::Editor::~Editor()
 {	
@@ -280,12 +284,14 @@ void core::Editor::enteredIdleState()
     this->emitClosure( bind(m_actions->customObjectActions(), &gui::actions::CustomObjectActions::clearCustomObjectPropertiesTable));
 }
 
-static const size_t CoreEditorEditingStatesCount = 5; 
+static const size_t CoreEditorEditingStatesCount = 7; 
 
 static sad::String CoreEditorEditingStates[CoreEditorEditingStatesCount] = {
     sad::String("adding"),
     sad::String("selected/moving"),
     sad::String("selected/resizing"),
+    sad::String("selected/spanning/firstpoint"),
+    sad::String("selected/spanning/secondpoint"),
     sad::String("ways/selected/moving"),
     sad::String("picking_simple_movement_point")
 };
@@ -460,6 +466,17 @@ void core::Editor::addToHistory(history::Command* c, bool fromeditor)
         this->currentBatchCommand()->add(c);
     }
 }
+
+unsigned int core::Editor::fastModeCounter() const
+{
+    return m_fast_mode_counter;
+}
+
+void core::Editor::incrementFastModeCounter()
+{
+    ++m_fast_mode_counter;
+}
+
 // =================== PUBLIC SLOTS METHODS ===================
 
 void core::Editor::start()
@@ -556,6 +573,11 @@ void core::Editor::redo()
     {
         m_history->commit(this);
     }
+}
+
+void core::Editor::clearFastModeCounter()
+{
+    m_fast_mode_counter = 0;
 }
 
 // =================== PROTECTED METHODS ===================

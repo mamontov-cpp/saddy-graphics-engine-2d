@@ -88,6 +88,10 @@ public slots:
     /*! Called, when user clicks on "Flip Y" checkbox
      */
     void flipYChanged(bool state);
+private:
+    /*! Blocks first point placement for fast mode
+     */ 
+    bool m_block_first_point_for_fast_mode;
 };
 
 }

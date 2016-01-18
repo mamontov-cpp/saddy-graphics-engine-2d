@@ -212,6 +212,32 @@ public:
         \return name
      */
     const sad::String& editingSimpleMovementProperty() const;
+    /*! Sets old angle of object, for backing it up
+        \param[in] angle old angle
+     */
+    void setOldAngle(double angle);
+    /*! Returns old angle
+        \return old angle
+     */
+    double oldAngle() const;
+    /*! Sets name for fast mode
+        \param[in] name a name for fast mode
+     */
+    void setNameForFastMode(
+        const QString& name
+    );
+    /*! Returns name for fast mode
+        \return name for fast mode
+     */
+    const QString& nameForFastMode() const;
+    /*! Sets, whether action is triggered by fast mode
+        \param[in] flag fast mode flag value
+     */
+    void setTriggeredByFastMode(bool flag);
+    /*! Returns, whether action is triggered by fast mode 
+        (for those actions, which are triggered by fast mode)
+     */
+    bool triggeredByFastMode() const;
 private:
     /*! A scene node, selected by user
      */ 
@@ -282,6 +308,15 @@ private:
     /*! A property for simple movement editing
      */
     sad::String m_editing_simple_movement_property;
+    /*! Old angle for all changes of verious angle
+     */
+    double m_old_angle;
+    /*! Saves a name for fast mode
+     */
+    QString m_name_for_fast_mode;
+    /*! Whether action is triggered by fast mode
+     */
+    bool m_triggered_by_fast_mode;
 };
 
 }

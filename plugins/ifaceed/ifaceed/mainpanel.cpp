@@ -175,9 +175,10 @@ MainPanel::~MainPanel()
     m_property_delegates.clear();
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void MainPanel::toggleEditingButtons(bool enabled)
 {
-    const int affectedpushbuttonscount = 49;
+    const int affectedpushbuttonscount = 50;
     QPushButton* affectedpushbuttons[affectedpushbuttonscount] = {
         ui.btnReloadResources,
         ui.btnUndo,
@@ -197,6 +198,7 @@ void MainPanel::toggleEditingButtons(bool enabled)
 
         ui.btnSceneClear,
         ui.btnSceneNodeDelete,
+        ui.btnSceneNodeSpanBetweenTwoPoints,
         ui.btnLabelAdd,
 
         ui.btnSpriteMakeBackground,
@@ -276,6 +278,8 @@ void MainPanel::setEditor(core::Editor* editor)
     sad::String s = "selected";
     sad::String sm = "selected/moving";
     sad::String sr = "selected/resizing";
+    sad::String ssfp = "selected/spanning/firstpoint";
+    sad::String sssp = "selected/spanning/secondpoint";
 
     sad::String wi = "ways/idle";
     sad::String ws = "ways/selected";
@@ -325,7 +329,7 @@ void MainPanel::setEditor(core::Editor* editor)
         sn_actions,
         &gui::actions::SceneNodeActions::commitObjectResizing
     );
-
+    
     // A bindings for selected node actions
     sad::Renderer::ref()->controls()->add(
         *sad::input::ET_MouseWheel & (m * s),
@@ -505,7 +509,35 @@ void MainPanel::setEditor(core::Editor* editor)
         a_actions,
         &gui::actions::AnimationActions::cancelPickingPointForSimpleMovement
     );
+    
+    // A bindings for placing second point, when user are going to span object between two points
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_MouseRelease & (m * sssp),
+        sn_actions,
+        &gui::actions::SceneNodeActions::commitSecondPointForSpanning
+    );
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_MouseMove & (m * sssp),
+        sn_actions,
+        &gui::actions::SceneNodeActions::moveSecondPointForSpanning
+    );
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_KeyPress & sad::Esc & (m * sssp) ,
+        sn_actions,
+        &gui::actions::SceneNodeActions::cancelSpanningObject
+    );
 
+    // A bindings for placing first point, when user are going to span object between two points
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_MouseRelease & (m * ssfp),
+        sn_actions,
+        &gui::actions::SceneNodeActions::placeFirstPointForSpanning
+    );
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_KeyPress & sad::Esc & (m * ssfp) ,
+        sn_actions,
+        &gui::actions::SceneNodeActions::cancelSpanningObject
+    );
 
     connect(ui.tabTypes, SIGNAL(currentChanged(int)), this, SLOT(tabTypeChanged(int)));
 
@@ -536,6 +568,8 @@ void MainPanel::setEditor(core::Editor* editor)
     connect(ui.btnSceneNodeDelete, SIGNAL(clicked()), sn_actions, SLOT(removeSceneNode()));
     connect(ui.btnSceneNodeMoveBack, SIGNAL(clicked()), sn_actions, SLOT(sceneNodeMoveBack()));
     connect(ui.btnSceneNodeMoveFront, SIGNAL(clicked()), sn_actions, SLOT(sceneNodeMoveFront()));
+    connect(ui.btnSceneNodeSpanBetweenTwoPoints, SIGNAL(clicked()), sn_actions, SLOT(enterSpanningObjectBetweenTwoPoints()));
+
 
     connect(ui.btnLabelAdd, SIGNAL(clicked()), l_actions, SLOT(addLabel()));
     connect(ui.rtwLabelFont, SIGNAL(selectionChanged(sad::String)), l_actions, SLOT(labelFontChanged(sad::String)));
@@ -663,6 +697,9 @@ void MainPanel::setEditor(core::Editor* editor)
 
     connect(ui.btnClearObjectSelection, SIGNAL(clicked()), this, SLOT(clearObjectSelection()));
     connect(ui.btnFixTextureCoordinates, SIGNAL(clicked()), this, SLOT(fixTextureCoordinates()));
+
+    connect(ui.btnClearCounters, SIGNAL(clicked()), m_editor, SLOT(clearFastModeCounter()));
+    connect(ui.btnFastModeHelp, SIGNAL(clicked()), this, SLOT(showFastModeHelp()));
 
     // Initialize UI from editor
     if (editor)
@@ -880,6 +917,7 @@ QList<QList<QColor> >  MainPanel::colorPalette() const
     return ui.clpSceneNodeColor->palette();
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void MainPanel::setColorPalette(const QList<QList<QColor> >& palette)
 {
     ui.clpSceneNodeColor->setPalette(palette);
@@ -956,6 +994,7 @@ void MainPanel::highlightLabelAddingState()
     this->highlightState("Click, where you want label to be placed");
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void MainPanel::toggleAnimationPropertiesEditable(bool flag)
 {
     QWidget* widgets[] = {
@@ -1037,13 +1076,12 @@ void MainPanel::toggleAnimationPropertiesEditable(bool flag)
 
 //====================  PUBLIC SLOTS METHODS HERE ====================
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void MainPanel::clearObjectSelection()
 {
    if (m_editor->shared()->isAnyKindOfAnimationIsRunning() == false
-       && m_editor->machine()->isInState("adding") == false
-       && m_editor->machine()->isInState("selected/moving") == false
-       && m_editor->machine()->isInState("selected/resizing") == false
-       ) {
+       && m_editor->isInEditingState() == false
+      ) {
         m_editor->shared()->setSelectedObject(NULL); 
         if (m_editor->machine()->isInState("selected"))
         {
@@ -1052,6 +1090,7 @@ void MainPanel::clearObjectSelection()
    }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void MainPanel::fixTextureCoordinates()
 {
     if (m_editor->shared()->isAnyKindOfAnimationIsRunning() == false && m_editor->isInEditingState() == false)
@@ -1103,8 +1142,20 @@ void MainPanel::fixTextureCoordinates()
     }
 }
 
+void MainPanel::showFastModeHelp()
+{
+    QMessageBox::information(
+        this,
+        "Help on fast mode",
+        "Fast mode allows you to make simpler tedious placement of large amount of objects with similar names.\n"
+        "It changes behaviour, so every placement of old objects just adds movable copy of it, until Escape is pressed.\n"
+        "Names for objects are created via adding to current name a special counter, which could be cleared with \"Clear counters\" button."
+    );
+}
+
 //====================  PROTECTED METHODS HERE ====================
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void MainPanel::fillDatabasePropertyTypesCombo()
 {
     const unsigned int typescount = 21;
@@ -1151,6 +1202,8 @@ void MainPanel::closeEvent(QCloseEvent* ev)
     this->QMainWindow::closeEvent(ev);
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
+// ReSharper disable once CppMemberFunctionMayBeStatic
 void MainPanel::fixDatabase()
 {
     sad::db::Database* db = sad::Renderer::ref()->database("");
@@ -1259,33 +1312,39 @@ void MainPanel::addDatabaseProperty()
     );
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void MainPanel::updateMousePositionNow()
 {
     ui.txtMousePosX->setText(QString::number(static_cast<int>(m_mousemove_point.x())));
     ui.txtMousePosY->setText(QString::number(static_cast<int>(m_mousemove_point.y())));
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void MainPanel::highlightStateNow()
 {
     ui.txtEditorState->setText(m_highlight_state);
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void MainPanel::undo()
 {
     m_editor->undo();
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void MainPanel::redo()
 {
     m_editor->redo();
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void MainPanel::synchronizeDatabase()
 {
     ui.rtwSpriteSprite->setFilter("sad::Sprite2D::Options");
     ui.rtwLabelFont->setFilter("sad::freetype::Font|sad::TextureMappedFont");
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void MainPanel::setAddingEnabled(bool enabled)
 {
     this->ui.lstSceneObjects->setEnabled(enabled);
@@ -1293,11 +1352,13 @@ void MainPanel::setAddingEnabled(bool enabled)
     this->ui.btnSpriteAdd->setEnabled(enabled);
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void MainPanel::setSpriteChangingEnabled(bool enabled)
 {
     this->ui.rwSceneNodeRect->setEnabled(enabled);
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void MainPanel::setAngleChangingEnabled(bool enabled)
 {
     ui.awSceneNodeAngle->setEnabled(enabled);
@@ -1332,7 +1393,7 @@ void MainPanel::lockTypesTab(bool lock)
     }
 }
 
-
+// ReSharper disable once CppMemberFunctionMayBeConst
 void MainPanel::updateAnimationsListFromTree()
 {
     ui.cmbAnimationInstanceAnimationFromTree->clear();
@@ -1660,7 +1721,7 @@ void MainPanel::reloadResources()
     }
 }
 
-
+// ReSharper disable once CppMemberFunctionMayBeConst
 void MainPanel::tabTypeChanged(int index)
 {
     // If tab is locked, switch to locked tab

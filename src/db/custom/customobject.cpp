@@ -404,6 +404,21 @@ bool sad::db::custom::Object::copyCustomPropertyValuesFrom(sad::db::custom::Obje
     return can_copy;
 }
 
+void sad::db::custom::Object::makeSpanBetweenPoints(
+    const sad::Point2D & p1, 
+    const sad::Point2D & p2
+)
+{
+    if (m_label)
+    {
+        m_label->makeSpanBetweenPoints(p1, p2);
+    }
+    if (m_sprite2d)
+    {
+        m_sprite2d->makeSpanBetweenPoints(p1, p2);
+    }
+}
+
 bool sad::db::custom::Object::load(const picojson::value& v)
 {
     m_sprite2d->toggleLoadingMode(true);

@@ -132,6 +132,7 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/scenenodes/scenenodeschangeproperty.h \
     ifaceed/history/scenenodes/scenenodeschangepropertywhichlinkedtocheckbox.h \
     ifaceed/history/scenenodes/scenenodeschangevisibility.h \
+    ifaceed/history/scenenodes/scenenodesspan.h \	
     ifaceed/gui/rotationprocess.h \
     ifaceed/gui/actions/abstractactions.h \
     ifaceed/gui/actions/actions.h \
@@ -375,6 +376,7 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/history/scenes/scenesremove.cpp \
     ifaceed/core/synchronization.cpp \
     ifaceed/history/scenenodes/scenenodesnew.cpp \
+    ifaceed/history/scenenodes/scenenodesspan.cpp \		
     ifaceed/gui/actions/abstractactions.cpp \
     ifaceed/gui/actions/actions.cpp \
     ifaceed/gui/actions/labelactions.cpp \

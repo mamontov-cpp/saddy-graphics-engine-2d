@@ -10,7 +10,7 @@ if [%VALID%] EQU [0]  (
 )
 @echo on
 devenv libsaddy.vcxproj /Build %1 /out lastsolutionbuild.log
-devenv plugins/atlasgenc/atlasgen.vcxproj /Build %1 /out lastsolutionbuild.log
+devenv plugins/atlasgen/atlasgen.vcxproj /Build %1 /out lastsolutionbuild.log
 devenv plugins/duktape/duktape.vcxproj /Build %1 /out lastsolutionbuild.log
 devenv plugins/exporter/exporter.vcxproj /Build %1 /out lastsolutionbuild.log
 devenv plugins/freetype/saddy-ft.vcxproj /Build %1 /out lastsolutionbuild.log

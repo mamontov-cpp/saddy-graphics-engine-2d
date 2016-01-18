@@ -99,6 +99,18 @@ public:
         \param[in] fromeditor a from editor
      */
     bool scriptableAddProperty(const sad::String& propertytype, const sad::String& propertyname, bool fromeditor);	
+    /*! Whether fast mode is enabled
+        \return fast mode is enabled
+     */
+    bool isFastModeEnabled() const;
+    /*! Fetches scene node name from user interface
+        \return scene node name from ui
+     */
+    QString getSceneNodeNameFromUI() const;
+    /*! Set scene nde name in UI
+        \param[in] name a name part
+     */ 
+    void setSceneNodeName(const QString& name) const;
 protected:
     /*! An editor part
      */

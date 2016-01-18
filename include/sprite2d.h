@@ -269,6 +269,15 @@ public:
     const sad::String & treeName() const;
     /*! Makes sprite rectangle span between two points, which defines centers of opposite sides
         of sprite
+        \param[in] p1 first point
+        \param[in] p2 second point
+     */
+	void makeSpanBetweenPoints(
+        const sad::Point2D & p1, 
+        const sad::Point2D & p2
+	);
+	/*! Makes sprite rectangle span between two points, which defines centers of opposite sides
+        of sprite
         \param[in] r source rectangle for adapter
         \param[in] p1 first point
         \param[in] p2 second point

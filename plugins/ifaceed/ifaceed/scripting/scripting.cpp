@@ -522,16 +522,17 @@ void scripting::Scripting::showHelp()
         "			<ul>"
         "				<li>method <b>list()</b> - lists all scenenodes from all scenes, returning all of majorids for it</li>"
         "				<li>method <b>listScene(\"scene\")</b> - lists scene nodes from scene, named by name or major id</li>"
-        "				<li>method <b>_addLabel(name of scene, font name, font size, text, name, position as point, color) - adds a label to a scene</li>"
-        "				<li>method <b>addLabel(object) - does the same as previous only style is different. Object must have fields:  \"font\", \"text\", \"point\", \"scene\" . Fields \"fontsize\", \"color\", \"name\" are optional.</li>"
-        "				<li>method <b>_addSprite2D(name of scene, sprite options name, name, area as rectangle, color) - adds a sprite to a scene</li>"
-        "				<li>method <b>addSprite2D(object) - does the same as previous only style is different. Object must have fields:  \"sprite\", \"area\", \"scene\" . Fields \"color\", \"name\" are optional.</li>"
-        "				<li>method <b>_addCustomObject(name of scene, schema name, name, font size, text, area as rectangle, color) - adds a custom object to a scene</li>"
-        "				<li>method <b>addCustomObject(object) - does the same as previous only style is different. Object must have fields:  \"schema\", \"fontsize\", \"scene\", \"text\", \"area\" . Fields \"fontsize\", \"color\", \"name\" are optional.</li>"
-        "				<li>method <b>makeBackground(scene node) - sets nodes as background. May cause labels to disappear</li>"
+        "				<li>method <b>_addLabel(name of scene, font name, font size, text, name, position as point, color)</b> - adds a label to a scene</li>"
+        "				<li>method <b>addLabel(object)</b> - does the same as previous only style is different. Object must have fields:  \"font\", \"text\", \"point\", \"scene\" . Fields \"fontsize\", \"color\", \"name\" are optional.</li>"
+        "				<li>method <b>_addSprite2D(name of scene, sprite options name, name, area as rectangle, color)</b> - adds a sprite to a scene</li>"
+        "				<li>method <b>addSprite2D(object)</b> - does the same as previous only style is different. Object must have fields:  \"sprite\", \"area\", \"scene\" . Fields \"color\", \"name\" are optional.</li>"
+        "				<li>method <b>_addCustomObject(name of scene, schema name, name, font size, text, area as rectangle, color)</b> - adds a custom object to a scene</li>"
+        "				<li>method <b>addCustomObject(object)</b> - does the same as previous only style is different. Object must have fields:  \"schema\", \"fontsize\", \"scene\", \"text\", \"area\" . Fields \"fontsize\", \"color\", \"name\" are optional.</li>"
+        "				<li>method <b>makeBackground(scene node)</b> - sets nodes as background. May cause labels to disappear</li>"
         "				<li>method <b>remove(22)</b>, <b>remove(\"name\")</b> - removes scene node by id or by name</li>"
         "				<li>method <b>moveBack(22)</b>, <b>moveBack(\"name\")</b> - moves scene back in list by id or by name</li>"
         "				<li>method <b>moveFront(22)</b>, <b>moveFront(\"name\")</b> - moves scene front in list by id or by name</li>"
+        "				<li>method <b>spanBetweenTwoPoints(scene_node_name_or_id, first_point, second_point)</b> - makes object span between two points. Object is specified by name or id and points can be created, using p2d</li>"
         "				<li>method <b>set(\"nodename\", \"propertyname\", \"value\")</b> - sets property of scene node."
         "					<ul>"	
         "						<li><b>[All node types]</b>property <b>\"name\"</b>  - name of node as string.</li>"
@@ -1105,6 +1106,11 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
     scripting::Callable* remove = scripting::make_scripting_call(scripting::scenenodes::remove, this);
     m_registered_classes << remove;
     scenenodes.setProperty("remove", m_engine->newObject(remove)); // E.scenenodes.remove
+
+    scripting::Callable* spanBetweenTwoPoints = scripting::make_scripting_call(scripting::scenenodes::spanBetweenTwoPoints, this);
+    m_registered_classes << spanBetweenTwoPoints;
+    scenenodes.setProperty("spanBetweenTwoPoints", m_engine->newObject(spanBetweenTwoPoints)); // E.scenenodes.spanBetweenTwoPoints
+
 
     scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
     // All props
