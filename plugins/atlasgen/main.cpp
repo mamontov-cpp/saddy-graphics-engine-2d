@@ -25,7 +25,7 @@
 #ifndef _MSC_VER
 
 // Taken from: http://qt-project.org/forums/viewthread/13148
-// debugging asserts in Qt code is tricky with MinGw. You get a crash, instead of a backtrace.
+// debugging asserts in Qt code is tricky with MinGW. You get a crash, instead of a backtrace.
 // enable the define below to get a crash that results in a backtrace instead. Note that it does
 // mess up your debug output, so don't leave it enabled if you're not working on fixing an assert
 //#define DEBUG_QT_ASSERT
