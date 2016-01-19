@@ -41,4 +41,16 @@ public:
        \param name a reading name
      */
     virtual void read(const QString& name)  = 0;
+	/*! Returns whether we should preserve unique textures
+		\return whether we should preserve unique textures or not
+	 */
+	bool shouldPreserveUniqueTextures();
+	/*! Sets, whether we should preserve unique textures or not
+		\param[in] flag a value
+	 */
+	void toggleShouldPreserveUniqueTextures(bool flag);
+protected:
+	/*! Whether reader should preserve a unique textures
+	 */
+	bool m_preserve_unique_textures;
 };

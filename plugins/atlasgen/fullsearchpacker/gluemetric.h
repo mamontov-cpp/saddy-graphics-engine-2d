@@ -6,7 +6,7 @@
 #pragma once
 #include "glueentry.h"
 #include "glueorder.h"
-#include "maybenumber.h"
+#include "../maybenumber.h"
 
 #include <QtCore/QPair>
 

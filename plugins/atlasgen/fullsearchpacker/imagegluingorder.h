@@ -5,7 +5,7 @@
     Merging images on this order, must lead to a texture with minimum width and height
  */
 #pragma once
-#include "texturearray.h"
+#include "../texturearray.h"
 #include "glueorder.h"
 #include <QtCore/QSizeF>
 

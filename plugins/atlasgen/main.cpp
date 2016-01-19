@@ -79,6 +79,7 @@ int main(int argc, char *argv[])
     // An input file
     program_options.insert("input", "");
     // Parse program options
+	bool textures_should_be_unique = true;
     for(int i = 1; i < argc; i++)
     {
         QString argument(argv[i]);
@@ -107,7 +108,12 @@ int main(int argc, char *argv[])
         {
             handled = true;
             program_options["run-tests"] = true;
-        }
+        }	
+		if (argument == "-non-unique-textures" || argument == "--non-unique-textures")
+		{
+			handled = true;
+            textures_should_be_unique = false;			
+		}
         if (!handled)
         {
             program_options["input"] = argument;
@@ -129,6 +135,7 @@ int main(int argc, char *argv[])
 -xml, --format-xml - parse input file as XML \n\
 -with-index, --with-index - Scan and print index part in file definitions\n\
 -h, --help - prints this help\n"
+"-non-unique-textures, --non-unique-textures - do not check, that textures should be unique\n"
                   );
         }
     } 
@@ -150,6 +157,7 @@ int main(int argc, char *argv[])
             {
                 reader = new JSONReader();
             }
+			reader->toggleShouldPreserveUniqueTextures(textures_should_be_unique);
             reader->Result = &atlas;
             reader->read(program_options["input"].value<QString>());
             if (reader->Successfull && atlas.Errors.size() == 0)

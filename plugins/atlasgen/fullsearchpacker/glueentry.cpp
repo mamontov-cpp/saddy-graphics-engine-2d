@@ -1,5 +1,5 @@
 #include "glueentry.h"
-#include "texture.h"
+#include "../texture.h"
 #include "gluemetric.h"
 
 
