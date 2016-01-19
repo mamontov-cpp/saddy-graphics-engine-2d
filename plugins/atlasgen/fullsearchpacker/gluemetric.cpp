@@ -5,17 +5,17 @@
 
 #include <cstdio>
 
-GlueMetric::GlueMetric()
+fullsearchpacker::GlueMetric::GlueMetric()
 {
 
 }
 
-GlueMetric::~GlueMetric()
+fullsearchpacker::GlueMetric::~GlueMetric()
 {
 
 }
 
-double GlueMetric::maxMerge(const QVector<GlueEntry>& entries, GlueOrder order, int index)
+double fullsearchpacker::GlueMetric::maxMerge(const QVector<fullsearchpacker::GlueEntry>& entries, fullsearchpacker::GlueOrder order, int index)
 {
     bool maxexists = false;
     double max = 0;
@@ -34,28 +34,27 @@ double GlueMetric::maxMerge(const QVector<GlueEntry>& entries, GlueOrder order, 
     return max;
 }
 
-double GlueMetric::sumMerge(const QVector<GlueEntry>& entries, GlueOrder order, int index)
+double fullsearchpacker::GlueMetric::sumMerge(const QVector<fullsearchpacker::GlueEntry>& entries, fullsearchpacker::GlueOrder order, int index)
 {
     double result = 0;
     for(size_t i = 0; i < order.Images.size(); i++)
     {
         result += entries[order.Images[i]][index];
-
     }
     return result;
 }
 
-QVector<GlueOrder> GlueMetric::findMinMetricOrder(const QVector<GlueEntry>& entries)
+QVector<fullsearchpacker::GlueOrder> fullsearchpacker::GlueMetric::findMinMetricOrder(const QVector<fullsearchpacker::GlueEntry>& entries)
 {
-    QVector<GlueOrder> result;
+    QVector<fullsearchpacker::GlueOrder> result;
     MaybeNumber min;
     for(size_t i1 = 0; i1 < entries.size(); i1++)
     {
         for(size_t i2 = i1 + 1; i2 < entries.size(); i2++)
         {
-            QVector<GlueOrder> combinations;
-            combinations << GlueOrder(i1, i2, HORIZONTAL);
-            combinations << GlueOrder(i1, i2, VERTICAL);
+            QVector<fullsearchpacker::GlueOrder> combinations;
+            combinations << fullsearchpacker::GlueOrder(i1, i2, HORIZONTAL);
+            combinations << fullsearchpacker::GlueOrder(i1, i2, VERTICAL);
 
             for(size_t j = 0; j < combinations.size(); j++)
             {
@@ -80,9 +79,9 @@ QVector<GlueOrder> GlueMetric::findMinMetricOrder(const QVector<GlueEntry>& entr
     return result;
 }
 
-GlueMetric::OrdersAndSize GlueMetric::findOrder(const QVector<GlueEntry> & entries)
+fullsearchpacker::GlueMetric::OrdersAndSize fullsearchpacker::GlueMetric::findOrder(const QVector<fullsearchpacker::GlueEntry> & entries)
 {
-    GlueMetric::OrdersAndSize result;
+    fullsearchpacker::GlueMetric::OrdersAndSize result;
     bool resultexists  = false;
     if (entries.size())
     {
@@ -91,11 +90,11 @@ GlueMetric::OrdersAndSize GlueMetric::findOrder(const QVector<GlueEntry> & entri
         }
         else
         {
-            QLinkedList<GlueTask> tasks;
-            tasks << GlueTask(entries, QVector<GlueOrder>());
+            QLinkedList<fullsearchpacker::GlueTask> tasks;
+            tasks << fullsearchpacker::GlueTask(entries, QVector<fullsearchpacker::GlueOrder>());
             while(tasks.size())
             {
-                GlueTask task = *(tasks.begin());
+                fullsearchpacker::GlueTask task = *(tasks.begin());
                 tasks.removeFirst();
                 if (task.Entries.size() == 1)
                 {
@@ -113,11 +112,11 @@ GlueMetric::OrdersAndSize GlueMetric::findOrder(const QVector<GlueEntry> & entri
                 }
                 else
                 {
-                    QVector<GlueOrder> orders = this->findMinMetricOrder(task.Entries);
+                    QVector<fullsearchpacker::GlueOrder> orders = this->findMinMetricOrder(task.Entries);
                     size_t sizeorders = orders.size();
                     for(size_t j = 0; j < sizeorders; j++)
                     {
-                        GlueTask newtask =  task.applyOrder(orders[j]); 
+                        fullsearchpacker::GlueTask newtask =  task.applyOrder(orders[j]); 
                         tasks << newtask;
                         /*
                         char c = ((orders[j].Mode == HORIZONTAL) ? 'H' : 'V');
@@ -143,14 +142,14 @@ GlueMetric::OrdersAndSize GlueMetric::findOrder(const QVector<GlueEntry> & entri
     return result;
 }
 
-QPair<MaybeNumber, GlueMetric::OrdersAndSize>
-GlueMetric::findMinimumOrder(
-    const QPair<MaybeNumber, GlueMetric::OrdersAndSize> start,
-    const GlueMetric::OrdersAndSize & result
+QPair<MaybeNumber, fullsearchpacker::GlueMetric::OrdersAndSize>
+fullsearchpacker::GlueMetric::findMinimumOrder(
+    const QPair<MaybeNumber, fullsearchpacker::GlueMetric::OrdersAndSize> start,
+    const fullsearchpacker::GlueMetric::OrdersAndSize & result
 )
 {
     MaybeNumber min = start.first;
-    GlueMetric::OrdersAndSize resultorder = start.second;
+    fullsearchpacker::GlueMetric::OrdersAndSize resultorder = start.second;
     double width = result.second[0];
     double height = result.second[1];
     double max_value = std::max(width, height);
@@ -159,6 +158,6 @@ GlueMetric::findMinimumOrder(
         resultorder = result;
         min.setValue(max_value);
     }
-    return QPair<MaybeNumber, GlueMetric::OrdersAndSize>(min, resultorder);
+    return QPair<MaybeNumber, fullsearchpacker::GlueMetric::OrdersAndSize>(min, resultorder);
 }
 

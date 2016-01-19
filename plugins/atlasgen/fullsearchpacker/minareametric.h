@@ -6,9 +6,12 @@
 #pragma once
 #include "gluemetric.h"
 
+namespace fullsearchpacker
+{
+
 /*! Computes a metric, that minimizes area of resulting texture
  */
-class MinAreaMetric: public GlueMetric
+class MinAreaMetric: public fullsearchpacker::GlueMetric
 {
 public:
     /*! Defines a default metric
@@ -23,8 +26,9 @@ public:
         \return metric value
      */
     virtual double getMetric(
-            const QVector<GlueEntry>& entries,
-            const GlueOrder& order
+        const QVector<fullsearchpacker::GlueEntry>& entries,
+        const fullsearchpacker::GlueOrder& order
     );
 };
 
+}

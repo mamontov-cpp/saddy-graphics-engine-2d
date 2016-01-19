@@ -8,6 +8,9 @@
 
 #include <QtCore/QVector>
 
+namespace fullsearchpacker
+{
+
 /*! Defines a list of images and how they should be glued
  */
 class GlueOrder
@@ -18,7 +21,7 @@ public:
     QVector<size_t> Images;
     /*! How should images be glued
      */
-    GlueMode Mode;
+    fullsearchpacker::GlueMode Mode;
 
     /*! Default constructor
      */
@@ -28,8 +31,11 @@ public:
        \param i2 second image
        \param mode mode
      */
-    GlueOrder(size_t i1, size_t i2, GlueMode mode);
+    GlueOrder(size_t i1, size_t i2, fullsearchpacker::GlueMode mode);
     /*! Could be inherited
      */
     virtual ~GlueOrder();
 };
+
+
+}

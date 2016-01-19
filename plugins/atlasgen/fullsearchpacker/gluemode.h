@@ -1,10 +1,12 @@
 /*! \file gluemode.h
     
 
-    Describes, how to images should be merged
+    Describes, how images should be merged
  */
 #pragma once
 
+namespace fullsearchpacker 
+{
 
 enum GlueMode
 {
@@ -15,3 +17,5 @@ enum GlueMode
      */
     VERTICAL = 2
 };
+
+}

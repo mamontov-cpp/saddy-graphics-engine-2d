@@ -78,6 +78,7 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">atlasgen-debug</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">atlasgen-release</TargetName>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IncludePath);$(QTDIR)\include</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -176,18 +177,20 @@
   <ItemGroup>
     <ClCompile Include="atlas.cpp" />
     <ClCompile Include="atlasentry.cpp" />
-    <ClCompile Include="glueentry.cpp" />
-    <ClCompile Include="gluemetric.cpp" />
-    <ClCompile Include="glueorder.cpp" />
-    <ClCompile Include="gluetask.cpp" />
-    <ClCompile Include="imagearranger.cpp" />
-    <ClCompile Include="imagegluingorder.cpp" />
+    <ClCompile Include="fullsearchpacker\fullsearchpacker.cpp" />
+    <ClCompile Include="fullsearchpacker\glueentry.cpp" />
+    <ClCompile Include="fullsearchpacker\gluemetric.cpp" />
+    <ClCompile Include="fullsearchpacker\glueorder.cpp" />
+    <ClCompile Include="fullsearchpacker\gluetask.cpp" />
+    <ClCompile Include="fullsearchpacker\imagearranger.cpp" />
+    <ClCompile Include="fullsearchpacker\imagegluingorder.cpp" />
+    <ClCompile Include="fullsearchpacker\minareametric.cpp" />
+    <ClCompile Include="fullsearchpacker\mindiffmetric.cpp" />
     <ClCompile Include="jsonreader.cpp" />
     <ClCompile Include="jsonwriter.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="maybenumber.cpp" />
-    <ClCompile Include="minareametric.cpp" />
-    <ClCompile Include="mindiffmetric.cpp" />
+    <ClCompile Include="packer.cpp" />
     <ClCompile Include="reader.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="texturearray.cpp" />
@@ -198,18 +201,20 @@
   <ItemGroup>
     <ClInclude Include="atlas.h" />
     <ClInclude Include="atlasentry.h" />
-    <ClInclude Include="glueentry.h" />
-    <ClInclude Include="gluemetric.h" />
-    <ClInclude Include="gluemode.h" />
-    <ClInclude Include="glueorder.h" />
-    <ClInclude Include="gluetask.h" />
-    <ClInclude Include="imagearranger.h" />
-    <ClInclude Include="imagegluingorder.h" />
+    <ClInclude Include="fullsearchpacker\fullsearchpacker.h" />
+    <ClInclude Include="fullsearchpacker\glueentry.h" />
+    <ClInclude Include="fullsearchpacker\gluemetric.h" />
+    <ClInclude Include="fullsearchpacker\gluemode.h" />
+    <ClInclude Include="fullsearchpacker\glueorder.h" />
+    <ClInclude Include="fullsearchpacker\gluetask.h" />
+    <ClInclude Include="fullsearchpacker\imagearranger.h" />
+    <ClInclude Include="fullsearchpacker\imagegluingorder.h" />
+    <ClInclude Include="fullsearchpacker\minareametric.h" />
+    <ClInclude Include="fullsearchpacker\mindiffmetric.h" />
     <ClInclude Include="jsonreader.h" />
     <ClInclude Include="jsonwriter.h" />
     <ClInclude Include="maybenumber.h" />
-    <ClInclude Include="minareametric.h" />
-    <ClInclude Include="mindiffmetric.h" />
+    <ClInclude Include="packer.h" />
     <ClInclude Include="reader.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="texturearray.h" />

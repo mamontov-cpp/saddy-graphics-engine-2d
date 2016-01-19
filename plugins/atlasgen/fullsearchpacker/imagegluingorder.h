@@ -7,6 +7,10 @@
 #pragma once
 #include "texturearray.h"
 #include "glueorder.h"
+#include <QtCore/QSizeF>
+
+namespace fullsearchpacker
+{
 
 /*! A class, which can find an order in which images should be glued.
     Merging images on this order, must lead to a texture with minimum width and height
@@ -20,7 +24,7 @@ public:
     {
         /*! Order, in which images should be merged
          */
-        QVector<GlueOrder> Order;
+        QVector<fullsearchpacker::GlueOrder> Order;
         /*! A size of image
          */
         QSizeF Size;
@@ -43,5 +47,7 @@ public:
         \param[in] images a list of images to be merged
         \return result resulting order
      */
-    ImageGluingOrder::Result find(const TextureArray& images);
+    fullsearchpacker::ImageGluingOrder::Result find(const TextureArray& images);
 };
+
+}

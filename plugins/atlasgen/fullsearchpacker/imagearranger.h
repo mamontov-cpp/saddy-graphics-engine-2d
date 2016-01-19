@@ -6,6 +6,10 @@
 #pragma once
 #include "imagegluingorder.h"
 
+
+namespace fullsearchpacker
+{
+
 /*! A class, that performs a texture rectangle computation, setting texture rectangle properties, 
     according to gluing order and computes size of output texture
  */
@@ -45,10 +49,10 @@ public:
             \param[in] order an order in which they should be merged
             \return bucket
          */
-        static ImageArranger::Bucket merge(
-            const ImageArranger::Bucket& bucket1,
-            const ImageArranger::Bucket& bucket2,
-            const GlueOrder& order
+        static fullsearchpacker::ImageArranger::Bucket merge(
+            const fullsearchpacker::ImageArranger::Bucket& bucket1,
+            const fullsearchpacker::ImageArranger::Bucket& bucket2,
+            const fullsearchpacker::GlueOrder& order
         );
     };
 
@@ -74,7 +78,9 @@ public:
      */
     double arrange(
         const TextureArray& images, 
-        const QVector<GlueOrder>& order, 
+        const QVector<fullsearchpacker::GlueOrder>& order, 
         const QSizeF& totalSize
     );
 };
+
+}

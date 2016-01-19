@@ -1,19 +1,20 @@
 #include "atlas.h"
 #include "xmlreader.h"
 #include "jsonreader.h"
-#include "imagegluingorder.h"
-#include "imagearranger.h"
+#include "fullsearchpacker/fullsearchpacker.h"
 #include "xmlwriter.h"
 #include "jsonwriter.h"
 
 
 #include <cstdio>
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QtCore/QHash>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QtCore/QString>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QtCore/QVariant>
 
-#include <QtGui/QPainter>
 
 #pragma warning(push)
 #pragma warning(disable: 4273)
@@ -155,27 +156,17 @@ int main(int argc, char *argv[])
             {
                 if (atlas.Textures.size() != 0)
                 {
-                    ImageGluingOrder gluingorder;
-                    ImageGluingOrder::Result gluingorderresult = gluingorder.find(atlas.Textures);
-                    
-                    ImageArranger arranger;
-                    double widthheight = arranger.arrange(atlas.Textures,gluingorderresult.Order,gluingorderresult.Size);
-                    QImage image(widthheight, widthheight, QImage::Format_ARGB32);
-                    image.fill(QColor(255, 255, 255, 0));
-                    QPainter painter(&image);
-                    for(size_t i = 0; i < atlas.Textures.size(); i++)
-                    {
-                        painter.drawImage(
-                            atlas.Textures[i]->TextureRectangle.topLeft(),
-                            atlas.Textures[i]->Image
-                        );
-                    }
-                    painter.end();
-                    bool saved = image.save(reader->OutputTexture);
+                    QImage* image;
+					Packer* packer;
+					packer = new fullsearchpacker::FullSearchPacker();
+					packer->pack(atlas, image);
+                    bool saved = image->save(reader->OutputTexture);
                     if (!saved)
                     {
                         printf("Can\'t write resulting texture to file %s\n", reader->OutputTexture.toStdString().c_str());
                     }
+					delete image;
+					delete packer;
                 }
                 else
                 {

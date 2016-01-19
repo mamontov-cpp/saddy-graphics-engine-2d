@@ -10,6 +10,9 @@
 
 #include <QtCore/QPair>
 
+namespace fullsearchpacker
+{
+
 /*! An abstract metric,
     that finds best order to merge an images into one
  */
@@ -19,10 +22,10 @@ public:
     /*! A size pair to be indexed
         \param[in] size pair
      */
-    typedef QVector<double> SizePair;
+    typedef GlueEntry SizePair;
     /*! A pair of order and size
      */
-    typedef QPair<QVector<GlueOrder>, GlueMetric::SizePair> OrdersAndSize;
+    typedef QPair<QVector<fullsearchpacker::GlueOrder>, fullsearchpacker::GlueMetric::SizePair> OrdersAndSize;
 
     /*! Defines a default metric
      */
@@ -36,31 +39,31 @@ public:
         \return metric value
      */
     virtual double getMetric(
-            const QVector<GlueEntry>& entries,
-            const GlueOrder& order
+            const QVector<fullsearchpacker::GlueEntry>& entries,
+            const fullsearchpacker::GlueOrder& order
     ) = 0;
     /*! Finds all possible orders, where metric is minimum
         \param[in] entries source entries to be merged
         \return all possible orders, where metric is minimum
      */
-    QVector<GlueOrder> findMinMetricOrder(const QVector<GlueEntry>& entries);
+    QVector<fullsearchpacker::GlueOrder> findMinMetricOrder(const QVector<fullsearchpacker::GlueEntry>& entries);
     /*! Finds an all possible orders with minimal metric
         Returns empty list no entries supplied. Also can return empty orders in first element
         if one images.
         \param entries entries to be merged
         \return size and order
      */
-    GlueMetric::OrdersAndSize findOrder(const QVector<GlueEntry> & entries);
+    fullsearchpacker::GlueMetric::OrdersAndSize findOrder(const QVector<fullsearchpacker::GlueEntry> & entries);
     /*! Scans for minimum order in array of GlueMetric::findOrder results (results parameter)
         and finds metric width minimum from maximum from width and height, with given Array[MaybeNumber, result]
         \param[in] start result of computing previous minimum texture
         \param[in] results  an array of results
         \return computation result
      */
-    QPair<MaybeNumber, GlueMetric::OrdersAndSize>
+    QPair<MaybeNumber, fullsearchpacker::GlueMetric::OrdersAndSize>
     static findMinimumOrder(
-        const QPair<MaybeNumber, GlueMetric::OrdersAndSize> start,
-        const GlueMetric::OrdersAndSize  & results
+        const QPair<MaybeNumber, fullsearchpacker::GlueMetric::OrdersAndSize> start,
+        const fullsearchpacker::GlueMetric::OrdersAndSize  & results
     );
     /*! Computes a maximum between size dimensions specified by index between images, specified by order
         on an entries of entries
@@ -69,7 +72,7 @@ public:
         \param[in] index 0 - for width, 1 - for height
         \return result
      */
-    static double maxMerge(const QVector<GlueEntry>& entries, GlueOrder order, int index);
+    static double maxMerge(const QVector<fullsearchpacker::GlueEntry>& entries, fullsearchpacker::GlueOrder order, int index);
 
     /*! Computes a sum between size dimensions specified by +index+ between images, specified by +order+
         on an entries of +entries+
@@ -78,5 +81,8 @@ public:
         \param[in] index 0 - for width, 1 - for height
         \return result
      */
-    static double sumMerge(const QVector<GlueEntry>& entries, GlueOrder order, int index);
+    static double sumMerge(const QVector<fullsearchpacker::GlueEntry>& entries, fullsearchpacker::GlueOrder order, int index);
 };
+
+}
+

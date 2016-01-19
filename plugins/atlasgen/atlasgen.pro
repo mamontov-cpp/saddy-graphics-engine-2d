@@ -20,18 +20,21 @@ SOURCES += main.cpp\
     reader.cpp \
     xmlreader.cpp \
     jsonreader.cpp \
-    glueentry.cpp \
-    glueorder.cpp \
+    fullsearchpacker/glueentry.cpp \
+    fullsearchpacker/glueorder.cpp \
     maybenumber.cpp \
-    gluemetric.cpp \
-    gluetask.cpp \
-    mindiffmetric.cpp \
-    minareametric.cpp \
-    imagegluingorder.cpp \
-    imagearranger.cpp \
+    fullsearchpacker/gluemetric.cpp \
+    fullsearchpacker/gluetask.cpp \
+    fullsearchpacker/mindiffmetric.cpp \
+    fullsearchpacker/minareametric.cpp \
+    fullsearchpacker/imagegluingorder.cpp \
+    fullsearchpacker/imagearranger.cpp \
     jsonwriter.cpp \
     writer.cpp \
-    xmlwriter.cpp
+    xmlwriter.cpp \
+    packer.cpp \
+    fullsearchpacker/fullsearchpacker.cpp 
+	
 
 HEADERS  +=  atlas.h \
     atlasentry.h \
@@ -40,20 +43,22 @@ HEADERS  +=  atlas.h \
     xmlreader.h \
     reader.h \
     jsonreader.h \
-    glueentry.h \
-    gluemode.h \
-    glueorder.h \
+    fullsearchpacker/glueentry.h \
+    fullsearchpacker/gluemode.h \
+    fullsearchpacker/glueorder.h \
     maybenumber.h \
-    gluemetric.h \
-    gluetask.h \
-    mindiffmetric.h \
-    minareametric.h \
-    imagegluingorder.h \
-    imagearranger.h \
+    fullsearchpacker/gluemetric.h \
+    fullsearchpacker/gluetask.h \
+    fullsearchpacker/mindiffmetric.h \
+    fullsearchpacker/minareametric.h \
+    fullsearchpacker/imagegluingorder.h \
+    fullsearchpacker/imagearranger.h \
     jsonwriter.h \
     writer.h \
-    xmlwriter.h
-
+    packer.h \	
+    xmlwriter.h \
+    fullsearchpacker/fullsearchpacker.h 
+	
 DESTDIR = ../../bin/
 
 unix {

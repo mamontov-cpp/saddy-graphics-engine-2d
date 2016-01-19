@@ -19,30 +19,18 @@
       <Extensions>moc;h;cpp</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
+    <Filter Include="Header Files\fullsearchpacker">
+      <UniqueIdentifier>{45298f8b-1661-4cc9-a42d-54f6ebb078be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\fullsearchpacker">
+      <UniqueIdentifier>{35978378-0a59-437b-ba44-b9ec9a4a523f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="atlas.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="atlasentry.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="glueentry.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="gluemetric.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="glueorder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="gluetask.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="imagearranger.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="imagegluingorder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jsonreader.cpp">
@@ -55,12 +43,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="maybenumber.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="minareametric.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="mindiffmetric.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="reader.cpp">
@@ -81,33 +63,42 @@
     <ClCompile Include="xmlwriter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="packer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fullsearchpacker\fullsearchpacker.cpp">
+      <Filter>Source Files\fullsearchpacker</Filter>
+    </ClCompile>
+    <ClCompile Include="fullsearchpacker\glueorder.cpp">
+      <Filter>Source Files\fullsearchpacker</Filter>
+    </ClCompile>
+    <ClCompile Include="fullsearchpacker\imagegluingorder.cpp">
+      <Filter>Source Files\fullsearchpacker</Filter>
+    </ClCompile>
+    <ClCompile Include="fullsearchpacker\minareametric.cpp">
+      <Filter>Source Files\fullsearchpacker</Filter>
+    </ClCompile>
+    <ClCompile Include="fullsearchpacker\mindiffmetric.cpp">
+      <Filter>Source Files\fullsearchpacker</Filter>
+    </ClCompile>
+    <ClCompile Include="fullsearchpacker\gluemetric.cpp">
+      <Filter>Source Files\fullsearchpacker</Filter>
+    </ClCompile>
+    <ClCompile Include="fullsearchpacker\glueentry.cpp">
+      <Filter>Source Files\fullsearchpacker</Filter>
+    </ClCompile>
+    <ClCompile Include="fullsearchpacker\gluetask.cpp">
+      <Filter>Source Files\fullsearchpacker</Filter>
+    </ClCompile>
+    <ClCompile Include="fullsearchpacker\imagearranger.cpp">
+      <Filter>Source Files\fullsearchpacker</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="atlas.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="atlasentry.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="glueentry.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="gluemetric.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="gluemode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="glueorder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="gluetask.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="imagearranger.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="imagegluingorder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="jsonreader.h">
@@ -117,12 +108,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="maybenumber.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="minareametric.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="mindiffmetric.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="reader.h">
@@ -142,6 +127,39 @@
     </ClInclude>
     <ClInclude Include="xmlwriter.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="packer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fullsearchpacker\fullsearchpacker.h">
+      <Filter>Header Files\fullsearchpacker</Filter>
+    </ClInclude>
+    <ClInclude Include="fullsearchpacker\glueorder.h">
+      <Filter>Header Files\fullsearchpacker</Filter>
+    </ClInclude>
+    <ClInclude Include="fullsearchpacker\gluemode.h">
+      <Filter>Header Files\fullsearchpacker</Filter>
+    </ClInclude>
+    <ClInclude Include="fullsearchpacker\imagegluingorder.h">
+      <Filter>Header Files\fullsearchpacker</Filter>
+    </ClInclude>
+    <ClInclude Include="fullsearchpacker\minareametric.h">
+      <Filter>Header Files\fullsearchpacker</Filter>
+    </ClInclude>
+    <ClInclude Include="fullsearchpacker\mindiffmetric.h">
+      <Filter>Header Files\fullsearchpacker</Filter>
+    </ClInclude>
+    <ClInclude Include="fullsearchpacker\gluemetric.h">
+      <Filter>Header Files\fullsearchpacker</Filter>
+    </ClInclude>
+    <ClInclude Include="fullsearchpacker\glueentry.h">
+      <Filter>Header Files\fullsearchpacker</Filter>
+    </ClInclude>
+    <ClInclude Include="fullsearchpacker\gluetask.h">
+      <Filter>Header Files\fullsearchpacker</Filter>
+    </ClInclude>
+    <ClInclude Include="fullsearchpacker\imagearranger.h">
+      <Filter>Header Files\fullsearchpacker</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

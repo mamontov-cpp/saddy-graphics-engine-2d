@@ -8,6 +8,9 @@
 #include "glueorder.h"
 
 
+namespace fullsearchpacker
+{
+
 /*! A task, which is used by metrics to find recursively an order.
     A metric must merge all +entries+ into one, extending +orders+ array
  */
@@ -16,10 +19,10 @@ class GlueTask
 public:
     /*! Entries, being merged into one
      */
-    QVector<GlueEntry> Entries;
+    QVector<fullsearchpacker::GlueEntry> Entries;
     /*! An orders to be merged into one
      */
-    QVector<GlueOrder> Orders;
+    QVector<fullsearchpacker::GlueOrder> Orders;
 
     /*! Constructs empty glue task
      */
@@ -28,7 +31,7 @@ public:
         \param[in] entries an entries list
         \param[in] orders an orders list
      */
-    GlueTask(const QVector<GlueEntry>& entries, const QVector<GlueOrder>& orders);
+    GlueTask(const QVector<fullsearchpacker::GlueEntry>& entries, const QVector<fullsearchpacker::GlueOrder>& orders);
     /*! Could be inherited
      */
     virtual ~GlueTask();
@@ -37,5 +40,7 @@ public:
         \param[in] order an order to be applied
         \return new task with order, which was applied
      */
-    GlueTask applyOrder(const GlueOrder& order);
+    fullsearchpacker::GlueTask applyOrder(const fullsearchpacker::GlueOrder& order);
 };
+
+}

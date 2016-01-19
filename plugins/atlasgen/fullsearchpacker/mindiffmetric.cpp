@@ -1,18 +1,18 @@
 #include "mindiffmetric.h"
 
-MinDiffMetric::MinDiffMetric()
+fullsearchpacker::MinDiffMetric::MinDiffMetric()
 {
 
 }
 
-MinDiffMetric::~MinDiffMetric()
+fullsearchpacker::MinDiffMetric::~MinDiffMetric()
 {
 
 }
 
-double MinDiffMetric::getMetric(
-   const QVector<GlueEntry>& entries,
-   const GlueOrder& order
+double fullsearchpacker::MinDiffMetric::getMetric(
+   const QVector<fullsearchpacker::GlueEntry>& entries,
+   const fullsearchpacker::GlueOrder& order
 )
 {
     double w = 0;

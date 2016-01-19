@@ -2,23 +2,23 @@
 
 #include <cstdio>
 
-ImageArranger::Bucket::Bucket()
+fullsearchpacker::ImageArranger::Bucket::Bucket()
 {
 
 }
 
-ImageArranger::Bucket::Bucket(Texture *t)
+fullsearchpacker::ImageArranger::Bucket::Bucket(Texture *t)
 {
     this->Images << t;
     this->Size = t->size();
 }
 
-ImageArranger::Bucket::~Bucket()
+fullsearchpacker::ImageArranger::Bucket::~Bucket()
 {
 
 }
 
-void ImageArranger::Bucket::shift(const QPointF& p) const
+void fullsearchpacker::ImageArranger::Bucket::shift(const QPointF& p) const
 {
     for(size_t i = 0; i < this->Images.size(); i++)
     {
@@ -29,13 +29,13 @@ void ImageArranger::Bucket::shift(const QPointF& p) const
     }
 }
 
-ImageArranger::Bucket ImageArranger::Bucket::merge(
-            const ImageArranger::Bucket& bucket1,
-            const ImageArranger::Bucket& bucket2,
-            const GlueOrder& order
+fullsearchpacker::ImageArranger::Bucket fullsearchpacker::ImageArranger::Bucket::merge(
+    const fullsearchpacker::ImageArranger::Bucket& bucket1,
+    const fullsearchpacker::ImageArranger::Bucket& bucket2,
+    const fullsearchpacker::GlueOrder& order
 )
 {
-    ImageArranger::Bucket result;
+    fullsearchpacker::ImageArranger::Bucket result;
     result.Images = bucket1.Images;
     result.Images << bucket2.Images;
 
@@ -61,17 +61,17 @@ ImageArranger::Bucket ImageArranger::Bucket::merge(
 }
 
 
-ImageArranger::ImageArranger()
+fullsearchpacker::ImageArranger::ImageArranger()
 {
 
 }
 
-ImageArranger::~ImageArranger()
+fullsearchpacker::ImageArranger::~ImageArranger()
 {
 
 }
 
-double ImageArranger::nextPOT(double value)
+double fullsearchpacker::ImageArranger::nextPOT(double value)
 {
     unsigned int  size = 1;
     while(size < value)
@@ -82,9 +82,9 @@ double ImageArranger::nextPOT(double value)
 }
 
 
-double ImageArranger::arrange(
+double fullsearchpacker::ImageArranger::arrange(
     const TextureArray& images, 
-    const QVector<GlueOrder>& order, 
+    const QVector<fullsearchpacker::GlueOrder>& order, 
     const QSizeF& totalSize
 )
 {
@@ -96,14 +96,14 @@ double ImageArranger::arrange(
         }
         else
         {	
-            QVector<ImageArranger::Bucket> buckets;
+            QVector<fullsearchpacker::ImageArranger::Bucket> buckets;
             for(size_t i = 0; i < images.size(); i++)
             {
-                buckets << ImageArranger::Bucket(images[i]);
+                buckets << fullsearchpacker::ImageArranger::Bucket(images[i]);
             }
             for(size_t i = 0; i < order.size(); i++)
             {
-                GlueOrder entry = order[i];
+                fullsearchpacker::GlueOrder entry = order[i];
 
                 QVector<size_t> indexes = entry.Images;
                 if (indexes[0] < indexes[1])
@@ -111,7 +111,7 @@ double ImageArranger::arrange(
                     std::swap(indexes[0], indexes[1]);
                 }
                 
-                ImageArranger::Bucket new_bucket =  ImageArranger::Bucket::merge(buckets[entry.Images[0]], buckets[entry.Images[1]], entry);
+                fullsearchpacker::ImageArranger::Bucket new_bucket =  fullsearchpacker::ImageArranger::Bucket::merge(buckets[entry.Images[0]], buckets[entry.Images[1]], entry);
                 buckets.remove(indexes[0]);
                 buckets.remove(indexes[1]);
                 buckets << new_bucket;
@@ -120,7 +120,7 @@ double ImageArranger::arrange(
     }
     double largesize = std::max(totalSize.width(), totalSize.height());
     //printf("Total size: %lf\n", largesize);
-    return ImageArranger::nextPOT(largesize);
+    return fullsearchpacker::ImageArranger::nextPOT(largesize);
 }
 
 
