@@ -61,7 +61,6 @@ int main(int argc, char *argv[])
     qInstallMsgHandler(crashMessageOutput);
 #endif
 #endif
-
     // An options for program
     QHash<QString, QVariant>  program_options;
     // An output format - JSON or XML

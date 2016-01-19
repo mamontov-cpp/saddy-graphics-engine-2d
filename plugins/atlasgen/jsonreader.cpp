@@ -193,6 +193,16 @@ void JSONReader::readElement(picojson::object& e)
                     errors << QString("Can\'t load texture \"") + texturename + QString("\"");
                 }
             }
+			else
+			{
+				if (this->shouldPreserveUniqueTextures() == false)
+				{
+					Texture* t = new Texture(*(Result->Textures.get(texturename)));
+					t->Name += entry.Name.value();
+					entry.InputTextureName.setValue(t->Name);
+					Result->Textures << t;
+				}
+			}
         }
         else
         {
