@@ -2,6 +2,7 @@
 #include "xmlreader.h"
 #include "jsonreader.h"
 #include "fullsearchpacker/fullsearchpacker.h"
+#include "growingbinpacker/growingbinpacker.h"
 #include "xmlwriter.h"
 #include "jsonwriter.h"
 
@@ -106,6 +107,8 @@ int main(int argc, char *argv[])
     program_options.insert("input", "");
     // Parse program options
     bool textures_should_be_unique = true;
+    // Whether we need a full search
+    bool full_search = false;
     for(int i = 1; i < argc; i++)
     {
         QString argument(argv[i]);
@@ -124,6 +127,11 @@ int main(int argc, char *argv[])
         {
             handled = true;
             program_options["with-index"] = true;
+        }
+        if (argument == "-full-search" || argument == "--full-search")
+        {
+            handled = true;
+            full_search = true;
         }
         if (argument == "-h" || argument == "--help")
         {
@@ -191,7 +199,14 @@ int main(int argc, char *argv[])
                 {
                     QImage* image;
                     Packer* packer;
-                    packer = new fullsearchpacker::FullSearchPacker();
+                    if (full_search)
+                    {
+                        packer = new fullsearchpacker::FullSearchPacker();
+                    }
+                    else
+                    {
+                        packer = new growingbinpacker::GrowingBinPacker();
+                    }
                     packer->pack(atlas, image);
                     writeTexture(&atlas, image);
                     delete image;

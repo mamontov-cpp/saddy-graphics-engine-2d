@@ -2,6 +2,7 @@
     
     Describes a packer for algorithm
  */
+#pragma once
 #include <QImage>
 #include "atlas.h"
 

@@ -321,6 +321,7 @@
     <ClCompile Include="fullsearchpacker\imagegluingorder.cpp" />
     <ClCompile Include="fullsearchpacker\minareametric.cpp" />
     <ClCompile Include="fullsearchpacker\mindiffmetric.cpp" />
+    <ClCompile Include="growingbinpacker\growingbinpacker.cpp" />
     <ClCompile Include="jsonreader.cpp" />
     <ClCompile Include="jsonwriter.cpp" />
     <ClCompile Include="main.cpp" />
@@ -346,6 +347,7 @@
     <ClInclude Include="fullsearchpacker\imagegluingorder.h" />
     <ClInclude Include="fullsearchpacker\minareametric.h" />
     <ClInclude Include="fullsearchpacker\mindiffmetric.h" />
+    <ClInclude Include="growingbinpacker\growingbinpacker.h" />
     <ClInclude Include="jsonreader.h" />
     <ClInclude Include="jsonwriter.h" />
     <ClInclude Include="maybenumber.h" />

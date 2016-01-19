@@ -25,6 +25,12 @@
     <Filter Include="Source Files\fullsearchpacker">
       <UniqueIdentifier>{35978378-0a59-437b-ba44-b9ec9a4a523f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\growingbinpacker">
+      <UniqueIdentifier>{e20d4ce0-0653-4911-8f0c-9660ab09aa71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\growingbinpacker">
+      <UniqueIdentifier>{6edccc26-968c-4851-9996-0371c722eade}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="atlas.cpp">
@@ -93,6 +99,9 @@
     <ClCompile Include="fullsearchpacker\imagearranger.cpp">
       <Filter>Source Files\fullsearchpacker</Filter>
     </ClCompile>
+    <ClCompile Include="growingbinpacker\growingbinpacker.cpp">
+      <Filter>Source Files\growingbinpacker</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="atlas.h">
@@ -160,6 +169,9 @@
     </ClInclude>
     <ClInclude Include="fullsearchpacker\imagearranger.h">
       <Filter>Header Files\fullsearchpacker</Filter>
+    </ClInclude>
+    <ClInclude Include="growingbinpacker\growingbinpacker.h">
+      <Filter>Header Files\growingbinpacker</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
