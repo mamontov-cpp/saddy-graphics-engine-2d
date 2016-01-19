@@ -124,11 +124,11 @@ int main(int argc, char *argv[])
     {
         if (program_options["help"].value<bool>() == false)
         {
-            printf("Error: no input file specified \n");
+            printf("%s", "Error: no input file specified \n");
         } 
         else
         {
-            printf(
+            printf("%s",
 "Usage: atlasgen-<configuration> [-json|-xml] [-with-index] input  \n\
 -json, --format-json (default) - parse input file as JSON \n\
 -xml, --format-xml - parse input file as XML \n\
