@@ -13,21 +13,18 @@ JSONWriter::~JSONWriter()
 
 bool JSONWriter::write(
         const Atlas& atlas,
-        const QString& filename,
-        const QString& outputTexture,
         bool withindex
 )
 {
     picojson::value root(picojson::object_type, false);
-    bool result = false;
-    root.insert("resource", atlas.TextureResourceName.value().toStdString());
-    root.insert("file", outputTexture.toStdString());
+    root.insert("resource", atlas.resourceName().toStdString());
+    root.insert("file", atlas.outputTexture().toStdString());
 
     picojson::value atlasnode(picojson::array_type, false);
     
-    for(size_t i = 0; i < atlas.Entries.size(); i++)
+    for(size_t i = 0; i < atlas.entries().size(); i++)
     {
-        const AtlasEntry& entry = atlas.Entries[i];
+        const AtlasEntry& entry = atlas.entries()[i];
         if (entry.canBeWritten() == false)
         {
             return false;
@@ -69,16 +66,15 @@ bool JSONWriter::write(
     root.insert("atlas", atlasnode);
 
     QString stringdata = root.serialize().c_str();
-    QFile file(filename); 
+    QFile file(atlas.outputName()); 
     if (!file.open(QIODevice::WriteOnly)) {
-        this->Errors << QString("Can\'t open file \"") + filename + QString("\"");
+        m_errors << QString("Can\'t open file \"") + atlas.outputName() + QString("\"");
         return false;
     }
 
-    result = true;
     QTextStream stream(&file);
     stream << stringdata;
     file.close();
 
-    return result;
+    return true;
 }

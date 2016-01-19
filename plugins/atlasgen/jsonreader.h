@@ -23,11 +23,13 @@ public:
      */
     virtual ~JSONReader();
     /*! Reads a file with specified name
-       \param name a reading name
+     *  \param[in] name a reading name
+     *  \param[in] atlas an  atlas to be read
      */
-    virtual void read(const QString& name);
+    virtual void read(const QString& name, Atlas* atlas);
     /*! Reads a DOM element
-        \param[in] e element
+     *  \param[in] e element
+     *  \param[in] atlas an atlas to be read
      */
-    void readElement(picojson::object& e);
+    void readElement(picojson::object& e, Atlas* atlas);
 };

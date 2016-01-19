@@ -28,10 +28,10 @@ public:
         \param[in] name a texture name
         \return true if contains
      */
-    bool contains(const QString& name);
+    bool contains(const QString& name) const;
     /*! Returns texture by it's name
         \param[in] name name of texture
         \return texture or NULL if not found
      */
-    Texture* get(const QString& name);
+    Texture* get(const QString& name) const;
 };

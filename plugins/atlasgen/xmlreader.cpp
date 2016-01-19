@@ -13,19 +13,17 @@ XMLReader::~XMLReader()
 }
 
 
-void XMLReader::read(const QString &name)
+void XMLReader::read(const QString &name, Atlas* atlas)
 {
-    this->Successfull = false;
+    m_ok = false;
     QDomDocument doc;
     QFile file(name); 
     if (!file.open(QIODevice::ReadOnly)) {
-        this->Errors << QString("Can\'t open file \"") + name + QString("\"");
-        Result->Errors << this->Errors;
+        m_errors << QString("Can\'t open file \"") + name + QString("\"");
         return;
     }
     if (!doc.setContent(&file)) {
-        this->Errors << QString("Can\'t parse file \"") + name + QString("\"");
-        Result->Errors << this->Errors;
+        m_errors << QString("Can\'t parse file \"") + name + QString("\"");
         file.close();
         return;
     }
@@ -36,21 +34,21 @@ void XMLReader::read(const QString &name)
     // Scan config part
     if (root.hasAttribute("config") == false)
     {
-        this->Errors << "Output atlas config filename is not defined";
+        m_errors << "Output atlas config filename is not defined";
     } 
     else
     {
-        this->OutputName = root.attribute("config");
+        atlas->setOutputName(root.attribute("config"));
     }
 
     // Set output texture
     if (root.hasAttribute("texture") == false)
     {
-        this->Errors << "Output texture is not defined";
+        m_errors << "Output texture is not defined";
     } 
     else
     {
-        this->OutputTexture = root.attribute("texture");
+        atlas->setOutputTexture(root.attribute("texture"));
     }
 
     for(QDomNode n = root.firstChild(); !n.isNull(); n = n.nextSibling())
@@ -58,15 +56,14 @@ void XMLReader::read(const QString &name)
         QDomElement e = n.toElement();
         if (!e.isNull())
         {
-             readElement(e);
+             readElement(e, atlas);
         }
     }
 
-    this->Successfull = this->Errors.size() == 0;
-    Result->Errors << this->Errors;
+    m_ok = m_errors.size() == 0;
 }
 
-void XMLReader::readElement(const QDomElement& e)
+void XMLReader::readElement(const QDomElement& e, Atlas* atlas)
 {
     QVector<QString> errors;
     AtlasEntry entry;
@@ -76,8 +73,7 @@ void XMLReader::readElement(const QDomElement& e)
     if (e.hasAttribute("index"))
     {
         bool ok = false;
-        int i = 0;
-        i = e.attribute("index").toInt(&ok);
+        int i = e.attribute("index").toInt(&ok);
         if (ok)
         {
             entry.Index.setValue(i);
@@ -89,12 +85,12 @@ void XMLReader::readElement(const QDomElement& e)
     {
         QString texturename = e.attribute("texture");
         entry.InputTextureName.setValue(texturename);
-        if (Result->Textures.contains(texturename) == false)
+        if (atlas->hasTexture(texturename) == false)
         {
             Texture* t = new Texture(texturename);
             if (t->load())
             {
-                Result->Textures << t;				
+                atlas->pushTexture(t);				
             }
             else
             {
@@ -141,16 +137,16 @@ void XMLReader::readElement(const QDomElement& e)
         }
     }
 
-    this->Errors << errors;
+    m_errors << errors;
     if (errors.size() == 0)
     {
-        if (this->Result->hasEntry(entry.Name.value(), entry.Index))
+        if (atlas->hasEntry(entry.Name.value(), entry.Index))
         {
-            this->Errors << QString("Element with name ") + entry.getFullName() + QString(" already exists");
+            m_errors << QString("Element with name ") + entry.getFullName() + QString(" already exists");
         }
         else
         {
-            this->Result->Entries << entry;
+            atlas->pushEntry(entry);
         }
     }
 }

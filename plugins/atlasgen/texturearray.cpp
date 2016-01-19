@@ -29,7 +29,7 @@ bool TextureArray::pushUnique(Texture* t)
     return true;
 }
 
-bool TextureArray::contains(const QString& name)
+bool TextureArray::contains(const QString& name) const
 {
     for(size_t i = 0; i < this->size(); i++)
     {
@@ -41,7 +41,7 @@ bool TextureArray::contains(const QString& name)
     return false;
 }
 
-Texture* TextureArray::get(const QString& name)
+Texture* TextureArray::get(const QString& name) const
 {
     for(size_t i = 0; i < this->size(); i++)
     {

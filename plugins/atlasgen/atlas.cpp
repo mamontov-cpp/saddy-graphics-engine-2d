@@ -7,14 +7,14 @@ Atlas::Atlas()
 
 bool Atlas::hasEntry(const QString& name, const sad::Maybe<int>& index)
 {
-    for(size_t i = 0; i < Entries.size(); i++)
+    for(size_t i = 0; i < m_entries.size(); i++)
     {
-        bool ok  = name == Entries[i].Name.value();
-        if (ok && index.exists() == Entries[i].Index.exists())
+        bool ok  = name == m_entries[i].Name.value();
+        if (ok && index.exists() == m_entries[i].Index.exists())
         {
             if (index.exists())
             {
-                if (Entries[i].Index.value() == index.value())
+                if (m_entries[i].Index.value() == index.value())
                 {
                     return true;
                 }
@@ -30,56 +30,93 @@ bool Atlas::hasEntry(const QString& name, const sad::Maybe<int>& index)
 
 void Atlas::pushEntry(const AtlasEntry& entry)
 {
-    Entries << entry;
+    m_entries << entry;
 }
 
 const TextureArray& Atlas::textures() const
 {
-    return Textures;
+    return m_textures;
 }
 
 const QVector<AtlasEntry>& Atlas::entries() const
 {
-    return Entries;
+    return m_entries;
 }
 
-const QVector<QString>& Atlas::errors() const
+QVector<AtlasEntry>& Atlas::entries()
 {
-    return Errors;
+    return m_entries;
 }
 
-bool Atlas::loadTexture(const QString& filename)
+::TextureArray& Atlas::textures()
 {
-    if (Textures.get(filename))
-    {
-        return true;
-    }
-
-    Texture* t = new Texture(filename);
-    if (t->load() == false)
-    {
-        delete t;
-        Errors << (QString("Can\'t load texture from file \"") + filename + QString("\""));
-        return false;
-    }
-
-    Textures << t;
-    return true;
+    return m_textures;
 }
 
-void Atlas::prepareForOutput(const QString& outputTextureName)
+
+void Atlas::prepareForOutput()
 {
-    for(size_t i = 0; i < Entries.size(); i++)
+    for(size_t i = 0; i < m_entries.size(); i++)
     {
-        Texture * t = Textures.get(Entries[i].InputTextureName.value());
+        Texture * t = m_textures.get(m_entries[i].InputTextureName.value());
         if (t)
         {
-            Entries[i].TextureRectangle.setValue(t->TextureRectangle);
-            if (Entries[i].Size.exists() == false)
+            m_entries[i].TextureRectangle.setValue(t->TextureRectangle);
+            if (m_entries[i].Size.exists() == false)
             {
-                Entries[i].Size.setValue(t->size());
+                m_entries[i].Size.setValue(t->size());
             }
-            Entries[i].OutputTextureName.setValue(outputTextureName);
+            m_entries[i].OutputTextureName.setValue(m_output_texture);
         }
     }
+}
+
+void Atlas::setOutputName(const QString& name)
+{
+    m_output_name = name;
+}
+
+const QString& Atlas::outputName() const
+{
+    return m_output_name;
+}
+
+void Atlas::setOutputTexture(const QString& name)
+{
+    m_output_texture = name;
+}
+
+const QString& Atlas::outputTexture() const
+{
+    return m_output_texture;
+}
+
+void Atlas::setResourceName(const QString& name)
+{
+    m_texture_resource_name.setValue(name);    
+}
+
+const QString& Atlas::resourceName() const
+{
+    return m_texture_resource_name.value();
+}
+
+bool Atlas::hasResourceName() const
+{
+    return m_texture_resource_name.exists();
+}
+
+bool Atlas::hasTexture(const QString& name) const
+{
+    return m_textures.contains(name);
+}
+
+void Atlas::pushTexture(Texture* t)
+{
+    m_textures << t;
+}
+
+Texture* Atlas::getTexture(const QString& name) const
+{
+    return m_textures.get(name);
 }

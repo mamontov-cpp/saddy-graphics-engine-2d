@@ -15,18 +15,16 @@ XMLWriter::~XMLWriter()
 
 bool XMLWriter::write(
         const Atlas& atlas,
-        const QString& filename,
-        const QString& outputTexture,
         bool withindex
 )
 {
     QDomDocument doc;
     QDomElement root = doc.createElement("sprites");
     doc.appendChild(root);
-    bool result = false;
-    for(size_t i = 0; i < atlas.Entries.size(); i++)
+    const QVector<AtlasEntry>& entries = atlas.entries();
+    for(size_t i = 0; i < entries.size(); i++)
     {
-        const AtlasEntry& entry = atlas.Entries[i];
+        const AtlasEntry& entry = entries[i];
         if (entry.canBeWritten() == false)
         {
             return false;
@@ -36,7 +34,7 @@ bool XMLWriter::write(
         {	
             tag.setAttribute("index", QString::number(entry.Index.value()));		
         }
-        tag.setAttribute("texture", outputTexture);
+        tag.setAttribute("texture", atlas.outputTexture());
 
         QString size = QString::number(entry.Size.value().width()) + QString(";") + QString::number(entry.Size.value().height());
         tag.setAttribute("size", size);
@@ -64,15 +62,14 @@ bool XMLWriter::write(
     }
 
     QString stringdata = doc.toString();
-    QFile file(filename); 
+    QFile file(atlas.outputName()); 
     if (!file.open(QIODevice::WriteOnly)) {
-        this->Errors << QString("Can\'t open file \"") + filename + QString("\"");
+        m_errors << QString("Can\'t open file \"") + atlas.outputName() + QString("\"");
         return false;
     }
 
-    result = true;
     QTextStream stream(&file);
     stream << stringdata;
     file.close();
-    return result;
+    return true;
 }

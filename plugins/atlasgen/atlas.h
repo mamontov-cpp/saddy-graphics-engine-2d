@@ -13,19 +13,6 @@
 class Atlas
 {
 public:
-    /*! A texture array as array of textures
-     */
-    TextureArray Textures;
-    /*! An array of entries
-     */
-    QVector<AtlasEntry> Entries;
-    /*! List of errors, which had occured when loading
-     */
-    QVector<QString> Errors;
-    /*! A texture resource name data
-     */
-    sad::Maybe<QString> TextureResourceName;
-
     /*! Constructs new empty atlas
      */
     Atlas();
@@ -43,22 +30,76 @@ public:
         \return texture array
      */
     const ::TextureArray& textures() const;
+    /*! Returns texture array for atlas
+        \return texture
+     */ 
+    ::TextureArray& textures();
     /*! Returns entries for atlas
         \return entries for atlas
      */ 
     const QVector<AtlasEntry>& entries() const;
-    /*! Returns errors for loaded atlas
-        \return errors
-     */
-    const QVector<QString>& errors() const;
-    /*! Tries to load a texture from file
-        \param[in] filename a name of file, where texture is located
-        \return whether loading was successfull
-     */
-    bool loadTexture(const QString& filename);
+    /*! Returns entries for atlas
+        \return entries for atlas
+     */ 
+    QVector<AtlasEntry>& entries();
     /*! Prepares an atlas for output, copying a texture data and size, if not
         specified.
-        \param[in] outputTextureName an output texture name,
      */
-    void prepareForOutput(const QString& outputTextureName);
+    void prepareForOutput();
+    /*! Sets output name for config
+        \param[in] a name for output config
+     */
+    void setOutputName(const QString& name);
+    /*! Returns output name
+        \return output name
+     */ 
+    const QString& outputName() const;
+    /*! Sets output texture file name for config
+        \param[in] name a file name for output texture
+     */
+    void setOutputTexture(const QString& name);
+    /*! Returns output texture file name
+        \return output texture file name
+     */
+    const QString& outputTexture() const;
+    /*! Sets resource name
+        \param[in] name a resource name
+     */
+    void setResourceName(const QString& name);
+    /*! Returns texture resource name
+        \return a resource name
+     */
+    const QString& resourceName() const;
+    /*! Returns true if resource name for texture exists
+        \return whether resource name exists
+     */
+    bool hasResourceName() const;
+    /*! Returns true if has texture named with specified name
+        \param[in] name a name for texture
+     */
+    bool hasTexture(const QString& name) const;
+    /*! Adds new texture
+        \param[in] t texture
+     */
+    void pushTexture(Texture* t);
+    /*! Returns texture by name
+        \return name a texture by name
+     */
+    Texture* getTexture(const QString& name) const;
+protected:
+    /*! An output name
+     */
+    QString m_output_name;
+    /*! An output texture
+     */
+    QString m_output_texture;
+    /*! A texture resource name data
+     */
+    sad::Maybe<QString> m_texture_resource_name;
+    /*! A texture array as array of textures
+     */
+    TextureArray m_textures;
+    /*! An array of entries
+     */
+    QVector<AtlasEntry> m_entries;
 };

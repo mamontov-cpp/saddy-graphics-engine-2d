@@ -11,11 +11,6 @@
 class Writer
 {
 public:
-    /*! A list of errors
-     */
-    QVector<QString> Errors;
-
-
     /*! Constructs new reader
      */
     Writer();
@@ -24,15 +19,23 @@ public:
     virtual ~Writer();
     /*! Writes an atlas to output file
         \param[in] name a reading name
-        \param[in] filename a name for file
-        \param[in] outputTexture a file name for output texture
         \param[in] withindex should we write an index to file
         \return result
      */
     virtual bool write(
         const Atlas& atlas,
-        const QString& filename,
-        const QString& outputTexture,
         bool withindex
     )  = 0;
+    /*! Returns errors for reader
+        \return errors
+     */
+    QVector<QString>& errors();
+    /*! Returns errors for reader 
+        \return errors
+     */
+    const QVector<QString>& errors() const;
+protected:
+    /*! A list of errors
+     */
+    QVector<QString> m_errors;
 };

@@ -54,6 +54,33 @@ void crashMessageOutput(QtMsgType type, const char *msg)
 
 #endif
 
+/*! Dumps errors of object
+    \param[in] object an object, which holds an errors
+ */
+template<
+    typename T
+>
+void dumpErrors(T* object)
+{
+    for(size_t i = 0; i < object->errors().size(); i++)
+    {
+        printf("%s\n", object->errors()[i].toStdString().c_str());
+    }
+}
+
+/*! Writes texture to file
+    \param[in] atlas atlas
+    \param[in] image an image to be written
+ */
+void writeTexture(Atlas* atlas, QImage* image)
+{
+    bool saved = image->save(atlas->outputTexture());
+    if (!saved)
+    {
+        printf("Can\'t write resulting texture to file %s\n", atlas->outputTexture().toStdString().c_str());
+    }
+}
+
 int main(int argc, char *argv[])
 {
 #ifndef _MSC_VER
@@ -78,7 +105,7 @@ int main(int argc, char *argv[])
     // An input file
     program_options.insert("input", "");
     // Parse program options
-	bool textures_should_be_unique = true;
+    bool textures_should_be_unique = true;
     for(int i = 1; i < argc; i++)
     {
         QString argument(argv[i]);
@@ -108,11 +135,11 @@ int main(int argc, char *argv[])
             handled = true;
             program_options["run-tests"] = true;
         }	
-		if (argument == "-non-unique-textures" || argument == "--non-unique-textures")
-		{
-			handled = true;
+        if (argument == "-non-unique-textures" || argument == "--non-unique-textures")
+        {
+            handled = true;
             textures_should_be_unique = false;			
-		}
+        }
         if (!handled)
         {
             program_options["input"] = argument;
@@ -156,36 +183,27 @@ int main(int argc, char *argv[])
             {
                 reader = new JSONReader();
             }
-			reader->toggleShouldPreserveUniqueTextures(textures_should_be_unique);
-            reader->Result = &atlas;
-            reader->read(program_options["input"].value<QString>());
-            if (reader->Successfull && atlas.Errors.size() == 0)
+            reader->toggleShouldPreserveUniqueTextures(textures_should_be_unique);
+            reader->read(program_options["input"].value<QString>(), &atlas);
+            if (reader->ok() && reader->errors().size() == 0)
             {
-                if (atlas.Textures.size() != 0)
+                if (atlas.textures().size() != 0)
                 {
                     QImage* image;
-					Packer* packer;
-					packer = new fullsearchpacker::FullSearchPacker();
-					packer->pack(atlas, image);
-                    bool saved = image->save(reader->OutputTexture);
-                    if (!saved)
-                    {
-                        printf("Can\'t write resulting texture to file %s\n", reader->OutputTexture.toStdString().c_str());
-                    }
-					delete image;
-					delete packer;
+                    Packer* packer;
+                    packer = new fullsearchpacker::FullSearchPacker();
+                    packer->pack(atlas, image);
+                    writeTexture(&atlas, image);
+                    delete image;
+                    delete packer;
                 }
                 else
                 {
                     QImage image(1, 1, QImage::Format_ARGB32);
                     image.fill(QColor(255, 255, 255, 0));
-                    bool saved = image.save(reader->OutputTexture);
-                    if (!saved)
-                    {
-                        printf("Can\'t write resulting texture to file %s\n", reader->OutputTexture.toStdString().c_str());
-                    }
+                    writeTexture(&atlas, &image);
                 }
-                atlas.prepareForOutput(reader->OutputTexture);
+                atlas.prepareForOutput();
 
                 Writer* writer = NULL;
                 if (program_options["format"].value<QString>() == "xml")
@@ -196,23 +214,17 @@ int main(int argc, char *argv[])
                 {
                     writer = new JSONWriter();
                 }
-                bool result = writer->write(atlas, reader->OutputName, reader->OutputTexture, program_options["with-index"].value<bool>());
-                if (result == false || writer->Errors.size() != 0)
+                bool result = writer->write(atlas, program_options["with-index"].value<bool>());
+                if (result == false || writer->errors().size() != 0)
                 {
-                    for(size_t i = 0; i < writer->Errors.size(); i++)
-                    {
-                        printf("%s\n", writer->Errors[i].toStdString().c_str());
-                    }
+                    dumpErrors(writer);
                 }
 
                 delete writer;
             }
             else
             {
-                for(size_t i = 0; i < atlas.Errors.size(); i++)
-                {
-                    printf("%s\n", atlas.Errors[i].toStdString().c_str());
-                }
+                dumpErrors(reader);
             }
             delete reader;
         }

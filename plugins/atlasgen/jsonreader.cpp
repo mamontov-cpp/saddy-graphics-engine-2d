@@ -1,5 +1,6 @@
 #include "jsonreader.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QtCore/QTextStream>
 
 JSONReader::JSONReader()
@@ -12,13 +13,12 @@ JSONReader::~JSONReader()
 
 }
 
-void JSONReader::read(const QString& name)
+void JSONReader::read(const QString& name, Atlas* atlas)
 {
-    this->Successfull = false;
+    m_ok = false;
     QFile file(name); 
     if (!file.open(QIODevice::ReadOnly)) {
-        this->Errors << QString("Can\'t open file \"") + name + QString("\"");
-        Result->Errors << this->Errors;
+        m_errors << QString("Can\'t open file \"") + name + QString("\"");
         return;
     }
     QTextStream in(&file);
@@ -37,16 +37,16 @@ void JSONReader::read(const QString& name)
             {
                 if (ro["texture"].is<std::string>())
                 {
-                    this->OutputTexture = ro["texture"].get<std::string>().c_str();
+                    atlas->setOutputTexture(ro["texture"].get<std::string>().c_str());
                 }
                 else
                 {
-                    this->Errors << "Output texture is not a string";
+                    m_errors << "Output texture is not a string";
                 }
             }
             else
             {
-                this->Errors << "Output texture is not defined";
+                m_errors << "Output texture is not defined";
             }
 
 
@@ -55,16 +55,16 @@ void JSONReader::read(const QString& name)
             {
                 if (ro["config"].is<std::string>())
                 {
-                    this->OutputName = ro["config"].get<std::string>().c_str();
+                    atlas->setOutputName(ro["config"].get<std::string>().c_str());
                 }
                 else
                 {
-                    this->Errors << "Output atlas config filename is not a string";
+                    m_errors << "Output atlas config filename is not a string";
                 }
             }
             else
             {
-                this->Errors << "Output atlas config filename is not defined";
+                m_errors << "Output atlas config filename is not defined";
             }
 
             // Parse texture resource name
@@ -72,16 +72,16 @@ void JSONReader::read(const QString& name)
             {
                 if (ro["resource"].is<std::string>())
                 {
-                    this->Result->TextureResourceName.setValue(ro["resource"].get<std::string>().c_str());
+                    atlas->setResourceName(ro["resource"].get<std::string>().c_str());
                 }
                 else
                 {
-                    this->Errors << "Output resource is not a string";
+                    m_errors << "Output resource is not a string";
                 }
             }
             else
             {
-                this->Errors << "Output resource is not defined";
+                m_errors << "Output resource is not defined";
             }
 
             if (ro.find("sprites") != ro.end())
@@ -93,41 +93,40 @@ void JSONReader::read(const QString& name)
                     {
                         if (a[i].is<picojson::object>())
                         {
-                            readElement(a[i].get<picojson::object>());
+                            readElement(a[i].get<picojson::object>(), atlas);
                         }
                         else
                         {
-                            this->Errors << QString("Found entry of sprites, which is not an object: \n") + a[i].serialize().c_str();
+                            m_errors << QString("Found entry of sprites, which is not an object: \n") + a[i].serialize().c_str();
                         }
                     }
                 }
                 else
                 {
-                    this->Errors << "Sprites list is not an array";
+                    m_errors << "Sprites list is not an array";
                 }
             }
             else
             {
-                 this->Errors << "Sprites list is not defined";
+                 m_errors << "Sprites list is not defined";
             }
 
         }
         else
         {
-            this->Errors << QString("Root element of file \"") + name + QString("\" is not an object");
+            m_errors << QString("Root element of file \"") + name + QString("\" is not an object");
         }
     }
     else
     {
-        this->Errors << QString("Can\'t parse file \"") + name + QString("\"");
+        m_errors << QString("Can\'t parse file \"") + name + QString("\"");
     }
 
-    this->Successfull = this->Errors.size() == 0;
-    Result->Errors << this->Errors;
+    m_ok = m_errors.size() == 0;
 }
 
 
-void JSONReader::readElement(picojson::object& e)
+void JSONReader::readElement(picojson::object& e, Atlas* atlas)
 {
     QVector<QString> errors;
     AtlasEntry entry;
@@ -160,8 +159,7 @@ void JSONReader::readElement(picojson::object& e)
         if (e["index"].is<std::string>())
         {
             bool ok = false;
-            int i = 0;
-            i = QString(e["index"].get<std::string>().c_str()).toInt(&ok);
+            int i = QString(e["index"].get<std::string>().c_str()).toInt(&ok);
             if (ok)
             {
                 entry.Index.setValue(i);
@@ -180,12 +178,12 @@ void JSONReader::readElement(picojson::object& e)
         {
             QString texturename = e["texture"].get<std::string>().c_str();
             entry.InputTextureName.setValue(texturename);
-            if (Result->Textures.contains(texturename) == false)
+            if (atlas->hasTexture(texturename) == false)
             {
                 Texture* t = new Texture(texturename);
                 if (t->load())
                 {
-                    Result->Textures << t;
+                   atlas->pushTexture(t);
                 }
                 else
                 {
@@ -193,16 +191,16 @@ void JSONReader::readElement(picojson::object& e)
                     errors << QString("Can\'t load texture \"") + texturename + QString("\"");
                 }
             }
-			else
-			{
-				if (this->shouldPreserveUniqueTextures() == false)
-				{
-					Texture* t = new Texture(*(Result->Textures.get(texturename)));
-					t->Name += entry.Name.value();
-					entry.InputTextureName.setValue(t->Name);
-					Result->Textures << t;
-				}
-			}
+            else
+            {
+                if (this->shouldPreserveUniqueTextures() == false)
+                {
+                    Texture* t = new Texture(*(atlas->getTexture(texturename)));
+                    t->Name += entry.Name.value();
+                    entry.InputTextureName.setValue(t->Name);
+                    atlas->pushTexture(t);
+                }
+            }
         }
         else
         {
@@ -261,16 +259,16 @@ void JSONReader::readElement(picojson::object& e)
         }
     }
 
-    this->Errors << errors;
+    m_errors << errors;
     if (errors.size() == 0)
     {
-        if (this->Result->hasEntry(entry.Name.value(), entry.Index))
+        if (atlas->hasEntry(entry.Name.value(), entry.Index))
         {
-            this->Errors << QString("Element with name ") + entry.getFullName() + QString(" already exists");
+            m_errors << QString("Element with name ") + entry.getFullName() + QString(" already exists");
         }
         else
         {
-            this->Result->Entries << entry;
+            atlas->pushEntry(entry);
         }
     }
 }

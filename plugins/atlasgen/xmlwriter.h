@@ -32,8 +32,6 @@ public:
      */
     virtual bool write(
         const Atlas& atlas,
-        const QString& filename,
-        const QString& outputTexture,
         bool withindex
     );
 };
