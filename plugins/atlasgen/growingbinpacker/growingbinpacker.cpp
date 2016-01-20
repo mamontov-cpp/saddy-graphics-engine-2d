@@ -92,6 +92,7 @@ void growingbinpacker::GrowingBinPacker::pack(Atlas& atlas, QImage*& image)
     packer.padding = 0;
     packer.alpha_trim = false;
     packer.allow_rotate = false;
+	packer.comparer =  framepacker::packer<growingbinpacker::GrowingBinPacker::T>::compare_area;
     
     growingbinpacker::GrowingBinPacker::T* result = new growingbinpacker::GrowingBinPacker::T();
     framepacker::packer<growingbinpacker::GrowingBinPacker::T>::texture_type result_ptr(result);

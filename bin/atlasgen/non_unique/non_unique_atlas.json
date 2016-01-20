@@ -37,6 +37,6 @@
             "transparent":"255;255;255"
         }
     ],
-    "file":"non_unique_atlas.png",
+    "file":"non_unique\/non_unique_atlas.png",
     "resource":"non_unique"
 }

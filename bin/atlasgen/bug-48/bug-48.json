@@ -1,0 +1,23 @@
+{
+	"config" : "bug-48/bug-48-atlas.json",
+	"texture" : "bug-48/bug-48-atlas.png",
+	"resource": "bug-48",
+	"sprites" : [
+		{
+			"name" : "186x409",
+			"texture" : "bug-48/186x409.png"
+		},
+		{
+			"name" : "206x270",
+			"texture" : "bug-48/206x270.png"
+		},
+		{
+			"name" : "208x454",
+			"texture" : "bug-48/208x454.png"
+		},
+		{
+			"name" : "800x600",
+			"texture" : "bug-48/800x600.png"
+		}
+	]
+}

@@ -1,36 +1,36 @@
 {
-	"config" : "non_unique_atlas.json",
-	"texture" : "non_unique_atlas.png",
+	"config" : "non_unique/non_unique_atlas.json",
+	"texture" : "non_unique/non_unique_atlas.png",
 	"resource": "non_unique",
 	"sprites" : [
 		{
 			"name" : "rotate",
-			"texture" : "non_unique.png",
+			"texture" : "non_unique/non_unique.png",
 			"transparent" : "255;255;255"
 		},
 		{
 			"name" : "delete",
-			"texture" : "non_unique.png",
+			"texture" : "non_unique/non_unique.png",
 			"transparent" : "255;255;255"
 		},
 		{
 			"name" : "top",
-			"texture" : "non_unique.png",
+			"texture" : "non_unique/non_unique.png",
 			"transparent" : "255;255;255"
 		},
 		{
 			"name" : "bottom",
-			"texture" : "non_unique.png",
+			"texture" : "non_unique/non_unique.png",
 			"transparent" : "255;255;255"
 		},
 		{
 			"name" : "left",
-			"texture" : "non_unique.png",
+			"texture" : "non_unique/non_unique.png",
 			"transparent" : "255;255;255"
 		},
 		{
 			"name" : "right",
-			"texture" : "non_unique.png",
+			"texture" : "non_unique/non_unique.png",
 			"transparent" : "255;255;255"
 		}
 	]
