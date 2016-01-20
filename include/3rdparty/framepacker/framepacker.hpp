@@ -32,6 +32,10 @@
 #include <list>
 #include <memory>
 #include <string>
+#include <limits>
+#include <math.h>
+
+#include "../boost-dist/boost/shared_ptr.hpp"
 
 namespace framepacker {
 
@@ -160,11 +164,11 @@ std::ostream &operator << (std::ostream &s, const rect &r) {
 }
 
 struct node : public rect {
-	typedef std::shared_ptr<node> ptr_type;
+	typedef boost::shared_ptr<node> ptr_type;
 
-	node() : used(false), down(NULL), right(NULL) {
+	node() : used(false), down(), right() {
 	}
-	node(int x, int y, int w, int h) : used(false), down(NULL), right(NULL) {
+	node(int x, int y, int w, int h) : used(false), down(), right() {
 		min_x(x);
 		min_y(y);
 		width(w);
@@ -186,11 +190,11 @@ struct node : public rect {
 	void clear(void) {
 		if(down) {
 			down->clear();
-			down = NULL;
+			down.reset();
 		}
 		if(right) {
 			right->clear();
-			right = NULL;
+			down.reset();
 		}
 	}
 
@@ -203,9 +207,9 @@ template<typename T>
 struct block {
 	typedef T texture_type;
 
-	block() : fit(NULL), rotated(false) {
+	block() : fit(), rotated(false) {
 	}
-	block(const texture_type &i, const char* p, bool alpha_trim) : fit(NULL), rotated(false) {
+	block(const texture_type &i, const char* p, bool alpha_trim) : fit(), rotated(false) {
 		texture = i;
 		calc_valid(alpha_trim);
 		path = p;
@@ -355,7 +359,7 @@ class packer {
 
 public:
 	typedef I image_type;
-	typedef std::shared_ptr<image_type> texture_type;
+	typedef boost::shared_ptr<image_type> texture_type;
 	typedef block<texture_type> block_type;
 	typedef std::string name_type;
 	typedef std::pair<name_type, block_type> texture_item_type;
@@ -388,7 +392,7 @@ public:
 	}
 
 	const block_type* get(const name_type &name) const {
-		for(texture_coll_type::const_iterator it = images.begin(); it != images.end(); ++it) {
+		for(typename texture_coll_type::const_iterator it = images.begin(); it != images.end(); ++it) {
 			const texture_item_type &i = *it;
 			const block_type &blk = i.second;
 			if(i.first == name)
@@ -410,7 +414,7 @@ public:
 		if(!get(name))
 			return false;
 
-		for(texture_coll_type::iterator it = images.begin(); it != images.end(); ++it) {
+		for(typename texture_coll_type::iterator it = images.begin(); it != images.end(); ++it) {
 			texture_item_type &i = *it;
 			block_type &blk = i.second;
 			if(i.first == name) {
@@ -433,7 +437,7 @@ public:
 	}
 
 	void tidy(void) {
-		for(texture_coll_type::iterator it = images.begin(); it != images.end(); ++it) {
+		for(typename texture_coll_type::iterator it = images.begin(); it != images.end(); ++it) {
 			texture_item_type &i = *it;
 			block_type &blk = i.second;
 			blk.clear();
@@ -450,7 +454,7 @@ public:
 			{
 				indent++;
 				int i = 0;
-				for(texture_coll_type::const_iterator it = p.begin(); it != p.end(); ++it) {
+				for(typename texture_coll_type::const_iterator it = p.begin(); it != p.end(); ++it) {
 					const block_type &blk = it->second;
 					s << get_indent() << blk.name << " : {" << std::endl;
 					blk.write_meta(s, indent, padding);
@@ -490,7 +494,7 @@ public:
 		// Step 3. Fit.
 		if(output_texture_size.is_zero()) {
 			if(sqrt_area) {
-				int s = (int)(std::sqrt(total_area) + 0.5f);
+				int s = (int)(sqrt(total_area) + 0.5f);
 				root = node::ptr_type(new node(0, 0, s, s));
 			} else {
 				int w = images.size() ? (images.begin()->second.valid.width() + (padding * 2)): 0;
@@ -500,8 +504,8 @@ public:
 		} else {
 			root = node::ptr_type(new node(0, 0, output_texture_size.x, output_texture_size.y));
 		}
-		node::ptr_type nd = NULL;
-		for(texture_coll_type::iterator it = images.begin(); it != images.end(); ++it) {
+		node::ptr_type nd;
+		for(typename texture_coll_type::iterator it = images.begin(); it != images.end(); ++it) {
 			texture_item_type &i = *it;
 			block_type &blk = i.second;
 			if(nd = find(root, blk.valid.width() + (padding * 2), blk.valid.height() + (padding * 2)))
@@ -526,11 +530,11 @@ public:
 		// Step 4. Draw.
 		vec2 os(root->width(), root->height());
 		if(power_of_2) {
-			os.x = static_cast<int>(std::pow(2, std::ceil(std::log(static_cast<double>(os.x)) / std::log(2.0))));
-			os.y = static_cast<int>(std::pow(2, std::ceil(std::log(static_cast<double>(os.y)) / std::log(2.0))));
+			os.x = static_cast<int>(pow(2, ceil(log(static_cast<double>(os.x)) / log(2.0))));
+			os.y = static_cast<int>(pow(2, ceil(log(static_cast<double>(os.y)) / log(2.0))));
 		}
 		result->resize(os.x, os.y);
-		for(texture_coll_type::iterator it = packed.begin(); it != packed.end(); ++it) {
+		for(typename texture_coll_type::iterator it = packed.begin(); it != packed.end(); ++it) {
 			texture_item_type &i = *it;
 			block_type &blk = i.second;
 			if(blk.rotated) {
@@ -572,7 +576,7 @@ private:
 		} else if(w <= root->width() && h <= root->height()) {
 			return root;
 		} else {
-			return NULL;
+			return node::ptr_type();
 		}
 	}
 
@@ -600,7 +604,7 @@ private:
 		else if(can_grow_down)
 			return grow_down(w, h);
 		else
-			return NULL;
+			return node::ptr_type();
 	}
 
 	node::ptr_type grow_right(int w, int h) {
@@ -610,11 +614,11 @@ private:
 		r->right = node::ptr_type(new node(root->width(), 0, w, root->height()));
 		root = node::ptr_type(r);
 
-		node::ptr_type node = NULL;
+		node::ptr_type node;
 		if(node = find(root, w, h))
 			return split(node, w, h);
 		else
-			return NULL;
+			return node::ptr_type();
 	}
 	node::ptr_type grow_down(int w, int h) {
 		node* r = new node(0, 0, root->width(), root->height() + h);
@@ -623,11 +627,11 @@ private:
 		r->right = root;
 		root = node::ptr_type(r);
 
-		node::ptr_type node = NULL;
+		node::ptr_type node;
 		if(node = find(root, w, h))
 			return split(node, w, h);
 		else
-			return NULL;
+			return node::ptr_type();
 	}
 
 	std::string get_indent(void) const {

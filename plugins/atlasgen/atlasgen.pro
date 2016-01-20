@@ -31,6 +31,7 @@ SOURCES += main.cpp\
     fullsearchpacker/minareametric.cpp \
     fullsearchpacker/imagegluingorder.cpp \
     fullsearchpacker/imagearranger.cpp \
+	growingbinpacker/growingbinpacker.cpp \
     jsonwriter.cpp \
     writer.cpp \
     xmlwriter.cpp \
@@ -48,6 +49,7 @@ HEADERS  +=  atlas.h \
     fullsearchpacker/glueentry.h \
     fullsearchpacker/gluemode.h \
     fullsearchpacker/glueorder.h \
+	growingbinpacker/growingbinpacker.h \	
     maybenumber.h \
     fullsearchpacker/gluemetric.h \
     fullsearchpacker/gluetask.h \
@@ -73,7 +75,6 @@ win32 {
         DEFINES += "WIN32=1"
         DEFINES +=  "MINGW=1"
 }
-
 
 
 CONFIG(debug, debug|release) {
