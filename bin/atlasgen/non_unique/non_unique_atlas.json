@@ -27,13 +27,13 @@
         {
             "name":"left",
             "size":"64;64",
-            "texrect":"157;0;64;64",
+            "texrect":"128;0;64;64",
             "transparent":"255;255;255"
         },
         {
             "name":"right",
             "size":"64;64",
-            "texrect":"157;64;64;64",
+            "texrect":"128;64;64;64",
             "transparent":"255;255;255"
         }
     ],

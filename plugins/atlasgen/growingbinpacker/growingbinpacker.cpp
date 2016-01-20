@@ -1,4 +1,7 @@
 #include "growingbinpacker.h"
+
+#include "../fullsearchpacker/imagearranger.h"
+
 #include "../../../include/3rdparty/framepacker/framepacker.hpp"
 
 #include <QPainter>
@@ -88,29 +91,34 @@ growingbinpacker::GrowingBinPacker::GrowingBinPacker()
 
 void growingbinpacker::GrowingBinPacker::pack(Atlas& atlas, QImage*& image)
 {
-    framepacker::packer<growingbinpacker::GrowingBinPacker::T> packer;
+	typedef framepacker::packer<growingbinpacker::GrowingBinPacker::T, false, false> packer_type;
+    packer_type packer;
     packer.padding = 0;
     packer.alpha_trim = false;
     packer.allow_rotate = false;
-	packer.comparer =  framepacker::packer<growingbinpacker::GrowingBinPacker::T>::compare_area;
+	packer.comparer =  packer_type::compare_area;
     
     growingbinpacker::GrowingBinPacker::T* result = new growingbinpacker::GrowingBinPacker::T();
-    framepacker::packer<growingbinpacker::GrowingBinPacker::T>::texture_type result_ptr(result);
+    packer_type::texture_type result_ptr(result);
 
-    framepacker::packer<growingbinpacker::GrowingBinPacker::T>::texture_coll_type packed;
-    framepacker::packer<growingbinpacker::GrowingBinPacker::T>::texture_coll_type failed;
+    packer_type::texture_coll_type packed;
+    packer_type::texture_coll_type failed;
     for(size_t i = 0; i < atlas.textures().size();  i++) {
         Texture* t = atlas.textures()[i];
         growingbinpacker::GrowingBinPacker::T* img = new growingbinpacker::GrowingBinPacker::T(t);
 
         packer.add(
             t->Name.toStdString(), 
-            framepacker::packer<growingbinpacker::GrowingBinPacker::T>::texture_type(img)
+            packer_type::texture_type(img)
         );
     }
     packer.pack(result_ptr, packed, failed);
 
-    image = new QImage(result->width(), result->height(), QImage::Format_ARGB32);
+	unsigned int width = fullsearchpacker::ImageArranger::nextPOT(result->width());
+	unsigned int height = fullsearchpacker::ImageArranger::nextPOT(result->height());
+	unsigned int wh = std::max(width, height);
+
+	image = new QImage(wh, wh, QImage::Format_ARGB32);
     image->fill(QColor(255, 255, 255, 0));
 
     QPainter painter(image);
