@@ -91,12 +91,12 @@ growingbinpacker::GrowingBinPacker::GrowingBinPacker()
 
 void growingbinpacker::GrowingBinPacker::pack(Atlas& atlas, QImage*& image)
 {
-	typedef framepacker::packer<growingbinpacker::GrowingBinPacker::T, false, false> packer_type;
+    typedef framepacker::packer<growingbinpacker::GrowingBinPacker::T, false, false> packer_type;
     packer_type packer;
     packer.padding = 0;
     packer.alpha_trim = false;
     packer.allow_rotate = false;
-	packer.comparer =  packer_type::compare_area;
+    packer.comparer =  packer_type::compare_area;
     
     growingbinpacker::GrowingBinPacker::T* result = new growingbinpacker::GrowingBinPacker::T();
     packer_type::texture_type result_ptr(result);
@@ -114,11 +114,11 @@ void growingbinpacker::GrowingBinPacker::pack(Atlas& atlas, QImage*& image)
     }
     packer.pack(result_ptr, packed, failed);
 
-	unsigned int width = fullsearchpacker::ImageArranger::nextPOT(result->width());
-	unsigned int height = fullsearchpacker::ImageArranger::nextPOT(result->height());
-	unsigned int wh = std::max(width, height);
+    unsigned int width = fullsearchpacker::ImageArranger::nextPOT(result->width());
+    unsigned int height = fullsearchpacker::ImageArranger::nextPOT(result->height());
+    unsigned int wh = std::max(width, height);
 
-	image = new QImage(wh, wh, QImage::Format_ARGB32);
+    image = new QImage(wh, wh, QImage::Format_ARGB32);
     image->fill(QColor(255, 255, 255, 0));
 
     QPainter painter(image);
