@@ -375,7 +375,7 @@ public:
 		return l.second.valid.height() < r.second.valid.height();
 	}
 	static bool compare_area(const texture_item_type &l, const texture_item_type &r) {
-		return l.second.valid.area() < r.second.valid.area();
+		return l.second.valid.area() > r.second.valid.area();
 	}
 
 public:
