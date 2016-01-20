@@ -89,7 +89,7 @@ growingbinpacker::GrowingBinPacker::GrowingBinPacker()
 void growingbinpacker::GrowingBinPacker::pack(Atlas& atlas, QImage*& image)
 {
     framepacker::packer<growingbinpacker::GrowingBinPacker::T> packer;
-    packer.padding = 1;
+    packer.padding = 0;
     packer.alpha_trim = false;
     packer.allow_rotate = false;
     

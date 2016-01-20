@@ -136,7 +136,7 @@ struct rect {
 	}
 
 	vec2 size(void) const {
-		return vec2(max.x - min.x + 1, max.y - min.y + 1);
+		return vec2(max.x - min.x, max.y - min.y);
 	}
 
 	rect add(int p) const {
@@ -309,8 +309,8 @@ struct block {
 		} else {
 			valid.min_x(0);
 			valid.min_y(0);
-			valid.max_x(texture->width() - 1);
-			valid.max_y(texture->height() - 1);
+			valid.max_x(texture->width());
+			valid.max_y(texture->height());
 		}
 	}
 
