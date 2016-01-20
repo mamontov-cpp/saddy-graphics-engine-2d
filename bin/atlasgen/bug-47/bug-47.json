@@ -1,0 +1,151 @@
+{
+	"config" : "bug-47/bug-47-atlas.json",
+	"texture" : "bug-47/bug-47-atlas.png",
+	"resource": "bug-47",
+	"sprites" : [
+        {
+			"name" : "ace.png",
+			"texture" : "bug-47/lorc_originals_png/ace.png"
+		},
+        {
+			"name" : "acid-blob.png",
+			"texture" : "bug-47/lorc_originals_png/acid-blob.png"
+		},
+        {
+			"name" : "acorn.png",
+			"texture" : "bug-47/lorc_originals_png/acorn.png"
+		},
+        {
+			"name" : "aerial-signal.png",
+			"texture" : "bug-47/lorc_originals_png/aerial-signal.png"
+		},
+        {
+			"name" : "aerodynamic-harpoon.png",
+			"texture" : "bug-47/lorc_originals_png/aerodynamic-harpoon.png"
+		},
+        {
+			"name" : "aerosol.png",
+			"texture" : "bug-47/lorc_originals_png/aerosol.png"
+		},
+        {
+			"name" : "afterburn.png",
+			"texture" : "bug-47/lorc_originals_png/afterburn.png"
+		},
+        {
+			"name" : "air-zigzag.png",
+			"texture" : "bug-47/lorc_originals_png/air-zigzag.png"
+		},
+        {
+			"name" : "alien-fire.png",
+			"texture" : "bug-47/lorc_originals_png/alien-fire.png"
+		},
+        {
+			"name" : "alien-skull.png",
+			"texture" : "bug-47/lorc_originals_png/alien-skull.png"
+		},
+        {
+			"name" : "alien-stare.png",
+			"texture" : "bug-47/lorc_originals_png/alien-stare.png"
+		},
+        {
+			"name" : "all-for-one.png",
+			"texture" : "bug-47/lorc_originals_png/all-for-one.png"
+		},
+        {
+			"name" : "alligator-clip.png",
+			"texture" : "bug-47/lorc_originals_png/alligator-clip.png"
+		},
+        {
+			"name" : "ammonite-fossil.png",
+			"texture" : "bug-47/lorc_originals_png/ammonite-fossil.png"
+		},
+        {
+			"name" : "ammonite.png",
+			"texture" : "bug-47/lorc_originals_png/ammonite.png"
+		},
+        {
+			"name" : "anatomy.png",
+			"texture" : "bug-47/lorc_originals_png/anatomy.png"
+		},
+        {
+			"name" : "anchor.png",
+			"texture" : "bug-47/lorc_originals_png/anchor.png"
+		},
+        {
+			"name" : "android-mask.png",
+			"texture" : "bug-47/lorc_originals_png/android-mask.png"
+		},
+        {
+			"name" : "andromeda-chain.png",
+			"texture" : "bug-47/lorc_originals_png/andromeda-chain.png"
+		},
+        {
+			"name" : "angel-outfit.png",
+			"texture" : "bug-47/lorc_originals_png/angel-outfit.png"
+		},
+        {
+			"name" : "angel-wings.png",
+			"texture" : "bug-47/lorc_originals_png/angel-wings.png"
+		},
+        {
+			"name" : "angler-fish.png",
+			"texture" : "bug-47/lorc_originals_png/angler-fish.png"
+		},
+        {
+			"name" : "angular-spider.png",
+			"texture" : "bug-47/lorc_originals_png/angular-spider.png"
+		},
+        {
+			"name" : "animal-skull.png",
+			"texture" : "bug-47/lorc_originals_png/animal-skull.png"
+		},
+        {
+			"name" : "ankh.png",
+			"texture" : "bug-47/lorc_originals_png/ankh.png"
+		},
+        {
+			"name" : "anthem.png",
+			"texture" : "bug-47/lorc_originals_png/anthem.png"
+		},
+        {
+			"name" : "anvil-impact.png",
+			"texture" : "bug-47/lorc_originals_png/anvil-impact.png"
+		},
+        {
+			"name" : "anvil.png",
+			"texture" : "bug-47/lorc_originals_png/anvil.png"
+		},
+        {
+			"name" : "apple-maggot.png",
+			"texture" : "bug-47/lorc_originals_png/apple-maggot.png"
+		},
+        {
+			"name" : "apple-seeds.png",
+			"texture" : "bug-47/lorc_originals_png/apple-seeds.png"
+		},
+        {
+			"name" : "archery-target.png",
+			"texture" : "bug-47/lorc_originals_png/archery-target.png"
+		},
+        {
+			"name" : "architect-mask.png",
+			"texture" : "bug-47/lorc_originals_png/architect-mask.png"
+		},
+        {
+			"name" : "arcing-bolt.png",
+			"texture" : "bug-47/lorc_originals_png/arcing-bolt.png"
+		},
+        {
+			"name" : "armadillo-tail.png",
+			"texture" : "bug-47/lorc_originals_png/armadillo-tail.png"
+		},
+        {
+			"name" : "armor-vest.png",
+			"texture" : "bug-47/lorc_originals_png/armor-vest.png"
+		},
+        {
+			"name" : "armoured-shell.png",
+			"texture" : "bug-47/lorc_originals_png/armoured-shell.png"
+		}	
+	]
+}
