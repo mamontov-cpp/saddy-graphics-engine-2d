@@ -588,12 +588,22 @@ private:
 		return nd;
 	}
 
+	double next_pot(double value)
+	{
+		unsigned int  size = 1;
+		while(size < value)
+		{
+			size =  size << 1;
+		}
+		return static_cast<double>(size);		
+	}
+	
 	node::ptr_type grow(int w, int h) {
 		bool can_grow_down = w <= root->width();
 		bool can_grow_right = h <= root->height();
 
-		bool should_grow_right = can_grow_right && (root->height() >= (root->width() + w));
-		bool should_grow_down  = can_grow_down && (root->width() >= (root->height() + h));
+		bool should_grow_right = can_grow_right && (this->next_pot(root->height()) >= this->next_pot(root->width() + w));
+		bool should_grow_down  = can_grow_down && (this->next_pot(root->width()) >= this->next_pot(root->height() + h));
 
 		if(should_grow_right)
 			return grow_right(w, h);
