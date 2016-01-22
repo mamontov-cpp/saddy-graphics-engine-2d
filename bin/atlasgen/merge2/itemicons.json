@@ -1,0 +1,26 @@
+{
+  "resource": "icons",
+  "file": "merge2/itemicons.png",
+  "atlas": [
+    {
+      "name": "delete-icons",
+      "size": "22;22",
+      "texrect": "0;0;22;22"
+    },
+    {
+      "name": "directed",
+      "size": "22;22",
+      "texrect": "22;0;22;22"
+    },
+    {
+      "name": "default",
+      "size": "22;22",
+      "texrect": "0;22;22;22"
+    },
+    {
+      "name": "default-red",
+      "size": "22;22",
+      "texrect": "22;22;22;22"
+    }
+  ]
+}
