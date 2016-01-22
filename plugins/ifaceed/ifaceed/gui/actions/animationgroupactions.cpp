@@ -1,5 +1,6 @@
 #include <QLineEdit>
 #include <QCheckBox>
+#include <QRadioButton>
 
 #include "actions.h"
 #include "animationinstanceactions.h"
@@ -43,8 +44,8 @@ gui::actions::AnimationGroupActions::~AnimationGroupActions()
 
 void gui::actions::AnimationGroupActions::setEditor(core::Editor* e)
 {
-	this->gui::actions::AbstractActions::setEditor(e);
-	m_animation->setEditor(e);
+    this->gui::actions::AbstractActions::setEditor(e);
+    m_animation->setEditor(e);
 }
 
 
@@ -54,7 +55,7 @@ void gui::actions::AnimationGroupActions::removeFromDatabase(
     int row
 )
 {
-	gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
+    gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
     if (row == -1)
     {
         row = this->findInList<sad::animations::Group*>(blk->lstAnimationsGroup, g);
@@ -77,7 +78,7 @@ void gui::actions::AnimationGroupActions::removeFromDatabase(
 
 void gui::actions::AnimationGroupActions::addGroupToList(sad::animations::Group* g)
 {
-	gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
+    gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
     QListWidgetItem* item = new QListWidgetItem(this->nameForGroup(g));
     
     QVariant v;
@@ -89,7 +90,7 @@ void gui::actions::AnimationGroupActions::addGroupToList(sad::animations::Group*
 
 void gui::actions::AnimationGroupActions::removeLastGroupFromList()
 {
-	gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
+    gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
     if (blk->lstAnimationsGroup->count())
     {
         delete blk->lstAnimationsGroup->takeItem(blk->lstAnimationsGroup->count() - 1);
@@ -98,7 +99,7 @@ void gui::actions::AnimationGroupActions::removeLastGroupFromList()
 
 void gui::actions::AnimationGroupActions::insertGroupToList(int pos, sad::animations::Group* g)
 {
-	gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
+    gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
     QListWidgetItem* item = new QListWidgetItem(this->nameForGroup(g));
     
     QVariant v;
@@ -110,7 +111,7 @@ void gui::actions::AnimationGroupActions::insertGroupToList(int pos, sad::animat
 
 void gui::actions::AnimationGroupActions::removeGroupFromList(int pos)
 {
-	gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
+    gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
     delete blk->lstAnimationsGroup->takeItem(pos);
 }
 
@@ -123,11 +124,12 @@ QString gui::actions::AnimationGroupActions::nameForGroup(sad::animations::Group
 
 void gui::actions::AnimationGroupActions::addGroup()
 {
-	gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
+    gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
 
     sad::animations::Group* g = new sad::animations::Group();
     g->setObjectName(Q2STDSTRING(blk->txtAnimationsGroupName->text()));
     g->setLooped(blk->cbAnimationsGroupLooped->checkState() == Qt::Checked);
+    g->toggleIsSequential(blk->rbAnimationsGroupSequential->isChecked());
     g->setTable(sad::Renderer::ref()->database("")->table("animationgroups"));
 
     QListWidget* w = blk->lstAnimationsGroupInGroup;
@@ -152,10 +154,22 @@ void gui::actions::AnimationGroupActions::currentGroupChanged(int newrow)
 {
     if (newrow > -1)
     {
-		gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
+        gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
 
         sad::animations::Group* g = blk->lstAnimationsGroup->item(newrow)->data(Qt::UserRole).value<sad::animations::Group*>();
         m_editor->shared()->setSelectedGroup(g);
+
+        invoke_blocked(
+            blk->rbAnimationsGroupSequential,
+            &QRadioButton::setChecked,
+            g->isSequential()
+        );
+
+        invoke_blocked(
+            blk->rbAnimationsGroupParallel,
+            &QRadioButton::setChecked,
+            g->isSequential() == false
+        );
 
         invoke_blocked(
             blk->txtAnimationsGroupName,
@@ -179,7 +193,7 @@ void gui::actions::AnimationGroupActions::currentGroupChanged(int newrow)
 
 void gui::actions::AnimationGroupActions::removeGroup()
 {
-	gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
+    gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
     int row = blk->lstAnimationsGroup->currentRow();
     if (row > -1)
     {
@@ -191,9 +205,9 @@ void gui::actions::AnimationGroupActions::removeGroup()
 
 void gui::actions::AnimationGroupActions::nameChanged(const QString& name)
 {
-	gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
+    gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
     
-	int row = blk->lstAnimationsGroup->currentRow();
+    int row = blk->lstAnimationsGroup->currentRow();
     if (row > -1)
     {
         sad::animations::Group* g = blk->lstAnimationsGroup->item(row)->data(Qt::UserRole).value<sad::animations::Group*>();
@@ -213,7 +227,7 @@ void gui::actions::AnimationGroupActions::nameChanged(const QString& name)
 
 void gui::actions::AnimationGroupActions::loopedChanged(bool newvalue)
 {
-	gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
+    gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
     int row = blk->lstAnimationsGroup->currentRow();
     if (row > -1)
     {
@@ -232,7 +246,7 @@ void gui::actions::AnimationGroupActions::loopedChanged(bool newvalue)
 
 void gui::actions::AnimationGroupActions::addInstance()
 {
-	gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
+    gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
     int row = blk->lstAnimationsGroup->currentRow();
     int irow = blk->lstAnimationsGroupAllAnimations->currentRow();
     if (row > -1 && irow > -1)
@@ -250,7 +264,7 @@ void gui::actions::AnimationGroupActions::addInstance()
 
 void gui::actions::AnimationGroupActions::removeInstance()
 {
-	gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
+    gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
     int row = blk->lstAnimationsGroup->currentRow();
     int irow = blk->lstAnimationsGroupInGroup->currentRow();
     if (row > -1 && irow > -1)

@@ -107,14 +107,14 @@ int main(int argc, char *argv[])
 
     // An input file
     QVector<QString> input_files;
-	
+    
     // Parse program options
     bool textures_should_be_unique = true;
     // Whether we need a full search
     bool full_search = false;
-	// Whether we should take options only from first file
-	bool take_first = true;
-	
+    // Whether we should take options only from first file
+    bool take_first = true;
+    
     for(int i = 1; i < argc; i++)
     {
         QString argument(argv[i]);
@@ -154,7 +154,7 @@ int main(int argc, char *argv[])
             handled = true;
             textures_should_be_unique = false;			
         }
-		if (argument == "-take-options-from-last" || argument == "--take-options-from-last")
+        if (argument == "-take-options-from-last" || argument == "--take-options-from-last")
         {
             handled = true;
             take_first = false;			
@@ -194,7 +194,7 @@ int main(int argc, char *argv[])
         else
         {
             Atlas atlas;
-			atlas.toggleFlagForChangingOutputPropertiesOnlyOnce(take_first);
+            atlas.toggleFlagForChangingOutputPropertiesOnlyOnce(take_first);
             Reader* reader = NULL;
             if (program_options["format"].value<QString>() == "xml")
             {
@@ -205,9 +205,9 @@ int main(int argc, char *argv[])
                 reader = new JSONReader();
             }
             reader->toggleShouldPreserveUniqueTextures(textures_should_be_unique);
-			for(size_t i = 0; i < input_files.size(); i++) {
-				reader->read(input_files[i], &atlas);
-			}
+            for(size_t i = 0; i < input_files.size(); i++) {
+                reader->read(input_files[i], &atlas);
+            }
             if (reader->ok() && reader->errors().size() == 0)
             {
                 if (atlas.textures().size() != 0)

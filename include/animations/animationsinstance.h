@@ -248,6 +248,11 @@ public:
         \param[in] animations animations, container, which contains all cached data
      */
     virtual void process(sad::animations::Animations* animations);
+    /*! Called on every step of instance work
+        \param[in] animations animations, container, which contains all cached data
+        \param[in] restore whether we should restore everything on finish
+     */
+    virtual void process(sad::animations::Animations* animations, bool restore);
     /*! Pauses an instance
      */
     virtual void pause();
@@ -343,12 +348,17 @@ public:
         \return true if related
      */
     virtual bool isRelatedToObject(sad::db::Object* object);
+    /*! Tries to restore object state from cache
+        \param[in] animations animations an animations
+     */
+    virtual void restoreObjectState(sad::animations::Animations* animations);
 protected:
     /*!  Computes time, which should be used to animate. Finishes
          animations to be finished
          \param[in] animations an animations
+         \param[in] restoreOnFinish whether we should restore state on finish
      */
-    virtual double computeTime(sad::animations::Animations* animations);
+    virtual double computeTime(sad::animations::Animations* animations, bool restoreOnFinish = true);
     /*! Processes animation instance with specified time
         \param[in] animations an animation part
         \param[in] time a time
@@ -369,10 +379,6 @@ protected:
         \param[in] animations an animations
      */
     virtual void saveStateAndCompile(sad::animations::Animations* animations);
-    /*! Tries to restore object state from cache
-        \param[in] animations animations an animations
-     */
-    virtual void restoreObjectState(sad::animations::Animations* animations);
     /*! Clears a state call on animation instance
      */
     void clearSetState();

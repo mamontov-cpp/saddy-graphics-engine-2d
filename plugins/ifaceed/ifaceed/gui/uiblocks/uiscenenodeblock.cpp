@@ -15,7 +15,8 @@ clpSceneNodeColor(NULL),
 rwSceneNodeRect(NULL),
 awSceneNodeAngle(NULL),
 cbSceneNodeVisible(NULL),
-txtObjectName(NULL)
+txtObjectName(NULL),
+btnSceneNodeSpanBetweenTwoPoints(NULL)
 {
 
 }
@@ -39,6 +40,8 @@ void gui::uiblocks::UISceneNodeBlock::init(QWidget* w)
     assert(this->cbSceneNodeVisible);
     this->txtObjectName = w->findChild<QLineEdit*>("txtObjectName");
     assert(this->txtObjectName);
+    this->btnSceneNodeSpanBetweenTwoPoints = w->findChild<QPushButton*>("btnSceneNodeSpanBetweenTwoPoints");
+    assert(this->btnSceneNodeSpanBetweenTwoPoints);
 }
 
 gui::uiblocks::UISceneNodeBlock::~UISceneNodeBlock()

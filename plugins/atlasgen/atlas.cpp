@@ -73,9 +73,9 @@ void Atlas::prepareForOutput()
 
 void Atlas::setOutputName(const QString& name)
 {
-	if ((m_output_name.length() == 0) || !m_take_first) { 
-		m_output_name = name;
-	}
+    if ((m_output_name.length() == 0) || !m_take_first) { 
+        m_output_name = name;
+    }
 }
 
 const QString& Atlas::outputName() const
@@ -85,9 +85,9 @@ const QString& Atlas::outputName() const
 
 void Atlas::setOutputTexture(const QString& name)
 {
-	if ((m_output_texture.length() == 0) || !m_take_first) { 
-		m_output_texture = name;
-	}
+    if ((m_output_texture.length() == 0) || !m_take_first) { 
+        m_output_texture = name;
+    }
 }
 
 const QString& Atlas::outputTexture() const
@@ -97,9 +97,9 @@ const QString& Atlas::outputTexture() const
 
 void Atlas::setResourceName(const QString& name)
 {
-	if ((m_texture_resource_name.exists() == false) || !m_take_first) {
-		m_texture_resource_name.setValue(name);    
-	}
+    if ((m_texture_resource_name.exists() == false) || !m_take_first) {
+        m_texture_resource_name.setValue(name);    
+    }
 }
 
 const QString& Atlas::resourceName() const
@@ -130,6 +130,6 @@ Texture* Atlas::getTexture(const QString& name) const
 
 void Atlas::toggleFlagForChangingOutputPropertiesOnlyOnce(bool flag)
 {
-	m_take_first = flag;
+    m_take_first = flag;
 }
 

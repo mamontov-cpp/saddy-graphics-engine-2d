@@ -156,7 +156,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>5</number>
     </property>
     <widget class="QWidget" name="tab_objects">
      <attribute name="title">
@@ -3052,6 +3052,54 @@ rect:</string>
        </item>
        <item>
         <widget class="QLineEdit" name="txtAnimationsGroupName"/>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="grpAnimationsGroupParallelOrSequential">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="MinimumExpanding">
+           <horstretch>0</horstretch>
+           <verstretch>37</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>76</height>
+          </size>
+         </property>
+         <property name="title">
+          <string>How instances should be played?</string>
+         </property>
+         <widget class="QWidget" name="">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>20</y>
+            <width>141</width>
+            <height>42</height>
+           </rect>
+          </property>
+          <layout class="QVBoxLayout" name="grpAnimationsGrouParallelOrSequentialLayout">
+           <item>
+            <widget class="QRadioButton" name="rbAnimationsGroupParallel">
+             <property name="text">
+              <string>Parallel</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="rbAnimationsGroupSequential">
+             <property name="text">
+              <string>Sequential</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
        </item>
        <item>
         <widget class="QCheckBox" name="cbAnimationsGroupLooped">

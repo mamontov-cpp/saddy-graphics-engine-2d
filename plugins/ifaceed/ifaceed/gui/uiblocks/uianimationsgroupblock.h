@@ -8,6 +8,7 @@ class QListWidget;
 class QPushButton;
 class QLineEdit;
 class QCheckBox;
+class QRadioButton;
 
 
 namespace gui
@@ -43,6 +44,8 @@ public:
     QPushButton* btnAnimationsGroupRemove;
     QPushButton* btnAnimationsGroupStart;
     QPushButton* btnAnimationsGroupCancel;
+    QRadioButton* rbAnimationsGroupParallel;
+    QRadioButton* rbAnimationsGroupSequential;
 };
 
 }

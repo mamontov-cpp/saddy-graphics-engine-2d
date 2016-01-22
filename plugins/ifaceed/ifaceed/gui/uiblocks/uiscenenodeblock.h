@@ -66,6 +66,7 @@ public:
     gui::anglewidget::AngleWidget* awSceneNodeAngle;
     QCheckBox* cbSceneNodeVisible;
     QLineEdit* txtObjectName;
+    QPushButton* btnSceneNodeSpanBetweenTwoPoints;
 };
 
 }

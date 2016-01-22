@@ -5,6 +5,7 @@
 #include <QPushButton>
 #include <QLineEdit>
 #include <QCheckBox>
+#include <QRadioButton>
 
 gui::uiblocks::UIAnimationsGroupBlock::UIAnimationsGroupBlock() : lstAnimationsGroupInGroup(NULL),
 lstAnimationsGroupAllAnimations(NULL),
@@ -16,7 +17,9 @@ cbAnimationsGroupLooped(NULL),
 btnAnimationsGroupAdd(NULL),
 btnAnimationsGroupRemove(NULL),
 btnAnimationsGroupStart(NULL),
-btnAnimationsGroupCancel(NULL)
+btnAnimationsGroupCancel(NULL),
+rbAnimationsGroupParallel(NULL),
+rbAnimationsGroupSequential(NULL)
 {
 
 }
@@ -46,6 +49,10 @@ void gui::uiblocks::UIAnimationsGroupBlock::init(QWidget* w)
     assert(this->btnAnimationsGroupStart);
     this->btnAnimationsGroupCancel = w->findChild<QPushButton*>("btnAnimationsGroupCancel");
     assert(this->btnAnimationsGroupCancel);
+    this->rbAnimationsGroupParallel = w->findChild<QRadioButton*>("rbAnimationsGroupParallel");
+    assert(this->rbAnimationsGroupParallel);
+    this->rbAnimationsGroupSequential = w->findChild<QRadioButton*>("rbAnimationsGroupSequential");
+    assert(this->rbAnimationsGroupSequential);
 }
 
 gui::uiblocks::UIAnimationsGroupBlock::~UIAnimationsGroupBlock()

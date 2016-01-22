@@ -375,6 +375,11 @@ bool sad::animations::Instance::finished() const
 
 void sad::animations::Instance::process(sad::animations::Animations* animations)
 {
+    this->process(animations, true);
+}
+
+void sad::animations::Instance::process(sad::animations::Animations* animations, bool restore)
+{
     if (m_paused == false)
     {
         if (m_started == false)
@@ -385,7 +390,7 @@ void sad::animations::Instance::process(sad::animations::Animations* animations)
 
         if (m_valid)
         {
-            double time = this->computeTime(animations);
+            double time = this->computeTime(animations, restore);
             if (m_finished == false)
             {
                 this->processTime(animations, time);
@@ -568,7 +573,10 @@ bool sad::animations::Instance::isRelatedToObject(sad::db::Object* object)
 // ================================== PROTECTED METHODS ==================================
 
 
-double sad::animations::Instance::computeTime(sad::animations::Animations* animations)
+double sad::animations::Instance::computeTime(
+    sad::animations::Animations* animations,
+    bool restoreOnFinish
+)
 {
     double elapsed = m_start_time + m_timer.elapsed();
     double result = elapsed;
@@ -589,7 +597,10 @@ double sad::animations::Instance::computeTime(sad::animations::Animations* anima
             this->markAsFinished();
             if (m_finished)
             {
-                this->restoreObjectState(animations);
+                if (restoreOnFinish)
+                {
+                    this->restoreObjectState(animations);
+                }
             }
             else
             {

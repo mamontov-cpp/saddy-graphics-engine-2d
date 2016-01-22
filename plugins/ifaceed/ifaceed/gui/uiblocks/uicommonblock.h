@@ -8,6 +8,7 @@ class QLineEdit;
 class QTabWidget;
 class QTableWidget;
 class QPushButton;
+class QCheckBox;
 
 
 namespace gui
@@ -39,6 +40,7 @@ public:
     QTableWidget* twDatabaseProperties;
     QPushButton* btnFixTextureCoordinates;
     QPushButton* btnClearObjectSelection;
+    QCheckBox* cbFastMode;
 };
 
 }

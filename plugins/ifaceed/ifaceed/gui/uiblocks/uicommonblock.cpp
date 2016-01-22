@@ -5,6 +5,7 @@
 #include <QTabWidget>
 #include <QTableWidget>
 #include <QPushButton>
+#include <QCheckBox>
 
 gui::uiblocks::UICommonBlock::UICommonBlock() : txtMousePosX(NULL),
 txtMousePosY(NULL),
@@ -12,7 +13,8 @@ tabTypes(NULL),
 tabObjects(NULL),
 twDatabaseProperties(NULL),
 btnFixTextureCoordinates(NULL),
-btnClearObjectSelection(NULL)
+btnClearObjectSelection(NULL),
+cbFastMode(NULL)
 {
 
 }
@@ -34,6 +36,8 @@ void gui::uiblocks::UICommonBlock::init(QWidget* w)
     assert(this->btnFixTextureCoordinates);
     this->btnClearObjectSelection = w->findChild<QPushButton*>("btnClearObjectSelection");
     assert(this->btnClearObjectSelection);
+    this->cbFastMode = w->findChild<QCheckBox*>("cbFastMode");
+    assert(this->cbFastMode);
 }
 
 gui::uiblocks::UICommonBlock::~UICommonBlock()

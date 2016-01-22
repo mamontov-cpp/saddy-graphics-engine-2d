@@ -86,10 +86,10 @@ public:
         \return name a texture by name
      */
     Texture* getTexture(const QString& name) const;
-	/*! Toggle flags for changing output properties only once
-		\param[in] flag a flag
-	 */
-	void toggleFlagForChangingOutputPropertiesOnlyOnce(bool flag);
+    /*! Toggle flags for changing output properties only once
+        \param[in] flag a flag
+     */
+    void toggleFlagForChangingOutputPropertiesOnlyOnce(bool flag);
 protected:
     /*! An output name
      */
@@ -106,7 +106,7 @@ protected:
     /*! An array of entries
      */
     QVector<AtlasEntry> m_entries;
-	/*! Whether we should take options only from first file
-	 */
-	bool m_take_first;
+    /*! Whether we should take options only from first file
+     */
+    bool m_take_first;
 };

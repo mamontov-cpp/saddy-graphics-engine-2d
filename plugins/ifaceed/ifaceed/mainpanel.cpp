@@ -1059,6 +1059,8 @@ void MainPanel::toggleAnimationPropertiesEditable(bool flag)
         ui.cbAnimationsGroupLooped,
         ui.btnAnimationsGroupAdd,
         ui.btnAnimationsGroupRemove,
+        ui.rbAnimationsGroupParallel,
+        ui.rbAnimationsGroupSequential,
 
         ui.btnConsoleRun,
 

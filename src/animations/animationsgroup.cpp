@@ -23,7 +23,12 @@
 
 // =========================== PUBLIC METHODS ===========================
 
-sad::animations::Group::Group() : m_started(true), m_looped(false), m_parent(NULL), m_sequential(false), m_current_instance(0)
+sad::animations::Group::Group() : 
+m_looped(false), 
+m_started(true), 
+m_parent(NULL),
+m_sequential(false), 
+m_current_instance(0)
 {
     
 }
@@ -73,8 +78,8 @@ sad::db::schema::Schema* sad::animations::Group::basicSchema()
                     &sad::animations::Group::setInstances
                 )
             );
-			
-			sad::db::Property* s_property = new sad::db::MethodPair<sad::animations::Group, bool>(
+            
+            sad::db::Property* s_property = new sad::db::MethodPair<sad::animations::Group, bool>(
                 &sad::animations::Group::isSequential,
                 &sad::animations::Group::toggleIsSequential
             );
@@ -232,13 +237,24 @@ void sad::animations::Group::insertAsLink(int pos, sad::animations::Instance* i)
 
 void sad::animations::Group::restart(sad::animations::Animations* animations)
 {
-    for(size_t i = 0; i < m_instances.size(); i++)
+    if (m_sequential)
     {
-        m_instances[i]->cancel(animations);
+       if (m_current_instance < m_instances.size())
+       {
+           m_instances[m_current_instance]->cancel(animations);
+           m_instances[m_current_instance]->restart(animations);
+       }
     }
-    for(size_t i = 0; i < m_instances.size(); i++)
+    else
     {
-        m_instances[i]->restart(animations);
+        for(size_t i = 0; i < m_instances.size(); i++)
+        {
+            m_instances[i]->cancel(animations);
+        }
+        for(size_t i = 0; i < m_instances.size(); i++)
+        {
+            m_instances[i]->restart(animations);
+        }
     }
     m_instances.clear();
     m_started = true;
@@ -250,9 +266,21 @@ void sad::animations::Group::clearFinished()
     {
         getInstances(m_instances);
     }
-    for(size_t i = 0; i < m_instances.size(); i++)
+    if (m_sequential)
     {
-        m_instances[i]->clearFinished();
+        m_current_instance = 0;
+        if (m_instances.size() != 0)
+        {
+            m_instances[m_current_instance]->clearFinished();
+        }
+        m_finished_instances.clear();
+    }
+    else 
+    {
+        for(size_t i = 0; i < m_instances.size(); i++)
+        {
+            m_instances[i]->clearFinished();
+        }
     }
 }
 
@@ -277,46 +305,116 @@ void sad::animations::Group::process(sad::animations::Animations* animations)
     }
 
     size_t old_size = m_instances.size();
-    for(size_t i = 0; i < m_instances.size(); i++)
+    if (m_sequential)
     {
-        m_instances[i]->process(animations);
-        if (m_instances[i]->finished())
+        if (m_current_instance < m_instances.size())
         {
-            m_instances.removeAt(i);
-            --i;
+           sad::animations::Instance* instance = m_instances[m_current_instance];
+           instance->process(animations, false);
+           if (instance->finished())
+           {
+               m_finished_instances << m_instances[m_current_instance];
+               m_instances.removeAt(m_current_instance);
+               if (m_instances.size() != 0)
+               {
+                   m_instances[m_current_instance]->clearFinished();
+               }
+           }
+        }
+    }
+    else
+    {
+        for(size_t i = 0; i < m_instances.size(); i++)
+        {
+            m_instances[i]->process(animations);
+            if (m_instances[i]->finished())
+            {
+                m_instances.removeAt(i);
+                --i;
+            }
         }
     }
 
+
     if (old_size != m_instances.size() && m_instances.size() == 0)
     {
-        for(size_t i = 0; i < m_callbacks_on_end.size(); i++)
+        if (m_sequential)
         {
-            m_callbacks_on_end[i]->invoke();
+            for(size_t i = 0; i < m_finished_instances.size(); i++)
+            {
+                m_finished_instances[i]->restoreObjectState(animations);
+            }
+        }
+        if (!m_looped)
+        {        
+            for(size_t i = 0; i < m_callbacks_on_end.size(); i++)
+            {
+                m_callbacks_on_end[i]->invoke();
+            }
+        }
+        else
+        {
+            this->clearFinished();
         }
     }
 }
 
 void sad::animations::Group::pause()
 {
-    for(size_t i = 0; i < m_instances.size(); i++)
+    if (m_sequential)
     {
-        m_instances[i]->pause();
+        if (m_current_instance < m_instances.size())
+        {
+            m_instances[m_current_instance]->pause();
+        }
+    }
+    else
+    {
+        for(size_t i = 0; i < m_instances.size(); i++)
+        {
+            m_instances[i]->pause();
+        }
     }
 }
 
 void sad::animations::Group::resume()
 {
-    for(size_t i = 0; i < m_instances.size(); i++)
+    if (m_sequential)
     {
-        m_instances[i]->resume();
+        if (m_current_instance < m_instances.size())
+        {
+            m_instances[m_current_instance]->resume();
+        }
+    }
+    else
+    {
+        for(size_t i = 0; i < m_instances.size(); i++)
+        {
+            m_instances[i]->resume();
+        }
     }
 }
 
 void sad::animations::Group::cancel(sad::animations::Animations* animations)
 {
-    for(size_t i = 0; i < m_instances.size(); i++)
+    if (m_sequential)
     {
-        m_instances[i]->cancel(animations);
+        for(size_t i = 0; i < m_finished_instances.size(); i++)
+        {
+            m_finished_instances[i]->restoreObjectState(animations);
+        }
+        m_finished_instances.clear();
+        if (m_current_instance < m_instances.size())
+        {
+            m_instances[m_current_instance]->cancel(animations);
+        }        
+    }
+    else
+    {
+        for(size_t i = 0; i < m_instances.size(); i++)
+        {
+            m_instances[i]->cancel(animations);
+        }
     }
 
     m_instances.clear();
@@ -374,12 +472,12 @@ bool sad::animations::Group::isRelatedToObject(sad::db::Object* object)
 
 bool sad::animations::Group::isSequential() const
 {
-	return m_sequential;
+    return m_sequential;
 }
 
 void sad::animations::Group::toggleIsSequential(bool flag)
 {
-	m_sequential = flag;
+    m_sequential = flag;
 }
 
 // =========================== PROTECTED METHODS ===========================
@@ -485,12 +583,13 @@ void sad::animations::Group::clearReferences()
 
 void sad::animations::Group::copyState(const sad::animations::Group& o)
 {
-	m_sequential = o.m_sequential;
+    m_sequential = o.m_sequential;
     m_instance_links = o.m_instance_links;
     m_instances.clear();
     m_referenced = o.m_referenced;
     m_looped = o.m_looped;
-	m_current_instance = o.m_current_instance;
+    m_current_instance = o.m_current_instance;
+    m_finished_instances.clear();
     for(size_t i = 0; i < m_referenced.size(); i++)
     {
         m_referenced[i]->addRef();
