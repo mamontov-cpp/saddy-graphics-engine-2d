@@ -10,6 +10,8 @@
 #include <cstdio>
 
 // ReSharper disable once CppUnusedIncludeDirective
+#include <QtCore/QVector>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QtCore/QHash>
 // ReSharper disable once CppUnusedIncludeDirective
 #include <QtCore/QString>
@@ -104,11 +106,15 @@ int main(int argc, char *argv[])
     program_options.insert("run-tests", false);
 
     // An input file
-    program_options.insert("input", "");
+    QVector<QString> input_files;
+	
     // Parse program options
     bool textures_should_be_unique = true;
     // Whether we need a full search
     bool full_search = false;
+	// Whether we should take options only from first file
+	bool take_first = true;
+	
     for(int i = 1; i < argc; i++)
     {
         QString argument(argv[i]);
@@ -148,13 +154,18 @@ int main(int argc, char *argv[])
             handled = true;
             textures_should_be_unique = false;			
         }
+		if (argument == "-take-options-from-last" || argument == "--take-options-from-last")
+        {
+            handled = true;
+            take_first = false;			
+        }		
         if (!handled)
         {
-            program_options["input"] = argument;
+            input_files.push_back(argument);
         }
     }
 
-    if ((program_options["help"].value<bool>() || program_options["input"].value<QString>().length() == 0) 
+    if ((program_options["help"].value<bool>() || input_files.size() == 0) 
         && program_options["run-tests"].value<bool>() == false)
     {
         if (program_options["help"].value<bool>() == false)
@@ -170,6 +181,7 @@ int main(int argc, char *argv[])
 -with-index, --with-index - Scan and print index part in file definitions\n\
 -h, --help - prints this help\n"
 "-non-unique-textures, --non-unique-textures - do not check, that textures should be unique\n"
+"-take-options-from-last, --take-options-from-last - take options from the last file passed (default: off)\n"
                   );
         }
     } 
@@ -182,6 +194,7 @@ int main(int argc, char *argv[])
         else
         {
             Atlas atlas;
+			atlas.toggleFlagForChangingOutputPropertiesOnlyOnce(take_first);
             Reader* reader = NULL;
             if (program_options["format"].value<QString>() == "xml")
             {
@@ -192,7 +205,9 @@ int main(int argc, char *argv[])
                 reader = new JSONReader();
             }
             reader->toggleShouldPreserveUniqueTextures(textures_should_be_unique);
-            reader->read(program_options["input"].value<QString>(), &atlas);
+			for(size_t i = 0; i < input_files.size(); i++) {
+				reader->read(input_files[i], &atlas);
+			}
             if (reader->ok() && reader->errors().size() == 0)
             {
                 if (atlas.textures().size() != 0)
