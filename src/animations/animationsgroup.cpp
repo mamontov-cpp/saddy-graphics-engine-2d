@@ -23,7 +23,7 @@
 
 // =========================== PUBLIC METHODS ===========================
 
-sad::animations::Group::Group() : m_started(true), m_looped(false), m_parent(NULL)
+sad::animations::Group::Group() : m_started(true), m_looped(false), m_parent(NULL), m_sequential(false)
 {
     
 }
@@ -73,6 +73,13 @@ sad::db::schema::Schema* sad::animations::Group::basicSchema()
                     &sad::animations::Group::setInstances
                 )
             );
+			
+			sad::db::Property* s_property = new sad::db::MethodPair<sad::animations::Group, bool>(
+                &sad::animations::Group::isSequential,
+                &sad::animations::Group::toggleIsSequential
+            );
+            s_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(false));
+            AnimationGroupSchema->add("sequential", s_property);
         
             sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationGroupSchema);
         }
@@ -365,6 +372,16 @@ bool sad::animations::Group::isRelatedToObject(sad::db::Object* object)
 }
 
 
+bool sad::animations::Group::isSequential() const
+{
+	return m_sequential;
+}
+
+void sad::animations::Group::toggleIsSequential(bool flag)
+{
+	m_sequential = flag;
+}
+
 // =========================== PROTECTED METHODS ===========================
 
 void sad::animations::Group::getInstances(sad::Vector<sad::animations::Instance*> & result)
@@ -468,6 +485,7 @@ void sad::animations::Group::clearReferences()
 
 void sad::animations::Group::copyState(const sad::animations::Group& o)
 {
+	m_sequential = o.m_sequential;
     m_instance_links = o.m_instance_links;
     m_instances.clear();
     m_referenced = o.m_referenced;

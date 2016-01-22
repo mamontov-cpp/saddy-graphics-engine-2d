@@ -241,6 +241,14 @@ public:
         \return true if related
      */
     virtual bool isRelatedToObject(sad::db::Object* object);
+	/*! Returns whether instances in group should be played sequentially
+		\return flag value
+	 */
+	bool isSequential() const;
+	/*! Sets an attribute, which makes group play instances sequentially to true or false
+		\param[in] flag a flag
+	 */
+	void toggleIsSequential(bool flag);
 protected:
      /*! Immediately adds an object to container
           \param[in] o object
@@ -291,6 +299,9 @@ protected:
      /*! A callbacks, that should be called, when group stops being played
       */
     sad::PtrVector<sad::animations::Callback> m_callbacks_on_end;
+	/*! Whether animations should be played sequentially
+	 */
+	bool m_sequential;
 };
 
 }
