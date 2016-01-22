@@ -302,6 +302,9 @@ protected:
 	/*! Whether animations should be played sequentially
 	 */
 	bool m_sequential;
+	/*! A current instance
+	 */
+	size_t m_current_instance;
 };
 
 }

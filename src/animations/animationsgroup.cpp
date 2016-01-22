@@ -23,7 +23,7 @@
 
 // =========================== PUBLIC METHODS ===========================
 
-sad::animations::Group::Group() : m_started(true), m_looped(false), m_parent(NULL), m_sequential(false)
+sad::animations::Group::Group() : m_started(true), m_looped(false), m_parent(NULL), m_sequential(false), m_current_instance(0)
 {
     
 }
@@ -490,6 +490,7 @@ void sad::animations::Group::copyState(const sad::animations::Group& o)
     m_instances.clear();
     m_referenced = o.m_referenced;
     m_looped = o.m_looped;
+	m_current_instance = o.m_current_instance;
     for(size_t i = 0; i < m_referenced.size(); i++)
     {
         m_referenced[i]->addRef();
