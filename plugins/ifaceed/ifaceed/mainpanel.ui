@@ -3042,7 +3042,7 @@ rect:</string>
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>180</width>
+        <width>181</width>
         <height>371</height>
        </rect>
       </property>
@@ -3067,16 +3067,21 @@ rect:</string>
            <height>76</height>
           </size>
          </property>
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
          <property name="title">
           <string>How instances should be played?</string>
          </property>
-         <widget class="QWidget" name="">
+         <widget class="QWidget" name="layoutWidget">
           <property name="geometry">
            <rect>
             <x>10</x>
             <y>20</y>
             <width>141</width>
-            <height>42</height>
+            <height>52</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="grpAnimationsGrouParallelOrSequentialLayout">
