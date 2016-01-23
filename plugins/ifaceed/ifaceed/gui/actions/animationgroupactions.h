@@ -68,11 +68,11 @@ public:
         \return name for group
      */
     QString nameForGroup(sad::animations::Group* g) const;
-	/*! Emitted, when changed, whether current animation group play mode is set
-		to sequential or not
-		\param[in] sequential whether sequential
-	 */
-	void changedIsSequential(bool sequential);
+    /*! Emitted, when changed, whether current animation group play mode is set
+        to sequential or not
+        \param[in] sequential whether sequential
+     */
+    void changedIsSequential(bool sequential);
 public slots:
     /*! Tries to add new animation group
      */
@@ -104,12 +104,12 @@ public slots:
     /*! Stop running selected animation group
      */
     void stop();
-	/*! User toggles a "Sequential" radio button
-	 */
-	void toggledSequential(bool toggled);
-	/*! User toggles a "Parallel" radio button
-	 */
-	void toggledParallel(bool toggled);
+    /*! User toggles a "Sequential" radio button
+     */
+    void toggledSequential(bool toggled);
+    /*! User toggles a "Parallel" radio button
+     */
+    void toggledParallel(bool toggled);
 private:
     /*! A running animation process 
      */

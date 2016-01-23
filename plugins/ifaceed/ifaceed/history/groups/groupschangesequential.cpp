@@ -34,14 +34,14 @@ history::groups::ChangeSequential::~ChangeSequential()
 
 void history::groups::ChangeSequential::updateUI(core::Editor* e, const bool& value)
 {
-	gui::uiblocks::UIAnimationsGroupBlock* blk = e->uiBlocks()->uiAnimationsGroupBlock();    
-	e->emitClosure( blocked_bind(
+    gui::uiblocks::UIAnimationsGroupBlock* blk = e->uiBlocks()->uiAnimationsGroupBlock();    
+    e->emitClosure( blocked_bind(
             blk->rbAnimationsGroupParallel,
             &QRadioButton::setChecked,
             !value
         )
     );
-	e->emitClosure( blocked_bind(
+    e->emitClosure( blocked_bind(
             blk->rbAnimationsGroupSequential,
             &QRadioButton::setChecked,
             value

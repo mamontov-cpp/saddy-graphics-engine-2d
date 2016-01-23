@@ -123,7 +123,7 @@ QString gui::actions::AnimationGroupActions::nameForGroup(sad::animations::Group
 
 void gui::actions::AnimationGroupActions::changedIsSequential(bool sequential)
 {
-	gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
+    gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
     
     int row = blk->lstAnimationsGroup->currentRow();
     if (row > -1)
@@ -327,16 +327,16 @@ void gui::actions::AnimationGroupActions::stop()
 
 void gui::actions::AnimationGroupActions::toggledSequential(bool toggled)
 {
-	if (toggled)
-	{
-		changedIsSequential(true);
-	}
+    if (toggled)
+    {
+        changedIsSequential(true);
+    }
 }
 
 void gui::actions::AnimationGroupActions::toggledParallel(bool toggled)
 {
-	if (toggled)
-	{
-		changedIsSequential(false);
-	}
+    if (toggled)
+    {
+        changedIsSequential(false);
+    }
 }

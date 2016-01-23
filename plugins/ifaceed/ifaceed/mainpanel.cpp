@@ -689,7 +689,7 @@ void MainPanel::setEditor(core::Editor* editor)
     connect(ui.btnAnimationsGroupRemoveFromList, SIGNAL(clicked()), ag_actions, SLOT(removeInstance()));	
     connect(ui.btnAnimationsGroupStart, SIGNAL(clicked()), ag_actions, SLOT(start()));	
     connect(ui.btnAnimationsGroupCancel, SIGNAL(clicked()), ag_actions, SLOT(stop()));
-	connect(ui.rbAnimationsGroupSequential, SIGNAL(toggled(bool)), ag_actions, SLOT(toggledSequential(bool)));
+    connect(ui.rbAnimationsGroupSequential, SIGNAL(toggled(bool)), ag_actions, SLOT(toggledSequential(bool)));
     connect(ui.rbAnimationsGroupParallel, SIGNAL(toggled(bool)), ag_actions, SLOT(toggledParallel(bool)));
     
 

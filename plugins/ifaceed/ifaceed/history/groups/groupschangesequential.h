@@ -1,6 +1,6 @@
 /*! \file groupschangesequential.h
-	
-	Describes a command for changing flag, that makes animation group play instances sequentially
+    
+    Describes a command for changing flag, that makes animation group play instances sequentially
  */
 #pragma once
 #include "groupschangeproperty.h"
