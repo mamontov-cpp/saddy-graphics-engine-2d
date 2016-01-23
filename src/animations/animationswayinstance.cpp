@@ -160,7 +160,7 @@ void sad::animations::WayInstance::start(sad::animations::Animations* animations
     }
 }
 
-double sad::animations::WayInstance::computeTime(sad::animations::Animations* animations)
+double sad::animations::WayInstance::computeTime(sad::animations::Animations* animations, bool restoreOnFinish)
 {
     double elapsed = m_start_time + m_timer.elapsed();
     double result = elapsed;
@@ -181,7 +181,10 @@ double sad::animations::WayInstance::computeTime(sad::animations::Animations* an
             this->markAsFinished();
             if (m_finished)
             {
-                this->restoreObjectState(animations);
+                if (restoreOnFinish)
+                {
+                    this->restoreObjectState(animations);
+                }
             }
             else
             {

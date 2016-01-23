@@ -78,7 +78,7 @@ protected:
          animations to be finished
          \param[in] animations an animations
      */
-    virtual double computeTime(sad::animations::Animations* animations);
+    virtual double computeTime(sad::animations::Animations* animations, bool restoreOnFinish = true);
     /*! Processes animation instance with specified time
         \param[in] animations an animation part
         \param[in] time a time
