@@ -1,9 +1,9 @@
 #include <3rdparty/tpunit++/tpunitw.h>
 
 #include <ft2build.h>
-#include <freetype/freetype.h>
-#include <freetype/ftglyph.h>
-#include <freetype/ftoutln.h>
-#include <freetype/fttrigon.h>
+#include FT_FREETYPE_H
+#include FT_GLYPH_H
+#include FT_OUTLINE_H
+#include FT_TRIGONOMETRY_H
 
 #define SOURCE_FONT "ifaceed/EMPORIUM.TTF"
