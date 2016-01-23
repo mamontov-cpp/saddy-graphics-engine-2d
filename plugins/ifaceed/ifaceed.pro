@@ -197,6 +197,7 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/animations/animationsswapincomposite.h \
     ifaceed/history/groups/groupsaddinstance.h \
     ifaceed/history/groups/groupschangelooped.h \
+    ifaceed/history/groups/groupschangesequential.h \	
     ifaceed/history/groups/groupschangename.h \
     ifaceed/history/groups/groupschangeproperty.h \
     ifaceed/history/groups/groupsnew.h \
@@ -463,6 +464,7 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/history/animations/animationsswapincomposite.cpp \
     ifaceed/history/groups/groupsaddinstance.cpp \
     ifaceed/history/groups/groupschangelooped.cpp \
+    ifaceed/history/groups/groupschangesequential.cpp \	
     ifaceed/history/groups/groupschangename.cpp \
     ifaceed/history/groups/groupsnew.cpp \
     ifaceed/history/groups/groupsremove.cpp \

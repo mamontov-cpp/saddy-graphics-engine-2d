@@ -20,6 +20,7 @@
 #include "../../history/groups/groupsremove.h"
 #include "../../history/groups/groupschangename.h"
 #include "../../history/groups/groupschangelooped.h"
+#include "../../history/groups/groupschangesequential.h"
 #include "../../history/groups/groupsaddinstance.h"
 #include "../../history/groups/groupsremoveinstance.h"
 
@@ -118,6 +119,27 @@ void gui::actions::AnimationGroupActions::removeGroupFromList(int pos)
 QString gui::actions::AnimationGroupActions::nameForGroup(sad::animations::Group* g) const
 {
     return const_cast<gui::actions::AnimationGroupActions*>(this)->viewableObjectName(g);
+}
+
+void gui::actions::AnimationGroupActions::changedIsSequential(bool sequential)
+{
+	gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
+    
+    int row = blk->lstAnimationsGroup->currentRow();
+    if (row > -1)
+    {
+        sad::animations::Group* g = blk->lstAnimationsGroup->item(row)->data(Qt::UserRole).value<sad::animations::Group*>();
+    
+        bool oldvalue = g->isSequential();
+        bool newvalue = sequential;
+        
+        if (oldvalue != newvalue)
+        {
+            history::groups::ChangeSequential* c = new history::groups::ChangeSequential(g, oldvalue, newvalue);
+            c->commit(m_editor);
+            m_editor->history()->add(c);
+        }
+    }
 }
 
 // ===============================  PUBLIC SLOTS METHODS ===============================
@@ -301,4 +323,20 @@ void gui::actions::AnimationGroupActions::stop()
         m_animation->setEditor(m_editor);
         m_animation->stop();
     }
+}
+
+void gui::actions::AnimationGroupActions::toggledSequential(bool toggled)
+{
+	if (toggled)
+	{
+		changedIsSequential(true);
+	}
+}
+
+void gui::actions::AnimationGroupActions::toggledParallel(bool toggled)
+{
+	if (toggled)
+	{
+		changedIsSequential(false);
+	}
 }

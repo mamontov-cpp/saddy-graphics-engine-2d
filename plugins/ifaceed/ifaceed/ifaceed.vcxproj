@@ -2419,6 +2419,7 @@
     <ClCompile Include="history\groups\groupsaddinstance.cpp" />
     <ClCompile Include="history\groups\groupschangelooped.cpp" />
     <ClCompile Include="history\groups\groupschangename.cpp" />
+    <ClCompile Include="history\groups\groupschangesequential.cpp" />
     <ClCompile Include="history\groups\groupsnew.cpp" />
     <ClCompile Include="history\groups\groupsremove.cpp" />
     <ClCompile Include="history\groups\groupsremoveinstance.cpp" />
@@ -4434,6 +4435,7 @@
     <ClInclude Include="history\groups\groupschangelooped.h" />
     <ClInclude Include="history\groups\groupschangename.h" />
     <ClInclude Include="history\groups\groupschangeproperty.h" />
+    <ClInclude Include="history\groups\groupschangesequential.h" />
     <ClInclude Include="history\groups\groupsnew.h" />
     <ClInclude Include="history\groups\groupsremove.h" />
     <ClInclude Include="history\groups\groupsremoveinstance.h" />
