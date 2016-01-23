@@ -189,6 +189,7 @@ void scripting::groups::checkProperties(
     if (obj.value()->isInstanceOf("sad::animations::Group"))
     {
         list << "looped";
+		list << "sequential";
         if (readable)
         {
             list << "instances";

@@ -2355,6 +2355,9 @@
     <ClCompile Include="history\groups\groupschangesequential.cpp">
       <Filter>Source Files\history\groups</Filter>
     </ClCompile>
+    <ClCompile Include="scripting\groups\groupssequentialsetter.cpp">
+      <Filter>Source Files\scripting\groups</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -2983,6 +2986,9 @@
     </ClInclude>
     <ClInclude Include="history\groups\groupschangesequential.h">
       <Filter>Header Files\history\groups</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\groups\groupssequentialsetter.h">
+      <Filter>Header Files\scripting\groups</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

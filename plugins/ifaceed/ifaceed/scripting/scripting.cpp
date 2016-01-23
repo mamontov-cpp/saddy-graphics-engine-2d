@@ -107,6 +107,7 @@
 #include "groups/groupsbindings.h"
 #include "groups/groupsnamesetter.h"
 #include "groups/groupsloopedsetter.h"
+#include "groups/groupssequentialsetter.h"
 
 #include <QFileDialog>
 #include <QTextStream>
@@ -795,15 +796,17 @@ void scripting::Scripting::showHelp()
         "							<ul>"	
         "								<li>property <b>\"name\"</b>  - name as string</li>"
         "								<li>property <b>\"looped\"</b>  - flag, which indicates, whether group is looped</li>"	
+        "								<li>property <b>\"sequential\"</b>  - flag, which indicates, whether instances in group should be run sequentially or parallel</li>"	
         "							</ul>"
         "						</li>"		
-        "						<li>method <b>get(\"group group\", \"propertyname\", \"value\")</b> - fetches property of animation group by it\'s name"
+        "						<li>method <b>get(\"group group\", \"propertyname\")</b> - fetches property of animation group by it\'s name"
         "							<ul>"
         "								<li>property <b>\"name\"</b>  - name as string</li>"
         "								<li>property <b>\"majorid\"</b>  - a major id of animation in database. Useful for links.</li>"
         "								<li>property <b>\"minorid\"</b>  - a minor id of animation in database. Useful for links in your application.</li>"
         "								<li>property <b>\"looped\"</b>  - flag, which indicates, whether group is looped</li>"	
-        "								<li>property <b>\"instances\"</b>  - list of major ids of animation instances in group</li>"	
+        "								<li>property <b>\"sequential\"</b>  - flag, which indicates, whether instances in group should be run sequentially or parallel</li>"	
+		"								<li>property <b>\"instances\"</b>  - list of major ids of animation instances in group</li>"	
         "							</ul>"
         "						</li>"
         "						<li>method <b>attr</b> - depending from number of arguments applies <b>set</b> or <b>get</b> methods respectively</li>"		
@@ -1910,6 +1913,7 @@ void scripting::Scripting::initAnimationGroupBindings(QScriptValue& v)
     scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
     set->add(new scripting::groups::NameSetter(m_engine));
     set->add(new scripting::groups::LoopedSetter(m_engine));
+	set->add(new scripting::groups::SequentialSetter(m_engine));
     
     m_registered_classes << set;
     groups.setProperty("set", m_engine->newObject(set), m_flags); // E.animations.groups.set
@@ -1920,6 +1924,7 @@ void scripting::Scripting::initAnimationGroupBindings(QScriptValue& v)
     get->add(new scripting::AbstractGetter<sad::animations::Group*, unsigned long long>(m_engine, "majorid"));
     get->add(new scripting::AbstractGetter<sad::animations::Group*, unsigned long long>(m_engine, "minorid"));
     get->add(new scripting::AbstractGetter<sad::animations::Group*, bool>(m_engine, "looped"));
+	get->add(new scripting::AbstractGetter<sad::animations::Group*, bool>(m_engine, "sequential"));
     get->add(new scripting::AbstractGetter<sad::animations::Group*, sad::Vector<unsigned long long> >(m_engine, "instances"));
     
     m_registered_classes << get;

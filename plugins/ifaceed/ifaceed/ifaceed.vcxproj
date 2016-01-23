@@ -2460,6 +2460,7 @@
     <ClCompile Include="scripting\groups\groupsbindings.cpp" />
     <ClCompile Include="scripting\groups\groupsloopedsetter.cpp" />
     <ClCompile Include="scripting\groups\groupsnamesetter.cpp" />
+    <ClCompile Include="scripting\groups\groupssequentialsetter.cpp" />
     <ClCompile Include="scripting\instances\instancesanimationdbsetter.cpp" />
     <ClCompile Include="scripting\instances\instancesanimationsetter.cpp" />
     <ClCompile Include="scripting\instances\instancesbindings.cpp" />
@@ -4791,6 +4792,7 @@
     <ClInclude Include="scripting\groups\groupsbindings.h" />
     <ClInclude Include="scripting\groups\groupsloopedsetter.h" />
     <ClInclude Include="scripting\groups\groupsnamesetter.h" />
+    <ClInclude Include="scripting\groups\groupssequentialsetter.h" />
     <ClInclude Include="scripting\instances\instancesanimationdbsetter.h" />
     <ClInclude Include="scripting\instances\instancesanimationsetter.h" />
     <ClInclude Include="scripting\instances\instancesbindings.h" />

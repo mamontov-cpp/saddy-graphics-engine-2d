@@ -285,6 +285,7 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/scriptinghelp.h \
     ifaceed/scripting/groups/groupsbindings.h \
     ifaceed/scripting/groups/groupsloopedsetter.h \
+    ifaceed/scripting/groups/groupssequentialsetter.h \	
     ifaceed/scripting/groups/groupsnamesetter.h \
     ifaceed/scripting/instances/instancesanimationdbsetter.h \
     ifaceed/scripting/instances/instancesanimationsetter.h \
@@ -529,6 +530,7 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/scriptinghelp.cpp \
     ifaceed/scripting/groups/groupsbindings.cpp \
     ifaceed/scripting/groups/groupsloopedsetter.cpp \
+    ifaceed/scripting/groups/groupssequentialsetter.cpp \
     ifaceed/scripting/groups/groupsnamesetter.cpp \
     ifaceed/scripting/instances/instancesanimationdbsetter.cpp \
     ifaceed/scripting/instances/instancesanimationsetter.cpp \
