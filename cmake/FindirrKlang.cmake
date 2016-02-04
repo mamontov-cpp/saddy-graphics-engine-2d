@@ -4,14 +4,8 @@
 # IRRKLANG_FOUND - system has irrKlang
 # IRRKLANG_INCLUDE_DIRS - the irrKlang include directory
 # IRRKLANG_LIBRARIES - Link these to use irrKlang
-# IRRKLANG_DEFINITIONS - Compiler switches required for using irrKlang
-#
-# Copyright (c) 2006 Andreas Schneider <mail@cynapses.org>
-#
-# Redistribution and use is allowed according to the terms of the New
-# BSD license.
-# For details see the accompanying COPYING-CMAKE-SCRIPTS file.
-#
+# IRRKLANG_SO_LIBRARIES - A dynamic libraries
+
 
 IF(CMAKE_SIZEOF_VOID_P EQUAL 8)
 	set(BITSX64 ON)
