@@ -24,7 +24,7 @@
 
 #include "../resourcetreewidget/resourcetreewidget.h"
 
-#include "../colorpicker/colorpicker.h"
+#include "../qt-palette-color-picker/colorpicker.h"
 
 #include "../anglewidget/anglewidget.h"
 

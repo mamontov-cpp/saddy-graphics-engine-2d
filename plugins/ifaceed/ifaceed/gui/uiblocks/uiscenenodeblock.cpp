@@ -4,7 +4,7 @@
 #include <QPushButton>
 #include <QCheckBox>
 #include <QLineEdit>
-#include "../gui/colorpicker/colorpicker.h"
+#include "../gui/qt-palette-color-picker/colorpicker.h"
 #include "../gui/rectwidget/rectwidget.h"
 #include "../anglewidget/anglewidget.h"
 

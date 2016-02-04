@@ -85,7 +85,7 @@
   <customwidget>
    <class>gui::colorpicker::ColorPicker</class>
    <extends>QWidget</extends>
-   <header>gui/colorpicker/colorpicker.h</header>
+   <header>gui/qt-palette-color-picker/colorpicker.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

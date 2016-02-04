@@ -41,7 +41,7 @@
 
 #include "../rectwidget/rectwidget.h"
 
-#include "../colorpicker/colorpicker.h"
+#include "../qt-palette-color-picker/colorpicker.h"
 
 #include "../resourcetreewidget/resourcetreewidget.h"
 

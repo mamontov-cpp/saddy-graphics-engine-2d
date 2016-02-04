@@ -7,7 +7,7 @@
 
 #include <QDialog>
 
-#include "gui/colorpicker/colorpicker.h"
+#include "gui/qt-palette-color-picker/colorpicker.h"
 
 #include "ui_acolordialog.h"
 

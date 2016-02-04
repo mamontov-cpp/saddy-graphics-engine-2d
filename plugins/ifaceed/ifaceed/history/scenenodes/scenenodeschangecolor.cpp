@@ -10,7 +10,7 @@
 #include "../../gui/uiblocks/uiblocks.h"
 #include "../../gui/uiblocks/uiscenenodeblock.h"
 
-#include "../../gui/colorpicker/colorpicker.h"
+#include "../../gui/qt-palette-color-picker/colorpicker.h"
 
 #include "../../blockedclosuremethodcall.h"
 

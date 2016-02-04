@@ -63,7 +63,7 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/database/newproperty.h \
     ifaceed/history/database/removeproperty.h \
     ifaceed/gui/anglewidget/anglewidget.h \
-    ifaceed/gui/colorpicker/colorpicker.h \
+    ifaceed/gui/qt-palette-color-picker/colorpicker.h \
     ifaceed/gui/colorview/colorview.h \
     ifaceed/gui/fontsizewidget/fontsizewidget.h \
     ifaceed/gui/rectwidget/rectwidget.h \
@@ -338,7 +338,7 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/history/database/newproperty.cpp \
     ifaceed/history/database/removeproperty.cpp \
     ifaceed/gui/anglewidget/anglewidget.cpp \
-    ifaceed/gui/colorpicker/colorpicker.cpp \
+    ifaceed/gui/qt-palette-color-picker/colorpicker.cpp \
     ifaceed/gui/colorview/colorview.cpp \
     ifaceed/gui/fontsizewidget/fontsizewidget.cpp \
     ifaceed/gui/rectwidget/rectwidget.cpp \

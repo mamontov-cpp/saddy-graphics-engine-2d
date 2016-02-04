@@ -47,7 +47,7 @@
 
 #include "../resourcetreewidget/resourcetreewidget.h"
 #include "../anglewidget/anglewidget.h"
-#include "../colorpicker/colorpicker.h"
+#include "../qt-palette-color-picker/colorpicker.h"
 #include "../fontsizewidget/fontsizewidget.h"
 
 // ===============================  PUBLIC METHODS ===============================
