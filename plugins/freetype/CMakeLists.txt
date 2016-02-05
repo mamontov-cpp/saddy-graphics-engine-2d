@@ -3,8 +3,8 @@ project(saddy-freetype)
 
 find_package(Freetype REQUIRED)
 
-file(GLOB_RECURSE SRCS *.cpp)
-file(GLOB_RECURSE HDRS *.h)
+file(GLOB SRCS *.cpp)
+file(GLOB HDRS *.h)
 
 set(SADDY_LIBRARY_NAME "saddy-ft")
 

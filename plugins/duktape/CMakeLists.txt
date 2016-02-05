@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 2.8.12)
 project(saddy-duktape)
 
-file(GLOB_RECURSE SRCS *.cpp)
-file(GLOB_RECURSE HDRS *.h)
+file(GLOB SRCS *.cpp)
+file(GLOB HDRS *.h)
 
 set(SADDY_LIBRARY_NAME "saddy-duktape")
 

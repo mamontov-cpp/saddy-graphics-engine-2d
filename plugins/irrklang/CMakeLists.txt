@@ -6,8 +6,8 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "../../cmake")
 
 find_package(irrKlang REQUIRED)
 
-file(GLOB_RECURSE SRCS *.cpp)
-file(GLOB_RECURSE HDRS *.h)
+file(GLOB SRCS *.cpp)
+file(GLOB HDRS *.h)
 
 set(SADDY_LIBRARY_NAME "saddy-irrklang")
 
