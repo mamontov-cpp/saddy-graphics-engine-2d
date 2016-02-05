@@ -1,1 +1,2 @@
-make -f makefiles/Makefile_Demo_Release.linux
+cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release
+make

@@ -1,1 +1,2 @@
-mingw32-make -f makefiles/Makefile_Library_Debug.mingw
+cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug
+mingw32-make

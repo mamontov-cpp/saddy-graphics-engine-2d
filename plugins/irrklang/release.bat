@@ -1,1 +1,2 @@
-mingw32-make -f makefiles/Makefile_Library_Release.mingw
+cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release
+mingw32-make

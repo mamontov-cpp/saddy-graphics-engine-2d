@@ -1,2 +1,2 @@
-IF not exist build\nul ( mkdir build )
-mingw32-make -f makefiles/Makefile_Demo_Debug.mingw
+cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug
+mingw32-make
