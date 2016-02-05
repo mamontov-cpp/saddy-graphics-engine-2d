@@ -29,7 +29,7 @@ Saddy is an open-source crossplatform 2D graphic engine, based on OpenGL, which 
 ## Our Goals
 
 Our main goal is to create small graphics engine, which can be used to create a small 2D games.
-  * We want to provide a simple engine, which can be built with NO external dependencies at all, so the core project can be built without installing any libraries (except for those, required by OpenGL).
+  * We want to provide a simple engine, which can be built with NO external dependencies at all, so the core project can be built without installing any libraries (except for those, required by OpenGL and CMake, starting from 1.6.0+).
   * We do, however, use a 3rdparty libraries, like [tpunit++](https://github.com/tpounds/tpunitpp) or [format](https://github.com/cppformat/cppformat), but they are either embedded, or moved to plugins. A complete list of dependencies could be found [here](https://github.com/mamontov-cpp/saddy-graphics-engine-2d/wiki/Dependencies)
   * We want to provide an easy-to-use toolchain to satisfy simple most basic needs for  creating a simple game.
 
