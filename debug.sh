@@ -1,3 +1,2 @@
-cd makefiles
-make -f Makefile_Library_Debug.linux
-cd ..
+cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug
+make

@@ -1,4 +1,2 @@
-IF not exist lib\nul ( mkdir lib )
-cd makefiles
-mingw32-make -f Makefile_Library_Debug.mingw
-cd ..
+cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug
+mingw32-make

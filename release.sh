@@ -1,3 +1,2 @@
-cd makefiles
-make -f Makefile_Library_Release.linux
-cd ..
+cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release
+make
