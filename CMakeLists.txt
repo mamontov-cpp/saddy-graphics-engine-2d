@@ -48,5 +48,5 @@ set_target_properties(${SADDY_LIBRARY_NAME}
     LIBRARY_OUTPUT_DIRECTORY "lib"
     RUNTIME_OUTPUT_DIRECTORY "bin"
 	DEBUG_POSTFIX "-debug"
-	RELEASE_POSTFIX, "-release"
+	RELEASE_POSTFIX "-release"
 )
