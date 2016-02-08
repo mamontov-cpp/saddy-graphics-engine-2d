@@ -211,6 +211,12 @@
     <Filter Include="Заголовочные файлы\3rdparty\boost-dist\boost\functional\hash\detail">
       <UniqueIdentifier>{9abfd9a4-54a6-47c2-a1f4-450194ba1e38}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Заголовочные файлы\animations\tween">
+      <UniqueIdentifier>{e19e0a43-ff70-4f25-a521-c9f394ce44c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\animations\tween">
+      <UniqueIdentifier>{a1bf74b0-29ec-4b2d-aae7-b27ad87a361e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\camera.cpp">
@@ -782,6 +788,9 @@
     </ClCompile>
     <ClCompile Include="src\util\utilsadhash.cpp">
       <Filter>Файлы исходного кода\util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\tween\tweentypes.cpp">
+      <Filter>Файлы исходного кода\animations\tween</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2158,6 +2167,9 @@
     </ClInclude>
     <ClInclude Include="include\util\sadhash.h">
       <Filter>Заголовочные файлы\util</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\tween\tweentypes.h">
+      <Filter>Заголовочные файлы\animations\tween</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

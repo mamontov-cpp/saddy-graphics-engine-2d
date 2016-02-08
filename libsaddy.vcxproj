@@ -84,6 +84,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\animations\animationssimplemovement.cpp" />
+    <ClCompile Include="src\animations\tween\tweentypes.cpp" />
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\classmetadata.cpp" />
     <ClCompile Include="src\classmetadatacastfunction.cpp" />
@@ -466,6 +467,7 @@
     <ClInclude Include="include\3rdparty\boost-dist\boost\visit_each.hpp" />
     <ClInclude Include="include\3rdparty\boost-dist\boost\weak_ptr.hpp" />
     <ClInclude Include="include\animations\animationssimplemovement.h" />
+    <ClInclude Include="include\animations\tween\tweentypes.h" />
     <ClInclude Include="include\camera.h" />
     <ClInclude Include="include\classmetadata.h" />
     <ClInclude Include="include\classmetadatacastfunction.h" />
