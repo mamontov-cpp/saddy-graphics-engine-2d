@@ -81,6 +81,7 @@ public:
     /*! Returns, whether animation is valid
         \return whether animation is valid
      */
+    // ReSharper disable once CppRedundantInlineSpecifier
     inline bool valid() const
     {
         return m_valid;

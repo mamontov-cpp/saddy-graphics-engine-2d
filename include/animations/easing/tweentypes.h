@@ -1,6 +1,6 @@
 /*! \file animations/tween/tweentypes.h
 
-	Describes a types of tween motions in function
+    Describes a types of tween motions in function
  */
 #pragma once
 // Author: Dmitry Mamontov
@@ -49,65 +49,65 @@ namespace sad
 
 namespace animations
 {
-	
-namespace tween
+    
+namespace easing
 {
-	
-/*! A types of tweening functions
+    
+/*! A types of easing functions
  */
 enum Types
 {
-	ATTT_Linear = 0,
-	ATTT_InSine = 1,
-	ATTT_OutSine = 2,
-	ATTT_InOutSine = 3,
-	ATTT_InQuad = 4,
-	ATTT_OutQuad = 5,
-	ATTT_InOutQuad = 6,
-	ATTT_InCubic = 7,
-	ATTT_OutCubic = 8,
-	ATTT_InOutCubic = 9,
-	ATTT_InQuart = 10,
-	ATTT_OutQuart = 11,
-	ATTT_InOutQuart = 12,
-	ATTT_InQuint = 13,
-	ATTT_OutQuint = 14,
-	ATTT_InOutQuint = 15,
-	ATTT_InExpo = 16,
-	ATTT_OutExpo = 17,
-	ATTT_InOutExpo = 18,
-	ATTT_InCirc = 19,
-	ATTT_OutCirc = 20,
-	ATTT_InOutCirc = 21,
-	ATTT_InElastic = 22,
-	ATTT_OutElastic = 23,
-	ATTT_InOutElastic = 24,
-	ATTT_InBack = 25,
-	ATTT_OutBack = 26,
-	ATTT_InOutBack = 27,
-	ATTT_InBounce = 28,
-	ATTT_OutBounce = 29,
-	ATTT_InOutBounce = 30,
-	ATTT_Flash = 31,
-	ATTT_InFlash = 32,
-	ATTT_OutFlash = 33,
-	ATTT_InOutFlash = 34
+    ATTT_Linear = 0,
+    ATTT_InSine = 1,
+    ATTT_OutSine = 2,
+    ATTT_InOutSine = 3,
+    ATTT_InQuad = 4,
+    ATTT_OutQuad = 5,
+    ATTT_InOutQuad = 6,
+    ATTT_InCubic = 7,
+    ATTT_OutCubic = 8,
+    ATTT_InOutCubic = 9,
+    ATTT_InQuart = 10,
+    ATTT_OutQuart = 11,
+    ATTT_InOutQuart = 12,
+    ATTT_InQuint = 13,
+    ATTT_OutQuint = 14,
+    ATTT_InOutQuint = 15,
+    ATTT_InExpo = 16,
+    ATTT_OutExpo = 17,
+    ATTT_InOutExpo = 18,
+    ATTT_InCirc = 19,
+    ATTT_OutCirc = 20,
+    ATTT_InOutCirc = 21,
+    ATTT_InElastic = 22,
+    ATTT_OutElastic = 23,
+    ATTT_InOutElastic = 24,
+    ATTT_InBack = 25,
+    ATTT_OutBack = 26,
+    ATTT_InOutBack = 27,
+    ATTT_InBounce = 28,
+    ATTT_OutBounce = 29,
+    ATTT_InOutBounce = 30,
+    ATTT_Flash = 31,
+    ATTT_InFlash = 32,
+    ATTT_OutFlash = 33,
+    ATTT_InOutFlash = 34
 };
 
-/*! A basic callback for tweening
-	\param[in] time a current time, since animation has started playing
-	\param[in] duration a duration for playing
-	\param[in] overshootOrAmplitude an amplitude for some functions
-	\param[in] period a period for some functions
-	\return new value
+/*! A basic callback for easing functions
+    \param[in] time a current time, since animation has started playing
+    \param[in] duration a duration for playing
+    \param[in] overshootOrAmplitude an amplitude for some functions
+    \param[in] period a period for some functions
+    \return new value
  */
 typedef double (*FunctionCallback)(double time, double duration, double overshootOrAmplitude, double period);
 
 /*! Returns a callback function by it's type
-	\param[in] t type
-	\return callback
+    \param[in] t type
+    \return callback
  */
-sad::animations::tween::FunctionCallback callbackByType(sad::animations::tween::Types t);
+sad::animations::easing::FunctionCallback callbackByType(sad::animations::easing::Types t);
 
 }
 
