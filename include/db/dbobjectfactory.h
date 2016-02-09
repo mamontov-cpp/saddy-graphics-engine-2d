@@ -7,7 +7,7 @@
 #pragma once
 #include "dbobject.h"
 #include "schema/schema.h"
-
+#include "../sadmutex.h"
 
 namespace sad
 {
@@ -66,9 +66,14 @@ public:
     /*! Creates new factory with default objects
      */
     ObjectFactory();
+
+    /*! Creates new factory. If empty flag is set, new factory is created empty, without any default data
+        \param[in] empty whether factory must be empty
+     */
+    ObjectFactory(bool empty);
     
     /*! Adds new metadata to factory
-        \param[in] name a class name forobject
+        \param[in] name a class name for object
         \param[in] schema a pointer to schema
         \param[in] own  whether factory owns schema
         \param[in] d delegate for creating objects
@@ -155,6 +160,9 @@ protected:
         ~Entry();
     };
 
+    /*! Inits factory with default callbacks
+     */
+    void initWithDefaultCallbacks();
     /*!  A special custom handlers for name and sad::db::custom::Object
      */
     sad::PtrHash<sad::String, sad::db::ObjectFactory::AbstractDelegate> m_special_custom_handlers;
@@ -162,6 +170,10 @@ protected:
     /*! Contains all metadata with class name as a key
      */
     sad::PtrHash<sad::String, sad::db::ObjectFactory::Entry> m_metadata_container;
+    
+    /*! Lock for creating entries
+     */
+    sad::Mutex m_lock;
 };
 
 }

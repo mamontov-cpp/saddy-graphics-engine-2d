@@ -211,11 +211,11 @@
     <Filter Include="Заголовочные файлы\3rdparty\boost-dist\boost\functional\hash\detail">
       <UniqueIdentifier>{9abfd9a4-54a6-47c2-a1f4-450194ba1e38}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Заголовочные файлы\animations\tween">
-      <UniqueIdentifier>{e19e0a43-ff70-4f25-a521-c9f394ce44c4}</UniqueIdentifier>
+    <Filter Include="Файлы исходного кода\animations\easing">
+      <UniqueIdentifier>{35ae309d-e124-4756-b1ef-77e7a7842643}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Файлы исходного кода\animations\tween">
-      <UniqueIdentifier>{a1bf74b0-29ec-4b2d-aae7-b27ad87a361e}</UniqueIdentifier>
+    <Filter Include="Заголовочные файлы\animations\easing">
+      <UniqueIdentifier>{e19e0a43-ff70-4f25-a521-c9f394ce44c4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -789,8 +789,11 @@
     <ClCompile Include="src\util\utilsadhash.cpp">
       <Filter>Файлы исходного кода\util</Filter>
     </ClCompile>
-    <ClCompile Include="src\animations\tween\tweentypes.cpp">
-      <Filter>Файлы исходного кода\animations\tween</Filter>
+    <ClCompile Include="src\animations\easing\easingtypes.cpp">
+      <Filter>Файлы исходного кода\animations\easing</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\easing\easingfunction.cpp">
+      <Filter>Файлы исходного кода\animations\easing</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2168,8 +2171,11 @@
     <ClInclude Include="include\util\sadhash.h">
       <Filter>Заголовочные файлы\util</Filter>
     </ClInclude>
-    <ClInclude Include="include\animations\tween\tweentypes.h">
-      <Filter>Заголовочные файлы\animations\tween</Filter>
+    <ClInclude Include="include\animations\easing\easingfunction.h">
+      <Filter>Заголовочные файлы\animations\easing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\easing\easingtypes.h">
+      <Filter>Заголовочные файлы\animations\easing</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

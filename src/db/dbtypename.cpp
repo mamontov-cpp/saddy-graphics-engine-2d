@@ -29,6 +29,8 @@
 
 #include "animations/animationsgroup.h"
 
+#include "animations/easing/easingfunction.h"
+
 DECLARE_COMMON_TYPE(bool)
 DECLARE_COMMON_TYPE(char)
 DECLARE_COMMON_TYPE(signed char)
@@ -72,3 +74,5 @@ DECLARE_TYPE_AS_SAD_OBJECT(sad::Object);
 DECLARE_TYPE_AS_SAD_OBJECT(sad::Scene);
 DECLARE_TYPE_AS_SAD_OBJECT(sad::p2d::app::Way);
 DECLARE_TYPE_AS_SAD_OBJECT(sad::dialogue::Dialogue);
+
+DECLARE_TYPE_AS_SAD_OBJECT(sad::animations::easing::Function);

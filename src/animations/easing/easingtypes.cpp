@@ -1,4 +1,4 @@
-#include "animations/tween/tweentypes.h"
+#include "animations/easing/easingtypes.h"
 #define _USE_MATH_DEFINES 1
 #include <math.h>
 
@@ -48,103 +48,103 @@
 
 static double easeLinear(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
-	return time / duration;
+    return time / duration;
 }
 
 static double easeInSine(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
-	return -cos(time / duration * PI_OVER_2) + 1;
+    return -cos(time / duration * PI_OVER_2) + 1;
 }
 
 static double easeOutSine(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
-	return sin(time / duration * PI_OVER_2);
+    return sin(time / duration * PI_OVER_2);
 }
 
 static double easeInOutSine(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
-	return -0.5f * (cos(M_PI * time / duration) - 1);
+    return -0.5f * (cos(M_PI * time / duration) - 1);
 }
 
 static double easeInQuad(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
-	return (time /= duration) * time;
+    return (time /= duration) * time;
 }
 
 static double easeOutQuad(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
-	return -(time /= duration) * (time - 2);
+    return -(time /= duration) * (time - 2);
 }
 
 static double easeInOutQuad(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
-	if ((time /= duration * 0.5f) < 1) return 0.5f * time * time;
-	return -0.5f * ((--time) * (time - 2) - 1);
+    if ((time /= duration * 0.5f) < 1) return 0.5f * time * time;
+    return -0.5f * ((--time) * (time - 2) - 1);
 }
 
 static double easeInCubic(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
-	return (time /= duration) * time * time;
+    return (time /= duration) * time * time;
 }
 
 static double easeOutCubic(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
-	return ((time = time / duration - 1) * time * time + 1);
+    return ((time = time / duration - 1) * time * time + 1);
 }
 
 static double easeInOutCubic(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
-	if ((time /= duration * 0.5f) < 1) return 0.5f * time * time * time;
+    if ((time /= duration * 0.5f) < 1) return 0.5f * time * time * time;
     return 0.5f * ((time -= 2) * time * time + 2);
 }
 
 static double easeInQuart(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
-	return  (time /= duration) * time * time * time;
+    return  (time /= duration) * time * time * time;
 }
 
 static double easeOutQuart(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
-	return  -((time = time / duration - 1) * time * time * time - 1);
+    return  -((time = time / duration - 1) * time * time * time - 1);
 }
 
 static double easeInOutQuart(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
-	if ((time /= duration * 0.5f) < 1) return 0.5f * time * time * time * time;
+    if ((time /= duration * 0.5f) < 1) return 0.5f * time * time * time * time;
     return -0.5f * ((time -= 2) * time * time * time - 2);
 }
 
 static double easeInQuint(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
-	return (time /= duration) * time * time * time * time;
+    return (time /= duration) * time * time * time * time;
 }
 
 static double easeOutQuint(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
-	return ((time = time / duration - 1) * time * time * time * time + 1);;
+    return ((time = time / duration - 1) * time * time * time * time + 1);;
 }
 
 static double easeInOutQuint(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
-	if ((time /= duration * 0.5f) < 1) return 0.5f * time * time * time * time * time;
+    if ((time /= duration * 0.5f) < 1) return 0.5f * time * time * time * time * time;
     return 0.5f * ((time -= 2) * time * time * time * time + 2);
 }
 
 static double easeInExpo(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
-	return (fabs(time) < 0.001) ? 0 : pow(2, 10 * (time / duration - 1));
+    return (fabs(time) < 0.001) ? 0 : pow(2, 10 * (time / duration - 1));
 }
 
 static double easeOutExpo(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
-	if (abs(time - duration) < 0.001) return 1;
+    if (abs(time - duration) < 0.001) return 1;
     return (-pow(2, -10 * time / duration) + 1);
 }
 
 static double easeInOutExpo(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
-	if (abs(time) < 0.001) return 0;
-	if (abs(time - duration) < 0.001) return 1;
+    if (abs(time) < 0.001) return 0;
+    if (abs(time - duration) < 0.001) return 1;
     if ((time /= duration * 0.5f) < 1) return 0.5f * pow(2, 10 * (time - 1));
     return 0.5f * (-pow(2, -10 * --time) + 2);
 }
@@ -167,7 +167,7 @@ static double easeInOutCirc(double time, double duration, double /*overshootOrAm
 
 static double easeInElastic(double time, double duration, double overshootOrAmplitude, double period)
 {
-	float s0;
+    float s0;
     if (fabs(time) < 0.001) return 0;
     if (fabs((time /= duration) - 1) < 0.001) return 1;
     if (fabs(period) < 0.001) period = duration * 0.3f;
@@ -180,7 +180,7 @@ static double easeInElastic(double time, double duration, double overshootOrAmpl
 
 static double easeOutElastic(double time, double duration, double overshootOrAmplitude, double period)
 {
-	float s1;
+    float s1;
     if (fabs(time) < 0.001) return 0;
     if (fabs((time /= duration) - 1) < 0.001) return 1;
     if (fabs(period) < 0.001) period = duration * 0.3f;
@@ -193,32 +193,32 @@ static double easeOutElastic(double time, double duration, double overshootOrAmp
 
 static double easeInOutElastic(double time, double duration, double overshootOrAmplitude, double period)
 {
-	float s;
-	if (fabs(time) < 0.001) return 0;
-	if (fabs(time /= duration * 0.5 - 2) < 0.001) return 1;
-	if (abs(period) < 0.001) period = duration * (0.3f * 1.5f);
-	if (overshootOrAmplitude < 1) {
-		overshootOrAmplitude = 1;
-		s = period / 4;
-	} else s = period / TWO_PI * asin(1 / overshootOrAmplitude);
-	if (time < 1) return -0.5f * (overshootOrAmplitude * pow(2, 10 * (time -= 1)) * sin((time * duration - s) * TWO_PI / period));
-	return overshootOrAmplitude * pow(2, -10 * (time -= 1)) * sin((time * duration - s) * TWO_PI / period) * 0.5f + 1;                            
+    float s;
+    if (fabs(time) < 0.001) return 0;
+    if (fabs(time /= duration * 0.5 - 2) < 0.001) return 1;
+    if (abs(period) < 0.001) period = duration * (0.3f * 1.5f);
+    if (overshootOrAmplitude < 1) {
+        overshootOrAmplitude = 1;
+        s = period / 4;
+    } else s = period / TWO_PI * asin(1 / overshootOrAmplitude);
+    if (time < 1) return -0.5f * (overshootOrAmplitude * pow(2, 10 * (time -= 1)) * sin((time * duration - s) * TWO_PI / period));
+    return overshootOrAmplitude * pow(2, -10 * (time -= 1)) * sin((time * duration - s) * TWO_PI / period) * 0.5f + 1;                            
 }
 
 static double easeInBack(double time, double duration, double overshootOrAmplitude, double /*period*/)
 {
-	return (time /= duration) * time * ((overshootOrAmplitude + 1) * time - overshootOrAmplitude);                       
+    return (time /= duration) * time * ((overshootOrAmplitude + 1) * time - overshootOrAmplitude);                       
 }
 
 static double easeOutBack(double time, double duration, double overshootOrAmplitude, double /*period*/)
 {
-	return ((time = time / duration - 1) * time * ((overshootOrAmplitude + 1) * time + overshootOrAmplitude) + 1);                     
+    return ((time = time / duration - 1) * time * ((overshootOrAmplitude + 1) * time + overshootOrAmplitude) + 1);                     
 }
 
 static double easeInOutBack(double time, double duration, double overshootOrAmplitude, double /*period*/)
 {
-	if ((time /= duration * 0.5f) < 1) return 0.5f * (time * time * (((overshootOrAmplitude *= (1.525f)) + 1) * time - overshootOrAmplitude));
-	return 0.5f * ((time -= 2) * time * (((overshootOrAmplitude *= (1.525f)) + 1) * time + overshootOrAmplitude) + 2);                      
+    if ((time /= duration * 0.5f) < 1) return 0.5f * (time * time * (((overshootOrAmplitude *= (1.525f)) + 1) * time - overshootOrAmplitude));
+    return 0.5f * ((time -= 2) * time * (((overshootOrAmplitude *= (1.525f)) + 1) * time + overshootOrAmplitude) + 2);                      
 }
 
 static double easeOutBounce(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
@@ -237,21 +237,21 @@ static double easeOutBounce(double time, double duration, double /*overshootOrAm
 
 static double easeInBounce(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
-	return 1 - easeOutBounce(duration - time, duration, -1, -1);                    
+    return 1 - easeOutBounce(duration - time, duration, -1, -1);                    
 }
 
 static double easeInOutBounce(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
-	if (time < duration*0.5f)
-	{
-		return easeInBounce(time*2, duration, -1, -1)*0.5f;
-	}
-	return easeOutBounce(time*2 - duration, duration, -1, -1)*0.5f + 0.5f;                    
+    if (time < duration*0.5f)
+    {
+        return easeInBounce(time*2, duration, -1, -1)*0.5f;
+    }
+    return easeOutBounce(time*2 - duration, duration, -1, -1)*0.5f + 0.5f;                    
 }
 
 static double easeFlashWeighted(double overshootOrAmplitude, double period, int stepIndex, double /*stepDuration*/, double dir, double res)
 {
-	double easedRes = 0;
+    double easedRes = 0;
     double finalDecimals = 0;
     // Use previous stepIndex in case of odd ones, so that back ease is not clamped
     if (dir > 0 && static_cast<int>(overshootOrAmplitude) % 2 == 0) stepIndex++;
@@ -275,7 +275,7 @@ static double easeFlashWeighted(double overshootOrAmplitude, double period, int 
 
 static double easeFlash(double time, double duration, double overshootOrAmplitude, double period)
 {
-	int stepIndex = static_cast<int>(ceil((time / duration) * overshootOrAmplitude)); // 1 to overshootOrAmplitude
+    int stepIndex = static_cast<int>(ceil((time / duration) * overshootOrAmplitude)); // 1 to overshootOrAmplitude
     float stepDuration = duration / overshootOrAmplitude;
     time -= stepDuration * (stepIndex - 1);
     float dir = (stepIndex % 2 != 0) ? 1 : -1;
@@ -286,7 +286,7 @@ static double easeFlash(double time, double duration, double overshootOrAmplitud
 
 static double easeFlashIn(double time, double duration, double overshootOrAmplitude, double period)
 {
-	int stepIndex = static_cast<int>(ceil((time / duration) * overshootOrAmplitude)); // 1 to overshootOrAmplitude
+    int stepIndex = static_cast<int>(ceil((time / duration) * overshootOrAmplitude)); // 1 to overshootOrAmplitude
     float stepDuration = duration / overshootOrAmplitude;
     time -= stepDuration * (stepIndex - 1);
     float dir = (stepIndex % 2 != 0) ? 1 : -1;
@@ -298,7 +298,7 @@ static double easeFlashIn(double time, double duration, double overshootOrAmplit
 
 static double easeFlashOut(double time, double duration, double overshootOrAmplitude, double period)
 {
-	int stepIndex = static_cast<int>(ceil((time / duration) * overshootOrAmplitude)); // 1 to overshootOrAmplitude
+    int stepIndex = static_cast<int>(ceil((time / duration) * overshootOrAmplitude)); // 1 to overshootOrAmplitude
     float stepDuration = duration / overshootOrAmplitude;
     time -= stepDuration * (stepIndex - 1);
     float dir = (stepIndex % 2 != 0) ? 1 : -1;
@@ -310,7 +310,7 @@ static double easeFlashOut(double time, double duration, double overshootOrAmpli
 
 static double easeFlashInOut(double time, double duration, double overshootOrAmplitude, double period)
 {
-	int stepIndex = static_cast<int>(ceil((time / duration) * overshootOrAmplitude)); // 1 to overshootOrAmplitude
+    int stepIndex = static_cast<int>(ceil((time / duration) * overshootOrAmplitude)); // 1 to overshootOrAmplitude
     float stepDuration = duration / overshootOrAmplitude;
     time -= stepDuration * (stepIndex - 1);
     float dir = (stepIndex % 2 != 0) ? 1 : -1;
@@ -323,51 +323,51 @@ static double easeFlashInOut(double time, double duration, double overshootOrAmp
 }
 
 
-static sad::animations::tween::FunctionCallback callbacks[] = {
-	easeLinear,
-	easeInSine,
-	easeOutSine,
-	easeInOutSine,
-	easeInQuad,
-	easeOutQuad,
-	easeInOutQuad,
-	easeInCubic,
-	easeOutCubic,
-	easeInOutCubic,
-	easeInQuart,
-	easeOutQuart,
-	easeInOutQuart,
-	easeInQuint,
-	easeOutQuint,
-	easeInOutQuint,
-	easeInExpo,
-	easeOutExpo,
-	easeInOutExpo,
-	easeInCirc,
-	easeOutCirc,
-	easeInOutCirc,
-	easeInElastic,
-	easeOutElastic,
-	easeInOutElastic,
-	easeInBack,
-	easeOutBack,
-	easeInOutBack,
-	easeInBounce,
-	easeOutBounce,
-	easeInOutBounce,
-	easeFlash,
-	easeFlashIn,
-	easeFlashOut,
-	easeFlashInOut
+static sad::animations::easing::FunctionCallback callbacks[] = {
+    easeLinear,
+    easeInSine,
+    easeOutSine,
+    easeInOutSine,
+    easeInQuad,
+    easeOutQuad,
+    easeInOutQuad,
+    easeInCubic,
+    easeOutCubic,
+    easeInOutCubic,
+    easeInQuart,
+    easeOutQuart,
+    easeInOutQuart,
+    easeInQuint,
+    easeOutQuint,
+    easeInOutQuint,
+    easeInExpo,
+    easeOutExpo,
+    easeInOutExpo,
+    easeInCirc,
+    easeOutCirc,
+    easeInOutCirc,
+    easeInElastic,
+    easeOutElastic,
+    easeInOutElastic,
+    easeInBack,
+    easeOutBack,
+    easeInOutBack,
+    easeInBounce,
+    easeOutBounce,
+    easeInOutBounce,
+    easeFlash,
+    easeFlashIn,
+    easeFlashOut,
+    easeFlashInOut
 };
 
 
-sad::animations::tween::FunctionCallback sad::animations::tween::callbackByType(sad::animations::tween::Types t)
+sad::animations::easing::FunctionCallback sad::animations::easing::callbackByType(sad::animations::easing::Types t)
 {
-	if (static_cast<int>(t) < 0 || static_cast<int>(t) > sad::animations::tween::ATTT_InOutFlash)
-	{
-		return easeLinear;
-	}
-	return callbacks[static_cast<int>(t)];
+    if (static_cast<int>(t) < 0 || static_cast<int>(t) > sad::animations::easing::ATTT_InOutFlash)
+    {
+        return easeLinear;
+    }
+    return callbacks[static_cast<int>(t)];
 }
 

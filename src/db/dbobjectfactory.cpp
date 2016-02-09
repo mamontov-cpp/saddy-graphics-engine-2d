@@ -1,5 +1,7 @@
 #include "db/dbobjectfactory.h"
 
+#include "sadscopedlock.h"
+
 #include "3rdparty/picojson/getproperty.h"
 #include "3rdparty/picojson/valuetotype.h"
 
@@ -33,12 +35,106 @@
 #include "animations/animationstexturecoordinatescontinuous.h"
 #include "animations/animationstexturecoordinateslist.h"
 
+// =========================================== sad::db::ObjectFactory::AbstractDelegate PUBLIC METHODS ===========================================
+
 sad::db::ObjectFactory::AbstractDelegate::~AbstractDelegate()
 {
     
 }
 
+// =========================================== PUBLIC METHODS ===========================================
+
 sad::db::ObjectFactory::ObjectFactory()
+{
+    initWithDefaultCallbacks();
+}
+
+sad::db::ObjectFactory::ObjectFactory(bool empty)
+{
+    if (!empty)
+    {
+        initWithDefaultCallbacks();        
+    }
+}
+
+void sad::db::ObjectFactory::add(
+    const sad::String & name,
+    sad::db::schema::Schema* schema, 
+    bool own, 
+    sad::db::ObjectFactory::AbstractDelegate * d
+)
+{	
+    sad::ScopedLock lock(&m_lock);
+    if (m_metadata_container.contains(name) == false && d)
+    {
+        m_metadata_container.insert(name, new sad::db::ObjectFactory::Entry(own, schema, d) );
+    }
+}
+
+sad::db::schema::Schema* sad::db::ObjectFactory::schema(const sad::String& name)
+{
+    sad::ScopedLock lock(&m_lock);
+    sad::db::schema::Schema* result = NULL;
+    if (m_metadata_container.contains(name))
+    {
+        result = m_metadata_container[name]->Schema;
+    }
+    return result;
+}
+
+sad::db::Object* sad::db::ObjectFactory::create(const sad::String& name)
+{
+    sad::ScopedLock lock(&m_lock);
+    sad::db::Object* result = NULL;
+    if (m_metadata_container.contains(name))
+    {
+        result = m_metadata_container[name]->Delegate->create();
+    }
+    return result;
+}
+
+sad::db::Object* sad::db::ObjectFactory::createFromEntry(const picojson::value & v)
+{
+    sad::ScopedLock lock(&m_lock);
+    const picojson::value * type = picojson::get_property(v, "type");
+    const picojson::value * name = picojson::get_property(v, "name");
+    sad::db::Object*  result = NULL;
+    if (type)
+    {
+        sad::Maybe<sad::String> maybetype = picojson::ValueToType<sad::String>::get(*type);
+        sad::Maybe<sad::String> maybename;
+        if (name)
+        {
+            maybename = picojson::ValueToType<sad::String>::get(*name);
+        }
+        if (maybetype.exists())
+        {
+            if (maybename.exists() 
+                && maybetype.value() == "sad::db::custom::Object" 
+               )
+            {
+                if (m_special_custom_handlers.contains(maybename.value()))
+                {
+                    result =  m_special_custom_handlers[maybename.value()]->create();
+                }
+            }
+            if (result == NULL)
+            {
+                result = this->create(maybetype.value());
+            }
+        }
+    }
+    return result;
+}
+
+sad::db::ObjectFactory::~ObjectFactory()
+{
+    
+}
+
+// =========================================== PROTECTED METHODS ===========================================
+
+void sad::db::ObjectFactory::initWithDefaultCallbacks()
 {
     // A scene objects
     add<sad::Label>("sad::Label", sad::Label::basicSchema(), false);
@@ -77,76 +173,7 @@ sad::db::ObjectFactory::ObjectFactory()
     add<sad::animations::WayMoving>("sad::animations::WayMoving", sad::animations::WayMoving::basicSchema(), false);
 }
 
-void sad::db::ObjectFactory::add(
-    const sad::String & name,
-    sad::db::schema::Schema* schema, 
-    bool own, 
-    sad::db::ObjectFactory::AbstractDelegate * d
-)
-{	
-    if (m_metadata_container.contains(name) == false && d)
-    {
-        m_metadata_container.insert(name, new sad::db::ObjectFactory::Entry(own, schema, d) );
-    }
-}
-
-sad::db::schema::Schema* sad::db::ObjectFactory::schema(const sad::String& name)
-{
-    sad::db::schema::Schema* result = NULL;
-    if (m_metadata_container.contains(name))
-    {
-        result = m_metadata_container[name]->Schema;
-    }
-    return result;
-}
-
-sad::db::Object* sad::db::ObjectFactory::create(const sad::String& name)
-{
-    sad::db::Object* result = NULL;
-    if (m_metadata_container.contains(name))
-    {
-        result = m_metadata_container[name]->Delegate->create();
-    }
-    return result;
-}
-
-sad::db::Object* sad::db::ObjectFactory::createFromEntry(const picojson::value & v)
-{
-    const picojson::value * type = picojson::get_property(v, "type");
-    const picojson::value * name = picojson::get_property(v, "name");
-    sad::db::Object*  result = NULL;
-    if (type)
-    {
-        sad::Maybe<sad::String> maybetype = picojson::ValueToType<sad::String>::get(*type);
-        sad::Maybe<sad::String> maybename;
-        if (name)
-        {
-            maybename = picojson::ValueToType<sad::String>::get(*name);
-        }
-        if (maybetype.exists())
-        {
-            if (maybename.exists() 
-                && maybetype.value() == "sad::db::custom::Object" 
-               )
-            {
-                if (m_special_custom_handlers.contains(maybename.value()))
-                {
-                    result =  m_special_custom_handlers[maybename.value()]->create();
-                }
-            }
-            if (result == NULL)
-            {
-                result = this->create(maybetype.value());
-            }
-        }
-    }
-    return result;
-}
-
-sad::db::ObjectFactory::~ObjectFactory()
-{
-    
-}
+// =========================================== sad::db::ObjectFactory::Entry PUBLIC METHODS ===========================================
 
 sad::db::ObjectFactory::Entry::~Entry()
 {
