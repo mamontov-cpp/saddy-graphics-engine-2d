@@ -31,6 +31,11 @@ sad::animations::easing::Function::~Function()
     
 }
 
+sad::animations::easing::Function* sad::animations::easing::Function::clone() const
+{
+    return new sad::animations::easing::Function(m_type, m_overshoot_amplitude, m_period);
+}
+
 double sad::animations::easing::Function::eval(double time, double duration)
 {
     if (fabs(duration) < 0.001)

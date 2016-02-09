@@ -20,6 +20,13 @@ namespace animations
 
 class Instance;
 
+namespace easing
+{
+
+class Function;
+
+}
+
 class Animation: public sad::resource::Resource
 {
 SAD_OBJECT
@@ -59,6 +66,14 @@ public:
         \return playback time for animation
      */
     virtual double time() const;
+    /*! Sets easing function
+        \param[in] f function
+     */
+    virtual void setEasing(sad::animations::easing::Function* f);
+    /*! Returns easing function
+        \return easing function
+     */
+    sad::animations::easing::Function* easing() const;
     /*! Starts an animation. Called on start of instance.
         \param[in] i animation instance
      */
@@ -124,6 +139,24 @@ protected:
     /*! A creator list for creating a saved object state
      */
     sad::animations::SavedObjectStateCreators m_creators;
+    /*! An easing function
+     */
+    sad::animations::easing::Function* m_easing;
+private:
+    /*! Disable copying for animation
+        \param[in] a animation
+     */
+    Animation(const sad::animations::Animation& a);
+    /*! Disable copying for animation
+        \param[in] a animation
+        \return copied animation
+     */
+    sad::animations::Animation& operator=(const sad::animations::Animation& a);
+
+    /*! Returns easing property, which has pretty complex implementation
+        \return easing property
+     */
+    static sad::db::Property* easingProperty();
 };
 
 }

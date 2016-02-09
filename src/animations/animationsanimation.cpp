@@ -1,5 +1,7 @@
 #include "animations/animationsanimation.h"
 
+#include "animations/easing/easingfunction.h"
+
 #include "renderer.h"
 
 #include "fuzzyequal.h"
@@ -26,14 +28,14 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::Animation, sad::resource::Resource);
 
 // =============================== PUBLIC METHODS ==========================
 
-sad::animations::Animation::Animation() : m_looped(false), m_time(0), m_valid(true), m_inner_valid(true)
+sad::animations::Animation::Animation() : m_looped(false), m_time(0), m_inner_valid(true), m_valid(true)
 {
-
+    m_easing = new sad::animations::easing::Function();
 }
 
 sad::animations::Animation::~Animation()
 {
-
+    delete m_easing;
 }
 
 static sad::db::schema::Schema* AnimationAnimationSchema = NULL;
@@ -63,6 +65,13 @@ sad::db::schema::Schema* sad::animations::Animation::basicSchema()
                     &sad::animations::Animation::time,
                     &sad::animations::Animation::setTime
                 )
+            );
+
+            sad::db::Property* easing_prop = sad::animations::Animation::easingProperty();
+
+             AnimationAnimationSchema->add(
+                "easing",
+                easing_prop
             );
         
             sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationAnimationSchema);
@@ -98,6 +107,17 @@ double sad::animations::Animation::time() const
     return m_time;
 }
 
+void sad::animations::Animation::setEasing(sad::animations::easing::Function* f)
+{
+    delete m_easing;
+    m_easing = f;
+}
+
+sad::animations::easing::Function* sad::animations::Animation::easing() const
+{
+    return m_easing;
+}
+
 void sad::animations::Animation::start(sad::animations::Instance* i)
 {
 
@@ -111,11 +131,29 @@ bool sad::animations::Animation::loadFromValue(const picojson::value& v)
     sad::Maybe<double> time = picojson::to_type<double>(
                 picojson::get_property(v, "time")
     );
+    picojson::value const* maybeEasing = picojson::get_property(v, "easing");
     bool result = looped.exists() && time.exists();
     if (result)
     {
         m_looped = looped.value();
         m_time = time.value();
+        if (maybeEasing)
+        {
+            sad::animations::easing::Function* oldeasing = m_easing;  
+            result = sad::db::Load<sad::animations::easing::Function*>::perform(&m_easing, *maybeEasing);
+            if (result)
+            {
+                delete oldeasing;
+            }
+            else
+            {
+                m_easing = oldeasing;
+            }
+        }
+        else
+        {
+            setEasing(new sad::animations::easing::Function());
+        }
         this->updateValidFlag();
     }
     return result;
@@ -161,4 +199,67 @@ bool sad::animations::Animation::load(
         }
     }
     return result;
+}
+
+
+// =============================== PRIVATE METHODS ==========================
+
+sad::animations::Animation::Animation(const sad::animations::Animation& a)
+: m_looped(a.m_looped),
+m_time(a.m_time),
+m_inner_valid(a.m_inner_valid),
+m_valid(a.m_valid)
+{
+    m_easing = m_easing->clone();
+}
+
+
+sad::animations::Animation& sad::animations::Animation::operator=(const sad::animations::Animation& a)
+{
+    return *this;
+}
+
+// =============================== EASING PROPERTY METHODS ==========================
+
+namespace sad
+{
+
+namespace animations
+{
+
+class EasingProperty: public sad::db::MethodPair<sad::animations::Animation, sad::animations::easing::Function*>
+{
+public:
+    EasingProperty() : sad::db::MethodPair<sad::animations::Animation, sad::animations::easing::Function*>(
+        &sad::animations::Animation::easing,
+        &sad::animations::Animation::setEasing
+    )
+    {
+        m_default_easing = new sad::animations::easing::Function();
+        this->makeNonRequiredWithDefaultValue(new sad::db::Variant(m_default_easing));
+    }
+
+    virtual ~EasingProperty()
+    {
+        delete m_default_easing;
+    }
+
+    virtual sad::db::Variant* defaultValue() const
+    {
+        sad::db::Variant* v = new sad::db::Variant(m_default_easing->clone());
+        const_cast<sad::animations::EasingProperty*>(this)->m_variants.push_back(v);
+        return v;
+    }
+protected:
+    sad::animations::easing::Function* m_default_easing;    
+    sad::PtrVector<sad::db::Variant> m_variants;
+};
+
+}
+
+}
+
+sad::db::Property* sad::animations::Animation::easingProperty()
+{
+    return new sad::animations::EasingProperty();
 }

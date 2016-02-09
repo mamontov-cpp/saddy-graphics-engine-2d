@@ -92,7 +92,7 @@ public:
     /*! A default value for property
         \return default value for property
      */
-    sad::db::Variant* defaultValue() const;
+    virtual sad::db::Variant* defaultValue() const;
 protected:
     /*! Amount of pointers for type
      */

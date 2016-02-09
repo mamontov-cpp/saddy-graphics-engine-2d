@@ -5,6 +5,9 @@
 #pragma once
 #include "../../object.h"
 #include "../../db/dbobjectfactory.h"
+#include "../../db/load.h"
+#include "../../db/save.h"
+
 #include "easingtypes.h"
 
 namespace sad
@@ -32,6 +35,10 @@ public:
     /*! Could be inherited
      */
     virtual ~Function();
+    /*! Clones an object
+        \return cloned object
+     */
+    virtual sad::animations::easing::Function* clone() const;
     /*! Computes specified value at time with specified duration
         \param[in] time a time
         \param[in] duration a duration time
@@ -101,6 +108,57 @@ protected:
     double m_period;
 };
 
+}
+
+}
+
+
+namespace db
+{
+    
+/*! Load a value of specified type
+    \param[in] ptr a value to be saved
+    \param[in] v a special value, from which we should load stuff
+    \return result
+ */
+template<>
+inline bool Load<sad::animations::easing::Function*>::perform(void * ptr, const picojson::value & v)
+{
+    if (!ptr)
+    {
+        throw sad::db::InvalidPointer();
+    }
+    sad::animations::easing::Function** tptr = reinterpret_cast<sad::animations::easing::Function**>(ptr);
+    sad::animations::easing::Function* maybe_result = static_cast<sad::animations::easing::Function*>(sad::animations::easing::Function::factory()->createFromEntry(v));
+    bool result = false;
+    if (maybe_result)
+    {
+        result = (maybe_result)->load(v);
+        if (result)
+        {
+            *tptr = maybe_result;
+        }
+        else
+        {
+            delete maybe_result;
+        }
+    }
+    return result;
+}
+
+/*! Saves a value of specified type
+    \param[in] ptr a value to be saved
+    \return value
+ */
+template<>
+inline picojson::value Save<sad::animations::easing::Function*>::perform(void * ptr)
+{
+    if (!ptr)
+        throw sad::db::InvalidPointer();
+    sad::animations::easing::Function** tptr = reinterpret_cast<sad::animations::easing::Function**>(ptr);
+    picojson::value tmp(picojson::object_type, false);
+    (*tptr)->save(tmp);
+    return tmp;
 }
 
 }
