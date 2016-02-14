@@ -160,6 +160,50 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
     // Set background colors for palette
     ui.cwColorStartingColor->setBackgroundColor(QColor(255, 0, 0));
     ui.cwColorEndingColor->setBackgroundColor(QColor(255, 0, 0));
+
+    const char* easing_function_types[] = {
+        "Linear",
+        "InSine",
+        "OutSine",
+        "InOutSine",
+        "InQuad",
+        "OutQuad",
+        "InOutQuad",
+        "InCubic",
+        "OutCubic",
+        "InOutCubic",
+        "InQuart",
+        "OutQuart",
+        "InOutQuart",
+        "InQuint",
+        "OutQuint",
+        "InOutQuint",
+        "InExpo",
+        "OutExpo",
+        "InOutExpo",
+        "InCirc",
+        "OutCirc",
+        "InOutCirc",
+        "InElastic",
+        "OutElastic",
+        "InOutElastic",
+        "InBack",
+        "OutBack",
+        "InOutBack",
+        "InBounce",
+        "OutBounce",
+        "InOutBounce",
+        "Flash",
+        "InFlash",
+        "OutFlash",
+        "InOutFlash",
+        NULL
+    };
+    i = 0;
+    while(easing_function_types[i]) {        
+        ui.cmbAnimationEasingType->addItem(easing_function_types[i]);
+        ++i;
+    }
 }
 
 

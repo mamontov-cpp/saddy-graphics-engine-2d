@@ -156,7 +156,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>5</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="tab_objects">
      <attribute name="title">
@@ -1695,295 +1695,324 @@ current object</string>
        <attribute name="title">
         <string>Object</string>
        </attribute>
-       <widget class="QGroupBox" name="grpBlinking">
+       <widget class="QTabWidget" name="tabAnimationObjectTypes">
         <property name="geometry">
          <rect>
-          <x>10</x>
+          <x>20</x>
           <y>10</y>
-          <width>281</width>
-          <height>51</height>
+          <width>301</width>
+          <height>291</height>
          </rect>
         </property>
-        <property name="font">
-         <font>
-          <pointsize>8</pointsize>
-         </font>
+        <property name="currentIndex">
+         <number>0</number>
         </property>
-        <property name="title">
-         <string>Blinking</string>
-        </property>
-        <widget class="QWidget" name="layoutWidget4">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>20</y>
-           <width>261</width>
-           <height>26</height>
-          </rect>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_5">
-          <item>
-           <widget class="QLabel" name="lblBlinkingFrequency">
-            <property name="text">
-             <string>Frequency:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QSpinBox" name="sbBlinkingFrequency">
-            <property name="maximum">
-             <number>100000</number>
-            </property>
-           </widget>
-          </item>
-         </layout>
+        <widget class="QWidget" name="tabAnimationObjectTypesTabBCR">
+         <attribute name="title">
+          <string>Animations</string>
+         </attribute>
+         <widget class="QGroupBox" name="grpColor">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>10</y>
+            <width>271</width>
+            <height>71</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>8</pointsize>
+           </font>
+          </property>
+          <property name="title">
+           <string>Color</string>
+          </property>
+          <widget class="QWidget" name="layoutWidget_4">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>40</y>
+             <width>241</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_13">
+            <item>
+             <widget class="QLabel" name="lblColorEndingColor">
+              <property name="text">
+               <string>Ending color:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="gui::colorview::ColorView" name="cwColorEndingColor" native="true"/>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="layoutWidget5">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>20</y>
+             <width>241</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_11">
+            <item>
+             <widget class="QLabel" name="lblColorStartingColor">
+              <property name="text">
+               <string>Starting color:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="gui::colorview::ColorView" name="cwColorStartingColor" native="true"/>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+         <widget class="QGroupBox" name="grpRotate">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>90</y>
+            <width>271</width>
+            <height>81</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>8</pointsize>
+           </font>
+          </property>
+          <property name="title">
+           <string>Rotate</string>
+          </property>
+          <widget class="QWidget" name="layoutWidget_5">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>20</y>
+             <width>241</width>
+             <height>26</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_15">
+            <item>
+             <widget class="QLabel" name="lblRotateStartingAngle">
+              <property name="text">
+               <string>Starting Angle:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="dsbRotateStartingAngle">
+              <property name="minimum">
+               <double>-1000000.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>1000000.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="layoutWidget_6">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>50</y>
+             <width>241</width>
+             <height>26</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_16">
+            <item>
+             <widget class="QLabel" name="lblRotateEndingAngle">
+              <property name="text">
+               <string>Ending Angle:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="dsbRotateEndingAngle">
+              <property name="minimum">
+               <double>-1000000.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>1000000.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+         <widget class="QGroupBox" name="grpResize">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>180</y>
+            <width>271</width>
+            <height>81</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>8</pointsize>
+           </font>
+          </property>
+          <property name="title">
+           <string>Resize</string>
+          </property>
+          <widget class="QWidget" name="layoutWidget6">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>20</y>
+             <width>241</width>
+             <height>26</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_12">
+            <item>
+             <widget class="QLabel" name="lblResizeStartingSize">
+              <property name="text">
+               <string>Starting size:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="dabResizeStartingSizeX">
+              <property name="minimum">
+               <double>-50000.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>50000.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="dabResizeStartingSizeY">
+              <property name="minimum">
+               <double>-50000.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>50000.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="layoutWidget6_2">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>50</y>
+             <width>241</width>
+             <height>26</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_18">
+            <item>
+             <widget class="QLabel" name="lblResizeEndingSize">
+              <property name="text">
+               <string>Ending size:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="dabResizeEndingSizeX">
+              <property name="minimum">
+               <double>-50000.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>50000.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="dabResizeEndingSizeY">
+              <property name="minimum">
+               <double>-50000.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>50000.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
         </widget>
-       </widget>
-       <widget class="QGroupBox" name="grpColor">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>60</y>
-          <width>281</width>
-          <height>71</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>8</pointsize>
-         </font>
-        </property>
-        <property name="title">
-         <string>Color</string>
-        </property>
-        <widget class="QWidget" name="layoutWidget_4">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>40</y>
-           <width>261</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_13">
-          <item>
-           <widget class="QLabel" name="lblColorEndingColor">
-            <property name="text">
-             <string>Ending color:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="gui::colorview::ColorView" name="cwColorEndingColor" native="true"/>
-          </item>
-         </layout>
-        </widget>
-        <widget class="QWidget" name="layoutWidget5">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>20</y>
-           <width>261</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_11">
-          <item>
-           <widget class="QLabel" name="lblColorStartingColor">
-            <property name="text">
-             <string>Starting color:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="gui::colorview::ColorView" name="cwColorStartingColor" native="true"/>
-          </item>
-         </layout>
-        </widget>
-       </widget>
-       <widget class="QGroupBox" name="grpResize">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>130</y>
-          <width>281</width>
-          <height>91</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>8</pointsize>
-         </font>
-        </property>
-        <property name="title">
-         <string>Resize</string>
-        </property>
-        <widget class="QWidget" name="layoutWidget6">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>20</y>
-           <width>261</width>
-           <height>26</height>
-          </rect>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_12">
-          <item>
-           <widget class="QLabel" name="lblResizeStartingSize">
-            <property name="text">
-             <string>Starting size:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QDoubleSpinBox" name="dabResizeStartingSizeX">
-            <property name="minimum">
-             <double>-50000.000000000000000</double>
-            </property>
-            <property name="maximum">
-             <double>50000.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QDoubleSpinBox" name="dabResizeStartingSizeY">
-            <property name="minimum">
-             <double>-50000.000000000000000</double>
-            </property>
-            <property name="maximum">
-             <double>50000.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-        <widget class="QWidget" name="layoutWidget6_2">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>50</y>
-           <width>261</width>
-           <height>26</height>
-          </rect>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_18">
-          <item>
-           <widget class="QLabel" name="lblResizeEndingSize">
-            <property name="text">
-             <string>Ending size:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QDoubleSpinBox" name="dabResizeEndingSizeX">
-            <property name="minimum">
-             <double>-50000.000000000000000</double>
-            </property>
-            <property name="maximum">
-             <double>50000.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QDoubleSpinBox" name="dabResizeEndingSizeY">
-            <property name="minimum">
-             <double>-50000.000000000000000</double>
-            </property>
-            <property name="maximum">
-             <double>50000.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </widget>
-       <widget class="QGroupBox" name="grpRotate">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>220</y>
-          <width>281</width>
-          <height>81</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>8</pointsize>
-         </font>
-        </property>
-        <property name="title">
-         <string>Rotate</string>
-        </property>
-        <widget class="QWidget" name="layoutWidget_5">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>20</y>
-           <width>251</width>
-           <height>26</height>
-          </rect>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_15">
-          <item>
-           <widget class="QLabel" name="lblRotateStartingAngle">
-            <property name="text">
-             <string>Starting Angle:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QDoubleSpinBox" name="dsbRotateStartingAngle">
-            <property name="minimum">
-             <double>-1000000.000000000000000</double>
-            </property>
-            <property name="maximum">
-             <double>1000000.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-        <widget class="QWidget" name="layoutWidget_6">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>50</y>
-           <width>251</width>
-           <height>26</height>
-          </rect>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_16">
-          <item>
-           <widget class="QLabel" name="lblRotateEndingAngle">
-            <property name="text">
-             <string>Ending Angle:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QDoubleSpinBox" name="dsbRotateEndingAngle">
-            <property name="minimum">
-             <double>-1000000.000000000000000</double>
-            </property>
-            <property name="maximum">
-             <double>1000000.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-         </layout>
+        <widget class="QWidget" name="tabAnimationObjectTypesTabEasing">
+         <attribute name="title">
+          <string>Easing</string>
+         </attribute>
+         <widget class="QWidget" name="layoutWidget">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>10</y>
+            <width>271</width>
+            <height>91</height>
+           </rect>
+          </property>
+          <layout class="QGridLayout" name="grdAnimationEasing">
+           <item row="0" column="0">
+            <widget class="QLabel" name="lblAnimationEasingType">
+             <property name="text">
+              <string>Easing Type:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QComboBox" name="cmbAnimationEasingType"/>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="lblAnimationEasingOvershootAmplitude">
+             <property name="text">
+              <string>Overshoot Amplitude:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QDoubleSpinBox" name="dsbAnimationEasingOvershootAmplitude">
+             <property name="maximum">
+              <double>1000.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="lblAnimationEasingPeriod">
+             <property name="text">
+              <string>Period:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QDoubleSpinBox" name="dsbAnimationEasingPeriod">
+             <property name="maximum">
+              <double>1000.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
         </widget>
        </widget>
       </widget>
       <widget class="QWidget" name="tab_animation_way">
        <attribute name="title">
-        <string>Way</string>
+        <string>W&amp;&amp;V</string>
        </attribute>
        <widget class="QGroupBox" name="grpWay">
         <property name="geometry">
          <rect>
           <x>10</x>
           <y>0</y>
-          <width>301</width>
+          <width>311</width>
           <height>51</height>
          </rect>
         </property>
@@ -2011,7 +2040,7 @@ current object</string>
          <rect>
           <x>10</x>
           <y>60</y>
-          <width>301</width>
+          <width>311</width>
           <height>91</height>
          </rect>
         </property>
@@ -2135,6 +2164,50 @@ current object</string>
             </property>
             <property name="text">
              <string>Pick</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="grpBlinking">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>160</y>
+          <width>311</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="title">
+         <string>Blinking</string>
+        </property>
+        <widget class="QWidget" name="layoutWidget4">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>20</y>
+           <width>281</width>
+           <height>26</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <item>
+           <widget class="QLabel" name="lblBlinkingFrequency">
+            <property name="text">
+             <string>Frequency:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="sbBlinkingFrequency">
+            <property name="maximum">
+             <number>100000</number>
             </property>
            </widget>
           </item>

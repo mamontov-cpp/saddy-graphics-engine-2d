@@ -109,6 +109,10 @@ public:
     QSpinBox* sbCameraShakingFrequency;
     QListWidget* lstCompositeList;
     QListWidget* lstCompositeCandidates;
+    QTabWidget* tabAnimationObjectTypes;
+    QComboBox* cmbAnimationEasingType;
+    QDoubleSpinBox* dsbAnimationEasingOvershootAmplitude;
+    QDoubleSpinBox* dsbAnimationEasingPeriod;
 };
 
 }

@@ -58,7 +58,11 @@ dsbCameraShakingOffsetX(NULL),
 dsbCameraShakingOffsetY(NULL),
 sbCameraShakingFrequency(NULL),
 lstCompositeList(NULL),
-lstCompositeCandidates(NULL)
+lstCompositeCandidates(NULL),
+tabAnimationObjectTypes(NULL),
+cmbAnimationEasingType(NULL),
+dsbAnimationEasingOvershootAmplitude(NULL),
+dsbAnimationEasingPeriod(NULL)
 {
 
 }
@@ -158,6 +162,14 @@ void gui::uiblocks::UIAnimationBlock::init(QWidget* w)
     assert(this->lstCompositeList);
     this->lstCompositeCandidates = w->findChild<QListWidget*>("lstCompositeCandidates");
     assert(this->lstCompositeCandidates);
+    this->tabAnimationObjectTypes = w->findChild<QTabWidget*>("tabAnimationObjectTypes");
+    assert(this->tabAnimationObjectTypes);
+    this->cmbAnimationEasingType = w->findChild<QComboBox*>("cmbAnimationEasingType");
+    assert(this->cmbAnimationEasingType);
+    this->dsbAnimationEasingOvershootAmplitude = w->findChild<QDoubleSpinBox*>("dsbAnimationEasingOvershootAmplitude");
+    assert(this->dsbAnimationEasingOvershootAmplitude);
+    this->dsbAnimationEasingPeriod = w->findChild<QDoubleSpinBox*>("dsbAnimationEasingPeriod");
+    assert(this->dsbAnimationEasingPeriod);
 }
 
 gui::uiblocks::UIAnimationBlock::~UIAnimationBlock()
