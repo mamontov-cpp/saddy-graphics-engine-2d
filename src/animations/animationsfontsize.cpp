@@ -1,6 +1,8 @@
 #include "animations/animationsfontsize.h"
 #include "animations/animationsinstance.h"
 
+#include "animations/easing/easingfunction.h"
+
 #include "animations/setstate/methodcall.h"
 #include "animations/setstate/setproperty.h"
 
@@ -128,9 +130,10 @@ unsigned int sad::animations::FontSize::maxSize() const
 
 void sad::animations::FontSize::setState(sad::animations::Instance* i, double time)
 {	
+    double time_position = m_easing->eval(time, m_time);
     double min = m_min_size;
     double max = m_max_size;
-    double value = min + (max - min) * time / m_time;
+    double value = min + (max - min) * time_position;
     unsigned int kvalue = static_cast<unsigned int>(value);
     i->stateCommandAs<unsigned int>()->call(kvalue);
 }

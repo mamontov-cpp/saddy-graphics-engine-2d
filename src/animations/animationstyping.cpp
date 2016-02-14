@@ -1,6 +1,8 @@
 #include "animations/animationstyping.h"
 #include "animations/animationsinstance.h"
 
+#include "animations/easing/easingfunction.h"
+
 #include "animations/setstate/methodcall.h"
 #include "animations/setstate/setproperty.h"
 
@@ -54,7 +56,8 @@ void sad::animations::Typing::setState(sad::animations::Instance* i, double time
     if (i->basicString().size() != 0)
     {
         // Make it possible to reach end
-        double pos = ((time + 100) / m_time) * i->basicString().size();
+        double time_position = m_easing->eval(time + 100, m_time);
+        double pos = time_position * i->basicString().size();
         sad::String text = i->basicString().subString(0, static_cast<long>(pos));
         i->stateCommandAs<sad::String>()->call(text);
     }

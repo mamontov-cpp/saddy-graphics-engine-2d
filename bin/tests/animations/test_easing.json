@@ -1,0 +1,310 @@
+{
+	"blinking" : {
+		"time" : 1000,
+		"looped" : false,
+		"frequency" : 100,
+		"easing":{ 
+			"active":true, 
+			"functiontype":3.000000, 
+			"majorid":0.000000, 
+			"minorid":0.000000, 
+			"name":"", 
+			"overshootamplitude":2.000000, 
+			"period":4.000000, 
+			"type":"sad::animations::easing::Function" 
+		}, 
+		"type" : "sad::animations::Blinking"	
+	},
+	"camera_rotation" : {
+		"time" : 1000,
+		"looped" : false,
+		"min_angle" : 0,
+		"max_angle" : 90,
+		"pivot": {
+			"x": 320,
+			"y": 240,
+			"z": 0
+		},
+		"easing":{ 
+			"active":true, 
+			"functiontype":3.000000, 
+			"majorid":0.000000, 
+			"minorid":0.000000, 
+			"name":"", 
+			"overshootamplitude":2.000000, 
+			"period":4.000000, 
+			"type":"sad::animations::easing::Function" 
+		}, 
+		"type" : "sad::animations::CameraRotation"	
+	},
+	"camera_shaking" : {
+		"time" : 1000,
+		"looped" : false,
+		"frequency" : 1000,
+		"offset": {
+			"x": 320,
+			"y": 240
+		},
+		"easing":{ 
+			"active":true, 
+			"functiontype":3.000000, 
+			"majorid":0.000000, 
+			"minorid":0.000000, 
+			"name":"", 
+			"overshootamplitude":2.000000, 
+			"period":4.000000, 
+			"type":"sad::animations::easing::Function" 
+		}, 
+		"type" : "sad::animations::CameraShaking"	
+	},
+	"color" : {
+		"time" : 1000,
+		"looped" : false,
+		"min_color": {
+			"r": 0,
+			"g": 0,
+			"b": 0,
+			"a": 0
+		},
+		"max_color": {
+			"r": 192,
+			"g": 0,
+			"b": 128,
+			"a": 255
+		},
+		"easing":{ 
+			"active":true, 
+			"functiontype":3.000000, 
+			"majorid":0.000000, 
+			"minorid":0.000000, 
+			"name":"", 
+			"overshootamplitude":2.000000, 
+			"period":4.000000, 
+			"type":"sad::animations::easing::Function" 
+		}, 
+		"type" : "sad::animations::Color"	
+	},
+	"font_list" : {
+		"time" : 1000,
+		"looped" : false,
+		"fonts" : [
+			"fnt1",
+			"fnt2"
+		],
+		"easing":{ 
+			"active":true, 
+			"functiontype":3.000000, 
+			"majorid":0.000000, 
+			"minorid":0.000000, 
+			"name":"", 
+			"overshootamplitude":2.000000, 
+			"period":4.000000, 
+			"type":"sad::animations::easing::Function" 
+		}, 
+		"type" : "sad::animations::FontList"	
+	},
+	"font_size" : {
+		"time" : 1000,
+		"looped" : false,
+		"min_size" : 6,
+		"max_size" : 25,		
+		"easing":{ 
+			"active":true, 
+			"functiontype":3.000000, 
+			"majorid":0.000000, 
+			"minorid":0.000000, 
+			"name":"", 
+			"overshootamplitude":2.000000, 
+			"period":4.000000, 
+			"type":"sad::animations::easing::Function" 
+		}, 
+		"type" : "sad::animations::FontSize"	
+	},
+	"option_list" : {
+		"time" : 1000,
+		"looped" : false,
+		"list" : [
+			"lst1",
+			"lst2"
+		],
+		"easing":{ 
+			"active":true, 
+			"functiontype":3.000000, 
+			"majorid":0.000000, 
+			"minorid":0.000000, 
+			"name":"", 
+			"overshootamplitude":2.000000, 
+			"period":4.000000, 
+			"type":"sad::animations::easing::Function" 
+		}, 
+		"type" : "sad::animations::OptionList"	
+	},
+	"parallel" : {
+		"time" : 1000,
+		"looped" : false,
+		"list" : [
+			"color",
+			"blinking"
+		],
+		"easing":{ 
+			"active":true, 
+			"functiontype":3.000000, 
+			"majorid":0.000000, 
+			"minorid":0.000000, 
+			"name":"", 
+			"overshootamplitude":2.000000, 
+			"period":4.000000, 
+			"type":"sad::animations::easing::Function" 
+		}, 
+		"type" : "sad::animations::Parallel"	
+	},
+	"resize" : {
+		"time" : 1000,
+		"looped" : false,
+		"start_size" : {
+			"x" : 0,
+			"y" : 0
+		},
+		"end_size" : {
+			"x" : 250,
+			"y" : 250
+		},
+		"easing":{ 
+			"active":true, 
+			"functiontype":3.000000, 
+			"majorid":0.000000, 
+			"minorid":0.000000, 
+			"name":"", 
+			"overshootamplitude":2.000000, 
+			"period":4.000000, 
+			"type":"sad::animations::easing::Function" 
+		}, 
+		"type" : "sad::animations::Resize"	
+	},
+	"rotate" : {
+		"time" : 1000,
+		"looped" : false,
+		"min_angle" : 0,
+		"max_angle" : 360,
+		"easing":{ 
+			"active":true, 
+			"functiontype":3.000000, 
+			"majorid":0.000000, 
+			"minorid":0.000000, 
+			"name":"", 
+			"overshootamplitude":2.000000, 
+			"period":4.000000, 
+			"type":"sad::animations::easing::Function" 
+		}, 
+		"type" : "sad::animations::Rotate"	
+	},
+	"sequential" : {
+		"time" : 1000,
+		"looped" : false,
+		"list" : [
+			"color",
+			"blinking"
+		],
+		"easing":{ 
+			"active":true, 
+			"functiontype":3.000000, 
+			"majorid":0.000000, 
+			"minorid":0.000000, 
+			"name":"", 
+			"overshootamplitude":2.000000, 
+			"period":4.000000, 
+			"type":"sad::animations::easing::Function" 
+		}, 
+		"type" : "sad::animations::Sequential"	
+	},
+	"simple_movement" : {
+		"time" : 1000,
+		"looped" : false,
+		"start_point" : {
+			"x" : 0,
+			"y" : 0
+		},
+		"end_point" : {
+			"x" : 250,
+			"y" : 250
+		},
+		"easing":{ 
+			"active":true, 
+			"functiontype":3.000000, 
+			"majorid":0.000000, 
+			"minorid":0.000000, 
+			"name":"", 
+			"overshootamplitude":2.000000, 
+			"period":4.000000, 
+			"type":"sad::animations::easing::Function" 
+		}, 
+		"type" : "sad::animations::SimpleMovement"	
+	},
+	"texture_coordinates_continous" : {
+		"time" : 1000,
+		"looped" : false,
+		"start_rect" : "0;0;0;0",
+		"end_rect" : "0;0;320;240",
+		"easing":{ 
+			"active":true, 
+			"functiontype":3.000000, 
+			"majorid":0.000000, 
+			"minorid":0.000000, 
+			"name":"", 
+			"overshootamplitude":2.000000, 
+			"period":4.000000, 
+			"type":"sad::animations::easing::Function" 
+		}, 
+		"type" : "sad::animations::TextureCoordinatesContinuous"	
+	},
+	"texture_coordinates_list" : {
+		"time" : 1000,
+		"looped" : false,
+		"list" : [
+			"lst1",
+			"lst2"
+		],
+		"easing":{ 
+			"active":true, 
+			"functiontype":3.000000, 
+			"majorid":0.000000, 
+			"minorid":0.000000, 
+			"name":"", 
+			"overshootamplitude":2.000000, 
+			"period":4.000000, 
+			"type":"sad::animations::easing::Function" 
+		}, 
+		"type" : "sad::animations::TextureCoordinatesList"	
+	},
+	"typing" : {
+		"time" : 1000,
+		"looped" : false,
+		"easing":{ 
+			"active":true, 
+			"functiontype":3.000000, 
+			"majorid":0.000000, 
+			"minorid":0.000000, 
+			"name":"", 
+			"overshootamplitude":2.000000, 
+			"period":4.000000, 
+			"type":"sad::animations::easing::Function" 
+		}, 
+		"type" : "sad::animations::Typing"	
+	},
+	"way_moving" : {
+		"time" : 1000,
+		"looped" : false,
+		"way": 1,
+		"easing":{ 
+			"active":true, 
+			"functiontype":3.000000, 
+			"majorid":0.000000, 
+			"minorid":0.000000, 
+			"name":"", 
+			"overshootamplitude":2.000000, 
+			"period":4.000000, 
+			"type":"sad::animations::easing::Function" 
+		}, 
+		"type" : "sad::animations::WayMoving"	
+	}
+}

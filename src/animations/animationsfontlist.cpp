@@ -20,6 +20,8 @@
 
 #include <resource/physicalfile.h>
 
+#include "animations/easing/easingfunction.h"
+
 #include <3rdparty/picojson/valuetotype.h>
 
 #include <fstream>
@@ -109,7 +111,8 @@ const sad::Vector<sad::String> & sad::animations::FontList::fonts() const
 
 void sad::animations::FontList::setState(sad::animations::Instance* i, double time)
 {
-    double value = static_cast<double>(m_fonts.size()) * time / m_time;
+    double time_position = m_easing->evalBounded(time, m_time);
+    double value = static_cast<double>(m_fonts.size()) * time_position;
     unsigned int kvalue = static_cast<unsigned int>(value);
     if (kvalue < m_fonts.size())
     {

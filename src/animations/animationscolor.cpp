@@ -1,6 +1,8 @@
 #include "animations/animationscolor.h"
 #include "animations/animationsinstance.h"
 
+#include "animations/easing/easingfunction.h"
+
 #include "animations/setstate/methodcall.h"
 #include "animations/setstate/setproperty.h"
 
@@ -129,7 +131,8 @@ const sad::AColor& sad::animations::Color::maxColor() const
 
 void sad::animations::Color::setState(sad::animations::Instance* i, double time)
 {	
-    sad::AColor value = m_min_color + (m_max_color - m_min_color) * (time / m_time);
+    double time_position = m_easing->eval(time, m_time);
+    sad::AColor value = m_min_color + (m_max_color - m_min_color) * time_position;
     i->stateCommandAs<sad::AColor>()->call(value);
 }
 

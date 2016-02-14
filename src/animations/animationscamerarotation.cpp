@@ -1,6 +1,8 @@
 #include "animations/animationscamerarotation.h"
 #include "animations/animationsinstance.h"
 
+#include "animations/easing/easingfunction.h"
+
 #include "fuzzyequal.h"
 #include "scene.h"
 #include "camera.h"
@@ -146,7 +148,8 @@ const sad::Point3D& sad::animations::CameraRotation::pivot() const
 
 void sad::animations::CameraRotation::setState(sad::animations::Instance* i, double time)
 {
-    double angle = m_min_angle + (m_max_angle - m_min_angle) * time / m_time;;
+    double time_position = m_easing->eval(time, m_time);
+    double angle = m_min_angle + (m_max_angle - m_min_angle) * time_position;
     i->stateCommandAs<double>()->call(angle);
 }
 

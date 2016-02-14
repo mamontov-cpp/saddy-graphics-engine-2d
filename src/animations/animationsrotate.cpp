@@ -1,6 +1,8 @@
 #include "animations/animationsrotate.h"
 #include "animations/animationsinstance.h"
 
+#include "animations/easing/easingfunction.h"
+
 #include "animations/setstate/methodcall.h"
 #include "animations/setstate/setproperty.h"
 
@@ -127,7 +129,8 @@ double sad::animations::Rotate::maxAngle() const
 
 void sad::animations::Rotate::setState(sad::animations::Instance* i, double time)
 {	
-    double value = m_min_angle + (m_max_angle - m_min_angle) * time / m_time;
+    double time_position = m_easing->eval(time, m_time);
+    double value = m_min_angle + (m_max_angle - m_min_angle) * time_position;
     i->stateCommandAs<double>()->call(value);
 }
 

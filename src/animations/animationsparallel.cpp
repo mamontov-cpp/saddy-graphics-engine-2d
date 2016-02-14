@@ -26,6 +26,8 @@ sad::animations::Parallel::~Parallel()
 
 void sad::animations::Parallel::setState(sad::animations::Instance* i, double time)
 {
+    // Composite functions ignore some easing settings, because we do not want 
+    // to have jumps between several animations at the same time
     if (m_commands.contains(i->object()))
     {
         Commands& c  = m_commands[i->object()];

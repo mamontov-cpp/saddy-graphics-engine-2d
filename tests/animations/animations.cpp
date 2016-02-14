@@ -18,6 +18,8 @@ struct AnimationsTest : tpunit::TestFixture
    ) {}
    
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
    void testQueryInstancesByObject()
    {
         sad::Label a;

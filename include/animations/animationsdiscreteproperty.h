@@ -22,6 +22,8 @@
 #include "animationsanimation.h"
 #include "animationsinstance.h"
 
+#include "easing/easingfunction.h"
+
 #include "animationssavedobjectproperty.h"
 #include "setstate/setproperty.h"
 
@@ -198,7 +200,8 @@ public:
         if (!m_valid)
             return;
 
-        double value = static_cast<double>(m_list.size()) * time / m_time;
+        double time_position = m_easing->evalBounded(time, m_time);
+        double value = static_cast<double>(m_list.size()) * time_position;
         unsigned int kvalue = static_cast<unsigned int>(value);
         if (kvalue < m_list.size())
         {

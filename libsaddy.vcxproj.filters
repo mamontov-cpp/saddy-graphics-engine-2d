@@ -753,9 +753,6 @@
     <ClCompile Include="src\animations\animationswaymoving.cpp">
       <Filter>Файлы исходного кода\animations</Filter>
     </ClCompile>
-    <ClCompile Include="src\animations\animationtexturecoordinateslist.cpp">
-      <Filter>Файлы исходного кода\animations</Filter>
-    </ClCompile>
     <ClCompile Include="src\animations\setstate\abstractsetstatecommand.cpp">
       <Filter>Файлы исходного кода\animations\setstate</Filter>
     </ClCompile>
@@ -794,6 +791,9 @@
     </ClCompile>
     <ClCompile Include="src\animations\easing\easingfunction.cpp">
       <Filter>Файлы исходного кода\animations\easing</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationstexturecoordinateslist.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

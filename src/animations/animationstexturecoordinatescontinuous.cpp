@@ -1,6 +1,8 @@
 #include "animations/animationstexturecoordinatescontinuous.h"
 #include "animations/animationsinstance.h"
 
+#include "animations/easing/easingfunction.h"
+
 #include "animations/setstate/methodcall.h"
 #include "animations/setstate/setproperty.h"
 
@@ -127,10 +129,11 @@ const sad::Rect2D& sad::animations::TextureCoordinatesContinuous::endRect() cons
 
 void sad::animations::TextureCoordinatesContinuous::setState(sad::animations::Instance* i, double time)
 {
+    double time_position = m_easing->eval(time, m_time);
     sad::Rect2D r;
     for(size_t ii = 0; ii < 4; ii++)
     {
-        r[ii] = m_start_rect[ii] + (m_end_rect[ii] - m_start_rect[ii]) * (time / m_time);
+        r[ii] = m_start_rect[ii] + (m_end_rect[ii] - m_start_rect[ii]) * time_position;
     }
     i->stateCommandAs<sad::Rect2D>()->call(r);
 }

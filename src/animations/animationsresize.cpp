@@ -2,6 +2,8 @@
 #include "animations/animationsinstance.h"
 #include "animations/animationssavedobjectsize.h"
 
+#include "animations/easing/easingfunction.h"
+
 #include "animations/setstate/methodcall.h"
 #include "animations/setstate/setproperty.h"
 
@@ -157,8 +159,10 @@ void sad::animations::Resize::setState(sad::animations::Instance* i, double time
 {
     double distx = m_end_size.x() - m_start_size.x();
     double disty = m_end_size.y() - m_start_size.y();
-    double px =  (m_start_size.x() + distx * (time / m_time)) / 2.0;
-    double py = (m_start_size.y() + disty * (time / m_time)) / 2.0;
+
+    double time_position = m_easing->eval(time, m_time);
+    double px =  (m_start_size.x() + distx * time_position) / 2.0;
+    double py = (m_start_size.y() + disty * time_position) / 2.0;
     
     sad::Rect2D area = i->object()->getProperty<sad::Rect2D>("area").value();
     

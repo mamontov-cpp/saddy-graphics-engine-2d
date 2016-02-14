@@ -84,6 +84,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\animations\animationssimplemovement.cpp" />
+    <ClCompile Include="src\animations\animationstexturecoordinateslist.cpp" />
     <ClCompile Include="src\animations\easing\easingfunction.cpp" />
     <ClCompile Include="src\animations\easing\easingtypes.cpp" />
     <ClCompile Include="src\camera.cpp" />
@@ -270,7 +271,6 @@
     <ClCompile Include="src\animations\animationstyping.cpp" />
     <ClCompile Include="src\animations\animationswayinstance.cpp" />
     <ClCompile Include="src\animations\animationswaymoving.cpp" />
-    <ClCompile Include="src\animations\animationtexturecoordinateslist.cpp" />
     <ClCompile Include="src\animations\setstate\abstractsetstatecommand.cpp" />
     <ClCompile Include="src\animations\setstate\setcamerarotation.cpp" />
     <ClCompile Include="src\animations\setstate\setcameratranslation.cpp" />

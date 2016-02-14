@@ -1,6 +1,8 @@
 #include "animations/animationstexturecoordinateslist.h"
 #include "animations/animationsinstance.h"
 
+#include "animations/easing/easingfunction.h"
+
 #include "animations/setstate/methodcall.h"
 #include "animations/setstate/setproperty.h"
 
@@ -121,7 +123,8 @@ const sad::Vector<sad::String> & sad::animations::TextureCoordinatesList::list()
 
 void sad::animations::TextureCoordinatesList::setState(sad::animations::Instance* i, double time)
 {
-    double value = static_cast<double>(m_list.size()) * time / m_time;
+    double time_position = m_easing->evalBounded(time, m_time);
+    double value = static_cast<double>(m_list.size()) * time_position;
     unsigned int kvalue = static_cast<unsigned int>(value);
     if (kvalue < m_list.size())
     {

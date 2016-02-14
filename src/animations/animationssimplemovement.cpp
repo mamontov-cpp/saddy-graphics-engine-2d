@@ -2,6 +2,8 @@
 #include "animations/animationsinstance.h"
 #include "animations/animationssavedobjectposition.h"
 
+#include "animations/easing/easingfunction.h"
+
 #include "animations/setstate/setpositionproperty.h"
 #include "animations/setstate/setpositionviaareacall.h"
 #include "animations/setstate/dummycommand.h"
@@ -118,7 +120,8 @@ bool sad::animations::SimpleMovement::loadFromValue(const picojson::value& v)
 
 void sad::animations::SimpleMovement::setState(sad::animations::Instance* i, double time)
 {
-    sad::Point2D pos = m_start_point + ((m_end_point - m_start_point) * (time / m_time));
+    double time_position = m_easing->eval(time, m_time);
+    sad::Point2D pos = m_start_point + ((m_end_point - m_start_point) * time_position);
 
     i->stateCommandAs<sad::Point2D>()->call(pos);
     if (i->body())

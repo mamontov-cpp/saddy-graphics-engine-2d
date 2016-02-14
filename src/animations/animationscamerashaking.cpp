@@ -1,6 +1,8 @@
 #include "animations/animationscamerashaking.h"
 #include "animations/animationsinstance.h"
 
+#include "animations/easing/easingfunction.h"
+
 #include "animations/animationssavedcameratranslation.h"
 #include "animations/setstate/setcameratranslation.h"
 
@@ -135,7 +137,8 @@ int sad::animations::CameraShaking::frequency() const
 
 void sad::animations::CameraShaking::setState(sad::animations::Instance* i, double time)
 {
-    sad::Point2D offset = m_offset * cos(time / m_time * static_cast<double>(m_frequency));	
+    double time_position = m_easing->eval(time, m_time);
+    sad::Point2D offset = m_offset * cos(time_position * static_cast<double>(m_frequency));	
     i->stateCommandAs<sad::Point3D>()->call(offset);
 }
 

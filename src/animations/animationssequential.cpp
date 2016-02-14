@@ -25,6 +25,8 @@ sad::animations::Sequential::~Sequential()
 
 void sad::animations::Sequential::setState(sad::animations::Instance* i, double time)
 {
+    // Composite functions ignore some easing settings, because we do not want 
+    // to have jumps between several animations at the same time
     double timebegin = 0;
     if (m_commands.contains(i->object()))
     {

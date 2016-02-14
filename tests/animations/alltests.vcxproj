@@ -92,6 +92,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="animationsfile.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="animations.cpp" />
   </ItemGroup>

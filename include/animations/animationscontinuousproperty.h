@@ -21,6 +21,8 @@
 #include "animationsanimation.h"
 #include "animationsinstance.h"
 
+#include "easing/easingfunction.h"
+
 #include "animationssavedobjectproperty.h"
 #include "setstate/setproperty.h"
 
@@ -224,7 +226,8 @@ public:
 
         T min = m_min_value;
         T max = m_max_value;
-        T value = min + (max - min) * time / m_time;
+        double time_position = m_easing->eval(time, m_time);
+        T value = min + (max - min) * time_position;
         if (o)
         {
             o->setProperty(m_property_name, value);

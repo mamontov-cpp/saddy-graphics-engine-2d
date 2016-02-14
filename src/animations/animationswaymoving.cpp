@@ -2,6 +2,8 @@
 #include "animations/animationsinstance.h"
 #include "animations/animationssavedobjectposition.h"
 
+#include "animations/easing/easingfunction.h"
+
 #include "animations/setstate/setpositionproperty.h"
 #include "animations/setstate/setpositionviaareacall.h"
 #include "animations/setstate/dummycommand.h"
@@ -150,7 +152,10 @@ void sad::animations::WayMoving::setState(sad::animations::Instance* i, double t
 
     sad::p2d::app::Way::WayLink link;
 
-    link.CurrentTime = time - 0.1;
+    // This actually allows easing function to work as identity in case of linear function or do nothing in
+    // all other cases
+    double time_position = m_easing->evalBounded(time - 0.1, way->totalTime()) * way->totalTime();
+    link.CurrentTime = time_position;
     link.LinkedWay = way;
     sad::Point2D pos;
     way->step(&link, 0.1, pos);
