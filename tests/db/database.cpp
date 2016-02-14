@@ -7,10 +7,16 @@
 #include "db/dbtable.h"
 #include "db/dbdatabase.h"
 #include "db/schema/schema.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "db/save.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "db/load.h"
 #include "db/dbobjectfactory.h"
 
+#include "animations/animationscolor.h"
+#include "animations/easing/easingfunction.h"
+
+#include "fuzzyequal.h"
 
 #include "renderer.h"
 
@@ -45,9 +51,12 @@ public:
         TEST(SadDbDatabaseTest::test_snapshot_change_table),
         TEST(SadDbDatabaseTest::test_snapshot_reset_table),
         TEST(SadDbDatabaseTest::test_snapshot_change_objects),
-        TEST(SadDbDatabaseTest::test_snapshot_reset_objects)
+        TEST(SadDbDatabaseTest::test_snapshot_reset_objects),
+        TEST(SadDbDatabaseTest::test_animation_easing_functions)
     ) {}
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     void test_save()
     {
         sad::db::Database db;
@@ -57,6 +66,8 @@ public:
         ASSERT_TRUE(db.load(data));
     }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     void test_load_not_exists()
     {
         sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
@@ -72,6 +83,8 @@ public:
         ASSERT_FALSE( result );
     }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     void test_load_empty()
     {
         sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
@@ -86,7 +99,9 @@ public:
         bool result = r.database("")->loadFromFile("tests/db/database/empty.json");
         ASSERT_FALSE( result );
     }
-
+    
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     void test_load_null()
     {
         sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
@@ -101,7 +116,9 @@ public:
         bool result = r.database("")->loadFromFile("tests/db/database/null.json");
         ASSERT_FALSE( result );
     }
-
+    
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     void test_load_emptyobject()
     {
         sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
@@ -116,7 +133,9 @@ public:
         bool result = r.database("")->loadFromFile("tests/db/database/eo.json");
         ASSERT_FALSE( result );
     }
-
+    
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     void test_load_invalid_definitions()
     {
         sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
@@ -131,7 +150,9 @@ public:
         bool result = r.database("")->loadFromFile("tests/db/database/invaliddefs.json");
         ASSERT_FALSE( result );
     }
-
+    
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     void test_load_invalid_property()
     {
         sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
@@ -146,7 +167,9 @@ public:
         bool result = r.database("")->loadFromFile("tests/db/database/invalidtype.json");
         ASSERT_FALSE( result );
     }
-
+    
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     void test_load_invalid_item()
     {
         sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
@@ -161,7 +184,9 @@ public:
         bool result = r.database("")->loadFromFile("tests/db/database/invaliditem.json");
         ASSERT_FALSE( result );
     }
-
+    
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     void test_load_valid()
     {
         sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
@@ -179,7 +204,9 @@ public:
         sad::db::Object * o = r.database("")->queryByMinorId(1)[0];
         ASSERT_TRUE(o->objectName() == "test");
     }
-
+    
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     void test_load_valid2()
     {
         sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
@@ -195,6 +222,8 @@ public:
         ASSERT_TRUE( result );
     }
     
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     void test_add()
     {
         sad::db::Database db;
@@ -208,6 +237,8 @@ public:
         ASSERT_TRUE( db.table("table2") == NULL );		
     }
     
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     void test_remove()
     {
         sad::db::Database db;
@@ -221,6 +252,8 @@ public:
         ASSERT_TRUE( db.table("table") == NULL );		
     }
     
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     void test_properties()
     {
         sad::db::Database db;
@@ -237,6 +270,8 @@ public:
         ASSERT_TRUE( db.propertyByName("test") == NULL );		
     }
     
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     void test_query_by_majorid()
     {
         sad::db::Database db;
@@ -254,6 +289,8 @@ public:
         ASSERT_TRUE( db.objectByMajorId<Mock3>(1)->objectName() == "test");
     }
     
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     void test_query_by_minorid()
     {
         sad::db::Database db;
@@ -272,6 +309,8 @@ public:
         ASSERT_TRUE( db.objectByMinorId<Mock3>(1)->objectName() == "test");
     }
     
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     void test_query_by_name()
     {
         sad::db::Database db;
@@ -289,7 +328,9 @@ public:
         ASSERT_TRUE( db.objectByName<Mock3>("test")->objectName() == "test");
 
     }
-
+    
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     void test_snapshot_change_table()
     {
         sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
@@ -341,7 +382,9 @@ public:
         ASSERT_TRUE( db->objectByName<Mock3>("m1") != NULL );
         ASSERT_TRUE( db->objectByName<Mock3>("m2") != NULL );
     }
-
+    
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     void test_snapshot_reset_table()
     {
         sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
@@ -383,7 +426,9 @@ public:
         ASSERT_TRUE( db->objectByName<Mock3>("m1") == mock1 );
         ASSERT_TRUE( db->objectByName<Mock3>("m2") == mock2 );
     }
-
+    
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     void test_snapshot_change_objects()
     {
         sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
@@ -434,7 +479,9 @@ public:
         ASSERT_TRUE( mock2->id_c() == 23 );
         ASSERT_TRUE( db->objectByName<Mock3>("m3") == NULL );
     }
-
+    
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     void test_snapshot_reset_objects()
     {
         sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
@@ -477,6 +524,52 @@ public:
         ASSERT_TRUE( mock1->id_c() == 22 );
         ASSERT_TRUE( db->objectByName<Mock3>("m2") == mock2 );
         ASSERT_TRUE( mock2->id_c() == 23 );
+    }
+
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
+    void test_animation_easing_functions()
+    {
+        sad::animations::Color* clr1 = new sad::animations::Color();
+        clr1->easing()->setFunctionType(sad::animations::easing::ATTT_OutSine);
+        clr1->easing()->setPeriod(2.0);
+        clr1->easing()->setOvershootAmplitude(1.0);
+
+        sad::animations::Color* clr2 = new sad::animations::Color();
+        clr2->easing()->setFunctionType(sad::animations::easing::ATTT_InSine);
+        clr2->easing()->setPeriod(3.0);
+        clr2->easing()->setOvershootAmplitude(2.0);
+
+
+        sad::db::Database* db = new sad::db::Database();
+        sad::db::Database* outDb = new sad::db::Database();
+        sad::db::Table* table = new sad::db::Table();
+        db->addTable("animations", table);
+
+        table->add(clr1);
+        table->add(clr2);
+
+        sad::Renderer r;
+        r.addDatabase("", db);
+        r.addDatabase("out", outDb);
+
+        sad::String output;
+        
+        db->save(output);
+        ASSERT_TRUE( outDb->load(output)  );
+
+        sad::animations::Color* oclr1 = static_cast<sad::animations::Color*>(outDb->queryByMajorId(clr1->MajorId));
+        sad::animations::Color* oclr2 = static_cast<sad::animations::Color*>(outDb->queryByMajorId(clr2->MajorId));
+    
+        ASSERT_TRUE( oclr1 );
+        ASSERT_TRUE( oclr1->easing()->functionType() == sad::animations::easing::ATTT_OutSine );
+        ASSERT_TRUE( sad::is_fuzzy_equal(oclr1->easing()->period(), 2.0) );
+        ASSERT_TRUE( sad::is_fuzzy_equal(oclr1->easing()->overshootAmplitude(), 1.0) );
+
+        ASSERT_TRUE( oclr2 );
+        ASSERT_TRUE( oclr2->easing()->functionType() == sad::animations::easing::ATTT_InSine );
+        ASSERT_TRUE( sad::is_fuzzy_equal(oclr2->easing()->period(), 3.0) );
+        ASSERT_TRUE( sad::is_fuzzy_equal(oclr2->easing()->overshootAmplitude(), 2.0) );
     }
                 
 } _sad_db_database_test;
