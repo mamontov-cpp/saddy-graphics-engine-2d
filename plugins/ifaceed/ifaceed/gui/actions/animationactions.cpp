@@ -5,6 +5,8 @@
 #include <animations/animationsanimation.h>
 #include <animations/animationsinstance.h>
 
+#include <animations/easing/easingfunction.h>
+
 #include <db/dbdatabase.h>
 // ReSharper disable once CppUnusedIncludeDirective
 #include <db/save.h>
@@ -57,6 +59,9 @@
 #include "../../history/animations/animationsremovefromcomposite.h"
 #include "../../history/animations/animationsswapincomposite.h"
 #include "../../history/animations/animationschangepropertyaspoint2displayedintwospinboxes.h"
+#include "../../history/animations/animationschangeeasingfunctiontype.h"
+#include "../../history/animations/animationschangeeasingovershootamplitude.h"
+#include "../../history/animations/animationschangeeasingperiod.h"
 
 Q_DECLARE_METATYPE(sad::animations::Animation*) //-V566
 Q_DECLARE_METATYPE(sad::p2d::app::Way*) //-V566
@@ -79,7 +84,7 @@ gui::actions::AnimationActions::~AnimationActions()
     delete m_animation;	
 }
 
-bool gui::actions::AnimationActions::producesLoop(sad::animations::Animation* first, sad::animations::Animation* second)
+bool gui::actions::AnimationActions::producesLoop(sad::animations::Animation* first, sad::animations::Animation* second) const
 {
     bool result = false;
     sad::Vector<sad::db::Object*> objects;
@@ -153,7 +158,7 @@ bool gui::actions::AnimationActions::producesLoop(
 void gui::actions::AnimationActions::removeAnimationFromDatabase(
     sad::animations::Animation* a,
     bool fromeditor
-)
+) const
 {
 	QListWidget* listWidget = m_editor->uiBlocks()->uiAnimationBlock()->lstAnimations;
     int posinmainlist = this->findInList<sad::animations::Animation*>(listWidget, a);
@@ -214,7 +219,7 @@ bool gui::actions::AnimationActions::addAnimationToCompositeList(
     sad::animations::Composite* a,
     sad::animations::Animation* addedanimation,
     bool fromeditor
-)
+) const
 {
     bool result = false;
     if (producesLoop(a, addedanimation) == false)
@@ -234,7 +239,7 @@ bool gui::actions::AnimationActions::removeAnimationFromCompositeList(
         sad::animations::Animation* animation,
         bool fromeditor,
         int row
-)
+) const
 {
     unsigned long long majorid = animation->MajorId;
     if (row == -1)
@@ -274,7 +279,7 @@ QString gui::actions::AnimationActions::nameForAnimation(sad::animations::Animat
 }
 
 
-void gui::actions::AnimationActions::addAnimationToViewingLists(sad::animations::Animation* a)
+void gui::actions::AnimationActions::addAnimationToViewingLists(sad::animations::Animation* a) const
 {
     QString name = this->nameForAnimation(a);
 
@@ -299,7 +304,7 @@ void gui::actions::AnimationActions::addAnimationToViewingLists(sad::animations:
 }
 
 
-void gui::actions::AnimationActions::removeAnimationFromViewingLists(sad::animations::Animation* a)
+void gui::actions::AnimationActions::removeAnimationFromViewingLists(sad::animations::Animation* a) const
 {
 	QListWidget* lstAnimations = m_editor->uiBlocks()->uiAnimationBlock()->lstAnimations;
 	QListWidget* lstCompositeList = m_editor->uiBlocks()->uiAnimationBlock()->lstCompositeList;
@@ -332,7 +337,7 @@ void gui::actions::AnimationActions::removeAnimationFromViewingLists(sad::animat
 
 }
 
-void gui::actions::AnimationActions::updateAnimationName(sad::animations::Animation* a)
+void gui::actions::AnimationActions::updateAnimationName(sad::animations::Animation* a) const
 {
 	QListWidget* lstAnimations = m_editor->uiBlocks()->uiAnimationBlock()->lstAnimations;
 	QListWidget* lstCompositeList = m_editor->uiBlocks()->uiAnimationBlock()->lstCompositeList;
@@ -368,7 +373,7 @@ void gui::actions::AnimationActions::updateAnimationName(sad::animations::Animat
 
 // ===============================  PUBLIC SLOTS METHODS ===============================
 
-void gui::actions::AnimationActions::addAnimation()
+void gui::actions::AnimationActions::addAnimation() const
 {
 	gui::uiblocks::UIAnimationBlock* blk = m_editor->uiBlocks()->uiAnimationBlock(); 
     QComboBox * cmbtype = blk->cmbAddedAnimationType;
@@ -381,6 +386,10 @@ void gui::actions::AnimationActions::addAnimation()
 
         if (a)
         {
+			a->easing()->setFunctionTypeAsUnsignedInt(blk->cmbAnimationEasingType->currentIndex());
+			a->easing()->setOvershootAmplitude(blk->dsbAnimationEasingOvershootAmplitude->value());
+			a->easing()->setPeriod(blk->dsbAnimationEasingPeriod->value());
+
             a->setLooped(blk->cbAnimationLooped->checkState() == Qt::Checked);
             a->setTime(blk->dsbAnimationTime->value());
             a->setObjectName(Q2STDSTRING(blk->txtAnimationName->text()));
@@ -582,7 +591,7 @@ void gui::actions::AnimationActions::addAnimation()
     }
 }
 
-void gui::actions::AnimationActions::removeAnimation()
+void gui::actions::AnimationActions::removeAnimation() const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a != NULL)
@@ -591,7 +600,7 @@ void gui::actions::AnimationActions::removeAnimation()
     }
 }
 
-void gui::actions::AnimationActions::currentAnimationChanged(int row)
+void gui::actions::AnimationActions::currentAnimationChanged(int row) const
 {
 	gui::uiblocks::UIAnimationBlock* blk = m_editor->uiBlocks()->uiAnimationBlock(); 
     core::Editor* e = m_editor;
@@ -605,6 +614,10 @@ void gui::actions::AnimationActions::currentAnimationChanged(int row)
         e->emitClosure( blocked_bind(blk->dsbAnimationTime, &QDoubleSpinBox::setValue, a->time()) );
         Qt::CheckState cs = (a->looped()) ? Qt::Checked : Qt::Unchecked;
         e->emitClosure( blocked_bind(blk->cbAnimationLooped, &QCheckBox::setCheckState, cs) );
+		// Easing properties updates
+		e->emitClosure( blocked_bind(blk->cmbAnimationEasingType, &QComboBox::setCurrentIndex, a->easing()->functionTypeAsUnsignedInt()));
+		e->emitClosure( blocked_bind(blk->dsbAnimationEasingOvershootAmplitude, &QDoubleSpinBox::setValue, a->easing()->overshootAmplitude()));
+		e->emitClosure( blocked_bind(blk->dsbAnimationEasingPeriod, &QDoubleSpinBox::setValue, a->easing()->period()));
 
         if (a->isInstanceOf("sad::animations::Blinking"))
         {
@@ -765,7 +778,7 @@ void gui::actions::AnimationActions::currentAnimationChanged(int row)
     }
 }
 
-void gui::actions::AnimationActions::nameChanged(const QString& name)
+void gui::actions::AnimationActions::nameChanged(const QString& name) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a != NULL)
@@ -782,7 +795,7 @@ void gui::actions::AnimationActions::nameChanged(const QString& name)
 }
 
 
-void gui::actions::AnimationActions::timeChanged(double time)
+void gui::actions::AnimationActions::timeChanged(double time) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a != NULL)
@@ -799,7 +812,7 @@ void gui::actions::AnimationActions::timeChanged(double time)
 }
 
 
-void gui::actions::AnimationActions::loopedChanged(bool newvalue)
+void gui::actions::AnimationActions::loopedChanged(bool newvalue) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a != NULL)
@@ -816,7 +829,7 @@ void gui::actions::AnimationActions::loopedChanged(bool newvalue)
 }
 
 
-void gui::actions::AnimationActions::blinkingFrequencyChanged(int nvalue)
+void gui::actions::AnimationActions::blinkingFrequencyChanged(int nvalue) const
 {
     unsigned int newvalue = static_cast<unsigned int>(nvalue);
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
@@ -837,7 +850,7 @@ void gui::actions::AnimationActions::blinkingFrequencyChanged(int nvalue)
 }
 
 
-void gui::actions::AnimationActions::startOnObject()
+void gui::actions::AnimationActions::startOnObject() const
 {
     core::Shared* s = m_editor->shared();
     if (s->isAnyKindOfAnimationIsRunning() == false 
@@ -861,7 +874,7 @@ void gui::actions::AnimationActions::startOnObject()
     }
 }
 
-void gui::actions::AnimationActions::stopOnObject()
+void gui::actions::AnimationActions::stopOnObject() const
 {
     core::Shared* s = m_editor->shared();
     if (s->isAnyKindOfAnimationIsRunning() == true)
@@ -872,7 +885,7 @@ void gui::actions::AnimationActions::stopOnObject()
 }
 
 
-void gui::actions::AnimationActions::colorChangeStartingColor()
+void gui::actions::AnimationActions::colorChangeStartingColor() const
 {
     gui::colorview::ColorView* view = m_editor->uiBlocks()->uiAnimationBlock()->cwColorStartingColor; 
     QColor oldvalue = view->backgroundColor();
@@ -912,7 +925,7 @@ void gui::actions::AnimationActions::colorChangeStartingColor()
     }
 }
 
-void gui::actions::AnimationActions::colorChangeEndingColor()
+void gui::actions::AnimationActions::colorChangeEndingColor() const
 {
     gui::colorview::ColorView* view = m_editor->uiBlocks()->uiAnimationBlock()->cwColorEndingColor; 
     QColor oldvalue = view->backgroundColor();
@@ -952,7 +965,7 @@ void gui::actions::AnimationActions::colorChangeEndingColor()
 }
 
 
-void gui::actions::AnimationActions::resizeChangeStartingSizeX(double newvalue)
+void gui::actions::AnimationActions::resizeChangeStartingSizeX(double newvalue) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a)
@@ -978,7 +991,7 @@ void gui::actions::AnimationActions::resizeChangeStartingSizeX(double newvalue)
     }
 }
 
-void gui::actions::AnimationActions::resizeChangeStartingSizeY(double newvalue)
+void gui::actions::AnimationActions::resizeChangeStartingSizeY(double newvalue) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a)
@@ -1004,7 +1017,7 @@ void gui::actions::AnimationActions::resizeChangeStartingSizeY(double newvalue)
     }
 }
 
-void gui::actions::AnimationActions::resizeChangeEndingSizeX(double newvalue)
+void gui::actions::AnimationActions::resizeChangeEndingSizeX(double newvalue) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a)
@@ -1030,7 +1043,7 @@ void gui::actions::AnimationActions::resizeChangeEndingSizeX(double newvalue)
     }
 }
 
-void gui::actions::AnimationActions::resizeChangeEndingSizeY(double newvalue)
+void gui::actions::AnimationActions::resizeChangeEndingSizeY(double newvalue) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a)
@@ -1056,7 +1069,7 @@ void gui::actions::AnimationActions::resizeChangeEndingSizeY(double newvalue)
     }
 }
 
-void gui::actions::AnimationActions::rotateChangeStartingAngle(double newvalue)
+void gui::actions::AnimationActions::rotateChangeStartingAngle(double newvalue) const
 {
     newvalue = newvalue / 180.0 * M_PI;
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
@@ -1082,7 +1095,7 @@ void gui::actions::AnimationActions::rotateChangeStartingAngle(double newvalue)
     }
 }
 
-void gui::actions::AnimationActions::rotateChangeEndingAngle(double newvalue)
+void gui::actions::AnimationActions::rotateChangeEndingAngle(double newvalue) const
 {
     newvalue = newvalue / 180.0 * M_PI;
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
@@ -1109,7 +1122,7 @@ void gui::actions::AnimationActions::rotateChangeEndingAngle(double newvalue)
 }
 
 
-void gui::actions::AnimationActions::wayMovingChangeWay(int row)
+void gui::actions::AnimationActions::wayMovingChangeWay(int row) const
 {
     if (row != -1)
     {
@@ -1137,7 +1150,7 @@ void gui::actions::AnimationActions::wayMovingChangeWay(int row)
     }
 }
 
-void gui::actions::AnimationActions::fontListEditingFinished()
+void gui::actions::AnimationActions::fontListEditingFinished() const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a != NULL)
@@ -1162,7 +1175,7 @@ void gui::actions::AnimationActions::fontListEditingFinished()
     }
 }
 
-void gui::actions::AnimationActions::fontSizeChangeStartingSize(int newvalue)
+void gui::actions::AnimationActions::fontSizeChangeStartingSize(int newvalue) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a != NULL)
@@ -1187,7 +1200,7 @@ void gui::actions::AnimationActions::fontSizeChangeStartingSize(int newvalue)
     }
 }
 
-void gui::actions::AnimationActions::fontSizeChangeEndingSize(int newvalue)
+void gui::actions::AnimationActions::fontSizeChangeEndingSize(int newvalue) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a != NULL)
@@ -1212,7 +1225,7 @@ void gui::actions::AnimationActions::fontSizeChangeEndingSize(int newvalue)
     }
 }
 
-void gui::actions::AnimationActions::optionListEditingFinished()
+void gui::actions::AnimationActions::optionListEditingFinished() const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a != NULL)
@@ -1241,7 +1254,7 @@ void gui::actions::AnimationActions::optionListEditingFinished()
 }
 
 
-void gui::actions::AnimationActions::textureCoordinatesListEditingFinished()
+void gui::actions::AnimationActions::textureCoordinatesListEditingFinished() const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a != NULL)
@@ -1269,7 +1282,7 @@ void gui::actions::AnimationActions::textureCoordinatesListEditingFinished()
     }
 }
 
-void gui::actions::AnimationActions::textureCoordinatesChangeStartRect(QRectF value)
+void gui::actions::AnimationActions::textureCoordinatesChangeStartRect(QRectF value) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a != NULL)
@@ -1293,7 +1306,7 @@ void gui::actions::AnimationActions::textureCoordinatesChangeStartRect(QRectF va
     }
 }
 
-void gui::actions::AnimationActions::textureCoordinatesChangeEndRect(QRectF value)
+void gui::actions::AnimationActions::textureCoordinatesChangeEndRect(QRectF value) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a != NULL)
@@ -1317,7 +1330,7 @@ void gui::actions::AnimationActions::textureCoordinatesChangeEndRect(QRectF valu
     }
 }
 
-void gui::actions::AnimationActions::cameraRotationChangePivotX(double newx)
+void gui::actions::AnimationActions::cameraRotationChangePivotX(double newx) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a != NULL)
@@ -1337,7 +1350,7 @@ void gui::actions::AnimationActions::cameraRotationChangePivotX(double newx)
     }
 }
 
-void gui::actions::AnimationActions::cameraRotationChangePivotY(double newy)
+void gui::actions::AnimationActions::cameraRotationChangePivotY(double newy) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a != NULL)
@@ -1357,7 +1370,7 @@ void gui::actions::AnimationActions::cameraRotationChangePivotY(double newy)
     }
 }
 
-void gui::actions::AnimationActions::cameraRotationChangeStartingAngle(double newvalue)
+void gui::actions::AnimationActions::cameraRotationChangeStartingAngle(double newvalue) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a != NULL)
@@ -1377,7 +1390,7 @@ void gui::actions::AnimationActions::cameraRotationChangeStartingAngle(double ne
     }
 }
 
-void gui::actions::AnimationActions::cameraRotationChangeEndingAngle(double newvalue)
+void gui::actions::AnimationActions::cameraRotationChangeEndingAngle(double newvalue) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a != NULL)
@@ -1397,7 +1410,7 @@ void gui::actions::AnimationActions::cameraRotationChangeEndingAngle(double newv
     }
 }
 
-void gui::actions::AnimationActions::cameraShakingChangeOffsetX(double newx)
+void gui::actions::AnimationActions::cameraShakingChangeOffsetX(double newx) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a != NULL)
@@ -1417,7 +1430,7 @@ void gui::actions::AnimationActions::cameraShakingChangeOffsetX(double newx)
     }
 }
 
-void gui::actions::AnimationActions::cameraShakingChangeOffsetY(double newy)
+void gui::actions::AnimationActions::cameraShakingChangeOffsetY(double newy) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a != NULL)
@@ -1437,7 +1450,7 @@ void gui::actions::AnimationActions::cameraShakingChangeOffsetY(double newy)
     }
 }
 
-void gui::actions::AnimationActions::cameraShakingChangeFrequency(int newvalue)
+void gui::actions::AnimationActions::cameraShakingChangeFrequency(int newvalue) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a != NULL)
@@ -1455,7 +1468,7 @@ void gui::actions::AnimationActions::cameraShakingChangeFrequency(int newvalue)
     }
 }
 
-void gui::actions::AnimationActions::updateCompositeList()
+void gui::actions::AnimationActions::updateCompositeList() const
 {
     sad::Vector<unsigned long long> majorids;
     sad::animations::Animation* sa = m_editor->shared()->selectedAnimation();
@@ -1513,7 +1526,7 @@ void gui::actions::AnimationActions::updateCompositeList()
     }
 }
 
-void gui::actions::AnimationActions::addAnimationToComposite()
+void gui::actions::AnimationActions::addAnimationToComposite() const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a != NULL)
@@ -1532,7 +1545,7 @@ void gui::actions::AnimationActions::addAnimationToComposite()
     }
 }
 
-void gui::actions::AnimationActions::removeAnimationFromComposite()
+void gui::actions::AnimationActions::removeAnimationFromComposite() const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a != NULL)
@@ -1551,7 +1564,7 @@ void gui::actions::AnimationActions::removeAnimationFromComposite()
     }
 }
 
-void gui::actions::AnimationActions::moveBackInCompositeList()
+void gui::actions::AnimationActions::moveBackInCompositeList() const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a != NULL)
@@ -1571,7 +1584,7 @@ void gui::actions::AnimationActions::moveBackInCompositeList()
     }
 }
 
-void gui::actions::AnimationActions::moveFrontInCompositeList()
+void gui::actions::AnimationActions::moveFrontInCompositeList() const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a != NULL)
@@ -1591,7 +1604,7 @@ void gui::actions::AnimationActions::moveFrontInCompositeList()
     }
 }
 
-void gui::actions::AnimationActions::simpleMovementChangeStartingPointX(double newx)
+void gui::actions::AnimationActions::simpleMovementChangeStartingPointX(double newx) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a != NULL)
@@ -1618,7 +1631,7 @@ void gui::actions::AnimationActions::simpleMovementChangeStartingPointX(double n
     }
 }
 
-void gui::actions::AnimationActions::simpleMovementChangeStartingPointY(double newy)
+void gui::actions::AnimationActions::simpleMovementChangeStartingPointY(double newy) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a != NULL)
@@ -1645,7 +1658,7 @@ void gui::actions::AnimationActions::simpleMovementChangeStartingPointY(double n
     }
 }
 
-void gui::actions::AnimationActions::simpleMovementChangeEndingPointX(double newx)
+void gui::actions::AnimationActions::simpleMovementChangeEndingPointX(double newx) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a != NULL)
@@ -1672,7 +1685,7 @@ void gui::actions::AnimationActions::simpleMovementChangeEndingPointX(double new
     }
 }
 
-void gui::actions::AnimationActions::simpleMovementChangeEndingPointY(double newy)
+void gui::actions::AnimationActions::simpleMovementChangeEndingPointY(double newy) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a != NULL)
@@ -1699,7 +1712,7 @@ void gui::actions::AnimationActions::simpleMovementChangeEndingPointY(double new
     }
 }
 
-void gui::actions::AnimationActions::startPickingStartingPointForSimpleMovement()
+void gui::actions::AnimationActions::startPickingStartingPointForSimpleMovement() const
 {
     sad::hfsm::Machine* m =  this->m_editor->machine();
     if (this->m_editor->isInEditingState())
@@ -1719,7 +1732,7 @@ void gui::actions::AnimationActions::startPickingStartingPointForSimpleMovement(
     }
 }
 
-void gui::actions::AnimationActions::startPickingEndingPointForSimpleMovement()
+void gui::actions::AnimationActions::startPickingEndingPointForSimpleMovement() const
 {
     sad::hfsm::Machine* m =  this->m_editor->machine();
     if (this->m_editor->isInEditingState())
@@ -1739,13 +1752,13 @@ void gui::actions::AnimationActions::startPickingEndingPointForSimpleMovement()
     }
 }
 
-void gui::actions::AnimationActions::cancelPickingPointForSimpleMovement()
+void gui::actions::AnimationActions::cancelPickingPointForSimpleMovement() const
 {
     this->m_editor->machine()->enterState(this->m_editor->machine()->previousState());
     m_editor->panelProxy()->lockTypesTab(false);
 }
 
-void gui::actions::AnimationActions::pickedPointForSimpleMovement(const sad::input::MousePressEvent& e)
+void gui::actions::AnimationActions::pickedPointForSimpleMovement(const sad::input::MousePressEvent& e) const
 {
     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a != NULL)
@@ -1781,3 +1794,53 @@ void gui::actions::AnimationActions::pickedPointForSimpleMovement(const sad::inp
     this->m_editor->machine()->enterState(state);
     this->m_editor->panelProxy()->lockTypesTab(false);
 }
+
+void gui::actions::AnimationActions::easingOvershootAmplitudeChanged(double newvalue) const
+{
+	 sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
+    if (a != NULL)
+    {
+        double oldvalue = a->easing()->overshootAmplitude();
+        if (sad::is_fuzzy_equal(oldvalue, newvalue) == false)
+        {
+            history::Command* c = new history::animations::ChangeEasingOvershootAmplitude(a, oldvalue, newvalue);
+            c->commit(this->m_editor);
+
+            this->m_editor->history()->add(c);
+        }
+    }
+}
+
+void gui::actions::AnimationActions::easingPeriodChanged(double newvalue) const
+{
+	sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
+    if (a != NULL)
+    {
+        double oldvalue = a->easing()->period();
+        if (sad::is_fuzzy_equal(oldvalue, newvalue) == false)
+        {
+            history::Command* c = new history::animations::ChangeEasingPeriod(a, oldvalue, newvalue);
+            c->commit(this->m_editor);
+
+            this->m_editor->history()->add(c);
+        }
+    }
+}
+
+void gui::actions::AnimationActions::easingFunctionTypeChanged(int newvalue) const
+{
+	sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
+    if (a != NULL)
+    {
+        unsigned int oldvalue = a->easing()->functionTypeAsUnsignedInt();
+		unsigned int nv = newvalue;
+        if (oldvalue != nv)
+        {
+            history::Command* c = new history::animations::ChangeEasingFunctionType(a, oldvalue, nv);
+            c->commit(this->m_editor);
+
+            this->m_editor->history()->add(c);
+        }
+    }	
+}
+

@@ -375,9 +375,6 @@
     <ClCompile Include="gui\rotationprocess.cpp">
       <Filter>Source Files\gui</Filter>
     </ClCompile>
-    <ClCompile Include="gui\colorpicker\colorpicker.cpp">
-      <Filter>Source Files\gui\colorpicker</Filter>
-    </ClCompile>
     <ClCompile Include="gui\resourcetreewidget\cell.cpp">
       <Filter>Source Files\gui\resourcetreewidget</Filter>
     </ClCompile>
@@ -2358,6 +2355,18 @@
     <ClCompile Include="scripting\groups\groupssequentialsetter.cpp">
       <Filter>Source Files\scripting\groups</Filter>
     </ClCompile>
+    <ClCompile Include="gui\qt-palette-color-picker\colorpicker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationschangeeasingfunctiontype.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationschangeeasingovershootamplitude.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationschangeeasingperiod.cpp">
+      <Filter>Source Files\gui\actions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -2990,6 +2999,18 @@
     <ClInclude Include="scripting\groups\groupssequentialsetter.h">
       <Filter>Header Files\scripting\groups</Filter>
     </ClInclude>
+    <ClInclude Include="history\animations\animationschangeeasingproperty.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangeeasingfunctiontype.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangeeasingovershootamplitude.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangeeasingperiod.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="acolordialog.h">
@@ -3021,9 +3042,6 @@
     </CustomBuild>
     <CustomBuild Include="gui\rotationprocess.h">
       <Filter>Header Files\gui</Filter>
-    </CustomBuild>
-    <CustomBuild Include="gui\colorpicker\colorpicker.h">
-      <Filter>Header Files\gui\colorpicker</Filter>
     </CustomBuild>
     <CustomBuild Include="gui\resourcetreewidget\resourcetreewidget.h">
       <Filter>Header Files\gui\resourcetreewidget</Filter>
@@ -3216,6 +3234,9 @@
     </CustomBuild>
     <CustomBuild Include="gui\actions\customobjectactions.h">
       <Filter>Header Files\gui\actions</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\qt-palette-color-picker\colorpicker.h">
+      <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

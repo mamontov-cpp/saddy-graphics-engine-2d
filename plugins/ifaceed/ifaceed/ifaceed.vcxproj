@@ -2396,6 +2396,9 @@
     <ClCompile Include="history\animations\animationschangecameraangle.cpp" />
     <ClCompile Include="history\animations\animationschangecameraoffset.cpp" />
     <ClCompile Include="history\animations\animationschangecamerapivot.cpp" />
+    <ClCompile Include="history\animations\animationschangeeasingfunctiontype.cpp" />
+    <ClCompile Include="history\animations\animationschangeeasingovershootamplitude.cpp" />
+    <ClCompile Include="history\animations\animationschangeeasingperiod.cpp" />
     <ClCompile Include="history\animations\animationschangefontsizesize.cpp" />
     <ClCompile Include="history\animations\animationschangeblinkingfrequency.cpp" />
     <ClCompile Include="history\animations\animationschangecolorcolor.cpp" />
@@ -4411,6 +4414,10 @@
     <ClInclude Include="history\animations\animationschangecameraoffset.h" />
     <ClInclude Include="history\animations\animationschangecameraangle.h" />
     <ClInclude Include="history\animations\animationschangecamerapivot.h" />
+    <ClInclude Include="history\animations\animationschangeeasingfunctiontype.h" />
+    <ClInclude Include="history\animations\animationschangeeasingovershootamplitude.h" />
+    <ClInclude Include="history\animations\animationschangeeasingperiod.h" />
+    <ClInclude Include="history\animations\animationschangeeasingproperty.h" />
     <ClInclude Include="history\animations\animationschangefontsizesize.h" />
     <ClInclude Include="history\animations\animationschangeblinkingfrequency.h" />
     <ClInclude Include="history\animations\animationschangecolorcolor.h" />

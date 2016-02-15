@@ -2,7 +2,7 @@
  *   
  *
  *   Defines a command type, which describes change of property
- *   in scene node
+ *   of animation
  */
 #pragma once
 
