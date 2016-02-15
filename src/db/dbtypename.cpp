@@ -74,5 +74,3 @@ DECLARE_TYPE_AS_SAD_OBJECT(sad::Object);
 DECLARE_TYPE_AS_SAD_OBJECT(sad::Scene);
 DECLARE_TYPE_AS_SAD_OBJECT(sad::p2d::app::Way);
 DECLARE_TYPE_AS_SAD_OBJECT(sad::dialogue::Dialogue);
-
-DECLARE_TYPE_AS_SAD_OBJECT(sad::animations::easing::Function);
