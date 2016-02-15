@@ -598,7 +598,7 @@ unix {
 }
 
 win32 {
-        QMAKE_LIBDIR += $$quote($$(FREETYPE_LIB)) 
+        QMAKE_LIBDIR += $$quote($$(FREETYPE_DIR))\\lib 
         LIBS += -lglu32 -lopengl32 -lkernel32 -luser32 -lgdi32 -lwinspool  -lshell32 -lcomdlg32 -ladvapi32 -lfreetype
 }
 
