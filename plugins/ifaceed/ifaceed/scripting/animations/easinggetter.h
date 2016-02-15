@@ -34,7 +34,8 @@ public:
     /*! Represents a constructor call for a function with two arguments
         \param[in] e engine
         \param[in] propname name of property
-     */
+		\param[in] getter a getter
+	 */
     EasingGetter(
         QScriptEngine* e,
         const sad::String& propname,

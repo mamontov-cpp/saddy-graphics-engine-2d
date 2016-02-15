@@ -77,6 +77,7 @@ protected:
     /*!  Computes time, which should be used to animate. Finishes
          animations to be finished
          \param[in] animations an animations
+		 \param[in] restoreOnFinish whether we should restore state on finish
      */
     virtual double computeTime(sad::animations::Animations* animations, bool restoreOnFinish = true);
     /*! Processes animation instance with specified time

@@ -1,4 +1,4 @@
-/*! \file animations/tween/tweentypes.h
+/*! \file animations/easing/easingtypes.h
 
     Describes a types of tween motions in function
  */
