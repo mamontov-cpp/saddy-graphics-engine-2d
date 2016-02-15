@@ -787,7 +787,7 @@ void gui::actions::AnimationActions::nameChanged(const QString& name) const
         if (oldname != Q2STDSTRING(name))
         {
             history::animations::ChangeName* c = new history::animations::ChangeName(a, oldname, Q2STDSTRING(name));
-            c->commit(this->m_editor);
+            c->commitWithoutUpdatingUI(this->m_editor);
 
             this->m_editor->history()->add(c);
         }
@@ -804,7 +804,7 @@ void gui::actions::AnimationActions::timeChanged(double time) const
         if (sad::is_fuzzy_equal(oldtime, time) == false)
         {
             history::animations::ChangeTime* c = new history::animations::ChangeTime(a, oldtime, time);
-            c->commit(this->m_editor);
+            c->commitWithoutUpdatingUI(this->m_editor);
 
             this->m_editor->history()->add(c);
         }
@@ -821,7 +821,7 @@ void gui::actions::AnimationActions::loopedChanged(bool newvalue) const
         if (oldvalue != newvalue)
         {
             history::animations::ChangeLooped* c = new history::animations::ChangeLooped(a, oldvalue, newvalue);
-            c->commit(this->m_editor);
+            c->commitWithoutUpdatingUI(this->m_editor);
 
             this->m_editor->history()->add(c);
         }
@@ -841,7 +841,7 @@ void gui::actions::AnimationActions::blinkingFrequencyChanged(int nvalue) const
             if (oldvalue != newvalue)
             {
                 history::animations::ChangeBlinkingFrequency* c = new history::animations::ChangeBlinkingFrequency(a, oldvalue, newvalue);
-                c->commit(this->m_editor);
+                c->commitWithoutUpdatingUI(this->m_editor);
 
                 this->m_editor->history()->add(c);
             }
@@ -917,7 +917,7 @@ void gui::actions::AnimationActions::colorChangeStartingColor() const
                     oldcolor,
                     newcolor
                 );
-                c->commit(this->m_editor);
+                c->commitWithoutUpdatingUI(this->m_editor);
 
                 this->m_editor->history()->add(c);
             }
@@ -956,7 +956,7 @@ void gui::actions::AnimationActions::colorChangeEndingColor() const
                     oldcolor,
                     newcolor
                 );
-                c->commit(this->m_editor);
+                c->commitWithoutUpdatingUI(this->m_editor);
 
                 this->m_editor->history()->add(c);
             }
@@ -983,7 +983,7 @@ void gui::actions::AnimationActions::resizeChangeStartingSizeX(double newvalue) 
                     oldvalue,
                     nvalue
                 );
-                c->commit(this->m_editor);
+                c->commitWithoutUpdatingUI(this->m_editor);
 
                 this->m_editor->history()->add(c);
             }
@@ -1009,7 +1009,7 @@ void gui::actions::AnimationActions::resizeChangeStartingSizeY(double newvalue) 
                     oldvalue,
                     nvalue
                 );
-                c->commit(this->m_editor);
+                c->commitWithoutUpdatingUI(this->m_editor);
 
                 this->m_editor->history()->add(c);
             }
@@ -1035,7 +1035,7 @@ void gui::actions::AnimationActions::resizeChangeEndingSizeX(double newvalue) co
                     oldvalue,
                     nvalue
                 );
-                c->commit(this->m_editor);
+                c->commitWithoutUpdatingUI(this->m_editor);
 
                 this->m_editor->history()->add(c);
             }
@@ -1061,7 +1061,7 @@ void gui::actions::AnimationActions::resizeChangeEndingSizeY(double newvalue) co
                     oldvalue,
                     nvalue
                 );
-                c->commit(this->m_editor);
+                c->commitWithoutUpdatingUI(this->m_editor);
 
                 this->m_editor->history()->add(c);
             }
@@ -1087,7 +1087,7 @@ void gui::actions::AnimationActions::rotateChangeStartingAngle(double newvalue) 
                     oldvalue,
                     newvalue
                 );
-                c->commit(this->m_editor);
+                c->commitWithoutUpdatingUI(this->m_editor);
 
                 this->m_editor->history()->add(c);
             }
@@ -1113,7 +1113,7 @@ void gui::actions::AnimationActions::rotateChangeEndingAngle(double newvalue) co
                     oldvalue,
                     newvalue
                 );
-                c->commit(this->m_editor);
+                c->commitWithoutUpdatingUI(this->m_editor);
 
                 this->m_editor->history()->add(c);
             }
@@ -1142,7 +1142,7 @@ void gui::actions::AnimationActions::wayMovingChangeWay(int row) const
                 if (oldvalue != newvalue)
                 {
                     history::Command* c =new history::animations::ChangeWayMovingWay(a, oldvalue, newvalue);
-                    c->commit(m_editor);
+                    c->commitWithoutUpdatingUI(m_editor);
                     this->m_editor->history()->add(c);
                 }
             }
@@ -1168,7 +1168,7 @@ void gui::actions::AnimationActions::fontListEditingFinished() const
             if (oldvalue != newvalue)
             {
                 history::Command* c = new history::animations::ChangeFontListFonts(a, oldvalue, newvalue);
-                c->commit(m_editor);
+                c->commitWithoutUpdatingUI(m_editor);
                 this->m_editor->history()->add(c);
             }
         }
@@ -1193,7 +1193,7 @@ void gui::actions::AnimationActions::fontSizeChangeStartingSize(int newvalue) co
                     newvalue
                 );
 
-                c->commit(m_editor);
+                c->commitWithoutUpdatingUI(m_editor);
                 this->m_editor->history()->add(c);
             }
         }
@@ -1218,7 +1218,7 @@ void gui::actions::AnimationActions::fontSizeChangeEndingSize(int newvalue) cons
                     newvalue
                 );
 
-                c->commit(m_editor);
+                c->commitWithoutUpdatingUI(m_editor);
                 this->m_editor->history()->add(c);
             }
         }
@@ -1246,7 +1246,7 @@ void gui::actions::AnimationActions::optionListEditingFinished() const
             if (oldvalue != newvalue)
             {
                 history::Command* c = new history::animations::ChangeList(a, prop, widget, oldvalue, newvalue);
-                c->commit(m_editor);
+                c->commitWithoutUpdatingUI(m_editor);
                 this->m_editor->history()->add(c);
             }
         }
@@ -1275,7 +1275,7 @@ void gui::actions::AnimationActions::textureCoordinatesListEditingFinished() con
             if (oldvalue != newvalue)
             {
                 history::Command* c = new history::animations::ChangeList(a, prop, widget, oldvalue, newvalue);
-                c->commit(m_editor);
+                c->commitWithoutUpdatingUI(m_editor);
                 this->m_editor->history()->add(c);
             }
         }
@@ -1299,7 +1299,7 @@ void gui::actions::AnimationActions::textureCoordinatesChangeStartRect(QRectF va
             if (sad::equal(oldvalue, newvalue) == false)
             {
                 history::Command* c = new history::animations::ChangeRect(a, prop, widget, oldvalue, newvalue);
-                c->commit(m_editor);
+                c->commitWithoutUpdatingUI(m_editor);
                 this->m_editor->history()->add(c);
             }
         }
@@ -1323,7 +1323,7 @@ void gui::actions::AnimationActions::textureCoordinatesChangeEndRect(QRectF valu
             if (sad::equal(oldvalue, newvalue) == false)
             {
                 history::Command* c = new history::animations::ChangeRect(a, prop, widget, oldvalue, newvalue);
-                c->commit(m_editor);
+                c->commitWithoutUpdatingUI(m_editor);
                 this->m_editor->history()->add(c);
             }
         }
@@ -1343,7 +1343,7 @@ void gui::actions::AnimationActions::cameraRotationChangePivotX(double newx) con
             if (sad::equal(oldvalue, newvalue) == false)
             {
                 history::Command* c = new history::animations::ChangeCameraPivot(a, oldvalue, newvalue);
-                c->commit(m_editor);
+                c->commitWithoutUpdatingUI(m_editor);
                 this->m_editor->history()->add(c);
             }
         }
@@ -1363,7 +1363,7 @@ void gui::actions::AnimationActions::cameraRotationChangePivotY(double newy) con
             if (sad::equal(oldvalue, newvalue) == false)
             {
                 history::Command* c = new history::animations::ChangeCameraPivot(a, oldvalue, newvalue);
-                c->commit(m_editor);
+                c->commitWithoutUpdatingUI(m_editor);
                 this->m_editor->history()->add(c);
             }
         }
@@ -1383,7 +1383,7 @@ void gui::actions::AnimationActions::cameraRotationChangeStartingAngle(double ne
             if (sad::is_fuzzy_equal(oldvalue, newvalue) == false)
             {
                 history::Command* c = new history::animations::ChangeCameraAngle(a, prop, widget, oldvalue, newvalue);
-                c->commit(m_editor);
+                c->commitWithoutUpdatingUI(m_editor);
                 this->m_editor->history()->add(c);
             }
         }
@@ -1403,7 +1403,7 @@ void gui::actions::AnimationActions::cameraRotationChangeEndingAngle(double newv
             if (sad::is_fuzzy_equal(oldvalue, newvalue) == false)
             {
                 history::Command* c = new history::animations::ChangeCameraAngle(a, prop, widget, oldvalue, newvalue);
-                c->commit(m_editor);
+                c->commitWithoutUpdatingUI(m_editor);
                 this->m_editor->history()->add(c);
             }
         }
@@ -1423,7 +1423,7 @@ void gui::actions::AnimationActions::cameraShakingChangeOffsetX(double newx) con
             if (sad::equal(oldvalue, newvalue) == false)
             {
                 history::Command* c = new history::animations::ChangeCameraOffset(a, oldvalue, newvalue);
-                c->commit(m_editor);
+                c->commitWithoutUpdatingUI(m_editor);
                 this->m_editor->history()->add(c);
             }
         }
@@ -1443,7 +1443,7 @@ void gui::actions::AnimationActions::cameraShakingChangeOffsetY(double newy) con
             if (sad::equal(oldvalue, newvalue) == false)
             {
                 history::Command* c = new history::animations::ChangeCameraOffset(a, oldvalue, newvalue);
-                c->commit(m_editor);
+                c->commitWithoutUpdatingUI(m_editor);
                 this->m_editor->history()->add(c);
             }
         }
@@ -1461,7 +1461,7 @@ void gui::actions::AnimationActions::cameraShakingChangeFrequency(int newvalue) 
             if (oldvalue != newvalue)
             {
                 history::Command* c = new history::animations::ChangeShakingFrequency(a, oldvalue, newvalue);
-                c->commit(m_editor);
+                c->commitWithoutUpdatingUI(m_editor);
                 this->m_editor->history()->add(c);
             }
         }
@@ -1624,7 +1624,7 @@ void gui::actions::AnimationActions::simpleMovementChangeStartingPointX(double n
                     m_editor->uiBlocks()->uiAnimationBlock()->dabSimpleMovementStartingPointX,
                     m_editor->uiBlocks()->uiAnimationBlock()->dabSimpleMovementStartingPointY
                 );
-                c->commit(m_editor);
+                c->commitWithoutUpdatingUI(m_editor);
                 this->m_editor->history()->add(c);
             }
         }
@@ -1651,7 +1651,7 @@ void gui::actions::AnimationActions::simpleMovementChangeStartingPointY(double n
                     m_editor->uiBlocks()->uiAnimationBlock()->dabSimpleMovementStartingPointX,
                     m_editor->uiBlocks()->uiAnimationBlock()->dabSimpleMovementStartingPointY
                 );
-                c->commit(m_editor);
+                c->commitWithoutUpdatingUI(m_editor);
                 this->m_editor->history()->add(c);
             }
         }
@@ -1678,7 +1678,7 @@ void gui::actions::AnimationActions::simpleMovementChangeEndingPointX(double new
                     m_editor->uiBlocks()->uiAnimationBlock()->dabSimpleMovementEndingPointX,
                     m_editor->uiBlocks()->uiAnimationBlock()->dabSimpleMovementEndingPointY
                 );
-                c->commit(m_editor);
+                c->commitWithoutUpdatingUI(m_editor);
                 this->m_editor->history()->add(c);
             }
         }
@@ -1705,7 +1705,7 @@ void gui::actions::AnimationActions::simpleMovementChangeEndingPointY(double new
                     m_editor->uiBlocks()->uiAnimationBlock()->dabSimpleMovementEndingPointX,
                     m_editor->uiBlocks()->uiAnimationBlock()->dabSimpleMovementEndingPointY
                 );
-                c->commit(m_editor);
+                c->commitWithoutUpdatingUI(m_editor);
                 this->m_editor->history()->add(c);
             }
         }
@@ -1804,7 +1804,7 @@ void gui::actions::AnimationActions::easingOvershootAmplitudeChanged(double newv
         if (sad::is_fuzzy_equal(oldvalue, newvalue) == false)
         {
             history::Command* c = new history::animations::ChangeEasingOvershootAmplitude(a, oldvalue, newvalue);
-            c->commit(this->m_editor);
+            c->commitWithoutUpdatingUI(this->m_editor);
 
             this->m_editor->history()->add(c);
         }
@@ -1820,7 +1820,7 @@ void gui::actions::AnimationActions::easingPeriodChanged(double newvalue) const
         if (sad::is_fuzzy_equal(oldvalue, newvalue) == false)
         {
             history::Command* c = new history::animations::ChangeEasingPeriod(a, oldvalue, newvalue);
-            c->commit(this->m_editor);
+            c->commitWithoutUpdatingUI(this->m_editor);
 
             this->m_editor->history()->add(c);
         }
@@ -1837,7 +1837,7 @@ void gui::actions::AnimationActions::easingFunctionTypeChanged(int newvalue) con
         if (oldvalue != nv)
         {
             history::Command* c = new history::animations::ChangeEasingFunctionType(a, oldvalue, nv);
-            c->commit(this->m_editor);
+            c->commitWithoutUpdatingUI(this->m_editor);
 
             this->m_editor->history()->add(c);
         }

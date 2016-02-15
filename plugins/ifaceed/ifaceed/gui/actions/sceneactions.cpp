@@ -349,7 +349,7 @@ void gui::actions::SceneActions::sceneNameChanged(const QString&)
         
         history::Command* c = new history::scenes::ChangeName(scene, oldname, newname);
         this->m_editor->history()->add(c);
-        c->commit(m_editor);
+        c->commitWithoutUpdatingUI(m_editor);
     }
 }
 

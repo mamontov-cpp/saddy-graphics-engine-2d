@@ -35,7 +35,7 @@ void history::dialogues::PhraseSwap::commit(core::Editor * ob)
         if (ob->shared()->selectedDialogue() == m_dialogue)
         {
             QListWidget* lst = ob->uiBlocks()->uiPhraseBlock()->lstPhrases;	
-			gui::actions::DialogueActions* d_actions = ob->actions()->dialogueActions(); 
+            gui::actions::DialogueActions* d_actions = ob->actions()->dialogueActions(); 
             ob->emitClosure(bind(
                 lst->item(m_position1),
                 &QListWidgetItem::setText,

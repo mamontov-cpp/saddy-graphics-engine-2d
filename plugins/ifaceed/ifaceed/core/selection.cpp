@@ -220,7 +220,7 @@ void core::Selection::trySelectObject(const sad::input::MousePressEvent& e)
 
 
     // Fill navigation chain
-	sad::Scene* current_scene = m_editor->actions()->sceneActions()->currentScene();
+    sad::Scene* current_scene = m_editor->actions()->sceneActions()->currentScene();
     if (current_scene)
     {
         m_selection_chain.clear();
@@ -259,7 +259,7 @@ void core::Selection::trySelectWay(const sad::input::MousePressEvent& e)
 {
     const double radius = 11.0; // Radius of active area for a point
     sad::p2d::app::Way* w = m_editor->shared()->selectedWay();
-	gui::uiblocks::UIWayBlock* ui_way_block = m_editor->uiBlocks()->uiWayBlock();
+    gui::uiblocks::UIWayBlock* ui_way_block = m_editor->uiBlocks()->uiWayBlock();
     if (w != NULL)
     {
         int row = ui_way_block->lstWayPoints->currentRow();
@@ -308,8 +308,8 @@ void core::Selection::trySelectWay(const sad::input::MousePressEvent& e)
 
 void core::Selection::tryEnterToMovingStateWithWayObject(const sad::input::MousePressEvent& e)
 {
-	gui::uiblocks::UIWayBlock* ui_way_block = m_editor->uiBlocks()->uiWayBlock();
-	sad::p2d::app::Way* w = m_editor->shared()->selectedWay();
+    gui::uiblocks::UIWayBlock* ui_way_block = m_editor->uiBlocks()->uiWayBlock();
+    sad::p2d::app::Way* w = m_editor->shared()->selectedWay();
     if (w != NULL)
     {
         int row = ui_way_block->lstWayPoints->currentRow();
@@ -327,8 +327,8 @@ void core::Selection::tryEnterToMovingStateWithWayObject(const sad::input::Mouse
 
 void core::Selection::commitWaySelection(int i, int j)
 {
-	gui::uiblocks::UIWayBlock* ui_way_block = m_editor->uiBlocks()->uiWayBlock();
-	
+    gui::uiblocks::UIWayBlock* ui_way_block = m_editor->uiBlocks()->uiWayBlock();
+    
     ui_way_block->lstWays->setCurrentRow(i);
     m_editor->actions()->wayActions()->updateUIForSelectedWayNow();
     ui_way_block->lstWayPoints->setCurrentRow(j);
@@ -337,7 +337,7 @@ void core::Selection::commitWaySelection(int i, int j)
 
 void core::Selection::commitIdleWaySelection()
 {
-	gui::uiblocks::UIWayBlock* ui_way_block = m_editor->uiBlocks()->uiWayBlock();
+    gui::uiblocks::UIWayBlock* ui_way_block = m_editor->uiBlocks()->uiWayBlock();
 
     ui_way_block->lstWays->clearSelection();
     ui_way_block->lstWayPoints->clearSelection();

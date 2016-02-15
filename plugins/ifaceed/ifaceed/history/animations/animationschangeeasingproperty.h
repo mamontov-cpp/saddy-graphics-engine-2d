@@ -58,10 +58,7 @@ public:
         sad::Renderer::ref()->lockRendering();
         ((m_animation->easing())->*m_setter)(m_newvalue);
         sad::Renderer::ref()->unlockRendering();
-        if (m_enable_update_ui)
-        {
-            tryUpdateUI(ob, m_newvalue);
-        }
+        tryUpdateUI(ob, m_newvalue);
     }
     /*! Reverts changes, described in command
         \param[in] ob an observer for looking for command
@@ -71,10 +68,7 @@ public:
         sad::Renderer::ref()->lockRendering();        
         ((m_animation->easing())->*m_setter)(m_oldvalue);
         sad::Renderer::ref()->unlockRendering();
-        if (m_enable_update_ui)
-        {
-            tryUpdateUI(ob, m_oldvalue);
-        }
+        tryUpdateUI(ob, m_oldvalue);
     }
 protected:
     /*! A changed animation

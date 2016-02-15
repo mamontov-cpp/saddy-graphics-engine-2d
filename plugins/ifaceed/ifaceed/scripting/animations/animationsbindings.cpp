@@ -155,6 +155,9 @@ void scripting::animations::checkPropertiesForAnimations(
     {
         list << "time";
         list << "looped";
+        list << "easing_type";
+        list << "easing_overshoot_amplitude";
+        list << "easing_period";
     }
 
     if (obj.value()->isInstanceOf("sad::animations::Blinking"))

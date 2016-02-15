@@ -136,7 +136,7 @@ void gui::actions::AnimationGroupActions::changedIsSequential(bool sequential)
         if (oldvalue != newvalue)
         {
             history::groups::ChangeSequential* c = new history::groups::ChangeSequential(g, oldvalue, newvalue);
-            c->commit(m_editor);
+            c->commitWithoutUpdatingUI(m_editor);
             m_editor->history()->add(c);
         }
     }
@@ -240,7 +240,7 @@ void gui::actions::AnimationGroupActions::nameChanged(const QString& name)
         if (oldvalue != newvalue)
         {
             history::groups::ChangeName* c = new history::groups::ChangeName(g, row, oldvalue, newvalue);
-            c->commit(m_editor);
+            c->commitWithoutUpdatingUI(m_editor);
             m_editor->history()->add(c);
         }
     }
@@ -258,7 +258,7 @@ void gui::actions::AnimationGroupActions::loopedChanged(bool newvalue)
         if (oldvalue != newvalue)
         {
             history::groups::ChangeLooped* c = new history::groups::ChangeLooped(g, oldvalue, newvalue);
-            c->commit(this->m_editor);
+            c->commitWithoutUpdatingUI(this->m_editor);
 
             this->m_editor->history()->add(c);
         }

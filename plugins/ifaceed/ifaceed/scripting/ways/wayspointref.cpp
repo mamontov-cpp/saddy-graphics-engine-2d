@@ -90,7 +90,7 @@ void  scripting::ways::PointRef::setX(double x)
         sad::Point2D newpoint = oldpoint;
         newpoint.setX(x);
         history::Command* c = new history::ways::WayPointChange(m_way, m_pos, oldpoint, newpoint);
-        c->commit();
+        c->commit(editor);
         editor->currentBatchCommand()->add(c);
     }
 }
@@ -109,7 +109,7 @@ void scripting::ways::PointRef::setY(double y)
         sad::Point2D newpoint = oldpoint;
         newpoint.setY(y);
         history::Command* c = new history::ways::WayPointChange(m_way, m_pos, oldpoint, newpoint);
-        c->commit();
+        c->commit(editor);
         editor->currentBatchCommand()->add(c);
     }
 }
@@ -145,7 +145,7 @@ void scripting::ways::PointRef::moveBack()
         core::Editor* editor = e->editor();
 
         history::Command* c = new history::ways::WayPointSwap(m_way, m_pos - 1, m_pos);
-        c->commit();
+        c->commit(editor);
         editor->currentBatchCommand()->add(c);
         
         m_pos--;
@@ -164,7 +164,7 @@ void scripting::ways::PointRef::moveFront()
         core::Editor* editor = e->editor();
 
         history::Command* c = new history::ways::WayPointSwap(m_way, m_pos, m_pos + 1);
-        c->commit();
+        c->commit(editor);
         editor->currentBatchCommand()->add(c);
         
         m_pos++;

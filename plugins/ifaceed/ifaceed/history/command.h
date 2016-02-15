@@ -33,15 +33,15 @@ public:
     /*! Must be inherited
      */
     virtual ~Command();
-    /*! Enables updating UI when committing or rolling back for command
-        \param[in] value new value (true if need to enable)
-        \return old value
+    /*! Commits a change without updating UI. Useful, when command should not touch
+        a user interface, see https://github.com/mamontov-cpp/saddy-graphics-engine-2d/issues/55 for 
+        reason, why this function exists.
+
+        By default it's a stub for calling a commit function.
+
+        \param[in] e editor
      */
-    bool enableUpdatingUIWhenCommittingOrRollingBack(bool value);
-protected:
-    /*! Updates UI if set to true
-     */
-    bool m_enable_update_ui;
+    void commitWithoutUpdatingUI(core::Editor * e);
 };
 
 }

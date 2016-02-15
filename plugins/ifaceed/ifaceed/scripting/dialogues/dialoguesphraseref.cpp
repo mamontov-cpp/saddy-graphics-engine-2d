@@ -191,7 +191,7 @@ void scripting::dialogues::PhraseRef::moveBack()
         core::Editor* editor = e->editor();
 
         history::Command* c = new history::dialogues::PhraseSwap(m_d, m_pos - 1, m_pos);
-        c->commit();
+        c->commit(editor);
         editor->currentBatchCommand()->add(c);
         
         m_pos--;
@@ -210,7 +210,7 @@ void scripting::dialogues::PhraseRef::moveFront()
         core::Editor* editor = e->editor();
 
         history::Command* c = new history::dialogues::PhraseSwap(m_d, m_pos, m_pos + 1);
-        c->commit();
+        c->commit(editor);
         editor->currentBatchCommand()->add(c);
         
         m_pos++;

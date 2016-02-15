@@ -464,7 +464,7 @@ void gui::actions::WayActions::wayPointXChanged(double value)
             if (sad::is_fuzzy_equal(newvalue.x(), oldvalue.x()) == false)
             {
                 history::Command* c = new history::ways::WayPointChange(w, row, oldvalue, newvalue);
-                c->commit(m_editor);
+                c->commitWithoutUpdatingUI(m_editor);
                 m_editor->history()->add(c);
             }
         }
@@ -486,7 +486,7 @@ void gui::actions::WayActions::wayPointYChanged(double value)
             if (sad::is_fuzzy_equal(newvalue.y(), oldvalue.y()) == false)
             {
                 history::Command* c = new history::ways::WayPointChange(w, row, oldvalue, newvalue);
-                c->commit(m_editor);
+                c->commitWithoutUpdatingUI(m_editor);
                 m_editor->history()->add(c);
             }
         }

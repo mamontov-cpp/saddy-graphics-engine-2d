@@ -403,7 +403,7 @@ void gui::actions::AnimationInstanceActions::nameChanged(const QString& name)
         if (oldvalue != newvalue)
         {
             history::instances::ChangeName* c = new history::instances::ChangeName(a, row, oldvalue, newvalue);
-            c->commit(m_editor);
+            c->commitWithoutUpdatingUI(m_editor);
             m_editor->history()->add(c);
         }
     }
@@ -444,7 +444,7 @@ void gui::actions::AnimationInstanceActions::treeLinkStateChanged(bool state)
                     newname,
                     newvalue
                 );
-                c->commit(e);
+                c->commitWithoutUpdatingUI(e);
                 m_editor->history()->add(c);
             }
         }
@@ -489,7 +489,7 @@ void gui::actions::AnimationInstanceActions::databaseLinkStateChanged(bool state
                     newname,
                     newvalue
                 );
-                c->commit(e);
+                c->commitWithoutUpdatingUI(e);
                 m_editor->history()->add(c);
             }
         }
@@ -522,7 +522,7 @@ void  gui::actions::AnimationInstanceActions::treeElementChanged(int newrow)
                     oldname,
                     newname
                 );
-                c->commit(e);
+                c->commitWithoutUpdatingUI(e);
                 m_editor->history()->add(c);
             }
         }
@@ -554,7 +554,7 @@ void gui::actions::AnimationInstanceActions::databaseElementChanged(int newrow)
                     oldid,
                     newid
                 );
-                c->commit(e);
+                c->commitWithoutUpdatingUI(e);
                 m_editor->history()->add(c);
             }
         }
@@ -586,7 +586,7 @@ void  gui::actions::AnimationInstanceActions::objectChanged(int newrow)
                     oldvalue,
                     newvalue
             );
-            c->commit(e);
+            c->commitWithoutUpdatingUI(e);
             m_editor->history()->add(c);
         }
     }
@@ -609,7 +609,7 @@ void  gui::actions::AnimationInstanceActions::startTimeChanged(double newvalue)
                     oldvalue,
                     newvalue
             );
-            c->commit(e);
+            c->commitWithoutUpdatingUI(e);
             m_editor->history()->add(c);
         }
     }
@@ -641,7 +641,7 @@ void  gui::actions::AnimationInstanceActions::wayChanged(int newrow)
                         oldvalue,
                         newvalue
                 );
-                c->commit(e);
+                c->commitWithoutUpdatingUI(e);
                 m_editor->history()->add(c);
             }
         }
