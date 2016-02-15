@@ -59,28 +59,28 @@ public:
         scripting::MatchResult result;
         result._1() = 0;
 
-        checkArgumentCount(result, ctx);
-        checkArgument<sad::animations::Animation*>(result, 0, ctx);
-        checkArgument<sad::String>(result, 1, ctx);
+        this->scripting::Callable::checkArgumentCount(result, ctx);
+        this->scripting::Callable::checkArgument<sad::animations::Animation*>(result, 0, ctx);
+        this->scripting::Callable::checkArgument<sad::String>(result, 1, ctx);
         if (result._2().exists() == false)
         {
             sad::Maybe<sad::String> propname = scripting::ToValue<sad::String>::perform(ctx->argument(1));
             bool propertymatches = true;
-            if (m_matched_property_names.size())
+            if (this->m_matched_property_names.size())
             {
                 propertymatches = std::find(
-                    m_matched_property_names.begin(), 
-                    m_matched_property_names.end(), 
+                    this->m_matched_property_names.begin(), 
+                    this->m_matched_property_names.end(), 
                     propname.value()
-                ) != m_matched_property_names.end();
+                ) != this->m_matched_property_names.end();
             }
-            if (m_excluded_property_names.size() && propertymatches)
+            if (this->m_excluded_property_names.size() && propertymatches)
             {
                 propertymatches = std::find(
-                    m_excluded_property_names.begin(), 
-                    m_excluded_property_names.end(), 
+                    this->m_excluded_property_names.begin(), 
+                    this->m_excluded_property_names.end(), 
                     propname.value()
-                ) == m_excluded_property_names.end();
+                ) == this->m_excluded_property_names.end();
             }            
 
             if (propertymatches == false)

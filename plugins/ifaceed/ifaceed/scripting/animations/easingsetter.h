@@ -56,17 +56,18 @@ public:
     {
         scripting::MatchResult result;
         result._1() = 0;
-        checkArgumentCount(result, ctx);
-        checkArgument<sad::animations::Animation*>(result, 0, ctx);
-        checkArgument<sad::String>(result, 1, ctx);
+		scripting::Callable* me = this;
+        me->checkArgumentCount(result, ctx);
+        me->checkArgument<sad::animations::Animation*>(result, 0, ctx);
+        me->checkArgument<sad::String>(result, 1, ctx);
         // Use converters to enhance match result
         if (result._2().exists() == false)
         {
             QScriptValue argt =  ctx->argument(2);
             sad::Maybe<_PropertyType> value;
-            for(size_t i = 0; i < m_converts.size() && value.exists() == false; i++)
+            for(size_t i = 0; i < this->m_converts.size() && value.exists() == false; i++)
             {
-                value = m_converts[i]->toValue(argt);
+                value = this->m_converts[i]->toValue(argt);
             }
             if (value.exists() == false)
             {
@@ -78,9 +79,9 @@ public:
             else
             {
                 result._1() += 1;
-                for(size_t i = 0; i < m_conditons.size() && result._2().exists() == false; i++)
+                for(size_t i = 0; i < this->m_conditons.size() && result._2().exists() == false; i++)
                 {
-                    result._2() = m_conditons[i]->check(value.value());
+                    result._2() = this->m_conditons[i]->check(value.value());
                 }
             }
         }
@@ -89,21 +90,21 @@ public:
         sad::Maybe<sad::String> propname = scripting::ToValue<sad::String>::perform(ctx->argument(1));			
         if (propname.exists())
         {
-            if (m_matched_property_names.size())
+            if (this->m_matched_property_names.size())
             {
                 propertymatches = std::find(
-                    m_matched_property_names.begin(), 
-                    m_matched_property_names.end(), 
+                    this->m_matched_property_names.begin(), 
+                    this->m_matched_property_names.end(), 
                     propname.value()
-                ) != m_matched_property_names.end();
+                ) != this->m_matched_property_names.end();
             }
-            if (m_excluded_property_names.size() && propertymatches)
+            if (this->m_excluded_property_names.size() && propertymatches)
             {
                 propertymatches = std::find(
-                    m_excluded_property_names.begin(), 
-                    m_excluded_property_names.end(), 
+                    this->m_excluded_property_names.begin(), 
+                    this->m_excluded_property_names.end(), 
                     propname.value()
-                ) == m_excluded_property_names.end();
+                ) == this->m_excluded_property_names.end();
             }
             if (propertymatches)
             {
@@ -128,9 +129,9 @@ public:
 
         QScriptValue argt =  ctx->argument(2);
         sad::Maybe<_PropertyType> newvalue;
-        for(size_t i = 0; i < m_converts.size() && newvalue.exists() == false; i++)
+        for(size_t i = 0; i < this->m_converts.size() && newvalue.exists() == false; i++)
         {
-            newvalue = m_converts[i]->toValue(argt);
+            newvalue = this->m_converts[i]->toValue(argt);
         }
        
         _PropertyType oldvalue = ((basicvalue.value()->easing())->*m_getter)();

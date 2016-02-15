@@ -311,7 +311,13 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/gui/uiblocks/uiscenenodeblock.h \
     ifaceed/gui/uiblocks/uispriteblock.h \
     ifaceed/gui/uiblocks/uiwayblock.h \
-    ifaceed/gui/mainpanelproxy.h
+    ifaceed/gui/mainpanelproxy.h \
+    ifaceed/history/animations/animationschangeeasingfunctiontype.h \
+    ifaceed/history/animations/animationschangeeasingovershootamplitude.h \
+    ifaceed/history/animations/animationschangeeasingperiod.h \
+    ifaceed/history/animations/animationschangeeasingproperty.h \
+    ifaceed/scripting/animations/easinggetter.h \
+    ifaceed/scripting/animations/easingsetter.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui \
     ifaceed/reloadfilelist.ui \
@@ -555,7 +561,10 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/gui/uiblocks/uiscenenodeblock.cpp \
     ifaceed/gui/uiblocks/uispriteblock.cpp \
     ifaceed/gui/uiblocks/uiwayblock.cpp \
-    ifaceed/gui/mainpanelproxy.cpp
+    ifaceed/gui/mainpanelproxy.cpp \
+    ifaceed/history/animations/animationschangeeasingfunctiontype.cpp \
+    ifaceed/history/animations/animationschangeeasingovershootamplitude.cpp \
+    ifaceed/history/animations/animationschangeeasingperiod.cpp
 
 
 DESTDIR = ../../bin/ifaceed/

@@ -249,79 +249,6 @@ static double easeInOutBounce(double time, double duration, double /*overshootOr
     return easeOutBounce(time*2 - duration, duration, -1, -1)*0.5f + 0.5f;                    
 }
 
-static double easeFlashWeighted(double overshootOrAmplitude, double period, int stepIndex, double /*stepDuration*/, double dir, double res)
-{
-    double easedRes = 0;
-    double finalDecimals = 0;
-    // Use previous stepIndex in case of odd ones, so that back ease is not clamped
-    if (dir > 0 && static_cast<int>(overshootOrAmplitude) % 2 == 0) stepIndex++;
-    else if (dir < 0 && static_cast<int>(overshootOrAmplitude) % 2 != 0) stepIndex++;
-
-    if (period > 0) {
-        int finalTruncated = (static_cast<int>(overshootOrAmplitude));
-        finalDecimals = overshootOrAmplitude - finalTruncated;
-        if (finalTruncated % 2 > 0) finalDecimals = 1 - finalDecimals;
-        finalDecimals = (finalDecimals * stepIndex) / overshootOrAmplitude;
-        easedRes = (res * (overshootOrAmplitude - stepIndex)) / overshootOrAmplitude;
-    } else if (period < 0) {
-        period = -period;
-        easedRes = (res * stepIndex) / overshootOrAmplitude;
-    }
-    double diff = easedRes - res;
-    res += (diff * period) + finalDecimals;
-    if (res > 1) res = 1;
-    return res;
-}
-
-static double easeFlash(double time, double duration, double overshootOrAmplitude, double period)
-{
-    int stepIndex = static_cast<int>(ceil((time / duration) * overshootOrAmplitude)); // 1 to overshootOrAmplitude
-    float stepDuration = duration / overshootOrAmplitude;
-    time -= stepDuration * (stepIndex - 1);
-    float dir = (stepIndex % 2 != 0) ? 1 : -1;
-    if (dir < 0) time -= stepDuration;
-    float res = (time * dir) / stepDuration;
-    return easeFlashWeighted(overshootOrAmplitude, period, stepIndex, stepDuration, dir, res);             
-}
-
-static double easeFlashIn(double time, double duration, double overshootOrAmplitude, double period)
-{
-    int stepIndex = static_cast<int>(ceil((time / duration) * overshootOrAmplitude)); // 1 to overshootOrAmplitude
-    float stepDuration = duration / overshootOrAmplitude;
-    time -= stepDuration * (stepIndex - 1);
-    float dir = (stepIndex % 2 != 0) ? 1 : -1;
-    if (dir < 0) time -= stepDuration;
-    time = time * dir;
-    float res = (time /= stepDuration) * time;
-    return easeFlashWeighted(overshootOrAmplitude, period, stepIndex, stepDuration, dir, res);        
-}
-
-static double easeFlashOut(double time, double duration, double overshootOrAmplitude, double period)
-{
-    int stepIndex = static_cast<int>(ceil((time / duration) * overshootOrAmplitude)); // 1 to overshootOrAmplitude
-    float stepDuration = duration / overshootOrAmplitude;
-    time -= stepDuration * (stepIndex - 1);
-    float dir = (stepIndex % 2 != 0) ? 1 : -1;
-    if (dir < 0) time -= stepDuration;
-    time = time * dir;
-    float res = -(time /= stepDuration) * (time - 2);           
-    return easeFlashWeighted(overshootOrAmplitude, period, stepIndex, stepDuration, dir, res);        
-}
-
-static double easeFlashInOut(double time, double duration, double overshootOrAmplitude, double period)
-{
-    int stepIndex = static_cast<int>(ceil((time / duration) * overshootOrAmplitude)); // 1 to overshootOrAmplitude
-    float stepDuration = duration / overshootOrAmplitude;
-    time -= stepDuration * (stepIndex - 1);
-    float dir = (stepIndex % 2 != 0) ? 1 : -1;
-    if (dir < 0) time -= stepDuration;
-    time = time * dir;
-    float res = (time /= stepDuration * 0.5f) < 1
-        ? 0.5f * time * time
-        : -0.5f * ((--time) * (time - 2) - 1);         
-    return easeFlashWeighted(overshootOrAmplitude, period, stepIndex, stepDuration, dir, res);        
-}
-
 
 static sad::animations::easing::FunctionCallback callbacks[] = {
     easeLinear,
@@ -354,17 +281,13 @@ static sad::animations::easing::FunctionCallback callbacks[] = {
     easeInOutBack,
     easeInBounce,
     easeOutBounce,
-    easeInOutBounce,
-    easeFlash,
-    easeFlashIn,
-    easeFlashOut,
-    easeFlashInOut
+    easeInOutBounce
 };
 
 
 sad::animations::easing::FunctionCallback sad::animations::easing::callbackByType(sad::animations::easing::Types t)
 {
-    if (static_cast<int>(t) < 0 || static_cast<int>(t) > sad::animations::easing::ATTT_InOutFlash)
+    if (static_cast<int>(t) < 0 || static_cast<int>(t) > sad::animations::easing::ATTT_InOutBounce)
     {
         return easeLinear;
     }

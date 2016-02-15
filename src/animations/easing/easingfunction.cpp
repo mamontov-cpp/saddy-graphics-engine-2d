@@ -61,7 +61,7 @@ double sad::animations::easing::Function::evalBounded(double time, double durati
 
 void sad::animations::easing::Function::setFunctionTypeAsUnsignedInt(unsigned int type)
 {
-    if (static_cast<int>(type) > sad::animations::easing::ATTT_InOutFlash)
+    if (static_cast<int>(type) > sad::animations::easing::ATTT_InOutBounce)
     {
         m_type = sad::animations::easing::ATTT_Linear;
     }

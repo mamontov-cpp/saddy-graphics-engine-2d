@@ -193,10 +193,6 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
         "InBounce",
         "OutBounce",
         "InOutBounce",
-        "Flash",
-        "InFlash",
-        "OutFlash",
-        "InOutFlash",
         NULL
     };
     i = 0;

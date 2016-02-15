@@ -87,11 +87,7 @@ enum Types
     ATTT_InOutBack = 27,
     ATTT_InBounce = 28,
     ATTT_OutBounce = 29,
-    ATTT_InOutBounce = 30,
-    ATTT_Flash = 31,
-    ATTT_InFlash = 32,
-    ATTT_OutFlash = 33,
-    ATTT_InOutFlash = 34
+    ATTT_InOutBounce = 30
 };
 
 /*! A basic callback for easing functions
