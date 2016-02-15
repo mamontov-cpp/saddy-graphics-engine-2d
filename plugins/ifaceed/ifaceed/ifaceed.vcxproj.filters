@@ -3011,6 +3011,12 @@
     <ClInclude Include="history\animations\animationschangeeasingperiod.h">
       <Filter>Header Files\history\animations</Filter>
     </ClInclude>
+    <ClInclude Include="scripting\animations\easinggetter.h">
+      <Filter>Header Files\scripting\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\animations\easingsetter.h">
+      <Filter>Header Files\scripting\animations</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="acolordialog.h">

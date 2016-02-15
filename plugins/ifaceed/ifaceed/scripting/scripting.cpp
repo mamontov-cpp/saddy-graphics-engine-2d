@@ -10,6 +10,7 @@
 #include "isaabb.h"
 #include "point2d.h"
 
+
 #include <animations/animationssimplemovement.h>
 
 #include "../scriptinghelp.h"
@@ -50,6 +51,9 @@
 #include "../history/animations/animationschangename.h"
 #include "../history/animations/animationschangetime.h"
 #include "../history/animations/animationschangelooped.h"
+#include "../history/animations/animationschangeeasingfunctiontype.h"
+#include "../history/animations/animationschangeeasingovershootamplitude.h"
+#include "../history/animations/animationschangeeasingperiod.h"
 #include "../history/animations/animationschangeblinkingfrequency.h"
 #include "../history/animations/animationschangecameraoffset.h"
 #include "../history/animations/animationschangeshakingfrequency.h"
@@ -126,6 +130,10 @@
 #include <animations/animationstexturecoordinatescontinuous.h>
 #include <animations/animationstexturecoordinateslist.h>
 #include <animations/animationswaymoving.h>
+#include "animations/easinggetter.h"
+#include "animations/easingsetter.h"
+
+
 
 #include <window.h>
 
@@ -688,11 +696,14 @@ void scripting::Scripting::showHelp()
         "				<li>method <b>getAnimation(composite animation, position)</b> -  returns animation as major id from composite animation's list, specified by pos (composite is Parallel or Sequential animation). Returns 0, if position is not valid </li>"
         "				<li>method <b>moveBackInCompositeList(composite animation, position)</b> -  moves animation back in composite animation's list. Returns true on success, false on error </li>"
         "				<li>method <b>moveFrontInCompositeList(composite animation, position)</b> -  moves animation front in composite animation's list. Returns true on success, false on error </li>"
-        "				<li>method <b>set(\"scenename\", \"propertyname\", \"value\")</b> - sets property of animation. "
+        "				<li>method <b>set(\"animationname\", \"propertyname\", \"value\")</b> - sets property of animation. "
         "					<ul>"
         "						<li><b>[All animation types]</b> property <b>\"name\"</b>  - name as string</li>"
         "						<li><b>[All animation types]</b> property <b>\"time\"</b>  - a time, how long animation should be played.</li>"
         "						<li><b>[All animation types]</b> property <b>\"looped\"</b>  - a flag, whether animation is looped.</li>"
+		"						<li><b>[All animation types]</b> property <b>\"easing_type\"</b>  - a type of easing function as numerical value. Use <b>E.animations.easing</b> function to convert between string representation and number</li>"
+		"						<li><b>[All animation types]</b> property <b>\"easing_overshoot_amplitude\"</b>  - an overshoot amplitude for easing function</li>"
+		"						<li><b>[All animation types]</b> property <b>\"easing_period\"</b>  - a period for easing function</li>"
         "						<li><b>[Blinking]</b> property <b>\"frequency\"</b>  - a frequency, how much times should state of visibility of object change.</li>"
         "						<li><b>[CameraShaking]</b> property <b>\"offset\"</b>  - a maximal offset of camera during animation.</li>"
         "						<li><b>[CameraShaking]</b> property <b>\"frequency\"</b>  - a maximal offset of camera during animation.</li>"
@@ -716,13 +727,16 @@ void scripting::Scripting::showHelp()
         "						<li><b>[WayMoving]</b> property <b>\"way_moving\"</b>  - a major id for a way.</li>"
         "					</ul>"
         "				</li>"
-        "				<li>method <b>get(\"scenename\", \"propertyname\", \"value\")</b> - fetches property of animation by it\'s name"
+        "				<li>method <b>get(\"animationname\", \"propertyname\")</b> - fetches property of animation by it\'s name"
         "					<ul>"
         "						<li><b>[All animation types]</b> property <b>\"name\"</b>  - name as string</li>"
         "						<li><b>[All animation types]</b> property <b>\"majorid\"</b>  - a major id of scene in database. Useful for links.</li>"
         "						<li><b>[All animation types]</b> property <b>\"minorid\"</b>  - a minor id of scene in database. Useful for links in your application.</li>"
         "						<li><b>[All animation types]</b> property <b>\"time\"</b>  - a time, how long animation should be played.</li>"
         "						<li><b>[All animation types]</b> property <b>\"looped\"</b>  - a flag, whether animation is looped.</li>"
+		"						<li><b>[All animation types]</b> property <b>\"easing_type\"</b>  - a type of easing function as numerical value. Use <b>E.animations.easing</b> function to convert between string representation and number</li>"
+		"						<li><b>[All animation types]</b> property <b>\"easing_overshoot_amplitude\"</b>  - an overshoot amplitude for easing function</li>"
+		"						<li><b>[All animation types]</b> property <b>\"easing_period\"</b>  - a period for easing function</li>"
         "						<li><b>[Blinking]</b> property <b>\"frequency\"</b>  - a frequency, how much times should state of visibility of object change.</li>"
         "						<li><b>[CameraShaking]</b> property <b>\"offset\"</b>  - a maximal offset of camera during animation.</li>"
         "						<li><b>[CameraShaking]</b> property <b>\"frequency\"</b>  - a maximal offset of camera during animation.</li>"
@@ -756,7 +770,7 @@ void scripting::Scripting::showHelp()
         "						<li>method <b>_addWayInstance(name, reference to way, reference to object, starting time)</b> - adds new way instance.</li>"
         "						<li>method <b>addWayInstance(object)</b> - does the same as previous only style is different. Fields \"name\",  \"way\", \"object\", \"starttime\" are optional.</li>"		
         "						<li>method <b>remove(22)</b>, <b>remove(\"name\")</b> - removes instance by id or by name</li>"		
-        "						<li>method <b>set(\"animation name\", \"propertyname\", \"value\")</b> - sets property of animation instance."
+        "						<li>method <b>set(\"animation instance name\", \"propertyname\", \"value\")</b> - sets property of animation instance."
         "							<ul>"	
         "								<li><b>[All types]</b>property <b>\"name\"</b>  - name as string</li>"
         "								<li><b>[All types]</b>property <b>\"animation\"</b>  - animation reference to an item from tree as string</li>"
@@ -766,7 +780,7 @@ void scripting::Scripting::showHelp()
         "								<li><b>[WayInstance]</b>property <b>\"way\"</b>  - a reference to way as number</li>"		
         "							</ul>"
         "						</li>"		
-        "						<li>method <b>get(\"animation name\", \"propertyname\", \"value\")</b> - fetches property of animation instance by it\'s name"
+        "						<li>method <b>get(\"animation instance name\", \"propertyname\", \"value\")</b> - fetches property of animation instance by it\'s name"
         "							<ul>"
         "								<li><b>[All types]</b>property <b>\"name\"</b>  - name as string</li>"
         "								<li><b>[All types]</b>property <b>\"majorid\"</b>  - a major id of animation in database. Useful for links.</li>"
@@ -799,7 +813,7 @@ void scripting::Scripting::showHelp()
         "								<li>property <b>\"sequential\"</b>  - flag, which indicates, whether instances in group should be run sequentially or parallel</li>"	
         "							</ul>"
         "						</li>"		
-        "						<li>method <b>get(\"group group\", \"propertyname\")</b> - fetches property of animation group by it\'s name"
+        "						<li>method <b>get(\"group name\", \"propertyname\")</b> - fetches property of animation group by it\'s name"
         "							<ul>"
         "								<li>property <b>\"name\"</b>  - name as string</li>"
         "								<li>property <b>\"majorid\"</b>  - a major id of animation in database. Useful for links.</li>"
@@ -1619,6 +1633,23 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
                 history::animations::ChangePropertyAsPoint2DDisplayedInTwoSpinboxes
             >(m_engine, "end_point", ablk->dabSimpleMovementEndingPointX,ablk->dabSimpleMovementEndingPointY)
     );
+	
+	set->add(new scripting::animations::EasingSetter<
+                unsigned int, 
+                history::animations::ChangeEasingFunctionType
+            >(m_engine, "easing_type", &sad::animations::easing::Function::functionTypeAsUnsignedInt)
+    );
+	set->add(new scripting::animations::EasingSetter<
+                double, 
+                history::animations::ChangeEasingOvershootAmplitude
+            >(m_engine, "easing_overshoot_amplitude", &sad::animations::easing::Function::overshootAmplitude)
+    );
+	set->add(new scripting::animations::EasingSetter<
+                double, 
+                history::animations::ChangeEasingPeriod
+            >(m_engine, "easing_period", &sad::animations::easing::Function::period)
+    );
+
 
     scripting::animations::WidgetSetter<
         sad::animations::TextureCoordinatesContinuous,
@@ -1658,6 +1689,9 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
     get->add(new scripting::AbstractGetter<sad::animations::Animation*, unsigned long long>(m_engine, "minorid"));
     get->add(new scripting::AbstractGetter<sad::animations::Animation*, double>(m_engine, "time"));
     get->add(new scripting::AbstractGetter<sad::animations::Animation*, bool>(m_engine, "looped"));
+    get->add(new scripting::animations::EasingGetter<unsigned int>(m_engine, "easing_type", &sad::animations::easing::Function::functionTypeAsUnsignedInt));
+    get->add(new scripting::animations::EasingGetter<double>(m_engine, "easing_overshoot_amplitude", &sad::animations::easing::Function::overshootAmplitude));
+    get->add(new scripting::animations::EasingGetter<double>(m_engine, "easing_period", &sad::animations::easing::Function::period));
     get->add(new scripting::AbstractGetter<sad::animations::Blinking*, unsigned int>(m_engine, "frequency"));	
     get->add(new scripting::AbstractGetter<sad::animations::CameraShaking*, sad::Point2D>(m_engine, "offset"));
     get->add(new scripting::AbstractGetter<sad::animations::CameraShaking*, int>(m_engine, "frequency"));
@@ -1750,6 +1784,50 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
         "	throw new Error(\"Specify 2 or 3 arguments\");"
         "};"
     );
+
+	m_engine->evaluate(
+		"E.animations.easingsToNames = ["
+		"\"Linear\","
+        "\"InSine\","
+        "\"OutSine\","
+        "\"InOutSine\","
+        "\"InQuad\","
+        "\"OutQuad\","
+        "\"InOutQuad\","
+        "\"InCubic\","
+        "\"OutCubic\","
+        "\"InOutCubic\","
+        "\"InQuart\","
+        "\"OutQuart\","
+        "\"InOutQuart\","
+        "\"InQuint\","
+        "\"OutQuint\","
+        "\"InOutQuint\","
+        "\"InExpo\","
+        "\"OutExpo\","
+        "\"InOutExpo\","
+        "\"InCirc\","
+        "\"OutCirc\","
+        "\"InOutCirc\","
+        "\"InElastic\","
+        "\"OutElastic\","
+        "\"InOutElastic\","
+        "\"InBack\","
+        "\"OutBack\","
+        "\"InOutBack\","
+        "\"InBounce\","
+        "\"OutBounce\","
+        "\"InOutBounce\","
+        "\"Flash\","
+        "\"InFlash\","
+        "\"OutFlash\","
+        "\"InOutFlash\""
+		"];" 
+		"E.animations.easing = function(a)"
+		"{"
+		"  if (typeof(a) == \"string\") return E.animations.easingsToNames.indexOf(a); else return  E.animations.easingsToNames[a]; "
+		"};"
+	);
 }
 
 void scripting::Scripting::initAnimationInstanceBindings(QScriptValue& v)

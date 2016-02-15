@@ -4697,6 +4697,8 @@
     <ClInclude Include="scripting\animations\animationssetter.h" />
     <ClInclude Include="scripting\animations\animationswaysetter.h" />
     <ClInclude Include="scripting\animations\animationswidgetsetter.h" />
+    <ClInclude Include="scripting\animations\easinggetter.h" />
+    <ClInclude Include="scripting\animations\easingsetter.h" />
     <ClInclude Include="scripting\callable.h" />
     <CustomBuild Include="scripting\classwrapper.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
