@@ -701,9 +701,9 @@ void scripting::Scripting::showHelp()
         "						<li><b>[All animation types]</b> property <b>\"name\"</b>  - name as string</li>"
         "						<li><b>[All animation types]</b> property <b>\"time\"</b>  - a time, how long animation should be played.</li>"
         "						<li><b>[All animation types]</b> property <b>\"looped\"</b>  - a flag, whether animation is looped.</li>"
-		"						<li><b>[All animation types]</b> property <b>\"easing_type\"</b>  - a type of easing function as numerical value. Use <b>E.animations.easing</b> function to convert between string representation and number</li>"
-		"						<li><b>[All animation types]</b> property <b>\"easing_overshoot_amplitude\"</b>  - an overshoot amplitude for easing function</li>"
-		"						<li><b>[All animation types]</b> property <b>\"easing_period\"</b>  - a period for easing function</li>"
+        "						<li><b>[All animation types]</b> property <b>\"easing_type\"</b>  - a type of easing function as numerical value. Use <b>E.animations.easing</b> function to convert between string representation and number</li>"
+        "						<li><b>[All animation types]</b> property <b>\"easing_overshoot_amplitude\"</b>  - an overshoot amplitude for easing function</li>"
+        "						<li><b>[All animation types]</b> property <b>\"easing_period\"</b>  - a period for easing function</li>"
         "						<li><b>[Blinking]</b> property <b>\"frequency\"</b>  - a frequency, how much times should state of visibility of object change.</li>"
         "						<li><b>[CameraShaking]</b> property <b>\"offset\"</b>  - a maximal offset of camera during animation.</li>"
         "						<li><b>[CameraShaking]</b> property <b>\"frequency\"</b>  - a maximal offset of camera during animation.</li>"
@@ -734,9 +734,9 @@ void scripting::Scripting::showHelp()
         "						<li><b>[All animation types]</b> property <b>\"minorid\"</b>  - a minor id of scene in database. Useful for links in your application.</li>"
         "						<li><b>[All animation types]</b> property <b>\"time\"</b>  - a time, how long animation should be played.</li>"
         "						<li><b>[All animation types]</b> property <b>\"looped\"</b>  - a flag, whether animation is looped.</li>"
-		"						<li><b>[All animation types]</b> property <b>\"easing_type\"</b>  - a type of easing function as numerical value. Use <b>E.animations.easing</b> function to convert between string representation and number</li>"
-		"						<li><b>[All animation types]</b> property <b>\"easing_overshoot_amplitude\"</b>  - an overshoot amplitude for easing function</li>"
-		"						<li><b>[All animation types]</b> property <b>\"easing_period\"</b>  - a period for easing function</li>"
+        "						<li><b>[All animation types]</b> property <b>\"easing_type\"</b>  - a type of easing function as numerical value. Use <b>E.animations.easing</b> function to convert between string representation and number</li>"
+        "						<li><b>[All animation types]</b> property <b>\"easing_overshoot_amplitude\"</b>  - an overshoot amplitude for easing function</li>"
+        "						<li><b>[All animation types]</b> property <b>\"easing_period\"</b>  - a period for easing function</li>"
         "						<li><b>[Blinking]</b> property <b>\"frequency\"</b>  - a frequency, how much times should state of visibility of object change.</li>"
         "						<li><b>[CameraShaking]</b> property <b>\"offset\"</b>  - a maximal offset of camera during animation.</li>"
         "						<li><b>[CameraShaking]</b> property <b>\"frequency\"</b>  - a maximal offset of camera during animation.</li>"
@@ -1633,18 +1633,18 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
                 history::animations::ChangePropertyAsPoint2DDisplayedInTwoSpinboxes
             >(m_engine, "end_point", ablk->dabSimpleMovementEndingPointX,ablk->dabSimpleMovementEndingPointY)
     );
-	
-	set->add(new scripting::animations::EasingSetter<
+    
+    set->add(new scripting::animations::EasingSetter<
                 unsigned int, 
                 history::animations::ChangeEasingFunctionType
             >(m_engine, "easing_type", &sad::animations::easing::Function::functionTypeAsUnsignedInt)
     );
-	set->add(new scripting::animations::EasingSetter<
+    set->add(new scripting::animations::EasingSetter<
                 double, 
                 history::animations::ChangeEasingOvershootAmplitude
             >(m_engine, "easing_overshoot_amplitude", &sad::animations::easing::Function::overshootAmplitude)
     );
-	set->add(new scripting::animations::EasingSetter<
+    set->add(new scripting::animations::EasingSetter<
                 double, 
                 history::animations::ChangeEasingPeriod
             >(m_engine, "easing_period", &sad::animations::easing::Function::period)
@@ -1785,9 +1785,9 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
         "};"
     );
 
-	m_engine->evaluate(
-		"E.animations.easingsToNames = ["
-		"\"Linear\","
+    m_engine->evaluate(
+        "E.animations.easingsToNames = ["
+        "\"Linear\","
         "\"InSine\","
         "\"OutSine\","
         "\"InOutSine\","
@@ -1818,12 +1818,12 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
         "\"InBounce\","
         "\"OutBounce\","
         "\"InOutBounce\""
-		"];" 
-		"E.animations.easing = function(a)"
-		"{"
-		"  if (typeof(a) == \"string\") return E.animations.easingsToNames.indexOf(a); else return  E.animations.easingsToNames[a]; "
-		"};"
-	);
+        "];" 
+        "E.animations.easing = function(a)"
+        "{"
+        "  if (typeof(a) == \"string\") return E.animations.easingsToNames.indexOf(a); else return  E.animations.easingsToNames[a]; "
+        "};"
+    );
 }
 
 void scripting::Scripting::initAnimationInstanceBindings(QScriptValue& v)

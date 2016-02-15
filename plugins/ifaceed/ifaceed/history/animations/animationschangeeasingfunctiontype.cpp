@@ -21,11 +21,11 @@ history::animations::ChangeEasingFunctionType::ChangeEasingFunctionType(
 
 history::animations::ChangeEasingFunctionType::~ChangeEasingFunctionType()
 {
-	
+    
 }
 
 void history::animations::ChangeEasingFunctionType::updateUI(core::Editor* e, const unsigned int& value)
 {
-	gui::uiblocks::UIAnimationBlock* blk = e->uiBlocks()->uiAnimationBlock();
-	e->emitClosure( blocked_bind(blk->cmbAnimationEasingType, &QComboBox::setCurrentIndex,  value) );
+    gui::uiblocks::UIAnimationBlock* blk = e->uiBlocks()->uiAnimationBlock();
+    e->emitClosure( blocked_bind(blk->cmbAnimationEasingType, &QComboBox::setCurrentIndex,  value) );
 }

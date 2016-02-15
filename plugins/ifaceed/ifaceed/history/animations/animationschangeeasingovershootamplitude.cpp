@@ -20,11 +20,11 @@ history::animations::ChangeEasingOvershootAmplitude::ChangeEasingOvershootAmplit
 
 history::animations::ChangeEasingOvershootAmplitude::~ChangeEasingOvershootAmplitude()
 {
-	
+    
 }
 
 void history::animations::ChangeEasingOvershootAmplitude::updateUI(core::Editor* e, const double& value)
 {
-	gui::uiblocks::UIAnimationBlock* blk = e->uiBlocks()->uiAnimationBlock();
-	e->emitClosure( blocked_bind(blk->dsbAnimationEasingOvershootAmplitude, &QDoubleSpinBox::setValue,  value) );
+    gui::uiblocks::UIAnimationBlock* blk = e->uiBlocks()->uiAnimationBlock();
+    e->emitClosure( blocked_bind(blk->dsbAnimationEasingOvershootAmplitude, &QDoubleSpinBox::setValue,  value) );
 }

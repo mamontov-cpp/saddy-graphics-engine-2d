@@ -1,6 +1,6 @@
 /*! \file easinggetter.h
 
-	A getter for property of easing function for animation
+    A getter for property of easing function for animation
  */
 #include "../abstractgetter.h"
 
@@ -22,11 +22,11 @@ class EasingGetter: public scripting::AbstractGetter<sad::animations::Animation*
 public:
     /*! Represents a constructor call for a function with two arguments
         \param[in] e engine
-		\param[in] getter a getter
+        \param[in] getter a getter
      */
     EasingGetter(
         QScriptEngine* e,
-		_PropertyType (sad::animations::easing::Function::*getter)() const
+        _PropertyType (sad::animations::easing::Function::*getter)() const
     ) : scripting::AbstractGetter<sad::animations::Animation*, _PropertyType>(e), m_getter(getter)
     {
         
@@ -34,16 +34,16 @@ public:
     /*! Represents a constructor call for a function with two arguments
         \param[in] e engine
         \param[in] propname name of property
-		\param[in] getter a getter
-	 */
+        \param[in] getter a getter
+     */
     EasingGetter(
         QScriptEngine* e,
         const sad::String& propname,
-		_PropertyType (sad::animations::easing::Function::*getter)() const
+        _PropertyType (sad::animations::easing::Function::*getter)() const
     )  : scripting::AbstractGetter<sad::animations::Animation*, _PropertyType>(e, propname), m_getter(getter)
     {
 
-	}
+    }
     /*! Could be inherited
      */
     virtual ~EasingGetter()
@@ -103,9 +103,9 @@ public:
         return scripting::FromValue<_PropertyType>::perform(value, engine);
     }	
 protected:
-	/*! A getter for easing
-	 */
-	_PropertyType (sad::animations::easing::Function::*m_getter)() const;
+    /*! A getter for easing
+     */
+    _PropertyType (sad::animations::easing::Function::*m_getter)() const;
 };
 
 }

@@ -33,10 +33,10 @@ public:
         \param[in] parent a parent object
      */
     AnimationActions(QObject* parent = NULL);
-	/*! Sets inner editor link of process
-		\param[in] e editor
-	 */
-	virtual void setEditor(core::Editor* e);
+    /*! Sets inner editor link of process
+        \param[in] e editor
+     */
+    virtual void setEditor(core::Editor* e);
     /*! This class could be inherited
      */
     virtual ~AnimationActions();
@@ -279,18 +279,18 @@ public slots:
         \param[in] e event
      */
     void pickedPointForSimpleMovement(const sad::input::MousePressEvent& e) const;
-	/*! Called, when user changes overshoot amplitude of animation
+    /*! Called, when user changes overshoot amplitude of animation
         \param[in] newvalue a new value
      */
     void easingOvershootAmplitudeChanged(double newvalue) const;
-	/*! Called, when user changes period of animation
+    /*! Called, when user changes period of animation
         \param[in] newvalue a new value
      */
     void easingPeriodChanged(double newvalue) const;
-	/*! Called, when user changes function type
-		\param[in] newvalue a new value
-	 */
-	void easingFunctionTypeChanged(int newvalue) const;
+    /*! Called, when user changes function type
+        \param[in] newvalue a new value
+     */
+    void easingFunctionTypeChanged(int newvalue) const;
 private:
     /*! A running animation process 
      */

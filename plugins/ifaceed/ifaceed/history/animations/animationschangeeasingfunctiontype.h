@@ -16,7 +16,7 @@ namespace animations
 class ChangeEasingFunctionType: public history::animations::ChangeEasingProperty<unsigned int>
 {
 public:
-	/*! Constructs new command for animation
+    /*! Constructs new command for animation
         \param[in] d an animation
         \param[in] oldvalue old value of property
         \param[in] newvalue new value of property
@@ -30,7 +30,7 @@ public:
      */
     virtual ~ChangeEasingFunctionType();
 protected:
-	/* Updates UI
+    /* Updates UI
      * \param e editor
      * \param value a value of property
      */

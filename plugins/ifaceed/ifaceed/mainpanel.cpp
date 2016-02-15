@@ -669,9 +669,9 @@ void MainPanel::setEditor(core::Editor* editor)
     connect(ui.txtAnimationName, SIGNAL(textEdited(const QString&)), a_actions, SLOT(nameChanged(const QString&)));
     connect(ui.dsbAnimationTime, SIGNAL(valueChanged(double)), a_actions, SLOT(timeChanged(double)));
     connect(ui.cbAnimationLooped, SIGNAL(clicked(bool)), a_actions, SLOT(loopedChanged(bool)));
-	connect(ui.cmbAnimationEasingType, SIGNAL(currentIndexChanged(int)), a_actions, SLOT(easingFunctionTypeChanged(int)));
-	connect(ui.dsbAnimationEasingOvershootAmplitude, SIGNAL(valueChanged(double)), a_actions, SLOT(easingOvershootAmplitudeChanged(double)));
-	connect(ui.dsbAnimationEasingPeriod, SIGNAL(valueChanged(double)), a_actions, SLOT(easingPeriodChanged(double)));
+    connect(ui.cmbAnimationEasingType, SIGNAL(currentIndexChanged(int)), a_actions, SLOT(easingFunctionTypeChanged(int)));
+    connect(ui.dsbAnimationEasingOvershootAmplitude, SIGNAL(valueChanged(double)), a_actions, SLOT(easingOvershootAmplitudeChanged(double)));
+    connect(ui.dsbAnimationEasingPeriod, SIGNAL(valueChanged(double)), a_actions, SLOT(easingPeriodChanged(double)));
     connect(ui.sbBlinkingFrequency, SIGNAL(valueChanged(int)), a_actions, SLOT(blinkingFrequencyChanged(int)));
     connect(ui.btnAnimationsStart, SIGNAL(clicked()), a_actions, SLOT(startOnObject()));
     connect(ui.btnAnimationsCancel, SIGNAL(clicked()), a_actions, SLOT(stopOnObject()));

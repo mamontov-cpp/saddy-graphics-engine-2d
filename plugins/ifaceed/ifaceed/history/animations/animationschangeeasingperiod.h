@@ -16,7 +16,7 @@ namespace animations
 class ChangeEasingPeriod: public history::animations::ChangeEasingProperty<double>
 {
 public:
-	/*! Constructs new command for animation
+    /*! Constructs new command for animation
         \param[in] d an animation
         \param[in] oldvalue old value of property
         \param[in] newvalue new value of property
@@ -30,7 +30,7 @@ public:
      */
     virtual ~ChangeEasingPeriod();
 protected:
-	/* Updates UI
+    /* Updates UI
      * \param e editor
      * \param value a value of property
      */

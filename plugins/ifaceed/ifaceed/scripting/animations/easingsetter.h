@@ -22,7 +22,7 @@ namespace animations
 
 template<
     typename _PropertyType,
-	typename _CommandType
+    typename _CommandType
 >
 class EasingSetter: public scripting::AbstractSetter<sad::animations::Animation*, _PropertyType>
 {
@@ -30,18 +30,18 @@ public:
     /*! Represents a constructor call for a function with two arguments
         \param[in] e engine
         \param[in] name name of function call
-		\param[in] getter a getter for property
+        \param[in] getter a getter for property
      */
     EasingSetter(
         QScriptEngine* e, 
         const QString& name,
-		_PropertyType (sad::animations::easing::Function::*getter)() const
+        _PropertyType (sad::animations::easing::Function::*getter)() const
     ) : scripting::AbstractSetter<sad::animations::Animation*, _PropertyType>(e, name), m_getter(getter)
     {
-		if (name.length()) {
+        if (name.length()) {
             this->addMatched(name);
         }
-	}
+    }
     /*! Could be inherited
      */
     virtual ~EasingSetter()
@@ -56,7 +56,7 @@ public:
     {
         scripting::MatchResult result;
         result._1() = 0;
-		scripting::Callable* me = this;
+        scripting::Callable* me = this;
         me->checkArgumentCount(result, ctx);
         me->checkArgument<sad::animations::Animation*>(result, 0, ctx);
         me->checkArgument<sad::String>(result, 1, ctx);
@@ -110,11 +110,11 @@ public:
             {
                 result._1() += 1;				
             }
-			else
-			{
-				result._1()  = 0;
-				result._2().setValue(QString("property ") + STD2QSTRING(propname.value()) + QString(" is not writeable"));
-			}
+            else
+            {
+                result._1()  = 0;
+                result._2().setValue(QString("property ") + STD2QSTRING(propname.value()) + QString(" is not writeable"));
+            }
         }
         
         return result;
@@ -151,18 +151,18 @@ public:
      */
     virtual void setProperty(sad::animations::Animation* obj, const sad::String& propertyname, _PropertyType oldvalue,  _PropertyType newvalue)
     {
-		QScriptValue main = this->engine()->globalObject().property("---");
+        QScriptValue main = this->engine()->globalObject().property("---");
         scripting::Scripting* e = static_cast<scripting::Scripting*>(main.toQObject());
         core::Editor* editor =  e->editor();
 
-	    _CommandType* c = new _CommandType(obj, oldvalue, newvalue);
-		c->commit(editor);
-		editor->currentBatchCommand()->add(c);
+        _CommandType* c = new _CommandType(obj, oldvalue, newvalue);
+        c->commit(editor);
+        editor->currentBatchCommand()->add(c);
     }
 protected:
-	/*! A getter for easing function
-	 */
-	_PropertyType (sad::animations::easing::Function::*m_getter)() const;
+    /*! A getter for easing function
+     */
+    _PropertyType (sad::animations::easing::Function::*m_getter)() const;
 };
 
 }

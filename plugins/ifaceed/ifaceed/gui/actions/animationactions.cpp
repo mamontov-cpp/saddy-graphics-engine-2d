@@ -75,8 +75,8 @@ gui::actions::AnimationActions::AnimationActions(QObject* parent) : QObject(pare
 
 void gui::actions::AnimationActions::setEditor(core::Editor* e)
 {
-	this->gui::actions::AbstractActions::setEditor(e);
-	m_animation->setEditor(e);
+    this->gui::actions::AbstractActions::setEditor(e);
+    m_animation->setEditor(e);
 }
 
 gui::actions::AnimationActions::~AnimationActions()
@@ -160,9 +160,9 @@ void gui::actions::AnimationActions::removeAnimationFromDatabase(
     bool fromeditor
 ) const
 {
-	QListWidget* listWidget = m_editor->uiBlocks()->uiAnimationBlock()->lstAnimations;
+    QListWidget* listWidget = m_editor->uiBlocks()->uiAnimationBlock()->lstAnimations;
     int posinmainlist = this->findInList<sad::animations::Animation*>(listWidget, a);
-	QComboBox* combo = m_editor->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceAnimationFromDatabase;
+    QComboBox* combo = m_editor->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceAnimationFromDatabase;
     int posininstances = this->findInComboBox<sad::animations::Animation*>(combo, a);
 
     sad::Vector< sad::Pair<sad::animations::Composite*, sad::Vector<int> > > list;
@@ -227,7 +227,7 @@ bool gui::actions::AnimationActions::addAnimationToCompositeList(
         sad::animations::Composite* co = static_cast<sad::animations::Composite*>(a);
         history::Command* c = new history::animations::AddToComposite(co, addedanimation->MajorId);
         c->commit(m_editor);
-		m_editor->addToHistory(c, fromeditor);
+        m_editor->addToHistory(c, fromeditor);
         result = true;
     }
     return result;
@@ -272,7 +272,7 @@ QString gui::actions::AnimationActions::nameForAnimation(sad::animations::Animat
         s.removeAllOccurences("sad::animations::");
         s.insert('[', 0);
         s << "] ";
-		std::string ss = s.c_str(); 
+        std::string ss = s.c_str(); 
         result = QString(STD2QSTRING(ss)) + result;
     }
     return result;
@@ -283,9 +283,9 @@ void gui::actions::AnimationActions::addAnimationToViewingLists(sad::animations:
 {
     QString name = this->nameForAnimation(a);
 
-	QListWidget* lstAnimations = m_editor->uiBlocks()->uiAnimationBlock()->lstAnimations;
-	QListWidget* lstCompositeCandidates = m_editor->uiBlocks()->uiAnimationBlock()->lstCompositeCandidates;
-	QComboBox* cmbAnimationInstanceAnimationFromDatabase = m_editor->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceAnimationFromDatabase;
+    QListWidget* lstAnimations = m_editor->uiBlocks()->uiAnimationBlock()->lstAnimations;
+    QListWidget* lstCompositeCandidates = m_editor->uiBlocks()->uiAnimationBlock()->lstCompositeCandidates;
+    QComboBox* cmbAnimationInstanceAnimationFromDatabase = m_editor->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceAnimationFromDatabase;
 
     QVariant v;
     v.setValue(a);
@@ -306,11 +306,11 @@ void gui::actions::AnimationActions::addAnimationToViewingLists(sad::animations:
 
 void gui::actions::AnimationActions::removeAnimationFromViewingLists(sad::animations::Animation* a) const
 {
-	QListWidget* lstAnimations = m_editor->uiBlocks()->uiAnimationBlock()->lstAnimations;
-	QListWidget* lstCompositeList = m_editor->uiBlocks()->uiAnimationBlock()->lstCompositeList;
-	QListWidget* lstCompositeCandidates = m_editor->uiBlocks()->uiAnimationBlock()->lstCompositeCandidates;	
-	QComboBox* cmbAnimationInstanceAnimationFromDatabase = m_editor->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceAnimationFromDatabase;
-	
+    QListWidget* lstAnimations = m_editor->uiBlocks()->uiAnimationBlock()->lstAnimations;
+    QListWidget* lstCompositeList = m_editor->uiBlocks()->uiAnimationBlock()->lstCompositeList;
+    QListWidget* lstCompositeCandidates = m_editor->uiBlocks()->uiAnimationBlock()->lstCompositeCandidates;	
+    QComboBox* cmbAnimationInstanceAnimationFromDatabase = m_editor->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceAnimationFromDatabase;
+    
     int pos = this->findInList(lstAnimations, a);
 
     if (a == m_editor->shared()->selectedAnimation())
@@ -339,10 +339,10 @@ void gui::actions::AnimationActions::removeAnimationFromViewingLists(sad::animat
 
 void gui::actions::AnimationActions::updateAnimationName(sad::animations::Animation* a) const
 {
-	QListWidget* lstAnimations = m_editor->uiBlocks()->uiAnimationBlock()->lstAnimations;
-	QListWidget* lstCompositeList = m_editor->uiBlocks()->uiAnimationBlock()->lstCompositeList;
-	QListWidget* lstCompositeCandidates = m_editor->uiBlocks()->uiAnimationBlock()->lstCompositeCandidates;	
-	QComboBox* cmbAnimationInstanceAnimationFromDatabase = m_editor->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceAnimationFromDatabase;
+    QListWidget* lstAnimations = m_editor->uiBlocks()->uiAnimationBlock()->lstAnimations;
+    QListWidget* lstCompositeList = m_editor->uiBlocks()->uiAnimationBlock()->lstCompositeList;
+    QListWidget* lstCompositeCandidates = m_editor->uiBlocks()->uiAnimationBlock()->lstCompositeCandidates;	
+    QComboBox* cmbAnimationInstanceAnimationFromDatabase = m_editor->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceAnimationFromDatabase;
 
     QString name = this->nameForAnimation(a);
 
@@ -375,7 +375,7 @@ void gui::actions::AnimationActions::updateAnimationName(sad::animations::Animat
 
 void gui::actions::AnimationActions::addAnimation() const
 {
-	gui::uiblocks::UIAnimationBlock* blk = m_editor->uiBlocks()->uiAnimationBlock(); 
+    gui::uiblocks::UIAnimationBlock* blk = m_editor->uiBlocks()->uiAnimationBlock(); 
     QComboBox * cmbtype = blk->cmbAddedAnimationType;
     if (cmbtype->currentIndex() != -1)
     {
@@ -386,9 +386,9 @@ void gui::actions::AnimationActions::addAnimation() const
 
         if (a)
         {
-			a->easing()->setFunctionTypeAsUnsignedInt(blk->cmbAnimationEasingType->currentIndex());
-			a->easing()->setOvershootAmplitude(blk->dsbAnimationEasingOvershootAmplitude->value());
-			a->easing()->setPeriod(blk->dsbAnimationEasingPeriod->value());
+            a->easing()->setFunctionTypeAsUnsignedInt(blk->cmbAnimationEasingType->currentIndex());
+            a->easing()->setOvershootAmplitude(blk->dsbAnimationEasingOvershootAmplitude->value());
+            a->easing()->setPeriod(blk->dsbAnimationEasingPeriod->value());
 
             a->setLooped(blk->cbAnimationLooped->checkState() == Qt::Checked);
             a->setTime(blk->dsbAnimationTime->value());
@@ -602,22 +602,22 @@ void gui::actions::AnimationActions::removeAnimation() const
 
 void gui::actions::AnimationActions::currentAnimationChanged(int row) const
 {
-	gui::uiblocks::UIAnimationBlock* blk = m_editor->uiBlocks()->uiAnimationBlock(); 
+    gui::uiblocks::UIAnimationBlock* blk = m_editor->uiBlocks()->uiAnimationBlock(); 
     core::Editor* e = m_editor;
     if (row > -1)
     {
         QVariant v = blk->lstAnimations->item(row)->data(Qt::UserRole);
         sad::animations::Animation* a = v.value<sad::animations::Animation*>();
         e->shared()->setSelectedAnimation(a);
-		std::string nameAsString = a->objectName().c_str();
+        std::string nameAsString = a->objectName().c_str();
         e->emitClosure( blocked_bind(blk->txtAnimationName, &QLineEdit::setText, STD2QSTRING(nameAsString))) ;
         e->emitClosure( blocked_bind(blk->dsbAnimationTime, &QDoubleSpinBox::setValue, a->time()) );
         Qt::CheckState cs = (a->looped()) ? Qt::Checked : Qt::Unchecked;
         e->emitClosure( blocked_bind(blk->cbAnimationLooped, &QCheckBox::setCheckState, cs) );
-		// Easing properties updates
-		e->emitClosure( blocked_bind(blk->cmbAnimationEasingType, &QComboBox::setCurrentIndex, a->easing()->functionTypeAsUnsignedInt()));
-		e->emitClosure( blocked_bind(blk->dsbAnimationEasingOvershootAmplitude, &QDoubleSpinBox::setValue, a->easing()->overshootAmplitude()));
-		e->emitClosure( blocked_bind(blk->dsbAnimationEasingPeriod, &QDoubleSpinBox::setValue, a->easing()->period()));
+        // Easing properties updates
+        e->emitClosure( blocked_bind(blk->cmbAnimationEasingType, &QComboBox::setCurrentIndex, a->easing()->functionTypeAsUnsignedInt()));
+        e->emitClosure( blocked_bind(blk->dsbAnimationEasingOvershootAmplitude, &QDoubleSpinBox::setValue, a->easing()->overshootAmplitude()));
+        e->emitClosure( blocked_bind(blk->dsbAnimationEasingPeriod, &QDoubleSpinBox::setValue, a->easing()->period()));
 
         if (a->isInstanceOf("sad::animations::Blinking"))
         {
@@ -691,7 +691,7 @@ void gui::actions::AnimationActions::currentAnimationChanged(int row) const
             sad::Vector<sad::String> nlist = a->getProperty<sad::Vector<sad::String> >("fonts").value();
             for(size_t i = 0; i < nlist.size(); i++)
             {
-				std::string nlisti = nlist[i].c_str(); 
+                std::string nlisti = nlist[i].c_str(); 
                 list << STD2QSTRING(nlisti);
             }
             e->emitClosure( blocked_bind(blk->txtFontListList, &QTextEdit::setPlainText, list.join("\n")));
@@ -712,7 +712,7 @@ void gui::actions::AnimationActions::currentAnimationChanged(int row) const
             sad::Vector<sad::String> nlist = a->getProperty<sad::Vector<sad::String> >("list").value();
             for(size_t i = 0; i < nlist.size(); i++)
             {
-				std::string nlisti = nlist[i].c_str(); 
+                std::string nlisti = nlist[i].c_str(); 
                 list << STD2QSTRING(nlisti);
             }
             e->emitClosure( blocked_bind(blk->txtOptionListList, &QTextEdit::setPlainText, list.join("\n")));
@@ -724,7 +724,7 @@ void gui::actions::AnimationActions::currentAnimationChanged(int row) const
             sad::Vector<sad::String> nlist = a->getProperty<sad::Vector<sad::String> >("list").value();
             for(size_t i = 0; i < nlist.size(); i++)
             {
-				std::string nlisti = nlist[i].c_str(); 
+                std::string nlisti = nlist[i].c_str(); 
                 list << STD2QSTRING(nlisti);
             }
             e->emitClosure( blocked_bind(blk->txtTextureCoordinatesList, &QTextEdit::setPlainText, list.join("\n")));
@@ -1797,7 +1797,7 @@ void gui::actions::AnimationActions::pickedPointForSimpleMovement(const sad::inp
 
 void gui::actions::AnimationActions::easingOvershootAmplitudeChanged(double newvalue) const
 {
-	 sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
+     sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a != NULL)
     {
         double oldvalue = a->easing()->overshootAmplitude();
@@ -1813,7 +1813,7 @@ void gui::actions::AnimationActions::easingOvershootAmplitudeChanged(double newv
 
 void gui::actions::AnimationActions::easingPeriodChanged(double newvalue) const
 {
-	sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
+    sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a != NULL)
     {
         double oldvalue = a->easing()->period();
@@ -1829,11 +1829,11 @@ void gui::actions::AnimationActions::easingPeriodChanged(double newvalue) const
 
 void gui::actions::AnimationActions::easingFunctionTypeChanged(int newvalue) const
 {
-	sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
+    sad::animations::Animation* a = m_editor->shared()->selectedAnimation();
     if (a != NULL)
     {
         unsigned int oldvalue = a->easing()->functionTypeAsUnsignedInt();
-		unsigned int nv = newvalue;
+        unsigned int nv = newvalue;
         if (oldvalue != nv)
         {
             history::Command* c = new history::animations::ChangeEasingFunctionType(a, oldvalue, nv);

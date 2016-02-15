@@ -20,11 +20,11 @@ history::animations::ChangeEasingPeriod::ChangeEasingPeriod(
 
 history::animations::ChangeEasingPeriod::~ChangeEasingPeriod()
 {
-	
+    
 }
 
 void history::animations::ChangeEasingPeriod::updateUI(core::Editor* e, const double& value)
 {
-	gui::uiblocks::UIAnimationBlock* blk = e->uiBlocks()->uiAnimationBlock();
-	e->emitClosure( blocked_bind(blk->dsbAnimationEasingPeriod, &QDoubleSpinBox::setValue,  value) );
+    gui::uiblocks::UIAnimationBlock* blk = e->uiBlocks()->uiAnimationBlock();
+    e->emitClosure( blocked_bind(blk->dsbAnimationEasingPeriod, &QDoubleSpinBox::setValue,  value) );
 }
