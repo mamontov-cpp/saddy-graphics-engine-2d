@@ -119,37 +119,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
     ui.txtTextureCoordinatesList->setCompleter(c);
 
     m_scripting = new scripting::Scripting();
-
-    QStringList constantslist;
-    QStringList functionlist;
-
-    m_scripting->propertiesAndFunctions(constantslist, functionlist);
-
-    gui::codeedit::Highlighter::setPredefinedConstants(constantslist);
-    gui::codeedit::Highlighter::setPredefinedFunctions(functionlist);
-
-    QHash<QString, QString> replaceincompleter;
-    replaceincompleter.insert("p2d","p2d(0, 0)");
-    replaceincompleter.insert("p3d","p3d(0, 0, 0)");
-    replaceincompleter.insert("p2i","p2i(0, 0)");
-    replaceincompleter.insert("p3i","p3i(0, 0, 0)");
-    replaceincompleter.insert("r2d","r2d(0, 0, 0, 0)");
-    replaceincompleter.insert("r2i","r2i(0, 0, 0, 0)");
-    replaceincompleter.insert("clr","clr(255, 255, 255)");
-    replaceincompleter.insert("aclr","clr(255, 255, 255, 0)");
-    replaceincompleter.insert("s2d","s2d(0, 0)");
-    replaceincompleter.insert("s2i","s2i(0, 0)");
-
-    gui::codeedit::Completer* consolecompleter = new gui::codeedit::Completer();
-    ui.txtConsoleCode->setCompleter(consolecompleter);
-    consolecompleter->setModel(
-        consolecompleter->modelFromEngine(
-            m_scripting->engine(),
-            replaceincompleter,
-            m_scripting->commonProperties()
-        )
-    );
-
+    
     // Set tab size to 4
     QFont editor_font = ui.txtConsoleCode->currentFont();
     const int tabStop = 4;  // 4 characters
@@ -303,6 +273,7 @@ void MainPanel::setEditor(core::Editor* editor)
     m_editor = editor; 
 
     m_scripting->setEditor(editor);
+	this->initConsoleAutocompletion();
 
     sad::hfsm::Machine* m = editor->machine();
     sad::String la = "adding/label";
@@ -1347,6 +1318,40 @@ void MainPanel::fixDatabase()
         default_palette[3] << sad::AColor(0, 0, 128, 0);
         db->setProperty("palette", default_palette);
     }
+}
+
+// ReSharper disable once CppMemberFunctionMayBeConst
+void MainPanel::initConsoleAutocompletion()
+{
+	QStringList constantslist;
+    QStringList functionlist;
+
+    m_scripting->propertiesAndFunctions(constantslist, functionlist);
+
+    gui::codeedit::Highlighter::setPredefinedConstants(constantslist);
+    gui::codeedit::Highlighter::setPredefinedFunctions(functionlist);
+
+    QHash<QString, QString> replaceincompleter;
+    replaceincompleter.insert("p2d","p2d(0, 0)");
+    replaceincompleter.insert("p3d","p3d(0, 0, 0)");
+    replaceincompleter.insert("p2i","p2i(0, 0)");
+    replaceincompleter.insert("p3i","p3i(0, 0, 0)");
+    replaceincompleter.insert("r2d","r2d(0, 0, 0, 0)");
+    replaceincompleter.insert("r2i","r2i(0, 0, 0, 0)");
+    replaceincompleter.insert("clr","clr(255, 255, 255)");
+    replaceincompleter.insert("aclr","clr(255, 255, 255, 0)");
+    replaceincompleter.insert("s2d","s2d(0, 0)");
+    replaceincompleter.insert("s2i","s2i(0, 0)");
+
+    gui::codeedit::Completer* consolecompleter = new gui::codeedit::Completer();
+    ui.txtConsoleCode->setCompleter(consolecompleter);
+    consolecompleter->setModel(
+        consolecompleter->modelFromEngine(
+            m_scripting->engine(),
+            replaceincompleter,
+            m_scripting->commonProperties()
+        )
+    );
 }
 
 //====================  PROTECTED SLOTS HERE ====================

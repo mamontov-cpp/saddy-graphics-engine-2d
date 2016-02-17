@@ -236,6 +236,9 @@ protected:
     /*! Fixes database scenes and scene nodes tables and palette if need to
      */
     void fixDatabase();
+    /*! Inits autocompletion items for console text area
+     */
+    void initConsoleAutocompletion();
 public slots:
     /*! Clears selection
      */
