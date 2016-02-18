@@ -273,7 +273,7 @@ void MainPanel::setEditor(core::Editor* editor)
     m_editor = editor; 
 
     m_scripting->setEditor(editor);
-	this->initConsoleAutocompletion();
+    this->initConsoleAutocompletion();
 
     sad::hfsm::Machine* m = editor->machine();
     sad::String la = "adding/label";
@@ -1323,7 +1323,7 @@ void MainPanel::fixDatabase()
 // ReSharper disable once CppMemberFunctionMayBeConst
 void MainPanel::initConsoleAutocompletion()
 {
-	QStringList constantslist;
+    QStringList constantslist;
     QStringList functionlist;
 
     m_scripting->propertiesAndFunctions(constantslist, functionlist);
