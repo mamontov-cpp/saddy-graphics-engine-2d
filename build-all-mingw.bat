@@ -84,3 +84,6 @@ cd ../..
 cd tests/sad
 call %BatchToRun%
 cd ../..
+cd tests/layouts
+call %BatchToRun%
+cd ../..

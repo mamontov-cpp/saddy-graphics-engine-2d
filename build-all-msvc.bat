@@ -30,3 +30,4 @@ devenv tests/p2d/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
 devenv tests/pipeline/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
 devenv tests/resource/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
 devenv tests/sad/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
+devenv tests/layouts/alltests.vcxproj /Build %1 /out lastsolutionbuild.log

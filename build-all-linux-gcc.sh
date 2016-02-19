@@ -84,3 +84,6 @@ cd ../..
 cd tests/sad
 eval $BatchToRun
 cd ../..
+cd tests/layouts
+eval $BatchToRun
+cd ../..
