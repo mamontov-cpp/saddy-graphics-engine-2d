@@ -1,0 +1,27 @@
+/*! \file stackingtype.h
+	
+	Describes, how should inner objects be stacked in cell
+ */
+#pragma once 
+
+namespace sad
+{
+
+namespace layouts
+{
+
+/*! Describes, how inner objects should be stacked in cell
+ */ 
+enum StackingType
+{
+/*! Forces objects to be stacked horizontally
+ */	
+LST_Horizontal = 0,
+/*! Forces objects to be stacked vertically
+ */
+LST_Vertical = 1
+};
+
+}	
+	
+}
