@@ -10,6 +10,7 @@
 #include "../sadrect.h"
 #include "../sadcolor.h"
 #include "../sadsize.h"
+#include "../layouts/lengthvalue.h"
 
 namespace sad
 {
@@ -419,6 +420,29 @@ static picojson::value perform(void * ptr)
     {
         v.push_back(sad::db::Save<sad::String>::perform(&(p[i])));
     }
+    return v;
+}
+
+};
+
+
+/*! Specification for saving values of type sad::layouts::LengthValue
+ */
+template<>
+class Save<sad::layouts::LengthValue>
+{
+public:
+/*! Saves a value of specified type
+    \param[in] ptr a value to be saved
+ */
+static picojson::value perform(void * ptr)
+{
+    if (!ptr)
+        throw sad::db::InvalidPointer();
+    const sad::layouts::LengthValue & p = *(reinterpret_cast<sad::layouts::LengthValue *>(ptr));
+    picojson::value v(picojson::object_type, false);
+    v.insert("unit", picojson::value(static_cast<double>(p.Unit)));
+    v.insert("value", picojson::value(static_cast<double>(p.Value)));
     return v;
 }
 

@@ -1,4 +1,4 @@
-/*! \file lengthtype.h
+/*! \file unit.h
 	
 	Describes a type of values, which is used to describe, how width or height of cell is measured
  */
@@ -12,17 +12,17 @@ namespace layouts
 
 /*! Describes a type of values, which is used to describe, how width or height of cell is measured
  */ 
-enum LengthType
+enum Unit
 {
 /*! Width or height should be computed automatically
  */	
-LLT_Auto = 0,
+LU_Auto = 0,
 /*! Width or height should be computed requested as specified size in pixels
  */
-LLT_Pixels = 1,
+LU_Pixels = 1,
 /*! Width or height should be computed requested as specified size in percents to a grid
  */
-LLT_Percents = 2	
+LU_Percents = 2	
 };
 
 }	

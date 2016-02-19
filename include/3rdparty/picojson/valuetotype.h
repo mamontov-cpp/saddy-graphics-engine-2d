@@ -11,6 +11,7 @@
 #include "../../sadsize.h"
 #include "../../sadstring.h"
 #include "../../dialogue/phrase.h"
+#include "../../layouts/lengthvalue.h"
 
 namespace picojson
 {
@@ -985,6 +986,42 @@ public:
             if (parseresult)
             {
                 result.setValue(tmpresult);
+            }
+        }
+        return result;
+    }
+};
+
+/*! Tries to converts specific value to size
+ */
+template<>
+class ValueToType<sad::layouts::LengthValue>
+{
+public:
+    /*! Tries to convert a picojson::value to point
+        \param[in] v value
+        \return a result (with value if any)
+     */
+    static sad::Maybe<sad::layouts::LengthValue> get(const picojson::value & v)
+    {
+        sad::Maybe<sad::layouts::LengthValue> result;
+        picojson::value const * munit = picojson::get_property(v, "unit");
+        picojson::value const * mvalue = picojson::get_property(v, "value");
+        if (munit && mvalue)
+        {
+            sad::Maybe<unsigned int> maunit = picojson::ValueToType<unsigned int>::get(*munit);
+            sad::Maybe<double> mavalue = picojson::ValueToType<double>::get(*mvalue);
+            if (maunit.exists() && mavalue.exists())
+            {
+				unsigned int v = maunit.value();
+				if (v > 2) 
+				{
+					v = 2;
+				}
+				sad::layouts::LengthValue value;
+				value.Unit = (sad::layouts::Unit)v;
+				value.Value = mavalue.value();
+                result.setValue(value);
             }
         }
         return result;
