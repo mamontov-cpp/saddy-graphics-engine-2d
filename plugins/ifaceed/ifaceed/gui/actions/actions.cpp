@@ -22,41 +22,41 @@ m_animation_actions(new gui::actions::AnimationActions()),
 m_instance_actions(new gui::actions::AnimationInstanceActions()),
 m_group_actions(new gui::actions::AnimationGroupActions())
 {
-	
+    
 }
 
 
 void gui::actions::Actions::setEditor(core::Editor* e)
 {
-	m_scene_actions->setEditor(e);
-	m_scene_node_actions->setEditor(e);
-	m_label_actions->setEditor(e);
-	m_sprite2d_actions->setEditor(e);
-	m_custom_object_actions->setEditor(e);
-	m_way_actions->setEditor(e);
-	m_dialogue_actions->setEditor(e);
-	m_animation_actions->setEditor(e);
-	m_instance_actions->setEditor(e);
-	m_group_actions->setEditor(e);
+    m_scene_actions->setEditor(e);
+    m_scene_node_actions->setEditor(e);
+    m_label_actions->setEditor(e);
+    m_sprite2d_actions->setEditor(e);
+    m_custom_object_actions->setEditor(e);
+    m_way_actions->setEditor(e);
+    m_dialogue_actions->setEditor(e);
+    m_animation_actions->setEditor(e);
+    m_instance_actions->setEditor(e);
+    m_group_actions->setEditor(e);
 }
 
 gui::actions::Actions::~Actions()
 {
-	delete m_scene_actions;
-	delete m_scene_node_actions;
-	delete m_label_actions;
-	delete m_sprite2d_actions;
-	delete m_custom_object_actions;
-	delete m_way_actions;
-	delete m_animation_actions;
-	delete m_dialogue_actions;
-	delete m_instance_actions;
-	delete m_group_actions;
+    delete m_scene_actions;
+    delete m_scene_node_actions;
+    delete m_label_actions;
+    delete m_sprite2d_actions;
+    delete m_custom_object_actions;
+    delete m_way_actions;
+    delete m_animation_actions;
+    delete m_dialogue_actions;
+    delete m_instance_actions;
+    delete m_group_actions;
 }
 
 gui::actions::SceneActions* gui::actions::Actions::sceneActions() const
 {
-	return m_scene_actions;
+    return m_scene_actions;
 }
 
 gui::actions::SceneNodeActions* gui::actions::Actions::sceneNodeActions() const

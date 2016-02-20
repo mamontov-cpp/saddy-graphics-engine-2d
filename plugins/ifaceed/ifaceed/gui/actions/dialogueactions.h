@@ -108,7 +108,7 @@ public:
         bool fromeditor,
         int row = -1
     );
-	/*! Adds last dialogue to end of items
+    /*! Adds last dialogue to end of items
         \param[in] dialogue a dialogue
      */
     void addDialogueToDialogueList(sad::dialogue::Dialogue* dialogue);

@@ -1,6 +1,6 @@
 /*! \file horizontalalignment.h
-	
-	Describes a types of horizontal alignment of cell
+    
+    Describes a types of horizontal alignment of cell
  */
 #pragma once 
 
@@ -26,5 +26,5 @@ LHA_Right = 2
 };
 
 }	
-	
+    
 }

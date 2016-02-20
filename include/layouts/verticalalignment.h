@@ -1,6 +1,6 @@
 /*! \file verticalalignment.h
-	
-	Describes a types of vertical alignment of cell
+    
+    Describes a types of vertical alignment of cell
  */
 #pragma once 
 
@@ -26,5 +26,5 @@ LVA_Right = 2
 };
 
 }	
-	
+    
 }

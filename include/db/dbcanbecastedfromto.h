@@ -41,7 +41,7 @@ template<
 >
 bool can_be_casted_from_to(const sad::String & to_base_name, bool to_is_sad_object, int to_pointer_stars_count)
 {
-	sad::db::TypeName<T>::init();
+    sad::db::TypeName<T>::init();
     return sad::db::can_be_casted_from_to(
         sad::db::TypeName<T>::baseName(), 
         sad::db::TypeName<T>::isSadObject(),

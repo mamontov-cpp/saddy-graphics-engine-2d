@@ -24,8 +24,8 @@ struct SadDbVariantTest : tpunit::TestFixture
        TEST(SadDbVariantTest::testObject),
        TEST(SadDbVariantTest::testVectorVectorAColor),
        TEST(SadDbVariantTest::testConstChar),
-	   TEST(SadDbVariantTest::testPairsTripletsQuadruplets),
-	   TEST(SadDbVariantTest::testVectorOfTriplets)
+       TEST(SadDbVariantTest::testPairsTripletsQuadruplets),
+       TEST(SadDbVariantTest::testVectorOfTriplets)
    ) {}
 
     void test()
@@ -93,29 +93,29 @@ struct SadDbVariantTest : tpunit::TestFixture
         sad::db::Variant a("ab");
         ASSERT_TRUE( a.get<sad::String>().value() == "ab" );
     }
-	
-	void testPairsTripletsQuadruplets()
-	{
-		sad::db::TypeName<sad::Pair<int, int> >::init();
-		sad::String result1 = sad::db::TypeName<sad::Pair<int, int> >::name();
-		ASSERT_TRUE( result1 == "sad::Pair<int,int>");
-		
-		sad::db::TypeName<sad::Triplet<int, float, double> >::init();
-		sad::String result2 = sad::db::TypeName<sad::Triplet<int, float, double> >::name();
-		ASSERT_TRUE( result2 == "sad::Triplet<int,float,double>");
+    
+    void testPairsTripletsQuadruplets()
+    {
+        sad::db::TypeName<sad::Pair<int, int> >::init();
+        sad::String result1 = sad::db::TypeName<sad::Pair<int, int> >::name();
+        ASSERT_TRUE( result1 == "sad::Pair<int,int>");
+        
+        sad::db::TypeName<sad::Triplet<int, float, double> >::init();
+        sad::String result2 = sad::db::TypeName<sad::Triplet<int, float, double> >::name();
+        ASSERT_TRUE( result2 == "sad::Triplet<int,float,double>");
 
-		sad::db::TypeName<sad::Quadruplet<int, float, double, bool> >::init();
-		sad::String result3 = sad::db::TypeName<sad::Quadruplet<int, float, double, bool> >::name();
-		ASSERT_TRUE( result3 == "sad::Quadruplet<int,float,double,bool>");		
-	}
-	
-	void testVectorOfTriplets()
-	{
-		sad::Vector<sad::Triplet<unsigned int, unsigned int, unsigned int> > v;
+        sad::db::TypeName<sad::Quadruplet<int, float, double, bool> >::init();
+        sad::String result3 = sad::db::TypeName<sad::Quadruplet<int, float, double, bool> >::name();
+        ASSERT_TRUE( result3 == "sad::Quadruplet<int,float,double,bool>");		
+    }
+    
+    void testVectorOfTriplets()
+    {
+        sad::Vector<sad::Triplet<unsigned int, unsigned int, unsigned int> > v;
 
         v.push_back(sad::Triplet<unsigned int, unsigned int, unsigned int>(1,2,3));
         v.push_back(sad::Triplet<unsigned int, unsigned int, unsigned int>(4,5,6));
-		
+        
         sad::db::Variant k(v);
 
         picojson::value saved;
@@ -131,13 +131,13 @@ struct SadDbVariantTest : tpunit::TestFixture
         
         sad::Vector<sad::Triplet<unsigned int, unsigned int, unsigned int> > vk_value = vk.value();
         ASSERT_TRUE(vk_value.size() == 2);
-		ASSERT_TRUE(vk_value[0].p1() == 1);
-		ASSERT_TRUE(vk_value[0].p2() == 2);
-		ASSERT_TRUE(vk_value[0].p3() == 3);
+        ASSERT_TRUE(vk_value[0].p1() == 1);
+        ASSERT_TRUE(vk_value[0].p2() == 2);
+        ASSERT_TRUE(vk_value[0].p3() == 3);
 
-		ASSERT_TRUE(vk_value[1].p1() == 4);
-		ASSERT_TRUE(vk_value[1].p2() == 5);
-		ASSERT_TRUE(vk_value[1].p3() == 6);		
-	}
+        ASSERT_TRUE(vk_value[1].p1() == 4);
+        ASSERT_TRUE(vk_value[1].p2() == 5);
+        ASSERT_TRUE(vk_value[1].p3() == 6);		
+    }
 
 } _sad_db_variant;

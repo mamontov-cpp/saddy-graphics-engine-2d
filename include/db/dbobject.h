@@ -88,7 +88,7 @@ public:
         sad::Maybe<T> result;
         if (prop)
         {
-			sad::db::TypeName<T>::init();
+            sad::db::TypeName<T>::init();
             bool canbecasted = sad::db::can_be_casted_from_to(
                 prop->baseType(), 
                 prop->typeIsKindOfSadObject(),
@@ -120,7 +120,7 @@ public:
         bool result = false;
         if (prop)
         {
-			sad::db::TypeName<T>::init();			
+            sad::db::TypeName<T>::init();			
             bool canbecasted = sad::db::can_be_casted_from_to(
                 sad::db::TypeName<T>::baseName(),
                 sad::db::TypeName<T>::isSadObject(),

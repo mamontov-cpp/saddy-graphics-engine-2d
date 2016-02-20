@@ -22,7 +22,7 @@ fullsearchpacker::GlueEntry::GlueEntry(double x, double y)
 }
 
 fullsearchpacker::GlueEntry fullsearchpacker::GlueEntry::merge(
-	const QVector<fullsearchpacker::GlueEntry>& entries,
+    const QVector<fullsearchpacker::GlueEntry>& entries,
     fullsearchpacker::GlueOrder& order
 )
 {

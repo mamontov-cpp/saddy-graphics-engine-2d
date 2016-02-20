@@ -272,11 +272,11 @@ public:
         \param[in] p1 first point
         \param[in] p2 second point
      */
-	void makeSpanBetweenPoints(
+    void makeSpanBetweenPoints(
         const sad::Point2D & p1, 
         const sad::Point2D & p2
-	);
-	/*! Makes sprite rectangle span between two points, which defines centers of opposite sides
+    );
+    /*! Makes sprite rectangle span between two points, which defines centers of opposite sides
         of sprite
         \param[in] r source rectangle for adapter
         \param[in] p1 first point

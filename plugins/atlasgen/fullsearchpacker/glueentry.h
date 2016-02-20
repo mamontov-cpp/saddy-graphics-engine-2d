@@ -38,29 +38,29 @@ public:
         \param[in] order   an order, in which they should be merged
      */
     static GlueEntry merge(
-		const QVector<fullsearchpacker::GlueEntry>& entries,
+        const QVector<fullsearchpacker::GlueEntry>& entries,
         fullsearchpacker::GlueOrder& order
-	);
-	/*! Returns element by index
-		\param[in] i index
-		\return value
-	 */
-	inline double& operator[](size_t i)
-	{
-		return m_a[i];
-	}
-	/*! Returns element by index
-		\param[in] i index
-		\return value
-	 */
-	inline double operator[](size_t i) const
-	{
-		return m_a[i];
-	}
+    );
+    /*! Returns element by index
+        \param[in] i index
+        \return value
+     */
+    inline double& operator[](size_t i)
+    {
+        return m_a[i];
+    }
+    /*! Returns element by index
+        \param[in] i index
+        \return value
+     */
+    inline double operator[](size_t i) const
+    {
+        return m_a[i];
+    }
 private:
-	/*! Array from two elements
-	 */
-	double m_a[2];
+    /*! Array from two elements
+     */
+    double m_a[2];
 };
 
 }

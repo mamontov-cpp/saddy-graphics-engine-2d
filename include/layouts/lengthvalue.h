@@ -1,6 +1,6 @@
 /*! \file lengthvalue.h
-	
-	Describes a length value for layout width or height
+    
+    Describes a length value for layout width or height
  */
 #pragma once
 #include "unit.h"
@@ -16,15 +16,15 @@ namespace layouts
 class LengthValue
 {
 public:
-	/*! A unit value
-	 */
- 	sad::layouts::Unit Unit;
-	/*! A double value for length
-	 */
-	double Value;
+    /*! A unit value
+     */
+    sad::layouts::Unit Unit;
+    /*! A double value for length
+     */
+    double Value;
 };
-		
+        
 }
 
 }
-	
+    

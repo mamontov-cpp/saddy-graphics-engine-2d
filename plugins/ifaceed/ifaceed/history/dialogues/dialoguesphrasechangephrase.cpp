@@ -49,8 +49,8 @@ void history::dialogues::PhraseChangePhrase::tryUpdateUI(core::Editor* e, const 
     {
         if (e->shared()->selectedDialogue() == m_dialogue)
         {
-			QListWidget* lst = e->uiBlocks()->uiPhraseBlock()->lstPhrases;
-			
+            QListWidget* lst = e->uiBlocks()->uiPhraseBlock()->lstPhrases;
+            
             e->emitClosure(bind(
                 lst->item(m_position),
                 &QListWidgetItem::setText,

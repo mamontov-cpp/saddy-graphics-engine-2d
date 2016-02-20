@@ -57,8 +57,8 @@ void history::dialogues::PhraseChangeLineEditBasedProperty::tryUpdateUI(core::Ed
     {
         if (e->shared()->selectedDialogue() == m_dialogue)
         {
-			QListWidget* lst = e->uiBlocks()->uiPhraseBlock()->lstPhrases;
-			
+            QListWidget* lst = e->uiBlocks()->uiPhraseBlock()->lstPhrases;
+            
             if (m_update)
             {
                 e->emitClosure(bind(

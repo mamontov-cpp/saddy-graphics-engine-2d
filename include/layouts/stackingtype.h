@@ -1,6 +1,6 @@
 /*! \file stackingtype.h
-	
-	Describes, how should inner objects be stacked in cell
+    
+    Describes, how should inner objects be stacked in cell
  */
 #pragma once 
 
@@ -23,5 +23,5 @@ LST_Vertical = 1
 };
 
 }	
-	
+    
 }

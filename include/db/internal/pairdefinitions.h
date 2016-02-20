@@ -4,7 +4,7 @@
 // Forward declaration for triplets
 namespace sad
 {
-	
+    
 class AColor;
 class String;
 
@@ -37,9 +37,9 @@ class TypeName<sad::Pair<T1, T2> >
 public:
 
     enum { SFINAE_BASE_CHECK = false };
-	
+    
     static const bool IsSadObject = false;
-	
+    
     static inline  void init()
     {
 
@@ -50,13 +50,13 @@ public:
     }
     static inline const sad::String& name()
     {
-		sad::db::TypeName<T1>::init();
-		sad::db::TypeName<T2>::init();		
+        sad::db::TypeName<T1>::init();
+        sad::db::TypeName<T2>::init();		
         return  sad::db::internal::fetchTypeNameForTemplate2(
-			"sad::Pair", 
-			sad::db::TypeName<T1>::name(), 
-			sad::db::TypeName<T2>::name()
-		);
+            "sad::Pair", 
+            sad::db::TypeName<T1>::name(), 
+            sad::db::TypeName<T2>::name()
+        );
     }
     static inline const sad::String& baseName()
     {
@@ -76,9 +76,9 @@ class TypeName<sad::Triplet<T1, T2, T3> >
 public:
 
     enum { SFINAE_BASE_CHECK = false };
-	
+    
     static const bool IsSadObject = false;
-	
+    
     static inline  void init()
     {
 
@@ -89,15 +89,15 @@ public:
     }
     static inline const sad::String& name()
     {
-		sad::db::TypeName<T1>::init();
-		sad::db::TypeName<T2>::init();		
-		sad::db::TypeName<T3>::init();		
+        sad::db::TypeName<T1>::init();
+        sad::db::TypeName<T2>::init();		
+        sad::db::TypeName<T3>::init();		
         return  sad::db::internal::fetchTypeNameForTemplate3(
-			"sad::Triplet", 
-			sad::db::TypeName<T1>::name(), 
-			sad::db::TypeName<T2>::name(),
-			sad::db::TypeName<T3>::name()
-		);
+            "sad::Triplet", 
+            sad::db::TypeName<T1>::name(), 
+            sad::db::TypeName<T2>::name(),
+            sad::db::TypeName<T3>::name()
+        );
     }
     static inline const sad::String& baseName()
     {
@@ -117,9 +117,9 @@ class TypeName<sad::Quadruplet<T1, T2, T3, T4> >
 public:
 
     enum { SFINAE_BASE_CHECK = false };
-	
+    
     static const bool IsSadObject = false;
-	
+    
     static inline  void init()
     {
 
@@ -130,17 +130,17 @@ public:
     }
     static inline const sad::String& name()
     {
-		sad::db::TypeName<T1>::init();
-		sad::db::TypeName<T2>::init();		
-		sad::db::TypeName<T3>::init();	
-		sad::db::TypeName<T4>::init();		
+        sad::db::TypeName<T1>::init();
+        sad::db::TypeName<T2>::init();		
+        sad::db::TypeName<T3>::init();	
+        sad::db::TypeName<T4>::init();		
         return  sad::db::internal::fetchTypeNameForTemplate4(
-			"sad::Quadruplet", 
-			sad::db::TypeName<T1>::name(), 
-			sad::db::TypeName<T2>::name(),
-			sad::db::TypeName<T3>::name(),
-			sad::db::TypeName<T4>::name()			
-		);
+            "sad::Quadruplet", 
+            sad::db::TypeName<T1>::name(), 
+            sad::db::TypeName<T2>::name(),
+            sad::db::TypeName<T3>::name(),
+            sad::db::TypeName<T4>::name()			
+        );
     }
     static inline const sad::String& baseName()
     {
@@ -160,9 +160,9 @@ class TypeName<sad::Vector<T> >
 public:
 
     enum { SFINAE_BASE_CHECK = false };
-	
+    
     static const bool IsSadObject = false;
-	
+    
     static inline  void init()
     {
 
@@ -173,11 +173,11 @@ public:
     }
     static inline const sad::String& name()
     {
-		sad::db::TypeName<T>::init();
+        sad::db::TypeName<T>::init();
         return  sad::db::internal::fetchTypeNameForTemplate1(
-			"sad::Vector", 
-			sad::db::TypeName<T>::name() 
-		);
+            "sad::Vector", 
+            sad::db::TypeName<T>::name() 
+        );
     }
     static inline const sad::String& baseName()
     {
@@ -196,9 +196,9 @@ class TypeName<sad::Hash<T1, T2> >
 public:
 
     enum { SFINAE_BASE_CHECK = false };
-	
+    
     static const bool IsSadObject = false;
-	
+    
     static inline  void init()
     {
 
@@ -209,13 +209,13 @@ public:
     }
     static inline const sad::String& name()
     {
-		sad::db::TypeName<T1>::init();
-		sad::db::TypeName<T2>::init();		
+        sad::db::TypeName<T1>::init();
+        sad::db::TypeName<T2>::init();		
         return  sad::db::internal::fetchTypeNameForTemplate2(
-			"sad::Hash", 
-			sad::db::TypeName<T1>::name(), 
-			sad::db::TypeName<T2>::name()
-		);
+            "sad::Hash", 
+            sad::db::TypeName<T1>::name(), 
+            sad::db::TypeName<T2>::name()
+        );
     }
     static inline const sad::String& baseName()
     {

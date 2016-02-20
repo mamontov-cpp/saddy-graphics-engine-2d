@@ -122,8 +122,8 @@ public:
     template< typename _FromType, typename _ToType>
     void declareImplicit()
     {
-		sad::db::TypeName<_FromType>::init();
-		sad::db::TypeName<_ToType>::init();		
+        sad::db::TypeName<_FromType>::init();
+        sad::db::TypeName<_ToType>::init();		
         add(sad::db::TypeName<_FromType>::name(), 
             sad::db::TypeName<_ToType>::name(),
             new sad::db::ImplicitTypeConverter<_FromType, _ToType>()
@@ -148,7 +148,7 @@ public:
     {
         this->m_sad_object_flags_lock.lock();
         sad::db::TypeName<T>::init();
-		if (m_sad_object_flags.contains(sad::db::TypeName<T>::name()) == false) 
+        if (m_sad_object_flags.contains(sad::db::TypeName<T>::name()) == false) 
         {
             m_sad_object_flags.insert(sad::db::TypeName<T>::name(), sad::db::TypeName<T>::isSadObject());	
         }

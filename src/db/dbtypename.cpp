@@ -39,66 +39,66 @@ static sad::Hash<sad::String, sad::String> typename_cache;
 
 const sad::String&  sad::db::internal::fetchTypeNameForPointer(const sad::String& base_name)
 {
-	typename_cache_lock.lock();
-	if (typename_cache.contains(base_name) == false)
-	{
-		typename_cache.insert(base_name, base_name + " *");
-	}
-	const sad::String& result =  typename_cache[base_name];
-	typename_cache_lock.unlock();
-	return result;
+    typename_cache_lock.lock();
+    if (typename_cache.contains(base_name) == false)
+    {
+        typename_cache.insert(base_name, base_name + " *");
+    }
+    const sad::String& result =  typename_cache[base_name];
+    typename_cache_lock.unlock();
+    return result;
 }
 
 static sad::Mutex templates_dependent_on_1_args_lock;
 static sad::Hash<sad::String, sad::Hash<sad::String, sad::String> > templates_dependent_on_1_args_cache;
 
 const sad::String&  sad::db::internal::fetchTypeNameForTemplate1(
-	const sad::String& type_name,
-	const sad::String& arg1
+    const sad::String& type_name,
+    const sad::String& arg1
 )
 {
-	templates_dependent_on_1_args_lock.lock();
-	if (templates_dependent_on_1_args_cache.contains(type_name) == false)
-	{
-		templates_dependent_on_1_args_cache.insert(type_name, sad::Hash<sad::String, sad::String>());
-	}
-	sad::Hash<sad::String, sad::String>& slice1 = templates_dependent_on_1_args_cache[type_name];
-	if (slice1.contains(arg1) == false)
-	{
-		slice1.insert(arg1, type_name + "<" + arg1 + ">");
-	}
-	const sad::String& result =  slice1[arg1];
-	templates_dependent_on_1_args_lock.unlock();
-	return result;
+    templates_dependent_on_1_args_lock.lock();
+    if (templates_dependent_on_1_args_cache.contains(type_name) == false)
+    {
+        templates_dependent_on_1_args_cache.insert(type_name, sad::Hash<sad::String, sad::String>());
+    }
+    sad::Hash<sad::String, sad::String>& slice1 = templates_dependent_on_1_args_cache[type_name];
+    if (slice1.contains(arg1) == false)
+    {
+        slice1.insert(arg1, type_name + "<" + arg1 + ">");
+    }
+    const sad::String& result =  slice1[arg1];
+    templates_dependent_on_1_args_lock.unlock();
+    return result;
 }
 
 static sad::Mutex templates_dependent_on_2_args_lock;
 static sad::Hash<sad::String, sad::Hash<sad::String, sad::Hash<sad::String, sad::String> > > templates_dependent_on_2_args_cache;
 
 const sad::String&  sad::db::internal::fetchTypeNameForTemplate2(
-	const sad::String& type_name,
-	const sad::String& arg1,
-	const sad::String& arg2	
+    const sad::String& type_name,
+    const sad::String& arg1,
+    const sad::String& arg2	
 )
 {
-	templates_dependent_on_2_args_lock.lock();
-	if (templates_dependent_on_2_args_cache.contains(type_name) == false)
-	{
-		templates_dependent_on_2_args_cache.insert(type_name, sad::Hash<sad::String, sad::Hash<sad::String, sad::String> >());
-	}
-	sad::Hash<sad::String, sad::Hash<sad::String, sad::String> >& slice1 = templates_dependent_on_2_args_cache[type_name];
-	if (slice1.contains(arg1) == false)
-	{
-		slice1.insert(arg1, sad::Hash<sad::String, sad::String>());
-	}
-	sad::Hash<sad::String, sad::String>& slice2 = slice1[arg1];
-	if (slice2.contains(arg2) == false)
-	{
-		slice2.insert(arg2, type_name + "<" + arg1 + "," + arg2 + ">");
-	}
-	const sad::String& result =  slice2[arg2];
-	templates_dependent_on_2_args_lock.unlock();
-	return result;
+    templates_dependent_on_2_args_lock.lock();
+    if (templates_dependent_on_2_args_cache.contains(type_name) == false)
+    {
+        templates_dependent_on_2_args_cache.insert(type_name, sad::Hash<sad::String, sad::Hash<sad::String, sad::String> >());
+    }
+    sad::Hash<sad::String, sad::Hash<sad::String, sad::String> >& slice1 = templates_dependent_on_2_args_cache[type_name];
+    if (slice1.contains(arg1) == false)
+    {
+        slice1.insert(arg1, sad::Hash<sad::String, sad::String>());
+    }
+    sad::Hash<sad::String, sad::String>& slice2 = slice1[arg1];
+    if (slice2.contains(arg2) == false)
+    {
+        slice2.insert(arg2, type_name + "<" + arg1 + "," + arg2 + ">");
+    }
+    const sad::String& result =  slice2[arg2];
+    templates_dependent_on_2_args_lock.unlock();
+    return result;
 }
 
 static sad::Mutex templates_dependent_on_3_args_lock;
@@ -106,35 +106,35 @@ static sad::Hash<sad::String, sad::Hash<sad::String, sad::Hash<sad::String, sad:
 
 
 const sad::String&  sad::db::internal::fetchTypeNameForTemplate3(
-	const sad::String& type_name,
-	const sad::String& arg1,
-	const sad::String& arg2,
-	const sad::String& arg3	
+    const sad::String& type_name,
+    const sad::String& arg1,
+    const sad::String& arg2,
+    const sad::String& arg3	
 )
 {
-	templates_dependent_on_3_args_lock.lock();
-	if (templates_dependent_on_3_args_cache.contains(type_name) == false)
-	{
-		templates_dependent_on_3_args_cache.insert(type_name, sad::Hash<sad::String, sad::Hash<sad::String, sad::Hash<sad::String, sad::String> > >());
-	}
-	sad::Hash<sad::String, sad::Hash<sad::String, sad::Hash<sad::String, sad::String> > >& slice1 = templates_dependent_on_3_args_cache[type_name];
-	if (slice1.contains(arg1) == false)
-	{
-		slice1.insert(arg1, sad::Hash<sad::String, sad::Hash<sad::String, sad::String> >());
-	}
-	sad::Hash<sad::String, sad::Hash<sad::String, sad::String> >& slice2 = slice1[arg1];
-	if (slice2.contains(arg2) == false)
-	{
-		slice2.insert(arg2,  sad::Hash<sad::String, sad::String>());
-	}
-	 sad::Hash<sad::String, sad::String>& slice3 = slice2[arg2];
-	if (slice3.contains(arg3) == false)
-	{
-		slice3.insert(arg3, type_name + "<" + arg1 + "," + arg2 + "," + arg3 + ">");
-	}
-	const sad::String& result =  slice3[arg3];
-	templates_dependent_on_3_args_lock.unlock();
-	return result;
+    templates_dependent_on_3_args_lock.lock();
+    if (templates_dependent_on_3_args_cache.contains(type_name) == false)
+    {
+        templates_dependent_on_3_args_cache.insert(type_name, sad::Hash<sad::String, sad::Hash<sad::String, sad::Hash<sad::String, sad::String> > >());
+    }
+    sad::Hash<sad::String, sad::Hash<sad::String, sad::Hash<sad::String, sad::String> > >& slice1 = templates_dependent_on_3_args_cache[type_name];
+    if (slice1.contains(arg1) == false)
+    {
+        slice1.insert(arg1, sad::Hash<sad::String, sad::Hash<sad::String, sad::String> >());
+    }
+    sad::Hash<sad::String, sad::Hash<sad::String, sad::String> >& slice2 = slice1[arg1];
+    if (slice2.contains(arg2) == false)
+    {
+        slice2.insert(arg2,  sad::Hash<sad::String, sad::String>());
+    }
+     sad::Hash<sad::String, sad::String>& slice3 = slice2[arg2];
+    if (slice3.contains(arg3) == false)
+    {
+        slice3.insert(arg3, type_name + "<" + arg1 + "," + arg2 + "," + arg3 + ">");
+    }
+    const sad::String& result =  slice3[arg3];
+    templates_dependent_on_3_args_lock.unlock();
+    return result;
 }
 
 static sad::Mutex templates_dependent_on_4_args_lock;
@@ -142,41 +142,41 @@ static sad::Hash<sad::String, sad::Hash<sad::String, sad::Hash<sad::String, sad:
 
 
 const sad::String&  sad::db::internal::fetchTypeNameForTemplate4(
-	const sad::String& type_name,
-	const sad::String& arg1,
-	const sad::String& arg2,
-	const sad::String& arg3,	
-	const sad::String& arg4	
+    const sad::String& type_name,
+    const sad::String& arg1,
+    const sad::String& arg2,
+    const sad::String& arg3,	
+    const sad::String& arg4	
 )
 {
-	templates_dependent_on_4_args_lock.lock();
-	if (templates_dependent_on_4_args_cache.contains(type_name) == false)
-	{
-		templates_dependent_on_4_args_cache.insert(type_name, sad::Hash<sad::String, sad::Hash<sad::String, sad::Hash<sad::String, sad::Hash<sad::String, sad::String> > > >());
-	}
-	sad::Hash<sad::String, sad::Hash<sad::String, sad::Hash<sad::String, sad::Hash<sad::String, sad::String> > > >& slice1 = templates_dependent_on_4_args_cache[type_name];
-	if (slice1.contains(arg1) == false)
-	{
-		slice1.insert(arg1, sad::Hash<sad::String, sad::Hash<sad::String, sad::Hash<sad::String, sad::String> > >());
-	}
-	sad::Hash<sad::String, sad::Hash<sad::String, sad::Hash<sad::String, sad::String> > >& slice2 = slice1[arg1];
-	if (slice2.contains(arg2) == false)
-	{
-		slice2.insert(arg2,   sad::Hash<sad::String, sad::Hash<sad::String, sad::String> >());
-	}
-	sad::Hash<sad::String, sad::Hash<sad::String, sad::String> >& slice3 = slice2[arg2];
-	if (slice3.contains(arg3) == false)
-	{
-		slice3.insert(arg3, sad::Hash<sad::String, sad::String>());
-	}
-	sad::Hash<sad::String, sad::String>& slice4 = slice3[arg3];
-	if (slice4.contains(arg4) == false)
-	{
-		slice4.insert(arg4, type_name + "<" + arg1 + "," + arg2 + "," + arg3 + "," + arg4 + ">");
-	}	
-	const sad::String& result =  slice4[arg4];
-	templates_dependent_on_4_args_lock.unlock();
-	return result;
+    templates_dependent_on_4_args_lock.lock();
+    if (templates_dependent_on_4_args_cache.contains(type_name) == false)
+    {
+        templates_dependent_on_4_args_cache.insert(type_name, sad::Hash<sad::String, sad::Hash<sad::String, sad::Hash<sad::String, sad::Hash<sad::String, sad::String> > > >());
+    }
+    sad::Hash<sad::String, sad::Hash<sad::String, sad::Hash<sad::String, sad::Hash<sad::String, sad::String> > > >& slice1 = templates_dependent_on_4_args_cache[type_name];
+    if (slice1.contains(arg1) == false)
+    {
+        slice1.insert(arg1, sad::Hash<sad::String, sad::Hash<sad::String, sad::Hash<sad::String, sad::String> > >());
+    }
+    sad::Hash<sad::String, sad::Hash<sad::String, sad::Hash<sad::String, sad::String> > >& slice2 = slice1[arg1];
+    if (slice2.contains(arg2) == false)
+    {
+        slice2.insert(arg2,   sad::Hash<sad::String, sad::Hash<sad::String, sad::String> >());
+    }
+    sad::Hash<sad::String, sad::Hash<sad::String, sad::String> >& slice3 = slice2[arg2];
+    if (slice3.contains(arg3) == false)
+    {
+        slice3.insert(arg3, sad::Hash<sad::String, sad::String>());
+    }
+    sad::Hash<sad::String, sad::String>& slice4 = slice3[arg3];
+    if (slice4.contains(arg4) == false)
+    {
+        slice4.insert(arg4, type_name + "<" + arg1 + "," + arg2 + "," + arg3 + "," + arg4 + ">");
+    }	
+    const sad::String& result =  slice4[arg4];
+    templates_dependent_on_4_args_lock.unlock();
+    return result;
 }
 
 DECLARE_COMMON_TYPE(bool)

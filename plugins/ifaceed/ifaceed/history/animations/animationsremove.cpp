@@ -62,14 +62,14 @@ void history::animations::Remove::commit(core::Editor * ob)
     if (ob)
     {
         ob->emitClosure( bind(ob->actions()->animationActions(), &gui::actions::AnimationActions::removeAnimationFromViewingLists, m_animation) );
-		ob->emitClosure( bind(ob->actions()->animationActions(), &gui::actions::AnimationActions::updateCompositeList));
-		for(size_t i = 0; i < m_dependent_instances.size(); i++)
-		{
-			if (m_dependent_instances[i] == ob->shared()->selectedInstance())
-			{
-				ob->emitClosure( bind(ob->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceAnimationFromDatabase, &QComboBox::setCurrentIndex, 0));
-			}
-		}
+        ob->emitClosure( bind(ob->actions()->animationActions(), &gui::actions::AnimationActions::updateCompositeList));
+        for(size_t i = 0; i < m_dependent_instances.size(); i++)
+        {
+            if (m_dependent_instances[i] == ob->shared()->selectedInstance())
+            {
+                ob->emitClosure( bind(ob->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceAnimationFromDatabase, &QComboBox::setCurrentIndex, 0));
+            }
+        }
     }
 }
 

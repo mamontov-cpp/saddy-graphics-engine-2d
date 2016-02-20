@@ -1,6 +1,6 @@
 /*! \file abstractactions.h
-	
-	Defines an abstract actions, linked to editor
+    
+    Defines an abstract actions, linked to editor
  */
 #pragma once
 #include <QComboBox>
@@ -15,7 +15,7 @@ class String;
 
 namespace db
 {
-	class Object;
+    class Object;
 }
 
 }
@@ -34,21 +34,21 @@ namespace actions
 class AbstractActions
 {
 public:
-	/*! An abstract actions, for an editor
-	 */
-	AbstractActions();
-	/*! Sets editor for an abstract actions
-		\param[in] editor an editor
-	 */
-	virtual void setEditor(core::Editor* editor);
-	/*! Returns inner editor
-		\return editor
-	 */
-	core::Editor* editor() const; 
-	/*! Can be inherited
-	 */
-	virtual ~AbstractActions();
-	/*! Tries to find an item to a list
+    /*! An abstract actions, for an editor
+     */
+    AbstractActions();
+    /*! Sets editor for an abstract actions
+        \param[in] editor an editor
+     */
+    virtual void setEditor(core::Editor* editor);
+    /*! Returns inner editor
+        \return editor
+     */
+    core::Editor* editor() const; 
+    /*! Can be inherited
+     */
+    virtual ~AbstractActions();
+    /*! Tries to find an item to a list
         \param[in] w widget
         \param[in] userdata a data
         \return index
@@ -88,7 +88,7 @@ public:
         }
         return pos;
     }
-	/*! Tries to find an item to a combo box by major id
+    /*! Tries to find an item to a combo box by major id
         \param[in] w widget
         \param[in] id id to identify item in combo box
         \return index (-1 if not found)
@@ -125,9 +125,9 @@ public:
      */
     QString viewableObjectName(sad::db::Object* o);
 protected:
-	/*!  A link to a local editor
-	 */
-	core::Editor* m_editor;
+    /*!  A link to a local editor
+     */
+    core::Editor* m_editor;
 };
 
 }

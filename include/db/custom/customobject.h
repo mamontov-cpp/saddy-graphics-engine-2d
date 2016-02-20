@@ -279,14 +279,14 @@ public:
         \return whether it was successfull. In case of non-successfull old values are preserved
      */
     bool copyCustomPropertyValuesFrom(sad::db::custom::Object* o);
-	/*! Places label in the center between two points, with angle rotated to p1
+    /*! Places label in the center between two points, with angle rotated to p1
         \param[in] p1 first point
         \param[in] p2 second point
      */
-	void makeSpanBetweenPoints(
+    void makeSpanBetweenPoints(
         const sad::Point2D & p1, 
         const sad::Point2D & p2
-	);
+    );
 protected:
     /*! Fills custom object with defailt item properties
      */
