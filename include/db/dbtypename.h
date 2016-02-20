@@ -15,6 +15,65 @@ namespace db
 {
 class Object;
 
+namespace internal
+{
+	/*! Fetches cached type name for pointer by it's base name, or makes new one, if it does not exists
+		\param[in] base_name name of base type
+		\return name for pointer
+	 */
+	const sad::String&  fetchTypeNameForPointer(const sad::String& base_name);
+	
+	/*! Fetches cached type name for template type with one parameter
+		\param[in] type_name a type name
+		\param[in] arg1 first argument
+		\return cached type name
+	 */
+	const sad::String&  fetchTypeNameForTemplate1(
+		const sad::String& type_name,
+		const sad::String& arg1
+	);
+	
+	/*! Fetches cached type name for template type with two parameters
+		\param[in] type_name a type name
+		\param[in] arg1 first argument
+		\param[in] arg2 second argument
+		\return cached type name
+	 */
+	const sad::String&  fetchTypeNameForTemplate2(
+		const sad::String& type_name,
+		const sad::String& arg1,
+		const sad::String& arg2		
+	);
+	/*! Fetches cached type name for template type with three parameters
+		\param[in] type_name a type name
+		\param[in] arg1 first argument
+		\param[in] arg2 second argument
+		\param[in] arg3 third argument		
+		\return cached type name
+	 */
+	const sad::String&  fetchTypeNameForTemplate3(
+		const sad::String& type_name,
+		const sad::String& arg1,
+		const sad::String& arg2,	
+		const sad::String& arg3			
+	);	
+	/*! Fetches cached type name for template type with one parameter
+		\param[in] type_name a type name
+		\param[in] arg1 first argument
+		\param[in] arg2 second argument
+		\param[in] arg3 third argument
+		\param[in] arg4 fourth argument		
+		\return cached type name
+	 */
+	const sad::String&  fetchTypeNameForTemplate4(
+		const sad::String& type_name,
+		const sad::String& arg1,
+		const sad::String& arg2,	
+		const sad::String& arg3,		
+		const sad::String& arg4			
+	);		
+}
+
 template<
     typename _Type
 >
@@ -59,13 +118,13 @@ public:
 
     /*! Returns name for a type name
      */ 
-    static inline sad::String name()
+    static inline const sad::String& name()
     {
         return  sad::db::TypeName<_Type>::Name;
     }
     /*! Returns base name for a type
      */
-    static inline sad::String baseName()
+    static inline const sad::String& baseName()
     {
         return sad::db::TypeName<_Type>::BaseName;
     }
@@ -102,14 +161,16 @@ public:
     }
     /*! Returns name for a type name
      */ 
-    static inline sad::String name()
+    static inline const sad::String& name()
     {
-        return  sad::db::TypeName<_Type>::name() + sad::String(" *");
+		sad::db::TypeName<_Type>::init();
+        return sad::db::internal::fetchTypeNameForPointer(sad::db::TypeName<_Type>::name());
     }
     /*! Returns base name for a type
      */
-    static inline sad::String baseName()
+    static inline const sad::String& baseName()
     {
+		sad::db::TypeName<_Type>::init();
         return sad::db::TypeName<_Type>::BaseName;
     }
 
@@ -194,11 +255,11 @@ public:                                                                         
     {                                                                             \
         return sad::db::TypeName< TYPE >::IsSadObject;                            \
     }                                                                             \
-    static inline sad::String name()                                              \
+    static inline const sad::String& name()                                       \
     {                                                                             \
         return  sad::db::TypeName< TYPE >::Name;                                  \
     }                                                                             \
-    static inline sad::String baseName()                                          \
+    static inline const sad::String& baseName()                                   \
     {                                                                             \
         return sad::db::TypeName< TYPE >::BaseName;                               \
     }                                                                             \
@@ -212,3 +273,5 @@ public:                                                                         
 }                                                                                 \
                                                                                   \
 }
+
+#include "internal/pairdefinitions.h"

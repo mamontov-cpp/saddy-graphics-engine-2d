@@ -28,6 +28,7 @@ public:
      */
     Field(_FieldTypeName (_Object::*f)) : sad::db::Property(), m_f(f)
     {
+	    sad::db::TypeName<_FieldTypeName>::init();
         m_base_type = sad::db::TypeName<_FieldTypeName>::baseName();
         m_type_is_kind_of_sad_object = sad::db::TypeName<_FieldTypeName>::isSadObject();
         m_pointer_stars_count = sad::db::TypeName<_FieldTypeName>::POINTER_STARS_COUNT;

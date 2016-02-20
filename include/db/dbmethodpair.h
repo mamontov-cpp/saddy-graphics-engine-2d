@@ -34,6 +34,7 @@ public:
         sad::util::setter::Proxy<_Object, _FieldTypeName> * s
     ) : m_getter(g), m_setter(s)
     {
+		sad::db::TypeName<_FieldTypeName>::init();
         m_base_type = sad::db::TypeName<_FieldTypeName>::baseName();
         m_type_is_kind_of_sad_object = sad::db::TypeName<_FieldTypeName>::isSadObject();
         m_pointer_stars_count = sad::db::TypeName<_FieldTypeName>::POINTER_STARS_COUNT;
@@ -53,7 +54,7 @@ public:
     {
         m_getter = sad::util::define_getter<_Object, _FieldTypeName>(g);
         m_setter = sad::util::define_setter<_Object, _FieldTypeName>(s);
-
+		sad::db::TypeName<_FieldTypeName>::init();
         m_base_type = sad::db::TypeName<_FieldTypeName>::baseName();
         m_type_is_kind_of_sad_object = sad::db::TypeName<_FieldTypeName>::isSadObject();
         m_pointer_stars_count = sad::db::TypeName<_FieldTypeName>::POINTER_STARS_COUNT;

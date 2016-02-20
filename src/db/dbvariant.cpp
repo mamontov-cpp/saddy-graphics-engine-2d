@@ -28,6 +28,7 @@ sad::db::Variant & sad::db::Variant::operator=(const sad::db::Variant  & v)
 sad::db::Variant::Variant(const char* v)
 {
     m_object = new sad::String(v);
+	sad::db::TypeName<sad::String>init();
     m_is_sad_object = sad::db::TypeName<sad::String>::isSadObject();
     m_typename = sad::db::TypeName<sad::String>::name();
     m_copy = sad::db::variant::copy_value<sad::String>;

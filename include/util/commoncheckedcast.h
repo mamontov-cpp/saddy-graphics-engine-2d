@@ -69,7 +69,8 @@ public:
     static void perform(Maybe<T*> & result, void * object, const sad::String & _typename)
     {
         bool created = false;
-        if (sad::ClassMetaDataContainer::ref()->get(_typename, created)->canBeCastedTo(sad::db::TypeName<T>::Name) == true)
+		sad::db::TypeName<T>::init();
+        if (sad::ClassMetaDataContainer::ref()->get(_typename, created)->canBeCastedTo(sad::db::TypeName<T>::name()) == true)
         {
             sad::Object ** o = (sad::Object**)object;
             result.setValue(sad::checked_cast<T, sad::Object>(*o));

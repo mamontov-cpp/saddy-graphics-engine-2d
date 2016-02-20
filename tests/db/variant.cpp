@@ -8,6 +8,7 @@
 #include "3rdparty/tpunit++/tpunit++.hpp"
 #include "db/save.h"
 #include "db/load.h"
+#include "sadpair.h"
 #pragma warning(pop)
 
 
@@ -22,7 +23,8 @@ struct SadDbVariantTest : tpunit::TestFixture
        TEST(SadDbVariantTest::test),
        TEST(SadDbVariantTest::testObject),
        TEST(SadDbVariantTest::testVectorVectorAColor),
-       TEST(SadDbVariantTest::testConstChar)
+       TEST(SadDbVariantTest::testConstChar),
+	   TEST(SadDbVariantTest::testPairsTripletsQuadruplets)
    ) {}
 
     void test()
@@ -90,5 +92,12 @@ struct SadDbVariantTest : tpunit::TestFixture
         sad::db::Variant a("ab");
         ASSERT_TRUE( a.get<sad::String>().value() == "ab" );
     }
+	
+	void testPairsTripletsQuadruplets()
+	{
+		sad::db::TypeName<sad::Pair<int, int> >::init();
+		sad::String result = sad::db::TypeName<sad::Pair<int, int> >::name();
+		ASSERT_TRUE( result == "sad::Pair<int,int>");
+	}
 
 } _sad_db_variant;
