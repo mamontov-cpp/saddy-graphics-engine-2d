@@ -464,10 +464,10 @@ static picojson::value perform(void * ptr)
 {
     if (!ptr)
         throw sad::db::InvalidPointer();
-    const sad::Pair<T1, T2> & p = *(reinterpret_cast<sad::Pair<T1, T2> *>(ptr));
+    sad::Pair<T1, T2> & p = *(reinterpret_cast<sad::Pair<T1, T2> *>(ptr));
     picojson::value v(picojson::object_type, false);
-    v.insert("field1", sad::db::Save<T1>::perform(&(p.p1())));
-    v.insert("field2", sad::db::Save<T2>::perform(&(p.p2())));
+    v.insert("field1", sad::db::Save<T1>::perform(&(p._1())));
+    v.insert("field2", sad::db::Save<T2>::perform(&(p._2())));
     return v;
 }
 
@@ -487,11 +487,11 @@ static picojson::value perform(void * ptr)
 {
     if (!ptr)
         throw sad::db::InvalidPointer();
-    const sad::Triplet<T1, T2, T3> & p = *(reinterpret_cast<sad::Triplet<T1, T2, T3> *>(ptr));
+    sad::Triplet<T1, T2, T3> & p = *(reinterpret_cast<sad::Triplet<T1, T2, T3> *>(ptr));
     picojson::value v(picojson::object_type, false);
-    v.insert("field1", sad::db::Save<T1>::perform(&(p.p1())));
-    v.insert("field2", sad::db::Save<T2>::perform(&(p.p2())));
-	v.insert("field3", sad::db::Save<T2>::perform(&(p.p3())));
+    v.insert("field1", sad::db::Save<T1>::perform(&(p._1())));
+    v.insert("field2", sad::db::Save<T2>::perform(&(p._2())));
+	v.insert("field3", sad::db::Save<T2>::perform(&(p._3())));
     return v;
 }
 
@@ -510,12 +510,12 @@ static picojson::value perform(void * ptr)
 {
     if (!ptr)
         throw sad::db::InvalidPointer();
-    const sad::Quadruplet<T1, T2, T3, T4> & p = *(reinterpret_cast<sad::Quadruplet<T1, T2, T3, T4> *>(ptr));
+    sad::Quadruplet<T1, T2, T3, T4> & p = *(reinterpret_cast<sad::Quadruplet<T1, T2, T3, T4> *>(ptr));
     picojson::value v(picojson::object_type, false);
-    v.insert("field1", sad::db::Save<T1>::perform(&(p.p1())));
-    v.insert("field2", sad::db::Save<T2>::perform(&(p.p2())));
-	v.insert("field3", sad::db::Save<T2>::perform(&(p.p3())));
-	v.insert("field4", sad::db::Save<T2>::perform(&(p.p4())));
+    v.insert("field1", sad::db::Save<T1>::perform(&(p._1())));
+    v.insert("field2", sad::db::Save<T2>::perform(&(p._2())));
+	v.insert("field3", sad::db::Save<T2>::perform(&(p._3())));
+	v.insert("field4", sad::db::Save<T2>::perform(&(p._4())));
     return v;
 }
 
@@ -539,7 +539,9 @@ static picojson::value perform(void * ptr)
     picojson::value v(picojson::array_type, false);
     for(size_t i = 0; i < p.size(); i++)
     {
-        v.push_back(sad::db::Save<T>::perform(p[i]));
+		const void* vpi = &(p[i]);
+		void* pi = const_cast<void*>(vpi);
+        v.push_back(sad::db::Save<T>::perform(pi));
     }
     return v;
 }

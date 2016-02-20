@@ -10,6 +10,8 @@
 #include "../../sadrect.h"
 #include "../../sadsize.h"
 #include "../../sadstring.h"
+#include "../../sadpair.h"
+#include "../../sadvector.h"
 #include "../../dialogue/phrase.h"
 #include "../../layouts/lengthvalue.h"
 
@@ -1022,6 +1024,147 @@ public:
 				value.Unit = (sad::layouts::Unit)v;
 				value.Value = mavalue.value();
                 result.setValue(value);
+            }
+        }
+        return result;
+    }
+};
+
+
+/*! Tries to converts specific value to vector of values
+ */
+template<typename T>
+class ValueToType<sad::Vector<T> >
+{
+public:
+    /*! Tries to convert a picojson::value to vector of values
+        \param[in] v value
+        \return a result (with value if any)
+     */
+    static sad::Maybe<sad::Vector<T> > get(const picojson::value & v)
+    {
+        sad::Maybe<sad::Vector<T> > result;		
+        if (v.is<picojson::array>())
+        {
+            bool parseresult = true;
+            sad::Vector<T> tmpresult;
+            const picojson::array & top = v.get<picojson::array>();
+            for(size_t i = 0; i < top.size() && parseresult; i++)
+            {
+                const picojson::value & topentry = top[i];
+                sad::Maybe<T> maybeentry = picojson::ValueToType<T>::get(top[i]);
+                if (maybeentry.exists())
+                {
+                    tmpresult << maybeentry.value();
+                }
+                else
+                {
+                    parseresult = false;
+                }				
+            }
+            if (parseresult)
+            {
+                result.setValue(tmpresult);
+            }
+        }
+        return result;
+    }
+};
+
+/*! Tries to converts specific value to pair
+ */
+template<typename T1, typename T2>
+class ValueToType<sad::Pair<T1, T2> >
+{
+public:
+    /*! Tries to convert a picojson::value to pair
+        \param[in] v value
+        \return a result (with value if any)
+     */
+    static sad::Maybe<sad::Pair<T1, T2> > get(const picojson::value & v)
+    {
+        sad::Maybe<sad::Pair<T1, T2> > result;
+        picojson::value const * f1o = picojson::get_property(v, "field1");
+        picojson::value const * f2o = picojson::get_property(v, "field2");
+        // First try to create rectangle by four points
+        if (f1o && f2o)
+        {
+            sad::Maybe<T1> f1 = picojson::ValueToType<T1>::get(*f1o);
+            sad::Maybe<T2> f2 = picojson::ValueToType<T2>::get(*f2o);
+            if (f1.exists() && f2.exists())
+            {
+                result.setValue(sad::Pair<T1, T2>(
+                    f1.value(), f2.value()
+                ));
+            }
+        }
+        return result;
+    }
+};
+
+/*! Tries to converts specific value to triplet
+ */
+template<typename T1, typename T2, typename T3>
+class ValueToType<sad::Triplet<T1, T2, T3> >
+{
+public:
+    /*! Tries to convert a picojson::value to pair
+        \param[in] v value
+        \return a result (with value if any)
+     */
+    static sad::Maybe<sad::Triplet<T1, T2, T3> > get(const picojson::value & v)
+    {
+        sad::Maybe<sad::Triplet<T1, T2, T3> > result;
+        picojson::value const * f1o = picojson::get_property(v, "field1");
+        picojson::value const * f2o = picojson::get_property(v, "field2");
+        picojson::value const * f3o = picojson::get_property(v, "field3");		
+        // First try to create rectangle by four points
+        if (f1o && f2o && f3o)
+        {
+            sad::Maybe<T1> f1 = picojson::ValueToType<T1>::get(*f1o);
+            sad::Maybe<T2> f2 = picojson::ValueToType<T2>::get(*f2o);
+            sad::Maybe<T3> f3 = picojson::ValueToType<T3>::get(*f3o);			
+            if (f1.exists() && f2.exists() && f3.exists())
+            {
+                result.setValue(sad::Triplet<T1, T2, T3>(
+                    f1.value(), f2.value(), f3.value()
+                ));
+            }
+        }
+        return result;
+    }
+};
+
+
+/*! Tries to converts specific value to quadruplet
+ */
+template<typename T1, typename T2, typename T3, typename T4>
+class ValueToType<sad::Quadruplet<T1, T2, T3, T4> >
+{
+public:
+    /*! Tries to convert a picojson::value to pair
+        \param[in] v value
+        \return a result (with value if any)
+     */
+    static sad::Maybe<sad::Quadruplet<T1, T2, T3, T4> > get(const picojson::value & v)
+    {
+        sad::Maybe<sad::Quadruplet<T1, T2, T3, T4> > result;
+        picojson::value const * f1o = picojson::get_property(v, "field1");
+        picojson::value const * f2o = picojson::get_property(v, "field2");
+        picojson::value const * f3o = picojson::get_property(v, "field3");		
+        picojson::value const * f4o = picojson::get_property(v, "field4");				
+        // First try to create rectangle by four points
+        if (f1o && f2o && f3o && f4o)
+        {
+            sad::Maybe<T1> f1 = picojson::ValueToType<T1>::get(*f1o);
+            sad::Maybe<T2> f2 = picojson::ValueToType<T2>::get(*f2o);
+            sad::Maybe<T3> f3 = picojson::ValueToType<T3>::get(*f3o);	
+            sad::Maybe<T3> f4 = picojson::ValueToType<T3>::get(*f4o);			
+            if (f1.exists() && f2.exists() && f3.exists() && f4.exists())
+            {
+                result.setValue(sad::Quadruplet<T1, T2, T3, T4>(
+                    f1.value(), f2.value(), f3.value(), f4.value()
+                ));
             }
         }
         return result;

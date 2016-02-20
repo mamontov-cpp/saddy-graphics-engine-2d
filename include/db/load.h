@@ -88,6 +88,76 @@ DECLARE_DB_LOAD_FOR_TYPE(sad::Vector<unsigned long long>)
 DECLARE_DB_LOAD_FOR_TYPE(sad::Vector<sad::String>)
 DECLARE_DB_LOAD_FOR_TYPE(sad::layouts::LengthValue)
 
+
+template<typename T>                                                       
+class Load< sad::Vector<T> >                                               
+{                                                                
+public:                                                          
+static bool perform(void * ptr, const picojson::value & v)       
+{                                                                
+    if (!ptr)                                                    
+        throw sad::db::InvalidPointer();                         
+    sad::Maybe< sad::Vector<T> >  cast = picojson::ValueToType<sad::Vector<T> >::get(v);     
+    if (cast.exists())                                           
+    {                                                            
+        *( sad::Vector<T> *)ptr = cast.value();                            
+    }                                                            
+    return cast.exists();                                        
+}                                                                
+};   
+
+template<typename T1, typename T2>                                                       
+class Load< sad::Pair<T1, T2> >                                               
+{                                                                
+public:                                                          
+static bool perform(void * ptr, const picojson::value & v)       
+{                                                                
+    if (!ptr)                                                    
+        throw sad::db::InvalidPointer();                         
+    sad::Maybe< sad::Pair<T1, T2> >  cast = picojson::ValueToType<sad::Pair<T1, T2> >::get(v);     
+    if (cast.exists())                                           
+    {                                                            
+        *( sad::Pair<T1, T2> *)ptr = cast.value();                            
+    }                                                            
+    return cast.exists();                                        
+}                                                                
+}; 
+
+
+template<typename T1, typename T2, typename T3>                                                       
+class Load< sad::Triplet<T1, T2, T3> >                                               
+{                                                                
+public:                                                          
+static bool perform(void * ptr, const picojson::value & v)       
+{                                                                
+    if (!ptr)                                                    
+        throw sad::db::InvalidPointer();                         
+    sad::Maybe< sad::Triplet<T1, T2, T3> >  cast = picojson::ValueToType<sad::Triplet<T1, T2, T3> >::get(v);     
+    if (cast.exists())                                           
+    {                                                            
+        *( sad::Triplet<T1, T2, T3> *)ptr = cast.value();                            
+    }                                                            
+    return cast.exists();                                        
+}                                                                
+};     
+
+template<typename T1, typename T2, typename T3, typename T4>                                                       
+class Load< sad::Quadruplet<T1, T2, T3, T4> >                                               
+{                                                                
+public:                                                          
+static bool perform(void * ptr, const picojson::value & v)       
+{                                                                
+    if (!ptr)                                                    
+        throw sad::db::InvalidPointer();                         
+    sad::Maybe< sad::Quadruplet<T1, T2, T3, T4> >  cast = picojson::ValueToType<sad::Quadruplet<T1, T2, T3, T4> >::get(v);     
+    if (cast.exists())                                           
+    {                                                            
+        *( sad::Quadruplet<T1, T2, T3, T4> *)ptr = cast.value();                            
+    }                                                            
+    return cast.exists();                                        
+}                                                                
+};   
+
 }
 
 }
