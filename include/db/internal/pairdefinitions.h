@@ -3,6 +3,15 @@
 namespace sad
 {
 
+class AColor;
+class Point2D;
+class String;
+
+namespace dialogue
+{
+class Phrase;	
+}
+
 template<typename T1, typename T2>
 class Pair;
 
@@ -12,10 +21,15 @@ class Triplet;
 template<typename T1, typename T2, typename T3, typename T4>
 class Quadruplet;
 
+template<typename T>
+class Vector;
+
+template<typename T1, typename T2>
+class Hash;
+
 namespace db
 {
 
-template<>
 template<typename T1, typename T2>
 class TypeName<sad::Pair<T1, T2> >
 {
@@ -55,7 +69,6 @@ public:
 };	
 
 
-template<>
 template<typename T1, typename T2, typename T3>
 class TypeName<sad::Triplet<T1, T2, T3> >
 {
@@ -97,7 +110,6 @@ public:
 };	
 
 
-template<>
 template<typename T1, typename T2, typename T3, typename T4>
 class TypeName<sad::Quadruplet<T1, T2, T3, T4> >
 {
@@ -139,6 +151,84 @@ public:
         POINTER_STARS_COUNT = 0
     };
 };	
+
+
+template<typename T>
+class TypeName<sad::Vector<T> >
+{
+public:
+
+    enum { SFINAE_BASE_CHECK = false };
+	
+    static const bool IsSadObject = false;
+	
+    static inline  void init()
+    {
+
+    }
+    static inline bool isSadObject()
+    {
+        return IsSadObject;
+    }
+    static inline const sad::String& name()
+    {
+		sad::db::TypeName<T>::init();
+        return  sad::db::internal::fetchTypeNameForTemplate1(
+			"sad::Vector", 
+			sad::db::TypeName<T>::name() 
+		);
+    }
+    static inline const sad::String& baseName()
+    {
+        return name();
+    }
+    enum ObjectCastValueHelper
+    {
+        CAN_BE_CASTED_TO_OBJECT  = false,
+        POINTER_STARS_COUNT = 0
+    };
+};	
+
+template<typename T1, typename T2>
+class TypeName<sad::Hash<T1, T2> >
+{
+public:
+
+    enum { SFINAE_BASE_CHECK = false };
+	
+    static const bool IsSadObject = false;
+	
+    static inline  void init()
+    {
+
+    }
+    static inline bool isSadObject()
+    {
+        return IsSadObject;
+    }
+    static inline const sad::String& name()
+    {
+		sad::db::TypeName<T1>::init();
+		sad::db::TypeName<T2>::init();		
+        return  sad::db::internal::fetchTypeNameForTemplate2(
+			"sad::Hash", 
+			sad::db::TypeName<T1>::name(), 
+			sad::db::TypeName<T2>::name()
+		);
+    }
+    static inline const sad::String& baseName()
+    {
+        return name();
+    }
+    enum ObjectCastValueHelper
+    {
+        CAN_BE_CASTED_TO_OBJECT  = false,
+        POINTER_STARS_COUNT = 0
+    };
+};	
+
+
+
 
 }
 
