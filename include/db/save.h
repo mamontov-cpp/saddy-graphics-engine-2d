@@ -10,6 +10,8 @@
 #include "../sadrect.h"
 #include "../sadcolor.h"
 #include "../sadsize.h"
+#include "../sadvector.h"
+#include "../sadpair.h"
 #include "../layouts/lengthvalue.h"
 
 namespace sad
@@ -443,6 +445,102 @@ static picojson::value perform(void * ptr)
     picojson::value v(picojson::object_type, false);
     v.insert("unit", picojson::value(static_cast<double>(p.Unit)));
     v.insert("value", picojson::value(static_cast<double>(p.Value)));
+    return v;
+}
+
+};
+
+
+/*! Specification for saving pair
+ */
+template<typename T1, typename T2>
+class Save<sad::Pair<T1, T2> >
+{
+public:
+/*! Saves a value of specified type
+    \param[in] ptr a value to be saved
+ */
+static picojson::value perform(void * ptr)
+{
+    if (!ptr)
+        throw sad::db::InvalidPointer();
+    const sad::Pair<T1, T2> & p = *(reinterpret_cast<sad::Pair<T1, T2> *>(ptr));
+    picojson::value v(picojson::object_type, false);
+    v.insert("field1", sad::db::Save<T1>::perform(&(p.p1())));
+    v.insert("field2", sad::db::Save<T2>::perform(&(p.p2())));
+    return v;
+}
+
+};
+
+
+/*! Specification for saving triplet
+ */
+template<typename T1, typename T2, typename T3>
+class Save<sad::Triplet<T1, T2, T3> >
+{
+public:
+/*! Saves a value of specified type
+    \param[in] ptr a value to be saved
+ */
+static picojson::value perform(void * ptr)
+{
+    if (!ptr)
+        throw sad::db::InvalidPointer();
+    const sad::Triplet<T1, T2, T3> & p = *(reinterpret_cast<sad::Triplet<T1, T2, T3> *>(ptr));
+    picojson::value v(picojson::object_type, false);
+    v.insert("field1", sad::db::Save<T1>::perform(&(p.p1())));
+    v.insert("field2", sad::db::Save<T2>::perform(&(p.p2())));
+	v.insert("field3", sad::db::Save<T2>::perform(&(p.p3())));
+    return v;
+}
+
+};
+
+/*! Specification for saving quadruplet
+ */
+template<typename T1, typename T2, typename T3, typename T4>
+class Save<sad::Quadruplet<T1, T2, T3, T4> >
+{
+public:
+/*! Saves a value of specified type
+    \param[in] ptr a value to be saved
+ */
+static picojson::value perform(void * ptr)
+{
+    if (!ptr)
+        throw sad::db::InvalidPointer();
+    const sad::Quadruplet<T1, T2, T3, T4> & p = *(reinterpret_cast<sad::Quadruplet<T1, T2, T3, T4> *>(ptr));
+    picojson::value v(picojson::object_type, false);
+    v.insert("field1", sad::db::Save<T1>::perform(&(p.p1())));
+    v.insert("field2", sad::db::Save<T2>::perform(&(p.p2())));
+	v.insert("field3", sad::db::Save<T2>::perform(&(p.p3())));
+	v.insert("field4", sad::db::Save<T2>::perform(&(p.p4())));
+    return v;
+}
+
+};
+
+
+/*! Specification for saving quadruplet
+ */
+template<typename T>
+class Save<sad::Vector<T> >
+{
+public:
+/*! Saves a value of specified type
+    \param[in] ptr a value to be saved
+ */
+static picojson::value perform(void * ptr)
+{
+    if (!ptr)
+        throw sad::db::InvalidPointer();
+    const sad::Vector<T> & p = *(reinterpret_cast<sad::Vector<T> *>(ptr));
+    picojson::value v(picojson::array_type, false);
+    for(size_t i = 0; i < p.size(); i++)
+    {
+        v.push_back(sad::db::Save<T>::perform(p[i]));
+    }
     return v;
 }
 
