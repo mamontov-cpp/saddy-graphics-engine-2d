@@ -1,10 +1,11 @@
 #pragma once
+#include "../../sadpoint.h"
+
 // Forward declaration for triplets
 namespace sad
 {
-
+	
 class AColor;
-class Point2D;
 class String;
 
 namespace dialogue
@@ -227,9 +228,14 @@ public:
     };
 };	
 
-
-
-
 }
 
 }
+
+
+DEFINE_DEFAULT_INSTANTIATION(sad::Vector<sad::Vector<sad::AColor> >)
+DEFINE_DEFAULT_INSTANTIATION(sad::Vector<sad::Point2D>)
+DEFINE_DEFAULT_INSTANTIATION(sad::Vector<sad::dialogue::Phrase*>)
+DEFINE_DEFAULT_INSTANTIATION(sad::Vector<sad::dialogue::Phrase>)
+DEFINE_DEFAULT_INSTANTIATION(sad::Vector<unsigned long long>)
+DEFINE_DEFAULT_INSTANTIATION(sad::Vector<sad::String>)

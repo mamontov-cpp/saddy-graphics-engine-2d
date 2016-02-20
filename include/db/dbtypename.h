@@ -274,4 +274,55 @@ public:                                                                         
                                                                                   \
 }
 
+#define    DEFINE_DEFAULT_INSTANTIATION(TYPE)                                     \
+namespace sad                                                                     \
+{                                                                                 \
+                                                                                  \
+namespace db                                                                      \
+{                                                                                 \
+                                                                                  \
+template<                                                                         \
+>                                                                                 \
+class TypeName< TYPE >                                                            \
+{                                                                                 \
+public:                                                                           \
+    typedef char yes;                                                             \
+    typedef long long no;                                                         \
+                                                                                  \
+    static yes check(sad::Object*);                                               \
+    static no  check(...);                                                        \
+                                                                                  \
+    enum { SFINAE_BASE_CHECK = false };                                           \
+                                                                                  \
+                                                                                  \
+    static sad::String Name;                                                      \
+    static sad::String BaseName;                                                  \
+    static const bool IsSadObject;                                                \
+    static inline  void init()                                                    \
+    {                                                                             \
+    }                                                                             \
+    static inline bool isSadObject()                                              \
+    {                                                                             \
+        return IsSadObject;                                                       \
+    }                                                                             \
+    static inline const sad::String& name()                                       \
+    {                                                                             \
+        return  Name;                                                             \
+    }                                                                             \
+    static inline const sad::String& baseName()                                   \
+    {                                                                             \
+        return BaseName;                                                          \
+    }                                                                             \
+    enum ObjectCastValueHelper                                                    \
+    {                                                                             \
+        CAN_BE_CASTED_TO_OBJECT  = false,                                         \
+        POINTER_STARS_COUNT = 0                                                   \
+    };                                                                            \
+};                                                                                \
+                                                                                  \
+}                                                                                 \
+                                                                                  \
+}
+
+
 #include "internal/pairdefinitions.h"
