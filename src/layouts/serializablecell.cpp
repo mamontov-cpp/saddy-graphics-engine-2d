@@ -7,7 +7,11 @@ sad::layouts::SerializableCell::SerializableCell()
 ColSpan(1), 
 VAlign(sad::layouts::LVA_Middle), 
 HAlign(sad::layouts::LHA_Middle),
-StackingType(sad::layouts::LST_Horizontal)
+StackingType(sad::layouts::LST_Horizontal),
+PaddingTop(0),
+PaddingBottom(0),
+PaddingLeft(0),
+PaddingRight(0)
 {
     
 }

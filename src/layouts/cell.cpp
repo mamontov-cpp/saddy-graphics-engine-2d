@@ -11,6 +11,10 @@ m_col_span(1),
 m_valign(sad::layouts::LVA_Middle), 
 m_halign(sad::layouts::LHA_Middle),
 m_stacking_type(sad::layouts::LST_Horizontal),
+m_padding_top(0),
+m_padding_bottom(0),
+m_padding_left(0),
+m_padding_right(0),
 m_grid(NULL)
 {
     
@@ -35,6 +39,10 @@ void sad::layouts::Cell::toSerializable(sad::layouts::SerializableCell& cell) co
         cell.Children << m_children[i]->majorId();
     }
     cell.StackingType = m_stacking_type;
+    cell.PaddingTop = m_padding_top;
+    cell.PaddingRight = m_padding_right;
+    cell.PaddingLeft = m_padding_left;
+    cell.PaddingBottom = m_padding_bottom;
 }
 
 void sad::layouts::Cell::fromSerializable(
@@ -61,6 +69,10 @@ void sad::layouts::Cell::fromSerializable(
         this->m_children << child;
     }
     this->m_stacking_type = cell.StackingType;
+    this->m_padding_top = cell.PaddingTop;
+    this->m_padding_right = cell.PaddingRight;
+    this->m_padding_left = cell.PaddingLeft;
+    this->m_padding_bottom = cell.PaddingBottom;
 
     // TODO: Do not forget to notify a grid, after a serializable was loaded
     // Or grid should itself recompute stuff
@@ -74,6 +86,10 @@ m_col_span(o.m_col_span),
 m_valign(o.m_valign),
 m_halign(o.m_halign),
 m_stacking_type(o.m_stacking_type),
+m_padding_top(o.m_padding_top),
+m_padding_bottom(o.m_padding_bottom),
+m_padding_left(o.m_padding_left),
+m_padding_right(o.m_padding_right),
 m_grid(o.m_grid)
 {
     throw std::runtime_error("Not implemented");

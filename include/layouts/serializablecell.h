@@ -46,6 +46,18 @@ struct SerializableCell
      /*! A stacking type for a cell
      */
     sad::layouts::StackingType StackingType;
+    /*! A top padding 
+     */
+    double PaddingTop;
+    /*! A bottom padding 
+     */
+    double PaddingBottom;
+    /*! A left padding 
+     */
+    double PaddingLeft;
+    /*! A right padding 
+     */
+    double PaddingRight;
 
     /*! Constructs default serializable cell
      */
@@ -86,7 +98,10 @@ static picojson::value perform(void * ptr)
     v.insert("halign", sad::db::Save<unsigned int>::perform(&(cell->HAlign)));
     v.insert("children", sad::db::Save<sad::Vector<unsigned long long> >::perform(&(cell->Children)));
     v.insert("stacking_type", sad::db::Save<unsigned int >::perform(&(cell->StackingType)));
-
+    v.insert("padding_top", sad::db::Save<double>::perform(&(cell->PaddingTop)));
+    v.insert("padding_left", sad::db::Save<double>::perform(&(cell->PaddingLeft)));
+    v.insert("padding_right", sad::db::Save<double>::perform(&(cell->PaddingRight)));
+    v.insert("padding_bottom", sad::db::Save<double>::perform(&(cell->PaddingBottom)));
     return v;
 }
 
@@ -121,7 +136,11 @@ public:
         picojson::value const * haligno = picojson::get_property(v, "halign");	
         picojson::value const * childreno = picojson::get_property(v, "children");	
         picojson::value const * stackingtypeo = picojson::get_property(v, "stacking_type");	
-        if (wo && ho && rso && cso && valigno && haligno && childreno && stackingtypeo)
+        picojson::value const * pto = picojson::get_property(v, "padding_top");
+        picojson::value const * pbo = picojson::get_property(v, "padding_bottom");
+        picojson::value const * plo = picojson::get_property(v, "padding_left");
+        picojson::value const * pro = picojson::get_property(v, "padding_right");
+        if (wo && ho && rso && cso && valigno && haligno && childreno && stackingtypeo && pto && pbo && plo && pro)
         {
             sad::Maybe<sad::layouts::LengthValue> maybeWidth = picojson::ValueToType<sad::layouts::LengthValue>::get(*wo);
             sad::Maybe<sad::layouts::LengthValue> maybeHeight = picojson::ValueToType<sad::layouts::LengthValue>::get(*ho);
@@ -131,6 +150,12 @@ public:
             sad::Maybe<unsigned int> maybeHAlign = picojson::ValueToType<unsigned int>::get(*haligno);	
             sad::Maybe<sad::Vector<unsigned long long> > maybeChildren = picojson::ValueToType<sad::Vector<unsigned long long> >::get(*childreno);	
             sad::Maybe<unsigned int> maybeStackingType = picojson::ValueToType<unsigned int>::get(*stackingtypeo);	
+
+            sad::Maybe<double> maybePaddingTop = picojson::ValueToType<double>::get(*pto);	
+            sad::Maybe<double> maybePaddingBottom = picojson::ValueToType<double>::get(*pbo);	
+            sad::Maybe<double> maybePaddingLeft = picojson::ValueToType<double>::get(*plo);	
+            sad::Maybe<double> maybePaddingRight = picojson::ValueToType<double>::get(*pro);	
+
             if (maybeWidth.exists() 
                 && maybeHeight.exists() 
                 && maybeRowSpan.exists() 
@@ -138,7 +163,11 @@ public:
                 && maybeVAlign.exists()
                 && maybeHAlign.exists()
                 && maybeChildren.exists()
-                && maybeStackingType.exists())
+                && maybeStackingType.exists()
+                && maybePaddingTop.exists()
+                && maybePaddingBottom.exists()
+                && maybePaddingLeft.exists()
+                && maybePaddingRight.exists())
             {
                 result.setValue(sad::layouts::SerializableCell());
                 result.mutableValue().Width = maybeWidth.value();
@@ -171,6 +200,11 @@ public:
                     maybeStackingType.setValue(static_cast<unsigned int>(sad::layouts::LST_Vertical));
                 }
                 result.mutableValue().StackingType = static_cast<sad::layouts::StackingType>(maybeStackingType.value());
+
+                result.mutableValue().PaddingTop = maybePaddingTop.value();
+                result.mutableValue().PaddingBottom = maybePaddingBottom.value();
+                result.mutableValue().PaddingLeft = maybePaddingLeft.value();
+                result.mutableValue().PaddingRight = maybePaddingRight.value();
             }
         }
         return result;

@@ -67,6 +67,18 @@ protected:
     /*! A stacking type for a cell
      */
     sad::layouts::StackingType m_stacking_type;
+    /*! A top padding for cell
+     */
+    double m_padding_top;
+    /*! A bottom padding for cell
+     */
+    double m_padding_bottom;
+    /*! A left padding for cell
+     */
+    double m_padding_left;
+    /*! A right padding for cell 
+     */
+    double m_padding_right;
 
     /*! A grid, which cell is being linked to
      */
