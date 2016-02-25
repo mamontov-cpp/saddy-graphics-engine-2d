@@ -217,6 +217,12 @@
     <Filter Include="Заголовочные файлы\animations\easing">
       <UniqueIdentifier>{e19e0a43-ff70-4f25-a521-c9f394ce44c4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Заголовочные файлы\layouts">
+      <UniqueIdentifier>{61c751fc-1ace-463f-a97a-3f24c3a3544f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\layouts">
+      <UniqueIdentifier>{ff1c15c4-0285-4fc9-8e9d-b1b46208fe0a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\camera.cpp">
@@ -794,6 +800,15 @@
     </ClCompile>
     <ClCompile Include="src\animations\animationstexturecoordinateslist.cpp">
       <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\layouts\cell.cpp">
+      <Filter>Файлы исходного кода\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="src\layouts\lengthvalue.cpp">
+      <Filter>Файлы исходного кода\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="src\layouts\serializablecell.cpp">
+      <Filter>Файлы исходного кода\layouts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2176,6 +2191,27 @@
     </ClInclude>
     <ClInclude Include="include\animations\easing\easingtypes.h">
       <Filter>Заголовочные файлы\animations\easing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\layouts\horizontalalignment.h">
+      <Filter>Заголовочные файлы\layouts</Filter>
+    </ClInclude>
+    <ClInclude Include="include\layouts\lengthvalue.h">
+      <Filter>Заголовочные файлы\layouts</Filter>
+    </ClInclude>
+    <ClInclude Include="include\layouts\stackingtype.h">
+      <Filter>Заголовочные файлы\layouts</Filter>
+    </ClInclude>
+    <ClInclude Include="include\layouts\unit.h">
+      <Filter>Заголовочные файлы\layouts</Filter>
+    </ClInclude>
+    <ClInclude Include="include\layouts\verticalalignment.h">
+      <Filter>Заголовочные файлы\layouts</Filter>
+    </ClInclude>
+    <ClInclude Include="include\layouts\cell.h">
+      <Filter>Заголовочные файлы\layouts</Filter>
+    </ClInclude>
+    <ClInclude Include="include\layouts\serializablecell.h">
+      <Filter>Заголовочные файлы\layouts</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

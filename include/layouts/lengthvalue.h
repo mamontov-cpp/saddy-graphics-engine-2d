@@ -22,6 +22,15 @@ public:
     /*! A double value for length
      */
     double Value;
+
+    /*! Constructs a default length value
+     */
+    LengthValue();
+    /*! Constructs new length value
+        \param[in] unit a unit for length value
+        \param[in] value a value
+     */
+    LengthValue(sad::layouts::Unit unit, double value);
 };
         
 }

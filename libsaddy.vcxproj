@@ -102,6 +102,9 @@
     <ClCompile Include="src\keycodes.cpp" />
     <ClCompile Include="src\keymouseconditions.cpp" />
     <ClCompile Include="src\label.cpp" />
+    <ClCompile Include="src\layouts\cell.cpp" />
+    <ClCompile Include="src\layouts\lengthvalue.cpp" />
+    <ClCompile Include="src\layouts\serializablecell.cpp" />
     <ClCompile Include="src\mainloop.cpp" />
     <ClCompile Include="src\mousecursor.cpp" />
     <ClCompile Include="src\object.cpp" />
@@ -487,6 +490,13 @@
     <ClInclude Include="include\keycodes.h" />
     <ClInclude Include="include\keymouseconditions.h" />
     <ClInclude Include="include\label.h" />
+    <ClInclude Include="include\layouts\cell.h" />
+    <ClInclude Include="include\layouts\horizontalalignment.h" />
+    <ClInclude Include="include\layouts\lengthvalue.h" />
+    <ClInclude Include="include\layouts\serializablecell.h" />
+    <ClInclude Include="include\layouts\stackingtype.h" />
+    <ClInclude Include="include\layouts\unit.h" />
+    <ClInclude Include="include\layouts\verticalalignment.h" />
     <ClInclude Include="include\mainloop.h" />
     <ClInclude Include="include\matrix2x2.h" />
     <ClInclude Include="include\matrix3x3.h" />

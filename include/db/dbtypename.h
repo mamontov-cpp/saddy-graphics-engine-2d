@@ -283,7 +283,9 @@ namespace db                                                                    
                                                                                   \
 template<                                                                         \
 >                                                                                 \
-class TypeName< TYPE >                                                            \
+class TypeName<                                                                   \
+TYPE                                                                              \
+>                                                                                 \
 {                                                                                 \
 public:                                                                           \
     typedef char yes;                                                             \
@@ -324,5 +326,14 @@ public:                                                                         
                                                                                   \
 }
 
+
+#ifndef  DECLARE_INSTANTIATED_COMMON_TYPE
+/*! Declares type compile-time metadata as not a sad::Object descendant
+ */
+#define DECLARE_INSTANTIATED_COMMON_TYPE(TYPE)                     \
+sad::String sad::db::TypeName< TYPE >::Name  = #TYPE;              \
+const bool sad::db::TypeName< TYPE >::IsSadObject  = false;        \
+sad::String sad::db::TypeName< TYPE >::BaseName  = #TYPE;          
+#endif
 
 #include "internal/pairdefinitions.h"

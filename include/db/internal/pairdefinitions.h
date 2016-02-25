@@ -1,7 +1,6 @@
 #pragma once
 #include "../../sadpoint.h"
 
-// Forward declaration for triplets
 namespace sad
 {
     
@@ -27,6 +26,18 @@ class Vector;
 
 template<typename T1, typename T2>
 class Hash;
+}
+
+DEFINE_DEFAULT_INSTANTIATION(sad::Vector<sad::Vector<sad::AColor> >)
+DEFINE_DEFAULT_INSTANTIATION(sad::Vector<sad::Point2D>)
+DEFINE_DEFAULT_INSTANTIATION(sad::Vector<sad::dialogue::Phrase*>)
+DEFINE_DEFAULT_INSTANTIATION(sad::Vector<sad::dialogue::Phrase>)
+DEFINE_DEFAULT_INSTANTIATION(sad::Vector<unsigned long long>)
+DEFINE_DEFAULT_INSTANTIATION(sad::Vector<sad::String>)
+
+// Forward declaration for triplets
+namespace sad
+{
 
 namespace db
 {
@@ -232,10 +243,3 @@ public:
 
 }
 
-
-DEFINE_DEFAULT_INSTANTIATION(sad::Vector<sad::Vector<sad::AColor> >)
-DEFINE_DEFAULT_INSTANTIATION(sad::Vector<sad::Point2D>)
-DEFINE_DEFAULT_INSTANTIATION(sad::Vector<sad::dialogue::Phrase*>)
-DEFINE_DEFAULT_INSTANTIATION(sad::Vector<sad::dialogue::Phrase>)
-DEFINE_DEFAULT_INSTANTIATION(sad::Vector<unsigned long long>)
-DEFINE_DEFAULT_INSTANTIATION(sad::Vector<sad::String>)

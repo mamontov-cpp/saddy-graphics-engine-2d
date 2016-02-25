@@ -753,7 +753,7 @@ public:
             for(size_t i = 0; i < top.size() && parseresult; i++)
             {
                 const picojson::value & topentry = top[i];
-                sad::Maybe<sad::Point2D> maybeentry = picojson::ValueToType<sad::Point2D>::get(top[i]);
+                sad::Maybe<sad::Point2D> maybeentry = picojson::ValueToType<sad::Point2D>::get(topentry);
                 if (maybeentry.exists())
                 {
                     tmpresult << maybeentry.value();
@@ -834,7 +834,7 @@ public:
             for(size_t i = 0; i < top.size() && parseresult; i++)
             {
                 const picojson::value & topentry = top[i];
-                sad::Maybe<sad::dialogue::Phrase> maybeentry = picojson::ValueToType<sad::dialogue::Phrase>::get(top[i]);
+                sad::Maybe<sad::dialogue::Phrase> maybeentry = picojson::ValueToType<sad::dialogue::Phrase>::get(topentry);
                 if (maybeentry.exists())
                 {
                     tmpresult << new sad::dialogue::Phrase(maybeentry.value());
@@ -934,7 +934,7 @@ public:
             for(size_t i = 0; i < top.size() && parseresult; i++)
             {
                 const picojson::value & topentry = top[i];
-                sad::Maybe<unsigned long long> maybeentry = picojson::ValueToType<unsigned long long>::get(top[i]);
+                sad::Maybe<unsigned long long> maybeentry = picojson::ValueToType<unsigned long long>::get(topentry);
                 if (maybeentry.exists())
                 {
                     tmpresult << maybeentry.value();
@@ -975,7 +975,7 @@ public:
             for(size_t i = 0; i < top.size() && parseresult; i++)
             {
                 const picojson::value & topentry = top[i];
-                sad::Maybe<sad::String> maybeentry = picojson::ValueToType<sad::String>::get(top[i]);
+                sad::Maybe<sad::String> maybeentry = picojson::ValueToType<sad::String>::get(topentry);
                 if (maybeentry.exists())
                 {
                     tmpresult << maybeentry.value();
@@ -1015,13 +1015,13 @@ public:
             sad::Maybe<double> mavalue = picojson::ValueToType<double>::get(*mvalue);
             if (maunit.exists() && mavalue.exists())
             {
-                unsigned int v = maunit.value();
-                if (v > 2) 
+                unsigned int unitval = maunit.value();
+                if (unitval > 2) 
                 {
-                    v = 2;
+                    unitval = 2;
                 }
                 sad::layouts::LengthValue value;
-                value.Unit = (sad::layouts::Unit)v;
+                value.Unit = static_cast<sad::layouts::Unit>(unitval);
                 value.Value = mavalue.value();
                 result.setValue(value);
             }
@@ -1052,7 +1052,7 @@ public:
             for(size_t i = 0; i < top.size() && parseresult; i++)
             {
                 const picojson::value & topentry = top[i];
-                sad::Maybe<T> maybeentry = picojson::ValueToType<T>::get(top[i]);
+                sad::Maybe<T> maybeentry = picojson::ValueToType<T>::get(topentry);
                 if (maybeentry.exists())
                 {
                     tmpresult << maybeentry.value();
@@ -1086,7 +1086,6 @@ public:
         sad::Maybe<sad::Pair<T1, T2> > result;
         picojson::value const * f1o = picojson::get_property(v, "field1");
         picojson::value const * f2o = picojson::get_property(v, "field2");
-        // First try to create rectangle by four points
         if (f1o && f2o)
         {
             sad::Maybe<T1> f1 = picojson::ValueToType<T1>::get(*f1o);
@@ -1118,7 +1117,6 @@ public:
         picojson::value const * f1o = picojson::get_property(v, "field1");
         picojson::value const * f2o = picojson::get_property(v, "field2");
         picojson::value const * f3o = picojson::get_property(v, "field3");		
-        // First try to create rectangle by four points
         if (f1o && f2o && f3o)
         {
             sad::Maybe<T1> f1 = picojson::ValueToType<T1>::get(*f1o);
@@ -1153,7 +1151,6 @@ public:
         picojson::value const * f2o = picojson::get_property(v, "field2");
         picojson::value const * f3o = picojson::get_property(v, "field3");		
         picojson::value const * f4o = picojson::get_property(v, "field4");				
-        // First try to create rectangle by four points
         if (f1o && f2o && f3o && f4o)
         {
             sad::Maybe<T1> f1 = picojson::ValueToType<T1>::get(*f1o);

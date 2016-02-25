@@ -34,6 +34,7 @@ bool Load<_Type>::perform(void * ptr, const picojson::value & v)
         return reinterpret_cast<sad::Object *>(ptr)->load(v);
     }
     throw sad::db::NotImplemented("sad::db::Load<_Type>::perform");
+    // ReSharper disable once CppUnreachableCode
     return false;
 }
 
@@ -100,7 +101,7 @@ static bool perform(void * ptr, const picojson::value & v)
     sad::Maybe< sad::Vector<T> >  cast = picojson::ValueToType<sad::Vector<T> >::get(v);     
     if (cast.exists())                                           
     {                                                            
-        *( sad::Vector<T> *)ptr = cast.value();                            
+        *reinterpret_cast<sad::Vector<T> *>(ptr) = cast.value();                            
     }                                                            
     return cast.exists();                                        
 }                                                                
@@ -117,7 +118,7 @@ static bool perform(void * ptr, const picojson::value & v)
     sad::Maybe< sad::Pair<T1, T2> >  cast = picojson::ValueToType<sad::Pair<T1, T2> >::get(v);     
     if (cast.exists())                                           
     {                                                            
-        *( sad::Pair<T1, T2> *)ptr = cast.value();                            
+        *reinterpret_cast<sad::Pair<T1, T2> *>(ptr) = cast.value();                            
     }                                                            
     return cast.exists();                                        
 }                                                                
@@ -135,7 +136,7 @@ static bool perform(void * ptr, const picojson::value & v)
     sad::Maybe< sad::Triplet<T1, T2, T3> >  cast = picojson::ValueToType<sad::Triplet<T1, T2, T3> >::get(v);     
     if (cast.exists())                                           
     {                                                            
-        *( sad::Triplet<T1, T2, T3> *)ptr = cast.value();                            
+        *reinterpret_cast<sad::Triplet<T1, T2, T3> *>(ptr) = cast.value();                            
     }                                                            
     return cast.exists();                                        
 }                                                                
@@ -152,7 +153,7 @@ static bool perform(void * ptr, const picojson::value & v)
     sad::Maybe< sad::Quadruplet<T1, T2, T3, T4> >  cast = picojson::ValueToType<sad::Quadruplet<T1, T2, T3, T4> >::get(v);     
     if (cast.exists())                                           
     {                                                            
-        *( sad::Quadruplet<T1, T2, T3, T4> *)ptr = cast.value();                            
+        *reinterpret_cast<sad::Quadruplet<T1, T2, T3, T4> *>(ptr) = cast.value();                            
     }                                                            
     return cast.exists();                                        
 }                                                                
