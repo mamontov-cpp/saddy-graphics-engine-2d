@@ -44,7 +44,7 @@ void sad::layouts::Cell::toSerializable(sad::layouts::SerializableCell& cell) co
     cell.PaddingRight = m_padding_right;
     cell.PaddingLeft = m_padding_left;
     cell.PaddingBottom = m_padding_bottom;
-	cell.AssignedArea = AssignedArea;
+    cell.AssignedArea = AssignedArea;
 }
 
 void sad::layouts::Cell::fromSerializable(
@@ -75,14 +75,14 @@ void sad::layouts::Cell::fromSerializable(
     this->m_padding_right = cell.PaddingRight;
     this->m_padding_left = cell.PaddingLeft;
     this->m_padding_bottom = cell.PaddingBottom;
-	this->AssignedArea = cell.AssignedArea;
+    this->AssignedArea = cell.AssignedArea;
 
     // Children locations are stored separately and assigned area is located here. No reason to update grid at all
 }
 
 void sad::layouts::Cell::update()
 {
-	// TODO: Update children location here
+    // TODO: Update children location here
 }
 
 

@@ -41,14 +41,14 @@ public:
      */
     void fromSerializable(sad::layouts::SerializableCell& cell, sad::db::Database* db);
     /*! Updates inner children, according to assigned area
-	 */
-	void update();
-	/*! An assigned area for cell
+     */
+    void update();
+    /*! An assigned area for cell
      */
     sad::Rect2D AssignedArea;
-	/*! A mark flag for each cell to ensure it was rendered only once. Used by sad::layouts::Grid
-	 */
-	bool Rendered;	
+    /*! A mark flag for each cell to ensure it was rendered only once. Used by sad::layouts::Grid
+     */
+    bool Rendered;	
 protected:
     /*! Width of a cell
      */

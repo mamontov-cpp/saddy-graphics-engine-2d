@@ -20,87 +20,87 @@ m_renderer(NULL),
 m_render_color(255,0 ,0),
 m_loading(false)
 {
-	
+    
 }
 
 sad::layouts::Grid::~Grid()
 {
-	
+    
 }
 
 sad::layouts::Cell* sad::layouts::Grid::cell(unsigned int row, unsigned int col)
 {
-	sad::layouts::Cell* result = NULL;
-	if (m_map.contains(row))
-	{
-		if (m_map[row].contains(col))
-		{
-			unsigned int pos = m_map[row][col];
-			if (pos < m_cells.size())
-			{
-				result = m_cells[pos];
-			}
-		}
-	}
-	return result;
+    sad::layouts::Cell* result = NULL;
+    if (m_map.contains(row))
+    {
+        if (m_map[row].contains(col))
+        {
+            unsigned int pos = m_map[row][col];
+            if (pos < m_cells.size())
+            {
+                result = m_cells[pos];
+            }
+        }
+    }
+    return result;
 }
 
 void sad::layouts::Grid::setTreeName(sad::Renderer* r, const sad::String & tree_name)
 {
-	m_renderer = r;
+    m_renderer = r;
 }
 
 sad::Renderer* sad::layouts::Grid::renderer() const
 {
-	sad::Renderer* result = this->sad::SceneNode::renderer();
-	if (!result)
-	{
-		result = m_renderer;		
-	}
-	return result;
+    sad::Renderer* result = this->sad::SceneNode::renderer();
+    if (!result)
+    {
+        result = m_renderer;		
+    }
+    return result;
 }
 
 void sad::layouts::Grid::render()
 {
-	for(size_t i = 0; i < m_cells.size(); i++)
-	{
-		m_cells[i]->Rendered = false;
-	}
-	sad::AColor clr(255, 0, 0);
-	sad::Renderer* r = this->renderer();
-	if (r)
-	{
-		for(size_t i = 0; i < m_rows; i++)
-		{
-			for(size_t j = 0; j < m_cols; j++)
-			{
-				sad::layouts::Cell* cl = this->cell(i, j);
-				if (cl)
-				{
-					if (cl->Rendered == false)
-					{
-						cl->Rendered = true;
-						// No reasons to have inner grids being rendered, they must either be added to scene or be rendered by holder node
-						r->render()->rectangle(cl->AssignedArea, m_render_color);
-					}
-				}
-			}
-		}
-	}
+    for(size_t i = 0; i < m_cells.size(); i++)
+    {
+        m_cells[i]->Rendered = false;
+    }
+    sad::AColor clr(255, 0, 0);
+    sad::Renderer* r = this->renderer();
+    if (r)
+    {
+        for(size_t i = 0; i < m_rows; i++)
+        {
+            for(size_t j = 0; j < m_cols; j++)
+            {
+                sad::layouts::Cell* cl = this->cell(i, j);
+                if (cl)
+                {
+                    if (cl->Rendered == false)
+                    {
+                        cl->Rendered = true;
+                        // No reasons to have inner grids being rendered, they must either be added to scene or be rendered by holder node
+                        r->render()->rectangle(cl->AssignedArea, m_render_color);
+                    }
+                }
+            }
+        }
+    }
 }
 
 
 void sad::layouts::Grid::regions(sad::Vector<sad::Rect2D> & r)
 {
-	r << m_area;
+    r << m_area;
 }
  
 bool sad::layouts::Grid::load(const picojson::value& v)
 {
-	m_loading = true;
-	bool result = this->sad::SceneNode::load(v);
-	m_loading = false;
-	return result;
+    m_loading = true;
+    bool result = this->sad::SceneNode::load(v);
+    m_loading = false;
+    return result;
 }
 
 
