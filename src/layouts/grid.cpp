@@ -31,17 +31,11 @@ sad::layouts::Grid::~Grid()
 sad::layouts::Cell* sad::layouts::Grid::cell(unsigned int row, unsigned int col)
 {
     sad::layouts::Cell* result = NULL;
-    if (m_map.contains(row))
-    {
-        if (m_map[row].contains(col))
-        {
-            unsigned int pos = m_map[row][col];
-            if (pos < m_cells.size())
-            {
-                result = m_cells[pos];
-            }
-        }
-    }
+    size_t pos = row * m_cols + col;
+	if (pos < m_cells.size())
+	{
+		result = m_cells[pos];
+	}
     return result;
 }
 

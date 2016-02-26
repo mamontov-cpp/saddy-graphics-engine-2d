@@ -111,9 +111,6 @@ private:
     /*! A list of cells
      */
     sad::PtrVector<sad::layouts::Cell> m_cells;
-    /*! A map, which maps rows to columns, to indexes of cells		
-     */ 
-    sad::Hash<unsigned int, sad::Hash<unsigned int, unsigned int> > m_map;
     /*! A default top padding for all cells
      */
     double m_padding_top;
