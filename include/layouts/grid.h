@@ -7,10 +7,13 @@
 #include "../scenenode.h"
 #include "../sadptrvector.h"
 #include "../sadhash.h"
+#include "../sadcolor.h"
 #include "cell.h"
 
 namespace sad
 {
+	
+class Renderer;
 
 namespace layouts
 {
@@ -19,6 +22,9 @@ namespace layouts
 	
 	Note, that grid is expanded automatically, as new cells are added, so area property
 	may change, due to large inner nodes.
+	
+	Also, you could see fixed width or fixed height and table will try to adjust to it.
+	It may fail if one of nodes is too large to be fit.
  */ 
 class Grid: public sad::SceneNode
 {
@@ -30,14 +36,23 @@ public:
 	/*! Grid could be inherited
 	 */
 	virtual ~Grid();
+	/*! Returns cell by it's row and it's cell
+		\param[in] row a row for cell
+		\param[in] col a column for cell
+	 */
+	sad::layouts::Cell* cell(unsigned int row, unsigned int col);
+    /*! Sets a tree name for object with specified renderer
+        \param[in] r renderer, which tree should be fetched from
+        \param[in] tree_name a name for an item for object
+     */
+    virtual void setTreeName(sad::Renderer* r, const sad::String & tree_name);
+	/*! Returns renderer for a grid
+		\return renderer
+	 */
+	sad::Renderer* renderer() const;
 	/*! Allows rendering of a grid
 	 */ 
 	virtual void render();
-    /*! Sets links resources to a treename and renderer
-        \param[in] r renderer
-        \param[in] treename a name for tree
-     */
-    virtual void setTreeName(sad::Renderer* r, const sad::String& treename);
 	/*! Loads grid from picojson object. Used to recompute all cells, after grid is loaded
         \param[in] v a picojson object
         \return  whether it as successfull
@@ -107,6 +122,18 @@ private:
 	/*! A default right padding for all cells
 	 */
 	double m_padding_right;	
+	/*! Whether it's fixed width table.
+	 */
+	bool m_fixed_width;
+	/*! Whether it's fixed height table
+	 */
+	bool m_fixed_height;
+	/*! A rendering color for a grid
+	 */
+	sad::AColor m_render_color;
+	/*! A parent renderer for a grid
+	 */
+	sad::Renderer * m_renderer;
 };
 
 }	

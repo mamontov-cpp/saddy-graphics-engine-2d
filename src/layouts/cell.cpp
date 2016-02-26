@@ -6,7 +6,8 @@ DECLARE_SOBJ(sad::layouts::Cell)
 // ============================ PUBLIC METHODS ============================
 
 sad::layouts::Cell::Cell() 
-: m_row_span(1),
+: Rendered(false),
+m_row_span(1),
 m_col_span(1), 
 m_valign(sad::layouts::LVA_Middle), 
 m_halign(sad::layouts::LHA_Middle),
@@ -79,15 +80,11 @@ void sad::layouts::Cell::fromSerializable(
 }
 
 
-void sad::layouts::Cell::renderGrids(sad::Renderer* r)
-{
-	// TODO: Actually implement it
-}
-
 // ============================ PRIVATE METHODS ============================
 
 sad::layouts::Cell::Cell(const sad::layouts::Cell& o)
-: m_row_span(o.m_row_span), 
+: Rendered(o.Rendered), 
+m_row_span(o.m_row_span), 
 m_col_span(o.m_col_span),
 m_valign(o.m_valign),
 m_halign(o.m_halign),
