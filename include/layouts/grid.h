@@ -99,6 +99,9 @@ private:
      */
     sad::layouts::Grid& operator=(const sad::layouts::Grid& grid);
     
+	/*! Forces grid to update amount of cells, fixing their amount in grid
+	 */
+	void updateCells();
     /*! An area for a grid
      */
     sad::Rect2D m_area;
