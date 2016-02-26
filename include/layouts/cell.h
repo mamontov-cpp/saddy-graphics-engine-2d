@@ -13,6 +13,8 @@
 
 namespace sad
 {
+
+class Renderer;
     
 namespace layouts
 {
@@ -38,7 +40,9 @@ public:
         \param[in] db a source database, where objects are located
      */
     void fromSerializable(sad::layouts::SerializableCell& cell, sad::db::Database* db);
-
+	/*! Forces inner grids to be rendered
+	 */
+	void renderGrids(sad::Renderer* r);
     /*! An assigned area for cell
      */
     sad::Rect2D AssignedArea;

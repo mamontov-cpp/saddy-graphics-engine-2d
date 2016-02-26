@@ -78,6 +78,12 @@ void sad::layouts::Cell::fromSerializable(
     // Or grid should itself recompute stuff
 }
 
+
+void sad::layouts::Cell::renderGrids(sad::Renderer* r)
+{
+	// TODO: Actually implement it
+}
+
 // ============================ PRIVATE METHODS ============================
 
 sad::layouts::Cell::Cell(const sad::layouts::Cell& o)
