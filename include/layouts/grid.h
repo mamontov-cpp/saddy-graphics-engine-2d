@@ -53,15 +53,17 @@ public:
 	/*! Allows rendering of a grid
 	 */ 
 	virtual void render();
-	/*! Loads grid from picojson object. Used to recompute all cells, after grid is loaded
-        \param[in] v a picojson object
-        \return  whether it as successfull
-     */
-    virtual bool load(const picojson::value& v);
     /*! Fills vector of regions with exactly one region, describing an area of grid
         \param[out] r a vector of regions
      */
     virtual void regions(sad::Vector<sad::Rect2D> & r);
+    /*! Loads grid from picojson object
+        \param[in] v a picojson object
+        \return  whether it as successfull
+     */
+    virtual bool load(const picojson::value& v);	
+	
+	// TODO: Implement this after gettes and setters are done.
     /*! A basic schema for object
         \return a schema 
      */
@@ -70,9 +72,8 @@ public:
         \return schema
      */
     virtual sad::db::schema::Schema* schema() const;	
-    /*! Called, when renderer for scene is changed
-     */
-    virtual void rendererChanged();
+
+	// TODO: Getters and setters here
     /*! Sets an area for table
         \param[in] r area for table
      */
@@ -80,7 +81,10 @@ public:
     /*! Returns area for label
         \return area for label
      */
-    sad::Rect2D area() const;	
+    sad::Rect2D area() const;
+
+
+	// TODO: Implement this
 	/*! Forces grid to recompute all items for cells
 	 */ 
 	void update();	
@@ -134,6 +138,9 @@ private:
 	/*! A parent renderer for a grid
 	 */
 	sad::Renderer * m_renderer;
+    /*! Toggles loading mode on grid. If grid is loading, no update should be called
+     */
+    bool m_loading;	
 };
 
 }	

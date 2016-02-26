@@ -40,12 +40,15 @@ public:
         \param[in] db a source database, where objects are located
      */
     void fromSerializable(sad::layouts::SerializableCell& cell, sad::db::Database* db);
-    /*! An assigned area for cell
+    /*! Updates inner children, according to assigned area
+	 */
+	void update();
+	/*! An assigned area for cell
      */
     sad::Rect2D AssignedArea;
 	/*! A mark flag for each cell to ensure it was rendered only once. Used by sad::layouts::Grid
 	 */
-	bool Rendered;
+	bool Rendered;	
 protected:
     /*! Width of a cell
      */

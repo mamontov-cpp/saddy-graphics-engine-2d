@@ -58,6 +58,9 @@ struct SerializableCell
     /*! A right padding 
      */
     double PaddingRight;
+	/*! Assigned area to ensure that restoring will not fail locations
+	 */
+	sad::Rect2D AssignedArea;
 
     /*! Constructs default serializable cell
      */
@@ -102,6 +105,7 @@ static picojson::value perform(void * ptr)
     v.insert("padding_left", sad::db::Save<double>::perform(&(cell->PaddingLeft)));
     v.insert("padding_right", sad::db::Save<double>::perform(&(cell->PaddingRight)));
     v.insert("padding_bottom", sad::db::Save<double>::perform(&(cell->PaddingBottom)));
+	v.insert("assigned_area", sad::db::Save<sad::Rect2D>::perform(&(cell->AssignedArea)));
     return v;
 }
 
@@ -140,7 +144,8 @@ public:
         picojson::value const * pbo = picojson::get_property(v, "padding_bottom");
         picojson::value const * plo = picojson::get_property(v, "padding_left");
         picojson::value const * pro = picojson::get_property(v, "padding_right");
-        if (wo && ho && rso && cso && valigno && haligno && childreno && stackingtypeo && pto && pbo && plo && pro)
+		picojson::value const * aao = picojson::get_property(v, "assigned_area");
+        if (wo && ho && rso && cso && valigno && haligno && childreno && stackingtypeo && pto && pbo && plo && pro && aao)
         {
             sad::Maybe<sad::layouts::LengthValue> maybeWidth = picojson::ValueToType<sad::layouts::LengthValue>::get(*wo);
             sad::Maybe<sad::layouts::LengthValue> maybeHeight = picojson::ValueToType<sad::layouts::LengthValue>::get(*ho);
@@ -156,6 +161,7 @@ public:
             sad::Maybe<double> maybePaddingLeft = picojson::ValueToType<double>::get(*plo);	
             sad::Maybe<double> maybePaddingRight = picojson::ValueToType<double>::get(*pro);	
 
+			sad::Maybe<sad::Rect2D> maybeAssignedArea = picojson::ValueToType<sad::Rect2D>::get(*aao);	
             if (maybeWidth.exists() 
                 && maybeHeight.exists() 
                 && maybeRowSpan.exists() 
@@ -167,7 +173,8 @@ public:
                 && maybePaddingTop.exists()
                 && maybePaddingBottom.exists()
                 && maybePaddingLeft.exists()
-                && maybePaddingRight.exists())
+                && maybePaddingRight.exists()
+				&& maybeAssignedArea.exists())
             {
                 result.setValue(sad::layouts::SerializableCell());
                 result.mutableValue().Width = maybeWidth.value();
@@ -205,6 +212,8 @@ public:
                 result.mutableValue().PaddingBottom = maybePaddingBottom.value();
                 result.mutableValue().PaddingLeft = maybePaddingLeft.value();
                 result.mutableValue().PaddingRight = maybePaddingRight.value();
+				
+				result.mutableValue().AssignedArea = maybeAssignedArea.value();
             }
         }
         return result;

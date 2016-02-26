@@ -17,7 +17,8 @@ m_padding_right(0),
 m_fixed_width(false),
 m_fixed_height(false),
 m_renderer(NULL),
-m_render_color(255,0 ,0)
+m_render_color(255,0 ,0),
+m_loading(false)
 {
 	
 }
@@ -89,6 +90,20 @@ void sad::layouts::Grid::render()
 }
 
 
+void sad::layouts::Grid::regions(sad::Vector<sad::Rect2D> & r)
+{
+	r << m_area;
+}
+ 
+bool sad::layouts::Grid::load(const picojson::value& v)
+{
+	m_loading = true;
+	bool result = this->sad::SceneNode::load(v);
+	m_loading = false;
+	return result;
+}
+
+
 // =================================== PRIVATE METHODS ===================================
 
 sad::layouts::Grid::Grid(const sad::layouts::Grid& o)
@@ -101,7 +116,8 @@ m_padding_right(o.m_padding_right),
 m_fixed_width(o.m_fixed_width),
 m_fixed_height(o.m_fixed_height),
 m_renderer(o.m_renderer),
-m_render_color(o.m_render_color)
+m_render_color(o.m_render_color),
+m_loading(false)
 {
     throw std::runtime_error("Not implemented");
 }
