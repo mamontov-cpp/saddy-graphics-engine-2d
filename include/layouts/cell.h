@@ -44,7 +44,7 @@ public:
         \param[in] cell a cell
         \param[in] db a source database, where objects are located
      */
-    void fromSerializable(sad::layouts::SerializableCell& cell, sad::db::Database* db);
+    void fromSerializable(const sad::layouts::SerializableCell& cell, sad::db::Database* db);
     /*! Updates inner children, according to assigned area
      */
     void update();

@@ -48,7 +48,7 @@ void sad::layouts::Cell::toSerializable(sad::layouts::SerializableCell& cell) co
 }
 
 void sad::layouts::Cell::fromSerializable(
-    sad::layouts::SerializableCell& cell,
+    const sad::layouts::SerializableCell& cell,
     sad::db::Database* db
 )
 {

@@ -182,6 +182,14 @@ public:
 		\return rendering color
 	 */
 	const sad::AColor& renderColor() const;
+	/*! Returns a list of a serializable cells
+		\return list of cells
+	 */ 
+	sad::Vector<sad::layouts::SerializableCell> cells() const;
+	/*! This is very unsafe functions, since this will replace all cells by new cells without actually checking their size
+		\param[in] cells list of cells
+	 */
+	void setCells(const sad::Vector<sad::layouts::SerializableCell>& cells);
     // TODO: Implement this
     /*! Forces grid to recompute all items for cells
      */ 

@@ -1,5 +1,7 @@
 #include "layouts/grid.h"
 
+#include "db/dbtable.h"
+
 #include "renderer.h"
 #include "primitiverenderer.h"
 
@@ -98,6 +100,28 @@ bool sad::layouts::Grid::load(const picojson::value& v)
     m_loading = true;
     bool result = this->sad::SceneNode::load(v);
     m_loading = false;
+	if (result)
+	{
+		unsigned int size = m_rows * m_cols;
+		sad::db::Database* db = this->table()->database();
+		// Strip odd cells
+		while(m_cells.size() > size)
+		{
+			delete m_cells[m_cells.size() - 1];
+			m_cells.removeAt(m_cells.size() - 1);
+		}
+		// Add missing cells
+		while(m_cells.size() < size)
+		{
+			sad::layouts::Cell* cell = new sad::layouts::Cell();
+			cell->setDatabase(db);
+			cell->setPaddingBottom(m_padding_bottom, false);
+			cell->setPaddingTop(m_padding_top, false);
+			cell->setPaddingLeft(m_padding_left, false);
+			cell->setPaddingRight(m_padding_right, false);
+			m_cells << cell;
+		}
+	}
     return result;
 }
 
@@ -120,10 +144,6 @@ void sad::layouts::Grid::setRows(unsigned int rows)
 {
 	m_rows = rows;
 	unsigned int oldrows = m_rows;
-	if (!m_rows)
-	{
-		m_rows = 1;
-	}
 	if (!m_loading)
 	{
 		if (oldrows != m_rows)
@@ -142,10 +162,6 @@ void sad::layouts::Grid::setColumns(unsigned int cols)
 {
 	unsigned int oldcols = m_cols;
 	m_cols = cols;
-	if (!m_cols)
-	{
-		m_cols = 1;
-	}
 	if (!m_loading)
 	{
 		if (m_cols != oldcols)
@@ -288,6 +304,35 @@ void sad::layouts::Grid::setRenderColor(const sad::AColor& clr)
 const sad::AColor& sad::layouts::Grid::renderColor() const
 {
 	return m_render_color;
+}
+
+sad::Vector<sad::layouts::SerializableCell> sad::layouts::Grid::cells() const
+{
+	sad::Vector<sad::layouts::SerializableCell> result;
+	for(size_t i = 0; i < m_cells.size(); i++)
+	{
+		sad::layouts::SerializableCell cell;
+		m_cells[i]->toSerializable(cell);
+		result << cell;
+	}
+	return result;
+}
+
+void sad::layouts::Grid::setCells(const sad::Vector<sad::layouts::SerializableCell>& cells)
+{
+	for(size_t i = 0; i < m_cells.size(); i++)
+	{
+		delete m_cells[i];
+	}
+	m_cells.clear();
+	sad::db::Database* db = this->table()->database();
+	for(size_t i = 0; i < cells.size(); i++)
+	{
+		sad::layouts::Cell* cell = new sad::layouts::Cell();
+		cell->setDatabase(db);
+		cell->fromSerializable(cells[i], db);
+		m_cells << cell;
+	}
 }
 
 // =================================== PRIVATE METHODS ===================================
