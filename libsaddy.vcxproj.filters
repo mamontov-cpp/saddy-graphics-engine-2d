@@ -810,6 +810,9 @@
     <ClCompile Include="src\layouts\serializablecell.cpp">
       <Filter>Файлы исходного кода\layouts</Filter>
     </ClCompile>
+    <ClCompile Include="src\layouts\grid.cpp">
+      <Filter>Файлы исходного кода\layouts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\camera.h">
@@ -2211,6 +2214,9 @@
       <Filter>Заголовочные файлы\layouts</Filter>
     </ClInclude>
     <ClInclude Include="include\layouts\serializablecell.h">
+      <Filter>Заголовочные файлы\layouts</Filter>
+    </ClInclude>
+    <ClInclude Include="include\layouts\grid.h">
       <Filter>Заголовочные файлы\layouts</Filter>
     </ClInclude>
   </ItemGroup>

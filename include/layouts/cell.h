@@ -5,7 +5,6 @@
 #pragma once
 #include "serializablecell.h"
 
-#include "../object.h"
 #include "../db/dbtypedlink.h"
 #include "../sadptrvector.h"
 #include "../sadrect.h"
@@ -15,15 +14,21 @@ namespace sad
 {
 
 class Renderer;
-    
+
+namespace db
+{
+
+class Database;
+
+}
+
 namespace layouts
 {
 
 class Grid;
     
-class Cell: public sad::Object
+class Cell
 {
-SAD_OBJECT
 public:
     /*! Inits a default cell
      */
@@ -43,7 +48,35 @@ public:
     /*! Updates inner children, according to assigned area
      */
     void update();
-    /*! An assigned area for cell
+	/*! Sets top padding for a cell
+		\param[in] value a new value for padding
+		\param[in] upgrade_grid whether we should update grid after it.
+	 */
+	void setPaddingTop(double value, bool update_grid);
+	/*! Sets bottom padding for a cell
+		\param[in] value a new value for padding
+		\param[in] upgrade_grid whether we should update grid after it.
+	 */
+	void setPaddingBottom(double value, bool update_grid);
+	/*! Sets left padding for a cell
+		\param[in] value a new value for padding
+		\param[in] upgrade_grid whether we should update grid after it.
+	 */
+	void setPaddingLeft(double value, bool update_grid);
+	/*! Sets right padding for a cell
+		\param[in] value a new value for padding
+		\param[in] upgrade_grid whether we should update grid after it.
+	 */
+	void setPaddingRight(double value, bool update_grid);
+	/*! Returns a database, which is cell linked to
+		\return database
+	 */
+	sad::db::Database* database() const;
+	/*! Sets a databasw, which is cell linked to
+		\param[in] db database
+	 */
+	void setDatabase(sad::db::Database* db);
+	/*! An assigned area for cell
      */
     sad::Rect2D AssignedArea;
     /*! A mark flag for each cell to ensure it was rendered only once. Used by sad::layouts::Grid
@@ -89,7 +122,10 @@ protected:
 
     /*! A grid, which cell is being linked to
      */
-    sad::layouts::Grid* m_grid;
+    sad::layouts::Grid* m_grid;	
+	/*! A database, which is cell is linked to 
+	 */
+	sad::db::Database* m_db;
 private:
     /*! This object is non-copyable
         \param[in] o object
@@ -105,5 +141,3 @@ private:
 }
 
 }
-
-DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::layouts::Cell)

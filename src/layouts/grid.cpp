@@ -16,8 +16,8 @@ m_padding_left(0),
 m_padding_right(0),
 m_fixed_width(false),
 m_fixed_height(false),
-m_renderer(NULL),
 m_render_color(255,0 ,0),
+m_renderer(NULL),
 m_loading(false)
 {
     
@@ -56,11 +56,15 @@ sad::Renderer* sad::layouts::Grid::renderer() const
 
 void sad::layouts::Grid::render()
 {
+	this->renderWithColor(m_render_color);
+}
+
+void sad::layouts::Grid::renderWithColor(const sad::AColor& clr)
+{
     for(size_t i = 0; i < m_cells.size(); i++)
     {
         m_cells[i]->Rendered = false;
     }
-    sad::AColor clr(255, 0, 0);
     sad::Renderer* r = this->renderer();
     if (r)
     {
@@ -75,7 +79,7 @@ void sad::layouts::Grid::render()
                     {
                         cl->Rendered = true;
                         // No reasons to have inner grids being rendered, they must either be added to scene or be rendered by holder node
-                        r->render()->rectangle(cl->AssignedArea, m_render_color);
+                        r->render()->rectangle(cl->AssignedArea, clr);
                     }
                 }
             }
@@ -98,6 +102,194 @@ bool sad::layouts::Grid::load(const picojson::value& v)
 }
 
 
+void sad::layouts::Grid::setArea(const sad::Rect2D & r)
+{
+	m_area = r;
+	if (!m_loading)
+	{
+		this->update();
+	}
+}
+
+sad::Rect2D sad::layouts::Grid::area() const
+{
+	return m_area;
+}
+
+void sad::layouts::Grid::setRows(unsigned int rows)
+{
+	m_rows = rows;
+	unsigned int oldrows = m_rows;
+	if (!m_rows)
+	{
+		m_rows = 1;
+	}
+	if (!m_loading)
+	{
+		if (oldrows != m_rows)
+		{
+			this->updateCells();
+		}
+	}
+}
+
+unsigned int sad::layouts::Grid::rows() const
+{
+	return m_rows;
+}
+
+void sad::layouts::Grid::setColumns(unsigned int cols)
+{
+	unsigned int oldcols = m_cols;
+	m_cols = cols;
+	if (!m_cols)
+	{
+		m_cols = 1;
+	}
+	if (!m_loading)
+	{
+		if (m_cols != oldcols)
+		{
+			this->updateCells();
+		}
+	}
+}
+
+unsigned int sad::layouts::Grid::columns() const
+{
+	return m_cols;
+}
+
+void sad::layouts::Grid::setPaddingTop(double value, bool propagate)
+{
+	m_padding_top = value;
+	if (propagate)
+	{
+		for(size_t i = 0; i < m_cells.size(); i++)
+		{
+			m_cells[i]->setPaddingTop(value, false);
+		}
+		this->update();
+	}
+}
+
+void sad::layouts::Grid::setDefaultPaddingTop(double value)
+{
+	setPaddingTop(value, false);
+}
+
+double sad::layouts::Grid::paddingTop() const
+{
+	return m_padding_top;
+}
+
+void sad::layouts::Grid::setPaddingBottom(double value, bool propagate)
+{
+	m_padding_bottom = value;
+	if (propagate)
+	{
+		for(size_t i = 0; i < m_cells.size(); i++)
+		{
+			m_cells[i]->setPaddingBottom(value, false);
+		}
+		this->update();
+	}
+}
+
+void sad::layouts::Grid::setDefaultPaddingBottom(double value)
+{
+	setPaddingBottom(value, false);
+}
+
+double sad::layouts::Grid::paddingBottom() const
+{
+	return m_padding_bottom;
+}
+
+void sad::layouts::Grid::setPaddingLeft(double value, bool propagate)
+{
+	m_padding_left = value;
+	if (propagate)
+	{
+		for(size_t i = 0; i < m_cells.size(); i++)
+		{
+			m_cells[i]->setPaddingLeft(value, false);
+		}
+		this->update();
+	}
+}
+
+void sad::layouts::Grid::setDefaultPaddingLeft(double value)
+{
+	setPaddingLeft(value, false);
+}
+
+double sad::layouts::Grid::paddingLeft() const
+{
+	return m_padding_left;
+}
+
+void sad::layouts::Grid::setPaddingRight(double value, bool propagate)
+{
+	m_padding_left = value;
+	if (propagate)
+	{
+		for(size_t i = 0; i < m_cells.size(); i++)
+		{
+			m_cells[i]->setPaddingLeft(value, false);
+		}
+		this->update();
+	}
+}
+
+void sad::layouts::Grid::setDefaultPaddingRight(double value)
+{
+	setPaddingRight(value, false);
+}
+
+double sad::layouts::Grid::paddingRight() const
+{
+	return m_padding_right;
+}
+
+void sad::layouts::Grid::setFixedWidth(bool flag)
+{
+	m_fixed_width = flag;
+	if (!m_loading)
+	{
+		this->update();
+	}
+}
+
+bool sad::layouts::Grid::fixedWidth() const
+{
+	return m_fixed_width;
+}
+
+void sad::layouts::Grid::setFixedHeight(bool flag)
+{
+	m_fixed_height = flag;
+	if (!m_loading)
+	{
+		this->update();
+	}
+}
+
+bool sad::layouts::Grid::fixedHeight() const
+{
+	return m_fixed_height;
+}
+
+void sad::layouts::Grid::setRenderColor(const sad::AColor& clr)
+{
+	m_render_color = clr;
+}
+
+const sad::AColor& sad::layouts::Grid::renderColor() const
+{
+	return m_render_color;
+}
+
 // =================================== PRIVATE METHODS ===================================
 
 sad::layouts::Grid::Grid(const sad::layouts::Grid& o)
@@ -109,8 +301,8 @@ m_padding_left(o.m_padding_left),
 m_padding_right(o.m_padding_right),
 m_fixed_width(o.m_fixed_width),
 m_fixed_height(o.m_fixed_height),
-m_renderer(o.m_renderer),
 m_render_color(o.m_render_color),
+m_renderer(o.m_renderer),
 m_loading(false)
 {
     throw std::runtime_error("Not implemented");

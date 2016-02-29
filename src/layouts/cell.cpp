@@ -1,7 +1,6 @@
 #include "layouts/cell.h"
+#include "layouts/grid.h"
 #include <stdexcept>
-
-DECLARE_SOBJ(sad::layouts::Cell)
 
 // ============================ PUBLIC METHODS ============================
 
@@ -16,7 +15,8 @@ m_padding_top(0),
 m_padding_bottom(0),
 m_padding_left(0),
 m_padding_right(0),
-m_grid(NULL)
+m_grid(NULL),
+m_db(NULL)
 {
     
 }
@@ -63,7 +63,8 @@ void sad::layouts::Cell::fromSerializable(
         delete m_children[i];
     }
     this->m_children.clear();
-    for(size_t i = 0; i < cell.Children.size(); i++)
+	this->m_db = db;
+	for(size_t i = 0; i < cell.Children.size(); i++)
     {
         sad::db::TypedLink<sad::SceneNode>* child = new sad::db::TypedLink<sad::SceneNode>();
         child->setDatabase(db);
@@ -85,6 +86,76 @@ void sad::layouts::Cell::update()
     // TODO: Update children location here
 }
 
+void sad::layouts::Cell::setPaddingTop(double value, bool update_grid)
+{
+	m_padding_top = value;
+	if (update_grid)
+	{
+		m_grid->update();
+	}
+	else
+	{
+		update();
+	}
+}
+
+
+void sad::layouts::Cell::setPaddingBottom(double value, bool update_grid)
+{
+	m_padding_bottom = value;
+	if (update_grid)
+	{
+		m_grid->update();
+	}
+	else
+	{
+		update();
+	}	
+}
+
+
+void sad::layouts::Cell::setPaddingLeft(double value, bool update_grid)
+{
+	m_padding_left = value;
+	if (update_grid)
+	{
+		m_grid->update();
+	}
+	else
+	{
+		update();
+	}		
+}
+
+void sad::layouts::Cell::setPaddingRight(double value, bool update_grid)
+{
+	m_padding_right = value;
+	if (update_grid)
+	{
+		m_grid->update();
+	}
+	else
+	{
+		update();
+	}			
+}
+
+sad::db::Database* sad::layouts::Cell::database() const
+{
+	return m_db;
+}
+
+void sad::layouts::Cell::setDatabase(sad::db::Database* db)
+{
+	m_db = db;
+	for(size_t i = 0; i < m_children.size(); i++)
+	{
+		if (m_children[i]->database() != NULL)
+		{
+			m_children[i]->setDatabase(db);
+		}
+	}
+}
 
 // ============================ PRIVATE METHODS ============================
 
@@ -99,7 +170,8 @@ m_padding_top(o.m_padding_top),
 m_padding_bottom(o.m_padding_bottom),
 m_padding_left(o.m_padding_left),
 m_padding_right(o.m_padding_right),
-m_grid(o.m_grid)
+m_grid(o.m_grid),
+m_db(o.m_db)
 {
     throw std::runtime_error("Not implemented");
 }

@@ -103,6 +103,7 @@
     <ClCompile Include="src\keymouseconditions.cpp" />
     <ClCompile Include="src\label.cpp" />
     <ClCompile Include="src\layouts\cell.cpp" />
+    <ClCompile Include="src\layouts\grid.cpp" />
     <ClCompile Include="src\layouts\lengthvalue.cpp" />
     <ClCompile Include="src\layouts\serializablecell.cpp" />
     <ClCompile Include="src\mainloop.cpp" />
@@ -491,6 +492,7 @@
     <ClInclude Include="include\keymouseconditions.h" />
     <ClInclude Include="include\label.h" />
     <ClInclude Include="include\layouts\cell.h" />
+    <ClInclude Include="include\layouts\grid.h" />
     <ClInclude Include="include\layouts\horizontalalignment.h" />
     <ClInclude Include="include\layouts\lengthvalue.h" />
     <ClInclude Include="include\layouts\serializablecell.h" />
