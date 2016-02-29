@@ -150,10 +150,7 @@ void sad::layouts::Cell::setDatabase(sad::db::Database* db)
 	m_db = db;
 	for(size_t i = 0; i < m_children.size(); i++)
 	{
-		if (m_children[i]->database() != NULL)
-		{
-			m_children[i]->setDatabase(db);
-		}
+		m_children[i]->setDatabase(db);
 	}
 }
 
