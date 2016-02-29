@@ -287,6 +287,10 @@ public:
         const sad::Point2D & p1, 
         const sad::Point2D & p2
     );
+    /*! Moves custom object by specified number
+        \param[in] dist a distance
+     */
+    virtual void moveBy(const sad::Point2D & dist);
 protected:
     /*! Fills custom object with defailt item properties
      */

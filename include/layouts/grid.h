@@ -49,13 +49,13 @@ public:
     /*! Returns renderer for a grid
         \return renderer
      */
-	// ReSharper disable once CppHidingFunction
+    // ReSharper disable once CppHidingFunction
     sad::Renderer* renderer() const;
     /*! Allows rendering of a grid
      */ 
     virtual void render();
-	/*! Allows rendering of a grid with specified color
-		\param[in] clr color
+    /*! Allows rendering of a grid with specified color
+        \param[in] clr color
      */ 
     virtual void renderWithColor(const sad::AColor& clr);
     /*! Fills vector of regions with exactly one region, describing an area of grid
@@ -66,9 +66,7 @@ public:
         \param[in] v a picojson object
         \return  whether it as successfull
      */
-    virtual bool load(const picojson::value& v);	
-    
-    // TODO: Implement this after gettes and setters are done.
+    virtual bool load(const picojson::value& v);	    
     /*! A basic schema for object
         \return a schema 
      */
@@ -77,7 +75,6 @@ public:
         \return schema
      */
     virtual sad::db::schema::Schema* schema() const;	
-
     /*! Sets an area for table
         \param[in] r area for table
      */
@@ -86,110 +83,114 @@ public:
         \return area for label
      */
     sad::Rect2D area() const;
-	/*! Sets rows for grid
-		\param[in] rows for grid
-	 */
-	void setRows(unsigned int rows);
-	/*! Returns rows for grid
-		\return rows for grid
-	 */ 
-	unsigned int rows() const;
-	/*! Sets cols for grid
-		\param[in] cols for grid
-	 */
-	void setColumns(unsigned int cols);
-	/*! Returns cols for grid
-		\return cols for grid
-	 */ 
-	unsigned int columns() const;
-	/*! Sets top padding for cells. May set all cells padding's to a current value 
-		if propagate is true, otherwise sets this settings for newly created cells
-		\param[in] value a value for top padding
-		\param[in] propagate whether we should upgrade all paddings
-	 */
-	void setPaddingTop(double value, bool propagate);
-	/*! Sets default value for top padding of grid cells. Equivalent of call of setPaddingTop(value, false).
-		\param[in] value a value
-	 */
-	void setDefaultPaddingTop(double value);
-	/*! Returns default value for top padding of grid cells
-		\return value
-	 */
-	double paddingTop() const;
-	/*! Sets bottom padding for cells. May set all cells padding's to a current value 
-		if propagate is true, otherwise sets this settings for newly created cells
-		\param[in] value a value for top padding
-		\param[in] propagate whether we should upgrade all paddings
-	 */
-	void setPaddingBottom(double value, bool propagate);
-	/*! Sets default value for bottom padding of grid cells. Equivalent of call of setPaddingTop(value, false).
-		\param[in] value a value
-	 */
-	void setDefaultPaddingBottom(double value);
-	/*! Returns default value for bottom padding of grid cells
-		\return value
-	 */
-	double paddingBottom() const;
-	/*! Sets left padding for cells. May set all cells padding's to a current value 
-		if propagate is true, otherwise sets this settings for newly created cells
-		\param[in] value a value for top padding
-		\param[in] propagate whether we should upgrade all paddings
-	 */
-	void setPaddingLeft(double value, bool propagate);
-	/*! Sets default value for left padding of grid cells. Equivalent of call of setPaddingTop(value, false).
-		\param[in] value a value
-	 */
-	void setDefaultPaddingLeft(double value);
-	/*! Returns default value for left padding of grid cells
-		\return value
-	 */
-	double paddingLeft() const;
-	/*! Sets right padding for cells. May set all cells padding's to a current value 
-		if propagate is true, otherwise sets this settings for newly created cells
-		\param[in] value a value for top padding
-		\param[in] propagate whether we should upgrade all paddings
-	 */
-	void setPaddingRight(double value, bool propagate);
-	/*! Sets default value for right padding of grid cells. Equivalent of call of setPaddingTop(value, false).
-		\param[in] value a value
-	 */
-	void setDefaultPaddingRight(double value);
-	/*! Returns default value for right padding of grid cells
-		\return value
-	 */
-	double paddingRight() const;
-	/*! Sets fixed width for a grid
-		\param[in] flag whether it has fixed width
-	 */
-	void setFixedWidth(bool flag);
-	/*! Returns true if grid has fixed width
-		\return true if grid has fixed width
-	 */
-	bool fixedWidth() const;
-	/*! Sets fixed height for a table
-		\param[in] flag whether it has fixed height
-	 */
-	void setFixedHeight(bool flag);
-	/*! Returns true if grid has fixed height
-		\return true if grid has fixed height
-	 */
-	bool fixedHeight() const;
-	/*! Sets rendering color for a grid
-		\param[in] clr color of a grid
-	 */
-	void setRenderColor(const sad::AColor& clr);
-	/*! Returns rendering color for a grid
-		\return rendering color
-	 */
-	const sad::AColor& renderColor() const;
-	/*! Returns a list of a serializable cells
-		\return list of cells
-	 */ 
-	sad::Vector<sad::layouts::SerializableCell> cells() const;
-	/*! This is very unsafe functions, since this will replace all cells by new cells without actually checking their size
-		\param[in] cells list of cells
-	 */
-	void setCells(const sad::Vector<sad::layouts::SerializableCell>& cells);
+    /*! Sets rows for grid
+        \param[in] rows for grid
+     */
+    void setRows(unsigned int rows);
+    /*! Returns rows for grid
+        \return rows for grid
+     */ 
+    unsigned int rows() const;
+    /*! Sets cols for grid
+        \param[in] cols for grid
+     */
+    void setColumns(unsigned int cols);
+    /*! Returns cols for grid
+        \return cols for grid
+     */ 
+    unsigned int columns() const;
+    /*! Sets top padding for cells. May set all cells padding's to a current value 
+        if propagate is true, otherwise sets this settings for newly created cells
+        \param[in] value a value for top padding
+        \param[in] propagate whether we should upgrade all paddings
+     */
+    void setPaddingTop(double value, bool propagate);
+    /*! Sets default value for top padding of grid cells. Equivalent of call of setPaddingTop(value, false).
+        \param[in] value a value
+     */
+    void setDefaultPaddingTop(double value);
+    /*! Returns default value for top padding of grid cells
+        \return value
+     */
+    double paddingTop() const;
+    /*! Sets bottom padding for cells. May set all cells padding's to a current value 
+        if propagate is true, otherwise sets this settings for newly created cells
+        \param[in] value a value for top padding
+        \param[in] propagate whether we should upgrade all paddings
+     */
+    void setPaddingBottom(double value, bool propagate);
+    /*! Sets default value for bottom padding of grid cells. Equivalent of call of setPaddingTop(value, false).
+        \param[in] value a value
+     */
+    void setDefaultPaddingBottom(double value);
+    /*! Returns default value for bottom padding of grid cells
+        \return value
+     */
+    double paddingBottom() const;
+    /*! Sets left padding for cells. May set all cells padding's to a current value 
+        if propagate is true, otherwise sets this settings for newly created cells
+        \param[in] value a value for top padding
+        \param[in] propagate whether we should upgrade all paddings
+     */
+    void setPaddingLeft(double value, bool propagate);
+    /*! Sets default value for left padding of grid cells. Equivalent of call of setPaddingTop(value, false).
+        \param[in] value a value
+     */
+    void setDefaultPaddingLeft(double value);
+    /*! Returns default value for left padding of grid cells
+        \return value
+     */
+    double paddingLeft() const;
+    /*! Sets right padding for cells. May set all cells padding's to a current value 
+        if propagate is true, otherwise sets this settings for newly created cells
+        \param[in] value a value for top padding
+        \param[in] propagate whether we should upgrade all paddings
+     */
+    void setPaddingRight(double value, bool propagate);
+    /*! Sets default value for right padding of grid cells. Equivalent of call of setPaddingTop(value, false).
+        \param[in] value a value
+     */
+    void setDefaultPaddingRight(double value);
+    /*! Returns default value for right padding of grid cells
+        \return value
+     */
+    double paddingRight() const;
+    /*! Sets fixed width for a grid
+        \param[in] flag whether it has fixed width
+     */
+    void setFixedWidth(bool flag);
+    /*! Returns true if grid has fixed width
+        \return true if grid has fixed width
+     */
+    bool fixedWidth() const;
+    /*! Sets fixed height for a table
+        \param[in] flag whether it has fixed height
+     */
+    void setFixedHeight(bool flag);
+    /*! Returns true if grid has fixed height
+        \return true if grid has fixed height
+     */
+    bool fixedHeight() const;
+    /*! Sets rendering color for a grid
+        \param[in] clr color of a grid
+     */
+    void setRenderColor(const sad::AColor& clr);
+    /*! Returns rendering color for a grid
+        \return rendering color
+     */
+    const sad::AColor& renderColor() const;
+    /*! Returns a list of a serializable cells
+        \return list of cells
+     */ 
+    sad::Vector<sad::layouts::SerializableCell> cells() const;
+    /*! This is very unsafe functions, since this will replace all cells by new cells without actually checking their size
+        \param[in] cells list of cells
+     */
+    void setCells(const sad::Vector<sad::layouts::SerializableCell>& cells);
+    /*! Moves a grid by specified vector
+        \param[in] point
+     */
+    void moveBy(const sad::Point2D& p);
     // TODO: Implement this
     /*! Forces grid to recompute all items for cells
      */ 
@@ -205,9 +206,9 @@ private:
      */
     sad::layouts::Grid& operator=(const sad::layouts::Grid& grid);
     
-	/*! Forces grid to update amount of cells, fixing their amount in grid
-	 */
-	void updateCells();
+    /*! Forces grid to update amount of cells, fixing their amount in grid
+     */
+    void updateCells();
     /*! An area for a grid
      */
     sad::Rect2D m_area;

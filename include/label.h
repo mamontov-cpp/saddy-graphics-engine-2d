@@ -415,7 +415,11 @@ public:
         unsigned int maximal_line_width,
         sad::Label::OverflowStrategy s,
         sad::Label::TextEllipsisPosition tep
-    );	
+    );
+    /*! Moves object by specified vector
+        \param[in] p point
+     */
+    virtual void moveBy(const sad::Point2D& p);
 private:
     /*! Reloads font for a label from scene
      */

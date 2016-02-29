@@ -762,6 +762,11 @@ sad::String sad::Label::formatTextLine(
     return result;
 }
 
+void sad::Label::moveBy(const sad::Point2D& p)
+{
+    setPoint(point() + p);
+}
+
 void sad::Label::reloadFont()
 {
     sad::Font * font = m_font.get();

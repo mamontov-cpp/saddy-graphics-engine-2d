@@ -130,6 +130,10 @@ public:
         \param[in] dist a distance to be moved
      */
     void moveBy(const sad::Point3D & dist);
+    /*! Moves a sprite by following vector
+        \param[in] dist a distance to be moved
+     */    
+    virtual void moveBy(const sad::Point2D& p);
     /*! Moves a sprite center to a point
         \param[in] p a new center for a sprite
      */

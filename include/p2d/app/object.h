@@ -110,6 +110,10 @@ public:
          \param[in] p point
       */
      void setPosition(const p2d::Point & p);
+     /*! A basic method for moving object
+         \param[in] p point
+      */
+     virtual void moveBy(sad::Point2D& p);
      /*! Returns an angle of  object
          \return an angle
       */

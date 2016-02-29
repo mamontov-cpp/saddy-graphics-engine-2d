@@ -101,6 +101,10 @@ public:
         \return scene id
      */
     unsigned long long sceneId() const;
+    /*! Moves object by specified vector
+        \param[in] p point
+     */
+    virtual void moveBy(const sad::Point2D& p);
 protected:
     /*! Determines, whether scene node is visible and should be rendered. It's same as m_active but can be used for different purposes,
         when object is active, but hidden by somewhere else in chain of responsibility of application.

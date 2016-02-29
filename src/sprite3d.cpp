@@ -322,6 +322,12 @@ void sad::Sprite3D::moveBy(const sad::Point3D & dist)
     }
 }
 
+void sad::Sprite3D::moveBy(const sad::Point2D& p)
+{
+    sad::Point3D tmp(p.x(), p.y(), 0);
+    moveBy(tmp);
+}
+
 void sad::Sprite3D::moveTo(const sad::Point3D & p)
 {
     sad::Point3D  dist = p;

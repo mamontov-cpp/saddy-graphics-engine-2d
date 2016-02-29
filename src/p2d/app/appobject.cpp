@@ -146,6 +146,11 @@ void sad::p2d::app::Object::setPosition(const sad::p2d::Point & p)
     m_body->setCurrentPosition(p);
 }
 
+void sad::p2d::app::Object::moveBy(sad::Point2D& p)
+{
+    setPosition(position() + p);    
+}
+
 
 void sad::p2d::app::Object::addTangentialForce(sad::p2d::TangentialForce * f)
 {

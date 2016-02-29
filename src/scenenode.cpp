@@ -128,3 +128,8 @@ unsigned long long  sad::SceneNode::sceneId() const
     }
     return m_cached_scene_id;
 }
+
+void sad::SceneNode::moveBy(const sad::Point2D& p)
+{
+    
+}

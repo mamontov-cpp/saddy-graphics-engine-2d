@@ -190,7 +190,7 @@ public:
     /*! Moves a sprite by following vector
         \param[in] dist a distance to be moved
      */
-    void moveBy(const sad::Point2D & dist);
+    virtual void moveBy(const sad::Point2D & dist);
     /*! Moves a sprite center to a point
         \param[in] p a new center for a sprite
      */

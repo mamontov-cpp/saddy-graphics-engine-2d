@@ -1,5 +1,9 @@
 #include "layouts/cell.h"
 #include "layouts/grid.h"
+
+#include "label.h"
+#include "sprite2d.h"
+#include "db/custom/customobject.h"
 #include <stdexcept>
 
 // ============================ PUBLIC METHODS ============================
@@ -63,8 +67,8 @@ void sad::layouts::Cell::fromSerializable(
         delete m_children[i];
     }
     this->m_children.clear();
-	this->m_db = db;
-	for(size_t i = 0; i < cell.Children.size(); i++)
+    this->m_db = db;
+    for(size_t i = 0; i < cell.Children.size(); i++)
     {
         sad::db::TypedLink<sad::SceneNode>* child = new sad::db::TypedLink<sad::SceneNode>();
         child->setDatabase(db);
@@ -88,70 +92,86 @@ void sad::layouts::Cell::update()
 
 void sad::layouts::Cell::setPaddingTop(double value, bool update_grid)
 {
-	m_padding_top = value;
-	if (update_grid)
-	{
-		m_grid->update();
-	}
-	else
-	{
-		update();
-	}
+    m_padding_top = value;
+    if (update_grid)
+    {
+        m_grid->update();
+    }
+    else
+    {
+        update();
+    }
 }
 
 
 void sad::layouts::Cell::setPaddingBottom(double value, bool update_grid)
 {
-	m_padding_bottom = value;
-	if (update_grid)
-	{
-		m_grid->update();
-	}
-	else
-	{
-		update();
-	}	
+    m_padding_bottom = value;
+    if (update_grid)
+    {
+        m_grid->update();
+    }
+    else
+    {
+        update();
+    }	
 }
 
 
 void sad::layouts::Cell::setPaddingLeft(double value, bool update_grid)
 {
-	m_padding_left = value;
-	if (update_grid)
-	{
-		m_grid->update();
-	}
-	else
-	{
-		update();
-	}		
+    m_padding_left = value;
+    if (update_grid)
+    {
+        m_grid->update();
+    }
+    else
+    {
+        update();
+    }		
 }
 
 void sad::layouts::Cell::setPaddingRight(double value, bool update_grid)
 {
-	m_padding_right = value;
-	if (update_grid)
-	{
-		m_grid->update();
-	}
-	else
-	{
-		update();
-	}			
+    m_padding_right = value;
+    if (update_grid)
+    {
+        m_grid->update();
+    }
+    else
+    {
+        update();
+    }			
 }
 
 sad::db::Database* sad::layouts::Cell::database() const
 {
-	return m_db;
+    return m_db;
 }
 
 void sad::layouts::Cell::setDatabase(sad::db::Database* db)
 {
-	m_db = db;
-	for(size_t i = 0; i < m_children.size(); i++)
-	{
-		m_children[i]->setDatabase(db);
-	}
+    m_db = db;
+    for(size_t i = 0; i < m_children.size(); i++)
+    {
+        m_children[i]->setDatabase(db);
+    }
+}
+
+void sad::layouts::Cell::moveBy(const sad::Point2D& p)
+{
+    for(size_t i = 0; i < 4; i++)
+    {
+        this->AssignedArea[4] += p;
+    }
+    for(size_t i = 0; i < m_children.size(); i++)
+    {
+        sad::SceneNode* node = m_children[i]->value();
+        if (node)
+        {
+            node->moveBy(p);
+        }
+    }
 }
 
 // ============================ PRIVATE METHODS ============================

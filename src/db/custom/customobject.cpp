@@ -419,6 +419,19 @@ void sad::db::custom::Object::makeSpanBetweenPoints(
     }
 }
 
+void sad::db::custom::Object::moveBy(const sad::Point2D & dist)
+{
+   if (m_label)
+   {
+       m_label->moveBy(dist);
+   }
+
+   if (m_sprite2d)
+   {
+       m_sprite2d->moveBy(dist);
+   }
+}
+
 bool sad::db::custom::Object::load(const picojson::value& v)
 {
     m_sprite2d->toggleLoadingMode(true);
