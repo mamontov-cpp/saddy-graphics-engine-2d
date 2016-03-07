@@ -1,9 +1,6 @@
 #include "layouts/cell.h"
 #include "layouts/grid.h"
 
-#include "label.h"
-#include "sprite2d.h"
-#include "db/custom/customobject.h"
 #include <stdexcept>
 
 // ============================ PUBLIC METHODS ============================
@@ -90,58 +87,187 @@ void sad::layouts::Cell::update()
     // TODO: Update children location here
 }
 
+void sad::layouts::Cell::setWidth(const sad::layouts::LengthValue& width, bool upgrade_grid)
+{
+    m_width = width;
+    tryNotify(upgrade_grid);
+}
+
+const sad::layouts::LengthValue& sad::layouts::Cell::width() const
+{
+    return m_width;
+}
+
+void sad::layouts::Cell::setHeight(const sad::layouts::LengthValue height, bool upgrade_grid)
+{
+    m_height = height;
+    tryNotify(upgrade_grid);
+}
+
+const sad::layouts::LengthValue& sad::layouts::Cell::height() const
+{
+    return m_height;
+}
+
+void sad::layouts::Cell::setRowSpan(unsigned int rows, bool upgrade_grid)
+{
+    m_row_span = rows;
+    if (m_row_span < 1)
+    {
+        m_row_span = 1;
+    }
+    tryNotify(upgrade_grid);
+}
+
+unsigned int sad::layouts::Cell::rowSpan() const
+{
+    return m_row_span;
+}
+
+void sad::layouts::Cell::setColSpan(unsigned int rows, bool upgrade_grid)
+{
+    m_col_span = rows;
+    if (m_col_span < 1)
+    {
+        m_col_span = 1;
+    }
+    tryNotify(upgrade_grid);
+}
+
+unsigned int sad::layouts::Cell::colSpan() const
+{
+    return m_col_span;
+}
+
+void sad::layouts::Cell::setVerticalAlignment(sad::layouts::VerticalAlignment align, bool upgrade_grid)
+{
+    m_valign = align;
+    tryNotify(upgrade_grid);
+}
+
+sad::layouts::VerticalAlignment sad::layouts::Cell::verticalAlignment() const
+{
+    return m_valign;
+}
+
+void sad::layouts::Cell::setHorizontalAlignment(sad::layouts::HorizontalAlignment align, bool upgrade_grid)
+{
+    m_halign = align; 
+    tryNotify(upgrade_grid);
+}
+
+sad::layouts::HorizontalAlignment sad::layouts::Cell::horizontalAlignment() const
+{
+    return m_halign;
+}
+
+void sad::layouts::Cell::setStackingType(sad::layouts::StackingType type, bool upgrade_grid)
+{
+    m_stacking_type = type;
+    tryNotify(upgrade_grid);
+}
+
+sad::layouts::StackingType sad::layouts::Cell::stackingType() const
+{
+    return m_stacking_type;
+}
+
 void sad::layouts::Cell::setPaddingTop(double value, bool update_grid)
 {
     m_padding_top = value;
-    if (update_grid)
-    {
-        m_grid->update();
-    }
-    else
-    {
-        update();
-    }
+    tryNotify(update_grid);    
 }
 
+double sad::layouts::Cell::paddingTop() const
+{
+    return m_padding_top;
+}
 
 void sad::layouts::Cell::setPaddingBottom(double value, bool update_grid)
 {
     m_padding_bottom = value;
-    if (update_grid)
-    {
-        m_grid->update();
-    }
-    else
-    {
-        update();
-    }	
+    tryNotify(update_grid);  	
 }
 
+double sad::layouts::Cell::paddingBottom() const
+{
+    return m_padding_bottom;
+}
 
 void sad::layouts::Cell::setPaddingLeft(double value, bool update_grid)
 {
     m_padding_left = value;
-    if (update_grid)
-    {
-        m_grid->update();
-    }
-    else
-    {
-        update();
-    }		
+    tryNotify(update_grid);  	
+}
+
+double sad::layouts::Cell::paddingLeft() const
+{
+    return m_padding_left;
 }
 
 void sad::layouts::Cell::setPaddingRight(double value, bool update_grid)
 {
     m_padding_right = value;
-    if (update_grid)
+    tryNotify(update_grid);  			
+}
+
+double sad::layouts::Cell::paddingRight() const
+{
+    return m_padding_right;
+}
+
+void sad::layouts::Cell::setNodes(const sad::Vector<sad::SceneNode*>& nodes, bool update_grid)
+{
+    for(size_t i = 0; i < m_children.size(); i++)
     {
-        m_grid->update();
+        delete m_children[i];
     }
-    else
+    m_children.clear();
+    for(size_t i = 0; i < nodes.size(); i++)
     {
-        update();
-    }			
+        sad::db::TypedLink<sad::SceneNode>* node = new sad::db::TypedLink<sad::SceneNode>();
+        node->setDatabase(m_db);
+        node->setObject(nodes[i]);
+        m_children << node;
+    }
+    tryNotify(update_grid);
+}
+
+sad::Vector<sad::SceneNode*> sad::layouts::Cell::nodes() const
+{
+    sad::Vector<sad::SceneNode*> result;
+    for(size_t i = 0; i < m_children.size(); i++)
+    {
+        result << m_children[i]->value();
+    }
+    return result;
+}
+
+void sad::layouts::Cell::setMajorIds(const sad::Vector<unsigned long long>& nodes, bool update_grid)
+{
+    for(size_t i = 0; i < m_children.size(); i++)
+    {
+        delete m_children[i];
+    }
+    m_children.clear();
+    for(size_t i = 0; i < nodes.size(); i++)
+    {
+        sad::db::TypedLink<sad::SceneNode>* node = new sad::db::TypedLink<sad::SceneNode>();
+        node->setDatabase(m_db);
+        node->setMajorId(nodes[i]);
+        m_children << node;
+    }
+    tryNotify(update_grid);
+}
+
+sad::Vector<unsigned long long> sad::layouts::Cell::majorIds() const
+{
+    sad::Vector<unsigned long long> result;
+    for(size_t i = 0; i < m_children.size(); i++)
+    {
+        result << m_children[i]->majorId();
+    }
+    return result;
 }
 
 sad::db::Database* sad::layouts::Cell::database() const
@@ -171,6 +297,21 @@ void sad::layouts::Cell::moveBy(const sad::Point2D& p)
         {
             node->moveBy(p);
         }
+    }
+}
+
+void sad::layouts::Cell::tryNotify(bool update_grid)
+{
+    if (update_grid)
+    {
+        if (m_grid)
+        {
+            m_grid->update();
+        }
+    }
+    else
+    {
+        update();
     }
 }
 

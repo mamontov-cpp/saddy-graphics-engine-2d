@@ -48,26 +48,123 @@ public:
     /*! Updates inner children, according to assigned area
      */
     void update();
+    /*! Sets width for a cell
+        \param[in] width a new width for a cell
+        \param[in] upgrade_grid whether we should notify grid
+     */
+    void setWidth(const sad::layouts::LengthValue& width, bool upgrade_grid = true);
+    /*! Returns width of a cell
+        \return width of a cell
+     */
+    const sad::layouts::LengthValue& width() const;
+    /*! Sets height for a cell
+        \param[in] height a new width for a cell
+        \param[in] upgrade_grid whether we should notify grid
+     */
+    void setHeight(const sad::layouts::LengthValue height, bool upgrade_grid = true);
+    /*! Returns height of a cell
+        \return height of a cell
+     */
+    const sad::layouts::LengthValue& height() const;
+    /*! Sets count of spanning rows for a cell
+        \param[in] rows a count of spanning rows for cell
+        \param[in] upgrade_grid whether we should notify grid
+     */
+    void setRowSpan(unsigned int rows, bool upgrade_grid = true);
+    /*! Returns count of spanning rows for a cell
+        \return count of spanning rows for a cell
+     */
+    unsigned int rowSpan() const;
+    /*! Sets count of spanning columns for a cell
+        \param[in] rows a count of spanning columns for cell
+        \param[in] upgrade_grid whether we should notify grid
+     */
+    void setColSpan(unsigned int rows, bool upgrade_grid = true);
+    /*! Returns count of spanning columns for a cell
+        \return count of spanning columns for a cell
+     */
+    unsigned int colSpan() const;
+    /*! Sets vertical alignment for a cell
+        \param[in] align a vertical alignment
+        \param[in] upgrade_grid whether we should notify grid
+     */
+    void setVerticalAlignment(sad::layouts::VerticalAlignment align, bool upgrade_grid = true);
+    /*! Returns vertical alignment for a cell
+        \return vertical alignment
+     */
+    sad::layouts::VerticalAlignment verticalAlignment() const;
+    /*! Sets horizontal alignment for a cell
+        \param[in] align a horizontal alignment
+        \param[in] upgrade_grid whether we should notify grid
+     */
+    void setHorizontalAlignment(sad::layouts::HorizontalAlignment align, bool upgrade_grid = true);
+    /*! Returns horizontal alignment for a cell
+        \return horizontal alignment
+     */
+    sad::layouts::HorizontalAlignment horizontalAlignment() const;
+    /*! Sets type of stacking for a cell
+        \param[in] type a type of 
+     */
+    void setStackingType(sad::layouts::StackingType type, bool upgrade_grid = true);
+    /*! Returns stacking type for a cells
+        \return stacking type
+     */
+    sad::layouts::StackingType stackingType() const;
     /*! Sets top padding for a cell
         \param[in] value a new value for padding
         \param[in] upgrade_grid whether we should update grid after it.
      */
-    void setPaddingTop(double value, bool update_grid);
+    void setPaddingTop(double value, bool update_grid = true);
+    /*! Returns top padding for a cell
+        \return top padding
+     */
+    double paddingTop() const;
     /*! Sets bottom padding for a cell
         \param[in] value a new value for padding
         \param[in] upgrade_grid whether we should update grid after it.
      */
-    void setPaddingBottom(double value, bool update_grid);
+    void setPaddingBottom(double value, bool update_grid = true);
+    /*! Returns bottom padding for a cell
+        \return bottom padding
+     */
+    double paddingBottom() const;
     /*! Sets left padding for a cell
         \param[in] value a new value for padding
         \param[in] upgrade_grid whether we should update grid after it.
      */
-    void setPaddingLeft(double value, bool update_grid);
+    void setPaddingLeft(double value, bool update_grid = true);
+    /*! Returns left padding for a cell
+        \return left padding
+     */
+    double paddingLeft() const;
     /*! Sets right padding for a cell
         \param[in] value a new value for padding
         \param[in] upgrade_grid whether we should update grid after it.
      */
-    void setPaddingRight(double value, bool update_grid);
+    void setPaddingRight(double value, bool update_grid = true);
+    /*! Returns right padding for a cell
+        \return right padding
+     */
+    double paddingRight() const;
+    /*! Set nodes for a cell
+        \param[in] nodes a nodes
+        \param[in] upgrade_grid whether we should update grid after it.
+     */
+    void setNodes(const sad::Vector<sad::SceneNode*>& nodes, bool update_grid = true);
+    /*! Returns list of nodes for a cells. Note, that could return NULL
+        if nodes are not found
+        \return list of children as nodes
+     */
+    sad::Vector<sad::SceneNode*> nodes() const;
+    /*! Set nodes links as major ids for a cell
+        \param[in] nodes a nodes
+        \param[in] upgrade_grid whether we should update grid after it.
+     */
+    void setMajorIds(const sad::Vector<unsigned long long>& nodes, bool update_grid = true);
+    /*! Returns a a major ids list for a children of cell
+        \return list of major ids
+     */
+    sad::Vector<unsigned long long> majorIds() const;
     /*! Returns a database, which is cell linked to
         \return database
      */
@@ -87,6 +184,10 @@ public:
      */
     bool Rendered;	
 protected:
+    /*! Tries notify a grid, if update_grid is specified
+        \param[in] update_grid whether we should notify a grid
+     */
+    void tryNotify(bool update_grid);
     /*! Width of a cell
      */
     sad::layouts::LengthValue m_width;

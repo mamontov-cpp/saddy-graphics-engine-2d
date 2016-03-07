@@ -182,12 +182,12 @@ public:
                 result.mutableValue().RowSpan = maybeRowSpan.value();
                 if (result.mutableValue().RowSpan < 1)
                 {
-                    result.mutableValue().RowSpan = 0;
+                    result.mutableValue().RowSpan = 1;
                 }
                 result.mutableValue().ColSpan = maybeColSpan.value();
                 if (result.mutableValue().ColSpan < 1)
                 {
-                    result.mutableValue().ColSpan = 0;
+                    result.mutableValue().ColSpan = 1;
                 }
                 if (maybeVAlign.value() > static_cast<unsigned int>(sad::layouts::LVA_Right))
                 {
