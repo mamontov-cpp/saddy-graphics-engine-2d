@@ -513,11 +513,11 @@ void sad::layouts::Grid::fixCellViews()
     }
 
     sad::Hash<size_t, sad::Hash<size_t, sad::Vector<size_t> > > coverage;
-    buildCoverage(coverage);
     bool changed = true;
     while(changed)
     {
         changed = false;
+        buildCoverage(coverage);
         for(sad::Hash<size_t, sad::Hash<size_t, sad::Vector<size_t> > >::iterator iit = coverage.begin();
             iit != coverage.end();
             ++iit)
@@ -530,10 +530,44 @@ void sad::layouts::Grid::fixCellViews()
                 if (jit.value().size() > 1)
                 {
                     changed = true;
+                    size_t row = iit.key();
+                    size_t col = jit.key();
+
+                    size_t minrow = 0;
+                    size_t mincol = 0;
+                    size_t minpos = 0;
+                    sad::Vector<size_t>& collisions = jit.value();
+                    for(size_t i = 0; i < collisions.size(); i++)
+                    {
+                        if (m_cells[collisions[i]]->Row <= minrow)
+                        {
+                            if (m_cells[collisions[i]]->Col < mincol)
+                            {
+                                minpos = i;
+                            }
+                        }
+                    }
+                    collisions.removeAt(minpos);
+                    std::sort(collisions.begin(), collisions.end());
+                    for(int i = collisions.size() - 1; i > -1; i++)
+                    {
+                        sad::layouts::Cell* cell = m_cells[collisions[i]];
+                        if (cell->rowSpan() == 1 && cell->colSpan() == 1)
+                        {
+                            delete m_cells[i];
+                            m_cells.removeAt(collisions[i]);
+                        }
+                        else
+                        {
+                            // TODO: Do something about other conflicts
+                        }
+                    }
                 }
             }
         }
     }
+
+    // TODO: Do something with those situations, when rowSpan and colSpan goes out of bounds
 
     // Add missing cells
     while(m_cells.size() < size)
