@@ -211,6 +211,16 @@ public:
         \return a node
      */
     unsigned long long childMajorId(unsigned int pos) const;
+    /*! Finds a scene node by it's name
+        \param[in] node a node
+        \return result, which is set if found
+     */
+    sad::Maybe<size_t> find(sad::SceneNode* node) const;
+    /*! Finds a scene node by it's name
+        \param[in] major_id a major id for an object
+        \return result, which is set if found
+     */
+    sad::Maybe<size_t> find(unsigned long long major_id) const;
     /*! Returns a database, which is cell linked to
         \return database
      */

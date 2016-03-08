@@ -366,6 +366,32 @@ unsigned long long sad::layouts::Cell::childMajorId(unsigned int pos) const
     return result;    
 }
 
+sad::Maybe<size_t> sad::layouts::Cell::find(sad::SceneNode* node) const
+{
+    sad::Maybe<size_t> result;
+    for(size_t i = 0; i < m_children.size(); i++)
+    {
+        if (m_children[i]->value() == node)
+        {
+            result.setValue(i);
+        }
+    }
+    return result;
+}
+
+sad::Maybe<size_t> sad::layouts::Cell::find(unsigned long long major_id) const
+{
+    sad::Maybe<size_t> result;
+    for(size_t i = 0; i < m_children.size(); i++)
+    {
+        if (m_children[i]->majorId() == major_id)
+        {
+            result.setValue(i);
+        }
+    }
+    return result;
+}
+
 sad::db::Database* sad::layouts::Cell::database() const
 {
     return m_db;

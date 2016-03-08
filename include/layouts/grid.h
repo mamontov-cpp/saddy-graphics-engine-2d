@@ -29,6 +29,11 @@ class Grid: public sad::SceneNode
 {
 SAD_OBJECT	
 public:
+    /*! A result of search for an object in grid.
+        The first element is position of cell in grid, which could be returned by cell() method.
+        The second one is a position of children in search
+     */
+    typedef sad::Pair<size_t, size_t> SearchResult;
     /*! Constructs a default grid with no cells
      */
     Grid();
@@ -190,6 +195,21 @@ public:
         \param[in] point
      */
     void moveBy(const sad::Point2D& p);
+    /*! Returns a cell by inner position
+        \param[in] pos a position
+        \return cell
+     */
+    sad::layouts::Cell* cell(size_t pos) const;
+     /*! Finds a scene node by it's adress
+        \param[in] node a node
+        \return result, which is set if found
+     */
+    sad::Maybe<sad::layouts::Grid::SearchResult> find(sad::SceneNode* node) const;
+     /*! Finds a scene node by it's major id
+        \param[in] major_id a major id for a node
+        \return result, which is set if found
+     */
+    sad::Maybe<sad::layouts::Grid::SearchResult> find(unsigned long long major_id) const;
     // TODO: Implement this
     /*! Forces grid to recompute all items for cells
      */ 

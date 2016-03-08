@@ -439,6 +439,44 @@ void sad::layouts::Grid::setCells(const sad::Vector<sad::layouts::SerializableCe
     }
 }
 
+sad::layouts::Cell* sad::layouts::Grid::cell(size_t pos) const
+{
+    sad::layouts::Cell* result = NULL;
+    if (pos < m_cells.size())
+    {
+        result = m_cells[pos];
+    }
+    return result;
+}
+
+sad::Maybe<sad::layouts::Grid::SearchResult> sad::layouts::Grid::find(sad::SceneNode* node) const
+{
+    sad::Maybe<sad::layouts::Grid::SearchResult> result;
+    for(size_t i = 0; i < m_cells.size(); i++)
+    {
+        sad::Maybe<size_t> maybe_pos = m_cells[i]->find(node);
+        if (maybe_pos.exists())
+        {
+            result.setValue(sad::layouts::Grid::SearchResult(i, maybe_pos.value()));
+        }
+    }
+    return result;
+}
+
+sad::Maybe<sad::layouts::Grid::SearchResult> sad::layouts::Grid::find(unsigned long long major_id) const
+{
+    sad::Maybe<sad::layouts::Grid::SearchResult> result;
+    for(size_t i = 0; i < m_cells.size(); i++)
+    {
+        sad::Maybe<size_t> maybe_pos = m_cells[i]->find(major_id);
+        if (maybe_pos.exists())
+        {
+            result.setValue(sad::layouts::Grid::SearchResult(i, maybe_pos.value()));
+        }
+    }
+    return result;
+}
+
 void sad::layouts::Grid::moveBy(const sad::Point2D& p)
 {
     for(size_t i = 0; i < 4; i++)
