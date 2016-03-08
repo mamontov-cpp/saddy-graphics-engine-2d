@@ -189,9 +189,9 @@ public:
                 {
                     result.mutableValue().ColSpan = 1;
                 }
-                if (maybeVAlign.value() > static_cast<unsigned int>(sad::layouts::LVA_Right))
+                if (maybeVAlign.value() > static_cast<unsigned int>(sad::layouts::LVA_Bottom))
                 {
-                    maybeVAlign.setValue(static_cast<unsigned int>(sad::layouts::LVA_Right));
+                    maybeVAlign.setValue(static_cast<unsigned int>(sad::layouts::LVA_Bottom));
                 }
                 result.mutableValue().VAlign = static_cast<sad::layouts::VerticalAlignment>(maybeVAlign.value());
 

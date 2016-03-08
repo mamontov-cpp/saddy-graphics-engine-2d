@@ -20,9 +20,9 @@ LVA_Top = 0,
 /*! Place objects in middle of cell
  */
 LVA_Middle = 1,
-/*! Place objects in middle of cell
+/*! Place objects in bottom of cell
  */
-LVA_Right = 2	
+LVA_Bottom = 2	
 };
 
 }	

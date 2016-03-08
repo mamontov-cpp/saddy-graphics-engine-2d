@@ -85,6 +85,117 @@ void sad::layouts::Cell::fromSerializable(
 void sad::layouts::Cell::update()
 {
     // TODO: Update children location here
+    
+    // Compute a normalized area
+    sad::layouts::Cell::NormalizedRectangle normalized = this->normalize(this->AssignedArea);
+    sad::Point2D& minpoint = normalized._1();
+    sad::Point2D& maxpoint = normalized._2();
+
+    // Get rid of annoying paddings
+    minpoint.setX(minpoint.x() + this->paddingLeft());
+    maxpoint.setX(maxpoint.x() - this->paddingRight());
+    minpoint.setY(minpoint.y() + this->paddingBottom());
+    maxpoint.setY(minpoint.y() - this->paddingTop());
+    double assignedwidth =  (maxpoint.x() - minpoint.x());
+    double assignedheight = (maxpoint.y() - minpoint.y());    
+    // Compute preferred size, which we can relate to, when layouting data
+    // Normalized rectangles are already computed, so we could futher use them
+    sad::Size2D size = this->preferredSize();
+    if (this->stackingType() == sad::layouts::LST_Horizontal)
+    {
+        // Handle horizontal alignment
+        double factor = 1.0;
+        if (size.Width > assignedwidth)
+        {
+            factor = assignedwidth / size.Width;
+        }
+        // Compute starting position
+        double startingpointx = 0;
+        switch(this->horizontalAlignment())
+        {
+            case sad::layouts::LHA_Left: 
+                startingpointx = minpoint.x(); 
+                break;
+            case sad::layouts::LHA_Middle: 
+                startingpointx = (minpoint.x() + maxpoint.x() - size.Width * factor) / 2;   
+                break;
+            case sad::layouts::LHA_Right:
+                startingpointx = maxpoint.x() - size.Width * factor;
+                break;
+        };
+        size_t current_rectangle = 0;
+        for(size_t i = 0; i < this->m_children.size(); i++)
+        {
+            sad::SceneNode* node = m_children[i]->value();
+            if (node)
+            {
+                const sad::layouts::Cell::NormalizedRectangle& childrect = m_normalized_children[current_rectangle];
+                double childheight = childrect.p2().y() - childrect.p1().y();
+                double childwidth = childrect.p1().x() - childrect.p1().x();
+                double posy = maxpoint.y();
+                if (this->verticalAlignment() == sad::layouts::LVA_Bottom)
+                {
+                    posy = minpoint.y() + childheight;
+                }
+                if (this->verticalAlignment() == sad::layouts::LVA_Middle)
+                {
+                    posy = minpoint.y() + (assignedheight + childheight) / 2.0;
+                }
+                node->moveBy(sad::Point2D(startingpointx - childrect.p1().x(), posy - childrect.p2().y()));
+
+                startingpointx += childwidth * factor;
+                ++current_rectangle;
+            }
+        }
+    } 
+    else
+    {
+        // Handle vertical alignment        
+        // Handle horizontal alignment
+        double factor = 1.0;
+        if (size.Height > assignedheight)
+        {
+            factor = assignedheight / size.Height;
+        }
+        // Compute starting position
+        double startingpointy = 0;
+        switch(this->verticalAlignment())
+        {
+            case sad::layouts::LVA_Top: 
+                startingpointy = maxpoint.y(); 
+                break;
+            case sad::layouts::LVA_Middle: 
+                startingpointy = (minpoint.y() + maxpoint.y() + size.Height * factor) / 2;   
+                break;
+            case sad::layouts::LVA_Bottom:
+                startingpointy = minpoint.y() + size.Height * factor;
+                break;
+        };
+        size_t current_rectangle = 0;
+        for(size_t i = 0; i < this->m_children.size(); i++)
+        {
+            sad::SceneNode* node = m_children[i]->value();
+            if (node)
+            {
+                const sad::layouts::Cell::NormalizedRectangle& childrect = m_normalized_children[current_rectangle];
+                double childheight = childrect.p2().y() - childrect.p1().y();
+                double childwidth = childrect.p1().x() - childrect.p1().x();
+                double posx = minpoint.x();
+                if (this->horizontalAlignment() == sad::layouts::LHA_Right)
+                {
+                    posx = minpoint.x() - childwidth;
+                }
+                if (this->horizontalAlignment() == sad::layouts::LHA_Middle)
+                {
+                    posx = minpoint.x() + (assignedwidth - childwidth) / 2.0;
+                }
+                node->moveBy(sad::Point2D(posx - childrect.p1().x(), startingpointy - childrect.p2().y()));
+
+                startingpointy -= childheight * factor;
+                ++current_rectangle;
+            }
+        }
+    }
 }
 
 void sad::layouts::Cell::setWidth(const sad::layouts::LengthValue& width, bool upgrade_grid)
@@ -428,21 +539,7 @@ sad::Size2D sad::layouts::Cell::preferredSize() const
         this->paddingLeft() + this->paddingRight(),
         this->paddingTop() + this->paddingBottom()
     );
-    sad::Vector<sad::layouts::Cell::NormalizedRectangle> rects;
-    sad::Vector<sad::Rect2D> regions;
-    for(size_t i = 0; i < m_children.size(); i++)
-    {
-        sad::SceneNode* node = m_children[i]->value();
-        if (node)
-        {
-            regions.clear();
-            node->regions(regions);
-            if (regions.size() > 0)
-            {
-                rects << normalize(regions[0]);
-            }
-        }
-    }
+    const sad::Vector<sad::layouts::Cell::NormalizedRectangle>& rects = m_normalized_children;
     double height = 0;
     double width = 0;
     if (this->stackingType() == sad::layouts::LST_Horizontal)
@@ -467,6 +564,25 @@ sad::Size2D sad::layouts::Cell::preferredSize() const
 }
 
 // ========================================= PROTECTED METHODS =========================================
+
+void sad::layouts::Cell::computeNormalizedChildrenSizes()
+{
+    m_normalized_children.clear();
+    sad::Vector<sad::Rect2D> regions;
+    for(size_t i = 0; i < m_children.size(); i++)
+    {
+        sad::SceneNode* node = m_children[i]->value();
+        if (node)
+        {
+            regions.clear();
+            node->regions(regions);
+            if (regions.size() > 0)
+            {
+                m_normalized_children << normalize(regions[0]);
+            }
+        }
+    }
+}
 
 sad::layouts::Cell::NormalizedRectangle sad::layouts::Cell::normalize(const sad::Rect2D& r)
 {

@@ -247,6 +247,9 @@ public:
      */
     bool Rendered;
 protected:
+    /*! Computes normalized sizes for children 
+     */
+    void computeNormalizedChildrenSizes();
     /*! Normalizes rectangle to a pair
         \param[in] r rectangle
         \return normalized rectangle as first element has minimal x and y coords, and second one - maximal
@@ -297,6 +300,9 @@ protected:
     /*! A right padding for cell 
      */
     double m_padding_right;
+    /*! A rectangles for sized for normalized childrens
+     */
+    sad::Vector<sad::layouts::Cell::NormalizedRectangle> m_normalized_children;
 
     /*! A grid, which cell is being linked to
      */
