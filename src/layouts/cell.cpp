@@ -83,9 +83,7 @@ void sad::layouts::Cell::fromSerializable(
 }
 
 void sad::layouts::Cell::update()
-{
-    // TODO: Update children location here
-    
+{    
     // Compute a normalized area
     sad::layouts::Cell::NormalizedRectangle normalized = this->normalize(this->AssignedArea);
     sad::Point2D& minpoint = normalized._1();
