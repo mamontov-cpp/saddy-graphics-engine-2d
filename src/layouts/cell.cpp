@@ -46,6 +46,8 @@ void sad::layouts::Cell::toSerializable(sad::layouts::SerializableCell& cell) co
     cell.PaddingLeft = m_padding_left;
     cell.PaddingBottom = m_padding_bottom;
     cell.AssignedArea = AssignedArea;
+    cell.Row = Row;
+    cell.Col = Col;
 }
 
 void sad::layouts::Cell::fromSerializable(
@@ -78,6 +80,8 @@ void sad::layouts::Cell::fromSerializable(
     this->m_padding_left = cell.PaddingLeft;
     this->m_padding_bottom = cell.PaddingBottom;
     this->AssignedArea = cell.AssignedArea;
+    this->Row = cell.Row;
+    this->Col = cell.Col;
 
     // Children locations are stored separately and assigned area is located here. No reason to update grid at all
 }
@@ -225,7 +229,7 @@ void sad::layouts::Cell::setRowSpan(unsigned int rows, bool upgrade_grid)
     {
         m_row_span = 1;
     }
-    tryNotify(upgrade_grid);
+    tryNotifyWithUpdatingCells(upgrade_grid);
 }
 
 unsigned int sad::layouts::Cell::rowSpan() const
@@ -240,7 +244,7 @@ void sad::layouts::Cell::setColSpan(unsigned int rows, bool upgrade_grid)
     {
         m_col_span = 1;
     }
-    tryNotify(upgrade_grid);
+    tryNotifyWithUpdatingCells(upgrade_grid);
 }
 
 unsigned int sad::layouts::Cell::colSpan() const
@@ -676,6 +680,20 @@ void sad::layouts::Cell::tryNotify(bool update_grid)
     }
 }
 
+void sad::layouts::Cell::tryNotifyWithUpdatingCells(bool update_grid)
+{
+    if (update_grid)
+    {
+        if (m_grid)
+        {
+            m_grid->updateCells();
+        }
+    }
+    else
+    {
+        update();
+    }
+}
 // ============================ PRIVATE METHODS ============================
 
 sad::layouts::Cell::Cell(const sad::layouts::Cell& o)

@@ -1,6 +1,7 @@
 #include "layouts/grid.h"
 
 #include "db/dbtable.h"
+#include "db/dbfield.h"
 #include "db/dbmethodpair.h"
 #include "db/schema/schema.h"
 
@@ -37,9 +38,9 @@ sad::layouts::Cell* sad::layouts::Grid::cell(unsigned int row, unsigned int col)
 {
     sad::layouts::Cell* result = NULL;
     size_t pos = row * m_cols + col;
-    if (pos < m_cells.size())
+    if (pos < m_cell_views.size())
     {
-        result = m_cells[pos];
+        result = m_cell_views[pos];
     }
     return result;
 }
@@ -104,26 +105,8 @@ bool sad::layouts::Grid::load(const picojson::value& v)
     bool result = this->sad::SceneNode::load(v);
     m_loading = false;
     if (result)
-    {
-        unsigned int size = m_rows * m_cols;
-        sad::db::Database* db = this->table()->database();
-        // Strip odd cells
-        while(m_cells.size() > size)
-        {
-            delete m_cells[m_cells.size() - 1];
-            m_cells.removeAt(m_cells.size() - 1);
-        }
-        // Add missing cells
-        while(m_cells.size() < size)
-        {
-            sad::layouts::Cell* cell = new sad::layouts::Cell();
-            cell->setDatabase(db);
-            cell->setPaddingBottom(m_padding_bottom, false);
-            cell->setPaddingTop(m_padding_top, false);
-            cell->setPaddingLeft(m_padding_left, false);
-            cell->setPaddingRight(m_padding_right, false);
-            m_cells << cell;
-        }
+    {        
+        this->fixCellViews();
     }
     return result;
 }
@@ -477,6 +460,11 @@ sad::Maybe<sad::layouts::Grid::SearchResult> sad::layouts::Grid::find(unsigned l
     return result;
 }
 
+void sad::layouts::Grid::update()
+{
+    
+}
+
 void sad::layouts::Grid::moveBy(const sad::Point2D& p)
 {
     for(size_t i = 0; i < 4; i++)
@@ -512,4 +500,85 @@ sad::layouts::Grid& sad::layouts::Grid::operator=(const sad::layouts::Grid& o)
     throw std::runtime_error("Not implemented");
     // ReSharper disable once CppUnreachableCode
     return *this;
+}
+
+void sad::layouts::Grid::fixCellViews()
+{
+    unsigned int size = m_rows * m_cols;
+    sad::db::Database* db = this->table()->database();
+    sad::Hash<size_t, size_t> uncovered_cells;
+    for(size_t i = 0; i < m_cells.size(); i++)
+    {
+        uncovered_cells.insert(i, i);
+    }
+
+    sad::Hash<size_t, sad::Hash<size_t, sad::Vector<size_t> > > coverage;
+    buildCoverage(coverage);
+    bool changed = true;
+    while(changed)
+    {
+        changed = false;
+        for(sad::Hash<size_t, sad::Hash<size_t, sad::Vector<size_t> > >::iterator iit = coverage.begin();
+            iit != coverage.end();
+            ++iit)
+        {
+            sad::Hash<size_t, sad::Vector<size_t> >& jitsource = iit.value();
+            for(sad::Hash<size_t, sad::Vector<size_t> >::iterator jit = jitsource.begin();
+                jit != jitsource.end();
+                ++jit)
+            {
+                if (jit.value().size() > 1)
+                {
+                    changed = true;
+                }
+            }
+        }
+    }
+
+    // Add missing cells
+    while(m_cells.size() < size)
+    {
+        sad::layouts::Cell* cell = new sad::layouts::Cell();
+        cell->setDatabase(db);
+        cell->setPaddingBottom(m_padding_bottom, false);
+        cell->setPaddingTop(m_padding_top, false);
+        cell->setPaddingLeft(m_padding_left, false);
+        cell->setPaddingRight(m_padding_right, false);
+        m_cells << cell;            
+    }
+    for(size_t i = 0 ; i < m_rows; i++)
+    {
+        for(size_t j = 0; j < m_cols; j++)
+        {
+            
+        }
+    }
+}
+
+void sad::layouts::Grid::buildCoverage(sad::Hash<size_t, sad::Hash<size_t, sad::Vector<size_t> > >& coverage)
+{
+    coverage.clear();
+    for(size_t i = 0; i < m_cells.size(); i++)
+    {
+        for(size_t rowpos = 0; rowpos < m_cells[i]->rowSpan(); rowpos++)
+        {
+            for(size_t colpos = 0; colpos < m_cells[i]->colSpan(); colpos++)
+            {
+                size_t currow = m_cells[i]->Row + rowpos;
+                size_t curcol = m_cells[i]->Col + colpos;
+
+                if (coverage.contains(currow) == false)
+                {
+                    coverage.insert(currow, sad::Hash<size_t, sad::Vector<size_t> >());
+                }
+                sad::Hash<size_t, sad::Vector<size_t> >& colToPos = coverage[currow];
+                if (colToPos.contains(curcol) == false)
+                {
+                    colToPos.insert(curcol, sad::Vector<size_t>());
+                }
+                sad::Vector<size_t>& vec = colToPos[curcol];
+                vec << i;
+            }
+        }
+    }
 }

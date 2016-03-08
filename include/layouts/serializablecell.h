@@ -61,6 +61,12 @@ struct SerializableCell
     /*! Assigned area to ensure that restoring will not fail locations
      */
     sad::Rect2D AssignedArea;
+    /*! A row position
+     */
+    unsigned int Row;
+    /*! A column position 
+     */
+    unsigned int Col;
 
     /*! Constructs default serializable cell
      */
@@ -106,6 +112,8 @@ static picojson::value perform(void * ptr)
     v.insert("padding_right", sad::db::Save<double>::perform(&(cell->PaddingRight)));
     v.insert("padding_bottom", sad::db::Save<double>::perform(&(cell->PaddingBottom)));
     v.insert("assigned_area", sad::db::Save<sad::Rect2D>::perform(&(cell->AssignedArea)));
+    v.insert("row", sad::db::Save<unsigned int>::perform(&(cell->Row)));
+    v.insert("col", sad::db::Save<unsigned int>::perform(&(cell->Col)));
     return v;
 }
 
@@ -145,14 +153,18 @@ public:
         picojson::value const * plo = picojson::get_property(v, "padding_left");
         picojson::value const * pro = picojson::get_property(v, "padding_right");
         picojson::value const * aao = picojson::get_property(v, "assigned_area");
-        if (wo && ho && rso && cso && valigno && haligno && childreno && stackingtypeo && pto && pbo && plo && pro && aao)
+        picojson::value const * rowo = picojson::get_property(v, "row");
+        picojson::value const * colo = picojson::get_property(v, "col");
+        if (wo && ho && rso && cso && valigno && haligno && childreno && stackingtypeo && pto && pbo && plo && pro && aao && rowo && colo)
         {
             sad::Maybe<sad::layouts::LengthValue> maybeWidth = picojson::ValueToType<sad::layouts::LengthValue>::get(*wo);
             sad::Maybe<sad::layouts::LengthValue> maybeHeight = picojson::ValueToType<sad::layouts::LengthValue>::get(*ho);
             sad::Maybe<unsigned int> maybeRowSpan = picojson::ValueToType<unsigned int>::get(*rso);	
             sad::Maybe<unsigned int> maybeColSpan = picojson::ValueToType<unsigned int>::get(*cso);			
             sad::Maybe<unsigned int> maybeVAlign = picojson::ValueToType<unsigned int>::get(*valigno);	
-            sad::Maybe<unsigned int> maybeHAlign = picojson::ValueToType<unsigned int>::get(*haligno);	
+            sad::Maybe<unsigned int> maybeHAlign = picojson::ValueToType<unsigned int>::get(*haligno);
+            sad::Maybe<unsigned int> maybeRowO = picojson::ValueToType<unsigned int>::get(*rowo);
+            sad::Maybe<unsigned int> maybeColO = picojson::ValueToType<unsigned int>::get(*colo);
             sad::Maybe<sad::Vector<unsigned long long> > maybeChildren = picojson::ValueToType<sad::Vector<unsigned long long> >::get(*childreno);	
             sad::Maybe<unsigned int> maybeStackingType = picojson::ValueToType<unsigned int>::get(*stackingtypeo);	
 
@@ -174,7 +186,9 @@ public:
                 && maybePaddingBottom.exists()
                 && maybePaddingLeft.exists()
                 && maybePaddingRight.exists()
-                && maybeAssignedArea.exists())
+                && maybeAssignedArea.exists()
+                && maybeRowO.exists()
+                && maybeColO.exists())
             {
                 result.setValue(sad::layouts::SerializableCell());
                 result.mutableValue().Width = maybeWidth.value();
@@ -214,6 +228,9 @@ public:
                 result.mutableValue().PaddingRight = maybePaddingRight.value();
                 
                 result.mutableValue().AssignedArea = maybeAssignedArea.value();
+
+                result.mutableValue().Row = maybeRowO.value();
+                result.mutableValue().Col = maybeColO.value();
             }
         }
         return result;

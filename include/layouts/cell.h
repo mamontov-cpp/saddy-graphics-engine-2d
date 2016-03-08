@@ -254,6 +254,12 @@ public:
     /*! A mark flag for each cell to ensure it was rendered only once. Used by sad::layouts::Grid
      */
     bool Rendered;
+    /*! A row position
+     */
+    unsigned int Row;
+    /*! A column position
+     */
+    unsigned int Col;
 protected:
     /*! Computes normalized sizes for children 
      */
@@ -272,6 +278,10 @@ protected:
         \param[in] update_grid whether we should notify a grid
      */
     void tryNotify(bool update_grid);
+    /*! Tries notify a grid, if update_grid is specified
+        \param[in] update_grid whether we should notify a grid
+     */
+    void tryNotifyWithUpdatingCells(bool update_grid);
     /*! Width of a cell
      */
     sad::layouts::LengthValue m_width;

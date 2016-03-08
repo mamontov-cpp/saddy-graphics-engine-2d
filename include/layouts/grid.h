@@ -7,6 +7,7 @@
 #include "../scenenode.h"
 #include "../sadptrvector.h"
 #include "../sadcolor.h"
+#include "../sadhash.h"
 #include "cell.h"
 
 namespace sad
@@ -210,10 +211,12 @@ public:
         \return result, which is set if found
      */
     sad::Maybe<sad::layouts::Grid::SearchResult> find(unsigned long long major_id) const;
-    // TODO: Implement this
     /*! Forces grid to recompute all items for cells
      */ 
-    void update();	
+    void update();	    
+    /*! Forces grid to update amount of cells, fixing their amount in grid
+     */
+    void updateCells();
 private:
     /*! The grid is not copyable
         \param[in] grid a grid		
@@ -224,10 +227,13 @@ private:
         \return self-reference
      */
     sad::layouts::Grid& operator=(const sad::layouts::Grid& grid);
-    
-    /*! Forces grid to update amount of cells, fixing their amount in grid
+    /*! Builds cell views
      */
-    void updateCells();
+    void fixCellViews();
+    /*! Builds coverage for a list of cells
+        \param[out] coverage a coverage for cells
+     */
+    void buildCoverage(sad::Hash<size_t, sad::Hash<size_t, sad::Vector<size_t> > >& coverage);
     /*! An area for a grid
      */
     sad::Rect2D m_area;
@@ -240,6 +246,9 @@ private:
     /*! A list of cells
      */
     sad::PtrVector<sad::layouts::Cell> m_cells;
+    /*! A viewing vector for cells
+     */
+    sad::Vector<sad::layouts::Cell*> m_cell_views;
     /*! A default top padding for all cells
      */
     double m_padding_top;
