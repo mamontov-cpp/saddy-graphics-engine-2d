@@ -240,6 +240,14 @@ public:
         \return a preferred size
      */
     sad::Size2D preferredSize() const;
+    /*! Returns a default computed size for a cell, which is computed according to an attributes
+        \return a computed size
+     */
+    sad::Size2D computedSize() const;
+    /*! Returns maximal size for a cell, determining it from preferred and computed sizes
+        \return maximal size for a cell
+     */
+    sad::Size2D maximalSize() const;
     /*! An assigned area for cell
      */
     sad::Rect2D AssignedArea;

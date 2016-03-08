@@ -563,6 +563,52 @@ sad::Size2D sad::layouts::Cell::preferredSize() const
     return result;
 }
 
+sad::Size2D sad::layouts::Cell::computedSize() const
+{
+    sad::Size2D result;
+    if (m_width.Unit == sad::layouts::LU_Pixels)
+    {
+        result.Width = m_width.Value;
+    }
+    if (m_width.Unit == sad::layouts::LU_Percents)
+    {
+        if (m_grid)
+        {
+            if (m_grid->fixedWidth())
+            {
+                result.Width = m_width.Value / 100.0 * m_grid->area().width();
+            }
+        }
+    }
+
+
+    if (m_height.Unit == sad::layouts::LU_Pixels)
+    {
+        result.Height = m_height.Value;
+    }
+    if (m_height.Unit == sad::layouts::LU_Percents)
+    {
+        if (m_grid)
+        {
+            if (m_grid->fixedHeight())
+            {
+                result.Height = m_height.Value / 100.0 * m_grid->area().height();
+            }
+        }
+    }
+
+    return result;
+}
+
+sad::Size2D sad::layouts::Cell::maximalSize() const
+{
+    sad::Size2D result = this->computedSize();
+    sad::Size2D clientsize = this->preferredSize();
+    result.Width = std::max(result.Width, clientsize.Width);
+    result.Height = std::max(result.Height, clientsize.Height);
+    return result;
+}
+
 // ========================================= PROTECTED METHODS =========================================
 
 void sad::layouts::Cell::computeNormalizedChildrenSizes()
