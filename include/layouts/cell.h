@@ -50,7 +50,7 @@ public:
     void update();
     /*! Sets width for a cell
         \param[in] width a new width for a cell
-        \param[in] upgrade_grid whether we should notify grid
+        \param[in] update_grid whether we should notify grid
      */
     void setWidth(const sad::layouts::LengthValue& width, bool upgrade_grid = true);
     /*! Returns width of a cell
@@ -59,7 +59,7 @@ public:
     const sad::layouts::LengthValue& width() const;
     /*! Sets height for a cell
         \param[in] height a new width for a cell
-        \param[in] upgrade_grid whether we should notify grid
+        \param[in] update_grid whether we should notify grid
      */
     void setHeight(const sad::layouts::LengthValue height, bool upgrade_grid = true);
     /*! Returns height of a cell
@@ -68,7 +68,7 @@ public:
     const sad::layouts::LengthValue& height() const;
     /*! Sets count of spanning rows for a cell
         \param[in] rows a count of spanning rows for cell
-        \param[in] upgrade_grid whether we should notify grid
+        \param[in] update_grid whether we should notify grid
      */
     void setRowSpan(unsigned int rows, bool upgrade_grid = true);
     /*! Returns count of spanning rows for a cell
@@ -77,7 +77,7 @@ public:
     unsigned int rowSpan() const;
     /*! Sets count of spanning columns for a cell
         \param[in] rows a count of spanning columns for cell
-        \param[in] upgrade_grid whether we should notify grid
+        \param[in] update_grid whether we should notify grid
      */
     void setColSpan(unsigned int rows, bool upgrade_grid = true);
     /*! Returns count of spanning columns for a cell
@@ -86,7 +86,7 @@ public:
     unsigned int colSpan() const;
     /*! Sets vertical alignment for a cell
         \param[in] align a vertical alignment
-        \param[in] upgrade_grid whether we should notify grid
+        \param[in] update_grid whether we should notify grid
      */
     void setVerticalAlignment(sad::layouts::VerticalAlignment align, bool upgrade_grid = true);
     /*! Returns vertical alignment for a cell
@@ -95,7 +95,7 @@ public:
     sad::layouts::VerticalAlignment verticalAlignment() const;
     /*! Sets horizontal alignment for a cell
         \param[in] align a horizontal alignment
-        \param[in] upgrade_grid whether we should notify grid
+        \param[in] update_grid whether we should notify grid
      */
     void setHorizontalAlignment(sad::layouts::HorizontalAlignment align, bool upgrade_grid = true);
     /*! Returns horizontal alignment for a cell
@@ -112,7 +112,7 @@ public:
     sad::layouts::StackingType stackingType() const;
     /*! Sets top padding for a cell
         \param[in] value a new value for padding
-        \param[in] upgrade_grid whether we should update grid after it.
+        \param[in] update_grid whether we should update grid after it.
      */
     void setPaddingTop(double value, bool update_grid = true);
     /*! Returns top padding for a cell
@@ -121,7 +121,7 @@ public:
     double paddingTop() const;
     /*! Sets bottom padding for a cell
         \param[in] value a new value for padding
-        \param[in] upgrade_grid whether we should update grid after it.
+        \param[in] update_grid whether we should update grid after it.
      */
     void setPaddingBottom(double value, bool update_grid = true);
     /*! Returns bottom padding for a cell
@@ -130,7 +130,7 @@ public:
     double paddingBottom() const;
     /*! Sets left padding for a cell
         \param[in] value a new value for padding
-        \param[in] upgrade_grid whether we should update grid after it.
+        \param[in] update_grid whether we should update grid after it.
      */
     void setPaddingLeft(double value, bool update_grid = true);
     /*! Returns left padding for a cell
@@ -139,7 +139,7 @@ public:
     double paddingLeft() const;
     /*! Sets right padding for a cell
         \param[in] value a new value for padding
-        \param[in] upgrade_grid whether we should update grid after it.
+        \param[in] update_grid whether we should update grid after it.
      */
     void setPaddingRight(double value, bool update_grid = true);
     /*! Returns right padding for a cell
@@ -148,23 +148,69 @@ public:
     double paddingRight() const;
     /*! Set nodes for a cell
         \param[in] nodes a nodes
-        \param[in] upgrade_grid whether we should update grid after it.
+        \param[in] update_grid whether we should update grid after it.
      */
-    void setNodes(const sad::Vector<sad::SceneNode*>& nodes, bool update_grid = true);
+    void setChildren(const sad::Vector<sad::SceneNode*>& nodes, bool update_grid = true);
     /*! Returns list of nodes for a cells. Note, that could return NULL
         if nodes are not found
         \return list of children as nodes
      */
-    sad::Vector<sad::SceneNode*> nodes() const;
+    sad::Vector<sad::SceneNode*> children() const;
     /*! Set nodes links as major ids for a cell
         \param[in] nodes a nodes
-        \param[in] upgrade_grid whether we should update grid after it.
+        \param[in] update_grid whether we should update grid after it.
      */
-    void setMajorIds(const sad::Vector<unsigned long long>& nodes, bool update_grid = true);
+    void setChildren(const sad::Vector<unsigned long long>& nodes, bool update_grid = true);
     /*! Returns a a major ids list for a children of cell
         \return list of major ids
      */
-    sad::Vector<unsigned long long> majorIds() const;
+    sad::Vector<unsigned long long> childrenMajorIds() const;
+    /*! Adds child to cell
+        \param[in] node a node
+        \param[in] update_grid whether we should update grid after it.
+     */
+    void addChild(sad::SceneNode* node, bool update_grid = true);
+    /*! Adds child to cell
+        \param[in] major_id a major id for added child
+        \param[in] update_grid whether we should update grid after it.
+     */
+    void addChild(unsigned long long major_id, bool update_grid = true);
+    /*! Inserts child to cell
+        \param[in] pos a position for inserting. If it's out of container, child will be added to end
+        \param[in] node a node
+        \param[in] update_grid whether we should update grid after it.
+     */
+    void insertChild(unsigned int pos, sad::SceneNode* node, bool update_grid = true);
+    /*! Inserts child to cell
+        \param[in] pos a position for inserting. If it's out of container, child will be added to end
+        \param[in] major_id a major id for a cell
+        \param[in] update_grid whether we should update grid after it.
+     */
+    void insertChild(unsigned int pos, unsigned long long major_id, bool update_grid = true);
+    /*! Removes a child at specified position
+        \param[in] pos a position
+     */
+    void removeChild(unsigned int pos, bool update_grid = true);
+    /*! Swaps to children of cell by their positions
+        \param[in] pos1 first position
+        \param[in] pos2 second position
+        \param[in] update_grid whether we should update grid after it.
+     */
+    void swapChildren(unsigned int pos1, unsigned int pos2, bool update_grid = true);
+    /*! Returns count of children in cell
+        \return count of children in cell
+     */
+    size_t childrenCount() const;
+    /*! Returns a child of cell by position
+        \param[in] pos a position
+        \return a node
+     */
+    sad::SceneNode* child(unsigned int pos) const;
+    /*! Returns  a child's major id by it's position
+        \param[in] pos a position
+        \return a node
+     */
+    unsigned long long childMajorId(unsigned int pos) const;
     /*! Returns a database, which is cell linked to
         \return database
      */

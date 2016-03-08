@@ -216,7 +216,7 @@ double sad::layouts::Cell::paddingRight() const
     return m_padding_right;
 }
 
-void sad::layouts::Cell::setNodes(const sad::Vector<sad::SceneNode*>& nodes, bool update_grid)
+void sad::layouts::Cell::setChildren(const sad::Vector<sad::SceneNode*>& nodes, bool update_grid)
 {
     for(size_t i = 0; i < m_children.size(); i++)
     {
@@ -233,7 +233,7 @@ void sad::layouts::Cell::setNodes(const sad::Vector<sad::SceneNode*>& nodes, boo
     tryNotify(update_grid);
 }
 
-sad::Vector<sad::SceneNode*> sad::layouts::Cell::nodes() const
+sad::Vector<sad::SceneNode*> sad::layouts::Cell::children() const
 {
     sad::Vector<sad::SceneNode*> result;
     for(size_t i = 0; i < m_children.size(); i++)
@@ -243,7 +243,7 @@ sad::Vector<sad::SceneNode*> sad::layouts::Cell::nodes() const
     return result;
 }
 
-void sad::layouts::Cell::setMajorIds(const sad::Vector<unsigned long long>& nodes, bool update_grid)
+void sad::layouts::Cell::setChildren(const sad::Vector<unsigned long long>& nodes, bool update_grid)
 {
     for(size_t i = 0; i < m_children.size(); i++)
     {
@@ -260,7 +260,7 @@ void sad::layouts::Cell::setMajorIds(const sad::Vector<unsigned long long>& node
     tryNotify(update_grid);
 }
 
-sad::Vector<unsigned long long> sad::layouts::Cell::majorIds() const
+sad::Vector<unsigned long long> sad::layouts::Cell::childrenMajorIds() const
 {
     sad::Vector<unsigned long long> result;
     for(size_t i = 0; i < m_children.size(); i++)
@@ -268,6 +268,102 @@ sad::Vector<unsigned long long> sad::layouts::Cell::majorIds() const
         result << m_children[i]->majorId();
     }
     return result;
+}
+
+void sad::layouts::Cell::addChild(sad::SceneNode* node, bool update_grid)
+{
+    sad::db::TypedLink<sad::SceneNode>* link = new sad::db::TypedLink<sad::SceneNode>();
+    link->setDatabase(m_db);
+    link->setObject(node);
+    m_children << link;
+    tryNotify(update_grid);
+}
+
+void sad::layouts::Cell::addChild(unsigned long long major_id, bool update_grid)
+{
+    sad::db::TypedLink<sad::SceneNode>* link = new sad::db::TypedLink<sad::SceneNode>();
+    link->setDatabase(m_db);
+    link->setMajorId(major_id);
+    m_children << link;
+    tryNotify(update_grid);
+}
+
+void sad::layouts::Cell::insertChild(unsigned int pos, sad::SceneNode* node, bool update_grid)
+{
+    sad::db::TypedLink<sad::SceneNode>* link = new sad::db::TypedLink<sad::SceneNode>();
+    link->setDatabase(m_db);
+    link->setObject(node);
+    if (pos >= m_children.size())
+    {
+        m_children << link;        
+    }
+    else
+    {
+        m_children.insert(link, pos);
+    }
+    tryNotify(update_grid);    
+}
+
+void sad::layouts::Cell::insertChild(unsigned int pos, unsigned long long major_id, bool update_grid)
+{
+    sad::db::TypedLink<sad::SceneNode>* link = new sad::db::TypedLink<sad::SceneNode>();
+    link->setDatabase(m_db);
+    link->setMajorId(major_id);
+    if (pos >= m_children.size())
+    {
+        m_children << link;        
+    }
+    else
+    {
+        m_children.insert(link, pos);
+    }
+    tryNotify(update_grid);    
+}
+
+void sad::layouts::Cell::removeChild(unsigned int pos, bool update_grid)
+{
+    if (pos < m_children.size())
+    {
+        delete m_children[pos];
+        m_children.removeAt(pos);
+        tryNotify(update_grid); 
+    }
+}
+
+void sad::layouts::Cell::swapChildren(unsigned int pos1, unsigned int pos2, bool update_grid)
+{
+    if (pos1 < m_children.size() && pos2 < m_children.size())
+    {
+        sad::db::TypedLink<sad::SceneNode>* node = m_children[pos1];
+        m_children[pos1] = m_children[pos2];
+        m_children[pos2] = node;
+        tryNotify(update_grid); 
+    }
+}
+
+size_t sad::layouts::Cell::childrenCount() const
+{
+    return m_children.size();
+}
+
+sad::SceneNode* sad::layouts::Cell::child(unsigned int pos) const
+{
+    sad::SceneNode* result = NULL;
+    if (pos < m_children.size())
+    {
+        result = m_children[pos]->value();
+    }
+    return result;
+}
+
+unsigned long long sad::layouts::Cell::childMajorId(unsigned int pos) const
+{
+    unsigned long long result = NULL;
+    if (pos < m_children.size())
+    {
+        result = m_children[pos]->majorId();
+    }
+    return result;    
 }
 
 sad::db::Database* sad::layouts::Cell::database() const
