@@ -422,6 +422,85 @@ void sad::layouts::Cell::moveBy(const sad::Point2D& p)
     }
 }
 
+sad::Size2D sad::layouts::Cell::preferredSize() const
+{
+    sad::Size2D result(
+        this->paddingLeft() + this->paddingRight(),
+        this->paddingTop() + this->paddingBottom()
+    );
+    sad::Vector<sad::layouts::Cell::NormalizedRectangle> rects;
+    sad::Vector<sad::Rect2D> regions;
+    for(size_t i = 0; i < m_children.size(); i++)
+    {
+        sad::SceneNode* node = m_children[i]->value();
+        if (node)
+        {
+            regions.clear();
+            node->regions(regions);
+            if (regions.size() > 0)
+            {
+                rects << normalize(regions[0]);
+            }
+        }
+    }
+    double height = 0;
+    double width = 0;
+    if (this->stackingType() == sad::layouts::LST_Horizontal)
+    {
+        for(size_t i = 0; i < rects.size(); i++)
+        {
+            width += (rects[i].p2().x() - rects[i].p1().x());
+            height = std::max(height, (rects[i].p2().y() - rects[i].p1().y()));
+        }
+    }
+    else
+    {
+        for(size_t i = 0; i < rects.size(); i++)
+        {
+            width += std::max(width, (rects[i].p2().x() - rects[i].p1().x()));
+            height += (rects[i].p2().y() - rects[i].p1().y());
+        }
+    }
+    result.Width += width;
+    result.Height += height;
+    return result;
+}
+
+// ========================================= PROTECTED METHODS =========================================
+
+sad::layouts::Cell::NormalizedRectangle sad::layouts::Cell::normalize(const sad::Rect2D& r)
+{
+    sad::Pair<sad::Point2D, sad::Point2D> result(r.p0(), r.p0());
+    normalize(result, r.p1());
+    normalize(result, r.p2());
+    normalize(result, r.p3());
+    return result;
+}
+
+void sad::layouts::Cell::normalize(sad::layouts::Cell::NormalizedRectangle& result, const sad::Point2D& p)
+{
+    if (p.x() < result._1().x())
+    {
+        result._1().setX(p.x());
+    }
+
+    if (p.y() < result._1().y())
+    {
+        result._1().setY(p.y());
+    }
+
+
+    if (p.x() > result._2().x())
+    {
+        result._2().setX(p.x());
+    }
+
+    if (p.y() > result._2().y())
+    {
+        result._2().setY(p.y());
+    }
+}
+
 void sad::layouts::Cell::tryNotify(bool update_grid)
 {
     if (update_grid)

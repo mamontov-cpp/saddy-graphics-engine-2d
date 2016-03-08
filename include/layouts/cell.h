@@ -30,6 +30,9 @@ class Grid;
 class Cell
 {
 public:
+    /*! A normalized rectangle, which is used in some computation
+     */ 
+    typedef sad::Pair<sad::Point2D, sad::Point2D> NormalizedRectangle;
     /*! Inits a default cell
      */
     Cell();
@@ -233,13 +236,27 @@ public:
         \param[in] point
      */
     void moveBy(const sad::Point2D& p);
+    /*! Returns a preferred size for a cell
+        \return a preferred size
+     */
+    sad::Size2D preferredSize() const;
     /*! An assigned area for cell
      */
     sad::Rect2D AssignedArea;
     /*! A mark flag for each cell to ensure it was rendered only once. Used by sad::layouts::Grid
      */
-    bool Rendered;	
+    bool Rendered;
 protected:
+    /*! Normalizes rectangle to a pair
+        \param[in] r rectangle
+        \return normalized rectangle as first element has minimal x and y coords, and second one - maximal
+     */
+    static sad::layouts::Cell::NormalizedRectangle normalize(const sad::Rect2D& r);
+    /*! Normalizes a rectangle pair, changing coordinates, according rules from previous method
+        \param[out] result a result
+        \param[in] p point
+     */
+    static void normalize(sad::layouts::Cell::NormalizedRectangle& result, const sad::Point2D& p);
     /*! Tries notify a grid, if update_grid is specified
         \param[in] update_grid whether we should notify a grid
      */
