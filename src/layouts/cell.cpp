@@ -19,7 +19,8 @@ m_padding_right(0),
 m_grid(NULL),
 m_db(NULL)
 {
-    
+    m_width.Unit = sad::layouts::LU_Auto;
+    m_height.Unit = sad::layouts::LU_Auto;	
 }
 
 sad::layouts::Cell::~Cell()

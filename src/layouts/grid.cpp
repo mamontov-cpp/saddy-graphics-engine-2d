@@ -9,8 +9,10 @@
 #include "renderer.h"
 #include "primitiverenderer.h"
 #include "sadmutex.h"
+#include "fuzzyequal.h"
 
 #include <stdexcept>
+#include <numeric>
 
 // =================================== PUBLIC METHODS ===================================
 
@@ -602,7 +604,137 @@ bool sad::layouts::Grid::split(size_t row, size_t col, size_t row_span, size_t c
 
 void sad::layouts::Grid::update()
 {
+    // 1. Create empty arrays of widths and heights, filled with zeros
+    sad::Vector<sad::Vector<double> > widths;
+    sad::Vector<sad::Vector<double> > heights;
+    for(size_t i = 0; i < m_rows; i++)
+    {
+        widths << sad::Vector<double>();
+        heights << sad::Vector<double>();
+        for(size_t j = 0; j < m_cols; j++)
+        {
+            widths[i] << 0.0;
+            heights[i] << 0.0;
+        }
+    }
     
+    // 2. Fill this array with actual widths and heights, distributed from cells
+    for(size_t i = 0; i < m_cells.size(); i++)
+    {
+        sad::layouts::Cell* cell = m_cells[i];
+        sad::Size2D computedSize = cell->computedSize();
+        sad::Size2D size = cell->preferredSize();
+        if (cell->width().Unit != sad::layouts::LU_Auto)
+        {
+            size.Width = computedSize.Width;            
+        }
+        if (cell->height().Unit != sad::layouts::LU_Auto)
+        {
+            size.Height = computedSize.Height;
+        }
+        
+        if (sad::is_fuzzy_zero(size.Width)) 
+        {
+            size.Width = m_area.width() / cell->colSpan();
+        }
+        
+        if (sad::is_fuzzy_zero(size.Height)) 
+        {
+            size.Height = m_area.height() / cell->rowSpan();
+        }
+        
+        for(size_t row = 0; row < cell->rowSpan(); row++)
+        {
+            for(size_t col = 0; col < cell->colSpan(); col++)
+            {
+                widths[cell->Row + row][cell->Col + col] = size.Width / cell->colSpan();
+                heights[cell->Row + row][cell->Col + col] = size.Height / cell->rowSpan();              
+            }
+        }
+    }
+    
+    // 3. Linearize widths and heights by picking maximal width and height on row or column
+    sad::Vector<double> rowtoheight;    
+    sad::Vector<double> coltowidth;
+    rowtoheight.resize(m_rows, 0.0);
+    coltowidth.resize(m_cols, 0.0);
+    for(size_t i = 0; i < m_rows; i++)
+    {
+        for(size_t j = 0; j < m_cols; j++)
+        {
+            rowtoheight[i] = std::max(rowtoheight[i], heights[i][j]);
+            coltowidth[j] = std::max(coltowidth[j], widths[i][j]);
+        }
+    }
+    double totalwidth = std::accumulate(coltowidth.begin(), coltowidth.end(), 0.0);
+    double totalheight = std::accumulate(rowtoheight.begin(), rowtoheight.end(), 0.0);
+    
+    // 4. Recompute new widths and heights of cell, according to fixation parameters
+    
+    // 4.1 Adjust widths
+    {
+        // 4.1.1 Compute factors for widths or adjust area
+        sad::Point2D startingpoint = m_area.p3();
+        double factor = 1.0;
+        if (this->fixedWidth())
+        {
+            double factor = 1.0;
+            if (sad::is_fuzzy_zero(totalwidth) == false)
+            {
+                factor = m_area.width() / totalwidth;
+            }       
+        }
+        else
+        {
+            m_area = sad::Rect2D(startingpoint.x(), startingpoint.y() - m_area.height(), startingpoint.x() + totalwidth, startingpoint.y());
+        }
+        // 4.1.2 Recompute widths
+        for(size_t i = 0; i < m_cols; i++)
+        {
+            coltowidth[i] *= factor;
+        }
+    }
+    // 4.2 Adjust heights
+    {
+        // 4.2.1 Compute factors for height or adjust area
+        sad::Point2D startingpoint = m_area.p3();
+        double factor = 1.0;
+        if (this->fixedHeight())
+        {
+            double factor = 1.0;
+            if (sad::is_fuzzy_zero(totalheight) == false)
+            {
+                factor = m_area.height() / totalheight;
+            }       
+        }
+        else
+        {
+            m_area = sad::Rect2D(startingpoint.x(), startingpoint.y() - totalheight, startingpoint.x() + m_area.height(), startingpoint.y());
+        }
+        // 4.2.2 Recompute heights
+        for(size_t i = 0; i < m_rows; i++)
+        {
+            rowtoheight[i] *= factor;
+        }
+    }
+    
+    // 5. Update assigned areas for all of cells
+    sad::Point2D startingpoint = m_area.p3();
+    for(size_t i = 0; i < m_cells.size(); i++)
+    {
+        sad::layouts::Cell* cell = m_cells[i];
+        double xstart = startingpoint.x() + std::accumulate(coltowidth.begin(), coltowidth.begin() + cell->Col, 0.0);
+        double ystart = startingpoint.y() - std::accumulate(rowtoheight.begin(), rowtoheight.begin() + cell->Row, 0.0);
+        double width = std::accumulate(coltowidth.begin() + cell->Col, coltowidth.begin() + cell->Col + cell->colSpan(), 0.0);
+        double height = std::accumulate(rowtoheight.begin() + cell->Row, rowtoheight.begin() + cell->Row + cell->rowSpan(), 0.0);
+        cell->AssignedArea = sad::Rect2D(xstart, ystart - height, xstart + width, ystart);
+    }
+    
+    // 6. Update all cells.
+    for(size_t i = 0; i < m_cells.size(); i++)
+    {
+        m_cells[i]->update();
+    }
 }
 
 void sad::layouts::Grid::moveBy(const sad::Point2D& p)
