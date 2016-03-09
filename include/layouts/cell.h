@@ -56,7 +56,7 @@ public:
         \param[in] width a new width for a cell
         \param[in] update_grid whether we should notify grid
      */
-    void setWidth(const sad::layouts::LengthValue& width, bool upgrade_grid = true);
+    void setWidth(const sad::layouts::LengthValue& width, bool update_grid = true);
     /*! Returns width of a cell
         \return width of a cell
      */
@@ -65,7 +65,7 @@ public:
         \param[in] height a new width for a cell
         \param[in] update_grid whether we should notify grid
      */
-    void setHeight(const sad::layouts::LengthValue height, bool upgrade_grid = true);
+    void setHeight(const sad::layouts::LengthValue height, bool update_grid = true);
     /*! Returns height of a cell
         \return height of a cell
      */
@@ -82,7 +82,7 @@ public:
         \param[in] align a vertical alignment
         \param[in] update_grid whether we should notify grid
      */
-    void setVerticalAlignment(sad::layouts::VerticalAlignment align, bool upgrade_grid = true);
+    void setVerticalAlignment(sad::layouts::VerticalAlignment align, bool update_grid = true);
     /*! Returns vertical alignment for a cell
         \return vertical alignment
      */
@@ -91,15 +91,16 @@ public:
         \param[in] align a horizontal alignment
         \param[in] update_grid whether we should notify grid
      */
-    void setHorizontalAlignment(sad::layouts::HorizontalAlignment align, bool upgrade_grid = true);
+    void setHorizontalAlignment(sad::layouts::HorizontalAlignment align, bool update_grid = true);
     /*! Returns horizontal alignment for a cell
         \return horizontal alignment
      */
     sad::layouts::HorizontalAlignment horizontalAlignment() const;
     /*! Sets type of stacking for a cell
-        \param[in] type a type of 
+        \param[in] type a type of stacking for a cell
+        \param[in] update_grid whether we should notify grid		
      */
-    void setStackingType(sad::layouts::StackingType type, bool upgrade_grid = true);
+    void setStackingType(sad::layouts::StackingType type, bool update_grid = true);
     /*! Returns stacking type for a cells
         \return stacking type
      */
@@ -183,6 +184,7 @@ public:
     void insertChild(unsigned int pos, unsigned long long major_id, bool update_grid = true);
     /*! Removes a child at specified position
         \param[in] pos a position
+        \param[in] update_grid whether we should update grid after it.		
      */
     void removeChild(unsigned int pos, bool update_grid = true);
     /*! Swaps to children of cell by their positions
@@ -224,7 +226,7 @@ public:
      */
     void setDatabase(sad::db::Database* db);
     /*! Moves a grid by specified vector
-        \param[in] point
+        \param[in] p a point, which defines a vector
      */
     void moveBy(const sad::Point2D& p);
     /*! Returns a preferred size for a cell
@@ -256,12 +258,10 @@ public:
 protected:
     /*! Sets count of spanning rows for a cell
         \param[in] rows a count of spanning rows for cell
-        \param[in] update_grid whether we should notify grid
      */
     void setRowSpan(unsigned int rows);
     /*! Sets count of spanning columns for a cell
         \param[in] rows a count of spanning columns for cell
-        \param[in] update_grid whether we should notify grid
      */
     void setColSpan(unsigned int rows); 
     /*! Computes normalized sizes for children 

@@ -193,7 +193,7 @@ public:
      */
     void setCells(const sad::Vector<sad::layouts::SerializableCell>& cells);
     /*! Moves a grid by specified vector
-        \param[in] point
+        \param[in] p point, which specifies a vector
      */
     void moveBy(const sad::Point2D& p);
     /*! Returns a cell by inner position

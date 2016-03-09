@@ -131,7 +131,7 @@ public:
      */
     void moveBy(const sad::Point3D & dist);
     /*! Moves a sprite by following vector
-        \param[in] dist a distance to be moved
+        \param[in] p a distance to be moved
      */    
     virtual void moveBy(const sad::Point2D& p);
     /*! Moves a sprite center to a point
