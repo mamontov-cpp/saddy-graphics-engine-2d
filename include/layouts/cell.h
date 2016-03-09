@@ -29,7 +29,7 @@ class Grid;
     
 class Cell
 {
-friend class sad::layouts::Grid;	
+friend class sad::layouts::Grid;    
 public:
     /*! A normalized rectangle, which is used in some computation
      */ 
@@ -240,28 +240,30 @@ public:
      */
     sad::Size2D maximalSize() const;
     /*! An assigned area for cell
+        This property is explicitly managed by grid, and should not be touched in any circumstances.
      */
     sad::Rect2D AssignedArea;
-    /*! A mark flag for each cell to ensure it was rendered only once. Used by sad::layouts::Grid
+    /*! A mark flag for each cell to ensure it was rendered only once.
+        This property is explicitly managed by grid, and should not be touched in any circumstances.
      */
     bool Rendered;
-    /*! A row position
+    /*! A row position. This property is explicitly managed by grid, and should not be touched in any circumstances.
      */
     unsigned int Row;
-    /*! A column position
+    /*! A column position. This property is explicitly managed by grid, and should not be touched in any circumstances.
      */
     unsigned int Col;
 protected:
-	/*! Sets count of spanning rows for a cell
+    /*! Sets count of spanning rows for a cell
         \param[in] rows a count of spanning rows for cell
         \param[in] update_grid whether we should notify grid
      */
     void setRowSpan(unsigned int rows);
-	/*! Sets count of spanning columns for a cell
+    /*! Sets count of spanning columns for a cell
         \param[in] rows a count of spanning columns for cell
         \param[in] update_grid whether we should notify grid
      */
-    void setColSpan(unsigned int rows);	
+    void setColSpan(unsigned int rows); 
     /*! Computes normalized sizes for children 
      */
     void computeNormalizedChildrenSizes();
@@ -321,7 +323,7 @@ protected:
 
     /*! A grid, which cell is being linked to
      */
-    sad::layouts::Grid* m_grid;	
+    sad::layouts::Grid* m_grid; 
     /*! A database, which is cell is linked to 
      */
     sad::db::Database* m_db;

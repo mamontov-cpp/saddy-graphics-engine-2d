@@ -529,6 +529,52 @@ bool sad::layouts::Grid::merge(size_t row, size_t col, size_t row_span, size_t c
     return result;
 }
 
+bool sad::layouts::Grid::split(size_t row, size_t col, size_t row_span, size_t col_span)
+{
+    sad::layouts::Cell* cell = NULL;
+    for(size_t i = 0; i < m_cells.size(); i++)
+    {
+        if (m_cells[i]->Row == row 
+            && m_cells[i]->Col == col
+            && m_cells[i]->rowSpan() == row_span
+            && m_cells[i]->colSpan() == col_span)
+        {
+            cell = m_cells[i];
+        }           
+    }
+    bool result = false;
+    sad::db::Database* db = this->table()->database();
+    if (cell != NULL)
+    {
+        result = true;
+        for(size_t i = 0; i < row_span; i++)
+        {
+            for(size_t j = 0; j < col_span; j++)
+            {
+                if ((i != 0) || (j != 0))
+                {
+                    sad::layouts::Cell* cell = new sad::layouts::Cell();
+                    cell->setDatabase(db);
+                    cell->setPaddingBottom(m_padding_bottom, false);
+                    cell->setPaddingTop(m_padding_top, false);
+                    cell->setPaddingLeft(m_padding_left, false);
+                    cell->setPaddingRight(m_padding_right, false);
+                    cell->Row = row + i;
+                    cell->Col = col + j;
+                    m_cells << cell;
+                }
+            }
+        }
+        cell->setRowSpan(1);
+        cell->setColSpan(1);
+        CellComparator less;
+        std::sort(m_cells.begin(), m_cells.end(), less);
+        makeCellViews();
+        this->update();
+    }
+    return result;
+}
+
 void sad::layouts::Grid::update()
 {
     
