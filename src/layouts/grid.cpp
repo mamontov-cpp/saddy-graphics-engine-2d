@@ -424,6 +424,10 @@ void sad::layouts::Grid::setCells(const sad::Vector<sad::layouts::SerializableCe
         cell->fromSerializable(cells[i], db);
         m_cells << cell;
     }
+    if (!m_loading)
+    {
+        this->makeCellViews();
+    }
 }
 
 sad::layouts::Cell* sad::layouts::Grid::cell(size_t pos) const
