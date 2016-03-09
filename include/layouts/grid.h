@@ -231,9 +231,6 @@ public:
     /*! Forces grid to recompute all items for cells
      */ 
     void update();      
-    /*! Forces grid to update amount of cells, fixing their amount in grid
-     */
-    void updateCells();
 private:
     /*! The grid is not copyable
         \param[in] grid a grid      
@@ -254,6 +251,16 @@ private:
         \param[in] newrows a new rows count
      */
     void shrinkRows(size_t oldrows, size_t newrows);
+    /*! Expands columns to a specified size
+        \param[in] oldcols an old columns count
+        \param[in] newcols a new rows count
+     */
+    void expandColumns(size_t oldcols, size_t newcols);
+    /*! Shrinks columns to a specified size
+        \param[in] oldcols an old columns count
+        \param[in] newcols a new rows count
+     */
+    void shrinkColumns(size_t oldcols, size_t newcols);
     /*! Regenerates cell views array, according to current settings
      */
     void makeCellViews();

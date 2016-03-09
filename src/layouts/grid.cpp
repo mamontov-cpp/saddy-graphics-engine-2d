@@ -1,7 +1,6 @@
 #include "layouts/grid.h"
 
 #include "db/dbtable.h"
-#include "db/dbfield.h"
 #include "db/dbmethodpair.h"
 #include "db/schema/schema.h"
 
@@ -261,9 +260,15 @@ void sad::layouts::Grid::setColumns(unsigned int cols)
     m_cols = cols;
     if (!m_loading)
     {
-        if (m_cols != oldcols)
+        if (oldcols > m_cols)
         {
-            this->updateCells();
+            this->shrinkColumns(oldcols, m_cols);
+            this->update();
+        }
+        if (oldcols < m_cols)
+        {
+            this->expandColumns(oldcols, m_cols);
+            this->update();
         }
     }
 }
@@ -659,6 +664,62 @@ void sad::layouts::Grid::shrinkRows(size_t oldrows, size_t newrows)
                 if (oldcell->rowSpan() > 1)
                 {
                     oldcell->setRowSpan(row - oldcell->Row);
+                }
+                else
+                {
+                    toberemoved << oldcell;
+                }
+            }
+        }
+    }
+
+    std::unique(toberemoved.begin(), toberemoved.end());
+    for(size_t i = 0; i < toberemoved.size(); i++)
+    {
+        delete toberemoved[i];
+        m_cells.removeAll(toberemoved[i]);
+    }
+    CellComparator less;
+    std::sort(m_cells.begin(), m_cells.end(), less);
+    makeCellViews();
+}
+
+void sad::layouts::Grid::expandColumns(size_t oldcols, size_t newcols)
+{
+    sad::db::Database* db = this->table()->database();
+    for(size_t col = oldcols; col < newcols; col++)
+    {
+        for(size_t row = 0; row < m_rows; row++)
+        {
+            sad::layouts::Cell* newcell = new sad::layouts::Cell();
+            newcell->setDatabase(db);
+            newcell->setPaddingBottom(m_padding_bottom, false);
+            newcell->setPaddingTop(m_padding_top, false);
+            newcell->setPaddingLeft(m_padding_left, false);
+            newcell->setPaddingRight(m_padding_right, false);
+            newcell->Row = row;
+            newcell->Col = col;
+            m_cells << newcell;
+        }
+    }
+    CellComparator less;
+    std::sort(m_cells.begin(), m_cells.end(), less);
+    makeCellViews();
+}
+
+void sad::layouts::Grid::shrinkColumns(size_t oldcols, size_t newcols)
+{
+    sad::Vector<sad::layouts::Cell*> toberemoved;
+    for(size_t col = oldcols - 1; col >= newcols; col--)
+    {
+        for(size_t row = 0; row < m_rows; row++)
+        {
+            sad::layouts::Cell* oldcell = this->cell(row, col);
+            if ((oldcell->Col + oldcell->colSpan()) > col)
+            {
+                if (oldcell->colSpan() > 1)
+                {
+                    oldcell->setColSpan(col - oldcell->Col);
                 }
                 else
                 {
