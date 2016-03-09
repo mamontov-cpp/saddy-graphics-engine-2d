@@ -468,6 +468,67 @@ sad::Maybe<sad::layouts::Grid::SearchResult> sad::layouts::Grid::find(unsigned l
     return result;
 }
 
+struct CellComparator {
+    bool operator()(sad::layouts::Cell* a, sad::layouts::Cell* b)
+    {   
+        if (a->Row == b->Row)
+        {
+            return a->Col < b->Col;
+        }
+        return a->Row < b->Row;
+    }   
+};
+
+bool sad::layouts::Grid::merge(size_t row, size_t col, size_t row_span, size_t col_span)
+{
+    if ((row + row_span > m_rows) || (col + col_span) > m_cols)
+    {
+        return false;
+    }
+    sad::Vector<sad::layouts::Cell*> merging_cells;
+    for(size_t i = 0; i < row_span; i++)
+    {
+        for(size_t j = 0; j < col_span; j++)
+        {
+            merging_cells << cell(row + i, col + j);
+        }
+    }
+    std::unique(merging_cells.begin(), merging_cells.end());
+    bool result = true;
+    for(size_t i = 0; i < merging_cells.size(); i++)
+    {
+        sad::layouts::Cell* cell = merging_cells[i];
+        if ((cell->Row < row) 
+            || (cell->Col < col)
+            || ((cell->Row + cell->rowSpan()) > (row + row_span)) 
+            || ((cell->Col + cell->colSpan()) > (col + col_span)) )
+        {
+            result = false;
+        }
+    }
+    if (result)
+    {
+        CellComparator less;
+        std::sort(merging_cells.begin(), merging_cells.end(), less);
+        sad::layouts::Cell* target_cell = merging_cells[0];
+        for(size_t i = 1; i < merging_cells.size(); i++)
+        {
+            for(size_t j = 0; j < merging_cells[i]->m_children.size(); j++)
+            {
+                target_cell->m_children << merging_cells[i]->m_children[j];
+            }
+            merging_cells[i]->m_children.clear();
+            delete merging_cells[i];
+            m_cells.removeAll(merging_cells[i]);
+        }       
+        target_cell->setRowSpan(row_span);
+        target_cell->setColSpan(col_span);      
+        makeCellViews();
+        this->update();
+    }
+    return result;
+}
+
 void sad::layouts::Grid::update()
 {
     

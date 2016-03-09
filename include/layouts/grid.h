@@ -211,6 +211,15 @@ public:
         \return result, which is set if found
      */
     sad::Maybe<sad::layouts::Grid::SearchResult> find(unsigned long long major_id) const;
+    /*! Merges several cells into one. Returns true if successfull. Could return false in
+        cases if row_span and col_span cause system to go out of bounds of grid, or some 
+        cells go into the set only partially. In that case, nothing is performed
+        \param[in] row a starting row
+        \param[in] col a starting column
+        \param[in] row_span amount of row spanning
+        \param[in] col_span amount of columns spanning
+     */
+    bool merge(size_t row, size_t col, size_t row_span, size_t col_span);
     /*! Forces grid to recompute all items for cells
      */ 
     void update();      
