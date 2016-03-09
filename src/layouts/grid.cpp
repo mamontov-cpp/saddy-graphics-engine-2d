@@ -55,7 +55,7 @@ sad::Renderer* sad::layouts::Grid::renderer() const
     sad::Renderer* result = this->sad::SceneNode::renderer();
     if (!result)
     {
-        result = m_renderer;		
+        result = m_renderer;        
     }
     return result;
 }
@@ -106,7 +106,11 @@ bool sad::layouts::Grid::load(const picojson::value& v)
     m_loading = false;
     if (result)
     {        
-        this->fixCellViews();
+        result = this->validate();
+        if (result)
+        {
+            this->makeCellViews();
+        }
     }
     return result;
 }
@@ -129,28 +133,28 @@ sad::db::schema::Schema* sad::layouts::Grid::basicSchema()
                     &sad::layouts::Grid::area,
                     &sad::layouts::Grid::setArea
                 )
-            );	
+            );  
             LayoutsGridSchema->add(
                 "rows", 
                 new sad::db::MethodPair<sad::layouts::Grid, unsigned int>(
                     &sad::layouts::Grid::rows,
                     &sad::layouts::Grid::setRows
                 )
-            );	
+            );  
             LayoutsGridSchema->add(
                 "columns", 
                 new sad::db::MethodPair<sad::layouts::Grid, unsigned int>(
                     &sad::layouts::Grid::columns,
                     &sad::layouts::Grid::setColumns
                 )
-            );	
+            );  
             LayoutsGridSchema->add(
                 "padding_top", 
                 new sad::db::MethodPair<sad::layouts::Grid, double>(
                     &sad::layouts::Grid::paddingTop,
                     &sad::layouts::Grid::setDefaultPaddingTop
                 )
-            );	
+            );  
             LayoutsGridSchema->add(
                 "padding_bottom", 
                 new sad::db::MethodPair<sad::layouts::Grid, double>(
@@ -502,94 +506,72 @@ sad::layouts::Grid& sad::layouts::Grid::operator=(const sad::layouts::Grid& o)
     return *this;
 }
 
-void sad::layouts::Grid::fixCellViews()
+void sad::layouts::Grid::makeCellViews()
 {
-    unsigned int size = m_rows * m_cols;
-    sad::db::Database* db = this->table()->database();
-    sad::Hash<size_t, size_t> uncovered_cells;
-    for(size_t i = 0; i < m_cells.size(); i++)
-    {
-        uncovered_cells.insert(i, i);
-    }
-
+    m_cell_views.clear();
     sad::Hash<size_t, sad::Hash<size_t, sad::Vector<size_t> > > coverage;
-    bool changed = true;
-    while(changed)
-    {
-        changed = false;
-        buildCoverage(coverage);
-        for(sad::Hash<size_t, sad::Hash<size_t, sad::Vector<size_t> > >::iterator iit = coverage.begin();
-            iit != coverage.end();
-            ++iit)
-        {
-            sad::Hash<size_t, sad::Vector<size_t> >& jitsource = iit.value();
-            for(sad::Hash<size_t, sad::Vector<size_t> >::iterator jit = jitsource.begin();
-                jit != jitsource.end();
-                ++jit)
-            {
-                if (jit.value().size() > 1)
-                {
-                    changed = true;
-                    size_t row = iit.key();
-                    size_t col = jit.key();
-
-                    size_t minrow = 0;
-                    size_t mincol = 0;
-                    size_t minpos = 0;
-                    sad::Vector<size_t>& collisions = jit.value();
-                    for(size_t i = 0; i < collisions.size(); i++)
-                    {
-                        if (m_cells[collisions[i]]->Row <= minrow)
-                        {
-                            if (m_cells[collisions[i]]->Col < mincol)
-                            {
-                                minpos = i;
-                            }
-                        }
-                    }
-                    collisions.removeAt(minpos);
-                    std::sort(collisions.begin(), collisions.end());
-                    for(int i = collisions.size() - 1; i > -1; i++)
-                    {
-                        sad::layouts::Cell* cell = m_cells[collisions[i]];
-                        if (cell->rowSpan() == 1 && cell->colSpan() == 1)
-                        {
-                            delete m_cells[i];
-                            m_cells.removeAt(collisions[i]);
-                        }
-                        else
-                        {
-                            // TODO: Do something about other conflicts
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    // TODO: Do something with those situations, when rowSpan and colSpan goes out of bounds
-
-    // Add missing cells
-    while(m_cells.size() < size)
-    {
-        sad::layouts::Cell* cell = new sad::layouts::Cell();
-        cell->setDatabase(db);
-        cell->setPaddingBottom(m_padding_bottom, false);
-        cell->setPaddingTop(m_padding_top, false);
-        cell->setPaddingLeft(m_padding_left, false);
-        cell->setPaddingRight(m_padding_right, false);
-        m_cells << cell;            
-    }
-    for(size_t i = 0 ; i < m_rows; i++)
+    buildCoverage(coverage);
+    for(size_t i = 0; i < m_rows; i++)
     {
         for(size_t j = 0; j < m_cols; j++)
         {
-            
+            bool current_result = false;
+            if (coverage.contains(i))
+            {
+                const sad::Hash<size_t, sad::Vector<size_t> >& coltopos = coverage[i];
+                if (coltopos.contains(j))
+                {
+                    const sad::Vector<size_t>& positions =  coltopos[j];
+                    // Exactly one cell should correspond to each cell slot
+                    if (positions.size() == 1) 
+                    {
+                        m_cell_views << m_cells[positions[0]];
+                    }
+                }       
+            }
         }
     }
 }
 
-void sad::layouts::Grid::buildCoverage(sad::Hash<size_t, sad::Hash<size_t, sad::Vector<size_t> > >& coverage)
+bool sad::layouts::Grid::validate() const
+{
+    bool result = true;
+    sad::Hash<size_t, sad::Hash<size_t, sad::Vector<size_t> > > coverage;
+    buildCoverage(coverage);
+    for(size_t i = 0; i < m_rows; i++)
+    {
+        for(size_t j = 0; j < m_cols; j++)
+        {
+            bool current_result = false;
+            if (coverage.contains(i))
+            {
+                const sad::Hash<size_t, sad::Vector<size_t> >& coltopos = coverage[i];
+                if (coltopos.contains(j))
+                {
+                    const sad::Vector<size_t>& positions =  coltopos[j];
+                    // Exactly one cell should correspond to each cell slot
+                    if (positions.size() == 1) 
+                    {
+                        sad::layouts::Cell* cell = m_cells[positions[0]];
+                        // Cell should be in bounds of grid
+                        if ((cell->Row >= 0) 
+                            && (cell->Col >= 0) 
+                            && (cell->Row + cell->rowSpan()) <= m_rows
+                            && (cell->Col + cell->colSpan()) <= m_cols)
+                        {
+                            current_result = true;
+                        }
+                    }
+                }
+            }
+            
+            result = result && current_result;
+        }
+    }
+    return result;
+}
+
+void sad::layouts::Grid::buildCoverage(sad::Hash<size_t, sad::Hash<size_t, sad::Vector<size_t> > >& coverage) const
 {
     coverage.clear();
     for(size_t i = 0; i < m_cells.size(); i++)
@@ -605,12 +587,12 @@ void sad::layouts::Grid::buildCoverage(sad::Hash<size_t, sad::Hash<size_t, sad::
                 {
                     coverage.insert(currow, sad::Hash<size_t, sad::Vector<size_t> >());
                 }
-                sad::Hash<size_t, sad::Vector<size_t> >& colToPos = coverage[currow];
-                if (colToPos.contains(curcol) == false)
+                sad::Hash<size_t, sad::Vector<size_t> >& coltopos = coverage[currow];
+                if (coltopos.contains(curcol) == false)
                 {
-                    colToPos.insert(curcol, sad::Vector<size_t>());
+                    coltopos.insert(curcol, sad::Vector<size_t>());
                 }
-                sad::Vector<size_t>& vec = colToPos[curcol];
+                sad::Vector<size_t>& vec = coltopos[curcol];
                 vec << i;
             }
         }

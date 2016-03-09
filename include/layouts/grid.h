@@ -28,7 +28,7 @@ namespace layouts
  */ 
 class Grid: public sad::SceneNode
 {
-SAD_OBJECT	
+SAD_OBJECT  
 public:
     /*! A result of search for an object in grid.
         The first element is position of cell in grid, which could be returned by cell() method.
@@ -71,7 +71,7 @@ public:
         \param[in] v a picojson object
         \return  whether it as successfull
      */
-    virtual bool load(const picojson::value& v);	    
+    virtual bool load(const picojson::value& v);        
     /*! A basic schema for object
         \return a schema 
      */
@@ -79,7 +79,7 @@ public:
     /*! Returns schema for an object
         \return schema
      */
-    virtual sad::db::schema::Schema* schema() const;	
+    virtual sad::db::schema::Schema* schema() const;    
     /*! Sets an area for table
         \param[in] r area for table
      */
@@ -213,13 +213,13 @@ public:
     sad::Maybe<sad::layouts::Grid::SearchResult> find(unsigned long long major_id) const;
     /*! Forces grid to recompute all items for cells
      */ 
-    void update();	    
+    void update();      
     /*! Forces grid to update amount of cells, fixing their amount in grid
      */
     void updateCells();
 private:
     /*! The grid is not copyable
-        \param[in] grid a grid		
+        \param[in] grid a grid      
      */
     Grid(const sad::layouts::Grid& grid);
     /*! The grid is not copyable
@@ -227,13 +227,17 @@ private:
         \return self-reference
      */
     sad::layouts::Grid& operator=(const sad::layouts::Grid& grid);
-    /*! Builds cell views
+    /*! Regenerates cell views array, according to current settings
      */
-    void fixCellViews();
+    void makeCellViews();
+    /*! Validates list of cells, returning whether it's valid
+        \return whether list of cells is valid
+     */
+    bool validate() const;
     /*! Builds coverage for a list of cells
         \param[out] coverage a coverage for cells
      */
-    void buildCoverage(sad::Hash<size_t, sad::Hash<size_t, sad::Vector<size_t> > >& coverage);
+    void buildCoverage(sad::Hash<size_t, sad::Hash<size_t, sad::Vector<size_t> > >& coverage) const;  
     /*! An area for a grid
      */
     sad::Rect2D m_area;
@@ -260,7 +264,7 @@ private:
     double m_padding_left;
     /*! A default right padding for all cells
      */
-    double m_padding_right;	
+    double m_padding_right; 
     /*! Whether it's fixed width table.
      */
     bool m_fixed_width;
@@ -275,10 +279,10 @@ private:
     sad::Renderer * m_renderer;
     /*! Toggles loading mode on grid. If grid is loading, no update should be called
      */
-    bool m_loading;	
+    bool m_loading; 
 };
 
-}	
+}   
     
 }
 

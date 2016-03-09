@@ -29,6 +29,7 @@ class Grid;
     
 class Cell
 {
+friend class sad::layouts::Grid;	
 public:
     /*! A normalized rectangle, which is used in some computation
      */ 
@@ -68,21 +69,11 @@ public:
     /*! Returns height of a cell
         \return height of a cell
      */
-    const sad::layouts::LengthValue& height() const;
-    /*! Sets count of spanning rows for a cell
-        \param[in] rows a count of spanning rows for cell
-        \param[in] update_grid whether we should notify grid
-     */
-    void setRowSpan(unsigned int rows, bool upgrade_grid = true);
+    const sad::layouts::LengthValue& height() const;    
     /*! Returns count of spanning rows for a cell
         \return count of spanning rows for a cell
      */
-    unsigned int rowSpan() const;
-    /*! Sets count of spanning columns for a cell
-        \param[in] rows a count of spanning columns for cell
-        \param[in] update_grid whether we should notify grid
-     */
-    void setColSpan(unsigned int rows, bool upgrade_grid = true);
+    unsigned int rowSpan() const;    
     /*! Returns count of spanning columns for a cell
         \return count of spanning columns for a cell
      */
@@ -261,6 +252,16 @@ public:
      */
     unsigned int Col;
 protected:
+	/*! Sets count of spanning rows for a cell
+        \param[in] rows a count of spanning rows for cell
+        \param[in] update_grid whether we should notify grid
+     */
+    void setRowSpan(unsigned int rows);
+	/*! Sets count of spanning columns for a cell
+        \param[in] rows a count of spanning columns for cell
+        \param[in] update_grid whether we should notify grid
+     */
+    void setColSpan(unsigned int rows);	
     /*! Computes normalized sizes for children 
      */
     void computeNormalizedChildrenSizes();
@@ -278,10 +279,6 @@ protected:
         \param[in] update_grid whether we should notify a grid
      */
     void tryNotify(bool update_grid);
-    /*! Tries notify a grid, if update_grid is specified
-        \param[in] update_grid whether we should notify a grid
-     */
-    void tryNotifyWithUpdatingCells(bool update_grid);
     /*! Width of a cell
      */
     sad::layouts::LengthValue m_width;

@@ -222,29 +222,9 @@ const sad::layouts::LengthValue& sad::layouts::Cell::height() const
     return m_height;
 }
 
-void sad::layouts::Cell::setRowSpan(unsigned int rows, bool upgrade_grid)
-{
-    m_row_span = rows;
-    if (m_row_span < 1)
-    {
-        m_row_span = 1;
-    }
-    tryNotifyWithUpdatingCells(upgrade_grid);
-}
-
 unsigned int sad::layouts::Cell::rowSpan() const
 {
     return m_row_span;
-}
-
-void sad::layouts::Cell::setColSpan(unsigned int rows, bool upgrade_grid)
-{
-    m_col_span = rows;
-    if (m_col_span < 1)
-    {
-        m_col_span = 1;
-    }
-    tryNotifyWithUpdatingCells(upgrade_grid);
 }
 
 unsigned int sad::layouts::Cell::colSpan() const
@@ -613,6 +593,24 @@ sad::Size2D sad::layouts::Cell::maximalSize() const
 
 // ========================================= PROTECTED METHODS =========================================
 
+void sad::layouts::Cell::setRowSpan(unsigned int rows)
+{
+    m_row_span = rows;
+    if (m_row_span < 1)
+    {
+        m_row_span = 1;
+    }
+}
+
+void sad::layouts::Cell::setColSpan(unsigned int rows)
+{
+    m_col_span = rows;
+    if (m_col_span < 1)
+    {
+        m_col_span = 1;
+    }
+}
+
 void sad::layouts::Cell::computeNormalizedChildrenSizes()
 {
     m_normalized_children.clear();
@@ -680,20 +678,6 @@ void sad::layouts::Cell::tryNotify(bool update_grid)
     }
 }
 
-void sad::layouts::Cell::tryNotifyWithUpdatingCells(bool update_grid)
-{
-    if (update_grid)
-    {
-        if (m_grid)
-        {
-            m_grid->updateCells();
-        }
-    }
-    else
-    {
-        update();
-    }
-}
 // ============================ PRIVATE METHODS ============================
 
 sad::layouts::Cell::Cell(const sad::layouts::Cell& o)
