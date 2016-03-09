@@ -4,6 +4,8 @@
 #include "db/dbmethodpair.h"
 #include "db/schema/schema.h"
 
+#include "util/free.h"
+
 #include "renderer.h"
 #include "primitiverenderer.h"
 #include "sadmutex.h"
@@ -422,10 +424,7 @@ sad::Vector<sad::layouts::SerializableCell> sad::layouts::Grid::cells() const
 
 void sad::layouts::Grid::setCells(const sad::Vector<sad::layouts::SerializableCell>& cells)
 {
-    for(size_t i = 0; i < m_cells.size(); i++)
-    {
-        delete m_cells[i];
-    }
+    sad::Vector<sad::layouts::Cell*> oldcells = static_cast<sad::Vector<sad::layouts::Cell*>&>(m_cells);    
     m_cells.clear();
     sad::db::Database* db = this->table()->database();
     for(size_t i = 0; i < cells.size(); i++)
@@ -437,7 +436,22 @@ void sad::layouts::Grid::setCells(const sad::Vector<sad::layouts::SerializableCe
     }
     if (!m_loading)
     {
-        this->makeCellViews();
+        if (this->validate())
+        {
+            // Remove old cells
+            sad::util::free(oldcells);
+            this->makeCellViews();
+            this->update();
+        }
+        else
+        {
+            sad::util::free(m_cells);
+            static_cast<sad::Vector<sad::layouts::Cell*>&>(m_cells) = oldcells;
+        }
+    }
+    else
+    {
+        sad::util::free(oldcells);
     }
 }
 
