@@ -311,6 +311,7 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/gui/uiblocks/uiscenenodeblock.h \
     ifaceed/gui/uiblocks/uispriteblock.h \
     ifaceed/gui/uiblocks/uiwayblock.h \
+    ifaceed/gui/uiblocks/uilayoutblock.h \	
     ifaceed/gui/mainpanelproxy.h \
     ifaceed/history/animations/animationschangeeasingfunctiontype.h \
     ifaceed/history/animations/animationschangeeasingovershootamplitude.h \
@@ -561,6 +562,7 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/gui/uiblocks/uiscenenodeblock.cpp \
     ifaceed/gui/uiblocks/uispriteblock.cpp \
     ifaceed/gui/uiblocks/uiwayblock.cpp \
+    ifaceed/gui/uiblocks/uilayoutblock.cpp \	
     ifaceed/gui/mainpanelproxy.cpp \
     ifaceed/history/animations/animationschangeeasingfunctiontype.cpp \
     ifaceed/history/animations/animationschangeeasingovershootamplitude.cpp \

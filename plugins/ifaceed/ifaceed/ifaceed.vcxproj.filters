@@ -2367,6 +2367,9 @@
     <ClCompile Include="history\animations\animationschangeeasingperiod.cpp">
       <Filter>Source Files\gui\actions</Filter>
     </ClCompile>
+    <ClCompile Include="gui\uiblocks\uilayoutblock.cpp">
+      <Filter>Source Files\gui\uiblocks</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -3016,6 +3019,9 @@
     </ClInclude>
     <ClInclude Include="scripting\animations\easingsetter.h">
       <Filter>Header Files\scripting\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\uiblocks\uilayoutblock.h">
+      <Filter>Header Files\gui\uiblocks</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

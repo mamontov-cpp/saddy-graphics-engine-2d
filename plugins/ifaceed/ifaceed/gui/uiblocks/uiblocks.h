@@ -26,6 +26,7 @@ class UIAnimationInstanceBlock;
 class UIAnimationsGroupBlock;
 class UICommonBlock;
 class UIConsoleBlock;
+class UILayoutBlock;
 
 
 
@@ -135,6 +136,13 @@ public:
     {
         return m_ui_console_block;
     }
+    /*! Returns UI group for Layout group of widgets
+        \return UI group for Layout objects
+    */
+    inline gui::uiblocks::UILayoutBlock* uiLayoutBlock()
+    {
+        return m_ui_layout_block;
+    }
 protected:
     /*! An UI group for Scene group of widgets
     */
@@ -175,6 +183,9 @@ protected:
     /*! An UI group for Console group of widgets
     */
     gui::uiblocks::UIConsoleBlock* m_ui_console_block;
+    /*! An UI group for Layout group of widgets
+    */
+    gui::uiblocks::UILayoutBlock* m_ui_layout_block;
 };
 
 }

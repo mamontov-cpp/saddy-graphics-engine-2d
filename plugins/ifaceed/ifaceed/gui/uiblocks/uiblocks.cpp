@@ -12,6 +12,7 @@
 #include "uianimationsgroupblock.h"
 #include "uicommonblock.h"
 #include "uiconsoleblock.h"
+#include "uilayoutblock.h"
 
 
 gui::uiblocks::UIBlocks::UIBlocks() : m_ui_scene_block(new gui::uiblocks::UISceneBlock()),
@@ -26,7 +27,8 @@ m_ui_animation_block(new gui::uiblocks::UIAnimationBlock()),
 m_ui_animationinstance_block(new gui::uiblocks::UIAnimationInstanceBlock()),
 m_ui_animationsgroup_block(new gui::uiblocks::UIAnimationsGroupBlock()),
 m_ui_common_block(new gui::uiblocks::UICommonBlock()),
-m_ui_console_block(new gui::uiblocks::UIConsoleBlock())
+m_ui_console_block(new gui::uiblocks::UIConsoleBlock()),
+m_ui_layout_block(new gui::uiblocks::UILayoutBlock())
 {
 
 }
@@ -46,6 +48,7 @@ void gui::uiblocks::UIBlocks::init(QWidget* w)
     m_ui_animationsgroup_block->init(w);
     m_ui_common_block->init(w);
     m_ui_console_block->init(w);
+    m_ui_layout_block->init(w);
 }
 
 gui::uiblocks::UIBlocks::~UIBlocks()
@@ -63,4 +66,5 @@ gui::uiblocks::UIBlocks::~UIBlocks()
     delete m_ui_animationsgroup_block;
     delete m_ui_common_block;
     delete m_ui_console_block;
+    delete m_ui_layout_block;
 }

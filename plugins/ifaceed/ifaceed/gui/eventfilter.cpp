@@ -77,7 +77,7 @@ void gui::EventFilter::setEditor(core::Editor* e)
                 }
                 if (m_editor->isInObjectEditingState())
                 {
-                    if (ev->key() >= Qt::Key_1 && ev->key() <= Qt::Key_7)
+                    if (ev->key() >= Qt::Key_1 && ev->key() <= Qt::Key_8)
                     {
                         int index = ev->key() - Qt::Key_1;
                         proxy->setCurrentTabObjectsIndex(index);

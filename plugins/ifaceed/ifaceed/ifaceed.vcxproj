@@ -2393,6 +2393,7 @@
     <ClCompile Include="gui\uiblocks\uicustomobjectblock.cpp" />
     <ClCompile Include="gui\uiblocks\uidialogueblock.cpp" />
     <ClCompile Include="gui\uiblocks\uilabelblock.cpp" />
+    <ClCompile Include="gui\uiblocks\uilayoutblock.cpp" />
     <ClCompile Include="gui\uiblocks\uiphraseblock.cpp" />
     <ClCompile Include="gui\uiblocks\uisceneblock.cpp" />
     <ClCompile Include="gui\uiblocks\uiscenenodeblock.cpp" />
@@ -4411,6 +4412,7 @@
     <ClInclude Include="gui\uiblocks\uicustomobjectblock.h" />
     <ClInclude Include="gui\uiblocks\uidialogueblock.h" />
     <ClInclude Include="gui\uiblocks\uilabelblock.h" />
+    <ClInclude Include="gui\uiblocks\uilayoutblock.h" />
     <ClInclude Include="gui\uiblocks\uiphraseblock.h" />
     <ClInclude Include="gui\uiblocks\uisceneblock.h" />
     <ClInclude Include="gui\uiblocks\uiscenenodeblock.h" />

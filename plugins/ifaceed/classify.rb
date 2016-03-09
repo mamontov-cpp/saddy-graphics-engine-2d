@@ -39,7 +39,8 @@ alreadyDiscovered = {
 	"AnimationsInstance" => "AnimationInstance",
 	"AnimationInstance" => "AnimationInstance",
 	"AnimationsGroup" => "AnimationsGroup",
-	"Way" => "Way"
+	"Way" => "Way",
+	"Layout" => "Layout"
 };
 
 @classification = {};

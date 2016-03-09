@@ -156,7 +156,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab_objects">
      <attribute name="title">
@@ -178,7 +178,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <property name="usesScrollButtons">
        <bool>false</bool>
@@ -991,7 +991,7 @@ displayed lines (0 for all):</string>
          </rect>
         </property>
         <property name="currentIndex">
-         <number>2</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="tabSchema">
          <attribute name="title">
@@ -1039,7 +1039,7 @@ displayed lines (0 for all):</string>
           <property name="title">
            <string>How object will be added</string>
           </property>
-          <widget class="QWidget" name="layoutWidget">
+          <widget class="QWidget" name="layoutWidgetCustomObjectMethods">
            <property name="geometry">
             <rect>
              <x>10</x>
@@ -1082,6 +1082,292 @@ for object (ignores an angle)</string>
           </widget>
          </widget>
         </widget>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tabLayouts">
+       <attribute name="title">
+        <string>Layouts</string>
+       </attribute>
+       <widget class="QListWidget" name="lstLayoutGridList">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>141</width>
+          <height>271</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="txtLayoutGridName">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>290</y>
+          <width>141</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QTabWidget" name="tabLayoutTab">
+        <property name="geometry">
+         <rect>
+          <x>160</x>
+          <y>10</y>
+          <width>321</width>
+          <height>331</height>
+         </rect>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="tabLayoutTabProperties">
+         <attribute name="title">
+          <string>Properties</string>
+         </attribute>
+         <widget class="gui::rectwidget::RectWidget" name="rwLayoutArea" native="true">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>10</y>
+            <width>291</width>
+            <height>61</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QWidget" name="layoutWidgetRowsCols">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>80</y>
+            <width>291</width>
+            <height>48</height>
+           </rect>
+          </property>
+          <layout class="QGridLayout" name="grdLayoutRowsCols">
+           <item row="0" column="0">
+            <widget class="QLabel" name="lblLayoutRows">
+             <property name="text">
+              <string>Rows:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QSpinBox" name="spnLayoutRows">
+             <property name="minimum">
+              <number>1</number>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="lblLayoutCols">
+             <property name="text">
+              <string>Cols:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QSpinBox" name="spnLayoutCols">
+             <property name="minimum">
+              <number>1</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="layoutWidgetPaddings">
+          <property name="geometry">
+           <rect>
+            <x>12</x>
+            <y>140</y>
+            <width>291</width>
+            <height>140</height>
+           </rect>
+          </property>
+          <layout class="QGridLayout" name="gridLayoutPaddings">
+           <item row="0" column="0">
+            <widget class="QLabel" name="lblLayoutPaddingTop">
+             <property name="text">
+              <string>Top padding:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QDoubleSpinBox" name="dsbLayoutPaddingTop">
+             <property name="maximum">
+              <double>1000.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QCheckBox" name="cbLayoutPaddingTopPropagate">
+             <property name="text">
+              <string>Propagate changes to
+all cells</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="lblLayoutPaddingBottom">
+             <property name="text">
+              <string>Bottom padding:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QDoubleSpinBox" name="dsbLayoutPaddingBottom">
+             <property name="maximum">
+              <double>1000.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QCheckBox" name="cbLayoutPaddingBottomPropagate">
+             <property name="text">
+              <string>Propagate changes to
+all cells</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="lblLayoutPaddingLeft">
+             <property name="text">
+              <string>Left padding:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QDoubleSpinBox" name="dsbLayoutPaddingLeft">
+             <property name="maximum">
+              <double>1000.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="2">
+            <widget class="QCheckBox" name="cbLayoutPaddingLeftPropagate">
+             <property name="text">
+              <string>Propagate changes to
+all cells</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="lblLayoutPaddingRight">
+             <property name="text">
+              <string>Right padding:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QDoubleSpinBox" name="dsbLayoutPaddingRight">
+             <property name="maximum">
+              <double>1000.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="2">
+            <widget class="QCheckBox" name="cbLayoutPaddingRightPropagate">
+             <property name="text">
+              <string>Propagate changes to
+all cells</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="layoutWidgetFixed">
+          <property name="geometry">
+           <rect>
+            <x>20</x>
+            <y>280</y>
+            <width>276</width>
+            <height>19</height>
+           </rect>
+          </property>
+          <layout class="QHBoxLayout" name="grdLayoutFixed">
+           <item>
+            <widget class="QCheckBox" name="cbLayoutFixedWidth">
+             <property name="text">
+              <string>Layout has fixed width</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="cbLayoutFixedHeight">
+             <property name="text">
+              <string>Layout has fixed height</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+        <widget class="QWidget" name="tabLayoutTabCells">
+         <attribute name="title">
+          <string>Cells</string>
+         </attribute>
+         <widget class="QTableWidget" name="tblLayoutCells">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>10</y>
+            <width>291</width>
+            <height>261</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="btnLayoutMerge">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>275</y>
+            <width>75</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Merge</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="btnLayoutSplit">
+          <property name="geometry">
+           <rect>
+            <x>90</x>
+            <y>275</y>
+            <width>75</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Split</string>
+          </property>
+         </widget>
+        </widget>
+       </widget>
+       <widget class="QPushButton" name="btnLayoutAdd">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>320</y>
+          <width>41</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Add</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnLayoutRemove">
+        <property name="geometry">
+         <rect>
+          <x>60</x>
+          <y>320</y>
+          <width>61</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Remove</string>
+        </property>
        </widget>
       </widget>
      </widget>
@@ -1489,7 +1775,7 @@ for object (ignores an angle)</string>
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="layoutWidget2">
+      <widget class="QWidget" name="layoutWidgetHorizontal">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -1950,7 +2236,7 @@ current object</string>
          <attribute name="title">
           <string>Easing</string>
          </attribute>
-         <widget class="QWidget" name="layoutWidget">
+         <widget class="QWidget" name="layoutWidgetAnimationEasing">
           <property name="geometry">
            <rect>
             <x>10</x>
@@ -3148,7 +3434,7 @@ rect:</string>
          <property name="title">
           <string>How instances should be played?</string>
          </property>
-         <widget class="QWidget" name="layoutWidget">
+         <widget class="QWidget" name="layoutWidgetAnimationGroup">
           <property name="geometry">
            <rect>
             <x>10</x>
