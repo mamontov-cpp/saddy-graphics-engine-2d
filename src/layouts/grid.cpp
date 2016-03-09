@@ -237,9 +237,15 @@ void sad::layouts::Grid::setRows(unsigned int rows)
     unsigned int oldrows = m_rows;
     if (!m_loading)
     {
-        if (oldrows != m_rows)
+        if (oldrows > m_rows)
         {
-            this->updateCells();
+            this->shrinkRows(oldrows, m_rows);
+            this->update();
+        }
+        if (oldrows < m_rows)
+        {
+            this->expandRows(oldrows, m_rows);
+            this->update();
         }
     }
 }
@@ -469,7 +475,7 @@ sad::Maybe<sad::layouts::Grid::SearchResult> sad::layouts::Grid::find(unsigned l
 }
 
 struct CellComparator {
-    bool operator()(sad::layouts::Cell* a, sad::layouts::Cell* b)
+    bool operator()(sad::layouts::Cell* a, sad::layouts::Cell* b) const
     {   
         if (a->Row == b->Row)
         {
@@ -553,15 +559,15 @@ bool sad::layouts::Grid::split(size_t row, size_t col, size_t row_span, size_t c
             {
                 if ((i != 0) || (j != 0))
                 {
-                    sad::layouts::Cell* cell = new sad::layouts::Cell();
-                    cell->setDatabase(db);
-                    cell->setPaddingBottom(m_padding_bottom, false);
-                    cell->setPaddingTop(m_padding_top, false);
-                    cell->setPaddingLeft(m_padding_left, false);
-                    cell->setPaddingRight(m_padding_right, false);
-                    cell->Row = row + i;
-                    cell->Col = col + j;
-                    m_cells << cell;
+                    sad::layouts::Cell* newcell = new sad::layouts::Cell();
+                    newcell->setDatabase(db);
+                    newcell->setPaddingBottom(m_padding_bottom, false);
+                    newcell->setPaddingTop(m_padding_top, false);
+                    newcell->setPaddingLeft(m_padding_left, false);
+                    newcell->setPaddingRight(m_padding_right, false);
+                    newcell->Row = row + i;
+                    newcell->Col = col + j;
+                    m_cells << newcell;
                 }
             }
         }
@@ -617,6 +623,62 @@ sad::layouts::Grid& sad::layouts::Grid::operator=(const sad::layouts::Grid& o)
     return *this;
 }
 
+void sad::layouts::Grid::expandRows(size_t oldrows, size_t newrows)
+{
+    sad::db::Database* db = this->table()->database();
+    for(size_t row = oldrows; row < newrows; row++)
+    {
+        for(size_t col = 0; col < m_cols; col++)
+        {
+            sad::layouts::Cell* newcell = new sad::layouts::Cell();
+            newcell->setDatabase(db);
+            newcell->setPaddingBottom(m_padding_bottom, false);
+            newcell->setPaddingTop(m_padding_top, false);
+            newcell->setPaddingLeft(m_padding_left, false);
+            newcell->setPaddingRight(m_padding_right, false);
+            newcell->Row = row;
+            newcell->Col = col;
+            m_cells << newcell;
+        }
+    }
+    CellComparator less;
+    std::sort(m_cells.begin(), m_cells.end(), less);
+    makeCellViews();
+}
+
+void sad::layouts::Grid::shrinkRows(size_t oldrows, size_t newrows)
+{
+    sad::Vector<sad::layouts::Cell*> toberemoved;
+    for(size_t row = oldrows - 1; row >= newrows; row--)
+    {
+        for(size_t col = 0; col < m_cols; col++)
+        {
+            sad::layouts::Cell* oldcell = this->cell(row, col);
+            if ((oldcell->Row + oldcell->rowSpan()) > row)
+            {
+                if (oldcell->rowSpan() > 1)
+                {
+                    oldcell->setRowSpan(row - oldcell->Row);
+                }
+                else
+                {
+                    toberemoved << oldcell;
+                }
+            }
+        }
+    }
+
+    std::unique(toberemoved.begin(), toberemoved.end());
+    for(size_t i = 0; i < toberemoved.size(); i++)
+    {
+        delete toberemoved[i];
+        m_cells.removeAll(toberemoved[i]);
+    }
+    CellComparator less;
+    std::sort(m_cells.begin(), m_cells.end(), less);
+    makeCellViews();
+}
+
 void sad::layouts::Grid::makeCellViews()
 {
     m_cell_views.clear();
@@ -626,7 +688,6 @@ void sad::layouts::Grid::makeCellViews()
     {
         for(size_t j = 0; j < m_cols; j++)
         {
-            bool current_result = false;
             if (coverage.contains(i))
             {
                 const sad::Hash<size_t, sad::Vector<size_t> >& coltopos = coverage[i];

@@ -244,6 +244,16 @@ private:
         \return self-reference
      */
     sad::layouts::Grid& operator=(const sad::layouts::Grid& grid);
+    /*! Expands rows to a specified size
+        \param[in] oldrows an old rows count
+        \param[in] newrows a new rows count
+     */
+    void expandRows(size_t oldrows, size_t newrows);
+    /*! Shrinks rows to a specified size
+        \param[in] oldrows an old rows count
+        \param[in] newrows a new rows count
+     */
+    void shrinkRows(size_t oldrows, size_t newrows);
     /*! Regenerates cell views array, according to current settings
      */
     void makeCellViews();
