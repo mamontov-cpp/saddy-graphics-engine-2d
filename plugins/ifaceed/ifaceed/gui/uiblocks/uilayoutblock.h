@@ -22,9 +22,9 @@ class QLineEdit;
 class QTabWidget;
 class QDoubleSpinBox;
 class QCheckBox;
-class QTableWidget;
 class QPushButton;
 class QSpinBox;
+class QScrollArea;
 
 
 namespace gui
@@ -63,13 +63,13 @@ public:
     QCheckBox* cbLayoutPaddingRightPropagate;
     QCheckBox* cbLayoutFixedWidth;
     QCheckBox* cbLayoutFixedHeight;
-    QTableWidget* tblLayoutCells;
     QPushButton* btnLayoutMerge;
     QPushButton* btnLayoutSplit;
     QPushButton* btnLayoutAdd;
     QPushButton* btnLayoutRemove;
     QSpinBox* spnLayoutGridRows;
     QSpinBox* spnLayoutGridCols;
+    QScrollArea* tblLayoutCells;
 };
 
 }

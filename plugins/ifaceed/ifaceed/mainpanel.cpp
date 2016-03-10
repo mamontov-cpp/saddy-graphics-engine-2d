@@ -174,28 +174,17 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
     }
 
     // A cell table widget for layout
-    ui.tblLayoutCells->horizontalHeader()->hide();
-    ui.tblLayoutCells->verticalHeader()->hide();
-    ui.tblLayoutCells->setRowCount(2);
-    ui.tblLayoutCells->setColumnCount(2);
-    ui.tblLayoutCells->setCellWidget(
-        0, 0,
-        new gui::layouts::LayoutCellEdit()
-    );
-    ui.tblLayoutCells->setCellWidget(
-        1, 0,
-        new gui::layouts::LayoutCellEdit()
-    );
-    ui.tblLayoutCells->setCellWidget(
-        1, 1,
-        new gui::layouts::LayoutCellEdit()
-    );
-    ui.tblLayoutCells->setCellWidget(
-        0, 1,
-        new gui::layouts::LayoutCellEdit()
-    );
-    ui.tblLayoutCells->resizeColumnsToContents();
-    ui.tblLayoutCells->resizeRowsToContents();
+    QGridLayout* table = new QGridLayout();
+    table->addWidget(new gui::layouts::LayoutCellEdit(), 0, 0, 1, 2);
+    table->addWidget(new gui::layouts::LayoutCellEdit(), 0, 2, 1, 1);
+    table->addWidget(new gui::layouts::LayoutCellEdit(), 1, 0, 1, 1);
+    table->addWidget(new gui::layouts::LayoutCellEdit(), 1, 1, 1, 1);
+    table->addWidget(new gui::layouts::LayoutCellEdit(), 1, 2, 1, 1);
+
+    QWidget* w = new QWidget();
+    w->setLayout(table);
+    ui.tblLayoutCells->setWidget(w);
+    
 }
 
 

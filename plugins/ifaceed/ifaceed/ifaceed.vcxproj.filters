@@ -280,6 +280,12 @@
     <Filter Include="Source Files\gui\actions">
       <UniqueIdentifier>{5b40465e-7944-4966-8eec-68a73b411e5e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\gui\layouts">
+      <UniqueIdentifier>{e51a762d-29b5-4596-990a-cb733908d765}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui\layouts">
+      <UniqueIdentifier>{480ec19b-0287-4f4c-883d-0e155d1d0c57}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="acolordialog.cpp">
@@ -2370,6 +2376,30 @@
     <ClCompile Include="gui\uiblocks\uilayoutblock.cpp">
       <Filter>Source Files\gui\uiblocks</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\DebugQt4\moc_layoutcelledit.cpp">
+      <Filter>Generated Files\DebugQt4</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_layoutcelledit.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_layoutcelledit.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_layoutcelledit.cpp">
+      <Filter>Generated Files\ReleaseQt4</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_layoutcelledit.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_layoutcelledit.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_layoutcelledit.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\layouts\layoutcelledit.cpp">
+      <Filter>Source Files\gui\layouts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -3249,6 +3279,9 @@
     </CustomBuild>
     <CustomBuild Include="gui\qt-palette-color-picker\colorpicker.h">
       <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\layouts\layoutcelledit.h">
+      <Filter>Header Files\gui\layouts</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

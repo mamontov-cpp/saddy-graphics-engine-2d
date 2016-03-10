@@ -6,9 +6,9 @@
 #include <QTabWidget>
 #include <QDoubleSpinBox>
 #include <QCheckBox>
-#include <QTableWidget>
 #include <QPushButton>
 #include <QSpinBox>
+#include <QScrollArea>
 #include "../gui/rectwidget/rectwidget.h"
 
 gui::uiblocks::UILayoutBlock::UILayoutBlock() : lstLayoutGridList(NULL),
@@ -25,13 +25,13 @@ dsbLayoutPaddingRight(NULL),
 cbLayoutPaddingRightPropagate(NULL),
 cbLayoutFixedWidth(NULL),
 cbLayoutFixedHeight(NULL),
-tblLayoutCells(NULL),
 btnLayoutMerge(NULL),
 btnLayoutSplit(NULL),
 btnLayoutAdd(NULL),
 btnLayoutRemove(NULL),
 spnLayoutGridRows(NULL),
-spnLayoutGridCols(NULL)
+spnLayoutGridCols(NULL),
+tblLayoutCells(NULL)
 {
 
 }
@@ -67,8 +67,6 @@ void gui::uiblocks::UILayoutBlock::init(QWidget* w)
     assert(this->cbLayoutFixedWidth);
     this->cbLayoutFixedHeight = w->findChild<QCheckBox*>("cbLayoutFixedHeight");
     assert(this->cbLayoutFixedHeight);
-    this->tblLayoutCells = w->findChild<QTableWidget*>("tblLayoutCells");
-    assert(this->tblLayoutCells);
     this->btnLayoutMerge = w->findChild<QPushButton*>("btnLayoutMerge");
     assert(this->btnLayoutMerge);
     this->btnLayoutSplit = w->findChild<QPushButton*>("btnLayoutSplit");
@@ -81,6 +79,8 @@ void gui::uiblocks::UILayoutBlock::init(QWidget* w)
     assert(this->spnLayoutGridRows);
     this->spnLayoutGridCols = w->findChild<QSpinBox*>("spnLayoutGridCols");
     assert(this->spnLayoutGridCols);
+    this->tblLayoutCells = w->findChild<QScrollArea*>("tblLayoutCells");
+    assert(this->tblLayoutCells);
 }
 
 gui::uiblocks::UILayoutBlock::~UILayoutBlock()

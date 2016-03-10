@@ -7,9 +7,8 @@
 #include <QCheckBox>
 #include <QDoubleSpinBox>
 #include <QComboBox>
-#include <QListWidget>
 #include <QPushButton>
-#include <vector>
+
 
 #include <layouts/cell.h>
 
@@ -41,10 +40,74 @@ public:
     /*! A column for a cell editor in source grid
      */
     size_t Col;
+    /*! Sets row and column for cell
+        \param[in] row a row
+        \param[in] col a column
+     */
+    void setRowAndColumn(size_t row, size_t col);
     /*! Returns size hint
         \return size hint
      */
     virtual QSize sizeHint() const;
+    /*! Whether cell is checked for split/merge
+        \return whether it's checked
+     */
+    bool checked() const;
+signals:
+    /*! Emitted, when width is changed
+        \param[in] row a row
+        \param[in] col a column
+        \param[in] newvalue a new value for width
+     */
+    void widthChanged(size_t row, size_t col, sad::layouts::LengthValue newvalue);
+    /*! Emitted, when width is changed
+        \param[in] row a row
+        \param[in] col a column
+        \param[in] newvalue a new value for width
+     */
+    void heightChanged(size_t row, size_t col, sad::layouts::LengthValue newvalue);
+    /*! Emitted, when horizontal alignment is changed
+        \param[in] row a row
+        \param[in] col a column
+        \param[in] newvalue a new value for horizontal alignment
+     */
+    void horizontalAlignmentChanged(size_t row, size_t col, sad::layouts::HorizontalAlignment newvalue);
+    /*! Emitted, when vertical alignment is changed
+        \param[in] row a row
+        \param[in] col a column
+        \param[in] newvalue a new value for vertical alignment
+     */
+    void verticalAlignmentChanged(size_t row, size_t col, sad::layouts::VerticalAlignment newvalue);
+    /*! Emitted, when stacking type is changed
+        \param[in] row a row
+        \param[in] col a column
+        \param[in] newvalue a new value for stacking type
+     */
+    void stackingTypeChanged(size_t row, size_t col, sad::layouts::StackingType newvalue);
+    /*! Emitted, when top padding is changed
+        \param[in] row a row
+        \param[in] col a column
+        \param[in] newvalue a new value
+     */
+    void topPaddingChanged(size_t row, size_t col, double newvalue);
+    /*! Emitted, when bottom padding is changed
+        \param[in] row a row
+        \param[in] col a column
+        \param[in] newvalue a new value
+     */
+    void bottomPaddingChanged(size_t row, size_t col, double newvalue);
+    /*! Emitted, when left padding is changed
+        \param[in] row a row
+        \param[in] col a column
+        \param[in] newvalue a new value
+     */
+    void leftPaddingChanged(size_t row, size_t col, double newvalue);
+    /*! Emitted, when right padding is changed
+        \param[in] row a row
+        \param[in] col a column
+        \param[in] newvalue a new value
+     */
+    void rightPaddingChanged(size_t row, size_t col, double newvalue);
 protected:
     /*! A checkbox, which hints whether cell edit has been selected for merge or split
      */

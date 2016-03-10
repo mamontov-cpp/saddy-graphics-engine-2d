@@ -203,7 +203,8 @@
    ["QWidget", "layoutWidgetHorizontal"],
    ["QGridLayout", "grdLayoutSizes"],
    ["QLabel", "lblLayoutGridRows"],
-   ["QLabel", "lblLayoutGridCols"]],
+   ["QLabel", "lblLayoutGridCols"],
+   ["QWidget", "scrollAreaWidgetContents"]],
  "Scene"=>
   [["QListWidget", "lstScenes"],
    ["QLineEdit", "txtSceneName"],
@@ -393,10 +394,10 @@
    ["QCheckBox", "cbLayoutPaddingRightPropagate"],
    ["QCheckBox", "cbLayoutFixedWidth"],
    ["QCheckBox", "cbLayoutFixedHeight"],
-   ["QTableWidget", "tblLayoutCells"],
    ["QPushButton", "btnLayoutMerge"],
    ["QPushButton", "btnLayoutSplit"],
    ["QPushButton", "btnLayoutAdd"],
    ["QPushButton", "btnLayoutRemove"],
    ["QSpinBox", "spnLayoutGridRows"],
-   ["QSpinBox", "spnLayoutGridCols"]]}
+   ["QSpinBox", "spnLayoutGridCols"],
+   ["QScrollArea", "tblLayoutCells"]]}
