@@ -41,6 +41,10 @@ public:
     /*! A column for a cell editor in source grid
      */
     size_t Col;
+    /*! Returns size hint
+        \return size hint
+     */
+    virtual QSize sizeHint() const;
 protected:
     /*! A checkbox, which hints whether cell edit has been selected for merge or split
      */

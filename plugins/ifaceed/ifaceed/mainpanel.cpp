@@ -196,8 +196,6 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
     );
     ui.tblLayoutCells->resizeColumnsToContents();
     ui.tblLayoutCells->resizeRowsToContents();
-    //ui.tblLayoutCells->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    //ui.tblLayoutCells->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 }
 
 

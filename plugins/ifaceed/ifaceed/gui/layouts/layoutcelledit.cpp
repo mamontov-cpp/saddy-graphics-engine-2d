@@ -60,7 +60,6 @@ gui::layouts::LayoutCellEdit::LayoutCellEdit(QWidget* parent)
     m_width_value->setMaximum(10000.0);
     m_width_value->setSingleStep(1.0);
     m_width_value->setEnabled(false);
-    //m_width_value->setMaximumWidth(150);
     this->setCellWidget(1,1, m_width_value);
 
     m_width_unit = new QComboBox();
@@ -68,7 +67,6 @@ gui::layouts::LayoutCellEdit::LayoutCellEdit(QWidget* parent)
     m_width_unit->addItem("px");
     m_width_unit->addItem("%");
     m_width_unit->setMaximumWidth(50);
-    //m_width_unit->setCurrentIndex(0);
     this->setCellWidget(1,2, m_width_unit);
 
     // Third row
@@ -84,14 +82,12 @@ gui::layouts::LayoutCellEdit::LayoutCellEdit(QWidget* parent)
     m_height_value->setMaximum(10000.0);
     m_height_value->setSingleStep(1.0);
     m_height_value->setEnabled(false);
-    //m_height_value->setMaximumWidth(150);
     this->setCellWidget(2,1, m_height_value);
 
     m_height_unit = new QComboBox();
     m_height_unit->addItem("auto");
     m_height_unit->addItem("px");
     m_height_unit->addItem("%");
-    //m_height_unit->setMaximumWidth(50);
     m_height_unit->setCurrentIndex(0);
     this->setCellWidget(2,2, m_height_unit);
 
@@ -106,7 +102,6 @@ gui::layouts::LayoutCellEdit::LayoutCellEdit(QWidget* parent)
     m_vertical_alignment->addItem("Top");
     m_vertical_alignment->addItem("Middle");
     m_vertical_alignment->addItem("Bottom");
-    //m_vertical_alignment->setMaximumWidth(200);
     m_vertical_alignment->setCurrentIndex(0);
 
     this->setSpan(3, 1, 1, 2);
@@ -123,7 +118,6 @@ gui::layouts::LayoutCellEdit::LayoutCellEdit(QWidget* parent)
     m_horizontal_alignment->addItem("Left");
     m_horizontal_alignment->addItem("Middle");
     m_horizontal_alignment->addItem("Right");
-    //m_horizontal_alignment->setMaximumWidth(200);
     m_horizontal_alignment->setCurrentIndex(0);
 
     this->setSpan(4, 1, 1, 2);
@@ -139,7 +133,6 @@ gui::layouts::LayoutCellEdit::LayoutCellEdit(QWidget* parent)
     m_stacking_type = new QComboBox();
     m_stacking_type->addItem("Horizontal");
     m_stacking_type->addItem("Vertical");
-    //m_stacking_type->setMaximumWidth(200);
     m_stacking_type->setCurrentIndex(0);
 
     this->setSpan(5, 1, 1, 2);
@@ -159,7 +152,6 @@ gui::layouts::LayoutCellEdit::LayoutCellEdit(QWidget* parent)
         (*(dsbs[i]))->setMinimum(0.0);
         (*(dsbs[i]))->setMaximum(10000.0);
         (*(dsbs[i]))->setSingleStep(1.0);
-        //(*(dsbs[i]))->setMaximumWidth(200);
 
         this->setSpan(6+i, 1, 1, 2);
         this->setCellWidget(6+i, 1, (*(dsbs[i])));
@@ -190,7 +182,6 @@ gui::layouts::LayoutCellEdit::LayoutCellEdit(QWidget* parent)
     movebacklt->addWidget(m_move_back);
     QWidget* movebackwidget = new QWidget();
     movebackwidget->setLayout(movebacklt);
-    //movebackwidget->setMaximumWidth(150);
     this->setSpan(11, 1, 1, 2);
     this->setCellWidget(11, 1, movebackwidget);
 
@@ -208,16 +199,23 @@ gui::layouts::LayoutCellEdit::LayoutCellEdit(QWidget* parent)
     removelt->addWidget(m_remove);
     QWidget* removewidget = new QWidget();
     removewidget->setLayout(removelt);
-    //removewidget->setMaximumWidth(150);
     this->setSpan(12, 1, 1, 2);
     this->setCellWidget(12, 1, removewidget);
 
     this->resizeColumnsToContents();
     this->resizeRowsToContents();
     /*this->setMinimumSize(
-        this->horizontalHeader()->length(),
-        this->verticalHeader()->length()
+        this->horizontalHeader()->length() + 5,
+        this->verticalHeader()->length() + 5
     );*/
+}
+
+QSize gui::layouts::LayoutCellEdit::sizeHint() const
+{
+    return QSize(
+        this->horizontalHeader()->length() + 200,
+        this->verticalHeader()->length() + 200
+    );
 }
 
 gui::layouts::LayoutCellEdit::~LayoutCellEdit()
