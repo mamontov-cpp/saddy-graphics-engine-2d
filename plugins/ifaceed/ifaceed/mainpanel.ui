@@ -178,7 +178,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>7</number>
       </property>
       <property name="usesScrollButtons">
        <bool>false</bool>
@@ -1088,26 +1088,6 @@ for object (ignores an angle)</string>
        <attribute name="title">
         <string>Layouts</string>
        </attribute>
-       <widget class="QListWidget" name="lstLayoutGridList">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>10</y>
-          <width>141</width>
-          <height>271</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="txtLayoutGridName">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>290</y>
-          <width>141</width>
-          <height>20</height>
-         </rect>
-        </property>
-       </widget>
        <widget class="QTabWidget" name="tabLayoutTab">
         <property name="geometry">
          <rect>
@@ -1118,7 +1098,7 @@ for object (ignores an angle)</string>
          </rect>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="tabLayoutTabProperties">
          <attribute name="title">
@@ -1143,30 +1123,30 @@ for object (ignores an angle)</string>
             <height>48</height>
            </rect>
           </property>
-          <layout class="QGridLayout" name="grdLayoutRowsCols">
+          <layout class="QGridLayout" name="grdLayoutSizes">
            <item row="0" column="0">
-            <widget class="QLabel" name="lblLayoutRows">
+            <widget class="QLabel" name="lblLayoutGridRows">
              <property name="text">
               <string>Rows:</string>
              </property>
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QSpinBox" name="spnLayoutRows">
+            <widget class="QSpinBox" name="spnLayoutGridRows">
              <property name="minimum">
               <number>1</number>
              </property>
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QLabel" name="lblLayoutCols">
+            <widget class="QLabel" name="lblLayoutGridCols">
              <property name="text">
               <string>Cols:</string>
              </property>
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QSpinBox" name="spnLayoutCols">
+            <widget class="QSpinBox" name="spnLayoutGridCols">
              <property name="minimum">
               <number>1</number>
              </property>
@@ -1177,7 +1157,7 @@ for object (ignores an angle)</string>
          <widget class="QWidget" name="layoutWidgetPaddings">
           <property name="geometry">
            <rect>
-            <x>12</x>
+            <x>10</x>
             <y>140</y>
             <width>291</width>
             <height>140</height>
@@ -1305,21 +1285,11 @@ all cells</string>
          <attribute name="title">
           <string>Cells</string>
          </attribute>
-         <widget class="QTableWidget" name="tblLayoutCells">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>10</y>
-            <width>291</width>
-            <height>261</height>
-           </rect>
-          </property>
-         </widget>
          <widget class="QPushButton" name="btnLayoutMerge">
           <property name="geometry">
            <rect>
             <x>10</x>
-            <y>275</y>
+            <y>280</y>
             <width>75</width>
             <height>23</height>
            </rect>
@@ -1332,7 +1302,7 @@ all cells</string>
           <property name="geometry">
            <rect>
             <x>90</x>
-            <y>275</y>
+            <y>280</y>
             <width>75</width>
             <height>23</height>
            </rect>
@@ -1341,7 +1311,37 @@ all cells</string>
            <string>Split</string>
           </property>
          </widget>
+         <widget class="QTableWidget" name="tblLayoutCells">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>10</y>
+            <width>291</width>
+            <height>261</height>
+           </rect>
+          </property>
+         </widget>
         </widget>
+       </widget>
+       <widget class="QListWidget" name="lstLayoutGridList">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>141</width>
+          <height>271</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="txtLayoutGridName">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>290</y>
+          <width>141</width>
+          <height>20</height>
+         </rect>
+        </property>
        </widget>
        <widget class="QPushButton" name="btnLayoutAdd">
         <property name="geometry">

@@ -200,7 +200,10 @@
    ["QWidget", "layoutWidgetRowsCols"],
    ["QWidget", "layoutWidgetPaddings"],
    ["QWidget", "layoutWidgetFixed"],
-   ["QWidget", "layoutWidgetHorizontal"]],
+   ["QWidget", "layoutWidgetHorizontal"],
+   ["QGridLayout", "grdLayoutSizes"],
+   ["QLabel", "lblLayoutGridRows"],
+   ["QLabel", "lblLayoutGridCols"]],
  "Scene"=>
   [["QListWidget", "lstScenes"],
    ["QLineEdit", "txtSceneName"],
@@ -380,8 +383,6 @@
    ["QLineEdit", "txtLayoutGridName"],
    ["QTabWidget", "tabLayoutTab"],
    ["gui::rectwidget::RectWidget", "rwLayoutArea"],
-   ["QSpinBox", "spnLayoutRows"],
-   ["QSpinBox", "spnLayoutCols"],
    ["QDoubleSpinBox", "dsbLayoutPaddingTop"],
    ["QCheckBox", "cbLayoutPaddingTopPropagate"],
    ["QDoubleSpinBox", "dsbLayoutPaddingBottom"],
@@ -396,4 +397,6 @@
    ["QPushButton", "btnLayoutMerge"],
    ["QPushButton", "btnLayoutSplit"],
    ["QPushButton", "btnLayoutAdd"],
-   ["QPushButton", "btnLayoutRemove"]]}
+   ["QPushButton", "btnLayoutRemove"],
+   ["QSpinBox", "spnLayoutGridRows"],
+   ["QSpinBox", "spnLayoutGridCols"]]}

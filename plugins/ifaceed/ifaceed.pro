@@ -318,7 +318,8 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/animations/animationschangeeasingperiod.h \
     ifaceed/history/animations/animationschangeeasingproperty.h \
     ifaceed/scripting/animations/easinggetter.h \
-    ifaceed/scripting/animations/easingsetter.h
+    ifaceed/scripting/animations/easingsetter.h \
+    ifaceed/gui/layouts/layoutcelledit.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui \
     ifaceed/reloadfilelist.ui \
@@ -566,7 +567,8 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/gui/mainpanelproxy.cpp \
     ifaceed/history/animations/animationschangeeasingfunctiontype.cpp \
     ifaceed/history/animations/animationschangeeasingovershootamplitude.cpp \
-    ifaceed/history/animations/animationschangeeasingperiod.cpp
+    ifaceed/history/animations/animationschangeeasingperiod.cpp \
+    ifaceed/gui/layouts/layoutcelledit.cpp
 
 
 DESTDIR = ../../bin/ifaceed/

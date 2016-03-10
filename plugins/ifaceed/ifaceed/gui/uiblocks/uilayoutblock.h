@@ -20,11 +20,11 @@ class QWidget;
 class QListWidget;
 class QLineEdit;
 class QTabWidget;
-class QSpinBox;
 class QDoubleSpinBox;
 class QCheckBox;
 class QTableWidget;
 class QPushButton;
+class QSpinBox;
 
 
 namespace gui
@@ -53,8 +53,6 @@ public:
     QLineEdit* txtLayoutGridName;
     QTabWidget* tabLayoutTab;
     gui::rectwidget::RectWidget* rwLayoutArea;
-    QSpinBox* spnLayoutRows;
-    QSpinBox* spnLayoutCols;
     QDoubleSpinBox* dsbLayoutPaddingTop;
     QCheckBox* cbLayoutPaddingTopPropagate;
     QDoubleSpinBox* dsbLayoutPaddingBottom;
@@ -70,6 +68,8 @@ public:
     QPushButton* btnLayoutSplit;
     QPushButton* btnLayoutAdd;
     QPushButton* btnLayoutRemove;
+    QSpinBox* spnLayoutGridRows;
+    QSpinBox* spnLayoutGridCols;
 };
 
 }

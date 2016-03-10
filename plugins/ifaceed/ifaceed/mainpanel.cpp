@@ -26,6 +26,8 @@
 #include "gui/codeedit/highlighter.h"
 #include "gui/codeedit/completer.h"
 
+#include "gui/layouts/layoutcelledit.h"
+
 #include "scripting/scripting.h"
 
 #include <keymouseconditions.h>
@@ -170,6 +172,19 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
         ui.cmbAnimationEasingType->addItem(easing_function_types[i]);
         ++i;
     }
+
+    // A cell table widget for layout
+    ui.tblLayoutCells->horizontalHeader()->hide();
+    ui.tblLayoutCells->verticalHeader()->hide();
+    ui.tblLayoutCells->setRowCount(1);
+    ui.tblLayoutCells->setColumnCount(1);
+    ui.tblLayoutCells->setCellWidget(
+        0, 0,
+        new gui::layouts::LayoutCellEdit()
+    );
+    QSize preferredsize = ui.tblLayoutCells->cellWidget(0,0)->sizeHint();
+    ui.tblLayoutCells->setRowHeight(0, preferredsize.height());
+    ui.tblLayoutCells->setColumnWidth(0, preferredsize.width());
 }
 
 

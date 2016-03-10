@@ -4,19 +4,17 @@
 #include <QListWidget>
 #include <QLineEdit>
 #include <QTabWidget>
-#include <QSpinBox>
 #include <QDoubleSpinBox>
 #include <QCheckBox>
 #include <QTableWidget>
 #include <QPushButton>
+#include <QSpinBox>
 #include "../gui/rectwidget/rectwidget.h"
 
 gui::uiblocks::UILayoutBlock::UILayoutBlock() : lstLayoutGridList(NULL),
 txtLayoutGridName(NULL),
 tabLayoutTab(NULL),
 rwLayoutArea(NULL),
-spnLayoutRows(NULL),
-spnLayoutCols(NULL),
 dsbLayoutPaddingTop(NULL),
 cbLayoutPaddingTopPropagate(NULL),
 dsbLayoutPaddingBottom(NULL),
@@ -31,7 +29,9 @@ tblLayoutCells(NULL),
 btnLayoutMerge(NULL),
 btnLayoutSplit(NULL),
 btnLayoutAdd(NULL),
-btnLayoutRemove(NULL)
+btnLayoutRemove(NULL),
+spnLayoutGridRows(NULL),
+spnLayoutGridCols(NULL)
 {
 
 }
@@ -47,10 +47,6 @@ void gui::uiblocks::UILayoutBlock::init(QWidget* w)
     assert(this->tabLayoutTab);
     this->rwLayoutArea = w->findChild<gui::rectwidget::RectWidget*>("rwLayoutArea");
     assert(this->rwLayoutArea);
-    this->spnLayoutRows = w->findChild<QSpinBox*>("spnLayoutRows");
-    assert(this->spnLayoutRows);
-    this->spnLayoutCols = w->findChild<QSpinBox*>("spnLayoutCols");
-    assert(this->spnLayoutCols);
     this->dsbLayoutPaddingTop = w->findChild<QDoubleSpinBox*>("dsbLayoutPaddingTop");
     assert(this->dsbLayoutPaddingTop);
     this->cbLayoutPaddingTopPropagate = w->findChild<QCheckBox*>("cbLayoutPaddingTopPropagate");
@@ -81,6 +77,10 @@ void gui::uiblocks::UILayoutBlock::init(QWidget* w)
     assert(this->btnLayoutAdd);
     this->btnLayoutRemove = w->findChild<QPushButton*>("btnLayoutRemove");
     assert(this->btnLayoutRemove);
+    this->spnLayoutGridRows = w->findChild<QSpinBox*>("spnLayoutGridRows");
+    assert(this->spnLayoutGridRows);
+    this->spnLayoutGridCols = w->findChild<QSpinBox*>("spnLayoutGridCols");
+    assert(this->spnLayoutGridCols);
 }
 
 gui::uiblocks::UILayoutBlock::~UILayoutBlock()

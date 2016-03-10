@@ -26,7 +26,7 @@ namespace Qt
 }
 #endif
 
-#include "ui_mainpanel.h"
+#include <ui_mainpanel.h>
 
 #include <sadstring.h>
 #include <sadptrhash.h>
