@@ -259,7 +259,7 @@ namespace picojson {
   inline value & value::insert(const std::string & key,  const value & v)
   {
     assert(is<object>());
-    object_->insert(std::make_pair<std::string, value>(key, v));
+    object_->insert(std::make_pair(key, v));
     return *this;
   }
   

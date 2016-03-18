@@ -137,14 +137,14 @@ static double easeInExpo(double time, double duration, double /*overshootOrAmpli
 
 static double easeOutExpo(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
-    if (abs(time - duration) < 0.001) return 1;
+    if (fabs(time - duration) < 0.001) return 1;
     return (-pow(2, -10 * time / duration) + 1);
 }
 
 static double easeInOutExpo(double time, double duration, double /*overshootOrAmplitude*/, double /*period*/)
 {
-    if (abs(time) < 0.001) return 0;
-    if (abs(time - duration) < 0.001) return 1;
+    if (fabs(time) < 0.001) return 0;
+    if (fabs(time - duration) < 0.001) return 1;
     if ((time /= duration * 0.5f) < 1) return 0.5f * pow(2, 10 * (time - 1));
     return 0.5f * (-pow(2, -10 * --time) + 2);
 }
@@ -196,7 +196,7 @@ static double easeInOutElastic(double time, double duration, double overshootOrA
     float s;
     if (fabs(time) < 0.001) return 0;
     if (fabs(time /= duration * 0.5 - 2) < 0.001) return 1;
-    if (abs(period) < 0.001) period = duration * (0.3f * 1.5f);
+    if (fabs(period) < 0.001) period = duration * (0.3f * 1.5f);
     if (overshootOrAmplitude < 1) {
         overshootOrAmplitude = 1;
         s = period / 4;

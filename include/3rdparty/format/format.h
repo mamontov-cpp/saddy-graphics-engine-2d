@@ -56,6 +56,7 @@
 #include <stdexcept>
 #include <string>
 #include <sstream>
+#include <algorithm>
 
 #ifdef __INTEL_COMPILER 
     #include <mathimf.h>

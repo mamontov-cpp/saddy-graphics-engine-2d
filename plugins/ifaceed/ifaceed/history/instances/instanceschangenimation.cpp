@@ -96,7 +96,7 @@ void history::instances::ChangeAnimation::commit(core::Editor * ob)
 
             if (m_maybe_new_name.exists())
             {
-                ob->emitClosure(bind(
+                ob->emitClosure(::bind(
                     this,
                     &history::instances::ChangeAnimation::updateTreeComboValue,
                     ob,
@@ -162,7 +162,7 @@ void history::instances::ChangeAnimation::rollback(core::Editor * ob)
 
             if (m_maybe_old_name.exists())
             {
-                ob->emitClosure(bind(
+                ob->emitClosure(::bind(
                     this,
                     &history::instances::ChangeAnimation::updateTreeComboValue,
                     ob,

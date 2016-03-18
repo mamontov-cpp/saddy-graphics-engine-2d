@@ -51,8 +51,8 @@ void history::instances::ChangeName::updateItem(core::Editor* e, const sad::Stri
 void history::instances::ChangeName::tryUpdateUI(core::Editor* e, const sad::String& value)
 {
     this->history::instances::ChangeProperty<sad::String>::tryUpdateUI(e, value);
-    e->emitClosure(bind(this, &history::instances::ChangeName::updateItem, e, value));
-    e->emitClosure(bind(e->actions()->instanceActions(), &gui::actions::AnimationInstanceActions::updateGroupInstanceList));	
+    e->emitClosure(::bind(this, &history::instances::ChangeName::updateItem, e, value));
+    e->emitClosure(::bind(e->actions()->instanceActions(), &gui::actions::AnimationInstanceActions::updateGroupInstanceList));	
 }
 
 void history::instances::ChangeName::updateUI(core::Editor* e, const sad::String& value)

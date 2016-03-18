@@ -51,7 +51,7 @@ void history::groups::ChangeName::updateItem(core::Editor* e, const sad::String&
 void history::groups::ChangeName::tryUpdateUI(core::Editor* e, const sad::String& value)
 {
     this->history::groups::ChangeProperty<sad::String>::tryUpdateUI(e, value);
-    e->emitClosure(bind(this, &history::groups::ChangeName::updateItem, e, value));	
+    e->emitClosure(::bind(this, &history::groups::ChangeName::updateItem, e, value));	
 }
 
 void history::groups::ChangeName::updateUI(core::Editor* e, const sad::String& value)
