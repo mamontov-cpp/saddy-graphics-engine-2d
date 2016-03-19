@@ -17,7 +17,7 @@ set(SADDY_CXX_RELEASE_FLAGS "-O2 -Wno-reorder -Wno-unused -Wno-sign-compare -w")
 if (NOT CMAKE_BUILD_TYPE)
 	message(STATUS "No build type selected, default to Release")
 	set(CMAKE_BUILD_TYPE "Release")
-	set(SADDY_LIBRARY_NAME "${SADDY_LIBRARY_NAME}-release")
+	set(SADDY_LIBRARY_NAME "${SADDY_LIBRARY_NAME}")
 endif()
 
 macro(SET_GCC_FLAGS)
