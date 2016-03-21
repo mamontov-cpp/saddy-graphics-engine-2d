@@ -53,6 +53,32 @@ public:
         \return whether it's checked
      */
     bool checked() const;
+	/*! Sets values from following cell
+		\param[in] cell a cell
+	 */
+	void set(sad::layouts::Cell* cell);
+	/*! Removes child from a cell. Note, that this function DOES NOT emit
+		corresponding signal
+		\param[in] child a child position
+	 */
+	void removeChild(size_t child) const;
+	/*! Adds child to a cell. Note, that this function DOES NOT emit 
+		corresponding signal
+		\param[in] node a node, that is being added
+	 */
+	void addChild(sad::SceneNode* node) const;
+	/*! Inserts child to a cell. Note, that this function DOES NOT emit
+		a signal
+		\param[in] node a node
+		\param[in] pos a position
+	 */
+	void insertChild(sad::SceneNode* node, size_t pos) const;
+	/*! Swaps children of cell. Note, that this function DOES NOT emit
+		a signal
+		\param[in] pos1 first position
+		\param[in] pos2 second position
+	 */
+	void swapChildren(size_t pos1, size_t pos2) const;
 signals:
     /*! Emitted, when width is changed
         \param[in] row a row
@@ -108,6 +134,58 @@ signals:
         \param[in] newvalue a new value
      */
     void rightPaddingChanged(size_t row, size_t col, double newvalue);
+	/*! Emitted, when child is added
+		\param[in] row a row
+		\param[in] col a column
+		\param[in] majorid a major id 
+		\param[in] nodename a name for a node
+	 */
+	void childAdded(size_t row, size_t col, unsigned long long majorid, QString nodename);
+public slots:
+	/*! Emitted, when width value changed
+		\param[in] newvalue a new value for cell
+	 */
+	void widthValueChanged(double newvalue);
+	/*! Emitted, when width unit changed
+		\param[in] unit a new unit for cell
+	 */
+	void widthUnitChanged(int unit);
+	/*! Emitted, when height value changed
+		\param[in] newvalue a new height value for cell
+	 */
+	void heightValueChanged(double newvalue);
+	/*! Emitted, when height unit changed
+		\parma[in] unit a new unit for cell
+	 */
+	void heightUnitChanged(int unit);
+	/*! Emitted, when horizontal alignment is changed by user
+		\param[in] v new value
+	 */
+	void horizontalAlignmentValueChanged(int v);
+	/*! Emitted, when vertical alignment is changed by user
+		\param[in] v new value
+	 */
+	void verticalAlignmentValueChanged(int v);
+	/*! Emitted, when stacking type alignment is changed by user
+		\param[in] v new value
+	 */
+	void stackingTypeValueChanged(int v);
+	/*! Emitted, when top padding value changed
+		\param[in] newvalue a new value
+	 */
+	void topPaddingValueChanged(double newvalue);
+	/*! Emitted, when bottom padding value changed
+		\param[in] newvalue a new value
+	 */
+	void bottomPaddingValueChanged(double newvalue);
+	/*! Emitted, when left padding value changed
+		\param[in] newvalue a new value
+	 */
+	void leftPaddingValueChanged(double newvalue);
+	/*! Emitted, when right padding value changed
+		\param[in] newvalue a new value
+	 */
+	void rightPaddingValueChanged(double newvalue);
 protected:
     /*! A checkbox, which hints whether cell edit has been selected for merge or split
      */

@@ -16,6 +16,9 @@
 
 // =================================== PUBLIC METHODS ===================================
 
+DECLARE_SOBJ_INHERITANCE(sad::layouts::Grid,sad::SceneNode)
+
+
 sad::layouts::Grid::Grid()
 : m_rows(0),
 m_cols(0),

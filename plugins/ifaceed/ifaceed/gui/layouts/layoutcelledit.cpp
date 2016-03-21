@@ -3,6 +3,7 @@
 // ReSharper disable once CppUnusedIncludeDirective
 #include <QTableWidgetItem>
 #include <QHBoxLayout>
+#include "../../blockedclosuremethodcall.h"
 
 #ifndef HAVE_QT5
     #define HAVE_QT5 (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
@@ -237,6 +238,18 @@ gui::layouts::LayoutCellEdit::LayoutCellEdit(QWidget* parent)
     this->resizeColumnsToContents();
     this->resizeRowsToContents();
     this->setMinimumSize(this->gui::layouts::LayoutCellEdit::sizeHint());
+	
+	connect(m_width_value, SIGNAL(valueChanged(double)), this, SLOT(widthValueChanged(double)));
+	connect(m_width_unit, SIGNAL(currentIndexChanged(int)), this, SLOT(widthUnitChanged(int)));	
+	connect(m_height_value, SIGNAL(valueChanged(double)), this, SLOT(heightValueChanged(double)));
+	connect(m_height_unit, SIGNAL(currentIndexChanged(int)), this, SLOT(heightUnitChanged(int)));	
+	connect(m_horizontal_alignment, SIGNAL(currentIndexChanged(int)), this, SLOT(horizontalAlignmentValueChanged(int)));	
+	connect(m_vertical_alignment, SIGNAL(currentIndexChanged(int)), this, SLOT(verticalAlignmentValueChanged(int)));	
+	connect(m_stacking_type, SIGNAL(currentIndexChanged(int)), this, SLOT(stackingTypeValueChanged(int)));	
+	connect(m_padding_top, SIGNAL(valueChanged(double)), this, SLOT(topPaddingValueChanged(double)));
+	connect(m_padding_bottom, SIGNAL(valueChanged(double)), this, SLOT(bottomPaddingValueChanged(double)));
+	connect(m_padding_left, SIGNAL(valueChanged(double)), this, SLOT(leftPaddingValueChanged(double)));
+	connect(m_padding_right, SIGNAL(valueChanged(double)), this, SLOT(rightPaddingValueChanged(double)));
 }
 
 gui::layouts::LayoutCellEdit::~LayoutCellEdit()
@@ -263,9 +276,179 @@ QSize gui::layouts::LayoutCellEdit::sizeHint() const
     );
 }
 
-
-
 bool gui::layouts::LayoutCellEdit::checked() const
 {
     return m_checked->checkState() == Qt::Checked;
 }
+
+void gui::layouts::LayoutCellEdit::set(sad::layouts::Cell* cell)
+{
+	this->Row = cell->Row;
+	this->Col = cell->Col;
+
+	invoke_blocked(m_width_value, &QDoubleSpinBox::setValue, cell->width().Value);
+	invoke_blocked(m_width_unit,  &QComboBox::setCurrentIndex, static_cast<int>(cell->width().Unit));
+
+	invoke_blocked(m_height_value, &QDoubleSpinBox::setValue, cell->height().Value);
+	invoke_blocked(m_height_unit,  &QComboBox::setCurrentIndex, static_cast<int>(cell->height().Unit));
+
+	invoke_blocked(m_horizontal_alignment,  &QComboBox::setCurrentIndex, static_cast<int>(cell->horizontalAlignment()));
+	invoke_blocked(m_vertical_alignment,  &QComboBox::setCurrentIndex, static_cast<int>(cell->verticalAlignment()));
+	invoke_blocked(m_stacking_type,  &QComboBox::setCurrentIndex, static_cast<int>(cell->stackingType()));
+
+	invoke_blocked(m_padding_top, &QDoubleSpinBox::setValue, cell->paddingTop());
+	invoke_blocked(m_padding_bottom, &QDoubleSpinBox::setValue, cell->paddingBottom());
+	invoke_blocked(m_padding_left, &QDoubleSpinBox::setValue, cell->paddingLeft());
+	invoke_blocked(m_padding_right, &QDoubleSpinBox::setValue, cell->paddingRight());
+	
+	invoke_blocked(m_checked, &QCheckBox::setCheckState, Qt::Unchecked);
+
+	m_children->clear();
+	for(size_t i = 0; i < cell->childrenCount(); i++)
+	{
+		sad::SceneNode* node = cell->child(i);
+		addChild(node);
+	}
+}
+
+void gui::layouts::LayoutCellEdit::removeChild(size_t child) const
+{
+	if (child < m_children->count()) 
+	{
+		invoke_blocked(m_children, &QComboBox::removeItem, child);
+	}
+}
+
+void gui::layouts::LayoutCellEdit::addChild(sad::SceneNode* node) const
+{
+	// TODO: Scene node name should be taken from model
+	QString name;
+	unsigned long long id = 0;
+	if (node)
+	{
+		id = node->MajorId;
+	}
+	m_children->addItem(name, QVariant(id));
+}
+
+void gui::layouts::LayoutCellEdit::insertChild(sad::SceneNode* node, size_t pos) const
+{
+	if (pos >= m_children->count())
+	{
+		addChild(node);
+	}
+	else
+	{
+		QString name;
+		unsigned long long id = 0;
+		if (node)
+		{
+			id = node->MajorId;
+		}
+		m_children->insertItem(pos, name, QVariant(id));
+	}
+}
+
+void gui::layouts::LayoutCellEdit::swapChildren(size_t pos1, size_t pos2) const
+{
+	if (pos1 < m_children->count() && pos2 < m_children->count())
+	{
+		QVariant cached_variant = m_children->itemData(pos1, Qt::UserRole);
+		QString cached_name = m_children->itemText(pos1);
+
+		m_children->setItemData(pos1, m_children->itemData(pos2, Qt::UserRole));
+		m_children->setItemText(pos1, m_children->itemText(pos2));
+
+		m_children->setItemData(pos2, m_children->itemData(pos1, Qt::UserRole));
+		m_children->setItemText(pos2, m_children->itemText(pos1));
+	}
+}
+
+
+void gui::layouts::LayoutCellEdit::widthValueChanged(double newvalue)
+{
+	sad::layouts::LengthValue value;
+	value.Value  = newvalue;
+	value.Unit = static_cast<sad::layouts::Unit>(m_width_unit->currentIndex());
+
+	emit widthChanged(Row, Col, value);
+}
+
+void gui::layouts::LayoutCellEdit::widthUnitChanged(int unit)
+{
+	if (unit >  -1) 
+	{
+		sad::layouts::LengthValue value;
+		value.Value  = m_width_value->value();
+		value.Unit = static_cast<sad::layouts::Unit>(unit);
+
+		emit widthChanged(Row, Col, value);	
+	}
+}
+
+void gui::layouts::LayoutCellEdit::heightValueChanged(double newvalue)
+{
+	sad::layouts::LengthValue value;
+	value.Value  = newvalue;
+	value.Unit = static_cast<sad::layouts::Unit>(m_height_unit->currentIndex());
+
+	emit heightChanged(Row, Col, value);	
+}
+
+void gui::layouts::LayoutCellEdit::heightUnitChanged(int unit)
+{
+	if (unit >  -1) 
+	{
+		sad::layouts::LengthValue value;
+		value.Value  = m_height_value->value();
+		value.Unit = static_cast<sad::layouts::Unit>(unit);
+
+		emit heightChanged(Row, Col, value);	
+	}
+}
+
+void gui::layouts::LayoutCellEdit::horizontalAlignmentValueChanged(int v)
+{
+	if (v > -1)
+	{
+		emit horizontalAlignmentChanged(Row, Col, static_cast<sad::layouts::HorizontalAlignment>(v));
+	}
+}
+
+void gui::layouts::LayoutCellEdit::verticalAlignmentValueChanged(int v)
+{
+	if (v > -1)
+	{
+		emit verticalAlignmentChanged(Row, Col, static_cast<sad::layouts::VerticalAlignment>(v));
+	}
+}
+
+void gui::layouts::LayoutCellEdit::stackingTypeValueChanged(int v)
+{
+	if (v > -1)
+	{
+		emit stackingTypeChanged(Row, Col, static_cast<sad::layouts::StackingType>(v));	
+	}
+}
+
+
+void gui::layouts::LayoutCellEdit::topPaddingValueChanged(double newvalue)
+{
+	emit topPaddingChanged(Row, Col, newvalue);
+}
+
+void gui::layouts::LayoutCellEdit::bottomPaddingValueChanged(double newvalue)
+{
+	emit bottomPaddingChanged(Row, Col, newvalue);
+}
+
+void gui::layouts::LayoutCellEdit::leftPaddingValueChanged(double newvalue)
+{
+	emit leftPaddingChanged(Row, Col, newvalue);
+}
+
+void gui::layouts::LayoutCellEdit::rightPaddingValueChanged(double newvalue)
+{
+	emit rightPaddingChanged(Row, Col, newvalue);
+}
+

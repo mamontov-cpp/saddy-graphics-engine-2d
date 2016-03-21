@@ -3,10 +3,11 @@
 
 #include <stdexcept>
 
+
 // ============================ PUBLIC METHODS ============================
 
 sad::layouts::Cell::Cell() 
-: Rendered(false),
+: Rendered(false), Row(0), Col(0),
 m_row_span(1),
 m_col_span(1), 
 m_valign(sad::layouts::LVA_Middle), 
