@@ -530,6 +530,7 @@ void gui::layouts::LayoutCellEdit::addChildClicked()
 				unsigned long long id = list->item(current_item)->data(Qt::UserRole).value<unsigned long long>();
 				emit childAdded(Row, Col, id, name);
 				m_children->addItem(name, QVariant(id));
+				m_children->setCurrentIndex(m_children->count() - 1);
 			}
 		}
 		delete dlg;
