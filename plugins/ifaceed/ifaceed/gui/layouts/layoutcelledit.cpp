@@ -3,6 +3,10 @@
 // ReSharper disable once CppUnusedIncludeDirective
 #include <QTableWidgetItem>
 #include <QHBoxLayout>
+#include <QDialog>
+#include <QListWidget>
+#include <QListWidgetItem>
+#include <QMessageBox>
 #include "../../blockedclosuremethodcall.h"
 
 #ifndef HAVE_QT5
@@ -10,7 +14,7 @@
 #endif
 
 gui::layouts::LayoutCellEdit::LayoutCellEdit(QWidget* parent)
-: QTableWidget(parent), Row(0), Col(0)
+: QTableWidget(parent), Row(0), Col(0), m_children_provider(NULL)
 {
     this->horizontalHeader()->hide();
     this->verticalHeader()->hide();
@@ -323,12 +327,15 @@ void gui::layouts::LayoutCellEdit::removeChild(size_t child) const
 
 void gui::layouts::LayoutCellEdit::addChild(sad::SceneNode* node) const
 {
-	// TODO: Scene node name should be taken from model
 	QString name;
 	unsigned long long id = 0;
 	if (node)
 	{
 		id = node->MajorId;
+	}
+	if (m_children_provider)
+	{
+		name = m_children_provider->name(node);
 	}
 	m_children->addItem(name, QVariant(id));
 }
@@ -379,6 +386,11 @@ void gui::layouts::LayoutCellEdit::swapChildren(size_t pos1, size_t pos2) const
 	}
 }
 
+void gui::layouts::LayoutCellEdit::setChildrenProvider(gui::layouts::LayoutCellEdit::ChildrenProvider* p)
+{
+	delete m_children_provider;
+	m_children_provider = p;
+}
 
 void gui::layouts::LayoutCellEdit::widthValueChanged(double newvalue)
 {
@@ -470,7 +482,62 @@ void gui::layouts::LayoutCellEdit::rightPaddingValueChanged(double newvalue)
 
 void gui::layouts::LayoutCellEdit::addChildClicked()
 {
-	// TODO: Actually implement
+	QVector<QPair<QString, unsigned long long> > pairs;
+	if (m_children_provider)
+	{
+		pairs = m_children_provider->possibleChildren();
+	}
+	if (pairs.size() != 0)
+	{
+		double starting_offset= 5;
+		double dialog_size_x = 320, dialog_size_y = 240;  
+		double button_height = 50; 
+		QDialog* dlg = new QDialog(this);
+		dlg->setObjectName("childpicker");
+		dlg->resize(dialog_size_x, dialog_size_y);
+		dlg->setMinimumSize(QSize(dialog_size_x, dialog_size_y));
+		dlg->setMaximumSize(QSize(dialog_size_x, dialog_size_y));
+		dlg->setWindowTitle("Please, pick a child to add into cell");
+		
+		QListWidget* list = new QListWidget(dlg);
+		list->setGeometry(starting_offset, starting_offset, dialog_size_x - starting_offset * 2, dialog_size_y - button_height - starting_offset * 4);
+		for(size_t i = 0; i < pairs.size(); i++)
+		{
+			QListWidgetItem* item = new QListWidgetItem(pairs[i].first);
+			item->setData(Qt::UserRole, QVariant(pairs[i].second));
+			list->addItem(item);
+		}
+		list->setCurrentRow(0);
+
+		QPushButton* btn_ok = new QPushButton(dlg);
+		btn_ok->setText("Ok");
+		btn_ok->setGeometry(starting_offset, dialog_size_y - button_height - starting_offset, dialog_size_x / 2 - 2 * starting_offset, button_height);
+
+		QPushButton* btn_cancel = new QPushButton(dlg);
+		btn_cancel->setText("Cancel");
+		btn_cancel->setGeometry(dialog_size_x / 2 + starting_offset, dialog_size_y - button_height - starting_offset, dialog_size_x / 2 - 2 * starting_offset, button_height);
+
+		connect(btn_ok, SIGNAL(clicked()), dlg, SLOT(accept()));
+		connect(btn_cancel, SIGNAL(clicked()), dlg, SLOT(reject()));
+
+		QMetaObject::connectSlotsByName(dlg);
+		if (dlg->exec() == QDialog::Accepted)
+		{
+			int current_item = list->currentRow();
+			if (current_item > -1)
+			{
+				QString name = list->item(current_item)->text();
+				unsigned long long id = list->item(current_item)->data(Qt::UserRole).value<unsigned long long>();
+				emit childAdded(Row, Col, id, name);
+				m_children->addItem(name, QVariant(id));
+			}
+		}
+		delete dlg;
+	} 
+	else
+	{
+		QMessageBox::warning(this, "Warning", "No child can be added into cell.\nPlease add at least one scene object, before adding a child");
+	}
 }
 
 void gui::layouts::LayoutCellEdit::removeChildClicked()

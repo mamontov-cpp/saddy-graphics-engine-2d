@@ -8,7 +8,7 @@
 #include <QDoubleSpinBox>
 #include <QComboBox>
 #include <QPushButton>
-
+#include <QPair>
 
 #include <layouts/cell.h>
 
@@ -23,10 +23,34 @@ namespace gui
 namespace layouts
 {
 
+/*! Describes a simple widget, which is used to edit instances of 
+	sad::layouts::Cell and manage it's content
+ */
 class LayoutCellEdit: public QTableWidget
 {
 Q_OBJECT
 public:
+/*! A children provider, which is used to connect widget with other 
+	parts of program. Used to get list of possible children and also 
+	to get name of children
+ */
+class ChildrenProvider
+{
+public:
+	/*! Returns a viewable name for a node
+		\param[in] node a node
+		\return name 
+	 */
+	virtual QString name(sad::SceneNode* node) = 0;
+	/*! Returns a list of possible children
+		\return list of children
+	 */
+	virtual QVector<QPair<QString, unsigned long long> > possibleChildren() = 0;
+	/*! Must be inherited
+	 */
+	virtual ~ChildrenProvider();
+};
+
     /*! Constructs new editor
         \param[in] parent a parent widget
      */
@@ -88,6 +112,10 @@ public:
 		\param[in] pos2 second position
 	 */
 	void swapChildren(size_t pos1, size_t pos2) const;
+	/*! Sets children provider for editor
+		\param[in] p a provider
+	 */
+	void setChildrenProvider(gui::layouts::LayoutCellEdit::ChildrenProvider* p);
 signals:
     /*! Emitted, when width is changed
         \param[in] row a row
@@ -283,6 +311,9 @@ protected:
     /*! Clear button
      */
     QPushButton* m_clear;
+	/*! Returns a children provider for cell  edit
+	 */
+	gui::layouts::LayoutCellEdit::ChildrenProvider* m_children_provider;
 };
 
 }
