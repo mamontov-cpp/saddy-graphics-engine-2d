@@ -91,7 +91,7 @@ gui::layouts::LayoutCellEdit::LayoutCellEdit(QWidget* parent)
     m_width_unit->addItem("auto");
     m_width_unit->addItem("px");
     m_width_unit->addItem("%");
-    m_width_unit->setMaximumWidth(50);
+    m_width_unit->setCurrentIndex(0);
     this->setCellWidget(currentrow,2, m_width_unit);
 
     // Third row
@@ -225,15 +225,13 @@ gui::layouts::LayoutCellEdit::LayoutCellEdit(QWidget* parent)
 
     m_remove = new QPushButton();
     m_remove->setText("Remove");
-    m_remove->setMaximumWidth(100);
-    QVBoxLayout* removelt = new QVBoxLayout();
-    removelt->setMargin(0);
-    removelt->setAlignment(Qt::AlignRight);
-    removelt->addWidget(m_remove);
-    QWidget* removewidget = new QWidget();
-    removewidget->setLayout(removelt);
-    this->setSpan(currentrow, 1, 1, 2);
-    this->setCellWidget(currentrow, 1, removewidget);
+    this->setCellWidget(currentrow, 1, m_remove);
+
+
+    m_clear = new QPushButton();
+    m_clear->setText("Clear");
+    this->setCellWidget(currentrow, 2, m_clear);
+
 
     this->resizeColumnsToContents();
     this->resizeRowsToContents();
@@ -250,6 +248,11 @@ gui::layouts::LayoutCellEdit::LayoutCellEdit(QWidget* parent)
 	connect(m_padding_bottom, SIGNAL(valueChanged(double)), this, SLOT(bottomPaddingValueChanged(double)));
 	connect(m_padding_left, SIGNAL(valueChanged(double)), this, SLOT(leftPaddingValueChanged(double)));
 	connect(m_padding_right, SIGNAL(valueChanged(double)), this, SLOT(rightPaddingValueChanged(double)));
+	connect(m_add, SIGNAL(clicked()), this, SLOT(addChildClicked()));
+	connect(m_remove, SIGNAL(clicked()), this, SLOT(removeChildClicked()));
+	connect(m_clear, SIGNAL(clicked()), this, SLOT(clearClicked()));
+	connect(m_move_back, SIGNAL(clicked()), this, SLOT(moveBackClicked()));
+	connect(m_move_front, SIGNAL(clicked()), this, SLOT(moveFrontClicked()));
 }
 
 gui::layouts::LayoutCellEdit::~LayoutCellEdit()
@@ -283,8 +286,7 @@ bool gui::layouts::LayoutCellEdit::checked() const
 
 void gui::layouts::LayoutCellEdit::set(sad::layouts::Cell* cell)
 {
-	this->Row = cell->Row;
-	this->Col = cell->Col;
+	setRowAndColumn(cell->Row, cell->Col);
 
 	invoke_blocked(m_width_value, &QDoubleSpinBox::setValue, cell->width().Value);
 	invoke_blocked(m_width_unit,  &QComboBox::setCurrentIndex, static_cast<int>(cell->width().Unit));
@@ -346,6 +348,19 @@ void gui::layouts::LayoutCellEdit::insertChild(sad::SceneNode* node, size_t pos)
 			id = node->MajorId;
 		}
 		m_children->insertItem(pos, name, QVariant(id));
+	}
+}
+
+void gui::layouts::LayoutCellEdit::clearChildren() const
+{
+	m_children->clear();
+}
+
+void gui::layouts::LayoutCellEdit::removeChild(size_t pos)
+{
+	if (pos <= m_children->count())
+	{
+		m_children->removeItem(pos);
 	}
 }
 
@@ -450,5 +465,53 @@ void gui::layouts::LayoutCellEdit::leftPaddingValueChanged(double newvalue)
 void gui::layouts::LayoutCellEdit::rightPaddingValueChanged(double newvalue)
 {
 	emit rightPaddingChanged(Row, Col, newvalue);
+}
+
+
+void gui::layouts::LayoutCellEdit::addChildClicked()
+{
+	// TODO: Actually implement
+}
+
+void gui::layouts::LayoutCellEdit::removeChildClicked()
+{
+	if (m_children->count() > 0 && m_children->currentIndex() > -1)
+	{
+		size_t index = m_children->currentIndex(); 
+		emit childRemoved(Row, Col, index);
+		removeChild(index);
+	}
+}
+
+void gui::layouts::LayoutCellEdit::clearClicked()
+{
+	if (m_children->count())
+	{
+		emit cleared(Row, Col);
+		clearChildren();
+	}
+}
+
+void gui::layouts::LayoutCellEdit::moveBackClicked()
+{
+	if ((m_children->count() > 0) && (m_children->currentIndex() < (m_children->count() - 1)))
+	{
+		size_t pos1 = m_children->currentIndex();
+		size_t pos2 = pos1 + 1;
+		emit childrenSwapped(Row, Col, pos1, pos2);
+		swapChildren(pos1, pos2);
+	}
+	
+}
+
+void gui::layouts::LayoutCellEdit::moveFrontClicked()
+{
+	if ((m_children->count() > 0) && (m_children->currentIndex() > 0))
+	{
+		size_t pos1 = m_children->currentIndex();
+		size_t pos2 = pos1 - 1;
+		emit childrenSwapped(Row, Col, pos1, pos2);
+		swapChildren(pos1, pos2);
+	}		
 }
 

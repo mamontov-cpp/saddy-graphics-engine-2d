@@ -73,6 +73,15 @@ public:
 		\param[in] pos a position
 	 */
 	void insertChild(sad::SceneNode* node, size_t pos) const;
+	/*! Clears children of cell. Note, that this function DOES NOT emit 
+		a signal
+	 */
+	void clearChildren() const;
+	/*! Removes a child from a cell. Note, that this function DOES NOT emit
+		a signal
+		\param[in] pos position
+	 */
+	void removeChild(size_t pos);
 	/*! Swaps children of cell. Note, that this function DOES NOT emit
 		a signal
 		\param[in] pos1 first position
@@ -141,51 +150,84 @@ signals:
 		\param[in] nodename a name for a node
 	 */
 	void childAdded(size_t row, size_t col, unsigned long long majorid, QString nodename);
+	/*! Emitted, when child is removed
+		\param[in] row a row
+		\param[in] col a column
+		\param[in] pos a position, where child is added
+	 */
+	void childRemoved(size_t row, size_t col_t, size_t pos);
+	/*! Emitted, when clearing cell is called
+		\param[in] row a row
+		\param[in] col a column
+	 */
+	void cleared(size_t row, size_t col);
+	/*! Emitted, when children are swapped
+		\param[in] row a row
+		\param[in] col a column
+		\param[in] pos1 a first position of item
+		\param[in] pos2 a second position of item
+	 */
+	void childrenSwapped(size_t row, size_t col, size_t pos1, size_t pos2);
 public slots:
-	/*! Emitted, when width value changed
+	/*! Called, when width value changed
 		\param[in] newvalue a new value for cell
 	 */
 	void widthValueChanged(double newvalue);
-	/*! Emitted, when width unit changed
+	/*! Called, when width unit changed
 		\param[in] unit a new unit for cell
 	 */
 	void widthUnitChanged(int unit);
-	/*! Emitted, when height value changed
+	/*! Called, when height value changed
 		\param[in] newvalue a new height value for cell
 	 */
 	void heightValueChanged(double newvalue);
-	/*! Emitted, when height unit changed
+	/*! Called, when height unit changed
 		\parma[in] unit a new unit for cell
 	 */
 	void heightUnitChanged(int unit);
-	/*! Emitted, when horizontal alignment is changed by user
+	/*! Called, when horizontal alignment is changed by user
 		\param[in] v new value
 	 */
 	void horizontalAlignmentValueChanged(int v);
-	/*! Emitted, when vertical alignment is changed by user
+	/*! Called, when vertical alignment is changed by user
 		\param[in] v new value
 	 */
 	void verticalAlignmentValueChanged(int v);
-	/*! Emitted, when stacking type alignment is changed by user
+	/*! Called, when stacking type alignment is changed by user
 		\param[in] v new value
 	 */
 	void stackingTypeValueChanged(int v);
-	/*! Emitted, when top padding value changed
+	/*! Called, when top padding value changed
 		\param[in] newvalue a new value
 	 */
 	void topPaddingValueChanged(double newvalue);
-	/*! Emitted, when bottom padding value changed
+	/*! Called, when bottom padding value changed
 		\param[in] newvalue a new value
 	 */
 	void bottomPaddingValueChanged(double newvalue);
-	/*! Emitted, when left padding value changed
+	/*! Called, when left padding value changed
 		\param[in] newvalue a new value
 	 */
 	void leftPaddingValueChanged(double newvalue);
-	/*! Emitted, when right padding value changed
+	/*! Called, when right padding value changed
 		\param[in] newvalue a new value
 	 */
 	void rightPaddingValueChanged(double newvalue);
+	/*! Called, when "Add" button is clicked
+	 */
+	void addChildClicked();
+	/*! Called, when "Remove" button is clicked
+	 */
+	void removeChildClicked();
+	/*! Called, when "Clear" button is clicked
+	 */
+	void clearClicked();
+	/*! Called, when "Move back" button is clicked
+	 */
+	void moveBackClicked();
+	/*! Called, when "Move front" button is clicked
+	 */
+	void moveFrontClicked();
 protected:
     /*! A checkbox, which hints whether cell edit has been selected for merge or split
      */
@@ -238,6 +280,9 @@ protected:
     /*! Remove children button
      */
     QPushButton* m_remove;
+    /*! Clear button
+     */
+    QPushButton* m_clear;
 };
 
 }
