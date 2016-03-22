@@ -3,6 +3,7 @@
     Defines a layout cell editor for editing
     a layout cell
  */
+#pragma once
 #include <QTableWidget>
 #include <QCheckBox>
 #include <QDoubleSpinBox>

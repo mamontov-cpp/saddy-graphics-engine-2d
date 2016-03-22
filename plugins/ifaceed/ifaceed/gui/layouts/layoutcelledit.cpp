@@ -7,6 +7,7 @@
 #include <QListWidget>
 #include <QListWidgetItem>
 #include <QMessageBox>
+#include <QHash>
 #include "../../blockedclosuremethodcall.h"
 
 #ifndef HAVE_QT5
@@ -381,8 +382,8 @@ void gui::layouts::LayoutCellEdit::swapChildren(size_t pos1, size_t pos2) const
 		m_children->setItemData(pos1, m_children->itemData(pos2, Qt::UserRole));
 		m_children->setItemText(pos1, m_children->itemText(pos2));
 
-		m_children->setItemData(pos2, m_children->itemData(pos1, Qt::UserRole));
-		m_children->setItemText(pos2, m_children->itemText(pos1));
+        m_children->setItemData(pos2, cached_variant);
+        m_children->setItemText(pos2, cached_name);
 	}
 }
 
@@ -486,12 +487,26 @@ void gui::layouts::LayoutCellEdit::addChildClicked()
 	if (m_children_provider)
 	{
 		pairs = m_children_provider->possibleChildren();
+        // Strip all children, that are already in editor
+        QHash<unsigned long long, bool> children;
+        for(size_t i = 0; i < m_children->count(); i++)
+        {
+            children.insert(m_children->itemData(i, Qt::UserRole).value<unsigned long long>(), true);
+        }
+        for(size_t i = 0; i < pairs.size(); i++)
+        {
+            if (children.contains(pairs[i].second))
+            {
+                pairs.remove(i);
+                --i;
+            }
+        }
 	}
 	if (pairs.size() != 0)
 	{
 		double starting_offset= 5;
 		double dialog_size_x = 320, dialog_size_y = 240;  
-		double button_height = 50; 
+        double button_height = 25;
 		QDialog* dlg = new QDialog(this);
 		dlg->setObjectName("childpicker");
 		dlg->resize(dialog_size_x, dialog_size_y);
@@ -568,6 +583,7 @@ void gui::layouts::LayoutCellEdit::moveBackClicked()
 		size_t pos2 = pos1 + 1;
 		emit childrenSwapped(Row, Col, pos1, pos2);
 		swapChildren(pos1, pos2);
+        m_children->setCurrentIndex(pos2);
 	}
 	
 }
@@ -580,6 +596,12 @@ void gui::layouts::LayoutCellEdit::moveFrontClicked()
 		size_t pos2 = pos1 - 1;
 		emit childrenSwapped(Row, Col, pos1, pos2);
 		swapChildren(pos1, pos2);
+        m_children->setCurrentIndex(pos2);
 	}		
+}
+
+gui::layouts::LayoutCellEdit::ChildrenProvider::~ChildrenProvider()
+{
+
 }
 

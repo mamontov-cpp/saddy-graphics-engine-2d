@@ -19,6 +19,8 @@
 #include "gui/actions/dialogueactions.h"
 #include "gui/actions/wayactions.h"
 
+#include "gui/childrenprovider.h"
+
 #include "core/borders/selectionborder.h"
 
 #include "history/database/newproperty.h"
@@ -173,18 +175,6 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
         ++i;
     }
 
-    // A cell table widget for layout
-    QGridLayout* table = new QGridLayout();
-    table->addWidget(new gui::layouts::LayoutCellEdit(), 0, 0, 1, 2);
-    table->addWidget(new gui::layouts::LayoutCellEdit(), 0, 2, 1, 1);
-    table->addWidget(new gui::layouts::LayoutCellEdit(), 1, 0, 1, 1);
-    table->addWidget(new gui::layouts::LayoutCellEdit(), 1, 1, 1, 1);
-    table->addWidget(new gui::layouts::LayoutCellEdit(), 1, 2, 1, 1);
-
-    QWidget* w = new QWidget();
-    w->setLayout(table);
-    ui.tblLayoutCells->setWidget(w);
-    
 }
 
 
@@ -286,6 +276,26 @@ bool MainPanel::isEditingEnabled() const
 void MainPanel::setEditor(core::Editor* editor)
 {  
     m_editor = editor; 
+
+
+    // A cell table widget for layout
+    // TODO: Remove this
+    QGridLayout* table = new QGridLayout();
+    gui::layouts::LayoutCellEdit* edit[5];
+    for(size_t i = 0; i < 5; i++)
+    {
+        edit[i] = new gui::layouts::LayoutCellEdit();
+        edit[i]->setChildrenProvider(new gui::ChildrenProvider(editor->panelProxy()));
+    }
+    table->addWidget(edit[0], 0, 0, 1, 2);
+    table->addWidget(edit[1], 0, 2, 1, 1);
+    table->addWidget(edit[2], 1, 0, 1, 1);
+    table->addWidget(edit[3], 1, 1, 1, 1);
+    table->addWidget(edit[4], 1, 2, 1, 1);
+
+    QWidget* w = new QWidget();
+    w->setLayout(table);
+    ui.tblLayoutCells->setWidget(w);
 
     m_scripting->setEditor(editor);
     this->initConsoleAutocompletion();
