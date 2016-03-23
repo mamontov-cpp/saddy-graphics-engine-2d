@@ -24,6 +24,7 @@ class AnimationActions;
 class AnimationInstanceActions;
 class AnimationGroupActions;
 class SceneActions;
+class GridActions;
 
 /*! A container for actions, grouped by node
  */
@@ -76,10 +77,14 @@ public:
      *  \return actions for animation instance editing
      */
     gui::actions::AnimationInstanceActions* instanceActions() const;
-        /*! Returns actions for animation group editing
+    /*! Returns actions for animation group editing
      *  \return actions for animation group editing
      */
     gui::actions::AnimationGroupActions* groupActions() const;
+    /*! Returns actions, that are linked to grids
+        \return grid actions
+     */
+    gui::actions::GridActions* gridActions() const;
 protected:
     /*! An actions, linkes to scenes
      */
@@ -111,7 +116,9 @@ protected:
     /*! An actions, linked to animation groups editing
      */
     gui::actions::AnimationGroupActions* m_group_actions;
-
+    /*! An actions, linked to grids (sad::layouts::Grid)
+     */
+    gui::actions::GridActions* m_grid_actions;
 };
 
 }

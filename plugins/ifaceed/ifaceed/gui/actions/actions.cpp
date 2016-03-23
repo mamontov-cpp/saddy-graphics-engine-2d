@@ -10,6 +10,7 @@
 #include "animationactions.h"
 #include "animationinstanceactions.h"
 #include "animationgroupactions.h"
+#include "gridactions.h"
 
 gui::actions::Actions::Actions() : m_scene_actions(new gui::actions::SceneActions()),
 m_scene_node_actions(new gui::actions::SceneNodeActions()),
@@ -20,7 +21,8 @@ m_way_actions(new gui::actions::WayActions()),
 m_dialogue_actions(new gui::actions::DialogueActions()),
 m_animation_actions(new gui::actions::AnimationActions()),
 m_instance_actions(new gui::actions::AnimationInstanceActions()),
-m_group_actions(new gui::actions::AnimationGroupActions())
+m_group_actions(new gui::actions::AnimationGroupActions()),
+m_grid_actions(new gui::actions::GridActions())
 {
     
 }
@@ -38,6 +40,7 @@ void gui::actions::Actions::setEditor(core::Editor* e)
     m_animation_actions->setEditor(e);
     m_instance_actions->setEditor(e);
     m_group_actions->setEditor(e);
+    m_grid_actions->setEditor(e);
 }
 
 gui::actions::Actions::~Actions()
@@ -102,4 +105,9 @@ gui::actions::AnimationInstanceActions* gui::actions::Actions::instanceActions()
 gui::actions::AnimationGroupActions*  gui::actions::Actions::groupActions() const
 {
     return m_group_actions;
+}
+
+gui::actions::GridActions*  gui::actions::Actions::gridActions() const
+{
+    return m_grid_actions;
 }
