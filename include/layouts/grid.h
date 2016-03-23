@@ -230,7 +230,11 @@ public:
     bool split(size_t row, size_t col, size_t row_span, size_t col_span);
     /*! Forces grid to recompute all items for cells
      */ 
-    void update();      
+    void update();
+    /*! Returns a a major ids list for all children of all cells
+        \return list of major ids
+     */
+    sad::Vector<unsigned long long> childrenMajorIds() const;	
 private:
     /*! The grid is not copyable
         \param[in] grid a grid      

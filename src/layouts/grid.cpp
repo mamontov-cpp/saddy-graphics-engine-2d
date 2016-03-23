@@ -740,6 +740,16 @@ void sad::layouts::Grid::update()
     }
 }
 
+sad::Vector<unsigned long long> sad::layouts::Grid::childrenMajorIds() const
+{
+    sad::Vector<unsigned long long>  result;
+    for(size_t i = 0; i < m_cells.size(); i++)
+    {
+        result << m_cells[i]->childrenMajorIds();
+    }
+    return result;
+}
+
 void sad::layouts::Grid::moveBy(const sad::Point2D& p)
 {
     for(size_t i = 0; i < 4; i++)
