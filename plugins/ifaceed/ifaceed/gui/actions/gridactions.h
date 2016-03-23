@@ -16,6 +16,28 @@ class MainPanel;
 namespace gui
 {
 
+/*! A position of scene node in grids
+ */
+struct GridPosition
+{
+	sad::layouts::Grid* Grid; //!<  A grid
+	size_t Row;               //!<  A row of related cell
+	size_t Col;               //!<  A column of related cell
+	size_t Pos;               //!<  A position of cell grid
+
+	/*! Makes new grid position
+		\param[in] g grid
+		\param[in] row a row
+		\param[in] col a column
+		\param[in] pos a position
+	 */
+	inline GridPosition(sad::layouts::Grid* g, size_t row, size_t col,  size_t pos)
+	: Grid(g), Row(row), Col(col), Pos(pos)
+	{
+		
+	}
+};
+
 namespace actions
 {
 
@@ -25,6 +47,7 @@ class GridActions: public QObject, public gui::actions::AbstractActions
 {
 Q_OBJECT
 public:
+
     /*! Creates new label actions
         \param[in] parent a parent object
      */
@@ -87,6 +110,11 @@ public:
 		\return a cell editor
 	 */
 	gui::layouts::LayoutCellEdit* cellEditor(size_t row,  size_t col);
+	/*! Seeks for related grids
+		\param[in] node a node
+		\return a grid position
+	 */
+	static sad::Vector<gui::GridPosition> findRelatedGrids(sad::SceneNode* node);
 private:
 	/*! A provider for grid action
 	 */

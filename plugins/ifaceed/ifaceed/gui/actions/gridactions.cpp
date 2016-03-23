@@ -3,6 +3,11 @@
 #include "../../core/editor.h"
 #include "../../core/shared.h"
 
+#include <renderer.h>
+
+#include <db/dbdatabase.h>
+#include <db/dbtable.h>
+
 
 gui::actions::GridActions::GridActions(QObject* parent)
 : QObject(parent), m_provider(NULL)
@@ -106,4 +111,34 @@ gui::layouts::LayoutCellEdit* gui::actions::GridActions::cellEditor(size_t row, 
 		}
 	}
 	return edit;
+}
+
+
+sad::Vector<gui::GridPosition> gui::actions::GridActions::findRelatedGrids(sad::SceneNode* node)
+{
+	sad::Vector<gui::GridPosition> result;
+	sad::db::Database* db = sad::Renderer::ref()->database("");
+    sad::db::Table* tbl = db->table("layouts");
+
+    sad::Vector<unsigned long long> already_children;
+    QHash<unsigned long long, bool> already_children_hash;
+    if (tbl)
+    {
+        sad::Vector<sad::db::Object*> objs;
+        tbl->objects(objs);
+        for(size_t i = 0; i < objs.size(); i++)
+        {
+            if (objs[i]->Active && objs[i]->isInstanceOf("sad::layouts::Grid"))
+            {
+                sad::layouts::Grid* grid = static_cast<sad::layouts::Grid*>(objs[i]);
+				sad::Maybe<sad::layouts::Grid::SearchResult> mayberesult = grid->find(node);
+				if (mayberesult.exists())
+				{
+					sad::layouts::Cell* cell = grid->cell(mayberesult.value().p1());
+					result << gui::GridPosition(grid, cell->Row, cell->Col, mayberesult.value().p2());
+				}
+            }
+        }
+    }
+	return result;
 }
