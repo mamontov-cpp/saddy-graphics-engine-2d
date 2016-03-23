@@ -10,6 +10,7 @@ m_selected_dialogue(NULL),
 m_selected_animation(NULL),
 m_selected_instance(NULL),
 m_selected_group(NULL),
+m_selected_grid(NULL),
 m_way_point_position(0),
 m_editor(NULL),
 m_animation_is_running(false),
@@ -228,6 +229,16 @@ void core::Shared::setSelectedGroup(sad::animations::Group* a)
 sad::animations::Group* core::Shared::selectedGroup() const
 {
     return m_selected_group;
+}
+
+void core::Shared::setSelectedGrid(sad::layouts::Grid* g)
+{
+    m_selected_grid = g;
+}
+
+sad::layouts::Grid* core::Shared::selectedGrid() const
+{
+    return m_selected_grid;
 }
 
 bool core::Shared::isAnyKindOfAnimationIsRunning() const

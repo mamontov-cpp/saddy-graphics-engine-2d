@@ -22,6 +22,8 @@
 #include <animations/animationsinstance.h>
 #include <animations/animationsgroup.h>
 
+#include <layouts/grid.h>
+
 namespace core
 {
 
@@ -188,6 +190,14 @@ public:
         \return selected group
      */
     sad::animations::Group* selectedGroup() const;
+    /*! Sets selected grid for
+        \param g grid
+     */
+    void setSelectedGrid(sad::layouts::Grid* g);
+    /*! Returns selected grid
+        \return selected grid
+     */
+    sad::layouts::Grid* selectedGrid() const;
     /*! Tests, whether user is clicked  "Start" on animation, animation instance or animation group
         \return result
      */
@@ -260,6 +270,9 @@ private:
     /*! A selected group
      */
     sad::animations::Group* m_selected_group;
+    /*! A selected grid
+     */
+    sad::layouts::Grid* m_selected_grid;
     /*! A way point position, when moving point
      */
     int m_way_point_position;
