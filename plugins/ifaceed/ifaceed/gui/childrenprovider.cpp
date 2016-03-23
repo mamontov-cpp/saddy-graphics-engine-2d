@@ -74,6 +74,13 @@ QVector<QPair<QString, unsigned long long> >  gui::ChildrenProvider::possibleChi
         sad::db::Table* tbl = db->table("layouts");
 
         gui::actions::SceneNodeActions* a = m_proxy->editor()->actions()->sceneNodeActions();
+        sad::Vector<unsigned long long> already_children;
+        QHash<unsigned long long, bool> already_children_hash;
+        sad::layouts::Grid* g = m_proxy->editor()->shared()->selectedGrid();
+        if (g)
+        {
+            already_children << g->MajorId;
+        }
         if (tbl)
         {
             sad::Vector<sad::db::Object*> objs;
@@ -86,7 +93,21 @@ QVector<QPair<QString, unsigned long long> >  gui::ChildrenProvider::possibleChi
                         a->viewableObjectName(objs[i]),
                         objs[i]->MajorId
                     );
+                    already_children << static_cast<sad::layouts::Grid*>(objs[i])->childrenMajorIds();
                 }
+            }
+        }
+        // Erase non-addable items
+        for(i = 0; i < already_children.size(); i++)
+        {
+            already_children_hash.insert(already_children[i], true);
+        }
+        for(i = 0; i < result.size(); i++)
+        {
+            if (already_children_hash.contains(result[i].second))
+            {
+                result.remove(i);
+                --i;
             }
         }
     }
