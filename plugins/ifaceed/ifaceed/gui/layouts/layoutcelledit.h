@@ -113,6 +113,11 @@ public:
 		\param[in] pos2 second position
 	 */
 	void swapChildren(size_t pos1, size_t pos2) const;
+	/*! Updates child name, according to current position
+		\param[in] pos position
+		\param[in] name a name of child
+	 */
+	void updateChildName(size_t pos, const QString& name) const;
 	/*! Sets children provider for editor
 		\param[in] p a provider
 	 */

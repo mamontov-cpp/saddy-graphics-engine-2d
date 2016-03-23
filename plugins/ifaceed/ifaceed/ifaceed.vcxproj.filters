@@ -2400,6 +2400,33 @@
     <ClCompile Include="gui\layouts\layoutcelledit.cpp">
       <Filter>Source Files\gui\layouts</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\DebugQt4\moc_gridactions.cpp">
+      <Filter>Generated Files\DebugQt4</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_gridactions.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_gridactions.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_gridactions.cpp">
+      <Filter>Generated Files\ReleaseQt4</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_gridactions.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_gridactions.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_gridactions.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\actions\gridactions.cpp">
+      <Filter>Source Files\gui\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\childrenprovider.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -3053,6 +3080,9 @@
     <ClInclude Include="gui\uiblocks\uilayoutblock.h">
       <Filter>Header Files\gui\uiblocks</Filter>
     </ClInclude>
+    <ClInclude Include="gui\childrenprovider.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="acolordialog.h">
@@ -3282,6 +3312,9 @@
     </CustomBuild>
     <CustomBuild Include="gui\layouts\layoutcelledit.h">
       <Filter>Header Files\gui\layouts</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\actions\gridactions.h">
+      <Filter>Header Files\gui\actions</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

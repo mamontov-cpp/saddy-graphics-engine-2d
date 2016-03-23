@@ -387,6 +387,14 @@ void gui::layouts::LayoutCellEdit::swapChildren(size_t pos1, size_t pos2) const
 	}
 }
 
+void gui::layouts::LayoutCellEdit::updateChildName(size_t pos, const QString& name) const
+{
+	if (pos < m_children->count())
+	{
+		m_children->setItemText(pos, name);
+	}
+}
+
 void gui::layouts::LayoutCellEdit::setChildrenProvider(gui::layouts::LayoutCellEdit::ChildrenProvider* p)
 {
 	delete m_children_provider;
