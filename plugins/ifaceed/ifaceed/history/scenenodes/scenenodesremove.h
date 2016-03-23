@@ -8,6 +8,7 @@
 #include "scenenode.h"
 
 #include <animations/animationsinstance.h>
+#include "../gui/actions/gridactions.h"
 
 namespace history
 {
@@ -35,6 +36,10 @@ public:
         int  position_in_instance_combo,
         const sad::Vector< sad::animations::Instance* >& instances
      );
+     /*! Sets a list of dependent grid for a scene node
+          \param grids
+      */
+     void set(const sad::Vector< gui::GridPosition >& grids);
      /*! Applies changes, described in command
          \param[in] ob an observer for looking for command
       */
@@ -56,6 +61,9 @@ protected:
     /*! A dependent instances from this animation
      */
     sad::Vector< sad::animations::Instance* > m_dependent_instances;
+    /*!  A list of dependent grids
+     */
+    sad::Vector< gui::GridPosition > m_dependent_grids;
 };
 
 }

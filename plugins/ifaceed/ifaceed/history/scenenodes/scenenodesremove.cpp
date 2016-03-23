@@ -9,6 +9,7 @@
 #include "../../gui/actions/actions.h"
 #include "../../gui/actions/sceneactions.h"
 #include "../../gui/actions/scenenodeactions.h"
+#include "../../gui/actions/gridactions.h"
 
 #include "../../closuremethodcall.h"
 
@@ -34,6 +35,11 @@ void history::scenenodes::Remove::set(
 {
     m_position_in_instance_combo = position_in_instance_combo;
     m_dependent_instances = instances;
+}
+
+void history::scenenodes::Remove::set(const sad::Vector< gui::GridPosition >& grids)
+{
+    m_dependent_grids = grids;
 }
 
 void history::scenenodes::Remove::commit(core::Editor * ob)
@@ -66,6 +72,17 @@ void history::scenenodes::Remove::commit(core::Editor * ob)
                 ob->emitClosure( bind(ai_object, &QComboBox::setCurrentIndex, 0));
             }
         }
+        gui::actions::GridActions* ga = ob->actions()->gridActions();
+        for(size_t i = 0; i < m_dependent_grids.size(); i++)
+        {
+            ga->removeChildFromGrid(
+                m_dependent_grids[i].Grid,
+                m_dependent_grids[i].Row,
+                m_dependent_grids[i].Col,
+                m_dependent_grids[i].Pos
+            );
+        }
+
     }
 }
 
@@ -99,6 +116,18 @@ void history::scenenodes::Remove::rollback(core::Editor * ob)
             {
                 ob->emitClosure( bind(ai_object, &QComboBox::setCurrentIndex, m_position_in_instance_combo));
             }
+        }
+
+        gui::actions::GridActions* ga = ob->actions()->gridActions();
+        for(size_t i = 0; i < m_dependent_grids.size(); i++)
+        {
+            ga->insertChildToGrid(
+                m_dependent_grids[i].Grid,
+                m_dependent_grids[i].Row,
+                m_dependent_grids[i].Col,
+                m_dependent_grids[i].Pos,
+                m_node
+            );
         }
     }
 }

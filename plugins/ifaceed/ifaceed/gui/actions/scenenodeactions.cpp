@@ -7,6 +7,7 @@
 #include "sceneactions.h"
 #include "scenenodeactions.h"
 #include "customobjectactions.h"
+#include "gridactions.h"
 
 
 #include "../../closuremethodcall.h"
@@ -620,6 +621,7 @@ void gui::actions::SceneNodeActions::removeSceneNode(sad::SceneNode* node, bool 
 
     history::scenenodes::Remove* c = new history::scenenodes::Remove(node, row);
     c->set(posininstance, instances);
+    c->set(m_editor->actions()->gridActions()->findRelatedGrids(node));
     if (from_editor) 
     {
         m_editor->history()->add(c);

@@ -170,15 +170,15 @@ void core::Selection::removeItem()
     sad::SceneNode* node = m_editor->shared()->selectedObject();
     if (node)
     {
-        int row = m_editor->actions()->sceneNodeActions()->findSceneNodeInList(node);
-        if (row == -1)
-        {
-            row = static_cast<int>(node->scene()->findLayer(node));
-        }
-        
-        history::Command* c = new history::scenenodes::Remove(node, row);
-        m_editor->history()->add(c);
-        c->commit(m_editor);
+        void (gui::actions::SceneNodeActions::*method)(sad::SceneNode*, bool) = &gui::actions::SceneNodeActions::removeSceneNode;
+        m_editor->emitClosure(
+           ::bind(
+              m_editor->actions()->sceneNodeActions(),
+              method,
+              node,
+              true
+           )
+        );
     }
 }
 
