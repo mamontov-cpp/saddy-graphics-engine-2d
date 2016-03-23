@@ -18,6 +18,7 @@
 #include "gui/actions/animationgroupactions.h"
 #include "gui/actions/dialogueactions.h"
 #include "gui/actions/wayactions.h"
+#include "gui/actions/gridactions.h"
 
 #include "gui/childrenprovider.h"
 
@@ -193,7 +194,7 @@ MainPanel::~MainPanel()
 // ReSharper disable once CppMemberFunctionMayBeConst
 void MainPanel::toggleEditingButtons(bool enabled)
 {
-    const int affectedpushbuttonscount = 50;
+    const int affectedpushbuttonscount = 52;
     QPushButton* affectedpushbuttons[affectedpushbuttonscount] = {
         ui.btnReloadResources,
         ui.btnUndo,
@@ -258,7 +259,10 @@ void MainPanel::toggleEditingButtons(bool enabled)
         ui.btnAnimationsGroupRemoveFromList,
         ui.btnAnimationsGroupAddToList,
 
-        ui.btnConsoleRun
+        ui.btnConsoleRun,
+
+        ui.btnLayoutAdd,
+        ui.btnLayoutRemove
     };
     for(int i = 0; i < affectedpushbuttonscount; i++)
     {
@@ -324,6 +328,10 @@ void MainPanel::setEditor(core::Editor* editor)
 
     sad::String psmp = "picking_simple_movement_point";
 
+    sad::String ladd = "layouts/adding";
+    sad::String lmove = "layouts/moving";
+
+
     gui::actions::SceneNodeActions* sn_actions = m_editor->actions()->sceneNodeActions();
     gui::actions::SceneActions* s_actions = m_editor->actions()->sceneActions();
     gui::actions::CustomObjectActions* co_actions = m_editor->actions()->customObjectActions();
@@ -334,6 +342,7 @@ void MainPanel::setEditor(core::Editor* editor)
     gui::actions::AnimationInstanceActions* ai_actions = m_editor->actions()->instanceActions();
     gui::actions::AnimationGroupActions* ag_actions = m_editor->actions()->groupActions();
     gui::actions::WayActions* w_actions = m_editor->actions()->wayActions();    
+    gui::actions::GridActions* ga_actions = m_editor->actions()->gridActions();
 
     // A bindings for idle state
     sad::Renderer::ref()->controls()->add(
@@ -1428,6 +1437,7 @@ void MainPanel::setAddingEnabled(bool enabled)
     this->ui.lstSceneObjects->setEnabled(enabled);
     this->ui.btnLabelAdd->setEnabled(enabled);
     this->ui.btnSpriteAdd->setEnabled(enabled);
+    this->ui.btnLabelAdd->setEnabled(enabled);
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst

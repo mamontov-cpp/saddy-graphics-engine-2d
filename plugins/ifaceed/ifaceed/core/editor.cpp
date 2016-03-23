@@ -104,7 +104,9 @@ core::Editor::Editor()
     m_machine->addState("ways/selected", new sad::hfsm::State(), true);
     m_machine->addState("ways/selected/moving", new sad::hfsm::State(), true);
     m_machine->addState("picking_simple_movement_point", new sad::hfsm::State(), true);
-
+    // A state for adding and moving layout
+    m_machine->addState("layouts/adding", new sad::hfsm::State(), true);
+    m_machine->addState("layouts/moving", new sad::hfsm::State(), true);
 
     m_machine->enterState("idle");
 
@@ -284,7 +286,7 @@ void core::Editor::enteredIdleState()
     this->emitClosure( bind(m_actions->customObjectActions(), &gui::actions::CustomObjectActions::clearCustomObjectPropertiesTable));
 }
 
-static const size_t CoreEditorEditingStatesCount = 7; 
+static const size_t CoreEditorEditingStatesCount = 9;
 
 static sad::String CoreEditorEditingStates[CoreEditorEditingStatesCount] = {
     sad::String("adding"),
@@ -293,7 +295,9 @@ static sad::String CoreEditorEditingStates[CoreEditorEditingStatesCount] = {
     sad::String("selected/spanning/firstpoint"),
     sad::String("selected/spanning/secondpoint"),
     sad::String("ways/selected/moving"),
-    sad::String("picking_simple_movement_point")
+    sad::String("picking_simple_movement_point"),
+    sad::String("layouts/adding"),
+    sad::String("layouts/moving")
 };
 
 bool core::Editor::isInEditingState() const
@@ -336,6 +340,14 @@ void core::Editor::cleanDatabase()
     m_mainwindow->UI()->lstAnimationInstances->clear();
     m_mainwindow->UI()->lstAnimationsGroupAllAnimations->clear();
     m_mainwindow->UI()->lstAnimationsGroupInGroup->clear();
+    m_mainwindow->UI()->lstLayoutGridList->clear();
+
+    // Cleanup layout view
+    QGridLayout* table = new QGridLayout();
+    QWidget* w = new QWidget();
+    w->setLayout(table);
+    m_mainwindow->UI()->tblLayoutCells->setWidget(w);
+
     m_mainwindow->clearDatabaseProperties();
     sad::Renderer::ref()->removeDatabase("");
 }
