@@ -1437,7 +1437,8 @@ void MainPanel::setAddingEnabled(bool enabled)
     this->ui.lstSceneObjects->setEnabled(enabled);
     this->ui.btnLabelAdd->setEnabled(enabled);
     this->ui.btnSpriteAdd->setEnabled(enabled);
-    this->ui.btnLabelAdd->setEnabled(enabled);
+    this->ui.btnCustomObjectAdd->setEnabled(enabled);
+    this->ui.btnLayoutAdd->setEnabled(enabled);
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
