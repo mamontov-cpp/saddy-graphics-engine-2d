@@ -1,7 +1,7 @@
 #include <p2d/bouncesolver.h>
 #include <log/log.h>
 
-sad::p2d::BounceSolver::BounceSolver()
+sad::p2d::BounceSolver::BounceSolver() : m_toi(0)
 {
     m_find = new sad::p2d::FindContactPoints();
     m_first = NULL;

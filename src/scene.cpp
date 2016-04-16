@@ -16,7 +16,7 @@
 #include <time.h>
 
 sad::Scene::Scene()
-: m_active(true), m_camera(new sad::OrthographicCamera()), m_renderer(NULL)
+: m_active(true), m_cached_layer(0), m_camera(new sad::OrthographicCamera()), m_renderer(NULL)
 {
     m_camera->Scene = this;
 }

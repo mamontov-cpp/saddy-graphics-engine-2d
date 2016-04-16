@@ -3,7 +3,8 @@
 
 sad::db::Variant::Variant() : 
 m_object(NULL), 
-m_is_sad_object(false), 
+m_pointers_stars_count(0), 
+m_is_sad_object(false),
 m_typename(""), 
 m_copy(NULL),
 m_delete(NULL),

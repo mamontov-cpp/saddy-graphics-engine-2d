@@ -8,7 +8,7 @@
 
 DECLARE_SOBJ_INHERITANCE(sad::Font, sad::resource::Resource)
 
-sad::Font::Font() : m_size(14), m_linespacing_ratio(1.0)
+sad::Font::Font() : m_size(14), m_linespacing_ratio(1.0) //-V730
 {
 
 }

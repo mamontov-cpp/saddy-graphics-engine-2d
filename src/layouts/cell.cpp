@@ -135,7 +135,7 @@ void sad::layouts::Cell::update()
             {
                 const sad::layouts::Cell::NormalizedRectangle& childrect = m_normalized_children[current_rectangle];
                 double childheight = childrect.p2().y() - childrect.p1().y();
-                double childwidth = childrect.p1().x() - childrect.p1().x();
+                double childwidth = childrect.p2().x() - childrect.p1().x();
                 double posy = maxpoint.y();
                 if (this->verticalAlignment() == sad::layouts::LVA_Bottom)
                 {
@@ -183,7 +183,7 @@ void sad::layouts::Cell::update()
             {
                 const sad::layouts::Cell::NormalizedRectangle& childrect = m_normalized_children[current_rectangle];
                 double childheight = childrect.p2().y() - childrect.p1().y();
-                double childwidth = childrect.p1().x() - childrect.p1().x();
+                double childwidth = childrect.p2().x() - childrect.p1().x();
                 double posx = minpoint.x();
                 if (this->horizontalAlignment() == sad::layouts::LHA_Right)
                 {
@@ -694,7 +694,9 @@ m_padding_bottom(o.m_padding_bottom),
 m_padding_left(o.m_padding_left),
 m_padding_right(o.m_padding_right),
 m_grid(o.m_grid),
-m_db(o.m_db)
+m_db(o.m_db),
+Row(0),
+Col(0)
 {
     throw std::runtime_error("Not implemented");
 }

@@ -22,7 +22,7 @@
 
 //#define EVENT_LOGGING
 
-sad::os::SystemEventDispatcher::SystemEventDispatcher()
+sad::os::SystemEventDispatcher::SystemEventDispatcher() //-V730
 : m_renderer(NULL), 
 m_decoder_for_keypress_events(new sad::os::KeyDecoder()),
 m_decoder_for_keyrelease_events(new sad::os::KeyDecoder())

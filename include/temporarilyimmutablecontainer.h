@@ -108,7 +108,7 @@ protected:
 
          /*! By default command is left unitialized
           */
-         inline QueuedCommand()
+         inline QueuedCommand() : Type(CT_ADD) //-V730
          {
 
          }

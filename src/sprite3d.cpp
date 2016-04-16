@@ -17,7 +17,7 @@
 
 DECLARE_SOBJ_INHERITANCE(sad::Sprite3D,sad::SceneNode);
 
-sad::Sprite3D::Sprite3D()
+sad::Sprite3D::Sprite3D() //-V730
 : 
 m_alpha(0),
 m_theta(0),
@@ -33,7 +33,7 @@ m_color(sad::AColor(255,255,255,0))
     
 }
 
-sad::Sprite3D::Sprite3D(		
+sad::Sprite3D::Sprite3D(		 //-V730
     sad::Texture * texture,
     const sad::Rect2D & texturecoordinates,
     const sad::Rect<sad::Point3D> & area,
@@ -59,7 +59,7 @@ m_color(sad::AColor(255,255,255,0))
     }
 }
 
-sad::Sprite3D::Sprite3D(
+sad::Sprite3D::Sprite3D( //-V730
         const sad::String& texture,
         const sad::Rect2D& texturecoordinates,
         const sad::Rect<sad::Point3D>& area,

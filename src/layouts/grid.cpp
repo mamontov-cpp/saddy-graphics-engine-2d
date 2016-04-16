@@ -356,12 +356,12 @@ double sad::layouts::Grid::paddingLeft() const
 
 void sad::layouts::Grid::setPaddingRight(double value, bool propagate)
 {
-    m_padding_left = value;
+    m_padding_right = value;
     if (propagate)
     {
         for(size_t i = 0; i < m_cells.size(); i++)
         {
-            m_cells[i]->setPaddingLeft(value, false);
+            m_cells[i]->setPaddingRight(value, false);
         }
         this->update();
     }
@@ -523,7 +523,7 @@ bool sad::layouts::Grid::merge(size_t row, size_t col, size_t row_span, size_t c
             merging_cells << cell(row + i, col + j);
         }
     }
-    std::unique(merging_cells.begin(), merging_cells.end());
+    std::unique(merging_cells.begin(), merging_cells.end()); //-V530
     bool result = true;
     for(size_t i = 0; i < merging_cells.size(); i++)
     {
@@ -832,7 +832,7 @@ void sad::layouts::Grid::shrinkRows(size_t oldrows, size_t newrows)
         }
     }
 
-    std::unique(toberemoved.begin(), toberemoved.end());
+    std::unique(toberemoved.begin(), toberemoved.end()); //-V530
     for(size_t i = 0; i < toberemoved.size(); i++)
     {
         delete toberemoved[i];
@@ -888,7 +888,7 @@ void sad::layouts::Grid::shrinkColumns(size_t oldcols, size_t newcols)
         }
     }
 
-    std::unique(toberemoved.begin(), toberemoved.end());
+    std::unique(toberemoved.begin(), toberemoved.end()); //-V530
     for(size_t i = 0; i < toberemoved.size(); i++)
     {
         delete toberemoved[i];
@@ -946,9 +946,7 @@ bool sad::layouts::Grid::validate() const
                     {
                         sad::layouts::Cell* cell = m_cells[positions[0]];
                         // Cell should be in bounds of grid
-                        if ((cell->Row >= 0) 
-                            && (cell->Col >= 0) 
-                            && (cell->Row + cell->rowSpan()) <= m_rows
+                        if ((cell->Row + cell->rowSpan()) <= m_rows
                             && (cell->Col + cell->colSpan()) <= m_cols)
                         {
                             current_result = true;

@@ -25,31 +25,31 @@ namespace layouts
 {
 
 /*! Describes a simple widget, which is used to edit instances of 
-	sad::layouts::Cell and manage it's content
+    sad::layouts::Cell and manage it's content
  */
 class LayoutCellEdit: public QTableWidget
 {
 Q_OBJECT
 public:
 /*! A children provider, which is used to connect widget with other 
-	parts of program. Used to get list of possible children and also 
-	to get name of children
+    parts of program. Used to get list of possible children and also 
+    to get name of children
  */
 class ChildrenProvider
 {
 public:
-	/*! Returns a viewable name for a node
-		\param[in] node a node
-		\return name 
-	 */
-	virtual QString name(sad::SceneNode* node) = 0;
-	/*! Returns a list of possible children
-		\return list of children
-	 */
-	virtual QVector<QPair<QString, unsigned long long> > possibleChildren() = 0;
-	/*! Must be inherited
-	 */
-	virtual ~ChildrenProvider();
+    /*! Returns a viewable name for a node
+        \param[in] node a node
+        \return name 
+     */
+    virtual QString name(sad::SceneNode* node) = 0;
+    /*! Returns a list of possible children
+        \return list of children
+     */
+    virtual QVector<QPair<QString, unsigned long long> > possibleChildren() = 0;
+    /*! Must be inherited
+     */
+    virtual ~ChildrenProvider();
 };
 
     /*! Constructs new editor
@@ -78,50 +78,50 @@ public:
         \return whether it's checked
      */
     bool checked() const;
-	/*! Sets values from following cell
-		\param[in] cell a cell
-	 */
-	void set(sad::layouts::Cell* cell);
-	/*! Removes child from a cell. Note, that this function DOES NOT emit
-		corresponding signal
-		\param[in] child a child position
-	 */
-	void removeChild(size_t child) const;
-	/*! Adds child to a cell. Note, that this function DOES NOT emit 
-		corresponding signal
-		\param[in] node a node, that is being added
-	 */
-	void addChild(sad::SceneNode* node) const;
-	/*! Inserts child to a cell. Note, that this function DOES NOT emit
-		a signal
-		\param[in] node a node
-		\param[in] pos a position
-	 */
-	void insertChild(sad::SceneNode* node, size_t pos) const;
-	/*! Clears children of cell. Note, that this function DOES NOT emit 
-		a signal
-	 */
-	void clearChildren() const;
-	/*! Removes a child from a cell. Note, that this function DOES NOT emit
-		a signal
-		\param[in] pos position
-	 */
-	void removeChild(size_t pos);
-	/*! Swaps children of cell. Note, that this function DOES NOT emit
-		a signal
-		\param[in] pos1 first position
-		\param[in] pos2 second position
-	 */
-	void swapChildren(size_t pos1, size_t pos2) const;
-	/*! Updates child name, according to current position
-		\param[in] pos position
-		\param[in] name a name of child
-	 */
-	void updateChildName(size_t pos, const QString& name) const;
-	/*! Sets children provider for editor
-		\param[in] p a provider
-	 */
-	void setChildrenProvider(gui::layouts::LayoutCellEdit::ChildrenProvider* p);
+    /*! Sets values from following cell
+        \param[in] cell a cell
+     */
+    void set(sad::layouts::Cell* cell);
+    /*! Removes child from a cell. Note, that this function DOES NOT emit
+        corresponding signal
+        \param[in] child a child position
+     */
+    void removeChild(size_t child) const;
+    /*! Adds child to a cell. Note, that this function DOES NOT emit 
+        corresponding signal
+        \param[in] node a node, that is being added
+     */
+    void addChild(sad::SceneNode* node) const;
+    /*! Inserts child to a cell. Note, that this function DOES NOT emit
+        a signal
+        \param[in] node a node
+        \param[in] pos a position
+     */
+    void insertChild(sad::SceneNode* node, size_t pos) const;
+    /*! Clears children of cell. Note, that this function DOES NOT emit 
+        a signal
+     */
+    void clearChildren() const;
+    /*! Removes a child from a cell. Note, that this function DOES NOT emit
+        a signal
+        \param[in] pos position
+     */
+    void removeChild(size_t pos);
+    /*! Swaps children of cell. Note, that this function DOES NOT emit
+        a signal
+        \param[in] pos1 first position
+        \param[in] pos2 second position
+     */
+    void swapChildren(size_t pos1, size_t pos2) const;
+    /*! Updates child name, according to current position
+        \param[in] pos position
+        \param[in] name a name of child
+     */
+    void updateChildName(size_t pos, const QString& name) const;
+    /*! Sets children provider for editor
+        \param[in] p a provider
+     */
+    void setChildrenProvider(gui::layouts::LayoutCellEdit::ChildrenProvider* p);
 signals:
     /*! Emitted, when width is changed
         \param[in] row a row
@@ -177,91 +177,91 @@ signals:
         \param[in] newvalue a new value
      */
     void rightPaddingChanged(size_t row, size_t col, double newvalue);
-	/*! Emitted, when child is added
-		\param[in] row a row
-		\param[in] col a column
-		\param[in] majorid a major id 
-		\param[in] nodename a name for a node
-	 */
-	void childAdded(size_t row, size_t col, unsigned long long majorid, QString nodename);
-	/*! Emitted, when child is removed
-		\param[in] row a row
-		\param[in] col a column
-		\param[in] pos a position, where child is added
-	 */
-	void childRemoved(size_t row, size_t col_t, size_t pos);
-	/*! Emitted, when clearing cell is called
-		\param[in] row a row
-		\param[in] col a column
-	 */
-	void cleared(size_t row, size_t col);
-	/*! Emitted, when children are swapped
-		\param[in] row a row
-		\param[in] col a column
-		\param[in] pos1 a first position of item
-		\param[in] pos2 a second position of item
-	 */
-	void childrenSwapped(size_t row, size_t col, size_t pos1, size_t pos2);
+    /*! Emitted, when child is added
+        \param[in] row a row
+        \param[in] col a column
+        \param[in] majorid a major id 
+        \param[in] nodename a name for a node
+     */
+    void childAdded(size_t row, size_t col, unsigned long long majorid, QString nodename);
+    /*! Emitted, when child is removed
+        \param[in] row a row
+        \param[in] col a column
+        \param[in] pos a position, where child is added
+     */
+    void childRemoved(size_t row, size_t col_t, size_t pos);
+    /*! Emitted, when clearing cell is called
+        \param[in] row a row
+        \param[in] col a column
+     */
+    void cleared(size_t row, size_t col);
+    /*! Emitted, when children are swapped
+        \param[in] row a row
+        \param[in] col a column
+        \param[in] pos1 a first position of item
+        \param[in] pos2 a second position of item
+     */
+    void childrenSwapped(size_t row, size_t col, size_t pos1, size_t pos2);
 public slots:
-	/*! Called, when width value changed
-		\param[in] newvalue a new value for cell
-	 */
-	void widthValueChanged(double newvalue);
-	/*! Called, when width unit changed
-		\param[in] unit a new unit for cell
-	 */
-	void widthUnitChanged(int unit);
-	/*! Called, when height value changed
-		\param[in] newvalue a new height value for cell
-	 */
-	void heightValueChanged(double newvalue);
-	/*! Called, when height unit changed
-		\parma[in] unit a new unit for cell
-	 */
-	void heightUnitChanged(int unit);
-	/*! Called, when horizontal alignment is changed by user
-		\param[in] v new value
-	 */
-	void horizontalAlignmentValueChanged(int v);
-	/*! Called, when vertical alignment is changed by user
-		\param[in] v new value
-	 */
-	void verticalAlignmentValueChanged(int v);
-	/*! Called, when stacking type alignment is changed by user
-		\param[in] v new value
-	 */
-	void stackingTypeValueChanged(int v);
-	/*! Called, when top padding value changed
-		\param[in] newvalue a new value
-	 */
-	void topPaddingValueChanged(double newvalue);
-	/*! Called, when bottom padding value changed
-		\param[in] newvalue a new value
-	 */
-	void bottomPaddingValueChanged(double newvalue);
-	/*! Called, when left padding value changed
-		\param[in] newvalue a new value
-	 */
-	void leftPaddingValueChanged(double newvalue);
-	/*! Called, when right padding value changed
-		\param[in] newvalue a new value
-	 */
-	void rightPaddingValueChanged(double newvalue);
-	/*! Called, when "Add" button is clicked
-	 */
-	void addChildClicked();
-	/*! Called, when "Remove" button is clicked
-	 */
-	void removeChildClicked();
-	/*! Called, when "Clear" button is clicked
-	 */
-	void clearClicked();
-	/*! Called, when "Move back" button is clicked
-	 */
-	void moveBackClicked();
-	/*! Called, when "Move front" button is clicked
-	 */
-	void moveFrontClicked();
+    /*! Called, when width value changed
+        \param[in] newvalue a new value for cell
+     */
+    void widthValueChanged(double newvalue);
+    /*! Called, when width unit changed
+        \param[in] unit a new unit for cell
+     */
+    void widthUnitChanged(int unit);
+    /*! Called, when height value changed
+        \param[in] newvalue a new height value for cell
+     */
+    void heightValueChanged(double newvalue);
+    /*! Called, when height unit changed
+        \parma[in] unit a new unit for cell
+     */
+    void heightUnitChanged(int unit);
+    /*! Called, when horizontal alignment is changed by user
+        \param[in] v new value
+     */
+    void horizontalAlignmentValueChanged(int v);
+    /*! Called, when vertical alignment is changed by user
+        \param[in] v new value
+     */
+    void verticalAlignmentValueChanged(int v);
+    /*! Called, when stacking type alignment is changed by user
+        \param[in] v new value
+     */
+    void stackingTypeValueChanged(int v);
+    /*! Called, when top padding value changed
+        \param[in] newvalue a new value
+     */
+    void topPaddingValueChanged(double newvalue);
+    /*! Called, when bottom padding value changed
+        \param[in] newvalue a new value
+     */
+    void bottomPaddingValueChanged(double newvalue);
+    /*! Called, when left padding value changed
+        \param[in] newvalue a new value
+     */
+    void leftPaddingValueChanged(double newvalue);
+    /*! Called, when right padding value changed
+        \param[in] newvalue a new value
+     */
+    void rightPaddingValueChanged(double newvalue);
+    /*! Called, when "Add" button is clicked
+     */
+    void addChildClicked();
+    /*! Called, when "Remove" button is clicked
+     */
+    void removeChildClicked();
+    /*! Called, when "Clear" button is clicked
+     */
+    void clearClicked();
+    /*! Called, when "Move back" button is clicked
+     */
+    void moveBackClicked();
+    /*! Called, when "Move front" button is clicked
+     */
+    void moveFrontClicked();
 protected:
     /*! A checkbox, which hints whether cell edit has been selected for merge or split
      */
@@ -317,9 +317,9 @@ protected:
     /*! Clear button
      */
     QPushButton* m_clear;
-	/*! Returns a children provider for cell  edit
-	 */
-	gui::layouts::LayoutCellEdit::ChildrenProvider* m_children_provider;
+    /*! Returns a children provider for cell  edit
+     */
+    gui::layouts::LayoutCellEdit::ChildrenProvider* m_children_provider;
 };
 
 }

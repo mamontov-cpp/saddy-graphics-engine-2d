@@ -93,7 +93,7 @@ public:
 #endif
     /*! Creates new zero-filled handles
      */
-    inline WindowHandles() 
+    inline WindowHandles()  //-V730
     { 
         cleanup(); 
     }

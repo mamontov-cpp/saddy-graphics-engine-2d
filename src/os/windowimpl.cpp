@@ -17,7 +17,10 @@ m_hidden(false),
 m_active(true),
 m_creation_size(320, 240),
 m_window_rect_stack(),
-m_renderer(NULL),
+m_renderer(NULL), 
+#ifdef WIN32
+m_style(0),
+#endif
 m_window_title("Saddy Engine"),
 m_minimized(false)
 #ifdef X11

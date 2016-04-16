@@ -52,7 +52,7 @@ public:
 
           /*! Creates default invalid options
            */
-          inline Options()
+          inline Options() : Transparent(false)
           {
               
           }

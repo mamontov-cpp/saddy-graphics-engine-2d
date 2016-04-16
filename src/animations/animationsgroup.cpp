@@ -33,7 +33,7 @@ m_current_instance(0)
     
 }
 
-sad::animations::Group::Group(const sad::animations::Group& g)
+sad::animations::Group::Group(const sad::animations::Group& g) //-V730
 {
     copyState(g);
 }

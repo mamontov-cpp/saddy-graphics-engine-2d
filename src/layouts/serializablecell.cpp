@@ -11,7 +11,9 @@ StackingType(sad::layouts::LST_Horizontal),
 PaddingTop(0),
 PaddingBottom(0),
 PaddingLeft(0),
-PaddingRight(0)
+PaddingRight(0),
+Row(0),
+Col(0)
 {
     
 }

@@ -28,7 +28,7 @@ public:
         \param[in] subsystem subsystem info
         \param[in]  user_priority user priority information
      */
-    inline Message(const sad::String & message,
+    inline Message(const sad::String & message, //-V730
                    sad::log::Priority priority,
                    const char * file = NULL,
                    int line = 0,

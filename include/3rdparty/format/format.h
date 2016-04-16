@@ -1036,7 +1036,7 @@ class BasicFormatter : public BasicWriter<Char> {
   /**
     Constructs a formatter with an empty output buffer.
    */
-  BasicFormatter() : format_(0) {}
+  BasicFormatter() : format_(0), num_open_braces_(0), next_arg_index_(0) {}
 
   /**
     Formats a string appending the output to the internal buffer.

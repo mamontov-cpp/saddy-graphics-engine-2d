@@ -34,7 +34,7 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::Blinking, sad::animations::Animation);
 
 // =============================== PUBLIC METHODS ==========================
 
-sad::animations::Blinking::Blinking()
+sad::animations::Blinking::Blinking() : m_frequency(1)
 {
     m_creators.pushProperty<bool>("visible", "visible");
 }

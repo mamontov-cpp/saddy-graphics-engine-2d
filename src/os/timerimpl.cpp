@@ -24,7 +24,7 @@ void sad::os::put_last_error() {
 
 #endif
 
-sad::os::TimerImpl::TimerImpl()
+sad::os::TimerImpl::TimerImpl() //-V730
 {
 #ifdef WIN32
 

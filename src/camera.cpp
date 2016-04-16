@@ -8,7 +8,7 @@
 #include <GL/glu.h>
 
 sad::Camera::Camera() 
-: TranslationOffset(0,0,0), Angle(0), RotationVectorDirection(0, 0, 0), TemporaryRotationOffset(0, 0, 0)
+: TranslationOffset(0,0,0), Angle(0), RotationVectorDirection(0, 0, 0), TemporaryRotationOffset(0, 0, 0), Scene(NULL)
 {
 
 }

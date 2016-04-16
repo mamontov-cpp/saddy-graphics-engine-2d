@@ -1,6 +1,16 @@
 #include "settings.h"
 
-sad::Settings::Settings()
+sad::Settings::Settings() 
+: m_screenwidth(800.0),
+  m_screenheight(600.0),
+  m_isfullscreen(false),
+  m_bpp(24),
+  m_depth(8),
+  m_fov(45.0),
+  m_znear(0.1f),
+  m_zfar(100.0f),
+  m_ztest(false),
+  m_zvalue(0.8)
 {
 
 }

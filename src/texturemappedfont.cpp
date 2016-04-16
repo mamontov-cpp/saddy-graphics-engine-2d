@@ -9,7 +9,7 @@
 
 DECLARE_SOBJ_INHERITANCE(sad::TextureMappedFont, sad::Font);
 
-sad::TextureMappedFont::TextureMappedFont() 
+sad::TextureMappedFont::TextureMappedFont()  //-V730
 : sad::Font(), 
   m_texture(NULL),
   m_builtin_linespacing(0), 
@@ -146,7 +146,7 @@ void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D 
         *sad::Renderer::ref()
     );
 #endif
-    unsigned int glyphheight = 0;
+    unsigned int glyphheight;
     unsigned int glyphwidth = 0;
 #ifdef LOG_RENDERING
     SL_LOCAL_INTERNAL(
@@ -276,9 +276,9 @@ sad::Texture * sad::TextureMappedFont::renderToTexture(const sad::String & str)
     int x = 0;
     for(unsigned int i = 0; i < rendered_string.size(); i++)
     {
-        unsigned char glyphchar = *reinterpret_cast<unsigned char*>(&(rendered_string[i]));
+        //unsigned char glyphchar = *reinterpret_cast<unsigned char*>(&(rendered_string[i]));
 
-        sad::Rect2D & glyph = m_glyphs[ glyphchar ];
+        //sad::Rect2D & glyph = m_glyphs[ glyphchar ];
 
         sad::Point2I from_point = from[i];
         sad::Point2I to_point = to[i];

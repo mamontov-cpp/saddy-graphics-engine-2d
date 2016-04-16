@@ -121,7 +121,7 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::loadFromString(const sad
     {
         m_current_root = m_temporary_root;
     }
-    m_temporary_root_folder = NULL;
+    m_temporary_root_folder = NULL; //-V519
     return errors;
 }
 

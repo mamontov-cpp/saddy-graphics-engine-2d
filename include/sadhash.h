@@ -161,7 +161,7 @@ public:
 
     /*! Inits an empty hash
      */
-    Hash()
+    Hash() //-V730
     {
         
     }
@@ -179,7 +179,7 @@ public:
         \param[in] k2 second key
         \param[in] v2 second value
     */
-    Hash(const Key & k1, const T & v1, const Key & k2, const T & v2)
+    Hash(const Key & k1, const T & v1, const Key & k2, const T & v2) //-V730
     {
         this->insert(k1, v1);
         this->insert(k2, v2);
@@ -192,7 +192,7 @@ public:
         \param[in] k3 third key
         \param[in] v3 third value
     */
-    Hash(const Key & k1, const T & v1, const Key & k2, const T & v2, const Key & k3, const T & v3)
+    Hash(const Key & k1, const T & v1, const Key & k2, const T & v2, const Key & k3, const T & v3) //-V730
     {
         this->insert(k1, v1);
         this->insert(k2, v2);

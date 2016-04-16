@@ -214,7 +214,7 @@ protected:
     class ScheduledAddAt
     {
     public:
-        ScheduledAddAt(p2d::Force<T> * f) : m_force(f) {}
+        ScheduledAddAt(p2d::Force<T> * f) : m_force(f), m_time(0) {}
         /*! Adds a force to container
           \param[in] time current time step size
           \param[in] container a container

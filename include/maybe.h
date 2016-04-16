@@ -20,7 +20,7 @@ class Maybe
   public:
       /*! Creates new non-existent value
        */
-      Maybe() : m_exists(false), m_reference(NULL) { }
+      Maybe() : m_reference(NULL), m_exists(false) { } //-V730
       /*! Creates a new presented value
           \param[in] data an inner data for value
        */
@@ -28,7 +28,7 @@ class Maybe
       /*! Creates new value for a reference to data
           \param[in] data a data to be set
        */
-      Maybe(T* data) : m_exists(true), m_reference(data) { }
+      Maybe(T* data) : m_reference(data), m_exists(true) { } //-V730
       /*! Sets maybe into a reference mode to make sure, that mutable value will be returned
        */
       void setReference(T* data) { m_reference = data; m_exists = true; }
