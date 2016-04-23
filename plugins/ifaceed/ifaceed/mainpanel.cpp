@@ -1296,6 +1296,11 @@ void MainPanel::fixDatabase()
     {
         db->addTable("animationgroups", new sad::db::Table());
     }
+    // Contains sad::layouts::Grid
+    if (db->table("layouts") == NULL)
+    {
+        db->addTable("layouts", new sad::db::Table());        
+    }
 
     bool needtosetpalette = false;
     if (db->propertyByName("palette") != NULL)
