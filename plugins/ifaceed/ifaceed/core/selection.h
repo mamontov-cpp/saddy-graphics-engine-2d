@@ -10,6 +10,8 @@
 #include <sadvector.h>
 #include <scenenode.h>
 
+#include <layouts/grid.h>
+
 #include <input/events.h>
 
 namespace core
@@ -53,6 +55,14 @@ public:
         \param[in] e event object
      */
     void navigateSelection(const sad::input::MouseWheelEvent& e);
+    /*! Navigates scene node selection on mouse wheel
+        \param[in] e event object
+     */
+    void navigateSceneNodeSelection(const sad::input::MouseWheelEvent& e);
+    /*! Navigates grid selection on mouse wheel
+        \param[in] e event object
+     */
+    void navigateGridSelection(const sad::input::MouseWheelEvent& e);
     /*! Tries to enter to moving state, with selected object
         \param[in] e event object
      */
@@ -61,17 +71,28 @@ public:
      */
     bool isSelectionPending() const;
 protected slots:
-    /*! Disables navigation on selection
+    /*! Disables navigation on scene nodes on selection
      */
-    void disableSelectionNavigation();
-    /*! Starts/restart timer for selection
+    void disableSceneNodeSelectionNavigation();
+    /*! Disables navigation on grids on selection
      */
-    void startTimer();
+    void disableGridSelectionNavigation();
+    /*! Starts/restart timer for navigation on selection chain for scene nodes
+     */
+    void startSceneNodeNavigationTimer();
+    /*! Starts/restart timer for navigation on selection chain for grids
+     */
+    void startGridNavigationTimer();
     /*! Forces editor to enter moving state
         \param[in] e event object
         \return whether we should stop handling selection
      */
-    bool forceEditorEnterMovingState(const sad::input::MousePressEvent& e);
+    bool forceEditorEnterMovingState(const sad::input::MousePressEvent& e) const;
+    /*! Forces editor to enter grid moving state
+        \param[in] e event object
+        \return whether we should stop handling selection
+     */
+    bool forceEditorEnterGridMovingState(const sad::input::MousePressEvent& e) const;
     /*! Forces editor to enter resizing state
         \param[in] h hotspot for resizing
         \param[in] e event object
@@ -87,19 +108,36 @@ protected:
     /*! An editor, linked to selection
      */
     core::Editor* m_editor;
-    /*! A timer for handling some results 
+    /*! A timer for handling some navigation on nodes. Triggering this timer should disable
+        navigation on them.
      */
-    QTimer m_timer;
-    /*! Whether, we should change selection on wheel rotate
+    QTimer m_scenenode_nav_timer;
+    /*! Whether we should change selected node on mouse wheel.
      */
-    bool m_selection_change;
+    bool m_scenenode_selection_change;
     /*! A selection chain for editing items
      */
-    sad::Vector<sad::SceneNode*> m_selection_chain;
+    sad::Vector<sad::SceneNode*> m_scenenode_selection_chain;
     /*! A current position of element in navigation chain
      */
-    int m_current_position;
-
+    int m_scenenode_current_position;
+    /*! A timer for handling some navigation on grids. Triggering this timer should disable
+        navigation on them.
+     */
+    QTimer m_grid_nav_timer;
+    /*! Whether we should change selected grid on mouse wheel.
+     */
+    bool m_grid_selection_change;
+    /*! A selection chain for editing grids
+     */
+    sad::Vector<sad::layouts::Grid*> m_grid_selection_chain;
+    /*! A position for selecting current grid
+     */
+    int m_current_grid_chain_position;  
+    /*! Tries to select an object on mouse press event
+        \param[in] e event object
+     */
+    void trySelectGrid(const sad::input::MousePressEvent& e);
     /*! Tries to select an object on mouse press event
         \param[in] e event object
      */

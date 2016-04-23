@@ -59,6 +59,7 @@
 #include "../gui/actions/customobjectactions.h"
 #include "../gui/actions/scenenodeactions.h"
 
+Q_DECLARE_METATYPE(sad::layouts::Grid*) //-V566
 Q_DECLARE_METATYPE(sad::p2d::app::Way*) //-V566
 Q_DECLARE_METATYPE(sad::SceneNode*) //-V566
 // =================== PUBLIC METHODS ===================
@@ -384,6 +385,12 @@ bool core::Editor::isInWaysEditingState() const
     return m_mainwindow->UI()->tabTypes->currentIndex() == 1;
 }
 
+bool core::Editor::isInGridEditingState() const
+{
+    return m_mainwindow->UI()->tabTypes->currentIndex() == 0
+        && m_mainwindow->UI()->tabObjects->currentIndex() == 7;
+}
+
 void core::Editor::tryEnterObjectEditingState()
 {
     if (this->isInEditingState())
@@ -401,6 +408,12 @@ void core::Editor::tryEnterObjectEditingState()
     {
         QVariant v = m_mainwindow->UI()->lstSceneObjects->item(currentrow)->data(Qt::UserRole);
         m_shared->setSelectedObject(v.value<sad::SceneNode*>());
+    }
+    currentrow = m_mainwindow->UI()->lstLayoutGridList->currentRow();
+    if (currentrow > - 1)
+    {
+        QVariant v = m_mainwindow->UI()->lstLayoutGridList->item(currentrow)->data(Qt::UserRole);
+        m_shared->setSelectedGrid(v.value<sad::layouts::Grid*>());
     }
     invoke_blocked(m_mainwindow->UI()->tabTypes, &QTabWidget::setCurrentIndex, 0);
 }

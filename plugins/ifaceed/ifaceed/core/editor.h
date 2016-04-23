@@ -187,6 +187,10 @@ public:
         \return whether editor could be used for editing objects
      */
     bool isInWaysEditingState() const;
+    /*! Returns true, if current tab configuration matches editing grid editing
+        \return whether grid editing state
+     */
+    bool isInGridEditingState() const;
     /*! Tries to enter object editing state
      */
     void tryEnterObjectEditingState();
