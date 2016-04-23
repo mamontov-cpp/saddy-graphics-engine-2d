@@ -262,12 +262,13 @@ void MainPanel::toggleEditingButtons(bool enabled)
         ui.btnConsoleRun,
 
         ui.btnLayoutAdd,
-        ui.btnLayoutRemove
+        ui.btnLayoutRemove        
     };
     for(int i = 0; i < affectedpushbuttonscount; i++)
     {
         affectedpushbuttons[i]->setEnabled(enabled);
-    }	
+    }
+    ui.cbLayoutShow->setEnabled(enabled);
 }
 
 bool MainPanel::isEditingEnabled() const

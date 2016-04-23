@@ -2427,6 +2427,9 @@
     <ClCompile Include="gui\childrenprovider.cpp">
       <Filter>Source Files\gui</Filter>
     </ClCompile>
+    <ClCompile Include="gui\rendergrids.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -3081,6 +3084,9 @@
       <Filter>Header Files\gui\uiblocks</Filter>
     </ClInclude>
     <ClInclude Include="gui\childrenprovider.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\rendergrids.h">
       <Filter>Header Files\gui</Filter>
     </ClInclude>
   </ItemGroup>
