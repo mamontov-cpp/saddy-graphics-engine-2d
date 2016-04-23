@@ -178,7 +178,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>7</number>
       </property>
       <property name="usesScrollButtons">
        <bool>false</bool>
@@ -1342,7 +1342,7 @@ all cells</string>
           <x>10</x>
           <y>10</y>
           <width>141</width>
-          <height>271</height>
+          <height>241</height>
          </rect>
         </property>
        </widget>
@@ -1350,7 +1350,7 @@ all cells</string>
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>290</y>
+          <y>260</y>
           <width>141</width>
           <height>20</height>
          </rect>
@@ -1360,7 +1360,7 @@ all cells</string>
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>320</y>
+          <y>290</y>
           <width>41</width>
           <height>23</height>
          </rect>
@@ -1373,13 +1373,26 @@ all cells</string>
         <property name="geometry">
          <rect>
           <x>60</x>
-          <y>320</y>
+          <y>290</y>
           <width>61</width>
           <height>23</height>
          </rect>
         </property>
         <property name="text">
          <string>Remove</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="cbLayoutShow">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>320</y>
+          <width>141</width>
+          <height>17</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Show on screen?</string>
         </property>
        </widget>
       </widget>

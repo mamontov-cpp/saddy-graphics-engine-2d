@@ -31,7 +31,8 @@ btnLayoutAdd(NULL),
 btnLayoutRemove(NULL),
 spnLayoutGridRows(NULL),
 spnLayoutGridCols(NULL),
-tblLayoutCells(NULL)
+tblLayoutCells(NULL),
+cbLayoutShow(NULL)
 {
 
 }
@@ -81,6 +82,8 @@ void gui::uiblocks::UILayoutBlock::init(QWidget* w)
     assert(this->spnLayoutGridCols);
     this->tblLayoutCells = w->findChild<QScrollArea*>("tblLayoutCells");
     assert(this->tblLayoutCells);
+    this->cbLayoutShow = w->findChild<QCheckBox*>("cbLayoutShow");
+    assert(this->cbLayoutShow);
 }
 
 gui::uiblocks::UILayoutBlock::~UILayoutBlock()

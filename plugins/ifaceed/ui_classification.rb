@@ -400,4 +400,5 @@
    ["QPushButton", "btnLayoutRemove"],
    ["QSpinBox", "spnLayoutGridRows"],
    ["QSpinBox", "spnLayoutGridCols"],
-   ["QScrollArea", "tblLayoutCells"]]}
+   ["QScrollArea", "tblLayoutCells"],
+   ["QCheckBox", "cbLayoutShow"]]}

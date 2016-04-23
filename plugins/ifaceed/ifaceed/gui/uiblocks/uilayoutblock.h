@@ -70,6 +70,7 @@ public:
     QSpinBox* spnLayoutGridRows;
     QSpinBox* spnLayoutGridCols;
     QScrollArea* tblLayoutCells;
+    QCheckBox* cbLayoutShow;
 };
 
 }
