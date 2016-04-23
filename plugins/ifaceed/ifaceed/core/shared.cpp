@@ -1,5 +1,7 @@
 #include "core/shared.h"
 
+#include "../gui/rendergrids.h"
+
 #include <db/custom/customobject.h>
 
 core::Shared::Shared() : 
@@ -25,7 +27,10 @@ m_triggered_by_fast_mode(false)
 
 core::Shared::~Shared()
 {
-    
+    if (m_selected_grid)
+    {
+        m_selected_grid->delRef();
+    }
 }
 
 void core::Shared::setEditor(core::Editor* e)
@@ -233,6 +238,16 @@ sad::animations::Group* core::Shared::selectedGroup() const
 
 void core::Shared::setSelectedGrid(sad::layouts::Grid* g)
 {
+    if (m_selected_grid)
+    {
+        m_selected_grid->setRenderColor(gui::RenderGrids::defaultColor());
+        m_selected_grid->delRef();
+    }
+    if (g)
+    {
+        g->setRenderColor(gui::RenderGrids::selectedColor());
+        g->addRef();
+    }
     m_selected_grid = g;
 }
 

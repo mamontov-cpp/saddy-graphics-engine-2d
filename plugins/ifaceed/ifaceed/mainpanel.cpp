@@ -22,6 +22,8 @@
 
 #include "gui/childrenprovider.h"
 
+#include "gui/rendergrids.h"
+
 #include "core/borders/selectionborder.h"
 
 #include "history/database/newproperty.h"
@@ -962,6 +964,23 @@ void MainPanel::viewDatabase()
             ag_actions->addGroupToList(g);
         }
     }
+
+    // 
+    sad::Renderer::ref()->lockRendering();
+    m_editor->renderGrids()->disable();
+
+    sad::db::Table* table = db->table("layouts");
+    sad::Vector<sad::layouts::Grid*> grids;
+    gui::RenderGrids::gridsFromTable(table, grids);
+    gui::actions::GridActions* grid_actions = m_editor->actions()->gridActions();
+    for(size_t i = 0; i < grids.size(); i++)
+    {
+        grid_actions->addGridToGridList(grids[i]);
+    }
+
+
+    m_editor->renderGrids()->synchronizeWithDatabase();
+    sad::Renderer::ref()->unlockRendering();
 }
 
 QList<QList<QColor> >  MainPanel::colorPalette() const

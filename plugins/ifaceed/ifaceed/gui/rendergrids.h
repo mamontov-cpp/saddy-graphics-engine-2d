@@ -7,6 +7,7 @@
 #include <layouts/grid.h>
 #include <sadvector.h>
 #include <sadcolor.h>
+#include <db/dbtable.h>
 
 namespace core
 {
@@ -31,35 +32,48 @@ public:
     void setEnabled(bool enabled);
     /*! Cleans up inner cache for rendering grids
      */
-    void cleanup();
+    void cleanup() const;
+    /*! Returns list of grids from table
+        \param[in] t table
+        \param[out] grids list of grids 
+     */
+    static void gridsFromTable(sad::db::Table* t, sad::Vector<sad::layouts::Grid*>& grids);
     /*! Forces grid to synchronize it's cache with database, cleaning up the cache
         and filling it with new grids
      */
-    void synchronizeWithDatabase();
+    void synchronizeWithDatabase() const;
     /*! Adds new grid to cache
         \param[in] g grid
      */
-    void add(sad::layouts::Grid* g);
+    void add(sad::layouts::Grid* g) const;
     /*! Inserts a grid to cache
         \param[in] pos a position for grid
         \param[in] g grid
      */
-    void insert(int pos, sad::layouts::Grid* g);
+    void insert(int pos, sad::layouts::Grid* g) const;
     /*! Finds a grid in cache, returning it 
         \param[in] g grid
         \return position (-1 if not found)
      */
-    int find(sad::layouts::Grid* g);
+    int find(sad::layouts::Grid* g) const;
     /*! Removes a grid from cache
         \param[in] g grid
         \return a position of grid in cache (-1 if not found)
      */
-    int remove(sad::layouts::Grid* g);
+    int remove(sad::layouts::Grid* g) const;
     /*! Swaps two grids in cache
-        \param[in] pos1 first position
-        \param[in] pos2 second position
+        \param[in] g1 first grid
+        \param[in] g2 second grid
      */
-    void swap(int pos1, int pos2);
+    void swap(sad::layouts::Grid* g1, sad::layouts::Grid* g2) const;
+    /*! Returns selected color for rendered grids
+        \return selected color
+     */
+    static const sad::AColor& selectedColor();
+    /*! Returns default color for rendered grids
+        \return default color
+     */
+    static const sad::AColor& defaultColor();
     /*! Could be inherited
      */
     virtual ~RenderGrids();
@@ -70,18 +84,12 @@ protected:
     /*! A panel for rendering ways
      */
     core::Editor * m_editor;
-    /*! Whether sprites are init
-     */
-    bool m_init;
     /*! A default color for grids
      */
-    sad::AColor m_default_color;
+    static sad::AColor m_default_color;
     /*! A color, which will be used to render a color for selected grid
      */
-    sad::AColor m_selected_color;
-    /*! An inner list of grids
-     */
-    sad::Vector<sad::layouts::Grid*> m_grid;
+    static sad::AColor m_selected_color;
     /*! Invokes a delegate inside of process
      */ 
     virtual void _process();

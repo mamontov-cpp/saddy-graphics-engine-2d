@@ -40,6 +40,7 @@ class MainPanel;
 namespace gui
 {
 class RenderWays;
+class RenderGrids;
 class MainPanelProxy;
 
 namespace uiblocks
@@ -127,10 +128,14 @@ public:
         \return selection border
      */
     core::borders::SelectionBorder* selectionBorder() const;
-    /*! Returns way to render elements
-        \return stuff for rendering ways
+    /*! Returns process for rendering ways
+        \return process for rendering ways
      */
     gui::RenderWays* renderWays() const;
+    /*! Returns process for rendering grids
+        \return process for rendering grids
+     */
+    gui::RenderGrids* renderGrids() const;
     /*! Returns current selection algorithm for editor
         \return selection
      */
@@ -289,6 +294,9 @@ protected:
     /*! A way to render ways
      */
     gui::RenderWays* m_renderways;
+    /*! A way to render grids
+     */ 
+    gui::RenderGrids* m_rendergrids;
     /*! Current selection algorithm
      */
     core::Selection* m_selection;

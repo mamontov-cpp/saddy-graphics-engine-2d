@@ -3,11 +3,17 @@
 #include "../../core/editor.h"
 #include "../../core/shared.h"
 
+#include "../uiblocks/uiblocks.h"
+#include "../uiblocks/uilayoutblock.h"
+
+#include "../rendergrids.h"
+
 #include <renderer.h>
 
 #include <db/dbdatabase.h>
 #include <db/dbtable.h>
 
+Q_DECLARE_METATYPE(sad::layouts::Grid*);
 
 gui::actions::GridActions::GridActions(QObject* parent)
 : QObject(parent), m_provider(NULL)
@@ -34,6 +40,39 @@ sad::layouts::Grid* gui::actions::GridActions::selectedGrid() const
         result = m_editor->shared()->selectedGrid();
     }
     return result;
+}
+
+void gui::actions::GridActions::activeGrids(sad::Vector<sad::layouts::Grid*>& grids)
+{
+    grids.clear();
+    sad::db::Database* db = sad::Renderer::ref()->database("");
+    if (db)
+    {
+        gui::RenderGrids::gridsFromTable(db->table("layouts"), grids);
+        for(size_t i = 0; i < grids.size(); i++)
+        {
+            if (grids[i]->Active == false)
+            {
+                grids.removeAt(i);
+                --i;
+            }
+        }
+    }
+}
+
+void gui::actions::GridActions::addGridToGridList(sad::layouts::Grid* grid) const
+{
+    if (m_editor)
+    {
+        gui::uiblocks::UILayoutBlock* blk = m_editor->uiBlocks()->uiLayoutBlock();
+        QListWidget* lst = blk->lstLayoutGridList;
+        QListWidgetItem* item = new QListWidgetItem();
+        item->setText(this->viewableObjectName(grid));
+        QVariant v;
+        v.setValue(grid);
+        item->setData(Qt::UserRole, v);
+        lst->addItem(item);
+    }
 }
 
 void gui::actions::GridActions::insertChildToGrid(sad::layouts::Grid* g,  size_t row, size_t col, size_t pos, sad::SceneNode* node)

@@ -123,7 +123,7 @@ public:
         \param[in] o object
         \return object name
      */
-    QString viewableObjectName(sad::db::Object* o);
+    static QString viewableObjectName(sad::db::Object* o);
 protected:
     /*!  A link to a local editor
      */

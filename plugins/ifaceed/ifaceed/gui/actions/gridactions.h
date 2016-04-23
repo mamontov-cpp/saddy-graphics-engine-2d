@@ -47,7 +47,6 @@ class GridActions: public QObject, public gui::actions::AbstractActions
 {
 Q_OBJECT
 public:
-
     /*! Creates new label actions
         \param[in] parent a parent object
      */
@@ -63,6 +62,14 @@ public:
         \param[in] grid a current grid
      */
     sad::layouts::Grid* selectedGrid() const;
+    /*! Returns list of active grids
+        \param[out] list a list of grids
+     */
+    static void activeGrids(sad::Vector<sad::layouts::Grid*>& grids);
+    /*! Adds a grid to list of grids
+        \param[in] grid a grid to be added
+     */
+    void addGridToGridList(sad::layouts::Grid* grid) const;
     /*! Tries to insert child to curent grid, thus updating ui
         \param[in] g grid
         \param[in] row a row

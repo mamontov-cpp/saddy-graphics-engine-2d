@@ -30,6 +30,7 @@
 
 #include "gui/eventfilter.h"
 #include "gui/renderways.h"
+#include "gui/rendergrids.h"
 #include "gui/actions/wayactions.h"
 #include "gui/mainpanelproxy.h"
 
@@ -127,7 +128,8 @@ core::Editor::Editor()
     sad::Renderer::ref()->pipeline()->append(m_active_border);
     m_renderways = new gui::RenderWays(this);
     sad::Renderer::ref()->pipeline()->append(m_renderways);
-
+    m_rendergrids = new gui::RenderGrids(this);
+    sad::Renderer::ref()->pipeline()->append(m_rendergrids);
 
     m_selection = new core::Selection();
     m_selection->setEditor(this);
@@ -237,6 +239,11 @@ core::borders::SelectionBorder* core::Editor::selectionBorder() const
 gui::RenderWays* core::Editor::renderWays() const
 {
     return m_renderways;
+}
+
+gui::RenderGrids* core::Editor::renderGrids() const
+{
+    return m_rendergrids;
 }
 
 core::Selection* core::Editor::selection() const
@@ -387,6 +394,7 @@ void core::Editor::tryEnterObjectEditingState()
     m_shared->setSelectedObject(NULL);
     m_shared->setActiveObject(NULL);
     m_shared->setSelectedWay(NULL);
+    m_shared->setSelectedGrid(NULL);
 
     int currentrow = m_mainwindow->UI()->lstSceneObjects->currentRow();
     if (currentrow > -1)
@@ -408,6 +416,7 @@ void core::Editor::tryEnterWayEditingState()
     m_shared->setSelectedObject(NULL);
     m_shared->setActiveObject(NULL);
     m_shared->setSelectedWay(NULL);	
+    m_shared->setSelectedGrid(NULL);
     invoke_blocked(m_mainwindow->UI()->tabTypes, &QTabWidget::setCurrentIndex, 1);
     if (m_mainwindow->UI()->lstWays->currentRow() >= 0)
     {
