@@ -681,7 +681,7 @@ void sad::layouts::Grid::update()
         double factor = 1.0;
         if (this->fixedWidth())
         {
-            double factor = 1.0;
+            factor = 1.0;
             if (sad::is_fuzzy_zero(totalwidth) == false)
             {
                 factor = m_area.width() / totalwidth;
@@ -704,7 +704,7 @@ void sad::layouts::Grid::update()
         double factor = 1.0;
         if (this->fixedHeight())
         {
-            double factor = 1.0;
+            factor = 1.0;
             if (sad::is_fuzzy_zero(totalheight) == false)
             {
                 factor = m_area.height() / totalheight;
@@ -789,7 +789,12 @@ sad::layouts::Grid& sad::layouts::Grid::operator=(const sad::layouts::Grid& o)
 
 void sad::layouts::Grid::expandRows(size_t oldrows, size_t newrows)
 {
-    sad::db::Database* db = this->table()->database();
+    sad::db::Database* db = NULL;
+	sad::db::Table* table = this->table();
+	if (table) 
+	{
+		db = table->database();
+	}
     for(size_t row = oldrows; row < newrows; row++)
     {
         for(size_t col = 0; col < m_cols; col++)
@@ -845,7 +850,12 @@ void sad::layouts::Grid::shrinkRows(size_t oldrows, size_t newrows)
 
 void sad::layouts::Grid::expandColumns(size_t oldcols, size_t newcols)
 {
-    sad::db::Database* db = this->table()->database();
+    sad::db::Database* db = NULL;
+	sad::db::Table* table = this->table();
+	if (table) 
+	{
+		db = table->database();
+	}
     for(size_t col = oldcols; col < newcols; col++)
     {
         for(size_t row = 0; row < m_rows; row++)
