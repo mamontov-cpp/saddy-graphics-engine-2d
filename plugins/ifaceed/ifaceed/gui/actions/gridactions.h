@@ -4,7 +4,6 @@
  */
 #pragma once
 #include <QObject>
-#include <QRectF>
 
 #include <input/controls.h>
 #include "abstractactions.h"
@@ -106,11 +105,14 @@ public:
         \param[in] name a new name
      */
     void updateChildName(sad::layouts::Grid* g,  size_t row, size_t col, size_t pos, const QString& name);
-
+	/*! Updates region, when grid is picked
+		\param[in] immediate whether it should be invoked now, or postponed via closure
+	 */
+	void updateRegion(bool immediate = false);
     /*! Update current grid properties
         \param[in] immediate whether it should be invoked now, or postoponed
      */
-    void updateGridPropertiesInUI(bool immediate= false);
+    void updateGridPropertiesInUI(bool immediate = false);
     /*! Returns a cell editor
         \param[in] row a row
         \param[in] col a column
@@ -122,7 +124,19 @@ public:
         \return a grid position
      */
     static sad::Vector<gui::GridPosition> findRelatedGrids(sad::SceneNode* node);
+	/*! Should clear browser for cells
+	 */
+	void clearGridCellsBrowser();
+	/*! Highlights adding state in main panel status box
+	 */
+	void higlightAddingState() const;
+	/*! Highlights adding state in main panel status box
+	 */
+	void higlightMovingState() const;
 public slots:
+	/*! Called, when user clicks on "Add" button for grids
+	 */
+	void addGridClicked();
     /*! Called, when user toggles show or hide grids
         \param[in] state a new state for a checkbox
      */

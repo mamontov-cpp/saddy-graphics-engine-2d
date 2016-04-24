@@ -11,7 +11,8 @@ m_selected_way(NULL),
 m_selected_dialogue(NULL),
 m_selected_animation(NULL),
 m_selected_instance(NULL),
-m_selected_group(NULL),
+m_selected_group(NULL), 
+m_active_grid(NULL),
 m_selected_grid(NULL),
 m_way_point_position(0),
 m_editor(NULL),
@@ -234,6 +235,35 @@ void core::Shared::setSelectedGroup(sad::animations::Group* a)
 sad::animations::Group* core::Shared::selectedGroup() const
 {
     return m_selected_group;
+}
+
+void core::Shared::setActiveGrid(sad::layouts::Grid* g)
+{
+	if (g)
+	{
+		if (m_selected_grid)
+		{
+			m_selected_grid->setRenderColor(gui::RenderGrids::defaultColor());        	
+		}
+		g->setRenderColor(gui::RenderGrids::selectedColor());
+	}
+	else
+	{
+		if (m_selected_grid)
+		{
+			m_selected_grid->setRenderColor(gui::RenderGrids::selectedColor());	
+		}
+	}
+	if (m_active_grid)
+	{
+		m_active_grid->setRenderColor(gui::RenderGrids::defaultColor());
+	}
+	m_active_grid = g;
+}
+
+sad::layouts::Grid* core::Shared::activeGrid() const
+{
+	return m_active_grid;
 }
 
 void core::Shared::setSelectedGrid(sad::layouts::Grid* g)

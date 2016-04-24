@@ -643,6 +643,7 @@ void MainPanel::setEditor(core::Editor* editor)
     connect(ui.rtwCustomObjectSchemas, SIGNAL(selectionChanged(sad::String)), co_actions, SLOT(schemaChanged(sad::String)));
 
     connect(ui.cbLayoutShow, SIGNAL(clicked(bool)), ga_actions, SLOT(showGridsClicked(bool)));
+	connect(ui.btnLayoutAdd, SIGNAL(clicked()), ga_actions, SLOT(addGridClicked()));
 
     connect(ui.lstWays, SIGNAL(currentRowChanged(int)), w_actions, SLOT(wayChanged(int)));
     connect(ui.btnWayAdd, SIGNAL(clicked()), w_actions, SLOT(addWay()));

@@ -242,7 +242,7 @@ bool core::Selection::forceEditorEnterGridMovingState(const sad::input::MousePre
     {			
         m_editor->shared()->setPivotPoint(e.pos2D());
         m_editor->shared()->setOldArea(rect);
-        m_editor->machine()->enterState("layouts/moving");
+        m_editor->machine()->enterState("layouts/moving");		
         result = true;
     }
     return result;

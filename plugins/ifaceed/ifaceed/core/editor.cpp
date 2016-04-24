@@ -36,6 +36,7 @@
 
 #include "gui/uiblocks/uiblocks.h"
 #include "gui/actions/actions.h"
+#include "gui/actions/gridactions.h"
 
 #include "typeconverters/save.h"
 // ReSharper disable once CppUnusedIncludeDirective
@@ -328,6 +329,8 @@ void core::Editor::cleanDatabase()
     m_shared->setSelectedAnimation(NULL);
     m_shared->setSelectedInstance(NULL);
     m_shared->setSelectedGroup(NULL);
+	m_shared->setActiveGrid(NULL);
+	m_shared->setSelectedGrid(NULL);
     m_history->clear();
     m_mainwindow->clearDatabaseProperties();
     sad::Renderer::ref()->clear();
@@ -341,6 +344,7 @@ void core::Editor::cleanDatabase()
     m_mainwindow->UI()->lstAnimationInstances->clear();
     m_mainwindow->UI()->lstCompositeCandidates->clear();
     m_mainwindow->UI()->lstCompositeList->clear();
+	m_mainwindow->UI()->lstLayoutGridList->clear();
     m_mainwindow->UI()->cmbAnimationInstanceObject->clear();
     m_mainwindow->UI()->cmbAnimationInstanceAnimationFromDatabase->clear();
     m_mainwindow->UI()->cmbWayAnimationInstanceWay->clear();
@@ -349,6 +353,7 @@ void core::Editor::cleanDatabase()
     m_mainwindow->UI()->lstAnimationsGroupAllAnimations->clear();
     m_mainwindow->UI()->lstAnimationsGroupInGroup->clear();
     m_mainwindow->UI()->lstLayoutGridList->clear();
+	m_actions->gridActions()->clearGridCellsBrowser();
 
     // Cleanup layout view
     QGridLayout* table = new QGridLayout();
@@ -693,6 +698,8 @@ void core::Editor::runQtEventLoop()
     m_machine->state("adding/label")->addEnterHandler(m_mainwindow, &MainPanel::highlightLabelAddingState);
     m_machine->state("ways/idle")->addEnterHandler(this, &core::Editor::enteredIdleState);
     m_machine->state("ways/selected")->addEnterHandler(m_mainwindow, &MainPanel::highlightSelectedState);
+	m_machine->state("layouts/adding")->addEnterHandler(m_actions->gridActions(), &gui::actions::GridActions::higlightAddingState);
+	m_machine->state("layouts/moving")->addEnterHandler(m_actions->gridActions(), &gui::actions::GridActions::higlightMovingState);
 
     m_mainwindow->highlightIdleState();
 
