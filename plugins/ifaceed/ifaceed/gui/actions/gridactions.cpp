@@ -1,6 +1,7 @@
 #include "gridactions.h"
 
 #include <QLineEdit>
+#include <QScrollArea>
 
 #include "../../qstdstring.h"
 
@@ -164,7 +165,41 @@ void gui::actions::GridActions::updateRegion(bool immediate)
 		QRectF rect;
 		core::typeconverters::SadRect2DToQRectF::convert(grid->area(), rect);
 		layout_blk->rwLayoutArea->setValue(rect);
+	}	
+}
+
+void gui::actions::GridActions::updateCellBrowser(bool immediate)
+{
+	if (!immediate)
+    {
+        m_editor->emitClosure(::bind(this, &gui::actions::GridActions::updateCellBrowser, true));
+        return;
+    }
+
+	clearGridCellsBrowser();
+	
+	gui::uiblocks::UILayoutBlock* layout_blk = m_editor->uiBlocks()->uiLayoutBlock();
+	sad::layouts::Grid* grid = this->selectedGrid();
+	QGridLayout* table = new QGridLayout();
+	if (grid)
+	{
+		sad::Vector<sad::layouts::SerializableCell> cells = grid->cells();
+		for(size_t i = 0; i < cells.size(); i++) 
+		{
+			gui::layouts::LayoutCellEdit* edit = new gui::layouts::LayoutCellEdit();
+			edit->setRowAndColumn(cells[i].Row, cells[i].Col);
+			edit->set(grid->cell(cells[i].Row, cells[i].Col));
+			edit->setChildrenProvider(m_provider);
+			// TOOD: Here should be binding of slots to an editor
+			// connect(edit, SIGNAL(widthChanged(size_t, size_t, sad::layouts::LengthValue)))
+			table->addWidget(edit, cells[i].Row, cells[i].Col, cells[i].RowSpan, cells[i].ColSpan);
+			insertCellEditor(cells[i].Row, cells[i].Col, edit);
+		}
 	}
+
+	QWidget* w = new QWidget();
+    w->setLayout(table);
+    layout_blk->tblLayoutCells->setWidget(w);
 }
 
 void gui::actions::GridActions::updateGridPropertiesInUI(bool immediate)
@@ -174,7 +209,7 @@ void gui::actions::GridActions::updateGridPropertiesInUI(bool immediate)
         m_editor->emitClosure(::bind(this, &gui::actions::GridActions::updateGridPropertiesInUI, true));
         return;
     }
-
+	
 	updateRegion(true);
 }
 
@@ -225,7 +260,13 @@ sad::Vector<gui::GridPosition> gui::actions::GridActions::findRelatedGrids(sad::
 // ReSharper disable once CppMemberFunctionMayBeStatic
 void gui::actions::GridActions::clearGridCellsBrowser()
 {
-	// TODO: Actually implement this
+	gui::uiblocks::UILayoutBlock* layout_blk = m_editor->uiBlocks()->uiLayoutBlock();
+	QGridLayout* table = new QGridLayout();	
+	QWidget* w = new QWidget();
+    w->setLayout(table);
+    layout_blk->tblLayoutCells->setWidget(w);
+	
+	m_cell_editors.clear();
 }
 
 void gui::actions::GridActions::higlightAddingState() const
@@ -282,6 +323,7 @@ void gui::actions::GridActions::addGridClicked()
 	m_editor->shared()->setActiveGrid(grid);
 	m_editor->machine()->enterState("layouts/adding");
 	this->updateRegion();
+	this->updateCellBrowser();
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
