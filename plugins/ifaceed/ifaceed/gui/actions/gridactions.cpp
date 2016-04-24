@@ -181,3 +181,12 @@ sad::Vector<gui::GridPosition> gui::actions::GridActions::findRelatedGrids(sad::
     }
     return result;
 }
+
+// ReSharper disable once CppMemberFunctionMayBeConst
+void gui::actions::GridActions::showGridsClicked(bool state)
+{
+    if (m_editor)
+    {
+        m_editor->renderGrids()->setEnabled(state);
+    }
+}

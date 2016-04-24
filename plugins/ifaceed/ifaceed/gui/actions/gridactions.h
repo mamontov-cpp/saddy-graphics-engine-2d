@@ -122,6 +122,11 @@ public:
         \return a grid position
      */
     static sad::Vector<gui::GridPosition> findRelatedGrids(sad::SceneNode* node);
+public slots:
+    /*! Called, when user toggles show or hide grids
+        \param[in] state a new state for a checkbox
+     */
+    void showGridsClicked(bool state);
 private:
     /*! A provider for grid action
      */
