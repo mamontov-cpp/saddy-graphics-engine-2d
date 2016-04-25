@@ -321,7 +321,8 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/scripting/animations/easingsetter.h \
     ifaceed/gui/layouts/layoutcelledit.h \
     ifaceed/gui/childrenprovider.h \
-    ifaceed/gui/actions/gridactions.h
+    ifaceed/gui/actions/gridactions.h \
+    ifaceed/gui/rendergrids.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui \
     ifaceed/reloadfilelist.ui \
@@ -572,7 +573,8 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/history/animations/animationschangeeasingperiod.cpp \
     ifaceed/gui/layouts/layoutcelledit.cpp \
     ifaceed/gui/childrenprovider.cpp \
-    ifaceed/gui/actions/gridactions.cpp
+    ifaceed/gui/actions/gridactions.cpp \
+    ifaceed/gui/rendergrids.cpp
 
 
 DESTDIR = ../../bin/ifaceed/
