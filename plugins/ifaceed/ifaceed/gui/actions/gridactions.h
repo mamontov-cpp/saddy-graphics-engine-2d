@@ -145,6 +145,85 @@ public slots:
         \param[in] state a new state for a checkbox
      */
     void showGridsClicked(bool state);
+    /*! Called, when cell width is changed
+        \param[in] row a row
+        \param[in] col a column
+        \param[in] newvalue a new value for width
+     */
+    void cellWidthChanged(size_t row, size_t col, sad::layouts::LengthValue newvalue);
+    /*! Called, when cell height is changed
+        \param[in] row a row
+        \param[in] col a column
+        \param[in] newvalue a new value for width
+     */
+    void cellHeightChanged(size_t row, size_t col, sad::layouts::LengthValue newvalue);
+    /*! Called, when cell horizontal alignment is changed
+        \param[in] row a row
+        \param[in] col a column
+        \param[in] newvalue a new value for horizontal alignment
+     */
+    void cellHorizontalAlignmentChanged(size_t row, size_t col, sad::layouts::HorizontalAlignment newvalue);
+    /*! Called, when cell vertical alignment is changed
+        \param[in] row a row
+        \param[in] col a column
+        \param[in] newvalue a new value for vertical alignment
+     */
+    void cellVerticalAlignmentChanged(size_t row, size_t col, sad::layouts::VerticalAlignment newvalue);
+    /*! Called, when cell stacking type is changed
+        \param[in] row a row
+        \param[in] col a column
+        \param[in] newvalue a new value for stacking type
+     */
+    void cellStackingTypeChanged(size_t row, size_t col, sad::layouts::StackingType newvalue);
+    /*! Called, when cell top padding is changed
+        \param[in] row a row
+        \param[in] col a column
+        \param[in] newvalue a new value
+     */
+    void cellTopPaddingChanged(size_t row, size_t col, double newvalue);
+    /*! Called, when cell bottom padding is changed
+        \param[in] row a row
+        \param[in] col a column
+        \param[in] newvalue a new value
+     */
+    void cellBottomPaddingChanged(size_t row, size_t col, double newvalue);
+    /*! Called, when cell left padding is changed
+        \param[in] row a row
+        \param[in] col a column
+        \param[in] newvalue a new value
+     */
+    void cellLeftPaddingChanged(size_t row, size_t col, double newvalue);
+    /*! Called, when cell right padding is changed
+        \param[in] row a row
+        \param[in] col a column
+        \param[in] newvalue a new value
+     */
+    void cellRightPaddingChanged(size_t row, size_t col, double newvalue);
+    /*! Called, when cell child is added
+        \param[in] row a row
+        \param[in] col a column
+        \param[in] majorid a major id
+        \param[in] nodename a name for a node
+     */
+    void cellChildAdded(size_t row, size_t col, unsigned long long majorid, QString nodename);
+    /*! Called, when cell child is removed
+        \param[in] row a row
+        \param[in] col a column
+        \param[in] pos a position, where child is added
+     */
+    void cellChildRemoved(size_t row, size_t col_t, size_t pos);
+    /*! Called, when cell is clearead
+        \param[in] row a row
+        \param[in] col a column
+     */
+    void cellCleared(size_t row, size_t col);
+    /*! Emitted, when cell children are swapped
+        \param[in] row a row
+        \param[in] col a column
+        \param[in] pos1 a first position of item
+        \param[in] pos2 a second position of item
+     */
+    void cellChildrenSwapped(size_t row, size_t col, size_t pos1, size_t pos2);
 private:
     /*! A provider for grid action
      */

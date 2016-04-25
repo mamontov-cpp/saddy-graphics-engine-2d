@@ -190,8 +190,84 @@ void gui::actions::GridActions::updateCellBrowser(bool immediate)
 			edit->setRowAndColumn(cells[i].Row, cells[i].Col);
 			edit->set(grid->cell(cells[i].Row, cells[i].Col));
 			edit->setChildrenProvider(m_provider);
-			// TOOD: Here should be binding of slots to an editor
-			// connect(edit, SIGNAL(widthChanged(size_t, size_t, sad::layouts::LengthValue)))
+            connect(
+                edit,
+                SIGNAL(widthChanged(size_t,size_t,sad::layouts::LengthValue)),
+                this,
+                SLOT(cellWidthChanged(size_t,size_t,sad::layouts::LengthValue))
+            );
+            connect(
+                edit,
+                SIGNAL(heightChanged(size_t,size_t,sad::layouts::LengthValue)),
+                this,
+                SLOT(cellHeightChanged(size_t,size_t,sad::layouts::LengthValue))
+            );
+            connect(
+                edit,
+                SIGNAL(horizontalAlignmentChanged(size_t,size_t,sad::layouts::HorizontalAlignment)),
+                this,
+                SLOT(cellHorizontalAlignmentChanged(size_t,size_t,sad::layouts::HorizontalAlignment))
+            );
+            connect(
+                edit,
+                SIGNAL(verticalAlignmentChanged(size_t,size_t,sad::layouts::VerticalAlignment)),
+                this,
+                SLOT(cellVerticalAlignmentChanged(size_t,size_t,sad::layouts::VerticalAlignment))
+            );
+            connect(
+                edit,
+                SIGNAL(stackingTypeChanged(size_t,size_t,sad::layouts::StackingType)),
+                this,
+                SLOT(cellStackingTypeChanged(size_t,size_t,sad::layouts::StackingType))
+            );
+            connect(
+                edit,
+                SIGNAL(topPaddingChanged(size_t,size_t,double)),
+                this,
+                SLOT(cellTopPaddingChanged(size_t,size_t,double))
+            );
+            connect(
+                edit,
+                SIGNAL(bottomPaddingChanged(size_t,size_t,double)),
+                this,
+                SLOT(cellBottomPaddingChanged(size_t,size_t,double))
+            );
+            connect(
+                edit,
+                SIGNAL(leftPaddingChanged(size_t,size_t,double)),
+                this,
+                SLOT(cellLeftPaddingChanged(size_t,size_t,double))
+            );
+            connect(
+                edit,
+                SIGNAL(rightPaddingChanged(size_t,size_t,double)),
+                this,
+                SLOT(cellRightPaddingChanged(size_t,size_t,double))
+            );
+            connect(
+                edit,
+                SIGNAL(childAdded(size_t,size_t,unsigned long long,QString)),
+                this,
+                SLOT(cellChildAdded(size_t,size_t,unsigned long long,QString))
+            );
+            connect(
+                edit,
+                SIGNAL(childRemoved(size_t,size_t,size_t)),
+                this,
+                SLOT(cellChildRemoved(size_t,size_t,size_t))
+            );
+            connect(
+                edit,
+                SIGNAL(cleared(size_t,size_t)),
+                this,
+                SLOT(cellCleared(size_t,size_t))
+            );
+            connect(
+                edit,
+                SIGNAL(childrenSwapped(size_t,size_t,size_t,size_t)),
+                this,
+                SLOT(cellChildrenSwapped(size_t,size_t,size_t,size_t))
+            );
 			table->addWidget(edit, cells[i].Row, cells[i].Col, cells[i].RowSpan, cells[i].ColSpan);
 			insertCellEditor(cells[i].Row, cells[i].Col, edit);
 		}
@@ -319,9 +395,12 @@ void gui::actions::GridActions::addGridClicked()
 	}
 
 	this->addGridToGridList(grid);
+    layout_blk->lstLayoutGridList->setCurrentRow(
+        layout_blk->lstLayoutGridList->count() - 1
+    );
 	m_editor->renderGrids()->add(grid);
 	m_editor->shared()->setActiveGrid(grid);
-	m_editor->machine()->enterState("layouts/adding");
+	m_editor->machine()->enterState("layouts/adding");    
 	this->updateRegion();
 	this->updateCellBrowser();
 }
@@ -333,4 +412,82 @@ void gui::actions::GridActions::showGridsClicked(bool state)
     {
         m_editor->renderGrids()->setEnabled(state);
     }
+}
+
+// ReSharper disable once CppMemberFunctionMayBeConst
+void gui::actions::GridActions::cellWidthChanged(size_t row, size_t col, sad::layouts::LengthValue newvalue)
+{
+    // TODO: Implement this
+}
+
+// ReSharper disable once CppMemberFunctionMayBeConst
+void gui::actions::GridActions::cellHeightChanged(size_t row, size_t col, sad::layouts::LengthValue newvalue)
+{
+    // TODO: Implement this
+}
+
+// ReSharper disable once CppMemberFunctionMayBeConst
+void gui::actions::GridActions::cellHorizontalAlignmentChanged(size_t row, size_t col, sad::layouts::HorizontalAlignment newvalue)
+{
+    // TODO: Implement this
+}
+
+// ReSharper disable once CppMemberFunctionMayBeConst
+void gui::actions::GridActions::cellVerticalAlignmentChanged(size_t row, size_t col, sad::layouts::VerticalAlignment newvalue)
+{
+    // TODO: Implement this
+}
+
+// ReSharper disable once CppMemberFunctionMayBeConst
+void gui::actions::GridActions::cellStackingTypeChanged(size_t row, size_t col, sad::layouts::StackingType newvalue)
+{
+    // TODO: Implement this
+}
+
+// ReSharper disable once CppMemberFunctionMayBeConst
+void gui::actions::GridActions::cellTopPaddingChanged(size_t row, size_t col, double newvalue)
+{
+    // TODO: Implement this
+}
+
+// ReSharper disable once CppMemberFunctionMayBeConst
+void gui::actions::GridActions::cellBottomPaddingChanged(size_t row, size_t col, double newvalue)
+{
+    // TODO: Implement this
+}
+
+// ReSharper disable once CppMemberFunctionMayBeConst
+void gui::actions::GridActions::cellLeftPaddingChanged(size_t row, size_t col, double newvalue)
+{
+    // TODO: Implement this
+}
+
+// ReSharper disable once CppMemberFunctionMayBeConst
+void gui::actions::GridActions::cellRightPaddingChanged(size_t row, size_t col, double newvalue)
+{
+    // TODO: Implement this
+}
+
+// ReSharper disable once CppMemberFunctionMayBeConst
+void gui::actions::GridActions::cellChildAdded(size_t row, size_t col, unsigned long long majorid, QString nodename)
+{
+    // TODO: Implement this
+}
+
+// ReSharper disable once CppMemberFunctionMayBeConst
+void gui::actions::GridActions::cellChildRemoved(size_t row, size_t col_t, size_t pos)
+{
+    // TODO: Implement this
+}
+
+// ReSharper disable once CppMemberFunctionMayBeConst
+void gui::actions::GridActions::cellCleared(size_t row, size_t col)
+{
+    // TODO: Implement this
+}
+
+// ReSharper disable once CppMemberFunctionMayBeConst
+void gui::actions::GridActions::cellChildrenSwapped(size_t row, size_t col, size_t pos1, size_t pos2)
+{
+    // TODO: Implement this
 }
