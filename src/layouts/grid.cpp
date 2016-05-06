@@ -431,7 +431,11 @@ void sad::layouts::Grid::setCells(const sad::Vector<sad::layouts::SerializableCe
 {
     sad::Vector<sad::layouts::Cell*> oldcells = static_cast<sad::Vector<sad::layouts::Cell*>&>(m_cells);    
     m_cells.clear();
-    sad::db::Database* db = this->table()->database();
+    sad::db::Database* db = NULL;
+    sad::db::Table* tbl = this->table();
+    if (tbl) {
+        db = tbl->database();
+    }
     for(size_t i = 0; i < cells.size(); i++)
     {
         sad::layouts::Cell* cell = new sad::layouts::Cell();
@@ -750,6 +754,20 @@ sad::Vector<unsigned long long> sad::layouts::Grid::childrenMajorIds() const
     return result;
 }
 
+void sad::layouts::Grid::setTable(sad::db::Table* t)
+{
+    this->sad::SceneNode::setTable(t);
+    sad::db::Database* db = NULL;
+    if (t)
+    {
+        db = t->database();
+    }
+    for(size_t i = 0; i < m_cells.size(); i++)
+    {
+        m_cells[i]->setDatabase(db);
+    }   
+}
+
 void sad::layouts::Grid::moveBy(const sad::Point2D& p)
 {
     for(size_t i = 0; i < 4; i++)
@@ -790,11 +808,11 @@ sad::layouts::Grid& sad::layouts::Grid::operator=(const sad::layouts::Grid& o)
 void sad::layouts::Grid::expandRows(size_t oldrows, size_t newrows)
 {
     sad::db::Database* db = NULL;
-	sad::db::Table* table = this->table();
-	if (table) 
-	{
-		db = table->database();
-	}
+    sad::db::Table* table = this->table();
+    if (table) 
+    {
+        db = table->database();
+    }
     for(size_t row = oldrows; row < newrows; row++)
     {
         for(size_t col = 0; col < m_cols; col++)
@@ -851,11 +869,11 @@ void sad::layouts::Grid::shrinkRows(size_t oldrows, size_t newrows)
 void sad::layouts::Grid::expandColumns(size_t oldcols, size_t newcols)
 {
     sad::db::Database* db = NULL;
-	sad::db::Table* table = this->table();
-	if (table) 
-	{
-		db = table->database();
-	}
+    sad::db::Table* table = this->table();
+    if (table) 
+    {
+        db = table->database();
+    }
     for(size_t col = oldcols; col < newcols; col++)
     {
         for(size_t row = 0; row < m_rows; row++)
