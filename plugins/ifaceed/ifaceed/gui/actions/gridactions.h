@@ -69,6 +69,9 @@ public:
         \param[in] grid a grid to be added
      */
     void addGridToGridList(sad::layouts::Grid* grid) const;
+    /*! Removes last grid from list of grids, updating UI
+     */
+    void removeLastGrid();
     /*! Tries to insert child to curent grid, thus updating ui
         \param[in] g grid
         \param[in] row a row
@@ -137,6 +140,9 @@ public:
 	/*! Highlights adding state in main panel status box
 	 */
 	void higlightMovingState() const;
+    /*! Cancels adding grid, entering previous state
+     */
+    void cancelAddGrid();
 public slots:
 	/*! Called, when user clicks on "Add" button for grids
 	 */

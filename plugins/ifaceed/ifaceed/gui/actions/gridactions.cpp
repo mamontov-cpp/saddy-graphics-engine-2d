@@ -95,6 +95,35 @@ void gui::actions::GridActions::addGridToGridList(sad::layouts::Grid* grid) cons
     }
 }
 
+void gui::actions::GridActions::removeLastGrid()
+{
+    gui::uiblocks::UILayoutBlock* layout_blk = m_editor->uiBlocks()->uiLayoutBlock();
+    this->clearGridCellsBrowser();
+    QListWidget* list = layout_blk->lstLayoutGridList;
+    int lastrow = list->count() -1;
+    if (lastrow > -1)
+    {
+        delete layout_blk->lstLayoutGridList->takeItem(lastrow);
+        sad::layouts::Grid* g = m_editor->shared()->selectedGrid();
+        bool set = false;
+        if (g)
+        {
+            int row = this->findInList(list, g);
+            if (row > -1)
+            {
+                list->setCurrentRow(row);
+                this->updateGridPropertiesInUI(true);
+                set = true;
+            }
+        }
+
+        if (!set)
+        {
+            list->setCurrentRow(-1);
+        }
+    }
+}
+
 void gui::actions::GridActions::insertChildToGrid(sad::layouts::Grid* g,  size_t row, size_t col, size_t pos, sad::SceneNode* node)
 {
     g->cell(row, col)->insertChild(pos, node);
@@ -353,6 +382,21 @@ void gui::actions::GridActions::higlightAddingState() const
 void gui::actions::GridActions::higlightMovingState() const
 {
 	m_editor->panelProxy()->highlightState("Click where you want layout to be placed");	
+}
+
+void gui::actions::GridActions::cancelAddGrid()
+{
+    sad::layouts::Grid* grid = m_editor->shared()->activeGrid();
+    if (grid)
+    {
+        m_editor->emitClosure(::bind(
+            this,
+            &gui::actions::GridActions::removeLastGrid
+        ));
+        m_editor->renderGrids()->remove(grid);
+        m_editor->shared()->setActiveGrid(NULL);
+        m_editor->machine()->enterState(m_editor->machine()->previousState());
+    }
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
