@@ -149,6 +149,14 @@ public:
         \param[in] e event
      */
     void moveByCenter(const sad::input::MouseMoveEvent& e);
+    /*! Removes grid from list of grids, flushing selection if need to
+        \param[in] g grid
+     */
+    void removeGridFromGridList(sad::layouts::Grid* g);
+    /*! Commits grid adding to a scene
+        \param[in] e event
+     */
+    void commitGridAdd(const sad::input::MousePressEvent& e);
 public slots:
 	/*! Called, when user clicks on "Add" button for grids
 	 */

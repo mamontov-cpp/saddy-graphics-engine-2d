@@ -22,6 +22,8 @@
 
 #include "../rendergrids.h"
 
+#include "../../history/layouts/layoutsnew.h"
+
 #include <renderer.h>
 
 #include <db/dbdatabase.h>
@@ -411,6 +413,45 @@ void gui::actions::GridActions::moveByCenter(const sad::input::MouseMoveEvent& e
         grid->moveBy(e.pos2D() - p);
         this->updateRegion();
     }
+}
+
+void gui::actions::GridActions::removeGridFromGridList(sad::layouts::Grid* g)
+{
+    gui::uiblocks::UILayoutBlock* layout_blk = m_editor->uiBlocks()->uiLayoutBlock();
+    this->clearGridCellsBrowser();
+    QListWidget* list = layout_blk->lstLayoutGridList;
+    int row = this->findInList(list, g);
+    if (row > -1)
+    {
+        delete list->takeItem(row);
+    }
+    if (m_editor->shared()->selectedGrid() == g)
+    {
+        m_editor->shared()->setSelectedGrid(NULL);
+        this->clearGridCellsBrowser();;
+    }
+}
+
+void gui::actions::GridActions::commitGridAdd(const sad::input::MousePressEvent& e)
+{
+    sad::layouts::Grid* g = m_editor->shared()->activeGrid();
+    if (!g)
+    {
+        return;
+    }
+
+    sad::input::MouseMoveEvent ev;
+    ev.Point3D = e.Point3D;
+    this->moveByCenter(ev);
+
+
+    sad::Renderer::ref()->database("")->table("layouts")->add(g);
+    m_editor->shared()->setActiveGrid(NULL);
+    m_editor->shared()->setSelectedGrid(g);
+
+    m_editor->machine()->enterState(m_editor->machine()->previousState());
+
+    m_editor->history()->add(new history::layouts::New(g));
 }
 
 // ================================ PUBLIC SLOTS  ================================

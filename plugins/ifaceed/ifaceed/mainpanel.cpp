@@ -531,6 +531,11 @@ void MainPanel::setEditor(core::Editor* editor)
         ga_actions,
         &gui::actions::GridActions::moveByCenter
     );
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_MousePress & sad::MouseLeft & (m * ladd),
+        ga_actions,
+        &gui::actions::GridActions::commitGridAdd
+    );
 
     // A binding for ways/selected/moving
     sad::Renderer::ref()->controls()->add(
