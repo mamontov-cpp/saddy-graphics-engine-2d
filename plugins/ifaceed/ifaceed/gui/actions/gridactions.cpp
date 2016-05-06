@@ -395,9 +395,25 @@ void gui::actions::GridActions::cancelAddGrid()
         ));
         m_editor->renderGrids()->remove(grid);
         m_editor->shared()->setActiveGrid(NULL);
-        m_editor->machine()->enterState(m_editor->machine()->previousState());
+        sad::String previousState = m_editor->machine()->previousState();
+        m_editor->machine()->enterState(previousState);
     }
 }
+
+void gui::actions::GridActions::moveByCenter(const sad::input::MouseMoveEvent& e)
+{
+    sad::layouts::Grid* grid = m_editor->shared()->activeGrid();
+    if (grid)
+    {
+        const sad::Rect2D& r = grid->area();
+        sad::Point2D p = r.p0() + r.p2();
+        p /= 2.0;
+        grid->moveBy(e.pos2D() - p);
+        this->updateRegion();
+    }
+}
+
+// ================================ PUBLIC SLOTS  ================================
 
 // ReSharper disable once CppMemberFunctionMayBeConst
 // ReSharper disable once CppMemberFunctionMayBeStatic

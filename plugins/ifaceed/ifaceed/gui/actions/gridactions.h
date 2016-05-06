@@ -143,6 +143,12 @@ public:
     /*! Cancels adding grid, entering previous state
      */
     void cancelAddGrid();
+    /*! Moves center of active or selected node to a mouse position.
+        Note, that this will not preserve history, so use it only for
+        active node.
+        \param[in] e event
+     */
+    void moveByCenter(const sad::input::MouseMoveEvent& e);
 public slots:
 	/*! Called, when user clicks on "Add" button for grids
 	 */
