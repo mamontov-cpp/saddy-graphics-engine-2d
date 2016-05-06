@@ -505,7 +505,7 @@ void sad::layouts::Cell::moveBy(const sad::Point2D& p)
 {
     for(size_t i = 0; i < 4; i++)
     {
-        this->AssignedArea[4] += p;
+        this->AssignedArea[i] += p;
     }
     for(size_t i = 0; i < m_children.size(); i++)
     {
