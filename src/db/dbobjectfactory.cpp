@@ -173,9 +173,9 @@ void sad::db::ObjectFactory::initWithDefaultCallbacks()
     add<sad::animations::TextureCoordinatesList>("sad::animations::TextureCoordinatesList", sad::animations::TextureCoordinatesList::basicSchema(), false);
     add<sad::animations::Typing>("sad::animations::Typing", sad::animations::Typing::basicSchema(), false);
     add<sad::animations::WayMoving>("sad::animations::WayMoving", sad::animations::WayMoving::basicSchema(), false);
-	
-	// A layout schema
-	add<sad::layouts::Grid>("sad::layouts::Grid", sad::layouts::Grid::basicSchema(), false);
+    
+    // A layout schema
+    add<sad::layouts::Grid>("sad::layouts::Grid", sad::layouts::Grid::basicSchema(), false);
 }
 
 // =========================================== sad::db::ObjectFactory::Entry PUBLIC METHODS ===========================================

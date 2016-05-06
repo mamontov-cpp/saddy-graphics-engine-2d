@@ -39,7 +39,7 @@ gui::actions::GridActions::GridActions(QObject* parent)
 
 void gui::actions::GridActions::setEditor(core::Editor* e)
 {
-	this->gui::actions::AbstractActions::setEditor(e);
+    this->gui::actions::AbstractActions::setEditor(e);
     m_provider = new gui::ChildrenProvider();
     m_provider->setProxy(e->panelProxy());
 }
@@ -54,12 +54,12 @@ sad::layouts::Grid* gui::actions::GridActions::selectedGrid() const
     sad::layouts::Grid* result = NULL;
     if (m_editor)
     {
-		core::Shared* shared = m_editor->shared(); 
+        core::Shared* shared = m_editor->shared(); 
         result = shared->selectedGrid();
-		if (shared->activeGrid())
-		{
-			result = shared->activeGrid();
-		}
+        if (shared->activeGrid())
+        {
+            result = shared->activeGrid();
+        }
     }
     return result;
 }
@@ -183,44 +183,44 @@ void gui::actions::GridActions::updateChildName(sad::layouts::Grid* g,  size_t r
 
 void gui::actions::GridActions::updateRegion(bool immediate)
 {
-	if (!immediate)
+    if (!immediate)
     {
         m_editor->emitClosure(::bind(this, &gui::actions::GridActions::updateRegion, true));
         return;
     }
 
-	gui::uiblocks::UILayoutBlock* layout_blk = m_editor->uiBlocks()->uiLayoutBlock();
-	sad::layouts::Grid* grid = this->selectedGrid();
-	if (grid)
-	{
-		QRectF rect;
-		core::typeconverters::SadRect2DToQRectF::convert(grid->area(), rect);
-		layout_blk->rwLayoutArea->setValue(rect);
-	}	
+    gui::uiblocks::UILayoutBlock* layout_blk = m_editor->uiBlocks()->uiLayoutBlock();
+    sad::layouts::Grid* grid = this->selectedGrid();
+    if (grid)
+    {
+        QRectF rect;
+        core::typeconverters::SadRect2DToQRectF::convert(grid->area(), rect);
+        layout_blk->rwLayoutArea->setValue(rect);
+    }	
 }
 
 void gui::actions::GridActions::updateCellBrowser(bool immediate)
 {
-	if (!immediate)
+    if (!immediate)
     {
         m_editor->emitClosure(::bind(this, &gui::actions::GridActions::updateCellBrowser, true));
         return;
     }
 
-	clearGridCellsBrowser();
-	
-	gui::uiblocks::UILayoutBlock* layout_blk = m_editor->uiBlocks()->uiLayoutBlock();
-	sad::layouts::Grid* grid = this->selectedGrid();
-	QGridLayout* table = new QGridLayout();
-	if (grid)
-	{
-		sad::Vector<sad::layouts::SerializableCell> cells = grid->cells();
-		for(size_t i = 0; i < cells.size(); i++) 
-		{
-			gui::layouts::LayoutCellEdit* edit = new gui::layouts::LayoutCellEdit();
-			edit->setRowAndColumn(cells[i].Row, cells[i].Col);
-			edit->set(grid->cell(cells[i].Row, cells[i].Col));
-			edit->setChildrenProvider(m_provider);
+    clearGridCellsBrowser();
+    
+    gui::uiblocks::UILayoutBlock* layout_blk = m_editor->uiBlocks()->uiLayoutBlock();
+    sad::layouts::Grid* grid = this->selectedGrid();
+    QGridLayout* table = new QGridLayout();
+    if (grid)
+    {
+        sad::Vector<sad::layouts::SerializableCell> cells = grid->cells();
+        for(size_t i = 0; i < cells.size(); i++) 
+        {
+            gui::layouts::LayoutCellEdit* edit = new gui::layouts::LayoutCellEdit();
+            edit->setRowAndColumn(cells[i].Row, cells[i].Col);
+            edit->set(grid->cell(cells[i].Row, cells[i].Col));
+            edit->setChildrenProvider(m_provider);
             connect(
                 edit,
                 SIGNAL(widthChanged(size_t,size_t,sad::layouts::LengthValue)),
@@ -299,12 +299,12 @@ void gui::actions::GridActions::updateCellBrowser(bool immediate)
                 this,
                 SLOT(cellChildrenSwapped(size_t,size_t,size_t,size_t))
             );
-			table->addWidget(edit, cells[i].Row, cells[i].Col, cells[i].RowSpan, cells[i].ColSpan);
-			insertCellEditor(cells[i].Row, cells[i].Col, edit);
-		}
-	}
+            table->addWidget(edit, cells[i].Row, cells[i].Col, cells[i].RowSpan, cells[i].ColSpan);
+            insertCellEditor(cells[i].Row, cells[i].Col, edit);
+        }
+    }
 
-	QWidget* w = new QWidget();
+    QWidget* w = new QWidget();
     w->setLayout(table);
     layout_blk->tblLayoutCells->setWidget(w);
 }
@@ -316,8 +316,8 @@ void gui::actions::GridActions::updateGridPropertiesInUI(bool immediate)
         m_editor->emitClosure(::bind(this, &gui::actions::GridActions::updateGridPropertiesInUI, true));
         return;
     }
-	
-	updateRegion(true);
+    
+    updateRegion(true);
 }
 
 gui::layouts::LayoutCellEdit* gui::actions::GridActions::cellEditor(size_t row,  size_t col)
@@ -367,23 +367,23 @@ sad::Vector<gui::GridPosition> gui::actions::GridActions::findRelatedGrids(sad::
 // ReSharper disable once CppMemberFunctionMayBeStatic
 void gui::actions::GridActions::clearGridCellsBrowser()
 {
-	gui::uiblocks::UILayoutBlock* layout_blk = m_editor->uiBlocks()->uiLayoutBlock();
-	QGridLayout* table = new QGridLayout();	
-	QWidget* w = new QWidget();
+    gui::uiblocks::UILayoutBlock* layout_blk = m_editor->uiBlocks()->uiLayoutBlock();
+    QGridLayout* table = new QGridLayout();	
+    QWidget* w = new QWidget();
     w->setLayout(table);
     layout_blk->tblLayoutCells->setWidget(w);
-	
-	m_cell_editors.clear();
+    
+    m_cell_editors.clear();
 }
 
 void gui::actions::GridActions::higlightAddingState() const
 {
-	m_editor->panelProxy()->highlightState("Click where you want layout to be placed");
+    m_editor->panelProxy()->highlightState("Click where you want layout to be placed");
 }
 
 void gui::actions::GridActions::higlightMovingState() const
 {
-	m_editor->panelProxy()->highlightState("Click where you want layout to be placed");	
+    m_editor->panelProxy()->highlightState("Click where you want layout to be placed");	
 }
 
 void gui::actions::GridActions::cancelAddGrid()
@@ -460,50 +460,50 @@ void gui::actions::GridActions::commitGridAdd(const sad::input::MousePressEvent&
 // ReSharper disable once CppMemberFunctionMayBeStatic
 void gui::actions::GridActions::addGridClicked()
 {
-	if (m_editor->isInEditingState())
-		return;
-	// Enable displaying grids
-	gui::uiblocks::UILayoutBlock* layout_blk = m_editor->uiBlocks()->uiLayoutBlock();
-	layout_blk->cbLayoutShow->setCheckState(Qt::Checked);
-	m_editor->renderGrids()->setEnabled(true);
+    if (m_editor->isInEditingState())
+        return;
+    // Enable displaying grids
+    gui::uiblocks::UILayoutBlock* layout_blk = m_editor->uiBlocks()->uiLayoutBlock();
+    layout_blk->cbLayoutShow->setCheckState(Qt::Checked);
+    m_editor->renderGrids()->setEnabled(true);
 
-	// Make new grid
-	sad::layouts::Grid* grid = new sad::layouts::Grid();
-	grid->setTreeName(sad::Renderer::ref(), "");
-	grid->setFixedWidth(layout_blk->cbLayoutFixedWidth->checkState() == Qt::Checked);
-	grid->setFixedHeight(layout_blk->cbLayoutFixedHeight->checkState() == Qt::Checked);
-	sad::Rect2D rect;
-	core::typeconverters::QRectFToSadRect2D::convert(layout_blk->rwLayoutArea->value(), rect);
-	grid->setArea(rect);
-	QString name = layout_blk->txtLayoutGridName->text();
-	grid->setObjectName(Q2STDSTRING(name));
-	grid->setPaddingTop(layout_blk->dsbLayoutPaddingTop->value(), true);
-	grid->setPaddingBottom(layout_blk->dsbLayoutPaddingBottom->value(), true);
-	grid->setPaddingLeft(layout_blk->dsbLayoutPaddingLeft->value(), true);
-	grid->setPaddingRight(layout_blk->dsbLayoutPaddingRight->value(), true);
-	grid->setRows(layout_blk->spnLayoutGridRows->value());
-	grid->setColumns(layout_blk->spnLayoutGridCols->value());
+    // Make new grid
+    sad::layouts::Grid* grid = new sad::layouts::Grid();
+    grid->setTreeName(sad::Renderer::ref(), "");
+    grid->setFixedWidth(layout_blk->cbLayoutFixedWidth->checkState() == Qt::Checked);
+    grid->setFixedHeight(layout_blk->cbLayoutFixedHeight->checkState() == Qt::Checked);
+    sad::Rect2D rect;
+    core::typeconverters::QRectFToSadRect2D::convert(layout_blk->rwLayoutArea->value(), rect);
+    grid->setArea(rect);
+    QString name = layout_blk->txtLayoutGridName->text();
+    grid->setObjectName(Q2STDSTRING(name));
+    grid->setPaddingTop(layout_blk->dsbLayoutPaddingTop->value(), true);
+    grid->setPaddingBottom(layout_blk->dsbLayoutPaddingBottom->value(), true);
+    grid->setPaddingLeft(layout_blk->dsbLayoutPaddingLeft->value(), true);
+    grid->setPaddingRight(layout_blk->dsbLayoutPaddingRight->value(), true);
+    grid->setRows(layout_blk->spnLayoutGridRows->value());
+    grid->setColumns(layout_blk->spnLayoutGridCols->value());
 
-	sad::layouts::Grid* selected_grid = m_editor->shared()->selectedGrid();
-	if (selected_grid)
-	{
-		sad::Vector<sad::layouts::SerializableCell> scells = selected_grid->cells();
-		for(size_t i = 0; i < scells.size(); i++)
-		{
-			scells[i].Children.clear();
-		}
-		grid->setCells(scells);
-	}
+    sad::layouts::Grid* selected_grid = m_editor->shared()->selectedGrid();
+    if (selected_grid)
+    {
+        sad::Vector<sad::layouts::SerializableCell> scells = selected_grid->cells();
+        for(size_t i = 0; i < scells.size(); i++)
+        {
+            scells[i].Children.clear();
+        }
+        grid->setCells(scells);
+    }
 
-	this->addGridToGridList(grid);
+    this->addGridToGridList(grid);
     layout_blk->lstLayoutGridList->setCurrentRow(
         layout_blk->lstLayoutGridList->count() - 1
     );
-	m_editor->renderGrids()->add(grid);
-	m_editor->shared()->setActiveGrid(grid);
-	m_editor->machine()->enterState("layouts/adding");    
-	this->updateRegion();
-	this->updateCellBrowser();
+    m_editor->renderGrids()->add(grid);
+    m_editor->shared()->setActiveGrid(grid);
+    m_editor->machine()->enterState("layouts/adding");    
+    this->updateRegion();
+    this->updateCellBrowser();
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst

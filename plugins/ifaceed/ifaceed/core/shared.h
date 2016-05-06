@@ -198,7 +198,7 @@ public:
         \return selected grid
      */
     sad::layouts::Grid* activeGrid() const;
-	/*! Sets selected grid 
+    /*! Sets selected grid 
         \param g grid
      */
     void setSelectedGrid(sad::layouts::Grid* g);
@@ -278,9 +278,9 @@ private:
     /*! A selected group
      */
     sad::animations::Group* m_selected_group;
-	/*! An active grid
-	 */
-	sad::layouts::Grid* m_active_grid;
+    /*! An active grid
+     */
+    sad::layouts::Grid* m_active_grid;
     /*! A selected grid
      */
     sad::layouts::Grid* m_selected_grid;
