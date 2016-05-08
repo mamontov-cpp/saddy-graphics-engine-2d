@@ -235,6 +235,10 @@ public:
         \return list of major ids
      */
     sad::Vector<unsigned long long> childrenMajorIds() const;	
+    /*! Sets a table, propagating database to a cells
+        \param[in] t a table
+     */
+    virtual void setTable(sad::db::Table* t);	
 private:
     /*! The grid is not copyable
         \param[in] grid a grid      

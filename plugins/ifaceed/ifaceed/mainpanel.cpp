@@ -520,6 +520,23 @@ void MainPanel::setEditor(core::Editor* editor)
         &gui::actions::CustomObjectActions::placeFirstPoint
     );
 
+    // A binding for layouts/adding
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_KeyPress & sad::Esc & (m * ladd),
+        ga_actions,
+        &gui::actions::GridActions::cancelAddGrid
+    );
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_MouseMove & (m * ladd),
+        ga_actions,
+        &gui::actions::GridActions::moveByCenter
+    );
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_MousePress & sad::MouseLeft & (m * ladd),
+        ga_actions,
+        &gui::actions::GridActions::commitGridAdd
+    );
+
     // A binding for ways/selected/moving
     sad::Renderer::ref()->controls()->add(
         *sad::input::ET_MouseMove & (m * wsm),

@@ -69,6 +69,9 @@ public:
         \param[in] grid a grid to be added
      */
     void addGridToGridList(sad::layouts::Grid* grid) const;
+    /*! Removes last grid from list of grids, updating UI
+     */
+    void removeLastGrid();
     /*! Tries to insert child to curent grid, thus updating ui
         \param[in] g grid
         \param[in] row a row
@@ -105,14 +108,14 @@ public:
         \param[in] name a new name
      */
     void updateChildName(sad::layouts::Grid* g,  size_t row, size_t col, size_t pos, const QString& name);
-	/*! Updates cell browser's UI from current vieewed grid
-		\param[in] immediate whether it should be invoed now, or postponed via closure
-	 */
-	void updateCellBrowser(bool immediate = false);
-	/*! Updates region, when grid is picked
-		\param[in] immediate whether it should be invoked now, or postponed via closure
-	 */
-	void updateRegion(bool immediate = false);
+    /*! Updates cell browser's UI from current vieewed grid
+        \param[in] immediate whether it should be invoed now, or postponed via closure
+     */
+    void updateCellBrowser(bool immediate = false);
+    /*! Updates region, when grid is picked
+        \param[in] immediate whether it should be invoked now, or postponed via closure
+     */
+    void updateRegion(bool immediate = false);
     /*! Update current grid properties
         \param[in] immediate whether it should be invoked now, or postoponed
      */
@@ -128,19 +131,36 @@ public:
         \return a grid position
      */
     static sad::Vector<gui::GridPosition> findRelatedGrids(sad::SceneNode* node);
-	/*! Should clear browser for cells
-	 */
-	void clearGridCellsBrowser();
-	/*! Highlights adding state in main panel status box
-	 */
-	void higlightAddingState() const;
-	/*! Highlights adding state in main panel status box
-	 */
-	void higlightMovingState() const;
+    /*! Should clear browser for cells
+     */
+    void clearGridCellsBrowser();
+    /*! Highlights adding state in main panel status box
+     */
+    void higlightAddingState() const;
+    /*! Highlights adding state in main panel status box
+     */
+    void higlightMovingState() const;
+    /*! Cancels adding grid, entering previous state
+     */
+    void cancelAddGrid();
+    /*! Moves center of active or selected node to a mouse position.
+        Note, that this will not preserve history, so use it only for
+        active node.
+        \param[in] e event
+     */
+    void moveByCenter(const sad::input::MouseMoveEvent& e);
+    /*! Removes grid from list of grids, flushing selection if need to
+        \param[in] g grid
+     */
+    void removeGridFromGridList(sad::layouts::Grid* g);
+    /*! Commits grid adding to a scene
+        \param[in] e event
+     */
+    void commitGridAdd(const sad::input::MousePressEvent& e);
 public slots:
-	/*! Called, when user clicks on "Add" button for grids
-	 */
-	void addGridClicked();
+    /*! Called, when user clicks on "Add" button for grids
+     */
+    void addGridClicked();
     /*! Called, when user toggles show or hide grids
         \param[in] state a new state for a checkbox
      */

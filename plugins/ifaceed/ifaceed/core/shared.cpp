@@ -239,31 +239,31 @@ sad::animations::Group* core::Shared::selectedGroup() const
 
 void core::Shared::setActiveGrid(sad::layouts::Grid* g)
 {
-	if (g)
-	{
-		if (m_selected_grid)
-		{
-			m_selected_grid->setRenderColor(gui::RenderGrids::defaultColor());        	
-		}
-		g->setRenderColor(gui::RenderGrids::selectedColor());
-	}
-	else
-	{
-		if (m_selected_grid)
-		{
-			m_selected_grid->setRenderColor(gui::RenderGrids::selectedColor());	
-		}
-	}
-	if (m_active_grid)
-	{
-		m_active_grid->setRenderColor(gui::RenderGrids::defaultColor());
-	}
-	m_active_grid = g;
+    if (g)
+    {
+        if (m_selected_grid)
+        {
+            m_selected_grid->setRenderColor(gui::RenderGrids::defaultColor());        	
+        }
+        g->setRenderColor(gui::RenderGrids::selectedColor());
+    }
+    else
+    {
+        if (m_selected_grid)
+        {
+            m_selected_grid->setRenderColor(gui::RenderGrids::selectedColor());	
+        }
+    }
+    if (m_active_grid)
+    {
+        m_active_grid->setRenderColor(gui::RenderGrids::defaultColor());
+    }
+    m_active_grid = g;
 }
 
 sad::layouts::Grid* core::Shared::activeGrid() const
 {
-	return m_active_grid;
+    return m_active_grid;
 }
 
 void core::Shared::setSelectedGrid(sad::layouts::Grid* g)

@@ -431,7 +431,11 @@ void sad::layouts::Grid::setCells(const sad::Vector<sad::layouts::SerializableCe
 {
     sad::Vector<sad::layouts::Cell*> oldcells = static_cast<sad::Vector<sad::layouts::Cell*>&>(m_cells);    
     m_cells.clear();
-    sad::db::Database* db = this->table()->database();
+    sad::db::Database* db = NULL;
+    sad::db::Table* tbl = this->table();
+    if (tbl) {
+        db = tbl->database();
+    }
     for(size_t i = 0; i < cells.size(); i++)
     {
         sad::layouts::Cell* cell = new sad::layouts::Cell();
@@ -748,6 +752,20 @@ sad::Vector<unsigned long long> sad::layouts::Grid::childrenMajorIds() const
         result << m_cells[i]->childrenMajorIds();
     }
     return result;
+}
+
+void sad::layouts::Grid::setTable(sad::db::Table* t)
+{
+    this->sad::SceneNode::setTable(t);
+    sad::db::Database* db = NULL;
+    if (t)
+    {
+        db = t->database();
+    }
+    for(size_t i = 0; i < m_cells.size(); i++)
+    {
+        m_cells[i]->setDatabase(db);
+    }   
 }
 
 void sad::layouts::Grid::moveBy(const sad::Point2D& p)

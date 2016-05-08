@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 3.2.0, 2016-04-25T15:36:28. -->
+<!-- Written by QtCreator 3.2.0, 2016-05-06T12:22:18. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -225,7 +225,7 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">ifaceed</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:D:/saddy/saddy-graphics-engine-2d/plugins/ifaceed/ifaceed.pro</value>
-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments"></value>
+    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments">-resources globalconfig.json</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">ifaceed.pro</value>
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseTerminal">true</value>
