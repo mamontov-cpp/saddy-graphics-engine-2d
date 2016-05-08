@@ -790,11 +790,11 @@ sad::layouts::Grid& sad::layouts::Grid::operator=(const sad::layouts::Grid& o)
 void sad::layouts::Grid::expandRows(size_t oldrows, size_t newrows)
 {
     sad::db::Database* db = NULL;
-	sad::db::Table* table = this->table();
-	if (table) 
-	{
-		db = table->database();
-	}
+    sad::db::Table* table = this->table();
+    if (table) 
+    {
+        db = table->database();
+    }
     for(size_t row = oldrows; row < newrows; row++)
     {
         for(size_t col = 0; col < m_cols; col++)
@@ -851,11 +851,11 @@ void sad::layouts::Grid::shrinkRows(size_t oldrows, size_t newrows)
 void sad::layouts::Grid::expandColumns(size_t oldcols, size_t newcols)
 {
     sad::db::Database* db = NULL;
-	sad::db::Table* table = this->table();
-	if (table) 
-	{
-		db = table->database();
-	}
+    sad::db::Table* table = this->table();
+    if (table) 
+    {
+        db = table->database();
+    }
     for(size_t col = oldcols; col < newcols; col++)
     {
         for(size_t row = 0; row < m_rows; row++)
