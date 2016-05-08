@@ -1342,7 +1342,7 @@ all cells</string>
           <x>10</x>
           <y>10</y>
           <width>141</width>
-          <height>241</height>
+          <height>191</height>
          </rect>
         </property>
        </widget>
@@ -1350,7 +1350,7 @@ all cells</string>
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>260</y>
+          <y>210</y>
           <width>141</width>
           <height>20</height>
          </rect>
@@ -1360,8 +1360,8 @@ all cells</string>
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>290</y>
-          <width>41</width>
+          <y>240</y>
+          <width>141</width>
           <height>23</height>
          </rect>
         </property>
@@ -1372,9 +1372,9 @@ all cells</string>
        <widget class="QPushButton" name="btnLayoutRemove">
         <property name="geometry">
          <rect>
-          <x>60</x>
+          <x>10</x>
           <y>290</y>
-          <width>61</width>
+          <width>141</width>
           <height>23</height>
          </rect>
         </property>
@@ -1393,6 +1393,19 @@ all cells</string>
         </property>
         <property name="text">
          <string>Show on screen?</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnLayoutAddByStretching">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>265</y>
+          <width>141</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Add by stretching</string>
         </property>
        </widget>
       </widget>

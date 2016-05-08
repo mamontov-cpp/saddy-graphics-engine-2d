@@ -3,6 +3,8 @@
 #include "../core/editor.h"
 #include "../core/shared.h"
 
+#include "../core/borders/resizehotspot.h"
+
 #include <renderer.h>
 
 #include <db/dbdatabase.h>
@@ -11,10 +13,15 @@
 // ====================== PUBLIC METHODS ======================
 
 gui::RenderGrids::RenderGrids(core::Editor* editor)
-: m_editor(editor)
+: m_editor(editor), m_disable_resize_hotspots(false)
 {
     m_enabled = false;
     m_scene = new sad::Scene();
+
+    m_resize_hotspots[0] = new core::borders::ResizeHotspot(0, 1, 3, sad::p2d::Vector(0, -1));
+    m_resize_hotspots[1] = new core::borders::ResizeHotspot(1, 2, 0, sad::p2d::Vector(1, 0));
+    m_resize_hotspots[2] = new core::borders::ResizeHotspot(2, 3, 1, sad::p2d::Vector(0, 1));
+    m_resize_hotspots[3] = new core::borders::ResizeHotspot(3, 0, 2, sad::p2d::Vector(-1, 0));
 }
 
 void gui::RenderGrids::setEnabled(bool enabled)
@@ -124,9 +131,37 @@ const sad::AColor& gui::RenderGrids::defaultColor()
     return m_default_color;    
 }
 
+core::borders::ResizeHotspot* gui::RenderGrids::selectedResizeHotspot(
+    const sad::Point2D& p
+)
+{
+    for(size_t i = 0; i < 4; i++)
+    {
+        if (m_resize_hotspots[i]->isWithin(p))
+        {
+            return m_resize_hotspots[i];
+        }
+    }
+    return NULL;
+}
+
+void gui::RenderGrids::enableResizeHotspots()
+{
+    m_disable_resize_hotspots = false;
+}
+
+void gui::RenderGrids::disableResizeHotspots()
+{
+    m_disable_resize_hotspots = true;
+}
+
 gui::RenderGrids::~RenderGrids()
 {
     delete m_scene;
+    for(size_t i = 0; i < 4; i++)
+    {
+        delete m_resize_hotspots[i];
+    }
 }
 
 //============================== PROTECTED METHOD ==============================
@@ -140,6 +175,18 @@ void gui::RenderGrids::_process()
     {
          if (m_editor->isInWaysEditingState() == false)
          {
+             sad::layouts::Grid* g = m_editor->shared()->selectedGrid();
+             if (g != NULL)
+             {
+                 if (!m_disable_resize_hotspots)
+                 {
+                     sad::Rect2D r = g->area();
+                     for(size_t i = 0; i < 4; i++)
+                     {
+                         m_resize_hotspots[i]->render(r);    
+                     }
+                 }
+             }
              m_scene->render();
          }
     }

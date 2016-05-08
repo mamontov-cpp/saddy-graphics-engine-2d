@@ -449,7 +449,8 @@ void gui::actions::GridActions::commitGridAdd(const sad::input::MousePressEvent&
     m_editor->shared()->setActiveGrid(NULL);
     m_editor->shared()->setSelectedGrid(g);
 
-    m_editor->machine()->enterState(m_editor->machine()->previousState());
+    sad::String oldstate = m_editor->machine()->previousState();
+    m_editor->machine()->enterState(oldstate);
 
     m_editor->history()->add(new history::layouts::New(g));
 }

@@ -333,7 +333,9 @@ void MainPanel::setEditor(core::Editor* editor)
 
     sad::String ladd = "layouts/adding";
     sad::String lmove = "layouts/moving";
-
+    sad::String lsfp = "layouts/adding/firstpoint";
+    sad::String lssp = "layouts/adding/secondpoint";
+    sad::String lrp = "layouts/resizing";	
 
     gui::actions::SceneNodeActions* sn_actions = m_editor->actions()->sceneNodeActions();
     gui::actions::SceneActions* s_actions = m_editor->actions()->sceneActions();

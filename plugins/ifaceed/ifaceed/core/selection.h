@@ -101,6 +101,14 @@ protected slots:
         core::borders::ResizeHotspot* h,
         const sad::input::MousePressEvent& e
     );
+    /*! Forces editor to enter resizing state for grids
+        \param[in] h hotspot for resizing
+        \param[in] e event object
+     */
+    void forceEditorEnterGridResizingState(
+        core::borders::ResizeHotspot* h,
+        const sad::input::MousePressEvent& e
+    );
     /*! Removes item from selection
      */
     void removeItem();

@@ -286,6 +286,12 @@
     <Filter Include="Source Files\gui\layouts">
       <UniqueIdentifier>{480ec19b-0287-4f4c-883d-0e155d1d0c57}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\history\layouts">
+      <UniqueIdentifier>{904a1901-208a-44d0-b895-85e5f1e589c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\history\layouts">
+      <UniqueIdentifier>{1904446a-a4e4-460f-89f2-4a9437338254}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="acolordialog.cpp">
@@ -2430,6 +2436,9 @@
     <ClCompile Include="gui\rendergrids.cpp">
       <Filter>Source Files\gui</Filter>
     </ClCompile>
+    <ClCompile Include="history\layouts\layoutsnew.cpp">
+      <Filter>Source Files\history\layouts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -3088,6 +3097,9 @@
     </ClInclude>
     <ClInclude Include="gui\rendergrids.h">
       <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="history\layouts\layoutsnew.h">
+      <Filter>Header Files\history\layouts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

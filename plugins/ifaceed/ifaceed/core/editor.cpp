@@ -107,9 +107,45 @@ core::Editor::Editor()
     m_machine->addState("ways/selected", new sad::hfsm::State(), true);
     m_machine->addState("ways/selected/moving", new sad::hfsm::State(), true);
     m_machine->addState("picking_simple_movement_point", new sad::hfsm::State(), true);
-    // A state for adding and moving layout
+    // A state for adding, moving and resizing layout
     m_machine->addState("layouts/adding", new sad::hfsm::State(), true);
+    m_machine->addState("layouts/adding/firstpoint", new sad::hfsm::State(), true);
+    m_machine->addState("layouts/adding/secondpoint", new sad::hfsm::State(), true);
     m_machine->addState("layouts/moving", new sad::hfsm::State(), true);
+    m_machine->addState("layouts/resizing", new sad::hfsm::State(), true);
+
+    // We create grids more early to ensure binding events on it
+    m_rendergrids = new gui::RenderGrids(this);
+    
+    // Disable rendering resize hotspots when editing objects.
+    // Note that this is done to avoid interlocked non-atomic changes between machine and grids
+    const char* editing_states[] = {
+        "selected/moving",
+        "selected/resizing",
+        "selected/spanning/firstpoint",
+        "selected/spanning/secondpoint",
+        "adding/label", 
+        "adding/sprite", 
+        "adding/sprite_diagonal", 
+        "adding/sprite_diagonal/point_placed", 
+        "adding/customobject", 
+        "adding/customobject_diagonal", 
+        "adding/customobject_diagonal/point_placed", 
+        "ways/selected/moving", 
+        "picking_simple_movement_point", 
+        "layouts/adding", 
+        "layouts/adding/firstpoint", 
+        "layouts/adding/secondpoint", 
+        NULL
+    };
+    size_t i = 0;
+    while(editing_states[i])
+    {
+        sad::hfsm::State* s = m_machine->state(editing_states[i]);
+        s->addEnterHandler(m_rendergrids, &gui::RenderGrids::disableResizeHotspots);
+        s->addLeaveHandler(m_rendergrids, &gui::RenderGrids::enableResizeHotspots);
+        ++i;
+    }
 
     m_machine->enterState("idle");
 
@@ -130,7 +166,6 @@ core::Editor::Editor()
     sad::Renderer::ref()->pipeline()->append(m_active_border);
     m_renderways = new gui::RenderWays(this);
     sad::Renderer::ref()->pipeline()->append(m_renderways);
-    m_rendergrids = new gui::RenderGrids(this);
     sad::Renderer::ref()->pipeline()->append(m_rendergrids);
 
     m_selection = new core::Selection();
@@ -295,7 +330,7 @@ void core::Editor::enteredIdleState()
     this->emitClosure( bind(m_actions->customObjectActions(), &gui::actions::CustomObjectActions::clearCustomObjectPropertiesTable));
 }
 
-static const size_t CoreEditorEditingStatesCount = 9;
+static const size_t CoreEditorEditingStatesCount = 10;
 
 static sad::String CoreEditorEditingStates[CoreEditorEditingStatesCount] = {
     sad::String("adding"),
@@ -306,7 +341,8 @@ static sad::String CoreEditorEditingStates[CoreEditorEditingStatesCount] = {
     sad::String("ways/selected/moving"),
     sad::String("picking_simple_movement_point"),
     sad::String("layouts/adding"),
-    sad::String("layouts/moving")
+    sad::String("layouts/moving"),
+    sad::String("layouts/resizing")
 };
 
 bool core::Editor::isInEditingState() const

@@ -16,6 +16,7 @@
 #include "gui/uiblocks/uiwayblock.h"
 
 #include "gui/mainpanelproxy.h"
+#include "gui/rendergrids.h"
 
 #include "../closuremethodcall.h"
 
@@ -29,8 +30,8 @@ Q_DECLARE_METATYPE(sad::p2d::app::Way*) //-V566
 core::Selection::Selection() 
 : m_editor(NULL),
   m_scenenode_selection_change(false), 
-  m_grid_selection_change(false),
-  m_scenenode_current_position(0), 
+  m_scenenode_current_position(0),
+  m_grid_selection_change(false), 
   m_current_grid_chain_position(0)
 {
      connect(&m_scenenode_nav_timer, SIGNAL(timeout()), this, SLOT(disableSceneNodeSelectionNavigation()));
@@ -248,6 +249,7 @@ bool core::Selection::forceEditorEnterGridMovingState(const sad::input::MousePre
     return result;
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void core::Selection::forceEditorEnterResizingState(
     core::borders::ResizeHotspot* h,
     const sad::input::MousePressEvent& e
@@ -270,6 +272,17 @@ void core::Selection::forceEditorEnterResizingState(
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeStatic
+// ReSharper disable once CppMemberFunctionMayBeConst
+ void  core::Selection::forceEditorEnterGridResizingState(
+    core::borders::ResizeHotspot* h,
+    const sad::input::MousePressEvent& e
+)
+{
+    // TODO: Actuall implement this
+}
+
+// ReSharper disable once CppMemberFunctionMayBeConst
 void core::Selection::removeItem()
 {
     sad::SceneNode* node = m_editor->shared()->selectedObject();
@@ -292,14 +305,23 @@ void core::Selection::removeItem()
 void core::Selection::trySelectGrid(const sad::input::MousePressEvent& e)
 {
     m_scenenode_selection_change = false;
-    m_editor->emitClosure( bind(&m_scenenode_nav_timer, &QTimer::stop) );
+    m_editor->emitClosure( bind(&m_grid_nav_timer, &QTimer::stop) );
     sad::layouts::Grid* grid = m_editor->shared()->selectedGrid();
     if (grid)
     {
         bool ret = false;
-        if (sad::isWithin(e.pos2D(), grid->area()))
+        core::borders::ResizeHotspot* h = m_editor->renderGrids()->selectedResizeHotspot(e.pos2D());
+        if (h)
         {
-            ret = this->forceEditorEnterGridMovingState(e);
+            this->forceEditorEnterGridResizingState(h, e);
+            ret = true;
+        }
+        else 
+        {
+            if (sad::isWithin(e.pos2D(), grid->area()))
+            {
+                ret = this->forceEditorEnterGridMovingState(e);
+            }
         }
         if (ret)
         {
@@ -462,6 +484,7 @@ void core::Selection::trySelectWay(const sad::input::MousePressEvent& e)
     m_editor->emitClosure(bind(this, &core::Selection::commitIdleWaySelection));
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void core::Selection::tryEnterToMovingStateWithWayObject(const sad::input::MousePressEvent& e)
 {
     gui::uiblocks::UIWayBlock* ui_way_block = m_editor->uiBlocks()->uiWayBlock();
@@ -481,6 +504,7 @@ void core::Selection::tryEnterToMovingStateWithWayObject(const sad::input::Mouse
 }
 
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void core::Selection::commitWaySelection(int i, int j)
 {
     gui::uiblocks::UIWayBlock* ui_way_block = m_editor->uiBlocks()->uiWayBlock();
@@ -491,6 +515,7 @@ void core::Selection::commitWaySelection(int i, int j)
     m_editor->actions()->wayActions()->viewPoint(j);
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void core::Selection::commitIdleWaySelection()
 {
     gui::uiblocks::UIWayBlock* ui_way_block = m_editor->uiBlocks()->uiWayBlock();

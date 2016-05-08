@@ -12,6 +12,12 @@
 namespace core
 {
 class Editor;
+
+namespace borders
+{
+class ResizeHotspot;    
+}
+
 }
 
 namespace gui
@@ -74,6 +80,16 @@ public:
         \return default color
      */
     static const sad::AColor& defaultColor();
+    /*! Returns hotspot for resizing, whether point within one
+        \return a hotspot (NULL if not found)
+     */
+    core::borders::ResizeHotspot* selectedResizeHotspot(const sad::Point2D& p);
+    /*! Enables rendering resizing hotspots
+     */
+    void enableResizeHotspots();
+    /*! Disables rendering resizing hotspots
+     */
+    void disableResizeHotspots();
     /*! Could be inherited
      */
     virtual ~RenderGrids();
@@ -84,6 +100,9 @@ protected:
     /*! A panel for rendering ways
      */
     core::Editor * m_editor;
+    /*! A flag for disabling resize hotspot rendering
+     */
+    bool m_disable_resize_hotspots;
     /*! A default color for grids
      */
     static sad::AColor m_default_color;
@@ -93,6 +112,10 @@ protected:
     /*! Invokes a delegate inside of process
      */ 
     virtual void _process();
+
+    /*! A hotspots for resizing grids
+     */
+    core::borders::ResizeHotspot* m_resize_hotspots[4];
 };
 
 }
