@@ -34,7 +34,7 @@ public:
       */
      virtual void rollback(core::Editor * ob = NULL);
 protected:
-    /*! A node, which must be added to an item
+    /*! A node, which is being operated on
      */
     sad::layouts::Grid * m_grid;
 

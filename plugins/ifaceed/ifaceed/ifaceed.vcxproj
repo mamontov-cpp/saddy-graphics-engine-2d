@@ -2563,6 +2563,7 @@
     <ClCompile Include="history\label\changeoverflowstrategyforlines.cpp" />
     <ClCompile Include="history\label\changetextellipsis.cpp" />
     <ClCompile Include="history\label\changetextellipsisforlines.cpp" />
+    <ClCompile Include="history\layouts\layoutschangename.cpp" />
     <ClCompile Include="history\layouts\layoutsnew.cpp" />
     <ClCompile Include="history\scenenodes\scenenodesspan.cpp" />
     <ClCompile Include="main.cpp" />
@@ -4649,6 +4650,7 @@
     <ClInclude Include="history\label\changeoverflowstrategyforlines.h" />
     <ClInclude Include="history\label\changetextellipsis.h" />
     <ClInclude Include="history\label\changetextellipsisforlines.h" />
+    <ClInclude Include="history\layouts\layoutschangename.h" />
     <ClInclude Include="history\layouts\layoutsnew.h" />
     <ClInclude Include="history\scenenodes\scenenodesspan.h" />
     <ClInclude Include="macro.h" />

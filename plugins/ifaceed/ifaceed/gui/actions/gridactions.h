@@ -194,10 +194,14 @@ public slots:
         \param[in] state a new state for a checkbox
      */
     void showGridsClicked(bool state);
-    /*! Called, when user changed current grid
+    /*! Called, when user changes current grid
         \param[in] row a row of current grid
      */
     void currentGridChanged(int row);
+    /*! Called, when user changes current text name of node
+        \param[in] text a new name
+     */
+    void nameChanged(const QString &text);
     /*! Called, when cell width is changed
         \param[in] row a row
         \param[in] col a column

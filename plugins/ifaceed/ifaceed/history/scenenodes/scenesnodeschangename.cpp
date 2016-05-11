@@ -64,6 +64,7 @@ void history::scenenodes::ChangeName::updateUI(core::Editor* e, const sad::Strin
     );
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void history::scenenodes::ChangeName::updateDependent(core::Editor * e)
 {
     gui::actions::SceneNodeActions* sn_actions = e->actions()->sceneNodeActions();

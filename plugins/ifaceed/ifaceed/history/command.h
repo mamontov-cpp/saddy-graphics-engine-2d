@@ -41,7 +41,7 @@ public:
 
         \param[in] e editor
      */
-    void commitWithoutUpdatingUI(core::Editor * e);
+    virtual void commitWithoutUpdatingUI(core::Editor * e);
 };
 
 }

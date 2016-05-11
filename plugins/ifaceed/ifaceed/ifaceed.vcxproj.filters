@@ -2439,6 +2439,9 @@
     <ClCompile Include="history\layouts\layoutsnew.cpp">
       <Filter>Source Files\history\layouts</Filter>
     </ClCompile>
+    <ClCompile Include="history\layouts\layoutschangename.cpp">
+      <Filter>Source Files\history\layouts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -3099,6 +3102,9 @@
       <Filter>Header Files\gui</Filter>
     </ClInclude>
     <ClInclude Include="history\layouts\layoutsnew.h">
+      <Filter>Header Files\history\layouts</Filter>
+    </ClInclude>
+    <ClInclude Include="history\layouts\layoutschangename.h">
       <Filter>Header Files\history\layouts</Filter>
     </ClInclude>
   </ItemGroup>

@@ -23,6 +23,7 @@
 #include "../rendergrids.h"
 
 #include "../../history/layouts/layoutsnew.h"
+#include "../../history/layouts/layoutschangename.h"
 
 #include <renderer.h>
 
@@ -652,6 +653,40 @@ void gui::actions::GridActions::currentGridChanged(int row)
         {
             m_editor->shared()->setSelectedGrid(NULL);
             this->clearGridCellsBrowser();
+        }
+    }
+}
+
+// ReSharper disable once CppMemberFunctionMayBeConst
+void  gui::actions::GridActions::nameChanged(const QString &text)
+{
+    if (m_editor)
+    {
+        sad::layouts::Grid* grid = m_editor->shared()->activeGrid();
+        if (grid)
+        {
+            grid->setObjectName(Q2STDSTRING(text));
+            gui::uiblocks::UIBlocks* b = m_editor->uiBlocks();
+            gui::uiblocks::UILayoutBlock* bl = b->uiLayoutBlock();
+            int row = bl->lstLayoutGridList->currentRow();
+            if (row > -1)
+            {
+                bl->lstLayoutGridList->item(row)->setText(this->viewableObjectName(grid));
+            }
+        } 
+        else
+        {
+            grid = m_editor->shared()->selectedGrid();
+            if (grid)
+            {
+                sad::String new_name = Q2STDSTRING(text);
+                if (grid->objectName() != new_name)
+                {
+                    history::layouts::ChangeName* c = new history::layouts::ChangeName(grid, grid->objectName(), new_name);
+                    c->commitWithoutUpdatingUI(m_editor);
+                    m_editor->history()->add(c);
+                }
+            }
         }
     }
 }
