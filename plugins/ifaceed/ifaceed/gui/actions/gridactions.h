@@ -161,6 +161,12 @@ public:
         \param[in] e event
      */
     void moveByCenter(const sad::input::MouseMoveEvent& e);
+    /*! Moves bottom-right corner of active grid to a mouse position.
+        Note, that this will not preserve history, so use it only for
+        active node.
+        \param[in] e event
+     */
+    void moveByBottomRightCorner(const sad::input::MouseMoveEvent& e);
     /*! Removes grid from list of grids, flushing selection if need to
         \param[in] g grid
      */
@@ -169,6 +175,9 @@ public:
         \param[in] e event
      */
     void commitGridAdd(const sad::input::MousePressEvent& e);
+    /*! Forces editor to enable editing area controls
+     */
+    void enableEditingAreaControls();
 public slots:
     /*! Called, when user clicks on "Add" button for grids
      */
@@ -260,6 +269,10 @@ public slots:
      */
     void cellChildrenSwapped(size_t row, size_t col, size_t pos1, size_t pos2);
 private:
+    /*! Prepares grid for adding into form
+        \return created grid
+     */
+    sad::layouts::Grid* prepareGridForAdding();
     /*! A provider for grid cells
      */
     gui::ChildrenProvider* m_provider;
@@ -271,6 +284,10 @@ private:
         "Add By Stretching" process is the only one now.
      */
     sad::String m_previous_machine_state;
+    /*! Whether we adding a grid by stretching now. Must be used in case, if editor
+        is in adding state for grids.
+     */
+    bool m_is_stretching;
 };
 
 }
