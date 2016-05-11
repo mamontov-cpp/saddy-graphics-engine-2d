@@ -37,9 +37,9 @@ Our main goal is to create small graphics engine, which can be used to create a 
 
 Currently, we support a following platforms.
 
-  * Windows, using Microsoft Visual C++ 2010 (x86, x64)
-  * Windows, using MinGW-w64 5.2.0+ (x86/x64)
-  * Linux, using makefiles (x86/x64)
+  * Windows, using Microsoft Visual C++ 2010+ (x86, x64)
+  * Windows, using CMake/MinGW-w64 5.2.0+ (x86/x64)
+  * Linux, using CMake/gcc (x86/x64)
 
 ## Run into a problem? Don't know where to start?
 
