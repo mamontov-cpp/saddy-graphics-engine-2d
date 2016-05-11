@@ -178,7 +178,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>7</number>
+       <number>0</number>
       </property>
       <property name="usesScrollButtons">
        <bool>false</bool>
@@ -1543,7 +1543,7 @@ all cells</string>
         <rect>
          <x>5</x>
          <y>25</y>
-         <width>181</width>
+         <width>171</width>
          <height>271</height>
         </rect>
        </property>
