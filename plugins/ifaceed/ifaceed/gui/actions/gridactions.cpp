@@ -436,10 +436,22 @@ void gui::actions::GridActions::moveByCenter(const sad::input::MouseMoveEvent& e
 
 void gui::actions::GridActions::moveByBottomRightCorner(const sad::input::MouseMoveEvent& e)
 {
-    sad::layouts::Grid* grid = m_editor->shared()->activeGrid();
+    core::Shared* s = m_editor->shared();
+    sad::layouts::Grid* grid = s->activeGrid();
     if (grid)
     {
-        // TODO: Handle here building a pivot area for grid
+        sad::Point2D p1 = s->pivotPoint();
+        sad::Point2D p2 = e.pos2D();
+        sad::Point2D pmin(
+           std::min(p1.x(), p2.x()),
+           std::min(p1.y(), p2.y())
+        );
+        sad::Point2D pmax(
+           std::max(p1.x(), p2.x()),
+           std::max(p1.y(), p2.y())
+        );
+        grid->setArea(sad::Rect2D(pmin, pmax));
+        this->updateRegion();
     }
 }
 
