@@ -29,7 +29,7 @@
 #include <db/dbdatabase.h>
 #include <db/dbtable.h>
 
-Q_DECLARE_METATYPE(sad::layouts::Grid*);
+Q_DECLARE_METATYPE(sad::layouts::Grid*)
 
 gui::actions::GridActions::GridActions(QObject* parent)
 : QObject(parent), m_provider(NULL)
@@ -381,9 +381,24 @@ void gui::actions::GridActions::higlightAddingState() const
     m_editor->panelProxy()->highlightState("Click where you want layout to be placed");
 }
 
+void gui::actions::GridActions::highlightPlaceFirstPointState() const
+{
+    m_editor->panelProxy()->highlightState("Click where you want top-left corner of layout to be placed");
+}
+
+void gui::actions::GridActions::highlightPlaceSecondPointState() const
+{
+    m_editor->panelProxy()->highlightState("Click where you want bottom-right corner of layout to be placed");
+}
+
 void gui::actions::GridActions::higlightMovingState() const
 {
     m_editor->panelProxy()->highlightState("Click where you want layout to be placed");	
+}
+
+void gui::actions::GridActions::highlightResizingState() const
+{
+    m_editor->panelProxy()->highlightState("Release button to stop resizing");
 }
 
 void gui::actions::GridActions::cancelAddGrid()
@@ -501,10 +516,20 @@ void gui::actions::GridActions::addGridClicked()
         layout_blk->lstLayoutGridList->count() - 1
     );
     m_editor->renderGrids()->add(grid);
-    m_editor->shared()->setActiveGrid(grid);
-    m_editor->machine()->enterState("layouts/adding");    
+    m_editor->shared()->setActiveGrid(grid);        
     this->updateRegion();
     this->updateCellBrowser();
+
+    m_editor->machine()->enterState("layouts/adding");
+}
+
+// ReSharper disable once CppMemberFunctionMayBeConst
+// ReSharper disable once CppMemberFunctionMayBeStatic
+void gui::actions::GridActions::addGridByStretchingClicked()
+{
+    if (m_editor->isInEditingState())
+        return;
+    // TODO: Implement it
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst

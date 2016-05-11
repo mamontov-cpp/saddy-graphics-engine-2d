@@ -137,9 +137,21 @@ public:
     /*! Highlights adding state in main panel status box
      */
     void higlightAddingState() const;
+    /*! Higlights state, when first point of grid should be placed.
+        This should occur when user presses "Add By Stretching" button
+     */
+    void highlightPlaceFirstPointState() const;
+    /*! Highlights state, when second point of grid should be placed.
+        This should occur when user pressed "Add By Stretching" button
+        and already placed top-left corner of screen
+     */
+    void highlightPlaceSecondPointState() const;
     /*! Highlights adding state in main panel status box
      */
     void higlightMovingState() const;
+    /*! Highlights resizing state in main panel status box
+     */
+    void highlightResizingState() const;
     /*! Cancels adding grid, entering previous state
      */
     void cancelAddGrid();
@@ -161,6 +173,9 @@ public slots:
     /*! Called, when user clicks on "Add" button for grids
      */
     void addGridClicked();
+    /*! Called, when user clicks on "Add By Stretching" button for grids
+     */
+    void addGridByStretchingClicked();
     /*! Called, when user toggles show or hide grids
         \param[in] state a new state for a checkbox
      */
@@ -245,12 +260,17 @@ public slots:
      */
     void cellChildrenSwapped(size_t row, size_t col, size_t pos1, size_t pos2);
 private:
-    /*! A provider for grid action
+    /*! A provider for grid cells
      */
     gui::ChildrenProvider* m_provider;
     /*! A hash table from actions to local editors for provider
      */
     QHash<size_t, QHash<size_t, gui::layouts::LayoutCellEdit*> > m_cell_editors; 
+    /*! A previous machine state for main editor's state machine. This is used
+        to store previous state in case of multi-state transitions.
+        "Add By Stretching" process is the only one now.
+     */
+    sad::String m_previous_machine_state;
 };
 
 }

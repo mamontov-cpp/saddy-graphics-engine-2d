@@ -727,16 +727,23 @@ void core::Editor::runQtEventLoop()
     m_mainwindow->setEditor(this);
     m_ui_blocks->init(m_mainwindow);
 
-    // Called this explicitly, because entered state before
+    gui::actions::GridActions* ga = m_actions->gridActions();
+
     m_machine->state("idle")->addEnterHandler(this, &core::Editor::enteredIdleState);
     m_machine->state("selected")->addEnterHandler(m_mainwindow, &MainPanel::highlightSelectedState);
     m_machine->state("selected")->addEnterHandler(m_actions->sceneNodeActions(), &gui::actions::SceneNodeActions::updateUIForSelectedSceneNode);
     m_machine->state("adding/label")->addEnterHandler(m_mainwindow, &MainPanel::highlightLabelAddingState);
     m_machine->state("ways/idle")->addEnterHandler(this, &core::Editor::enteredIdleState);
     m_machine->state("ways/selected")->addEnterHandler(m_mainwindow, &MainPanel::highlightSelectedState);
-    m_machine->state("layouts/adding")->addEnterHandler(m_actions->gridActions(), &gui::actions::GridActions::higlightAddingState);
-    m_machine->state("layouts/moving")->addEnterHandler(m_actions->gridActions(), &gui::actions::GridActions::higlightMovingState);
+    m_machine->state("layouts/adding")->addEnterHandler(ga, &gui::actions::GridActions::higlightAddingState);
+    m_machine->state("layouts/adding/firstpoint")->addEnterHandler(ga, &gui::actions::GridActions::highlightPlaceFirstPointState);
+    m_machine->state("layouts/adding/secondpoint")->addEnterHandler(ga, &gui::actions::GridActions::highlightPlaceSecondPointState);
+    m_machine->state("layouts/moving")->addEnterHandler(ga, &gui::actions::GridActions::higlightMovingState);
+    m_machine->state("layouts/resizing")->addEnterHandler(ga, &gui::actions::GridActions::highlightResizingState);
 
+    // This should be called this explicitly,
+    // because state machine entered idle state
+    // before we bind a handler on it
     m_mainwindow->highlightIdleState();
 
     sad::Renderer::ref()->controls()->add(*sad::input::ET_MouseMove, m_mainwindow, &MainPanel::updateMousePosition);
