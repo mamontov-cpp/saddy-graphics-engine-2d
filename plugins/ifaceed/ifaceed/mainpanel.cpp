@@ -539,6 +539,18 @@ void MainPanel::setEditor(core::Editor* editor)
         &gui::actions::GridActions::commitGridAdd
     );
 
+    // A binding for layouts/adding/firstpoint
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_KeyPress & sad::Esc & (m * lsfp),
+        ga_actions,
+        &gui::actions::GridActions::cancelAddGrid
+    );
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_MousePress & sad::MouseLeft & (m * lsfp),
+        ga_actions,
+        &gui::actions::GridActions::commitTopLeftPoint
+    );
+
     // A binding for ways/selected/moving
     sad::Renderer::ref()->controls()->add(
         *sad::input::ET_MouseMove & (m * wsm),

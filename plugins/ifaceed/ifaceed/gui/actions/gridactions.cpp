@@ -492,6 +492,23 @@ void gui::actions::GridActions::commitGridAdd(const sad::input::MousePressEvent&
     m_editor->history()->add(new history::layouts::New(g));
 }
 
+void gui::actions::GridActions::commitTopLeftPoint(const sad::input::MousePressEvent& e)
+{
+    core::Shared* s = m_editor->shared();
+    sad::layouts::Grid* ag = s->activeGrid();
+    if (ag)
+    {
+        sad::Point2D p = e.pos2D();
+        s->setPivotPoint(e.pos2D());
+        ag->setVisible(true);
+        ag->setArea(sad::Rect2D(p, p));
+
+        this->updateRegion();
+
+        m_editor->machine()->enterState("layouts/adding/secondpoint");
+    }
+}
+
 void gui::actions::GridActions::enableEditingAreaControls()
 {
     gui::uiblocks::UILayoutBlock* layout_blk = m_editor->uiBlocks()->uiLayoutBlock();

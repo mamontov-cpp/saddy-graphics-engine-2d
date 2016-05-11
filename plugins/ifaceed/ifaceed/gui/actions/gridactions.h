@@ -175,6 +175,11 @@ public:
         \param[in] e event
      */
     void commitGridAdd(const sad::input::MousePressEvent& e);
+    /*! Commits picking top left point for a new grid, when
+        picking "Add By Stretching"
+        \param[in] e event
+     */
+    void commitTopLeftPoint(const sad::input::MousePressEvent& e);
     /*! Forces editor to enable editing area controls
      */
     void enableEditingAreaControls();
