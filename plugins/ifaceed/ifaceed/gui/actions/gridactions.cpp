@@ -316,7 +316,44 @@ void gui::actions::GridActions::updateGridPropertiesInUI(bool immediate)
         m_editor->emitClosure(::bind(this, &gui::actions::GridActions::updateGridPropertiesInUI, true));
         return;
     }
-    
+
+    gui::uiblocks::UILayoutBlock* layout_blk = m_editor->uiBlocks()->uiLayoutBlock();
+    sad::layouts::Grid* grid = this->selectedGrid();
+    if (grid)
+    {
+        const size_t size = 8;
+        QWidget* widgets[size] = {
+            layout_blk->spnLayoutGridRows,
+            layout_blk->spnLayoutGridCols,
+            layout_blk->cbLayoutFixedWidth,
+            layout_blk->cbLayoutFixedHeight,
+            layout_blk->dsbLayoutPaddingTop,
+            layout_blk->dsbLayoutPaddingRight,
+            layout_blk->dsbLayoutPaddingLeft,
+            layout_blk->dsbLayoutPaddingBottom
+        };
+        bool states[size];
+        for(size_t i = 0; i < size; i++)
+        {
+            states[i] = widgets[i]->blockSignals(size);
+        }
+
+        layout_blk->spnLayoutGridRows->setValue(grid->rows());
+        layout_blk->spnLayoutGridCols->setValue(grid->columns());
+        layout_blk->cbLayoutFixedWidth->setCheckState((grid->fixedWidth()) ? Qt::Checked : Qt::Unchecked);
+        layout_blk->cbLayoutFixedHeight->setCheckState((grid->fixedHeight()) ? Qt::Checked : Qt::Unchecked);
+        layout_blk->dsbLayoutPaddingLeft->setValue(grid->paddingLeft());
+        layout_blk->dsbLayoutPaddingRight->setValue(grid->paddingRight());
+        layout_blk->dsbLayoutPaddingTop->setValue(grid->paddingTop());
+        layout_blk->dsbLayoutPaddingBottom->setValue(grid->paddingBottom());
+
+        for(size_t i = 0; i < size; i++)
+        {
+            widgets[i]->blockSignals(states[i]);
+        }
+    }
+
+    updateCellBrowser(true);
     updateRegion(true);
 }
 
@@ -594,6 +631,28 @@ void gui::actions::GridActions::showGridsClicked(bool state)
     if (m_editor)
     {
         m_editor->renderGrids()->setEnabled(state);
+    }
+}
+
+void gui::actions::GridActions::currentGridChanged(int row)
+{
+    if (m_editor)
+    {
+        if (row > -1)
+        {
+            gui::uiblocks::UIBlocks* b = m_editor->uiBlocks();
+            gui::uiblocks::UILayoutBlock* bl = b->uiLayoutBlock();
+            QListWidget* lst = bl->lstLayoutGridList;
+            QListWidgetItem* item = lst->item(row);
+            sad::layouts::Grid* g = item->data(Qt::UserRole).value<sad::layouts::Grid*>();
+            m_editor->shared()->setSelectedGrid(g);
+            this->updateGridPropertiesInUI();
+        }
+        else
+        {
+            m_editor->shared()->setSelectedGrid(NULL);
+            this->clearGridCellsBrowser();
+        }
     }
 }
 

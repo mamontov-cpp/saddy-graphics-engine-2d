@@ -194,6 +194,10 @@ public slots:
         \param[in] state a new state for a checkbox
      */
     void showGridsClicked(bool state);
+    /*! Called, when user changed current grid
+        \param[in] row a row of current grid
+     */
+    void currentGridChanged(int row);
     /*! Called, when cell width is changed
         \param[in] row a row
         \param[in] col a column
