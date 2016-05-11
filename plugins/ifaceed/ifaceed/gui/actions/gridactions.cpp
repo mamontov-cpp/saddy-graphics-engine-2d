@@ -527,6 +527,7 @@ void gui::actions::GridActions::enableEditingAreaControls()
     layout_blk->cbLayoutFixedWidth->setEnabled(true);
     layout_blk->cbLayoutFixedHeight->setEnabled(true);
     layout_blk->rwLayoutArea->setEnabled(true);
+    layout_blk->lstLayoutGridList->setEnabled(true);
 }
 
 // ================================ PUBLIC SLOTS  ================================
@@ -680,7 +681,8 @@ sad::layouts::Grid* gui::actions::GridActions::prepareGridForAdding()
 {
     // Make new grid
     gui::uiblocks::UILayoutBlock* layout_blk = m_editor->uiBlocks()->uiLayoutBlock();
-
+    // Disable selecting any other grid
+    layout_blk->lstLayoutGridList->setEnabled(false);
     sad::layouts::Grid* grid = new sad::layouts::Grid();
     grid->setTreeName(sad::Renderer::ref(), "");
     grid->setFixedWidth(layout_blk->cbLayoutFixedWidth->checkState() == Qt::Checked);
