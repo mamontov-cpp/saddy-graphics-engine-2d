@@ -179,6 +179,26 @@ bool core::Selection::isSelectionPending() const
     return m_scenenode_selection_change || m_grid_selection_change;
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
+void core::Selection::cancelGridSelectionOrQuit()
+{
+    if (m_editor)
+    {
+        bool handled = false;
+        if (m_editor->isInGridEditingState())
+        {
+            if (m_editor->shared()->selectedGrid())
+            {
+                handled = true;
+                m_editor->emitClosure(::bind(
+                    m_editor->actions()->gridActions(),
+                    &gui::actions::GridActions::cancelSelection
+                ));
+            }
+        }
+    }
+}
+
 // =========================================== PROTECTED SLOTS ===========================================
 
 void core::Selection::disableSceneNodeSelectionNavigation()

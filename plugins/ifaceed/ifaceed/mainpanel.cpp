@@ -351,6 +351,12 @@ void MainPanel::setEditor(core::Editor* editor)
 
     // A bindings for idle state
     sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_KeyPress & sad::Esc & (m * i),
+        m_editor->selection(),
+        &core::Selection::cancelGridSelectionOrQuit
+    );
+
+    sad::Renderer::ref()->controls()->add(
         *sad::input::ET_MousePress & sad::MouseLeft & (m * i),
         m_editor->selection(),
         &core::Selection::trySelect

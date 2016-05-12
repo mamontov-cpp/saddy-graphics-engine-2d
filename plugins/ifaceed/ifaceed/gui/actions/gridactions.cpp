@@ -586,6 +586,15 @@ void gui::actions::GridActions::enableEditingAreaControls()
     this->setChildEditingEnabled(true);
 }
 
+
+void gui::actions::GridActions::cancelSelection()
+{
+    m_editor->shared()->setSelectedGrid(NULL);
+    gui::uiblocks::UILayoutBlock* layout_blk = m_editor->uiBlocks()->uiLayoutBlock();
+    layout_blk->lstLayoutGridList->setCurrentRow(-1);
+    this->clearGridCellsBrowser();
+}
+
 // ================================ PUBLIC SLOTS  ================================
 
 // ReSharper disable once CppMemberFunctionMayBeConst

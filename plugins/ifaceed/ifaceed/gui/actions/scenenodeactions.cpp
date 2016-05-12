@@ -204,6 +204,17 @@ void gui::actions::SceneNodeActions::rotate(const sad::input::MouseWheelEvent& e
 
 void gui::actions::SceneNodeActions::cancelSelection()
 {
+    if (m_editor->isInGridEditingState())
+    {
+        if (m_editor->shared()->selectedGrid())
+        {
+            m_editor->emitClosure(::bind(
+                m_editor->actions()->gridActions(),
+                &gui::actions::GridActions::cancelSelection
+            ));
+            return;
+        }
+    }
     m_editor->machine()->enterState("idle");
     m_editor->shared()->setSelectedObject(NULL);
     gui::uiblocks::UISceneBlock* blk = m_editor->uiBlocks()->uiSceneBlock();

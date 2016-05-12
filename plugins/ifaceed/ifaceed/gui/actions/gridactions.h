@@ -187,6 +187,9 @@ public:
     /*! Forces editor to enable editing area controls
      */
     void enableEditingAreaControls();
+    /*! Cancels selection of node, wiping selected widgets
+     */
+    void cancelSelection();
 public slots:
     /*! Called, when user clicks on "Add" button for grids
      */

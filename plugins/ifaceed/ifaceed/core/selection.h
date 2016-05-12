@@ -70,6 +70,9 @@ public:
     /*!  Is selection chain pending
      */
     bool isSelectionPending() const;
+    /*! Cancels grid selection if any selected, or quits
+     */
+    void cancelGridSelectionOrQuit();
 protected slots:
     /*! Disables navigation on scene nodes on selection
      */
