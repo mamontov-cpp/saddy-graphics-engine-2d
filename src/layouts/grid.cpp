@@ -589,6 +589,7 @@ bool sad::layouts::Grid::split(size_t row, size_t col, size_t row_span, size_t c
                 if ((i != 0) || (j != 0))
                 {
                     sad::layouts::Cell* newcell = new sad::layouts::Cell();
+                    newcell->setGrid(this);
                     newcell->setDatabase(db);
                     newcell->setPaddingBottom(m_padding_bottom, false);
                     newcell->setPaddingTop(m_padding_top, false);
@@ -819,6 +820,7 @@ void sad::layouts::Grid::expandRows(size_t oldrows, size_t newrows)
         for(size_t col = 0; col < m_cols; col++)
         {
             sad::layouts::Cell* newcell = new sad::layouts::Cell();
+            newcell->setGrid(this);
             newcell->setDatabase(db);
             newcell->setPaddingBottom(m_padding_bottom, false);
             newcell->setPaddingTop(m_padding_top, false);
@@ -880,6 +882,7 @@ void sad::layouts::Grid::expandColumns(size_t oldcols, size_t newcols)
         for(size_t row = 0; row < m_rows; row++)
         {
             sad::layouts::Cell* newcell = new sad::layouts::Cell();
+            newcell->setGrid(this);
             newcell->setDatabase(db);
             newcell->setPaddingBottom(m_padding_bottom, false);
             newcell->setPaddingTop(m_padding_top, false);
