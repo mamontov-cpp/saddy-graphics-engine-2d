@@ -69,5 +69,5 @@ void gui::table::BoolDelegate::makeEditor()
 
 void gui::table::BoolDelegate::disconnect()
 {
-    QObject::disconnect(this, SLOT(stateChanged(int)));
+    QObject::disconnect(this, SLOT(widgetChanged(int)));
 }

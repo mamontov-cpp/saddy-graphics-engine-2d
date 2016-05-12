@@ -57,22 +57,23 @@ void history::layouts::AddChild::rollback(core::Editor * ob)
     ob->emitClosure(::bind(this, &history::layouts::AddChild::_rollback, ob));
 }
 
+void history::layouts::AddChild::commitWithoutUpdatingUI(core::Editor *e)
+{
+    if (!e)
+    {
+        return;
+    }
+    e->emitClosure(::bind(this, &history::layouts::AddChild::_commitWithoutUpdatingUI, e));
+}
+
+// =========================== PROTECTED METHODS ===========================
+
 void history::layouts::AddChild::_commit(core::Editor* ob)
 {
-    m_grid->cell(m_row, m_column)->addChild(m_node->MajorId);
-    if (ob->shared()->selectedObject() == m_node)
-    {
-        ob->actions()->sceneNodeActions()->updateRegionForNode();
-    }
-    gui::actions::GridActions* ga = ob->actions()->gridActions();
-    if (ob->shared()->selectedGrid() == m_node)
-    {
-        ga->updateRegion(true);
-    }
-
+    this->_commitWithoutUpdatingUI(ob);
     if (ob->shared()->selectedGrid() == m_grid)
     {
-        ga->updateRegion(true);
+        gui::actions::GridActions* ga = ob->actions()->gridActions();
         ga->cellEditor(m_row, m_column)->addChild(m_node);
     }
 }
@@ -97,5 +98,24 @@ void history::layouts::AddChild::_rollback(core::Editor* ob)
     {
         ga->updateRegion(true);
         ga->cellEditor(m_row, m_column)->removeChild(last_child_pos);
+    }
+}
+
+void history::layouts::AddChild::_commitWithoutUpdatingUI(core::Editor* ob)
+{
+    m_grid->cell(m_row, m_column)->addChild(m_node->MajorId);
+    if (ob->shared()->selectedObject() == m_node)
+    {
+        ob->actions()->sceneNodeActions()->updateRegionForNode();
+    }
+    gui::actions::GridActions* ga = ob->actions()->gridActions();
+    if (ob->shared()->selectedGrid() == m_node)
+    {
+        ga->updateRegion(true);
+    }
+
+    if (ob->shared()->selectedGrid() == m_grid)
+    {
+        ga->updateRegion(true);
     }
 }

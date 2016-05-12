@@ -42,6 +42,15 @@ public:
         \param[in] ob an observer for looking for command
      */
     virtual void rollback(core::Editor * ob = NULL);
+    /*! Commits a change without updating UI. Useful, when command should not touch
+        a user interface, see https://github.com/mamontov-cpp/saddy-graphics-engine-2d/issues/55 for
+        reason, why this function exists.
+
+        By default it's a stub for calling a commit function.
+
+        \param[in] e editor
+     */
+    virtual void commitWithoutUpdatingUI(core::Editor * e);
 protected:
     /*! Really performs commit
         \param[in] ob object of editor
@@ -51,6 +60,10 @@ protected:
         \param[in] ob object of editor
      */
     void _rollback(core::Editor* ob);
+    /*! A real implementation for commiting without updating UI
+        \param[in] e editor
+     */
+    void _commitWithoutUpdatingUI(core::Editor * e);
     /*! A node, whose name is changed
      */
     sad::layouts::Grid * m_grid;

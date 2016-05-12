@@ -791,7 +791,7 @@ void gui::actions::GridActions::cellChildAdded(size_t row, size_t col, unsigned 
         {
             // TODO: Make new history entry here and commit it
             history::layouts::AddChild* c = new history::layouts::AddChild(g, row, col, o, oldarea.value());
-            c->commit(m_editor);
+            c->commitWithoutUpdatingUI(m_editor);
             m_editor->history()->add(c);
         }
     }
