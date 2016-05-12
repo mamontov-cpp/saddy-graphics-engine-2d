@@ -441,6 +441,7 @@ void sad::layouts::Grid::setCells(const sad::Vector<sad::layouts::SerializableCe
         sad::layouts::Cell* cell = new sad::layouts::Cell();
         cell->setDatabase(db);
         cell->fromSerializable(cells[i], db);
+        cell->setGrid(this);
         m_cells << cell;
     }
     if (!m_loading)

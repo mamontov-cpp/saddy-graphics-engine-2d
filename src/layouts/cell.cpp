@@ -29,6 +29,11 @@ sad::layouts::Cell::~Cell()
     
 }
 
+void sad::layouts::Cell::setGrid(sad::layouts::Grid* g)
+{
+    m_grid = g;
+}
+
 void sad::layouts::Cell::toSerializable(sad::layouts::SerializableCell& cell) const
 {
     cell.Width = m_width;

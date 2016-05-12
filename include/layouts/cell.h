@@ -40,6 +40,10 @@ public:
     /*! Could be inherited
      */
     virtual ~Cell();
+    /*! Sets grids to be notified for cell
+        \param[in] g  grid
+     */
+    void setGrid(sad::layouts::Grid* g);
     /*! Converts cell to a serializable data
         \param[in] cell a cell
      */
