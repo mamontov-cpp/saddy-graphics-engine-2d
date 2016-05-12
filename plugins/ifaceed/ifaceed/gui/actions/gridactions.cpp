@@ -209,7 +209,10 @@ void gui::actions::GridActions::updateCellBrowser(bool immediate)
     }
 
     clearGridCellsBrowser();
-    
+
+    // Update proxy just in case, if it was invalidated by setting it not in needed time
+    m_provider->setProxy(m_editor->panelProxy());
+
     gui::uiblocks::UILayoutBlock* layout_blk = m_editor->uiBlocks()->uiLayoutBlock();
     sad::layouts::Grid* grid = this->selectedGrid();
     QGridLayout* table = new QGridLayout();
@@ -559,6 +562,20 @@ void gui::actions::GridActions::commitTopLeftPoint(const sad::input::MousePressE
     }
 }
 
+void gui::actions::GridActions::setChildEditingEnabled(bool enabled)
+{
+    QHash<size_t, QHash<size_t, gui::layouts::LayoutCellEdit*> >::const_iterator iit;
+    QHash<size_t, gui::layouts::LayoutCellEdit*>::const_iterator jit;
+    for(iit = m_cell_editors.begin(); iit != m_cell_editors.end(); ++iit)
+    {
+        const QHash<size_t, gui::layouts::LayoutCellEdit*>& eds = iit.value();
+        for(jit = eds.begin(); jit != eds.end(); ++jit)
+        {
+            jit.value()->setChildEditingEnabled(enabled);
+        }
+    }
+}
+
 void gui::actions::GridActions::enableEditingAreaControls()
 {
     gui::uiblocks::UILayoutBlock* layout_blk = m_editor->uiBlocks()->uiLayoutBlock();
@@ -566,6 +583,7 @@ void gui::actions::GridActions::enableEditingAreaControls()
     layout_blk->cbLayoutFixedHeight->setEnabled(true);
     layout_blk->rwLayoutArea->setEnabled(true);
     layout_blk->lstLayoutGridList->setEnabled(true);
+    this->setChildEditingEnabled(true);
 }
 
 // ================================ PUBLIC SLOTS  ================================
@@ -811,7 +829,8 @@ sad::layouts::Grid* gui::actions::GridActions::prepareGridForAdding()
     m_editor->renderGrids()->add(grid);
     m_editor->shared()->setActiveGrid(grid);
     this->updateRegion();
-    this->updateCellBrowser();
+    this->updateCellBrowser(true);
+    this->setChildEditingEnabled(false);
 
     this->m_previous_machine_state = m_editor->machine()->currentState();
     return grid;

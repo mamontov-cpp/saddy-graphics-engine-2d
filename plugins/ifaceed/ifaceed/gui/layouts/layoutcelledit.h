@@ -122,6 +122,10 @@ public:
         \param[in] p a provider
      */
     void setChildrenProvider(gui::layouts::LayoutCellEdit::ChildrenProvider* p);
+    /*! Toggles, whether child editing is enabled
+        \param[in] enabled whether it's enabled
+     */
+    void setChildEditingEnabled(bool enabled);
 signals:
     /*! Emitted, when width is changed
         \param[in] row a row
@@ -261,7 +265,7 @@ public slots:
     void moveBackClicked();
     /*! Called, when "Move front" button is clicked
      */
-    void moveFrontClicked();
+    void moveFrontClicked();    
 protected:
     /*! A checkbox, which hints whether cell edit has been selected for merge or split
      */

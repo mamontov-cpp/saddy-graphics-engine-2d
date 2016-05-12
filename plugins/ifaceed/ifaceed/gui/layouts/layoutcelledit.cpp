@@ -401,6 +401,15 @@ void gui::layouts::LayoutCellEdit::setChildrenProvider(gui::layouts::LayoutCellE
     m_children_provider = p;
 }
 
+void gui::layouts::LayoutCellEdit::setChildEditingEnabled(bool enabled)
+{
+    m_add->setEnabled(enabled);
+    m_remove->setEnabled(enabled);
+    m_clear->setEnabled(enabled);
+    m_move_back->setEnabled(enabled);
+    m_move_front->setEnabled(enabled);
+}
+
 void gui::layouts::LayoutCellEdit::widthValueChanged(double newvalue)
 {
     sad::layouts::LengthValue value;

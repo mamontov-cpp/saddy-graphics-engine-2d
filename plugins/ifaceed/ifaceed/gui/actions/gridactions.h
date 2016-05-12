@@ -180,6 +180,10 @@ public:
         \param[in] e event
      */
     void commitTopLeftPoint(const sad::input::MousePressEvent& e);
+    /*! Sets children editing enabled for a grid
+        \param[in] enabled whether it's enabled or not
+     */
+    void setChildEditingEnabled(bool enabled);
     /*! Forces editor to enable editing area controls
      */
     void enableEditingAreaControls();
