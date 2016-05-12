@@ -24,6 +24,7 @@
 
 #include "../../history/layouts/layoutsnew.h"
 #include "../../history/layouts/layoutschangename.h"
+#include "../../history/layouts/layoutsaddchild.h"
 
 #include <renderer.h>
 
@@ -776,6 +777,24 @@ void gui::actions::GridActions::cellRightPaddingChanged(size_t row, size_t col, 
 void gui::actions::GridActions::cellChildAdded(size_t row, size_t col, unsigned long long majorid, QString nodename)
 {
     // TODO: Implement this
+    Q_UNUSED(nodename);
+    sad::layouts::Grid* g = m_editor->shared()->selectedGrid();
+    if (!g)
+    {
+        return;
+    }
+    sad::SceneNode* o = static_cast<sad::SceneNode*>(sad::Renderer::ref()->database("")->queryByMajorId(majorid));
+    if (o)
+    {
+        sad::Maybe<sad::Rect2D> oldarea = o->getProperty<sad::Rect2D>("area");
+        if (oldarea.exists())
+        {
+            // TODO: Make new history entry here and commit it
+            history::layouts::AddChild* c = new history::layouts::AddChild(g, row, col, o, oldarea.value());
+            c->commit(m_editor);
+            m_editor->history()->add(c);
+        }
+    }
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst

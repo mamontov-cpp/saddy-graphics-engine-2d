@@ -324,7 +324,8 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/gui/actions/gridactions.h \
     ifaceed/gui/rendergrids.h \
     ifaceed/history/layouts/layoutsnew.h \
-    ifaceed/history/layouts/layoutschangename.h	
+    ifaceed/history/layouts/layoutschangename.h \	
+    ifaceed/history/layouts/layoutsaddchild.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui \
     ifaceed/reloadfilelist.ui \
@@ -578,7 +579,8 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/gui/actions/gridactions.cpp \
     ifaceed/gui/rendergrids.cpp \
     ifaceed/history/layouts/layoutsnew.cpp \
-    ifaceed/history/layouts/layoutschangename.cpp
+    ifaceed/history/layouts/layoutschangename.cpp \
+    ifaceed/history/layouts/layoutsaddchild.cpp
 
 
 DESTDIR = ../../bin/ifaceed/

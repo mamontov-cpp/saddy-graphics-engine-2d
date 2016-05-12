@@ -14,7 +14,6 @@
 #include "../../closuremethodcall.h"
 
 #include "../../gui/uiblocks/uiblocks.h"
-
 #include "../../gui/uiblocks/uilayoutblock.h"
 
 #include "../../gui/actions/actions.h"
