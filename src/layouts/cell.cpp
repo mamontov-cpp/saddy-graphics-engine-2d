@@ -107,9 +107,13 @@ void sad::layouts::Cell::update()
     maxpoint.setY(minpoint.y() - this->paddingTop());
     double assignedwidth =  (maxpoint.x() - minpoint.x());
     double assignedheight = (maxpoint.y() - minpoint.y());    
+
+    // Compute normalized children sizes
+    this->computeNormalizedChildrenSizes();
+
     // Compute preferred size, which we can relate to, when layouting data
     // Normalized rectangles are already computed, so we could futher use them
-    sad::Size2D size = this->preferredSize();
+    sad::Size2D size = this->preferredSize();	
     if (this->stackingType() == sad::layouts::LST_Horizontal)
     {
         // Handle horizontal alignment
