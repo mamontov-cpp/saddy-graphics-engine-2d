@@ -6,11 +6,11 @@
 
 // ============================ PUBLIC METHODS ============================
 
-sad::layouts::Cell::Cell() 
+sad::layouts::Cell::Cell()
 : Rendered(false), Row(0), Col(0),
 m_row_span(1),
-m_col_span(1), 
-m_valign(sad::layouts::LVA_Middle), 
+m_col_span(1),
+m_valign(sad::layouts::LVA_Middle),
 m_halign(sad::layouts::LHA_Middle),
 m_stacking_type(sad::layouts::LST_Horizontal),
 m_padding_top(0),
@@ -21,17 +21,17 @@ m_grid(NULL),
 m_db(NULL)
 {
     m_width.Unit = sad::layouts::LU_Auto;
-    m_height.Unit = sad::layouts::LU_Auto;	
+    m_height.Unit = sad::layouts::LU_Auto;
 }
 
 sad::layouts::Cell::~Cell()
 {
-    
+
 }
 
 void sad::layouts::Cell::setGrid(sad::layouts::Grid* g)
 {
-    m_grid = g;
+        m_grid = g;
 }
 
 void sad::layouts::Cell::toSerializable(sad::layouts::SerializableCell& cell) const
@@ -94,7 +94,7 @@ void sad::layouts::Cell::fromSerializable(
 }
 
 void sad::layouts::Cell::update()
-{    
+{
     // Compute a normalized area
     sad::layouts::Cell::NormalizedRectangle normalized = this->normalize(this->AssignedArea);
     sad::Point2D& minpoint = normalized._1();
@@ -104,16 +104,16 @@ void sad::layouts::Cell::update()
     minpoint.setX(minpoint.x() + this->paddingLeft());
     maxpoint.setX(maxpoint.x() - this->paddingRight());
     minpoint.setY(minpoint.y() + this->paddingBottom());
-    maxpoint.setY(minpoint.y() - this->paddingTop());
+    maxpoint.setY(maxpoint.y() - this->paddingTop());
     double assignedwidth =  (maxpoint.x() - minpoint.x());
-    double assignedheight = (maxpoint.y() - minpoint.y());    
+    double assignedheight = (maxpoint.y() - minpoint.y());
 
-    // Compute normalized children sizes
-    this->computeNormalizedChildrenSizes();
+        // Compute normalized children sizes
+        this->computeNormalizedChildrenSizes();
 
     // Compute preferred size, which we can relate to, when layouting data
     // Normalized rectangles are already computed, so we could futher use them
-    sad::Size2D size = this->preferredSize();	
+    sad::Size2D size = this->preferredSize();
     if (this->stackingType() == sad::layouts::LST_Horizontal)
     {
         // Handle horizontal alignment
@@ -126,11 +126,11 @@ void sad::layouts::Cell::update()
         double startingpointx = 0;
         switch(this->horizontalAlignment())
         {
-            case sad::layouts::LHA_Left: 
-                startingpointx = minpoint.x(); 
+            case sad::layouts::LHA_Left:
+                startingpointx = minpoint.x();
                 break;
-            case sad::layouts::LHA_Middle: 
-                startingpointx = (minpoint.x() + maxpoint.x() - size.Width * factor) / 2;   
+            case sad::layouts::LHA_Middle:
+                startingpointx = (minpoint.x() + maxpoint.x() - size.Width * factor) / 2;
                 break;
             case sad::layouts::LHA_Right:
                 startingpointx = maxpoint.x() - size.Width * factor;
@@ -160,10 +160,10 @@ void sad::layouts::Cell::update()
                 ++current_rectangle;
             }
         }
-    } 
+    }
     else
     {
-        // Handle vertical alignment        
+        // Handle vertical alignment
         // Handle horizontal alignment
         double factor = 1.0;
         if (size.Height > assignedheight)
@@ -174,11 +174,11 @@ void sad::layouts::Cell::update()
         double startingpointy = 0;
         switch(this->verticalAlignment())
         {
-            case sad::layouts::LVA_Top: 
-                startingpointy = maxpoint.y(); 
+            case sad::layouts::LVA_Top:
+                startingpointy = maxpoint.y();
                 break;
-            case sad::layouts::LVA_Middle: 
-                startingpointy = (minpoint.y() + maxpoint.y() + size.Height * factor) / 2;   
+            case sad::layouts::LVA_Middle:
+                startingpointy = (minpoint.y() + maxpoint.y() + size.Height * factor) / 2;
                 break;
             case sad::layouts::LVA_Bottom:
                 startingpointy = minpoint.y() + size.Height * factor;
@@ -256,7 +256,7 @@ sad::layouts::VerticalAlignment sad::layouts::Cell::verticalAlignment() const
 
 void sad::layouts::Cell::setHorizontalAlignment(sad::layouts::HorizontalAlignment align, bool upgrade_grid)
 {
-    m_halign = align; 
+    m_halign = align;
     tryNotify(upgrade_grid);
 }
 
@@ -279,7 +279,7 @@ sad::layouts::StackingType sad::layouts::Cell::stackingType() const
 void sad::layouts::Cell::setPaddingTop(double value, bool update_grid)
 {
     m_padding_top = value;
-    tryNotify(update_grid);    
+    tryNotify(update_grid);
 }
 
 double sad::layouts::Cell::paddingTop() const
@@ -290,7 +290,7 @@ double sad::layouts::Cell::paddingTop() const
 void sad::layouts::Cell::setPaddingBottom(double value, bool update_grid)
 {
     m_padding_bottom = value;
-    tryNotify(update_grid);  	
+    tryNotify(update_grid);
 }
 
 double sad::layouts::Cell::paddingBottom() const
@@ -301,7 +301,7 @@ double sad::layouts::Cell::paddingBottom() const
 void sad::layouts::Cell::setPaddingLeft(double value, bool update_grid)
 {
     m_padding_left = value;
-    tryNotify(update_grid);  	
+    tryNotify(update_grid);
 }
 
 double sad::layouts::Cell::paddingLeft() const
@@ -312,7 +312,7 @@ double sad::layouts::Cell::paddingLeft() const
 void sad::layouts::Cell::setPaddingRight(double value, bool update_grid)
 {
     m_padding_right = value;
-    tryNotify(update_grid);  			
+    tryNotify(update_grid);
 }
 
 double sad::layouts::Cell::paddingRight() const
@@ -399,13 +399,13 @@ void sad::layouts::Cell::insertChild(unsigned int pos, sad::SceneNode* node, boo
     link->setObject(node);
     if (pos >= m_children.size())
     {
-        m_children << link;        
+        m_children << link;
     }
     else
     {
         m_children.insert(link, pos);
     }
-    tryNotify(update_grid);    
+    tryNotify(update_grid);
 }
 
 void sad::layouts::Cell::insertChild(unsigned int pos, unsigned long long major_id, bool update_grid)
@@ -415,13 +415,13 @@ void sad::layouts::Cell::insertChild(unsigned int pos, unsigned long long major_
     link->setMajorId(major_id);
     if (pos >= m_children.size())
     {
-        m_children << link;        
+        m_children << link;
     }
     else
     {
         m_children.insert(link, pos);
     }
-    tryNotify(update_grid);    
+    tryNotify(update_grid);
 }
 
 void sad::layouts::Cell::removeChild(unsigned int pos, bool update_grid)
@@ -430,7 +430,7 @@ void sad::layouts::Cell::removeChild(unsigned int pos, bool update_grid)
     {
         delete m_children[pos];
         m_children.removeAt(pos);
-        tryNotify(update_grid); 
+        tryNotify(update_grid);
     }
 }
 
@@ -441,7 +441,7 @@ void sad::layouts::Cell::swapChildren(unsigned int pos1, unsigned int pos2, bool
         sad::db::TypedLink<sad::SceneNode>* node = m_children[pos1];
         m_children[pos1] = m_children[pos2];
         m_children[pos2] = node;
-        tryNotify(update_grid); 
+        tryNotify(update_grid);
     }
 }
 
@@ -467,7 +467,7 @@ unsigned long long sad::layouts::Cell::childMajorId(unsigned int pos) const
     {
         result = m_children[pos]->majorId();
     }
-    return result;    
+    return result;
 }
 
 sad::Maybe<size_t> sad::layouts::Cell::find(sad::SceneNode* node) const
@@ -532,6 +532,7 @@ sad::Size2D sad::layouts::Cell::preferredSize() const
         this->paddingLeft() + this->paddingRight(),
         this->paddingTop() + this->paddingBottom()
     );
+    const_cast<sad::layouts::Cell*>(this)->computeNormalizedChildrenSizes();
     const sad::Vector<sad::layouts::Cell::NormalizedRectangle>& rects = m_normalized_children;
     double height = 0;
     double width = 0;
@@ -692,8 +693,8 @@ void sad::layouts::Cell::tryNotify(bool update_grid)
 // ============================ PRIVATE METHODS ============================
 
 sad::layouts::Cell::Cell(const sad::layouts::Cell& o)
-: Rendered(o.Rendered), 
-m_row_span(o.m_row_span), 
+: Rendered(o.Rendered),
+m_row_span(o.m_row_span),
 m_col_span(o.m_col_span),
 m_valign(o.m_valign),
 m_halign(o.m_halign),

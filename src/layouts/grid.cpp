@@ -718,7 +718,7 @@ void sad::layouts::Grid::update()
         }
         else
         {
-            m_area = sad::Rect2D(startingpoint.x(), startingpoint.y() - totalheight, startingpoint.x() + m_area.height(), startingpoint.y());
+            m_area = sad::Rect2D(startingpoint.x(), startingpoint.y() - totalheight, startingpoint.x() + m_area.width(), startingpoint.y());
         }
         // 4.2.2 Recompute heights
         for(size_t i = 0; i < m_rows; i++)
