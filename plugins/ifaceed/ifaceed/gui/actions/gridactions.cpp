@@ -224,8 +224,8 @@ void gui::actions::GridActions::updateCellBrowser(bool immediate)
         {
             gui::layouts::LayoutCellEdit* edit = new gui::layouts::LayoutCellEdit();
             edit->setRowAndColumn(cells[i].Row, cells[i].Col);
-            edit->set(grid->cell(cells[i].Row, cells[i].Col));
             edit->setChildrenProvider(m_provider);
+            edit->set(grid->cell(cells[i].Row, cells[i].Col));
             connect(
                 edit,
                 SIGNAL(widthChanged(size_t,size_t,sad::layouts::LengthValue)),
