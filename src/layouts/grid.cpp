@@ -642,12 +642,12 @@ void sad::layouts::Grid::update()
             size.Height = computedSize.Height;
         }
         
-        if (sad::is_fuzzy_zero(size.Width)) 
+        if (sad::is_fuzzy_zero(size.Width) && this->fixedWidth())
         {
             size.Width = m_area.width() / cell->colSpan();
         }
         
-        if (sad::is_fuzzy_zero(size.Height)) 
+        if (sad::is_fuzzy_zero(size.Height) && this->fixedHeight())
         {
             size.Height = m_area.height() / cell->rowSpan();
         }
