@@ -46,6 +46,24 @@ class GridActions: public QObject, public gui::actions::AbstractActions
 {
 Q_OBJECT
 public:
+/*! A options for including for excluding GUI elements for 
+    grids to a batch update actions
+ */
+enum UpdateOptions
+{
+    GAUO_Name = 0, //!< Corresponds to name fields updating
+    GAUO_Area = 1, //!< Corresponds to area fields updating
+    GAUO_Rows = 2, //!< Corresponds to row fields updating
+    GAUO_Cols = 3, //!< Corresponds to column fields updating
+    GAUO_TopPadding = 4,     //!< Corresponds to top padding fields updating
+    GAUO_BottomPadding = 5,  //!< Corresponds to bottom padding fields updating
+    GAUO_LeftPadding = 6,    //!< Corresponds to left padding fields updating
+    GAUO_RightPadding = 7,   //!< Corresponds to right padding fields updating
+    GAUO_FixedWidth = 8,     //!< Corresponds to updating fixed width checkbox fields updating
+    GAUO_FixedHeight = 9,    //!< Corresponds to updating fixed height checkbox fields fields updating
+    GAUO_Cells = 10,         //!< Corresponds to updating cell browser
+    GAUO_None = 11,          //!< Corresponds to nothing for cases, when nothing should be updated (or everything in other case)
+};
     /*! Creates new label actions
         \param[in] parent a parent object
      */
@@ -116,6 +134,22 @@ public:
         \param[in] immediate whether it should be invoked now, or postponed via closure
      */
     void updateRegion(bool immediate = false);
+    /*! Update current grid properties in UI, only specified in parameter
+        \param[in] group a widget group for grid properties
+        \param[in] immediate whether it should be invoked now, or postoponed
+     */
+    void updateOnlyGridPropertiesInUI(
+        gui::actions::GridActions::UpdateOptions group,
+        bool immediate = false
+    );
+    /*! Update current grid properties in UI, except for those, specified in parameter
+        \param[in] group a widget group for grid properties
+        \param[in] immediate whether it should be invoked now, or postoponed
+     */
+    void updateGridPropertiesInUIExcept(
+        gui::actions::GridActions::UpdateOptions group,
+        bool immediate = false
+    );
     /*! Update current grid properties
         \param[in] immediate whether it should be invoked now, or postoponed
      */

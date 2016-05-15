@@ -32,6 +32,7 @@
 #include <db/dbtable.h>
 
 Q_DECLARE_METATYPE(sad::layouts::Grid*)
+Q_DECLARE_METATYPE(gui::actions::GridActions::UpdateOptions)
 
 gui::actions::GridActions::GridActions(QObject* parent)
 : QObject(parent), m_provider(NULL), m_is_stretching(false)
@@ -314,11 +315,14 @@ void gui::actions::GridActions::updateCellBrowser(bool immediate)
     layout_blk->tblLayoutCells->setWidget(w);
 }
 
-void gui::actions::GridActions::updateGridPropertiesInUI(bool immediate)
+void gui::actions::GridActions::updateOnlyGridPropertiesInUI(
+    gui::actions::GridActions::UpdateOptions group,
+    bool immediate
+)
 {
     if (!immediate)
     {
-        m_editor->emitClosure(::bind(this, &gui::actions::GridActions::updateGridPropertiesInUI, true));
+        m_editor->emitClosure(::bind(this, &gui::actions::GridActions::updateOnlyGridPropertiesInUI, group, true));
         return;
     }
 
@@ -326,8 +330,9 @@ void gui::actions::GridActions::updateGridPropertiesInUI(bool immediate)
     sad::layouts::Grid* grid = this->selectedGrid();
     if (grid)
     {
-        const size_t size = 8;
+        const size_t size = 9;
         QWidget* widgets[size] = {
+            layout_blk->txtLayoutGridName,
             layout_blk->spnLayoutGridRows,
             layout_blk->spnLayoutGridCols,
             layout_blk->cbLayoutFixedWidth,
@@ -343,14 +348,38 @@ void gui::actions::GridActions::updateGridPropertiesInUI(bool immediate)
             states[i] = widgets[i]->blockSignals(size);
         }
 
-        layout_blk->spnLayoutGridRows->setValue(grid->rows());
-        layout_blk->spnLayoutGridCols->setValue(grid->columns());
-        layout_blk->cbLayoutFixedWidth->setCheckState((grid->fixedWidth()) ? Qt::Checked : Qt::Unchecked);
-        layout_blk->cbLayoutFixedHeight->setCheckState((grid->fixedHeight()) ? Qt::Checked : Qt::Unchecked);
-        layout_blk->dsbLayoutPaddingLeft->setValue(grid->paddingLeft());
-        layout_blk->dsbLayoutPaddingRight->setValue(grid->paddingRight());
-        layout_blk->dsbLayoutPaddingTop->setValue(grid->paddingTop());
-        layout_blk->dsbLayoutPaddingBottom->setValue(grid->paddingBottom());
+        if (group == gui::actions::GridActions::GAUO_Rows)
+        {
+            layout_blk->spnLayoutGridRows->setValue(grid->rows());
+        }
+        if (group == gui::actions::GridActions::GAUO_Cols)
+        {
+            layout_blk->spnLayoutGridCols->setValue(grid->columns());
+        }
+        if (group == gui::actions::GridActions::GAUO_FixedWidth)
+        {
+            layout_blk->cbLayoutFixedWidth->setCheckState((grid->fixedWidth()) ? Qt::Checked : Qt::Unchecked);
+        }
+        if (group == gui::actions::GridActions::GAUO_FixedHeight)
+        {
+            layout_blk->cbLayoutFixedHeight->setCheckState((grid->fixedHeight()) ? Qt::Checked : Qt::Unchecked);
+        }
+        if (group == gui::actions::GridActions::GAUO_LeftPadding)
+        {
+            layout_blk->dsbLayoutPaddingLeft->setValue(grid->paddingLeft());
+        }
+        if (group == gui::actions::GridActions::GAUO_RightPadding)
+        {
+            layout_blk->dsbLayoutPaddingRight->setValue(grid->paddingRight());
+        }
+        if (group == gui::actions::GridActions::GAUO_TopPadding)
+        {
+            layout_blk->dsbLayoutPaddingTop->setValue(grid->paddingTop());
+        }
+        if (group == gui::actions::GridActions::GAUO_BottomPadding)
+        {
+            layout_blk->dsbLayoutPaddingBottom->setValue(grid->paddingBottom());
+        }
 
         for(size_t i = 0; i < size; i++)
         {
@@ -358,8 +387,103 @@ void gui::actions::GridActions::updateGridPropertiesInUI(bool immediate)
         }
     }
 
-    updateCellBrowser(true);
-    updateRegion(true);
+    if (group == gui::actions::GridActions::GAUO_Cells)
+    {
+        updateCellBrowser(true);
+    }
+
+    if (group == gui::actions::GridActions::GAUO_Area)
+    {
+        updateRegion(true);
+    }    
+}
+
+void gui::actions::GridActions::updateGridPropertiesInUIExcept(
+    gui::actions::GridActions::UpdateOptions group,
+    bool immediate
+)
+{
+    if (!immediate)
+    {
+        m_editor->emitClosure(::bind(this, &gui::actions::GridActions::updateGridPropertiesInUIExcept, group, true));
+        return;
+    }
+
+    gui::uiblocks::UILayoutBlock* layout_blk = m_editor->uiBlocks()->uiLayoutBlock();
+    sad::layouts::Grid* grid = this->selectedGrid();
+    if (grid)
+    {
+        const size_t size = 9;
+        QWidget* widgets[size] = {
+            layout_blk->txtLayoutGridName,
+            layout_blk->spnLayoutGridRows,
+            layout_blk->spnLayoutGridCols,
+            layout_blk->cbLayoutFixedWidth,
+            layout_blk->cbLayoutFixedHeight,
+            layout_blk->dsbLayoutPaddingTop,
+            layout_blk->dsbLayoutPaddingRight,
+            layout_blk->dsbLayoutPaddingLeft,
+            layout_blk->dsbLayoutPaddingBottom
+        };
+        bool states[size];
+        for(size_t i = 0; i < size; i++)
+        {
+            states[i] = widgets[i]->blockSignals(size);
+        }
+
+        if (group != gui::actions::GridActions::GAUO_Rows)
+        {
+            layout_blk->spnLayoutGridRows->setValue(grid->rows());
+        }
+        if (group != gui::actions::GridActions::GAUO_Cols)
+        {
+            layout_blk->spnLayoutGridCols->setValue(grid->columns());
+        }
+        if (group != gui::actions::GridActions::GAUO_FixedWidth)
+        {
+            layout_blk->cbLayoutFixedWidth->setCheckState((grid->fixedWidth()) ? Qt::Checked : Qt::Unchecked);
+        }
+        if (group != gui::actions::GridActions::GAUO_FixedHeight)
+        {
+            layout_blk->cbLayoutFixedHeight->setCheckState((grid->fixedHeight()) ? Qt::Checked : Qt::Unchecked);
+        }
+        if (group != gui::actions::GridActions::GAUO_LeftPadding)
+        {
+            layout_blk->dsbLayoutPaddingLeft->setValue(grid->paddingLeft());
+        }
+        if (group != gui::actions::GridActions::GAUO_RightPadding)
+        {
+            layout_blk->dsbLayoutPaddingRight->setValue(grid->paddingRight());
+        }
+        if (group != gui::actions::GridActions::GAUO_TopPadding)
+        {
+            layout_blk->dsbLayoutPaddingTop->setValue(grid->paddingTop());
+        }
+        if (group != gui::actions::GridActions::GAUO_BottomPadding)
+        {
+            layout_blk->dsbLayoutPaddingBottom->setValue(grid->paddingBottom());
+        }
+
+        for(size_t i = 0; i < size; i++)
+        {
+            widgets[i]->blockSignals(states[i]);
+        }
+    }
+
+    if (group != gui::actions::GridActions::GAUO_Cells)
+    {
+        updateCellBrowser(true);
+    }
+
+    if (group != gui::actions::GridActions::GAUO_Area)
+    {
+        updateRegion(true);
+    }
+}
+
+void gui::actions::GridActions::updateGridPropertiesInUI(bool immediate)
+{    
+    this->updateGridPropertiesInUIExcept(gui::actions::GridActions::GAUO_None, immediate);    
 }
 
 gui::layouts::LayoutCellEdit* gui::actions::GridActions::cellEditor(size_t row,  size_t col)
