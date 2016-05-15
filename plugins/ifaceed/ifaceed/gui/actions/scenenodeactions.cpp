@@ -201,12 +201,32 @@ void gui::actions::SceneNodeActions::rotate(const sad::input::MouseWheelEvent& e
         {
             float nextangle = this->computeChangedAngle(maybeangle.value(), e.Delta);
             node->setProperty("angle", nextangle);
+			gui::actions::GridActions* ga_actions =  m_editor->actions()->gridActions();
+			sad::layouts::Grid* grid = ga_actions->parentGridFor(node);
+			if (selected)
+			{
+				if (grid)
+				{
+					grid->update();
+				}
+			}
             gui::uiblocks::UISceneNodeBlock* blk = m_editor->uiBlocks()->uiSceneNodeBlock();
             m_editor->emitClosure(blocked_bind(
                 blk->awSceneNodeAngle,
                 &gui::anglewidget::AngleWidget::setValue,
                 static_cast<double>(nextangle)
             ));
+			if (selected)
+			{
+				if (grid)
+				{
+					this->updateRegionForNode();
+				}
+				if (m_editor->shared()->selectedGrid() == grid)
+				{
+					m_editor->actions()->gridActions()->updateRegion();
+				}
+			}
             if (selected)
             {
                 m_rotation->start(node, maybeangle.value(), nextangle);
@@ -623,6 +643,17 @@ void gui::actions::SceneNodeActions::angleChanged(double newvalue)
             node->setProperty("angle", newvalue);
             if (selected)
             {
+				gui::actions::GridActions* ga_actions = m_editor->actions()->gridActions();
+				sad::layouts::Grid* grid = ga_actions->parentGridFor(node);
+				if (grid)
+				{
+					grid->update();
+					this->updateRegionForNode();
+					if (m_editor->shared()->selectedGrid() == grid)
+					{
+						ga_actions->updateRegion();
+					}
+				}
                 m_rotation->start(node, maybeangle.value(), newvalue);
             }
         }
