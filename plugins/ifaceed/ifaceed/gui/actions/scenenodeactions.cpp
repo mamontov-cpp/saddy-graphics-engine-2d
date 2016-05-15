@@ -692,7 +692,8 @@ void gui::actions::SceneNodeActions::removeSceneNode(sad::SceneNode* node, bool 
 
     history::scenenodes::Remove* c = new history::scenenodes::Remove(node, row);
     c->set(posininstance, instances);
-    c->set(m_editor->actions()->gridActions()->findRelatedGrids(node));
+	sad::Vector<gui::GridPosition> grids_vector = m_editor->actions()->gridActions()->findRelatedGrids(node);
+    c->set(grids_vector);
     if (from_editor) 
     {
         m_editor->history()->add(c);

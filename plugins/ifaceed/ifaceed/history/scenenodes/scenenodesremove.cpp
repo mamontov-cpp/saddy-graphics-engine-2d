@@ -127,7 +127,7 @@ void history::scenenodes::Remove::rollback(core::Editor * ob)
                 m_dependent_grids[i].Col,
                 m_dependent_grids[i].Pos,
                 m_node
-            );
+            );			
         }
     }
 }
