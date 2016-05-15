@@ -4652,6 +4652,7 @@
     <ClInclude Include="history\label\changetextellipsis.h" />
     <ClInclude Include="history\label\changetextellipsisforlines.h" />
     <ClInclude Include="history\layouts\layoutsaddchild.h" />
+    <ClInclude Include="history\layouts\layoutschange.h" />
     <ClInclude Include="history\layouts\layoutschangename.h" />
     <ClInclude Include="history\layouts\layoutsnew.h" />
     <ClInclude Include="history\scenenodes\scenenodesspan.h" />

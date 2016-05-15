@@ -325,7 +325,8 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/gui/rendergrids.h \
     ifaceed/history/layouts/layoutsnew.h \
     ifaceed/history/layouts/layoutschangename.h \	
-    ifaceed/history/layouts/layoutsaddchild.h
+    ifaceed/history/layouts/layoutsaddchild.h \
+    ifaceed/history/layouts/layoutschange.h	
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui \
     ifaceed/reloadfilelist.ui \
