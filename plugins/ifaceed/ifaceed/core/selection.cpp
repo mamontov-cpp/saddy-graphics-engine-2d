@@ -242,7 +242,13 @@ bool core::Selection::forceEditorEnterMovingState(const sad::input::MousePressEv
     m_editor->shared()->selectedObject()->regions(regions);
     if (sad::isWithin(e.pos2D(), regions))
     {			
-        sad::Maybe<sad::Rect2D> oldarea = m_editor->shared()->selectedObject()->getProperty<sad::Rect2D>("area");
+        sad::SceneNode* node = m_editor->shared()->selectedObject();
+        // If node is within grid - exit
+        if (m_editor->actions()->gridActions()->isIndGrid(node))
+        {
+            return true;
+        }
+        sad::Maybe<sad::Rect2D> oldarea = node->getProperty<sad::Rect2D>("area");
         if (oldarea.exists())
         {
             m_editor->shared()->setPivotPoint(e.pos2D());
@@ -260,7 +266,12 @@ bool core::Selection::forceEditorEnterGridMovingState(const sad::input::MousePre
     sad::layouts::Grid* grid = m_editor->shared()->selectedGrid();
     sad::Rect2D rect = grid->area();
     if (sad::isWithin(e.pos2D(), rect))
-    {			
+    {
+        // If node is within grid - exit
+        if (m_editor->actions()->gridActions()->isIndGrid(grid))
+        {
+            return true;
+        }
         m_editor->shared()->setPivotPoint(e.pos2D());
         m_editor->shared()->setOldArea(rect);
         m_editor->machine()->enterState("layouts/moving");		

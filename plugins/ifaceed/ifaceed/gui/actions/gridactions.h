@@ -190,6 +190,11 @@ public:
     /*! Cancels selection of node, wiping selected widgets
      */
     void cancelSelection();
+    /*! Returns true if object is within grid
+        \param[in] node a node
+        \return true if object is within grid
+     */
+    bool isIndGrid(sad::SceneNode* node) const;
 public slots:
     /*! Called, when user clicks on "Add" button for grids
      */

@@ -596,6 +596,11 @@ void gui::actions::GridActions::cancelSelection()
     this->clearGridCellsBrowser();
 }
 
+bool gui::actions::GridActions::isIndGrid(sad::SceneNode* node) const
+{
+    return this->findRelatedGrids(node).size() != 0;
+}
+
 // ================================ PUBLIC SLOTS  ================================
 
 // ReSharper disable once CppMemberFunctionMayBeConst
