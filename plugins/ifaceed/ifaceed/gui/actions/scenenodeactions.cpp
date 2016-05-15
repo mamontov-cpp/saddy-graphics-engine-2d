@@ -754,6 +754,8 @@ void gui::actions::SceneNodeActions::updateSceneNodeName(sad::SceneNode* s)
     {
         aiobox->setItemText(pos, this->fullNameForNode(s));
     }
+
+	m_editor->actions()->gridActions()->tryUpdateNodeNameInGrid(s);
 }
 
 QString gui::actions::SceneNodeActions::fullNameForNode(sad::SceneNode* node)

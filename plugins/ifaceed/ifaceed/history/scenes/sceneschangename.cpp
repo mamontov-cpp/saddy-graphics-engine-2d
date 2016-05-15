@@ -12,6 +12,7 @@
 #include ".././gui/actions/actions.h"
 #include ".././gui/actions/sceneactions.h"
 #include ".././gui/actions/scenenodeactions.h"
+#include ".././gui/actions/gridactions.h"
 
 Q_DECLARE_METATYPE(sad::db::Object*) //-V566
 
@@ -59,6 +60,7 @@ void history::scenes::ChangeName::updateDependent(core::Editor* e)
     
     gui::actions::SceneActions* s_actions = e->actions()->sceneActions();
     gui::actions::SceneNodeActions* sn_actions = e->actions()->sceneNodeActions();
+    gui::actions::GridActions* ga_actions = e->actions()->gridActions();
     
     int pos = s_actions->findInComboBox<sad::db::Object*>(ai_blk->cmbAnimationInstanceObject, m_scene);
     if (pos > - 1)
@@ -73,5 +75,6 @@ void history::scenes::ChangeName::updateDependent(core::Editor* e)
         {
             ai_blk->cmbAnimationInstanceObject->setItemText(pos, sn_actions->fullNameForNode(nodes[i]));
         }
+		ga_actions->tryUpdateNodeNameInGrid(nodes[i]);
     }
 }

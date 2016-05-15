@@ -20,6 +20,7 @@
 #include "../../gui/actions/actions.h"
 #include "../../gui/actions/labelactions.h"
 #include "../../gui/actions/sceneactions.h"
+#include "../../gui/actions/gridactions.h"
 #include "../../gui/actions/scenenodeactions.h"
 
 Q_DECLARE_METATYPE(sad::db::Object*) //-V566
@@ -51,7 +52,8 @@ void history::scenenodes::ChangeName::tryUpdateUI(core::Editor* e, const sad::St
     {
         e->emitClosure(bind(e->actions()->sceneNodeActions(), &gui::actions::SceneNodeActions::updateSceneNodeName, m_node));
     }
-    e->emitClosure( bind(this, &history::scenenodes::ChangeName::updateDependent, e));
+    e->emitClosure( ::bind(this, &history::scenenodes::ChangeName::updateDependent, e));
+	e->emitClosure( ::bind(e->actions()->gridActions(), &gui::actions::GridActions::tryUpdateNodeNameInGrid, m_node) );
 }
 
 void history::scenenodes::ChangeName::updateUI(core::Editor* e, const sad::String& value)

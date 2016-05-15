@@ -247,6 +247,10 @@ enum UpdateOptions
     /*! Clears cache grid from grid to parent
      */
     void clearNodeToGridCache();
+	/*! Tries to update node name in grid if parent grid for node is selected
+		\param[in] node a node
+	 */
+	void tryUpdateNodeNameInGrid(sad::SceneNode* node);
 public slots:
     /*! Called, when user clicks on "Add" button for grids
      */

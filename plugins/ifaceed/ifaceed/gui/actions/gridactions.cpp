@@ -26,6 +26,9 @@
 #include "../../history/layouts/layoutschangename.h"
 #include "../../history/layouts/layoutsaddchild.h"
 
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/scenenodeactions.h"
+
 #include <renderer.h>
 
 #include <db/dbdatabase.h>
@@ -755,6 +758,20 @@ void gui::actions::GridActions::eraseNodeToGridEntry(sad::SceneNode* node)
 void gui::actions::GridActions::clearNodeToGridCache()
 {
     m_grid_to_parent.clear();
+}
+
+void  gui::actions::GridActions::tryUpdateNodeNameInGrid(sad::SceneNode* node)
+{	
+	sad::layouts::Grid* grid = this->parentGridFor(node);
+	if (m_editor->shared()->selectedGrid() == grid)
+	{
+		sad::Maybe<sad::layouts::Grid::SearchResult> gpos = grid->find(node);
+		if (gpos.exists())
+		{
+			sad::layouts::Cell* cell = grid->cell(gpos.value().p1());
+			this->cellEditor(cell->Row, cell->Col)->updateChildName(gpos.value().p2(), m_editor->actions()->sceneNodeActions()->fullNameForNode(node));
+		}
+	}
 }
 
 // ================================ PUBLIC SLOTS  ================================
