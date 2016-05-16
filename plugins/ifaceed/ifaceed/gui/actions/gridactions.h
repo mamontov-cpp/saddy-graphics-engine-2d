@@ -4,6 +4,7 @@
  */
 #pragma once
 #include <QObject>
+#include <QHash>
 
 #include <input/controls.h>
 #include "abstractactions.h"
@@ -228,7 +229,24 @@ enum UpdateOptions
         \param[in] node a node
         \return true if object is within grid
      */
-    bool isIndGrid(sad::SceneNode* node) const;
+    bool isIndGrid(sad::SceneNode* node);
+    /*! Returns a parent grid for node, or nothing if not found
+        \param node a scene node
+        \return parent grid
+     */
+    sad::layouts::Grid* parentGridFor(sad::SceneNode* node);
+    /*! Inserts node to grid entry
+        \param node a node
+        \param g a parent grid
+     */
+    void insertNodeToGridEntry(sad::SceneNode* node, sad::layouts::Grid* g);
+    /*! Removes node to grid entry
+        \param node a node, which link should be removed
+     */
+    void eraseNodeToGridEntry(sad::SceneNode* node);
+    /*! Clears cache grid from grid to parent
+     */
+    void clearNodeToGridCache();
 public slots:
     /*! Called, when user clicks on "Add" button for grids
      */
@@ -338,6 +356,9 @@ private:
     /*! A hash table from actions to local editors for provider
      */
     QHash<size_t, QHash<size_t, gui::layouts::LayoutCellEdit*> > m_cell_editors; 
+    /*! A hash, which connects node to parent grid
+     */
+    QHash<sad::SceneNode*, sad::layouts::Grid*> m_grid_to_parent;
     /*! A previous machine state for main editor's state machine. This is used
         to store previous state in case of multi-state transitions.
         "Add By Stretching" process is the only one now.

@@ -720,9 +720,41 @@ void gui::actions::GridActions::cancelSelection()
     this->clearGridCellsBrowser();
 }
 
-bool gui::actions::GridActions::isIndGrid(sad::SceneNode* node) const
+bool gui::actions::GridActions::isIndGrid(sad::SceneNode* node)
 {
-    return this->findRelatedGrids(node).size() != 0;
+    return this->parentGridFor(node) != NULL;
+}
+
+sad::layouts::Grid* gui::actions::GridActions::parentGridFor(sad::SceneNode* node)
+{
+    if (m_grid_to_parent.contains(node) == false)
+    {
+        sad::Vector<gui::GridPosition> poses = this->findRelatedGrids(node);
+        if (poses.size() == 0)
+        {
+            m_grid_to_parent.insert(node, NULL);
+        }
+        else
+        {
+            m_grid_to_parent.insert(node, poses[0].Grid);
+        }
+    }
+    return m_grid_to_parent[node];
+}
+
+void gui::actions::GridActions::insertNodeToGridEntry(sad::SceneNode* node, sad::layouts::Grid* g)
+{
+    m_grid_to_parent.insert(node, g);
+}
+
+void gui::actions::GridActions::eraseNodeToGridEntry(sad::SceneNode* node)
+{
+    m_grid_to_parent.remove(node);
+}
+
+void gui::actions::GridActions::clearNodeToGridCache()
+{
+    m_grid_to_parent.clear();
 }
 
 // ================================ PUBLIC SLOTS  ================================

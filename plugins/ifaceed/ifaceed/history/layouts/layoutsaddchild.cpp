@@ -89,6 +89,7 @@ void history::layouts::AddChild::_rollback(core::Editor* ob)
         ob->actions()->sceneNodeActions()->updateRegionForNode();
     }
     gui::actions::GridActions* ga = ob->actions()->gridActions();
+    ga->eraseNodeToGridEntry(m_node);
     if (ob->shared()->selectedGrid() == m_node)
     {
         ga->updateRegion(true);
@@ -103,12 +104,13 @@ void history::layouts::AddChild::_rollback(core::Editor* ob)
 
 void history::layouts::AddChild::_commitWithoutUpdatingUI(core::Editor* ob)
 {
-    m_grid->cell(m_row, m_column)->addChild(m_node->MajorId);
+    m_grid->cell(m_row, m_column)->addChild(m_node->MajorId);   
     if (ob->shared()->selectedObject() == m_node)
     {
         ob->actions()->sceneNodeActions()->updateRegionForNode();
     }
     gui::actions::GridActions* ga = ob->actions()->gridActions();
+    ga->insertNodeToGridEntry(m_node, m_grid);
     if (ob->shared()->selectedGrid() == m_node)
     {
         ga->updateRegion(true);

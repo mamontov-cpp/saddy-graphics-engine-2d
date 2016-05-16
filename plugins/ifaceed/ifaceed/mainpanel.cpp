@@ -1033,6 +1033,7 @@ void MainPanel::viewDatabase()
     sad::Vector<sad::layouts::Grid*> grids;
     gui::RenderGrids::gridsFromTable(table, grids);
     gui::actions::GridActions* grid_actions = m_editor->actions()->gridActions();
+    grid_actions->clearNodeToGridCache();
     for(size_t i = 0; i < grids.size(); i++)
     {
         grid_actions->addGridToGridList(grids[i]);
