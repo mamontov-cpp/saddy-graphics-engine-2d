@@ -138,6 +138,17 @@ void gui::actions::SceneNodeActions::resizeObject(const sad::input::MouseMoveEve
         node->setProperty("area", area);
         this->updateRegionForNode();
     }
+    gui::actions::GridActions* ga = m_editor->actions()->gridActions();
+    sad::layouts::Grid* g = ga->parentGridFor(node);
+    if (g)
+    {
+        g->update();
+        if (m_editor->shared()->selectedGrid() == g)
+        {
+            ga->updateRegion();
+        }
+        this->updateRegionForNode();
+    }
 }
 
 void gui::actions::SceneNodeActions::commitObjectResizing(const sad::input::MouseReleaseEvent& e)
