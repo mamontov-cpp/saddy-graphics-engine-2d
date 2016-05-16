@@ -27,6 +27,8 @@
 #include "../../gui/updateelement.h"
 #include "../../gui/mainpanelproxy.h"
 
+#include "../../gui/actions/gridactions.h"
+
 //#include "../history/scenenodes/scenenodesnew.h"
 #include "../../history/scenenodes/scenenodesremove.h"
 #include "../../history/scenenodes/scenenodeschangename.h"
@@ -555,7 +557,23 @@ void gui::actions::SceneNodeActions::areaChanged(QRectF newarea)
                     newvalue = node->getProperty<sad::Rect2D>("area").value();
                     eq = sad::equal(ov, newvalue);
                     if (!eq) {
-                        m_editor->history()->add(new history::scenenodes::ChangeArea(node, ov, newvalue));
+                        gui::actions::GridActions* ga = m_editor->actions()->gridActions();
+                        sad::layouts::Grid* parent = ga->parentGridFor(node);
+                        if (parent != NULL)
+                        {
+                            parent->update();
+                            sad::Rect2D valueafterupdate = node->getProperty<sad::Rect2D>("area").value();
+                            if (!sad::equal(valueafterupdate, newvalue))
+                            {
+                                this->updateRegionForNode();
+                            }
+                            eq = sad::equal(valueafterupdate, ov);
+                            newvalue = valueafterupdate;
+                        }
+                        if (!eq)
+                        {
+                            m_editor->history()->add(new history::scenenodes::ChangeArea(node, ov, newvalue));
+                        }
                     }
                 }
             }
