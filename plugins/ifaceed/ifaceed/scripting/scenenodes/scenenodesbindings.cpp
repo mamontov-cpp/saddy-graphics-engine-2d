@@ -12,6 +12,7 @@
 #include "../../gui/actions/actions.h"
 #include "../../gui/actions/scenenodeactions.h"
 #include "../../gui/actions/sprite2dactions.h"
+#include "../../gui/actions/gridactions.h"
 
 #include <renderer.h>
 #include <label.h>
@@ -226,11 +227,17 @@ void scripting::scenenodes::spanBetweenTwoPoints(
 {
     if (node)
     {
+
         sad::Maybe<sad::Rect2D> old_area_maybe = node->getProperty<sad::Rect2D>("area");
         sad::Maybe<double> old_angle_maybe = node->getProperty<double>("angle");
         if (old_angle_maybe.exists() && old_area_maybe.exists())
         {
             core::Editor* e = scripting->editor(); 
+            // Do not allow usr to span node in case it's within a grid
+            if (e->actions()->gridActions()->isInGrid(node))
+            {
+                return;
+            }
             gui::actions::SceneNodeActions* scene_node_actions = e->actions()->sceneNodeActions();
             scene_node_actions->spanObjectBetweenTwoPoints(node, p1, p2);
             sad::Maybe<sad::Rect2D> new_area_maybe = node->getProperty<sad::Rect2D>("area");

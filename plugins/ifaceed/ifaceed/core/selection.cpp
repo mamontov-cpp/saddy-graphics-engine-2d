@@ -244,7 +244,7 @@ bool core::Selection::forceEditorEnterMovingState(const sad::input::MousePressEv
     {			
         sad::SceneNode* node = m_editor->shared()->selectedObject();
         // If node is within grid - exit
-        if (m_editor->actions()->gridActions()->isIndGrid(node))
+        if (m_editor->actions()->gridActions()->isInGrid(node))
         {
             return true;
         }
@@ -268,7 +268,7 @@ bool core::Selection::forceEditorEnterGridMovingState(const sad::input::MousePre
     if (sad::isWithin(e.pos2D(), rect))
     {
         // If node is within grid - exit
-        if (m_editor->actions()->gridActions()->isIndGrid(grid))
+        if (m_editor->actions()->gridActions()->isInGrid(grid))
         {
             return true;
         }

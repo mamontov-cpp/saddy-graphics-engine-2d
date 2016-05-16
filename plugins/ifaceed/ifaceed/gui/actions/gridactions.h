@@ -229,7 +229,7 @@ enum UpdateOptions
         \param[in] node a node
         \return true if object is within grid
      */
-    bool isIndGrid(sad::SceneNode* node);
+    bool isInGrid(sad::SceneNode* node);
     /*! Returns a parent grid for node, or nothing if not found
         \param node a scene node
         \return parent grid

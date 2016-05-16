@@ -64,6 +64,10 @@ void history::scenenodes::ChangeArea::tryUpdateUI(core::Editor* e, const sad::Re
     if (parent)
     {
         parent->update();
+        if (e->isNodeSelected(m_node))
+        {
+            this->updateUI(e, m_node->getProperty<sad::Rect2D>("area").value());
+        }
         if (e->shared()->selectedGrid() == parent)
         {
             ga->updateRegion();

@@ -720,7 +720,7 @@ void gui::actions::GridActions::cancelSelection()
     this->clearGridCellsBrowser();
 }
 
-bool gui::actions::GridActions::isIndGrid(sad::SceneNode* node)
+bool gui::actions::GridActions::isInGrid(sad::SceneNode* node)
 {
     return this->parentGridFor(node) != NULL;
 }

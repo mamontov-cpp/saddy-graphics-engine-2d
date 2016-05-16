@@ -942,6 +942,10 @@ void gui::actions::SceneNodeActions::enterSpanningObjectBetweenTwoPoints()
         && 	node != NULL
         &&  m_editor->machine()->isInState("selected"))
     {
+        if (m_editor->actions()->gridActions()->isInGrid(node))
+        {
+            QMessageBox::critical(NULL, "Node cannot be spanned", "This node cannot be spanned between two points, because it\'s within a grid");
+        }
         sad::Maybe<sad::Rect2D> old_area_maybe = node->getProperty<sad::Rect2D>("area");
         sad::Maybe<double> old_angle_maybe = node->getProperty<double>("angle");
         if (old_area_maybe.exists() && old_angle_maybe.exists()) {
