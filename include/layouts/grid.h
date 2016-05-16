@@ -234,7 +234,11 @@ public:
     /*! Returns a a major ids list for all children of all cells
         \return list of major ids
      */
-    sad::Vector<unsigned long long> childrenMajorIds() const;	
+    sad::Vector<unsigned long long> childrenMajorIds() const;
+	/*! Returns a list of nodes for all children of all cells
+		\return list of child nodes
+	 */
+	sad::Vector<sad::SceneNode*> children() const;
     /*! Sets a table, propagating database to a cells
         \param[in] t a table
      */

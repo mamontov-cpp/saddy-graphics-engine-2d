@@ -272,6 +272,9 @@ bool core::Selection::forceEditorEnterGridMovingState(const sad::input::MousePre
         {
             return true;
         }
+		picojson::value value(picojson::object_type, false);
+		grid->save(value);
+		m_editor->shared()->setOldState(value);
         m_editor->shared()->setPivotPoint(e.pos2D());
         m_editor->shared()->setOldArea(rect);
         m_editor->machine()->enterState("layouts/moving");		

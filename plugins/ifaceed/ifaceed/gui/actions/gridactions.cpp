@@ -26,6 +26,7 @@
 
 #include "../../history/layouts/layoutsnew.h"
 #include "../../history/layouts/layoutschangename.h"
+#include "../../history/layouts/layoutschange.h"
 #include "../../history/layouts/layoutsaddchild.h"
 
 #include "../../gui/actions/actions.h"
@@ -603,6 +604,46 @@ void gui::actions::GridActions::moveByCenter(const sad::input::MouseMoveEvent& e
         grid->moveBy(e.pos2D() - p);
         this->updateRegion();
     }
+}
+
+void gui::actions::GridActions::moveByPivotPoint(const sad::input::MouseMoveEvent& e)
+{
+	sad::layouts::Grid* grid = m_editor->shared()->selectedGrid();
+	if (grid)
+	{
+		sad::Rect2D area  = m_editor->shared()->oldArea();
+		sad::moveBy(e.pos2D() - m_editor->shared()->pivotPoint(), area);
+		grid->setArea(area);
+		this->updateRegion();
+		sad::SceneNode* node = m_editor->shared()->selectedObject();
+		if (node)
+		{
+			if (this->parentGridFor(node) == grid)
+			{
+				m_editor->actions()->sceneNodeActions()->updateRegionForNode();
+			}
+		}
+	}
+}
+
+void gui::actions::GridActions::commitMovingGrid(const sad::input::MouseReleaseEvent& e)
+{
+	sad::layouts::Grid* grid = m_editor->shared()->selectedGrid();
+	if (grid)
+	{
+		sad::input::MouseMoveEvent ev;
+		ev.Point3D = e.Point3D;
+		moveByPivotPoint(ev);
+		picojson::value value(picojson::object_type, false);
+		grid->save(value);
+		history::layouts::Change<gui::actions::GridActions::GAUO_Area>* change = new history::layouts::Change<gui::actions::GridActions::GAUO_Area>(grid);
+		change->saveOldState(m_editor->shared()->oldState());
+		change->saveNewState(value);
+		change->addAffectedNodes(grid->children());
+		m_editor->history()->add(change);
+		sad::String previous_state = m_editor->machine()->previousState();
+		m_editor->machine()->enterState(previous_state);
+	}
 }
 
 void gui::actions::GridActions::moveByBottomRightCorner(const sad::input::MouseMoveEvent& e)

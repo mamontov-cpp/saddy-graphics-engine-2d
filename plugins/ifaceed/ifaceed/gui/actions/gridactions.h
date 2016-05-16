@@ -271,7 +271,15 @@ enum UpdateOptions
         \param[in] e event
      */
     void moveByCenter(const sad::input::MouseMoveEvent& e);
-    /*! Moves bottom-right corner of active grid to a mouse position.
+    /*! Moves pivot point selected node to a mouse position.
+        \param[in] e event
+     */
+    void moveByPivotPoint(const sad::input::MouseMoveEvent& e);
+	/*! Commits moving grid to a mouse position
+		\param[in] e event
+	 */ 
+	void commitMovingGrid(const sad::input::MouseReleaseEvent& e);
+	/*! Moves bottom-right corner of active grid to a mouse position.
         Note, that this will not preserve history, so use it only for
         active node.
         \param[in] e event
