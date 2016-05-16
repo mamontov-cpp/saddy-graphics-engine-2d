@@ -105,7 +105,8 @@ protected:
             return;
         if (e->shared()->selectedGrid() == m_grid)
         {
-            e->actions()->gridActions()->updateGridPropertiesInUIExcept(O);
+            e->actions()->gridActions()->updateOnlyGridPropertiesInUI(O);
+            e->actions()->gridActions()->updateRegion();
         }
         for(size_t i = 0; i < m_affected_nodes.size(); i++)
         {
