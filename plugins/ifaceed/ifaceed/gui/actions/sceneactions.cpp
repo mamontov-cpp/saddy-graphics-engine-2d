@@ -2,6 +2,8 @@
 
 #include <scene.h>
 
+#include <sadpair.h>
+
 #include <db/dbdatabase.h>
 // ReSharper disable once CppUnusedIncludeDirective
 #include <db/save.h>
@@ -14,7 +16,11 @@
 #include "../../gui/uiblocks/uisceneblock.h"
 #include "../../gui/uiblocks/uianimationinstanceblock.h"
 
+#include "../../gui/actions/actions.h"
+#include "../../gui/actions/gridactions.h"
+
 #include "../../core/editor.h"
+
 #include "../../history/scenes/scenesadd.h"
 #include "../../history/scenes/scenesremove.h"
 #include "../../history/scenes/sceneschangename.h"
@@ -277,6 +283,11 @@ void gui::actions::SceneActions::scriptableRemoveScene(sad::Scene* scene, bool f
 
         history::scenes::Remove* c = new history::scenes::Remove(scene, row);
         c->set(positioninanimationcombo, positions, dependentinstances, dependentonnodes);
+		
+		sad::Vector< sad::Pair<sad::SceneNode*, gui::GridPosition> > affected_grids;
+		m_editor->actions()->gridActions()->findParentGrids(nodes, affected_grids);
+		c->setAffectedGrids(affected_grids);
+
         this->m_editor->history()->add(c);
         c->commit(m_editor);
     }
@@ -438,6 +449,9 @@ void gui::actions::SceneActions::clearScene()
 
         history::scenes::Clear* c = new history::scenes::Clear(scene);
         c->set(positions, dependentinstances);
+		sad::Vector< sad::Pair<sad::SceneNode*, gui::GridPosition> > affected_grids;
+		m_editor->actions()->gridActions()->findParentGrids(nodes, affected_grids);
+		c->setAffectedGrids(affected_grids);
         this->m_editor->history()->add(c);
         c->commit(m_editor);
     }

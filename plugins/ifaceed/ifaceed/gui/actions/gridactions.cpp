@@ -1,5 +1,7 @@
 #include "gridactions.h"
 
+#include <algorithm>
+
 #include <QLineEdit>
 #include <QScrollArea>
 
@@ -774,6 +776,71 @@ void  gui::actions::GridActions::tryUpdateNodeNameInGrid(sad::SceneNode* node)
     }
 }
 
+void gui::actions::GridActions::findParentGrids(
+	const sad::Vector<sad::SceneNode*>& list,
+	sad::Vector<sad::Pair<sad::SceneNode*, gui::GridPosition> >& parent_pairs
+) const
+{
+	parent_pairs.clear();
+	for(size_t i = 0; i < list.size(); i++)
+	{
+		sad::SceneNode* node = list[i];
+		sad::Vector<gui::GridPosition> vcs = this->findRelatedGrids(node); 
+		if (vcs.size())
+		{
+			parent_pairs << sad::Pair<sad::SceneNode*, gui::GridPosition>(node, vcs[0]);
+		}
+	}
+}
+
+void gui::actions::GridActions::eraseNodesFromGrids(const sad::Vector<sad::Pair<sad::SceneNode*, gui::GridPosition> >& parent_pairs)
+{
+
+	gui::SortingBuckets buckets;
+	this->makeBuckets(parent_pairs, buckets);
+	for(size_t i = 0; i < buckets.size(); i++)
+	{
+		sad::layouts::Grid* grid = buckets[i].Cell.Grid;
+		sad::layouts::Cell* cell = grid->cell(buckets[i].Cell.Row, buckets[i].Cell.Col);
+		sad::Vector<gui::NodeLocationInCell> & pos_cells = buckets[i].List;
+		std::reverse(pos_cells.begin(), pos_cells.end());
+		for(size_t j = 0; j < pos_cells.size(); j++)
+		{
+			sad::SceneNode* node = pos_cells[j].Node;
+			cell->removeChild(pos_cells[j].Pos);
+			this->eraseNodeToGridEntry(node);
+			if (m_editor->shared()->selectedGrid() == grid)
+			{
+				this->updateRegion();
+				this->updateCellBrowser();
+			}
+		}
+	}	
+}
+
+void gui::actions::GridActions::insertNodesToGrids(const sad::Vector<sad::Pair<sad::SceneNode*, gui::GridPosition> >& parent_pairs)
+{
+	gui::SortingBuckets buckets;
+	this->makeBuckets(parent_pairs, buckets);
+	for(size_t i = 0; i < buckets.size(); i++)
+	{
+		sad::layouts::Grid* grid = buckets[i].Cell.Grid;
+		sad::layouts::Cell* cell = grid->cell(buckets[i].Cell.Row, buckets[i].Cell.Col);
+		sad::Vector<gui::NodeLocationInCell> & pos_cells = buckets[i].List;
+		for(size_t j = 0; j < pos_cells.size(); j++)
+		{
+			sad::SceneNode* node = pos_cells[j].Node;
+			cell->insertChild(pos_cells[j].Pos, node->MajorId);
+			this->insertNodeToGridEntry(node, grid);
+			if (m_editor->shared()->selectedGrid() == grid)
+			{
+				this->updateRegion();
+				this->updateCellBrowser();
+			}
+		}
+	}
+}
+
 // ================================ PUBLIC SLOTS  ================================
 
 // ReSharper disable once CppMemberFunctionMayBeConst
@@ -1040,4 +1107,37 @@ sad::layouts::Grid* gui::actions::GridActions::prepareGridForAdding()
 
     this->m_previous_machine_state = m_editor->machine()->currentState();
     return grid;
+}
+
+void gui::actions::GridActions::makeBuckets(const sad::Vector<sad::Pair<sad::SceneNode*, gui::GridPosition> >& parent_pairs, gui::SortingBuckets& buckets) const
+{
+	buckets.clear();
+	for(size_t i  = 0; i < parent_pairs.size(); i++)
+	{
+		sad::SceneNode* node = parent_pairs[i].p1();
+		gui::GridPosition position = parent_pairs[i].p2();
+		gui::CellLocation location(position.Grid, position.Row, position.Col);
+		gui::NodeLocationInCell locincell(node, position.Pos);
+		bool found = false;
+		for(size_t j = 0; (j < buckets.size()) && !found; j++)
+		{
+			if (buckets[j].Cell == location)
+			{
+				buckets[j].List << locincell;
+				found = true;
+			}
+		}
+		if (!found)
+		{
+			gui::SortingBucket bucket;
+			bucket.Cell = location;
+			bucket.List << locincell;
+			buckets << bucket;
+		}
+	}
+
+	for(size_t i = 0; i < buckets.size(); i++)
+	{
+		std::sort(buckets[i].List.begin(), buckets[i].List.end());
+	}
 }

@@ -15,7 +15,82 @@ class MainPanel;
 
 namespace gui
 {
+/*! A cell location in grid
+ */ 
+struct CellLocation
+{
+	sad::layouts::Grid* Grid; //!<  A grid
+    size_t Row;               //!<  A row of related cell
+    size_t Col;               //!<  A column of related cell
 
+	/*! A default constructor
+	 */
+	inline CellLocation()
+	: Grid(NULL), Row(0), Col(0)
+	{
+		
+	}
+	/*! A default constructor
+		\param[in] grid a grid
+		\param[in] row a row
+		\param[in] col a column
+	 */
+	inline CellLocation(sad::layouts::Grid* grid, size_t row, size_t col)
+	: Grid(grid), Row(row), Col(col)
+	{
+		
+	}
+	/*! Returns true if both arguments are equal
+		\param[in] o other object
+		\return whether two objects are equal
+	 */
+	inline bool operator==(const gui::CellLocation& o) const
+	{
+		return Grid == o.Grid && Row == o.Row && Col == o.Col;
+	}
+};
+/*! A node location in cell
+ */
+struct NodeLocationInCell
+{
+	sad::SceneNode* Node; //!< A node
+	size_t Pos;  //!< A position of node in cell
+	/*! A default constructor
+		\param[in] node a node
+		\param[in] pos a position
+	 */
+	inline NodeLocationInCell(sad::SceneNode* node, size_t pos)
+	: Node(node), Pos(pos)
+	{
+		
+	}
+	/*! Returns true if other object's position is greater than current
+		\param[in] o object
+		\return other
+	 */
+	inline bool operator<(const NodeLocationInCell & o) const
+	{
+		return this->Pos < o.Pos;
+	}
+	/*! Returns true if other object's position is lesser than current
+		\param[in] o object
+		\return other
+	 */
+	inline bool operator>(const NodeLocationInCell & o) const
+	{
+		return this->Pos > o.Pos;
+	}
+};
+/*! A sorting bucket for inserting or erasing from list
+ */
+struct SortingBucket
+{
+	CellLocation Cell;
+	sad::Vector<NodeLocationInCell> List;
+};
+/*! A list of sorting buckets
+ */
+typedef sad::Vector<SortingBucket> SortingBuckets; 
 /*! A position of scene node in grids
  */
 struct GridPosition
@@ -251,6 +326,22 @@ enum UpdateOptions
         \param[in] node a node
      */
     void tryUpdateNodeNameInGrid(sad::SceneNode* node);
+	/*! Finds parent grids for specified node list
+		\param[in] list a list of nodes
+		\param[out] parent_pairs list of parent pairs
+	 */
+	void findParentGrids(
+		const sad::Vector<sad::SceneNode*>& list,
+		sad::Vector<sad::Pair<sad::SceneNode*, gui::GridPosition> >& parent_pairs
+	) const;
+	/*! Erases nodes from their grids, updating them if needed
+		\param[in] parent_pairs a pairs of node, and their positions in grids
+	 */
+	void eraseNodesFromGrids(const sad::Vector<sad::Pair<sad::SceneNode*, gui::GridPosition> >& parent_pairs);
+	/*! Inserts nodes to their grids, updating them if needed
+		\param[in] parent_apairs a pairs of node, and their positions in grids
+	 */
+	void insertNodesToGrids(const sad::Vector<sad::Pair<sad::SceneNode*, gui::GridPosition> >& parent_pairs);
 public slots:
     /*! Called, when user clicks on "Add" button for grids
      */
@@ -354,6 +445,11 @@ private:
         \return created grid
      */
     sad::layouts::Grid* prepareGridForAdding();
+	/*! Makes buckets for sorting
+		\param[in] parent_pairs
+		\param[out] buckets a buckets list
+	 */
+	void makeBuckets(const sad::Vector<sad::Pair<sad::SceneNode*, gui::GridPosition> >& parent_pairs, gui::SortingBuckets& buckets) const;
     /*! A provider for grid cells
      */
     gui::ChildrenProvider* m_provider;

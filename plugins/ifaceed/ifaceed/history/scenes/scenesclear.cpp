@@ -16,6 +16,8 @@
 #include ".././gui/actions/actions.h"
 #include ".././gui/actions/sceneactions.h"
 #include ".././gui/actions/scenenodeactions.h"
+#include ".././gui/actions/gridactions.h"
+
 
 Q_DECLARE_METATYPE(sad::db::Object*) //-V566
 
@@ -67,6 +69,13 @@ void history::scenes::Clear::set(
 }
 
 
+void history::scenes::Clear::setAffectedGrids(
+	const sad::Vector< sad::Pair<sad::SceneNode*, gui::GridPosition> >& affected_grids
+)
+{
+	m_affected_grids = affected_grids;
+}
+
 void history::scenes::Clear::commit(core::Editor * ob)
 {
     for(size_t i = 0; i < m_nodes.size(); i++)
@@ -104,6 +113,8 @@ void history::scenes::Clear::commit(core::Editor * ob)
                 ob->emitClosure( blocked_bind(ob->uiBlocks()->uiAnimationInstanceBlock()->cmbAnimationInstanceObject, &QComboBox::setCurrentIndex, 0));
             }
         }
+
+		ob->actions()->gridActions()->eraseNodesFromGrids(m_affected_grids);
     }
 }
 
@@ -159,5 +170,7 @@ void history::scenes::Clear::rollback(core::Editor * ob)
                 }
             }
         }
-    }
+
+		ob->actions()->gridActions()->insertNodesToGrids(m_affected_grids);
+	}
 }
