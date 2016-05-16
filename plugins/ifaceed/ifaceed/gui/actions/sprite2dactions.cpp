@@ -38,6 +38,7 @@
 #include "actions.h"
 #include "sceneactions.h"
 #include "scenenodeactions.h"
+#include "gridactions.h"
 
 #include <sprite2d.h>
 
@@ -165,6 +166,14 @@ void gui::actions::Sprite2DActions::moveLowerPointOfSprite(const sad::input::Mou
 // ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::Sprite2DActions::setSceneNodeAsBackground(sad::SceneNode* node, bool from_editor)
 {
+    if (m_editor->actions()->gridActions()->isInGrid(node))
+    {
+        if (from_editor)
+        {
+            QMessageBox::critical(NULL, "Node canot be set as background", "This node could not be set as background, because it\'s within grid.");
+        }
+        return;
+    }
     const sad::Settings& settings = sad::Renderer::ref()->settings();
     sad::Rect2D newrect(
         sad::Point2D(0, 0),
@@ -383,6 +392,7 @@ void gui::actions::Sprite2DActions::spriteOptionsChanged(sad::String s)
                     node->setProperty("options", s);
                     node->rendererChanged();
                     m_editor->actions()->sceneNodeActions()->updateRegionForNode();
+                    m_editor->tryUpdateParentGridForNode(node);
                     sad::Renderer::ref()->unlockRendering();
                     m_editor->history()->add(
                         new history::sprite2d::ChangeOptions(

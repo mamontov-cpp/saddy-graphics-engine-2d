@@ -240,6 +240,7 @@ void gui::actions::LabelActions::labelFontChanged(sad::String s)
                 {
                     sad::Renderer::ref()->lockRendering();
                     node->setProperty("font", s);
+                    m_editor->actions()->sceneNodeActions()->tryUpdateParentGridForNode(node);
                     sad::Renderer::ref()->unlockRendering();
                     m_editor->history()->add(new history::label::ChangeFontName(node, oldvalue.value(), s));
                 }
@@ -273,6 +274,7 @@ void gui::actions::LabelActions::labelSizeChanged(unsigned int s)
                 {
                     sad::Renderer::ref()->lockRendering();
                     node->setProperty("fontsize", s);
+                    m_editor->actions()->sceneNodeActions()->tryUpdateParentGridForNode(node);
                     sad::Renderer::ref()->unlockRendering();
                     sn_actions->updateRegionForNode();
                     m_editor->history()->add(new history::label::ChangeFontSize(node, oldvalue.value(), s));
@@ -308,6 +310,7 @@ void gui::actions::LabelActions::labelTextChanged()
                 {
                     node->setProperty("text", newvalue);
                     sn_actions->updateRegionForNode();
+                    m_editor->actions()->sceneNodeActions()->tryUpdateParentGridForNode(node);
                     m_editor->history()->add(new history::label::ChangeText(node, oldvalue.value(), newvalue));
                 }
             }
@@ -337,6 +340,7 @@ void gui::actions::LabelActions::labelLineSpacingChanged(double newvalue)
                 {
                     node->setProperty("linespacing", newvalue);
                     sn_actions->updateRegionForNode();
+                    m_editor->actions()->sceneNodeActions()->tryUpdateParentGridForNode(node);
                     m_editor->history()->add(new history::label::ChangeLineSpacing(node, oldvalue.value(), newvalue));
                 }
             }
@@ -435,6 +439,7 @@ void gui::actions::LabelActions::unsignedIntPropertyChanged(
                 {
                     node->setProperty(prop, newvalue);
                     sn_actions->updateRegionForNode();
+                    m_editor->actions()->sceneNodeActions()->tryUpdateParentGridForNode(node);
                     history::Command* p = (this->*maker)(node, oldvalue.value(), newvalue);
                     m_editor->history()->add(p);
                 }

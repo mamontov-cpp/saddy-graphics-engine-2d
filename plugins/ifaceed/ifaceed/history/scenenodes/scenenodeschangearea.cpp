@@ -15,9 +15,6 @@
 #include "../../gui/uiblocks/uiblocks.h"
 #include "../../gui/uiblocks/uiscenenodeblock.h"
 
-#include "../../gui/actions/actions.h"
-#include "../../gui/actions/gridactions.h"
-
 #include "../../gui/rectwidget/rectwidget.h"
 
 history::scenenodes::ChangeArea::ChangeArea(
@@ -33,6 +30,7 @@ history::scenenodes::ChangeArea::ChangeArea(
       newvalue
 )
 {
+    m_affects_parent_grid = true;
 }
 
 history::scenenodes::ChangeArea::~ChangeArea()
@@ -51,27 +49,3 @@ void history::scenenodes::ChangeArea::updateUI(core::Editor* e, const sad::Rect2
         )
     );
 }
-
-void history::scenenodes::ChangeArea::tryUpdateUI(core::Editor* e, const sad::Rect2D& value)
-{
-    if (e->isNodeSelected(m_node))
-    {
-        this->updateUI(e, value);
-    }
-
-    gui::actions::GridActions* ga = e->actions()->gridActions();
-    sad::layouts::Grid* parent = ga->parentGridFor(m_node);
-    if (parent)
-    {
-        parent->update();
-        if (e->isNodeSelected(m_node))
-        {
-            this->updateUI(e, m_node->getProperty<sad::Rect2D>("area").value());
-        }
-        if (e->shared()->selectedGrid() == parent)
-        {
-            ga->updateRegion();
-        }
-    }
-}
-

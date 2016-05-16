@@ -25,9 +25,9 @@ history::sprite2d::ChangeOptions::ChangeOptions(
         const sad::String& newvalue
 ) 
 : history::scenenodes::ChangeProperty<sad::String>(d, "options", oldvalue, newvalue),
-m_oldarea(oldarea)
+  m_oldarea(oldarea)
 {
-    
+    m_affects_parent_grid = true;    
 }
 
 history::sprite2d::ChangeOptions::~ChangeOptions()
@@ -39,6 +39,7 @@ void history::sprite2d::ChangeOptions::rollback(core::Editor* e)
 {
     this->history::scenenodes::ChangeProperty<sad::String>::rollback(e);
     m_node->setProperty("area", m_oldarea);
+    e->tryUpdateParentGridForNode(m_node);
     if (e)
     {
         if (e->isNodeSelected(m_node))

@@ -32,7 +32,7 @@ history::label::ChangeTextEllipsis::ChangeTextEllipsis(
     newvalue
 )
 {
-
+    m_affects_parent_grid = true;
 }
 
 history::label::ChangeTextEllipsis::~ChangeTextEllipsis()

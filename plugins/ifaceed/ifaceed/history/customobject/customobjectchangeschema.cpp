@@ -39,6 +39,8 @@ history::customobject::ChangeSchema::ChangeSchema(
         d->getObjectProperty(it.key())->get(d, *v);
         m_oldvalues.insert(it.key(), v);
     }
+
+    m_affects_parent_grid = true;
 }
 
 history::customobject::ChangeSchema::~ChangeSchema()

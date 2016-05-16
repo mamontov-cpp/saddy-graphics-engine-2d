@@ -146,6 +146,10 @@ public:
     /*! Updates angle for scene node
      */
     void updateAngleForNode();
+    /*! Tries to update parent parent grid for specified node
+        \param[in] node a node
+     */
+    void tryUpdateParentGridForNode(sad::SceneNode* node);
 public slots:
     /*! Called, when node name is edited
         \param[in] name a name for action

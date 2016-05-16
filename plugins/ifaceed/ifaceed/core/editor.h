@@ -235,6 +235,10 @@ public:
     /*! Increments fast mode counter
      */
     void incrementFastModeCounter();
+    /*! Tries to update parent grid if any for specified node
+        \param[in] node a node
+     */
+    void tryUpdateParentGridForNode(sad::SceneNode* node);
 public slots:
     /*! Called, when Qt Event Loop is started. Used to load default resources and pre-set
         default behaviour

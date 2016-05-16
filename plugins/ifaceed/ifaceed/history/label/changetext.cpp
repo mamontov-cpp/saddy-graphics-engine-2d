@@ -30,7 +30,7 @@ history::label::ChangeText::ChangeText(
     newvalue
 )
 {
-
+    m_affects_parent_grid = true;
 }
 
 history::label::ChangeText::~ChangeText()

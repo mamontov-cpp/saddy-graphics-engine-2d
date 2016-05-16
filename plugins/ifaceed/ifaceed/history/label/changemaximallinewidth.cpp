@@ -30,7 +30,7 @@ history::label::ChangeMaximalLineWidth::ChangeMaximalLineWidth(
     newvalue
 )
 {
-
+    m_affects_parent_grid = true;
 }
 
 history::label::ChangeMaximalLineWidth::~ChangeMaximalLineWidth()

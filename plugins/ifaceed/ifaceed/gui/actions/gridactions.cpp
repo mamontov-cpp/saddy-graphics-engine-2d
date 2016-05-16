@@ -762,16 +762,16 @@ void gui::actions::GridActions::clearNodeToGridCache()
 
 void  gui::actions::GridActions::tryUpdateNodeNameInGrid(sad::SceneNode* node)
 {	
-	sad::layouts::Grid* grid = this->parentGridFor(node);
-	if (m_editor->shared()->selectedGrid() == grid)
-	{
-		sad::Maybe<sad::layouts::Grid::SearchResult> gpos = grid->find(node);
-		if (gpos.exists())
-		{
-			sad::layouts::Cell* cell = grid->cell(gpos.value().p1());
-			this->cellEditor(cell->Row, cell->Col)->updateChildName(gpos.value().p2(), m_editor->actions()->sceneNodeActions()->fullNameForNode(node));
-		}
-	}
+    sad::layouts::Grid* grid = this->parentGridFor(node);
+    if (m_editor->shared()->selectedGrid() == grid)
+    {
+        sad::Maybe<sad::layouts::Grid::SearchResult> gpos = grid->find(node);
+        if (gpos.exists())
+        {
+            sad::layouts::Cell* cell = grid->cell(gpos.value().p1());
+            this->cellEditor(cell->Row, cell->Col)->updateChildName(gpos.value().p2(), m_editor->actions()->sceneNodeActions()->fullNameForNode(node));
+        }
+    }
 }
 
 // ================================ PUBLIC SLOTS  ================================

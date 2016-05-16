@@ -26,7 +26,7 @@ history::label::ChangeTextEllipsisForLines::ChangeTextEllipsisForLines(
     newvalue
 )
 {
-
+    m_affects_parent_grid = true;
 }
 
 history::label::ChangeTextEllipsisForLines::~ChangeTextEllipsisForLines()

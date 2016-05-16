@@ -29,7 +29,7 @@ history::label::ChangeLineSpacing::ChangeLineSpacing(
       newvalue
 )
 {
-
+    m_affects_parent_grid = true;
 }
 
 history::label::ChangeLineSpacing::~ChangeLineSpacing()

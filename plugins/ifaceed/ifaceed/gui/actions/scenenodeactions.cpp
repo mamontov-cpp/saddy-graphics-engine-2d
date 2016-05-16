@@ -201,32 +201,32 @@ void gui::actions::SceneNodeActions::rotate(const sad::input::MouseWheelEvent& e
         {
             float nextangle = this->computeChangedAngle(maybeangle.value(), e.Delta);
             node->setProperty("angle", nextangle);
-			gui::actions::GridActions* ga_actions =  m_editor->actions()->gridActions();
-			sad::layouts::Grid* grid = ga_actions->parentGridFor(node);
-			if (selected)
-			{
-				if (grid)
-				{
-					grid->update();
-				}
-			}
+            gui::actions::GridActions* ga_actions =  m_editor->actions()->gridActions();
+            sad::layouts::Grid* grid = ga_actions->parentGridFor(node);
+            if (selected)
+            {
+                if (grid)
+                {
+                    grid->update();
+                }
+            }
             gui::uiblocks::UISceneNodeBlock* blk = m_editor->uiBlocks()->uiSceneNodeBlock();
             m_editor->emitClosure(blocked_bind(
                 blk->awSceneNodeAngle,
                 &gui::anglewidget::AngleWidget::setValue,
                 static_cast<double>(nextangle)
             ));
-			if (selected)
-			{
-				if (grid)
-				{
-					this->updateRegionForNode();
-				}
-				if (m_editor->shared()->selectedGrid() == grid)
-				{
-					m_editor->actions()->gridActions()->updateRegion();
-				}
-			}
+            if (selected)
+            {
+                if (grid)
+                {
+                    this->updateRegionForNode();
+                }
+                if (m_editor->shared()->selectedGrid() == grid)
+                {
+                    m_editor->actions()->gridActions()->updateRegion();
+                }
+            }
             if (selected)
             {
                 m_rotation->start(node, maybeangle.value(), nextangle);
@@ -309,6 +309,24 @@ void gui::actions::SceneNodeActions::updateAngleForNode()
                 &gui::anglewidget::AngleWidget::setValue,
                 maybeangle.value()
             ));
+        }
+    }
+}
+
+void gui::actions::SceneNodeActions::tryUpdateParentGridForNode(sad::SceneNode* node)
+{
+    gui::actions::GridActions* ga = m_editor->actions()->gridActions();
+    sad::layouts::Grid* parent = ga->parentGridFor(node);
+    if (parent)
+    {
+        parent->update();
+        if (m_editor->isNodeSelected(node))
+        {
+            this->updateRegionForNode();
+        }
+        if (m_editor->shared()->selectedGrid() == parent)
+        {
+            ga->updateRegion();
         }
     }
 }
@@ -643,17 +661,17 @@ void gui::actions::SceneNodeActions::angleChanged(double newvalue)
             node->setProperty("angle", newvalue);
             if (selected)
             {
-				gui::actions::GridActions* ga_actions = m_editor->actions()->gridActions();
-				sad::layouts::Grid* grid = ga_actions->parentGridFor(node);
-				if (grid)
-				{
-					grid->update();
-					this->updateRegionForNode();
-					if (m_editor->shared()->selectedGrid() == grid)
-					{
-						ga_actions->updateRegion();
-					}
-				}
+                gui::actions::GridActions* ga_actions = m_editor->actions()->gridActions();
+                sad::layouts::Grid* grid = ga_actions->parentGridFor(node);
+                if (grid)
+                {
+                    grid->update();
+                    this->updateRegionForNode();
+                    if (m_editor->shared()->selectedGrid() == grid)
+                    {
+                        ga_actions->updateRegion();
+                    }
+                }
                 m_rotation->start(node, maybeangle.value(), newvalue);
             }
         }
@@ -692,7 +710,7 @@ void gui::actions::SceneNodeActions::removeSceneNode(sad::SceneNode* node, bool 
 
     history::scenenodes::Remove* c = new history::scenenodes::Remove(node, row);
     c->set(posininstance, instances);
-	sad::Vector<gui::GridPosition> grids_vector = m_editor->actions()->gridActions()->findRelatedGrids(node);
+    sad::Vector<gui::GridPosition> grids_vector = m_editor->actions()->gridActions()->findRelatedGrids(node);
     c->set(grids_vector);
     if (from_editor) 
     {
@@ -756,7 +774,7 @@ void gui::actions::SceneNodeActions::updateSceneNodeName(sad::SceneNode* s)
         aiobox->setItemText(pos, this->fullNameForNode(s));
     }
 
-	m_editor->actions()->gridActions()->tryUpdateNodeNameInGrid(s);
+    m_editor->actions()->gridActions()->tryUpdateNodeNameInGrid(s);
 }
 
 QString gui::actions::SceneNodeActions::fullNameForNode(sad::SceneNode* node)

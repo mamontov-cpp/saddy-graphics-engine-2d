@@ -32,11 +32,6 @@ protected:
      * \param[in] value a value
      */
     virtual void updateUI(core::Editor* e, const float& value);
-    /*! Tries to update UI in case if node is selected
-        \param[in] e editor
-        \param[in] value a value
-     */
-    virtual void tryUpdateUI(core::Editor* e, const float& value);
 };
 
 }

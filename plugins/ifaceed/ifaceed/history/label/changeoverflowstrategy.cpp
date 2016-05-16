@@ -30,7 +30,7 @@ history::label::ChangeOverflowStrategy::ChangeOverflowStrategy(
     newvalue
 )
 {
-
+    m_affects_parent_grid = true;
 }
 
 history::label::ChangeOverflowStrategy::~ChangeOverflowStrategy()

@@ -53,7 +53,7 @@ void history::scenenodes::ChangeName::tryUpdateUI(core::Editor* e, const sad::St
         e->emitClosure(bind(e->actions()->sceneNodeActions(), &gui::actions::SceneNodeActions::updateSceneNodeName, m_node));
     }
     e->emitClosure( ::bind(this, &history::scenenodes::ChangeName::updateDependent, e));
-	e->emitClosure( ::bind(e->actions()->gridActions(), &gui::actions::GridActions::tryUpdateNodeNameInGrid, m_node) );
+    e->emitClosure( ::bind(e->actions()->gridActions(), &gui::actions::GridActions::tryUpdateNodeNameInGrid, m_node) );
 }
 
 void history::scenenodes::ChangeName::updateUI(core::Editor* e, const sad::String& value)

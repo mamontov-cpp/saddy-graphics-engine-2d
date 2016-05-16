@@ -550,6 +550,11 @@ void core::Editor::incrementFastModeCounter()
     ++m_fast_mode_counter;
 }
 
+void core::Editor::tryUpdateParentGridForNode(sad::SceneNode* node)
+{
+    this->actions()->sceneNodeActions()->tryUpdateParentGridForNode(node);
+}
+
 // =================== PUBLIC SLOTS METHODS ===================
 
 void core::Editor::start()

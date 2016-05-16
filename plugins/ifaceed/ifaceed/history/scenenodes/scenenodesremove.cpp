@@ -82,7 +82,7 @@ void history::scenenodes::Remove::commit(core::Editor * ob)
                 m_dependent_grids[i].Pos
             );
         }
-		ga->eraseNodeToGridEntry(m_node);
+        ga->eraseNodeToGridEntry(m_node);
     }
 }
 
@@ -128,7 +128,7 @@ void history::scenenodes::Remove::rollback(core::Editor * ob)
                 m_dependent_grids[i].Pos,
                 m_node
             );
-			ga->insertNodeToGridEntry(m_node, m_dependent_grids[i].Grid);
+            ga->insertNodeToGridEntry(m_node, m_dependent_grids[i].Grid);
         }
     }
 }

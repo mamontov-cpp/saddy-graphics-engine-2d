@@ -12,7 +12,6 @@
 
 #include "../../core/editor.h"
 
-
 namespace history
 {
 
@@ -39,7 +38,7 @@ public:
         const T& oldvalue,
         const T& newvalue
     )
-    : m_node(d), m_property(property), m_oldvalue(oldvalue), m_newvalue(newvalue)
+    : m_node(d), m_property(property), m_oldvalue(oldvalue), m_newvalue(newvalue), m_affects_parent_grid(false)
     {
         m_node->addRef();
     }
@@ -83,6 +82,9 @@ protected:
     /*! A new value for font property of node
      */
     T m_newvalue;
+    /*! Set this to true, if command affects parent grid for node
+     */
+    bool m_affects_parent_grid;
     /*! Tries to update UI in case if node is selected
         \param[in] e editor
         \param[in] value a value
@@ -92,6 +94,11 @@ protected:
         if (e->isNodeSelected(m_node))
         {
             this->updateUI(e, value);
+        }
+
+        if (m_affects_parent_grid)
+        {
+            e->tryUpdateParentGridForNode(m_node);
         }
     }
     /*!

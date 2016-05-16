@@ -75,6 +75,6 @@ void history::scenes::ChangeName::updateDependent(core::Editor* e)
         {
             ai_blk->cmbAnimationInstanceObject->setItemText(pos, sn_actions->fullNameForNode(nodes[i]));
         }
-		ga_actions->tryUpdateNodeNameInGrid(nodes[i]);
+        ga_actions->tryUpdateNodeNameInGrid(nodes[i]);
     }
 }
