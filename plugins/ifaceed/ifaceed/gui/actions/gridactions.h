@@ -279,6 +279,14 @@ enum UpdateOptions
 		\param[in] e event
 	 */ 
 	void commitMovingGrid(const sad::input::MouseReleaseEvent& e);
+	/*! Resizes current grid, according to current hotspot
+		\param[in] e event
+	 */
+	void resizeGridUsingHotspot(const sad::input::MouseMoveEvent& e);
+	/*! Commits grid resizing to history, using current hotspot
+		\param[in] e event
+	 */
+	void commitGridResizingUsingHotspot(const sad::input::MouseReleaseEvent& e);
 	/*! Moves bottom-right corner of active grid to a mouse position.
         Note, that this will not preserve history, so use it only for
         active node.
