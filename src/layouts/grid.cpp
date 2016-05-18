@@ -758,7 +758,7 @@ sad::Vector<unsigned long long> sad::layouts::Grid::childrenMajorIds() const
 
 sad::Vector<sad::SceneNode*> sad::layouts::Grid::children() const
 {
-	sad::Vector<sad::SceneNode*> result;
+    sad::Vector<sad::SceneNode*> result;
     for(size_t i = 0; i < m_cells.size(); i++)
     {
         result << m_cells[i]->children();
