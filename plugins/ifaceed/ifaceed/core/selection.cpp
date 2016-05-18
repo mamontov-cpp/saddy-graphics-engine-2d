@@ -313,7 +313,20 @@ void core::Selection::forceEditorEnterResizingState(
     const sad::input::MousePressEvent& e
 )
 {
-    // TODO: Actuall implement this
+	sad::layouts::Grid* grid = m_editor->shared()->selectedGrid();
+	sad::Rect2D oldarea = grid->area();
+	picojson::value value(picojson::object_type, false);
+	grid->save(value);
+	m_editor->shared()->setOldState(value);
+    m_editor->shared()->setPivotPoint(e.pos2D());
+    m_editor->shared()->setOldArea(oldarea);
+    m_editor->shared()->setResizingIndexes(h->resizingIndexes());
+    m_editor->shared()->setResizingDirection(h->directionVector(
+        oldarea
+    ));
+    m_editor->shared()->setOldRegion(oldarea);
+    m_editor->shared()->setNormalizedResizingDirection(h->defaultDirectionVector());
+    m_editor->machine()->enterState("layouts/resizing");
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst

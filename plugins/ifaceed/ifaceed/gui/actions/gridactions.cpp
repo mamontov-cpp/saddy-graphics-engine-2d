@@ -646,6 +646,16 @@ void gui::actions::GridActions::commitMovingGrid(const sad::input::MouseReleaseE
 	}
 }
 
+void gui::actions::GridActions::resizeGridUsingHotspot(const sad::input::MouseMoveEvent& e)
+{
+	// TODO: Implement this	
+}
+
+void gui::actions::GridActions::commitGridResizingUsingHotspot(const sad::input::MouseReleaseEvent& e)
+{
+	// TODO: Implement this		
+}
+
 void gui::actions::GridActions::moveByBottomRightCorner(const sad::input::MouseMoveEvent& e)
 {
     core::Shared* s = m_editor->shared();
