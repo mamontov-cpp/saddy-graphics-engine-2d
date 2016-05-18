@@ -258,14 +258,14 @@ public:
         (for those actions, which are triggered by fast mode)
      */
     bool triggeredByFastMode() const;
-	/*! Setd old state
-		\param[in] state an old state
-	 */
-	void setOldState(const picojson::value& state);
-	/*!  Returns old state
-		 \return old state
-	 */
-	const picojson::value& oldState() const;
+    /*! Setd old state
+        \param[in] state an old state
+     */
+    void setOldState(const picojson::value& state);
+    /*!  Returns old state
+         \return old state
+     */
+    const picojson::value& oldState() const;
 private:
     /*! A scene node, selected by user
      */ 
@@ -351,9 +351,9 @@ private:
     /*! Whether action is triggered by fast mode
      */
     bool m_triggered_by_fast_mode;
-	/*! An od serialized value
-	 */
-	picojson::value m_old_state;
+    /*! An od serialized value
+     */
+    picojson::value m_old_state;
 };
 
 }

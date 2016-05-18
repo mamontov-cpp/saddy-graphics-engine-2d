@@ -44,12 +44,12 @@ public:
         const sad::Vector<sad::animations::Instance*>& dependent_animations,	
         const sad::Vector< sad::Pair<sad::animations::Instance*, unsigned long long> >& dependent_from_nodes
     );
-	/*! Sets list of affected grids
-		\param[in] affected_grids a list of affected grids
-	 */
-	void setAffectedGrids(
-		const sad::Vector< sad::Pair<sad::SceneNode*, gui::GridPosition> >& affected_grids
-	);
+    /*! Sets list of affected grids
+        \param[in] affected_grids a list of affected grids
+     */
+    void setAffectedGrids(
+        const sad::Vector< sad::Pair<sad::SceneNode*, gui::GridPosition> >& affected_grids
+    );
     /*! Applies changes, described in command
         \param[in] ob an observer for looking for command
      */
@@ -77,9 +77,9 @@ protected:
     /*! A dependent instances list
      */
     sad::Vector< sad::Pair<sad::animations::Instance*, unsigned long long> > m_dependent_from_nodes;
-	/*! A list of grids, affected by clearing scene
-	 */
-	sad::Vector< sad::Pair<sad::SceneNode*, gui::GridPosition> > m_affected_grids;
+    /*! A list of grids, affected by clearing scene
+     */
+    sad::Vector< sad::Pair<sad::SceneNode*, gui::GridPosition> > m_affected_grids;
 };
 
 }

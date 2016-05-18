@@ -574,25 +574,25 @@ void MainPanel::setEditor(core::Editor* editor)
         &gui::actions::GridActions::commitTopLeftPoint
     );
 
-	// A bindings for layouts/moving
-	sad::Renderer::ref()->controls()->add(
+    // A bindings for layouts/moving
+    sad::Renderer::ref()->controls()->add(
         *sad::input::ET_MouseMove & (m * lmove),
         ga_actions,
         &gui::actions::GridActions::moveByPivotPoint
     );
-	sad::Renderer::ref()->controls()->add(
+    sad::Renderer::ref()->controls()->add(
         *sad::input::ET_MouseRelease & (m * lmove),
         ga_actions,
         &gui::actions::GridActions::commitMovingGrid
     );
 
-	// A bindings for layouts/resizing
-	sad::Renderer::ref()->controls()->add(
+    // A bindings for layouts/resizing
+    sad::Renderer::ref()->controls()->add(
         *sad::input::ET_MouseMove & (m * lrp),
         ga_actions,
         &gui::actions::GridActions::resizeGridUsingHotspot
     );
-	sad::Renderer::ref()->controls()->add(
+    sad::Renderer::ref()->controls()->add(
         *sad::input::ET_MouseRelease & (m * lrp),
         ga_actions,
         &gui::actions::GridActions::commitGridResizingUsingHotspot

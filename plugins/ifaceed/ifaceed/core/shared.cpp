@@ -352,10 +352,10 @@ bool core::Shared::triggeredByFastMode() const
 
 void  core::Shared::setOldState(const picojson::value& state)
 {
-	m_old_state = state;
+    m_old_state = state;
 }
 
 const picojson::value& core::Shared::oldState() const
 {
-	return m_old_state;
+    return m_old_state;
 }

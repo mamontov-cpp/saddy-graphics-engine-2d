@@ -41,10 +41,10 @@ void history::scenes::Remove::set(
 }
 
 void history::scenes::Remove::setAffectedGrids(
-	const sad::Vector< sad::Pair<sad::SceneNode*, gui::GridPosition> >& affected_grids
+    const sad::Vector< sad::Pair<sad::SceneNode*, gui::GridPosition> >& affected_grids
 )
 {
-	m_affected_grids = affected_grids;
+    m_affected_grids = affected_grids;
 }
 
 void history::scenes::Remove::commit(core::Editor * ob)
@@ -89,8 +89,8 @@ void history::scenes::Remove::commit(core::Editor * ob)
                 ob->emitClosure( blocked_bind(ai_objects, &QComboBox::setCurrentIndex, 0));
             }
         }
-		
-		ob->actions()->gridActions()->eraseNodesFromGrids(m_affected_grids);
+        
+        ob->actions()->gridActions()->eraseNodesFromGrids(m_affected_grids);
     }
 }
 
@@ -168,6 +168,6 @@ void history::scenes::Remove::rollback(core::Editor * ob)
             }
         }
 
-		ob->actions()->gridActions()->insertNodesToGrids(m_affected_grids);
+        ob->actions()->gridActions()->insertNodesToGrids(m_affected_grids);
     }
 }

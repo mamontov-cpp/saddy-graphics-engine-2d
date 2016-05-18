@@ -53,30 +53,30 @@ public:
         }
     }
     /*! Adds new affected node to list
-		\param[in] node a node list
+        \param[in] node a node list
      */
     void addAffectedNode(sad::SceneNode* node)
     {
         node->addRef();
         m_affected_nodes << node;
     }
-	/*! Adds list of affected nodes to list
-		\param[in] nodes a node list
-	 */
-	void addAffectedNodes(const sad::Vector<sad::SceneNode*>& nodes)
-    {
-		for(size_t i = 0; i < nodes.size(); i++)
-		{
-			nodes[i]->addRef();
-		}
-	    m_affected_nodes << nodes;
-    }
-	/*! Saves old state for a grid
-		\param[in] v value
+    /*! Adds list of affected nodes to list
+        \param[in] nodes a node list
      */
-	void saveOldState(const picojson::value& v)
+    void addAffectedNodes(const sad::Vector<sad::SceneNode*>& nodes)
     {
-	    m_old_state = v;
+        for(size_t i = 0; i < nodes.size(); i++)
+        {
+            nodes[i]->addRef();
+        }
+        m_affected_nodes << nodes;
+    }
+    /*! Saves old state for a grid
+        \param[in] v value
+     */
+    void saveOldState(const picojson::value& v)
+    {
+        m_old_state = v;
     }
     /*! Saves old state for a grid
      */
@@ -91,12 +91,12 @@ public:
     {
         m_grid->save(m_new_state);
     }
-	/*! Saves new state for a grid
-		\param[in] v value
+    /*! Saves new state for a grid
+        \param[in] v value
      */
-	void saveNewState(const picojson::value& v)
+    void saveNewState(const picojson::value& v)
     {
-	    m_new_state = v;
+        m_new_state = v;
     }
      /*! Applies new saved state, described in command
          \param[in] ob an editor
@@ -108,7 +108,7 @@ public:
            return;
        }
        m_grid->load(m_new_state);
-	   m_grid->update();
+       m_grid->update();
        tryUpdateUI(ob);
     }
      /*! Reverts to old saved state, describled in command
@@ -121,8 +121,8 @@ public:
             return;
         }
        m_grid->load(m_old_state);
-	   m_grid->update();
-	   tryUpdateUI(ob);
+       m_grid->update();
+       tryUpdateUI(ob);
     }
 protected:
     /*! Tries to update UI

@@ -70,10 +70,10 @@ void history::scenes::Clear::set(
 
 
 void history::scenes::Clear::setAffectedGrids(
-	const sad::Vector< sad::Pair<sad::SceneNode*, gui::GridPosition> >& affected_grids
+    const sad::Vector< sad::Pair<sad::SceneNode*, gui::GridPosition> >& affected_grids
 )
 {
-	m_affected_grids = affected_grids;
+    m_affected_grids = affected_grids;
 }
 
 void history::scenes::Clear::commit(core::Editor * ob)
@@ -114,7 +114,7 @@ void history::scenes::Clear::commit(core::Editor * ob)
             }
         }
 
-		ob->actions()->gridActions()->eraseNodesFromGrids(m_affected_grids);
+        ob->actions()->gridActions()->eraseNodesFromGrids(m_affected_grids);
     }
 }
 
@@ -171,6 +171,6 @@ void history::scenes::Clear::rollback(core::Editor * ob)
             }
         }
 
-		ob->actions()->gridActions()->insertNodesToGrids(m_affected_grids);
-	}
+        ob->actions()->gridActions()->insertNodesToGrids(m_affected_grids);
+    }
 }
