@@ -163,9 +163,22 @@ enum UpdateOptions
         \param[in] grid a grid to be added
      */
     void addGridToGridList(sad::layouts::Grid* grid) const;
+    /*! Insert a grid to list of grids
+        \param[in] grid a grid to be added
+        \param[in] position a position of grid
+     */
+    void insertGridToGridList(sad::layouts::Grid* grid, int position) const;
     /*! Removes last grid from list of grids, updating UI
      */
     void removeLastGrid();
+    /*! Tries to insert child to curent grid, thus updating ui
+        \param[in] g grid
+        \param[in] row a row
+        \param[in] col a column
+        \param[in] pos a position
+        \param[in] node a node
+     */
+    void insertChildToGrid(sad::layouts::Grid* g,  size_t row, size_t col, size_t pos, size_t majorid);
     /*! Tries to insert child to curent grid, thus updating ui
         \param[in] g grid
         \param[in] row a row
@@ -358,10 +371,18 @@ enum UpdateOptions
         \param[in] parent_apairs a pairs of node, and their positions in grids
      */
     void insertNodesToGrids(const sad::Vector<sad::Pair<sad::SceneNode*, gui::GridPosition> >& parent_pairs);
+    /*! Removes grid from editor
+        \param grid a grid to be removed (NULL for selected)
+        \param from_editor whether we are removing this from editor
+     */
+    void scriptableRemoveGrid(sad::layouts::Grid* grid, bool from_editor);
 public slots:
     /*! Called, when user clicks on "Add" button for grids
      */
     void addGridClicked();
+    /*! Called, when user clicked on "Remove" button for grids
+     */
+    void removeGridClicked();
     /*! Called, when user clicks on "Add By Stretching" button for grids
      */
     void addGridByStretchingClicked();

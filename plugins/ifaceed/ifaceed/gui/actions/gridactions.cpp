@@ -25,6 +25,7 @@
 #include "../rendergrids.h"
 
 #include "../../history/layouts/layoutsnew.h"
+#include "../../history/layouts/layoutsremove.h"
 #include "../../history/layouts/layoutschangename.h"
 #include "../../history/layouts/layoutschange.h"
 #include "../../history/layouts/layoutsaddchild.h"
@@ -106,6 +107,21 @@ void gui::actions::GridActions::addGridToGridList(sad::layouts::Grid* grid) cons
     }
 }
 
+void gui::actions::GridActions::insertGridToGridList(sad::layouts::Grid* grid, int position) const
+{
+    if (m_editor)
+    {
+        gui::uiblocks::UILayoutBlock* blk = m_editor->uiBlocks()->uiLayoutBlock();
+        QListWidget* lst = blk->lstLayoutGridList;
+        QListWidgetItem* item = new QListWidgetItem();
+        item->setText(this->viewableObjectName(grid));
+        QVariant v;
+        v.setValue(grid);
+        item->setData(Qt::UserRole, v);
+        lst->insertItem(position, item);
+    }
+}
+
 void gui::actions::GridActions::removeLastGrid()
 {
     gui::uiblocks::UILayoutBlock* layout_blk = m_editor->uiBlocks()->uiLayoutBlock();
@@ -135,9 +151,19 @@ void gui::actions::GridActions::removeLastGrid()
     }
 }
 
+void gui::actions::GridActions::insertChildToGrid(sad::layouts::Grid* g,  size_t row, size_t col, size_t pos, size_t majorid)
+{
+    sad::SceneNode* node = sad::Renderer::ref()->database("")->objectByMajorId<sad::SceneNode>(majorid);
+    if (node)
+    {
+        this->insertChildToGrid(g, row, col, pos, node);
+    }
+}
+
 void gui::actions::GridActions::insertChildToGrid(sad::layouts::Grid* g,  size_t row, size_t col, size_t pos, sad::SceneNode* node)
 {
     g->cell(row, col)->insertChild(pos, node);
+    this->insertNodeToGridEntry(node, g);
     if (this->selectedGrid() == g)
     {
         gui::layouts::LayoutCellEdit* edit = this->cellEditor(row, col);
@@ -929,6 +955,35 @@ void gui::actions::GridActions::insertNodesToGrids(const sad::Vector<sad::Pair<s
     }
 }
 
+void gui::actions::GridActions::scriptableRemoveGrid(sad::layouts::Grid* grid, bool from_editor)
+{
+    if (m_editor->isInEditingState())
+        return;
+    if (!grid)
+    {
+        grid = m_editor->shared()->selectedGrid();
+    }
+    if (grid)
+    {
+        // Try updatable
+        gui::uiblocks::UILayoutBlock* layout_blk = m_editor->uiBlocks()->uiLayoutBlock();
+        int pos = this->findInList(layout_blk->lstLayoutGridList, grid);
+
+        sad::Vector<gui::GridPosition> positions = this->findRelatedGrids(grid);
+
+        history::Command* c  = new history::layouts::Remove(grid, pos, positions);
+        c->commit(m_editor);
+        if (from_editor)
+        {
+            m_editor->history()->add(c);
+        }
+        else
+        {
+            m_editor->currentBatchCommand()->add(c);
+        }
+    }
+}
+
 // ================================ PUBLIC SLOTS  ================================
 
 // ReSharper disable once CppMemberFunctionMayBeConst
@@ -945,6 +1000,13 @@ void gui::actions::GridActions::addGridClicked()
     this->prepareGridForAdding();
     m_is_stretching = false;
     m_editor->machine()->enterState("layouts/adding");
+}
+
+void gui::actions::GridActions::removeGridClicked()
+{
+    if (m_editor->isInEditingState())
+        return;
+    this->scriptableRemoveGrid(NULL, true);
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst

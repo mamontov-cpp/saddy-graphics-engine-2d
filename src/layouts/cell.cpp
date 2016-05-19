@@ -434,6 +434,16 @@ void sad::layouts::Cell::removeChild(unsigned int pos, bool update_grid)
     }
 }
 
+void sad::layouts::Cell::clear(bool update_grid)
+{
+    for(size_t i = 0; i < m_children.size(); i++)
+    {
+        delete m_children[i];
+    }
+    m_children.clear();
+    tryNotify(update_grid);    
+}
+
 void sad::layouts::Cell::swapChildren(unsigned int pos1, unsigned int pos2, bool update_grid)
 {
     if (pos1 < m_children.size() && pos2 < m_children.size())

@@ -102,7 +102,7 @@ public:
     sad::layouts::HorizontalAlignment horizontalAlignment() const;
     /*! Sets type of stacking for a cell
         \param[in] type a type of stacking for a cell
-        \param[in] update_grid whether we should notify grid		
+        \param[in] update_grid whether we should notify grid        
      */
     void setStackingType(sad::layouts::StackingType type, bool update_grid = true);
     /*! Returns stacking type for a cells
@@ -188,9 +188,13 @@ public:
     void insertChild(unsigned int pos, unsigned long long major_id, bool update_grid = true);
     /*! Removes a child at specified position
         \param[in] pos a position
-        \param[in] update_grid whether we should update grid after it.		
+        \param[in] update_grid whether we should update grid after it.      
      */
     void removeChild(unsigned int pos, bool update_grid = true);
+    /*! Clears cell, removing all children
+        \param[in] update_grid  whether we should update grid after it.
+     */ 
+    void clear(bool update_grid = true); 
     /*! Swaps to children of cell by their positions
         \param[in] pos1 first position
         \param[in] pos2 second position

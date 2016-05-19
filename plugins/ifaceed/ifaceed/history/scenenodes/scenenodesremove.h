@@ -15,7 +15,7 @@ namespace history
     
 namespace scenenodes
 {
-/*! A command, which must be added, when user added object to editor scene
+/*! A command, which must be added, when user removes object from editor scene
  */
 class Remove: public history::Command
 {
@@ -49,7 +49,7 @@ public:
       */
      virtual void rollback(core::Editor * ob = NULL);
 protected:
-    /*! A node, which must be added to an item
+    /*! A node, which must be removed from editor
      */
     sad::SceneNode * m_node;
     /*! A position, where node must be inserted

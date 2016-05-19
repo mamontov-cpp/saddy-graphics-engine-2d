@@ -2439,6 +2439,9 @@
     <ClCompile Include="history\layouts\layoutsnew.cpp">
       <Filter>Source Files\history\layouts</Filter>
     </ClCompile>
+    <ClCompile Include="history\layouts\layoutsremove.cpp">
+      <Filter>Source Files\history\layouts</Filter>
+    </ClCompile>	
     <ClCompile Include="history\layouts\layoutschangename.cpp">
       <Filter>Source Files\history\layouts</Filter>
     </ClCompile>
@@ -3107,6 +3110,9 @@
     <ClInclude Include="history\layouts\layoutsnew.h">
       <Filter>Header Files\history\layouts</Filter>
     </ClInclude>
+    <ClInclude Include="history\layouts\layoutsremove.h">
+      <Filter>Header Files\history\layouts</Filter>
+    </ClInclude>	
     <ClInclude Include="history\layouts\layoutschangename.h">
       <Filter>Header Files\history\layouts</Filter>
     </ClInclude>
