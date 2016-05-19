@@ -10,6 +10,8 @@
 #include <db/dbdatabase.h>
 #include <algorithm>
 
+#include <QSet>
+
 // ====================== PUBLIC METHODS ======================
 
 gui::RenderGrids::RenderGrids(core::Editor* editor)
@@ -135,9 +137,25 @@ core::borders::ResizeHotspot* gui::RenderGrids::selectedResizeHotspot(
     const sad::Point2D& p
 )
 {
+    sad::layouts::Grid* g = m_editor->shared()->selectedGrid();
+    if (!g)
+    {
+        return NULL;
+    }
+    QSet<size_t> excluded;
+    if (g->fixedHeight() == false)
+    {
+        excluded.insert(0);
+        excluded.insert(2);
+    }
+    if (g->fixedWidth() == false)
+    {
+        excluded.insert(1);
+        excluded.insert(3);
+    }
     for(size_t i = 0; i < 4; i++)
     {
-        if (m_resize_hotspots[i]->isWithin(p))
+        if (m_resize_hotspots[i]->isWithin(p) && (excluded.contains(i) == false))
         {
             return m_resize_hotspots[i];
         }
@@ -181,9 +199,23 @@ void gui::RenderGrids::_process()
                  if (!m_disable_resize_hotspots)
                  {
                      sad::Rect2D r = g->area();
+                     QSet<size_t> excluded;
+                     if (g->fixedHeight() == false)
+                     {
+                         excluded.insert(0);
+                         excluded.insert(2);
+                     }
+                     if (g->fixedWidth() == false)
+                     {
+                         excluded.insert(1);
+                         excluded.insert(3);
+                     }
                      for(size_t i = 0; i < 4; i++)
                      {
+                         if (excluded.contains(i) == false)
+                         {
                          m_resize_hotspots[i]->render(r);    
+                         }
                      }
                  }
              }
