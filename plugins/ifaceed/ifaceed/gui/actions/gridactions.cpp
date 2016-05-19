@@ -648,12 +648,49 @@ void gui::actions::GridActions::commitMovingGrid(const sad::input::MouseReleaseE
 
 void gui::actions::GridActions::resizeGridUsingHotspot(const sad::input::MouseMoveEvent& e)
 {
-    // TODO: Implement this	
+    sad::layouts::Grid* grid = m_editor->shared()->selectedGrid();
+    sad::Rect2D area = m_editor->shared()->oldArea();
+
+    // Compute movement distance
+    sad::Point2D direction = e.pos2D() - m_editor->shared()->pivotPoint();
+    sad::p2d::Vector movement = m_editor->shared()->resizingDirection();
+    movement *= sad::p2d::scalar(direction, m_editor->shared()->resizingDirection());
+
+    // Apply distance
+    const sad::Pair<int, int> & indexes = m_editor->shared()->resizingIndexes();
+    area[indexes.p1()] += movement;
+    area[indexes.p2()] += movement;
+
+    grid->setArea(area);
+    grid->update();
+    this->updateRegion();
+
+    sad::layouts::Grid* g = this->parentGridFor(grid);
+    if (g)
+    {
+        g->update();
+        this->updateRegion();
+    }
 }
 
 void gui::actions::GridActions::commitGridResizingUsingHotspot(const sad::input::MouseReleaseEvent& e)
 {
-    // TODO: Implement this		
+    sad::layouts::Grid* grid = m_editor->shared()->selectedGrid();
+    if (grid)
+    {
+        sad::input::MouseMoveEvent ev;
+        ev.Point3D = e.Point3D;
+        resizeGridUsingHotspot(ev);
+        picojson::value value(picojson::object_type, false);
+        grid->save(value);
+        history::layouts::Change<gui::actions::GridActions::GAUO_Area>* change = new history::layouts::Change<gui::actions::GridActions::GAUO_Area>(grid);
+        change->saveOldState(m_editor->shared()->oldState());
+        change->saveNewState(value);
+        change->addAffectedNodes(grid->children());
+        m_editor->history()->add(change);
+        sad::String previous_state = m_editor->machine()->previousState();
+        m_editor->machine()->enterState(previous_state);
+    }
 }
 
 void gui::actions::GridActions::moveByBottomRightCorner(const sad::input::MouseMoveEvent& e)

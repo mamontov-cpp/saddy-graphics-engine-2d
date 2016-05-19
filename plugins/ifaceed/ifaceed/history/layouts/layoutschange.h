@@ -132,10 +132,20 @@ protected:
     {
         if (!e)
             return;
+        gui::actions::GridActions* actions = e->actions()->gridActions();
         if (e->shared()->selectedGrid() == m_grid)
         {
-            e->actions()->gridActions()->updateOnlyGridPropertiesInUI(O);
-            e->actions()->gridActions()->updateRegion();
+            actions->updateOnlyGridPropertiesInUI(O);
+            actions->updateRegion();
+        }
+        sad::layouts::Grid* parent = e->actions()->gridActions()->parentGridFor(m_grid);
+        if (parent)
+        {
+            parent->update();
+            if (e->shared()->selectedGrid() == parent)
+            {
+                actions->updateRegion();
+            }
         }
         for(size_t i = 0; i < m_affected_nodes.size(); i++)
         {
