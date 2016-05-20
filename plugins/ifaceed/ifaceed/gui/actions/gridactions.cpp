@@ -1009,6 +1009,59 @@ void gui::actions::GridActions::removeGridClicked()
     this->scriptableRemoveGrid(NULL, true);
 }
 
+void gui::actions::GridActions::areaChanged(QRectF newarea)
+{
+    sad::layouts::Grid* g = m_editor->shared()->activeGrid();
+    sad::Rect2D newvalue;
+    core::typeconverters::QRectFToSadRect2D::convert(newarea, newvalue);
+    if (g)
+    {
+        g->setArea(newvalue);
+        if (!sad::equal(newvalue, g->area()))
+        {
+            this->updateRegion();
+        }
+    }
+    else
+    {
+        g = m_editor->shared()->selectedGrid();
+        if (g)
+        {
+            if (!sad::equal(g->area(), newvalue)) {
+                picojson::value oldstate(picojson::object_type, false);
+                g->save(oldstate);
+
+                g->setArea(newvalue);
+
+                picojson::value newstate(picojson::object_type, false);
+                g->save(newstate);
+
+                if (!sad::equal(newvalue, g->area()))
+                {
+                    this->updateRegion();
+                }
+
+                sad::Vector<sad::SceneNode*> nodes = g->children();
+                gui::actions::SceneNodeActions* a = m_editor->actions()->sceneNodeActions();
+                for(size_t i = 0; i < nodes.size(); i++)
+                {
+                    if (m_editor->isNodeSelected(nodes[i]))
+                    {
+                       a->updateRegionForNode();
+                    }
+                }
+
+                history::layouts::Change<gui::actions::GridActions::GAUO_Area>* c = new history::layouts::Change<gui::actions::GridActions::GAUO_Area>(g);
+                c->saveOldState(oldstate);
+                c->saveNewState(newstate);
+                c->addAffectedNodes(nodes);
+
+                m_editor->history()->add(c);
+            }
+        }
+    }
+}
+
 // ReSharper disable once CppMemberFunctionMayBeConst
 // ReSharper disable once CppMemberFunctionMayBeStatic
 void gui::actions::GridActions::addGridByStretchingClicked()

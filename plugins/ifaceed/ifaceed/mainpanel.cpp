@@ -726,6 +726,7 @@ void MainPanel::setEditor(core::Editor* editor)
     connect(ui.lstLayoutGridList, SIGNAL(currentRowChanged(int)), ga_actions, SLOT(currentGridChanged(int)));
     connect(ui.txtLayoutGridName, SIGNAL(textChanged(const QString&)), ga_actions, SLOT(nameChanged(const QString&)));
     connect(ui.btnLayoutRemove, SIGNAL(clicked()), ga_actions, SLOT(removeGridClicked()));
+    connect(ui.rwLayoutArea, SIGNAL(valueChanged(QRectF)), ga_actions, SLOT(areaChanged(QRectF)));
 
     connect(ui.lstWays, SIGNAL(currentRowChanged(int)), w_actions, SLOT(wayChanged(int)));
     connect(ui.btnWayAdd, SIGNAL(clicked()), w_actions, SLOT(addWay()));

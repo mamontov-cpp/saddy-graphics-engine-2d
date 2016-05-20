@@ -386,6 +386,11 @@ public slots:
     /*! Called, when user clicks on "Add By Stretching" button for grids
      */
     void addGridByStretchingClicked();
+    /*!
+       Called, when user changes area of grid
+       \param newarea
+     */
+    void areaChanged(QRectF newarea);
     /*! Called, when user toggles show or hide grids
         \param[in] state a new state for a checkbox
      */
