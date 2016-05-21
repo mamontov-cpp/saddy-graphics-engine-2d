@@ -38,7 +38,8 @@ public:
     Change(sad::layouts::Grid* g) 
     : m_grid(g), 
       m_old_state(picojson::object_type, false),
-      m_new_state(picojson::object_type, false)
+      m_new_state(picojson::object_type, false),
+      m_should_update_children(false)
     {
         m_grid->addRef();        
     }
@@ -124,6 +125,13 @@ public:
        m_grid->update();
        tryUpdateUI(ob);
     }
+    /*! Mark, as amount of children could change during update 
+        of cell. Also, forces update cells, rows and columns, when toggled
+     */
+    void markAsChangingChildrenList()
+    {
+        m_should_update_children = true;
+    }
 protected:
     /*! Tries to update UI
         \param[in] e editor
@@ -133,8 +141,27 @@ protected:
         if (!e)
             return;
         gui::actions::GridActions* actions = e->actions()->gridActions();
+        if (m_should_update_children)
+        {
+            for(size_t i = 0; i < m_affected_nodes.size(); i++)
+            {
+                if (m_grid->find(m_affected_nodes[i]).exists())
+                {
+                    actions->insertNodeToGridEntry(m_affected_nodes[i], m_grid);
+                }
+                else
+                {
+                    actions->eraseNodeToGridEntry(m_affected_nodes[i]);
+                }
+            }
+        }
         if (e->shared()->selectedGrid() == m_grid)
         {
+            if (m_should_update_children)
+            {
+                actions->updateOnlyGridPropertiesInUI(gui::actions::GridActions::GAUO_Cells);
+            }
+
             actions->updateOnlyGridPropertiesInUI(O);
             actions->updateRegion();
         }
@@ -167,6 +194,9 @@ protected:
     /*! A new state for layout change
      */
     picojson::value m_new_state;
+    /*! Whether we should update children list, belonging to greed
+     */
+    bool m_should_update_children;
 };
 
 }

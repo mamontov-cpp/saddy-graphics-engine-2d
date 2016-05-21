@@ -239,8 +239,8 @@ sad::Rect2D sad::layouts::Grid::area() const
 
 void sad::layouts::Grid::setRows(unsigned int rows)
 {
-    m_rows = rows;
     unsigned int oldrows = m_rows;
+    m_rows = rows;
     if (!m_loading)
     {
         if (oldrows > m_rows)
@@ -263,8 +263,8 @@ unsigned int sad::layouts::Grid::rows() const
 
 void sad::layouts::Grid::setColumns(unsigned int cols)
 {
-    unsigned int oldcols = m_cols;
     m_cols = cols;
+    unsigned int oldcols = m_cols;
     if (!m_loading)
     {
         if (oldcols > m_cols)

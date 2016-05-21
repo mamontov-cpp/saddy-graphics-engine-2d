@@ -1062,13 +1062,102 @@ void gui::actions::GridActions::areaChanged(QRectF newarea)
     }
 }
 
+void gui::actions::GridActions::rowCountChanged(int newvalue)
+{
+    sad::layouts::Grid* g = m_editor->shared()->activeGrid();
+    if (g)
+    {
+        g->setRows(newvalue);        
+    }
+    else
+    {
+        g = m_editor->shared()->selectedGrid();
+        if (g)
+        {
+            sad::Vector<sad::SceneNode*> children = g->children();
+            picojson::value oldstate(picojson::object_type, false);
+            g->save(oldstate);
+
+            g->setRows(newvalue);
+
+            picojson::value newstate(picojson::object_type, false);
+            g->save(newstate);
+            
+            this->updateCellBrowser();
+            for(size_t i = 0; i < children.size(); i++)
+            {
+                if (g->find(children[i]).exists())
+                {
+                    this->insertNodeToGridEntry(children[i], g);
+                }
+                else
+                {
+                    this->eraseNodeToGridEntry(children[i]);
+                }
+            }
+            
+            history::layouts::Change<gui::actions::GridActions::GAUO_Rows>* c = new history::layouts::Change<gui::actions::GridActions::GAUO_Rows>(g);
+            c->saveOldState(oldstate);
+            c->saveNewState(newstate);
+            c->addAffectedNodes(children);
+            c->markAsChangingChildrenList();
+
+            m_editor->history()->add(c);
+        }
+    }
+}
+
+void gui::actions::GridActions::columnCountChanged(int newvalue)
+{
+    sad::layouts::Grid* g = m_editor->shared()->activeGrid();
+    if (g)
+    {
+        g->setColumns(newvalue);        
+    }
+    else
+    {
+        g = m_editor->shared()->selectedGrid();
+        if (g)
+        {
+            sad::Vector<sad::SceneNode*> children = g->children();
+            picojson::value oldstate(picojson::object_type, false);
+            g->save(oldstate);
+
+            g->setColumns(newvalue);
+
+            picojson::value newstate(picojson::object_type, false);
+            g->save(newstate);
+            
+            this->updateCellBrowser();
+            for(size_t i = 0; i < children.size(); i++)
+            {
+                if (g->find(children[i]).exists())
+                {
+                    this->insertNodeToGridEntry(children[i], g);
+                }
+                else
+                {
+                    this->eraseNodeToGridEntry(children[i]);
+                }
+            }
+            
+            history::layouts::Change<gui::actions::GridActions::GAUO_Cols>* c = new history::layouts::Change<gui::actions::GridActions::GAUO_Cols>(g);
+            c->saveOldState(oldstate);
+            c->saveNewState(newstate);
+            c->addAffectedNodes(children);
+            c->markAsChangingChildrenList();
+
+            m_editor->history()->add(c);
+        }
+    }    
+}
+
 // ReSharper disable once CppMemberFunctionMayBeConst
 // ReSharper disable once CppMemberFunctionMayBeStatic
 void gui::actions::GridActions::addGridByStretchingClicked()
 {
     if (m_editor->isInEditingState())
         return;
-    // TODO: Implement it
     // Enable displaying grids
     gui::uiblocks::UILayoutBlock* layout_blk = m_editor->uiBlocks()->uiLayoutBlock();
     layout_blk->cbLayoutShow->setCheckState(Qt::Checked);

@@ -284,26 +284,6 @@ void MainPanel::setEditor(core::Editor* editor)
 {  
     m_editor = editor; 
 
-
-    // A cell table widget for layout
-    // TODO: Remove this
-    QGridLayout* table = new QGridLayout();
-    gui::layouts::LayoutCellEdit* edit[5];
-    for(size_t i = 0; i < 5; i++)
-    {
-        edit[i] = new gui::layouts::LayoutCellEdit();
-        edit[i]->setChildrenProvider(new gui::ChildrenProvider(editor->panelProxy()));
-    }
-    table->addWidget(edit[0], 0, 0, 1, 2);
-    table->addWidget(edit[1], 0, 2, 1, 1);
-    table->addWidget(edit[2], 1, 0, 1, 1);
-    table->addWidget(edit[3], 1, 1, 1, 1);
-    table->addWidget(edit[4], 1, 2, 1, 1);
-
-    QWidget* w = new QWidget();
-    w->setLayout(table);
-    ui.tblLayoutCells->setWidget(w);
-
     m_scripting->setEditor(editor);
     this->initConsoleAutocompletion();
 
@@ -727,6 +707,8 @@ void MainPanel::setEditor(core::Editor* editor)
     connect(ui.txtLayoutGridName, SIGNAL(textChanged(const QString&)), ga_actions, SLOT(nameChanged(const QString&)));
     connect(ui.btnLayoutRemove, SIGNAL(clicked()), ga_actions, SLOT(removeGridClicked()));
     connect(ui.rwLayoutArea, SIGNAL(valueChanged(QRectF)), ga_actions, SLOT(areaChanged(QRectF)));
+    connect(ui.spnLayoutGridRows, SIGNAL(valueChanged(int)), ga_actions, SLOT(rowCountChanged(int)));
+    connect(ui.spnLayoutGridCols, SIGNAL(valueChanged(int)), ga_actions, SLOT(columnCountChanged(int)));
 
     connect(ui.lstWays, SIGNAL(currentRowChanged(int)), w_actions, SLOT(wayChanged(int)));
     connect(ui.btnWayAdd, SIGNAL(clicked()), w_actions, SLOT(addWay()));
