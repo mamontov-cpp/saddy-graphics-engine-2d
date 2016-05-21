@@ -240,19 +240,21 @@ sad::Rect2D sad::layouts::Grid::area() const
 void sad::layouts::Grid::setRows(unsigned int rows)
 {
     unsigned int oldrows = m_rows;
-    m_rows = rows;
     if (!m_loading)
     {
-        if (oldrows > m_rows)
+        if (oldrows > rows)
         {
-            this->shrinkRows(oldrows, m_rows);
-            this->update();
+            this->shrinkRows(oldrows, rows);
         }
-        if (oldrows < m_rows)
+        if (oldrows < rows)
         {
-            this->expandRows(oldrows, m_rows);
-            this->update();
+            this->expandRows(oldrows, rows);
         }
+    }
+    m_rows = rows;
+    if (oldrows != rows)
+    {
+        this->update();
     }
 }
 
@@ -263,20 +265,22 @@ unsigned int sad::layouts::Grid::rows() const
 
 void sad::layouts::Grid::setColumns(unsigned int cols)
 {
-    m_cols = cols;
     unsigned int oldcols = m_cols;
     if (!m_loading)
     {
-        if (oldcols > m_cols)
+        if (oldcols > cols)
         {
-            this->shrinkColumns(oldcols, m_cols);
-            this->update();
+            this->shrinkColumns(oldcols, cols);
         }
-        if (oldcols < m_cols)
+        if (oldcols < cols)
         {
-            this->expandColumns(oldcols, m_cols);
-            this->update();
+            this->expandColumns(oldcols, cols);
         }
+    }
+    m_cols = cols;
+    if (oldcols != m_cols)
+    {
+        this->update();
     }
 }
 
@@ -766,6 +770,11 @@ sad::Vector<sad::SceneNode*> sad::layouts::Grid::children() const
     return result;
 }
 
+size_t sad::layouts::Grid::allocatedCellCount() const
+{
+    return m_cells.size();
+}
+
 void sad::layouts::Grid::setTable(sad::db::Table* t)
 {
     this->sad::SceneNode::setTable(t);
@@ -843,7 +852,7 @@ void sad::layouts::Grid::expandRows(size_t oldrows, size_t newrows)
     }
     CellComparator less;
     std::sort(m_cells.begin(), m_cells.end(), less);
-    makeCellViews();
+    makeCellViews(&newrows, NULL);
 }
 
 void sad::layouts::Grid::shrinkRows(size_t oldrows, size_t newrows)
@@ -876,7 +885,7 @@ void sad::layouts::Grid::shrinkRows(size_t oldrows, size_t newrows)
     }
     CellComparator less;
     std::sort(m_cells.begin(), m_cells.end(), less);
-    makeCellViews();
+    makeCellViews(&newrows, NULL);
 }
 
 void sad::layouts::Grid::expandColumns(size_t oldcols, size_t newcols)
@@ -905,7 +914,7 @@ void sad::layouts::Grid::expandColumns(size_t oldcols, size_t newcols)
     }
     CellComparator less;
     std::sort(m_cells.begin(), m_cells.end(), less);
-    makeCellViews();
+    makeCellViews(NULL, &newcols);
 }
 
 void sad::layouts::Grid::shrinkColumns(size_t oldcols, size_t newcols)
@@ -938,17 +947,27 @@ void sad::layouts::Grid::shrinkColumns(size_t oldcols, size_t newcols)
     }
     CellComparator less;
     std::sort(m_cells.begin(), m_cells.end(), less);
-    makeCellViews();
+    makeCellViews(NULL, &newcols);
 }
 
-void sad::layouts::Grid::makeCellViews()
+void sad::layouts::Grid::makeCellViews(size_t* prows, size_t* pcols)
 {
+    size_t rows = m_rows;
+    size_t cols = m_cols;
+    if (prows)
+    {
+        rows = *prows;
+    }
+    if (pcols)
+    {
+        cols = *pcols;
+    }
     m_cell_views.clear();
     sad::Hash<size_t, sad::Hash<size_t, sad::Vector<size_t> > > coverage;
     buildCoverage(coverage);
-    for(size_t i = 0; i < m_rows; i++)
+    for(size_t i = 0; i < rows; i++)
     {
-        for(size_t j = 0; j < m_cols; j++)
+        for(size_t j = 0; j < cols; j++)
         {
             if (coverage.contains(i))
             {

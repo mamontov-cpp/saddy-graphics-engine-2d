@@ -1067,7 +1067,8 @@ void gui::actions::GridActions::rowCountChanged(int newvalue)
     sad::layouts::Grid* g = m_editor->shared()->activeGrid();
     if (g)
     {
-        g->setRows(newvalue);        
+        g->setRows(newvalue);  
+        this->updateCellBrowser();
     }
     else
     {
@@ -1112,7 +1113,8 @@ void gui::actions::GridActions::columnCountChanged(int newvalue)
     sad::layouts::Grid* g = m_editor->shared()->activeGrid();
     if (g)
     {
-        g->setColumns(newvalue);        
+        g->setColumns(newvalue); 
+        this->updateCellBrowser();
     }
     else
     {

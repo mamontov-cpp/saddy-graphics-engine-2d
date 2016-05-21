@@ -27,9 +27,67 @@ struct SadGridTests : tpunit::TestFixture
 {
  public:
    SadGridTests() : tpunit::TestFixture(
+       TEST(SadGridTests::testSetRows),
+       TEST(SadGridTests::testSetColumns),
        TEST(SadGridTests::testAddOneSpriteInOneCellTable),
        TEST(SadGridTests::testAddAndRemoveOneSpriteInOneCellTable)
    ) {}
+   // ReSharper disable once CppMemberFunctionMayBeStatic
+   // ReSharper disable once CppMemberFunctionMayBeConst
+   void testSetRows()
+   {
+       sad::layouts::Grid* grid = new sad::layouts::Grid(); 
+       grid->setFixedWidth(false);
+       grid->setFixedHeight(false);
+       grid->setRows(1);
+       grid->setColumns(1);
+       ASSERT_TRUE( grid->cell(0, 0) != NULL );
+       ASSERT_TRUE( grid->cell(1, 0) == NULL );
+
+       grid->setRows(2);
+
+       ASSERT_TRUE( grid->cell(0, 0) != NULL );
+       ASSERT_TRUE( grid->cell(1, 0) != NULL );
+
+       grid->setRows(1);
+
+       ASSERT_TRUE( grid->cell(0, 0) != NULL );
+       ASSERT_TRUE( grid->cell(1, 0) == NULL );
+
+       delete grid;
+   }
+   // ReSharper disable once CppMemberFunctionMayBeStatic
+   // ReSharper disable once CppMemberFunctionMayBeConst
+   void testSetColumns()
+   {
+       sad::layouts::Grid* grid = new sad::layouts::Grid(); 
+       grid->setFixedWidth(false);
+       grid->setFixedHeight(false);
+       grid->setRows(1);
+       grid->setColumns(1);
+       ASSERT_TRUE( grid->cell(0, 0) != NULL );
+       ASSERT_TRUE( grid->cell(0, 1) == NULL );
+
+       grid->setColumns(2);
+
+       ASSERT_TRUE( grid->cell(0, 0) != NULL );
+       ASSERT_TRUE( grid->cell(0, 1) != NULL );
+
+       grid->setColumns(1);
+
+       ASSERT_TRUE( grid->cell(0, 0) != NULL );
+       ASSERT_TRUE( grid->cell(0, 1) == NULL );
+
+
+       grid->setRows(4);
+       grid->setColumns(5);
+
+       grid->setColumns(3);
+
+       ASSERT_TRUE( grid->allocatedCellCount() == 12 );
+
+       delete grid;
+   }
     // ReSharper disable once CppMemberFunctionMayBeStatic
     // ReSharper disable once CppMemberFunctionMayBeConst
     /*! A simple basic use case: a sprite is being added to a grid with non-fixed width

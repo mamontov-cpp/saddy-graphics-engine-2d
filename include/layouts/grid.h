@@ -239,6 +239,10 @@ public:
         \return list of child nodes
      */
     sad::Vector<sad::SceneNode*> children() const;
+    /*! Returns actual amount of allocated cells in grid (not the product of rows and columns)
+        \return actual amount of allocated cells
+     */
+    size_t allocatedCellCount() const;
     /*! Sets a table, propagating database to a cells
         \param[in] t a table
      */
@@ -274,8 +278,10 @@ private:
      */
     void shrinkColumns(size_t oldcols, size_t newcols);
     /*! Regenerates cell views array, according to current settings
+        \param[in] prows a pointer, which should point to current rows count (NULL for current rows)
+        \param[in] pcols a pointer, which should point to current columns count (NULL for current columns)
      */
-    void makeCellViews();
+    void makeCellViews(size_t* prows = NULL, size_t* pcols = NULL);
     /*! Validates list of cells, returning whether it's valid
         \return whether list of cells is valid
      */
