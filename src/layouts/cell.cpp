@@ -108,8 +108,8 @@ void sad::layouts::Cell::update()
     double assignedwidth =  (maxpoint.x() - minpoint.x());
     double assignedheight = (maxpoint.y() - minpoint.y());
 
-        // Compute normalized children sizes
-        this->computeNormalizedChildrenSizes();
+    // Compute normalized children sizes
+    this->computeNormalizedChildrenSizes();
 
     // Compute preferred size, which we can relate to, when layouting data
     // Normalized rectangles are already computed, so we could futher use them
@@ -118,10 +118,13 @@ void sad::layouts::Cell::update()
     {
         // Handle horizontal alignment
         double factor = 1.0;
-        if (size.Width > assignedwidth)
+        // Factoring is disabled - we allow cell to be overflowed
+		/*
+		if (size.Width > assignedwidth)
         {
             factor = assignedwidth / size.Width;
         }
+		*/
         // Compute starting position
         double startingpointx = 0;
         switch(this->horizontalAlignment())
@@ -164,12 +167,14 @@ void sad::layouts::Cell::update()
     else
     {
         // Handle vertical alignment
-        // Handle horizontal alignment
         double factor = 1.0;
+        // Factoring is disabled - we allow cell to be overflowed
+		/*
         if (size.Height > assignedheight)
         {
             factor = assignedheight / size.Height;
         }
+		*/
         // Compute starting position
         double startingpointy = 0;
         switch(this->verticalAlignment())
@@ -564,7 +569,7 @@ sad::Size2D sad::layouts::Cell::preferredSize() const
     {
         for(size_t i = 0; i < rects.size(); i++)
         {
-            width += std::max(width, (rects[i].p2().x() - rects[i].p1().x()));
+            width = std::max(width, (rects[i].p2().x() - rects[i].p1().x()));
             height += (rects[i].p2().y() - rects[i].p1().y());
         }
     }

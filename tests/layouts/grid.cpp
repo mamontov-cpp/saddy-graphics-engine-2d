@@ -33,7 +33,8 @@ struct SadGridTests : tpunit::TestFixture
        TEST(SadGridTests::testAddOneSpriteInTwoColumnsTable),
        TEST(SadGridTests::testAddTwoSpritesInFourRowsTable),
        TEST(SadGridTests::testAddTwoSpritesInFourColumnsTable),
-       TEST(SadGridTests::testAddTwoSpritesInThreeRowsFourColumnsTable)
+       TEST(SadGridTests::testAddTwoSpritesInThreeRowsFourColumnsTable),
+       TEST(SadGridTests::testAddTwoSpritesExceedingFixedWidthOfTable)
    ) {}
    // ReSharper disable once CppMemberFunctionMayBeStatic
    // ReSharper disable once CppMemberFunctionMayBeConst
@@ -452,6 +453,55 @@ struct SadGridTests : tpunit::TestFixture
             }
         }
 
+   }
+
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
+    /*! A simple basic use case: a two sprites is being added to a grid with fixed width
+        and exceed it. Somehow, they should be layouted in center if no another alignment specified
+     */   
+   void testAddTwoSpritesExceedingFixedWidthOfTable()
+   {
+	    sad::Sprite2D* sprite1 = new sad::Sprite2D("test", sad::Rect2D(0, 0, 800, 600), sad::Rect2D(400, 400, 600, 600));
+        sad::Sprite2D* sprite2 = new sad::Sprite2D("test", sad::Rect2D(0, 0, 800, 600), sad::Rect2D(400, 400, 600, 600));
+        sad::layouts::Grid* grid = new sad::layouts::Grid();
+        grid->setFixedWidth(true);
+        grid->setFixedHeight(true);
+        grid->setRows(1);
+        grid->setColumns(1);
+        grid->setArea(sad::Rect2D(0, 0, 200, 200));
+        sad::db::Database* db = new sad::db::Database();
+        sad::db::Table* tbl = new sad::db::Table();
+        sad::Renderer r;
+        r.addDatabase("", db);
+        db->setRenderer(&r);
+        tbl->setDatabase(db);
+        db->addTable("", tbl);
+
+        sprite1->setTable(tbl);
+        sprite2->setTable(tbl);
+        grid->setTable(tbl);
+
+        tbl->add(sprite1);
+        tbl->add(sprite2);
+        tbl->add(grid);
+
+        grid->cell(0, 0)->addChild(sprite1->MajorId);
+        grid->cell(0, 0)->addChild(sprite2->MajorId);
+
+        sad::Rect2D rct = sprite1->area();
+        if (!sad::equal(rct, sad::Rect2D(-100, 0, 100, 200)))
+        {
+            std::cout << str(fmt::Format("Resulted in {0};{1};{2};{3}\n") << rct[0].x() << rct[0].y() << rct.width() << rct.height());
+            ASSERT_TRUE( false );
+        }
+
+		rct = sprite2->area();
+		if (!sad::equal(rct, sad::Rect2D(100, 0, 300, 200)))
+        {
+            std::cout << str(fmt::Format("Resulted in {0};{1};{2};{3}\n") << rct[0].x() << rct[0].y() << rct.width() << rct.height());
+            ASSERT_TRUE( false );
+        }
    }
 
 } _sad_grid_tests;
