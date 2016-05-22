@@ -39,7 +39,8 @@ public:
     : m_grid(g), 
       m_old_state(picojson::object_type, false),
       m_new_state(picojson::object_type, false),
-      m_should_update_children(false)
+      m_should_update_children(false),
+      m_should_update_cells(false)
     {
         m_grid->addRef();        
     }
@@ -132,6 +133,13 @@ public:
     {
         m_should_update_children = true;
     }
+    /*! Marks, whether command application should update cells
+        \param[in] v value
+     */
+    void toggleWhetherShouldUpdateCells(bool v)
+    {
+        m_should_update_cells = v;
+    }
 protected:
     /*! Tries to update UI
         \param[in] e editor
@@ -164,6 +172,10 @@ protected:
 
             actions->updateOnlyGridPropertiesInUI(O);
             actions->updateRegion();
+            if (m_should_update_cells)
+            {
+                actions->updateCellBrowser();
+            }
         }
         sad::layouts::Grid* parent = e->actions()->gridActions()->parentGridFor(m_grid);
         if (parent)
@@ -194,9 +206,12 @@ protected:
     /*! A new state for layout change
      */
     picojson::value m_new_state;
-    /*! Whether we should update children list, belonging to greed
+    /*! Whether we should update children list, belonging to grid
      */
     bool m_should_update_children;
+    /*! Whether we should update cell list
+     */
+    bool m_should_update_cells;
 };
 
 }

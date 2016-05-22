@@ -711,7 +711,10 @@ void MainPanel::setEditor(core::Editor* editor)
     connect(ui.spnLayoutGridCols, SIGNAL(valueChanged(int)), ga_actions, SLOT(columnCountChanged(int)));
     connect(ui.cbLayoutFixedWidth, SIGNAL(clicked(bool)), ga_actions, SLOT(fixedWidthClicked(bool)));
     connect(ui.cbLayoutFixedHeight, SIGNAL(clicked(bool)), ga_actions, SLOT(fixedHeightClicked(bool)));
-
+    connect(ui.dsbLayoutPaddingTop, SIGNAL(valueChanged(double)), ga_actions, SLOT(topPaddingChanged(double)));
+    connect(ui.dsbLayoutPaddingBottom, SIGNAL(valueChanged(double)), ga_actions, SLOT(bottomPaddingChanged(double)));
+    connect(ui.dsbLayoutPaddingLeft, SIGNAL(valueChanged(double)), ga_actions, SLOT(leftPaddingChanged(double)));
+    connect(ui.dsbLayoutPaddingRight, SIGNAL(valueChanged(double)), ga_actions, SLOT(rightPaddingChanged(double)));
 
     connect(ui.lstWays, SIGNAL(currentRowChanged(int)), w_actions, SLOT(wayChanged(int)));
     connect(ui.btnWayAdd, SIGNAL(clicked()), w_actions, SLOT(addWay()));

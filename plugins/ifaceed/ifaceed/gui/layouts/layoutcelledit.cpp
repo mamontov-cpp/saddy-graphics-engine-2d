@@ -181,7 +181,7 @@ gui::layouts::LayoutCellEdit::LayoutCellEdit(QWidget* parent)
         item->setFlags(item->flags() & ~Qt::ItemIsEditable & ~Qt::ItemIsSelectable);
         item->setTextAlignment(Qt::AlignHCenter | Qt::AlignCenter);
         item->setText(pitems[i]);
-        this->setItem(6 + i, 0, item);
+        this->setItem(7 + i, 0, item);
 
         (*(dsbs[i])) = new QDoubleSpinBox();
         (*(dsbs[i]))->setMinimum(0.0);

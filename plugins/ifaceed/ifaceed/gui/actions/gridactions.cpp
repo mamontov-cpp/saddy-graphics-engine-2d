@@ -955,6 +955,7 @@ void gui::actions::GridActions::insertNodesToGrids(const sad::Vector<sad::Pair<s
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::GridActions::scriptableRemoveGrid(sad::layouts::Grid* grid, bool from_editor)
 {
     if (m_editor->isInEditingState())
@@ -1220,6 +1221,181 @@ void gui::actions::GridActions::fixedHeightClicked(bool newvalue)
             m_editor->history()->add(c);
         }
     }
+}
+
+void gui::actions::GridActions::topPaddingChanged(double newvalue)
+{
+    sad::layouts::Grid* g = m_editor->shared()->activeGrid();
+    bool propagate = m_editor->uiBlocks()->uiLayoutBlock()->cbLayoutPaddingTopPropagate->checkState() == Qt::Checked;
+    if (g)
+    {
+        g->setPaddingTop(newvalue, propagate); 
+        {
+            this->updateCellBrowser();
+        }
+        this->updateRegion();
+    }
+    else
+    {
+        g = m_editor->shared()->selectedGrid();
+        if (g)
+        {
+            sad::Vector<sad::SceneNode*> children = g->children();
+            picojson::value oldstate(picojson::object_type, false);
+            g->save(oldstate);
+
+            g->setPaddingTop(newvalue, propagate); 
+
+            picojson::value newstate(picojson::object_type, false);
+            g->save(newstate);
+            
+            this->updateRegion();
+            if (propagate)
+            {
+                this->updateCellBrowser();
+            }
+            
+            history::layouts::Change<gui::actions::GridActions::GAUO_TopPadding>* c = new history::layouts::Change<gui::actions::GridActions::GAUO_TopPadding>(g);
+            c->saveOldState(oldstate);
+            c->saveNewState(newstate);            
+            c->addAffectedNodes(children);
+            c->toggleWhetherShouldUpdateCells(propagate);
+
+            m_editor->history()->add(c);
+        }
+    }
+}
+
+void gui::actions::GridActions::bottomPaddingChanged(double newvalue)
+{
+    sad::layouts::Grid* g = m_editor->shared()->activeGrid();
+    bool propagate = m_editor->uiBlocks()->uiLayoutBlock()->cbLayoutPaddingBottomPropagate->checkState() == Qt::Checked;
+    if (g)
+    {
+        g->setPaddingBottom(newvalue, propagate); 
+        if (propagate)
+        {
+            this->updateCellBrowser();
+        }
+        this->updateRegion();
+    }
+    else
+    {
+        g = m_editor->shared()->selectedGrid();
+        if (g)
+        {
+            sad::Vector<sad::SceneNode*> children = g->children();
+            picojson::value oldstate(picojson::object_type, false);
+            g->save(oldstate);
+
+            g->setPaddingBottom(newvalue, propagate); 
+
+            picojson::value newstate(picojson::object_type, false);
+            g->save(newstate);
+            
+            this->updateRegion();
+            if (propagate)
+            {
+                this->updateCellBrowser();
+            }
+            
+            history::layouts::Change<gui::actions::GridActions::GAUO_BottomPadding>* c = new history::layouts::Change<gui::actions::GridActions::GAUO_BottomPadding>(g);
+            c->saveOldState(oldstate);
+            c->saveNewState(newstate);            
+            c->addAffectedNodes(children);
+            c->toggleWhetherShouldUpdateCells(propagate);
+
+            m_editor->history()->add(c);
+        }
+    }    
+}
+
+void gui::actions::GridActions::leftPaddingChanged(double newvalue)
+{
+    sad::layouts::Grid* g = m_editor->shared()->activeGrid();
+    bool propagate = m_editor->uiBlocks()->uiLayoutBlock()->cbLayoutPaddingLeftPropagate->checkState() == Qt::Checked;
+    if (g)
+    {
+        g->setPaddingLeft(newvalue, propagate); 
+        if (propagate)
+        {
+            this->updateCellBrowser();
+        }
+        this->updateRegion();
+    }
+    else
+    {
+        g = m_editor->shared()->selectedGrid();
+        if (g)
+        {
+            sad::Vector<sad::SceneNode*> children = g->children();
+            picojson::value oldstate(picojson::object_type, false);
+            g->save(oldstate);
+
+            g->setPaddingLeft(newvalue, propagate); 
+
+            picojson::value newstate(picojson::object_type, false);
+            g->save(newstate);
+            
+            this->updateRegion();
+            if (propagate)
+            {
+                this->updateCellBrowser();
+            }
+            
+            history::layouts::Change<gui::actions::GridActions::GAUO_LeftPadding>* c = new history::layouts::Change<gui::actions::GridActions::GAUO_LeftPadding>(g);
+            c->saveOldState(oldstate);
+            c->saveNewState(newstate);            
+            c->addAffectedNodes(children);
+            c->toggleWhetherShouldUpdateCells(propagate);
+
+            m_editor->history()->add(c);
+        }
+    }    
+}
+
+void gui::actions::GridActions::rightPaddingChanged(double newvalue)
+{
+    sad::layouts::Grid* g = m_editor->shared()->activeGrid();
+    bool propagate = m_editor->uiBlocks()->uiLayoutBlock()->cbLayoutPaddingRightPropagate->checkState() == Qt::Checked;
+    if (g)
+    {
+        g->setPaddingRight(newvalue, propagate); 
+        if (propagate)
+        {
+            this->updateCellBrowser();
+        }
+        this->updateRegion();
+    }
+    else
+    {
+        g = m_editor->shared()->selectedGrid();
+        if (g)
+        {
+            sad::Vector<sad::SceneNode*> children = g->children();
+            picojson::value oldstate(picojson::object_type, false);
+            g->save(oldstate);
+
+            g->setPaddingRight(newvalue, propagate); 
+
+            picojson::value newstate(picojson::object_type, false);
+            g->save(newstate);
+            
+            this->updateRegion();
+            if (propagate)
+            {
+                this->updateCellBrowser();
+            }
+            
+            history::layouts::Change<gui::actions::GridActions::GAUO_RightPadding>* c = new history::layouts::Change<gui::actions::GridActions::GAUO_RightPadding>(g);
+            c->saveOldState(oldstate);
+            c->saveNewState(newstate);            
+            c->addAffectedNodes(children);
+            c->toggleWhetherShouldUpdateCells(propagate);
+
+            m_editor->history()->add(c);
+        }
+    } 
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst

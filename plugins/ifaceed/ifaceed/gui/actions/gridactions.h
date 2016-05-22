@@ -406,6 +406,22 @@ public slots:
         \param[in] newvalue a new value for fixed with 
      */
     void fixedHeightClicked(bool newvalue);
+    /*! Called, when user changes top padding for a grid
+        \param[in] newvalue a new top padding value
+     */
+    void topPaddingChanged(double newvalue);
+    /*! Called, when user changes bottom padding for a grid
+        \param[in] newvalue a new bottom padding value
+     */
+    void bottomPaddingChanged(double newvalue);
+    /*! Called, when user changes left padding for a grid
+        \param[in] newvalue a new left padding value
+     */
+    void leftPaddingChanged(double newvalue);
+    /*! Called, when user changes right padding for a grid
+        \param[in] newvalue a new right padding value
+     */
+    void rightPaddingChanged(double newvalue);
     /*! Called, when user toggles show or hide grids
         \param[in] state a new state for a checkbox
      */
