@@ -380,6 +380,10 @@ enum UpdateOptions
 		\param[in] grid a grid
 	 */
 	void updateParentGridsRecursively(sad::layouts::Grid* grid);
+	/*! Tries to update regions in children if selected
+		\param[in] grid a grid
+	 */
+	void tryUpdateRegionsInChildren(sad::layouts::Grid* grid);
 public slots:
     /*! Called, when user clicks on "Add" button for grids
      */
@@ -504,7 +508,7 @@ public slots:
         \param[in] col a column
         \param[in] pos a position, where child is added
      */
-    void cellChildRemoved(size_t row, size_t col_t, size_t pos);
+    void cellChildRemoved(size_t row, size_t col, size_t pos);
     /*! Called, when cell is clearead
         \param[in] row a row
         \param[in] col a column

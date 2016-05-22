@@ -2441,11 +2441,14 @@
     </ClCompile>
     <ClCompile Include="history\layouts\layoutsremove.cpp">
       <Filter>Source Files\history\layouts</Filter>
-    </ClCompile>	
+    </ClCompile>
     <ClCompile Include="history\layouts\layoutschangename.cpp">
       <Filter>Source Files\history\layouts</Filter>
     </ClCompile>
     <ClCompile Include="history\layouts\layoutsaddchild.cpp">
+      <Filter>Source Files\history\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="history\layouts\layoutsremovechild.cpp">
       <Filter>Source Files\history\layouts</Filter>
     </ClCompile>
   </ItemGroup>
@@ -3112,7 +3115,7 @@
     </ClInclude>
     <ClInclude Include="history\layouts\layoutsremove.h">
       <Filter>Header Files\history\layouts</Filter>
-    </ClInclude>	
+    </ClInclude>
     <ClInclude Include="history\layouts\layoutschangename.h">
       <Filter>Header Files\history\layouts</Filter>
     </ClInclude>
@@ -3120,6 +3123,9 @@
       <Filter>Header Files\history\layouts</Filter>
     </ClInclude>
     <ClInclude Include="history\layouts\layoutschange.h">
+      <Filter>Header Files\history\layouts</Filter>
+    </ClInclude>
+    <ClInclude Include="history\layouts\layoutsremovechild.h">
       <Filter>Header Files\history\layouts</Filter>
     </ClInclude>
   </ItemGroup>

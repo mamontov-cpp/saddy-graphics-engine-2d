@@ -6,13 +6,7 @@
 
 #include "../../core/editor.h"
 
-#include "../../qstdstring.h"
-
-#include "../../blockedclosuremethodcall.h"
 #include "../../closuremethodcall.h"
-
-#include "../../gui/uiblocks/uiblocks.h"
-#include "../../gui/uiblocks/uilayoutblock.h"
 
 #include "../../gui/actions/actions.h"
 #include "../../gui/actions/scenenodeactions.h"
@@ -78,6 +72,7 @@ void history::layouts::AddChild::_commit(core::Editor* ob)
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void history::layouts::AddChild::_rollback(core::Editor* ob)
 {
     sad::layouts::Cell* cell = m_grid->cell(m_row, m_column);
@@ -102,8 +97,10 @@ void history::layouts::AddChild::_rollback(core::Editor* ob)
     }
 
 	ga->updateParentGridsRecursively(m_grid);
+	ga->tryUpdateRegionsInChildren(m_grid);
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void history::layouts::AddChild::_commitWithoutUpdatingUI(core::Editor* ob)
 {
     m_grid->cell(m_row, m_column)->addChild(m_node->MajorId);   
@@ -124,4 +121,5 @@ void history::layouts::AddChild::_commitWithoutUpdatingUI(core::Editor* ob)
     }
 
 	ga->updateParentGridsRecursively(m_grid);
+	ga->tryUpdateRegionsInChildren(m_grid);
 }

@@ -326,6 +326,7 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/layouts/layoutsnew.h \
     ifaceed/history/layouts/layoutschangename.h \	
     ifaceed/history/layouts/layoutsaddchild.h \
+    ifaceed/history/layouts/layoutsremovechild.h \	
     ifaceed/history/layouts/layoutschange.h \	
     ifaceed/history/layouts/layoutsremove.h
 FORMS += ifaceed/mainpanel.ui \
@@ -583,6 +584,7 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/history/layouts/layoutsnew.cpp \
     ifaceed/history/layouts/layoutschangename.cpp \
     ifaceed/history/layouts/layoutsaddchild.cpp \
+    ifaceed/history/layouts/layoutsremovechild.cpp \	
     ifaceed/history/layouts/layoutsremove.cpp
 
 

@@ -1,6 +1,6 @@
-/*! \file layoutsaddchild.h
+/*! \file layoutsremovechild.h
 
-    Describes a command of adding child to grid's cell
+    Describes a command of removing child from grid's cell
  */
 #pragma once
 #include "../command.h"
@@ -15,7 +15,7 @@ namespace layouts
 /*! A command, which must be added, when user adds child
     to grid's cell
  */
-class AddChild: public history::Command
+class RemoveChild: public history::Command
 {
 public:
     /*! Constructs new command for node
@@ -24,16 +24,16 @@ public:
         \param[in] column a column for node
         \param[in] oldarea an old area for layout
     */
-    AddChild(
+    RemoveChild(
         sad::layouts::Grid* d,
         size_t row,
         size_t column,
-        sad::SceneNode* node,
-        const sad::Rect2D& oldarea
+		size_t pos,
+        sad::SceneNode* node
     );
     /*! Erases link to a node
      */
-    virtual ~AddChild();
+    virtual ~RemoveChild();
     /*! Applies changes, described in command
         \param[in] ob an observer for looking for command
      */
@@ -70,6 +70,9 @@ protected:
     /*! A column of node
      */
     size_t m_column;
+	/*! A position for removed child
+	 */
+	size_t m_position;
     /*! An old value of property
      */
     sad::SceneNode* m_node;

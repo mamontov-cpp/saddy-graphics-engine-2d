@@ -29,6 +29,7 @@
 #include "../../history/layouts/layoutschangename.h"
 #include "../../history/layouts/layoutschange.h"
 #include "../../history/layouts/layoutsaddchild.h"
+#include "../../history/layouts/layoutsremovechild.h"
 
 #include "../../gui/actions/actions.h"
 #include "../../gui/actions/scenenodeactions.h"
@@ -999,6 +1000,25 @@ void gui::actions::GridActions::updateParentGridsRecursively(sad::layouts::Grid*
 		pgrid = this->parentGridFor(pgrid);
 	}
 }
+
+void gui::actions::GridActions::tryUpdateRegionsInChildren(sad::layouts::Grid* grid)
+{
+	sad::Vector<sad::SceneNode*> children = grid->children();
+	sad::SceneNode* sgrid = m_editor->shared()->selectedGrid();
+	gui::actions::SceneNodeActions* scene_node_actions = m_editor->actions()->sceneNodeActions();
+	for(size_t i = 0; i < children.size(); i++)
+	{
+		if (children[i] == sgrid)
+		{
+			this->updateRegion();
+		}
+		if (m_editor->isNodeSelected(children[i]))
+		{
+			scene_node_actions->updateRegionForNode();
+		}
+	}
+}
+
 // ================================ PUBLIC SLOTS  ================================
 
 // ReSharper disable once CppMemberFunctionMayBeConst
@@ -1586,7 +1606,6 @@ void gui::actions::GridActions::cellChildAdded(size_t row, size_t col, unsigned 
         sad::Maybe<sad::Rect2D> oldarea = o->getProperty<sad::Rect2D>("area");
         if (oldarea.exists())
         {
-            // TODO: Make new history entry here and commit it
             history::layouts::AddChild* c = new history::layouts::AddChild(g, row, col, o, oldarea.value());
             c->commitWithoutUpdatingUI(m_editor);
             m_editor->history()->add(c);
@@ -1595,14 +1614,20 @@ void gui::actions::GridActions::cellChildAdded(size_t row, size_t col, unsigned 
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-void gui::actions::GridActions::cellChildRemoved(size_t row, size_t col_t, size_t pos)
+void gui::actions::GridActions::cellChildRemoved(size_t row, size_t col, size_t pos)
 {
-    // TODO: Implement this
 	sad::layouts::Grid* g = m_editor->shared()->selectedGrid();
     if (!g)
     {
         return;
     }
+	sad::SceneNode* node = g->cell(row, col)->child(pos);
+	if (node)
+	{
+		history::layouts::RemoveChild* c = new history::layouts::RemoveChild(g, row, col, pos, node);
+		c->commitWithoutUpdatingUI(m_editor);
+        m_editor->history()->add(c);
+	}
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
@@ -1698,3 +1723,4 @@ void gui::actions::GridActions::makeBuckets(const sad::Vector<sad::Pair<sad::Sce
         std::sort(buckets[i].List.begin(), buckets[i].List.end());
     }
 }
+
