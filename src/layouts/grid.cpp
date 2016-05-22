@@ -645,17 +645,7 @@ void sad::layouts::Grid::update()
         {
             size.Height = computedSize.Height;
         }
-        
-        if (sad::is_fuzzy_zero(size.Width) && this->fixedWidth())
-        {
-            size.Width = m_area.width() / cell->colSpan();
-        }
-        
-        if (sad::is_fuzzy_zero(size.Height) && this->fixedHeight())
-        {
-            size.Height = m_area.height() / cell->rowSpan();
-        }
-        
+                
         for(size_t row = 0; row < cell->rowSpan(); row++)
         {
             for(size_t col = 0; col < cell->colSpan(); col++)
@@ -665,7 +655,77 @@ void sad::layouts::Grid::update()
             }
         }
     }
-    
+
+    // 2.1. Fill zero-size rows with redistributed left-space from other cells
+    if (this->fixedWidth())
+    {
+        for(size_t row = 0; row < m_rows; row++)
+        {
+            double width_sum = 0;
+            size_t amount = 0;
+            // Compute total amount of space to be redistributed
+            // and amount of empty cells
+            for(size_t col = 0; col  < m_cols; col++)
+            {
+                if (sad::is_fuzzy_zero(widths[row][col]))
+                {
+                    ++amount;
+                }
+                else
+                {
+                    width_sum = widths[row][col];
+                }
+            }
+            // Redistribute empty cells if needed
+            if (width_sum < m_area.width() && amount != 0)
+            {
+                double w = (m_area.width() - width_sum) / amount;
+                for(size_t col = 0; col  < m_cols; col++)
+                {
+                    if (sad::is_fuzzy_zero(widths[row][col]))
+                    {
+                        widths[row][col] = w;
+                    }                    
+                }
+            }
+        }
+    }
+
+    // 2.2. Fill zero-size cols with redistributed left-space from other cells
+    if (this->fixedHeight())
+    {
+        for(size_t col = 0; col  < m_cols; col++)
+        {
+            double height_sum = 0;
+            size_t amount = 0;
+            // Compute total amount of space to be redistributed
+            // and amount of empty cells
+            for(size_t row = 0; row < m_rows; row++)
+            {
+                if (sad::is_fuzzy_zero(heights[row][col]))
+                {
+                    ++amount;
+                }
+                else
+                {
+                    height_sum = heights[row][col];
+                }
+            }
+            // Redistribute empty cells if needed
+            if (height_sum < m_area.height() && amount != 0)
+            {
+                double h = (m_area.height() - height_sum) / amount;
+                for(size_t row = 0; row < m_rows; row++)
+                {
+                    if (sad::is_fuzzy_zero(heights[row][col]))
+                    {
+                        heights[row][col] = h;
+                    }                    
+                }
+            }
+        }
+    }
+
     // 3. Linearize widths and heights by picking maximal width and height on row or column
     sad::Vector<double> rowtoheight;    
     sad::Vector<double> coltowidth;
