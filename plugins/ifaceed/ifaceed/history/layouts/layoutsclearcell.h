@@ -1,6 +1,6 @@
-/*! \file layoutsremovechild.h
+/*! \file layoutsclearcell.h
 
-    Describes a command of removing child from grid's cell
+    Describes a command of clearing grid's cell
  */
 #pragma once
 #include "../command.h"
@@ -12,28 +12,26 @@ namespace history
 
 namespace layouts
 {
-/*! A command, which must be added, when user removes child from cell
-    to grid's cell
+/*! A command, which must be added, when user clears grid's cell
  */
-class RemoveChild: public history::Command
+class ClearCell: public history::Command
 {
 public:
     /*! Constructs new command for node
         \param[in] d a node
         \param[in] row a row for node
         \param[in] column a column for node
-        \param[in] node a node, that was removed
+        \param[in] nodes a children list for cell
     */
-    RemoveChild(
+    ClearCell(
         sad::layouts::Grid* d,
         size_t row,
         size_t column,
-		size_t pos,
-        sad::SceneNode* node
+        const sad::Vector<sad::SceneNode*>& nodes
     );
     /*! Erases link to a node
      */
-    virtual ~RemoveChild();
+    virtual ~ClearCell();
     /*! Applies changes, described in command
         \param[in] ob an observer for looking for command
      */
@@ -70,12 +68,9 @@ protected:
     /*! A column of node
      */
     size_t m_column;
-	/*! A position for removed child
-	 */
-	size_t m_position;
-    /*! A  removed child
+    /*! A list of children
      */
-    sad::SceneNode* m_node;
+    sad::Vector<sad::SceneNode*> m_children;
 };
 
 }

@@ -30,6 +30,7 @@
 #include "../../history/layouts/layoutschange.h"
 #include "../../history/layouts/layoutsaddchild.h"
 #include "../../history/layouts/layoutsremovechild.h"
+#include "../../history/layouts/layoutsclearcell.h"
 
 #include "../../gui/actions/actions.h"
 #include "../../gui/actions/scenenodeactions.h"
@@ -1633,7 +1634,18 @@ void gui::actions::GridActions::cellChildRemoved(size_t row, size_t col, size_t 
 // ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::GridActions::cellCleared(size_t row, size_t col)
 {
-    // TODO: Implement this
+    sad::layouts::Grid* g = m_editor->shared()->selectedGrid();
+    if (!g)
+    {
+        return;
+    }
+	sad::Vector<sad::SceneNode*> children = g->cell(row,col)->children();
+	if (children.size())
+	{
+		history::layouts::ClearCell* c = new history::layouts::ClearCell(g, row, col, children);
+		c->commitWithoutUpdatingUI(m_editor);
+        m_editor->history()->add(c);
+	}
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst

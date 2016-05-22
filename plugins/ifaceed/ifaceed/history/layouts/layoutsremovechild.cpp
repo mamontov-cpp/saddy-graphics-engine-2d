@@ -79,7 +79,11 @@ void history::layouts::RemoveChild::_rollback(core::Editor* ob)
 
 	gui::actions::GridActions* ga = ob->actions()->gridActions();
     ga->insertNodeToGridEntry(m_node, m_grid);
-    if (ob->shared()->selectedGrid() == m_node)
+    
+	ga->updateParentGridsRecursively(m_grid);
+	ga->tryUpdateRegionsInChildren(m_grid);
+
+	if (ob->shared()->selectedGrid() == m_node)
     {
         ga->updateRegion(true);
     }
@@ -89,9 +93,6 @@ void history::layouts::RemoveChild::_rollback(core::Editor* ob)
         ga->updateRegion(true);
         ga->cellEditor(m_row, m_column)->insertChild(m_node, m_position);
     }
-
-	ga->updateParentGridsRecursively(m_grid);
-	ga->tryUpdateRegionsInChildren(m_grid);
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
@@ -102,11 +103,12 @@ void history::layouts::RemoveChild::_commitWithoutUpdatingUI(core::Editor* ob)
 	gui::actions::GridActions* ga = ob->actions()->gridActions();
     ga->eraseNodeToGridEntry(m_node);
 
-    if (ob->shared()->selectedGrid() == m_grid)
+	ga->updateParentGridsRecursively(m_grid);
+	ga->tryUpdateRegionsInChildren(m_grid);
+    
+	if (ob->shared()->selectedGrid() == m_grid)
     {
         ga->updateRegion(true);
     }
 
-	ga->updateParentGridsRecursively(m_grid);
-	ga->tryUpdateRegionsInChildren(m_grid);
 }

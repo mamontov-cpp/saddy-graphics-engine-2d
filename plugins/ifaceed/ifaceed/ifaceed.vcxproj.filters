@@ -2451,6 +2451,9 @@
     <ClCompile Include="history\layouts\layoutsremovechild.cpp">
       <Filter>Source Files\history\layouts</Filter>
     </ClCompile>
+    <ClCompile Include="history\layouts\layoutsclearcell.cpp">
+      <Filter>Source Files\history\layouts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -3126,6 +3129,9 @@
       <Filter>Header Files\history\layouts</Filter>
     </ClInclude>
     <ClInclude Include="history\layouts\layoutsremovechild.h">
+      <Filter>Header Files\history\layouts</Filter>
+    </ClInclude>
+    <ClInclude Include="history\layouts\layoutsclearcell.h">
       <Filter>Header Files\history\layouts</Filter>
     </ClInclude>
   </ItemGroup>

@@ -2565,6 +2565,7 @@
     <ClCompile Include="history\label\changetextellipsisforlines.cpp" />
     <ClCompile Include="history\layouts\layoutsaddchild.cpp" />
     <ClCompile Include="history\layouts\layoutschangename.cpp" />
+    <ClCompile Include="history\layouts\layoutsclearcell.cpp" />
     <ClCompile Include="history\layouts\layoutsnew.cpp" />
     <ClCompile Include="history\layouts\layoutsremove.cpp" />
     <ClCompile Include="history\layouts\layoutsremovechild.cpp" />
@@ -4656,6 +4657,7 @@
     <ClInclude Include="history\layouts\layoutsaddchild.h" />
     <ClInclude Include="history\layouts\layoutschange.h" />
     <ClInclude Include="history\layouts\layoutschangename.h" />
+    <ClInclude Include="history\layouts\layoutsclearcell.h" />
     <ClInclude Include="history\layouts\layoutsnew.h" />
     <ClInclude Include="history\layouts\layoutsremove.h" />
     <ClInclude Include="history\layouts\layoutsremovechild.h" />
