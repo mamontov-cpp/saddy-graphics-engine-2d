@@ -544,6 +544,12 @@ sad::Size2D sad::layouts::Cell::preferredSize() const
     );
     const_cast<sad::layouts::Cell*>(this)->computeNormalizedChildrenSizes();
     const sad::Vector<sad::layouts::Cell::NormalizedRectangle>& rects = m_normalized_children;
+    if (rects.size() == 0)
+    {
+        // Ignore padding if no children
+        result.Width = 0;
+        result.Height = 0;
+    }
     double height = 0;
     double width = 0;
     if (this->stackingType() == sad::layouts::LST_Horizontal)

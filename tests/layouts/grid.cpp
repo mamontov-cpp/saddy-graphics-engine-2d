@@ -30,7 +30,10 @@ struct SadGridTests : tpunit::TestFixture
        TEST(SadGridTests::testAddOneSpriteInOneCellTable),
        TEST(SadGridTests::testAddAndRemoveOneSpriteInOneCellTable),
        TEST(SadGridTests::testAddOneSpriteInTwoRowsTable),
-       TEST(SadGridTests::testAddOneSpriteInTwoColumnsTable)
+       TEST(SadGridTests::testAddOneSpriteInTwoColumnsTable),
+       TEST(SadGridTests::testAddTwoSpritesInFourRowsTable),
+       TEST(SadGridTests::testAddTwoSpritesInFourColumnsTable),
+       TEST(SadGridTests::testAddTwoSpritesInThreeRowsFourColumnsTable)
    ) {}
    // ReSharper disable once CppMemberFunctionMayBeStatic
    // ReSharper disable once CppMemberFunctionMayBeConst
@@ -273,4 +276,182 @@ struct SadGridTests : tpunit::TestFixture
             ASSERT_TRUE( false );
         }       
    }
+
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
+    /*! A simple basic use case: a two sprites is being added to a grid with fixed width
+        and height. Grid should allow a sprite to be placed in grid and fill a cell
+     */
+   void testAddTwoSpritesInFourRowsTable()
+   {
+        sad::Sprite2D* sprite1 = new sad::Sprite2D("test", sad::Rect2D(0, 0, 800, 600), sad::Rect2D(400, 400, 600, 700));
+        sad::Sprite2D* sprite2 = new sad::Sprite2D("test", sad::Rect2D(0, 0, 800, 600), sad::Rect2D(400, 400, 600, 700));
+        sad::layouts::Grid* grid = new sad::layouts::Grid();
+        grid->setFixedWidth(true);
+        grid->setFixedHeight(true);
+        grid->setRows(4);
+        grid->setColumns(1);
+        grid->setArea(sad::Rect2D(0, 0, 200, 800));
+        sad::db::Database* db = new sad::db::Database();
+        sad::db::Table* tbl = new sad::db::Table();
+        sad::Renderer r;
+        r.addDatabase("", db);
+        db->setRenderer(&r);
+        tbl->setDatabase(db);
+        db->addTable("", tbl);
+
+        sprite1->setTable(tbl);
+        sprite2->setTable(tbl);
+        grid->setTable(tbl);
+
+        tbl->add(sprite1);
+        tbl->add(sprite2);
+        tbl->add(grid);
+
+        grid->cell(0, 0)->addChild(sprite1->MajorId);
+        grid->cell(2, 0)->addChild(sprite2->MajorId);
+
+        sad::Rect2D rct = grid->cell(0,0)->AssignedArea;
+        if (!sad::equal(rct, sad::Rect2D(0, 500, 200, 800)))
+        {
+            std::cout << str(fmt::Format("Resulted in {0};{1};{2};{3}\n") << rct[0].x() << rct[0].y() << rct.width() << rct.height());
+            ASSERT_TRUE( false );
+        }
+
+        rct = grid->cell(1,0)->AssignedArea;
+        if (!sad::equal(rct, sad::Rect2D(0, 400, 200, 500)))
+        {
+            std::cout << str(fmt::Format("Resulted in {0};{1};{2};{3}\n") << rct[0].x() << rct[0].y() << rct.width() << rct.height());
+            ASSERT_TRUE( false );
+        }
+
+        rct = grid->cell(2,0)->AssignedArea;
+        if (!sad::equal(rct, sad::Rect2D(0, 100, 200, 400)))
+        {
+            std::cout << str(fmt::Format("Resulted in {0};{1};{2};{3}\n") << rct[0].x() << rct[0].y() << rct.width() << rct.height());
+            ASSERT_TRUE( false );
+        }
+
+        rct = grid->cell(3, 0)->AssignedArea;
+        if (!sad::equal(rct, sad::Rect2D(0, 0, 200, 100)))
+        {
+            std::cout << str(fmt::Format("Resulted in {0};{1};{2};{3}\n") << rct[0].x() << rct[0].y() << rct.width() << rct.height());
+            ASSERT_TRUE( false );
+        }
+   }
+
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
+    /*! A simple basic use case: a two sprites is being added to a grid with fixed width
+        and height. Grid should allow a sprite to be placed in grid and fill a cell
+     */
+   void testAddTwoSpritesInFourColumnsTable()
+   {
+        sad::Sprite2D* sprite1 = new sad::Sprite2D("test", sad::Rect2D(0, 0, 800, 600), sad::Rect2D(400, 400, 700, 600));
+        sad::Sprite2D* sprite2 = new sad::Sprite2D("test", sad::Rect2D(0, 0, 800, 600), sad::Rect2D(400, 400, 700, 600));
+        sad::layouts::Grid* grid = new sad::layouts::Grid();
+        grid->setFixedWidth(true);
+        grid->setFixedHeight(true);
+        grid->setRows(1);
+        grid->setColumns(4);
+        grid->setArea(sad::Rect2D(0, 0, 800, 200));
+        sad::db::Database* db = new sad::db::Database();
+        sad::db::Table* tbl = new sad::db::Table();
+        sad::Renderer r;
+        r.addDatabase("", db);
+        db->setRenderer(&r);
+        tbl->setDatabase(db);
+        db->addTable("", tbl);
+
+        sprite1->setTable(tbl);
+        sprite2->setTable(tbl);
+        grid->setTable(tbl);
+
+        tbl->add(sprite1);
+        tbl->add(sprite2);
+        tbl->add(grid);
+
+        grid->cell(0, 0)->addChild(sprite1->MajorId);
+        grid->cell(0, 2)->addChild(sprite2->MajorId);
+
+        sad::Rect2D rct = grid->cell(0,0)->AssignedArea;
+        if (!sad::equal(rct, sad::Rect2D(0, 0, 300, 200)))
+        {
+            std::cout << str(fmt::Format("Resulted in {0};{1};{2};{3}\n") << rct[0].x() << rct[0].y() << rct.width() << rct.height());
+            ASSERT_TRUE( false );
+        }
+
+        rct = grid->cell(0,1)->AssignedArea;
+        if (!sad::equal(rct, sad::Rect2D(300, 0, 400, 200)))
+        {
+            std::cout << str(fmt::Format("Resulted in {0};{1};{2};{3}\n") << rct[0].x() << rct[0].y() << rct.width() << rct.height());
+            ASSERT_TRUE( false );
+        }
+
+        rct = grid->cell(0,2)->AssignedArea;
+        if (!sad::equal(rct, sad::Rect2D(400, 0, 700, 200)))
+        {
+            std::cout << str(fmt::Format("Resulted in {0};{1};{2};{3}\n") << rct[0].x() << rct[0].y() << rct.width() << rct.height());
+            ASSERT_TRUE( false );
+        }
+
+        rct = grid->cell(0,3)->AssignedArea;
+        if (!sad::equal(rct, sad::Rect2D(700, 0, 800, 200)))
+        {
+            std::cout << str(fmt::Format("Resulted in {0};{1};{2};{3}\n") << rct[0].x() << rct[0].y() << rct.width() << rct.height());
+            ASSERT_TRUE( false );
+        }
+   }
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
+    /*! A simple basic use case: a two sprites is being added to a grid with fixed width
+        and height. Grid should allow a sprite to be placed in grid and fill a cell
+     */
+   void testAddTwoSpritesInThreeRowsFourColumnsTable()
+   {
+        sad::Sprite2D* sprite1 = new sad::Sprite2D("test", sad::Rect2D(0, 0, 800, 600), sad::Rect2D(400, 400, 600, 600));
+        sad::Sprite2D* sprite2 = new sad::Sprite2D("test", sad::Rect2D(0, 0, 800, 600), sad::Rect2D(400, 400, 600, 600));
+        sad::layouts::Grid* grid = new sad::layouts::Grid();
+        grid->setFixedWidth(true);
+        grid->setFixedHeight(true);
+        grid->setRows(3);
+        grid->setColumns(4);
+        grid->setArea(sad::Rect2D(0, 0, 600, 500));
+        sad::db::Database* db = new sad::db::Database();
+        sad::db::Table* tbl = new sad::db::Table();
+        sad::Renderer r;
+        r.addDatabase("", db);
+        db->setRenderer(&r);
+        tbl->setDatabase(db);
+        db->addTable("", tbl);
+
+        sprite1->setTable(tbl);
+        sprite2->setTable(tbl);
+        grid->setTable(tbl);
+
+        tbl->add(sprite1);
+        tbl->add(sprite2);
+        tbl->add(grid);
+
+        grid->cell(0, 0)->addChild(sprite1->MajorId);
+        grid->cell(2, 2)->addChild(sprite2->MajorId);
+
+        double widths[4] = {200, 100, 200, 100};
+        double heights[3] = {200, 100, 200};
+
+        for(size_t row = 0; row < 3; row++)
+        {
+            for(size_t col = 0; col < 4; col++)
+            {
+                sad::Rect2D rct = grid->cell(row, col)->AssignedArea;
+                if (!sad::is_fuzzy_equal(rct.width(), widths[col]) || !sad::is_fuzzy_equal(rct.height(), heights[row]))
+                {
+                    std::cout << str(fmt::Format("Cell {0}:{1} resulted in {2};{3}\n") << row << col << rct.width() << rct.height());
+                    ASSERT_TRUE( false );
+                }
+            }
+        }
+
+   }
+
 } _sad_grid_tests;
