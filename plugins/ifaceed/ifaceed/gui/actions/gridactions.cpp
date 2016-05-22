@@ -985,6 +985,20 @@ void gui::actions::GridActions::scriptableRemoveGrid(sad::layouts::Grid* grid, b
     }
 }
 
+
+void gui::actions::GridActions::updateParentGridsRecursively(sad::layouts::Grid* grid)
+{
+	sad::layouts::Grid* pgrid = this->parentGridFor(grid);
+	while (pgrid)
+	{
+		pgrid->update();
+		if (m_editor->shared()->selectedGrid() == pgrid)
+		{
+			this->updateRegion(true);
+		}
+		pgrid = this->parentGridFor(pgrid);
+	}
+}
 // ================================ PUBLIC SLOTS  ================================
 
 // ReSharper disable once CppMemberFunctionMayBeConst
@@ -1584,6 +1598,11 @@ void gui::actions::GridActions::cellChildAdded(size_t row, size_t col, unsigned 
 void gui::actions::GridActions::cellChildRemoved(size_t row, size_t col_t, size_t pos)
 {
     // TODO: Implement this
+	sad::layouts::Grid* g = m_editor->shared()->selectedGrid();
+    if (!g)
+    {
+        return;
+    }
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst

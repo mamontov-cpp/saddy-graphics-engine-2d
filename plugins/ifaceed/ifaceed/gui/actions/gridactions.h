@@ -376,6 +376,10 @@ enum UpdateOptions
         \param from_editor whether we are removing this from editor
      */
     void scriptableRemoveGrid(sad::layouts::Grid* grid, bool from_editor);
+	/*! Tries to recursively update parent grids for grids
+		\param[in] grid a grid
+	 */
+	void updateParentGridsRecursively(sad::layouts::Grid* grid);
 public slots:
     /*! Called, when user clicks on "Add" button for grids
      */

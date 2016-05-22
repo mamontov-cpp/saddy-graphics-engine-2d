@@ -100,6 +100,8 @@ void history::layouts::AddChild::_rollback(core::Editor* ob)
         ga->updateRegion(true);
         ga->cellEditor(m_row, m_column)->removeChild(last_child_pos);
     }
+
+	ga->updateParentGridsRecursively(m_grid);
 }
 
 void history::layouts::AddChild::_commitWithoutUpdatingUI(core::Editor* ob)
@@ -120,4 +122,6 @@ void history::layouts::AddChild::_commitWithoutUpdatingUI(core::Editor* ob)
     {
         ga->updateRegion(true);
     }
+
+	ga->updateParentGridsRecursively(m_grid);
 }
