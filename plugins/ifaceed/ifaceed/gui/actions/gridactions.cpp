@@ -31,6 +31,7 @@
 #include "../../history/layouts/layoutsaddchild.h"
 #include "../../history/layouts/layoutsremovechild.h"
 #include "../../history/layouts/layoutsclearcell.h"
+#include "../../history/layouts/layoutsswapchildren.h"
 
 #include "../../gui/actions/actions.h"
 #include "../../gui/actions/scenenodeactions.h"
@@ -1651,7 +1652,15 @@ void gui::actions::GridActions::cellCleared(size_t row, size_t col)
 // ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::GridActions::cellChildrenSwapped(size_t row, size_t col, size_t pos1, size_t pos2)
 {
-    // TODO: Implement this
+    sad::layouts::Grid* g = m_editor->shared()->selectedGrid();
+    if (!g)
+    {
+        return;
+    }
+
+	history::layouts::SwapChildren* c = new history::layouts::SwapChildren(g, row, col, pos1, pos2);
+	c->commitWithoutUpdatingUI(m_editor);
+    m_editor->history()->add(c);
 }
 
 // =============================== PRIVATE METHODS ===============================

@@ -31,7 +31,7 @@ history::layouts::ClearCell::ClearCell(
 history::layouts::ClearCell::~ClearCell()
 {
     m_grid->delRef();
-   for(size_t i = 0; i < m_children.size(); i++)
+    for(size_t i = 0; i < m_children.size(); i++)
 	{
 		m_children[i]->delRef();
 	}

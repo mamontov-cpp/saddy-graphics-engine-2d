@@ -2569,6 +2569,7 @@
     <ClCompile Include="history\layouts\layoutsnew.cpp" />
     <ClCompile Include="history\layouts\layoutsremove.cpp" />
     <ClCompile Include="history\layouts\layoutsremovechild.cpp" />
+    <ClCompile Include="history\layouts\layoutsswapchildren.cpp" />
     <ClCompile Include="history\scenenodes\scenenodesspan.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainpanel.cpp">
@@ -4661,6 +4662,7 @@
     <ClInclude Include="history\layouts\layoutsnew.h" />
     <ClInclude Include="history\layouts\layoutsremove.h" />
     <ClInclude Include="history\layouts\layoutsremovechild.h" />
+    <ClInclude Include="history\layouts\layoutsswapchildren.h" />
     <ClInclude Include="history\scenenodes\scenenodesspan.h" />
     <ClInclude Include="macro.h" />
     <CustomBuild Include="mainpanel.h">

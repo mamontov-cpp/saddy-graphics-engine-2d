@@ -1,6 +1,6 @@
-/*! \file layoutsremovechild.h
+/*! \file layoutsswapchildren.h
 
-    Describes a command of removing child from grid's cell
+    Describes a command for swapping children of cell
  */
 #pragma once
 #include "../command.h"
@@ -12,28 +12,28 @@ namespace history
 
 namespace layouts
 {
-/*! A command, which must be added, when user removes child from cell
-    to grid's cell
+/*! A command, which must be added, when user clears grid's cell
  */
-class RemoveChild: public history::Command
+class SwapChildren: public history::Command
 {
 public:
     /*! Constructs new command for node
         \param[in] d a node
         \param[in] row a row for node
         \param[in] column a column for node
-        \param[in] node a node, that was removed
+        \param[in] pos1 first position to be swapped
+        \param[in] pos2 second position to be swapped
     */
-    RemoveChild(
+    SwapChildren(
         sad::layouts::Grid* d,
         size_t row,
         size_t column,
-		size_t pos,
-        sad::SceneNode* node
-    );
+		size_t pos1,
+		size_t pos2
+	);
     /*! Erases link to a node
      */
-    virtual ~RemoveChild();
+    virtual ~SwapChildren();
     /*! Applies changes, described in command
         \param[in] ob an observer for looking for command
      */
@@ -43,7 +43,7 @@ public:
      */
     virtual void rollback(core::Editor * ob = NULL);
     /*! Commits a change without updating UI. In that case,
-		it just removes a child from cell, updating all other stuff
+		it swaps to children in cell
 
         \param[in] e editor
      */
@@ -70,12 +70,12 @@ protected:
     /*! A column of node
      */
     size_t m_column;
-	/*! A position for removed child
-	 */
-	size_t m_position;
-    /*! A  removed child
+    /*! A first position
      */
-    sad::SceneNode* m_node;
+    size_t m_pos1;
+    /*! A second position
+     */
+    size_t m_pos2;
 };
 
 }
