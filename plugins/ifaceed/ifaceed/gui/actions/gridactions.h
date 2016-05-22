@@ -398,6 +398,14 @@ public slots:
         \param[in] newvalue a new column count for a grid
      */
     void columnCountChanged(int newvalue);
+    /*! Called, when user changes whether width is fixed for a grid
+        \param[in] newvalue a new value for fixed with 
+     */
+    void fixedWidthClicked(bool newvalue);
+    /*! Called, when user changes whether height is fixed for a grid
+        \param[in] newvalue a new value for fixed with 
+     */
+    void fixedHeightClicked(bool newvalue);
     /*! Called, when user toggles show or hide grids
         \param[in] state a new state for a checkbox
      */

@@ -709,6 +709,9 @@ void MainPanel::setEditor(core::Editor* editor)
     connect(ui.rwLayoutArea, SIGNAL(valueChanged(QRectF)), ga_actions, SLOT(areaChanged(QRectF)));
     connect(ui.spnLayoutGridRows, SIGNAL(valueChanged(int)), ga_actions, SLOT(rowCountChanged(int)));
     connect(ui.spnLayoutGridCols, SIGNAL(valueChanged(int)), ga_actions, SLOT(columnCountChanged(int)));
+    connect(ui.cbLayoutFixedWidth, SIGNAL(clicked(bool)), ga_actions, SLOT(fixedWidthClicked(bool)));
+    connect(ui.cbLayoutFixedHeight, SIGNAL(clicked(bool)), ga_actions, SLOT(fixedHeightClicked(bool)));
+
 
     connect(ui.lstWays, SIGNAL(currentRowChanged(int)), w_actions, SLOT(wayChanged(int)));
     connect(ui.btnWayAdd, SIGNAL(clicked()), w_actions, SLOT(addWay()));

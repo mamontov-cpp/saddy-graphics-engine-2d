@@ -1154,6 +1154,74 @@ void gui::actions::GridActions::columnCountChanged(int newvalue)
     }    
 }
 
+void gui::actions::GridActions::fixedWidthClicked(bool newvalue)
+{
+    sad::layouts::Grid* g = m_editor->shared()->activeGrid();
+    if (g)
+    {
+        g->setFixedWidth(newvalue); 
+        this->updateRegion();
+    }
+    else
+    {
+        g = m_editor->shared()->selectedGrid();
+        if (g)
+        {
+            sad::Vector<sad::SceneNode*> children = g->children();
+            picojson::value oldstate(picojson::object_type, false);
+            g->save(oldstate);
+
+            g->setFixedWidth(newvalue);
+
+            picojson::value newstate(picojson::object_type, false);
+            g->save(newstate);
+            
+            this->updateRegion();            
+            
+            history::layouts::Change<gui::actions::GridActions::GAUO_FixedWidth>* c = new history::layouts::Change<gui::actions::GridActions::GAUO_FixedWidth>(g);
+            c->saveOldState(oldstate);
+            c->saveNewState(newstate);
+            c->addAffectedNodes(children);
+
+            m_editor->history()->add(c);
+        }
+    }
+}
+
+void gui::actions::GridActions::fixedHeightClicked(bool newvalue)
+{
+    sad::layouts::Grid* g = m_editor->shared()->activeGrid();
+    if (g)
+    {
+        g->setFixedHeight(newvalue); 
+        this->updateRegion();
+    }
+    else
+    {
+        g = m_editor->shared()->selectedGrid();
+        if (g)
+        {
+            sad::Vector<sad::SceneNode*> children = g->children();
+            picojson::value oldstate(picojson::object_type, false);
+            g->save(oldstate);
+
+            g->setFixedHeight(newvalue);
+
+            picojson::value newstate(picojson::object_type, false);
+            g->save(newstate);
+            
+            this->updateRegion();            
+            
+            history::layouts::Change<gui::actions::GridActions::GAUO_FixedHeight>* c = new history::layouts::Change<gui::actions::GridActions::GAUO_FixedHeight>(g);
+            c->saveOldState(oldstate);
+            c->saveNewState(newstate);
+            c->addAffectedNodes(children);
+
+            m_editor->history()->add(c);
+        }
+    }
+}
+
 // ReSharper disable once CppMemberFunctionMayBeConst
 // ReSharper disable once CppMemberFunctionMayBeStatic
 void gui::actions::GridActions::addGridByStretchingClicked()
