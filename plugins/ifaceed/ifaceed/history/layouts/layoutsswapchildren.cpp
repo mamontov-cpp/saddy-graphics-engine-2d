@@ -19,8 +19,8 @@ history::layouts::SwapChildren::SwapChildren(
     sad::layouts::Grid* d,
     size_t row,
     size_t column,
-	size_t pos1,
-	size_t pos2
+    size_t pos1,
+    size_t pos2
 ) : m_grid(d), m_row(row), m_column(column), m_pos1(pos1), m_pos2(pos2)
 {
     m_grid->addRef();
@@ -74,36 +74,36 @@ void history::layouts::SwapChildren::_commit(core::Editor* ob)
 void history::layouts::SwapChildren::_rollback(core::Editor* ob)
 {
     sad::layouts::Cell* cell = m_grid->cell(m_row, m_column);
-	gui::actions::GridActions* ga = ob->actions()->gridActions();
-	cell->swapChildren(m_pos1, m_pos2);
-	if (ob->isNodeSelected(cell->child(m_pos1)))
-	{
-		ob->actions()->sceneNodeActions()->updateRegionForNode();
-	}
-	if (ob->isNodeSelected(cell->child(m_pos2)))
-	{
-		ob->actions()->sceneNodeActions()->updateRegionForNode();
-	}
+    gui::actions::GridActions* ga = ob->actions()->gridActions();
+    cell->swapChildren(m_pos1, m_pos2);
+    if (ob->isNodeSelected(cell->child(m_pos1)))
+    {
+        ob->actions()->sceneNodeActions()->updateRegionForNode();
+    }
+    if (ob->isNodeSelected(cell->child(m_pos2)))
+    {
+        ob->actions()->sceneNodeActions()->updateRegionForNode();
+    }
 
     if (ob->shared()->selectedGrid() == m_grid)
     {
         gui::layouts::LayoutCellEdit* edit = ga->cellEditor(m_row, m_column);
-		edit->swapChildren(m_pos1, m_pos2);
+        edit->swapChildren(m_pos1, m_pos2);
     }
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
 void history::layouts::SwapChildren::_commitWithoutUpdatingUI(core::Editor* ob)
 {
-	sad::layouts::Cell* cell = m_grid->cell(m_row, m_column);
+    sad::layouts::Cell* cell = m_grid->cell(m_row, m_column);
     gui::actions::GridActions* ga = ob->actions()->gridActions();
-	cell->swapChildren(m_pos1, m_pos2);
-	if (ob->isNodeSelected(cell->child(m_pos1)))
-	{
-		ob->actions()->sceneNodeActions()->updateRegionForNode();
-	}
-	if (ob->isNodeSelected(cell->child(m_pos2)))
-	{
-		ob->actions()->sceneNodeActions()->updateRegionForNode();
-	}
+    cell->swapChildren(m_pos1, m_pos2);
+    if (ob->isNodeSelected(cell->child(m_pos1)))
+    {
+        ob->actions()->sceneNodeActions()->updateRegionForNode();
+    }
+    if (ob->isNodeSelected(cell->child(m_pos2)))
+    {
+        ob->actions()->sceneNodeActions()->updateRegionForNode();
+    }
 }

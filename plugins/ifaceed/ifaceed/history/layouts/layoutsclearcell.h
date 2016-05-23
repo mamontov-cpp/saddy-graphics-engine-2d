@@ -41,7 +41,7 @@ public:
      */
     virtual void rollback(core::Editor * ob = NULL);
     /*! Commits a change without updating UI. In that case,
-		it just clears cell
+        it just clears cell
 
         \param[in] e editor
      */

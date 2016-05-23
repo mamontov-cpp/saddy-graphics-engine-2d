@@ -119,12 +119,12 @@ void sad::layouts::Cell::update()
         // Handle horizontal alignment
         double factor = 1.0;
         // Factoring is disabled - we allow cell to be overflowed
-		/*
-		if (size.Width > assignedwidth)
+        /*
+        if (size.Width > assignedwidth)
         {
             factor = assignedwidth / size.Width;
         }
-		*/
+        */
         // Compute starting position
         double startingpointx = 0;
         switch(this->horizontalAlignment())
@@ -169,12 +169,12 @@ void sad::layouts::Cell::update()
         // Handle vertical alignment
         double factor = 1.0;
         // Factoring is disabled - we allow cell to be overflowed
-		/*
+        /*
         if (size.Height > assignedheight)
         {
             factor = assignedheight / size.Height;
         }
-		*/
+        */
         // Compute starting position
         double startingpointy = 0;
         switch(this->verticalAlignment())

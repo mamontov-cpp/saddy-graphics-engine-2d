@@ -18,7 +18,7 @@ history::layouts::RemoveChild::RemoveChild(
     sad::layouts::Grid* d,
     size_t row,
     size_t column,
-	size_t pos,
+    size_t pos,
     sad::SceneNode* node
 ) : m_grid(d), m_row(row), m_column(column), m_position(pos), m_node(node)
 {
@@ -77,13 +77,13 @@ void history::layouts::RemoveChild::_rollback(core::Editor* ob)
     sad::layouts::Cell* cell = m_grid->cell(m_row, m_column);
     cell->insertChild(m_position, m_node->MajorId);
 
-	gui::actions::GridActions* ga = ob->actions()->gridActions();
+    gui::actions::GridActions* ga = ob->actions()->gridActions();
     ga->insertNodeToGridEntry(m_node, m_grid);
     
-	ga->updateParentGridsRecursively(m_grid);
-	ga->tryUpdateRegionsInChildren(m_grid);
+    ga->updateParentGridsRecursively(m_grid);
+    ga->tryUpdateRegionsInChildren(m_grid);
 
-	if (ob->shared()->selectedGrid() == m_node)
+    if (ob->shared()->selectedGrid() == m_node)
     {
         ga->updateRegion(true);
     }
@@ -100,13 +100,13 @@ void history::layouts::RemoveChild::_commitWithoutUpdatingUI(core::Editor* ob)
 {
     m_grid->cell(m_row, m_column)->removeChild(m_position);   
 
-	gui::actions::GridActions* ga = ob->actions()->gridActions();
+    gui::actions::GridActions* ga = ob->actions()->gridActions();
     ga->eraseNodeToGridEntry(m_node);
 
-	ga->updateParentGridsRecursively(m_grid);
-	ga->tryUpdateRegionsInChildren(m_grid);
+    ga->updateParentGridsRecursively(m_grid);
+    ga->tryUpdateRegionsInChildren(m_grid);
     
-	if (ob->shared()->selectedGrid() == m_grid)
+    if (ob->shared()->selectedGrid() == m_grid)
     {
         ga->updateRegion(true);
     }

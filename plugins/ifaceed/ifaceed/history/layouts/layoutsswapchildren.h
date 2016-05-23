@@ -28,9 +28,9 @@ public:
         sad::layouts::Grid* d,
         size_t row,
         size_t column,
-		size_t pos1,
-		size_t pos2
-	);
+        size_t pos1,
+        size_t pos2
+    );
     /*! Erases link to a node
      */
     virtual ~SwapChildren();
@@ -43,7 +43,7 @@ public:
      */
     virtual void rollback(core::Editor * ob = NULL);
     /*! Commits a change without updating UI. In that case,
-		it swaps to children in cell
+        it swaps to children in cell
 
         \param[in] e editor
      */

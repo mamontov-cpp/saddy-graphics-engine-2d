@@ -991,34 +991,34 @@ void gui::actions::GridActions::scriptableRemoveGrid(sad::layouts::Grid* grid, b
 
 void gui::actions::GridActions::updateParentGridsRecursively(sad::layouts::Grid* grid)
 {
-	sad::layouts::Grid* pgrid = this->parentGridFor(grid);
-	while (pgrid)
-	{
-		pgrid->update();
-		if (m_editor->shared()->selectedGrid() == pgrid)
-		{
-			this->updateRegion(true);
-		}
-		pgrid = this->parentGridFor(pgrid);
-	}
+    sad::layouts::Grid* pgrid = this->parentGridFor(grid);
+    while (pgrid)
+    {
+        pgrid->update();
+        if (m_editor->shared()->selectedGrid() == pgrid)
+        {
+            this->updateRegion(true);
+        }
+        pgrid = this->parentGridFor(pgrid);
+    }
 }
 
 void gui::actions::GridActions::tryUpdateRegionsInChildren(sad::layouts::Grid* grid)
 {
-	sad::Vector<sad::SceneNode*> children = grid->children();
-	sad::SceneNode* sgrid = m_editor->shared()->selectedGrid();
-	gui::actions::SceneNodeActions* scene_node_actions = m_editor->actions()->sceneNodeActions();
-	for(size_t i = 0; i < children.size(); i++)
-	{
-		if (children[i] == sgrid)
-		{
-			this->updateRegion();
-		}
-		if (m_editor->isNodeSelected(children[i]))
-		{
-			scene_node_actions->updateRegionForNode();
-		}
-	}
+    sad::Vector<sad::SceneNode*> children = grid->children();
+    sad::SceneNode* sgrid = m_editor->shared()->selectedGrid();
+    gui::actions::SceneNodeActions* scene_node_actions = m_editor->actions()->sceneNodeActions();
+    for(size_t i = 0; i < children.size(); i++)
+    {
+        if (children[i] == sgrid)
+        {
+            this->updateRegion();
+        }
+        if (m_editor->isNodeSelected(children[i]))
+        {
+            scene_node_actions->updateRegionForNode();
+        }
+    }
 }
 
 // ================================ PUBLIC SLOTS  ================================
@@ -1618,18 +1618,18 @@ void gui::actions::GridActions::cellChildAdded(size_t row, size_t col, unsigned 
 // ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::GridActions::cellChildRemoved(size_t row, size_t col, size_t pos)
 {
-	sad::layouts::Grid* g = m_editor->shared()->selectedGrid();
+    sad::layouts::Grid* g = m_editor->shared()->selectedGrid();
     if (!g)
     {
         return;
     }
-	sad::SceneNode* node = g->cell(row, col)->child(pos);
-	if (node)
-	{
-		history::layouts::RemoveChild* c = new history::layouts::RemoveChild(g, row, col, pos, node);
-		c->commitWithoutUpdatingUI(m_editor);
+    sad::SceneNode* node = g->cell(row, col)->child(pos);
+    if (node)
+    {
+        history::layouts::RemoveChild* c = new history::layouts::RemoveChild(g, row, col, pos, node);
+        c->commitWithoutUpdatingUI(m_editor);
         m_editor->history()->add(c);
-	}
+    }
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
@@ -1640,13 +1640,13 @@ void gui::actions::GridActions::cellCleared(size_t row, size_t col)
     {
         return;
     }
-	sad::Vector<sad::SceneNode*> children = g->cell(row,col)->children();
-	if (children.size())
-	{
-		history::layouts::ClearCell* c = new history::layouts::ClearCell(g, row, col, children);
-		c->commitWithoutUpdatingUI(m_editor);
+    sad::Vector<sad::SceneNode*> children = g->cell(row,col)->children();
+    if (children.size())
+    {
+        history::layouts::ClearCell* c = new history::layouts::ClearCell(g, row, col, children);
+        c->commitWithoutUpdatingUI(m_editor);
         m_editor->history()->add(c);
-	}
+    }
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
@@ -1658,8 +1658,8 @@ void gui::actions::GridActions::cellChildrenSwapped(size_t row, size_t col, size
         return;
     }
 
-	history::layouts::SwapChildren* c = new history::layouts::SwapChildren(g, row, col, pos1, pos2);
-	c->commitWithoutUpdatingUI(m_editor);
+    history::layouts::SwapChildren* c = new history::layouts::SwapChildren(g, row, col, pos1, pos2);
+    c->commitWithoutUpdatingUI(m_editor);
     m_editor->history()->add(c);
 }
 

@@ -86,10 +86,10 @@ void history::layouts::AddChild::_rollback(core::Editor* ob)
     gui::actions::GridActions* ga = ob->actions()->gridActions();
     ga->eraseNodeToGridEntry(m_node);
     
-	ga->updateParentGridsRecursively(m_grid);
-	ga->tryUpdateRegionsInChildren(m_grid);
+    ga->updateParentGridsRecursively(m_grid);
+    ga->tryUpdateRegionsInChildren(m_grid);
 
-	if (ob->shared()->selectedGrid() == m_node)
+    if (ob->shared()->selectedGrid() == m_node)
     {
         ga->updateRegion(true);
     }
@@ -112,11 +112,11 @@ void history::layouts::AddChild::_commitWithoutUpdatingUI(core::Editor* ob)
     gui::actions::GridActions* ga = ob->actions()->gridActions();
     ga->insertNodeToGridEntry(m_node, m_grid);
     
-	
-	ga->updateParentGridsRecursively(m_grid);
-	ga->tryUpdateRegionsInChildren(m_grid);
+    
+    ga->updateParentGridsRecursively(m_grid);
+    ga->tryUpdateRegionsInChildren(m_grid);
 
-	if (ob->shared()->selectedGrid() == m_node)
+    if (ob->shared()->selectedGrid() == m_node)
     {
         ga->updateRegion(true);
     }

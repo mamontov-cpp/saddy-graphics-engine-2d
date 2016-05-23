@@ -28,7 +28,7 @@ public:
         sad::layouts::Grid* d,
         size_t row,
         size_t column,
-		size_t pos,
+        size_t pos,
         sad::SceneNode* node
     );
     /*! Erases link to a node
@@ -43,7 +43,7 @@ public:
      */
     virtual void rollback(core::Editor * ob = NULL);
     /*! Commits a change without updating UI. In that case,
-		it just removes a child from cell, updating all other stuff
+        it just removes a child from cell, updating all other stuff
 
         \param[in] e editor
      */
@@ -70,9 +70,9 @@ protected:
     /*! A column of node
      */
     size_t m_column;
-	/*! A position for removed child
-	 */
-	size_t m_position;
+    /*! A position for removed child
+     */
+    size_t m_position;
     /*! A  removed child
      */
     sad::SceneNode* m_node;

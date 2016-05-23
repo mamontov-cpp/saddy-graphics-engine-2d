@@ -462,7 +462,7 @@ struct SadGridTests : tpunit::TestFixture
      */   
    void testAddTwoSpritesExceedingFixedWidthOfTable()
    {
-	    sad::Sprite2D* sprite1 = new sad::Sprite2D("test", sad::Rect2D(0, 0, 800, 600), sad::Rect2D(400, 400, 600, 600));
+        sad::Sprite2D* sprite1 = new sad::Sprite2D("test", sad::Rect2D(0, 0, 800, 600), sad::Rect2D(400, 400, 600, 600));
         sad::Sprite2D* sprite2 = new sad::Sprite2D("test", sad::Rect2D(0, 0, 800, 600), sad::Rect2D(400, 400, 600, 600));
         sad::layouts::Grid* grid = new sad::layouts::Grid();
         grid->setFixedWidth(true);
@@ -496,8 +496,8 @@ struct SadGridTests : tpunit::TestFixture
             ASSERT_TRUE( false );
         }
 
-		rct = sprite2->area();
-		if (!sad::equal(rct, sad::Rect2D(100, 0, 300, 200)))
+        rct = sprite2->area();
+        if (!sad::equal(rct, sad::Rect2D(100, 0, 300, 200)))
         {
             std::cout << str(fmt::Format("Resulted in {0};{1};{2};{3}\n") << rct[0].x() << rct[0].y() << rct.width() << rct.height());
             ASSERT_TRUE( false );

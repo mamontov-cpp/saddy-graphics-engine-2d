@@ -43,7 +43,7 @@ public:
      */
     virtual void rollback(core::Editor * ob = NULL);
     /*! Commits a change without updating UI. In that case,
-		it changes rows of cell, without actually removing elements
+        it changes rows of cell, without actually removing elements
 
         \param[in] e editor
      */
