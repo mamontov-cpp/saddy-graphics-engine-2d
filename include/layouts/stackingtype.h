@@ -19,7 +19,11 @@ enum StackingType
 LST_Horizontal = 0,
 /*! Forces objects to be stacked vertically
  */
-LST_Vertical = 1
+LST_Vertical = 1,
+/*! Forces objects to be placed on top of each other, according to 
+	cell alignment
+ */
+LST_NoStacking = 2
 };
 
 }	

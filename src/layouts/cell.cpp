@@ -117,52 +117,7 @@ void sad::layouts::Cell::update()
     if (this->stackingType() == sad::layouts::LST_Horizontal)
     {
         // Handle horizontal alignment
-        double factor = 1.0;
-        // Factoring is disabled - we allow cell to be overflowed
-        /*
-        if (size.Width > assignedwidth)
-        {
-            factor = assignedwidth / size.Width;
-        }
-        */
-        // Compute starting position
-        double startingpointx = 0;
-        switch(this->horizontalAlignment())
-        {
-            case sad::layouts::LHA_Left:
-                startingpointx = minpoint.x();
-                break;
-            case sad::layouts::LHA_Middle:
-                startingpointx = (minpoint.x() + maxpoint.x() - size.Width * factor) / 2;
-                break;
-            case sad::layouts::LHA_Right:
-                startingpointx = maxpoint.x() - size.Width * factor;
-                break;
-        };
-        size_t current_rectangle = 0;
-        for(size_t i = 0; i < this->m_children.size(); i++)
-        {
-            sad::SceneNode* node = m_children[i]->value();
-            if (node)
-            {
-                const sad::layouts::Cell::NormalizedRectangle& childrect = m_normalized_children[current_rectangle];
-                double childheight = childrect.p2().y() - childrect.p1().y();
-                double childwidth = childrect.p2().x() - childrect.p1().x();
-                double posy = maxpoint.y();
-                if (this->verticalAlignment() == sad::layouts::LVA_Bottom)
-                {
-                    posy = minpoint.y() + childheight;
-                }
-                if (this->verticalAlignment() == sad::layouts::LVA_Middle)
-                {
-                    posy = minpoint.y() + (assignedheight + childheight) / 2.0;
-                }
-                node->moveBy(sad::Point2D(startingpointx - childrect.p1().x(), posy - childrect.p2().y()));
-
-                startingpointx += childwidth * factor;
-                ++current_rectangle;
-            }
-        }
+	    this->applyHorizontalAlignment(minpoint, maxpoint, assignedheight, size);
     }
     else
     {
@@ -567,11 +522,22 @@ sad::Size2D sad::layouts::Cell::preferredSize() const
     }
     else
     {
-        for(size_t i = 0; i < rects.size(); i++)
-        {
-            width = std::max(width, (rects[i].p2().x() - rects[i].p1().x()));
-            height += (rects[i].p2().y() - rects[i].p1().y());
-        }
+		if (this->stackingType() == sad::layouts::LST_Vertical) 
+		{
+			for(size_t i = 0; i < rects.size(); i++)
+			{
+				width = std::max(width, (rects[i].p2().x() - rects[i].p1().x()));
+				height += (rects[i].p2().y() - rects[i].p1().y());
+			}
+		}
+		else
+		{
+			for(size_t i = 0; i < rects.size(); i++)
+			{
+				width = std::max(width, (rects[i].p2().x() - rects[i].p1().x()));
+				height = std::max(height, (rects[i].p2().y() - rects[i].p1().y()));
+			}
+		}
     }
     result.Width += width;
     result.Height += height;
@@ -709,6 +675,56 @@ void sad::layouts::Cell::tryNotify(bool update_grid)
     {
         update();
     }
+}
+
+void sad::layouts::Cell::applyHorizontalAlignment(sad::Point2D& minpoint, sad::Point2D& maxpoint, double assignedheight, sad::Size2D size)
+{
+	double factor = 1.0;
+	// Factoring is disabled - we allow cell to be overflowed
+	/*
+	if (size.Width > assignedwidth)
+	{
+	    factor = assignedwidth / size.Width;
+	}
+	*/
+	// Compute starting position
+	double startingpointx = 0;
+	switch(this->horizontalAlignment())
+	{
+	case sad::layouts::LHA_Left:
+		startingpointx = minpoint.x();
+		break;
+	case sad::layouts::LHA_Middle:
+		startingpointx = (minpoint.x() + maxpoint.x() - size.Width * factor) / 2;
+		break;
+	case sad::layouts::LHA_Right:
+		startingpointx = maxpoint.x() - size.Width * factor;
+		break;
+	};
+	size_t current_rectangle = 0;
+	for(size_t i = 0; i < this->m_children.size(); i++)
+	{
+		sad::SceneNode* node = m_children[i]->value();
+		if (node)
+		{
+			const sad::layouts::Cell::NormalizedRectangle& childrect = m_normalized_children[current_rectangle];
+			double childheight = childrect.p2().y() - childrect.p1().y();
+			double childwidth = childrect.p2().x() - childrect.p1().x();
+			double posy = maxpoint.y();
+			if (this->verticalAlignment() == sad::layouts::LVA_Bottom)
+			{
+				posy = minpoint.y() + childheight;
+			}
+			if (this->verticalAlignment() == sad::layouts::LVA_Middle)
+			{
+				posy = minpoint.y() + (assignedheight + childheight) / 2.0;
+			}
+			node->moveBy(sad::Point2D(startingpointx - childrect.p1().x(), posy - childrect.p2().y()));
+
+			startingpointx += childwidth * factor;
+			++current_rectangle;
+		}
+	}
 }
 
 // ============================ PRIVATE METHODS ============================

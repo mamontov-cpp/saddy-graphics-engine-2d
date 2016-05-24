@@ -216,9 +216,9 @@ public:
                 result.mutableValue().HAlign = static_cast<sad::layouts::HorizontalAlignment>(maybeHAlign.value());
                 result.mutableValue().Children = maybeChildren.mutableValue();
 
-                if (maybeStackingType.value() > static_cast<unsigned int>(sad::layouts::LST_Vertical))
+                if (maybeStackingType.value() > static_cast<unsigned int>(sad::layouts::LST_NoStacking))
                 {
-                    maybeStackingType.setValue(static_cast<unsigned int>(sad::layouts::LST_Vertical));
+                    maybeStackingType.setValue(static_cast<unsigned int>(sad::layouts::LST_NoStacking));
                 }
                 result.mutableValue().StackingType = static_cast<sad::layouts::StackingType>(maybeStackingType.value());
 

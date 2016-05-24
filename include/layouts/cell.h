@@ -53,8 +53,8 @@ public:
         \param[in] db a source database, where objects are located
      */
     void fromSerializable(const sad::layouts::SerializableCell& cell, sad::db::Database* db);
-    /*! Updates inner children, according to assigned area
-     */
+	/*! Updates inner children, according to assigned area
+	 */
     void update();
     /*! Sets width for a cell
         \param[in] width a new width for a cell
@@ -289,6 +289,13 @@ protected:
         \param[in] update_grid whether we should notify a grid
      */
     void tryNotify(bool update_grid);
+	/*! Applies horizontal alignment, recomputing places for child nodes
+		\param[in] minpoint a minimal point for setting cell content
+		\param[in] maxpoint  a maximal point for setting cell content
+		\param[in] assignedheight total height of cell content
+		\param[in] size preferred size of a cell
+	 */
+	void applyHorizontalAlignment(sad::Point2D& minpoint, sad::Point2D& maxpoint, double assignedheight, sad::Size2D size);	
     /*! Width of a cell
      */
     sad::layouts::LengthValue m_width;
