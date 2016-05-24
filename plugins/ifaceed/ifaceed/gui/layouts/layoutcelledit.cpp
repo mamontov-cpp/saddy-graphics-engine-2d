@@ -167,6 +167,7 @@ gui::layouts::LayoutCellEdit::LayoutCellEdit(QWidget* parent)
     m_stacking_type = new QComboBox();
     m_stacking_type->addItem("Horizontal");
     m_stacking_type->addItem("Vertical");
+    m_stacking_type->addItem("No Stacking");
     m_stacking_type->setCurrentIndex(0);
 
     this->setSpan(currentrow, 1, 1, 2);
