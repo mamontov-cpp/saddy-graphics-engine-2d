@@ -114,16 +114,13 @@ void sad::layouts::Cell::update()
     // Compute preferred size, which we can relate to, when layouting data
     // Normalized rectangles are already computed, so we could futher use them
     sad::Size2D size = this->preferredSize();
-    if (this->stackingType() == sad::layouts::LST_Horizontal)
+    switch(this->stackingType())
     {
-        // Handle horizontal alignment
-        this->applyHorizontalAlignment(minpoint, maxpoint, assignedheight, size);
-    }
-    else
-    {
-        // Handle vertical alignment
-        this->applyVerticalAlignment(minpoint, maxpoint, assignedwidth, size);
-    }
+    case sad::layouts::LST_Horizontal: this->applyHorizontalAlignment(minpoint, maxpoint, assignedheight, size); break;
+    case sad::layouts::LST_Vertical  : this->applyVerticalAlignment(minpoint, maxpoint, assignedwidth, size); break;
+    case sad::layouts::LST_NoStacking: this->applyNoStackingAlinment(minpoint, maxpoint, assignedwidth, assignedheight, size); break;
+    default: this->applyNoStackingAlinment(minpoint, maxpoint, assignedwidth, assignedheight, size); 
+    };
 }
 
 void sad::layouts::Cell::setWidth(const sad::layouts::LengthValue& width, bool upgrade_grid)
@@ -632,7 +629,7 @@ void sad::layouts::Cell::tryNotify(bool update_grid)
     }
 }
 
-void sad::layouts::Cell::applyHorizontalAlignment(sad::Point2D& minpoint, sad::Point2D& maxpoint, double assignedheight, sad::Size2D size)
+void sad::layouts::Cell::applyHorizontalAlignment(const sad::Point2D& minpoint,const sad::Point2D& maxpoint, double assignedheight, const sad::Size2D& size)
 {
     double factor = 1.0;
     // Factoring is disabled - we allow cell to be overflowed
@@ -682,7 +679,7 @@ void sad::layouts::Cell::applyHorizontalAlignment(sad::Point2D& minpoint, sad::P
     }
 }
 
-void sad::layouts::Cell::applyVerticalAlignment(sad::Point2D& minpoint, sad::Point2D& maxpoint, double assignedwidth, sad::Size2D size)
+void sad::layouts::Cell::applyVerticalAlignment(const sad::Point2D& minpoint,const sad::Point2D& maxpoint, double assignedwidth,const sad::Size2D& size)
 {
     double factor = 1.0;
     // Factoring is disabled - we allow cell to be overflowed
@@ -732,23 +729,60 @@ void sad::layouts::Cell::applyVerticalAlignment(sad::Point2D& minpoint, sad::Poi
     }
 }
 
+void sad::layouts::Cell::applyNoStackingAlinment(const sad::Point2D& minpoint, const sad::Point2D& maxpoint, double assignedwidth, double assignedheight,  const sad::Size2D& size)
+{
+    size_t current_rectangle = 0;
+    for(size_t i = 0; i < this->m_children.size(); i++)
+    {
+        sad::SceneNode* node = m_children[i]->value();
+        if (node)
+        {
+            const sad::layouts::Cell::NormalizedRectangle& childrect = m_normalized_children[current_rectangle];
+            double childheight = childrect.p2().y() - childrect.p1().y();
+            double childwidth = childrect.p2().x() - childrect.p1().x();
+            double posx = minpoint.x();
+            if (this->horizontalAlignment() == sad::layouts::LHA_Right)
+            {
+                posx = minpoint.x() - childwidth;
+            }
+            if (this->horizontalAlignment() == sad::layouts::LHA_Middle)
+            {
+                posx = minpoint.x() + (assignedwidth - childwidth) / 2.0;
+            }
+
+            double posy = maxpoint.y();
+            if (this->verticalAlignment() == sad::layouts::LVA_Bottom)
+            {
+                posy = minpoint.y() + childheight;
+            }
+            if (this->verticalAlignment() == sad::layouts::LVA_Middle)
+            {
+                posy = minpoint.y() + (assignedheight + childheight) / 2.0;
+            }
+            node->moveBy(sad::Point2D(posx - childrect.p1().x(), posy - childrect.p2().y()));
+
+            ++current_rectangle;
+        }
+    }
+}
+
 // ============================ PRIVATE METHODS ============================
 
 sad::layouts::Cell::Cell(const sad::layouts::Cell& o)
-: Rendered(o.Rendered),
-m_row_span(o.m_row_span),
-m_col_span(o.m_col_span),
-m_valign(o.m_valign),
-m_halign(o.m_halign),
-m_stacking_type(o.m_stacking_type),
-m_padding_top(o.m_padding_top),
-m_padding_bottom(o.m_padding_bottom),
-m_padding_left(o.m_padding_left),
-m_padding_right(o.m_padding_right),
-m_grid(o.m_grid),
-m_db(o.m_db),
-Row(0),
-Col(0)
+:   Rendered(o.Rendered),
+    Row(0),
+    Col(0),
+    m_row_span(o.m_row_span),
+    m_col_span(o.m_col_span),
+    m_valign(o.m_valign),
+    m_halign(o.m_halign),
+    m_stacking_type(o.m_stacking_type),
+    m_padding_top(o.m_padding_top),
+    m_padding_bottom(o.m_padding_bottom),
+    m_padding_left(o.m_padding_left),
+    m_padding_right(o.m_padding_right),
+    m_grid(o.m_grid),
+    m_db(o.m_db)
 {
     throw std::runtime_error("Not implemented");
 }

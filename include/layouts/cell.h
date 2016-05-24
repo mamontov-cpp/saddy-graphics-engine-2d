@@ -295,14 +295,22 @@ protected:
         \param[in] assignedheight total height of cell content
         \param[in] size preferred size of a cell
      */
-    void applyHorizontalAlignment(sad::Point2D& minpoint, sad::Point2D& maxpoint, double assignedheight, sad::Size2D size);	
+    void applyHorizontalAlignment(const sad::Point2D& minpoint, const sad::Point2D& maxpoint, double assignedheight, const sad::Size2D& size);	
     /*! Applies vertical alignment, recomputing places for child nodes
         \param[in] minpoint a minimal point for setting cell content
         \param[in] maxpoint  a maximal point for setting cell content
         \param[in] assignedwidth total width of cell content
         \param[in] size preferred size of a cell
      */
-    void applyVerticalAlignment(sad::Point2D& minpoint, sad::Point2D& maxpoint, double assignedwidth,  sad::Size2D size);
+    void applyVerticalAlignment(const sad::Point2D& minpoint, const sad::Point2D& maxpoint, double assignedwidth,  const sad::Size2D& size);
+    /*! Applies vertical alignment, recomputing places for child nodes
+        \param[in] minpoint a minimal point for setting cell content
+        \param[in] maxpoint  a maximal point for setting cell content
+        \param[in] assignedwidth total width of cell content
+        \param[in] assignedheight total height of cell content
+        \param[in] size preferred size of a cell
+     */
+    void applyNoStackingAlinment(const sad::Point2D& minpoint, const sad::Point2D& maxpoint, double assignedwidth, double assignedheight,  const sad::Size2D& size);
     /*! Width of a cell
      */
     sad::layouts::LengthValue m_width;
