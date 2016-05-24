@@ -21,7 +21,7 @@ LST_Horizontal = 0,
  */
 LST_Vertical = 1,
 /*! Forces objects to be placed on top of each other, according to 
-	cell alignment
+    cell alignment
  */
 LST_NoStacking = 2
 };
