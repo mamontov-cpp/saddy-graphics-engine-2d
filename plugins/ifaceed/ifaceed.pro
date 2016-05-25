@@ -329,7 +329,8 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/layouts/layoutsremovechild.h \	
     ifaceed/history/layouts/layoutsclearcell.h \
     ifaceed/history/layouts/layoutsswapchildren.h \	
-    ifaceed/history/layouts/layoutschange.h \	
+    ifaceed/history/layouts/layoutschange.h \
+    ifaceed/history/layouts/layoutschangecell.h \	
     ifaceed/history/layouts/layoutsremove.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui \
