@@ -1154,13 +1154,46 @@ for object (ignores an angle)</string>
            </item>
           </layout>
          </widget>
+         <widget class="QWidget" name="layoutWidgetFixed">
+          <property name="geometry">
+           <rect>
+            <x>40</x>
+            <y>140</y>
+            <width>231</width>
+            <height>32</height>
+           </rect>
+          </property>
+          <layout class="QHBoxLayout" name="grdLayoutFixed">
+           <item>
+            <widget class="QCheckBox" name="cbLayoutFixedWidth">
+             <property name="text">
+              <string>Layout has
+fixed width</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="cbLayoutFixedHeight">
+             <property name="text">
+              <string>Layout has
+fixed height</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+        <widget class="QWidget" name="tabLayoutDefaultPaddings">
+         <attribute name="title">
+          <string>Default Paddings</string>
+         </attribute>
          <widget class="QWidget" name="layoutWidgetPaddings">
           <property name="geometry">
            <rect>
             <x>10</x>
-            <y>140</y>
-            <width>291</width>
-            <height>140</height>
+            <y>10</y>
+            <width>281</width>
+            <height>192</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayoutPaddings">
@@ -1181,7 +1214,8 @@ for object (ignores an angle)</string>
            <item row="0" column="2">
             <widget class="QCheckBox" name="cbLayoutPaddingTopPropagate">
              <property name="text">
-              <string>Propagate changes to
+              <string>Propagate
+changes to
 all cells</string>
              </property>
             </widget>
@@ -1203,7 +1237,8 @@ all cells</string>
            <item row="1" column="2">
             <widget class="QCheckBox" name="cbLayoutPaddingBottomPropagate">
              <property name="text">
-              <string>Propagate changes to
+              <string>Propagate
+changes to
 all cells</string>
              </property>
             </widget>
@@ -1225,7 +1260,8 @@ all cells</string>
            <item row="2" column="2">
             <widget class="QCheckBox" name="cbLayoutPaddingLeftPropagate">
              <property name="text">
-              <string>Propagate changes to
+              <string>Propagate
+changes to
 all cells</string>
              </property>
             </widget>
@@ -1247,34 +1283,9 @@ all cells</string>
            <item row="3" column="2">
             <widget class="QCheckBox" name="cbLayoutPaddingRightPropagate">
              <property name="text">
-              <string>Propagate changes to
+              <string>Propagate
+changes to
 all cells</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="layoutWidgetFixed">
-          <property name="geometry">
-           <rect>
-            <x>20</x>
-            <y>280</y>
-            <width>276</width>
-            <height>19</height>
-           </rect>
-          </property>
-          <layout class="QHBoxLayout" name="grdLayoutFixed">
-           <item>
-            <widget class="QCheckBox" name="cbLayoutFixedWidth">
-             <property name="text">
-              <string>Layout has fixed width</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="cbLayoutFixedHeight">
-             <property name="text">
-              <string>Layout has fixed height</string>
              </property>
             </widget>
            </item>

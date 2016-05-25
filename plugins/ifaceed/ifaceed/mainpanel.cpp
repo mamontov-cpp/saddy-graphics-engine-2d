@@ -196,7 +196,7 @@ MainPanel::~MainPanel()
 // ReSharper disable once CppMemberFunctionMayBeConst
 void MainPanel::toggleEditingButtons(bool enabled)
 {
-    const int affectedpushbuttonscount = 52;
+    const int affectedpushbuttonscount = 53;
     QPushButton* affectedpushbuttons[affectedpushbuttonscount] = {
         ui.btnReloadResources,
         ui.btnUndo,
@@ -264,6 +264,7 @@ void MainPanel::toggleEditingButtons(bool enabled)
         ui.btnConsoleRun,
 
         ui.btnLayoutAdd,
+        ui.btnLayoutAddByStretching,
         ui.btnLayoutRemove        
     };
     for(int i = 0; i < affectedpushbuttonscount; i++)
