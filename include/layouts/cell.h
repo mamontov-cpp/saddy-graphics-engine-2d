@@ -19,6 +19,7 @@ namespace db
 {
 
 class Database;
+class Variant;
 
 }
 
@@ -40,6 +41,23 @@ public:
     /*! Could be inherited
      */
     virtual ~Cell();
+    /*! Returns property by value. This will not implement sad::db::Object's interface,
+        since we don't need this object to be serializable as database object, rather than value
+        Valid property values, are "width", "height", "valign", "halign", "stacking_type",
+        "padding_top", "padding_left", "padding_right", padding_bottom"
+        \param[in] prop a property to be fetched
+        \return existent value of property if both value and type are valid, otherwise empty value
+     */
+    sad::db::Variant getProperty(const sad::String& prop) const;
+    /*! Sets property by value. This will not implement sad::db::Object's interface,
+        since we don't need this object to be serializable as database object, rather than value
+        Valid property values, are "width", "height", "valign", "halign", "stacking_type",
+        "padding_top", "padding_left", "padding_right", padding_bottom"
+        \param[in] prop a property to be fetched
+        \param[in] v new value
+        \param[in] update_grid whether we should notify grid
+     */
+    void setProperty(const sad::String& prop, const sad::db::Variant& v, bool update_grid = true);    
     /*! Sets grids to be notified for cell
         \param[in] g  grid
      */

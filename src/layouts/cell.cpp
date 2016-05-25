@@ -1,6 +1,11 @@
 #include "layouts/cell.h"
 #include "layouts/grid.h"
 
+#include <db/dbvariant.h>
+#include <db/save.h>
+#include <db/load.h>
+
+
 #include <stdexcept>
 
 
@@ -27,6 +32,124 @@ m_db(NULL)
 sad::layouts::Cell::~Cell()
 {
 
+}
+
+sad::db::Variant sad::layouts::Cell::getProperty(const sad::String& prop) const
+{
+    sad::db::Variant v;
+    if (prop == "width")
+    {
+        v = sad::db::Variant(sad::layouts::LengthValue(this->width()));
+    }
+    if (prop == "height")
+    {
+        v = sad::db::Variant(sad::layouts::LengthValue(this->height()));
+    }
+    if (prop == "valign")
+    {
+        v = sad::db::Variant(this->verticalAlignment());
+    }
+    if (prop == "halign")
+    {
+        v = sad::db::Variant(this->horizontalAlignment());
+    }
+    if (prop == "stacking_type")
+    {
+        v = sad::db::Variant(this->stackingType());
+    }
+    if (prop == "padding_top")
+    {
+        v = sad::db::Variant(this->paddingTop());
+    }
+    if (prop == "padding_left")
+    {
+        v = sad::db::Variant(this->paddingLeft());
+    }
+    if (prop == "padding_right")
+    {
+        v = sad::db::Variant(this->paddingRight());
+    }
+    if (prop == "padding_bottom")
+    {
+        v = sad::db::Variant(this->paddingBottom());
+    }
+    return v;
+}
+
+void sad::layouts::Cell::setProperty(const sad::String& prop, const sad::db::Variant& v, bool update_grid)
+{
+    if (prop == "width")
+    {
+        sad::Maybe<sad::layouts::LengthValue> mv = v.get<sad::layouts::LengthValue>();
+        if (mv.exists())
+        {
+            this->setWidth(mv.value(), update_grid);
+        }
+    }
+    if (prop == "height")
+    {
+        sad::Maybe<sad::layouts::LengthValue> mv = v.get<sad::layouts::LengthValue>();
+        if (mv.exists())
+        {
+            this->setHeight(mv.value(), update_grid);
+        }
+    }
+    if (prop == "valign")
+    {
+        sad::Maybe<sad::layouts::VerticalAlignment> mv = v.get<sad::layouts::VerticalAlignment>();
+        if (mv.exists())
+        {
+            this->setVerticalAlignment(mv.value(), update_grid);
+        }
+    }
+    if (prop == "halign")
+    {
+        sad::Maybe<sad::layouts::HorizontalAlignment> mv = v.get<sad::layouts::HorizontalAlignment>();
+        if (mv.exists())
+        {
+            this->setHorizontalAlignment(mv.value(), update_grid);
+        }
+    }
+    if (prop == "stacking_type")
+    {
+        sad::Maybe<sad::layouts::StackingType> mv = v.get<sad::layouts::StackingType>();
+        if (mv.exists())
+        {
+            this->setStackingType(mv.value(), update_grid);
+        }
+    }
+    if (prop == "padding_top")
+    {
+        sad::Maybe<double> mv = v.get<double>();
+        if (mv.exists())
+        {
+            this->setPaddingTop(mv.value(), update_grid);
+        }
+    }
+    if (prop == "padding_left")
+    {
+        sad::Maybe<double> mv = v.get<double>();
+        if (mv.exists())
+        {
+            this->setPaddingLeft(mv.value(), update_grid);
+        }
+    }
+    if (prop == "padding_right")
+    {
+        sad::Maybe<double> mv = v.get<double>();
+        if (mv.exists())
+        {
+            this->setPaddingRight(mv.value(), update_grid);
+        }
+    }
+    if (prop == "padding_bottom")
+    {
+        sad::Maybe<double> mv = v.get<double>();
+        if (mv.exists())
+        {
+            this->setPaddingBottom(mv.value(), update_grid);
+        }
+    }
 }
 
 void sad::layouts::Cell::setGrid(sad::layouts::Grid* g)
