@@ -103,6 +103,7 @@
     <ClCompile Include="picojson.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="sadhash.cpp" />
+    <ClCompile Include="sadmutex.cpp" />
     <ClCompile Include="sadmutexscopedlock.cpp" />
     <ClCompile Include="sadptrhash.cpp" />
     <ClCompile Include="sadrect.cpp" />
