@@ -4657,6 +4657,7 @@
     <ClInclude Include="history\label\changetextellipsisforlines.h" />
     <ClInclude Include="history\layouts\layoutsaddchild.h" />
     <ClInclude Include="history\layouts\layoutschange.h" />
+    <ClInclude Include="history\layouts\layoutschangecell.h" />
     <ClInclude Include="history\layouts\layoutschangename.h" />
     <ClInclude Include="history\layouts\layoutsclearcell.h" />
     <ClInclude Include="history\layouts\layoutsnew.h" />

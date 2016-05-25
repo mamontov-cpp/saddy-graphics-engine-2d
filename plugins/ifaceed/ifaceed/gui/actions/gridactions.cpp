@@ -32,11 +32,11 @@
 #include "../../history/layouts/layoutsremovechild.h"
 #include "../../history/layouts/layoutsclearcell.h"
 #include "../../history/layouts/layoutsswapchildren.h"
+#include "../../history/layouts/layoutschangecell.h"
 
 #include "../../gui/actions/actions.h"
 #include "../../gui/actions/scenenodeactions.h"
 
-#include "../../closuremethodcall.h"
 
 #include <renderer.h>
 
@@ -991,7 +991,7 @@ void gui::actions::GridActions::scriptableRemoveGrid(sad::layouts::Grid* grid, b
 }
 
 
-void gui::actions::GridActions::updateParentGridsRecursively(sad::layouts::Grid* grid)
+void gui::actions::GridActions::updateParentGridsRecursively(sad::layouts::Grid* grid, bool immediate)
 {
     sad::layouts::Grid* pgrid = this->parentGridFor(grid);
     while (pgrid)
@@ -999,28 +999,45 @@ void gui::actions::GridActions::updateParentGridsRecursively(sad::layouts::Grid*
         pgrid->update();
         if (m_editor->shared()->selectedGrid() == pgrid)
         {
-            this->updateRegion(true);
+            this->updateRegion(immediate);
         }
         pgrid = this->parentGridFor(pgrid);
+    }
+
+    if (m_editor->shared()->selectedGrid() == grid)
+    {
+        this->updateRegion(immediate);
+    }
+}
+
+void gui::actions::GridActions::tryUpdateRegionsInChildren(const sad::Vector<sad::SceneNode*>& v)
+{
+    sad::SceneNode* sgrid = m_editor->shared()->selectedGrid();
+    gui::actions::SceneNodeActions* scene_node_actions = m_editor->actions()->sceneNodeActions();
+    
+    for(size_t i = 0; i < v.size(); i++)
+    {
+        if (v[i] == sgrid)
+        {
+            this->updateRegion();
+        }
+        if (m_editor->isNodeSelected(v[i]))
+        {
+            scene_node_actions->updateRegionForNode();
+        }
     }
 }
 
 void gui::actions::GridActions::tryUpdateRegionsInChildren(sad::layouts::Grid* grid)
 {
     sad::Vector<sad::SceneNode*> children = grid->children();
-    sad::SceneNode* sgrid = m_editor->shared()->selectedGrid();
-    gui::actions::SceneNodeActions* scene_node_actions = m_editor->actions()->sceneNodeActions();
-    for(size_t i = 0; i < children.size(); i++)
-    {
-        if (children[i] == sgrid)
-        {
-            this->updateRegion();
-        }
-        if (m_editor->isNodeSelected(children[i]))
-        {
-            scene_node_actions->updateRegionForNode();
-        }
-    }
+    tryUpdateRegionsInChildren(children);
+}
+
+void gui::actions::GridActions::tryUpdateRegionsInChildren(sad::layouts::Cell* cell)
+{
+    sad::Vector<sad::SceneNode*> children = cell->children();
+    tryUpdateRegionsInChildren(children);
 }
 
 void gui::actions::GridActions::updateCellPartInUI(

@@ -3140,6 +3140,9 @@
     <ClInclude Include="history\layouts\layoutsswapchildren.h">
       <Filter>Header Files\history\layouts</Filter>
     </ClInclude>
+    <ClInclude Include="history\layouts\layoutschangecell.h">
+      <Filter>Header Files\history\layouts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="acolordialog.h">

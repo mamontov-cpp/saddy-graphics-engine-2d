@@ -396,12 +396,21 @@ enum CellUpdateOptions
     void scriptableRemoveGrid(sad::layouts::Grid* grid, bool from_editor);
     /*! Tries to recursively update parent grids for grids
         \param[in] grid a grid
+        \param[in] immediate whether it should be performed immediately
      */
-    void updateParentGridsRecursively(sad::layouts::Grid* grid);
+    void updateParentGridsRecursively(sad::layouts::Grid* grid, bool immediate = true);
+    /*! Tries to update regions in children if selected
+        \param[in] v list
+     */
+    void tryUpdateRegionsInChildren(const sad::Vector<sad::SceneNode*>& v);
     /*! Tries to update regions in children if selected
         \param[in] grid a grid
      */
     void tryUpdateRegionsInChildren(sad::layouts::Grid* grid);
+    /*! Tries to update regions in children if selected
+        \param[in] cell a cell
+     */
+    void tryUpdateRegionsInChildren(sad::layouts::Cell* grid);
     /*! Updates cell part in UI
         \param[in] row a row of cell
         \param[in] col a column

@@ -177,15 +177,8 @@ protected:
                 actions->updateCellBrowser();
             }
         }
-        sad::layouts::Grid* parent = e->actions()->gridActions()->parentGridFor(m_grid);
-        if (parent)
-        {
-            parent->update();
-            if (e->shared()->selectedGrid() == parent)
-            {
-                actions->updateRegion();
-            }
-        }
+
+        actions->updateParentGridsRecursively(m_grid, false);
         for(size_t i = 0; i < m_affected_nodes.size(); i++)
         {
             if (e->shared()->selectedObject() == m_affected_nodes[i])
