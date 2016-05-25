@@ -46,6 +46,9 @@ protected:
     CRITICAL_SECTION  m_m;          //!< A system-dependent handle of mutex
 #else
     pthread_mutex_t m_m;  //!< A system-dependent handle of mutex
+    pthread_mutex_t m_guard; //!< A guarding mutex to ensure, that nobody will harm locked state
+    pthread_t m_locked_thread;  //!< A recursive-call deadlock protection for mutex to make it really non-recursive
+    bool m_locked;              //!< Whether it's locked
 #endif
 private:
     /*! Cannot be copied, so this is disabled and not implemented
@@ -55,7 +58,7 @@ private:
     /*! Cannot be copied, so this is disabled and not implemented
         \param[in] o other mutex
         \return self-reference
-     */	
+     */ 
     sad::os::MutexImpl & operator=(const sad::os::MutexImpl & o);
 };
 
