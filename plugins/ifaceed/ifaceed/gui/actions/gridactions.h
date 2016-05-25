@@ -4,9 +4,14 @@
  */
 #pragma once
 #include <QObject>
+
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QHash>
 
 #include <input/controls.h>
+
+#include <db/dbvariant.h>
+
 #include "abstractactions.h"
 #include "../childrenprovider.h"
 #include "../layouts/layoutcelledit.h"
@@ -125,20 +130,33 @@ public:
 /*! A options for including for excluding GUI elements for 
     grids to a batch update actions
  */
-enum UpdateOptions
+enum GridUpdateOptions
 {
-    GAUO_Name = 0, //!< Corresponds to name fields updating
-    GAUO_Area = 1, //!< Corresponds to area fields updating
-    GAUO_Rows = 2, //!< Corresponds to row fields updating
-    GAUO_Cols = 3, //!< Corresponds to column fields updating
-    GAUO_TopPadding = 4,     //!< Corresponds to top padding fields updating
-    GAUO_BottomPadding = 5,  //!< Corresponds to bottom padding fields updating
-    GAUO_LeftPadding = 6,    //!< Corresponds to left padding fields updating
-    GAUO_RightPadding = 7,   //!< Corresponds to right padding fields updating
-    GAUO_FixedWidth = 8,     //!< Corresponds to updating fixed width checkbox fields updating
-    GAUO_FixedHeight = 9,    //!< Corresponds to updating fixed height checkbox fields fields updating
-    GAUO_Cells = 10,         //!< Corresponds to updating cell browser
-    GAUO_None = 11,          //!< Corresponds to nothing for cases, when nothing should be updated (or everything in other case)
+    GGAUO_Name = 0, //!< Corresponds to name fields updating
+    GGAUO_Area = 1, //!< Corresponds to area fields updating
+    GGAUO_Rows = 2, //!< Corresponds to row fields updating
+    GGAUO_Cols = 3, //!< Corresponds to column fields updating
+    GGAUO_TopPadding = 4,     //!< Corresponds to top padding fields updating
+    GGAUO_BottomPadding = 5,  //!< Corresponds to bottom padding fields updating
+    GGAUO_LeftPadding = 6,    //!< Corresponds to left padding fields updating
+    GGAUO_RightPadding = 7,   //!< Corresponds to right padding fields updating
+    GGAUO_FixedWidth = 8,     //!< Corresponds to updating fixed width checkbox fields updating
+    GGAUO_FixedHeight = 9,    //!< Corresponds to updating fixed height checkbox fields fields updating
+    GGAUO_Cells = 10,         //!< Corresponds to updating cell browser
+    GGAUO_None = 11,          //!< Corresponds to nothing for cases, when nothing should be updated (or everything in other case)
+};
+
+enum CellUpdateOptions
+{
+    GCAUO_Width = 0,               //!< Corresponds to width field updating,
+    GCAUO_Height = 1,              //!< Corresponds to height field updating,
+    GCAUO_HorizontalAlignment = 2, //!< Corresponds to horizontal alignment field updating
+    GCAUO_VerticalAlignment = 3,   //!< Corresponds to vertical alignment field updating
+    GCAUO_StackingType = 4,        //!< Corresponds to stacking type field updating
+    GCAUO_TopPadding = 5,          //!< Corresponds to top padding field updating
+    GCAUO_BottomPadding = 6,       //!< Corresponds to bottom padding field updating
+    GCAUO_LeftPadding = 7,         //!< Corresponds to left padding field updating
+    GCAUO_RightPadding = 8         //!< Corresponds to right padding field updating
 };
     /*! Creates new label actions
         \param[in] parent a parent object
@@ -228,7 +246,7 @@ enum UpdateOptions
         \param[in] immediate whether it should be invoked now, or postoponed
      */
     void updateOnlyGridPropertiesInUI(
-        gui::actions::GridActions::UpdateOptions group,
+        gui::actions::GridActions::GridUpdateOptions group,
         bool immediate = false
     );
     /*! Update current grid properties in UI, except for those, specified in parameter
@@ -236,7 +254,7 @@ enum UpdateOptions
         \param[in] immediate whether it should be invoked now, or postoponed
      */
     void updateGridPropertiesInUIExcept(
-        gui::actions::GridActions::UpdateOptions group,
+        gui::actions::GridActions::GridUpdateOptions group,
         bool immediate = false
     );
     /*! Update current grid properties
@@ -384,6 +402,128 @@ enum UpdateOptions
         \param[in] grid a grid
      */
     void tryUpdateRegionsInChildren(sad::layouts::Grid* grid);
+    /*! Updates cell part in UI
+        \param[in] row a row of cell
+        \param[in] col a column
+        \param[in] opts an options
+        \param[in] v value
+        \param[in] immediate whether it should be performed immediately
+     */
+    void updateCellPartInUI(
+        size_t row,
+        size_t col,
+        gui::actions::GridActions::CellUpdateOptions opts,
+        const sad::db::Variant& v,
+        bool immediate = false
+    );
+    /*! Tries to set cell property in UI if options match specified in template parameters and also
+        property coudld be set
+        \param[in] opts options
+        \param[in] edit widget to be changed
+        \param[in] setter setter value
+        \param[in] v variant
+     */
+    template<
+        gui::actions::GridActions::CellUpdateOptions _Opts,
+        typename _PropType 
+    >
+    static void setCellPropertyInUIIf(
+        gui::actions::GridActions::CellUpdateOptions opts,
+        gui::layouts::LayoutCellEdit* edit,
+        void (gui::layouts::LayoutCellEdit::*setter)(_PropType),
+        const sad::db::Variant& v
+    )
+    {
+        if (opts == _Opts)
+        {
+            sad::Maybe< _PropType > mv = v.get< _PropType >();
+            if (mv.exists())
+            {
+                (edit->*setter)(mv.value());
+            }
+        }
+    }
+    /*! Tries to set cell property in UI if options match specified in template parameters and also
+        property coudld be set
+        \param[in] opts options
+        \param[in] edit widget to be changed
+        \param[in] setter setter value
+        \param[in] v variant
+     */
+    template<
+        gui::actions::GridActions::CellUpdateOptions _Opts,
+        typename _PropType 
+    >
+    static void setCellPropertyInUIIf(
+        gui::actions::GridActions::CellUpdateOptions opts,
+        gui::layouts::LayoutCellEdit* edit,
+        void (gui::layouts::LayoutCellEdit::*setter)(const _PropType&),
+        const sad::db::Variant& v
+    )
+    {
+        if (opts == _Opts)
+        {
+            sad::Maybe< _PropType > mv = v.get< _PropType >();
+            if (mv.exists())
+            {
+                (edit->*setter)(mv.value());
+            }
+        }
+    }
+    /*! Tries to set cell property in UI if options match specified in template parameters and also
+        property coudld be set
+        \param[in] opts options
+        \param[in] edit widget to be changed
+        \param[in] setter setter value
+        \param[in] v variant
+     */
+    template<
+        gui::actions::GridActions::CellUpdateOptions _Opts,
+        typename _PropType 
+    >
+    static void setCellPropertyInUIIf(
+        gui::actions::GridActions::CellUpdateOptions opts,
+        gui::layouts::LayoutCellEdit* edit,
+        void (gui::layouts::LayoutCellEdit::*setter)(_PropType) const,
+        const sad::db::Variant& v
+    )
+    {
+        if (opts == _Opts)
+        {
+            sad::Maybe< _PropType > mv = v.get< _PropType >();
+            if (mv.exists())
+            {
+                (edit->*setter)(mv.value());
+            }
+        }
+    }
+    /*! Tries to set cell property in UI if options match specified in template parameters and also
+        property coudld be set
+        \param[in] opts options
+        \param[in] edit widget to be changed
+        \param[in] setter setter value
+        \param[in] v variant
+     */
+    template<
+        gui::actions::GridActions::CellUpdateOptions _Opts,
+        typename _PropType 
+    >
+    static void setCellPropertyInUIIf(
+        gui::actions::GridActions::CellUpdateOptions opts,
+        gui::layouts::LayoutCellEdit* edit,
+        void (gui::layouts::LayoutCellEdit::*setter)(const _PropType&) const,
+        const sad::db::Variant& v
+    )
+    {
+        if (opts == _Opts)
+        {
+            sad::Maybe< _PropType > mv = v.get< _PropType >();
+            if (mv.exists())
+            {
+                (edit->*setter)(mv.value());
+            }
+        }
+    }
 public slots:
     /*! Called, when user clicks on "Add" button for grids
      */

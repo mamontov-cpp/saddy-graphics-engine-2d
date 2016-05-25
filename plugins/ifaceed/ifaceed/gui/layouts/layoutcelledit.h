@@ -82,6 +82,42 @@ public:
         \param[in] cell a cell
      */
     void set(sad::layouts::Cell* cell);
+    /*! Sets width for cell
+        \param[in] v value
+     */
+    void setWidth(const sad::layouts::LengthValue& v) const;
+    /*! Sets height for cell
+        \param[in] v value
+     */
+    void setHeight(const sad::layouts::LengthValue& v) const;
+    /*! Sets horizontal alignment for cell
+        \param[in] v value
+     */
+    void setHorizontalAlignment(sad::layouts::HorizontalAlignment v) const;
+    /*! Sets vertical alignment for cell
+        \param[in] v value
+     */
+    void setVerticalAlignment(sad::layouts::VerticalAlignment v) const;
+    /*! Sets stacking type for cell
+        \param[in] v value
+     */
+    void setStackingType(sad::layouts::StackingType v) const;
+    /*! Sets top padding for cell
+        \param[in] v value
+     */
+    void setPaddingTop(double v) const;
+    /*! Sets bottom padding for cell
+        \param[in] v value
+     */
+    void setPaddingBottom(double v) const;
+    /*! Sets left padding for cell
+        \param[in] v value
+     */
+    void setPaddingLeft(double v) const;
+    /*! Sets right padding for cell
+        \param[in] v value
+     */
+    void setPaddingRight(double v) const;
     /*! Removes child from a cell. Note, that this function DOES NOT emit
         corresponding signal
         \param[in] child a child position

@@ -36,13 +36,15 @@
 #include "../../gui/actions/actions.h"
 #include "../../gui/actions/scenenodeactions.h"
 
+#include "../../closuremethodcall.h"
+
 #include <renderer.h>
 
 #include <db/dbdatabase.h>
 #include <db/dbtable.h>
 
 Q_DECLARE_METATYPE(sad::layouts::Grid*)
-Q_DECLARE_METATYPE(gui::actions::GridActions::UpdateOptions)
+Q_DECLARE_METATYPE(gui::actions::GridActions::GridUpdateOptions)
 
 gui::actions::GridActions::GridActions(QObject* parent)
 : QObject(parent), m_provider(NULL), m_is_stretching(false)
@@ -351,7 +353,7 @@ void gui::actions::GridActions::updateCellBrowser(bool immediate)
 }
 
 void gui::actions::GridActions::updateOnlyGridPropertiesInUI(
-    gui::actions::GridActions::UpdateOptions group,
+    gui::actions::GridActions::GridUpdateOptions group,
     bool immediate
 )
 {
@@ -383,35 +385,35 @@ void gui::actions::GridActions::updateOnlyGridPropertiesInUI(
             states[i] = widgets[i]->blockSignals(size);
         }
 
-        if (group == gui::actions::GridActions::GAUO_Rows)
+        if (group == gui::actions::GridActions::GGAUO_Rows)
         {
             layout_blk->spnLayoutGridRows->setValue(grid->rows());
         }
-        if (group == gui::actions::GridActions::GAUO_Cols)
+        if (group == gui::actions::GridActions::GGAUO_Cols)
         {
             layout_blk->spnLayoutGridCols->setValue(grid->columns());
         }
-        if (group == gui::actions::GridActions::GAUO_FixedWidth)
+        if (group == gui::actions::GridActions::GGAUO_FixedWidth)
         {
             layout_blk->cbLayoutFixedWidth->setCheckState((grid->fixedWidth()) ? Qt::Checked : Qt::Unchecked);
         }
-        if (group == gui::actions::GridActions::GAUO_FixedHeight)
+        if (group == gui::actions::GridActions::GGAUO_FixedHeight)
         {
             layout_blk->cbLayoutFixedHeight->setCheckState((grid->fixedHeight()) ? Qt::Checked : Qt::Unchecked);
         }
-        if (group == gui::actions::GridActions::GAUO_LeftPadding)
+        if (group == gui::actions::GridActions::GGAUO_LeftPadding)
         {
             layout_blk->dsbLayoutPaddingLeft->setValue(grid->paddingLeft());
         }
-        if (group == gui::actions::GridActions::GAUO_RightPadding)
+        if (group == gui::actions::GridActions::GGAUO_RightPadding)
         {
             layout_blk->dsbLayoutPaddingRight->setValue(grid->paddingRight());
         }
-        if (group == gui::actions::GridActions::GAUO_TopPadding)
+        if (group == gui::actions::GridActions::GGAUO_TopPadding)
         {
             layout_blk->dsbLayoutPaddingTop->setValue(grid->paddingTop());
         }
-        if (group == gui::actions::GridActions::GAUO_BottomPadding)
+        if (group == gui::actions::GridActions::GGAUO_BottomPadding)
         {
             layout_blk->dsbLayoutPaddingBottom->setValue(grid->paddingBottom());
         }
@@ -422,19 +424,19 @@ void gui::actions::GridActions::updateOnlyGridPropertiesInUI(
         }
     }
 
-    if (group == gui::actions::GridActions::GAUO_Cells)
+    if (group == gui::actions::GridActions::GGAUO_Cells)
     {
         updateCellBrowser(true);
     }
 
-    if (group == gui::actions::GridActions::GAUO_Area)
+    if (group == gui::actions::GridActions::GGAUO_Area)
     {
         updateRegion(true);
     }    
 }
 
 void gui::actions::GridActions::updateGridPropertiesInUIExcept(
-    gui::actions::GridActions::UpdateOptions group,
+    gui::actions::GridActions::GridUpdateOptions group,
     bool immediate
 )
 {
@@ -466,35 +468,35 @@ void gui::actions::GridActions::updateGridPropertiesInUIExcept(
             states[i] = widgets[i]->blockSignals(size);
         }
 
-        if (group != gui::actions::GridActions::GAUO_Rows)
+        if (group != gui::actions::GridActions::GGAUO_Rows)
         {
             layout_blk->spnLayoutGridRows->setValue(grid->rows());
         }
-        if (group != gui::actions::GridActions::GAUO_Cols)
+        if (group != gui::actions::GridActions::GGAUO_Cols)
         {
             layout_blk->spnLayoutGridCols->setValue(grid->columns());
         }
-        if (group != gui::actions::GridActions::GAUO_FixedWidth)
+        if (group != gui::actions::GridActions::GGAUO_FixedWidth)
         {
             layout_blk->cbLayoutFixedWidth->setCheckState((grid->fixedWidth()) ? Qt::Checked : Qt::Unchecked);
         }
-        if (group != gui::actions::GridActions::GAUO_FixedHeight)
+        if (group != gui::actions::GridActions::GGAUO_FixedHeight)
         {
             layout_blk->cbLayoutFixedHeight->setCheckState((grid->fixedHeight()) ? Qt::Checked : Qt::Unchecked);
         }
-        if (group != gui::actions::GridActions::GAUO_LeftPadding)
+        if (group != gui::actions::GridActions::GGAUO_LeftPadding)
         {
             layout_blk->dsbLayoutPaddingLeft->setValue(grid->paddingLeft());
         }
-        if (group != gui::actions::GridActions::GAUO_RightPadding)
+        if (group != gui::actions::GridActions::GGAUO_RightPadding)
         {
             layout_blk->dsbLayoutPaddingRight->setValue(grid->paddingRight());
         }
-        if (group != gui::actions::GridActions::GAUO_TopPadding)
+        if (group != gui::actions::GridActions::GGAUO_TopPadding)
         {
             layout_blk->dsbLayoutPaddingTop->setValue(grid->paddingTop());
         }
-        if (group != gui::actions::GridActions::GAUO_BottomPadding)
+        if (group != gui::actions::GridActions::GGAUO_BottomPadding)
         {
             layout_blk->dsbLayoutPaddingBottom->setValue(grid->paddingBottom());
         }
@@ -505,12 +507,12 @@ void gui::actions::GridActions::updateGridPropertiesInUIExcept(
         }
     }
 
-    if (group != gui::actions::GridActions::GAUO_Cells)
+    if (group != gui::actions::GridActions::GGAUO_Cells)
     {
         updateCellBrowser(true);
     }
 
-    if (group != gui::actions::GridActions::GAUO_Area)
+    if (group != gui::actions::GridActions::GGAUO_Area)
     {
         updateRegion(true);
     }
@@ -518,7 +520,7 @@ void gui::actions::GridActions::updateGridPropertiesInUIExcept(
 
 void gui::actions::GridActions::updateGridPropertiesInUI(bool immediate)
 {    
-    this->updateGridPropertiesInUIExcept(gui::actions::GridActions::GAUO_None, immediate);    
+    this->updateGridPropertiesInUIExcept(gui::actions::GridActions::GGAUO_None, immediate);    
 }
 
 gui::layouts::LayoutCellEdit* gui::actions::GridActions::cellEditor(size_t row,  size_t col)
@@ -665,7 +667,7 @@ void gui::actions::GridActions::commitMovingGrid(const sad::input::MouseReleaseE
         moveByPivotPoint(ev);
         picojson::value value(picojson::object_type, false);
         grid->save(value);
-        history::layouts::Change<gui::actions::GridActions::GAUO_Area>* change = new history::layouts::Change<gui::actions::GridActions::GAUO_Area>(grid);
+        history::layouts::Change<gui::actions::GridActions::GGAUO_Area>* change = new history::layouts::Change<gui::actions::GridActions::GGAUO_Area>(grid);
         change->saveOldState(m_editor->shared()->oldState());
         change->saveNewState(value);
         change->addAffectedNodes(grid->children());
@@ -712,7 +714,7 @@ void gui::actions::GridActions::commitGridResizingUsingHotspot(const sad::input:
         resizeGridUsingHotspot(ev);
         picojson::value value(picojson::object_type, false);
         grid->save(value);
-        history::layouts::Change<gui::actions::GridActions::GAUO_Area>* change = new history::layouts::Change<gui::actions::GridActions::GAUO_Area>(grid);
+        history::layouts::Change<gui::actions::GridActions::GGAUO_Area>* change = new history::layouts::Change<gui::actions::GridActions::GGAUO_Area>(grid);
         change->saveOldState(m_editor->shared()->oldState());
         change->saveNewState(value);
         change->addAffectedNodes(grid->children());
@@ -1021,6 +1023,38 @@ void gui::actions::GridActions::tryUpdateRegionsInChildren(sad::layouts::Grid* g
     }
 }
 
+void gui::actions::GridActions::updateCellPartInUI(
+    size_t row,
+    size_t col,
+    gui::actions::GridActions::CellUpdateOptions opts,
+    const sad::db::Variant& v,
+    bool immediate
+)
+{
+    if (!immediate)
+    {
+        m_editor->emitClosure(::bind(this, &gui::actions::GridActions::updateCellPartInUI, row, col, opts, sad::db::Variant(v), true));
+    }
+    else
+    {
+        gui::layouts::LayoutCellEdit* edit = this->cellEditor(row, col);
+        if (edit)
+        {
+#define M(X) &gui::layouts::LayoutCellEdit:: X
+            setCellPropertyInUIIf<gui::actions::GridActions::GCAUO_Width, sad::layouts::LengthValue>(opts, edit, M(setWidth), v);
+            setCellPropertyInUIIf<gui::actions::GridActions::GCAUO_Height, sad::layouts::LengthValue>(opts, edit, M(setHeight), v);
+            setCellPropertyInUIIf<gui::actions::GridActions::GCAUO_HorizontalAlignment, sad::layouts::HorizontalAlignment>(opts, edit, M(setHorizontalAlignment), v);
+            setCellPropertyInUIIf<gui::actions::GridActions::GCAUO_VerticalAlignment, sad::layouts::VerticalAlignment>(opts, edit, M(setVerticalAlignment), v);
+            setCellPropertyInUIIf<gui::actions::GridActions::GCAUO_StackingType, sad::layouts::StackingType>(opts, edit, M(setStackingType), v);
+            setCellPropertyInUIIf<gui::actions::GridActions::GCAUO_TopPadding, double>(opts, edit, M(setPaddingTop), v);
+            setCellPropertyInUIIf<gui::actions::GridActions::GCAUO_BottomPadding, double>(opts, edit, M(setPaddingBottom), v);
+            setCellPropertyInUIIf<gui::actions::GridActions::GCAUO_LeftPadding, double>(opts, edit, M(setPaddingLeft), v);
+            setCellPropertyInUIIf<gui::actions::GridActions::GCAUO_RightPadding, double>(opts, edit, M(setPaddingRight), v);
+#undef M             
+        }
+    }
+}
+
 // ================================ PUBLIC SLOTS  ================================
 
 // ReSharper disable once CppMemberFunctionMayBeConst
@@ -1088,7 +1122,7 @@ void gui::actions::GridActions::areaChanged(QRectF newarea)
                     }
                 }
 
-                history::layouts::Change<gui::actions::GridActions::GAUO_Area>* c = new history::layouts::Change<gui::actions::GridActions::GAUO_Area>(g);
+                history::layouts::Change<gui::actions::GridActions::GGAUO_Area>* c = new history::layouts::Change<gui::actions::GridActions::GGAUO_Area>(g);
                 c->saveOldState(oldstate);
                 c->saveNewState(newstate);
                 c->addAffectedNodes(nodes);
@@ -1134,7 +1168,7 @@ void gui::actions::GridActions::rowCountChanged(int newvalue)
                 }
             }
             
-            history::layouts::Change<gui::actions::GridActions::GAUO_Rows>* c = new history::layouts::Change<gui::actions::GridActions::GAUO_Rows>(g);
+            history::layouts::Change<gui::actions::GridActions::GGAUO_Rows>* c = new history::layouts::Change<gui::actions::GridActions::GGAUO_Rows>(g);
             c->saveOldState(oldstate);
             c->saveNewState(newstate);
             c->addAffectedNodes(children);
@@ -1180,7 +1214,7 @@ void gui::actions::GridActions::columnCountChanged(int newvalue)
                 }
             }
             
-            history::layouts::Change<gui::actions::GridActions::GAUO_Cols>* c = new history::layouts::Change<gui::actions::GridActions::GAUO_Cols>(g);
+            history::layouts::Change<gui::actions::GridActions::GGAUO_Cols>* c = new history::layouts::Change<gui::actions::GridActions::GGAUO_Cols>(g);
             c->saveOldState(oldstate);
             c->saveNewState(newstate);
             c->addAffectedNodes(children);
@@ -1215,7 +1249,7 @@ void gui::actions::GridActions::fixedWidthClicked(bool newvalue)
             
             this->updateRegion();            
             
-            history::layouts::Change<gui::actions::GridActions::GAUO_FixedWidth>* c = new history::layouts::Change<gui::actions::GridActions::GAUO_FixedWidth>(g);
+            history::layouts::Change<gui::actions::GridActions::GGAUO_FixedWidth>* c = new history::layouts::Change<gui::actions::GridActions::GGAUO_FixedWidth>(g);
             c->saveOldState(oldstate);
             c->saveNewState(newstate);
             c->addAffectedNodes(children);
@@ -1249,7 +1283,7 @@ void gui::actions::GridActions::fixedHeightClicked(bool newvalue)
             
             this->updateRegion();            
             
-            history::layouts::Change<gui::actions::GridActions::GAUO_FixedHeight>* c = new history::layouts::Change<gui::actions::GridActions::GAUO_FixedHeight>(g);
+            history::layouts::Change<gui::actions::GridActions::GGAUO_FixedHeight>* c = new history::layouts::Change<gui::actions::GridActions::GGAUO_FixedHeight>(g);
             c->saveOldState(oldstate);
             c->saveNewState(newstate);
             c->addAffectedNodes(children);
@@ -1291,7 +1325,7 @@ void gui::actions::GridActions::topPaddingChanged(double newvalue)
                 this->updateCellBrowser();
             }
             
-            history::layouts::Change<gui::actions::GridActions::GAUO_TopPadding>* c = new history::layouts::Change<gui::actions::GridActions::GAUO_TopPadding>(g);
+            history::layouts::Change<gui::actions::GridActions::GGAUO_TopPadding>* c = new history::layouts::Change<gui::actions::GridActions::GGAUO_TopPadding>(g);
             c->saveOldState(oldstate);
             c->saveNewState(newstate);            
             c->addAffectedNodes(children);
@@ -1335,7 +1369,7 @@ void gui::actions::GridActions::bottomPaddingChanged(double newvalue)
                 this->updateCellBrowser();
             }
             
-            history::layouts::Change<gui::actions::GridActions::GAUO_BottomPadding>* c = new history::layouts::Change<gui::actions::GridActions::GAUO_BottomPadding>(g);
+            history::layouts::Change<gui::actions::GridActions::GGAUO_BottomPadding>* c = new history::layouts::Change<gui::actions::GridActions::GGAUO_BottomPadding>(g);
             c->saveOldState(oldstate);
             c->saveNewState(newstate);            
             c->addAffectedNodes(children);
@@ -1379,7 +1413,7 @@ void gui::actions::GridActions::leftPaddingChanged(double newvalue)
                 this->updateCellBrowser();
             }
             
-            history::layouts::Change<gui::actions::GridActions::GAUO_LeftPadding>* c = new history::layouts::Change<gui::actions::GridActions::GAUO_LeftPadding>(g);
+            history::layouts::Change<gui::actions::GridActions::GGAUO_LeftPadding>* c = new history::layouts::Change<gui::actions::GridActions::GGAUO_LeftPadding>(g);
             c->saveOldState(oldstate);
             c->saveNewState(newstate);            
             c->addAffectedNodes(children);
@@ -1423,7 +1457,7 @@ void gui::actions::GridActions::rightPaddingChanged(double newvalue)
                 this->updateCellBrowser();
             }
             
-            history::layouts::Change<gui::actions::GridActions::GAUO_RightPadding>* c = new history::layouts::Change<gui::actions::GridActions::GAUO_RightPadding>(g);
+            history::layouts::Change<gui::actions::GridActions::GGAUO_RightPadding>* c = new history::layouts::Change<gui::actions::GridActions::GGAUO_RightPadding>(g);
             c->saveOldState(oldstate);
             c->saveNewState(newstate);            
             c->addAffectedNodes(children);

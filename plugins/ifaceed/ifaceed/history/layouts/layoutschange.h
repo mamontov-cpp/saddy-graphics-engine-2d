@@ -27,7 +27,7 @@ namespace layouts
 /*! Describes a generic change in layouts
  */
 template<
-    gui::actions::GridActions::UpdateOptions O
+    gui::actions::GridActions::GridUpdateOptions O
 >
 class Change: public history::Command
 {
@@ -167,7 +167,7 @@ protected:
         {
             if (m_should_update_children)
             {
-                actions->updateOnlyGridPropertiesInUI(gui::actions::GridActions::GAUO_Cells);
+                actions->updateOnlyGridPropertiesInUI(gui::actions::GridActions::GGAUO_Cells);
             }
 
             actions->updateOnlyGridPropertiesInUI(O);

@@ -33,6 +33,9 @@
 #include "animations/easing/easingfunction.h"
 
 #include "layouts/lengthvalue.h"
+#include "layouts/horizontalalignment.h"
+#include "layouts/verticalalignment.h"
+#include "layouts/stackingtype.h"
 
 static sad::Mutex typename_cache_lock;
 static sad::Hash<sad::String, sad::String> typename_cache;
@@ -218,6 +221,10 @@ DECLARE_INSTANTIATED_COMMON_TYPE(sad::Vector<sad::String>)
 DECLARE_COMMON_TYPE(sad::animations::Group)
 
 DECLARE_COMMON_TYPE(sad::layouts::LengthValue)
+DECLARE_COMMON_TYPE(sad::layouts::HorizontalAlignment)
+DECLARE_COMMON_TYPE(sad::layouts::VerticalAlignment)
+DECLARE_COMMON_TYPE(sad::layouts::StackingType)
+
 
 DECLARE_TYPE_AS_SAD_OBJECT(sad::db::Object);
 DECLARE_TYPE_AS_SAD_OBJECT(sad::Object);

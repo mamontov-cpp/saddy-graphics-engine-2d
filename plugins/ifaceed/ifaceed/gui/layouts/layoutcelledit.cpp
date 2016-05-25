@@ -292,22 +292,18 @@ bool gui::layouts::LayoutCellEdit::checked() const
 
 void gui::layouts::LayoutCellEdit::set(sad::layouts::Cell* cell)
 {
-    setRowAndColumn(cell->Row, cell->Col);
+    this->setRowAndColumn(cell->Row, cell->Col);
 
-    invoke_blocked(m_width_value, &QDoubleSpinBox::setValue, cell->width().Value);
-    invoke_blocked(m_width_unit,  &QComboBox::setCurrentIndex, static_cast<int>(cell->width().Unit));
+    this->setWidth(cell->width());
+    this->setHeight(cell->height());
+    this->setHorizontalAlignment(cell->horizontalAlignment());
+    this->setVerticalAlignment(cell->verticalAlignment());
+    this->setStackingType(cell->stackingType());
 
-    invoke_blocked(m_height_value, &QDoubleSpinBox::setValue, cell->height().Value);
-    invoke_blocked(m_height_unit,  &QComboBox::setCurrentIndex, static_cast<int>(cell->height().Unit));
-
-    invoke_blocked(m_horizontal_alignment,  &QComboBox::setCurrentIndex, static_cast<int>(cell->horizontalAlignment()));
-    invoke_blocked(m_vertical_alignment,  &QComboBox::setCurrentIndex, static_cast<int>(cell->verticalAlignment()));
-    invoke_blocked(m_stacking_type,  &QComboBox::setCurrentIndex, static_cast<int>(cell->stackingType()));
-
-    invoke_blocked(m_padding_top, &QDoubleSpinBox::setValue, cell->paddingTop());
-    invoke_blocked(m_padding_bottom, &QDoubleSpinBox::setValue, cell->paddingBottom());
-    invoke_blocked(m_padding_left, &QDoubleSpinBox::setValue, cell->paddingLeft());
-    invoke_blocked(m_padding_right, &QDoubleSpinBox::setValue, cell->paddingRight());
+    this->setPaddingTop(cell->paddingTop());
+    this->setPaddingBottom(cell->paddingBottom());
+    this->setPaddingLeft(cell->paddingLeft());
+    this->setPaddingRight(cell->paddingRight());
     
     invoke_blocked(m_checked, &QCheckBox::setCheckState, Qt::Unchecked);
 
@@ -317,6 +313,53 @@ void gui::layouts::LayoutCellEdit::set(sad::layouts::Cell* cell)
         sad::SceneNode* node = cell->child(i);
         addChild(node);
     }
+}
+
+void gui::layouts::LayoutCellEdit::setWidth(const sad::layouts::LengthValue& v) const
+{
+    invoke_blocked(m_width_value, &QDoubleSpinBox::setValue, v.Value);
+    invoke_blocked(m_width_unit,  &QComboBox::setCurrentIndex, static_cast<int>(v.Unit));    
+}
+
+void gui::layouts::LayoutCellEdit::setHeight(const sad::layouts::LengthValue& v) const
+{
+    invoke_blocked(m_height_value, &QDoubleSpinBox::setValue, v.Value);
+    invoke_blocked(m_height_unit,  &QComboBox::setCurrentIndex, static_cast<int>(v.Unit));   
+}
+
+void gui::layouts::LayoutCellEdit::setHorizontalAlignment(sad::layouts::HorizontalAlignment v) const
+{
+    invoke_blocked(m_horizontal_alignment,  &QComboBox::setCurrentIndex, static_cast<int>(v));    
+}
+
+void gui::layouts::LayoutCellEdit::setVerticalAlignment(sad::layouts::VerticalAlignment v) const
+{
+    invoke_blocked(m_vertical_alignment,  &QComboBox::setCurrentIndex, static_cast<int>(v));  
+}
+
+void gui::layouts::LayoutCellEdit::setStackingType(sad::layouts::StackingType v) const
+{
+    invoke_blocked(m_stacking_type,  &QComboBox::setCurrentIndex, static_cast<int>(v));    
+}
+
+void gui::layouts::LayoutCellEdit::setPaddingTop(double v) const
+{
+    invoke_blocked(m_padding_top, &QDoubleSpinBox::setValue, v);    
+}
+
+void gui::layouts::LayoutCellEdit::setPaddingBottom(double v) const
+{
+    invoke_blocked(m_padding_bottom, &QDoubleSpinBox::setValue, v);    
+}
+
+void gui::layouts::LayoutCellEdit::setPaddingLeft(double v) const
+{
+    invoke_blocked(m_padding_left, &QDoubleSpinBox::setValue, v);    
+}
+
+void gui::layouts::LayoutCellEdit::setPaddingRight(double v) const
+{
+    invoke_blocked(m_padding_right, &QDoubleSpinBox::setValue, v);    
 }
 
 void gui::layouts::LayoutCellEdit::removeChild(size_t child) const
