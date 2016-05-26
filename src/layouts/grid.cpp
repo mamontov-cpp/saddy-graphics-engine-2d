@@ -254,7 +254,10 @@ void sad::layouts::Grid::setRows(unsigned int rows)
     m_rows = rows;
     if (oldrows != rows)
     {
-        this->update();
+        if (!m_loading)
+        {
+            this->update();
+        }
     }
 }
 
@@ -280,7 +283,10 @@ void sad::layouts::Grid::setColumns(unsigned int cols)
     m_cols = cols;
     if (oldcols != m_cols)
     {
-        this->update();
+        if (!m_loading)
+        {
+            this->update();
+        }
     }
 }
 
@@ -298,7 +304,10 @@ void sad::layouts::Grid::setPaddingTop(double value, bool propagate)
         {
             m_cells[i]->setPaddingTop(value, false);
         }
-        this->update();
+        if (!m_loading)
+        {
+            this->update();
+        }
     }
 }
 
@@ -321,7 +330,10 @@ void sad::layouts::Grid::setPaddingBottom(double value, bool propagate)
         {
             m_cells[i]->setPaddingBottom(value, false);
         }
-        this->update();
+        if (!m_loading)
+        {
+            this->update();
+        }
     }
 }
 
@@ -344,7 +356,10 @@ void sad::layouts::Grid::setPaddingLeft(double value, bool propagate)
         {
             m_cells[i]->setPaddingLeft(value, false);
         }
-        this->update();
+        if (!m_loading)
+        {
+            this->update();
+        }
     }
 }
 
@@ -367,7 +382,10 @@ void sad::layouts::Grid::setPaddingRight(double value, bool propagate)
         {
             m_cells[i]->setPaddingRight(value, false);
         }
-        this->update();
+        if (!m_loading)
+        {
+            this->update();
+        }
     }
 }
 

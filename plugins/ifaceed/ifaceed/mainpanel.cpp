@@ -1057,6 +1057,7 @@ void MainPanel::viewDatabase()
 
 
     m_editor->renderGrids()->synchronizeWithDatabase();
+    m_editor->renderGrids()->setEnabled(ui.cbLayoutShow->checkState() == Qt::Checked);
     sad::Renderer::ref()->unlockRendering();
 }
 
