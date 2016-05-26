@@ -1656,7 +1656,27 @@ void gui::actions::GridActions::cellVerticalAlignmentChanged(size_t row, size_t 
 // ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::GridActions::cellStackingTypeChanged(size_t row, size_t col, sad::layouts::StackingType newvalue)
 {
-    // TODO: Implement this
+    if (m_editor)
+    {
+        sad::layouts::Grid* grid = m_editor->shared()->activeGrid();
+        if (grid)
+        {
+            grid->cell(row, col)->setStackingType(newvalue);            
+        } 
+        else
+        {
+            grid = m_editor->shared()->selectedGrid();
+            if (grid)
+            {
+                history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_StackingType, sad::layouts::StackingType>* c = 
+                    new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_StackingType, sad::layouts::StackingType>(grid, row, col, "stacking_type");
+                c->setOldValue(grid->cell(row, col)->stackingType());
+                c->setNewValue(newvalue);
+                c->commitWithoutUpdatingUI(m_editor);
+                m_editor->history()->add(c);
+            }
+        }
+    }
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
