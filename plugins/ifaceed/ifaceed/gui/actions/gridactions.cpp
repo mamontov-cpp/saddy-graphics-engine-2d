@@ -1604,13 +1604,53 @@ void gui::actions::GridActions::cellHeightChanged(size_t row, size_t col, sad::l
 // ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::GridActions::cellHorizontalAlignmentChanged(size_t row, size_t col, sad::layouts::HorizontalAlignment newvalue)
 {
-    // TODO: Implement this
+    if (m_editor)
+    {
+        sad::layouts::Grid* grid = m_editor->shared()->activeGrid();
+        if (grid)
+        {
+            grid->cell(row, col)->setHorizontalAlignment(newvalue);            
+        } 
+        else
+        {
+            grid = m_editor->shared()->selectedGrid();
+            if (grid)
+            {
+                history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_HorizontalAlignment, sad::layouts::HorizontalAlignment>* c = 
+                    new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_HorizontalAlignment, sad::layouts::HorizontalAlignment>(grid, row, col, "halign");
+                c->setOldValue(grid->cell(row, col)->horizontalAlignment());
+                c->setNewValue(newvalue);
+                c->commitWithoutUpdatingUI(m_editor);
+                m_editor->history()->add(c);
+            }
+        }
+    }
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::GridActions::cellVerticalAlignmentChanged(size_t row, size_t col, sad::layouts::VerticalAlignment newvalue)
 {
-    // TODO: Implement this
+    if (m_editor)
+    {
+        sad::layouts::Grid* grid = m_editor->shared()->activeGrid();
+        if (grid)
+        {
+            grid->cell(row, col)->setVerticalAlignment(newvalue);            
+        } 
+        else
+        {
+            grid = m_editor->shared()->selectedGrid();
+            if (grid)
+            {
+                history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_VerticalAlignment, sad::layouts::VerticalAlignment>* c = 
+                    new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_VerticalAlignment, sad::layouts::VerticalAlignment>(grid, row, col, "valign");
+                c->setOldValue(grid->cell(row, col)->verticalAlignment());
+                c->setNewValue(newvalue);
+                c->commitWithoutUpdatingUI(m_editor);
+                m_editor->history()->add(c);
+            }
+        }
+    }
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
