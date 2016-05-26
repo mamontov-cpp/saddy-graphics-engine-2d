@@ -34,7 +34,8 @@ struct SadGridTests : tpunit::TestFixture
        TEST(SadGridTests::testAddTwoSpritesInFourRowsTable),
        TEST(SadGridTests::testAddTwoSpritesInFourColumnsTable),
        TEST(SadGridTests::testAddTwoSpritesInThreeRowsFourColumnsTable),
-       TEST(SadGridTests::testAddTwoSpritesExceedingFixedWidthOfTable)
+       TEST(SadGridTests::testAddTwoSpritesExceedingFixedWidthOfTable),
+       TEST(SadGridTests::testLayoutingWhenFixedWidthAndHeightAndContentIsLesser)
    ) {}
    // ReSharper disable once CppMemberFunctionMayBeStatic
    // ReSharper disable once CppMemberFunctionMayBeConst
@@ -502,6 +503,51 @@ struct SadGridTests : tpunit::TestFixture
             std::cout << str(fmt::Format("Resulted in {0};{1};{2};{3}\n") << rct[0].x() << rct[0].y() << rct.width() << rct.height());
             ASSERT_TRUE( false );
         }
+   }
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
+    /*! A case, when size of grid exceeds size of it's content and it has fixed width and height.
+        In that case, grid should not change it's area
+     */ 
+   void testLayoutingWhenFixedWidthAndHeightAndContentIsLesser()
+   {
+        sad::Sprite2D* sprite1 = new sad::Sprite2D("test", sad::Rect2D(0, 0, 800, 600), sad::Rect2D(400, 400, 600, 600));
+        sad::Sprite2D* sprite2 = new sad::Sprite2D("test", sad::Rect2D(0, 0, 800, 600), sad::Rect2D(400, 400, 600, 600));
+        sad::Sprite2D* sprite3 = new sad::Sprite2D("test", sad::Rect2D(0, 0, 800, 600), sad::Rect2D(400, 400, 600, 600));
+        sad::Sprite2D* sprite4 = new sad::Sprite2D("test", sad::Rect2D(0, 0, 800, 600), sad::Rect2D(400, 400, 600, 600));
+
+        sad::layouts::Grid* grid = new sad::layouts::Grid();
+        grid->setFixedWidth(true);
+        grid->setFixedHeight(true);
+        grid->setRows(2);
+        grid->setColumns(2);
+        grid->setArea(sad::Rect2D(0, 0, 1000, 1000));
+        sad::db::Database* db = new sad::db::Database();
+        sad::db::Table* tbl = new sad::db::Table();
+        sad::Renderer r;
+        r.addDatabase("", db);
+        db->setRenderer(&r);
+        tbl->setDatabase(db);
+        db->addTable("", tbl);
+
+        sprite1->setTable(tbl);
+        sprite2->setTable(tbl);
+        sprite3->setTable(tbl);
+        sprite4->setTable(tbl);
+        grid->setTable(tbl);
+
+        tbl->add(sprite1);
+        tbl->add(sprite2);
+        tbl->add(grid);
+
+        grid->cell(0, 0)->addChild(sprite1->MajorId);
+        grid->cell(0, 1)->addChild(sprite2->MajorId);
+        grid->cell(1, 0)->addChild(sprite3->MajorId);
+        grid->cell(1, 1)->addChild(sprite4->MajorId);
+
+        sad::Rect2D rct = grid->area();
+        ASSERT_TRUE( sad::is_fuzzy_equal(rct.width(), 1000) );
+        ASSERT_TRUE( sad::is_fuzzy_equal(rct.height(), 1000) );
    }
 
 } _sad_grid_tests;
