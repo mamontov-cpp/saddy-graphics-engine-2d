@@ -588,6 +588,10 @@ bool sad::layouts::Grid::merge(size_t row, size_t col, size_t row_span, size_t c
 
 bool sad::layouts::Grid::split(size_t row, size_t col, size_t row_span, size_t col_span)
 {
+    if ((row + row_span > m_rows) || (col + col_span) > m_cols)
+    {
+        return false;
+    }
     sad::layouts::Cell* cell = NULL;
     for(size_t i = 0; i < m_cells.size(); i++)
     {
