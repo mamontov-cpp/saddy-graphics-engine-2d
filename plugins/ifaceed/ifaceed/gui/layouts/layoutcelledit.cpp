@@ -470,6 +470,16 @@ void gui::layouts::LayoutCellEdit::widthUnitChanged(int unit)
         sad::layouts::LengthValue value;
         value.Value  = m_width_value->value();
         value.Unit = static_cast<sad::layouts::Unit>(unit);
+        if (value.Unit != sad::layouts::LU_Auto) {
+            m_width_value->setEnabled(true);
+        } else {
+            m_width_value->setEnabled(false);
+        }
+        if (value.Unit == sad::layouts::LU_Percents) {
+            if (value.Value > 100) {
+                value.Value = 100;
+            }
+        }
 
         emit widthChanged(Row, Col, value);	
     }
@@ -491,6 +501,16 @@ void gui::layouts::LayoutCellEdit::heightUnitChanged(int unit)
         sad::layouts::LengthValue value;
         value.Value  = m_height_value->value();
         value.Unit = static_cast<sad::layouts::Unit>(unit);
+        if (value.Unit != sad::layouts::LU_Auto) {
+            m_height_value->setEnabled(true);
+        } else {
+            m_height_value->setEnabled(false);
+        }
+        if (value.Unit == sad::layouts::LU_Percents) {
+            if (value.Value > 100) {
+                value.Value = 100;
+            }
+        }
 
         emit heightChanged(Row, Col, value);	
     }

@@ -1592,13 +1592,55 @@ void  gui::actions::GridActions::nameChanged(const QString &text)
 // ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::GridActions::cellWidthChanged(size_t row, size_t col, sad::layouts::LengthValue newvalue)
 {
-    // TODO: Implement this
+    if (m_editor)
+    {
+        sad::layouts::Grid* grid = m_editor->shared()->activeGrid();
+        if (grid)
+        {
+            grid->cell(row, col)->setWidth(newvalue);
+        }
+        else
+        {
+            grid = m_editor->shared()->selectedGrid();
+            if (grid)
+            {
+                history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_Width, sad::layouts::LengthValue>* c =
+                    new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_Width, sad::layouts::LengthValue>(grid, row, col, "width");
+                c->setOldValue(grid->cell(row, col)->width());
+                c->setNewValue(newvalue);
+                c->markAsCouldChangeRegion();
+                c->commitWithoutUpdatingUI(m_editor);
+                m_editor->history()->add(c);
+            }
+        }
+    }
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::GridActions::cellHeightChanged(size_t row, size_t col, sad::layouts::LengthValue newvalue)
 {
-    // TODO: Implement this
+    if (m_editor)
+    {
+        sad::layouts::Grid* grid = m_editor->shared()->activeGrid();
+        if (grid)
+        {
+            grid->cell(row, col)->setHeight(newvalue);
+        }
+        else
+        {
+            grid = m_editor->shared()->selectedGrid();
+            if (grid)
+            {
+                history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_Height, sad::layouts::LengthValue>* c =
+                    new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_Height, sad::layouts::LengthValue>(grid, row, col, "height");
+                c->setOldValue(grid->cell(row, col)->height());
+                c->setNewValue(newvalue);
+                c->markAsCouldChangeRegion();
+                c->commitWithoutUpdatingUI(m_editor);
+                m_editor->history()->add(c);
+            }
+        }
+    }
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
@@ -1672,6 +1714,7 @@ void gui::actions::GridActions::cellStackingTypeChanged(size_t row, size_t col, 
                     new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_StackingType, sad::layouts::StackingType>(grid, row, col, "stacking_type");
                 c->setOldValue(grid->cell(row, col)->stackingType());
                 c->setNewValue(newvalue);
+                c->markAsCouldChangeRegion();
                 c->commitWithoutUpdatingUI(m_editor);
                 m_editor->history()->add(c);
             }
@@ -1698,6 +1741,7 @@ void gui::actions::GridActions::cellTopPaddingChanged(size_t row, size_t col, do
                     new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_TopPadding, double>(grid, row, col, "padding_top");
                 c->setOldValue(grid->cell(row, col)->stackingType());
                 c->setNewValue(newvalue);
+                c->markAsCouldChangeRegion();
                 c->commitWithoutUpdatingUI(m_editor);
                 m_editor->history()->add(c);
             }
@@ -1724,6 +1768,7 @@ void gui::actions::GridActions::cellBottomPaddingChanged(size_t row, size_t col,
                     new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_BottomPadding, double>(grid, row, col, "padding_bottom");
                 c->setOldValue(grid->cell(row, col)->stackingType());
                 c->setNewValue(newvalue);
+                c->markAsCouldChangeRegion();
                 c->commitWithoutUpdatingUI(m_editor);
                 m_editor->history()->add(c);
             }
@@ -1750,6 +1795,7 @@ void gui::actions::GridActions::cellLeftPaddingChanged(size_t row, size_t col, d
                     new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_LeftPadding, double>(grid, row, col, "padding_left");
                 c->setOldValue(grid->cell(row, col)->stackingType());
                 c->setNewValue(newvalue);
+                c->markAsCouldChangeRegion();
                 c->commitWithoutUpdatingUI(m_editor);
                 m_editor->history()->add(c);
             }
@@ -1776,6 +1822,7 @@ void gui::actions::GridActions::cellRightPaddingChanged(size_t row, size_t col, 
                     new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_RightPadding, double>(grid, row, col, "padding_right");
                 c->setOldValue(grid->cell(row, col)->stackingType());
                 c->setNewValue(newvalue);
+                c->markAsCouldChangeRegion();
                 c->commitWithoutUpdatingUI(m_editor);
                 m_editor->history()->add(c);
             }
