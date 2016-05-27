@@ -224,10 +224,6 @@ void sad::layouts::Cell::update()
     sad::Point2D& maxpoint = normalized._2();
 
     // Get rid of annoying paddings
-    minpoint.setX(minpoint.x() + this->paddingLeft());
-    maxpoint.setX(maxpoint.x() - this->paddingRight());
-    minpoint.setY(minpoint.y() + this->paddingBottom());
-    maxpoint.setY(maxpoint.y() - this->paddingTop());
     double assignedwidth =  (maxpoint.x() - minpoint.x());
     double assignedheight = (maxpoint.y() - minpoint.y());
 
@@ -237,6 +233,8 @@ void sad::layouts::Cell::update()
     // Compute preferred size, which we can relate to, when layouting data
     // Normalized rectangles are already computed, so we could futher use them
     sad::Size2D size = this->preferredSize();
+    size.Width -= this->paddingLeft() + this->paddingRight();
+    size.Height -= this->paddingTop() + this->paddingBottom();
     switch(this->stackingType())
     {
     case sad::layouts::LST_Horizontal: this->applyHorizontalAlignment(minpoint, maxpoint, assignedheight, size); break;
@@ -767,13 +765,13 @@ void sad::layouts::Cell::applyHorizontalAlignment(const sad::Point2D& minpoint,c
     switch(this->horizontalAlignment())
     {
     case sad::layouts::LHA_Left:
-        startingpointx = minpoint.x();
+        startingpointx = minpoint.x() + this->paddingLeft();
         break;
     case sad::layouts::LHA_Middle:
-        startingpointx = (minpoint.x() + maxpoint.x() - size.Width * factor) / 2;
+        startingpointx = this->paddingLeft() + (minpoint.x() + maxpoint.x() - this->paddingLeft() - this->paddingRight() - size.Width * factor) / 2;
         break;
     case sad::layouts::LHA_Right:
-        startingpointx = maxpoint.x() - size.Width * factor;
+        startingpointx = maxpoint.x() - size.Width * factor - this->paddingRight();
         break;
     };
     size_t current_rectangle = 0;
@@ -785,14 +783,14 @@ void sad::layouts::Cell::applyHorizontalAlignment(const sad::Point2D& minpoint,c
             const sad::layouts::Cell::NormalizedRectangle& childrect = m_normalized_children[current_rectangle];
             double childheight = childrect.p2().y() - childrect.p1().y();
             double childwidth = childrect.p2().x() - childrect.p1().x();
-            double posy = maxpoint.y();
+            double posy = maxpoint.y() - this->paddingTop();
             if (this->verticalAlignment() == sad::layouts::LVA_Bottom)
             {
-                posy = minpoint.y() + childheight;
+                posy = minpoint.y() + this->paddingBottom() + childheight;
             }
             if (this->verticalAlignment() == sad::layouts::LVA_Middle)
             {
-                posy = minpoint.y() + (assignedheight + childheight) / 2.0;
+                posy = minpoint.y() + this->paddingBottom() + (assignedheight - this->paddingTop() - this->paddingBottom() + childheight) / 2.0;
             }
             node->moveBy(sad::Point2D(startingpointx - childrect.p1().x(), posy - childrect.p2().y()));
 
@@ -817,13 +815,13 @@ void sad::layouts::Cell::applyVerticalAlignment(const sad::Point2D& minpoint,con
     switch(this->verticalAlignment())
     {
         case sad::layouts::LVA_Top:
-            startingpointy = maxpoint.y();
+            startingpointy = maxpoint.y() - this->paddingTop();
             break;
         case sad::layouts::LVA_Middle:
-            startingpointy = (minpoint.y() + maxpoint.y() + size.Height * factor) / 2;
+            startingpointy = (minpoint.y() + maxpoint.y() - this->paddingBottom() - this->paddingTop() + size.Height * factor) / 2 + this->paddingBottom();
             break;
         case sad::layouts::LVA_Bottom:
-            startingpointy = minpoint.y() + size.Height * factor;
+            startingpointy = minpoint.y() + size.Height * factor + this->paddingBottom();
             break;
     };
     size_t current_rectangle = 0;
@@ -835,14 +833,14 @@ void sad::layouts::Cell::applyVerticalAlignment(const sad::Point2D& minpoint,con
             const sad::layouts::Cell::NormalizedRectangle& childrect = m_normalized_children[current_rectangle];
             double childheight = childrect.p2().y() - childrect.p1().y();
             double childwidth = childrect.p2().x() - childrect.p1().x();
-            double posx = minpoint.x();
+            double posx = minpoint.x() + this->paddingLeft();
             if (this->horizontalAlignment() == sad::layouts::LHA_Right)
             {
-                posx = minpoint.x() - childwidth;
+                posx = maxpoint.x() - childwidth - this->paddingRight();
             }
             if (this->horizontalAlignment() == sad::layouts::LHA_Middle)
             {
-                posx = minpoint.x() + (assignedwidth - childwidth) / 2.0;
+                posx = minpoint.x() + this->paddingLeft() + (assignedwidth  - this->paddingLeft() - this->paddingRight()  - childwidth) / 2.0;
             }
             node->moveBy(sad::Point2D(posx - childrect.p1().x(), startingpointy - childrect.p2().y()));
 
@@ -855,6 +853,8 @@ void sad::layouts::Cell::applyVerticalAlignment(const sad::Point2D& minpoint,con
 void sad::layouts::Cell::applyNoStackingAlinment(const sad::Point2D& minpoint, const sad::Point2D& maxpoint, double assignedwidth, double assignedheight,  const sad::Size2D& size)
 {
     size_t current_rectangle = 0;
+    double padx = this->paddingLeft() + this->paddingRight();
+    double pady = this->paddingTop() + this->paddingBottom();
     for(size_t i = 0; i < this->m_children.size(); i++)
     {
         sad::SceneNode* node = m_children[i]->value();
@@ -863,24 +863,24 @@ void sad::layouts::Cell::applyNoStackingAlinment(const sad::Point2D& minpoint, c
             const sad::layouts::Cell::NormalizedRectangle& childrect = m_normalized_children[current_rectangle];
             double childheight = childrect.p2().y() - childrect.p1().y();
             double childwidth = childrect.p2().x() - childrect.p1().x();
-            double posx = minpoint.x();
+            double posx = minpoint.x() + this->paddingLeft();
             if (this->horizontalAlignment() == sad::layouts::LHA_Right)
             {
-                posx = minpoint.x() - childwidth;
+                posx = maxpoint.x() - childwidth - this->paddingRight();
             }
             if (this->horizontalAlignment() == sad::layouts::LHA_Middle)
             {
-                posx = minpoint.x() + (assignedwidth - childwidth) / 2.0;
+                posx = minpoint.x() + this->paddingLeft() + (assignedwidth - padx - childwidth) / 2.0;
             }
 
-            double posy = maxpoint.y();
+            double posy = maxpoint.y() - this->paddingTop();
             if (this->verticalAlignment() == sad::layouts::LVA_Bottom)
             {
-                posy = minpoint.y() + childheight;
+                posy = minpoint.y() + childheight + this->paddingBottom();
             }
             if (this->verticalAlignment() == sad::layouts::LVA_Middle)
             {
-                posy = minpoint.y() + (assignedheight + childheight) / 2.0;
+                posy = minpoint.y() + this->paddingBottom() + (assignedheight - pady + childheight) / 2.0;
             }
             node->moveBy(sad::Point2D(posx - childrect.p1().x(), posy - childrect.p2().y()));
 
