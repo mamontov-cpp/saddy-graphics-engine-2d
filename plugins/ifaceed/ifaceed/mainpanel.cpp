@@ -716,6 +716,8 @@ void MainPanel::setEditor(core::Editor* editor)
     connect(ui.dsbLayoutPaddingBottom, SIGNAL(valueChanged(double)), ga_actions, SLOT(bottomPaddingChanged(double)));
     connect(ui.dsbLayoutPaddingLeft, SIGNAL(valueChanged(double)), ga_actions, SLOT(leftPaddingChanged(double)));
     connect(ui.dsbLayoutPaddingRight, SIGNAL(valueChanged(double)), ga_actions, SLOT(rightPaddingChanged(double)));
+    connect(ui.btnLayoutMerge, SIGNAL(clicked()), ga_actions, SLOT(mergeButtonClicked()));
+    connect(ui.btnLayoutSplit, SIGNAL(clicked()), ga_actions, SLOT(splitButtonClicked()));
 
     connect(ui.lstWays, SIGNAL(currentRowChanged(int)), w_actions, SLOT(wayChanged(int)));
     connect(ui.btnWayAdd, SIGNAL(clicked()), w_actions, SLOT(addWay()));

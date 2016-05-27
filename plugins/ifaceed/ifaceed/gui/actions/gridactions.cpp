@@ -1853,6 +1853,23 @@ void gui::actions::GridActions::cellChildrenSwapped(size_t row, size_t col, size
     m_editor->history()->add(c);
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
+void gui::actions::GridActions::mergeButtonClicked()
+{
+    if (m_editor)
+    {
+        // TODO: Implement it
+    }
+}
+
+void gui::actions::GridActions::splitButtonClicked()
+{
+    if (m_editor)
+    {
+        // TODO: Implement it
+    }
+}
+
 // =============================== PRIVATE METHODS ===============================
 
 sad::layouts::Grid* gui::actions::GridActions::prepareGridForAdding()

@@ -670,6 +670,12 @@ public slots:
         \param[in] pos2 a second position of item
      */
     void cellChildrenSwapped(size_t row, size_t col, size_t pos1, size_t pos2);
+    /*! Emitted, when user clicks "Merge" button with intent of merging cell range into one
+     */
+    void mergeButtonClicked();
+    /*! Emitted, when user clicks "Split" button with intent of splitting cell range
+     */
+    void splitButtonClicked();
 private:
     /*! Prepares grid for adding into form
         \return created grid
