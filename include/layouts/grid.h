@@ -290,6 +290,45 @@ private:
         \param[out] coverage a coverage for cells
      */
     void buildCoverage(sad::Hash<size_t, sad::Hash<size_t, sad::Vector<size_t> > >& coverage) const;  
+    /*! Makes new cell with specified row and columng
+        \param[in] row a row 
+        \param[in] col a column
+        \param[in] rowspan amount of spanning rows
+        \param[in] colspan amount of spanning columnns
+     */
+    sad::layouts::Cell* makeCell(size_t row, size_t col, size_t rowspan, size_t colspan);
+    /*! A Computes a list of cells, that are affected by changes of region
+        \param[in] row a row of affected region
+        \param[in] col a column of affected region
+        \param[in] rowspan amount of spanning rows for affected region
+        \param[in] colspan amount of spanning columnns for affected region
+        \param[out] affected_cells a list of affected cells
+     */
+    void cellsAffectedByRegion(
+        size_t row, 
+        size_t col, 
+        size_t rowspan, 
+        size_t colspan,
+        sad::Hash<size_t, sad::layouts::Cell*>& affected_cells
+    );
+    /*! Recalculates spans of affected cells
+        \param[in] row a row of affected region
+        \param[in] col a column of affected region
+        \param[in] rowspan amount of spanning rows for affected region
+        \param[in] colspan amount of spanning columnns for affected region
+        \param[in] merge true if we merging cells, false otherwise
+        \param[in] affected_cells a list of affected cells
+        \param[out] to_be_erased a list of cells to be erased
+     */
+    void recalculateSpansOfAffectedCells(
+        size_t row, 
+        size_t col, 
+        size_t rowspan, 
+        size_t colspan,
+        bool merge,
+        const sad::Hash<size_t, sad::layouts::Cell*>& affected_cells,
+        sad::Vector<sad::layouts::Cell*>& to_be_erased
+    );
     /*! An area for a grid
      */
     sad::Rect2D m_area;

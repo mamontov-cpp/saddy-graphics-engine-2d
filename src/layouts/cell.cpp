@@ -674,9 +674,9 @@ void sad::layouts::Cell::setRowSpan(unsigned int rows)
     }
 }
 
-void sad::layouts::Cell::setColSpan(unsigned int rows)
+void sad::layouts::Cell::setColSpan(unsigned int cols)
 {
-    m_col_span = rows;
+    m_col_span = cols;
     if (m_col_span < 1)
     {
         m_col_span = 1;

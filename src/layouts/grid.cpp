@@ -9,7 +9,7 @@
 #include "renderer.h"
 #include "primitiverenderer.h"
 #include "sadmutex.h"
-#include "fuzzyequal.h"
+#include "geometry2d.h"
 
 #include <stdexcept>
 #include <numeric>
@@ -538,103 +538,76 @@ struct CellComparator {
 
 bool sad::layouts::Grid::merge(size_t row, size_t col, size_t row_span, size_t col_span)
 {
-    if ((row + row_span > m_rows) || (col + col_span) > m_cols)
+    if (((row + row_span > m_rows)) || ((col + col_span) > m_cols) || (row_span == 0) || (col_span == 0))
     {
         return false;
     }
-    sad::Vector<sad::layouts::Cell*> merging_cells;
-    for(size_t i = 0; i < row_span; i++)
+    sad::Hash<size_t, sad::layouts::Cell*> cells_to_be_trimmed;
+    this->cellsAffectedByRegion(row, col, row_span, col_span, cells_to_be_trimmed);
+    size_t hash = row * m_cols + col;
+    sad::layouts::Cell* cell;
+    if (cells_to_be_trimmed.contains(hash))
     {
-        for(size_t j = 0; j < col_span; j++)
+        cell = cells_to_be_trimmed[hash];
+    }
+    else
+    {
+        cell = this->makeCell(row, col, 1, 1);
+        m_cells << cell;
+    }
+
+    sad::Vector<sad::layouts::Cell*> to_be_erased;
+    this->recalculateSpansOfAffectedCells(row, col, row_span, col_span, false, cells_to_be_trimmed, to_be_erased);
+    
+    CellComparator less;
+
+    std::unique(to_be_erased.begin(), to_be_erased.end()); //-V530
+    std::sort(to_be_erased.begin(), to_be_erased.end(), less);
+    for(size_t i = 0; i < to_be_erased.size(); i++)
+    {
+        for(size_t j = 0; j < to_be_erased[i]->m_children.size(); j++)
         {
-            merging_cells << cell(row + i, col + j);
+            cell->m_children << to_be_erased[i]->m_children[j];
         }
-    }
-    std::unique(merging_cells.begin(), merging_cells.end()); //-V530
-    bool result = true;
-    for(size_t i = 0; i < merging_cells.size(); i++)
-    {
-        sad::layouts::Cell* cell = merging_cells[i];
-        if ((cell->Row < row) 
-            || (cell->Col < col)
-            || ((cell->Row + cell->rowSpan()) > (row + row_span)) 
-            || ((cell->Col + cell->colSpan()) > (col + col_span)) )
-        {
-            result = false;
-        }
-    }
-    if (result)
-    {
-        CellComparator less;
-        std::sort(merging_cells.begin(), merging_cells.end(), less);
-        sad::layouts::Cell* target_cell = merging_cells[0];
-        for(size_t i = 1; i < merging_cells.size(); i++)
-        {
-            for(size_t j = 0; j < merging_cells[i]->m_children.size(); j++)
-            {
-                target_cell->m_children << merging_cells[i]->m_children[j];
-            }
-            merging_cells[i]->m_children.clear();
-            delete merging_cells[i];
-            m_cells.removeAll(merging_cells[i]);
-        }       
-        target_cell->setRowSpan(row_span);
-        target_cell->setColSpan(col_span);      
-        makeCellViews();
-        this->update();
-    }
-    return result;
+        to_be_erased[i]->m_children.clear();
+        delete to_be_erased[i];
+        m_cells.removeAll(to_be_erased[i]);
+    }       
+    cell->setRowSpan(row_span);
+    cell->setColSpan(col_span);  
+    std::sort(m_cells.begin(), m_cells.end(), less);
+    makeCellViews();
+    this->update();
+    return true;
 }
 
 bool sad::layouts::Grid::split(size_t row, size_t col, size_t row_span, size_t col_span)
 {
-    if ((row + row_span > m_rows) || (col + col_span) > m_cols)
+    if ((row + row_span > m_rows) || ((col + col_span) > m_cols) || (row_span == 0) || (col_span == 0))
     {
         return false;
     }
-    sad::layouts::Cell* cell = NULL;
-    for(size_t i = 0; i < m_cells.size(); i++)
+    sad::Hash<size_t, sad::layouts::Cell*> cells_to_be_trimmed;
+    this->cellsAffectedByRegion(row, col, row_span, col_span, cells_to_be_trimmed);
+    // Make new cells to fill free place, after old cells will return to their old state
+    for(size_t i = 0; i < row_span; i++)
     {
-        if (m_cells[i]->Row == row 
-            && m_cells[i]->Col == col
-            && m_cells[i]->rowSpan() == row_span
-            && m_cells[i]->colSpan() == col_span)
+        for(size_t j = 0; j < col_span; j++)
         {
-            cell = m_cells[i];
-        }           
-    }
-    bool result = false;
-    sad::db::Database* db = this->table()->database();
-    if (cell != NULL)
-    {
-        result = true;
-        for(size_t i = 0; i < row_span; i++)
-        {
-            for(size_t j = 0; j < col_span; j++)
+            size_t pos = (row + i) * m_cols + (col + j);
+            if (cells_to_be_trimmed.contains(pos) == false)
             {
-                if ((i != 0) || (j != 0))
-                {
-                    sad::layouts::Cell* newcell = new sad::layouts::Cell();
-                    newcell->setGrid(this);
-                    newcell->setDatabase(db);
-                    newcell->setPaddingBottom(m_padding_bottom, false);
-                    newcell->setPaddingTop(m_padding_top, false);
-                    newcell->setPaddingLeft(m_padding_left, false);
-                    newcell->setPaddingRight(m_padding_right, false);
-                    newcell->Row = row + i;
-                    newcell->Col = col + j;
-                    m_cells << newcell;
-                }
+                m_cells << this->makeCell(row + i, col + j, 1, 1);
             }
         }
-        cell->setRowSpan(1);
-        cell->setColSpan(1);
-        CellComparator less;
-        std::sort(m_cells.begin(), m_cells.end(), less);
-        makeCellViews();
-        this->update();
     }
-    return result;
+    sad::Vector<sad::layouts::Cell*> tmp;
+    this->recalculateSpansOfAffectedCells(row, col, row_span, col_span, false, cells_to_be_trimmed, tmp);
+    CellComparator less;
+    std::sort(m_cells.begin(), m_cells.end(), less);
+    makeCellViews();
+    this->update();
+    return true;
 }
 
 void sad::layouts::Grid::update()
@@ -1123,6 +1096,405 @@ void sad::layouts::Grid::buildCoverage(sad::Hash<size_t, sad::Hash<size_t, sad::
                 }
                 sad::Vector<size_t>& vec = coltopos[curcol];
                 vec << i;
+            }
+        }
+    }
+}
+
+sad::layouts::Cell* sad::layouts::Grid::makeCell(size_t row, size_t col, size_t rowspan, size_t colspan)
+{
+    sad::db::Database* db = NULL;
+    if (this->table())
+    {
+        db = this->table()->database();
+    }
+    sad::layouts::Cell* newcell = new sad::layouts::Cell();
+    newcell->setGrid(this);
+    newcell->setDatabase(db);
+    newcell->setPaddingBottom(m_padding_bottom, false);
+    newcell->setPaddingTop(m_padding_top, false);
+    newcell->setPaddingLeft(m_padding_left, false);
+    newcell->setPaddingRight(m_padding_right, false);
+    newcell->Row = row;
+    newcell->Col = col;
+    newcell->setRowSpan(rowspan);
+    newcell->setColSpan(colspan);
+
+    return newcell;
+}
+
+
+void sad::layouts::Grid::cellsAffectedByRegion(
+    size_t row, 
+    size_t col, 
+    size_t rowspan, 
+    size_t colspan,
+    sad::Hash<size_t, sad::layouts::Cell*>& affected_cells
+)
+{
+    size_t rangerowmax = row + rowspan - 1;
+    size_t rangecolmax = col + colspan - 1;
+    for(size_t i = 0; i < m_cells.size(); i++)
+    {
+        unsigned int rowmin = m_cells[i]->Row;
+        unsigned int colmin = m_cells[i]->Col;
+        unsigned int rowmax = m_cells[i]->Row + m_cells[i]->rowSpan() - 1;
+        unsigned int colmax = m_cells[i]->Col + m_cells[i]->colSpan() - 1;
+        
+        if (sad::collides1D<size_t>(row, rangerowmax, rowmin, rowmax) && sad::collides1D<size_t>(col, rangecolmax, colmin, colmax))
+        {
+            affected_cells.insert(m_cells[i]->Row * m_cols + m_cells[i]->Col, m_cells[i]);
+        }           
+    }    
+}
+
+void sad::layouts::Grid::recalculateSpansOfAffectedCells(
+    size_t row, 
+    size_t col, 
+    size_t rowspan, 
+    size_t colspan,
+    bool merge,
+    const sad::Hash<size_t, sad::layouts::Cell*>& affected_cells,
+    sad::Vector<sad::layouts::Cell*>& to_be_erased
+)
+{
+    size_t rangerowmax = row + rowspan - 1;
+    size_t rangecolmax = col + colspan - 1;
+    for(sad::Hash<size_t, sad::layouts::Cell*>::const_iterator it = affected_cells.const_begin(); it != affected_cells.const_end(); ++it) {
+        sad::layouts::Cell* cell = it.value();
+        unsigned int rowmin = cell->Row;
+        unsigned int colmin = cell->Col;
+        unsigned int rowmax = cell->Row + cell->rowSpan() - 1;
+        unsigned int colmax = cell->Col + cell->colSpan() - 1;
+    //  Template for handled case descriptions
+    //  Vertical bounds describe affected region, top-left and bottom right points of cell are marked with vertical lines
+    //  _1,1_  _1,2_  _1,3_  |  _1,4_  _1,5_   |  _1,6_  _1,7_  _1,8_
+    //  _2,1_  _2,2_  _2,3_  |  _2,4_  _2,5_   |  _2,6_  _2,7_  _2,8_
+    //  _____________________________________________________________
+    //  _3,1_  _3,2_  _3,3_  |  _3,4_  _3,5_   |  _3,6_  _3,7_  _3,8_
+    //  _4,1_  _4,2_  _4,3_  |  _4,4_  _4,5_   |  _4,6_  _4,7_  _4,8_
+    //  _____________________________________________________________
+    //  _5,1_  _5,2_  _5,3_  |  _5,4_  _5,5_   |  _5,6_  _5,7_  _5,8_
+    //  _6,1_  _6,2_  _6,3_  |  _6,4_  _6,5_   |  _6,6_  _6,7_  _6,8_                    
+
+        if (rowmin < row)
+        {
+            if (colmin < col)
+            {
+                // Case when row and column are in left top corner from range
+                if (colmax <= rangecolmax)
+                {
+                    //  Handle cases, like following: 
+                    //  Vertical bounds describe affected region, top-left and bottom right points of cell are marked with vertical lines
+                    //  *******************     ************
+                    //  |1,1|  _1,2_  _1,3*  |  *1,4_  _1,5*   |  _1,6_  _1,7_  _1,8_
+                    //  *2,1_  _2,2_  _2,3*  |  *2,4_  _2,5*   |  _2,6_  _2,7_  _2,8_
+                    //  ________________________************_________________________
+                    //  *3,1_  _3,2_  _3,3*  |  _3,4_  _3,5_   |  _3,6_  _3,7_  _3,8_
+                    //  *4,1_  _4,2_  _4,3*  |  _4,4_  |4,5|   |  _4,6_  _4,7_  _4,8_
+                    //  *******************__________________________________________
+                    //  _5,1_  _5,2_  _5,3_  |  _5,4_  _5,5_   |  _5,6_  _5,7_  _5,8_
+                    //  _6,1_  _6,2_  _6,3_  |  _6,4_  _6,5_   |  _6,6_  _6,7_  _6,8_                    
+                    if (rowmax <= rangerowmax) 
+                    {
+                        // Split onto part before affected region and on top of it
+                        cell->setColSpan(col - colmin);
+                        m_cells << this->makeCell(rowmin, col, row - rowmin, colmax - col + 1);
+                    }
+                    //  Handle cases, like following: 
+                    //  Vertical bounds describe affected region, top-left and bottom right points of cell are marked with vertical lines
+                    //  *******************     ************
+                    //  |1,1|  _1,2_  _1,3*  |  *1,4_  _1,5*   |  _1,6_  _1,7_  _1,8_
+                    //  *2,1_  _2,2_  _2,3*  |  *2,4_  _2,5*   |  _2,6_  _2,7_  _2,8_
+                    //  ________________________************_________________________
+                    //  *3,1_  _3,2_  _3,3*  |  _3,4_  _3,5_   |  _3,6_  _3,7_  _3,8_
+                    //  *4,1_  _4,2_  _4,3*  |  _4,4_  _4,5_   |  _4,6_  _4,7_  _4,8_
+                    //  _____________________________________________________________
+                    //                       |  *************  |
+                    //  _5,1_  _5,2_  _5,3_  |  *5,4_  |5,5|*  |  _5,6_  _5,7_  _5,8_
+                    //  *******************  |  *************  |
+                    //  _6,1_  _6,2_  _6,3_  |  _6,4_  _6,5_   |  _6,6_  _6,7_  _6,8_ 
+                    else
+                    {
+                        // Split onto part before affected region, on top of it and on bottom of it
+                        cell->setColSpan(col - colmin);
+                        m_cells << this->makeCell(rowmin, col, row - rowmin, colmax - col + 1);
+                        m_cells << this->makeCell(rangerowmax + 1, col, rowmax - rangerowmax, colmax - col + 1);
+                    }
+                }
+                else
+                {
+                    //  Handle cases, like following: 
+                    //  Vertical bounds describe affected region, top-left and bottom right points of cell are marked with vertical lines
+                    //  *********************     **************     ***************
+                    //  *|1,1|  _1,2_  _1,3_*  |  *_1,4_  _1,5_*   | *_1,6_   _1,7_*  _1,8_
+                    //  *_2,1_  _2,2_  _2,3_*  |  *_2,4_  _2,5_*   | *_2,6_   _2,7_*  _2,8_
+                    //  __________________________**************_____*_____________*_______
+                    //  *_3,1_  _3,2_  _3,3_*  |   _3,4_  _3,5_    | *_3,6_   |3,7|*  _3,8_
+                    //  *********************                        **************
+                    //   _4,1_  _4,2_  _4,3_   |   _4,4_  _4,5_    |  _4,6_   _4,7_   _4,8_
+                    //  _____________________________________________________________
+                    //   _5,1_  _5,2_  _5,3_   |   _5,4_  _5,5_    |  _5,6_   _5,7_   _5,8_
+                    //   _6,1_  _6,2_  _6,3_   |   _6,4_  _6,5_    |  _6,6_   _6,7_   _6,8_ 
+                    if (rowmax <= rangerowmax) 
+                    {
+                        // Split onto part before affected region, on top of it and behind it
+                        cell->setColSpan(col - colmin);
+                        m_cells << this->makeCell(rowmin, col, row - rowmin, rangecolmax - col + 1);
+                        m_cells << this->makeCell(rowmin, rangecolmax + 1, rowmax - rowmin + 1, colmax - rangecolmax);
+                    }
+                    //  Handle cases, like following: 
+                    //  Vertical bounds describe affected region, top-left and bottom right points of cell are marked with vertical lines
+                    //  *********************     **************     ***************
+                    //  *|1,1|  _1,2_  _1,3_*  |  *_1,4_  _1,5_*   | *_1,6_   _1,7_*  _1,8_
+                    //  *_2,1_  _2,2_  _2,3_*  |  *_2,4_  _2,5_*   | *_2,6_   _2,7_*  _2,8_
+                    //  __________________________**************_____*_____________*_______
+                    //  *_3,1_  _3,2_  _3,3_*  |   _3,4_  _3,5_    | *_3,6_   _3,7_*  _3,8_
+                    //  *_4,1_  _4,2_  _4,3_*  |   _4,4_  _4,5_    | *_4,6_   _4,7_*  _4,8_
+                    //  __________________________**************_____*_____________*_______
+                    //  *_5,1_  _5,2_  _5,3_*  |  *_5,4_  _5,5_*   | *_5,6_   |5,7|*  _5,8_
+                    //  *********************     **************     ***************
+                    //   _6,1_  _6,2_  _6,3_   |   _6,4_  _6,5_    |  _6,6_   _6,7_  _6,8_ 
+                    else
+                    {
+                        // Split onto part before affected region, on top of it, on bottom of it and behind it
+                        cell->setColSpan(col - colmin);
+                        m_cells << this->makeCell(rowmin, col, row - rowmin, rangecolmax - col + 1);
+                        m_cells << this->makeCell(rangerowmax + 1, col, row - rangerowmax, rangecolmax - col + 1);
+                        m_cells << this->makeCell(rowmin, rangecolmax + 1, rowmax - rowmin + 1, colmax - rangecolmax);
+                    }
+                }
+            }
+            else
+            {
+                // Case when row and column in top middle part of region
+                if (colmax <= rangecolmax)
+                {
+                    //  Handle cases, like:
+                    //                          **************
+                    //  _1,1_  _1,2_  _1,3_  |  *|1,4|  _1,5_*   |  _1,6_  _1,7_  _1,8_
+                    //  _2,1_  _2,2_  _2,3_  |  *_2,4_  _2,5_*   |  _2,6_  _2,7_  _2,8_
+                    //  ________________________**************_________________________
+                    //  _3,1_  _3,2_  _3,3_  |   _3,4_  _3,5_    |  _3,6_  _3,7_  _3,8_
+                    //  _4,1_  _4,2_  _4,3_  |   _4,4_  |4,5|    |  _4,6_  _4,7_  _4,8_
+                    //  _______________________________________________________________
+                    //  _5,1_  _5,2_  _5,3_  |   _5,4_  _5,5_    |  _5,6_  _5,7_  _5,8_
+                    //  _6,1_  _6,2_  _6,3_  |   _6,4_  _6,5_    |  _6,6_  _6,7_  _6,8_                   
+                    if (rowmax <= rangerowmax)
+                    {
+                        cell->setRowSpan(row - rowmin);
+                    }
+                    //  Handle cases, like:
+                    //                          **************
+                    //  _1,1_  _1,2_  _1,3_  |  *|1,4|  _1,5_*   |  _1,6_  _1,7_  _1,8_
+                    //  _2,1_  _2,2_  _2,3_  |  *_2,4_  _2,5_*   |  _2,6_  _2,7_  _2,8_
+                    //  ________________________**************_________________________
+                    //  _3,1_  _3,2_  _3,3_  |   _3,4_  _3,5_    |  _3,6_  _3,7_  _3,8_
+                    //  _4,1_  _4,2_  _4,3_  |   _4,4_  _4,5_    |  _4,6_  _4,7_  _4,8_
+                    //  ________________________**************_________________________
+                    //  _5,1_  _5,2_  _5,3_  |  *_5,4_  _5,5_*   |  _5,6_  _5,7_  _5,8_
+                    //  _6,1_  _6,2_  _6,3_  |  *_6,4_  |6,5|*   |  _6,6_  _6,7_  _6,8_                   
+                    //                          **************
+                    else
+                    {
+                        cell->setRowSpan(row - rowmin);   
+                        m_cells << this->makeCell(rangerowmax + 1, colmin, rowmax - rangerowmax, colmax - colmin + 1);                       
+                    }
+                }
+                else
+                {
+                    //  Handle cases, like:
+                    //                          **************     **************
+                    //  _1,1_  _1,2_  _1,3_  |  *|1,4|  _1,5_*   | *_1,6_  _1,7_*  _1,8_
+                    //  _2,1_  _2,2_  _2,3_  |  *_2,4_  _2,5_*   | *_2,6_  _2,7_*  _2,8_
+                    //  ________________________**************_____*____________*______
+                    //  _3,1_  _3,2_  _3,3_  |   _3,4_  _3,5_    | *_3,6_  _3,7_*  _3,8_
+                    //  _4,1_  _4,2_  _4,3_  |   _4,4_  _4,5_    | *_4,6_  |4,7|*  _4,8_
+                    //  ___________________________________________**************______
+                    //  _5,1_  _5,2_  _5,3_  |   _5,4_  _5,5_    |  _5,6_  _5,7_   _5,8_
+                    //  _6,1_  _6,2_  _6,3_  |   _6,4_  _6,5_    |  _6,6_  _6,7_   _6,8_   
+                    if (rowmax <= rangerowmax)
+                    {
+                        cell->setRowSpan(row - rowmin);  
+                        cell->setColSpan(rangecolmax - colmin + 1);
+                        m_cells << this->makeCell(rowmin, rangecolmax + 1, rowmax - rowmin + 1, colmax - rangecolmax); 
+                    }
+                    //  Handle cases, like:
+                    //                          **************     **************
+                    //  _1,1_  _1,2_  _1,3_  |  *|1,4|  _1,5_*   | *_1,6_  _1,7_*  _1,8_
+                    //  _2,1_  _2,2_  _2,3_  |  *_2,4_  _2,5_*   | *_2,6_  _2,7_*  _2,8_
+                    //  ________________________**************_____*____________*______
+                    //  _3,1_  _3,2_  _3,3_  |   _3,4_  _3,5_    | *_3,6_  _3,7_*  _3,8_
+                    //  _4,1_  _4,2_  _4,3_  |   _4,4_  _4,5_    | *_4,6_  |4,7|*  _4,8_
+                    //  ________________________**************_____*____________*______
+                    //  _5,1_  _5,2_  _5,3_  |  *_5,4_  _5,5_*   | *_5,6_  _5,7_*  _5,8_
+                    //  _6,1_  _6,2_  _6,3_  |  *_6,4_  _6,5_*   | *_6,6_  |6,7|*  _6,8_
+                    //                          **************     **************
+                    else
+                    {
+                        cell->setRowSpan(row - rowmin);  
+                        cell->setColSpan(rangecolmax - colmin + 1);
+                        m_cells << this->makeCell(rangerowmax, colmin, rowmax - rangerowmax, rangecolmax - colmin + 1);  
+                        m_cells << this->makeCell(rowmin, rangecolmax + 1, rowmax - rowmin + 1, colmax - rangecolmax);                         
+                    }
+                }                
+            }
+        }
+        else
+        {
+            if (colmin < col)
+            {
+                if (colmax <= rangecolmax)
+                {
+                    //  Handle cases, like following: 
+                    //  Vertical bounds describe affected region, top-left and bottom right points of cell are marked with vertical lines
+                    //   _1,1_  _1,2_  _1,3_   |  _1,4_  _1,5_   |  _1,6_  _1,7_  _1,8_
+                    //   _2,1_  _2,2_  _2,3_   |  _2,4_  _2,5_   |  _2,6_  _2,7_  _2,8_
+                    //  *********************_________________________________________
+                    //  *|3,1|  _3,2_  _3,3_*  |  _3,4_  _3,5_   |  _3,6_  _3,7_  _3,8_
+                    //  *_4,1_  _4,2_  _4,3_*  |  _4,4_  |4,5|   |  _4,6_  _4,7_  _4,8_
+                    //  *********************_________________________________________
+                    //   _5,1_  _5,2_  _5,3_   |  _5,4_  _5,5_   |  _5,6_  _5,7_  _5,8_
+                    //   _6,1_  _6,2_  _6,3_   |  _6,4_  _6,5_   |  _6,6_  _6,7_  _6,8_                    
+                    if (rowmax <= rangerowmax) 
+                    {
+                        cell->setColSpan(col - colmin);
+                    }
+                    //  Handle cases, like following: 
+                    //  Vertical bounds describe affected region, top-left and bottom right points of cell are marked with vertical lines
+                    //   _1,1_  _1,2_  _1,3_   |  _1,4_  _1,5_   |  _1,6_  _1,7_  _1,8_
+                    //   _2,1_  _2,2_  _2,3_   |  _2,4_  _2,5_   |  _2,6_  _2,7_  _2,8_
+                    //  *********************_________________________________________
+                    //  *|3,1|  _3,2_  _3,3_*  |  _3,4_  _3,5_   |  _3,6_  _3,7_  _3,8_
+                    //  *_4,1_  _4,2_  _4,3_*  |  _4,4_  _4,5_   |  _4,6_  _4,7_  _4,8_
+                    //  *___________________*_____**************______________________
+                    //  *_5,1_  _5,2_  _5,3_*   | *_5,4_  _5,5_*  |  _5,6_  _5,7_  _5,8_
+                    //  *_6,1_  _6,2_  _6,3_*   | *_6,4_  |6,5|*  |  _6,6_  _6,7_  _6,8_ 
+                    //  *********************   | **************  |
+                    else
+                    {
+                        cell->setColSpan(col - colmin);
+                        m_cells << this->makeCell(rangerowmax + 1, col, rowmax - rangerowmax, colmax - col + 1);
+                    }
+                }
+                else
+                {
+                    //  Handle cases, like following: 
+                    //  Vertical bounds describe affected region, top-left and bottom right points of cell are marked with vertical lines
+                    //   _1,1_  _1,2_  _1,3_   |  _1,4_  _1,5_   |   _1,6_  _1,7_   _1,8_
+                    //   _2,1_  _2,2_  _2,3_   |  _2,4_  _2,5_   |   _2,6_  _2,7_   _2,8_
+                    //  *********************_______________________**************___
+                    //  *|3,1|  _3,2_  _3,3_*  |  _3,4_  _3,5_   |  *_3,6_  _3,7_*  _3,8_
+                    //  *_4,1_  _4,2_  _4,3_*  |  _4,4_  _4,5_   |  *_4,6_  |4,7|*  _4,8_
+                    //  *********************_______________________*************___
+                    //   _5,1_  _5,2_  _5,3_   |  _5,4_  _5,5_   |   _5,6_  _5,7_   _5,8_
+                    //   _6,1_  _6,2_  _6,3_   |  _6,4_  _6,5_   |   _6,6_  _6,7_   _6,8_  
+                    if (rowmax <= rangerowmax) 
+                    {
+                        cell->setColSpan(col - colmin);
+                        m_cells << this->makeCell(rowmin, rangecolmax + 1, rowmax - rowmin + 1, colmax - rangecolmax);
+                    }
+                    //  Handle cases, like following: 
+                    //  Vertical bounds describe affected region, top-left and bottom right points of cell are marked with vertical lines
+                    //   _1,1_  _1,2_  _1,3_   |  _1,4_  _1,5_   |   _1,6_  _1,7_   _1,8_
+                    //   _2,1_  _2,2_  _2,3_   |  _2,4_  _2,5_   |   _2,6_  _2,7_   _2,8_
+                    //  *********************_______________________**************___
+                    //  *|3,1|  _3,2_  _3,3_*  |  _3,4_  _3,5_   |  *_3,6_  _3,7_*  _3,8_
+                    //  *_4,1_  _4,2_  _4,3_*  |  _4,4_  _4,5_   |  *_4,6_  |4,7|*  _4,8_
+                    //  _________________________**************_____*____________*___
+                    //  *_5,1_  _5,2_  _5,3_*  | *_5,4_  _5,5_*  |  *_5,6_  _5,7_*  _5,8_
+                    //  *_6,1_  _6,2_  _6,3_*  | *_6,4_  _6,5_*  |  *_6,6_  |6,7|*  _6,8_ 
+                    //  *********************    **************     **************
+                    else
+                    {
+                        cell->setColSpan(col - colmin);
+                        m_cells << this->makeCell(rangerowmax + 1, col, rowmax - rangerowmax, rangecolmax - col + 1);
+                        m_cells << this->makeCell(rowmin, rangecolmax + 1, rowmax - rowmin + 1, colmax - rangecolmax);
+                    }
+                }
+            }
+            else
+            {
+                // Perform context-dependent action here (depends whether we merge or split)
+
+                // For split, we just set cell to one size
+                if (merge)
+                {
+                    if ((rowmin != row) || (colmin != col))
+                    {
+                        to_be_erased << cell;
+                    }
+                }
+                else
+                {
+                    cell->setRowSpan(1);
+                    cell->setColSpan(1);
+                }
+                if (colmax <= rangecolmax)
+                {
+                    //  Handle cases like:
+                    //  Vertical bounds describe affected region, top-left and bottom right points of cell are marked with vertical lines
+                    //  _1,1_  _1,2_  _1,3_  |  _1,4_  _1,5_   |  _1,6_  _1,7_  _1,8_
+                    //  _2,1_  _2,2_  _2,3_  |  _2,4_  _2,5_   |  _2,6_  _2,7_  _2,8_
+                    //  _____________________________________________________________
+                    //  _3,1_  _3,2_  _3,3_  |  |3,4|  _3,5_   |  _3,6_  _3,7_  _3,8_
+                    //  _4,1_  _4,2_  _4,3_  |  _4,4_  |4,5|   |  _4,6_  _4,7_  _4,8_
+                    //  _____________________________________________________________
+                    //  _5,1_  _5,2_  _5,3_  |  _5,4_  _5,5_   |  _5,6_  _5,7_  _5,8_
+                    //  _6,1_  _6,2_  _6,3_  |  _6,4_  _6,5_   |  _6,6_  _6,7_  _6,8_ 
+                    if (rowmax <= rangerowmax) 
+                    {
+                        // DO NOTHING: Already done stuff before it
+                    }
+                    //  Handle cases like:
+                    //  Vertical bounds describe affected region, top-left and bottom right points of cell are marked with vertical lines
+                    //  _1,1_  _1,2_  _1,3_  |  _1,4_  _1,5_   |  _1,6_  _1,7_  _1,8_
+                    //  _2,1_  _2,2_  _2,3_  |  _2,4_  _2,5_   |  _2,6_  _2,7_  _2,8_
+                    //  _____________________________________________________________
+                    //  _3,1_  _3,2_  _3,3_  |  |3,4|  _3,5_   |  _3,6_  _3,7_  _3,8_
+                    //  _4,1_  _4,2_  _4,3_  |  _4,4_  _4,5_   |  _4,6_  _4,7_  _4,8_
+                    //  ________________________**************_______________________
+                    //  _5,1_  _5,2_  _5,3_  |  *_5,4_  _5,5_* |  _5,6_  _5,7_  _5,8_
+                    //  _6,1_  _6,2_  _6,3_  |  *_6,4_  |6,5|* |  _6,6_  _6,7_  _6,8_  
+                    //                          **************
+                    else
+                    {
+                         m_cells << this->makeCell(rangerowmax + 1, colmin, rowmax - rangerowmax, colmax - colmin + 1);
+                    }
+                }
+                else
+                {
+                    //  Handle cases like:
+                    //  Vertical bounds describe affected region, top-left and bottom right points of cell are marked with vertical lines
+                    //  _1,1_  _1,2_  _1,3_  |  _1,4_  _1,5_   |  _1,6_  _1,7_  _1,8_
+                    //  _2,1_  _2,2_  _2,3_  |  _2,4_  _2,5_   |  _2,6_  _2,7_  _2,8_
+                    //  _________________________________________**************______
+                    //  _3,1_  _3,2_  _3,3_  |  |3,4|  _3,5_   | *_3,6_  _3,7_*  _3,8_
+                    //  _4,1_  _4,2_  _4,3_  |  _4,4_  _4,5_   | *_4,6_  |4,7|*  _4,8_
+                    //  _________________________________________**************______
+                    //  _5,1_  _5,2_  _5,3_  |  _5,4_  _5,5_   |  _5,6_  _5,7_  _5,8_
+                    //  _6,1_  _6,2_  _6,3_  |  _6,4_  _6,5_   |  _6,6_  _6,7_  _6,8_ 
+                    if (rowmax <= rangerowmax) 
+                    {
+                        m_cells << this->makeCell(rowmin, rangecolmax + 1, rowmax - rowmin + 1, colmax - rangecolmax);
+                    }
+                    //  Handle cases like:
+                    //  Vertical bounds describe affected region, top-left and bottom right points of cell are marked with vertical lines
+                    //  _1,1_  _1,2_  _1,3_  |  _1,4_  _1,5_   |  _1,6_  _1,7_  _1,8_
+                    //  _2,1_  _2,2_  _2,3_  |  _2,4_  _2,5_   |  _2,6_  _2,7_  _2,8_
+                    //  _________________________________________**************______
+                    //  _3,1_  _3,2_  _3,3_  |  |3,4|  _3,5_   | *_3,6_  _3,7_*  _3,8_
+                    //  _4,1_  _4,2_  _4,3_  |  _4,4_  _4,5_   | *_4,6_  |4,7|*  _4,8_
+                    //  _______________________**************____*____________*______
+                    //  _5,1_  _5,2_  _5,3_  | *_5,4_  _5,5_*  | *_5,6_  _5,7_*  _5,8_
+                    //  _6,1_  _6,2_  _6,3_  | *_6,4_  _6,5_*  | *_6,6_  |6,7|*  _6,8_
+                    //                         **************    **************
+                    else
+                    {
+                        m_cells << this->makeCell(rangerowmax + 1, colmin, rowmax - rangerowmax, rangecolmax - colmin + 1);                        
+                        m_cells << this->makeCell(rowmin, rangecolmax + 1, rowmax - rowmin + 1, colmax - rangecolmax);                        
+                    }
+                }
             }
         }
     }
