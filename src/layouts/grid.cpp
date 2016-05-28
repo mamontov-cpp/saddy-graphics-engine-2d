@@ -557,7 +557,7 @@ bool sad::layouts::Grid::merge(size_t row, size_t col, size_t row_span, size_t c
     }
 
     sad::Vector<sad::layouts::Cell*> to_be_erased;
-    this->recalculateSpansOfAffectedCells(row, col, row_span, col_span, false, cells_to_be_trimmed, to_be_erased);
+    this->recalculateSpansOfAffectedCells(row, col, row_span, col_span, true, cells_to_be_trimmed, to_be_erased);
     
     CellComparator less;
 

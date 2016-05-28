@@ -38,7 +38,10 @@ struct SadGridTests : tpunit::TestFixture
        TEST(SadGridTests::testLayoutingWhenFixedWidthAndHeightAndContentIsLesser),
        TEST(SadGridTests::testHorizontalLayoutAndPadding),
        TEST(SadGridTests::testVerticalLayoutAndPadding),
-       TEST(SadGridTests::testNoStackingLayoutAndPadding)
+       TEST(SadGridTests::testNoStackingLayoutAndPadding),
+       TEST(SadGridTests::testNoStackingLayoutAndPadding),
+       TEST(SadGridTests::testSimpleMergeAndSplit),
+       TEST(SadGridTests::testMergeOnTop)
    ) {}
    // ReSharper disable once CppMemberFunctionMayBeStatic
    // ReSharper disable once CppMemberFunctionMayBeConst
@@ -855,6 +858,177 @@ struct SadGridTests : tpunit::TestFixture
                 checkNoStackinglLayout(grid, sprite1, sprite2);
             }            
         }       
+   }
+
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
+    /*! Test simple merge and split
+     */
+    void testSimpleMergeAndSplit()
+    {
+        sad::Sprite2D* sprite = new sad::Sprite2D("test", sad::Rect2D(0, 0, 800, 600), sad::Rect2D(400, 400, 800, 800));
+        sad::layouts::Grid* grid = new sad::layouts::Grid();
+        grid->setFixedWidth(true);
+        grid->setFixedHeight(true);
+        grid->setRows(2);
+        grid->setColumns(3);
+        grid->setArea(sad::Rect2D(0, 0, 800, 800));
+        sad::db::Database* db = new sad::db::Database();
+        sad::db::Table* tbl = new sad::db::Table();
+        sad::Renderer r;
+        r.addDatabase("", db);
+        db->setRenderer(&r);
+        tbl->setDatabase(db);
+        db->addTable("", tbl);
+
+        sprite->setTable(tbl);
+        grid->setTable(tbl);
+
+        tbl->add(sprite);
+        tbl->add(grid);
+
+        grid->cell(1, 1)->addChild(sprite->MajorId);
+        bool b = grid->merge(0, 0, 2, 2);
+        ASSERT_TRUE( b ) ;
+        unsigned long long cmi = grid->cell(0, 0)->childMajorId(0); 
+        ASSERT_TRUE( cmi == sprite->MajorId );
+        ASSERT_TRUE( grid->allocatedCellCount() == 3 );
+        ASSERT_TRUE( grid->cell(0, 0)->rowSpan() == 2 );
+        ASSERT_TRUE( grid->cell(0, 0)->colSpan() == 2 );
+        ASSERT_TRUE( grid->cell(0, 2)->rowSpan() == 1 );
+        ASSERT_TRUE( grid->cell(0, 2)->colSpan() == 1 );
+        ASSERT_TRUE( grid->cell(1, 2)->rowSpan() == 1 );
+        ASSERT_TRUE( grid->cell(1, 2)->colSpan() == 1 );
+
+        b = grid->split(0, 0, 2, 2);
+        ASSERT_TRUE( b ) ;
+        ASSERT_TRUE( grid->cell(0, 0)->childMajorId(0) == sprite->MajorId );
+        ASSERT_TRUE( grid->allocatedCellCount() == 6 );
+        for(size_t i = 0; i < 2; i++)
+        {
+            for(size_t j = 0; j < 3; j++)
+            {
+                ASSERT_TRUE( grid->cell(i, j)->rowSpan() == 1 );
+                ASSERT_TRUE( grid->cell(i, j)->colSpan() == 1 );        
+            }
+        }
+    }
+   // ReSharper disable once CppMemberFunctionMayBeStatic
+   // ReSharper disable once CppMemberFunctionMayBeConst
+   /*! Tests to sequential merges, when first merge was on top of node
+    */
+   void testMergeOnTop()
+   {
+       const size_t tests = 3;
+       size_t merges[tests][4] = {
+           {0, 0, 4, 4},
+           {0, 0, 6, 4},
+           {0, 0, 4, 6},
+       };
+       sad::Vector< sad::Vector<sad::Rect2I > > results;
+
+       sad::Vector<sad::Rect2I > firsttest;
+       firsttest << sad::Rect2I(0, 0, 3, 2);
+       firsttest << sad::Rect2I(0, 3, 2, 3);
+       results << firsttest;
+
+       sad::Vector<sad::Rect2I > secondtest;
+       secondtest << sad::Rect2I(0, 0, 5, 2);
+       secondtest << sad::Rect2I(0, 3, 2, 3);
+       secondtest << sad::Rect2I(5, 3, 5, 3);
+       results << secondtest;
+
+       sad::Vector<sad::Rect2I > thirdtest;
+       thirdtest << sad::Rect2I(0, 0, 3, 2);
+       thirdtest << sad::Rect2I(0, 3, 2, 4);
+       thirdtest << sad::Rect2I(0, 5, 3, 5);
+       results << thirdtest;
+
+       for(size_t test  = 0; test < tests; test++)
+       {
+            printf("Starting test: %u\n", test);
+            sad::layouts::Grid* grid = new sad::layouts::Grid();
+            grid->setFixedWidth(true);
+            grid->setFixedHeight(true);
+            grid->setRows(7);
+            grid->setColumns(7);
+            grid->setArea(sad::Rect2D(0, 0, 800, 800));
+            sad::db::Database* db = new sad::db::Database();
+            sad::db::Table* tbl = new sad::db::Table();
+            sad::Renderer r;
+            r.addDatabase("", db);
+            db->setRenderer(&r);
+            tbl->setDatabase(db);
+            db->addTable("", tbl);
+            grid->setTable(tbl);
+            tbl->add(grid);
+
+            bool b = grid->merge(merges[test][0], merges[test][1], merges[test][2], merges[test][3]);
+            ASSERT_TRUE( b ) ;
+            ASSERT_TRUE( grid->allocatedCellCount() == (49 - merges[test][2] * merges[test][3]) + 1 );
+            ASSERT_TRUE( grid->cell(merges[test][0], merges[test][1])->rowSpan() == merges[test][2] );
+            ASSERT_TRUE( grid->cell(merges[test][0], merges[test][1])->colSpan() == merges[test][3] );
+            for(size_t row = 0; row < 7; row++)
+            {
+                for(size_t col = 0; col < 7; col++)
+                {
+                    bool w = (row >= merges[test][0] && col >= merges[test][1] && row <= (merges[test][0] + merges[test][2]) && col <= (merges[test][1] + merges[test][3]));
+                    if (!w)
+                    {
+                        ASSERT_TRUE( grid->cell(row, col)->rowSpan() == 1 );
+                        ASSERT_TRUE( grid->cell(row, col)->colSpan() == 1 );
+                    }
+                }
+            }
+
+            b = grid->merge(3, 3, 2, 2);
+            ASSERT_TRUE( b ) ;
+            size_t count = 4;
+            size_t addedcellcount = 1 + results[test].size();
+            sad::layouts::Cell* cell  = grid->cell(3, 3);
+
+            ASSERT_TRUE( cell->rowSpan() == 2 );
+            ASSERT_TRUE( cell->colSpan() == 2 );
+            for(size_t i = 0; i < results[test].size(); i++)
+            {
+                size_t row = results[test][i].p0().x();
+                size_t col = results[test][i].p0().y();
+                size_t row_span = results[test][i].p2().x() - results[test][i].p0().x() + 1;
+                size_t col_span = results[test][i].p2().y() - results[test][i].p0().y() + 1;
+                count += row_span * col_span;
+
+                sad::layouts::Cell* pwcell  = grid->cell(row, col);
+                if (pwcell->rowSpan() != row_span || pwcell->colSpan() != col_span)
+                {
+                    printf("Incorrect output: %u;%u;%u;%u\n", row, col, pwcell->rowSpan(), pwcell->colSpan());
+                }
+                ASSERT_TRUE( pwcell->rowSpan() == row_span );
+                ASSERT_TRUE( pwcell->colSpan() == col_span );
+            }
+            ASSERT_TRUE( grid->allocatedCellCount() == (49 - count + addedcellcount ) );
+            for(size_t row = 0; row < 7; row++)
+            {
+                for(size_t col = 0; col < 7; col++)
+                {
+                    bool w = false;
+                    for(size_t i = 0; i < results[test].size(); i++)
+                    {
+                        size_t rowc = results[test][i].p0().x();
+                        size_t colc = results[test][i].p0().y();
+                        size_t row_span = results[test][i].p2().x() - results[test][i].p0().x() + 1;
+                        size_t col_span = results[test][i].p2().y() - results[test][i].p0().y() + 1;
+                        w = w || (row >= rowc && col >= colc && row <= (rowc + row_span - 1) && col <= (colc + col_span - 1));
+                    }
+                    w = w || (row >= 3 && col >= 3 && row <= 4 && col <= 4);
+                    if (!w)
+                    {
+                        sad::layouts::Cell* pcell = grid->cell(row, col); 
+                        ASSERT_TRUE( pcell->rowSpan() == 1 );
+                        ASSERT_TRUE( pcell->colSpan() == 1 );
+                    }
+                }
+            }
+       }
    }
 
 } _sad_grid_tests;
