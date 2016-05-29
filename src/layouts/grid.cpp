@@ -1260,7 +1260,7 @@ void sad::layouts::Grid::recalculateSpansOfAffectedCells(
                         // Split onto part before affected region, on top of it, on bottom of it and behind it
                         cell->setColSpan(col - colmin);
                         m_cells << this->makeCell(rowmin, col, row - rowmin, rangecolmax - col + 1);
-                        m_cells << this->makeCell(rangerowmax + 1, col, row - rangerowmax, rangecolmax - col + 1);
+                        m_cells << this->makeCell(rangerowmax + 1, col, rowmax - rangerowmax, rangecolmax - col + 1);
                         m_cells << this->makeCell(rowmin, rangecolmax + 1, rowmax - rowmin + 1, colmax - rangecolmax);
                     }
                 }
@@ -1334,7 +1334,7 @@ void sad::layouts::Grid::recalculateSpansOfAffectedCells(
                     {
                         cell->setRowSpan(row - rowmin);  
                         cell->setColSpan(rangecolmax - colmin + 1);
-                        m_cells << this->makeCell(rangerowmax, colmin, rowmax - rangerowmax, rangecolmax - colmin + 1);  
+                        m_cells << this->makeCell(rangerowmax + 1, colmin, rowmax - rangerowmax, rangecolmax - colmin + 1);  
                         m_cells << this->makeCell(rowmin, rangecolmax + 1, rowmax - rowmin + 1, colmax - rangecolmax);                         
                     }
                 }                

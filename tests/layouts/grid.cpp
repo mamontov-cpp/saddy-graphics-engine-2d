@@ -41,7 +41,12 @@ struct SadGridTests : tpunit::TestFixture
        TEST(SadGridTests::testNoStackingLayoutAndPadding),
        TEST(SadGridTests::testNoStackingLayoutAndPadding),
        TEST(SadGridTests::testSimpleMergeAndSplit),
-       TEST(SadGridTests::testMergeOnTop)
+       TEST(SadGridTests::testMergeOnTop),
+       TEST(SadGridTests::testMergeOnMiddle),
+       TEST(SadGridTests::testSplitOnTop),
+       TEST(SadGridTests::testSplitOnMiddle),
+       TEST(SadGridTests::testMergeCommon),
+       TEST(SadGridTests::testSplitCommon)
    ) {}
    // ReSharper disable once CppMemberFunctionMayBeStatic
    // ReSharper disable once CppMemberFunctionMayBeConst
@@ -915,15 +920,20 @@ struct SadGridTests : tpunit::TestFixture
     }
    // ReSharper disable once CppMemberFunctionMayBeStatic
    // ReSharper disable once CppMemberFunctionMayBeConst
-   /*! Tests to sequential merges, when first merge was on top of node
+   /*! Tests to sequential merges, when top first point of merge was on top of node
     */
    void testMergeOnTop()
    {
-       const size_t tests = 3;
+       const size_t tests = 8;
        size_t merges[tests][4] = {
            {0, 0, 4, 4},
            {0, 0, 6, 4},
            {0, 0, 4, 6},
+           {0, 0, 6, 6},
+           {0, 4, 4, 3},
+           {0, 4, 4, 1},
+           {0, 4, 6, 1},
+           {0, 4, 6, 3}
        };
        sad::Vector< sad::Vector<sad::Rect2I > > results;
 
@@ -944,9 +954,36 @@ struct SadGridTests : tpunit::TestFixture
        thirdtest << sad::Rect2I(0, 5, 3, 5);
        results << thirdtest;
 
+       sad::Vector<sad::Rect2I > fourthtest;
+       fourthtest << sad::Rect2I(0, 0, 5, 2);
+       fourthtest << sad::Rect2I(0, 3, 2, 4);
+       fourthtest << sad::Rect2I(5, 3, 5, 4);
+       fourthtest << sad::Rect2I(0, 5, 5, 5);
+       results << fourthtest;
+
+       sad::Vector<sad::Rect2I > fifthtest;
+       fifthtest << sad::Rect2I(0, 4, 2, 4);
+       fifthtest << sad::Rect2I(0, 5, 3, 6);
+       results << fifthtest;
+
+       sad::Vector<sad::Rect2I > sixthtest;
+       sixthtest << sad::Rect2I(0, 4, 2, 4);
+       results << sixthtest;
+
+       sad::Vector<sad::Rect2I > seventhtest;
+       seventhtest << sad::Rect2I(0, 4, 2, 4);
+       seventhtest << sad::Rect2I(5, 4, 5, 4);
+       results << seventhtest;
+
+       sad::Vector<sad::Rect2I > eighthtest;
+       eighthtest << sad::Rect2I(0, 4, 2, 4);
+       eighthtest << sad::Rect2I(0, 5, 5, 6);
+       eighthtest << sad::Rect2I(5, 4, 5, 4);
+       results << eighthtest;
+
        for(size_t test  = 0; test < tests; test++)
        {
-            printf("Starting test: %u\n", test);
+            printf("Starting test: %u\n", test + 1);
             sad::layouts::Grid* grid = new sad::layouts::Grid();
             grid->setFixedWidth(true);
             grid->setFixedHeight(true);
@@ -1029,6 +1066,639 @@ struct SadGridTests : tpunit::TestFixture
                 }
             }
        }
+   }
+
+   // ReSharper disable once CppMemberFunctionMayBeStatic
+   // ReSharper disable once CppMemberFunctionMayBeConst
+   /*! Tests to sequential merges, when top first point of merge was on middle of second node
+    */
+   void testMergeOnMiddle()
+   {
+       const size_t tests = 12;
+       size_t merges[tests][4] = {
+           {3, 0, 1, 4},  //0
+           {3, 0, 1, 6},  //1
+           {3, 0, 4, 5},  //2
+           {3, 0, 4, 6},  //3
+           {3, 3, 2, 2},  //4
+           {3, 3, 2, 4},  //5
+           {3, 3, 1, 1},  //6
+           {3, 4, 1, 1},  //7
+           {4, 3, 1, 1},  //8
+           {4, 4, 1, 1},  //9
+           {4, 4, 3, 1},  //10
+           {4, 4, 3, 3}   //11
+       };
+       sad::Vector< sad::Vector<sad::Rect2I > > results;
+
+       sad::Vector<sad::Rect2I > firsttest;
+       firsttest << sad::Rect2I(3, 0, 3, 2);
+       results << firsttest;
+
+       sad::Vector<sad::Rect2I > secondtest;
+       secondtest << sad::Rect2I(3, 0, 3, 2);
+       secondtest << sad::Rect2I(3, 5, 3, 5);
+       results << secondtest;
+
+       sad::Vector<sad::Rect2I > thirdtest;
+       thirdtest << sad::Rect2I(3, 0, 6, 2);
+       thirdtest << sad::Rect2I(5, 3, 6, 4);
+       results << thirdtest;
+
+       sad::Vector<sad::Rect2I > fourthtest;
+       fourthtest << sad::Rect2I(3, 0, 6, 2);
+       fourthtest << sad::Rect2I(5, 3, 6, 4);
+       fourthtest << sad::Rect2I(3, 5, 6, 5);
+       results << fourthtest;
+
+       sad::Vector<sad::Rect2I > fifthtest;
+       results << fifthtest;
+
+       sad::Vector<sad::Rect2I > sixthtest;
+       sixthtest << sad::Rect2I(3, 5, 4, 6);
+       results << sixthtest;
+
+       results << sad::Vector<sad::Rect2I >(); // 7
+       results << sad::Vector<sad::Rect2I >(); // 8
+       results << sad::Vector<sad::Rect2I >(); // 9
+       results << sad::Vector<sad::Rect2I >(); // 10
+
+       sad::Vector<sad::Rect2I > eleventhtest;
+       eleventhtest << sad::Rect2I(5, 4, 6, 4);
+       results << eleventhtest;
+
+       sad::Vector<sad::Rect2I > twelfthtest;
+       twelfthtest << sad::Rect2I(5, 4, 6, 4);
+       twelfthtest << sad::Rect2I(4, 5, 6, 6);
+       results << twelfthtest;
+
+       for(size_t test  = 0; test < tests; test++)
+       {
+            printf("Starting test: %u\n", test + 1);
+            sad::layouts::Grid* grid = new sad::layouts::Grid();
+            grid->setFixedWidth(true);
+            grid->setFixedHeight(true);
+            grid->setRows(7);
+            grid->setColumns(7);
+            grid->setArea(sad::Rect2D(0, 0, 800, 800));
+            sad::db::Database* db = new sad::db::Database();
+            sad::db::Table* tbl = new sad::db::Table();
+            sad::Renderer r;
+            r.addDatabase("", db);
+            db->setRenderer(&r);
+            tbl->setDatabase(db);
+            db->addTable("", tbl);
+            grid->setTable(tbl);
+            tbl->add(grid);
+
+            bool b = grid->merge(merges[test][0], merges[test][1], merges[test][2], merges[test][3]);
+            ASSERT_TRUE( b ) ;
+            ASSERT_TRUE( grid->allocatedCellCount() == (49 - merges[test][2] * merges[test][3]) + 1 );
+            ASSERT_TRUE( grid->cell(merges[test][0], merges[test][1])->rowSpan() == merges[test][2] );
+            ASSERT_TRUE( grid->cell(merges[test][0], merges[test][1])->colSpan() == merges[test][3] );
+            for(size_t row = 0; row < 7; row++)
+            {
+                for(size_t col = 0; col < 7; col++)
+                {
+                    bool w = (row >= merges[test][0] && col >= merges[test][1] && row <= (merges[test][0] + merges[test][2]) && col <= (merges[test][1] + merges[test][3]));
+                    if (!w)
+                    {
+                        ASSERT_TRUE( grid->cell(row, col)->rowSpan() == 1 );
+                        ASSERT_TRUE( grid->cell(row, col)->colSpan() == 1 );
+                    }
+                }
+            }
+
+            b = grid->merge(3, 3, 2, 2);
+            ASSERT_TRUE( b ) ;
+            size_t count = 4;
+            size_t addedcellcount = 1 + results[test].size();
+            sad::layouts::Cell* cell  = grid->cell(3, 3);
+
+            ASSERT_TRUE( cell->rowSpan() == 2 );
+            ASSERT_TRUE( cell->colSpan() == 2 );
+            for(size_t i = 0; i < results[test].size(); i++)
+            {
+                size_t row = results[test][i].p0().x();
+                size_t col = results[test][i].p0().y();
+                size_t row_span = results[test][i].p2().x() - results[test][i].p0().x() + 1;
+                size_t col_span = results[test][i].p2().y() - results[test][i].p0().y() + 1;
+                count += row_span * col_span;
+
+                sad::layouts::Cell* pwcell  = grid->cell(row, col);
+                if (pwcell->rowSpan() != row_span || pwcell->colSpan() != col_span)
+                {
+                    printf("Incorrect output: %u;%u;%u;%u\n", row, col, pwcell->rowSpan(), pwcell->colSpan());
+                }
+                ASSERT_TRUE( pwcell->rowSpan() == row_span );
+                ASSERT_TRUE( pwcell->colSpan() == col_span );
+            }
+            size_t ethalon = (49 - count + addedcellcount );
+            if (grid->allocatedCellCount() != ethalon)
+            {
+                printf("Allocated %u cells, should %u\n", grid->allocatedCellCount(), ethalon);
+            }
+            ASSERT_TRUE( grid->allocatedCellCount() == ethalon );
+            for(size_t row = 0; row < 7; row++)
+            {
+                for(size_t col = 0; col < 7; col++)
+                {
+                    bool w = false;
+                    for(size_t i = 0; i < results[test].size(); i++)
+                    {
+                        size_t rowc = results[test][i].p0().x();
+                        size_t colc = results[test][i].p0().y();
+                        size_t row_span = results[test][i].p2().x() - results[test][i].p0().x() + 1;
+                        size_t col_span = results[test][i].p2().y() - results[test][i].p0().y() + 1;
+                        w = w || (row >= rowc && col >= colc && row <= (rowc + row_span - 1) && col <= (colc + col_span - 1));
+                    }
+                    w = w || (row >= 3 && col >= 3 && row <= 4 && col <= 4);
+                    if (!w)
+                    {
+                        sad::layouts::Cell* pcell = grid->cell(row, col); 
+                        ASSERT_TRUE( pcell->rowSpan() == 1 );
+                        ASSERT_TRUE( pcell->colSpan() == 1 );
+                    }
+                }
+            }
+       }
+   }
+
+   // ReSharper disable once CppMemberFunctionMayBeStatic
+   // ReSharper disable once CppMemberFunctionMayBeConst
+   /*! Test sequential merge and split, when top first point of merge was on top of node
+    */
+   void testSplitOnTop()
+   {
+       const size_t tests = 8;
+       size_t merges[tests][4] = {
+           {0, 0, 4, 4},
+           {0, 0, 6, 4},
+           {0, 0, 4, 6},
+           {0, 0, 6, 6},
+           {0, 4, 4, 3},
+           {0, 4, 4, 1},
+           {0, 4, 6, 1},
+           {0, 4, 6, 3}
+       };
+       sad::Vector< sad::Vector<sad::Rect2I > > results;
+
+       sad::Vector<sad::Rect2I > firsttest;
+       firsttest << sad::Rect2I(0, 0, 3, 2);
+       firsttest << sad::Rect2I(0, 3, 2, 3);
+       results << firsttest;
+
+       sad::Vector<sad::Rect2I > secondtest;
+       secondtest << sad::Rect2I(0, 0, 5, 2);
+       secondtest << sad::Rect2I(0, 3, 2, 3);
+       secondtest << sad::Rect2I(5, 3, 5, 3);
+       results << secondtest;
+
+       sad::Vector<sad::Rect2I > thirdtest;
+       thirdtest << sad::Rect2I(0, 0, 3, 2);
+       thirdtest << sad::Rect2I(0, 3, 2, 4);
+       thirdtest << sad::Rect2I(0, 5, 3, 5);
+       results << thirdtest;
+
+       sad::Vector<sad::Rect2I > fourthtest;
+       fourthtest << sad::Rect2I(0, 0, 5, 2);
+       fourthtest << sad::Rect2I(0, 3, 2, 4);
+       fourthtest << sad::Rect2I(5, 3, 5, 4);
+       fourthtest << sad::Rect2I(0, 5, 5, 5);
+       results << fourthtest;
+
+       sad::Vector<sad::Rect2I > fifthtest;
+       fifthtest << sad::Rect2I(0, 4, 2, 4);
+       fifthtest << sad::Rect2I(0, 5, 3, 6);
+       results << fifthtest;
+
+       sad::Vector<sad::Rect2I > sixthtest;
+       sixthtest << sad::Rect2I(0, 4, 2, 4);
+       results << sixthtest;
+
+       sad::Vector<sad::Rect2I > seventhtest;
+       seventhtest << sad::Rect2I(0, 4, 2, 4);
+       seventhtest << sad::Rect2I(5, 4, 5, 4);
+       results << seventhtest;
+
+       sad::Vector<sad::Rect2I > eighthtest;
+       eighthtest << sad::Rect2I(0, 4, 2, 4);
+       eighthtest << sad::Rect2I(0, 5, 5, 6);
+       eighthtest << sad::Rect2I(5, 4, 5, 4);
+       results << eighthtest;
+
+       for(size_t test  = 0; test < tests; test++)
+       {
+            printf("Starting test: %u\n", test + 1);
+            sad::layouts::Grid* grid = new sad::layouts::Grid();
+            grid->setFixedWidth(true);
+            grid->setFixedHeight(true);
+            grid->setRows(7);
+            grid->setColumns(7);
+            grid->setArea(sad::Rect2D(0, 0, 800, 800));
+            sad::db::Database* db = new sad::db::Database();
+            sad::db::Table* tbl = new sad::db::Table();
+            sad::Renderer r;
+            r.addDatabase("", db);
+            db->setRenderer(&r);
+            tbl->setDatabase(db);
+            db->addTable("", tbl);
+            grid->setTable(tbl);
+            tbl->add(grid);
+
+            bool b = grid->merge(merges[test][0], merges[test][1], merges[test][2], merges[test][3]);
+            ASSERT_TRUE( b ) ;
+            ASSERT_TRUE( grid->allocatedCellCount() == (49 - merges[test][2] * merges[test][3]) + 1 );
+            ASSERT_TRUE( grid->cell(merges[test][0], merges[test][1])->rowSpan() == merges[test][2] );
+            ASSERT_TRUE( grid->cell(merges[test][0], merges[test][1])->colSpan() == merges[test][3] );
+            for(size_t row = 0; row < 7; row++)
+            {
+                for(size_t col = 0; col < 7; col++)
+                {
+                    bool w = (row >= merges[test][0] && col >= merges[test][1] && row <= (merges[test][0] + merges[test][2]) && col <= (merges[test][1] + merges[test][3]));
+                    if (!w)
+                    {
+                        ASSERT_TRUE( grid->cell(row, col)->rowSpan() == 1 );
+                        ASSERT_TRUE( grid->cell(row, col)->colSpan() == 1 );
+                    }
+                }
+            }
+
+            b = grid->split(3, 3, 2, 2);
+            ASSERT_TRUE( b ) ;
+            size_t count = 4;
+            size_t addedcellcount = 4 + results[test].size();
+
+            for(size_t i = 0; i < results[test].size(); i++)
+            {
+                size_t row = results[test][i].p0().x();
+                size_t col = results[test][i].p0().y();
+                size_t row_span = results[test][i].p2().x() - results[test][i].p0().x() + 1;
+                size_t col_span = results[test][i].p2().y() - results[test][i].p0().y() + 1;
+                count += row_span * col_span;
+
+                sad::layouts::Cell* pwcell  = grid->cell(row, col);
+                if (pwcell->rowSpan() != row_span || pwcell->colSpan() != col_span)
+                {
+                    printf("Incorrect output: %u;%u;%u;%u\n", row, col, pwcell->rowSpan(), pwcell->colSpan());
+                }
+                ASSERT_TRUE( pwcell->rowSpan() == row_span );
+                ASSERT_TRUE( pwcell->colSpan() == col_span );
+            }
+            ASSERT_TRUE( grid->allocatedCellCount() == (49 - count + addedcellcount ) );
+            for(size_t row = 0; row < 7; row++)
+            {
+                for(size_t col = 0; col < 7; col++)
+                {
+                    bool w = false;
+                    for(size_t i = 0; i < results[test].size(); i++)
+                    {
+                        size_t rowc = results[test][i].p0().x();
+                        size_t colc = results[test][i].p0().y();
+                        size_t row_span = results[test][i].p2().x() - results[test][i].p0().x() + 1;
+                        size_t col_span = results[test][i].p2().y() - results[test][i].p0().y() + 1;
+                        w = w || (row >= rowc && col >= colc && row <= (rowc + row_span - 1) && col <= (colc + col_span - 1));
+                    }
+                    if (!w)
+                    {
+                        sad::layouts::Cell* pcell = grid->cell(row, col); 
+                        ASSERT_TRUE( pcell->rowSpan() == 1 );
+                        ASSERT_TRUE( pcell->colSpan() == 1 );
+                    }
+                }
+            }
+       }
+   }
+
+
+   // ReSharper disable once CppMemberFunctionMayBeStatic
+   // ReSharper disable once CppMemberFunctionMayBeConst
+   /*! Test sequential merge and split, when top first point of merge was on middle of node
+    */
+   void testSplitOnMiddle()
+   {
+       const size_t tests = 12;
+       size_t merges[tests][4] = {
+           {3, 0, 1, 4},  //0
+           {3, 0, 1, 6},  //1
+           {3, 0, 4, 5},  //2
+           {3, 0, 4, 6},  //3
+           {3, 3, 2, 2},  //4
+           {3, 3, 2, 4},  //5
+           {3, 3, 1, 1},  //6
+           {3, 4, 1, 1},  //7
+           {4, 3, 1, 1},  //8
+           {4, 4, 1, 1},  //9
+           {4, 4, 3, 1},  //10
+           {4, 4, 3, 3}   //11
+       };
+       sad::Vector< sad::Vector<sad::Rect2I > > results;
+
+       sad::Vector<sad::Rect2I > firsttest;
+       firsttest << sad::Rect2I(3, 0, 3, 2);
+       results << firsttest;
+
+       sad::Vector<sad::Rect2I > secondtest;
+       secondtest << sad::Rect2I(3, 0, 3, 2);
+       secondtest << sad::Rect2I(3, 5, 3, 5);
+       results << secondtest;
+
+       sad::Vector<sad::Rect2I > thirdtest;
+       thirdtest << sad::Rect2I(3, 0, 6, 2);
+       thirdtest << sad::Rect2I(5, 3, 6, 4);
+       results << thirdtest;
+
+       sad::Vector<sad::Rect2I > fourthtest;
+       fourthtest << sad::Rect2I(3, 0, 6, 2);
+       fourthtest << sad::Rect2I(5, 3, 6, 4);
+       fourthtest << sad::Rect2I(3, 5, 6, 5);
+       results << fourthtest;
+
+       sad::Vector<sad::Rect2I > fifthtest;
+       results << fifthtest;
+
+       sad::Vector<sad::Rect2I > sixthtest;
+       sixthtest << sad::Rect2I(3, 5, 4, 6);
+       results << sixthtest;
+
+       results << sad::Vector<sad::Rect2I >(); // 7
+       results << sad::Vector<sad::Rect2I >(); // 8
+       results << sad::Vector<sad::Rect2I >(); // 9
+       results << sad::Vector<sad::Rect2I >(); // 10
+
+       sad::Vector<sad::Rect2I > eleventhtest;
+       eleventhtest << sad::Rect2I(5, 4, 6, 4);
+       results << eleventhtest;
+
+       sad::Vector<sad::Rect2I > twelfthtest;
+       twelfthtest << sad::Rect2I(5, 4, 6, 4);
+       twelfthtest << sad::Rect2I(4, 5, 6, 6);
+       results << twelfthtest;
+
+       for(size_t test  = 0; test < tests; test++)
+       {
+            printf("Starting test: %u\n", test + 1);
+            sad::layouts::Grid* grid = new sad::layouts::Grid();
+            grid->setFixedWidth(true);
+            grid->setFixedHeight(true);
+            grid->setRows(7);
+            grid->setColumns(7);
+            grid->setArea(sad::Rect2D(0, 0, 800, 800));
+            sad::db::Database* db = new sad::db::Database();
+            sad::db::Table* tbl = new sad::db::Table();
+            sad::Renderer r;
+            r.addDatabase("", db);
+            db->setRenderer(&r);
+            tbl->setDatabase(db);
+            db->addTable("", tbl);
+            grid->setTable(tbl);
+            tbl->add(grid);
+
+            bool b = grid->merge(merges[test][0], merges[test][1], merges[test][2], merges[test][3]);
+            ASSERT_TRUE( b ) ;
+            ASSERT_TRUE( grid->allocatedCellCount() == (49 - merges[test][2] * merges[test][3]) + 1 );
+            ASSERT_TRUE( grid->cell(merges[test][0], merges[test][1])->rowSpan() == merges[test][2] );
+            ASSERT_TRUE( grid->cell(merges[test][0], merges[test][1])->colSpan() == merges[test][3] );
+            for(size_t row = 0; row < 7; row++)
+            {
+                for(size_t col = 0; col < 7; col++)
+                {
+                    bool w = (row >= merges[test][0] && col >= merges[test][1] && row <= (merges[test][0] + merges[test][2]) && col <= (merges[test][1] + merges[test][3]));
+                    if (!w)
+                    {
+                        ASSERT_TRUE( grid->cell(row, col)->rowSpan() == 1 );
+                        ASSERT_TRUE( grid->cell(row, col)->colSpan() == 1 );
+                    }
+                }
+            }
+
+            b = grid->split(3, 3, 2, 2);
+            ASSERT_TRUE( b ) ;
+            size_t count = 4;
+            size_t addedcellcount = 4 + results[test].size();
+
+            for(size_t i = 0; i < results[test].size(); i++)
+            {
+                size_t row = results[test][i].p0().x();
+                size_t col = results[test][i].p0().y();
+                size_t row_span = results[test][i].p2().x() - results[test][i].p0().x() + 1;
+                size_t col_span = results[test][i].p2().y() - results[test][i].p0().y() + 1;
+                count += row_span * col_span;
+
+                sad::layouts::Cell* pwcell  = grid->cell(row, col);
+                if (pwcell->rowSpan() != row_span || pwcell->colSpan() != col_span)
+                {
+                    printf("Incorrect output: %u;%u;%u;%u\n", row, col, pwcell->rowSpan(), pwcell->colSpan());
+                }
+                ASSERT_TRUE( pwcell->rowSpan() == row_span );
+                ASSERT_TRUE( pwcell->colSpan() == col_span );
+            }
+            ASSERT_TRUE( grid->allocatedCellCount() == (49 - count + addedcellcount ) );
+            for(size_t row = 0; row < 7; row++)
+            {
+                for(size_t col = 0; col < 7; col++)
+                {
+                    bool w = false;
+                    for(size_t i = 0; i < results[test].size(); i++)
+                    {
+                        size_t rowc = results[test][i].p0().x();
+                        size_t colc = results[test][i].p0().y();
+                        size_t row_span = results[test][i].p2().x() - results[test][i].p0().x() + 1;
+                        size_t col_span = results[test][i].p2().y() - results[test][i].p0().y() + 1;
+                        w = w || (row >= rowc && col >= colc && row <= (rowc + row_span - 1) && col <= (colc + col_span - 1));
+                    }
+                    if (!w)
+                    {
+                        sad::layouts::Cell* pcell = grid->cell(row, col); 
+                        ASSERT_TRUE( pcell->rowSpan() == 1 );
+                        ASSERT_TRUE( pcell->colSpan() == 1 );
+                    }
+                }
+            }
+       }
+   }
+
+   // ReSharper disable once CppMemberFunctionMayBeStatic
+   // ReSharper disable once CppMemberFunctionMayBeConst
+   /*! Test common merge attempt
+    */
+   void testMergeCommon()
+   {
+        sad::layouts::Grid* grid = new sad::layouts::Grid();
+        grid->setFixedWidth(true);
+        grid->setFixedHeight(true);
+        grid->setRows(6);
+        grid->setColumns(6);
+        grid->setArea(sad::Rect2D(0, 0, 800, 800));
+        sad::db::Database* db = new sad::db::Database();
+        sad::db::Table* tbl = new sad::db::Table();
+        sad::Renderer r;
+        r.addDatabase("", db);
+        db->setRenderer(&r);
+        tbl->setDatabase(db);
+        db->addTable("", tbl);
+        grid->setTable(tbl);
+        tbl->add(grid);
+
+        grid->merge(0, 0, 3, 3);
+        grid->merge(0, 3, 3, 3);
+        grid->merge(3, 0, 3, 3);
+        grid->merge(3, 3, 3, 3);
+
+        ASSERT_TRUE( grid->allocatedCellCount() == 4 );
+
+        sad::layouts::Cell* cell = grid->cell(0, 0);
+        ASSERT_TRUE( cell->rowSpan() == 3 );
+        ASSERT_TRUE( cell->colSpan() == 3 );
+
+        cell = grid->cell(0, 3);
+        ASSERT_TRUE( cell->rowSpan() == 3 );
+        ASSERT_TRUE( cell->colSpan() == 3 );
+
+        cell = grid->cell(3, 0);
+        ASSERT_TRUE( cell->rowSpan() == 3 );
+        ASSERT_TRUE( cell->colSpan() == 3 );
+
+        cell = grid->cell(3, 3);
+        ASSERT_TRUE( cell->rowSpan() == 3 );
+        ASSERT_TRUE( cell->colSpan() == 3 );
+
+        grid->merge(2, 2, 2, 2);
+
+        ASSERT_TRUE( grid->allocatedCellCount() == 9 );
+
+        cell = grid->cell(0, 0);
+        ASSERT_TRUE( cell->rowSpan() == 3 );
+        ASSERT_TRUE( cell->colSpan() == 2 );
+
+        cell = grid->cell(0, 2);
+        ASSERT_TRUE( cell->rowSpan() == 2 );
+        ASSERT_TRUE( cell->colSpan() == 1 );
+
+        cell = grid->cell(0, 3);
+        ASSERT_TRUE( cell->rowSpan() == 2 );
+        ASSERT_TRUE( cell->colSpan() == 1 );
+
+        cell = grid->cell(0, 4);
+        ASSERT_TRUE( cell->rowSpan() == 3 );
+        ASSERT_TRUE( cell->colSpan() == 2 );
+
+        cell = grid->cell(3, 0);
+        ASSERT_TRUE( cell->rowSpan() == 3 );
+        ASSERT_TRUE( cell->colSpan() == 2 );
+
+        cell = grid->cell(4, 2);
+        ASSERT_TRUE( cell->rowSpan() == 2 );
+        ASSERT_TRUE( cell->colSpan() == 1 );
+
+        cell = grid->cell(4, 3);
+        ASSERT_TRUE( cell->rowSpan() == 2 );
+        ASSERT_TRUE( cell->colSpan() == 1 );
+
+        cell = grid->cell(3, 4);
+        ASSERT_TRUE( cell->rowSpan() == 3 );
+        ASSERT_TRUE( cell->colSpan() == 2 );
+
+        cell = grid->cell(2, 2);
+        ASSERT_TRUE( cell->rowSpan() == 2 );
+        ASSERT_TRUE( cell->colSpan() == 2 );
+   }
+   // ReSharper disable once CppMemberFunctionMayBeStatic
+   // ReSharper disable once CppMemberFunctionMayBeConst
+   /*! Test common split attempt
+    */
+   void testSplitCommon()
+   {
+       sad::layouts::Grid* grid = new sad::layouts::Grid();
+        grid->setFixedWidth(true);
+        grid->setFixedHeight(true);
+        grid->setRows(6);
+        grid->setColumns(6);
+        grid->setArea(sad::Rect2D(0, 0, 800, 800));
+        sad::db::Database* db = new sad::db::Database();
+        sad::db::Table* tbl = new sad::db::Table();
+        sad::Renderer r;
+        r.addDatabase("", db);
+        db->setRenderer(&r);
+        tbl->setDatabase(db);
+        db->addTable("", tbl);
+        grid->setTable(tbl);
+        tbl->add(grid);
+
+        grid->merge(0, 0, 3, 3);
+        grid->merge(0, 3, 3, 3);
+        grid->merge(3, 0, 3, 3);
+        grid->merge(3, 3, 3, 3);
+
+        ASSERT_TRUE( grid->allocatedCellCount() == 4 );
+
+        sad::layouts::Cell* cell = grid->cell(0, 0);
+        ASSERT_TRUE( cell->rowSpan() == 3 );
+        ASSERT_TRUE( cell->colSpan() == 3 );
+
+        cell = grid->cell(0, 3);
+        ASSERT_TRUE( cell->rowSpan() == 3 );
+        ASSERT_TRUE( cell->colSpan() == 3 );
+
+        cell = grid->cell(3, 0);
+        ASSERT_TRUE( cell->rowSpan() == 3 );
+        ASSERT_TRUE( cell->colSpan() == 3 );
+
+        cell = grid->cell(3, 3);
+        ASSERT_TRUE( cell->rowSpan() == 3 );
+        ASSERT_TRUE( cell->colSpan() == 3 );
+
+        grid->split(2, 2, 2, 2);
+
+        ASSERT_TRUE( grid->allocatedCellCount() == 12 );
+
+        cell = grid->cell(0, 0);
+        ASSERT_TRUE( cell->rowSpan() == 3 );
+        ASSERT_TRUE( cell->colSpan() == 2 );
+
+        cell = grid->cell(0, 2);
+        ASSERT_TRUE( cell->rowSpan() == 2 );
+        ASSERT_TRUE( cell->colSpan() == 1 );
+
+        cell = grid->cell(0, 3);
+        ASSERT_TRUE( cell->rowSpan() == 2 );
+        ASSERT_TRUE( cell->colSpan() == 1 );
+
+        cell = grid->cell(0, 4);
+        ASSERT_TRUE( cell->rowSpan() == 3 );
+        ASSERT_TRUE( cell->colSpan() == 2 );
+
+        cell = grid->cell(3, 0);
+        ASSERT_TRUE( cell->rowSpan() == 3 );
+        ASSERT_TRUE( cell->colSpan() == 2 );
+
+        cell = grid->cell(4, 2);
+        ASSERT_TRUE( cell->rowSpan() == 2 );
+        ASSERT_TRUE( cell->colSpan() == 1 );
+
+        cell = grid->cell(4, 3);
+        ASSERT_TRUE( cell->rowSpan() == 2 );
+        ASSERT_TRUE( cell->colSpan() == 1 );
+
+        cell = grid->cell(3, 4);
+        ASSERT_TRUE( cell->rowSpan() == 3 );
+        ASSERT_TRUE( cell->colSpan() == 2 );
+
+        cell = grid->cell(2, 2);
+        ASSERT_TRUE( cell->rowSpan() == 1 );
+        ASSERT_TRUE( cell->colSpan() == 1 );
+
+        cell = grid->cell(2, 3);
+        ASSERT_TRUE( cell->rowSpan() == 1 );
+        ASSERT_TRUE( cell->colSpan() == 1 );
+
+        cell = grid->cell(3, 2);
+        ASSERT_TRUE( cell->rowSpan() == 1 );
+        ASSERT_TRUE( cell->colSpan() == 1 );
+
+        cell = grid->cell(3, 3);
+        ASSERT_TRUE( cell->rowSpan() == 1 );
+        ASSERT_TRUE( cell->colSpan() == 1 );
    }
 
 } _sad_grid_tests;
