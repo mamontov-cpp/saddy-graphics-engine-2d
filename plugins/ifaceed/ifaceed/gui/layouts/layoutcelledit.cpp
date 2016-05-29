@@ -318,13 +318,15 @@ void gui::layouts::LayoutCellEdit::set(sad::layouts::Cell* cell)
 void gui::layouts::LayoutCellEdit::setWidth(const sad::layouts::LengthValue& v) const
 {
     invoke_blocked(m_width_value, &QDoubleSpinBox::setValue, v.Value);
-    invoke_blocked(m_width_unit,  &QComboBox::setCurrentIndex, static_cast<int>(v.Unit));    
+    invoke_blocked(m_width_unit,  &QComboBox::setCurrentIndex, static_cast<int>(v.Unit));
+    m_width_value->setEnabled(v.Unit != sad::layouts::LU_Auto);
 }
 
 void gui::layouts::LayoutCellEdit::setHeight(const sad::layouts::LengthValue& v) const
 {
     invoke_blocked(m_height_value, &QDoubleSpinBox::setValue, v.Value);
     invoke_blocked(m_height_unit,  &QComboBox::setCurrentIndex, static_cast<int>(v.Unit));   
+    m_height_value->setEnabled(v.Unit != sad::layouts::LU_Auto);
 }
 
 void gui::layouts::LayoutCellEdit::setHorizontalAlignment(sad::layouts::HorizontalAlignment v) const
