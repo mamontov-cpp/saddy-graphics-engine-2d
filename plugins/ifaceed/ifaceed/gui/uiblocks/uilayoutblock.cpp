@@ -32,7 +32,10 @@ btnLayoutRemove(NULL),
 spnLayoutGridRows(NULL),
 spnLayoutGridCols(NULL),
 tblLayoutCells(NULL),
-cbLayoutShow(NULL)
+cbLayoutShow(NULL),
+spnLayoutNavigateCellX(NULL),
+spnLayoutNavigateCellY(NULL),
+btnLayoutAddByStretching(NULL)
 {
 
 }
@@ -84,6 +87,12 @@ void gui::uiblocks::UILayoutBlock::init(QWidget* w)
     assert(this->tblLayoutCells);
     this->cbLayoutShow = w->findChild<QCheckBox*>("cbLayoutShow");
     assert(this->cbLayoutShow);
+    this->spnLayoutNavigateCellX = w->findChild<QSpinBox*>("spnLayoutNavigateCellX");
+    assert(this->spnLayoutNavigateCellX);
+    this->spnLayoutNavigateCellY = w->findChild<QSpinBox*>("spnLayoutNavigateCellY");
+    assert(this->spnLayoutNavigateCellY);
+    this->btnLayoutAddByStretching = w->findChild<QPushButton*>("btnLayoutAddByStretching");
+    assert(this->btnLayoutAddByStretching);
 }
 
 gui::uiblocks::UILayoutBlock::~UILayoutBlock()

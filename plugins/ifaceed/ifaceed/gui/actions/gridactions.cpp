@@ -4,6 +4,7 @@
 
 #include <QLineEdit>
 #include <QScrollArea>
+#include <QScrollBar>
 
 #include "../../qstdstring.h"
 
@@ -246,13 +247,28 @@ void gui::actions::GridActions::updateCellBrowser(bool immediate)
         m_editor->emitClosure(::bind(this, &gui::actions::GridActions::updateCellBrowser, true));
         return;
     }
+    double scrollvaluex = 0;
+    double scrollvaluey = 0;
+        
+    gui::uiblocks::UILayoutBlock* layout_blk = m_editor->uiBlocks()->uiLayoutBlock();
+
+    QScrollBar* hbar = layout_blk->tblLayoutCells->horizontalScrollBar();
+    QScrollBar* vbar = layout_blk->tblLayoutCells->verticalScrollBar();
+    if (hbar)
+    {
+        scrollvaluex = hbar->value();
+    }
+    if (vbar)
+    {
+        scrollvaluey = vbar->value();
+    }
+
 
     clearGridCellsBrowser();
 
     // Update proxy just in case, if it was invalidated by setting it not in needed time
     m_provider->setProxy(m_editor->panelProxy());
 
-    gui::uiblocks::UILayoutBlock* layout_blk = m_editor->uiBlocks()->uiLayoutBlock();
     sad::layouts::Grid* grid = this->selectedGrid();
     QGridLayout* table = new QGridLayout();
     if (grid)
@@ -350,6 +366,24 @@ void gui::actions::GridActions::updateCellBrowser(bool immediate)
     QWidget* w = new QWidget();
     w->setLayout(table);
     layout_blk->tblLayoutCells->setWidget(w);
+    hbar = layout_blk->tblLayoutCells->horizontalScrollBar();
+    vbar = layout_blk->tblLayoutCells->verticalScrollBar();
+    if (hbar)
+    {
+        if (scrollvaluex < hbar->maximum())
+        {
+            hbar->setValue(scrollvaluex);
+        }        
+    }
+
+    if (vbar)
+    {
+        if (scrollvaluey < vbar->maximum())
+        {
+            vbar->setValue(scrollvaluey);
+        }
+    }
+
 }
 
 void gui::actions::GridActions::updateOnlyGridPropertiesInUI(
@@ -884,13 +918,16 @@ void gui::actions::GridActions::clearNodeToGridCache()
 void  gui::actions::GridActions::tryUpdateNodeNameInGrid(sad::SceneNode* node)
 {	
     sad::layouts::Grid* grid = this->parentGridFor(node);
-    if (m_editor->shared()->selectedGrid() == grid)
+    if (grid)
     {
-        sad::Maybe<sad::layouts::Grid::SearchResult> gpos = grid->find(node);
-        if (gpos.exists())
+        if (m_editor->shared()->selectedGrid() == grid)
         {
-            sad::layouts::Cell* cell = grid->cell(gpos.value().p1());
-            this->cellEditor(cell->Row, cell->Col)->updateChildName(gpos.value().p2(), m_editor->actions()->sceneNodeActions()->fullNameForNode(node));
+            sad::Maybe<sad::layouts::Grid::SearchResult> gpos = grid->find(node);
+            if (gpos.exists())
+            {
+                sad::layouts::Cell* cell = grid->cell(gpos.value().p1());
+                this->cellEditor(cell->Row, cell->Col)->updateChildName(gpos.value().p2(), m_editor->actions()->sceneNodeActions()->fullNameForNode(node));
+            }
         }
     }
 }
@@ -1148,6 +1185,20 @@ void gui::actions::GridActions::areaChanged(QRectF newarea)
             }
         }
     }
+}
+
+void gui::actions::GridActions::navigateCellRow(int newvalue)
+{
+    int row = newvalue;
+    int column = m_editor->uiBlocks()->uiLayoutBlock()->spnLayoutNavigateCellY->value();
+    this->tryNavigateToCell(row, column);
+}
+
+void gui::actions::GridActions::navigateCellColumn(int newvalue)
+{
+    int row = m_editor->uiBlocks()->uiLayoutBlock()->spnLayoutNavigateCellX->value();
+    int column = newvalue;
+    this->tryNavigateToCell(row, column);    
 }
 
 void gui::actions::GridActions::rowCountChanged(int newvalue)
@@ -2012,6 +2063,40 @@ void gui::actions::GridActions::splitButtonClicked()
 }
 
 // =============================== PRIVATE METHODS ===============================
+
+void gui::actions::GridActions::tryNavigateToCell(size_t row, size_t column)
+{
+    sad::layouts::Grid* grid = m_editor->shared()->activeGrid();    
+    if (!grid)
+    {
+        grid = m_editor->shared()->selectedGrid();
+    }
+
+    if (!grid)
+    {
+        return;
+    }
+    if (row < grid->rows() && column < grid->columns())
+    {
+        // Change values of row and column, if cell is merged
+        sad::layouts::Cell* cell = grid->cell(row, column);
+        row = cell->Row;
+        column = cell->Col;
+
+        if (m_cell_editors.contains(row))
+        {
+            QHash<size_t, gui::layouts::LayoutCellEdit*>& part =  m_cell_editors[row];
+            if (part.contains(column))
+            {
+                gui::layouts::LayoutCellEdit* editor = part[column];
+                // Set margin to bigger to ensure, we navigate to top-left point
+                QScrollArea* area =  m_editor->uiBlocks()->uiLayoutBlock()->tblLayoutCells; 
+                area->ensureVisible(editor->x(), editor->y(), area->width(), area->height() * 0.90);
+            }
+        }
+    }
+}
+
 
 gui::CellRegion gui::actions::GridActions::getSelectedCellRegion() const
 {

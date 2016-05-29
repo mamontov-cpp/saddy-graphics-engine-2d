@@ -565,6 +565,14 @@ public slots:
         \param[in] newarea assumed new area for a grid
      */
     void areaChanged(QRectF newarea);
+    /*! Called, when user wants to navigate to specified cell row
+        \param[in] newvalue row position
+     */
+    void navigateCellRow(int newvalue);
+    /*! Called, when user wants to navigate to specified cell column
+        \param[in] newvalue column position
+    */
+    void navigateCellColumn(int newvalue);
     /*! Called, when user changes row count for a grid
         \param[in] newvalue a new row count for a grid
      */
@@ -695,6 +703,11 @@ public slots:
      */
     void splitButtonClicked();
 private:
+    /*! Tries to navigate to specified cell, or merged cell, if this node is part of it
+        \param[in] row a row of target cell
+        \param[in] column a column of target cell
+     */
+    void tryNavigateToCell(size_t row, size_t column);
     /*! Returns current cell region for cells
         \return selected cell region
      */

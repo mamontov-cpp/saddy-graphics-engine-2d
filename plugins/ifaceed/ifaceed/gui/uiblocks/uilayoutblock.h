@@ -71,6 +71,9 @@ public:
     QSpinBox* spnLayoutGridCols;
     QScrollArea* tblLayoutCells;
     QCheckBox* cbLayoutShow;
+    QSpinBox* spnLayoutNavigateCellX;
+    QSpinBox* spnLayoutNavigateCellY;
+    QPushButton* btnLayoutAddByStretching;
 };
 
 }

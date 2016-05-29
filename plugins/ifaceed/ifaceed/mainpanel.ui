@@ -1345,6 +1345,50 @@ all cells</string>
            </property>
           </widget>
          </widget>
+         <widget class="QLabel" name="lblLayoutNavigate">
+          <property name="geometry">
+           <rect>
+            <x>170</x>
+            <y>284</y>
+            <width>36</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>6</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Navigate:</string>
+          </property>
+         </widget>
+         <widget class="QSpinBox" name="spnLayoutNavigateCellX">
+          <property name="geometry">
+           <rect>
+            <x>204</x>
+            <y>280</y>
+            <width>42</width>
+            <height>22</height>
+           </rect>
+          </property>
+          <property name="maximum">
+           <number>99</number>
+          </property>
+         </widget>
+         <widget class="QSpinBox" name="spnLayoutNavigateCellY">
+          <property name="geometry">
+           <rect>
+            <x>250</x>
+            <y>280</y>
+            <width>42</width>
+            <height>22</height>
+           </rect>
+          </property>
+          <property name="maximum">
+           <number>99</number>
+          </property>
+         </widget>
         </widget>
        </widget>
        <widget class="QListWidget" name="lstLayoutGridList">

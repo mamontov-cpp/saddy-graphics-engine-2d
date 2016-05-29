@@ -77,8 +77,9 @@ public:
     void selectLastSceneNode();
     /*! Updates scene node name, finding it in list, settting it to current name
         \param[in] s scene
+        \param[in] update_field whether we should update scen node name text field
      */
-    void updateSceneNodeName(sad::SceneNode* s);
+    void updateSceneNodeName(sad::SceneNode* s, bool update_field = true);
     /*! Returns full name for a node
         \param[in] node node, which shoulde be found
         \return name for node

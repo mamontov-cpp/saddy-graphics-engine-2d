@@ -204,7 +204,9 @@
    ["QGridLayout", "grdLayoutSizes"],
    ["QLabel", "lblLayoutGridRows"],
    ["QLabel", "lblLayoutGridCols"],
-   ["QWidget", "scrollAreaWidgetContents"]],
+   ["QWidget", "scrollAreaWidgetContents"],
+   ["QWidget", "tabLayoutDefaultPaddings"],
+   ["QLabel", "lblLayoutNavigate"]],
  "Scene"=>
   [["QListWidget", "lstScenes"],
    ["QLineEdit", "txtSceneName"],
@@ -401,4 +403,7 @@
    ["QSpinBox", "spnLayoutGridRows"],
    ["QSpinBox", "spnLayoutGridCols"],
    ["QScrollArea", "tblLayoutCells"],
-   ["QCheckBox", "cbLayoutShow"]]}
+   ["QCheckBox", "cbLayoutShow"],
+   ["QSpinBox", "spnLayoutNavigateCellX"],
+   ["QSpinBox", "spnLayoutNavigateCellY"],
+   ["QPushButton", "btnLayoutAddByStretching"]]}

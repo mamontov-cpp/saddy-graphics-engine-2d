@@ -507,7 +507,7 @@ void gui::actions::SceneNodeActions::nameEdited(const QString& name)
     if (m_editor->shared()->activeObject() != NULL)
     {
         m_editor->shared()->activeObject()->setObjectName(newvalue);
-        this->updateSceneNodeName(m_editor->shared()->activeObject());
+        this->updateSceneNodeName(m_editor->shared()->activeObject(), false);
     }
     else
     {
@@ -518,7 +518,7 @@ void gui::actions::SceneNodeActions::nameEdited(const QString& name)
             if (newvalue != oldvalue)
             {
                 node->setObjectName(newvalue);
-                this->updateSceneNodeName(m_editor->shared()->selectedObject());
+                this->updateSceneNodeName(m_editor->shared()->selectedObject(), false);
                 m_editor->history()->add(new history::scenenodes::ChangeName(node, oldvalue, newvalue));
             }            
         }
@@ -747,7 +747,7 @@ void gui::actions::SceneNodeActions::selectLastSceneNodeSlot()
     }	
 }
 
-void gui::actions::SceneNodeActions::updateSceneNodeName(sad::SceneNode* s)
+void gui::actions::SceneNodeActions::updateSceneNodeName(sad::SceneNode* s, bool update_field)
 {
     gui::uiblocks::UISceneBlock* blk = m_editor->uiBlocks()->uiSceneBlock();
     gui::uiblocks::UISceneNodeBlock* nblk = m_editor->uiBlocks()->uiSceneNodeBlock();
@@ -757,13 +757,16 @@ void gui::actions::SceneNodeActions::updateSceneNodeName(sad::SceneNode* s)
     {
         w->item(row)->setText(this->viewableObjectName(s));
     }
-    if (s == m_editor->shared()->selectedObject() || s == m_editor->shared()->activeObject())
+    if (update_field)
     {
-        QLineEdit* edit  = nblk->txtObjectName;
-        bool b = edit->blockSignals(true);
-        std::string on  = s->objectName().c_str(); 
-        edit->setText(STD2QSTRING(on));
-        edit->blockSignals(b);
+        if (s == m_editor->shared()->selectedObject() || s == m_editor->shared()->activeObject())
+        {
+            QLineEdit* edit  = nblk->txtObjectName;
+            bool b = edit->blockSignals(true);
+            std::string on  = s->objectName().c_str(); 
+            edit->setText(STD2QSTRING(on));
+            edit->blockSignals(b);
+        }
     }
 
     gui::uiblocks::UIAnimationInstanceBlock* aiblk = m_editor->uiBlocks()->uiAnimationInstanceBlock();
