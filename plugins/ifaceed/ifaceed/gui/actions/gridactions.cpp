@@ -2091,7 +2091,9 @@ void gui::actions::GridActions::tryNavigateToCell(size_t row, size_t column)
                 gui::layouts::LayoutCellEdit* editor = part[column];
                 // Set margin to bigger to ensure, we navigate to top-left point
                 QScrollArea* area =  m_editor->uiBlocks()->uiLayoutBlock()->tblLayoutCells; 
-                area->ensureVisible(editor->x(), editor->y(), area->width(), area->height() * 0.90);
+                area->ensureVisible(editor->x(), editor->y(), 0, 0);
+                /* Added small padding */
+                area->ensureVisible(editor->x() + area->width(), editor->y() + area->height() - 20, 0, 0);
             }
         }
     }
