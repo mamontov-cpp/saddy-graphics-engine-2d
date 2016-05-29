@@ -1905,7 +1905,54 @@ void gui::actions::GridActions::mergeButtonClicked()
 {
     if (m_editor)
     {
-        // TODO: Implement it
+        sad::layouts::Grid* grid = m_editor->shared()->activeGrid();
+        bool active = (grid != NULL);
+        if (!grid)
+        {
+            grid = m_editor->shared()->selectedGrid();
+        }
+        if (grid)
+        {
+            gui::CellRegion region = this->getSelectedCellRegion();
+            if (region.Flags != gui::CellRegion::GCRF_EMPTY)
+            {
+                if (region.Flags == gui::CellRegion::GCRF_INVALID)
+                {
+                    QMessageBox::critical(NULL, "Invalid selected region", "To merge cells in region, please select a valid rectangular region");
+                }
+                else
+                {
+                    size_t row = region.Region.p0().x();
+                    size_t col = region.Region.p0().y();
+                    size_t rowspan = region.Region.p2().x() - region.Region.p0().x() + 1;
+                    size_t colspan = region.Region.p2().y() - region.Region.p0().y() + 1;
+                    if (rowspan != 1 || colspan != 1)
+                    {
+                        if (active)
+                        {
+                            grid->merge(row, col, rowspan, colspan);
+                            this->updateCellBrowser();
+                            this->updateRegion();
+                        }
+                        else
+                        {
+                            history::layouts::Change<gui::actions::GridActions::GGAUO_Cells>* c = new history::layouts::Change<gui::actions::GridActions::GGAUO_Cells>(grid);
+                            c->saveOldState();
+                            c->addAffectedNodes(grid->children());
+
+                            grid->merge(row, col, rowspan, colspan);
+
+                            c->saveNewState();
+
+                            this->updateCellBrowser();
+                            this->updateRegion();
+
+                            m_editor->history()->add(c);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -1913,11 +1960,134 @@ void gui::actions::GridActions::splitButtonClicked()
 {
     if (m_editor)
     {
-        // TODO: Implement it
+        sad::layouts::Grid* grid = m_editor->shared()->activeGrid();
+        bool active = (grid != NULL);
+        if (!grid)
+        {
+            grid = m_editor->shared()->selectedGrid();
+        }
+        if (grid)
+        {
+            gui::CellRegion region = this->getSelectedCellRegion();
+            if (region.Flags != gui::CellRegion::GCRF_EMPTY)
+            {
+                if (region.Flags == gui::CellRegion::GCRF_INVALID)
+                {
+                    QMessageBox::critical(NULL, "Invalid selected region", "To merge cells in region, please select a valid rectangular region");
+                }
+                else
+                {
+                    size_t row = region.Region.p0().x();
+                    size_t col = region.Region.p0().y();
+                    size_t rowspan = region.Region.p2().x() - region.Region.p0().x() + 1;
+                    size_t colspan = region.Region.p2().y() - region.Region.p0().y() + 1;
+                    if (rowspan != 1 || colspan != 1)
+                    {
+                        if (active)
+                        {
+                            grid->split(row, col, rowspan, colspan);
+                            this->updateCellBrowser();
+                            this->updateRegion();
+                        }
+                        else
+                        {
+                            history::layouts::Change<gui::actions::GridActions::GGAUO_Cells>* c = new history::layouts::Change<gui::actions::GridActions::GGAUO_Cells>(grid);
+                            c->saveOldState();
+                            c->addAffectedNodes(grid->children());
+
+                            grid->split(row, col, rowspan, colspan);
+
+                            c->saveNewState();
+
+                            this->updateCellBrowser();
+                            this->updateRegion();
+
+                            m_editor->history()->add(c);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
 // =============================== PRIVATE METHODS ===============================
+
+gui::CellRegion gui::actions::GridActions::getSelectedCellRegion() const
+{
+    gui::CellRegion result;
+    result.Flags = gui::CellRegion::GCRF_EMPTY;
+    sad::layouts::Grid* grid = m_editor->shared()->activeGrid();
+    if (!grid)
+    {
+        grid = m_editor->shared()->selectedGrid();
+    }
+
+    if (!grid)
+    {
+        return result;
+    }
+
+    sad::Vector<sad::layouts::Cell*> selectedcells;
+    for(QHash<size_t, QHash<size_t, gui::layouts::LayoutCellEdit*> >::const_iterator it = m_cell_editors.constBegin(); 
+        it != m_cell_editors.constEnd();
+        ++it)
+    {
+        size_t row = it.key();
+        const QHash<size_t, gui::layouts::LayoutCellEdit*>&part = it.value();
+        for(QHash<size_t, gui::layouts::LayoutCellEdit*>::const_iterator jt = part.constBegin(); jt != part.constEnd(); ++jt)
+        {
+            size_t col = jt.key();
+            gui::layouts::LayoutCellEdit* celleditor = jt.value();
+            if (celleditor->checked())
+            {
+                selectedcells << grid->cell(row, col);
+            }
+        }
+    }
+
+    if (selectedcells.size())
+    {
+        size_t currowmin = selectedcells[0]->Row;
+        size_t curcolmin = selectedcells[0]->Col;
+        size_t currowmax  = currowmin + selectedcells[0]->rowSpan() - 1;
+        size_t curcolmax = curcolmin + selectedcells[0]->colSpan() - 1;
+        result.Flags = gui::CellRegion::GCRF_OK;
+        for(size_t i = 1; i < selectedcells.size(); i++)
+        {
+            size_t rowmin = selectedcells[i]->Row;
+            size_t colmin = selectedcells[i]->Col;
+            size_t rowmax  = rowmin + selectedcells[i]->rowSpan() - 1;
+            size_t colmax = colmin + selectedcells[i]->colSpan() - 1;
+            currowmin = std::min(rowmin, currowmin);
+            curcolmin = std::min(colmin, curcolmin);
+            currowmax = std::max(rowmax, currowmax);
+            curcolmax = std::max(colmax, curcolmax);            
+        }
+        result.Region = sad::Rect2I(currowmin, curcolmin, currowmax, curcolmax);
+        bool valid = true;
+        for(size_t row = currowmin; row <= currowmax; row++)
+        {
+            for(size_t col = curcolmin; col <= curcolmax; col++)
+            {
+                if (m_cell_editors.contains(row))
+                {
+                    const QHash<size_t, gui::layouts::LayoutCellEdit*>&part = m_cell_editors[row];
+                    if (part.contains(col))
+                    {
+                        valid = valid && part[col]->checked();
+                    }
+                }
+            }
+        }
+
+        if (!valid)
+        {
+            result.Flags = gui::CellRegion::GCRF_INVALID;
+        }
+    }
+    return result;
+}
 
 sad::layouts::Grid* gui::actions::GridActions::prepareGridForAdding()
 {
@@ -1953,9 +2123,12 @@ sad::layouts::Grid* gui::actions::GridActions::prepareGridForAdding()
     }
 
     this->addGridToGridList(grid);
-    layout_blk->lstLayoutGridList->setCurrentRow(
-        layout_blk->lstLayoutGridList->count() - 1
-    );
+    QListWidget* list_of_grids = layout_blk->lstLayoutGridList;
+    bool state = list_of_grids->blockSignals(true);
+    list_of_grids->setCurrentRow(list_of_grids->count() - 1);
+    list_of_grids->blockSignals(state);
+    list_of_grids->update();
+
     m_editor->renderGrids()->add(grid);
     m_editor->shared()->setActiveGrid(grid);
     this->updateRegion();

@@ -118,6 +118,24 @@ struct GridPosition
     }
 };
 
+/*! A cell region, as selection of cells
+ */
+struct CellRegion
+{
+    /*! A flags for cell region
+     */
+    enum Flags
+    {
+        GCRF_OK = 0,       //!< Region is valid
+        GCRF_EMPTY = 1,    //!< Region is not selected
+        GCRF_INVALID = 2   //!< Region is invalid - not all cells are picked
+    } Flags;
+    /*! A region selection
+     */
+    sad::Rect2I Region;
+};
+
+
 namespace actions
 {
 
@@ -677,6 +695,10 @@ public slots:
      */
     void splitButtonClicked();
 private:
+    /*! Returns current cell region for cells
+        \return selected cell region
+     */
+    gui::CellRegion getSelectedCellRegion() const;
     /*! Prepares grid for adding into form
         \return created grid
      */
