@@ -292,6 +292,12 @@
     <Filter Include="Source Files\history\layouts">
       <UniqueIdentifier>{1904446a-a4e4-460f-89f2-4a9437338254}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\scripting\layouts">
+      <UniqueIdentifier>{95b98f43-e92e-4297-90dc-22cefcd3f6f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\scripting\layouts">
+      <UniqueIdentifier>{7811f345-bcb1-4cee-bbba-0d0ae541c170}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="acolordialog.cpp">
@@ -2457,6 +2463,15 @@
     <ClCompile Include="history\layouts\layoutsswapchildren.cpp">
       <Filter>Source Files\history\layouts</Filter>
     </ClCompile>
+    <ClCompile Include="scripting\layouts\gridcell.cpp">
+      <Filter>Source Files\scripting\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\layouts\grid.cpp">
+      <Filter>Source Files\scripting\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\layouts\gridbindings.cpp">
+      <Filter>Source Files\scripting\layouts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -3142,6 +3157,15 @@
     </ClInclude>
     <ClInclude Include="history\layouts\layoutschangecell.h">
       <Filter>Header Files\history\layouts</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\layouts\gridbindings.h">
+      <Filter>Header Files\scripting\layouts</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\layouts\gridcell.h">
+      <Filter>Header Files\scripting\layouts</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\layouts\grid.h">
+      <Filter>Header Files\scripting\layouts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
