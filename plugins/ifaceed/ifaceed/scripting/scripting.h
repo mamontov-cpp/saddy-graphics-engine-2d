@@ -146,6 +146,10 @@ protected:
         \param[out] v a global value (E)
      */
     void initSceneNodesBindings(QScriptValue& v);
+    /*! Inits layout grid bindings
+        \param[out] v a global value (E)
+     */
+    void initLayoutGridBindings(QScriptValue& v);
     /*! Inits way bindings
         \param[out] v a global value (E)
      */

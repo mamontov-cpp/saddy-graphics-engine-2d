@@ -219,6 +219,7 @@ void scripting::Scripting::setEditor(core::Editor* editor)
     this->initDatabasePropertyBindings(m_value);
     this->initSceneBindings(m_value);
     this->initSceneNodesBindings(m_value);
+    this->initLayoutGridBindings(m_value);
     this->initWaysBindings(m_value);
     this->initDialoguesBindings(m_value);
     this->initAnimationsBindings(m_value);
@@ -1311,6 +1312,11 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
         "	throw new Error(\"Specify 2 or 3 arguments\");"
         "};"
     );
+}
+
+void scripting::Scripting::initLayoutGridBindings(QScriptValue& v)
+{
+
 }
 
 void scripting::Scripting::initWaysBindings(QScriptValue& v)
