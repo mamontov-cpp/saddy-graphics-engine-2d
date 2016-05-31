@@ -320,13 +320,10 @@ void gui::actions::SceneNodeActions::tryUpdateParentGridForNode(sad::SceneNode* 
     if (parent)
     {
         parent->update();
+        ga->updateParentGridsRecursively(parent, false);
         if (m_editor->isNodeSelected(node))
         {
             this->updateRegionForNode();
-        }
-        if (m_editor->shared()->selectedGrid() == parent)
-        {
-            ga->updateRegion();
         }
     }
 }
@@ -611,6 +608,7 @@ void gui::actions::SceneNodeActions::areaChanged(QRectF newarea)
                         if (parent != NULL)
                         {
                             parent->update();
+                            ga->updateParentGridsRecursively(parent, true);
                             sad::Rect2D valueafterupdate = node->getProperty<sad::Rect2D>("area").value();
                             if (!sad::equal(valueafterupdate, newvalue))
                             {
