@@ -88,6 +88,8 @@
 #include "scenenodes/scenenodescustomgetter.h"
 #include "scenenodes/scenenodescustomsetter.h"
 
+#include "layouts/gridbindings.h"
+
 #include "ways/waysbindings.h"
 #include "ways/wayssetter.h"
 
@@ -1316,7 +1318,11 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
 
 void scripting::Scripting::initLayoutGridBindings(QScriptValue& v)
 {
+	QScriptValue layouts = m_engine->newObject();
 
+    layouts.setProperty("list", m_engine->newFunction(scripting::layouts::list), m_flags); // E.layouts.list
+
+	v.setProperty("layouts", layouts, m_flags); // E.layouts
 }
 
 void scripting::Scripting::initWaysBindings(QScriptValue& v)
@@ -2082,3 +2088,4 @@ void scripting::Scripting::loadScript()
         }
     }
 }
+
