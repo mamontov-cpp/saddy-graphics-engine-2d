@@ -1,4 +1,4 @@
-/*! \file scripting/layouts/gridcell.h
+/*! \file scripting/layouts/scriptablegridcell.h
 
     A grid cell scripting bindings should be placed here
  */
