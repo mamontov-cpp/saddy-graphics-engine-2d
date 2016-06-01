@@ -135,10 +135,6 @@
 #include "animations/easinggetter.h"
 #include "animations/easingsetter.h"
 
-
-
-#include <window.h>
-
 Q_DECLARE_METATYPE(QScriptContext*) //-V566
 
 // ================================== PUBLIC METHODS OF scripting::Scripting::Thread ==================================
@@ -239,6 +235,7 @@ QScriptEngine* scripting::Scripting::engine() const
     return m_engine;
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void scripting::Scripting::registerFunction(const QString& name, QScriptValue& v)
 {
     v.setProperty("name", name);
@@ -253,6 +250,8 @@ void scripting::Scripting::registerScriptClass(const QString& name, QScriptClass
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeStatic
+// ReSharper disable once CppMemberFunctionMayBeConst
 QSet<QString> scripting::Scripting::commonProperties()
 {
     QSet<QString> result;
@@ -300,6 +299,7 @@ void scripting::Scripting::propertiesAndFunctions(
     functions = functionsset.toList();
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void scripting::Scripting::propertiesAndFunctions(
     QSet<QString>& properties,
     QSet<QString>& functions,
@@ -388,6 +388,8 @@ void scripting::Scripting::runScript()
 }
 
 
+// ReSharper disable once CppMemberFunctionMayBeStatic
+// ReSharper disable once CppMemberFunctionMayBeConst
 void scripting::Scripting::showHelp()
 {
     ScriptingHelp dlg;
@@ -840,6 +842,7 @@ void scripting::Scripting::showHelp()
 }
 
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void scripting::Scripting::cancelExecution()
 {
     if (m_engine->isEvaluating())
@@ -1316,12 +1319,15 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
     );
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void scripting::Scripting::initLayoutGridBindings(QScriptValue& v)
 {
 	QScriptValue layouts = m_engine->newObject();
 
     layouts.setProperty("list", m_engine->newFunction(scripting::layouts::list), m_flags); // E.layouts.list
 	layouts.setProperty("query", m_engine->newFunction(scripting::layouts::query), m_flags); // E.layouts.query
+	layouts.setProperty("add", m_engine->newFunction(scripting::layouts::add), m_flags); // E.layouts.add
+	layouts.setProperty("remove", m_engine->newFunction(scripting::layouts::remove), m_flags); // E.layouts.remove
 
 	v.setProperty("layouts", layouts, m_flags); // E.layouts
 }
@@ -2050,6 +2056,7 @@ void scripting::Scripting::initAnimationGroupBindings(QScriptValue& v)
     );
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void scripting::Scripting::saveScript()
 {
     QString name = QFileDialog::getSaveFileName(this->editor()->panelAsWidget(), "Enter file, where we should store source code", "", "*.js");
@@ -2069,6 +2076,7 @@ void scripting::Scripting::saveScript()
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void scripting::Scripting::loadScript()
 {
     QString name = QFileDialog::getOpenFileName(this->editor()->panelAsWidget(), "Enter file, where code is stored", "", "*.js");
