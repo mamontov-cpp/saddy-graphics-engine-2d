@@ -1322,14 +1322,14 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
 // ReSharper disable once CppMemberFunctionMayBeConst
 void scripting::Scripting::initLayoutGridBindings(QScriptValue& v)
 {
-	QScriptValue layouts = m_engine->newObject();
+    QScriptValue layouts = m_engine->newObject();
 
     layouts.setProperty("list", m_engine->newFunction(scripting::layouts::list), m_flags); // E.layouts.list
-	layouts.setProperty("query", m_engine->newFunction(scripting::layouts::query), m_flags); // E.layouts.query
-	layouts.setProperty("add", m_engine->newFunction(scripting::layouts::add), m_flags); // E.layouts.add
-	layouts.setProperty("remove", m_engine->newFunction(scripting::layouts::remove), m_flags); // E.layouts.remove
+    layouts.setProperty("query", m_engine->newFunction(scripting::layouts::query), m_flags); // E.layouts.query
+    layouts.setProperty("add", m_engine->newFunction(scripting::layouts::add), m_flags); // E.layouts.add
+    layouts.setProperty("remove", m_engine->newFunction(scripting::layouts::remove), m_flags); // E.layouts.remove
 
-	v.setProperty("layouts", layouts, m_flags); // E.layouts
+    v.setProperty("layouts", layouts, m_flags); // E.layouts
 }
 
 void scripting::Scripting::initWaysBindings(QScriptValue& v)

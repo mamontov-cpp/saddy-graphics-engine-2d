@@ -8,16 +8,16 @@
 
 
 scripting::layouts::ScriptableGrid::ScriptableGrid(
-		unsigned long long major_id,
-		scripting::Scripting* s
+        unsigned long long major_id,
+        scripting::Scripting* s
 ) : m_majorid(major_id), m_scripting(s)
 {
-	
+    
 }
 
 scripting::layouts::ScriptableGrid::~ScriptableGrid() 
 {
-	
+    
 }
 
 
@@ -34,17 +34,17 @@ QString scripting::layouts::ScriptableGrid::toString() const
 
 bool scripting::layouts::ScriptableGrid::valid() const
 {
-	sad::db::Database* db = sad::Renderer::ref()->database("");
-	if (db)
-	{
-		sad::layouts::Grid* grid = db->objectByMajorId<sad::layouts::Grid>(m_majorid);
-		if (grid)
-		{
-			if (grid->Active)
-			{
-				return true;
-			}
-		}
-	}
-	return false;
+    sad::db::Database* db = sad::Renderer::ref()->database("");
+    if (db)
+    {
+        sad::layouts::Grid* grid = db->objectByMajorId<sad::layouts::Grid>(m_majorid);
+        if (grid)
+        {
+            if (grid->Active)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
 }

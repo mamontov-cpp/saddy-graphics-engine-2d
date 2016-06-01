@@ -19,7 +19,7 @@ namespace layouts
  */
 class ScriptableGridCell: public scripting::ClassWrapper
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
     /*! A destructor for grid
      */
@@ -29,12 +29,12 @@ protected:
     /*! A major id for database object
      */
     unsigned long long m_majorid;
-	/*! A row for cell
-	 */
-	unsigned int m_row;
-	/*! A column for cell
-	 */
-	unsigned int m_column;
+    /*! A row for cell
+     */
+    unsigned int m_row;
+    /*! A column for cell
+     */
+    unsigned int m_column;
     /*! A main scripting object
      */
     scripting::Scripting* m_scripting;

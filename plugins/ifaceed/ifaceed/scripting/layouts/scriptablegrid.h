@@ -19,14 +19,14 @@ class ScriptableGrid: public scripting::ClassWrapper
 {
  Q_OBJECT
 public:
-	/*! Declares a scriptable grid
-		\param[in] major_id a major id for a grid
-		\param[in] s scripting
-	 */
-	ScriptableGrid(
-		unsigned long long major_id,
-		scripting::Scripting* s
-	);
+    /*! Declares a scriptable grid
+        \param[in] major_id a major id for a grid
+        \param[in] s scripting
+     */
+    ScriptableGrid(
+        unsigned long long major_id,
+        scripting::Scripting* s
+    );
     /*! A destructor for grid
      */
     virtual ~ScriptableGrid();
@@ -35,9 +35,9 @@ public:
      */
     QString toString() const;
 public slots:	
-	/*! Returns true, if referenced object is valid
-	 */		 
-	bool valid() const;
+    /*! Returns true, if referenced object is valid
+     */		 
+    bool valid() const;
 protected:
     /*! A major id for database object
      */
