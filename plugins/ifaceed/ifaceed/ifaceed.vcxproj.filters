@@ -2463,13 +2463,55 @@
     <ClCompile Include="history\layouts\layoutsswapchildren.cpp">
       <Filter>Source Files\history\layouts</Filter>
     </ClCompile>
-    <ClCompile Include="scripting\layouts\gridcell.cpp">
-      <Filter>Source Files\scripting\layouts</Filter>
-    </ClCompile>
-    <ClCompile Include="scripting\layouts\grid.cpp">
-      <Filter>Source Files\scripting\layouts</Filter>
-    </ClCompile>
     <ClCompile Include="scripting\layouts\gridbindings.cpp">
+      <Filter>Source Files\scripting\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\DebugQt4\moc_scriptablegrid.cpp">
+      <Filter>Generated Files\DebugQt4</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_scriptablegrid.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_scriptablegrid.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_scriptablegrid.cpp">
+      <Filter>Generated Files\ReleaseQt4</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_scriptablegrid.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_scriptablegrid.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_scriptablegrid.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\DebugQt4\moc_scriptablegridcell.cpp">
+      <Filter>Generated Files\DebugQt4</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_scriptablegridcell.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_scriptablegridcell.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_scriptablegridcell.cpp">
+      <Filter>Generated Files\ReleaseQt4</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_scriptablegridcell.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_scriptablegridcell.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_scriptablegridcell.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\layouts\scriptablegrid.cpp">
+      <Filter>Source Files\scripting\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\layouts\scriptablegridcell.cpp">
       <Filter>Source Files\scripting\layouts</Filter>
     </ClCompile>
   </ItemGroup>
@@ -3161,12 +3203,6 @@
     <ClInclude Include="scripting\layouts\gridbindings.h">
       <Filter>Header Files\scripting\layouts</Filter>
     </ClInclude>
-    <ClInclude Include="scripting\layouts\gridcell.h">
-      <Filter>Header Files\scripting\layouts</Filter>
-    </ClInclude>
-    <ClInclude Include="scripting\layouts\grid.h">
-      <Filter>Header Files\scripting\layouts</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="acolordialog.h">
@@ -3399,6 +3435,12 @@
     </CustomBuild>
     <CustomBuild Include="gui\actions\gridactions.h">
       <Filter>Header Files\gui\actions</Filter>
+    </CustomBuild>
+    <CustomBuild Include="scripting\layouts\scriptablegrid.h">
+      <Filter>Header Files\scripting\layouts</Filter>
+    </CustomBuild>
+    <CustomBuild Include="scripting\layouts\scriptablegridcell.h">
+      <Filter>Header Files\scripting\layouts</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>
