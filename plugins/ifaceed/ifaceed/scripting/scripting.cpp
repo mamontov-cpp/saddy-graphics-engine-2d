@@ -1321,6 +1321,7 @@ void scripting::Scripting::initLayoutGridBindings(QScriptValue& v)
 	QScriptValue layouts = m_engine->newObject();
 
     layouts.setProperty("list", m_engine->newFunction(scripting::layouts::list), m_flags); // E.layouts.list
+	layouts.setProperty("query", m_engine->newFunction(scripting::layouts::query), m_flags); // E.layouts.query
 
 	v.setProperty("layouts", layouts, m_flags); // E.layouts
 }

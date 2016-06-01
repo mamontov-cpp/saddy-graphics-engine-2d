@@ -22,7 +22,7 @@ namespace ways
 
 /*! Lists all ways
     \param[in] ctx context
-    \param[in] engine an enginge
+    \param[in] engine an engine
     \return a ways list
  */
 QScriptValue list(

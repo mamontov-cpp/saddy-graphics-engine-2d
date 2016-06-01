@@ -59,7 +59,7 @@ public:
         \param[in] y y coordinate
      */
     void setY(double y);
-    /*! Contains to string
+    /*! Converts object to string representation
         \return object to string
      */
     QString toString() const;
