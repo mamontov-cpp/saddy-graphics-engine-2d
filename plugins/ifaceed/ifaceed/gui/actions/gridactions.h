@@ -551,6 +551,36 @@ enum CellUpdateOptions
             }
         }
     }
+    /*! Handles attempt to change area for a grid
+        \param[in] a grid to be changed
+        \param[in] v value for an area
+        \param[in] from_editor whether an area is changed from editor
+     */
+    void tryChangeAreaForGrid(
+        sad::layouts::Grid* grid,
+        const sad::Rect2D& v,
+        bool from_editor = true
+    );
+    /*! Handles attempt to change name for a grid
+        \param[in] a grid to be changed
+        \param[in] name value for a name
+        \param[in] from_editor whether an name is changed from editor
+     */
+    void tryChangeNameForGrid(
+        sad::layouts::Grid* grid,
+        const sad::String& name,
+        bool from_editor = true
+    );
+    /*! Handles attempt to change fixed width for a grid
+        \param[in] a grid to be changed
+        \param[in] fixed_width whether grid has fixed width
+        \param[in] from_editor whether an name is changed from editor
+     */
+    void tryChangeFixedWidthForGrid(
+        sad::layouts::Grid* grid,
+        bool fixed_width,
+        bool from_editor = true        
+    );
 public slots:
     /*! Called, when user clicks on "Add" button for grids
      */

@@ -1109,6 +1109,125 @@ void gui::actions::GridActions::updateCellPartInUI(
     }
 }
 
+void gui::actions::GridActions::tryChangeAreaForGrid(
+    sad::layouts::Grid* grid,
+    const sad::Rect2D& v,
+    bool from_editor
+)
+{
+    if (!sad::equal(grid->area(), v)) {
+        picojson::value oldstate(picojson::object_type, false);
+        grid->save(oldstate);
+
+        grid->setArea(v);
+        this->updateParentGridsRecursively(grid);
+
+        picojson::value newstate(picojson::object_type, false);
+        grid->save(newstate);
+
+        if (m_editor->shared()->selectedGrid() == grid)
+        {
+            if (!sad::equal(v, grid->area()))
+            {
+                this->updateRegion();
+            }
+        }
+
+        sad::Vector<sad::SceneNode*> nodes = grid->children();
+        gui::actions::SceneNodeActions* a = m_editor->actions()->sceneNodeActions();
+        for(size_t i = 0; i < nodes.size(); i++)
+        {
+            if (m_editor->isNodeSelected(nodes[i]))
+            {
+                a->updateRegionForNode();
+            }
+        }
+
+        history::layouts::Change<gui::actions::GridActions::GGAUO_Area>* c = new history::layouts::Change<gui::actions::GridActions::GGAUO_Area>(grid);
+        c->saveOldState(oldstate);
+        c->saveNewState(newstate);
+        c->addAffectedNodes(nodes);
+        if (from_editor)
+        {
+            m_editor->history()->add(c);
+        }
+        else
+        {
+            m_editor->currentBatchCommand()->add(c);
+        }
+    }
+}
+
+// ReSharper disable once CppMemberFunctionMayBeConst
+void gui::actions::GridActions::tryChangeNameForGrid(
+    sad::layouts::Grid* grid,
+    const sad::String& name,
+    bool from_editor
+)
+{
+    if (grid->objectName() != name)
+    {
+        history::layouts::ChangeName* c = new history::layouts::ChangeName(grid, grid->objectName(), name);
+        if (from_editor) 
+        {
+            c->commitWithoutUpdatingUI(m_editor);
+            m_editor->history()->add(c);
+        } 
+        else
+        {
+            c->commit(m_editor);  
+            m_editor->currentBatchCommand()->add(c);
+        }
+    }
+}
+
+void gui::actions::GridActions::tryChangeFixedWidthForGrid(
+    sad::layouts::Grid* grid,
+    bool fixed_width,
+    bool from_editor        
+)
+{
+    if (grid->fixedWidth() != fixed_width)
+    {
+        sad::Vector<sad::SceneNode*> children = grid->children();
+        picojson::value oldstate(picojson::object_type, false);
+        grid->save(oldstate);
+
+        grid->setFixedWidth(fixed_width);
+        this->updateParentGridsRecursively(grid);
+
+        picojson::value newstate(picojson::object_type, false);
+        grid->save(newstate);
+    
+        if (from_editor) 
+        {
+            this->updateRegion();            
+        }
+        else
+        {
+            if (m_editor->shared()->selectedGrid() == grid)
+            {
+                this->updateRegion();
+                this->updateOnlyGridPropertiesInUI(gui::actions::GridActions::GGAUO_FixedWidth);
+            }
+        }
+    
+        history::layouts::Change<gui::actions::GridActions::GGAUO_FixedWidth>* c = new history::layouts::Change<gui::actions::GridActions::GGAUO_FixedWidth>(grid);
+        c->saveOldState(oldstate);
+        c->saveNewState(newstate);
+        c->addAffectedNodes(children);
+
+        if (from_editor)
+        {
+            m_editor->history()->add(c);   
+        }
+        else
+        {
+            m_editor->currentBatchCommand()->add(c);
+        }
+    }
+}
+
 // ================================ PUBLIC SLOTS  ================================
 
 // ReSharper disable once CppMemberFunctionMayBeConst
@@ -1152,37 +1271,7 @@ void gui::actions::GridActions::areaChanged(QRectF newarea)
         g = m_editor->shared()->selectedGrid();
         if (g)
         {
-            if (!sad::equal(g->area(), newvalue)) {
-                picojson::value oldstate(picojson::object_type, false);
-                g->save(oldstate);
-
-                g->setArea(newvalue);
-
-                picojson::value newstate(picojson::object_type, false);
-                g->save(newstate);
-
-                if (!sad::equal(newvalue, g->area()))
-                {
-                    this->updateRegion();
-                }
-
-                sad::Vector<sad::SceneNode*> nodes = g->children();
-                gui::actions::SceneNodeActions* a = m_editor->actions()->sceneNodeActions();
-                for(size_t i = 0; i < nodes.size(); i++)
-                {
-                    if (m_editor->isNodeSelected(nodes[i]))
-                    {
-                       a->updateRegionForNode();
-                    }
-                }
-
-                history::layouts::Change<gui::actions::GridActions::GGAUO_Area>* c = new history::layouts::Change<gui::actions::GridActions::GGAUO_Area>(g);
-                c->saveOldState(oldstate);
-                c->saveNewState(newstate);
-                c->addAffectedNodes(nodes);
-
-                m_editor->history()->add(c);
-            }
+            this->tryChangeAreaForGrid(g, newvalue, true);
         }
     }
 }
@@ -1306,23 +1395,7 @@ void gui::actions::GridActions::fixedWidthClicked(bool newvalue)
         g = m_editor->shared()->selectedGrid();
         if (g)
         {
-            sad::Vector<sad::SceneNode*> children = g->children();
-            picojson::value oldstate(picojson::object_type, false);
-            g->save(oldstate);
-
-            g->setFixedWidth(newvalue);
-
-            picojson::value newstate(picojson::object_type, false);
-            g->save(newstate);
-            
-            this->updateRegion();            
-            
-            history::layouts::Change<gui::actions::GridActions::GGAUO_FixedWidth>* c = new history::layouts::Change<gui::actions::GridActions::GGAUO_FixedWidth>(g);
-            c->saveOldState(oldstate);
-            c->saveNewState(newstate);
-            c->addAffectedNodes(children);
-
-            m_editor->history()->add(c);
+            tryChangeFixedWidthForGrid(g, newvalue, true);            
         }
     }
 }
@@ -1345,6 +1418,7 @@ void gui::actions::GridActions::fixedHeightClicked(bool newvalue)
             g->save(oldstate);
 
             g->setFixedHeight(newvalue);
+            this->updateParentGridsRecursively(g);
 
             picojson::value newstate(picojson::object_type, false);
             g->save(newstate);
@@ -1629,12 +1703,7 @@ void  gui::actions::GridActions::nameChanged(const QString &text)
             if (grid)
             {
                 sad::String new_name = Q2STDSTRING(text);
-                if (grid->objectName() != new_name)
-                {
-                    history::layouts::ChangeName* c = new history::layouts::ChangeName(grid, grid->objectName(), new_name);
-                    c->commitWithoutUpdatingUI(m_editor);
-                    m_editor->history()->add(c);
-                }
+                this->tryChangeNameForGrid(grid, new_name, true);
             }
         }
     }
