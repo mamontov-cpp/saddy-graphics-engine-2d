@@ -1228,6 +1228,53 @@ void gui::actions::GridActions::tryChangeFixedWidthForGrid(
     }
 }
 
+void gui::actions::GridActions::tryChangeFixedHeightForGrid(
+    sad::layouts::Grid* grid,
+    bool fixed_height,
+    bool from_editor
+)
+{
+    if (grid->fixedHeight() != fixed_height)
+    {
+        sad::Vector<sad::SceneNode*> children = grid->children();
+        picojson::value oldstate(picojson::object_type, false);
+        grid->save(oldstate);
+
+        grid->setFixedHeight(fixed_height);
+        this->updateParentGridsRecursively(grid);
+
+        picojson::value newstate(picojson::object_type, false);
+        grid->save(newstate);
+
+        if (from_editor)
+        {
+            this->updateRegion();
+        }
+        else
+        {
+            if (m_editor->shared()->selectedGrid() == grid)
+            {
+                this->updateRegion();
+                this->updateOnlyGridPropertiesInUI(gui::actions::GridActions::GGAUO_FixedHeight);
+            }
+        }
+
+        history::layouts::Change<gui::actions::GridActions::GGAUO_FixedHeight>* c = new history::layouts::Change<gui::actions::GridActions::GGAUO_FixedHeight>(grid);
+        c->saveOldState(oldstate);
+        c->saveNewState(newstate);
+        c->addAffectedNodes(children);
+
+        if (from_editor)
+        {
+            m_editor->history()->add(c);
+        }
+        else
+        {
+            m_editor->currentBatchCommand()->add(c);
+        }
+    }
+}
+
 void gui::actions::GridActions::tryChangeRowCountForGrid(
     sad::layouts::Grid* grid,
     size_t rows,
@@ -1334,7 +1381,14 @@ void gui::actions::GridActions::tryChangeColumnCountForGrid(
         c->addAffectedNodes(children);
         c->markAsChangingChildrenList();
 
-        m_editor->history()->add(c);
+        if (from_editor)
+        {
+            m_editor->history()->add(c);
+        }
+        else
+        {
+            m_editor->currentBatchCommand()->add(c);
+        }
     }
 }
 
@@ -1467,24 +1521,7 @@ void gui::actions::GridActions::fixedHeightClicked(bool newvalue)
         g = m_editor->shared()->selectedGrid();
         if (g)
         {
-            sad::Vector<sad::SceneNode*> children = g->children();
-            picojson::value oldstate(picojson::object_type, false);
-            g->save(oldstate);
-
-            g->setFixedHeight(newvalue);
-            this->updateParentGridsRecursively(g);
-
-            picojson::value newstate(picojson::object_type, false);
-            g->save(newstate);
-            
-            this->updateRegion();            
-            
-            history::layouts::Change<gui::actions::GridActions::GGAUO_FixedHeight>* c = new history::layouts::Change<gui::actions::GridActions::GGAUO_FixedHeight>(g);
-            c->saveOldState(oldstate);
-            c->saveNewState(newstate);
-            c->addAffectedNodes(children);
-
-            m_editor->history()->add(c);
+             tryChangeFixedHeightForGrid(g, newvalue, true);
         }
     }
 }
@@ -1510,7 +1547,8 @@ void gui::actions::GridActions::topPaddingChanged(double newvalue)
             picojson::value oldstate(picojson::object_type, false);
             g->save(oldstate);
 
-            g->setPaddingTop(newvalue, propagate); 
+            g->setPaddingTop(newvalue, propagate);
+            this->updateParentGridsRecursively(g);
 
             picojson::value newstate(picojson::object_type, false);
             g->save(newstate);
@@ -1555,6 +1593,7 @@ void gui::actions::GridActions::bottomPaddingChanged(double newvalue)
             g->save(oldstate);
 
             g->setPaddingBottom(newvalue, propagate); 
+            this->updateParentGridsRecursively(g);
 
             picojson::value newstate(picojson::object_type, false);
             g->save(newstate);
@@ -1599,6 +1638,7 @@ void gui::actions::GridActions::leftPaddingChanged(double newvalue)
             g->save(oldstate);
 
             g->setPaddingLeft(newvalue, propagate); 
+            this->updateParentGridsRecursively(g);
 
             picojson::value newstate(picojson::object_type, false);
             g->save(newstate);
@@ -1643,6 +1683,7 @@ void gui::actions::GridActions::rightPaddingChanged(double newvalue)
             g->save(oldstate);
 
             g->setPaddingRight(newvalue, propagate); 
+            this->updateParentGridsRecursively(g);
 
             picojson::value newstate(picojson::object_type, false);
             g->save(newstate);

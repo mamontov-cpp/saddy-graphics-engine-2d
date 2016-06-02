@@ -573,13 +573,23 @@ enum CellUpdateOptions
     );
     /*! Handles attempt to change fixed width for a grid
         \param[in] grid a grid to be changed
-        \param[in] fixed_width whether grid has fixed width
+        \param[in] fixed_width new flag value
         \param[in] from_editor whether a flag is changed from editor
      */
     void tryChangeFixedWidthForGrid(
         sad::layouts::Grid* grid,
         bool fixed_width,
         bool from_editor = true        
+    );
+    /*! Handles attempt to change fixed height for a grid
+        \param[in] grid a grid to be changed
+        \param[in] fixed_height new flag value
+        \param[in] from_editor whether a flag is changed from editor
+     */
+    void tryChangeFixedHeightForGrid(
+        sad::layouts::Grid* grid,
+        bool fixed_height,
+        bool from_editor = true
     );
     /*! Handles attempt to change row count for a grid
         \param[in] grid a grid to be changed

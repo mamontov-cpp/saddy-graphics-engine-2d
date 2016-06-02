@@ -164,6 +164,26 @@ void scripting::layouts::ScriptableGrid::setFixedWidth(bool fixed_width) const
     }
 }
 
+bool scripting::layouts::ScriptableGrid::fixedHeight() const
+{
+    bool result = false;
+    sad::layouts::Grid* g = grid(true, "fixedHeight");
+    if (g)
+    {
+        result = g->fixedHeight();
+    }
+    return result;
+}
+
+void scripting::layouts::ScriptableGrid::setFixedHeight(bool fixed_height) const
+{
+    sad::layouts::Grid* g = grid(true, "setFixedHeight");
+    if (g)
+    {
+        m_scripting->editor()->actions()->gridActions()->tryChangeFixedHeightForGrid(g, fixed_height, false);
+    }
+}
+
 unsigned long scripting::layouts::ScriptableGrid::rows() const
 {
     unsigned long result = 0;

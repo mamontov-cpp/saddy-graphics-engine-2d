@@ -80,6 +80,14 @@ public slots:
         \param[in] fixed_width a flag value
      */
     void setFixedWidth(bool fixed_width) const;
+    /*! Returns whether grid has fixed height
+        \returns whether grid has fixed height
+     */
+    bool fixedHeight() const;
+    /*! Sets fixed height for grid
+        \param[in] height a flag value
+     */
+    void setFixedHeight(bool fixed_height) const;
     /*! Returns amount of rows in grid
         \return amount of rows
      */
