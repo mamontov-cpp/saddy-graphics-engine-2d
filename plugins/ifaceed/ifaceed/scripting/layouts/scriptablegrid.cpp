@@ -164,3 +164,28 @@ void scripting::layouts::ScriptableGrid::setFixedWidth(bool fixed_width) const
     }
 }
 
+unsigned long scripting::layouts::ScriptableGrid::rows() const
+{
+    unsigned long result = 0;
+    sad::layouts::Grid* g = grid(true, "rows");
+    if (g)
+    {
+        result = g->rows();
+    }
+    return result;
+}
+
+void scripting::layouts::ScriptableGrid::setRows(int rows)
+{
+    if (rows <= 0)
+    {
+        m_scripting->engine()->currentContext()->throwError("ScriptableGrid::setRows: 0 is not a valid value for row count");
+        return;
+    }
+
+    sad::layouts::Grid* g = grid(true, "setRows");
+    if (g)
+    {
+        m_scripting->editor()->actions()->gridActions()->tryChangeRowCountForGrid(g, rows, false);
+    }
+}

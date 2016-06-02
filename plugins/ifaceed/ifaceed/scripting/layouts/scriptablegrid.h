@@ -76,10 +76,18 @@ public slots:
         \returns whether grid has fixed width 
      */
     bool fixedWidth() const;
-    /*! Sets fixed width for cell
-        \param[in] fixed_width
+    /*! Sets fixed width for grid
+        \param[in] fixed_width a flag value
      */
     void setFixedWidth(bool fixed_width) const;
+    /*! Returns amount of rows in grid
+        \return amount of rows
+     */
+    unsigned long rows() const;
+    /*! Sets amount of rows in grid
+        \param[in] rows amount of rows
+     */
+    void setRows(int rows);
 protected:
     /*! A major id for database object
      */
