@@ -591,6 +591,16 @@ enum CellUpdateOptions
         size_t rows,
         bool from_editor = true
     );
+    /*! Handles attempt to change column count for a grid
+        \param[in] grid a grid to be changed
+        \param[in] columns new amount of columns
+        \param[in] from_editor whether a value is changed from editor
+     */
+    void tryChangeColumnCountForGrid(
+        sad::layouts::Grid* grid,
+        size_t columns,
+        bool from_editor = true
+    );
 public slots:
     /*! Called, when user clicks on "Add" button for grids
      */

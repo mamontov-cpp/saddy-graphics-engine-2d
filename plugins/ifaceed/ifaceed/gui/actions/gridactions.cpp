@@ -1285,6 +1285,59 @@ void gui::actions::GridActions::tryChangeRowCountForGrid(
     }
 }
 
+void gui::actions::GridActions::tryChangeColumnCountForGrid(
+    sad::layouts::Grid* grid,
+    size_t columns,
+    bool from_editor
+)
+{
+    if (columns != grid->columns())
+    {
+        sad::layouts::Grid* g = grid;
+
+        sad::Vector<sad::SceneNode*> children = g->children();
+        picojson::value oldstate(picojson::object_type, false);
+        g->save(oldstate);
+
+        g->setColumns(columns);
+        this->updateParentGridsRecursively(grid);
+        if (!from_editor)
+        {
+            if (m_editor->shared()->selectedGrid() == grid)
+            {
+                this->updateOnlyGridPropertiesInUI(gui::actions::GridActions::GGAUO_Cols);
+            }
+        }
+
+        picojson::value newstate(picojson::object_type, false);
+        g->save(newstate);
+
+        if (from_editor || (m_editor->shared()->selectedGrid() == grid))
+        {
+            this->updateCellBrowser();
+        }
+        for(size_t i = 0; i < children.size(); i++)
+        {
+            if (g->find(children[i]).exists())
+            {
+                this->insertNodeToGridEntry(children[i], g);
+            }
+            else
+            {
+                this->eraseNodeToGridEntry(children[i]);
+            }
+        }
+
+        history::layouts::Change<gui::actions::GridActions::GGAUO_Cols>* c = new history::layouts::Change<gui::actions::GridActions::GGAUO_Cols>(g);
+        c->saveOldState(oldstate);
+        c->saveNewState(newstate);
+        c->addAffectedNodes(children);
+        c->markAsChangingChildrenList();
+
+        m_editor->history()->add(c);
+    }
+}
+
 // ================================ PUBLIC SLOTS  ================================
 
 // ReSharper disable once CppMemberFunctionMayBeConst
@@ -1378,35 +1431,7 @@ void gui::actions::GridActions::columnCountChanged(int newvalue)
         g = m_editor->shared()->selectedGrid();
         if (g)
         {
-            sad::Vector<sad::SceneNode*> children = g->children();
-            picojson::value oldstate(picojson::object_type, false);
-            g->save(oldstate);
-
-            g->setColumns(newvalue);
-
-            picojson::value newstate(picojson::object_type, false);
-            g->save(newstate);
-            
-            this->updateCellBrowser();
-            for(size_t i = 0; i < children.size(); i++)
-            {
-                if (g->find(children[i]).exists())
-                {
-                    this->insertNodeToGridEntry(children[i], g);
-                }
-                else
-                {
-                    this->eraseNodeToGridEntry(children[i]);
-                }
-            }
-            
-            history::layouts::Change<gui::actions::GridActions::GGAUO_Cols>* c = new history::layouts::Change<gui::actions::GridActions::GGAUO_Cols>(g);
-            c->saveOldState(oldstate);
-            c->saveNewState(newstate);
-            c->addAffectedNodes(children);
-            c->markAsChangingChildrenList();
-
-            m_editor->history()->add(c);
+            this->tryChangeColumnCountForGrid(g, newvalue, true);
         }
     }    
 }

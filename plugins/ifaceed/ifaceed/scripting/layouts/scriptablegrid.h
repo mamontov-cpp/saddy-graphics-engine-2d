@@ -88,6 +88,14 @@ public slots:
         \param[in] rows amount of rows
      */
     void setRows(int rows);
+    /*! Returns amount of columngs in grid
+        \return amount of columns
+     */
+    unsigned long columns() const;
+    /*! Sets amount of columns in grid
+        \param[in] columns amount of columns
+     */
+    void setColumns(int columns);
 protected:
     /*! A major id for database object
      */

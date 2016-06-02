@@ -189,3 +189,29 @@ void scripting::layouts::ScriptableGrid::setRows(int rows)
         m_scripting->editor()->actions()->gridActions()->tryChangeRowCountForGrid(g, rows, false);
     }
 }
+
+unsigned long scripting::layouts::ScriptableGrid::columns() const
+{
+    unsigned long result = 0;
+    sad::layouts::Grid* g = grid(true, "columns");
+    if (g)
+    {
+        result = g->columns();
+    }
+    return result;
+}
+
+void scripting::layouts::ScriptableGrid::setColumns(int columns)
+{
+    if (columns <= 0)
+    {
+        m_scripting->engine()->currentContext()->throwError("ScriptableGrid::setColumns: 0 is not a valid value for row count");
+        return;
+    }
+
+    sad::layouts::Grid* g = grid(true, "setColumns");
+    if (g)
+    {
+        m_scripting->editor()->actions()->gridActions()->tryChangeColumnCountForGrid(g, columns, false);
+    }
+}
