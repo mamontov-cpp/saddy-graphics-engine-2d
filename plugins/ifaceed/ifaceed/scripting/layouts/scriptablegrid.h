@@ -162,6 +162,22 @@ public slots:
         \return NULL and throws exception if cell not exists, cell otherwiser
      */
     QScriptValue cell(int row, int column);
+    /*! Tries to merge cells, using specified region
+        \param[in] row row of top-left cell of region
+        \param[in] column column of top-left cell of region
+        \param[in] rowspan amount of rows spanned
+        \param[in] colspan amount of columns spanned
+        \return whether it was successfull or failed
+     */
+    bool merge(int row, int column, int rowspan, int colspan);
+    /*! Tries to split cells, using specified region
+        \param[in] row row of top-left cell of region
+        \param[in] column column of top-left cell of region
+        \param[in] rowspan amount of rows spanned
+        \param[in] colspan amount of columns spanned
+        \return whether it was successfull or failed
+     */
+    bool split(int row, int column, int rowspan, int colspan);
 protected:
     /*! A major id for database object
      */

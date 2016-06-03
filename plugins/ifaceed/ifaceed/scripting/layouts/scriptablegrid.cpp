@@ -388,3 +388,24 @@ QScriptValue scripting::layouts::ScriptableGrid::cell(int row, int column)
     return val;
 }
 
+bool scripting::layouts::ScriptableGrid::merge(int row, int column, int rowspan, int colspan)
+{
+    sad::layouts::Grid* g = grid(true, "merge");
+    if (g)
+    {
+        gui::actions::GridActions* ga = m_scripting->editor()->actions()->gridActions();
+        return ga->tryPeformMergeOrSplit(true, g, row, column, rowspan, colspan, false);
+    }
+    return false;
+}
+
+bool scripting::layouts::ScriptableGrid::split(int row, int column, int rowspan, int colspan)
+{
+    sad::layouts::Grid* g = grid(true, "split");
+    if (g)
+    {
+        gui::actions::GridActions* ga = m_scripting->editor()->actions()->gridActions();
+        return ga->tryPeformMergeOrSplit(false, g, row, column, rowspan, colspan, false);
+    }
+    return false;
+}

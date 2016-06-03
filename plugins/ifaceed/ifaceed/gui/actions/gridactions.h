@@ -659,6 +659,25 @@ enum CellUpdateOptions
         gui::actions::GridActions::GridUpdateOptions opts,
         double newvalue
     );
+    /*! Tries to perform merging cells with specified parameters
+        \param[in] merge whether we are merging cells (splitting otherwise)
+        \param[in] grid a changed grid
+        \param[in] row a row for stating region
+        \param[in] col a column for stating region
+        \param[in] rowspan amount of spanning rows of region
+        \param[in] colspan amount of spanning columns of region
+        \param[in] from_editor whether it's being performed from editor
+        \return
+     */
+    bool tryPeformMergeOrSplit(
+        bool merge,
+        sad::layouts::Grid* grid,
+        int row,
+        int col,
+        int rowspan,
+        int colspan,
+        bool from_editor = true
+    );
 public slots:
     /*! Called, when user clicks on "Add" button for grids
      */

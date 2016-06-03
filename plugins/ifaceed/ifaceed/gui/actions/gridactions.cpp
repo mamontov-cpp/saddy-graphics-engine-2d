@@ -1560,6 +1560,70 @@ void gui::actions::GridActions::paddingChanged(
     }
 }
 
+bool gui::actions::GridActions::tryPeformMergeOrSplit(
+    bool merge,
+    sad::layouts::Grid* grid,
+    int row,
+    int col,
+    int rowspan,
+    int colspan,
+    bool from_editor
+)
+{
+    if (row < 0 || col < 0 || rowspan <= 0 || colspan <= 0)
+    {
+        return false;
+    }
+    if (rowspan == 1 && colspan == 1)
+    {
+        return false;
+    }
+
+
+    history::layouts::Change<gui::actions::GridActions::GGAUO_Cells>* c = new history::layouts::Change<gui::actions::GridActions::GGAUO_Cells>(grid);
+    c->saveOldState();
+    c->addAffectedNodes(grid->children());
+
+    bool result = false;
+    if (merge)
+    {
+        result = grid->merge(row, col, rowspan, colspan);
+    }
+    else
+    {
+        result = grid->split(row, col, rowspan, colspan);
+    }
+
+    if (result)
+    {
+        this->updateParentGridsRecursively(grid);
+    }
+
+    c->saveNewState();
+
+    if (result)
+    {
+        if (grid == m_editor->shared()->selectedGrid())
+        {
+            this->updateCellBrowser();
+            this->updateRegion();
+        }
+        if (from_editor)
+        {
+            m_editor->history()->add(c);
+        }
+        else
+        {
+            m_editor->currentBatchCommand()->add(c);
+        }
+    }
+    else
+    {
+        delete c;
+    }
+    return result;
+}
+
 // ================================ PUBLIC SLOTS  ================================
 
 // ReSharper disable once CppMemberFunctionMayBeConst
@@ -2160,18 +2224,15 @@ void gui::actions::GridActions::mergeButtonClicked()
                         }
                         else
                         {
-                            history::layouts::Change<gui::actions::GridActions::GGAUO_Cells>* c = new history::layouts::Change<gui::actions::GridActions::GGAUO_Cells>(grid);
-                            c->saveOldState();
-                            c->addAffectedNodes(grid->children());
-
-                            grid->merge(row, col, rowspan, colspan);
-
-                            c->saveNewState();
-
-                            this->updateCellBrowser();
-                            this->updateRegion();
-
-                            m_editor->history()->add(c);
+                            this->tryPeformMergeOrSplit(
+                                true,
+                                grid,
+                                row,
+                                col,
+                                rowspan,
+                                colspan,
+                                true
+                            );
                         }
                     }
                 }
@@ -2215,18 +2276,15 @@ void gui::actions::GridActions::splitButtonClicked()
                         }
                         else
                         {
-                            history::layouts::Change<gui::actions::GridActions::GGAUO_Cells>* c = new history::layouts::Change<gui::actions::GridActions::GGAUO_Cells>(grid);
-                            c->saveOldState();
-                            c->addAffectedNodes(grid->children());
-
-                            grid->split(row, col, rowspan, colspan);
-
-                            c->saveNewState();
-
-                            this->updateCellBrowser();
-                            this->updateRegion();
-
-                            m_editor->history()->add(c);
+                            this->tryPeformMergeOrSplit(
+                                false,
+                                grid,
+                                row,
+                                col,
+                                rowspan,
+                                colspan,
+                                true
+                            );
                         }
                     }
                 }
