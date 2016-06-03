@@ -15,6 +15,9 @@
 
 #include <p2d/app/way.h>
 
+#include <layouts/grid.h>
+#include <layouts/cell.h>
+
 #include "abstracttovalue.h"
 
 namespace sad
@@ -187,6 +190,10 @@ DEFINE_TO_VALUE_FOR_TYPE(sad::animations::Instance*)
 DEFINE_TO_VALUE_FOR_TYPE(sad::animations::WayInstance*)
 DEFINE_TO_VALUE_FOR_TYPE(sad::animations::Group*)
 DEFINE_TO_VALUE_FOR_TYPE(sad::Vector<sad::String>)
+DEFINE_TO_VALUE_FOR_TYPE(sad::layouts::Unit)
+DEFINE_TO_VALUE_FOR_TYPE(sad::layouts::HorizontalAlignment)
+DEFINE_TO_VALUE_FOR_TYPE(sad::layouts::VerticalAlignment)
+DEFINE_TO_VALUE_FOR_TYPE(sad::layouts::StackingType)
 #undef DEFINE_TO_VALUE_FOR_TYPE
 
 }

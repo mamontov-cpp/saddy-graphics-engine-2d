@@ -1140,4 +1140,31 @@ DEFINE_BASIC_METHODS_FOR_TYPE(sad::Vector<sad::String>)
 #undef DEFINE_BASIC_METHODS_FOR_TYPE
 
 
+
+#define DEFINE_BASIC_ENUM_CAST(T, LASTVAL)                                         \
+sad::Maybe<T>                                                                      \
+scripting::ToValue<T>::perform(                                                    \
+        const QScriptValue& v                                                      \
+)                                                                                  \
+{                                                                                  \
+    sad::Maybe< T > result;                                                        \
+    sad::Maybe<unsigned int> mv = scripting::ToValue<unsigned int>::perform(v);    \
+    if (mv.exists())                                                               \
+    {                                                                              \
+        if (mv.value() <= LASTVAL)                                                 \
+        {                                                                          \
+            result.setValue(static_cast<T>(mv.value()));                           \
+        }                                                                          \
+    }                                                                              \
+                                                                                   \
+    return result;                                                                 \
+}
+
+DEFINE_BASIC_ENUM_CAST(sad::layouts::Unit, sad::layouts::LU_Percents)
+DEFINE_BASIC_ENUM_CAST(sad::layouts::HorizontalAlignment, sad::layouts::LHA_Right)
+DEFINE_BASIC_ENUM_CAST(sad::layouts::VerticalAlignment, sad::layouts::LVA_Bottom)
+DEFINE_BASIC_ENUM_CAST(sad::layouts::StackingType, sad::layouts::LST_NoStacking)
+
+
+
 DECLARE_COMMON_TYPE(QScriptValue)

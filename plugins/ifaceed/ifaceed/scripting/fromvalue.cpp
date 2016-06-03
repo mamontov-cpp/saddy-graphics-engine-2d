@@ -42,6 +42,12 @@ QScriptValue scripting::FromValue<TYPE>::perform(const TYPE& v, QScriptEngine* e
     return e->newVariant(variant);                                                        \
 }
 
+#define DECLARE_FROM_VALUE_AS_UINT(TYPE)                                                     \
+QScriptValue scripting::FromValue<TYPE>::perform(const TYPE& v, QScriptEngine* e)            \
+{                                                                                            \
+    return scripting::FromValue<unsigned int>::perform(static_cast<unsigned int>(v), e);     \
+}
+
 
 QScriptValue scripting::FromValue<double>::perform(const double& v, QScriptEngine* )
 {
@@ -242,3 +248,8 @@ QScriptValue scripting::FromValue<sad::Vector<unsigned long long> >::perform(con
     }
     return result;
 }
+
+DECLARE_FROM_VALUE_AS_UINT(sad::layouts::Unit)
+DECLARE_FROM_VALUE_AS_UINT(sad::layouts::HorizontalAlignment)
+DECLARE_FROM_VALUE_AS_UINT(sad::layouts::VerticalAlignment)
+DECLARE_FROM_VALUE_AS_UINT(sad::layouts::StackingType)

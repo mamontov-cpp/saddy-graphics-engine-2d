@@ -13,6 +13,9 @@
 #include <sadsize.h>
 #include <sadstring.h>
 
+#include <layouts/grid.h>
+#include <layouts/cell.h>
+
 namespace sad
 {
 class Scene;
@@ -123,6 +126,11 @@ DEFINE_FROM_VALUE_FOR_TYPE( QVector<unsigned long long> )
 DEFINE_FROM_VALUE_FOR_TYPE( QScriptValue )
 DEFINE_FROM_VALUE_FOR_TYPE( sad::Vector<sad::String> )
 DEFINE_FROM_VALUE_FOR_TYPE( sad::Vector<unsigned long long> )
+DEFINE_FROM_VALUE_FOR_TYPE( sad::layouts::Unit )
+DEFINE_FROM_VALUE_FOR_TYPE( sad::layouts::HorizontalAlignment )
+DEFINE_FROM_VALUE_FOR_TYPE( sad::layouts::VerticalAlignment )
+DEFINE_FROM_VALUE_FOR_TYPE( sad::layouts::StackingType )
+
 #undef DEFINE_FROM_VALUE_FOR_TYPE
 
 }
