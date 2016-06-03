@@ -40,7 +40,7 @@ public:
     QString toString() const;
     /*! Returns object, if reference is valid or returns NULL and throws exception otherwise
         \param[in] throwexc whether we should throw exception or not
-        \param[in] name a name for a grid
+        \param[in] name a name for a called method, which can be used in exception
         \return grid
      */
     sad::layouts::Grid* grid(bool throwexc = true, const QString& name = "") const;
@@ -156,6 +156,12 @@ public slots:
         \param v value
      */
     void setPaddingRight(double v) const;
+    /*! Returns a cell for specified row or column
+        \param[in] row a row value
+        \param[in] column a column value
+        \return NULL and throws exception if cell not exists, cell otherwiser
+     */
+    QScriptValue cell(int row, int column);
 protected:
     /*! A major id for database object
      */

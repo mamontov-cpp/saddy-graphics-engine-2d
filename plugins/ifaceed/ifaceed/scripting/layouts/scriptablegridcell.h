@@ -15,18 +15,43 @@ class Scripting;
 namespace layouts
 {
 
-/*! A wrapper to point reference
+/*! A wrapper for a reference for grid cell
  */
 class ScriptableGridCell: public scripting::ClassWrapper
 {
     Q_OBJECT
 public:
-    /*! A destructor for grid
+    /*! Declares a scriptable grid cell
+        \param[in] major_id a major id for a parent grid
+        \param[in] row a row index for cell
+        \param[in] column a column index for cell
+        \param[in] s scripting
+     */
+    ScriptableGridCell(
+        unsigned long long major_id,
+        unsigned int row,
+        unsigned int column,
+        scripting::Scripting* s
+    );
+    /*! Converts object to string representation
+        \return object to string
+     */
+    virtual QString toString() const;
+    /*! A destructor for grid cell
      */
     virtual ~ScriptableGridCell();
-
+    /*! Returns referencced cell, if reference is valid or returns NULL and throws exception otherwise
+        \param[in] throwexc whether we should throw exception or not
+        \param[in] name a name for a called method, which can be used in exception
+        \return grid
+     */
+    sad::layouts::Cell* cell(bool throwexc = true, const QString& name = "") const;
+public slots:
+    /*! Returns true, if referenced object is valid
+     */
+    bool valid() const;
 protected:
-    /*! A major id for database object
+    /*! A major id for parent grid
      */
     unsigned long long m_majorid;
     /*! A row for cell

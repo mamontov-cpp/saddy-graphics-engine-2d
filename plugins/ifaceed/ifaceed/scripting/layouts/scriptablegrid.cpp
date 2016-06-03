@@ -1,5 +1,7 @@
 #include "scriptablegrid.h"
 
+#include "scriptablegridcell.h"
+
 #include <renderer.h>
 
 #include <layouts/grid.h>
@@ -46,7 +48,7 @@ QString scripting::layouts::ScriptableGrid::toString() const
     return result;	
 }
 
- sad::layouts::Grid* scripting::layouts::ScriptableGrid::grid(bool throwexc, const QString& name) const
+sad::layouts::Grid* scripting::layouts::ScriptableGrid::grid(bool throwexc, const QString& name) const
 {
     sad::db::Database* db = sad::Renderer::ref()->database("");
     if (db)
@@ -64,7 +66,7 @@ QString scripting::layouts::ScriptableGrid::toString() const
     {
         m_scripting->engine()->currentContext()->throwError(QString("ScriptableGrid::") + name  + ": Reference to a grid is not a valid instance");
     }
-    return false;
+    return NULL;
 }
 
 // ==================================== PUBLIC SLOT METHODS ====================================
@@ -364,5 +366,25 @@ void scripting::layouts::ScriptableGrid::setPaddingLeft(double v) const
 void scripting::layouts::ScriptableGrid::setPaddingRight(double v) const
 {
     this->setPaddingRight(v, true);
+}
+
+QScriptValue scripting::layouts::ScriptableGrid::cell(int row, int column)
+{
+    QScriptValue val = m_scripting->engine()->nullValue();
+    sad::layouts::Grid* g = grid(true, "cell");
+    if (g)
+    {
+        if (row < 0 || column < 0 || row >= g->rows() || column >= g->columns())
+        {
+            QString errorMessage = "ScriptableGrid::cell: There are no such cell %1, %2 in grid";
+            errorMessage = errorMessage.arg(row).arg(column);
+            m_scripting->engine()->currentContext()->throwError(errorMessage);
+        }
+        else
+        {
+            val = m_scripting->engine()->newQObject(new scripting::layouts::ScriptableGridCell(g->MajorId, row, column, m_scripting));
+        }
+    }
+    return val;
 }
 
