@@ -195,7 +195,7 @@ unsigned long scripting::layouts::ScriptableGrid::rows() const
     return result;
 }
 
-void scripting::layouts::ScriptableGrid::setRows(int rows)
+void scripting::layouts::ScriptableGrid::setRows(int rows) const
 {
     if (rows <= 0)
     {
@@ -221,7 +221,7 @@ unsigned long scripting::layouts::ScriptableGrid::columns() const
     return result;
 }
 
-void scripting::layouts::ScriptableGrid::setColumns(int columns)
+void scripting::layouts::ScriptableGrid::setColumns(int columns) const
 {
     if (columns <= 0)
     {
@@ -235,3 +235,134 @@ void scripting::layouts::ScriptableGrid::setColumns(int columns)
         m_scripting->editor()->actions()->gridActions()->tryChangeColumnCountForGrid(g, columns, false);
     }
 }
+
+double scripting::layouts::ScriptableGrid::paddingTop() const
+{
+    double result = 0;
+    sad::layouts::Grid* g = grid(true, "paddingTop");
+    if (g)
+    {
+        result = g->paddingTop();
+    }
+    return result;
+}
+
+double scripting::layouts::ScriptableGrid::paddingBottom() const
+{
+    double result = 0;
+    sad::layouts::Grid* g = grid(true, "paddingBottom");
+    if (g)
+    {
+        result = g->paddingBottom();
+    }
+    return result;
+}
+
+double scripting::layouts::ScriptableGrid::paddingLeft() const
+{
+    double result = 0;
+    sad::layouts::Grid* g = grid(true, "paddingLeft");
+    if (g)
+    {
+        result = g->paddingLeft();
+    }
+    return result;
+}
+
+
+double scripting::layouts::ScriptableGrid::paddingRight() const
+{
+    double result = 0;
+    sad::layouts::Grid* g = grid(true, "paddingRight");
+    if (g)
+    {
+        result = g->paddingRight();
+    }
+    return result;
+}
+
+
+void scripting::layouts::ScriptableGrid::setPaddingTop(double v, bool p) const
+{
+    sad::layouts::Grid* g = grid(true, "setPaddingTop");
+    if (g)
+    {
+        gui::actions::GridActions* ga = m_scripting->editor()->actions()->gridActions();
+        ga->tryChangePaddingForGrid(
+            gui::actions::GridActions::GGAUO_TopPadding,
+            g,
+            v,
+            p,
+            false
+       );
+    }
+}
+
+void scripting::layouts::ScriptableGrid::setPaddingBottom(double v, bool p) const
+{
+    sad::layouts::Grid* g = grid(true, "setPaddingBottom");
+    if (g)
+    {
+        gui::actions::GridActions* ga = m_scripting->editor()->actions()->gridActions();
+        ga->tryChangePaddingForGrid(
+            gui::actions::GridActions::GGAUO_BottomPadding,
+            g,
+            v,
+            p,
+            false
+       );
+    }
+}
+
+void scripting::layouts::ScriptableGrid::setPaddingLeft(double v, bool p) const
+{
+    sad::layouts::Grid* g = grid(true, "setPaddingLeft");
+    if (g)
+    {
+        gui::actions::GridActions* ga = m_scripting->editor()->actions()->gridActions();
+        ga->tryChangePaddingForGrid(
+            gui::actions::GridActions::GGAUO_LeftPadding,
+            g,
+            v,
+            p,
+            false
+       );
+    }
+}
+
+void scripting::layouts::ScriptableGrid::setPaddingRight(double v, bool p) const
+{
+    sad::layouts::Grid* g = grid(true, "setPaddingRight");
+    if (g)
+    {
+        gui::actions::GridActions* ga = m_scripting->editor()->actions()->gridActions();
+        ga->tryChangePaddingForGrid(
+            gui::actions::GridActions::GGAUO_RightPadding,
+            g,
+            v,
+            p,
+            false
+       );
+    }
+}
+
+void scripting::layouts::ScriptableGrid::setPaddingTop(double v) const
+{
+    this->setPaddingTop(v, true);
+}
+
+void scripting::layouts::ScriptableGrid::setPaddingBottom(double v) const
+{
+    this->setPaddingBottom(v, true);
+}
+
+void scripting::layouts::ScriptableGrid::setPaddingLeft(double v) const
+{
+    this->setPaddingLeft(v, true);
+}
+
+void scripting::layouts::ScriptableGrid::setPaddingRight(double v) const
+{
+    this->setPaddingRight(v, true);
+}
+

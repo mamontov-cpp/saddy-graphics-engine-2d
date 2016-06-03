@@ -10,6 +10,8 @@
 
 #include <input/controls.h>
 
+#include <3rdparty/picojson/picojson.h>
+
 #include <db/dbvariant.h>
 
 #include "abstractactions.h"
@@ -17,6 +19,12 @@
 #include "../layouts/layoutcelledit.h"
 
 class MainPanel;
+class QCheckBox;
+
+namespace history
+{
+class Command;
+}
 
 namespace gui
 {
@@ -611,6 +619,46 @@ enum CellUpdateOptions
         size_t columns,
         bool from_editor = true
     );
+    /*! Returns propagation checkbox for padding
+        \param[in] opts option for grid
+        \return related checkbox
+     */
+    QCheckBox* propagateCheckboxForPadding(gui::actions::GridActions::GridUpdateOptions opts);
+    /*! Applies change in padding to specified grid
+        \param[in] opts options for grid
+        \param[in] newvalue a new value for padding
+        \param[in] grid grid to be changed
+        \param[in] propagate whether we propagated changes for grid to it's cells
+     */
+    void applyPaddingChangeToGrid(
+        gui::actions::GridActions::GridUpdateOptions opts,
+        sad::layouts::Grid* grid,
+        double newvalue,
+        bool propagate
+    );
+    /*! Handles attempt to change padding for a grid
+        \param[in] opts options for grid
+        \param[in] grid a grid to be changed
+        \param[in] value a new value
+        \param[in] propagate whether we propagated changes for grid to it's cells
+        \param[in] from_editor whether this was called from editror
+     */
+    void tryChangePaddingForGrid(
+        gui::actions::GridActions::GridUpdateOptions opts,
+        sad::layouts::Grid* grid,
+        double value,
+        bool propagate,
+        bool from_editor = true
+    );
+    /*! Describes actions, which should be performed when some kind of
+        padding, specified by options is changed
+        \param opts options
+        \param newvalue new value of padding
+     */
+    void paddingChanged(
+        gui::actions::GridActions::GridUpdateOptions opts,
+        double newvalue
+    );
 public slots:
     /*! Called, when user clicks on "Add" button for grids
      */
@@ -781,6 +829,42 @@ private:
         \param[out] buckets a buckets list
      */
     void makeBuckets(const sad::Vector<sad::Pair<sad::SceneNode*, gui::GridPosition> >& parent_pairs, gui::SortingBuckets& buckets) const;
+    /*! Makes new command, related to changing padding of grid, or NULL
+        if opts is not related to padding
+        \param[in] opts options
+        \param[in] g grid
+        \param[in] oldstate an old state of grid
+        \param[in] newstate a new state of grid
+        \param[in] children a children of grid
+        \param[in] propagate whether we propagated changes to grid
+        \return created command
+     */
+    history::Command* makePaddingChangeCommand(
+        gui::actions::GridActions::GridUpdateOptions opts,
+        sad::layouts::Grid* g,
+        const picojson::value& oldstate,
+        const picojson::value& newstate,
+        const sad::Vector<sad::SceneNode*>& children,
+        bool propagate
+    );
+    /*! Makes new command, related to changing padding of grid
+        \param[in] g grid
+        \param[in] oldstate an old state of grid
+        \param[in] newstate a new state of grid
+        \param[in] children a children of grid
+        \param[in] propagate whether we propagated changes to grid
+        \return created command
+     */
+    template<
+        gui::actions::GridActions::GridUpdateOptions _Opts
+    >
+    history::Command* makePaddingChangeCommand(
+        sad::layouts::Grid* g,
+        const picojson::value& oldstate,
+        const picojson::value& newstate,
+        const sad::Vector<sad::SceneNode*>& children,
+        bool propagate
+    );
     /*! A provider for grid cells
      */
     gui::ChildrenProvider* m_provider;

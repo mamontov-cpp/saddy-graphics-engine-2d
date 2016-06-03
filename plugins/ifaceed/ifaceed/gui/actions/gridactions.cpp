@@ -1392,6 +1392,174 @@ void gui::actions::GridActions::tryChangeColumnCountForGrid(
     }
 }
 
+QCheckBox* gui::actions::GridActions::propagateCheckboxForPadding(gui::actions::GridActions::GridUpdateOptions opts)
+{
+    assert(
+        opts == gui::actions::GridActions::GGAUO_TopPadding
+    ||  opts == gui::actions::GridActions::GGAUO_BottomPadding
+    ||  opts == gui::actions::GridActions::GGAUO_LeftPadding
+    ||  opts == gui::actions::GridActions::GGAUO_RightPadding
+    );
+
+    QCheckBox* c = NULL;
+
+    gui::uiblocks::UILayoutBlock* blk = m_editor->uiBlocks()->uiLayoutBlock();
+    switch(opts)
+    {
+        case gui::actions::GridActions::GGAUO_TopPadding:
+            c = blk->cbLayoutPaddingTopPropagate;
+            break;
+        case gui::actions::GridActions::GGAUO_BottomPadding:
+            c = blk->cbLayoutPaddingBottomPropagate;
+            break;
+        case gui::actions::GridActions::GGAUO_LeftPadding:
+            c = blk->cbLayoutPaddingLeftPropagate;
+            break;
+        case gui::actions::GridActions::GGAUO_RightPadding:
+            c = blk->cbLayoutPaddingRightPropagate;
+            break;
+    }
+    return c;
+}
+
+void gui::actions::GridActions::applyPaddingChangeToGrid(
+    gui::actions::GridActions::GridUpdateOptions opts,
+    sad::layouts::Grid* grid,
+    double newvalue,
+    bool propagate
+)
+{
+    assert(
+        opts == gui::actions::GridActions::GGAUO_TopPadding
+    ||  opts == gui::actions::GridActions::GGAUO_BottomPadding
+    ||  opts == gui::actions::GridActions::GGAUO_LeftPadding
+    ||  opts == gui::actions::GridActions::GGAUO_RightPadding
+    );
+    switch(opts)
+    {
+        case gui::actions::GridActions::GGAUO_TopPadding:
+            grid->setPaddingTop(newvalue, propagate);
+            break;
+        case gui::actions::GridActions::GGAUO_BottomPadding:
+            grid->setPaddingBottom(newvalue, propagate);
+            break;
+        case gui::actions::GridActions::GGAUO_LeftPadding:
+            grid->setPaddingLeft(newvalue, propagate);
+            break;
+        case gui::actions::GridActions::GGAUO_RightPadding:
+            grid->setPaddingRight(newvalue, propagate);
+            break;
+    }
+}
+
+void gui::actions::GridActions::tryChangePaddingForGrid(
+    gui::actions::GridActions::GridUpdateOptions opts,
+    sad::layouts::Grid* grid,
+    double value,
+    bool propagate,
+    bool from_editor
+)
+{
+    assert(
+        opts == gui::actions::GridActions::GGAUO_TopPadding
+    ||  opts == gui::actions::GridActions::GGAUO_BottomPadding
+    ||  opts == gui::actions::GridActions::GGAUO_LeftPadding
+    ||  opts == gui::actions::GridActions::GGAUO_RightPadding
+    );
+    double oldvalue = 0;
+    switch(opts)
+    {
+        case gui::actions::GridActions::GGAUO_TopPadding:
+            oldvalue = grid->paddingTop();
+            break;
+        case gui::actions::GridActions::GGAUO_BottomPadding:
+            oldvalue = grid->paddingBottom();
+            break;
+        case gui::actions::GridActions::GGAUO_LeftPadding:
+            oldvalue = grid->paddingLeft();
+            break;
+        case gui::actions::GridActions::GGAUO_RightPadding:
+            oldvalue = grid->paddingRight();
+            break;
+    }
+    if (value != oldvalue)
+    {
+        sad::layouts::Grid* g = grid;
+        sad::Vector<sad::SceneNode*> children = g->children();
+        picojson::value oldstate(picojson::object_type, false);
+        g->save(oldstate);
+
+        this->applyPaddingChangeToGrid(opts, g, value, propagate);
+        this->updateParentGridsRecursively(g);
+
+        picojson::value newstate(picojson::object_type, false);
+        g->save(newstate);
+
+        if (from_editor || m_editor->shared()->selectedGrid() == g)
+        {
+            if (!from_editor)
+            {
+                this->updateOnlyGridPropertiesInUI(opts);
+            }
+            this->updateRegion();
+            if (propagate)
+            {
+                this->updateCellBrowser();
+            }
+        }
+
+        history::Command* c = this->makePaddingChangeCommand(
+            opts,
+            g,
+            oldstate,
+            newstate,
+            children,
+            propagate
+        );
+        if (from_editor)
+        {
+            m_editor->history()->add(c);
+        }
+        else
+        {
+            m_editor->currentBatchCommand()->add(c);
+        }
+    }
+}
+
+void gui::actions::GridActions::paddingChanged(
+    gui::actions::GridActions::GridUpdateOptions opts,
+    double newvalue
+)
+{
+    sad::layouts::Grid* g = m_editor->shared()->activeGrid();
+    QCheckBox* cb = this->propagateCheckboxForPadding(opts);
+    bool propagate = cb->checkState() == Qt::Checked;
+    if (g)
+    {
+        this->applyPaddingChangeToGrid(opts, g, newvalue, propagate);
+        if (propagate)
+        {
+            this->updateCellBrowser();
+        }
+        this->updateRegion();
+    }
+    else
+    {
+        g = m_editor->shared()->selectedGrid();
+        if (g)
+        {
+            this->tryChangePaddingForGrid(
+                opts,
+                g,
+                newvalue,
+                propagate,
+                true
+            );
+        }
+    }
+}
+
 // ================================ PUBLIC SLOTS  ================================
 
 // ReSharper disable once CppMemberFunctionMayBeConst
@@ -1528,181 +1696,22 @@ void gui::actions::GridActions::fixedHeightClicked(bool newvalue)
 
 void gui::actions::GridActions::topPaddingChanged(double newvalue)
 {
-    sad::layouts::Grid* g = m_editor->shared()->activeGrid();
-    bool propagate = m_editor->uiBlocks()->uiLayoutBlock()->cbLayoutPaddingTopPropagate->checkState() == Qt::Checked;
-    if (g)
-    {
-        g->setPaddingTop(newvalue, propagate); 
-        {
-            this->updateCellBrowser();
-        }
-        this->updateRegion();
-    }
-    else
-    {
-        g = m_editor->shared()->selectedGrid();
-        if (g)
-        {
-            sad::Vector<sad::SceneNode*> children = g->children();
-            picojson::value oldstate(picojson::object_type, false);
-            g->save(oldstate);
-
-            g->setPaddingTop(newvalue, propagate);
-            this->updateParentGridsRecursively(g);
-
-            picojson::value newstate(picojson::object_type, false);
-            g->save(newstate);
-            
-            this->updateRegion();
-            if (propagate)
-            {
-                this->updateCellBrowser();
-            }
-            
-            history::layouts::Change<gui::actions::GridActions::GGAUO_TopPadding>* c = new history::layouts::Change<gui::actions::GridActions::GGAUO_TopPadding>(g);
-            c->saveOldState(oldstate);
-            c->saveNewState(newstate);            
-            c->addAffectedNodes(children);
-            c->toggleWhetherShouldUpdateCells(propagate);
-
-            m_editor->history()->add(c);
-        }
-    }
+    this->paddingChanged(gui::actions::GridActions::GGAUO_TopPadding, newvalue);
 }
 
 void gui::actions::GridActions::bottomPaddingChanged(double newvalue)
 {
-    sad::layouts::Grid* g = m_editor->shared()->activeGrid();
-    bool propagate = m_editor->uiBlocks()->uiLayoutBlock()->cbLayoutPaddingBottomPropagate->checkState() == Qt::Checked;
-    if (g)
-    {
-        g->setPaddingBottom(newvalue, propagate); 
-        if (propagate)
-        {
-            this->updateCellBrowser();
-        }
-        this->updateRegion();
-    }
-    else
-    {
-        g = m_editor->shared()->selectedGrid();
-        if (g)
-        {
-            sad::Vector<sad::SceneNode*> children = g->children();
-            picojson::value oldstate(picojson::object_type, false);
-            g->save(oldstate);
-
-            g->setPaddingBottom(newvalue, propagate); 
-            this->updateParentGridsRecursively(g);
-
-            picojson::value newstate(picojson::object_type, false);
-            g->save(newstate);
-            
-            this->updateRegion();
-            if (propagate)
-            {
-                this->updateCellBrowser();
-            }
-            
-            history::layouts::Change<gui::actions::GridActions::GGAUO_BottomPadding>* c = new history::layouts::Change<gui::actions::GridActions::GGAUO_BottomPadding>(g);
-            c->saveOldState(oldstate);
-            c->saveNewState(newstate);            
-            c->addAffectedNodes(children);
-            c->toggleWhetherShouldUpdateCells(propagate);
-
-            m_editor->history()->add(c);
-        }
-    }    
+    this->paddingChanged(gui::actions::GridActions::GGAUO_BottomPadding, newvalue);
 }
 
 void gui::actions::GridActions::leftPaddingChanged(double newvalue)
 {
-    sad::layouts::Grid* g = m_editor->shared()->activeGrid();
-    bool propagate = m_editor->uiBlocks()->uiLayoutBlock()->cbLayoutPaddingLeftPropagate->checkState() == Qt::Checked;
-    if (g)
-    {
-        g->setPaddingLeft(newvalue, propagate); 
-        if (propagate)
-        {
-            this->updateCellBrowser();
-        }
-        this->updateRegion();
-    }
-    else
-    {
-        g = m_editor->shared()->selectedGrid();
-        if (g)
-        {
-            sad::Vector<sad::SceneNode*> children = g->children();
-            picojson::value oldstate(picojson::object_type, false);
-            g->save(oldstate);
-
-            g->setPaddingLeft(newvalue, propagate); 
-            this->updateParentGridsRecursively(g);
-
-            picojson::value newstate(picojson::object_type, false);
-            g->save(newstate);
-            
-            this->updateRegion();
-            if (propagate)
-            {
-                this->updateCellBrowser();
-            }
-            
-            history::layouts::Change<gui::actions::GridActions::GGAUO_LeftPadding>* c = new history::layouts::Change<gui::actions::GridActions::GGAUO_LeftPadding>(g);
-            c->saveOldState(oldstate);
-            c->saveNewState(newstate);            
-            c->addAffectedNodes(children);
-            c->toggleWhetherShouldUpdateCells(propagate);
-
-            m_editor->history()->add(c);
-        }
-    }    
+    this->paddingChanged(gui::actions::GridActions::GGAUO_LeftPadding, newvalue);
 }
 
 void gui::actions::GridActions::rightPaddingChanged(double newvalue)
 {
-    sad::layouts::Grid* g = m_editor->shared()->activeGrid();
-    bool propagate = m_editor->uiBlocks()->uiLayoutBlock()->cbLayoutPaddingRightPropagate->checkState() == Qt::Checked;
-    if (g)
-    {
-        g->setPaddingRight(newvalue, propagate); 
-        if (propagate)
-        {
-            this->updateCellBrowser();
-        }
-        this->updateRegion();
-    }
-    else
-    {
-        g = m_editor->shared()->selectedGrid();
-        if (g)
-        {
-            sad::Vector<sad::SceneNode*> children = g->children();
-            picojson::value oldstate(picojson::object_type, false);
-            g->save(oldstate);
-
-            g->setPaddingRight(newvalue, propagate); 
-            this->updateParentGridsRecursively(g);
-
-            picojson::value newstate(picojson::object_type, false);
-            g->save(newstate);
-            
-            this->updateRegion();
-            if (propagate)
-            {
-                this->updateCellBrowser();
-            }
-            
-            history::layouts::Change<gui::actions::GridActions::GGAUO_RightPadding>* c = new history::layouts::Change<gui::actions::GridActions::GGAUO_RightPadding>(g);
-            c->saveOldState(oldstate);
-            c->saveNewState(newstate);            
-            c->addAffectedNodes(children);
-            c->toggleWhetherShouldUpdateCells(propagate);
-
-            m_editor->history()->add(c);
-        }
-    } 
+    this->paddingChanged(gui::actions::GridActions::GGAUO_RightPadding, newvalue);
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
@@ -2423,3 +2432,73 @@ void gui::actions::GridActions::makeBuckets(const sad::Vector<sad::Pair<sad::Sce
     }
 }
 
+history::Command* gui::actions::GridActions::makePaddingChangeCommand(
+    gui::actions::GridActions::GridUpdateOptions opts,
+    sad::layouts::Grid* g,
+    const picojson::value& oldstate,
+    const picojson::value& newstate,
+    const sad::Vector<sad::SceneNode*>& children,
+    bool propagate
+)
+{
+    history::Command* c = NULL;
+    switch(opts)
+    {
+        case gui::actions::GridActions::GGAUO_TopPadding:
+            c = this->makePaddingChangeCommand<gui::actions::GridActions::GGAUO_TopPadding>(
+                g,
+                oldstate,
+                newstate,
+                children,
+                propagate
+            );
+            break;
+        case gui::actions::GridActions::GGAUO_BottomPadding:
+            c = this->makePaddingChangeCommand<gui::actions::GridActions::GGAUO_BottomPadding>(
+                g,
+                oldstate,
+                newstate,
+                children,
+                propagate
+            );
+            break;
+        case gui::actions::GridActions::GGAUO_LeftPadding:
+            c = this->makePaddingChangeCommand<gui::actions::GridActions::GGAUO_LeftPadding>(
+                g,
+                oldstate,
+                newstate,
+                children,
+                propagate
+            );
+            break;
+        case gui::actions::GridActions::GGAUO_RightPadding:
+            c = this->makePaddingChangeCommand<gui::actions::GridActions::GGAUO_RightPadding>(
+                g,
+                oldstate,
+                newstate,
+                children,
+                propagate
+            );
+            break;
+    }
+    return c;
+}
+
+template<
+    gui::actions::GridActions::GridUpdateOptions _Opts
+>
+history::Command* gui::actions::GridActions::makePaddingChangeCommand(
+    sad::layouts::Grid* g,
+    const picojson::value& oldstate,
+    const picojson::value& newstate,
+    const sad::Vector<sad::SceneNode*>& children,
+    bool propagate
+)
+{
+    history::layouts::Change<_Opts>* c = new history::layouts::Change<_Opts>(g);
+    c->saveOldState(oldstate);
+    c->saveNewState(newstate);
+    c->addAffectedNodes(children);
+    c->toggleWhetherShouldUpdateCells(propagate);
+    return c;
+}

@@ -95,7 +95,7 @@ public slots:
     /*! Sets amount of rows in grid
         \param[in] rows amount of rows
      */
-    void setRows(int rows);
+    void setRows(int rows) const;
     /*! Returns amount of columngs in grid
         \return amount of columns
      */
@@ -103,7 +103,59 @@ public slots:
     /*! Sets amount of columns in grid
         \param[in] columns amount of columns
      */
-    void setColumns(int columns);
+    void setColumns(int columns) const;
+    /*! Returns top padding for grid
+        \return top padding
+     */
+    double paddingTop() const;
+    /*! Returns bottom padding for grid
+        \return bottom padding
+     */
+    double paddingBottom() const;
+    /*! Returns left padding for grid
+        \return left padding
+     */
+    double paddingLeft() const;
+    /*! Returns right padding for grid
+        \return right padding
+     */
+    double paddingRight() const;
+    /*! Sets top padding
+        \param[in] v value
+        \param[in] propagate whether we propagate value to cells
+     */
+    void setPaddingTop(double v, bool propagate) const;
+    /*! Sets bottom padding
+        \param[in] v value
+        \param[in] propagate whether we propagate value to cells
+     */
+    void setPaddingBottom(double v, bool propagate) const;
+    /*! Sets left padding
+        \param[in] v value
+        \param[in] propagate whether we propagate value to cells
+     */
+    void setPaddingLeft(double v, bool propagate) const;
+    /*! Sets right padding
+        \param[in] v value
+        \param[in] propagate whether we propagate value to cells
+     */
+    void setPaddingRight(double v, bool propagate) const ;
+    /*! Sets top padding, propagating values to cells
+        \param v value
+     */
+    void setPaddingTop(double v) const;
+    /*! Sets bottom padding, propagating values to cells
+        \param v value
+     */
+    void setPaddingBottom(double v) const;
+    /*! Sets left padding, propagating values to cells
+        \param v value
+     */
+    void setPaddingLeft(double v) const;
+    /*! Sets right padding, propagating values to cells
+        \param v value
+     */
+    void setPaddingRight(double v) const;
 protected:
     /*! A major id for database object
      */
