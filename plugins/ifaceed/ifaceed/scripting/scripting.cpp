@@ -1328,6 +1328,7 @@ void scripting::Scripting::initLayoutGridBindings(QScriptValue& v)
     layouts.setProperty("query", m_engine->newFunction(scripting::layouts::query), m_flags); // E.layouts.query
     layouts.setProperty("add", m_engine->newFunction(scripting::layouts::add), m_flags); // E.layouts.add
     layouts.setProperty("remove", m_engine->newFunction(scripting::layouts::remove), m_flags); // E.layouts.remove
+    layouts.setProperty("parent", m_engine->newFunction(scripting::layouts::parent), m_flags); // E.layouts.parent
 
     v.setProperty("layouts", layouts, m_flags); // E.layouts
 }

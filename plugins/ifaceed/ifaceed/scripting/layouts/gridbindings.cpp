@@ -12,6 +12,7 @@
 #include "../tovalue.h"
 
 #include "scriptablegrid.h"
+#include "scriptablegridcell.h"
 
 #include "../../core/editor.h"
 
@@ -110,6 +111,41 @@ QScriptValue scripting::layouts::remove(
     else
     {
         ctx->throwError("remove: cannot find grid to be removed");
+    }
+    return engine->nullValue();
+}
+
+
+QScriptValue scripting::layouts::parent(
+    QScriptContext* ctx,
+    QScriptEngine* engine
+)
+{
+    if (ctx->argumentCount() != 1)
+    {
+        ctx->throwError("parent: accepts only 1 argument");
+    }
+
+    sad::Maybe<sad::SceneNode*> maybe_node = scripting::query<sad::SceneNode*>(ctx->argument(0));
+    scripting::Scripting* e = static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject());
+    if (maybe_node.exists())
+    {
+        core::Editor* editor = e->editor();
+        gui::actions::GridActions* ga = editor->actions()->gridActions();
+        sad::Vector<gui::GridPosition> v = ga->findRelatedGrids(maybe_node.value());
+        if (v.size())
+        {
+            gui::GridPosition g = v[0];
+            QScriptValue result = engine->newArray(2);
+            QScriptValue source = engine->newQObject(new scripting::layouts::ScriptableGridCell(g.Grid->MajorId, g.Row, g.Col, e));
+            result.setProperty(0, source);
+            result.setProperty(1, QScriptValue(g.Pos));
+            return result;
+        }
+    }
+    else
+    {
+        ctx->throwError("parent: cannot find object to be searched in grids");
     }
     return engine->nullValue();
 }

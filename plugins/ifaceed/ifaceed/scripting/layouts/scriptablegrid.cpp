@@ -8,7 +8,7 @@
 
 #include <db/dbdatabase.h>
 
-
+#include "../queryobject.h"
 #include "../scripting.h"
 
 #include "../core/editor.h"
@@ -409,3 +409,45 @@ bool scripting::layouts::ScriptableGrid::split(int row, int column, int rowspan,
     }
     return false;
 }
+
+QScriptValue scripting::layouts::ScriptableGrid::findChild(const QScriptValue& o)
+{
+    QScriptEngine* e = m_scripting->engine();
+    QScriptValue val = e->nullValue();
+    sad::layouts::Grid* g = grid(true, "findChild");
+    if (g)
+    {
+        sad::Maybe<sad::SceneNode*> maybe_obj = scripting::query<sad::SceneNode*>(o);
+        if (maybe_obj.exists())
+        {
+
+            sad::Maybe<sad::layouts::Grid::SearchResult> res = g->find(maybe_obj.value());
+            if (res.exists())
+            {
+                sad::layouts::Cell* c = g->cell(res.value().p1());
+                val = e->newArray(2);
+                QScriptValue source = e->newQObject(new scripting::layouts::ScriptableGridCell(g->MajorId, c->Row, c->Col, m_scripting));
+                val.setProperty(0, source);
+                val.setProperty(1, QScriptValue(res.value().p2()));
+            }
+        }
+        else
+        {
+            m_scripting->engine()->currentContext()->throwError("ScriptableGrid: argument is not a reference to a scene node");
+        }
+    }
+    return val;
+}
+
+QScriptValue scripting::layouts::ScriptableGrid::children() const
+{
+    QScriptEngine* e = m_scripting->engine();
+    QScriptValue val = e->newArray(0);
+    sad::layouts::Grid* g = grid(true, "children");
+    if (g)
+    {
+        val = scripting::FromValue<sad::Vector<unsigned long long> >::perform(g->childrenMajorIds(), e);
+    }
+    return val;
+}
+

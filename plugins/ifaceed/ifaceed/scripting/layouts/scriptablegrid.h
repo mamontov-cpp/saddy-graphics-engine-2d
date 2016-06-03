@@ -178,6 +178,15 @@ public slots:
         \return whether it was successfull or failed
      */
     bool split(int row, int column, int rowspan, int colspan);
+    /*! Tries to find child bu major id
+        \param[in] object
+        \return NULL if not found, array with first element of cell, and second is position, otherwise
+     */
+    QScriptValue findChild(const QScriptValue& o);
+    /*! Returns list of childrens major ids from a grid
+        \return list of major ids of children
+     */
+    QScriptValue children() const;
 protected:
     /*! A major id for database object
      */

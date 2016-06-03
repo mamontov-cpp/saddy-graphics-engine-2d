@@ -55,6 +55,16 @@ QScriptValue remove(
     QScriptEngine* engine	
 );
 
+/*!	Returns a position of object in grid if any grid is set as parent for an object
+    \param[in] ctx context
+    \param[in] engine an engine
+    \return empty array if nothing is found, otherwise to elements - cell reference and position
+ */
+QScriptValue parent(
+    QScriptContext* ctx,
+    QScriptEngine* engine
+);
+
 
 }
 
