@@ -2514,6 +2514,30 @@
     <ClCompile Include="scripting\layouts\scriptablegridcell.cpp">
       <Filter>Source Files\scripting\layouts</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\DebugQt4\moc_scriptablelengthvalue.cpp">
+      <Filter>Generated Files\DebugQt4</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_scriptablelengthvalue.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_scriptablelengthvalue.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_scriptablelengthvalue.cpp">
+      <Filter>Generated Files\ReleaseQt4</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_scriptablelengthvalue.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_scriptablelengthvalue.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_scriptablelengthvalue.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\layouts\scriptablelengthvalue.cpp">
+      <Filter>Source Files\scripting\layouts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -3440,6 +3464,9 @@
       <Filter>Header Files\scripting\layouts</Filter>
     </CustomBuild>
     <CustomBuild Include="scripting\layouts\scriptablegridcell.h">
+      <Filter>Header Files\scripting\layouts</Filter>
+    </CustomBuild>
+    <CustomBuild Include="scripting\layouts\scriptablelengthvalue.h">
       <Filter>Header Files\scripting\layouts</Filter>
     </CustomBuild>
   </ItemGroup>

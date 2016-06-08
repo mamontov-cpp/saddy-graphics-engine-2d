@@ -21,7 +21,7 @@ class ScriptableGridCell: public scripting::ClassWrapper
 {
     Q_OBJECT
 public:
-    /*! Declares a scriptable grid cell
+    /*! Initializes a scriptable grid cell
         \param[in] major_id a major id for a parent grid
         \param[in] row a row index for cell
         \param[in] column a column index for cell

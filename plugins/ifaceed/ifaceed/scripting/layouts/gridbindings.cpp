@@ -13,6 +13,7 @@
 
 #include "scriptablegrid.h"
 #include "scriptablegridcell.h"
+#include "scriptablelengthvalue.h"
 
 #include "../../core/editor.h"
 
@@ -148,4 +149,29 @@ QScriptValue scripting::layouts::parent(
         ctx->throwError("parent: cannot find object to be searched in grids");
     }
     return engine->nullValue();
+}
+
+QScriptValue scripting::layouts::length_value(
+    QScriptContext* ctx,
+    QScriptEngine* engine	
+)
+{
+	if (ctx->argumentCount() != 2)
+    {
+        ctx->throwError("LengthValue: accepts only 2 arguments");
+    }
+	sad::Maybe<sad::layouts::Unit> mu_maybe = scripting::ToValue<sad::layouts::Unit>::perform(ctx->argument(0));
+	sad::Maybe<double> mv_maybe = scripting::ToValue<double>::perform(ctx->argument(1));
+	scripting::Scripting* e = static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject());
+	if (mu_maybe.exists() == false)
+	{
+		ctx->throwError("LengthValue: first argument is not a valid unit. Please, use one of E.layouts.Unit.LU_Auto, E.layouts.Unit.LU_Pixels, E.layouts.Unit.LU_Percents values");
+		return engine->nullValue();
+	}
+	if (mv_maybe.exists() == false)
+	{
+		ctx->throwError("LengthValue: second argument is not a valid value.");
+		return engine->nullValue();
+	}
+	return engine->newQObject(new scripting::layouts::ScriptableLengthValue(mu_maybe.value(), mv_maybe.value(), e));
 }

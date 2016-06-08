@@ -23,7 +23,7 @@ class ScriptableGrid: public scripting::ClassWrapper
 {
  Q_OBJECT
 public:
-    /*! Declares a scriptable grid
+    /*! Initiailizes a scriptable grid
         \param[in] major_id a major id for a grid
         \param[in] s scripting
      */

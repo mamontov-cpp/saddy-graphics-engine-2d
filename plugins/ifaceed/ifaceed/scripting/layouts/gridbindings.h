@@ -65,6 +65,16 @@ QScriptValue parent(
     QScriptEngine* engine
 );
 
+/*! Returns a length value, constructed from unit and value
+	\param[in] ctx context
+	\param[in] engine
+	\return null if nothing, otherwise value
+ */
+QScriptValue length_value(
+    QScriptContext* ctx,
+    QScriptEngine* engine	
+);
+
 
 }
 

@@ -334,7 +334,8 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/layouts/layoutsremove.h \
     ifaceed/scripting/layouts/gridbindings.h \
     ifaceed/scripting/layouts/scriptablegrid.h \
-    ifaceed/scripting/layouts/scriptablegridcell.h
+    ifaceed/scripting/layouts/scriptablegridcell.h \
+    ifaceed/scripting/layouts/scriptablelengthvalue.h 	
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui \
     ifaceed/reloadfilelist.ui \
@@ -596,7 +597,8 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/history/layouts/layoutsclearcell.cpp \
     ifaceed/scripting/layouts/gridbindings.cpp \
     ifaceed/scripting/layouts/scriptablegrid.cpp \
-    ifaceed/scripting/layouts/scriptablegridcell.cpp
+    ifaceed/scripting/layouts/scriptablegridcell.cpp \
+    ifaceed/scripting/layouts/scriptablelengthvalue.cpp 	
 
 DESTDIR = ../../bin/ifaceed/
 
