@@ -54,7 +54,7 @@ public slots:
     /*! Returns true, if referenced object is valid
      */
     bool valid() const;
-    /*! Sets width for value
+    /*! Sets width for a cell
         \param[in] value a value for width of cell
      */
     void setWidth(scripting::layouts::ScriptableLengthValue* value);
@@ -62,6 +62,23 @@ public slots:
         \return width of cell
      */
     QScriptValue width() const;
+    /*! Sets height for a cell
+        \param value a value for height of cell
+     */
+    void setHeight(scripting::layouts::ScriptableLengthValue* value);
+    /*! Returns height of cell
+        \return height of cell
+     */
+    QScriptValue height() const;
+    /*! Returns list of children's major ids
+        \return list of children's major ids
+     */
+    QScriptValue children() const;
+    /*! Tries to find child by major id
+        \param[in] object
+        \return NULL if not found, otherwise position
+     */
+    QScriptValue findChild(const QScriptValue& o);
 protected:
     /*! A major id for parent grid
      */

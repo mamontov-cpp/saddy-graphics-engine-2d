@@ -433,7 +433,7 @@ QScriptValue scripting::layouts::ScriptableGrid::findChild(const QScriptValue& o
         }
         else
         {
-            m_scripting->engine()->currentContext()->throwError("ScriptableGrid: argument is not a reference to a scene node");
+            m_scripting->engine()->currentContext()->throwError("ScriptableGrid.findChild: argument is not a reference to a scene node");
         }
     }
     return val;
