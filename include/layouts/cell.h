@@ -267,6 +267,10 @@ public:
         \return maximal size for a cell
      */
     sad::Size2D maximalSize() const;
+    /*! Returns grid of cell
+        \return grid of cell
+     */
+    sad::layouts::Grid* grid() const;
     /*! An assigned area for cell
         This property is explicitly managed by grid, and should not be touched in any circumstances.
      */

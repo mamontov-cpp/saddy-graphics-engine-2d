@@ -663,6 +663,11 @@ sad::Size2D sad::layouts::Cell::maximalSize() const
     return result;
 }
 
+sad::layouts::Grid* sad::layouts::Cell::grid() const
+{
+    return m_grid;
+}
+
 // ========================================= PROTECTED METHODS =========================================
 
 void sad::layouts::Cell::setRowSpan(unsigned int rows)
