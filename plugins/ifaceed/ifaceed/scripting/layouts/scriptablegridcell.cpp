@@ -180,3 +180,36 @@ QScriptValue scripting::layouts::ScriptableGridCell::findChild(const QScriptValu
     return val;
 }
 
+
+void scripting::layouts::ScriptableGridCell::setHorizontalAlignment(const QScriptValue& v)
+{
+    sad::layouts::Cell* c = this->cell(true, "setHorizontalAlignment");
+    sad::Maybe<sad::layouts::HorizontalAlignment> ha_maybe = scripting::ToValue<sad::layouts::HorizontalAlignment>::perform(v);
+    if (!ha_maybe.exists())
+    {
+        m_scripting->engine()->currentContext()->throwError("ScriptableGridCell.setHorizontalAlignment: argument is not a valid E.layouts.HorizontalAlignmet member");
+    }
+    if (c && ha_maybe.exists())
+    {
+        history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_HorizontalAlignment, sad::layouts::HorizontalAlignment>* cmd =
+            new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_HorizontalAlignment, sad::layouts::HorizontalAlignment>(c->grid(), m_row, m_column, "halign");
+        cmd->setOldValue(c->horizontalAlignment());
+        cmd->setNewValue(ha_maybe.value());
+        core::Editor* e = m_scripting->editor();
+        cmd->commit(e);
+        e->currentBatchCommand()->add(cmd);
+    }
+}
+
+
+QScriptValue scripting::layouts::ScriptableGridCell::horizontalAlignment() const
+{
+    sad::layouts::Cell* c = this->cell(true, "horizontalAlignment");
+    QScriptEngine* engine = m_scripting->engine();
+    QScriptValue lv = engine->nullValue();
+    if (c)
+    {
+       lv = scripting::FromValue<sad::layouts::HorizontalAlignment>::perform(c->horizontalAlignment(), engine);
+    }
+    return lv;
+}

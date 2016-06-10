@@ -75,10 +75,18 @@ public slots:
      */
     QScriptValue children() const;
     /*! Tries to find child by major id
-        \param[in] object
+        \param[in] o object
         \return NULL if not found, otherwise position
      */
     QScriptValue findChild(const QScriptValue& o);
+    /*! Sets horizontal alignment for grid cell
+        \param[in] v value
+     */
+    void setHorizontalAlignment(const QScriptValue& v);
+    /*! Returns horizontal alignment for a scriptable grid cell
+        \return horizontal alignment
+     */
+    QScriptValue horizontalAlignment() const;
 protected:
     /*! A major id for parent grid
      */
