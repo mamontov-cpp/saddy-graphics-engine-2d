@@ -1,5 +1,7 @@
 #include "scriptablegridcell.h"
 
+#include "scriptablelengthvalue.h"
+
 #include <renderer.h>
 
 #include <layouts/grid.h>
@@ -8,12 +10,12 @@
 
 #include "../scripting.h"
 
-#include "../scripting.h"
-
 #include "../core/editor.h"
 
 #include "../fromvalue.h"
 #include "../tovalue.h"
+
+#include "../../history/layouts/layoutschangecell.h"
 
 // ================================== PUBLIC METHODS =========================
 
@@ -66,6 +68,38 @@ sad::layouts::Cell* scripting::layouts::ScriptableGridCell::cell(bool throwexc, 
         m_scripting->engine()->currentContext()->throwError(QString("ScriptableGridCell::") + name  + ": Reference to a grid cell is not a valid instance");
     }
     return NULL;
+}
+
+void scripting::layouts::ScriptableGridCell::setWidth(scripting::layouts::ScriptableLengthValue* value)
+{
+    sad::layouts::Cell* c = this->cell(true, "setWidth");
+    if (c)
+    {
+        history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_Width, sad::layouts::LengthValue>* cmd =
+            new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_Width, sad::layouts::LengthValue>(c->grid(), m_row, m_column, "width");
+        cmd->setOldValue(c->width());
+        cmd->setNewValue(value->toValue());
+        cmd->markAsCouldChangeRegion();
+        core::Editor* e = m_scripting->editor();
+        cmd->commit(e);
+        e->currentBatchCommand()->add(cmd);
+    }
+}
+
+QScriptValue scripting::layouts::ScriptableGridCell::width() const
+{
+    sad::layouts::Cell* c = this->cell(true, "width");
+    QScriptEngine* engine = m_scripting->engine();
+    scripting::layouts::ScriptableLengthValue* lv;
+    if (c)
+    {
+        lv = new scripting::layouts::ScriptableLengthValue(c->width(), m_scripting);
+    }
+    else
+    {
+        lv = new scripting::layouts::ScriptableLengthValue(sad::layouts::LU_Auto, 0, m_scripting);
+    }
+    return engine->newQObject(lv);
 }
 
 // ================================== PUBLIC SLOTS METHODS =========================

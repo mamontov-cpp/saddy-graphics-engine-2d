@@ -20,6 +20,8 @@
 #include "../../gui/actions/actions.h"
 #include "../../gui/actions/gridactions.h"
 
+#include "../../gui/rendergrids.h"
+
 #include "../../history/layouts/layoutsnew.h"
 
 QScriptValue scripting::layouts::list(
@@ -81,10 +83,11 @@ QScriptValue scripting::layouts::add(
     grid->setObjectName(name);
     grid->setRows(1);
     grid->setColumns(1);
+    grid->setRenderColor(gui::RenderGrids::defaultColor());
     scripting::Scripting* e = static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject());
     core::Editor* editor = e->editor();
     editor->actions()->gridActions()->addGridToGridList(grid);
-
+    editor->renderGrids()->add(grid);
     sad::Renderer::ref()->database("")->table("layouts")->add(grid);
 
     editor->currentBatchCommand()->add(new history::layouts::New(grid));
@@ -156,22 +159,22 @@ QScriptValue scripting::layouts::length_value(
     QScriptEngine* engine	
 )
 {
-	if (ctx->argumentCount() != 2)
+    if (ctx->argumentCount() != 2)
     {
         ctx->throwError("LengthValue: accepts only 2 arguments");
     }
-	sad::Maybe<sad::layouts::Unit> mu_maybe = scripting::ToValue<sad::layouts::Unit>::perform(ctx->argument(0));
-	sad::Maybe<double> mv_maybe = scripting::ToValue<double>::perform(ctx->argument(1));
-	scripting::Scripting* e = static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject());
-	if (mu_maybe.exists() == false)
-	{
-		ctx->throwError("LengthValue: first argument is not a valid unit. Please, use one of E.layouts.Unit.LU_Auto, E.layouts.Unit.LU_Pixels, E.layouts.Unit.LU_Percents values");
-		return engine->nullValue();
-	}
-	if (mv_maybe.exists() == false)
-	{
-		ctx->throwError("LengthValue: second argument is not a valid value.");
-		return engine->nullValue();
-	}
-	return engine->newQObject(new scripting::layouts::ScriptableLengthValue(mu_maybe.value(), mv_maybe.value(), e));
+    sad::Maybe<sad::layouts::Unit> mu_maybe = scripting::ToValue<sad::layouts::Unit>::perform(ctx->argument(0));
+    sad::Maybe<double> mv_maybe = scripting::ToValue<double>::perform(ctx->argument(1));
+    scripting::Scripting* e = static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject());
+    if (mu_maybe.exists() == false)
+    {
+        ctx->throwError("LengthValue: first argument is not a valid unit. Please, use one of E.layouts.Unit.LU_Auto, E.layouts.Unit.LU_Pixels, E.layouts.Unit.LU_Percents values");
+        return engine->nullValue();
+    }
+    if (mv_maybe.exists() == false)
+    {
+        ctx->throwError("LengthValue: second argument is not a valid value.");
+        return engine->nullValue();
+    }
+    return engine->newQObject(new scripting::layouts::ScriptableLengthValue(mu_maybe.value(), mv_maybe.value(), e));
 }

@@ -7,6 +7,8 @@
 
 #include <layouts/grid.h>
 
+#include <QScriptValue>
+
 namespace scripting
 {
 
@@ -14,6 +16,8 @@ class Scripting;
 
 namespace layouts
 {
+
+class ScriptableLengthValue;
 
 /*! A wrapper for a reference for grid cell
  */
@@ -40,7 +44,7 @@ public:
     /*! A destructor for grid cell
      */
     virtual ~ScriptableGridCell();
-    /*! Returns referencced cell, if reference is valid or returns NULL and throws exception otherwise
+    /*! Returns referenced cell, if reference is valid or returns NULL and throws exception otherwise
         \param[in] throwexc whether we should throw exception or not
         \param[in] name a name for a called method, which can be used in exception
         \return grid
@@ -50,6 +54,14 @@ public slots:
     /*! Returns true, if referenced object is valid
      */
     bool valid() const;
+    /*! Sets width for value
+        \param[in] value a value for width of cell
+     */
+    void setWidth(scripting::layouts::ScriptableLengthValue* value);
+    /*! Returns width of cell
+        \return width of cell
+     */
+    QScriptValue width() const;
 protected:
     /*! A major id for parent grid
      */
