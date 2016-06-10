@@ -66,7 +66,7 @@ sad::layouts::Cell* scripting::layouts::ScriptableGridCell::cell(bool throwexc, 
     }
     if (throwexc)
     {
-        m_scripting->engine()->currentContext()->throwError(QString("ScriptableGridCell::") + name  + ": Reference to a grid cell is not a valid instance");
+        m_scripting->engine()->currentContext()->throwError(QString("ScriptableGridCell.") + name  + ": Reference to a grid cell is not a valid instance");
     }
     return NULL;
 }

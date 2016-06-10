@@ -64,7 +64,7 @@ sad::layouts::Grid* scripting::layouts::ScriptableGrid::grid(bool throwexc, cons
     }
     if (throwexc)
     {
-        m_scripting->engine()->currentContext()->throwError(QString("ScriptableGrid::") + name  + ": Reference to a grid is not a valid instance");
+        m_scripting->engine()->currentContext()->throwError(QString("ScriptableGrid.") + name  + ": Reference to a grid is not a valid instance");
     }
     return NULL;
 }
@@ -93,7 +93,7 @@ void scripting::layouts::ScriptableGrid::setArea(const QScriptValue& newarea) co
     sad::Maybe<sad::Rect2D> rect_maybe = scripting::ToValue<sad::Rect2D>::perform(newarea);
     if (rect_maybe.exists() == false)
     {
-        m_scripting->engine()->currentContext()->throwError("ScriptableGrid::setArea(): argument is not valid rectangle");
+        m_scripting->engine()->currentContext()->throwError("ScriptableGrid.setArea(): argument is not valid rectangle");
         return;
     }
     sad::layouts::Grid* g = grid(true, "setArea");
@@ -201,7 +201,7 @@ void scripting::layouts::ScriptableGrid::setRows(int rows) const
 {
     if (rows <= 0)
     {
-        m_scripting->engine()->currentContext()->throwError("ScriptableGrid::setRows: 0 is not a valid value for row count");
+        m_scripting->engine()->currentContext()->throwError("ScriptableGrid.setRows: 0 is not a valid value for row count");
         return;
     }
 
@@ -227,7 +227,7 @@ void scripting::layouts::ScriptableGrid::setColumns(int columns) const
 {
     if (columns <= 0)
     {
-        m_scripting->engine()->currentContext()->throwError("ScriptableGrid::setColumns: 0 is not a valid value for row count");
+        m_scripting->engine()->currentContext()->throwError("ScriptableGrid.setColumns: 0 is not a valid value for row count");
         return;
     }
 
@@ -376,7 +376,7 @@ QScriptValue scripting::layouts::ScriptableGrid::cell(int row, int column)
     {
         if (row < 0 || column < 0 || row >= g->rows() || column >= g->columns())
         {
-            QString errorMessage = "ScriptableGrid::cell: There are no such cell %1, %2 in grid";
+            QString errorMessage = "ScriptableGrid.cell: There are no such cell %1, %2 in grid";
             errorMessage = errorMessage.arg(row).arg(column);
             m_scripting->engine()->currentContext()->throwError(errorMessage);
         }
