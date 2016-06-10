@@ -2027,7 +2027,7 @@ void gui::actions::GridActions::cellTopPaddingChanged(size_t row, size_t col, do
             {
                 history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_TopPadding, double>* c = 
                     new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_TopPadding, double>(grid, row, col, "padding_top");
-                c->setOldValue(grid->cell(row, col)->stackingType());
+                c->setOldValue(grid->cell(row, col)->paddingTop());
                 c->setNewValue(newvalue);
                 c->markAsCouldChangeRegion();
                 c->commitWithoutUpdatingUI(m_editor);
@@ -2054,7 +2054,7 @@ void gui::actions::GridActions::cellBottomPaddingChanged(size_t row, size_t col,
             {
                 history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_BottomPadding, double>* c = 
                     new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_BottomPadding, double>(grid, row, col, "padding_bottom");
-                c->setOldValue(grid->cell(row, col)->stackingType());
+                c->setOldValue(grid->cell(row, col)->paddingBottom());
                 c->setNewValue(newvalue);
                 c->markAsCouldChangeRegion();
                 c->commitWithoutUpdatingUI(m_editor);
@@ -2081,7 +2081,7 @@ void gui::actions::GridActions::cellLeftPaddingChanged(size_t row, size_t col, d
             {
                 history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_LeftPadding, double>* c = 
                     new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_LeftPadding, double>(grid, row, col, "padding_left");
-                c->setOldValue(grid->cell(row, col)->stackingType());
+                c->setOldValue(grid->cell(row, col)->paddingLeft());
                 c->setNewValue(newvalue);
                 c->markAsCouldChangeRegion();
                 c->commitWithoutUpdatingUI(m_editor);
@@ -2108,7 +2108,7 @@ void gui::actions::GridActions::cellRightPaddingChanged(size_t row, size_t col, 
             {
                 history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_RightPadding, double>* c = 
                     new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_RightPadding, double>(grid, row, col, "padding_right");
-                c->setOldValue(grid->cell(row, col)->stackingType());
+                c->setOldValue(grid->cell(row, col)->paddingRight());
                 c->setNewValue(newvalue);
                 c->markAsCouldChangeRegion();
                 c->commitWithoutUpdatingUI(m_editor);
