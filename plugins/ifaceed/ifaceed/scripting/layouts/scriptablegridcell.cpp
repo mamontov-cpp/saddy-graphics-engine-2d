@@ -278,3 +278,144 @@ QScriptValue scripting::layouts::ScriptableGridCell::stackingType() const
     }
     return lv;
 }
+
+void scripting::layouts::ScriptableGridCell::setTopPadding(double v)
+{
+    tryChangePadding("setTopPadding", v);
+}
+
+double scripting::layouts::ScriptableGridCell::topPadding() const
+{
+    sad::layouts::Cell* c = this->cell(true, "topPadding");
+    if (c)
+    {
+        return c->paddingTop();
+    }
+    return 0;
+}
+
+void scripting::layouts::ScriptableGridCell::setBottomPadding(double v)
+{
+    tryChangePadding("setBottomPadding", v);
+}
+
+double scripting::layouts::ScriptableGridCell::bottomPadding() const
+{
+    sad::layouts::Cell* c = this->cell(true, "bottomPadding");
+    if (c)
+    {
+        return c->paddingBottom();
+    }
+    return 0;
+}
+
+void scripting::layouts::ScriptableGridCell::setLeftPadding(double v)
+{
+    tryChangePadding("setLeftPadding", v);
+}
+
+double scripting::layouts::ScriptableGridCell::leftPadding() const
+{
+    sad::layouts::Cell* c = this->cell(true, "leftPadding");
+    if (c)
+    {
+        return c->paddingLeft();
+    }
+    return 0;
+}
+
+void scripting::layouts::ScriptableGridCell::setRightPadding(double v)
+{
+    tryChangePadding("setRightPadding", v);
+}
+
+double scripting::layouts::ScriptableGridCell::rightPadding() const
+{
+    sad::layouts::Cell* c = this->cell(true, "rightPadding");
+    if (c)
+    {
+        return c->paddingRight();
+    }
+    return 0;
+}
+
+// ================================== PROTECTED METHODS ==================================
+
+history::Command* scripting::layouts::ScriptableGridCell::commandForPadding(
+    const QString& callname,
+    const QString& propname,
+    double newvalue
+)
+{
+    sad::layouts::Cell* c = this->cell(true, callname);
+    if (c)
+    {
+        if (propname == "padding_top")
+        {
+            history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_TopPadding, double>* cmd =
+                new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_TopPadding, double>(c->grid(), m_row, m_column, propname.toStdString());
+            cmd->setOldValue(c->paddingTop());
+            cmd->setNewValue(newvalue);
+            cmd->markAsCouldChangeRegion();
+            return cmd;
+        }
+        if (propname == "padding_bottom")
+        {
+            history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_BottomPadding, double>* cmd =
+                new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_BottomPadding, double>(c->grid(), m_row, m_column, propname.toStdString());
+            cmd->setOldValue(c->paddingBottom());
+            cmd->setNewValue(newvalue);
+            cmd->markAsCouldChangeRegion();
+            return cmd;
+        }
+        if (propname == "padding_left")
+        {
+            history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_LeftPadding, double>* cmd =
+                new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_LeftPadding, double>(c->grid(), m_row, m_column, propname.toStdString());
+            cmd->setOldValue(c->paddingLeft());
+            cmd->setNewValue(newvalue);
+            cmd->markAsCouldChangeRegion();
+            return cmd;
+        }
+        if (propname == "padding_right")
+        {
+            history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_RightPadding, double>* cmd =
+                new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_RightPadding, double>(c->grid(), m_row, m_column, propname.toStdString());
+            cmd->setOldValue(c->paddingRight());
+            cmd->setNewValue(newvalue);
+            cmd->markAsCouldChangeRegion();
+            return cmd;
+        }
+        return NULL;
+    }
+    return NULL;
+}
+
+void scripting::layouts::ScriptableGridCell::tryChangePadding(const QString& callname, double newvalue)
+{
+    QString propname;
+    QString locs[4] = {"top", "bottom" , "left", "right"};
+    for(size_t i = 0; i < 4; i++)
+    {
+       QString tloc = locs[i];
+       tloc[0] = tloc[0].toUpper();
+
+       QString currentcallname = "set";
+       currentcallname.append(tloc).append("Padding");
+       if (callname == currentcallname)
+       {
+           propname = "padding_";
+           propname.append(locs[i]);
+       }
+    }
+    if (propname.length())
+    {
+        history::Command* c = this->commandForPadding(callname, propname, newvalue);
+        if (c)
+        {
+            core::Editor* e = m_scripting->editor();
+            c->commit(e);
+            e->currentBatchCommand()->add(c);
+        }
+    }
+}

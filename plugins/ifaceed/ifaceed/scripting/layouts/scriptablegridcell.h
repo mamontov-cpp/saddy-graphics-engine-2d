@@ -9,6 +9,11 @@
 
 #include <QScriptValue>
 
+namespace history
+{
+class Command;
+}
+
 namespace scripting
 {
 
@@ -103,7 +108,55 @@ public slots:
         \return stacking type
      */
     QScriptValue stackingType() const;
-protected:
+    /*! Sets top padding for cell
+        \param[in] v new padding value
+     */
+    void setTopPadding(double v);
+    /*! Returns top padding for cell
+        \return top padding for cell
+     */
+    double topPadding() const;
+    /*! Sets bottom padding for cell
+        \param[in] v new padding value
+     */
+    void setBottomPadding(double v);
+    /*! Returns bottom padding for cell
+        \return bottom padding for cell
+     */
+    double bottomPadding() const;
+    /*! Sets left padding for cell
+        \param[in] v new padding value
+     */
+    void setLeftPadding(double v);
+    /*! Returns left padding for cell
+        \return left padding for cell
+     */
+    double leftPadding() const;
+    /*! Sets right padding for cell
+        \param[in] v new padding value
+     */
+    void setRightPadding(double v);
+    /*! Returns right padding for cell
+        \return right padding for cell
+     */
+    double rightPadding() const;
+protected:    
+    /*! Returns new command for changing padding
+        \param[in] callname called function name for exception
+        \param[in] propname property name for it
+        \param[in] newvalue a new value for padding
+        \return command
+     */
+    history::Command* commandForPadding(
+        const QString& callname,
+        const QString& propname,
+        double newvalue
+    );
+    /*! Handles attempt for changing padding
+        \param[in] callname a called function name
+        \param[in] newvalue a new value for padding
+     */
+    void tryChangePadding(const QString& callname, double newvalue);
     /*! A major id for parent grid
      */
     unsigned long long m_majorid;
