@@ -79,7 +79,7 @@ public slots:
         \return NULL if not found, otherwise position
      */
     QScriptValue findChild(const QScriptValue& o);
-    /*! Sets horizontal alignment for grid cell
+    /*! Sets horizontal alignment for cell
         \param[in] v value
      */
     void setHorizontalAlignment(const QScriptValue& v);
@@ -87,7 +87,7 @@ public slots:
         \return horizontal alignment
      */
     QScriptValue horizontalAlignment() const;
-    /*! Sets vertical alignment for grid cell
+    /*! Sets vertical alignment for cell
         \param[in] v value
      */
     void setVerticalAlignment(const QScriptValue& v);
@@ -95,6 +95,14 @@ public slots:
         \return vertical alignment
      */
     QScriptValue verticalAlignment() const;
+    /*! Sets stacking type for cell
+        \param[in] v value
+     */
+    void setStackingType(const QScriptValue& v);
+    /*! Returns stacking type for a scriptable grid cell
+        \return stacking type
+     */
+    QScriptValue stackingType() const;
 protected:
     /*! A major id for parent grid
      */

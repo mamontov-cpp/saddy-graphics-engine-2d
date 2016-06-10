@@ -245,3 +245,36 @@ QScriptValue scripting::layouts::ScriptableGridCell::verticalAlignment() const
     }
     return lv;
 }
+
+void scripting::layouts::ScriptableGridCell::setStackingType(const QScriptValue& v)
+{
+    sad::layouts::Cell* c = this->cell(true, "setStackingType");
+    sad::Maybe<sad::layouts::StackingType> st_maybe = scripting::ToValue<sad::layouts::StackingType>::perform(v);
+    if (!st_maybe.exists())
+    {
+        m_scripting->engine()->currentContext()->throwError("ScriptableGridCell.setStackingType: argument is not a valid E.layouts.StackingType member");
+    }
+    if (c && st_maybe.exists())
+    {
+        history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_StackingType, sad::layouts::StackingType>* cmd =
+            new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_StackingType, sad::layouts::StackingType>(c->grid(), m_row, m_column, "stacking_type");
+        cmd->setOldValue(c->stackingType());
+        cmd->setNewValue(st_maybe.value());
+        cmd->markAsCouldChangeRegion();
+        core::Editor* e = m_scripting->editor();
+        cmd->commit(e);
+        e->currentBatchCommand()->add(cmd);
+    }
+}
+
+QScriptValue scripting::layouts::ScriptableGridCell::stackingType() const
+{
+    sad::layouts::Cell* c = this->cell(true, "stackingType");
+    QScriptEngine* engine = m_scripting->engine();
+    QScriptValue lv = engine->nullValue();
+    if (c)
+    {
+       lv = scripting::FromValue<sad::layouts::StackingType>::perform(c->stackingType(), engine);
+    }
+    return lv;
+}
