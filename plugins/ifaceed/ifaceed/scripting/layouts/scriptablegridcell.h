@@ -87,6 +87,14 @@ public slots:
         \return horizontal alignment
      */
     QScriptValue horizontalAlignment() const;
+    /*! Sets vertical alignment for grid cell
+        \param[in] v value
+     */
+    void setVerticalAlignment(const QScriptValue& v);
+    /*! Returns vertical alignment for a scriptable grid cell
+        \return vertical alignment
+     */
+    QScriptValue verticalAlignment() const;
 protected:
     /*! A major id for parent grid
      */

@@ -187,7 +187,7 @@ void scripting::layouts::ScriptableGridCell::setHorizontalAlignment(const QScrip
     sad::Maybe<sad::layouts::HorizontalAlignment> ha_maybe = scripting::ToValue<sad::layouts::HorizontalAlignment>::perform(v);
     if (!ha_maybe.exists())
     {
-        m_scripting->engine()->currentContext()->throwError("ScriptableGridCell.setHorizontalAlignment: argument is not a valid E.layouts.HorizontalAlignmet member");
+        m_scripting->engine()->currentContext()->throwError("ScriptableGridCell.setHorizontalAlignment: argument is not a valid E.layouts.HorizontalAlignment member");
     }
     if (c && ha_maybe.exists())
     {
@@ -210,6 +210,38 @@ QScriptValue scripting::layouts::ScriptableGridCell::horizontalAlignment() const
     if (c)
     {
        lv = scripting::FromValue<sad::layouts::HorizontalAlignment>::perform(c->horizontalAlignment(), engine);
+    }
+    return lv;
+}
+
+void scripting::layouts::ScriptableGridCell::setVerticalAlignment(const QScriptValue& v)
+{
+    sad::layouts::Cell* c = this->cell(true, "setVerticalAlignment");
+    sad::Maybe<sad::layouts::VerticalAlignment> va_maybe = scripting::ToValue<sad::layouts::VerticalAlignment>::perform(v);
+    if (!va_maybe.exists())
+    {
+        m_scripting->engine()->currentContext()->throwError("ScriptableGridCell.setVerticalAlignment: argument is not a valid E.layouts.VerticalAlignment member");
+    }
+    if (c && va_maybe.exists())
+    {
+        history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_VerticalAlignment, sad::layouts::VerticalAlignment>* cmd =
+            new history::layouts::ChangeCell<gui::actions::GridActions::GCAUO_VerticalAlignment, sad::layouts::VerticalAlignment>(c->grid(), m_row, m_column, "valign");
+        cmd->setOldValue(c->verticalAlignment());
+        cmd->setNewValue(va_maybe.value());
+        core::Editor* e = m_scripting->editor();
+        cmd->commit(e);
+        e->currentBatchCommand()->add(cmd);
+    }
+}
+
+QScriptValue scripting::layouts::ScriptableGridCell::verticalAlignment() const
+{
+    sad::layouts::Cell* c = this->cell(true, "verticalAlignment");
+    QScriptEngine* engine = m_scripting->engine();
+    QScriptValue lv = engine->nullValue();
+    if (c)
+    {
+       lv = scripting::FromValue<sad::layouts::VerticalAlignment>::perform(c->verticalAlignment(), engine);
     }
     return lv;
 }
