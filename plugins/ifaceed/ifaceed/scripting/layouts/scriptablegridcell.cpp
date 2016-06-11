@@ -17,6 +17,10 @@
 #include "../tovalue.h"
 
 #include "../../history/layouts/layoutschangecell.h"
+#include "../../history/layouts/layoutsaddchild.h"
+#include "../../history/layouts/layoutsremovechild.h"
+#include "../../history/layouts/layoutsclearcell.h"
+#include "../../history/layouts/layoutsswapchildren.h"
 
 // ================================== PUBLIC METHODS =========================
 
@@ -71,6 +75,28 @@ sad::layouts::Cell* scripting::layouts::ScriptableGridCell::cell(bool throwexc, 
     return NULL;
 }
 
+bool scripting::layouts::ScriptableGridCell::swapChildrenWithCallName(const QString& callname, int pos1, int pos2) const
+{
+    bool result = false;
+    sad::layouts::Cell* cell = this->cell(true, "callname");
+    if (cell)
+    {
+        if (pos1 >= 0 && pos2 >= 0 && pos1 < cell->children().size() && pos2 < cell->children().size())
+        {
+            result = true;
+            if (pos1 != pos2)
+            {
+                core::Editor* editor = m_scripting->editor();
+                history::layouts::SwapChildren* c = new history::layouts::SwapChildren(cell->grid(), m_row, m_column, pos1, pos2);
+                c->commitWithoutUpdatingUI(editor);
+                editor->currentBatchCommand()->add(c);
+            }
+        }
+    }
+
+    return result;    
+}
+
 // ================================== PUBLIC SLOTS METHODS =========================
 
 bool scripting::layouts::ScriptableGridCell::valid() const
@@ -79,7 +105,7 @@ bool scripting::layouts::ScriptableGridCell::valid() const
 }
 
 
-void scripting::layouts::ScriptableGridCell::setWidth(scripting::layouts::ScriptableLengthValue* value)
+void scripting::layouts::ScriptableGridCell::setWidth(scripting::layouts::ScriptableLengthValue* value) const
 {
     sad::layouts::Cell* c = this->cell(true, "setWidth");
     if (c)
@@ -111,7 +137,7 @@ QScriptValue scripting::layouts::ScriptableGridCell::width() const
     return engine->newQObject(lv);
 }
 
-void scripting::layouts::ScriptableGridCell::setHeight(scripting::layouts::ScriptableLengthValue* value)
+void scripting::layouts::ScriptableGridCell::setHeight(scripting::layouts::ScriptableLengthValue* value) const
 {
     sad::layouts::Cell* c = this->cell(true, "setHeight");
     if (c)
@@ -155,7 +181,7 @@ QScriptValue scripting::layouts::ScriptableGridCell::children() const
     return val;
 }
 
-QScriptValue scripting::layouts::ScriptableGridCell::findChild(const QScriptValue& o)
+QScriptValue scripting::layouts::ScriptableGridCell::findChild(const QScriptValue& o) const
 {
     QScriptEngine* e = m_scripting->engine();
     QScriptValue val = e->nullValue();
@@ -181,7 +207,7 @@ QScriptValue scripting::layouts::ScriptableGridCell::findChild(const QScriptValu
 }
 
 
-void scripting::layouts::ScriptableGridCell::setHorizontalAlignment(const QScriptValue& v)
+void scripting::layouts::ScriptableGridCell::setHorizontalAlignment(const QScriptValue& v) const
 {
     sad::layouts::Cell* c = this->cell(true, "setHorizontalAlignment");
     sad::Maybe<sad::layouts::HorizontalAlignment> ha_maybe = scripting::ToValue<sad::layouts::HorizontalAlignment>::perform(v);
@@ -214,7 +240,7 @@ QScriptValue scripting::layouts::ScriptableGridCell::horizontalAlignment() const
     return lv;
 }
 
-void scripting::layouts::ScriptableGridCell::setVerticalAlignment(const QScriptValue& v)
+void scripting::layouts::ScriptableGridCell::setVerticalAlignment(const QScriptValue& v) const
 {
     sad::layouts::Cell* c = this->cell(true, "setVerticalAlignment");
     sad::Maybe<sad::layouts::VerticalAlignment> va_maybe = scripting::ToValue<sad::layouts::VerticalAlignment>::perform(v);
@@ -246,7 +272,7 @@ QScriptValue scripting::layouts::ScriptableGridCell::verticalAlignment() const
     return lv;
 }
 
-void scripting::layouts::ScriptableGridCell::setStackingType(const QScriptValue& v)
+void scripting::layouts::ScriptableGridCell::setStackingType(const QScriptValue& v) const
 {
     sad::layouts::Cell* c = this->cell(true, "setStackingType");
     sad::Maybe<sad::layouts::StackingType> st_maybe = scripting::ToValue<sad::layouts::StackingType>::perform(v);
@@ -279,7 +305,7 @@ QScriptValue scripting::layouts::ScriptableGridCell::stackingType() const
     return lv;
 }
 
-void scripting::layouts::ScriptableGridCell::setTopPadding(double v)
+void scripting::layouts::ScriptableGridCell::setTopPadding(double v) const
 {
     tryChangePadding("setTopPadding", v);
 }
@@ -294,7 +320,7 @@ double scripting::layouts::ScriptableGridCell::topPadding() const
     return 0;
 }
 
-void scripting::layouts::ScriptableGridCell::setBottomPadding(double v)
+void scripting::layouts::ScriptableGridCell::setBottomPadding(double v) const
 {
     tryChangePadding("setBottomPadding", v);
 }
@@ -309,7 +335,7 @@ double scripting::layouts::ScriptableGridCell::bottomPadding() const
     return 0;
 }
 
-void scripting::layouts::ScriptableGridCell::setLeftPadding(double v)
+void scripting::layouts::ScriptableGridCell::setLeftPadding(double v) const
 {
     tryChangePadding("setLeftPadding", v);
 }
@@ -324,7 +350,7 @@ double scripting::layouts::ScriptableGridCell::leftPadding() const
     return 0;
 }
 
-void scripting::layouts::ScriptableGridCell::setRightPadding(double v)
+void scripting::layouts::ScriptableGridCell::setRightPadding(double v) const
 {
     tryChangePadding("setRightPadding", v);
 }
@@ -339,13 +365,94 @@ double scripting::layouts::ScriptableGridCell::rightPadding() const
     return 0;
 }
 
+bool scripting::layouts::ScriptableGridCell::addChild(const QScriptValue& o) const
+{
+    bool result = false;
+    sad::layouts::Cell* cell = this->cell(true, "addChild");
+    if (cell)
+    {
+        sad::Maybe<sad::SceneNode*> maybe_obj = scripting::query<sad::SceneNode*>(o);
+        if (maybe_obj.exists())
+        {
+            sad::SceneNode* node = maybe_obj.value();
+            core::Editor* editor = m_scripting->editor();
+            gui::actions::GridActions* actions = editor->actions()->gridActions();
+            if (actions->parentGridFor(node) == NULL)
+            {
+                sad::Maybe<sad::Rect2D> oldarea = node->getProperty<sad::Rect2D>("area");
+                if (oldarea.exists())
+                {
+                    result = true;
+                    history::layouts::AddChild* c = new history::layouts::AddChild(cell->grid(), m_row, m_column, node, oldarea.value());
+                    c->commit(editor);
+                    editor->currentBatchCommand()->add(c);
+                }
+            }
+        }
+        else
+        {
+            m_scripting->engine()->currentContext()->throwError("ScriptableGridCell.addChild: argument is not a reference to a scene node");
+        }
+    }
+
+    return result;
+}
+
+bool  scripting::layouts::ScriptableGridCell::removeChild(int pos) const
+{
+    bool result = false;
+    sad::layouts::Cell* cell = this->cell(true, "removeChild");
+    if (cell)
+    {
+        if (pos >=0  || pos < cell->children().size())
+        {
+            result = true;
+            core::Editor* editor = m_scripting->editor();
+            history::layouts::RemoveChild* c = new history::layouts::RemoveChild(cell->grid(), m_row, m_column, static_cast<size_t>(pos), cell->child(pos));
+            c->commit(editor);
+            editor->currentBatchCommand()->add(c);
+        }
+    }
+    return result;
+}
+
+void scripting::layouts::ScriptableGridCell::clearChildren() const
+{
+    sad::layouts::Cell* cell = this->cell(true, "clearChildren");
+    if (cell)
+    {
+        if (cell->children().size())
+        {
+            core::Editor* editor = m_scripting->editor();
+            history::layouts::ClearCell* c = new history::layouts::ClearCell(cell->grid(), m_row, m_column, cell->children());
+            c->commit(editor);
+            editor->currentBatchCommand()->add(c);
+        }
+    }
+}
+
+bool scripting::layouts::ScriptableGridCell::swapChildren(int pos1, int pos2) const
+{
+    return swapChildrenWithCallName("swapChildren", pos1, pos2);
+}
+
+bool scripting::layouts::ScriptableGridCell::moveBack(int pos) const
+{
+    return swapChildrenWithCallName("moveBack", pos, pos + 1);    
+}
+
+bool scripting::layouts::ScriptableGridCell::moveFront(int pos) const
+{
+    return swapChildrenWithCallName("moveFront", pos - 1, pos);        
+}
+
 // ================================== PROTECTED METHODS ==================================
 
 history::Command* scripting::layouts::ScriptableGridCell::commandForPadding(
     const QString& callname,
     const QString& propname,
     double newvalue
-)
+) const
 {
     sad::layouts::Cell* c = this->cell(true, callname);
     if (c)
@@ -391,7 +498,7 @@ history::Command* scripting::layouts::ScriptableGridCell::commandForPadding(
     return NULL;
 }
 
-void scripting::layouts::ScriptableGridCell::tryChangePadding(const QString& callname, double newvalue)
+void scripting::layouts::ScriptableGridCell::tryChangePadding(const QString& callname, double newvalue) const
 {
     QString propname;
     QString locs[4] = {"top", "bottom" , "left", "right"};

@@ -30,22 +30,22 @@ public:
      */
     ScriptableLengthValue(
         sad::layouts::Unit unit,
-		double value,
+        double value,
         scripting::Scripting* s
     );
-	/*! Initializes a length value
+    /*! Initializes a length value
         \param[in] value a real underlying value
         \param[in] s scripting object
      */
     ScriptableLengthValue(
-		const sad::layouts::LengthValue& value,
-		scripting::Scripting* s
+        const sad::layouts::LengthValue& value,
+        scripting::Scripting* s
     );
-	/*! Returns real underlying value, cropping it to be always valid
-		in terms of cell size
-		\return real value
-	 */
-	sad::layouts::LengthValue toValue() const;
+    /*! Returns real underlying value, cropping it to be always valid
+        in terms of cell size
+        \return real value
+     */
+    sad::layouts::LengthValue toValue() const;
     /*! Converts object to string representation
         \return object to string
      */
@@ -58,17 +58,17 @@ public slots:
      */
     double value() const;
     /*! Returns underlying length value size
-		\return v new value
+        \return v new value
      */
     void setValue(double v);
-	/*! Returns unit value
-		\return unit value
-	 */
-	QScriptValue unit() const;
-	/*! Sets unit for underlying size
-		\param[in] v size
-	 */
-	void setUnit(QScriptValue v);
+    /*! Returns unit value
+        \return unit value
+     */
+    QScriptValue unit() const;
+    /*! Sets unit for underlying size
+        \param[in] v size
+     */
+    void setUnit(QScriptValue v);
 protected:
     /*! A real length value
      */
