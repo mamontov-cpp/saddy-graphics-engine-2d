@@ -291,7 +291,7 @@ protected:
      */
     void setRowSpan(unsigned int rows);
     /*! Sets count of spanning columns for a cell
-        \param[in] rows a count of spanning columns for cell
+        \param[in] cols a count of spanning columns for cell
      */
     void setColSpan(unsigned int cols); 
     /*! Computes normalized sizes for children 
