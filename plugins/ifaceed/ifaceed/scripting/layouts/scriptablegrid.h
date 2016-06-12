@@ -85,7 +85,7 @@ public slots:
      */
     bool fixedHeight() const;
     /*! Sets fixed height for grid
-        \param[in] height a flag value
+        \param[in] fixed_height a flag value
      */
     void setFixedHeight(bool fixed_height) const;
     /*! Returns amount of rows in grid
@@ -179,7 +179,7 @@ public slots:
      */
     bool split(int row, int column, int rowspan, int colspan);
     /*! Tries to find child by major id
-        \param[in] object
+        \param[in] o object
         \return NULL if not found, array with first element of cell, and second is position, otherwise
      */
     QScriptValue findChild(const QScriptValue& o);

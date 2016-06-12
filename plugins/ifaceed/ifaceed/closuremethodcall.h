@@ -246,11 +246,12 @@ class ClosureMethodCall4: public sad::ClosureBasic
 public:
     /*!
      * Constructs new instance of method call
-     * \param o object
-     * \param f method
-     * \param a1 first argument
-     * \param a2 second argument
-     * \param a3 third argument
+     * \param[in] o object
+     * \param[in] f method
+     * \param[in] a1 first argument
+     * \param[in] a2 second argument
+     * \param[in] a3 third argument
+     * \param[in] a4 fourth argument
      */
     inline ClosureMethodCall4(_ClassName * o, _Method f, const _Arg1& a1, const _Arg2& a2, const _Arg3& a3, const _Arg4& a4) 
     : m_o(o), 
@@ -322,11 +323,13 @@ class ClosureMethodCall5: public sad::ClosureBasic
 public:
     /*!
      * Constructs new instance of method call
-     * \param o object
-     * \param f method
-     * \param a1 first argument
-     * \param a2 second argument
-     * \param a3 third argument
+     * \param[in] o object
+     * \param[in] f method
+     * \param[in] a1 first argument
+     * \param[in] a2 second argument
+     * \param[in] a3 third argument
+     * \param[in] a4 fourth argument
+     * \param[in] a5 fifth argument
      */
     inline ClosureMethodCall5(_ClassName * o, _Method f, const _Arg1& a1, const _Arg2& a2, const _Arg3& a3, const _Arg4& a4, const _Arg5& a5) 
     : m_o(o), 

@@ -22,6 +22,7 @@ public:
         \param[in] d a node
         \param[in] row a row for node
         \param[in] column a column for node
+        \param[in] pos a position of child in parent cell
         \param[in] node a node, that was removed
     */
     RemoveChild(

@@ -1,4 +1,4 @@
-/*! \file layoutscellchange.h
+/*! \file layoutschangecell.h
 
 
     Defines a generic change command for cell of layout grid

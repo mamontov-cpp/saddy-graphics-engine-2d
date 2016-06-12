@@ -22,6 +22,7 @@ public:
         \param[in] d a node
         \param[in] row a row for node
         \param[in] column a column for node
+        \param[in] node a node to be added
         \param[in] oldarea an old area for layout
     */
     AddChild(

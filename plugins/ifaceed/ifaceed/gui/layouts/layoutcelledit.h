@@ -229,7 +229,7 @@ signals:
         \param[in] col a column
         \param[in] pos a position, where child is added
      */
-    void childRemoved(size_t row, size_t col_t, size_t pos);
+    void childRemoved(size_t row, size_t col, size_t pos);
     /*! Emitted, when clearing cell is called
         \param[in] row a row
         \param[in] col a column
@@ -256,7 +256,7 @@ public slots:
      */
     void heightValueChanged(double newvalue);
     /*! Called, when height unit changed
-        \parma[in] unit a new unit for cell
+        \param[in] unit a new unit for cell
      */
     void heightUnitChanged(int unit);
     /*! Called, when horizontal alignment is changed by user

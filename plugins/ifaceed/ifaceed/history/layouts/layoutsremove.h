@@ -22,6 +22,7 @@ public:
      /*! Constructs new command for grid
         \param[in] grid a grid
         \param[in] position a position in list of grids
+        \param[in] parents a list of positions of grid in parent
       */
      Remove(
         sad::layouts::Grid* grid,

@@ -196,11 +196,11 @@ enum CellUpdateOptions
      */
     virtual ~GridActions();
     /*! Returns selected grid, according to editor
-        \param[in] grid a current grid
+        \return a current selected grid
      */
     sad::layouts::Grid* selectedGrid() const;
     /*! Returns list of active grids
-        \param[out] list a list of grids
+        \param[out] grids a list of grids
      */
     static void activeGrids(sad::Vector<sad::layouts::Grid*>& grids);
     /*! Adds a grid to list of grids
@@ -220,7 +220,7 @@ enum CellUpdateOptions
         \param[in] row a row
         \param[in] col a column
         \param[in] pos a position
-        \param[in] node a node
+        \param[in] majorid a major id of a node
      */
     void insertChildToGrid(sad::layouts::Grid* g,  size_t row, size_t col, size_t pos, size_t majorid);
     /*! Tries to insert child to curent grid, thus updating ui
@@ -412,7 +412,7 @@ enum CellUpdateOptions
      */
     void eraseNodesFromGrids(const sad::Vector<sad::Pair<sad::SceneNode*, gui::GridPosition> >& parent_pairs);
     /*! Inserts nodes to their grids, updating them if needed
-        \param[in] parent_apairs a pairs of node, and their positions in grids
+        \param[in] parent_pairs a pairs of node, and their positions in grids
      */
     void insertNodesToGrids(const sad::Vector<sad::Pair<sad::SceneNode*, gui::GridPosition> >& parent_pairs);
     /*! Removes grid from editor
@@ -434,7 +434,7 @@ enum CellUpdateOptions
      */
     void tryUpdateRegionsInChildren(sad::layouts::Grid* grid);
     /*! Tries to update regions in children if selected
-        \param[in] cell a cell
+        \param[in] grid a grid, which contains children to be updated
      */
     void tryUpdateRegionsInChildren(sad::layouts::Cell* grid);
     /*! Updates cell part in UI
