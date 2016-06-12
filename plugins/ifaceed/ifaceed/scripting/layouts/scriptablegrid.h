@@ -48,7 +48,7 @@ public slots:
     /*! Returns true, if referenced object is valid
      */		 
     bool valid() const;
-    /*! Returns area from grid
+    /*! Returns area for a grid
         \return area
      */
     QScriptValue area() const;

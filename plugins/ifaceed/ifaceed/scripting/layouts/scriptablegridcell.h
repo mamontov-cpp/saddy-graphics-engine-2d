@@ -66,6 +66,10 @@ public slots:
     /*! Returns true, if referenced object is valid
      */
     bool valid() const;
+    /*! Returns area for a grid cell
+        \return area
+     */
+    QScriptValue area() const;
     /*! Returns major id of grid for cell
         \return major id
      */
@@ -123,35 +127,35 @@ public slots:
     /*! Sets top padding for cell
         \param[in] v new padding value
      */
-    void setTopPadding(double v) const;
+    void setPaddingTop(double v) const;
     /*! Returns top padding for cell
         \return top padding for cell
      */
-    double topPadding() const;
+    double paddingTop() const;
     /*! Sets bottom padding for cell
         \param[in] v new padding value
      */
-    void setBottomPadding(double v) const;
+    void setPaddingBottom(double v) const;
     /*! Returns bottom padding for cell
         \return bottom padding for cell
      */
-    double bottomPadding() const;
+    double paddingBottom() const;
     /*! Sets left padding for cell
         \param[in] v new padding value
      */
-    void setLeftPadding(double v) const;
+    void setPaddingLeft(double v) const;
     /*! Returns left padding for cell
         \return left padding for cell
      */
-    double leftPadding() const;
+    double paddingLeft() const;
     /*! Sets right padding for cell
         \param[in] v new padding value
      */
-    void setRightPadding(double v) const;
+    void setPaddingRight(double v) const;
     /*! Returns right padding for cell
         \return right padding for cell
      */
-    double rightPadding() const;
+    double paddingRight() const;
     /*! Tries to add child to a cell. If child already has parent grid, returns false
         \param[in] o object
         \return false, if child already has parent grid

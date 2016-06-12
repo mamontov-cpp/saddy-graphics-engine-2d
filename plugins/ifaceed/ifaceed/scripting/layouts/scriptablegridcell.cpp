@@ -104,6 +104,17 @@ bool scripting::layouts::ScriptableGridCell::valid() const
     return cell(false) != NULL;
 }
 
+QScriptValue scripting::layouts::ScriptableGridCell::area() const
+{
+    sad::Rect2D v;
+    sad::layouts::Cell* c = cell(true, "area");
+    if (c)
+    {
+        v = c->AssignedArea;
+    }
+    return scripting::FromValue<sad::Rect2D>::perform(v, m_scripting->engine());    
+}
+
 unsigned long long scripting::layouts::ScriptableGridCell::grid() const
 {
     return m_majorid;
@@ -310,14 +321,14 @@ QScriptValue scripting::layouts::ScriptableGridCell::stackingType() const
     return lv;
 }
 
-void scripting::layouts::ScriptableGridCell::setTopPadding(double v) const
+void scripting::layouts::ScriptableGridCell::setPaddingTop(double v) const
 {
-    tryChangePadding("setTopPadding", v);
+    tryChangePadding("setPaddingTop", v);
 }
 
-double scripting::layouts::ScriptableGridCell::topPadding() const
+double scripting::layouts::ScriptableGridCell::paddingTop() const
 {
-    sad::layouts::Cell* c = this->cell(true, "topPadding");
+    sad::layouts::Cell* c = this->cell(true, "paddingTop");
     if (c)
     {
         return c->paddingTop();
@@ -325,14 +336,14 @@ double scripting::layouts::ScriptableGridCell::topPadding() const
     return 0;
 }
 
-void scripting::layouts::ScriptableGridCell::setBottomPadding(double v) const
+void scripting::layouts::ScriptableGridCell::setPaddingBottom(double v) const
 {
-    tryChangePadding("setBottomPadding", v);
+    tryChangePadding("setPaddingBottom", v);
 }
 
-double scripting::layouts::ScriptableGridCell::bottomPadding() const
+double scripting::layouts::ScriptableGridCell::paddingBottom() const
 {
-    sad::layouts::Cell* c = this->cell(true, "bottomPadding");
+    sad::layouts::Cell* c = this->cell(true, "paddingBottom");
     if (c)
     {
         return c->paddingBottom();
@@ -340,14 +351,14 @@ double scripting::layouts::ScriptableGridCell::bottomPadding() const
     return 0;
 }
 
-void scripting::layouts::ScriptableGridCell::setLeftPadding(double v) const
+void scripting::layouts::ScriptableGridCell::setPaddingLeft(double v) const
 {
-    tryChangePadding("setLeftPadding", v);
+    tryChangePadding("setPaddingLeft", v);
 }
 
-double scripting::layouts::ScriptableGridCell::leftPadding() const
+double scripting::layouts::ScriptableGridCell::paddingLeft() const
 {
-    sad::layouts::Cell* c = this->cell(true, "leftPadding");
+    sad::layouts::Cell* c = this->cell(true, "paddingLeft");
     if (c)
     {
         return c->paddingLeft();
@@ -355,14 +366,14 @@ double scripting::layouts::ScriptableGridCell::leftPadding() const
     return 0;
 }
 
-void scripting::layouts::ScriptableGridCell::setRightPadding(double v) const
+void scripting::layouts::ScriptableGridCell::setPaddingRight(double v) const
 {
-    tryChangePadding("setRightPadding", v);
+    tryChangePadding("setPaddingRight", v);
 }
 
-double scripting::layouts::ScriptableGridCell::rightPadding() const
+double scripting::layouts::ScriptableGridCell::paddingRight() const
 {
-    sad::layouts::Cell* c = this->cell(true, "rightPadding");
+    sad::layouts::Cell* c = this->cell(true, "paddingRight");
     if (c)
     {
         return c->paddingRight();
@@ -512,8 +523,8 @@ void scripting::layouts::ScriptableGridCell::tryChangePadding(const QString& cal
        QString tloc = locs[i];
        tloc[0] = tloc[0].toUpper();
 
-       QString currentcallname = "set";
-       currentcallname.append(tloc).append("Padding");
+       QString currentcallname = "setPadding";
+       currentcallname.append(tloc);
        if (callname == currentcallname)
        {
            propname = "padding_";
