@@ -66,6 +66,10 @@ public slots:
     /*! Returns true, if referenced object is valid
      */
     bool valid() const;
+    /*! Returns major id of grid for cell
+        \return major id
+     */
+    unsigned long long grid() const;
     /*! Sets width for a cell
         \param[in] value a value for width of cell
      */

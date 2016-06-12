@@ -480,7 +480,39 @@
 			Related non-properties: 
 			
 			<ul>
-				<li>Class <b>ScriptableLengthValue</b> - describes a value for width or height of cell
+				<li>Class <b>ScriptableGrid</b> - a reference to real grid, providing following operations:
+					<ul>
+						<li>method <b>valid()</b> - returns a boolean value, which describes, whether reference is valid</li>
+						<li>method <b>area()</b> - returns  sad::Rect value, describing area of grid</li>
+						<li>method <b>setArea(sad::Rect)</b> - tries to set area of grid</li>
+						<li>method <b>majorId()</b> - returns major id of grid as unsigned long long</li>
+						<li>method <b>minorId()</b> - returns minor id of grid as unsigned long long</li>
+						<li>method <b>name()</b> - returns name of grid as string</li>
+						<li>method <b>setName(string)</b> - set name of grid as string</li>
+						<li>method <b>fixedWidth()</b> - returns whether grid has fixed width</li>
+						<li>method <b>setFixedWidth(boolean flag)</b> - toggles flag, whether grid has fixed width</li>
+						<li>method <b>fixedHeight()</b> - returns whether grid has fixed height</li>
+						<li>method <b>setFixedHeight(boolean flag)</b> - toggles flag, whether grid has fixed height</li>
+						<li>method <b>rows()</b> - returns amount of rows in grid</li>
+						<li>method <b>setRows(int)</b> - sets amount of rows in grid. Throws exception on invalid values</li>
+						<li>method <b>columns()</b> - returns amount of columns in grid</li>
+						<li>method <b>setColumns(int)</b> - sets amount of columns in grid. Throws exception on invalid values</li>
+						<li>method <b>paddingTop()</b> - returns default top padding for grid cells</li>
+						<li>method <b>paddingBottom()</b> - returns default bottom padding for grid cells</li>
+						<li>method <b>paddingLeft()</b> - returns default left padding for grid cells</li>
+						<li>method <b>paddingRight()</b> - returns default right padding for grid cells</li>						
+						<li>method <b>setPaddingTop(double, [bool])</b> - set top padding for grid. Flag, determines, whether change should be propagated to cells</li>
+						<li>method <b>setPaddingBottom(double, [bool])</b> - set bottom padding for grid. Flag, determines, whether change should be propagated to cells</li>
+						<li>method <b>setPaddingLeft(double, [bool])</b> - set left padding for grid. Flag, determines, whether change should be propagated to cells</li>
+						<li>method <b>setPaddingRight(double, [bool])</b> - set right padding for grid. Flag, determines, whether change should be propagated to cells</li>
+						<li>method <b>cell(row, col)</b> - returns cell (ScriptableGridCell) by row and column or throws exception if not found</li>
+						<li>method <b>merge(row, col, rowspan, colspan)</b> - merges cells, specified by region into one if can. Otherwise returns false.</li>
+						<li>method <b>split(row, col, rowspan, colspan)</b> - splits cells, specified by region if can. Otherwise returns false.</li>
+						<li>method <b>findChild(name of scene node or major id)</b> - returns array of child cell reference (ScriptableGridCell) and position or null if not found.</li>
+						<li>method <b>children()</b> - returns list of children major ids</li>
+					</ul>
+				</li>
+				<li>Class <b>ScriptableLengthValue</b> - a value for width or height of cell
 					<ul>
 						<li>method <b>setUnit(property of E.layouts.Unit)</b> - sets current unit for value</li>
 						<li>method <b>unit()</b> - returns current unit for value as property of E.layouts.Unit</li>

@@ -104,6 +104,11 @@ bool scripting::layouts::ScriptableGridCell::valid() const
     return cell(false) != NULL;
 }
 
+unsigned long long scripting::layouts::ScriptableGridCell::grid() const
+{
+    return m_majorid;
+}
+
 
 void scripting::layouts::ScriptableGridCell::setWidth(scripting::layouts::ScriptableLengthValue* value) const
 {
