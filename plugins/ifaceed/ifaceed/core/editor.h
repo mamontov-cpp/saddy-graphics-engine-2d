@@ -31,6 +31,9 @@
 
 #include <QObject>
 #include <QTimer>
+#include <QPair>
+#include <QDialog>
+#include <QListWidget>
 #include <QThread>
 #include <QApplication>
 #include <QMainWindow>
@@ -77,6 +80,17 @@ Q_OBJECT
 friend class core::SaddyThread;
 friend class core::QtTarget;
 public:
+    /*! A node picking dialog for editor
+     */
+    struct NodePickingDialog
+    {
+        /*! A dialog
+         */
+        QDialog* Dialog;
+        /*! An inner list for dialog
+         */
+        QListWidget* NodeList;
+    };
     /*! Constructs editor with empty db
      */
     Editor();
@@ -238,7 +252,17 @@ public:
     /*! Tries to update parent grid if any for specified node
         \param[in] node a node
      */
-    void tryUpdateParentGridForNode(sad::SceneNode* node);
+    void tryUpdateParentGridForNode(sad::SceneNode* node) const;
+    /*! Makes a dialog for selecting node
+        \param[in] parent a parent widget for dialog
+        \param[in] window_title a window title
+        \param[in] pairs a pairs of nodes names
+     */
+    static core::Editor::NodePickingDialog dialogForSelectingNode(
+        QWidget* parent,
+        const QString& window_title,
+        const QVector<QPair<QString, unsigned long long> >& pairs
+    );
 public slots:
     /*! Called, when Qt Event Loop is started. Used to load default resources and pre-set
         default behaviour

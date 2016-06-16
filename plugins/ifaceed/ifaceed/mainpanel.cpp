@@ -676,7 +676,8 @@ void MainPanel::setEditor(core::Editor* editor)
     connect(ui.btnSceneNodeMoveBack, SIGNAL(clicked()), sn_actions, SLOT(sceneNodeMoveBack()));
     connect(ui.btnSceneNodeMoveFront, SIGNAL(clicked()), sn_actions, SLOT(sceneNodeMoveFront()));
     connect(ui.btnSceneNodeSpanBetweenTwoPoints, SIGNAL(clicked()), sn_actions, SLOT(enterSpanningObjectBetweenTwoPoints()));
-
+    connect(ui.btnSceneNodeCopySizeAndPosition, SIGNAL(clicked()), sn_actions, SLOT(copyPositionAndSizeFromOtherNodeClicked()));
+    
 
     connect(ui.btnLabelAdd, SIGNAL(clicked()), l_actions, SLOT(addLabel()));
     connect(ui.rtwLabelFont, SIGNAL(selectionChanged(sad::String)), l_actions, SLOT(labelFontChanged(sad::String)));

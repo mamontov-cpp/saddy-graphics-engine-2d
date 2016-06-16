@@ -16,7 +16,7 @@
 #include <db/dbtable.h>
 
 
-gui::ChildrenProvider::ChildrenProvider(MainPanelProxy* proxy) : m_proxy(proxy)
+gui::ChildrenProvider::ChildrenProvider(MainPanelProxy* proxy) : m_scan_for_children(true), m_proxy(proxy), m_excluded_major_id(0)
 {
 
 }
@@ -70,46 +70,76 @@ QVector<QPair<QString, unsigned long long> >  gui::ChildrenProvider::possibleChi
             }
         }
 
-        sad::db::Database* db = sad::Renderer::ref()->database("");
-        sad::db::Table* tbl = db->table("layouts");
 
-        gui::actions::SceneNodeActions* a = m_proxy->editor()->actions()->sceneNodeActions();
-        sad::Vector<unsigned long long> already_children;
-        QHash<unsigned long long, bool> already_children_hash;
-        sad::layouts::Grid* g = m_proxy->editor()->shared()->selectedGrid();
-        if (g)
+        if (m_scan_for_children) 
         {
-            already_children << g->MajorId;
-        }
-        if (tbl)
-        {
-            sad::Vector<sad::db::Object*> objs;
-            tbl->objects(objs);
-            for(i = 0; i < objs.size(); i++)
+            sad::db::Database* db = sad::Renderer::ref()->database("");
+            sad::db::Table* tbl = db->table("layouts");
+
+            gui::actions::SceneNodeActions* a = m_proxy->editor()->actions()->sceneNodeActions();
+            sad::Vector<unsigned long long> already_children;
+            QHash<unsigned long long, bool> already_children_hash;
+            sad::layouts::Grid* g = m_proxy->editor()->shared()->selectedGrid();
+            if (g)
             {
-                if (objs[i]->Active && objs[i]->isInstanceOf("sad::layouts::Grid"))
+                already_children << g->MajorId;
+            }
+            if (tbl)
+            {
+                sad::Vector<sad::db::Object*> objs;
+                tbl->objects(objs);
+                for(i = 0; i < objs.size(); i++)
                 {
-                    result << QPair<QString, unsigned long long>(
-                        a->viewableObjectName(objs[i]),
-                        objs[i]->MajorId
-                    );
-                    already_children << static_cast<sad::layouts::Grid*>(objs[i])->childrenMajorIds();
+                    if (objs[i]->Active && objs[i]->isInstanceOf("sad::layouts::Grid"))
+                    {
+                        result << QPair<QString, unsigned long long>(
+                            a->viewableObjectName(objs[i]),
+                            objs[i]->MajorId
+                        );
+                        already_children << static_cast<sad::layouts::Grid*>(objs[i])->childrenMajorIds();
+                    }
+                }
+            }
+            // Erase non-addable items
+            for(i = 0; i < already_children.size(); i++)
+            {
+                already_children_hash.insert(already_children[i], true);
+            }
+            for(i = 0; i < result.size(); i++)
+            {
+                if (already_children_hash.contains(result[i].second))
+                {
+                    result.remove(i);
+                    --i;
                 }
             }
         }
-        // Erase non-addable items
-        for(i = 0; i < already_children.size(); i++)
+        if (m_excluded_major_id != 0)
         {
-            already_children_hash.insert(already_children[i], true);
-        }
-        for(i = 0; i < result.size(); i++)
-        {
-            if (already_children_hash.contains(result[i].second))
+            for(i = 0; i < result.size(); i++)
             {
-                result.remove(i);
-                --i;
+                if (result[i].second == m_excluded_major_id)
+                {
+                    result.remove(i);
+                    --i;
+                }
             }
         }
     }
     return result;
+}
+
+void gui::ChildrenProvider::doNotRemoveGridChildren()
+{
+    m_scan_for_children = false;
+}
+
+QVector<QPair<QString, unsigned long long> > gui::ChildrenProvider::nodeList()
+{
+    return this->possibleChildren();
+}
+
+void gui::ChildrenProvider::excludeMajorId(unsigned long long id)
+{
+    m_excluded_major_id = id;
 }

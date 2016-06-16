@@ -10,6 +10,8 @@
 #include <QHash>
 #include "../../blockedclosuremethodcall.h"
 
+#include "../core/editor.h"
+
 #ifndef HAVE_QT5
     #define HAVE_QT5 (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
 #endif
@@ -587,51 +589,24 @@ void gui::layouts::LayoutCellEdit::addChildClicked()
     }
     if (pairs.size() != 0)
     {
-        double starting_offset= 5;
-        double dialog_size_x = 320, dialog_size_y = 240;  
-        double button_height = 25;
-        QDialog* dlg = new QDialog(this);
-        dlg->setObjectName("childpicker");
-        dlg->resize(dialog_size_x, dialog_size_y);
-        dlg->setMinimumSize(QSize(dialog_size_x, dialog_size_y));
-        dlg->setMaximumSize(QSize(dialog_size_x, dialog_size_y));
-        dlg->setWindowTitle("Please, pick a child to add into cell");
-        
-        QListWidget* list = new QListWidget(dlg);
-        list->setGeometry(starting_offset, starting_offset, dialog_size_x - starting_offset * 2, dialog_size_y - button_height - starting_offset * 4);
-        for(size_t i = 0; i < pairs.size(); i++)
+        core::Editor::NodePickingDialog dlg = core::Editor::dialogForSelectingNode(
+            this,
+            "Please, pick a child to add into cell",
+            pairs
+        );
+        if (dlg.Dialog->exec() == QDialog::Accepted)
         {
-            QListWidgetItem* item = new QListWidgetItem(pairs[i].first);
-            item->setData(Qt::UserRole, QVariant(pairs[i].second));
-            list->addItem(item);
-        }
-        list->setCurrentRow(0);
-
-        QPushButton* btn_ok = new QPushButton(dlg);
-        btn_ok->setText("Ok");
-        btn_ok->setGeometry(starting_offset, dialog_size_y - button_height - starting_offset, dialog_size_x / 2 - 2 * starting_offset, button_height);
-
-        QPushButton* btn_cancel = new QPushButton(dlg);
-        btn_cancel->setText("Cancel");
-        btn_cancel->setGeometry(dialog_size_x / 2 + starting_offset, dialog_size_y - button_height - starting_offset, dialog_size_x / 2 - 2 * starting_offset, button_height);
-
-        connect(btn_ok, SIGNAL(clicked()), dlg, SLOT(accept()));
-        connect(btn_cancel, SIGNAL(clicked()), dlg, SLOT(reject()));
-
-        QMetaObject::connectSlotsByName(dlg);
-        if (dlg->exec() == QDialog::Accepted)
-        {
-            int current_item = list->currentRow();
+            int current_item = dlg.NodeList->currentRow();
             if (current_item > -1)
             {
-                QString name = list->item(current_item)->text();
-                unsigned long long id = list->item(current_item)->data(Qt::UserRole).value<unsigned long long>();
+                QString name = dlg.NodeList->item(current_item)->text();
+                unsigned long long id = dlg.NodeList->item(current_item)->data(Qt::UserRole).value<unsigned long long>();
                 emit childAdded(Row, Col, id, name);
                 m_children->addItem(name, QVariant(id));
                 m_children->setCurrentIndex(m_children->count() - 1);
             }
         }
-        delete dlg;
+        delete dlg.Dialog;
     } 
     else
     {

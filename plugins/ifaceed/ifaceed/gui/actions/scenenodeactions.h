@@ -151,7 +151,15 @@ public:
         \param[in] node a node
      */
     void tryUpdateParentGridForNode(sad::SceneNode* node);
+    /*! Handles changine area for current node
+        \param[in] newarea area for node
+        \param[in] force_update whether we should force updating widget anyway
+     */
+    void tryChangeAreaForCurrentNode(QRectF newarea, bool force_update = false);
 public slots:
+    /*! Called, when corresponding button is clicked
+     */
+    void copyPositionAndSizeFromOtherNodeClicked();
     /*! Called, when node name is edited
         \param[in] name a name for action
      */

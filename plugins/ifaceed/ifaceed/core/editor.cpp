@@ -1,4 +1,5 @@
 #include <QFontComboBox>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QTimer>
 
 #include "editor.h"
@@ -251,6 +252,8 @@ QApplication* core::Editor::app() const
     return m_qtapp;
 }
 
+// ReSharper disable once CppMemberFunctionMayBeStatic
+// ReSharper disable once CppMemberFunctionMayBeConst
 sad::Renderer* core::Editor::renderer() const
 {
     return sad::Renderer::ref();
@@ -291,6 +294,8 @@ sad::animations::Factory* core::Editor::animationFactory() const
     return const_cast<sad::animations::Factory*>(&m_animation_factory);
 }
 
+// ReSharper disable once CppMemberFunctionMayBeStatic
+// ReSharper disable once CppMemberFunctionMayBeConst
 void core::Editor::quit()
 {
     sad::Renderer::ref()->quit();
@@ -301,6 +306,8 @@ void core::Editor::emitClosure(sad::ClosureBasic * closure)
     emit closureArrived(closure);
 }
 
+// ReSharper disable once CppMemberFunctionMayBeStatic
+// ReSharper disable once CppMemberFunctionMayBeConst
 void core::Editor::cleanupBeforeAdding()
 {
     if (this->machine()->isInState("adding"))
@@ -353,6 +360,8 @@ bool core::Editor::isInEditingState() const
     return result;
 }
 
+// ReSharper disable once CppMemberFunctionMayBeStatic
+// ReSharper disable once CppMemberFunctionMayBeConst
 void core::Editor::cleanDatabase()
 {
     m_machine->enterState("idle");
@@ -399,6 +408,8 @@ void core::Editor::cleanDatabase()
     sad::Renderer::ref()->removeDatabase("");
 }
 
+// ReSharper disable once CppMemberFunctionMayBeStatic
+// ReSharper disable once CppMemberFunctionMayBeConst
 void core::Editor::reportResourceLoadingErrors(
         sad::Vector<sad::resource::Error *> & errors,
         const sad::String& name
@@ -430,6 +441,8 @@ bool core::Editor::isInGridEditingState() const
         && m_mainwindow->UI()->tabObjects->currentIndex() == 7;
 }
 
+// ReSharper disable once CppMemberFunctionMayBeStatic
+// ReSharper disable once CppMemberFunctionMayBeConst
 void core::Editor::tryEnterObjectEditingState()
 {
     if (this->isInEditingState())
@@ -457,6 +470,8 @@ void core::Editor::tryEnterObjectEditingState()
     invoke_blocked(m_mainwindow->UI()->tabTypes, &QTabWidget::setCurrentIndex, 0);
 }
 
+// ReSharper disable once CppMemberFunctionMayBeStatic
+// ReSharper disable once CppMemberFunctionMayBeConst
 void core::Editor::tryEnterWayEditingState()
 {
     if (this->isInEditingState())
@@ -490,6 +505,8 @@ history::BatchCommand* core::Editor::currentBatchCommand() const
     return m_current_batchcommand;
 }
 
+// ReSharper disable once CppMemberFunctionMayBeStatic
+// ReSharper disable once CppMemberFunctionMayBeConst
 bool core::Editor::isDatabaseEmpty() const
 {
     bool result = true;
@@ -528,6 +545,8 @@ QWidget* core::Editor::panelAsWidget() const
     return m_mainwindow;
 }
 
+// ReSharper disable once CppMemberFunctionMayBeStatic
+// ReSharper disable once CppMemberFunctionMayBeConst
 void core::Editor::addToHistory(history::Command* c, bool fromeditor)
 {
     if (fromeditor)
@@ -550,9 +569,54 @@ void core::Editor::incrementFastModeCounter()
     ++m_fast_mode_counter;
 }
 
-void core::Editor::tryUpdateParentGridForNode(sad::SceneNode* node)
+void core::Editor::tryUpdateParentGridForNode(sad::SceneNode* node) const
 {
     this->actions()->sceneNodeActions()->tryUpdateParentGridForNode(node);
+}
+
+core::Editor::NodePickingDialog  core::Editor::dialogForSelectingNode(
+    QWidget* parent,
+    const QString& window_title,
+    const QVector<QPair<QString, unsigned long long> >& pairs
+)
+{
+    double starting_offset= 5;
+    double dialog_size_x = 320, dialog_size_y = 240;  
+    double button_height = 25;
+    QDialog* dlg = new QDialog(parent);
+    dlg->setObjectName("nodepicker");
+    dlg->resize(dialog_size_x, dialog_size_y);
+    dlg->setMinimumSize(QSize(dialog_size_x, dialog_size_y));
+    dlg->setMaximumSize(QSize(dialog_size_x, dialog_size_y));
+    dlg->setWindowTitle(window_title);
+        
+    QListWidget* list = new QListWidget(dlg);
+    list->setGeometry(starting_offset, starting_offset, dialog_size_x - starting_offset * 2, dialog_size_y - button_height - starting_offset * 4);
+    for(size_t i = 0; i < pairs.size(); i++)
+    {
+        QListWidgetItem* item = new QListWidgetItem(pairs[i].first);
+        item->setData(Qt::UserRole, QVariant(pairs[i].second));
+        list->addItem(item);
+    }
+    list->setCurrentRow(0);
+
+    QPushButton* btn_ok = new QPushButton(dlg);
+    btn_ok->setText("Ok");
+    btn_ok->setGeometry(starting_offset, dialog_size_y - button_height - starting_offset, dialog_size_x / 2 - 2 * starting_offset, button_height);
+
+    QPushButton* btn_cancel = new QPushButton(dlg);
+    btn_cancel->setText("Cancel");
+    btn_cancel->setGeometry(dialog_size_x / 2 + starting_offset, dialog_size_y - button_height - starting_offset, dialog_size_x / 2 - 2 * starting_offset, button_height);
+
+    connect(btn_ok, SIGNAL(clicked()), dlg, SLOT(accept()));
+    connect(btn_cancel, SIGNAL(clicked()), dlg, SLOT(reject()));
+
+    QMetaObject::connectSlotsByName(dlg);
+
+    core::Editor::NodePickingDialog result;
+    result.Dialog = dlg;
+    result.NodeList = list;
+    return result;
 }
 
 // =================== PUBLIC SLOTS METHODS ===================
@@ -660,6 +724,8 @@ void core::Editor::clearFastModeCounter()
 
 // =================== PROTECTED METHODS ===================
 
+// ReSharper disable once CppMemberFunctionMayBeStatic
+// ReSharper disable once CppMemberFunctionMayBeConst
 void core::Editor::initConversionTable()
 {
     sad::db::ConversionTable::ref()->add(
@@ -790,6 +856,9 @@ void core::Editor::qtQuitSlot()
         this->onQuitActions();
     }
 }
+
+// ReSharper disable once CppMemberFunctionMayBeStatic
+// ReSharper disable once CppMemberFunctionMayBeConst
 void core::Editor::onQuitActions()
 {
     if (m_quit_reason == core::QR_SADDY) {

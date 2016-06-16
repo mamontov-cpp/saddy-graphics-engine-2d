@@ -67,6 +67,7 @@ public:
     QCheckBox* cbSceneNodeVisible;
     QLineEdit* txtObjectName;
     QPushButton* btnSceneNodeSpanBetweenTwoPoints;
+    QPushButton* btnSceneNodeCopySizeAndPosition;
 };
 
 }

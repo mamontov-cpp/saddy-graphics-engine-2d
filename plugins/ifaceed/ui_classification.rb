@@ -225,7 +225,8 @@
    ["gui::anglewidget::AngleWidget", "awSceneNodeAngle"],
    ["QCheckBox", "cbSceneNodeVisible"],
    ["QLineEdit", "txtObjectName"],
-   ["QPushButton", "btnSceneNodeSpanBetweenTwoPoints"]],
+   ["QPushButton", "btnSceneNodeSpanBetweenTwoPoints"],
+   ["QPushButton", "btnSceneNodeCopySizeAndPosition"]],
  "Label"=>
   [["QPushButton", "btnLabelAdd"],
    ["QTabWidget", "tabLabelOpttions"],

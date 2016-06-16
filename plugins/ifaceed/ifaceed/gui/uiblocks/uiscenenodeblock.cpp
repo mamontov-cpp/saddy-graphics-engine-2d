@@ -16,7 +16,8 @@ rwSceneNodeRect(NULL),
 awSceneNodeAngle(NULL),
 cbSceneNodeVisible(NULL),
 txtObjectName(NULL),
-btnSceneNodeSpanBetweenTwoPoints(NULL)
+btnSceneNodeSpanBetweenTwoPoints(NULL),
+btnSceneNodeCopySizeAndPosition(NULL)
 {
 
 }
@@ -42,6 +43,8 @@ void gui::uiblocks::UISceneNodeBlock::init(QWidget* w)
     assert(this->txtObjectName);
     this->btnSceneNodeSpanBetweenTwoPoints = w->findChild<QPushButton*>("btnSceneNodeSpanBetweenTwoPoints");
     assert(this->btnSceneNodeSpanBetweenTwoPoints);
+    this->btnSceneNodeCopySizeAndPosition = w->findChild<QPushButton*>("btnSceneNodeCopySizeAndPosition");
+    assert(this->btnSceneNodeCopySizeAndPosition);
 }
 
 gui::uiblocks::UISceneNodeBlock::~UISceneNodeBlock()

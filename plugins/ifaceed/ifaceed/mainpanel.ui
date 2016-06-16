@@ -178,7 +178,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <property name="usesScrollButtons">
        <bool>false</bool>
@@ -561,6 +561,19 @@ on fast mode</string>
         </property>
         <property name="text">
          <string>Span between two points</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnSceneNodeCopySizeAndPosition">
+        <property name="geometry">
+         <rect>
+          <x>124</x>
+          <y>3</y>
+          <width>201</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Copy size and position of other node</string>
         </property>
        </widget>
       </widget>
@@ -1638,8 +1651,11 @@ all cells</string>
          <height>22</height>
         </rect>
        </property>
+       <property name="minimum">
+        <double>-32767.000000000000000</double>
+       </property>
        <property name="maximum">
-        <double>20000.000000000000000</double>
+        <double>32767.000000000000000</double>
        </property>
       </widget>
       <widget class="QDoubleSpinBox" name="dsbWayPointY">
@@ -1651,8 +1667,11 @@ all cells</string>
          <height>22</height>
         </rect>
        </property>
+       <property name="minimum">
+        <double>-32767.000000000000000</double>
+       </property>
        <property name="maximum">
-        <double>20000.000000000000000</double>
+        <double>32767.000000000000000</double>
        </property>
       </widget>
       <widget class="QPushButton" name="btnWayPointAdd">
@@ -2450,20 +2469,20 @@ current object</string>
           <item>
            <widget class="QDoubleSpinBox" name="dabSimpleMovementStartingPointX">
             <property name="minimum">
-             <double>-50000.000000000000000</double>
+             <double>-32767.000000000000000</double>
             </property>
             <property name="maximum">
-             <double>50000.000000000000000</double>
+             <double>32767.000000000000000</double>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QDoubleSpinBox" name="dabSimpleMovementStartingPointY">
             <property name="minimum">
-             <double>-50000.000000000000000</double>
+             <double>-32767.000000000000000</double>
             </property>
             <property name="maximum">
-             <double>50000.000000000000000</double>
+             <double>32767.000000000000000</double>
             </property>
            </widget>
           </item>
@@ -2517,20 +2536,20 @@ current object</string>
           <item>
            <widget class="QDoubleSpinBox" name="dabSimpleMovementEndingPointX">
             <property name="minimum">
-             <double>-50000.000000000000000</double>
+             <double>-32767.000000000000000</double>
             </property>
             <property name="maximum">
-             <double>50000.000000000000000</double>
+             <double>32767.000000000000000</double>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QDoubleSpinBox" name="dabSimpleMovementEndingPointY">
             <property name="minimum">
-             <double>-50000.000000000000000</double>
+             <double>-32767.000000000000000</double>
             </property>
             <property name="maximum">
-             <double>50000.000000000000000</double>
+             <double>32767.000000000000000</double>
             </property>
            </widget>
           </item>
@@ -2975,20 +2994,20 @@ rect:</string>
           <item>
            <widget class="QDoubleSpinBox" name="dsbCameraShakingOffsetX">
             <property name="minimum">
-             <double>-50000.000000000000000</double>
+             <double>-32767.000000000000000</double>
             </property>
             <property name="maximum">
-             <double>50000.000000000000000</double>
+             <double>32767.000000000000000</double>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QDoubleSpinBox" name="dsbCameraShakingOffsetY">
             <property name="minimum">
-             <double>-5000.000000000000000</double>
+             <double>-32767.000000000000000</double>
             </property>
             <property name="maximum">
-             <double>5000.000000000000000</double>
+             <double>32767.000000000000000</double>
             </property>
            </widget>
           </item>

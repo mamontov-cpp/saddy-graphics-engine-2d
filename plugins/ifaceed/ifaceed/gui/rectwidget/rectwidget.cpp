@@ -34,7 +34,7 @@ gui::rectwidget::RectWidget::RectWidget(QWidget * parent) : QWidget(parent)
         {
             box->setMinimum(0);            
         }
-        box->setMaximum(32757);
+        box->setMaximum(32767);
         box->setMinimumSize(box->sizeHint());
         box->setValue(0);
     }

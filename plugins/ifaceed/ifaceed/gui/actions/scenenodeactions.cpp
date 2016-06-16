@@ -21,12 +21,14 @@
 
 
 #include "../../core/typeconverters/qcolortosadacolor.h"
+#include "../../core/typeconverters/sadrect2dtoqrectf.h"
 #include "../../core/typeconverters/qrectftosadrect2d.h"
 
 #include "../../gui/rotationprocess.h"
 #include "../../gui/updateelement.h"
 #include "../../gui/mainpanelproxy.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../../gui/actions/gridactions.h"
 
 //#include "../history/scenenodes/scenenodesnew.h"
@@ -235,6 +237,7 @@ void gui::actions::SceneNodeActions::rotate(const sad::input::MouseWheelEvent& e
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::SceneNodeActions::cancelSelection()
 {
     if (m_editor->isInGridEditingState())
@@ -261,6 +264,7 @@ void gui::actions::SceneNodeActions::cancelSelection()
     ));
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::SceneNodeActions::updateRegionForNode()
 {
     core::Shared* s = this->m_editor->shared();
@@ -288,6 +292,7 @@ void gui::actions::SceneNodeActions::updateRegionForNode()
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::SceneNodeActions::updateAngleForNode()
 {
     core::Shared* s = this->m_editor->shared();
@@ -328,7 +333,61 @@ void gui::actions::SceneNodeActions::tryUpdateParentGridForNode(sad::SceneNode* 
     }
 }
 
+void gui::actions::SceneNodeActions::tryChangeAreaForCurrentNode(QRectF newarea, bool force_update) 
+{
+    sad::Rect2D newvalue;
+    core::typeconverters::QRectFToSadRect2D::convert(newarea, newvalue);
+    if (m_editor->shared()->activeObject() != NULL)
+    {
+        m_editor->shared()->activeObject()->setProperty("area", newvalue);
+    }
+    else
+    {
+        sad::SceneNode* node = m_editor->shared()->selectedObject();
+        if (node)
+        {
+            sad::Maybe<sad::Rect2D> oldvalue = node->getProperty<sad::Rect2D>("area");
+            if (oldvalue.exists()) {
+                sad::Rect2D ov = oldvalue.value();
+                bool eq = sad::equal(ov, newvalue);
+                if (!eq)
+                {
+                    node->setProperty("area", newvalue);
+                    newvalue = node->getProperty<sad::Rect2D>("area").value();
+                    eq = sad::equal(ov, newvalue);
+                    bool updated = false;
+                    if (!eq) {
+                        gui::actions::GridActions* ga = m_editor->actions()->gridActions();
+                        sad::layouts::Grid* parent = ga->parentGridFor(node);
+                        if (parent != NULL)
+                        {
+                            parent->update();
+                            ga->updateParentGridsRecursively(parent, true);
+                            sad::Rect2D valueafterupdate = node->getProperty<sad::Rect2D>("area").value();
+                            if (!sad::equal(valueafterupdate, newvalue))
+                            {
+                                updated = true;
+                                this->updateRegionForNode();
+                            }
+                            eq = sad::equal(valueafterupdate, ov);
+                            newvalue = valueafterupdate;
+                        }
+                        if (!eq)
+                        {
+                            m_editor->history()->add(new history::scenenodes::ChangeArea(node, ov, newvalue));
+                        }
+                    }
+                    if ((!updated) && force_update)
+                    {
+                         this->updateRegionForNode();                        
+                    }
+                }
+            }
+        }
+    }
+}
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::SceneNodeActions::addSceneNodeToSceneNodeList(sad::SceneNode* s)
 {
     QListWidget* lstSceneObjects = m_editor->uiBlocks()->uiSceneBlock()->lstSceneObjects;
@@ -342,6 +401,7 @@ void gui::actions::SceneNodeActions::addSceneNodeToSceneNodeList(sad::SceneNode*
     lstSceneObjects->addItem(i);
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::SceneNodeActions::removeLastSceneNodeFromSceneNodeList()
 {
     QListWidget* lstSceneObjects = m_editor->uiBlocks()->uiSceneBlock()->lstSceneObjects;    
@@ -352,6 +412,7 @@ void gui::actions::SceneNodeActions::removeLastSceneNodeFromSceneNodeList()
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::SceneNodeActions::insertSceneNodeToSceneNodeList(sad::SceneNode* s, int position)
 {
     QListWidget* lstSceneObjects = m_editor->uiBlocks()->uiSceneBlock()->lstSceneObjects;
@@ -366,6 +427,7 @@ void gui::actions::SceneNodeActions::insertSceneNodeToSceneNodeList(sad::SceneNo
     lstSceneObjects->insertItem(position, i);
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::SceneNodeActions::removeSceneNodeFromSceneNodeList(int position)
 {
     QListWidget* lstSceneObjects = m_editor->uiBlocks()->uiSceneBlock()->lstSceneObjects;    
@@ -411,12 +473,14 @@ void gui::actions::SceneNodeActions::setSceneNodesInList(sad::SceneNode* n1, sad
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 int gui::actions::SceneNodeActions::findSceneNodeInList(sad::SceneNode* s)
 {
     QListWidget* lstSceneObjects = m_editor->uiBlocks()->uiSceneBlock()->lstSceneObjects;
     return this->findInList(lstSceneObjects, s);    
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::SceneNodeActions::placeFirstPointForSpanning(const sad::input::MouseReleaseEvent& e)
 {
     core::Shared* shared = m_editor->shared();
@@ -473,6 +537,8 @@ void gui::actions::SceneNodeActions::cancelSpanningObject(const sad::input::KeyP
      m_editor->selectionBorder()->toggleShowHotspot(true);
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
+// ReSharper disable once CppMemberFunctionMayBeStatic
 void gui::actions::SceneNodeActions::spanObjectBetweenTwoPoints(
     sad::SceneNode* node,
     sad::Point2D p1,
@@ -498,6 +564,61 @@ void gui::actions::SceneNodeActions::spanObjectBetweenTwoPoints(
 
 // ============================= PUBLIC SLOTS METHODS =============================
 
+// ReSharper disable once CppMemberFunctionMayBeStatic
+// ReSharper disable once CppMemberFunctionMayBeConst
+void gui::actions::SceneNodeActions::copyPositionAndSizeFromOtherNodeClicked()
+{
+    sad::SceneNode* object = m_editor->shared()->activeObject();
+    if (!object)
+    {
+       object = m_editor->shared()->selectedObject();
+    }
+    if (object)
+    {
+        gui::ChildrenProvider provider;
+        provider.setProxy(m_editor->panelProxy());
+        provider.doNotRemoveGridChildren();
+        provider.excludeMajorId(object->MajorId);
+        QVector<QPair<QString, unsigned long long> > pairs = provider.nodeList();
+        if (pairs.size() != 0)
+        {
+            core::Editor::NodePickingDialog dlg = core::Editor::dialogForSelectingNode(
+                m_editor->panelAsWidget(),
+                "Please, pick a child to add into cell",
+                pairs
+            );
+            if (dlg.Dialog->exec() == QDialog::Accepted)
+            {
+                int current_item = dlg.NodeList->currentRow();
+                if (current_item > -1)
+                {
+                    unsigned long long id = dlg.NodeList->item(current_item)->data(Qt::UserRole).value<unsigned long long>();
+                    sad::Maybe<sad::SceneNode*> maybe_node = sad::Renderer::ref()->database("")->objectByMajorId<sad::SceneNode>(id);
+                    if (maybe_node.exists())
+                    {
+                        sad::Maybe<sad::Rect2D> maybe_rect = maybe_node.value()->getProperty<sad::Rect2D>("area");
+                        if (maybe_rect.exists())
+                        {
+                            QRectF r;
+                            const sad::Rect2D& mr = maybe_rect.value();
+                            core::typeconverters::SadRect2DToQRectF::convert(mr, r);
+                            // Fix for inverse rect
+                            if (mr[2].y() < mr[0].y())
+                            {
+                                r.setTop(mr[2].y());
+                                r.setHeight(mr.height());
+                            }
+                            this->tryChangeAreaForCurrentNode(r, true);
+                        }
+                    }
+                }
+            }
+
+            delete dlg.Dialog;
+        }
+    }
+}
+
 void gui::actions::SceneNodeActions::nameEdited(const QString& name)
 {
     sad::String newvalue = Q2STDSTRING(name);
@@ -522,6 +643,7 @@ void gui::actions::SceneNodeActions::nameEdited(const QString& name)
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::SceneNodeActions::visibilityChanged(bool state)
 {
     bool newvalue = state;
@@ -553,6 +675,7 @@ void gui::actions::SceneNodeActions::visibilityChanged(bool state)
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::SceneNodeActions::colorChanged(QColor newcolor)
 {
     sad::AColor newvalue;
@@ -582,50 +705,7 @@ void gui::actions::SceneNodeActions::colorChanged(QColor newcolor)
 
 void gui::actions::SceneNodeActions::areaChanged(QRectF newarea)
 {
-    sad::Rect2D newvalue;
-    core::typeconverters::QRectFToSadRect2D::convert(newarea, newvalue);
-    if (m_editor->shared()->activeObject() != NULL)
-    {
-        m_editor->shared()->activeObject()->setProperty("area", newvalue);
-    }
-    else
-    {
-        sad::SceneNode* node = m_editor->shared()->selectedObject();
-        if (node)
-        {
-            sad::Maybe<sad::Rect2D> oldvalue = node->getProperty<sad::Rect2D>("area");
-            if (oldvalue.exists()) {
-                sad::Rect2D ov = oldvalue.value();
-                bool eq = sad::equal(ov, newvalue);
-                if (!eq)
-                {
-                    node->setProperty("area", newvalue);
-                    newvalue = node->getProperty<sad::Rect2D>("area").value();
-                    eq = sad::equal(ov, newvalue);
-                    if (!eq) {
-                        gui::actions::GridActions* ga = m_editor->actions()->gridActions();
-                        sad::layouts::Grid* parent = ga->parentGridFor(node);
-                        if (parent != NULL)
-                        {
-                            parent->update();
-                            ga->updateParentGridsRecursively(parent, true);
-                            sad::Rect2D valueafterupdate = node->getProperty<sad::Rect2D>("area").value();
-                            if (!sad::equal(valueafterupdate, newvalue))
-                            {
-                                this->updateRegionForNode();
-                            }
-                            eq = sad::equal(valueafterupdate, ov);
-                            newvalue = valueafterupdate;
-                        }
-                        if (!eq)
-                        {
-                            m_editor->history()->add(new history::scenenodes::ChangeArea(node, ov, newvalue));
-                        }
-                    }
-                }
-            }
-        }
-    }
+    this->tryChangeAreaForCurrentNode(newarea, false);
 }
 
 void gui::actions::SceneNodeActions::angleChanged(double newvalue)
@@ -676,7 +756,7 @@ void gui::actions::SceneNodeActions::angleChanged(double newvalue)
     }
 }
 
-
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::SceneNodeActions::removeSceneNode(sad::SceneNode* node, bool from_editor)
 {
     gui::uiblocks::UISceneBlock* blk = m_editor->uiBlocks()->uiSceneBlock();
@@ -733,6 +813,7 @@ void gui::actions::SceneNodeActions::removeSceneNode()
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::SceneNodeActions::selectLastSceneNodeSlot()
 {
     gui::uiblocks::UISceneBlock* blk = m_editor->uiBlocks()->uiSceneBlock();
@@ -778,6 +859,7 @@ void gui::actions::SceneNodeActions::updateSceneNodeName(sad::SceneNode* s, bool
     m_editor->actions()->gridActions()->tryUpdateNodeNameInGrid(s);
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 QString gui::actions::SceneNodeActions::fullNameForNode(sad::SceneNode* node)
 {
     QString result;
@@ -798,6 +880,8 @@ void gui::actions::SceneNodeActions::selectLastSceneNode()
 
 // ============================= PRIVATE METHODS =============================
 
+// ReSharper disable once CppMemberFunctionMayBeStatic
+// ReSharper disable once CppMemberFunctionMayBeConst
 float gui::actions::SceneNodeActions::computeChangedAngle(float angle, float delta)
 {
     double onedegree = 1.0 / 180.0 * M_PI;
@@ -911,6 +995,7 @@ void gui::actions::SceneNodeActions::sceneNodeMoveFront()
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::SceneNodeActions::updateUIForSelectedSceneNode()
 {
     QTimer::singleShot(0, this, SLOT(updateUIForSelectedSceneNodeNow()));
@@ -986,7 +1071,7 @@ void gui::actions::SceneNodeActions::updateUIForSelectedSceneNodeNow()
     }
 }
 
-
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::SceneNodeActions::enterSpanningObjectBetweenTwoPoints()
 {
     sad::SceneNode* node = m_editor->shared()->selectedObject();
