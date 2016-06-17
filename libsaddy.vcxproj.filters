@@ -537,6 +537,9 @@
     <ClCompile Include="src\imageformats\pngloader.cpp">
       <Filter>Файлы исходного кода\imageformats</Filter>
     </ClCompile>
+    <ClCompile Include="src\imageformats\srgbaloader.cpp">
+      <Filter>Файлы исходного кода\imageformats</Filter>
+    </ClCompile>	
     <ClCompile Include="src\imageformats\tgaloader.cpp">
       <Filter>Файлы исходного кода\imageformats</Filter>
     </ClCompile>
@@ -1283,6 +1286,9 @@
     <ClInclude Include="include\imageformats\pngloader.h">
       <Filter>Заголовочные файлы\imageformats</Filter>
     </ClInclude>
+    <ClInclude Include="include\imageformats\srgbaloader.h">
+      <Filter>Заголовочные файлы\imageformats</Filter>
+    </ClInclude>	
     <ClInclude Include="include\imageformats\tgaloader.h">
       <Filter>Заголовочные файлы\imageformats</Filter>
     </ClInclude>

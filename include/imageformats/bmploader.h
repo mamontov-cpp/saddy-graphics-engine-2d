@@ -11,7 +11,7 @@ namespace sad
 
 namespace imageformats
 {
-/*! Defines a loader for PNG file format
+/*! Defines a loader for BMP file format
  */
 class BMPLoader: public sad::imageformats::Loader
 {

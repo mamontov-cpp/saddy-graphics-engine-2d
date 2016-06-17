@@ -23,6 +23,7 @@
 #include "imageformats/bmploader.h"
 #include "imageformats/pngloader.h"
 #include "imageformats/tgaloader.h"
+#include "imageformats/srgbaloader.h"
 
 #ifdef LINUX
     #include <stdio.h>
@@ -52,7 +53,7 @@ m_animations(new sad::animations::Animations())
 {
 #ifdef X11
     SafeXInitThreads();
-#endif	
+#endif  
     m_window->setRenderer(this);
     m_cursor->setRenderer(this);
     m_opengl->setRenderer(this);
@@ -61,6 +62,7 @@ m_animations(new sad::animations::Animations())
     setTextureLoader("BMP", new sad::imageformats::BMPLoader());
     setTextureLoader("TGA", new sad::imageformats::TGALoader());
     setTextureLoader("PNG", new sad::imageformats::PNGLoader());
+    setTextureLoader("SRGBA", new sad::imageformats::SRGBALoader());
 
 
 
@@ -114,7 +116,7 @@ sad::Renderer::~Renderer(void)
         ++it)
     {
         delete it.value();
-    }	
+    }   
 }
 
 void sad::Renderer::setScene(Scene * scene)
@@ -353,7 +355,7 @@ sad::Texture * sad::Renderer::texture(
     const sad::String & treename
 )
 {
-    return resource<sad::Texture>(resourcename, treename);	
+    return resource<sad::Texture>(resourcename, treename);  
 }
 
 void sad::Renderer::emergencyShutdown()
@@ -418,11 +420,11 @@ void sad::Renderer::reshape(int width, int height)
         aspectratio,
         m_glsettings.znear(), 
         m_glsettings.zfar()
-    );		
+    );      
     
     // Clear modelview matrix
-    glMatrixMode (GL_MODELVIEW);										
-    glLoadIdentity ();	
+    glMatrixMode (GL_MODELVIEW);                                        
+    glLoadIdentity ();  
 }
 
 void sad::Renderer::add(sad::Scene * scene)
@@ -492,7 +494,7 @@ unsigned int sad::Renderer::totalSceneObjects() const
 
 void sad::Renderer::setPrimitiveRenderer(sad::PrimitiveRenderer * r)
 {
-    delete m_primitiverenderer;	
+    delete m_primitiverenderer; 
 }
 
 
@@ -537,7 +539,7 @@ const sad::String & sad::Renderer::executablePath() const
         char result[_MAX_PATH+1];
         GetModuleFileNameA(NULL, result, _MAX_PATH);
         sad::String * path = &(const_cast<sad::Renderer*>(this)->m_executable_cached_path);
-        *path =  result;		
+        *path =  result;        
         int pos = path->getLastOccurence("\\");
         if (pos > 0)
         {
@@ -550,8 +552,8 @@ const sad::String & sad::Renderer::executablePath() const
         sprintf(proc, "/proc/%d/exe", getpid());
         char * buffer = readlink_malloc(proc);
         if(buffer != 0)
-        {		
-            sad::String * path = &(const_cast<sad::Renderer*>(this)->m_executable_cached_path);		
+        {       
+            sad::String * path = &(const_cast<sad::Renderer*>(this)->m_executable_cached_path);     
             *path = buffer;
             free(buffer);
             int pos = path->getLastOccurence("/");
@@ -610,7 +612,7 @@ void sad::Renderer::removeTree(const sad::String & name)
         sad::resource::Tree * result =  m_resource_trees[name];
         m_resource_trees.remove(name);
         delete result;
-    } 	
+    }   
 }
 
 
@@ -659,12 +661,12 @@ sad::animations::Animations* sad::Renderer::animations() const
 
 void sad::Renderer::lockRendering()
 {
-    m_lockrendering.lock();	
+    m_lockrendering.lock(); 
 }
 
 void sad::Renderer::unlockRendering()
 {
-    m_lockrendering.unlock();	
+    m_lockrendering.unlock();   
 }
 
 void sad::Renderer::setTextureLoader(const sad::String& format, sad::imageformats::Loader* loader)
@@ -882,7 +884,7 @@ void sad::Renderer::finishRendering()
 void sad::Renderer::addNow(sad::Scene * s)
 {
     s->addRef();
-    m_scenes << s;	
+    m_scenes << s;  
 }
 
 void sad::Renderer::removeNow(sad::Scene * s)

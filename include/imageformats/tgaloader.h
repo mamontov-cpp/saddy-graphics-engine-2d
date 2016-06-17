@@ -11,7 +11,7 @@ namespace sad
 
 namespace imageformats
 {
-/*! Defines a loader for PNG file format
+/*! Defines a loader for TGA file format
  */
 class TGALoader: public sad::imageformats::Loader
 {
@@ -49,7 +49,7 @@ protected:
         This flag is set in sad::imageformats::TGALoader::load.
      */
     bool m_flip_y;
-    /* A BYTES per pixel
+    /* Amount of bytes (not bits) per pixel
         This field is set in sad::imageformats::TGALoader::load.	
      */
     unsigned int m_bypp;

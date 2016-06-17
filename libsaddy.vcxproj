@@ -201,6 +201,7 @@
     <ClCompile Include="src\imageformats\bmploader.cpp" />
     <ClCompile Include="src\imageformats\loader.cpp" />
     <ClCompile Include="src\imageformats\pngloader.cpp" />
+    <ClCompile Include="src\imageformats\srgbaloader.cpp" />	
     <ClCompile Include="src\imageformats\tgaloader.cpp" />
     <ClCompile Include="src\pipeline\pipeline.cpp" />
     <ClCompile Include="src\pipeline\pipelinedelegate.cpp" />
@@ -646,6 +647,7 @@
     <ClInclude Include="include\imageformats\bmploader.h" />
     <ClInclude Include="include\imageformats\loader.h" />
     <ClInclude Include="include\imageformats\pngloader.h" />
+    <ClInclude Include="include\imageformats\srgbaloader.h" />	
     <ClInclude Include="include\imageformats\tgaloader.h" />
     <ClInclude Include="include\util\commoncheckedcast.h" />
     <ClInclude Include="include\util\deletetexturetask.h" />
