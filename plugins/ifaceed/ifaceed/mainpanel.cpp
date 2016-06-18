@@ -20,8 +20,6 @@
 #include "gui/actions/wayactions.h"
 #include "gui/actions/gridactions.h"
 
-#include "gui/childrenprovider.h"
-
 #include "gui/rendergrids.h"
 
 #include "core/borders/selectionborder.h"
@@ -178,6 +176,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
         ++i;
     }
 
+	m_offsets_window = new GridAndOffsets(NULL);
 }
 
 
@@ -191,6 +190,7 @@ MainPanel::~MainPanel()
         it.value()->delRef();
     }
     m_property_delegates.clear();
+	delete m_offsets_window;
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
@@ -834,6 +834,7 @@ void MainPanel::setEditor(core::Editor* editor)
 
     connect(ui.btnClearCounters, SIGNAL(clicked()), m_editor, SLOT(clearFastModeCounter()));
     connect(ui.btnFastModeHelp, SIGNAL(clicked()), this, SLOT(showFastModeHelp()));
+    connect(ui.btnGridAndOffset, SIGNAL(clicked()), this, SLOT(showGridAndOffsetWindow()));
 
     // Initialize UI from editor
     if (editor)
@@ -1309,6 +1310,14 @@ void MainPanel::showFastModeHelp()
     );
 }
 
+void MainPanel::showGridAndOffsetWindow() const
+{
+	if (m_offsets_window->isVisible() == false)
+	{
+		m_offsets_window->show();
+	}
+}
+
 //====================  PROTECTED METHODS HERE ====================
 
 // ReSharper disable once CppMemberFunctionMayBeConst
@@ -1749,6 +1758,11 @@ bool MainPanel::scriptableAddProperty(const sad::String& propertytype, const sad
 gui::table::DelegateFactory* MainPanel::delegateFactory() const
 {
     return &(const_cast<MainPanel*>(this)->m_dbdelegate_factory);
+}
+
+GridAndOffsets* MainPanel::gridAndOffset() const
+{
+	return m_offsets_window; 
 }
 
 void MainPanel::save()

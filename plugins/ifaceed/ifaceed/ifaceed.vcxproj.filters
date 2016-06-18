@@ -2538,6 +2538,30 @@
     <ClCompile Include="scripting\layouts\scriptablelengthvalue.cpp">
       <Filter>Source Files\scripting\layouts</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\DebugQt4\moc_gridandoffset.cpp">
+      <Filter>Generated Files\DebugQt4</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_gridandoffset.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_gridandoffset.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_gridandoffset.cpp">
+      <Filter>Generated Files\ReleaseQt4</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_gridandoffset.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_gridandoffset.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_gridandoffset.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="gridandoffset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -3227,6 +3251,9 @@
     <ClInclude Include="scripting\layouts\gridbindings.h">
       <Filter>Header Files\scripting\layouts</Filter>
     </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_gridandoffset.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="acolordialog.h">
@@ -3468,6 +3495,12 @@
     </CustomBuild>
     <CustomBuild Include="scripting\layouts\scriptablelengthvalue.h">
       <Filter>Header Files\scripting\layouts</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gridandoffset.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gridandoffset.h">
+      <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

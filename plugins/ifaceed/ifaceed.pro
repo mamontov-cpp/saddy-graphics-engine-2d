@@ -339,7 +339,9 @@ HEADERS += ifaceed/mainpanel.h \
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui \
     ifaceed/reloadfilelist.ui \
-    ifaceed/scriptinghelp.ui
+    ifaceed/scriptinghelp.ui \
+    ifaceed/gridandoffset.ui
+	
 SOURCES += ifaceed/main.cpp \
            ifaceed/mainpanel.cpp \
     ifaceed/core/typeconverters/qcolortosadacolor.cpp \

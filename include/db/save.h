@@ -161,6 +161,53 @@ static picojson::value perform(void * ptr)
 
 };
 
+/*! Specification for saving point values
+ */
+template<>
+class Save<sad::Point3D>
+{
+public:
+/*! Saves a value of specified type
+    \param[in] ptr a value to be saved
+ */
+static picojson::value perform(void * ptr)
+{
+    if (!ptr)
+        throw sad::db::InvalidPointer();
+    const sad::Point3D & p = *(reinterpret_cast<sad::Point3D *>(ptr));
+    picojson::value v(picojson::object_type, false);
+    v.insert("x", picojson::value(static_cast<double>(p.x())));
+    v.insert("y", picojson::value(static_cast<double>(p.y())));
+    v.insert("z", picojson::value(static_cast<double>(p.z())));
+    return v;
+}
+
+};
+
+/*! Specification for saving point values
+ */
+template<>
+class Save<sad::Point3I>
+{
+public:
+/*! Saves a value of specified type
+    \param[in] ptr a value to be saved
+ */
+static picojson::value perform(void * ptr)
+{
+    if (!ptr)
+        throw sad::db::InvalidPointer();
+    const sad::Point3I & p = *(reinterpret_cast<sad::Point3I *>(ptr));
+    picojson::value v(picojson::object_type, false);
+    v.insert("x", picojson::value(static_cast<double>(p.x())));
+    v.insert("y", picojson::value(static_cast<double>(p.y())));
+    v.insert("z", picojson::value(static_cast<double>(p.z())));
+	return v;
+}
+
+};
+
+
 /*! Specification for saving rectangle values
  */
 template<>

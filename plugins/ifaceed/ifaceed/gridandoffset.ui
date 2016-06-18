@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>frmGridAndOffset</class>
+ <widget class="QWidget" name="frmGridAndOffset">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>374</width>
+    <height>304</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Grid and global offset</string>
+  </property>
+  <widget class="QGroupBox" name="grpOffset">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>10</y>
+     <width>341</width>
+     <height>79</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Global Offset</string>
+   </property>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>23</y>
+      <width>321</width>
+      <height>48</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="grltOffset">
+     <item row="0" column="0">
+      <widget class="QLabel" name="lblOffsetX">
+       <property name="text">
+        <string>X:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QSpinBox" name="spbOffsetX">
+       <property name="minimum">
+        <number>-32767</number>
+       </property>
+       <property name="maximum">
+        <number>32767</number>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="lblOffsetY">
+       <property name="text">
+        <string>Y:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QSpinBox" name="spbOffsetY">
+       <property name="minimum">
+        <number>-32767</number>
+       </property>
+       <property name="maximum">
+        <number>32767</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="grpGrid">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>100</y>
+     <width>341</width>
+     <height>191</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Grid</string>
+   </property>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>321</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="grltGrid">
+     <item row="1" column="0">
+      <widget class="QLabel" name="lblGridY">
+       <property name="text">
+        <string>Y:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="lblGridX">
+       <property name="text">
+        <string>X:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QSpinBox" name="spbGridX">
+       <property name="minimum">
+        <number>0</number>
+       </property>
+       <property name="maximum">
+        <number>32767</number>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QSpinBox" name="spbGridY">
+       <property name="minimum">
+        <number>0</number>
+       </property>
+       <property name="maximum">
+        <number>32767</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>100</y>
+      <width>321</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="grdGridShowColor">
+     <item row="0" column="0">
+      <widget class="gui::colorview::ColorView" name="clrGridColor" native="true"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QCheckBox" name="cbGridShow">
+       <property name="text">
+        <string>Show grid</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>gui::colorview::ColorView</class>
+   <extends>QWidget</extends>
+   <header>gui/colorview/colorview.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

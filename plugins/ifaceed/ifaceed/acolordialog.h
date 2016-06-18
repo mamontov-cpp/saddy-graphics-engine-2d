@@ -36,7 +36,7 @@ public:
         \return selected color
      */
     QColor selectedColor() const;
-    /*! Destructs color
+    /*! Destructs color dialog
      */
     virtual ~AColorDialog();
 protected:

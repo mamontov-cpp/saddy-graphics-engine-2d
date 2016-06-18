@@ -45,6 +45,8 @@ namespace Qt
 #include <p2d/app/way.h>
 #include <dialogue/dialogue.h>
 
+#include "gridandoffset.h"
+
 
 #pragma once
 
@@ -186,6 +188,10 @@ public:
         \return delegate factory
      */
     gui::table::DelegateFactory* delegateFactory() const;
+	/*! Returns grid and offsets
+		\return grid and offsets window
+	 */ 
+	GridAndOffsets* gridAndOffset() const;
 protected:
     /*! Stores all widget for main panel
      */
@@ -205,9 +211,7 @@ protected:
     sad::Hash<sad::String, gui::table::Delegate*> m_delegates_by_names;
     /*! A delegate factory for creating rows in db
      */
-    gui::table::DelegateFactory m_dbdelegate_factory;
-    /*! An actions, linked to scene nodes editing
-     */   
+    gui::table::DelegateFactory m_dbdelegate_factory;  
     /*! A main scripting capabilities and bindings
      */
     scripting::Scripting* m_scripting;
@@ -225,6 +229,9 @@ protected:
         widget value changes
      */
     bool m_selfchanged;
+	/*! A grid and offsets window
+	 */ 
+	GridAndOffsets* m_offsets_window;
 
     /*! Fills combo box with database property types
      */
@@ -249,6 +256,9 @@ public slots:
     /*! Shows help on fast mode
      */
     void showFastModeHelp();
+    /*! Shows grid and offsets window
+     */ 
+    void showGridAndOffsetWindow() const;
 protected slots:
     /*! Adds a property to database slot
      */

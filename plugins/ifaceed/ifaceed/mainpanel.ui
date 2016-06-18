@@ -178,7 +178,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>0</number>
       </property>
       <property name="usesScrollButtons">
        <bool>false</bool>
@@ -288,6 +288,19 @@
          <string>Fix
 texture
 coordinates</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnGridAndOffset">
+        <property name="geometry">
+         <rect>
+          <x>380</x>
+          <y>170</y>
+          <width>91</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Grid &amp;&amp; Offset</string>
         </property>
        </widget>
       </widget>
