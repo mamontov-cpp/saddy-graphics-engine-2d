@@ -4,15 +4,21 @@
 #include "orthographiccamera.h"
 #include "sadmutex.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include "os/glheaders.h"
 
 #include "db/schema/schema.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "db/dbproperty.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "db/save.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "db/load.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "db/dbfield.h"
 #include "db/dbmethodpair.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <time.h>
 
 sad::Scene::Scene()
@@ -76,7 +82,7 @@ void sad::Scene::clearRenderer()
     m_renderer = NULL;
 }
 
-sad::Camera & sad::Scene::camera()
+sad::Camera & sad::Scene::camera() const
 {
     return *m_camera;
 }
@@ -84,7 +90,7 @@ sad::Camera & sad::Scene::camera()
 void sad::Scene::setCamera(sad::Camera * camera) 
 { 
     delete m_camera; 
-    m_camera=camera; 
+    m_camera = camera; 
 }
 
 int sad::Scene::findLayer(sad::SceneNode * node)
@@ -118,7 +124,7 @@ void sad::Scene::swapLayers(sad::SceneNode * node1, sad::SceneNode * node2)
 {
     int pos1 = findLayer(node1);
     int pos2 = findLayer(node2);
-    if (pos1!=-1 && pos2!=-1)
+    if (pos1 != -1 && pos2 != -1)
     {
         m_layers[pos1] = node2;
         m_layers[pos2] = node1;

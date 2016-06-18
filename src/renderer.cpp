@@ -38,18 +38,18 @@ sad::Renderer * sad::Renderer::m_instance = NULL;
 
 sad::Renderer::Renderer()
 : 
-m_log(new sad::log::Log()),
 m_window(new sad::Window()),
 m_context(new sad::GLContext()),
+m_log(new sad::log::Log()),
 m_cursor(new sad::MouseCursor()),
 m_opengl(new sad::OpenGL()),
 m_main_loop(new sad::MainLoop()),
 m_fps_interpolation(new sad::FPSInterpolation()),
-m_controls(new sad::input::Controls()),
-m_pipeline(new sad::pipeline::Pipeline()),
-m_added_system_pipeline_tasks(false),
 m_primitiverenderer(new sad::PrimitiveRenderer()),
-m_animations(new sad::animations::Animations())
+m_controls(new sad::input::Controls()),
+m_animations(new sad::animations::Animations()),
+m_pipeline(new sad::pipeline::Pipeline()),
+m_added_system_pipeline_tasks(false)
 {
 #ifdef X11
     SafeXInitThreads();
@@ -74,10 +74,10 @@ m_animations(new sad::animations::Animations())
     m_controls->add(*(sad::input::ET_Quit), m_main_loop, &sad::MainLoop::stop);
 
     // Set context thread
-    m_context_thread = (void*)sad::os::current_thread_id(); 
+    m_context_thread = static_cast<void*>(sad::os::current_thread_id()); 
     // Init pipeline to make sure, that user can add actions after rendering step, before 
     // renderer started
-    this->initPipeline();
+    this->Renderer::initPipeline();
 }
 
 sad::Renderer::~Renderer(void)
@@ -96,7 +96,7 @@ sad::Renderer::~Renderer(void)
     // starting to be freed.
     for(sad::PtrHash<sad::String, sad::resource::Tree>::iterator it = m_resource_trees.begin();
         it != m_resource_trees.end();
-        it++)
+        ++it)
     {
         delete it.value();
     }
@@ -144,6 +144,7 @@ bool sad::Renderer::run()
  
 
     // Try to create window if needed
+    // ReSharper disable once CppInitializedValueIsAlwaysRewritten
     bool success = false;
     if (m_window->valid() == false)
     {
@@ -162,7 +163,7 @@ bool sad::Renderer::run()
     if (m_context->valid() == false && success)
     {
         // Set context thread
-        m_context_thread = (void*)sad::os::current_thread_id(); 
+        m_context_thread = static_cast<void*>(sad::os::current_thread_id()); 
         success =  m_context->createFor(m_window);
         if (!success)
         {
@@ -270,16 +271,19 @@ void sad::Renderer::setCursorPosition(const sad::Point2D & p)
     this->cursor()->setPosition(p);
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 sad::log::Log * sad::Renderer::log()
 {
     return m_log;
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 sad::Window * sad::Renderer::window()
 {
     return m_window;
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 sad::GLContext * sad::Renderer::context()
 {
     return m_context;
@@ -414,7 +418,7 @@ void sad::Renderer::reshape(int width, int height)
     glLoadIdentity ();
   
     //  Set perspective projection
-    GLfloat aspectratio = (GLfloat)(width)/(GLfloat)(height);
+    GLfloat aspectratio = static_cast<GLfloat>(width)/static_cast<GLfloat>(height);
     gluPerspective(
         m_glsettings.fov(), 
         aspectratio,
@@ -466,7 +470,7 @@ void sad::Renderer::setLayer(sad::Scene * s, unsigned int layer)
     if (oldlayer != -1)
     {
         m_scenes.removeAt(oldlayer);
-        if ((int)layer > oldlayer)
+        if (static_cast<int>(layer) > oldlayer)
         {
             layer--;
         }
@@ -492,9 +496,11 @@ unsigned int sad::Renderer::totalSceneObjects() const
     return result;
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void sad::Renderer::setPrimitiveRenderer(sad::PrimitiveRenderer * r)
 {
     delete m_primitiverenderer; 
+    m_primitiverenderer = r;
 }
 
 
@@ -618,7 +624,7 @@ void sad::Renderer::removeTree(const sad::String & name)
 
 bool sad::Renderer::isOwnThread() const
 {
-    return ((void*)sad::os::current_thread_id() == m_context_thread);
+    return (static_cast<void*>(sad::os::current_thread_id()) == m_context_thread);
 }
 
 bool sad::Renderer::addDatabase(const sad::String & name, sad::db::Database * database)
@@ -725,8 +731,12 @@ bool SDL_MessageBoxInformation(
 );
 
 #endif
+
+// ReSharper disable once CppMemberFunctionMayBeStatic
+// ReSharper disable once CppMemberFunctionMayBeConst
 bool sad::Renderer::error(const sad::String& title, const sad::String& message)
 {
+    // ReSharper disable once CppInitializedValueIsAlwaysRewritten
     bool result = false;
 #ifdef X11
     result = SDL_MessageBoxError(title.c_str(), message.c_str());
@@ -739,8 +749,11 @@ bool sad::Renderer::error(const sad::String& title, const sad::String& message)
     return result;
 }
 
+// ReSharper disable once CppMemberFunctionMayBeStatic
+// ReSharper disable once CppMemberFunctionMayBeConst
 bool sad::Renderer::warning(const sad::String& title, const sad::String& message)
 {
+    // ReSharper disable once CppInitializedValueIsAlwaysRewritten
     bool result = false;
 #ifdef X11
     result =  SDL_MessageBoxWarning(title.c_str(), message.c_str());
@@ -753,8 +766,11 @@ bool sad::Renderer::warning(const sad::String& title, const sad::String& message
     return result;
 }
 
+// ReSharper disable once CppMemberFunctionMayBeStatic
+// ReSharper disable once CppMemberFunctionMayBeConst
 bool sad::Renderer::information(const sad::String& title, const sad::String& message)
 {
+    // ReSharper disable once CppInitializedValueIsAlwaysRewritten
     bool result = false;
 #ifdef X11
     result = SDL_MessageBoxInformation(title.c_str(), message.c_str());
@@ -775,6 +791,17 @@ void sad::Renderer::addEmergencyShutdownCallback(void (*cb)())
 {
     m_emergency_shutdown_callbacks << new sad::util::FreeZeroArgCallback<sad::Renderer>(cb);
 }
+
+void sad::Renderer::setGlobalTranslationOffset(const sad::Vector3D& v)
+{
+    m_global_translation_offset = v;
+}
+
+const sad::Vector3D& sad::Renderer::globalTranslationOfsset() const
+{
+    return m_global_translation_offset;
+}
+
 bool sad::Renderer::initGLRendering()
 {
     SL_INTERNAL_SCOPE("sad::Renderer::initGLRendering()", *this);
@@ -788,7 +815,7 @@ bool sad::Renderer::initGLRendering()
     glDepthFunc(GL_LEQUAL);
     glHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST);
     
-    const char * version=(const char *)glGetString(GL_VERSION);
+    const char * version = reinterpret_cast<const char *>(glGetString(GL_VERSION));
     if (version!=NULL)
     {
         SL_LOCAL_INTERNAL(sad::String("running OpenGL ")+sad::String(version), *this);

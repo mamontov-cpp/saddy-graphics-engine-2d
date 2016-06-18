@@ -39,7 +39,7 @@ public:
     /*! Returns current camera for scene
         \return current camera for scene
      */
-    sad::Camera   & camera(); 
+    sad::Camera   & camera() const; 
     /*! Sets a renderer
         \param[in] renderer renderer part
      */

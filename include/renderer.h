@@ -133,7 +133,7 @@ public:
     virtual void makeResizeable();
     /*! Enables/disables fullscreen
      */
-    virtual void toggleFullscreen();	
+    virtual void toggleFullscreen();    
     /*! Returns, whether rendered has entered a main loop
      */
     virtual bool running();
@@ -379,6 +379,14 @@ public:
     {
         addEmergencyShutdownCallback(new sad::util::MethodZeroArgCallback<sad::Renderer, _Object, _CalledObject>(o, cb));
     }
+    /*! Sets global translation offset for all of scenes
+        \param[in] v vector
+     */
+    void setGlobalTranslationOffset(const sad::Vector3D& v);
+    /*! Returns global translation offset for all of scenes
+        \return global translation offset
+     */
+    const sad::Vector3D& globalTranslationOfsset() const;
 protected:
     /*! Copying a renderer, due to held system resources is disabled
         \param[in] o other renderer
@@ -463,6 +471,10 @@ protected:
     /*! An emergency shutdown callbacks
      */
     sad::PtrVector<sad::util::PointerCallback<sad::Renderer> > m_emergency_shutdown_callbacks;
+
+    /*! A global translation offset, that should be applied to all of scenes cameras
+     */
+    sad::Vector3D m_global_translation_offset;
     /*! Destroys global instance of renderer
      */
     static void destroyInstance();
