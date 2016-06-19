@@ -202,7 +202,7 @@ static picojson::value perform(void * ptr)
     v.insert("x", picojson::value(static_cast<double>(p.x())));
     v.insert("y", picojson::value(static_cast<double>(p.y())));
     v.insert("z", picojson::value(static_cast<double>(p.z())));
-	return v;
+    return v;
 }
 
 };

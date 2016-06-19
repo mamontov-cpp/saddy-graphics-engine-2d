@@ -16,7 +16,7 @@ class GridAndOffsets: public QWidget
 Q_OBJECT
 public:
     /*! Creates new window dialog
-		\param[in] parent a parent widget
+        \param[in] parent a parent widget
      */
     GridAndOffsets(QWidget* parent =  NULL);
     /*! Does nothing at the moment

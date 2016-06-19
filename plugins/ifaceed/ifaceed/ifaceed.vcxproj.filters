@@ -2562,6 +2562,9 @@
     <ClCompile Include="gridandoffset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="gui\rendereditorgrid.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -3253,6 +3256,9 @@
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_gridandoffset.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\rendereditorgrid.h">
+      <Filter>Header Files\gui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

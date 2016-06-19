@@ -1,4 +1,5 @@
 #include "mainpanel.h"
+#include "gridandoffset.h"
 #include "blockedclosuremethodcall.h"
 #include "reloadfilelist.h"
 #include "qstdstring.h"
@@ -176,7 +177,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
         ++i;
     }
 
-	m_offsets_window = new GridAndOffsets(NULL);
+    m_offsets_window = new GridAndOffsets(NULL);
 }
 
 
@@ -190,7 +191,7 @@ MainPanel::~MainPanel()
         it.value()->delRef();
     }
     m_property_delegates.clear();
-	delete m_offsets_window;
+    delete m_offsets_window;
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
@@ -1312,10 +1313,10 @@ void MainPanel::showFastModeHelp()
 
 void MainPanel::showGridAndOffsetWindow() const
 {
-	if (m_offsets_window->isVisible() == false)
-	{
-		m_offsets_window->show();
-	}
+    if (m_offsets_window->isVisible() == false)
+    {
+        m_offsets_window->show();
+    }
 }
 
 //====================  PROTECTED METHODS HERE ====================
@@ -1762,7 +1763,7 @@ gui::table::DelegateFactory* MainPanel::delegateFactory() const
 
 GridAndOffsets* MainPanel::gridAndOffset() const
 {
-	return m_offsets_window; 
+    return m_offsets_window; 
 }
 
 void MainPanel::save()

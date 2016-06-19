@@ -109,7 +109,7 @@ protected:
     /*! A color, which will be used to render a color for selected grid
      */
     static sad::AColor m_selected_color;
-    /*! Invokes a delegate inside of process
+    /*! Renders grids if enabled
      */ 
     virtual void _process();
 

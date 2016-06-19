@@ -37,6 +37,7 @@ INCLUDEPATH += . \
 
 # Input
 HEADERS += ifaceed/mainpanel.h \
+    ifaceed/gridandoffset.h \
     ifaceed/core/typeconverters/load.h \
     ifaceed/core/typeconverters/qcolortosadacolor.h \
     ifaceed/core/typeconverters/qcolortosadcolor.h \
@@ -323,6 +324,7 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/gui/childrenprovider.h \
     ifaceed/gui/actions/gridactions.h \
     ifaceed/gui/rendergrids.h \
+    ifaceed/gui/rendereditorgrid.h \	
     ifaceed/history/layouts/layoutsnew.h \
     ifaceed/history/layouts/layoutschangename.h \	
     ifaceed/history/layouts/layoutsaddchild.h \
@@ -344,6 +346,7 @@ FORMS += ifaceed/mainpanel.ui \
 	
 SOURCES += ifaceed/main.cpp \
            ifaceed/mainpanel.cpp \
+           ifaceed/gridandoffset.cpp \		   
     ifaceed/core/typeconverters/qcolortosadacolor.cpp \
     ifaceed/core/typeconverters/qcolortosadcolor.cpp \
     ifaceed/core/typeconverters/qlistqlistqcolortosadvectorsadvectoracolor.cpp \
@@ -590,6 +593,7 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/gui/childrenprovider.cpp \
     ifaceed/gui/actions/gridactions.cpp \
     ifaceed/gui/rendergrids.cpp \
+    ifaceed/gui/rendereditorgrid.cpp \	
     ifaceed/history/layouts/layoutsnew.cpp \
     ifaceed/history/layouts/layoutschangename.cpp \
     ifaceed/history/layouts/layoutsaddchild.cpp \

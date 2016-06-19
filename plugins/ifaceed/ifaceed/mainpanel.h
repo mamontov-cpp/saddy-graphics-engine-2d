@@ -6,6 +6,7 @@
 #ifndef MAINPANEL_H
 #define MAINPANEL_H
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <QtGlobal>
 
 #ifndef HAVE_QT5
@@ -13,8 +14,10 @@
 #endif
 
 #if  HAVE_QT5
+    // ReSharper disable once CppUnusedIncludeDirective
     #include <QtWidgets/QMainWindow>
 #else
+    // ReSharper disable once CppUnusedIncludeDirective
     #include <QtGui/QMainWindow>
 #endif
 
@@ -32,7 +35,7 @@ namespace Qt
 #include <sadptrhash.h>
 
 #include <maybe.h>
-
+// ReSharper disable once CppUnusedIncludeDirective
 #include <db/dbvariant.h>
 #include <db/dbstoredpropertyfactory.h>
 
@@ -41,14 +44,14 @@ namespace Qt
 #include "gui/table/delegatefactory.h"
 
 #include <input/events.h>
-
+// ReSharper disable once CppUnusedIncludeDirective
 #include <p2d/app/way.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <dialogue/dialogue.h>
 
-#include "gridandoffset.h"
-
-
 #pragma once
+
+class GridAndOffsets;
 
 namespace core
 {
@@ -188,10 +191,10 @@ public:
         \return delegate factory
      */
     gui::table::DelegateFactory* delegateFactory() const;
-	/*! Returns grid and offsets
-		\return grid and offsets window
-	 */ 
-	GridAndOffsets* gridAndOffset() const;
+    /*! Returns grid and offsets
+        \return grid and offsets window
+     */ 
+    GridAndOffsets* gridAndOffset() const;
 protected:
     /*! Stores all widget for main panel
      */
@@ -229,9 +232,9 @@ protected:
         widget value changes
      */
     bool m_selfchanged;
-	/*! A grid and offsets window
-	 */ 
-	GridAndOffsets* m_offsets_window;
+    /*! A grid and offsets window
+     */ 
+    GridAndOffsets* m_offsets_window;
 
     /*! Fills combo box with database property types
      */
