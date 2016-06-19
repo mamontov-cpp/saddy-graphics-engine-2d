@@ -31,6 +31,7 @@
 
 #include "gui/eventfilter.h"
 #include "gui/renderways.h"
+#include "gui/rendereditorgrid.h"
 #include "gui/rendergrids.h"
 #include "gui/actions/wayactions.h"
 #include "gui/mainpanelproxy.h"
@@ -116,7 +117,7 @@ core::Editor::Editor()
     m_machine->addState("layouts/resizing", new sad::hfsm::State(), true);
 
     // We create grids more early to ensure binding events on it
-    m_rendergrids = new gui::RenderGrids(this);
+    m_rendergrids = new gui::RenderGrids(this);   
     
     // Disable rendering resize hotspots when editing objects.
     // Note that this is done to avoid interlocked non-atomic changes between machine and grids
@@ -164,6 +165,8 @@ core::Editor::Editor()
     sad::Renderer::ref()->pipeline()->append(m_selection_border);
     sad::Renderer::ref()->pipeline()->append(m_active_border);
     m_renderways = new gui::RenderWays(this);
+    m_rendereditorgrid  = new gui::RenderEditorGrid();
+    sad::Renderer::ref()->pipeline()->append(m_rendereditorgrid);
     sad::Renderer::ref()->pipeline()->append(m_renderways);
     sad::Renderer::ref()->pipeline()->append(m_rendergrids);
 
@@ -182,6 +185,7 @@ core::Editor::Editor()
     m_panel_proxy->setEditor(this);
 
     m_fast_mode_counter = 0;
+
 }
 core::Editor::~Editor()
 {	
@@ -282,6 +286,11 @@ gui::RenderWays* core::Editor::renderWays() const
 gui::RenderGrids* core::Editor::renderGrids() const
 {
     return m_rendergrids;
+}
+
+gui::RenderEditorGrid* core::Editor::renderEditorGrid() const
+{
+    return m_rendereditorgrid;
 }
 
 core::Selection* core::Editor::selection() const

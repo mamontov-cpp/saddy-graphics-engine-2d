@@ -7,6 +7,8 @@
 #include <QScriptContext>
 #include <QScriptEngine>
 
+#include <QSet>
+
 #include <sadstring.h>
 
 #include <db/dbobject.h>
@@ -18,7 +20,13 @@ class Scripting;
 
 namespace database
 {
-
+/*! Initializes invisible properties list
+ */
+void initializeInvisiblePropertiesList();
+/*! Returns list of invisible properties
+    \return reference for invisible properties
+ */
+const QSet<QString>& getInvisibleProperties();
 /*! Adds new property
     \param[in] s scripting part
     \param[in] type a type

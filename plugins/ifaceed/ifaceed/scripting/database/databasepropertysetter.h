@@ -4,6 +4,8 @@
     Defines a property setter for database properties
  */
 #pragma once
+#include <QSet>
+
 #include <sadstring.h>
 #include <renderer.h>
 #include <equalto.h>
@@ -21,12 +23,18 @@
 
 #include "../../history/database/changeproperty.h"
 
+#include <QSet>
+
 namespace scripting
 {
 
 namespace database
 {
 
+/*! Returns list of invisible properties
+    \return reference for invisible properties
+ */
+const QSet<QString>& getInvisibleProperties();
 
 /*! Defines a setter for database property
  */
@@ -66,6 +74,12 @@ public:
             sad::db::Database* me = sad::Renderer::ref()->database("");
             sad::Maybe<sad::String> propname = scripting::ToValue<sad::String>::perform(ctx->argument(0));
             sad::db::Property* prop = me->propertyByName(propname.value());
+            
+            const QSet<QString>&  invisible_properties = scripting::database::getInvisibleProperties();
+            if (invisible_properties.contains(STD2QSTRING(propname.value())))
+            {
+                prop = NULL;
+            }
             if (prop)
             {
                 result._1() += 1;

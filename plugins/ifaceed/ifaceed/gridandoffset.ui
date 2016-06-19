@@ -25,7 +25,7 @@
    <property name="title">
     <string>Global Offset</string>
    </property>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -42,16 +42,6 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QSpinBox" name="spbOffsetX">
-       <property name="minimum">
-        <number>-32767</number>
-       </property>
-       <property name="maximum">
-        <number>32767</number>
-       </property>
-      </widget>
-     </item>
      <item row="1" column="0">
       <widget class="QLabel" name="lblOffsetY">
        <property name="text">
@@ -59,13 +49,23 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QSpinBox" name="spbOffsetY">
+     <item row="0" column="1">
+      <widget class="QDoubleSpinBox" name="dsbOffsetX">
        <property name="minimum">
-        <number>-32767</number>
+        <double>-32767.000000000000000</double>
        </property>
        <property name="maximum">
-        <number>32767</number>
+        <double>32767.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QDoubleSpinBox" name="dsbOffsetY">
+       <property name="minimum">
+        <double>-32767.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>32767.000000000000000</double>
        </property>
       </widget>
      </item>
@@ -84,7 +84,7 @@
    <property name="title">
     <string>Grid</string>
    </property>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -130,7 +130,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>

@@ -20,6 +20,10 @@ public:
     /*! Could be inherited
      */
     virtual ~RenderEditorGrid();
+    /*! Whether editor is enabled
+        \return whether editor is enabled
+     */ 
+    bool isEnabled() const;
     /*! A color for grid
      */
     sad::AColor Color;

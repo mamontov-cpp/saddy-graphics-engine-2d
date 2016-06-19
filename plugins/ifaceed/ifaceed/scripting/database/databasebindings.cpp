@@ -18,6 +18,22 @@
 #include "../instances/instancesbindings.h"
 #include "../groups/groupsbindings.h"
 
+static QSet<QString> invisible_properties;
+
+void scripting::database::initializeInvisiblePropertiesList()
+{
+    invisible_properties.insert("palette");
+    invisible_properties.insert("global_renderer_offset");
+    invisible_properties.insert("global_renderer_grid_enabled");
+    invisible_properties.insert("global_renderer_grid_settings");
+    invisible_properties.insert("global_renderer_grid_color");    
+}
+
+const QSet<QString>& scripting::database::getInvisibleProperties()
+{
+    return invisible_properties;
+}
+
 bool scripting::database::addProperty(scripting::Scripting* s, sad::String type, sad::String name)
 {
     return s->editor()->panelProxy()->scriptableAddProperty(type, name, false);	

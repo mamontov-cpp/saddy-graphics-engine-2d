@@ -4,6 +4,9 @@
 #include "reloadfilelist.h"
 #include "qstdstring.h"
 
+#include "../scripting/database/databasebindings.h"
+
+
 #include "core/editor.h"
 #include "core/shared.h"
 #include "core/selection.h"
@@ -22,6 +25,7 @@
 #include "gui/actions/gridactions.h"
 
 #include "gui/rendergrids.h"
+#include "gui/rendereditorgrid.h"
 
 #include "core/borders/selectionborder.h"
 
@@ -178,6 +182,8 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
     }
 
     m_offsets_window = new GridAndOffsets(NULL);
+
+    scripting::database::initializeInvisiblePropertiesList();
 }
 
 
@@ -285,6 +291,9 @@ bool MainPanel::isEditingEnabled() const
 void MainPanel::setEditor(core::Editor* editor)
 {  
     m_editor = editor; 
+
+
+    m_offsets_window->setProxy(m_editor->panelProxy());
 
     m_scripting->setEditor(editor);
     this->initConsoleAutocompletion();
@@ -880,7 +889,33 @@ void MainPanel::viewDatabase()
 {
     this->fixDatabase();
     sad::db::Database* db = sad::Renderer::ref()->database("");
+    // Update palette
     ui.clpSceneNodeColor->setPalette(db->getProperty<QList<QList<QColor> > >("palette").value());
+    // Update global offset
+    sad::Point3D global_offset = db->getProperty<sad::Point3D>("global_renderer_offset").value();
+    sad::Renderer::ref()->setGlobalTranslationOffset(global_offset);
+    m_offsets_window->updateGlobalOffsetInUI(global_offset);
+    // Update grid enabled
+    bool grid_enabled = db->getProperty<bool>("global_renderer_grid_enabled").value();
+    m_offsets_window->updateGridEnabled(grid_enabled);
+    gui::RenderEditorGrid* reg =  m_editor->renderEditorGrid();
+    if (grid_enabled)
+    {
+        reg->enable();
+    }
+    else
+    {
+        reg->disable();        
+    }
+    // Update settings for grid
+    sad::Point2I grid_settings = db->getProperty<sad::Point2I>("global_renderer_grid_settings").value();
+    m_offsets_window->updateGridSettings(grid_settings);
+    reg->GridSpaceX = grid_settings.x();
+    reg->GridSpaceY = grid_settings.y();
+    // Update grid color
+    sad::AColor grid_color = db->getProperty<sad::AColor>("global_renderer_grid_color").value();
+    m_offsets_window->setGridColor(grid_color);
+    reg->Color = grid_color;
 
     // Remove old delegates
     for(sad::PtrHash<sad::String, gui::table::Delegate>::iterator it = m_property_delegates.begin();
@@ -891,12 +926,15 @@ void MainPanel::viewDatabase()
     }
     m_delegates_by_names.clear();
 
+    const QSet<QString>& invisible_properties = scripting::database::getInvisibleProperties();
+
     for(sad::db::Database::Properties::const_iterator it = db->begin();
         it != db->end();
         ++it)
     {
-        // Skip palette
-        if (it.key() != "palette" && it.value()->pointerStarsCount() == 0)
+        // Skip invisible properties
+        QString fkey = STD2QSTRING(it.key());
+        if ((invisible_properties.contains(fkey) == false) && (it.value()->pointerStarsCount() == 0))
         {
             gui::table::Delegate* d = m_dbdelegate_factory.create(STD2QSTRING(it.value()->baseType().c_str()));
             if (d)
@@ -1436,6 +1474,86 @@ void MainPanel::fixDatabase()
             new sad::db::StoredProperty<sad::Vector<sad::Vector<sad::AColor> > >()
         );
     }
+    // Set global renderer offset
+    if (db->propertyByName("global_renderer_offset") != NULL)
+    {
+        if (db->propertyByName("global_renderer_offset")->baseType() != "sad::Point3D"
+            || db->propertyByName("global_renderer_offset")->pointerStarsCount() != 0)
+        {
+            db->removeProperty("global_renderer_offset");
+            db->addProperty(
+                "global_renderer_offset", 
+                new sad::db::StoredProperty<sad::Point3D >(m_offsets_window->globalOffset())
+            );
+        }
+    }
+    else
+    {
+        db->addProperty(
+            "global_renderer_offset", 
+            new sad::db::StoredProperty<sad::Point3D >(m_offsets_window->globalOffset())
+        );
+    }
+    // Set whether grid is enabled
+    if (db->propertyByName("global_renderer_grid_enabled") != NULL)
+    {
+        if (db->propertyByName("global_renderer_grid_enabled")->baseType() != "bool"
+            || db->propertyByName("global_renderer_grid_enabled")->pointerStarsCount() != 0)
+        {
+            db->removeProperty("global_renderer_grid_enabled");
+            db->addProperty(
+                "global_renderer_grid_enabled", 
+                new sad::db::StoredProperty<bool>(m_offsets_window->gridEnabled())
+            );
+        }
+    }
+    else
+    {
+        db->addProperty(
+            "global_renderer_grid_enabled", 
+            new sad::db::StoredProperty<bool>(m_offsets_window->gridEnabled())
+        );
+    }
+    // Set grid settings
+    if (db->propertyByName("global_renderer_grid_settings") != NULL)
+    {
+        if (db->propertyByName("global_renderer_grid_settings")->baseType() != "sad::Point2I"
+            || db->propertyByName("global_renderer_grid_settings")->pointerStarsCount() != 0)
+        {
+            db->removeProperty("global_renderer_grid_settings");
+            db->addProperty(
+                "global_renderer_grid_settings", 
+                new sad::db::StoredProperty<sad::Point2I>(m_offsets_window->gridSettings())
+            );
+        }
+    }
+    else
+    {
+        db->addProperty(
+            "global_renderer_grid_settings", 
+            new sad::db::StoredProperty<sad::Point2I>(m_offsets_window->gridSettings())
+        );
+    }
+    // Set grid color
+    if (db->propertyByName("global_renderer_grid_color") != NULL)
+    {
+        if (db->propertyByName("global_renderer_grid_color")->baseType() != "sad::AColor"
+            || db->propertyByName("global_renderer_grid_color")->pointerStarsCount() != 0)
+        {
+            db->removeProperty("global_renderer_grid_color");
+            db->addProperty(
+                "global_renderer_grid_color", 
+                new sad::db::StoredProperty<sad::AColor>(m_offsets_window->gridColor())
+            );
+        }
+    }
+    else
+    {
+        db->addProperty(
+            "global_renderer_grid_color", 
+            new sad::db::StoredProperty<sad::AColor>(m_offsets_window->gridColor())
+        );
+    }
     // Init palette
     if (needtosetpalette)
     {
@@ -1774,8 +1892,7 @@ void MainPanel::save()
     }
     else
     {
-        sad::Renderer::ref()->database("")->setProperty("palette", ui.clpSceneNodeColor->palette());
-        sad::Renderer::ref()->database("")->saveToFile(Q2STDSTRING(m_editor->shared()->fileName()));
+        this->saveToFile();
     }
 }
 
@@ -1785,9 +1902,22 @@ void MainPanel::saveAs()
     if (name.length() != 0)
     {
         m_editor->shared()->setFileName(name);
-        sad::Renderer::ref()->database("")->setProperty("palette", ui.clpSceneNodeColor->palette());
-        sad::Renderer::ref()->database("")->saveToFile(Q2STDSTRING(m_editor->shared()->fileName()));
+        this->saveToFile();
     }
+}
+
+void MainPanel::saveToFile() const
+{
+    sad::db::Database* db = sad::Renderer::ref()->database("");
+    gui::RenderEditorGrid* render_editor_grid = m_editor->renderEditorGrid();
+    db->setProperty("palette", ui.clpSceneNodeColor->palette());
+    db->setProperty("global_renderer_offset", static_cast<sad::Point3D>(sad::Renderer::ref()->globalTranslationOfsset()));
+    db->setProperty("global_renderer_grid_enabled", render_editor_grid->isEnabled());
+    db->setProperty("global_renderer_grid_settings", sad::Point2I(render_editor_grid->GridSpaceX, render_editor_grid->GridSpaceY));
+    db->setProperty("global_renderer_grid_color", render_editor_grid->Color);
+
+
+    db->saveToFile(Q2STDSTRING(m_editor->shared()->fileName()));
 }
 
 void MainPanel::load()

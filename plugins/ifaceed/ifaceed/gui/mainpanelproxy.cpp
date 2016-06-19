@@ -2,6 +2,7 @@
 
 #include "../core/editor.h"
 #include "../mainpanel.h"
+#include "../acolordialog.h"
 
 #include "../blockedclosuremethodcall.h"
 
@@ -113,4 +114,23 @@ void gui::MainPanelProxy::setSceneNodeName(const QString& name) const
        &QLineEdit::setText,
        name
    ));
+}
+
+sad::Maybe<QColor>  gui::MainPanelProxy::trySelectColor(const QColor& old) const
+{
+    sad::Maybe<QColor> color;
+
+    AColorDialog dlg;
+    QList<QList<QColor> > palette = m_editor->panelProxy()->colorPalette();
+    dlg.setColorPalette(palette);
+    dlg.setSelectedColor(old);
+
+    if (dlg.exec() == QDialog::Accepted)
+    {
+        QColor i = dlg.selectedColor();
+        m_editor->panelProxy()->setColorPalette(dlg.colorPalette());
+        color.setValue(i);
+    }
+
+    return color;
 }

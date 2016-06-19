@@ -43,6 +43,7 @@ class MainPanel;
 namespace gui
 {
 class RenderWays;
+class RenderEditorGrid;
 class RenderGrids;
 class MainPanelProxy;
 
@@ -150,6 +151,10 @@ public:
         \return process for rendering grids
      */
     gui::RenderGrids* renderGrids() const;
+    /*! Returns process for rendering editor's grid
+        \return process for rendering editor's grid
+     */
+    gui::RenderEditorGrid* renderEditorGrid() const;
     /*! Returns current selection algorithm for editor
         \return selection
      */
@@ -329,6 +334,9 @@ protected:
     /*! A way to render grids
      */ 
     gui::RenderGrids* m_rendergrids;
+    /*!  A way for render editor grids
+     */
+    gui::RenderEditorGrid* m_rendereditorgrid;
     /*! Current selection algorithm
      */
     core::Selection* m_selection;

@@ -7,6 +7,7 @@
 #include <QColor>
 
 #include <sadhash.h>
+#include <maybe.h>
 
 namespace sad
 {
@@ -111,6 +112,11 @@ public:
         \param[in] name a name part
      */ 
     void setSceneNodeName(const QString& name) const;
+    /*! Invokes color selection dialog
+        \param[in] old old value for color
+        \return selected color
+     */
+    sad::Maybe<QColor> trySelectColor(const QColor& old) const;
 protected:
     /*! An editor part
      */
