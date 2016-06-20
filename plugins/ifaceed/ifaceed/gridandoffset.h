@@ -14,6 +14,18 @@
 #include <sadpoint.h>
 #include <sadcolor.h>
 
+namespace sad
+{
+
+namespace db
+{
+
+class Database;
+
+}
+
+}
+
 namespace gui
 {
 class MainPanelProxy;
@@ -77,7 +89,11 @@ public:
     /*! Sets grid color
         \param[in] clr color
      */
-    void setGridColor(const sad::AColor& clr) const;
+    void setGridColor(const sad::AColor& clr) const;    
+    /*! Returns default database
+        \return database
+     */
+    static sad::db::Database* database();
 public slots:
     /*! Called, when X offset is changed
         \param[in] newvalue a new value
@@ -102,6 +118,22 @@ public slots:
     /*! Called, when changing grid color is clicked
      */
     void changeGridColorClicked();
+    /*! Handles changing offset for grid
+        \param p new value of offset
+     */
+    void handleChangeOffset(QPointF p);
+    /*! Handles changing, whether grid is enabled
+        \param v new flag value
+     */
+    void handleChangeGridEnabled(bool v);
+    /*! Handles changing grid settings
+        \param p new grid settings
+     */
+    void handleChangeGridSettings(QPointF p);
+    /*! Handles changing grid color
+        \param clr grid color
+     */
+    void handleChangeGridColor(sad::AColor clr);
 signals:
     /*! Signal, which is emitted, when global offset is changed
         \param[in] p point

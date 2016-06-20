@@ -25,7 +25,7 @@
    <property name="title">
     <string>Global Offset</string>
    </property>
-   <widget class="QWidget" name="layoutWidget">
+   <widget class="QWidget" name="layoutWidgetOffset">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -84,7 +84,7 @@
    <property name="title">
     <string>Grid</string>
    </property>
-   <widget class="QWidget" name="layoutWidget">
+   <widget class="QWidget" name="layoutWidgetGridSettings">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -130,7 +130,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="layoutWidget">
+   <widget class="QWidget" name="layoutWidgetColor">
     <property name="geometry">
      <rect>
       <x>10</x>
