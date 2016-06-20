@@ -5,6 +5,7 @@
 #pragma once
 #include <pipeline/pipelineprocess.h>
 #include <sadcolor.h>
+#include <scene.h>
 
 namespace gui
 {
@@ -32,11 +33,14 @@ public:
     size_t GridSpaceX;
     /*! A space between two parts of grid on vertical axis
      */
-    size_t GridSpaceY;
+    size_t GridSpaceY;    
 protected:
     /*! Renders editor grid if enabled
      */ 
     virtual void _process();
+    /*! An inner scene for grid
+     */
+    sad::Scene m_scene;
 };
 
 }

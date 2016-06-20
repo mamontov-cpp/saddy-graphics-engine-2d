@@ -34,7 +34,6 @@ GridAndOffsets::GridAndOffsets(QWidget* parent) : QWidget(parent)
     connect(m_ui.spbGridX, SIGNAL(valueChanged(int)), this, SLOT(gridXChanged(int)));
     connect(m_ui.spbGridY, SIGNAL(valueChanged(int)), this, SLOT(gridYChanged(int)));
     connect(m_ui.clrGridColor, SIGNAL(clicked()), this, SLOT(changeGridColorClicked()));
-    connect(m_ui.clrGridColor, SIGNAL(clicked()), this, SLOT(changeGridColorClicked()));
 
     connect(this, SIGNAL(globalOffsetChanged(QPointF)), this, SLOT(handleChangeOffset(QPointF)));
     connect(this, SIGNAL(gridEnabledChanged(bool)), this, SLOT(handleChangeGridEnabled(bool)));
@@ -100,6 +99,7 @@ sad::AColor GridAndOffsets::gridColor() const
 {
     sad::AColor clr;
     core::typeconverters::QColorToSadAColor::convert(m_ui.clrGridColor->backgroundColor(), clr);
+    clr.setA(255);
     return clr;
 }
 
@@ -153,6 +153,7 @@ void GridAndOffsets::changeGridColorClicked()
         m_ui.clrGridColor->setBackgroundColor(clr.value());
         sad::AColor aclr;
         core::typeconverters::QColorToSadAColor::convert(m_ui.clrGridColor->backgroundColor(), aclr);
+        aclr.setA(255);
         emit gridColorChanged(aclr);
     }
 }
