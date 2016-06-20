@@ -5,6 +5,7 @@
 #include "wayactions.h"
 
 #include "../../qstdstring.h"
+#include "../../keytovector.h"
 
 #include "../../core/editor.h"
 
@@ -25,6 +26,11 @@
 #include "../uiblocks/uiwayblock.h"
 #include "../uiblocks/uianimationblock.h"
 #include "../uiblocks/uianimationinstanceblock.h"
+
+#include "../actions/actions.h"
+#include "../actions/gridactions.h"
+
+#include "../mainpanelproxy.h"
 
 #include <renderer.h>
 #include <fuzzyequal.h>
@@ -303,6 +309,7 @@ void gui::actions::WayActions::updateWayName(sad::p2d::app::Way* s)
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::WayActions::removeRowInWayPointList(int row)
 {
     gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
@@ -312,11 +319,69 @@ void gui::actions::WayActions::removeRowInWayPointList(int row)
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeStatic
 QString gui::actions::WayActions::nameForPoint(const sad::Point2D& p) const
 {
     return QString("(%1,%2)")
            .arg(static_cast<int>(p.x()))
            .arg(static_cast<int>(p.y()));
+}
+
+void gui::actions::WayActions::tryMoveWayByVector(const sad::input::KeyPressEvent&, const sad::Point2D& p) const
+{
+    if (sad::non_fuzzy_zero(p.x()) || sad::non_fuzzy_zero(p.y()))
+    {
+        gui::uiblocks::UIWayBlock* blk = m_editor->uiBlocks()->uiWayBlock(); 
+    
+        sad::p2d::app::Way* w = m_editor->shared()->selectedWay();
+        if (w)
+        {
+            int row = blk->lstWayPoints->currentRow();
+            if (row >= 0 && row < blk->lstWayPoints->count())
+            {
+                sad::Point2D oldvalue = w->wayPoints()[row];
+                sad::Point2D newvalue = oldvalue;
+                newvalue += p;
+                history::Command* c = new history::ways::WayPointChange(w, row, oldvalue, newvalue);
+                c->commit(m_editor);
+                if (m_editor->machine()->isInState("ways/selected/moving"))
+                {
+                    delete c;
+                }
+                else
+                {
+                    m_editor->history()->add(c);
+                }
+            }
+        }
+    }
+}
+
+void gui::actions::WayActions::tryMoveWayByKeys(const sad::input::KeyPressEvent& ev) const
+{
+    if (m_editor->machine()->isInState("ways/idle"))
+    {
+        if (m_editor->isInGridEditingState() && (m_editor->shared()->selectedGrid() != NULL))
+        {
+            m_editor->actions()->gridActions()->tryMoveSelectedGridByKeyboard(ev);
+        }
+        else
+        {
+            m_editor->panelProxy()->handleGlobalOffsetChange(ev);
+        }
+    }
+    else
+    {
+        if (m_editor->isInGridEditingState() && (m_editor->shared()->selectedGrid() != NULL))
+        {
+            m_editor->actions()->gridActions()->tryMoveSelectedGridByKeyboard(ev);
+        }
+        else
+        {
+            sad::Point2D p = keyToVector(ev.Key);
+            this->tryMoveWayByVector(ev, p);
+        }
+    }
 }
 
 void gui::actions::WayActions::removeWay()

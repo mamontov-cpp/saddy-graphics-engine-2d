@@ -678,6 +678,10 @@ enum CellUpdateOptions
         int colspan,
         bool from_editor = true
     );
+    /*! Tries to move selected grid by keyboard
+        \param[in] ev event
+     */
+    void tryMoveSelectedGridByKeyboard(const sad::input::KeyPressEvent& ev);
 public slots:
     /*! Called, when user clicks on "Add" button for grids
      */

@@ -4930,6 +4930,7 @@
     <ClInclude Include="history\layouts\layoutsremovechild.h" />
     <ClInclude Include="history\layouts\layoutsswapchildren.h" />
     <ClInclude Include="history\scenenodes\scenenodesspan.h" />
+    <ClInclude Include="keytovector.h" />
     <ClInclude Include="macro.h" />
     <CustomBuild Include="mainpanel.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing mainpanel.h...</Message>

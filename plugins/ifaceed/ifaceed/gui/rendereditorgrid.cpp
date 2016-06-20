@@ -34,6 +34,7 @@ void gui::RenderEditorGrid::_process()
     int endy = starty + r->settings().height();
     if (this->GridSpaceX > 1)
     {
+        // ReSharper disable once CppInitializedValueIsAlwaysRewritten
         int startxx = 0;
         if (startx < 0 )
         {
@@ -41,7 +42,7 @@ void gui::RenderEditorGrid::_process()
         }
         else
         {
-            startx = startx - (startx % this->GridSpaceX);
+            startxx = startx - (startx % this->GridSpaceX);
         }
         int x = startxx;
         while(x < endx)
@@ -52,6 +53,7 @@ void gui::RenderEditorGrid::_process()
     }
     if (this->GridSpaceY > 1)
     {
+        // ReSharper disable once CppInitializedValueIsAlwaysRewritten
         int startyy = 0;
         if (starty < 0 )
         {

@@ -151,12 +151,21 @@ public:
         \param[in] node a node
      */
     void tryUpdateParentGridForNode(sad::SceneNode* node);
-    /*! Handles changine area for current node
+    /*! Handles changing area for current node
+        \param[in] newarea area for node
+        \param[in] force_update whether we should force updating widget anyway
+     */
+    void tryChangeAreaForActiveOrSelectedNode(const sad::Rect2D& newarea, bool force_update = false);
+    /*! Handles changing area for current node
         \param[in] newarea area for node
         \param[in] force_update whether we should force updating widget anyway
      */
     void tryChangeAreaForCurrentNode(QRectF newarea, bool force_update = false);
-public slots:
+    /*! Handles attempt to change area for selected node via key press
+        \param[in] ev event        
+     */
+    void tryChangeAreaViaKeyPress(const sad::input::KeyPressEvent& ev);
+public slots: 
     /*! Called, when corresponding button is clicked
      */
     void copyPositionAndSizeFromOtherNodeClicked();

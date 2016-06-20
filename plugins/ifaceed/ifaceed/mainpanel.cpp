@@ -359,6 +359,12 @@ void MainPanel::setEditor(core::Editor* editor)
         &core::Selection::trySelect
     );
 
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_KeyPress & (m * i),
+        this,
+        &MainPanel::onKeyPressedInIdleState
+    );
+
     // A bindings for changing global offset
     sad::Renderer::ref()->controls()->add(
         *sad::input::ET_MouseLeave & (m * cgo),
@@ -419,6 +425,11 @@ void MainPanel::setEditor(core::Editor* editor)
         m_editor->selection(),
         &core::Selection::trySelect
     );
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_KeyPress & (m * s),
+        sn_actions,
+        &gui::actions::SceneNodeActions::tryChangeAreaViaKeyPress
+    );
 
     // A bindings for adding label
     sad::Renderer::ref()->controls()->add(
@@ -440,6 +451,11 @@ void MainPanel::setEditor(core::Editor* editor)
         *sad::input::ET_MouseWheel & (m * la),
         sn_actions,
         &gui::actions::SceneNodeActions::rotate
+    );
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_KeyPress & (m * la),
+        sn_actions,
+        &gui::actions::SceneNodeActions::tryChangeAreaViaKeyPress
     );
 
 
@@ -463,6 +479,11 @@ void MainPanel::setEditor(core::Editor* editor)
         *sad::input::ET_MouseWheel & (m * ssa),
         sn_actions,
         &gui::actions::SceneNodeActions::rotate
+    );
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_KeyPress & (m * ssa),
+        sn_actions,
+        &gui::actions::SceneNodeActions::tryChangeAreaViaKeyPress
     );
 
     // A binding for adding sprite (after first click)
@@ -514,6 +535,11 @@ void MainPanel::setEditor(core::Editor* editor)
         *sad::input::ET_MouseWheel & (m * coa),
         sn_actions,
         &gui::actions::SceneNodeActions::rotate
+    );
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_KeyPress & (m * coa),
+        sn_actions,
+        &gui::actions::SceneNodeActions::tryChangeAreaViaKeyPress
     );
 
     // A binding for adding sprite (after first click)
@@ -602,6 +628,11 @@ void MainPanel::setEditor(core::Editor* editor)
         ga_actions,
         &gui::actions::GridActions::commitMovingGrid
     );
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_KeyPress & (m * lmove),
+        ga_actions,
+        &gui::actions::GridActions::tryMoveSelectedGridByKeyboard
+    );
 
     // A bindings for layouts/resizing
     sad::Renderer::ref()->controls()->add(
@@ -626,6 +657,11 @@ void MainPanel::setEditor(core::Editor* editor)
         w_actions,
         &gui::actions::WayActions::commitWayPointMoving
     );
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_KeyPress & (m * wsm),
+        w_actions,
+        &gui::actions::WayActions::tryMoveWayByKeys
+    );
 
     // A binding for ways/selected
     sad::Renderer::ref()->controls()->add(
@@ -633,12 +669,22 @@ void MainPanel::setEditor(core::Editor* editor)
         m_editor->selection(),
         &core::Selection::trySelect
     );
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_KeyPress & (m * ws),
+        w_actions,
+        &gui::actions::WayActions::tryMoveWayByKeys
+    );
 
     // A binding for ways/idle
     sad::Renderer::ref()->controls()->add(
         *sad::input::ET_MousePress & sad::MouseLeft & (m * wi),
         m_editor->selection(),
         &core::Selection::trySelect
+    );
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_KeyPress & (m * wi),
+        w_actions,
+        &gui::actions::WayActions::tryMoveWayByKeys
     );
 
     // A binding for picking_simple_movement_point
@@ -1933,6 +1979,7 @@ void MainPanel::enterGlobalOffsetEditingState(const sad::Point2D& p)
     this->highlightState("Move mouse to change offset");
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void MainPanel::onMouseMoveWhenChangingGlobalOffset(const sad::input::MouseMoveEvent& ev)
 {
     core::Shared* s = m_editor->shared();
@@ -1959,6 +2006,43 @@ void MainPanel::onMouseReleaseWhenChangingGlobalOffset(const sad::input::MouseRe
     this->onMouseMoveWhenChangingGlobalOffset(e);
     // Commit changes
     this->onWindowLeaveWhenChangingGlobalOffset();
+}
+
+void MainPanel::onKeyPressedInIdleState(const sad::input::KeyPressEvent& ev) const
+{
+    bool shouldchangegrid = false;
+    if (m_editor->isInGridEditingState())
+    {
+        shouldchangegrid = m_editor->shared()->selectedGrid() != NULL;
+    }
+    if (shouldchangegrid)
+    {
+        m_editor->actions()->gridActions()->tryMoveSelectedGridByKeyboard(ev);
+    }
+    else
+    {
+        this->handleGlobalOffsetChange(ev);
+    }
+}
+
+void MainPanel::handleGlobalOffsetChange(const sad::input::KeyPressEvent& ev) const
+{
+    sad::Point3D p(0, 0, 0);
+    switch (ev.Key)
+    {
+        case sad::KeyLeft:  {p.setX(-1); break;}
+        case sad::KeyRight:  {p.setX(1); break;}
+        case sad::KeyUp:  {p.setY(1); break;}
+        case sad::KeyDown:  {p.setY(-1); break;}
+        default: break;
+    };
+    if (sad::non_fuzzy_zero(p.x()) || sad::non_fuzzy_zero(p.y()))
+    {
+        sad::Point3D pp = sad::Renderer::ref()->globalTranslationOffset() + p;
+        sad::Renderer::ref()->setGlobalTranslationOffset(pp);
+        sad::Renderer::ref()->database("")->setProperty("global_renderer_offset", pp);
+        m_offsets_window->updateGlobalOffsetInUI(pp);
+    }
 }
 
 void MainPanel::save()

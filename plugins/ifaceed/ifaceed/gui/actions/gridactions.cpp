@@ -7,6 +7,7 @@
 #include <QScrollBar>
 
 #include "../../qstdstring.h"
+#include "../../keytovector.h"
 
 #include "../../closuremethodcall.h"
 
@@ -1392,6 +1393,7 @@ void gui::actions::GridActions::tryChangeColumnCountForGrid(
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 QCheckBox* gui::actions::GridActions::propagateCheckboxForPadding(gui::actions::GridActions::GridUpdateOptions opts)
 {
     assert(
@@ -1404,6 +1406,7 @@ QCheckBox* gui::actions::GridActions::propagateCheckboxForPadding(gui::actions::
     QCheckBox* c = NULL;
 
     gui::uiblocks::UILayoutBlock* blk = m_editor->uiBlocks()->uiLayoutBlock();
+    // ReSharper disable once CppIncompleteSwitchStatement
     switch(opts)
     {
         case gui::actions::GridActions::GGAUO_TopPadding:
@@ -1422,6 +1425,8 @@ QCheckBox* gui::actions::GridActions::propagateCheckboxForPadding(gui::actions::
     return c;
 }
 
+// ReSharper disable once CppMemberFunctionMayBeStatic
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::GridActions::applyPaddingChangeToGrid(
     gui::actions::GridActions::GridUpdateOptions opts,
     sad::layouts::Grid* grid,
@@ -1435,6 +1440,7 @@ void gui::actions::GridActions::applyPaddingChangeToGrid(
     ||  opts == gui::actions::GridActions::GGAUO_LeftPadding
     ||  opts == gui::actions::GridActions::GGAUO_RightPadding
     );
+    // ReSharper disable once CppIncompleteSwitchStatement
     switch(opts)
     {
         case gui::actions::GridActions::GGAUO_TopPadding:
@@ -1467,6 +1473,7 @@ void gui::actions::GridActions::tryChangePaddingForGrid(
     ||  opts == gui::actions::GridActions::GGAUO_RightPadding
     );
     double oldvalue = 0;
+    // ReSharper disable once CppIncompleteSwitchStatement
     switch(opts)
     {
         case gui::actions::GridActions::GGAUO_TopPadding:
@@ -1584,6 +1591,7 @@ bool gui::actions::GridActions::tryPeformMergeOrSplit(
     c->saveOldState();
     c->addAffectedNodes(grid->children());
 
+    // ReSharper disable once CppInitializedValueIsAlwaysRewritten
     bool result = false;
     if (merge)
     {
@@ -1622,6 +1630,49 @@ bool gui::actions::GridActions::tryPeformMergeOrSplit(
         delete c;
     }
     return result;
+}
+
+
+void gui::actions::GridActions::tryMoveSelectedGridByKeyboard(const sad::input::KeyPressEvent& ev) 
+{
+    sad::Point2D p = keyToVector(ev.Key);
+    if (sad::non_fuzzy_zero(p.x()) || sad::non_fuzzy_zero(p.y()))
+    {
+        sad::layouts::Grid* g = m_editor->shared()->activeGrid();
+        if (g)
+        {
+            sad::Rect2D r = g->area();
+            for(size_t i = 0; i < 4; i++)
+            {
+                r[i] += p;
+            }
+            g->setArea(r);
+            this->updateOnlyGridPropertiesInUI(gui::actions::GridActions::GGAUO_Area);
+            this->tryUpdateRegionsInChildren(g->children());
+        }
+        else
+        {
+            g = m_editor->shared()->selectedGrid();
+            if (g && (this->parentGridFor(g) == NULL))
+            {
+                sad::Rect2D r = g->area();
+                for(size_t i = 0; i < 4; i++)
+                {
+                    r[i] += p;
+                }
+                if (m_editor->machine()->isInState("layouts/moving"))
+                {
+                    g->setArea(r);
+                    this->updateOnlyGridPropertiesInUI(gui::actions::GridActions::GGAUO_Area);
+                    this->tryUpdateRegionsInChildren(g->children());
+                }
+                else
+                {
+                    this->tryChangeAreaForGrid(g, r, true);
+                }
+            }
+        }
+    }
 }
 
 // ================================ PUBLIC SLOTS  ================================
@@ -2500,6 +2551,7 @@ history::Command* gui::actions::GridActions::makePaddingChangeCommand(
 )
 {
     history::Command* c = NULL;
+    // ReSharper disable once CppIncompleteSwitchStatement
     switch(opts)
     {
         case gui::actions::GridActions::GGAUO_TopPadding:
@@ -2545,6 +2597,7 @@ history::Command* gui::actions::GridActions::makePaddingChangeCommand(
 template<
     gui::actions::GridActions::GridUpdateOptions _Opts
 >
+// ReSharper disable once CppMemberFunctionMayBeConst
 history::Command* gui::actions::GridActions::makePaddingChangeCommand(
     sad::layouts::Grid* g,
     const picojson::value& oldstate,

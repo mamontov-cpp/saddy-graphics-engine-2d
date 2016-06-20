@@ -90,6 +90,15 @@ public:
         \return name for point
      */
     QString nameForPoint(const sad::Point2D& p) const;
+    /*! Tries to move way by specified vector
+        \param[in] ev event
+        \param[in] v vector
+     */
+    void tryMoveWayByVector(const sad::input::KeyPressEvent& ev, const sad::Point2D& v) const;
+    /*! Tries to move way by keys
+        \param[in] ev event
+     */ 
+    void tryMoveWayByKeys(const sad::input::KeyPressEvent& ev) const;
 public slots:
     /*! Adds new way to a list
      */

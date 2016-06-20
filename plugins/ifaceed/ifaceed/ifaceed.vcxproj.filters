@@ -3260,6 +3260,9 @@
     <ClInclude Include="gui\rendereditorgrid.h">
       <Filter>Header Files\gui</Filter>
     </ClInclude>
+    <ClInclude Include="keytovector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="acolordialog.h">

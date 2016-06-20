@@ -59,6 +59,7 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/qwwulongspinbox.h \
     ifaceed/wwglobal.h \
     ifaceed/wwglobal_p.h \
+    ifaceed/keytovector.h \
     ifaceed/history/command.h \
     ifaceed/history/history.h \
     ifaceed/history/database/newproperty.h \

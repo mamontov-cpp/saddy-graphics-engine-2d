@@ -10,6 +10,7 @@
 #include "gridactions.h"
 
 
+#include "../../keytovector.h"
 #include "../../closuremethodcall.h"
 
 #include "../../qstdstring.h"
@@ -333,13 +334,16 @@ void gui::actions::SceneNodeActions::tryUpdateParentGridForNode(sad::SceneNode* 
     }
 }
 
-void gui::actions::SceneNodeActions::tryChangeAreaForCurrentNode(QRectF newarea, bool force_update) 
+void gui::actions::SceneNodeActions::tryChangeAreaForActiveOrSelectedNode(const sad::Rect2D& newarea, bool force_update)
 {
-    sad::Rect2D newvalue;
-    core::typeconverters::QRectFToSadRect2D::convert(newarea, newvalue);
+    sad::Rect2D newvalue = newarea;
     if (m_editor->shared()->activeObject() != NULL)
     {
         m_editor->shared()->activeObject()->setProperty("area", newvalue);
+        if (force_update)
+        {
+            this->updateRegionForNode();
+        }
     }
     else
     {
@@ -382,6 +386,38 @@ void gui::actions::SceneNodeActions::tryChangeAreaForCurrentNode(QRectF newarea,
                          this->updateRegionForNode();                        
                     }
                 }
+            }
+        }
+    }
+}
+void gui::actions::SceneNodeActions::tryChangeAreaForCurrentNode(QRectF newarea, bool force_update) 
+{
+    sad::Rect2D newvalue;
+    core::typeconverters::QRectFToSadRect2D::convert(newarea, newvalue);
+    tryChangeAreaForActiveOrSelectedNode(newvalue, force_update);
+}
+
+void gui::actions::SceneNodeActions::tryChangeAreaViaKeyPress(const sad::input::KeyPressEvent& ev)
+{
+    sad::Point2D p = keyToVector(ev.Key);
+    if (sad::non_fuzzy_zero(p.x()) || sad::non_fuzzy_zero(p.y()))
+    {
+        sad::SceneNode* g = m_editor->shared()->activeObject();
+        if (!g)
+        {
+            g = m_editor->shared()->selectedObject();
+        }
+        if (g)
+        {
+            sad::Maybe<sad::Rect2D> area_maybe = g->getProperty<sad::Rect2D>("area");
+            if (area_maybe.exists() && m_editor->actions()->gridActions()->parentGridFor(g) == NULL)
+            {                
+                sad::Rect2D r = area_maybe.value();
+                for(size_t i = 0; i < 4; i++)
+                {
+                    r[i] += p;
+                }
+                this->tryChangeAreaForActiveOrSelectedNode(r, true);
             }
         }
     }

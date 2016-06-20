@@ -4,6 +4,7 @@
 
 #include "editor.h"
 #include "closuremethodcall.h"
+#include "gridandoffset.h"
 
 #include <freetype/font.h>
 
@@ -873,6 +874,11 @@ void core::Editor::onQuitActions()
 {
     if (m_quit_reason == core::QR_SADDY) {
         this->m_mainwindow->close();
+        GridAndOffsets* gao = this->m_mainwindow->gridAndOffset();
+        if (gao->isVisible())
+        {
+            gao->close();
+        }
     }
     if (m_quit_reason == core::QR_QTWINDOW) {
         sad::Renderer::ref()->quit();

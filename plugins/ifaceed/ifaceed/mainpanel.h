@@ -203,13 +203,21 @@ public:
      */
     void onWindowLeaveWhenChangingGlobalOffset();
     /*! An event handler, that will be executed, when user is changing global offset via mouse move
-        \param ev event
+        \param[in] ev event
      */
     void onMouseMoveWhenChangingGlobalOffset(const sad::input::MouseMoveEvent& ev);
     /*! An event handler, that will be executed, when user is changing on mouse release
-        \param ev event
+        \param[in] ev event
      */
     void onMouseReleaseWhenChangingGlobalOffset(const sad::input::MouseReleaseEvent& ev);
+    /*! An event handler, that will be executed, when user is pressing key
+        \param[in] ev event
+     */
+    void onKeyPressedInIdleState(const sad::input::KeyPressEvent& ev) const;
+    /*! Handles global offset change via keyboard
+        \param[in] ev event
+     */
+    void handleGlobalOffsetChange(const sad::input::KeyPressEvent& ev) const;
 protected:
     /*! Stores all widget for main panel
      */

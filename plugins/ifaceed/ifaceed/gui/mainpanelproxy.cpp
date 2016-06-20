@@ -135,7 +135,13 @@ sad::Maybe<QColor>  gui::MainPanelProxy::trySelectColor(const QColor& old) const
     return color;
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::MainPanelProxy::enterGlobalOffsetEditingState(const sad::Point2D& p)
 {
     m_editor->panel()->enterGlobalOffsetEditingState(p);
+}
+
+void gui::MainPanelProxy::handleGlobalOffsetChange(const sad::input::KeyPressEvent& ev) const
+{
+    m_editor->panel()->handleGlobalOffsetChange(ev);    
 }

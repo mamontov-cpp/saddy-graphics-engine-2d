@@ -15,6 +15,12 @@ namespace sad
 class String;	
 class Scene;
 class SceneNode;
+
+namespace input
+{
+class KeyPressEvent;    
+}
+
 }
 
 namespace core
@@ -122,6 +128,10 @@ public:
         \param p starting position
      */
     void enterGlobalOffsetEditingState(const sad::Point2D& p);
+    /*! Handles global offset change via keyboard
+        \param[in] ev event
+     */
+    void handleGlobalOffsetChange(const sad::input::KeyPressEvent& ev) const;
 protected:
     /*! An editor part
      */
