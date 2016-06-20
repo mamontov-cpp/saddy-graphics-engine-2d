@@ -1919,6 +1919,11 @@ void MainPanel::onWindowLeaveWhenChangingGlobalOffset()
 
 void MainPanel::enterGlobalOffsetEditingState(const sad::Point2D& p)
 {
+    // Do not allow to enter this state twice
+    if (m_editor->machine()->isInState("changing_global_offset"))
+    {
+        return;
+    }
     core::Shared* s = m_editor->shared();
     s->OldHighlightString = ui.txtEditorState->text();
     s->OldGlobalOffset = sad::Renderer::ref()->globalTranslationOffset();
