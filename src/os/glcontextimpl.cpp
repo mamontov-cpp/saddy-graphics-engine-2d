@@ -426,6 +426,9 @@ sad::Point3D sad::os::GLContextImpl::mapToViewport(const sad::Point2D & p, bool 
 
     gluUnProject(winx,winy,winz,modelview,projection,viewport,result,result+1,result+2);
     
+    result[0] -= this->renderer()->globalTranslationOffset().x();
+    result[1] -= this->renderer()->globalTranslationOffset().y();
+        
     return sad::Point3D(result[0], result[1], result[2]);
 }
 

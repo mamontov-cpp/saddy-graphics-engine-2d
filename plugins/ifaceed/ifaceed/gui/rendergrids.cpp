@@ -6,6 +6,7 @@
 #include "../core/borders/resizehotspot.h"
 
 #include <renderer.h>
+#include <camera.h>
 
 #include <db/dbdatabase.h>
 #include <algorithm>
@@ -210,13 +211,15 @@ void gui::RenderGrids::_process()
                          excluded.insert(1);
                          excluded.insert(3);
                      }
+                     m_scene->camera().apply();
                      for(size_t i = 0; i < 4; i++)
                      {
                          if (excluded.contains(i) == false)
                          {
-                         m_resize_hotspots[i]->render(r);    
+                             m_resize_hotspots[i]->render(r);
                          }
                      }
+                     m_scene->camera().restore();
                  }
              }
              m_scene->render();

@@ -1933,7 +1933,8 @@ void MainPanel::onMouseMoveWhenChangingGlobalOffset(const sad::input::MouseMoveE
     core::Shared* s = m_editor->shared();
     sad::Renderer* r = sad::Renderer::ref();
     sad::Point2D offset(r->globalTranslationOffset().x(), r->globalTranslationOffset().y());
-    sad::Point2D diff = (ev.pos2D() + offset)  - s->oldPoint();
+    sad::Point2D oldOffset(s->OldGlobalOffset.x(), s->OldGlobalOffset.y());
+    sad::Point2D diff = (ev.pos2D() + offset - oldOffset)  - s->oldPoint();
     sad::Vector3D v  = s->OldGlobalOffset;
     v -= sad::Point3D(diff.x(), diff.y(), 0);
 
