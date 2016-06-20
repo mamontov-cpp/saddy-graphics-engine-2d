@@ -36,6 +36,9 @@ public:
         firstly using glTranslatef, than glRotatef
      */
     virtual void apply();
+    /*! Restores a camera transformation
+     */
+    virtual void restore();
     /*! You can define your camera, which can be used if you want to bound rotation,
         move around point and other stuff
      */

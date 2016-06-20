@@ -797,7 +797,7 @@ void sad::Renderer::setGlobalTranslationOffset(const sad::Vector3D& v)
     m_global_translation_offset = v;
 }
 
-const sad::Vector3D& sad::Renderer::globalTranslationOfsset() const
+const sad::Vector3D& sad::Renderer::globalTranslationOffset() const
 {
     return m_global_translation_offset;
 }

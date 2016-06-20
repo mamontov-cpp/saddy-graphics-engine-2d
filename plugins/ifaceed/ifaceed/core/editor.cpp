@@ -92,6 +92,7 @@ core::Editor::Editor()
     m_machine = new sad::hfsm::Machine();
     // A states for editing objects
     m_machine->addState("idle", new sad::hfsm::State(), true);
+    m_machine->addState("changing_global_offset", new sad::hfsm::State(), true);
     m_machine->addState("selected", new sad::hfsm::State(), true);
     m_machine->addState("selected/moving", new sad::hfsm::State(), true);
     m_machine->addState("selected/resizing", new sad::hfsm::State(), true);
@@ -166,7 +167,7 @@ core::Editor::Editor()
     sad::Renderer::ref()->pipeline()->append(m_active_border);
     m_renderways = new gui::RenderWays(this);
     m_rendereditorgrid  = new gui::RenderEditorGrid();
-    sad::Renderer::ref()->pipeline()->append(m_rendereditorgrid);
+    sad::Renderer::ref()->pipeline()->prepend(m_rendereditorgrid);
     sad::Renderer::ref()->pipeline()->append(m_renderways);
     sad::Renderer::ref()->pipeline()->append(m_rendergrids);
 

@@ -266,6 +266,15 @@ public:
          \return old state
      */
     const picojson::value& oldState() const;
+    /*! An old global offset for a rendered
+     */
+    sad::Vector3D OldGlobalOffset;
+    /*! An old highlight string for a main panel
+     */
+    QString OldHighlightString;
+    /*! An old editor state
+     */
+    sad::String OldEditorState;
 private:
     /*! A scene node, selected by user
      */ 

@@ -100,6 +100,7 @@ void gui::RenderWays::_process()
                 }
             }
         }
+        m_scene->camera().restore();
     }
 }
 

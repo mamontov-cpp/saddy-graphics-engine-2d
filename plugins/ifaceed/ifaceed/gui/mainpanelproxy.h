@@ -7,6 +7,7 @@
 #include <QColor>
 
 #include <sadhash.h>
+#include <sadpoint.h>
 #include <maybe.h>
 
 namespace sad
@@ -117,6 +118,10 @@ public:
         \return selected color
      */
     sad::Maybe<QColor> trySelectColor(const QColor& old) const;
+    /*! Forces to enter global offset editing state
+        \param p starting position
+     */
+    void enterGlobalOffsetEditingState(const sad::Point2D& p);
 protected:
     /*! An editor part
      */

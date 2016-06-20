@@ -386,7 +386,7 @@ public:
     /*! Returns global translation offset for all of scenes
         \return global translation offset
      */
-    const sad::Vector3D& globalTranslationOfsset() const;
+    const sad::Vector3D& globalTranslationOffset() const;
 protected:
     /*! Copying a renderer, due to held system resources is disabled
         \param[in] o other renderer

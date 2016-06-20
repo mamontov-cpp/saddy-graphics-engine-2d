@@ -163,6 +163,8 @@ void sad::Scene::render()
   }
   unlockChanges();
   performQueuedActions();
+
+  m_camera->restore();  
 }
 
 unsigned int sad::Scene::cachedSceneLayer() const

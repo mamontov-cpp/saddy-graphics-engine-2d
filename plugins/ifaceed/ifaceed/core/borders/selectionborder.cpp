@@ -1,6 +1,7 @@
 #include "selectionborder.h"
 
 #include <renderer.h>
+#include <camera.h>
 
 
 
@@ -56,6 +57,8 @@ void core::borders::SelectionBorder::_process()
     sad::SceneNode * o = this->m_data->selectedObject();
     if (o) 
     {
+        o->scene()->camera().apply();
+
         sad::Vector<sad::Rect2D> regions;
         o->regions(regions);
         sad::Renderer::ref()->render()
@@ -71,6 +74,8 @@ void core::borders::SelectionBorder::_process()
                 }
             }
         }
+
+        o->scene()->camera().restore();
     }
 }
 

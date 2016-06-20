@@ -1,6 +1,7 @@
 #include "activeborder.h"
 
 #include <renderer.h>
+#include <camera.h>
 
 core::borders::ActiveBorder::ActiveBorder(core::Shared* data) : core::borders::Border(data)
 {
@@ -22,8 +23,10 @@ void core::borders::ActiveBorder::_process()
         {
             sad::Vector<sad::Rect2D> regions;
             o->regions(regions);
+            o->scene()->camera().apply();
             sad::Renderer::ref()->render()
                                 ->rectangle(regions[0], sad::AColor(255, 0, 0, 255));
+            o->scene()->camera().restore();
         }
     }
 }

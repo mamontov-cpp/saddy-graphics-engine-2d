@@ -26,9 +26,10 @@ void sad::Camera::apply()
         sad::Renderer* renderer  = Scene->renderer();
         if (renderer)
         {
-            vector3 += renderer->globalTranslationOfsset();
+            vector3 += renderer->globalTranslationOffset();
         }
     }
+    glPushMatrix();
     glTranslatef(
         static_cast<GLfloat>(vector3.x()),
         static_cast<GLfloat>(vector3.y()),
@@ -50,6 +51,11 @@ void sad::Camera::apply()
         static_cast<GLfloat>(-(TemporaryRotationOffset.y())),
         static_cast<GLfloat>(-(TemporaryRotationOffset.z()))
     );
+}
+
+void sad::Camera::restore()
+{
+    glPopMatrix();	
 }
 
 sad::Camera::~Camera()

@@ -195,6 +195,21 @@ public:
         \return grid and offsets window
      */ 
     GridAndOffsets* gridAndOffset() const;
+    /*! Forces to enter global offset editing state
+        \param p starting position
+     */
+    void enterGlobalOffsetEditingState(const sad::Point2D& p);
+    /*! An event handler, which should be executed, when object is leaving window
+     */
+    void onWindowLeaveWhenChangingGlobalOffset();
+    /*! An event handler, that will be executed, when user is changing global offset via mouse move
+        \param ev event
+     */
+    void onMouseMoveWhenChangingGlobalOffset(const sad::input::MouseMoveEvent& ev);
+    /*! An event handler, that will be executed, when user is changing on mouse release
+        \param ev event
+     */
+    void onMouseReleaseWhenChangingGlobalOffset(const sad::input::MouseReleaseEvent& ev);
 protected:
     /*! Stores all widget for main panel
      */

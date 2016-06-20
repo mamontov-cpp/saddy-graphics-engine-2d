@@ -134,3 +134,8 @@ sad::Maybe<QColor>  gui::MainPanelProxy::trySelectColor(const QColor& old) const
 
     return color;
 }
+
+void gui::MainPanelProxy::enterGlobalOffsetEditingState(const sad::Point2D& p)
+{
+    m_editor->panel()->enterGlobalOffsetEditingState(p);
+}

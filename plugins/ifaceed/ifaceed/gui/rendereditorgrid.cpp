@@ -27,7 +27,7 @@ void gui::RenderEditorGrid::_process()
     sad::Renderer* r = sad::Renderer::ref();
     m_scene.setRenderer(r);
     m_scene.camera().apply();
-    sad::Vector3D v = r->globalTranslationOfsset();
+    sad::Vector3D v = r->globalTranslationOffset();
     int startx = 0 - v.x();
     int endx = startx + r->settings().width();
     int starty = 0 - v.y();
@@ -68,4 +68,5 @@ void gui::RenderEditorGrid::_process()
             y += this->GridSpaceY;
         }
     }
+    m_scene.camera().restore();
 }

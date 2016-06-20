@@ -397,14 +397,15 @@ void core::Selection::trySelectGrid(const sad::input::MousePressEvent& e)
     if (m_grid_selection_chain.count() == 0)
     {
         m_editor->shared()->setSelectedGrid(NULL);
+        m_editor->emitClosure(::bind(m_editor->panelProxy(), &gui::MainPanelProxy::enterGlobalOffsetEditingState, e.pos2D()));
     }
     else
     {
         m_editor->shared()->setSelectedGrid(m_grid_selection_chain[0]);
         m_editor->actions()->gridActions()->updateGridPropertiesInUI(false);
         m_current_grid_chain_position = 0;
-        m_editor->emitClosure( bind(this, &core::Selection::startGridNavigationTimer));
-        m_editor->emitClosure( bind(this, &core::Selection::forceEditorEnterGridMovingState, e));
+        m_editor->emitClosure( ::bind(this, &core::Selection::startGridNavigationTimer));
+        m_editor->emitClosure( ::bind(this, &core::Selection::forceEditorEnterGridMovingState, e));
     }
 }
 
@@ -467,6 +468,7 @@ void core::Selection::trySelectObject(const sad::input::MousePressEvent& e)
         {
             m_editor->machine()->enterState("idle");
             m_editor->shared()->setSelectedObject(NULL);
+            m_editor->emitClosure(::bind(m_editor->panelProxy(), &gui::MainPanelProxy::enterGlobalOffsetEditingState, e.pos2D()));
         }
         else
         {
@@ -529,6 +531,8 @@ void core::Selection::trySelectWay(const sad::input::MousePressEvent& e)
     m_editor->machine()->enterState("ways/idle");
     m_editor->shared()->setSelectedWay(NULL);
     m_editor->emitClosure(bind(this, &core::Selection::commitIdleWaySelection));
+
+    m_editor->emitClosure(::bind(m_editor->panelProxy(), &gui::MainPanelProxy::enterGlobalOffsetEditingState, e.pos2D()));
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst

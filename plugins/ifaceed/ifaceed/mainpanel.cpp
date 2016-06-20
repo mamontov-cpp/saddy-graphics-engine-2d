@@ -62,6 +62,8 @@
 // ReSharper disable once CppUnusedIncludeDirective
 #include <cstdio>
 
+#include "closuremethodcall.h"
+
 Q_DECLARE_METATYPE(sad::db::Object*) //-V566
 Q_DECLARE_METATYPE(sad::Scene*) //-V566
 Q_DECLARE_METATYPE(sad::SceneNode*) //-V566
@@ -298,7 +300,10 @@ void MainPanel::setEditor(core::Editor* editor)
     m_scripting->setEditor(editor);
     this->initConsoleAutocompletion();
 
+
     sad::hfsm::Machine* m = editor->machine();
+    sad::String cgo = "changing_global_offset";
+
     sad::String la = "adding/label";
     sad::String ssa = "adding/sprite";
     sad::String sda = "adding/sprite_diagonal";
@@ -340,6 +345,7 @@ void MainPanel::setEditor(core::Editor* editor)
     gui::actions::WayActions* w_actions = m_editor->actions()->wayActions();    
     gui::actions::GridActions* ga_actions = m_editor->actions()->gridActions();
 
+
     // A bindings for idle state
     sad::Renderer::ref()->controls()->add(
         *sad::input::ET_KeyPress & sad::Esc & (m * i),
@@ -352,6 +358,26 @@ void MainPanel::setEditor(core::Editor* editor)
         m_editor->selection(),
         &core::Selection::trySelect
     );
+
+    // A bindings for changing global offset
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_MouseLeave & (m * cgo),
+        this,
+        &MainPanel::onWindowLeaveWhenChangingGlobalOffset
+    );
+
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_MouseMove & (m * cgo),
+        this,
+        &MainPanel::onMouseMoveWhenChangingGlobalOffset
+    );
+
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_MouseRelease & (m * cgo),
+        this,
+        &MainPanel::onMouseReleaseWhenChangingGlobalOffset
+    );
+
 
     // A bindings for moving object
     sad::Renderer::ref()->controls()->add(
@@ -1884,6 +1910,51 @@ GridAndOffsets* MainPanel::gridAndOffset() const
     return m_offsets_window; 
 }
 
+void MainPanel::onWindowLeaveWhenChangingGlobalOffset()
+{
+    m_editor->machine()->enterState(m_editor->shared()->OldEditorState);
+    this->highlightState(Q2STDSTRING(m_editor->shared()->OldHighlightString));
+}
+
+
+void MainPanel::enterGlobalOffsetEditingState(const sad::Point2D& p)
+{
+    core::Shared* s = m_editor->shared();
+    s->OldHighlightString = ui.txtEditorState->text();
+    s->OldGlobalOffset = sad::Renderer::ref()->globalTranslationOffset();
+    s->setOldPoint(p);
+    s->OldEditorState = m_editor->machine()->currentState();
+    m_editor->machine()->enterState("changing_global_offset");
+    this->highlightState("Move mouse to change offset");
+}
+
+void MainPanel::onMouseMoveWhenChangingGlobalOffset(const sad::input::MouseMoveEvent& ev)
+{
+    core::Shared* s = m_editor->shared();
+    sad::Renderer* r = sad::Renderer::ref();
+    sad::Point2D offset(r->globalTranslationOffset().x(), r->globalTranslationOffset().y());
+    sad::Point2D diff = (ev.pos2D() + offset)  - s->oldPoint();
+    sad::Vector3D v  = s->OldGlobalOffset;
+    v -= sad::Point3D(diff.x(), diff.y(), 0);
+
+    void (GridAndOffsets::*f)(const sad::Point3D&) const = &GridAndOffsets::updateGlobalOffsetInUI;
+    m_editor->emitClosure(::bind(m_offsets_window,
+        f,
+        v
+    ));
+    sad::Renderer::ref()->database("")->setProperty("global_renderer_offset", static_cast<sad::Point3D>(v));
+    sad::Renderer::ref()->setGlobalTranslationOffset(v);
+}
+
+void MainPanel::onMouseReleaseWhenChangingGlobalOffset(const sad::input::MouseReleaseEvent& ev)
+{
+    sad::input::MouseMoveEvent e;
+    e.Point3D = ev.Point3D;
+    this->onMouseMoveWhenChangingGlobalOffset(e);
+    // Commit changes
+    this->onWindowLeaveWhenChangingGlobalOffset();
+}
+
 void MainPanel::save()
 {
     if (m_editor->shared()->fileName().length() == 0)
@@ -1911,7 +1982,7 @@ void MainPanel::saveToFile() const
     sad::db::Database* db = sad::Renderer::ref()->database("");
     gui::RenderEditorGrid* render_editor_grid = m_editor->renderEditorGrid();
     db->setProperty("palette", ui.clpSceneNodeColor->palette());
-    db->setProperty("global_renderer_offset", static_cast<sad::Point3D>(sad::Renderer::ref()->globalTranslationOfsset()));
+    db->setProperty("global_renderer_offset", static_cast<sad::Point3D>(sad::Renderer::ref()->globalTranslationOffset()));
     db->setProperty("global_renderer_grid_enabled", render_editor_grid->isEnabled());
     db->setProperty("global_renderer_grid_settings", sad::Point2I(render_editor_grid->GridSpaceX, render_editor_grid->GridSpaceY));
     db->setProperty("global_renderer_grid_color", render_editor_grid->Color);
