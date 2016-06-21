@@ -23,6 +23,10 @@ public:
         \param[in] newvalue new text
       */
     ChangeName(sad::animations::Group* d, int position, const sad::String& oldvalue, const sad::String& newvalue);
+    /*! Commits, without updating interface
+        \param[in] ob editor
+     */
+    virtual void commitWithoutUpdatingUI(core::Editor* ob);
     /*! Erases link to an animation
       */
     virtual ~ChangeName();
@@ -31,7 +35,7 @@ protected:
         \param[in] e editor
         \param[in] value a value
      */
-    void updateItem(core::Editor* e, const sad::String& value);
+    void updateItem(core::Editor* e, const sad::String& value) const;
     /*! Tries to update UI in case if node is selected
         \param[in] e editor
         \param[in] value a value
@@ -46,6 +50,9 @@ protected:
     /*! A position
      */
     int m_position;
+    /*! Whether we should update user interface
+     */
+    bool m_should_update_ui;
 };
 
 }

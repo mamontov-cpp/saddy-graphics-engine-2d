@@ -32,8 +32,15 @@ history::instances::ChangeName::ChangeName(
       "name",
       oldvalue,
       newvalue
-), m_position(position)
+), m_position(position), m_should_update_text_field(true)
 {
+}
+
+void history::instances::ChangeName::commitWithoutUpdatingUI(core::Editor* ob)
+{
+    m_should_update_text_field = false;
+    this->commit(ob);
+    m_should_update_text_field = true;
 }
 
 history::instances::ChangeName::~ChangeName()
@@ -41,6 +48,7 @@ history::instances::ChangeName::~ChangeName()
 
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void history::instances::ChangeName::updateItem(core::Editor* e, const sad::String&)
 {
     e->uiBlocks()->uiAnimationInstanceBlock()->lstAnimationInstances->item(m_position)->setText(
@@ -57,10 +65,13 @@ void history::instances::ChangeName::tryUpdateUI(core::Editor* e, const sad::Str
 
 void history::instances::ChangeName::updateUI(core::Editor* e, const sad::String& value)
 {
-    e->emitClosure( blocked_bind(
-            e->uiBlocks()->uiAnimationInstanceBlock()->txtAnimationInstanceName,
-            &QLineEdit::setText,
-            STD2QSTRING(value)
-        )
-    );
+    if (m_should_update_text_field)
+    {
+        e->emitClosure( blocked_bind(
+                e->uiBlocks()->uiAnimationInstanceBlock()->txtAnimationInstanceName,
+                &QLineEdit::setText,
+                STD2QSTRING(value)
+            )
+        );
+    }
 }

@@ -23,6 +23,10 @@ public:
         \param[in] newvalue new text
       */
     ChangeName(sad::animations::Instance* d, int position, const sad::String& oldvalue, const sad::String& newvalue);
+    /*! Commits changes without updating linked text fields
+        \param[in] ob editor
+     */
+    void commitWithoutUpdatingUI(core::Editor* ob);
     /*! Erases link to an animation
       */
     virtual ~ChangeName();
@@ -46,6 +50,9 @@ protected:
     /*! A position
      */
     int m_position;
+    /*! Whether we should update linked text field
+     */
+    bool m_should_update_text_field;
 };
 
 }

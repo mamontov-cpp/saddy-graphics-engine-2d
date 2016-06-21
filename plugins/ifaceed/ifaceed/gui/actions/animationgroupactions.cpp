@@ -50,6 +50,7 @@ void gui::actions::AnimationGroupActions::setEditor(core::Editor* e)
 }
 
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::AnimationGroupActions::removeFromDatabase(
     sad::animations::Group* g,
     bool fromeditor,
@@ -77,6 +78,7 @@ void gui::actions::AnimationGroupActions::removeFromDatabase(
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::AnimationGroupActions::addGroupToList(sad::animations::Group* g)
 {
     gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
@@ -89,6 +91,7 @@ void gui::actions::AnimationGroupActions::addGroupToList(sad::animations::Group*
     blk->lstAnimationsGroup->addItem(item);
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::AnimationGroupActions::removeLastGroupFromList()
 {
     gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
@@ -98,6 +101,7 @@ void gui::actions::AnimationGroupActions::removeLastGroupFromList()
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::AnimationGroupActions::insertGroupToList(int pos, sad::animations::Group* g)
 {
     gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
@@ -110,6 +114,7 @@ void gui::actions::AnimationGroupActions::insertGroupToList(int pos, sad::animat
     blk->lstAnimationsGroup->insertItem(pos, item);
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::AnimationGroupActions::removeGroupFromList(int pos)
 {
     gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
@@ -121,6 +126,7 @@ QString gui::actions::AnimationGroupActions::nameForGroup(sad::animations::Group
     return const_cast<gui::actions::AnimationGroupActions*>(this)->viewableObjectName(g);
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::AnimationGroupActions::changedIsSequential(bool sequential)
 {
     gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
@@ -144,6 +150,7 @@ void gui::actions::AnimationGroupActions::changedIsSequential(bool sequential)
 
 // ===============================  PUBLIC SLOTS METHODS ===============================
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::AnimationGroupActions::addGroup()
 {
     gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
@@ -172,6 +179,7 @@ void gui::actions::AnimationGroupActions::addGroup()
     m_editor->history()->add(c);
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::AnimationGroupActions::currentGroupChanged(int newrow)
 {
     if (newrow > -1)
@@ -225,6 +233,7 @@ void gui::actions::AnimationGroupActions::removeGroup()
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::AnimationGroupActions::nameChanged(const QString& name)
 {
     gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
@@ -246,7 +255,7 @@ void gui::actions::AnimationGroupActions::nameChanged(const QString& name)
     }
 }
 
-
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::AnimationGroupActions::loopedChanged(bool newvalue)
 {
     gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
@@ -265,7 +274,7 @@ void gui::actions::AnimationGroupActions::loopedChanged(bool newvalue)
     }
 }
 
-
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::AnimationGroupActions::addInstance()
 {
     gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
@@ -284,6 +293,7 @@ void gui::actions::AnimationGroupActions::addInstance()
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::AnimationGroupActions::removeInstance()
 {
     gui::uiblocks::UIAnimationsGroupBlock* blk = m_editor->uiBlocks()->uiAnimationsGroupBlock();
@@ -302,7 +312,7 @@ void gui::actions::AnimationGroupActions::removeInstance()
     }
 }
 
-
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::AnimationGroupActions::start()
 {
     core::Shared* s = m_editor->shared();
@@ -315,6 +325,7 @@ void gui::actions::AnimationGroupActions::start()
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::AnimationGroupActions::stop()
 {
     core::Shared* s = m_editor->shared();

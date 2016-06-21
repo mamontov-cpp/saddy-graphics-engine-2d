@@ -50,6 +50,7 @@ void gui::actions::AnimationInstanceActions::setEditor(core::Editor* e)
     m_blk = m_editor->uiBlocks()->uiAnimationInstanceBlock();
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::AnimationInstanceActions::updateGroupInstanceList()
 {
     sad::Vector<unsigned long long> ids;
@@ -126,6 +127,7 @@ void gui::actions::AnimationInstanceActions::updateGroupInstanceList()
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::AnimationInstanceActions::updateCurrentInstanceAnimation(sad::animations::Instance* a)
 {
     core::Editor* e =  m_editor;
@@ -175,7 +177,7 @@ void gui::actions::AnimationInstanceActions::updateCurrentInstanceAnimation(sad:
     }
 }
 
-
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::AnimationInstanceActions::removeInstanceFromDatabase(
     sad::animations::Instance* a,
     bool fromeditor,
@@ -235,6 +237,7 @@ QString gui::actions::AnimationInstanceActions::nameForInstance(sad::animations:
     return result;
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::AnimationInstanceActions::addInstance()
 {
     if (m_blk->rbAnimationInstanceFromDatabase->isChecked()
@@ -389,6 +392,7 @@ void gui::actions::AnimationInstanceActions::currentInstanceChanged(int row)
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::AnimationInstanceActions::nameChanged(const QString& name)
 {
     int row = m_blk->lstAnimationInstances->currentRow();
@@ -409,6 +413,7 @@ void gui::actions::AnimationInstanceActions::nameChanged(const QString& name)
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::AnimationInstanceActions::treeLinkStateChanged(bool state)
 {
     if (state)
@@ -451,6 +456,7 @@ void gui::actions::AnimationInstanceActions::treeLinkStateChanged(bool state)
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::AnimationInstanceActions::databaseLinkStateChanged(bool state)
 {
     if (state)
@@ -496,7 +502,7 @@ void gui::actions::AnimationInstanceActions::databaseLinkStateChanged(bool state
     }
 }
 
-
+// ReSharper disable once CppMemberFunctionMayBeConst
 void  gui::actions::AnimationInstanceActions::treeElementChanged(int newrow)
 {
     if (m_blk->rbAnimationInstanceFromTree->isChecked())
@@ -529,6 +535,7 @@ void  gui::actions::AnimationInstanceActions::treeElementChanged(int newrow)
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::AnimationInstanceActions::databaseElementChanged(int newrow)
 {
     if (m_blk->rbAnimationInstanceFromDatabase->isChecked())
@@ -561,7 +568,7 @@ void gui::actions::AnimationInstanceActions::databaseElementChanged(int newrow)
     }
 }
 
-
+// ReSharper disable once CppMemberFunctionMayBeConst
 void  gui::actions::AnimationInstanceActions::objectChanged(int newrow)
 {
     core::Editor* e = m_editor;
@@ -592,6 +599,7 @@ void  gui::actions::AnimationInstanceActions::objectChanged(int newrow)
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void  gui::actions::AnimationInstanceActions::startTimeChanged(double newvalue)
 {
     core::Editor* e = m_editor;
@@ -615,6 +623,7 @@ void  gui::actions::AnimationInstanceActions::startTimeChanged(double newvalue)
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void  gui::actions::AnimationInstanceActions::wayChanged(int newrow)
 {
     core::Editor* e = m_editor;
@@ -648,6 +657,7 @@ void  gui::actions::AnimationInstanceActions::wayChanged(int newrow)
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::AnimationInstanceActions::start()
 {
     core::Shared* s = m_editor->shared();
@@ -660,6 +670,7 @@ void gui::actions::AnimationInstanceActions::start()
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::AnimationInstanceActions::stop()
 {
     core::Shared* s = m_editor->shared();

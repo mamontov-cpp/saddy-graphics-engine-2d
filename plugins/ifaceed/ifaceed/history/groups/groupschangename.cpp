@@ -32,8 +32,15 @@ history::groups::ChangeName::ChangeName(
       "name",
       oldvalue,
       newvalue
-), m_position(position)
+), m_position(position), m_should_update_ui(true)
 {
+}
+
+void history::groups::ChangeName::commitWithoutUpdatingUI(core::Editor* ob)
+{
+    m_should_update_ui = false;
+    this->commit(ob);
+    m_should_update_ui = true;
 }
 
 history::groups::ChangeName::~ChangeName()
@@ -41,7 +48,7 @@ history::groups::ChangeName::~ChangeName()
 
 }
 
-void history::groups::ChangeName::updateItem(core::Editor* e, const sad::String&)
+void history::groups::ChangeName::updateItem(core::Editor* e, const sad::String&) const
 {
     e->uiBlocks()->uiAnimationsGroupBlock()->lstAnimationsGroup->item(m_position)->setText(
         e->actions()->groupActions()->nameForGroup(m_animation)
@@ -56,10 +63,13 @@ void history::groups::ChangeName::tryUpdateUI(core::Editor* e, const sad::String
 
 void history::groups::ChangeName::updateUI(core::Editor* e, const sad::String& value)
 {
-    e->emitClosure( blocked_bind(
-            e->uiBlocks()->uiAnimationsGroupBlock()->txtAnimationsGroupName,
-            &QLineEdit::setText,
-            STD2QSTRING(value)
-        )
-    );
+    if (m_should_update_ui)
+    {
+        e->emitClosure( blocked_bind(
+                e->uiBlocks()->uiAnimationsGroupBlock()->txtAnimationsGroupName,
+                &QLineEdit::setText,
+                STD2QSTRING(value)
+            )
+        );
+    }
 }
