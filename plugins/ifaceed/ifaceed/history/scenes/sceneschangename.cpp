@@ -30,16 +30,14 @@ history::scenes::ChangeName::~ChangeName()
     m_scene->delRef();
 }
 
+void history::scenes::ChangeName::commitWithoutUpdatingUI(core::Editor * ob)
+{
+    this->commit(ob, false);
+}
+
 void history::scenes::ChangeName::commit(core::Editor * ob)
 {
-    m_scene->setObjectName(m_new);
-    if (ob)
-    {
-        gui::actions::SceneActions* s_actions = ob->actions()->sceneActions();
-
-        s_actions->updateSceneName(m_scene);
-        ob->emitClosure( bind(this, &history::scenes::ChangeName::updateDependent, ob));		
-    }
+   this->commit(ob, true);
 }
 
 void history::scenes::ChangeName::rollback(core::Editor * ob)
@@ -50,6 +48,18 @@ void history::scenes::ChangeName::rollback(core::Editor * ob)
         gui::actions::SceneActions* s_actions = ob->actions()->sceneActions();
 
         s_actions->updateSceneName(m_scene);
+        ob->emitClosure( bind(this, &history::scenes::ChangeName::updateDependent, ob));
+    }
+}
+
+void history::scenes::ChangeName::commit(core::Editor* ob, bool update_ui)
+{
+    m_scene->setObjectName(m_new);
+    if (ob)
+    {
+        gui::actions::SceneActions* s_actions = ob->actions()->sceneActions();
+
+        s_actions->updateSceneName(m_scene, update_ui);
         ob->emitClosure( bind(this, &history::scenes::ChangeName::updateDependent, ob));
     }
 }

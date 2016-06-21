@@ -58,8 +58,9 @@ public:
     sad::Scene* currentScene();
     /*! Updates scene name, finding it in list, settting it to current name
         \param[in] s scene
+        \param[in] update_ui whether we should update a text node
      */
-    void updateSceneName(sad::Scene* s);
+    void updateSceneName(sad::Scene* s, bool update_ui = true);
     /*! Finds scene in scene list
         \param[in] s scene
         \return scene row

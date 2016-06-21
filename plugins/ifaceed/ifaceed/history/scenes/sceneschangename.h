@@ -28,15 +28,24 @@ public:
     /*! Deletes reference to a scene
      */
     ~ChangeName();
+    /*! Applies changes without affecting UI
+        \param[in] ob an editor
+     */
+    virtual void commitWithoutUpdatingUI(core::Editor * ob = NULL);
     /*! Applies changes, described in command
-        \param[in] ob an observer for looking for command
+        \param[in] ob an editor
      */
     virtual void commit(core::Editor * ob = NULL);
     /*! Reverts changes, described in command
-        \param[in] ob an observer for looking for command
+        \param[in] ob an editor
      */
     virtual void rollback(core::Editor * ob = NULL);
 protected:
+    /*! Commits a changing for name
+        \param[in] ob editor
+        \param[in] update_ui whether we should update ui
+     */
+    void commit(core::Editor* ob, bool update_ui);
     /*! Updates dependent names and data
         \param[in] e editor
      */

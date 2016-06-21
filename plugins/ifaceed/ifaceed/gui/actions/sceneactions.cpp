@@ -118,7 +118,7 @@ sad::Scene* gui::actions::SceneActions::currentScene()
     return scene;
 }
 
-void gui::actions::SceneActions::updateSceneName(sad::Scene* s)
+void gui::actions::SceneActions::updateSceneName(sad::Scene* s, bool update_ui)
 {
     int row = this->findSceneInList(s);
     QListWidget* lstScenes = m_editor->uiBlocks()->uiSceneBlock()->lstScenes;    
@@ -126,7 +126,7 @@ void gui::actions::SceneActions::updateSceneName(sad::Scene* s)
     {
         lstScenes->item(row)->setText(this->viewableObjectName(s));
     }
-    if (s == currentScene())
+    if ((s == currentScene()) && update_ui)
     {
         QLineEdit* txtSceneName = m_editor->uiBlocks()->uiSceneBlock()->txtSceneName;    
         bool b = txtSceneName->blockSignals(true);
