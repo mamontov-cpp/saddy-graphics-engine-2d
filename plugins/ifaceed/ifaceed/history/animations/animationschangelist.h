@@ -35,6 +35,10 @@ public:
         const sad::Vector<sad::String>& oldvalue, 
         const sad::Vector<sad::String>& newvalue
     );
+    /*! Commits changes without updating widget
+        \param[in] ob editor
+     */
+    void commitWithoutUpdatingUI(core::Editor* ob);
     /*! Erases link to an animation
       */
     virtual ~ChangeList();
@@ -48,6 +52,9 @@ protected:
     /*! A view for text edit
      */
     QTextEdit* m_view;
+    /*! A flag, which describes, whether we should change widget
+     */
+    bool m_should_change_widget;
 };
 
 }

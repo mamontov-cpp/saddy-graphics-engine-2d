@@ -2735,7 +2735,7 @@ current object</string>
          <rect>
           <x>10</x>
           <y>0</y>
-          <width>281</width>
+          <width>311</width>
           <height>91</height>
          </rect>
         </property>
@@ -2752,7 +2752,7 @@ current object</string>
           <rect>
            <x>10</x>
            <y>20</y>
-           <width>261</width>
+           <width>281</width>
            <height>61</height>
           </rect>
          </property>
@@ -2763,7 +2763,7 @@ current object</string>
          <rect>
           <x>10</x>
           <y>100</y>
-          <width>281</width>
+          <width>311</width>
           <height>81</height>
          </rect>
         </property>
@@ -2780,7 +2780,7 @@ current object</string>
           <rect>
            <x>10</x>
            <y>20</y>
-           <width>261</width>
+           <width>281</width>
            <height>51</height>
           </rect>
          </property>
@@ -2791,7 +2791,7 @@ current object</string>
          <rect>
           <x>10</x>
           <y>180</y>
-          <width>281</width>
+          <width>311</width>
           <height>131</height>
          </rect>
         </property>
@@ -2803,53 +2803,65 @@ current object</string>
         <property name="title">
          <string>Texture Coordinates Continuous</string>
         </property>
-        <widget class="gui::rectwidget::RectWidget" name="rctTCCStartingRect" native="true">
+        <widget class="QWidget" name="">
          <property name="geometry">
           <rect>
-           <x>60</x>
+           <x>10</x>
            <y>20</y>
-           <width>211</width>
-           <height>51</height>
+           <width>281</width>
+           <height>101</height>
           </rect>
          </property>
-        </widget>
-        <widget class="QLabel" name="lblTCCStartingRect">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>30</y>
-           <width>51</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Starting
+         <layout class="QGridLayout" name="grdTCCEndingRect">
+          <item row="0" column="0">
+           <widget class="QLabel" name="lblTCCStartingRect">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Starting
 rect:</string>
-         </property>
-        </widget>
-        <widget class="gui::rectwidget::RectWidget" name="rctTCCEndingRect" native="true">
-         <property name="geometry">
-          <rect>
-           <x>60</x>
-           <y>70</y>
-           <width>211</width>
-           <height>51</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QLabel" name="lblTCCEndingRect">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>90</y>
-           <width>41</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Ending
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="gui::rectwidget::RectWidget" name="rctTCCStartingRect" native="true">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="lblTCCEndingRect">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Ending
 rect:</string>
-         </property>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="gui::rectwidget::RectWidget" name="rctTCCEndingRect" native="true">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </widget>
       </widget>
@@ -3378,9 +3390,9 @@ rect:</string>
       <widget class="QComboBox" name="cmbWayAnimationInstanceWay">
        <property name="geometry">
         <rect>
-         <x>0</x>
+         <x>10</x>
          <y>20</y>
-         <width>321</width>
+         <width>311</width>
          <height>22</height>
         </rect>
        </property>

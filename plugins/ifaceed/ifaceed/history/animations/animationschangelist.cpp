@@ -27,8 +27,15 @@ history::animations::ChangeList::ChangeList(
       propertyname,
       oldvalue,
       newvalue
-), m_view(view)
+), m_view(view), m_should_change_widget(true)
 {
+}
+
+void history::animations::ChangeList::commitWithoutUpdatingUI(core::Editor* ob)
+{
+    m_should_change_widget = false;
+    commit(ob);
+    m_should_change_widget = true;
 }
 
 history::animations::ChangeList::~ChangeList()
@@ -38,17 +45,20 @@ history::animations::ChangeList::~ChangeList()
 
 void history::animations::ChangeList::updateUI(core::Editor* e, const sad::Vector<sad::String>& value)
 {
-    QStringList list;
-    for(size_t i = 0; i < value.size(); i++)
+    if (m_should_change_widget)
     {
-        list << STD2QSTRING(value[i]);
-    }
-    QString nvalue = list.join("\n");
+        QStringList list;
+        for(size_t i = 0; i < value.size(); i++)
+        {
+            list << STD2QSTRING(value[i]);
+        }
+        QString nvalue = list.join("\n");
 
-    e->emitClosure( blocked_bind(
-            m_view,
-            &QTextEdit::setPlainText,
-            nvalue
-        )
-    );
+        e->emitClosure( blocked_bind(
+                m_view,
+                &QTextEdit::setPlainText,
+                nvalue
+            )
+        );
+    }
 }

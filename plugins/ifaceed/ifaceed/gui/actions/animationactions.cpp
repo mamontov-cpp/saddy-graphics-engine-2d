@@ -1,3 +1,4 @@
+ // ReSharper disable once CppUnusedIncludeDirective
 #include <QMessageBox>
 #include <QCheckBox>
 #include <QLineEdit>

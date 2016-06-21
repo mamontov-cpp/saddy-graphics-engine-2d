@@ -22,6 +22,10 @@ public:
         \param[in] newvalue new text
       */
     ChangeName(sad::animations::Animation* d, const sad::String& oldvalue, const sad::String& newvalue);
+    /*! Commits command without updating a text field
+        \param[in] ob editor
+     */
+    void commitWithoutUpdatingUI(core::Editor* ob);
     /*! Erases link to an animation
       */
     virtual ~ChangeName();
@@ -37,6 +41,9 @@ protected:
      * \param[in] value a value
      */
     virtual void updateUI(core::Editor* e, const sad::String& value);
+    /*! Whether we should update local text field
+     */
+    bool m_should_update_text_field;
 };
 
 }
