@@ -42,6 +42,7 @@ gui::actions::DialogueActions::~DialogueActions()
     
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::DialogueActions::viewDialogue(sad::dialogue::Dialogue* d)
 {
     gui::uiblocks::UIDialogueBlock* blk = m_editor->uiBlocks()->uiDialogueBlock(); 
@@ -55,6 +56,7 @@ void gui::actions::DialogueActions::viewDialogue(sad::dialogue::Dialogue* d)
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::DialogueActions::viewPhrase(sad::dialogue::Phrase* p)
 {
     gui::uiblocks::UIPhraseBlock* pblk = m_editor->uiBlocks()->uiPhraseBlock(); 
@@ -86,6 +88,7 @@ void gui::actions::DialogueActions::viewPhrase(sad::dialogue::Phrase* p)
     ));
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::DialogueActions::changePhraseText(
     sad::dialogue::Dialogue* d, 
     int pos, 
@@ -115,6 +118,7 @@ void gui::actions::DialogueActions::changePhraseText(
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::DialogueActions::changePhraseDuration(
     sad::dialogue::Dialogue* d, 
     int pos, 
@@ -143,6 +147,7 @@ void gui::actions::DialogueActions::changePhraseDuration(
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::DialogueActions::changePhraseActorName(
     sad::dialogue::Dialogue* d, 
     int pos, 
@@ -163,7 +168,14 @@ void gui::actions::DialogueActions::changePhraseActorName(
             oldvalue, 
             newvalue
         );
-        c->commitWithoutUpdatingUI(m_editor);
+        if (fromeditor)
+        {
+            c->commitWithoutUpdatingUI(m_editor);
+        }
+        else
+        {
+            c->commit(m_editor);
+        }
         if (fromeditor)
         {
             m_editor->history()->add(c);
@@ -175,6 +187,7 @@ void gui::actions::DialogueActions::changePhraseActorName(
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::DialogueActions::changePhraseActorPortrait(
     sad::dialogue::Dialogue* d, 
     int pos, 
@@ -195,7 +208,14 @@ void gui::actions::DialogueActions::changePhraseActorPortrait(
             oldvalue, 
             newvalue
         );
-        c->commitWithoutUpdatingUI(m_editor);
+        if (fromeditor)
+        {
+            c->commitWithoutUpdatingUI(m_editor);
+        }
+        else
+        {
+            c->commit(m_editor);
+        }
         if (fromeditor)
         {
             m_editor->history()->add(c);
@@ -207,6 +227,7 @@ void gui::actions::DialogueActions::changePhraseActorPortrait(
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::DialogueActions::changePhraseViewHint(
     sad::dialogue::Dialogue* d, 
     int pos, 
@@ -227,7 +248,14 @@ void gui::actions::DialogueActions::changePhraseViewHint(
             oldvalue, 
             newvalue
         );
-        c->commitWithoutUpdatingUI(m_editor);
+        if (fromeditor)
+        {
+            c->commitWithoutUpdatingUI(m_editor);
+        }
+        else
+        {
+            c->commit(m_editor);
+        }
         if (fromeditor)
         {
             m_editor->history()->add(c);
@@ -261,7 +289,7 @@ void gui::actions::DialogueActions::removeDialogueFromDatabase(
     }
 }
 
-
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::DialogueActions::addDialogueToDialogueList(sad::dialogue::Dialogue* dialogue)
 {
     gui::uiblocks::UIDialogueBlock* blk = m_editor->uiBlocks()->uiDialogueBlock(); 
@@ -272,6 +300,7 @@ void gui::actions::DialogueActions::addDialogueToDialogueList(sad::dialogue::Dia
     blk->lstDialogues->item(blk->lstDialogues->count()-1)->setData(Qt::UserRole, v);
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::DialogueActions::removeLastDialogueFromDialogueList()
 {
     gui::uiblocks::UIDialogueBlock* blk = m_editor->uiBlocks()->uiDialogueBlock(); 
@@ -288,6 +317,7 @@ void gui::actions::DialogueActions::removeLastDialogueFromDialogueList()
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::DialogueActions::insertDialogueToDialogueList(sad::dialogue::Dialogue* s, int position)
 {
     gui::uiblocks::UIDialogueBlock* blk = m_editor->uiBlocks()->uiDialogueBlock(); 
@@ -300,6 +330,7 @@ void gui::actions::DialogueActions::insertDialogueToDialogueList(sad::dialogue::
     blk->lstDialogues->insertItem(position, i);
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::DialogueActions::removeDialogueFromDialogueList(int position)
 {
     gui::uiblocks::UIDialogueBlock* blk = m_editor->uiBlocks()->uiDialogueBlock(); 
@@ -328,6 +359,7 @@ void gui::actions::DialogueActions::removeDialogueFromDialogueList(sad::dialogue
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 int gui::actions::DialogueActions::findDialogueInList(sad::dialogue::Dialogue* s)
 {
     gui::uiblocks::UIDialogueBlock* blk = m_editor->uiBlocks()->uiDialogueBlock(); 
@@ -346,6 +378,7 @@ void gui::actions::DialogueActions::updateDialogueName(sad::dialogue::Dialogue* 
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::DialogueActions::removePhraseFromPhraseList(int row)
 {
     gui::uiblocks::UIPhraseBlock* blk = m_editor->uiBlocks()->uiPhraseBlock(); 
@@ -353,6 +386,8 @@ void gui::actions::DialogueActions::removePhraseFromPhraseList(int row)
     delete blk->lstPhrases->takeItem(row);
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
+// ReSharper disable once CppMemberFunctionMayBeStatic
 QString gui::actions::DialogueActions::nameForPhrase(const sad::dialogue::Phrase& p) const
 {
     sad::String s = p.phrase();
@@ -368,6 +403,7 @@ QString gui::actions::DialogueActions::nameForPhrase(const sad::dialogue::Phrase
 
 // ========================== PUBLIC SLOTS ==========================
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::DialogueActions::addDialogue()
 {
     gui::uiblocks::UIDialogueBlock* blk = m_editor->uiBlocks()->uiDialogueBlock(); 
@@ -394,6 +430,7 @@ void gui::actions::DialogueActions::removeDialogue()
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::DialogueActions::addPhrase()
 {
     sad::dialogue::Dialogue* d = m_editor->shared()->selectedDialogue();
@@ -413,6 +450,7 @@ void gui::actions::DialogueActions::addPhrase()
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::DialogueActions::removePhrase()
 {
     gui::uiblocks::UIPhraseBlock* pblk = m_editor->uiBlocks()->uiPhraseBlock(); 
@@ -427,6 +465,7 @@ void gui::actions::DialogueActions::removePhrase()
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::DialogueActions::movePhraseBack()
 {
     gui::uiblocks::UIPhraseBlock* pblk = m_editor->uiBlocks()->uiPhraseBlock(); 
@@ -441,6 +480,7 @@ void gui::actions::DialogueActions::movePhraseBack()
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void gui::actions::DialogueActions::movePhraseFront()
 {
     gui::uiblocks::UIPhraseBlock* pblk = m_editor->uiBlocks()->uiPhraseBlock(); 

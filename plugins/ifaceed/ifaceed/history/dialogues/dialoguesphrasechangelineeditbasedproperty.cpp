@@ -39,19 +39,25 @@ history::dialogues::PhraseChangeLineEditBasedProperty::~PhraseChangeLineEditBase
     m_dialogue->delRef();
 }
 
+void history::dialogues::PhraseChangeLineEditBasedProperty::commitWithoutUpdatingUI(core::Editor * ob)
+{
+    ((m_dialogue->phrases()[m_position])->*m_setter)(m_newvalue);
+    this->tryUpdateUI(ob, m_newvalue, false);
+}
+
 void history::dialogues::PhraseChangeLineEditBasedProperty::commit(core::Editor * ob)
 {
     ((m_dialogue->phrases()[m_position])->*m_setter)(m_newvalue);
-    this->tryUpdateUI(ob, m_newvalue);
+    this->tryUpdateUI(ob, m_newvalue, true);
 }
 
 void history::dialogues::PhraseChangeLineEditBasedProperty::rollback(core::Editor * ob)
 {
     ((m_dialogue->phrases()[m_position])->*m_setter)(m_oldvalue);
-    this->tryUpdateUI(ob, m_oldvalue);
+    this->tryUpdateUI(ob, m_oldvalue, true);
 }
 
-void history::dialogues::PhraseChangeLineEditBasedProperty::tryUpdateUI(core::Editor* e, const sad::String& v)
+void history::dialogues::PhraseChangeLineEditBasedProperty::tryUpdateUI(core::Editor* e, const sad::String& v, bool update_ui) const
 {
     if (e)
     {
@@ -67,7 +73,7 @@ void history::dialogues::PhraseChangeLineEditBasedProperty::tryUpdateUI(core::Ed
                     e->actions()->dialogueActions()->nameForPhrase(*(m_dialogue->phrases()[m_position]))
                 ));
             }
-            if (lst->currentRow() == m_position)
+            if ((lst->currentRow() == m_position) && update_ui)
             {
                 e->emitClosure(blocked_bind(
                     m_widget,

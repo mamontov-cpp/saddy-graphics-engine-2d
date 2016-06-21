@@ -41,12 +41,16 @@ public:
     /*! Could be inherited
      */
     virtual ~PhraseChangeLineEditBasedProperty();
-    /*! Makes way active, adds it to list
-        \param[in] ob an observer for looking for command
+    /*! Changes property to a new value, without updating property
+        \param[in] ob editor
+     */
+    void commitWithoutUpdatingUI(core::Editor * ob = NULL);
+    /*! Changes property to a new value
+        \param[in] ob editor
      */
     virtual void commit(core::Editor * ob = NULL);
-    /*! Makes way inactive, removes it from list
-        \param[in] ob an observer for looking for command
+    /*! Changed property to an old value
+        \param[in] ob editor
      */
     virtual void rollback(core::Editor * ob = NULL);
 protected:
@@ -74,8 +78,9 @@ protected:
     /*! Tries to update UI with new value
         \param[in] e editor
         \param[in] v value
+        \param[in] update_ui whether we should update ui
      */
-    void tryUpdateUI(core::Editor* e, const sad::String& v);
+    void tryUpdateUI(core::Editor* e, const sad::String& v, bool update_ui) const;
 };
 
 }
