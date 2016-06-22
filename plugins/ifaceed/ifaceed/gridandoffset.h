@@ -1,4 +1,4 @@
-/*! \file gridandoffsets.h
+/*! \file gridandoffset.h
     
 
     Describes a dialog for setting display grid and global offset of position of camera
@@ -55,7 +55,7 @@ public:
      */
     sad::Point3D globalOffset() const;
     /*! Updates, whether grid is enabled
-        \parma[in] enabled new flag value
+        \param[in] enabled new flag value
      */
     void updateGridEnabled(bool enabled) const;
     /*! Returns, whether grid is enabled

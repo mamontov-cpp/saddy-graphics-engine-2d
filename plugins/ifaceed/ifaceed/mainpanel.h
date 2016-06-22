@@ -309,8 +309,7 @@ protected slots:
     /*! Tries to save database with prompting user
      */
     void saveAs();
-    /*! Tries to save database to file, specified in shared editor state
-        \param[in] filename name of file
+    /*! Tries to save database to file, specified in editor's shared state
      */
     void saveToFile() const;
     /*! Tries to load database
