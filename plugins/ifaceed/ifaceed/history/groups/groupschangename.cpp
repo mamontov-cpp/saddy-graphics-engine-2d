@@ -10,7 +10,6 @@
 
 #include "../../qstdstring.h"
 
-#include "../../blockedclosuremethodcall.h"
 #include "../../closuremethodcall.h"
 
 #include "../../gui/uiblocks/uiblocks.h"
@@ -65,9 +64,10 @@ void history::groups::ChangeName::updateUI(core::Editor* e, const sad::String& v
 {
     if (m_should_update_ui)
     {
-        e->emitClosure( blocked_bind(
+        e->emitClosure( ::bind(
+                this,
+                &history::Command::blockedSetLineEditText,
                 e->uiBlocks()->uiAnimationsGroupBlock()->txtAnimationsGroupName,
-                &QLineEdit::setText,
                 STD2QSTRING(value)
             )
         );

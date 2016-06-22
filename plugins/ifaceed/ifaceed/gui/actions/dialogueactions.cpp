@@ -447,6 +447,11 @@ void gui::actions::DialogueActions::addPhrase()
         history::dialogues::PhraseNew* c = new history::dialogues::PhraseNew(d, p);
         c->commit(m_editor);
         m_editor->history()->add(c);
+        
+        QListWidget* phrase_list = pblk->lstPhrases;
+        bool b = phrase_list->blockSignals(true);
+        phrase_list->setCurrentRow(phrase_list->count() - 1);
+        phrase_list->blockSignals(b);
     }
 }
 

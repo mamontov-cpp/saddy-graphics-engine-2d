@@ -8,7 +8,6 @@
 
 #include "../../core/editor.h"
 
-#include "../../blockedclosuremethodcall.h"
 #include "../../closuremethodcall.h"
 
 #include "../../qstdstring.h"
@@ -55,16 +54,17 @@ history::animations::ChangeName::~ChangeName()
 void history::animations::ChangeName::tryUpdateUI(core::Editor* e, const sad::String& value)
 {
     this->history::animations::ChangeProperty<sad::String>::tryUpdateUI(e, value);
-    e->emitClosure(bind(e->actions()->animationActions(), &gui::actions::AnimationActions::updateAnimationName, m_animation));	
+    e->emitClosure(::bind(e->actions()->animationActions(), &gui::actions::AnimationActions::updateAnimationName, m_animation));	
 }
 
 void history::animations::ChangeName::updateUI(core::Editor* e, const sad::String& value)
 {
     if (m_should_update_text_field)
     {
-        e->emitClosure( blocked_bind(
+        e->emitClosure( ::bind(
+                this,
+                &history::Command::blockedSetLineEditText,
                 e->uiBlocks()->uiAnimationBlock()->txtAnimationName,
-                &QLineEdit::setText,
                 STD2QSTRING(value.c_str())
             )
         );

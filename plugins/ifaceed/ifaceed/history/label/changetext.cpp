@@ -10,7 +10,7 @@
 
 #include "../../qstdstring.h"
 
-#include "../../blockedclosuremethodcall.h"
+#include "../../closuremethodcall.h"
 
 #include "../../gui/uiblocks/uiblocks.h"
 #include "../../gui/uiblocks/uilabelblock.h"
@@ -40,9 +40,10 @@ history::label::ChangeText::~ChangeText()
 
 void history::label::ChangeText::updateUI(core::Editor* e, const sad::String& value)
 {
-    e->emitClosure( blocked_bind(
+    e->emitClosure( ::bind(
+            this,
+            &history::Command::blockedSetPlainTextEditText,
             e->uiBlocks()->uiLabelBlock()->txtLabelText,
-            &QPlainTextEdit::setPlainText,
             STD2QSTRING(value)
         )
     );

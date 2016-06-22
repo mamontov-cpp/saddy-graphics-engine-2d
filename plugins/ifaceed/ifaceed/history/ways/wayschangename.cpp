@@ -10,6 +10,7 @@
 
 #include "../../qstdstring.h"
 
+#include "../../closuremethodcall.h"
 #include "../../blockedclosuremethodcall.h"
 
 #include "../../gui/actions/actions.h"
@@ -49,9 +50,10 @@ void history::ways::ChangeName::tryUpdateUI(core::Editor* e, const sad::String& 
 }
 void history::ways::ChangeName::updateUI(core::Editor* e, const sad::String& value)
 {
-    e->emitClosure( blocked_bind(
+    e->emitClosure( ::bind(
+            this, 
+            &history::Command::blockedSetLineEditText,
             e->uiBlocks()->uiWayBlock()->txtWayName,
-            &QLineEdit::setText,
             STD2QSTRING(value.c_str())
         )
     );

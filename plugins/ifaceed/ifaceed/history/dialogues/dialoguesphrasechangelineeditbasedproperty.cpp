@@ -67,7 +67,7 @@ void history::dialogues::PhraseChangeLineEditBasedProperty::tryUpdateUI(core::Ed
             
             if (m_update)
             {
-                e->emitClosure(bind(
+                e->emitClosure(::bind(
                     lst->item(m_position),
                     &QListWidgetItem::setText,
                     e->actions()->dialogueActions()->nameForPhrase(*(m_dialogue->phrases()[m_position]))
@@ -75,9 +75,10 @@ void history::dialogues::PhraseChangeLineEditBasedProperty::tryUpdateUI(core::Ed
             }
             if ((lst->currentRow() == m_position) && update_ui)
             {
-                e->emitClosure(blocked_bind(
+                e->emitClosure(::bind(
+                    this,
+                    &history::Command::blockedSetLineEditText,
                     m_widget,
-                    &QLineEdit::setText,
                     STD2QSTRING(v)
                 ));
             }

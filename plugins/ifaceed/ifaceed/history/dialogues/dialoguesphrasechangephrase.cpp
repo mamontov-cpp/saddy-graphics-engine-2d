@@ -58,9 +58,10 @@ void history::dialogues::PhraseChangePhrase::tryUpdateUI(core::Editor* e, const 
             ));
             if (lst->currentRow() == m_position)
             {
-                e->emitClosure(blocked_bind(
+                e->emitClosure(::bind(
+                    this,
+                    &history::Command::blockedSetPlainTextEditText,
                     e->uiBlocks()->uiPhraseBlock()->txtPhrasePhrase,
-                    &QPlainTextEdit::setPlainText,
                     STD2QSTRING(v.c_str())
                 ));
             }

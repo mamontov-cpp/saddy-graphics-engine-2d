@@ -41,6 +41,11 @@ public:
      */
     virtual void rollback(core::Editor * ob = NULL);
 protected:
+    /*! Updates UI elements for command
+        \param[in] e editor
+        \param[in] str string for editor
+     */
+    void updateUI(core::Editor* e, const sad::String& str) const;
     /*! A current dialogue
      */
     sad::dialogue::Dialogue* m_dialogue;

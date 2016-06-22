@@ -102,6 +102,7 @@ void history::layouts::ChangeName::tryUpdateUIWithEditableFields(core::Editor * 
     if (e->shared()->selectedGrid() == m_grid)
     {
         gui::uiblocks::UILayoutBlock* blk = e->uiBlocks()->uiLayoutBlock();
-        blk->txtLayoutGridName->setText(STD2QSTRING(m_grid->objectName()));
+        QLineEdit* edit = blk->txtLayoutGridName;
+        this->blockedSetLineEditText(edit, STD2QSTRING(m_grid->objectName()));
     }
 }

@@ -5,7 +5,7 @@
 
 #include "../../core/editor.h"
 
-#include "../../blockedclosuremethodcall.h"
+#include "../../closuremethodcall.h"
 
 #include "../../qstdstring.h"
 
@@ -54,9 +54,10 @@ void history::animations::ChangeList::updateUI(core::Editor* e, const sad::Vecto
         }
         QString nvalue = list.join("\n");
 
-        e->emitClosure( blocked_bind(
+        e->emitClosure( ::bind(
+                this,
+                &history::Command::blockedSetTextEditText,
                 m_view,
-                &QTextEdit::setPlainText,
                 nvalue
             )
         );

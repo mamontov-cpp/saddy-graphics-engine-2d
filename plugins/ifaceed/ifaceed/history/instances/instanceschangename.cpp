@@ -10,7 +10,6 @@
 
 #include "../../qstdstring.h"
 
-#include "../../blockedclosuremethodcall.h"
 #include "../../closuremethodcall.h"
 
 #include "../../gui/actions/actions.h"
@@ -67,9 +66,10 @@ void history::instances::ChangeName::updateUI(core::Editor* e, const sad::String
 {
     if (m_should_update_text_field)
     {
-        e->emitClosure( blocked_bind(
+        e->emitClosure( ::bind(
+                this,
+                &history::Command::blockedSetLineEditText,
                 e->uiBlocks()->uiAnimationInstanceBlock()->txtAnimationInstanceName,
-                &QLineEdit::setText,
                 STD2QSTRING(value)
             )
         );

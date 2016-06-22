@@ -15,6 +15,8 @@
 #include "../../gui/uiblocks/uiblocks.h"
 #include "../../gui/uiblocks/uidialogueblock.h"
 
+// ========================= PUBLIC METHODS =========================
+
 history::dialogues::ChangeName::ChangeName(
     sad::dialogue::Dialogue* dialogue,
     const sad::String& oldvalue,
@@ -35,15 +37,7 @@ void history::dialogues::ChangeName::commit(core::Editor* ob)
     m_dialogue->setObjectName(m_newvalue);
     if (ob)
     {
-        ob->emitClosure( bind(ob->actions()->dialogueActions(), &gui::actions::DialogueActions::updateDialogueName, m_dialogue) );
-        if (ob->shared()->selectedDialogue() == m_dialogue)
-        {
-            ob->emitClosure(blocked_bind(
-                ob->uiBlocks()->uiDialogueBlock()->txtDialogueName,
-                &QLineEdit::setText,
-                STD2QSTRING(m_newvalue.c_str())
-            ));
-        }
+        ob->emitClosure( bind(this, &history::dialogues::ChangeName::updateUI, ob, m_newvalue) );
     }
 }
 
@@ -52,14 +46,20 @@ void history::dialogues::ChangeName::rollback(core::Editor* ob)
     m_dialogue->setObjectName(m_oldvalue);
     if (ob)
     {
-        ob->emitClosure( bind(ob->actions()->dialogueActions(), &gui::actions::DialogueActions::updateDialogueName, m_dialogue) );
-        if (ob->shared()->selectedDialogue() == m_dialogue)
-        {
-            ob->emitClosure(blocked_bind(
-                ob->uiBlocks()->uiDialogueBlock()->txtDialogueName,
-                &QLineEdit::setText,
-                STD2QSTRING(m_oldvalue.c_str())
-            ));
-        }
+        ob->emitClosure( bind(this, &history::dialogues::ChangeName::updateUI, ob, m_oldvalue) );
+    }
+}
+
+// ========================= PROTECTED METHODS =========================
+
+void history::dialogues::ChangeName::updateUI(core::Editor* e, const sad::String& str) const
+{
+    e->actions()->dialogueActions()->updateDialogueName(m_dialogue);
+    if (e->shared()->selectedDialogue() == m_dialogue)
+    {
+        this->blockedSetLineEditText(
+            e->uiBlocks()->uiDialogueBlock()->txtDialogueName,
+            STD2QSTRING(str)
+        );
     }
 }
