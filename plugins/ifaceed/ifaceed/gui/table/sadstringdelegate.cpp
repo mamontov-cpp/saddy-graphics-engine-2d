@@ -30,11 +30,22 @@ gui::table::SadStringDelegate::~SadStringDelegate()
 
 void gui::table::SadStringDelegate::set(const sad::db::Variant& v)
 {
+    QPlainTextEdit* edit = static_cast<QPlainTextEdit*>(m_my_widget);
+    int pos = edit->textCursor().position();
     bool b = m_my_widget->blockSignals(true);
     QString value = v.get<QString>().value();
     this->setCurrentValue<QString>(value);
-    static_cast<QPlainTextEdit*>(m_my_widget)->setPlainText(value);
+    edit->setPlainText(value);
     m_my_widget->blockSignals(b);
+    QTextCursor c = edit->textCursor();
+    QTextCursor c2 = c;
+    c2.movePosition(QTextCursor::End);
+    if (pos <= c2.position()) {
+        c.setPosition(pos);
+        edit->setTextCursor(c);
+    } else {
+        edit->setTextCursor(c2);
+    }
 }
 
 void gui::table::SadStringDelegate::widgetChanged()

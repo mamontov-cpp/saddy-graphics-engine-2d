@@ -877,10 +877,12 @@ void gui::actions::SceneNodeActions::updateSceneNodeName(sad::SceneNode* s, bool
         if (s == m_editor->shared()->selectedObject() || s == m_editor->shared()->activeObject())
         {
             QLineEdit* edit  = nblk->txtObjectName;
+            int pos = edit->cursorPosition();
             bool b = edit->blockSignals(true);
             std::string on  = s->objectName().c_str(); 
             edit->setText(STD2QSTRING(on));
             edit->blockSignals(b);
+            edit->setCursorPosition(pos);
         }
     }
 

@@ -58,9 +58,10 @@ void history::scenenodes::ChangeName::tryUpdateUI(core::Editor* e, const sad::St
 
 void history::scenenodes::ChangeName::updateUI(core::Editor* e, const sad::String& value)
 {
-    e->emitClosure( blocked_bind(
+    e->emitClosure( ::bind(
+            this,
+            &history::Command::blockedSetLineEditText,
             e->uiBlocks()->uiSceneBlock()->txtSceneName,
-            &QLineEdit::setText,
             STD2QSTRING(value.c_str())
         )
     );

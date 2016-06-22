@@ -128,10 +128,12 @@ void gui::actions::SceneActions::updateSceneName(sad::Scene* s, bool update_ui)
     }
     if ((s == currentScene()) && update_ui)
     {
-        QLineEdit* txtSceneName = m_editor->uiBlocks()->uiSceneBlock()->txtSceneName;    
+        QLineEdit* txtSceneName = m_editor->uiBlocks()->uiSceneBlock()->txtSceneName;
+        int pos = txtSceneName->cursorPosition();
         bool b = txtSceneName->blockSignals(true);
         txtSceneName->setText(STD2QSTRING(s->objectName().c_str()));
         txtSceneName->blockSignals(b);
+        txtSceneName->setCursorPosition(pos);
     }
 }
 

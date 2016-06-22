@@ -5,6 +5,10 @@
  */
 #pragma once
 #include <stdlib.h>
+#include <QLineEdit>
+#include <QPlainTextEdit>
+#include <QTextEdit>
+#include <QString>
 
 namespace core
 {
@@ -42,6 +46,21 @@ public:
         \param[in] e editor
      */
     virtual void commitWithoutUpdatingUI(core::Editor * e);
+    /*! Sets widget's text  without emitting signals
+        \param[in] edit editor
+        \param[in] text text
+     */
+    void blockedSetLineEditText(QLineEdit* edit, QString text) const;
+    /*! Sets widget's text without emitting signals
+        \param[in] edit editor
+        \param[in] text text
+     */
+    void blockedSetTextEditText(QTextEdit* edit, QString text) const;
+    /*! Sets widget's text without emitting signals
+        \param[in] edit editor
+        \param[in] text text
+     */
+    void blockedSetPlainTextEditText(QPlainTextEdit* edit, QString text) const;
 };
 
 }
