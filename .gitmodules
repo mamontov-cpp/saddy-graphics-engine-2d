@@ -1,3 +1,6 @@
 [submodule "plugins/ifaceed/ifaceed/gui/qt-palette-color-picker"]
 	path = plugins/ifaceed/ifaceed/gui/qt-palette-color-picker
 	url = https://github.com/mamontov-cpp/qt-palette-color-picker.git
+[submodule "include/3rdparty/tar7z"]
+	path = include/3rdparty/tar7z
+	url = https://github.com/mamontov-cpp/tar7z
