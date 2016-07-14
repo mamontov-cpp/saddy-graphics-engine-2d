@@ -539,7 +539,7 @@
     </ClCompile>
     <ClCompile Include="src\imageformats\srgbaloader.cpp">
       <Filter>Файлы исходного кода\imageformats</Filter>
-    </ClCompile>	
+    </ClCompile>
     <ClCompile Include="src\imageformats\tgaloader.cpp">
       <Filter>Файлы исходного кода\imageformats</Filter>
     </ClCompile>
@@ -815,6 +815,9 @@
     </ClCompile>
     <ClCompile Include="src\layouts\grid.cpp">
       <Filter>Файлы исходного кода\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tar7z.cpp">
+      <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1288,7 +1291,7 @@
     </ClInclude>
     <ClInclude Include="include\imageformats\srgbaloader.h">
       <Filter>Заголовочные файлы\imageformats</Filter>
-    </ClInclude>	
+    </ClInclude>
     <ClInclude Include="include\imageformats\tgaloader.h">
       <Filter>Заголовочные файлы\imageformats</Filter>
     </ClInclude>
@@ -2224,6 +2227,9 @@
     </ClInclude>
     <ClInclude Include="include\layouts\grid.h">
       <Filter>Заголовочные файлы\layouts</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\tar7z.h">
+      <Filter>Заголовочные файлы\3rdparty</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

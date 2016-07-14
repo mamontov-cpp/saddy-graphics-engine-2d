@@ -136,6 +136,7 @@
     <ClCompile Include="src\spitjson.cpp" />
     <ClCompile Include="src\sprite2d.cpp" />
     <ClCompile Include="src\sprite3d.cpp" />
+    <ClCompile Include="src\tar7z.cpp" />
     <ClCompile Include="src\texture.cpp" />
     <ClCompile Include="src\texturemappedfont.cpp" />
     <ClCompile Include="src\timer.cpp" />
@@ -201,7 +202,7 @@
     <ClCompile Include="src\imageformats\bmploader.cpp" />
     <ClCompile Include="src\imageformats\loader.cpp" />
     <ClCompile Include="src\imageformats\pngloader.cpp" />
-    <ClCompile Include="src\imageformats\srgbaloader.cpp" />	
+    <ClCompile Include="src\imageformats\srgbaloader.cpp" />
     <ClCompile Include="src\imageformats\tgaloader.cpp" />
     <ClCompile Include="src\pipeline\pipeline.cpp" />
     <ClCompile Include="src\pipeline\pipelinedelegate.cpp" />
@@ -472,6 +473,7 @@
     <ClInclude Include="include\3rdparty\boost-dist\boost\version.hpp" />
     <ClInclude Include="include\3rdparty\boost-dist\boost\visit_each.hpp" />
     <ClInclude Include="include\3rdparty\boost-dist\boost\weak_ptr.hpp" />
+    <ClInclude Include="include\3rdparty\tar7z.h" />
     <ClInclude Include="include\animations\animationssimplemovement.h" />
     <ClInclude Include="include\animations\easing\easingfunction.h" />
     <ClInclude Include="include\animations\easing\easingtypes.h" />
@@ -647,7 +649,7 @@
     <ClInclude Include="include\imageformats\bmploader.h" />
     <ClInclude Include="include\imageformats\loader.h" />
     <ClInclude Include="include\imageformats\pngloader.h" />
-    <ClInclude Include="include\imageformats\srgbaloader.h" />	
+    <ClInclude Include="include\imageformats\srgbaloader.h" />
     <ClInclude Include="include\imageformats\tgaloader.h" />
     <ClInclude Include="include\util\commoncheckedcast.h" />
     <ClInclude Include="include\util\deletetexturetask.h" />
