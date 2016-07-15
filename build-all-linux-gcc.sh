@@ -21,18 +21,18 @@ then
 	exit 1
 fi
 eval $BatchToRun
-cd plugins/atlasgen
+cd tools/atlasgen
 qmake CONFIG+=$QtConfig atlasgen.pro
 make
 cd ../..
-cd plugins/exporter
+cd tools/exporter
 qmake CONFIG+=$QtConfig exporter.pro
 make
 cd ../..
 cd plugins/freetype
 eval $BatchToRun
 cd ../..
-cd plugins/ifaceed
+cd tools/ifaceed
 qmake CONFIG+=$QtConfig ifaceed.pro
 make
 cd ../..

@@ -10,12 +10,12 @@ if [%VALID%] EQU [0]  (
 )
 @echo on
 devenv libsaddy.vcxproj /Build %1 /out lastsolutionbuild.log
-devenv plugins/atlasgen/atlasgen.vcxproj /Build %1 /out lastsolutionbuild.log
+devenv tools/atlasgen/atlasgen.vcxproj /Build %1 /out lastsolutionbuild.log
 devenv plugins/duktape/duktape.vcxproj /Build %1 /out lastsolutionbuild.log
-devenv plugins/exporter/exporter.vcxproj /Build %1 /out lastsolutionbuild.log
+devenv tools/exporter/exporter.vcxproj /Build %1 /out lastsolutionbuild.log
 devenv plugins/freetype/saddy-ft.vcxproj /Build %1 /out lastsolutionbuild.log
 devenv plugins/irrklang/irrklang.vcxproj /Build %1 /out lastsolutionbuild.log
-devenv plugins/ifaceed/ifaceed/ifaceed.vcxproj /Build %1 /out lastsolutionbuild.log
+devenv tools/ifaceed/ifaceed/ifaceed.vcxproj /Build %1 /out lastsolutionbuild.log
 devenv examples/game/game.vcxproj /Build %1 /out lastsolutionbuild.log
 devenv examples/multithreading/multithreading.vcxproj /Build %1 /out lastsolutionbuild.log
 devenv examples/stress-physics/stress-physics.vcxproj /Build %1 /out lastsolutionbuild.log

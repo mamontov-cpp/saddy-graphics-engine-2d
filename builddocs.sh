@@ -8,6 +8,6 @@ cd ../..
 cd examples/stress-physics
 doxygen
 cd ../..
-cd plugins/ifaceed
+cd tools/ifaceed
 doxygen
 cd ../..

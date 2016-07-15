@@ -21,18 +21,18 @@ if [%VALID%] EQU [0]  (
 )
 @echo on
 call %BatchToRun%
-cd plugins/atlasgen
+cd tools/atlasgen
 qmake CONFIG+=%QtConfig% atlasgen.pro
 mingw32-make
 cd ../..
-cd plugins/exporter
+cd tools/exporter
 qmake CONFIG+=%QtConfig% exporter.pro
 mingw32-make
 cd ../..
 cd plugins/freetype
 call %BatchToRun%
 cd ../..
-cd plugins/ifaceed
+cd tools/ifaceed
 qmake CONFIG+=%QtConfig% ifaceed.pro
 mingw32-make
 cd ../..
