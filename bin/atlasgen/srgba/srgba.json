@@ -1,0 +1,15 @@
+{
+	"config" : "srgba/srgba-atlas.json",
+	"texture" : "srgba/srgba.png",
+	"resource": "srgba",
+	"sprites" : [
+        {
+			"name" : "ace.png",
+			"texture" : "bug-47/lorc_originals_png/ace.png"
+		},
+        {
+			"name" : "acid-blob.png",
+			"texture" : "bug-47/lorc_originals_png/acid-blob.png"
+		}        
+	]
+}

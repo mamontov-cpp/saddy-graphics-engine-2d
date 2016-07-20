@@ -56,8 +56,9 @@ public:
     const QString& outputName() const;
     /*! Sets output texture file name for config
         \param[in] name a file name for output texture
+        \param[in] ignore_settings whether we should ignore settings adnd set the name anyway
      */
-    void setOutputTexture(const QString& name);
+    void setOutputTexture(const QString& name, bool ignore_settings = false);
     /*! Returns output texture file name
         \return output texture file name
      */

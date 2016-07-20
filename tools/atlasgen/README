@@ -16,4 +16,4 @@ The resulting config will be like
        </sprites>
 So, you can load new texture by loading it in saddy engine and parsingfile, resulting a texture atlas.
  
-You can run the program using atlasgen-debug [--format-xml|--format-json] "name of valid config"
+You can run the program using atlasgen-debug [--format-xml|--format-json] [--image-srgba] "name of valid config"

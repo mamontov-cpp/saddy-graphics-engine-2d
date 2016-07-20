@@ -9,6 +9,11 @@
 
 #include <cstdio>
 
+#include <QtCore/QFile>
+#include <QtCore/QDataStream>
+#include <QtCore/QByteArray>
+
+
 // ReSharper disable once CppUnusedIncludeDirective
 #include <QtCore/QVector>
 // ReSharper disable once CppUnusedIncludeDirective
@@ -74,10 +79,45 @@ void dumpErrors(T* object)
 /*! Writes texture to file
     \param[in] atlas atlas
     \param[in] image an image to be written
+    \param[in] program_options program options
  */
-void writeTexture(Atlas* atlas, QImage* image)
+void writeTexture(Atlas* atlas, QImage* image, const QHash<QString, QVariant>& program_options)
 {
-    bool saved = image->save(atlas->outputTexture());
+    bool saved = false;
+    // If we need to write image as srgba - write it to specified file
+    if (program_options["image-srgba"].value<bool>())
+    {
+        QFile file(atlas->outputTexture());
+        if (file.open(QIODevice::ReadWrite))
+        {
+            QDataStream stream(&file);
+            QByteArray arr;
+            arr.append("SRGBA");
+            // We always generate base two sizes, so it's ok to case it
+            unsigned char size = static_cast<unsigned char>(log2f(image->width()));
+            arr.append(reinterpret_cast<char*>(&size), 1);
+            for(int x = 0; x < image->height(); x++)
+            {
+                for(int y = 0; y < image->width(); y++)
+                {
+                    QRgb px = image->pixel(x, y);
+                    unsigned char pix[4] = {
+                        static_cast<unsigned char>(qRed(px)),
+                        static_cast<unsigned char>(qGreen(px)),
+                        static_cast<unsigned char>(qBlue(px)),
+                        static_cast<unsigned char>(qAlpha(px))
+                    };
+                    arr.append(reinterpret_cast<char*>(&pix), 4);
+                }
+            }
+            stream.writeRawData(arr.data(), arr.length());
+            saved = (stream.status() == QDataStream::Ok);
+        }
+    }
+    else
+    {
+        saved = image->save(atlas->outputTexture());
+    }
     if (!saved)
     {
         printf("Can\'t write resulting texture to file %s\n", atlas->outputTexture().toStdString().c_str());
@@ -104,6 +144,9 @@ int main(int argc, char *argv[])
 
     // Should we run tests
     program_options.insert("run-tests", false);
+
+    // Shoul we use SRGBA as output format
+    program_options.insert("image-srgba", false);
 
     // An input file
     QVector<QString> input_files;
@@ -133,6 +176,11 @@ int main(int argc, char *argv[])
         {
             handled = true;
             program_options["with-index"] = true;
+        }
+        if (argument == "-srgba" || argument == "--image-srgba")
+        {
+            handled = true;
+            program_options["image-srgba"] = true;
         }
         if (argument == "-full-search" || argument == "--full-search")
         {
@@ -179,9 +227,10 @@ int main(int argc, char *argv[])
 -json, --format-json (default) - parse input file as JSON \n\
 -xml, --format-xml - parse input file as XML \n\
 -with-index, --with-index - Scan and print index part in file definitions\n\
--h, --help - prints this help\n"
+-h, --help - prints this help\n\
+-srgba, --image-srgba - save image to SRGBA \n"
 "-non-unique-textures, --non-unique-textures - do not check, that textures should be unique\n"
-"-take-options-from-last, --take-options-from-last - take options from the last file passed (default: off)\n"
+"-take-options-from-last, --take-options-from-last - take options from the last file passed (default: off)\n"                   
                   );
         }
     } 
@@ -210,6 +259,23 @@ int main(int argc, char *argv[])
             }
             if (reader->ok() && reader->errors().size() == 0)
             {
+                // If we use SRGBA as output image - check file extension and add here "srgba"
+                if (program_options["image-srgba"].value<bool>())
+                {
+                    QString outputname = atlas.outputTexture();
+                    if (outputname.toUpper().endsWith("SRGBA") == false)
+                    {
+                        // Try to replace extension with "srgba"
+                        int pos = outputname.lastIndexOf(".");
+                        if (pos != -1)
+                        {
+                            outputname.remove(pos, outputname.size() - pos);
+                        }
+                        outputname.append(".srgba");
+                        atlas.setOutputTexture(outputname, true);
+                    }
+                }
+
                 if (atlas.textures().size() != 0)
                 {
                     QImage* image;
@@ -223,7 +289,7 @@ int main(int argc, char *argv[])
                         packer = new growingbinpacker::GrowingBinPacker();
                     }
                     packer->pack(atlas, image);
-                    writeTexture(&atlas, image);
+                    writeTexture(&atlas, image, program_options);
                     delete image;
                     delete packer;
                 }
@@ -231,7 +297,7 @@ int main(int argc, char *argv[])
                 {
                     QImage image(1, 1, QImage::Format_ARGB32);
                     image.fill(QColor(255, 255, 255, 0));
-                    writeTexture(&atlas, &image);
+                    writeTexture(&atlas, &image, program_options);
                 }
                 atlas.prepareForOutput();
 

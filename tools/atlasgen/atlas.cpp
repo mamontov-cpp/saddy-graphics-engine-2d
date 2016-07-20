@@ -83,9 +83,9 @@ const QString& Atlas::outputName() const
     return m_output_name;
 }
 
-void Atlas::setOutputTexture(const QString& name)
+void Atlas::setOutputTexture(const QString& name, bool ignore_settings)
 {
-    if ((m_output_texture.length() == 0) || !m_take_first) { 
+    if ((m_output_texture.length() == 0) || (!m_take_first) || ignore_settings) {
         m_output_texture = name;
     }
 }
