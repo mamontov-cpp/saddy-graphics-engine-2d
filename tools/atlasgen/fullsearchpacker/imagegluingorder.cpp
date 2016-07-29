@@ -34,21 +34,23 @@ fullsearchpacker::ImageGluingOrder::Result fullsearchpacker::ImageGluingOrder::f
     if (images.size())
     {
         //printf("Count of images: %d\n", images.size());
+        double padx = 0;
+        double pady = 0;
+        if (options["add-pixel"].toBool())
+        {
+            padx = 2;
+            pady = 2;
+        }
+
         if (images.size() == 1)
         {
-            result.Size = images[0]->size();
+            QSizeF sz = images[0]->size();
+            result.Size = QSizeF(sz.width() + padx, sz.height() + pady);
         }
         else
         {
             fullsearchpacker::MinAreaMetric mametric;
             fullsearchpacker::MinDiffMetric mdmetric;
-            double padx = 0;
-            double pady = 0;
-            if (options["add-pixel"].toBool())
-            {
-                padx = 2;
-                pady = 2;
-            }
             QVector<fullsearchpacker::GlueEntry> entries;
             for(size_t i = 0; i < images.size(); i++)
             {

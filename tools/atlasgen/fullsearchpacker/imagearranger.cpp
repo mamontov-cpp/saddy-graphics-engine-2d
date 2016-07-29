@@ -102,8 +102,8 @@ double fullsearchpacker::ImageArranger::arrange(
     {
         if (images.size() == 1)
         {
-            int width = images[0]->Image.width() + padx;
-            int height = images[0]->Image.height() + pady;
+            int width = images[0]->Image.width();
+            int height = images[0]->Image.height();
             images[0]->TextureRectangle = QRectF(QPointF(0, 0), QSizeF(width, height));
         }
         else

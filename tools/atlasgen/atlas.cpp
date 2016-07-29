@@ -66,7 +66,7 @@ void Atlas::prepareForOutput(const QHash<QString, QVariant>& options)
             if (added_one_pixel)
             {
                 QRectF oldrect = m_entries[i].TextureRectangle.value();
-                QRectF newrect(QPointF(oldrect.left() + 1.0, oldrect.top() - 1.0), QPointF(oldrect.right() - 1.0, oldrect.bottom() + 1.0));
+                QRectF newrect(oldrect.left() + 1.0, oldrect.top() + 1.0, oldrect.width(), oldrect.height());
                 m_entries[i].TextureRectangle.setValue(newrect);
             }
             if (m_entries[i].Size.exists() == false)

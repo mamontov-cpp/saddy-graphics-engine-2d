@@ -31,8 +31,9 @@ void fullsearchpacker::FullSearchPacker::pack(Atlas& atlas, QImage*& image)
     QPainter painter(image);
     for(size_t i = 0; i < atlas.textures().size(); i++)
     {
-        QPointF topleft = atlas.textures()[i]->TextureRectangle.topLeft();
-        const QImage& img = atlas.textures()[i]->Image;
+        Texture* t = atlas.textures()[i];
+        QPointF topleft = t->TextureRectangle.topLeft();
+        const QImage& img = t->Image;
         if (add_pixel)
         {
             // Top part
