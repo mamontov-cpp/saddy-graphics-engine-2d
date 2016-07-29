@@ -7,6 +7,9 @@
 #pragma once
 #include "../texturearray.h"
 #include "glueorder.h"
+#include <QtCore/QHash>
+#include <QtCore/QString>
+#include <QtCore/QVariant>
 #include <QtCore/QSizeF>
 
 namespace fullsearchpacker
@@ -45,9 +48,13 @@ public:
     /*! Finds an order on specified array of images.
         Merging by this order, must lead to image with minimal width and height.
         \param[in] images a list of images to be merged
+        \param[in] options a program options
         \return result resulting order
      */
-    fullsearchpacker::ImageGluingOrder::Result find(const TextureArray& images);
+    fullsearchpacker::ImageGluingOrder::Result find(
+        const TextureArray& images,
+        const QHash<QString, QVariant>& options
+    );
 };
 
 }

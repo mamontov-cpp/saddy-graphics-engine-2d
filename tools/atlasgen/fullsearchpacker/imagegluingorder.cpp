@@ -25,7 +25,10 @@ fullsearchpacker::ImageGluingOrder::~ImageGluingOrder()
 
 }
 
-fullsearchpacker::ImageGluingOrder::Result fullsearchpacker::ImageGluingOrder::find(const TextureArray& images)
+fullsearchpacker::ImageGluingOrder::Result fullsearchpacker::ImageGluingOrder::find(
+    const TextureArray& images,
+    const QHash<QString, QVariant>& options
+)
 {
     fullsearchpacker::ImageGluingOrder::Result result;
     if (images.size())
@@ -39,11 +42,17 @@ fullsearchpacker::ImageGluingOrder::Result fullsearchpacker::ImageGluingOrder::f
         {
             fullsearchpacker::MinAreaMetric mametric;
             fullsearchpacker::MinDiffMetric mdmetric;
-
+            double padx = 0;
+            double pady = 0;
+            if (options["add-pixel"].toBool())
+            {
+                padx = 2;
+                pady = 2;
+            }
             QVector<fullsearchpacker::GlueEntry> entries;
             for(size_t i = 0; i < images.size(); i++)
             {
-                entries << fullsearchpacker::GlueEntry(images[i]->size().width(), images[i]->size().height());
+                entries << fullsearchpacker::GlueEntry(images[i]->size().width() + padx, images[i]->size().height() + pady);
             }
             fullsearchpacker::GlueMetric::OrdersAndSize maresult = mametric.findOrder(entries);
             fullsearchpacker::GlueMetric::OrdersAndSize mdresult = mdmetric.findOrder(entries);

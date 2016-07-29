@@ -6,6 +6,9 @@
 #pragma once
 #include "imagegluingorder.h"
 
+#include <QtCore/QHash>
+#include <QtCore/QString>
+#include <QtCore/QVariant>
 
 namespace fullsearchpacker
 {
@@ -33,8 +36,10 @@ public:
         Bucket();
         /*! Creates a texture bucket
             \param[in] t texture
+            \param[in] padx x width padding
+            \param[in] pady y height padding
          */
-        Bucket(Texture *t);
+        Bucket(Texture *t, double padx = 0, double pady = 0);
         /*! Destroys bucket
          */
         virtual ~Bucket();
@@ -71,12 +76,14 @@ public:
 
     /*! Arranges an images in specified order.
         Also changes images, setting their textureRectangle parameters
+        \param[in] options a program options
         \param[in] images images to be arranged by specified order
         \param[in] order order in which images should be arranged
         \param[in] totalSize size of texture
         \return width and height of total texture
      */
     double arrange(
+        const QHash<QString, QVariant>& options,
         const TextureArray& images, 
         const QVector<fullsearchpacker::GlueOrder>& order, 
         const QSizeF& totalSize

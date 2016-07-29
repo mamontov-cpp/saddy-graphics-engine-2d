@@ -7,10 +7,12 @@ fullsearchpacker::ImageArranger::Bucket::Bucket()
 
 }
 
-fullsearchpacker::ImageArranger::Bucket::Bucket(Texture *t)
+fullsearchpacker::ImageArranger::Bucket::Bucket(Texture *t, double padx, double pady)
 {
     this->Images << t;
     this->Size = t->size();
+    this->Size.setWidth(this->Size.width() + padx);
+    this->Size.setHeight(this->Size.height() + pady);
 }
 
 fullsearchpacker::ImageArranger::Bucket::~Bucket()
@@ -83,23 +85,33 @@ double fullsearchpacker::ImageArranger::nextPOT(double value)
 
 
 double fullsearchpacker::ImageArranger::arrange(
+    const QHash<QString, QVariant>& options,
     const TextureArray& images, 
     const QVector<fullsearchpacker::GlueOrder>& order, 
     const QSizeF& totalSize
 )
 {
+    double padx = 0;
+    double pady = 0;
+    if (options["add-pixel"].toBool())
+    {
+        padx = 2;
+        pady = 2;
+    }
     if (images.size() > 0)
     {
         if (images.size() == 1)
         {
-            images[0]->TextureRectangle = QRectF(QPointF(0, 0), images[0]->TextureRectangle.size());
+            int width = images[0]->Image.width() + padx;
+            int height = images[0]->Image.height() + pady;
+            images[0]->TextureRectangle = QRectF(QPointF(0, 0), QSizeF(width, height));
         }
         else
         {	
             QVector<fullsearchpacker::ImageArranger::Bucket> buckets;
             for(size_t i = 0; i < images.size(); i++)
             {
-                buckets << fullsearchpacker::ImageArranger::Bucket(images[i]);
+                buckets << fullsearchpacker::ImageArranger::Bucket(images[i], padx, pady);
             }
             for(size_t i = 0; i < order.size(); i++)
             {
