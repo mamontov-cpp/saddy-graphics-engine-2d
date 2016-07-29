@@ -24,10 +24,6 @@ public:
     /*! Constructs default entry
      */
     GlueEntry();
-    /*! Constructs an entry from texture
-        \param[in] t texture
-     */
-    GlueEntry(const Texture & t);
     /*! Constructs an entry from two coordinates
         \param[in] x first coordinate
         \param[in] y second coordinate

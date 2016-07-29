@@ -9,12 +9,6 @@ fullsearchpacker::GlueEntry::GlueEntry()
      m_a[1] = 0;
 }
 
-fullsearchpacker::GlueEntry::GlueEntry(const Texture & t)
-{
-    m_a[0] = (t.size().width());
-    m_a[1] = (t.size().height());
-}
-
 fullsearchpacker::GlueEntry::GlueEntry(double x, double y)
 {
     m_a[0]  = (x);
