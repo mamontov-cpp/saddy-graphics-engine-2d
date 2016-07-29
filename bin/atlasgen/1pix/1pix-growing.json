@@ -1,0 +1,27 @@
+{
+	"config" : "1pix/1pix-growing-atlas.json",
+	"texture" : "1pix/1pix-growing.png",
+	"resource": "1pix",
+	"sprites" : [
+        {
+			"name" : "1.png",
+			"texture" : "1pix/1.png"
+		},
+        {
+			"name" : "2.png",
+			"texture" : "1pix/2.png"
+		},
+		{
+			"name" : "3.png",
+			"texture" : "1pix/3.png"
+		},
+		{
+			"name" : "4.png",
+			"texture" : "1pix/4.png"
+		},
+		{
+			"name" : "5.png",
+			"texture" : "1pix/5.png"
+		}		
+	]
+}

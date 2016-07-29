@@ -27,6 +27,11 @@ public:
      */
     virtual ~Packer();
 protected:
+    /*! Copies images from specified atlas to imag
+        \param[in] atlas an atlas
+        \param[out] image an image
+     */
+    void copyImages(Atlas& atlas, QImage*& image);
     /*! A link to options, which could alter behaviour of packer
      */
     QHash<QString, QVariant>* m_options;

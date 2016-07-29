@@ -1,0 +1,31 @@
+{
+    "atlas":[
+        {
+            "name":"1.png",
+            "size":"64;64",
+            "texrect":"1;1;64;64"
+        },
+        {
+            "name":"2.png",
+            "size":"64;64",
+            "texrect":"67;1;64;64"
+        },
+        {
+            "name":"3.png",
+            "size":"64;64",
+            "texrect":"1;67;64;64"
+        },
+        {
+            "name":"4.png",
+            "size":"64;64",
+            "texrect":"67;67;64;64"
+        },
+        {
+            "name":"5.png",
+            "size":"64;64",
+            "texrect":"133;1;64;64"
+        }
+    ],
+    "file":"1pix\/1pix-growing.png",
+    "resource":"1pix"
+}

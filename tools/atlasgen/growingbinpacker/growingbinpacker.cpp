@@ -4,8 +4,6 @@
 
 #include "../../../include/3rdparty/framepacker/framepacker.hpp"
 
-#include <QPainter>
-
 // ============================  growingbinpacker::GrowingBinPacker::T methods ============================
 
 growingbinpacker::GrowingBinPacker::T::T() :
@@ -16,13 +14,13 @@ m_t(NULL)
     
 }
 
-growingbinpacker::GrowingBinPacker::T::T(Texture* t) :
+growingbinpacker::GrowingBinPacker::T::T(Texture* t, double padx, double pady) :
 m_width(0.0),
 m_height(0.0),
 m_t(t)
 {
-    m_width = t->Image.width();
-    m_height = t->Image.height();
+    m_width = t->Image.width() + padx;
+    m_height = t->Image.height() + pady;
 }
 
 double growingbinpacker::GrowingBinPacker::T::width() const
@@ -91,6 +89,13 @@ growingbinpacker::GrowingBinPacker::GrowingBinPacker()
 
 void growingbinpacker::GrowingBinPacker::pack(Atlas& atlas, QImage*& image)
 {
+    bool add_pixel = (*m_options)["add-pixel"].toBool();
+    double padx = 0, pady = 0;
+    if (add_pixel)
+    {
+        padx = 2;
+        pady = 2;
+    }
     typedef framepacker::packer<growingbinpacker::GrowingBinPacker::T, false, false> packer_type;
     packer_type packer;
     packer.padding = 0;
@@ -105,7 +110,7 @@ void growingbinpacker::GrowingBinPacker::pack(Atlas& atlas, QImage*& image)
     packer_type::texture_coll_type failed;
     for(size_t i = 0; i < atlas.textures().size();  i++) {
         Texture* t = atlas.textures()[i];
-        growingbinpacker::GrowingBinPacker::T* img = new growingbinpacker::GrowingBinPacker::T(t);
+        growingbinpacker::GrowingBinPacker::T* img = new growingbinpacker::GrowingBinPacker::T(t, padx, pady);
 
         packer.add(
             t->Name.toStdString(), 
@@ -121,15 +126,16 @@ void growingbinpacker::GrowingBinPacker::pack(Atlas& atlas, QImage*& image)
     image = new QImage(wh, wh, QImage::Format_ARGB32);
     image->fill(QColor(255, 255, 255, 0));
 
-    QPainter painter(image);
-    for(size_t i = 0; i < atlas.textures().size(); i++)
+    this->copyImages(atlas, image);
+    if (add_pixel)
     {
-        painter.drawImage(
-            atlas.textures()[i]->TextureRectangle.topLeft(),
-            atlas.textures()[i]->Image
-        );
+        for(size_t i = 0; i < atlas.textures().size(); i++)
+        {
+            Texture* t = atlas.textures()[i];
+            QSizeF oldsz = t->TextureRectangle.size();
+            t->TextureRectangle.setSize(QSizeF(oldsz.width() - padx, oldsz.height() - pady));
+        }
     }
-    painter.end();
 }
 
 growingbinpacker::GrowingBinPacker::~GrowingBinPacker()

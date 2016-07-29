@@ -1,0 +1,11 @@
+{
+    "atlas":[
+        {
+            "name":"1.png",
+            "size":"64;64",
+            "texrect":"1;1;64;64"
+        }
+    ],
+    "file":"1pix\/1pix-growing-one.png",
+    "resource":"1pix"
+}

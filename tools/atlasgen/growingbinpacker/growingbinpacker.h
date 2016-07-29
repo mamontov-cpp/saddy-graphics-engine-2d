@@ -24,8 +24,11 @@ public:
      */
     T();
     /*! Creates a new texture wrapper for texture
+        \param[in] t texture
+        \param[in] padx horizontal padding
+        \param[in] pady vertical padding
      */
-    T(Texture* t);
+    T(Texture* t, double padx = 0, double pady = 0);
     /*! Returns width for texture
         \return width
      */
