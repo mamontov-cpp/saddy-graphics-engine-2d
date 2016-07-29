@@ -236,7 +236,8 @@ int main(int argc, char *argv[])
         else
         {
             printf("%s",
-"Usage: atlasgen-<configuration> [-json|-xml] [-with-index] input  \n\
+"Usage: atlasgen-<configuration> [-json|-xml] [options] <input-file>  \n\
+Options:\n\
 -json, --format-json (default) - parse input file as JSON \n\
 -xml, --format-xml - parse input file as XML \n\
 -with-index, --with-index - Scan and print index part in file definitions\n\
