@@ -19,7 +19,15 @@ public:
         \param[out] image an image with data of packer
      */
     virtual void pack(Atlas& atlas, QImage*& image) = 0;
+    /*! Sets options for packer
+        \param[in] options an inner options
+     */
+    void setOptions(QHash<QString, QVariant>* options);
     /*! Should be inherited
      */
     virtual ~Packer();
+protected:
+    /*! A link to options, which could alter behaviour of packer
+     */
+    QHash<QString, QVariant>* m_options;
 };

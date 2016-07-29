@@ -4,6 +4,9 @@
     Defines a simple atlas as stored in file
  */
 #pragma once
+#include <QHash>
+#include <QString>
+#include <QVariant>
 #include "atlasentry.h"
 #include "texturearray.h"
 
@@ -44,8 +47,9 @@ public:
     QVector<AtlasEntry>& entries();
     /*! Prepares an atlas for output, copying a texture data and size, if not
         specified.
+        \param[in] options an options for atlas
      */
-    void prepareForOutput();
+    void prepareForOutput(const QHash<QString, QVariant>& options);
     /*! Sets output name for config
         \param[in] a name for output config
      */

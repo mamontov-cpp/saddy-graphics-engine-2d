@@ -145,8 +145,11 @@ int main(int argc, char *argv[])
     // Should we run tests
     program_options.insert("run-tests", false);
 
-    // Shoul we use SRGBA as output format
+    // Should we use SRGBA as output format
     program_options.insert("image-srgba", false);
+
+    // Should we add 1-pixel hack hack
+    program_options.insert("add-pixel", false);
 
     // An input file
     QVector<QString> input_files;
@@ -206,7 +209,17 @@ int main(int argc, char *argv[])
         {
             handled = true;
             take_first = false;			
-        }		
+        }
+        if (argument == "-add-pixel" || argument == "--add-pixel")
+        {
+            handled = true;
+            program_options["add-pixel"] = true;
+        }
+        if (argument == "-do-not-add-pixel" || argument == "--do-not-add-pixel")
+        {
+            handled = true;
+            program_options["add-pixel"] = false;
+        }
         if (!handled)
         {
             input_files.push_back(argument);
@@ -228,9 +241,11 @@ int main(int argc, char *argv[])
 -xml, --format-xml - parse input file as XML \n\
 -with-index, --with-index - Scan and print index part in file definitions\n\
 -h, --help - prints this help\n\
--srgba, --image-srgba - save image to SRGBA \n"
+-srgba, --image-srgba - save image in SRGBA format\n"
 "-non-unique-textures, --non-unique-textures - do not check, that textures should be unique\n"
-"-take-options-from-last, --take-options-from-last - take options from the last file passed (default: off)\n"                   
+"-take-options-from-last, --take-options-from-last - take options from the last file passed (default: off)\n"
+"-add-pixel, --add-pixel - add one pixel boundary to textures to avoid rounding errors (default: off)\n"
+"-do-not-add-pixel, --do-not-add-pixel - disable adding one pixel boundary to textures to avoid rounding errors (default: on)\n"
                   );
         }
     } 
@@ -288,6 +303,7 @@ int main(int argc, char *argv[])
                     {
                         packer = new growingbinpacker::GrowingBinPacker();
                     }
+                    packer->setOptions(&program_options);
                     packer->pack(atlas, image);
                     writeTexture(&atlas, image, program_options);
                     delete image;
@@ -299,7 +315,7 @@ int main(int argc, char *argv[])
                     image.fill(QColor(255, 255, 255, 0));
                     writeTexture(&atlas, &image, program_options);
                 }
-                atlas.prepareForOutput();
+                atlas.prepareForOutput(program_options);
 
                 Writer* writer = NULL;
                 if (program_options["format"].value<QString>() == "xml")

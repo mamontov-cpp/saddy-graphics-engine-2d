@@ -54,14 +54,21 @@ QVector<AtlasEntry>& Atlas::entries()
 }
 
 
-void Atlas::prepareForOutput()
+void Atlas::prepareForOutput(const QHash<QString, QVariant>& options)
 {
+    bool added_one_pixel = options["add-pixel"].toBool();
     for(size_t i = 0; i < m_entries.size(); i++)
     {
         Texture * t = m_textures.get(m_entries[i].InputTextureName.value());
         if (t)
         {
             m_entries[i].TextureRectangle.setValue(t->TextureRectangle);
+            if (added_one_pixel)
+            {
+                QRectF oldrect = m_entries[i].TextureRectangle.value();
+                QRectF newrect(QPointF(oldrect.left() + 1.0, oldrect.top() - 1.0), QPointF(oldrect.right() - 1.0, oldrect.bottom() + 1.0));
+                m_entries[i].TextureRectangle.setValue(newrect);
+            }
             if (m_entries[i].Size.exists() == false)
             {
                 m_entries[i].Size.setValue(t->size());
