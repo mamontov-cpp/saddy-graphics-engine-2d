@@ -4,9 +4,9 @@
     Defines a simple atlas as stored in file
  */
 #pragma once
-#include <QHash>
-#include <QString>
-#include <QVariant>
+#include <QtCore/QHash>
+#include <QtCore/QString>
+#include <QtCore/QVariant>
 #include "atlasentry.h"
 #include "texturearray.h"
 

@@ -6,7 +6,7 @@
 #include "xmlwriter.h"
 #include "jsonwriter.h"
 
-
+#include <math.h>
 #include <cstdio>
 
 #include <QtCore/QFile>
@@ -94,7 +94,7 @@ void writeTexture(Atlas* atlas, QImage* image, const QHash<QString, QVariant>& p
             QByteArray arr;
             arr.append("SRGBA");
             // We always generate base two sizes, so it's ok to case it
-            unsigned char size = static_cast<unsigned char>(log2f(image->width()));
+            unsigned char size = static_cast<unsigned char>(log(static_cast<double>(image->width())) / log(2.0));
             arr.append(reinterpret_cast<char*>(&size), 1);
             for(int x = 0; x < image->height(); x++)
             {
@@ -160,6 +160,8 @@ int main(int argc, char *argv[])
     bool full_search = false;
     // Whether we should take options only from first file
     bool take_first = true;
+    // Whether next argument is tar archive
+    bool use_tar = false;
     
     for(int i = 1; i < argc; i++)
     {
@@ -220,9 +222,37 @@ int main(int argc, char *argv[])
             handled = true;
             program_options["add-pixel"] = false;
         }
+        if (argument == "-write-to-tar" || argument == "--write-to-tar")
+        {
+            handled = true;
+            use_tar = true;
+        }
         if (!handled)
         {
-            input_files.push_back(argument);
+            if (use_tar)
+            {
+                program_options["write-to-tar"] = argument;
+                sad::String s(argument.toStdString());
+                sad::Vector<sad::String> parts = s.split("/");
+                if (parts.size() <= 1)
+                {
+                    parts = s.split("\\");                    
+                }
+                if (parts.size() == 0)
+                {
+                    program_options["short-tar-name"] = QString();                    
+                }
+                else
+                {
+                    program_options["short-tar-name"] = QString(parts[parts.size() - 1].c_str());
+                }
+
+                use_tar = false;
+            }
+            else
+            {
+                input_files.push_back(argument);
+            }
         }
     }
 
@@ -247,6 +277,7 @@ Options:\n\
 "-take-options-from-last, --take-options-from-last - take options from the last file passed (default: off)\n"
 "-add-pixel, --add-pixel - add one pixel boundary to textures to avoid rounding errors (default: off)\n"
 "-do-not-add-pixel, --do-not-add-pixel - disable adding one pixel boundary to textures to avoid rounding errors (default: on)\n"
+"-write-to-tar <filename>, --write-to-tar <filename> - write output to tar files\n"
                   );
         }
     } 
@@ -347,3 +378,5 @@ Options:\n\
 
 // Link sad::String statically
 #include "../../src/sadstring.cpp"
+// Link tar7z statically
+#include "../../src/tar7z.cpp"
