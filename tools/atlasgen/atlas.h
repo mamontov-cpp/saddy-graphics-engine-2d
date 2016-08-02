@@ -11,6 +11,8 @@
 #include "texturearray.h"
 
 
+struct OutputOptions;
+
 /*! A simple atlas, as it stored in file
  */
 class Atlas
@@ -49,7 +51,7 @@ public:
         specified.
         \param[in] options an options for atlas
      */
-    void prepareForOutput(const QHash<QString, QVariant>& options);
+    void prepareForOutput(const OutputOptions& options);
     /*! Sets output name for config
         \param[in] a name for output config
      */

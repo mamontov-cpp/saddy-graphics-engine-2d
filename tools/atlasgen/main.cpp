@@ -5,15 +5,17 @@
 #include "growingbinpacker/growingbinpacker.h"
 #include "xmlwriter.h"
 #include "jsonwriter.h"
+#include "outputoptions.h"
 
 #include <math.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <cstdio>
 
 #include <QtCore/QFile>
 #include <QtCore/QDataStream>
 #include <QtCore/QByteArray>
 
-
+#include <QtCore/QBuffer>
 // ReSharper disable once CppUnusedIncludeDirective
 #include <QtCore/QVector>
 // ReSharper disable once CppUnusedIncludeDirective
@@ -23,6 +25,10 @@
 // ReSharper disable once CppUnusedIncludeDirective
 #include <QtCore/QVariant>
 
+#define TAR7Z_SADDY
+
+#include "../../include/3rdparty/tar7z/include/reader.h"
+#include "../../include/3rdparty/tar7z/include/writer.h"
 
 #pragma warning(push)
 #pragma warning(disable: 4273)
@@ -79,48 +85,128 @@ void dumpErrors(T* object)
 /*! Writes texture to file
     \param[in] atlas atlas
     \param[in] image an image to be written
-    \param[in] program_options program options
+    \param[in] options output options
  */
-void writeTexture(Atlas* atlas, QImage* image, const QHash<QString, QVariant>& program_options)
+void writeTexture(Atlas* atlas, QImage* image, OutputOptions& options)
 {
     bool saved = false;
+    QByteArray arr;                            
     // If we need to write image as srgba - write it to specified file
-    if (program_options["image-srgba"].value<bool>())
+    if ((*(options.ProgramOptions))["image-srgba"].value<bool>())
+    {
+        arr.append("SRGBA");
+        // We always generate base two sizes, so it's ok to case it
+        unsigned char size = static_cast<unsigned char>(log(static_cast<double>(image->width())) / log(2.0));
+        arr.append(reinterpret_cast<char*>(&size), 1);
+        for(int x = 0; x < image->height(); x++)
+        {
+            for(int y = 0; y < image->width(); y++)
+            {
+                QRgb px = image->pixel(x, y);
+                unsigned char pix[4] = {
+                    static_cast<unsigned char>(qRed(px)),
+                    static_cast<unsigned char>(qGreen(px)),
+                    static_cast<unsigned char>(qBlue(px)),
+                    static_cast<unsigned char>(qAlpha(px))
+                };
+                arr.append(reinterpret_cast<char*>(&pix), 4);
+            }
+        }
+    }
+    else
+    {
+        QBuffer buf(&arr);
+        buf.open(QIODevice::WriteOnly);
+
+        QString extension = sad::String(atlas->outputTexture().toStdString()).getExtension().c_str();
+        extension = extension.toUpper();
+        // We support only BMP and PNG formats
+        if (extension != "BMP")
+        {
+            extension = "PNG";
+        }
+        saved = image->save(&buf, extension.toStdString().c_str());
+    }
+
+    if (options.ProgramOptions->contains("write-to-tar") && (options.Archive))
+    {
+        std::vector<char> v;
+        v.insert(v.end(), arr.begin(), arr.end());
+        QString name = OutputOptions::tar7zCompatibleName(atlas->outputTexture());
+        options.Archive->add(name.toStdString(), v);
+        saved = true;
+    }
+    else
     {
         QFile file(atlas->outputTexture());
         if (file.open(QIODevice::ReadWrite))
         {
             QDataStream stream(&file);
-            QByteArray arr;
-            arr.append("SRGBA");
-            // We always generate base two sizes, so it's ok to case it
-            unsigned char size = static_cast<unsigned char>(log(static_cast<double>(image->width())) / log(2.0));
-            arr.append(reinterpret_cast<char*>(&size), 1);
-            for(int x = 0; x < image->height(); x++)
-            {
-                for(int y = 0; y < image->width(); y++)
-                {
-                    QRgb px = image->pixel(x, y);
-                    unsigned char pix[4] = {
-                        static_cast<unsigned char>(qRed(px)),
-                        static_cast<unsigned char>(qGreen(px)),
-                        static_cast<unsigned char>(qBlue(px)),
-                        static_cast<unsigned char>(qAlpha(px))
-                    };
-                    arr.append(reinterpret_cast<char*>(&pix), 4);
-                }
-            }
             stream.writeRawData(arr.data(), arr.length());
             saved = (stream.status() == QDataStream::Ok);
-        }
-    }
-    else
-    {
-        saved = image->save(atlas->outputTexture());
+        }                
     }
     if (!saved)
     {
         printf("Can\'t write resulting texture to file %s\n", atlas->outputTexture().toStdString().c_str());
+        options.ReturnCode = 5;
+    }
+}
+
+/*! Tries to read tar into file, or create new file if failed
+    \param[in, out] options for reading
+ */
+void tryPrepareForTarWriting(OutputOptions& options)
+{
+    if (options.ProgramOptions->contains("write-to-tar"))
+    {
+        QString tarfilename =  (*(options.ProgramOptions))["write-to-tar"].toString(); 
+        QStringList parts = tarfilename.split("/");
+        if (parts.size() <= 1)
+        {
+            parts = tarfilename.split("\\");                    
+        }
+        if (parts.size() == 0)
+        {
+            options.ProgramOptions->insert("short-tar-name",  QString());                    
+        }
+        else
+        {
+            options.ProgramOptions->insert("short-tar-name",  parts[parts.size() - 1]);
+        }
+
+        options.Archive = new tar7z::Archive();
+        tar7z::Reader reader;
+        if (reader.read(tarfilename.toStdString(), *(options.Archive)) != tar7z::T7ZE_OK)
+        {
+            printf("%s\n", "Unable to read archive. Initializing new empty archive");
+            delete options.Archive;
+            options.ReturnCode = 5;
+            options.Archive = new tar7z::Archive();
+        }
+    }
+}
+
+/*! Tries to write tar into file. Invalidates archive reference also.
+    \param[in, out] options for reading
+ */
+void tryPerformTarWriting(OutputOptions& options)
+{
+    QHash<QString, QVariant>& program_options = *(options.ProgramOptions);
+    if (program_options.contains("write-to-tar") && (options.Archive))
+    {
+        tar7z::Writer writer;
+        QString tarfilename =  (*(options.ProgramOptions))["write-to-tar"].toString();
+        tar7z::Error e = writer.write(tarfilename.toStdString(), *(options.Archive));
+        if (e != tar7z::T7ZE_OK)
+        {
+            options.ReturnCode = 6;
+            printf("%s\n", "Unable to write archive");
+        }
+    }
+    if (options.Archive)
+    {
+        delete options.Archive;
     }
 }
 
@@ -131,6 +217,8 @@ int main(int argc, char *argv[])
     qInstallMsgHandler(crashMessageOutput);
 #endif
 #endif
+    // A return code for program
+    int return_code = 0;
     // An options for program
     QHash<QString, QVariant>  program_options;
     // An output format - JSON or XML
@@ -232,21 +320,6 @@ int main(int argc, char *argv[])
             if (use_tar)
             {
                 program_options["write-to-tar"] = argument;
-                sad::String s(argument.toStdString());
-                sad::Vector<sad::String> parts = s.split("/");
-                if (parts.size() <= 1)
-                {
-                    parts = s.split("\\");                    
-                }
-                if (parts.size() == 0)
-                {
-                    program_options["short-tar-name"] = QString();                    
-                }
-                else
-                {
-                    program_options["short-tar-name"] = QString(parts[parts.size() - 1].c_str());
-                }
-
                 use_tar = false;
             }
             else
@@ -261,10 +334,12 @@ int main(int argc, char *argv[])
     {
         if (program_options["help"].value<bool>() == false)
         {
+            return_code = 1;
             printf("%s", "Error: no input file specified \n");
         } 
         else
         {
+            return_code  = 2;
             printf("%s",
 "Usage: atlasgen-<configuration> [-json|-xml] [options] <input-file>  \n\
 Options:\n\
@@ -289,6 +364,10 @@ Options:\n\
         }
         else
         {
+            OutputOptions opts;
+            opts.Archive = NULL;
+            opts.ProgramOptions = &program_options;
+            opts.ReturnCode = 0;
             Atlas atlas;
             atlas.toggleFlagForChangingOutputPropertiesOnlyOnce(take_first);
             Reader* reader = NULL;
@@ -322,7 +401,7 @@ Options:\n\
                         atlas.setOutputTexture(outputname, true);
                     }
                 }
-
+                tryPrepareForTarWriting(opts);                
                 if (atlas.textures().size() != 0)
                 {
                     QImage* image;
@@ -337,7 +416,7 @@ Options:\n\
                     }
                     packer->setOptions(&program_options);
                     packer->pack(atlas, image);
-                    writeTexture(&atlas, image, program_options);
+                    writeTexture(&atlas, image, opts);
                     delete image;
                     delete packer;
                 }
@@ -345,9 +424,9 @@ Options:\n\
                 {
                     QImage image(1, 1, QImage::Format_ARGB32);
                     image.fill(QColor(255, 255, 255, 0));
-                    writeTexture(&atlas, &image, program_options);
+                    writeTexture(&atlas, &image, opts);
                 }
-                atlas.prepareForOutput(program_options);
+                atlas.prepareForOutput(opts);
 
                 Writer* writer = NULL;
                 if (program_options["format"].value<QString>() == "xml")
@@ -358,22 +437,30 @@ Options:\n\
                 {
                     writer = new JSONWriter();
                 }
-                bool result = writer->write(atlas, program_options["with-index"].value<bool>());
+                bool result = writer->write(atlas, opts);
                 if (result == false || writer->errors().size() != 0)
                 {
+                    opts.ReturnCode = 4;
                     dumpErrors(writer);
                 }
+                else
+                {
+                    tryPerformTarWriting(opts);                     
+                }
+
+                return_code = opts.ReturnCode;
 
                 delete writer;
             }
             else
             {
+                return_code = 3;
                 dumpErrors(reader);
             }
             delete reader;
         }
     }
-    return 0;
+    return return_code;
 }
 
 // Link sad::String statically

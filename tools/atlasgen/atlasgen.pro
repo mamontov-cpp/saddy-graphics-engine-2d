@@ -61,6 +61,7 @@ HEADERS  +=  atlas.h \
     writer.h \
     packer.h \	
     xmlwriter.h \
+	outputoptions.h \
     fullsearchpacker/fullsearchpacker.h 
 	
 DESTDIR = ../../bin/

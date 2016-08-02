@@ -173,5 +173,8 @@
     <ClInclude Include="growingbinpacker\growingbinpacker.h">
       <Filter>Header Files\growingbinpacker</Filter>
     </ClInclude>
+    <ClInclude Include="outputoptions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,4 +1,5 @@
 #include "atlas.h"
+#include "outputoptions.h"
 
 Atlas::Atlas() : m_take_first(true)
 {
@@ -54,9 +55,20 @@ QVector<AtlasEntry>& Atlas::entries()
 }
 
 
-void Atlas::prepareForOutput(const QHash<QString, QVariant>& options)
+void Atlas::prepareForOutput(const OutputOptions& options)
 {
-    bool added_one_pixel = options["add-pixel"].toBool();
+    bool added_one_pixel = (*(options.ProgramOptions))["add-pixel"].toBool();
+    QString tarname_protocol_string;
+    if (options.ProgramOptions->contains("write-to-tar"))
+    {
+        tarname_protocol_string = (*(options.ProgramOptions))["short-tar-name"].toString();
+        tarname_protocol_string.prepend("://");
+        tarname_protocol_string.prepend(QString::number(tarname_protocol_string.size()));
+        tarname_protocol_string.prepend("tar7z:");
+        tarname_protocol_string.append("/");
+        this->m_output_texture = tarname_protocol_string + OutputOptions::tar7zCompatibleName(this->m_output_texture);
+    }
+
     for(size_t i = 0; i < m_entries.size(); i++)
     {
         Texture * t = m_textures.get(m_entries[i].InputTextureName.value());
@@ -73,7 +85,13 @@ void Atlas::prepareForOutput(const QHash<QString, QVariant>& options)
             {
                 m_entries[i].Size.setValue(t->size());
             }
-            m_entries[i].OutputTextureName.setValue(m_output_texture);
+            QString name = m_output_texture;
+            if (tarname_protocol_string.size())
+            {
+                name = OutputOptions::tar7zCompatibleName(name);
+                name.prepend(tarname_protocol_string);
+            }
+            m_entries[i].OutputTextureName.setValue(name);
         }
     }
 }

@@ -6,6 +6,8 @@
 #pragma once
 #include "atlas.h"
 
+struct OutputOptions;
+
 /*! Implement this to perform writing output configs for atlases
  */
 class Writer
@@ -19,12 +21,12 @@ public:
     virtual ~Writer();
     /*! Writes an atlas to output file
         \param[in] name a reading name
-        \param[in] withindex should we write an index to file
+        \param[in, out] opts options
         \return result
      */
     virtual bool write(
         const Atlas& atlas,
-        bool withindex
+        OutputOptions& opts
     )  = 0;
     /*! Returns errors for reader
         \return errors

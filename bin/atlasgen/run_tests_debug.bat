@@ -8,3 +8,4 @@
 "../atlasgen-debug.exe" 1pix/1pix-one.json --add-pixel --full-search
 "../atlasgen-debug.exe" 1pix/1pix-one-growing.json --add-pixel
 "../atlasgen-debug.exe" 1pix/1pix-growing.json --add-pixel
+"../atlasgen-debug.exe" srgba/srgba.json -srgba -write-to-tar srgba/srgba.tar

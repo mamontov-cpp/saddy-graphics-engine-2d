@@ -351,6 +351,7 @@
     <ClInclude Include="jsonreader.h" />
     <ClInclude Include="jsonwriter.h" />
     <ClInclude Include="maybenumber.h" />
+    <ClInclude Include="outputoptions.h" />
     <ClInclude Include="packer.h" />
     <ClInclude Include="reader.h" />
     <ClInclude Include="texture.h" />

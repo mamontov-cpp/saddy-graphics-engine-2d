@@ -1,4 +1,9 @@
 #include "jsonwriter.h"
+#include "outputoptions.h"
+
+#define TAR7Z_SADDY
+
+#include "../../include/3rdparty/tar7z/include/reader.h"
 
 JSONWriter::JSONWriter()
 {
@@ -13,9 +18,10 @@ JSONWriter::~JSONWriter()
 
 bool JSONWriter::write(
         const Atlas& atlas,
-        bool withindex
+        OutputOptions& opts
 )
 {
+    bool withindex = (*(opts.ProgramOptions))["with-index"].value<bool>();
     picojson::value root(picojson::object_type, false);
     root.insert("resource", atlas.resourceName().toStdString());
     root.insert("file", atlas.outputTexture().toStdString());
@@ -66,15 +72,31 @@ bool JSONWriter::write(
     root.insert("atlas", atlasnode);
 
     QString stringdata = root.serialize().c_str();
-    QFile file(atlas.outputName()); 
-    if (!file.open(QIODevice::WriteOnly)) {
-        m_errors << QString("Can\'t open file \"") + atlas.outputName() + QString("\"");
-        return false;
-    }
 
-    QTextStream stream(&file);
-    stream << stringdata;
-    file.close();
+    if (opts.ProgramOptions->contains("write-to-tar") && (opts.Archive))
+    {
+        std::string s = stringdata.toStdString();
+        std::vector<char> v;
+        v.insert(v.end(), s.begin(), s.end());
+
+
+        QString  output_name = OutputOptions::tar7zCompatibleName(atlas.outputName());
+        opts.Archive->add(output_name.toStdString(), v);
+    }
+    else
+    {
+        QFile file(atlas.outputName()); 
+        if (!file.open(QIODevice::WriteOnly)) 
+        {
+            opts.ReturnCode = 5;
+            m_errors << QString("Can\'t open file \"") + atlas.outputName() + QString("\"");
+            return false;
+        }
+
+        QTextStream stream(&file);
+        stream << stringdata;
+        file.close();
+    }
 
     return true;
 }
