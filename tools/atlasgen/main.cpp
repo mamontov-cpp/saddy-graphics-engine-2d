@@ -90,11 +90,35 @@ void dumpErrors(T* object)
 void writeTexture(Atlas* atlas, QImage* image, OutputOptions& options)
 {
     bool saved = false;
-    QByteArray arr;                            
+    QByteArray arr;
+    QHash<QString, QVariant>& program_options = *(options.ProgramOptions);
     // If we need to write image as srgba - write it to specified file
-    if ((*(options.ProgramOptions))["image-srgba"].value<bool>())
-    {
+    if (options.TextureFileFormat == "srgba")
+    {        
         arr.append("SRGBA");
+        unsigned char size = static_cast<unsigned char>(log(static_cast<double>(image->width())) / log(2.0));
+        arr.append(reinterpret_cast<char*>(&size), 1);
+        arr.append(reinterpret_cast<char*>(image->bits()), image->width() * image->height() * 4); // BPP is 32
+    }
+    else if (options.TextureFileFormat == "sr5g6b5")
+    {
+        image->convertToFormat(QImage::Format_RGB16);
+        arr.append("SR5G6B5");
+        unsigned char size = static_cast<unsigned char>(log(static_cast<double>(image->width())) / log(2.0));
+        arr.append(reinterpret_cast<char*>(&size), 1);
+        arr.append(reinterpret_cast<char*>(image->bits()), image->width() * image->height() * 2); // BPP is 16
+    }
+    else if (options.TextureFileFormat == "sr4g4b4a4")
+    {
+        image->convertToFormat(QImage::Format_ARGB4444_Premultiplied);
+        arr.append("S46G4B4A4");
+        unsigned char size = static_cast<unsigned char>(log(static_cast<double>(image->width())) / log(2.0));
+        arr.append(reinterpret_cast<char*>(&size), 1);
+        arr.append(reinterpret_cast<char*>(image->bits()), image->width() * image->height() * 2); // BPP is 16
+    }
+    else if (options.TextureFileFormat  == "sr3g3b2")
+    {
+        arr.append("SR3G3B2");
         // We always generate base two sizes, so it's ok to case it
         unsigned char size = static_cast<unsigned char>(log(static_cast<double>(image->width())) / log(2.0));
         arr.append(reinterpret_cast<char*>(&size), 1);
@@ -109,7 +133,11 @@ void writeTexture(Atlas* atlas, QImage* image, OutputOptions& options)
                     static_cast<unsigned char>(qBlue(px)),
                     static_cast<unsigned char>(qAlpha(px))
                 };
-                arr.append(reinterpret_cast<char*>(&pix), 4);
+                unsigned char nr = static_cast<unsigned char>(static_cast<float>(pix[0]) / 256.0 * 8.0);
+                unsigned char ng = static_cast<unsigned char>(static_cast<float>(pix[1]) / 256.0 * 8.0);
+                unsigned char nb = static_cast<unsigned char>(static_cast<float>(pix[2]) / 256.0 * 4.0);
+                unsigned char p = nb | ng << 2 | nr << 5;
+                arr.append(reinterpret_cast<char*>(&p), 1);
             }
         }
     }
@@ -210,6 +238,33 @@ void tryPerformTarWriting(OutputOptions& options)
     }
 }
 
+/*! Replaces extension with give, if parameter optname is set
+    \param[in] atlas atlas name
+    \param[in] opts options
+    \param[in] optname optname option
+    \param[in] extension extension extension
+ */
+void tryReplaceExtension(Atlas& atlas, OutputOptions& opts, const QString& optname, const QString& extension)
+{
+     QHash<QString, QVariant>& program_options = *(opts.ProgramOptions);
+    if (program_options[optname].value<bool>())
+    {
+        opts.TextureFileFormat = extension;
+        QString outputname = atlas.outputTexture();
+        if (outputname.toUpper().endsWith(extension.toUpper()) == false)
+        {
+            // Try to replace extension with new extension
+            int pos = outputname.lastIndexOf(".");
+            if (pos != -1)
+            {
+                outputname.remove(pos, outputname.size() - pos);
+            }
+            outputname.append(".").append(extension);
+            atlas.setOutputTexture(outputname, true);
+        }
+    }
+}
+
 int main(int argc, char *argv[])
 {
 #ifndef _MSC_VER
@@ -235,6 +290,15 @@ int main(int argc, char *argv[])
 
     // Should we use SRGBA as output format
     program_options.insert("image-srgba", false);
+
+    // Should we use SR5G6B5 as output format
+    program_options.insert("image-sr5g6b6", false);
+
+    // Should we use SR4G4B4A4 as output format
+    program_options.insert("image-sr4g4b4a4", false);
+
+    // Should we use SR3G3B2 (GL_UNSIGNED_BYTE_3_3_2)
+    program_options.insert("image-sr3g3b2", false);
 
     // Should we add 1-pixel hack hack
     program_options.insert("add-pixel", false);
@@ -274,6 +338,21 @@ int main(int argc, char *argv[])
         {
             handled = true;
             program_options["image-srgba"] = true;
+        }
+        if (argument == "-sr5g6b5" || argument == "--image-sr5g6b5")
+        {
+            handled = true;
+            program_options["image-sr5g6b5"] = true;
+        }
+        if (argument == "-sr4g4b4a4" || argument == "--image-sr4g4b4a4")
+        {
+            handled = true;
+            program_options["image-sr4g4b4a4"] = true;
+        }
+        if (argument == "-sr3g3b2" || argument == "--image-sr3g3b2")
+        {
+            handled = true;
+            program_options["image-sr3g3b2"] = true;
         }
         if (argument == "-full-search" || argument == "--full-search")
         {
@@ -348,6 +427,9 @@ Options:\n\
 -with-index, --with-index - Scan and print index part in file definitions\n\
 -h, --help - prints this help\n\
 -srgba, --image-srgba - save image in SRGBA format\n"
+"-sr5g6b5, --image-sr5g6b5 - save image in SR5G6B5 format\n"
+"-sr4g4b4a4, --image-sr4g4b4a4 - save image in SR4G4B4A4 format\n"
+"-sr3g3b2, --image-sr3g3b2 - save image in SR3G3B2 format\n"
 "-non-unique-textures, --non-unique-textures - do not check, that textures should be unique\n"
 "-take-options-from-last, --take-options-from-last - take options from the last file passed (default: off)\n"
 "-add-pixel, --add-pixel - add one pixel boundary to textures to avoid rounding errors (default: off)\n"
@@ -386,21 +468,14 @@ Options:\n\
             if (reader->ok() && reader->errors().size() == 0)
             {
                 // If we use SRGBA as output image - check file extension and add here "srgba"
-                if (program_options["image-srgba"].value<bool>())
-                {
-                    QString outputname = atlas.outputTexture();
-                    if (outputname.toUpper().endsWith("SRGBA") == false)
-                    {
-                        // Try to replace extension with "srgba"
-                        int pos = outputname.lastIndexOf(".");
-                        if (pos != -1)
-                        {
-                            outputname.remove(pos, outputname.size() - pos);
-                        }
-                        outputname.append(".srgba");
-                        atlas.setOutputTexture(outputname, true);
-                    }
-                }
+                tryReplaceExtension(atlas, opts, "image-srgba", "srgba");
+                // If we use SR5G6B5 as output image - check file extension and add here "sr5g6b5"
+                tryReplaceExtension(atlas, opts, "image-sr5g6b5", "sr5g6b5");
+                // If we use SR4G4B4A54 as output image - check file extension and add here "sr4g4b4a4"
+                tryReplaceExtension(atlas, opts, "image-sr4g4b4a4", "sr4g4b4a4");
+                // If we use SR3G3B2 as output image - check file extension and add here "sr3g3b2"
+                tryReplaceExtension(atlas, opts, "image-sr3g3b2", "sr3g3b2");
+
                 tryPrepareForTarWriting(opts);                
                 if (atlas.textures().size() != 0)
                 {

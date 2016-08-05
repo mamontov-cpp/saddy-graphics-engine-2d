@@ -28,6 +28,9 @@ struct OutputOptions
     /*! A return code for program
      */
     int ReturnCode;
+    /*! A file format for output texture
+     */
+    QString TextureFileFormat;
 
     /*! Converts name to compatible with tar7z
         \param[in] name compatible name
