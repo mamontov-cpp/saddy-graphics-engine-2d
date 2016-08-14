@@ -84,16 +84,15 @@ bool sad::imageformats::BMPLoader::load(FILE * file, sad::Texture * texture)
     
     unsigned int width = image_header.width;
     unsigned int fileimagesize = image_header.width * image_header.height;  
-
-    texture->width() = width;
-    texture->height() = image_header.height;
-    texture->bpp() = 32;
-    texture->vdata().resize(fileimagesize * 4, 255);
+    
+    // Buffer
+    sad::Texture::DefaultBuffer* newbuffer = new sad::Texture::DefaultBuffer();
+    newbuffer->Data.resize(fileimagesize * 4, 255);
 
     int x = 0;
     int y = image_header.height - 1;
     
-    sad::uchar * buffer = &(texture->vdata()[0]);
+    sad::uchar * buffer = &(newbuffer->Data[0]);
     for (unsigned long i = 0; i < fileimagesize; i++)
     {
         unsigned int offset = 4 * (y * width + x);
@@ -101,6 +100,7 @@ bool sad::imageformats::BMPLoader::load(FILE * file, sad::Texture * texture)
 
         if(fread(offset_buffer, sizeof(unsigned char), bypp, file) != bypp)
         {
+            delete newbuffer;
             return false;
         }
         
@@ -114,6 +114,12 @@ bool sad::imageformats::BMPLoader::load(FILE * file, sad::Texture * texture)
         }
     }
 
+    // Much better to do this in case
+    texture->width() = width;
+    texture->height() = image_header.height;
+    texture->bpp() = 32;
+    delete texture->Buffer;
+    texture->Buffer = newbuffer;
     return true;
 }
 

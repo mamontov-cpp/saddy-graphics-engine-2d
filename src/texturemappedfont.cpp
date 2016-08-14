@@ -264,12 +264,13 @@ sad::Texture * sad::TextureMappedFont::renderToTexture(const sad::String & str)
     result->width() = width + 1;
     result->height() = height + 1;
     result->bpp() = 32;
-    result->vdata().resize(4 * (width + 1) * (height + 1), 255);
+    sad::Vector<sad::uchar>& vdata = reinterpret_cast<sad::Texture::DefaultBuffer*>(result->Buffer)->Data;
+    vdata.resize(4 * (width + 1) * (height + 1), 255);
     
     // Fill alpha with zero
-    for(size_t i = 0; i < result->vdata().size(); i+= 4)
+    for(size_t i = 0; i < vdata.size(); i+= 4)
     {
-        result->vdata()[i + 3] = 0;
+        vdata[i + 3] = 0;
     }
 
     // Paint font

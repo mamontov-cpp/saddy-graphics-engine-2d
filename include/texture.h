@@ -15,6 +15,10 @@
 
 #include <stdio.h>
 
+namespace tar7z
+{
+class Archive;
+}
 
 namespace sad
 {
@@ -27,9 +31,82 @@ class Texture: public sad::resource::Resource
 {
 SAD_OBJECT
 public:
-    /*! A texture pixels stored as bytes in RGBA order
+/*! An inner buffer, that provides texture with data to upload
+ */
+class Buffer
+{
+public:
+    /*! Returns buffer contents for a texture
+        \return buffer
+     */ 
+    virtual sad::uchar* buffer() const = 0;
+    /*! A destructor for buffer
+     */ 
+    virtual ~Buffer();
+};
+/*! A default buffer, that just stores a texture into vector 
+ */
+class DefaultBuffer: public Buffer
+{
+public:
+    /*! Constructs new empty buffer
      */
-    sad::Vector<sad::uchar> Data;   
+    DefaultBuffer();
+    /*! Returns buffer contents for a texture
+        \return buffer
+     */ 
+    virtual sad::uchar* buffer() const;
+    /*! A destructor for buffer
+     */ 
+    virtual ~DefaultBuffer();
+    /*! A texture pixels stored as bytes, according to texture format
+     */
+    sad::Vector<sad::uchar> Data;
+};
+/*! A buffer, which is pointing to tar7z archive, which has been loaded to memory
+ */
+class Tar7zArchiveBuffer: public Buffer
+{
+public:
+    /*! Constructs new empty buffer
+     */
+    Tar7zArchiveBuffer();
+    /*! Returns buffer contents for a texture
+        \return buffer
+     */ 
+    virtual sad::uchar* buffer() const;
+    /*! A destructor for buffer
+     */ 
+    virtual ~Tar7zArchiveBuffer();
+
+    /*! Archive for buffer
+     */
+    tar7z::Archive* Archive;
+    /*! Offset of buffer start for texture
+     */
+    size_t Offset;
+};
+
+/*! A buffer which contains default image
+ */
+class DefaultImageBuffer: public Buffer
+{
+public:
+    /*! Constructs new empty buffer
+     */
+    DefaultImageBuffer();
+    /*! Returns buffer contents for a texture
+        \return buffer
+     */ 
+    virtual sad::uchar* buffer() const;
+    /*! A destructor for buffer
+     */ 
+    virtual ~DefaultImageBuffer();
+};
+
+    /*! A buffer, which should contain a pixel amount
+     */
+    sad::Texture::Buffer* Buffer;   
     /*! Bits per pixel
      */
     sad::uchar              Bpp;    
@@ -56,18 +133,18 @@ public:
         \param[in] i  row
         \param[in] j  col
      */
-    inline sad::uchar *  pixel(unsigned int i,unsigned int j)
+    inline sad::uchar *  pixel(unsigned int i,unsigned int j) const
     { 
-        return   &(Data[(i * Width + j)*(Bpp >> 3)]);
+        return   &((Buffer->buffer())[(i * Width + j)*(Bpp >> 3)]);
     }
     /*! Sets pixel alpha component value
         \param[in] i row
         \param[in] j col
         \param[in] alpha alpha component value
      */
-    inline void setPixelAlpha(unsigned int i, unsigned int j, sad::uchar alpha)
+    inline void setPixelAlpha(unsigned int i, unsigned int j, sad::uchar alpha) const
     { 
-        Data[(i * Width + j)*(Bpp >> 3) + 3] =alpha; 
+        (Buffer->buffer())[(i * Width + j)*(Bpp >> 3) + 3] =alpha; 
     }
     /*! Uploads a texture to a GPU, building a mipmaps if can. Note, that if
         texture has zero size it won't be uploaded
@@ -111,18 +188,18 @@ public:
     /*! Sets an alpha-channel value for a color
         \param[in] a alpha-channel value
      */
-    void setAlpha(sad::uchar a);
+    void setAlpha(sad::uchar a) const;
     /*! Sets alpha-channel value for a color 
         \param[in] a alpha-channel value
         \param[in] clr color
      */
-    void setAlpha(sad::uchar a, const sad::Color & clr);
+    void setAlpha(sad::uchar a, const sad::Color & clr) const ;
     /*! Sets alpha-channel value for a color in a rectangle
         \param[in] a  alpha-channel value
         \param[in] clr color
         \param[in] rect rectangle
      */
-    void setAlpha(sad::uchar a, const sad::Color & clr,const sad::Rect2D & rect);
+    void setAlpha(sad::uchar a, const sad::Color & clr,const sad::Rect2D & rect) const;
     /*! Returns a renderer, which should render a texture
      */
     sad::Renderer * renderer() const;
@@ -170,14 +247,7 @@ public:
     }
     inline sad::uchar * data() const 
     { 
-        return Data.data(); 
-    }
-    /*! Return data as vector
-        \return data of vector with pixels
-     */
-    inline sad::Vector<sad::uchar> & vdata() 
-    { 
-        return Data; 
+        return Buffer->buffer(); 
     }
     /*! Sets a rendererer for texture uploading
      */

@@ -11,8 +11,8 @@ bool sad::imageformats::PNGLoader::load(FILE * file, sad::Texture * texture)
     fseek(file, 0L, SEEK_END);
     unsigned int size = ftell(file);
     fseek(file, 0L, SEEK_SET);
-    buffer.resize((size_t)size);
-    size_t readbytes = fread((char*)(&buffer[0]), 1, size, file);
+    buffer.resize(static_cast<size_t>(size));
+    size_t readbytes = fread(reinterpret_cast<char*>(&buffer[0]), 1, size, file);
     if (readbytes != size)
     {
         buffer.clear();
@@ -23,18 +23,29 @@ bool sad::imageformats::PNGLoader::load(FILE * file, sad::Texture * texture)
     unsigned long width = 0;
     unsigned long height = 0;
 
+    sad::Texture::DefaultBuffer* newbuffer = new sad::Texture::DefaultBuffer();
+
     int result = decodePNG(
-        texture->vdata(),
+        newbuffer->Data,
         width,
         height,
         &(buffer[0]), 
         buffer.size()
     );
-    texture->width() = width;
-    texture->height() = height; 
-    texture->bpp() = 32;
     
     bool ok = result == 0;
+    if (ok)
+    {
+        texture->width() = width;
+        texture->height() = height; 
+        texture->bpp() = 32;
+        delete texture->Buffer;
+        texture->Buffer = newbuffer;        
+    }
+    else
+    {
+        delete newbuffer;
+    }
     return ok;
 }
 

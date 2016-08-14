@@ -2231,5 +2231,8 @@
     <ClInclude Include="include\3rdparty\tar7z.h">
       <Filter>Заголовочные файлы\3rdparty</Filter>
     </ClInclude>
+    <ClInclude Include="include\util\texturedefaultimage.h">
+      <Filter>Заголовочные файлы\util</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

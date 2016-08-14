@@ -1,7 +1,5 @@
 #include "imageformats/tgaloader.h"
 
-#include <algorithm>
-
 namespace sad
 {
 
@@ -92,12 +90,15 @@ bool sad::imageformats::TGALoader::load(FILE * file, sad::Texture * texture)
         return false;
     }
 
-    texture->vdata().clear();
+    sad::Texture::DefaultBuffer* buffer = new sad::Texture::DefaultBuffer();
+    delete texture->Buffer;
+    texture->Buffer = buffer;
+    buffer->Data.clear();
     // Resize to ARGB size and set texture properties
     texture->width() = header.width;
     texture->height() = header.height;
     texture->bpp() = 32;
-    texture->vdata().resize(header.width * header.height * 4, 255);
+    buffer->Data.resize(header.width * header.height * 4, 255);
     
     // Set bytes per pixel
     m_bypp = header.bitsPerPix / 8;
@@ -128,10 +129,10 @@ sad::imageformats::TGALoader::~TGALoader()
 
 }
 
-bool sad::imageformats::TGALoader::loadRaw(sad::Texture * texture)
+bool sad::imageformats::TGALoader::loadRaw(sad::Texture * texture) const
 {
     unsigned int raw_image_size = m_bypp * texture->width() * texture->height();
-    sad::uchar * begin = &(texture->vdata()[0]);
+    sad::uchar * begin = &(texture->Buffer->buffer()[0]);
     unsigned int bypp = m_bypp;
     for (unsigned int i = 0; i < raw_image_size; i += bypp)
     {
@@ -145,7 +146,7 @@ bool sad::imageformats::TGALoader::loadRaw(sad::Texture * texture)
     return true;
 }
 
-bool sad::imageformats::TGALoader::loadCompressed(sad::Texture * texture)
+bool sad::imageformats::TGALoader::loadCompressed(sad::Texture * texture) const
 {
     bool result = true;				// Result
     
@@ -154,8 +155,8 @@ bool sad::imageformats::TGALoader::loadCompressed(sad::Texture * texture)
     fseek(m_file, 0L, SEEK_END);
     unsigned int size = ftell(m_file);
     fseek(m_file, 0L, SEEK_SET);
-    buffer.resize((size_t)size, 255);
-    size_t readbytes = fread((char*)(&buffer[0]), 1, size, m_file);
+    buffer.resize(static_cast<size_t>(size), 255);
+    size_t readbytes = fread(reinterpret_cast<char*>(&buffer[0]), 1, size, m_file);
     if (readbytes != size)
     {
         buffer.clear();
@@ -163,10 +164,10 @@ bool sad::imageformats::TGALoader::loadCompressed(sad::Texture * texture)
     }
     
     unsigned char * rle_buffer = &(buffer[0]);
-    unsigned char * image_buffer = &(texture->vdata()[0]);
+    unsigned char * image_buffer = texture->Buffer->buffer();
     unsigned int rle_buffer_pos = 0;
     unsigned int rle_buffer_size = buffer.size();
-    unsigned int image_size = texture->vdata().size();
+    unsigned int image_size = texture->width() * texture->height() * (texture->Bpp / 8);
     unsigned int image_pos = 0;
     // A copied pixel
     unsigned char pixel[4];
@@ -226,7 +227,7 @@ bool sad::imageformats::TGALoader::loadCompressed(sad::Texture * texture)
     return result;
 }
 
-void sad::imageformats::TGALoader::flip(sad::Texture * texture)
+void sad::imageformats::TGALoader::flip(sad::Texture * texture) const
 {
     unsigned int height = texture->height();
     unsigned int rowsize = texture->width() * 4; // 4 is four bytes per row
@@ -235,7 +236,7 @@ void sad::imageformats::TGALoader::flip(sad::Texture * texture)
     unsigned int halfheight = height / 2;
 
     sad::uchar * flipbuffer = new sad::uchar[rowsize];
-    sad::uchar * begin = &(texture->vdata()[0]);
+    sad::uchar * begin = texture->Buffer->buffer();
     if (m_flip_x && (height % 2) == 1)
     {
         unsigned int offset = halfheight * rowsize;

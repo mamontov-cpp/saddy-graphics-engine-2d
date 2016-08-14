@@ -1,5 +1,4 @@
 #include "imageformats/srgbaloader.h"
-#include <cstring>
 
 const int headersignaturesize = 5;
 
@@ -41,16 +40,20 @@ bool sad::imageformats::SRGBALoader::load(FILE * file, sad::Texture * texture)
     unsigned int texsize = 1 << static_cast<unsigned int>(logtexsize);
     unsigned int buffersize = texsize * texsize * 4;
 
-    texture->width() = texsize;
-    texture->height() = texsize;
-    texture->bpp() = 32;
-    texture->vdata().resize(buffersize);
+    sad::Texture::DefaultBuffer* newbuffer = new sad::Texture::DefaultBuffer();
+    newbuffer->Data.resize(buffersize);
 
-    sad::uchar* buffer = &(texture->vdata()[0]);
+    sad::uchar* buffer = &(newbuffer->Data[0]);
     if (fread(buffer, buffersize, 1, file) != 1)
     {
         return false;
     }
+    texture->width() = texsize;
+    texture->height() = texsize;
+    texture->bpp() = 32;
+    delete texture->Buffer;
+    texture->Buffer = newbuffer;
+
     return true;
 }
 

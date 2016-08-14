@@ -30,17 +30,17 @@ protected:
         flaps, set while loading
         \param[in] texture a texture in loader
      */
-    void flip(sad::Texture * texture);
+    void flip(sad::Texture * texture) const;
     /*! Loads raw uncompressed image
         \param[in] texture a texture
         \return whether loading was successfull
      */
-    bool loadRaw(sad::Texture * texture);
+    bool loadRaw(sad::Texture * texture) const;
     /*! Loads run-length encoded image
         \param[in] texture a texture
         \return whether loading was successfull
      */
-    bool loadCompressed(sad::Texture * texture);
+    bool loadCompressed(sad::Texture * texture) const;
     /*! Whether we should flip image horizontally.
         This flag is set in sad::imageformats::TGALoader::load.
      */
