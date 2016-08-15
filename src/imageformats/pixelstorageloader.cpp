@@ -18,20 +18,23 @@ bool sad::imageformats::PixelStorageLoader::load(FILE * file, sad::Texture * tex
     }
 
     const int headersize = m_settings.SignatureSize + 1;
-    sad::uchar header[headersize];
+    sad::uchar* header = new sad::uchar[headersize];
     
     // Exit if unable to read header
     if (fread(header, headersize, 1, file) != 1)
     {
+        delete[] header;
         return false;
     }
 
     // Exit if signature is invalid
     if (memcmp(header, m_settings.Signature, m_settings.SignatureSize) != 0)
     {
+        delete[] header;
         return false;
     }
 
+    delete[] header;
     // Exit if image size is too large
     sad::uchar logtexsize = header[headersize - 1];
     if (logtexsize > maxlogtexturesize)

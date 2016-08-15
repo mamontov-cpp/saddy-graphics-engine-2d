@@ -819,6 +819,9 @@
     <ClCompile Include="src\tar7z.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
+    <ClCompile Include="src\imageformats\pixelstorageloader.cpp">
+      <Filter>Файлы исходного кода\imageformats</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\camera.h">

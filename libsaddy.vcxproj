@@ -99,6 +99,7 @@
     <ClCompile Include="src\geometry2d.cpp" />
     <ClCompile Include="src\geometry3d.cpp" />
     <ClCompile Include="src\glcontext.cpp" />
+    <ClCompile Include="src\imageformats\pixelstorageloader.cpp" />
     <ClCompile Include="src\keycodes.cpp" />
     <ClCompile Include="src\keymouseconditions.cpp" />
     <ClCompile Include="src\label.cpp" />

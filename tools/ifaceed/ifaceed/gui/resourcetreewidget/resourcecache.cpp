@@ -137,7 +137,14 @@ void gui::resourcetreewidget::ResourceCache::createImageForTextureAtlasEntry(
     int width = maxx - minx;
     int height = maxy - miny;
 
-    if (width > 0 && height > 0) {
+    if (width > 0 && height > 0) {        
+        // TODO: Replace it with actual copying
+        if (source->Format != sad::Texture::SFT_R8_G8_B8_A8)
+        {
+            im = QImage();
+            return;
+        }
+
         sad::Texture * result = new sad::Texture();
         result->width() = static_cast<float>(width);
         result->height() = static_cast<float>(height);	
@@ -158,7 +165,8 @@ void gui::resourcetreewidget::ResourceCache::createImageForTextureAtlasEntry(
                 destpix[0] = srcpix[2];
                 destpix[1] = srcpix[1];
                 destpix[2] = srcpix[0];
-                destpix[3] = srcpix[3];			
+                if (bypp == 4)
+                    destpix[3] = srcpix[3];			
             }
         }
         if (bypp == 4)
@@ -183,7 +191,13 @@ void gui::resourcetreewidget::ResourceCache::createImageForTexture(
     QImage & im,
     sad::Texture * tex
 )
-{
+{    
+    // TODO: Replace it with actual copying
+    if (tex->Format != sad::Texture::SFT_R8_G8_B8_A8)
+    {
+        im = QImage();
+        return;
+    }
     im = QImage(tex->width(), tex->height(), QImage::Format_ARGB32).copy();
     uchar* destpixels = im.bits();
     const sad::uchar * srcpixels = tex->data();
