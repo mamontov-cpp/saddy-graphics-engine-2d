@@ -135,10 +135,11 @@ void sad::Texture::upload()
     OnGPU = true;
     
     // Get texture type and components
-    GLuint opengl_format = GL_RGBA, components = 4;
+    GLuint opengl_format = GL_RGBA, opengl_internalformat = GL_RGBA, components = 4;
     GLenum opengl_type = GL_UNSIGNED_BYTE, opengl10_type = GL_UNSIGNED_BYTE;
     if (Bpp == 24)
     {
+        opengl_internalformat = GL_RGB;
         opengl_format = GL_RGB;  
         components = 3;
     }
@@ -146,18 +147,21 @@ void sad::Texture::upload()
     {
     case sad::Texture::SFT_R5_G6_B5:
         opengl_format = GL_RGB;
+        opengl_internalformat = GL_RGB;
         opengl_type = GL_UNSIGNED_SHORT_5_6_5;
         opengl10_type = GL_UNSIGNED_SHORT_5_6_5; // GLU counterpart for this doesn't seem to be defined or any platform
         components = 3;
         break;
     case sad::Texture::SFT_R3_G3_B2:
         opengl_format = GL_RGB;
+        opengl_internalformat = GL_RGB;
         opengl_type = GL_UNSIGNED_BYTE_3_3_2;
         opengl10_type = GL_UNSIGNED_BYTE_3_3_2; // GLU counterpart for this doesn't seem to be defined or any platform
         components = 3;
         break;
     case sad::Texture::SFT_R4_G4_B4_A4:
         opengl_format = GL_RGBA;
+        opengl_internalformat = GL_RGBA;
         opengl_type = GL_UNSIGNED_SHORT_4_4_4_4;
         opengl10_type = GL_UNSIGNED_SHORT_4_4_4_4; // GLU counterpart for this doesn't seem to be defined or any platform
         components = 4;
@@ -198,7 +202,7 @@ void sad::Texture::upload()
         else
         {
               glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE); 
-              glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, Width, Height, 0, opengl_format, opengl_type, Buffer->buffer());
+              glTexImage2D(GL_TEXTURE_2D, 0, opengl_internalformat, Width, Height, 0, opengl_format, opengl_type, Buffer->buffer());
               res = glGetError();
               // ReSharper disable once CppAssignedValueIsNeverUsed
               errorstring = gluErrorString(res);
@@ -206,7 +210,7 @@ void sad::Texture::upload()
     } 
     else
     {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  Width, Height, 0, opengl_format, opengl_type,  Buffer->buffer());     
+        glTexImage2D(GL_TEXTURE_2D, 0, opengl_internalformat,  Width, Height, 0, opengl_format, opengl_type,  Buffer->buffer());     
         // ReSharper disable once CppAssignedValueIsNeverUsed
         res = glGetError();
         sad::os::generateMipMaps30(r, GL_TEXTURE_2D);
