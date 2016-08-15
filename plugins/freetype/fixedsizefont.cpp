@@ -153,7 +153,8 @@ sad::Texture * sad::freetype::FixedSizeFont::renderToTexture(
     texture->width() = static_cast<unsigned int>(ceil(size.Width));
     texture->height() = static_cast<unsigned int>(ceil(size.Height));
     texture->bpp() = 32;
-    texture->vdata().resize(texture->width() * texture->height() * 4, 255);
+    sad::Vector<sad::uchar>& vdata = reinterpret_cast<sad::Texture::DefaultBuffer*>(texture->Buffer)->Data;
+    vdata.resize(texture->width() * texture->height() * 4, 255);
 
     // Fill alpha byte with 0
     for(unsigned int i = 0; i < size.Height; i++)
@@ -203,7 +204,7 @@ sad::Texture * sad::freetype::FixedSizeFont::renderToTexture(
                 if (posy < texture->height() && posx < texture->width())
                 {
                     sad::uchar * tpixel = texture->pixel(posy, posx);
-                    tpixel[0] = pixel;				
+                    tpixel[0] = pixel;
                     tpixel[1] = pixel;
                     tpixel[2] = pixel;
                     tpixel[3] = 255;
