@@ -3,7 +3,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <QTDIR>E:\SDKs\Qt-online\5.5\msvc2010</QTDIR>
     <LocalDebuggerEnvironment>PATH=$(QTDIR)\bin%3b"$(QTDIR)\bin%3b$(PATH)</LocalDebuggerEnvironment>
-    <LocalDebuggerWorkingDirectory>../../../bin/ifaceed/</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerWorkingDirectory>../../../bin/nice/</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerCommandArguments>-resources globalconfig.json -width 800 -height 600</LocalDebuggerCommandArguments>
   </PropertyGroup>

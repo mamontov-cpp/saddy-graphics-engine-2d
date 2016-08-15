@@ -34,13 +34,15 @@ bool sad::imageformats::PixelStorageLoader::load(FILE * file, sad::Texture * tex
         return false;
     }
 
-    delete[] header;
+    
     // Exit if image size is too large
     sad::uchar logtexsize = header[headersize - 1];
     if (logtexsize > maxlogtexturesize)
     {
+        delete[] header;
         return false;
     }
+    delete[] header;
 
     unsigned int texsize = 1 << static_cast<unsigned int>(logtexsize);
     unsigned int buffersize = texsize * texsize * (m_settings.Bpp / 8);
