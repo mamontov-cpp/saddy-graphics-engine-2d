@@ -197,10 +197,10 @@ void writeSR4G4B4A4(QImage* image, QByteArray& arr)
                 static_cast<unsigned char>(qBlue(px)),
                 static_cast<unsigned char>(qAlpha(px))
             };
-            unsigned char nr = static_cast<unsigned char>(round03(static_cast<float>(pix[0]) / 255.0 * 7.0));
-            unsigned char ng = static_cast<unsigned char>(round03(static_cast<float>(pix[1]) / 255.0 * 7.0));
-            unsigned char nb = static_cast<unsigned char>(round03(static_cast<float>(pix[2]) / 255.0 * 7.0));
-            unsigned char na = static_cast<unsigned char>(round03(static_cast<float>(pix[3]) / 255.0 * 7.0));
+            unsigned char nr = static_cast<unsigned char>(round03(static_cast<float>(pix[0]) / 255.0 * 15.0));
+            unsigned char ng = static_cast<unsigned char>(round03(static_cast<float>(pix[1]) / 255.0 * 15.0));
+            unsigned char nb = static_cast<unsigned char>(round03(static_cast<float>(pix[2]) / 255.0 * 15.0));
+            unsigned char na = static_cast<unsigned char>(round03(static_cast<float>(pix[3]) / 255.0 * 15.0));
 
             unsigned short p = na | nb << 4 | ng << 8 | nr << 12;
             arr.append(reinterpret_cast<char*>(&p), 2);
