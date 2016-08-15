@@ -149,21 +149,21 @@ void sad::Texture::upload()
         opengl_format = GL_RGB;
         opengl_internalformat = GL_RGB;
         opengl_type = GL_UNSIGNED_SHORT_5_6_5;
-        opengl10_type = GL_UNSIGNED_SHORT_5_6_5; // GLU counterpart for this doesn't seem to be defined or any platform
+        opengl10_type = GL_UNSIGNED_SHORT_5_6_5; // GLU counterpart for this doesn't seem to be defined on any platform
         components = 3;
         break;
     case sad::Texture::SFT_R3_G3_B2:
         opengl_format = GL_RGB;
         opengl_internalformat = GL_RGB;
         opengl_type = GL_UNSIGNED_BYTE_3_3_2;
-        opengl10_type = GL_UNSIGNED_BYTE_3_3_2; // GLU counterpart for this doesn't seem to be defined or any platform
+        opengl10_type = GL_UNSIGNED_BYTE_3_3_2; // GLU counterpart for this doesn't seem to be defined on any platform
         components = 3;
         break;
     case sad::Texture::SFT_R4_G4_B4_A4:
         opengl_format = GL_RGBA;
         opengl_internalformat = GL_RGBA;
         opengl_type = GL_UNSIGNED_SHORT_4_4_4_4;
-        opengl10_type = GL_UNSIGNED_SHORT_4_4_4_4; // GLU counterpart for this doesn't seem to be defined or any platform
+        opengl10_type = GL_UNSIGNED_SHORT_4_4_4_4; // GLU counterpart for this doesn't seem to be defined on any platform
         components = 4;
     default: break;
     };    
