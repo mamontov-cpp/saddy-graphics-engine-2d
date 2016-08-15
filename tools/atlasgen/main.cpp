@@ -82,6 +82,132 @@ void dumpErrors(T* object)
     }
 }
 
+/*! A round() function replacement for C++0.3
+    \param[in] f value
+    \return
+ */
+inline float round03(float f)
+{
+    return floor(f + 0.5);
+}
+
+/*! Writes image as SRGBA to array
+    \param[in] image an image
+    \param[ou] arr an output array
+ */
+void writeSRGBA(QImage* image, QByteArray& arr)
+{
+    arr.append("SRGBA");
+    unsigned char size = static_cast<unsigned char>(log(static_cast<double>(image->width())) / log(2.0));
+    arr.append(reinterpret_cast<char*>(&size), 1);
+    for(int x = 0; x < image->height(); x++)
+    {
+        for(int y = 0; y < image->width(); y++)
+        {
+            QRgb px = image->pixel(y, x);
+            unsigned char pix[4] = {
+                static_cast<unsigned char>(qRed(px)),
+                static_cast<unsigned char>(qGreen(px)),
+                static_cast<unsigned char>(qBlue(px)),
+                static_cast<unsigned char>(qAlpha(px))
+            };
+            arr.append(reinterpret_cast<const char*>(pix), 4);
+        }
+    }
+}
+
+/*! Writes image as SR3G3B2 to array
+    \param[in] image an image
+    \param[ou] arr an output array
+ */
+void writeSR3G3B2(QImage* image, QByteArray& arr)
+{
+    arr.append("SR3G3B2");
+    // We always generate base two sizes, so it's ok to case it
+    unsigned char size = static_cast<unsigned char>(log(static_cast<double>(image->width())) / log(2.0));
+    arr.append(reinterpret_cast<char*>(&size), 1);
+    for(int x = 0; x < image->height(); x++)
+    {
+        for(int y = 0; y < image->width(); y++)
+        {
+            QRgb px = image->pixel(y, x);
+            unsigned char pix[4] = {
+                static_cast<unsigned char>(qRed(px)),
+                static_cast<unsigned char>(qGreen(px)),
+                static_cast<unsigned char>(qBlue(px)),
+                static_cast<unsigned char>(qAlpha(px))
+            };
+            unsigned char nr = static_cast<unsigned char>(round03(static_cast<float>(pix[0]) / 255.0 * 7.0));
+            unsigned char ng = static_cast<unsigned char>(round03(static_cast<float>(pix[1]) / 255.0 * 7.0));
+            unsigned char nb = static_cast<unsigned char>(round03(static_cast<float>(pix[2]) / 255.0 * 3.0));
+            unsigned char p = nb | ng << 2 | nr << 5;
+            arr.append(reinterpret_cast<char*>(&p), 1);
+        }
+    }
+}
+
+/*! Writes image as SR5G6B5 to array
+    \param[in] image an image
+    \param[ou] arr an output array
+ */
+void writeSR5G6B5(QImage* image, QByteArray& arr)
+{
+    arr.append("SR5G6B5");
+    // We always generate base two sizes, so it's ok to case it
+    unsigned char size = static_cast<unsigned char>(log(static_cast<double>(image->width())) / log(2.0));
+    arr.append(reinterpret_cast<char*>(&size), 1);
+    for(int x = 0; x < image->height(); x++)
+    {
+        for(int y = 0; y < image->width(); y++)
+        {
+            QRgb px = image->pixel(y, x);
+            unsigned char pix[4] = {
+                static_cast<unsigned char>(qRed(px)),
+                static_cast<unsigned char>(qGreen(px)),
+                static_cast<unsigned char>(qBlue(px)),
+                static_cast<unsigned char>(qAlpha(px))
+            };
+            unsigned char nr = static_cast<unsigned char>(round03(static_cast<float>(pix[0]) / 255.0 * 31.0));
+            unsigned char ng = static_cast<unsigned char>(round03(static_cast<float>(pix[1]) / 255.0 * 63.0));
+            unsigned char nb = static_cast<unsigned char>(round03(static_cast<float>(pix[2]) / 255.0 * 31.0));
+            unsigned short p = nb | ng << 5 | nr << 11;
+            arr.append(reinterpret_cast<char*>(&p), 2);
+        }
+    }
+}
+
+/*! Writes image as SR4G4B4A4 to array
+    \param[in] image an image
+    \param[ou] arr an output array
+ */
+void writeSR4G4B4A4(QImage* image, QByteArray& arr)
+{
+    arr.append("SR4G4B4A4");
+    // We always generate base two sizes, so it's ok to case it
+    unsigned char size = static_cast<unsigned char>(log(static_cast<double>(image->width())) / log(2.0));
+    arr.append(reinterpret_cast<char*>(&size), 1);
+    for(int x = 0; x < image->height(); x++)
+    {
+        for(int y = 0; y < image->width(); y++)
+        {
+            QRgb px = image->pixel(y, x);
+            unsigned char pix[4] = {
+                static_cast<unsigned char>(qRed(px)),
+                static_cast<unsigned char>(qGreen(px)),
+                static_cast<unsigned char>(qBlue(px)),
+                static_cast<unsigned char>(qAlpha(px))
+            };
+            unsigned char nr = static_cast<unsigned char>(round03(static_cast<float>(pix[0]) / 255.0 * 7.0));
+            unsigned char ng = static_cast<unsigned char>(round03(static_cast<float>(pix[1]) / 255.0 * 7.0));
+            unsigned char nb = static_cast<unsigned char>(round03(static_cast<float>(pix[2]) / 255.0 * 7.0));
+            unsigned char na = static_cast<unsigned char>(round03(static_cast<float>(pix[3]) / 255.0 * 7.0));
+
+            unsigned short p = na | nb << 4 | ng << 8 | nr << 12;
+            arr.append(reinterpret_cast<char*>(&p), 2);
+        }
+    }
+}
+
 /*! Writes texture to file
     \param[in] atlas atlas
     \param[in] image an image to be written
@@ -95,64 +221,19 @@ void writeTexture(Atlas* atlas, QImage* image, OutputOptions& options)
     // If we need to write image as srgba - write it to specified file
     if (options.TextureFileFormat == "srgba")
     {        
-        arr.append("SRGBA");
-        unsigned char size = static_cast<unsigned char>(log(static_cast<double>(image->width())) / log(2.0));
-        arr.append(reinterpret_cast<char*>(&size), 1);
-        for(int x = 0; x < image->height(); x++)
-        {
-            for(int y = 0; y < image->width(); y++)
-            {
-                QRgb px = image->pixel(y, x);
-                unsigned char pix[4] = {
-                    static_cast<unsigned char>(qRed(px)),
-                    static_cast<unsigned char>(qGreen(px)),
-                    static_cast<unsigned char>(qBlue(px)),
-                    static_cast<unsigned char>(qAlpha(px))
-                };
-                arr.append(reinterpret_cast<const char*>(pix), 4);
-            }
-        }
+        writeSRGBA(image, arr);
     }
     else if (options.TextureFileFormat == "sr5g6b5")
     {
-        image->convertToFormat(QImage::Format_RGB16);
-        arr.append("SR5G6B5");
-        unsigned char size = static_cast<unsigned char>(log(static_cast<double>(image->width())) / log(2.0));
-        arr.append(reinterpret_cast<char*>(&size), 1);
-        arr.append(reinterpret_cast<char*>(image->bits()), image->width() * image->height() * 2); // BPP is 16
+        writeSR5G6B5(image, arr);
     }
     else if (options.TextureFileFormat == "sr4g4b4a4")
     {
-        image->convertToFormat(QImage::Format_ARGB4444_Premultiplied);
-        arr.append("SR4G4B4A4");
-        unsigned char size = static_cast<unsigned char>(log(static_cast<double>(image->width())) / log(2.0));
-        arr.append(reinterpret_cast<char*>(&size), 1);
-        arr.append(reinterpret_cast<char*>(image->bits()), image->width() * image->height() * 2); // BPP is 16
+        writeSR4G4B4A4(image, arr);
     }
     else if (options.TextureFileFormat  == "sr3g3b2")
     {
-        arr.append("SR3G3B2");
-        // We always generate base two sizes, so it's ok to case it
-        unsigned char size = static_cast<unsigned char>(log(static_cast<double>(image->width())) / log(2.0));
-        arr.append(reinterpret_cast<char*>(&size), 1);
-        for(int x = 0; x < image->height(); x++)
-        {
-            for(int y = 0; y < image->width(); y++)
-            {
-                QRgb px = image->pixel(y, x);
-                unsigned char pix[4] = {
-                    static_cast<unsigned char>(qRed(px)),
-                    static_cast<unsigned char>(qGreen(px)),
-                    static_cast<unsigned char>(qBlue(px)),
-                    static_cast<unsigned char>(qAlpha(px))
-                };
-                unsigned char nr = static_cast<unsigned char>(static_cast<float>(pix[0]) / 255.0 * 7.0);
-                unsigned char ng = static_cast<unsigned char>(static_cast<float>(pix[1]) / 255.0 * 7.0);
-                unsigned char nb = static_cast<unsigned char>(static_cast<float>(pix[2]) / 255.0 * 3.0);
-                unsigned char p = nb | ng << 2 | nr << 5;
-                arr.append(reinterpret_cast<char*>(&p), 1);
-            }
-        }
+        writeSR3G3B2(image, arr);
     }
     else
     {
