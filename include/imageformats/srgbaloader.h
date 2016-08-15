@@ -6,7 +6,7 @@
     See https://github.com/mamontov-cpp/saddy-graphics-engine-2d/wiki/T160.-(1.6.0-and-later)-Simple-image-format for a format description.
  */
 #pragma once
-#include "loader.h"
+#include "pixelstorageloader.h"
 
 namespace sad
 {
@@ -17,15 +17,12 @@ namespace imageformats
     See https://github.com/mamontov-cpp/saddy-graphics-engine-2d/issues/82 for details.
     See https://github.com/mamontov-cpp/saddy-graphics-engine-2d/wiki/T160.-(1.6.0-and-later)-Simple-image-format for a format description.
  */
-class SRGBALoader: public sad::imageformats::Loader
+class SRGBALoader: public sad::imageformats::PixelStorageLoader
 {
 public:
-    /*! Loads a texture from file stream. file must be opened in binary format for reading
-        \param[in] file
-        \param[in] texture
-        \return true on success
+    /*! Makes new loader
      */
-    virtual bool load(FILE * file, sad::Texture * texture);
+    SRGBALoader();
     /*! Kept for purpose of inheritance
      */
     virtual ~SRGBALoader();

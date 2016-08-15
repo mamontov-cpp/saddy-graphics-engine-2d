@@ -33,15 +33,17 @@ struct SadTextureTest : tpunit::TestFixture
         c.Bpp = 32;
         c.Width = 3;
         c.Height = 3;
+        sad::Vector<sad::uchar>* data = &(reinterpret_cast<sad::Texture::DefaultBuffer*>(c.Buffer)->Data);
         for(int i = 0; i < 36; i++)
         {
-           c.Data << pixels[i];
+           (*data) << pixels[i];
         }
         c.convertToPOTTexture();
 
+        data = &(reinterpret_cast<sad::Texture::DefaultBuffer*>(c.Buffer)->Data);
         ASSERT_TRUE(c.Width == 4);
         ASSERT_TRUE(c.Height == 4);
-        ASSERT_TRUE(c.Data.size() == 64);
+        ASSERT_TRUE(data->size() == 64);
 
         sad::uchar newpixels[64] = 
         {
@@ -52,7 +54,7 @@ struct SadTextureTest : tpunit::TestFixture
         };
         for(int i = 0; i < 64; i++)
         {
-           ASSERT_TRUE(c.Data[i] == newpixels[i]);
+           ASSERT_TRUE((*data)[i] == newpixels[i]);
         }
     }
    
@@ -63,10 +65,11 @@ struct SadTextureTest : tpunit::TestFixture
         ASSERT_TRUE( c.Bpp == 32 );
         ASSERT_TRUE( c.Width == 4 );
         ASSERT_TRUE( c.Height == 4 );
-        ASSERT_TRUE( c.Data.size() == 64 );
+        sad::Vector<sad::uchar>& vdata = reinterpret_cast<sad::Texture::DefaultBuffer*>(c.Buffer)->Data;
+        ASSERT_TRUE( vdata.size() == 64 );
         
         const sad::uchar tmp[8] = { '1', '2', '3', '4', '5', '6', '7', '8' }; 
-        const sad::uchar* data = &(c.Data[0]);
+        const sad::uchar* data = &(vdata[0]);
         for(size_t i = 0; i < 8; i++)
         {
             ASSERT_TRUE(memcmp(data + i * 8, tmp, 8) == 0 );
