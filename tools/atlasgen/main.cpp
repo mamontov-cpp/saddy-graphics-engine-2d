@@ -111,7 +111,7 @@ void writeTexture(Atlas* atlas, QImage* image, OutputOptions& options)
     else if (options.TextureFileFormat == "sr4g4b4a4")
     {
         image->convertToFormat(QImage::Format_ARGB4444_Premultiplied);
-        arr.append("S46G4B4A4");
+        arr.append("SR4G4B4A4");
         unsigned char size = static_cast<unsigned char>(log(static_cast<double>(image->width())) / log(2.0));
         arr.append(reinterpret_cast<char*>(&size), 1);
         arr.append(reinterpret_cast<char*>(image->bits()), image->width() * image->height() * 2); // BPP is 16
