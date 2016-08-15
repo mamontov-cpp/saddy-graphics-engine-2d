@@ -39,6 +39,7 @@ bool sad::imageformats::PNGLoader::load(FILE * file, sad::Texture * texture)
         texture->width() = width;
         texture->height() = height; 
         texture->bpp() = 32;
+        texture->Format = sad::Texture::SFT_R8_G8_B8_A8;
         delete texture->Buffer;
         texture->Buffer = newbuffer;        
     }

@@ -98,6 +98,7 @@ bool sad::imageformats::TGALoader::load(FILE * file, sad::Texture * texture)
     texture->width() = header.width;
     texture->height() = header.height;
     texture->bpp() = 32;
+    texture->Format = sad::Texture::SFT_R8_G8_B8_A8;
     buffer->Data.resize(header.width * header.height * 4, 255);
     
     // Set bytes per pixel

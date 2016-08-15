@@ -5,6 +5,7 @@
 #include <opengl.h>
 #include <glcontext.h>
 
+#include <os/glheaders.h>
 #include <os/generatemipmaps30.h>
 
 #include <pipeline/pipeline.h>
@@ -88,7 +89,7 @@ sad::Texture::DefaultImageBuffer::~DefaultImageBuffer()
 DECLARE_SOBJ_INHERITANCE(sad::Texture, sad::resource::Resource);
 
 sad::Texture::Texture() 
-: Buffer(new sad::Texture::DefaultBuffer()), Bpp(32), Width(0), Height(0), Id(0), OnGPU(false), m_renderer(NULL)
+: Buffer(new sad::Texture::DefaultBuffer()), Bpp(32), Format(sad::Texture::SFT_R8_G8_B8_A8), Width(0), Height(0), Id(0), OnGPU(false), m_renderer(NULL)
 {
 
 }
@@ -134,14 +135,36 @@ void sad::Texture::upload()
     OnGPU = true;
     
     // Get texture type and components
-    GLuint type = GL_RGBA, components = 4;
+    GLuint opengl_format = GL_RGBA, components = 4;
+    GLenum opengl_type = GL_UNSIGNED_BYTE, opengl10_type = GL_UNSIGNED_BYTE;
     if (Bpp == 24)
     {
-         type = GL_RGB;  
-         components = 3;
+        opengl_format = GL_RGB;  
+        components = 3;
     }
+    switch(Format)
+    {
+    case sad::Texture::SFT_R5_G6_B5:
+        opengl_format = GL_RGB;
+        opengl_type = GL_UNSIGNED_SHORT_5_6_5;
+        opengl10_type = GL_UNSIGNED_SHORT_5_6_5; // GLU counterpart for this doesn't seem to be defined or any platform
+        components = 3;
+        break;
+    case sad::Texture::SFT_R3_G3_B2:
+        opengl_format = GL_RGB;
+        opengl_type = GL_UNSIGNED_BYTE_3_3_2;
+        opengl10_type = GL_UNSIGNED_BYTE_3_3_2; // GLU counterpart for this doesn't seem to be defined or any platform
+        components = 3;
+        break;
+    case sad::Texture::SFT_R4_G4_B4_A4:
+        opengl_format = GL_RGBA;
+        opengl_type = GL_UNSIGNED_SHORT_4_4_4_4;
+        opengl10_type = GL_UNSIGNED_SHORT_4_4_4_4; // GLU counterpart for this doesn't seem to be defined or any platform
+        components = 4;
+    default: break;
+    };    
 
-    if ((Width & (Width - 1)) != 0 || (Height & (Height - 1)) !=0 || Width != Height)
+    if ((Width & (Width - 1)) != 0 || (Height & (Height - 1)) != 0 || Width != Height)
     {
         if (r->opengl()->supportsExtension("GL_ARB_texture_rectangle") == false
             || r->opengl()->supportsExtension("GL_ARB_texture_non_power_of_two") == false)
@@ -153,15 +176,15 @@ void sad::Texture::upload()
     glGenTextures(1, static_cast<GLuint *>(&Id));
     glBindTexture(GL_TEXTURE_2D, Id);
 
-    glPixelStorei(GL_UNPACK_ALIGNMENT,1);	
+    glPixelStorei(GL_UNPACK_ALIGNMENT,1);   
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);	
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);   
 
 
-    // Build Mip Maps	
+    // Actually upload image to GPU   
     GLint res;
     // ReSharper disable once CppEntityAssignedButNoRead
     unsigned char const * errorstring;
@@ -170,12 +193,12 @@ void sad::Texture::upload()
     {
         if (version.p1() == 1 && version.p2() < 4)
         {
-            res=gluBuild2DMipmaps(GL_TEXTURE_2D, components, Width, Height, type, GL_UNSIGNED_BYTE, Buffer->buffer());
+            res = gluBuild2DMipmaps(GL_TEXTURE_2D, components, Width, Height, opengl_format, opengl10_type, Buffer->buffer());
         }
         else
         {
               glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE); 
-              glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, Width, Height, 0, type, GL_UNSIGNED_BYTE, Buffer->buffer());
+              glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, Width, Height, 0, opengl_format, opengl_type, Buffer->buffer());
               res = glGetError();
               // ReSharper disable once CppAssignedValueIsNeverUsed
               errorstring = gluErrorString(res);
@@ -183,10 +206,10 @@ void sad::Texture::upload()
     } 
     else
     {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  Width, Height, 0, type, GL_UNSIGNED_BYTE,  Buffer->buffer());			  
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  Width, Height, 0, opengl_format, opengl_type,  Buffer->buffer());     
         // ReSharper disable once CppAssignedValueIsNeverUsed
         res = glGetError();
-        sad::os::generateMipMaps30(r, GL_TEXTURE_2D);		
+        sad::os::generateMipMaps30(r, GL_TEXTURE_2D);
         res = glGetError(); //-V519
     }
     if (res)
@@ -226,7 +249,7 @@ bool sad::Texture::load(
     {
         sad::Maybe<sad::Color> maybecolor = picojson::to_type<sad::Color>(
             picojson::get_property(options, "transparent")
-        );		
+        );      
         if (maybecolor.exists())
         {
             this->setAlpha(255, maybecolor.value());
@@ -374,7 +397,7 @@ void sad::Texture::convertToPOTTexture()
     std::vector<sad::uchar>& data = buffer->Data;
     
     // Resize buffer and fill it with zero
-    data.resize(size * size * Bpp / 8, 0);	
+    data.resize(size * size * Bpp / 8, 0);  
     std::fill_n(data.begin(), size * size * Bpp / 8, 0);
 
     // Copy data from old buffer

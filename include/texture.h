@@ -103,13 +103,25 @@ public:
      */ 
     virtual ~DefaultImageBuffer();
 };
+/*! Describes a format of engine's texture
+ */
+enum Format 
+{
+    SFT_R8_G8_B8_A8, //!< A default true-color format of texture
+    SFT_R5_G6_B5,    //!< A format, which has 5 bits for red component, 6 bits for green component, 5 bits for blue component
+    SFT_R4_G4_B4_A4, //!< A format, which has 4 bits for each component 
+    SFT_R3_G3_B2,    //!< A format, which has 3 bits for red component, 3 bits for green component, 2 bits for blue component
+};
 
-    /*! A buffer, which should contain a pixel amount
+    /*! A buffer, which should contain pixels, which will be uploaded to GPU
      */
     sad::Texture::Buffer* Buffer;   
     /*! Bits per pixel
      */
-    sad::uchar              Bpp;    
+    sad::uchar              Bpp;
+	/*! Format of texture, defines how pixels are stored in texture
+	 */
+    sad::Texture::Format Format;    
     /*! Width of a texture in pixels
      */
     unsigned int       Width; 
