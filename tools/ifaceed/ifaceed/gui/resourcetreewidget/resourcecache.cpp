@@ -144,7 +144,8 @@ void gui::resourcetreewidget::ResourceCache::createImageForTextureAtlasEntry(
         result->bpp() = source->bpp();
     
         int bypp = result->bpp() / 8;
-        result->vdata().resize(width * height * bypp);
+        sad::Vector<sad::uchar>& vdata = reinterpret_cast<sad::Texture::DefaultBuffer*>(result->Buffer)->Data;
+        vdata.resize(width * height * bypp);
 
         for (int row = miny; row < maxy; row++)
         {
@@ -187,7 +188,8 @@ void gui::resourcetreewidget::ResourceCache::createImageForTexture(
     uchar* destpixels = im.bits();
     const sad::uchar * srcpixels = tex->data();
     size_t bypp = tex->bpp() / 8;
-    for(int pos = 0; pos < tex->vdata().size(); pos += bypp)
+    size_t imgsize = tex->width() * tex->height() * bypp;
+    for(int pos = 0; pos < imgsize; pos += bypp)
     {
         const sad::uchar * srcpix = srcpixels + pos;
         uchar * destpix = destpixels + pos;
