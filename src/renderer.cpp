@@ -63,6 +63,9 @@ m_added_system_pipeline_tasks(false)
     setTextureLoader("TGA", new sad::imageformats::TGALoader());
     setTextureLoader("PNG", new sad::imageformats::PNGLoader());
     setTextureLoader("SRGBA", new sad::imageformats::SRGBALoader());
+    setTextureLoader("SR5G6B5", new sad::imageformats::PixelStorageLoader(sad::imageformats::PixelStorageLoader::SR5G6B5Settings));
+    setTextureLoader("SR4G4B4A4", new sad::imageformats::PixelStorageLoader(sad::imageformats::PixelStorageLoader::SR4G4B4A4Settings));
+    setTextureLoader("SR3G3B2", new sad::imageformats::PixelStorageLoader(sad::imageformats::PixelStorageLoader::SR3G3B2Settings));
 
 
 
