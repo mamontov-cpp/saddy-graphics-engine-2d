@@ -91,14 +91,27 @@ void writeTexture(Atlas* atlas, QImage* image, OutputOptions& options)
 {
     bool saved = false;
     QByteArray arr;
-    QHash<QString, QVariant>& program_options = *(options.ProgramOptions);
+
     // If we need to write image as srgba - write it to specified file
     if (options.TextureFileFormat == "srgba")
     {        
         arr.append("SRGBA");
         unsigned char size = static_cast<unsigned char>(log(static_cast<double>(image->width())) / log(2.0));
         arr.append(reinterpret_cast<char*>(&size), 1);
-        arr.append(reinterpret_cast<char*>(image->bits()), image->width() * image->height() * 4); // BPP is 32
+        for(int x = 0; x < image->height(); x++)
+        {
+            for(int y = 0; y < image->width(); y++)
+            {
+                QRgb px = image->pixel(y, x);
+                unsigned char pix[4] = {
+                    static_cast<unsigned char>(qRed(px)),
+                    static_cast<unsigned char>(qGreen(px)),
+                    static_cast<unsigned char>(qBlue(px)),
+                    static_cast<unsigned char>(qAlpha(px))
+                };
+                arr.append(reinterpret_cast<const char*>(pix), 4);
+            }
+        }
     }
     else if (options.TextureFileFormat == "sr5g6b5")
     {
@@ -126,16 +139,16 @@ void writeTexture(Atlas* atlas, QImage* image, OutputOptions& options)
         {
             for(int y = 0; y < image->width(); y++)
             {
-                QRgb px = image->pixel(x, y);
+                QRgb px = image->pixel(y, x);
                 unsigned char pix[4] = {
                     static_cast<unsigned char>(qRed(px)),
                     static_cast<unsigned char>(qGreen(px)),
                     static_cast<unsigned char>(qBlue(px)),
                     static_cast<unsigned char>(qAlpha(px))
                 };
-                unsigned char nr = static_cast<unsigned char>(static_cast<float>(pix[0]) / 256.0 * 8.0);
-                unsigned char ng = static_cast<unsigned char>(static_cast<float>(pix[1]) / 256.0 * 8.0);
-                unsigned char nb = static_cast<unsigned char>(static_cast<float>(pix[2]) / 256.0 * 4.0);
+                unsigned char nr = static_cast<unsigned char>(static_cast<float>(pix[0]) / 255.0 * 7.0);
+                unsigned char ng = static_cast<unsigned char>(static_cast<float>(pix[1]) / 255.0 * 7.0);
+                unsigned char nb = static_cast<unsigned char>(static_cast<float>(pix[2]) / 255.0 * 3.0);
                 unsigned char p = nb | ng << 2 | nr << 5;
                 arr.append(reinterpret_cast<char*>(&p), 1);
             }
