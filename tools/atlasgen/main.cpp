@@ -397,6 +397,9 @@ int main(int argc, char *argv[])
     // Should we add 1-pixel hack hack
     program_options.insert("add-pixel", false);
 
+    // Should we disablie mip-maps in texture
+    program_options.insert("no-mipmaps", false);
+
     // An input file
     QVector<QString> input_files;
     
@@ -483,6 +486,11 @@ int main(int argc, char *argv[])
             handled = true;
             program_options["add-pixel"] = false;
         }
+        if (argument == "-no-mipmaps" || argument == "--no-mipmaps")
+        {
+            handled = true;
+            program_options["no-mipmaps"] = true;
+        }
         if (argument == "-write-to-tar" || argument == "--write-to-tar")
         {
             handled = true;
@@ -529,6 +537,7 @@ Options:\n\
 "-add-pixel, --add-pixel - add one pixel boundary to textures to avoid rounding errors (default: off)\n"
 "-do-not-add-pixel, --do-not-add-pixel - disable adding one pixel boundary to textures to avoid rounding errors (default: on)\n"
 "-write-to-tar <filename>, --write-to-tar <filename> - write output to tar files\n"
+"-no-mipmaps, --no-mipmaps - disable building mipmamps when loading texture\n"
                   );
         }
     } 

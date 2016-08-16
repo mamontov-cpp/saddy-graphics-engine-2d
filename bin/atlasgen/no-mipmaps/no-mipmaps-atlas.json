@@ -1,0 +1,12 @@
+{
+    "atlas":[
+        {
+            "name":"1.png",
+            "size":"64;64",
+            "texrect":"1;1;64;64"
+        }
+    ],
+    "file":"no-mipmaps\/no-mipmaps.srgba",
+    "no-mipmaps":true,
+    "resource":"1pix"
+}

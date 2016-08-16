@@ -9,3 +9,4 @@
 "../atlasgen-debug.exe" 1pix/1pix-one-growing.json --add-pixel
 "../atlasgen-debug.exe" 1pix/1pix-growing.json --add-pixel
 "../atlasgen-debug.exe" srgba/srgba.json -srgba -write-to-tar srgba/srgba.tar
+"../atlasgen-debug.exe" no-mipmaps/1pix.json  --add-pixel -srgba -no-mipmaps

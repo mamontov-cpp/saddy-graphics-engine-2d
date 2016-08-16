@@ -22,9 +22,14 @@ bool JSONWriter::write(
 )
 {
     bool withindex = (*(opts.ProgramOptions))["with-index"].value<bool>();
+    bool nomipmaps = (*(opts.ProgramOptions))["no-mipmaps"].value<bool>();
     picojson::value root(picojson::object_type, false);
     root.insert("resource", atlas.resourceName().toStdString());
     root.insert("file", atlas.outputTexture().toStdString());
+    if (nomipmaps)
+    {
+        root.insert("no-mipmaps", true);
+    }
 
     picojson::value atlasnode(picojson::array_type, false);
     

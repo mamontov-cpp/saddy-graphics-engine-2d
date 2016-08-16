@@ -1,0 +1,11 @@
+{
+	"config" : "no-mipmaps/no-mipmaps-atlas.json",
+	"texture" : "no-mipmaps/no-mipmaps.png",
+	"resource": "1pix",
+	"sprites" : [
+        {
+			"name" : "1.png",
+			"texture" : "no-mipmaps/1.png"
+		}        
+	]
+}
