@@ -40,7 +40,7 @@ sad::Vector<sad::resource::Error*> sad::resource::TextureAtlasFile::load(
         {
             delete m_my_texture;
         }
-        sad::resource::Resource * linkedresource = parent->resource(result.p1());
+        sad::resource::Resource * linkedresource = parent->resource(result.ResourceName);
         if (linkedresource)
         {
             if (linkedresource->metaData()->name() != "sad::Texture")
@@ -51,18 +51,20 @@ sad::Vector<sad::resource::Error*> sad::resource::TextureAtlasFile::load(
         }
         else
         {
-            m_my_texture = new sad::resource::PhysicalFile(result.p2());
-            linkedresource  = new sad::Texture();
+            m_my_texture = new sad::resource::PhysicalFile(result.FileName);
+            sad::Texture* tex = new sad::Texture();
+            tex->BuildMipMaps = !result.NoMipMaps;
+            linkedresource  = tex;
             bool ok = linkedresource->tryLoad(
                 *m_my_texture, 
                 this->tree()->renderer(), 
                 picojson::value(picojson::object()), 
                 this->tree()->shouldStoreLinks()
             );
-            if (!ok && !sad::util::isAbsolutePath(result.p2()))
+            if (!ok && !sad::util::isAbsolutePath(result.FileName))
             {
                 sad::String my_folder = sad::util::folder(this->name()); 
-                sad::String new_path = sad::util::concatPaths(my_folder, result.p2()) ;
+                sad::String new_path = sad::util::concatPaths(my_folder, result.FileName) ;
                 m_my_texture->setName(new_path);
                 ok = linkedresource->tryLoad(
                     *m_my_texture, 
@@ -75,13 +77,13 @@ sad::Vector<sad::resource::Error*> sad::resource::TextureAtlasFile::load(
             {
                 delete linkedresource;
                 delete m_my_texture;
-                errors << new sad::resource::ResourceLoadError(result.p1());
+                errors << new sad::resource::ResourceLoadError(result.ResourceName);
                 m_my_texture = NULL;
                 return errors;
             }
         }
 
-        const picojson::array & list = result.p3();
+        const picojson::array & list = result.EntryList;
         sad::resource::ResourceEntryList resourcelist;
         fillOptionsList(result, resourcelist, linkedresource);
         errors << this->tree()->duplicatesToErrors(parent->duplicatesBetween(resourcelist));
@@ -98,7 +100,7 @@ sad::Vector<sad::resource::Error*> sad::resource::TextureAtlasFile::load(
         {
             if (m_my_texture)
             {
-                parent->addResource(result.p1(), linkedresource);
+                parent->addResource(result.ResourceName, linkedresource);
             }
             this->replaceResources(resourcelist);
             parent->addResources(resourcelist);
@@ -119,7 +121,7 @@ sad::Vector<sad::resource::Error*> sad::resource::TextureAtlasFile::reload()
         sad::resource::ResourceEntryList tobeadded, tobereplaced, toberemoved;
         this->tryLoadNewTexture(result, textureloadresult, errors);
         if (errors.size() == 0)
-        {			
+        {           
             this->fillOptionsList(
                 result, 
                 resourcelist,
@@ -153,7 +155,7 @@ sad::Vector<sad::resource::Error*> sad::resource::TextureAtlasFile::reload()
         }
 
     }
-    return errors;	
+    return errors;  
 }
 
 
@@ -178,6 +180,9 @@ void sad::resource::TextureAtlasFile::tryParsePartial(
             );
             sad::Maybe<sad::String> maybefile = picojson::to_type<sad::String>(
                 picojson::get_property(rootvalue, "file")
+            );
+            sad::Maybe<bool> maybenomips = picojson::to_type<bool>(
+                picojson::get_property(rootvalue, "no-mipmaps")
             );
             picojson::value const * atlas = picojson::get_property(rootvalue, "atlas");
             if (atlas && mayberesource.exists() && maybefile.exists())
@@ -208,9 +213,14 @@ void sad::resource::TextureAtlasFile::tryParsePartial(
                     }
                     if (schemeok)
                     {
-                        result.set1(mayberesource.value());
-                        result.set2(maybefile.value());
-                        result.set3(list);
+                        result.ResourceName = mayberesource.value();
+                        result.FileName = maybefile.value();
+                        result.NoMipMaps = false;
+                        if (maybenomips.exists())
+                        {
+                            result.NoMipMaps = maybenomips.value();
+                        }
+                        result.EntryList = list;
                     }
                 }
                 else
@@ -240,7 +250,7 @@ void sad::resource::TextureAtlasFile::tryLoadNewTexture(
     sad::Vector<sad::resource::Error *> & errors
 )
 {
-    result.OldTexture = this->tree()->root()->resource(parsed.p1());
+    result.OldTexture = this->tree()->root()->resource(parsed.ResourceName);
     result.NewTexture = new sad::Texture();
     sad::resource::PhysicalFile * file  = NULL;
     // Try load texture
@@ -248,12 +258,12 @@ void sad::resource::TextureAtlasFile::tryLoadNewTexture(
     {
         if (result.OldTexture->metaData()->canBeCastedTo("sad::Texture") == false)
         {
-            errors << new sad::resource::ResourceAlreadyExists(parsed.p1());
+            errors << new sad::resource::ResourceAlreadyExists(parsed.ResourceName);
             return;
         }
         if (m_my_texture)
         {
-            result.NewTextureFile = new sad::resource::PhysicalFile(parsed.p2());
+            result.NewTextureFile = new sad::resource::PhysicalFile(parsed.FileName);
             file = result.NewTextureFile;
         }
         else
@@ -263,18 +273,18 @@ void sad::resource::TextureAtlasFile::tryLoadNewTexture(
     }
     else
     {
-        result.NewTextureFile  = new sad::resource::PhysicalFile(parsed.p2());
+        result.NewTextureFile  = new sad::resource::PhysicalFile(parsed.FileName);
         file = result.NewTextureFile;
     }
     sad::Renderer * r = this->tree()->renderer();
     picojson::value v(picojson::object_type, false);
     v.insert("type",     picojson::value(sad::Texture::globalMetaData()->name()));
     v.insert("filename", picojson::value(result.NewTextureFile->name()));
-    v.insert("name", picojson::value(parsed.p1()));
+    v.insert("name", picojson::value(parsed.ResourceName));
     bool ok = result.NewTexture->tryLoad(*file, r, v, this->tree()->shouldStoreLinks());
     if (!ok)
     {
-        errors << new sad::resource::ResourceLoadError(parsed.p1());
+        errors << new sad::resource::ResourceLoadError(parsed.ResourceName);
     }
 }
 
@@ -286,7 +296,7 @@ void sad::resource::TextureAtlasFile::commit(
     if (result.OldTexture)
     {
         sad::resource::PhysicalFile* oldfile = result.OldTexture->file();
-        this->tree()->root()->replaceResource(parsed.p1(), result.NewTexture);
+        this->tree()->root()->replaceResource(parsed.ResourceName, result.NewTexture);
         if (m_my_texture == NULL)
         {
             oldfile->replace(result.OldTexture, result.NewTexture);
@@ -302,7 +312,7 @@ void sad::resource::TextureAtlasFile::commit(
     }
     else
     {
-        this->tree()->root()->addResource(parsed.p1(), result.NewTexture);
+        this->tree()->root()->addResource(parsed.ResourceName, result.NewTexture);
 
         delete m_my_texture;
         m_my_texture = result.NewTextureFile;
@@ -331,7 +341,7 @@ void sad::resource::TextureAtlasFile::fillOptionsList(
     sad::resource::Resource * texture
 )
 {
-    const picojson::array & list = parsed.p3();
+    const picojson::array & list = parsed.EntryList;
     for(size_t i = 0; i < list.size(); i++)
     {
         sad::Maybe<sad::String> maybename = picojson::to_type<sad::String>(
@@ -349,7 +359,7 @@ void sad::resource::TextureAtlasFile::fillOptionsList(
         sad::Sprite2D::Options * opts = new sad::Sprite2D::Options();
         opts->Rectangle = sad::Rect2D(0, 0,  maybesize.value().Width, maybesize.value().Height);
         opts->TextureRectangle = maybetexrect.value();
-        opts->Texture = parsed.p1();
+        opts->Texture = parsed.ResourceName;
         if (this->tree()->shouldStoreLinks())
         {
             opts->enableStoringLinks();

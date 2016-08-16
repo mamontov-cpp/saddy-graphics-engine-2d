@@ -89,7 +89,7 @@ sad::Texture::DefaultImageBuffer::~DefaultImageBuffer()
 DECLARE_SOBJ_INHERITANCE(sad::Texture, sad::resource::Resource);
 
 sad::Texture::Texture() 
-: Buffer(new sad::Texture::DefaultBuffer()), Bpp(32), Format(sad::Texture::SFT_R8_G8_B8_A8), Width(0), Height(0), Id(0), OnGPU(false), m_renderer(NULL)
+: BuildMipMaps(true), Buffer(new sad::Texture::DefaultBuffer()), Bpp(32), Format(sad::Texture::SFT_R8_G8_B8_A8), Width(0), Height(0), Id(0), OnGPU(false), m_renderer(NULL)
 {
 
 }
@@ -183,10 +183,22 @@ void sad::Texture::upload()
     glPixelStorei(GL_UNPACK_ALIGNMENT,1);   
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+    
+    if (!BuildMipMaps)
+    {
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
+    }
 
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);   
-
+    if (BuildMipMaps)
+    {
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+    }
+    else
+    {
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    }
 
     // Actually upload image to GPU   
     GLint res;
@@ -197,15 +209,23 @@ void sad::Texture::upload()
     {
         if (version.p1() == 1 && version.p2() < 4)
         {
+            // In case of OpenGL <1.4 there is not much we can do, so we ignore BuildMipMap flags
             res = gluBuild2DMipmaps(GL_TEXTURE_2D, components, Width, Height, opengl_format, opengl10_type, Buffer->buffer());
         }
         else
         {
-              glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE); 
-              glTexImage2D(GL_TEXTURE_2D, 0, opengl_internalformat, Width, Height, 0, opengl_format, opengl_type, Buffer->buffer());
-              res = glGetError();
-              // ReSharper disable once CppAssignedValueIsNeverUsed
-              errorstring = gluErrorString(res);
+            if (BuildMipMaps)
+            {
+                glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE); 
+            }
+            else
+            {
+                glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_FALSE);
+            }
+            glTexImage2D(GL_TEXTURE_2D, 0, opengl_internalformat, Width, Height, 0, opengl_format, opengl_type, Buffer->buffer());
+            res = glGetError();
+            // ReSharper disable once CppAssignedValueIsNeverUsed
+            errorstring = gluErrorString(res);
         }
     } 
     else
@@ -213,8 +233,15 @@ void sad::Texture::upload()
         glTexImage2D(GL_TEXTURE_2D, 0, opengl_internalformat,  Width, Height, 0, opengl_format, opengl_type,  Buffer->buffer());     
         // ReSharper disable once CppAssignedValueIsNeverUsed
         res = glGetError();
-        sad::os::generateMipMaps30(r, GL_TEXTURE_2D);
-        res = glGetError(); //-V519
+        if (BuildMipMaps)
+        {
+            sad::os::generateMipMaps30(r, GL_TEXTURE_2D);
+            GLint mipres = glGetError(); //-V519
+            if (mipres)
+            {
+                SL_COND_LOCAL_INTERNAL(gluErrorString(mipres), r);
+            }
+        }
     }
     if (res)
     {
@@ -253,10 +280,17 @@ bool sad::Texture::load(
     {
         sad::Maybe<sad::Color> maybecolor = picojson::to_type<sad::Color>(
             picojson::get_property(options, "transparent")
-        );      
+        );
         if (maybecolor.exists())
         {
             this->setAlpha(255, maybecolor.value());
+        }
+        sad::Maybe<bool> maybenomips = picojson::to_type<bool>(
+            picojson::get_property(options, "no-mipmaps")
+        );
+        if (maybenomips.exists())
+        {
+            this->BuildMipMaps = !(maybenomips.value());
         }
     }
     return result;

@@ -22,13 +22,15 @@ namespace resource
 class TextureAtlasFile: public sad::resource::PhysicalFile
 {
 public:
-    /*! A partial result to atlas file
+    /*! A partial result of parsing atlas file
      */
-    typedef sad::Triplet<
-        sad::String,
-        sad::String,
-        picojson::array
-    > parse_result;
+    struct parse_result
+    {
+       sad::String ResourceName;   //!< A resource name for texture
+       sad::String FileName;       //!< A name of file for texture
+       bool        NoMipMaps;      //!< Whether we should not build mip-maps for file
+       picojson::array EntryList;  //!< A list of entries for atlas
+    };
     /*! Creates new flle with specified name. Supposedly it must be path to specified file.
         \param[in] name a filename (with or without path) to it
      */

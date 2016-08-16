@@ -112,15 +112,17 @@ enum InternalFormat
     SFT_R4_G4_B4_A4, //!< A format, which has 4 bits for each component 
     SFT_R3_G3_B2,    //!< A format, which has 3 bits for red component, 3 bits for green component, 2 bits for blue component
 };
-
+    /*! Whether we should build mip-maps, when uploading texture to GPU
+     */
+    bool BuildMipMaps;
     /*! A buffer, which should contain pixels, which will be uploaded to GPU
      */
     sad::Texture::Buffer* Buffer;   
     /*! Bits per pixel
      */
     sad::uchar              Bpp;
-	/*! Format of texture, defines how pixels are stored in texture
-	 */
+    /*! Format of texture, defines how pixels are stored in texture
+     */
     sad::Texture::InternalFormat Format;    
     /*! Width of a texture in pixels
      */
