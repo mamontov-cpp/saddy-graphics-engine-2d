@@ -41,6 +41,7 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        TEST(SadTextureAtlasFileTest::testLoadMalformed6),
        TEST(SadTextureAtlasFileTest::testLoadMalformed7),
        TEST(SadTextureAtlasFileTest::testLoadMalformed8),
+       TEST(SadTextureAtlasFileTest::testLoadMalformed9),
        TEST(SadTextureAtlasFileTest::testLoadResourceFail),
        TEST(SadTextureAtlasFileTest::testLoadValid),
        TEST(SadTextureAtlasFileTest::testLoadResourceExists),
@@ -291,6 +292,26 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        sad::util::free(errors);
        ASSERT_TRUE(count == 1);
    }
+   
+   void testLoadMalformed9()
+   {
+       sad::Renderer r;
+       sad::resource::Tree tree;
+       tree.setStoreLinks(true);
+       tree.setRenderer(&r);
+
+       sad::Vector<sad::resource::Error *> errors = tree.loadFromString(
+           "["
+                "{"
+                    "\"type\"   : \"sad::resource::TextureAtlasFile\","
+                    "\"filename\": \"tests/icons_samename.json\""
+                "}"
+            "]"
+        );
+       int count = count_errors_of_type(errors, "sad::resource::MalformedResourceEntry");
+       sad::util::free(errors);
+       ASSERT_TRUE(count == 1);
+   }    
 
    void testLoadResourceFail()
    {
@@ -311,9 +332,9 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        sad::util::free(errors);
        ASSERT_TRUE(count == 1);
    }
-
+     
    void testLoadValid()
-   {	   
+   {   
        sad::Renderer r;
        sad::resource::Tree tree;
        tree.setStoreLinks(true);

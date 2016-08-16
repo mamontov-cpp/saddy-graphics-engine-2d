@@ -210,6 +210,16 @@ void sad::resource::TextureAtlasFile::tryParsePartial(
                         {
                             errors << new sad::resource::MalformedResourceEntry(list[i]);
                         }
+                        else
+                        {
+                            if (mayberesource.exists() && maybename.exists())
+                            {
+                                if (mayberesource.value() == maybename.value())
+                                {
+                                    errors << new sad::resource::MalformedResourceEntry(list[i]);
+                                }
+                            }
+                        }
                     }
                     if (schemeok)
                     {
