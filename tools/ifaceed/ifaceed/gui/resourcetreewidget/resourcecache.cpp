@@ -158,54 +158,7 @@ void gui::resourcetreewidget::ResourceCache::createImageForTextureAtlasEntry(
             {
                 const sad::uchar * srcpix = srcrow + col * sbypp;
                 sad::uchar * destpix = destrow + col * bypp;
-                switch (source->Format)
-                {
-                case sad::Texture::SFT_R8_G8_B8_A8:
-                    destpix[0] = srcpix[2];
-                    destpix[1] = srcpix[1];
-                    destpix[2] = srcpix[0];
-                    if (bypp == 4)
-                        destpix[3] = srcpix[3];
-                    else
-                        destpix[3] = 255;
-                    break;
-                case sad::Texture::SFT_R5_G6_B5:
-                    {
-                        unsigned short px = *reinterpret_cast<const unsigned short*>(srcpix);
-                        unsigned short red = (px & 63488) >> 11;
-                        unsigned short green = (px & 2016) >> 5;
-                        unsigned short blue = (px & 31);
-                        destpix[0] = static_cast<unsigned char>(static_cast<float>(blue) / 31.0 * 255.0);
-                        destpix[1] = static_cast<unsigned char>(static_cast<float>(green) / 63.0 * 255.0);
-                        destpix[2] = static_cast<unsigned char>(static_cast<float>(red) / 31.0 * 255.0);
-                        destpix[3] = 255;
-                    }
-                    break;
-                case sad::Texture::SFT_R4_G4_B4_A4:
-                    {
-                        unsigned short px = *reinterpret_cast<const unsigned short*>(srcpix);
-                        unsigned short red = (px & 61440) >> 12;
-                        unsigned short green = (px & 3840) >> 8;
-                        unsigned short blue = (px & 240) >> 4;
-                        unsigned short alpha = (px & 15);
-                        destpix[0] = static_cast<unsigned char>(static_cast<float>(blue) / 15.0 * 255.0);
-                        destpix[1] = static_cast<unsigned char>(static_cast<float>(green) / 15.0 * 255.0);
-                        destpix[2] = static_cast<unsigned char>(static_cast<float>(red) / 15.0 * 255.0);
-                        destpix[3] = static_cast<unsigned char>(static_cast<float>(alpha) / 15.0 * 255.0);
-                    }
-                    break;
-                case sad::Texture::SFT_R3_G3_B2:
-                    {
-                        unsigned char red = (((*srcpix) & 224) >> 5);
-                        unsigned char green = (((*srcpix) & 28) >> 2);
-                        unsigned char blue = ((*srcpix) & 3);
-                        destpix[0] = static_cast<unsigned char>(static_cast<float>(blue) / 3.0 * 255.0);
-                        destpix[1] = static_cast<unsigned char>(static_cast<float>(green) / 7.0 * 255.0);
-                        destpix[2] = static_cast<unsigned char>(static_cast<float>(red) / 7.0 * 255.0);
-                        destpix[3] = 255;
-                    }
-                    break;
-                };
+                gui::resourcetreewidget::ResourceCache::copyPixel(destpix, srcpix, source->Format, sbypp);
             }
         }
 
@@ -224,27 +177,18 @@ void gui::resourcetreewidget::ResourceCache::createImageForTexture(
     QImage & im,
     sad::Texture * tex
 )
-{    
-    // TODO: Replace it with actual copying
-    if (tex->Format != sad::Texture::SFT_R8_G8_B8_A8)
-    {
-        im = QImage();
-        return;
-    }
+{        
     im = QImage(tex->width(), tex->height(), QImage::Format_ARGB32).copy();
     uchar* destpixels = im.bits();
     const sad::uchar * srcpixels = tex->data();
     size_t bypp = tex->bpp() / 8;
-    size_t imgsize = tex->width() * tex->height() * bypp;
-    for(int pos = 0; pos < imgsize; pos += bypp)
+    size_t imgsize = tex->width() * tex->height();
+    for(int pos = 0; pos < imgsize; pos += 1)
     {
-        const sad::uchar * srcpix = srcpixels + pos;
-        uchar * destpix = destpixels + pos;
+        const sad::uchar * srcpix = srcpixels + pos * bypp;
+        uchar * destpix = destpixels + pos * 4; // We have four bytes per pixel in destination
 
-        destpix[0] = srcpix[2];
-        destpix[1] = srcpix[1];
-        destpix[2] = srcpix[0];
-        destpix[3] = srcpix[3];	
+        gui::resourcetreewidget::ResourceCache::copyPixel(destpix, srcpix, tex->Format, bypp);
     }
 }
 
@@ -286,4 +230,63 @@ void gui::resourcetreewidget::ResourceCache::normalizeImage(QImage & im)
             im = im.scaled(width, height,Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
         }
     }
+}
+
+void gui::resourcetreewidget::ResourceCache::copyPixel(
+    unsigned char* destpix,
+    const unsigned char* srcpix,
+    unsigned int format,
+    int sbypp
+)
+{
+    switch (format)
+    {
+    case sad::Texture::SFT_R8_G8_B8_A8:
+        destpix[0] = srcpix[2];
+        destpix[1] = srcpix[1];
+        destpix[2] = srcpix[0];
+        if (sbypp == 4)
+            destpix[3] = srcpix[3];
+        else
+            destpix[3] = 255;
+        break;
+    case sad::Texture::SFT_R5_G6_B5:
+        {
+            unsigned short px = *reinterpret_cast<const unsigned short*>(srcpix);
+            unsigned short red = (px & 63488) >> 11;
+            unsigned short green = (px & 2016) >> 5;
+            unsigned short blue = (px & 31);
+            destpix[0] = static_cast<unsigned char>(static_cast<float>(blue) / 31.0 * 255.0);
+            destpix[1] = static_cast<unsigned char>(static_cast<float>(green) / 63.0 * 255.0);
+            destpix[2] = static_cast<unsigned char>(static_cast<float>(red) / 31.0 * 255.0);
+            destpix[3] = 255;
+        }
+        break;
+    case sad::Texture::SFT_R4_G4_B4_A4:
+        {
+            unsigned short px = *reinterpret_cast<const unsigned short*>(srcpix);
+            unsigned short red = (px & 61440) >> 12;
+            unsigned short green = (px & 3840) >> 8;
+            unsigned short blue = (px & 240) >> 4;
+            unsigned short alpha = (px & 15);
+            destpix[0] = static_cast<unsigned char>(static_cast<float>(blue) / 15.0 * 255.0);
+            destpix[1] = static_cast<unsigned char>(static_cast<float>(green) / 15.0 * 255.0);
+            destpix[2] = static_cast<unsigned char>(static_cast<float>(red) / 15.0 * 255.0);
+            destpix[3] = static_cast<unsigned char>(static_cast<float>(alpha) / 15.0 * 255.0);
+        }
+        break;
+    case sad::Texture::SFT_R3_G3_B2:
+        {
+            unsigned char red = (((*srcpix) & 224) >> 5);
+            unsigned char green = (((*srcpix) & 28) >> 2);
+            unsigned char blue = ((*srcpix) & 3);
+            destpix[0] = static_cast<unsigned char>(static_cast<float>(blue) / 3.0 * 255.0);
+            destpix[1] = static_cast<unsigned char>(static_cast<float>(green) / 7.0 * 255.0);
+            destpix[2] = static_cast<unsigned char>(static_cast<float>(red) / 7.0 * 255.0);
+            destpix[3] = 255;
+        }
+        break;
+    default: // Don't do changes if format is invalid
+        break;
+    };
 }

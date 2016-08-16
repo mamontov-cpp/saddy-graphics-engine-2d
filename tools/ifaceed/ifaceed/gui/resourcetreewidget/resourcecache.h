@@ -69,6 +69,19 @@ protected:
         \param[in, out] im an image for normalizing 
      */
     void normalizeImage(QImage & im);
+    /*! Copies pixel from source to destination, transforming it to
+        32-bit RGBA format, with respect to source texture format
+        \param[out] destpix location of destination pixel
+        \param[in]  srcpix  location of source pixel
+        \param[in]  format  format of source texture (sad::Texture::InternalFormat value)
+        \param[in]  sbypp   amount of bytes per pixel in source texture
+     */
+    static void copyPixel(
+        unsigned char* destpix,
+        const unsigned char* srcpix,
+        unsigned int format,
+        int sbypp
+    );
     /*! A cache for resources and data
      */
     QHash<QString, QImage> m_resource_cache;
