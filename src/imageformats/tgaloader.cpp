@@ -247,6 +247,7 @@ bool sad::imageformats::TGALoader::loadCompressed(sad::Texture * texture) const
             }
 
             memcpy(pixel, rle_buffer + rle_buffer_pos, m_bypp);
+            rle_buffer_pos += m_bypp;
             std::swap(*(pixel), *(pixel + 2));
             for(unsigned int i = 0; i < chunkheader; i++)
             {
