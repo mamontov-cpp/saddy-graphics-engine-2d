@@ -8,6 +8,11 @@
 #include "../texture.h"
 #include <cstdio>
 
+namespace tar7z
+{
+class Entry;
+}
+
 namespace sad
 {
 
@@ -25,6 +30,11 @@ public:
         \return true on success
      */
     virtual bool load(FILE * file, sad::Texture * texture) = 0;
+    /*! Loads texture from archive entry.
+        \param[in] entry a file entry to be loaded
+        \param[in] texture a source texture
+     */
+    virtual bool load(tar7z::Entry* entry, sad::Texture* texture);
     /*! Kept for purpose of inheritance
      */
     virtual ~Loader();
