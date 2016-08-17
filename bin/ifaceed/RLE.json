@@ -1,0 +1,11 @@
+{
+  "resource": "RLE_atlas",
+  "file": "RLE.tga",
+  "atlas": [
+    {
+      "name": "RLE",
+      "size": "64;64",
+      "texrect": "0;0;64;64"
+    }
+  ]
+}
