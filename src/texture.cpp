@@ -1,5 +1,7 @@
 #include "texture.h"
+#ifndef TEXTURE_LOADER_TEST
 #include "log/log.h"
+#endif
 
 #include <renderer.h>
 #include <opengl.h>
@@ -85,8 +87,9 @@ sad::Texture::DefaultImageBuffer::~DefaultImageBuffer()
 }
 
 // ==================================== sad::Texture implementation ====================================
-
+#ifndef TEXTURE_LOADER_TEST
 DECLARE_SOBJ_INHERITANCE(sad::Texture, sad::resource::Resource);
+#endif
 
 sad::Texture::Texture() 
 : BuildMipMaps(true), Buffer(new sad::Texture::DefaultBuffer()), Bpp(32), Format(sad::Texture::SFT_R8_G8_B8_A8), Width(0), Height(0), Id(0), OnGPU(false), m_renderer(NULL)
@@ -96,6 +99,7 @@ sad::Texture::Texture()
 
 sad::Texture::~Texture()
 {
+#ifndef TEXTURE_LOADER_TEST	
     if (this->renderer())
     {
         if (this->renderer()->context()->valid())
@@ -121,11 +125,13 @@ sad::Texture::~Texture()
             }
         }
     }
+#endif
     delete Buffer;
 }
 
 void sad::Texture::upload()
 {
+#ifndef TEXTURE_LOADER_TEST	
     // We must not upload on our own to not cause
     // undefined behaviour
     sad::Renderer * r = renderer();
@@ -247,6 +253,7 @@ void sad::Texture::upload()
     {
         SL_COND_LOCAL_INTERNAL(gluErrorString(res), r);
     }
+#endif
 }
 
 void sad::Texture::loadDefaultTexture()
@@ -263,6 +270,8 @@ void sad::Texture::unloadFromGPU()
 {
     this->unload();
 }
+
+#ifndef TEXTURE_LOADER_TEST
 
 bool sad::Texture::load(
         const sad::resource::PhysicalFile & file,
@@ -335,18 +344,24 @@ bool sad::Texture::load(const sad::WString & filename, sad::Renderer * r)
     return load(tt, r);
 }
 
+#endif
+
 void sad::Texture::bind()
 {
+#ifndef TEXTURE_LOADER_TEST
     if (!OnGPU)
         upload();
     glBindTexture(GL_TEXTURE_2D, Id);
+#endif
 }
 
 void sad::Texture::unload()
 {
+#ifndef TEXTURE_LOADER_TEST
     if (OnGPU)
         glDeleteTextures(1, &Id);
     OnGPU = false;
+#endif
 }
 
 

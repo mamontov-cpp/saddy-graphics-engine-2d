@@ -11,7 +11,9 @@
 #include "sadwstring.h"
 #include "sadvector.h"
 
+#ifndef TEXTURE_LOADER_TEST
 #include "resource/resource.h"
+#endif
 
 #include <stdio.h>
 
@@ -27,9 +29,14 @@ class Renderer;
 /*! A main texture class, which stores all related data to a texture
     providing simple interface for working with it
  */
-class Texture: public sad::resource::Resource
+class Texture
+#ifndef TEXTURE_LOADER_TEST
+: public sad::resource::Resource
+#endif
 {
+#ifndef TEXTURE_LOADER_TEST	
 SAD_OBJECT
+#endif
 public:
 /*! An inner buffer, that provides texture with data to upload
  */
@@ -170,6 +177,7 @@ enum InternalFormat
     /*! Unloads all resources from GPU. By default does nothing
      */
     virtual void unloadFromGPU();
+#ifndef TEXTURE_LOADER_TEST
     /*! Loads a texture from specified file, using specified renderer for building mip maps.
         \param[in] file a file, via which a resource should be loaded
         \param[in] r  a renderer, which resource should be linked to (NULL if global renderer)
@@ -193,6 +201,7 @@ enum InternalFormat
         \return whether load was successfull
      */
     bool load(const sad::WString & filename, sad::Renderer * r = NULL);
+#endif
     /*! Binds a texture, making it current in context. Can upload a texture, if needed.
      */
     void bind();
@@ -281,4 +290,6 @@ protected:
 
 }
 
+#ifndef TEXTURE_LOADER_TEST
 DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::Texture)
+#endif
