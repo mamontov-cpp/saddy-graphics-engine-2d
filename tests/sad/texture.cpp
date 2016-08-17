@@ -19,6 +19,7 @@ struct SadTextureTest : tpunit::TestFixture
         TEST(SadTextureTest::testLoadSRGBA),
         TEST(SadTextureTest::testLoadTGA24Compressed),
         TEST(SadTextureTest::testLoadTGA32Compressed),
+        TEST(SadTextureTest::testLoadTGA32CompressedSmall),
         TEST(SadTextureTest::testLoadTGA32Uncompressed)
     ) {}
    
@@ -86,6 +87,12 @@ struct SadTextureTest : tpunit::TestFixture
     }
 
     void testLoadTGA32Compressed()
+    {
+        sad::Texture c;
+        ASSERT_TRUE( c.load("tests/images/tga32_compressed_small.tga") ) ;
+    }
+
+    void testLoadTGA32CompressedSmall()
     {
         sad::Texture c;
         ASSERT_TRUE( c.load("tests/images/tga32_compressed.tga") ) ;

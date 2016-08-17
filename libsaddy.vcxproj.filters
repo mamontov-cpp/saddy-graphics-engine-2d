@@ -822,6 +822,12 @@
     <ClCompile Include="src\imageformats\pixelstorageloader.cpp">
       <Filter>Файлы исходного кода\imageformats</Filter>
     </ClCompile>
+    <ClCompile Include="src\util\fileistreambuf.cpp">
+      <Filter>Файлы исходного кода\util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\chararrayibuf.cpp">
+      <Filter>Файлы исходного кода\util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\camera.h">
@@ -2235,6 +2241,12 @@
       <Filter>Заголовочные файлы\3rdparty</Filter>
     </ClInclude>
     <ClInclude Include="include\util\texturedefaultimage.h">
+      <Filter>Заголовочные файлы\util</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\fileistreambuf.h">
+      <Filter>Заголовочные файлы\util</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\chararrayibuf.h">
       <Filter>Заголовочные файлы\util</Filter>
     </ClInclude>
   </ItemGroup>

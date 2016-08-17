@@ -141,6 +141,8 @@
     <ClCompile Include="src\texture.cpp" />
     <ClCompile Include="src\texturemappedfont.cpp" />
     <ClCompile Include="src\timer.cpp" />
+    <ClCompile Include="src\util\chararrayibuf.cpp" />
+    <ClCompile Include="src\util\fileistreambuf.cpp" />
     <ClCompile Include="src\util\utilsadhash.cpp" />
     <ClCompile Include="src\window.cpp" />
     <ClCompile Include="src\cli\clioptionvalue.cpp" />
@@ -552,6 +554,8 @@
     <ClInclude Include="include\timer.h" />
     <ClInclude Include="include\treedblink.h" />
     <ClInclude Include="include\unused.h" />
+    <ClInclude Include="include\util\chararrayibuf.h" />
+    <ClInclude Include="include\util\fileistreambuf.h" />
     <ClInclude Include="include\util\sadhash.h" />
     <ClInclude Include="include\util\sadhash_src.h" />
     <ClInclude Include="include\util\texturedefaultimage.h" />

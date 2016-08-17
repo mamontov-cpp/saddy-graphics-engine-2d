@@ -6,6 +6,8 @@
 #pragma once
 #include "loader.h"
 
+#include <istream>
+
 namespace sad
 {
 
@@ -36,6 +38,10 @@ protected:
         \param[in] texture a texture in loader
      */
     void flip(sad::Texture * texture) const;
+    /*! Tries to load a texture from a current stream
+        \param[in] texture a texture
+     */
+    bool load(sad::Texture* texture);
     /*! Loads raw uncompressed image
         \param[in] texture a texture
         \return whether loading was successfull
@@ -61,7 +67,7 @@ protected:
     /*! An opened file stream
         This field is set in sad::imageformats::TGALoader::load.	
      */
-    FILE * m_file;
+    std::istream * m_file;
 };
 
 }

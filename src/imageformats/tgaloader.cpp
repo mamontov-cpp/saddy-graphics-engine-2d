@@ -1,4 +1,12 @@
 #include "imageformats/tgaloader.h"
+
+#include "util/chararrayibuf.h"
+#include "util/fileistreambuf.h"
+
+#define TAR7Z_SADDY
+
+#include "3rdparty/tar7z/include/tar.h"
+
 #ifdef TEXTURE_LOADER_TEST
     #include <cstdio>
 #endif
@@ -54,18 +62,37 @@ bool sad::imageformats::TGALoader::load(FILE * file, sad::Texture * texture)
     {
         return false;
     }
-    m_file = file;
+    sad::util::FileIStreamBuf buf(file);
+    std::istream stream(&buf);
+    m_file = &stream;
+    return this->load(texture);
+}
+
+bool sad::imageformats::TGALoader::load(tar7z::Entry* entry, sad::Texture* texture)
+{
+    if (entry == NULL || texture == NULL)
+    {
+        return false;
+    }
+    sad::util::CharArrayIBuf buf(entry->contents(), entry->contents() + entry->Size);
+    std::istream stream(&buf);
+    m_file = &stream;
+    return this->load(texture);
+}
+
+sad::imageformats::TGALoader::~TGALoader()
+{
+
+}
+
+bool sad::imageformats::TGALoader::load(sad::Texture* texture)
+{
     /*! Try to read the tga header
      */
     const unsigned int header_buffer_size = 18;
     sad::uchar header_buffer[header_buffer_size];
-    unsigned int read_byte = fread(
-        header_buffer, 
-        sizeof(sad::uchar), 
-        header_buffer_size, 
-        file
-    );
-    if (read_byte != header_buffer_size)
+    m_file->read(reinterpret_cast<char*>(header_buffer), header_buffer_size * sizeof(sad::uchar));
+    if (m_file->fail() || m_file->eof())
     {
         return false;
     }
@@ -127,20 +154,6 @@ bool sad::imageformats::TGALoader::load(FILE * file, sad::Texture * texture)
     return result;
 }
 
-bool sad::imageformats::TGALoader::load(tar7z::Entry* entry, sad::Texture* texture)
-{
-    if (entry == NULL || texture == NULL)
-    {
-        return false;
-    }
-    return false;
-}
-
-sad::imageformats::TGALoader::~TGALoader()
-{
-
-}
-
 bool sad::imageformats::TGALoader::loadRaw(sad::Texture * texture) const
 {
     unsigned int raw_image_size = m_bypp * texture->width() * texture->height();
@@ -148,7 +161,8 @@ bool sad::imageformats::TGALoader::loadRaw(sad::Texture * texture) const
     unsigned int bypp = m_bypp;
     for (unsigned int i = 0; i < raw_image_size; i += bypp)
     {
-        if (fread(begin, sizeof(sad::uchar), bypp, m_file) != bypp)
+        m_file->read(reinterpret_cast<char*>(begin), sizeof(sad::uchar) * bypp);
+        if (m_file->fail() || m_file->eof())
         {
             return false;
         }
@@ -165,18 +179,18 @@ bool sad::imageformats::TGALoader::loadCompressed(sad::Texture * texture) const
     // Allocate buffer and read data
     const unsigned int header_buffer_size = 18;
     std::vector<unsigned char> buffer;
-    fseek(m_file, 0L, SEEK_END);
-    unsigned int size = ftell(m_file) - header_buffer_size * sizeof(sad::uchar);
-    fseek(m_file, header_buffer_size * sizeof(sad::uchar), SEEK_SET);
+    m_file->seekg(0, std::ios_base::end);
+    unsigned int size = static_cast<unsigned int>(m_file->tellg()) - header_buffer_size * sizeof(sad::uchar);
+    m_file->seekg(header_buffer_size * sizeof(sad::uchar), std::ios_base::beg);
     buffer.resize(static_cast<size_t>(size), 255);
 #ifdef TEXTURE_LOADER_TEST
     printf("RLE buffer size is %d, my bytes per pixel is %d, image's is %d\n", size, m_bypp, texture->Bpp / 8);
 #endif  
-    size_t readbytes = fread(reinterpret_cast<char*>(&buffer[0]), 1, size, m_file);
-    if (readbytes != size)
+    m_file->read(reinterpret_cast<char*>(&buffer[0]), size);
+    if (m_file->fail() || m_file->eof())
     {
 #ifdef TEXTURE_LOADER_TEST
-        printf("Read %d bytes instead of %d, exiting\n",  readbytes,size);
+        printf("Reading %d bytes of compressed TGA failed, exiting\n",  size);
 #endif          
         buffer.clear();
         return false;
