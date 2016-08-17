@@ -17,7 +17,9 @@ struct SadTextureTest : tpunit::TestFixture
     SadTextureTest() : tpunit::TestFixture(
         TEST(SadTextureTest::testConvertToPot),
         TEST(SadTextureTest::testLoadSRGBA),
-        TEST(SadTextureTest::testLoadTGACompressed)
+        TEST(SadTextureTest::testLoadTGA24Compressed),
+        TEST(SadTextureTest::testLoadTGA32Compressed),
+        TEST(SadTextureTest::testLoadTGA32Uncompressed)
     ) {}
    
     // Test converting texture to POT-texture
@@ -77,10 +79,22 @@ struct SadTextureTest : tpunit::TestFixture
         }
     }
     
-    void testLoadTGACompressed()
+    void testLoadTGA24Compressed()
     {
         sad::Texture c;
-        ASSERT_TRUE( c.load("examples/game/RLE.tga") ) ;
+        ASSERT_TRUE( c.load("tests/images/tga24_compressed.tga") ) ;
+    }
+
+    void testLoadTGA32Compressed()
+    {
+        sad::Texture c;
+        ASSERT_TRUE( c.load("tests/images/tga32_compressed.tga") ) ;
+    }
+
+     void testLoadTGA32Uncompressed()
+    {
+        sad::Texture c;
+        ASSERT_TRUE( c.load("tests/images/tga32_uncompressed.tga") ) ;
     }
 
 } _sad_texture_test;
