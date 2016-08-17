@@ -16,7 +16,8 @@ struct SadTextureTest : tpunit::TestFixture
  public:
     SadTextureTest() : tpunit::TestFixture(
         TEST(SadTextureTest::testConvertToPot),
-        TEST(SadTextureTest::testLoadSRGBA)    
+        TEST(SadTextureTest::testLoadSRGBA),
+        TEST(SadTextureTest::testLoadTGACompressed)
     ) {}
    
     // Test converting texture to POT-texture
@@ -74,6 +75,12 @@ struct SadTextureTest : tpunit::TestFixture
         {
             ASSERT_TRUE(memcmp(data + i * 8, tmp, 8) == 0 );
         }
+    }
+    
+    void testLoadTGACompressed()
+    {
+        sad::Texture c;
+        ASSERT_TRUE( c.load("examples/game/RLE.tga") ) ;
     }
 
 } _sad_texture_test;
