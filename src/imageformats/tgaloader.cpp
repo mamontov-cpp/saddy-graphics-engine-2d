@@ -1,4 +1,7 @@
 #include "imageformats/tgaloader.h"
+#ifdef TEXTURE_LOADER_TEST
+    #include <cstdio>
+#endif
 
 namespace sad
 {
@@ -166,9 +169,15 @@ bool sad::imageformats::TGALoader::loadCompressed(sad::Texture * texture) const
     unsigned int size = ftell(m_file) - header_buffer_size * sizeof(sad::uchar);
     fseek(m_file, header_buffer_size * sizeof(sad::uchar), SEEK_SET);
     buffer.resize(static_cast<size_t>(size), 255);
+#ifdef TEXTURE_LOADER_TEST
+    printf("RLE buffer size is %d, my bytes per pixel is %d, image's is %d\n", size, m_bypp, texture->Bpp / 8);
+#endif  
     size_t readbytes = fread(reinterpret_cast<char*>(&buffer[0]), 1, size, m_file);
     if (readbytes != size)
     {
+#ifdef TEXTURE_LOADER_TEST
+        printf("Read %d bytes instead of %d, exiting\n",  readbytes,size);
+#endif          
         buffer.clear();
         return false;
     }
@@ -194,6 +203,9 @@ bool sad::imageformats::TGALoader::loadCompressed(sad::Texture * texture) const
             rle_buffer_pos++;
             if (rle_buffer_pos + m_bypp - 1 >= rle_buffer_size)
             {
+#ifdef TEXTURE_LOADER_TEST
+                printf("Buffer position at %d is last, exiting at raw section\n", rle_buffer_pos);
+#endif
                 return false;
             }
 
@@ -201,6 +213,9 @@ bool sad::imageformats::TGALoader::loadCompressed(sad::Texture * texture) const
             {
                 if (image_pos >= image_size)
                 {
+#ifdef TEXTURE_LOADER_TEST
+                    printf("Current image position is %d, exiting at raw section\n", image_pos);
+#endif                  
                     return false;
                 }
                 memcpy(image_buffer + image_pos, rle_buffer + rle_buffer_pos, m_bypp);
@@ -218,6 +233,9 @@ bool sad::imageformats::TGALoader::loadCompressed(sad::Texture * texture) const
             rle_buffer_pos++;
             if (rle_buffer_pos + m_bypp - 1 >= rle_buffer_size)
             {
+#ifdef TEXTURE_LOADER_TEST
+                printf("Buffer position at %d is last, exiting at compressed section\n", rle_buffer_pos);
+#endif              
                 return false;
             }
 
@@ -227,6 +245,9 @@ bool sad::imageformats::TGALoader::loadCompressed(sad::Texture * texture) const
             {
                 if (image_pos >= image_size)
                 {
+#ifdef TEXTURE_LOADER_TEST
+                    printf("Current image position is %d, exiting at compressed section\n", image_pos);
+#endif                      
                     return false;
                 }
                 memcpy(image_buffer + image_pos, pixel, 4);
