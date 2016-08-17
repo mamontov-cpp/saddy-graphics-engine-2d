@@ -124,6 +124,14 @@ bool sad::imageformats::TGALoader::load(FILE * file, sad::Texture * texture)
     return result;
 }
 
+bool sad::imageformats::TGALoader::load(tar7z::Entry* entry, sad::Texture* texture)
+{
+    if (entry == NULL || texture == NULL)
+    {
+        return false;
+    }
+    return false;
+}
 
 sad::imageformats::TGALoader::~TGALoader()
 {
