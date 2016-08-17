@@ -201,6 +201,9 @@ bool sad::imageformats::TGALoader::loadCompressed(sad::Texture * texture) const
             chunkheader++;
             // Move to next byte
             rle_buffer_pos++;
+#ifdef TEXTURE_LOADER_TEST
+            printf("Raw section with length %d at %d. Image position: %d\n", chunkheader, rle_buffer_pos, image_pos);
+#endif
             if (rle_buffer_pos + m_bypp - 1 >= rle_buffer_size)
             {
 #ifdef TEXTURE_LOADER_TEST
@@ -231,6 +234,10 @@ bool sad::imageformats::TGALoader::loadCompressed(sad::Texture * texture) const
             chunkheader -= 127;
             // Move to next byte
             rle_buffer_pos++;
+#ifdef TEXTURE_LOADER_TEST
+            printf("Compressed section with %d  repeated byte at %d. Image position: %d\n", chunkheader, rle_buffer_pos, image_pos);
+#endif
+
             if (rle_buffer_pos + m_bypp - 1 >= rle_buffer_size)
             {
 #ifdef TEXTURE_LOADER_TEST
