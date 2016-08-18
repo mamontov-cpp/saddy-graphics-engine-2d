@@ -65,7 +65,7 @@ std::streampos sad::util::CharArrayIBuf::seekoff(
             m_current = m_end + off;
         }
     }
-    return this->showmanyc();
+    return m_current - m_begin;
 }
 
 std::streamsize  sad::util::CharArrayIBuf::xsgetn(char* s, std::streamsize sz)
