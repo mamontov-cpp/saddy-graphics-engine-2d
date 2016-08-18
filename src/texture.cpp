@@ -305,6 +305,21 @@ bool sad::Texture::load(
     return result;
 }
 
+bool sad::Texture::load(tar7z::Entry* e, sad::Renderer* r)
+{
+    if (!r)
+    {
+        r = sad::Renderer::ref();
+    }
+    m_renderer = r;
+    sad::String ff(sad::String(e->Name).getExtension());
+    char * f=const_cast<char *>(ff.data());
+    while(*f) { *f=toupper(*f); ++f; }
+
+    sad::imageformats::Loader * l = r->textureLoader(ff);
+    return l->load(e, this);
+}
+
 bool sad::Texture::load(const sad::String & filename, sad::Renderer * r)
 {
     if (!r)

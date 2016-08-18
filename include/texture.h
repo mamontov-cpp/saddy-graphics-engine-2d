@@ -20,6 +20,7 @@
 namespace tar7z
 {
 class Archive;
+class Entry;
 }
 
 namespace sad
@@ -34,7 +35,7 @@ class Texture
 : public sad::resource::Resource
 #endif
 {
-#ifndef TEXTURE_LOADER_TEST	
+#ifndef TEXTURE_LOADER_TEST 
 SAD_OBJECT
 #endif
 public:
@@ -189,6 +190,12 @@ enum InternalFormat
         sad::Renderer * r,
         const picojson::value& options
     );
+    /*! Tries to load image from archive entry
+        \param[in] e entry entry, containing data
+        \param[in] r renderer
+        \return whether load was successfull
+     */
+    bool load(tar7z::Entry* e, sad::Renderer* r = NULL);
     /*! Loads an image, depending of file extension
         \param[in] filename name of file
         \param[in] r renderer where texture loader is getting from

@@ -6,6 +6,9 @@
 #define _INC_STDIO
 #include "texture.h"
 #include "3rdparty/tpunit++/tpunit++.hpp"
+#define TAR7Z_SADDY
+#include "3rdparty/tar7z/include/archive.h"
+#include "3rdparty/tar7z/include/reader.h"
 #pragma warning(pop)
 
 /*!
@@ -20,7 +23,11 @@ struct SadTextureTest : tpunit::TestFixture
         TEST(SadTextureTest::testLoadTGA24Compressed),
         TEST(SadTextureTest::testLoadTGA32Compressed),
         TEST(SadTextureTest::testLoadTGA32CompressedSmall),
-        TEST(SadTextureTest::testLoadTGA32Uncompressed)
+        TEST(SadTextureTest::testLoadTGA32Uncompressed),
+        TEST(SadTextureTest::testTarLoadTGA24Compressed),
+        TEST(SadTextureTest::testTarLoadTGA32Compressed),
+        TEST(SadTextureTest::testTarLoadTGA32CompressedSmall),
+        TEST(SadTextureTest::testTarLoadTGA32Uncompressed)
     ) {}
    
     // Test converting texture to POT-texture
@@ -98,10 +105,54 @@ struct SadTextureTest : tpunit::TestFixture
         ASSERT_TRUE( c.load("tests/images/tga32_compressed.tga") ) ;
     }
 
-     void testLoadTGA32Uncompressed()
+    void testLoadTGA32Uncompressed()
     {
         sad::Texture c;
         ASSERT_TRUE( c.load("tests/images/tga32_uncompressed.tga") ) ;
+    }
+    
+    void testTarLoadTGA24Compressed()
+    {
+        sad::Texture c;
+        tar7z::Archive a;
+        tar7z::Reader r;
+        ASSERT_TRUE( r.read("tests/images/images.tar", a) == tar7z::T7ZE_OK );
+        tar7z::Entry* e = a.file("tga24_compressed.tga");
+        ASSERT_TRUE(e);
+        ASSERT_TRUE( c.load(e) );
+    }
+    
+    void testTarLoadTGA32Compressed()
+    {
+        sad::Texture c;
+        tar7z::Archive a;
+        tar7z::Reader r;
+        ASSERT_TRUE( r.read("tests/images/images.tar", a) == tar7z::T7ZE_OK );
+        tar7z::Entry* e = a.file("tga32_compressed.tga");
+        ASSERT_TRUE(e);
+        ASSERT_TRUE( c.load(e) );
+    }
+    
+    void testTarLoadTGA32CompressedSmall()
+    {
+        sad::Texture c;
+        tar7z::Archive a;
+        tar7z::Reader r;
+        ASSERT_TRUE( r.read("tests/images/images.tar", a) == tar7z::T7ZE_OK );
+        tar7z::Entry* e = a.file("tga32_compressed_small.tga");
+        ASSERT_TRUE(e);
+        ASSERT_TRUE( c.load(e) );
+    }
+    
+    void testTarLoadTGA32Uncompressed()
+    {
+        sad::Texture c;
+        tar7z::Archive a;
+        tar7z::Reader r;
+        ASSERT_TRUE( r.read("tests/images/images.tar", a) == tar7z::T7ZE_OK );
+        tar7z::Entry* e = a.file("tga32_uncompressed.tga");
+        ASSERT_TRUE(e);
+        ASSERT_TRUE( c.load(e) );
     }
 
 } _sad_texture_test;
