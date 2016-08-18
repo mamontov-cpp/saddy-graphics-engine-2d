@@ -2,7 +2,11 @@
 
 #include "texture.h"
 
-const int maxlogtexturesize = 14; 
+#define TAR7Z_SADDY
+
+#include "3rdparty/tar7z/include/tar.h"
+
+const int maxlogtexturesize = 14;
 
 sad::imageformats::PixelStorageLoader::PixelStorageLoader(const sad::imageformats::PixelStorageLoader::Settings& settings) : m_settings(settings)
 {
@@ -19,7 +23,7 @@ bool sad::imageformats::PixelStorageLoader::load(FILE * file, sad::Texture * tex
 
     const int headersize = m_settings.SignatureSize + 1;
     sad::uchar* header = new sad::uchar[headersize];
-    
+
     // Exit if unable to read header
     if (fread(header, headersize, 1, file) != 1)
     {
@@ -34,7 +38,7 @@ bool sad::imageformats::PixelStorageLoader::load(FILE * file, sad::Texture * tex
         return false;
     }
 
-    
+
     // Exit if image size is too large
     sad::uchar logtexsize = header[headersize - 1];
     if (logtexsize > maxlogtexturesize)
@@ -61,6 +65,56 @@ bool sad::imageformats::PixelStorageLoader::load(FILE * file, sad::Texture * tex
     texture->Format = static_cast<sad::Texture::InternalFormat>(m_settings.Format);
     delete texture->Buffer;
     texture->Buffer = newbuffer;
+
+    return true;
+}
+
+bool sad::imageformats::PixelStorageLoader::load(tar7z::Entry* entry, sad::Texture* texture)
+{
+    if (entry == NULL || texture == NULL)
+        return false;
+
+    const char* buffer = entry->contents();
+
+    const int headersize = m_settings.SignatureSize + 1;
+
+    if (entry->Size < headersize)
+    {
+        return false;
+    }
+
+    // Exit if signature is invalid
+    if (memcmp(buffer, m_settings.Signature, m_settings.SignatureSize) != 0)
+    {
+        return false;
+    }
+
+
+    // Exit if image size is too large
+    sad::uchar logtexsize = buffer[headersize - 1];
+    if (logtexsize > maxlogtexturesize)
+    {
+        return false;
+    }
+
+    unsigned int texsize = 1 << static_cast<unsigned int>(logtexsize);
+    unsigned int buffersize = texsize * texsize * (m_settings.Bpp / 8);
+
+    // Exit on insufficient space
+    if (buffersize + headersize > entry->Size)
+    {
+        return false;
+    }
+
+    texture->width() = texsize;
+    texture->height() = texsize;
+    texture->bpp() = m_settings.Bpp;
+    texture->Format = static_cast<sad::Texture::InternalFormat>(m_settings.Format);
+    delete texture->Buffer;
+    sad::Texture::Tar7zArchiveBuffer* buf = new sad::Texture::Tar7zArchiveBuffer();
+    buf->Archive = entry->Parent;
+    buf->Offset = entry->Offset + headersize;
+    texture->Buffer = buf;
 
     return true;
 }

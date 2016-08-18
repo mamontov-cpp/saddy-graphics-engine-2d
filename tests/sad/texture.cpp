@@ -26,12 +26,19 @@ struct SadTextureTest : tpunit::TestFixture
         TEST(SadTextureTest::testLoadTGA32Uncompressed),
         TEST(SadTextureTest::testLoadBMP),
         TEST(SadTextureTest::testLoadPNG),
+        TEST(SadTextureTest::testLoadSR3G3B2),
+        TEST(SadTextureTest::testLoadSR5G6B5),
+        TEST(SadTextureTest::testLoadSR4G4B4A4),
         TEST(SadTextureTest::testTarLoadTGA24Compressed),
         TEST(SadTextureTest::testTarLoadTGA32Compressed),
         TEST(SadTextureTest::testTarLoadTGA32CompressedSmall),
         TEST(SadTextureTest::testTarLoadTGA32Uncompressed),
         TEST(SadTextureTest::testTarLoadBMP),
-        TEST(SadTextureTest::testTarLoadPNG)
+        TEST(SadTextureTest::testTarLoadPNG),
+        TEST(SadTextureTest::testTarLoadSRGBA),
+        TEST(SadTextureTest::testTarLoadSR3G3B2),
+        TEST(SadTextureTest::testTarLoadSR5G6B5),
+        TEST(SadTextureTest::testTarLoadSR4G4B4A4)
     ) {}
    
     // Test converting texture to POT-texture
@@ -126,6 +133,24 @@ struct SadTextureTest : tpunit::TestFixture
         sad::Texture c;
         ASSERT_TRUE( c.load("tests/images/png.png") ) ;
     }
+
+    void testLoadSR3G3B2()
+    {
+        sad::Texture c;
+        ASSERT_TRUE( c.load("tests/images/nice.sr3g3b2") ) ;
+    }
+
+    void testLoadSR5G6B5()
+    {
+        sad::Texture c;
+        ASSERT_TRUE( c.load("tests/images/nice.sr5g6b5") ) ;
+    }
+
+    void testLoadSR4G4B4A4()
+    {
+        sad::Texture c;
+        ASSERT_TRUE( c.load("tests/images/nice.sr4g4b4a4") ) ;
+    }
     
     void testTarLoadTGA24Compressed()
     {
@@ -189,6 +214,50 @@ struct SadTextureTest : tpunit::TestFixture
         tar7z::Reader r;
         ASSERT_TRUE( r.read("tests/images/images.tar", a) == tar7z::T7ZE_OK );
         tar7z::Entry* e = a.file("png.png");
+        ASSERT_TRUE(e);
+        ASSERT_TRUE( c.load(e) );
+    }
+
+    void testTarLoadSRGBA()
+    {
+        sad::Texture c;
+        tar7z::Archive a;
+        tar7z::Reader r;
+        ASSERT_TRUE( r.read("tests/images/images.tar", a) == tar7z::T7ZE_OK );
+        tar7z::Entry* e = a.file("nice.srgba");
+        ASSERT_TRUE(e);
+        ASSERT_TRUE( c.load(e) );
+    }
+
+    void testTarLoadSR3G3B2()
+    {
+        sad::Texture c;
+        tar7z::Archive a;
+        tar7z::Reader r;
+        ASSERT_TRUE( r.read("tests/images/images.tar", a) == tar7z::T7ZE_OK );
+        tar7z::Entry* e = a.file("nice.sr3g3b2");
+        ASSERT_TRUE(e);
+        ASSERT_TRUE( c.load(e) );
+    }
+
+    void testTarLoadSR5G6B5()
+    {
+        sad::Texture c;
+        tar7z::Archive a;
+        tar7z::Reader r;
+        ASSERT_TRUE( r.read("tests/images/images.tar", a) == tar7z::T7ZE_OK );
+        tar7z::Entry* e = a.file("nice.sr5g6b5");
+        ASSERT_TRUE(e);
+        ASSERT_TRUE( c.load(e) );
+    }
+
+    void testTarLoadSR4G4B4A4()
+    {
+        sad::Texture c;
+        tar7z::Archive a;
+        tar7z::Reader r;
+        ASSERT_TRUE( r.read("tests/images/images.tar", a) == tar7z::T7ZE_OK );
+        tar7z::Entry* e = a.file("nice.sr4g4b4a4");
         ASSERT_TRUE(e);
         ASSERT_TRUE( c.load(e) );
     }
