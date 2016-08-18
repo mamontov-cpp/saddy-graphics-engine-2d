@@ -55,6 +55,12 @@ private:
         std::ios_base::seekdir way,
         std::ios_base::openmode which
     );
+    /*! Reads data from stream
+        \param[in] s data
+        \param[in] sz stream
+        \return amount of read bytes
+     */
+    virtual std::streamsize xsgetn(char* s, std::streamsize sz);	
 
     /*! Copying is disabled
         \param[in] o object

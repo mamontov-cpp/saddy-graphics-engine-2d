@@ -45,6 +45,7 @@ private:
     /*! Reads data from stream
         \param[in] s data
         \param[in] sz stream
+        \return amount of read bytes
      */
     virtual std::streamsize xsgetn(char* s, std::streamsize sz);
 

@@ -43,6 +43,7 @@ std::streamsize sad::util::CharArrayIBuf::showmanyc()
     return m_end - m_current;
 }
 
+
 std::streampos sad::util::CharArrayIBuf::seekoff(
     std::streamoff off, 
     std::ios_base::seekdir way,
@@ -65,4 +66,18 @@ std::streampos sad::util::CharArrayIBuf::seekoff(
         }
     }
     return this->showmanyc();
+}
+
+std::streamsize  sad::util::CharArrayIBuf::xsgetn(char* s, std::streamsize sz)
+{
+    std::streamsize bytesleft = this->showmanyc();
+    if (sz > bytesleft)
+    {
+        memcpy(s, m_current, bytesleft * sizeof(char));
+        m_current += bytesleft;
+        return bytesleft;
+    }
+    memcpy(s, m_current, sz * sizeof(char));
+    m_current += sz;
+    return sz;
 }
