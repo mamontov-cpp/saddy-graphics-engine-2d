@@ -28,7 +28,7 @@ public:
         \param[in] entry a file entry to be loaded
         \param[in] texture a source texture
      */
-    virtual bool load(tar7z::Entry* entry, sad::Texture* texture);	
+    virtual bool load(tar7z::Entry* entry, sad::Texture* texture);
     /*! Kept for purpose of inheritance
      */
     virtual ~BMPLoader();

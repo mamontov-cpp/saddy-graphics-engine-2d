@@ -25,11 +25,13 @@ struct SadTextureTest : tpunit::TestFixture
         TEST(SadTextureTest::testLoadTGA32CompressedSmall),
         TEST(SadTextureTest::testLoadTGA32Uncompressed),
         TEST(SadTextureTest::testLoadBMP),
+        TEST(SadTextureTest::testLoadPNG),
         TEST(SadTextureTest::testTarLoadTGA24Compressed),
         TEST(SadTextureTest::testTarLoadTGA32Compressed),
         TEST(SadTextureTest::testTarLoadTGA32CompressedSmall),
         TEST(SadTextureTest::testTarLoadTGA32Uncompressed),
-        TEST(SadTextureTest::testTarLoadBMP)
+        TEST(SadTextureTest::testTarLoadBMP),
+        TEST(SadTextureTest::testTarLoadPNG)
     ) {}
    
     // Test converting texture to POT-texture
@@ -118,6 +120,12 @@ struct SadTextureTest : tpunit::TestFixture
         sad::Texture c;
         ASSERT_TRUE( c.load("tests/images/bmp.bmp") ) ;
     }
+
+    void testLoadPNG()
+    {
+        sad::Texture c;
+        ASSERT_TRUE( c.load("tests/images/png.png") ) ;
+    }
     
     void testTarLoadTGA24Compressed()
     {
@@ -170,6 +178,17 @@ struct SadTextureTest : tpunit::TestFixture
         tar7z::Reader r;
         ASSERT_TRUE( r.read("tests/images/images.tar", a) == tar7z::T7ZE_OK );
         tar7z::Entry* e = a.file("bmp.bmp");
+        ASSERT_TRUE(e);
+        ASSERT_TRUE( c.load(e) );
+    }
+
+    void testTarLoadPNG()
+    {
+        sad::Texture c;
+        tar7z::Archive a;
+        tar7z::Reader r;
+        ASSERT_TRUE( r.read("tests/images/images.tar", a) == tar7z::T7ZE_OK );
+        tar7z::Entry* e = a.file("png.png");
         ASSERT_TRUE(e);
         ASSERT_TRUE( c.load(e) );
     }
