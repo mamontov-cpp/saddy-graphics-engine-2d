@@ -158,6 +158,11 @@ sad::Vector<sad::resource::Error*> sad::resource::TextureAtlasFile::reload()
     return errors;  
 }
 
+bool sad::resource::TextureAtlasFile::supportsLoadingFromTar7z() const
+{
+    return true;
+}
+
 
 void sad::resource::TextureAtlasFile::tryParsePartial(
         sad::resource::TextureAtlasFile::parse_result & result,

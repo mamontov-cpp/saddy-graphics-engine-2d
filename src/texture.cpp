@@ -266,6 +266,11 @@ void sad::Texture::loadDefaultTexture()
     Buffer = new sad::Texture::DefaultImageBuffer();
 }
 
+bool sad::Texture::supportsLoadingFromTar7z() const
+{
+    return true;
+}
+
 void sad::Texture::unloadFromGPU()
 {
     this->unload();

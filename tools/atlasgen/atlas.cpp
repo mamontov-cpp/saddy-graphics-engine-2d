@@ -62,8 +62,9 @@ void Atlas::prepareForOutput(const OutputOptions& options)
     if (options.ProgramOptions->contains("write-to-tar"))
     {
         tarname_protocol_string = (*(options.ProgramOptions))["short-tar-name"].toString();
+        size_t length = tarname_protocol_string.size();
         tarname_protocol_string.prepend("://");
-        tarname_protocol_string.prepend(QString::number(tarname_protocol_string.size()));
+        tarname_protocol_string.prepend(QString::number(length));
         tarname_protocol_string.prepend("tar7z:");
         tarname_protocol_string.append("/");
         this->m_output_texture = tarname_protocol_string + OutputOptions::tar7zCompatibleName(this->m_output_texture);

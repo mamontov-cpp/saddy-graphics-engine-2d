@@ -17,7 +17,8 @@ struct SadStringTest : tpunit::TestFixture
    SadStringTest() : tpunit::TestFixture(
        TEST(SadStringTest::testSplitKeepEmptyParts),
        TEST(SadStringTest::testSplitOmitEmptyParts),
-       TEST(SadStringTest::testTrimSpaces)
+       TEST(SadStringTest::testTrimSpaces),
+       TEST(SadStringTest::testParseUInt)
    ) {}
    
    void testSplitKeepEmptyParts()
@@ -80,6 +81,65 @@ struct SadStringTest : tpunit::TestFixture
            s.trimSpaces();
            ASSERT_TRUE( s.length() == 0 );
        }
+   }
+
+   void testParseUInt()
+   {
+        {
+            unsigned int f = 22;
+            const char* b = "a";
+            ASSERT_TRUE( sad::String::parseUInt(b, b, &f) == false );
+            ASSERT_TRUE( f == 22);
+        }
+
+        {
+            unsigned int f = 22;
+            const char* b = "a23";
+            ASSERT_TRUE( sad::String::parseUInt(b, b + 2, &f) == false );
+            ASSERT_TRUE( f == 22);
+        }
+
+        {
+            unsigned int f = 22;
+            const char* b = "12a3";
+            ASSERT_TRUE( sad::String::parseUInt(b, b + 3, &f) == false );
+            ASSERT_TRUE( f == 22);
+        }
+
+        {
+            unsigned int f = 22;
+            const char* b = "0";
+            ASSERT_TRUE( sad::String::parseUInt(b, b, &f) == true );
+            ASSERT_TRUE( f == 0);
+        }
+
+        {
+            unsigned int f = 22;
+            const char* b = "9";
+            ASSERT_TRUE( sad::String::parseUInt(b, b, &f) == true );
+            ASSERT_TRUE( f == 9);
+        }
+
+        {
+            unsigned int f = 22;
+            const char* b = "192";
+            ASSERT_TRUE( sad::String::parseUInt(b, b + 2, &f) == true );
+            ASSERT_TRUE( f == 192);
+        }
+
+        {
+            unsigned int f = 22;
+            const char* b = "092";
+            ASSERT_TRUE( sad::String::parseUInt(b, b + 2, &f) == true );
+            ASSERT_TRUE( f == 92);
+        }
+
+        {
+            unsigned int f = 22;
+            const char* b = "10034";
+            ASSERT_TRUE( sad::String::parseUInt(b, b + 4, &f) == true );
+            ASSERT_TRUE( f == 10034);
+        }
    }
 
 } _sad_string_test;

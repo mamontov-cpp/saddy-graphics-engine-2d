@@ -8,10 +8,20 @@
  */
 #pragma once
 #include "../sadptrvector.h"
+#include "../sadhash.h"
 #include "resource.h"
 #include "resourcefactory.h"
 #include "folder.h"
 #include "error.h"
+
+
+namespace tar7z
+{
+
+class Archive;
+class Entry;
+
+}
 
 namespace sad
 {
@@ -159,7 +169,16 @@ public:
     /*! Forces all resources to unload self from GPU
      */
     void unloadResourcesFromGPU();
+    /*! Returns archive entry by name. Tries to load archive if need to
+        \param[in] archive an archive name
+        \param[in] filename a file name
+        \return entry if entry exists
+     */
+    tar7z::Entry* archiveEntry(const sad::String& archive, const sad::String filename);
 protected: 
+    /*! An archives for a tree
+     */
+    sad::Hash<sad::String, tar7z::Archive*> m_archives;
     /*! A loaded files to be stored
      */
     sad::PtrVector<sad::resource::PhysicalFile> m_files;

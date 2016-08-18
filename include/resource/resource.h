@@ -22,6 +22,50 @@ class Error;
 class Folder;
 class AbstractLink;
 
+/*! A type of resource identifier, determining how resource is stored
+ */
+enum IdentifierType
+{
+    /*! Just plain file in filesystem
+     */
+    IT_FILE = 0,
+    /*! An inner file in tar7z archive
+     */
+    IT_TAR7Z_INNER_FILE = 1
+};
+
+/*! An idetifier, that identifies resource to be loaded
+ */
+struct Identifier
+{
+    /*! Whether identifier is valid
+     */
+    bool Valid; 
+    /*! An identifier type for resource, which defines, how file 
+        is stored
+     */
+    sad::resource::IdentifierType Type;
+    /*! An inner file name in case of archives, external file name
+        if identifier is file.
+     */
+    sad::String FileName;
+    /*!  An archive file name for archives
+     */
+    sad::String ArchiveName;
+
+    /*! By default identifier is invalid file
+     */
+    inline Identifier() : Valid(false), Type(sad::resource::IT_FILE)
+    {
+        
+    }
+    /*! Parses string to resource identifier
+        \param[in] string a string of identifier
+        \param[in] ri output resource identifier
+     */
+    static void parse(const sad::String& string, sad::resource::Identifier& ri);
+};
+
 /*! \class Resource
 
     A resource is a basic object, which can be loaded from file and stored in resource databse
@@ -117,6 +161,10 @@ public:
         \return options
      */
     const picojson::value & options() const;
+    /*! Returns whether resource supports loading from archive
+        \return default implementation return false
+     */
+    virtual bool supportsLoadingFromTar7z() const;
 protected: 
     /*! Loads a resource from specified file, using specified renderer for resolving some 
         properties.

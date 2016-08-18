@@ -97,6 +97,7 @@
     <ClCompile Include="folder.cpp" />
     <ClCompile Include="link.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="resource.cpp" />
     <ClCompile Include="textureatlasfile.cpp" />
     <ClCompile Include="tree.cpp" />
   </ItemGroup>

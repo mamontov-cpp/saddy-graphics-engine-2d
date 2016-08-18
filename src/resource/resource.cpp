@@ -7,10 +7,54 @@
 
 #include <algorithm>
 
+// ================================== sad::resource::Identifier ==================================
+
+void sad::resource::Identifier::parse(const sad::String& string, sad::resource::Identifier& ri)
+{
+    const int tar7zlength = 6;
+    if (string.startsWith("tar7z:", tar7zlength))
+    {
+        ri.Type = sad::resource::IT_TAR7Z_INNER_FILE;
+        ri.Valid  = false;
+        const char* endstring = string.c_str() + string.size();
+        const char* numbuf = string.c_str() + tar7zlength; 
+        const char* endbuf = strchr(numbuf, ':');
+        if (endbuf)
+        {
+            endbuf--;
+            unsigned int archive_name_size;
+            if (sad::String::parseUInt(numbuf, endbuf, &archive_name_size))
+            {
+                endbuf += 4;
+                if ((endbuf <= endstring) && ((endbuf + archive_name_size) <= endstring))
+                {
+                    sad::String& archive_name = ri.ArchiveName;
+                    archive_name.replace(archive_name.begin(), archive_name.end(), endbuf, archive_name_size);
+                    endbuf += archive_name_size;
+                    ++endbuf;
+                    if (endbuf < endstring)
+                    {
+                        ri.Valid = true;
+                        ri.FileName = endbuf;
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        ri.Valid = true;
+        ri.Type = sad::resource::IT_FILE;
+        ri.FileName = string;
+    }
+}
+
+// ================================== sad::resource::Resource ==================================
+
 DECLARE_SOBJ(sad::resource::Resource);
 
 
-sad::resource::Resource::Resource() : m_folder(NULL), m_store_links(false), m_file(NULL)
+sad::resource::Resource::Resource() : m_folder(NULL), m_file(NULL), m_store_links(false)
 {
     
 }
@@ -156,4 +200,9 @@ const sad::String & sad::resource::Resource::factoryName() const
 const picojson::value & sad::resource::Resource::options() const
 {
     return m_options;	
+}
+
+bool sad::resource::Resource::supportsLoadingFromTar7z() const
+{
+    return false;
 }

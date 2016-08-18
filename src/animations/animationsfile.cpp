@@ -90,6 +90,11 @@ sad::Vector<sad::resource::Error*> sad::animations::File::reload()
     return load(this->tree()->root());
 }
 
+bool sad::animations::File::supportsLoadingFromTar7z() const
+{
+    return true;
+}
+
 // =================================== PROTECTED METHODS  ===================================
 
 void sad::animations::File::tryParsePartial(

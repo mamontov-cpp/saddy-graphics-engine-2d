@@ -49,7 +49,8 @@ struct SadTreeTest : tpunit::TestFixture
        TEST(SadTreeTest::testUnload2),
        TEST(SadTreeTest::testReloadTexture),
        TEST(SadTreeTest::testReloadTextureMappedFont),
-       TEST(SadTreeTest::testReloadFreetypeFont)
+       TEST(SadTreeTest::testReloadFreetypeFont),
+       TEST(SadTreeTest::testArchiveEntry)
    ) {}
 
    
@@ -482,6 +483,16 @@ struct SadTreeTest : tpunit::TestFixture
        ASSERT_TRUE( count == 0 );
 
        ASSERT_TRUE( l1.get() != old );
+   }
+
+   void testArchiveEntry()
+   {
+       sad::Renderer r;
+       sad::resource::Tree tree;
+       tree.setStoreLinks(true);
+       tree.setRenderer(&r);
+       ASSERT_TRUE( tree.archiveEntry("tests/images/images.tar", "png.png") != NULL) ;
+       ASSERT_TRUE( tree.archiveEntry("111", "png.png") == NULL) ;
    }
 
 } _sad_tree_test;

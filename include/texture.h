@@ -178,6 +178,10 @@ enum InternalFormat
     /*! Unloads all resources from GPU. By default does nothing
      */
     virtual void unloadFromGPU();
+    /*! Returns whether resource supports loading from archive
+        \return true. This resource supports loading from archives.
+     */
+    virtual bool supportsLoadingFromTar7z() const;
 #ifndef TEXTURE_LOADER_TEST
     /*! Loads a texture from specified file, using specified renderer for building mip maps.
         \param[in] file a file, via which a resource should be loaded

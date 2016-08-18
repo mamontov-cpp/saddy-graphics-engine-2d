@@ -76,30 +76,6 @@ public:
              const char * delimiters, 
              sad::String::SplitBehaviour b = sad::String::OMIT_EMPTY_PARTS
          ) const;
-         /*!  Compares two strings, firstly by length, secondly symbol-wise
-              \sa string::cmpchar
-              \param[in] o other string
-              \return true if bigger.
-         */
-         bool operator>(const String & o) const;
-         /*!  Compares two strings, firstly by length, secondly symbol-wise
-              \sa string::cmpchar
-              \param[in] o other string
-              \return true if bigger or equal
-         */
-         bool operator>=(const String & o) const;
-         /*!  Compares two strings, firstly by length, secondly symbol-wise
-              \sa string::cmpchar
-              \param[in] o other string
-              \return true if lesser.
-         */
-         bool operator<(const String & o) const;
-         /*!  Compares two strings, firstly by length, secondly symbol-wise
-              \sa string::cmpchar
-              \param[in] o other string
-              \return true if lesser or equal.
-         */
-         bool operator<=(const String & o) const;
          /*! Places a character to end of string
              \param[in] c character
              \return self-reference
@@ -246,6 +222,13 @@ public:
              \return    result of conversion
          */
          static int  toInt(const String & str);
+         /*! An unsafe fast version of parsing unsigned int
+             \param[in]  begin begining of buffer
+             \param[in]  end last character of buffer
+             \param[out] r resulting number
+             \return whether parsing was successfull
+          */
+         static bool parseUInt(const char* begin, const char* end, unsigned int* r);
          /*! String conversion to float type. Uses sscanf() to convert
              \param[in] str string to be converted
              \return    result of conversion
@@ -272,15 +255,11 @@ public:
             \return whether string consists from whitespaces
           */
          bool trimRight();
-private:
-         /*! It compares symbols it by priority on russian language.
-             The biggest are big latin symbols
-             then go other symbols, like small latin symbols, locales and numerics.
-             \param[in] c1 first char
-             \param[in] c2 second char
-             \return false if c1 is bigger than c2 by priority or code
-         */
-         bool cmpchar(char c1,char c2) const;
+         /*! Tests, whether string starts with specified symbols
+             \param[in] s string
+             \param[in] sz size
+          */
+         bool startsWith(const char* s, size_t sz) const;
 };
 
 /*! Joins a list into a string with separator sep.

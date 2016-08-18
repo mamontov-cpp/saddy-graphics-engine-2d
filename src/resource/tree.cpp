@@ -9,6 +9,11 @@
 #include "util/free.h"
 #include "util/fs.h"
 
+#define TAR7Z_SADDY
+
+#include "3rdparty/tar7z/include/tar.h"
+#include "3rdparty/tar7z/include/reader.h"
+
 #include <fstream>
 
 sad::resource::Tree::Tree(sad::Renderer * r)
@@ -29,6 +34,10 @@ sad::resource::Tree::~Tree()
 {
     delete m_root;
     delete m_factory;
+    for(sad::Hash<sad::String, tar7z::Archive*>::iterator it = m_archives.begin(); it != m_archives.end(); ++it)
+    {
+        delete it.value();
+    }
 }
 
 
@@ -439,4 +448,47 @@ sad::resource::Folder * sad::resource::Tree::temporaryRoot() const
 void sad::resource::Tree::unloadResourcesFromGPU()
 {
     this->root()->unloadResourcesFromGPU();
+}
+
+tar7z::Entry* sad::resource::Tree::archiveEntry(const sad::String& archive, const sad::String filename)
+{
+    if (m_archives.contains(archive))
+    {
+        return m_archives[archive]->file(filename);
+    }
+    tar7z::Archive* ar = new tar7z::Archive();
+    tar7z::Reader r;
+    bool ok = true;
+    if (r.read(archive, *ar) != tar7z::T7ZE_OK)
+    {
+        ok = false;
+        if (sad::util::isAbsolutePath(archive) == false)
+        {
+            if (m_temporary_root.length() != 0)
+            {
+                sad::String path = sad::util::concatPaths(m_temporary_root, archive);
+                if (r.read(path, *ar) == tar7z::T7ZE_OK)
+                {
+                    ok = true;
+                }
+            }
+
+            if (!ok)
+            {
+                sad::String path = sad::util::concatPaths(m_renderer->executablePath(), archive);
+                if (r.read(path, *ar) == tar7z::T7ZE_OK)
+                {
+                    ok = true;
+                }
+            }
+        }        
+    }
+    if (ok)
+    {
+        m_archives.insert(archive, ar);
+        return ar->file(filename);
+    }
+    
+    delete ar;
+    return NULL;    
 }

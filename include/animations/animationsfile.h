@@ -46,6 +46,10 @@ public:
         \return errors if any occured on resources
      */
     virtual sad::Vector<sad::resource::Error*> reload();
+    /*! Returns whether resource supports loading from archive
+        \return true. This resource supports loading from archives.
+     */
+    virtual bool supportsLoadingFromTar7z() const;
 protected:
     /*! Parses file with texture atlas
         \param[out] result a texture atlas file

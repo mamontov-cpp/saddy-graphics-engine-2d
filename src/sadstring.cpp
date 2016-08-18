@@ -33,34 +33,6 @@ sad::String & sad::String::operator<<(char c)
   return *this;
 }
 
-bool sad::String::operator>(const sad::String &o) const
-{
-    unsigned long minlen=(this->length()<o.length())?this->length():o.length();
-    unsigned long i;
-    for (i=0;i<minlen;i++)
-    {
-      if ((*this)[i]!=o[i])
-        if (cmpchar((*this)[i],o[i]))
-            return false;
-        else
-            return true;
-    }
-    if (this->length()>o.length())
-        return true;
-    return false;
-}
-bool sad::String::operator>=(const sad::String & o) const
-{
-    return (*this>o) || (*this==o);
-}
-bool sad::String::operator<=(const sad::String & o) const
-{
-    return !(*this>o);
-}
-bool sad::String::operator<(const sad::String & o) const
-{
-    return !(*this>=o);
-}
 void sad::String::remove(long i)
 {
     if (i > -1 && i <= (long)(this->length()))
@@ -235,6 +207,33 @@ int sad::String::toInt(const sad::String & str)
     sscanf(str.data(),"%d",&result);
     return result;
 }
+
+bool sad::String::parseUInt(const char* begin, const char* end, unsigned int* r)
+{    
+    bool ok  = true;
+    unsigned int rr = 0;
+    unsigned int p = 1;
+    while((end >= begin) && ok)
+    {
+        char c = *end;
+        if (c >= '0' && c <= '9')
+        {
+            rr += (c - '0') * p;
+        }
+        else
+        {
+            ok = false;
+        }
+        --end;
+        p *= 10;
+    }
+    if (ok)
+    {
+        *r = rr;
+    }
+    return ok;
+}
+
 float sad::String::toFloat(const sad::String & str)
 {
     float result=0;
@@ -425,47 +424,13 @@ bool sad::String::trimRight()
     return is_whitespace;
 }
 
-bool sad::String::cmpchar(char c1,char c2) const //Return false if c1 is bigger than c2
+bool sad::String::startsWith(const char* s, size_t sz) const
 {
-    int priority1,priority2;
-    if (c1>=65 && c1<=90)
-        priority1=8;
-    else if (c1>=97 && c1<=122)
-        priority1=7;
-    else if (c1<=-123)
-        priority1=6;
-    else if (c1==-16)
-        priority1=5;
-    else if (c1>=-122 && c1<=-97)
-        priority1=4;
-    else if (c1>=-96 && c1<=-91)
-        priority1=3;
-    else if (c1==-15)
-        priority1=2;
-    else if ((c1>=-90 && c1<=-81) || (c1>=-32 && c1<=-17))
-        priority1=1;
-    else priority1=0;
-
-    if (c2>=65 && c2<=90)
-        priority2=8;
-    else if (c2>=97 && c2<=122)
-        priority2=7;
-    else if (c2<=-123)
-        priority2=6;
-    else if (c2==-16)
-        priority2=5;
-    else if (c2>=-122 && c2<=-97)
-        priority2=4;
-    else if (c2>=-96 && c2<=-91)
-        priority2=3;
-    else if (c2==-15)
-        priority2=2;
-    else if ((c2>=-90 && c2<=-81) || (c2>=-32 && c2<=-17))
-        priority2=1;
-    else priority2=0;
-    if (priority1>priority2) return true;
-    else if (priority1<priority2) return false;
-    return c1<c2;
+    if (this->size() < sz)
+    {
+        return false;
+    }
+    return memcmp(this->c_str(), s, sz) == 0;
 }
 
 sad::String sad::join(const sad::StringList list, const sad::String & sep)
