@@ -1,5 +1,15 @@
 #include "imageformats/bmploader.h"
 
+#include <iostream>
+
+
+#include "util/chararrayibuf.h"
+#include "util/fileistreambuf.h"
+
+#define TAR7Z_SADDY
+
+#include "3rdparty/tar7z/include/tar.h"
+
 #pragma pack(push, 1)
 
 namespace sad
@@ -40,15 +50,45 @@ struct BMPImageHeader
 
 static const short bmp_magic_number = 19778;
 
+// ========================================================================== PUBLIC METHODS ==========================================================================
+
 bool sad::imageformats::BMPLoader::load(FILE * file, sad::Texture * texture)
 {
     if (file == NULL || texture == NULL)
         return false;
 
+    sad::util::FileIStreamBuf buf(file);
+    return this->load(&buf, texture);
+}
+
+bool sad::imageformats::BMPLoader::load(tar7z::Entry* entry, sad::Texture* texture)
+{
+    if (entry == NULL || texture == NULL)
+    {
+        return false;
+    }
+    sad::util::CharArrayIBuf buf(entry->contents(), entry->contents() + entry->Size);
+    return this->load(&buf, texture);
+}
+
+sad::imageformats::BMPLoader::~BMPLoader()
+{
+
+}
+
+// ========================================================================== PROTECTED METHODS ==========================================================================
+
+bool sad::imageformats::BMPLoader::load(std::streambuf* buf, sad::Texture* texture)
+{
+    if (buf == NULL || texture == NULL)
+        return false;
+
+    std::istream stream(buf);
     // Try to read header
     sad::imageformats::BMPHeader header;
-    size_t read = fread(&header, 1, sizeof(sad::imageformats::BMPHeader), file);
-    if (read != sizeof(sad::imageformats::BMPHeader))
+
+    stream.read(reinterpret_cast<char*>(&header), sizeof(sad::imageformats::BMPHeader));
+    if (stream.fail() || stream.eof())
     {
         return false;
     }
@@ -61,8 +101,8 @@ bool sad::imageformats::BMPLoader::load(FILE * file, sad::Texture * texture)
 
     // Read image information
     sad::imageformats::BMPImageHeader image_header;
-    read = fread(&image_header, 1, sizeof(sad::imageformats::BMPImageHeader), file);
-    if (read != sizeof(sad::imageformats::BMPImageHeader))
+    stream.read(reinterpret_cast<char*>(&image_header), sizeof(sad::imageformats::BMPImageHeader));
+    if (stream.fail() || stream.eof())
     {
         return false;
     }
@@ -75,7 +115,8 @@ bool sad::imageformats::BMPLoader::load(FILE * file, sad::Texture * texture)
     }
 
     // Try to move to image data beginning to read it
-    if (fseek(file, header.offsetbits, SEEK_SET) != 0)
+    stream.seekg(header.offsetbits, std::ios_base::beg);
+    if (stream.fail() || stream.eof())
     {
         return false;
     }
@@ -98,7 +139,8 @@ bool sad::imageformats::BMPLoader::load(FILE * file, sad::Texture * texture)
         unsigned int offset = 4 * (y * width + x);
         unsigned char * offset_buffer = buffer + offset;
 
-        if(fread(offset_buffer, sizeof(unsigned char), bypp, file) != bypp)
+        stream.read(reinterpret_cast<char*>(offset_buffer), bypp);
+        if (stream.fail() || stream.eof())
         {
             delete newbuffer;
             return false;
@@ -124,8 +166,3 @@ bool sad::imageformats::BMPLoader::load(FILE * file, sad::Texture * texture)
     return true;
 }
 
-
-sad::imageformats::BMPLoader::~BMPLoader()
-{
-
-}
