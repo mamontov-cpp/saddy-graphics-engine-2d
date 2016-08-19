@@ -25,13 +25,13 @@
 #include "counterrorsoftype.h"
 
 /*!
- * Tests sad::resource::TextureAtlasFile
+ * Tests sad::animations::File
  */
-struct SadAnimaionFileTest : tpunit::TestFixture
+struct SadAnimationFileTest : tpunit::TestFixture
 {
  public:
-   SadAnimaionFileTest() : tpunit::TestFixture(
-       TEST(SadAnimaionFileTest::testCommon)
+   SadAnimationFileTest() : tpunit::TestFixture(
+       TEST(SadAnimationFileTest::testCommon)
    ) {}
 
    void testCommon()
