@@ -190,15 +190,15 @@ sad::Maybe<sad::String> sad::resource::PhysicalFile::tryReadToString()
                         result.setValue(alldata);
                     }
                 }
-            }
-            
-            if (ri.Type == sad::resource::IT_TAR7Z_INNER_FILE)
+            }            
+        }
+
+        if (ri.Type == sad::resource::IT_TAR7Z_INNER_FILE)
+        {
+            tar7z::Entry* e = this->tree()->archiveEntry(ri.ArchiveName, ri.FileName);
+            if (e)
             {
-                tar7z::Entry* e = this->tree()->archiveEntry(ri.ArchiveName, ri.FileName);
-                if (e)
-                {
-                    result.setValue(sad::String(e->contents(), e->Size));
-                }
+                result.setValue(sad::String(e->contents(), e->Size));
             }
         }
     }
