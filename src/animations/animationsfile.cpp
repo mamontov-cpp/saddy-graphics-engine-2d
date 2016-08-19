@@ -4,7 +4,7 @@
 // =================================== PUBLIC METHODS  ===================================
 
 sad::animations::File::File(const sad::String& name)
-: sad::resource::PhysicalFile(name)
+: sad::resource::ResourceFile(name)
 {
     
 }

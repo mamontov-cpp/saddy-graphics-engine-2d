@@ -1,5 +1,5 @@
 #include "resource/resourcefactory.h"
-#include "resource/physicalfile.h"
+#include "resource/resourcefile.h"
 #include "resource/textureatlasfile.h"
 
 #include "db/dbstoredpropertyfactory.h"
@@ -62,7 +62,7 @@ sad::resource::Resource* sad::resource::Factory::create(const sad::String& name)
     return result;	
 }
 
-sad::resource::PhysicalFile * sad::resource::Factory::fileByType(const sad::String & typehint)
+sad::resource::ResourceFile * sad::resource::Factory::fileByType(const sad::String & typehint)
 {
     if (typehint == "sad::resource::TextureAtlasFile")
     {
@@ -82,7 +82,7 @@ sad::resource::PhysicalFile * sad::resource::Factory::fileByType(const sad::Stri
         || typehint == "sad::TextureMappedFont"
         || typehint == "sad::freetype::Font")
     {
-        return new sad::resource::PhysicalFile();
+        return new sad::resource::ResourceFile();
     }
     if (m_file_creators.contains(typehint))
     {

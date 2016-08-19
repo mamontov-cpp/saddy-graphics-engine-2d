@@ -48,7 +48,7 @@ public:
     /*! Sets tree from links, from physical file
         \param[in] file a file data
      */
-    virtual void setPhysicalFile(sad::resource::PhysicalFile * file);
+    virtual void setPhysicalFile(sad::resource::ResourceFile * file);
     /*! A basic schema for object
         \return a schema
      */

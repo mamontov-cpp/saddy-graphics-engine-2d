@@ -1,4 +1,4 @@
-#include "resource/physicalfile.h"
+#include "resource/resourcefile.h"
 
 #include "resource/tree.h"
 
@@ -13,42 +13,92 @@
 
 #include <3rdparty/tar7z/include/archive.h>
 
-sad::resource::PhysicalFile::PhysicalFile(const sad::String & name) 
+
+// ================================== sad::resource::ResourceFileIdentifier ==================================
+
+void sad::resource::ResourceFileIdentifier::parse(const sad::String& string, sad::resource::ResourceFileIdentifier& ri)
+{
+    const int tar7zlength = 6;
+    if (string.startsWith("tar7z:", tar7zlength))
+    {
+        ri.Type = sad::resource::RFT_TAR7Z_INNER_FILE;
+        ri.Valid  = false;
+        const char* endstring = string.c_str() + string.size();
+        const char* numbuf = string.c_str() + tar7zlength; 
+        const char* endbuf = strchr(numbuf, ':');
+        if (endbuf)
+        {
+            endbuf--;
+            unsigned int archive_name_size;
+            if (sad::String::parseUInt(numbuf, endbuf, &archive_name_size))
+            {
+                endbuf += 4;
+                if ((endbuf <= endstring) && ((endbuf + archive_name_size) <= endstring))
+                {
+                    sad::String& archive_name = ri.ArchiveName;
+                    archive_name.replace(archive_name.begin(), archive_name.end(), endbuf, archive_name_size);
+                    endbuf += archive_name_size;
+                    ++endbuf;
+                    if (endbuf < endstring)
+                    {
+                        ri.Valid = true;
+                        ri.FileName = endbuf;
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        ri.Valid = true;
+        ri.Type = sad::resource::RFT_FILE;
+        ri.FileName = string;
+    }
+}
+
+// ================================== sad::resource::ResourceFile ==================================
+
+
+sad::resource::ResourceFile::ResourceFile(const sad::String & name) 
 : m_name(name), m_tree(NULL)
 {
-            
+    if (m_name.size())
+    {
+        sad::resource::ResourceFileIdentifier::parse(m_name, m_type);         
+    }
 }
 
 
-sad::resource::PhysicalFile::~PhysicalFile()
+sad::resource::ResourceFile::~ResourceFile()
 {
 
 }
 
 
-bool sad::resource::PhysicalFile::isAnonymous() const
+bool sad::resource::ResourceFile::isAnonymous() const
 {
     return m_name.length() != 0;    
 }
 
-const sad::String & sad::resource::PhysicalFile::name() const
+const sad::String & sad::resource::ResourceFile::name() const
 {
     return m_name;  
 }
 
-void sad::resource::PhysicalFile::setName(const sad::String & name)
+void sad::resource::ResourceFile::setName(const sad::String & name)
 {
     m_name = name;
+    sad::resource::ResourceFileIdentifier::parse(m_name, m_type);
 }
 
-sad::Vector<sad::resource::Error*> sad::resource::PhysicalFile::load(sad::resource::Folder * parent)
+sad::Vector<sad::resource::Error*> sad::resource::ResourceFile::load(sad::resource::Folder * parent)
 {
     sad::Vector<sad::resource::Error*>  result;
     result << new sad::resource::FileLoadingNotImplemented(m_name);
     return result;
 }
 
-sad::Vector<sad::resource::Error*> sad::resource::PhysicalFile::reload()
+sad::Vector<sad::resource::Error*> sad::resource::ResourceFile::reload()
 {
     sad::Vector<sad::resource::Error*> errors;
 
@@ -108,7 +158,7 @@ sad::Vector<sad::resource::Error*> sad::resource::PhysicalFile::reload()
     return errors;
 }
 
-void sad::resource::PhysicalFile::add(sad::resource::Resource * r)
+void sad::resource::ResourceFile::add(sad::resource::Resource * r)
 {
     if (r && std::find(m_resources.begin(), m_resources.end(), r) == m_resources.end())
     {
@@ -116,27 +166,27 @@ void sad::resource::PhysicalFile::add(sad::resource::Resource * r)
     }   
 }
 
-void sad::resource::PhysicalFile::remove(sad::resource::Resource * r)
+void sad::resource::ResourceFile::remove(sad::resource::Resource * r)
 {
     m_resources.removeAll(r);
 }
 
-void sad::resource::PhysicalFile::setTree(sad::resource::Tree * tree)
+void sad::resource::ResourceFile::setTree(sad::resource::Tree * tree)
 {
     m_tree = tree;
 }
 
-sad::resource::Tree * sad::resource::PhysicalFile::tree() const
+sad::resource::Tree * sad::resource::ResourceFile::tree() const
 {
     return m_tree;
 }
 
-const sad::Vector<sad::resource::Resource*> & sad::resource::PhysicalFile::resources() const
+const sad::Vector<sad::resource::Resource*> & sad::resource::ResourceFile::resources() const
 {
     return m_resources; 
 }
 
-void sad::resource::PhysicalFile::replace(
+void sad::resource::ResourceFile::replace(
     sad::resource::Resource * from, 
     sad::resource::Resource * to
 )
@@ -150,20 +200,23 @@ void sad::resource::PhysicalFile::replace(
     }
 }
 
-bool sad::resource::PhysicalFile::supportsLoadingFromTar7z() const
+const sad::resource::ResourceFileIdentifier& sad::resource::ResourceFile::rfi() const
+{
+    return m_type;
+}
+
+bool sad::resource::ResourceFile::supportsLoadingFromTar7z() const
 {
     return false;
 }
 
 
-sad::Maybe<sad::String> sad::resource::PhysicalFile::tryReadToString()
+sad::Maybe<sad::String> sad::resource::ResourceFile::tryReadToString() const
 {
     sad::Maybe<sad::String> result;
-    sad::resource::Identifier ri;
-    sad::resource::Identifier::parse(m_name, ri);
-    if (ri.Valid)
+    if (m_type.Valid)
     {
-        if (ri.Type == sad::resource::IT_FILE)
+        if (m_type.Type == sad::resource::RFT_FILE)
         {
             std::ifstream stream(m_name.c_str());
             if (stream.good())
@@ -193,9 +246,9 @@ sad::Maybe<sad::String> sad::resource::PhysicalFile::tryReadToString()
             }            
         }
 
-        if (ri.Type == sad::resource::IT_TAR7Z_INNER_FILE)
+        if (m_type.Type == sad::resource::RFT_TAR7Z_INNER_FILE)
         {
-            tar7z::Entry* e = this->tree()->archiveEntry(ri.ArchiveName, ri.FileName);
+            tar7z::Entry* e = this->tree()->archiveEntry(m_type.ArchiveName, m_type.FileName);
             if (e)
             {
                 result.setValue(sad::String(e->contents(), e->Size));
@@ -205,7 +258,7 @@ sad::Maybe<sad::String> sad::resource::PhysicalFile::tryReadToString()
     return result;
 }
 
-void sad::resource::PhysicalFile::replaceResources(
+void sad::resource::ResourceFile::replaceResources(
         const sad::resource::ResourceEntryList & resourcelist
 )
 {
@@ -217,7 +270,7 @@ void sad::resource::PhysicalFile::replaceResources(
     }
 }
 
-void sad::resource::PhysicalFile::createOldResourceList(
+void sad::resource::ResourceFile::createOldResourceList(
     sad::resource::ResourceEntryList & resources
 )
 {
@@ -231,7 +284,7 @@ void sad::resource::PhysicalFile::createOldResourceList(
     }
 }
 
-void sad::resource::PhysicalFile::diffResourcesLists(
+void sad::resource::ResourceFile::diffResourcesLists(
         const sad::resource::ResourceEntryList & oldlist,
         const sad::resource::ResourceEntryList & newlist,
         sad::resource::ResourceEntryList & tobeadded,
@@ -263,7 +316,7 @@ void sad::resource::PhysicalFile::diffResourcesLists(
     }
 }
 
-void sad::resource::PhysicalFile::convertReferencedOptionsToBeRemovedToErrors(
+void sad::resource::ResourceFile::convertReferencedOptionsToBeRemovedToErrors(
     const sad::resource::ResourceEntryList & toberemoved,
     sad::Vector<sad::resource::Error *> & errors
 )

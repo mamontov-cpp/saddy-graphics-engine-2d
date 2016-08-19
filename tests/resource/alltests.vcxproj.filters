@@ -33,7 +33,7 @@
     <ClCompile Include="tree.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="resource.cpp">
+    <ClCompile Include="resourcefileidentifier.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>

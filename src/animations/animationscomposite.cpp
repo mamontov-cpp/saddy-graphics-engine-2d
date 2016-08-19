@@ -14,7 +14,7 @@
 
 #include <util/fs.h>
 
-#include <resource/physicalfile.h>
+#include <resource/resourcefile.h>
 
 #include <3rdparty/picojson/valuetotype.h>
 
@@ -69,7 +69,7 @@ void sad::animations::Composite::setTable(sad::db::Table* t)
     }
 }
 
-void sad::animations::Composite::setPhysicalFile(sad::resource::PhysicalFile * file)
+void sad::animations::Composite::setPhysicalFile(sad::resource::ResourceFile * file)
 {
     this->sad::resource::Resource::setPhysicalFile(file);
     m_tree.setValue(file->tree());

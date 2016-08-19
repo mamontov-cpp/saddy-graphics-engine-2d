@@ -12,7 +12,7 @@
 #pragma once
 #include "log/log.h"
 
-#include "resource/physicalfile.h"
+#include "resource/resourcefile.h"
 #include "resource/tree.h"
 #include "resource/error.h"
 

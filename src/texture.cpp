@@ -12,7 +12,7 @@
 
 #include <pipeline/pipeline.h>
 
-#include <resource/physicalfile.h>
+#include <resource/resourcefile.h>
 
 #define TAR7Z_SADDY
 
@@ -279,17 +279,16 @@ void sad::Texture::unloadFromGPU()
 #ifndef TEXTURE_LOADER_TEST
 
 bool sad::Texture::load(
-        const sad::resource::PhysicalFile & file,
+        const sad::resource::ResourceFile & file,
         sad::Renderer * r,
         const picojson::value& options
 )
 {
-    sad::resource::Identifier ri;
+    const sad::resource::ResourceFileIdentifier& ri  = file.rfi();
     bool result = false;
-    sad::resource::Identifier::parse(file.name(), ri);
     if (ri.Valid)
     {   
-        if (ri.Type == sad::resource::IT_FILE)
+        if (ri.Type == sad::resource::RFT_FILE)
         {
             result = load(ri.FileName, r);
             if (!result && !util::isAbsolutePath(ri.FileName))
@@ -299,7 +298,7 @@ bool sad::Texture::load(
             }
         }
         
-        if (ri.Type == sad::resource::IT_TAR7Z_INNER_FILE)
+        if (ri.Type == sad::resource::RFT_TAR7Z_INNER_FILE)
         {
             tar7z::Entry* e = file.tree()->archiveEntry(ri.ArchiveName, ri.FileName);
             if (e)

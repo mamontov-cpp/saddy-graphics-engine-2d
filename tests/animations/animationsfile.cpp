@@ -5,7 +5,7 @@
 
 
 #include "resource/link.h"
-#include "resource/physicalfile.h"
+#include "resource/resourcefile.h"
 #include "resource/tree.h"
 
 #include "util/free.h"

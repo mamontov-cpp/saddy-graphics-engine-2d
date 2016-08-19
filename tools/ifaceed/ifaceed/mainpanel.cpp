@@ -2193,7 +2193,7 @@ void MainPanel::reloadResources()
         m_editor->shared()->setSelectedObject(NULL);
         m_editor->machine()->enterState("idle");
 
-        sad::resource::PhysicalFile* file = list.selectedFile();
+        sad::resource::ResourceFile* file = list.selectedFile();
         sad::Renderer::ref()->lockRendering();
         sad::Vector<sad::resource::Error*> errors = file->reload();
         sad::Renderer::ref()->unlockRendering();

@@ -17,54 +17,10 @@ class Renderer;
 
 namespace resource
 {
-class PhysicalFile;
+class ResourceFile;
 class Error;
 class Folder;
 class AbstractLink;
-
-/*! A type of resource identifier, determining how resource is stored
- */
-enum IdentifierType
-{
-    /*! Just plain file in filesystem
-     */
-    IT_FILE = 0,
-    /*! An inner file in tar7z archive
-     */
-    IT_TAR7Z_INNER_FILE = 1
-};
-
-/*! An idetifier, that identifies resource to be loaded
- */
-struct Identifier
-{
-    /*! Whether identifier is valid
-     */
-    bool Valid; 
-    /*! An identifier type for resource, which defines, how file 
-        is stored
-     */
-    sad::resource::IdentifierType Type;
-    /*! An inner file name in case of archives, external file name
-        if identifier is file.
-     */
-    sad::String FileName;
-    /*!  An archive file name for archives
-     */
-    sad::String ArchiveName;
-
-    /*! By default identifier is invalid file
-     */
-    inline Identifier() : Valid(false), Type(sad::resource::IT_FILE)
-    {
-        
-    }
-    /*! Parses string to resource identifier
-        \param[in] string a string of identifier
-        \param[in] ri output resource identifier
-     */
-    static void parse(const sad::String& string, sad::resource::Identifier& ri);
-};
 
 /*! \class Resource
 
@@ -90,7 +46,7 @@ public:
         \return whether loading was successfull
      */
     virtual bool tryLoad(
-        const sad::resource::PhysicalFile & file,
+        const sad::resource::ResourceFile & file,
         sad::Renderer * r = NULL,
         const picojson::value& options = picojson::value(picojson::object_type, false),
         bool store_links = true
@@ -144,11 +100,11 @@ public:
     /*! Sets physical file, where resource is stored
         \param[in] file a file data
      */
-    virtual void setPhysicalFile(sad::resource::PhysicalFile * file);
+    virtual void setPhysicalFile(sad::resource::ResourceFile * file);
     /*! Returns a physical fle, where resource supposedly stored
         \return file
      */
-    sad::resource::PhysicalFile * file() const;
+    sad::resource::ResourceFile * file() const;
     /*! Sets factory name, via which resource was created in factory
         \param[in] name a factory name
      */
@@ -174,7 +130,7 @@ protected:
         \return whether loading was successfull
      */
     virtual bool load(
-        const sad::resource::PhysicalFile & file,
+        const sad::resource::ResourceFile & file,
         sad::Renderer * r,
         const picojson::value& options
     ) = 0;
@@ -183,7 +139,7 @@ protected:
     sad::resource::Folder* m_folder;
     /*! A physical file, where resouces are stored
      */
-    sad::resource::PhysicalFile * m_file;
+    sad::resource::ResourceFile * m_file;
     /*! Whether we should store links to resources
      */
     bool m_store_links;

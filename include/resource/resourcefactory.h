@@ -65,7 +65,7 @@ public:
     /*! Creates a resource
         \return created resource (NULL if cannot)
      */ 
-    virtual sad::resource::PhysicalFile* create() = 0;
+    virtual sad::resource::ResourceFile* create() = 0;
     /*! A creator must be inherited to create some stuff
      */
     virtual ~FileCreator();
@@ -82,7 +82,7 @@ public:
     /*! Creates a resource
         \return created resource (NULL if cannot)
      */ 
-    virtual sad::resource::PhysicalFile* create()
+    virtual sad::resource::ResourceFile* create()
     {
         return new _File();
     }
@@ -129,7 +129,7 @@ public:
     template<typename _ResourceType>
     void registerDefaultFileTypeFor()
     {
-        registerFileTypeFor<_ResourceType, sad::resource::PhysicalFile>();
+        registerFileTypeFor<_ResourceType, sad::resource::ResourceFile>();
     }
     /*! This class can be inherited 
      */
@@ -148,7 +148,7 @@ public:
         \param[in] typehint type data
         \return data for a file
      */  
-    virtual sad::resource::PhysicalFile * fileByType(const sad::String & typehint);
+    virtual sad::resource::ResourceFile * fileByType(const sad::String & typehint);
     /*! Sets stored property factory for created schemas
         \param[in] factory  a factory for schema
      */

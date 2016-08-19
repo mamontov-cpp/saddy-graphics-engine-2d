@@ -3,7 +3,7 @@
 #include "renderer.h"
 #include "os/glheaders.h"
 
-#include "resource/physicalfile.h"
+#include "resource/resourcefile.h"
 
 #include "util/fs.h"
 
@@ -321,7 +321,7 @@ sad::Texture * sad::TextureMappedFont::renderToTexture(const sad::String & str)
 
 
 bool sad::TextureMappedFont::load(
-        const sad::resource::PhysicalFile & file,
+        const sad::resource::ResourceFile & file,
         sad::Renderer * r,
         const picojson::value& options
 )

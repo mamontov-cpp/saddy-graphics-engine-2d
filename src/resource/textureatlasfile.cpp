@@ -14,7 +14,7 @@
 #include <fstream>
 
 sad::resource::TextureAtlasFile::TextureAtlasFile(const sad::String& name) 
-: sad::resource::PhysicalFile(name), m_my_texture(NULL)
+: sad::resource::ResourceFile(name), m_my_texture(NULL)
 {
     
 }
@@ -51,7 +51,7 @@ sad::Vector<sad::resource::Error*> sad::resource::TextureAtlasFile::load(
         }
         else
         {
-            m_my_texture = new sad::resource::PhysicalFile(result.FileName);
+            m_my_texture = new sad::resource::ResourceFile(result.FileName);
             m_my_texture->setTree(this->tree());
             sad::Texture* tex = new sad::Texture();
             tex->BuildMipMaps = !result.NoMipMaps;
@@ -268,7 +268,7 @@ void sad::resource::TextureAtlasFile::tryLoadNewTexture(
 {
     result.OldTexture = this->tree()->root()->resource(parsed.ResourceName);
     result.NewTexture = new sad::Texture();
-    sad::resource::PhysicalFile * file  = NULL;
+    sad::resource::ResourceFile * file  = NULL;
     // Try load texture
     if (result.OldTexture)
     {
@@ -279,7 +279,7 @@ void sad::resource::TextureAtlasFile::tryLoadNewTexture(
         }
         if (m_my_texture)
         {
-            result.NewTextureFile = new sad::resource::PhysicalFile(parsed.FileName);
+            result.NewTextureFile = new sad::resource::ResourceFile(parsed.FileName);
             result.NewTextureFile->setTree(this->tree());
             file = result.NewTextureFile;
         }
@@ -290,7 +290,7 @@ void sad::resource::TextureAtlasFile::tryLoadNewTexture(
     }
     else
     {
-        result.NewTextureFile  = new sad::resource::PhysicalFile(parsed.FileName);
+        result.NewTextureFile  = new sad::resource::ResourceFile(parsed.FileName);
         file = result.NewTextureFile;
     }
     sad::Renderer * r = this->tree()->renderer();
@@ -312,7 +312,7 @@ void sad::resource::TextureAtlasFile::commit(
 {
     if (result.OldTexture)
     {
-        sad::resource::PhysicalFile* oldfile = result.OldTexture->file();
+        sad::resource::ResourceFile* oldfile = result.OldTexture->file();
         this->tree()->root()->replaceResource(parsed.ResourceName, result.NewTexture);
         if (m_my_texture == NULL)
         {

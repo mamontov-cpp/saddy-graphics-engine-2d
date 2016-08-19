@@ -4,7 +4,7 @@
     A custom schema file, which holds all custom schemas
  */
 #pragma once
-#include "../../resource/physicalfile.h"
+#include "../../resource/resourcefile.h"
 #include "../../resource/tree.h"
 #include "../../maybe.h"
 #include "customschema.h"
@@ -21,7 +21,7 @@ namespace custom
 /*! A schema file, which contains a list of sad::db::custom::Schema, which can be used to create custom
     object for files.
  */
-class SchemaFile: public sad::resource::PhysicalFile
+class SchemaFile: public sad::resource::ResourceFile
 {
 public:
     /*! An entry for a parse result
@@ -57,6 +57,10 @@ public:
         \return errors if any occured on resources
      */
     virtual sad::Vector<sad::resource::Error*> reload();
+    /*! Returns whether resource supports loading from archive
+        \return true. This resource supports loading from archives.
+     */
+    virtual bool supportsLoadingFromTar7z() const;
 protected:
     /*! Parses file with schemas
         \param[out] result a parsed data

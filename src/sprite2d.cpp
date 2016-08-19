@@ -7,7 +7,7 @@
 
 #include <util/fs.h>
 
-#include <resource/physicalfile.h>
+#include <resource/resourcefile.h>
 
 #include <3rdparty/picojson/valuetotype.h>
 
@@ -25,7 +25,7 @@
 DECLARE_SOBJ_INHERITANCE(sad::Sprite2D::Options, sad::resource::Resource);
 
 bool sad::Sprite2D::Options::load(
-    const sad::resource::PhysicalFile & file,
+    const sad::resource::ResourceFile & file,
     sad::Renderer * r,
     const picojson::value& options
 )

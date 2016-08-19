@@ -86,7 +86,7 @@ public:
         const sad::Maybe<sad::String>& resourcename,
         sad::resource::Folder * store,
         const picojson::value & v,
-        sad::Vector<sad::resource::PhysicalFile *> & files		
+        sad::Vector<sad::resource::ResourceFile *> & files		
     );
     /*! Unloads file, removing all resources from it and freeing it's memory. 
         Can fail if some of resources are referenced
@@ -99,7 +99,7 @@ public:
         \param[in] file a file to be unloaded
         \return whether it was successfull
      */
-    bool unload(sad::resource::PhysicalFile * file);
+    bool unload(sad::resource::ResourceFile * file);
     /*! A root folder of tree
         \return a root folder of tree
      */
@@ -108,11 +108,11 @@ public:
         \param[in] name a file name
         \return file or NULL if not found
      */
-    sad::resource::PhysicalFile* file(const sad::String& name);
+    sad::resource::ResourceFile* file(const sad::String& name);
     /*! Returns a vector of files
         \return vector of files
      */
-    const sad::Vector<sad::resource::PhysicalFile*>& files() const; 
+    const sad::Vector<sad::resource::ResourceFile*>& files() const; 
     /*! Returns a factory for a tree
         \return a factory
      */
@@ -181,7 +181,7 @@ protected:
     sad::Hash<sad::String, tar7z::Archive*> m_archives;
     /*! A loaded files to be stored
      */
-    sad::PtrVector<sad::resource::PhysicalFile> m_files;
+    sad::PtrVector<sad::resource::ResourceFile> m_files;
     /*! A root folder
      */
     sad::resource::Folder* m_root;

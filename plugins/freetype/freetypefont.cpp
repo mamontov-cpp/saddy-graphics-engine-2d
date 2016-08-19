@@ -6,7 +6,7 @@
 
 #include <util/fs.h>
 
-#include <resource/physicalfile.h>
+#include <resource/resourcefile.h>
 
 
 DECLARE_SOBJ_INHERITANCE(sad::freetype::Font, sad::Font);
@@ -18,7 +18,7 @@ sad::freetype::Font::Font()
 }
 
 bool sad::freetype::Font::load(
-        const sad::resource::PhysicalFile & file,
+        const sad::resource::ResourceFile & file,
         sad::Renderer * r,
         const picojson::value& /*options*/
 )

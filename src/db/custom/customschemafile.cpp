@@ -8,7 +8,7 @@
 #include <cassert>
 
 sad::db::custom::SchemaFile::SchemaFile(const sad::String& name) 
-: sad::resource::PhysicalFile(name)
+: sad::resource::ResourceFile(name)
 {
     m_factory = new sad::db::StoredPropertyFactory();
 }
@@ -83,6 +83,11 @@ sad::Vector<sad::resource::Error*>  sad::db::custom::SchemaFile::reload()
         }
     }
     return errors;
+}
+
+bool sad::db::custom::SchemaFile::supportsLoadingFromTar7z() const
+{
+    return true;
 }
 
 void sad::db::custom::SchemaFile::tryParsePartial(

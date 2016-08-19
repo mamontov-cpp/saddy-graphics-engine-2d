@@ -18,7 +18,7 @@
 
 #include <util/fs.h>
 
-#include <resource/physicalfile.h>
+#include <resource/resourcefile.h>
 
 #include "animations/easing/easingfunction.h"
 

@@ -594,9 +594,6 @@
     <ClCompile Include="src\resource\folder.cpp">
       <Filter>Файлы исходного кода\resource</Filter>
     </ClCompile>
-    <ClCompile Include="src\resource\physicalfile.cpp">
-      <Filter>Файлы исходного кода\resource</Filter>
-    </ClCompile>
     <ClCompile Include="src\resource\resource.cpp">
       <Filter>Файлы исходного кода\resource</Filter>
     </ClCompile>
@@ -827,6 +824,9 @@
     </ClCompile>
     <ClCompile Include="src\util\chararrayibuf.cpp">
       <Filter>Файлы исходного кода\util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\resource\resourcefile.cpp">
+      <Filter>Файлы исходного кода\resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1377,9 +1377,6 @@
       <Filter>Заголовочные файлы\resource</Filter>
     </ClInclude>
     <ClInclude Include="include\resource\link.h">
-      <Filter>Заголовочные файлы\resource</Filter>
-    </ClInclude>
-    <ClInclude Include="include\resource\physicalfile.h">
       <Filter>Заголовочные файлы\resource</Filter>
     </ClInclude>
     <ClInclude Include="include\resource\resource.h">
@@ -2248,6 +2245,9 @@
     </ClInclude>
     <ClInclude Include="include\util\chararrayibuf.h">
       <Filter>Заголовочные файлы\util</Filter>
+    </ClInclude>
+    <ClInclude Include="include\resource\resourcefile.h">
+      <Filter>Заголовочные файлы\resource</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -21,7 +21,7 @@
 
 #include <util/fs.h>
 
-#include <resource/physicalfile.h>
+#include <resource/resourcefile.h>
 
 #include <3rdparty/picojson/valuetotype.h>
 

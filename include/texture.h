@@ -190,7 +190,7 @@ enum InternalFormat
         \return whether loading was successfull
      */
     virtual bool load(
-        const sad::resource::PhysicalFile & file,
+        const sad::resource::ResourceFile & file,
         sad::Renderer * r,
         const picojson::value& options
     );

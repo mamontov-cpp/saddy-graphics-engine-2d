@@ -118,6 +118,7 @@
     <ClCompile Include="src\primitiverenderer.cpp" />
     <ClCompile Include="src\refcountable.cpp" />
     <ClCompile Include="src\renderer.cpp" />
+    <ClCompile Include="src\resource\resourcefile.cpp" />
     <ClCompile Include="src\sadhash.cpp" />
     <ClCompile Include="src\sadluvcolor.cpp" />
     <ClCompile Include="src\sadmutex.cpp" />
@@ -224,7 +225,6 @@
     <ClCompile Include="src\resource\abstractlink.cpp" />
     <ClCompile Include="src\resource\error.cpp" />
     <ClCompile Include="src\resource\folder.cpp" />
-    <ClCompile Include="src\resource\physicalfile.cpp" />
     <ClCompile Include="src\resource\resource.cpp" />
     <ClCompile Include="src\resource\resourcefactory.cpp" />
     <ClCompile Include="src\resource\textureatlasfile.cpp" />
@@ -519,6 +519,7 @@
     <ClInclude Include="include\primitiverenderer.h" />
     <ClInclude Include="include\refcountable.h" />
     <ClInclude Include="include\renderer.h" />
+    <ClInclude Include="include\resource\resourcefile.h" />
     <ClInclude Include="include\sadcolor.h" />
     <ClInclude Include="include\sadhash.h" />
     <ClInclude Include="include\sadlinkedlist.h" />
@@ -682,7 +683,6 @@
     <ClInclude Include="include\resource\error.h" />
     <ClInclude Include="include\resource\folder.h" />
     <ClInclude Include="include\resource\link.h" />
-    <ClInclude Include="include\resource\physicalfile.h" />
     <ClInclude Include="include\resource\resource.h" />
     <ClInclude Include="include\resource\resourcefactory.h" />
     <ClInclude Include="include\resource\textureatlasfile.h" />

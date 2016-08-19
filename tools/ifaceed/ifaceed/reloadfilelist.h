@@ -10,7 +10,7 @@
 
 #include "ui_reloadfilelist.h"
 
-#include <resource/physicalfile.h>
+#include <resource/resourcefile.h>
 
 /*! A dialog for picking color with alpha
  */
@@ -24,7 +24,7 @@ public:
     ReloadFileList(QWidget* parent = NULL);
     /*! Returns a list of selected file
      */
-    sad::resource::PhysicalFile* selectedFile();
+    sad::resource::ResourceFile* selectedFile();
     /*! Could be inherited
      */
     virtual ~ReloadFileList();

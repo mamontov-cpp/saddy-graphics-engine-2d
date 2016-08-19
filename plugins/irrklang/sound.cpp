@@ -13,7 +13,7 @@ sad::irrklang::Sound::Sound() : m_source(NULL)
 }
 
 bool sad::irrklang::Sound::load(
-    const sad::resource::PhysicalFile & file,
+    const sad::resource::ResourceFile & file,
     sad::Renderer*,
     const picojson::value&
 )

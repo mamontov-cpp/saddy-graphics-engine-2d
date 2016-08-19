@@ -47,7 +47,7 @@ const sad::String& sad::db::custom::Schema::treeItemName() const
 }
 
 bool sad::db::custom::Schema::load(
-        const sad::resource::PhysicalFile & file,
+        const sad::resource::ResourceFile & file,
         sad::Renderer * r,
         const picojson::value& options
 )

@@ -1,7 +1,7 @@
-/*! \file resource/physicalfile.h
+/*! \file resource/resourcefile.h
     
     
-    Contains definition of class PhysicalFile.
+    Contains definition of class ResourceFile.
 
     This is a physical file, where resources were stored before loading, and where they are belong.
     So you can try to reload it, replacing resources with new ones.
@@ -27,21 +27,66 @@ typedef sad::Pair<sad::String, sad::resource::Resource*> ResourceEntry;
  */
 typedef sad::Vector<sad::resource::ResourceEntry> ResourceEntryList;
 
-/*! \class PhysicalFile
 
-    This is a physical file, where resources were stored before loading, and where they are belong.
+/*! A type of resource identifier, determining how resource is stored
+ */
+enum ResourceFileType
+{
+    /*! Just plain file in filesystem
+     */
+    RFT_FILE = 0,
+    /*! An inner file in tar7z archive
+     */
+    RFT_TAR7Z_INNER_FILE = 1
+};
+
+/*! An idetifier, that identifies resource to be loaded
+ */
+struct ResourceFileIdentifier
+{
+    /*! Whether identifier is valid
+     */
+    bool Valid; 
+    /*! An identifier type for resource, which defines, how file 
+        is stored
+     */
+    sad::resource::ResourceFileType Type;
+    /*! An inner file name in case of archives, external file name
+        if identifier is file.
+     */
+    sad::String FileName;
+    /*!  An archive file name for archives
+     */
+    sad::String ArchiveName;
+
+    /*! By default identifier is invalid file
+     */
+    inline ResourceFileIdentifier() : Valid(false), Type(sad::resource::RFT_FILE)
+    {
+        
+    }
+    /*! Parses string to resource identifier
+        \param[in] string a string of identifier
+        \param[in] ri output resource identifier
+     */
+    static void parse(const sad::String& string, sad::resource::ResourceFileIdentifier& ri);
+};
+
+/*! \class ResourceFile
+
+    This is a file, where resources were stored before loading, and where they are belong.
     So you can try to reload it, replacing resources with new ones.
  */
-class PhysicalFile  
+class ResourceFile  
 {	
 public:	
     /*! Creates new flle with specified name. Supposedly it must be path to specified file.
         \param[in] name a filename (with or without path) to it
      */
-    PhysicalFile(const sad::String& name = "");	
+    ResourceFile(const sad::String& name = "");	
     /*! This class does not own any of resources, only tree frees a resources
      */
-    virtual ~PhysicalFile();
+    virtual ~ResourceFile();
     /*! Returns true if file is anonymous
         \return whether file is anonymous
      */
@@ -92,6 +137,10 @@ public:
         \param[in] to second resource
      */
     void replace(sad::resource::Resource * from, sad::resource::Resource * to);
+    /*! Returns resource file identifier
+        \return file identifier
+     */
+    const sad::resource::ResourceFileIdentifier& rfi() const;
     /*! Returns whether resource supports loading from archive
         \return false. Until this function is overridden, physical file would not be loaded from archives
      */
@@ -99,7 +148,7 @@ public:
 protected: 
     /*! Tries to read a file to string
      */
-    sad::Maybe<sad::String> tryReadToString();
+    sad::Maybe<sad::String> tryReadToString() const;
     /*! Replaces resources of texture atlas file with list
         \param[in] resourcelist a list of resources
      */
@@ -119,7 +168,7 @@ protected:
         \param[out] tobereplaced a resources from new list, that should replace old list
         \param[out] toberemoved a resources from old list, that should be removed
      */
-    void diffResourcesLists(
+    static void diffResourcesLists(
         const sad::resource::ResourceEntryList & oldlist,
         const sad::resource::ResourceEntryList & newlist,
         sad::resource::ResourceEntryList & tobeadded,
@@ -131,10 +180,13 @@ protected:
         \param[in] toberemoved a list of resources
         \param[in] errors an occured errors
      */
-    void convertReferencedOptionsToBeRemovedToErrors(
+    static void convertReferencedOptionsToBeRemovedToErrors(
         const sad::resource::ResourceEntryList & toberemoved,
         sad::Vector<sad::resource::Error *> & errors
     );
+    /*! A file type for file
+     */
+    sad::resource::ResourceFileIdentifier m_type;
     /*! A file name (with or without path), where file is stored
      */
     sad::String m_name;

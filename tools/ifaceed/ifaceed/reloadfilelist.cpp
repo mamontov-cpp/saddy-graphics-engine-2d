@@ -4,13 +4,13 @@
 
 #include <resource/tree.h>
 
-Q_DECLARE_METATYPE(sad::resource::PhysicalFile*); //-V566
+Q_DECLARE_METATYPE(sad::resource::ResourceFile*); //-V566
 
 ReloadFileList::ReloadFileList(QWidget* parent) : QDialog(parent)
 {
     m_ui.setupUi(this);
 
-    const sad::Vector<sad::resource::PhysicalFile*> & files = sad::Renderer::ref()->tree("")->files();
+    const sad::Vector<sad::resource::ResourceFile*> & files = sad::Renderer::ref()->tree("")->files();
     for(size_t i = 0; i < files.size(); i++)
     {
         m_ui.lstFiles->addItem(files[i]->name().c_str());
@@ -24,13 +24,13 @@ ReloadFileList::ReloadFileList(QWidget* parent) : QDialog(parent)
     connect(m_ui.cancelButton, SIGNAL(clicked()), this, SLOT(reject()));
 }
 
-sad::resource::PhysicalFile* ReloadFileList::selectedFile()
+sad::resource::ResourceFile* ReloadFileList::selectedFile()
 {
     QListWidgetItem* item = m_ui.lstFiles->currentItem();
-    sad::resource::PhysicalFile* result = NULL;
+    sad::resource::ResourceFile* result = NULL;
     if (item)
     {
-        result =  item->data(Qt::UserRole).value<sad::resource::PhysicalFile*>();
+        result =  item->data(Qt::UserRole).value<sad::resource::ResourceFile*>();
     }
     return result;
 }

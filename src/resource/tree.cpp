@@ -1,5 +1,5 @@
 #include "resource/tree.h"
-#include "resource/physicalfile.h"
+#include "resource/resourcefile.h"
 
 #include "renderer.h"
 
@@ -58,7 +58,7 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::loadFromString(const sad
         // Check new root errors
         sad::resource::Folder * newroot = new sad::resource::Folder();
         m_temporary_root_folder = newroot;
-        sad::Vector<sad::resource::PhysicalFile *> newfiles;
+        sad::Vector<sad::resource::ResourceFile *> newfiles;
 
         // Try load data to temporary containers
         picojson::array & resourcelist = v.get<picojson::array>();		
@@ -197,7 +197,7 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::load(
     const sad::Maybe<sad::String>& resourcename,
     sad::resource::Folder * store,
     const picojson::value & v,
-    sad::Vector<sad::resource::PhysicalFile *> & files
+    sad::Vector<sad::resource::ResourceFile *> & files
 )
 {
     sad::resource::Folder * temporary = new sad::resource::Folder();
@@ -222,8 +222,10 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::load(
     }
 
     // Try create physical file
-    sad::resource::PhysicalFile * file = m_factory->fileByType(typehint);
+    sad::resource::ResourceFile * file = m_factory->fileByType(typehint);
     // First of all file could not be created sometimes
+    const int tar7zlength = 6;
+    bool isTar7z = newfilename.startsWith("tar7z:", tar7zlength);
     if (file)
     {
         file->setTree(this);
@@ -234,7 +236,11 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::load(
         if (resource)
         {
             resource->setFactoryName(typehint);
-            bool ok = resource->tryLoad(*file, m_renderer, resourcedescription , m_storelinks);
+            bool ok = false;
+            if (!isTar7z || resource->supportsLoadingFromTar7z())
+            {
+                ok = resource->tryLoad(*file, m_renderer, resourcedescription , m_storelinks);
+            }
             // Sometimes loading of resource could fail
             if (ok)
             {
@@ -263,12 +269,25 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::load(
             }
             else
             {
+                bool unsupported = false;
+                if ((resource->supportsLoadingFromTar7z() == false) && isTar7z)
+                {
+                    unsupported = true;
+                }
+                delete resource;
                 sad::String fileerrorname = filename;
                 if (resourcename.exists())
                 {
                     fileerrorname = resourcename.value();
                 }
-                errors << new sad::resource::ResourceLoadError(fileerrorname);
+                if (unsupported)
+                {
+                    errors << new sad::resource::ResourceCannotBeLoadedFromArchive(fileerrorname);                    
+                }
+                else
+                {
+                    errors << new sad::resource::ResourceLoadError(fileerrorname);
+                }
             }
 
         }
@@ -315,7 +334,7 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::load(
 
 bool sad::resource::Tree::unload(const sad::String& file)
 {
-    sad::resource::PhysicalFile * f = this->file(file);
+    sad::resource::ResourceFile * f = this->file(file);
     if (f)
     {
         sad::Vector<sad::resource::Resource*>  list = f->resources();
@@ -345,9 +364,9 @@ bool sad::resource::Tree::unload(const sad::String& file)
     return false;
 }
 
-bool sad::resource::Tree::unload(sad::resource::PhysicalFile * file)
+bool sad::resource::Tree::unload(sad::resource::ResourceFile * file)
 {
-    sad::resource::PhysicalFile * f = file;
+    sad::resource::ResourceFile * f = file;
     if (f)
     {
         sad::Vector<sad::resource::Resource*>  list = f->resources();
@@ -382,7 +401,7 @@ sad::resource::Folder* sad::resource::Tree::root() const
     return m_root;
 }
 
-sad::resource::PhysicalFile* sad::resource::Tree::file(const sad::String& name)
+sad::resource::ResourceFile* sad::resource::Tree::file(const sad::String& name)
 {
     for(size_t i = 0; i < m_files.size(); i++)
     {
@@ -392,7 +411,7 @@ sad::resource::PhysicalFile* sad::resource::Tree::file(const sad::String& name)
     return NULL;
 }
 
-const sad::Vector<sad::resource::PhysicalFile*>& sad::resource::Tree::files() const
+const sad::Vector<sad::resource::ResourceFile*>& sad::resource::Tree::files() const
 {
     return m_files;
 }

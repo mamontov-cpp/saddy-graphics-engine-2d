@@ -4,7 +4,7 @@
     Describes a file, which contains a list of animations
  */
 #pragma once
-#include "../resource/physicalfile.h"
+#include "../resource/resourcefile.h"
 #include "../resource/tree.h"
 
 #include "animationsfactory.h"
@@ -22,7 +22,7 @@ namespace animations
     texture atlas. Please note, that file reloading could break program, if storing links is disabled,
     when loading a tree.
  */
-class File: public sad::resource::PhysicalFile
+class File: public sad::resource::ResourceFile
 {
 public:
     /*! A partial result to atlas file

@@ -16,7 +16,7 @@
 #include "db/dbmethodpair.h"
 #include "db/dbtable.h"
 
-#include <resource/physicalfile.h>
+#include <resource/resourcefile.h>
 
 #include <3rdparty/picojson/valuetotype.h>
 
@@ -177,7 +177,7 @@ void sad::animations::Animation::updateValidFlag()
 }
 
 bool sad::animations::Animation::load(
-    const sad::resource::PhysicalFile & file,
+    const sad::resource::ResourceFile & file,
     sad::Renderer * r,
     const picojson::value& options
 )

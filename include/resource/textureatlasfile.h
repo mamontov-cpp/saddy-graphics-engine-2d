@@ -4,7 +4,7 @@
     Describes a file, which contains a Sprite2D::Options - a spritesheet file 
  */
 #pragma once
-#include "physicalfile.h"
+#include "resourcefile.h"
 #include "tree.h"
 #include "../sprite2d.h"
 #include "../sadpair.h"
@@ -19,7 +19,7 @@ namespace resource
     texture atlas. Please note, that file reloading could break program, if storing links is disabled,
     when loading a tree.
  */
-class TextureAtlasFile: public sad::resource::PhysicalFile
+class TextureAtlasFile: public sad::resource::ResourceFile
 {
 public:
     /*! A partial result of parsing atlas file
@@ -61,7 +61,7 @@ protected:
     );
     /*! Whether texture is found
      */
-    sad::resource::PhysicalFile * m_my_texture;
+    sad::resource::ResourceFile * m_my_texture;
     /*! A simple result for texture loading
      */
     struct TextureLoadResult
@@ -74,7 +74,7 @@ protected:
         sad::resource::Resource * NewTexture; 
         /*! A new texture file, used data
          */
-        sad::resource::PhysicalFile * NewTextureFile;
+        sad::resource::ResourceFile * NewTextureFile;
         /*! Creates new texture load
          */ 
         inline TextureLoadResult() : OldTexture(NULL), NewTexture(NULL), NewTextureFile(NULL)
