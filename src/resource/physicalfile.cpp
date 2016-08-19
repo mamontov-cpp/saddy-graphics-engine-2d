@@ -9,6 +9,10 @@
 #include <algorithm>
 #include <fstream>
 
+#define TAR7Z_SADDY
+
+#include <3rdparty/tar7z/include/archive.h>
+
 sad::resource::PhysicalFile::PhysicalFile(const sad::String & name) 
 : m_name(name), m_tree(NULL)
 {
@@ -24,12 +28,12 @@ sad::resource::PhysicalFile::~PhysicalFile()
 
 bool sad::resource::PhysicalFile::isAnonymous() const
 {
-    return m_name.length() != 0;	
+    return m_name.length() != 0;    
 }
 
 const sad::String & sad::resource::PhysicalFile::name() const
 {
-    return m_name;	
+    return m_name;  
 }
 
 void sad::resource::PhysicalFile::setName(const sad::String & name)
@@ -67,7 +71,7 @@ sad::Vector<sad::resource::Error*> sad::resource::PhysicalFile::reload()
                     m_resources[i]->shouldStoreLinks()
                 );
                 if (ok)
-                {				
+                {               
                     list << sad::resource::ResourceEntry(path.value(), res);
                 }
                 else
@@ -109,7 +113,7 @@ void sad::resource::PhysicalFile::add(sad::resource::Resource * r)
     if (r && std::find(m_resources.begin(), m_resources.end(), r) == m_resources.end())
     {
         m_resources << r;
-    }	
+    }   
 }
 
 void sad::resource::PhysicalFile::remove(sad::resource::Resource * r)
@@ -129,7 +133,7 @@ sad::resource::Tree * sad::resource::PhysicalFile::tree() const
 
 const sad::Vector<sad::resource::Resource*> & sad::resource::PhysicalFile::resources() const
 {
-    return m_resources;	
+    return m_resources; 
 }
 
 void sad::resource::PhysicalFile::replace(
@@ -155,29 +159,46 @@ bool sad::resource::PhysicalFile::supportsLoadingFromTar7z() const
 sad::Maybe<sad::String> sad::resource::PhysicalFile::tryReadToString()
 {
     sad::Maybe<sad::String> result;
-    std::ifstream stream(m_name.c_str());
-    if (stream.good())
+    sad::resource::Identifier ri;
+    sad::resource::Identifier::parse(m_name, ri);
+    if (ri.Valid)
     {
-        std::string alldata(
-            (std::istreambuf_iterator<char>(stream)), 
-            std::istreambuf_iterator<char>()
-        );
-        result.setValue(alldata);
-    }
-    else
-    {
-        if (util::isAbsolutePath(m_name) == false)
+        if (ri.Type == sad::resource::IT_FILE)
         {
-            sad::String path = util::concatPaths(m_tree->renderer()->executablePath(), m_name);
-            stream.clear();
-            stream.open(path.c_str());
+            std::ifstream stream(m_name.c_str());
             if (stream.good())
             {
                 std::string alldata(
                     (std::istreambuf_iterator<char>(stream)), 
-                     std::istreambuf_iterator<char>()
-                    );
+                    std::istreambuf_iterator<char>()
+                );
                 result.setValue(alldata);
+            }
+            else
+            {
+                if (util::isAbsolutePath(m_name) == false)
+                {
+                    sad::String path = util::concatPaths(m_tree->renderer()->executablePath(), m_name);
+                    stream.clear();
+                    stream.open(path.c_str());
+                    if (stream.good())
+                    {
+                        std::string alldata(
+                            (std::istreambuf_iterator<char>(stream)), 
+                             std::istreambuf_iterator<char>()
+                            );
+                        result.setValue(alldata);
+                    }
+                }
+            }
+            
+            if (ri.Type == sad::resource::IT_TAR7Z_INNER_FILE)
+            {
+                tar7z::Entry* e = this->tree()->archiveEntry(ri.ArchiveName, ri.FileName);
+                if (e)
+                {
+                    result.setValue(sad::String(e->contents(), e->Size));
+                }
             }
         }
     }
