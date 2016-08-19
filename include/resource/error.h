@@ -519,6 +519,41 @@ public:
      */
     virtual ~TreeNotFound() throw();
 };
+
+/*! \class ResourceCannotBeLoadedFromArchive
+
+    A error, which determines a problem, that this resource cannot be loaded from archive.
+ */
+class ResourceCannotBeLoadedFromArchive : public sad::resource::Error
+{
+SAD_OBJECT
+public:
+    /*! Formats error
+        \param[in] file name of file
+        \return error string
+     */
+    inline static sad::String format_error(const sad::String & file)
+    {
+        return fmt::str(fmt::Format("Resource \"{0}\" cannot be loaded from archive") << file);
+    }
+
+    /*! Constructs a error
+        \param[in] name a name of resource
+     */
+    inline ResourceCannotBeLoadedFromArchive(const sad::String & name)
+    : sad::resource::Error(sad::resource::ResourceCannotBeLoadedFromArchive::format_error(name)), m_name(name)
+    {
+        
+    }
+
+    /*! This class can be inherited 
+     */
+    virtual ~ResourceCannotBeLoadedFromArchive() throw();
+protected:
+    /*! A name of file.
+     */
+    sad::String m_name;
+};
 /*! Formats an error to string. Remember, that you still need to free errors.
     \param[in] errors a list of errors
     \param[in] lineformat a format of line (default is just a message)
@@ -549,3 +584,4 @@ DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::resource::JSONParseError)
 DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::resource::MalformedResourceEntry)
 DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::resource::EmptyTextureAtlas)
 DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::resource::TreeNotFound)
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::resource::ResourceCannotBeLoadedFromArchive)
