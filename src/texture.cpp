@@ -99,7 +99,7 @@ sad::Texture::Texture()
 
 sad::Texture::~Texture()
 {
-#ifndef TEXTURE_LOADER_TEST	
+#ifndef TEXTURE_LOADER_TEST 
     if (this->renderer())
     {
         if (this->renderer()->context()->valid())
@@ -131,7 +131,7 @@ sad::Texture::~Texture()
 
 void sad::Texture::upload()
 {
-#ifndef TEXTURE_LOADER_TEST	
+#ifndef TEXTURE_LOADER_TEST 
     // We must not upload on our own to not cause
     // undefined behaviour
     sad::Renderer * r = renderer();
@@ -284,27 +284,46 @@ bool sad::Texture::load(
         const picojson::value& options
 )
 {
-    bool result = load(file.name(), r);
-    if (!result && !util::isAbsolutePath(file.name()))
-    {
-        sad::String newpath = util::concatPaths(r->executablePath(), file.name());
-        result = load(newpath, r);
-    }
-    if (result)
-    {
-        sad::Maybe<sad::Color> maybecolor = picojson::to_type<sad::Color>(
-            picojson::get_property(options, "transparent")
-        );
-        if (maybecolor.exists())
+    sad::resource::Identifier ri;
+    bool result = false;
+    sad::resource::Identifier::parse(file.name(), ri);
+    if (ri.Valid)
+    {   
+        if (ri.Type == sad::resource::IT_FILE)
         {
-            this->setAlpha(255, maybecolor.value());
+            result = load(ri.FileName, r);
+            if (!result && !util::isAbsolutePath(ri.FileName))
+            {
+                sad::String newpath = util::concatPaths(r->executablePath(), ri.FileName);
+                result = load(newpath, r);
+            }
         }
-        sad::Maybe<bool> maybenomips = picojson::to_type<bool>(
-            picojson::get_property(options, "no-mipmaps")
-        );
-        if (maybenomips.exists())
+        
+        if (ri.Type == sad::resource::IT_TAR7Z_INNER_FILE)
         {
-            this->BuildMipMaps = !(maybenomips.value());
+            tar7z::Entry* e = file.tree()->archiveEntry(ri.ArchiveName, ri.FileName);
+            if (e)
+            {
+                result = this->load(e, r);
+            }
+        }
+        
+        if (result)
+        {
+            sad::Maybe<sad::Color> maybecolor = picojson::to_type<sad::Color>(
+                picojson::get_property(options, "transparent")
+            );
+            if (maybecolor.exists())
+            {
+                this->setAlpha(255, maybecolor.value());
+            }
+            sad::Maybe<bool> maybenomips = picojson::to_type<bool>(
+                picojson::get_property(options, "no-mipmaps")
+            );
+            if (maybenomips.exists())
+            {
+                this->BuildMipMaps = !(maybenomips.value());
+            }
         }
     }
     return result;
