@@ -45,6 +45,9 @@ struct SadTreeTest : tpunit::TestFixture
        TEST(SadTreeTest::testResourceDuplicates),
        TEST(SadTreeTest::testValid),
        TEST(SadTreeTest::testValidMultiple),
+       TEST(SadTreeTest::testArchiveAtlas),
+       TEST(SadTreeTest::testArchiveAnimation),
+       TEST(SadTreeTest::testArchiveFont),   
        TEST(SadTreeTest::testUnload),
        TEST(SadTreeTest::testUnload2),
        TEST(SadTreeTest::testReloadTexture),
@@ -79,7 +82,7 @@ struct SadTreeTest : tpunit::TestFixture
         
        int count = errors.size();
        sad::util::free(errors);
-       ASSERT_TRUE(count == 0);	   
+       ASSERT_TRUE(count == 0);    
    }
 
    void testLoadFileThatConsistsOfWhitespaces()
@@ -93,7 +96,7 @@ struct SadTreeTest : tpunit::TestFixture
         
        int count = errors.size();
        sad::util::free(errors);
-       ASSERT_TRUE(count == 0);	   
+       ASSERT_TRUE(count == 0);    
    }
 
    void testBinary()
@@ -178,7 +181,7 @@ struct SadTreeTest : tpunit::TestFixture
         
        int count = count_errors_of_type(errors, "sad::resource::UnregisteredFileType");
        sad::util::free(errors);
-       ASSERT_TRUE(count == 1);	   
+       ASSERT_TRUE(count == 1);    
    }
 
    void testAnonymousResource()
@@ -192,7 +195,7 @@ struct SadTreeTest : tpunit::TestFixture
         
        int count = count_errors_of_type(errors, "sad::resource::AnonymousResource");
        sad::util::free(errors);
-       ASSERT_TRUE(count == 1);	   
+       ASSERT_TRUE(count == 1);    
    }
 
    void testLoadingFailure()
@@ -220,7 +223,7 @@ struct SadTreeTest : tpunit::TestFixture
         
        int count = count_errors_of_type(errors, "sad::resource::ResourceAlreadyExists");
        sad::util::free(errors);
-       ASSERT_TRUE(count == 1);	   
+       ASSERT_TRUE(count == 1);    
    }
 
    void testValid()
@@ -267,6 +270,72 @@ struct SadTreeTest : tpunit::TestFixture
        ASSERT_TRUE(tree.root()->resource("myfont") != NULL);
        ASSERT_TRUE(tree.root()->resource("emporium.ttf") != NULL);
        ASSERT_TRUE(tree.root()->resource("objects2") != NULL);
+   }
+   
+   void testArchiveAtlas()
+   {
+       sad::Renderer r;
+       sad::resource::Tree tree;
+       tree.setStoreLinks(true);
+       tree.setRenderer(&r);
+       // In debug, sad::fretype::Factory fonts becomes in font
+       tree.factory()->registerResource<sad::freetype::Font>();
+       sad::Vector<sad::resource::Error *> errors = tree.loadFromString(
+           "["
+                "{"
+                    "\"type\"   : \"sad::resource::TextureAtlasFile\","
+                    "\"filename\": \"tar7z:24://tests/resources/data.tar/srgba-atlas.json\""
+                "}"
+            "]"
+        );
+        
+        int count = errors.size();
+        sad::util::free(errors);
+        ASSERT_TRUE(count == 0);
+   }
+   
+   void testArchiveAnimation()
+   {
+       sad::Renderer r;
+       sad::resource::Tree tree;
+       tree.setStoreLinks(true);
+       tree.setRenderer(&r);
+       // In debug, sad::fretype::Factory fonts becomes in font
+       tree.factory()->registerResource<sad::freetype::Font>();
+       sad::Vector<sad::resource::Error *> errors = tree.loadFromString(
+           "["
+                "{"
+                    "\"type\"   : \"sad::animations::File\","
+                    "\"filename\": \"tar7z:24://tests/resources/data.tar/test.json\""
+                "}"
+            "]"
+        );
+        
+        int count = errors.size();
+        sad::util::free(errors);
+        ASSERT_TRUE(count == 0);   
+   }
+   
+   void testArchiveFont()
+   {
+       sad::Renderer r;
+       sad::resource::Tree tree;
+       tree.setStoreLinks(true);
+       tree.setRenderer(&r);
+       // In debug, sad::fretype::Factory fonts becomes in font
+       tree.factory()->registerResource<sad::freetype::Font>();
+       sad::Vector<sad::resource::Error *> errors = tree.loadFromString(
+           "["
+                "{"
+                    "\"type\"   : \"sad::freetype::Font\","
+                    "\"filename\": \"tar7z:24://tests/resources/data.tar/EMPORIUM.TTF\""
+                "}"
+            "]"
+        );
+        
+        int count = errors.size();
+        sad::util::free(errors);
+        ASSERT_TRUE(count == 1);  
    }
 
    void testUnload()
