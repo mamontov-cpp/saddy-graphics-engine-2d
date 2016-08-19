@@ -52,6 +52,7 @@ sad::Vector<sad::resource::Error*> sad::resource::TextureAtlasFile::load(
         else
         {
             m_my_texture = new sad::resource::PhysicalFile(result.FileName);
+            m_my_texture->setTree(this->tree());
             sad::Texture* tex = new sad::Texture();
             tex->BuildMipMaps = !result.NoMipMaps;
             linkedresource  = tex;
@@ -279,6 +280,7 @@ void sad::resource::TextureAtlasFile::tryLoadNewTexture(
         if (m_my_texture)
         {
             result.NewTextureFile = new sad::resource::PhysicalFile(parsed.FileName);
+            result.NewTextureFile->setTree(this->tree());
             file = result.NewTextureFile;
         }
         else
