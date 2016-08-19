@@ -146,6 +146,11 @@ void sad::resource::PhysicalFile::replace(
     }
 }
 
+bool sad::resource::PhysicalFile::supportsLoadingFromTar7z() const
+{
+    return false;
+}
+
 
 sad::Maybe<sad::String> sad::resource::PhysicalFile::tryReadToString()
 {

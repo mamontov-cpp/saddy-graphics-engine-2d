@@ -92,6 +92,10 @@ public:
         \param[in] to second resource
      */
     void replace(sad::resource::Resource * from, sad::resource::Resource * to);
+    /*! Returns whether resource supports loading from archive
+        \return false. Until this function is overridden, physical file would not be loaded from archives
+     */
+    virtual bool supportsLoadingFromTar7z() const;
 protected: 
     /*! Tries to read a file to string
      */
