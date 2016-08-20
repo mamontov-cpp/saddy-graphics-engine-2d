@@ -114,10 +114,12 @@ sad::Vector<sad::resource::Error*> sad::resource::ResourceFile::reload()
             sad::Maybe<sad::String> path = m_tree->root()->find(m_resources[i]); 
             if (path.exists())
             {
+                picojson::value opts = m_resources[i]->options();
+                opts.insert("force_archive_reload", picojson::value(true));
                 bool ok = res->tryLoad(
                     *this, 
                     m_tree->renderer(), 
-                    m_resources[i]->options(), 
+                    opts, 
                     m_resources[i]->shouldStoreLinks()
                 );
                 if (ok)
@@ -211,7 +213,7 @@ bool sad::resource::ResourceFile::supportsLoadingFromTar7z() const
 }
 
 
-sad::Maybe<sad::String> sad::resource::ResourceFile::tryReadToString() const
+sad::Maybe<sad::String> sad::resource::ResourceFile::tryReadToString(bool force_reload) const
 {
     sad::Maybe<sad::String> result;
     if (m_type.Valid)
@@ -248,7 +250,7 @@ sad::Maybe<sad::String> sad::resource::ResourceFile::tryReadToString() const
 
         if (m_type.Type == sad::resource::RFT_TAR7Z_INNER_FILE)
         {
-            tar7z::Entry* e = this->tree()->archiveEntry(m_type.ArchiveName, m_type.FileName);
+            tar7z::Entry* e = this->tree()->archiveEntry(m_type.ArchiveName, m_type.FileName, force_reload);
             if (e)
             {
                 result.setValue(sad::String(e->contents(), e->Size));

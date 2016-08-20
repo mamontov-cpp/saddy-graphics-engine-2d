@@ -18,9 +18,27 @@ sad::Vector<sad::resource::Error*> sad::animations::File::load(
     sad::resource::Folder * parent
 )
 {
+    return load(parent, false);
+}
+
+sad::Vector<sad::resource::Error*> sad::animations::File::reload()
+{
+    return load(this->tree()->root(), true);
+}
+
+bool sad::animations::File::supportsLoadingFromTar7z() const
+{
+    return true;
+}
+
+// =================================== PROTECTED METHODS  ===================================
+
+
+sad::Vector<sad::resource::Error*> sad::animations::File::load(sad::resource::Folder * parent, bool force_reload)
+{
     sad::Vector<sad::resource::Error*> errors;
     sad::Vector<sad::animations::File::parse_result> parseresult;
-    this->tryParsePartial(parseresult, errors);
+    this->tryParsePartial(parseresult, errors, force_reload);
     if (errors.size() == 0)
     {	
         // Resource list
@@ -82,27 +100,16 @@ sad::Vector<sad::resource::Error*> sad::animations::File::load(
             sad::resource::free(resourcelist);
         }
     }
-    return errors;
+    return errors;    
 }
-
-sad::Vector<sad::resource::Error*> sad::animations::File::reload()
-{
-    return load(this->tree()->root());
-}
-
-bool sad::animations::File::supportsLoadingFromTar7z() const
-{
-    return true;
-}
-
-// =================================== PROTECTED METHODS  ===================================
 
 void sad::animations::File::tryParsePartial(
         sad::Vector<sad::animations::File::parse_result> & result,
-        sad::Vector<sad::resource::Error *> & errors 
-)
+        sad::Vector<sad::resource::Error *> & errors,
+        bool force_reload
+) const
 {
-    sad::Maybe<sad::String> maybecontent = this->tryReadToString();
+    sad::Maybe<sad::String> maybecontent = this->tryReadToString(force_reload);
     if (maybecontent.exists())
     {
         if (maybecontent.value().consistsOfWhitespaceCharacters())

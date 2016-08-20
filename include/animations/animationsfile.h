@@ -51,14 +51,21 @@ public:
      */
     virtual bool supportsLoadingFromTar7z() const;
 protected:
+    /*! Loads a file. 
+        \param[in] parent a parent folder, where all created resources should be stored
+        \param[in] force_reload whether we should force reload
+     */
+    virtual sad::Vector<sad::resource::Error*> load(sad::resource::Folder * parent, bool force_reload);
     /*! Parses file with texture atlas
         \param[out] result a texture atlas file
         \param[out] errors a errors list
+        \param[in] force_reload whether we should force archives to reload
      */
     void tryParsePartial(
         sad::Vector<sad::animations::File::parse_result> & result,
-        sad::Vector<sad::resource::Error *> & errors 
-    );
+        sad::Vector<sad::resource::Error *> & errors,
+        bool force_reload = false
+    ) const;
     
     /*! A factory for creating files
      */

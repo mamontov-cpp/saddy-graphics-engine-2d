@@ -554,6 +554,7 @@ protected:
      */
     sad::String m_name;
 };
+
 /*! Formats an error to string. Remember, that you still need to free errors.
     \param[in] errors a list of errors
     \param[in] lineformat a format of line (default is just a message)

@@ -172,13 +172,17 @@ public:
     /*! Returns archive entry by name. Tries to load archive if need to
         \param[in] archive an archive name
         \param[in] filename a file name
+        \param[in] loadnew force loading new archive
         \return entry if entry exists
      */
-    tar7z::Entry* archiveEntry(const sad::String& archive, const sad::String filename);
-protected: 
+    tar7z::Entry* archiveEntry(const sad::String& archive, const sad::String filename, bool loadnew = false);
+protected:
+    /*! An archive list
+     */
+    sad::Vector<tar7z::Archive*> m_archive_list;
     /*! An archives for a tree
      */
-    sad::Hash<sad::String, tar7z::Archive*> m_archives;
+    sad::Hash<sad::String, unsigned int> m_archives;
     /*! A loaded files to be stored
      */
     sad::PtrVector<sad::resource::ResourceFile> m_files;

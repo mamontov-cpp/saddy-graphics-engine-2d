@@ -53,10 +53,14 @@ struct SadTreeTest : tpunit::TestFixture
        TEST(SadTreeTest::testReloadTexture),
        TEST(SadTreeTest::testReloadTextureMappedFont),
        TEST(SadTreeTest::testReloadFreetypeFont),
-       TEST(SadTreeTest::testArchiveEntry)
+       TEST(SadTreeTest::testArchiveEntry),
+       TEST(SadTreeTest::testReloadAtlasFromArchive),
+       TEST(SadTreeTest::testReloadAnimationFromArchive)
    ) {}
 
-   
+
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst   
    void testLoadFileNotExists()
    {
        sad::Renderer r;
@@ -71,6 +75,8 @@ struct SadTreeTest : tpunit::TestFixture
        ASSERT_TRUE(count == 1);
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
    void testLoadEmptyFile()
    {
        sad::Renderer r;
@@ -85,6 +91,8 @@ struct SadTreeTest : tpunit::TestFixture
        ASSERT_TRUE(count == 0);    
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
    void testLoadFileThatConsistsOfWhitespaces()
    {
        sad::Renderer r;
@@ -99,6 +107,8 @@ struct SadTreeTest : tpunit::TestFixture
        ASSERT_TRUE(count == 0);    
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
    void testBinary()
    {
        sad::Renderer r;
@@ -113,6 +123,8 @@ struct SadTreeTest : tpunit::TestFixture
        ASSERT_TRUE(count == 1);  
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
    void testParseError()
    {
        sad::Renderer r;
@@ -127,6 +139,8 @@ struct SadTreeTest : tpunit::TestFixture
        ASSERT_TRUE(count == 1);  
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
    void testMalformed1()
    {
        sad::Renderer r;
@@ -141,7 +155,8 @@ struct SadTreeTest : tpunit::TestFixture
        ASSERT_TRUE(count == 1);  
    }
 
-
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
    void testMalformed2()
    {
        sad::Renderer r;
@@ -156,6 +171,8 @@ struct SadTreeTest : tpunit::TestFixture
        ASSERT_TRUE(count == 1);  
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
    void testInvalidTree()
    {
        sad::Renderer r;
@@ -170,6 +187,8 @@ struct SadTreeTest : tpunit::TestFixture
        ASSERT_TRUE(count == 1);
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
    void testUnregisteredFileType()
    {
        sad::Renderer r;
@@ -184,6 +203,8 @@ struct SadTreeTest : tpunit::TestFixture
        ASSERT_TRUE(count == 1);    
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
    void testAnonymousResource()
    {
        sad::Renderer r;
@@ -198,6 +219,8 @@ struct SadTreeTest : tpunit::TestFixture
        ASSERT_TRUE(count == 1);    
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
    void testLoadingFailure()
    {
        sad::Renderer r;
@@ -212,6 +235,8 @@ struct SadTreeTest : tpunit::TestFixture
        ASSERT_TRUE(count == 1);
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
    void testResourceDuplicates()
    {
        sad::Renderer r;
@@ -226,6 +251,8 @@ struct SadTreeTest : tpunit::TestFixture
        ASSERT_TRUE(count == 1);    
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
    void testValid()
    {
        sad::Renderer r;
@@ -245,6 +272,8 @@ struct SadTreeTest : tpunit::TestFixture
        ASSERT_TRUE(tree.root()->resource("emporium.ttf") != NULL);
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
    void testValidMultiple()
    {
        sad::Renderer r;
@@ -271,7 +300,9 @@ struct SadTreeTest : tpunit::TestFixture
        ASSERT_TRUE(tree.root()->resource("emporium.ttf") != NULL);
        ASSERT_TRUE(tree.root()->resource("objects2") != NULL);
    }
-   
+
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst   
    void testArchiveAtlas()
    {
        sad::Renderer r;
@@ -293,7 +324,9 @@ struct SadTreeTest : tpunit::TestFixture
         sad::util::free(errors);
         ASSERT_TRUE(count == 0);
    }
-   
+
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst   
    void testArchiveAnimation()
    {
        sad::Renderer r;
@@ -315,7 +348,9 @@ struct SadTreeTest : tpunit::TestFixture
         sad::util::free(errors);
         ASSERT_TRUE(count == 0);   
    }
-   
+
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst   
    void testArchiveFont()
    {
        sad::Renderer r;
@@ -338,6 +373,8 @@ struct SadTreeTest : tpunit::TestFixture
         ASSERT_TRUE(count == 1);  
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
    void testUnload()
    {
        sad::Renderer r;
@@ -380,6 +417,8 @@ struct SadTreeTest : tpunit::TestFixture
        ASSERT_TRUE ( tree.unload("examples/game/title.tga") );
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
    void testUnload2()
    {
        sad::Renderer r;
@@ -422,6 +461,8 @@ struct SadTreeTest : tpunit::TestFixture
        ASSERT_TRUE ( tree.unload(tree.root()->resource("objects2")->file()) );
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
    void testReloadTexture()
    {
        sad::Renderer r;
@@ -469,6 +510,8 @@ struct SadTreeTest : tpunit::TestFixture
        ASSERT_TRUE( l1.get() != old );
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
    void testReloadTextureMappedFont()
    {
        sad::Renderer r;
@@ -516,6 +559,8 @@ struct SadTreeTest : tpunit::TestFixture
        ASSERT_TRUE( l1.get() != old );
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
    void testReloadFreetypeFont()
    {
        sad::Renderer r;
@@ -554,6 +599,8 @@ struct SadTreeTest : tpunit::TestFixture
        ASSERT_TRUE( l1.get() != old );
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
    void testArchiveEntry()
    {
        sad::Renderer r;
@@ -562,6 +609,64 @@ struct SadTreeTest : tpunit::TestFixture
        tree.setRenderer(&r);
        ASSERT_TRUE( tree.archiveEntry("tests/images/images.tar", "png.png") != NULL) ;
        ASSERT_TRUE( tree.archiveEntry("111", "png.png") == NULL) ;
+   }
+
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
+   void testReloadAtlasFromArchive()
+   {
+       sad::Renderer r;
+       sad::resource::Tree tree;
+       tree.setStoreLinks(true);
+       tree.setRenderer(&r);
+       // In debug, sad::fretype::Factory fonts becomes in font
+       tree.factory()->registerResource<sad::freetype::Font>();
+       sad::Vector<sad::resource::Error *> errors = tree.loadFromString(
+           "["
+                "{"
+                    "\"type\"   : \"sad::resource::TextureAtlasFile\","
+                    "\"filename\": \"tar7z:24://tests/resources/data.tar/srgba-atlas.json\""
+                "}"
+            "]"
+        );
+        
+        int count = errors.size();
+        sad::util::free(errors);
+        ASSERT_TRUE(count == 0);
+
+        errors  = tree.root()->resource("ace.png")->file()->reload();
+        count = errors.size();
+        sad::util::free(errors);
+        ASSERT_TRUE( count == 0 );
+   }
+
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
+   void testReloadAnimationFromArchive()
+   {
+       sad::Renderer r;
+       sad::resource::Tree tree;
+       tree.setStoreLinks(true);
+       tree.setRenderer(&r);
+       // In debug, sad::fretype::Factory fonts becomes in font
+       tree.factory()->registerResource<sad::freetype::Font>();
+       sad::Vector<sad::resource::Error *> errors = tree.loadFromString(
+           "["
+                "{"
+                    "\"type\"   : \"sad::animations::File\","
+                    "\"filename\": \"tar7z:24://tests/resources/data.tar/test.json\""
+                "}"
+            "]"
+        );
+        
+        int count = errors.size();
+        sad::util::free(errors);
+        ASSERT_TRUE(count == 0);
+
+        errors  = tree.root()->resource("rotate")->file()->reload();
+        count = errors.size();
+        sad::util::free(errors);
+        ASSERT_TRUE( count == 0 );
    }
 
 } _sad_tree_test;

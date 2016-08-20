@@ -34,9 +34,9 @@ sad::resource::Tree::~Tree()
 {
     delete m_root;
     delete m_factory;
-    for(sad::Hash<sad::String, tar7z::Archive*>::iterator it = m_archives.begin(); it != m_archives.end(); ++it)
+    for(size_t i = 0; i < m_archive_list.size(); i++)
     {
-        delete it.value();
+        delete m_archive_list[i];
     }
 }
 
@@ -293,7 +293,14 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::load(
         }
         else
         {
-             errors << file->load(temporary);
+            if (file->supportsLoadingFromTar7z() || !isTar7z)
+            {
+                errors << file->load(temporary);
+            }
+            else
+            {
+                errors << new sad::resource::ResourceCannotBeLoadedFromArchive(file->name());
+            }
         }
     }
     else
@@ -469,11 +476,11 @@ void sad::resource::Tree::unloadResourcesFromGPU()
     this->root()->unloadResourcesFromGPU();
 }
 
-tar7z::Entry* sad::resource::Tree::archiveEntry(const sad::String& archive, const sad::String filename)
+tar7z::Entry* sad::resource::Tree::archiveEntry(const sad::String& archive, const sad::String filename, bool loadnew)
 {
-    if (m_archives.contains(archive))
+    if (m_archives.contains(archive) && !loadnew)
     {
-        return m_archives[archive]->file(filename);
+        return m_archive_list[m_archives[archive]]->file(filename);
     }
     tar7z::Archive* ar = new tar7z::Archive();
     tar7z::Reader r;
@@ -504,7 +511,8 @@ tar7z::Entry* sad::resource::Tree::archiveEntry(const sad::String& archive, cons
     }
     if (ok)
     {
-        m_archives.insert(archive, ar);
+        m_archive_list << ar;
+        m_archives.insert(archive, m_archive_list.size() - 1);
         return ar->file(filename);
     }
     

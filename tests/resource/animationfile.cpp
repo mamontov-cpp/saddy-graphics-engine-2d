@@ -16,7 +16,6 @@
 
 #include "renderer.h"
 #include "sprite2d.h"
-#include "fuzzyequal.h"
 
 #define _INC_STDIO
 #include "3rdparty/tpunit++/tpunit++.hpp"
@@ -34,6 +33,8 @@ struct SadAnimationFileTest : tpunit::TestFixture
        TEST(SadAnimationFileTest::testCommon)
    ) {}
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst 
    void testCommon()
    {
        sad::Renderer r;

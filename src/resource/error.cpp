@@ -92,6 +92,7 @@ sad::resource::ResourceCannotBeLoadedFromArchive::~ResourceCannotBeLoadedFromArc
 
 }
 
+
 sad::String sad::resource::format(
     const sad::Vector<sad::resource::Error *> & errors,
     const sad::String & lineformat,

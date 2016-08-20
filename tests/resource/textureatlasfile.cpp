@@ -53,6 +53,8 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        TEST(SadTextureAtlasFileTest::testReloadReplacedResource)
    ) {}
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst 
    void testLoadDoesNotExists()
    {
        sad::Renderer r;
@@ -73,6 +75,8 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        ASSERT_TRUE(count == 1);
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst 
    void testLoadBinary()
    {
        sad::Renderer r;
@@ -93,6 +97,8 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        ASSERT_TRUE(count == 1);
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst 
    void testLoadEmpty()
    {
        sad::Renderer r;
@@ -113,6 +119,8 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        ASSERT_TRUE(count == 1);
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst 
    void testLoadPartiallyValidSyntax()
    {
        sad::Renderer r;
@@ -133,6 +141,8 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        ASSERT_TRUE(count == 1);
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst 
    void testLoadMalformed1()
    {
        sad::Renderer r;
@@ -153,6 +163,8 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        ASSERT_TRUE(count == 1);
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst 
    void testLoadMalformed2()
    {
        sad::Renderer r;
@@ -173,6 +185,8 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        ASSERT_TRUE(count == 1);
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst 
    void testLoadMalformed3()
    {
        sad::Renderer r;
@@ -193,6 +207,8 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        ASSERT_TRUE(count == 1);
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst 
    void testLoadMalformed4()
    {
        sad::Renderer r;
@@ -213,6 +229,8 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        ASSERT_TRUE(count == 1);
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst 
    void testLoadMalformed5()
    {
        sad::Renderer r;
@@ -233,6 +251,8 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        ASSERT_TRUE(count == 1);
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst 
    void testLoadMalformed6()
    {
        sad::Renderer r;
@@ -253,6 +273,8 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        ASSERT_TRUE(count == 1);
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst 
    void testLoadMalformed7()
    {
        sad::Renderer r;
@@ -273,6 +295,8 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        ASSERT_TRUE(count == 1);
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst 
    void testLoadMalformed8()
    {
        sad::Renderer r;
@@ -292,7 +316,9 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        sad::util::free(errors);
        ASSERT_TRUE(count == 1);
    }
-   
+
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst    
    void testLoadMalformed9()
    {
        sad::Renderer r;
@@ -313,6 +339,8 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        ASSERT_TRUE(count == 1);
    }    
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst 
    void testLoadResourceFail()
    {
        sad::Renderer r;
@@ -332,7 +360,9 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        sad::util::free(errors);
        ASSERT_TRUE(count == 1);
    }
-     
+
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst      
    void testLoadValid()
    {   
        sad::Renderer r;
@@ -348,7 +378,7 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
                 "}"
             "]"
         );
-       int count = (int)(errors.size());
+       int count = static_cast<int>(errors.size());
        sad::util::free(errors);
        ASSERT_TRUE(count == 0);
     
@@ -356,6 +386,8 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        ASSERT_TRUE(tree.root()->resource("1") != NULL);
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst 
    void testLoadResourceExists()
    {
        sad::Renderer r;
@@ -381,6 +413,8 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        ASSERT_TRUE(count == 1);
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst 
    void testReloadValid()
    {
        sad::Renderer r;
@@ -396,7 +430,7 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
                 "}"
             "]"
         );
-       int count = (int)(errors.size());
+       int count = static_cast<int>(errors.size());
        sad::util::free(errors);
        ASSERT_TRUE(count == 0);
     
@@ -415,13 +449,15 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
 
 
        errors = tree.root()->resource("1")->file()->reload();
-       count = (int)(errors.size());
+       count = static_cast<int>(errors.size());
        sad::util::free(errors);
        ASSERT_TRUE(count == 0);
 
        ASSERT_TRUE(old != l.get());
    }
-
+   
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst 
    void testReloadSourceJSONIsAbsent()
    {
        sad::Renderer r;
@@ -437,7 +473,7 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
                 "}"
             "]"
         );
-       int count = (int)(errors.size());
+       int count = static_cast<int>(errors.size());
        sad::util::free(errors);
        ASSERT_TRUE(count == 0);
     
@@ -459,6 +495,8 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        ASSERT_TRUE(count == 1);
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst 
    void testReloadSourceResourceIsAbsent()
    {
        sad::Renderer r;
@@ -474,7 +512,7 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
                 "}"
             "]"
         );
-       int count = (int)(errors.size());
+       int count = static_cast<int>(errors.size());
        sad::util::free(errors);
        ASSERT_TRUE(count == 0);
     
@@ -496,6 +534,8 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        ASSERT_TRUE(count == 1);
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst 
    void testReloadCannotDeleteReferenced()
    {
        sad::Renderer r;
@@ -511,7 +551,7 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
                 "}"
             "]"
         );
-       int count = (int)(errors.size());
+       int count = static_cast<int>(errors.size());
        sad::util::free(errors);
        ASSERT_TRUE(count == 0);
     
@@ -535,6 +575,8 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        ASSERT_TRUE(count == 1);
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst 
    void testReloadAddedResource()
    {
        sad::Renderer r;
@@ -550,7 +592,7 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
                 "}"
             "]"
         );
-       int count = (int)(errors.size());
+       int count = static_cast<int>(errors.size());
        sad::util::free(errors);
        ASSERT_TRUE(count == 0);
     
@@ -566,7 +608,7 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        rename("tests/icons_added.json", "tests/icons.json");
 
        errors = tree.root()->resource("1")->file()->reload();
-       count = (int)(errors.size());
+       count = static_cast<int>(errors.size());
        sad::util::free(errors);
 
        rename("tests/icons.json", "tests/icons_added.json");
@@ -579,6 +621,8 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        ASSERT_TRUE(l2.get() != NULL);
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst 
    void testReloadReplacedResource()
    {
        sad::Renderer r;
@@ -594,7 +638,7 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
                 "}"
             "]"
         );
-       int count = (int)(errors.size());
+       int count = static_cast<int>(errors.size());
        sad::util::free(errors);
        ASSERT_TRUE(count == 0);
     
@@ -610,7 +654,7 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
        rename("tests/icons_replaced.json", "tests/icons.json");
 
        errors = tree.root()->resource("1")->file()->reload();
-       count = (int)(errors.size());
+       count = static_cast<int>(errors.size());
        sad::util::free(errors);
 
        rename("tests/icons.json", "tests/icons_replaced.json");

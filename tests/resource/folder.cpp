@@ -46,6 +46,8 @@ struct SadFolderTest : tpunit::TestFixture
        TEST(SadFolderTest::testFind)
    ) {}
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst 
    void testAddRemoveFolder()
    {
        sad::resource::Folder * folder = new sad::resource::Folder();
@@ -70,6 +72,8 @@ struct SadFolderTest : tpunit::TestFixture
        delete folder;
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst 
    void testAddRemoveResource()
    {
        _deleted = 0;
@@ -94,6 +98,8 @@ struct SadFolderTest : tpunit::TestFixture
        ASSERT_TRUE(_deleted == 2);
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst 
    void testReplaceResource()
    {
        _deleted = 0;
@@ -115,6 +121,8 @@ struct SadFolderTest : tpunit::TestFixture
        ASSERT_TRUE(_deleted == 2);
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst 
    void testFind()
    {
        sad::resource::Folder * folder = new sad::resource::Folder();

@@ -54,11 +54,13 @@ protected:
     /*! Parses file with texture atlas
         \param[out] result a texture atlas file
         \param[out] errors a errors list
+        \param[in] force_reload force reload atlas
      */
     void tryParsePartial(
         sad::resource::TextureAtlasFile::parse_result & result,
-        sad::Vector<sad::resource::Error *> & errors 
-    );
+        sad::Vector<sad::resource::Error *> & errors,
+        bool force_reload = false
+    ) const;
     /*! Whether texture is found
      */
     sad::resource::ResourceFile * m_my_texture;
@@ -86,12 +88,14 @@ protected:
         \param[in] parsed a parsed value result
         \param[out] result of loading result
         \param[out] errors a error list
+        \param[in] force_reload whether we should reload texture
      */
     void tryLoadNewTexture(
         sad::resource::TextureAtlasFile::parse_result & parsed,
         sad::resource::TextureAtlasFile::TextureLoadResult & result,
-        sad::Vector<sad::resource::Error *> & errors
-    );
+        sad::Vector<sad::resource::Error *> & errors,
+        bool force_reload = false
+    ) const;
     /*! Commits resources, allocated as a loading result
         \param[in] parsed a result of parsing
         \param[in] result a result of loading a new texture
@@ -103,7 +107,7 @@ protected:
     /*! Frees resources, allocated as a loading result
         \param[in] result a loaded result
      */
-    void free(const sad::resource::TextureAtlasFile::TextureLoadResult & result);
+    static void free(const sad::resource::TextureAtlasFile::TextureLoadResult & result);
     /*! Fills list of resources  with parsed options from array, altering a texture
         \param[in] parsed a parsed list
         \param[out] resources a resource list from data
@@ -113,7 +117,7 @@ protected:
         sad::resource::TextureAtlasFile::parse_result & parsed,
         sad::resource::ResourceEntryList & resources,
         sad::resource::Resource * texture
-    );
+    ) const;
 };
 
 }

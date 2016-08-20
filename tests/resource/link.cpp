@@ -1,7 +1,6 @@
 #pragma warning(push)
 #pragma warning(disable: 4273)
 #pragma warning(disable: 4351)
-#include <cstdio>
 #include "resource/link.h"
 #include "resource/resource.h"
 #include "renderer.h"
@@ -51,21 +50,27 @@ class MockLinkData
 {
 public:
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     void invoke0()
     {
         ++_invoked;
     }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
     void invokec0() const
     {
         ++_invoked;
     }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     void invoke1(LinkResource * rk)
     {
         ++_invoked;
     }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
     void invokec1(LinkResource * rk) const
     {
         ++_invoked;
@@ -84,31 +89,40 @@ struct SadLinkTest : tpunit::TestFixture
        TEST(SadLinkTest::testFetchMultipleTrees)
    ) {}
 
+   // ReSharper disable once CppMemberFunctionMayBeStatic
+   // ReSharper disable once CppMemberFunctionMayBeConst
    void invoke0()
    {
        ++_invoked;
    }
 
+   // ReSharper disable once CppMemberFunctionMayBeStatic
    void invokec0() const
    {
        ++_invoked;
    }
 
+   // ReSharper disable once CppMemberFunctionMayBeStatic
+   // ReSharper disable once CppMemberFunctionMayBeConst
    void invoke1(LinkResource * rk)
    {
        ++_invoked;
    }
 
+   // ReSharper disable once CppMemberFunctionMayBeStatic
    void invokec1(LinkResource * rk) const
    {
        ++_invoked;
    }
 
+   // ReSharper disable once CppMemberFunctionMayBeStatic
+   // ReSharper disable once CppMemberFunctionMayBeConst
    MockLinkData * data()
    {
        return &_mock_link;
    }
 
+   // ReSharper disable once CppMemberFunctionMayBeStatic
    MockLinkData * const_data() const
    {
        return &_mock_link;
@@ -158,6 +172,8 @@ struct SadLinkTest : tpunit::TestFixture
        delete r2;
    }
 
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
    void testFetchMultipleTrees()
    {
        sad::Renderer r;

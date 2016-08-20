@@ -147,8 +147,9 @@ public:
     virtual bool supportsLoadingFromTar7z() const;
 protected: 
     /*! Tries to read a file to string
+        \param[in] force_reload whether we should force reloading of file
      */
-    sad::Maybe<sad::String> tryReadToString() const;
+    sad::Maybe<sad::String> tryReadToString(bool force_reload = false) const;
     /*! Replaces resources of texture atlas file with list
         \param[in] resourcelist a list of resources
      */

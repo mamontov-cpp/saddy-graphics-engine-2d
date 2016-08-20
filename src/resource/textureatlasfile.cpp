@@ -114,13 +114,13 @@ sad::Vector<sad::resource::Error*> sad::resource::TextureAtlasFile::reload()
 {
     sad::Vector<sad::resource::Error*> errors;
     sad::resource::TextureAtlasFile::parse_result result;
-    this->tryParsePartial(result, errors);
+    this->tryParsePartial(result, errors, true);
     if (errors.size() == 0)
     {
         sad::resource::TextureAtlasFile::TextureLoadResult textureloadresult;
         sad::resource::ResourceEntryList resourcelist;
         sad::resource::ResourceEntryList tobeadded, tobereplaced, toberemoved;
-        this->tryLoadNewTexture(result, textureloadresult, errors);
+        this->tryLoadNewTexture(result, textureloadresult, errors, true);
         if (errors.size() == 0)
         {           
             this->fillOptionsList(
@@ -167,10 +167,11 @@ bool sad::resource::TextureAtlasFile::supportsLoadingFromTar7z() const
 
 void sad::resource::TextureAtlasFile::tryParsePartial(
         sad::resource::TextureAtlasFile::parse_result & result,
-        sad::Vector<sad::resource::Error *> & errors 
-)
+        sad::Vector<sad::resource::Error *> & errors,
+        bool force_reload
+) const
 {
-    sad::Maybe<sad::String> maybecontent = this->tryReadToString();
+    sad::Maybe<sad::String> maybecontent = this->tryReadToString(force_reload);
     if (maybecontent.exists())
     {
         if (maybecontent.value().consistsOfWhitespaceCharacters())
@@ -263,12 +264,14 @@ void sad::resource::TextureAtlasFile::tryParsePartial(
 void sad::resource::TextureAtlasFile::tryLoadNewTexture(
     sad::resource::TextureAtlasFile::parse_result & parsed,
     sad::resource::TextureAtlasFile::TextureLoadResult & result,
-    sad::Vector<sad::resource::Error *> & errors
-)
+    sad::Vector<sad::resource::Error *> & errors,
+    bool force_reload
+) const
 {
     result.OldTexture = this->tree()->root()->resource(parsed.ResourceName);
     result.NewTexture = new sad::Texture();
     sad::resource::ResourceFile * file  = NULL;
+    bool force_reload_texture = false;
     // Try load texture
     if (result.OldTexture)
     {
@@ -298,6 +301,21 @@ void sad::resource::TextureAtlasFile::tryLoadNewTexture(
     v.insert("type",     picojson::value(sad::Texture::globalMetaData()->name()));
     v.insert("filename", picojson::value(result.NewTextureFile->name()));
     v.insert("name", picojson::value(parsed.ResourceName));
+    if (result.NewTextureFile->rfi().Type == sad::resource::RFT_TAR7Z_INNER_FILE)
+    {
+        if (this->rfi().Type == sad::resource::RFT_TAR7Z_INNER_FILE)
+        {
+            force_reload_texture = !(result.NewTextureFile->rfi().ArchiveName == this->rfi().ArchiveName);
+        }
+        else
+        {
+            force_reload_texture = true;    
+        }
+    }
+    if (force_reload_texture)
+    {
+        v.insert("force_archive_reload", true);
+    }
     bool ok = result.NewTexture->tryLoad(*file, r, v, this->tree()->shouldStoreLinks());
     if (!ok)
     {
@@ -356,7 +374,7 @@ void sad::resource::TextureAtlasFile::fillOptionsList(
     sad::resource::TextureAtlasFile::parse_result & parsed,
     sad::resource::ResourceEntryList & resources,
     sad::resource::Resource * texture
-)
+) const
 {
     const picojson::array & list = parsed.EntryList;
     for(size_t i = 0; i < list.size(); i++)

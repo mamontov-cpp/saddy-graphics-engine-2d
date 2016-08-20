@@ -300,7 +300,8 @@ bool sad::Texture::load(
         
         if (ri.Type == sad::resource::RFT_TAR7Z_INNER_FILE)
         {
-            tar7z::Entry* e = file.tree()->archiveEntry(ri.ArchiveName, ri.FileName);
+            bool force_reload = picojson::get_property_or_default(options, "force_archive_reload", false);
+            tar7z::Entry* e = file.tree()->archiveEntry(ri.ArchiveName, ri.FileName, force_reload);
             if (e)
             {
                 result = this->load(e, r);
