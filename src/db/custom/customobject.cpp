@@ -666,12 +666,14 @@ void sad::db::custom::Object::updateConfiguration(sad::db::custom::Schema * s)
                         else
                         {
                             m_custom_schema->remove(it.key());
-                            m_custom_schema->add(it.key(), it.value());
+                            sad::db::Property*  p = it.value();
+                            m_custom_schema->add(it.key(), p);
                         }
                     }
                     else
                     {
-                        m_custom_schema->add(it.key(), it.value());
+                        sad::db::Property*  p = it.value();
+                        m_custom_schema->add(it.key(), p);
                     }
                 }
             }

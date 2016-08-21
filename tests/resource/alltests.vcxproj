@@ -61,7 +61,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>saddy-debug.lib;saddy-ft-debug.lib;GLU32.lib;OPENGL32.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(ProjectDir)/../../bin/tests-resource-$(Configuration).exe</OutputFile>
+      <OutputFile>$(ProjectDir)/../../bin/tests-resource-debug.exe</OutputFile>
       <AdditionalLibraryDirectories>$(ProjectDir)/../../lib/;$(FREETYPE_LIB);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
@@ -83,7 +83,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>saddy-release.lib;saddy-ft-release.lib;GLU32.lib;OPENGL32.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(ProjectDir)/../../bin/tests-resource-$(Configuration).exe</OutputFile>
+      <OutputFile>$(ProjectDir)/../../bin/tests-resource-release.exe</OutputFile>
       <AdditionalLibraryDirectories>$(ProjectDir)/../../lib/;$(FREETYPE_LIB);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
