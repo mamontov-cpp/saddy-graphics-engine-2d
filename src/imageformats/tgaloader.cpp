@@ -65,7 +65,9 @@ bool sad::imageformats::TGALoader::load(FILE * file, sad::Texture * texture)
     sad::util::FileIStreamBuf buf(file);
     std::istream stream(&buf);
     m_file = &stream;
-    return this->load(texture);
+    bool result = this->load(texture);
+    m_file = NULL;
+    return result;
 }
 
 bool sad::imageformats::TGALoader::load(tar7z::Entry* entry, sad::Texture* texture)
@@ -77,7 +79,9 @@ bool sad::imageformats::TGALoader::load(tar7z::Entry* entry, sad::Texture* textu
     sad::util::CharArrayIBuf buf(entry->contents(), entry->contents() + entry->Size);
     std::istream stream(&buf);
     m_file = &stream;
-    return this->load(texture);
+    bool result =  this->load(texture);
+    m_file = NULL;
+    return result;
 }
 
 sad::imageformats::TGALoader::~TGALoader()
