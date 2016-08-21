@@ -379,7 +379,9 @@ void sad::db::custom::SchemaFile::fillOptionsList(
                 sad::db::Variant* defaultvalue = new sad::db::Variant();
                 p->get(NULL, *defaultvalue);
                 defaultvalue->load(mbdefault.value());
-                assert( p->makeNonRequiredWithDefaultValue(defaultvalue) );
+                // ReSharper disable once CppEntityNeverUsed
+                bool making_non_required_value = p->makeNonRequiredWithDefaultValue(defaultvalue);
+                assert( making_non_required_value );
                 assert( p->hasDefaultValue() );
             }
             schema->add(props[j].p1(), p);

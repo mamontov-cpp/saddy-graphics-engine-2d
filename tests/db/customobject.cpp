@@ -309,9 +309,11 @@ struct SadDbCustomObjectTest : tpunit::TestFixture
        picojson::object obj = val.get<picojson::object>();
        obj.erase("prop");
        val = picojson::value(obj);
+       printf("Schema property has a default value: %d\n", tree->get<sad::db::custom::Schema>("myobject")->sad::db::schema::Schema::getProperty("prop")->hasDefaultValue());
 
        sad::db::Property* testprop = object.getObjectProperty("prop");
        bool has_default_value = testprop->hasDefaultValue();
+       printf("\"prop\" has a default value: %d\n", has_default_value);
        ASSERT_TRUE( has_default_value );
 
        ASSERT_TRUE( object.load(val) );
