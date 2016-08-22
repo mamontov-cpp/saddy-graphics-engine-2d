@@ -211,7 +211,7 @@ QScriptValue scripting::layouts::ScriptableGridCell::findChild(const QScriptValu
             sad::Maybe<size_t> res = cell->find(maybe_obj.value());
             if (res.exists())
             {
-                val = QScriptValue(res.value());
+                val = QScriptValue(static_cast<unsigned int>(res.value()));
             }
         }
         else

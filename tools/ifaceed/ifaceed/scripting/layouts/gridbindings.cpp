@@ -143,7 +143,7 @@ QScriptValue scripting::layouts::parent(
             QScriptValue result = engine->newArray(2);
             QScriptValue source = engine->newQObject(new scripting::layouts::ScriptableGridCell(g.Grid->MajorId, g.Row, g.Col, e));
             result.setProperty(0, source);
-            result.setProperty(1, QScriptValue(g.Pos));
+            result.setProperty(1, QScriptValue(static_cast<unsigned int>(g.Pos)));
             return result;
         }
     }

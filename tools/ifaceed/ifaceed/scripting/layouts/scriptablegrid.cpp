@@ -428,7 +428,7 @@ QScriptValue scripting::layouts::ScriptableGrid::findChild(const QScriptValue& o
                 val = e->newArray(2);
                 QScriptValue source = e->newQObject(new scripting::layouts::ScriptableGridCell(g->MajorId, c->Row, c->Col, m_scripting));
                 val.setProperty(0, source);
-                val.setProperty(1, QScriptValue(res.value().p2()));
+                val.setProperty(1, QScriptValue(static_cast<unsigned int>(res.value().p2())));
             }
         }
         else
