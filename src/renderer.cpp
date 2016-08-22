@@ -77,7 +77,7 @@ m_added_system_pipeline_tasks(false)
     m_controls->add(*(sad::input::ET_Quit), m_main_loop, &sad::MainLoop::stop);
 
     // Set context thread
-    m_context_thread = static_cast<void*>(sad::os::current_thread_id()); 
+    m_context_thread = reinterpret_cast<void*>(sad::os::current_thread_id()); 
     // Init pipeline to make sure, that user can add actions after rendering step, before 
     // renderer started
     this->Renderer::initPipeline();
@@ -166,7 +166,7 @@ bool sad::Renderer::run()
     if (m_context->valid() == false && success)
     {
         // Set context thread
-        m_context_thread = static_cast<void*>(sad::os::current_thread_id()); 
+        m_context_thread = reinterpret_cast<void*>(sad::os::current_thread_id()); 
         success =  m_context->createFor(m_window);
         if (!success)
         {
@@ -627,7 +627,7 @@ void sad::Renderer::removeTree(const sad::String & name)
 
 bool sad::Renderer::isOwnThread() const
 {
-    return (static_cast<void*>(sad::os::current_thread_id()) == m_context_thread);
+    return (reinterpret_cast<void*>(sad::os::current_thread_id()) == m_context_thread);
 }
 
 bool sad::Renderer::addDatabase(const sad::String & name, sad::db::Database * database)
