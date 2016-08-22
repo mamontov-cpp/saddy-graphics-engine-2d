@@ -37,7 +37,7 @@ void history::dialogues::ChangeName::commit(core::Editor* ob)
     m_dialogue->setObjectName(m_newvalue);
     if (ob)
     {
-        ob->emitClosure( bind(this, &history::dialogues::ChangeName::updateUI, ob, m_newvalue) );
+        ob->emitClosure( ::bind(this, &history::dialogues::ChangeName::updateUI, ob, m_newvalue) );
     }
 }
 
@@ -46,7 +46,7 @@ void history::dialogues::ChangeName::rollback(core::Editor* ob)
     m_dialogue->setObjectName(m_oldvalue);
     if (ob)
     {
-        ob->emitClosure( bind(this, &history::dialogues::ChangeName::updateUI, ob, m_oldvalue) );
+        ob->emitClosure( ::bind(this, &history::dialogues::ChangeName::updateUI, ob, m_oldvalue) );
     }
 }
 
