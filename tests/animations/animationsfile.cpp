@@ -46,7 +46,18 @@ struct SadAnimationFileTest : tpunit::TestFixture
    SadAnimationFileTest() : tpunit::TestFixture(
        TEST(SadAnimationFileTest::testCommon)
    ) {}
-
+   /*! Tests easing for specified tree
+       \param[in] tree a tree name
+       \param[in] name a name
+    */
+   template<typename T>
+   void testEasingFor(sad::resource::Tree& tree, const sad::String name)
+   {
+       T * v = tree.get<T >(name);  
+       ASSERT_TRUE( (v)->easing()->functionTypeAsUnsignedInt() == 3);  
+       ASSERT_TRUE( sad::is_fuzzy_equal((v)->easing()->overshootAmplitude(), 2)); 
+       ASSERT_TRUE( sad::is_fuzzy_equal((v)->easing()->period(), 4));     
+   }
     // ReSharper disable once CppMemberFunctionMayBeStatic
     // ReSharper disable once CppMemberFunctionMayBeConst
    void testCommon()
@@ -69,27 +80,23 @@ struct SadAnimationFileTest : tpunit::TestFixture
        ASSERT_TRUE(count == 0);
 
 #define TEST_EASING_LOADING(TYPE, VARIABLE_NAME)    \
-    sad::animations:: ##TYPE * VARIABLE_NAME = tree.get<sad::animations::  ##TYPE >(#VARIABLE_NAME);  \
-    ASSERT_TRUE( (VARIABLE_NAME)->easing()->functionTypeAsUnsignedInt() == 3);  \
-    ASSERT_TRUE( sad::is_fuzzy_equal((VARIABLE_NAME)->easing()->overshootAmplitude(), 2)); \
-    ASSERT_TRUE( sad::is_fuzzy_equal((VARIABLE_NAME)->easing()->period(), 4));  
-
-       TEST_EASING_LOADING(Blinking, blinking);
-       TEST_EASING_LOADING(CameraRotation, camera_rotation);
-       TEST_EASING_LOADING(CameraShaking, camera_shaking);
-       TEST_EASING_LOADING(Color, color);
-       TEST_EASING_LOADING(FontList, font_list);
-       TEST_EASING_LOADING(FontSize, font_size);
-       TEST_EASING_LOADING(OptionList, option_list);
-       TEST_EASING_LOADING(Parallel, parallel);
-       TEST_EASING_LOADING(Resize, resize);
-       TEST_EASING_LOADING(Rotate, rotate);
-       TEST_EASING_LOADING(Sequential, sequential);
-       TEST_EASING_LOADING(SimpleMovement, simple_movement);
-       TEST_EASING_LOADING(TextureCoordinatesContinuous, texture_coordinates_continous);
-       TEST_EASING_LOADING(TextureCoordinatesList, texture_coordinates_list);
-       TEST_EASING_LOADING(Typing, typing);
-       TEST_EASING_LOADING(WayMoving, way_moving);
+    this->testEasingFor< TYPE >(tree, #VARIABLE_NAME);
+       TEST_EASING_LOADING(sad::animations::Blinking, blinking);
+       TEST_EASING_LOADING(sad::animations::CameraRotation, camera_rotation);
+       TEST_EASING_LOADING(sad::animations::CameraShaking, camera_shaking);
+       TEST_EASING_LOADING(sad::animations::Color, color);
+       TEST_EASING_LOADING(sad::animations::FontList, font_list);
+       TEST_EASING_LOADING(sad::animations::FontSize, font_size);
+       TEST_EASING_LOADING(sad::animations::OptionList, option_list);
+       TEST_EASING_LOADING(sad::animations::Parallel, parallel);
+       TEST_EASING_LOADING(sad::animations::Resize, resize);
+       TEST_EASING_LOADING(sad::animations::Rotate, rotate);
+       TEST_EASING_LOADING(sad::animations::Sequential, sequential);
+       TEST_EASING_LOADING(sad::animations::SimpleMovement, simple_movement);
+       TEST_EASING_LOADING(sad::animations::TextureCoordinatesContinuous, texture_coordinates_continous);
+       TEST_EASING_LOADING(sad::animations::TextureCoordinatesList, texture_coordinates_list);
+       TEST_EASING_LOADING(sad::animations::Typing, typing);
+       TEST_EASING_LOADING(sad::animations::WayMoving, way_moving);
 
    }
 
