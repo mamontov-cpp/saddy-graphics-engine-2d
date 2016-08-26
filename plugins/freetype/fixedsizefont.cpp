@@ -62,8 +62,9 @@ void sad::freetype::FixedSizeFont::markTexturesAsUnloaded()
         m_glyphs[i]->Texture.IsOnGPU = false;
     }
 }
-
-static sad::Mutex sad_freetype_font_lock;
+// Why this even exists? It's not like were doing something horrible here
+// Also, we encounter bad Linux behaviour here
+// static sad::Mutex sad_freetype_font_lock;
 
 void sad::freetype::FixedSizeFont::render(
     const sad::String & s, 
@@ -71,7 +72,7 @@ void sad::freetype::FixedSizeFont::render(
     float ratio
 )
 {
-    sad_freetype_font_lock.lock();
+    // sad_freetype_font_lock.lock();
 
     if (!m_on_gpu)
     {
@@ -114,7 +115,7 @@ void sad::freetype::FixedSizeFont::render(
         previous = false;
     }
 
-    sad_freetype_font_lock.unlock();
+    // sad_freetype_font_lock.unlock();
 }
 
 sad::String sad::freetype::FixedSizeFont::dumpGlyphParameters() const

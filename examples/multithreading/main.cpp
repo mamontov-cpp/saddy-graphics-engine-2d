@@ -202,11 +202,12 @@ int thread(void * p)
     scene->add(l1);
     scene->add(l2);
 
+
     sad::animations::Instance* parallelinstance = new sad::animations::Instance();
     parallelinstance->setAnimation(parallel);
     parallelinstance->setObject(l1);
     r.animations()->add(parallelinstance);
-    
+
     sad::animations::Instance* tccinstance = new sad::animations::Instance();
     tccinstance->setAnimation(tcc);
     tccinstance->setObject(a);
