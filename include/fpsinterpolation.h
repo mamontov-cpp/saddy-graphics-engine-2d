@@ -41,7 +41,10 @@ public:
 protected:
     /*! A timer, for computng FPS
      */
-    sad::Timer		     m_timer;  
+    sad::Timer		     m_timer; 
+	/*! A warmup timer for FPS
+	 */ 
+	sad::Timer           m_warmup_timer;
     /*! An elapsed frames count
      */
     int                  m_frames;      
@@ -54,6 +57,12 @@ protected:
     /*!  Current FPS value
      */
     double               m_fps; 
+	/*!  A warm-up  time for interpolation (ms)
+	 */
+	static const double WarmupTime;
+	/*!  A registration time for checking (ms)
+	 */
+	static const double RegistrationTime;
 };
 
 }

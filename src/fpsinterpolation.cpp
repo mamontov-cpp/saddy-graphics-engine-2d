@@ -1,4 +1,9 @@
 #include "fpsinterpolation.h"
+#include <iostream>
+
+const double sad::FPSInterpolation::WarmupTime = 500;
+
+const double sad::FPSInterpolation::RegistrationTime = 500;
 
 sad::FPSInterpolation::FPSInterpolation()
 {
@@ -21,7 +26,13 @@ void sad::FPSInterpolation::reset()
 
 void sad::FPSInterpolation::start()
 {
-    if (m_setimmediately || m_reset)
+	if (m_setimmediately)
+	{
+		m_warmup_timer.start();
+		m_reset = true;
+		m_setimmediately = false;
+	}
+    if (m_reset)
     {
         m_timer.start();
         m_reset = false;
@@ -32,15 +43,26 @@ void sad::FPSInterpolation::stop()
 {
     ++m_frames;
     m_timer.stop();
+	m_warmup_timer.stop();
     double elapsed = m_timer.elapsed();
-    if (m_setimmediately || elapsed > 500.0)
-    {
+	if (m_warmup_timer.elapsed() <= sad::FPSInterpolation::WarmupTime)
+	{
         double newfps = 1000.0 * m_frames / elapsed; 
-        m_fps =  newfps * 0.8 + m_fps * 0.2;
-        m_frames = 0;
-        m_reset = true;
-        m_setimmediately = false;
-    }
+		m_fps = newfps;
+		m_frames = 0;
+		m_reset = true;
+	}
+	else 
+	{  
+		if (elapsed > sad::FPSInterpolation::RegistrationTime)
+		{
+			double newfps = 1000.0 * m_frames / elapsed; 
+			m_fps =  newfps * 0.8 + m_fps * 0.2;			
+			m_frames = 0;
+			m_reset = true;
+		}
+	}
+	std::cerr << m_fps << "\n";
 }
 
 void sad::FPSInterpolation::resetTimer()
