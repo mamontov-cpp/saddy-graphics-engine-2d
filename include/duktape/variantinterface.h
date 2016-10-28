@@ -42,15 +42,14 @@ public:
     static dukpp03::Maybe<_UnderlyingValue> get(sad::db::Variant* v)
     {
         sad::Maybe<_UnderlyingValue> maybe_value = v->get<_UnderlyingValue>(true);
-		if (maybe_value.exists())
-		{
-			if (maybe_value.referenceable())
-			{
-				return dukpp03::Maybe<_UnderlyingValue>(&(maybe_value.mutableValue()));
-			}
-			
-			return dukpp03::Maybe<_UnderlyingValue>(maybe_value.mutableValue());			
-		}
+        if (maybe_value.exists())
+        {
+            if (maybe_value.referenceable())
+            { 
+                return dukpp03::Maybe<_UnderlyingValue>(&(maybe_value.mutableValue()));
+	    }
+            return dukpp03::Maybe<_UnderlyingValue>(maybe_value.mutableValue());			
+	}
         return dukpp03::Maybe<_UnderlyingValue>();
     }
     
@@ -79,7 +78,7 @@ public:
          */
         static std::string type()
         {
-			sad::db::TypeName<_UnderlyingValue>::init();
+            sad::db::TypeName<_UnderlyingValue>::init();
             return sad::db::TypeName<_UnderlyingValue>::name();
         }
     };
