@@ -48,7 +48,7 @@ FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 
-include/3rdparty/duktape is Duktape, which may be obtained at http://duktape.org/
+include/3rdparty/dukpp-03/duktape is Duktape, which may be obtained at http://duktape.org/
 
 ===============
 Duktape license
