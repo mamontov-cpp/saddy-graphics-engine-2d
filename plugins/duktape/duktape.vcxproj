@@ -11,29 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="context.cpp" />
-    <ClCompile Include="duktape.cpp" />
-    <ClCompile Include="duktapecallable.cpp" />
-    <ClCompile Include="duktapefunction.cpp" />
-    <ClCompile Include="getvalue.cpp" />
-    <ClCompile Include="pushvalue.cpp" />
-    <ClCompile Include="variantpool.cpp" />
+    <ClCompile Include="dukpp-03.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\duktape\context.h" />
-    <ClInclude Include="..\..\include\duktape\decay.h" />
-    <ClInclude Include="..\..\include\duktape\duktapecallable.h" />
-    <ClInclude Include="..\..\include\duktape\duktapeconstructor.h" />
-    <ClInclude Include="..\..\include\duktape\duktapefunction.h" />
-    <ClInclude Include="..\..\include\duktape\duktapemethod.h" />
-    <ClInclude Include="..\..\include\duktape\duktapeptrmethod.h" />
-    <ClInclude Include="..\..\include\duktape\errorcodes.h" />
-    <ClInclude Include="..\..\include\duktape\getvalue.h" />
-    <ClInclude Include="..\..\include\duktape\getvalue_src.h" />
-    <ClInclude Include="..\..\include\duktape\pushvalue.h" />
-    <ClInclude Include="..\..\include\duktape\pushvalue_src.h" />
-    <ClInclude Include="..\..\include\duktape\registercallable.h" />
-    <ClInclude Include="..\..\include\duktape\variantpool.h" />
+    <ClInclude Include="..\..\include\duktape\getaddressoftype.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4FE11C6E-642A-4CBA-BD95-D3B8357FD609}</ProjectGuid>
