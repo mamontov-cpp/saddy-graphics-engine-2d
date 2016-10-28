@@ -1,6 +1,6 @@
 /*! \file variantinterface.h
     
-	Contains an interface for interacting with variants in code
+    Contains an interface for interacting with variants in code
 */
 #pragma once
 #include "../db/dbvariant.h"
@@ -10,10 +10,10 @@
 
 namespace sad
 {
-	
+
 namespace duktape
 {
-	
+
 /*! A main interface for interacting with variants
  */
 class VariantInterface
@@ -47,9 +47,9 @@ public:
             if (maybe_value.referenceable())
             { 
                 return dukpp03::Maybe<_UnderlyingValue>(&(maybe_value.mutableValue()));
-	    }
+            }
             return dukpp03::Maybe<_UnderlyingValue>(maybe_value.mutableValue());			
-	}
+        }
         return dukpp03::Maybe<_UnderlyingValue>();
     }
     
