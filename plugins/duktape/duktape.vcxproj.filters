@@ -17,11 +17,14 @@
   <ItemGroup>
     <ClCompile Include="dukpp-03.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>    
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\duktape\getaddressoftype.h">
       <Filter>Header Files</Filter>
-    </ClInclude>    
+    </ClInclude>
+    <ClInclude Include="..\..\include\duktape\variantinterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
