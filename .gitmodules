@@ -4,3 +4,6 @@
 [submodule "include/3rdparty/tar7z"]
 	path = include/3rdparty/tar7z
 	url = https://github.com/mamontov-cpp/tar7z
+[submodule "include/3rdparty/dukpp-03"]
+	path = include/3rdparty/dukpp-03
+	url = https://github.com/mamontov-cpp/dukpp-03.git
