@@ -23,9 +23,9 @@ public:
         \param[in] v value
         \return empty maybe
      */
-    static dukpp03::Maybe<_UnderlyingValue> getAddress(sad::db::Variant* v)
+    static ::dukpp03::Maybe<_UnderlyingValue> getAddress(sad::db::Variant* v)
     {
-        return dukpp03::Maybe<_UnderlyingValue>();
+        return ::dukpp03::Maybe<_UnderlyingValue>();
     }
 };
 
@@ -39,14 +39,14 @@ public:
         \param[in] v value
         \return empty maybe
      */
-    static dukpp03::Maybe<_UnderlyingValue*> getAddress(sad::db::Variant* v)
+    static ::dukpp03::Maybe<_UnderlyingValue*> getAddress(sad::db::Variant* v)
     {
         sad::Maybe<_UnderlyingValue> result = v->get<_UnderlyingValue>(true);
         if (result.exists())
         {
-            return dukpp03::Maybe<_UnderlyingValue*>(&(result.mutableValue()));
+            return ::dukpp03::Maybe<_UnderlyingValue*>(&(result.mutableValue()));
         }
-        return dukpp03::Maybe<_UnderlyingValue*>();
+        return ::dukpp03::Maybe<_UnderlyingValue*>();
     }
 };
 

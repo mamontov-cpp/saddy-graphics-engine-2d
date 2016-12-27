@@ -18,9 +18,9 @@ namespace dukpp03
  */
 typedef ::dukpp03::Context<sad::dukpp03::MapInterface, sad::dukpp03::VariantInterface, sad::dukpp03::TimerInterface> Context;
 
-typedef ::dukpp03::make_fun<sad::duktape::Context> make_function;
-typedef ::dukpp03::register_constructor<sad::duktape::Context> register_constructor;
-typedef ::dukpp03::make_method<sad::duktape::Context> make_method;
+typedef ::dukpp03::make_fun<sad::dukpp03::Context> make_function;
+typedef ::dukpp03::register_constructor<sad::dukpp03::Context> register_constructor;
+typedef ::dukpp03::make_method<sad::dukpp03::Context> make_method;
 typedef ::dukpp03::bind_method<sad::dukpp03::Context> bind_method;
 typedef ::dukpp03::CompiledFunction<sad::dukpp03::Context> CompiledFunction;
 typedef ::dukpp03::getter<sad::dukpp03::Context> getter;

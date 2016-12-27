@@ -36,7 +36,7 @@ cd tools/ifaceed
 qmake CONFIG+=$QtConfig ifaceed.pro
 make
 cd ../..
-cd plugins/duktape
+cd plugins/dukpp-03
 eval $BatchToRun
 cd ../..
 cd plugins/irrklang

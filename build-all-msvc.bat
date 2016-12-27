@@ -11,7 +11,7 @@ if [%VALID%] EQU [0]  (
 @echo on
 devenv libsaddy.vcxproj /Build %1 /out lastsolutionbuild.log
 devenv tools/atlasgen/atlasgen.vcxproj /Build %1 /out lastsolutionbuild.log
-devenv plugins/duktape/duktape.vcxproj /Build %1 /out lastsolutionbuild.log
+devenv plugins/dukpp-03/dukpp-03.vcxproj /Build %1 /out lastsolutionbuild.log
 devenv tools/exporter/exporter.vcxproj /Build %1 /out lastsolutionbuild.log
 devenv plugins/freetype/saddy-ft.vcxproj /Build %1 /out lastsolutionbuild.log
 devenv plugins/irrklang/irrklang.vcxproj /Build %1 /out lastsolutionbuild.log

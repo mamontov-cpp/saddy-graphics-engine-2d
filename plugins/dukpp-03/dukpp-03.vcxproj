@@ -48,12 +48,12 @@
     <OutDir>../../lib/</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <TargetName>saddy-duktape-debug</TargetName>
+    <TargetName>saddy-dukpp-03-debug</TargetName>
     <IncludePath>../../include/;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>../../lib/</OutDir>
-    <TargetName>saddy-duktape-release</TargetName>
+    <TargetName>saddy-dukpp-03-release</TargetName>
     <IncludePath>../../include/;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

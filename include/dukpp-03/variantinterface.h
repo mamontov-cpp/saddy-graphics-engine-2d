@@ -39,18 +39,18 @@ public:
     template<
         typename _UnderlyingValue
     >   
-    static dukpp03::Maybe<_UnderlyingValue> get(sad::db::Variant* v)
+    static ::dukpp03::Maybe<_UnderlyingValue> get(sad::db::Variant* v)
     {
         sad::Maybe<_UnderlyingValue> maybe_value = v->get<_UnderlyingValue>(true);
         if (maybe_value.exists())
         {
             if (maybe_value.referenceable())
             { 
-                return dukpp03::Maybe<_UnderlyingValue>(&(maybe_value.mutableValue()));
+                return ::dukpp03::Maybe<_UnderlyingValue>(&(maybe_value.mutableValue()));
             }
-            return dukpp03::Maybe<_UnderlyingValue>(maybe_value.mutableValue());			
+            return ::dukpp03::Maybe<_UnderlyingValue>(maybe_value.mutableValue());			
         }
-        return dukpp03::Maybe<_UnderlyingValue>();
+        return ::dukpp03::Maybe<_UnderlyingValue>();
     }
     
     /*! Fetches underlying value adress from variant type
@@ -60,7 +60,7 @@ public:
     template<
         typename _UnderlyingValue
     >   
-    static dukpp03::Maybe<_UnderlyingValue> getAddress(sad::db::Variant* v)
+    static ::dukpp03::Maybe<_UnderlyingValue> getAddress(sad::db::Variant* v)
     {
         return sad::dukpp03::GetAddressOfType<_UnderlyingValue>::getAddress(v);
     }
