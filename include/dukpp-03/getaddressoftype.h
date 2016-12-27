@@ -9,7 +9,7 @@
 namespace sad
 {
 
-namespace duktape
+namespace dukpp03
 {
 
 /*! Gets adress fo value of specified type, that is stored in variant.

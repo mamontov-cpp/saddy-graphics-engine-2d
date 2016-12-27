@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 2.8.12)
-project(saddy-duktape)
+project(saddy-dukpp-03)
 
 file(GLOB SRCS *.cpp)
 file(GLOB HDRS *.h)
 
-set(SADDY_LIBRARY_NAME "saddy-duktape")
+set(SADDY_LIBRARY_NAME "saddy-dukpp-03")
 
 set(SADDY_CXX_DEBUG_FLAGS "-Wno-reorder -Wno-unused -Wno-sign-compare -w")
 set(SADDY_CXX_RELEASE_FLAGS "-O2 -Wno-reorder -Wno-unused -Wno-sign-compare -w")

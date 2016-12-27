@@ -9,7 +9,7 @@
 namespace sad
 {
 
-namespace duktape
+namespace dukpp03
 {
 
 /*! An interface for timer interaction with duktape

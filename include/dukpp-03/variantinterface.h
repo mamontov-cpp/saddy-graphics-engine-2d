@@ -11,7 +11,7 @@
 namespace sad
 {
 
-namespace duktape
+namespace dukpp03
 {
 
 /*! A main interface for interacting with variants
@@ -62,7 +62,7 @@ public:
     >   
     static dukpp03::Maybe<_UnderlyingValue> getAddress(sad::db::Variant* v)
     {
-        return sad::duktape::GetAddressOfType<_UnderlyingValue>::getAddress(v);
+        return sad::dukpp03::GetAddressOfType<_UnderlyingValue>::getAddress(v);
     }
     
     /*! A typename interface for variant

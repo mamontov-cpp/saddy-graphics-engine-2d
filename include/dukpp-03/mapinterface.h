@@ -8,7 +8,7 @@
 namespace sad
 {
 
-namespace duktape
+namespace dukpp03
 {
 
 template<
