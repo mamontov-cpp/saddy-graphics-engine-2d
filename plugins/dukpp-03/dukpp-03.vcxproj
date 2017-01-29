@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="context.cpp" />
     <ClCompile Include="dukpp-03.cpp" />
   </ItemGroup>
   <ItemGroup>

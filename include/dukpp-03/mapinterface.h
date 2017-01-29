@@ -53,7 +53,7 @@ public:
          */
         bool end()
         {
-            return it == parent->end();
+            return it == parent->const_end();
         }
     };
     
@@ -68,7 +68,7 @@ public:
     iterator begin() const
     {
         iterator it;
-        it.it = m_map.begin();
+        it.it = m_map.const_begin();
         it.parent = &m_map;
         return it;
     }
