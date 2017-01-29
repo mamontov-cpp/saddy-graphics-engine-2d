@@ -14,8 +14,11 @@
     <ClCompile Include="dukpp-03.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\duktape\getaddressoftype.h" />
-    <ClInclude Include="..\..\include\duktape\variantinterface.h" />
+    <ClInclude Include="..\..\include\dukpp-03\context.h" />
+    <ClInclude Include="..\..\include\dukpp-03\getaddressoftype.h" />
+    <ClInclude Include="..\..\include\dukpp-03\mapinterface.h" />
+    <ClInclude Include="..\..\include\dukpp-03\timerinterface.h" />
+    <ClInclude Include="..\..\include\dukpp-03\variantinterface.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4FE11C6E-642A-4CBA-BD95-D3B8357FD609}</ProjectGuid>

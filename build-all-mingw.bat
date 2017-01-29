@@ -57,7 +57,7 @@ cd ../..
 cd tests/db
 call %BatchToRun%
 cd ../..
-cd tests/duktape
+cd tests/dukpp-03
 call %BatchToRun%
 cd ../..
 cd tests/freetype

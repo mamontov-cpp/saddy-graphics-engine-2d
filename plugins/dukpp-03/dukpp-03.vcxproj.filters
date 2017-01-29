@@ -20,10 +20,19 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\duktape\getaddressoftype.h">
+    <ClInclude Include="..\..\include\dukpp-03\context.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\duktape\variantinterface.h">
+    <ClInclude Include="..\..\include\dukpp-03\getaddressoftype.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\dukpp-03\mapinterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\dukpp-03\timerinterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\dukpp-03\variantinterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

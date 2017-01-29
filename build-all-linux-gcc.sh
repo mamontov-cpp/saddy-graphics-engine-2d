@@ -57,7 +57,7 @@ cd ../..
 cd tests/db
 eval $BatchToRun
 cd ../..
-cd tests/duktape
+cd tests/dukpp-03
 eval $BatchToRun
 cd ../..
 cd tests/freetype
