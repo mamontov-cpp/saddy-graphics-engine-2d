@@ -43,8 +43,8 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\bin\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">tests-duktape-debug</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">tests-duktape-release</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">tests-dukpp-03-debug</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">tests-dukpp-03-release</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -60,7 +60,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>saddy-debug.lib;saddy-duktape-debug.lib;GLU32.lib;OPENGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>saddy-debug.lib;saddy-dukpp-03-debug.lib;GLU32.lib;OPENGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)/../../lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
@@ -81,7 +81,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>saddy-release.lib;saddy-duktape-release.lib;GLU32.lib;OPENGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>saddy-release.lib;saddy-dukpp-03-release.lib;GLU32.lib;OPENGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)/../../lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>

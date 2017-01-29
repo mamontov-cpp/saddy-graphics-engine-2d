@@ -2,7 +2,7 @@
 #pragma warning(disable: 4273)
 #pragma warning(disable: 4351)
 #include <cstdio>
-#include "duktape/variantpool.h"
+#include "dukpp-03/context.h"
 #include "db/save.h"
 #define _INC_STDIO
 #include "3rdparty/tpunit++/tpunit++.hpp"
@@ -22,7 +22,7 @@ public:
     
     void testCopyConstructor()
     {
-        sad::duktape::VariantPool pool1;
+        sad::dukpp03::VariantPool pool1;
         sad::String id = pool1.insert(new sad::db::Variant(1));
         ASSERT_TRUE(id == "0");
 
