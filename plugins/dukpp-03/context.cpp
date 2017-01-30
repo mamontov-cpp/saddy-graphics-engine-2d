@@ -3,6 +3,9 @@
 #include <renderer.h>
 #include <util/fs.h>
 
+
+DECLARE_COMMON_TYPE(sad::dukpp03::CompiledFunction)
+
 // ============================================ PUBLIC METHODS ============================================
 
 sad::dukpp03::Context::Context(bool vanilla) : m_renderer(NULL), m_vanilla(vanilla)

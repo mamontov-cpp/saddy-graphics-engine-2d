@@ -89,6 +89,15 @@ int return_number_3(int a, int b, int c)
 }
 
 
+
+sad::dukpp03::CompiledFunction func;
+
+void set_func(const sad::dukpp03::CompiledFunction& f)
+{
+    func = f;
+}
+
+
 struct ContextTest : tpunit::TestFixture
 {
 public:
@@ -108,7 +117,8 @@ public:
        TEST(ContextTest::testRegisterVoidFunctions),
        TEST(ContextTest::testRegisterReturnFunctions),
        TEST(ContextTest::testMethods),
-       TEST(ContextTest::testPtrMethods)
+       TEST(ContextTest::testPtrMethods),
+       TEST(ContextTest::testCompiledFunction) 
     ) {}
 
     /*! Tests getting and setting reference data
@@ -546,6 +556,29 @@ public:
         ::dukpp03::Maybe<double> result =  DUKPP03_FROM_STACK(double, &ctx, -1);
         ASSERT_TRUE( result.exists() );
         ASSERT_TRUE( sad::is_fuzzy_equal(result.value(), 55) );
+    }
+
+    /*! Tests basic working with compiled functions
+     */
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
+    void testCompiledFunction()
+    {
+        sad::dukpp03::Context ctx;
+        ctx.bind("setFunction", set_func);
+
+        // Setting callback from JS code
+        ctx.eval(" setFunction(function(a) { print(a); return a;  }); ", false);
+        // Clean stack after evaluating
+        ctx.cleanStack();
+
+        // Push argument (22) on stack
+        dukpp03::PushValue<int, sad::dukpp03::BasicContext>::perform(&ctx, 22);
+        // Evaluate function - it will print 22 and return 22 on stack
+        func.call(&ctx);
+        ::dukpp03::Maybe<int> result =  DUKPP03_FROM_STACK(int, &ctx, -1);
+        ASSERT_TRUE( result.exists() );
+        ASSERT_TRUE( result.value() == 22 );
     }
 
 } _context_test;
