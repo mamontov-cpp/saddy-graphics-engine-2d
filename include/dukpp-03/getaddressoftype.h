@@ -50,6 +50,23 @@ public:
     }
 };
 
+
+/*! Returns address of type stored in variant.
+ */
+template<>
+struct GetAddressOfType<const char*>
+{
+public: 
+    /*! Returns address of type, stored in variant.
+        \param[in] v value
+        \return empty maybe
+     */
+    inline static ::dukpp03::Maybe<const char*> getAddress(sad::db::Variant* v)
+    {
+        return ::dukpp03::Maybe<const char*>();
+    }
+};
+
 }
 
 }

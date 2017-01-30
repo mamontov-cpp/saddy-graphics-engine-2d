@@ -3,20 +3,15 @@
     Defines a context, that can be used in Saddy
  */
 #pragma once
-#include "variantinterface.h"
-#include "mapinterface.h"
-#include "timerinterface.h"
-#include "../3rdparty/dukpp-03/include/dukpp-03.h"
+#include "basiccontext.h"
+#include "getvalue.h"
+#include "pushvalue.h"
 
 namespace sad
 {
 
 namespace dukpp03
 {
-
-/*! A basic context
- */
-typedef ::dukpp03::Context<sad::dukpp03::MapInterface, sad::dukpp03::VariantInterface, sad::dukpp03::TimerInterface> BasicContext;
 
 typedef ::dukpp03::make_fun<sad::dukpp03::BasicContext> make_function;
 typedef ::dukpp03::register_constructor<sad::dukpp03::BasicContext> register_constructor;
