@@ -6,6 +6,7 @@
 #include "dukpp-03//context.h"
 #include "sadpoint.h"
 #include "db/save.h"
+#include "db/load.h"
 #include "fuzzyequal.h"
 #define _INC_STDIO
 #include "3rdparty/tpunit++/tpunit++.hpp"
@@ -105,9 +106,9 @@ public:
        TEST(ContextTest::testRegisterGlobal),
        TEST(ContextTest::testRegisterCallable),
        TEST(ContextTest::testRegisterVoidFunctions),
-       TEST(ContextTest::testRegisterReturnFunctions)/*,
+       TEST(ContextTest::testRegisterReturnFunctions),
        TEST(ContextTest::testMethods),
-       TEST(ContextTest::testPtrMethods)*/
+       TEST(ContextTest::testPtrMethods)
     ) {}
 
     /*! Tests getting and setting reference data
@@ -127,7 +128,7 @@ public:
     // ReSharper disable once CppMemberFunctionMayBeConst
     void testPushGet()
     {
-        sad::dukpp03::Context ctx;
+        sad::dukpp03::Context ctx(true);
 
         // Common case
         int test_number = 0;
@@ -262,7 +263,7 @@ public:
         {
             const char* c = "23";
             ::dukpp03::PushValue<sad::String, sad::dukpp03::BasicContext>::perform(&ctx, c);
-            ::dukpp03::Maybe<sad::String> maybev = ::dukpp03::GetValue<sad::String, sad::dukpp03::BasicContext>::perform(&ctx, test_number++);
+            ::dukpp03::Maybe<sad::String> maybev = ::dukpp03::GetValue<sad::String, sad::dukpp03::BasicContext>::perform(&ctx, test_number);
             ASSERT_TRUE( maybev.exists());
             ASSERT_TRUE( maybev.value() == "23");
         }
@@ -350,7 +351,7 @@ public:
     // ReSharper disable once CppMemberFunctionMayBeConst
     void testCleanStack()
     {
-        sad::dukpp03::Context ctx;
+        sad::dukpp03::Context ctx(true);
         sad::Point2D pts2d(3, 4);
         ::dukpp03::PushValue<sad::Point2D, sad::dukpp03::BasicContext>::perform(&ctx, pts2d);
         ::dukpp03::Maybe<sad::Point2D> mbpts2d =
@@ -369,7 +370,7 @@ public:
     // ReSharper disable once CppMemberFunctionMayBeConst
     void testReset()
     {
-        sad::dukpp03::Context ctx;
+        sad::dukpp03::Context ctx(true);
         sad::Point2D pts2d(3, 4);
         ::dukpp03::PushValue<sad::Point2D, sad::dukpp03::BasicContext>::perform(&ctx, pts2d);
         ::dukpp03::Maybe<sad::Point2D> mbpts2d =
@@ -402,7 +403,7 @@ public:
     // ReSharper disable once CppMemberFunctionMayBeConst
     void testRegisterGlobal()
     {
-        sad::dukpp03::Context ctx;
+        sad::dukpp03::Context ctx(true);
         ctx.registerGlobal("value", true);
         bool eval_result = ctx.eval(" !value ", false);
         ASSERT_TRUE( eval_result );
@@ -417,7 +418,7 @@ public:
     // ReSharper disable once CppMemberFunctionMayBeConst
     void testRegisterCallable()
     {
-        sad::dukpp03::Context ctx;
+        sad::dukpp03::Context ctx(true);
         ctx.registerCallable("f", new MockCallable());
         bool eval_result = ctx.eval(" (f() + f()) * (f() + f()) ; f() + f()*f() ", false);
         ASSERT_TRUE( eval_result );
@@ -435,7 +436,6 @@ public:
         std::string error;  
 
         sad::dukpp03::Context ctx;
-        // TODO: Looks horrible.
         ctx.bind("f00", print_something);
         bool eval_result = ctx.eval(" f00(); f00(); ", true, &error);
         ASSERT_TRUE( eval_result );
@@ -498,49 +498,54 @@ public:
      */
     // ReSharper disable once CppMemberFunctionMayBeStatic
     // ReSharper disable once CppMemberFunctionMayBeConst
-    /*void testMethods()
+    void testMethods()
     {
-        sad::String error;  
+        std::string error;  
         
-        sad::duktape::Context ctx;
-        sad::duktape::register_constructor<sad::Point2D, double, double>(&ctx, "pnt");
-        sad::duktape::register_callable(&ctx, "x", &sad::Point2D::x);
-        sad::duktape::register_callable(&ctx, "y", &sad::Point2D::y);
+        sad::dukpp03::Context ctx(true);
+        sad::dukpp03::ClassBinding* p2dbinding = new sad::dukpp03::ClassBinding();
+        p2dbinding->addConstructor<sad::Point2D, double, double>("Point2D");
+        p2dbinding->addMethod("x", sad::dukpp03::bind_method::from(&sad::Point2D::x));
+        p2dbinding->addMethod("y", sad::dukpp03::bind_method::from(&sad::Point2D::y));
+        p2dbinding->addMethod("setX", sad::dukpp03::bind_method::from(&sad::Point2D::setX));
+        p2dbinding->addMethod("setY", sad::dukpp03::bind_method::from(&sad::Point2D::setY));
 
-        sad::duktape::register_callable(&ctx, "setX", &sad::Point2D::setX);
-        sad::duktape::register_callable(&ctx, "setY", &sad::Point2D::setY);
+        ctx.addClassBinding("sad::Point2D", p2dbinding);
 
-        bool eval_result = ctx.eval(" var f = pnt(3, 4);  setX(f, 55); x(f) ", false);
+        bool eval_result = ctx.eval(" var f = new Point2D(3, 4);  f.setX(55); f.x()  ", false, &error);
         ASSERT_TRUE( eval_result );
-        sad::Maybe<double> result = sad::duktape::GetValue<double>::perform(&ctx, -1);
+        ::dukpp03::Maybe<double> result = DUKPP03_FROM_STACK(double, &ctx, -1);
         ASSERT_TRUE( result.exists() );
         ASSERT_TRUE( sad::is_fuzzy_equal(result.value(), 55) );
-    }*/
+    }
 
     /*! Tests methods, which can be called from pointers
      */
     // ReSharper disable once CppMemberFunctionMayBeStatic
     // ReSharper disable once CppMemberFunctionMayBeConst
-    /*void testPtrMethods()
+    void testPtrMethods()
     {
-        sad::String error;  
+        std::string error;  
+        
+        sad::dukpp03::Context ctx;
+        
+        sad::dukpp03::ClassBinding* p2dbinding = new sad::dukpp03::ClassBinding();
+        p2dbinding->addConstructor<sad::Point2D, double, double>("Point2D");
+        p2dbinding->addMethod("x", sad::dukpp03::bind_method::from(&sad::Point2D::x));
+        p2dbinding->addMethod("y", sad::dukpp03::bind_method::from(&sad::Point2D::y));
+        p2dbinding->addMethod("setX", sad::dukpp03::bind_method::from(&sad::Point2D::setX));
+        p2dbinding->addMethod("setY", sad::dukpp03::bind_method::from(&sad::Point2D::setY));
+
+        ctx.addClassBinding("sad::Point2D", p2dbinding);
 
         sad::Point2D p(5, 7);
-        
-        sad::duktape::Context ctx;
         ctx.registerGlobal("pnt", &p);
 
-        sad::duktape::register_ptr_method(&ctx, "x", &sad::Point2D::x);
-        sad::duktape::register_ptr_method(&ctx, "y", &sad::Point2D::y);
-
-        sad::duktape::register_ptr_method(&ctx, "setX", &sad::Point2D::setX);
-        sad::duktape::register_ptr_method(&ctx, "setY", &sad::Point2D::setY);
-
-        bool eval_result = ctx.eval(" setX(pnt, 55); x(pnt) ", false);
+        bool eval_result = ctx.eval(" pnt.setX(55); pnt.x() ", false, &error);
         ASSERT_TRUE( eval_result );
-        sad::Maybe<double> result = sad::duktape::GetValue<double>::perform(&ctx, -1);
+        ::dukpp03::Maybe<double> result =  DUKPP03_FROM_STACK(double, &ctx, -1);
         ASSERT_TRUE( result.exists() );
         ASSERT_TRUE( sad::is_fuzzy_equal(result.value(), 55) );
-    }*/
+    }
 
 } _context_test;

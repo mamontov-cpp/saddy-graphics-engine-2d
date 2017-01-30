@@ -34,8 +34,9 @@ class Context: public sad::dukpp03::BasicContext
 {
 public:
     /*! Construct default context
+        \param[in] vanilla if true, does not initalizes context
      */
-    Context();
+    Context(bool vanilla = false);
     /*! Destructs a context
      */
     ~Context();
@@ -55,6 +56,14 @@ public:
         \return renderer
      */
     sad::Renderer* renderer() const;
+    /*! Resets the context with initialization
+     */
+    virtual void reset();
+    /*! Adds class binding bot to self and adress of type
+        \param[in] name a name for class binding
+        \param[in] c a class binding
+     */
+    virtual bool addClassBinding(const std::string& name, ::dukpp03::ClassBinding<Self>* c);
     /*! Registers function in context
         \param[in] name a name for function
         \param[in] f function
@@ -619,6 +628,12 @@ protected:
     /*! A parent renderer for context
      */
     sad::Renderer* m_renderer;
+    /*! Makes a vanilla cotnext, without any bindings
+     */
+    bool m_vanilla;
+    /*! Initializes context with bindings
+     */
+    void initialize();
 };
 
 #undef SAD_DUKPP03_TEMPLATE_REGFUNC_BODY

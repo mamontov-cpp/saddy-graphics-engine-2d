@@ -3,7 +3,17 @@
 #include <renderer.h>
 #include <util/fs.h>
 
-sad::dukpp03::Context::Context() : m_renderer(NULL)
+// ============================================ PUBLIC METHODS ============================================
+
+sad::dukpp03::Context::Context(bool vanilla) : m_renderer(NULL), m_vanilla(vanilla)
+{
+    if (!m_vanilla)
+    {
+        this->initialize();
+    }    
+}
+
+sad::dukpp03::Context::~Context()
 {
     
 }
@@ -86,7 +96,36 @@ sad::Renderer* sad::dukpp03::Context::renderer() const
     return m_renderer;
 }
 
-sad::dukpp03::Context::~Context()
+void sad::dukpp03::Context::reset()
 {
-    
+    this->sad::dukpp03::BasicContext::reset();
+    if (!m_vanilla)
+    {
+        this->initialize();
+    }
+}
+
+
+bool sad::dukpp03::Context::addClassBinding(const std::string& name, ::dukpp03::ClassBinding<Self>* c)
+{
+    if (this->sad::dukpp03::BasicContext::addClassBinding(name, c))
+    {
+        if (name.find("*") == std::string::npos)
+        {
+            std::string ptrname = name;
+            ptrname += " *";
+            this->sad::dukpp03::BasicContext::addClassBinding(ptrname, new ::dukpp03::ClassBinding<Self>(*c));
+        }
+        return true;
+    }
+    return false;
+}
+
+// ============================================ PROTECTED METHODS ============================================
+
+// ReSharper disable once CppMemberFunctionMayBeStatic
+// ReSharper disable once CppMemberFunctionMayBeConst
+void sad::dukpp03::Context::initialize()
+{
+
 }
