@@ -434,20 +434,21 @@ public:
      */
     // ReSharper disable once CppMemberFunctionMayBeStatic
     // ReSharper disable once CppMemberFunctionMayBeConst
-    /*void testRegisterVoidFunctions()
+    void testRegisterVoidFunctions()
     {
-        sad::String error;  
+        std::string error;  
 
-        sad::duktape::Context ctx;
-        sad::duktape::register_callable(&ctx, "f00", print_something);
+        sad::dukpp03::Context ctx;
+        // TODO: Looks horrible.
+        ctx.registerCallable("f00", sad::dukpp03::make_function(print_something));
         bool eval_result = ctx.eval(" f00(); f00(); ", true, &error);
         ASSERT_TRUE( eval_result );
 
-        sad::duktape::register_callable(&ctx, "f01", print_number_1);
+        ctx.registerCallable("f01", sad::dukpp03::make_function(print_number_1));
         eval_result = ctx.eval(" f01(21); f01(32); ", true);
         ASSERT_TRUE( eval_result );
 
-        sad::duktape::register_callable(&ctx, "f03", print_number_3);
+        ctx.registerCallable("f03", sad::dukpp03::make_function(print_number_3));
         eval_result = ctx.eval(" f03(21, 44, 56); f03(32, 88, 93); ", true);
         ASSERT_TRUE( eval_result );
 
@@ -457,7 +458,7 @@ public:
 
         eval_result = ctx.eval(" f03(undefined, undefined, undefined) ", true, &error);
         ASSERT_TRUE( !eval_result );
-    }*/
+    }
 
     /*! Tests functions, which return some values
      */
