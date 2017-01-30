@@ -114,7 +114,6 @@ public:
        TEST(ContextTest::testPtrMethods)*/
     ) {}
 
-
     /*! Tests getting and setting reference data
      */
     // ReSharper disable once CppMemberFunctionMayBeStatic
@@ -128,6 +127,8 @@ public:
 
     /*! Tests pushing and getting values
      */
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     void testPushGet()
     {
         sad::dukpp03::Context ctx;
@@ -273,6 +274,8 @@ public:
 
     /*! Test for normal evaluation process
      */
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     void testEvalNormal()
     {
         std::string error;
@@ -284,8 +287,11 @@ public:
         ASSERT_TRUE( result.exists() );
         ASSERT_TRUE( result.value() == 2);
     }
+
     /*! Test for non-compilable code
      */
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     void testEvalFail()
     {
         std::string error;
@@ -294,8 +300,11 @@ public:
         ASSERT_TRUE( !eval_result );
         ASSERT_TRUE( error.size() != 0 );
     }
+
     /*! Test for timeout
      */
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     void testEvalTimeout()
     {
         std::string error;
@@ -310,8 +319,11 @@ public:
         ASSERT_TRUE( error.size() != 0 );
         printf("Passed second stage\n");
     }
+
     /*! Tests evaluation from file which just sums two numbers
      */
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     void testEvalFromFileNormal()
     {
         std::string error;
@@ -325,6 +337,8 @@ public:
     }
     /*! Tests evaluation from file on non-existing file
      */
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     void testEvalFromFileFail()
     {
         std::string error;
@@ -333,8 +347,11 @@ public:
         ASSERT_TRUE( !eval_result );
         ASSERT_TRUE( error.size() != 0 );
     }
+
     /*! Test cleaning  of a pool
      */
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     void testCleanStack()
     {
         sad::dukpp03::Context ctx;
@@ -349,8 +366,11 @@ public:
         mbpts2d = ::dukpp03::GetValue<sad::Point2D, sad::dukpp03::BasicContext>::perform(&ctx, -1);
         ASSERT_TRUE( mbpts2d.exists() == false );       
     }
+
     /*! Test full reset of context
      */
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     void testReset()
     {
         sad::dukpp03::Context ctx;
@@ -365,8 +385,11 @@ public:
         mbpts2d = ::dukpp03::GetValue<sad::Point2D, sad::dukpp03::BasicContext>::perform(&ctx, -1);
         ASSERT_TRUE( mbpts2d.exists() == false );
     }
+
     /*! Tests throwing exception
      */
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     void testThrow()
     {
         sad::dukpp03::Context ctx;
@@ -376,8 +399,11 @@ public:
         sad::String testvalue = s;
         ASSERT_TRUE(  testvalue.size() !=0 );
     }
+
     /*! Tests registering value as property of global object
      */
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     /*void testRegisterGlobal()
     {
         sad::duktape::Context ctx;
@@ -388,8 +414,11 @@ public:
         ASSERT_TRUE( result.exists() );
         ASSERT_TRUE( result.value() == false );
     }*/
+
     /*! Tests registering callable function
      */
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     /*void testRegisterCallable()
     {
         sad::duktape::Context ctx;
@@ -400,8 +429,11 @@ public:
         ASSERT_TRUE( result.exists() );
         ASSERT_TRUE( result.value() == 2 );
     }*/
+
     /*! Tests registering functions
      */
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
     /*void testRegisterVoidFunctions()
     {
         sad::String error;  
@@ -425,9 +457,13 @@ public:
 
         eval_result = ctx.eval(" f03(undefined, undefined, undefined) ", true, &error);
         ASSERT_TRUE( !eval_result );
-    }
+    }*/
 
-    void testRegisterReturnFunctions()
+    /*! Tests functions, which return some values
+     */
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
+    /*void testRegisterReturnFunctions()
     {
         sad::String error;  
 
@@ -466,9 +502,13 @@ public:
 
         eval_result = ctx.eval(" f03(undefined, undefined, undefined) ", false, &error);
         ASSERT_TRUE( !eval_result );        
-    }
+    }*/
 
-    void testMethods()
+    /*! Tests method calls
+     */
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
+    /*void testMethods()
     {
         sad::String error;  
         
@@ -485,9 +525,13 @@ public:
         sad::Maybe<double> result = sad::duktape::GetValue<double>::perform(&ctx, -1);
         ASSERT_TRUE( result.exists() );
         ASSERT_TRUE( sad::is_fuzzy_equal(result.value(), 55) );
-    }
+    }*/
 
-    void testPtrMethods()
+    /*! Tests methods, which can be called from pointers
+     */
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
+    /*void testPtrMethods()
     {
         sad::String error;  
 
