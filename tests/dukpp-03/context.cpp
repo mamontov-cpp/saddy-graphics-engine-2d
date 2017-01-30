@@ -87,10 +87,6 @@ int return_number_3(int a, int b, int c)
     return a - b - c;
 }
 
-int return_number_3_decay(const int& a, int& b, int c)
-{
-    return a - b - c;
-}
 
 struct ContextTest : tpunit::TestFixture
 {
@@ -107,9 +103,9 @@ public:
        TEST(ContextTest::testReset),
        TEST(ContextTest::testThrow),
        TEST(ContextTest::testRegisterGlobal),
-       TEST(ContextTest::testRegisterCallable)/*,
+       TEST(ContextTest::testRegisterCallable),
        TEST(ContextTest::testRegisterVoidFunctions),
-       TEST(ContextTest::testRegisterReturnFunctions),
+       TEST(ContextTest::testRegisterReturnFunctions)/*,
        TEST(ContextTest::testMethods),
        TEST(ContextTest::testPtrMethods)*/
     ) {}
@@ -440,15 +436,15 @@ public:
 
         sad::dukpp03::Context ctx;
         // TODO: Looks horrible.
-        ctx.registerCallable("f00", sad::dukpp03::make_function(print_something));
+        ctx.bind("f00", print_something);
         bool eval_result = ctx.eval(" f00(); f00(); ", true, &error);
         ASSERT_TRUE( eval_result );
 
-        ctx.registerCallable("f01", sad::dukpp03::make_function(print_number_1));
+        ctx.bind("f01", print_number_1);
         eval_result = ctx.eval(" f01(21); f01(32); ", true);
         ASSERT_TRUE( eval_result );
 
-        ctx.registerCallable("f03", sad::dukpp03::make_function(print_number_3));
+        ctx.bind("f03", print_number_3);
         eval_result = ctx.eval(" f03(21, 44, 56); f03(32, 88, 93); ", true);
         ASSERT_TRUE( eval_result );
 
@@ -464,36 +460,29 @@ public:
      */
     // ReSharper disable once CppMemberFunctionMayBeStatic
     // ReSharper disable once CppMemberFunctionMayBeConst
-    /*void testRegisterReturnFunctions()
+    void testRegisterReturnFunctions()
     {
-        sad::String error;  
+        std::string error;  
 
-        sad::duktape::Context ctx;
-        sad::duktape::register_callable(&ctx, "f00", return_something);
+        sad::dukpp03::Context ctx;
+        ctx.bind("f00", return_something);
         bool eval_result = ctx.eval(" f00(); f00(); ", false, &error);
         ASSERT_TRUE( eval_result );
-        sad::Maybe<int> result = sad::duktape::GetValue<int>::perform(&ctx, -1);
+        ::dukpp03::Maybe<int> result = DUKPP03_FROM_STACK(int, &ctx, -1);
         ASSERT_TRUE( result.exists() );
         ASSERT_TRUE( result.value() == 32 );
 
-        sad::duktape::register_callable(&ctx, "f01", return_number_1);
+        ctx.bind("f01", return_number_1);
         eval_result = ctx.eval(" f01(21); f01(32); ", false);
         ASSERT_TRUE( eval_result );
-        result = sad::duktape::GetValue<int>::perform(&ctx, -1);
+        result = DUKPP03_FROM_STACK(int, &ctx, -1);
         ASSERT_TRUE( result.exists() );
         ASSERT_TRUE( result.value() == 32 );
 
-        sad::duktape::register_callable(&ctx, "f03", return_number_3);
+        ctx.bind("f03", return_number_3);
         eval_result = ctx.eval(" f03(21, 44, 56); f03(32, 88, 93); ", false);
         ASSERT_TRUE( eval_result );
-        result = sad::duktape::GetValue<int>::perform(&ctx, -1);
-        ASSERT_TRUE( result.exists() );
-        ASSERT_TRUE( result.value() == 32 - 88 - 93 );
-
-        sad::duktape::register_callable(&ctx, "f04", return_number_3_decay);
-        eval_result = ctx.eval(" f04(21, 44, 56); f04(32, 88, 93); ", false);
-        ASSERT_TRUE( eval_result );
-        result = sad::duktape::GetValue<int>::perform(&ctx, -1);
+        result = DUKPP03_FROM_STACK(int, &ctx, -1);
         ASSERT_TRUE( result.exists() );
         ASSERT_TRUE( result.value() == 32 - 88 - 93 );
 
@@ -503,7 +492,7 @@ public:
 
         eval_result = ctx.eval(" f03(undefined, undefined, undefined) ", false, &error);
         ASSERT_TRUE( !eval_result );        
-    }*/
+    }
 
     /*! Tests method calls
      */
