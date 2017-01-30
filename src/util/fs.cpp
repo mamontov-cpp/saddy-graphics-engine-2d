@@ -217,18 +217,18 @@ sad::String sad::util::folder(const sad::String & path)
 bool sad::util::fileExists(const char* path)
 {
 #ifdef _WIN32
-   struct _stat buffer;   
-   if(_stat (path, &buffer) == 0)
-   {
-       return (buffer.st_mode & S_IFMT) == S_IFREG;  
-   }
-   return false;
+    struct _stat buffer;   
+    if(_stat (path, &buffer) == 0)
+    {
+        return (buffer.st_mode & S_IFMT) == S_IFREG;  
+    }
+    return false;
 #else
-   struct stat buffer;   
-   if(stat (path, &buffer) == 0)
-   {
-       return (buffer.st_mode & S_IFMT) == S_IFREG;  
-   }
-   return false;
+    struct stat buffer;   
+    if(stat (path, &buffer) == 0)
+    {
+        return (buffer.st_mode & S_IFMT) == S_IFREG;  
+    }
+    return false;
 #endif
 }
