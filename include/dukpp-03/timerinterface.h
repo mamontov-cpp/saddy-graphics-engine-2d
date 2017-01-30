@@ -5,7 +5,6 @@
 #pragma once
 #include "../timer.h"
 
-
 namespace sad
 {
 
@@ -31,6 +30,7 @@ struct TimerInterface
      */
     inline static double elapsed(sad::Timer& t)
     {
+        t.stop();
         return t.elapsed();
     }
 };

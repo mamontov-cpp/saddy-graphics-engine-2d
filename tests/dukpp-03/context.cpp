@@ -63,12 +63,12 @@ void print_something()
 
 void print_number_1(int a)
 {
-    printf("print_number_1: %d\n", a);	
+    printf("print_number_1: %d\n", a);  
 }
 
 void print_number_3(int a, int b, int c)
 {
-    printf("print_number_3: %d %d %d\n", a, b, c );	
+    printf("print_number_3: %d %d %d\n", a, b, c ); 
 }
 
 int return_something()
@@ -304,6 +304,11 @@ public:
         bool eval_result = ctx.eval("while(true) {}", true, &error);
         ASSERT_TRUE( !eval_result );
         ASSERT_TRUE( error.size() != 0 );
+        printf("Passed first stage\n");
+        eval_result = ctx.eval("while(true) {}", true, &error);
+        ASSERT_TRUE( !eval_result );
+        ASSERT_TRUE( error.size() != 0 );
+        printf("Passed second stage\n");
     }
     /*! Tests evaluation from file which just sums two numbers
      */
@@ -342,7 +347,7 @@ public:
         ctx.clean();
 
         mbpts2d = sad::duktape::GetValue<sad::Point2D>::perform(&ctx, -1);
-        ASSERT_TRUE( mbpts2d.exists() == false );		
+        ASSERT_TRUE( mbpts2d.exists() == false );       
     }*/
     /*! Test cleaning both pools and full reset of context
      */
@@ -358,7 +363,7 @@ public:
         ctx.reset();
 
         mbpts2d = sad::duktape::GetValue<sad::Point2D>::perform(&ctx, -1);
-        ASSERT_TRUE( mbpts2d.exists() == false );	
+        ASSERT_TRUE( mbpts2d.exists() == false );   
         ASSERT_TRUE( sad::duktape::Context::getContext(ctx.context()) == &ctx );
     }*/
     /*! Tests throwing for object
@@ -400,7 +405,7 @@ public:
      */
     /*void testRegisterVoidFunctions()
     {
-        sad::String error; 	
+        sad::String error;  
 
         sad::duktape::Context ctx;
         sad::duktape::register_callable(&ctx, "f00", print_something);
@@ -425,7 +430,7 @@ public:
 
     void testRegisterReturnFunctions()
     {
-        sad::String error; 	
+        sad::String error;  
 
         sad::duktape::Context ctx;
         sad::duktape::register_callable(&ctx, "f00", return_something);
@@ -461,12 +466,12 @@ public:
         ASSERT_TRUE( !eval_result );
 
         eval_result = ctx.eval(" f03(undefined, undefined, undefined) ", false, &error);
-        ASSERT_TRUE( !eval_result );	    
+        ASSERT_TRUE( !eval_result );        
     }
 
     void testMethods()
     {
-        sad::String error; 	
+        sad::String error;  
         
         sad::duktape::Context ctx;
         sad::duktape::register_constructor<sad::Point2D, double, double>(&ctx, "pnt");
@@ -485,7 +490,7 @@ public:
 
     void testPtrMethods()
     {
-        sad::String error; 	
+        sad::String error;  
 
         sad::Point2D p(5, 7);
         
