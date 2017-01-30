@@ -102,10 +102,10 @@ public:
        TEST(ContextTest::testEvalFail),
        TEST(ContextTest::testEvalTimeout),
        TEST(ContextTest::testEvalFromFileNormal),
-       TEST(ContextTest::testEvalFromFileFail)/*,
-       TEST(ContextTest::testClean),
+       TEST(ContextTest::testEvalFromFileFail),
+       TEST(ContextTest::testCleanStack),
        TEST(ContextTest::testReset),
-       TEST(ContextTest::testThrow),
+       TEST(ContextTest::testThrow)/*,
        TEST(ContextTest::testRegisterGlobal),
        TEST(ContextTest::testRegisterCallable),
        TEST(ContextTest::testRegisterVoidFunctions),
@@ -300,7 +300,7 @@ public:
     {
         std::string error;
         sad::dukpp03::Context ctx;
-        ctx.setMaximumExecutionTime(5000);
+        ctx.setMaximumExecutionTime(1000);
         bool eval_result = ctx.eval("while(true) {}", true, &error);
         ASSERT_TRUE( !eval_result );
         ASSERT_TRUE( error.size() != 0 );
@@ -335,48 +335,47 @@ public:
     }
     /*! Test cleaning  of a pool
      */
-    /*void testClean()
+    void testCleanStack()
     {
-        sad::duktape::Context ctx;
+        sad::dukpp03::Context ctx;
         sad::Point2D pts2d(3, 4);
-        sad::duktape::PushValue<sad::Point2D>::perform(&ctx, pts2d, false);
-        sad::Maybe<sad::Point2D> mbpts2d =
-            sad::duktape::GetValue<sad::Point2D>::perform(&ctx, -1);
+        ::dukpp03::PushValue<sad::Point2D, sad::dukpp03::BasicContext>::perform(&ctx, pts2d);
+        ::dukpp03::Maybe<sad::Point2D> mbpts2d =
+            ::dukpp03::GetValue<sad::Point2D, sad::dukpp03::BasicContext>::perform(&ctx, -1);
         ASSERT_TRUE( mbpts2d.exists() );
             
-        ctx.clean();
+        ctx.cleanStack();
 
-        mbpts2d = sad::duktape::GetValue<sad::Point2D>::perform(&ctx, -1);
+        mbpts2d = ::dukpp03::GetValue<sad::Point2D, sad::dukpp03::BasicContext>::perform(&ctx, -1);
         ASSERT_TRUE( mbpts2d.exists() == false );       
-    }*/
-    /*! Test cleaning both pools and full reset of context
+    }
+    /*! Test full reset of context
      */
-    /*void testReset()
+    void testReset()
     {
-        sad::duktape::Context ctx;
+        sad::dukpp03::Context ctx;
         sad::Point2D pts2d(3, 4);
-        sad::duktape::PushValue<sad::Point2D>::perform(&ctx, pts2d, true);
-        sad::Maybe<sad::Point2D> mbpts2d =
-            sad::duktape::GetValue<sad::Point2D>::perform(&ctx, -1);
+        ::dukpp03::PushValue<sad::Point2D, sad::dukpp03::BasicContext>::perform(&ctx, pts2d);
+        ::dukpp03::Maybe<sad::Point2D> mbpts2d =
+            ::dukpp03::GetValue<sad::Point2D, sad::dukpp03::BasicContext>::perform(&ctx, -1);
         ASSERT_TRUE( mbpts2d.exists() );
             
         ctx.reset();
 
-        mbpts2d = sad::duktape::GetValue<sad::Point2D>::perform(&ctx, -1);
-        ASSERT_TRUE( mbpts2d.exists() == false );   
-        ASSERT_TRUE( sad::duktape::Context::getContext(ctx.context()) == &ctx );
-    }*/
-    /*! Tests throwing for object
+        mbpts2d = ::dukpp03::GetValue<sad::Point2D, sad::dukpp03::BasicContext>::perform(&ctx, -1);
+        ASSERT_TRUE( mbpts2d.exists() == false );
+    }
+    /*! Tests throwing exception
      */
-    /*void testThrow()
+    void testThrow()
     {
-        sad::duktape::Context ctx;
+        sad::dukpp03::Context ctx;
         ctx.throwError("Generic Error!");
         const char* s = duk_to_string(ctx.context(), -1);
         ASSERT_TRUE( s != NULL );
         sad::String testvalue = s;
         ASSERT_TRUE(  testvalue.size() !=0 );
-    }*/
+    }
     /*! Tests registering value as property of global object
      */
     /*void testRegisterGlobal()
