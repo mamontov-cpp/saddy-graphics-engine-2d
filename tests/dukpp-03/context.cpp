@@ -97,10 +97,10 @@ struct ContextTest : tpunit::TestFixture
 public:
     ContextTest() : tpunit::TestFixture(
        TEST(ContextTest::testInitGet),
-       TEST(ContextTest::testPushGet)/*,
+       TEST(ContextTest::testPushGet),
        TEST(ContextTest::testEvalNormal),
        TEST(ContextTest::testEvalFail),
-       TEST(ContextTest::testEvalTimeout),
+       TEST(ContextTest::testEvalTimeout)/*,
        TEST(ContextTest::testEvalFromFileNormal),
        TEST(ContextTest::testEvalFromFileFail),
        TEST(ContextTest::testClean),
@@ -273,38 +273,38 @@ public:
 
     /*! Test for normal evaluation process
      */
-    /*void testEvalNormal()
+    void testEvalNormal()
     {
-        sad::String error;
-        sad::duktape::Context ctx;
+        std::string error;
+        sad::dukpp03::Context ctx;
         bool eval_result = ctx.eval("1 + 1", false, &error);
         ASSERT_TRUE( eval_result );
         ASSERT_TRUE( error.size() == 0 );
-        sad::Maybe<int> result = sad::duktape::GetValue<int>::perform(&ctx, -1);
+        ::dukpp03::Maybe<int> result = ::dukpp03::GetValue<int, sad::dukpp03::BasicContext>::perform(&ctx, -1);
         ASSERT_TRUE( result.exists() );
-        ASSERT_TRUE( result.value() == 2);		
-    }*/
+        ASSERT_TRUE( result.value() == 2);
+    }
     /*! Test for non-compilable code
      */
-    /*void testEvalFail()
+    void testEvalFail()
     {
-        sad::String error;
-        sad::duktape::Context ctx;
+        std::string error;
+        sad::dukpp03::Context ctx;
         bool eval_result = ctx.eval("1 + ;", true, &error);
         ASSERT_TRUE( !eval_result );
         ASSERT_TRUE( error.size() != 0 );
-    }*/
+    }
     /*! Test for timeout
      */
-    /*void testEvalTimeout()
+    void testEvalTimeout()
     {
-        sad::String error;
-        sad::duktape::Context ctx;
-        ctx.setMaximumExecutionTime(1000);
+        std::string error;
+        sad::dukpp03::Context ctx;
+        ctx.setMaximumExecutionTime(5000);
         bool eval_result = ctx.eval("while(true) {}", true, &error);
         ASSERT_TRUE( !eval_result );
         ASSERT_TRUE( error.size() != 0 );
-    }*/
+    }
     /*! Tests evaluation from file which just sums two numbers
      */
     /*void testEvalFromFileNormal()
