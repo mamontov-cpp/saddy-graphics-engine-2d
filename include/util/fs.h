@@ -42,6 +42,12 @@ sad::String concatPaths(const sad::String & parent,const sad::String & path);
  */
 sad::String folder(const sad::String & path);
 
+/*! Returns true if file exists
+    \param[in] path a path for file
+    \return true if exists
+ */
+bool fileExists(const char* path);
+
 }
 
 }
