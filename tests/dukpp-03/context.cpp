@@ -105,9 +105,9 @@ public:
        TEST(ContextTest::testEvalFromFileFail),
        TEST(ContextTest::testCleanStack),
        TEST(ContextTest::testReset),
-       TEST(ContextTest::testThrow)/*,
+       TEST(ContextTest::testThrow),
        TEST(ContextTest::testRegisterGlobal),
-       TEST(ContextTest::testRegisterCallable),
+       TEST(ContextTest::testRegisterCallable)/*,
        TEST(ContextTest::testRegisterVoidFunctions),
        TEST(ContextTest::testRegisterReturnFunctions),
        TEST(ContextTest::testMethods),
@@ -404,31 +404,31 @@ public:
      */
     // ReSharper disable once CppMemberFunctionMayBeStatic
     // ReSharper disable once CppMemberFunctionMayBeConst
-    /*void testRegisterGlobal()
+    void testRegisterGlobal()
     {
-        sad::duktape::Context ctx;
+        sad::dukpp03::Context ctx;
         ctx.registerGlobal("value", true);
         bool eval_result = ctx.eval(" !value ", false);
         ASSERT_TRUE( eval_result );
-        sad::Maybe<bool> result = sad::duktape::GetValue<bool>::perform(&ctx, -1);
+        ::dukpp03::Maybe<bool> result = ::dukpp03::GetValue<bool, sad::dukpp03::BasicContext>::perform(&ctx, -1);
         ASSERT_TRUE( result.exists() );
         ASSERT_TRUE( result.value() == false );
-    }*/
+    }
 
     /*! Tests registering callable function
      */
     // ReSharper disable once CppMemberFunctionMayBeStatic
     // ReSharper disable once CppMemberFunctionMayBeConst
-    /*void testRegisterCallable()
+    void testRegisterCallable()
     {
-        sad::duktape::Context ctx;
+        sad::dukpp03::Context ctx;
         ctx.registerCallable("f", new MockCallable());
         bool eval_result = ctx.eval(" (f() + f()) * (f() + f()) ; f() + f()*f() ", false);
         ASSERT_TRUE( eval_result );
-        sad::Maybe<int> result = sad::duktape::GetValue<int>::perform(&ctx, -1);
+        ::dukpp03::Maybe<int> result = ::dukpp03::GetValue<int, sad::dukpp03::BasicContext>::perform(&ctx, -1);
         ASSERT_TRUE( result.exists() );
         ASSERT_TRUE( result.value() == 2 );
-    }*/
+    }
 
     /*! Tests registering functions
      */
