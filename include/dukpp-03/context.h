@@ -10,6 +10,8 @@
 namespace sad
 {
 
+class Renderer;
+
 namespace dukpp03
 {
 
@@ -33,6 +35,26 @@ public:
     /*! Destructs a context
      */
     ~Context();
+    /*! Evals file. If no error occured, result is not popped
+        out from stack, since we still may need it
+        \param[in] path a path to file
+        \param[in] clean_heap whether heap should be cleaned after execution. If provided, result is popped from stack
+        \param[out] error a string, where error should be written
+        \return true if no error
+     */
+    bool evalFromFile(const std::string& path, bool clean_heap = true,std::string* error = NULL);
+    /*! Sets renderer for context
+        \param[in] r renderer
+     */ 
+    void setRenderer(sad::Renderer* r);
+    /*! Returns renderer for contex
+        \return renderer
+     */
+    sad::Renderer* renderer() const;
+protected:
+    /*! A parent renderer for context
+     */
+    sad::Renderer* m_renderer;
 };
 
 

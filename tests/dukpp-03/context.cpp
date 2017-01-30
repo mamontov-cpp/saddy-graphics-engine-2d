@@ -100,9 +100,9 @@ public:
        TEST(ContextTest::testPushGet),
        TEST(ContextTest::testEvalNormal),
        TEST(ContextTest::testEvalFail),
-       TEST(ContextTest::testEvalTimeout)/*,
+       TEST(ContextTest::testEvalTimeout),
        TEST(ContextTest::testEvalFromFileNormal),
-       TEST(ContextTest::testEvalFromFileFail),
+       TEST(ContextTest::testEvalFromFileFail)/*,
        TEST(ContextTest::testClean),
        TEST(ContextTest::testReset),
        TEST(ContextTest::testThrow),
@@ -312,27 +312,27 @@ public:
     }
     /*! Tests evaluation from file which just sums two numbers
      */
-    /*void testEvalFromFileNormal()
+    void testEvalFromFileNormal()
     {
-        sad::String error;
-        sad::duktape::Context ctx;
+        std::string error;
+        sad::dukpp03::Context ctx;
         bool eval_result = ctx.evalFromFile("tests/duktape/common.js", false, &error);
         ASSERT_TRUE( eval_result );
         ASSERT_TRUE( error.size() == 0 );
-        sad::Maybe<int> result = sad::duktape::GetValue<int>::perform(&ctx, -1);
+        ::dukpp03::Maybe<int> result = ::dukpp03::GetValue<int, sad::dukpp03::BasicContext>::perform(&ctx, -1);
         ASSERT_TRUE( result.exists() );
         ASSERT_TRUE( result.value() == 2);
-    }*/
+    }
     /*! Tests evaluation from file on non-existing file
      */
-    /*void testEvalFromFileFail()
+    void testEvalFromFileFail()
     {
-        sad::String error;
-        sad::duktape::Context ctx;
+        std::string error;
+        sad::dukpp03::Context ctx;
         bool eval_result = ctx.evalFromFile("tests/duktape/notexists.js", false, &error);
         ASSERT_TRUE( !eval_result );
         ASSERT_TRUE( error.size() != 0 );
-    }*/
+    }
     /*! Test cleaning  of a pool
      */
     /*void testClean()
