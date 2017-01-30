@@ -149,7 +149,7 @@ public:
             char c = 121;
             ::dukpp03::PushValue<char, sad::dukpp03::BasicContext>::perform(&ctx, c);
             ::dukpp03::Maybe<char> maybev = ::dukpp03::GetValue<char, sad::dukpp03::BasicContext>::perform(&ctx, test_number++);
-            ASSERT_TRUE( maybev.exists());			
+            ASSERT_TRUE( maybev.exists());
             ASSERT_TRUE( maybev.value() == 121);
         }
 
@@ -158,7 +158,7 @@ public:
             unsigned char c = 121;
             ::dukpp03::PushValue<unsigned char, sad::dukpp03::BasicContext>::perform(&ctx, c);
             ::dukpp03::Maybe<unsigned char> maybev = ::dukpp03::GetValue<unsigned char, sad::dukpp03::BasicContext>::perform(&ctx, test_number++);
-            ASSERT_TRUE( maybev.exists());			
+            ASSERT_TRUE( maybev.exists());
             ASSERT_TRUE( maybev.value() == 121);
         }
 
@@ -167,7 +167,7 @@ public:
             int c = 121;
             ::dukpp03::PushValue<int, sad::dukpp03::BasicContext>::perform(&ctx, c);
             ::dukpp03::Maybe<int> maybev = ::dukpp03::GetValue<int, sad::dukpp03::BasicContext>::perform(&ctx, test_number++);
-            ASSERT_TRUE( maybev.exists());			
+            ASSERT_TRUE( maybev.exists());
             ASSERT_TRUE( maybev.value() == 121);
         }
 
@@ -176,7 +176,7 @@ public:
             unsigned int c = 121;
             ::dukpp03::PushValue<unsigned int, sad::dukpp03::BasicContext>::perform(&ctx, c);
             ::dukpp03::Maybe<unsigned int> maybev = ::dukpp03::GetValue<unsigned int, sad::dukpp03::BasicContext>::perform(&ctx, test_number++);
-            ASSERT_TRUE( maybev.exists());			
+            ASSERT_TRUE( maybev.exists());
             ASSERT_TRUE( maybev.value() == 121);
         }
 
@@ -185,7 +185,7 @@ public:
             long c = 121;
             ::dukpp03::PushValue<long, sad::dukpp03::BasicContext>::perform(&ctx, c);
             ::dukpp03::Maybe<long> maybev = ::dukpp03::GetValue<long, sad::dukpp03::BasicContext>::perform(&ctx, test_number++);
-            ASSERT_TRUE( maybev.exists());			
+            ASSERT_TRUE( maybev.exists());
             ASSERT_TRUE( maybev.value() == 121);
         }
 
@@ -194,7 +194,7 @@ public:
             unsigned long c = 121;
             ::dukpp03::PushValue<unsigned long, sad::dukpp03::BasicContext>::perform(&ctx, c);
             ::dukpp03::Maybe<unsigned long> maybev = ::dukpp03::GetValue<unsigned long, sad::dukpp03::BasicContext>::perform(&ctx, test_number++);
-            ASSERT_TRUE( maybev.exists());			
+            ASSERT_TRUE( maybev.exists());
             ASSERT_TRUE( maybev.value() == 121);
         }
 
@@ -203,7 +203,7 @@ public:
             long long c = 121;
             ::dukpp03::PushValue<long long, sad::dukpp03::BasicContext>::perform(&ctx, c);
             ::dukpp03::Maybe<long long> maybev = ::dukpp03::GetValue<long long, sad::dukpp03::BasicContext>::perform(&ctx, test_number++);
-            ASSERT_TRUE( maybev.exists());			
+            ASSERT_TRUE( maybev.exists());
             ASSERT_TRUE( maybev.value() == 121);
         }
 
@@ -212,7 +212,7 @@ public:
             unsigned long long c = 121;
             ::dukpp03::PushValue<unsigned long long, sad::dukpp03::BasicContext>::perform(&ctx, c);
             ::dukpp03::Maybe<unsigned long long> maybev = ::dukpp03::GetValue<unsigned long long, sad::dukpp03::BasicContext>::perform(&ctx, test_number++);
-            ASSERT_TRUE( maybev.exists());			
+            ASSERT_TRUE( maybev.exists());
             ASSERT_TRUE( maybev.value() == 121);
         }
 
@@ -221,7 +221,7 @@ public:
             bool c = false;
             ::dukpp03::PushValue<bool, sad::dukpp03::BasicContext>::perform(&ctx, c);
             ::dukpp03::Maybe<bool> maybev = ::dukpp03::GetValue<bool, sad::dukpp03::BasicContext>::perform(&ctx, test_number++);
-            ASSERT_TRUE( maybev.exists());			
+            ASSERT_TRUE( maybev.exists());
             ASSERT_TRUE( maybev.value() == false);
         }
 
@@ -230,7 +230,7 @@ public:
             float c = 1.5;
             ::dukpp03::PushValue<float, sad::dukpp03::BasicContext>::perform(&ctx, c);
             ::dukpp03::Maybe<float> maybev = ::dukpp03::GetValue<float, sad::dukpp03::BasicContext>::perform(&ctx, test_number++);
-            ASSERT_TRUE( maybev.exists());			
+            ASSERT_TRUE( maybev.exists());
             ASSERT_TRUE( sad::is_fuzzy_equal(maybev.value(), c));
         }
 
@@ -239,7 +239,7 @@ public:
             double c = 1.5;
             ::dukpp03::PushValue<double, sad::dukpp03::BasicContext>::perform(&ctx, c);
             ::dukpp03::Maybe<double> maybev = ::dukpp03::GetValue<double, sad::dukpp03::BasicContext>::perform(&ctx, test_number++);
-            ASSERT_TRUE( maybev.exists());			
+            ASSERT_TRUE( maybev.exists());
             ASSERT_TRUE( sad::is_fuzzy_equal(maybev.value(), c));
         }
 
@@ -248,7 +248,7 @@ public:
             long double c = 1.5;
             ::dukpp03::PushValue<long double, sad::dukpp03::BasicContext>::perform(&ctx, c);
             ::dukpp03::Maybe<long double> maybev = ::dukpp03::GetValue<long double, sad::dukpp03::BasicContext>::perform(&ctx, test_number++);
-            ASSERT_TRUE( maybev.exists());			
+            ASSERT_TRUE( maybev.exists());
             ASSERT_TRUE( sad::is_fuzzy_equal(maybev.value(), c));
         }
 
@@ -257,7 +257,7 @@ public:
             const char* c = "22";
             ::dukpp03::PushValue<const char*, sad::dukpp03::BasicContext>::perform(&ctx, c);
             ::dukpp03::Maybe<const char*> maybev = ::dukpp03::GetValue<const char*, sad::dukpp03::BasicContext>::perform(&ctx, test_number++);
-            ASSERT_TRUE( maybev.exists());			
+            ASSERT_TRUE( maybev.exists());
             ASSERT_TRUE( sad::String(maybev.value()) == "22");
         }
 
@@ -266,7 +266,7 @@ public:
             const char* c = "23";
             ::dukpp03::PushValue<sad::String, sad::dukpp03::BasicContext>::perform(&ctx, c);
             ::dukpp03::Maybe<sad::String> maybev = ::dukpp03::GetValue<sad::String, sad::dukpp03::BasicContext>::perform(&ctx, test_number++);
-            ASSERT_TRUE( maybev.exists());			
+            ASSERT_TRUE( maybev.exists());
             ASSERT_TRUE( maybev.value() == "23");
         }
     }
