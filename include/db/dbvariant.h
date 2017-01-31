@@ -178,10 +178,11 @@ public:
     }   
     /*! Returns a value for variant
         \param[in] ref whether we prefer to return by reference (if true), or by value (if false)
+        \param[in] tbl a conversion table, that should be used for conversions
         \return value or throws exception if cannot cast
      */
     template<typename T>
-    sad::Maybe<T> get(bool ref = false) const
+    sad::Maybe<T> get(bool ref = false, sad::db::ConversionTable* tbl = NULL) const
     {
         sad::Maybe<T> result;
         sad::db::TypeName<T>::init();       
@@ -211,8 +212,11 @@ public:
         }
         else
         {
-            sad::db::AbstractTypeConverter * c = sad::db::ConversionTable::ref()
-                                              ->converter(m_typename, sad::db::TypeName<T>::name());
+            if (!tbl)
+            {
+                tbl = sad::db::ConversionTable::ref();
+            }
+            sad::db::AbstractTypeConverter * c = tbl->converter(m_typename, sad::db::TypeName<T>::name());
             if (c)
             {
                 T tmp;

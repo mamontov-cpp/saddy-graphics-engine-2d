@@ -5,6 +5,8 @@
 #pragma once
 #include "../db/dbvariant.h"
 #include "../db/dbtypename.h"
+#include "../db/dbconversiontable.h"
+
 
 #include "getaddressoftype.h"
 
@@ -13,6 +15,14 @@ namespace sad
 
 namespace dukpp03
 {
+
+namespace internal
+{
+/*! A local conversion table for all conversions
+ */
+extern sad::db::ConversionTable conversion_table;
+
+}
 
 /*! A main interface for interacting with variants
  */
@@ -41,14 +51,14 @@ public:
     >   
     static ::dukpp03::Maybe<_UnderlyingValue> get(sad::db::Variant* v)
     {
-        sad::Maybe<_UnderlyingValue> maybe_value = v->get<_UnderlyingValue>(true);
+        sad::Maybe<_UnderlyingValue> maybe_value = v->get<_UnderlyingValue>(true, &sad::dukpp03::internal::conversion_table);
         if (maybe_value.exists())
         {
             if (maybe_value.referenceable())
             { 
                 return ::dukpp03::Maybe<_UnderlyingValue>(&(maybe_value.mutableValue()));
             }
-            return ::dukpp03::Maybe<_UnderlyingValue>(maybe_value.mutableValue());			
+            return ::dukpp03::Maybe<_UnderlyingValue>(maybe_value.mutableValue());
         }
         return ::dukpp03::Maybe<_UnderlyingValue>();
     }

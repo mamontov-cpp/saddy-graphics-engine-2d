@@ -12,6 +12,15 @@ namespace sad
 namespace dukpp03
 {
 
+namespace internal
+{
+/*! A local conversion table for all conversions
+ */
+extern sad::db::ConversionTable conversion_table;
+
+}
+
+
 /*! Gets adress fo value of specified type, that is stored in variant.
     Here we try to get plain value (not a pointer type) as and address, so we don't allow such behaviour
  */
@@ -41,7 +50,7 @@ public:
      */
     static ::dukpp03::Maybe<_UnderlyingValue*> getAddress(sad::db::Variant* v)
     {
-        sad::Maybe<_UnderlyingValue> result = v->get<_UnderlyingValue>(true);
+        sad::Maybe<_UnderlyingValue> result = v->get<_UnderlyingValue>(true, &sad::dukpp03::internal::conversion_table);
         if (result.exists())
         {
             return ::dukpp03::Maybe<_UnderlyingValue*>(&(result.mutableValue()));
