@@ -88,6 +88,10 @@ protected:
         \return value
      */
     void assign(const sad::db::Variant & v);
+    /*! Casts to object and gets serializable name
+        \param[in] o object
+     */
+    const sad::String& castToSadDbObjectAndGetSerializableName(void* o) const;
 public: 
     /*! Construct an empty variant value
      */
@@ -208,20 +212,51 @@ public:
                 m_object,
                 sad::db::TypeName<T>::baseName()
             );  
-            return result;
         }
         else
         {
-            if (!tbl)
+            // From sad::Object descendant to sad::db::Object
+            if ((sad::db::TypeName<T>::POINTER_STARS_COUNT == 1) 
+                && (sad::db::TypeName<T>::baseName() == "sad::db::Object")
+                && m_is_sad_object
+                && (m_pointers_stars_count == 1)
+               )
             {
-                tbl = sad::db::ConversionTable::ref();
+                sad::util::SadDBObjectCast<T>::perform(result, m_object);
             }
-            sad::db::AbstractTypeConverter * c = tbl->converter(m_typename, sad::db::TypeName<T>::name());
-            if (c)
+            else 
             {
-                T tmp;
-                c->convert(m_object, &tmp);
-                result.setValue(tmp);
+                // From sad::db::Object to sad::Object
+                if ((m_base_name == "sad::db::Object") 
+                    && (m_pointers_stars_count == 1)
+                    && sad::db::TypeName<T>::isSadObject()
+                    && (sad::db::TypeName<T>::POINTER_STARS_COUNT == 1))
+                {
+                    sad::String real_type = this->castToSadDbObjectAndGetSerializableName(m_object);
+                    bool created = false;
+                    if (sad::ClassMetaDataContainer::ref()->get(real_type, created) != NULL)
+                    {
+                        sad::util::CommonCheckedCast<T, sad::db::TypeName<T>::CAN_BE_CASTED_TO_OBJECT >::perform(
+                            result,
+                            m_object,
+                            sad::db::TypeName<T>::baseName()
+                        );  
+                    }
+                }
+                else
+                {
+                    if (!tbl)
+                    {
+                        tbl = sad::db::ConversionTable::ref();
+                    }
+                    sad::db::AbstractTypeConverter * c = tbl->converter(m_typename, sad::db::TypeName<T>::name());
+                    if (c)
+                    {
+                        T tmp;
+                        c->convert(m_object, &tmp);
+                        result.setValue(tmp);
+                    }
+                }
             }
         }
         return result;

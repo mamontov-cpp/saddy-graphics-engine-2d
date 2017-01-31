@@ -13,6 +13,13 @@
 namespace sad
 {
 
+namespace db
+{
+
+class Object;    
+    
+}
+
 class Object;
 template<typename _Dest, typename _Src> 
 _Dest * checked_cast(_Src * arg);
@@ -78,6 +85,35 @@ public:
     }
 };
 
+
+template<typename T>
+class SadDBObjectCast
+{
+public:
+    /*! Does nothing, since we don't have a conversion in common cast
+        \param[out] result converted value
+        \param[in] object object to be converted
+     */
+    inline static void perform(Maybe<T> & result, void * object)
+    {
+        
+    }
+};
+
+template<>
+class SadDBObjectCast<sad::db::Object*>
+{
+public:
+    /*! Does nothing, since we don't have a conversion in common cast
+        \param[out] result converted value
+        \param[in] object object to be converted
+     */
+    inline static void perform(Maybe<sad::db::Object*> & result, void * object)
+    {
+        sad::Object ** o = (sad::Object**)object;
+        result.setValue(reinterpret_cast<sad::db::Object*>(*o));
+    }
+};
 
 }
 
