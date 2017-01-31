@@ -7,6 +7,8 @@
 #include "../sadstring.h"
 #include "../classmetadatacontainer.h"
 #include "../object.h"
+#include "../db/save.h"
+#include "../db/load.h"
  
 namespace dukpp03
 {
@@ -193,7 +195,7 @@ inline static ::dukpp03::Maybe<sad::db::Variant> perform(
     }
     if (duk_is_boolean(ctx->context(), pos))
     {
-        result.setValue(static_cast<bool>(duk_to_string(ctx->context(), pos)));
+        result.setValue(static_cast<bool>(duk_to_string(ctx->context(), pos) != NULL));
     }
     if (duk_is_number(ctx->context(), pos))
     {

@@ -21,6 +21,12 @@
     <ClCompile Include="context.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="pushvariant.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="wrapvalue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\dukpp-03\context.h">
@@ -45,6 +51,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\dukpp-03\getvalue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\dukpp-03\pushvariant.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\dukpp-03\wrapvalue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

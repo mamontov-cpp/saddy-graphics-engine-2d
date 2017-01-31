@@ -13,6 +13,8 @@
   <ItemGroup>
     <ClCompile Include="context.cpp" />
     <ClCompile Include="dukpp-03.cpp" />
+    <ClCompile Include="pushvariant.cpp" />
+    <ClCompile Include="wrapvalue.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\dukpp-03\basiccontext.h" />
@@ -21,8 +23,10 @@
     <ClInclude Include="..\..\include\dukpp-03\getvalue.h" />
     <ClInclude Include="..\..\include\dukpp-03\mapinterface.h" />
     <ClInclude Include="..\..\include\dukpp-03\pushvalue.h" />
+    <ClInclude Include="..\..\include\dukpp-03\pushvariant.h" />
     <ClInclude Include="..\..\include\dukpp-03\timerinterface.h" />
     <ClInclude Include="..\..\include\dukpp-03\variantinterface.h" />
+    <ClInclude Include="..\..\include\dukpp-03\wrapvalue.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4FE11C6E-642A-4CBA-BD95-D3B8357FD609}</ProjectGuid>
