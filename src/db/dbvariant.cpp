@@ -102,3 +102,28 @@ void sad::db::Variant::assign(const sad::db::Variant & v)
         m_base_name.clear();
     }
 }
+
+const sad::String& sad::db::Variant::typeName() const
+{
+    return m_typename;
+}
+
+const sad::String& sad::db::Variant::baseName() const
+{
+    return m_base_name;
+}
+
+bool sad::db::Variant::isSadObject() const
+{
+    return m_is_sad_object;
+}
+
+int sad::db::Variant::pointerStarsCount() const
+{
+    return m_pointers_stars_count;
+}
+
+void* sad::db::Variant::data() const
+{
+    return m_object;
+}

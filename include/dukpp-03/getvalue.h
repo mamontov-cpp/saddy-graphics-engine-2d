@@ -5,6 +5,8 @@
 #pragma once
 #include "basiccontext.h"
 #include "../sadstring.h"
+#include "../classmetadatacontainer.h"
+#include "../object.h"
  
 namespace dukpp03
 {
@@ -63,6 +65,110 @@ public:
 
 };
 
+
+/*! An instantiation for sad::db::Object
+ */
+template<>
+class GetValue<sad::db::Object*,  sad::dukpp03::BasicContext>
+{
+public:
+/*! Performs getting value from stack
+    \param[in] ctx context
+    \param[in] pos index for stack
+    \return a value if it exists, otherwise empty maybe
+ */
+inline static ::dukpp03::Maybe<sad::db::Object*> perform(
+     sad::dukpp03::BasicContext* ctx,
+    duk_idx_t pos
+)
+{
+    ::dukpp03::Maybe<sad::db::Object*> result;
+    if (duk_is_object(ctx->context(), pos))
+    {
+        duk_get_prop_string(ctx->context(), pos, DUKPP03_VARIANT_PROPERTY_SIGNATURE);
+        if (duk_is_pointer(ctx->context(), -1))
+        {
+            void* ptr = duk_to_pointer(ctx->context(), -1);
+            sad::db::Variant * v = reinterpret_cast<sad::db::Variant *>(ptr);
+            if (v->pointerStarsCount() == 1)
+            {
+                if (v->baseName() == "sad::db::Object") 
+                {
+                    result.setValue(v->get<sad::db::Object*>(true).value());
+                } 
+                else 
+                {
+                    if (sad::ClassMetaDataContainer::ref()->contains(v->baseName()))
+                    {
+                        bool created = false;
+                        if (sad::ClassMetaDataContainer::ref()->get(v->baseName(), created)->canBeCastedTo("sad::Object"))
+                        {
+                            sad::Object** object = reinterpret_cast<sad::Object**>(v->data());
+                            result.setValue(static_cast<sad::db::Object*>(*object));
+                        }
+                    }
+                }
+            }
+        }
+        duk_pop(ctx->context());
+    }
+    return result;
+}
+
+};
+
+
+
+/*! An instantiation for sad::Object
+ */
+template<>
+class GetValue<sad::Object*,  sad::dukpp03::BasicContext>
+{
+public:
+/*! Performs getting value from stack
+    \param[in] ctx context
+    \param[in] pos index for stack
+    \return a value if it exists, otherwise empty maybe
+ */
+inline static ::dukpp03::Maybe<sad::Object*> perform(
+    sad::dukpp03::BasicContext* ctx,
+    duk_idx_t pos
+)
+{
+    ::dukpp03::Maybe<sad::Object*> result;
+    if (duk_is_object(ctx->context(), pos))
+    {
+        duk_get_prop_string(ctx->context(), pos, DUKPP03_VARIANT_PROPERTY_SIGNATURE);
+        if (duk_is_pointer(ctx->context(), -1))
+        {
+            void* ptr = duk_to_pointer(ctx->context(), -1);
+            sad::db::Variant * v = reinterpret_cast<sad::db::Variant *>(ptr);
+            if (v->pointerStarsCount() == 1)
+            {
+                if (v->baseName() == "sad::Object") 
+                {
+                    result.setValue(v->get<sad::Object*>(true).value());
+                } 
+                else 
+                {
+                    if (sad::ClassMetaDataContainer::ref()->contains(v->baseName()))
+                    {
+                        bool created = false;
+                        if (sad::ClassMetaDataContainer::ref()->get(v->baseName(), created)->canBeCastedTo("sad::Object"))
+                        {
+                            sad::Object** object = reinterpret_cast<sad::Object**>(v->data());
+                            result.setValue(*object);
+                        }
+                    }
+                }
+            }
+        }
+        duk_pop(ctx->context());
+    }
+    return result;
+}
+
+};
 
 /*! An instantiation for variant
  */

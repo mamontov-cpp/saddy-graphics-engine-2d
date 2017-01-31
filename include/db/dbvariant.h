@@ -55,7 +55,7 @@ class Variant   //-V690
 protected:
     /*! A boxed object in variant
      */
-    void * m_object;
+    void* m_object;
     /*! Count of stars for base count
      */
     int m_pointers_stars_count;
@@ -237,6 +237,26 @@ public:
         \return whether it was successfull
      */
     bool load(const picojson::value & v);
+    /*! Returns a type name for variant
+        \return type name for type
+     */
+    const sad::String& typeName() const;
+    /*! Returns a base type name for variant
+        \return type name for type
+     */
+    const sad::String& baseName() const;
+    /*! Returns whether type is sad::Object
+        \return whether type is sad::Object
+     */
+    bool isSadObject() const;
+    /*! Returns pointer stars count
+        \return count of pointer stars count
+     */
+    int pointerStarsCount() const;
+    /*! Returns data from variant
+        \return data
+     */
+    void* data() const; 
 };
 
 }
