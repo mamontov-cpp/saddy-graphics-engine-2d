@@ -27,6 +27,9 @@
     <ClCompile Include="wrapvalue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="pushvalue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\dukpp-03\context.h">

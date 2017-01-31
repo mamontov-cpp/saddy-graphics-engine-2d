@@ -10,6 +10,28 @@
 namespace dukpp03
 {
 
+
+namespace internal
+{
+
+/*! A finalizer for objects, that adds reference to it and also, removes it when object is finalized
+    \return finalizer function, which delete reference if needed
+ */
+::dukpp03::FinalizerFunction finalizer_maker(sad::db::Object* o);
+
+
+/*! Returns default finalizer function
+ */
+template<
+    typename T
+>
+::dukpp03::FinalizerFunction finalizer_maker(T* o)
+{
+    return ::dukpp03::Finalizer<sad::dukpp03::BasicContext>::finalize;
+}
+
+}
+
 /*! An instantiation for pushing sad::String on stack
  */ 
 template<>
@@ -57,6 +79,26 @@ public:
     {
         sad::dukpp03::pushVariant(ctx, v);
     }
+};
+
+
+/*! An instantiation, which ensures, that created sad::Object and sad::db::Object 
+    will be garbage-collected
+ */
+template<
+    typename T    
+>
+class PushValue<T*, sad::dukpp03::BasicContext>
+{
+    /*! Performs pushing value
+        \param[in] ctx context
+        \param[in] v value
+     */
+    static void perform(sad::dukpp03::BasicContext* ctx, const T*& v)
+    {
+        ::dukpp03::FinalizerFunction f = ::dukpp03::internal::finalizer_maker(v);
+        ctx->template pushVariant<T*>(sad::dukpp03::BasicContext::VariantUtils::template makeFrom(v), f);
+    }    
 };
 
 }

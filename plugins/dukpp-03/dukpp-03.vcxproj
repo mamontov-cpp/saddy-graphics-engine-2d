@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="context.cpp" />
     <ClCompile Include="dukpp-03.cpp" />
+    <ClCompile Include="pushvalue.cpp" />
     <ClCompile Include="pushvariant.cpp" />
     <ClCompile Include="wrapvalue.cpp" />
   </ItemGroup>
