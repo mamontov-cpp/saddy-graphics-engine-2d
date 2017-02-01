@@ -13,7 +13,6 @@
 #include "saveloadfwd.h"
 #include "../util/commoncheckedcast.h"
 
-
 namespace sad
 {
 
@@ -207,11 +206,29 @@ public:
             && sad::db::TypeName<T>::POINTER_STARS_COUNT == 1
             && m_pointers_stars_count == 1)
         {
-            sad::util::CommonCheckedCast<T, sad::db::TypeName<T>::CAN_BE_CASTED_TO_OBJECT >::perform(
-                result,
-                m_object,
-                sad::db::TypeName<T>::baseName()
-            );  
+            // From sad::db::Object to sad::Object
+            if (m_base_name != "sad::db::Object")
+            {
+                sad::util::CommonCheckedCast<T, sad::db::TypeName<T>::CAN_BE_CASTED_TO_OBJECT >::perform(
+                    result,
+                    m_object,
+                    sad::db::TypeName<T>::baseName()
+                );  
+            }
+            else
+            {
+                // From sad::db::Object to sad::Object
+                sad::String real_type = this->castToSadDbObjectAndGetSerializableName(m_object);
+                bool created = false;
+                if (sad::ClassMetaDataContainer::ref()->get(real_type, created) != NULL)
+                {
+                    sad::util::CommonCheckedCast<T, sad::db::TypeName<T>::CAN_BE_CASTED_TO_OBJECT >::perform(
+                        result,
+                        m_object,
+                        real_type
+                    );  
+                }
+            }
         }
         else
         {
@@ -226,36 +243,16 @@ public:
             }
             else 
             {
-                // From sad::db::Object to sad::Object
-                if ((m_base_name == "sad::db::Object") 
-                    && (m_pointers_stars_count == 1)
-                    && sad::db::TypeName<T>::isSadObject()
-                    && (sad::db::TypeName<T>::POINTER_STARS_COUNT == 1))
+                if (!tbl)
                 {
-                    sad::String real_type = this->castToSadDbObjectAndGetSerializableName(m_object);
-                    bool created = false;
-                    if (sad::ClassMetaDataContainer::ref()->get(real_type, created) != NULL)
-                    {
-                        sad::util::CommonCheckedCast<T, sad::db::TypeName<T>::CAN_BE_CASTED_TO_OBJECT >::perform(
-                            result,
-                            m_object,
-                            sad::db::TypeName<T>::baseName()
-                        );  
-                    }
+                    tbl = sad::db::ConversionTable::ref();
                 }
-                else
+                sad::db::AbstractTypeConverter * c = tbl->converter(m_typename, sad::db::TypeName<T>::name());
+                if (c)
                 {
-                    if (!tbl)
-                    {
-                        tbl = sad::db::ConversionTable::ref();
-                    }
-                    sad::db::AbstractTypeConverter * c = tbl->converter(m_typename, sad::db::TypeName<T>::name());
-                    if (c)
-                    {
-                        T tmp;
-                        c->convert(m_object, &tmp);
-                        result.setValue(tmp);
-                    }
+                    T tmp;
+                    c->convert(m_object, &tmp);
+                    result.setValue(tmp);
                 }
             }
         }

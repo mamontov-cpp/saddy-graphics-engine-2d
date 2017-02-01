@@ -133,6 +133,6 @@ void sad::db::Variant::assign(const sad::db::Variant & v)
 // ReSharper disable once CppMemberFunctionMayBeStatic
 const sad::String& sad::db::Variant::castToSadDbObjectAndGetSerializableName(void* o) const
 {
-    return reinterpret_cast<sad::db::Object*>(o)->serializableName();
+    return (*reinterpret_cast<sad::db::Object**>(o))->serializableName();
 }
 

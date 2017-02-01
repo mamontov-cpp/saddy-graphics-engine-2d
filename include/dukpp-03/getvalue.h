@@ -153,13 +153,31 @@ inline static ::dukpp03::Maybe<sad::Object*> perform(
                 } 
                 else 
                 {
-                    if (sad::ClassMetaDataContainer::ref()->contains(v->baseName()))
+                    if (v->baseName() == "sad::db::Object")
                     {
+                        sad::db::Object* o = v->get<sad::db::Object*>(true).value();
+                        sad::String real_name = o->serializableName();
                         bool created = false;
-                        if (sad::ClassMetaDataContainer::ref()->get(v->baseName(), created)->canBeCastedTo("sad::Object"))
+                        if (sad::ClassMetaDataContainer::ref()->contains(real_name))
                         {
-                            sad::Object** object = reinterpret_cast<sad::Object**>(v->data());
-                            result.setValue(*object);
+                            bool created = false;
+                            if (sad::ClassMetaDataContainer::ref()->get(real_name, created)->canBeCastedTo("sad::Object"))
+                            {
+                                sad::Object** object = reinterpret_cast<sad::Object**>(v->data());
+                                result.setValue(*object);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (sad::ClassMetaDataContainer::ref()->contains(v->baseName()))
+                        {
+                            bool created = false;
+                            if (sad::ClassMetaDataContainer::ref()->get(v->baseName(), created)->canBeCastedTo("sad::Object"))
+                            {
+                                sad::Object** object = reinterpret_cast<sad::Object**>(v->data());
+                                result.setValue(*object);
+                            }
                         }
                     }
                 }

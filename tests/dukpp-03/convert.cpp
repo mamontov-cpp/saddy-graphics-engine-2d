@@ -254,6 +254,15 @@ public:
             sad::dukpp03::Context ctx;
             sad::animations::Parallel* a = new sad::animations::Parallel();
             a->addRef();
+            ::dukpp03::PushValue<sad::animations::Parallel*, sad::dukpp03::BasicContext>::perform(&ctx, a);
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::animations::Parallel*, &ctx, -1).exists())
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::animations::Parallel*, &ctx, -1).value() == a);
+            a->delRef();
+        }
+        {
+            sad::dukpp03::Context ctx;
+            sad::animations::Parallel* a = new sad::animations::Parallel();
+            a->addRef();
             sad::db::Variant v(a);
             ::dukpp03::PushValue<sad::db::Variant, sad::dukpp03::BasicContext>::perform(&ctx, v);
             ASSERT_TRUE(DUKPP03_FROM_STACK(sad::animations::Parallel*, &ctx, -1).exists())
