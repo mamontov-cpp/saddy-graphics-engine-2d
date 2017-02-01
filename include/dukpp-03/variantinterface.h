@@ -10,6 +10,11 @@
 
 #include "getaddressoftype.h"
 
+#ifdef _MSC_VER
+#include <type_traits>
+#endif
+
+
 namespace sad
 {
 
@@ -35,6 +40,7 @@ public:
     template<typename T>
     struct isAbstractClass
     {
+#ifndef _MSC_VER
         /*! A checker for non-abstract class
             \return not-implemented
          */
@@ -48,6 +54,11 @@ public:
         /*! A real value
          */
         enum { VALUE = sizeof(isAbstractClass<T>::template check_sig<T>(0)) - 1 };
+#else
+        /*! A real value
+         */
+        enum { VALUE = std::is_abstract<T>::value };
+#endif
     };
     /*! A checker for pointer to abstract class
      */
