@@ -90,11 +90,12 @@ template<
 >
 class PushValue<T*, sad::dukpp03::BasicContext>
 {
+public:
     /*! Performs pushing value
         \param[in] ctx context
         \param[in] v value
      */
-    static void perform(sad::dukpp03::BasicContext* ctx, const T*& v)
+    static void perform(sad::dukpp03::BasicContext* ctx, T* v)
     {
         ::dukpp03::FinalizerFunction f = ::dukpp03::internal::finalizer_maker(v);
         ctx->template pushVariant<T*>(sad::dukpp03::BasicContext::VariantUtils::template makeFrom(v), f);

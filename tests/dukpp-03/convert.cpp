@@ -9,6 +9,7 @@
 #include "db/load.h"
 #include "fuzzyequal.h"
 #include "sprite2d.h"
+#include "animations/animationsparallel.h"
 #define _INC_STDIO
 #include "3rdparty/tpunit++/tpunit++.hpp"
 #pragma warning(pop)
@@ -22,7 +23,10 @@ struct ConvertTest : tpunit::TestFixture
 {
 public:
     ConvertTest() : tpunit::TestFixture(
-       TEST(ConvertTest::testConvertNumeric)
+       TEST(ConvertTest::testConvertNumeric),
+       TEST(ConvertTest::testConvertSadDbObjectSadDbObject),
+       TEST(ConvertTest::testConvertSadObjectSadObject),
+       TEST(ConvertTest::testConvertSadObjectDescSadObjectDesc)   
     ) {}
 
 
@@ -175,4 +179,84 @@ public:
 #undef CONVERSION_TEST
     }
 
+    /*! Tests pushing and getting sad::db::Object
+     */
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
+    void testConvertSadDbObjectSadDbObject()
+    {
+        {
+            sad::dukpp03::Context ctx;
+            sad::db::Object* a = new sad::Sprite2D();
+            a->addRef();
+            ::dukpp03::PushValue<sad::db::Object*, sad::dukpp03::BasicContext>::perform(&ctx, a);
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::db::Object*, &ctx, -1).exists())
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::db::Object*, &ctx, -1).value() == a);
+            a->delRef();
+        }
+        {
+            sad::dukpp03::Context ctx;
+            sad::db::Object* a = new sad::Sprite2D();
+            a->addRef();
+            sad::db::Variant v(a);
+            ::dukpp03::PushValue<sad::db::Variant, sad::dukpp03::BasicContext>::perform(&ctx, v);
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::db::Object*, &ctx, -1).exists())
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::db::Object*, &ctx, -1).value() == a);
+            a->delRef();
+        }
+    }
+
+    /*! Tests pushing and getting sad::Object
+     */
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
+    void testConvertSadObjectSadObject()
+    {
+        {
+            sad::dukpp03::Context ctx;
+            sad::Object* a = new sad::Sprite2D();
+            a->addRef();
+            ::dukpp03::PushValue<sad::Object*, sad::dukpp03::BasicContext>::perform(&ctx, a);
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::Object*, &ctx, -1).exists())
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::Object*, &ctx, -1).value() == a);
+            a->delRef();
+        }
+        {
+            sad::dukpp03::Context ctx;
+            sad::Object* a = new sad::Sprite2D();
+            a->addRef();
+            sad::db::Variant v(a);
+            ::dukpp03::PushValue<sad::db::Variant, sad::dukpp03::BasicContext>::perform(&ctx, v);
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::Object*, &ctx, -1).exists())
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::Object*, &ctx, -1).value() == a);
+            a->delRef();
+        }
+    }
+    
+    /*! Tests pushing and getting sad::Object
+     */
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
+    void testConvertSadObjectDescSadObjectDesc()
+    {
+        {
+            sad::dukpp03::Context ctx;
+            sad::animations::Parallel* a = new sad::animations::Parallel();
+            a->addRef();
+            ::dukpp03::PushValue<sad::db::Object*, sad::dukpp03::BasicContext>::perform(&ctx, a);
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::animations::Parallel*, &ctx, -1).exists())
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::animations::Parallel*, &ctx, -1).value() == a);
+            a->delRef();
+        }
+        {
+            sad::dukpp03::Context ctx;
+            sad::animations::Parallel* a = new sad::animations::Parallel();
+            a->addRef();
+            sad::db::Variant v(a);
+            ::dukpp03::PushValue<sad::db::Variant, sad::dukpp03::BasicContext>::perform(&ctx, v);
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::animations::Parallel*, &ctx, -1).exists())
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::animations::Parallel*, &ctx, -1).value() == a);
+            a->delRef();
+        }
+    }
 } _convert_test;

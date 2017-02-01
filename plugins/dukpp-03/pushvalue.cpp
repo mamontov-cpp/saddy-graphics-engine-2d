@@ -15,7 +15,8 @@ static duk_ret_t local_finalize(duk_context *ctx)
     return 0;
 }
 
-::dukpp03::FinalizerFunction finalizer_maker(sad::db::Object* o)
+::dukpp03::FinalizerFunction dukpp03::internal::finalizer_maker(sad::db::Object* o)
 {
+    o->addRef();
     return local_finalize;
 }
