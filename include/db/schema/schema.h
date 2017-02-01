@@ -76,6 +76,10 @@ public:
         \return own properties list
      */
     const sad::Hash<sad::String, sad::db::Property*>& ownProperties() const;
+    /*! Fills a property names list
+        \param[out] list a property names
+     */
+    void getPropertyNames(sad::Vector<sad::String>& list) const;
 protected: 
     /*! A parent schema for an object
      */

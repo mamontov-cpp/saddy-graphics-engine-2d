@@ -11,20 +11,29 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="accessor.cpp" />
+    <ClCompile Include="classbinding.cpp" />
     <ClCompile Include="context.cpp" />
     <ClCompile Include="dukpp-03.cpp" />
+    <ClCompile Include="getter.cpp" />
     <ClCompile Include="pushvalue.cpp" />
     <ClCompile Include="pushvariant.cpp" />
+    <ClCompile Include="setter.cpp" />
     <ClCompile Include="wrapvalue.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\include\dukpp-03\accessor.h" />
     <ClInclude Include="..\..\include\dukpp-03\basiccontext.h" />
+    <ClInclude Include="..\..\include\dukpp-03\classbinding.h" />
     <ClInclude Include="..\..\include\dukpp-03\context.h" />
     <ClInclude Include="..\..\include\dukpp-03\getaddressoftype.h" />
+    <ClInclude Include="..\..\include\dukpp-03\getter.h" />
     <ClInclude Include="..\..\include\dukpp-03\getvalue.h" />
     <ClInclude Include="..\..\include\dukpp-03\mapinterface.h" />
+    <ClInclude Include="..\..\include\dukpp-03\ptrconstructor.h" />
     <ClInclude Include="..\..\include\dukpp-03\pushvalue.h" />
     <ClInclude Include="..\..\include\dukpp-03\pushvariant.h" />
+    <ClInclude Include="..\..\include\dukpp-03\setter.h" />
     <ClInclude Include="..\..\include\dukpp-03\timerinterface.h" />
     <ClInclude Include="..\..\include\dukpp-03\variantinterface.h" />
     <ClInclude Include="..\..\include\dukpp-03\wrapvalue.h" />

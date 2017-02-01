@@ -1,6 +1,7 @@
 #include "db/dbtypename.h"
 #include "db/save.h"
 #include "db/load.h"
+#include "db/dbvariant.h"
 
 #include "sadstring.h"
 #include "sadpoint.h"
@@ -231,3 +232,5 @@ DECLARE_TYPE_AS_SAD_OBJECT(sad::Object);
 DECLARE_TYPE_AS_SAD_OBJECT(sad::Scene);
 DECLARE_TYPE_AS_SAD_OBJECT(sad::p2d::app::Way);
 DECLARE_TYPE_AS_SAD_OBJECT(sad::dialogue::Dialogue);
+
+DECLARE_COMMON_TYPE(sad::db::Variant);

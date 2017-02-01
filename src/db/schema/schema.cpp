@@ -190,3 +190,20 @@ const sad::Hash<sad::String, sad::db::Property*>& sad::db::schema::Schema::ownPr
 {
     return m_properties;
 }
+
+void sad::db::schema::Schema::getPropertyNames(sad::Vector<sad::String>& list) const
+{
+    for(sad::PtrHash<sad::String, sad::db::Property>::const_iterator it = m_properties.const_begin();
+        it != m_properties.const_end();
+        ++it)
+    {
+        if (std::find(list.begin(), list.end(), it.key()) == list.end())
+        {
+            list << it.key();
+        }
+    }
+    for(size_t i = 0; i < m_parent.size(); i++)
+    {
+        m_parent[i]->getPropertyNames(list);    
+    }
+}

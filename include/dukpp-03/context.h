@@ -6,6 +6,7 @@
 #include "basiccontext.h"
 #include "getvalue.h"
 #include "pushvalue.h"
+#include "classbinding.h"
 
 namespace sad
 {
@@ -22,7 +23,6 @@ typedef ::dukpp03::bind_method<sad::dukpp03::BasicContext> bind_method;
 typedef ::dukpp03::CompiledFunction<sad::dukpp03::BasicContext> CompiledFunction;
 typedef ::dukpp03::getter<sad::dukpp03::BasicContext> getter;
 typedef ::dukpp03::setter<sad::dukpp03::BasicContext> setter;
-typedef ::dukpp03::ClassBinding<sad::dukpp03::BasicContext> ClassBinding;
 
 
 #define DUKPP03_FROM_STACK(TYPE, CONTEXT, INDEX) (::dukpp03::GetValue< DUKPP03_TYPE(TYPE), sad::dukpp03::BasicContext>::perform((CONTEXT),(INDEX)))
