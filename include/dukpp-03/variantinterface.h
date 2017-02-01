@@ -30,6 +30,39 @@ class VariantInterface
 {
 public:
     typedef sad::db::Variant Variant;
+    /*! A checker for abstract classes
+     */
+    template<typename T>
+    struct isAbstractClass
+    {
+        /*! A checker for non-abstract class
+            \return not-implemented
+         */
+        template<class U>
+        static char check_sig(U (*)[1]);
+        /*! A checker for abstract class
+            \return not-implemented
+         */        
+        template<class U>
+        static short check_sig(...);
+        /*! A real value
+         */
+        enum { VALUE = sizeof(isAbstractClass<T>::template check_sig<T>(0)) - 1 };
+    };
+    /*! A checker for pointer to abstract class
+     */
+    template<typename T>
+    struct isPointerToAbstractClass
+    {
+        enum { VALUE = false };
+    };
+    /*! A checker for pointer to abstract class
+     */ 
+    template<typename T>
+    struct isPointerToAbstractClass<T*>
+    {
+        enum { VALUE = isAbstractClass<T>::VALUE };
+    };
     
     /*! Makes variant from value
         \param[in] val value
@@ -72,7 +105,7 @@ public:
     >   
     static ::dukpp03::Maybe<_UnderlyingValue> getAddress(sad::db::Variant* v)
     {
-        return sad::dukpp03::GetAddressOfType<_UnderlyingValue>::getAddress(v);
+        return sad::dukpp03::GetAddressOfType<_UnderlyingValue, isPointerToAbstractClass<_UnderlyingValue>::VALUE >::getAddress(v);
     }
     
     /*! A typename interface for variant

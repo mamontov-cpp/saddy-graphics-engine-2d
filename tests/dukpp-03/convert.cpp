@@ -26,9 +26,14 @@ public:
        TEST(ConvertTest::testConvertNumeric),
        TEST(ConvertTest::testConvertSadDbObjectSadDbObject),
        TEST(ConvertTest::testConvertSadObjectSadObject),
-       TEST(ConvertTest::testConvertSadObjectDescSadObjectDesc),
+       TEST(ConvertTest::testConvertSadObjectDescendantSadObjectDescendant),
        TEST(ConvertTest::testConvertSadObjectToSadDbObject),
-       TEST(ConvertTest::testConvertSadDbObjectToSadObject)
+       TEST(ConvertTest::testConvertSadDbObjectToSadObject),
+       TEST(ConvertTest::testConvertSadObjectDescendantSadObject),
+       TEST(ConvertTest::testConvertSadObjectDescendantSadDbObject),
+       TEST(ConvertTest::testConvertSadObjectSadObjectDescendant),
+       TEST(ConvertTest::testConvertSadDbObjectSadObjectDescendant),
+       TEST(ConvertTest::testUpcastDowncast)
     ) {}
 
 
@@ -239,7 +244,7 @@ public:
      */
     // ReSharper disable once CppMemberFunctionMayBeStatic
     // ReSharper disable once CppMemberFunctionMayBeConst
-    void testConvertSadObjectDescSadObjectDesc()
+    void testConvertSadObjectDescendantSadObjectDescendant()
     {
         {
             sad::dukpp03::Context ctx;
@@ -325,5 +330,155 @@ public:
             a->delRef();
         }
     }
+    /*! Test conversion from sad::Object descendant to sad::Object
+     */
+    void testConvertSadObjectDescendantSadObject()
+    {
+        sad::Sprite2D::globalMetaData();
+        {
+            sad::dukpp03::Context ctx;
+            sad::Sprite2D* a = new sad::Sprite2D();
+            a->addRef();
+            ::dukpp03::PushValue<sad::Sprite2D*, sad::dukpp03::BasicContext>::perform(&ctx, a);
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::Object*, &ctx, -1).exists())
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::Object*, &ctx, -1).value() == a);
+            a->delRef();
+        }
+        {
+            sad::dukpp03::Context ctx;
+            sad::Sprite2D* a = new sad::Sprite2D();
+            a->addRef();
+            sad::db::Variant v(a);
+            ::dukpp03::PushValue<sad::db::Variant, sad::dukpp03::BasicContext>::perform(&ctx, v);
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::Object*, &ctx, -1).exists())
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::Object*, &ctx, -1).value() == a);
+            a->delRef();
+        }
+    }
 
+    /*! Test conversion from sad::Object descendant to sad::db::Object
+     */
+    void testConvertSadObjectDescendantSadDbObject()
+    {
+        sad::Sprite2D::globalMetaData();
+        {
+            sad::dukpp03::Context ctx;
+            sad::Sprite2D* a = new sad::Sprite2D();
+            a->addRef();
+            ::dukpp03::PushValue<sad::Sprite2D*, sad::dukpp03::BasicContext>::perform(&ctx, a);
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::db::Object*, &ctx, -1).exists())
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::db::Object*, &ctx, -1).value() == a);
+            a->delRef();
+        }
+        {
+            sad::dukpp03::Context ctx;
+            sad::Sprite2D* a = new sad::Sprite2D();
+            a->addRef();
+            sad::db::Variant v(a);
+            ::dukpp03::PushValue<sad::db::Variant, sad::dukpp03::BasicContext>::perform(&ctx, v);
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::db::Object*, &ctx, -1).exists())
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::db::Object*, &ctx, -1).value() == a);
+            a->delRef();
+        }
+    }
+
+    /*! Test conversion from sad::Object to sad::Object descendant 
+     */
+    void testConvertSadObjectSadObjectDescendant()
+    {
+        sad::Sprite2D::globalMetaData();
+        {
+            sad::dukpp03::Context ctx;
+            sad::Sprite2D* a = new sad::Sprite2D();
+            a->addRef();
+            ::dukpp03::PushValue<sad::Object*, sad::dukpp03::BasicContext>::perform(&ctx, a);
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::Sprite2D*, &ctx, -1).exists())
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::Sprite2D*, &ctx, -1).value() == a);
+            a->delRef();
+        }
+        {
+            sad::dukpp03::Context ctx;
+            sad::Sprite2D* a = new sad::Sprite2D();
+            a->addRef();
+            sad::db::Variant v(static_cast<sad::Object*>(a));
+            ::dukpp03::PushValue<sad::db::Variant, sad::dukpp03::BasicContext>::perform(&ctx, v);
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::Sprite2D*, &ctx, -1).exists())
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::Sprite2D*, &ctx, -1).value() == a);
+            a->delRef();
+        }
+    }
+
+    /*! Test conversion from sad::db::Object to sad::Object descendant 
+     */
+    void testConvertSadDbObjectSadObjectDescendant()
+    {
+        sad::Sprite2D::globalMetaData();
+        {
+            sad::dukpp03::Context ctx;
+            sad::Sprite2D* a = new sad::Sprite2D();
+            a->addRef();
+            ::dukpp03::PushValue<sad::db::Object*, sad::dukpp03::BasicContext>::perform(&ctx, a);
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::Sprite2D*, &ctx, -1).exists())
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::Sprite2D*, &ctx, -1).value() == a);
+            a->delRef();
+        }
+        {
+            sad::dukpp03::Context ctx;
+            sad::Sprite2D* a = new sad::Sprite2D();
+            a->addRef();
+            sad::db::Variant v(static_cast<sad::db::Object*>(a));
+            ::dukpp03::PushValue<sad::db::Variant, sad::dukpp03::BasicContext>::perform(&ctx, v);
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::Sprite2D*, &ctx, -1).exists())
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::Sprite2D*, &ctx, -1).value() == a);
+            a->delRef();
+        }
+    }
+    
+    /*! Test conversions between two descendants
+     */
+    void testUpcastDowncast()
+    {
+        sad::animations::Parallel::globalMetaData();
+        sad::animations::Composite::globalMetaData();
+        // Upcast
+        {
+            sad::dukpp03::Context ctx;
+            sad::animations::Parallel* a = new sad::animations::Parallel();
+            a->addRef();
+            ::dukpp03::PushValue<sad::animations::Parallel*, sad::dukpp03::BasicContext>::perform(&ctx, a);
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::animations::Composite*, &ctx, -1).exists())
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::animations::Composite*, &ctx, -1).value() == a);
+            a->delRef();
+        }
+        {
+            sad::dukpp03::Context ctx;
+            sad::animations::Parallel* a = new sad::animations::Parallel();
+            a->addRef();
+            sad::db::Variant v(a);
+            ::dukpp03::PushValue<sad::db::Variant, sad::dukpp03::BasicContext>::perform(&ctx, v);
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::animations::Composite*, &ctx, -1).exists())
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::animations::Composite*, &ctx, -1).value() == a);
+            a->delRef();
+        }
+        // Downcast
+        {
+            sad::dukpp03::Context ctx;
+            sad::animations::Parallel* a = new sad::animations::Parallel();
+            a->addRef();
+            ::dukpp03::PushValue<sad::animations::Composite*, sad::dukpp03::BasicContext>::perform(&ctx, a);
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::animations::Parallel*, &ctx, -1).exists())
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::animations::Parallel*, &ctx, -1).value() == a);
+            a->delRef();
+        }
+        {
+            sad::dukpp03::Context ctx;
+            sad::animations::Parallel* a = new sad::animations::Parallel();
+            a->addRef();
+            sad::db::Variant v(static_cast<sad::animations::Composite*>(a));
+            ::dukpp03::PushValue<sad::db::Variant, sad::dukpp03::BasicContext>::perform(&ctx, v);
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::animations::Parallel*, &ctx, -1).exists())
+            ASSERT_TRUE(DUKPP03_FROM_STACK(sad::animations::Parallel*, &ctx, -1).value() == a);
+            a->delRef();
+        }
+    }
 } _convert_test;
