@@ -77,7 +77,7 @@ public:
     
     /*! Makes variant from value
         \param[in] val value
-        \param[in] v variant
+        \return resulting variant
      */
     template<
         typename _UnderlyingValue
