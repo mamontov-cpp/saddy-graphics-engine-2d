@@ -93,6 +93,7 @@
   <ItemGroup>
     <ClCompile Include="context.cpp" />
     <ClCompile Include="convert.cpp" />
+    <ClCompile Include="wrapping.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
