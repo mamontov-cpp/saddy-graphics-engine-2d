@@ -24,7 +24,7 @@ extern sad::db::ConversionTable conversion_table;
 /*! Gets adress fo value of specified type, that is stored in variant.
     Here we try to get plain value (not a pointer type) as and address, so we don't allow such behaviour
  */
-template<typename _UnderlyingValue, bool isPointerToAbstractClass>
+template<typename _UnderlyingValue, bool _IsPointerToAbstractClass, bool _IsSadObject>
 struct GetAddressOfType
 {
 public: 
@@ -41,8 +41,8 @@ public:
 /*! Gets adress fo value of specified type, that is stored in variant.
     Here we try to get plain value (not a pointer type) as and address, so we don't allow such behaviour
  */
-template<typename _UnderlyingValue>
-struct GetAddressOfType<_UnderlyingValue, true>
+template<typename _UnderlyingValue, bool _IsSadObject>
+struct GetAddressOfType<_UnderlyingValue, true, _IsSadObject>
 {
 public: 
     /*! Returns address of type, stored in variant - hence nothing for plain types
@@ -55,10 +55,47 @@ public:
     }
 };
 
+
+/*! Gets adress fo value of specified type, that is stored in variant.
+    Here we try to get plain value (not a pointer type) as and address, so we don't allow such behaviour
+ */
+template<typename _UnderlyingValue, bool _IsAbstract>
+struct GetAddressOfType<_UnderlyingValue, _IsAbstract, true>
+{
+public: 
+    /*! Returns address of type, stored in variant - hence nothing for plain types
+        \param[in] v value
+        \return empty maybe
+     */
+    static ::dukpp03::Maybe<_UnderlyingValue> getAddress(sad::db::Variant* v)
+    {
+        return ::dukpp03::Maybe<_UnderlyingValue>();
+    }
+};
+
+
+/*! Gets adress fo value of specified type, that is stored in variant.
+    Here we try to get plain value (not a pointer type) as and address, so we don't allow such behaviour
+ */
+template<typename _UnderlyingValue>
+struct GetAddressOfType<_UnderlyingValue, true, true>
+{
+public: 
+    /*! Returns address of type, stored in variant - hence nothing for plain types
+        \param[in] v value
+        \return empty maybe
+     */
+    static ::dukpp03::Maybe<_UnderlyingValue> getAddress(sad::db::Variant* v)
+    {
+        return ::dukpp03::Maybe<_UnderlyingValue>();
+    }
+};
+
+
 /*! Returns address of type stored in variant.
  */
 template<typename _UnderlyingValue>
-struct GetAddressOfType<_UnderlyingValue*, false>
+struct GetAddressOfType<_UnderlyingValue*, false, false>
 {
 public: 
     /*! Returns address of type, stored in variant.
@@ -80,7 +117,7 @@ public:
 /*! Returns address of type stored in variant.
  */
 template<>
-struct GetAddressOfType<const char*, false>
+struct GetAddressOfType<const char*, false, false>
 {
 public: 
     /*! Returns address of type, stored in variant.

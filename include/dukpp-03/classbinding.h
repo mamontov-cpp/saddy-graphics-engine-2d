@@ -6,6 +6,7 @@
 #include "basiccontext.h"
 #include "../db/schema/schema.h"
 #include "ptrconstructor.h"
+#include "cloner.h"
 
 namespace sad
 {
@@ -31,6 +32,13 @@ public:
     void registerAsObjectWithSchema()
     {
         registerSchema(T::basicSchema());
+    }
+    /*! Adds clone() method for object with specified type
+     */
+    template<typename T>
+    void addCloneObjectMethodFor()
+    {
+        addMethod("clone", new sad::dukpp03::Cloner<T>());
     }
     /*! Registers this class binding as sad::db::Object descendant with schema. Schema properties
         are registered as accessors

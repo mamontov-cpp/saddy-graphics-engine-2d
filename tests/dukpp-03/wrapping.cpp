@@ -57,7 +57,8 @@ public:
        TEST(WrappingTest::testWrapObjectWithoutBinding),
        TEST(WrappingTest::testWrapObjectWithoutBindingFromVariant),
        TEST(WrappingTest::testWrapObjectWithBinding),
-       TEST(WrappingTest::testWrapObjectWithBindingFromVariant)
+       TEST(WrappingTest::testWrapObjectWithBindingFromVariant),
+       TEST(WrappingTest::testClone)
     ) {}
 
     /*! Tests automatical wrapping for sad::db::Object without binding
@@ -236,4 +237,27 @@ public:
         delete object;        
     }
 
+    /*! Tests simple cloning method
+     */
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
+    void testClone()
+    {
+        std::string error;  
+        
+        sad::dukpp03::Context ctx(true);
+        
+        sad::dukpp03::ClassBinding* b = new sad::dukpp03::ClassBinding();
+        b->registerAsObjectWithSchema<sad::animations::Color>();
+        b->addCloneObjectMethodFor<sad::animations::Color>();
+        b->addObjectConstructor<sad::animations::Color>("SadAnimationColor");
+        
+        ctx.addClassBinding("sad::animations::Color", b);
+        
+        bool eval_result = ctx.eval(" var m = new  SadAnimationColor(); m.time = 222; var b = m.clone(); m.time = 234; b.time ", false, &error);        
+        ASSERT_TRUE( eval_result );
+        ::dukpp03::Maybe<int> result = DUKPP03_FROM_STACK(int, &ctx, -1);
+        ASSERT_TRUE( result.exists() );
+        ASSERT_TRUE( result.value() == 222 );        
+    }
 } _wrapping_test;

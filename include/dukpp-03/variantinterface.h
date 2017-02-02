@@ -116,7 +116,7 @@ public:
     >   
     static ::dukpp03::Maybe<_UnderlyingValue> getAddress(sad::db::Variant* v)
     {
-        return sad::dukpp03::GetAddressOfType<_UnderlyingValue, isPointerToAbstractClass<_UnderlyingValue>::VALUE >::getAddress(v);
+        return sad::dukpp03::GetAddressOfType<_UnderlyingValue, isPointerToAbstractClass<_UnderlyingValue>::VALUE, sad::db::TypeName<_UnderlyingValue>::CAN_BE_CASTED_TO_OBJECT>::getAddress(v);
     }
     
     /*! A typename interface for variant
