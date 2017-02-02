@@ -30,7 +30,7 @@ public:
     template<typename T>
     void registerAsObjectWithSchema()
     {
-        registerSchema(&T::basicSchema());
+        registerSchema(T::basicSchema());
     }
     /*! Registers this class binding as sad::db::Object descendant with schema. Schema properties
         are registered as accessors
