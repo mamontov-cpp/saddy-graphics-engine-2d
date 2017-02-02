@@ -1,5 +1,7 @@
 #include "dukpp-03/context.h"
 
+#include <sadpoint.h>
+
 #include <renderer.h>
 #include <util/fs.h>
 
@@ -126,9 +128,39 @@ bool sad::dukpp03::Context::addClassBinding(const std::string& name, ::dukpp03::
 
 // ============================================ PROTECTED METHODS ============================================
 
+extern std::string __context_eval_info;
 // ReSharper disable once CppMemberFunctionMayBeStatic
 // ReSharper disable once CppMemberFunctionMayBeConst
 void sad::dukpp03::Context::initialize()
 {
+    this->exposePoint2D();
+    this->exposePoint3D();
 
+    this->eval(__context_eval_info, true);
+}
+
+
+void sad::dukpp03::Context::exposePoint2D()
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addConstructor<sad::Point2D>("SadPoint2D");
+    c->addConstructor<sad::Point2D, double, double>("SadPoint2D");
+    c->addAccessor("x", sad::dukpp03::bind_method::from(&sad::Point2D::x), sad::dukpp03::bind_method::from(&sad::Point2D::setX));
+    c->addAccessor("y", sad::dukpp03::bind_method::from(&sad::Point2D::y), sad::dukpp03::bind_method::from(&sad::Point2D::setY));
+    c->addCloneValueObjectMethodFor<sad::Point2D>();
+
+    this->addClassBinding("sad::Point2D", c);
+}
+
+void sad::dukpp03::Context::exposePoint3D()
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addConstructor<sad::Point3D>("SadPoint3D");
+    c->addConstructor<sad::Point3D, double, double, double>("SadPoint3D");
+    c->addAccessor("x", sad::dukpp03::bind_method::from(&sad::Point3D::x), sad::dukpp03::bind_method::from(&sad::Point3D::setX));
+    c->addAccessor("y", sad::dukpp03::bind_method::from(&sad::Point3D::y), sad::dukpp03::bind_method::from(&sad::Point3D::setY));
+    c->addAccessor("z", sad::dukpp03::bind_method::from(&sad::Point3D::z), sad::dukpp03::bind_method::from(&sad::Point3D::setZ));
+    c->addCloneValueObjectMethodFor<sad::Point3D>();
+
+    this->addClassBinding("sad::Point3D", c);    
 }

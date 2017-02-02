@@ -1,6 +1,6 @@
-/*! \file cloner.h
+/*! \file valuecloner.h
  
-    Defines a callable stuff, which can be used to clone object
+    Defines a callable stuff, which can be used to clone object by value. Copy constructor is needed in that case.
  */
 #pragma once
 #include "basiccontext.h"
@@ -11,16 +11,16 @@ namespace sad
 namespace dukpp03
 {
 
-/*! A scriptable property cloner. Note, that it won't clone database-related fields, like majorid, minorid
+/*! A scriptable object cloner. Copy constructor is required from T.
  */
 template<typename T>
-class Cloner: public ::dukpp03::Callable<sad::dukpp03::BasicContext>
+class ValueCloner: public ::dukpp03::Callable<sad::dukpp03::BasicContext>
 {
 public:
     /*! Makes new accessor
         \param[in] name of property
      */
-    Cloner()
+    ValueCloner()
     {
         
     }
@@ -35,8 +35,8 @@ public:
             return std::make_pair(-1, false);
         }
         int matchedargs = 0;
-        T* obj = this->checkThis(c, false);
-        if (obj)
+        ::dukpp03::Maybe<T> obj = this->checkThis(c, false);
+        if (obj.exists())
         {
             matchedargs += 1;
         }
@@ -44,7 +44,7 @@ public:
     }
     /*! Could be inherited
      */
-    virtual ~Cloner()
+    virtual ~ValueCloner()
     {
         
     }
@@ -60,7 +60,7 @@ public:
      */
     virtual Callable<sad::dukpp03::BasicContext>* clone()
     {
-        return new sad::dukpp03::Cloner<T>();
+        return new sad::dukpp03::ValueCloner<T>();
     }
     /*! Returns count of required arguments
         \return count of required arguments
@@ -74,22 +74,10 @@ public:
      */
     virtual int _call(sad::dukpp03::BasicContext* c)
     {
-        T* obj = this->checkThis(c, true);
-        if (obj)
+        ::dukpp03::Maybe<T> obj = this->checkThis(c, true);
+        if (obj.exists())
         {
-            T* result = new T();
-            sad::Vector<sad::String> property_names;
-            T::basicSchema()->getPropertyNames(property_names);
-            for(size_t i = 0; i < property_names.size(); i++)
-            {
-                const sad::String& name = property_names[i];
-                sad::db::Variant v;
-                obj->getObjectProperty(name)->get(obj, v);
-                result->getObjectProperty(name)->set(result, v);
-            }
-            ::dukpp03::PushValue<T*, sad::dukpp03::BasicContext>::perform(c, result);
-            obj->MajorId = -1;
-            obj->MinorId = -1;
+            ::dukpp03::PushValue<T, sad::dukpp03::BasicContext>::perform(c, T(obj.value()));
             return 1;
         }
         return 0;
@@ -100,20 +88,21 @@ protected:
         \param[in] throw_error if true, throws error if cannot be called
         \return NULL if method cannot be called
      */
-    T* checkThis(sad::dukpp03::BasicContext* c, bool throw_error) const
+    ::dukpp03::Maybe<T>  checkThis(sad::dukpp03::BasicContext* c, bool throw_error) const
     {
-        ::dukpp03::Maybe< T* > maybethisobject;
+        ::dukpp03::Maybe<T>  maybethisobject;
 
-        sad::dukpp03::BasicContext::LocalCallable::CheckArgument< T* >::passedAsThis(c, maybethisobject);
+        sad::dukpp03::BasicContext::LocalCallable::CheckArgument< T >::passedAsThis(c, maybethisobject);
         if (maybethisobject.exists())
         {
-            return maybethisobject.value();
+            return maybethisobject;
         }
         else
         {
             if (throw_error)
             {
-                c->throwError(sad::String("The object, passed as this, is not a  ") + T::globalMetaData()->name());
+                sad::db::TypeName<T>::init();
+                c->throwError(sad::String("The object, passed as this, is not a ") + sad::db::TypeName<T>::name());
             }
         }
         return NULL;

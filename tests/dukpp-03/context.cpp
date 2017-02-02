@@ -537,7 +537,7 @@ public:
     {
         std::string error;  
         
-        sad::dukpp03::Context ctx;
+        sad::dukpp03::Context ctx(true);
         
         sad::dukpp03::ClassBinding* p2dbinding = new sad::dukpp03::ClassBinding();
         p2dbinding->addConstructor<sad::Point2D, double, double>("Point2D");

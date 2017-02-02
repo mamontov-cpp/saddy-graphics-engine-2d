@@ -42,6 +42,9 @@
     <ClCompile Include="classbinding.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="lib.js.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\dukpp-03\context.h">

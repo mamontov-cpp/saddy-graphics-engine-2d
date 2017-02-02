@@ -20,6 +20,7 @@
     <ClCompile Include="pushvariant.cpp" />
     <ClCompile Include="setter.cpp" />
     <ClCompile Include="wrapvalue.cpp" />
+    <ClCompile Include="lib.js.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\dukpp-03\accessor.h" />
