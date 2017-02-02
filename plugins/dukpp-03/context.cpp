@@ -157,8 +157,8 @@ void sad::dukpp03::Context::exposePoint3D()
     sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
     c->addConstructor<sad::Point3D>("SadPoint3D");
     c->addConstructor<sad::Point3D, double, double, double>("SadPoint3D");
-    c->addAccessor("x", sad::dukpp03::bind_method::from(&sad::Point3D::x), sad::dukpp03::bind_method::from(&sad::Point3D::setX));
-    c->addAccessor("y", sad::dukpp03::bind_method::from(&sad::Point3D::y), sad::dukpp03::bind_method::from(&sad::Point3D::setY));
+    c->addAccessor("x", sad::dukpp03::rebind_method::to<sad::Point3D>::from(&sad::Point3D::x), sad::dukpp03::rebind_method::to<sad::Point3D>::from(&sad::Point3D::setX));
+    c->addAccessor("y", sad::dukpp03::rebind_method::to<sad::Point3D>::from(&sad::Point3D::y), sad::dukpp03::rebind_method::to<sad::Point3D>::from(&sad::Point3D::setY));
     c->addAccessor("z", sad::dukpp03::bind_method::from(&sad::Point3D::z), sad::dukpp03::bind_method::from(&sad::Point3D::setZ));
     c->addCloneValueObjectMethodFor<sad::Point3D>();
 

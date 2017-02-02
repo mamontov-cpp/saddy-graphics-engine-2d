@@ -20,6 +20,7 @@ typedef ::dukpp03::make_fun<sad::dukpp03::BasicContext> make_function;
 typedef ::dukpp03::register_constructor<sad::dukpp03::BasicContext> register_constructor;
 typedef ::dukpp03::make_method<sad::dukpp03::BasicContext> make_method;
 typedef ::dukpp03::bind_method<sad::dukpp03::BasicContext> bind_method;
+typedef ::dukpp03::rebind_method<sad::dukpp03::BasicContext> rebind_method;
 typedef ::dukpp03::CompiledFunction<sad::dukpp03::BasicContext> CompiledFunction;
 typedef ::dukpp03::getter<sad::dukpp03::BasicContext> getter;
 typedef ::dukpp03::setter<sad::dukpp03::BasicContext> setter;
