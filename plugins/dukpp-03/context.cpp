@@ -128,7 +128,7 @@ bool sad::dukpp03::Context::addClassBinding(const std::string& name, ::dukpp03::
 
 // ============================================ PROTECTED METHODS ============================================
 
-extern std::string __context_eval_info;
+extern const std::string __context_eval_info;
 // ReSharper disable once CppMemberFunctionMayBeStatic
 // ReSharper disable once CppMemberFunctionMayBeConst
 void sad::dukpp03::Context::initialize()

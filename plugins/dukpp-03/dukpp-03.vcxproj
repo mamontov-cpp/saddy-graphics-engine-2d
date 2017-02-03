@@ -26,6 +26,7 @@
     <ClInclude Include="..\..\include\dukpp-03\accessor.h" />
     <ClInclude Include="..\..\include\dukpp-03\basiccontext.h" />
     <ClInclude Include="..\..\include\dukpp-03\classbinding.h" />
+    <ClInclude Include="..\..\include\dukpp-03\cloner.h" />
     <ClInclude Include="..\..\include\dukpp-03\context.h" />
     <ClInclude Include="..\..\include\dukpp-03\getaddressoftype.h" />
     <ClInclude Include="..\..\include\dukpp-03\getter.h" />
@@ -36,6 +37,7 @@
     <ClInclude Include="..\..\include\dukpp-03\pushvariant.h" />
     <ClInclude Include="..\..\include\dukpp-03\setter.h" />
     <ClInclude Include="..\..\include\dukpp-03\timerinterface.h" />
+    <ClInclude Include="..\..\include\dukpp-03\valuecloner.h" />
     <ClInclude Include="..\..\include\dukpp-03\variantinterface.h" />
     <ClInclude Include="..\..\include\dukpp-03\wrapvalue.h" />
   </ItemGroup>

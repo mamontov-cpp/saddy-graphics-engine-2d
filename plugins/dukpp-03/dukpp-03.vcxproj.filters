@@ -92,5 +92,11 @@
     <ClInclude Include="..\..\include\dukpp-03\classbinding.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\dukpp-03\cloner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\dukpp-03\valuecloner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
