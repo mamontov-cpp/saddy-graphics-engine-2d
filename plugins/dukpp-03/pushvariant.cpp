@@ -1,4 +1,5 @@
 #include "dukpp-03/context.h"
+#include "dukpp-03/pushvariant.h"
 
 void sad::dukpp03::pushVariant(sad::dukpp03::BasicContext* ctx, const sad::db::Variant& v)
 {

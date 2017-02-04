@@ -1,5 +1,5 @@
 #include "dukpp-03/context.h"
-
+#include "dukpp-03/pushvariant.h"
 
 static duk_ret_t local_finalize(duk_context *ctx)
 {
@@ -24,4 +24,20 @@ static duk_ret_t local_finalize(duk_context *ctx)
 {
     o->addRef();
     return local_finalize;
+}
+
+
+void dukpp03::PushValue<sad::String, sad::dukpp03::BasicContext>::perform(sad::dukpp03::BasicContext* ctx, const std::string& v)
+{
+    duk_push_string(ctx->context(), v.c_str());
+}
+
+void dukpp03::PushValue<const char*, sad::dukpp03::BasicContext>::perform(sad::dukpp03::BasicContext* ctx, const char*& v)
+{
+    duk_push_string(ctx->context(), v);
+}
+
+void dukpp03::PushValue<sad::db::Variant, sad::dukpp03::BasicContext>::perform(sad::dukpp03::BasicContext* ctx, const sad::db::Variant& v)
+{
+    sad::dukpp03::pushVariant(ctx, v);
 }

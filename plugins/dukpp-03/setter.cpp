@@ -1,6 +1,7 @@
 #include "dukpp-03/setter.h"
 #include "dukpp-03/context.h"
-
+#include "dukpp-03/getvalue.h"
+#include "dukpp-03/pushvalue.h"
 
 // ===================================== PUBLIC METHODS =====================================
 

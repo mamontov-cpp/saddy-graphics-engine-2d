@@ -1,4 +1,7 @@
 #include "dukpp-03/getter.h"
+#include "dukpp-03/getvalue.h"
+#include "dukpp-03/pushvalue.h"
+
 
 sad::dukpp03::Getter::Getter(const sad::String& name) : sad::dukpp03::Accessor(name)
 {

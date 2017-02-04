@@ -4,8 +4,8 @@
  */
 #pragma once
 #include "basiccontext.h"
-#include "pushvariant.h"
 #include "../sadstring.h"
+#include "../db/dbvariant.h"
 
 namespace dukpp03
 {
@@ -38,14 +38,11 @@ template<>
 class PushValue<sad::String, sad::dukpp03::BasicContext>
 {
 public:
-    /*! Performs pushing value 
-        \param[in] ctx context
-        \param[in] v value
-     */
-    inline static void perform(sad::dukpp03::BasicContext* ctx, const std::string& v)
-    {
-        duk_push_string(ctx->context(), v.c_str());
-    }
+/*! Performs pushing value 
+    \param[in] ctx context
+    \param[in] v value
+ */
+static void perform(sad::dukpp03::BasicContext* ctx, const std::string& v);
 };
 
 
@@ -55,14 +52,11 @@ template<>
 class PushValue<const char*, sad::dukpp03::BasicContext>
 {
 public:
-    /*! Performs pushing value 
-        \param[in] ctx context
-        \param[in] v value
-     */
-    inline static void perform(sad::dukpp03::BasicContext* ctx, const char*& v)
-    {
-        duk_push_string(ctx->context(), v);
-    }
+/*! Performs pushing value 
+    \param[in] ctx context
+    \param[in] v value
+ */
+static void perform(sad::dukpp03::BasicContext* ctx, const char*& v);
 };
 
 /*! An instantiation for pushig variant on stack
@@ -71,14 +65,11 @@ template<>
 class PushValue<sad::db::Variant, sad::dukpp03::BasicContext>
 {
 public:
-    /*! Performs pushing value
-        \param[in] ctx context
-        \param[in] v value
-     */
-    static void perform(sad::dukpp03::BasicContext* ctx, const sad::db::Variant& v)
-    {
-        sad::dukpp03::pushVariant(ctx, v);
-    }
+/*! Performs pushing value
+    \param[in] ctx context
+    \param[in] v value
+ */
+static void perform(sad::dukpp03::BasicContext* ctx, const sad::db::Variant& v);
 };
 
 
@@ -91,15 +82,15 @@ template<
 class PushValue<T*, sad::dukpp03::BasicContext>
 {
 public:
-    /*! Performs pushing value
-        \param[in] ctx context
-        \param[in] v value
-     */
-    static void perform(sad::dukpp03::BasicContext* ctx, T* v)
-    {
-        ::dukpp03::FinalizerFunction f = ::dukpp03::internal::finalizer_maker(v);
-        ctx->template pushVariant<T*>(sad::dukpp03::BasicContext::VariantUtils::template makeFrom(v), f);
-    }    
+/*! Performs pushing value
+    \param[in] ctx context
+    \param[in] v value
+ */
+static void perform(sad::dukpp03::BasicContext* ctx, T* v)
+{
+    ::dukpp03::FinalizerFunction f = ::dukpp03::internal::finalizer_maker(v);
+    ctx->template pushVariant<T*>(sad::dukpp03::BasicContext::VariantUtils::template makeFrom(v), f);
+}    
 };
 
 }

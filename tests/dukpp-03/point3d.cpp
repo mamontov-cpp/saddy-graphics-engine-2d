@@ -9,6 +9,10 @@
 #include "3rdparty/tpunit++/tpunit++.hpp"
 #pragma warning(pop)
 
+static double getX(const sad::Point3D& x)
+{
+    return x.x();
+}
 
 struct Point3DTest : tpunit::TestFixture
 {
@@ -19,7 +23,8 @@ public:
        TEST(Point3DTest::testTo2D),
        TEST(Point3DTest::testMath),
        TEST(Point3DTest::testToString),
-       TEST(Point3DTest::testDistance)              
+       TEST(Point3DTest::testDistance),
+       TEST(Point3DTest::testAutoCast)              
     ) {}
 
     /*! A common test for exposes API
@@ -185,4 +190,42 @@ public:
         ASSERT_TRUE( result.exists() );
         ASSERT_TRUE( result.value() == 5);          
     }
+
+    /*! A an automatical cast test
+     */
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
+    void testAutoCast()
+    {
+        std::string error;
+        sad::dukpp03::Context ctx;
+        ctx.registerCallable("getX", sad::dukpp03::make_function::from(getX));
+
+        {
+            bool eval_result = ctx.eval("getX(new sad.Point2D(5, 4))", false, &error);
+            if (!eval_result)
+            {
+                printf("%s\n", error.c_str());
+            }
+            ASSERT_TRUE( eval_result );
+            ASSERT_TRUE( error.size() == 0 );
+            ::dukpp03::Maybe<int> result = ::dukpp03::GetValue<int, sad::dukpp03::BasicContext>::perform(&ctx, -1);
+            ASSERT_TRUE( result.exists() );
+            ASSERT_TRUE( result.value() == 5);  
+        }
+
+        {
+            bool eval_result = ctx.eval("getX({\"x\" : 5, \"y\" : 4, \"z\" : 0})", false, &error);
+            if (!eval_result)
+            {
+                printf("%s\n", error.c_str());
+            }
+            ASSERT_TRUE( eval_result );
+            ASSERT_TRUE( error.size() == 0 );
+            ::dukpp03::Maybe<int> result = ::dukpp03::GetValue<int, sad::dukpp03::BasicContext>::perform(&ctx, -1);
+            ASSERT_TRUE( result.exists() );
+            ASSERT_TRUE( result.value() == 5);  
+        }
+    }
+
 } _point3d_test;

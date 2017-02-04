@@ -1,4 +1,6 @@
 #include "dukpp-03/getvalue.h"
+#include "object.h"
+#include "classmetadatacontainer.h"
 
 ::dukpp03::Maybe<double> dukpp03::internal::tryGetDoubleProperty(
     sad::dukpp03::BasicContext* ctx, 
@@ -55,6 +57,283 @@ dukpp03::Maybe<sad::String> dukpp03::GetValue<sad::String, sad::dukpp03::BasicCo
     if (duk_is_string(ctx->context(), pos))
     {
         result.setValue(duk_to_string(ctx->context(), pos));
+    }
+    return result;
+}
+
+dukpp03::Maybe<sad::db::Object*> dukpp03::GetValue<sad::db::Object*,  sad::dukpp03::BasicContext>::perform(
+    sad::dukpp03::BasicContext* ctx,
+    duk_idx_t pos
+)
+{
+    ::dukpp03::Maybe<sad::db::Object*> result;
+    if (duk_is_object(ctx->context(), pos))
+    {
+        duk_get_prop_string(ctx->context(), pos, DUKPP03_VARIANT_PROPERTY_SIGNATURE);
+        if (duk_is_pointer(ctx->context(), -1))
+        {
+            void* ptr = duk_to_pointer(ctx->context(), -1);
+            sad::db::Variant * v = reinterpret_cast<sad::db::Variant *>(ptr);
+            if (v->pointerStarsCount() == 1)
+            {
+                if (v->baseName() == "sad::db::Object") 
+                {
+                    result.setValue(v->get<sad::db::Object*>(true).value());
+                } 
+                else 
+                {
+                    if (sad::ClassMetaDataContainer::ref()->contains(v->baseName()))
+                    {
+                        bool created = false;
+                        if (sad::ClassMetaDataContainer::ref()->get(v->baseName(), created)->canBeCastedTo("sad::Object"))
+                        {
+                            sad::Object** object = reinterpret_cast<sad::Object**>(v->data());
+                            result.setValue(static_cast<sad::db::Object*>(*object));
+                        }
+                    }
+                }
+            }
+        }
+        duk_pop(ctx->context());
+    }
+    return result;
+}
+
+
+::dukpp03::Maybe<sad::Object*>  dukpp03::GetValue<sad::Object*,  sad::dukpp03::BasicContext>::perform(
+    sad::dukpp03::BasicContext* ctx,
+    duk_idx_t pos
+)
+{
+    ::dukpp03::Maybe<sad::Object*> result;
+    if (duk_is_object(ctx->context(), pos))
+    {
+        duk_get_prop_string(ctx->context(), pos, DUKPP03_VARIANT_PROPERTY_SIGNATURE);
+        if (duk_is_pointer(ctx->context(), -1))
+        {
+            void* ptr = duk_to_pointer(ctx->context(), -1);
+            sad::db::Variant * v = reinterpret_cast<sad::db::Variant *>(ptr);
+            if (v->pointerStarsCount() == 1)
+            {
+                if (v->baseName() == "sad::Object") 
+                {
+                    result.setValue(v->get<sad::Object*>(true).value());
+                } 
+                else 
+                {
+                    if (v->baseName() == "sad::db::Object")
+                    {
+                        sad::db::Object* o = v->get<sad::db::Object*>(true).value();
+                        sad::String real_name = o->serializableName();
+                        bool created = false;
+                        if (sad::ClassMetaDataContainer::ref()->contains(real_name))
+                        {
+                            if (sad::ClassMetaDataContainer::ref()->get(real_name, created)->canBeCastedTo("sad::Object"))
+                            {
+                                sad::Object** object = reinterpret_cast<sad::Object**>(v->data());
+                                result.setValue(*object);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (sad::ClassMetaDataContainer::ref()->contains(v->baseName()))
+                        {
+                            bool created = false;
+                            if (sad::ClassMetaDataContainer::ref()->get(v->baseName(), created)->canBeCastedTo("sad::Object"))
+                            {
+                                sad::Object** object = reinterpret_cast<sad::Object**>(v->data());
+                                result.setValue(*object);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        duk_pop(ctx->context());
+    }
+    return result;
+}
+
+
+::dukpp03::Maybe<sad::db::Variant> dukpp03::GetValue<sad::db::Variant,  sad::dukpp03::BasicContext>::perform(
+    sad::dukpp03::BasicContext* ctx,
+    duk_idx_t pos
+)
+{
+    ::dukpp03::Maybe<sad::db::Variant> result;
+    if (duk_is_string(ctx->context(), pos))
+    {
+        result.setValue(sad::String(duk_to_string(ctx->context(), pos)));
+    }
+    if (duk_is_boolean(ctx->context(), pos))
+    {
+        result.setValue(static_cast<bool>(duk_to_string(ctx->context(), pos) != NULL));
+    }
+    if (duk_is_number(ctx->context(), pos))
+    {
+        result.setValue(duk_to_number(ctx->context(), pos));
+    }
+    if (duk_is_object(ctx->context(), pos))
+    {
+        duk_get_prop_string(ctx->context(), pos, DUKPP03_VARIANT_PROPERTY_SIGNATURE);
+        if (duk_is_pointer(ctx->context(), -1))
+        {
+            void* ptr = duk_to_pointer(ctx->context(), -1);
+            sad::db::Variant * v = reinterpret_cast<sad::db::Variant *>(ptr);
+            if (v)
+            {
+                result.setValue(*v);
+            }
+        }
+        duk_pop(ctx->context());
+    }
+    return result;
+}
+
+
+::dukpp03::Maybe<sad::Point2D>  dukpp03::GetValue<sad::Point2D,  sad::dukpp03::BasicContext>::perform(
+    sad::dukpp03::BasicContext* ctx,
+    duk_idx_t pos
+)
+{
+    ::dukpp03::Maybe<sad::Point2D> result;
+    ::dukpp03::internal::TryGetValueFromObject<sad::Point2D, sad::dukpp03::BasicContext>::perform(ctx, pos, result);
+    if (result.exists() == false)
+    {
+        ::dukpp03::Maybe<sad::Point2D*> result2;
+        ::dukpp03::internal::TryGetValueFromObject<sad::Point2D*, sad::dukpp03::BasicContext>::perform(ctx, pos, result2);
+        if (result2.exists())
+        {
+            result.setReference(result2.value());
+        }
+        else
+        {
+            if (duk_is_object(ctx->context(), pos))
+            {
+                ::dukpp03::Maybe<double> maybex = ::dukpp03::internal::tryGetDoubleProperty(ctx, pos, "x");
+                ::dukpp03::Maybe<double> maybey = ::dukpp03::internal::tryGetDoubleProperty(ctx, pos, "y");
+                if (maybex.exists() && maybey.exists())
+                {
+                    result.setValue(sad::Point2D(maybex.value(), maybey.value()));
+                }
+            }
+        }
+    }
+    return result;
+}
+
+
+
+::dukpp03::Maybe<sad::Point3D>  dukpp03::GetValue<sad::Point3D,  sad::dukpp03::BasicContext>::perform(
+    sad::dukpp03::BasicContext* ctx,
+    duk_idx_t pos
+)
+{
+    ::dukpp03::Maybe<sad::Point3D> result;
+    ::dukpp03::internal::TryGetValueFromObject<sad::Point3D, sad::dukpp03::BasicContext>::perform(ctx, pos, result);
+    if (result.exists() == false)
+    {
+        ::dukpp03::Maybe<sad::Point3D*> result2;
+        ::dukpp03::internal::TryGetValueFromObject<sad::Point3D*, sad::dukpp03::BasicContext>::perform(ctx, pos, result2);
+        if (result2.exists())
+        {
+            result.setReference(result2.value());
+        }
+        else
+        {
+            if (duk_is_object(ctx->context(), pos))
+            {
+                ::dukpp03::Maybe<double> maybex = ::dukpp03::internal::tryGetDoubleProperty(ctx, pos, "x");
+                ::dukpp03::Maybe<double> maybey = ::dukpp03::internal::tryGetDoubleProperty(ctx, pos, "y");
+                ::dukpp03::Maybe<double> maybez = ::dukpp03::internal::tryGetDoubleProperty(ctx, pos, "z");
+                if (maybex.exists() && maybey.exists())
+                {
+                    if (maybez.exists())
+                    {
+                        result.setValue(sad::Point3D(maybex.value(), maybey.value(), maybez.value()));                        
+                    }
+                    else
+                    {
+                        result.setValue(sad::Point3D(maybex.value(), maybey.value(), 0));
+                    }
+                }
+            }
+        }
+    }
+    return result;
+}
+
+
+
+::dukpp03::Maybe<sad::Point2I>  dukpp03::GetValue<sad::Point2I,  sad::dukpp03::BasicContext>::perform(
+    sad::dukpp03::BasicContext* ctx,
+    duk_idx_t pos
+)
+{
+    ::dukpp03::Maybe<sad::Point2I> result;
+    ::dukpp03::internal::TryGetValueFromObject<sad::Point2I, sad::dukpp03::BasicContext>::perform(ctx, pos, result);
+    if (result.exists() == false)
+    {
+        ::dukpp03::Maybe<sad::Point2I*> result2;
+        ::dukpp03::internal::TryGetValueFromObject<sad::Point2I*, sad::dukpp03::BasicContext>::perform(ctx, pos, result2);
+        if (result2.exists())
+        {
+            result.setReference(result2.value());
+        }
+        else
+        {
+            if (duk_is_object(ctx->context(), pos))
+            {
+                ::dukpp03::Maybe<int> maybex = ::dukpp03::internal::tryGetIntProperty(ctx, pos, "x");
+                ::dukpp03::Maybe<int> maybey = ::dukpp03::internal::tryGetIntProperty(ctx, pos, "y");
+                if (maybex.exists() && maybey.exists())
+                {
+                    result.setValue(sad::Point2I(maybex.value(), maybey.value()));
+                }
+            }
+        }
+    }
+    return result;
+}
+
+
+
+::dukpp03::Maybe<sad::Point3I>  dukpp03::GetValue<sad::Point3I,  sad::dukpp03::BasicContext>::perform(
+    sad::dukpp03::BasicContext* ctx,
+    duk_idx_t pos
+)
+{
+    ::dukpp03::Maybe<sad::Point3I> result;
+    ::dukpp03::internal::TryGetValueFromObject<sad::Point3I, sad::dukpp03::BasicContext>::perform(ctx, pos, result);
+    if (result.exists() == false)
+    {
+        ::dukpp03::Maybe<sad::Point3I*> result2;
+        ::dukpp03::internal::TryGetValueFromObject<sad::Point3I*, sad::dukpp03::BasicContext>::perform(ctx, pos, result2);
+        if (result2.exists())
+        {
+            result.setReference(result2.value());
+        }
+        else
+        {
+            if (duk_is_object(ctx->context(), pos))
+            {
+                ::dukpp03::Maybe<int> maybex = ::dukpp03::internal::tryGetIntProperty(ctx, pos, "x");
+                ::dukpp03::Maybe<int> maybey = ::dukpp03::internal::tryGetIntProperty(ctx, pos, "y");
+                ::dukpp03::Maybe<int> maybez = ::dukpp03::internal::tryGetIntProperty(ctx, pos, "z");
+                if (maybex.exists() && maybey.exists())
+                {
+                    if (maybez.exists())
+                    {
+                        result.setValue(sad::Point3I(maybex.value(), maybey.value(), maybez.value()));                        
+                    }
+                    else
+                    {
+                        result.setValue(sad::Point3I(maybex.value(), maybey.value(), 0));
+                    }
+                }
+            }
+        }
     }
     return result;
 }

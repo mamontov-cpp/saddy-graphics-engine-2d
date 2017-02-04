@@ -1,4 +1,6 @@
 #include "dukpp-03/accessor.h"
+#include "dukpp-03/getvalue.h"
+#include "dukpp-03/pushvalue.h"
 
 // ================================ PUBLIC METHODS ================================
 
