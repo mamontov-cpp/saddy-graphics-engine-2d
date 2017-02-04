@@ -76,3 +76,72 @@ sad.internal.makeMathFns(sad.Point3D.prototype);
 sad.Point3D.prototype.toString = function() {
 	return "sad::Point3D(" + this.x + ',' + this.y + ',' + this.z + ')';
 };
+
+var console = {};
+console.dump = function(o) {
+	var type = typeof o;
+	if (type == "undefined") { return "undefined"};
+	if ((type == "boolean") || (type == "number") || (type == "string") || (type == "symbol") || (type == "function")) { return o.toString();}
+	if (type == "object")
+	{
+		if (o === null)
+		{
+			return "null";
+		}
+		if (o instanceof Array)
+		{
+			var  i = 0; 
+			var  result = [];
+			for(var i = 0; i < o.length; i++)
+			{
+				if (i in o)
+				{
+					result.push(console.dump(o[i]));
+				}
+			}
+			return "[" + result.join(", ") + "]";
+		}
+		else
+		{
+			if (SadInternalIsNativeObject(o))
+			{
+				if (o.hasOwnProperty('toString'))
+				{
+					return o.toString();
+				}
+				if (o.prototype.hasOwnProperty('toString') && o.prototype.toString != Object.toString)
+				{
+					return o.toString();
+				}
+				return SadInternalDumpNativeObject(o);
+			}
+			else
+			{
+				if (o.hasOwnProperty('toString'))
+				{
+					return o.toString();
+				}
+				else
+				{
+					var asString = o.toString();
+					if (asString != "[object Object]")
+					{
+						return asString;
+					}
+					else
+					{
+						var result = [];
+						for(var key in o) { result.push("\"" + key + "\"" + ' : ' + console.dump(o[key]));}
+					}
+				}
+				return "{" + result.join(", ") + "}";
+			}
+		}
+	}
+	return "";
+};
+
+console.log = function(o)
+{
+	print(console.dump(o));
+};

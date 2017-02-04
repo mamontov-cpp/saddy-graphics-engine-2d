@@ -129,10 +129,65 @@ bool sad::dukpp03::Context::addClassBinding(const std::string& name, ::dukpp03::
 // ============================================ PROTECTED METHODS ============================================
 
 extern const std::string __context_eval_info;
+
+
+static duk_ret_t isNativeObject(duk_context* ctx)
+{
+    int count = duk_get_top(ctx);
+    if (count != 1)
+    {
+        duk_push_error_object(ctx, DUK_ERR_TYPE_ERROR, "isNativeObject: got %d arguments, instead of 1", count);
+        duk_throw(ctx);
+        return 0;
+    }
+    duk_bool_t result = 0;
+    if (duk_is_object(ctx, 0))
+    {
+        result = duk_has_prop_string(ctx, 0, DUKPP03_VARIANT_PROPERTY_SIGNATURE);
+    }
+    duk_push_boolean(ctx, result);
+    return 1;
+}
+
+sad::String dumpNativeObject(const sad::db::Variant& v)
+{
+    sad::Maybe<sad::db::Object*> maybeobject = v.get<sad::db::Object*>();
+    if (maybeobject.exists())
+    {
+        std::stringstream ss;
+        ss << maybeobject.value()->serializableName();
+        ss << "(" << maybeobject.value() << ")";
+        std::string name = ss.str(); 
+        return name;
+    }
+    else
+    {
+        std::stringstream ss;
+        ss << v.typeName();
+        ss << "(" << v.data() << ")";
+        std::string name = ss.str(); 
+        return name;
+    }
+}
+
 // ReSharper disable once CppMemberFunctionMayBeStatic
 // ReSharper disable once CppMemberFunctionMayBeConst
 void sad::dukpp03::Context::initialize()
 {
+    // Register SadInternalIsNativeObject function
+    duk_push_global_object(m_context);
+    duk_push_c_function(m_context, isNativeObject, 1);
+    duk_int_t result = duk_peval_string(m_context, "new Function()");
+    assert(result == 0);
+    duk_dup(m_context, -1);
+    duk_put_prop_string(m_context, -3, "prototype");
+    duk_set_prototype(m_context, - 2);   
+    duk_put_prop_string(m_context, -2 /*idx:global*/, "SadInternalIsNativeObject");
+    duk_pop(m_context);  
+
+    // Register SadInternalDumpNativeObject function
+    this->registerCallable("SadInternalDumpNativeObject", sad::dukpp03::make_function::from(dumpNativeObject));
+
     this->exposePoint2D();
     this->exposePoint3D();
 
