@@ -16,6 +16,7 @@
     <ClCompile Include="context.cpp" />
     <ClCompile Include="dukpp-03.cpp" />
     <ClCompile Include="getter.cpp" />
+    <ClCompile Include="getvalue.cpp" />
     <ClCompile Include="pushvalue.cpp" />
     <ClCompile Include="pushvariant.cpp" />
     <ClCompile Include="setter.cpp" />
