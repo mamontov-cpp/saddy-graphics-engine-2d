@@ -52,6 +52,8 @@ public:
 {{/args}}        
         _ClassName  *t = new _ClassName({{#has_args}}{{#args}}_a{{number}}._(){{#not_last}}, {{/not_last}}{{/args}}{{/has_args}});
         dukpp03::PushValue<_ClassName*, _Context>::perform(c, t);
+        duk_push_current_function(c->context());
+        duk_set_prototype(c->context(), -2);
         return 1;
     }
     /*! Can be inherited

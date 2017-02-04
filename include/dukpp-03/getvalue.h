@@ -5,14 +5,44 @@
 #pragma once
 #include "basiccontext.h"
 #include "../sadstring.h"
+#include "../sadpoint.h"
 #include "../classmetadatacontainer.h"
 #include "../object.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../db/save.h"
 #include "../db/load.h"
  
 namespace dukpp03
 {
 
+namespace internal
+{
+
+/*! Tries to get property with double value from object
+    \param[in] ctx context
+    \param[in] pos position of object in stack
+    \param[in] propname a property name
+    \return 
+ */
+::dukpp03::Maybe<double> tryGetDoubleProperty(
+    sad::dukpp03::BasicContext* ctx, 
+    duk_idx_t pos,
+    const char* propname
+);
+
+
+/*! Tries to get property with int value from object
+    \param[in] ctx context
+    \param[in] pos position of object in stack
+    \param[in] propname a property name
+    \return 
+ */
+::dukpp03::Maybe<int> tryGetIntProperty(
+    sad::dukpp03::BasicContext* ctx, 
+    duk_idx_t pos,
+    const char* propname
+);
+}
 
 /*! An instantiation for getting constant char pointer
  */
@@ -25,19 +55,10 @@ public:
         \param[in] pos index for stack
         \return a value if it exists, otherwise empty maybe
      */
-    inline static dukpp03::Maybe<const char*> perform(
+    static dukpp03::Maybe<const char*> perform(
         sad::dukpp03::BasicContext* ctx, 
         duk_idx_t pos
-    )
-    {
-        dukpp03::Maybe<const char*> result;
-        if (duk_is_string(ctx->context(), pos))
-        {
-            result.setValue(duk_to_string(ctx->context(), pos));
-        }
-        return result;
-    }
-
+    );
 };
 
 
@@ -52,19 +73,10 @@ public:
         \param[in] pos index for stack
         \return a value if it exists, otherwise empty maybe
      */
-    inline static dukpp03::Maybe<sad::String> perform(
+    static dukpp03::Maybe<sad::String> perform(
         sad::dukpp03::BasicContext* ctx, 
         duk_idx_t pos
-    )
-    {
-        dukpp03::Maybe<sad::String> result;
-        if (duk_is_string(ctx->context(), pos))
-        {
-            result.setValue(duk_to_string(ctx->context(), pos));
-        }
-        return result;
-    }
-
+    );
 };
 
 
@@ -232,6 +244,47 @@ inline static ::dukpp03::Maybe<sad::db::Variant> perform(
             }
         }
         duk_pop(ctx->context());
+    }
+    return result;
+}
+
+};
+
+
+
+/*! An instantiation for sad::Point2D
+ */
+template<>
+class GetValue<sad::Point2D,  sad::dukpp03::BasicContext>
+{
+public:
+/*! Performs getting value from stack
+    \param[in] ctx context
+    \param[in] pos index for stack
+    \return a value if it exists, otherwise empty maybe
+ */
+inline static ::dukpp03::Maybe<sad::Point2D> perform(
+    sad::dukpp03::BasicContext* ctx,
+    duk_idx_t pos
+)
+{
+    ::dukpp03::Maybe<sad::Point2D> result;
+    ::dukpp03::internal::TryGetValueFromObject<sad::Point2D, sad::dukpp03::BasicContext>::perform(ctx, pos, result);
+    if (result.exists() == false)
+    {
+        ::dukpp03::Maybe<sad::Point2D*> result2;
+        ::dukpp03::internal::TryGetValueFromObject<sad::Point2D*, sad::dukpp03::BasicContext>::perform(ctx, pos, result2);
+        if (result2.exists())
+        {
+            result.setReference(result2.value());
+        }
+        else
+        {
+            if (duk_is_object(ctx->context(), pos))
+            {
+                ::dukpp03::Maybe<double> maybex, maybey;
+            }
+        }
     }
     return result;
 }

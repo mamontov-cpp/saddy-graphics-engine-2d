@@ -136,7 +136,9 @@ void sad::dukpp03::Context::initialize()
     this->exposePoint2D();
     this->exposePoint3D();
 
-    this->eval(__context_eval_info, true);
+    std::string error;
+    bool ok =  this->eval(__context_eval_info, true, &error);
+    assert( ok );
 }
 
 
@@ -147,6 +149,7 @@ void sad::dukpp03::Context::exposePoint2D()
     c->addConstructor<sad::Point2D, double, double>("SadPoint2D");
     c->addAccessor("x", sad::dukpp03::bind_method::from(&sad::Point2D::x), sad::dukpp03::bind_method::from(&sad::Point2D::setX));
     c->addAccessor("y", sad::dukpp03::bind_method::from(&sad::Point2D::y), sad::dukpp03::bind_method::from(&sad::Point2D::setY));
+    c->addMethod("distance", sad::dukpp03::bind_method::from(&sad::Point2D::distance));
     c->addCloneValueObjectMethodFor<sad::Point2D>();
 
     this->addClassBinding("sad::Point2D", c);
@@ -160,6 +163,7 @@ void sad::dukpp03::Context::exposePoint3D()
     c->addAccessor("x", sad::dukpp03::rebind_method::to<sad::Point3D>::from(&sad::Point3D::x), sad::dukpp03::rebind_method::to<sad::Point3D>::from(&sad::Point3D::setX));
     c->addAccessor("y", sad::dukpp03::rebind_method::to<sad::Point3D>::from(&sad::Point3D::y), sad::dukpp03::rebind_method::to<sad::Point3D>::from(&sad::Point3D::setY));
     c->addAccessor("z", sad::dukpp03::bind_method::from(&sad::Point3D::z), sad::dukpp03::bind_method::from(&sad::Point3D::setZ));
+    c->addMethod("distance", sad::dukpp03::bind_method::from(&sad::Point3D::distance));
     c->addCloneValueObjectMethodFor<sad::Point3D>();
 
     this->addClassBinding("sad::Point3D", c);    
