@@ -656,6 +656,12 @@ protected:
     /*! Expose sad::Size2I
      */
     void exposeSize2I();
+    /*! Expose sad::Rect2D
+     */
+    void exposeRect2D();
+    /*! Expose sad::Rect2I
+     */
+    void exposeRect2I();
 };
 
 #undef SAD_DUKPP03_TEMPLATE_REGFUNC_BODY

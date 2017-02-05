@@ -27,7 +27,7 @@ public:
        TEST(Point3DTest::testAutoCast)              
     ) {}
 
-    /*! A common test for exposes API
+    /*! A common test for exposed API
      */
     // ReSharper disable once CppMemberFunctionMayBeStatic
     // ReSharper disable once CppMemberFunctionMayBeConst

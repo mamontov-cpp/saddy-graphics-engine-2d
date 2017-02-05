@@ -185,6 +185,39 @@ sad.Size2I.prototype.toString = function() {
 	return "sad::Size2I(" + this.width + ',' + this.height + ')';
 };
 
+// sad.Rect2D
+
+sad.Rect2D = SadRect2D;
+
+sad.Rect2D.prototype.to2i = function() {
+	return new sad.Rect2I(this.p0().to2i(), this.p1().to2i(), this.p2().to2i(), this.p3().to2i());
+};
+sad.Rect2D.prototype.toString = function() {
+	var result = [];
+	for(var i = 0; i < 4; i++)
+	{
+		result.push(sad.Point2D.prototype.toString.call(this['p' + i]()));
+	}
+	return "sad::Rect2D(" +  result.join(', ') + ')';
+};
+
+// sad.Rect2I
+
+sad.Rect2I = SadRect2I;
+
+sad.Rect2I.prototype.to2d = function() {
+	return new sad.Rect2D(this.p0().to2d(), this.p1().to2d(), this.p2().to2d(), this.p3().to2d());
+};
+sad.Rect2I.prototype.toString = function() {
+	var result = [];
+	for(var i = 0; i < 4; i++)
+	{
+		result.push(sad.Point2I.prototype.toString.call(this['p' + i]()));
+	}
+	return "sad::Rect2I(" +  result.join(', ') + ')';
+};
+
+
 // console object
 
 var console = {};

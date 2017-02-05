@@ -2,6 +2,7 @@
 
 #include <sadpoint.h>
 #include <sadsize.h>
+#include <sadrect.h>
 #include <p2d/vector.h>
 
 #include <renderer.h>
@@ -197,6 +198,8 @@ void sad::dukpp03::Context::initialize()
     this->exposeP2DVector();
     this->exposeSize2D();
     this->exposeSize2I();
+    this->exposeRect2D();
+    this->exposeRect2I();
 
     std::string error;
     bool ok =  this->eval(__context_eval_info, true, &error);
@@ -213,6 +216,7 @@ void sad::dukpp03::Context::exposePoint2D()
     c->addAccessor("y", sad::dukpp03::bind_method::from(&sad::Point2D::y), sad::dukpp03::bind_method::from(&sad::Point2D::setY));
     c->addMethod("distance", sad::dukpp03::bind_method::from(&sad::Point2D::distance));
     c->addCloneValueObjectMethodFor<sad::Point2D>();
+    c->setPrototypeFunction("SadPoint2D");
 
     this->addClassBinding("sad::Point2D", c);
 }
@@ -227,6 +231,7 @@ void sad::dukpp03::Context::exposePoint3D()
     c->addAccessor("z", sad::dukpp03::bind_method::from(&sad::Point3D::z), sad::dukpp03::bind_method::from(&sad::Point3D::setZ));
     c->addMethod("distance", sad::dukpp03::bind_method::from(&sad::Point3D::distance));
     c->addCloneValueObjectMethodFor<sad::Point3D>();
+    c->setPrototypeFunction("SadPoint3D");
 
     this->addClassBinding("sad::Point3D", c);    
 }
@@ -240,6 +245,7 @@ void sad::dukpp03::Context::exposePoint2I()
     c->addAccessor("y", sad::dukpp03::bind_method::from(&sad::Point2I::y), sad::dukpp03::bind_method::from(&sad::Point2I::setY));
     c->addMethod("distance", sad::dukpp03::bind_method::from(&sad::Point2I::distance));
     c->addCloneValueObjectMethodFor<sad::Point2I>();
+    c->setPrototypeFunction("SadPoint2I");
 
     this->addClassBinding("sad::Point2I", c);       
 }
@@ -254,6 +260,7 @@ void sad::dukpp03::Context::exposePoint3I()
     c->addAccessor("z", sad::dukpp03::bind_method::from(&sad::Point3I::z), sad::dukpp03::bind_method::from(&sad::Point3I::setZ));
     c->addMethod("distance", sad::dukpp03::bind_method::from(&sad::Point3I::distance));
     c->addCloneValueObjectMethodFor<sad::Point3I>();
+    c->setPrototypeFunction("SadPoint3I");
 
     this->addClassBinding("sad::Point3I", c);  
 }
@@ -273,6 +280,7 @@ void sad::dukpp03::Context::exposeP2DVector()
     c->addAccessor("y", sad::dukpp03::rebind_method::to<sad::p2d::Vector>::from(&sad::Point2D::y), sad::dukpp03::rebind_method::to<sad::p2d::Vector>::from(&sad::Point2D::setY));
     c->addMethod("distance", sad::dukpp03::rebind_method::to<sad::p2d::Vector>::from(&sad::Point2D::distance));
     c->addCloneValueObjectMethodFor<sad::p2d::Vector>();
+    c->setPrototypeFunction("Sad2DVector");
 
     this->registerCallable("SadP2DModulo", sad::dukpp03::make_function::from(sad::p2d::modulo));
     this->registerCallable("SadP2DBasis", sad::dukpp03::make_function::from(sad::p2d::basis));
@@ -291,6 +299,7 @@ void  sad::dukpp03::Context::exposeSize2D()
     c->addAccessor("width", sad::dukpp03::getter::from(&sad::Size2D::Width), sad::dukpp03::setter::from(&sad::Size2D::Width));
     c->addAccessor("height", sad::dukpp03::getter::from(&sad::Size2D::Height), sad::dukpp03::setter::from(&sad::Size2D::Height));
     c->addCloneValueObjectMethodFor<sad::Size2D>();
+    c->setPrototypeFunction("SadSize2D");
 
     this->addClassBinding("sad::Size2D", c);
 }
@@ -303,7 +312,47 @@ void  sad::dukpp03::Context::exposeSize2I()
     c->addAccessor("width", sad::dukpp03::getter::from(&sad::Size2I::Width), sad::dukpp03::setter::from(&sad::Size2I::Width));
     c->addAccessor("height", sad::dukpp03::getter::from(&sad::Size2I::Height), sad::dukpp03::setter::from(&sad::Size2I::Height));
     c->addCloneValueObjectMethodFor<sad::Size2I>();
+    c->setPrototypeFunction("SadSize2I");
 
     this->addClassBinding("sad::Size2I", c);   
+}
+
+
+void sad::dukpp03::Context::exposeRect2D()
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addConstructor<sad::Rect2D>("SadRect2D");
+    c->addConstructor<sad::Rect2D, sad::Point2D, sad::Point2D>("SadRect2D");
+    c->addConstructor<sad::Rect2D, sad::Point2D, sad::Point2D, sad::Point2D, sad::Point2D>("SadRect2D");
+    c->addConstructor<sad::Rect2D, double, double, double, double>("SadRect2D");
+    c->addMethod("width", sad::dukpp03::bind_method::from(&sad::Rect2D::width));
+    c->addMethod("height", sad::dukpp03::bind_method::from(&sad::Rect2D::height));
+    c->addMethod("p0", sad::dukpp03::bind_method::from(&sad::Rect2D::p0));
+    c->addMethod("p1", sad::dukpp03::bind_method::from(&sad::Rect2D::p1));
+    c->addMethod("p2", sad::dukpp03::bind_method::from(&sad::Rect2D::p2));
+    c->addMethod("p3", sad::dukpp03::bind_method::from(&sad::Rect2D::p3));
+    c->addCloneValueObjectMethodFor<sad::Rect2D>();
+    c->setPrototypeFunction("SadRect2D");
+
+    this->addClassBinding("sad::Rect2D", c);    
+}
+
+void sad::dukpp03::Context::exposeRect2I()
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addConstructor<sad::Rect2I>("SadRect2I");
+    c->addConstructor<sad::Rect2I, sad::Point2I, sad::Point2I>("SadRect2I");
+    c->addConstructor<sad::Rect2I, sad::Point2I, sad::Point2I, sad::Point2I, sad::Point2I>("SadRect2I");
+    c->addConstructor<sad::Rect2I, double, double, double, double>("SadRect2I");
+    c->addMethod("width", sad::dukpp03::bind_method::from(&sad::Rect2I::width));
+    c->addMethod("height", sad::dukpp03::bind_method::from(&sad::Rect2I::height));
+    c->addMethod("p0", sad::dukpp03::bind_method::from(&sad::Rect2I::p0));
+    c->addMethod("p1", sad::dukpp03::bind_method::from(&sad::Rect2I::p1));
+    c->addMethod("p2", sad::dukpp03::bind_method::from(&sad::Rect2I::p2));
+    c->addMethod("p3", sad::dukpp03::bind_method::from(&sad::Rect2I::p3));
+    c->addCloneValueObjectMethodFor<sad::Rect2I>();
+    c->setPrototypeFunction("SadRect2I");
+
+    this->addClassBinding("sad::Rect2I", c);       
 }
 

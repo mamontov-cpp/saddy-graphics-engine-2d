@@ -59,7 +59,7 @@ public:
 static void perform(sad::dukpp03::BasicContext* ctx, const char*& v);
 };
 
-/*! An instantiation for pushig variant on stack
+/*! An instantiation for pushing variant on stack
  */
 template<>
 class PushValue<sad::db::Variant, sad::dukpp03::BasicContext>
@@ -71,7 +71,6 @@ public:
  */
 static void perform(sad::dukpp03::BasicContext* ctx, const sad::db::Variant& v);
 };
-
 
 /*! An instantiation, which ensures, that created sad::Object and sad::db::Object 
     will be garbage-collected
@@ -90,7 +89,8 @@ static void perform(sad::dukpp03::BasicContext* ctx, T* v)
 {
     ::dukpp03::FinalizerFunction f = ::dukpp03::internal::finalizer_maker(v);
     ctx->template pushVariant<T*>(sad::dukpp03::BasicContext::VariantUtils::template makeFrom(v), f);
-}    
+}
+    
 };
 
 }

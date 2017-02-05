@@ -47,7 +47,7 @@ public:
         ASSERT_TRUE( result.value() == 0);      
     }
 
-    /*! A common test for exposes API
+    /*! A common test for exposed API
      */
     // ReSharper disable once CppMemberFunctionMayBeStatic
     // ReSharper disable once CppMemberFunctionMayBeConst

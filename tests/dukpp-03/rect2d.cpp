@@ -10,20 +10,15 @@
 #pragma warning(pop)
 
 
-static double getWidth(const sad::Size2I& x)
-{
-    return x.Width;
-}
 
-struct Size2ITest : tpunit::TestFixture
+struct Rect2DTest : tpunit::TestFixture
 {
 public:
-    Size2ITest() : tpunit::TestFixture(
-       TEST(Size2ITest::testCommon),
-       TEST(Size2ITest::testClone),
-       TEST(Size2ITest::testTo2D),
-       TEST(Size2ITest::testToString),
-       TEST(Size2ITest::testAutoCast)           
+    Rect2DTest() : tpunit::TestFixture(
+       TEST(Rect2DTest::testCommon),
+       TEST(Rect2DTest::testClone),
+       TEST(Rect2DTest::testTo2I),
+       TEST(Rect2DTest::testToString)
     ) {}
 
     /*! A common test for exposed API
@@ -34,7 +29,7 @@ public:
     {
         std::string error;
         sad::dukpp03::Context ctx;
-        bool eval_result = ctx.eval("var b = new sad.Size2I(); var c = new sad.Size2I(2,3); b.width = 5; b.height = 6; b.width + b.height + c.width + c.height", false, &error);
+        bool eval_result = ctx.eval("var a = new sad.Rect2D(0, 0, 8, 8); a.p0().x + a.p1().x + a.p2().x + a.p3().x + a.width() + a.height()", false, &error);
         if (!eval_result)
         {
             printf("%s\n", error.c_str());
@@ -43,7 +38,7 @@ public:
         ASSERT_TRUE( error.size() == 0 );
         ::dukpp03::Maybe<int> result = ::dukpp03::GetValue<int, sad::dukpp03::BasicContext>::perform(&ctx, -1);
         ASSERT_TRUE( result.exists() );
-        ASSERT_TRUE( result.value() == 16);      
+        ASSERT_TRUE( result.value() == 32);      
     }
 
     /*! A common test for cloning
@@ -54,7 +49,7 @@ public:
     {
         std::string error;
         sad::dukpp03::Context ctx;
-        bool eval_result = ctx.eval("var b = new sad.Size2I(3,4); var c = b.clone(); b.width = 34; c.width", false, &error);
+        bool eval_result = ctx.eval("var b = new sad.Rect2D(); var c = b.clone(); c.p0().x", false, &error);
         if (!eval_result)
         {
             printf("%s\n", error.c_str());
@@ -63,18 +58,18 @@ public:
         ASSERT_TRUE( error.size() == 0 );
         ::dukpp03::Maybe<int> result = ::dukpp03::GetValue<int, sad::dukpp03::BasicContext>::perform(&ctx, -1);
         ASSERT_TRUE( result.exists() );
-        ASSERT_TRUE( result.value() == 3);      
+        ASSERT_TRUE( result.value() == 0);      
     }
 
-    /*! A common test for .to2D
+    /*! A common test for .to2I
      */
     // ReSharper disable once CppMemberFunctionMayBeStatic
     // ReSharper disable once CppMemberFunctionMayBeConst
-    void testTo2D()
+    void testTo2I()
     {
         std::string error;
         sad::dukpp03::Context ctx;
-        bool eval_result = ctx.eval("var b = new sad.Size2I(3,4); b.to2d().width", false, &error);
+        bool eval_result = ctx.eval("var b = new sad.Rect2D(); b.to2i().p0().x", false, &error);
         if (!eval_result)
         {
             printf("%s\n", error.c_str());
@@ -83,7 +78,7 @@ public:
         ASSERT_TRUE( error.size() == 0 );
         ::dukpp03::Maybe<int> result = ::dukpp03::GetValue<int, sad::dukpp03::BasicContext>::perform(&ctx, -1);
         ASSERT_TRUE( result.exists() );
-        ASSERT_TRUE( result.value() == 3);      
+        ASSERT_TRUE( result.value() == 0);      
     }
 
     
@@ -95,7 +90,7 @@ public:
     {
         std::string error;
         sad::dukpp03::Context ctx;
-        bool eval_result = ctx.eval("var b = new sad.Size2I(); b.toString()", false, &error);
+        bool eval_result = ctx.eval("var b = new sad.Rect2D(); b.toString()", false, &error);
         if (!eval_result)
         {
             printf("%s\n", error.c_str());
@@ -104,44 +99,7 @@ public:
         ASSERT_TRUE( error.size() == 0 );
         ::dukpp03::Maybe<sad::String> result = ::dukpp03::GetValue<sad::String, sad::dukpp03::BasicContext>::perform(&ctx, -1);
         ASSERT_TRUE( result.exists() );
-        ASSERT_TRUE( result.value() == "sad::Size2I(0,0)");        
+        ASSERT_TRUE( result.value().size() != 0);        
     }
 
-    /*! A an automatical cast test
-     */
-    // ReSharper disable once CppMemberFunctionMayBeStatic
-    // ReSharper disable once CppMemberFunctionMayBeConst
-    void testAutoCast()
-    {
-        std::string error;
-        sad::dukpp03::Context ctx;
-        ctx.registerCallable("getWidth", sad::dukpp03::make_function::from(getWidth));
-
-        {
-            bool eval_result = ctx.eval("getWidth(new sad.Size2D(5, 4))", false, &error);
-            if (!eval_result)
-            {
-                printf("%s\n", error.c_str());
-            }
-            ASSERT_TRUE( eval_result );
-            ASSERT_TRUE( error.size() == 0 );
-            ::dukpp03::Maybe<int> result = ::dukpp03::GetValue<int, sad::dukpp03::BasicContext>::perform(&ctx, -1);
-            ASSERT_TRUE( result.exists() );
-            ASSERT_TRUE( result.value() == 5);  
-        }
-
-        {
-            bool eval_result = ctx.eval("getWidth({\"width\" : 5, \"height\" : 4})", false, &error);
-            if (!eval_result)
-            {
-                printf("%s\n", error.c_str());
-            }
-            ASSERT_TRUE( eval_result );
-            ASSERT_TRUE( error.size() == 0 );
-            ::dukpp03::Maybe<int> result = ::dukpp03::GetValue<int, sad::dukpp03::BasicContext>::perform(&ctx, -1);
-            ASSERT_TRUE( result.exists() );
-            ASSERT_TRUE( result.value() == 5);  
-        }
-    }
-
-} _size2i_test;
+} _rect2d_test;
