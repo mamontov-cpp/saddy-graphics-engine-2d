@@ -129,6 +129,42 @@ sad.Point3I.prototype.toString = function() {
 	return "sad::Point3I(" + this.x + ',' + this.y + ',' + this.z + ')';
 };
 
+// sad.p2d.Vector bindings
+
+sad.p2d = {};
+sad.p2d.Vector = SadP2DVector;
+
+
+sad.p2d.Vector.prototype.to3d = function() {
+	return new sad.Point3D(this.x, this.y, 0);
+};
+
+sad.p2d.Vector.prototype.to3i = function() {
+	return new sad.Point3I(this.x, this.y, 0);
+};
+
+sad.p2d.Vector.prototype.to2i = function() {
+	return new sad.Point2I(this.x, this.y);
+};
+
+sad.p2d.Vector.prototype.makeWithFn = function(fn, o) {
+	return new sad.Point2D(fn(this.x, o.x), fn(this.y, o.y));
+};
+
+sad.internal.makeMathFns(sad.p2d.Vector.prototype);
+
+sad.p2d.Vector.prototype.toString = function() {
+	return "sad::p2d::Vector(" + this.x + ',' + this.y + ')';
+};
+
+sad.p2d.modulo = SadP2DModulo;
+sad.p2d.basis = SadP2DBasis;
+sad.p2d.unit = SadP2DUnit;
+sad.p2d.scalar = SadP2DScalar;
+sad.p2d.ortho = SadP2DOrtho;
+sad.p2d.OVI_DEG_90 = 0;
+sad.p2d.OVI_DEG_270 = 1;
+
 // console object
 
 var console = {};

@@ -647,6 +647,9 @@ protected:
     /*! Exposes Point3D bindings
      */
     void exposePoint3I();
+    /*! Expose sad::p2d::Vector
+     */
+    void exposeP2DVector();
 };
 
 #undef SAD_DUKPP03_TEMPLATE_REGFUNC_BODY

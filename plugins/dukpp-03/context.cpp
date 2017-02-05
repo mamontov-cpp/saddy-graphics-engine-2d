@@ -1,6 +1,7 @@
 #include "dukpp-03/context.h"
 
 #include <sadpoint.h>
+#include <p2d/vector.h>
 
 #include <renderer.h>
 #include <util/fs.h>
@@ -192,6 +193,7 @@ void sad::dukpp03::Context::initialize()
     this->exposePoint3D();
     this->exposePoint2I();
     this->exposePoint3I();
+    this->exposeP2DVector();
 
     std::string error;
     bool ok =  this->eval(__context_eval_info, true, &error);
@@ -251,4 +253,29 @@ void sad::dukpp03::Context::exposePoint3I()
     c->addCloneValueObjectMethodFor<sad::Point3I>();
 
     this->addClassBinding("sad::Point3I", c);  
+}
+
+
+static sad::p2d::Vector local_ortho(const sad::p2d::Vector& v, int ortho)
+{
+    return sad::p2d::ortho(v, sad::p2d::OrthoVectorIndex(ortho));
+}
+
+void sad::dukpp03::Context::exposeP2DVector()
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addConstructor<sad::p2d::Vector>("SadP2DVector");
+    c->addConstructor<sad::p2d::Vector, double, double>("SadP2DVector");
+    c->addAccessor("x", sad::dukpp03::rebind_method::to<sad::p2d::Vector>::from(&sad::Point2D::x), sad::dukpp03::rebind_method::to<sad::p2d::Vector>::from(&sad::Point2D::setX));
+    c->addAccessor("y", sad::dukpp03::rebind_method::to<sad::p2d::Vector>::from(&sad::Point2D::y), sad::dukpp03::rebind_method::to<sad::p2d::Vector>::from(&sad::Point2D::setY));
+    c->addMethod("distance", sad::dukpp03::rebind_method::to<sad::p2d::Vector>::from(&sad::Point2D::distance));
+    c->addCloneValueObjectMethodFor<sad::p2d::Vector>();
+
+    this->registerCallable("SadP2DModulo", sad::dukpp03::make_function::from(sad::p2d::modulo));
+    this->registerCallable("SadP2DBasis", sad::dukpp03::make_function::from(sad::p2d::basis));
+    this->registerCallable("SadP2DUnit", sad::dukpp03::make_function::from(sad::p2d::unit));
+    this->registerCallable("SadP2DScalar", sad::dukpp03::make_function::from(sad::p2d::scalar));
+    this->registerCallable("SadP2DOrtho", sad::dukpp03::make_function::from(local_ortho));
+
+    this->addClassBinding("sad::p2d::Vector", c);    
 }
