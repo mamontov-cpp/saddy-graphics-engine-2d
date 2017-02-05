@@ -94,7 +94,9 @@
     <ClCompile Include="context.cpp" />
     <ClCompile Include="convert.cpp" />
     <ClCompile Include="point2d.cpp" />
+    <ClCompile Include="point2i.cpp" />
     <ClCompile Include="point3d.cpp" />
+    <ClCompile Include="point3i.cpp" />
     <ClCompile Include="wrapping.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>

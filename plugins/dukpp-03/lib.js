@@ -2,6 +2,9 @@ var sad = {};
 sad.internal = {};
 sad.Point2D = SadPoint2D;
 sad.Point3D = SadPoint3D;
+sad.Point2I = SadPoint2I;
+sad.Point3I = SadPoint3I;
+
 
 sad.internal.plus = function(a, b) { return a + b; };
 sad.internal.minus = function(a, b) { return a - b; };
@@ -53,7 +56,6 @@ sad.Point2D.prototype.toString = function() {
 
 //  sad.Point3D bindings
 
-
 sad.Point3D.prototype.to2d = function() {
 	return new sad.Point2D(this.x, this.y);
 };
@@ -76,6 +78,58 @@ sad.internal.makeMathFns(sad.Point3D.prototype);
 sad.Point3D.prototype.toString = function() {
 	return "sad::Point3D(" + this.x + ',' + this.y + ',' + this.z + ')';
 };
+
+// sad.Point2I 
+
+sad.Point2I.prototype.to2d = function() {
+	return new sad.Point2D(this.x, this.y);
+};
+
+sad.Point2I.prototype.to3d = function() {
+	return new sad.Point3D(this.x, this.y, 0);
+};
+
+sad.Point2I.prototype.to3i = function() {
+	return new sad.Point3I(this.x, this.y, 0);
+};
+
+
+sad.Point2I.prototype.makeWithFn = function(fn, o) {
+	return new sad.Point2I(fn(this.x, o.x), fn(this.y, o.y));
+};
+
+sad.internal.makeMathFns(sad.Point2I.prototype);
+
+sad.Point2I.prototype.toString = function() {
+	return "sad::Point2I(" + this.x + ',' + this.y  + ')';
+};
+
+// sad.Point3I
+
+sad.Point3I.prototype.to2d = function() {
+	return new sad.Point2D(this.x, this.y);
+};
+
+sad.Point3I.prototype.to2i = function() {
+	return new sad.Point2I(this.x, this.y);
+};
+
+sad.Point3I.prototype.to3d = function() {
+	return new sad.Point3D(this.x, this.y, this.z);
+};
+
+
+sad.Point3I.prototype.makeWithFn = function(fn, o) {
+	return new sad.Point3I(fn(this.x, o.x), fn(this.y, o.y), fn(this.z, o.z));
+};
+
+sad.internal.makeMathFns(sad.Point3I.prototype);
+
+sad.Point3I.prototype.toString = function() {
+	return "sad::Point3I(" + this.x + ',' + this.y + ',' + this.z + ')';
+};
+
+// console object
 
 var console = {};
 console.dump = function(o) {

@@ -190,6 +190,8 @@ void sad::dukpp03::Context::initialize()
 
     this->exposePoint2D();
     this->exposePoint3D();
+    this->exposePoint2I();
+    this->exposePoint3I();
 
     std::string error;
     bool ok =  this->eval(__context_eval_info, true, &error);
@@ -222,4 +224,31 @@ void sad::dukpp03::Context::exposePoint3D()
     c->addCloneValueObjectMethodFor<sad::Point3D>();
 
     this->addClassBinding("sad::Point3D", c);    
+}
+
+void sad::dukpp03::Context::exposePoint2I()
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addConstructor<sad::Point2I>("SadPoint2I");
+    c->addConstructor<sad::Point2I, int, int>("SadPoint2I");
+    c->addAccessor("x", sad::dukpp03::bind_method::from(&sad::Point2I::x), sad::dukpp03::bind_method::from(&sad::Point2I::setX));
+    c->addAccessor("y", sad::dukpp03::bind_method::from(&sad::Point2I::y), sad::dukpp03::bind_method::from(&sad::Point2I::setY));
+    c->addMethod("distance", sad::dukpp03::bind_method::from(&sad::Point2I::distance));
+    c->addCloneValueObjectMethodFor<sad::Point2I>();
+
+    this->addClassBinding("sad::Point2I", c);       
+}
+
+void sad::dukpp03::Context::exposePoint3I()
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addConstructor<sad::Point3I>("SadPoint3I");
+    c->addConstructor<sad::Point3I, int, int, int>("SadPoint3I");
+    c->addAccessor("x", sad::dukpp03::rebind_method::to<sad::Point3I>::from(&sad::Point2I::x), sad::dukpp03::rebind_method::to<sad::Point3I>::from(&sad::Point2I::setX));
+    c->addAccessor("y", sad::dukpp03::rebind_method::to<sad::Point3I>::from(&sad::Point2I::y), sad::dukpp03::rebind_method::to<sad::Point3I>::from(&sad::Point2I::setY));
+    c->addAccessor("z", sad::dukpp03::bind_method::from(&sad::Point3I::z), sad::dukpp03::bind_method::from(&sad::Point3I::setZ));
+    c->addMethod("distance", sad::dukpp03::bind_method::from(&sad::Point3I::distance));
+    c->addCloneValueObjectMethodFor<sad::Point3I>();
+
+    this->addClassBinding("sad::Point3I", c);  
 }

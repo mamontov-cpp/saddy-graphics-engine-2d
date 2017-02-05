@@ -641,6 +641,12 @@ protected:
     /*! Exposes Point3D bindings
      */
     void exposePoint3D();
+    /*! Exposes Point2I bindings
+     */
+    void exposePoint2I();
+    /*! Exposes Point3D bindings
+     */
+    void exposePoint3I();
 };
 
 #undef SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
