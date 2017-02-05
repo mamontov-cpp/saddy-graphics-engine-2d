@@ -1,6 +1,7 @@
 #include "dukpp-03/context.h"
 
 #include <sadpoint.h>
+#include <sadsize.h>
 #include <p2d/vector.h>
 
 #include <renderer.h>
@@ -194,6 +195,8 @@ void sad::dukpp03::Context::initialize()
     this->exposePoint2I();
     this->exposePoint3I();
     this->exposeP2DVector();
+    this->exposeSize2D();
+    this->exposeSize2I();
 
     std::string error;
     bool ok =  this->eval(__context_eval_info, true, &error);
@@ -279,3 +282,28 @@ void sad::dukpp03::Context::exposeP2DVector()
 
     this->addClassBinding("sad::p2d::Vector", c);    
 }
+
+void  sad::dukpp03::Context::exposeSize2D()
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addConstructor<sad::Size2D>("SadSize2D");
+    c->addConstructor<sad::Size2D, double, double>("SadSize2D");
+    c->addAccessor("width", sad::dukpp03::getter::from(&sad::Size2D::Width), sad::dukpp03::setter::from(&sad::Size2D::Width));
+    c->addAccessor("height", sad::dukpp03::getter::from(&sad::Size2D::Height), sad::dukpp03::setter::from(&sad::Size2D::Height));
+    c->addCloneValueObjectMethodFor<sad::Size2D>();
+
+    this->addClassBinding("sad::Size2D", c);
+}
+
+void  sad::dukpp03::Context::exposeSize2I()
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addConstructor<sad::Size2I>("SadSize2I");
+    c->addConstructor<sad::Size2I, int, int>("SadSize2I");
+    c->addAccessor("width", sad::dukpp03::getter::from(&sad::Size2I::Width), sad::dukpp03::setter::from(&sad::Size2I::Width));
+    c->addAccessor("height", sad::dukpp03::getter::from(&sad::Size2I::Height), sad::dukpp03::setter::from(&sad::Size2I::Height));
+    c->addCloneValueObjectMethodFor<sad::Size2I>();
+
+    this->addClassBinding("sad::Size2I", c);   
+}
+

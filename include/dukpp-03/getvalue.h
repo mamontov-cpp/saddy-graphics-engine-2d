@@ -6,6 +6,7 @@
 #include "basiccontext.h"
 #include "../sadstring.h"
 #include "../sadpoint.h"
+#include "../sadsize.h"
 // ReSharper disable once CppUnusedIncludeDirective
 #include "../db/save.h"
 #include "../db/load.h"
@@ -224,5 +225,41 @@ static ::dukpp03::Maybe<sad::Point3I> perform(
 
 };
 
+
+/*! An instantiation for sad::Size2D
+ */
+template<>
+class GetValue<sad::Size2D,  sad::dukpp03::BasicContext>
+{
+public:
+/*! Performs getting value from stack
+    \param[in] ctx context
+    \param[in] pos index for stack
+    \return a value if it exists, otherwise empty maybe
+ */
+static ::dukpp03::Maybe<sad::Size2D> perform(
+    sad::dukpp03::BasicContext* ctx,
+    duk_idx_t pos
+);
+
+};
+
+/*! An instantiation for sad::Size2D
+ */
+template<>
+class GetValue<sad::Size2I,  sad::dukpp03::BasicContext>
+{
+public:
+/*! Performs getting value from stack
+    \param[in] ctx context
+    \param[in] pos index for stack
+    \return a value if it exists, otherwise empty maybe
+ */
+static ::dukpp03::Maybe<sad::Size2I> perform(
+    sad::dukpp03::BasicContext* ctx,
+    duk_idx_t pos
+);
+
+};
 
 }

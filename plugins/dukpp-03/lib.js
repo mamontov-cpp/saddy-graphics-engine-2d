@@ -165,6 +165,26 @@ sad.p2d.ortho = SadP2DOrtho;
 sad.p2d.OVI_DEG_90 = 0;
 sad.p2d.OVI_DEG_270 = 1;
 
+// sad.Size2D
+
+sad.Size2D = SadSize2D;
+sad.Size2D.prototype.to2i = function() {
+	return new sad.Size2I(this.width, this.height);
+};
+sad.Size2D.prototype.toString = function() {
+	return "sad::Size2D(" + this.width + ',' + this.height + ')';
+};
+
+// sad.Size2I
+
+sad.Size2I = SadSize2I;
+sad.Size2I.prototype.to2d = function() {
+	return new sad.Size2D(this.width, this.height);
+};
+sad.Size2I.prototype.toString = function() {
+	return "sad::Size2I(" + this.width + ',' + this.height + ')';
+};
+
 // console object
 
 var console = {};

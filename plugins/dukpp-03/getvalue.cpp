@@ -337,3 +337,69 @@ dukpp03::Maybe<sad::db::Object*> dukpp03::GetValue<sad::db::Object*,  sad::dukpp
     }
     return result;
 }
+
+
+
+::dukpp03::Maybe<sad::Size2D>  dukpp03::GetValue<sad::Size2D,  sad::dukpp03::BasicContext>::perform(
+    sad::dukpp03::BasicContext* ctx,
+    duk_idx_t pos
+)
+{
+    ::dukpp03::Maybe<sad::Size2D> result;
+    ::dukpp03::internal::TryGetValueFromObject<sad::Size2D, sad::dukpp03::BasicContext>::perform(ctx, pos, result);
+    if (result.exists() == false)
+    {
+        ::dukpp03::Maybe<sad::Size2D*> result2;
+        ::dukpp03::internal::TryGetValueFromObject<sad::Size2D*, sad::dukpp03::BasicContext>::perform(ctx, pos, result2);
+        if (result2.exists())
+        {
+            result.setReference(result2.value());
+        }
+        else
+        {
+            if (duk_is_object(ctx->context(), pos))
+            {
+                ::dukpp03::Maybe<double> maybewidth = ::dukpp03::internal::tryGetDoubleProperty(ctx, pos, "width");
+                ::dukpp03::Maybe<double> maybeheight = ::dukpp03::internal::tryGetDoubleProperty(ctx, pos, "height");
+                if (maybewidth.exists() && maybeheight.exists())
+                {
+                    result.setValue(sad::Size2D(maybewidth.value(), maybeheight.value()));
+                }
+            }
+        }
+    }
+    return result;
+}
+
+
+::dukpp03::Maybe<sad::Size2I>  dukpp03::GetValue<sad::Size2I,  sad::dukpp03::BasicContext>::perform(
+    sad::dukpp03::BasicContext* ctx,
+    duk_idx_t pos
+)
+{
+    ::dukpp03::Maybe<sad::Size2I> result;
+    ::dukpp03::internal::TryGetValueFromObject<sad::Size2I, sad::dukpp03::BasicContext>::perform(ctx, pos, result);
+    if (result.exists() == false)
+    {
+        ::dukpp03::Maybe<sad::Size2I*> result2;
+        ::dukpp03::internal::TryGetValueFromObject<sad::Size2I*, sad::dukpp03::BasicContext>::perform(ctx, pos, result2);
+        if (result2.exists())
+        {
+            result.setReference(result2.value());
+        }
+        else
+        {
+            if (duk_is_object(ctx->context(), pos))
+            {
+                ::dukpp03::Maybe<int> maybewidth = ::dukpp03::internal::tryGetIntProperty(ctx, pos, "width");
+                ::dukpp03::Maybe<int> maybeheight = ::dukpp03::internal::tryGetIntProperty(ctx, pos, "height");
+                if (maybewidth.exists() && maybeheight.exists())
+                {
+                    result.setValue(sad::Size2I(maybewidth.value(), maybeheight.value()));
+                }
+            }
+        }
+    }
+    return result;
+}
+

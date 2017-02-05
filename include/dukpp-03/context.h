@@ -650,6 +650,12 @@ protected:
     /*! Expose sad::p2d::Vector
      */
     void exposeP2DVector();
+    /*! Expose sad::Size2D
+     */
+    void exposeSize2D();
+    /*! Expose sad::Size2I
+     */
+    void exposeSize2I();
 };
 
 #undef SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
