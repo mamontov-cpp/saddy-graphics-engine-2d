@@ -101,6 +101,10 @@ void sad::dukpp03::Context::setRenderer(sad::Renderer* r)
 
 sad::Renderer* sad::dukpp03::Context::renderer() const
 {
+    if (!m_renderer)
+    {
+        return sad::Renderer::ref();
+    }
     return m_renderer;
 }
 
