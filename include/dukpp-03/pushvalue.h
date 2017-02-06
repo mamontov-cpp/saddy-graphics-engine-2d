@@ -6,6 +6,8 @@
 #include "basiccontext.h"
 #include "../sadstring.h"
 #include "../db/dbvariant.h"
+#include "../sadvector.h"
+#include "../sadhash.h"
 
 namespace dukpp03
 {
@@ -31,6 +33,76 @@ template<
 }
 
 }
+
+
+
+/*! Pushes a linear structure on stack
+ */
+template<
+    template<
+        typename Value
+    > 
+    class _LinearStructure,
+    typename _ValueType,
+    typename _Context
+>
+class PushLinearStructure
+{
+public:
+     /*! Performs pushing value from stack
+         \param[in] c context
+         \param[in] result a result value
+     */
+    inline static void perform(
+        _Context* c,
+        const _LinearStructure<_ValueType> & result
+    )
+    {
+        duk_context* ctx = c->context();
+        int arr_idx = duk_push_array(ctx);
+        int index = 0;
+        for(typename _LinearStructure<_ValueType>::const_iterator it = result.begin(); it != result.end(); ++it)
+        {
+            dukpp03::PushValue<_ValueType, _Context>::perform(c, *it);
+            duk_put_prop_index(ctx, arr_idx, index);
+            ++index;
+        }        
+    }
+};
+
+
+/*! Pushes a dictionary structure on stack
+ */
+template<
+    template<
+        typename Key,
+        typename Value
+    > 
+    class _DictionaryStructure,
+    typename _ValueType,
+    typename _Context
+>
+class PushDictionaryStructure
+{
+public:
+     /*! Performs pushing value from stack
+         \param[in] c context
+         \param[in] result a result value
+     */
+    inline static void perform(
+        _Context* c,
+        const _DictionaryStructure<sad::String, _ValueType> & result
+    )
+    {
+        duk_context* ctx = c->context();
+        int obj_idx = duk_push_object(ctx);
+        for(typename _DictionaryStructure<sad::String, _ValueType>::const_iterator it = result.const_begin(); it != result.const_end(); ++it)
+        {
+            dukpp03::PushValue<_ValueType, _Context>::perform(c, it.value());
+            duk_put_prop_string(ctx, obj_idx, it.key().c_str());
+        }        
+    }
+};
 
 /*! An instantiation for pushing sad::String on stack
  */ 
@@ -92,6 +164,36 @@ static void perform(sad::dukpp03::BasicContext* ctx, T* v)
 }
     
 };
+
+
+template<typename T>
+class PushValue<sad::Vector<T>, sad::dukpp03::BasicContext>
+{
+public:
+    /*! Performs pushing value
+        \param[in] ctx context
+        \param[in] v value
+     */
+    static void perform(sad::dukpp03::BasicContext* ctx, const sad::Vector<T>& v)
+    {
+        ::dukpp03::PushLinearStructure<sad::Vector, T, sad::dukpp03::BasicContext>::perform(ctx, v);
+    }
+};
+
+template<typename T>
+class PushValue<sad::Hash<sad::String, T>, sad::dukpp03::BasicContext>
+{
+public:
+    /*! Performs pushing value
+        \param[in] ctx context
+        \param[in] v value
+     */
+    static void perform(sad::dukpp03::BasicContext* ctx, const sad::Hash<sad::String, T>& v)
+    {
+        ::dukpp03::PushDictionaryStructure<sad::Hash, T, sad::dukpp03::BasicContext>::perform(ctx, v);
+    }
+};
+
 
 }
  
