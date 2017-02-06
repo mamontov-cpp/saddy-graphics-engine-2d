@@ -21,7 +21,7 @@ devenv examples/multithreading/multithreading.vcxproj /Build %1 /out lastsolutio
 devenv examples/stress-physics/stress-physics.vcxproj /Build %1 /out lastsolutionbuild.log
 devenv tests/animations/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
 devenv tests/db/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
-devenv tests/duktape/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
+devenv tests/dukpp-03/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
 devenv tests/freetype/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
 devenv tests/hfsm/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
 devenv tests/input/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
