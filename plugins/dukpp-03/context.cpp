@@ -4,6 +4,8 @@
 #include <sadsize.h>
 #include <sadrect.h>
 #include <p2d/vector.h>
+#include <slurp.h>
+#include <spit.h>
 
 #include <renderer.h>
 #include <util/fs.h>
@@ -205,6 +207,7 @@ void sad::dukpp03::Context::initialize()
     this->exposeRect2D();
     this->exposeRect2I();
     this->exposeUtilFS();
+    this->exposeSlurpSpit();
 
     std::string error;
     bool ok =  this->eval(__context_eval_info, true, &error);
@@ -375,3 +378,56 @@ void sad::dukpp03::Context::exposeUtilFS()
     this->registerCallable("SadUtilFolder", sad::dukpp03::make_function::from(sad::util::folder));
     this->registerCallable("SadUtilFileExists", sad::dukpp03::make_function::from(___file_exists));
 }
+
+
+static duk_ret_t __slurp(duk_context* c)
+{
+    sad::dukpp03::Context* ctx = static_cast<sad::dukpp03::Context*>(sad::dukpp03::BasicContext::getContext(c));
+    ::dukpp03::Maybe<sad::String> maybefile = ::dukpp03::GetValue<sad::String, sad::dukpp03::BasicContext>::perform(ctx, 0);
+    if (maybefile.exists())
+    {
+        sad::Maybe<sad::String> maybecontent = sad::slurp(maybefile.value(), ctx->renderer());
+        if (maybecontent.exists())
+        {
+            ::dukpp03::PushValue<sad::String, sad::dukpp03::BasicContext>::perform(ctx, maybecontent.value());
+        }
+        else
+        {
+            duk_push_null(c);
+        }
+        return 1;
+    }
+    
+    ctx->throwInvalidTypeError(1, "sad::String");
+    return 0;
+}
+
+
+
+
+static duk_ret_t __spit(duk_context* c)
+{
+    sad::dukpp03::Context* ctx = static_cast<sad::dukpp03::Context*>(sad::dukpp03::BasicContext::getContext(c));
+    ::dukpp03::Maybe<sad::String> maybefile = ::dukpp03::GetValue<sad::String, sad::dukpp03::BasicContext>::perform(ctx, 0);
+    if (maybefile.exists())
+    {
+        ::dukpp03::Maybe<sad::String> maybecontent = ::dukpp03::GetValue<sad::String, sad::dukpp03::BasicContext>::perform(ctx, 1);
+        if (maybecontent.exists())
+        {
+            bool result = sad::spit(maybefile.value(), maybecontent.value(), ctx->renderer());
+            ::dukpp03::PushValue<bool, sad::dukpp03::BasicContext>::perform(ctx, result);
+            return 1;
+        }
+        ctx->throwInvalidTypeError(2, "sad::String");
+        return 0;
+    }      
+    ctx->throwInvalidTypeError(1, "sad::String");
+    return 0;
+}
+
+void sad::dukpp03::Context::exposeSlurpSpit()
+{
+    this->registerNativeFunction("SadSlurp", __slurp, 1);
+    this->registerNativeFunction("SadSpit", __spit, 2);
+}
+

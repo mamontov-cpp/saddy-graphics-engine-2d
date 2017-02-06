@@ -665,6 +665,9 @@ protected:
     /*! Expose sad::util and fs
      */
     void exposeUtilFS();
+    /*! Exposes slurp and spit functions
+     */
+    void exposeSlurpSpit();
 };
 
 #undef SAD_DUKPP03_TEMPLATE_REGFUNC_BODY

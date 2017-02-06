@@ -309,3 +309,20 @@ sad.fs.concatPaths = SadUtilConcatPaths;
 sad.fs.folder = SadUtilFolder;
 sad.fs.fileExists = SadUtilFileExists;
 sad.internal.copyObject(sad.util, sad.fs);
+
+// sad.spit and sad.slurp
+
+sad.spit = SadSpit;
+sad.slurp = SadSlurp;
+
+sad.spitJSON = function(a, obj) {
+    return sad.spit(a, JSON.stringify(obj, null, 2));
+};
+
+sad.slurpJSON = function(o) {
+    var  r = sad.slurp(o);
+    if (r !== null) {
+        return JSON.parse(r);
+    }
+    return null;
+};
