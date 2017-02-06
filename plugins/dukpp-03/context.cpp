@@ -200,6 +200,7 @@ void sad::dukpp03::Context::initialize()
     this->exposeSize2I();
     this->exposeRect2D();
     this->exposeRect2I();
+    this->exposeUtilFS();
 
     std::string error;
     bool ok =  this->eval(__context_eval_info, true, &error);
@@ -356,3 +357,17 @@ void sad::dukpp03::Context::exposeRect2I()
     this->addClassBinding("sad::Rect2I", c);       
 }
 
+static bool ___file_exists(const sad::String& s)
+{
+    return sad::util::fileExists(s.c_str());
+}
+
+void sad::dukpp03::Context::exposeUtilFS()
+{
+    this->registerCallable("SadUtilPathDelimiter", sad::dukpp03::make_function::from(sad::util::pathDelimiter));
+    this->registerCallable("SadUtilCanonicalizePath", sad::dukpp03::make_function::from(sad::util::canonicalizePath));
+    this->registerCallable("SadUtilIsAbsolutePath", sad::dukpp03::make_function::from(sad::util::isAbsolutePath));
+    this->registerCallable("SadUtilConcatPaths", sad::dukpp03::make_function::from(sad::util::concatPaths));
+    this->registerCallable("SadUtilFolder", sad::dukpp03::make_function::from(sad::util::folder));
+    this->registerCallable("SadUtilFileExists", sad::dukpp03::make_function::from(___file_exists));
+}

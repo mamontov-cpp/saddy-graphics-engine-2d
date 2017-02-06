@@ -662,6 +662,9 @@ protected:
     /*! Expose sad::Rect2I
      */
     void exposeRect2I();
+    /*! Expose sad::util and fs
+     */
+    void exposeUtilFS();
 };
 
 #undef SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
