@@ -10,6 +10,8 @@
 #include <renderer.h>
 #include <util/fs.h>
 
+#include <cstdio>
+
 
 DECLARE_COMMON_TYPE(sad::dukpp03::CompiledFunction)
 
@@ -208,9 +210,16 @@ void sad::dukpp03::Context::initialize()
     this->exposeRect2I();
     this->exposeUtilFS();
     this->exposeSlurpSpit();
+    this->exposeContext();
 
     std::string error;
     bool ok =  this->eval(__context_eval_info, true, &error);
+#ifdef CONFIG_DEBUG
+    if (!ok)
+    {
+        printf("%s\n", error.c_str());
+    }
+#endif
     assert( ok );
 }
 
@@ -431,3 +440,69 @@ void sad::dukpp03::Context::exposeSlurpSpit()
     this->registerNativeFunction("SadSpit", __spit, 2);
 }
 
+
+static duk_ret_t __eval(duk_context* c)
+{
+    sad::dukpp03::Context* ctx = static_cast<sad::dukpp03::Context*>(sad::dukpp03::BasicContext::getContext(c));
+    ::dukpp03::Maybe<sad::dukpp03::Context*> maybectx = ::dukpp03::GetValue<sad::dukpp03::Context*, sad::dukpp03::BasicContext>::perform(ctx, 0);
+    if (maybectx.exists())
+    {
+        ::dukpp03::Maybe<sad::String> maybecontent = ::dukpp03::GetValue<sad::String, sad::dukpp03::BasicContext>::perform(ctx, 1);
+        if (maybecontent.exists())
+        {
+            std::string error;
+            bool result = maybectx.value()->eval(maybecontent.value(), true, &error);
+            if (!result)
+            {
+                ctx->throwError(error);
+            }
+            return 0;
+        }
+        ctx->throwInvalidTypeError(2, "sad::String");
+        return 0;
+    }      
+    ctx->throwInvalidTypeError(1, "sad::dukpp03::Context*");
+    return 0;
+}
+
+
+static duk_ret_t __eval_from_file(duk_context* c)
+{
+    sad::dukpp03::Context* ctx = static_cast<sad::dukpp03::Context*>(sad::dukpp03::BasicContext::getContext(c));
+    ::dukpp03::Maybe<sad::dukpp03::Context*> maybectx = ::dukpp03::GetValue<sad::dukpp03::Context*, sad::dukpp03::BasicContext>::perform(ctx, 0);
+    if (maybectx.exists())
+    {
+        ::dukpp03::Maybe<sad::String> maybecontent = ::dukpp03::GetValue<sad::String, sad::dukpp03::BasicContext>::perform(ctx, 1);
+        if (maybecontent.exists())
+        {
+            std::string error;
+            bool result = maybectx.value()->evalFromFile(maybecontent.value(), true, &error);
+            if (!result)
+            {
+                ctx->throwError(error);
+            }
+            return 0;
+        }
+        ctx->throwInvalidTypeError(2, "sad::String");
+        return 0;
+    }      
+    ctx->throwInvalidTypeError(1, "sad::dukpp03::Context*");
+    return 0;
+}
+
+void sad::dukpp03::Context::exposeContext()
+{
+    this->registerNativeFunction("SadContextEval", __eval, 2);
+    this->registerNativeFunction("SadContextEvalFromFile", __eval_from_file, 2); 
+
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addObjectConstructor<sad::dukpp03::Context>("SadContext");
+    c->addMethod("renderer", sad::dukpp03::bind_method::from(&sad::dukpp03::Context::renderer));
+    c->setPrototypeFunction("SadContext");
+
+    this->addClassBinding("sad::dukpp03::Context", c);       
+
+    this->registerGlobal("context", this);
+}
+
+DECLARE_COMMON_TYPE(sad::dukpp03::Context);

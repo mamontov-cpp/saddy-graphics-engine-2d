@@ -938,3 +938,5 @@ void sad::Renderer::clearNow()
 }
 
 
+DECLARE_COMMON_TYPE(sad::Renderer)
+

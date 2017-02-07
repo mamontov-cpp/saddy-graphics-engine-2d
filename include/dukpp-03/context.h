@@ -668,6 +668,9 @@ protected:
     /*! Exposes slurp and spit functions
      */
     void exposeSlurpSpit();
+    /*! Exposes context and it's functions
+     */
+    void exposeContext();
 };
 
 #undef SAD_DUKPP03_TEMPLATE_REGFUNC_BODY

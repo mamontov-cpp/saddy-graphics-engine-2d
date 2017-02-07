@@ -326,3 +326,28 @@ sad.slurpJSON = function(o) {
     }
     return null;
 };
+
+
+// context
+
+context.evalFromFile = function(string) {
+    var s = sad.slurp(string);
+    if (s == null) {
+        throw new Error("Cannot read file \"" + string + "\"");
+    }
+    return eval(s);
+};
+
+context.eval = function(string) {
+    return eval(string);
+};
+
+sad.Context = SadContext;
+
+sad.Context.prototype.eval = function(string) {
+    return SadContextEval(this, string);
+};
+
+sad.Context.prototype.evalFromFile = function(string) {
+    return SadContextEvalFromFile(this, string);
+};

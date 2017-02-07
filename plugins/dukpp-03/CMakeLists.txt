@@ -6,7 +6,7 @@ file(GLOB HDRS *.h)
 
 set(SADDY_LIBRARY_NAME "saddy-dukpp-03")
 
-set(SADDY_CXX_DEBUG_FLAGS "-Wno-reorder -Wno-unused -Wno-sign-compare -w")
+set(SADDY_CXX_DEBUG_FLAGS "-DCONFIG_DEBUG=1 -Wno-reorder -Wno-unused -Wno-sign-compare -w")
 set(SADDY_CXX_RELEASE_FLAGS "-O2 -Wno-reorder -Wno-unused -Wno-sign-compare -w")
 
 if (NOT CMAKE_BUILD_TYPE)

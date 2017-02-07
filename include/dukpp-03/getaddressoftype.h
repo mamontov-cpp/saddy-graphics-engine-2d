@@ -12,6 +12,8 @@ namespace sad
 namespace dukpp03
 {
 
+class Context;
+
 namespace internal
 {
 /*! A local conversion table for all conversions
@@ -110,6 +112,20 @@ public:
             return ::dukpp03::Maybe<_UnderlyingValue*>(&(result.mutableValue()));
         }
         return ::dukpp03::Maybe<_UnderlyingValue*>();
+    }
+};
+
+template<>
+struct GetAddressOfType<sad::dukpp03::Context*, false, false>
+{
+public: 
+    /*! Returns address of type, stored in variant.
+        \param[in] v value
+        \return empty maybe
+     */
+    inline static ::dukpp03::Maybe<sad::dukpp03::Context*> getAddress(sad::db::Variant* v)
+    {
+        return ::dukpp03::Maybe<sad::dukpp03::Context*>();
     }
 };
 
