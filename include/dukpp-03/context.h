@@ -678,6 +678,11 @@ protected:
 
 #undef SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
 
+/*! Exposes API, related to context
+    \param[in] ctx context
+ */
+void exposeAPI(sad::dukpp03::Context* ctx);
+
 }
 
 }

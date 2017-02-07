@@ -363,4 +363,8 @@ const std::string __context_eval_info = std::string("var sad = {};\n"
 "\n"
 "sad.Renderer = new Function();\n"
 "\n"
-"sad.Renderer.ref = SadRendererRef;\n");
+"sad.Renderer.ref = SadRendererRef;\n"
+"\n"
+"// sad.Settings bindings\n"
+"\n"
+"sad.Settings = SadSettings;\n");

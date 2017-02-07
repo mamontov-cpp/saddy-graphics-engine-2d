@@ -362,3 +362,7 @@ sad.Context.prototype.evalFromFile = function(string) {
 sad.Renderer = new Function();
 
 sad.Renderer.ref = SadRendererRef;
+
+// sad.Settings bindings
+
+sad.Settings = SadSettings;

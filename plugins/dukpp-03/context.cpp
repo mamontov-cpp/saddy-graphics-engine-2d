@@ -212,6 +212,7 @@ void sad::dukpp03::Context::initialize()
     this->exposeSlurpSpit();
     this->exposeContext();
     this->exposeRenderer();
+    exposeAPI(this);
 
     std::string error;
     bool ok =  this->eval(__context_eval_info, true, &error);
@@ -509,7 +510,10 @@ void sad::dukpp03::Context::exposeContext()
 
 void sad::dukpp03::Context::exposeRenderer()
 {
-    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding(); 
+    c->addMethod("init", sad::dukpp03::bind_method::from(&sad::Renderer::init));
+    c->addMethod("settings", sad::dukpp03::bind_method::from(&sad::Renderer::settings));
+
     c->setPrototypeFunction("sad.Renderer");
 
     this->addClassBinding("sad::Renderer", c); 

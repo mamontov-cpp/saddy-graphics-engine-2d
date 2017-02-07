@@ -1,4 +1,5 @@
 #include "settings.h"
+#include "db/dbtypename.h"
 
 sad::Settings::Settings() 
 : m_screenwidth(800.0),
@@ -45,3 +46,5 @@ sad::Settings::~Settings(void)
 {
 
 }
+
+DECLARE_COMMON_TYPE(sad::Settings);
