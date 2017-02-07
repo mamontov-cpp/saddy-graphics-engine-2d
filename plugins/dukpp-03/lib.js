@@ -261,8 +261,13 @@ console.dump = function(o) {
                 if (o.hasOwnProperty('toString'))
                 {
                     return o.toString();
+                } 
+                var hasPrototypeToString = false;
+                if (typeof o.prototype != "undefined")
+                {
+                    hasPrototypeToString = (o.prototype.hasOwnProperty('toString') && o.prototype.toString != Object.toString);
                 }
-                if (o.prototype.hasOwnProperty('toString') && o.prototype.toString != Object.toString)
+                if (hasPrototypeToString)
                 {
                     return o.toString();
                 }

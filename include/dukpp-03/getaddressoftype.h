@@ -9,6 +9,8 @@
 namespace sad
 {
 
+class Renderer;
+
 namespace dukpp03
 {
 
@@ -126,6 +128,20 @@ public:
     inline static ::dukpp03::Maybe<sad::dukpp03::Context*> getAddress(sad::db::Variant* v)
     {
         return ::dukpp03::Maybe<sad::dukpp03::Context*>();
+    }
+};
+
+template<>
+struct GetAddressOfType<sad::Renderer*, false, false>
+{
+public: 
+    /*! Returns address of type, stored in variant.
+        \param[in] v value
+        \return empty maybe
+     */
+    inline static ::dukpp03::Maybe<sad::Renderer*> getAddress(sad::db::Variant* v)
+    {
+        return ::dukpp03::Maybe<sad::Renderer*>();
     }
 };
 

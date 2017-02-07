@@ -498,6 +498,7 @@ void sad::dukpp03::Context::exposeContext()
     sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
     c->addObjectConstructor<sad::dukpp03::Context>("SadContext");
     c->addMethod("renderer", sad::dukpp03::bind_method::from(&sad::dukpp03::Context::renderer));
+    c->addMethod("setRenderer", sad::dukpp03::bind_method::from(&sad::dukpp03::Context::setRenderer));
     c->setPrototypeFunction("SadContext");
 
     this->addClassBinding("sad::dukpp03::Context", c);       
