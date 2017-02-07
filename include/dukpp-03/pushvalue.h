@@ -32,6 +32,14 @@ namespace internal
  */
 ::dukpp03::FinalizerFunction finalizer_maker(sad::RefCountable* o, sad::dukpp03::BasicContext* ctx);
 
+template<
+    typename T
+>
+sad::RefCountable* objectToRefCountable(void* object) 
+{
+	return reinterpret_cast<T*>(*reinterpret_cast<void**>(object));
+}
+
 /*! Returns default finalizer function
  */
 template<
@@ -168,6 +176,16 @@ public:
     \param[in] v value
  */
 static void perform(sad::dukpp03::BasicContext* ctx, T* v)
+{
+    ::dukpp03::FinalizerFunction f = ::dukpp03::internal::finalizer_maker(v, ctx);
+    ctx->template pushVariant<T*>(sad::dukpp03::BasicContext::VariantUtils::template makeFrom(v), f);
+}
+
+/*! Performs pushing value
+    \param[in] ctx context
+    \param[in] v value
+ */
+static void perform(sad::dukpp03::BasicContext* ctx, sad::RefCountable* v)
 {
     ::dukpp03::FinalizerFunction f = ::dukpp03::internal::finalizer_maker(v, ctx);
     ctx->template pushVariant<T*>(sad::dukpp03::BasicContext::VariantUtils::template makeFrom(v), f);
