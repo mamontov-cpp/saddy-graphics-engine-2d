@@ -7,6 +7,7 @@
 #include "getvalue.h"
 #include "pushvalue.h"
 #include "classbinding.h"
+#include "../refcountable.h"
 
 namespace sad
 {
@@ -31,7 +32,7 @@ typedef ::dukpp03::setter<sad::dukpp03::BasicContext> setter;
 #define SAD_DUKPP03_TEMPLATE_REGFUNC_BODY { this->registerCallable(name, sad::dukpp03::make_function::from(f)); }
 /*! A context, that should be used, when working with library
  */
-class Context: public sad::dukpp03::BasicContext
+class Context: public sad::dukpp03::BasicContext, public sad::RefCountable
 {
 public:
     /*! Construct default context

@@ -20,10 +20,25 @@ static duk_ret_t local_finalize(duk_context *ctx)
     return 0;
 }
 
-::dukpp03::FinalizerFunction dukpp03::internal::finalizer_maker(sad::db::Object* o)
+::dukpp03::FinalizerFunction dukpp03::internal::finalizer_maker(sad::db::Object* o, void* ctx)
 {
     o->addRef();
     return local_finalize;
+}
+
+::dukpp03::FinalizerFunction finalizer_maker(sad::RefCountable* o, sad::dukpp03::BasicContext* ctx)
+{
+    sad::RefCountable* ctxasref = static_cast<sad::RefCountable*>(static_cast<sad::dukpp03::Context*>(ctx));
+    if (ctxasref == o)
+    {
+        return  ::dukpp03::Finalizer<sad::dukpp03::BasicContext>::finalize;
+    }
+    else
+    {
+        // Ooops, here somehow we should get our object offset in finalizer. And finalizer maker don't know how it could be done. Maybe it should be placed in variant?
+
+        // Note, that sad::db::Object* is RefCountable too. Maybe we should have some related methods in refCountable? 
+    }
 }
 
 

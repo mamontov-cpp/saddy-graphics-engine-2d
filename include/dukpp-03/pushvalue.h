@@ -8,6 +8,7 @@
 #include "../db/dbvariant.h"
 #include "../sadvector.h"
 #include "../sadhash.h"
+#include "../refcountable.h"
 
 namespace dukpp03
 {
@@ -17,17 +18,26 @@ namespace internal
 {
 
 /*! A finalizer for objects, that adds reference to it and also, removes it when object is finalized
+    \param[in] o object
+    \param[in] 
     \return finalizer function, which delete reference if needed
  */
-::dukpp03::FinalizerFunction finalizer_maker(sad::db::Object* o);
+::dukpp03::FinalizerFunction finalizer_maker(sad::db::Object* o, sad::dukpp03::BasicContext* ctx);
 
+/*! A finalizer for objects, that adds reference to it and also, removes it when object is finalized, if this is not 
+    current context being pushed
+    \param[in] o object
+    \param[in] 
+    \return finalizer function, which delete reference if needed
+ */
+::dukpp03::FinalizerFunction finalizer_maker(sad::RefCountable* o, sad::dukpp03::BasicContext* ctx);
 
 /*! Returns default finalizer function
  */
 template<
     typename T
 >
-::dukpp03::FinalizerFunction finalizer_maker(T* o)
+::dukpp03::FinalizerFunction finalizer_maker(T* o, sad::dukpp03::BasicContext* ctx)
 {
     return ::dukpp03::Finalizer<sad::dukpp03::BasicContext>::finalize;
 }
@@ -159,7 +169,7 @@ public:
  */
 static void perform(sad::dukpp03::BasicContext* ctx, T* v)
 {
-    ::dukpp03::FinalizerFunction f = ::dukpp03::internal::finalizer_maker(v);
+    ::dukpp03::FinalizerFunction f = ::dukpp03::internal::finalizer_maker(v, ctx);
     ctx->template pushVariant<T*>(sad::dukpp03::BasicContext::VariantUtils::template makeFrom(v), f);
 }
     
