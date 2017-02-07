@@ -1,7 +1,19 @@
 #include "dukpp-03/context.h"
 #include "dukpp-03/pushvariant.h"
 
-static duk_ret_t local_finalize(duk_context *ctx)
+
+static duk_ret_t localFinalize(duk_context *ctx)
+{
+    return dukpp03::internal::unrefAndFinalize(ctx, dukpp03::internal::tryGetRefCountable<sad::db::Object>);
+}
+
+::dukpp03::FinalizerFunction dukpp03::internal::finalizerMaker(sad::db::Object* o, sad::dukpp03::BasicContext* ctx)
+{
+    o->addRef();
+    return localFinalize;
+}
+
+duk_ret_t dukpp03::internal::unrefAndFinalize(duk_context* ctx, sad::RefCountable* (*caster)(sad::db::Variant*))
 {
     sad::db::Variant* v =  dukpp03::Finalizer<sad::dukpp03::BasicContext>::getVariantToFinalize(ctx);
     sad::dukpp03::BasicContext* parent = static_cast<sad::dukpp03::BasicContext*>(::dukpp03::AbstractContext::getContext(ctx));
@@ -9,38 +21,17 @@ static duk_ret_t local_finalize(duk_context *ctx)
     {
         if (parent->isVariantRegistered(v))
         {
-            if (v->get<sad::db::Object*>().exists())
+            sad::RefCountable* result = caster(v);
+            if (result)
             {
-                v->get<sad::db::Object*>().value()->delRef();
+                result->delRef();
             }
             delete v;
             parent->unregisterVariant(v);
         }
     }
-    return 0;
+    return 0; 
 }
-
-::dukpp03::FinalizerFunction dukpp03::internal::finalizer_maker(sad::db::Object* o, void* ctx)
-{
-    o->addRef();
-    return local_finalize;
-}
-
-::dukpp03::FinalizerFunction finalizer_maker(sad::RefCountable* o, sad::dukpp03::BasicContext* ctx)
-{
-    sad::RefCountable* ctxasref = static_cast<sad::RefCountable*>(static_cast<sad::dukpp03::Context*>(ctx));
-    if (ctxasref == o)
-    {
-        return  ::dukpp03::Finalizer<sad::dukpp03::BasicContext>::finalize;
-    }
-    else
-    {
-        // Ooops, here somehow we should get our object offset in finalizer. And finalizer maker don't know how it could be done. Maybe it should be placed in variant?
-
-        // Note, that sad::db::Object* is RefCountable too. Maybe we should have some related methods in refCountable? 
-    }
-}
-
 
 void dukpp03::PushValue<sad::String, sad::dukpp03::BasicContext>::perform(sad::dukpp03::BasicContext* ctx, const std::string& v)
 {

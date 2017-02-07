@@ -29,6 +29,13 @@ public:
     {
         this->initialize(new sad::util::EmptyThreadExecutableFunction() );
     }
+    /*! Initializes thread with empty executable function
+        \param[in] f function
+     */
+    inline Thread(sad::AbsractThreadExecutableFunction * f)
+    {
+        this->initialize(f);
+    }
     /*! Constructs new thread as copy of current. Also current data of running
         thread is copied
         \param[in] o other thread

@@ -15,6 +15,7 @@
     <ClCompile Include="classbinding.cpp" />
     <ClCompile Include="context.cpp" />
     <ClCompile Include="dukpp-03.cpp" />
+    <ClCompile Include="exposeapi.cpp" />
     <ClCompile Include="getter.cpp" />
     <ClCompile Include="getvalue.cpp" />
     <ClCompile Include="pushvalue.cpp" />

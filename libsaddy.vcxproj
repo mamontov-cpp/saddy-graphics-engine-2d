@@ -494,6 +494,7 @@
     <ClInclude Include="include\geometry2d.h" />
     <ClInclude Include="include\geometry3d.h" />
     <ClInclude Include="include\glcontext.h" />
+    <ClInclude Include="include\isrefcountable.h" />
     <ClInclude Include="include\keycodes.h" />
     <ClInclude Include="include\keymouseconditions.h" />
     <ClInclude Include="include\label.h" />

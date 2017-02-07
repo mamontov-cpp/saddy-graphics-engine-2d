@@ -8,7 +8,7 @@
 #include "../db/dbvariant.h"
 #include "../sadvector.h"
 #include "../sadhash.h"
-#include "../refcountable.h"
+#include "../isrefcountable.h"
 
 namespace dukpp03
 {
@@ -17,37 +17,98 @@ namespace dukpp03
 namespace internal
 {
 
+/*! Tries to get ref-countable from variant via getting type
+    \param[in] v variant
+    \return data
+ */
+template<
+    typename _Type
+>
+sad::RefCountable* tryGetRefCountable(sad::db::Variant* v)
+{
+    sad::Maybe<_Type*> t = v->get<_Type*>();
+    if (t.exists())
+    {
+        return t.value();
+    }
+    return NULL;
+}
+
+/*! A generic finalizer for non-refcountable objects
+ */
+template<
+    typename _Type, 
+    bool _IsRefCountable
+>
+struct LocalFinalizer
+{
+    /*! Returns finalization function
+     
+        \param[in] ctx context
+        \return context result
+     */
+    static FinalizerFunction getFinalizerFunction(_Type* o, sad::dukpp03::BasicContext* ctx)
+    {
+        return ::dukpp03::Finalizer<sad::dukpp03::BasicContext>::finalize;
+    }
+};
+
+/*! A generic function for dereferencing reference-countable object when finalizing
+     \param[in] ctx context
+     \param[in] caster a function for fetching ref-countable value
+ */
+duk_ret_t unrefAndFinalize(duk_context* ctx, sad::RefCountable* (*caster)(sad::db::Variant*));
+
+
+/*! A generic finalizer for refcountable objects
+ */
+template<
+    typename _Type
+>
+struct LocalFinalizer<_Type, true>
+{
+    /*! A finalization function
+        \param[in] ctx context
+        \return 0
+     */
+    static duk_ret_t finalize(duk_context* ctx)
+    {
+        return ::dukpp03::internal::unrefAndFinalize(ctx, dukpp03::internal::tryGetRefCountable<_Type>);
+    }
+
+    /*! Returns finalization function
+     
+        \param[in] ctx context
+        \return context result
+     */
+    static FinalizerFunction getFinalizerFunction(_Type* o, sad::dukpp03::BasicContext* ctx)
+    {
+        // If current context is pushed here
+        if (static_cast<void*>(o)  ==  static_cast<void*>(ctx))
+        {
+            return ::dukpp03::Finalizer<sad::dukpp03::BasicContext>::finalize;
+        }
+        o->addRef();
+        return ::dukpp03::internal::LocalFinalizer<_Type, true>::finalize;
+    }
+
+};
+
 /*! A finalizer for objects, that adds reference to it and also, removes it when object is finalized
     \param[in] o object
     \param[in] 
     \return finalizer function, which delete reference if needed
  */
-::dukpp03::FinalizerFunction finalizer_maker(sad::db::Object* o, sad::dukpp03::BasicContext* ctx);
-
-/*! A finalizer for objects, that adds reference to it and also, removes it when object is finalized, if this is not 
-    current context being pushed
-    \param[in] o object
-    \param[in] 
-    \return finalizer function, which delete reference if needed
- */
-::dukpp03::FinalizerFunction finalizer_maker(sad::RefCountable* o, sad::dukpp03::BasicContext* ctx);
-
-template<
-    typename T
->
-sad::RefCountable* objectToRefCountable(void* object) 
-{
-	return reinterpret_cast<T*>(*reinterpret_cast<void**>(object));
-}
+::dukpp03::FinalizerFunction finalizerMaker(sad::db::Object* o, sad::dukpp03::BasicContext* ctx);
 
 /*! Returns default finalizer function
  */
 template<
     typename T
 >
-::dukpp03::FinalizerFunction finalizer_maker(T* o, sad::dukpp03::BasicContext* ctx)
+::dukpp03::FinalizerFunction finalizerMaker(T* o, sad::dukpp03::BasicContext* ctx)
 {
-    return ::dukpp03::Finalizer<sad::dukpp03::BasicContext>::finalize;
+    return ::dukpp03::internal::LocalFinalizer<T, sad::IsRefCountable<T>::value>::getFinalizerFunction(o, ctx);
 }
 
 }
@@ -177,17 +238,7 @@ public:
  */
 static void perform(sad::dukpp03::BasicContext* ctx, T* v)
 {
-    ::dukpp03::FinalizerFunction f = ::dukpp03::internal::finalizer_maker(v, ctx);
-    ctx->template pushVariant<T*>(sad::dukpp03::BasicContext::VariantUtils::template makeFrom(v), f);
-}
-
-/*! Performs pushing value
-    \param[in] ctx context
-    \param[in] v value
- */
-static void perform(sad::dukpp03::BasicContext* ctx, sad::RefCountable* v)
-{
-    ::dukpp03::FinalizerFunction f = ::dukpp03::internal::finalizer_maker(v, ctx);
+    ::dukpp03::FinalizerFunction f = ::dukpp03::internal::finalizerMaker(v, ctx);
     ctx->template pushVariant<T*>(sad::dukpp03::BasicContext::VariantUtils::template makeFrom(v), f);
 }
     
