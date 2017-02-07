@@ -7,7 +7,7 @@
 #include <slurp.h>
 #include <spit.h>
 
-#include <renderer.h>
+#include <dukpp-03/renderer.h>
 #include <util/fs.h>
 
 #include <cstdio>
@@ -519,6 +519,14 @@ void sad::dukpp03::Context::exposeRenderer()
     this->addClassBinding("sad::Renderer", c); 
 
     this->registerCallable("SadRendererRef", sad::dukpp03::make_function::from(sad::Renderer::ref));
+
+    sad::dukpp03::ClassBinding* cext = new sad::dukpp03::ClassBinding(); 
+    cext->addObjectConstructor<sad::dukpp03::Renderer>("SadRenderer");
+    cext->addMethod("init", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::init));
+    cext->addMethod("settings", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::settings));
+
+
+    this->addClassBinding("sad::dukpp03::Renderer", cext); 
 }
 
 DECLARE_COMMON_TYPE(sad::dukpp03::Context);

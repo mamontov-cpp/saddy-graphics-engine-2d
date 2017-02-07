@@ -244,8 +244,11 @@ static void perform(sad::dukpp03::BasicContext* ctx, T* v)
     
 };
 
-
-template<typename T>
+/*! An instantiation for sad::Vector 
+ */
+template<
+    typename T
+>
 class PushValue<sad::Vector<T>, sad::dukpp03::BasicContext>
 {
 public:
@@ -259,7 +262,11 @@ public:
     }
 };
 
-template<typename T>
+/*! An instantiation for sad::Hash 
+ */
+template<
+    typename T
+>
 class PushValue<sad::Hash<sad::String, T>, sad::dukpp03::BasicContext>
 {
 public:
@@ -273,6 +280,30 @@ public:
     }
 };
 
+/*! An instantiation for sad::Maybe 
+ */
+template<
+    typename T
+>
+class PushValue<sad::Maybe<T>, sad::dukpp03::BasicContext>
+{
+public:
+    /*! Performs pushing value
+        \param[in] ctx context
+        \param[in] v value
+     */
+    static void perform(sad::dukpp03::BasicContext* ctx, const sad::Maybe<T>& v)
+    {
+        if (v.exists())
+        {
+            dukpp03::PushValue<T, sad::dukpp03::BasicContext>::perform(ctx, v.value());
+        }
+        else
+        {
+            duk_push_null(ctx->context());
+        }
+    }
+};
 
 }
  

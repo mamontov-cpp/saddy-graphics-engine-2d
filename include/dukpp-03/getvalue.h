@@ -417,4 +417,38 @@ public:
     }
 };
 
+
+/*! An instantiation for sad::Maybe<T>, which is null or T on stack
+ */
+template<typename T>
+class GetValue<sad::Maybe<T>, sad::dukpp03::BasicContext>
+{
+public:
+    /*! Performs getting value from stack
+        \param[in] ctx context
+        \param[in] pos index for stack
+        \return a value if it exists, otherwise empty maybe
+     */
+    inline static dukpp03::Maybe<sad::Maybe<T> > perform(
+        sad::dukpp03::BasicContext* ctx,
+        duk_idx_t pos
+    )
+    {
+        dukpp03::Maybe<sad::Maybe<T> > result;
+        if (duk_is_null(ctx->context(), pos))
+        {
+            result.setValue(sad::Maybe<T>());
+        }
+        else
+        {
+            dukpp03::Maybe<T> maybe_value = dukpp03::GetValue<T, sad::dukpp03::BasicContext>::perform(ctx, pos);
+            if (maybe_value.exists())
+            {
+                result.setValue(sad::Maybe<T>(maybe_value.value()));
+            }
+        }
+        return result;
+    }
+};
+
 }

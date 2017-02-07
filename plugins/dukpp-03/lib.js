@@ -359,7 +359,7 @@ sad.Context.prototype.evalFromFile = function(string) {
 
 // sad.Renderer bindings
 
-sad.Renderer = new Function();
+sad.Renderer = SadRenderer;
 
 sad.Renderer.ref = SadRendererRef;
 
