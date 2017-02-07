@@ -671,6 +671,9 @@ protected:
     /*! Exposes context and it's functions
      */
     void exposeContext();
+    /*! Exposes renderer and it's functions
+     */
+    void exposeRenderer();
 };
 
 #undef SAD_DUKPP03_TEMPLATE_REGFUNC_BODY

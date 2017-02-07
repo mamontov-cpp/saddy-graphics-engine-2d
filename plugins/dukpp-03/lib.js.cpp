@@ -357,4 +357,10 @@ const std::string __context_eval_info = std::string("var sad = {};\n"
 "\n"
 "sad.Context.prototype.evalFromFile = function(string) {\n"
 "    return SadContextEvalFromFile(this, string);\n"
-"};\n");
+"};\n"
+"\n"
+"// sad.Renderer bindings\n"
+"\n"
+"sad.Renderer = new Function();\n"
+"\n"
+"sad.Renderer.ref = SadRendererRef;\n");

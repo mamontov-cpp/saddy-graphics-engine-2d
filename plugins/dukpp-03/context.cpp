@@ -211,6 +211,7 @@ void sad::dukpp03::Context::initialize()
     this->exposeUtilFS();
     this->exposeSlurpSpit();
     this->exposeContext();
+    this->exposeRenderer();
 
     std::string error;
     bool ok =  this->eval(__context_eval_info, true, &error);
@@ -504,6 +505,16 @@ void sad::dukpp03::Context::exposeContext()
     this->addClassBinding("sad::dukpp03::Context", c);       
 
     this->registerGlobal("context", this);
+}
+
+void sad::dukpp03::Context::exposeRenderer()
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->setPrototypeFunction("sad.Renderer");
+
+    this->addClassBinding("sad::Renderer", c); 
+
+    this->registerCallable("SadRendererRef", sad::dukpp03::make_function::from(sad::Renderer::ref));
 }
 
 DECLARE_COMMON_TYPE(sad::dukpp03::Context);
