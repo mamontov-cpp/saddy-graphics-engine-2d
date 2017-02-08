@@ -376,4 +376,8 @@ const std::string __context_eval_info = std::string("var sad = {};\n"
 "sad.Timer.prototype.elapsedInMs = function() {\n"
 "    this.stop();\n"
 "    return this.elapsed();\n"
-"};\n");
+"};\n"
+"\n"
+"// sad.Thread bindings\n"
+"\n"
+"sad.Thread = SadThread;\n");

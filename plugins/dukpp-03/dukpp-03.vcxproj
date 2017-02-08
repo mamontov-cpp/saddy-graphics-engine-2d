@@ -22,6 +22,7 @@
     <ClCompile Include="pushvariant.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="setter.cpp" />
+    <ClCompile Include="thread.cpp" />
     <ClCompile Include="wrapvalue.cpp" />
     <ClCompile Include="lib.js.cpp" />
   </ItemGroup>
@@ -40,6 +41,7 @@
     <ClInclude Include="..\..\include\dukpp-03\pushvariant.h" />
     <ClInclude Include="..\..\include\dukpp-03\renderer.h" />
     <ClInclude Include="..\..\include\dukpp-03\setter.h" />
+    <ClInclude Include="..\..\include\dukpp-03\thread.h" />
     <ClInclude Include="..\..\include\dukpp-03\timerinterface.h" />
     <ClInclude Include="..\..\include\dukpp-03\valuecloner.h" />
     <ClInclude Include="..\..\include\dukpp-03\variantinterface.h" />

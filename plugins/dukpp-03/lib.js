@@ -375,3 +375,8 @@ sad.Timer.prototype.elapsedInMs = function() {
     this.stop();
     return this.elapsed();
 };
+
+// sad.Thread bindings
+
+sad.Thread = SadThread;
+

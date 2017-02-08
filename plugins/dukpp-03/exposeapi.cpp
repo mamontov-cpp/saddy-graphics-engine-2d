@@ -1,4 +1,5 @@
 #include "dukpp-03/context.h"
+#include "dukpp-03/thread.h"
 
 #include <sadpoint.h>
 #include <sadsize.h>
@@ -51,5 +52,23 @@ void sad::dukpp03::exposeAPI(sad::dukpp03::Context* ctx)
 
         ctx->addClassBinding("sad::Timer", c);
     }
+	
+	// Exposing sad::Thread
+    {
+        sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+        c->addObjectConstructor<sad::dukpp03::Thread, sad::dukpp03::Context*, sad::dukpp03::CompiledFunction>("SadThread");
+        c->addMethod("run",  sad::dukpp03::rebind_method::to<sad::dukpp03::Thread>::from(&sad::Thread::run));
+        c->addMethod("stop",  sad::dukpp03::rebind_method::to<sad::dukpp03::Thread>::from(&sad::Thread::stop));
+        c->addMethod("exitCode",  sad::dukpp03::rebind_method::to<sad::dukpp03::Thread>::from(&sad::Thread::exitCode));
+        c->addMethod("wait",  sad::dukpp03::bind_method::from(&sad::dukpp03::Thread::join));
+        c->addMethod("wait",  sad::dukpp03::bind_method::from(&sad::dukpp03::Thread::waitFor));
+        c->addMethod("join",  sad::dukpp03::bind_method::from(&sad::dukpp03::Thread::join));
+        c->addMethod("waitFor",  sad::dukpp03::bind_method::from(&sad::dukpp03::Thread::waitFor));
+		c->addMethod("running",  sad::dukpp03::rebind_method::to<sad::dukpp03::Thread>::from(&sad::Thread::running));
+        
+        c->setPrototypeFunction("SadThread");
 
+        ctx->addClassBinding("sad::dukpp03::Thread", c);	    
+    }
 }
+

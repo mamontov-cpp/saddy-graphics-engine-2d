@@ -172,7 +172,7 @@ public:
     }
     /*! Deletes implementation pointer
      */
-    ~Thread();
+    virtual ~Thread();
     /*! Runs a thread
         \return true if succeeded, otherwise false
      */

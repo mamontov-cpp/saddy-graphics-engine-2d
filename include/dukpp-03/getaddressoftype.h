@@ -16,6 +16,7 @@ namespace dukpp03
 
 class Context;
 class Renderer;
+class Thread;
 
 namespace internal
 {
@@ -158,6 +159,20 @@ public:
     inline static ::dukpp03::Maybe<sad::dukpp03::Renderer*> getAddress(sad::db::Variant* v)
     {
         return ::dukpp03::Maybe<sad::dukpp03::Renderer*>();
+    }
+};
+
+template<>
+struct GetAddressOfType<sad::dukpp03::Thread*, false, false>
+{
+public: 
+    /*! Returns address of type, stored in variant.
+        \param[in] v value
+        \return empty maybe
+     */
+    inline static ::dukpp03::Maybe<sad::dukpp03::Thread*> getAddress(sad::db::Variant* v)
+    {
+        return ::dukpp03::Maybe<sad::dukpp03::Thread*>();
     }
 };
 
