@@ -57,12 +57,11 @@ void sad::FPSInterpolation::stop()
         if (elapsed > sad::FPSInterpolation::RegistrationTime)
         {
             double newfps = 1000.0 * m_frames / elapsed; 
-            m_fps =  newfps * 0.8 + m_fps * 0.2;			
+            m_fps =  newfps * 0.8 + m_fps * 0.2;
             m_frames = 0;
             m_reset = true;
         }
     }
-    std::cerr << m_fps << "\n";
 }
 
 void sad::FPSInterpolation::resetTimer()
