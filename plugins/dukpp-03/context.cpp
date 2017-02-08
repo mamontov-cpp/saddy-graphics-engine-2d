@@ -556,6 +556,8 @@ void sad::dukpp03::Context::exposeRenderer()
     c->addMethod("cursorPosition", sad::dukpp03::bind_method::from(&sad::Renderer::cursorPosition));
     c->addMethod("render", sad::dukpp03::bind_method::from(&sad::Renderer::render));
     c->addMethod("setPrimitiveRenderer", sad::dukpp03::bind_method::from(&sad::Renderer::setPrimitiveRenderer));
+    c->addMethod("textureLoader", sad::dukpp03::bind_method::from(&sad::Renderer::textureLoader));
+    c->addMethod("setTextureLoader", sad::dukpp03::bind_method::from(&sad::Renderer::setTextureLoader));
 
     c->setPrototypeFunction("sad.Renderer");
 
@@ -577,6 +579,8 @@ void sad::dukpp03::Context::exposeRenderer()
     cext->addMethod("cursorPosition", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::cursorPosition));
     cext->addMethod("render", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::render));
     cext->addMethod("setPrimitiveRenderer", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::setPrimitiveRenderer));
+    cext->addMethod("textureLoader", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::textureLoader));
+    cext->addMethod("setTextureLoader", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::setTextureLoader));
 
 
     this->addClassBinding("sad::dukpp03::Renderer", cext); 
