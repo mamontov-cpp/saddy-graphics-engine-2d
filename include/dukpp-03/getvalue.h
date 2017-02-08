@@ -25,7 +25,7 @@ class Object;
 }
 
 class Object;
-    
+
 }
 
 namespace dukpp03

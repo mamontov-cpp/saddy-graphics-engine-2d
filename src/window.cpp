@@ -1,5 +1,6 @@
 #include "window.h"
 #include "os/windowimpl.h"
+#include "db/dbtypename.h"
 
 sad::Window::Window() : m_dptr(new sad::os::WindowImpl())
 {
@@ -191,3 +192,4 @@ void  sad::Window::setMinimized(bool minimized)
     m_dptr->setMinimized(minimized);
 }
 
+DECLARE_COMMON_TYPE(sad::Window);

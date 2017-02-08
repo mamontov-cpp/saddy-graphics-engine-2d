@@ -10,6 +10,7 @@
 #include <spit.h>
 
 #include <renderer.h>
+#include <window.h>
 #include <util/fs.h>
 
 #include <cstdio>
@@ -52,8 +53,8 @@ void sad::dukpp03::exposeAPI(sad::dukpp03::Context* ctx)
 
         ctx->addClassBinding("sad::Timer", c);
     }
-	
-	// Exposing sad::Thread
+    
+    // Exposing sad::Thread
     {
         sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
         c->addObjectConstructor<sad::dukpp03::Thread, sad::dukpp03::Context*, sad::dukpp03::CompiledFunction>("SadThread");
@@ -64,11 +65,36 @@ void sad::dukpp03::exposeAPI(sad::dukpp03::Context* ctx)
         c->addMethod("wait",  sad::dukpp03::bind_method::from(&sad::dukpp03::Thread::waitFor));
         c->addMethod("join",  sad::dukpp03::bind_method::from(&sad::dukpp03::Thread::join));
         c->addMethod("waitFor",  sad::dukpp03::bind_method::from(&sad::dukpp03::Thread::waitFor));
-		c->addMethod("running",  sad::dukpp03::rebind_method::to<sad::dukpp03::Thread>::from(&sad::Thread::running));
+        c->addMethod("running",  sad::dukpp03::rebind_method::to<sad::dukpp03::Thread>::from(&sad::Thread::running));
         
         c->setPrototypeFunction("SadThread");
 
-        ctx->addClassBinding("sad::dukpp03::Thread", c);	    
+        ctx->addClassBinding("sad::dukpp03::Thread", c);        
+    }
+    // Exposing sad::Window
+    {
+        sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+        c->addMethod("setRect",   sad::dukpp03::bind_method::from(&sad::Window::setRect));
+        c->addMethod("rect",   sad::dukpp03::bind_method::from(&sad::Window::rect));
+        c->addMethod("show",   sad::dukpp03::bind_method::from(&sad::Window::show));
+        c->addMethod("hide",   sad::dukpp03::bind_method::from(&sad::Window::hide));
+        c->addMethod("title",   sad::dukpp03::bind_method::from(&sad::Window::title));
+        c->addMethod("setTitle",   sad::dukpp03::bind_method::from(&sad::Window::setTitle));                
+        c->addMethod("active",   sad::dukpp03::bind_method::from(&sad::Window::active));
+        c->addMethod("minimized",   sad::dukpp03::bind_method::from(&sad::Window::minimized));
+        c->addMethod("valid",   sad::dukpp03::bind_method::from(&sad::Window::valid));
+        c->addMethod("fixed",   sad::dukpp03::bind_method::from(&sad::Window::fixed));
+        c->addMethod("makeFixedSize",   sad::dukpp03::bind_method::from(&sad::Window::makeFixedSize));
+        c->addMethod("makeResizeable",   sad::dukpp03::bind_method::from(&sad::Window::makeResizeable));
+        c->addMethod("fullscreen",   sad::dukpp03::bind_method::from(&sad::Window::fullscreen));
+        c->addMethod("enterFullscreen",   sad::dukpp03::bind_method::from(&sad::Window::enterFullscreen));
+        c->addMethod("leaveFullscreen",   sad::dukpp03::bind_method::from(&sad::Window::leaveFullscreen));
+        c->addMethod("hidden",   sad::dukpp03::bind_method::from(&sad::Window::hidden));
+        c->addMethod("pushRect",   sad::dukpp03::bind_method::from(&sad::Window::pushRect));
+        c->addMethod("popRect",   sad::dukpp03::bind_method::from(&sad::Window::popRect));
+        c->addMethod("isGL3compatible",   sad::dukpp03::bind_method::from(&sad::Window::isGL3compatible));
+
+        ctx->addClassBinding("sad::Window", c);        
     }
 }
 
