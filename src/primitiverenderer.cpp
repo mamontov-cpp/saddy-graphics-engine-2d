@@ -2,6 +2,8 @@
 
 #include "os/glheaders.h"
 
+#include "db/dbtypename.h"
+
 sad::PrimitiveRenderer::PrimitiveRenderer()
 {
     
@@ -61,3 +63,5 @@ void sad::PrimitiveRenderer::rectangle(
     glColor4iv(clr);
     glEnable(GL_TEXTURE_2D);
 }
+
+DECLARE_COMMON_TYPE(sad::PrimitiveRenderer)

@@ -554,6 +554,9 @@ void sad::dukpp03::Context::exposeRenderer()
     c->addMethod("hasValidContext", sad::dukpp03::bind_method::from(&sad::Renderer::hasValidContext));
     c->addMethod("setCursorPosition", sad::dukpp03::bind_method::from(&sad::Renderer::setCursorPosition));
     c->addMethod("cursorPosition", sad::dukpp03::bind_method::from(&sad::Renderer::cursorPosition));
+    c->addMethod("render", sad::dukpp03::bind_method::from(&sad::Renderer::render));
+    c->addMethod("setPrimitiveRenderer", sad::dukpp03::bind_method::from(&sad::Renderer::setPrimitiveRenderer));
+
     c->setPrototypeFunction("sad.Renderer");
 
     this->addClassBinding("sad::Renderer", c); 
@@ -572,9 +575,17 @@ void sad::dukpp03::Context::exposeRenderer()
     cext->addMethod("hasValidContext", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::hasValidContext));
     cext->addMethod("setCursorPosition", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::setCursorPosition));
     cext->addMethod("cursorPosition", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::cursorPosition));
+    cext->addMethod("render", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::render));
+    cext->addMethod("setPrimitiveRenderer", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::setPrimitiveRenderer));
 
 
     this->addClassBinding("sad::dukpp03::Renderer", cext); 
+
+    sad::dukpp03::ClassBinding* prenderer = new sad::dukpp03::ClassBinding();
+    prenderer->addMethod("line", sad::dukpp03::bind_method::from(&sad::PrimitiveRenderer::line));
+    prenderer->addMethod("rectangle", sad::dukpp03::bind_method::from(&sad::PrimitiveRenderer::rectangle));
+
+    this->addClassBinding("sad::PrimitiveRenderer", prenderer); 
 }
 
 DECLARE_COMMON_TYPE(sad::dukpp03::Context);
