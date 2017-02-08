@@ -513,6 +513,8 @@ void sad::dukpp03::Context::exposeRenderer()
     sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding(); 
     c->addMethod("init", sad::dukpp03::bind_method::from(&sad::Renderer::init));
     c->addMethod("settings", sad::dukpp03::bind_method::from(&sad::Renderer::settings));
+	c->addMethod("run", sad::dukpp03::bind_method::from(&sad::Renderer::run));
+	c->addMethod("quit", sad::dukpp03::bind_method::from(&sad::Renderer::quit));
 
     c->setPrototypeFunction("sad.Renderer");
 
@@ -524,6 +526,8 @@ void sad::dukpp03::Context::exposeRenderer()
     cext->addObjectConstructor<sad::dukpp03::Renderer>("SadRenderer");
     cext->addMethod("init", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::init));
     cext->addMethod("settings", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::settings));
+    cext->addMethod("run", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::run));
+    cext->addMethod("quit", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::quit));
 
 
     this->addClassBinding("sad::dukpp03::Renderer", cext); 
