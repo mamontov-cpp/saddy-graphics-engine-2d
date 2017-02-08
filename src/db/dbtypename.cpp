@@ -23,6 +23,8 @@
 #include "sprite2d.h"
 #include "sprite3d.h"
 #include "scene.h"
+#include "timer.h"
+#include "sadthread.h"
 
 #include "dialogue/dialogue.h"
 #include "dialogue/phrase.h"
@@ -211,6 +213,8 @@ DECLARE_COMMON_TYPE(sad::Color)
 DECLARE_COMMON_TYPE(sad::AColor)
 DECLARE_COMMON_TYPE(sad::Size2D)
 DECLARE_COMMON_TYPE(sad::Size2I)
+DECLARE_COMMON_TYPE(sad::Thread)
+DECLARE_COMMON_TYPE(sad::Timer)
 DECLARE_INSTANTIATED_COMMON_TYPE(sad::Vector<sad::Vector<sad::AColor> >)
 DECLARE_INSTANTIATED_COMMON_TYPE(sad::Vector<sad::Point2D>)
 DECLARE_COMMON_TYPE(sad::dialogue::Phrase)

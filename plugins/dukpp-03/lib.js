@@ -366,3 +366,12 @@ sad.Renderer.ref = SadRendererRef;
 // sad.Settings bindings
 
 sad.Settings = SadSettings;
+
+// sad.Timer bindings
+
+sad.Timer = SadTimer;
+
+sad.Timer.prototype.elapsedInMs = function() {
+    this.stop();
+    return this.elapsed();
+};
