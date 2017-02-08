@@ -561,6 +561,15 @@ void sad::dukpp03::Context::exposeRenderer()
     c->addMethod("isOwnThread", sad::dukpp03::bind_method::from(&sad::Renderer::isOwnThread));
     c->addMethod("globalTranslationOffset", sad::dukpp03::bind_method::from(&sad::Renderer::globalTranslationOffset));
     c->addMethod("setGlobalTranslationOffset", sad::dukpp03::bind_method::from(&sad::Renderer::setGlobalTranslationOffset));
+    c->addMethod("setWindowTitle", sad::dukpp03::bind_method::from(&sad::Renderer::setWindowTitle));
+    c->addMethod("toggleFullscreen", sad::dukpp03::bind_method::from(&sad::Renderer::toggleFullscreen));
+    c->addMethod("fps", sad::dukpp03::bind_method::from(&sad::Renderer::fps));
+    c->addMethod("executablePath", sad::dukpp03::bind_method::from(&sad::Renderer::executablePath));
+    c->addMethod("lockRendering", sad::dukpp03::bind_method::from(&sad::Renderer::lockRendering));
+    c->addMethod("unlockRendering", sad::dukpp03::bind_method::from(&sad::Renderer::unlockRendering));
+    c->addMethod("error", sad::dukpp03::bind_method::from(&sad::Renderer::error));
+    c->addMethod("information", sad::dukpp03::bind_method::from(&sad::Renderer::information));
+    c->addMethod("warning", sad::dukpp03::bind_method::from(&sad::Renderer::warning));
 
     c->setPrototypeFunction("sad.Renderer");
 
@@ -587,7 +596,15 @@ void sad::dukpp03::Context::exposeRenderer()
     cext->addMethod("isOwnThread", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::isOwnThread));
     cext->addMethod("globalTranslationOffset", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::globalTranslationOffset));
     cext->addMethod("setGlobalTranslationOffset", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::setGlobalTranslationOffset));
-
+    cext->addMethod("setWindowTitle", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::setWindowTitle));
+    cext->addMethod("toggleFullscreen", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::toggleFullscreen));
+    cext->addMethod("fps", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::fps));
+    cext->addMethod("executablePath", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::executablePath));
+    cext->addMethod("lockRendering", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::lockRendering));
+    cext->addMethod("unlockRendering", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::unlockRendering));
+    cext->addMethod("error", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::error));
+    cext->addMethod("information", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::information));
+    cext->addMethod("warning", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::warning));
 
     this->addClassBinding("sad::dukpp03::Renderer", cext); 
 
