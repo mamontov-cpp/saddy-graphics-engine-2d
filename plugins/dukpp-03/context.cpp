@@ -558,6 +558,9 @@ void sad::dukpp03::Context::exposeRenderer()
     c->addMethod("setPrimitiveRenderer", sad::dukpp03::bind_method::from(&sad::Renderer::setPrimitiveRenderer));
     c->addMethod("textureLoader", sad::dukpp03::bind_method::from(&sad::Renderer::textureLoader));
     c->addMethod("setTextureLoader", sad::dukpp03::bind_method::from(&sad::Renderer::setTextureLoader));
+    c->addMethod("isOwnThread", sad::dukpp03::bind_method::from(&sad::Renderer::isOwnThread));
+    c->addMethod("globalTranslationOffset", sad::dukpp03::bind_method::from(&sad::Renderer::globalTranslationOffset));
+    c->addMethod("setGlobalTranslationOffset", sad::dukpp03::bind_method::from(&sad::Renderer::setGlobalTranslationOffset));
 
     c->setPrototypeFunction("sad.Renderer");
 
@@ -581,6 +584,9 @@ void sad::dukpp03::Context::exposeRenderer()
     cext->addMethod("setPrimitiveRenderer", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::setPrimitiveRenderer));
     cext->addMethod("textureLoader", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::textureLoader));
     cext->addMethod("setTextureLoader", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::setTextureLoader));
+    cext->addMethod("isOwnThread", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::isOwnThread));
+    cext->addMethod("globalTranslationOffset", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::globalTranslationOffset));
+    cext->addMethod("setGlobalTranslationOffset", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::setGlobalTranslationOffset));
 
 
     this->addClassBinding("sad::dukpp03::Renderer", cext); 
