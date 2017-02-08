@@ -1,5 +1,10 @@
 #include "dukpp-03/context.h"
 #include "dukpp-03/pushvariant.h"
+#include "sadpoint.h"
+#include "sadsize.h"
+#include "sadrect.h"
+#include "sadcolor.h"
+
 
 void sad::dukpp03::pushVariant(sad::dukpp03::BasicContext* ctx, const sad::db::Variant& v)
 {
@@ -21,6 +26,16 @@ void sad::dukpp03::pushVariant(sad::dukpp03::BasicContext* ctx, const sad::db::V
     DUK_IF_PUSH(long double)
     DUK_IF_PUSH(std::string)
     DUK_IF_PUSH(sad::String)
+    DUK_IF_PUSH(sad::Point2D)
+    DUK_IF_PUSH(sad::Point3D)
+    DUK_IF_PUSH(sad::Point2I)
+    DUK_IF_PUSH(sad::Point3I)
+    DUK_IF_PUSH(sad::Size2D)
+    DUK_IF_PUSH(sad::Size2I)
+    DUK_IF_PUSH(sad::Rect2D)
+    DUK_IF_PUSH(sad::Rect2I)
+    DUK_IF_PUSH(sad::Color)
+    DUK_IF_PUSH(sad::AColor)
 #undef DUK_IF_PUSH
     ctx->pushUntypedVariant(v.typeName(), new sad::db::Variant(v));
 }

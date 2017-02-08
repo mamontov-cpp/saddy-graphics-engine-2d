@@ -663,6 +663,12 @@ protected:
     /*! Expose sad::Rect2I
      */
     void exposeRect2I();
+    /*! Expose sad::Color
+     */
+    void exposeColor();
+    /*! Expose sad::AColor
+     */
+    void exposeAColor();
     /*! Expose sad::util and fs
      */
     void exposeUtilFS();

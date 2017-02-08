@@ -3,6 +3,7 @@
 #include <sadpoint.h>
 #include <sadsize.h>
 #include <sadrect.h>
+#include <sadcolor.h>
 #include <p2d/vector.h>
 #include <slurp.h>
 #include <spit.h>
@@ -208,6 +209,8 @@ void sad::dukpp03::Context::initialize()
     this->exposeSize2I();
     this->exposeRect2D();
     this->exposeRect2I();
+    this->exposeColor();
+    this->exposeAColor();
     this->exposeUtilFS();
     this->exposeSlurpSpit();
     this->exposeContext();
@@ -378,6 +381,36 @@ void sad::dukpp03::Context::exposeRect2I()
 static bool ___file_exists(const sad::String& s)
 {
     return sad::util::fileExists(s.c_str());
+}
+
+void sad::dukpp03::Context::exposeColor()
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addConstructor<sad::Color>("SadColor");
+    c->addConstructor<sad::Color, unsigned char, unsigned char, unsigned char>("SadColor");
+    c->addAccessor("r", sad::dukpp03::bind_method::from(&sad::Color::r), sad::dukpp03::bind_method::from(&sad::Color::setR));
+    c->addAccessor("g", sad::dukpp03::bind_method::from(&sad::Color::g), sad::dukpp03::bind_method::from(&sad::Color::setG));
+    c->addAccessor("b", sad::dukpp03::bind_method::from(&sad::Color::r), sad::dukpp03::bind_method::from(&sad::Color::setB));
+    c->addCloneValueObjectMethodFor<sad::Color>();
+    c->setPrototypeFunction("SadColor");
+
+    this->addClassBinding("sad::Color", c); 
+}
+
+void sad::dukpp03::Context::exposeAColor()
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addConstructor<sad::AColor>("SadAColor");
+    c->addConstructor<sad::AColor, unsigned char, unsigned char, unsigned char>("SadAColor");
+    c->addConstructor<sad::AColor, unsigned char, unsigned char, unsigned char, unsigned char>("SadAColor");
+    c->addAccessor("r", sad::dukpp03::rebind_method::to<sad::AColor>::from(&sad::AColor::r), sad::dukpp03::rebind_method::to<sad::AColor>::from(&sad::AColor::setR));
+    c->addAccessor("g", sad::dukpp03::rebind_method::to<sad::AColor>::from(&sad::AColor::g), sad::dukpp03::rebind_method::to<sad::AColor>::from(&sad::AColor::setG));
+    c->addAccessor("b", sad::dukpp03::rebind_method::to<sad::AColor>::from(&sad::AColor::b), sad::dukpp03::rebind_method::to<sad::AColor>::from(&sad::AColor::setB));
+    c->addAccessor("a", sad::dukpp03::bind_method::from(&sad::AColor::a), sad::dukpp03::bind_method::from(&sad::AColor::setA));
+    c->addCloneValueObjectMethodFor<sad::AColor>();
+    c->setPrototypeFunction("SadAColor");
+
+    this->addClassBinding("sad::AColor", c); 
 }
 
 void sad::dukpp03::Context::exposeUtilFS()

@@ -35,6 +35,23 @@
 }
 
 
+::dukpp03::Maybe<unsigned char>  dukpp03::internal::tryGetUnsignedCharProperty(
+    sad::dukpp03::BasicContext* ctx, 
+    duk_idx_t pos,
+    const char* propname
+)
+{
+    ::dukpp03::Maybe<unsigned char> result;
+    if (duk_has_prop_string(ctx->context(), pos, propname))
+    {
+        duk_get_prop_string(ctx->context(), pos, propname);
+        result = ::dukpp03::GetValue<unsigned char, sad::dukpp03::BasicContext>::perform(ctx, -1);
+        duk_pop(ctx->context());
+    }
+    return result;
+}
+
+
 dukpp03::Maybe<const char*> dukpp03::GetValue<const char*, sad::dukpp03::BasicContext>::perform(
     sad::dukpp03::BasicContext* ctx, 
     duk_idx_t pos
@@ -396,6 +413,80 @@ dukpp03::Maybe<sad::db::Object*> dukpp03::GetValue<sad::db::Object*,  sad::dukpp
                 if (maybewidth.exists() && maybeheight.exists())
                 {
                     result.setValue(sad::Size2I(maybewidth.value(), maybeheight.value()));
+                }
+            }
+        }
+    }
+    return result;
+}
+
+
+::dukpp03::Maybe<sad::Color>  dukpp03::GetValue<sad::Color,  sad::dukpp03::BasicContext>::perform(
+    sad::dukpp03::BasicContext* ctx,
+    duk_idx_t pos
+)
+{
+    ::dukpp03::Maybe<sad::Color> result;
+    ::dukpp03::internal::TryGetValueFromObject<sad::Color, sad::dukpp03::BasicContext>::perform(ctx, pos, result);
+    if (result.exists() == false)
+    {
+        ::dukpp03::Maybe<sad::Color*> result2;
+        ::dukpp03::internal::TryGetValueFromObject<sad::Color*, sad::dukpp03::BasicContext>::perform(ctx, pos, result2);
+        if (result2.exists())
+        {
+            result.setReference(result2.value());
+        }
+        else
+        {
+            if (duk_is_object(ctx->context(), pos))
+            {
+                ::dukpp03::Maybe<unsigned char> mayber = ::dukpp03::internal::tryGetUnsignedCharProperty(ctx, pos, "r");
+                ::dukpp03::Maybe<unsigned char> maybeg = ::dukpp03::internal::tryGetUnsignedCharProperty(ctx, pos, "g");
+                ::dukpp03::Maybe<unsigned char> maybeb = ::dukpp03::internal::tryGetUnsignedCharProperty(ctx, pos, "b");
+                if (mayber.exists() && maybeg.exists() && maybeb.exists())
+                {
+                    result.setValue(sad::Color(mayber.value(), maybeg.value(), maybeb.value()));                    
+                }
+            }
+        }
+    }
+    return result;
+}
+
+
+::dukpp03::Maybe<sad::AColor>  dukpp03::GetValue<sad::AColor,  sad::dukpp03::BasicContext>::perform(
+    sad::dukpp03::BasicContext* ctx,
+    duk_idx_t pos
+)
+{
+    ::dukpp03::Maybe<sad::AColor> result;
+    ::dukpp03::internal::TryGetValueFromObject<sad::AColor, sad::dukpp03::BasicContext>::perform(ctx, pos, result);
+    if (result.exists() == false)
+    {
+        ::dukpp03::Maybe<sad::AColor*> result2;
+        ::dukpp03::internal::TryGetValueFromObject<sad::AColor*, sad::dukpp03::BasicContext>::perform(ctx, pos, result2);
+        if (result2.exists())
+        {
+            result.setReference(result2.value());
+        }
+        else
+        {
+            if (duk_is_object(ctx->context(), pos))
+            {
+                ::dukpp03::Maybe<unsigned char> mayber = ::dukpp03::internal::tryGetUnsignedCharProperty(ctx, pos, "r");
+                ::dukpp03::Maybe<unsigned char> maybeg = ::dukpp03::internal::tryGetUnsignedCharProperty(ctx, pos, "g");
+                ::dukpp03::Maybe<unsigned char> maybeb = ::dukpp03::internal::tryGetUnsignedCharProperty(ctx, pos, "b");
+                ::dukpp03::Maybe<unsigned char> maybea = ::dukpp03::internal::tryGetUnsignedCharProperty(ctx, pos, "a");
+                if (mayber.exists() && maybeg.exists() && maybeb.exists())
+                {
+                    if (maybea.exists())
+                    {
+                        result.setValue(sad::AColor(mayber.value(), maybeg.value(), maybeb.value(), maybea.value()));
+                    }
+                    else
+                    {
+                        result.setValue(sad::AColor(mayber.value(), maybeg.value(), maybeb.value()));                    
+                    }
                 }
             }
         }

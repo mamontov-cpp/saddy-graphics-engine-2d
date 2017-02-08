@@ -6,6 +6,7 @@
 #include "basiccontext.h"
 #include "../sadstring.h"
 #include "../sadpoint.h"
+#include "../sadcolor.h"
 #include "../sadsize.h"
 #include "../sadvector.h"
 #include "../sadhash.h"
@@ -53,6 +54,18 @@ namespace internal
     \return 
  */
 ::dukpp03::Maybe<int> tryGetIntProperty(
+    sad::dukpp03::BasicContext* ctx, 
+    duk_idx_t pos,
+    const char* propname
+);
+
+/*! Tries to get property with unsigned char value from object
+    \param[in] ctx context
+    \param[in] pos position of object in stack
+    \param[in] propname a property name
+    \return 
+ */
+::dukpp03::Maybe<unsigned char> tryGetUnsignedCharProperty(
     sad::dukpp03::BasicContext* ctx, 
     duk_idx_t pos,
     const char* propname
@@ -372,6 +385,43 @@ static ::dukpp03::Maybe<sad::Size2I> perform(
 
 };
 
+
+/*! An instantiation for sad::Color
+ */
+template<>
+class GetValue<sad::Color,  sad::dukpp03::BasicContext>
+{
+public:
+/*! Performs getting value from stack
+    \param[in] ctx context
+    \param[in] pos index for stack
+    \return a value if it exists, otherwise empty maybe
+ */
+static ::dukpp03::Maybe<sad::Color> perform(
+    sad::dukpp03::BasicContext* ctx,
+    duk_idx_t pos
+);
+
+};
+
+
+/*! An instantiation for sad::AColor
+ */
+template<>
+class GetValue<sad::AColor,  sad::dukpp03::BasicContext>
+{
+public:
+/*! Performs getting value from stack
+    \param[in] ctx context
+    \param[in] pos index for stack
+    \return a value if it exists, otherwise empty maybe
+ */
+static ::dukpp03::Maybe<sad::AColor> perform(
+    sad::dukpp03::BasicContext* ctx,
+    duk_idx_t pos
+);
+
+};
 
 /*!  An instantiation for sad::Vector<T>, which converts it from array
  */

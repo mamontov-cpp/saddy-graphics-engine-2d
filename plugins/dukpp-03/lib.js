@@ -380,3 +380,26 @@ sad.Timer.prototype.elapsedInMs = function() {
 
 sad.Thread = SadThread;
 
+// sad.Color bindings
+
+sad.Color = SadColor;
+
+sad.internal.uCharToInt = function(a) {
+    if (a.length == 0) {
+        return 0;
+    }
+    return a[0].charCodeAt(0);
+}
+
+sad.Color.prototype.toString = function() {
+    var o =  [ sad.internal.uCharToInt(this.r),  sad.internal.uCharToInt(this.g), sad.internal.uCharToInt(this.b) ]; 
+    return "sad::Color(" + o.join(', ')  + ")";
+}
+
+sad.AColor = SadAColor;
+
+sad.AColor.prototype.toString = function() {
+    var o =  [ sad.internal.uCharToInt(this.r),  sad.internal.uCharToInt(this.g), sad.internal.uCharToInt(this.b), sad.internal.uCharToInt(this.a) ]; 
+    return "sad::AColor(" + o.join(', ')  + ")";
+}
+
