@@ -513,9 +513,11 @@ void sad::dukpp03::Context::exposeRenderer()
     sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding(); 
     c->addMethod("init", sad::dukpp03::bind_method::from(&sad::Renderer::init));
     c->addMethod("settings", sad::dukpp03::bind_method::from(&sad::Renderer::settings));
-	c->addMethod("run", sad::dukpp03::bind_method::from(&sad::Renderer::run));
-	c->addMethod("quit", sad::dukpp03::bind_method::from(&sad::Renderer::quit));
-
+    c->addMethod("run", sad::dukpp03::bind_method::from(&sad::Renderer::run));
+    c->addMethod("quit", sad::dukpp03::bind_method::from(&sad::Renderer::quit));
+    c->addMethod("makeFixedSize", sad::dukpp03::bind_method::from(&sad::Renderer::makeFixedSize));
+    c->addMethod("makeResizeable", sad::dukpp03::bind_method::from(&sad::Renderer::makeResizeable));
+    c->addMethod("running", sad::dukpp03::bind_method::from(&sad::Renderer::running));
     c->setPrototypeFunction("sad.Renderer");
 
     this->addClassBinding("sad::Renderer", c); 
@@ -528,7 +530,9 @@ void sad::dukpp03::Context::exposeRenderer()
     cext->addMethod("settings", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::settings));
     cext->addMethod("run", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::run));
     cext->addMethod("quit", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::quit));
-
+    cext->addMethod("makeFixedSize", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::makeFixedSize));
+    cext->addMethod("makeResizeable", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::makeResizeable));
+    cext->addMethod("running", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::running));
 
     this->addClassBinding("sad::dukpp03::Renderer", cext); 
 }
