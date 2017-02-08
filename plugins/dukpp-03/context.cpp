@@ -518,6 +518,9 @@ void sad::dukpp03::Context::exposeRenderer()
     c->addMethod("makeFixedSize", sad::dukpp03::bind_method::from(&sad::Renderer::makeFixedSize));
     c->addMethod("makeResizeable", sad::dukpp03::bind_method::from(&sad::Renderer::makeResizeable));
     c->addMethod("running", sad::dukpp03::bind_method::from(&sad::Renderer::running));
+    c->addMethod("hasValidContext", sad::dukpp03::bind_method::from(&sad::Renderer::hasValidContext));
+    c->addMethod("setCursorPosition", sad::dukpp03::bind_method::from(&sad::Renderer::setCursorPosition));
+    c->addMethod("cursorPosition", sad::dukpp03::bind_method::from(&sad::Renderer::cursorPosition));
     c->setPrototypeFunction("sad.Renderer");
 
     this->addClassBinding("sad::Renderer", c); 
@@ -533,6 +536,10 @@ void sad::dukpp03::Context::exposeRenderer()
     cext->addMethod("makeFixedSize", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::makeFixedSize));
     cext->addMethod("makeResizeable", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::makeResizeable));
     cext->addMethod("running", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::running));
+    cext->addMethod("hasValidContext", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::hasValidContext));
+    cext->addMethod("setCursorPosition", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::setCursorPosition));
+    cext->addMethod("cursorPosition", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::cursorPosition));
+
 
     this->addClassBinding("sad::dukpp03::Renderer", cext); 
 }
