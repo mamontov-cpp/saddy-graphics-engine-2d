@@ -56,6 +56,7 @@ m_added_system_pipeline_tasks(false)
 #endif  
     m_window->setRenderer(this);
     m_cursor->setRenderer(this);
+    m_cursor->addRef();
     m_opengl->setRenderer(this);
     m_main_loop->setRenderer(this);
 
@@ -93,7 +94,7 @@ sad::Renderer::~Renderer(void)
 
     delete m_animations;
     delete m_primitiverenderer;
-    delete m_cursor;
+    m_cursor->delRef();
 
     // Force freeing resources, to make sure, that pointer to context will be valid, when resource
     // starting to be freed.
@@ -304,8 +305,9 @@ sad::MouseCursor* sad::Renderer::cursor() const
 
 void sad::Renderer::setCursor(sad::MouseCursor * cursor)
 {
-    delete m_cursor;
+    m_cursor->delRef();
     m_cursor = cursor;
+    m_cursor->addRef();
 }
 
 sad::OpenGL * sad::Renderer::opengl() const

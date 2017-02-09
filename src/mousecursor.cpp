@@ -8,12 +8,12 @@
 
 sad::MouseCursorImage::~MouseCursorImage()
 {
-    
+
 }
 
 sad::MouseCursorSprite::MouseCursorSprite(sad::Sprite2D * a): m_a(a)
 {
-    
+    m_a->addRef();
 }
 
 void sad::MouseCursorSprite::setPos(const sad::Point2D & p)
@@ -28,7 +28,10 @@ void sad::MouseCursorSprite::render()
 
 sad::MouseCursorSprite::~MouseCursorSprite()
 {
-    delete m_a;
+    if (m_a)
+    {
+        m_a->delRef();
+    }
 }
 
 sad::MouseCursor::MouseCursor()
@@ -198,7 +201,7 @@ void sad::MouseCursor::setImage(sad::MouseCursorImage * image)
 
 void sad::MouseCursor::setImage(Sprite2D * a)
 {
-    setImage(new sad::MouseCursorSprite(a));	
+    setImage(new sad::MouseCursorSprite(a));
 }
 
 
