@@ -431,3 +431,11 @@ sad.Mutex = SadMutex;
 sad.Semaphore = SadSemaphore;
 
 sad.MouseCursor = SadMouseCursor;
+
+
+sad.resource = {};
+sad.resource.Tree = SadResourceTree;
+
+sad.resource.Tree.prototype.ref = function() {
+    return sad.Renderer.ref().tree("");
+}

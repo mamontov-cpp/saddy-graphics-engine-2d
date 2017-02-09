@@ -432,4 +432,12 @@ const std::string __context_eval_info = std::string("var sad = {};\n"
 "sad.Mutex = SadMutex;\n"
 "sad.Semaphore = SadSemaphore;\n"
 "\n"
-"sad.MouseCursor = SadMouseCursor;\n");
+"sad.MouseCursor = SadMouseCursor;\n"
+"\n"
+"\n"
+"sad.resource = {};\n"
+"sad.resource.Tree = SadResourceTree;\n"
+"\n"
+"sad.resource.Tree.prototype.ref = function() {\n"
+"    return sad.Renderer.ref().tree(\"\");\n"
+"}\n");

@@ -1,5 +1,6 @@
 #include "resource/error.h"
 #include "3rdparty/format/format.h"
+#include "resource/resourcefile.h"
 
 DECLARE_SOBJ(sad::resource::Error);
 DECLARE_SOBJ_INHERITANCE(sad::resource::FileLoadError, sad::resource::Error);
@@ -105,4 +106,16 @@ sad::String sad::resource::format(
         list << fmt::str(fmt::Format(lineformat) << sad::String(errors[i]->what()));
     }
     return sad::join(list, separator);
+}
+
+
+sad::Maybe<sad::String> sad::resource::errorsToString(const sad::Vector<sad::resource::Error *>& errors)
+{
+    if (errors.size())
+    {
+        sad::String result = sad::resource::format(errors);
+        sad::resource::free_vector(errors);
+        return sad::Maybe<sad::String>(result);
+    }
+    return sad::Maybe<sad::String>();
 }

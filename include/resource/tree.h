@@ -9,6 +9,7 @@
 #pragma once
 #include "../sadptrvector.h"
 #include "../sadhash.h"
+#include "../refcountable.h"
 #include "resource.h"
 #include "resourcefactory.h"
 #include "folder.h"
@@ -35,7 +36,7 @@ namespace resource
     A tree stores all resources of game. The game can have several separate trees, but it must 
     have at least one.
  */
-class Tree  
+class Tree: public sad::RefCountable  
 {	
 public:	
     /*! Constructs a new empty tree
@@ -51,12 +52,24 @@ public:
         \return list of errors
      */
     virtual sad::Vector<sad::resource::Error*> loadFromString(const sad::String & string);
+    /*! Loads a tree from a string, adding to existing data new stored resources if new errors
+        occured.
+        \param[in] string
+        \return maybe error message
+     */
+    sad::Maybe<sad::String> tryLoadFromString(const sad::String & string);
     /*! Loads a tree from a file, adding to existing data new stored resources if new errors
         occured.
         \param[in] string
         \return list of errors
      */
     sad::Vector<sad::resource::Error*> loadFromFile(const sad::String& string);
+    /*! Loads a tree from a string, adding to existing data new stored resources if new errors
+        occured.
+        \param[in] string
+        \return maybe error message
+     */
+    sad::Maybe<sad::String> tryLoadFromFile(const sad::String & string);
     /*! Loads new file. If no errors found, all resources will be stored in
         node.
 

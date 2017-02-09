@@ -1,8 +1,8 @@
 #include "dukpp-03/context.h"
+#include "dukpp-03/renderer.h"
 #include "dukpp-03/thread.h"
 #include "dukpp-03/mutex.h"
 #include "dukpp-03/semaphore.h"
-
 
 #include <sadpoint.h>
 #include <sadsize.h>
@@ -26,6 +26,10 @@
 #include <log/log.h>
 #include <log/consoletarget.h>
 #include <log/filetarget.h>
+
+#include <resource/tree.h>
+#include <resource/resourcefile.h>
+
 
 template<typename T> static void __add_target_to_log(sad::log::Log* lg, T* a)
 {
@@ -237,6 +241,42 @@ void sad::dukpp03::exposeAPI(sad::dukpp03::Context* ctx)
 
         ctx->addClassBinding("sad::OpenGL", c);        
     }
+    // Exposing sad::resource::Tree
+    {
+        sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+        c->addObjectConstructor<sad::resource::Tree>("SadResourceTree");
+        c->addObjectConstructor<sad::resource::Tree, sad::Renderer*>("SadResourceTree");
+        c->addObjectConstructor<sad::resource::Tree, sad::dukpp03::Renderer*>("SadResourceTree");
+        c->addMethod("tryLoadFromString",   sad::dukpp03::bind_method::from(&sad::resource::Tree::tryLoadFromString));
+        c->addMethod("tryLoadFromFile",   sad::dukpp03::bind_method::from(&sad::resource::Tree::tryLoadFromFile));
+        
+        bool (sad::resource::Tree::*f)(const sad::String&) = &sad::resource::Tree::unload;
+        c->addMethod("unload",   sad::dukpp03::bind_method::from(f));
 
+        bool (sad::resource::Tree::*g)(sad::resource::ResourceFile*) = &sad::resource::Tree::unload;
+        c->addMethod("unload",   sad::dukpp03::bind_method::from(g));
+
+        c->addMethod("file",   sad::dukpp03::bind_method::from(&sad::resource::Tree::file));
+        c->addMethod("files",   sad::dukpp03::bind_method::from(&sad::resource::Tree::files));
+        c->addMethod("renderer",   sad::dukpp03::bind_method::from(&sad::resource::Tree::renderer));
+        c->addMethod("setRenderer",   sad::dukpp03::bind_method::from(&sad::resource::Tree::setRenderer));
+        c->addMethod("shouldStoreLinks",   sad::dukpp03::bind_method::from(&sad::resource::Tree::shouldStoreLinks));
+        c->addMethod("setStoreLinks",   sad::dukpp03::bind_method::from(&sad::resource::Tree::setStoreLinks));
+
+        c->setPrototypeFunction("SadResourceTree");
+
+        ctx->addClassBinding("sad::resource::Tree", c);        
+    }
+    // Exposing sad::resource::File
+    {
+        sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+        c->addMethod("isAnonymous",  sad::dukpp03::bind_method::from(&sad::resource::ResourceFile::isAnonymous));
+        c->addMethod("name",  sad::dukpp03::bind_method::from(&sad::resource::ResourceFile::name));
+        c->addMethod("setName",  sad::dukpp03::bind_method::from(&sad::resource::ResourceFile::setName));
+        c->addMethod("tryLoad",  sad::dukpp03::bind_method::from(&sad::resource::ResourceFile::tryLoad));
+        c->addMethod("tryReload",  sad::dukpp03::bind_method::from(&sad::resource::ResourceFile::tryReload));
+
+        ctx->addClassBinding("sad::resource::ResourceFile", c);  
+    }
 }
 

@@ -192,6 +192,12 @@ sad::String dumpNativeObject(const sad::db::Variant& v)
 // ReSharper disable once CppMemberFunctionMayBeConst
 void sad::dukpp03::Context::initialize()
 {
+    if (sad::dukpp03::internal::conversion_table.converter("sad::dukpp03::Renderer *", "sad::Renderer *") == NULL)
+    {
+        sad::dukpp03::internal::conversion_table.declareImplicit<sad::dukpp03::Renderer*, sad::Renderer*>();
+        sad::dukpp03::internal::conversion_table.declareImplicit<sad::Renderer*, sad::dukpp03::Renderer*>();
+    }
+
     // Register SadInternalIsNativeObject function
     duk_push_global_object(m_context);
     duk_push_c_function(m_context, isNativeObject, 1);
@@ -591,8 +597,12 @@ void sad::dukpp03::Context::exposeRenderer()
     c->addMethod("cursor", sad::dukpp03::bind_method::from(&sad::Renderer::cursor));
     c->addMethod("setCursor", sad::dukpp03::bind_method::from(&sad::Renderer::setCursor));
     c->addMethod("opengl", sad::dukpp03::bind_method::from(&sad::Renderer::opengl));
+    c->addMethod("tree", sad::dukpp03::bind_method::from(&sad::Renderer::tree));
+    c->addMethod("addTree", sad::dukpp03::bind_method::from(&sad::Renderer::addTree));
+    c->addMethod("takeTree", sad::dukpp03::bind_method::from(&sad::Renderer::takeTree));
+    c->addMethod("removeTree", sad::dukpp03::bind_method::from(&sad::Renderer::removeTree));
+    c->addMethod("tryLoadResources", sad::dukpp03::bind_method::from(&sad::Renderer::tryLoadResources));
     
-
     c->setPrototypeFunction("sad.Renderer");
 
     this->addClassBinding("sad::Renderer", c); 
@@ -632,7 +642,11 @@ void sad::dukpp03::Context::exposeRenderer()
     cext->addMethod("cursor", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::cursor));
     cext->addMethod("setCursor", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::setCursor));
     cext->addMethod("opengl", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::opengl));
-
+    cext->addMethod("tree", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::tree));
+    cext->addMethod("addTree", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::addTree));
+    cext->addMethod("takeTree", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::takeTree));
+    cext->addMethod("removeTree", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::removeTree));
+    cext->addMethod("tryLoadResources", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::tryLoadResources));
     cext->setPrototypeFunction("sad.Renderer");
 
     this->addClassBinding("sad::dukpp03::Renderer", cext); 

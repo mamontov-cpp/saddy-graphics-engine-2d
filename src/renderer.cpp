@@ -17,6 +17,7 @@
 #include "os/threadimpl.h"
 
 #include "db/dbdatabase.h"
+#include "db/dbtypename.h"
 
 #include "util/swaplayerstask.h"
 
@@ -71,6 +72,7 @@ m_added_system_pipeline_tasks(false)
 
 
     sad::resource::Tree * defaulttree = new sad::resource::Tree(this);
+    defaulttree->addRef();
     m_resource_trees.insert("", defaulttree);
     
     // Add stopping a main loop to quite events of controls to make window close
@@ -98,11 +100,11 @@ sad::Renderer::~Renderer(void)
 
     // Force freeing resources, to make sure, that pointer to context will be valid, when resource
     // starting to be freed.
-    for(sad::PtrHash<sad::String, sad::resource::Tree>::iterator it = m_resource_trees.begin();
+    for(sad::Hash<sad::String, sad::resource::Tree*>::iterator it = m_resource_trees.begin();
         it != m_resource_trees.end();
         ++it)
     {
-        delete it.value();
+        it.value()->delRef();
     }
     m_resource_trees.clear();
 
@@ -359,6 +361,15 @@ sad::Vector<sad::resource::Error *> sad::Renderer::loadResources(
     return result;
 }
 
+
+sad::Maybe<sad::String> sad::Renderer::tryLoadResources(
+    const sad::String & filename,
+    const sad::String & treename
+)
+{
+    return sad::resource::errorsToString(this->loadResources(filename, treename));
+}
+
 sad::Texture * sad::Renderer::texture(
     const sad::String & resourcename, 
     const sad::String & treename
@@ -594,6 +605,7 @@ sad::resource::Tree * sad::Renderer::takeTree(const sad::String & name)
         sad::resource::Tree * result =  m_resource_trees[name];
         result->setRenderer(NULL);
         m_resource_trees.remove(name);
+        // A caller should call delRef() after done
         return result;
     }
     return NULL;
@@ -609,8 +621,9 @@ void sad::Renderer::addTree(const sad::String & name, sad::resource::Tree * tree
     {
         sad::resource::Tree * result =  m_resource_trees[name];
         m_resource_trees.remove(name);
-        delete result;
-    } 
+        result->delRef();
+    }
+    tree->addRef();
     tree->setRenderer(this);
     m_resource_trees.insert(name, tree);
 }
@@ -622,7 +635,7 @@ void sad::Renderer::removeTree(const sad::String & name)
     {
         sad::resource::Tree * result =  m_resource_trees[name];
         m_resource_trees.remove(name);
-        delete result;
+        result->delRef();
     }   
 }
 
@@ -941,4 +954,3 @@ void sad::Renderer::clearNow()
 
 
 DECLARE_COMMON_TYPE(sad::Renderer)
-
