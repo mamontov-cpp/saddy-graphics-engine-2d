@@ -403,3 +403,24 @@ sad.AColor.prototype.toString = function() {
     return "sad::AColor(" + o.join(', ')  + ")";
 }
 
+// sad.log.Log bindings
+
+sad.log = {};
+sad.log.Log = SadLog;
+sad.log.Log.prototype.ref = SadLogRef;
+sad.log.Log.prototype.addTarget = function(a) { SadInternalLogAddTarget(this, a); }
+sad.log.Log.prototype.removeTarget = function(a) { SadInternalLogRemoveTarget(this, a); }
+
+sad.log.Priority = {
+    "FATAL" : 6, 
+    "CRITICAL" : 5, 
+    "WARNING" : 4,
+    "MESSAGE" : 3, 
+    "DEBUG" : 2, 
+    "USER" : 1, 
+    "SADDY_INTERNAL" : 0  
+};
+
+sad.log.ConsoleTarget = SadLogConsoleTarget;
+sad.log.FileTarget = SadLogFileTarget;
+

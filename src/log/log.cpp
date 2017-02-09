@@ -1,11 +1,13 @@
 #include "../../include/3rdparty/format/format.h"
 #include "../../include/renderer.h"
 
+#include "../../include/db/dbtypename.h"
+
 sad::log::Log::~Log()
 {
     for(unsigned int i = 0; i < m_targets.count(); i++)
     {
-        delete m_targets[i];
+        m_targets[i]->delRef();
     }
 }
 
@@ -52,6 +54,7 @@ void sad::log::Log::createAndBroadcast(
 sad::log::Log & sad::log::Log::addTarget(sad::log::Target * t)
 {
     m_lock.lock();
+    t->addRef();
     m_targets << t;
     m_lock.unlock();
     return *this;
@@ -61,6 +64,7 @@ sad::log::Log & sad::log::Log::removeTarget(sad::log::Target * t)
 {
     m_lock.lock();
     m_targets.removeAll(t);
+    t->delRef();
     m_lock.unlock();
     return *this;
 }
@@ -118,3 +122,5 @@ void sad::log::Log::popSubsystem()
         m_subsystems.removeAt(last_item_index);
     }
 }
+
+DECLARE_COMMON_TYPE(sad::log::Log);

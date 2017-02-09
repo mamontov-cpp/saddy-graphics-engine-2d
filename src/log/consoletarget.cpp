@@ -1,13 +1,14 @@
 #include <log/consoletarget.h>
 #include <os/consoleimpl.h>
 #include <3rdparty/format/format.h>
+#include <db/dbtypename.h>
 
 sad::log::ConsoleTarget::ConsoleTarget(const sad::String & format, int minpriority,  bool colored , bool allocate_console )
 : m_console(new sad::os::ConsoleImpl())
 {
     m_format = format;
     m_min_priority = minpriority;
-    if (colored)	this->createColoredOutput(); 
+    if (colored)    this->createColoredOutput(); 
     else            this->createNormalOutput();
     if (allocate_console) 
         m_console->createConsole();
@@ -76,3 +77,5 @@ void sad::log::ConsoleTarget::createNormalOutput()
     m_coloring.insert(sad::log::USER, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::NONE));
     m_coloring.insert(sad::log::SADDY_INTERNAL, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::NONE));
 }
+
+DECLARE_COMMON_TYPE(sad::log::ConsoleTarget)

@@ -5,6 +5,7 @@
     performing writing them to file or console
  */
 #pragma once
+#include "../refcountable.h"
 
 namespace sad
 {
@@ -20,7 +21,7 @@ class Message;
             
     Note, that this is a basic class, so it is abstract
   */
-class Target
+class Target: public RefCountable
 {
 public:
     /*! Receives a messages from targetting information

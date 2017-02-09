@@ -1,5 +1,6 @@
 #include <log/filetarget.h>
 #include <3rdparty/format/format.h>
+#include <db/dbtypename.h>
 
 
 sad::log::FileTarget::FileTarget(const sad::String & format, int minpriority)
@@ -60,3 +61,5 @@ void sad::log::FileTarget::close()
         fclose(m_file);
     m_file = NULL;
 }
+
+DECLARE_COMMON_TYPE(sad::log::FileTarget);

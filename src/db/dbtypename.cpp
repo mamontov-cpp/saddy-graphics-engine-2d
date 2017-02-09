@@ -187,6 +187,7 @@ const sad::String&  sad::db::internal::fetchTypeNameForTemplate4(
 
 DECLARE_COMMON_TYPE(bool)
 DECLARE_COMMON_TYPE(char)
+DECLARE_COMMON_TYPE(const char)
 DECLARE_COMMON_TYPE(signed char)
 DECLARE_COMMON_TYPE(unsigned char)
 DECLARE_COMMON_TYPE(short)

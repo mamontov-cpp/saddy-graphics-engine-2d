@@ -17,6 +17,21 @@
 
 #include <settings.h>
 
+#include <log/log.h>
+#include <log/consoletarget.h>
+#include <log/filetarget.h>
+
+template<typename T> static void __add_target_to_log(sad::log::Log* lg, T* a)
+{
+    lg->addTarget(a);
+}
+
+template<typename T> static void __remove_target_from_log(sad::log::Log* lg, T* a)
+{
+    lg->removeTarget(a);
+}
+
+
 void sad::dukpp03::exposeAPI(sad::dukpp03::Context* ctx)
 {
     // Exposing sad::Settings
@@ -95,6 +110,71 @@ void sad::dukpp03::exposeAPI(sad::dukpp03::Context* ctx)
         c->addMethod("isGL3compatible",   sad::dukpp03::bind_method::from(&sad::Window::isGL3compatible));
 
         ctx->addClassBinding("sad::Window", c);        
+    }
+     // Exposing sad::Log   
+    {
+        sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+        c->addConstructor<sad::log::Log>("SadLog");
+        void (sad::log::Log::*f)(const char*, const char*, int) = &sad::log::Log::fatal;
+        c->addMethod("fatal",  sad::dukpp03::bind_method::from(f));
+        f = &sad::log::Log::critical;
+        c->addMethod("critical",  sad::dukpp03::bind_method::from(f));
+        f = &sad::log::Log::warning;
+        c->addMethod("warning",  sad::dukpp03::bind_method::from(f));
+        f = &sad::log::Log::message;
+        c->addMethod("message",  sad::dukpp03::bind_method::from(f));
+        f = &sad::log::Log::debug;
+        c->addMethod("debug",  sad::dukpp03::bind_method::from(f));
+        void (sad::log::Log::*g)(const char*, const char*, int, const sad::String&) = &sad::log::Log::user;
+        c->addMethod("user",  sad::dukpp03::bind_method::from(g));
+        f = &sad::log::Log::saddyInternal<sad::String>;
+        c->addMethod("internal",  sad::dukpp03::bind_method::from(f));
+
+        void (sad::log::Log::*p1)(const sad::String&) = &sad::log::Log::pushSubsystem;
+        void (sad::log::Log::*p2)(const sad::String&, const char*, int) = &sad::log::Log::pushSubsystem;
+        c->addMethod("pushSubsystem",  sad::dukpp03::bind_method::from(p1));
+        c->addMethod("pushSubsystem",  sad::dukpp03::bind_method::from(p2));
+        c->addMethod("popSubsystem",  sad::dukpp03::bind_method::from(&sad::log::Log::popSubsystem));        
+        c->setPrototypeFunction("SadLog");
+
+        ctx->registerCallable("SadLogRef", sad::dukpp03::make_function::from(sad::log::Log::ref));
+
+        ctx->addClassBinding("sad::log::Log", c);
+    }
+    // Exposing sad::log::ConsoleTarget
+    {
+        sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+        c->addObjectConstructor<sad::log::ConsoleTarget>("SadLogConsoleTarget");
+        c->addObjectConstructor<sad::log::ConsoleTarget, sad::String>("SadLogConsoleTarget");
+        c->addObjectConstructor<sad::log::ConsoleTarget, sad::String, int>("SadLogConsoleTarget");
+        c->addObjectConstructor<sad::log::ConsoleTarget, sad::String, int, bool>("SadLogConsoleTarget");
+        c->addObjectConstructor<sad::log::ConsoleTarget, sad::String, int, bool, bool>("SadLogConsoleTarget");       
+        c->setPrototypeFunction("SadLogConsoleTarget");
+
+        ctx->addClassBinding("sad::log::ConsoleTarget", c);
+    }
+    // Exposing sad::log::FileTarget
+    {
+        sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+        c->addObjectConstructor<sad::log::FileTarget>("SadLogFileTarget");
+        c->addObjectConstructor<sad::log::FileTarget, sad::String>("SadLogFileTarget");
+        c->addObjectConstructor<sad::log::FileTarget, sad::String, int>("SadLogFileTarget");
+        c->addMethod("open",  sad::dukpp03::bind_method::from(&sad::log::FileTarget::open));
+        c->setPrototypeFunction("SadLogFileTarget");
+
+        ctx->addClassBinding("sad::log::FileTarget", c);
+    }
+    // Exposing addTarget and removeTarget
+    {
+        ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>* addTarget = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
+        addTarget->add(sad::dukpp03::make_function::from(__add_target_to_log<sad::log::ConsoleTarget>));
+        addTarget->add(sad::dukpp03::make_function::from(__add_target_to_log<sad::log::FileTarget>));
+        ctx->registerCallable("SadInternalLogAddTarget", addTarget);
+
+        ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>* removeTarget = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
+        removeTarget->add(sad::dukpp03::make_function::from(__remove_target_from_log<sad::log::ConsoleTarget>));
+        removeTarget->add(sad::dukpp03::make_function::from(__remove_target_from_log<sad::log::FileTarget>));
+        ctx->registerCallable("SadInternalLogRemoveTarget", removeTarget);
     }
 }
 

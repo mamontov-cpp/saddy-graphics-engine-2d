@@ -571,6 +571,7 @@ void sad::dukpp03::Context::exposeRenderer()
     c->addMethod("information", sad::dukpp03::bind_method::from(&sad::Renderer::information));
     c->addMethod("warning", sad::dukpp03::bind_method::from(&sad::Renderer::warning));
     c->addMethod("window", sad::dukpp03::bind_method::from(&sad::Renderer::window));
+    c->addMethod("log", sad::dukpp03::bind_method::from(&sad::Renderer::log));
 
     c->setPrototypeFunction("sad.Renderer");
 
@@ -607,6 +608,7 @@ void sad::dukpp03::Context::exposeRenderer()
     cext->addMethod("information", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::information));
     cext->addMethod("warning", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::warning));
     cext->addMethod("window", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::window));
+    cext->addMethod("log", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::log));
 
     this->addClassBinding("sad::dukpp03::Renderer", cext); 
 
