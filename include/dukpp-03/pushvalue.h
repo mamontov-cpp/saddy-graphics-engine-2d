@@ -193,9 +193,22 @@ public:
     \param[in] ctx context
     \param[in] v value
  */
-static void perform(sad::dukpp03::BasicContext* ctx, const std::string& v);
+static void perform(sad::dukpp03::BasicContext* ctx, const sad::String& v);
 };
 
+
+/*! An instantiation for pushing sad::String on stack
+ */ 
+template<>
+class PushValue<const sad::String&, sad::dukpp03::BasicContext>
+{
+public:
+/*! Performs pushing value 
+    \param[in] ctx context
+    \param[in] v value
+ */
+static void perform(sad::dukpp03::BasicContext* ctx, const sad::String& v);
+};
 
 /*! An instantiation for pushing sad::String on stack
  */ 
@@ -262,12 +275,48 @@ public:
     }
 };
 
+/*! An instantiation for sad::Vector 
+ */
+template<
+    typename T
+>
+class PushValue<const sad::Vector<T>&, sad::dukpp03::BasicContext>
+{
+public:
+    /*! Performs pushing value
+        \param[in] ctx context
+        \param[in] v value
+     */
+    static void perform(sad::dukpp03::BasicContext* ctx, const sad::Vector<T>& v)
+    {
+        ::dukpp03::PushLinearStructure<sad::Vector, T, sad::dukpp03::BasicContext>::perform(ctx, v);
+    }
+};
+
 /*! An instantiation for sad::Hash 
  */
 template<
     typename T
 >
 class PushValue<sad::Hash<sad::String, T>, sad::dukpp03::BasicContext>
+{
+public:
+    /*! Performs pushing value
+        \param[in] ctx context
+        \param[in] v value
+     */
+    static void perform(sad::dukpp03::BasicContext* ctx, const sad::Hash<sad::String, T>& v)
+    {
+        ::dukpp03::PushDictionaryStructure<sad::Hash, T, sad::dukpp03::BasicContext>::perform(ctx, v);
+    }
+};
+
+/*! An instantiation for sad::Hash 
+ */
+template<
+    typename T
+>
+class PushValue<const sad::Hash<sad::String, T>&, sad::dukpp03::BasicContext>
 {
 public:
     /*! Performs pushing value
@@ -308,8 +357,8 @@ public:
 /*! An instantiation for sad::Pair 
  */
 template<
-	typename T1,
-	typename T2
+    typename T1,
+    typename T2
 >
 class PushValue<sad::Pair<T1, T2>, sad::dukpp03::BasicContext>
 {
@@ -320,13 +369,78 @@ public:
      */
     static void perform(sad::dukpp03::BasicContext* c, const sad::Pair<T1, T2>& v)
     {
-		duk_context* ctx = c->context();
+        duk_context* ctx = c->context();
         int arr_idx = duk_push_array(ctx);
         dukpp03::PushValue<T1, sad::dukpp03::BasicContext>::perform(c, v.p1());
         duk_put_prop_index(ctx, arr_idx, 0);
 
         dukpp03::PushValue<T2, sad::dukpp03::BasicContext>::perform(c, v.p2());
         duk_put_prop_index(ctx, arr_idx, 1);
+    }
+};
+
+
+
+/*! An instantiation for sad::Triplet 
+ */
+template<
+    typename T1,
+    typename T2,
+    typename T3
+>
+class PushValue<sad::Triplet<T1, T2, T3>, sad::dukpp03::BasicContext>
+{
+public:
+    /*! Performs pushing value
+        \param[in] c context
+        \param[in] v value
+     */
+    static void perform(sad::dukpp03::BasicContext* c, const sad::Triplet<T1, T2, T3>& v)
+    {
+        duk_context* ctx = c->context();
+        int arr_idx = duk_push_array(ctx);
+        dukpp03::PushValue<T1, sad::dukpp03::BasicContext>::perform(c, v.p1());
+        duk_put_prop_index(ctx, arr_idx, 0);
+
+        dukpp03::PushValue<T2, sad::dukpp03::BasicContext>::perform(c, v.p2());
+        duk_put_prop_index(ctx, arr_idx, 1);
+
+        dukpp03::PushValue<T3, sad::dukpp03::BasicContext>::perform(c, v.p3());
+        duk_put_prop_index(ctx, arr_idx, 2);
+    }
+};
+
+
+/*! An instantiation for sad::Quadruplet 
+ */
+template<
+    typename T1,
+    typename T2,
+    typename T3,
+    typename T4
+>
+class PushValue<sad::Quadruplet<T1, T2, T3, T4>, sad::dukpp03::BasicContext>
+{
+public:
+    /*! Performs pushing value
+        \param[in] c context
+        \param[in] v value
+     */
+    static void perform(sad::dukpp03::BasicContext* c, const sad::Quadruplet<T1, T2, T3, T4>& v)
+    {
+        duk_context* ctx = c->context();
+        int arr_idx = duk_push_array(ctx);
+        dukpp03::PushValue<T1, sad::dukpp03::BasicContext>::perform(c, v.p1());
+        duk_put_prop_index(ctx, arr_idx, 0);
+
+        dukpp03::PushValue<T2, sad::dukpp03::BasicContext>::perform(c, v.p2());
+        duk_put_prop_index(ctx, arr_idx, 1);
+
+        dukpp03::PushValue<T3, sad::dukpp03::BasicContext>::perform(c, v.p3());
+        duk_put_prop_index(ctx, arr_idx, 2);
+
+        dukpp03::PushValue<T4, sad::dukpp03::BasicContext>::perform(c, v.p4());
+        duk_put_prop_index(ctx, arr_idx, 3);
     }
 };
 

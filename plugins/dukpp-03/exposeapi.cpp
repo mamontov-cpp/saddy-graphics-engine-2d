@@ -12,6 +12,7 @@
 #include <slurp.h>
 #include <spit.h>
 #include <mousecursor.h>
+#include <opengl.h>
 #include <sprite2d.h>
 
 #include <renderer.h>
@@ -185,42 +186,57 @@ void sad::dukpp03::exposeAPI(sad::dukpp03::Context* ctx)
     {
         sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
         c->addObjectConstructor<sad::dukpp03::Mutex>("SadMutex");
-    	c->addMethod("lock",   sad::dukpp03::rebind_method::to<sad::dukpp03::Mutex>::from(&sad::Mutex::lock));
-    	c->addMethod("unlock",   sad::dukpp03::rebind_method::to<sad::dukpp03::Mutex>::from(&sad::Mutex::unlock));
+        c->addMethod("lock",   sad::dukpp03::rebind_method::to<sad::dukpp03::Mutex>::from(&sad::Mutex::lock));
+        c->addMethod("unlock",   sad::dukpp03::rebind_method::to<sad::dukpp03::Mutex>::from(&sad::Mutex::unlock));
         c->setPrototypeFunction("SadMutex");
 
         ctx->addClassBinding("sad::dukpp03::Mutex", c);        
     }
     // Exposing sad::Semaphore
-	{
+    {
         sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
         c->addObjectConstructor<sad::dukpp03::Semaphore>("SadSemaphore");
         c->addObjectConstructor<sad::dukpp03::Semaphore, unsigned int>("SadSemaphore");
         c->addObjectConstructor<sad::dukpp03::Semaphore, unsigned int, unsigned int>("SadSemaphore");
-    	c->addMethod("consume",   sad::dukpp03::rebind_method::to<sad::dukpp03::Semaphore>::from(&sad::Semaphore::consume));
-    	c->addMethod("release",   sad::dukpp03::rebind_method::to<sad::dukpp03::Semaphore>::from(&sad::Semaphore::release));
-    	c->addMethod("value",   sad::dukpp03::rebind_method::to<sad::dukpp03::Semaphore>::from(&sad::Semaphore::value));
+        c->addMethod("consume",   sad::dukpp03::rebind_method::to<sad::dukpp03::Semaphore>::from(&sad::Semaphore::consume));
+        c->addMethod("release",   sad::dukpp03::rebind_method::to<sad::dukpp03::Semaphore>::from(&sad::Semaphore::release));
+        c->addMethod("value",   sad::dukpp03::rebind_method::to<sad::dukpp03::Semaphore>::from(&sad::Semaphore::value));
         c->setPrototypeFunction("SadSemaphore");
 
 
         ctx->addClassBinding("sad::dukpp03::Semaphore", c);        
     }
-	// Exposing sad::MouseCursor
+    // Exposing sad::MouseCursor
     {
         sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
         c->addObjectConstructor<sad::MouseCursor>("SadMouseCursor");
         c->addMethod("position",   sad::dukpp03::bind_method::from(&sad::MouseCursor::position));
-    	c->addMethod("setPosition",   sad::dukpp03::bind_method::from(&sad::MouseCursor::setPosition));
-    	c->addMethod("show",   sad::dukpp03::bind_method::from(&sad::MouseCursor::show));
-    	c->addMethod("hide",   sad::dukpp03::bind_method::from(&sad::MouseCursor::hide));
+        c->addMethod("setPosition",   sad::dukpp03::bind_method::from(&sad::MouseCursor::setPosition));
+        c->addMethod("show",   sad::dukpp03::bind_method::from(&sad::MouseCursor::show));
+        c->addMethod("hide",   sad::dukpp03::bind_method::from(&sad::MouseCursor::hide));
 
-		void (sad::MouseCursor::*f)(sad::Sprite2D*) = &sad::MouseCursor::setImage;
-    	c->addMethod("setImage",   sad::dukpp03::bind_method::from(f));
+        void (sad::MouseCursor::*f)(sad::Sprite2D*) = &sad::MouseCursor::setImage;
+        c->addMethod("setImage",   sad::dukpp03::bind_method::from(f));
 
-    	c->addMethod("clearCursorImage",   sad::dukpp03::bind_method::from(&sad::MouseCursor::clearCursorImage));
+        c->addMethod("clearCursorImage",   sad::dukpp03::bind_method::from(&sad::MouseCursor::clearCursorImage));
         c->setPrototypeFunction("SadMouseCursor");
 
         ctx->addClassBinding("sad::MouseCursor", c);        
     }
+    // Exposing sad::OpenGL
+    {
+        sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+        c->addMethod("version",   sad::dukpp03::bind_method::from(&sad::OpenGL::version));
+        c->addMethod("versionAsDouble",   sad::dukpp03::bind_method::from(&sad::OpenGL::versionAsDouble));
+        c->addMethod("vendor",   sad::dukpp03::bind_method::from(&sad::OpenGL::vendor));
+        c->addMethod("versionAsString",   sad::dukpp03::bind_method::from(&sad::OpenGL::versionAsString));
+        c->addMethod("rendererString",   sad::dukpp03::bind_method::from(&sad::OpenGL::rendererString));
+        c->addMethod("glslShadingLanguageVersion",   sad::dukpp03::bind_method::from(&sad::OpenGL::glslShadingLanguageVersion));
+        c->addMethod("extensions",   sad::dukpp03::bind_method::from(&sad::OpenGL::extensions));
+        c->addMethod("supportsExtension",   sad::dukpp03::bind_method::from(&sad::OpenGL::supportsExtension));
+
+        ctx->addClassBinding("sad::OpenGL", c);        
+    }
+
 }
 

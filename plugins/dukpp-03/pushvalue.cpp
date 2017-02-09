@@ -33,10 +33,16 @@ duk_ret_t dukpp03::internal::unrefAndFinalize(duk_context* ctx, sad::RefCountabl
     return 0; 
 }
 
-void dukpp03::PushValue<sad::String, sad::dukpp03::BasicContext>::perform(sad::dukpp03::BasicContext* ctx, const std::string& v)
+void dukpp03::PushValue<sad::String, sad::dukpp03::BasicContext>::perform(sad::dukpp03::BasicContext* ctx, const sad::String& v)
 {
     duk_push_string(ctx->context(), v.c_str());
 }
+
+void dukpp03::PushValue<const sad::String&, sad::dukpp03::BasicContext>::perform(sad::dukpp03::BasicContext* ctx, const sad::String& v)
+{
+    duk_push_string(ctx->context(), v.c_str());
+}
+
 
 void dukpp03::PushValue<const char*, sad::dukpp03::BasicContext>::perform(sad::dukpp03::BasicContext* ctx, const char*& v)
 {

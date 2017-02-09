@@ -3,6 +3,7 @@
 #include "glcontext.h"
 #include "renderer.h"
 #include "fuzzyequal.h"
+#include "db/dbtypename.h"
 
 
 #ifdef WIN32
@@ -157,3 +158,5 @@ void sad::OpenGL::trySetString(sad::String & s, unsigned int e)
     if (tmp)
         s = tmp;
 }
+
+DECLARE_COMMON_TYPE(sad::OpenGL)

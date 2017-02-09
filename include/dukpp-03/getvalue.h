@@ -112,7 +112,7 @@ public:
                 {
                     duk_get_prop_index(ctx, pos, i);
                     dukpp03::Maybe<_ValueType> val = dukpp03::GetValue<_ValueType, _Context>::perform(c, -1);
-					bool fail = false;
+                    bool fail = false;
                     if (val.exists())
                     {
                         result.mutableValue().push_back(val.value());
@@ -120,13 +120,13 @@ public:
                     else
                     {
                         result.clear();
-						fail = true;
+                        fail = true;
                     }
                     duk_pop(ctx);
-					if (fail)
-					{
-						return;
-					}
+                    if (fail)
+                    {
+                        return;
+                    }
                 }
             }
         }
@@ -508,18 +508,18 @@ public:
 
 /*! Tries to get value with property index
     \param[out] result  a result
-	\param[in] c context
-	\param[in] pos position of object
+    \param[in] c context
+    \param[in] pos position of object
  */
 template<typename T>
 void tryGetPropIndex(
-	sad::Maybe<T>& result,
-	sad::dukpp03::BasicContext* c,
-	duk_idx_t pos,
-	int index
+    sad::Maybe<T>& result,
+    sad::dukpp03::BasicContext* c,
+    duk_idx_t pos,
+    int index
 )
 {
-	if (duk_has_prop_index(c->context(), pos, index))
+    if (duk_has_prop_index(c->context(), pos, index))
     {
         duk_get_prop_index(c->context(), pos, index);
         dukpp03::Maybe<T> val = dukpp03::GetValue<T, sad::dukpp03::BasicContext>::perform(c, -1);
@@ -534,8 +534,8 @@ void tryGetPropIndex(
 /*! An instantiation for sad::Pair<T1,T2>, which is array of two elements on stack
  */
 template<
-	typename T1, 
-	typename T2
+    typename T1, 
+    typename T2
 >
 class GetValue<sad::Pair<T1, T2>, sad::dukpp03::BasicContext>
 {
@@ -555,12 +555,113 @@ public:
         if (duk_is_array(ctx, pos))
         {
             // ReSharper disable once CppInitializedValueIsAlwaysRewritten
-            duk_size_t i = 0, n = duk_get_length(ctx, pos);
-			if (n == 2)
-			{
-				result.setValue(sad::Pair<T1, T2>());
-				sad::Maybe<T1> r1;
-			}            
+            duk_size_t n = duk_get_length(ctx, pos);
+            if (n == 2)
+            {
+                sad::Maybe<T1> r1;
+                tryGetPropIndex(r1,c, pos, 0);
+                sad::Maybe<T2> r2;
+                tryGetPropIndex(r2,c, pos, 1);
+                if (r1.exists() && r2.exists())
+                {
+                    result.setValue(sad::Pair<T1, T2>(r1.value(), r2.value()));
+                }
+            }            
+        }
+        return result;
+    }
+};
+
+
+
+/*! An instantiation for sad::Triplet<T1,T2,T3>, which is array of two elements on stack
+ */
+template<
+    typename T1, 
+    typename T2,
+    typename T3
+>
+class GetValue<sad::Triplet<T1, T2, T3>, sad::dukpp03::BasicContext>
+{
+public:
+    /*! Performs getting value from stack
+        \param[in] c context
+        \param[in] pos index for stack
+        \return a value if it exists, otherwise empty maybe
+     */
+    inline static dukpp03::Maybe<sad::Triplet<T1, T2, T3> > perform(
+        sad::dukpp03::BasicContext* c,
+        duk_idx_t pos
+    )
+    {
+        dukpp03::Maybe<sad::Triplet<T1, T2, T3> > result;
+        duk_context* ctx = c->context();
+        if (duk_is_array(ctx, pos))
+        {
+            // ReSharper disable once CppInitializedValueIsAlwaysRewritten
+            duk_size_t n = duk_get_length(ctx, pos);
+            if (n == 2)
+            {
+                sad::Maybe<T1> r1;
+                tryGetPropIndex(r1,c, pos, 0);
+                sad::Maybe<T2> r2;
+                tryGetPropIndex(r2,c, pos, 1);
+                sad::Maybe<T3> r3;
+                tryGetPropIndex(r3,c, pos, 2);
+                if (r1.exists() && r2.exists() && r3.exists())
+                {
+                    result.setValue(sad::Triplet<T1, T2, T3>(r1.value(), r2.value(), r3.value()));
+                }
+            }            
+        }
+        return result;
+    }
+};
+
+
+
+/*! An instantiation for sad::Quadruplet<T1,T2,T3,T4>, which is array of two elements on stack
+ */
+template<
+    typename T1, 
+    typename T2,
+    typename T3,
+    typename T4
+>
+class GetValue<sad::Quadruplet<T1, T2, T3, T4>, sad::dukpp03::BasicContext>
+{
+public:
+    /*! Performs getting value from stack
+        \param[in] c context
+        \param[in] pos index for stack
+        \return a value if it exists, otherwise empty maybe
+     */
+    inline static dukpp03::Maybe<sad::Quadruplet<T1, T2, T3, T4> > perform(
+        sad::dukpp03::BasicContext* c,
+        duk_idx_t pos
+    )
+    {
+        dukpp03::Maybe<sad::Quadruplet<T1, T2, T3, T4> > result;
+        duk_context* ctx = c->context();
+        if (duk_is_array(ctx, pos))
+        {
+            // ReSharper disable once CppInitializedValueIsAlwaysRewritten
+            duk_size_t n = duk_get_length(ctx, pos);
+            if (n == 2)
+            {
+                sad::Maybe<T1> r1;
+                tryGetPropIndex(r1,c, pos, 0);
+                sad::Maybe<T2> r2;
+                tryGetPropIndex(r2,c, pos, 1);
+                sad::Maybe<T3> r3;
+                tryGetPropIndex(r3,c, pos, 2);
+                sad::Maybe<T3> r4;
+                tryGetPropIndex(r4,c, pos, 3);
+                if (r1.exists() && r2.exists() && r3.exists() && r4.exists())
+                {
+                    result.setValue(sad::Quadruplet<T1, T2, T3, T4>(r1.value(), r2.value(), r3.value(), r4.value()));
+                }
+            }            
         }
         return result;
     }

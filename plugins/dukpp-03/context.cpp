@@ -5,6 +5,7 @@
 #include <sadrect.h>
 #include <sadcolor.h>
 #include <p2d/vector.h>
+#include <opengl.h>
 #include <slurp.h>
 #include <spit.h>
 #include <mousecursor.h>
@@ -589,7 +590,8 @@ void sad::dukpp03::Context::exposeRenderer()
     c->addMethod("log", sad::dukpp03::bind_method::from(&sad::Renderer::log));
     c->addMethod("cursor", sad::dukpp03::bind_method::from(&sad::Renderer::cursor));
     c->addMethod("setCursor", sad::dukpp03::bind_method::from(&sad::Renderer::setCursor));
-	
+    c->addMethod("opengl", sad::dukpp03::bind_method::from(&sad::Renderer::opengl));
+    
 
     c->setPrototypeFunction("sad.Renderer");
 
@@ -629,8 +631,9 @@ void sad::dukpp03::Context::exposeRenderer()
     cext->addMethod("log", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::log));
     cext->addMethod("cursor", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::cursor));
     cext->addMethod("setCursor", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::setCursor));
+    cext->addMethod("opengl", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::opengl));
 
-	cext->setPrototypeFunction("sad.Renderer");
+    cext->setPrototypeFunction("sad.Renderer");
 
     this->addClassBinding("sad::dukpp03::Renderer", cext); 
 
@@ -651,8 +654,8 @@ void sad::dukpp03::Context::exposeRenderer()
     this->registerCallable("SadInternalMakeFPSInterpolationObjectDependent", makeFPSInterpolationObjectDependent);
 
 
-	// Expose sad::sleep
-	this->registerCallable("SadSleep", sad::dukpp03::make_function::from(sad::sleep));
+    // Expose sad::sleep
+    this->registerCallable("SadSleep", sad::dukpp03::make_function::from(sad::sleep));
 }
 
 DECLARE_COMMON_TYPE(sad::dukpp03::Context);
