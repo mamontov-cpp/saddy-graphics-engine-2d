@@ -305,5 +305,31 @@ public:
     }
 };
 
+/*! An instantiation for sad::Pair 
+ */
+template<
+	typename T1,
+	typename T2
+>
+class PushValue<sad::Pair<T1, T2>, sad::dukpp03::BasicContext>
+{
+public:
+    /*! Performs pushing value
+        \param[in] c context
+        \param[in] v value
+     */
+    static void perform(sad::dukpp03::BasicContext* c, const sad::Pair<T1, T2>& v)
+    {
+		duk_context* ctx = c->context();
+        int arr_idx = duk_push_array(ctx);
+        dukpp03::PushValue<T1, sad::dukpp03::BasicContext>::perform(c, v.p1());
+        duk_put_prop_index(ctx, arr_idx, 0);
+
+        dukpp03::PushValue<T2, sad::dukpp03::BasicContext>::perform(c, v.p2());
+        duk_put_prop_index(ctx, arr_idx, 1);
+    }
+};
+
+
 }
  

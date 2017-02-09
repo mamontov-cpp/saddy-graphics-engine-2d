@@ -112,6 +112,7 @@ public:
                 {
                     duk_get_prop_index(ctx, pos, i);
                     dukpp03::Maybe<_ValueType> val = dukpp03::GetValue<_ValueType, _Context>::perform(c, -1);
+					bool fail = false;
                     if (val.exists())
                     {
                         result.mutableValue().push_back(val.value());
@@ -119,9 +120,13 @@ public:
                     else
                     {
                         result.clear();
-                        return;
+						fail = true;
                     }
                     duk_pop(ctx);
+					if (fail)
+					{
+						return;
+					}
                 }
             }
         }
@@ -496,6 +501,66 @@ public:
             {
                 result.setValue(sad::Maybe<T>(maybe_value.value()));
             }
+        }
+        return result;
+    }
+};
+
+/*! Tries to get value with property index
+    \param[out] result  a result
+	\param[in] c context
+	\param[in] pos position of object
+ */
+template<typename T>
+void tryGetPropIndex(
+	sad::Maybe<T>& result,
+	sad::dukpp03::BasicContext* c,
+	duk_idx_t pos,
+	int index
+)
+{
+	if (duk_has_prop_index(c->context(), pos, index))
+    {
+        duk_get_prop_index(c->context(), pos, index);
+        dukpp03::Maybe<T> val = dukpp03::GetValue<T, sad::dukpp03::BasicContext>::perform(c, -1);
+        if (val.exists())
+        {
+            result.setValue(val.value());
+        }
+        duk_pop(c->context());
+    }
+}
+
+/*! An instantiation for sad::Pair<T1,T2>, which is array of two elements on stack
+ */
+template<
+	typename T1, 
+	typename T2
+>
+class GetValue<sad::Pair<T1, T2>, sad::dukpp03::BasicContext>
+{
+public:
+    /*! Performs getting value from stack
+        \param[in] c context
+        \param[in] pos index for stack
+        \return a value if it exists, otherwise empty maybe
+     */
+    inline static dukpp03::Maybe<sad::Pair<T1, T2> > perform(
+        sad::dukpp03::BasicContext* c,
+        duk_idx_t pos
+    )
+    {
+        dukpp03::Maybe<sad::Pair<T1, T2> > result;
+        duk_context* ctx = c->context();
+        if (duk_is_array(ctx, pos))
+        {
+            // ReSharper disable once CppInitializedValueIsAlwaysRewritten
+            duk_size_t i = 0, n = duk_get_length(ctx, pos);
+			if (n == 2)
+			{
+				result.setValue(sad::Pair<T1, T2>());
+				sad::Maybe<T1> r1;
+			}            
         }
         return result;
     }

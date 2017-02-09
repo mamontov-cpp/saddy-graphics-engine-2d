@@ -426,3 +426,8 @@ sad.log.Priority = {
 sad.log.ConsoleTarget = SadLogConsoleTarget;
 sad.log.FileTarget = SadLogFileTarget;
 
+sad.sleep = SadSleep;
+sad.Mutex = SadMutex;
+sad.Semaphore = SadSemaphore;
+
+sad.MouseCursor = SadMouseCursor;

@@ -426,4 +426,10 @@ const std::string __context_eval_info = std::string("var sad = {};\n"
 "};\n"
 "\n"
 "sad.log.ConsoleTarget = SadLogConsoleTarget;\n"
-"sad.log.FileTarget = SadLogFileTarget;\n");
+"sad.log.FileTarget = SadLogFileTarget;\n"
+"\n"
+"sad.sleep = SadSleep;\n"
+"sad.Mutex = SadMutex;\n"
+"sad.Semaphore = SadSemaphore;\n"
+"\n"
+"sad.MouseCursor = SadMouseCursor;\n");

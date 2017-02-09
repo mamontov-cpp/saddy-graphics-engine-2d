@@ -1,5 +1,8 @@
 #include "dukpp-03/context.h"
 #include "dukpp-03/thread.h"
+#include "dukpp-03/mutex.h"
+#include "dukpp-03/semaphore.h"
+
 
 #include <sadpoint.h>
 #include <sadsize.h>
@@ -8,6 +11,8 @@
 #include <p2d/vector.h>
 #include <slurp.h>
 #include <spit.h>
+#include <mousecursor.h>
+#include <sprite2d.h>
 
 #include <renderer.h>
 #include <window.h>
@@ -175,6 +180,47 @@ void sad::dukpp03::exposeAPI(sad::dukpp03::Context* ctx)
         removeTarget->add(sad::dukpp03::make_function::from(__remove_target_from_log<sad::log::ConsoleTarget>));
         removeTarget->add(sad::dukpp03::make_function::from(__remove_target_from_log<sad::log::FileTarget>));
         ctx->registerCallable("SadInternalLogRemoveTarget", removeTarget);
+    }
+    // Exposing sad::Mutex
+    {
+        sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+        c->addObjectConstructor<sad::dukpp03::Mutex>("SadMutex");
+    	c->addMethod("lock",   sad::dukpp03::rebind_method::to<sad::dukpp03::Mutex>::from(&sad::Mutex::lock));
+    	c->addMethod("unlock",   sad::dukpp03::rebind_method::to<sad::dukpp03::Mutex>::from(&sad::Mutex::unlock));
+        c->setPrototypeFunction("SadMutex");
+
+        ctx->addClassBinding("sad::dukpp03::Mutex", c);        
+    }
+    // Exposing sad::Semaphore
+	{
+        sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+        c->addObjectConstructor<sad::dukpp03::Semaphore>("SadSemaphore");
+        c->addObjectConstructor<sad::dukpp03::Semaphore, unsigned int>("SadSemaphore");
+        c->addObjectConstructor<sad::dukpp03::Semaphore, unsigned int, unsigned int>("SadSemaphore");
+    	c->addMethod("consume",   sad::dukpp03::rebind_method::to<sad::dukpp03::Semaphore>::from(&sad::Semaphore::consume));
+    	c->addMethod("release",   sad::dukpp03::rebind_method::to<sad::dukpp03::Semaphore>::from(&sad::Semaphore::release));
+    	c->addMethod("value",   sad::dukpp03::rebind_method::to<sad::dukpp03::Semaphore>::from(&sad::Semaphore::value));
+        c->setPrototypeFunction("SadSemaphore");
+
+
+        ctx->addClassBinding("sad::dukpp03::Semaphore", c);        
+    }
+	// Exposing sad::MouseCursor
+    {
+        sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+        c->addObjectConstructor<sad::MouseCursor>("SadMouseCursor");
+        c->addMethod("position",   sad::dukpp03::bind_method::from(&sad::MouseCursor::position));
+    	c->addMethod("setPosition",   sad::dukpp03::bind_method::from(&sad::MouseCursor::setPosition));
+    	c->addMethod("show",   sad::dukpp03::bind_method::from(&sad::MouseCursor::show));
+    	c->addMethod("hide",   sad::dukpp03::bind_method::from(&sad::MouseCursor::hide));
+
+		void (sad::MouseCursor::*f)(sad::Sprite2D*) = &sad::MouseCursor::setImage;
+    	c->addMethod("setImage",   sad::dukpp03::bind_method::from(f));
+
+    	c->addMethod("clearCursorImage",   sad::dukpp03::bind_method::from(&sad::MouseCursor::clearCursorImage));
+        c->setPrototypeFunction("SadMouseCursor");
+
+        ctx->addClassBinding("sad::MouseCursor", c);        
     }
 }
 

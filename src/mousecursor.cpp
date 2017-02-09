@@ -6,6 +6,8 @@
 #include "os/windowhandles.h"
 #include "input/controls.h"
 
+#include "db/dbtypename.h"
+
 sad::MouseCursorImage::~MouseCursorImage()
 {
 
@@ -349,4 +351,6 @@ void sad::MouseCursor::moveCustomCursor(const sad::input::MouseMoveEvent & e)
         m_cursor->setPos(e.Point3D);
     }	
 }
+
+DECLARE_COMMON_TYPE(sad::MouseCursor)
 
