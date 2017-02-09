@@ -362,6 +362,8 @@ sad.Context.prototype.evalFromFile = function(string) {
 sad.Renderer = SadRenderer;
 
 sad.Renderer.ref = SadRendererRef;
+sad.Renderer.makeFPSInterpolationDefault = function() {  SadInternalMakeFPSInterpolationDefault(this); }
+sad.Renderer.makeFPSInterpolationObjectDependent = function() {  SadInternalMakeFPSInterpolationObjectDependent(this); }
 
 // sad.Settings bindings
 

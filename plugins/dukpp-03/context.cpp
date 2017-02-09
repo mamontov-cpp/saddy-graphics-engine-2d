@@ -9,6 +9,8 @@
 #include <spit.h>
 
 #include <dukpp-03/renderer.h>
+#include <fpsinterpolation.h>
+#include <objectdependentfpsinterpolation.h>
 #include <util/fs.h>
 
 #include <cstdio>
@@ -541,6 +543,16 @@ void sad::dukpp03::Context::exposeContext()
     this->registerGlobal("context", this);
 }
 
+template<typename T> static ___make_interpolation_default(T* a)
+{
+    a->setFPSInterpolation(new sad::FPSInterpolation);
+}
+
+template<typename T> static ___make_interpolation_object_dependent(T* a)
+{
+    a->setFPSInterpolation(new sad::ObjectDependentFPSInterpolation);
+}
+
 void sad::dukpp03::Context::exposeRenderer()
 {
     sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding(); 
@@ -609,6 +621,7 @@ void sad::dukpp03::Context::exposeRenderer()
     cext->addMethod("warning", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::warning));
     cext->addMethod("window", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::window));
     cext->addMethod("log", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::log));
+    cext->setPrototypeFunction("sad.Renderer");
 
     this->addClassBinding("sad::dukpp03::Renderer", cext); 
 
@@ -617,6 +630,16 @@ void sad::dukpp03::Context::exposeRenderer()
     prenderer->addMethod("rectangle", sad::dukpp03::bind_method::from(&sad::PrimitiveRenderer::rectangle));
 
     this->addClassBinding("sad::PrimitiveRenderer", prenderer); 
+
+    ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>* makeFPSInterpolationDefault = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
+    makeFPSInterpolationDefault->add(sad::dukpp03::make_function::from(___make_interpolation_default<sad::Renderer>));
+    makeFPSInterpolationDefault->add(sad::dukpp03::make_function::from(___make_interpolation_default<sad::dukpp03::Renderer>));
+    this->registerCallable("SadInternalMakeFPSInterpolationDefault", makeFPSInterpolationDefault);
+
+    ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>* makeFPSInterpolationObjectDependent = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
+    makeFPSInterpolationObjectDependent->add(sad::dukpp03::make_function::from(___make_interpolation_object_dependent<sad::Renderer>));
+    makeFPSInterpolationObjectDependent->add(sad::dukpp03::make_function::from(___make_interpolation_object_dependent<sad::dukpp03::Renderer>));
+    this->registerCallable("SadInternalMakeFPSInterpolationObjectDependent", makeFPSInterpolationObjectDependent);
 }
 
 DECLARE_COMMON_TYPE(sad::dukpp03::Context);
