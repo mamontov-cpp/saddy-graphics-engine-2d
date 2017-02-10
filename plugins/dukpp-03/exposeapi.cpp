@@ -33,6 +33,8 @@
 #include <db/dbtable.h>
 #include <db/dbdatabase.h>
 
+#include <input/events.h>
+
 template<typename T> static void __add_target_to_log(sad::log::Log* lg, T* a)
 {
     lg->addTarget(a);
@@ -339,5 +341,132 @@ void sad::dukpp03::exposeAPI(sad::dukpp03::Context* ctx)
 		
         ctx->addClassBinding("sad::db::Table", c);  
     }
+
+	// Exposing events
+    {
+	    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+		c->addConstructor<sad::input::QuitEvent>("SadInputQuitEvent");
+		c->setPrototypeFunction("SadInputQuitEvent");
+        ctx->addClassBinding("sad::input::QuitEvent", c);  
+    }
+    {
+	    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+		c->addConstructor<sad::input::MouseLeaveEvent>("SadInputMouseLeaveEvent");
+		c->setPrototypeFunction("SadInputMouseLeaveEvent");
+        ctx->addClassBinding("sad::input::MouseLeaveEvent", c);  
+    }
+    {
+	    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+		c->addConstructor<sad::input::ActivateEvent>("SadInputActivateEvent");
+		c->setPrototypeFunction("SadInputActivateEvent");
+        ctx->addClassBinding("sad::input::ActivateEvent", c);  
+    }
+    {
+	    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+		c->addConstructor<sad::input::DeactivateEvent>("SadInputDeactivateEvent");
+		c->setPrototypeFunction("SadInputDeactivateEvent");
+        ctx->addClassBinding("sad::input::DeactivateEvent", c);  
+    }
+    {
+	    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+		c->addConstructor<sad::input::KeyPressEvent>("SadInputKeyPressEvent");
+		c->setPrototypeFunction("SadInputKeyPressEvent");
+		c->addMethod("key", sad::dukpp03::rebind_method::to<sad::input::KeyPressEvent>::from(&sad::input::KeyEvent::key));
+		c->addAccessor("readableKey", sad::dukpp03::getter::to<sad::input::KeyPressEvent>::from(&sad::input::KeyEvent::ReadableKey), sad::dukpp03::setter::to<sad::input::KeyPressEvent>::from(&sad::input::KeyEvent::ReadableKey));
+		c->addAccessor("altHeld", sad::dukpp03::getter::to<sad::input::KeyPressEvent>::from(&sad::input::KeyEvent::AltHeld), sad::dukpp03::setter::to<sad::input::KeyPressEvent>::from(&sad::input::KeyEvent::AltHeld));
+		c->addAccessor("shiftHeld", sad::dukpp03::getter::to<sad::input::KeyPressEvent>::from(&sad::input::KeyEvent::ShiftHeld), sad::dukpp03::setter::to<sad::input::KeyPressEvent>::from(&sad::input::KeyEvent::ShiftHeld));
+		c->addAccessor("ctrlHeld", sad::dukpp03::getter::to<sad::input::KeyPressEvent>::from(&sad::input::KeyEvent::CtrlHeld), sad::dukpp03::setter::to<sad::input::KeyPressEvent>::from(&sad::input::KeyEvent::CtrlHeld));
+
+        ctx->addClassBinding("sad::input::KeyPressEvent", c);  	    
+    }
+	{
+	    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+		c->addConstructor<sad::input::KeyReleaseEvent>("SadInputKeyReleaseEvent");
+		c->setPrototypeFunction("SadInputKeyReleaseEvent");
+		c->addMethod("key", sad::dukpp03::rebind_method::to<sad::input::KeyReleaseEvent>::from(&sad::input::KeyEvent::key));
+		c->addAccessor("readableKey", sad::dukpp03::getter::to<sad::input::KeyReleaseEvent>::from(&sad::input::KeyEvent::ReadableKey), sad::dukpp03::setter::to<sad::input::KeyReleaseEvent>::from(&sad::input::KeyEvent::ReadableKey));
+		c->addAccessor("altHeld", sad::dukpp03::getter::to<sad::input::KeyReleaseEvent>::from(&sad::input::KeyEvent::AltHeld), sad::dukpp03::setter::to<sad::input::KeyReleaseEvent>::from(&sad::input::KeyEvent::AltHeld));
+		c->addAccessor("shiftHeld", sad::dukpp03::getter::to<sad::input::KeyReleaseEvent>::from(&sad::input::KeyEvent::ShiftHeld), sad::dukpp03::setter::to<sad::input::KeyReleaseEvent>::from(&sad::input::KeyEvent::ShiftHeld));
+		c->addAccessor("ctrlHeld", sad::dukpp03::getter::to<sad::input::KeyReleaseEvent>::from(&sad::input::KeyEvent::CtrlHeld), sad::dukpp03::setter::to<sad::input::KeyReleaseEvent>::from(&sad::input::KeyEvent::CtrlHeld));
+
+        ctx->addClassBinding("sad::input::KeyReleaseEvent", c);  	    
+    }
+	{
+	    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+		c->addConstructor<sad::input::MouseMoveEvent>("SadInputMouseMoveEvent");
+		c->setPrototypeFunction("SadInputMouseMoveEvent");
+		c->addMethod("pos2D", sad::dukpp03::rebind_method::to<sad::input::MouseMoveEvent>::from(&sad::input::MouseCursorEvent::pos2D));
+		c->addMethod("setPoint", sad::dukpp03::rebind_method::to<sad::input::MouseMoveEvent>::from(&sad::input::MouseCursorEvent::setPoint));
+    	c->addAccessor("Point3D", sad::dukpp03::getter::to<sad::input::MouseMoveEvent>::from(&sad::input::MouseCursorEvent::Point3D), sad::dukpp03::setter::to<sad::input::MouseMoveEvent>::from(&sad::input::MouseCursorEvent::Point3D));
+
+        ctx->addClassBinding("sad::input::MouseMoveEvent", c);  	    
+    }
+	{
+	    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+		c->addConstructor<sad::input::MouseEnterEvent>("SadInputMouseEnterEvent");
+		c->setPrototypeFunction("SadInputMouseEnterEvent");
+		c->addMethod("pos2D", sad::dukpp03::rebind_method::to<sad::input::MouseEnterEvent>::from(&sad::input::MouseCursorEvent::pos2D));
+		c->addMethod("setPoint", sad::dukpp03::rebind_method::to<sad::input::MouseEnterEvent>::from(&sad::input::MouseCursorEvent::setPoint));
+    	c->addAccessor("Point3D", sad::dukpp03::getter::to<sad::input::MouseEnterEvent>::from(&sad::input::MouseCursorEvent::Point3D), sad::dukpp03::setter::to<sad::input::MouseEnterEvent>::from(&sad::input::MouseCursorEvent::Point3D));
+
+        ctx->addClassBinding("sad::input::MouseEnterEvent", c);  	    
+    }
+	{
+	    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+		c->addConstructor<sad::input::MousePressEvent>("SadInputMousePressEvent");
+		c->setPrototypeFunction("SadInputMousePressEvent");
+		c->addMethod("pos2D", sad::dukpp03::rebind_method::to<sad::input::MousePressEvent>::from(&sad::input::MouseCursorEvent::pos2D));
+		c->addMethod("setPoint", sad::dukpp03::rebind_method::to<sad::input::MousePressEvent>::from(&sad::input::MouseCursorEvent::setPoint));
+		c->addMethod("button", sad::dukpp03::rebind_method::to<sad::input::MousePressEvent>::from(&sad::input::MouseEvent::button));
+
+    	c->addAccessor("Point3D", sad::dukpp03::getter::to<sad::input::MousePressEvent>::from(&sad::input::MouseCursorEvent::Point3D), sad::dukpp03::setter::to<sad::input::MousePressEvent>::from(&sad::input::MouseCursorEvent::Point3D));
+
+        ctx->addClassBinding("sad::input::MousePressEvent", c);  	    
+    }
+	{
+	    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+		c->addConstructor<sad::input::MouseReleaseEvent>("SadInputMouseReleaseEvent");
+		c->setPrototypeFunction("SadInputMouseReleaseEvent");
+		c->addMethod("pos2D", sad::dukpp03::rebind_method::to<sad::input::MouseReleaseEvent>::from(&sad::input::MouseCursorEvent::pos2D));
+		c->addMethod("setPoint", sad::dukpp03::rebind_method::to<sad::input::MouseReleaseEvent>::from(&sad::input::MouseCursorEvent::setPoint));
+		c->addMethod("button", sad::dukpp03::rebind_method::to<sad::input::MouseReleaseEvent>::from(&sad::input::MouseEvent::button));
+
+    	c->addAccessor("Point3D", sad::dukpp03::getter::to<sad::input::MouseReleaseEvent>::from(&sad::input::MouseCursorEvent::Point3D), sad::dukpp03::setter::to<sad::input::MouseReleaseEvent>::from(&sad::input::MouseCursorEvent::Point3D));
+
+        ctx->addClassBinding("sad::input::MouseReleaseEvent", c);  	    
+    }
+	{
+	    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+		c->addConstructor<sad::input::MouseDoubleClickEvent>("SadInputMouseDoubleClickEvent");
+		c->setPrototypeFunction("SadInputMouseDoubleClickEvent");
+		c->addMethod("pos2D", sad::dukpp03::rebind_method::to<sad::input::MouseDoubleClickEvent>::from(&sad::input::MouseCursorEvent::pos2D));
+		c->addMethod("setPoint", sad::dukpp03::rebind_method::to<sad::input::MouseDoubleClickEvent>::from(&sad::input::MouseCursorEvent::setPoint));
+		c->addMethod("button", sad::dukpp03::rebind_method::to<sad::input::MouseDoubleClickEvent>::from(&sad::input::MouseEvent::button));
+
+    	c->addAccessor("Point3D", sad::dukpp03::getter::to<sad::input::MouseDoubleClickEvent>::from(&sad::input::MouseCursorEvent::Point3D), sad::dukpp03::setter::to<sad::input::MouseDoubleClickEvent>::from(&sad::input::MouseCursorEvent::Point3D));
+
+        ctx->addClassBinding("sad::input::MouseDoubleClickEvent", c);  	    
+    }
+	{
+	    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+		c->addConstructor<sad::input::MouseWheelEvent>("SadInputMouseWheelEvent");
+		c->setPrototypeFunction("SadInputMouseWheelEvent");
+		c->addMethod("pos2D", sad::dukpp03::rebind_method::to<sad::input::MouseWheelEvent>::from(&sad::input::MouseCursorEvent::pos2D));
+		c->addMethod("setPoint", sad::dukpp03::rebind_method::to<sad::input::MouseWheelEvent>::from(&sad::input::MouseCursorEvent::setPoint));    
+    	c->addAccessor("Point3D", sad::dukpp03::getter::to<sad::input::MouseWheelEvent>::from(&sad::input::MouseCursorEvent::Point3D), sad::dukpp03::setter::to<sad::input::MouseWheelEvent>::from(&sad::input::MouseCursorEvent::Point3D));
+    	c->addAccessor("Delta", sad::dukpp03::getter::from(&sad::input::MouseWheelEvent::Delta), sad::dukpp03::setter::from(&sad::input::MouseWheelEvent::Delta));
+
+        ctx->addClassBinding("sad::input::MouseWheelEvent", c);  	    
+    }
+	{
+	    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+		c->addConstructor<sad::input::ResizeEvent>("SadInputResizeEvent");
+		c->setPrototypeFunction("SadInputResizeEvent");
+		c->addAccessor("OldSize", sad::dukpp03::getter::from(&sad::input::ResizeEvent::OldSize), sad::dukpp03::setter::from(&sad::input::ResizeEvent::OldSize));
+		c->addAccessor("NewSize", sad::dukpp03::getter::from(&sad::input::ResizeEvent::NewSize), sad::dukpp03::setter::from(&sad::input::ResizeEvent::NewSize));
+
+        ctx->addClassBinding("sad::input::ResizeEvent", c);  	    
+    }
+
 }
 

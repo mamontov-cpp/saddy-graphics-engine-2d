@@ -239,3 +239,6 @@ DECLARE_TYPE_AS_SAD_OBJECT(sad::p2d::app::Way);
 DECLARE_TYPE_AS_SAD_OBJECT(sad::dialogue::Dialogue);
 
 DECLARE_COMMON_TYPE(sad::db::Variant);
+
+
+DECLARE_COMMON_TYPE(sad::Maybe<sad::String>)

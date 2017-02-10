@@ -443,3 +443,124 @@ sad.resource.Tree.prototype.ref = function() {
 sad.db = {};
 sad.db.Database = SadDBDatabase;
 sad.db.Table = SadDBTable;
+
+
+sad.input = {};
+
+sad.input.QuitEvent = SadInputQuitEvent;
+sad.input.MouseLeaveEvent = SadInputMouseLeaveEvent;
+sad.input.ActivateEvent = SadInputActivateEvent;
+sad.input.DeactivateEvent = SadInputDeactivateEvent;
+sad.input.KeyPressEvent = SadInputKeyPressEvent;
+sad.input.KeyReleaseEvent = SadInputKeyReleaseEvent;
+sad.input.MouseMoveEvent = SadInputMouseMoveEvent;
+sad.input.MouseEnterEvent = SadInputMouseEnterEvent;
+sad.input.MousePressEvent = SadInputMousePressEvent;
+sad.input.MouseReleaseEvent = SadInputMouseReleaseEvent;
+sad.input.MouseDoubleClickEvent = SadInputMouseDoubleClickEvent;
+sad.input.MouseWheelEvent = SadInputMouseWheelEvent;
+sad.input.ResizeEvent = SadInputResizeEvent;
+
+sad.KeyboardKey = {
+    "Numeric0": 48,
+    "Numeric1": 49,
+    "Numeric2": 50,
+    "Numeric3": 51,
+    "Numeric4": 52,
+    "Numeric5": 53,
+    "Numeric6": 54,
+    "Numeric7": 55,
+    "Numeric8": 56,
+    "Numeric9": 57,
+    "A": 65,
+    "B": 66,
+    "C": 67,
+    "D": 68,
+    "E": 69,
+    "F": 70,
+    "G": 71,
+    "H": 72,
+    "I": 73,
+    "J": 74,
+    "K": 75,
+    "L": 76,
+    "M": 77,
+    "N": 78,
+    "O": 79,
+    "P": 80,
+    "Q": 81,
+    "R": 82,
+    "S": 83,
+    "T": 84,
+    "U": 85,
+    "V": 86,
+    "W": 87,
+    "X": 88,
+    "Y": 89,
+    "Z": 90,  
+    "Minus": 45, 
+    "Equal": 61,
+    "BackSlash": 92, 
+    "Tilde": 126, 
+    "OpeningSquareBracket": 91,
+    "ClosingSquareBracket": 93,
+    "Semicolon": 59,
+    "Comma": 44,
+    "Period": 46,
+    "Slash": 47,
+    "Apostrophe": 39,
+    "Esc": 256,  
+    "F1" : 257,  
+    "F2" : 258,  
+    "F3" : 259,  
+    "F4" : 260,  
+    "F5" : 261,  
+    "F6" : 262,  
+    "F7" : 263,  
+    "F8" : 264,  
+    "F9" : 265,  
+    "F10": 266,  
+    "F11": 267,  
+    "F12": 268,  
+    "Pause":  269,  
+    "Insert": 270,  
+    "Delete": 271,  
+    "Backspace": 272,  
+    "Enter": 273,  
+    "Space": 274,  
+    "PrintScreen": 275,  
+    "Home": 276,  
+    "End": 277,  
+    "PageUp": 278,  
+    "PageDown": 279,  
+    "Tab": 280,  
+    "NumLock": 281,  
+    "ScrollLock": 282,  
+    "CapsLock": 283,  
+    "WindowsKey": 284,  
+    "AppKey": 285,  
+    "KeyLeft": 286,  
+    "KeyRight": 287,  
+    "KeyUp": 288,  
+    "KeyDown": 289,  
+    "LeftShift": 290,  
+    "RightShift": 291,  
+    "LeftControl": 292,  
+    "RightControl": 293,  
+    "LeftAlt": 294,  
+    "RightAlt": 295,  
+    "KeyNone": 296  
+};
+
+sad.MouseButton = {
+    "MouseLeft"   : -16535,
+    "MouseMiddle" : -16534,
+    "MouseRight"  : -16533,
+    "MouseNone"   : 0
+};
+
+sad.SpecialKey = {
+    "HoldsControl" :  -16538,  
+    "HoldsAlt"     :  -16537,  
+    "HoldsShift"   :  -16536  
+};
