@@ -17,6 +17,9 @@
 
 #include <sadsleep.h>
 
+#include <db/dbdatabase.h>
+#include <db/dbtable.h>
+
 #include <cstdio>
 
 
@@ -602,6 +605,9 @@ void sad::dukpp03::Context::exposeRenderer()
     c->addMethod("takeTree", sad::dukpp03::bind_method::from(&sad::Renderer::takeTree));
     c->addMethod("removeTree", sad::dukpp03::bind_method::from(&sad::Renderer::removeTree));
     c->addMethod("tryLoadResources", sad::dukpp03::bind_method::from(&sad::Renderer::tryLoadResources));
+    c->addMethod("addDatabase", sad::dukpp03::bind_method::from(&sad::Renderer::addDatabase));
+    c->addMethod("removeDatabase", sad::dukpp03::bind_method::from(&sad::Renderer::removeDatabase));
+    c->addMethod("database", sad::dukpp03::bind_method::from(&sad::Renderer::database));
     
     c->setPrototypeFunction("sad.Renderer");
 
@@ -647,7 +653,10 @@ void sad::dukpp03::Context::exposeRenderer()
     cext->addMethod("takeTree", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::takeTree));
     cext->addMethod("removeTree", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::removeTree));
     cext->addMethod("tryLoadResources", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::tryLoadResources));
-    cext->setPrototypeFunction("sad.Renderer");
+    cext->addMethod("addDatabase", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::addDatabase));
+    cext->addMethod("removeDatabase", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::removeDatabase));
+    cext->addMethod("database", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::database));
+	cext->setPrototypeFunction("sad.Renderer");
 
     this->addClassBinding("sad::dukpp03::Renderer", cext); 
 

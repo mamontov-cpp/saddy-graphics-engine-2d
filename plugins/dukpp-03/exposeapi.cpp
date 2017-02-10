@@ -30,6 +30,8 @@
 #include <resource/tree.h>
 #include <resource/resourcefile.h>
 
+#include <db/dbtable.h>
+#include <db/dbdatabase.h>
 
 template<typename T> static void __add_target_to_log(sad::log::Log* lg, T* a)
 {
@@ -277,6 +279,65 @@ void sad::dukpp03::exposeAPI(sad::dukpp03::Context* ctx)
         c->addMethod("tryReload",  sad::dukpp03::bind_method::from(&sad::resource::ResourceFile::tryReload));
 
         ctx->addClassBinding("sad::resource::ResourceFile", c);  
+    }
+	// Exposing sad::db::Database
+    {
+        sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+		c->addObjectConstructor<sad::db::Database>("SadDBDatabase");
+        c->setPrototypeFunction("SadDBDatabase");
+		sad::String (sad::db::Database::*save)() = &sad::db::Database::save;
+    	c->addMethod("save",  sad::dukpp03::bind_method::from(save));
+    	c->addMethod("saveToFile",  sad::dukpp03::bind_method::from(&sad::db::Database::saveToFile));
+    	c->addMethod("load",  sad::dukpp03::bind_method::from(&sad::db::Database::load));
+    	c->addMethod("loadFromFile",  sad::dukpp03::bind_method::from(&sad::db::Database::loadFromFile));
+    	c->addMethod("tryLoadFrom",  sad::dukpp03::bind_method::from(&sad::db::Database::loadFromFile));
+    	c->addMethod("addPropertyOfType",  sad::dukpp03::bind_method::from(&sad::db::Database::addPropertyOfType));
+    	c->addMethod("removeProperty",  sad::dukpp03::bind_method::from(&sad::db::Database::removeProperty));
+    	c->addMethod("setDBProperty",  sad::dukpp03::bind_method::from(&sad::db::Database::setDBProperty));
+    	c->addMethod("getDBProperty",  sad::dukpp03::bind_method::from(&sad::db::Database::getDBProperty));
+    	c->addMethod("hasDBProperty",  sad::dukpp03::bind_method::from(&sad::db::Database::hasDBProperty));
+    	c->addMethod("addTable",  sad::dukpp03::bind_method::from(&sad::db::Database::addTable));
+    	c->addMethod("removeTable",  sad::dukpp03::bind_method::from(&sad::db::Database::removeTable));
+    	c->addMethod("table",  sad::dukpp03::bind_method::from(&sad::db::Database::table));
+    	c->addMethod("queryByName",  sad::dukpp03::bind_method::from(&sad::db::Database::queryByName));
+    	c->addMethod("queryByMinorId",  sad::dukpp03::bind_method::from(&sad::db::Database::queryByMinorId));
+    	c->addMethod("queryByMajorId",  sad::dukpp03::bind_method::from(&sad::db::Database::queryByMajorId));
+    	c->addMethod("tableList",  sad::dukpp03::bind_method::from(&sad::db::Database::tableList));
+    	c->addMethod("setRenderer",  sad::dukpp03::bind_method::from(&sad::db::Database::setRenderer));
+    	c->addMethod("renderer",  sad::dukpp03::bind_method::from(&sad::db::Database::renderer));
+    	c->addMethod("setDefaultTreeName",  sad::dukpp03::bind_method::from(&sad::db::Database::setDefaultTreeName));
+    	c->addMethod("defaultTreeName",  sad::dukpp03::bind_method::from(&sad::db::Database::defaultTreeName));
+    	c->addMethod("saveSnapshot",  sad::dukpp03::bind_method::from(&sad::db::Database::saveSnapshot));
+    	c->addMethod("snapshotsCount",  sad::dukpp03::bind_method::from(&sad::db::Database::snapshotsCount));
+    	c->addMethod("restoreSnapshot",  sad::dukpp03::bind_method::from(&sad::db::Database::restoreSnapshot));
+    	c->addMethod("tablesAreEmpty",  sad::dukpp03::bind_method::from(&sad::db::Database::tablesAreEmpty));
+    	c->addMethod("propertyNames",  sad::dukpp03::bind_method::from(&sad::db::Database::propertyNames));
+
+		sad::db::Object* (sad::db::Database::*objectByName)(const sad::String &) const = &sad::db::Database::objectByName; 
+    	c->addMethod("objectByName",  sad::dukpp03::bind_method::from(objectByName));
+
+        ctx->addClassBinding("sad::db::Database", c);  
+    }
+	// Exposing sad::db::Table
+    {
+	    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+		c->addObjectConstructor<sad::db::Table>("SadDBTable");
+        c->setPrototypeFunction("SadDBTable");
+		c->addMethod("add",  sad::dukpp03::bind_method::from(&sad::db::Table::add));
+		c->addMethod("remove",  sad::dukpp03::bind_method::from(&sad::db::Table::remove));
+		c->addMethod("queryById",  sad::dukpp03::bind_method::from(&sad::db::Table::queryById));
+		c->addMethod("queryByMinorId",  sad::dukpp03::bind_method::from(&sad::db::Table::queryByMinorId));
+		c->addMethod("queryByName",  sad::dukpp03::bind_method::from(&sad::db::Table::queryByName));
+		c->addMethod("objectByName",  sad::dukpp03::bind_method::from(&sad::db::Table::objectByName));
+		c->addMethod("queryByMajorId",  sad::dukpp03::bind_method::from(&sad::db::Table::queryByMajorId));
+		c->addMethod("database",  sad::dukpp03::bind_method::from(&sad::db::Table::database));
+		c->addMethod("setDatabase",  sad::dukpp03::bind_method::from(&sad::db::Table::setDatabase));
+		c->addMethod("objectList",  sad::dukpp03::bind_method::from(&sad::db::Table::objectList));
+		c->addMethod("objectListOfType",  sad::dukpp03::bind_method::from(&sad::db::Table::objectListOfType));
+		c->addMethod("clear",  sad::dukpp03::bind_method::from(&sad::db::Table::clear));
+		c->addMethod("empty",  sad::dukpp03::bind_method::from(&sad::db::Table::empty));
+		
+        ctx->addClassBinding("sad::db::Table", c);  
     }
 }
 

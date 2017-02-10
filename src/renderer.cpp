@@ -121,7 +121,7 @@ sad::Renderer::~Renderer(void)
         it != m_databases.end();
         ++it)
     {
-        delete it.value();
+        it.value()->delRef();
     }   
 }
 
@@ -654,6 +654,7 @@ bool sad::Renderer::addDatabase(const sad::String & name, sad::db::Database * da
         return false;
     }
     database->setRenderer(this);
+	database->addRef();
     m_databases.insert(name, database);
     return true;
 }
@@ -663,7 +664,7 @@ void sad::Renderer::removeDatabase(const sad::String & name)
     sad::ScopedLock lock(&m_database_lock);
     if (m_databases.contains(name))
     {
-        delete m_databases[name];
+        m_databases[name]->delRef();
         m_databases.remove(name);
     }
 }

@@ -5,6 +5,7 @@
  */
 #pragma once
 #include "dbobject.h"
+#include "../refcountable.h"
 
 namespace sad
 {
@@ -19,7 +20,7 @@ class ObjectFactory;
     A table, which represents objects in database, which could be used to fetch objects
     dynamically and do some other stuff.
  */
-class Table  
+class Table: public sad::RefCountable  
 {	
 public:	
     /*! Creates new empty table
@@ -52,7 +53,12 @@ public:
         \return a vector of linked object
      */
     virtual sad::Vector<sad::db::Object*> queryByName(const sad::String& name);
-    /*! Queries objects from table by major id field
+    /*! Queries a table by name
+        \param[in] name a name
+        \return an object or null if not found
+     */
+    virtual sad::db::Object* objectByName(const sad::String& name);
+	/*! Queries objects from table by major id field
         \param[in] major_id an id
         \return	an object, or null if not found
      */
@@ -86,6 +92,15 @@ public:
         \param[out] o objects
      */
     virtual void objects(sad::Vector<sad::db::Object*> & o);
+	/*! Returns object list from table
+	    \return object list from table
+	 */
+	sad::Vector<sad::db::Object*> objectList();
+	/*! Returns object list from table with only objects of specified type
+	    \param[in] s string
+	    \return object list from table
+	 */
+	sad::Vector<sad::db::Object*> objectListOfType(const sad::String& s);
     /*! Fetches objects of specified type from table
         \param[out] o objects
      */

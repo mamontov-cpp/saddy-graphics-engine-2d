@@ -439,3 +439,7 @@ sad.resource.Tree = SadResourceTree;
 sad.resource.Tree.prototype.ref = function() {
     return sad.Renderer.ref().tree("");
 }
+
+sad.db = {};
+sad.db.Database = SadDBDatabase;
+sad.db.Table = SadDBTable;

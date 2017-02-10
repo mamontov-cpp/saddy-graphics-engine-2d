@@ -440,4 +440,8 @@ const std::string __context_eval_info = std::string("var sad = {};\n"
 "\n"
 "sad.resource.Tree.prototype.ref = function() {\n"
 "    return sad.Renderer.ref().tree(\"\");\n"
-"}\n");
+"}\n"
+"\n"
+"sad.db = {};\n"
+"sad.db.Database = SadDBDatabase;\n"
+"sad.db.Table = SadDBTable;\n");

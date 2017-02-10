@@ -6,6 +6,7 @@
  */
 #pragma once
 #include "../sadstring.h"
+#include "../refcountable.h"
 #include "dbobjectfactory.h"
 #include "dberror.h"
 #include "dbtable.h"
@@ -27,7 +28,7 @@ namespace db
     A database of game objects, which could be organized in tables
     and queried by various parameters, like name and identifying major and minor ids.
  */
-class Database  
+class Database: public sad::RefCountable  
 {	
 public:	
     /*! A typename for property list
@@ -61,6 +62,10 @@ public:
         \param[out] output output string
      */
     void save(sad::String & output);
+    /*! Saves database to string
+        \return output string
+     */
+	sad::String save();
     /*! Saves database to file
         \param[in] filename a name of file
      */
@@ -72,10 +77,20 @@ public:
     bool load(const sad::String& input);
     /*! Loads database from file, using specifying name. Saves a snapshot if successfull.
         \param[in] name a name for file
+        \return whether load was successfull
+     */
+    bool tryLoadFrom(const sad::String& name);
+    /*! Loads database from file, using specifying name. Saves a snapshot if successfull.
+        \param[in] name a name for file
         \param[in] r renderer, which is used to determine global path's (NULL for global)
         \return whether load was successfull
      */
     bool loadFromFile(const sad::String& name, sad::Renderer * r = NULL);
+    /*! Adds new custom property to database. Replaces another property, if such property exists.
+        \param[in] name name of property
+        \param[in] p a property
+     */
+    virtual void addPropertyOfType(const sad::String & name,  const sad::String& type);
     /*! Adds new custom property to database. Replaces another property, if such property exists.
         \param[in] name name of property
         \param[in] p a property
@@ -90,6 +105,21 @@ public:
         \return value of property
      */
     virtual sad::db::Property* propertyByName(const sad::String & name) const;
+
+	/*! Sets database property
+	    \param[in] name a name
+	    \param[in] v variant
+	 */
+	bool setDBProperty(const sad::String& name, sad::db::Variant& v);
+	/*! Checks if database has specified property
+	    \param[in] name a name of property
+	 */
+	bool hasDBProperty(const sad::String& name) const;
+	/*! Returns database property
+	    \param[in] name a name of property
+	    \return a property
+	 */
+	sad::Maybe<sad::db::Variant> getDBProperty(const sad::String& name);
     /*! Tries to set property to a value 
         \param[in] name a name of property
         \param[in] value a value of property
@@ -186,6 +216,11 @@ public:
         \return a vector of objects by name
      */
     sad::Vector<sad::db::Object *> queryByName(const sad::String & name) const;
+    /*! Queries all tables in search of object by name
+        \param[in] name name of searched objects
+        \return a vector of objects by name
+     */
+    sad::db::Object* objectByName(const sad::String & name) const;
     /*! Tries to get objects by name
         \param[in] id object id
         \return objects
@@ -267,6 +302,14 @@ public:
         \param[out] tables a tables in database
      */
     void getTables(sad::Vector<sad::Pair<sad::String, sad::db::Table*> > & tables) const;
+	/*! Returns table list from a database
+	    \return table list
+	 */
+	sad::Vector<sad::Pair<sad::String, sad::db::Table*> > tableList() const;
+	/*! Returns property names list
+	    \return list of properties
+	 */
+	sad::Vector<sad::String> propertyNames() const;
     /*! Returns object factory for a database
         \return  object factory for a database
      */

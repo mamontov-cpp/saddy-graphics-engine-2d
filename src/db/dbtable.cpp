@@ -1,8 +1,10 @@
 #include "db/dbtable.h"
 #include "db/dbdatabase.h"
 #include "db/dbobjectfactory.h"
+#include "db/dbtypename.h"
 
 #include "renderer.h"
+
 
 sad::db::Table::Table() : m_max_minor_id(1), m_database(NULL)
 {
@@ -212,6 +214,16 @@ sad::Vector<sad::db::Object*> sad::db::Table::queryByName(const sad::String& nam
     return result;	
 }
 
+sad::db::Object* sad::db::Table::objectByName(const sad::String& name)
+{
+	sad::Vector<sad::db::Object*> objects = this->queryByName(name);
+	if (objects.size())
+	{
+		return objects[0];
+	}
+	return NULL;
+}
+
 sad::db::Object* sad::db::Table::queryByMajorId(unsigned long long major_id)
 {
     sad::db::Object* result = NULL;
@@ -322,6 +334,33 @@ void sad::db::Table::objects(sad::Vector<sad::db::Object*> & o)
     }
 }
 
+sad::Vector<sad::db::Object*> sad::db::Table::objectList()
+{
+	sad::Vector<sad::db::Object*> result;
+    for(sad::Hash<unsigned long long, sad::db::Object*>::iterator it = m_objects_by_minorid.begin(); 
+        it != m_objects_by_minorid.end();
+        ++it)
+    {
+        result << it.value();
+    }
+	return result;
+}
+
+sad::Vector<sad::db::Object*>  sad::db::Table::objectListOfType(const sad::String& s)
+{
+	sad::Vector<sad::db::Object*> result;
+    for(sad::Hash<unsigned long long, sad::db::Object*>::iterator it = m_objects_by_minorid.begin(); 
+        it != m_objects_by_minorid.end();
+        ++it)
+    {
+		if (it.value()->isInstanceOf(s)) 
+		{
+			result << it.value();
+		}
+    }
+	return result;	
+}
+
 void sad::db::Table::changeObjectName(
         sad::db::Object * o, 
         const sad::String & oldname,
@@ -374,3 +413,5 @@ bool sad::db::Table::empty() const
 {
     return m_objects_by_majorid.empty();
 }
+
+DECLARE_COMMON_TYPE(sad::db::Table);
