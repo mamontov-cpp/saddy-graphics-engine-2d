@@ -9,7 +9,7 @@
 #include <algorithm>
 #include <fstream>
 
-#include "../db/dbtypename.h"
+#include "db/dbtypename.h"
 
 #define TAR7Z_SADDY
 
