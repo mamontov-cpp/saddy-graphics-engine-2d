@@ -24,7 +24,6 @@
 
 #include <pipeline/pipeline.h>
 
-
 DECLARE_COMMON_TYPE(sad::dukpp03::CompiledFunction)
 
 // ============================================ PUBLIC METHODS ============================================
