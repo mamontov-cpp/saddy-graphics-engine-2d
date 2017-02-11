@@ -100,7 +100,7 @@ sad::Texture::Texture()
 sad::Texture::~Texture()
 {
 #ifndef TEXTURE_LOADER_TEST 
-    if (this->renderer())
+    if (this->renderer() && OnGPU)
     {
         if (this->renderer()->context()->valid())
         {

@@ -171,7 +171,7 @@ public:
     static inline const sad::String& baseName()
     {
         sad::db::TypeName<_Type>::init();
-        return sad::db::TypeName<_Type>::BaseName;
+        return sad::db::TypeName<_Type>::baseName();
     }
 
     /*! Returns whether base type (without pointer size) is sad::Object descendant
@@ -179,7 +179,7 @@ public:
      */
     static inline bool isSadObject()
     {
-        return sad::db::TypeName<_Type>::IsSadObject;
+        return sad::db::TypeName<_Type>::isSadObject();
     }
 
     

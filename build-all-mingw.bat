@@ -36,7 +36,7 @@ cd tools/ifaceed
 qmake CONFIG+=%QtConfig% ifaceed.pro
 mingw32-make
 cd ../..
-cd plugins/duktape
+cd plugins/dukpp-03
 call %BatchToRun%
 cd ../..
 cd plugins/irrklang
@@ -57,7 +57,7 @@ cd ../..
 cd tests/db
 call %BatchToRun%
 cd ../..
-cd tests/duktape
+cd tests/dukpp-03
 call %BatchToRun%
 cd ../..
 cd tests/freetype

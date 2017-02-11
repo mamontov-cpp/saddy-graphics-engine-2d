@@ -157,7 +157,7 @@ protected:
      virtual void clearNow() = 0;
      /*! Performs all queued actions
       */
-     void performQueuedActions()
+     virtual void performQueuedActions()
      {
         m_command_queue_lock.lock();
         for(size_t i = 0; i < m_command_queue.count(); i++)

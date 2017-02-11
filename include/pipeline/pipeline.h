@@ -59,6 +59,29 @@ public:
         \return true if contains
      */
     bool contains(const sad::String & mark);
+
+    /*! Enable step by mark
+        \param[in] mark a mark
+     */
+    void enableByMark(const sad::String& mark);
+    /*! Disables step by mark
+        \param[in] mark a mark     
+     */
+    void disableByMark(const sad::String& mark);
+    /*! Test if step is enabled
+        \param[in] mark a marked step
+        \return whether it's enabled
+     */
+    bool isStepEnabled(const sad::String& mark);
+    /*! Removes step by mark with memory cleaning
+        \param[in] mark a mark
+        \param[in] clean_memory whether we should clean memory
+     */
+    void removeByMarkWith(const sad::String& mark, bool clean_memory = false);
+    /*! Removes step by mark. Cleans memory if step is found
+        \param[in] mark a mark
+     */
+    void removeByMarkWith(const sad::String& mark);
     /*! Inserts a step to a position, specified by arguments. Note, that you can use only begin and
         end here.
         \param[in] type an insertion type
@@ -433,9 +456,17 @@ protected:
         \param[in] o immediately removes a pipeline data
      */
     virtual void removeNow(sad::pipeline::Step * o);
+    /*! Removes a pipeline with memory cleaning option
+        \param[in] o option
+        \param[in] clean_memory whether we should clean memory
+     */
+    virtual void removeFromPipeline(sad::pipeline::Step * o, bool clean_memory);
     /*! Immediately removes all data from pipeline
      */
     virtual void clearNow();
+    /*! Performs some quued actions
+     */
+    virtual void performQueuedActions();
     /*! All system steps of pipeline, executed before user steps 
      */
     StepsList m_system_steps_before_user;
@@ -445,6 +476,9 @@ protected:
     /*! All system steps of pipeline, executed before user steps 
      */
     StepsList m_system_steps_after_user;
+    /*! Declares a queue for memory cleaning removal
+     */
+    sad::Vector<sad::pipeline::Step*> m_queue_for_memory_cleaning_removal;
 };
 
 }

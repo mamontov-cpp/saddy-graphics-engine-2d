@@ -44,6 +44,11 @@ void  sad::pipeline::Step::disable()
     m_enabled = false;
 }
 
+bool sad::pipeline::Step::enabled() const
+{
+    return m_enabled;
+}
+
 
 void sad::pipeline::Step::changeObject(void * o)
 {

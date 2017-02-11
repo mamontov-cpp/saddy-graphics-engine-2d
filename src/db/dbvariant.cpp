@@ -1,5 +1,6 @@
 #include "db/dbvariant.h"
 #include "db/save.h"
+#include "db/dbobject.h"
 
 sad::db::Variant::Variant() : 
 m_object(NULL), 
@@ -66,6 +67,32 @@ bool sad::db::Variant::load(const picojson::value & v)
 }
 
 
+const sad::String& sad::db::Variant::typeName() const
+{
+    return m_typename;
+}
+
+const sad::String& sad::db::Variant::baseName() const
+{
+    return m_base_name;
+}
+
+bool sad::db::Variant::isSadObject() const
+{
+    return m_is_sad_object;
+}
+
+int sad::db::Variant::pointerStarsCount() const
+{
+    return m_pointers_stars_count;
+}
+
+void* sad::db::Variant::data() const
+{
+    return m_object;
+}
+
+
 void sad::db::Variant::release()
 {
     if (m_object)
@@ -102,3 +129,10 @@ void sad::db::Variant::assign(const sad::db::Variant & v)
         m_base_name.clear();
     }
 }
+
+// ReSharper disable once CppMemberFunctionMayBeStatic
+const sad::String& sad::db::Variant::castToSadDbObjectAndGetSerializableName(void* o) const
+{
+    return (*reinterpret_cast<sad::db::Object**>(o))->serializableName();
+}
+

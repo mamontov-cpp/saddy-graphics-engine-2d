@@ -158,6 +158,11 @@ public:
     {
     
     }
+
+	inline int key() const
+    {
+	    return Key;
+    }
     /*! Kept, for purpose of inheritance
      */
     virtual ~KeyEvent();
@@ -262,6 +267,11 @@ public:
     inline MouseEvent() : MouseCursorEvent(), Button(sad::MouseNone) 
     {
 
+    }
+
+	inline int button() const
+    {
+	    return Button;
     }
     /*! Kept, for purpose of inheritance
      */

@@ -19,7 +19,8 @@ struct SadUtilFSTest : tpunit::TestFixture
        TEST(SadUtilFSTest::testCanonicalizeAbsolutePathOnWindows),
        TEST(SadUtilFSTest::testCanonicalizeRelativePathOnWindows),
        TEST(SadUtilFSTest::testCanonicalizeAbsolutePathOnLinux),
-       TEST(SadUtilFSTest::testCanonicalizeRelativePathOnLinux)
+       TEST(SadUtilFSTest::testCanonicalizeRelativePathOnLinux),
+       TEST(SadUtilFSTest::testFileExists)
    ) {}
    
    void testCanonicalizeAbsolutePathOnWindows()
@@ -49,7 +50,7 @@ struct SadUtilFSTest : tpunit::TestFixture
       result = sad::util::canonicalizePath("1\\2\\..\\..\\..\\..\\..\\3.txt");
       ASSERT_TRUE( result == "..\\..\\..\\3.txt");
       result = sad::util::canonicalizePath("1\\2\\..\\..\\..\\..\\../2/3.txt");
-      ASSERT_TRUE( result == "..\\..\\..\\2\\3.txt");	   
+      ASSERT_TRUE( result == "..\\..\\..\\2\\3.txt");      
    }
 
    void testCanonicalizeAbsolutePathOnLinux()
@@ -63,7 +64,7 @@ struct SadUtilFSTest : tpunit::TestFixture
       result = sad::util::canonicalizePath("/1/2/../../../../../");
       ASSERT_TRUE( result == "/");
       result = sad::util::canonicalizePath("/1/2/../../../../../3.txt");
-      ASSERT_TRUE( result == "/3.txt");	   
+      ASSERT_TRUE( result == "/3.txt");    
    }
 
    void testCanonicalizeRelativePathOnLinux()
@@ -77,7 +78,15 @@ struct SadUtilFSTest : tpunit::TestFixture
       result = sad::util::canonicalizePath("1/2/../../../../../");
       ASSERT_TRUE( result == "../../..");
       result = sad::util::canonicalizePath("1/2/../../../../../3.txt");
-      ASSERT_TRUE( result == "../../../3.txt");	   	   
+      ASSERT_TRUE( result == "../../../3.txt");        
+   }
+   
+   void testFileExists()
+   {
+       ASSERT_TRUE(sad::util::fileExists("tests/binary.json"));
+       ASSERT_TRUE(!sad::util::fileExists("tests"));
+       ASSERT_TRUE(!sad::util::fileExists("()*"));
+       ASSERT_TRUE(!sad::util::fileExists("!2$%$^^^5"));
    }
 
 

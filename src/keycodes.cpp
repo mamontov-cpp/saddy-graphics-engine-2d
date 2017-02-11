@@ -1,6 +1,7 @@
 #include "keycodes.h"
 
 #include "sadstring.h"
+#include "input/events.h"
 
 bool sad::isValidKeyboardKey(int key)
 {
@@ -121,4 +122,14 @@ sad::String sad::keyToString(sad::KeyboardKey key)
         return other_keys[ static_cast<int>(key) - static_cast<int>(sad::Esc)];
     }
     return "Unknown";
+}
+
+int sad::defaultKeyIfNotValidAsInt(int key, int d)
+{
+	return static_cast<sad::KeyboardKey>(sad::defaultKeyIfNotValid(static_cast<sad::KeyboardKey>(key), static_cast<sad::KeyboardKey>(d)));
+}
+
+sad::String sad::keyToStringAsInt(int key)
+{
+	return sad::keyToString(static_cast<sad::KeyboardKey>(key));
 }

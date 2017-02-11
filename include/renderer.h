@@ -206,6 +206,15 @@ public:
         const sad::String & filename,
         const sad::String & treename = ""
     );
+    /*! Loads resources to tree (default if treename is not supplied) from filename
+        \param[in] filename a name of loaded files
+        \param[in] treename a name of tree
+        \return error list
+     */
+    sad::Maybe<sad::String> tryLoadResources(
+        const sad::String & filename,
+        const sad::String & treename = ""
+    );
     /*! Gets resource by name for a specified tree
         \param[in] resourcename a resource name
         \param[in] treename a name of tree, where resource should be taken from
@@ -434,7 +443,7 @@ protected:
     sad::input::Controls*     m_controls;
     /*! A resource trees, marked by a label, in case you need several
      */
-    sad::PtrHash<sad::String, sad::resource::Tree> m_resource_trees;
+    sad::Hash<sad::String, sad::resource::Tree*> m_resource_trees;
     /*! An inner renderer databases
      */
     sad::Hash<sad::String, sad::db::Database*> m_databases;

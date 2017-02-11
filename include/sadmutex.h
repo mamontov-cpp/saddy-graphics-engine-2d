@@ -31,7 +31,7 @@ public:
     sad::Mutex & operator=(const sad::Mutex & o);
     /*! Frees memory from implementation part
      */
-    ~Mutex();
+    virtual ~Mutex();
     /*! Locks a mutex, blocking execution for other threads
      */ 
     void lock();

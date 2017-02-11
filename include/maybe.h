@@ -43,6 +43,10 @@ class Maybe
           \return whether inner value is exists
        */
       bool exists() const { return m_exists; }
+      /*! Returns true if object can be referenceable
+          \return whether object can be referenceable
+       */
+      bool referenceable() const { return m_reference != NULL; }
       /*! Returns inner value. If value is not set, default value is returned,
           which is undefined for basic POD types.
           \return inner value

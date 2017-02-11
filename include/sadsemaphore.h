@@ -35,7 +35,7 @@ public:
     sad::Semaphore & operator=(const sad::Semaphore & o);
     /*! Frees memory from implementation part
      */
-    ~Semaphore();
+    virtual ~Semaphore();
     /*! Consumes specified amount of resources, decrementing semaphore value. 
         Will block execution, when semaphore becomes less or equal to zero
         \param[in] amount how much should be consumed

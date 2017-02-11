@@ -37,8 +37,8 @@ namespace p2d
      */
     enum OrthoVectorIndex 
     {
-        OVI_DEG_90,   //!< An orthogonal vector as a rotation to 90 degrees
-        OVI_DEG_270   //!< An orthogonal vector as a rotation to 270 degrees
+        OVI_DEG_90  = 0,  //!< An orthogonal vector as a rotation to 90 degrees
+        OVI_DEG_270 = 1   //!< An orthogonal vector as a rotation to 270 degrees
     };
     /*! Orthogonal vector
         \param[in] v vector

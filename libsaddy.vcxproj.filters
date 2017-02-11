@@ -2249,5 +2249,8 @@
     <ClInclude Include="include\resource\resourcefile.h">
       <Filter>Заголовочные файлы\resource</Filter>
     </ClInclude>
+    <ClInclude Include="include\isrefcountable.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

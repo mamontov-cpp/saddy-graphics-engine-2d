@@ -7,6 +7,7 @@
 #pragma once
 #include "sadpoint.h"
 #include "renderer.h"
+#include "refcountable.h"
 #include "input/handlers.h"
 #include "input/events.h"
 
@@ -59,10 +60,10 @@ protected:
     sad::Sprite2D * m_a;
 };
 
-/*! A mouse cursor is responsible for hetting a position or showing sprite, 
+/*! A mouse cursor is responsible for handling getting a position of cursor or showing sprite, 
     if needed
  */
-class MouseCursor
+class MouseCursor: public RefCountable
 {
 public:
     friend class sad::Renderer;

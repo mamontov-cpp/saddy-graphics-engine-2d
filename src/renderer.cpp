@@ -17,6 +17,7 @@
 #include "os/threadimpl.h"
 
 #include "db/dbdatabase.h"
+#include "db/dbtypename.h"
 
 #include "util/swaplayerstask.h"
 
@@ -56,6 +57,7 @@ m_added_system_pipeline_tasks(false)
 #endif  
     m_window->setRenderer(this);
     m_cursor->setRenderer(this);
+    m_cursor->addRef();
     m_opengl->setRenderer(this);
     m_main_loop->setRenderer(this);
 
@@ -70,6 +72,7 @@ m_added_system_pipeline_tasks(false)
 
 
     sad::resource::Tree * defaulttree = new sad::resource::Tree(this);
+    defaulttree->addRef();
     m_resource_trees.insert("", defaulttree);
     
     // Add stopping a main loop to quite events of controls to make window close
@@ -93,15 +96,15 @@ sad::Renderer::~Renderer(void)
 
     delete m_animations;
     delete m_primitiverenderer;
-    delete m_cursor;
+    m_cursor->delRef();
 
     // Force freeing resources, to make sure, that pointer to context will be valid, when resource
     // starting to be freed.
-    for(sad::PtrHash<sad::String, sad::resource::Tree>::iterator it = m_resource_trees.begin();
+    for(sad::Hash<sad::String, sad::resource::Tree*>::iterator it = m_resource_trees.begin();
         it != m_resource_trees.end();
         ++it)
     {
-        delete it.value();
+        it.value()->delRef();
     }
     m_resource_trees.clear();
 
@@ -118,7 +121,7 @@ sad::Renderer::~Renderer(void)
         it != m_databases.end();
         ++it)
     {
-        delete it.value();
+        it.value()->delRef();
     }   
 }
 
@@ -304,8 +307,9 @@ sad::MouseCursor* sad::Renderer::cursor() const
 
 void sad::Renderer::setCursor(sad::MouseCursor * cursor)
 {
-    delete m_cursor;
+    m_cursor->delRef();
     m_cursor = cursor;
+    m_cursor->addRef();
 }
 
 sad::OpenGL * sad::Renderer::opengl() const
@@ -355,6 +359,15 @@ sad::Vector<sad::resource::Error *> sad::Renderer::loadResources(
         result << new sad::resource::TreeNotFound(treename);
     }
     return result;
+}
+
+
+sad::Maybe<sad::String> sad::Renderer::tryLoadResources(
+    const sad::String & filename,
+    const sad::String & treename
+)
+{
+    return sad::resource::errorsToString(this->loadResources(filename, treename));
 }
 
 sad::Texture * sad::Renderer::texture(
@@ -592,6 +605,7 @@ sad::resource::Tree * sad::Renderer::takeTree(const sad::String & name)
         sad::resource::Tree * result =  m_resource_trees[name];
         result->setRenderer(NULL);
         m_resource_trees.remove(name);
+        // A caller should call delRef() after done
         return result;
     }
     return NULL;
@@ -607,8 +621,9 @@ void sad::Renderer::addTree(const sad::String & name, sad::resource::Tree * tree
     {
         sad::resource::Tree * result =  m_resource_trees[name];
         m_resource_trees.remove(name);
-        delete result;
-    } 
+        result->delRef();
+    }
+    tree->addRef();
     tree->setRenderer(this);
     m_resource_trees.insert(name, tree);
 }
@@ -620,7 +635,7 @@ void sad::Renderer::removeTree(const sad::String & name)
     {
         sad::resource::Tree * result =  m_resource_trees[name];
         m_resource_trees.remove(name);
-        delete result;
+        result->delRef();
     }   
 }
 
@@ -639,6 +654,7 @@ bool sad::Renderer::addDatabase(const sad::String & name, sad::db::Database * da
         return false;
     }
     database->setRenderer(this);
+	database->addRef();
     m_databases.insert(name, database);
     return true;
 }
@@ -648,7 +664,7 @@ void sad::Renderer::removeDatabase(const sad::String & name)
     sad::ScopedLock lock(&m_database_lock);
     if (m_databases.contains(name))
     {
-        delete m_databases[name];
+        m_databases[name]->delRef();
         m_databases.remove(name);
     }
 }
@@ -938,3 +954,4 @@ void sad::Renderer::clearNow()
 }
 
 
+DECLARE_COMMON_TYPE(sad::Renderer)

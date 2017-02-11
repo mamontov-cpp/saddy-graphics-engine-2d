@@ -1,6 +1,7 @@
 #include "db/dbtypename.h"
 #include "db/save.h"
 #include "db/load.h"
+#include "db/dbvariant.h"
 
 #include "sadstring.h"
 #include "sadpoint.h"
@@ -22,6 +23,8 @@
 #include "sprite2d.h"
 #include "sprite3d.h"
 #include "scene.h"
+#include "timer.h"
+#include "sadthread.h"
 
 #include "dialogue/dialogue.h"
 #include "dialogue/phrase.h"
@@ -184,6 +187,7 @@ const sad::String&  sad::db::internal::fetchTypeNameForTemplate4(
 
 DECLARE_COMMON_TYPE(bool)
 DECLARE_COMMON_TYPE(char)
+DECLARE_COMMON_TYPE(const char)
 DECLARE_COMMON_TYPE(signed char)
 DECLARE_COMMON_TYPE(unsigned char)
 DECLARE_COMMON_TYPE(short)
@@ -210,6 +214,8 @@ DECLARE_COMMON_TYPE(sad::Color)
 DECLARE_COMMON_TYPE(sad::AColor)
 DECLARE_COMMON_TYPE(sad::Size2D)
 DECLARE_COMMON_TYPE(sad::Size2I)
+DECLARE_COMMON_TYPE(sad::Thread)
+DECLARE_COMMON_TYPE(sad::Timer)
 DECLARE_INSTANTIATED_COMMON_TYPE(sad::Vector<sad::Vector<sad::AColor> >)
 DECLARE_INSTANTIATED_COMMON_TYPE(sad::Vector<sad::Point2D>)
 DECLARE_COMMON_TYPE(sad::dialogue::Phrase)
@@ -231,3 +237,8 @@ DECLARE_TYPE_AS_SAD_OBJECT(sad::Object);
 DECLARE_TYPE_AS_SAD_OBJECT(sad::Scene);
 DECLARE_TYPE_AS_SAD_OBJECT(sad::p2d::app::Way);
 DECLARE_TYPE_AS_SAD_OBJECT(sad::dialogue::Dialogue);
+
+DECLARE_COMMON_TYPE(sad::db::Variant);
+
+
+DECLARE_COMMON_TYPE(sad::Maybe<sad::String>)

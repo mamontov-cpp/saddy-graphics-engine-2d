@@ -46,8 +46,8 @@ public:
     inline float ztestvalue(void)const         {return m_zvalue;          }
 
     inline void setIsFullscreen(bool value)         {m_isfullscreen=value;}
-    inline void setWidthScreen(unsigned int value)  {m_screenwidth=value; }
-    inline void setHeightScreen(unsigned int value) {m_screenheight=value;}
+    inline void setScreenWidth(unsigned int value)  {m_screenwidth=value; }
+    inline void setScreenHeight(unsigned int value) {m_screenheight=value;}
     inline void setBPP(sad::uchar value)            {m_bpp=value;         }
     inline void setFoV(float value)                 {m_fov=value;         }
     inline void setZNear(float value)               {m_znear=value;       }

@@ -1,4 +1,5 @@
 #include "input/events.h"
+#include "db/dbtypename.h"
 
 
 
@@ -63,3 +64,18 @@ SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(MouseDoubleClick)
 SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(MouseWheel)
 SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(Resize)
 
+
+
+DECLARE_COMMON_TYPE(sad::input::QuitEvent)
+DECLARE_COMMON_TYPE(sad::input::ActivateEvent)
+DECLARE_COMMON_TYPE(sad::input::DeactivateEvent)
+DECLARE_COMMON_TYPE(sad::input::KeyPressEvent)
+DECLARE_COMMON_TYPE(sad::input::KeyReleaseEvent)
+DECLARE_COMMON_TYPE(sad::input::MouseMoveEvent)
+DECLARE_COMMON_TYPE(sad::input::MouseEnterEvent)
+DECLARE_COMMON_TYPE(sad::input::MouseLeaveEvent)
+DECLARE_COMMON_TYPE(sad::input::MousePressEvent)
+DECLARE_COMMON_TYPE(sad::input::MouseReleaseEvent)
+DECLARE_COMMON_TYPE(sad::input::MouseDoubleClickEvent)
+DECLARE_COMMON_TYPE(sad::input::MouseWheelEvent)
+DECLARE_COMMON_TYPE(sad::input::ResizeEvent)

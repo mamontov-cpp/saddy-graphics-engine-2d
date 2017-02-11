@@ -49,6 +49,12 @@ public:
         \return whether value is set successfully
      */
     virtual bool set(sad::db::Object * o, const sad::db::Variant & v) = 0;
+    /*! Sets a value for a property, trying to copy it if needed
+        \param[in] o an object
+        \param[in] v a variant for property
+        \return whether value is set successfully
+     */
+    virtual bool copyAndSet(sad::db::Object * o, const sad::db::Variant & v);
     /*! Gets a value for a property
         \param[in] o an object
         \param[in] v a value for a property

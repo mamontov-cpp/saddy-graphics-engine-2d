@@ -11,6 +11,7 @@
 #include "../3rdparty/format/format.h"
 #include "../3rdparty/picojson/picojson.h"
 #include "../object.h"
+#include "../sadvector.h"
 
 namespace sad
 {
@@ -567,6 +568,12 @@ sad::String format(
     const sad::String & separator = "\n"
 );
 
+/*! Converts error list to string
+    \param[in, out] errors
+    \return string or empty
+ */ 
+sad::Maybe<sad::String> errorsToString(const sad::Vector<sad::resource::Error *>& errors);
+
 }
 
 }
@@ -586,3 +593,4 @@ DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::resource::MalformedResourceEntry)
 DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::resource::EmptyTextureAtlas)
 DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::resource::TreeNotFound)
 DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::resource::ResourceCannotBeLoadedFromArchive)
+

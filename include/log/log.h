@@ -43,8 +43,7 @@ public:
         \param[in] t target 
      */
     virtual sad::log::Log & addTarget(sad::log::Target * t);
-    /*! Removes a target to a list of targets. A messages, created with 
-        sad::log::Log::broadcast() will be broadcasted to this target.
+    /*! Removes a target from a list of targets. 
             
         Note, that memory from target is not freed. You must delete it manually.
 

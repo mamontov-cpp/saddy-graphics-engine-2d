@@ -9,6 +9,8 @@
 #include <algorithm>
 #include <fstream>
 
+#include "db/dbtypename.h"
+
 #define TAR7Z_SADDY
 
 #include <3rdparty/tar7z/include/archive.h>
@@ -158,6 +160,19 @@ sad::Vector<sad::resource::Error*> sad::resource::ResourceFile::reload()
         sad::resource::free(list);
     }
     return errors;
+}
+
+sad::Maybe<sad::String> sad::resource::ResourceFile::tryLoad(sad::resource::Tree* tree)
+{
+    sad::resource::Folder* folder = tree->root();
+    sad::Vector<sad::resource::Error*> data = this->load(folder);
+    return sad::resource::errorsToString(data);    
+}
+
+sad::Maybe<sad::String> sad::resource::ResourceFile::tryReload()
+{
+    sad::Vector<sad::resource::Error*> data = this->reload();
+    return sad::resource::errorsToString(data);    
 }
 
 void sad::resource::ResourceFile::add(sad::resource::Resource * r)
@@ -332,3 +347,4 @@ void sad::resource::ResourceFile::convertReferencedOptionsToBeRemovedToErrors(
     }
 }
 
+DECLARE_COMMON_TYPE(sad::resource::ResourceFile);

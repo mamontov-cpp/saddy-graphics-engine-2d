@@ -7,7 +7,7 @@
 
 
 
-sad::Maybe<sad::String> sad::slurp(const sad::String fileName, sad::Renderer* renderer)
+sad::Maybe<sad::String> sad::slurp(const sad::String& fileName, sad::Renderer* renderer)
 {
     if (!renderer)
     {

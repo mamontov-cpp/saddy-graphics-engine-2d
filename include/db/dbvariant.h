@@ -13,7 +13,6 @@
 #include "saveloadfwd.h"
 #include "../util/commoncheckedcast.h"
 
-
 namespace sad
 {
 
@@ -55,7 +54,7 @@ class Variant   //-V690
 protected:
     /*! A boxed object in variant
      */
-    void * m_object;
+    void* m_object;
     /*! Count of stars for base count
      */
     int m_pointers_stars_count;
@@ -88,6 +87,10 @@ protected:
         \return value
      */
     void assign(const sad::db::Variant & v);
+    /*! Casts to object and gets serializable name
+        \param[in] o object
+     */
+    const sad::String& castToSadDbObjectAndGetSerializableName(void* o) const;
 public: 
     /*! Construct an empty variant value
      */
@@ -178,10 +181,11 @@ public:
     }   
     /*! Returns a value for variant
         \param[in] ref whether we prefer to return by reference (if true), or by value (if false)
+        \param[in] tbl a conversion table, that should be used for conversions
         \return value or throws exception if cannot cast
      */
     template<typename T>
-    sad::Maybe<T> get(bool ref = false) const
+    sad::Maybe<T> get(bool ref = false, sad::db::ConversionTable* tbl = NULL) const
     {
         sad::Maybe<T> result;
         sad::db::TypeName<T>::init();       
@@ -202,22 +206,54 @@ public:
             && sad::db::TypeName<T>::POINTER_STARS_COUNT == 1
             && m_pointers_stars_count == 1)
         {
-            sad::util::CommonCheckedCast<T, sad::db::TypeName<T>::CAN_BE_CASTED_TO_OBJECT >::perform(
-                result,
-                m_object,
-                sad::db::TypeName<T>::baseName()
-            );  
-            return result;
+            // From sad::db::Object to sad::Object
+            if (m_base_name != "sad::db::Object")
+            {
+                sad::util::CommonCheckedCast<T, sad::db::TypeName<T>::CAN_BE_CASTED_TO_OBJECT >::perform(
+                    result,
+                    m_object,
+                    sad::db::TypeName<T>::baseName()
+                );  
+            }
+            else
+            {
+                // From sad::db::Object to sad::Object
+                sad::String real_type = this->castToSadDbObjectAndGetSerializableName(m_object);
+                bool created = false;
+                if (sad::ClassMetaDataContainer::ref()->get(real_type, created) != NULL)
+                {
+                    sad::util::CommonCheckedCast<T, sad::db::TypeName<T>::CAN_BE_CASTED_TO_OBJECT >::perform(
+                        result,
+                        m_object,
+                        real_type
+                    );  
+                }
+            }
         }
         else
         {
-            sad::db::AbstractTypeConverter * c = sad::db::ConversionTable::ref()
-                                              ->converter(m_typename, sad::db::TypeName<T>::name());
-            if (c)
+            // From sad::Object descendant to sad::db::Object
+            if ((sad::db::TypeName<T>::POINTER_STARS_COUNT == 1) 
+                && (sad::db::TypeName<T>::baseName() == "sad::db::Object")
+                && m_is_sad_object
+                && (m_pointers_stars_count == 1)
+               )
             {
-                T tmp;
-                c->convert(m_object, &tmp);
-                result.setValue(tmp);
+                sad::util::SadDBObjectCast<T>::perform(result, m_object);
+            }
+            else 
+            {
+                if (!tbl)
+                {
+                    tbl = sad::db::ConversionTable::ref();
+                }
+                sad::db::AbstractTypeConverter * c = tbl->converter(m_typename, sad::db::TypeName<T>::name());
+                if (c)
+                {
+                    T tmp;
+                    c->convert(m_object, &tmp);
+                    result.setValue(tmp);
+                }
             }
         }
         return result;
@@ -233,6 +269,26 @@ public:
         \return whether it was successfull
      */
     bool load(const picojson::value & v);
+    /*! Returns a type name for variant
+        \return type name for type
+     */
+    const sad::String& typeName() const;
+    /*! Returns a base type name for variant
+        \return type name for type
+     */
+    const sad::String& baseName() const;
+    /*! Returns whether type is sad::Object
+        \return whether type is sad::Object
+     */
+    bool isSadObject() const;
+    /*! Returns pointer stars count
+        \return count of pointer stars count
+     */
+    int pointerStarsCount() const;
+    /*! Returns data from variant
+        \return data
+     */
+    void* data() const; 
 };
 
 }

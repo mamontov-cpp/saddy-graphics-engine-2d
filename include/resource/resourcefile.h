@@ -112,6 +112,15 @@ public:
         \return errors if any occured on resources
      */
     virtual sad::Vector<sad::resource::Error*> reload();
+    /*! Loads a physical file to a root of tree
+        \param[in] tree a tree
+        \return error or null
+     */
+    sad::Maybe<sad::String> tryLoad(sad::resource::Tree* tree);
+    /*! Reloads a file (like reload)
+        \return error or null
+     */
+    sad::Maybe<sad::String> tryReload();
     /*! Adds resource to file
         \param[in] r a resource
      */

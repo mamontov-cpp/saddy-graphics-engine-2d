@@ -77,6 +77,9 @@ public:
     /*! Disables a pipeline step
      */
     virtual void disable();
+    /*! Returns if step is enabled
+     */
+    virtual bool enabled() const;
     /*! Changes object for all method call. Object is casted down to method
         \param[in] o object for method call
      */

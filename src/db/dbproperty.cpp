@@ -43,6 +43,10 @@ bool  sad::db::Property::hasEqualTypeAs(sad::db::Property * o) const
         && pointerStarsCount() == o->pointerStarsCount();
 }
 
+bool sad::db::Property::copyAndSet(sad::db::Object * o, const sad::db::Variant & v)
+{
+    return this->set(o, v);
+}
 
 sad::String sad::db::Property::serializableType() const
 {

@@ -134,6 +134,12 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::loadFromString(const sad
     return errors;
 }
 
+
+sad::Maybe<sad::String> sad::resource::Tree::tryLoadFromString(const sad::String & string)
+{
+    return sad::resource::errorsToString(this->loadFromString(string));
+}
+
 sad::Vector<sad::resource::Error*> sad::resource::Tree::loadFromFile(const sad::String& string)
 {
     std::ifstream stream(string.c_str());
@@ -174,6 +180,12 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::loadFromFile(const sad::
     result << new sad::resource::FileLoadError(string);
     return result;
 }
+
+sad::Maybe<sad::String> sad::resource::Tree::tryLoadFromFile(const sad::String & string)
+{
+    return sad::resource::errorsToString(this->loadFromFile(string));
+}
+
 
 sad::Vector<sad::resource::Error*> sad::resource::Tree::load(
         const sad::String& typehint, 
@@ -519,3 +531,6 @@ tar7z::Entry* sad::resource::Tree::archiveEntry(const sad::String& archive, cons
     delete ar;
     return NULL;    
 }
+
+
+DECLARE_COMMON_TYPE(sad::resource::Tree)
