@@ -22,6 +22,8 @@
 
 #include <cstdio>
 
+#include <pipeline/pipeline.h>
+
 
 DECLARE_COMMON_TYPE(sad::dukpp03::CompiledFunction)
 
@@ -614,6 +616,7 @@ void sad::dukpp03::Context::exposeRenderer()
     c->addMethod("addDatabase", sad::dukpp03::bind_method::from(&sad::Renderer::addDatabase));
     c->addMethod("removeDatabase", sad::dukpp03::bind_method::from(&sad::Renderer::removeDatabase));
     c->addMethod("database", sad::dukpp03::bind_method::from(&sad::Renderer::database));
+    c->addMethod("pipeline", sad::dukpp03::bind_method::from(&sad::Renderer::pipeline));
     
     c->setPrototypeFunction("sad.Renderer");
 
@@ -662,6 +665,7 @@ void sad::dukpp03::Context::exposeRenderer()
     cext->addMethod("addDatabase", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::addDatabase));
     cext->addMethod("removeDatabase", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::removeDatabase));
     cext->addMethod("database", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::database));
+    cext->addMethod("pipeline", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::pipeline));
     cext->setPrototypeFunction("sad.Renderer");
 
     this->addClassBinding("sad::dukpp03::Renderer", cext); 

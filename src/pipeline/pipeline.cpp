@@ -1,4 +1,5 @@
 #include "pipeline/pipeline.h"
+#include "db/dbtypename.h"
 #include <cassert>
 
 sad::pipeline::Pipeline::Pipeline()
@@ -9,6 +10,55 @@ sad::pipeline::Pipeline::Pipeline()
 bool sad::pipeline::Pipeline::contains(const sad::String & mark)
 {
     return findByMark(mark).p1() != NULL;
+}
+
+void sad::pipeline::Pipeline::enableByMark(const sad::String& mark)
+{
+    StepListPosition po = findByMark(mark);
+    if (po.p1() != NULL) 
+    {
+        (*po.p1())[po.p2()]->enable();
+    }
+}
+
+void sad::pipeline::Pipeline::disableByMark(const sad::String& mark)
+{
+    StepListPosition po = findByMark(mark);
+    if (po.p1() != NULL) 
+    {
+        (*po.p1())[po.p2()]->disable();
+    }
+}
+
+bool sad::pipeline::Pipeline::isStepEnabled(const sad::String& mark)
+{
+    StepListPosition po = findByMark(mark);
+    if (po.p1() != NULL) 
+    {
+        return (*po.p1())[po.p2()]->enabled();
+    } 
+    return false;
+}
+
+void sad::pipeline::Pipeline::removeByMarkWith(const sad::String& mark, bool clean_memory)
+{
+    StepListPosition po = findByMark(mark);
+    if (po.p1() != NULL) 
+    {
+        if (clean_memory)
+        {
+            m_queue_for_memory_cleaning_removal << (*po.p1())[po.p2()];
+        }
+        else
+        {
+           remove((*po.p1())[po.p2()]);
+        }
+    }
+}
+
+void sad::pipeline::Pipeline::removeByMarkWith(const sad::String& mark)
+{
+    removeByMarkWith(mark, true);
 }
 
 sad::pipeline::Step * sad::pipeline::Pipeline::insertStep(
@@ -252,19 +302,45 @@ void sad::pipeline::Pipeline::addNow(PipelineInsertionData o)
 
 void sad::pipeline::Pipeline::removeNow(sad::pipeline::Step * o)
 {
+    removeFromPipeline(o, false);
+}
+
+void sad::pipeline::Pipeline::removeFromPipeline(sad::pipeline::Step * o, bool clean_memory)
+{
     StepListPosition pos = findByStep(o);
     StepsList * list = pos.p1();
     size_t position = pos.p2();
     if (list != NULL)
     {
         list->removeAt(position);
+        if (clean_memory)
+        {
+            delete o;
+        }
     }
 }
-
 
 void sad::pipeline::Pipeline::clearNow()
 {
     sad::pipeline::Pipeline::clearSteps(&m_user_steps);
+}
+
+void sad::pipeline::Pipeline::performQueuedActions()
+{
+    m_command_queue_lock.lock();
+    if (m_queue_for_memory_cleaning_removal.size())
+    {
+        for(size_t i = 0; i < m_queue_for_memory_cleaning_removal.size(); i++)
+        {
+            removeFromPipeline(m_queue_for_memory_cleaning_removal[i], true);
+        }
+        m_queue_for_memory_cleaning_removal.clear();
+    }
+    m_command_queue_lock.unlock();
+    this->sad::TemporarilyImmutableContainerWithHeterogeneousCommands<
+        sad::pipeline::PipelineInsertionData, 
+        sad::pipeline::Step *
+    >::performQueuedActions();
 }
 
 
@@ -275,4 +351,6 @@ void sad::pipeline::Pipeline::appendStateTransition(
 {
     append(new sad::hfsm::MachineStateChangeTask(machine, state) );
 }
+
+DECLARE_COMMON_TYPE(sad::pipeline::Pipeline);
 

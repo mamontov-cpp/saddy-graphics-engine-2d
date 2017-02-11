@@ -652,3 +652,49 @@ sad.input.JSControls.prototype.onResize = function(ctx, fn) {
 sad.isValidKeyboardKey = SadIsValidKeyboardKey;
 sad.keyToString = SadIsValidKeyboardKey;
 sad.defaultKeyIfNotValid = SadDefaultKeyIfNotValid;
+
+
+sad.pipeline = function(r) {
+    return {
+        "r" : r,
+        "beforeScene" : function() {
+            return {
+                "r" : this.r,
+                "eachFrame": function(step, ctx, fn) { SadPipelineBeforeSceneEachFrame(this.r, step, ctx, fn) },
+                "eachMS": function(step, interval, ctx, fn) { SadPipelineBeforeSceneEachMS(this.r, step, interval, ctx, fn) },
+                "oneShot": function(step, ctx, fn) { SadPipelineBeforeSceneOneShot(this.r, step, ctx, fn) },
+                "delayed": function(step, interval, ctx, fn) { SadPipelineBeforeSceneDelayed(this.r, step, interval, ctx, fn) }
+            };
+        },
+        "afterScene" : function() {
+            return {
+                "r" : this.r,
+                "eachFrame": function(step, ctx, fn) { SadPipelineAfterSceneEachFrame(this.r, step, ctx, fn) },
+                "eachMS": function(step, interval, ctx, fn) { SadPipelineAfterSceneEachMS(this.r, step, interval, ctx, fn) },
+                "oneShot": function(step, ctx, fn) { SadPipelineAfterSceneOneShot(this.r, step, ctx, fn) },
+                "delayed": function(step, interval, ctx, fn) { SadPipelineAfterSceneDelayed(this.r, step, interval, ctx, fn) }
+            };
+        },
+        "beforeEvent" : function(ev) {
+            return {
+                "r" : this.r,
+                "ev" : ev, 
+                "eachFrame": function(step, ctx, fn) { SadPipelineBeforeEventEachFrame(this.r, this.ev, step, ctx, fn) },
+                "eachMS": function(step, interval, ctx, fn) { SadPipelineBeforeEventEachMS(this.r, this.ev, step, interval, ctx, fn) },
+                "oneShot": function(step, ctx, fn) { SadPipelineBeforeEventOneShot(this.r, this.ev, step, ctx, fn) },
+                "delayed": function(step, interval, ctx, fn) { SadPipelineBeforeEventDelayed(this.r, this.ev, step, interval, ctx, fn) }
+            };
+        },
+        "afterEvent" : function(ev) {
+            return {
+                "r" : this.r,
+                "ev" : ev, 
+                "eachFrame": function(step, ctx, fn) { SadPipelineAfterEventEachFrame(this.r, this.ev, step, ctx, fn) },
+                "eachMS": function(step, interval, ctx, fn) { SadPipelineAfterEventEachMS(this.r, this.ev, step, interval, ctx, fn) },
+                "oneShot": function(step, ctx, fn) { SadPipelineAfterEventOneShot(this.r, this.ev, step, ctx, fn) },
+                "delayed": function(step, interval, ctx, fn) { SadPipelineAfterEventDelayed(this.r, this.ev, step, interval, ctx, fn) }
+            };
+        }
+    };
+};
+

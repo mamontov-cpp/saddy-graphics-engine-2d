@@ -4,6 +4,7 @@
 #include "dukpp-03/mutex.h"
 #include "dukpp-03/semaphore.h"
 #include "dukpp-03/jscontrols.h"
+#include "dukpp-03/jspipelinestep.h"
 
 #include <sadpoint.h>
 #include <sadsize.h>
@@ -35,7 +36,11 @@
 #include <db/dbdatabase.h>
 
 #include <input/events.h>
+
+#include <pipeline/pipeline.h>
+
 #include <keycodes.h>
+
 
 template<typename T> static void __add_target_to_log(sad::log::Log* lg, T* a)
 {
@@ -47,6 +52,310 @@ template<typename T> static void __remove_target_from_log(sad::log::Log* lg, T* 
     lg->removeTarget(a);
 }
 
+
+// sad.pipeline.beforeScene
+
+static void __before_scene_each_frame(
+    sad::Renderer* r,
+    const sad::String& name, 
+    sad::dukpp03::Context* ctx, 
+    sad::dukpp03::CompiledFunction function
+)
+{
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_EACH_FRAME>(
+        ctx,
+        function
+    );
+    step->mark(name);
+    step->setSource(sad::pipeline::ST_USER);
+    r->pipeline()->insertBefore("sad::Renderer::renderScenes", step, name);
+}
+
+
+static void __before_scene_each_ms(
+    sad::Renderer* r,
+    const sad::String& name, 
+    int interval,
+    sad::dukpp03::Context* ctx, 
+    sad::dukpp03::CompiledFunction function
+)
+{
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_EACH_MS>(
+        interval,
+        ctx,
+        function
+    );
+    step->mark(name);
+    step->setSource(sad::pipeline::ST_USER);
+    r->pipeline()->insertBefore("sad::Renderer::renderScenes", step, name);
+}
+
+static void __before_scene_one_shot(
+    sad::Renderer* r,
+    const sad::String& name, 
+    sad::dukpp03::Context* ctx, 
+    sad::dukpp03::CompiledFunction function
+)
+{
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_ONE_SHOT>(
+        ctx,
+        function
+    );
+    step->mark(name);
+    step->setSource(sad::pipeline::ST_USER);
+    r->pipeline()->insertBefore("sad::Renderer::renderScenes", step, name);
+}
+
+
+
+static void __before_scene_delayed(
+    sad::Renderer* r,
+    const sad::String& name, 
+    int interval,
+    sad::dukpp03::Context* ctx, 
+    sad::dukpp03::CompiledFunction function
+)
+{
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_DELAYED>(
+        interval,
+        ctx,
+        function
+    );
+    step->mark(name);
+    step->setSource(sad::pipeline::ST_USER);
+    r->pipeline()->insertBefore("sad::Renderer::renderScenes", step, name);
+}
+
+
+// sad.pipeline.afterScene
+
+
+static void __after_scene_each_frame(
+    sad::Renderer* r,
+    const sad::String& name, 
+    sad::dukpp03::Context* ctx, 
+    sad::dukpp03::CompiledFunction function
+)
+{
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_EACH_FRAME>(
+        ctx,
+        function
+    );
+    step->mark(name);
+    step->setSource(sad::pipeline::ST_USER);
+    r->pipeline()->insertAfter("sad::animations::Animations::process", step, name);
+}
+
+
+static void __after_scene_each_ms(
+    sad::Renderer* r,
+    const sad::String& name, 
+    int interval,
+    sad::dukpp03::Context* ctx, 
+    sad::dukpp03::CompiledFunction function
+)
+{
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_EACH_MS>(
+        interval,
+        ctx,
+        function
+    );
+    step->mark(name);
+    step->setSource(sad::pipeline::ST_USER);
+    r->pipeline()->insertAfter("sad::animations::Animations::process", step, name);
+}
+
+static void __after_scene_one_shot(
+    sad::Renderer* r,
+    const sad::String& name, 
+    sad::dukpp03::Context* ctx, 
+    sad::dukpp03::CompiledFunction function
+)
+{
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_ONE_SHOT>(
+        ctx,
+        function
+    );
+    step->mark(name);
+    step->setSource(sad::pipeline::ST_USER);
+    r->pipeline()->insertAfter("sad::animations::Animations::process", step, name);
+}
+
+
+
+static void __after_scene_delayed(
+    sad::Renderer* r,
+    const sad::String& name, 
+    int interval,
+    sad::dukpp03::Context* ctx, 
+    sad::dukpp03::CompiledFunction function
+)
+{
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_DELAYED>(
+        interval,
+        ctx,
+        function
+    );
+    step->mark(name);
+    step->setSource(sad::pipeline::ST_USER);
+    r->pipeline()->insertAfter("sad::animations::Animations::process", step, name);
+}
+
+
+// sad.pipeline.beforeEvent
+
+static void __before_event_each_frame(
+    sad::Renderer* r,
+    const sad::String& event_name,
+    const sad::String& name, 
+    sad::dukpp03::Context* ctx, 
+    sad::dukpp03::CompiledFunction function
+)
+{
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_EACH_FRAME>(
+        ctx,
+        function
+    );
+    step->mark(name);
+    step->setSource(sad::pipeline::ST_USER);
+    r->pipeline()->insertBefore(event_name, step, name);
+}
+
+
+static void __before_event_each_ms(
+    sad::Renderer* r,
+    const sad::String& event_name,
+    const sad::String& name, 
+    int interval,
+    sad::dukpp03::Context* ctx, 
+    sad::dukpp03::CompiledFunction function
+)
+{
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_EACH_MS>(
+        interval,
+        ctx,
+        function
+    );
+    step->mark(name);
+    step->setSource(sad::pipeline::ST_USER);
+    r->pipeline()->insertBefore(event_name, step, name);
+}
+
+static void __before_event_one_shot(
+    sad::Renderer* r,
+    const sad::String& event_name,
+    const sad::String& name, 
+    sad::dukpp03::Context* ctx, 
+    sad::dukpp03::CompiledFunction function
+)
+{
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_ONE_SHOT>(
+        ctx,
+        function
+    );
+    step->mark(name);
+    step->setSource(sad::pipeline::ST_USER);
+    r->pipeline()->insertBefore(event_name, step, name);
+}
+
+
+
+static void __before_event_delayed(
+    sad::Renderer* r,
+    const sad::String& event_name,
+    const sad::String& name, 
+    int interval,
+    sad::dukpp03::Context* ctx, 
+    sad::dukpp03::CompiledFunction function
+)
+{
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_DELAYED>(
+        interval,
+        ctx,
+        function
+    );
+    step->mark(name);
+    step->setSource(sad::pipeline::ST_USER);
+    r->pipeline()->insertBefore(event_name, step, name);
+}
+
+
+// sad.pipeline.afterEvent
+
+static void __after_event_each_frame(
+    sad::Renderer* r,
+    const sad::String& event_name,
+    const sad::String& name, 
+    sad::dukpp03::Context* ctx, 
+    sad::dukpp03::CompiledFunction function
+)
+{
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_EACH_FRAME>(
+        ctx,
+        function
+    );
+    step->mark(name);
+    step->setSource(sad::pipeline::ST_USER);
+    r->pipeline()->insertAfter(event_name, step, name);
+}
+
+
+static void __after_event_each_ms(
+    sad::Renderer* r,
+    const sad::String& event_name,
+    const sad::String& name, 
+    int interval,
+    sad::dukpp03::Context* ctx, 
+    sad::dukpp03::CompiledFunction function
+)
+{
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_EACH_MS>(
+        interval,
+        ctx,
+        function
+    );
+    step->mark(name);
+    step->setSource(sad::pipeline::ST_USER);
+    r->pipeline()->insertAfter(event_name, step, name);
+}
+
+static void __after_event_one_shot(
+    sad::Renderer* r,
+    const sad::String& event_name,
+    const sad::String& name, 
+    sad::dukpp03::Context* ctx, 
+    sad::dukpp03::CompiledFunction function
+)
+{
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_ONE_SHOT>(
+        ctx,
+        function
+    );
+    step->mark(name);
+    step->setSource(sad::pipeline::ST_USER);
+    r->pipeline()->insertAfter(event_name, step, name);
+}
+
+
+
+static void __after_event_delayed(
+    sad::Renderer* r,
+    const sad::String& event_name,
+    const sad::String& name, 
+    int interval,
+    sad::dukpp03::Context* ctx, 
+    sad::dukpp03::CompiledFunction function
+)
+{
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_DELAYED>(
+        interval,
+        ctx,
+        function
+    );
+    step->mark(name);
+    step->setSource(sad::pipeline::ST_USER);
+    r->pipeline()->insertAfter(event_name, step, name);
+}
 
 void sad::dukpp03::exposeAPI(sad::dukpp03::Context* ctx)
 {
@@ -484,6 +793,91 @@ void sad::dukpp03::exposeAPI(sad::dukpp03::Context* ctx)
         c->addMethod("unbind", sad::dukpp03::bind_method::from(&sad::dukpp03::JSControls::unbind));
 
         ctx->addClassBinding("sad::dukpp03::JSControls", c);  
+    }
+    // A pipeline binding
+    {
+        sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+        void (sad::pipeline::Pipeline::*f)(const sad::String&) = &sad::pipeline::Pipeline::removeByMarkWith;
+        c->addMethod("removeByMarkWith", sad::dukpp03::bind_method::from(f));
+        c->addMethod("enableByMark", sad::dukpp03::bind_method::from(&sad::pipeline::Pipeline::enableByMark));
+        c->addMethod("disableByMark", sad::dukpp03::bind_method::from(&sad::pipeline::Pipeline::disableByMark));
+        c->addMethod("isStepEnabled", sad::dukpp03::bind_method::from(&sad::pipeline::Pipeline::isStepEnabled));
+
+
+        ctx->addClassBinding("sad::pipeline::Pipeline", c);  
+
+        // Before scene
+        ctx->registerCallable(
+            "SadPipelineBeforeSceneEachFrame", 
+            sad::dukpp03::make_function::from(__before_scene_each_frame)
+        );
+        ctx->registerCallable(
+            "SadPipelineBeforeSceneEachMS", 
+            sad::dukpp03::make_function::from(__before_scene_each_ms)
+        );
+        ctx->registerCallable(
+            "SadPipelineBeforeSceneOneShot", 
+            sad::dukpp03::make_function::from(__before_scene_one_shot)
+        );
+        ctx->registerCallable(
+            "SadPipelineBeforeSceneDelayed", 
+            sad::dukpp03::make_function::from(__before_scene_delayed)
+        );
+
+        // After scene
+        ctx->registerCallable(
+            "SadPipelineAfterSceneEachFrame", 
+            sad::dukpp03::make_function::from(__after_scene_each_frame)
+        );
+        ctx->registerCallable(
+            "SadPipelineAfterSceneEachMS", 
+            sad::dukpp03::make_function::from(__after_scene_each_ms)
+        );
+        ctx->registerCallable(
+            "SadPipelineAfterSceneOneShot", 
+            sad::dukpp03::make_function::from(__after_scene_one_shot)
+        );
+        ctx->registerCallable(
+            "SadPipelineAfterSceneDelayed", 
+            sad::dukpp03::make_function::from(__after_scene_delayed)
+        );
+
+        // Before event
+        ctx->registerCallable(
+            "SadPipelineBeforeEventEachFrame", 
+            sad::dukpp03::make_function::from(__before_event_each_frame)
+        );
+        ctx->registerCallable(
+            "SadPipelineBeforeEventEachMS", 
+            sad::dukpp03::make_function::from(__before_event_each_ms)
+        );
+        ctx->registerCallable(
+            "SadPipelineBeforeEventOneShot", 
+            sad::dukpp03::make_function::from(__before_event_one_shot)
+        );
+        ctx->registerCallable(
+            "SadPipelineBeforeEventDelayed", 
+            sad::dukpp03::make_function::from(__before_event_delayed)
+        );
+
+        // After event
+        ctx->registerCallable(
+            "SadPipelineAfterEventEachFrame", 
+            sad::dukpp03::make_function::from(__after_event_each_frame)
+        );
+        ctx->registerCallable(
+            "SadPipelineAfterEventEachMS", 
+            sad::dukpp03::make_function::from(__after_event_each_ms)
+        );
+        ctx->registerCallable(
+            "SadPipelineAfterEventOneShot", 
+            sad::dukpp03::make_function::from(__after_event_one_shot)
+        );
+        ctx->registerCallable(
+            "SadPipelineAfterEventDelayed", 
+            sad::dukpp03::make_function::from(__after_event_delayed)
+        );
+
     }
 }
 

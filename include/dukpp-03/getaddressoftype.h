@@ -19,6 +19,13 @@ class Tree;
 
 }
 
+namespace pipeline
+{
+
+class Pipeline;
+    
+}
+
 namespace dukpp03
 {
 
@@ -225,6 +232,21 @@ public:
     inline static ::dukpp03::Maybe<sad::dukpp03::JSControls*> getAddress(sad::db::Variant* v)
     {
         return ::dukpp03::Maybe<sad::dukpp03::JSControls*>();
+    }
+};
+
+
+template<>
+struct GetAddressOfType<sad::pipeline::Pipeline*, false, false>
+{
+public: 
+    /*! Returns address of type, stored in variant.
+        \param[in] v value
+        \return empty maybe
+     */
+    inline static ::dukpp03::Maybe<sad::pipeline::Pipeline*> getAddress(sad::db::Variant* v)
+    {
+        return ::dukpp03::Maybe<sad::pipeline::Pipeline*>();
     }
 };
 

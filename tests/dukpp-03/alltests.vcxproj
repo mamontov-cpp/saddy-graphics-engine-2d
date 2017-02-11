@@ -96,6 +96,7 @@
     <ClCompile Include="fs.cpp" />
     <ClCompile Include="jscontrols.cpp" />
     <ClCompile Include="p2dvector.cpp" />
+    <ClCompile Include="pipeline.cpp" />
     <ClCompile Include="point2d.cpp" />
     <ClCompile Include="point2i.cpp" />
     <ClCompile Include="point3d.cpp" />

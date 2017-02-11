@@ -20,6 +20,7 @@
     <ClCompile Include="getvalue.cpp" />
     <ClCompile Include="jscontrols.cpp" />
     <ClCompile Include="jshandler.cpp" />
+    <ClCompile Include="jspipelinestep.cpp" />
     <ClCompile Include="mutex.cpp" />
     <ClCompile Include="pushvalue.cpp" />
     <ClCompile Include="pushvariant.cpp" />
@@ -41,6 +42,7 @@
     <ClInclude Include="..\..\include\dukpp-03\getvalue.h" />
     <ClInclude Include="..\..\include\dukpp-03\jscontrols.h" />
     <ClInclude Include="..\..\include\dukpp-03\jshandler.h" />
+    <ClInclude Include="..\..\include\dukpp-03\jspipelinestep.h" />
     <ClInclude Include="..\..\include\dukpp-03\mapinterface.h" />
     <ClInclude Include="..\..\include\dukpp-03\mutex.h" />
     <ClInclude Include="..\..\include\dukpp-03\ptrconstructor.h" />
