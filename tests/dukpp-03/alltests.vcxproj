@@ -93,6 +93,8 @@
   <ItemGroup>
     <ClCompile Include="context.cpp" />
     <ClCompile Include="convert.cpp" />
+    <ClCompile Include="fs.cpp" />
+    <ClCompile Include="jscontrols.cpp" />
     <ClCompile Include="p2dvector.cpp" />
     <ClCompile Include="point2d.cpp" />
     <ClCompile Include="point2i.cpp" />
@@ -102,10 +104,9 @@
     <ClCompile Include="rect2i.cpp" />
     <ClCompile Include="size2d.cpp" />
     <ClCompile Include="size2i.cpp" />
+    <ClCompile Include="vectorandhash.cpp" />
     <ClCompile Include="wrapping.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="vectorandhash.cpp" />
-    <ClCompile Include="fs.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

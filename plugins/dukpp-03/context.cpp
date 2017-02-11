@@ -85,7 +85,13 @@ bool sad::dukpp03::Context::evalFromFile(
     bool result = false;
     if (duk_peval_file(m_context, mpath.c_str()) != 0) 
     {
-        if (error)
+        if (duk_has_prop_string(m_context,  -1, "stack"))
+        {
+            duk_get_prop_string(m_context, -1, "stack");
+            *error = duk_safe_to_string(m_context, -1);
+            duk_pop(m_context);
+        }
+        else 
         {
             *error = duk_safe_to_string(m_context, -1);
         }
@@ -656,7 +662,7 @@ void sad::dukpp03::Context::exposeRenderer()
     cext->addMethod("addDatabase", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::addDatabase));
     cext->addMethod("removeDatabase", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::removeDatabase));
     cext->addMethod("database", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::database));
-	cext->setPrototypeFunction("sad.Renderer");
+    cext->setPrototypeFunction("sad.Renderer");
 
     this->addClassBinding("sad::dukpp03::Renderer", cext); 
 

@@ -18,7 +18,6 @@ class Cloner: public ::dukpp03::Callable<sad::dukpp03::BasicContext>
 {
 public:
     /*! Makes new accessor
-        \param[in] name of property
      */
     Cloner()
     {
@@ -85,7 +84,7 @@ public:
                 const sad::String& name = property_names[i];
                 sad::db::Variant v;
                 obj->getObjectProperty(name)->get(obj, v);
-                result->getObjectProperty(name)->set(result, v);
+                result->getObjectProperty(name)->copyAndSet(result, v);
             }
             ::dukpp03::PushValue<T*, sad::dukpp03::BasicContext>::perform(c, result);
             obj->MajorId = -1;

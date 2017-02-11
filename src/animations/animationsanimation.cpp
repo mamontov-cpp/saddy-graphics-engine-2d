@@ -244,6 +244,17 @@ public:
         delete m_default_easing;
     }
 
+    virtual bool copyAndSet(sad::db::Object * o, const sad::db::Variant & v)
+    {
+        sad::Maybe<sad::animations::easing::Function*> maybefn = v.get<sad::animations::easing::Function*>();
+        if (maybefn.exists())
+        {
+            sad::db::Variant vv(maybefn.value()->clone());
+            return this->set(o, vv);
+        }
+        return false;
+    }
+
     virtual sad::db::Variant* defaultValue() const
     {
         sad::db::Variant* v = new sad::db::Variant(m_default_easing->clone());

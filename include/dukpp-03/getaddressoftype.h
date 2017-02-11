@@ -25,6 +25,7 @@ namespace dukpp03
 class Context;
 class Renderer;
 class Thread;
+class JSControls;
 
 namespace internal
 {
@@ -210,6 +211,20 @@ public:
     inline static ::dukpp03::Maybe<sad::resource::Tree*> getAddress(sad::db::Variant* v)
     {
         return ::dukpp03::Maybe<sad::resource::Tree*>();
+    }
+};
+
+template<>
+struct GetAddressOfType<sad::dukpp03::JSControls*, false, false>
+{
+public: 
+    /*! Returns address of type, stored in variant.
+        \param[in] v value
+        \return empty maybe
+     */
+    inline static ::dukpp03::Maybe<sad::dukpp03::JSControls*> getAddress(sad::db::Variant* v)
+    {
+        return ::dukpp03::Maybe<sad::dukpp03::JSControls*>();
     }
 };
 

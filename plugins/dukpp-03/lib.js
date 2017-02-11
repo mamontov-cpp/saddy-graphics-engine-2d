@@ -564,3 +564,91 @@ sad.SpecialKey = {
     "HoldsAlt"     :  -16537,  
     "HoldsShift"   :  -16536  
 };
+
+sad.input.EventType = {
+    "ET_Quit" : 0,
+    "ET_Activate" : 1,
+    "ET_Deactivate" : 2,
+    "ET_MouseEnter" : 3,
+    "ET_MouseLeave" : 4,
+    "ET_KeyPress" : 5,
+    "ET_KeyRelease" : 6,
+    "ET_MouseMove" : 7,
+    "ET_MousePress" : 8,
+    "ET_MouseRelease" : 9,
+    "ET_MouseDoubleClick" : 10,
+    "ET_MouseWheel" : 11,
+    "ET_Resize" : 12
+};
+
+sad.input.JSControls = SadInputJSControls;
+
+sad.input.JSControls.prototype.onQuit = function(ctx, fn) {
+    return this.onEvent(sad.input.EventType.ET_Quit, ctx, fn);
+};
+
+sad.input.JSControls.prototype.onActivate = function(ctx, fn) {
+    return this.onEvent(sad.input.EventType.ET_Quit, ctx, fn);
+};
+
+sad.input.JSControls.prototype.onDeactivate = function(ctx, fn) {
+    return this.onEvent(sad.input.EventType.ET_Deactivate, ctx, fn);
+};
+
+sad.input.JSControls.prototype.onMouseEnter = function(ctx, fn) {
+    return this.onEvent(sad.input.EventType.ET_MouseEnter, ctx, fn);
+};
+
+sad.input.JSControls.prototype.onEnter = sad.input.JSControls.prototype.onMouseEnter ;
+
+sad.input.JSControls.prototype.onMouseLeave = function(ctx, fn) {
+    return this.onEvent(sad.input.EventType.ET_MouseLeave, ctx, fn);
+};
+
+sad.input.JSControls.prototype.onLeave = sad.input.JSControls.prototype.onMouseLeave ;
+
+sad.input.JSControls.prototype.onKeyPress = function(ctx, fn) {
+    return this.onEvent(sad.input.EventType.ET_KeyPress, ctx, fn);
+};
+
+sad.input.JSControls.prototype.onKeyRelease = function(ctx, fn) {
+    return this.onEvent(sad.input.EventType.ET_KeyRelease, ctx, fn);
+};
+
+sad.input.JSControls.prototype.onMouseMove = function(ctx, fn) {
+    return this.onEvent(sad.input.EventType.ET_MouseMove, ctx, fn);
+};
+
+sad.input.JSControls.prototype.onMove  = sad.input.JSControls.prototype.onMouseMove;
+
+sad.input.JSControls.prototype.onMousePress = function(ctx, fn) {
+    return this.onEvent(sad.input.EventType.ET_MousePress, ctx, fn);
+};
+
+sad.input.JSControls.prototype.onClick = sad.input.JSControls.prototype.onMousePress;
+
+sad.input.JSControls.prototype.onMouseRelease = function(ctx, fn) {
+    return this.onEvent(sad.input.EventType.ET_MouseRelease, ctx, fn);
+};
+
+sad.input.JSControls.prototype.onRelease = sad.input.JSControls.prototype.onMouseRelease;
+
+sad.input.JSControls.prototype.onMouseDoubleClick = function(ctx, fn) {
+    return this.onEvent(sad.input.EventType.ET_MouseDoubleClick, ctx, fn);
+};
+
+sad.input.JSControls.prototype.onDblClick = sad.input.JSControls.prototype.onMouseDoubleClick;
+
+sad.input.JSControls.prototype.onMouseWheel = function(ctx, fn) {
+    return this.onEvent(sad.input.EventType.ET_MouseWheel, ctx, fn);
+};
+
+sad.input.JSControls.prototype.onWheel = sad.input.JSControls.prototype.onMouseWheel;
+
+sad.input.JSControls.prototype.onResize = function(ctx, fn) {
+    return this.onEvent(sad.input.EventType.ET_Resize, ctx, fn);
+};
+
+sad.isValidKeyboardKey = SadIsValidKeyboardKey;
+sad.keyToString = SadIsValidKeyboardKey;
+sad.defaultKeyIfNotValid = SadDefaultKeyIfNotValid;
