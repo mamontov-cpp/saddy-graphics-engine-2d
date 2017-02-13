@@ -1,0 +1,8 @@
+This plugins implements a simple Qt ingtegration into QOpenGLWidget, allowing to work it with Saddy and
+intergrate it into some Qt window.
+
+Demo, related to QOpenGLWidget integrates a game example into a simple window, that can be used for cheating the game.
+
+Requirements: 
+Win32: Qt
+Linux: Qt
