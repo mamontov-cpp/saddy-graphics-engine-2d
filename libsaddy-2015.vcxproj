@@ -1,0 +1,769 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>libsaddy</ProjectName>
+    <ProjectGuid>{4F41A547-C004-4A32-A69A-36EBAFA5EB93}</ProjectGuid>
+    <RootNamespace>libsaddy</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)lib\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)lib\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">saddy-debug</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">saddy-release</TargetName>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>include/config;include/primitives;include/templates;include;include/extra;include/p2d;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;_SCL_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>StackFrameRuntimeCheck</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level1</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)saddy-debug.lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <AdditionalIncludeDirectories>include/config;include/primitives;include/templates;include;include/extra;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;MSVC_RELEASE;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_SCL_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)saddy-release.lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\animations\animationssimplemovement.cpp" />
+    <ClCompile Include="src\animations\animationstexturecoordinateslist.cpp" />
+    <ClCompile Include="src\animations\easing\easingfunction.cpp" />
+    <ClCompile Include="src\animations\easing\easingtypes.cpp" />
+    <ClCompile Include="src\camera.cpp" />
+    <ClCompile Include="src\classmetadata.cpp" />
+    <ClCompile Include="src\classmetadatacastfunction.cpp" />
+    <ClCompile Include="src\classmetadatacontainer.cpp" />
+    <ClCompile Include="src\closure.cpp" />
+    <ClCompile Include="src\font.cpp" />
+    <ClCompile Include="src\formattedlabel.cpp" />
+    <ClCompile Include="src\fpsinterpolation.cpp" />
+    <ClCompile Include="src\fuzzyequal.cpp" />
+    <ClCompile Include="src\geometry2d.cpp" />
+    <ClCompile Include="src\geometry3d.cpp" />
+    <ClCompile Include="src\glcontext.cpp" />
+    <ClCompile Include="src\imageformats\pixelstorageloader.cpp" />
+    <ClCompile Include="src\keycodes.cpp" />
+    <ClCompile Include="src\keymouseconditions.cpp" />
+    <ClCompile Include="src\label.cpp" />
+    <ClCompile Include="src\layouts\cell.cpp" />
+    <ClCompile Include="src\layouts\grid.cpp" />
+    <ClCompile Include="src\layouts\lengthvalue.cpp" />
+    <ClCompile Include="src\layouts\serializablecell.cpp" />
+    <ClCompile Include="src\mainloop.cpp" />
+    <ClCompile Include="src\mousecursor.cpp" />
+    <ClCompile Include="src\object.cpp" />
+    <ClCompile Include="src\objectdependentfpsinterpolation.cpp" />
+    <ClCompile Include="src\opengl.cpp" />
+    <ClCompile Include="src\orthographiccamera.cpp" />
+    <ClCompile Include="src\pausabletimer.cpp" />
+    <ClCompile Include="src\periodicalevent.cpp" />
+    <ClCompile Include="src\primitiverenderer.cpp" />
+    <ClCompile Include="src\refcountable.cpp" />
+    <ClCompile Include="src\renderer.cpp" />
+    <ClCompile Include="src\resource\resourcefile.cpp" />
+    <ClCompile Include="src\sadhash.cpp" />
+    <ClCompile Include="src\sadluvcolor.cpp" />
+    <ClCompile Include="src\sadmutex.cpp" />
+    <ClCompile Include="src\sadscopedlock.cpp" />
+    <ClCompile Include="src\sadsemaphore.cpp" />
+    <ClCompile Include="src\sadsleep.cpp" />
+    <ClCompile Include="src\sadstring.cpp" />
+    <ClCompile Include="src\sadthread.cpp" />
+    <ClCompile Include="src\sadthreadexecutablefunction.cpp" />
+    <ClCompile Include="src\sadwstring.cpp" />
+    <ClCompile Include="src\scene.cpp" />
+    <ClCompile Include="src\scenenode.cpp" />
+    <ClCompile Include="src\settings.cpp" />
+    <ClCompile Include="src\slurp.cpp" />
+    <ClCompile Include="src\slurpjson.cpp" />
+    <ClCompile Include="src\spit.cpp" />
+    <ClCompile Include="src\spitjson.cpp" />
+    <ClCompile Include="src\sprite2d.cpp" />
+    <ClCompile Include="src\sprite3d.cpp" />
+    <ClCompile Include="src\tar7z.cpp" />
+    <ClCompile Include="src\texture.cpp" />
+    <ClCompile Include="src\texturemappedfont.cpp" />
+    <ClCompile Include="src\timer.cpp" />
+    <ClCompile Include="src\util\chararrayibuf.cpp" />
+    <ClCompile Include="src\util\fileistreambuf.cpp" />
+    <ClCompile Include="src\util\utilsadhash.cpp" />
+    <ClCompile Include="src\window.cpp" />
+    <ClCompile Include="src\cli\clioptionvalue.cpp" />
+    <ClCompile Include="src\cli\cliparser.cpp" />
+    <ClCompile Include="src\os\consoleimpl.cpp" />
+    <ClCompile Include="src\os\generatemipmaps30.cpp" />
+    <ClCompile Include="src\os\glcontextimpl.cpp" />
+    <ClCompile Include="src\os\keydecoder.cpp" />
+    <ClCompile Include="src\os\muteximpl.cpp" />
+    <ClCompile Include="src\os\semaphoreimpl.cpp" />
+    <ClCompile Include="src\os\systemeventdispatcher.cpp" />
+    <ClCompile Include="src\os\systemwindowevent.cpp" />
+    <ClCompile Include="src\os\threadimpl.cpp" />
+    <ClCompile Include="src\os\timerimpl.cpp" />
+    <ClCompile Include="src\os\windowimpl.cpp" />
+    <ClCompile Include="src\3rdparty\picopng\picopng.cpp" />
+    <ClCompile Include="src\3rdparty\format\format.cc" />
+    <ClCompile Include="src\3rdparty\SDL\x11messagebox.cpp" />
+    <ClCompile Include="src\log\consoletarget.cpp" />
+    <ClCompile Include="src\log\filetarget.cpp" />
+    <ClCompile Include="src\log\log.cpp" />
+    <ClCompile Include="src\log\logmessage.cpp" />
+    <ClCompile Include="src\log\logscope.cpp" />
+    <ClCompile Include="src\log\logtarget.cpp" />
+    <ClCompile Include="src\p2d\axle.cpp" />
+    <ClCompile Include="src\p2d\body.cpp" />
+    <ClCompile Include="src\p2d\bouncesolver.cpp" />
+    <ClCompile Include="src\p2d\bounds.cpp" />
+    <ClCompile Include="src\p2d\broadcollisiondetector.cpp" />
+    <ClCompile Include="src\p2d\circle.cpp" />
+    <ClCompile Include="src\p2d\circletohulltransformer.cpp" />
+    <ClCompile Include="src\p2d\collisiondetector.cpp" />
+    <ClCompile Include="src\p2d\collisionevent.cpp" />
+    <ClCompile Include="src\p2d\collisionhandler.cpp" />
+    <ClCompile Include="src\p2d\collisionshape.cpp" />
+    <ClCompile Include="src\p2d\collisiontest.cpp" />
+    <ClCompile Include="src\p2d\convexhull.cpp" />
+    <ClCompile Include="src\p2d\elasticforce.cpp" />
+    <ClCompile Include="src\p2d\findcontactpoints.cpp" />
+    <ClCompile Include="src\p2d\force.cpp" />
+    <ClCompile Include="src\p2d\grahamscan.cpp" />
+    <ClCompile Include="src\p2d\infiniteline.cpp" />
+    <ClCompile Include="src\p2d\line.cpp" />
+    <ClCompile Include="src\p2d\multisamplingcollisiondetector.cpp" />
+    <ClCompile Include="src\p2d\rectangle.cpp" />
+    <ClCompile Include="src\p2d\simplecollisiondetector.cpp" />
+    <ClCompile Include="src\p2d\vector.cpp" />
+    <ClCompile Include="src\p2d\walls.cpp" />
+    <ClCompile Include="src\p2d\weight.cpp" />
+    <ClCompile Include="src\p2d\world.cpp" />
+    <ClCompile Include="src\p2d\worldsteptask.cpp" />
+    <ClCompile Include="src\p2d\app\app.cpp" />
+    <ClCompile Include="src\p2d\app\appobject.cpp" />
+    <ClCompile Include="src\p2d\app\objectemitter.cpp" />
+    <ClCompile Include="src\p2d\app\way.cpp" />
+    <ClCompile Include="src\input\controls.cpp" />
+    <ClCompile Include="src\input\events.cpp" />
+    <ClCompile Include="src\input\handlerconditions.cpp" />
+    <ClCompile Include="src\input\handlers.cpp" />
+    <ClCompile Include="src\imageformats\bmploader.cpp" />
+    <ClCompile Include="src\imageformats\loader.cpp" />
+    <ClCompile Include="src\imageformats\pngloader.cpp" />
+    <ClCompile Include="src\imageformats\srgbaloader.cpp" />
+    <ClCompile Include="src\imageformats\tgaloader.cpp" />
+    <ClCompile Include="src\pipeline\pipeline.cpp" />
+    <ClCompile Include="src\pipeline\pipelinedelegate.cpp" />
+    <ClCompile Include="src\pipeline\pipelineprocess.cpp" />
+    <ClCompile Include="src\pipeline\pipelinestep.cpp" />
+    <ClCompile Include="src\pipeline\pipelinetask.cpp" />
+    <ClCompile Include="src\hfsm\hfsmhandler.cpp" />
+    <ClCompile Include="src\hfsm\hfsmmachine.cpp" />
+    <ClCompile Include="src\hfsm\hfsmshared.cpp" />
+    <ClCompile Include="src\hfsm\hfsmstate.cpp" />
+    <ClCompile Include="src\hfsm\hfsmtransition.cpp" />
+    <ClCompile Include="src\hfsm\hfsmtransitionrepository.cpp" />
+    <ClCompile Include="src\util\deletetexturetask.cpp" />
+    <ClCompile Include="src\util\fs.cpp" />
+    <ClCompile Include="src\util\swaplayerstask.cpp" />
+    <ClCompile Include="src\resource\abstractlink.cpp" />
+    <ClCompile Include="src\resource\error.cpp" />
+    <ClCompile Include="src\resource\folder.cpp" />
+    <ClCompile Include="src\resource\resource.cpp" />
+    <ClCompile Include="src\resource\resourcefactory.cpp" />
+    <ClCompile Include="src\resource\textureatlasfile.cpp" />
+    <ClCompile Include="src\resource\tree.cpp" />
+    <ClCompile Include="src\db\dbcanbecastedfromto.cpp" />
+    <ClCompile Include="src\db\dbconversiontable.cpp" />
+    <ClCompile Include="src\db\dbdatabase.cpp" />
+    <ClCompile Include="src\db\dberror.cpp" />
+    <ClCompile Include="src\db\dblink.cpp" />
+    <ClCompile Include="src\db\dbobject.cpp" />
+    <ClCompile Include="src\db\dbobjectfactory.cpp" />
+    <ClCompile Include="src\db\dbpopulatescenesfromdatabase.cpp" />
+    <ClCompile Include="src\db\dbproperty.cpp" />
+    <ClCompile Include="src\db\dbstoredpropertyfactory.cpp" />
+    <ClCompile Include="src\db\dbtable.cpp" />
+    <ClCompile Include="src\db\dbtypename.cpp" />
+    <ClCompile Include="src\db\dbvariant.cpp" />
+    <ClCompile Include="src\db\schema\schema.cpp" />
+    <ClCompile Include="src\db\custom\customobject.cpp" />
+    <ClCompile Include="src\db\custom\customschema.cpp" />
+    <ClCompile Include="src\db\custom\customschemafile.cpp" />
+    <ClCompile Include="src\dialogue\dialogue.cpp" />
+    <ClCompile Include="src\dialogue\phrase.cpp" />
+    <ClCompile Include="src\animations\animationsabstractsavedobjectstatecreator.cpp" />
+    <ClCompile Include="src\animations\animationsanimation.cpp" />
+    <ClCompile Include="src\animations\animationsanimations.cpp" />
+    <ClCompile Include="src\animations\animationsblinking.cpp" />
+    <ClCompile Include="src\animations\animationscallback.cpp" />
+    <ClCompile Include="src\animations\animationscamerarotation.cpp" />
+    <ClCompile Include="src\animations\animationscamerashaking.cpp" />
+    <ClCompile Include="src\animations\animationscolor.cpp" />
+    <ClCompile Include="src\animations\animationscomposite.cpp" />
+    <ClCompile Include="src\animations\animationsfactory.cpp" />
+    <ClCompile Include="src\animations\animationsfile.cpp" />
+    <ClCompile Include="src\animations\animationsfontlist.cpp" />
+    <ClCompile Include="src\animations\animationsfontsize.cpp" />
+    <ClCompile Include="src\animations\animationsgroup.cpp" />
+    <ClCompile Include="src\animations\animationsinstance.cpp" />
+    <ClCompile Include="src\animations\animationsoptionlist.cpp" />
+    <ClCompile Include="src\animations\animationsparallel.cpp" />
+    <ClCompile Include="src\animations\animationsprocess.cpp" />
+    <ClCompile Include="src\animations\animationsresize.cpp" />
+    <ClCompile Include="src\animations\animationsrotate.cpp" />
+    <ClCompile Include="src\animations\animationssavedcamerarotation.cpp" />
+    <ClCompile Include="src\animations\animationssavedcameratranslation.cpp" />
+    <ClCompile Include="src\animations\animationssavedobjectposition.cpp" />
+    <ClCompile Include="src\animations\animationssavedobjectsize.cpp" />
+    <ClCompile Include="src\animations\animationssavedobjectstate.cpp" />
+    <ClCompile Include="src\animations\animationssavedobjectstatecache.cpp" />
+    <ClCompile Include="src\animations\animationssavedobjectstatecreators.cpp" />
+    <ClCompile Include="src\animations\animationssequential.cpp" />
+    <ClCompile Include="src\animations\animationstexturecoordinatescontinuous.cpp" />
+    <ClCompile Include="src\animations\animationstyping.cpp" />
+    <ClCompile Include="src\animations\animationswayinstance.cpp" />
+    <ClCompile Include="src\animations\animationswaymoving.cpp" />
+    <ClCompile Include="src\animations\setstate\abstractsetstatecommand.cpp" />
+    <ClCompile Include="src\animations\setstate\setcamerarotation.cpp" />
+    <ClCompile Include="src\animations\setstate\setcameratranslation.cpp" />
+    <ClCompile Include="src\animations\setstate\setpositionproperty.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\3rdparty\boost-dist\boost\aligned_storage.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\array.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\assert.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\bimap.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\associative_container_adaptor.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\container_adaptor.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\detail\comparison_adaptor.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\detail\functor_bag.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\detail\identity_converters.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\detail\key_extractor.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\detail\non_unique_container_helper.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\list_adaptor.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\list_map_adaptor.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\map_adaptor.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\multimap_adaptor.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\multiset_adaptor.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\ordered_associative_container_adaptor.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\sequence_container_adaptor.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\set_adaptor.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\support\iterator_facade_converters.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\unordered_associative_container_adaptor.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\unordered_map_adaptor.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\unordered_multimap_adaptor.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\unordered_multiset_adaptor.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\unordered_set_adaptor.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\vector_adaptor.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\vector_map_adaptor.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\bimap_core.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\concept_tags.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\debug\static_error.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\generate_index_binder.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\generate_relation_binder.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\generate_view_binder.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\is_set_type_of.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\manage_additional_parameters.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\manage_bimap_key.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\map_view_base.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\map_view_iterator.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\modifier_adaptor.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\non_unique_views_helper.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\set_view_base.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\set_view_iterator.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\test\check_metadata.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\user_interface_config.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\list_of.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\multiset_of.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\property_map\set_support.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\property_map\unordered_set_support.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\detail\access_builder.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\detail\metadata_access_builder.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\detail\mutant.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\detail\static_access_builder.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\detail\to_mutable_relation_functor.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\member_at.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\mutant_relation.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\pair_layout.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\structured_pair.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\support\data_extractor.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\support\get.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\support\get_pair_functor.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\support\is_tag_of_member_at.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\support\member_with_tag.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\support\opposite_tag.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\support\pair_by.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\support\pair_type_by.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\support\value_type_of.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\symmetrical_base.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\set_of.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\support\data_type_by.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\support\iterator_type_by.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\support\key_type_by.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\support\lambda.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\support\map_by.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\support\map_type_by.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\support\value_type_by.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\tags\support\apply_to_value_type.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\tags\support\default_tagged.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\tags\support\is_tagged.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\tags\support\overwrite_tagged.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\tags\support\tag_of.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\tags\support\value_type_of.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\tags\tagged.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\unconstrained_set_of.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\unordered_multiset_of.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\unordered_set_of.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\vector_of.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\views\list_map_view.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\views\list_set_view.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\views\map_view.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\views\multimap_view.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\views\multiset_view.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\views\set_view.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\views\unconstrained_map_view.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\views\unconstrained_set_view.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\views\unordered_map_view.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\views\unordered_multimap_view.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\views\unordered_multiset_view.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\views\unordered_set_view.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\views\vector_map_view.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\views\vector_set_view.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\bind.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\blank.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\blank_fwd.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\call_traits.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\cast.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\checked_delete.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\compressed_pair.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\concept_archetype.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\concept_check.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\config.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\cstdint.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\cstdlib.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\current_function.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\dynamic_bitset.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\dynamic_bitset_fwd.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\foreach.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\foreach_fwd.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\function.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\functional\hash.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\functional\hash\detail\float_functions.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\functional\hash\detail\hash_float.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\functional\hash\detail\limits.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\functional\hash\extensions.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\functional\hash\hash.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\functional\hash\hash_fwd.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\functional\hash_fwd.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\function_equal.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\get_pointer.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\implicit_cast.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\indirect_reference.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\integer.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\integer_fwd.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\integer_traits.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\intrusive_ptr.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\io_fwd.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\is_placeholder.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\iterator.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\iterator_adaptors.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\lexical_cast.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\limits.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\mem_fn.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\mpi.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\multi_index_container.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\multi_index_container_fwd.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\next_prior.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\noncopyable.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\none.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\none_t.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\non_type.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\operators.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\optional.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\pointee.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\pointer_to_other.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\polymorphic_cast.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\predef.h" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\preprocessor.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\python.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\ref.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\scoped_array.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\scoped_ptr.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\shared_array.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\shared_ptr.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\static_assert.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\swap.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\throw_exception.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\timer.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\tokenizer.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\token_functions.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\token_iterator.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\type.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\type_traits.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\unordered\detail\allocate.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\unordered\detail\buckets.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\unordered\detail\equivalent.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\unordered\detail\extract_key.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\unordered\detail\fwd.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\unordered\detail\table.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\unordered\detail\unique.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\unordered\detail\util.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\unordered\unordered_map.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\unordered\unordered_map_fwd.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\unordered\unordered_set.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\unordered\unordered_set_fwd.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\unordered_map.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\unordered_set.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\utility.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\version.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\visit_each.hpp" />
+    <ClInclude Include="include\3rdparty\boost-dist\boost\weak_ptr.hpp" />
+    <ClInclude Include="include\3rdparty\tar7z.h" />
+    <ClInclude Include="include\animations\animationssimplemovement.h" />
+    <ClInclude Include="include\animations\easing\easingfunction.h" />
+    <ClInclude Include="include\animations\easing\easingtypes.h" />
+    <ClInclude Include="include\camera.h" />
+    <ClInclude Include="include\classmetadata.h" />
+    <ClInclude Include="include\classmetadatacastfunction.h" />
+    <ClInclude Include="include\classmetadatacontainer.h" />
+    <ClInclude Include="include\closure.h" />
+    <ClInclude Include="include\db\dbtypedlink.h" />
+    <ClInclude Include="include\equalto.h" />
+    <ClInclude Include="include\font.h" />
+    <ClInclude Include="include\formattedlabel.h" />
+    <ClInclude Include="include\fpsinterpolation.h" />
+    <ClInclude Include="include\fuzzyequal.h" />
+    <ClInclude Include="include\geometry2d.h" />
+    <ClInclude Include="include\geometry3d.h" />
+    <ClInclude Include="include\glcontext.h" />
+    <ClInclude Include="include\isrefcountable.h" />
+    <ClInclude Include="include\keycodes.h" />
+    <ClInclude Include="include\keymouseconditions.h" />
+    <ClInclude Include="include\label.h" />
+    <ClInclude Include="include\layouts\cell.h" />
+    <ClInclude Include="include\layouts\grid.h" />
+    <ClInclude Include="include\layouts\horizontalalignment.h" />
+    <ClInclude Include="include\layouts\lengthvalue.h" />
+    <ClInclude Include="include\layouts\serializablecell.h" />
+    <ClInclude Include="include\layouts\stackingtype.h" />
+    <ClInclude Include="include\layouts\unit.h" />
+    <ClInclude Include="include\layouts\verticalalignment.h" />
+    <ClInclude Include="include\mainloop.h" />
+    <ClInclude Include="include\matrix2x2.h" />
+    <ClInclude Include="include\matrix3x3.h" />
+    <ClInclude Include="include\maybe.h" />
+    <ClInclude Include="include\mousecursor.h" />
+    <ClInclude Include="include\object.h" />
+    <ClInclude Include="include\objectdependentfpsinterpolation.h" />
+    <ClInclude Include="include\opengl.h" />
+    <ClInclude Include="include\orthographiccamera.h" />
+    <ClInclude Include="include\pausabletimer.h" />
+    <ClInclude Include="include\periodicalevent.h" />
+    <ClInclude Include="include\primitiverenderer.h" />
+    <ClInclude Include="include\refcountable.h" />
+    <ClInclude Include="include\renderer.h" />
+    <ClInclude Include="include\resource\resourcefile.h" />
+    <ClInclude Include="include\sadcolor.h" />
+    <ClInclude Include="include\sadhash.h" />
+    <ClInclude Include="include\sadlinkedlist.h" />
+    <ClInclude Include="include\sadluvcolor.h" />
+    <ClInclude Include="include\sadmutex.h" />
+    <ClInclude Include="include\sadpair.h" />
+    <ClInclude Include="include\sadpoint.h" />
+    <ClInclude Include="include\sadptrhash.h" />
+    <ClInclude Include="include\sadptrie.h" />
+    <ClInclude Include="include\sadptrvector.h" />
+    <ClInclude Include="include\sadrect.h" />
+    <ClInclude Include="include\sadscopedlock.h" />
+    <ClInclude Include="include\sadsemaphore.h" />
+    <ClInclude Include="include\sadsize.h" />
+    <ClInclude Include="include\sadsleep.h" />
+    <ClInclude Include="include\sadstring.h" />
+    <ClInclude Include="include\sadthread.h" />
+    <ClInclude Include="include\sadthreadexecutablefunction.h" />
+    <ClInclude Include="include\sadvector.h" />
+    <ClInclude Include="include\sadwstring.h" />
+    <ClInclude Include="include\scene.h" />
+    <ClInclude Include="include\scenenode.h" />
+    <ClInclude Include="include\settings.h" />
+    <ClInclude Include="include\slurp.h" />
+    <ClInclude Include="include\slurpjson.h" />
+    <ClInclude Include="include\spit.h" />
+    <ClInclude Include="include\spitjson.h" />
+    <ClInclude Include="include\sprite2d.h" />
+    <ClInclude Include="include\sprite3d.h" />
+    <ClInclude Include="include\temporarilyimmutablecontainer.h" />
+    <ClInclude Include="include\texture.h" />
+    <ClInclude Include="include\texturemappedfont.h" />
+    <ClInclude Include="include\timer.h" />
+    <ClInclude Include="include\treedblink.h" />
+    <ClInclude Include="include\unused.h" />
+    <ClInclude Include="include\util\chararrayibuf.h" />
+    <ClInclude Include="include\util\fileistreambuf.h" />
+    <ClInclude Include="include\util\sadhash.h" />
+    <ClInclude Include="include\util\sadhash_src.h" />
+    <ClInclude Include="include\util\texturedefaultimage.h" />
+    <ClInclude Include="include\window.h" />
+    <ClInclude Include="include\cli\args.h" />
+    <ClInclude Include="include\cli\optiontype.h" />
+    <ClInclude Include="include\cli\optionvalue.h" />
+    <ClInclude Include="include\cli\parser.h" />
+    <ClInclude Include="include\cli\token.h" />
+    <ClInclude Include="include\os\consoleimpl.h" />
+    <ClInclude Include="include\os\generatemipmaps30.h" />
+    <ClInclude Include="include\os\glcontexthandle.h" />
+    <ClInclude Include="include\os\glcontextimpl.h" />
+    <ClInclude Include="include\os\glheaders.h" />
+    <ClInclude Include="include\os\keydecoder.h" />
+    <ClInclude Include="include\os\muteximpl.h" />
+    <ClInclude Include="include\os\semaphoreimpl.h" />
+    <ClInclude Include="include\os\systemeventdispatcher.h" />
+    <ClInclude Include="include\os\systemwindowevent.h" />
+    <ClInclude Include="include\os\threadimpl.h" />
+    <ClInclude Include="include\os\timerimpl.h" />
+    <ClInclude Include="include\os\windowhandles.h" />
+    <ClInclude Include="include\os\windowimpl.h" />
+    <ClInclude Include="include\3rdparty\format\format.h" />
+    <ClInclude Include="include\3rdparty\format\stdint.h" />
+    <ClInclude Include="include\3rdparty\tpunit++\tpunit++.hpp" />
+    <ClInclude Include="include\3rdparty\tpunit++\tpunitw.h" />
+    <ClInclude Include="include\3rdparty\ttmath\ttmath.h" />
+    <ClInclude Include="include\3rdparty\ttmath\ttmathbig.h" />
+    <ClInclude Include="include\3rdparty\ttmath\ttmathdec.h" />
+    <ClInclude Include="include\3rdparty\ttmath\ttmathint.h" />
+    <ClInclude Include="include\3rdparty\ttmath\ttmathmisc.h" />
+    <ClInclude Include="include\3rdparty\ttmath\ttmathobjects.h" />
+    <ClInclude Include="include\3rdparty\ttmath\ttmathparser.h" />
+    <ClInclude Include="include\3rdparty\ttmath\ttmaththreads.h" />
+    <ClInclude Include="include\3rdparty\ttmath\ttmathtypes.h" />
+    <ClInclude Include="include\3rdparty\ttmath\ttmathuint.h" />
+    <ClInclude Include="include\3rdparty\ttmath\ttmathuint_noasm.h" />
+    <ClInclude Include="include\3rdparty\ttmath\ttmathuint_x86.h" />
+    <ClInclude Include="include\3rdparty\ttmath\ttmathuint_x86_64.h" />
+    <ClInclude Include="include\3rdparty\glext\glext.h" />
+    <ClInclude Include="include\3rdparty\picojson\getproperty.h" />
+    <ClInclude Include="include\3rdparty\picojson\picojson.h" />
+    <ClInclude Include="include\3rdparty\picojson\valuetotype.h" />
+    <ClInclude Include="include\log\color.h" />
+    <ClInclude Include="include\log\consoletarget.h" />
+    <ClInclude Include="include\log\filetarget.h" />
+    <ClInclude Include="include\log\log.h" />
+    <ClInclude Include="include\log\logmessage.h" />
+    <ClInclude Include="include\log\logscope.h" />
+    <ClInclude Include="include\log\logtarget.h" />
+    <ClInclude Include="include\log\priority.h" />
+    <ClInclude Include="include\log\stringcaster.h" />
+    <ClInclude Include="include\p2d\angularforce.h" />
+    <ClInclude Include="include\p2d\axle.h" />
+    <ClInclude Include="include\p2d\body.h" />
+    <ClInclude Include="include\p2d\bouncesolver.h" />
+    <ClInclude Include="include\p2d\bounds.h" />
+    <ClInclude Include="include\p2d\broadcollisiondetector.h" />
+    <ClInclude Include="include\p2d\circle.h" />
+    <ClInclude Include="include\p2d\circletohulltransformer.h" />
+    <ClInclude Include="include\p2d\collides1d.h" />
+    <ClInclude Include="include\p2d\collisiondetector.h" />
+    <ClInclude Include="include\p2d\collisionevent.h" />
+    <ClInclude Include="include\p2d\collisionhandler.h" />
+    <ClInclude Include="include\p2d\collisionmultimethod.h" />
+    <ClInclude Include="include\p2d\collisionshape.h" />
+    <ClInclude Include="include\p2d\collisiontest.h" />
+    <ClInclude Include="include\p2d\convexhull.h" />
+    <ClInclude Include="include\p2d\elasticforce.h" />
+    <ClInclude Include="include\p2d\findcontactpoints.h" />
+    <ClInclude Include="include\p2d\force.h" />
+    <ClInclude Include="include\p2d\ghostoptions.h" />
+    <ClInclude Include="include\p2d\grahamscan.h" />
+    <ClInclude Include="include\p2d\infiniteline.h" />
+    <ClInclude Include="include\p2d\line.h" />
+    <ClInclude Include="include\p2d\movement.h" />
+    <ClInclude Include="include\p2d\multisamplingcollisiondetector.h" />
+    <ClInclude Include="include\p2d\point.h" />
+    <ClInclude Include="include\p2d\rectangle.h" />
+    <ClInclude Include="include\p2d\simplecollisiondetector.h" />
+    <ClInclude Include="include\p2d\tickable.h" />
+    <ClInclude Include="include\p2d\vector.h" />
+    <ClInclude Include="include\p2d\walls.h" />
+    <ClInclude Include="include\p2d\weight.h" />
+    <ClInclude Include="include\p2d\world.h" />
+    <ClInclude Include="include\p2d\worldsteptask.h" />
+    <ClInclude Include="include\p2d\app\app.h" />
+    <ClInclude Include="include\p2d\app\constants.h" />
+    <ClInclude Include="include\p2d\app\object.h" />
+    <ClInclude Include="include\p2d\app\objectemitter.h" />
+    <ClInclude Include="include\p2d\app\way.h" />
+    <ClInclude Include="include\input\controls.h" />
+    <ClInclude Include="include\input\events.h" />
+    <ClInclude Include="include\input\handlerconditions.h" />
+    <ClInclude Include="include\input\handlers.h" />
+    <ClInclude Include="include\imageformats\bmploader.h" />
+    <ClInclude Include="include\imageformats\loader.h" />
+    <ClInclude Include="include\imageformats\pngloader.h" />
+    <ClInclude Include="include\imageformats\srgbaloader.h" />
+    <ClInclude Include="include\imageformats\tgaloader.h" />
+    <ClInclude Include="include\util\commoncheckedcast.h" />
+    <ClInclude Include="include\util\deletetexturetask.h" />
+    <ClInclude Include="include\util\formattedlabelarg.h" />
+    <ClInclude Include="include\util\free.h" />
+    <ClInclude Include="include\util\fs.h" />
+    <ClInclude Include="include\util\getterproxy.h" />
+    <ClInclude Include="include\util\pointercallback.h" />
+    <ClInclude Include="include\util\sadthreadexecutablefunction.h" />
+    <ClInclude Include="include\util\setterproxy.h" />
+    <ClInclude Include="include\util\swaplayerstask.h" />
+    <ClInclude Include="include\pipeline\pipeline.h" />
+    <ClInclude Include="include\pipeline\pipelinedelegate.h" />
+    <ClInclude Include="include\pipeline\pipelineprocess.h" />
+    <ClInclude Include="include\pipeline\pipelinestep.h" />
+    <ClInclude Include="include\pipeline\pipelinetask.h" />
+    <ClInclude Include="include\hfsm\hfsmhandler.h" />
+    <ClInclude Include="include\hfsm\hfsmmachine.h" />
+    <ClInclude Include="include\hfsm\hfsmshared.h" />
+    <ClInclude Include="include\hfsm\hfsmstate.h" />
+    <ClInclude Include="include\hfsm\hfsmtransition.h" />
+    <ClInclude Include="include\hfsm\hfsmtransitionrepository.h" />
+    <ClInclude Include="include\resource\abstractlink.h" />
+    <ClInclude Include="include\resource\error.h" />
+    <ClInclude Include="include\resource\folder.h" />
+    <ClInclude Include="include\resource\link.h" />
+    <ClInclude Include="include\resource\resource.h" />
+    <ClInclude Include="include\resource\resourcefactory.h" />
+    <ClInclude Include="include\resource\textureatlasfile.h" />
+    <ClInclude Include="include\resource\tree.h" />
+    <ClInclude Include="include\db\dbcanbecastedfromto.h" />
+    <ClInclude Include="include\db\dbconversiontable.h" />
+    <ClInclude Include="include\db\dbdatabase.h" />
+    <ClInclude Include="include\db\dberror.h" />
+    <ClInclude Include="include\db\dbfield.h" />
+    <ClInclude Include="include\db\dblink.h" />
+    <ClInclude Include="include\db\dbmethodpair.h" />
+    <ClInclude Include="include\db\dbobject.h" />
+    <ClInclude Include="include\db\dbobjectfactory.h" />
+    <ClInclude Include="include\db\dbpopulatescenesfromdatabase.h" />
+    <ClInclude Include="include\db\dbproperty.h" />
+    <ClInclude Include="include\db\dbstoredproperty.h" />
+    <ClInclude Include="include\db\dbstoredpropertyfactory.h" />
+    <ClInclude Include="include\db\dbtable.h" />
+    <ClInclude Include="include\db\dbtypename.h" />
+    <ClInclude Include="include\db\dbvariant.h" />
+    <ClInclude Include="include\db\load.h" />
+    <ClInclude Include="include\db\save.h" />
+    <ClInclude Include="include\db\schema\schema.h" />
+    <ClInclude Include="include\db\custom\customobject.h" />
+    <ClInclude Include="include\db\custom\customschema.h" />
+    <ClInclude Include="include\db\custom\customschemafile.h" />
+    <ClInclude Include="include\dialogue\dialogue.h" />
+    <ClInclude Include="include\dialogue\phrase.h" />
+    <ClInclude Include="include\animations\animationsabstractsavedobjectstatecreator.h" />
+    <ClInclude Include="include\animations\animationsanimation.h" />
+    <ClInclude Include="include\animations\animationsanimations.h" />
+    <ClInclude Include="include\animations\animationsblinking.h" />
+    <ClInclude Include="include\animations\animationscallback.h" />
+    <ClInclude Include="include\animations\animationscamerarotation.h" />
+    <ClInclude Include="include\animations\animationscamerashaking.h" />
+    <ClInclude Include="include\animations\animationscolor.h" />
+    <ClInclude Include="include\animations\animationscomposite.h" />
+    <ClInclude Include="include\animations\animationscontinuousproperty.h" />
+    <ClInclude Include="include\animations\animationsdiscreteproperty.h" />
+    <ClInclude Include="include\animations\animationsfactory.h" />
+    <ClInclude Include="include\animations\animationsfile.h" />
+    <ClInclude Include="include\animations\animationsfontlist.h" />
+    <ClInclude Include="include\animations\animationsfontsize.h" />
+    <ClInclude Include="include\animations\animationsgroup.h" />
+    <ClInclude Include="include\animations\animationsinstance.h" />
+    <ClInclude Include="include\animations\animationslink.h" />
+    <ClInclude Include="include\animations\animationsoptionlist.h" />
+    <ClInclude Include="include\animations\animationsparallel.h" />
+    <ClInclude Include="include\animations\animationsprocess.h" />
+    <ClInclude Include="include\animations\animationsresize.h" />
+    <ClInclude Include="include\animations\animationsrotate.h" />
+    <ClInclude Include="include\animations\animationssavedcamerarotation.h" />
+    <ClInclude Include="include\animations\animationssavedcameratranslation.h" />
+    <ClInclude Include="include\animations\animationssavedobjectposition.h" />
+    <ClInclude Include="include\animations\animationssavedobjectproperty.h" />
+    <ClInclude Include="include\animations\animationssavedobjectpropertycreator.h" />
+    <ClInclude Include="include\animations\animationssavedobjectsize.h" />
+    <ClInclude Include="include\animations\animationssavedobjectstate.h" />
+    <ClInclude Include="include\animations\animationssavedobjectstatecache.h" />
+    <ClInclude Include="include\animations\animationssavedobjectstatecreator.h" />
+    <ClInclude Include="include\animations\animationssavedobjectstatecreators.h" />
+    <ClInclude Include="include\animations\animationssequential.h" />
+    <ClInclude Include="include\animations\animationstexturecoordinatescontinuous.h" />
+    <ClInclude Include="include\animations\animationstexturecoordinateslist.h" />
+    <ClInclude Include="include\animations\animationstyping.h" />
+    <ClInclude Include="include\animations\animationswayinstance.h" />
+    <ClInclude Include="include\animations\animationswaymoving.h" />
+    <ClInclude Include="include\animations\setstate\abstractsetstatecommand.h" />
+    <ClInclude Include="include\animations\setstate\dummycommand.h" />
+    <ClInclude Include="include\animations\setstate\methodcall.h" />
+    <ClInclude Include="include\animations\setstate\setcamerarotation.h" />
+    <ClInclude Include="include\animations\setstate\setcameratranslation.h" />
+    <ClInclude Include="include\animations\setstate\setpositionproperty.h" />
+    <ClInclude Include="include\animations\setstate\setpositionviaareacall.h" />
+    <ClInclude Include="include\animations\setstate\setproperty.h" />
+    <ClInclude Include="include\animations\setstate\typedcommand.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
