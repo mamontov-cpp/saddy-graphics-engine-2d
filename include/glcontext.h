@@ -35,28 +35,28 @@ public:
     ~GLContext();
     /*! Checks, whether context is valid
      */
-    bool valid() const;
+    virtual bool valid() const;
     /*! Swaps buffers. Must be called, after scene is rendered
      */
-    void swapBuffers();
+    virtual void swapBuffers();
     /*! Maps a point from client coordinates to OpenGL viewport
         \param[in] p point
         \param[in] ztest whether ztesting should be performed
         \return mapped point in vierport
      */
-    sad::Point3D mapToViewport(const sad::Point2D & p, bool ztest = false);
+    virtual sad::Point3D mapToViewport(const sad::Point2D & p, bool ztest = false);
     /*! Returns current OpenGL context
         \return OpenGL context
      */
-    sad::os::GLContextHandle * handle() const;
+    virtual sad::os::GLContextHandle * handle() const;
     /*! Returns a window, attached to context
         \return window, attached to context
      */
-    sad::Window * window() const;
+    virtual sad::Window * window() const;
     /*! Tests, whether OpenGL context is compatible with OpenGL 3.0+ specs
         \return whether it's compatible
      */
-    bool isOpenGL3compatible() const;
+    virtual bool isOpenGL3compatible() const;
     /*! Sets implementation. Use it to replace default implementation, to
         replace construction step and other. Don't do it, when already created
         context!
@@ -68,13 +68,13 @@ public:
         \param[in] win a window
         \return whether it was successfull
      */
-    bool createFor(sad::Window * win);
+    virtual bool createFor(sad::Window * win);
     /*! Destroys a context. DO NOT USE IT!
      */
-    void destroy();
+    virtual void destroy();
     /*! Makes context current 
      */
-    void makeCurrent();
+    virtual void makeCurrent();
     /*! Returns a renderer, associated with context
         \return renderer
      */

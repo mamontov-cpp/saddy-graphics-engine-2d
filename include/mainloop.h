@@ -50,7 +50,7 @@ public:
     /*! Determines, whether main loop is running
         \return whether main loop is running
      */
-    bool running() const;	
+    bool running() const;
 protected:
     /*! Tries to elevate priority of current process, when performing main loop
      */

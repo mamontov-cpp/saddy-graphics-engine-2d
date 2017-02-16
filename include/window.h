@@ -58,79 +58,79 @@ public:
         sad::Window::create was called successfully
         \return whether window is valid
      */
-    bool valid() const;
+    virtual bool valid() const;
 
 
     /*! Tests, whether window is fixed size
      */
-    bool fixed() const;
+    virtual bool fixed() const;
     /*! Toggles fixed size window on
      */
-    void makeFixedSize();
+    virtual void makeFixedSize();
     /*! Toggles fixed size window off
      */
-    void makeResizeable();
+    virtual void makeResizeable();
 
     /*! Tests, whether window is on fullscreen mode
      */
-    bool fullscreen() const;
+    virtual bool fullscreen() const;
     /*! Enters fullscreen
      */
-    void enterFullscreen();
+    virtual void enterFullscreen();
     /*! Leaves fullscreen
      */
-    void leaveFullscreen();
+    virtual void leaveFullscreen();
 
     /*! Tests, whether window is hidden. This does not detect minimized windows.
      */
-    bool hidden() const;
+    virtual bool hidden() const;
     /*! Shows a window
      */
-    void show();
+    virtual void show();
     /*! Hides a window
      */
-    void hide();
+    virtual void hide();
 
     /*! Sets rectangle to specified implementation
         \param[in] rect a new window rectangle
      */
-    void setRect(const sad::Rect2I& rect);
+    virtual void setRect(const sad::Rect2I& rect);
     /*! Pushes window rectangle down to stack of sizes
         \param[in] rect a new window rectangle
      */
-    void pushRect(const sad::Rect2I& rect);
+    virtual void pushRect(const sad::Rect2I& rect);
     /*! Pops window rectangle from stack of sizes
      */
-    void popRect();
+    virtual void popRect();
     /*! Returns window rectangle 
         \return window rectangle
      */
-    sad::Rect2I rect() const;
+    virtual sad::Rect2I rect() const;
 
     /*! Maps a point from window coordinates to client coordinates
         \param[in] p point
         \return client point
      */
-    sad::Point2D toClient(const sad::Point2D & p);
+    virtual sad::Point2D toClient(const sad::Point2D & p);
     /*! Returns a handles for a window
         \return handles for a window
      */
-    sad::os::WindowHandles * handles();
+    virtual sad::os::WindowHandles * handles();
     /*! Returns a title for a window
         \return title for a window
      */
-    const sad::String & title() const;
+    virtual const sad::String & title() const;
     /*! Sets title for a window
      */
-    void setTitle(const sad::String & s);
+    virtual void setTitle(const sad::String & s);
     /*! Whether window is active
         \return whether window is active
      */
-    bool active() const;
+    virtual bool active() const;
     /*! Tests, whether implementation is compatible with OpenGL 3
         \return whether OpenGL 3+ context can be created in this window
      */
-    bool isGL3compatible() const;
+    virtual bool isGL3compatible() const;
     /*! Sets implementation. Use it to replace default implementation, to
         replace construction step and other. Don't do it, when already created
         window!
@@ -140,26 +140,26 @@ public:
     /*! Called by a renderer to initialize created window settings, enter fullscreen,
         make window fixed. DO NOT USE IT!
      */
-    void initialize();
+    virtual void initialize();
     /*! Creates a new window. Note, that you should not call this functions, since
         sad::Renderer automatically does it for you.
         \return whether creation was successfull. DO NOT USE IT!
      */
-    bool create();
+    virtual bool create();
     /*! Closes a window. Note, that you should not call this function, use
         sad::Renderer instead for shutting down everything. DO NOT USE IT!
      */
-    void close();
+    virtual void close();
     /*! Destroys a window, freeing all resources. 
         Note, that you should not call this functions, since
         sad::Renderer automatically does it for you. DO NOT USE IT!
         \return whether destruction was successfull 
      */
-    void destroy();
+    virtual void destroy();
     /*! Used by loop to mark window as active or not
         \param[in] active whether window is active
      */
-    void setActive(bool active);
+    virtual void setActive(bool active);
     /*! Sets hidden flag in window 
         \param[in] hidden whether window is hidden
      */
