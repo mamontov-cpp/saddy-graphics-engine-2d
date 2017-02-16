@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>794</width>
+    <height>499</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>sad::Game example instrumented</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="sad::qt::OpenGLWidget" name="glWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>640</width>
+      <height>480</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnIncrementLifves">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>10</y>
+      <width>121</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Increment health</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnIncrementScore">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>50</y>
+      <width>121</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Increment score</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnKillAllEnemies">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>90</y>
+      <width>121</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Kill all enemies</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>sad::qt::OpenGLWidget</class>
+   <extends>QOpenGLWidget</extends>
+   <header>sadqtopenglwidget.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="mainwindow.qrc"/>
+ </resources>
+ <connections/>
+</ui>
