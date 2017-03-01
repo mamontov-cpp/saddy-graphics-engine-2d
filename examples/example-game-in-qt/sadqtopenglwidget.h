@@ -1,10 +1,11 @@
-/* \file sadopenglqtwidget.h
+/* \file sadqtopenglwidget.h
  
    Describes an OpenGLWidget, adapted to work with Saddy
  */
 #pragma once
 #include <QOpenGLWidget>
 #include <QTimer>
+#include "sadqtrenderer.h"
 
 namespace sad
 {
@@ -25,7 +26,14 @@ public:
 	/*! Destroys widget
 	 */
 	~OpenGLWidget();
-
+	/*! Sets renderer for widget
+	    \param[in] renderer a renderer
+	 */
+	void setRenderer(sad::qt::Renderer* renderer);
+	/*! Returns renderer for widget
+	    \return renderer
+	 */
+	sad::qt::Renderer* renderer() const;
 	/** Resizes a viewport, according to a new width and height
 	    \param[in] width width of viewport
 	    \param[in] height height of viewport
@@ -33,14 +41,17 @@ public:
 	virtual void resizeGL(int width, int height);
 	/** Performs scene rendering
 	 */
-	void paintGL();
+	virtual void paintGL();
 protected:
 	/*! Whether it was rendered first time
 	 */
-	bool m_first;
-	/* A time value for rotating
+	bool m_first;	
+	/*! Whether renderer was reshaped
 	 */
-	double m_time;
+	bool m_reshaped;
+	/*! A renderer, that should be used for rendering in widget
+	 */
+	sad::qt::Renderer* m_renderer;
 	/*! A timer for dynamical updates
 	 */
 	QTimer m_timer;

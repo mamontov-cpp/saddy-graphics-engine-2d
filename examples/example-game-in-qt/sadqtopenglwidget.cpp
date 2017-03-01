@@ -1,11 +1,7 @@
 #include "sadqtopenglwidget.h"
 
-#include <windows.h>
-#include <GL/GL.h>
-#include <GL/GLU.h>
 
-
-sad::qt::OpenGLWidget::OpenGLWidget(QWidget* parent, Qt::WindowFlags f) : QOpenGLWidget(parent, f), m_first(true), m_time(0)
+sad::qt::OpenGLWidget::OpenGLWidget(QWidget* parent, Qt::WindowFlags f) : QOpenGLWidget(parent, f), m_first(true), m_reshaped(false)
 {
 	QSurfaceFormat fmt = QSurfaceFormat::defaultFormat();
 	fmt.setProfile(QSurfaceFormat::CompatibilityProfile);
@@ -25,14 +21,43 @@ sad::qt::OpenGLWidget::OpenGLWidget(QWidget* parent, Qt::WindowFlags f) : QOpenG
 	connect(&m_timer, SIGNAL(timeout()), this, SLOT(update()));
 	m_timer.setInterval(0);
 	m_timer.start();
+
+	m_renderer = new sad::qt::Renderer();
+	m_renderer->setWidget(this);
 }
 
 sad::qt::OpenGLWidget::~OpenGLWidget()
 {
-	
+	if (m_renderer->initialized())
+	{
+		m_renderer->deinitRendererAfterLoop();
+	}
+	if (m_renderer)
+	{
+		delete m_renderer;
+	}
 }
 
 
+void sad::qt::OpenGLWidget::setRenderer(sad::qt::Renderer* renderer)
+{
+	if (renderer)
+	{
+		if (renderer != m_renderer)
+		{
+			m_first = true;
+			m_reshaped = false;
+			delete m_renderer;
+			m_renderer = renderer;
+			m_renderer->setWidget(this);
+		}
+	}
+}
+
+sad::qt::Renderer* sad::qt::OpenGLWidget::renderer() const
+{
+	return m_renderer;
+}
 
 void sad::qt::OpenGLWidget::resizeGL(int width, int height)
 {
@@ -42,82 +67,33 @@ void sad::qt::OpenGLWidget::resizeGL(int width, int height)
 	}
 	if (m_first)
 	{
-		glShadeModel(GL_SMOOTH);
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-		glClearDepth(1.0f);
-		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_LINE_SMOOTH);
-		glEnable(GL_POINT_SMOOTH);
-
-		glDepthFunc(GL_LEQUAL);
-		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glEnable(GL_BLEND);
-		glEnable(GL_TEXTURE_2D);
-		glEnable(GL_COLOR_MATERIAL);
+		if (m_renderer->initialized())
+		{
+			m_renderer->initRendererBeforeLoop();
+			m_first = false;
+		}
+		else
+		{
+			m_first = true;
+		}
 	}
-	// Reset viewport for window
-	glViewport(0, 0, width, height);
-
-	// Clear projection matrix
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-
-	//  Set perspective projection
-	GLfloat aspectratio = static_cast<GLfloat>(width) / static_cast<GLfloat>(height);
-	gluPerspective(
-		45.0f,
-		aspectratio,
-		0.1f,
-		100.0f
-	);
-
-	// Clear modelview matrix
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-
-	if (m_first)
+	if (m_renderer->initialized())
 	{
-		glFinish();
+		m_renderer->reshape(width, height);
+		m_reshaped = true;
 	}
-
-	m_first = false;
 	this->update();
 }
 
 
 void sad::qt::OpenGLWidget::paintGL()
 {
-	// Clear
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-
-
-	// Apply camera
-	glPushAttrib(GL_TRANSFORM_BIT);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluOrtho2D(0, 640, 0, 480);
-	glPopAttrib();
-
-	// Render triangle
-	glDisable(GL_TEXTURE_2D);
-	GLint   clr[4] = {};
-	glGetIntegerv(GL_CURRENT_COLOR, clr);
-	glColor4ub(255, 255, 0, 255);
-
-	glBegin(GL_TRIANGLES);
-
-	glVertex2f(0, 0);
-	glVertex2f(320, 240);
-	glVertex2f(320 + 320 * cos(m_time), 240 + 120 * cos(m_time));
-
-	glEnd();
-
-	glColor4iv(clr);
-	glEnable(GL_TEXTURE_2D);
-
-	m_time += 1;
+	if (m_renderer)
+	{
+		if (m_reshaped == false && m_renderer->initialized())
+		{
+			this->resizeGL(this->width(), this->height());
+		}
+	}
+	m_renderer->runOnce();
 }

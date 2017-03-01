@@ -35,6 +35,9 @@
     void SafeXInitThreads();
 #endif
 
+// ============================================================ PUBLIC METHODS ============================================================
+
+
 sad::Renderer * sad::Renderer::m_instance = NULL;
 
 sad::Renderer::Renderer()
@@ -148,51 +151,12 @@ bool sad::Renderer::run()
 {
     SL_INTERNAL_SCOPE("sad::Renderer::run()", *this);
  
-
-    // Try to create window if needed
-    // ReSharper disable once CppInitializedValueIsAlwaysRewritten
-    bool success = false;
-    if (m_window->valid() == false)
-    {
-        success = m_window->create();
-        if (!success)
-        {
-            SL_LOCAL_FATAL("Cannot create window\n",*this);
-        }
-    } 
-    else
-    {
-        success = true;
-    }
-
-    // Try to create context if needed
-    if (m_context->valid() == false && success)
-    {
-        // Set context thread
-        m_context_thread = reinterpret_cast<void*>(sad::os::current_thread_id()); 
-        success =  m_context->createFor(m_window);
-        if (!success)
-        {
-            SL_LOCAL_FATAL("Failed to create OpenGL context\n",*this);
-            m_window->destroy();
-        }
-        else
-        {
-            m_window->initialize();
-            this->initGLRendering();
-        }
-    }
-
+	bool success = this->initRendererBeforeLoop();
  
     if (success)
     {
-        initPipeline();
-        cursor()->insertHandlersIfNeeded();
         mainLoop()->run();
-        cursor()->removeHandlersIfNeeded();
-        cleanPipeline();
-        m_context->destroy();
-        m_window->destroy();
+		this->deinitRendererAfterLoop();
     }
 
     return success;
@@ -412,12 +376,6 @@ sad::Point3D sad::Renderer::mapToViewport(const sad::Point2D & p)
     }
     return result;
 }
-
-void sad::Renderer::destroyInstance()
-{
-    delete  sad::Renderer::m_instance;
-}
-
 
 void sad::Renderer::reshape(int width, int height)
 {
@@ -819,6 +777,79 @@ void sad::Renderer::setGlobalTranslationOffset(const sad::Vector3D& v)
 const sad::Vector3D& sad::Renderer::globalTranslationOffset() const
 {
     return m_global_translation_offset;
+}
+
+// ============================================================ PROTECTED METHODS ============================================================
+
+bool sad::Renderer::initRendererBeforeLoop()
+{
+	SL_INTERNAL_SCOPE("sad::Renderer::initRendererBeforeLoop()", *this);
+	bool success = true;
+	if (m_window->valid() == false)
+	{
+		success = m_window->create();
+		if (!success)
+		{
+			SL_LOCAL_FATAL("Cannot create window\n", *this);
+		}
+	}
+
+
+	// Try to create context if needed
+	if (m_context->valid() == false && success)
+	{
+		// Set context thread
+		m_context_thread = reinterpret_cast<void*>(sad::os::current_thread_id());
+		success = m_context->createFor(m_window);
+		if (!success)
+		{
+			SL_LOCAL_FATAL("Failed to create OpenGL context\n", *this);
+			m_window->destroy();
+		}
+		else
+		{
+			m_window->initialize();
+			this->initGLRendering();
+		}
+	}
+
+	if (success)
+	{
+		this->initPipeline();
+		this->cursor()->insertHandlersIfNeeded();
+		this->mainLoop()->initMainLoop();
+	}
+
+	return success;
+}
+
+void sad::Renderer::runOnce()
+{
+	SL_INTERNAL_SCOPE("sad::Renderer::runOnce()", *this);
+
+	assert(m_window->valid());
+	assert(m_context->valid());
+
+
+	mainLoop()->run(SAD_MAIN_LOOP_RUN_ONLY_ONCE);
+}
+
+
+void sad::Renderer::deinitRendererAfterLoop()
+{
+	SL_INTERNAL_SCOPE("sad::Renderer::deinitRendererAfterLoop()", *this);
+	this->mainLoop()->deinitMainLoop();
+	cursor()->removeHandlersIfNeeded();
+	cleanPipeline();
+
+	m_context->destroy();
+	m_window->destroy();
+}
+
+
+void sad::Renderer::destroyInstance()
+{
+	delete  sad::Renderer::m_instance;
 }
 
 bool sad::Renderer::initGLRendering()

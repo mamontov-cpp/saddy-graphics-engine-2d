@@ -260,7 +260,7 @@ bool Game::trySetup()
         return false;
     }
 
-    SL_MESSAGE("Resources successfully loaded", *m_renderer);
+    SL_LOCAL_MESSAGE("Resources successfully loaded", *m_renderer);
 
     // Set cursor
     sad::Sprite2D* a = new sad::Sprite2D(
