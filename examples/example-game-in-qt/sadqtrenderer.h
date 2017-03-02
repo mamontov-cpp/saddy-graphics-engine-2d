@@ -4,6 +4,7 @@
 */
 #pragma once
 #include <renderer.h>
+#include <input/events.h>
 
 namespace sad
 {
@@ -62,6 +63,23 @@ public:
 	/*! Inits OpenGL rendering
 	 */
 	void initGLRendering();
+	/*! Submits new event into main loop
+	    \param[in] t event type
+	    \param[in] ev event
+	    \param[in] now whether we should handle event now
+	 */
+	virtual void submitEvent(sad::input::EventType t, sad::input::AbstractEvent* ev, bool now);
+	/*! Submits event of specified type
+	    \param[in] ev event
+		\param[in] now whether we should handle event now
+ 	 */
+	template<
+		typename T
+	>
+	void submitEvent(T* ev, bool now)
+	{
+		submitEvent(sad::input::EnumValueForEventType<T>::Type, ev, now);
+	}
 protected:
 	/*! Whether rendeerer was initialized, via init
 	 */

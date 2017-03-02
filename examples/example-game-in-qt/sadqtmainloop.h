@@ -4,6 +4,9 @@
  */
 #pragma once
 #include <mainloop.h>
+#include <sadvector.h>
+#include <sadpair.h>
+#include <input/events.h>
 
 
 namespace sad
@@ -29,6 +32,12 @@ public:
 	    \return NULL
 	 */
 	virtual sad::os::SystemEventDispatcher *  dispatcher();
+	/*! Submits new event into main loop
+	    \param[in] t event type
+		\param[in] ev event
+	    \param[in] now whether event should be handled now
+	 */
+	virtual void submitEvent(sad::input::EventType t, sad::input::AbstractEvent* ev, bool now = false);
 protected:
 	/*! Processes events for renderer
 	 */
@@ -42,6 +51,9 @@ protected:
 	/*! Does nothing, since Qt handles this stuff
 	 */
 	virtual void unregisterRenderer();
+	/*! An events, that should be processed in event loop
+	 */
+	sad::Vector< sad::Pair<sad::input::EventType, sad::input::AbstractEvent*> > m_events;
 };
 
 }

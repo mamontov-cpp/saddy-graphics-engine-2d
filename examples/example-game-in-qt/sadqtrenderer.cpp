@@ -86,4 +86,9 @@ void sad::qt::Renderer::initGLRendering()
 	this->sad::Renderer::initGLRendering();
 }
 
+void sad::qt::Renderer::submitEvent(sad::input::EventType t, sad::input::AbstractEvent* ev, bool now)
+{
+	static_cast<sad::qt::MainLoop*>(m_main_loop)->submitEvent(t, ev, now);
+}
+
 DECLARE_COMMON_TYPE(sad::qt::Renderer);

@@ -1,13 +1,12 @@
 #include "sadqtopenglwidget.h"
 
-#include <fpsinterpolation.h>
-#include <pipeline/pipeline.h>
 #include <mousecursor.h>
-
 #include <scene.h>
-#include <camera.h>
 
-#include <GL/glu.h>
+#include <input/events.h>
+
+#include <QApplication>
+
 
 sad::qt::OpenGLWidget::OpenGLWidget(QWidget* parent, Qt::WindowFlags f) : QOpenGLWidget(parent, f), m_first(true), m_reshaped(false)
 {
@@ -26,6 +25,7 @@ sad::qt::OpenGLWidget::OpenGLWidget(QWidget* parent, Qt::WindowFlags f) : QOpenG
 	this->setFormat(fmt);
 	this->setUpdateBehavior(QOpenGLWidget::NoPartialUpdate);
     
+	connect(QApplication::instance(), SIGNAL(lastWindowClosed()), this, SLOT(applicationQuit()));
 	connect(&m_timer, SIGNAL(timeout()), this, SLOT(update()));
 	m_timer.setInterval(0);
 	m_timer.start();
@@ -55,6 +55,13 @@ void sad::qt::OpenGLWidget::setRenderer(sad::qt::Renderer* renderer)
 		{
 			m_first = true;
 			m_reshaped = false;
+			if (m_renderer)
+			{
+				if (m_renderer->initialized())
+				{
+					m_renderer->submitEvent(new sad::input::QuitEvent(), true);
+				}
+			}
 			delete m_renderer;
 			m_renderer = renderer;
 			m_renderer->setWidget(this);
@@ -93,7 +100,6 @@ void sad::qt::OpenGLWidget::resizeGL(int width, int height)
 	this->update();
 }
 
-bool cvg = false;
 void sad::qt::OpenGLWidget::paintGL()
 {
 	if (m_renderer)
@@ -109,6 +115,17 @@ void sad::qt::OpenGLWidget::paintGL()
 		if (m_renderer->initialized())
 		{			
 			m_renderer->runOnce();
+		}
+	}
+}
+
+void sad::qt::OpenGLWidget::applicationQuit()
+{
+	if (m_renderer)
+	{
+		if (m_renderer->initialized())
+		{
+			m_renderer->submitEvent(new sad::input::QuitEvent(), true);
 		}
 	}
 }

@@ -42,6 +42,10 @@ public:
 	/** Performs scene rendering
 	 */
 	virtual void paintGL();
+public slots:
+	/*! Emitted, when applications starts quitting
+	 */
+	virtual void applicationQuit();
 protected:
 	/*! Whether it was rendered first time
 	 */
