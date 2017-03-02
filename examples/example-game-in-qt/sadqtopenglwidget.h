@@ -59,6 +59,9 @@ protected:
 	/*! A timer for dynamical updates
 	 */
 	QTimer m_timer;
+	/*! An old size of widget
+	 */
+	sad::Size2I m_old_size;
 };
 
 

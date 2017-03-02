@@ -95,9 +95,14 @@ void sad::qt::OpenGLWidget::resizeGL(int width, int height)
 	if (m_renderer->initialized())
 	{
 		m_renderer->reshape(width, height);
+		sad::input::ResizeEvent* ev = new sad::input::ResizeEvent();
+		ev->OldSize = m_old_size;
+		ev->NewSize = sad::Size2I(width, height);
+		m_renderer->submitEvent(ev);
 		m_reshaped = true;
 	}
 	this->update();
+	m_old_size = sad::Size2I(width, height);
 }
 
 void sad::qt::OpenGLWidget::paintGL()

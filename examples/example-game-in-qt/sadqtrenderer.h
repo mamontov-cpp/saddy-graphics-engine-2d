@@ -76,7 +76,7 @@ public:
 	template<
 		typename T
 	>
-	void submitEvent(T* ev, bool now)
+	void submitEvent(T* ev, bool now = false)
 	{
 		submitEvent(sad::input::EnumValueForEventType<T>::Type, ev, now);
 	}
