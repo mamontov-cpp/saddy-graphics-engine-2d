@@ -235,7 +235,7 @@ bool Game::trySetup()
     // Inits a renderer as non-fullscreen 640x480 window
 
     sad::ObjectDependentFPSInterpolation * fps = new sad::ObjectDependentFPSInterpolation();
-    fps->setRenderer(sad::Renderer::ref());
+    fps->setRenderer(m_renderer);
     m_renderer->setFPSInterpolation(fps);
 
     m_renderer->init(sad::Settings(640,480,false));

@@ -49,7 +49,10 @@ void sad::MainLoop::run(bool once)
 {
 	m_running = true;
 	this->m_renderer->window()->setActive(true);
-	this->m_renderer->fpsInterpolation()->reset();
+	if (!once)
+	{
+		this->m_renderer->fpsInterpolation()->reset();
+	}
 	m_dispatcher->reset();
 
 #ifdef WIN32

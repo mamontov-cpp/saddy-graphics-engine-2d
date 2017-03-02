@@ -1,7 +1,9 @@
 #include "sadqtrenderer.h"
+
 #include "sadqtmainloop.h"
 #include "sadqtwindow.h"
-
+#include "sadqtglcontext.h"
+#include "sadqtmousecursor.h"
 
 
 sad::qt::Renderer::Renderer() : m_initialized(false), m_widget(NULL)
@@ -13,6 +15,12 @@ sad::qt::Renderer::Renderer() : m_initialized(false), m_widget(NULL)
 	delete m_window;
 	m_window = new sad::qt::Window();
 	m_window->setRenderer(this);
+
+	delete m_context;
+	m_context = new sad::qt::GLContext();
+
+	this->sad::Renderer::setCursor(new sad::qt::MouseCursor());
+	this->sad::Renderer::cursor()->setRenderer(this);
 }
 
 
@@ -61,6 +69,21 @@ void sad::qt::Renderer::setWidget(sad::qt::OpenGLWidget* widget)
 sad::qt::OpenGLWidget* sad::qt::Renderer::widget() const
 {
 	return m_widget;
+}
+
+void sad::qt::Renderer::startRendering()
+{
+	this->sad::Renderer::startRendering();
+}
+
+void sad::qt::Renderer::finishRendering()
+{
+	this->sad::Renderer::finishRendering();
+}
+
+void sad::qt::Renderer::initGLRendering()
+{
+	this->sad::Renderer::initGLRendering();
 }
 
 DECLARE_COMMON_TYPE(sad::qt::Renderer);

@@ -32,7 +32,7 @@ public:
     GLContext();
     /*! Frees resources, associated with context
      */
-    ~GLContext();
+    virtual ~GLContext();
     /*! Checks, whether context is valid
      */
     virtual bool valid() const;
@@ -78,7 +78,7 @@ public:
     /*! Returns a renderer, associated with context
         \return renderer
      */
-    sad::Renderer * renderer() const;
+    virtual sad::Renderer * renderer() const;
 private:
     /*! A pointer to implementation of OpenGL context
      */

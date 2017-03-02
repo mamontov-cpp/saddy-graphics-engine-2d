@@ -20,8 +20,10 @@ sad::qt::MainLoop::~MainLoop()
 void sad::qt::MainLoop::run(bool once)
 {
 	m_running = true;
-	this->m_renderer->fpsInterpolation()->reset();
-
+	if (!once)
+	{
+		this->m_renderer->fpsInterpolation()->reset();
+	}
 	while (m_running)
 	{
 		this->processEvents();

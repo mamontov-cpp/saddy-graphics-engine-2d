@@ -170,7 +170,9 @@
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
+    <ClCompile Include="sadqtglcontext.cpp" />
     <ClCompile Include="sadqtmainloop.cpp" />
+    <ClCompile Include="sadqtmousecursor.cpp" />
     <ClCompile Include="sadqtopenglwidget.cpp" />
     <ClCompile Include="sadqtrenderer.cpp" />
     <ClCompile Include="sadqtwindow.cpp" />
@@ -217,7 +219,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_mainwindow.h" />
+    <ClInclude Include="sadqtglcontext.h" />
     <ClInclude Include="sadqtmainloop.h" />
+    <ClInclude Include="sadqtmousecursor.h" />
     <ClInclude Include="sadqtrenderer.h" />
     <ClInclude Include="sadqtwindow.h" />
     <CustomBuild Include="sadqtopenglwidget.h">

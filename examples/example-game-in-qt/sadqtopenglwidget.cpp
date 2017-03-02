@@ -1,5 +1,13 @@
 #include "sadqtopenglwidget.h"
 
+#include <fpsinterpolation.h>
+#include <pipeline/pipeline.h>
+#include <mousecursor.h>
+
+#include <scene.h>
+#include <camera.h>
+
+#include <GL/glu.h>
 
 sad::qt::OpenGLWidget::OpenGLWidget(QWidget* parent, Qt::WindowFlags f) : QOpenGLWidget(parent, f), m_first(true), m_reshaped(false)
 {
@@ -85,7 +93,7 @@ void sad::qt::OpenGLWidget::resizeGL(int width, int height)
 	this->update();
 }
 
-
+bool cvg = false;
 void sad::qt::OpenGLWidget::paintGL()
 {
 	if (m_renderer)
@@ -95,5 +103,12 @@ void sad::qt::OpenGLWidget::paintGL()
 			this->resizeGL(this->width(), this->height());
 		}
 	}
-	m_renderer->runOnce();
+	
+	if (m_renderer)
+	{
+		if (m_renderer->initialized())
+		{			
+			m_renderer->runOnce();
+		}
+	}
 }

@@ -53,6 +53,15 @@ public:
 	    \return linked widget
 	 */
 	sad::qt::OpenGLWidget* widget() const;
+	/*! Called, when starting rendering
+	 */
+	void startRendering();
+	/*! Called, when finishing rendering
+	 */
+	void finishRendering();
+	/*! Inits OpenGL rendering
+	 */
+	void initGLRendering();
 protected:
 	/*! Whether rendeerer was initialized, via init
 	 */
