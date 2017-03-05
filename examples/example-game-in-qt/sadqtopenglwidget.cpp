@@ -2,13 +2,15 @@
 
 #include <mousecursor.h>
 #include <scene.h>
+#include <fpsinterpolation.h>
 
 #include <input/events.h>
 
 #include <QApplication>
+#include <QEvent>
+#include <QMouseEvent>
 
-
-sad::qt::OpenGLWidget::OpenGLWidget(QWidget* parent, Qt::WindowFlags f) : QOpenGLWidget(parent, f), m_first(true), m_reshaped(false)
+sad::qt::OpenGLWidget::OpenGLWidget(QWidget* parent, Qt::WindowFlags f) : QOpenGLWidget(parent, f), m_first(true), m_reshaped(false), m_window(NULL)
 {
 	QSurfaceFormat fmt = QSurfaceFormat::defaultFormat();
 	fmt.setProfile(QSurfaceFormat::CompatibilityProfile);
@@ -32,6 +34,8 @@ sad::qt::OpenGLWidget::OpenGLWidget(QWidget* parent, Qt::WindowFlags f) : QOpenG
 
 	m_renderer = new sad::qt::Renderer();
 	m_renderer->setWidget(this);
+
+	this->setMouseTracking(true);
 }
 
 sad::qt::OpenGLWidget::~OpenGLWidget()
@@ -85,6 +89,10 @@ void sad::qt::OpenGLWidget::resizeGL(int width, int height)
 		if (m_renderer->initialized())
 		{
 			m_renderer->initRendererBeforeLoop();
+			if (this->isActiveWindow())
+			{
+				m_renderer->submitEvent(new sad::input::ActivateEvent());
+			}
 			m_first = false;
 		}
 		else
@@ -107,6 +115,15 @@ void sad::qt::OpenGLWidget::resizeGL(int width, int height)
 
 void sad::qt::OpenGLWidget::paintGL()
 {
+	if (this->window() != m_window)
+	{
+		if (m_window)
+		{
+			m_window->removeEventFilter(this);
+		}
+		m_window = this->window();
+		m_window->installEventFilter(this);
+	}
 	if (m_renderer)
 	{
 		if (m_reshaped == false && m_renderer->initialized())
@@ -124,6 +141,69 @@ void sad::qt::OpenGLWidget::paintGL()
 	}
 }
 
+void sad::qt::OpenGLWidget::enterEvent(QEvent* ev)
+{
+	if (this->m_renderer)
+	{
+		if (m_renderer->initialized())
+		{
+			QPoint p = QCursor::pos();
+			p = this->mapFromGlobal(p);
+			sad::input::MouseEnterEvent* sev = new sad::input::MouseEnterEvent();
+			sev->Point3D = this->toViewport(p);
+			m_renderer->submitEvent(sev);
+		}
+	}
+
+	this->QOpenGLWidget::enterEvent(ev);
+}
+
+void sad::qt::OpenGLWidget::mouseMoveEvent(QMouseEvent* ev)
+{
+	if (this->m_renderer)
+	{
+		if (m_renderer->initialized())
+		{
+			sad::input::MouseMoveEvent* sev = new sad::input::MouseMoveEvent();
+			sev->Point3D = this->toViewport(ev->pos());
+			m_renderer->submitEvent(sev);
+		}
+	}
+	this->QOpenGLWidget::mouseMoveEvent(ev);
+}
+
+void sad::qt::OpenGLWidget::leaveEvent(QEvent* ev)
+{
+	if (m_renderer)
+	{
+		if (m_renderer->initialized())
+		{
+			m_renderer->submitEvent(new sad::input::MouseLeaveEvent());
+		}
+	}
+	this->QOpenGLWidget::leaveEvent(ev);
+}
+
+
+bool sad::qt::OpenGLWidget::event(QEvent* e)
+{
+	this->tryHandleActivateEvent(e);
+	this->tryHandleMinimization(e);
+	return this->QOpenGLWidget::event(e);
+}
+
+bool sad::qt::OpenGLWidget::eventFilter(QObject* obj, QEvent* ev)
+{
+	if (obj != this)
+	{
+		this->tryHandleActivateEvent(ev);
+		this->tryHandleMinimization(ev);
+	}
+	return QObject::eventFilter(obj, ev);
+}
+
+// ======================= PUBLIC SLOT METHODS =======================
+
 void sad::qt::OpenGLWidget::applicationQuit()
 {
 	if (m_renderer)
@@ -133,4 +213,48 @@ void sad::qt::OpenGLWidget::applicationQuit()
 			m_renderer->submitEvent(new sad::input::QuitEvent(), true);
 		}
 	}
+}
+
+// ======================= PROTECTED METHODS =======================
+
+void sad::qt::OpenGLWidget::tryHandleActivateEvent(QEvent* ev) const
+{
+	if (ev->type() == QEvent::ActivationChange)
+	{
+		if (m_renderer)
+		{
+			if (m_renderer->initialized())
+			{
+				if (this->isActiveWindow())
+				{
+					m_renderer->submitEvent(new sad::input::ActivateEvent());
+				}
+				else
+				{
+					m_renderer->submitEvent(new sad::input::DeactivateEvent());
+				}
+			}
+		}
+	}
+}
+
+void sad::qt::OpenGLWidget::tryHandleMinimization(QEvent* ev) const
+{
+	if (ev->type() == QEvent::WindowStateChange)
+	{
+		if (this->window()->isMinimized() && (this->m_renderer != NULL))
+		{
+			if (m_renderer->initialized())
+			{
+				this->m_renderer->fpsInterpolation()->reset();
+			}
+		}
+	}
+}
+
+sad::Point3D sad::qt::OpenGLWidget::toViewport(const QPoint& p) const
+{
+	double y = this->height() - p.y();
+	sad::Point3D mx = m_renderer->mapToViewport(sad::Point2D(p.x(), y));
+	return mx;
 }

@@ -264,7 +264,7 @@ bool Game::trySetup()
 
     // Set cursor
     sad::Sprite2D* a = new sad::Sprite2D(
-        sad::Renderer::ref()->texture("objects"),
+        m_renderer->texture("objects"),
         sad::Rect2D(sad::Point2D(441,32),sad::Point2D(457,48)),
         sad::Rect2D(sad::Point2D(-8, -8), sad::Point2D(8, 8))
     );

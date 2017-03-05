@@ -19,6 +19,11 @@ sad::qt::Renderer::Renderer() : m_initialized(false), m_widget(NULL)
 	delete m_context;
 	m_context = new sad::qt::GLContext();
 
+	m_viewport[0] = 0;
+	m_viewport[1] = 0;
+	m_viewport[2] = 0;
+	m_viewport[3] = 0;
+
 	this->sad::Renderer::setCursor(new sad::qt::MouseCursor());
 	this->sad::Renderer::cursor()->setRenderer(this);
 }
@@ -86,9 +91,24 @@ void sad::qt::Renderer::initGLRendering()
 	this->sad::Renderer::initGLRendering();
 }
 
+void sad::qt::Renderer::reshape(int width, int height)
+{
+	m_viewport[2] = width;
+	m_viewport[3] = height;
+}
+
 void sad::qt::Renderer::submitEvent(sad::input::EventType t, sad::input::AbstractEvent* ev, bool now)
 {
 	static_cast<sad::qt::MainLoop*>(m_main_loop)->submitEvent(t, ev, now);
+}
+
+sad::Camera* sad::qt::Renderer::getDefaultCamera() const
+{
+	if (this->scenes().size())
+	{
+		return &(this->scenes()[0]->camera());
+	}
+	return NULL;
 }
 
 DECLARE_COMMON_TYPE(sad::qt::Renderer);

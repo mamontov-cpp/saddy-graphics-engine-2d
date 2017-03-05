@@ -12,10 +12,14 @@ namespace sad
 
 namespace qt
 {
+
+class MouseCursor;
 	
 class OpenGLWidget: public QOpenGLWidget
 {	
 public:
+	friend class sad::qt::MouseCursor;
+
 	Q_OBJECT
 public:
 	/** Makes new widget with specified parent
@@ -34,19 +38,55 @@ public:
 	    \return renderer
 	 */
 	sad::qt::Renderer* renderer() const;
-	/** Resizes a viewport, according to a new width and height
+	/*! Resizes a viewport, according to a new width and height
 	    \param[in] width width of viewport
 	    \param[in] height height of viewport
 	 */
 	virtual void resizeGL(int width, int height);
-	/** Performs scene rendering
+	/*! Performs scene rendering
 	 */
 	virtual void paintGL();
+	/*! Handles mouse entering event for widget
+	    \param[in] ev event
+	 */
+	virtual void enterEvent(QEvent* ev);
+	/*! Handles mouse move event for widget 
+	    \param[in] ev event
+	 */
+	virtual void mouseMoveEvent(QMouseEvent* ev);
+	/*! Handles mouse leaving event for widget
+	    \param[in] ev event
+	*/
+	virtual void leaveEvent(QEvent* ev);
+	/*! Handles event for Widget
+	    \param[in] e event
+	 */
+	virtual bool event(QEvent* e);
+	/*! Catches events, sent to functions
+	    \param[in] obj object
+		\param[in] ev event
+	 */
+	virtual bool eventFilter(QObject* obj, QEvent* ev);
 public slots:
 	/*! Emitted, when applications starts quitting
 	 */
 	virtual void applicationQuit();
 protected:
+	/*! Tries to intercept activation event
+	    \param[in] ev event
+	 */
+	void tryHandleActivateEvent(QEvent* ev) const;
+	/* Tries to handle minimization for window
+	   \param[in] ev event
+	 */
+	void tryHandleMinimization(QEvent* ev) const;
+	/*! Maps point to viewport
+	    \param[in] p point a point
+	 */
+	sad::Point3D toViewport(const QPoint& p) const;
+	/*! A window, that is attached to widget
+	 */
+	QWidget* m_window;
 	/*! Whether it was rendered first time
 	 */
 	bool m_first;	

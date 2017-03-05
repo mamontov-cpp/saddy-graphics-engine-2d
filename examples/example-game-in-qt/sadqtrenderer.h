@@ -5,6 +5,7 @@
 #pragma once
 #include <renderer.h>
 #include <input/events.h>
+#include "sadqtglcontext.h"
 
 namespace sad
 {
@@ -63,12 +64,28 @@ public:
 	/*! Inits OpenGL rendering
 	 */
 	void initGLRendering();
+	/*! Reshape a system of coordinates to deal with width and height
+	    \param[in] width Needed width
+	    \param[in] height Needed height
+	 */
+	virtual void reshape(int width, int height);
+	/*! Returns viewport matrix
+		\return viewport matrix
+	 */
+	inline int* viewport()
+	{
+		return m_viewport;
+	}
 	/*! Submits new event into main loop
 	    \param[in] t event type
 	    \param[in] ev event
 	    \param[in] now whether we should handle event now
 	 */
 	virtual void submitEvent(sad::input::EventType t, sad::input::AbstractEvent* ev, bool now);
+	/*! Returns default camera for projection
+	    \retunr camera
+	 */
+	sad::Camera* getDefaultCamera() const;
 	/*! Submits event of specified type
 	    \param[in] ev event
 		\param[in] now whether we should handle event now
@@ -81,6 +98,9 @@ public:
 		submitEvent(sad::input::EnumValueForEventType<T>::Type, ev, now);
 	}
 protected:
+	/*! A cached viewport
+	 */
+	int m_viewport[4];
 	/*! Whether rendeerer was initialized, via init
 	 */
 	bool m_initialized;

@@ -1,7 +1,8 @@
 #include "sadqtglcontext.h"
+#include "sadqtrenderer.h"
 
 #include <window.h>
-#include <renderer.h>
+#include <camera.h>
 
 #ifdef WIN32
 #include <windows.h>
@@ -43,24 +44,34 @@ sad::Point3D sad::qt::GLContext::mapToViewport(const sad::Point2D & p, bool ztes
 		return p;
 	if (m_window->valid() == false || !valid())
 		return p;
-
-	GLint     viewport[4];
+	if (m_window->renderer() == NULL)
+	{
+		return p;
+	}
+	sad::qt::Renderer* r = static_cast<sad::qt::Renderer*>(m_window->renderer());
+	GLint*     viewport = r->viewport();
 	GLdouble  modelview[16];
 	GLdouble  projection[16];
+	GLdouble  oldprojection[16];
 
 	GLfloat winx = 0, winy = 0, winz = 0;
 	GLdouble result[3];
 
 	glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
 	glGetDoublev(GL_PROJECTION_MATRIX, projection);
-	glGetIntegerv(GL_VIEWPORT, viewport);
 
-	winx = (float)p.x();
-#ifdef WIN32  // On win32 we explicitly handle coordinates
+	bool hasCamera = false;
+	sad::Camera* cam = r->getDefaultCamera();
+	if (cam)
+	{
+		hasCamera = true;
+		cam->apply();
+		memcpy(oldprojection, projection, 16 * sizeof(GLdouble));
+		glGetDoublev(GL_PROJECTION_MATRIX, projection);
+	}
+
+	winx = (float)(p.x());
 	winy = (float)(p.y());
-#else
-	winy = (float)(viewport[3] - p.y());
-#endif
 	if (ztest)
 		glReadPixels((int)winx, (int)winy, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winz);
 	else
@@ -71,6 +82,12 @@ sad::Point3D sad::qt::GLContext::mapToViewport(const sad::Point2D & p, bool ztes
 
 	result[0] -= this->renderer()->globalTranslationOffset().x();
 	result[1] -= this->renderer()->globalTranslationOffset().y();
+
+	if (hasCamera)
+	{
+		glMatrixMode(GL_PROJECTION);
+		glLoadMatrixd(oldprojection);
+	}
 
 	return sad::Point3D(result[0], result[1], result[2]);
 }

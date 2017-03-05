@@ -253,7 +253,7 @@ public:
         \param[in] width Needed width
         \param[in] height Needed height
      */
-    void reshape(int width, int height);
+    virtual void reshape(int width, int height);
     /*! Adds new scene to scene container
         \param[in] scene a scene to be rendered
      */
