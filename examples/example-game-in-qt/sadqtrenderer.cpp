@@ -95,6 +95,7 @@ void sad::qt::Renderer::reshape(int width, int height)
 {
 	m_viewport[2] = width;
 	m_viewport[3] = height;
+	this->sad::Renderer::reshape(width, height);
 }
 
 void sad::qt::Renderer::submitEvent(sad::input::EventType t, sad::input::AbstractEvent* ev, bool now)

@@ -58,6 +58,14 @@ public:
 	    \param[in] ev event
 	*/
 	virtual void leaveEvent(QEvent* ev);
+	/*! Handles key press event for widget
+	    \param[in] ev event
+	 */
+	virtual void keyPressEvent(QKeyEvent* ev);
+	/*! Handles key release event for widget
+	    \param[in] ev event
+	*/
+	virtual void keyReleaseEvent(QKeyEvent* ev);
 	/*! Handles event for Widget
 	    \param[in] e event
 	 */

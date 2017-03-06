@@ -171,6 +171,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
     <ClCompile Include="sadqtglcontext.cpp" />
+    <ClCompile Include="sadqtkeytosadkey.cpp" />
     <ClCompile Include="sadqtmainloop.cpp" />
     <ClCompile Include="sadqtmousecursor.cpp" />
     <ClCompile Include="sadqtopenglwidget.cpp" />
@@ -219,6 +220,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_mainwindow.h" />
+    <ClInclude Include="sadqtkeytosadkey.h" />
     <ClInclude Include="sadqtglcontext.h" />
     <ClInclude Include="sadqtmainloop.h" />
     <ClInclude Include="sadqtmousecursor.h" />

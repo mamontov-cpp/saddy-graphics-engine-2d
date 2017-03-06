@@ -1,4 +1,5 @@
 #include "sadqtopenglwidget.h"
+#include "sadqtkeytosadkey.h"
 
 #include <mousecursor.h>
 #include <scene.h>
@@ -36,6 +37,7 @@ sad::qt::OpenGLWidget::OpenGLWidget(QWidget* parent, Qt::WindowFlags f) : QOpenG
 	m_renderer->setWidget(this);
 
 	this->setMouseTracking(true);
+	this->setFocusPolicy(Qt::StrongFocus);
 }
 
 sad::qt::OpenGLWidget::~OpenGLWidget()
@@ -184,6 +186,33 @@ void sad::qt::OpenGLWidget::leaveEvent(QEvent* ev)
 	this->QOpenGLWidget::leaveEvent(ev);
 }
 
+void sad::qt::OpenGLWidget::keyPressEvent(QKeyEvent* ev)
+{
+	if (m_renderer)
+	{
+		if (m_renderer->initialized())
+		{
+			sad::input::KeyPressEvent* sev = new sad::input::KeyPressEvent();
+			sad::qt::qtKeyEventToSadKeyEvent(ev, sev);
+			m_renderer->submitEvent(sev);
+		}
+	}
+	this->QOpenGLWidget::keyPressEvent(ev);
+}
+
+void sad::qt::OpenGLWidget::keyReleaseEvent(QKeyEvent* ev)
+{
+	if (m_renderer)
+	{
+		if (m_renderer->initialized())
+		{
+			sad::input::KeyReleaseEvent* sev = new sad::input::KeyReleaseEvent();
+			sad::qt::qtKeyEventToSadKeyEvent(ev, sev);
+			m_renderer->submitEvent(sev);
+		}
+	}
+	this->QOpenGLWidget::keyReleaseEvent(ev);
+}
 
 bool sad::qt::OpenGLWidget::event(QEvent* e)
 {

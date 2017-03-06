@@ -77,6 +77,9 @@
     <ClCompile Include="sadqtmousecursor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="sadqtkeytosadkey.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mainwindow.h">
@@ -109,6 +112,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="sadqtmousecursor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sadqtkeytosadkey.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
