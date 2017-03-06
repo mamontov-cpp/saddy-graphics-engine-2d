@@ -5,7 +5,10 @@
 #pragma once
 #include <QOpenGLWidget>
 #include <QTimer>
+
 #include "sadqtrenderer.h"
+
+#include <input/events.h>
 
 namespace sad
 {
@@ -50,10 +53,26 @@ public:
 	    \param[in] ev event
 	 */
 	virtual void enterEvent(QEvent* ev);
+	/*! Handles mouse wheel event for widget
+	    \param[in] ev event
+	 */
+	virtual void wheelEvent(QWheelEvent* ev);
+	/*! Handles mouse double click event for widget
+	    \param[in] ev event
+	 */
+	virtual void mouseDoubleClickEvent(QMouseEvent* ev);
+	/*! Handles mouse press event for widget
+	    \param[in] ev event	 
+	 */
+	virtual void mousePressEvent(QMouseEvent* ev);
 	/*! Handles mouse move event for widget 
 	    \param[in] ev event
 	 */
 	virtual void mouseMoveEvent(QMouseEvent* ev);
+	/*! Handles mouse press event for widget
+	    \param[in] ev event
+	 */
+	virtual void mouseReleaseEvent(QMouseEvent* ev);
 	/*! Handles mouse leaving event for widget
 	    \param[in] ev event
 	*/
@@ -92,6 +111,11 @@ protected:
 	    \param[in] p point a point
 	 */
 	sad::Point3D toViewport(const QPoint& p) const;
+	/*! Converts mouse event to sad::input::MouseEvent
+		\param[in] ev event
+		\param[out] sev sad::input::MouseEvent instance
+	 */
+	void mouseEventToSadMouseEvent(QMouseEvent* ev, sad::input::MouseEvent* sev) const;
 	/*! A window, that is attached to widget
 	 */
 	QWidget* m_window;

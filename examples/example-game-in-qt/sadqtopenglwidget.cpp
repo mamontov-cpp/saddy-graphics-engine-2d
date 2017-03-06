@@ -10,8 +10,9 @@
 #include <QApplication>
 #include <QEvent>
 #include <QMouseEvent>
+#include <QWheelEvent>
 
-sad::qt::OpenGLWidget::OpenGLWidget(QWidget* parent, Qt::WindowFlags f) : QOpenGLWidget(parent, f), m_first(true), m_reshaped(false), m_window(NULL)
+sad::qt::OpenGLWidget::OpenGLWidget(QWidget* parent, Qt::WindowFlags f) : QOpenGLWidget(parent, f), m_window(NULL), m_first(true), m_reshaped(false)
 {
 	QSurfaceFormat fmt = QSurfaceFormat::defaultFormat();
 	fmt.setProfile(QSurfaceFormat::CompatibilityProfile);
@@ -160,6 +161,50 @@ void sad::qt::OpenGLWidget::enterEvent(QEvent* ev)
 	this->QOpenGLWidget::enterEvent(ev);
 }
 
+void sad::qt::OpenGLWidget::wheelEvent(QWheelEvent* ev)
+{
+	if (this->m_renderer)
+	{
+		if (m_renderer->initialized())
+		{
+			sad::input::MouseWheelEvent* sev = new sad::input::MouseWheelEvent();
+			sev->Point3D = this->toViewport(ev->pos());
+			sev->Delta = ev->delta();
+			m_renderer->submitEvent(sev);
+		}
+	}
+	this->QOpenGLWidget::wheelEvent(ev);
+}
+
+void sad::qt::OpenGLWidget::mouseDoubleClickEvent(QMouseEvent* ev)
+{
+	if (this->m_renderer)
+	{
+		if (m_renderer->initialized())
+		{
+			sad::input::MouseDoubleClickEvent* sev = new sad::input::MouseDoubleClickEvent();
+			this->mouseEventToSadMouseEvent(ev, sev);
+			m_renderer->submitEvent(sev);
+		}
+	}
+	this->QOpenGLWidget::mouseDoubleClickEvent(ev);
+}
+
+void sad::qt::OpenGLWidget::mousePressEvent(QMouseEvent* ev)
+{
+	if (this->m_renderer)
+	{
+		if (m_renderer->initialized())
+		{
+			sad::input::MousePressEvent* sev = new sad::input::MousePressEvent();
+			this->mouseEventToSadMouseEvent(ev, sev);
+			m_renderer->submitEvent(sev);
+		}
+	}
+	this->QOpenGLWidget::mousePressEvent(ev);
+}
+
+
 void sad::qt::OpenGLWidget::mouseMoveEvent(QMouseEvent* ev)
 {
 	if (this->m_renderer)
@@ -173,6 +218,21 @@ void sad::qt::OpenGLWidget::mouseMoveEvent(QMouseEvent* ev)
 	}
 	this->QOpenGLWidget::mouseMoveEvent(ev);
 }
+
+void sad::qt::OpenGLWidget::mouseReleaseEvent(QMouseEvent* ev)
+{
+	if (this->m_renderer)
+	{
+		if (m_renderer->initialized())
+		{
+			sad::input::MouseReleaseEvent* sev = new sad::input::MouseReleaseEvent();
+			this->mouseEventToSadMouseEvent(ev, sev);
+			m_renderer->submitEvent(sev);
+		}
+	}
+	this->QOpenGLWidget::mouseReleaseEvent(ev);
+}
+
 
 void sad::qt::OpenGLWidget::leaveEvent(QEvent* ev)
 {
@@ -286,4 +346,16 @@ sad::Point3D sad::qt::OpenGLWidget::toViewport(const QPoint& p) const
 	double y = this->height() - p.y();
 	sad::Point3D mx = m_renderer->mapToViewport(sad::Point2D(p.x(), y));
 	return mx;
+}
+
+void sad::qt::OpenGLWidget::mouseEventToSadMouseEvent(QMouseEvent* ev, sad::input::MouseEvent* sev) const
+{
+	sev->Point3D = this->toViewport(ev->pos());
+	switch(ev->button())
+	{
+	case Qt::LeftButton: sev->Button = sad::MouseLeft; break;
+	case Qt::RightButton: sev->Button = sad::MouseRight; break;
+	case Qt::MiddleButton: sev->Button = sad::MouseMiddle; break;
+	default: sev->Button = sad::MouseLeft;
+	}
 }

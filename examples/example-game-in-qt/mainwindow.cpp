@@ -5,9 +5,11 @@
 #include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
-	: QMainWindow(parent)
+	: QMainWindow(parent), m_game(NULL)
 {
 	ui.setupUi(this);
+
+	this->setFixedSize(this->geometry().width(), this->geometry().height());
 
 	connect(ui.btnStartGame, SIGNAL(clicked()), this, SLOT(startGame()));
 	connect(ui.btnQuitGame, SIGNAL(clicked()), this, SLOT(quitGame()));
