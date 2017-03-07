@@ -2,6 +2,8 @@
 #include "sadqtrenderer.h"
 #include "sadqtopenglwidget.h"
 
+#include <QTimer>
+
 
 // ======= PUBLIC METHODS =======
 
@@ -40,24 +42,34 @@ bool sad::qt::Window::fullscreen() const
 	return m_fullscreen;
 }
 
+
 void sad::qt::Window::enterFullscreen()
 {
-	QWidget* w = this->window();
-	if (w)
+	if (m_fullscreen)
 	{
-		w->window()->showFullScreen();
+		return;
 	}
 	m_fullscreen = true;
+	QWidget* w = this->widget();
+	if (w)
+	{
+		QTimer::singleShot(0, w, SLOT(goFullscreen()));
+	}
 }
 
 void sad::qt::Window::leaveFullscreen()
 {
-	QWidget* w = this->window();
+	if (!m_fullscreen)
+	{
+		return;
+	}
+	m_fullscreen = false;
+
+	QWidget* w = this->widget();
 	if (w)
 	{
-		w->window()->showNormal();
+		QTimer::singleShot(0, w, SLOT(goWindowed()));
 	}
-	m_fullscreen = true;
 }
 
 
@@ -196,9 +208,10 @@ QWidget* sad::qt::Window::widget() const
 	if (this->renderer())
 	{
 		sad::qt::Renderer* r = static_cast<sad::qt::Renderer*>(this->renderer());
-		if (r->widget())
+		QWidget* w = r->widget();
+		if (w)
 		{
-			return r->widget();
+			return w;
 		}
 	}
 

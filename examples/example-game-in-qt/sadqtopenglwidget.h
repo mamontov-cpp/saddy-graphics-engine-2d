@@ -98,6 +98,12 @@ public slots:
 	/*! Emitted, when applications starts quitting
 	 */
 	virtual void applicationQuit();
+	/*! Shows widget in fullscreen
+	 */
+	virtual void goFullscreen();
+	/*! Makes widget go windowed
+	 */
+	virtual void goWindowed();
 protected:
 	/*! Tries to intercept activation event
 	    \param[in] ev event
@@ -134,6 +140,12 @@ protected:
 	/*! An old size of widget
 	 */
 	sad::Size2I m_old_size;
+	/*! An old for full screen
+	*/
+	QRect m_old_geometry;
+	/*! An old max size for window
+	*/
+	QSize m_old_max_size;
 };
 
 

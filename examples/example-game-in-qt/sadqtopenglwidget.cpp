@@ -115,7 +115,6 @@ void sad::qt::OpenGLWidget::resizeGL(int width, int height)
 	this->update();
 	m_old_size = sad::Size2I(width, height);
 }
-
 void sad::qt::OpenGLWidget::paintGL()
 {
 	if (this->window() != m_window)
@@ -302,6 +301,26 @@ void sad::qt::OpenGLWidget::applicationQuit()
 			m_renderer->submitEvent(new sad::input::QuitEvent(), true);
 		}
 	}
+}
+
+void sad::qt::OpenGLWidget::goFullscreen()
+{
+	QWidget* window = this->window();
+	m_old_max_size = window->maximumSize();
+	window->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+
+	m_old_geometry = this->geometry();
+	this->raise();
+	window->window()->showFullScreen();
+	this->setGeometry(0, 0, window->width(), window->height());
+}
+
+void sad::qt::OpenGLWidget::goWindowed()
+{
+	QWidget* window = this->window();
+	window->window()->showNormal();
+	window->setMaximumSize(m_old_max_size);
+	this->setGeometry(m_old_geometry);
 }
 
 // ======================= PROTECTED METHODS =======================
