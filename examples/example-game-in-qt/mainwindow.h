@@ -20,6 +20,15 @@ public slots:
 	/*! Quits game in window
 	 */
 	void quitGame();
+	/*! If game is being played, increments players HP 
+	 */
+	void incrementPlayersHealth();
+	/*! If game is being played, decrements players HP
+	*/
+	void incrementScore();
+	/*! If game is being played, kills all enemies
+	 */
+	void killEnemies();
 private:
 	/*! An inner UI
 	 */

@@ -13,6 +13,10 @@ MainWindow::MainWindow(QWidget *parent)
 
 	connect(ui.btnStartGame, SIGNAL(clicked()), this, SLOT(startGame()));
 	connect(ui.btnQuitGame, SIGNAL(clicked()), this, SLOT(quitGame()));
+
+	connect(ui.btnIncrementHealth, SIGNAL(clicked()), this, SLOT(incrementPlayersHealth()));
+	connect(ui.btnIncrementScore, SIGNAL(clicked()), this, SLOT(incrementScore()));
+	connect(ui.btnKillAllEnemies, SIGNAL(clicked()), this, SLOT(killEnemies()));
 }
 
 MainWindow::~MainWindow()
@@ -39,4 +43,33 @@ void MainWindow::startGame()
 void MainWindow::quitGame()
 {
 	ui.glWidget->setRenderer(new sad::qt::Renderer());
+	delete m_game;
+	m_game = NULL;
+}
+
+// ReSharper disable once CppMemberFunctionMayBeConst
+void MainWindow::incrementPlayersHealth()
+{
+	if (m_game)
+	{
+		m_game->increasePlayerHealth(1);
+	}
+}
+
+// ReSharper disable once CppMemberFunctionMayBeConst
+void MainWindow::incrementScore()
+{
+	if (m_game)
+	{
+		m_game->increasePlayerScore(100);
+	}
+}
+
+// ReSharper disable once CppMemberFunctionMayBeConst
+void MainWindow::killEnemies()
+{
+	if (m_game)
+	{
+		m_game->killEnemies();
+	}
 }

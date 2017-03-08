@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>952</width>
-    <height>636</height>
+    <width>791</width>
+    <height>521</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,15 +19,15 @@
      <rect>
       <x>10</x>
       <y>30</y>
-      <width>800</width>
-      <height>600</height>
+      <width>640</width>
+      <height>480</height>
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="btnIncrementLifves">
+   <widget class="QPushButton" name="btnIncrementHealth">
     <property name="geometry">
      <rect>
-      <x>820</x>
+      <x>660</x>
       <y>30</y>
       <width>121</width>
       <height>23</height>
@@ -40,7 +40,7 @@
    <widget class="QPushButton" name="btnIncrementScore">
     <property name="geometry">
      <rect>
-      <x>820</x>
+      <x>660</x>
       <y>70</y>
       <width>121</width>
       <height>23</height>
@@ -53,7 +53,7 @@
    <widget class="QPushButton" name="btnKillAllEnemies">
     <property name="geometry">
      <rect>
-      <x>820</x>
+      <x>660</x>
       <y>110</y>
       <width>121</width>
       <height>23</height>
@@ -66,8 +66,8 @@
    <widget class="QPushButton" name="btnStartGame">
     <property name="geometry">
      <rect>
-      <x>820</x>
-      <y>580</y>
+      <x>660</x>
+      <y>460</y>
       <width>121</width>
       <height>23</height>
      </rect>
@@ -79,8 +79,8 @@
    <widget class="QPushButton" name="btnQuitGame">
     <property name="geometry">
      <rect>
-      <x>820</x>
-      <y>610</y>
+      <x>660</x>
+      <y>490</y>
       <width>121</width>
       <height>23</height>
      </rect>
@@ -92,7 +92,7 @@
    <widget class="QLabel" name="lblGameHint">
     <property name="geometry">
      <rect>
-      <x>290</x>
+      <x>220</x>
       <y>10</y>
       <width>241</width>
       <height>16</height>
