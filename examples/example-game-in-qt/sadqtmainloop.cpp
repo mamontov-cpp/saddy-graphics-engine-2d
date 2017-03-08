@@ -30,7 +30,8 @@ void sad::qt::MainLoop::run(bool once)
 		this->m_renderer->fpsInterpolation()->reset();
 	}
 	while (m_running)
-	{		
+	{	
+		this->processEvents();
 		// Try render scene if can
 		if (this->m_renderer->window()->hidden() == false
 			&& this->m_renderer->window()->minimized() == false
@@ -47,7 +48,6 @@ void sad::qt::MainLoop::run(bool once)
 		{
 			m_running = false;
 		}
-		this->processEvents();
 	}
 	m_running = false;
 }
@@ -81,17 +81,9 @@ void sad::qt::MainLoop::processEvents()
 	if (m_renderer && m_events.size())
 	{
 		for(size_t i = 0; i < m_events.size(); i++)
-		{
-			bool handled = false;
-			if (!handled) 
-			{
-				handled = true;
-				m_renderer->controls()->postEvent(m_events[i].p1(), *(m_events[i].p2()));
-				if (handled)
-				{
-					delete m_events[i].p2();
-				}
-			}
+		{			
+			m_renderer->controls()->postEvent(m_events[i].p1(), *(m_events[i].p2()));
+			delete m_events[i].p2();			
 		}
 		m_events.clear();
 	}

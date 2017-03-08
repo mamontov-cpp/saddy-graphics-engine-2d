@@ -364,7 +364,7 @@ void Game::enterPlayingScreen()
     label->arg(this, &Game::player, &GameObject::hitPoints);
     label->arg(this, &Game::player, &Player::score);
     label->arg(this, &Game::highscore);
-    label->argFPS();
+    label->argFPS(m_renderer);
 
     sc->add(label);
     m_spawntask->setEvent(new EnemySpawn(this) );
