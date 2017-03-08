@@ -1,5 +1,5 @@
-#include "sadqtopenglwidget.h"
-#include "sadqtkeytosadkey.h"
+#include "qt/sadqtopenglwidget.h"
+#include "qt/sadqtkeytosadkey.h"
 
 #include <mousecursor.h>
 #include <scene.h>

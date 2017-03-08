@@ -1,5 +1,5 @@
-#include "sadqtglcontext.h"
-#include "sadqtrenderer.h"
+#include "qt/sadqtglcontext.h"
+#include "qt/sadqtrenderer.h"
 
 #include <window.h>
 #include <camera.h>

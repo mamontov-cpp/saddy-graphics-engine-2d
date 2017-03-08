@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 
+#include "qt/sadqtrenderer.h"
+
 #include "../game/game.h"
 
 #include <QMessageBox>

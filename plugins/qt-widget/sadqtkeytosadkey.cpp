@@ -1,4 +1,4 @@
-#include "sadqtkeytosadkey.h"
+#include "qt/sadqtkeytosadkey.h"
 
 #ifdef WIN32
 #include <windows.h>

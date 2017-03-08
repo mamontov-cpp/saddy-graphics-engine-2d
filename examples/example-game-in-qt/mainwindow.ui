@@ -109,7 +109,7 @@
   <customwidget>
    <class>sad::qt::OpenGLWidget</class>
    <extends>QOpenGLWidget</extends>
-   <header>sadqtopenglwidget.h</header>
+   <header>../../include/qt/sadqtopenglwidget.h</header>
   </customwidget>
  </customwidgets>
  <resources>

@@ -1,6 +1,6 @@
-#include "sadqtmousecursor.h"
-#include "sadqtrenderer.h"
-#include "sadqtopenglwidget.h"
+#include "qt/sadqtmousecursor.h"
+#include "qt/sadqtrenderer.h"
+#include "qt/sadqtopenglwidget.h"
 
 #include <QCursor>
 

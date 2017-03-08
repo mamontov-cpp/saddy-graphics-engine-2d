@@ -1,9 +1,9 @@
-#include "sadqtrenderer.h"
+#include "qt/sadqtrenderer.h"
 
-#include "sadqtmainloop.h"
-#include "sadqtwindow.h"
-#include "sadqtglcontext.h"
-#include "sadqtmousecursor.h"
+#include "qt/sadqtmainloop.h"
+#include "qt/sadqtwindow.h"
+#include "qt/sadqtglcontext.h"
+#include "qt/sadqtmousecursor.h"
 
 
 sad::qt::Renderer::Renderer() : m_initialized(false), m_widget(NULL)
