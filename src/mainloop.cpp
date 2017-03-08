@@ -20,6 +20,13 @@
 #include <sched.h>
 #endif
 
+#ifdef X11
+/*! Predicate for capturing all of X11 events
+ *  \return true
+ */
+static int predicate(Display *, XEvent * e, char *);
+#endif
+
 sad::MainLoop::MainLoop() : 
 m_renderer(NULL),
 m_running(false),
