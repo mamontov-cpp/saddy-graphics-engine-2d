@@ -62,6 +62,9 @@ public:
         the game, when health goes below zero.
      */
     void decreasePlayerHealth(int by);
+    /*! Kills all enemies in a field
+     */
+    void killEnemies();
     /*! Returns a highest score for player
         \return highscore
      */

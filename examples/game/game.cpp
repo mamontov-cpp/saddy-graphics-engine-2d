@@ -37,7 +37,7 @@ Game::Game(sad::Renderer* renderer) : m_renderer(renderer)
     sad::hfsm::Machine * m = m_machine;
 
     sad::input::Controls * controls = m_renderer->controls();
-    controls->add(*sad::input::ET_KeyPress & sad::F, this, &Game::tryToggleFullscreen);
+    controls->add(*sad::input::ET_KeyPress & sad::F, this, &Game::tryToggleFullscreen);  
     controls->add(*sad::input::ET_KeyPress & sad::Esc, this, &sad::p2d::app::App::quit);
 
     // Create a new idle state
@@ -304,12 +304,47 @@ void Game::increasePlayerScore(int delta)
 
 void Game::increasePlayerHealth(int by)
 {
-    this->player()->incrementHP(by);
+    if (m_machine->isInState(GameState::PLAYING)) 
+    {
+        this->player()->incrementHP(by);
+    }
 }
 
 void Game::decreasePlayerHealth(int by)
 {
-    this->player()->decrementHP(by);
+    if (m_machine->isInState(GameState::PLAYING)) 
+    {
+        this->player()->decrementHP(by);
+    }
+}
+
+void Game::killEnemies()
+{
+    if (m_machine->isInState(GameState::PLAYING)) 
+    {
+        const sad::Vector<sad::SceneNode*>& objects = this->scene()->objects();
+        
+        // Filter enemies
+        sad::Vector<sad::SceneNode*> enemies;
+        sad::Hash<sad::String, bool>  sets;
+        sets.insert("Enemy", true);
+        sets.insert("EnemyBullet", true);
+        sets.insert("ShootingEnemy", true);
+        sets.insert("SuperShootingEnemy", true);
+        for(size_t i = 0; i < objects.size(); i++)
+        {
+            if (sets.contains(objects[i]->className()))
+            {
+                enemies << objects[i];
+            }
+        }
+
+        // Remove all of theme at once
+        for(size_t i = 0; i < enemies.size(); i++)
+        {
+            this->removeObject(static_cast<sad::p2d::app::Object*>(enemies[i]));
+        }
+    }
 }
 
 void Game::leaveStartingScreen()
