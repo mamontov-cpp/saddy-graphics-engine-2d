@@ -24,7 +24,7 @@ public:
     /*! Constructs new stream buffer
         \param[in] fptr file 
         \param[in] buff_sz size of buffer
-        \param[in[ put_back size data
+        \param[in] put_back size data
      */
     FileIStreamBuf(FILE *fptr, std::size_t buff_sz = 256, std::size_t put_back = 8);
 private:

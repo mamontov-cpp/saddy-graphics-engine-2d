@@ -151,12 +151,12 @@ bool sad::Renderer::run()
 {
     SL_INTERNAL_SCOPE("sad::Renderer::run()", *this);
  
-	bool success = this->initRendererBeforeLoop();
+    bool success = this->initRendererBeforeLoop();
  
     if (success)
     {
         mainLoop()->run();
-		this->deinitRendererAfterLoop();
+        this->deinitRendererAfterLoop();
     }
 
     return success;
@@ -612,7 +612,7 @@ bool sad::Renderer::addDatabase(const sad::String & name, sad::db::Database * da
         return false;
     }
     database->setRenderer(this);
-	database->addRef();
+    database->addRef();
     m_databases.insert(name, database);
     return true;
 }
@@ -783,73 +783,73 @@ const sad::Vector3D& sad::Renderer::globalTranslationOffset() const
 
 bool sad::Renderer::initRendererBeforeLoop()
 {
-	SL_INTERNAL_SCOPE("sad::Renderer::initRendererBeforeLoop()", *this);
-	bool success = true;
-	if (m_window->valid() == false)
-	{
-		success = m_window->create();
-		if (!success)
-		{
-			SL_LOCAL_FATAL("Cannot create window\n", *this);
-		}
-	}
+    SL_INTERNAL_SCOPE("sad::Renderer::initRendererBeforeLoop()", *this);
+    bool success = true;
+    if (m_window->valid() == false)
+    {
+        success = m_window->create();
+        if (!success)
+        {
+            SL_LOCAL_FATAL("Cannot create window\n", *this);
+        }
+    }
 
 
-	// Try to create context if needed
-	if (m_context->valid() == false && success)
-	{
-		// Set context thread
-		m_context_thread = reinterpret_cast<void*>(sad::os::current_thread_id());
-		success = m_context->createFor(m_window);
-		if (!success)
-		{
-			SL_LOCAL_FATAL("Failed to create OpenGL context\n", *this);
-			m_window->destroy();
-		}
-		else
-		{
-			m_window->initialize();
-			this->initGLRendering();
-		}
-	}
+    // Try to create context if needed
+    if (m_context->valid() == false && success)
+    {
+        // Set context thread
+        m_context_thread = reinterpret_cast<void*>(sad::os::current_thread_id());
+        success = m_context->createFor(m_window);
+        if (!success)
+        {
+            SL_LOCAL_FATAL("Failed to create OpenGL context\n", *this);
+            m_window->destroy();
+        }
+        else
+        {
+            m_window->initialize();
+            this->initGLRendering();
+        }
+    }
 
-	if (success)
-	{
-		this->initPipeline();
-		this->cursor()->insertHandlersIfNeeded();
-		this->mainLoop()->initMainLoop();
-	}
+    if (success)
+    {
+        this->initPipeline();
+        this->cursor()->insertHandlersIfNeeded();
+        this->mainLoop()->initMainLoop();
+    }
 
-	return success;
+    return success;
 }
 
 void sad::Renderer::runOnce()
 {
-	SL_INTERNAL_SCOPE("sad::Renderer::runOnce()", *this);
+    SL_INTERNAL_SCOPE("sad::Renderer::runOnce()", *this);
 
-	assert(m_window->valid());
-	assert(m_context->valid());
+    assert(m_window->valid());
+    assert(m_context->valid());
 
 
-	mainLoop()->run(SAD_MAIN_LOOP_RUN_ONLY_ONCE);
+    mainLoop()->run(SAD_MAIN_LOOP_RUN_ONLY_ONCE);
 }
 
 
 void sad::Renderer::deinitRendererAfterLoop()
 {
-	SL_INTERNAL_SCOPE("sad::Renderer::deinitRendererAfterLoop()", *this);
-	this->mainLoop()->deinitMainLoop();
-	cursor()->removeHandlersIfNeeded();
-	cleanPipeline();
+    SL_INTERNAL_SCOPE("sad::Renderer::deinitRendererAfterLoop()", *this);
+    this->mainLoop()->deinitMainLoop();
+    cursor()->removeHandlersIfNeeded();
+    cleanPipeline();
 
-	m_context->destroy();
-	m_window->destroy();
+    m_context->destroy();
+    m_window->destroy();
 }
 
 
 void sad::Renderer::destroyInstance()
 {
-	delete  sad::Renderer::m_instance;
+    delete  sad::Renderer::m_instance;
 }
 
 bool sad::Renderer::initGLRendering()

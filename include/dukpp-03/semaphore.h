@@ -11,7 +11,7 @@ namespace sad
 
 namespace dukpp03
 {
-	
+    
 class Semaphore: public sad::Semaphore, public sad::RefCountable
 {
 public:
@@ -20,9 +20,9 @@ public:
         \param[in] maxvalue maximum value of semaphore
      */
     Semaphore(unsigned int currentvalue = 0, unsigned int maxvalue = 32767);
-	/*! Can be inherited
-	 */
-	virtual ~Semaphore();
+    /*! Can be inherited
+     */
+    virtual ~Semaphore();
 };
 
 }

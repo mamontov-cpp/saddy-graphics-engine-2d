@@ -10,7 +10,7 @@ sad::p2d::WorldStepTask::WorldStepTask(sad::p2d::World * w, sad::Renderer * r)
 void sad::p2d::WorldStepTask::_process()
 {
     // 1.0 is a second, so if 1 frame at 1s, we will step second
-	double fps = m_renderer->fps();
+    double fps = m_renderer->fps();
     double rendertime = 1.0 / fps;
     // If rendering goes extremely slow, like 5 FPS per sec
     // everything can broke, So we avoid this, by setting rendertime to

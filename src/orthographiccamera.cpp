@@ -34,7 +34,7 @@ void sad::OrthographicCamera::apply()
     glLoadIdentity();
     gluOrtho2D(0,m_width,0,m_height);
     glPopAttrib();
-	
+    
     this->sad::Camera::apply();
 }
 

@@ -1,4 +1,4 @@
-/*! \file renderer.h
+/*! \file dukpp-03\renderer.h
     
     A refcountable renderer implementation
  */

@@ -256,7 +256,7 @@ void sad::MouseCursor::removeHandlersIfNeeded()
 
 void sad::MouseCursor::applyCursorTransformations()
 {
-	
+    
 }
 
 void sad::MouseCursor::showDefaultCursor()
@@ -327,7 +327,7 @@ void sad::MouseCursor::renderCursorIfNeedTo()
 {
     if (m_usecustomcursor && m_hidden && !m_hidecustomcursor && m_cursor != NULL)
     {
-		this->applyCursorTransformations();
+        this->applyCursorTransformations();
         m_cursor->render();
     }
 }

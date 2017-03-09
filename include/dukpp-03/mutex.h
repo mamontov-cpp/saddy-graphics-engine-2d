@@ -11,16 +11,16 @@ namespace sad
 
 namespace dukpp03
 {
-	
+    
 class Mutex: public sad::Mutex, public sad::RefCountable
 {
 public:
-	/*! Constructs new mutext
-	 */
-	Mutex();
-	/*! Can be inherited
-	 */
-	virtual ~Mutex();
+    /*! Constructs new mutext
+     */
+    Mutex();
+    /*! Can be inherited
+     */
+    virtual ~Mutex();
 };
 
 }

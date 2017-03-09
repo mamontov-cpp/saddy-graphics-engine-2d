@@ -3,7 +3,7 @@
     A simple graphics engine for games. If you see any errors in documentation, or can
     give idea for improving a documentation, we would appreciate your help
  */
-/*! \file   renderer.h
+/*! \file   include/renderer.h
     \author FreakyBlast
 
     \brief  Declaration of Renderer - main class, for running 
@@ -476,30 +476,30 @@ protected:
      */
     sad::Vector3D m_global_translation_offset;
 
-	/*! Copying a renderer, due to held system resources is disabled
-	\param[in] o other renderer
-	*/
-	Renderer(const Renderer& o);
-	/*! Copying a renderer, due to held system resources is disabled
-	\param[in] o other renderer
-	\return self-rederence
-	*/
-	Renderer& operator=(const Renderer& o);
-	/*! Initializes window and context. Do not call this functions, unless you want to run renderer's loop manualy,
-	    via runOnce()
-	    \return true in case everything is ok, otherwise false
-	*/
-	virtual bool initRendererBeforeLoop();
-	/*! Runs a renderer. Note, that window should be created before start, and
-	    context should be initialized before method fired.
+    /*! Copying a renderer, due to held system resources is disabled
+    \param[in] o other renderer
+    */
+    Renderer(const Renderer& o);
+    /*! Copying a renderer, due to held system resources is disabled
+    \param[in] o other renderer
+    \return self-rederence
+    */
+    Renderer& operator=(const Renderer& o);
+    /*! Initializes window and context. Do not call this functions, unless you want to run renderer's loop manualy,
+        via runOnce()
+        \return true in case everything is ok, otherwise false
+    */
+    virtual bool initRendererBeforeLoop();
+    /*! Runs a renderer. Note, that window should be created before start, and
+        context should be initialized before method fired.
 
-	    Note, that you MUST call initRendererBeforeLoop before calling this function and call deinitRendererAfterLoop, when done
-	*/
-	virtual void runOnce();
-	/*! Destroys window	and context, makes required cleanups, when renderer is done.
-	    Call this, after main loop of renderer is finished 
-	 */
-	virtual void deinitRendererAfterLoop();
+        Note, that you MUST call initRendererBeforeLoop before calling this function and call deinitRendererAfterLoop, when done
+    */
+    virtual void runOnce();
+    /*! Destroys window	and context, makes required cleanups, when renderer is done.
+        Call this, after main loop of renderer is finished 
+     */
+    virtual void deinitRendererAfterLoop();
     /*! Destroys global instance of renderer
      */
     static void destroyInstance();

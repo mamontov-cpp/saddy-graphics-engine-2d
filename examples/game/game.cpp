@@ -390,7 +390,7 @@ void Game::enterPlayingScreen()
 
     sad::FormattedLabel * label = new sad::FormattedLabel();
     label->setFont("font");
-	label->setTreeName(m_renderer, "");
+    label->setTreeName(m_renderer, "");
     label->setPoint(0, 480);
     label->setUpdateInterval(200);
     label->setSize(23);
@@ -588,7 +588,7 @@ void Game::moveToStartingScreen()
     
     sad::FormattedLabel  * label = new sad::FormattedLabel();
     label->setFont("font");
-	label->setTreeName(m_renderer, "");
+    label->setTreeName(m_renderer, "");
     label->setSize(23);
     label->setColor(sad::AColor(255, 255, 255));
     label->setPoint(260, 240);

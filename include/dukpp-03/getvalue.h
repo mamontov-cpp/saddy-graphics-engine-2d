@@ -510,6 +510,7 @@ public:
     \param[out] result  a result
     \param[in] c context
     \param[in] pos position of object
+    \param[in] index an index of property
  */
 template<typename T>
 void tryGetPropIndex(

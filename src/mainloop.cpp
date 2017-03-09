@@ -54,95 +54,95 @@ sad::Renderer * sad::MainLoop::renderer() const
 
 void sad::MainLoop::run(bool once)
 {
-	m_running = true;
-	this->m_renderer->window()->setActive(true);
-	if (!once)
-	{
-		this->m_renderer->fpsInterpolation()->reset();
-	}
-	m_dispatcher->reset();
+    m_running = true;
+    this->m_renderer->window()->setActive(true);
+    if (!once)
+    {
+        this->m_renderer->fpsInterpolation()->reset();
+    }
+    m_dispatcher->reset();
 
 #ifdef WIN32
-	MSG msg;
-	//POINT cursorpos;
-	//RECT  windowrect;
+    MSG msg;
+    //POINT cursorpos;
+    //RECT  windowrect;
 #endif
 
 #ifdef X11
-	sad::os::SystemWindowEvent msg;
+    sad::os::SystemWindowEvent msg;
 #endif
-	while (m_running)
-	{
+    while (m_running)
+    {
 #ifdef WIN32
-		// There was some kind of bug, when mouse leave was not generated
-		// If this occurs one more time try uncommenting this code
-		/*
-		GetWindowRect(m_renderer->window()->handles()->WND, &windowrect);
-		GetCursorPos(&cursorpos);
-		if (!PtInRect(&windowrect, cursorpos) && m_dispatcher->m_is_in_window)
-		{
-			#ifdef EVENT_LOGGING
-				SL_COND_LOCAL_INTERNAL("Cursor pos is outside of window, posting MouseLeave", m_renderer);
-			#endif
-				sad::os::SystemWindowEvent ev(
-				m_renderer->window()->handles()->WND,
-				WM_MOUSELEAVE,
-				0,
-				0
-			);
-			m_dispatcher->dispatch(ev);
-		}
-		*/
-		while (PeekMessage(
-			&msg,
-			// A PeekMessage docs state, that multithreading
-			// should work with zero, since sad::Renderer-s must
-			// be running at separate threads. Also, moving here
-			// a handle to window  causes problems with switching
-			// keyboard layout on Windows XP
-			0
-			/*m_renderer->window()->handles()->WND*/,
-			0,
-			0,
-			PM_REMOVE
-		) != 0
-			)
-		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
+        // There was some kind of bug, when mouse leave was not generated
+        // If this occurs one more time try uncommenting this code
+        /*
+        GetWindowRect(m_renderer->window()->handles()->WND, &windowrect);
+        GetCursorPos(&cursorpos);
+        if (!PtInRect(&windowrect, cursorpos) && m_dispatcher->m_is_in_window)
+        {
+            #ifdef EVENT_LOGGING
+                SL_COND_LOCAL_INTERNAL("Cursor pos is outside of window, posting MouseLeave", m_renderer);
+            #endif
+                sad::os::SystemWindowEvent ev(
+                m_renderer->window()->handles()->WND,
+                WM_MOUSELEAVE,
+                0,
+                0
+            );
+            m_dispatcher->dispatch(ev);
+        }
+        */
+        while (PeekMessage(
+            &msg,
+            // A PeekMessage docs state, that multithreading
+            // should work with zero, since sad::Renderer-s must
+            // be running at separate threads. Also, moving here
+            // a handle to window  causes problems with switching
+            // keyboard layout on Windows XP
+            0
+            /*m_renderer->window()->handles()->WND*/,
+            0,
+            0,
+            PM_REMOVE
+        ) != 0
+            )
+        {
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
+        }
 #endif
 
 #ifdef X11
-		// In fact in linux we get big slowdown if 
-		// all events is not dispatched
-		while (XCheckIfEvent(m_renderer->window()->handles()->Dpy, &(msg.Event), predicate, NULL) != False)
-		{
-			m_dispatcher->dispatch(msg);
-		}
+        // In fact in linux we get big slowdown if 
+        // all events is not dispatched
+        while (XCheckIfEvent(m_renderer->window()->handles()->Dpy, &(msg.Event), predicate, NULL) != False)
+        {
+            m_dispatcher->dispatch(msg);
+        }
 #endif
-		// Try render scene if can
-		if (this->m_renderer->window()->hidden() == false
-			&& this->m_renderer->window()->minimized() == false
-			&& m_running)
-		{
-			this->m_renderer->pipeline()->run();
+        // Try render scene if can
+        if (this->m_renderer->window()->hidden() == false
+            && this->m_renderer->window()->minimized() == false
+            && m_running)
+        {
+            this->m_renderer->pipeline()->run();
 #ifdef X11
-			XFlush(m_renderer->window()->handles()->Dpy);
+            XFlush(m_renderer->window()->handles()->Dpy);
 #endif
-		}
-		else
-		{
-			this->m_renderer->fpsInterpolation()->resetTimer();
-			this->forceSchedulerSwitchToOtherProcesses();
-		}
-		if (once)
-		{
-			m_running = false;
-		}
-	}
-	this->m_renderer->window()->setActive(false);
-	m_running = false;
+        }
+        else
+        {
+            this->m_renderer->fpsInterpolation()->resetTimer();
+            this->forceSchedulerSwitchToOtherProcesses();
+        }
+        if (once)
+        {
+            m_running = false;
+        }
+    }
+    this->m_renderer->window()->setActive(false);
+    m_running = false;
 }
 
 
@@ -166,15 +166,15 @@ bool sad::MainLoop::running() const
 
 void sad::MainLoop::initMainLoop()
 {
-	tryElevatePriority();
-	trySetEmergencyShudownHandler();
-	registerRenderer();
-	initKeyboardInput();
+    tryElevatePriority();
+    trySetEmergencyShudownHandler();
+    registerRenderer();
+    initKeyboardInput();
 }
 
 void sad::MainLoop::deinitMainLoop()
 {
-	unregisterRenderer();
+    unregisterRenderer();
 }
 
 void sad::MainLoop::tryElevatePriority()

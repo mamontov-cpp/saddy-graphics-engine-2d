@@ -56,16 +56,16 @@ public:
         \return whether main loop is running
      */
     bool running() const;
-	/*! Should called in run() before perform() to perform crucial system settings
-	 */
-	virtual void initMainLoop();
-	/*! Deinits main loop after finishing it
-	 */
-	virtual void deinitMainLoop();
+    /*! Should called in run() before perform() to perform crucial system settings
+     */
+    virtual void initMainLoop();
+    /*! Deinits main loop after finishing it
+     */
+    virtual void deinitMainLoop();
 protected:
     /*! Tries to elevate priority of current process, when performing main loop
      */
-	virtual void tryElevatePriority();
+    virtual void tryElevatePriority();
     /*! Tries to set emergency handler, which should handle case, when user
         closes console window on Windows
      */
@@ -79,11 +79,11 @@ protected:
         renderers. That is done because of implementation of event system on
         windows platform.
      */
-	virtual void unregisterRenderer();
+    virtual void unregisterRenderer();
     /*! Initializes keyboard locales on Linux, allowing to handle keyboard langugage
         switch.
      */
-	virtual void initKeyboardInput();
+    virtual void initKeyboardInput();
     /*! Forces built-in OS scheduler switch to other processes
      */
     void forceSchedulerSwitchToOtherProcesses();

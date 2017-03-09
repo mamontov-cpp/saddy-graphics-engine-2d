@@ -60,9 +60,9 @@ void sad::db::Database::save(sad::String & output)
 
 sad::String sad::db::Database::save()
 {
-	sad::String result;
-	this->save(result);
-	return result;
+    sad::String result;
+    this->save(result);
+    return result;
 }
 
 void sad::db::Database::saveToFile(const sad::String& s)
@@ -108,7 +108,7 @@ bool sad::db::Database::load(const sad::String& text)
 
 bool sad::db::Database::tryLoadFrom(const sad::String& name)
 {
-	return this->loadFromFile(name, sad::Renderer::ref());
+    return this->loadFromFile(name, sad::Renderer::ref());
 }
 
 bool sad::db::Database::loadFromFile(const sad::String& name, sad::Renderer * r)
@@ -156,10 +156,10 @@ bool sad::db::Database::loadFromFile(const sad::String& name, sad::Renderer * r)
 
 void sad::db::Database::addPropertyOfType(const sad::String & name,  const sad::String& type)
 {
-	if (m_prop_factory->canCreate(type))
-	{
-		addProperty(name, m_prop_factory->create(type));
-	}
+    if (m_prop_factory->canCreate(type))
+    {
+        addProperty(name, m_prop_factory->create(type));
+    }
 }
 
 void sad::db::Database::addProperty(const sad::String & name, sad::db::Property * p)
@@ -199,31 +199,31 @@ sad::db::Property* sad::db::Database::propertyByName(const sad::String & name) c
 // ReSharper disable once CppMemberFunctionMayBeConst
 bool sad::db::Database::setDBProperty(const sad::String& name, sad::db::Variant& v)
 {
-	sad::db::Property * prop = this->propertyByName(name);
-	bool result = false;
-	if (prop)
-	{
-		result = prop->set(NULL, v);
-	}
-	return result;
+    sad::db::Property * prop = this->propertyByName(name);
+    bool result = false;
+    if (prop)
+    {
+        result = prop->set(NULL, v);
+    }
+    return result;
 }
 
 bool sad::db::Database::hasDBProperty(const sad::String& name) const
 {
-	return this->propertyByName(name) != NULL;
+    return this->propertyByName(name) != NULL;
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
 sad::Maybe<sad::db::Variant> sad::db::Database::getDBProperty(const sad::String& name)
 {
-	sad::db::Property * prop = this->propertyByName(name);
-	if (prop)
-	{
-		sad::db::Variant v;
+    sad::db::Property * prop = this->propertyByName(name);
+    if (prop)
+    {
+        sad::db::Variant v;
         prop->get(NULL, v);
-		return sad::Maybe<sad::db::Variant>(v);
-	}
-	return sad::Maybe<sad::db::Variant>();
+        return sad::Maybe<sad::db::Variant>(v);
+    }
+    return sad::Maybe<sad::db::Variant>();
 }
 
 sad::db::StoredPropertyFactory* sad::db::Database::storedPropertyFactory() const
@@ -246,7 +246,7 @@ bool sad::db::Database::addTable(const sad::String& name, db::Table* table)
     if (m_names_to_tables.contains(name) == false)
     {
         result = true;
-		table->addRef();
+        table->addRef();
         table->setDatabase(this);
         m_names_to_tables.insert(name, table);
     }
@@ -305,10 +305,10 @@ sad::db::Object* sad::db::Database::objectByName(const sad::String & name) const
         ++it)
     {
         sad::Vector<sad::db::Object*> o =  it.value()->queryByName(name);
-		if (o.size())
-		{
-			return o[0];
-		}
+        if (o.size())
+        {
+            return o[0];
+        }
     }
     return NULL;	
 }
@@ -351,27 +351,27 @@ void sad::db::Database::getTables(sad::Vector<sad::Pair<sad::String, sad::db::Ta
 
 sad::Vector<sad::Pair<sad::String, sad::db::Table*> > sad::db::Database::tableList() const
 {
-	sad::Vector<sad::Pair<sad::String, sad::db::Table*> > tables;
+    sad::Vector<sad::Pair<sad::String, sad::db::Table*> > tables;
     for(sad::Hash<sad::String, sad::db::Table*>::const_iterator it = m_names_to_tables.const_begin();
         it != m_names_to_tables.const_end();
         ++it)
     {
         tables << sad::Pair<sad::String, sad::db::Table*>(it.key(), it.value());
     }
-	return tables;
+    return tables;
 }
 
 sad::Vector<sad::String> sad::db::Database::propertyNames() const
 {
-	sad::Vector<sad::String> result;
-	for(sad::PtrHash<sad::String, sad::db::Property>::const_iterator it = m_properties.const_begin();
+    sad::Vector<sad::String> result;
+    for(sad::PtrHash<sad::String, sad::db::Property>::const_iterator it = m_properties.const_begin();
         it != m_properties.const_end();
         ++it
        )
     {
-		result << it.key();
+        result << it.key();
     }
-	return result;
+    return result;
 }
 
 sad::db::ObjectFactory* sad::db::Database::factory()

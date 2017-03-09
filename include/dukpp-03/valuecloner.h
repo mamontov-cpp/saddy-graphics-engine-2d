@@ -18,7 +18,6 @@ class ValueCloner: public ::dukpp03::Callable<sad::dukpp03::BasicContext>
 {
 public:
     /*! Makes new accessor
-        \param[in] name of property
      */
     ValueCloner()
     {
