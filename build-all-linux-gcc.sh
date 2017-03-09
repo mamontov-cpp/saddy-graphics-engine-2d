@@ -1,20 +1,20 @@
 VALID=0
 BatchToRun=
 QtConfig=
-SET CheckQtVerTool=
+CheckQtVerTool=
 if [ "$1" =  "Debug" ]
 then
 	VALID=1
 	BatchToRun=./debug.sh
 	QtConfig=debug
-	CheckQtVerTool = ./bin/isqt580-debug
+	CheckQtVerTool="./bin/isqt580-debug"
 fi
 if [ "$1" = "Release" ]
 then
 	VALID=1
 	BatchToRun=./release.sh
 	QtConfig=release
-	CheckQtVerTool = ./bin/isqt580-release
+	CheckQtVerTool="./bin/isqt580-release"
 fi	
 if [ "$VALID" -eq 0 ] 
 then
@@ -94,7 +94,7 @@ cd tools/isqt580
 qmake CONFIG+=$QtConfig isqt580.pro
 make
 cd ../..
-$CheckQtVerTool
+eval $CheckQtVerTool
 if [ $? -eq 1 ] 
 then
 	cd plugins/qt-widget
