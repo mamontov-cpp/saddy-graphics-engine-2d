@@ -36,6 +36,25 @@
     #define _SCL_SECURE_NO_WARNINGS 1
 #endif
 
+#if _MSC_VER >= 1900
+// Ok, MSVC 2015 is absolutely the worst version of MSVC. It ignores settings for warnings in foreign headers and does their dumb "Checked iterators"
+// things. Who wrote it? Why can't it just ignore 4996? 
+namespace std_util
+{
+
+template<class InputIt, class OutputIt>
+OutputIt copy(InputIt first, InputIt last,
+	OutputIt d_first)
+{
+	while (first != last) {
+		*d_first++ = *first++;
+	}
+	return d_first;
+}
+
+}
+#endif
+
 #include <cmath>
 
 #ifdef max
@@ -139,7 +158,12 @@ template <typename T, std::size_t SIZE>
 void Array<T, SIZE>::Grow(std::size_t size) {
   capacity_ = std::max(size, capacity_ + capacity_ / 2);
   T *p = new T[capacity_];
+
+#if _MSC_VER >= 1900
+  std_util::copy(ptr_, ptr_ + size_, p);
+#else
   std::copy(ptr_, ptr_ + size_, p);
+#endif
   if (ptr_ != data_)
     delete [] ptr_;
   ptr_ = p;
@@ -150,7 +174,11 @@ void Array<T, SIZE>::append(const T *begin, const T *end) {
   std::ptrdiff_t num_elements = end - begin;
   if (size_ + num_elements > capacity_)
     Grow(num_elements);
+#if _MSC_VER >= 1900
+  std_util::copy(begin, end, ptr_ + size_);
+#else
   std::copy(begin, end, ptr_ + size_);
+#endif
   size_ += num_elements;
 }
 
@@ -753,7 +781,11 @@ void BasicWriter<Char>::FormatDouble(
       if (spec.align() == ALIGN_CENTER &&
           spec.width() > static_cast<unsigned>(n)) {
         char *p = GrowBuffer(spec.width());
-        std::copy(p, p + n, p + (spec.width() - n) / 2);
+#if _MSC_VER >= 1900
+        std_util::copy(p, p + n, p + (spec.width() - n) / 2);
+#else
+		std::copy(p, p + n, p + (spec.width() - n) / 2);
+#endif
         FillPadding(p, spec.width(), n, spec.fill());
         return;
       }
@@ -787,7 +819,11 @@ char *BasicWriter<Char>::FormatString(
   } else {
     out = GrowBuffer(size);
   }
+#if _MSC_VER >= 1900
+  std_util::copy(s, s + size, out);
+#else
   std::copy(s, s + size, out);
+#endif
   return out;
 }
 
