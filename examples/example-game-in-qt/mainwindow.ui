@@ -94,7 +94,7 @@
      <rect>
       <x>220</x>
       <y>10</y>
-      <width>241</width>
+      <width>291</width>
       <height>16</height>
      </rect>
     </property>
@@ -112,8 +112,6 @@
    <header>../../include/qt/sadqtopenglwidget.h</header>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="mainwindow.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

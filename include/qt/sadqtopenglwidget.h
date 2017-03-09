@@ -104,6 +104,9 @@ public slots:
     /*! Makes widget go windowed
      */
     virtual void goWindowed();
+    /*! Resizes widget, so it fits the window
+     */
+    virtual void fitWidgetToWindow();
 protected:
     /*! Tries to intercept activation event
         \param[in] ev event

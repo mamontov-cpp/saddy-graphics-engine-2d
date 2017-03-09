@@ -312,7 +312,13 @@ void sad::qt::OpenGLWidget::goFullscreen()
     m_old_geometry = this->geometry();
     this->raise();
     window->window()->showFullScreen();
-    this->setGeometry(0, 0, window->width(), window->height());
+
+#ifdef LINUX
+    // Give a Window Manager time to respond to fullscreen call.
+    QTimer::singleShot(500, this, SLOT(fitWidgetToWindow()));
+#else
+    this->fitWidgetToWindow();
+#endif
 }
 
 void sad::qt::OpenGLWidget::goWindowed()
@@ -321,6 +327,12 @@ void sad::qt::OpenGLWidget::goWindowed()
     window->window()->showNormal();
     window->setMaximumSize(m_old_max_size);
     this->setGeometry(m_old_geometry);
+}
+
+void sad::qt::OpenGLWidget::fitWidgetToWindow()
+{
+    QWidget* window = this->window();
+    this->setGeometry(0, 0, window->width(), window->height());
 }
 
 // ======================= PROTECTED METHODS =======================
