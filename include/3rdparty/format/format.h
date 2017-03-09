@@ -27,11 +27,16 @@
 
 #ifndef FORMAT_H_
 #define FORMAT_H_
-#include <cmath>
 
-#ifndef _SCL_SECURE_NO_WARNINGS
-    #define _SCL_SECURE_NO_WARNINGS
+#ifdef _MSC_VER
+	#pragma warning(disable: 4996)
 #endif
+
+#ifndef _SCL_SECURE_NO_WARNINGS 
+    #define _SCL_SECURE_NO_WARNINGS 1
+#endif
+
+#include <cmath>
 
 #ifdef max
     #undef max

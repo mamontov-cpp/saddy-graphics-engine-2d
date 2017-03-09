@@ -825,8 +825,6 @@ bool sad::Renderer::initRendererBeforeLoop()
 
 void sad::Renderer::runOnce()
 {
-    SL_INTERNAL_SCOPE("sad::Renderer::runOnce()", *this);
-
     assert(m_window->valid());
     assert(m_context->valid());
 

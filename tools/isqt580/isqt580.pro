@@ -28,12 +28,12 @@ win32 {
 
 
 CONFIG(debug, debug|release) {
-    TARGET = is580-debug
+    TARGET = isqt580-debug
     
 }
 
 CONFIG(release, debug|release) {
-    TARGET = is580-release    
+    TARGET = isqt580-release    
 }
 
 QMAKE_CXXFLAGS += -Wno-reorder -Wno-unused -Wno-sign-compare -w

@@ -33,9 +33,3 @@ devenv tests/pipeline/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
 devenv tests/resource/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
 devenv tests/sad/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
 devenv tests/layouts/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
-devenv tools/is580/is580.vcxproj  /Build %1 /out lastsolutionbuild.log
-%CHECKQTVERTOOL%
-if errorlevel 1 (
-	devenv plugins/qt/qt-widget.vcxproj  /Build %1 /out lastsolutionbuild.log
-	devenv examples/example-game-in-qt/example-game-in-qt.vcxproj  /Build %1 /out lastsolutionbuild.log
-)
