@@ -2,17 +2,19 @@
 SET VALID=0
 SET BatchToRun=
 SET QtConfig=
+SET CHECKQTVERTOOL=
 if [%1] EQU [Debug]  (
 	SET VALID=1
 	SET BatchToRun=debug.bat
 	SET QtConfig=debug
-)	
+	SET CHECKQTVERTOOL=bin/is580-debug.exe
+)
 if [%1] EQU [Release]  (
 	SET VALID=1
 	SET BatchToRun=release.bat
 	SET QtConfig=release
-
-)	
+	SET CHECKQTVERTOOL=bin/is580-release.exe
+)
 if [%VALID%] EQU [0]  (
 	echo Build script for all libraries for MinGW. Just run it from Command line of Qt
     echo Syntax:
@@ -87,3 +89,19 @@ cd ../..
 cd tests/layouts
 call %BatchToRun%
 cd ../..
+cd tools/is580
+qmake CONFIG+=%QtConfig% is580.pro
+mingw32-make
+cd ../..
+%CHECKQTVERTOOL%
+if errorlevel 1 (
+	cd plugins/qt
+	qmake CONFIG+=%QtConfig% qt-widget.pro
+	mingw32-make
+	cd ../..
+	
+	cd examples/example-game-in-qt
+	qmake CONFIG+=%QtConfig% example-game-in-qt.pro
+	mingw32-make
+	cd ../..
+)

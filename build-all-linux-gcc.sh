@@ -1,17 +1,20 @@
 VALID=0
 BatchToRun=
 QtConfig=
+SET CheckQtVerTool=
 if [ "$1" =  "Debug" ]
 then
 	VALID=1
 	BatchToRun=./debug.sh
 	QtConfig=debug
-fi	
+	CheckQtVerTool = ./bin/is580-debug
+fi
 if [ "$1" = "Release" ]
 then
 	VALID=1
 	BatchToRun=./release.sh
 	QtConfig=release
+	CheckQtVerTool = ./bin/is580-release
 fi	
 if [ "$VALID" -eq 0 ] 
 then
@@ -87,3 +90,20 @@ cd ../..
 cd tests/layouts
 eval $BatchToRun
 cd ../..
+cd tools/is580
+qmake CONFIG+=$QtConfig is580.pro
+make
+cd ../..
+$CheckQtVerTool
+if [ $? -eq 1 ] 
+then
+	cd plugins/qt
+	qmake CONFIG+=$QtConfig qt-widget.pro
+	make
+	cd ../..
+	
+	cd examples/example-game-in-qt
+	qmake CONFIG+=$QtConfig example-game-in-qt.pro
+	make
+	cd ../..
+fi
