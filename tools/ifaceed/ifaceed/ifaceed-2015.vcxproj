@@ -161,8 +161,8 @@
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>qtmain.lib;Qt5Core.lib;Qt5Gui.lib;saddy-release.lib;saddy-ft-release.lib;freetype.lib;OPENGL32.lib;GLU32.lib;Qt5Script.lib;Qt5Widgets.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>../../../bin/ifaceed/iface-editor-release.exe</OutputFile>
+      <AdditionalDependencies>qtmain.lib;Qt5Core.lib;Qt5Gui.lib;freetype.lib;saddy-release.lib;saddy-ft-release.lib;OPENGL32.lib;GLU32.lib;Qt5Script.lib;Qt5Widgets.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(TargetPath)/$(TargetName)</OutputFile>
       <AdditionalLibraryDirectories>../../../lib/;$(QTDIR)\lib;$(FREETYPE_LIB);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -233,8 +233,8 @@
       <BufferSecurityCheck>false</BufferSecurityCheck>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;saddy-ft-debug.lib;saddy-debug.lib;freetype.lib;OPENGL32.lib;GLU32.lib;Qt5Scriptd.lib;Qt5Widgetsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>../../../bin/ifaceed/iface-editor-debug.exe</OutputFile>
+      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;freetype.lib;saddy-ft-debug.lib;saddy-debug.lib;OPENGL32.lib;GLU32.lib;Qt5Scriptd.lib;Qt5Widgetsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(TargetPath)/$(TargetName)</OutputFile>
       <AdditionalLibraryDirectories>../../../lib/;$(QTDIR)\lib;$(FREETYPE_LIB);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
