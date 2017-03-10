@@ -80,7 +80,7 @@ public:
     /*! Returns amount of scene objects
         \return objects amount
      */
-    inline unsigned long objectCount() const
+    inline size_t objectCount() const
     {
         return m_layers.count();
     }

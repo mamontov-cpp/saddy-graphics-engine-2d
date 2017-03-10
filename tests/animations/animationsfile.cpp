@@ -75,7 +75,7 @@ struct SadAnimationFileTest : tpunit::TestFixture
                 "}"
             "]"
         );
-       int count = errors.size();
+       size_t count = errors.size();
        sad::util::free(errors);
        ASSERT_TRUE(count == 0);
 

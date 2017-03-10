@@ -21,7 +21,7 @@ class Vector: public std::vector<T>
 public:
     Vector();                                       
     virtual ~Vector();                                       //!< Destructor.
-    inline unsigned long count() const;                      //!< Returns a size of Vector
+    inline size_t count() const;                             //!< Returns a size of Vector
     inline T*   data()  const;                               //!< Returns a pointer to data
     /*! Adds object to sad::Vector<T>. Equal to sad::Vector<T>::add
         \param[in] obj object to be added
