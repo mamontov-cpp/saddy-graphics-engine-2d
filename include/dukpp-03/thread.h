@@ -12,34 +12,34 @@ namespace sad
 
 namespace dukpp03
 {
-	
+    
 class Thread: public sad::Thread, public sad::RefCountable
 {
 public:
-	/*! Makes new thread
-	    \param[in] ctx context
-	    \aparam[in] f a function
-	 */
-	Thread(sad::dukpp03::Context* ctx, sad::dukpp03::CompiledFunction f);
-	/*! Analogue of wait() call in parent class
-	 */
-	void join();
-	/*! Analogue of wait(ms) call in parent class
-	    \param[in] ms milliseconds
-	 */
-	void waitFor(int ms);
-	/*! Could be inherites
-	 */
-	virtual ~Thread();
+    /*! Makes new thread
+        \param[in] ctx context
+        \param[in] f a function
+     */
+    Thread(sad::dukpp03::Context* ctx, sad::dukpp03::CompiledFunction f);
+    /*! Analogue of wait() call in parent class
+     */
+    void join();
+    /*! Analogue of wait(ms) call in parent class
+        \param[in] ms milliseconds
+     */
+    void waitFor(int ms);
+    /*! Could be inherites
+     */
+    virtual ~Thread();
 protected:
 class CompiledFunctionExecutor: public sad::AbsractThreadExecutableFunction 
 {
 public:	
-	/*! Makes new instance of object
-	    \param[in] ctx context
-	    \param[in] f a function
-	 */
-	CompiledFunctionExecutor(sad::dukpp03::Context* ctx, sad::dukpp03::CompiledFunction f);
+    /*! Makes new instance of object
+        \param[in] ctx context
+        \param[in] f a function
+     */
+    CompiledFunctionExecutor(sad::dukpp03::Context* ctx, sad::dukpp03::CompiledFunction f);
     /*! Executes a function in thread
         \return code, which will be returned in thread
      */
@@ -52,12 +52,12 @@ public:
      */
     virtual ~CompiledFunctionExecutor();
 protected:
-	/*! A context for function
-	 */
-	sad::dukpp03::Context* m_ctx;
-	/*! A compiled function to be run
-	 */
-	sad::dukpp03::CompiledFunction m_function;
+    /*! A context for function
+     */
+    sad::dukpp03::Context* m_ctx;
+    /*! A compiled function to be run
+     */
+    sad::dukpp03::CompiledFunction m_function;
 };
 
 };

@@ -11,19 +11,23 @@
 #include "enemybullet.h"
 
 #include <renderer.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <orthographiccamera.h>
 #include <sprite2d.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <geometry2d.h>
 #include <formattedlabel.h>
 #include <pipeline/pipeline.h>
 #include <input/controls.h>
 #include <keymouseconditions.h>
+#include <objectdependentfpsinterpolation.h>
+#include <mousecursor.h>
 
 const sad::String GameState::START = "start";
 const sad::String GameState::PLAYING = "playing";
 
 
-Game::Game()
+Game::Game(sad::Renderer* renderer) : m_renderer(renderer)
 {
     m_highscore = 0;
     m_ispaused = false;
@@ -32,8 +36,8 @@ Game::Game()
     m_machine = new sad::hfsm::Machine();
     sad::hfsm::Machine * m = m_machine;
 
-    sad::input::Controls * controls = sad::Renderer::ref()->controls();
-    controls->add(*sad::input::ET_KeyPress & sad::F, this, &Game::tryToggleFullscreen);
+    sad::input::Controls * controls = m_renderer->controls();
+    controls->add(*sad::input::ET_KeyPress & sad::F, this, &Game::tryToggleFullscreen);  
     controls->add(*sad::input::ET_KeyPress & sad::Esc, this, &sad::p2d::app::App::quit);
 
     // Create a new idle state
@@ -124,26 +128,32 @@ Game::Game()
     playState->addLeaveHandler(this, &Game::leavePlayingScreen);
 
 
-    SL_MESSAGE("Input handlers bound succesfully");
+    SL_LOCAL_MESSAGE("Input handlers bound succesfully", *m_renderer);
 
     // Add states - starting screen and playing screen
     m_machine->addState(GameState::START, idleState);
     m_machine->addState(GameState::PLAYING, playState);
-    SL_MESSAGE("States bound successfully");
+    SL_LOCAL_MESSAGE("States bound successfully", *m_renderer);
 
     m_player = NULL;
     
-    this->initApp();
+    this->App::initApp(0, m_renderer);
     m_spawntask =  new sad::PeriodicalEventPollProcess(NULL);
-    sad::Renderer::ref()->pipeline()->append(m_spawntask);
+    m_renderer->pipeline()->append(m_spawntask);
 
     m_walls = NULL;
     m_registered_supershooting_enemies_count = 0;
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void Game::startPlaying()
 {
     m_machine->enterState(GameState::PLAYING);
+}
+
+sad::Renderer* Game::renderer() const
+{
+    return m_renderer;
 }
 
 Game::~Game()
@@ -190,27 +200,99 @@ void Game::trySetHighscore(int score)
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void Game::tryToggleFullscreen()
 {
     if (isPlaying())
-        sad::Renderer::ref()->toggleFullscreen();
+        m_renderer->toggleFullscreen();
+}
+
+// ReSharper disable once CppMemberFunctionMayBeConst
+bool Game::trySetup()
+{
+    // Init logs with target streams to file  and console
+    sad::log::FileTarget * filetarget = new sad::log::FileTarget();
+    filetarget->open("log.txt");
+    
+    // A format for console is described as {date}: [file and line] [subsystem] message
+    sad::log::ConsoleTarget * consoletarget = new sad::log::ConsoleTarget(
+        "{0}: [{1}] {3}{2}{4}", 0, true
+    );
+    m_renderer->log()->addTarget(filetarget).addTarget(consoletarget);
+    
+    // Output executable path
+    SL_LOCAL_DEBUG   ("Executable path is ", *m_renderer);
+    SL_LOCAL_DEBUG   (sad::Renderer::ref()->executablePath(), *m_renderer);
+
+    // Test console log images
+    SL_LOCAL_FATAL   ("This is sad::Game", *m_renderer);
+    SL_LOCAL_CRITICAL("It\'s a game about a very sad", *m_renderer);
+    SL_LOCAL_WARNING ("smiley face", *m_renderer);
+    SL_LOCAL_MESSAGE ("which wants to survive", *m_renderer);
+    SL_LOCAL_DEBUG   ("against other smiley faces", *m_renderer);
+    SL_LOCAL_USER    ("it\'s sure will be hard for him...", *m_renderer, "END");
+
+    // Inits a renderer as non-fullscreen 640x480 window
+
+    sad::ObjectDependentFPSInterpolation * fps = new sad::ObjectDependentFPSInterpolation();
+    fps->setRenderer(m_renderer);
+    m_renderer->setFPSInterpolation(fps);
+
+    m_renderer->init(sad::Settings(640,480,false));
+
+    SL_LOCAL_MESSAGE("Renderer successfully initialized!", *m_renderer);	
+    // Inits generator for spawns and random raings
+    srand(static_cast<unsigned int>(time(NULL)));
+
+    //Loading resources
+    bool result = true; 
+    sad::Vector<sad::resource::Error *> errors = m_renderer->loadResources("examples/game/resources.json");
+    sad::String errortext;
+    if (errors.size() != 0)
+    {
+        result = false;
+        SL_LOCAL_FATAL(sad::resource::format(errors), *m_renderer);
+    } 
+    sad::util::free(errors);
+
+    if (!result)
+    {
+        return false;
+    }
+
+    SL_LOCAL_MESSAGE("Resources successfully loaded", *m_renderer);
+
+    // Set cursor
+    sad::Sprite2D* a = new sad::Sprite2D(
+        m_renderer->texture("objects"),
+        sad::Rect2D(sad::Point2D(441,32),sad::Point2D(457,48)),
+        sad::Rect2D(sad::Point2D(-8, -8), sad::Point2D(8, 8))
+    );
+    m_renderer->cursor()->setImage(a);
+
+    return result;
+}
+
+// ReSharper disable once CppMemberFunctionMayBeConst
+void Game::initialize()
+{
+    m_renderer->setWindowTitle("sad::Game");
+    
+    // Set window size to be fixed
+    m_renderer->makeFixedSize();
+
+    m_machine->enterState(GameState::START);
+    // Run an engine, starting a main loop
+    SL_LOCAL_MESSAGE("Will start now", *m_renderer);    
 }
 
 void Game::run()
 {
-    sad::Renderer::ref()->setWindowTitle("sad::Game");
-    
-    // Set window size to be fixed
-    sad::Renderer::ref()->makeFixedSize();
-
-    m_machine->enterState(GameState::START);
-    // Run an engine, starting a main loop
-    SL_MESSAGE("Will start now");	
-
-    sad::Renderer::ref()->run();
+    m_renderer->run();
 }
 
-Player * Game::player()
+// ReSharper disable once CppMemberFunctionMayBeConst
+Player* Game::player()
 {
     return m_player;
 }
@@ -222,12 +304,47 @@ void Game::increasePlayerScore(int delta)
 
 void Game::increasePlayerHealth(int by)
 {
-    this->player()->incrementHP(by);
+    if (m_machine->isInState(GameState::PLAYING)) 
+    {
+        this->player()->incrementHP(by);
+    }
 }
 
 void Game::decreasePlayerHealth(int by)
 {
-    this->player()->decrementHP(by);
+    if (m_machine->isInState(GameState::PLAYING)) 
+    {
+        this->player()->decrementHP(by);
+    }
+}
+
+void Game::killEnemies()
+{
+    if (m_machine->isInState(GameState::PLAYING)) 
+    {
+        const sad::Vector<sad::SceneNode*>& objects = this->scene()->objects();
+        
+        // Filter enemies
+        sad::Vector<sad::SceneNode*> enemies;
+        sad::Hash<sad::String, bool>  sets;
+        sets.insert("Enemy", true);
+        sets.insert("EnemyBullet", true);
+        sets.insert("ShootingEnemy", true);
+        sets.insert("SuperShootingEnemy", true);
+        for(size_t i = 0; i < objects.size(); i++)
+        {
+            if (sets.contains(objects[i]->className()))
+            {
+                enemies << objects[i];
+            }
+        }
+
+        // Remove all of theme at once
+        for(size_t i = 0; i < enemies.size(); i++)
+        {
+            this->removeObject(static_cast<sad::p2d::app::Object*>(enemies[i]));
+        }
+    }
 }
 
 void Game::leaveStartingScreen()
@@ -240,6 +357,8 @@ void Game::leaveStartingScreen()
     m_registered_supershooting_enemies_count = 0;
 }
 
+// ReSharper disable once CppMemberFunctionMayBeStatic
+// ReSharper disable once CppMemberFunctionMayBeConst
 void Game::leavePlayingScreen()
 {
     // We don't leave screen here, because it can be called from p2d::World::step()
@@ -251,8 +370,8 @@ void Game::enterStartingScreen()
 {
     // See Game::moveToPlayingScreen. We should perform change from here,
     // otherwise, execution chain will break
-    SL_SCOPE("Game::enterStartingScreen()");
-    sad::Renderer::ref()->pipeline()->appendTask(this, &Game::moveToStartingScreen);
+    SL_LOCAL_SCOPE("Game::enterStartingScreen()", *m_renderer);
+    m_renderer->pipeline()->appendTask(this, &Game::moveToStartingScreen);
 } 
 
 
@@ -261,7 +380,7 @@ void Game::enterPlayingScreen()
     m_ispaused = false;
     sad::Scene * sc = this->scene();
 
-    sad::Texture * tex = sad::Renderer::ref()->texture("background");
+    sad::Texture * tex = m_renderer->texture("background");
     sad::Sprite2D * background = new sad::Sprite2D(
         tex, 
         sad::Rect2D(0, 0, 512, 512),
@@ -271,6 +390,7 @@ void Game::enterPlayingScreen()
 
     sad::FormattedLabel * label = new sad::FormattedLabel();
     label->setFont("font");
+    label->setTreeName(m_renderer, "");
     label->setPoint(0, 480);
     label->setUpdateInterval(200);
     label->setSize(23);
@@ -279,7 +399,7 @@ void Game::enterPlayingScreen()
     label->arg(this, &Game::player, &GameObject::hitPoints);
     label->arg(this, &Game::player, &Player::score);
     label->arg(this, &Game::highscore);
-    label->argFPS();
+    label->argFPS(m_renderer);
 
     sc->add(label);
     m_spawntask->setEvent(new EnemySpawn(this) );
@@ -323,7 +443,7 @@ void Game::removeObject(sad::p2d::app::Object *o)
 }
 
 
-
+// ReSharper disable once CppMemberFunctionMayBeConst
 const sad::String & Game::state()
 {
     return m_machine->currentState();
@@ -382,7 +502,8 @@ void Game::onWallCollision(const sad::p2d::CollisionEvent<sad::p2d::Wall, GameOb
 }
 
 
-
+// ReSharper disable once CppMemberFunctionMayBeConst
+// ReSharper disable once CppMemberFunctionMayBeStatic
 void Game::onBonusCollision(const sad::p2d::CollisionEvent<Player, Bonus> & ev)
 {
     ev.object2().decrementHP(1);
@@ -411,24 +532,32 @@ void Game::onPlayerBulletSuperEnemy(const sad::p2d::CollisionEvent<PlayerBullet,
     this->player()->increaseScore(400);
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
+// ReSharper disable once CppMemberFunctionMayBeStatic
 void Game::onPlayerEnemyBullet(const sad::p2d::CollisionEvent<Player, EnemyBullet> & ev)
 {
     ev.object2().decrementHP(ev.object2().hitPoints());
     ev.object1().decrementHP(1);
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
+// ReSharper disable once CppMemberFunctionMayBeStatic
 void Game::onPlayerEnemy(const sad::p2d::CollisionEvent<Player, Enemy> & ev)
 {
     ev.object2().decrementHP(ev.object2().hitPoints());
     ev.object1().decrementHP(1);
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
+// ReSharper disable once CppMemberFunctionMayBeStatic
 void Game::onPlayerShootingEnemy(const sad::p2d::CollisionEvent<Player, ShootingEnemy> & ev)
 {
     ev.object2().decrementHP(ev.object2().hitPoints());
     ev.object1().decrementHP(1);
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
+// ReSharper disable once CppMemberFunctionMayBeStatic
 void Game::onPlayerSuperShootingEnemy(const sad::p2d::CollisionEvent<Player, SuperShootingEnemy> & ev)
 {
     ev.object2().decrementHP(ev.object2().hitPoints());
@@ -438,8 +567,8 @@ void Game::onPlayerSuperShootingEnemy(const sad::p2d::CollisionEvent<Player, Sup
 
 void Game::moveToStartingScreen()
 {
-    SL_SCOPE("Game::moveToStartingScreen()");
-    sad::Renderer::ref()->setScene(new sad::Scene());
+    SL_LOCAL_SCOPE("Game::moveToStartingScreen()", *m_renderer);
+    m_renderer->setScene(new sad::Scene());
     delete m_world;
     createWorld();
     m_steptask->setWorld(m_world);
@@ -449,7 +578,7 @@ void Game::moveToStartingScreen()
     sad::Scene * sc = this->scene();
 
     // Fill screne with background, label and rain of element (the last object does that).
-    sad::Texture * tex = sad::Renderer::ref()->texture("title");
+    sad::Texture * tex = m_renderer->texture("title");
     sad::Sprite2D * background = new sad::Sprite2D(
         tex, 
         sad::Rect2D(0, 0, 640, 480),
@@ -459,6 +588,7 @@ void Game::moveToStartingScreen()
     
     sad::FormattedLabel  * label = new sad::FormattedLabel();
     label->setFont("font");
+    label->setTreeName(m_renderer, "");
     label->setSize(23);
     label->setColor(sad::AColor(255, 255, 255));
     label->setPoint(260, 240);

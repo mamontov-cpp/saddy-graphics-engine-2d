@@ -15,6 +15,10 @@ namespace os
 {
 class SystemEventDispatcher;
 }
+/*!
+ * A value, so main loop will be run only once
+ */
+#define SAD_MAIN_LOOP_RUN_ONLY_ONCE  (true)
 
 /*! Describes a main event loop.
     Note, that you should not directly use this class,
@@ -38,23 +42,30 @@ public:
      */
     virtual sad::Renderer * renderer() const;
     /*! Runs a main loop
+        \param[in] once if once, loop will be run only once
      */
-    void run();
+    virtual void run(bool once = false);
     /*! Stops a main loop by setting a running flag to false
      */
     void stop();
     /*! Returns current dispatcher for loop
         \return dispatcher for loop
      */
-    sad::os::SystemEventDispatcher *  dispatcher();
+    virtual sad::os::SystemEventDispatcher *  dispatcher();
     /*! Determines, whether main loop is running
         \return whether main loop is running
      */
-    bool running() const;	
+    bool running() const;
+    /*! Should called in run() before perform() to perform crucial system settings
+     */
+    virtual void initMainLoop();
+    /*! Deinits main loop after finishing it
+     */
+    virtual void deinitMainLoop();
 protected:
     /*! Tries to elevate priority of current process, when performing main loop
      */
-    void tryElevatePriority();
+    virtual void tryElevatePriority();
     /*! Tries to set emergency handler, which should handle case, when user
         closes console window on Windows
      */
@@ -63,22 +74,19 @@ protected:
         renderers. That is done because of implementation of event system on
         windows platform.
      */
-    void registerRenderer();
+    virtual void registerRenderer();
     /*! Unregisters current renderer in a Windows platform in table of current 
         renderers. That is done because of implementation of event system on
         windows platform.
      */
-    void unregisterRenderer();
+    virtual void unregisterRenderer();
     /*! Initializes keyboard locales on Linux, allowing to handle keyboard langugage
         switch.
      */
-    void initKeyboardInput();
+    virtual void initKeyboardInput();
     /*! Forces built-in OS scheduler switch to other processes
      */
     void forceSchedulerSwitchToOtherProcesses();
-    /*! A real unchecked main loop function.
-     */
-    void perform();
     /*! Determines, whether main loop is running
      */
     bool m_running;

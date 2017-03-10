@@ -17,7 +17,7 @@ void sad::dukpp03::WrapValue::perform(void* context, void* variant, bool wrapped
             {
                 sad::dukpp03::ClassBinding* binding = new sad::dukpp03::ClassBinding();
                 binding->registerSchema(object->schema());
-				binding->addMethod("className", sad::dukpp03::bind_method::from(&sad::db::Object::serializableName));
+                binding->addMethod("className", sad::dukpp03::bind_method::from(&sad::db::Object::serializableName));
                 binding->wrapValue(ctx);
                 ctx->addClassBinding(object->serializableName(), binding);  
             }

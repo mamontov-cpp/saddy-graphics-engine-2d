@@ -1,4 +1,4 @@
-/*! \file timerinteface.h
+/*! \file timerinterface.h
   
     Defines a TimerInterface, based on sad::Timer
  */

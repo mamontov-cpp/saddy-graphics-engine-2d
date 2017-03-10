@@ -65,7 +65,7 @@ public:
     /*! Saves database to string
         \return output string
      */
-	sad::String save();
+    sad::String save();
     /*! Saves database to file
         \param[in] filename a name of file
      */
@@ -106,20 +106,20 @@ public:
      */
     virtual sad::db::Property* propertyByName(const sad::String & name) const;
 
-	/*! Sets database property
-	    \param[in] name a name
-	    \param[in] v variant
-	 */
-	bool setDBProperty(const sad::String& name, sad::db::Variant& v);
-	/*! Checks if database has specified property
-	    \param[in] name a name of property
-	 */
-	bool hasDBProperty(const sad::String& name) const;
-	/*! Returns database property
-	    \param[in] name a name of property
-	    \return a property
-	 */
-	sad::Maybe<sad::db::Variant> getDBProperty(const sad::String& name);
+    /*! Sets database property
+        \param[in] name a name
+        \param[in] v variant
+     */
+    bool setDBProperty(const sad::String& name, sad::db::Variant& v);
+    /*! Checks if database has specified property
+        \param[in] name a name of property
+     */
+    bool hasDBProperty(const sad::String& name) const;
+    /*! Returns database property
+        \param[in] name a name of property
+        \return a property
+     */
+    sad::Maybe<sad::db::Variant> getDBProperty(const sad::String& name);
     /*! Tries to set property to a value 
         \param[in] name a name of property
         \param[in] value a value of property
@@ -302,14 +302,14 @@ public:
         \param[out] tables a tables in database
      */
     void getTables(sad::Vector<sad::Pair<sad::String, sad::db::Table*> > & tables) const;
-	/*! Returns table list from a database
-	    \return table list
-	 */
-	sad::Vector<sad::Pair<sad::String, sad::db::Table*> > tableList() const;
-	/*! Returns property names list
-	    \return list of properties
-	 */
-	sad::Vector<sad::String> propertyNames() const;
+    /*! Returns table list from a database
+        \return table list
+     */
+    sad::Vector<sad::Pair<sad::String, sad::db::Table*> > tableList() const;
+    /*! Returns property names list
+        \return list of properties
+     */
+    sad::Vector<sad::String> propertyNames() const;
     /*! Returns object factory for a database
         \return  object factory for a database
      */

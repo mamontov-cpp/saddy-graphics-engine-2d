@@ -1,7 +1,9 @@
 @echo off
 SET VALID=0
+SET CHECKQTVERTOOL=bin/is580-debug.exe
 if [%1] EQU [Debug]  SET VALID=1
 if [%1] EQU [Release]  SET VALID=1
+if [%1] EQU [Release] SET CHECKQTVERTOOL=bin/is580-release.exe
 if [%VALID%] EQU [0]  (
 	echo Build script for all libraries for Microsoft Visual C++. Just run it from Command line of Visual Studio  
     echo Syntax:

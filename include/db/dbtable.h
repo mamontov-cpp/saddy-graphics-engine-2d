@@ -58,7 +58,7 @@ public:
         \return an object or null if not found
      */
     virtual sad::db::Object* objectByName(const sad::String& name);
-	/*! Queries objects from table by major id field
+    /*! Queries objects from table by major id field
         \param[in] major_id an id
         \return	an object, or null if not found
      */
@@ -92,15 +92,15 @@ public:
         \param[out] o objects
      */
     virtual void objects(sad::Vector<sad::db::Object*> & o);
-	/*! Returns object list from table
-	    \return object list from table
-	 */
-	sad::Vector<sad::db::Object*> objectList();
-	/*! Returns object list from table with only objects of specified type
-	    \param[in] s string
-	    \return object list from table
-	 */
-	sad::Vector<sad::db::Object*> objectListOfType(const sad::String& s);
+    /*! Returns object list from table
+        \return object list from table
+     */
+    sad::Vector<sad::db::Object*> objectList();
+    /*! Returns object list from table with only objects of specified type
+        \param[in] s string
+        \return object list from table
+     */
+    sad::Vector<sad::db::Object*> objectListOfType(const sad::String& s);
     /*! Fetches objects of specified type from table
         \param[out] o objects
      */

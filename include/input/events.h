@@ -159,9 +159,9 @@ public:
     
     }
 
-	inline int key() const
+    inline int key() const
     {
-	    return Key;
+        return Key;
     }
     /*! Kept, for purpose of inheritance
      */
@@ -269,9 +269,9 @@ public:
 
     }
 
-	inline int button() const
+    inline int button() const
     {
-	    return Button;
+        return Button;
     }
     /*! Kept, for purpose of inheritance
      */

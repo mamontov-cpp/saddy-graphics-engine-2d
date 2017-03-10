@@ -126,10 +126,10 @@ sad::String sad::keyToString(sad::KeyboardKey key)
 
 int sad::defaultKeyIfNotValidAsInt(int key, int d)
 {
-	return static_cast<sad::KeyboardKey>(sad::defaultKeyIfNotValid(static_cast<sad::KeyboardKey>(key), static_cast<sad::KeyboardKey>(d)));
+    return static_cast<sad::KeyboardKey>(sad::defaultKeyIfNotValid(static_cast<sad::KeyboardKey>(key), static_cast<sad::KeyboardKey>(d)));
 }
 
 sad::String sad::keyToStringAsInt(int key)
 {
-	return sad::keyToString(static_cast<sad::KeyboardKey>(key));
+    return sad::keyToString(static_cast<sad::KeyboardKey>(key));
 }

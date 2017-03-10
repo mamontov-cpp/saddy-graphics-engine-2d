@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>791</width>
+    <height>521</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>sad::Game example instrumented</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="sad::qt::OpenGLWidget" name="glWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>640</width>
+      <height>480</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnIncrementHealth">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>30</y>
+      <width>121</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Increment health</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnIncrementScore">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>70</y>
+      <width>121</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Increment score</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnKillAllEnemies">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>110</y>
+      <width>121</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Kill all enemies</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnStartGame">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>460</y>
+      <width>121</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Start game</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnQuitGame">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>490</y>
+      <width>121</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Quit game</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblGameHint">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>10</y>
+      <width>291</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Click  on widget to play game, using keyboard</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>sad::qt::OpenGLWidget</class>
+   <extends>QOpenGLWidget</extends>
+   <header>../../include/qt/sadqtopenglwidget.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

@@ -43,7 +43,8 @@ template<
 struct LocalFinalizer
 {
     /*! Returns finalization function
-     
+    
+        \param[in] o object
         \param[in] ctx context
         \return context result
      */
@@ -78,6 +79,7 @@ struct LocalFinalizer<_Type, true>
 
     /*! Returns finalization function
      
+        \param[in] o object
         \param[in] ctx context
         \return context result
      */
@@ -96,12 +98,15 @@ struct LocalFinalizer<_Type, true>
 
 /*! A finalizer for objects, that adds reference to it and also, removes it when object is finalized
     \param[in] o object
-    \param[in] 
+    \param[in] ctx context
     \return finalizer function, which delete reference if needed
  */
 ::dukpp03::FinalizerFunction finalizerMaker(sad::db::Object* o, sad::dukpp03::BasicContext* ctx);
 
 /*! Returns default finalizer function
+    \param[in] o object
+    \param[in] ctx context
+    \return result
  */
 template<
     typename T

@@ -27,7 +27,7 @@ sad::Vector<T>::~Vector()
 template<
     typename T
 >
-inline unsigned long sad::Vector<T>::count() const              
+inline size_t sad::Vector<T>::count() const              
 {
     return this->size();
 }

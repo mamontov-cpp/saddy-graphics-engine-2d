@@ -15,8 +15,8 @@ void EnemySpawn::perform()
         // Compute position for new object
         double padding  = 12; // A small paddings out of scren borders
         double xmin = padding,  ymin = padding; 
-        double xmax = sad::Renderer::ref()->settings().width() - padding;
-        double ymax = sad::Renderer::ref()->settings().height() - padding;
+        double xmax = m_game->renderer()->settings().width() - padding;
+        double ymax = m_game->renderer()->settings().height() - padding;
         double x, y;
         x=(static_cast<double>(rand())/RAND_MAX)*(xmax - xmin) + xmin; 
         y=(static_cast<double>(rand())/RAND_MAX)*(ymax - ymin) + ymin; 

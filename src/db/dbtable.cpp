@@ -216,12 +216,12 @@ sad::Vector<sad::db::Object*> sad::db::Table::queryByName(const sad::String& nam
 
 sad::db::Object* sad::db::Table::objectByName(const sad::String& name)
 {
-	sad::Vector<sad::db::Object*> objects = this->queryByName(name);
-	if (objects.size())
-	{
-		return objects[0];
-	}
-	return NULL;
+    sad::Vector<sad::db::Object*> objects = this->queryByName(name);
+    if (objects.size())
+    {
+        return objects[0];
+    }
+    return NULL;
 }
 
 sad::db::Object* sad::db::Table::queryByMajorId(unsigned long long major_id)
@@ -336,29 +336,29 @@ void sad::db::Table::objects(sad::Vector<sad::db::Object*> & o)
 
 sad::Vector<sad::db::Object*> sad::db::Table::objectList()
 {
-	sad::Vector<sad::db::Object*> result;
+    sad::Vector<sad::db::Object*> result;
     for(sad::Hash<unsigned long long, sad::db::Object*>::iterator it = m_objects_by_minorid.begin(); 
         it != m_objects_by_minorid.end();
         ++it)
     {
         result << it.value();
     }
-	return result;
+    return result;
 }
 
 sad::Vector<sad::db::Object*>  sad::db::Table::objectListOfType(const sad::String& s)
 {
-	sad::Vector<sad::db::Object*> result;
+    sad::Vector<sad::db::Object*> result;
     for(sad::Hash<unsigned long long, sad::db::Object*>::iterator it = m_objects_by_minorid.begin(); 
         it != m_objects_by_minorid.end();
         ++it)
     {
-		if (it.value()->isInstanceOf(s)) 
-		{
-			result << it.value();
-		}
+        if (it.value()->isInstanceOf(s)) 
+        {
+            result << it.value();
+        }
     }
-	return result;	
+    return result;	
 }
 
 void sad::db::Table::changeObjectName(

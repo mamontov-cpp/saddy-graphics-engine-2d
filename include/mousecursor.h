@@ -116,6 +116,10 @@ public:
      */
     virtual void removeHandlersIfNeeded();
 protected:
+    /*! Applies required cursor transfomration for rendering 
+        custom cursor
+     */
+    virtual void applyCursorTransformations();
     /*! Shows default cursor
      */
     virtual void showDefaultCursor();	

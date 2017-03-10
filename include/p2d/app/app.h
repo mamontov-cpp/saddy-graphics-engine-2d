@@ -51,6 +51,7 @@ protected:
     p2d::World   * m_world;          //!< A physical engine world
     p2d::WorldStepTask * m_steptask; //!< A main step task, used to work with world
     unsigned int         m_layer;    //!< A layer of scene, which should layer work with
+    sad::Renderer* m_renderer; //!< A renderer fir application;
 protected:
     /*! Returns current in-game scene. A helper function for renderer's scene
         \return scene from renderer

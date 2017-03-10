@@ -1,0 +1,3049 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;cxx;c;def</Extensions>
+    </Filter>
+    <Filter Include="Source Files\core">
+      <UniqueIdentifier>{fc274215-f8ea-48f7-9eeb-ff5c24097695}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core\typeconverters">
+      <UniqueIdentifier>{e83866a6-800d-454f-8735-f14d85bdd597}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core\borders">
+      <UniqueIdentifier>{0c4c75ca-72e0-4ec7-a76b-464083b2a28a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui">
+      <UniqueIdentifier>{c1a39a3c-80e1-4658-af9c-e7a43e1e663e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui\colorpicker">
+      <UniqueIdentifier>{1599b49d-2f81-41ee-9f9e-9ce7a969d501}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui\resourcetreewidget">
+      <UniqueIdentifier>{1123ef03-d581-464e-861a-e9eb570a90b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui\fontsizewidget">
+      <UniqueIdentifier>{b181f57a-1e3f-4051-9f76-1763c9be57a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui\rectwidget">
+      <UniqueIdentifier>{5b7b33fd-f520-4b1f-b60e-05b2933ee590}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui\anglewidget">
+      <UniqueIdentifier>{b87345a3-78df-4c6e-abe0-8460e8b69ff8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui\table">
+      <UniqueIdentifier>{fc5aead0-5340-4494-ab9e-6e707346af36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui\colorview">
+      <UniqueIdentifier>{285ef1d3-d6ac-4aa8-99f0-63879a5712b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui\tuplewidget">
+      <UniqueIdentifier>{44d0300a-0cf2-4c8b-a288-c004fbbea456}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\history">
+      <UniqueIdentifier>{2efacc4a-3ddc-4698-b96c-eaa471fa21ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\history\database">
+      <UniqueIdentifier>{d61f9605-2d91-417c-89f2-85f9eb3d9203}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\history\scenes">
+      <UniqueIdentifier>{b5e3c6ad-f9e8-4ff7-ad29-46928d9523a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\history\scenenodes">
+      <UniqueIdentifier>{797b50d6-7f2c-4515-a75f-5555cceb1225}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\history\label">
+      <UniqueIdentifier>{6df05642-e8b8-42c2-8139-20e6e879baad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\history\sprite2d">
+      <UniqueIdentifier>{9c9ef4ee-8a46-41f6-9fb9-d3bdbb13f22e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\history\customobject">
+      <UniqueIdentifier>{bb2e4a35-786a-4fe9-a37b-0ffeae2c24ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\history\ways">
+      <UniqueIdentifier>{b78768f7-ead4-4a7d-80ab-e13817efb4c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\history\dialogues">
+      <UniqueIdentifier>{4d8e9532-4e1f-47c0-9fbf-af51c4596629}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h</Extensions>
+    </Filter>
+    <Filter Include="Header Files\core">
+      <UniqueIdentifier>{b2966869-0312-4578-b7ec-e8c17733928f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core\typeconverters">
+      <UniqueIdentifier>{60dbb240-c6c2-416a-b7de-a90fa1c2f18f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core\borders">
+      <UniqueIdentifier>{e71bdfc0-e137-4986-b200-8f5eba318c43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\gui">
+      <UniqueIdentifier>{f104ea1c-47c8-4b12-85ee-6308811a2981}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\gui\colorpicker">
+      <UniqueIdentifier>{ddfa3731-3d1f-4757-bf51-5509748f62e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\gui\resourcetreewidget">
+      <UniqueIdentifier>{20b01185-f1df-4577-804c-7183cdf07f20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\gui\fontsizewidget">
+      <UniqueIdentifier>{6c4cb158-3423-421b-92de-e8f3d7f05e0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\gui\rectwidget">
+      <UniqueIdentifier>{ee4d386c-19ae-44eb-9f7a-472e0fdf49e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\gui\anglewidget">
+      <UniqueIdentifier>{e2278dae-1e51-4e66-9a90-32c3cb431fc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\gui\table">
+      <UniqueIdentifier>{a648899d-c2bc-452e-a34e-f4fe8e6d53d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\gui\colorview">
+      <UniqueIdentifier>{0da327cc-7964-4d22-a6ab-e24fabc225ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\gui\tuplewidget">
+      <UniqueIdentifier>{b7fa2630-44bc-4f03-9506-79d1a05be9e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\history">
+      <UniqueIdentifier>{9ab8774a-baaf-42ac-98e1-3b05ae4ef386}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\history\database">
+      <UniqueIdentifier>{ec49af0c-58fc-4757-a0f7-f8701c47a6fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\history\scenes">
+      <UniqueIdentifier>{03b251e3-3f29-45aa-95db-c7e9b7ac180e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\history\scenenodes">
+      <UniqueIdentifier>{a89503ea-a270-44a2-b03f-f1ea874b98c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\history\label">
+      <UniqueIdentifier>{c101e37e-6cad-40f1-902c-d10fea77b3d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\history\customobject">
+      <UniqueIdentifier>{f3e0b1e7-c359-46da-ba6e-6ce9e9709401}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\history\ways">
+      <UniqueIdentifier>{89fad731-96cd-4ffb-b995-3d430cf0bf36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\history\dialogues">
+      <UniqueIdentifier>{4f752d2b-98f1-4cd8-915c-8029b5f1354d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{916621c6-aade-4af7-8791-15efd4ecd71f}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{2b0bb6e4-a379-4976-b317-a08296a76abd}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\UnitTests">
+      <UniqueIdentifier>{a20e13e6-0474-4b76-b269-b35c57bef053}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\GUITests">
+      <UniqueIdentifier>{1c0216c5-7df3-4a5b-9440-e396cdbebe33}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Template">
+      <UniqueIdentifier>{2cd2b95d-b923-4a27-acd9-f0e7c6b5975a}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Header Files\history\animations">
+      <UniqueIdentifier>{9b0124c5-6526-4329-b508-0e36231750c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\history\animations">
+      <UniqueIdentifier>{60150674-fcd6-405f-ab94-8df70007508b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\gui\textedit">
+      <UniqueIdentifier>{6dfa973d-7a5b-4db4-9503-109eec1d375b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui\textedit">
+      <UniqueIdentifier>{86abca7e-221f-4550-ad78-75bb2a05440d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\history\instances">
+      <UniqueIdentifier>{17ebad58-0b39-4de7-a917-737b9cf80d35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\history\instances">
+      <UniqueIdentifier>{1e46b1f7-27b3-42ff-bfc2-0a3dcfdc6663}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\history\groups">
+      <UniqueIdentifier>{ce7cd605-8f8d-49a4-a224-ed36ae9cd7bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\history\groups">
+      <UniqueIdentifier>{f3e028a7-5e3b-4065-bb7b-8fd6271a8bf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\gui\codeedit">
+      <UniqueIdentifier>{1b934659-813d-4875-becd-439e5a7456e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui\codeedit">
+      <UniqueIdentifier>{123225a8-1232-4393-8275-357420c1c3b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\scripting">
+      <UniqueIdentifier>{0ccc490b-9ee9-4a6a-aef2-b1bf49e8efaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\scripting">
+      <UniqueIdentifier>{459aba1d-7493-4957-bfea-240e0b6c01d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\scripting\scenes">
+      <UniqueIdentifier>{3357b173-cefe-40b2-a78c-1d82c67c0fcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\scripting\scenes">
+      <UniqueIdentifier>{31edf155-bcc5-4986-82ac-c154666a8043}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\history\sprite2d">
+      <UniqueIdentifier>{6474925e-8f36-4357-9c36-6da3c9f6cfc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\scripting\database">
+      <UniqueIdentifier>{559c500f-d617-40a1-815f-b07386a41b2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\scripting\database">
+      <UniqueIdentifier>{ff88a47c-6202-4155-a870-9988a1cc552b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\scripting\scenenodes">
+      <UniqueIdentifier>{c9736a36-87be-463f-87d9-f2ae31309cd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\scripting\scenenodes">
+      <UniqueIdentifier>{8e83bbcc-81bd-4f01-9068-e94061d67d3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\scripting\ways">
+      <UniqueIdentifier>{d4891f1f-8650-4298-b721-e69d0bc57279}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\scripting\ways">
+      <UniqueIdentifier>{48cc69c2-5841-4ad6-8247-c0c0b439630a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\scripting\dialogues">
+      <UniqueIdentifier>{ba4ddf84-9088-43bd-be46-5d26088ae702}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\scripting\dialogues">
+      <UniqueIdentifier>{acdd10e8-382e-4978-971a-4d2f7cbd589e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\scripting\animations">
+      <UniqueIdentifier>{79cabb34-f5ec-449e-9e4f-d01a0538d4e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\scripting\animations">
+      <UniqueIdentifier>{7ae8b2ae-6646-4eb7-8a31-b82b73f363d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\scripting\instances">
+      <UniqueIdentifier>{bbf8fc58-2338-45c7-8032-386f60dc8759}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\scripting\instances">
+      <UniqueIdentifier>{23ba60cd-289e-4b81-9458-503e8546459a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\scripting\groups">
+      <UniqueIdentifier>{1c52e55a-79a5-4d37-9344-165a290f15bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\scripting\groups">
+      <UniqueIdentifier>{4258c26c-8d50-4961-bec9-ab5a5b714602}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\gui\uiblocks">
+      <UniqueIdentifier>{dd239388-f861-486a-a2da-1e25cea7becc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui\uiblocks">
+      <UniqueIdentifier>{4c0c4953-7d25-42f2-a1c8-70e3ca6a2bb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\gui\actions">
+      <UniqueIdentifier>{a1c1f0fc-1be7-4c62-81fe-745d25aa9bd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui\actions">
+      <UniqueIdentifier>{5b40465e-7944-4966-8eec-68a73b411e5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\gui\layouts">
+      <UniqueIdentifier>{e51a762d-29b5-4596-990a-cb733908d765}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui\layouts">
+      <UniqueIdentifier>{480ec19b-0287-4f4c-883d-0e155d1d0c57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\history\layouts">
+      <UniqueIdentifier>{904a1901-208a-44d0-b895-85e5f1e589c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\history\layouts">
+      <UniqueIdentifier>{1904446a-a4e4-460f-89f2-4a9437338254}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\scripting\layouts">
+      <UniqueIdentifier>{95b98f43-e92e-4297-90dc-22cefcd3f6f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\scripting\layouts">
+      <UniqueIdentifier>{7811f345-bcb1-4cee-bbba-0d0ae541c170}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="acolordialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mainpanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="qwwlongspinbox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="qwwulongspinbox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="reloadfilelist.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="wwglobal_p.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\editor.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\qttarget.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\saddythread.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\selection.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\shared.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\synchronization.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\typeconverters\qcolortosadacolor.cpp">
+      <Filter>Source Files\core\typeconverters</Filter>
+    </ClCompile>
+    <ClCompile Include="core\typeconverters\qcolortosadcolor.cpp">
+      <Filter>Source Files\core\typeconverters</Filter>
+    </ClCompile>
+    <ClCompile Include="core\typeconverters\qlistqlistqcolortosadvectorsadvectoracolor.cpp">
+      <Filter>Source Files\core\typeconverters</Filter>
+    </ClCompile>
+    <ClCompile Include="core\typeconverters\qrectftosadrect2d.cpp">
+      <Filter>Source Files\core\typeconverters</Filter>
+    </ClCompile>
+    <ClCompile Include="core\typeconverters\qstringtosadstring.cpp">
+      <Filter>Source Files\core\typeconverters</Filter>
+    </ClCompile>
+    <ClCompile Include="core\typeconverters\sadacolortoqcolor.cpp">
+      <Filter>Source Files\core\typeconverters</Filter>
+    </ClCompile>
+    <ClCompile Include="core\typeconverters\sadcolortoqcolor.cpp">
+      <Filter>Source Files\core\typeconverters</Filter>
+    </ClCompile>
+    <ClCompile Include="core\typeconverters\sadrect2dtoqrectf.cpp">
+      <Filter>Source Files\core\typeconverters</Filter>
+    </ClCompile>
+    <ClCompile Include="core\typeconverters\sadstringtoqstring.cpp">
+      <Filter>Source Files\core\typeconverters</Filter>
+    </ClCompile>
+    <ClCompile Include="core\typeconverters\sadvectorsadvectoracolortoqlistqlistqcolor.cpp">
+      <Filter>Source Files\core\typeconverters</Filter>
+    </ClCompile>
+    <ClCompile Include="core\borders\activeborder.cpp">
+      <Filter>Source Files\core\borders</Filter>
+    </ClCompile>
+    <ClCompile Include="core\borders\border.cpp">
+      <Filter>Source Files\core\borders</Filter>
+    </ClCompile>
+    <ClCompile Include="core\borders\deletehotspot.cpp">
+      <Filter>Source Files\core\borders</Filter>
+    </ClCompile>
+    <ClCompile Include="core\borders\resizehotspot.cpp">
+      <Filter>Source Files\core\borders</Filter>
+    </ClCompile>
+    <ClCompile Include="core\borders\selectionborder.cpp">
+      <Filter>Source Files\core\borders</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\eventfilter.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\renderways.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\rotationprocess.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\resourcetreewidget\cell.cpp">
+      <Filter>Source Files\gui\resourcetreewidget</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\resourcetreewidget\celldelegate.cpp">
+      <Filter>Source Files\gui\resourcetreewidget</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\resourcetreewidget\defaultimage.cpp">
+      <Filter>Source Files\gui\resourcetreewidget</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\resourcetreewidget\resourcecache.cpp">
+      <Filter>Source Files\gui\resourcetreewidget</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\resourcetreewidget\resourcetreewidget.cpp">
+      <Filter>Source Files\gui\resourcetreewidget</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\fontsizewidget\fontsizewidget.cpp">
+      <Filter>Source Files\gui\fontsizewidget</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\rectwidget\rectwidget.cpp">
+      <Filter>Source Files\gui\rectwidget</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\anglewidget\anglewidget.cpp">
+      <Filter>Source Files\gui\anglewidget</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\table\delegate.cpp">
+      <Filter>Source Files\gui\table</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\table\delegatefactory.cpp">
+      <Filter>Source Files\gui\table</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\table\doubledelegate.cpp">
+      <Filter>Source Files\gui\table</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\table\floatdelegate.cpp">
+      <Filter>Source Files\gui\table</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\table\intdelegate.cpp">
+      <Filter>Source Files\gui\table</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\table\longdelegate.cpp">
+      <Filter>Source Files\gui\table</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\table\longlongdelegate.cpp">
+      <Filter>Source Files\gui\table</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\table\sadacolordelegate.cpp">
+      <Filter>Source Files\gui\table</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\table\sadcolordelegate.cpp">
+      <Filter>Source Files\gui\table</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\table\sadpoint2ddelegate.cpp">
+      <Filter>Source Files\gui\table</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\table\sadpoint2idelegate.cpp">
+      <Filter>Source Files\gui\table</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\table\sadsize2ddelegate.cpp">
+      <Filter>Source Files\gui\table</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\table\sadsize2idelegate.cpp">
+      <Filter>Source Files\gui\table</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\table\sadstringdelegate.cpp">
+      <Filter>Source Files\gui\table</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\table\shortdelegate.cpp">
+      <Filter>Source Files\gui\table</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\table\signedchardelegate.cpp">
+      <Filter>Source Files\gui\table</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\table\unsignedchardelegate.cpp">
+      <Filter>Source Files\gui\table</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\table\unsignedintdelegate.cpp">
+      <Filter>Source Files\gui\table</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\table\unsignedlongdelegate.cpp">
+      <Filter>Source Files\gui\table</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\table\unsignedlonglongdelegate.cpp">
+      <Filter>Source Files\gui\table</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\table\unsignedshortdelegate.cpp">
+      <Filter>Source Files\gui\table</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\colorview\colorview.cpp">
+      <Filter>Source Files\gui\colorview</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\tuplewidget\doubletuplewidget.cpp">
+      <Filter>Source Files\gui\tuplewidget</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\tuplewidget\int64tuplewidget.cpp">
+      <Filter>Source Files\gui\tuplewidget</Filter>
+    </ClCompile>
+    <ClCompile Include="history\command.cpp">
+      <Filter>Source Files\history</Filter>
+    </ClCompile>
+    <ClCompile Include="history\history.cpp">
+      <Filter>Source Files\history</Filter>
+    </ClCompile>
+    <ClCompile Include="history\database\newproperty.cpp">
+      <Filter>Source Files\history\database</Filter>
+    </ClCompile>
+    <ClCompile Include="history\database\removeproperty.cpp">
+      <Filter>Source Files\history\database</Filter>
+    </ClCompile>
+    <ClCompile Include="history\scenes\scenelayerswap.cpp">
+      <Filter>Source Files\history\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="history\scenes\scenesadd.cpp">
+      <Filter>Source Files\history\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="history\scenes\sceneschangename.cpp">
+      <Filter>Source Files\history\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="history\scenes\scenesclear.cpp">
+      <Filter>Source Files\history\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="history\scenes\scenesremove.cpp">
+      <Filter>Source Files\history\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="history\scenenodes\scenenodeschangeangle.cpp">
+      <Filter>Source Files\history\scenenodes</Filter>
+    </ClCompile>
+    <ClCompile Include="history\scenenodes\scenenodeschangearea.cpp">
+      <Filter>Source Files\history\scenenodes</Filter>
+    </ClCompile>
+    <ClCompile Include="history\scenenodes\scenenodeschangecolor.cpp">
+      <Filter>Source Files\history\scenenodes</Filter>
+    </ClCompile>
+    <ClCompile Include="history\scenenodes\scenenodeschangepropertywhichlinkedtocheckbox.cpp">
+      <Filter>Source Files\history\scenenodes</Filter>
+    </ClCompile>
+    <ClCompile Include="history\scenenodes\scenenodeschangevisibility.cpp">
+      <Filter>Source Files\history\scenenodes</Filter>
+    </ClCompile>
+    <ClCompile Include="history\scenenodes\scenenodeslayerswap.cpp">
+      <Filter>Source Files\history\scenenodes</Filter>
+    </ClCompile>
+    <ClCompile Include="history\scenenodes\scenenodesnew.cpp">
+      <Filter>Source Files\history\scenenodes</Filter>
+    </ClCompile>
+    <ClCompile Include="history\scenenodes\scenenodesremove.cpp">
+      <Filter>Source Files\history\scenenodes</Filter>
+    </ClCompile>
+    <ClCompile Include="history\scenenodes\scenesnodeschangename.cpp">
+      <Filter>Source Files\history\scenenodes</Filter>
+    </ClCompile>
+    <ClCompile Include="history\label\changefontname.cpp">
+      <Filter>Source Files\history\label</Filter>
+    </ClCompile>
+    <ClCompile Include="history\label\changefontsize.cpp">
+      <Filter>Source Files\history\label</Filter>
+    </ClCompile>
+    <ClCompile Include="history\label\changelinespacing.cpp">
+      <Filter>Source Files\history\label</Filter>
+    </ClCompile>
+    <ClCompile Include="history\label\changetext.cpp">
+      <Filter>Source Files\history\label</Filter>
+    </ClCompile>
+    <ClCompile Include="history\sprite2d\changeflipx.cpp">
+      <Filter>Source Files\history\sprite2d</Filter>
+    </ClCompile>
+    <ClCompile Include="history\sprite2d\changeflipy.cpp">
+      <Filter>Source Files\history\sprite2d</Filter>
+    </ClCompile>
+    <ClCompile Include="history\sprite2d\changeoptions.cpp">
+      <Filter>Source Files\history\sprite2d</Filter>
+    </ClCompile>
+    <ClCompile Include="history\sprite2d\makebackground.cpp">
+      <Filter>Source Files\history\sprite2d</Filter>
+    </ClCompile>
+    <ClCompile Include="history\customobject\customobjectchangeschema.cpp">
+      <Filter>Source Files\history\customobject</Filter>
+    </ClCompile>
+    <ClCompile Include="history\ways\wayschangeclosed.cpp">
+      <Filter>Source Files\history\ways</Filter>
+    </ClCompile>
+    <ClCompile Include="history\ways\wayschangename.cpp">
+      <Filter>Source Files\history\ways</Filter>
+    </ClCompile>
+    <ClCompile Include="history\ways\wayschangetotaltime.cpp">
+      <Filter>Source Files\history\ways</Filter>
+    </ClCompile>
+    <ClCompile Include="history\ways\waysnew.cpp">
+      <Filter>Source Files\history\ways</Filter>
+    </ClCompile>
+    <ClCompile Include="history\ways\waysremove.cpp">
+      <Filter>Source Files\history\ways</Filter>
+    </ClCompile>
+    <ClCompile Include="history\ways\wayswaypointchange.cpp">
+      <Filter>Source Files\history\ways</Filter>
+    </ClCompile>
+    <ClCompile Include="history\ways\wayswaypointnew.cpp">
+      <Filter>Source Files\history\ways</Filter>
+    </ClCompile>
+    <ClCompile Include="history\ways\wayswaypointremove.cpp">
+      <Filter>Source Files\history\ways</Filter>
+    </ClCompile>
+    <ClCompile Include="history\ways\wayswaypointswap.cpp">
+      <Filter>Source Files\history\ways</Filter>
+    </ClCompile>
+    <ClCompile Include="history\dialogues\dialogueschangename.cpp">
+      <Filter>Source Files\history\dialogues</Filter>
+    </ClCompile>
+    <ClCompile Include="history\dialogues\dialoguesnew.cpp">
+      <Filter>Source Files\history\dialogues</Filter>
+    </ClCompile>
+    <ClCompile Include="history\dialogues\dialoguesphrasechangeduration.cpp">
+      <Filter>Source Files\history\dialogues</Filter>
+    </ClCompile>
+    <ClCompile Include="history\dialogues\dialoguesphrasechangelineeditbasedproperty.cpp">
+      <Filter>Source Files\history\dialogues</Filter>
+    </ClCompile>
+    <ClCompile Include="history\dialogues\dialoguesphrasechangephrase.cpp">
+      <Filter>Source Files\history\dialogues</Filter>
+    </ClCompile>
+    <ClCompile Include="history\dialogues\dialoguesphrasenew.cpp">
+      <Filter>Source Files\history\dialogues</Filter>
+    </ClCompile>
+    <ClCompile Include="history\dialogues\dialoguesphraseremove.cpp">
+      <Filter>Source Files\history\dialogues</Filter>
+    </ClCompile>
+    <ClCompile Include="history\dialogues\dialoguesphraseswap.cpp">
+      <Filter>Source Files\history\dialogues</Filter>
+    </ClCompile>
+    <ClCompile Include="history\dialogues\dialoguesremove.cpp">
+      <Filter>Source Files\history\dialogues</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_acolordialog.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_anglewidget.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_colorpicker.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_colorview.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_delegate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_doubledelegate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_doubletuplewidget.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_editor.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_eventfilter.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_floatdelegate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_fontsizewidget.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_int64tuplewidget.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_intdelegate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_longdelegate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_longlongdelegate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_mainpanel.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_qwwlongspinbox.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_qwwulongspinbox.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_rectwidget.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_reloadfilelist.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_resourcetreewidget.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_rotationprocess.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_sadacolordelegate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_sadcolordelegate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_saddythread.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_sadpoint2ddelegate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_sadpoint2idelegate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_sadsize2ddelegate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_sadsize2idelegate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_sadstringdelegate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_selection.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_shortdelegate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_signedchardelegate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_unsignedchardelegate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_unsignedintdelegate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_unsignedlongdelegate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_unsignedlonglongdelegate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_unsignedshortdelegate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_acolordialog.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_anglewidget.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_colorpicker.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_colorview.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_delegate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_doubledelegate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_doubletuplewidget.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_editor.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_eventfilter.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_floatdelegate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_fontsizewidget.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_int64tuplewidget.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_intdelegate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_longdelegate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_longlongdelegate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_mainpanel.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_qwwlongspinbox.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_qwwulongspinbox.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_rectwidget.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_reloadfilelist.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_resourcetreewidget.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_rotationprocess.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_sadacolordelegate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_sadcolordelegate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_saddythread.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_sadpoint2ddelegate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_sadpoint2idelegate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_sadsize2ddelegate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_sadsize2idelegate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_sadstringdelegate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_selection.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_shortdelegate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_signedchardelegate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_unsignedchardelegate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_unsignedintdelegate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_unsignedlongdelegate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_unsignedlonglongdelegate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_unsignedshortdelegate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_acolordialog.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_anglewidget.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_colorpicker.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_colorview.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_delegate.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_doubledelegate.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_doubletuplewidget.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_editor.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_eventfilter.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_floatdelegate.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_fontsizewidget.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_int64tuplewidget.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_intdelegate.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_longdelegate.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_longlongdelegate.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_mainpanel.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_qwwlongspinbox.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_qwwulongspinbox.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_rectwidget.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_reloadfilelist.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_resourcetreewidget.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_rotationprocess.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_sadacolordelegate.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_sadcolordelegate.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_saddythread.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_sadpoint2ddelegate.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_sadpoint2idelegate.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_sadsize2ddelegate.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_sadsize2idelegate.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_sadstringdelegate.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_selection.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_shortdelegate.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_signedchardelegate.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_unsignedchardelegate.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_unsignedintdelegate.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_unsignedlongdelegate.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_unsignedlonglongdelegate.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_unsignedshortdelegate.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_acolordialog.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_anglewidget.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_colorpicker.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_colorview.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_delegate.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_doubledelegate.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_doubletuplewidget.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_editor.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_eventfilter.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_floatdelegate.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_fontsizewidget.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_int64tuplewidget.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_intdelegate.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_longdelegate.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_longlongdelegate.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_mainpanel.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_qwwlongspinbox.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_qwwulongspinbox.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_rectwidget.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_reloadfilelist.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_resourcetreewidget.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_rotationprocess.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_sadacolordelegate.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_sadcolordelegate.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_saddythread.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_sadpoint2ddelegate.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_sadpoint2idelegate.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_sadsize2ddelegate.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_sadsize2idelegate.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_sadstringdelegate.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_selection.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_shortdelegate.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_signedchardelegate.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_unsignedchardelegate.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_unsignedintdelegate.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_unsignedlongdelegate.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_unsignedlonglongdelegate.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_unsignedshortdelegate.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationsnew.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationschangename.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationschangetime.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationschangelooped.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationschangeblinkingfrequency.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\animationprocess.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_animationprocess.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_animationprocess.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_animationprocess.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_animationprocess.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_animationprocess.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationschangecolorcolor.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationschangerotateangle.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationschangewaymovingway.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_textedit.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_textedit.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_textedit.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_textedit.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_textedit.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\textedit\textedit.cpp">
+      <Filter>Source Files\gui\textedit</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationschangefontlistfonts.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationschangefontsizesize.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationschangelist.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationschangerect.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationschangecamerapivot.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationschangecameraangle.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationschangecameraoffset.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationschangeshakingfrequency.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationsaddtocomposite.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationsremovefromcomposite.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationsswapincomposite.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationsremove.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="history\instances\instancesnew.cpp">
+      <Filter>Source Files\history\instances</Filter>
+    </ClCompile>
+    <ClCompile Include="history\instances\instancesremove.cpp">
+      <Filter>Source Files\history\instances</Filter>
+    </ClCompile>
+    <ClCompile Include="history\instances\instanceschangename.cpp">
+      <Filter>Source Files\history\instances</Filter>
+    </ClCompile>
+    <ClCompile Include="history\instances\instanceschangenimation.cpp">
+      <Filter>Source Files\history\instances</Filter>
+    </ClCompile>
+    <ClCompile Include="history\instances\instanceschangeobject.cpp">
+      <Filter>Source Files\history\instances</Filter>
+    </ClCompile>
+    <ClCompile Include="history\instances\instanceschangestarttime.cpp">
+      <Filter>Source Files\history\instances</Filter>
+    </ClCompile>
+    <ClCompile Include="history\instances\instanceschangeway.cpp">
+      <Filter>Source Files\history\instances</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\animationinstanceprocess.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_animationinstanceprocess.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_animationinstanceprocess.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_animationinstanceprocess.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_animationinstanceprocess.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_animationinstanceprocess.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="history\groups\groupsnew.cpp">
+      <Filter>Source Files\history\groups</Filter>
+    </ClCompile>
+    <ClCompile Include="history\groups\groupsremove.cpp">
+      <Filter>Source Files\history\groups</Filter>
+    </ClCompile>
+    <ClCompile Include="history\groups\groupschangename.cpp">
+      <Filter>Source Files\history\groups</Filter>
+    </ClCompile>
+    <ClCompile Include="history\groups\groupschangelooped.cpp">
+      <Filter>Source Files\history\groups</Filter>
+    </ClCompile>
+    <ClCompile Include="history\groups\groupsaddinstance.cpp">
+      <Filter>Source Files\history\groups</Filter>
+    </ClCompile>
+    <ClCompile Include="history\groups\groupsremoveinstance.cpp">
+      <Filter>Source Files\history\groups</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_animationgroupprocess.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_animationgroupprocess.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_animationgroupprocess.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_animationgroupprocess.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_animationgroupprocess.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\animationgroupprocess.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="history\batchcommand.cpp">
+      <Filter>Source Files\history</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\codeedit\codeedit.cpp">
+      <Filter>Source Files\gui\codeedit</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_codeedit.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_codeedit.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_codeedit.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_codeedit.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_codeedit.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\codeedit\linenumberarea.cpp">
+      <Filter>Source Files\gui\codeedit</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\scripting.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_scripting.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_scripting.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_scripting.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_scripting.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_scripting.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\codeedit\highlighter.cpp">
+      <Filter>Source Files\gui\codeedit</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\tovalue.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\queryobject.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\fromvalue.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\callable.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\multimethod.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\scriptinglog.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\point2d.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_point2d.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_point2d.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_point2d.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_point2d.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_point2d.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\classwrapper.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_classwrapper.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_classwrapper.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_classwrapper.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_classwrapper.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_classwrapper.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_point2i.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_point2i.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_point2i.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_point2i.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_point2i.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\point2i.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_point3d.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_point3d.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_point3d.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_point3d.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_point3d.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\point3d.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_point3i.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_point3i.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_point3i.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_point3i.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_point3i.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\point3i.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_rect2d.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_rect2d.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_rect2d.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_rect2d.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_rect2d.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\rect2d.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_rect2i.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_rect2i.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_rect2i.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_rect2i.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_rect2i.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\rect2i.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\size2d.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_size2d.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_size2d.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_size2d.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_size2d.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_size2d.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_size2i.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_size2i.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_size2i.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_size2i.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_size2i.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\size2i.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\color.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_color.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_color.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_color.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_color.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_color.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_acolor.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_acolor.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_acolor.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_acolor.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_acolor.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\acolor.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\scenes\scenesnamesetter.cpp">
+      <Filter>Source Files\scripting\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\querytable.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\scenes\scenesbindings.cpp">
+      <Filter>Source Files\scripting\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\database\databasebindings.cpp">
+      <Filter>Source Files\scripting\database</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\scenenodes\scenenodesbindings.cpp">
+      <Filter>Source Files\scripting\scenenodes</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\queryresource.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\scenenodes\scenenodesfontsizesetter.cpp">
+      <Filter>Source Files\scripting\scenenodes</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\scenenodes\scenenodesareasetter.cpp">
+      <Filter>Source Files\scripting\scenenodes</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\scenenodes\scenenodesfontsetter.cpp">
+      <Filter>Source Files\scripting\scenenodes</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\scenenodes\scenenodesflagsetter.cpp">
+      <Filter>Source Files\scripting\scenenodes</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\scenenodes\scenenodesoptionssetter.cpp">
+      <Filter>Source Files\scripting\scenenodes</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\scenenodes\scenenodesschemasetter.cpp">
+      <Filter>Source Files\scripting\scenenodes</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\ways\waysbindings.cpp">
+      <Filter>Source Files\scripting\ways</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_wayspointref.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_wayspointref.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_wayspointref.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_wayspointref.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_wayspointref.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\ways\wayspointref.cpp">
+      <Filter>Source Files\scripting\ways</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\dialogues\dialoguesphraseref.cpp">
+      <Filter>Source Files\scripting\dialogues</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_dialoguesphraseref.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_dialoguesphraseref.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_dialoguesphraseref.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_dialoguesphraseref.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_dialoguesphraseref.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\dialogues\dialoguesbindings.cpp">
+      <Filter>Source Files\scripting\dialogues</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\animations\animationsbindings.cpp">
+      <Filter>Source Files\scripting\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\animations\animationswaysetter.cpp">
+      <Filter>Source Files\scripting\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\isaabb.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\codeedit\completer.cpp">
+      <Filter>Source Files\gui\codeedit</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_completer.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_completer.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_completer.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_completer.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_completer.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\instances\instancesbindings.cpp">
+      <Filter>Source Files\scripting\instances</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\instances\instancesnamesetter.cpp">
+      <Filter>Source Files\scripting\instances</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\instances\instancesanimationsetter.cpp">
+      <Filter>Source Files\scripting\instances</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\instances\instancesanimationdbsetter.cpp">
+      <Filter>Source Files\scripting\instances</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\instances\instancesobjectsetter.cpp">
+      <Filter>Source Files\scripting\instances</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\instances\instancesstarttimesetter.cpp">
+      <Filter>Source Files\scripting\instances</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\instances\instanceswaysetter.cpp">
+      <Filter>Source Files\scripting\instances</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\groups\groupsbindings.cpp">
+      <Filter>Source Files\scripting\groups</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\groups\groupsnamesetter.cpp">
+      <Filter>Source Files\scripting\groups</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\groups\groupsloopedsetter.cpp">
+      <Filter>Source Files\scripting\groups</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_scriptinghelp.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_scriptinghelp.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_scriptinghelp.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_scriptinghelp.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_scriptinghelp.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="scriptinghelp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationschangeresizestartingsize.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationschangeresizeendingsize.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationschangepropertyaspoint2displayedintwospinboxes.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_booldelegate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_booldelegate.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_booldelegate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_booldelegate.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_booldelegate.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\table\booldelegate.cpp">
+      <Filter>Source Files\gui\table</Filter>
+    </ClCompile>
+    <ClCompile Include="history\label\changemaximallinewidth.cpp">
+      <Filter>Source Files\history\label</Filter>
+    </ClCompile>
+    <ClCompile Include="history\label\changebreaktext.cpp">
+      <Filter>Source Files\history\label</Filter>
+    </ClCompile>
+    <ClCompile Include="history\label\changeoverflowstrategy.cpp">
+      <Filter>Source Files\history\label</Filter>
+    </ClCompile>
+    <ClCompile Include="history\label\changetextellipsis.cpp">
+      <Filter>Source Files\history\label</Filter>
+    </ClCompile>
+    <ClCompile Include="history\label\changemaximallinescount.cpp">
+      <Filter>Source Files\history\label</Filter>
+    </ClCompile>
+    <ClCompile Include="history\label\changeoverflowstrategyforlines.cpp">
+      <Filter>Source Files\history\label</Filter>
+    </ClCompile>
+    <ClCompile Include="history\label\changetextellipsisforlines.cpp">
+      <Filter>Source Files\history\label</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\uiblocks\uianimationblock.cpp">
+      <Filter>Source Files\gui\uiblocks</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\uiblocks\uianimationinstanceblock.cpp">
+      <Filter>Source Files\gui\uiblocks</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\uiblocks\uianimationsgroupblock.cpp">
+      <Filter>Source Files\gui\uiblocks</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\uiblocks\uiblocks.cpp">
+      <Filter>Source Files\gui\uiblocks</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\uiblocks\uicommonblock.cpp">
+      <Filter>Source Files\gui\uiblocks</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\uiblocks\uiconsoleblock.cpp">
+      <Filter>Source Files\gui\uiblocks</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\uiblocks\uicustomobjectblock.cpp">
+      <Filter>Source Files\gui\uiblocks</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\uiblocks\uidialogueblock.cpp">
+      <Filter>Source Files\gui\uiblocks</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\uiblocks\uilabelblock.cpp">
+      <Filter>Source Files\gui\uiblocks</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\uiblocks\uiphraseblock.cpp">
+      <Filter>Source Files\gui\uiblocks</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\uiblocks\uisceneblock.cpp">
+      <Filter>Source Files\gui\uiblocks</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\uiblocks\uiscenenodeblock.cpp">
+      <Filter>Source Files\gui\uiblocks</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\uiblocks\uispriteblock.cpp">
+      <Filter>Source Files\gui\uiblocks</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\uiblocks\uiwayblock.cpp">
+      <Filter>Source Files\gui\uiblocks</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\actions\abstractactions.cpp">
+      <Filter>Source Files\gui\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_animationactions.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_animationactions.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_animationactions.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_animationactions.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_animationactions.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\actions\animationactions.cpp">
+      <Filter>Source Files\gui\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\actions\actions.cpp">
+      <Filter>Source Files\gui\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\mainpanelproxy.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\actions\customobjectactions.cpp">
+      <Filter>Source Files\gui\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_scenenodeactions.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_scenenodeactions.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_scenenodeactions.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_scenenodeactions.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_scenenodeactions.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\actions\scenenodeactions.cpp">
+      <Filter>Source Files\gui\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\actions\sceneactions.cpp">
+      <Filter>Source Files\gui\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_sceneactions.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_sceneactions.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_sceneactions.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_sceneactions.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_sceneactions.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_labelactions.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_labelactions.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_labelactions.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_labelactions.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_labelactions.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\actions\labelactions.cpp">
+      <Filter>Source Files\gui\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\actions\sprite2dactions.cpp">
+      <Filter>Source Files\gui\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_sprite2dactions.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_sprite2dactions.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_sprite2dactions.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_sprite2dactions.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_sprite2dactions.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_dialogueactions.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_dialogueactions.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_dialogueactions.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_dialogueactions.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_dialogueactions.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\actions\dialogueactions.cpp">
+      <Filter>Source Files\gui\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_animationinstanceactions.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_animationinstanceactions.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_animationinstanceactions.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_animationinstanceactions.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_animationinstanceactions.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\actions\animationinstanceactions.cpp">
+      <Filter>Source Files\gui\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_animationgroupactions.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_animationgroupactions.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_animationgroupactions.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_animationgroupactions.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_animationgroupactions.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\actions\animationgroupactions.cpp">
+      <Filter>Source Files\gui\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_wayactions.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_wayactions.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_wayactions.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_wayactions.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_wayactions.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\actions\wayactions.cpp">
+      <Filter>Source Files\gui\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_customobjectactions.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_customobjectactions.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_customobjectactions.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_customobjectactions.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_customobjectactions.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="history\scenenodes\scenenodesspan.cpp">
+      <Filter>Source Files\history\scenenodes</Filter>
+    </ClCompile>
+    <ClCompile Include="history\groups\groupschangesequential.cpp">
+      <Filter>Source Files\history\groups</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\groups\groupssequentialsetter.cpp">
+      <Filter>Source Files\scripting\groups</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\qt-palette-color-picker\colorpicker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationschangeeasingfunctiontype.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationschangeeasingovershootamplitude.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationschangeeasingperiod.cpp">
+      <Filter>Source Files\gui\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\uiblocks\uilayoutblock.cpp">
+      <Filter>Source Files\gui\uiblocks</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_layoutcelledit.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_layoutcelledit.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_layoutcelledit.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_layoutcelledit.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_layoutcelledit.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\layouts\layoutcelledit.cpp">
+      <Filter>Source Files\gui\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_gridactions.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_gridactions.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_gridactions.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_gridactions.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_gridactions.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\actions\gridactions.cpp">
+      <Filter>Source Files\gui\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\childrenprovider.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\rendergrids.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="history\layouts\layoutsnew.cpp">
+      <Filter>Source Files\history\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="history\layouts\layoutsremove.cpp">
+      <Filter>Source Files\history\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="history\layouts\layoutschangename.cpp">
+      <Filter>Source Files\history\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="history\layouts\layoutsaddchild.cpp">
+      <Filter>Source Files\history\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="history\layouts\layoutsremovechild.cpp">
+      <Filter>Source Files\history\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="history\layouts\layoutsclearcell.cpp">
+      <Filter>Source Files\history\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="history\layouts\layoutsswapchildren.cpp">
+      <Filter>Source Files\history\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\layouts\gridbindings.cpp">
+      <Filter>Source Files\scripting\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_scriptablegrid.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_scriptablegrid.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_scriptablegrid.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_scriptablegrid.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_scriptablegrid.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_scriptablegridcell.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_scriptablegridcell.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_scriptablegridcell.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_scriptablegridcell.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_scriptablegridcell.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\layouts\scriptablegrid.cpp">
+      <Filter>Source Files\scripting\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\layouts\scriptablegridcell.cpp">
+      <Filter>Source Files\scripting\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_scriptablelengthvalue.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_scriptablelengthvalue.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_scriptablelengthvalue.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_scriptablelengthvalue.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_scriptablelengthvalue.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\layouts\scriptablelengthvalue.cpp">
+      <Filter>Source Files\scripting\layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_gridandoffset.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_gridandoffset.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_gridandoffset.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_gridandoffset.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_gridandoffset.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="gridandoffset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\rendereditorgrid.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="blockedclosuremethodcall.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="closuremethodcall.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="macro.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_mainpanel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="wwglobal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="wwglobal_p.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="core\qttarget.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\quitreason.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\shared.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\synchronization.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\typeconverters\load.h">
+      <Filter>Header Files\core\typeconverters</Filter>
+    </ClInclude>
+    <ClInclude Include="core\typeconverters\qcolortosadacolor.h">
+      <Filter>Header Files\core\typeconverters</Filter>
+    </ClInclude>
+    <ClInclude Include="core\typeconverters\qcolortosadcolor.h">
+      <Filter>Header Files\core\typeconverters</Filter>
+    </ClInclude>
+    <ClInclude Include="core\typeconverters\qlistqlistqcolortosadvectorsadvectoracolor.h">
+      <Filter>Header Files\core\typeconverters</Filter>
+    </ClInclude>
+    <ClInclude Include="core\typeconverters\qrectftosadrect2d.h">
+      <Filter>Header Files\core\typeconverters</Filter>
+    </ClInclude>
+    <ClInclude Include="core\typeconverters\qstringtosadstring.h">
+      <Filter>Header Files\core\typeconverters</Filter>
+    </ClInclude>
+    <ClInclude Include="core\typeconverters\sadacolortoqcolor.h">
+      <Filter>Header Files\core\typeconverters</Filter>
+    </ClInclude>
+    <ClInclude Include="core\typeconverters\sadcolortoqcolor.h">
+      <Filter>Header Files\core\typeconverters</Filter>
+    </ClInclude>
+    <ClInclude Include="core\typeconverters\sadrect2dtoqrectf.h">
+      <Filter>Header Files\core\typeconverters</Filter>
+    </ClInclude>
+    <ClInclude Include="core\typeconverters\sadstringtoqstring.h">
+      <Filter>Header Files\core\typeconverters</Filter>
+    </ClInclude>
+    <ClInclude Include="core\typeconverters\sadvectorsadvectoracolortoqlistqlistqcolor.h">
+      <Filter>Header Files\core\typeconverters</Filter>
+    </ClInclude>
+    <ClInclude Include="core\typeconverters\save.h">
+      <Filter>Header Files\core\typeconverters</Filter>
+    </ClInclude>
+    <ClInclude Include="core\borders\activeborder.h">
+      <Filter>Header Files\core\borders</Filter>
+    </ClInclude>
+    <ClInclude Include="core\borders\border.h">
+      <Filter>Header Files\core\borders</Filter>
+    </ClInclude>
+    <ClInclude Include="core\borders\deletehotspot.h">
+      <Filter>Header Files\core\borders</Filter>
+    </ClInclude>
+    <ClInclude Include="core\borders\resizehotspot.h">
+      <Filter>Header Files\core\borders</Filter>
+    </ClInclude>
+    <ClInclude Include="core\borders\selectionborder.h">
+      <Filter>Header Files\core\borders</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\renderways.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\updateelement.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\resourcetreewidget\cell.h">
+      <Filter>Header Files\gui\resourcetreewidget</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\resourcetreewidget\celldelegate.h">
+      <Filter>Header Files\gui\resourcetreewidget</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\resourcetreewidget\defaultimage.h">
+      <Filter>Header Files\gui\resourcetreewidget</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\resourcetreewidget\resourcecache.h">
+      <Filter>Header Files\gui\resourcetreewidget</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\table\delegatefactory.h">
+      <Filter>Header Files\gui\table</Filter>
+    </ClInclude>
+    <ClInclude Include="history\command.h">
+      <Filter>Header Files\history</Filter>
+    </ClInclude>
+    <ClInclude Include="history\history.h">
+      <Filter>Header Files\history</Filter>
+    </ClInclude>
+    <ClInclude Include="history\database\changeproperty.h">
+      <Filter>Header Files\history\database</Filter>
+    </ClInclude>
+    <ClInclude Include="history\database\newproperty.h">
+      <Filter>Header Files\history\database</Filter>
+    </ClInclude>
+    <ClInclude Include="history\database\removeproperty.h">
+      <Filter>Header Files\history\database</Filter>
+    </ClInclude>
+    <ClInclude Include="history\scenes\scenesadd.h">
+      <Filter>Header Files\history\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="history\scenes\sceneschangename.h">
+      <Filter>Header Files\history\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="history\scenes\scenesclear.h">
+      <Filter>Header Files\history\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="history\scenes\sceneslayerswap.h">
+      <Filter>Header Files\history\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="history\scenes\scenesremove.h">
+      <Filter>Header Files\history\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="history\scenenodes\scenenodeschangeangle.h">
+      <Filter>Header Files\history\scenenodes</Filter>
+    </ClInclude>
+    <ClInclude Include="history\scenenodes\scenenodeschangearea.h">
+      <Filter>Header Files\history\scenenodes</Filter>
+    </ClInclude>
+    <ClInclude Include="history\scenenodes\scenenodeschangecolor.h">
+      <Filter>Header Files\history\scenenodes</Filter>
+    </ClInclude>
+    <ClInclude Include="history\scenenodes\scenenodeschangename.h">
+      <Filter>Header Files\history\scenenodes</Filter>
+    </ClInclude>
+    <ClInclude Include="history\scenenodes\scenenodeschangeproperty.h">
+      <Filter>Header Files\history\scenenodes</Filter>
+    </ClInclude>
+    <ClInclude Include="history\scenenodes\scenenodeschangepropertywhichlinkedtocheckbox.h">
+      <Filter>Header Files\history\scenenodes</Filter>
+    </ClInclude>
+    <ClInclude Include="history\scenenodes\scenenodeschangevisibility.h">
+      <Filter>Header Files\history\scenenodes</Filter>
+    </ClInclude>
+    <ClInclude Include="history\scenenodes\scenenodeslayerswap.h">
+      <Filter>Header Files\history\scenenodes</Filter>
+    </ClInclude>
+    <ClInclude Include="history\scenenodes\scenenodesnew.h">
+      <Filter>Header Files\history\scenenodes</Filter>
+    </ClInclude>
+    <ClInclude Include="history\scenenodes\scenenodesremove.h">
+      <Filter>Header Files\history\scenenodes</Filter>
+    </ClInclude>
+    <ClInclude Include="history\label\changefontname.h">
+      <Filter>Header Files\history\label</Filter>
+    </ClInclude>
+    <ClInclude Include="history\label\changefontsize.h">
+      <Filter>Header Files\history\label</Filter>
+    </ClInclude>
+    <ClInclude Include="history\label\changelinespacing.h">
+      <Filter>Header Files\history\label</Filter>
+    </ClInclude>
+    <ClInclude Include="history\label\changetext.h">
+      <Filter>Header Files\history\label</Filter>
+    </ClInclude>
+    <ClInclude Include="history\sprite2d\changeflipx.h">
+      <Filter>Header Files\history\sprite2d</Filter>
+    </ClInclude>
+    <ClInclude Include="history\sprite2d\changeflipy.h">
+      <Filter>Header Files\history\sprite2d</Filter>
+    </ClInclude>
+    <ClInclude Include="history\sprite2d\changeoptions.h">
+      <Filter>Header Files\history\sprite2d</Filter>
+    </ClInclude>
+    <ClInclude Include="history\sprite2d\makebackground.h">
+      <Filter>Header Files\history\sprite2d</Filter>
+    </ClInclude>
+    <ClInclude Include="history\customobject\customobjectchangeproperty.h">
+      <Filter>Header Files\history\customobject</Filter>
+    </ClInclude>
+    <ClInclude Include="history\customobject\customobjectchangeschema.h">
+      <Filter>Header Files\history\customobject</Filter>
+    </ClInclude>
+    <ClInclude Include="history\ways\wayschangeclosed.h">
+      <Filter>Header Files\history\ways</Filter>
+    </ClInclude>
+    <ClInclude Include="history\ways\wayschangename.h">
+      <Filter>Header Files\history\ways</Filter>
+    </ClInclude>
+    <ClInclude Include="history\ways\wayschangeproperty.h">
+      <Filter>Header Files\history\ways</Filter>
+    </ClInclude>
+    <ClInclude Include="history\ways\wayschangetotaltime.h">
+      <Filter>Header Files\history\ways</Filter>
+    </ClInclude>
+    <ClInclude Include="history\ways\waysnew.h">
+      <Filter>Header Files\history\ways</Filter>
+    </ClInclude>
+    <ClInclude Include="history\ways\waysremove.h">
+      <Filter>Header Files\history\ways</Filter>
+    </ClInclude>
+    <ClInclude Include="history\ways\wayswaypointchange.h">
+      <Filter>Header Files\history\ways</Filter>
+    </ClInclude>
+    <ClInclude Include="history\ways\wayswaypointnew.h">
+      <Filter>Header Files\history\ways</Filter>
+    </ClInclude>
+    <ClInclude Include="history\ways\wayswaypointremove.h">
+      <Filter>Header Files\history\ways</Filter>
+    </ClInclude>
+    <ClInclude Include="history\ways\wayswaypointswap.h">
+      <Filter>Header Files\history\ways</Filter>
+    </ClInclude>
+    <ClInclude Include="history\dialogues\dialogueschangename.h">
+      <Filter>Header Files\history\dialogues</Filter>
+    </ClInclude>
+    <ClInclude Include="history\dialogues\dialoguesnew.h">
+      <Filter>Header Files\history\dialogues</Filter>
+    </ClInclude>
+    <ClInclude Include="history\dialogues\dialoguesphrasechangeduration.h">
+      <Filter>Header Files\history\dialogues</Filter>
+    </ClInclude>
+    <ClInclude Include="history\dialogues\dialoguesphrasechangelineeditbasedproperty.h">
+      <Filter>Header Files\history\dialogues</Filter>
+    </ClInclude>
+    <ClInclude Include="history\dialogues\dialoguesphrasechangephrase.h">
+      <Filter>Header Files\history\dialogues</Filter>
+    </ClInclude>
+    <ClInclude Include="history\dialogues\dialoguesphrasenew.h">
+      <Filter>Header Files\history\dialogues</Filter>
+    </ClInclude>
+    <ClInclude Include="history\dialogues\dialoguesphraseremove.h">
+      <Filter>Header Files\history\dialogues</Filter>
+    </ClInclude>
+    <ClInclude Include="history\dialogues\dialoguesphraseswap.h">
+      <Filter>Header Files\history\dialogues</Filter>
+    </ClInclude>
+    <ClInclude Include="history\dialogues\dialoguesremove.h">
+      <Filter>Header Files\history\dialogues</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_acolordialog.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_reloadfilelist.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationsnew.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangename.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangeproperty.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangetime.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangelooped.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangeblinkingfrequency.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangecolorcolor.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangerotateangle.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangewaymovingway.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangefontlistfonts.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangefontsizesize.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangelist.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangerect.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangecamerapivot.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangecameraangle.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangecameraoffset.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangeshakingfrequency.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationsaddtocomposite.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationsremovefromcomposite.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationsswapincomposite.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationsremove.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\instances\instancesnew.h">
+      <Filter>Header Files\history\instances</Filter>
+    </ClInclude>
+    <ClInclude Include="history\instances\instancesremove.h">
+      <Filter>Header Files\history\instances</Filter>
+    </ClInclude>
+    <ClInclude Include="history\instances\instanceschangeproperty.h">
+      <Filter>Header Files\history\instances</Filter>
+    </ClInclude>
+    <ClInclude Include="history\instances\instanceschangename.h">
+      <Filter>Header Files\history\instances</Filter>
+    </ClInclude>
+    <ClInclude Include="history\instances\instanceschangeanimation.h">
+      <Filter>Header Files\history\instances</Filter>
+    </ClInclude>
+    <ClInclude Include="history\instances\instanceschangeobject.h">
+      <Filter>Header Files\history\instances</Filter>
+    </ClInclude>
+    <ClInclude Include="history\instances\instanceschangestarttime.h">
+      <Filter>Header Files\history\instances</Filter>
+    </ClInclude>
+    <ClInclude Include="history\instances\instanceschangeway.h">
+      <Filter>Header Files\history\instances</Filter>
+    </ClInclude>
+    <ClInclude Include="history\groups\groupsnew.h">
+      <Filter>Header Files\history\groups</Filter>
+    </ClInclude>
+    <ClInclude Include="history\groups\groupsremove.h">
+      <Filter>Header Files\history\groups</Filter>
+    </ClInclude>
+    <ClInclude Include="history\groups\groupschangeproperty.h">
+      <Filter>Header Files\history\groups</Filter>
+    </ClInclude>
+    <ClInclude Include="history\groups\groupschangename.h">
+      <Filter>Header Files\history\groups</Filter>
+    </ClInclude>
+    <ClInclude Include="history\groups\groupschangelooped.h">
+      <Filter>Header Files\history\groups</Filter>
+    </ClInclude>
+    <ClInclude Include="history\groups\groupsaddinstance.h">
+      <Filter>Header Files\history\groups</Filter>
+    </ClInclude>
+    <ClInclude Include="history\groups\groupsremoveinstance.h">
+      <Filter>Header Files\history\groups</Filter>
+    </ClInclude>
+    <ClInclude Include="history\batchcommand.h">
+      <Filter>Header Files\history</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\codeedit\highlighter.h">
+      <Filter>Header Files\gui\codeedit</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\tovalue.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\queryobject.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\fromvalue.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\constructorcall.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\callable.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\registerconstructor.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\makeconstructor.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\multimethod.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\scriptinglog.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\functioncall.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\makefunctioncall.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\makescriptingcall.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\abstractsetter.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\scenes\scenesnamesetter.h">
+      <Filter>Header Files\scripting\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\abstractgetter.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\scriptingcall.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\querytable.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\scenes\scenesbindings.h">
+      <Filter>Header Files\scripting\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\database\databasebindings.h">
+      <Filter>Header Files\scripting\database</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\database\databasepropertygetter.h">
+      <Filter>Header Files\scripting\database</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\database\databasepropertysetter.h">
+      <Filter>Header Files\scripting\database</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\scenenodes\scenenodesbindings.h">
+      <Filter>Header Files\scripting\scenenodes</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\queryresource.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\scenenodes\scenenodesabstractsetter.h">
+      <Filter>Header Files\scripting\scenenodes</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\scenenodes\scenenodessetter.h">
+      <Filter>Header Files\scripting\scenenodes</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\scenenodes\scenenodesfontsizesetter.h">
+      <Filter>Header Files\scripting\scenenodes</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\scenenodes\scenenodesareasetter.h">
+      <Filter>Header Files\scripting\scenenodes</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\scenenodes\scenenodesfontsetter.h">
+      <Filter>Header Files\scripting\scenenodes</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\scenenodes\scenenodesoptionssetter.h">
+      <Filter>Header Files\scripting\scenenodes</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\scenenodes\scenenodesschemasetter.h">
+      <Filter>Header Files\scripting\scenenodes</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\scenenodes\scenenodescustomgetter.h">
+      <Filter>Header Files\scripting\scenenodes</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\scenenodes\scenenodescustomsetter.h">
+      <Filter>Header Files\scripting\scenenodes</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\ways\waysbindings.h">
+      <Filter>Header Files\scripting\ways</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\scenenodes\scenenodesflagsetter.h">
+      <Filter>Header Files\scripting\scenenodes</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\ways\wayssetter.h">
+      <Filter>Header Files\scripting\ways</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\dialogues\dialoguesbindings.h">
+      <Filter>Header Files\scripting\dialogues</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\dialogues\dialoguessetter.h">
+      <Filter>Header Files\scripting\dialogues</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\animations\animationsbindings.h">
+      <Filter>Header Files\scripting\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\animations\animationssetter.h">
+      <Filter>Header Files\scripting\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\animations\animationswidgetsetter.h">
+      <Filter>Header Files\scripting\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\abstracttovalue.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\abstractcondition.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\animations\animationswaysetter.h">
+      <Filter>Header Files\scripting\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\isaabb.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\instances\instancesbindings.h">
+      <Filter>Header Files\scripting\instances</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\instances\instancesnamesetter.h">
+      <Filter>Header Files\scripting\instances</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\instances\instancesanimationsetter.h">
+      <Filter>Header Files\scripting\instances</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\instances\instancesanimationdbsetter.h">
+      <Filter>Header Files\scripting\instances</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\instances\instancesobjectsetter.h">
+      <Filter>Header Files\scripting\instances</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\instances\instancesstarttimesetter.h">
+      <Filter>Header Files\scripting\instances</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\instances\instanceswaysetter.h">
+      <Filter>Header Files\scripting\instances</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\groups\groupsbindings.h">
+      <Filter>Header Files\scripting\groups</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\groups\groupsnamesetter.h">
+      <Filter>Header Files\scripting\groups</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\groups\groupsloopedsetter.h">
+      <Filter>Header Files\scripting\groups</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_scriptinghelp.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="qstdstring.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangeresizestartingsize.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangeresizeendingsize.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangepropertyaspoint2displayedintwospinboxes.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\animations\animationspoint2dsetter.h">
+      <Filter>Header Files\scripting\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\label\changemaximallinewidth.h">
+      <Filter>Header Files\history\label</Filter>
+    </ClInclude>
+    <ClInclude Include="history\label\changebreaktext.h">
+      <Filter>Header Files\history\label</Filter>
+    </ClInclude>
+    <ClInclude Include="history\label\changeoverflowstrategy.h">
+      <Filter>Header Files\history\label</Filter>
+    </ClInclude>
+    <ClInclude Include="history\label\changetextellipsis.h">
+      <Filter>Header Files\history\label</Filter>
+    </ClInclude>
+    <ClInclude Include="history\label\changemaximallinescount.h">
+      <Filter>Header Files\history\label</Filter>
+    </ClInclude>
+    <ClInclude Include="history\label\changeoverflowstrategyforlines.h">
+      <Filter>Header Files\history\label</Filter>
+    </ClInclude>
+    <ClInclude Include="history\label\changetextellipsisforlines.h">
+      <Filter>Header Files\history\label</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\uiblocks\uianimationblock.h">
+      <Filter>Header Files\gui\uiblocks</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\uiblocks\uianimationinstanceblock.h">
+      <Filter>Header Files\gui\uiblocks</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\uiblocks\uianimationsgroupblock.h">
+      <Filter>Header Files\gui\uiblocks</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\uiblocks\uiblocks.h">
+      <Filter>Header Files\gui\uiblocks</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\uiblocks\uicommonblock.h">
+      <Filter>Header Files\gui\uiblocks</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\uiblocks\uiconsoleblock.h">
+      <Filter>Header Files\gui\uiblocks</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\uiblocks\uicustomobjectblock.h">
+      <Filter>Header Files\gui\uiblocks</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\uiblocks\uidialogueblock.h">
+      <Filter>Header Files\gui\uiblocks</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\uiblocks\uilabelblock.h">
+      <Filter>Header Files\gui\uiblocks</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\uiblocks\uiphraseblock.h">
+      <Filter>Header Files\gui\uiblocks</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\uiblocks\uisceneblock.h">
+      <Filter>Header Files\gui\uiblocks</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\uiblocks\uiscenenodeblock.h">
+      <Filter>Header Files\gui\uiblocks</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\uiblocks\uispriteblock.h">
+      <Filter>Header Files\gui\uiblocks</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\uiblocks\uiwayblock.h">
+      <Filter>Header Files\gui\uiblocks</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\actions\abstractactions.h">
+      <Filter>Header Files\gui\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\actions\actions.h">
+      <Filter>Header Files\gui\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\mainpanelproxy.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="history\scenenodes\scenenodesspan.h">
+      <Filter>Header Files\history\scenenodes</Filter>
+    </ClInclude>
+    <ClInclude Include="history\groups\groupschangesequential.h">
+      <Filter>Header Files\history\groups</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\groups\groupssequentialsetter.h">
+      <Filter>Header Files\scripting\groups</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangeeasingproperty.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangeeasingfunctiontype.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangeeasingovershootamplitude.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangeeasingperiod.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\animations\easinggetter.h">
+      <Filter>Header Files\scripting\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\animations\easingsetter.h">
+      <Filter>Header Files\scripting\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\uiblocks\uilayoutblock.h">
+      <Filter>Header Files\gui\uiblocks</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\childrenprovider.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\rendergrids.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="history\layouts\layoutsnew.h">
+      <Filter>Header Files\history\layouts</Filter>
+    </ClInclude>
+    <ClInclude Include="history\layouts\layoutsremove.h">
+      <Filter>Header Files\history\layouts</Filter>
+    </ClInclude>
+    <ClInclude Include="history\layouts\layoutschangename.h">
+      <Filter>Header Files\history\layouts</Filter>
+    </ClInclude>
+    <ClInclude Include="history\layouts\layoutsaddchild.h">
+      <Filter>Header Files\history\layouts</Filter>
+    </ClInclude>
+    <ClInclude Include="history\layouts\layoutschange.h">
+      <Filter>Header Files\history\layouts</Filter>
+    </ClInclude>
+    <ClInclude Include="history\layouts\layoutsremovechild.h">
+      <Filter>Header Files\history\layouts</Filter>
+    </ClInclude>
+    <ClInclude Include="history\layouts\layoutsclearcell.h">
+      <Filter>Header Files\history\layouts</Filter>
+    </ClInclude>
+    <ClInclude Include="history\layouts\layoutsswapchildren.h">
+      <Filter>Header Files\history\layouts</Filter>
+    </ClInclude>
+    <ClInclude Include="history\layouts\layoutschangecell.h">
+      <Filter>Header Files\history\layouts</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\layouts\gridbindings.h">
+      <Filter>Header Files\scripting\layouts</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_gridandoffset.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\rendereditorgrid.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="keytovector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="acolordialog.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="mainpanel.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="qwwlongspinbox.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="qwwulongspinbox.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="reloadfilelist.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="core\editor.h">
+      <Filter>Header Files\core</Filter>
+    </CustomBuild>
+    <CustomBuild Include="core\saddythread.h">
+      <Filter>Header Files\core</Filter>
+    </CustomBuild>
+    <CustomBuild Include="core\selection.h">
+      <Filter>Header Files\core</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\eventfilter.h">
+      <Filter>Header Files\gui</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\rotationprocess.h">
+      <Filter>Header Files\gui</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\resourcetreewidget\resourcetreewidget.h">
+      <Filter>Header Files\gui\resourcetreewidget</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\fontsizewidget\fontsizewidget.h">
+      <Filter>Header Files\gui\fontsizewidget</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\rectwidget\rectwidget.h">
+      <Filter>Header Files\gui\rectwidget</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\anglewidget\anglewidget.h">
+      <Filter>Header Files\gui\anglewidget</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\table\delegate.h">
+      <Filter>Header Files\gui\table</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\table\doubledelegate.h">
+      <Filter>Header Files\gui\table</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\table\floatdelegate.h">
+      <Filter>Header Files\gui\table</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\table\intdelegate.h">
+      <Filter>Header Files\gui\table</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\table\longdelegate.h">
+      <Filter>Header Files\gui\table</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\table\longlongdelegate.h">
+      <Filter>Header Files\gui\table</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\table\sadacolordelegate.h">
+      <Filter>Header Files\gui\table</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\table\sadcolordelegate.h">
+      <Filter>Header Files\gui\table</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\table\sadpoint2ddelegate.h">
+      <Filter>Header Files\gui\table</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\table\sadpoint2idelegate.h">
+      <Filter>Header Files\gui\table</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\table\sadsize2ddelegate.h">
+      <Filter>Header Files\gui\table</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\table\sadsize2idelegate.h">
+      <Filter>Header Files\gui\table</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\table\sadstringdelegate.h">
+      <Filter>Header Files\gui\table</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\table\shortdelegate.h">
+      <Filter>Header Files\gui\table</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\table\signedchardelegate.h">
+      <Filter>Header Files\gui\table</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\table\unsignedchardelegate.h">
+      <Filter>Header Files\gui\table</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\table\unsignedintdelegate.h">
+      <Filter>Header Files\gui\table</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\table\unsignedlongdelegate.h">
+      <Filter>Header Files\gui\table</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\table\unsignedlonglongdelegate.h">
+      <Filter>Header Files\gui\table</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\table\unsignedshortdelegate.h">
+      <Filter>Header Files\gui\table</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\colorview\colorview.h">
+      <Filter>Header Files\gui\colorview</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\tuplewidget\doubletuplewidget.h">
+      <Filter>Header Files\gui\tuplewidget</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\tuplewidget\int64tuplewidget.h">
+      <Filter>Header Files\gui\tuplewidget</Filter>
+    </CustomBuild>
+    <CustomBuild Include="acolordialog.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="mainpanel.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="reloadfilelist.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\animationprocess.h">
+      <Filter>Header Files\gui</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\textedit\textedit.h">
+      <Filter>Header Files\gui\textedit</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\animationinstanceprocess.h">
+      <Filter>Header Files\gui</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\animationgroupprocess.h">
+      <Filter>Header Files\gui</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\codeedit\codeedit.h">
+      <Filter>Header Files\gui\codeedit</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\codeedit\linenumberarea.h">
+      <Filter>Header Files\gui\codeedit</Filter>
+    </CustomBuild>
+    <CustomBuild Include="scripting\scripting.h">
+      <Filter>Header Files\scripting</Filter>
+    </CustomBuild>
+    <CustomBuild Include="scripting\point2d.h">
+      <Filter>Header Files\scripting</Filter>
+    </CustomBuild>
+    <CustomBuild Include="scripting\classwrapper.h">
+      <Filter>Header Files\scripting</Filter>
+    </CustomBuild>
+    <CustomBuild Include="scripting\point2i.h">
+      <Filter>Header Files\scripting</Filter>
+    </CustomBuild>
+    <CustomBuild Include="scripting\point3d.h">
+      <Filter>Header Files\scripting</Filter>
+    </CustomBuild>
+    <CustomBuild Include="scripting\point3i.h">
+      <Filter>Header Files\scripting</Filter>
+    </CustomBuild>
+    <CustomBuild Include="scripting\rect2d.h">
+      <Filter>Header Files\scripting</Filter>
+    </CustomBuild>
+    <CustomBuild Include="scripting\rect2i.h">
+      <Filter>Header Files\scripting</Filter>
+    </CustomBuild>
+    <CustomBuild Include="scripting\size2d.h">
+      <Filter>Header Files\scripting</Filter>
+    </CustomBuild>
+    <CustomBuild Include="scripting\size2i.h">
+      <Filter>Header Files\scripting</Filter>
+    </CustomBuild>
+    <CustomBuild Include="scripting\color.h">
+      <Filter>Header Files\scripting</Filter>
+    </CustomBuild>
+    <CustomBuild Include="scripting\acolor.h">
+      <Filter>Header Files\scripting</Filter>
+    </CustomBuild>
+    <CustomBuild Include="scripting\ways\wayspointref.h">
+      <Filter>Header Files\scripting\ways</Filter>
+    </CustomBuild>
+    <CustomBuild Include="scripting\dialogues\dialoguesphraseref.h">
+      <Filter>Header Files\scripting\dialogues</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\codeedit\completer.h">
+      <Filter>Header Files\gui\codeedit</Filter>
+    </CustomBuild>
+    <CustomBuild Include="scriptinghelp.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="scriptinghelp.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\table\booldelegate.h">
+      <Filter>Header Files\gui\table</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\actions\animationactions.h">
+      <Filter>Header Files\gui\actions</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\actions\scenenodeactions.h">
+      <Filter>Header Files\gui\actions</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\actions\sceneactions.h">
+      <Filter>Header Files\gui\actions</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\actions\labelactions.h">
+      <Filter>Header Files\gui\actions</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\actions\sprite2dactions.h">
+      <Filter>Header Files\gui\actions</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\actions\dialogueactions.h">
+      <Filter>Header Files\gui\actions</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\actions\animationinstanceactions.h">
+      <Filter>Header Files\gui\actions</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\actions\animationgroupactions.h">
+      <Filter>Header Files\gui\actions</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\actions\wayactions.h">
+      <Filter>Header Files\gui\actions</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\actions\customobjectactions.h">
+      <Filter>Header Files\gui\actions</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\qt-palette-color-picker\colorpicker.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\layouts\layoutcelledit.h">
+      <Filter>Header Files\gui\layouts</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\actions\gridactions.h">
+      <Filter>Header Files\gui\actions</Filter>
+    </CustomBuild>
+    <CustomBuild Include="scripting\layouts\scriptablegrid.h">
+      <Filter>Header Files\scripting\layouts</Filter>
+    </CustomBuild>
+    <CustomBuild Include="scripting\layouts\scriptablegridcell.h">
+      <Filter>Header Files\scripting\layouts</Filter>
+    </CustomBuild>
+    <CustomBuild Include="scripting\layouts\scriptablelengthvalue.h">
+      <Filter>Header Files\scripting\layouts</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gridandoffset.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gridandoffset.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

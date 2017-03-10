@@ -29,7 +29,7 @@ typedef ::dukpp03::setter<sad::dukpp03::BasicContext> setter;
 
 #define DUKPP03_FROM_STACK(TYPE, CONTEXT, INDEX) (::dukpp03::GetValue< DUKPP03_TYPE(TYPE), sad::dukpp03::BasicContext>::perform((CONTEXT),(INDEX)))
 
-#define SAD_DUKPP03_TEMPLATE_REGFUNC_BODY { this->registerCallable(name, sad::dukpp03::make_function::from(f)); }
+#define SAD_DUKPP03_TEMPLATE_REGFUNC_BODY this->registerCallable(name, sad::dukpp03::make_function::from(f));
 /*! A context, that should be used, when working with library
  */
 class Context: public sad::dukpp03::BasicContext, public sad::RefCountable
@@ -71,7 +71,7 @@ public:
         \param[in] f function
      */
     inline void bind(const std::string& name, void (*f)()) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
     /*! Registers function in context
         \param[in] name a name for function
         \param[in] f function
@@ -80,7 +80,7 @@ public:
         typename _Arg1
     >
     inline void bind(const std::string& name, void (*f)(_Arg1)) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
     /*! Registers function in context
         \param[in] name a name for function
         \param[in] f function
@@ -90,7 +90,7 @@ public:
         typename _Arg2
     >
     inline void bind(const std::string& name, void (*f)(_Arg1,_Arg2)) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
     /*! Registers function in context
         \param[in] name a name for function
         \param[in] f function
@@ -101,7 +101,7 @@ public:
         typename _Arg3
     >
     inline void bind(const std::string& name, void (*f)(_Arg1,_Arg2,_Arg3)) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
     /*! Registers function in context
         \param[in] name a name for function
         \param[in] f function
@@ -113,7 +113,7 @@ public:
         typename _Arg4
     >
     inline void bind(const std::string& name, void (*f)(_Arg1,_Arg2,_Arg3,_Arg4)) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
     /*! Registers function in context
         \param[in] name a name for function
         \param[in] f function
@@ -126,7 +126,7 @@ public:
         typename _Arg5
     >
     inline void bind(const std::string& name, void (*f)(_Arg1,_Arg2,_Arg3,_Arg4,_Arg5)) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
     /*! Registers function in context
         \param[in] name a name for function
         \param[in] f function
@@ -140,7 +140,7 @@ public:
         typename _Arg6
     >
     inline void bind(const std::string& name, void (*f)(_Arg1,_Arg2,_Arg3,_Arg4,_Arg5,_Arg6)) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
     /*! Registers function in context
         \param[in] name a name for function
         \param[in] f function
@@ -155,7 +155,7 @@ public:
         typename _Arg7
     >
     inline void bind(const std::string& name, void (*f)(_Arg1,_Arg2,_Arg3,_Arg4,_Arg5,_Arg6,_Arg7)) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
     /*! Registers function in context
         \param[in] name a name for function
         \param[in] f function
@@ -171,7 +171,7 @@ public:
         typename _Arg8
     >
     inline void bind(const std::string& name, void (*f)(_Arg1,_Arg2,_Arg3,_Arg4,_Arg5,_Arg6,_Arg7,_Arg8)) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
     /*! Registers function in context
         \param[in] name a name for function
         \param[in] f function
@@ -188,7 +188,7 @@ public:
         typename _Arg9
     >
     inline void bind(const std::string& name, void (*f)(_Arg1,_Arg2,_Arg3,_Arg4,_Arg5,_Arg6,_Arg7,_Arg8,_Arg9)) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
     /*! Registers function in context
         \param[in] name a name for function
         \param[in] f function
@@ -206,7 +206,7 @@ public:
         typename _Arg10
     >
     inline void bind(const std::string& name, void (*f)(_Arg1,_Arg2,_Arg3,_Arg4,_Arg5,_Arg6,_Arg7,_Arg8,_Arg9,_Arg10)) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
     /*! Registers function in context
         \param[in] name a name for function
         \param[in] f function
@@ -225,7 +225,7 @@ public:
         typename _Arg11
     >
     inline void bind(const std::string& name, void (*f)(_Arg1,_Arg2,_Arg3,_Arg4,_Arg5,_Arg6,_Arg7,_Arg8,_Arg9,_Arg10,_Arg11)) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
     /*! Registers function in context
         \param[in] name a name for function
         \param[in] f function
@@ -245,7 +245,7 @@ public:
         typename _Arg12
     >
     inline void bind(const std::string& name, void (*f)(_Arg1,_Arg2,_Arg3,_Arg4,_Arg5,_Arg6,_Arg7,_Arg8,_Arg9,_Arg10,_Arg11,_Arg12)) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
     /*! Registers function in context
         \param[in] name a name for function
         \param[in] f function
@@ -266,7 +266,7 @@ public:
         typename _Arg13
     >
     inline void bind(const std::string& name, void (*f)(_Arg1,_Arg2,_Arg3,_Arg4,_Arg5,_Arg6,_Arg7,_Arg8,_Arg9,_Arg10,_Arg11,_Arg12,_Arg13)) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
     /*! Registers function in context
         \param[in] name a name for function
         \param[in] f function
@@ -288,7 +288,7 @@ public:
         typename _Arg14
     >
     inline void bind(const std::string& name, void (*f)(_Arg1,_Arg2,_Arg3,_Arg4,_Arg5,_Arg6,_Arg7,_Arg8,_Arg9,_Arg10,_Arg11,_Arg12,_Arg13,_Arg14)) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
     /*! Registers function in context
         \param[in] name a name for function
         \param[in] f function
@@ -311,7 +311,7 @@ public:
         typename _Arg15
     >
     inline void bind(const std::string& name, void (*f)(_Arg1,_Arg2,_Arg3,_Arg4,_Arg5,_Arg6,_Arg7,_Arg8,_Arg9,_Arg10,_Arg11,_Arg12,_Arg13,_Arg14,_Arg15)) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
     /*! Registers function in context
         \param[in] name a name for function
         \param[in] f function
@@ -335,7 +335,7 @@ public:
         typename _Arg16
     >
     inline void bind(const std::string& name, void (*f)(_Arg1,_Arg2,_Arg3,_Arg4,_Arg5,_Arg6,_Arg7,_Arg8,_Arg9,_Arg10,_Arg11,_Arg12,_Arg13,_Arg14,_Arg15,_Arg16)) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
     
     /*! Registers function in context
         \param[in] name a name for function
@@ -345,7 +345,7 @@ public:
         typename _Ret
     >
     inline void bind(const std::string& name, _Ret (*f)()) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
     /*! Registers function in context
         \param[in] name a name for function
         \param[in] f function
@@ -355,7 +355,7 @@ public:
         typename _Arg1
     >
     inline void bind(const std::string& name, _Ret (*f)(_Arg1)) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
     /*! Registers function in context
         \param[in] name a name for function
         \param[in] f function
@@ -366,7 +366,7 @@ public:
         typename _Arg2
     >
     inline void bind(const std::string& name, _Ret (*f)(_Arg1,_Arg2)) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
     /*! Registers function in context
         \param[in] name a name for function
         \param[in] f function
@@ -378,7 +378,7 @@ public:
         typename _Arg3
     >
     inline void bind(const std::string& name, _Ret (*f)(_Arg1,_Arg2,_Arg3)) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
     /*! Registers function in context
         \param[in] name a name for function
         \param[in] f function
@@ -391,7 +391,7 @@ public:
         typename _Arg4
     >
     inline void bind(const std::string& name, _Ret (*f)(_Arg1,_Arg2,_Arg3,_Arg4)) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
     /*! Registers function in context
         \param[in] name a name for function
         \param[in] f function
@@ -405,7 +405,7 @@ public:
         typename _Arg5
     >
     inline void bind(const std::string& name, _Ret (*f)(_Arg1,_Arg2,_Arg3,_Arg4,_Arg5)) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
     /*! Registers function in context
         \param[in] name a name for function
         \param[in] f function
@@ -420,7 +420,7 @@ public:
         typename _Arg6
     >
     inline void bind(const std::string& name, _Ret (*f)(_Arg1,_Arg2,_Arg3,_Arg4,_Arg5,_Arg6)) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
     /*! Registers function in context
         \param[in] name a name for function
         \param[in] f function
@@ -436,7 +436,7 @@ public:
         typename _Arg7
     >
     inline void bind(const std::string& name, _Ret (*f)(_Arg1,_Arg2,_Arg3,_Arg4,_Arg5,_Arg6,_Arg7)) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
     /*! Registers function in context
         \param[in] name a name for function
         \param[in] f function
@@ -453,7 +453,7 @@ public:
         typename _Arg8
     >
     inline void bind(const std::string& name, _Ret (*f)(_Arg1,_Arg2,_Arg3,_Arg4,_Arg5,_Arg6,_Arg7,_Arg8)) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
     /*! Registers function in context
         \param[in] name a name for function
         \param[in] f function
@@ -471,7 +471,7 @@ public:
         typename _Arg9
     >
     inline void bind(const std::string& name, _Ret (*f)(_Arg1,_Arg2,_Arg3,_Arg4,_Arg5,_Arg6,_Arg7,_Arg8,_Arg9)) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
     /*! Registers function in context
         \param[in] name a name for function
         \param[in] f function
@@ -490,7 +490,7 @@ public:
         typename _Arg10
     >
     inline void bind(const std::string& name, _Ret (*f)(_Arg1,_Arg2,_Arg3,_Arg4,_Arg5,_Arg6,_Arg7,_Arg8,_Arg9,_Arg10)) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
     /*! Registers function in context
         \param[in] name a name for function
         \param[in] f function
@@ -510,7 +510,7 @@ public:
         typename _Arg11
     >
     inline void bind(const std::string& name, _Ret (*f)(_Arg1,_Arg2,_Arg3,_Arg4,_Arg5,_Arg6,_Arg7,_Arg8,_Arg9,_Arg10,_Arg11)) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
     /*! Registers function in context
         \param[in] name a name for function
         \param[in] f function
@@ -531,7 +531,7 @@ public:
         typename _Arg12
     >
     inline void bind(const std::string& name, _Ret (*f)(_Arg1,_Arg2,_Arg3,_Arg4,_Arg5,_Arg6,_Arg7,_Arg8,_Arg9,_Arg10,_Arg11,_Arg12)) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
     /*! Registers function in context
         \param[in] name a name for function
         \param[in] f function
@@ -553,7 +553,7 @@ public:
         typename _Arg13
     >
     inline void bind(const std::string& name, _Ret (*f)(_Arg1,_Arg2,_Arg3,_Arg4,_Arg5,_Arg6,_Arg7,_Arg8,_Arg9,_Arg10,_Arg11,_Arg12,_Arg13)) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
     /*! Registers function in context
         \param[in] name a name for function
         \param[in] f function
@@ -576,7 +576,7 @@ public:
         typename _Arg14
     >
     inline void bind(const std::string& name, _Ret (*f)(_Arg1,_Arg2,_Arg3,_Arg4,_Arg5,_Arg6,_Arg7,_Arg8,_Arg9,_Arg10,_Arg11,_Arg12,_Arg13,_Arg14)) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
     /*! Registers function in context
         \param[in] name a name for function
         \param[in] f function
@@ -600,7 +600,7 @@ public:
         typename _Arg15
     >
     inline void bind(const std::string& name, _Ret (*f)(_Arg1,_Arg2,_Arg3,_Arg4,_Arg5,_Arg6,_Arg7,_Arg8,_Arg9,_Arg10,_Arg11,_Arg12,_Arg13,_Arg14,_Arg15)) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
     /*! Registers function in context
         \param[in] name a name for function
         \param[in] f function
@@ -625,7 +625,7 @@ public:
         typename _Arg16
     >
     inline void bind(const std::string& name, _Ret (*f)(_Arg1,_Arg2,_Arg3,_Arg4,_Arg5,_Arg6,_Arg7,_Arg8,_Arg9,_Arg10,_Arg11,_Arg12,_Arg13,_Arg14,_Arg15,_Arg16)) 
-    SAD_DUKPP03_TEMPLATE_REGFUNC_BODY
+    {SAD_DUKPP03_TEMPLATE_REGFUNC_BODY}
 protected:
     /*! A parent renderer for context
      */
