@@ -4,6 +4,8 @@ Saddy is an open-source crossplatform 2D graphic engine, based on OpenGL, which 
 
 ## News
 
+Note, that starting from 1.7.0, Saddy will only support compilers, that support C++11.
+
 * **22.08.16** Saddy [1.6.0](https://github.com/mamontov-cpp/saddy/releases/tag/1.6.0) released!
 
 * **23.01.16** Saddy [1.5.4](https://github.com/mamontov-cpp/saddy/releases/tag/1.5.4) released!
@@ -34,6 +36,18 @@ Our main goal is to create small graphics engine, which can be used to create a 
   * We want to provide a simple engine, which can be built with NO external dependencies at all and work on old platforms, that don't support shaders or integrated videocards, so the core project can be built without installing any libraries (except for those, required by OpenGL and CMake, starting from 1.6.0+). The core project now uses old OpenGL calls, but nevertheless, tries to create OpenGL3+ context, so you can also use newer API.
   * We do, however, use a 3rdparty libraries, like [tpunit++](https://github.com/tpounds/tpunitpp) or [format](https://github.com/cppformat/cppformat), but they are either embedded, or moved to plugins. A complete list of dependencies could be found [here](https://github.com/mamontov-cpp/saddy-graphics-engine-2d/wiki/Dependencies)
   * We want to provide an easy-to-use toolchain to satisfy simple most basic needs for  creating a simple game.
+
+## How to download project and get sources ready to compile
+
+```
+git clone https://github.com/mamontov-cpp/saddy-graphics-engine-2d.git
+cd saddy-graphics-engine-2d
+git submodule init
+git submodule update
+git submodule status
+```
+
+This will download whole project with dependencies
 
 ## Supported platforms
 
