@@ -10,7 +10,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <QTDIR>D:\SDKs\Qt\5.8\msvc2015_64</QTDIR>
     <LocalDebuggerEnvironment>PATH=$(QTDIR)\bin%3b"$(QTDIR)\bin%3b$(PATH)</LocalDebuggerEnvironment>
-    <LocalDebuggerWorkingDirectory>../../../bin/nice/</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerWorkingDirectory>../../../bin/ifaceed/</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerCommandArguments>-resources globalconfig.json -width 800 -height 600</LocalDebuggerCommandArguments>
   </PropertyGroup>

@@ -112,16 +112,16 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='DebugQt4|Win32'">../../../bin/ifaceed/</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugQt4|Win32'">$(SolutionDir)$(Configuration)\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">iface-editor-debug.exe</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">iface-editor-debug.exe</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">iface-editor-debug</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">iface-editor-debug</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='DebugQt4|Win32'">iface-editor-debug</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='DebugQt4|x64'">iface-editor-debug</TargetName>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\include;$(QTDIR)\include\QtCore\;$(QTDIR)\include\QtGui\;$(QTDIR)\include\Qt\;$(QTDIR)\include\QtScript\;$(QTDIR)\include\QtWidgets\;$(IncludePath)</IncludePath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\include;$(QTDIR)\include\QtCore\;$(QTDIR)\include\QtGui\;$(QTDIR)\include\Qt\;$(QTDIR)\include\QtScript\;$(QTDIR)\include\QtWidgets\;$(IncludePath)</IncludePath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='DebugQt4|Win32'">$(QTDIR)\include;$(QTDIR)\include\QtCore\;$(QTDIR)\include\QtGui\;$(QTDIR)\include\Qt\;$(QTDIR)\include\QtScript\;$(QTDIR)\include\QtWidgets\;$(IncludePath)</IncludePath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='DebugQt4|x64'">$(QTDIR)\include;$(QTDIR)\include\QtCore\;$(QTDIR)\include\QtGui\;$(QTDIR)\include\Qt\;$(QTDIR)\include\QtScript\;$(QTDIR)\include\QtWidgets\;$(IncludePath)</IncludePath>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">iface-editor-release.exe</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">iface-editor-release.exe</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">iface-editor-release</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">iface-editor-release</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseQt4|Win32'">iface-editor-release</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseQt4|x64'">iface-editor-release</TargetName>
   </PropertyGroup>
@@ -142,7 +142,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>qtmain.lib;Qt5Core.lib;Qt5Gui.lib;saddy-release.lib;saddy-ft-release.lib;freetype.lib;OPENGL32.lib;GLU32.lib;Qt5Script.lib;Qt5Widgets.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>../../../bin/ifaceed/iface-editor-release.exe</OutputFile>
+      <OutputFile>$(TargetPath)</OutputFile>
       <AdditionalLibraryDirectories>../../../lib/;$(QTDIR)\lib;$(FREETYPE_LIB);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -162,7 +162,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>qtmain.lib;Qt5Core.lib;Qt5Gui.lib;freetype.lib;saddy-release.lib;saddy-ft-release.lib;OPENGL32.lib;GLU32.lib;Qt5Script.lib;Qt5Widgets.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(TargetPath)/$(TargetName)</OutputFile>
+      <OutputFile>$(TargetPath)</OutputFile>
       <AdditionalLibraryDirectories>../../../lib/;$(QTDIR)\lib;$(FREETYPE_LIB);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -214,7 +214,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;saddy-ft-debug.lib;saddy-debug.lib;freetype.lib;OPENGL32.lib;GLU32.lib;Qt5Scriptd.lib;Qt5Widgetsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>../../../bin/ifaceed/iface-editor-debug.exe</OutputFile>
+      <OutputFile>$(TargetPath)</OutputFile>
       <AdditionalLibraryDirectories>../../../lib/;$(QTDIR)\lib;$(FREETYPE_LIB);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -234,7 +234,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;freetype.lib;saddy-ft-debug.lib;saddy-debug.lib;OPENGL32.lib;GLU32.lib;Qt5Scriptd.lib;Qt5Widgetsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(TargetPath)/$(TargetName)</OutputFile>
+      <OutputFile>$(TargetPath)</OutputFile>
       <AdditionalLibraryDirectories>../../../lib/;$(QTDIR)\lib;$(FREETYPE_LIB);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
