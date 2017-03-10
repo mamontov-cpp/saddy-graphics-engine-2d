@@ -5,6 +5,7 @@
     This file contains a definition of vector.
 */
 #pragma once
+#include <cstdlib>
 #include <vector>
 
 namespace sad
