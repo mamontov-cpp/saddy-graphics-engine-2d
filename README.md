@@ -6,6 +6,8 @@ Saddy is an open-source crossplatform 2D graphic engine, based on OpenGL, which 
 
 Note, that starting from 1.7.0, Saddy will only support compilers, that support C++11.
 
+* **11.03.17** Saddy [1.6.1](https://github.com/mamontov-cpp/saddy/releases/tag/1.6.1) released!
+
 * **22.08.16** Saddy [1.6.0](https://github.com/mamontov-cpp/saddy/releases/tag/1.6.0) released!
 
 * **23.01.16** Saddy [1.5.4](https://github.com/mamontov-cpp/saddy/releases/tag/1.5.4) released!
@@ -56,6 +58,14 @@ Currently, we support a following platforms.
   * Windows, using Microsoft Visual C++ 2010+ (x86, x64)
   * Windows, using CMake/MinGW-w64 5.2.0+ (x86/x64)
   * Linux, using CMake/gcc (x86/x64)
+  
+## Example screenshots
+
+![Game Example (screenshot 1)](http://s4.postimg.org/yk1zz3mu5/screen1.png)   ![Game Example (screnshot 2)](http://s9.postimg.org/ypqdxqpan/screen2.png)
+
+![Physics (screenshot 1)](http://s27.postimg.org/44xxl1yeb/screen3.png) ![Physics  (screenshot 2)](http://s15.postimg.org/4u7mh2e8b/screen4.png)
+
+![Instrumented game](https://s13.postimg.org/hplvp4i3b/gameinstrumented.png)
 
 ## Ran into a problem? Don't know where to start?
 
