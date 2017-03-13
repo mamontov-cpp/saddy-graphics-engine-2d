@@ -4,53 +4,58 @@
     Contains a simple hashtable, based on ElfHash function
 */
 #pragma once
-#ifdef USE_OLD_SAD_HASH_IMPLEMENTATION
-    #include "util/sadhash.h"
-#else
-
-#ifdef USE_EXTERNAL_BOOST 
-#include <boost/functional/hash.hpp>
-#include <boost/unordered/unordered_map.hpp>
-#else
-#include "3rdparty/boost-dist/boost/functional/hash/extensions.hpp"
-#include "3rdparty/boost-dist/boost/functional/hash.hpp"
-#include "3rdparty/boost-dist/boost/unordered/unordered_map.hpp"
-#endif
-
-#endif
-
-
-#ifndef USE_OLD_SAD_HASH_IMPLEMENTATION
+#include <unordered_map>
+#include <functional>
 
 #include "sadstring.h"
 #include "sadwstring.h"
 #include "sadpair.h"
 
-namespace sad
+namespace std
 {
 
-/*! Returns hash value for sad::String type
-    \param[in] b value
+/*! Hash value for string
  */
-std::size_t hash_value(const sad::String& b);
-/*! Returns hash value for sad::String type
-    \param[in] b value
+template<>
+struct hash<sad::String>
+{
+/*! Returns hash value for string
+    \param[in] o string
+    \return value
  */
-std::size_t hash_value(const sad::WString& b);
+size_t operator()(const sad::String& o) const;
+};
+
+/*! Hash value for wide string
+ */
+template<>
+struct hash<sad::WString>
+{
+/*! Returns hash value for wide string
+    \param[in] o string
+    \return value
+ */
+size_t operator()(const sad::WString& o) const;
+};
+
+}
+
+namespace sad
+{
     
 /*! \class Hash
-    Class of a simple hash-based dictionary, based on boost::unordered_map
+    Class of a simple hash-based dictionary, based on std::unordered_map
 */
 template<
     typename Key, 
     typename T
 >
-class Hash : public boost::unordered_map<Key, T>
+class Hash : public std::unordered_map<Key, T>
 {
 public:
     /*! Constant iterator for hash
      */
-    class const_iterator: public boost::unordered_map<Key, T>::const_iterator
+    class const_iterator: public std::unordered_map<Key, T>::const_iterator
     {
     public:
         /*! Constructs broken iterator
@@ -62,8 +67,8 @@ public:
         /*! A copy constructor for iterator
             \param[in] it other iterator
          */
-        const_iterator(const typename boost::unordered_map<Key, T>::const_iterator& it)
-        : boost::unordered_map<Key, T>::const_iterator(it)
+        const_iterator(const typename std::unordered_map<Key, T>::const_iterator& it)
+        : std::unordered_map<Key, T>::const_iterator(it)
         {
             
         }
@@ -90,7 +95,7 @@ public:
     };
     /*! A common iterator for hash
      */
-    class iterator: public boost::unordered_map<Key, T>::iterator
+    class iterator: public std::unordered_map<Key, T>::iterator
     {
     public:
         /*! Constructs broken iterator
@@ -102,8 +107,8 @@ public:
         /*! A copy constructor for iterator
             \param[in] it other iterator
          */
-        iterator(const typename boost::unordered_map<Key, T>::iterator& it)
-        : boost::unordered_map<Key, T>::iterator(it)
+        iterator(const typename std::unordered_map<Key, T>::iterator& it)
+        : std::unordered_map<Key, T>::iterator(it)
         {
             
         }
@@ -134,14 +139,14 @@ public:
      */
     iterator begin()
     {
-        return iterator(this->boost::unordered_map<Key, T>::begin());
+        return iterator(this->std::unordered_map<Key, T>::begin());
     }
     /*! Returns an end iterator
         \return an iterator for ending element
     */
     iterator end()
     {
-        return iterator(this->boost::unordered_map<Key, T>::end());
+        return iterator(this->std::unordered_map<Key, T>::end());
     }
 
     /*! Returns a begin iterator
@@ -149,14 +154,14 @@ public:
      */
     const_iterator const_begin() const
     {
-        return const_iterator(this->boost::unordered_map<Key, T>::begin());
+        return const_iterator(this->std::unordered_map<Key, T>::begin());
     }
     /*! Returns an end iterator
         \return an iterator for ending element
      */
     const_iterator const_end() const
     {
-        return const_iterator(this->boost::unordered_map<Key, T>::end());
+        return const_iterator(this->std::unordered_map<Key, T>::end());
     }
 
     /*! Inits an empty hash
@@ -197,7 +202,7 @@ public:
         this->insert(k1, v1);
         this->insert(k2, v2);
         this->insert(k3, v3);
-    }		
+    }
     /*! Seeks a key-value pair in hash. If not found, the default value is
        returned. Note, that it could change contains of hash table, if element
        is absent, it would be inserted into container with default value.
@@ -242,13 +247,13 @@ public:
      */
     void insert(const Key & k, const T & v)
     {
-        // boost::unordered_map cannot replace the already existing pair, so we need to
+        // std::unordered_map cannot replace the already existing pair, so we need to
         // do it ourselves. 
         if (this->find(k) != this->const_end())
         {
             this->erase(k);
         }
-        this->boost::unordered_map<Key, T>::insert(std::make_pair(k, v));
+        this->std::unordered_map<Key, T>::insert(std::make_pair(k, v));
     }
     /*! Removes a value from a table
         \param[in] k key
@@ -271,5 +276,3 @@ protected:
 };
 
 }
-
-#endif
