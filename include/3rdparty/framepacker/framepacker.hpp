@@ -35,8 +35,6 @@
 #include <limits>
 #include <math.h>
 
-#include "../boost-dist/boost/shared_ptr.hpp"
-
 namespace framepacker {
 
 struct match_path_separator { bool operator () (char ch) const { return ch == '\\' || ch == '/'; } };
@@ -164,7 +162,7 @@ std::ostream &operator << (std::ostream &s, const rect &r) {
 }
 
 struct node : public rect {
-	typedef boost::shared_ptr<node> ptr_type;
+	typedef std::shared_ptr<node> ptr_type;
 
 	node() : used(false), down(), right() {
 	}
@@ -359,7 +357,7 @@ class packer {
 
 public:
 	typedef I image_type;
-	typedef boost::shared_ptr<image_type> texture_type;
+	typedef std::shared_ptr<image_type> texture_type;
 	typedef block<texture_type> block_type;
 	typedef std::string name_type;
 	typedef std::pair<name_type, block_type> texture_item_type;

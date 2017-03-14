@@ -1,17 +1,18 @@
 #include "sadhash.h"
 
-// ===============================  sad::hash_value ===============================
+// ===============================  std::hash ===============================
 
-std::size_t sad::hash_value(const sad::String& s)
+size_t std::hash<sad::String>::operator()(const sad::String& o) const
 {
-    boost::hash<std::string> hasher;
-    return hasher(s);
+    std::hash<std::string> h;
+    return h(o);
 }
 
-std::size_t sad::hash_value(const sad::WString& s)
+size_t std::hash<sad::WString>::operator()(const sad::WString& o) const
 {
-    boost::hash<std::wstring> hasher;
-    return hasher(s);
+    std::hash<std::wstring> h;
+    return h(o);
 }
+
 
 // ===============================================================================

@@ -27,6 +27,11 @@ void sad::os::ConsoleImpl::createConsole()
 }
 
 #ifdef WIN32
+
+#ifdef _MSC_VER
+    #pragma warning(disable: 4838)
+#endif
+
 static WORD fg[] = {
 -1, 
 FOREGROUND_RED | FOREGROUND_INTENSITY,

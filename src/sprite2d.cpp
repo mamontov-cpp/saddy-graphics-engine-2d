@@ -11,7 +11,6 @@
 
 #include <3rdparty/picojson/valuetotype.h>
 
-#include <math.h>
 #include <fstream>
 
 #include "db/schema/schema.h"

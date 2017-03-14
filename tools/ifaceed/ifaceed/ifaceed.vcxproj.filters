@@ -258,16 +258,6 @@
     <Filter Include="Header Files\scripting\groups">
       <UniqueIdentifier>{4258c26c-8d50-4961-bec9-ab5a5b714602}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Generated Files\DebugQt4">
-      <UniqueIdentifier>{9e85108a-4111-45c2-8fa2-80f3aef882ea}</UniqueIdentifier>
-      <Extensions>cpp;moc</Extensions>
-      <SourceControlFiles>False</SourceControlFiles>
-    </Filter>
-    <Filter Include="Generated Files\ReleaseQt4">
-      <UniqueIdentifier>{6396d5b5-7582-42bc-b250-0f6974c229a1}</UniqueIdentifier>
-      <Extensions>cpp;moc</Extensions>
-      <SourceControlFiles>False</SourceControlFiles>
-    </Filter>
     <Filter Include="Header Files\gui\uiblocks">
       <UniqueIdentifier>{dd239388-f861-486a-a2da-1e25cea7becc}</UniqueIdentifier>
     </Filter>
@@ -1674,17 +1664,11 @@
     <ClCompile Include="history\animations\animationschangepropertyaspoint2displayedintwospinboxes.cpp">
       <Filter>Source Files\history\animations</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_booldelegate.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_booldelegate.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\GUITests\moc_booldelegate.cpp">
       <Filter>Generated Files\GUITests</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_booldelegate.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_booldelegate.cpp">
       <Filter>Generated Files\Release</Filter>
@@ -1718,360 +1702,6 @@
     </ClCompile>
     <ClCompile Include="history\label\changetextellipsisforlines.cpp">
       <Filter>Source Files\history\label</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_delegate.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_textedit.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_classwrapper.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_animationinstanceprocess.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_animationgroupprocess.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_scriptinghelp.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_acolor.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_acolordialog.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_animationprocess.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_completer.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_color.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_point2d.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_point2i.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_point3d.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_point3i.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_rect2i.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_rect2d.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_rotationprocess.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_size2d.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_size2i.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_eventfilter.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_resourcetreewidget.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_fontsizewidget.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_floatdelegate.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_doubledelegate.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_intdelegate.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_longdelegate.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_saddythread.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_longlongdelegate.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_sadpoint2ddelegate.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_sadpoint2idelegate.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_sadsize2ddelegate.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_sadsize2idelegate.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_sadstringdelegate.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_anglewidget.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_sadacolordelegate.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_sadcolordelegate.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_shortdelegate.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_unsignedshortdelegate.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_signedchardelegate.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_unsignedchardelegate.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_unsignedintdelegate.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_unsignedlongdelegate.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_unsignedlonglongdelegate.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_doubletuplewidget.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_int64tuplewidget.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_codeedit.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_colorpicker.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_colorview.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_dialoguesphraseref.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_editor.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_mainpanel.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_scripting.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_rectwidget.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_reloadfilelist.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_selection.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_wayspointref.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_animationprocess.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_classwrapper.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_codeedit.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_color.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_colorpicker.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_colorview.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_completer.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_delegate.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_dialoguesphraseref.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_doubledelegate.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_doubletuplewidget.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_editor.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_eventfilter.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_floatdelegate.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_fontsizewidget.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_int64tuplewidget.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_intdelegate.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_longdelegate.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_longlongdelegate.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_mainpanel.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_point2d.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_point2i.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_point3d.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_point3i.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_qwwlongspinbox.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_qwwulongspinbox.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_rect2d.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_rect2i.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_rectwidget.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_reloadfilelist.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_resourcetreewidget.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_rotationprocess.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_sadacolordelegate.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_sadcolordelegate.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_saddythread.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_sadpoint2ddelegate.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_sadpoint2idelegate.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_sadsize2ddelegate.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_sadsize2idelegate.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_sadstringdelegate.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_scripting.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_scriptinghelp.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_selection.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_shortdelegate.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_signedchardelegate.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_size2d.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_size2i.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_textedit.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_unsignedchardelegate.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_unsignedintdelegate.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_unsignedlongdelegate.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_unsignedlonglongdelegate.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_unsignedshortdelegate.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_wayspointref.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_acolor.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_acolordialog.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_anglewidget.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_animationgroupprocess.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_animationinstanceprocess.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_qwwlongspinbox.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_qwwulongspinbox.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
     </ClCompile>
     <ClCompile Include="gui\uiblocks\uianimationblock.cpp">
       <Filter>Source Files\gui\uiblocks</Filter>
@@ -2118,17 +1748,11 @@
     <ClCompile Include="gui\actions\abstractactions.cpp">
       <Filter>Source Files\gui\actions</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_animationactions.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_animationactions.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\GUITests\moc_animationactions.cpp">
       <Filter>Generated Files\GUITests</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_animationactions.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_animationactions.cpp">
       <Filter>Generated Files\Release</Filter>
@@ -2151,17 +1775,11 @@
     <ClCompile Include="gui\actions\customobjectactions.cpp">
       <Filter>Source Files\gui\actions</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_scenenodeactions.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_scenenodeactions.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\GUITests\moc_scenenodeactions.cpp">
       <Filter>Generated Files\GUITests</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_scenenodeactions.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_scenenodeactions.cpp">
       <Filter>Generated Files\Release</Filter>
@@ -2178,17 +1796,11 @@
     <ClCompile Include="gui\actions\sceneactions.cpp">
       <Filter>Source Files\gui\actions</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_sceneactions.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_sceneactions.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\GUITests\moc_sceneactions.cpp">
       <Filter>Generated Files\GUITests</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_sceneactions.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_sceneactions.cpp">
       <Filter>Generated Files\Release</Filter>
@@ -2199,17 +1811,11 @@
     <ClCompile Include="GeneratedFiles\UnitTests\moc_sceneactions.cpp">
       <Filter>Generated Files\UnitTests</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_labelactions.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_labelactions.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\GUITests\moc_labelactions.cpp">
       <Filter>Generated Files\GUITests</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_labelactions.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_labelactions.cpp">
       <Filter>Generated Files\Release</Filter>
@@ -2226,17 +1832,11 @@
     <ClCompile Include="gui\actions\sprite2dactions.cpp">
       <Filter>Source Files\gui\actions</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_sprite2dactions.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_sprite2dactions.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\GUITests\moc_sprite2dactions.cpp">
       <Filter>Generated Files\GUITests</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_sprite2dactions.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_sprite2dactions.cpp">
       <Filter>Generated Files\Release</Filter>
@@ -2247,17 +1847,11 @@
     <ClCompile Include="GeneratedFiles\UnitTests\moc_sprite2dactions.cpp">
       <Filter>Generated Files\UnitTests</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_dialogueactions.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_dialogueactions.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\GUITests\moc_dialogueactions.cpp">
       <Filter>Generated Files\GUITests</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_dialogueactions.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_dialogueactions.cpp">
       <Filter>Generated Files\Release</Filter>
@@ -2271,17 +1865,11 @@
     <ClCompile Include="gui\actions\dialogueactions.cpp">
       <Filter>Source Files\gui\actions</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_animationinstanceactions.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_animationinstanceactions.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\GUITests\moc_animationinstanceactions.cpp">
       <Filter>Generated Files\GUITests</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_animationinstanceactions.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_animationinstanceactions.cpp">
       <Filter>Generated Files\Release</Filter>
@@ -2295,17 +1883,11 @@
     <ClCompile Include="gui\actions\animationinstanceactions.cpp">
       <Filter>Source Files\gui\actions</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_animationgroupactions.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_animationgroupactions.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\GUITests\moc_animationgroupactions.cpp">
       <Filter>Generated Files\GUITests</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_animationgroupactions.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_animationgroupactions.cpp">
       <Filter>Generated Files\Release</Filter>
@@ -2319,17 +1901,11 @@
     <ClCompile Include="gui\actions\animationgroupactions.cpp">
       <Filter>Source Files\gui\actions</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_wayactions.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_wayactions.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\GUITests\moc_wayactions.cpp">
       <Filter>Generated Files\GUITests</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_wayactions.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_wayactions.cpp">
       <Filter>Generated Files\Release</Filter>
@@ -2343,17 +1919,11 @@
     <ClCompile Include="gui\actions\wayactions.cpp">
       <Filter>Source Files\gui\actions</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_customobjectactions.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_customobjectactions.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\GUITests\moc_customobjectactions.cpp">
       <Filter>Generated Files\GUITests</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_customobjectactions.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_customobjectactions.cpp">
       <Filter>Generated Files\Release</Filter>
@@ -2388,17 +1958,11 @@
     <ClCompile Include="gui\uiblocks\uilayoutblock.cpp">
       <Filter>Source Files\gui\uiblocks</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_layoutcelledit.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_layoutcelledit.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\GUITests\moc_layoutcelledit.cpp">
       <Filter>Generated Files\GUITests</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_layoutcelledit.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_layoutcelledit.cpp">
       <Filter>Generated Files\Release</Filter>
@@ -2412,17 +1976,11 @@
     <ClCompile Include="gui\layouts\layoutcelledit.cpp">
       <Filter>Source Files\gui\layouts</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_gridactions.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_gridactions.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\GUITests\moc_gridactions.cpp">
       <Filter>Generated Files\GUITests</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_gridactions.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_gridactions.cpp">
       <Filter>Generated Files\Release</Filter>
@@ -2466,17 +2024,11 @@
     <ClCompile Include="scripting\layouts\gridbindings.cpp">
       <Filter>Source Files\scripting\layouts</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_scriptablegrid.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_scriptablegrid.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\GUITests\moc_scriptablegrid.cpp">
       <Filter>Generated Files\GUITests</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_scriptablegrid.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_scriptablegrid.cpp">
       <Filter>Generated Files\Release</Filter>
@@ -2487,17 +2039,11 @@
     <ClCompile Include="GeneratedFiles\UnitTests\moc_scriptablegrid.cpp">
       <Filter>Generated Files\UnitTests</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_scriptablegridcell.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_scriptablegridcell.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\GUITests\moc_scriptablegridcell.cpp">
       <Filter>Generated Files\GUITests</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_scriptablegridcell.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_scriptablegridcell.cpp">
       <Filter>Generated Files\Release</Filter>
@@ -2514,17 +2060,11 @@
     <ClCompile Include="scripting\layouts\scriptablegridcell.cpp">
       <Filter>Source Files\scripting\layouts</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_scriptablelengthvalue.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_scriptablelengthvalue.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\GUITests\moc_scriptablelengthvalue.cpp">
       <Filter>Generated Files\GUITests</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_scriptablelengthvalue.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_scriptablelengthvalue.cpp">
       <Filter>Generated Files\Release</Filter>
@@ -2538,17 +2078,11 @@
     <ClCompile Include="scripting\layouts\scriptablelengthvalue.cpp">
       <Filter>Source Files\scripting\layouts</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_gridandoffset.cpp">
-      <Filter>Generated Files\DebugQt4</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_gridandoffset.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\GUITests\moc_gridandoffset.cpp">
       <Filter>Generated Files\GUITests</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_gridandoffset.cpp">
-      <Filter>Generated Files\ReleaseQt4</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_gridandoffset.cpp">
       <Filter>Generated Files\Release</Filter>

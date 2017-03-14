@@ -8,8 +8,8 @@ file(GLOB HDRS *.h)
 set(SADDY_APPLICATION_NAME "saddy-test")
 set(SADDY_LIBRARY_NAME "saddy")
 
-set(SADDY_CXX_DEBUG_FLAGS "-Wno-reorder -Wno-unused -Wno-sign-compare -w")
-set(SADDY_CXX_RELEASE_FLAGS "-O2 -Wno-reorder -Wno-unused -Wno-sign-compare -w")
+set(SADDY_CXX_DEBUG_FLAGS "-std=c++14 -Wno-reorder -Wno-unused -Wno-sign-compare -w")
+set(SADDY_CXX_RELEASE_FLAGS "-std=c++14 -O2 -Wno-reorder -Wno-unused -Wno-sign-compare -w")
 
 if (NOT CMAKE_BUILD_TYPE)
 	message(STATUS "No build type selected, default to Release")

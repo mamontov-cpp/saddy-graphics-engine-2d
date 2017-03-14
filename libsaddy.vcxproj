@@ -1,13 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -15,16 +23,30 @@
     <ProjectGuid>{4F41A547-C004-4A32-A69A-36EBAFA5EB93}</ProjectGuid>
     <RootNamespace>libsaddy</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -32,7 +54,13 @@
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -43,9 +71,16 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)lib\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">saddy-debug</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">saddy-debug</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">saddy-release</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">saddy-release</TargetName>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IncludePath)</IncludePath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)lib\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -59,12 +94,47 @@
       </PrecompiledHeader>
       <WarningLevel>Level1</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)saddy-debug.lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>include/config;include/primitives;include/templates;include;include/extra;include/p2d;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;_SCL_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>StackFrameRuntimeCheck</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level1</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Lib>
       <OutputFile>$(OutDir)saddy-debug.lib</OutputFile>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <AdditionalIncludeDirectories>include/config;include/primitives;include/templates;include;include/extra;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;MSVC_RELEASE;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_SCL_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)saddy-release.lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -144,7 +214,6 @@
     <ClCompile Include="src\timer.cpp" />
     <ClCompile Include="src\util\chararrayibuf.cpp" />
     <ClCompile Include="src\util\fileistreambuf.cpp" />
-    <ClCompile Include="src\util\utilsadhash.cpp" />
     <ClCompile Include="src\window.cpp" />
     <ClCompile Include="src\cli\clioptionvalue.cpp" />
     <ClCompile Include="src\cli\cliparser.cpp" />
@@ -286,196 +355,6 @@
     <ClCompile Include="src\animations\setstate\setpositionproperty.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\3rdparty\boost-dist\boost\aligned_storage.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\array.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\assert.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\bimap.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\associative_container_adaptor.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\container_adaptor.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\detail\comparison_adaptor.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\detail\functor_bag.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\detail\identity_converters.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\detail\key_extractor.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\detail\non_unique_container_helper.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\list_adaptor.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\list_map_adaptor.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\map_adaptor.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\multimap_adaptor.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\multiset_adaptor.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\ordered_associative_container_adaptor.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\sequence_container_adaptor.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\set_adaptor.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\support\iterator_facade_converters.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\unordered_associative_container_adaptor.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\unordered_map_adaptor.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\unordered_multimap_adaptor.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\unordered_multiset_adaptor.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\unordered_set_adaptor.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\vector_adaptor.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\container_adaptor\vector_map_adaptor.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\bimap_core.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\concept_tags.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\debug\static_error.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\generate_index_binder.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\generate_relation_binder.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\generate_view_binder.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\is_set_type_of.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\manage_additional_parameters.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\manage_bimap_key.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\map_view_base.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\map_view_iterator.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\modifier_adaptor.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\non_unique_views_helper.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\set_view_base.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\set_view_iterator.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\test\check_metadata.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\detail\user_interface_config.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\list_of.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\multiset_of.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\property_map\set_support.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\property_map\unordered_set_support.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\detail\access_builder.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\detail\metadata_access_builder.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\detail\mutant.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\detail\static_access_builder.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\detail\to_mutable_relation_functor.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\member_at.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\mutant_relation.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\pair_layout.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\structured_pair.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\support\data_extractor.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\support\get.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\support\get_pair_functor.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\support\is_tag_of_member_at.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\support\member_with_tag.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\support\opposite_tag.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\support\pair_by.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\support\pair_type_by.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\support\value_type_of.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\relation\symmetrical_base.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\set_of.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\support\data_type_by.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\support\iterator_type_by.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\support\key_type_by.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\support\lambda.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\support\map_by.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\support\map_type_by.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\support\value_type_by.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\tags\support\apply_to_value_type.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\tags\support\default_tagged.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\tags\support\is_tagged.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\tags\support\overwrite_tagged.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\tags\support\tag_of.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\tags\support\value_type_of.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\tags\tagged.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\unconstrained_set_of.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\unordered_multiset_of.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\unordered_set_of.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\vector_of.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\views\list_map_view.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\views\list_set_view.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\views\map_view.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\views\multimap_view.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\views\multiset_view.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\views\set_view.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\views\unconstrained_map_view.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\views\unconstrained_set_view.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\views\unordered_map_view.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\views\unordered_multimap_view.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\views\unordered_multiset_view.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\views\unordered_set_view.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\views\vector_map_view.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bimap\views\vector_set_view.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\bind.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\blank.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\blank_fwd.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\call_traits.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\cast.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\checked_delete.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\compressed_pair.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\concept_archetype.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\concept_check.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\config.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\cstdint.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\cstdlib.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\current_function.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\dynamic_bitset.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\dynamic_bitset_fwd.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\foreach.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\foreach_fwd.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\function.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\functional\hash.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\functional\hash\detail\float_functions.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\functional\hash\detail\hash_float.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\functional\hash\detail\limits.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\functional\hash\extensions.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\functional\hash\hash.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\functional\hash\hash_fwd.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\functional\hash_fwd.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\function_equal.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\get_pointer.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\implicit_cast.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\indirect_reference.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\integer.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\integer_fwd.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\integer_traits.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\intrusive_ptr.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\io_fwd.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\is_placeholder.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\iterator.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\iterator_adaptors.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\lexical_cast.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\limits.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\mem_fn.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\mpi.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\multi_index_container.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\multi_index_container_fwd.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\next_prior.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\noncopyable.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\none.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\none_t.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\non_type.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\operators.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\optional.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\pointee.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\pointer_to_other.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\polymorphic_cast.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\predef.h" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\preprocessor.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\python.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\ref.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\scoped_array.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\scoped_ptr.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\shared_array.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\shared_ptr.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\static_assert.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\swap.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\throw_exception.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\timer.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\tokenizer.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\token_functions.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\token_iterator.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\type.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\type_traits.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\unordered\detail\allocate.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\unordered\detail\buckets.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\unordered\detail\equivalent.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\unordered\detail\extract_key.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\unordered\detail\fwd.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\unordered\detail\table.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\unordered\detail\unique.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\unordered\detail\util.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\unordered\unordered_map.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\unordered\unordered_map_fwd.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\unordered\unordered_set.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\unordered\unordered_set_fwd.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\unordered_map.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\unordered_set.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\utility.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\version.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\visit_each.hpp" />
-    <ClInclude Include="include\3rdparty\boost-dist\boost\weak_ptr.hpp" />
     <ClInclude Include="include\3rdparty\tar7z.h" />
     <ClInclude Include="include\animations\animationssimplemovement.h" />
     <ClInclude Include="include\animations\easing\easingfunction.h" />
