@@ -228,7 +228,6 @@
     <ClCompile Include="src\os\threadimpl.cpp" />
     <ClCompile Include="src\os\timerimpl.cpp" />
     <ClCompile Include="src\os\windowimpl.cpp" />
-    <ClCompile Include="src\3rdparty\picopng\picopng.cpp" />
     <ClCompile Include="src\3rdparty\format\format.cc" />
     <ClCompile Include="src\3rdparty\SDL\x11messagebox.cpp" />
     <ClCompile Include="src\log\consoletarget.cpp" />
@@ -355,6 +354,7 @@
     <ClCompile Include="src\animations\setstate\setpositionproperty.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\3rdparty\stb\stb_image.h" />
     <ClInclude Include="include\3rdparty\tar7z.h" />
     <ClInclude Include="include\animations\animationssimplemovement.h" />
     <ClInclude Include="include\animations\easing\easingfunction.h" />

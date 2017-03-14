@@ -4,51 +4,29 @@
 
 #include "3rdparty/tar7z/include/tar.h"
 
-int decodePNG(std::vector<unsigned char>& out_image, unsigned long& image_width, unsigned long& image_height, const unsigned char* in_png, size_t in_size, bool convert_to_rgba32 = true);
+#define STBI_ONLY_PNG
+#define STB_IMAGE_IMPLEMENTATION
+#include "3rdparty/stb/stb_image.h"
+
 
 bool sad::imageformats::PNGLoader::load(FILE * file, sad::Texture * texture)
 {
     if (file == NULL || texture == NULL)
         return false;
 
-    std::vector<unsigned char> buffer;
-    fseek(file, 0L, SEEK_END);
-    unsigned int size = ftell(file);
-    fseek(file, 0L, SEEK_SET);
-    buffer.resize(static_cast<size_t>(size));
-    size_t readbytes = fread(reinterpret_cast<char*>(&buffer[0]), 1, size, file);
-    if (readbytes != size)
-    {
-        buffer.clear();
-        return false;
-    }
+    int components = 4;
+    int width = 0, height = 0;
+    unsigned char* data = stbi_load_from_file(file, &width, &height, &components, 4);
     
-    unsigned long width = 0;
-    unsigned long height = 0;
-
-    sad::Texture::DefaultBuffer* newbuffer = new sad::Texture::DefaultBuffer();
-
-    int result = decodePNG(
-        newbuffer->Data,
-        width,
-        height,
-        &(buffer[0]), 
-        buffer.size()
-    );
-    
-    bool ok = result == 0;
+    bool ok = data != NULL;
     if (ok)
     {
-        texture->width() = width;
-        texture->height() = height; 
+        texture->width() = static_cast<unsigned int>(width);
+        texture->height() = static_cast<unsigned int>(height);
         texture->bpp() = 32;
         texture->Format = sad::Texture::SFT_R8_G8_B8_A8;
         delete texture->Buffer;
-        texture->Buffer = newbuffer;        
-    }
-    else
-    {
-        delete newbuffer;
+        texture->Buffer = new sad::Texture::PointerBuffer(data);        
     }
     return ok;
 }
@@ -58,32 +36,19 @@ bool sad::imageformats::PNGLoader::load(tar7z::Entry* entry, sad::Texture* textu
     if (entry == NULL || texture == NULL)
         return false;
 
-    unsigned long width = 0;
-    unsigned long height = 0;
+    int components = 4;
+    int width = 0, height = 0;
+    unsigned char* data = stbi_load_from_memory(reinterpret_cast<unsigned char*>(entry->contents()), entry->Size, &width, &height, &components, 4);
 
-    sad::Texture::DefaultBuffer* newbuffer = new sad::Texture::DefaultBuffer();
-
-    int result = decodePNG(
-        newbuffer->Data,
-        width,
-        height,
-        reinterpret_cast<unsigned char*>(entry->contents()), 
-        entry->Size
-    );
-    
-    bool ok = result == 0;
+    bool ok = data != NULL;
     if (ok)
     {
-        texture->width() = width;
-        texture->height() = height; 
+        texture->width() = static_cast<unsigned int>(width);
+        texture->height() = static_cast<unsigned int>(height);
         texture->bpp() = 32;
         texture->Format = sad::Texture::SFT_R8_G8_B8_A8;
         delete texture->Buffer;
-        texture->Buffer = newbuffer;        
-    }
-    else
-    {
-        delete newbuffer;
+        texture->Buffer = new sad::Texture::PointerBuffer(data);
     }
     return ok;
 }

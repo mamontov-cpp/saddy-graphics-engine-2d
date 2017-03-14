@@ -48,6 +48,24 @@ sad::Texture::DefaultBuffer::~DefaultBuffer()
     
 }
 
+
+// ================================ sad::Texture::PointerBuffer implementation ================================
+
+sad::Texture::PointerBuffer::PointerBuffer(sad::uchar* p) : Data(p)
+{
+
+}
+
+sad::uchar* sad::Texture::PointerBuffer::buffer() const
+{
+    return Data;
+}
+
+sad::Texture::PointerBuffer::~PointerBuffer()
+{
+    delete Data;
+}
+
 // ================================ sad::Texture::Tar7zArchiveBuffer implementation ================================
 
 sad::Texture::Tar7zArchiveBuffer::Tar7zArchiveBuffer() : Archive(NULL), Offset(0)

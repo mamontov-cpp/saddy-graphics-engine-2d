@@ -14,9 +14,6 @@
     <Filter Include="Файлы исходного кода\3rdparty">
       <UniqueIdentifier>{5a565f63-c292-486f-9817-c5d84f44ae1b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Файлы исходного кода\3rdparty\picopng">
-      <UniqueIdentifier>{f889a7d4-46f1-451d-bda4-3db2e50e8322}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Файлы исходного кода\3rdparty\format">
       <UniqueIdentifier>{914db5e2-b6b9-422e-9071-4a4eb1b5776f}</UniqueIdentifier>
     </Filter>
@@ -156,6 +153,9 @@
     </Filter>
     <Filter Include="Файлы исходного кода\layouts">
       <UniqueIdentifier>{ff1c15c4-0285-4fc9-8e9d-b1b46208fe0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\3rdparty\stb">
+      <UniqueIdentifier>{a8ae0ac4-54a1-4532-af57-f1b9c4949dae}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -329,9 +329,6 @@
     </ClCompile>
     <ClCompile Include="src\os\windowimpl.cpp">
       <Filter>Файлы исходного кода\os</Filter>
-    </ClCompile>
-    <ClCompile Include="src\3rdparty\picopng\picopng.cpp">
-      <Filter>Файлы исходного кода\3rdparty\picopng</Filter>
     </ClCompile>
     <ClCompile Include="src\3rdparty\format\format.cc">
       <Filter>Файлы исходного кода\3rdparty\format</Filter>
@@ -1612,6 +1609,9 @@
     </ClInclude>
     <ClInclude Include="include\isrefcountable.h">
       <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\stb\stb_image.h">
+      <Filter>Заголовочные файлы\3rdparty\stb</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
