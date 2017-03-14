@@ -53,7 +53,15 @@ This will download whole project with dependencies
 
 ## Supported platforms
 
-Currently, we support a following platforms.
+We provide support  for following platforms at the moment:
+
+For Saddy v1.7.0 and after:
+
+  * Windows, using Microsoft Visual C++ 2017+ (x86, x64)
+  * Windows, using CMake/MinGW-w64 6.2.0+ (x86/x64)
+  * Linux, using CMake/gcc 5.4.1 (x86/x64)
+
+For Saddy v1.6.1 and before:
 
   * Windows, using Microsoft Visual C++ 2010+ (x86, x64)
   * Windows, using CMake/MinGW-w64 5.2.0+ (x86/x64)
