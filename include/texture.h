@@ -71,6 +71,26 @@ public:
      */
     sad::Vector<sad::uchar> Data;
 };
+/*! A wrapper for just a pointer to array of pixels
+ */
+class PointerBuffer : public Buffer
+{
+public:
+    /*! Constructs new empty buffer
+        \param[in] p a pointer to buffer
+     */
+    PointerBuffer(sad::uchar* p);
+    /*! Returns buffer contents for a texture
+        \return buffer
+     */
+    virtual sad::uchar* buffer() const;
+    /*! A destructor for buffer
+     */
+    virtual ~PointerBuffer();
+    /*! A texture pixels stored as bytes, according to texture format
+     */
+    sad::uchar* Data;
+};
 /*! A buffer, which is pointing to tar7z archive, which has been loaded to memory
  */
 class Tar7zArchiveBuffer: public Buffer
