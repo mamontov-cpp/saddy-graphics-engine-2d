@@ -756,6 +756,9 @@
     <ClCompile Include="src\resource\resourcefile.cpp">
       <Filter>Файлы исходного кода\resource</Filter>
     </ClCompile>
+    <ClCompile Include="src\util\markup.cpp">
+      <Filter>Файлы исходного кода\util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\camera.h">
@@ -1612,6 +1615,9 @@
     </ClInclude>
     <ClInclude Include="include\3rdparty\stb\stb_image.h">
       <Filter>Заголовочные файлы\3rdparty\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\markup.h">
+      <Filter>Заголовочные файлы\util</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
