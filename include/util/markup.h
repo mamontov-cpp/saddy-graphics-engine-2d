@@ -7,6 +7,7 @@
 #include "../sadhash.h"
 #include "../sadstring.h"
 #include "../sadcolor.h"
+#include "../maybe.h"
 
 namespace pugi
 {
@@ -25,6 +26,26 @@ namespace util
 struct Markup
 {
 
+/*! Font size type for markup
+ */
+enum FontSizeType
+{
+    MFZST_POINTS = 0,
+    MFZST_PIXELS = 1
+};
+
+/*! A font size, used in markup
+ */
+struct FontSize
+{
+    /*! A real size
+     */
+    unsigned int Size;
+    /*! A type of font size
+     */
+    sad::util::Markup::FontSizeType Type;
+};
+
 /*! A tag element, that is being parsed
  */
 struct Command
@@ -35,9 +56,9 @@ struct Command
     /*! Whether text should be underlined
      */
     bool Underlined;
-    /*! A size in pixel, that should be used to render font
+    /*! A size of font, used to render font
      */
-    unsigned int Size;
+    sad::Maybe<sad::util::Markup::FontSize> Size;
     /*! A color, which shouldbe used to draw text
      */
     sad::AColor Color;
