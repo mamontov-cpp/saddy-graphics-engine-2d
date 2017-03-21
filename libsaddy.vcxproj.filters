@@ -157,6 +157,12 @@
     <Filter Include="Заголовочные файлы\3rdparty\stb">
       <UniqueIdentifier>{a8ae0ac4-54a1-4532-af57-f1b9c4949dae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы исходного кода\3rdparty\pugixml">
+      <UniqueIdentifier>{a5625a89-7f90-4baf-b3c8-2da62d6b046a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\3rdparty\pugixml">
+      <UniqueIdentifier>{0ac87104-d39d-483e-916e-816679cd43b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\camera.cpp">
@@ -758,6 +764,9 @@
     </ClCompile>
     <ClCompile Include="src\util\markup.cpp">
       <Filter>Файлы исходного кода\util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3rdparty\pugixml\pugixml.cpp">
+      <Filter>Файлы исходного кода\3rdparty\pugixml</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1618,6 +1627,12 @@
     </ClInclude>
     <ClInclude Include="include\util\markup.h">
       <Filter>Заголовочные файлы\util</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\pugixml\pugixml.hpp">
+      <Filter>Заголовочные файлы\3rdparty\pugixml</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\pugixml\pugiconfig.hpp">
+      <Filter>Заголовочные файлы\3rdparty\pugixml</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
