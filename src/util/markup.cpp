@@ -2,6 +2,8 @@
 #include "3rdparty/pugixml/pugixml.hpp"
 
 #include <cstring>
+#include <sstream>
+#include <cstdlib>
 
 sad::util::Markup::Document sad::util::Markup::parseDocument(
     const sad::String& s,
@@ -52,3 +54,47 @@ bool sad::util::Markup::parseBoolValue(const char* value, bool parent)
     return parent;
 }
 
+sad::Maybe<sad::util::Markup::FontSize> sad::util::Markup::parseSize(const sad::String& s, const sad::Maybe<sad::util::Markup::FontSize>& parentSize)
+{
+    // Perform substring
+    sad::util::Markup::FontSizeType type = sad::util::Markup::MFZST_PIXELS;
+    sad::String data = s;
+    if (s.size() > 2)
+    {
+        sad::String result = s.subString(s.length() - 2, 2);
+        result.toLower();
+        if (result == "pt" || result == "px")
+        {
+            data = s.subString(0, s.length() - 2);
+            type = (result == "pt") ? sad::util::Markup::MFZST_POINTS : sad::util::Markup::MFZST_PIXELS;
+        }
+    }
+    // Parse as just a string
+    if (data.length() == 0)
+    {
+        return parentSize;
+    }
+
+    for (size_t i = 0; i < data.length(); i++)
+    {
+        if (data[i] < '0' || data[i] > '9')
+        {
+            return parentSize;
+        }
+    }
+
+    std::istringstream stream(data.c_str());
+    unsigned int size = 0;
+    stream >> size;
+    return sad::Maybe<sad::util::Markup::FontSize>(sad::util::Markup::FontSize(size, type));
+}
+
+
+sad::Maybe<sad::String>  sad::util::Markup::parseFont(const sad::String& s, const sad::Maybe<sad::String>& parentFont)
+{
+    if (s.length() != 0)
+    {
+        return sad::Maybe<sad::String>(s);
+    }
+    return parentFont;
+}

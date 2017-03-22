@@ -1,6 +1,7 @@
 #include "../include/sadstring.h"
 #include <stdlib.h>
 #include <string.h>
+#include <algorithm>
 
 
 sad::String::String(): std::string() 
@@ -431,6 +432,16 @@ bool sad::String::startsWith(const char* s, size_t sz) const
         return false;
     }
     return memcmp(this->c_str(), s, sz) == 0;
+}
+
+void sad::String::toUpper()
+{
+    std::transform(this->begin(), this->end(), this->begin(), ::toupper);
+}
+
+void sad::String::toLower()
+{
+    std::transform(this->begin(), this->end(), this->begin(), ::tolower);
 }
 
 sad::String sad::join(const sad::StringList list, const sad::String & sep)

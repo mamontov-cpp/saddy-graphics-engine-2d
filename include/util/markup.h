@@ -44,6 +44,31 @@ struct FontSize
     /*! A type of font size
      */
     sad::util::Markup::FontSizeType Type;
+
+    /*! A default constructor
+     */
+    inline FontSize() : Size(0), Type(sad::util::Markup::MFZST_PIXELS)
+    {
+
+    }
+
+    /*! Constructs new size
+        \param[in] sz size
+        \param[in] type a type
+     */
+    inline FontSize(unsigned int sz, sad::util::Markup::FontSizeType type) : Size(sz), Type(type)
+    {
+
+    }
+
+    /*! A comparator for sizes
+        \param[in] sz size
+        \return whether those are equal
+     */
+    inline bool operator==(const sad::util::Markup::FontSize & sz) const
+    {
+        return Size == sz.Size && Type == sz.Type;
+    }
 };
 
 /*! A tag element, that is being parsed
@@ -64,7 +89,7 @@ struct Command
     sad::AColor Color;
     /*! A font, that should be used to render text in command
      */
-    sad::String Font;
+    sad::Maybe<sad::String> Font;
     /*! A linespacing, that should be used for rendering
      */
     double Linespacing;
@@ -92,7 +117,7 @@ typedef sad::Vector<sad::util::Markup::Command> Document;
     \param[in] basic a basic command for parent
     \return document
  */
-sad::util::Markup::Document parseDocument(
+static sad::util::Markup::Document parseDocument(
     const sad::String& s,
     const sad::util::Markup::Command& basic
 );
@@ -103,7 +128,7 @@ sad::util::Markup::Document parseDocument(
     \param[in] parent a parent command for base
     \return document
  */
-sad::util::Markup::Document parseTag(
+static sad::util::Markup::Document parseTag(
     const pugi::xml_node& source,
     const sad::util::Markup::Command& parent
 );
@@ -112,7 +137,19 @@ sad::util::Markup::Document parseTag(
     \param[in] value a value
     \param[in] parent a parent value
  */
-bool parseBoolValue(const char* value, bool parent);
+static bool parseBoolValue(const char* value, bool parent);
+
+/*! Parses font size
+    \param[in] s string
+    \param[in] parentSize a size in parent tag
+ */
+static sad::Maybe<sad::util::Markup::FontSize> parseSize(const sad::String& s, const sad::Maybe<sad::util::Markup::FontSize>& parentSize);
+
+/*! Parses font 
+    \param[in] s string
+    \param[in] parentFont a font in parent tag
+*/
+static sad::Maybe<sad::String> parseFont(const sad::String& s, const sad::Maybe<sad::String>& parentFont);
 
 };
 

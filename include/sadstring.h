@@ -260,6 +260,12 @@ public:
              \param[in] sz size
           */
          bool startsWith(const char* s, size_t sz) const;
+         /*! Converts string to upper case
+          */
+         void toUpper();
+         /*! Converts string to lower case
+         */
+         void toLower();
 };
 
 /*! Joins a list into a string with separator sep.
