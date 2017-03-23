@@ -63,7 +63,7 @@ sad::util::Markup::Document sad::util::Markup::parseTag(
             result << sad::util::Markup::parseTag(child, my_command);
         }
     }
-    return sad::util::Markup::Document();
+    return result;
 }
 
 

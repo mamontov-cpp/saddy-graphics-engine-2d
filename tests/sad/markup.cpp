@@ -9,6 +9,36 @@
 #include "3rdparty/tpunit++/tpunit++.hpp"
 #pragma warning(pop)
 
+static void dumpDocument(const sad::util::Markup::Document& v)
+{
+    for(int i = 0; i < v.size(); i++)
+    {
+        const sad::util::Markup::Command& c = v[i];
+        printf("Command #%d\n", i);
+        printf("Underlined: %s\n", (c.Underlined) ? "true" : "false");
+        printf("Strikethrough: %s\n", (c.Strikethrough) ? "true" : "false");
+        if (c.Size.exists())
+        {
+            printf("Size: %d%s\n", c.Size.value().Size, (c.Size.value().Type == sad::util::Markup::MFZST_PIXELS) ? "px" : "pt");
+        }
+        if (c.Color.exists())
+        {
+            printf("Color: %d, %d, %d, %d\n", c.Color.value().r(), c.Color.value().g(), c.Color.value().b(), c.Color.value().a());
+        }
+        if (c.Font.exists())
+        {
+            printf("Font: %s\n", c.Font.value().c_str());
+        }
+        if (c.Linespacing.exists())
+        {
+            printf("Linespacing : %d%s\n", c.Linespacing.value().Size, (c.Linespacing.value().Type == sad::util::Markup::MLST_PIXELS) ? "px" : "%");
+        }
+        
+        printf("%s", c.Content.c_str());
+        printf("\n");
+    }
+}
+
 struct MarkupTest : tpunit::TestFixture
 {
 public:
@@ -17,7 +47,8 @@ public:
         TEST(MarkupTest::testParseLineSpacingSize),
         TEST(MarkupTest::testGetColorFromTable),
         TEST(MarkupTest::testParseHexRGBA),
-        TEST(MarkupTest::testParseColor)
+        TEST(MarkupTest::testParseColor),
+        TEST(MarkupTest::testParseDocumentBasic)
     ) {}
 
 
@@ -88,5 +119,10 @@ public:
         ASSERT_TRUE(sad::util::Markup::parseColor("zomp", empty).value() == sad::AColor(57, 167, 142));
     }
 
+    void testParseDocumentBasic()
+    {
+        sad::util::Markup::Command cmd;
+        dumpDocument(sad::util::Markup::parseDocument("text1<font size=\"2\" color=\"red\" strikethrough=\"true\" underline=\"true\">item1<div linespacing=\"102%\" font=\"item\" underline=\"false\" color=\"fuchsia\">nice text</div>item2</font> text2", cmd));
+    }
 } test_markup;
 
