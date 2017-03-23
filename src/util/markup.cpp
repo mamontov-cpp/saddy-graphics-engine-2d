@@ -11,14 +11,68 @@ sad::util::Markup::Document sad::util::Markup::parseDocument(
 )
 {
     sad::util::Markup::Document result;
-    pugi::xml_document doc;
-    s.replaceAllOccurences("\r\n", "\n");
-    s.replaceAllOccurences("\r", "\n");
-    doc.load_string(s.c_str(), pugi::parse_fragment);
-    return sad::util::Markup::parseTag(doc, basic);
+    pugi::xml_document xml_document;
+    sad::String string = s;
+    string.replaceAllOccurences("\r\n", "\n");
+    string.replaceAllOccurences("\r", "\n");
+    xml_document.load_string(string.c_str(), pugi::parse_fragment);
+    sad::util::Markup::DocumentLine doc =  sad::util::Markup::parseTag(xml_document, basic);
+    
+    // Split document by lines
+    sad::util::Markup::DocumentLine tmp;
+    for(size_t i = 0; i < doc.size(); i++)
+    {
+        sad::StringList content = doc[i].Content.split("\n", sad::String::KEEP_EMPTY_PARTS);
+        if (doc[i].Content.endsWith("\n", 1))
+        {
+            content << "";
+        }
+        if (content.size() != 0)
+        {
+
+            if (content.size() == 1)
+            {
+                tmp << doc[i];
+            }
+            else
+            {
+                sad::util::Markup::Command cmd = doc[i];
+                for(int i = 0; i < content.size() - 1; i++)
+                {
+                    cmd.Content = content[i];
+                    tmp << cmd;
+                    result << tmp;
+                    tmp.clear();
+                }
+                cmd.Content = content[content.size() - 1];
+                tmp << cmd;
+            }
+        }
+    }
+    if (tmp.size() != 0)
+    {
+        result << tmp;
+    }
+    
+    // Remove empty commands
+    for(size_t i = 0; i < result.size(); i++)
+    {
+        if (result[i].size() > 1)
+        {
+            for(size_t j = 0; j < result[i].size(); j++)
+            {
+                if (result[i][j].Content.length() == 0)
+                {
+                    result[i].removeAt(j);
+                    --j;
+                }
+            }
+        }
+    }
+    return result;
 }
 
-sad::util::Markup::Document sad::util::Markup::parseTag(
+sad::util::Markup::DocumentLine sad::util::Markup::parseTag(
     const pugi::xml_node& source,
     const sad::util::Markup::Command& parent
 )
@@ -51,7 +105,7 @@ sad::util::Markup::Document sad::util::Markup::parseTag(
             my_command.Color = sad::util::Markup::parseColor(attr.value(), parent.Color);
         }
     }
-    sad::util::Markup::Document result;
+    sad::util::Markup::DocumentLine result;
     for (pugi::xml_node child = source.first_child(); child; child = child.next_sibling())
     {
         if (child.type() == pugi::node_pcdata)
@@ -62,12 +116,18 @@ sad::util::Markup::Document sad::util::Markup::parseTag(
         }
         if (child.type() == pugi::node_element)
         {
+            bool is_div = false;
+            if (!strcmp(child.name(), "div"))
+            {
+                is_div = true;
+            }
+            sad::util::Markup::tryPushNextLine(is_div, result);
             result << sad::util::Markup::parseTag(child, my_command);
+            sad::util::Markup::tryPushNextLine(is_div, result);
         }
     }
     return result;
 }
-
 
 bool sad::util::Markup::parseBoolValue(const char* value, bool parent)
 {
@@ -244,4 +304,18 @@ sad::Maybe<sad::AColor>  sad::util::Markup::parseColor(const char* s, sad::Maybe
         result = sad::util::Markup::getColorFromTable(s);
     }
     return result.exists() ? result : parentColor;
+}
+
+void sad::util::Markup::tryPushNextLine(bool is_div, sad::util::Markup::DocumentLine& result)
+{
+    if (is_div)
+    {
+        if (result.size() != 0)
+        {
+            if (result[result.size() -1].Content.endsWith("\n", 1) == false)
+            {
+                result[result.size() -1].Content += "\n";
+            }
+        }
+    }
 }

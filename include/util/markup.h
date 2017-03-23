@@ -151,9 +151,13 @@ struct Command
     }
 };
 
-/*! A document is a list of tags
+/*! A document-line is a list of tags
  */
-typedef sad::Vector<sad::util::Markup::Command> Document;
+typedef sad::Vector<sad::util::Markup::Command> DocumentLine;
+
+/*! A document is a list of tags organized line-by-line
+ */
+typedef sad::Vector<sad::util::Markup::DocumentLine> Document;
 
 /*! Parses document for markup. Makes a non-hierarchical list of tags, with respect to nesting.
     \param[in] s string a string
@@ -171,7 +175,7 @@ static sad::util::Markup::Document parseDocument(
     \param[in] parent a parent command for base
     \return document
  */
-static sad::util::Markup::Document parseTag(
+static sad::util::Markup::DocumentLine parseTag(
     const pugi::xml_node& source,
     const sad::util::Markup::Command& parent
 );
@@ -230,6 +234,12 @@ static sad::Maybe<sad::AColor> parseHexRGBA(const char *s);
     \return result
  */
 static sad::Maybe<sad::AColor> parseColor(const char* s, sad::Maybe<sad::AColor> parentColor);
+
+/*! Tries to push next line if is_div specified
+    \param[in] is_div flag
+    \param[in, out] result document line
+ */
+static void tryPushNextLine(bool is_div, sad::util::Markup::DocumentLine& result);
 
 };
 

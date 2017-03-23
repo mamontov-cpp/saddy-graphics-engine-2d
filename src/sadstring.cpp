@@ -427,11 +427,28 @@ bool sad::String::trimRight()
 
 bool sad::String::startsWith(const char* s, size_t sz) const
 {
+    if (!s)
+    {
+        return false;
+    }
     if (this->size() < sz)
     {
         return false;
     }
     return memcmp(this->c_str(), s, sz) == 0;
+}
+
+bool sad::String::endsWith(const char* s, size_t sz) const
+{
+    if (!s)
+    {
+        return false;
+    }
+    if (this->size() < sz)
+    {
+        return false;
+    }
+    return memcmp(this->c_str() + this->length() - sz, s, sz) == 0;
 }
 
 void sad::String::toUpper()

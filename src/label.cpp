@@ -561,7 +561,7 @@ sad::String sad::Label::makeRenderingString(
             // MacOSX 
             if (!has_n && has_r)
             {
-                tmp.replaceAllOccurences("\r", "\n");				
+                tmp.replaceAllOccurences("\r", "\n");
             }
         }
         bool last_line_changed = false;

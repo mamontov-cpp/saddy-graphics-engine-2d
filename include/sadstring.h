@@ -260,6 +260,11 @@ public:
              \param[in] sz size
           */
          bool startsWith(const char* s, size_t sz) const;
+         /*! Tests, whether string ends with specified symbols
+             \param[in] s string
+             \param[in] sz size
+          */   
+         bool endsWith(const char* s, size_t sz) const;
          /*! Converts string to upper case
           */
          void toUpper();
