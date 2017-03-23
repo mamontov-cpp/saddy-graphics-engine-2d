@@ -133,3 +133,83 @@ sad::Maybe<sad::String>  sad::util::Markup::parseFont(const sad::String& s, cons
     }
     return parentFont;
 }
+
+unsigned char sad::util::Markup::parseHexChar(const char* s)
+{
+    char c = *s;
+    if (c >= 'A' && c <= 'F')
+    {
+        return (c - 'A') + 10; 
+    }
+    if (c >= 'a' && c <= 'f')
+    {
+        return (c - 'a') + 10; 
+    }
+    if (c >= '0' && c <= '9')
+    {
+        return (c - '0'); 
+    }
+    return 0;
+}
+
+unsigned char sad::util::Markup::parseByte(const char* s)
+{
+    return sad::util::Markup::parseHexChar(s) * 16 + sad::util::Markup::parseHexChar(s + 1);
+}
+
+sad::Maybe<sad::AColor> sad::util::Markup::parseHexRGBA(const char *s)
+{
+    sad::Maybe<sad::AColor> result;
+    if (!s)
+    {
+        return result;
+    }
+    int length = strlen(s);
+    // Specification must be #RRGGBB or #RRGGBBAA
+    if (length != 7 && length != 9)
+    {
+        return result;
+    }
+    // First character must be hex start
+    if (*s != '#')
+    {
+        return result;
+    }
+    // Check if other characters are supported
+    for (int i = 1; i < length; i++)
+    {
+        char c = s[i];
+        bool isValidHexInUpperCase = (c >= 'A' && c <= 'F');
+        bool isValidHexInLowerCase = (c >= 'a' && c <= 'f');
+        bool isValidNumeric = (c >= '0' && c <= '9');
+        if (!(isValidHexInUpperCase || isValidHexInLowerCase || isValidNumeric))
+        {
+            return result;
+        }
+    }
+    
+    unsigned char r = parseByte(s + 1);
+    unsigned char g = parseByte(s + 3);
+    unsigned char b = parseByte(s + 5);
+    unsigned char a = 0;
+    if (length == 9)
+    {
+        a = parseByte(s + 7);
+    }
+    result.setValue(sad::AColor(r,g,b,a));
+    return result;
+}
+
+sad::Maybe<sad::AColor>  sad::util::Markup::parseColor(const char* s, sad::Maybe<sad::AColor> parentColor)
+{
+    if (!s)
+    {
+        return parentColor;
+    }
+    sad::Maybe<sad::AColor> result = parseHexRGBA(s);
+    if (result.exists() == false)
+    {
+        result = sad::util::Markup::getColorFromTable(s);
+    }
+    return result.exists() ? result : parentColor;
+}

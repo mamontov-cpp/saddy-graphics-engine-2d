@@ -15,7 +15,9 @@ public:
     MarkupTest() : tpunit::TestFixture(
         TEST(MarkupTest::testParseSize),
         TEST(MarkupTest::testParseLineSpacingSize),
-        TEST(MarkupTest::testGetColorFromTable)
+        TEST(MarkupTest::testGetColorFromTable),
+        TEST(MarkupTest::testParseHexRGBA),
+        TEST(MarkupTest::testParseColor)
     ) {}
 
 
@@ -59,5 +61,32 @@ public:
         r = sad::util::Markup::getColorFromTable("stupid non-existing color! I don\'t care for it anymore");
         ASSERT_TRUE(r.exists() == false);
     }
+
+    
+    void testParseHexRGBA()
+    {
+        ASSERT_TRUE(sad::util::Markup::parseHexRGBA("#").exists() == false);
+        ASSERT_TRUE(sad::util::Markup::parseHexRGBA("").exists() == false);
+        ASSERT_TRUE(sad::util::Markup::parseHexRGBA("aaaaaaa").exists() == false);
+        ASSERT_TRUE(sad::util::Markup::parseHexRGBA("#!pqrst").exists() == false);
+        ASSERT_TRUE(sad::util::Markup::parseHexRGBA("#!pqrstvx").exists() == false);
+        ASSERT_TRUE(sad::util::Markup::parseHexRGBA("#11aaff").exists());
+        ASSERT_TRUE(sad::util::Markup::parseHexRGBA("#11aaff").value() == sad::AColor(17, 170, 255));
+        ASSERT_TRUE(sad::util::Markup::parseHexRGBA("#FFFFFF").value() == sad::AColor(255, 255, 255));
+        ASSERT_TRUE(sad::util::Markup::parseHexRGBA("#A0A0A0A0").value() == sad::AColor(160, 160, 160, 160));
+        ASSERT_TRUE(sad::util::Markup::parseHexRGBA("#a0a0a0a0").value() == sad::AColor(160, 160, 160, 160));
+    }
+
+    void testParseColor()
+    {
+        sad::Maybe<sad::AColor> empty;
+        ASSERT_TRUE(sad::util::Markup::parseColor("#", empty).exists() == false);
+        ASSERT_TRUE(sad::util::Markup::parseColor("#A0A0A0", empty).exists());
+        ASSERT_TRUE(sad::util::Markup::parseColor("#A0A0A0", empty).value() == sad::AColor(160, 160, 160));
+        ASSERT_TRUE(sad::util::Markup::parseColor("#A0A0A0A0", empty).value() == sad::AColor(160, 160, 160, 160));
+        ASSERT_TRUE(sad::util::Markup::parseColor("zomp", empty).exists());
+        ASSERT_TRUE(sad::util::Markup::parseColor("zomp", empty).value() == sad::AColor(57, 167, 142));
+    }
+
 } test_markup;
 
