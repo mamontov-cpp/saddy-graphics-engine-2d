@@ -151,6 +151,12 @@ static sad::Maybe<sad::util::Markup::FontSize> parseSize(const sad::String& s, c
 */
 static sad::Maybe<sad::String> parseFont(const sad::String& s, const sad::Maybe<sad::String>& parentFont);
 
+/*! Tries to get color from table
+    \param[in] s color name
+    \param[in] color a returned color
+ */
+static sad::Maybe<sad::AColor> getColorFromTable(const char* s);
+
 };
 
 }

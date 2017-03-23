@@ -13,7 +13,8 @@ struct MarkupTest : tpunit::TestFixture
 {
 public:
     MarkupTest() : tpunit::TestFixture(
-        TEST(MarkupTest::testParseSize)
+        TEST(MarkupTest::testParseSize),
+        TEST(MarkupTest::testGetColorFromTable)
     ) {}
 
 
@@ -31,5 +32,16 @@ public:
         ASSERT_TRUE(sad::util::Markup::parseSize("322xpt", empty).exists() == false);
     }
 
+    void testGetColorFromTable()
+    {
+        sad::Maybe<sad::AColor> r = sad::util::Markup::getColorFromTable("zomp");
+        ASSERT_TRUE(r.exists());
+        ASSERT_TRUE(r.value().r() == 57);
+        ASSERT_TRUE(r.value().g() == 167);
+        ASSERT_TRUE(r.value().b() == 142);
+        
+        r = sad::util::Markup::getColorFromTable("stupid non-existing color! I don\'t care for it anymore");
+        ASSERT_TRUE(r.exists() == false);
+    }
 } test_markup;
 
