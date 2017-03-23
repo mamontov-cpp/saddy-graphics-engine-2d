@@ -266,6 +266,11 @@ public:
          /*! Converts string to lower case
          */
          void toLower();
+         /*! Tests if string contains only numeric (and negativity sign if provided)
+             \param[in] allowMinus if true, minus can be first character in string
+             \return whether string matches all of constraints
+          */
+         bool isNumeric(bool allowMinus = false) const;
 };
 
 /*! Joins a list into a string with separator sep.

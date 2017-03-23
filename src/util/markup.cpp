@@ -69,18 +69,10 @@ sad::Maybe<sad::util::Markup::FontSize> sad::util::Markup::parseSize(const sad::
             type = (result == "pt") ? sad::util::Markup::MFZST_POINTS : sad::util::Markup::MFZST_PIXELS;
         }
     }
-    // Parse as just a string
-    if (data.length() == 0)
+    // Parse as just a string, that contains number
+    if (data.isNumeric() == false)
     {
         return parentSize;
-    }
-
-    for (size_t i = 0; i < data.length(); i++)
-    {
-        if (data[i] < '0' || data[i] > '9')
-        {
-            return parentSize;
-        }
     }
 
     std::istringstream stream(data.c_str());

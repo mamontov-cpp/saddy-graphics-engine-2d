@@ -392,7 +392,7 @@ bool sad::String::trimLeft()
         this->erase(0, length);
     }
     else
-    {		
+    {       
         this->clear();
         is_whitespace = true;
     }
@@ -442,6 +442,32 @@ void sad::String::toUpper()
 void sad::String::toLower()
 {
     std::transform(this->begin(), this->end(), this->begin(), ::tolower);
+}
+
+bool sad::String::isNumeric(bool allowMinus) const
+{
+    if (this->length() == 0)
+    {
+        return false;
+    }
+
+    char first_char = (*this)[0];
+    if ((first_char != '-') || (allowMinus == false))
+    {
+        if (first_char < '0' || first_char > '9')
+        {
+            return false;
+        }
+    }
+    for (size_t i = 1; i < this->length(); i++)
+    {
+        if ((*this)[i] < '0' || (*this)[i] > '9')
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 sad::String sad::join(const sad::StringList list, const sad::String & sep)
