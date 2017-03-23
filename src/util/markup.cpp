@@ -13,19 +13,7 @@ sad::util::Markup::Document sad::util::Markup::parseDocument(
     sad::util::Markup::Document result;
     pugi::xml_document doc;
     doc.load_string(s.c_str(), pugi::parse_fragment);
-    for (pugi::xml_node child = doc.first_child(); child; child = child.next_sibling())
-    {
-        if (child.type() == pugi::node_pcdata)
-        {
-            sad::util::Markup::Command cmd = basic;
-            cmd.Content = child.text().get();
-        }
-        if (child.type() == pugi::node_element)
-        {
-            result << sad::util::Markup::parseTag(child, basic);
-        }
-    }
-    return result;
+    return sad::util::Markup::parseTag(doc, basic);
 }
 
 sad::util::Markup::Document sad::util::Markup::parseTag(
@@ -33,6 +21,48 @@ sad::util::Markup::Document sad::util::Markup::parseTag(
     const sad::util::Markup::Command& parent
 )
 {
+    sad::util::Markup::Command my_command = parent;
+    for (pugi::xml_attribute attr = source.first_attribute(); attr; attr = attr.next_attribute())
+    {
+        if (!strcmp(attr.name(), "underline"))
+        {
+            my_command.Underlined = sad::util::Markup::parseBoolValue(attr.value(), parent.Underlined);
+        }
+        if (!strcmp(attr.name(), "strikethrough"))
+        {
+            my_command.Strikethrough = sad::util::Markup::parseBoolValue(attr.value(), parent.Strikethrough);
+        }
+        if (!strcmp(attr.name(), "font"))
+        {
+            my_command.Font = sad::util::Markup::parseFont(attr.value(), parent.Font);
+        }
+        if (!strcmp(attr.name(), "size"))
+        {
+            my_command.Size = sad::util::Markup::parseSize(attr.value(), parent.Size);
+        }
+        if (!strcmp(attr.name(), "linespacing"))
+        {
+            my_command.Linespacing = sad::util::Markup::parseLineSpacingSize(attr.value(), parent.Linespacing);
+        }
+        if (!strcmp(attr.name(), "color"))
+        {
+            my_command.Color = sad::util::Markup::parseColor(attr.value(), parent.Color);
+        }
+    }
+    sad::util::Markup::Document result;
+    for (pugi::xml_node child = source.first_child(); child; child = child.next_sibling())
+    {
+        if (child.type() == pugi::node_pcdata)
+        {
+            sad::util::Markup::Command cmd = my_command;
+            cmd.Content = child.text().get();
+            result << cmd;
+        }
+        if (child.type() == pugi::node_element)
+        {
+            result << sad::util::Markup::parseTag(child, my_command);
+        }
+    }
     return sad::util::Markup::Document();
 }
 
