@@ -133,7 +133,7 @@ sad::db::schema::Schema* sad::Label::basicSchema()
                     &sad::Label::area,
                     &sad::Label::setArea
                 )
-            );		
+            );
             LabelBasicSchema->add(
                 "text", 
                 new sad::db::MethodPair<sad::Label, sad::String>(
