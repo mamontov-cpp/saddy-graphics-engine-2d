@@ -30,8 +30,16 @@ struct Markup
  */
 enum FontSizeType
 {
-    MFZST_POINTS = 0,
-    MFZST_PIXELS = 1
+    MFZST_POINTS = 0, //!< Size specifed in points
+    MFZST_PIXELS = 1  //!< Size specifed in pixels
+};
+
+/*! A linespacing size type for markup
+ */
+enum LineSpacingSizeType
+{
+    MLST_PERCENTS = 0, //!< Size specifed in percents
+    MLST_PIXELS = 1,   //!< Size specifed in pixels
 };
 
 /*! A font size, used in markup
@@ -71,6 +79,44 @@ struct FontSize
     }
 };
 
+
+/*! A line-spacing size, used in markup
+ */
+struct LineSpacingSize
+{
+    /*! A real size
+     */
+    unsigned int Size;
+    /*! A type of line-spacing size
+     */
+    sad::util::Markup::LineSpacingSizeType Type;
+
+    /*! A default constructor
+     */
+    inline LineSpacingSize() : Size(0), Type(sad::util::Markup::MLST_PIXELS)
+    {
+
+    }
+
+    /*! Constructs new size
+        \param[in] sz size
+        \param[in] type a type
+     */
+    inline LineSpacingSize(unsigned int sz, sad::util::Markup::LineSpacingSizeType type) : Size(sz), Type(type)
+    {
+
+    }
+
+    /*! A comparator for sizes
+        \param[in] sz size
+        \return whether those are equal
+     */
+    inline bool operator==(const sad::util::Markup::LineSpacingSize & sz) const
+    {
+        return Size == sz.Size && Type == sz.Type;
+    }
+};
+
 /*! A tag element, that is being parsed
  */
 struct Command
@@ -86,23 +132,20 @@ struct Command
     sad::Maybe<sad::util::Markup::FontSize> Size;
     /*! A color, which shouldbe used to draw text
      */
-    sad::AColor Color;
+    sad::Maybe<AColor> Color;
     /*! A font, that should be used to render text in command
      */
     sad::Maybe<sad::String> Font;
     /*! A linespacing, that should be used for rendering
      */
-    double Linespacing;
-    /*! Describes, whether line spacing should be taken from font or just left here
-     */
-    bool LinespacingIsSet;
+    sad::Maybe<sad::util::Markup::LineSpacingSize> Linespacing;
     /*! A content of string
      */
     sad::String Content;
 
     /*! Constructs new comand
      */
-    inline Command() : Strikethrough(false), Underlined(false), Linespacing(0), LinespacingIsSet(false)
+    inline Command() : Strikethrough(false), Underlined(false)
     {
 
     }
@@ -144,6 +187,12 @@ static bool parseBoolValue(const char* value, bool parent);
     \param[in] parentSize a size in parent tag
  */
 static sad::Maybe<sad::util::Markup::FontSize> parseSize(const sad::String& s, const sad::Maybe<sad::util::Markup::FontSize>& parentSize);
+
+/*! Parses font line-spacing size
+    \param[in] s string
+    \param[in] parentLineSpacing a line-spacing in parent tag
+ */
+static sad::Maybe<sad::util::Markup::LineSpacingSize> parseLineSpacingSize(const sad::String& s, const sad::Maybe<sad::util::Markup::LineSpacingSize>& parentLineSpacing);
 
 /*! Parses font 
     \param[in] s string

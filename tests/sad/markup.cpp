@@ -14,6 +14,7 @@ struct MarkupTest : tpunit::TestFixture
 public:
     MarkupTest() : tpunit::TestFixture(
         TEST(MarkupTest::testParseSize),
+        TEST(MarkupTest::testParseLineSpacingSize),
         TEST(MarkupTest::testGetColorFromTable)
     ) {}
 
@@ -30,6 +31,21 @@ public:
         ASSERT_TRUE(sad::util::Markup::parseSize("322pt", empty).value() == sad::util::Markup::FontSize(322, sad::util::Markup::MFZST_POINTS));
         ASSERT_TRUE(sad::util::Markup::parseSize("322xpx", empty).exists() == false);
         ASSERT_TRUE(sad::util::Markup::parseSize("322xpt", empty).exists() == false);
+    }
+
+    void testParseLineSpacingSize()
+    {
+        sad::Maybe<sad::util::Markup::LineSpacingSize> empty;
+        ASSERT_TRUE(sad::util::Markup::parseLineSpacingSize("", empty).exists() == false);
+        ASSERT_TRUE(sad::util::Markup::parseLineSpacingSize("p", empty).exists() == false);
+        ASSERT_TRUE(sad::util::Markup::parseLineSpacingSize("%", empty).exists() == false);
+        ASSERT_TRUE(sad::util::Markup::parseLineSpacingSize("1", empty).value() == sad::util::Markup::LineSpacingSize(1, sad::util::Markup::MLST_PIXELS));
+        ASSERT_TRUE(sad::util::Markup::parseLineSpacingSize("322", empty).value() == sad::util::Markup::LineSpacingSize(322, sad::util::Markup::MLST_PIXELS));
+        ASSERT_TRUE(sad::util::Markup::parseLineSpacingSize("322p", empty).exists() == false);
+        ASSERT_TRUE(sad::util::Markup::parseLineSpacingSize("322px", empty).value() == sad::util::Markup::LineSpacingSize(322, sad::util::Markup::MLST_PIXELS));
+        ASSERT_TRUE(sad::util::Markup::parseLineSpacingSize("322%", empty).value() == sad::util::Markup::LineSpacingSize(322, sad::util::Markup::MLST_PERCENTS));
+        ASSERT_TRUE(sad::util::Markup::parseLineSpacingSize("322xpx", empty).exists() == false);
+        ASSERT_TRUE(sad::util::Markup::parseLineSpacingSize("322x%", empty).exists() == false);
     }
 
     void testGetColorFromTable()

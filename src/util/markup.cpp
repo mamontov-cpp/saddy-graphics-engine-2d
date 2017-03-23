@@ -81,6 +81,49 @@ sad::Maybe<sad::util::Markup::FontSize> sad::util::Markup::parseSize(const sad::
     return sad::Maybe<sad::util::Markup::FontSize>(sad::util::Markup::FontSize(size, type));
 }
 
+sad::Maybe<sad::util::Markup::LineSpacingSize> sad::util::Markup::parseLineSpacingSize(const sad::String& s, const sad::Maybe<sad::util::Markup::LineSpacingSize>& parentLineSpacing)
+{
+    // Perform substring
+    sad::util::Markup::LineSpacingSizeType type = sad::util::Markup::MLST_PIXELS;
+    sad::String data = s;
+    if (s.size() > 2)
+    {
+        sad::String result = s.subString(s.length() - 2, 2);
+        result.toLower();
+        if (result == "px")
+        {
+            data = s.subString(0, s.length() - 2);
+            type = sad::util::Markup::MLST_PIXELS;
+        }
+        if (result[1] == '%')
+        {
+            data = s.subString(0, s.length() - 1);
+            type = sad::util::Markup::MLST_PERCENTS;
+        }
+    }
+    else
+    {
+        if (s.size() == 1)
+        {
+            if (s[0] == '%')
+            {
+                // It's already incorrect, no reason to parse further
+                return parentLineSpacing;
+            }
+        }
+    }
+    // Try parse line spacing size
+    if (data.isNumeric() == false)
+    {
+        return parentLineSpacing;
+    }
+
+    std::istringstream stream(data.c_str());
+    unsigned int size = 0;
+    stream >> size;
+    return sad::Maybe<sad::util::Markup::LineSpacingSize>(sad::util::Markup::LineSpacingSize(size, type));
+}
+
 
 sad::Maybe<sad::String>  sad::util::Markup::parseFont(const sad::String& s, const sad::Maybe<sad::String>& parentFont)
 {
