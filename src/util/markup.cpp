@@ -12,6 +12,8 @@ sad::util::Markup::Document sad::util::Markup::parseDocument(
 {
     sad::util::Markup::Document result;
     pugi::xml_document doc;
+    s.replaceAllOccurences("\r\n", "\n");
+    s.replaceAllOccurences("\r", "\n");
     doc.load_string(s.c_str(), pugi::parse_fragment);
     return sad::util::Markup::parseTag(doc, basic);
 }
