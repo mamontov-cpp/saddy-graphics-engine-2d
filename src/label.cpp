@@ -29,7 +29,10 @@ m_break_text(sad::Label::LBT_NORMAL),
 m_text_ellipsis_position(sad::Label::LTEP_MIDDLE),
 m_maximum_lines(0),
 m_overflow_strategy_for_lines(sad::Label::LOS_VISIBLE),
-m_text_ellipsis_position_for_lines(sad::Label::LTEP_MIDDLE)
+m_text_ellipsis_position_for_lines(sad::Label::LTEP_MIDDLE),
+m_formatted(false),
+m_computed_rendering_string(false),
+m_computed_rendering_point(false)
 {
     
 }
@@ -48,7 +51,10 @@ m_break_text(sad::Label::LBT_NORMAL),
 m_text_ellipsis_position(sad::Label::LTEP_MIDDLE),
 m_maximum_lines(0),
 m_overflow_strategy_for_lines(sad::Label::LOS_VISIBLE),
-m_text_ellipsis_position_for_lines(sad::Label::LTEP_MIDDLE)
+m_text_ellipsis_position_for_lines(sad::Label::LTEP_MIDDLE),
+m_formatted(false),
+m_computed_rendering_string(false),
+m_computed_rendering_point(false)
 {
     m_font.attach(font);
     recomputeRenderedString();
@@ -69,7 +75,10 @@ m_break_text(sad::Label::LBT_NORMAL),
 m_text_ellipsis_position(sad::Label::LTEP_MIDDLE),
 m_maximum_lines(0),
 m_overflow_strategy_for_lines(sad::Label::LOS_VISIBLE),
-m_text_ellipsis_position_for_lines(sad::Label::LTEP_MIDDLE)
+m_text_ellipsis_position_for_lines(sad::Label::LTEP_MIDDLE),
+m_formatted(false),
+m_computed_rendering_string(false),
+m_computed_rendering_point(false)
 {
     m_font.setTree(NULL, tree);
     m_font.setPath(font);
@@ -78,7 +87,11 @@ m_text_ellipsis_position_for_lines(sad::Label::LTEP_MIDDLE)
 
 void sad::Label::setTreeName(sad::Renderer* r, const sad::String& treename)
 {
-    m_font.setTree(r, treename);	
+    m_font.setTree(r, treename);
+    for (sad::Hash<sad::String, sad::resource::Link<sad::Font> *>::iterator it = m_fonts_for_document.begin(); it != m_fonts_for_document.end(); ++it)
+    {
+        it.value()->setTree(r, treename);
+    }
 }
 
 void sad::Label::regions(sad::Vector<sad::Rect2D> & r)
@@ -200,6 +213,13 @@ sad::db::schema::Schema* sad::Label::basicSchema()
             teplines_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(static_cast<unsigned int>(0)));
             LabelBasicSchema->add("textellipsispositionforlines", teplines_property);
 
+            sad::db::Property* hasformatting_property = new sad::db::MethodPair<sad::Label, bool>(
+                &sad::Label::hasFormatting,
+                &sad::Label::setHasFormatting
+                );
+            teplines_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(false));
+            LabelBasicSchema->add("hasformatting", hasformatting_property);
+
 
             sad::ClassMetaDataContainer::ref()->pushGlobalSchema(LabelBasicSchema);
         }
@@ -242,6 +262,11 @@ void sad::Label::rendererChanged()
     if (m_font.dependsOnRenderer())
     {
         m_font.setRenderer(this->renderer());
+        sad::Hash<sad::String, sad::resource::Link<sad::Font> *>::iterator it = m_fonts_for_document.begin();
+        for (; it != m_fonts_for_document.end(); ++it)
+        {
+            it.value()->setRenderer(this->renderer());
+        }
     }
 }
 
@@ -280,7 +305,7 @@ sad::Rect2D sad::Label::region() const
 
 sad::Label::~Label()
 {
-
+    clearFontsCache();
 }
 
 void sad::Label::setScene(sad::Scene * scene)
@@ -355,6 +380,11 @@ void sad::Label::setLineSpacingRatio(float ratio)
 void sad::Label::setTreeName(const sad::String & treename)
 {
     m_font.setTree(m_font.renderer(), treename);
+    sad::Hash<sad::String, sad::resource::Link<sad::Font> *>::iterator it = m_fonts_for_document.begin();
+    for (; it != m_fonts_for_document.end(); ++it)
+    {
+        it.value()->setTree(m_font.renderer(), treename);
+    }
     recomputeRenderingPoint();
 }
 
@@ -504,6 +534,27 @@ sad::Label::TextEllipsisPosition sad::Label::textEllipsisForLines() const
 unsigned int sad::Label::textEllipsisForLinesAsIndex() const
 {
     return static_cast<unsigned int>(textEllipsisForLines());
+}
+
+bool sad::Label::hasFormatting() const
+{
+    return m_formatted;
+}
+
+void sad::Label::setHasFormatting(bool value)
+{
+    m_formatted = value;
+    recomputeRenderedString();
+}
+
+void sad::Label::makeFormatted()
+{
+    setHasFormatting(true);
+}
+
+void sad::Label::disableFormatting()
+{
+    setHasFormatting(false);
 }
 
 void sad::Label::makeSpanBetweenPoints(
@@ -805,4 +856,14 @@ void sad::Label::recomputeRenderedString()
         m_text_ellipsis_position_for_lines
     );
     recomputeRenderingPoint();
+}
+
+void sad::Label::clearFontsCache()
+{
+    sad::Hash<sad::String, sad::resource::Link<sad::Font> *>::iterator it = m_fonts_for_document.begin();
+    for (; it != m_fonts_for_document.end(); ++it)
+    {
+        delete it.value();
+    }
+    m_fonts_for_document.clear();
 }

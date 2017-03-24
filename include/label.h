@@ -9,6 +9,7 @@
 #include "3rdparty/format/format.h"
 #include "timer.h"
 #include "resource/link.h"
+#include "util/markup.h"
 #pragma once
 
 namespace sad
@@ -372,6 +373,20 @@ public:
         \return text ellipsis position as index
      */
     unsigned int textEllipsisForLinesAsIndex() const;
+    /*! Returns whether text label can have formatting
+        \return whether text label can have formatting
+     */
+    bool hasFormatting() const;
+    /*! Turns label into formatted (or not)
+        \param[in] value a new value for label
+     */
+    void setHasFormatting(bool value);
+    /*! Makes label formatted
+     */
+    void makeFormatted();
+    /*! Makes label non-formatted
+     */
+    void disableFormatting();
     /*! Places label in the center between two points, with angle rotated to p1
         \param[in] p1 first point
         \param[in] p2 second point
@@ -431,6 +446,9 @@ private:
     /*! Recomputes rendered string, so it will be preserved on every change
      */
     void recomputeRenderedString();
+    /*! Clears font cache for label
+    */
+    void clearFontsCache();
     /*! A link to font, that label is being renderd with
      */
     sad::resource::Link<sad::Font> m_font;
@@ -488,6 +506,21 @@ private:
         and m_overflow_strategy_for_lines is set to LOS_ELLIPSIS .
      */
     sad::Label::TextEllipsisPosition m_text_ellipsis_position_for_lines;
+    /*! Whether label is formatted
+     */
+    bool m_formatted;
+    /*! Whether we computed rendering string
+     */
+    bool m_computed_rendering_string;
+    /*! Whether we computed rendering point
+     */
+    bool m_computed_rendering_point;
+    /*! A document to be rendered
+     */
+    sad::util::Markup::Document m_document;
+    /*! A font for document, that will be used for label
+     */
+    sad::Hash<sad::String, sad::resource::Link<sad::Font> *> m_fonts_for_document;
 };
 
 }
