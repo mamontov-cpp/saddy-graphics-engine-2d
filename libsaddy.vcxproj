@@ -214,6 +214,7 @@
     <ClCompile Include="src\texturemappedfont.cpp" />
     <ClCompile Include="src\timer.cpp" />
     <ClCompile Include="src\util\chararrayibuf.cpp" />
+    <ClCompile Include="src\util\colortable.cpp" />
     <ClCompile Include="src\util\fileistreambuf.cpp" />
     <ClCompile Include="src\util\markup.cpp" />
     <ClCompile Include="src\window.cpp" />

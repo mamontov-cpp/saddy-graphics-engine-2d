@@ -142,10 +142,19 @@ struct Command
     /*! A content of string
      */
     sad::String Content;
+    /*! A width parameter for command (filled by rendered object)
+     */
+    float Width;
+    /*! An ascender for markup command (filled by rendered object)
+     */
+    float Ascender;
+    /*! A descender for markup command (filled by rendered object)
+     */
+    float Descender;
 
     /*! Constructs new comand
      */
-    inline Command() : Strikethrough(false), Underlined(false)
+    inline Command() : Strikethrough(false), Underlined(false), Width(0), Ascender(0), Descender(0)
     {
 
     }

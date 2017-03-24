@@ -50,6 +50,19 @@ public:
         LTEP_MIDDLE  = 1, //!< In the middle of string
         LTEP_END = 2      //!< In the end of string
     };
+    /*! A parameters for formatted row
+     */
+    struct  FormattedRowMetrics
+    {
+        float Ascender;  //!< An ascender part
+        float Descender; //!< A descender part
+        float Width;     //!< A real with of row
+        
+        inline FormattedRowMetrics() : Ascender(0), Descender(0), Width(0)
+        {
+
+        }
+    };
     /*! Creates a default broken sprite at (0,0) and no string
      */
     Label();
@@ -443,12 +456,45 @@ private:
         so rotation will be placed just in place 
      */
     void recomputeRenderingPoint();
+    /*! Returns size of label  without formatting
+        \param[in] font a basic font
+        \return size
+     */
+    sad::Size2D getSizeWithoutFormatting(sad::Font* font);
+    /*! Returns size of label  with formatting
+        \param[in] font a basic font
+    */
+    sad::Size2D getSizeWithFormatting(sad::Font* font);
     /*! Recomputes rendered string, so it will be preserved on every change
      */
     void recomputeRenderedString();
+    /*! Recomputes rendering string without respect to formatting
+     */
+    void recomputeRenderingStringWithoutFormatting();
+    /*! Recomputes rendering string
+     */
+    void recomputeRenderingStringWithFormatting();
     /*! Clears font cache for label
     */
     void clearFontsCache();
+    /*! Applies font command to font
+        \param[in] font a font
+        \param[in] c command
+        \param[in] font with applied command data
+     */
+    sad::Font* applyFontCommand(sad::Font* font, const sad::util::Markup::Command& c);
+    /*! Tries to get font for document. If not found, returns default font
+        \param[in] s string
+     */
+    sad::Font* getFontForDocument(const sad::String& s);
+    /*! Renders text with formatting
+        \param[in] font a font
+    */
+    void renderWithFormatting(sad::Font* font);
+    /*! Renders text without formatting
+        \param[in] font a font
+     */
+    void renderWithoutFormatting(sad::Font* font);
     /*! A link to font, that label is being renderd with
      */
     sad::resource::Link<sad::Font> m_font;
@@ -515,12 +561,15 @@ private:
     /*! Whether we computed rendering point
      */
     bool m_computed_rendering_point;
-    /*! A document to be rendered
+    /*! A document to be set
      */
     sad::util::Markup::Document m_document;
+    /*! A row metrics for a document
+     */
+    sad::Vector<sad::Label::FormattedRowMetrics> m_document_metrics;
     /*! A font for document, that will be used for label
      */
-    sad::Hash<sad::String, sad::resource::Link<sad::Font> *> m_fonts_for_document;
+    sad::Hash<sad::String, sad::resource::Link<sad::Font> > m_fonts_for_document;
 };
 
 }

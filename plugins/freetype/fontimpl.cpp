@@ -75,6 +75,11 @@ sad::Texture * sad::freetype::FontImpl::renderToTexture(
     return this->fontForSize(m_cached_size)->renderToTexture(string, m_library, m_face, height);
 }
 
+float sad::freetype::FontImpl::ascent() const
+{
+    return this->fontForSize(m_cached_size)->ascent();
+}
+
 void sad::freetype::FontImpl::unload(sad::Renderer * r)
 {
     sad::Vector<unsigned int> textures;

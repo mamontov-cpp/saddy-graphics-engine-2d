@@ -13,7 +13,8 @@ sad::TextureMappedFont::TextureMappedFont()  //-V730
 : sad::Font(), 
   m_texture(NULL),
   m_builtin_linespacing(0), 
-  m_size_ratio(1.0)
+  m_size_ratio(1.0),
+  m_ascent(0)
 {
 
 }
@@ -370,8 +371,10 @@ bool sad::TextureMappedFont::load(
 
         // If failed to read file,result is false
         int integralspacing = 0;
-        int test = fscanf(fl, "%d", &integralspacing);
-        m_builtin_linespacing = (float)integralspacing;
+        int integralascent = 0;
+        int test = fscanf(fl, "%d %d", &integralspacing, &integralascent);
+        m_builtin_linespacing = static_cast<float>(integralspacing);
+        m_ascent = static_cast<float>(integralascent);
         if (ferror(fl)) 
         {
             result = false;
@@ -446,6 +449,11 @@ void sad::TextureMappedFont::unloadFromGPU()
 float sad::TextureMappedFont::builtinLineSpacing() const
 {
     return m_builtin_linespacing * m_size_ratio;
+}
+
+float sad::TextureMappedFont::ascent() const
+{
+    return m_ascent * m_size_ratio;
 }
 
 void sad::TextureMappedFont::setSize(unsigned int size)

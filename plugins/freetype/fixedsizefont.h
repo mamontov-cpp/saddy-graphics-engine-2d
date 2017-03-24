@@ -66,7 +66,11 @@ public:
     inline float builtinLineSpacing() const
     {
         return m_builtin_linespacing;
-    }	
+    }
+    /*! An ascent for font
+        \return ascent for font
+    */
+    virtual float ascent() const;
     /*! Appends uploaded textures to GPU
      */
     void uploadedTextures(sad::Vector<unsigned int> & textures);

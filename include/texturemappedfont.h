@@ -94,6 +94,10 @@ public:
         \return line spacing
      */
     virtual float builtinLineSpacing() const;
+    /*! An ascent for font
+        \return ascent for font
+     */
+    virtual float ascent() const;
     /*! Sets size of font in pixels
         \param[in] size size of font in points
      */
@@ -106,6 +110,7 @@ protected:
     sad::Size2D    m_sizes[256];          //!< A sizes for each glyph
     int            m_leftbearings[256];   //!< Left bearings 
     int            m_rightbearings[256];  //!< Right bearings 
+    float          m_ascent;              //!< A builtin ascent
 };
 
 }

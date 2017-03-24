@@ -88,9 +88,9 @@ m_computed_rendering_point(false)
 void sad::Label::setTreeName(sad::Renderer* r, const sad::String& treename)
 {
     m_font.setTree(r, treename);
-    for (sad::Hash<sad::String, sad::resource::Link<sad::Font> *>::iterator it = m_fonts_for_document.begin(); it != m_fonts_for_document.end(); ++it)
+    for (sad::Hash<sad::String, sad::resource::Link<sad::Font>>::iterator it = m_fonts_for_document.begin(); it != m_fonts_for_document.end(); ++it)
     {
-        it.value()->setTree(r, treename);
+        it.value().setTree(r, treename);
     }
 }
 
@@ -251,7 +251,16 @@ void sad::Label::render()
     if (m_size > 0)
     {
         if (font)
-            font->render(m_rendered_string, m_halfpadding);
+        {
+            if (m_formatted)
+            {
+                renderWithFormatting(font);
+            }
+            else
+            {
+                renderWithoutFormatting(font);
+            }
+        }
     }
     glPopMatrix();
 }
@@ -262,10 +271,10 @@ void sad::Label::rendererChanged()
     if (m_font.dependsOnRenderer())
     {
         m_font.setRenderer(this->renderer());
-        sad::Hash<sad::String, sad::resource::Link<sad::Font> *>::iterator it = m_fonts_for_document.begin();
+        sad::Hash<sad::String, sad::resource::Link<sad::Font> >::iterator it = m_fonts_for_document.begin();
         for (; it != m_fonts_for_document.end(); ++it)
         {
-            it.value()->setRenderer(this->renderer());
+            it.value().setRenderer(this->renderer());
         }
     }
 }
@@ -279,14 +288,17 @@ void sad::Label::setArea(const sad::Rect2D & r)
 sad::Rect2D sad::Label::area() const
 {
     // Preserve linkage to a renderer
-    sad::Font * font = m_font.get();
-    if (!font)
-        return sad::Rect2D();
+    if (m_computed_rendering_point == false)
+    {
+        const_cast<sad::Label *>(this)->recomputeRenderingPoint();
+    }
+    sad::Size2D  size(m_halfpadding.x() * (-2), m_halfpadding.y() * 2);
+    if (m_computed_rendering_point == false)
+    {
+        size.Width = 0;
+        size.Height = 0;
+    }
 
-    font->setSize(m_size);
-    font->setLineSpacingRatio(m_linespacing_ratio);
-
-    sad::Size2D  size = font->size(m_rendered_string);
     sad::Rect2D  result(m_point.x(), 
                         m_point.y(), 
                         m_point.x() + size.Width,
@@ -380,10 +392,10 @@ void sad::Label::setLineSpacingRatio(float ratio)
 void sad::Label::setTreeName(const sad::String & treename)
 {
     m_font.setTree(m_font.renderer(), treename);
-    sad::Hash<sad::String, sad::resource::Link<sad::Font> *>::iterator it = m_fonts_for_document.begin();
+    sad::Hash<sad::String, sad::resource::Link<sad::Font> >::iterator it = m_fonts_for_document.begin();
     for (; it != m_fonts_for_document.end(); ++it)
     {
-        it.value()->setTree(m_font.renderer(), treename);
+        it.value().setTree(m_font.renderer(), treename);
     }
     recomputeRenderingPoint();
 }
@@ -830,20 +842,97 @@ void sad::Label::reloadFont()
 
 void sad::Label::recomputeRenderingPoint()
 {
+    m_computed_rendering_point = false;
+
     sad::Font * font = m_font.get();
     if (!font)
         return;
 
-    sad::Size2D size = font->size(m_rendered_string);
+    sad::Size2D size;
+    if (m_formatted)
+    {
+        size = this->getSizeWithFormatting(font);
+    }
+    else
+    {
+        size = this->getSizeWithoutFormatting(font);
+    }
+
     m_center.setX(m_point.x() + size.Width / 2);
     m_center.setY(m_point.y() - size.Height / 2);
     m_halfpadding.setX(size.Width / -2.0);
     m_halfpadding.setY(size.Height / 2.0);
 
+    m_computed_rendering_point = true;
+
     m_cached_region = this->region();
 }
 
+sad::Size2D sad::Label::getSizeWithoutFormatting(sad::Font* font)
+{
+    return font->size(m_rendered_string);	
+}
+
+sad::Size2D sad::Label::getSizeWithFormatting(sad::Font* font)
+{
+    sad::Size2D result(0, 0);
+    m_document_metrics.clear();
+    for (size_t row = 0; row < m_document.size(); row++)
+    {
+        float maxascender = 0;
+        float maxdescender = 0;
+        float width = 0;
+        bool last_line = (row == m_document.size() - 1);
+        for (size_t i = 0; i < m_document[row].size(); i++)
+        {
+            sad::util::Markup::Command& c = m_document[row][i];
+            sad::Font* fnt = this->applyFontCommand(font, c);
+            // Last line
+            if (last_line)
+            {
+                fnt->setLineSpacingRatio(1);
+            }
+            sad::Size2D sz = fnt->size(c.Content);
+            c.Ascender = fnt->ascent();
+            c.Descender = fnt->lineSpacing() - c.Ascender;
+            c.Width = sz.Width;
+            maxascender = (maxascender > c.Ascender) ? maxascender : c.Ascender; 
+            maxdescender = (maxdescender > c.Descender) ? maxdescender : c.Descender;
+            width += c.Width;
+        }
+
+        sad::Label::FormattedRowMetrics metrics;
+        metrics.Ascender = maxascender;
+        metrics.Descender = maxdescender;
+        metrics.Width = width;
+        m_document_metrics << metrics;
+
+        result.Height += metrics.Ascender + metrics.Descender;
+        result.Width = (result.Width > metrics.Width) ? result.Width : metrics.Width;
+    }
+    
+    return result;
+}
+
+
 void sad::Label::recomputeRenderedString()
+{
+    m_computed_rendering_string = false;
+
+    if (m_formatted)
+    {
+        this->recomputeRenderingStringWithFormatting();
+    }
+    else
+    {
+        this->recomputeRenderingStringWithoutFormatting();
+    }
+
+    if (m_computed_rendering_point)
+        m_computed_rendering_string = true;
+}
+
+void sad::Label::recomputeRenderingStringWithoutFormatting()
 {
     m_rendered_string = sad::Label::makeRenderingString(
         m_string,
@@ -858,12 +947,116 @@ void sad::Label::recomputeRenderedString()
     recomputeRenderingPoint();
 }
 
+void sad::Label::recomputeRenderingStringWithFormatting()
+{
+    m_document = sad::util::Markup::parseDocument(m_string, sad::util::Markup::Command());
+    recomputeRenderingPoint();
+}
+
 void sad::Label::clearFontsCache()
 {
-    sad::Hash<sad::String, sad::resource::Link<sad::Font> *>::iterator it = m_fonts_for_document.begin();
-    for (; it != m_fonts_for_document.end(); ++it)
-    {
-        delete it.value();
-    }
     m_fonts_for_document.clear();
+}
+
+sad::Font* sad::Label::applyFontCommand(sad::Font* font, const sad::util::Markup::Command& c)
+{
+    sad::Font* fnt = font;
+    // Apply font
+    if (c.Font.exists())
+    {
+        fnt = this->getFontForDocument(c.Font.value());
+    }
+    // Apply color
+    if (c.Color.exists())
+    {
+        fnt->setColor(c.Color.value());
+    }
+    else
+    {
+        fnt->setColor(m_color);
+    }
+    // Apply line spacing
+    if (c.Linespacing.exists())
+    {
+        switch (c.Linespacing.value().Type)
+        {
+        case sad::util::Markup::MLST_PERCENTS: fnt->setLineSpacingRatio(c.Linespacing.value().Size / 100.0); break;
+        case sad::util::Markup::MLST_PIXELS: fnt->setLineSpacing(c.Linespacing.value().Size); break;
+        };
+    }
+    else
+    {
+        fnt->setLineSpacingRatio(m_linespacing_ratio);
+    }
+    // Apply size
+    if (c.Size.exists())
+    {
+        switch (c.Size.value().Type)
+        {
+        case sad::util::Markup::MFZST_PIXELS: fnt->setSize(c.Size.value().Size); break;
+        case sad::util::Markup::MFZST_POINTS: fnt->setSizeInPoints(c.Size.value().Size); break;
+        };
+    }
+    else
+    {
+        fnt->setSize(m_size);
+    }
+    return fnt;
+}
+
+sad::Font* sad::Label::getFontForDocument(const sad::String& s)
+{
+    if (m_fonts_for_document.contains(s))
+    {
+        sad::Font* fnt = m_fonts_for_document[s].get();
+        if (fnt == NULL)
+        {
+            return m_font.get();
+        }
+        else
+        {
+            return fnt;
+        }
+    }
+    m_fonts_for_document.insert(s, m_font);
+    m_fonts_for_document[s].setPath(s);
+    sad::Font* fnt = m_fonts_for_document[s].get();
+    if (fnt == NULL)
+    {
+        return m_font.get();
+    }
+    else
+    {
+        return fnt;
+    }
+}
+
+void sad::Label::renderWithoutFormatting(sad::Font* font)
+{
+    font->render(m_rendered_string, m_halfpadding);
+}
+
+void sad::Label::renderWithFormatting(sad::Font* font)
+{
+    sad::Point2D point = m_halfpadding;
+    for (size_t row = 0; row < m_document.size(); row++)
+    {
+        double x = point.x();
+        bool last_line = (row == m_document.size() - 1);
+        for (size_t i = 0; i < m_document[row].size(); i++)
+        {
+            sad::util::Markup::Command& c = m_document[row][i];
+            sad::Font* fnt = this->applyFontCommand(font, c);
+            // Last line
+            if (last_line)
+            {
+                fnt->setLineSpacingRatio(1);
+            }
+            double y = point.y() + m_document_metrics[row].Ascender - c.Ascender;
+            fnt->render(c.Content, sad::Point2D(x, y));
+            x += c.Width;
+        }
+
+        point.setY(point.y() -  (m_document_metrics[row].Ascender + m_document_metrics[row].Descender));
+    }
 }

@@ -768,6 +768,9 @@
     <ClCompile Include="src\3rdparty\pugixml\pugixml.cpp">
       <Filter>Файлы исходного кода\3rdparty\pugixml</Filter>
     </ClCompile>
+    <ClCompile Include="src\util\colortable.cpp">
+      <Filter>Файлы исходного кода\util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\camera.h">

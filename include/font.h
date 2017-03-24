@@ -58,6 +58,10 @@ public:
         \return line spacing
      */
     virtual float builtinLineSpacing() const;
+    /*! An ascent for font
+        \return ascent for font
+    */
+    virtual float ascent() const = 0;
     /*! Sets size of font in points
         \param[in] size size of font in points
      */

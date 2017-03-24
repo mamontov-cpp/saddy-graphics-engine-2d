@@ -71,6 +71,11 @@ sad::Size2D sad::freetype::Font::size(const sad::String & str)
     return m_dptr->size(str, m_linespacing_ratio);
 }
 
+float sad::freetype::Font::ascent() const
+{
+    return m_dptr->ascent();
+}
+
 void sad::freetype::Font::unloadFromGPU()
 {
     m_dptr->unload(m_renderer);

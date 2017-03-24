@@ -21,7 +21,6 @@ sad::freetype::FixedSizeFont::FixedSizeFont(
 : m_on_gpu(false)
 {
     requestSize(library, face, height);
-
     int ppem = face->size->metrics.y_ppem;
     double linespacinginpt = face->bbox.yMax - face->bbox.yMin;
     m_builtin_linespacing = ppem * (static_cast<float>(linespacinginpt) / face->units_per_EM);
@@ -53,6 +52,11 @@ void sad::freetype::FixedSizeFont::uploadedTextures(sad::Vector<unsigned int> & 
             textures << m_glyphs[i]->Texture.Id;
         }
     }
+}
+
+float sad::freetype::FixedSizeFont::ascent() const
+{
+    return m_bearing_y;
 }
 
 void sad::freetype::FixedSizeFont::markTexturesAsUnloaded()

@@ -70,6 +70,10 @@ public:
         \return size of label
      */
     virtual sad::Size2D size(const sad::String & str, float ratio);	
+    /*! An ascent for font
+        \return ascent for font
+     */
+    virtual float ascent() const;
     /*! Returns a built-in line spacing
         \return line spacing
      */
