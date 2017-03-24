@@ -1039,6 +1039,7 @@ void sad::Label::renderWithoutFormatting(sad::Font* font)
 void sad::Label::renderWithFormatting(sad::Font* font)
 {
     sad::Point2D point = m_halfpadding;
+    sad::Renderer* renderer = this->renderer();
     for (size_t row = 0; row < m_document.size(); row++)
     {
         double x = point.x();
@@ -1052,11 +1053,30 @@ void sad::Label::renderWithFormatting(sad::Font* font)
             {
                 fnt->setLineSpacingRatio(1);
             }
-            double y = point.y() + m_document_metrics[row].Ascender - c.Ascender;
-            fnt->render(c.Content, sad::Point2D(x, y));
+            double y = point.y() - m_document_metrics[row].Ascender + c.Ascender;
+            fnt->render(c.Content, sad::Point2D(x, y));			
+            if (renderer)
+            {
+                if (c.Strikethrough)
+                {
+                    // We assume that capital letters are bigger than 
+                    // lowercase in no more than two times, so dividing ascender by 4 would give us
+                    // a position in middle of lower case
+                    double ky = point.y() - m_document_metrics[row].Ascender + c.Ascender/ 4;
+                    sad::Point2D p1(x, ky), p2(x + c.Width, ky);
+                    sad::AColor clr = fnt->color();
+                    clr.setA(255 - clr.a());
+                    renderer->render()->line(p1, p2, clr);
+                }
+            }
             x += c.Width;
         }
 
         point.setY(point.y() -  (m_document_metrics[row].Ascender + m_document_metrics[row].Descender));
+    }
+    
+    if (renderer)
+    {
+        renderer->render()->rectangle(sad::Rect2D(m_halfpadding, m_halfpadding * (-1)), sad::AColor(255, 0, 0, 255));
     }
 }
