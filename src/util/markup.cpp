@@ -178,7 +178,7 @@ sad::Maybe<sad::util::Markup::LineSpacingSize> sad::util::Markup::parseLineSpaci
     // Perform substring
     sad::util::Markup::LineSpacingSizeType type = sad::util::Markup::MLST_PIXELS;
     sad::String data = s;
-    if (s.size() > 2)
+    if (s.size() >= 2)
     {
         sad::String result = s.subString(s.length() - 2, 2);
         result.toLower();

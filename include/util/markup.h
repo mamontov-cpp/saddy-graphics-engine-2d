@@ -148,13 +148,13 @@ struct Command
     /*! An ascender for markup command (filled by rendered object)
      */
     float Ascender;
-    /*! A descender for markup command (filled by rendered object)
+    /*! A computed linespacing markup command (filled by rendered object)
      */
-    float Descender;
+    float LineSpacingValue;
 
     /*! Constructs new comand
      */
-    inline Command() : Strikethrough(false), Underlined(false), Width(0), Ascender(0), Descender(0)
+    inline Command() : Strikethrough(false), Underlined(false), Width(0), Ascender(0), LineSpacingValue(0)
     {
 
     }

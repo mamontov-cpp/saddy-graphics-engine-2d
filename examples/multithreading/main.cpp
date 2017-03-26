@@ -205,10 +205,10 @@ int thread(void * p)
     scene->add(l2);
 
     sad::Label * l3 = new sad::Label("tmfont", sad::Point2D(200, 550),
-        "<span font=\"tmfont\" strikethrough=\"true\" size=\"72px\" linespacing=\"0%\">Texture\n</span>"
-        "<span font=\"tmfont\" strikethrough=\"true\" size=\"18px\" linespacing=\"100%\">Xtext1\n</span>"
+        "<span font=\"tmfont\" strikethrough=\"true\" underline=\"true\" size=\"72px\" linespacing=\"250%\">Texture</span>"
+        "<span font=\"tmfont\" size=\"18px\" linespacing=\"100%\">Xtext1\n</span>"
         "<span font=\"tmfont\" strikethrough=\"true\" size=\"18px\" linespacing=\"100%\">Xtext2\n</span>"
-        "<span font=\"tmfont\" strikethrough=\"true\" size=\"18px\" linespacing=\"100%\">Xtext3\n</span>"
+        "<span font=\"tmfont\" strikethrough=\"true\" underline=\"true\" size=\"18px\" linespacing=\"100%\">Xtext3</span>"
     );
     l3->setTreeName(&r, "");
     l3->setColor(255, 255, 255, 0);

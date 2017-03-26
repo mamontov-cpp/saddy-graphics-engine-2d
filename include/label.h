@@ -54,11 +54,11 @@ public:
      */
     struct  FormattedRowMetrics
     {
-        float Ascender;  //!< An ascender part
-        float Descender; //!< A descender part
-        float Width;     //!< A real with of row
+        float Ascender;          //!< An ascender part
+        float LineSpacingValue;  //!< A descender part
+        float Width;             //!< A real with of row
         
-        inline FormattedRowMetrics() : Ascender(0), Descender(0), Width(0)
+        inline FormattedRowMetrics() : Ascender(0), LineSpacingValue(0), Width(0)
         {
 
         }

@@ -18,6 +18,8 @@
 DECLARE_SOBJ_INHERITANCE(sad::Label,sad::SceneNode)
 
 
+#define DEBUG_FORMATTED_RENDERING 1
+
 sad::Label::Label() :
 m_string(""),
 m_maximal_line_width(0), 
@@ -877,11 +879,13 @@ sad::Size2D sad::Label::getSizeWithFormatting(sad::Font* font)
 {
     sad::Size2D result(0, 0);
     m_document_metrics.clear();
+    sad::Vector<float> rowmaxs;
     for (size_t row = 0; row < m_document.size(); row++)
     {
         float maxascender = 0;
-        float maxdescender = 0;
+        float maxlinespacingvalue = 0;
         float width = 0;
+        float ymaxx = 0;
         bool last_line = (row == m_document.size() - 1);
         for (size_t i = 0; i < m_document[row].size(); i++)
         {
@@ -894,22 +898,33 @@ sad::Size2D sad::Label::getSizeWithFormatting(sad::Font* font)
             }
             sad::Size2D sz = fnt->size(c.Content);
             c.Ascender = fnt->ascent();
-            c.Descender = fnt->lineSpacing() - c.Ascender;
+            c.LineSpacingValue = fnt->lineSpacing();
             c.Width = sz.Width;
+            float localymax = result.Height + fnt->builtinLineSpacing();
+            float ascentmax = result.Height + fnt->ascent();
+            if (c.Underlined)
+            {
+                ascentmax += 2;
+            }
+            ymaxx = (ymaxx > localymax) ? ymaxx : localymax;
+            ymaxx = (ymaxx > ascentmax) ? ymaxx : ascentmax;
             maxascender = (maxascender > c.Ascender) ? maxascender : c.Ascender; 
-            maxdescender = (maxdescender > c.Descender) ? maxdescender : c.Descender;
+            maxlinespacingvalue = (maxlinespacingvalue > c.LineSpacingValue) ? maxlinespacingvalue : c.LineSpacingValue;
             width += c.Width;
         }
-
+        rowmaxs << ymaxx;
         sad::Label::FormattedRowMetrics metrics;
         metrics.Ascender = maxascender;
-        metrics.Descender = maxdescender;
+        metrics.LineSpacingValue = maxlinespacingvalue;
         metrics.Width = width;
         m_document_metrics << metrics;
 
-        result.Height += metrics.Ascender + metrics.Descender;
+        result.Height += metrics.LineSpacingValue;
         result.Width = (result.Width > metrics.Width) ? result.Width : metrics.Width;
     }
+
+    rowmaxs << result.Height;
+    result.Height = *(std::max_element(rowmaxs.begin(), rowmaxs.end()));
     
     return result;
 }
@@ -1068,15 +1083,25 @@ void sad::Label::renderWithFormatting(sad::Font* font)
                     clr.setA(255 - clr.a());
                     renderer->render()->line(p1, p2, clr);
                 }
+                if (c.Underlined)
+                {
+                    double ky = point.y() - m_document_metrics[row].Ascender - 2;
+                    sad::Point2D p1(x, ky), p2(x + c.Width, ky);
+                    sad::AColor clr = fnt->color();
+                    clr.setA(255 - clr.a());
+                    renderer->render()->line(p1, p2, clr);
+                }
             }
             x += c.Width;
         }
 
-        point.setY(point.y() -  (m_document_metrics[row].Ascender + m_document_metrics[row].Descender));
+        point.setY(point.y() -  m_document_metrics[row].LineSpacingValue);
     }
-    
+
+#ifdef DEBUG_FORMATTED_RENDERING
     if (renderer)
     {
         renderer->render()->rectangle(sad::Rect2D(m_halfpadding, m_halfpadding * (-1)), sad::AColor(255, 0, 0, 255));
     }
+#endif
 }
