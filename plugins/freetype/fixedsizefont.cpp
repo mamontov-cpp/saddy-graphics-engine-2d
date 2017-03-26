@@ -73,7 +73,8 @@ void sad::freetype::FixedSizeFont::markTexturesAsUnloaded()
 void sad::freetype::FixedSizeFont::render(
     const sad::String & s, 
     const sad::Point2D & p, 
-    float ratio
+    float ratio,
+    sad::Font::RenderFlags flags
 )
 {
     // sad_freetype_font_lock.lock();
@@ -152,7 +153,7 @@ sad::Texture * sad::freetype::FixedSizeFont::renderToTexture(
     tmp.removeAllOccurences("\r");
     tmp.removeAllOccurences("\n");
 
-    sad::Size2D size = this->size(string, 1.0);
+    sad::Size2D size = this->size(string, 1.0, sad::Font::FRF_None);
 
     sad::Texture * texture = new sad::Texture();
     texture->width() = static_cast<unsigned int>(ceil(size.Width));
@@ -232,7 +233,8 @@ sad::Texture * sad::freetype::FixedSizeFont::renderToTexture(
 
 sad::Size2D sad::freetype::FixedSizeFont::size(
     const sad::String & s, 
-    float ratio
+    float ratio,
+    sad::Font::RenderFlags flags
 )
 {
     sad::String tmp = s;

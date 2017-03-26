@@ -890,13 +890,15 @@ sad::Size2D sad::Label::getSizeWithFormatting(sad::Font* font)
         for (size_t i = 0; i < m_document[row].size(); i++)
         {
             sad::util::Markup::Command& c = m_document[row][i];
-            sad::Font* fnt = this->applyFontCommand(font, c);
+            sad::Pair<sad::Font*, sad::Font::RenderFlags> pair = this->applyFontCommand(font, c);
+            sad::Font* fnt = pair.p1();
+            sad::Font::RenderFlags flags = pair.p2();
             // Last line
             if (last_line)
             {
                 fnt->setLineSpacingRatio(1);
             }
-            sad::Size2D sz = fnt->size(c.Content);
+            sad::Size2D sz = fnt->size(c.Content, flags);
             c.Ascender = fnt->ascent();
             c.LineSpacingValue = fnt->lineSpacing();
             c.Width = sz.Width;
@@ -973,9 +975,10 @@ void sad::Label::clearFontsCache()
     m_fonts_for_document.clear();
 }
 
-sad::Font* sad::Label::applyFontCommand(sad::Font* font, const sad::util::Markup::Command& c)
+sad::Pair<sad::Font*, sad::Font::RenderFlags> sad::Label::applyFontCommand(sad::Font* font, const sad::util::Markup::Command& c)
 {
     sad::Font* fnt = font;
+    sad::Font::RenderFlags flags = sad::Font::FRF_None;
     // Apply font
     if (c.Font.exists())
     {
@@ -1016,7 +1019,15 @@ sad::Font* sad::Label::applyFontCommand(sad::Font* font, const sad::util::Markup
     {
         fnt->setSize(m_size);
     }
-    return fnt;
+    if (c.Bold)
+    {
+        flags = static_cast<sad::Font::RenderFlags>(flags | sad::Font::FRF_Bold);
+    }
+    if (c.Italic)
+    {
+        flags = static_cast<sad::Font::RenderFlags>(flags | sad::Font::FRF_Italic);
+    }
+    return sad::Pair<sad::Font*, sad::Font::RenderFlags>(fnt,flags);
 }
 
 sad::Font* sad::Label::getFontForDocument(const sad::String& s)
@@ -1062,14 +1073,16 @@ void sad::Label::renderWithFormatting(sad::Font* font)
         for (size_t i = 0; i < m_document[row].size(); i++)
         {
             sad::util::Markup::Command& c = m_document[row][i];
-            sad::Font* fnt = this->applyFontCommand(font, c);
+            sad::Pair<sad::Font*, sad::Font::RenderFlags> pair = this->applyFontCommand(font, c);
+            sad::Font* fnt = pair.p1();
+            sad::Font::RenderFlags flags = pair.p2();
             // Last line
             if (last_line)
             {
                 fnt->setLineSpacingRatio(1);
             }
             double y = point.y() - m_document_metrics[row].Ascender + c.Ascender;
-            fnt->render(c.Content, sad::Point2D(x, y));			
+            fnt->render(c.Content, sad::Point2D(x, y), flags);			
             if (renderer)
             {
                 if (c.Strikethrough)

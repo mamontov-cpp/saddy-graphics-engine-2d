@@ -27,7 +27,7 @@ sad::TextureMappedFont::~TextureMappedFont()
     }
 }
 
-sad::Size2D sad::TextureMappedFont::size(const sad::String & str)
+sad::Size2D sad::TextureMappedFont::size(const sad::String & str, sad::Font::RenderFlags flags)
 {
     sad::Size2D result;
     // If loading was failed, return (0, 0) as size
@@ -53,6 +53,14 @@ sad::Size2D sad::TextureMappedFont::size(const sad::String & str)
             unsigned char c = *reinterpret_cast<unsigned char*>(&(string[j]));
             linewidth += m_leftbearings[c] * m_size_ratio;
             linewidth += m_sizes[c].Width * m_size_ratio;
+            if ((flags & sad::Font::FRF_Bold) != 0)
+            {
+                linewidth += 2;
+            }
+            if ((flags & sad::Font::FRF_Italic) != 0)
+            {
+                linewidth += 2;
+            }
             linewidth += m_rightbearings[c] * m_size_ratio;
         }
         result.Width = std::max(linewidth, result.Width);
@@ -70,7 +78,7 @@ sad::Size2D sad::TextureMappedFont::size(const sad::String & str)
 }
 
 
-void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D & p)
+void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D & p, sad::Font::RenderFlags flags)
 {
     // If loading was failed, do nothing
     if (m_texture == NULL)
@@ -166,23 +174,45 @@ void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D 
         {
             x += m_leftbearings[ string[i] ] * m_size_ratio;
             glyphheight = (unsigned int)(m_sizes[glyphchar].Height * m_size_ratio);
-            glyphwidth =  (unsigned int)(m_sizes[glyphchar].Width * m_size_ratio); 
+            glyphwidth =  (unsigned int)(m_sizes[glyphchar].Width * m_size_ratio);
 
-            glTexCoord2f((GLfloat)glyph[0].x(), (GLfloat)glyph[0].y()); 
-            glVertex2f((GLfloat)x, (GLfloat)y);
+            int count = 1;
+            if ((flags & sad::Font::FRF_Bold) != 0) 
+            {
+                count = 3;
+            }
+            float topoffset = 0;
+            if ((flags & sad::Font::FRF_Italic) != 0)
+            {
+                topoffset = 2.0f;
+            }
 
-            glTexCoord2f((GLfloat)glyph[1].x(), (GLfloat)glyph[1].y()); 
-            glVertex2f((GLfloat)(x + glyphwidth), (GLfloat)y);
+            for (size_t i = 0; i < count; i++)
+            {
+                glTexCoord2f((GLfloat)glyph[0].x(), (GLfloat)glyph[0].y());
+                glVertex2f((GLfloat)(x + i  + topoffset), (GLfloat)y);
 
-            glTexCoord2f((GLfloat)glyph[2].x(), (GLfloat)glyph[2].y()); 
-            glVertex2f((GLfloat)(x + glyphwidth), (GLfloat)(y - glyphheight));
+                glTexCoord2f((GLfloat)glyph[1].x(), (GLfloat)glyph[1].y());
+                glVertex2f((GLfloat)(x + glyphwidth + i + topoffset), (GLfloat)y);
 
-            glTexCoord2f((GLfloat)(glyph[3].x()), (GLfloat)(glyph[3].y())); 
-            glVertex2f((GLfloat)x, (GLfloat)(y - glyphheight));
+                glTexCoord2f((GLfloat)glyph[2].x(), (GLfloat)glyph[2].y());
+                glVertex2f((GLfloat)(x + glyphwidth + i), (GLfloat)(y - glyphheight));
+
+                glTexCoord2f((GLfloat)(glyph[3].x()), (GLfloat)(glyph[3].y()));
+                glVertex2f((GLfloat)(x + i), (GLfloat)(y - glyphheight));
+            }
         }
         if (string[i] != '\n')
         {
             x += glyphwidth;
+            if ((flags & sad::Font::FRF_Bold) != 0)
+            {
+                x += 2;
+            }
+            if ((flags & sad::Font::FRF_Italic) != 0)
+            {
+                x += 2;
+            }
             x += m_rightbearings[ string[i] ] * m_size_ratio;
         }
         else

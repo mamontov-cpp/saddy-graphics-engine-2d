@@ -88,6 +88,14 @@ sad::util::Markup::DocumentLine sad::util::Markup::parseTag(
         {
             my_command.Strikethrough = sad::util::Markup::parseBoolValue(attr.value(), parent.Strikethrough);
         }
+        if (!strcmp(attr.name(), "bold"))
+        {
+            my_command.Bold = sad::util::Markup::parseBoolValue(attr.value(), parent.Bold);
+        }
+        if (!strcmp(attr.name(), "italic"))
+        {
+            my_command.Italic = sad::util::Markup::parseBoolValue(attr.value(), parent.Italic);
+        }
         if (!strcmp(attr.name(), "font"))
         {
             my_command.Font = sad::util::Markup::parseFont(attr.value(), parent.Font);

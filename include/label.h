@@ -481,8 +481,9 @@ private:
         \param[in] font a font
         \param[in] c command
         \param[in] font with applied command data
+        \return font with flags
      */
-    sad::Font* applyFontCommand(sad::Font* font, const sad::util::Markup::Command& c);
+    sad::Pair<sad::Font*, sad::Font::RenderFlags> applyFontCommand(sad::Font* font, const sad::util::Markup::Command& c);
     /*! Tries to get font for document. If not found, returns default font
         \param[in] s string
      */

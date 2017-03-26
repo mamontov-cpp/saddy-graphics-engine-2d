@@ -33,14 +33,16 @@ public:
     virtual ~TextureMappedFont();
     /*! Returns a estimated size of label, rendered with specified size
         \param[in] str string
+        \param[in] flags a flags for rendering
         \return size of label
      */
-    virtual sad::Size2D size(const sad::String & str);
+    virtual sad::Size2D size(const sad::String & str, sad::Font::RenderFlags flags = sad::Font::FRF_None);
     /*! Renders a string on screen
         \param[in] str string
         \param[in] p   upper-left point in viewport coordinates
+        \param[in] flags a flags for rendering
      */
-    virtual void render(const sad::String & str,const sad::Point2D & p);
+    virtual void render(const sad::String & str,const sad::Point2D & p, sad::Font::RenderFlags flags = sad::Font::FRF_None);
     /*! Renders a string of text to a texture. A texture memory is not freed.
         A string rendered as line, so any newline symbols are stripped from rendered string.
         \param[in] str string

@@ -38,12 +38,12 @@ bool sad::freetype::Font::load(const sad::String & filename)
     return m_dptr->load(filename);
 }
 
-void sad::freetype::Font::render(const sad::String & str,const sad::Point2D & p)
+void sad::freetype::Font::render(const sad::String & str,const sad::Point2D & p, sad::Font::RenderFlags flags)
 {
     m_dptr->setSize(m_size);
 
     this->setCurrentColor();
-    m_dptr->render(str, p, m_linespacing_ratio);
+    m_dptr->render(str, p, m_linespacing_ratio, flags);
     this->restoreColor();
 }
 
@@ -65,10 +65,10 @@ float sad::freetype::Font::builtinLineSpacing() const
     return m_dptr->builtinLineSpacing();
 }
 
-sad::Size2D sad::freetype::Font::size(const sad::String & str)
+sad::Size2D sad::freetype::Font::size(const sad::String & str, sad::Font::RenderFlags flags)
 {
     m_dptr->setSize(m_size);
-    return m_dptr->size(str, m_linespacing_ratio);
+    return m_dptr->size(str, m_linespacing_ratio, flags);
 }
 
 float sad::freetype::Font::ascent() const

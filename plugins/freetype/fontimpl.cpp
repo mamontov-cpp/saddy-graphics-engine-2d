@@ -51,7 +51,8 @@ bool sad::freetype::FontImpl::load(const sad::String & filename)
 void sad::freetype::FontImpl::render(
         const sad::String & str,
         const sad::Point2D & p,
-        float ratio
+        float ratio,
+        sad::Font::RenderFlags flags
 )
 {
     glPushAttrib(GL_LIST_BIT | GL_CURRENT_BIT  | GL_ENABLE_BIT | GL_TRANSFORM_BIT);	
@@ -62,7 +63,7 @@ void sad::freetype::FontImpl::render(
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 
-    this->fontForSize(m_cached_size)->render(str, p, ratio);
+    this->fontForSize(m_cached_size)->render(str, p, ratio, flags);
     
     glPopAttrib();
 }
@@ -125,9 +126,9 @@ void sad::freetype::FontImpl::setSize(unsigned int size)
     }
 }
 
-sad::Size2D sad::freetype::FontImpl::size(const sad::String & str, float ratio)
+sad::Size2D sad::freetype::FontImpl::size(const sad::String & str, float ratio, sad::Font::RenderFlags flags)
 {
-    return this->fontForSize(m_cached_size)->size(str, ratio);
+    return this->fontForSize(m_cached_size)->size(str, ratio, flags);
 }
 
 float sad::freetype::FontImpl::builtinLineSpacing() const

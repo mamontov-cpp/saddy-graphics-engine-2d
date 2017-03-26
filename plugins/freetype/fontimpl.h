@@ -6,6 +6,7 @@
 #pragma once
 #include <sadptrhash.h>
 #include "texture.h"
+#include "font.h"
 
 #include <sadstring.h>
 #include <sadsize.h>
@@ -40,11 +41,13 @@ public:
         \param[in] str string
         \param[in] p   upper-left point in viewport coordinates
         \param[in] ratio a ratio for line spacing
+        \param[in] flags a flag value
      */
     virtual void render(
         const sad::String & str,
         const sad::Point2D & p,
-        float ratio
+        float ratio,
+        sad::Font::RenderFlags flags
     ); 
     /*! Renders text line to a texture. Before output all new line string are stripped.
         Texture's memory should be freed manually
@@ -67,9 +70,10 @@ public:
     /*! Returns a estimated size of label, rendered with specified size
         \param[in] str string
         \param[in] ratio a ratio for line-spacing
+        \param[in] flags a flag value
         \return size of label
      */
-    virtual sad::Size2D size(const sad::String & str, float ratio);	
+    virtual sad::Size2D size(const sad::String & str, float ratio, sad::Font::RenderFlags flags);
     /*! An ascent for font
         \return ascent for font
      */

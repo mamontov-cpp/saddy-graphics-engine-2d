@@ -127,6 +127,12 @@ struct Command
     /*! Whether text should be underlined
      */
     bool Underlined;
+    /*! Whether text font should emulate bold
+     */
+    bool Bold;
+    /*! Whether text font should emulate italic font
+    */
+    bool Italic;
     /*! A size of font, used to render font
      */
     sad::Maybe<sad::util::Markup::FontSize> Size;
@@ -154,7 +160,7 @@ struct Command
 
     /*! Constructs new comand
      */
-    inline Command() : Strikethrough(false), Underlined(false), Width(0), Ascender(0), LineSpacingValue(0)
+    inline Command() : Strikethrough(false), Underlined(false), Bold(false), Italic(false), Width(0), Ascender(0), LineSpacingValue(0)
     {
 
     }
