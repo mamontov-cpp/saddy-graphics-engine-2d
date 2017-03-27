@@ -431,6 +431,40 @@ public:
         sad::Label::OverflowStrategy overflow_for_lines = sad::Label::LOS_ELLIPSIS,
         sad::Label::TextEllipsisPosition text_ellipsis_for_lines = sad::Label::LTEP_BEGIN
     );
+
+    /*! Creates string, that could be rendered with label,
+        using specified settings. Used to create rendering string
+        for label
+        \param[in] string a string, that must be rendered
+        \param[in] maximal_line_width a maximal width of line in characters
+        \param[in] s a strategy, which should be applied (\@see sad::Label::OverflowStrategy)
+        \param[in] bt whether we should break text into lines (\@see sad::Label::BreakText)
+        \param[in] tep a suspension point position
+        \param[in] maximum_lines a maximal lines count, that should be shown
+        \param[in] overflow_for_lines how should function behave in case that amount of lines exceeds maximum_lines
+        \param[in] text_ellipsis_for_lines where should ellipsis be placed in case that amount of lines exceeds maximum_lines and overflow_for_lines is set to sad::Label::LOS_ELLIPSIS
+        \return string, how it would be rendered by label with specified settings
+    */
+    static sad::util::Markup::Document makeRenderingString(
+        const sad::util::Markup::Document& string,
+        unsigned int maximal_line_width,
+        sad::Label::OverflowStrategy s,
+        sad::Label::BreakText bt,
+        sad::Label::TextEllipsisPosition tep,
+        unsigned int maximum_lines = 0,
+        sad::Label::OverflowStrategy overflow_for_lines = sad::Label::LOS_ELLIPSIS,
+        sad::Label::TextEllipsisPosition text_ellipsis_for_lines = sad::Label::LTEP_BEGIN
+    );
+    /*! Computes length for command
+        \param[in] c a command for markup
+        \return total length for string
+     */
+    static size_t length(const sad::Vector<sad::util::Markup::Command>& c);
+    /*! Breaks a command into words. Each word has a space at the end if it need to
+        \param[in] v a vector
+        \return list of commands
+     */
+    static sad::Vector<sad::util::Markup::Command> breakIntoWords(const sad::Vector<sad::util::Markup::Command>& v);
     /*! Formats text line, constraining it by maximal line width, using specified overflow strategy
         and text ellipsis position
         \param[in] string a string  value

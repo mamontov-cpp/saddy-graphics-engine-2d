@@ -748,6 +748,187 @@ sad::String sad::Label::makeRenderingString(
     return result;
 }
 
+
+
+
+sad::util::Markup::Document sad::Label::makeRenderingString(
+    const sad::util::Markup::Document& string,
+    unsigned int maximal_line_width,
+    sad::Label::OverflowStrategy s,
+    sad::Label::BreakText bt,
+    sad::Label::TextEllipsisPosition tep,
+    unsigned int maximum_lines,
+    sad::Label::OverflowStrategy overflow_for_lines,
+    sad::Label::TextEllipsisPosition text_ellipsis_for_lines
+)
+{
+    if (maximal_line_width == 0 && maximum_lines == 0)
+    {
+        return string;
+    }
+    else
+    {
+        sad::util::Markup::Document lines = string;
+        bool last_line_changed = false;
+        sad::util::Markup::Document new_lines;
+        if (maximal_line_width == 0)
+        {
+            new_lines = lines;
+            last_line_changed = true;
+        }
+        for (size_t i = 0; i < lines.size() && (maximal_line_width != 0); i++)
+        {
+            if (bt == sad::Label::LBT_BREAK_WORD)
+            {
+                sad::Vector<sad::util::Markup::Command> words = sad::Label::breakIntoWords(lines[i]);
+                new_lines << sad::Vector<sad::util::Markup::Command>();
+                sad::Vector<sad::util::Markup::Command>* current_word = &(new_lines[new_lines.size() - 1]);
+                for (size_t j = 0; j < words.size(); j++)
+                {
+                    // In case that word  is larger than line width - we can do nothing to prevent it from 
+                    // becoming larger
+                    const sad::util::Markup::Command& candidate_word = words[j];
+                    size_t cur_word_length = sad::Label::length(*current_word);
+                    if (candidate_word.Content.length() > maximal_line_width && cur_word_length == 0)
+                    {
+                        *current_word = sad::Label::formatTextLine(
+                            candidate_word,
+                            maximal_line_width,
+                            s,
+                            tep
+                        );
+                        new_lines << sad::Vector<sad::util::Markup::Command>();
+                        current_word = &(new_lines[new_lines.size() - 1]);
+                        last_line_changed = false;
+                    }
+                    else
+                    {
+                        int offset = (current_word->length() == 0) ? 0 : 1;
+                        if (current_word->length() + candidate_word.length() > maximal_line_width)
+                        {
+                            new_lines << "";
+                            current_word = &(new_lines[new_lines.size() - 1]);
+                            --j;
+                            last_line_changed = false;
+                        }
+                        else
+                        {
+                            *current_word << candidate_word;
+                            last_line_changed = true;
+                        }
+                    }
+                }
+            }
+            if (bt == sad::Label::LBT_NORMAL)
+            {
+                sad::String line = lines[i];
+                line.replaceAllOccurences("\n", "");
+                new_lines << sad::Label::formatTextLine(
+                    line,
+                    maximal_line_width,
+                    s,
+                    tep
+                );
+            }
+        }
+        if (bt == sad::Label::LBT_BREAK_WORD && new_lines.size() != 0 && !last_line_changed)
+        {
+            new_lines.removeAt(new_lines.size() - 1);
+        }
+        if (maximum_lines != 0
+            && new_lines.size() > maximum_lines
+            && overflow_for_lines != sad::Label::LOS_VISIBLE)
+        {
+            if (overflow_for_lines == sad::Label::LOS_HIDDEN)
+            {
+                new_lines.removeRange(maximum_lines, new_lines.size() - 1);
+            }
+            if (overflow_for_lines == sad::Label::LOS_ELLIPSIS)
+            {
+                if (text_ellipsis_for_lines == sad::Label::LTEP_BEGIN)
+                {
+                    new_lines.removeRange(0, new_lines.size() - maximum_lines - 1);
+                    new_lines[0] = "...";
+                }
+                if (text_ellipsis_for_lines == sad::Label::LTEP_END)
+                {
+                    new_lines.removeRange(maximum_lines, new_lines.size() - 1);
+                    new_lines[new_lines.size() - 1] = "...";
+                }
+                if (text_ellipsis_for_lines == sad::Label::LTEP_MIDDLE)
+                {
+                    long left_length = (maximum_lines - 1) / 2 + (maximum_lines - 1) % 2;
+                    long right_length = (maximum_lines - 1) / 2;
+                    if (new_lines.size() == 1)
+                    {
+                        new_lines[0] = "...";
+                    }
+                    else
+                    {
+                        if (new_lines.size() == 2)
+                        {
+                            new_lines[1] = "...";
+                        }
+                        else
+                        {
+                            new_lines.removeRange(left_length + 1, new_lines.size() - right_length - 1);
+                            new_lines[left_length] = "...";
+                        }
+                    }
+                }
+            }
+        }
+        return new_lines;
+    }
+}
+
+size_t sad::Label::length(const sad::Vector<sad::util::Markup::Command>& c)
+{
+    size_t length = 0;
+    for (size_t i = 0; i < c.size(); i++)
+    {
+        length += c[i].Content.length();
+    }
+    return length;
+}
+
+sad::Vector<sad::util::Markup::Command> sad::Label::breakIntoWords(const sad::Vector<sad::util::Markup::Command>& v)
+{
+    sad::Vector<sad::util::Markup::Command> result;
+    for (size_t i = 0; i < v.size(); i++)
+    {
+        sad::StringList lst = v[i].Content.split(' ');
+        bool last_has_space = false;
+        if (v[i].Content.size())
+        {
+            last_has_space = (v[i].Content[v[i].Content.length() - 1] == ' ');
+        }
+        if ((lst.size()  == 0) && last_has_space)
+        {
+            result << v[i];
+        }
+        else
+        {
+            for (size_t i = 0; i < lst.size(); i++)
+            {
+                sad::util::Markup::Command c = v[i];
+                c.Content = lst[i];
+                if (i == lst.size() - 1)
+                {
+                    if (last_has_space)
+                        c.Content += ' ';
+                }
+                else 
+                {
+                    c.Content += ' ';
+                }
+                result << c;
+            }
+        }
+    }
+    return result;
+}
+
 sad::String sad::Label::formatTextLine(
     const sad::String& string,
     unsigned int maximal_line_width,
