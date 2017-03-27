@@ -7,6 +7,9 @@
 
 #include "util/fs.h"
 
+// A tangent for 20 degrees angle
+#define TAN_20_DEGREES  (0.36397023426620234)
+
 DECLARE_SOBJ_INHERITANCE(sad::TextureMappedFont, sad::Font);
 
 sad::TextureMappedFont::TextureMappedFont()  //-V730
@@ -27,6 +30,8 @@ sad::TextureMappedFont::~TextureMappedFont()
     }
 }
 
+
+
 sad::Size2D sad::TextureMappedFont::size(const sad::String & str, sad::Font::RenderFlags flags)
 {
     sad::Size2D result;
@@ -43,6 +48,8 @@ sad::Size2D sad::TextureMappedFont::size(const sad::String & str, sad::Font::Ren
     tmp.removeAllOccurences("\r");
     sad::StringList lines = str.split("\n", sad::String::KEEP_EMPTY_PARTS);
     
+    double italicoffset = ((double)m_size) * TAN_20_DEGREES;
+
     // Compute result
     for(unsigned int i = 0; i < lines.size(); i++)
     {
@@ -57,11 +64,11 @@ sad::Size2D sad::TextureMappedFont::size(const sad::String & str, sad::Font::Ren
             {
                 linewidth += 2;
             }
-            if ((flags & sad::Font::FRF_Italic) != 0)
-            {
-                linewidth += 2;
-            }
             linewidth += m_rightbearings[c] * m_size_ratio;
+        }
+        if ((flags & sad::Font::FRF_Italic) != 0)
+        {
+            linewidth += 2 * italicoffset;
         }
         result.Width = std::max(linewidth, result.Width);
     }
@@ -165,6 +172,8 @@ void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D 
     );
 #endif
     glBegin(GL_QUADS);
+
+    float italicoffset = ((float)m_size) * TAN_20_DEGREES;
     for(unsigned int i = 0;  i < string.length(); i++)
     {
         unsigned char glyphchar = *reinterpret_cast<unsigned char*>(&(string[i]));
@@ -184,7 +193,7 @@ void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D 
             float topoffset = 0;
             if ((flags & sad::Font::FRF_Italic) != 0)
             {
-                topoffset = 2.0f;
+                topoffset = italicoffset;
             }
 
             for (size_t i = 0; i < count; i++)

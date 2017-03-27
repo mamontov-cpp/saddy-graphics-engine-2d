@@ -90,6 +90,9 @@ protected:
     /*! Whether font glyph textures is uploaded to GPU
      */
     bool m_on_gpu;
+    /*! A height for font
+     */
+    float m_height; 
     /*! A glyphs table
      */
     sad::freetype::Glyph * m_glyphs[256];

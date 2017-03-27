@@ -18,6 +18,9 @@ namespace freetype
 class Glyph
 {
 public:
+    /*! A tangent for 20 degrees
+     */
+    static const float tan_20_degrees;
     /*! A texture as a bitmap to be used, when rendering
      */
     sad::freetype::Texture Texture;
@@ -69,8 +72,9 @@ public:
         is BASELINE position. 
         \param[in] x X coordinate position
         \param[in] y Y coordinate position
+        \param[in] topoffset a top offset for italic font
      */
-    void render(float x, float y);
+    void render(float x, float y, float topoffset);
     /*! Tries to get a glyph for a face and char c
         \param[in] face face to be used
         \param[in] c character

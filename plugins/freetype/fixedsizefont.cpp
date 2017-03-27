@@ -21,6 +21,7 @@ sad::freetype::FixedSizeFont::FixedSizeFont(
 : m_on_gpu(false)
 {
     requestSize(library, face, height);
+    m_height = static_cast<float>(height);
     int ppem = face->size->metrics.y_ppem;
     double linespacinginpt = face->bbox.yMax - face->bbox.yMin;
     m_builtin_linespacing = ppem * (static_cast<float>(linespacinginpt) / face->units_per_EM);
@@ -97,6 +98,12 @@ void sad::freetype::FixedSizeFont::render(
     float xbegin = static_cast<float>(p.x());
     float curx = xbegin;
     float cury = static_cast<float>(p.y() - m_bearing_y);
+    float topoffset = m_height * sad::freetype::Glyph::tan_20_degrees;
+    bool italic = ((flags & sad::Font::FRF_Italic) != 0);
+    if (!italic)
+    {
+        topoffset = 0;
+    }
     
     for(unsigned int i = 0; i < list.size(); i++)
     {
@@ -109,7 +116,15 @@ void sad::freetype::FixedSizeFont::render(
             }
 
             sad::freetype::Glyph * g = m_glyphs[curchar];
-            g->render(curx, cury);
+            
+            g->render(curx, cury, topoffset);
+            if ((flags & sad::Font::FRF_Bold) != 0)
+            {
+                curx += 1.0;
+                g->render(curx, cury, topoffset);
+                curx += 1.0;
+                g->render(curx, cury, topoffset);
+            }
 
             curx += g->AdvanceX;
             prevchar = curchar;
@@ -260,6 +275,14 @@ sad::Size2D sad::freetype::FixedSizeFont::size(
             curx += g->AdvanceX;
             prevchar = curchar;
             previous = true;
+        }
+        if ((flags & sad::Font::FRF_Bold) != 0)
+        {
+            curx += list[i].size() * 2; // 2 is bold font size
+        }
+        if ((flags & sad::Font::FRF_Italic) != 0)
+        {
+            curx += m_height * sad::freetype::Glyph::tan_20_degrees;
         }
         maxx = std::max(maxx, curx);		
     }
