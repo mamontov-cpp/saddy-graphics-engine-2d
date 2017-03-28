@@ -2099,6 +2099,9 @@
     <ClCompile Include="gui\rendereditorgrid.cpp">
       <Filter>Source Files\gui</Filter>
     </ClCompile>
+    <ClCompile Include="history\label\changehasformatting.cpp">
+      <Filter>Source Files\history\label</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -2796,6 +2799,9 @@
     </ClInclude>
     <ClInclude Include="keytovector.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="history\label\changehasformatting.h">
+      <Filter>Header Files\history\label</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

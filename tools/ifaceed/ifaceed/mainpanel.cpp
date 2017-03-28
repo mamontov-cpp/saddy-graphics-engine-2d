@@ -773,7 +773,8 @@ void MainPanel::setEditor(core::Editor* editor)
     connect(ui.spbMaximalLinesCount, SIGNAL(valueChanged(int)), l_actions, SLOT(labelMaximalLinesCountChanged(int)));
     connect(ui.cmbLabelOverflowStrategyForLines, SIGNAL(currentIndexChanged(int)), l_actions, SLOT(labelOverflowStrategyForLinesChanged(int)));
     connect(ui.cmbLabelTextEllipsisForLines, SIGNAL(currentIndexChanged(int)), l_actions, SLOT(labelTextEllipsisForLinesChanged(int)));	
-    
+    connect(ui.cbLabelHasFormatting, SIGNAL(clicked(bool)), l_actions, SLOT(labelHasFormattingChanged(bool)));
+
 
     connect(ui.btnSpriteAdd, SIGNAL(clicked()), sp_actions, SLOT(add()));
     connect(ui.rtwSpriteSprite, SIGNAL(selectionChanged(sad::String)), sp_actions, SLOT(spriteOptionsChanged(sad::String)));

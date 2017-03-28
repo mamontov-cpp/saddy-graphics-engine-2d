@@ -2112,6 +2112,7 @@
     <ClCompile Include="history\instances\instancesnew.cpp" />
     <ClCompile Include="history\instances\instancesremove.cpp" />
     <ClCompile Include="history\label\changebreaktext.cpp" />
+    <ClCompile Include="history\label\changehasformatting.cpp" />
     <ClCompile Include="history\label\changemaximallinescount.cpp" />
     <ClCompile Include="history\label\changemaximallinewidth.cpp" />
     <ClCompile Include="history\label\changeoverflowstrategy.cpp" />
@@ -4506,6 +4507,7 @@
     <ClInclude Include="history\instances\instancesnew.h" />
     <ClInclude Include="history\instances\instancesremove.h" />
     <ClInclude Include="history\label\changebreaktext.h" />
+    <ClInclude Include="history\label\changehasformatting.h" />
     <ClInclude Include="history\label\changemaximallinescount.h" />
     <ClInclude Include="history\label\changemaximallinewidth.h" />
     <ClInclude Include="history\label\changeoverflowstrategy.h" />

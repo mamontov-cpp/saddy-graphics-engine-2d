@@ -48,6 +48,7 @@
 #include "../../history/label/changemaximallinescount.h"
 #include "../../history/label/changeoverflowstrategyforlines.h"
 #include "../../history/label/changetextellipsisforlines.h"
+#include "../../history/label/changehasformatting.h"
 
 
 #include <label.h>
@@ -410,6 +411,39 @@ void gui::actions::LabelActions::labelTextEllipsisForLinesChanged(int newvalue)
         "textellipsispositionforlines", 
         &gui::actions::LabelActions::command<history::label::ChangeTextEllipsisForLines>
     ); 
+}
+
+void gui::actions::LabelActions::labelHasFormattingChanged(bool state)
+{
+    gui::actions::SceneNodeActions* sn_actions = m_editor->actions()->sceneNodeActions();
+
+    bool newvalue = state;
+    if (m_editor->shared()->activeObject() != NULL)
+    {
+        m_editor->shared()->activeObject()->setProperty("hasformatting", newvalue);
+    }
+    else
+    {
+        sad::SceneNode* node = m_editor->shared()->selectedObject();
+        if (node)
+        {
+            sad::Maybe<bool> oldvalue = node->getProperty<bool>("hasformatting");
+            if (oldvalue.exists())
+            {
+                if (newvalue != oldvalue.value())
+                {
+                    node->setProperty("hasformatting", newvalue);
+                    sn_actions->updateRegionForNode();
+                    m_editor->actions()->sceneNodeActions()->tryUpdateParentGridForNode(node);
+                    m_editor->history()->add(new history::label::ChangeHasFormatting(
+                        node,
+                        oldvalue.value(),
+                        newvalue
+                    ));
+                }
+            }
+        }
+    }
 }
 
 
