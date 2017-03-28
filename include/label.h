@@ -132,7 +132,7 @@ public:
     {
         return m_font.get();
     }
-    /*! Sets a font, that label is being rendered with			
+    /*! Sets a font, that label is being rendered with          
         \param[in] font a font
      */
     void setFont(sad::Font * font);
@@ -174,8 +174,8 @@ public:
     /*! Sets upper-left point for a label
         \param[in] point a point
      */
-    void setPoint(const sad::Point2D & point);	
-    /*!	Sets upper-left point for a label
+    void setPoint(const sad::Point2D & point);  
+    /*! Sets upper-left point for a label
         \param[in] x x coordinate
         \param[in] y y coordinate
      */ 
@@ -478,6 +478,15 @@ public:
         sad::Label::OverflowStrategy s,
         sad::Label::TextEllipsisPosition tep
     );
+    
+    /*! Returns first command for document
+        \return first command for document or empty command if not found
+     */
+    static sad::util::Markup::Command firstCommand(const sad::util::Markup::Document& doc);
+    /*! Returns last command for document
+        \return last command for document or empty command if not found
+     */
+    static sad::util::Markup::Command lastCommand(const sad::util::Markup::Document& doc);
     /*! Moves object by specified vector
         \param[in] p point
      */

@@ -643,7 +643,7 @@ sad::String sad::Label::makeRenderingString(
             {
                 sad::StringList words = lines[i].split(' ');
                 new_lines << "";
-                sad::String* current_word = &(new_lines[new_lines.size() - 1]);			
+                sad::String* current_word = &(new_lines[new_lines.size() - 1]);         
                 for(size_t j = 0; j <  words.size(); j++)
                 {
                     // In case that word  is larger than line width - we can do nothing to prevent it from 
@@ -668,7 +668,7 @@ sad::String sad::Label::makeRenderingString(
                         if (current_word->length() + offset + candidate_word.length() > maximal_line_width)
                         {
                             new_lines << "";
-                            current_word = &(new_lines[new_lines.size() - 1]);								
+                            current_word = &(new_lines[new_lines.size() - 1]);                              
                             --j;
                             last_line_changed = false;
                         }
@@ -791,29 +791,30 @@ sad::util::Markup::Document sad::Label::makeRenderingString(
                     size_t cur_word_length = sad::Label::length(*current_word);
                     if (candidate_word.Content.length() > maximal_line_width && cur_word_length == 0)
                     {
-                        *current_word = sad::Label::formatTextLine(
-                            candidate_word,
+                        sad::util::Markup::Command candidate_word_copy = candidate_word;
+                        candidate_word_copy.Content = sad::Label::formatTextLine(
+                            candidate_word.Content,
                             maximal_line_width,
                             s,
                             tep
                         );
+                        current_word->push_back(candidate_word_copy);
                         new_lines << sad::Vector<sad::util::Markup::Command>();
                         current_word = &(new_lines[new_lines.size() - 1]);
                         last_line_changed = false;
                     }
                     else
                     {
-                        int offset = (current_word->length() == 0) ? 0 : 1;
-                        if (current_word->length() + candidate_word.length() > maximal_line_width)
+                        if (cur_word_length + candidate_word.Content.length() > maximal_line_width)
                         {
-                            new_lines << "";
+                            new_lines << sad::Vector<sad::util::Markup::Command>();
                             current_word = &(new_lines[new_lines.size() - 1]);
                             --j;
                             last_line_changed = false;
                         }
                         else
                         {
-                            *current_word << candidate_word;
+                            current_word->push_back(candidate_word);
                             last_line_changed = true;
                         }
                     }
@@ -821,8 +822,7 @@ sad::util::Markup::Document sad::Label::makeRenderingString(
             }
             if (bt == sad::Label::LBT_NORMAL)
             {
-                sad::String line = lines[i];
-                line.replaceAllOccurences("\n", "");
+                const sad::Vector<sad::util::Markup::Command>& line = lines[i];
                 new_lines << sad::Label::formatTextLine(
                     line,
                     maximal_line_width,
@@ -847,13 +847,19 @@ sad::util::Markup::Document sad::Label::makeRenderingString(
             {
                 if (text_ellipsis_for_lines == sad::Label::LTEP_BEGIN)
                 {
+                    sad::util::Markup::Command c = sad::Label::firstCommand(new_lines);
+                    c.Content = "...";
                     new_lines.removeRange(0, new_lines.size() - maximum_lines - 1);
-                    new_lines[0] = "...";
+                    new_lines[0].clear(); 
+                    new_lines[0].push_back(c);
                 }
                 if (text_ellipsis_for_lines == sad::Label::LTEP_END)
                 {
+                    sad::util::Markup::Command c = sad::Label::lastCommand(new_lines);
+                    c.Content = "...";
                     new_lines.removeRange(maximum_lines, new_lines.size() - 1);
-                    new_lines[new_lines.size() - 1] = "...";
+                    new_lines[new_lines.size() - 1].clear(); 
+                    new_lines[new_lines.size() - 1].push_back(c);
                 }
                 if (text_ellipsis_for_lines == sad::Label::LTEP_MIDDLE)
                 {
@@ -861,18 +867,27 @@ sad::util::Markup::Document sad::Label::makeRenderingString(
                     long right_length = (maximum_lines - 1) / 2;
                     if (new_lines.size() == 1)
                     {
-                        new_lines[0] = "...";
+                        sad::util::Markup::Command c = sad::Label::firstCommand(new_lines);
+                        c.Content = "...";
+                        new_lines[0].clear();
+                        new_lines[0].push_back(c);
                     }
                     else
                     {
                         if (new_lines.size() == 2)
                         {
-                            new_lines[1] = "...";
+                            sad::util::Markup::Command c = sad::Label::lastCommand(new_lines);
+                            c.Content = "...";
+                            new_lines[1].clear();
+                            new_lines[1].push_back(c);
                         }
                         else
                         {
                             new_lines.removeRange(left_length + 1, new_lines.size() - right_length - 1);
-                            new_lines[left_length] = "...";
+                            sad::util::Markup::Command c = sad::Label::lastCommand(new_lines);
+                            c.Content = "...";
+                            new_lines[left_length].clear();
+                            new_lines[left_length].push_back(c);
                         }
                     }
                 }
@@ -1008,6 +1023,30 @@ sad::String sad::Label::formatTextLine(
     return result;
 }
 
+sad::util::Markup::Command sad::Label::firstCommand(const sad::util::Markup::Document& doc)
+{
+    for(size_t i = 0; i < doc.size(); i++)
+    {
+        if (doc[i].size())
+        {
+            return doc[i][0];
+        }
+    }
+    return sad::util::Markup::Command();
+}
+
+sad::util::Markup::Command sad::Label::lastCommand(const sad::util::Markup::Document& doc)
+{
+    for(int i = doc.size() - 1; i > -1; i--)
+    {
+        if (doc[i].size())
+        {
+            return doc[i][0];
+        }
+    }
+    return sad::util::Markup::Command();
+}
+
 void sad::Label::moveBy(const sad::Point2D& p)
 {
     setPoint(point() + p);
@@ -1053,7 +1092,7 @@ void sad::Label::recomputeRenderingPoint()
 
 sad::Size2D sad::Label::getSizeWithoutFormatting(sad::Font* font)
 {
-    return font->size(m_rendered_string);	
+    return font->size(m_rendered_string);   
 }
 
 sad::Size2D sad::Label::getSizeWithFormatting(sad::Font* font)
@@ -1263,7 +1302,7 @@ void sad::Label::renderWithFormatting(sad::Font* font)
                 fnt->setLineSpacingRatio(1);
             }
             double y = point.y() - m_document_metrics[row].Ascender + c.Ascender;
-            fnt->render(c.Content, sad::Point2D(x, y), flags);			
+            fnt->render(c.Content, sad::Point2D(x, y), flags);          
             if (renderer)
             {
                 if (c.Strikethrough)
