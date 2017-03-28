@@ -1023,6 +1023,136 @@ sad::String sad::Label::formatTextLine(
     return result;
 }
 
+sad::Vector<sad::util::Markup::Command> sad::Label::formatTextLine(
+    const sad::Vector<sad::util::Markup::Command>& string,
+    unsigned int maximal_line_width,
+    sad::Label::OverflowStrategy s,
+    sad::Label::TextEllipsisPosition tep
+)
+{
+    sad::Vector<sad::util::Markup::Command> result = string;
+    size_t length = sad::Label::length(string);
+    if (length > maximal_line_width && s != sad::Label::LOS_VISIBLE && maximal_line_width != 0)
+    {
+        if (s == sad::Label::LOS_HIDDEN)
+        {
+             result = sad::Label::subString(string, 0, maximal_line_width);
+        }
+
+        if (s == sad::Label::LOS_ELLIPSIS)
+        {
+            if (maximal_line_width <= 3)
+            {
+                sad::util::Markup::Command cmd;
+                if (string.size())
+                {
+                    cmd = string[0];
+                }
+                result.clear();
+                switch(maximal_line_width)
+                {
+                 case 1: { cmd.Content = "."; break;}
+                 case 2: { cmd.Content = ".."; break;}
+                 case 3: { cmd.Content = "..."; break;}
+                }
+                result.push_back(cmd);
+            }
+            else
+            {
+                if (sad::Label::consistsOfWhitespaceCharacters(string))
+                {
+                    sad::util::Markup::Command cmd;
+                    if (string.size())
+                    {
+                        cmd = string[0];
+                    }
+                    result.clear();
+                    cmd.Content.clear();
+                    result.push_back(cmd);
+                }
+                else
+                {
+                    if (tep == sad::Label::LTEP_BEGIN)
+                    {
+                        // A first command part
+                        result.clear();
+                        sad::util::Markup::Command cmd;
+                        if (string.size())
+                        {
+                            cmd = string[0];
+                        }
+                        cmd.Content = "...";
+                        result.push_back(cmd);
+                        
+                        sad::Vector<sad::util::Markup::Command> part = sad::Label::subString(string, length - maximal_line_width + 3, maximal_line_width - 3);
+                        sad::Label::trim(part);
+                        // Clear string, that consists from spaces
+                        if (sad::Label::length(part))
+                        {
+                            result << part;
+                        }
+                    }
+                    // In case of string with length 4 we should use this strategy too to simplify computation
+                    if (tep == sad::Label::LTEP_END || (maximal_line_width == 4 && tep == sad::Label::LTEP_MIDDLE))
+                    {
+                        result =  sad::Label::subString(string, 0, maximal_line_width - 3);
+                        sad::Label::trim(result);
+                        if (result.size())
+                        {
+                            result[result.size() - 1].Content += "...";  
+                        }
+                        else
+                        {
+                            sad::util::Markup::Command cmd;
+                            cmd.Content = "...";
+                            result.push_back(cmd);
+                        }
+                    }
+                    if (tep == sad::Label::LTEP_MIDDLE && maximal_line_width > 4)
+                    {
+                        int halfwidth = (maximal_line_width - 3) / 2;
+                        int halfmod = (maximal_line_width - 3) % 2;
+                        int length = sad::Label::length(string);
+                        int rightpart = halfwidth + halfmod;
+                        sad::Vector<sad::util::Markup::Command> left = sad::Label::subString(string, 0, halfwidth);
+                        sad::Vector<sad::util::Markup::Command> right = sad::Label::subString(string, length - rightpart, rightpart);
+                        sad::Label::trim(left, false, true);
+                        sad::Label::trim(right, true, false);
+                        result.clear();
+                        if (sad::Label::length(left) == 0 && sad::Label::length(right) == 0)
+                        {
+                            sad::util::Markup::Command cmd;
+                            if (string.size())
+                            {
+                                cmd = string[0];
+                            }
+                            cmd.Content = "...";
+                            result.push_back(cmd);
+                        }
+                        else
+                        {
+                            result = left;
+                            if (result.size())
+                            {
+                                result[result.size() - 1].Content += "...";
+                            }
+                            else
+                            {
+                                if (right.size())
+                                {
+                                    right[0].Content = "..." + right[0].Content;
+                                }
+                            }
+                            result << right;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return result;
+}
+
 sad::util::Markup::Command sad::Label::firstCommand(const sad::util::Markup::Document& doc)
 {
     for(size_t i = 0; i < doc.size(); i++)
@@ -1045,6 +1175,60 @@ sad::util::Markup::Command sad::Label::lastCommand(const sad::util::Markup::Docu
         }
     }
     return sad::util::Markup::Command();
+}
+
+bool sad::Label::consistsOfWhitespaceCharacters(const sad::Vector<sad::util::Markup::Command>& row)
+{
+    bool result = false;
+    for(size_t i = 0; i < row.size(); i++)
+    {
+        result = result && row[i].Content.consistsOfWhitespaceCharacters();   
+    }
+    return result;
+}
+
+void sad::Label::trim(sad::Vector<sad::util::Markup::Command>& row, bool left, bool right)
+{
+    if (row.size())
+    {
+        if (left) 
+        {
+            row[0].Content.trimLeft();
+        }
+        if (right) 
+        {
+            row[row.size() - 1].Content.trimRight();
+        }
+    }
+}
+
+sad::Vector<sad::util::Markup::Command> sad::Label::subString(const sad::Vector<sad::util::Markup::Command>& row, int begin, int length)
+{
+    sad::Vector<sad::util::Markup::Command> result;
+    int index = 0;
+    int first_index = begin;
+    int last_index = begin + length - 1;
+    for(size_t i = 0; i < row.size(); i++)
+    {
+        if (index <= last_index)
+        {
+            if (index >= first_index)
+            {
+                int new_last_index = index + row[i].Content.length() - 1;
+                if (new_last_index < last_index)
+                {
+                    result.push_back(row[i]);
+                }
+                else
+                {
+                    sad::util::Markup::Command cmd = row[i];
+                    cmd.Content = cmd.Content.subString(0, last_index - index + 1);
+                    result.push_back(cmd);
+                }
+            }
+        }
+        index += row[i].Content.length();
+    }
 }
 
 void sad::Label::moveBy(const sad::Point2D& p)
@@ -1187,6 +1371,16 @@ void sad::Label::recomputeRenderingStringWithoutFormatting()
 void sad::Label::recomputeRenderingStringWithFormatting()
 {
     m_document = sad::util::Markup::parseDocument(m_string, sad::util::Markup::Command());
+    m_document = sad::Label::makeRenderingString(
+        m_document,
+        m_maximal_line_width,
+        m_overflow_strategy,
+        m_break_text,
+        m_text_ellipsis_position,
+        m_maximum_lines,
+        m_overflow_strategy_for_lines,
+        m_text_ellipsis_position_for_lines
+    );
     recomputeRenderingPoint();
 }
 

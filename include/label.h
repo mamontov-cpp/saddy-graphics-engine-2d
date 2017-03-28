@@ -478,15 +478,46 @@ public:
         sad::Label::OverflowStrategy s,
         sad::Label::TextEllipsisPosition tep
     );
-    
+    /*! Formats text line, constraining it by maximal line width, using specified overflow strategy
+        and text ellipsis position
+        \param[in] string a string  value
+        \param[in] maximal_line_width maximal line width
+        \param[in] s overflow strategy
+        \param[in] tep text ellipsis position
+     */
+    static sad::Vector<sad::util::Markup::Command> formatTextLine(
+        const sad::Vector<sad::util::Markup::Command>& string,
+        unsigned int maximal_line_width,
+        sad::Label::OverflowStrategy s,
+        sad::Label::TextEllipsisPosition tep
+    );    
     /*! Returns first command for document
+        \param[in] doc document
         \return first command for document or empty command if not found
      */
     static sad::util::Markup::Command firstCommand(const sad::util::Markup::Document& doc);
     /*! Returns last command for document
+        \param[in] doc document
         \return last command for document or empty command if not found
      */
     static sad::util::Markup::Command lastCommand(const sad::util::Markup::Document& doc);
+    /*! Tests if document row consists of whitespace character
+        \param[in] row a row
+        \return whether it consists from whitespace characters
+     */
+    static bool consistsOfWhitespaceCharacters(const sad::Vector<sad::util::Markup::Command>& row);
+    /*! Trims a row of commands
+        \param[in, out] row a row to edit
+        \param[in] left whether we should trim left part
+        \param[in] right whether we should trim right part
+     */
+    static void trim(sad::Vector<sad::util::Markup::Command>& row, bool left = true, bool right = true);
+    /*! Returns substring of a row
+        \param[in] row a row
+        \param[in] begin a begin index
+        \param[in] length a length for index
+     */
+    static sad::Vector<sad::util::Markup::Command> subString(const sad::Vector<sad::util::Markup::Command>& row, int begin, int length);
     /*! Moves object by specified vector
         \param[in] p point
      */
