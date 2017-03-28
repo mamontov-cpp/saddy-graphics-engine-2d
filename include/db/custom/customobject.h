@@ -273,6 +273,20 @@ public:
         \return text ellipsis position as index
      */
     unsigned int textEllipsisForLinesAsIndex() const;
+    /*! Returns whether text label can have formatting
+        \return whether text label can have formatting
+     */
+    bool hasFormatting() const;
+    /*! Turns label into formatted (or not)
+        \param[in] value a new value for label
+     */
+    void setHasFormatting(bool value);
+    /*! Makes label formatted
+     */
+    void makeFormatted();
+    /*! Makes label non-formatted
+     */
+    void disableFormatting();
     /*! Copies state of custom property values from other object. Please, note that this will overwrite
         in  case that this object has properties, which o doesn't, if they have same schema and fail otherwise
         \param[in] o other object

@@ -30,6 +30,7 @@ class QPlainTextEdit;
 class QComboBox;
 class QSpinBox;
 class QDoubleSpinBox;
+class QCheckBox;
 
 
 namespace gui
@@ -67,6 +68,7 @@ public:
     QSpinBox* spbMaximalLineWidth;
     QDoubleSpinBox* dsbLineSpacingRatio;
     QSpinBox* spbMaximalLinesCount;
+    QCheckBox* cbLabelHasFormatting;
 };
 
 }

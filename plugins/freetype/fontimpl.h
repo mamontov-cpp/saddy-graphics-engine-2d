@@ -11,6 +11,7 @@
 #include <sadstring.h>
 #include <sadsize.h>
 #include <sadpoint.h>
+#include <sadmutex.h>
 #include <texture.h>
 
 namespace sad
@@ -116,6 +117,9 @@ protected:
     /*! A first creating time, when font is created
      */
     bool m_created_now;
+    /*! A mutex for creating fonts with specified sizes
+     */
+    sad::Mutex m_mtx;
 };
 
 }

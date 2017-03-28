@@ -7,6 +7,8 @@
 
 #include <renderer.h>
 
+#include <sadscopedlock.h>
+
 sad::freetype::FontImpl::FontImpl() 
 : m_library(0), m_face(0), 
 m_cached_size(-1), m_font(NULL),
@@ -145,6 +147,7 @@ sad::freetype::FixedSizeFont * sad::freetype::FontImpl::fontForSize(
     unsigned int size
 ) const
 {
+    sad::ScopedLock lock(&(const_cast<sad::Mutex&>(m_mtx)));
     sad::freetype::FontImpl * me = const_cast<sad::freetype::FontImpl *>(this);
     
     if (m_font != NULL && size == m_cached_size)

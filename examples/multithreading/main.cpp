@@ -204,21 +204,6 @@ int thread(void * p)
     scene->add(l1);
     scene->add(l2);
 
-    sad::Label * l3 = new sad::Label("tmfont", sad::Point2D(200, 550),
-        "<span font=\"ftfont\" bold=\"true\" strikethrough=\"true\" underline=\"true\" size=\"36px\" linespacing=\"100%\">Texture</span>"
-        "<span font=\"tmfont\" italic=\"true\" strikethrough=\"true\" underline=\"true\" color=\"#00ff00\" size=\"72px\" linespacing=\"100%\">Texture\n</span>"
-        "<span font=\"ftfont\" bold=\"true\" italic=\"true\" strikethrough=\"true\" color=\"red\" underline=\"true\" size=\"36px\" linespacing=\"100%\">Texture\n</span>"
-        "<span font=\"ftfont\" strikethrough=\"true\" underline=\"true\" size=\"72px\" linespacing=\"100%\">Texture\n</span>"		
-        "<span font=\"tmfont\" size=\"18px\" linespacing=\"100%\">Xtext1\n</span>"
-        "<span font=\"tmfont\" strikethrough=\"true\" size=\"18px\" linespacing=\"100%\">Xtext2\n</span>"
-        "<span font=\"tmfont\" strikethrough=\"true\" underline=\"true\" size=\"18px\" linespacing=\"100%\">Xtext3</span>"
-    );
-    l3->setTreeName(&r, "");
-    l3->setColor(255, 255, 255, 0);
-    l3->makeFormatted();
-    scene->add(l3);
-
-
     sad::animations::Instance* parallelinstance = new sad::animations::Instance();
     parallelinstance->setAnimation(parallel);
     parallelinstance->setObject(l1);

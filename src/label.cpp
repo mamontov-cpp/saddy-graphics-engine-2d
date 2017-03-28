@@ -2,6 +2,7 @@
 #include "geometry2d.h"
 #include "renderer.h"
 #include "sadmutex.h"
+#include "sadscopedlock.h"
 
 #include "db/schema/schema.h"
 #include "db/dbproperty.h"
@@ -18,7 +19,7 @@
 DECLARE_SOBJ_INHERITANCE(sad::Label,sad::SceneNode)
 
 
-#define DEBUG_FORMATTED_RENDERING 1
+//#define DEBUG_FORMATTED_RENDERING 1
 
 sad::Label::Label() :
 m_string(""),
@@ -34,7 +35,8 @@ m_overflow_strategy_for_lines(sad::Label::LOS_VISIBLE),
 m_text_ellipsis_position_for_lines(sad::Label::LTEP_MIDDLE),
 m_formatted(false),
 m_computed_rendering_string(false),
-m_computed_rendering_point(false)
+m_computed_rendering_point(false),
+m_rendered_chars(0)
 {
     
 }
@@ -219,7 +221,7 @@ sad::db::schema::Schema* sad::Label::basicSchema()
                 &sad::Label::hasFormatting,
                 &sad::Label::setHasFormatting
                 );
-            teplines_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(false));
+            hasformatting_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(false));
             LabelBasicSchema->add("hasformatting", hasformatting_property);
 
 
@@ -244,6 +246,25 @@ void sad::Label::render()
     font->setSize(m_size);
     font->setColor(m_color);
     font->setLineSpacingRatio(m_linespacing_ratio);
+
+    if (!m_computed_rendering_string)
+    {
+        m_recompute_string_lock.lock();
+        if (!m_computed_rendering_string)
+        {
+            recomputeRenderedString(false);
+        }
+        m_recompute_string_lock.unlock();
+    }
+    if (!m_computed_rendering_point)
+    {
+        m_recompute_point_lock.lock();
+        if (!m_computed_rendering_point)
+        {
+            recomputeRenderingPoint();
+        }
+        m_recompute_point_lock.unlock();
+    }
 
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
@@ -924,11 +945,11 @@ sad::Vector<sad::util::Markup::Command> sad::Label::breakIntoWords(const sad::Ve
         }
         else
         {
-            for (size_t i = 0; i < lst.size(); i++)
+            for (size_t j = 0; j < lst.size(); j++)
             {
                 sad::util::Markup::Command c = v[i];
-                c.Content = lst[i];
-                if (i == lst.size() - 1)
+                c.Content = lst[j];
+                if (j == lst.size() - 1)
                 {
                     if (last_has_space)
                         c.Content += ' ';
@@ -1210,30 +1231,49 @@ sad::Vector<sad::util::Markup::Command> sad::Label::subString(const sad::Vector<
     int last_index = begin + length - 1;
     for(size_t i = 0; i < row.size(); i++)
     {
-        if (index <= last_index)
-        {
-            if (index >= first_index)
+        int new_last_index = index + row[i].Content.length() - 1;
+        if (index < first_index)
+        {			
+            if (new_last_index >= first_index)
             {
-                int new_last_index = index + row[i].Content.length() - 1;
-                if (new_last_index < last_index)
+                int string_position_index = first_index - index;
+                sad::util::Markup::Command cmd = row[i];
+                if (new_last_index <= last_index)
                 {
-                    result.push_back(row[i]);
+                    cmd.Content = cmd.Content.subString(string_position_index, cmd.Content.length() - string_position_index);
                 }
                 else
                 {
-                    sad::util::Markup::Command cmd = row[i];
-                    cmd.Content = cmd.Content.subString(0, last_index - index + 1);
-                    result.push_back(cmd);
+                    cmd.Content = cmd.Content.subString(string_position_index, last_index - first_index + 1);
                 }
+                result.push_back(cmd);
+            }
+        }
+        else
+        {
+            if ((index <= last_index))
+            {
+                sad::util::Markup::Command cmd = row[i];
+                if (new_last_index > last_index)
+                {
+                    cmd.Content = cmd.Content.subString(0, last_index - index + 1);
+                }
+                result.push_back(cmd);
             }
         }
         index += row[i].Content.length();
     }
+    return result;
 }
 
 void sad::Label::moveBy(const sad::Point2D& p)
 {
     setPoint(point() + p);
+}
+
+unsigned int sad::Label::renderedStringLength() const
+{
+    return m_rendered_chars;
 }
 
 void sad::Label::reloadFont()
@@ -1246,32 +1286,44 @@ void sad::Label::reloadFont()
 }
 
 
-void sad::Label::recomputeRenderingPoint()
+void sad::Label::recomputeRenderingPoint(bool lock)
 {
+    if (lock)
+    {
+        m_recompute_point_lock.lock();
+    }
     m_computed_rendering_point = false;
 
     sad::Font * font = m_font.get();
-    if (!font)
-        return;
-
-    sad::Size2D size;
-    if (m_formatted)
+    if (font)
     {
-        size = this->getSizeWithFormatting(font);
+        font->setSize(m_size);
+        font->setLineSpacingRatio(m_linespacing_ratio);
+
+        sad::Size2D size;
+        if (m_formatted)
+        {
+            size = this->getSizeWithFormatting(font);
+        }
+        else
+        {
+            size = this->getSizeWithoutFormatting(font);
+        }
+
+        m_center.setX(m_point.x() + size.Width / 2);
+        m_center.setY(m_point.y() - size.Height / 2);
+        m_halfpadding.setX(size.Width / -2.0);
+        m_halfpadding.setY(size.Height / 2.0);
+
+        m_computed_rendering_point = true;
+
+        m_cached_region = this->region();
     }
-    else
+
+    if (lock)
     {
-        size = this->getSizeWithoutFormatting(font);
+        m_recompute_point_lock.unlock();
     }
-
-    m_center.setX(m_point.x() + size.Width / 2);
-    m_center.setY(m_point.y() - size.Height / 2);
-    m_halfpadding.setX(size.Width / -2.0);
-    m_halfpadding.setY(size.Height / 2.0);
-
-    m_computed_rendering_point = true;
-
-    m_cached_region = this->region();
 }
 
 sad::Size2D sad::Label::getSizeWithoutFormatting(sad::Font* font)
@@ -1336,8 +1388,13 @@ sad::Size2D sad::Label::getSizeWithFormatting(sad::Font* font)
 }
 
 
-void sad::Label::recomputeRenderedString()
+void sad::Label::recomputeRenderedString(bool lock)
 {
+    if (lock)
+    {
+        m_recompute_string_lock.lock();
+    }
+
     m_computed_rendering_string = false;
 
     if (m_formatted)
@@ -1349,8 +1406,16 @@ void sad::Label::recomputeRenderedString()
         this->recomputeRenderingStringWithoutFormatting();
     }
 
+    // Recompute rendering point
+    recomputeRenderingPoint(lock);
+
     if (m_computed_rendering_point)
         m_computed_rendering_string = true;
+
+    if (lock)
+    {
+        m_recompute_string_lock.unlock();
+    }
 }
 
 void sad::Label::recomputeRenderingStringWithoutFormatting()
@@ -1365,7 +1430,15 @@ void sad::Label::recomputeRenderingStringWithoutFormatting()
         m_overflow_strategy_for_lines,
         m_text_ellipsis_position_for_lines
     );
-    recomputeRenderingPoint();
+    // Recompute rendered char count
+    m_rendered_chars = 0;
+    for (size_t i = 0; i < m_rendered_string.length(); i++)
+    {
+        if (m_rendered_string[i] != '\r' && m_rendered_string[i] != '\n')
+        {
+            m_rendered_chars++;
+        }
+    }	
 }
 
 void sad::Label::recomputeRenderingStringWithFormatting()
@@ -1381,7 +1454,15 @@ void sad::Label::recomputeRenderingStringWithFormatting()
         m_overflow_strategy_for_lines,
         m_text_ellipsis_position_for_lines
     );
-    recomputeRenderingPoint();
+    // Recompute rendered char count
+    m_rendered_chars = 0;
+    for (size_t i = 0; i < m_document.size(); i++)
+    {
+        for (size_t j = 0; j < m_document[i].size(); j++)
+        {
+            m_rendered_chars += m_document[i][j].Content.length();
+        }
+    }
 }
 
 void sad::Label::clearFontsCache()
@@ -1446,6 +1527,8 @@ sad::Pair<sad::Font*, sad::Font::RenderFlags> sad::Label::applyFontCommand(sad::
 
 sad::Font* sad::Label::getFontForDocument(const sad::String& s)
 {
+    sad::ScopedLock lock(&m_get_font_lock);
+
     if (m_fonts_for_document.contains(s))
     {
         sad::Font* fnt = m_fonts_for_document[s].get();

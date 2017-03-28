@@ -68,7 +68,7 @@ sad::Size2D sad::TextureMappedFont::size(const sad::String & str, sad::Font::Ren
         }
         if ((flags & sad::Font::FRF_Italic) != 0)
         {
-            linewidth += 2 * italicoffset;
+            linewidth += italicoffset;
         }
         result.Width = std::max(linewidth, result.Width);
     }
@@ -215,10 +215,6 @@ void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D 
         {
             x += glyphwidth;
             if ((flags & sad::Font::FRF_Bold) != 0)
-            {
-                x += 2;
-            }
-            if ((flags & sad::Font::FRF_Italic) != 0)
             {
                 x += 2;
             }

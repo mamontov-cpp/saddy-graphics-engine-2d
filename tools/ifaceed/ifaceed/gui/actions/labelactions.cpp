@@ -184,6 +184,7 @@ void gui::actions::LabelActions::addLabel()
         label->setMaximalLinesCount(lblk->spbMaximalLinesCount->value());
         label->setOverflowStrategyForLinesFromIndex(lblk->cmbLabelOverflowStrategyForLines->currentIndex());
         label->setTextEllipsisPositionForLinesAsIndex(lblk->cmbLabelTextEllipsisForLines->currentIndex());
+        label->setHasFormatting(lblk->cbLabelHasFormatting->isChecked());
 
         sad::AColor clr;
         core::typeconverters::QColorToSadAColor::convert(snblk->clpSceneNodeColor->selectedColor(), clr);

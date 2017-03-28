@@ -950,9 +950,13 @@ void sad::Renderer::renderScenes()
     this->unlockRendering();
 }
 
+//#define NO_GL_FINISH
+
 void sad::Renderer::finishRendering()
 {
+#ifndef NO_GL_FINISH 
     glFinish();
+#endif
     context()->swapBuffers();
 }
 

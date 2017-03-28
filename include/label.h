@@ -10,6 +10,7 @@
 #include "timer.h"
 #include "resource/link.h"
 #include "util/markup.h"
+#include "sadmutex.h"
 #pragma once
 
 namespace sad
@@ -522,14 +523,19 @@ public:
         \param[in] p point
      */
     virtual void moveBy(const sad::Point2D& p);
+    /*! Returns rendered string length
+        \return length of rendered string
+     */
+    unsigned int renderedStringLength() const;
 private:
     /*! Reloads font for a label from scene
      */
     void reloadFont();
     /*! Recomputes rotation coefficients, 
         so rotation will be placed just in place 
+        \param[in] lock whether we should lock when recomputing
      */
-    void recomputeRenderingPoint();
+    void recomputeRenderingPoint(bool lock = true);
     /*! Returns size of label  without formatting
         \param[in] font a basic font
         \return size
@@ -540,8 +546,9 @@ private:
     */
     sad::Size2D getSizeWithFormatting(sad::Font* font);
     /*! Recomputes rendered string, so it will be preserved on every change
+        \param[in] lock whether we should lock, when recomputing
      */
-    void recomputeRenderedString();
+    void recomputeRenderedString(bool lock = true);
     /*! Recomputes rendering string without respect to formatting
      */
     void recomputeRenderingStringWithoutFormatting();
@@ -620,6 +627,9 @@ private:
     /*! A maximum lines in label, that should be displayed 
      */
     unsigned int m_maximum_lines;
+    /*! A rendered characters length
+     */
+    unsigned int m_rendered_chars;
     /*! A strategy, that should be used, when amount of lines is larger than needed
      */
     sad::Label::OverflowStrategy m_overflow_strategy_for_lines;
@@ -645,6 +655,15 @@ private:
     /*! A font for document, that will be used for label
      */
     sad::Hash<sad::String, sad::resource::Link<sad::Font> > m_fonts_for_document;
+    /*! A mutex for getting fonts of document
+     */
+    sad::Mutex m_get_font_lock;
+    /*! A mutex for recomputing string label
+     */
+    sad::Mutex m_recompute_string_lock;
+    /*! A mutex for recomputing point label
+     */
+    sad::Mutex m_recompute_point_lock;
 };
 
 }
