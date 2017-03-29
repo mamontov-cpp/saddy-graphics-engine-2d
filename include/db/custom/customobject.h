@@ -305,6 +305,22 @@ public:
         \param[in] dist a distance
      */
     virtual void moveBy(const sad::Point2D & dist);
+    /*! Returns rendered string length
+        \return length of rendered string
+     */
+    unsigned int renderedStringLength() const;
+    /*! Sets limit on rendering string, without actually changing it's size or other parameters.
+        Change string if you want them to be changed
+        \param[in] limit a limit on rendering string
+     */
+    void setRenderingStringLimit(unsigned int limit);
+    /*! Clears limit on rendering string
+     */
+    void clearRenderingStringLimit();
+    /*! Sets a rendering string limit as double. Limit should be in [0..1]
+        \param[in] limit  a limit value
+     */
+    void setRenderingStringLimitAsDouble(double limit);
 protected:
     /*! Fills custom object with defailt item properties
      */

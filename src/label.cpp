@@ -1269,6 +1269,22 @@ unsigned int sad::Label::renderedStringLength() const
     return m_rendered_chars;
 }
 
+
+void sad::Label::setRenderingStringLimit(unsigned int limit)
+{
+    m_rendering_character_limit.setValue(limit);
+}
+
+void sad::Label::clearRenderingStringLimit()
+{
+    m_rendering_character_limit.clear();
+}
+
+void sad::Label::setRenderingStringLimitAsDouble(double limit)
+{
+    this->setRenderingStringLimit(static_cast<unsigned int>(limit * this->renderedStringLength()));
+}
+
 void sad::Label::reloadFont()
 {
     sad::Font * font = m_font.get();
@@ -1526,7 +1542,33 @@ sad::Font* sad::Label::getFontForDocument(const sad::String& s)
 
 void sad::Label::renderWithoutFormatting(sad::Font* font)
 {
-    font->render(m_rendered_string, m_halfpadding);
+    if (m_rendering_character_limit.exists())
+    {
+        int length = 0;
+        int limitlength = 0;
+        bool can_add = true;
+        for (size_t i = 0; (i < m_rendered_string.size()) && can_add; i++)
+        {
+            if (limitlength >= m_rendering_character_limit.value())
+            {
+                can_add = false;
+            }
+            else
+            {
+                if (m_rendered_string[i] != '\n' && m_rendered_string[i] != '\r')
+                {
+                    limitlength += 1;
+                }
+                length += 1;
+            }
+        }
+        sad::String result = m_rendered_string.subString(0, length);
+        font->render(result, m_halfpadding);
+    }
+    else
+    {
+        font->render(m_rendered_string, m_halfpadding);
+    }
 }
 
 void sad::Label::renderWithFormatting(sad::Font* font)
@@ -1534,6 +1576,7 @@ void sad::Label::renderWithFormatting(sad::Font* font)
     assert(m_document.size() == m_document_metrics.size());
     sad::Point2D point = m_halfpadding;
     sad::Renderer* renderer = this->renderer();
+    int rendered_count = 0;
     for (size_t row = 0; row < m_document.size(); row++)
     {
         double x = point.x();
@@ -1550,7 +1593,40 @@ void sad::Label::renderWithFormatting(sad::Font* font)
                 fnt->setLineSpacingRatio(1);
             }
             double y = point.y() - m_document_metrics[row].Ascender + c.Ascender;
-            fnt->render(c.Content, sad::Point2D(x, y), flags);          
+            double part_width = c.Width;
+
+            if (m_rendering_character_limit.exists())
+            {
+                // Support for boundied character limit
+                if (rendered_count >= m_rendering_character_limit.value())
+                {
+                    // If we already rendered everything, return it
+                    return;
+                }
+                else
+                {
+                    int total_count = rendered_count + c.Content.length();
+                    if (total_count > rendered_count)
+                    {
+                        // Render part of document
+                        sad::String string = c.Content.subString(0, m_rendering_character_limit.value() - rendered_count);
+                        part_width = fnt->size(string, flags).Width;
+                        fnt->render(string, sad::Point2D(x, y), flags);
+                        rendered_count += string.length();
+                    }
+                    else
+                    {
+                        // Render whole part of document
+                        fnt->render(c.Content, sad::Point2D(x, y), flags);
+                        // Move cursor to next
+                        rendered_count += c.Content.length();
+                    }
+                }
+            }
+            else
+            {
+                fnt->render(c.Content, sad::Point2D(x, y), flags);
+            }
             if (renderer)
             {
                 if (c.Strikethrough)
@@ -1559,7 +1635,7 @@ void sad::Label::renderWithFormatting(sad::Font* font)
                     // lowercase in no more than two times, so dividing ascender by 4 would give us
                     // a position in middle of lower case
                     double ky = point.y() - m_document_metrics[row].Ascender + c.Ascender/ 4;
-                    sad::Point2D p1(x, ky), p2(x + c.Width, ky);
+                    sad::Point2D p1(x, ky), p2(x + part_width, ky);
                     sad::AColor clr = fnt->color();
                     clr.setA(255 - clr.a());
                     renderer->render()->line(p1, p2, clr);
@@ -1567,13 +1643,13 @@ void sad::Label::renderWithFormatting(sad::Font* font)
                 if (c.Underlined)
                 {
                     double ky = point.y() - m_document_metrics[row].Ascender - 2;
-                    sad::Point2D p1(x, ky), p2(x + c.Width, ky);
+                    sad::Point2D p1(x, ky), p2(x + part_width, ky);
                     sad::AColor clr = fnt->color();
                     clr.setA(255 - clr.a());
                     renderer->render()->line(p1, p2, clr);
                 }
             }
-            x += c.Width;
+            x += part_width;
         }
 
         point.setY(point.y() -  m_document_metrics[row].LineSpacingValue);

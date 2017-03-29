@@ -525,6 +525,18 @@ public:
         \return length of rendered string
      */
     unsigned int renderedStringLength() const;
+    /*! Sets limit on rendering string, without actually changing it's size or other parameters.
+        Change string if you want them to be changed
+        \param[in] limit a limit on rendering string
+     */
+    void setRenderingStringLimit(unsigned int limit);
+    /*! Clears limit on rendering string
+     */
+    void clearRenderingStringLimit();
+    /*! Sets a rendering string limit as double. Limit should be in [0..1]
+        \param[in] limit  a limit value
+     */
+    void setRenderingStringLimitAsDouble(double limit);
 private:
     /*! Reloads font for a label from scene
      */
@@ -659,6 +671,9 @@ private:
     /*! A mutex for recomputing point label
      */
     sad::Mutex m_recompute_point_lock;
+    /*! A limit for rendering character
+     */
+    sad::Maybe<unsigned int> m_rendering_character_limit;
 };
 
 }

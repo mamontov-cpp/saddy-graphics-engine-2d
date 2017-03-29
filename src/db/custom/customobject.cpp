@@ -451,6 +451,27 @@ void sad::db::custom::Object::moveBy(const sad::Point2D & dist)
    }
 }
 
+unsigned int  sad::db::custom::Object::renderedStringLength() const
+{
+    return m_label->renderedStringLength();
+}
+
+void sad::db::custom::Object::setRenderingStringLimit(unsigned int limit)
+{
+    m_label->setRenderingStringLimit(limit);
+}
+
+void sad::db::custom::Object::clearRenderingStringLimit()
+{
+    m_label->clearRenderingStringLimit();
+}
+
+
+void sad::db::custom::Object::setRenderingStringLimitAsDouble(double limit)
+{
+    m_label->setRenderingStringLimitAsDouble(limit);
+}
+
 bool sad::db::custom::Object::load(const picojson::value& v)
 {
     m_sprite2d->toggleLoadingMode(true);
