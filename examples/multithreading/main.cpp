@@ -247,9 +247,11 @@ int main(int argc, char** argv)
     // Here we create two waitable threads
     sad::Thread a(thread,static_cast<void *>(const_cast<char*>("thread1.txt")));
     sad::Thread b(thread,static_cast<void *>(const_cast<char*>("thread2.txt")));
+
     // Run them
     a.run();
     b.run();
+
     // And wait
     a.wait();
     b.wait();

@@ -63,10 +63,13 @@ sad::ClassMetaDataContainer::~ClassMetaDataContainer()
 }
 
 
-sad::ClassMetaData * sad::ClassMetaDataContainer::get(const sad::String & name, bool & created)
+sad::ClassMetaData * sad::ClassMetaDataContainer::get(const sad::String & name, bool & created, bool lock)
 {
     sad::ClassMetaData * result = NULL;
-    m_lock.lock();
+    if (lock)
+    {
+        m_lock.lock();
+    }
     if (m_container.contains(name))
     {
         result = m_container[name];
@@ -79,7 +82,10 @@ sad::ClassMetaData * sad::ClassMetaDataContainer::get(const sad::String & name, 
         m_container.insert(name, result);
         created = true;
     }
-    m_lock.unlock();
+    if (lock)
+    {
+        m_lock.unlock();
+    }
     return result;
 }
 

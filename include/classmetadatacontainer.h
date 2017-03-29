@@ -29,14 +29,160 @@ public:
     /*! Returns a reference for container
         \return reference for  container
      */
-    static sad::ClassMetaDataContainer * ref();
+    static sad::ClassMetaDataContainer* ref();
     /*! Returns a metadata for name. If metadata for name does not exists, creates it, with
         initialized class ame and inserts it to container. 
         \param[in] name name of class, which metadata is returned
         \param[out] created when metadata is created by container, this flag set to true 
+        \param[in] lock whether we should lock getting metadata
         \return a  metadata
      */
-    sad::ClassMetaData * get(const sad::String & name, bool & created);
+    sad::ClassMetaData* get(const sad::String & name, bool & created, bool lock = true);
+    /*! Returns a metadata for class with name and one parent.  name. If metadata for name does not exists, creates it, with
+        initialized class ame and inserts it to container. 
+        \param[in] name name of class, which metadata is returned
+        \return a metadata
+     */
+    template<typename _Parent> 
+    sad::ClassMetaData* getWithParent(const sad::String& name)
+    {
+        sad::ClassMetaData* parentMetaData = _Parent::globalMetaData();
+        if (parentMetaData != NULL)
+        {
+            m_lock.lock();
+            bool created = false;
+            sad::ClassMetaData* myMetaData = sad::ClassMetaDataContainer::ref()->get(name, created, false);
+            myMetaData->addAncestor(parentMetaData);
+            m_lock.unlock();
+            return myMetaData;
+        }
+        return NULL;
+    }
+
+    /*! Returns a metadata for class with name and one parent.  name. If metadata for name does not exists, creates it, with
+        initialized class ame and inserts it to container.
+        \param[in] name name of class, which metadata is returned
+        \param[in] index an index
+        \return a metadata
+    */
+    template<typename _Parent>
+    sad::ClassMetaData* getWithParentAndIndex(const sad::String& name, unsigned int index)
+    {
+        sad::ClassMetaData* parentMetaData = _Parent::globalMetaData();
+        if (parentMetaData != NULL)
+        {
+            m_lock.lock();
+            bool created = false;
+            sad::ClassMetaData* myMetaData = sad::ClassMetaDataContainer::ref()->get(name, created, false);
+            myMetaData->addAncestor(parentMetaData);
+            myMetaData->setPrivateIndex(index)
+            m_lock.unlock();
+            return myMetaData;
+        }
+        return NULL;
+    }
+    /*! Returns a metadata for class with name and two parents.  name. If metadata for name does not exists, creates it, with
+        initialized class ame and inserts it to container.
+        \param[in] name name of class, which metadata is returned
+        \return a metadata
+    */
+    template<typename _Parent1, typename _Parent2>
+    sad::ClassMetaData* getWithParent(const sad::String& name)
+    {
+        sad::ClassMetaData* parent1MetaData = _Parent1::globalMetaData();
+        sad::ClassMetaData* parent2MetaData = _Parent2::globalMetaData();
+
+        if (parent1MetaData != NULL && parent2MetaData != NULL)
+        {
+            m_lock.lock();
+            bool created = false;
+            sad::ClassMetaData* myMetaData = sad::ClassMetaDataContainer::ref()->get(name, created, false);
+            myMetaData->addAncestor(parent1MetaData);
+            myMetaData->addAncestor(parent2MetaData);
+            m_lock.unlock();
+            return myMetaData;
+        }
+        return NULL;
+    }
+    /*! Returns a metadata for class with name and three parents.  name. If metadata for name does not exists, creates it, with
+        initialized class ame and inserts it to container.
+        \param[in] name name of class, which metadata is returned
+        \return a metadata
+     */
+    template<typename _Parent1, typename _Parent2, typename _Parent3>
+    sad::ClassMetaData* getWithParent(const sad::String& name)
+    {
+        sad::ClassMetaData* parent1MetaData = _Parent1::globalMetaData();
+        sad::ClassMetaData* parent2MetaData = _Parent2::globalMetaData();
+        sad::ClassMetaData* parent3MetaData = _Parent3::globalMetaData();
+
+        if (parent1MetaData != NULL && parent2MetaData != NULL && parent3MetaData != NULL)
+        {
+            m_lock.lock();
+            bool created = false;
+            sad::ClassMetaData* myMetaData = sad::ClassMetaDataContainer::ref()->get(name, created, false);
+            myMetaData->addAncestor(parent1MetaData);
+            myMetaData->addAncestor(parent2MetaData);
+            myMetaData->addAncestor(parent3MetaData);
+            m_lock.unlock();
+            return myMetaData;
+        }
+        return NULL;
+    }
+
+    /*! Returns a metadata for class with name and three parents.  name. If metadata for name does not exists, creates it, with
+        initialized class ame and inserts it to container.
+        \param[in] name name of class, which metadata is returned
+        \return a metadata
+    */
+    template<typename _Parent1, typename _Parent2, typename _Parent3, typename _Parent4>
+    sad::ClassMetaData* getWithParent(const sad::String& name)
+    {
+        sad::ClassMetaData* parent1MetaData = _Parent1::globalMetaData();
+        sad::ClassMetaData* parent2MetaData = _Parent2::globalMetaData();
+        sad::ClassMetaData* parent3MetaData = _Parent3::globalMetaData();
+        sad::ClassMetaData* parent4MetaData = _Parent4::globalMetaData();
+
+        if (parent1MetaData != NULL && parent2MetaData != NULL && parent3MetaData != NULL && parent4MetaData != NULL)
+        {
+            m_lock.lock();
+            bool created = false;
+            sad::ClassMetaData* myMetaData = sad::ClassMetaDataContainer::ref()->get(name, created, false);
+            myMetaData->addAncestor(parent1MetaData);
+            myMetaData->addAncestor(parent2MetaData);
+            myMetaData->addAncestor(parent3MetaData);
+            myMetaData->addAncestor(parent4MetaData);
+
+            m_lock.unlock();
+            return myMetaData;
+        }
+        return NULL;
+    }
+
+    /*! Returns a metadata for class with name and one parent, and cast function to cast_class via method.  name. If metadata for name does not exists, creates it, with
+        initialized class ame and inserts it to container.
+        \param[in] name name of class, which metadata is returned
+        \param[in] cast_class a class for cast
+        \param[in] f method for casting
+        \return metadata
+    */
+    template<
+        typename _Parent
+    >
+    sad::ClassMetaData* getWithParentAndCast(const sad::String& name, const sad::String cast_class, sad::AbstractClassMetaDataCastFunction* f)
+    {
+        sad::ClassMetaData* parentMetaData = _Parent::globalMetaData();
+        if (parentMetaData != NULL)
+        {
+            m_lock.lock();
+            bool created = false;
+            sad::ClassMetaData* myMetaData = sad::ClassMetaDataContainer::ref()->get(name, created, false);
+            myMetaData->addAncestor(parentMetaData);
+            myMetaData->addCast(castclass, f);
+            m_lock.unlock();
+            return myMetaData;
+        }
+    }
     /*! Returns true if class meta data container contains specified type
         \param[in] name name of class
         \return whether meta data is contained in type

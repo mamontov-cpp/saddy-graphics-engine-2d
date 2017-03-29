@@ -35,6 +35,10 @@ public:
         \param[in] name name of ancestor class
      */
     void addAncestor(const sad::String & name);
+    /*! Adds a new ancestor
+        \param[in] ancestor an ancestor
+    */
+    void addAncestor(sad::ClassMetaData* ancestor);
     /*! Returns casts function lists
         \return casts list
      */
