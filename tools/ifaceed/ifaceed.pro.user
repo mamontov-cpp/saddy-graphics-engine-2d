@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.0.0, 2016-08-19T10:07:54. -->
+<!-- Written by QtCreator 4.0.0, 2017-03-29T10:49:15. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -234,7 +234,7 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">ifaceed2</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:D:/saddy/saddy-graphics-engine-2d/tools/ifaceed/ifaceed.pro</value>
     <value type="bool" key="QmakeProjectManager.QmakeRunConfiguration.UseLibrarySearchPath">true</value>
-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments"></value>
+    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments">-resources globalconfig.json -width 800 -height 600</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">ifaceed.pro</value>
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory"></value>
