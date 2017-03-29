@@ -40,6 +40,7 @@
 #include "../history/label/changemaximallinescount.h"
 #include "../history/label/changeoverflowstrategyforlines.h"
 #include "../history/label/changetextellipsisforlines.h"
+#include "../history/label/changehasformatting.h"
 
 #include "../history/sprite2d/changeflipx.h"
 #include "../history/sprite2d/changeflipy.h"
@@ -713,6 +714,7 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
     set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeMaximalLinesCount>(m_engine, "maximallinescount"));
     set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeOverflowStrategyForLines>(m_engine, "overflowstrategyforlines"));
     set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeTextEllipsisForLines>(m_engine, "textellipsispositionforlines"));
+    set->add(new scripting::scenenodes::Setter<bool, history::label::ChangeHasFormatting>(m_engine, "hasformatting"));
 
     set->add(new scripting::scenenodes::FontSetter(m_engine));
     // sad::Sprite2D props
@@ -776,7 +778,8 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
     get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>(m_engine, "maximallinescount"));
     get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>(m_engine, "overflowstrategyforlines"));
     get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>(m_engine, "textellipsispositionforlines"));
-    
+    get->add(new scripting::AbstractGetter<sad::SceneNode*, bool>(m_engine, "hasformatting"));
+
     // sad::Sprite2D props
     get->add(new scripting::AbstractGetter<sad::SceneNode*, bool>(m_engine, "flipx"));
     get->add(new scripting::AbstractGetter<sad::SceneNode*, bool>(m_engine, "flipy"));
