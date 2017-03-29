@@ -92,10 +92,7 @@ m_computed_rendering_point(false)
 void sad::Label::setTreeName(sad::Renderer* r, const sad::String& treename)
 {
     m_font.setTree(r, treename);
-    for (sad::Hash<sad::String, sad::resource::Link<sad::Font>>::iterator it = m_fonts_for_document.begin(); it != m_fonts_for_document.end(); ++it)
-    {
-        it.value().setTree(r, treename);
-    }
+    m_font_cache.setTree(r, treename);
 }
 
 void sad::Label::regions(sad::Vector<sad::Rect2D> & r)
@@ -239,6 +236,9 @@ sad::db::schema::Schema* sad::Label::schema() const
 
 void sad::Label::render()
 {
+    sad::ScopedLock recompute_string_lock(&m_recompute_string_lock);
+    sad::ScopedLock recompute_point_lock(&m_recompute_point_lock);
+
     sad::Font * font = m_font.get();
     if (!font)
         return;
@@ -249,21 +249,16 @@ void sad::Label::render()
 
     if (!m_computed_rendering_string)
     {
-        m_recompute_string_lock.lock();
-        if (!m_computed_rendering_string)
-        {
-            recomputeRenderedString(false);
-        }
-        m_recompute_string_lock.unlock();
+        recomputeRenderedString(false);
     }
     if (!m_computed_rendering_point)
     {
-        m_recompute_point_lock.lock();
-        if (!m_computed_rendering_point)
-        {
-            recomputeRenderingPoint();
-        }
-        m_recompute_point_lock.unlock();
+        recomputeRenderingPoint(false);
+    }
+
+    if (!m_computed_rendering_string || !m_computed_rendering_point)
+    {
+        return;
     }
 
     glMatrixMode(GL_MODELVIEW);
@@ -294,11 +289,7 @@ void sad::Label::rendererChanged()
     if (m_font.dependsOnRenderer())
     {
         m_font.setRenderer(this->renderer());
-        sad::Hash<sad::String, sad::resource::Link<sad::Font> >::iterator it = m_fonts_for_document.begin();
-        for (; it != m_fonts_for_document.end(); ++it)
-        {
-            it.value().setRenderer(this->renderer());
-        }
+        m_font_cache.setRenderer(this->renderer());
     }
 }
 
@@ -359,6 +350,12 @@ void sad::Label::setPoint(const sad::Point2D & point)
     recomputeRenderingPoint();
 }
 
+void sad::Label::setAngle(double angle)
+{
+    m_angle = angle;
+    m_cached_region = this->region();
+}
+
 void sad::Label::setFontName(const sad::String & name)
 {
     m_font.setPath(name);
@@ -415,11 +412,7 @@ void sad::Label::setLineSpacingRatio(float ratio)
 void sad::Label::setTreeName(const sad::String & treename)
 {
     m_font.setTree(m_font.renderer(), treename);
-    sad::Hash<sad::String, sad::resource::Link<sad::Font> >::iterator it = m_fonts_for_document.begin();
-    for (; it != m_fonts_for_document.end(); ++it)
-    {
-        it.value().setTree(m_font.renderer(), treename);
-    }
+    m_font_cache.setTree(m_font.renderer(), treename);
     recomputeRenderingPoint();
 }
 
@@ -1304,6 +1297,7 @@ void sad::Label::recomputeRenderingPoint(bool lock)
         if (m_formatted)
         {
             size = this->getSizeWithFormatting(font);
+            assert(m_document.size() == m_document_metrics.size());
         }
         else
         {
@@ -1467,7 +1461,7 @@ void sad::Label::recomputeRenderingStringWithFormatting()
 
 void sad::Label::clearFontsCache()
 {
-    m_fonts_for_document.clear();
+    m_font_cache.clear();
 }
 
 sad::Pair<sad::Font*, sad::Font::RenderFlags> sad::Label::applyFontCommand(sad::Font* font, const sad::util::Markup::Command& c)
@@ -1527,31 +1521,7 @@ sad::Pair<sad::Font*, sad::Font::RenderFlags> sad::Label::applyFontCommand(sad::
 
 sad::Font* sad::Label::getFontForDocument(const sad::String& s)
 {
-    sad::ScopedLock lock(&m_get_font_lock);
-
-    if (m_fonts_for_document.contains(s))
-    {
-        sad::Font* fnt = m_fonts_for_document[s].get();
-        if (fnt == NULL)
-        {
-            return m_font.get();
-        }
-        else
-        {
-            return fnt;
-        }
-    }
-    m_fonts_for_document.insert(s, m_font);
-    m_fonts_for_document[s].setPath(s);
-    sad::Font* fnt = m_fonts_for_document[s].get();
-    if (fnt == NULL)
-    {
-        return m_font.get();
-    }
-    else
-    {
-        return fnt;
-    }
+    return m_font_cache.get(s, m_font);
 }
 
 void sad::Label::renderWithoutFormatting(sad::Font* font)
@@ -1561,6 +1531,7 @@ void sad::Label::renderWithoutFormatting(sad::Font* font)
 
 void sad::Label::renderWithFormatting(sad::Font* font)
 {
+    assert(m_document.size() == m_document_metrics.size());
     sad::Point2D point = m_halfpadding;
     sad::Renderer* renderer = this->renderer();
     for (size_t row = 0; row < m_document.size(); row++)

@@ -10,6 +10,7 @@
 #include "timer.h"
 #include "resource/link.h"
 #include "util/markup.h"
+#include "util/fontcache.h"
 #include "sadmutex.h"
 #pragma once
 
@@ -194,10 +195,7 @@ public:
     /*! Sets angle for rotation of label
         \param[in] angle a rotation angle
      */
-    inline void setAngle(double angle)
-    {
-        m_angle = angle;
-    }
+    void setAngle(double angle);
     /*! Returns a size for a font in pixels
         \return size of label
      */
@@ -652,12 +650,9 @@ private:
     /*! A row metrics for a document
      */
     sad::Vector<sad::Label::FormattedRowMetrics> m_document_metrics;
-    /*! A font for document, that will be used for label
+    /*! A font cache for getting fonts
      */
-    sad::Hash<sad::String, sad::resource::Link<sad::Font> > m_fonts_for_document;
-    /*! A mutex for getting fonts of document
-     */
-    sad::Mutex m_get_font_lock;
+    sad::util::FontCache m_font_cache;
     /*! A mutex for recomputing string label
      */
     sad::Mutex m_recompute_string_lock;

@@ -771,6 +771,9 @@
     <ClCompile Include="src\util\colortable.cpp">
       <Filter>Файлы исходного кода\util</Filter>
     </ClCompile>
+    <ClCompile Include="src\util\fontcache.cpp">
+      <Filter>Файлы исходного кода\util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\camera.h">
@@ -1636,6 +1639,9 @@
     </ClInclude>
     <ClInclude Include="include\3rdparty\pugixml\pugiconfig.hpp">
       <Filter>Заголовочные файлы\3rdparty\pugixml</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\fontcache.h">
+      <Filter>Заголовочные файлы\util</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

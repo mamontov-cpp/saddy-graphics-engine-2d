@@ -216,6 +216,7 @@
     <ClCompile Include="src\util\chararrayibuf.cpp" />
     <ClCompile Include="src\util\colortable.cpp" />
     <ClCompile Include="src\util\fileistreambuf.cpp" />
+    <ClCompile Include="src\util\fontcache.cpp" />
     <ClCompile Include="src\util\markup.cpp" />
     <ClCompile Include="src\window.cpp" />
     <ClCompile Include="src\cli\clioptionvalue.cpp" />
@@ -442,6 +443,7 @@
     <ClInclude Include="include\unused.h" />
     <ClInclude Include="include\util\chararrayibuf.h" />
     <ClInclude Include="include\util\fileistreambuf.h" />
+    <ClInclude Include="include\util\fontcache.h" />
     <ClInclude Include="include\util\markup.h" />
     <ClInclude Include="include\util\sadhash.h" />
     <ClInclude Include="include\util\sadhash_src.h" />
