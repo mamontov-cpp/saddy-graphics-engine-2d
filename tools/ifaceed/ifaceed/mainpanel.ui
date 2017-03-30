@@ -568,9 +568,14 @@ on fast mode</string>
          <rect>
           <x>334</x>
           <y>3</y>
-          <width>131</width>
+          <width>141</width>
           <height>23</height>
          </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
         </property>
         <property name="text">
          <string>Span between two points</string>
@@ -584,6 +589,11 @@ on fast mode</string>
           <width>201</width>
           <height>23</height>
          </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
         </property>
         <property name="text">
          <string>Copy size and position of other node</string>
@@ -673,9 +683,9 @@ on fast mode</string>
           <property name="geometry">
            <rect>
             <x>20</x>
-            <y>90</y>
+            <y>120</y>
             <width>421</width>
-            <height>171</height>
+            <height>141</height>
            </rect>
           </property>
          </widget>
@@ -685,7 +695,7 @@ on fast mode</string>
             <x>20</x>
             <y>10</y>
             <width>421</width>
-            <height>71</height>
+            <height>91</height>
            </rect>
           </property>
          </widget>
@@ -1172,7 +1182,7 @@ for object (ignores an angle)</string>
             <x>10</x>
             <y>80</y>
             <width>291</width>
-            <height>48</height>
+            <height>62</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="grdLayoutSizes">
@@ -1212,7 +1222,7 @@ for object (ignores an angle)</string>
             <x>40</x>
             <y>140</y>
             <width>231</width>
-            <height>32</height>
+            <height>40</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="grdLayoutFixed">
@@ -1245,7 +1255,7 @@ fixed height</string>
             <x>10</x>
             <y>10</y>
             <width>281</width>
-            <height>192</height>
+            <height>236</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayoutPaddings">
@@ -2234,7 +2244,7 @@ current object</string>
              <x>10</x>
              <y>20</y>
              <width>241</width>
-             <height>26</height>
+             <height>27</height>
             </rect>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_15">
@@ -2263,7 +2273,7 @@ current object</string>
              <x>10</x>
              <y>50</y>
              <width>241</width>
-             <height>26</height>
+             <height>27</height>
             </rect>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_16">
@@ -2309,8 +2319,8 @@ current object</string>
             <rect>
              <x>10</x>
              <y>20</y>
-             <width>241</width>
-             <height>26</height>
+             <width>243</width>
+             <height>27</height>
             </rect>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_12">
@@ -2349,7 +2359,7 @@ current object</string>
              <x>10</x>
              <y>50</y>
              <width>241</width>
-             <height>26</height>
+             <height>27</height>
             </rect>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_18">
@@ -2490,7 +2500,7 @@ current object</string>
           <rect>
            <x>10</x>
            <y>20</y>
-           <width>289</width>
+           <width>306</width>
            <height>29</height>
           </rect>
          </property>
@@ -2551,7 +2561,7 @@ current object</string>
           <rect>
            <x>10</x>
            <y>50</y>
-           <width>289</width>
+           <width>301</width>
            <height>29</height>
           </rect>
          </property>
@@ -2631,7 +2641,7 @@ current object</string>
            <x>10</x>
            <y>20</y>
            <width>281</width>
-           <height>26</height>
+           <height>27</height>
           </rect>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -2708,7 +2718,7 @@ current object</string>
            <x>10</x>
            <y>20</y>
            <width>251</width>
-           <height>56</height>
+           <height>58</height>
           </rect>
          </property>
          <layout class="QGridLayout" name="gridLayout">
@@ -2910,7 +2920,7 @@ rect:</string>
            <x>10</x>
            <y>20</y>
            <width>311</width>
-           <height>26</height>
+           <height>27</height>
           </rect>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -2955,7 +2965,7 @@ rect:</string>
            <x>10</x>
            <y>50</y>
            <width>311</width>
-           <height>26</height>
+           <height>27</height>
           </rect>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_7">
@@ -2984,7 +2994,7 @@ rect:</string>
            <x>10</x>
            <y>80</y>
            <width>311</width>
-           <height>26</height>
+           <height>27</height>
           </rect>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_8">
@@ -3031,7 +3041,7 @@ rect:</string>
            <x>10</x>
            <y>20</y>
            <width>311</width>
-           <height>26</height>
+           <height>27</height>
           </rect>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_9">
@@ -3070,7 +3080,7 @@ rect:</string>
            <x>10</x>
            <y>50</y>
            <width>311</width>
-           <height>26</height>
+           <height>27</height>
           </rect>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_10">
@@ -3565,7 +3575,7 @@ rect:</string>
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>181</width>
+        <width>195</width>
         <height>371</height>
        </rect>
       </property>
