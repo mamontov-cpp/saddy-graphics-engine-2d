@@ -467,9 +467,9 @@ void sad::db::custom::Object::clearRenderingStringLimit()
 }
 
 
-void sad::db::custom::Object::setRenderingStringLimitAsDouble(double limit)
+void sad::db::custom::Object::setRenderingStringLimitAsRatioToLength(double limit)
 {
-    m_label->setRenderingStringLimitAsDouble(limit);
+    m_label->setRenderingStringLimitAsRatioToLength(limit);
 }
 
 bool sad::db::custom::Object::load(const picojson::value& v)

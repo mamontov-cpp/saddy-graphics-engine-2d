@@ -75,7 +75,7 @@ public:
             bool created = false;
             sad::ClassMetaData* myMetaData = sad::ClassMetaDataContainer::ref()->get(name, created, false);
             myMetaData->addAncestor(parentMetaData);
-            myMetaData->setPrivateIndex(index)
+            myMetaData->setPrivateIndex(index);
             m_lock.unlock();
             return myMetaData;
         }
@@ -178,7 +178,7 @@ public:
             bool created = false;
             sad::ClassMetaData* myMetaData = sad::ClassMetaDataContainer::ref()->get(name, created, false);
             myMetaData->addAncestor(parentMetaData);
-            myMetaData->addCast(castclass, f);
+            myMetaData->addCast(cast_class, f);
             m_lock.unlock();
             return myMetaData;
         }

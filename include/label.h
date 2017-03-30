@@ -536,7 +536,7 @@ public:
     /*! Sets a rendering string limit as double. Limit should be in [0..1]
         \param[in] limit  a limit value
      */
-    void setRenderingStringLimitAsDouble(double limit);
+    void setRenderingStringLimitAsRatioToLength(double limit);
 private:
     /*! Reloads font for a label from scene
      */

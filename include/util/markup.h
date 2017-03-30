@@ -221,7 +221,7 @@ static sad::Maybe<sad::String> parseFont(const sad::String& s, const sad::Maybe<
 
 /*! Tries to get color from table
     \param[in] s color name
-    \param[in] color a returned color
+    \return parsed color
  */
 static sad::Maybe<sad::AColor> getColorFromTable(const char* s);
 
@@ -237,13 +237,13 @@ static unsigned char parseHexChar(const char* s);
  */
 static unsigned char parseByte(const char* s);
 
-/*! Parses color in hexadecimal RGBA format. Color format string must be  #RRGGBBAA or #RRGGBB
+/*! Parses color in hexadecimal RGBA format. Color format string must be  "#RRGGBBAA" or "#RRGGBB"
     \param[in] s string
     \return a color or nothing if failed to parse
  */
 static sad::Maybe<sad::AColor> parseHexRGBA(const char *s);
 
-/*! Parses color value. Color format string must be  #RRGGBBAA or #RRGGBB or color name
+/*! Parses color value. Color format string must be  "#RRGGBBAA" or "#RRGGBB" or color name
     \param[in] s string
     \param[in] parentColor a parent color value
     \return result

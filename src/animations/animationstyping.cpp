@@ -4,7 +4,8 @@
 #include "animations/easing/easingfunction.h"
 
 #include "animations/setstate/methodcall.h"
-#include "animations/setstate/setproperty.h"
+
+#include "animations/animationssavedrenderingstringlimit.h"
 
 #include "fuzzyequal.h"
 #include "scene.h"
@@ -36,7 +37,7 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::Typing, sad::animations::Animation);
 
 sad::animations::Typing::Typing()
 {
-    m_creators.pushProperty<sad::String>("text", "text");
+    m_creators.pushCreator<sad::animations::SavedRenderingStringLimit>("sad::animations::SavedRenderingStringLimit");
 }
 
 sad::animations::Typing::~Typing()
@@ -69,19 +70,19 @@ sad::animations::setstate::AbstractSetStateCommand* sad::animations::Typing::sta
         {
             c = sad::animations::setstate::make(
                     o,
-                    &sad::Label::setRenderingStringLimitAsDouble
+                    &sad::Label::setRenderingStringLimitAsRatioToLength
                 );
         }
         else
         {
             c = sad::animations::setstate::make(
                 o,
-                &sad::db::custom::Object::setRenderingStringLimitAsDouble
+                &sad::db::custom::Object::setRenderingStringLimitAsRatioToLength
             );
         }
         return c;
     }
-    return new sad::animations::setstate::DummyCommand<unsigned int>();
+    return new sad::animations::setstate::DummyCommand<double>();
 }
 
 

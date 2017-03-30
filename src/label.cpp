@@ -1280,7 +1280,7 @@ void sad::Label::clearRenderingStringLimit()
     m_rendering_character_limit.clear();
 }
 
-void sad::Label::setRenderingStringLimitAsDouble(double limit)
+void sad::Label::setRenderingStringLimitAsRatioToLength(double limit)
 {
     this->setRenderingStringLimit(static_cast<unsigned int>(limit * this->renderedStringLength()));
 }
