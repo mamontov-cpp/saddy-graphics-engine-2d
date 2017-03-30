@@ -59,7 +59,7 @@ For Saddy v1.7.0 and after:
 
   * Windows, using Microsoft Visual C++ 2017+ (x86, x64)
   * Windows, using CMake/MinGW-w64 6.2.0+ (x86/x64)
-  * Linux, using CMake/gcc 5.4.1 (x86/x64)
+  * Linux, using CMake/gcc 6.2.0 (x86/x64)
 
 For Saddy v1.6.1 and before:
 
