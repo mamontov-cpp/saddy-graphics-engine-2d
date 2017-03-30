@@ -155,6 +155,7 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/core/borders/resizehotspot.h \
     ifaceed/core/selection.h \
     ifaceed/reloadfilelist.h \
+    ifaceed/stringeditordialog.h \
     ifaceed/gui/renderways.h \
     ifaceed/gui/actions/wayactions.h \
     ifaceed/history/ways/waysnew.h \
@@ -344,8 +345,10 @@ FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui \
     ifaceed/reloadfilelist.ui \
     ifaceed/scriptinghelp.ui \
-    ifaceed/gridandoffset.ui
-	
+    ifaceed/gridandoffset.ui \
+    ifaceed/stringeditordialog.ui 
+
+
 SOURCES += ifaceed/main.cpp \
            ifaceed/mainpanel.cpp \
            ifaceed/gridandoffset.cpp \		   
@@ -454,6 +457,7 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/core/borders/resizehotspot.cpp \
     ifaceed/core/selection.cpp \
     ifaceed/reloadfilelist.cpp \
+    ifaceed/stringeditordialog.cpp \
     ifaceed/gui/renderways.cpp \
     ifaceed/gui/actions/wayactions.cpp \
     ifaceed/history/ways/waysnew.cpp \

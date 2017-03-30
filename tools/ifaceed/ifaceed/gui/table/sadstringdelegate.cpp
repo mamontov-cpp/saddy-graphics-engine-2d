@@ -1,14 +1,19 @@
 #include "gui/table/sadstringdelegate.h"
 
+#include "stringeditordialog.h"
+
 #include "core/editor.h"
 
 #include "history/database/changeproperty.h"
 
 #include "history/customobject/customobjectchangeproperty.h"
 
+#include <QTableWidget>
 #include <QTableWidgetItem>
 #include <QPlainTextEdit>
 #include <QPushButton>
+#include <QHeaderView>
+#include <QDebug>
 
 #include <renderer.h>
 #include <db/dbdatabase.h>
@@ -30,7 +35,7 @@ gui::table::SadStringDelegate::~SadStringDelegate()
 
 void gui::table::SadStringDelegate::set(const sad::db::Variant& v)
 {
-    QPlainTextEdit* edit = static_cast<QPlainTextEdit*>(m_my_widget);
+    QPlainTextEdit* edit = static_cast<QPlainTextEdit*>(static_cast<QTableWidget*>(m_my_widget)->cellWidget(0, 0));
     int pos = edit->textCursor().position();
     bool b = m_my_widget->blockSignals(true);
     QString value = v.get<QString>().value();
@@ -51,31 +56,78 @@ void gui::table::SadStringDelegate::set(const sad::db::Variant& v)
 void gui::table::SadStringDelegate::widgetChanged()
 {
     QString oldvalue = this->currentValue<QString>();
-    QString i = static_cast<QPlainTextEdit*>(m_my_widget)->toPlainText();
-    if (this->isLinkedToDatabase())
+    QString i = static_cast<QPlainTextEdit*>(static_cast<QTableWidget*>(m_my_widget)->cellWidget(0, 0))->toPlainText();
+    if (oldvalue != i)
     {
-        m_editor->history()->add(new history::database::ChangeProperty<QString>(oldvalue, i, this));
-    }
-    else
-    {
-        m_editor->history()->add( 
-            new history::customobject::ChangeProperty<sad::String>(m_object, Q2STDSTRING(m_property_name), Q2STDSTRING(oldvalue), Q2STDSTRING(i))
-        );
+        if (this->isLinkedToDatabase())
+        {
+            m_editor->history()->add(new history::database::ChangeProperty<QString>(oldvalue, i, this));
+        }
+        else
+        {
+            m_editor->history()->add(
+                new history::customobject::ChangeProperty<sad::String>(m_object, Q2STDSTRING(m_property_name), Q2STDSTRING(oldvalue), Q2STDSTRING(i))
+            );
+        }
     }
     this->setCurrentValue<QString>(i);
+}
+
+void gui::table::SadStringDelegate::moreClicked()
+{
+    QString oldvalue = this->currentValue<QString>();
+    StringEditorDialog dlg(m_my_widget);
+    dlg.setValue(oldvalue);
+    if (dlg.exec() == QDialog::Accepted)
+    {
+        QString newvalue = dlg.value();
+        QPlainTextEdit* edit = static_cast<QPlainTextEdit*>(static_cast<QTableWidget*>(m_my_widget)->cellWidget(0, 0));
+        edit->setPlainText(newvalue);
+    }
 }
 
 void gui::table::SadStringDelegate::makeEditor()
 {
     QString value = this->currentValue<QString>();
+
+    QTableWidget* w = new QTableWidget();
+    w->horizontalHeader()->hide();
+    w->verticalHeader()->hide();
+
+    w->setRowCount(1);
+    w->setColumnCount(2);
+
     QPlainTextEdit * d = new QPlainTextEdit();
     d->setPlainText(value);
-    m_my_widget = d;
+    QSizePolicy policy = d->sizePolicy();
+    policy.setVerticalPolicy(QSizePolicy::Expanding);
+    policy.setHorizontalPolicy(QSizePolicy::Expanding);
+    d->setSizePolicy(policy);
+    w->setCellWidget(0, 0, d);
+
+    QPushButton* pb = new QPushButton();
+    pb->setText("...");
+    w->setColumnWidth(1, 30);
+    w->setCellWidget(0, 1, pb);
+    
+    w->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding, QSizePolicy::LineEdit));
+
+    m_my_widget = w;
+
     this->insertToTable();
-    QObject::connect(d, SIGNAL(textChanged()), this, SLOT(widgetChanged()));	
+
+    // Reset borders
+    w->setFixedHeight(m_widget->rowHeight(m_row) - 2);
+    w->setFixedWidth(m_widget->columnWidth(1) - 2);
+    w->setRowHeight(0, m_widget->rowHeight(m_row) - 2);
+    w->setColumnWidth(0, w->width() - w->columnWidth(1) - 2);
+
+    QObject::connect(d, SIGNAL(textChanged()), this, SLOT(widgetChanged()));
+    QObject::connect(pb, SIGNAL(clicked()), this, SLOT(moreClicked()));
 }
 
 void gui::table::SadStringDelegate::disconnect()
 {
     QObject::disconnect(this, SLOT(widgetChanged()));
+    QObject::disconnect(this, SLOT(moreClicked()));
 }
