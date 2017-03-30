@@ -4,7 +4,7 @@ Saddy is an open-source crossplatform 2D graphic engine, based on OpenGL, which 
 
 ## News
 
-Note, that starting from 1.7.0, Saddy will only support compilers, that support C++11.
+Note, that starting from 1.7.0, Saddy will only support compilers, that support C++14.
 
 * **11.03.17** Saddy [1.6.1](https://github.com/mamontov-cpp/saddy/releases/tag/1.6.1) released!
 
