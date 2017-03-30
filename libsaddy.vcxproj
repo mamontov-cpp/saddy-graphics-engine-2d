@@ -154,6 +154,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\3rdparty\pugixml\pugixml.cpp" />
+    <ClCompile Include="src\animations\animationssavedrenderingstringlimit.cpp" />
     <ClCompile Include="src\animations\animationssimplemovement.cpp" />
     <ClCompile Include="src\animations\animationstexturecoordinateslist.cpp" />
     <ClCompile Include="src\animations\easing\easingfunction.cpp" />
@@ -214,7 +215,9 @@
     <ClCompile Include="src\texturemappedfont.cpp" />
     <ClCompile Include="src\timer.cpp" />
     <ClCompile Include="src\util\chararrayibuf.cpp" />
+    <ClCompile Include="src\util\colortable.cpp" />
     <ClCompile Include="src\util\fileistreambuf.cpp" />
+    <ClCompile Include="src\util\fontcache.cpp" />
     <ClCompile Include="src\util\markup.cpp" />
     <ClCompile Include="src\window.cpp" />
     <ClCompile Include="src\cli\clioptionvalue.cpp" />
@@ -360,6 +363,7 @@
     <ClInclude Include="include\3rdparty\pugixml\pugixml.hpp" />
     <ClInclude Include="include\3rdparty\stb\stb_image.h" />
     <ClInclude Include="include\3rdparty\tar7z.h" />
+    <ClInclude Include="include\animations\animationssavedrenderingstringlimit.h" />
     <ClInclude Include="include\animations\animationssimplemovement.h" />
     <ClInclude Include="include\animations\easing\easingfunction.h" />
     <ClInclude Include="include\animations\easing\easingtypes.h" />
@@ -441,6 +445,7 @@
     <ClInclude Include="include\unused.h" />
     <ClInclude Include="include\util\chararrayibuf.h" />
     <ClInclude Include="include\util\fileistreambuf.h" />
+    <ClInclude Include="include\util\fontcache.h" />
     <ClInclude Include="include\util\markup.h" />
     <ClInclude Include="include\util\sadhash.h" />
     <ClInclude Include="include\util\sadhash_src.h" />

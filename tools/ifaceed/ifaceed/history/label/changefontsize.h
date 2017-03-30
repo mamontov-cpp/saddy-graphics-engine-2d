@@ -1,7 +1,7 @@
 /*! \file changefontsize.h
     
 
-    Describe a command, which change scene label's font size
+    Describes a command, which changes scene label's font size
  */
 #pragma once
 #include "../scenenodes/scenenodeschangeproperty.h"

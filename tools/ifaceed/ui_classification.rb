@@ -206,7 +206,9 @@
    ["QLabel", "lblLayoutGridCols"],
    ["QWidget", "scrollAreaWidgetContents"],
    ["QWidget", "tabLayoutDefaultPaddings"],
-   ["QLabel", "lblLayoutNavigate"]],
+   ["QLabel", "lblLayoutNavigate"],
+   ["QPushButton", "btnGridAndOffset"],
+   ["QGridLayout", "grdTCCEndingRect"]],
  "Scene"=>
   [["QListWidget", "lstScenes"],
    ["QLineEdit", "txtSceneName"],
@@ -240,7 +242,8 @@
    ["QComboBox", "cmbLabelTextEllipsisForLines"],
    ["QSpinBox", "spbMaximalLineWidth"],
    ["QDoubleSpinBox", "dsbLineSpacingRatio"],
-   ["QSpinBox", "spbMaximalLinesCount"]],
+   ["QSpinBox", "spbMaximalLinesCount"],
+   ["QCheckBox", "cbLabelHasFormatting"]],
  "Sprite"=>
   [["gui::resourcetreewidget::ResourceTreeWidget", "rtwSpriteSprite"],
    ["QPushButton", "btnSpriteMakeBackground"],

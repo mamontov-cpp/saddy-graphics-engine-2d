@@ -147,6 +147,10 @@ DECLARE_CASTS_AS_METHODS(sad::Object)
 
                                                               
 
+/*! Use this macro to paste type in other macro
+ */
+#define SAD_TYPE_PASTE(TYPE) TYPE
+
 
 /*! Use this macro to define a descendant of sad::Object in your include file
  */
@@ -161,24 +165,18 @@ public:															\
     that this object is inherited from descendant of sad::Object,
     where NAMEDCLASS should be name of current class and PARENT  - name of his parent class
  */
-#define DECLARE_SOBJ_INHERITANCE(NAMEDCLASS, PARENT)			 \
-DECLARE_TYPE_AS_SAD_OBJECT( NAMEDCLASS )                         \
-sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	     \
-sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 	 \
-{																 \
-    if (m_global_metadata != NULL) return m_global_metadata;     \
-    bool created = false;																		\
-    m_global_metadata = sad::ClassMetaDataContainer::ref()->get(#NAMEDCLASS, created);          \
-    if (created)																				\
-    {																							\
-        if (PARENT ::globalMetaData() == NULL) return NULL;                                    \
-        m_global_metadata->addAncestor(#PARENT);											    \
-    }																							\
-    return m_global_metadata;																	\
-}																								\
-sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
-{                                                                                               \
-    return NAMEDCLASS ::globalMetaData();                                                       \
+#define DECLARE_SOBJ_INHERITANCE(NAMEDCLASS, PARENT)			                                                   \
+DECLARE_TYPE_AS_SAD_OBJECT( NAMEDCLASS )                                                                           \
+sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	                                                       \
+sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 	                                                   \
+{																                                                   \
+    if (m_global_metadata != NULL) return m_global_metadata;                                                       \
+    m_global_metadata = sad::ClassMetaDataContainer::ref()->getWithParent< SAD_TYPE_PASTE(PARENT) >(#NAMEDCLASS);  \
+    return m_global_metadata;																	                   \
+}																								                   \
+sad::ClassMetaData * NAMEDCLASS ::metaData() const												                   \
+{                                                                                                                  \
+    return NAMEDCLASS ::globalMetaData();                                                                          \
 }                                                
 
 
@@ -186,24 +184,18 @@ sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
     that this object is inherited from descendant of sad::Object,
     where NAMEDCLASS should be name of current class and PARENT  - name of his parent class
  */
-#define DECLARE_SOBJ_INHERITANCE_TEMPLATE(NAMEDCLASS, PARENT)			 \
-DECLARE_TYPE_AS_SAD_OBJECT( NAMEDCLASS )                         \
-template<> sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	     \
-template<> sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 	 \
-{																 \
-    if (m_global_metadata != NULL) return m_global_metadata;     \
-    bool created = false;																		\
-    m_global_metadata = sad::ClassMetaDataContainer::ref()->get(#NAMEDCLASS, created);          \
-    if (created)																				\
-    {																							\
-        if (PARENT ::globalMetaData() == NULL) return NULL;                                    \
-        m_global_metadata->addAncestor(#PARENT);											    \
-    }																							\
-    return m_global_metadata;																	\
-}																								\
-template<> sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
-{                                                                                               \
-    return NAMEDCLASS ::globalMetaData();                                                       \
+#define DECLARE_SOBJ_INHERITANCE_TEMPLATE(NAMEDCLASS, PARENT)			                                           \
+DECLARE_TYPE_AS_SAD_OBJECT( NAMEDCLASS )                                                                           \
+template<> sad::ClassMetaData * NAMEDCLASS ::m_global_metadata = NULL;	                                           \
+template<> sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 	                                       \
+{																                                                   \
+    if (m_global_metadata != NULL) return m_global_metadata;                                                       \
+    m_global_metadata = sad::ClassMetaDataContainer::ref()->getWithParent< SAD_TYPE_PASTE(PARENT) >(#NAMEDCLASS);  \
+    return m_global_metadata;																	                   \
+}																								                   \
+template<> sad::ClassMetaData * NAMEDCLASS ::metaData() const												       \
+{                                                                                                                  \
+    return NAMEDCLASS ::globalMetaData();                                                                          \
 }
 
 /*! Use this macro to define in source files, 
@@ -212,24 +204,21 @@ template<> sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
     CASTOBJECT is callback for class metadata to add method for casting to CASTCLASS
  */
 #define DECLARE_SOBJ_INHERITANCE_WITH_CAST(NAMEDCLASS, PARENT, CASTCLASS, CASTMETHOD)			 \
-DECLARE_TYPE_AS_SAD_OBJECT( NAMEDCLASS )                         \
-sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	     \
-sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 	 \
-{																 \
-    if (m_global_metadata != NULL) return m_global_metadata;     \
-    bool created = false;																		\
-    m_global_metadata = sad::ClassMetaDataContainer::ref()->get(#NAMEDCLASS, created);          \
-    if (created)																				\
-    {																							\
-        if (PARENT ::globalMetaData() == NULL) return NULL;                                    \
-        m_global_metadata->addAncestor(#PARENT);											    \
-        m_global_metadata->addCast(#CASTCLASS , sad::MetaDataCastFunctionFamily< NAMEDCLASS >::cast(CASTMETHOD) ); \
-    }																							\
-    return m_global_metadata;																	\
-}																								\
-sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
-{                                                                                               \
-    return NAMEDCLASS ::globalMetaData();                                                       \
+DECLARE_TYPE_AS_SAD_OBJECT( NAMEDCLASS )                                                         \
+sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	                                     \
+sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 	                                 \
+{																                                 \
+    if (m_global_metadata != NULL) return m_global_metadata;                                     \
+    sad::AbstractClassMetaDataCastFunction * f =                                                 \
+    sad::MetaDataCastFunctionFamily< NAMEDCLASS >::cast(CASTMETHOD);                             \
+    m_global_metadata = sad::ClassMetaDataContainer::ref()->getWithParentAndCast<                \
+        SAD_TYPE_PASTE(PARENT)                                                                   \
+    >(#NAMEDCLASS, #CASTCLASS, f);                                                               \
+    return m_global_metadata;																	 \
+}																							 	 \
+sad::ClassMetaData * NAMEDCLASS ::metaData() const												 \
+{                                                                                                \
+    return NAMEDCLASS ::globalMetaData();                                                        \
 }                                                
 
 /*! Use this macro to define, that this class is direct descendant of sad::Object in your source 
@@ -248,16 +237,8 @@ sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	             \
 sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 			 \
 {																		 \
     if (m_global_metadata != NULL) return m_global_metadata;             \
-    bool created = false;																		\
-    m_global_metadata = sad::ClassMetaDataContainer::ref()->get(#NAMEDCLASS, created);          \
-    if (created)																				\
-    {																							\
-        if (PARENT1 ::globalMetaData() == NULL) return NULL;                                   \
-        if (PARENT2 ::globalMetaData() == NULL) return NULL;                                   \
-        m_global_metadata->addAncestor(#PARENT1);												\
-        m_global_metadata->addAncestor(#PARENT2);												\
-    }																							\
-    return m_global_metadata;																	\
+    m_global_metadata = sad::ClassMetaDataContainer::ref()->getWithParent< SAD_TYPE_PASTE(PARENT1),  SAD_TYPE_PASTE(PARENT2) >(#NAMEDCLASS);  \
+    return m_global_metadata;																	                                              \
 }																								\
 sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
 {                                                                                               \
@@ -275,18 +256,8 @@ sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	             \
 sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 			 \
 {																		 \
     if (m_global_metadata != NULL) return m_global_metadata;             \
-    bool created = false;																		\
-    m_global_metadata = sad::ClassMetaDataContainer::ref()->get(#NAMEDCLASS, created);          \
-    if (created)																				\
-    {																							\
-        if (PARENT1 ::globalMetaData() == NULL) return NULL;                                   \
-        if (PARENT2 ::globalMetaData() == NULL) return NULL;                                   \
-        if (PARENT3 ::globalMetaData() == NULL) return NULL;                                    \
-        m_global_metadata->addAncestor(#PARENT1);												\
-        m_global_metadata->addAncestor(#PARENT2);												\
-        m_global_metadata->addAncestor(#PARENT3);												\
-    }																							\
-    return m_global_metadata;																	\
+    m_global_metadata = sad::ClassMetaDataContainer::ref()->getWithParent< SAD_TYPE_PASTE(PARENT1),  SAD_TYPE_PASTE(PARENT2), SAD_TYPE_PASTE(PARENT3)  >(#NAMEDCLASS);  \
+    return m_global_metadata;																	                                                                        \
 }																								\
 sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
 {                                                                                               \
@@ -304,20 +275,8 @@ sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	                      
 sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 					  \
 {																				  \
     if (m_global_metadata != NULL) return m_global_metadata;                      \
-    bool created = false;																		\
-    m_global_metadata = sad::ClassMetaDataContainer::ref()->get(#NAMEDCLASS, created);          \
-    if (created)																				\
-    {																							\
-        if (PARENT1 ::globalMetaData() == NULL) return NULL;                                   \
-        if (PARENT2 ::globalMetaData() == NULL) return NULL;                                   \
-        if (PARENT3 ::globalMetaData() == NULL) return NULL;                                   \
-        if (PARENT4 ::globalMetaData() == NULL) return NULL;                                   \
-        m_global_metadata->addAncestor(#PARENT1);												\
-        m_global_metadata->addAncestor(#PARENT2);												\
-        m_global_metadata->addAncestor(#PARENT3);												\
-        m_global_metadata->addAncestor(#PARENT4);												\
-    }																							\
-    return m_global_metadata;																	\
+    m_global_metadata = sad::ClassMetaDataContainer::ref()->getWithParent< SAD_TYPE_PASTE(PARENT1),  SAD_TYPE_PASTE(PARENT2), SAD_TYPE_PASTE(PARENT3), SAD_TYPE_PASTE(PARENT4)  >(#NAMEDCLASS);  \
+    return m_global_metadata;																	                                                                                                 \
 }																								\
 sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
 {                                                                                               \
@@ -336,14 +295,8 @@ sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	     \
 sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 	 \
 {																 \
     if (m_global_metadata != NULL) return m_global_metadata;     \
-    bool created = false;																		\
-    m_global_metadata = sad::ClassMetaDataContainer::ref()->get(#NAMEDCLASS, created);          \
-    if (created)																				\
-    {																							\
-        m_global_metadata->addAncestor(#PARENT);											    \
-        m_global_metadata->setPrivateIndex(INDEX);											    \
-    }																							\
-    return m_global_metadata;																	\
+    m_global_metadata = sad::ClassMetaDataContainer::ref()->getWithParentAndIndex< SAD_TYPE_PASTE(PARENT) >(#NAMEDCLASS, INDEX);  \
+    return m_global_metadata;																	                                  \
 }																								\
 sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
 {                                                                                               \

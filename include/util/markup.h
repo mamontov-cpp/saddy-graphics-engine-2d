@@ -127,6 +127,12 @@ struct Command
     /*! Whether text should be underlined
      */
     bool Underlined;
+    /*! Whether text font should emulate bold
+     */
+    bool Bold;
+    /*! Whether text font should emulate italic font
+    */
+    bool Italic;
     /*! A size of font, used to render font
      */
     sad::Maybe<sad::util::Markup::FontSize> Size;
@@ -142,10 +148,19 @@ struct Command
     /*! A content of string
      */
     sad::String Content;
+    /*! A width parameter for command (filled by rendered object)
+     */
+    float Width;
+    /*! An ascender for markup command (filled by rendered object)
+     */
+    float Ascender;
+    /*! A computed linespacing markup command (filled by rendered object)
+     */
+    float LineSpacingValue;
 
     /*! Constructs new comand
      */
-    inline Command() : Strikethrough(false), Underlined(false)
+    inline Command() : Strikethrough(false), Underlined(false), Bold(false), Italic(false), Width(0), Ascender(0), LineSpacingValue(0)
     {
 
     }
@@ -206,7 +221,7 @@ static sad::Maybe<sad::String> parseFont(const sad::String& s, const sad::Maybe<
 
 /*! Tries to get color from table
     \param[in] s color name
-    \param[in] color a returned color
+    \return parsed color
  */
 static sad::Maybe<sad::AColor> getColorFromTable(const char* s);
 
@@ -222,13 +237,13 @@ static unsigned char parseHexChar(const char* s);
  */
 static unsigned char parseByte(const char* s);
 
-/*! Parses color in hexadecimal RGBA format. Color format string must be  #RRGGBBAA or #RRGGBB
+/*! Parses color in hexadecimal RGBA format. Color format string must be  "#RRGGBBAA" or "#RRGGBB"
     \param[in] s string
     \return a color or nothing if failed to parse
  */
 static sad::Maybe<sad::AColor> parseHexRGBA(const char *s);
 
-/*! Parses color value. Color format string must be  #RRGGBBAA or #RRGGBB or color name
+/*! Parses color value. Color format string must be  "#RRGGBBAA" or "#RRGGBB" or color name
     \param[in] s string
     \param[in] parentColor a parent color value
     \return result

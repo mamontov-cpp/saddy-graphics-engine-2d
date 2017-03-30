@@ -402,6 +402,7 @@ sad::db::custom::Object* gui::actions::CustomObjectActions::makeNewCustomObject(
     object->setMaximalLinesCount(lblk->spbMaximalLinesCount->value());
     object->setOverflowStrategyForLinesFromIndex(lblk->cmbLabelOverflowStrategyForLines->currentIndex());
     object->setTextEllipsisPositionForLinesAsIndex(lblk->cmbLabelTextEllipsisForLines->currentIndex());
+    object->setHasFormatting(lblk->cbLabelHasFormatting->isChecked());
     tryCopySelectedObjectCustomProperties(object);
     sad::Rect2D area = object->area();
     const sad::Settings & settings = sad::Renderer::ref()->settings();

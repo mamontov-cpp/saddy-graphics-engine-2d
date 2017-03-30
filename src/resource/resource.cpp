@@ -69,11 +69,14 @@ bool sad::resource::Resource::referenced() const
 void sad::resource::Resource::replaceWith(resource::Resource* a)
 {
     a->m_links << this->m_links;
+    size_t i = 0;
+    sad::Vector<sad::resource::AbstractLink*> links = m_links;
     // Notify links, that we are gone
-    for(size_t i = 0; i < m_links.size(); i++)
+    for(i = 0; i < links.size(); i++)
     {
-        m_links[i]->attach(a);
+        links[i]->attach(a);
     }
+    assert(i == links.size());
     // Clear self links
     m_links.clear();
 }

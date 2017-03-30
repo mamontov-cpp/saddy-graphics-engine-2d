@@ -4,7 +4,8 @@
 #include "animations/easing/easingfunction.h"
 
 #include "animations/setstate/methodcall.h"
-#include "animations/setstate/setproperty.h"
+
+#include "animations/animationssavedrenderingstringlimit.h"
 
 #include "fuzzyequal.h"
 #include "scene.h"
@@ -36,7 +37,7 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::Typing, sad::animations::Animation);
 
 sad::animations::Typing::Typing()
 {
-    m_creators.pushProperty<sad::String>("text", "text");
+    m_creators.pushCreator<sad::animations::SavedRenderingStringLimit>("sad::animations::SavedRenderingStringLimit");
 }
 
 sad::animations::Typing::~Typing()
@@ -47,20 +48,14 @@ sad::animations::Typing::~Typing()
 
 void sad::animations::Typing::start(sad::animations::Instance* i)
 {
-    sad::Maybe<sad::String> text = i->object()->getProperty<sad::String>("text");
-    i->setBasicString(text.value());
+    // We do not save state, because it could be restored via value
 }
 
 void sad::animations::Typing::setState(sad::animations::Instance* i, double time)
 {
-    if (i->basicString().size() != 0)
-    {
-        // Make it possible to reach end
-        double time_position = m_easing->eval(time + 100, m_time);
-        double pos = time_position * i->basicString().size();
-        sad::String text = i->basicString().subString(0, static_cast<long>(pos));
-        i->stateCommandAs<sad::String>()->call(text);
-    }
+    // Make it possible to reach end
+    double time_position = m_easing->eval(time + 100, m_time);
+    i->stateCommandAs<double>()->call(time_position);
 }
 
 sad::animations::setstate::AbstractSetStateCommand* sad::animations::Typing::stateCommand(sad::db::Object* o)
@@ -72,16 +67,19 @@ sad::animations::setstate::AbstractSetStateCommand* sad::animations::Typing::sta
         {
             c = sad::animations::setstate::make(
                     o,
-                    &sad::Label::setString
+                    &sad::Label::setRenderingStringLimitAsRatioToLength
                 );
         }
         else
         {
-            c = new sad::animations::setstate::SetProperty<sad::String>(o, "text");
+            c = sad::animations::setstate::make(
+                o,
+                &sad::db::custom::Object::setRenderingStringLimitAsRatioToLength
+            );
         }
         return c;
     }
-    return new sad::animations::setstate::DummyCommand<sad::String>();
+    return new sad::animations::setstate::DummyCommand<double>();
 }
 
 
@@ -90,7 +88,7 @@ bool sad::animations::Typing::applicableTo(sad::db::Object* o)
     bool result = false;
     if (o && m_valid)
     {
-        result = o->getProperty<sad::String>("text").exists();
+        result = o->isInstanceOf("sad::Label") || o->isInstanceOf("sad::db::custom::Object");
     }
     return result;
 }

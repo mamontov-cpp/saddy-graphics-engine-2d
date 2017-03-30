@@ -9,6 +9,9 @@
 #include "3rdparty/format/format.h"
 #include "timer.h"
 #include "resource/link.h"
+#include "util/markup.h"
+#include "util/fontcache.h"
+#include "sadmutex.h"
 #pragma once
 
 namespace sad
@@ -48,6 +51,19 @@ public:
         LTEP_BEGIN = 0,   //!< In the beginning of string
         LTEP_MIDDLE  = 1, //!< In the middle of string
         LTEP_END = 2      //!< In the end of string
+    };
+    /*! A parameters for formatted row
+     */
+    struct  FormattedRowMetrics
+    {
+        float Ascender;          //!< An ascender part
+        float LineSpacingValue;  //!< A descender part
+        float Width;             //!< A real with of row
+        
+        inline FormattedRowMetrics() : Ascender(0), LineSpacingValue(0), Width(0)
+        {
+
+        }
     };
     /*! Creates a default broken sprite at (0,0) and no string
      */
@@ -118,7 +134,7 @@ public:
     {
         return m_font.get();
     }
-    /*! Sets a font, that label is being rendered with			
+    /*! Sets a font, that label is being rendered with          
         \param[in] font a font
      */
     void setFont(sad::Font * font);
@@ -160,8 +176,8 @@ public:
     /*! Sets upper-left point for a label
         \param[in] point a point
      */
-    void setPoint(const sad::Point2D & point);	
-    /*!	Sets upper-left point for a label
+    void setPoint(const sad::Point2D & point);  
+    /*! Sets upper-left point for a label
         \param[in] x x coordinate
         \param[in] y y coordinate
      */ 
@@ -179,10 +195,7 @@ public:
     /*! Sets angle for rotation of label
         \param[in] angle a rotation angle
      */
-    inline void setAngle(double angle)
-    {
-        m_angle = angle;
-    }
+    void setAngle(double angle);
     /*! Returns a size for a font in pixels
         \return size of label
      */
@@ -372,6 +385,20 @@ public:
         \return text ellipsis position as index
      */
     unsigned int textEllipsisForLinesAsIndex() const;
+    /*! Returns whether text label can have formatting
+        \return whether text label can have formatting
+     */
+    bool hasFormatting() const;
+    /*! Turns label into formatted (or not)
+        \param[in] value a new value for label
+     */
+    void setHasFormatting(bool value);
+    /*! Makes label formatted
+     */
+    void makeFormatted();
+    /*! Makes label non-formatted
+     */
+    void disableFormatting();
     /*! Places label in the center between two points, with angle rotated to p1
         \param[in] p1 first point
         \param[in] p2 second point
@@ -403,6 +430,40 @@ public:
         sad::Label::OverflowStrategy overflow_for_lines = sad::Label::LOS_ELLIPSIS,
         sad::Label::TextEllipsisPosition text_ellipsis_for_lines = sad::Label::LTEP_BEGIN
     );
+
+    /*! Creates string, that could be rendered with label,
+        using specified settings. Used to create rendering string
+        for label
+        \param[in] string a string, that must be rendered
+        \param[in] maximal_line_width a maximal width of line in characters
+        \param[in] s a strategy, which should be applied (\@see sad::Label::OverflowStrategy)
+        \param[in] bt whether we should break text into lines (\@see sad::Label::BreakText)
+        \param[in] tep a suspension point position
+        \param[in] maximum_lines a maximal lines count, that should be shown
+        \param[in] overflow_for_lines how should function behave in case that amount of lines exceeds maximum_lines
+        \param[in] text_ellipsis_for_lines where should ellipsis be placed in case that amount of lines exceeds maximum_lines and overflow_for_lines is set to sad::Label::LOS_ELLIPSIS
+        \return string, how it would be rendered by label with specified settings
+    */
+    static sad::util::Markup::Document makeRenderingString(
+        const sad::util::Markup::Document& string,
+        unsigned int maximal_line_width,
+        sad::Label::OverflowStrategy s,
+        sad::Label::BreakText bt,
+        sad::Label::TextEllipsisPosition tep,
+        unsigned int maximum_lines = 0,
+        sad::Label::OverflowStrategy overflow_for_lines = sad::Label::LOS_ELLIPSIS,
+        sad::Label::TextEllipsisPosition text_ellipsis_for_lines = sad::Label::LTEP_BEGIN
+    );
+    /*! Computes length for command
+        \param[in] c a command for markup
+        \return total length for string
+     */
+    static size_t length(const sad::Vector<sad::util::Markup::Command>& c);
+    /*! Breaks a command into words. Each word has a space at the end if it need to
+        \param[in] v a vector
+        \return list of commands
+     */
+    static sad::Vector<sad::util::Markup::Command> breakIntoWords(const sad::Vector<sad::util::Markup::Command>& v);
     /*! Formats text line, constraining it by maximal line width, using specified overflow strategy
         and text ellipsis position
         \param[in] string a string  value
@@ -416,21 +477,116 @@ public:
         sad::Label::OverflowStrategy s,
         sad::Label::TextEllipsisPosition tep
     );
+    /*! Formats text line, constraining it by maximal line width, using specified overflow strategy
+        and text ellipsis position
+        \param[in] string a string  value
+        \param[in] maximal_line_width maximal line width
+        \param[in] s overflow strategy
+        \param[in] tep text ellipsis position
+     */
+    static sad::Vector<sad::util::Markup::Command> formatTextLine(
+        const sad::Vector<sad::util::Markup::Command>& string,
+        unsigned int maximal_line_width,
+        sad::Label::OverflowStrategy s,
+        sad::Label::TextEllipsisPosition tep
+    );    
+    /*! Returns first command for document
+        \param[in] doc document
+        \return first command for document or empty command if not found
+     */
+    static sad::util::Markup::Command firstCommand(const sad::util::Markup::Document& doc);
+    /*! Returns last command for document
+        \param[in] doc document
+        \return last command for document or empty command if not found
+     */
+    static sad::util::Markup::Command lastCommand(const sad::util::Markup::Document& doc);
+    /*! Tests if document row consists of whitespace character
+        \param[in] row a row
+        \return whether it consists from whitespace characters
+     */
+    static bool consistsOfWhitespaceCharacters(const sad::Vector<sad::util::Markup::Command>& row);
+    /*! Trims a row of commands
+        \param[in, out] row a row to edit
+        \param[in] left whether we should trim left part
+        \param[in] right whether we should trim right part
+     */
+    static void trim(sad::Vector<sad::util::Markup::Command>& row, bool left = true, bool right = true);
+    /*! Returns substring of a row
+        \param[in] row a row
+        \param[in] begin a begin index
+        \param[in] length a length for index
+     */
+    static sad::Vector<sad::util::Markup::Command> subString(const sad::Vector<sad::util::Markup::Command>& row, int begin, int length);
     /*! Moves object by specified vector
         \param[in] p point
      */
     virtual void moveBy(const sad::Point2D& p);
+    /*! Returns rendered string length
+        \return length of rendered string
+     */
+    unsigned int renderedStringLength() const;
+    /*! Sets limit on rendering string, without actually changing it's size or other parameters.
+        Change string if you want them to be changed
+        \param[in] limit a limit on rendering string
+     */
+    void setRenderingStringLimit(unsigned int limit);
+    /*! Clears limit on rendering string
+     */
+    void clearRenderingStringLimit();
+    /*! Sets a rendering string limit as double. Limit should be in [0..1]
+        \param[in] limit  a limit value
+     */
+    void setRenderingStringLimitAsRatioToLength(double limit);
 private:
     /*! Reloads font for a label from scene
      */
     void reloadFont();
     /*! Recomputes rotation coefficients, 
         so rotation will be placed just in place 
+        \param[in] lock whether we should lock when recomputing
      */
-    void recomputeRenderingPoint();
+    void recomputeRenderingPoint(bool lock = true);
+    /*! Returns size of label  without formatting
+        \param[in] font a basic font
+        \return size
+     */
+    sad::Size2D getSizeWithoutFormatting(sad::Font* font);
+    /*! Returns size of label  with formatting
+        \param[in] font a basic font
+    */
+    sad::Size2D getSizeWithFormatting(sad::Font* font);
     /*! Recomputes rendered string, so it will be preserved on every change
+        \param[in] lock whether we should lock, when recomputing
      */
-    void recomputeRenderedString();
+    void recomputeRenderedString(bool lock = true);
+    /*! Recomputes rendering string without respect to formatting
+     */
+    void recomputeRenderingStringWithoutFormatting();
+    /*! Recomputes rendering string
+     */
+    void recomputeRenderingStringWithFormatting();
+    /*! Clears font cache for label
+    */
+    void clearFontsCache();
+    /*! Applies font command to font
+        \param[in] font a font
+        \param[in] c command
+        \param[in] font with applied command data
+        \return font with flags
+     */
+    sad::Pair<sad::Font*, sad::Font::RenderFlags> applyFontCommand(sad::Font* font, const sad::util::Markup::Command& c);
+    /*! Tries to get font for document. If not found, returns default font
+        \param[in] s string
+     */
+    sad::Font* getFontForDocument(const sad::String& s);
+    /*! Renders text with formatting
+        \param[in] font a font
+    */
+    void renderWithFormatting(sad::Font* font);
+    /*! Renders text without formatting
+        \param[in] font a font
+     */
+    void renderWithoutFormatting(sad::Font* font);
     /*! A link to font, that label is being renderd with
      */
     sad::resource::Link<sad::Font> m_font;
@@ -481,6 +637,9 @@ private:
     /*! A maximum lines in label, that should be displayed 
      */
     unsigned int m_maximum_lines;
+    /*! A rendered characters length
+     */
+    unsigned int m_rendered_chars;
     /*! A strategy, that should be used, when amount of lines is larger than needed
      */
     sad::Label::OverflowStrategy m_overflow_strategy_for_lines;
@@ -488,6 +647,33 @@ private:
         and m_overflow_strategy_for_lines is set to LOS_ELLIPSIS .
      */
     sad::Label::TextEllipsisPosition m_text_ellipsis_position_for_lines;
+    /*! Whether label is formatted
+     */
+    bool m_formatted;
+    /*! Whether we computed rendering string
+     */
+    bool m_computed_rendering_string;
+    /*! Whether we computed rendering point
+     */
+    bool m_computed_rendering_point;
+    /*! A document to be set
+     */
+    sad::util::Markup::Document m_document;
+    /*! A row metrics for a document
+     */
+    sad::Vector<sad::Label::FormattedRowMetrics> m_document_metrics;
+    /*! A font cache for getting fonts
+     */
+    sad::util::FontCache m_font_cache;
+    /*! A mutex for recomputing string label
+     */
+    sad::Mutex m_recompute_string_lock;
+    /*! A mutex for recomputing point label
+     */
+    sad::Mutex m_recompute_point_lock;
+    /*! A limit for rendering character
+     */
+    sad::Maybe<unsigned int> m_rendering_character_limit;
 };
 
 }

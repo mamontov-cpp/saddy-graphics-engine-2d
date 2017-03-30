@@ -35,6 +35,9 @@ public slots:
     /*! Called, when widget is changed
      */
     void widgetChanged();
+    /*! Called, when more button is clicked
+     */
+    void moreClicked();
 protected:
     /*! At this point delegate must create own editor, set it to table and connect delegate slots
         to it.

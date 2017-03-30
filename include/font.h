@@ -20,14 +20,24 @@ class Font: public sad::resource::Resource
 {
 SAD_OBJECT
 public:
+    /*! A render flags for font
+     */
+    enum RenderFlags
+    {
+        FRF_None = 0,       //!< No flags
+        FRF_Bold = 1,       //!< Bold flag
+        FRF_Italic = 2,     //!< Italic flag
+        FRF_Bold_Italic = 3 //!< Bold and italic flag
+    };
     /*! Constructs new font with size of 14px
      */
     Font();
     /*! Renders a string on screen
         \param[in] str string
         \param[in] p   upper-left point in viewport coordinates
+        \param[in] flags a flags for rendering
      */
-    virtual void render(const sad::String & str,const sad::Point2D & p) = 0; 
+    virtual void render(const sad::String & str,const sad::Point2D & p, sad::Font::RenderFlags flags = sad::Font::FRF_None) = 0; 
     /*! Sets a color, which label will be rendered with, if label is rendered,
         using this font
         \param[in] c color of font
@@ -40,9 +50,10 @@ public:
     virtual sad::AColor color() const; 
     /*! Returns a estimated size of label, rendered with specified size
         \param[in] str string
+        \param[in] flags a flags for rendering
         \return size of label
      */
-    virtual sad::Size2D size(const sad::String & str) = 0;
+    virtual sad::Size2D size(const sad::String & str, sad::Font::RenderFlags flags = sad::Font::FRF_None) = 0;
     /*! Returns size of font in pixels
         \return size of font in pixels
      */
@@ -58,6 +69,10 @@ public:
         \return line spacing
      */
     virtual float builtinLineSpacing() const;
+    /*! An ascent for font
+        \return ascent for font
+    */
+    virtual float ascent() const = 0;
     /*! Sets size of font in points
         \param[in] size size of font in points
      */

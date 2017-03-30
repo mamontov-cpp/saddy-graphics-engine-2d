@@ -7,6 +7,8 @@
 
 #include <renderer.h>
 
+#include <sadscopedlock.h>
+
 sad::freetype::FontImpl::FontImpl() 
 : m_library(0), m_face(0), 
 m_cached_size(-1), m_font(NULL),
@@ -51,7 +53,8 @@ bool sad::freetype::FontImpl::load(const sad::String & filename)
 void sad::freetype::FontImpl::render(
         const sad::String & str,
         const sad::Point2D & p,
-        float ratio
+        float ratio,
+        sad::Font::RenderFlags flags
 )
 {
     glPushAttrib(GL_LIST_BIT | GL_CURRENT_BIT  | GL_ENABLE_BIT | GL_TRANSFORM_BIT);	
@@ -62,7 +65,7 @@ void sad::freetype::FontImpl::render(
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 
-    this->fontForSize(m_cached_size)->render(str, p, ratio);
+    this->fontForSize(m_cached_size)->render(str, p, ratio, flags);
     
     glPopAttrib();
 }
@@ -73,6 +76,11 @@ sad::Texture * sad::freetype::FontImpl::renderToTexture(
 )
 {
     return this->fontForSize(m_cached_size)->renderToTexture(string, m_library, m_face, height);
+}
+
+float sad::freetype::FontImpl::ascent() const
+{
+    return this->fontForSize(m_cached_size)->ascent();
 }
 
 void sad::freetype::FontImpl::unload(sad::Renderer * r)
@@ -120,9 +128,9 @@ void sad::freetype::FontImpl::setSize(unsigned int size)
     }
 }
 
-sad::Size2D sad::freetype::FontImpl::size(const sad::String & str, float ratio)
+sad::Size2D sad::freetype::FontImpl::size(const sad::String & str, float ratio, sad::Font::RenderFlags flags)
 {
-    return this->fontForSize(m_cached_size)->size(str, ratio);
+    return this->fontForSize(m_cached_size)->size(str, ratio, flags);
 }
 
 float sad::freetype::FontImpl::builtinLineSpacing() const
@@ -139,6 +147,7 @@ sad::freetype::FixedSizeFont * sad::freetype::FontImpl::fontForSize(
     unsigned int size
 ) const
 {
+    sad::ScopedLock lock(&(const_cast<sad::Mutex&>(m_mtx)));
     sad::freetype::FontImpl * me = const_cast<sad::freetype::FontImpl *>(this);
     
     if (m_font != NULL && size == m_cached_size)

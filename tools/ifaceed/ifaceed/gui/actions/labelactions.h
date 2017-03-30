@@ -105,6 +105,11 @@ public slots:
      *  \param[in] newvalue  a new value for property
      */
     void labelTextEllipsisForLinesChanged(int newvalue);
+    /*! Handes attempt to change "has formatting" property, disabling or enabling formatting in 
+     *  corresponding object
+     *  \param[in] newvalue a new value for formatting
+     */
+    void labelHasFormattingChanged(bool newvalue);
 private:
     /*! Performs property change, related to value
         \param[in] newvalue a new value for property

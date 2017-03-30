@@ -6,6 +6,7 @@
  */
 #pragma once
 #include "glyph.h"
+#include <font.h>
 #include <sadstring.h>
 #include <sadsize.h>
 #include <sadpoint.h>
@@ -35,8 +36,9 @@ public:
         \param[in] s string
         \param[in] p upper-left point
         \param[in] ratio a ratio for line-spacing, relative to line-spacing of font
+        \param[in] flags a flag value
      */
-    void render(const sad::String & s, const sad::Point2D & p, float ratio);
+    void render(const sad::String & s, const sad::Point2D & p, float ratio, sad::Font::RenderFlags flags);
     /*! Dumps all parameters of glyphs to string
         \return string of glyph parameters
      */
@@ -58,15 +60,20 @@ public:
     /*! Returns size for fixed height
         \param[in] s rendered string
         \param[in] ratio a ratio for line-spacing, relative to line-spacing of font
+        \param[in] flags a flags
      */
-    sad::Size2D size(const sad::String & s, float ratio);
+    sad::Size2D size(const sad::String & s, float ratio, sad::Font::RenderFlags flags);
     /*! Returns a built-in line spacing for fixed height font
         \return built-in linespacing
      */
     inline float builtinLineSpacing() const
     {
         return m_builtin_linespacing;
-    }	
+    }
+    /*! An ascent for font
+        \return ascent for font
+    */
+    virtual float ascent() const;
     /*! Appends uploaded textures to GPU
      */
     void uploadedTextures(sad::Vector<unsigned int> & textures);
@@ -83,6 +90,9 @@ protected:
     /*! Whether font glyph textures is uploaded to GPU
      */
     bool m_on_gpu;
+    /*! A height for font
+     */
+    float m_height; 
     /*! A glyphs table
      */
     sad::freetype::Glyph * m_glyphs[256];

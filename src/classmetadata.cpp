@@ -54,10 +54,19 @@ void sad::ClassMetaData::addAncestor(const sad::String & name)
 {
     bool created = false;
     sad::ClassMetaData * parent = sad::ClassMetaDataContainer::ref()->get(name, created);
-    m_ancestors.add(parent);
-    for(CastFunctions::iterator it = parent->m_casts.begin(); it != parent->m_casts.end(); it++)
+    this->addAncestor(parent);
+}
+
+void sad::ClassMetaData::addAncestor(sad::ClassMetaData* ancestor)
+{
+    if (ancestor)
     {
-        this->m_casts.insert(it.key(), it.value()->clone());
+        sad::ClassMetaData* parent = ancestor;
+        m_ancestors.add(parent);
+        for (CastFunctions::iterator it = parent->m_casts.begin(); it != parent->m_casts.end(); it++)
+        {
+            this->m_casts.insert(it.key(), it.value()->clone());
+        }
     }
 }
 

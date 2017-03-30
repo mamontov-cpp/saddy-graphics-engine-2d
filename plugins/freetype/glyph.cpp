@@ -3,6 +3,9 @@
 
 #include "3rdparty/format/format.h"
 
+
+const float sad::freetype::Glyph::tan_20_degrees = 0.36397023426620234f;
+
 sad::freetype::Glyph::Glyph()
 : Index(0), Width(0), 
 Height(0), TexCoordinateWidth(0), 
@@ -26,14 +29,14 @@ sad::freetype::Glyph::Glyph(FT_Face face, unsigned char c)
     }
 }
 
-void sad::freetype::Glyph::render(float x, float y)
+void sad::freetype::Glyph::render(float x, float y, float topoffset)
 {
     Texture.bind();
 
     glBegin(GL_QUADS);
 
     glTexCoord2f(0.0f,0.0f); 
-    glVertex2f(x, y + BearingY);
+    glVertex2f(x + topoffset, y + BearingY);
     
     glTexCoord2f(0.0f, TexCoordinateHeight); 
     glVertex2f(x, y + Descender);
@@ -42,7 +45,7 @@ void sad::freetype::Glyph::render(float x, float y)
     glVertex2f(x + Width, y + Descender);
 
     glTexCoord2f(TexCoordinateWidth, 0.0f); 
-    glVertex2f(x + Width, y + BearingY);
+    glVertex2f(x + Width + topoffset, y + BearingY);
     
     glEnd();
 }

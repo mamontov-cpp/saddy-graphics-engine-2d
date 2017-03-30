@@ -288,6 +288,16 @@
     <Filter Include="Source Files\scripting\layouts">
       <UniqueIdentifier>{7811f345-bcb1-4cee-bbba-0d0ae541c170}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Generated Files\ReleaseQt4">
+      <UniqueIdentifier>{b8f9f9f1-cd69-4c68-8731-6035fdf679a8}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\DebugQt4">
+      <UniqueIdentifier>{cf4aaf03-9f92-430b-850f-371fa1ed92db}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="acolordialog.cpp">
@@ -2099,6 +2109,24 @@
     <ClCompile Include="gui\rendereditorgrid.cpp">
       <Filter>Source Files\gui</Filter>
     </ClCompile>
+    <ClCompile Include="history\label\changehasformatting.cpp">
+      <Filter>Source Files\history\label</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_stringeditordialog.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_stringeditordialog.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_stringeditordialog.cpp">
+      <Filter>Generated Files\ReleaseQt4</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\DebugQt4\moc_stringeditordialog.cpp">
+      <Filter>Generated Files\DebugQt4</Filter>
+    </ClCompile>
+    <ClCompile Include="stringeditordialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -2797,6 +2825,12 @@
     <ClInclude Include="keytovector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="history\label\changehasformatting.h">
+      <Filter>Header Files\history\label</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_stringeditordialog.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="acolordialog.h">
@@ -3044,6 +3078,12 @@
     </CustomBuild>
     <CustomBuild Include="gridandoffset.h">
       <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="stringeditordialog.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="stringeditordialog.ui">
+      <Filter>Form Files</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

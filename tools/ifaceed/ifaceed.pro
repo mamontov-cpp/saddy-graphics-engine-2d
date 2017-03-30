@@ -123,7 +123,8 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/label/changeoverflowstrategy.h \
     ifaceed/history/label/changeoverflowstrategyforlines.h \
     ifaceed/history/label/changetextellipsis.h \
-    ifaceed/history/label/changetextellipsisforlines.h \	
+    ifaceed/history/label/changetextellipsisforlines.h \
+    ifaceed/history/label/changehasformatting.h \
     ifaceed/history/scenenodes/scenenodeschangename.h \
     ifaceed/core/typeconverters/sadrect2dtoqrectf.h \
     ifaceed/core/typeconverters/qrectftosadrect2d.h \
@@ -134,7 +135,7 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/scenenodes/scenenodeschangeproperty.h \
     ifaceed/history/scenenodes/scenenodeschangepropertywhichlinkedtocheckbox.h \
     ifaceed/history/scenenodes/scenenodeschangevisibility.h \
-    ifaceed/history/scenenodes/scenenodesspan.h \	
+    ifaceed/history/scenenodes/scenenodesspan.h \
     ifaceed/gui/rotationprocess.h \
     ifaceed/gui/actions/abstractactions.h \
     ifaceed/gui/actions/actions.h \
@@ -154,6 +155,7 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/core/borders/resizehotspot.h \
     ifaceed/core/selection.h \
     ifaceed/reloadfilelist.h \
+    ifaceed/stringeditordialog.h \
     ifaceed/gui/renderways.h \
     ifaceed/gui/actions/wayactions.h \
     ifaceed/history/ways/waysnew.h \
@@ -343,8 +345,10 @@ FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui \
     ifaceed/reloadfilelist.ui \
     ifaceed/scriptinghelp.ui \
-    ifaceed/gridandoffset.ui
-	
+    ifaceed/gridandoffset.ui \
+    ifaceed/stringeditordialog.ui 
+
+
 SOURCES += ifaceed/main.cpp \
            ifaceed/mainpanel.cpp \
            ifaceed/gridandoffset.cpp \		   
@@ -428,7 +432,8 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/history/label/changeoverflowstrategy.cpp \
     ifaceed/history/label/changeoverflowstrategyforlines.cpp \
     ifaceed/history/label/changetextellipsis.cpp \
-    ifaceed/history/label/changetextellipsisforlines.cpp \	
+    ifaceed/history/label/changetextellipsisforlines.cpp \
+    ifaceed/history/label/changehasformatting.cpp \
     ifaceed/history/scenenodes/scenesnodeschangename.cpp \
     ifaceed/core/typeconverters/sadrect2dtoqrectf.cpp \
     ifaceed/core/typeconverters/qrectftosadrect2d.cpp \
@@ -452,6 +457,7 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/core/borders/resizehotspot.cpp \
     ifaceed/core/selection.cpp \
     ifaceed/reloadfilelist.cpp \
+    ifaceed/stringeditordialog.cpp \
     ifaceed/gui/renderways.cpp \
     ifaceed/gui/actions/wayactions.cpp \
     ifaceed/history/ways/waysnew.cpp \

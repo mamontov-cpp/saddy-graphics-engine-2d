@@ -1081,7 +1081,13 @@ void gui::actions::SceneNodeActions::updateUIForSelectedSceneNodeNow()
         gui::UpdateElement<unsigned int>::with(node, "maximallinescount", lblk->spbMaximalLinesCount, &QSpinBox::setValue);
         gui::UpdateElement<unsigned int>::with(node, "overflowstrategyforlines", lblk->cmbLabelOverflowStrategyForLines, &QComboBox::setCurrentIndex);
         gui::UpdateElement<unsigned int>::with(node, "textellipsispositionforlines", lblk->cmbLabelTextEllipsisForLines, &QComboBox::setCurrentIndex);
-        
+        sad::Maybe<bool> maybehasformatting= node->getProperty<bool>("hasformatting");
+        if (maybehasformatting.exists())
+        {
+            invoke_blocked(lblk->cbLabelHasFormatting, &QCheckBox::setCheckState, (maybehasformatting.value()) ? Qt::Checked : Qt::Unchecked);
+        }
+
+
         // Sprite2D tab
         gui::UpdateElement<sad::String>::with(node, "options", sblk->rtwSpriteSprite, &gui::resourcetreewidget::ResourceTreeWidget::setSelectedResourceName);
         sad::Maybe<bool> maybeflipx = node->getProperty<bool>("flipx");

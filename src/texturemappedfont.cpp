@@ -7,13 +7,17 @@
 
 #include "util/fs.h"
 
+// A tangent for 20 degrees angle
+#define TAN_20_DEGREES  (0.36397023426620234)
+
 DECLARE_SOBJ_INHERITANCE(sad::TextureMappedFont, sad::Font);
 
 sad::TextureMappedFont::TextureMappedFont()  //-V730
 : sad::Font(), 
   m_texture(NULL),
   m_builtin_linespacing(0), 
-  m_size_ratio(1.0)
+  m_size_ratio(1.0),
+  m_ascent(0)
 {
 
 }
@@ -26,7 +30,9 @@ sad::TextureMappedFont::~TextureMappedFont()
     }
 }
 
-sad::Size2D sad::TextureMappedFont::size(const sad::String & str)
+
+
+sad::Size2D sad::TextureMappedFont::size(const sad::String & str, sad::Font::RenderFlags flags)
 {
     sad::Size2D result;
     // If loading was failed, return (0, 0) as size
@@ -42,6 +48,8 @@ sad::Size2D sad::TextureMappedFont::size(const sad::String & str)
     tmp.removeAllOccurences("\r");
     sad::StringList lines = str.split("\n", sad::String::KEEP_EMPTY_PARTS);
     
+    double italicoffset = ((double)m_size) * TAN_20_DEGREES;
+
     // Compute result
     for(unsigned int i = 0; i < lines.size(); i++)
     {
@@ -52,7 +60,15 @@ sad::Size2D sad::TextureMappedFont::size(const sad::String & str)
             unsigned char c = *reinterpret_cast<unsigned char*>(&(string[j]));
             linewidth += m_leftbearings[c] * m_size_ratio;
             linewidth += m_sizes[c].Width * m_size_ratio;
+            if ((flags & sad::Font::FRF_Bold) != 0)
+            {
+                linewidth += 2;
+            }
             linewidth += m_rightbearings[c] * m_size_ratio;
+        }
+        if ((flags & sad::Font::FRF_Italic) != 0)
+        {
+            linewidth += italicoffset;
         }
         result.Width = std::max(linewidth, result.Width);
     }
@@ -69,7 +85,7 @@ sad::Size2D sad::TextureMappedFont::size(const sad::String & str)
 }
 
 
-void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D & p)
+void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D & p, sad::Font::RenderFlags flags)
 {
     // If loading was failed, do nothing
     if (m_texture == NULL)
@@ -156,6 +172,8 @@ void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D 
     );
 #endif
     glBegin(GL_QUADS);
+
+    float italicoffset = ((float)m_size) * TAN_20_DEGREES;
     for(unsigned int i = 0;  i < string.length(); i++)
     {
         unsigned char glyphchar = *reinterpret_cast<unsigned char*>(&(string[i]));
@@ -165,23 +183,41 @@ void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D 
         {
             x += m_leftbearings[ string[i] ] * m_size_ratio;
             glyphheight = (unsigned int)(m_sizes[glyphchar].Height * m_size_ratio);
-            glyphwidth =  (unsigned int)(m_sizes[glyphchar].Width * m_size_ratio); 
+            glyphwidth =  (unsigned int)(m_sizes[glyphchar].Width * m_size_ratio);
 
-            glTexCoord2f((GLfloat)glyph[0].x(), (GLfloat)glyph[0].y()); 
-            glVertex2f((GLfloat)x, (GLfloat)y);
+            int count = 1;
+            if ((flags & sad::Font::FRF_Bold) != 0) 
+            {
+                count = 3;
+            }
+            float topoffset = 0;
+            if ((flags & sad::Font::FRF_Italic) != 0)
+            {
+                topoffset = italicoffset;
+            }
 
-            glTexCoord2f((GLfloat)glyph[1].x(), (GLfloat)glyph[1].y()); 
-            glVertex2f((GLfloat)(x + glyphwidth), (GLfloat)y);
+            for (size_t i = 0; i < count; i++)
+            {
+                glTexCoord2f((GLfloat)glyph[0].x(), (GLfloat)glyph[0].y());
+                glVertex2f((GLfloat)(x + i  + topoffset), (GLfloat)y);
 
-            glTexCoord2f((GLfloat)glyph[2].x(), (GLfloat)glyph[2].y()); 
-            glVertex2f((GLfloat)(x + glyphwidth), (GLfloat)(y - glyphheight));
+                glTexCoord2f((GLfloat)glyph[1].x(), (GLfloat)glyph[1].y());
+                glVertex2f((GLfloat)(x + glyphwidth + i + topoffset), (GLfloat)y);
 
-            glTexCoord2f((GLfloat)(glyph[3].x()), (GLfloat)(glyph[3].y())); 
-            glVertex2f((GLfloat)x, (GLfloat)(y - glyphheight));
+                glTexCoord2f((GLfloat)glyph[2].x(), (GLfloat)glyph[2].y());
+                glVertex2f((GLfloat)(x + glyphwidth + i), (GLfloat)(y - glyphheight));
+
+                glTexCoord2f((GLfloat)(glyph[3].x()), (GLfloat)(glyph[3].y()));
+                glVertex2f((GLfloat)(x + i), (GLfloat)(y - glyphheight));
+            }
         }
         if (string[i] != '\n')
         {
             x += glyphwidth;
+            if ((flags & sad::Font::FRF_Bold) != 0)
+            {
+                x += 2;
+            }
             x += m_rightbearings[ string[i] ] * m_size_ratio;
         }
         else
@@ -370,8 +406,10 @@ bool sad::TextureMappedFont::load(
 
         // If failed to read file,result is false
         int integralspacing = 0;
-        int test = fscanf(fl, "%d", &integralspacing);
-        m_builtin_linespacing = (float)integralspacing;
+        int integralascent = 0;
+        int test = fscanf(fl, "%d %d", &integralspacing, &integralascent);
+        m_builtin_linespacing = static_cast<float>(integralspacing);
+        m_ascent = static_cast<float>(integralascent);
         if (ferror(fl)) 
         {
             result = false;
@@ -446,6 +484,11 @@ void sad::TextureMappedFont::unloadFromGPU()
 float sad::TextureMappedFont::builtinLineSpacing() const
 {
     return m_builtin_linespacing * m_size_ratio;
+}
+
+float sad::TextureMappedFont::ascent() const
+{
+    return m_ascent * m_size_ratio;
 }
 
 void sad::TextureMappedFont::setSize(unsigned int size)

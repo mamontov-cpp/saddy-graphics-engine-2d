@@ -355,6 +355,25 @@ unsigned int sad::db::custom::Object::textEllipsisForLinesAsIndex() const
     return static_cast<unsigned int>(textEllipsisForLines());    
 }
 
+bool sad::db::custom::Object::hasFormatting() const
+{
+    return m_label->hasFormatting();
+}
+
+void sad::db::custom::Object::setHasFormatting(bool value)
+{
+    m_label->setHasFormatting(value);
+}
+
+void sad::db::custom::Object::makeFormatted()
+{
+    this->setHasFormatting(true);
+}
+
+void sad::db::custom::Object::disableFormatting()
+{
+    this->setHasFormatting(false);
+}
 
 bool sad::db::custom::Object::copyCustomPropertyValuesFrom(sad::db::custom::Object* o)
 {
@@ -430,6 +449,27 @@ void sad::db::custom::Object::moveBy(const sad::Point2D & dist)
    {
        m_sprite2d->moveBy(dist);
    }
+}
+
+unsigned int  sad::db::custom::Object::renderedStringLength() const
+{
+    return m_label->renderedStringLength();
+}
+
+void sad::db::custom::Object::setRenderingStringLimit(unsigned int limit)
+{
+    m_label->setRenderingStringLimit(limit);
+}
+
+void sad::db::custom::Object::clearRenderingStringLimit()
+{
+    m_label->clearRenderingStringLimit();
+}
+
+
+void sad::db::custom::Object::setRenderingStringLimitAsRatioToLength(double limit)
+{
+    m_label->setRenderingStringLimitAsRatioToLength(limit);
 }
 
 bool sad::db::custom::Object::load(const picojson::value& v)
@@ -580,6 +620,13 @@ void sad::db::custom::Object::initDefaultSchema()
     );
     teplines_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(static_cast<unsigned int>(0)));
     m_my_schema->add("textellipsispositionforlines", teplines_property);
+
+    sad::db::Property* hasformatting_property = new sad::db::MethodPair<sad::db::custom::Object, bool>(
+        &sad::db::custom::Object::hasFormatting,
+        &sad::db::custom::Object::setHasFormatting
+        );
+    hasformatting_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(false));
+    m_my_schema->add("hasformatting", hasformatting_property);
 
     m_custom_schema->addParent(m_my_schema);
 }

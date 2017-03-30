@@ -194,14 +194,15 @@ int thread(void * p)
     /* Add two labels with different fonts
      */
     sad::Label * l1 = new sad::Label("ftfont", sad::Point2D(300,200), "FTFont");
-    sad::Label * l2 = new sad::Label("tmfont", sad::Point2D(400,400), "TextureMappedFont is a nice option for those who don't want to work with\ncomplex stuff");
+    sad::Label * l2 = new sad::Label("tmfont", sad::Point2D(400,400), 
+        "TextureMappedFont is a nice option for those who don't want to work with\ncomplex stuff"
+    );
     l1->setColor(255, 255, 255, 0);
     l2->setColor(255, 255, 255, 0);
     l2->setBreakText(sad::Label::LBT_BREAK_WORD);
-    l2->setMaximalLineWidth(15);
+    l2->setMaximalLineWidth(15);	
     scene->add(l1);
     scene->add(l2);
-
 
     sad::animations::Instance* parallelinstance = new sad::animations::Instance();
     parallelinstance->setAnimation(parallel);
@@ -246,9 +247,11 @@ int main(int argc, char** argv)
     // Here we create two waitable threads
     sad::Thread a(thread,static_cast<void *>(const_cast<char*>("thread1.txt")));
     sad::Thread b(thread,static_cast<void *>(const_cast<char*>("thread2.txt")));
+
     // Run them
     a.run();
     b.run();
+
     // And wait
     a.wait();
     b.wait();

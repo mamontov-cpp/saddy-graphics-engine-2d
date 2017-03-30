@@ -7,6 +7,7 @@
 #include <QComboBox>
 #include <QSpinBox>
 #include <QDoubleSpinBox>
+#include <QCheckBox>
 #include "../gui/fontsizewidget/fontsizewidget.h"
 #include "../resourcetreewidget/resourcetreewidget.h"
 
@@ -22,7 +23,8 @@ cmbLabelOverflowStrategy(NULL),
 cmbLabelTextEllipsisForLines(NULL),
 spbMaximalLineWidth(NULL),
 dsbLineSpacingRatio(NULL),
-spbMaximalLinesCount(NULL)
+spbMaximalLinesCount(NULL),
+cbLabelHasFormatting(NULL)
 {
 
 }
@@ -56,6 +58,8 @@ void gui::uiblocks::UILabelBlock::init(QWidget* w)
     assert(this->dsbLineSpacingRatio);
     this->spbMaximalLinesCount = w->findChild<QSpinBox*>("spbMaximalLinesCount");
     assert(this->spbMaximalLinesCount);
+    this->cbLabelHasFormatting = w->findChild<QCheckBox*>("cbLabelHasFormatting");
+    assert(this->cbLabelHasFormatting);
 }
 
 gui::uiblocks::UILabelBlock::~UILabelBlock()

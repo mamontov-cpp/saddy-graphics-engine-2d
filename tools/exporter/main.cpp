@@ -135,12 +135,13 @@ int main(int argc, char *argv[])
     int current_x_pos = 0;
     int current_y_pos = 0;
     int character_in_row = 0;
-    fprintf(file, "%d\n", linespacing);
-
+    
     painter.setRenderHint(QPainter::Antialiasing, false);
     painter.setRenderHint(QPainter::TextAntialiasing, false);
 
     metrics = painter.fontMetrics();
+
+    fprintf(file, "%d %d\n", linespacing, metrics.ascent());
 
     int characters_in_row = 16;
     for(unsigned int character =  0; character < 256; character++)
