@@ -154,6 +154,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\3rdparty\pugixml\pugixml.cpp" />
+    <ClCompile Include="src\animations\animationssavedrenderingstringlimit.cpp" />
     <ClCompile Include="src\animations\animationssimplemovement.cpp" />
     <ClCompile Include="src\animations\animationstexturecoordinateslist.cpp" />
     <ClCompile Include="src\animations\easing\easingfunction.cpp" />
@@ -362,6 +363,7 @@
     <ClInclude Include="include\3rdparty\pugixml\pugixml.hpp" />
     <ClInclude Include="include\3rdparty\stb\stb_image.h" />
     <ClInclude Include="include\3rdparty\tar7z.h" />
+    <ClInclude Include="include\animations\animationssavedrenderingstringlimit.h" />
     <ClInclude Include="include\animations\animationssimplemovement.h" />
     <ClInclude Include="include\animations\easing\easingfunction.h" />
     <ClInclude Include="include\animations\easing\easingtypes.h" />

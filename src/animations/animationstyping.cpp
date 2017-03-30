@@ -53,12 +53,9 @@ void sad::animations::Typing::start(sad::animations::Instance* i)
 
 void sad::animations::Typing::setState(sad::animations::Instance* i, double time)
 {
-    if (i->basicString().size() != 0)
-    {
-        // Make it possible to reach end
-        double time_position = m_easing->eval(time + 100, m_time);
-        i->stateCommandAs<double>()->call(time_position);
-    }
+    // Make it possible to reach end
+    double time_position = m_easing->eval(time + 100, m_time);
+    i->stateCommandAs<double>()->call(time_position);
 }
 
 sad::animations::setstate::AbstractSetStateCommand* sad::animations::Typing::stateCommand(sad::db::Object* o)
