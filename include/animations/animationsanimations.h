@@ -10,6 +10,8 @@
 
 #include "../pipeline/pipelineprocess.h"
 
+#include "../sadmutex.h"
+
 #include "animationsprocess.h"
 #include "animationssavedobjectstatecache.h"
 
@@ -65,6 +67,9 @@ protected:
     /*! A cache, for saving an animations
      */
     sad::animations::SavedObjectStateCache m_cache;
+    /*! A lock for locking operations on container
+     */
+    sad::Mutex m_lock;
 };
 
 }

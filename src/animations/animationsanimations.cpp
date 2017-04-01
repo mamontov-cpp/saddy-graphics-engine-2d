@@ -19,6 +19,7 @@ sad::animations::SavedObjectStateCache& sad::animations::Animations::cache()
 
 sad::Vector<sad::animations::Process*> sad::animations::Animations::queryProcessesRelatedToObject(sad::db::Object* o)
 {
+    m_lock.lock();
     sad::Vector<sad::animations::Process*> result;
     for(size_t i = 0; i < m_command_queue.size(); i++)
     {
@@ -37,12 +38,14 @@ sad::Vector<sad::animations::Process*> sad::animations::Animations::queryProcess
             result << m_list[i];
         }
     }
+    m_lock.unlock();
     return result;
 }
 
 
 void sad::animations::Animations::stopProcessesRelatedToObject(sad::db::Object* o)
 {
+    m_lock.lock();
     sad::Vector<sad::animations::Process*> result;
     for(size_t i = 0; i < m_command_queue.size(); i++)
     {
@@ -61,6 +64,7 @@ void sad::animations::Animations::stopProcessesRelatedToObject(sad::db::Object* 
             m_list[i]->stopInstanceRelatedToObject(o, this);
         }
     }
+    m_lock.unlock();
 }
 
 // ========================= PROTECTED METHODS =========================
@@ -69,7 +73,7 @@ void sad::animations::Animations::_process()
 {
     performQueuedActions();
     lockChanges();
-
+    m_lock.lock();
     for(size_t i = 0; i < m_list.size(); i++)
     {
         sad::animations::Process * p = m_list[i];
@@ -81,22 +85,25 @@ void sad::animations::Animations::_process()
             --i;
         }
     }
-
+    m_lock.unlock();
     unlockChanges();
     performQueuedActions();
 }
 
 void sad::animations::Animations::addNow(sad::animations::Process* o)
 {
+    m_lock.lock();
     if (o)
     {
         o->addedToPipeline();
         m_list << o;
     }
+    m_lock.unlock();
 }
 
 void sad::animations::Animations::removeNow(sad::animations::Process* o)
 {
+    m_lock.lock();
     if (o)
     {
         sad::Vector<sad::animations::Process*>::iterator it = std::find(
@@ -111,14 +118,17 @@ void sad::animations::Animations::removeNow(sad::animations::Process* o)
             m_list.erase(it);
         }
     }
+    m_lock.unlock();
 }
 
 void sad::animations::Animations::clearNow()
 {
+    m_lock.lock();
     for(size_t i = 0; i < m_list.size(); i++)
     {
         m_list[i]->cancel(this);		    
         m_list[i]->removedFromPipeline();
     }
     m_list.clear();
+    m_lock.unlock();
 }
