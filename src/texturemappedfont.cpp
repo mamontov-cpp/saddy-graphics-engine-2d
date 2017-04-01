@@ -64,7 +64,12 @@ sad::Size2D sad::TextureMappedFont::size(const sad::String & str, sad::Font::Ren
             {
                 linewidth += 2;
             }
-            linewidth += m_rightbearings[c] * m_size_ratio;
+            // It might not be the best idea to add negative right bearing at end of string
+            // since some fonts would not guarantee it to be correct, so perform this more carefully
+            if ((m_rightbearings[c] >= 0) || (j != string.length() - 1))
+            {
+                linewidth += m_rightbearings[c] * m_size_ratio;
+            }
         }
         if ((flags & sad::Font::FRF_Italic) != 0)
         {
