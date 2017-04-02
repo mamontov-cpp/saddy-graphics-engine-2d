@@ -44,6 +44,9 @@ cd ../..
 cd plugins/irrklang
 call %BatchToRun%
 cd ../..
+cd plugins/dukpp-03-irrklang
+call %BatchToRun%
+cd ../..
 cd examples/game
 call %BatchToRun%
 cd ../..

@@ -45,6 +45,9 @@ cd ../..
 cd plugins/irrklang
 eval $BatchToRun
 cd ../..
+cd plugins/dukpp-03-irrklang
+eval $BatchToRun
+cd ../..
 cd examples/game
 eval $BatchToRun
 cd ../..

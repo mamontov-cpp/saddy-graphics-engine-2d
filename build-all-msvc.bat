@@ -28,6 +28,7 @@ devenv plugins/dukpp-03/dukpp-03.vcxproj /Build "%1|%2" /out lastsolutionbuild.l
 devenv tools/exporter/exporter.vcxproj /Build "%1|%2" /out lastsolutionbuild.log
 devenv plugins/freetype/saddy-ft.vcxproj /Build "%1|%2" /out lastsolutionbuild.log
 devenv plugins/irrklang/irrklang.vcxproj /Build "%1|%2" /out lastsolutionbuild.log
+devenv plugins/dukpp-03-irrklang/dukpp-03-irrklang.vcxproj /Build "%1|%2" /out lastsolutionbuild.log
 devenv tools/ifaceed/ifaceed/ifaceed.vcxproj /Build "%1|%2" /out lastsolutionbuild.log
 devenv examples/game/game.vcxproj /Build "%1|%2" /out lastsolutionbuild.log
 devenv examples/multithreading/multithreading.vcxproj /Build "%1|%2" /out lastsolutionbuild.log
