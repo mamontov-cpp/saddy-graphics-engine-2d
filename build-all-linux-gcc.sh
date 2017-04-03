@@ -78,6 +78,9 @@ cd ../..
 cd tests/irrklang
 eval $BatchToRun
 cd ../..
+cd tests/dukpp-03-irrklang
+eval $BatchToRun
+cd ../..
 cd tests/p2d
 eval $BatchToRun
 cd ../..

@@ -22,4 +22,9 @@
       <Filter>Header Files\dukpp-03-irrklang</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dukpp-03-irrklang.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
 </Project>

@@ -77,6 +77,9 @@ cd ../..
 cd tests/irrklang
 call %BatchToRun%
 cd ../..
+cd tests/dukpp-03-irrklang
+call %BatchToRun%
+cd ../..
 cd tests/p2d
 call %BatchToRun%
 cd ../..

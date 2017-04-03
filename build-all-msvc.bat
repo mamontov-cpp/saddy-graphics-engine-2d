@@ -40,6 +40,7 @@ devenv tests/freetype/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log
 devenv tests/hfsm/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log
 devenv tests/input/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log
 devenv tests/irrklang/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log
+devenv tests/dukpp-03-irrklang/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log
 devenv tests/p2d/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log
 devenv tests/pipeline/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log
 devenv tests/resource/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log

@@ -21,6 +21,9 @@
   <ItemGroup>
     <ClInclude Include="..\..\include\dukpp-03-irrklang\dukpp-03-irrklang.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dukpp-03-irrklang.cpp" />
+  </ItemGroup>  
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4FE11C6E-642A-4CBA-BD95-D3B8357FD609}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
