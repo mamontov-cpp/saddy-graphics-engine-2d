@@ -56,6 +56,8 @@ void sad::dukpp03irrklang::init(sad::dukpp03::Context* ctx)
         c->addMethod("isCurrentlyPlayingSoundSource",  sad::dukpp03::bind_method::from(isCurrentlyPlaying1));
         c->addMethod("stopAllSounds",  sad::dukpp03::bind_method::from(&::irrklang::ISoundEngine::stopAllSounds));
         c->addMethod("setAllSoundsPaused",  sad::dukpp03::bind_method::from(&::irrklang::ISoundEngine::setAllSoundsPaused));
+        c->addMethod("getSoundVolume",  sad::dukpp03::bind_method::from(&::irrklang::ISoundEngine::getSoundVolume));
+        c->addMethod("setSoundVolume",  sad::dukpp03::bind_method::from(&::irrklang::ISoundEngine::setSoundVolume));
         
         ctx->addClassBinding("::irrklang::ISoundEngine", c);
 
