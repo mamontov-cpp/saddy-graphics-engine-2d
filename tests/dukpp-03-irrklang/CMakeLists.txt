@@ -67,13 +67,13 @@ ENDIF()
 
 add_executable(${SADDY_APPLICATION_NAME}  ${SRCS} ${HDRS})
 
-target_link_libraries(${SADDY_APPLICATION_NAME} "${SADDY_LIBRARY_NAME}")
-target_link_libraries(${SADDY_APPLICATION_NAME} "${SADDY_IRRKLANG_LIBRARY_NAME}")
 target_link_libraries(${SADDY_APPLICATION_NAME} "${SADDY_DUKPP_03_LIBRARY_NAME}")
 target_link_libraries(${SADDY_APPLICATION_NAME} "${SADDY_DUKPP_03_IRRKLANG_LIBRARY_NAME}")
+target_link_libraries(${SADDY_APPLICATION_NAME} "${SADDY_IRRKLANG_LIBRARY_NAME}")
+target_link_libraries(${SADDY_APPLICATION_NAME} "${SADDY_LIBRARY_NAME}")
+target_link_libraries(${SADDY_APPLICATION_NAME} ${GLOBAL_LIBS})
 target_link_libraries(${SADDY_APPLICATION_NAME} ${IRRKLANG_LIBRARIES})
 target_link_libraries(${SADDY_APPLICATION_NAME} ${IRRKLANG_SO_LIBRARIES})
-target_link_libraries(${SADDY_APPLICATION_NAME} ${GLOBAL_LIBS})
   
 set_target_properties(${SADDY_APPLICATION_NAME}
     PROPERTIES

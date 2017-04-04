@@ -2,6 +2,8 @@
 
 #include <renderer.h>
 
+#include <db/dbtypename.h>
+
 #include <util/fs.h>
 
 #include <cassert>
@@ -131,3 +133,6 @@ void sad::irrklang::Engine::freeInstance()
         m_instance = NULL;
     }
 }
+
+
+DECLARE_COMMON_TYPE(sad::irrklang::Engine)

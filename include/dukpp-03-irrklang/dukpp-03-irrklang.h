@@ -5,6 +5,33 @@
 #pragma once
 #include "../dukpp-03/context.h"
 
+#include "../irrklang/engine.h"
+
+
+namespace sad
+{
+
+namespace dukpp03
+{
+
+template<>
+struct GetAddressOfType<sad::irrklang::Engine*, false, false>
+{
+public: 
+    /*! Returns address of type, stored in variant.
+        \param[in] v value
+        \return empty maybe
+     */
+    inline static ::dukpp03::Maybe<sad::irrklang::Engine*> getAddress(sad::db::Variant* v)
+    {
+        return ::dukpp03::Maybe<sad::irrklang::Engine*>();
+    }
+};
+
+}
+
+}
+
 namespace sad
 {
 
