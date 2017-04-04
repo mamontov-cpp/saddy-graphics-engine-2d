@@ -15,14 +15,15 @@ struct EngineTest : tpunit::TestFixture
 {
 public:
     EngineTest() : tpunit::TestFixture(
-       TEST(EngineTest::test)          
+       TEST(EngineTest::testEngine),
+       TEST(EngineTest::testSoundEngine)   
     ) {}
 
-    /*! A common test for exposed API
+    /*! A common test for exposed engine API
      */
     // ReSharper disable once CppMemberFunctionMayBeStatic
     // ReSharper disable once CppMemberFunctionMayBeConst
-    void test()
+    void testEngine()
     {
         std::string error;
         sad::dukpp03::Context ctx;
@@ -55,5 +56,44 @@ public:
         }
         ASSERT_TRUE( eval_result );
     }
+
+    /*! A common test for exposed main engine API
+     */
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
+    void testSoundEngine()
+    {
+        std::string error;
+        sad::dukpp03::Context ctx;
+        sad::dukpp03irrklang::init(&ctx);
+        bool eval_result = ctx.eval("sad.irrklang.Engine.eref().isCurrentlyPlaying(\"1\")", false, &error);
+        if (!eval_result)
+        {
+            printf("%s\n", error.c_str());
+        }
+        ASSERT_TRUE( eval_result );
+
+        eval_result = ctx.eval("sad.irrklang.Engine.eref().stopAllSounds()", false, &error);
+        if (!eval_result)
+        {
+            printf("%s\n", error.c_str());
+        }
+        ASSERT_TRUE( eval_result );
+
+        eval_result = ctx.eval("sad.irrklang.Engine.eref().setAllSoundsPaused(false)", false, &error);
+        if (!eval_result)
+        {
+            printf("%s\n", error.c_str());
+        }
+        ASSERT_TRUE( eval_result );
+
+        eval_result = ctx.eval("sad.irrklang.Engine.eref().play2D(\"1\")", false, &error);
+        if (!eval_result)
+        {
+            printf("%s\n", error.c_str());
+        }
+        ASSERT_TRUE( eval_result );
+    }
+
 
 } _engine_test;
