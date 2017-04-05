@@ -156,7 +156,7 @@ public:
         }
         ASSERT_TRUE( eval_result );
 
-        eval_result = ctx.eval("sad.irrklang.Sound.query(r, \"sound\").s();", false, &error);
+        eval_result = ctx.eval("console.log(sad.irrklang.Sound.query(r, \"sound\").s().getPlayLength());", false, &error);
         if (!eval_result)
         {
             printf("%s\n", error.c_str());

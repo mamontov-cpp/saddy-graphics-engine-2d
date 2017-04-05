@@ -192,6 +192,20 @@ void sad::dukpp03irrklang::init(sad::dukpp03::Context* ctx)
         assert(result);
     }
 
+    // Bindings for  sad::irrklang::ISoundSource
+    {
+        sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+        c->addMethod("getPlayLength", sad::dukpp03::bind_method::from(&::irrklang::ISoundSource::getPlayLength));
+        c->addMethod("getDefaultVolume", sad::dukpp03::bind_method::from(&::irrklang::ISoundSource::getDefaultVolume));
+        c->addMethod("setDefaultVolume", sad::dukpp03::bind_method::from(&::irrklang::ISoundSource::setDefaultVolume));
+        c->addMethod("getDefaultMinDistance", sad::dukpp03::bind_method::from(&::irrklang::ISoundSource::getDefaultMinDistance));
+        c->addMethod("setDefaultMinDistance", sad::dukpp03::bind_method::from(&::irrklang::ISoundSource::setDefaultMinDistance));
+        c->addMethod("getDefaultMaxDistance", sad::dukpp03::bind_method::from(&::irrklang::ISoundSource::getDefaultMaxDistance));
+        c->addMethod("setDefaultMaxDistance", sad::dukpp03::bind_method::from(&::irrklang::ISoundSource::setDefaultMaxDistance));
+        
+        ctx->addClassBinding("::irrklang::ISoundSource", c);
+    }
+
     ctx->registerCallable(
         "_SadIrrKlangInit",
         sad::dukpp03::make_function::from(sad::dukpp03irrklang::init)
