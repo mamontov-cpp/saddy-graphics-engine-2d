@@ -1,5 +1,7 @@
 #include "irrklang/singlesound.h"
 
+#include <db/dbtypename.h>
+
 sad::irrklang::SingleSound::SingleSound()
 : m_current_music_source(NULL), m_current_music(NULL)
 {
@@ -61,3 +63,5 @@ void sad::irrklang::SingleSound::stop()
         m_current_music_source = NULL;
     }
 }
+
+DECLARE_COMMON_TYPE(sad::irrklang::SingleSound)

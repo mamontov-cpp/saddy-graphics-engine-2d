@@ -7,6 +7,7 @@
 #include <db/dbtypename.h>
 
 #include <irrklang/sound.h>
+#include <irrklang/singlesound.h>
 
 #include <cassert>
 
@@ -223,6 +224,28 @@ void sad::dukpp03irrklang::init(sad::dukpp03::Context* ctx)
         c->addMethod("setIsLooped", sad::dukpp03::bind_method::from(&::irrklang::ISound::setIsLooped));
         
         ctx->addClassBinding("::irrklang::ISound", c);
+    }
+    // Bindings for  sad::irrklang::SingleSound
+    {
+        sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+        c->addObjectConstructor<sad::irrklang::SingleSound>("SadIrrKlangSingleSound");
+        c->addMethod("_play2D", sad::dukpp03::bind_method::from(&sad::irrklang::SingleSound::play2D));
+        c->addMethod("setVolume", sad::dukpp03::bind_method::from(&sad::irrklang::SingleSound::setVolume));
+        c->addMethod("stop", sad::dukpp03::bind_method::from(&sad::irrklang::SingleSound::stop));
+        ctx->addClassBinding("sad::irrklang::SingleSound", c);
+ 
+        bool result = ctx->eval("sad.irrklang.SingleSound = SadIrrKlangSingleSound; ");
+        assert(result);
+
+        result = ctx->eval("sad.irrklang.SingleSound.play2D = function(source, volume, looped) {"
+            "if (typeof volume == \"undefined\") { return this._play2D(source, 1.0, false); };"
+            "if (typeof looped == \"undefined\") { return this._play2D(source, volume, false); };"
+            "return this._play2D(source, volume, looped);"
+            "};"
+        );
+        assert(result);
+        
+        ctx->addClassBinding("sad::irrklang::SingleSound", c);
     }
 
     ctx->registerCallable(

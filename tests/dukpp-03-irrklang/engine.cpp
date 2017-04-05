@@ -164,7 +164,16 @@ public:
         ASSERT_TRUE( eval_result );
 
 
-        sad::sleep(5000);
+        sad::sleep(2000);
+
+        eval_result = ctx.eval("var b = new sad.irrklang.SingleSound(); b.play2D(sad.irrklang.Sound.query(r, \"sound\"));", false, &error);
+        if (!eval_result)
+        {
+            printf("%s\n", error.c_str());
+        }
+        ASSERT_TRUE( eval_result );
+
+        sad::sleep(2000);
     }
 
 

@@ -5,6 +5,7 @@
  */
 #pragma once
 #include "sound.h"
+#include "../refcountable.h"
 
 namespace sad
 {
@@ -15,7 +16,7 @@ namespace irrklang
 /*! Describes a sound type, which can be used to maintain main theme, e.g. one sound
     from source is played all the time, new sound only replaces old 
  */
-class SingleSound
+class SingleSound: public sad::RefCountable
 {
 public:
     /*! Constructs new single sound instance
