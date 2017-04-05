@@ -1,6 +1,8 @@
 #include "dukpp-03-irrklang/dukpp-03-irrklang.h"
+#include "dukpp-03-irrklang/jsstopcallback.h"
 
 #include "dukpp-03/renderer.h"
+
 
 #include <db/dbtypename.h>
 
@@ -52,7 +54,10 @@ static sad::Maybe<sad::irrklang::Sound*> _queryFromGlobalRenderer(const sad::Str
     return _queryFromSadRenderer(sad::Renderer::ref(), tree, name);
 }
 
-
+static void _addCallback(sad::irrklang::Sound* snd, sad::dukpp03::Context* ctx,  sad::dukpp03::CompiledFunction f)
+{
+    snd->addCallback(new  sad::dukpp03irrklang::JSStopCallback(ctx, f));
+}
 
 
 
@@ -155,9 +160,13 @@ void sad::dukpp03irrklang::init(sad::dukpp03::Context* ctx)
             "_SadIrrKlangSoundQueryFromGlobalRenderer",
             sad::dukpp03::make_function::from(_queryFromGlobalRenderer)
         );
+        ctx->registerCallable(
+            "_SadIrrKlangSoundAddCallback",
+            sad::dukpp03::make_function::from(_addCallback)
+        );
 
 
-        result = ctx->eval("sad.irrklang.Sound = _SadIrrKlangSound");
+        result = ctx->eval("sad.irrklang.Sound = _SadIrrKlangSound; sad.irrklang.Sound.addCallback = function(ctx, f) { _SadIrrKlangSoundAddCallback(this, ctx, f);   };");
         assert(result);
 
         result = ctx->eval(
@@ -170,8 +179,8 @@ void sad::dukpp03irrklang::init(sad::dukpp03::Context* ctx)
             "         var result = null; "
             "         try  { "
             "              result = _SadIrrKlangSoundQueryFromSadRenderer(renderer, \"\", tree); "
-            "         } catch (ex)"
-            "              result = return _SadIrrKlangSoundQueryFromDukpp03Renderer(renderer, \"\", tree); "
+            "         } catch (ex) {"
+            "              result = _SadIrrKlangSoundQueryFromDukpp03Renderer(renderer, \"\", tree); "
             "         }"
             "        return result;"
             "    }"
@@ -181,8 +190,14 @@ void sad::dukpp03irrklang::init(sad::dukpp03::Context* ctx)
             "};  "
         );
         assert(result);
-
     }
+
+    ctx->registerCallable(
+        "_SadIrrKlangInit",
+        sad::dukpp03::make_function::from(sad::dukpp03irrklang::init)
+    );
+    bool init_result = ctx->eval("sad.irrklang.init = _SadIrrKlangInit");
+    assert(init_result);
 }
 
 DECLARE_COMMON_TYPE(::irrklang::ISoundSource)

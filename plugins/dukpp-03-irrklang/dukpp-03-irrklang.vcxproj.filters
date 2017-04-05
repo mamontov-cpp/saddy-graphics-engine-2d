@@ -21,9 +21,15 @@
     <ClInclude Include="..\..\include\dukpp-03-irrklang\dukpp-03-irrklang.h">
       <Filter>Header Files\dukpp-03-irrklang</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\dukpp-03-irrklang\jsstopcallback.h">
+      <Filter>Header Files\dukpp-03-irrklang</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dukpp-03-irrklang.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jsstopcallback.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

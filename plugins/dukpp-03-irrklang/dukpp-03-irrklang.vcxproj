@@ -20,9 +20,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\dukpp-03-irrklang\dukpp-03-irrklang.h" />
+    <ClInclude Include="..\..\include\dukpp-03-irrklang\jsstopcallback.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dukpp-03-irrklang.cpp" />
+    <ClCompile Include="jsstopcallback.cpp" />
   </ItemGroup>  
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4FE11C6E-642A-4CBA-BD95-D3B8357FD609}</ProjectGuid>
