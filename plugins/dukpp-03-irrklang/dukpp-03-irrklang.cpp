@@ -1,8 +1,13 @@
 #include "dukpp-03-irrklang/dukpp-03-irrklang.h"
 
+#include "dukpp-03/renderer.h"
+
 #include <db/dbtypename.h>
 
+#include <irrklang/sound.h>
+
 #include <cassert>
+
 
 
 static bool _engineIsCurrentlyPlaying(::irrklang::ISoundEngine* e, const sad::String& s)
@@ -19,6 +24,36 @@ static ::irrklang::ISound* _enginePlay2DSource(::irrklang::ISoundEngine* e,  ::i
 {
     return e->play2D(s, playLooped, startPaused);
 }
+
+
+static sad::Maybe<sad::irrklang::Sound*> _queryFromSadRenderer(sad::Renderer* r, const sad::String& tree, const sad::String& name)
+{
+    sad::Maybe<sad::irrklang::Sound*> result;
+    sad::resource::Tree* sourceTree = r->tree(tree);
+    if (sourceTree)
+    {
+        sad::irrklang::Sound* sound = sourceTree->get<sad::irrklang::Sound>(name);
+        if (sound)
+        {
+            result.setValue(sound);
+        }
+    }
+    return result;
+}
+
+static sad::Maybe<sad::irrklang::Sound*> _queryFromDukpp03Renderer(sad::dukpp03::Renderer* r, const sad::String& tree, const sad::String& name)
+{
+    return _queryFromSadRenderer(r, tree, name);
+}
+
+
+static sad::Maybe<sad::irrklang::Sound*> _queryFromGlobalRenderer(const sad::String& tree, const sad::String& name)
+{
+    return _queryFromSadRenderer(sad::Renderer::ref(), tree, name);
+}
+
+
+
 
 
 void sad::dukpp03irrklang::init(sad::dukpp03::Context* ctx)
@@ -85,6 +120,64 @@ void sad::dukpp03irrklang::init(sad::dukpp03::Context* ctx)
                 "var _sp = (typeof startPaused == \"undefined\") ? false : startPaused;"
                 "if (typeof s == \"string\") return _IrrKlangEnginePlay2DString(this, s, _p, _sp); "
                                        "else return _IrrKlangEnginePlay2DSource(this, s, _p, _sp);"
+            "};  "
+        );
+        assert(result);
+
+    }
+
+    // Bindings for  sad::irrklang::Sound
+    {
+        bool result = ctx->eval("_SadIrrKlangSound = function() {};");
+        assert(result);
+
+
+        sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+        
+        c->setPrototypeFunction("_SadIrrKlangSound");
+        c->addMethod("setDefaultVolume", sad::dukpp03::bind_method::from(&sad::irrklang::Sound::setDefaultVolume));
+        c->addMethod("play2D", sad::dukpp03::bind_method::from(&sad::irrklang::Sound::play2D));
+        c->addMethod("s", sad::dukpp03::bind_method::from(&sad::irrklang::Sound::s));
+        c->addMethod("isPlaying", sad::dukpp03::bind_method::from(&sad::irrklang::Sound::isPlaying));
+
+        ctx->addClassBinding("sad::irrklang::Sound", c);
+
+        ctx->registerCallable(
+            "_SadIrrKlangSoundQueryFromSadRenderer",
+            sad::dukpp03::make_function::from(_queryFromGlobalRenderer)
+        );
+
+        ctx->registerCallable(
+            "_SadIrrKlangSoundQueryFromDukpp03Renderer",
+            sad::dukpp03::make_function::from(_queryFromDukpp03Renderer)
+        );
+        ctx->registerCallable(
+            "_SadIrrKlangSoundQueryFromGlobalRenderer",
+            sad::dukpp03::make_function::from(_queryFromGlobalRenderer)
+        );
+
+
+        result = ctx->eval("sad.irrklang.Sound = _SadIrrKlangSound");
+        assert(result);
+
+        result = ctx->eval(
+            "sad.irrklang.Sound.query = function(renderer, tree, name) {"
+            "if (arguments.length == 1) return _SadIrrKlangSoundQueryFromGlobalRenderer(\"\", renderer);"
+            "if (arguments.length == 2) { "
+            "    if (typeof renderer == \"string\") {"
+            "        return _SadIrrKlangSoundQueryFromGlobalRenderer(renderer, tree);  "
+            "    } else { "
+            "         var result = null; "
+            "         try  { "
+            "              result = _SadIrrKlangSoundQueryFromSadRenderer(renderer, \"\", tree); "
+            "         } catch (ex)"
+            "              result = return _SadIrrKlangSoundQueryFromDukpp03Renderer(renderer, \"\", tree); "
+            "         }"
+            "        return result;"
+            "    }"
+            "}"
+            "var result = null; try { result =  SadIrrKlangSoundQueryFromSadRenderer(renderer, tree, name);  } catch (ex) { result = _SadIrrKlangSoundQueryFromDukpp03Renderer(renderer, tree, name); }"
+            "return result;"
             "};  "
         );
         assert(result);
