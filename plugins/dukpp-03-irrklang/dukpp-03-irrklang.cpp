@@ -192,7 +192,7 @@ void sad::dukpp03irrklang::init(sad::dukpp03::Context* ctx)
         assert(result);
     }
 
-    // Bindings for  sad::irrklang::ISoundSource
+    // Bindings for  ::irrklang::ISoundSource
     {
         sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
         c->addMethod("getPlayLength", sad::dukpp03::bind_method::from(&::irrklang::ISoundSource::getPlayLength));
@@ -204,6 +204,25 @@ void sad::dukpp03irrklang::init(sad::dukpp03::Context* ctx)
         c->addMethod("setDefaultMaxDistance", sad::dukpp03::bind_method::from(&::irrklang::ISoundSource::setDefaultMaxDistance));
         
         ctx->addClassBinding("::irrklang::ISoundSource", c);
+    }
+    // Bindings for  ::irrklang::ISound
+    {
+        sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+        c->addMethod("setIsPaused", sad::dukpp03::bind_method::from(&::irrklang::ISound::setIsPaused));
+        c->addMethod("getIsPaused", sad::dukpp03::bind_method::from(&::irrklang::ISound::getIsPaused));
+        c->addMethod("stop", sad::dukpp03::bind_method::from(&::irrklang::ISound::stop));
+        c->addMethod("setVolume", sad::dukpp03::bind_method::from(&::irrklang::ISound::setVolume));
+        c->addMethod("getVolume", sad::dukpp03::bind_method::from(&::irrklang::ISound::getVolume));
+        c->addMethod("isFinished", sad::dukpp03::bind_method::from(&::irrklang::ISound::isFinished));
+        c->addMethod("getPlayPosition", sad::dukpp03::bind_method::from(&::irrklang::ISound::getPlayPosition));
+        c->addMethod("setPlayPosition", sad::dukpp03::bind_method::from(&::irrklang::ISound::setPlayPosition));
+        c->addMethod("getPlaybackSpeed", sad::dukpp03::bind_method::from(&::irrklang::ISound::getPlaybackSpeed));
+        c->addMethod("setPlaybackSpeed", sad::dukpp03::bind_method::from(&::irrklang::ISound::setPlaybackSpeed));
+        c->addMethod("getSoundSource", sad::dukpp03::bind_method::from(&::irrklang::ISound::getSoundSource));
+        c->addMethod("isLooped", sad::dukpp03::bind_method::from(&::irrklang::ISound::isLooped));
+        c->addMethod("setIsLooped", sad::dukpp03::bind_method::from(&::irrklang::ISound::setIsLooped));
+        
+        ctx->addClassBinding("::irrklang::ISound", c);
     }
 
     ctx->registerCallable(
