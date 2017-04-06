@@ -315,3 +315,22 @@ void sad::p2d::World::remove(p2d::Body * body)
     body->clearListeners();
     this->sad::TemporarilyImmutableContainer<p2d::Body>::remove(body);
 }
+
+
+unsigned int sad::p2d::World::getGroupCode(const sad::String& group, unsigned int preferred)
+{
+    unsigned int max = preferred;
+    for(sad::Hash<unsigned int, sad::String>::iterator it =  m_group_hash_codes.begin(); it != m_group_hash_codes.end(); ++it)
+    {
+        if (it.value() == group)
+        {
+            return it.key();
+        }
+        max = (it.key() > max) ? (it.key() + 1) : max;
+    }
+    if (max == 0)
+    {
+        max = 1;
+    }
+    m_group_hash_codes.insert(max, group);
+}

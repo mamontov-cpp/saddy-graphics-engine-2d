@@ -134,6 +134,12 @@ public:
          \param[in] body a body
      */
      virtual void remove(p2d::Body * body);
+     /*! Returns hash code for group, inserting it if required
+         \param[in] group a group name
+         \param[in] preferred if hash code is not found, this will be returned
+         \return hash code
+      */
+     unsigned int getGroupCode(const sad::String& group, unsigned int preferred = 0);
 protected:
      /*! Current time step
       */
@@ -147,6 +153,9 @@ protected:
      /*! A collision dispatcher for testing an items for collision
       */
      p2d::CollisionDetector * m_detector;
+     /*! A hash codes for body groups
+      */
+     sad::Hash<unsigned int, sad::String> m_group_hash_codes;
      /*! A callbacks, with related types
       */
      sad::Vector<types_with_handler_t>  m_callbacks;
