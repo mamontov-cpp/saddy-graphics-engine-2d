@@ -52,8 +52,23 @@ public:
               e.sad::p2d::BasicCollisionEvent::m_object_1 = ev.m_object_1;
               e.sad::p2d::BasicCollisionEvent::m_object_2 = ev.m_object_2;
               e.m_time = ev.m_time;
-              e.m_object_1 = sad::checked_cast<T1>(ev.m_object_1->userObject());
-              e.m_object_2 = sad::checked_cast<T2>(ev.m_object_2->userObject());
+              try 
+              {
+                  e.m_object_1 = (ev.m_object_1->userObject()) ? sad::checked_cast<T1>(ev.m_object_1->userObject()) : NULL;
+              } 
+              catch (sad::InvalidCastException ex)
+              {
+                   e.m_object_1 = NULL;
+              }
+              
+              try
+              {
+                  e.m_object_2 = (ev.m_object_2->userObject()) ? sad::checked_cast<T2>(ev.m_object_2->userObject()) : NULL;
+              }
+              catch (sad::InvalidCastException ex)
+              {
+                  e.m_object_2 = NULL;
+              }
               m_p(e);
           }
       }
@@ -106,8 +121,23 @@ public:
               e.m_time = ev.m_time;
               e.sad::p2d::BasicCollisionEvent::m_object_1 = ev.m_object_1;
               e.sad::p2d::BasicCollisionEvent::m_object_2 = ev.m_object_2;
-              e.m_object_1 = sad::checked_cast<T1>(ev.m_object_1->userObject());
-              e.m_object_2 = sad::checked_cast<T2>(ev.m_object_2->userObject());
+              try 
+              {
+                  e.m_object_1 = (ev.m_object_1->userObject()) ? sad::checked_cast<T1>(ev.m_object_1->userObject()) : NULL;
+              }
+              catch (sad::InvalidCastException ex)
+              {
+                  e.m_object_1 = NULL;
+              }
+
+              try 
+              {
+                  e.m_object_2 = (ev.m_object_2->userObject())  ? sad::checked_cast<T2>(ev.m_object_2->userObject()) : NULL;
+              }
+              catch (sad::InvalidCastException ex)
+              {
+                  e.m_object_2 = NULL;
+              }
               (m_o->*m_p)(e);
           }
       }
