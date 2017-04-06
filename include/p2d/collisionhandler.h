@@ -32,8 +32,8 @@ template<typename T1, typename T2>
 class FunctionCollisionHandler  : public sad::p2d::BasicCollisionHandler
 {
 public:
-      inline FunctionCollisionHandler( void (*p)(const sad::p2d::CollisionEvent<T1, T2> & ev) )
-      : m_p(p)
+      inline FunctionCollisionHandler( void (*p)(const sad::p2d::CollisionEvent<T1, T2> & ev), bool checked = true )
+      : m_p(p), m_checked(checked)
       {
       }
       /*! Calls a function for basic collision event
@@ -41,38 +41,45 @@ public:
        */ 
       virtual void invoke(const sad::p2d::BasicCollisionEvent & ev)
       {
-          if (ev.m_object_1 != NULL && ev.m_object_2 != NULL
-              // We must check those, because, when multiple collisions are found with same object
-              // object and his userObject can be removed. So we MUST check userObject to make 
-              // sure not to work with deleted metadata
-              && ev.m_object_1->userObject() != NULL
-              && ev.m_object_2->userObject() != NULL)
+          if (ev.m_object_1 != NULL && ev.m_object_2 != NULL)
           {
-              p2d::CollisionEvent<T1, T2> e;
-              e.sad::p2d::BasicCollisionEvent::m_object_1 = ev.m_object_1;
-              e.sad::p2d::BasicCollisionEvent::m_object_2 = ev.m_object_2;
-              e.m_time = ev.m_time;
-              try 
-              {
-                  e.m_object_1 = (ev.m_object_1->userObject()) ? sad::checked_cast<T1>(ev.m_object_1->userObject()) : NULL;
-              } 
-              catch (sad::InvalidCastException ex)
-              {
-                   e.m_object_1 = NULL;
-              }
-              
-              try
-              {
-                  e.m_object_2 = (ev.m_object_2->userObject()) ? sad::checked_cast<T2>(ev.m_object_2->userObject()) : NULL;
-              }
-              catch (sad::InvalidCastException ex)
-              {
-                  e.m_object_2 = NULL;
-              }
-              m_p(e);
+                bool ok = true;
+                if (m_checked)
+                {
+                    // We must check those, because, when multiple collisions are found with same object
+                    // object and his userObject can be removed. So we MUST check userObject to make 
+                    // sure not to work with deleted metadata
+                    ok = (ev.m_object_1->userObject() != NULL) &&  (ev.m_object_2->userObject() != NULL);
+                }
+                if (ok)
+                {
+                    p2d::CollisionEvent<T1, T2> e;
+                    e.sad::p2d::BasicCollisionEvent::m_object_1 = ev.m_object_1;
+                    e.sad::p2d::BasicCollisionEvent::m_object_2 = ev.m_object_2;
+                    e.m_time = ev.m_time;
+                    try 
+                    {
+                        e.m_object_1 = (ev.m_object_1->userObject()) ? sad::checked_cast<T1>(ev.m_object_1->userObject()) : NULL;
+                    } 
+                    catch (sad::InvalidCastException ex)
+                    {
+                        e.m_object_1 = NULL;
+                    }
+
+                    try
+                    {
+                        e.m_object_2 = (ev.m_object_2->userObject()) ? sad::checked_cast<T2>(ev.m_object_2->userObject()) : NULL;
+                    }
+                    catch (sad::InvalidCastException ex)
+                    {
+                        e.m_object_2 = NULL;
+                    }
+                    m_p(e);
+                }
           }
       }
 private:
+      bool m_checked;
       void (*m_p)(const sad::p2d::CollisionEvent<T1, T2> & ev);
 };
 
@@ -101,8 +108,8 @@ template<typename _Class, typename T1, typename T2>
 class MethodCollisionHandler  : public sad::p2d::BasicCollisionHandler
 {
 public:
-      inline MethodCollisionHandler( _Class * o, void (_Class::*p)(const sad::p2d::CollisionEvent<T1, T2> & ev) )
-      : m_o(o), m_p(p)
+      inline MethodCollisionHandler( _Class * o, void (_Class::*p)(const sad::p2d::CollisionEvent<T1, T2> & ev), bool checked = true )
+      : m_o(o), m_p(p), m_checked(checked)
       {
       }
       /*! Calls a method for basic collision event
@@ -110,40 +117,47 @@ public:
        */ 
       virtual void invoke(const sad::p2d::BasicCollisionEvent & ev)
       {
-          if (ev.m_object_1 != NULL && ev.m_object_2 != NULL
-              // We must check those, because, when multiple collisions are found with same object
-              // object and his userObject can be removed. So we MUST check userObject to make 
-              // sure not to work with deleted metadata
-              && ev.m_object_1->userObject() != NULL
-              && ev.m_object_2->userObject() != NULL)
+          if (ev.m_object_1 != NULL && ev.m_object_2 != NULL)
           {
-              p2d::CollisionEvent<T1, T2> e;
-              e.m_time = ev.m_time;
-              e.sad::p2d::BasicCollisionEvent::m_object_1 = ev.m_object_1;
-              e.sad::p2d::BasicCollisionEvent::m_object_2 = ev.m_object_2;
-              try 
-              {
-                  e.m_object_1 = (ev.m_object_1->userObject()) ? sad::checked_cast<T1>(ev.m_object_1->userObject()) : NULL;
-              }
-              catch (sad::InvalidCastException ex)
-              {
-                  e.m_object_1 = NULL;
-              }
+                bool ok = true;
+                if (m_checked)
+                {
+                    // We must check those, because, when multiple collisions are found with same object
+                    // object and his userObject can be removed. So we MUST check userObject to make 
+                    // sure not to work with deleted metadata
+                    ok = (ev.m_object_1->userObject() != NULL && ev.m_object_2->userObject() != NULL);
+                }
+                if (ok)
+                {
+                    p2d::CollisionEvent<T1, T2> e;
+                    e.m_time = ev.m_time;
+                    e.sad::p2d::BasicCollisionEvent::m_object_1 = ev.m_object_1;
+                    e.sad::p2d::BasicCollisionEvent::m_object_2 = ev.m_object_2;
+                    try 
+                    {
+                        e.m_object_1 = (ev.m_object_1->userObject()) ? sad::checked_cast<T1>(ev.m_object_1->userObject()) : NULL;
+                    }
+                    catch (sad::InvalidCastException ex)
+                    {
+                        e.m_object_1 = NULL;
+                    }
 
-              try 
-              {
-                  e.m_object_2 = (ev.m_object_2->userObject())  ? sad::checked_cast<T2>(ev.m_object_2->userObject()) : NULL;
-              }
-              catch (sad::InvalidCastException ex)
-              {
-                  e.m_object_2 = NULL;
-              }
-              (m_o->*m_p)(e);
+                    try 
+                    {
+                        e.m_object_2 = (ev.m_object_2->userObject())  ? sad::checked_cast<T2>(ev.m_object_2->userObject()) : NULL;
+                    }
+                    catch (sad::InvalidCastException ex)
+                    {
+                        e.m_object_2 = NULL;
+                    }
+                    (m_o->*m_p)(e);
+                }
           }
       }
 private:
       _Class * m_o;
       void (_Class::*m_p)(const sad::p2d::CollisionEvent<T1, T2> & ev);
+      bool m_checked;
 };
 
 /*! A basic collision handler for invoking events, calling a method

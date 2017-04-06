@@ -101,6 +101,13 @@ void performEvent12(const sad::p2d::CollisionEvent<p2dworld::UserObject1, p2dwor
     eventperformed++;
 }
 
+void performEventChecked(const sad::p2d::CollisionEvent<p2dworld::UserObject1, p2dworld::UserObject1> & ev)
+{ 
+   if (ev.m_object_2 == NULL || ev.m_object_1 == NULL)
+       eventperformed++;
+}
+
+
 /*!
  * Tests working with world
  */
@@ -116,7 +123,9 @@ struct WorldTest : tpunit::TestFixture
        TEST(WorldTest::testRemoveFromCallback),
        TEST(WorldTest::testClearFromCallback),
        TEST(WorldTest::testListeners),
-       TEST(WorldTest::testMultipleSteps)
+       TEST(WorldTest::testMultipleSteps),
+       TEST(WorldTest::testPickedGroups),
+       TEST(WorldTest::testPickedGroupsTypeCheck)
    ) {}
 
    int eventperformed;
@@ -252,6 +261,8 @@ struct WorldTest : tpunit::TestFixture
        delete u1;
        delete u2;
    }
+   
+   
 
    void testRemove()
    {
@@ -427,6 +438,88 @@ struct WorldTest : tpunit::TestFixture
        ASSERT_FLOAT_EQUAL( b2->position().y(), 1.5);
        delete w;
    }
+
+
+   void testPickedGroups()
+   {
+       p2dworld::UserObject1  * u1 = new p2dworld::UserObject1();
+       p2dworld::UserObject2  * u2 = new p2dworld::UserObject2();
+
+       this->eventperformed = 0;
+       ::eventperformed = 0;
+       sad::p2d::Body * b1 = new sad::p2d::Body();
+       sad::p2d::Circle * c1 = new sad::p2d::Circle();
+       c1->setRadius(1.0);
+       b1->setShape(c1);
+       b1->setCurrentTangentialVelocity(sad::p2d::Vector(3.0, 0.0));
+       b1->setUserObject(u1);
+
+       sad::p2d::Body * b2 = new sad::p2d::Body();
+       sad::p2d::Circle * c2 = new sad::p2d::Circle();
+       c2->setRadius(1.0);
+       b2->setShape(c2);
+       b2->setCurrentPosition(sad::p2d::Point(6.0, 0.0));
+       b2->setUserObject(u2);
+
+       sad::p2d::Body * b3 = new sad::p2d::Body();
+       sad::p2d::Circle * c3 = new sad::p2d::Circle();
+       c3->setRadius(1.0);
+       b3->setShape(c3);
+       b3->setCurrentTangentialVelocity(sad::p2d::Vector(3.0, 0.0));
+
+       sad::p2d::World * w = new sad::p2d::World();
+       // Ok, we ignored handlers
+       w->addHandler("first", "first", ::performEvent);
+       w->addHandler(::performEvent);
+       
+       w->addToGroup("first", b1);
+       w->addToGroup("first", b2, true);
+       w->addToGroup("second", b3, true);
+       
+       w->step(1.0);
+       w->step(1.0);
+       ASSERT_TRUE( ::eventperformed == 2 );
+       delete w;
+       delete u1;
+       delete u2;  
+   }
+
+   void testPickedGroupsTypeCheck()
+   {
+       p2dworld::UserObject1  * u1 = new p2dworld::UserObject1();
+       //p2dworld::UserObject2  * u2 = new p2dworld::UserObject2();
+
+       this->eventperformed = 0;
+       ::eventperformed = 0;
+       sad::p2d::Body * b1 = new sad::p2d::Body();
+       sad::p2d::Circle * c1 = new sad::p2d::Circle();
+       c1->setRadius(1.0);
+       b1->setShape(c1);
+       b1->setCurrentTangentialVelocity(sad::p2d::Vector(3.0, 0.0));
+       b1->setUserObject(u1);
+
+       sad::p2d::Body * b2 = new sad::p2d::Body();
+       sad::p2d::Circle * c2 = new sad::p2d::Circle();
+       c2->setRadius(1.0);
+       b2->setShape(c2);
+       b2->setCurrentPosition(sad::p2d::Point(6.0, 0.0));
+       //b2->setUserObject(u2);
+
+
+       sad::p2d::World * w = new sad::p2d::World();
+       // Ok, we ignored handlers
+       w->addHandler("first", "second", ::performEventChecked);
+       
+       w->addToGroup("first", b1);
+       w->addToGroup("second", b2);
+       
+       w->step(1.0);
+       w->step(1.0);
+       ASSERT_TRUE( ::eventperformed > 0 );
+       delete w;
+       delete u1;
+       //delete u2;  
+    }
 
 
 } _world_test;

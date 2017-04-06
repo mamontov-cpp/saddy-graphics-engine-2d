@@ -122,25 +122,6 @@ void sad::p2d::World::splitTimeStepAt(double time)
     m_splitted_time_step.setValue(time);
 }
 
-void sad::p2d::World::addHandler(
-         sad::p2d::BasicCollisionHandler * h, 
-         const sad::String & t1, 
-         const sad::String & t2
-)
-{
-    if (m_groups.contains(t1) == false)
-    {
-        m_groups.insert(t1, sad::Vector<p2d::Body *>());
-    }
-    if (m_groups.contains(t2) == false)
-    {
-         m_groups.insert(t2, sad::Vector<p2d::Body *>());
-    }
-    type_pair_t tp(t1, t2);
-    types_with_handler_t twh(tp, h);
-    m_callbacks << twh;
-}
-
 void sad::p2d::World::step(double time)
 {
     performQueuedActions();
@@ -302,10 +283,16 @@ void sad::p2d::World::clearNow()
 sad::p2d::BasicCollisionHandler *
 sad::p2d::World::addHandler( void (*p)(const sad::p2d::BasicCollisionEvent &))
 {
+    sad::String b = "p2d::Body";
+    return this->addHandler(b, b, p);
+}
+
+sad::p2d::BasicCollisionHandler *
+sad::p2d::World::addHandler(const sad::String& g1, const sad::String& g2, void (*p)(const sad::p2d::BasicCollisionEvent &))
+{
     p2d::BasicCollisionHandler * h = 
     new p2d::FunctionCollisionHandler<p2d::Body, p2d::Body>(p);
-    sad::String b = "p2d::Body";
-    this->addHandler(h, b, b);
+    this->addHandler(h, g1, g2);
     return h;
 }
 
@@ -356,6 +343,25 @@ unsigned int sad::p2d::World::getGroupCode(const sad::String& group, unsigned in
         max = 1;
     }
     m_group_hash_codes.insert(max, group);
+}
+
+void sad::p2d::World::addHandler(
+         sad::p2d::BasicCollisionHandler * h, 
+         const sad::String & t1, 
+         const sad::String & t2
+)
+{
+    if (m_groups.contains(t1) == false)
+    {
+        m_groups.insert(t1, sad::Vector<p2d::Body *>());
+    }
+    if (m_groups.contains(t2) == false)
+    {
+         m_groups.insert(t2, sad::Vector<p2d::Body *>());
+    }
+    type_pair_t tp(t1, t2);
+    types_with_handler_t twh(tp, h);
+    m_callbacks << twh;
 }
 
 void  sad::p2d::World::addBodyToGroupNow(p2d::Body* b, const sad::String& g, bool to_common)
