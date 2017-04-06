@@ -129,6 +129,18 @@ public:
          \param[in] time a size of time step
       */
      void step(double time);
+     /*! Adds new body to group by code
+         \param[in] group_code a group code for bodies
+         \param[in] b body
+         \param[in] to_common whether we should add a body to group for bodies
+      */ 
+     void addToGroup(unsigned int group_code, p2d::Body* b, bool to_common = false);
+     /*! Adds new body to group
+         \param[in] group a group for bodies
+         \param[in] b body
+         \param[in] to_common whether we should add a body to group for bodies
+      */ 
+     void addToGroup(const sad::String& group, p2d::Body* b, bool to_common = false);
      /*! Removes a body from a world. Also clears a user object and body listeners, to make sure,
          that if user object removed before body, it won't be harmed
          \param[in] body a body
@@ -162,6 +174,11 @@ protected:
      /*! Bodies by groups
       */
      sad::Hash<sad::String, sad::Vector<p2d::Body *> > m_groups;
+     /*! A queue for adding bodies with specified groups as a list of triplets - first argument of triplet
+         is whether we should add body to common group, second is a name of group and a third is a body
+         itself
+      */ 
+     sad::Vector<sad::Triplet<bool, sad::String, p2d::Body* > > m_specified_groups_queue;
      /*! All bodies for checking all information
       */
      bodies_to_types_t m_allbodies;
@@ -205,7 +222,7 @@ protected:
          sad::p2d::BasicCollisionHandler * h, 
          const sad::String & t1, 
          const sad::String & t2
-      );
+     );
      /*! Peforms adding a body
          \param[in] o body
       */
@@ -216,7 +233,16 @@ protected:
      virtual void removeNow(p2d::Body * o);
      /*! Clears a world
       */
-     virtual void clearNow();
+     virtual void clearNow(); 
+     /*! Adds body to group immediately
+         \param[in] b body
+         \param[in] g group for body
+         \param[in] to_common whether we should add body to common group
+      */
+     virtual void addBodyToGroupNow(p2d::Body* b, const sad::String& g, bool to_common);
+     /*! Performs queued actions for manipulating with container
+      */
+     virtual void performQueuedActions();
 };
 
 }

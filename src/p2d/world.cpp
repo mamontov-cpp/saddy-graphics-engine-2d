@@ -309,6 +309,29 @@ sad::p2d::World::addHandler( void (*p)(const sad::p2d::BasicCollisionEvent &))
     return h;
 }
 
+void sad::p2d::World::addToGroup(unsigned int group_code, p2d::Body* b, bool to_common)
+{
+    assert(m_group_hash_codes.contains(group_code) && "Unknown body group code");
+
+    this->addToGroup(m_group_hash_codes[group_code], b, to_common);
+}
+
+void sad::p2d::World::addToGroup(const sad::String& group, p2d::Body* b, bool to_common)
+{
+    if (m_lock_changes)
+    {
+        m_command_queue_lock.lock();
+        m_specified_groups_queue << sad::Triplet<bool, sad::String, p2d::Body*>(to_common, group, b);
+        m_command_queue_lock.unlock();
+    }
+    else
+    {
+        m_mutability_lock.lock();
+        addBodyToGroupNow(b, group,  to_common);
+        m_mutability_lock.unlock();
+    }
+}
+
 void sad::p2d::World::remove(p2d::Body * body)
 {
     body->setUserObject(NULL);
@@ -333,4 +356,43 @@ unsigned int sad::p2d::World::getGroupCode(const sad::String& group, unsigned in
         max = 1;
     }
     m_group_hash_codes.insert(max, group);
+}
+
+void  sad::p2d::World::addBodyToGroupNow(p2d::Body* b, const sad::String& g, bool to_common)
+{
+    b->addRef();
+    sad::Vector<sad::String> groups;
+    if (to_common)
+    {
+        sad::String body_group = "p2d::Body";
+        groups << body_group;
+        if (m_groups.contains(body_group))
+        {
+            m_groups[body_group] << b;
+        }
+    }
+    if (m_groups.contains(g) == false)
+    {
+        m_groups.insert(g, sad::Vector<sad::p2d::Body*>());
+    }
+    groups << g;
+    m_groups[g] << b;
+    m_allbodies.insert(b, groups);
+    b->setSamplingCount(m_detector->sampleCount());
+    b->setWorld(this);
+}
+
+void sad::p2d::World::performQueuedActions()
+{
+    this->sad::TemporarilyImmutableContainer<p2d::Body>::performQueuedActions();
+    m_command_queue_lock.lock();
+    if (m_specified_groups_queue.size())
+    {
+        for(size_t i = 0; i < m_specified_groups_queue.size(); i++)
+        {
+            this->addBodyToGroupNow(m_specified_groups_queue[i].p3(), m_specified_groups_queue[i].p2(), m_specified_groups_queue[i].p1());
+        }
+        m_specified_groups_queue.clear();
+    }
+    m_command_queue_lock.unlock();
 }
