@@ -343,6 +343,7 @@ unsigned int sad::p2d::World::getGroupCode(const sad::String& group, unsigned in
         max = 1;
     }
     m_group_hash_codes.insert(max, group);
+    return max;
 }
 
 void sad::p2d::World::addHandler(
