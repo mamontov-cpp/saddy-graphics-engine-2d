@@ -109,7 +109,7 @@ private:
 /*! Creates conditional internal scope, if pointer to renderer R is not null
  */
 #define SL_COND_INTERNAL_SCOPE(X, R)             \
-    std::auto_ptr<sad::log::Scope>  ____1____;   \
+    std::unique_ptr<sad::log::Scope>  ____1____;   \
     if (R)                                       \
     {                                            \
         ____1____.reset(new sad::log::Scope(X, __FILE__, __LINE__, (R)->log(), true));  \

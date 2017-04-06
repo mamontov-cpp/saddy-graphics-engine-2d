@@ -155,6 +155,7 @@
       </PrecompiledHeader>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies>GLU32.lib;OPENGL32.lib;..\..\lib\saddy-debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
