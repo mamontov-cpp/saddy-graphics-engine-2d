@@ -11,6 +11,8 @@
 
 #include "../pipeline/pipelinetask.h"
 
+#include "../object.h"
+
 namespace sad
 {
 
@@ -20,8 +22,9 @@ namespace hfsm
 /*! Defines a hierarchical state machine. By default machine is in state with empty name, which
     is a top-level state
  */ 
-class Machine
+class Machine: public sad::Object
 {
+SAD_OBJECT
 public:
     /*! Creates new empty machine 
      */

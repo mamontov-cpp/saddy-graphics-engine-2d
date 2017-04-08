@@ -72,6 +72,12 @@
     <ClCompile Include="jspipelinestep.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="jshfsmhandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="exposehfsm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\dukpp-03\context.h">
@@ -144,6 +150,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\dukpp-03\jspipelinestep.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\dukpp-03\jshfsmhandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

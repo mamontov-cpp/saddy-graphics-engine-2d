@@ -1,17 +1,18 @@
 #include "hfsm/hfsmmachine.h"
 
-#include "hfsm/hfsmmachine.h"
+#include "db/dbtypename.h"
 
 sad::hfsm::Machine::Machine()
 : m_top(new sad::hfsm::State()), m_transitions(new sad::hfsm::TransitionRepository())
 {
+    m_top->addRef();
     m_top->setMachine(this);
     m_transitions->setMachine(this);
 }
 
 sad::hfsm::Machine::~Machine()
 {
-    delete m_top;
+    m_top->delRef();
     delete m_transitions;
 }
 
@@ -74,7 +75,9 @@ bool sad::hfsm::Machine::addState(
     trimmedfullpath.trimSpaces();
     if (trimmedfullpath.length() == 0)
     {
-        delete m_top;
+        m_top->delRef();
+
+        m_top->addRef();
         m_top = state;
         m_top->setMachine(this);
     }
@@ -122,9 +125,10 @@ void sad::hfsm::Machine::removeState(const sad::String fullpath)
     trimmedfullpath.trimSpaces();
     if (trimmedfullpath.length() == 0)
     {
-        delete m_top;
+        m_top->delRef();
         m_top = new sad::hfsm::State();
         m_top->setMachine(this);
+        m_top->addRef();
     }
     else
     {
@@ -259,3 +263,4 @@ void sad::hfsm::MachineStateChangeTask::_process()
     m_machine->enterState(m_state);
 }
 
+DECLARE_SOBJ(sad::hfsm::Machine)

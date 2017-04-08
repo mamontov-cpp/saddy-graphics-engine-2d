@@ -9,6 +9,8 @@
 
 #include "../sadptrvector.h"
 
+#include "../object.h"
+
 namespace sad
 {
 
@@ -19,8 +21,9 @@ class Machine;
 class TransitionRepository;
 /*! Defines a transition for hierarchical finite state machine
  */ 
-class Transition
+class Transition: public sad::Object
 {
+SAD_OBJECT
 public:
     /*! Creates default transition
      */

@@ -2,6 +2,8 @@
 #include "hfsm/hfsmstate.h"
 #include "hfsm/hfsmtransition.h"
 
+#include "db/dbtypename.h"
+
 sad::hfsm::AbstractHandler::AbstractHandler()
 : m_state(NULL), m_transition(NULL)
 {
@@ -44,3 +46,5 @@ sad::hfsm::AbstractHandler::~AbstractHandler()
 {
 
 }
+
+DECLARE_COMMON_TYPE(sad::hfsm::AbstractHandler)

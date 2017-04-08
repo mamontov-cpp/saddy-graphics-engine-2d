@@ -11,6 +11,10 @@
 #include "../sadstring.h"
 #include "../sadptrvector.h"
 
+#include "../db/dbvariant.h"
+#include "../object.h"
+#include "../maybe.h"
+
 namespace sad
 {
 
@@ -24,8 +28,9 @@ typedef sad::Hash<sad::String, sad::hfsm::State *> StateMap;
 
 /*! A state for finite state machine
  */
-class State
+class State: public sad::Object
 {
+SAD_OBJECT
 public:
     /*! Constructs default state
      */
@@ -159,6 +164,15 @@ public:
         \param[in] f abstract handler
      */
     virtual void removeLeaveHandler(sad::hfsm::AbstractHandler * f);
+    /*! Sets state variable
+        \param[in] name a name for variable
+     */
+    virtual void setVariable(const sad::String& name, const sad::db::Variant& v);
+    /*! Returns state variable
+        \param[in] name a name for variable
+        \return a variable
+     */
+    virtual sad::Maybe<sad::db::Variant> getVariable(const sad::String& name);
 private:
     /*! A handler to call, when entering a state
      */
@@ -178,6 +192,9 @@ private:
     /*! A machine, where state belongs to
      */
     sad::hfsm::Machine * m_machine;
+    /*! A variables for a state
+     */
+    sad::Hash<sad::String, sad::db::Variant> m_variables;
 };
 
 }

@@ -31,7 +31,7 @@ void sad::hfsm::TransitionRepository::clearTransitions(
         it != t.const_end(); 
         it++)
     {
-        delete it.value();
+        it.value()->delRef();
     }
 }
 
@@ -56,8 +56,11 @@ void sad::hfsm::TransitionRepository::addTransition(
     {
         c.insert(to, t); 
     }
-    if (t)
+    if (t) 
+    {
         t->setRepository(this);
+        t->addRef();
+    }
 }
 
  void sad::hfsm::TransitionRepository::removeTransition(
@@ -70,7 +73,7 @@ void sad::hfsm::TransitionRepository::addTransition(
         sad::Hash<sad::String, sad::hfsm::Transition *> & c = m_transitions[from];
         if (c.contains(to))
         {
-            delete c[to];
+            c[to]->delRef();
             c.remove(to);
         }
     }

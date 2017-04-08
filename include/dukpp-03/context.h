@@ -690,6 +690,11 @@ protected:
  */
 void exposeAPI(sad::dukpp03::Context* ctx);
 
+/*! Exposes hierarchical finite state machine functions, related to context
+    \param[in] ctx context
+*/
+void exposeHFSM(sad::dukpp03::Context* ctx);
+
 }
 
 }

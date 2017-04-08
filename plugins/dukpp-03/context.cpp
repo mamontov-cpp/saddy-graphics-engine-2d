@@ -248,6 +248,8 @@ void sad::dukpp03::Context::initialize()
     }
 #endif
     assert( ok );
+
+    exposeHFSM(this);
 }
 
 

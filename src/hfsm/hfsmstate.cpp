@@ -1,6 +1,8 @@
 #include "hfsm/hfsmstate.h"
 #include "hfsm/hfsmhandler.h"
 
+#include "db/dbtypename.h"
+
 sad::hfsm::State::State()
 : m_machine(NULL), m_shared(NULL), m_parent(NULL)
 {
@@ -9,10 +11,13 @@ sad::hfsm::State::State()
 
 sad::hfsm::State::~State()
 {
-    delete m_shared;
+    if (m_shared)
+    {
+        m_shared->delRef();
+    }
     for(sad::hfsm::StateMap::iterator it = m_children.begin(); it != m_children.end(); it++)
     {
-        delete it.value();
+        it.value()->delRef();
     }
 }
 
@@ -47,6 +52,7 @@ void sad::hfsm::State::addChild(const sad::String & name, sad::hfsm::State * sta
     {
         state->setMachine(m_machine);
         state->setParent(this);
+        state->addRef();
     }
 }
 
@@ -68,7 +74,7 @@ void  sad::hfsm::State::removeChild(const sad::String & name)
 {
     if (m_children.contains(name))
     {
-        delete m_children[name];
+        m_children[name]->delRef();
         m_children.remove(name);
     }
 }
@@ -110,12 +116,19 @@ void sad::hfsm::State::leave()
 
 void sad::hfsm::State::setShared(sad::hfsm::Shared * shared)
 {
-    delete m_shared;
+    if (m_shared)
+    {
+        m_shared->delRef();
+    }
     m_shared = shared;
+    if (m_shared)
+    {
+        m_shared->addRef();
+    }
 }
 
 
-sad::hfsm::Shared * sad::hfsm::State::shared() const
+sad::hfsm::Shared* sad::hfsm::State::shared() const
 {
     return m_shared;
 }
@@ -141,3 +154,20 @@ void sad::hfsm::State::removeLeaveHandler(sad::hfsm::AbstractHandler * f)
     delete f;
     m_leave_handlers.removeAll(f);
 }
+
+void sad::hfsm::State::setVariable(const sad::String& name, const sad::db::Variant& v)
+{
+    m_variables.insert(name, v);
+}
+
+sad::Maybe<sad::db::Variant> sad::hfsm::State::getVariable(const sad::String& name)
+{
+    if (m_variables.contains(name))
+    {
+        return sad::Maybe<sad::db::Variant>(m_variables[name]);
+    }
+    return sad::Maybe<sad::db::Variant>();
+}
+
+
+DECLARE_SOBJ(sad::hfsm::State)

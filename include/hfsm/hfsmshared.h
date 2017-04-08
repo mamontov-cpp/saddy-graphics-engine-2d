@@ -6,6 +6,9 @@
 #pragma once
 #include "../object.h"
 
+#include "../db/dbvariant.h"
+#include "../maybe.h"
+
 namespace sad
 {
 
@@ -23,6 +26,19 @@ public:
     /*! Destroys shared data
      */
     virtual ~Shared();
+    /*! Sets state variable
+        \param[in] name a name for variable
+     */
+    virtual void setVariable(const sad::String& name, const sad::db::Variant& v);
+    /*! Returns state variable
+        \param[in] name a name for variable
+        \return a variable
+     */
+    virtual sad::Maybe<sad::db::Variant> getVariable(const sad::String& name);
+protected:
+    /*! A global variables for a shared state
+     */
+    sad::Hash<sad::String, sad::db::Variant> m_variables;
 };
 
 }

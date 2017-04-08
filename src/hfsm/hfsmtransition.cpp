@@ -2,6 +2,8 @@
 #include "hfsm/hfsmtransition.h"
 #include "hfsm/hfsmhandler.h"
 
+#include "db/dbtypename.h"
+
 #include <string.h>
 
 sad::hfsm::Transition::Transition() : m_repository(NULL)
@@ -49,3 +51,6 @@ void sad::hfsm::Transition::invoke()
         m_handlers[i]->invoke();
     }
 }
+
+DECLARE_SOBJ(sad::hfsm::Transition)
+

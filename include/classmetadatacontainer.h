@@ -182,6 +182,7 @@ public:
             m_lock.unlock();
             return myMetaData;
         }
+        return NULL;
     }
     /*! Returns true if class meta data container contains specified type
         \param[in] name name of class

@@ -80,7 +80,14 @@ public:
         if (sad::ClassMetaDataContainer::ref()->get(_typename, created)->canBeCastedTo(sad::db::TypeName<T>::name()) == true)
         {
             sad::Object ** o = (sad::Object**)object;
-            result.setValue(sad::checked_cast<T, sad::Object>(*o));
+            try 
+            {
+                result.setValue(sad::checked_cast<T, sad::Object>(*o));
+            } 
+            catch (...)
+            {
+
+            }
         }
     }
 };
