@@ -46,6 +46,49 @@ sad::db::Variant makeAnimationAsVariantOfAnimation()
     return sad::db::Variant(result);
 }
 
+class Inheritance1: public sad::Object
+{
+    SAD_OBJECT
+public:
+    Inheritance1() 
+    {
+
+    }
+    ~Inheritance1() 
+    {
+    
+    }
+    int exec() 
+    { 
+        return 2; 
+    }
+};
+
+DECLARE_SOBJ(Inheritance1);
+//DECLARE_TYPE_AS_SAD_OBJECT(Inheritance1);
+
+
+class Inheritance2: public Inheritance1
+{
+    SAD_OBJECT
+public:
+    Inheritance2() 
+    {
+
+    }
+    ~Inheritance2() 
+    {
+    
+    }
+    int execMe() 
+    { 
+        return 1; 
+    }
+};
+
+DECLARE_SOBJ_INHERITANCE(Inheritance2,Inheritance1)
+//DECLARE_TYPE_AS_SAD_OBJECT(Inheritance2);
+
 struct WrappingTest : tpunit::TestFixture
 {
 public:
@@ -58,7 +101,8 @@ public:
        TEST(WrappingTest::testWrapObjectWithoutBindingFromVariant),
        TEST(WrappingTest::testWrapObjectWithBinding),
        TEST(WrappingTest::testWrapObjectWithBindingFromVariant),
-       TEST(WrappingTest::testClone)
+       TEST(WrappingTest::testClone),
+       TEST(WrappingTest::testInheritance)  
     ) {}
 
     /*! Tests automatical wrapping for sad::db::Object without binding
@@ -259,5 +303,37 @@ public:
         ::dukpp03::Maybe<int> result = DUKPP03_FROM_STACK(int, &ctx, -1);
         ASSERT_TRUE( result.exists() );
         ASSERT_TRUE( result.value() == 222 );        
+    }
+
+    /*! Tests simple inheritance
+     */
+    void testInheritance()
+    {
+        std::string error;  
+        
+        sad::dukpp03::Context ctx(true);
+        
+        sad::dukpp03::ClassBinding* b1 = new sad::dukpp03::ClassBinding();
+        b1->addObjectConstructor<Inheritance1>("Inheritance1");
+        b1->addMethod("exec", sad::dukpp03::bind_method::from(&Inheritance1::exec));
+        
+        ctx.addClassBinding("Inheritance1", b1);
+
+        sad::dukpp03::ClassBinding* b2 = new sad::dukpp03::ClassBinding();
+        b2->addObjectConstructor<Inheritance2>("Inheritance2");
+        b2->addMethod("execMe", sad::dukpp03::bind_method::from(&Inheritance2::execMe));
+        b2->addMethod("exec", sad::dukpp03::bind_method::from(&Inheritance1::exec));
+        
+        ctx.addClassBinding("Inheritance2", b2);
+                
+        bool eval_result = ctx.eval(" var i = new Inheritance2(); i.exec() + i.execMe() ", false, &error);
+        if (!eval_result)
+        {
+            std::cout << error << "\n";
+        }
+        ASSERT_TRUE( eval_result );
+        ::dukpp03::Maybe<int> result = DUKPP03_FROM_STACK(int, &ctx, -1);
+        ASSERT_TRUE( result.exists() );
+        ASSERT_TRUE( result.value() == 3 ); 
     }
 } _wrapping_test;
