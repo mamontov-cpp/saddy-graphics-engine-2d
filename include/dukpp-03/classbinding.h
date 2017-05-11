@@ -27,10 +27,6 @@ public:
     /*! Could be inherited
      */
     virtual ~ClassBinding();
-    /*! Wraps value, setting methods for context
-        \param[in] c context
-    */
-    virtual void wrapValue(sad::dukpp03::BasicContext* c);
     /*! Registers this class binding as QObject descendant, filling it
         it with metamethods
      */
@@ -381,19 +377,6 @@ public:
     {
         return addConstructor(name, new ::dukpp03::PtrConstructor16<sad::dukpp03::BasicContext, _ClassName, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12, _Arg13, _Arg14, _Arg15>());
     }
-    /*! Adds new parent binding to a current binding. Parent bindings are invoked sequentially when wrapping value and used only to wrap value.
-        Note, that bindings are stored by reference in hope, that they would belong to same context.
-        \param[in] binding a parent binding
-     */
-    void addParentBinding(sad::dukpp03::ClassBinding* binding);
-    /*! Removes a parent binding from a current binding
-        \param[in] binding a parent binding
-     */
-    void removeParentBinding(sad::dukpp03::ClassBinding* binding);
-protected:
-    /*! A list of parent bindings, that should be used when invoking wrapping value
-     */
-    sad::Vector<sad::dukpp03::ClassBinding*> m_parent_bindings;
 };
 
 }
