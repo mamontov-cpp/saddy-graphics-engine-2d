@@ -19,6 +19,7 @@ class Renderer;
  */
 class OrthographicCamera: public sad::Camera
 {
+SAD_OBJECT
 public:
     /*! Creates a camera, with rectangle width and height, taken from 
         window settings of renderer.

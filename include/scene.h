@@ -36,44 +36,48 @@ public:
         \return schema
      */
     virtual sad::db::schema::Schema* schema() const;
+    /*! Returns current camera
+        \return camera
+     */
+    sad::Camera* getCamera() const;
     /*! Returns current camera for scene
         \return current camera for scene
      */
-    sad::Camera   & camera() const; 
+    sad::Camera& camera() const; 
     /*! Sets a renderer
         \param[in] renderer renderer part
      */
-    void setRenderer(sad::Renderer * renderer);
+    void setRenderer(sad::Renderer* renderer);
     /*! Clears renderer, without resetting it for some nodes
      */
     void clearRenderer();
     /*! Returns a renderer from scene
         \return renderer from scene
      */
-    inline sad::Renderer * renderer() const
+    inline sad::Renderer* renderer() const
     {
         return m_renderer;
     }
     /*! Sets a camera in scene, deleting old camera
         \param[in] camera  new camera
     */
-    void setCamera(sad::Camera * camera);
+    void setCamera(sad::Camera* camera);
     /*! Finds a layers for node
         \param[in] node this node
         \return -1 if not found, index otherwise
      */
-    int findLayer(sad::SceneNode * node);
+    int findLayer(sad::SceneNode* node);
     /*! Sets a layer for node. If no node found in scene - nothing happens, if layer not found - it 
         pushes to end
         \param[in] node node data
         \param[in] layer layer number
      */
-    void setLayer(sad::SceneNode * node,unsigned int layer);
+    void setLayer(sad::SceneNode* node,unsigned int layer);
     /*! Swaps to layers for nodes
         \param[in] node1 first node
         \param[in] node2 second node
      */
-    void swapLayers(sad::SceneNode * node1, sad::SceneNode * node2);
+    void swapLayers(sad::SceneNode* node1, sad::SceneNode* node2);
     /*! Renders a scene, making it visible
      */
     virtual void render();
@@ -121,6 +125,27 @@ public:
         \return name, under which object will be serialized
      */
     virtual const sad::String& serializableName() const;
+
+    /*! Adds new node
+        \param[in] s a scene node
+     */
+    inline void addNode(sad::SceneNode* s)
+    {
+        this->add(s);
+    }
+    /*! Removes a node from a scene
+        \param[in] s a node
+     */
+    inline void removeNode(sad::SceneNode* s)
+    {
+        this->remove(s);
+    }
+    /*! Clears node list
+     */
+    inline void clearNodes()
+    {
+        this->clear();
+    }
 protected:
     /*! Determines, whether scene is active and should be rendered
      */
@@ -130,21 +155,21 @@ protected:
     unsigned int m_cached_layer;
     /*! A layers, which stores a node 
      */
-    sad::Vector<SceneNode *>   m_layers;   
+    sad::Vector<SceneNode*>   m_layers;   
     /*! A camera, to be applied before rendering
      */
-    sad::Camera      *        m_camera;       
+    sad::Camera*        m_camera;       
     /*! Renderer, which scene belongs to
      */
-    sad::Renderer    *        m_renderer;       
+    sad::Renderer*        m_renderer;       
     /*! Adds an object to scene
         \param[in] node 
      */
-    virtual void addNow(sad::SceneNode * node);
+    virtual void addNow(sad::SceneNode* node);
     /*! Removes object from scene
         \param[in] node
      */
-    virtual void removeNow(sad::SceneNode * node);
+    virtual void removeNow(sad::SceneNode* node);
     /*! Clears a scene
      */
     virtual void clearNow();

@@ -254,6 +254,26 @@ public:
         \param[in] height Needed height
      */
     virtual void reshape(int width, int height);
+    /*! Adds scene to renderer
+        \param[in] s scene
+     */
+    inline void addScene(sad::Scene* s)
+    {
+        this->add(s);
+    }
+    /*! Removes scene from a renderer
+        \param[in] s scene
+     */
+    inline void removeScene(sad::Scene* s)
+    {
+        this->remove(s);
+    }
+    /*! Clears scenes from a renderer
+     */
+    inline void clearScenes()
+    {
+        this->clear();
+    }
     /*! Adds new scene to scene container
         \param[in] scene a scene to be rendered
      */
@@ -496,7 +516,7 @@ protected:
         Note, that you MUST call initRendererBeforeLoop before calling this function and call deinitRendererAfterLoop, when done
     */
     virtual void runOnce();
-    /*! Destroys window	and context, makes required cleanups, when renderer is done.
+    /*! Destroys window and context, makes required cleanups, when renderer is done.
         Call this, after main loop of renderer is finished 
      */
     virtual void deinitRendererAfterLoop();

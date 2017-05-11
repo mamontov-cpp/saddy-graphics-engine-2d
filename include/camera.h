@@ -5,6 +5,7 @@
  */
 #pragma once
 #include "sadpoint.h"
+#include "object.h"
 
 namespace sad
 {
@@ -12,8 +13,9 @@ class Scene;
 /*! A camera, which rotates and translates all space, using OpenGL functions, first
     translates using glTranslatef, than rotates using glRotatef
  */
-class Camera
+class Camera: public sad::Object
 {
+SAD_OBJECT
 public:
     /*! Default camera set all transformations to zero, so view won't be changed 
      */
@@ -58,7 +60,7 @@ public:
     sad::Vector3D  RotationVectorDirection;
     /*! Attached scene to a camera
      */
-    sad::Scene *   Scene;
+    sad::Scene*   Scene;
 };
 
 }

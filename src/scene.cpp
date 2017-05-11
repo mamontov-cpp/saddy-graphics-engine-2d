@@ -24,6 +24,7 @@
 sad::Scene::Scene()
 : m_active(true), m_cached_layer(0), m_camera(new sad::OrthographicCamera()), m_renderer(NULL)
 {
+    m_camera->addRef();
     m_camera->Scene = this;
 }
 
@@ -31,7 +32,7 @@ sad::Scene::~Scene()
 {
     for (unsigned long i = 0; i < this->m_layers.count(); i++)
         m_layers[i]->delRef();
-    delete m_camera;
+    m_camera->delRef();
 }
 
 
@@ -82,6 +83,11 @@ void sad::Scene::clearRenderer()
     m_renderer = NULL;
 }
 
+sad::Camera* sad::Scene::getCamera() const
+{
+    return m_camera;
+}
+
 sad::Camera & sad::Scene::camera() const
 {
     return *m_camera;
@@ -89,8 +95,9 @@ sad::Camera & sad::Scene::camera() const
 
 void sad::Scene::setCamera(sad::Camera * camera) 
 { 
-    delete m_camera; 
-    m_camera = camera; 
+    m_camera->delRef(); 
+    m_camera = camera;
+    m_camera->addRef();
 }
 
 int sad::Scene::findLayer(sad::SceneNode * node)

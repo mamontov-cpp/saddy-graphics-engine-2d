@@ -8,6 +8,8 @@
 #include <GL/gl.h>														
 #include <GL/glu.h>
 
+DECLARE_SOBJ_INHERITANCE(sad::OrthographicCamera, sad::Camera)
+
 sad::OrthographicCamera::OrthographicCamera()
 : m_fetched(false), m_width(1), m_height(1)
 {
