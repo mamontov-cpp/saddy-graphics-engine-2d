@@ -5,6 +5,7 @@
 #pragma once
 #include "basiccontext.h"
 #include "../db/schema/schema.h"
+#include "../3rdparty/dukpp-03/include/classbinding.h"
 #include "ptrconstructor.h"
 #include "cloner.h"
 #include "valuecloner.h"

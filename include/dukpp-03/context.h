@@ -681,6 +681,12 @@ protected:
     /*! Exposes renderer and it's functions
      */
     void exposeRenderer();
+    /*! Exposes camera and its's function
+     */
+    void exposeCamera();
+    /*! Exposes orthographic camera and its's function
+     */
+    void exposeOrthographicCamera();
 };
 
 #undef SAD_DUKPP03_TEMPLATE_REGFUNC_BODY

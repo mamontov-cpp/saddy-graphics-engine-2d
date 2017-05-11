@@ -8,6 +8,7 @@
 #include <opengl.h>
 #include <slurp.h>
 #include <spit.h>
+#include <orthographiccamera.h>
 #include <mousecursor.h>
 
 #include <dukpp-03/renderer.h>
@@ -237,6 +238,8 @@ void sad::dukpp03::Context::initialize()
     this->exposeSlurpSpit();
     this->exposeContext();
     this->exposeRenderer();
+    this->exposeCamera();
+    this->exposeOrthographicCamera();
     exposeAPI(this);
 
     std::string error;
@@ -719,6 +722,40 @@ void sad::dukpp03::Context::exposeRenderer()
 
     // Expose sad::sleep
     this->registerCallable("SadSleep", sad::dukpp03::make_function::from(sad::sleep));
+}
+
+
+void  sad::dukpp03::Context::exposeCamera()
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addObjectConstructor<sad::Camera>("SadCamera");
+    c->addAccessor("TranslationOffset", sad::dukpp03::getter::from(&sad::Camera::TranslationOffset), sad::dukpp03::setter::from(&sad::Camera::TranslationOffset));
+    c->addAccessor("Angle", sad::dukpp03::getter::from(&sad::Camera::Angle), sad::dukpp03::setter::from(&sad::Camera::Angle));
+    c->addAccessor("TemporaryRotationOffset", sad::dukpp03::getter::from(&sad::Camera::TemporaryRotationOffset), sad::dukpp03::setter::from(&sad::Camera::TemporaryRotationOffset));
+    c->addAccessor("RotationVectorDirection", sad::dukpp03::getter::from(&sad::Camera::RotationVectorDirection), sad::dukpp03::setter::from(&sad::Camera::RotationVectorDirection));
+
+    void (sad::Camera::*move3d)(const sad::Vector3D & v) = &sad::Camera::move;
+
+    void(sad::Camera::*move2d)(const sad::Point2D & v) = &sad::Camera::move;
+
+    c->addMethod("move3d", sad::dukpp03::bind_method::from(move3d));
+    c->addMethod("move2d", sad::dukpp03::bind_method::from(move2d));
+
+    c->setPrototypeFunction("sad.Camera");
+
+    this->addClassBinding("sad::Camera", c);
+}
+
+void sad::dukpp03::Context::exposeOrthographicCamera()
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addObjectConstructor<sad::OrthographicCamera>("SadOrthographicCamera");
+    c->addObjectConstructor<sad::OrthographicCamera, int, int>("SadOrthographicCamera");
+    c->addParentBinding(static_cast<sad::dukpp03::ClassBinding*>(this->getClassBinding("sad::Camera")));
+
+    c->setPrototypeFunction("sad.OrthographicCamera");
+
+    this->addClassBinding("sad::OrthographicCamera", c);
 }
 
 DECLARE_COMMON_TYPE(sad::dukpp03::Context);

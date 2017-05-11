@@ -698,3 +698,22 @@ sad.pipeline = function(r) {
     };
 };
 
+sad.Camera = SadCamera;
+
+sad.Camera.prototype.move = function(o) {
+    if (typeof o['z'] != "undefined") {
+        this.move3d(o);
+    } else {
+        this.move2d(o);
+    }
+}
+
+sad.OrthographicCamera = SadOrthographicCamera;
+
+sad.OrthographicCamera.prototype.move = function(o) {
+    if (typeof o['z'] != "undefined") {
+        this.move3d(o);
+    } else {
+        this.move2d(o);
+    }
+}
