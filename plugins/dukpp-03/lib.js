@@ -460,6 +460,23 @@ sad.db.Table = SadDBTable;
 sad.db.custom = {};
 sad.db.custom.Object = SadDbCustomObject; 
 
+sad.db.custom.Object.prototype.getProperty = function(name) {
+	return SadDBCustomObjectGetProperty(this, name);
+};
+
+sad.db.custom.Object.prototype.setProperty = function(name, value) {
+	return SadDBCustomObjectSetProperty(this, name, value);
+};
+
+sad.db.custom.Object.prototype.ownPropertyNames = function() {
+    return SadDBCustomObjectOwnPropertyNames(this);
+};
+
+sad.db.custom.Object.prototype.propertyNames = function() {
+    return SadDBCustomObjectPropertyNames(this);
+};
+
+
 sad.input = {};
 
 sad.input.QuitEvent = SadInputQuitEvent;

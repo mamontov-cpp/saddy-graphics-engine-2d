@@ -1087,15 +1087,66 @@ void sad::dukpp03::Context::exposeSprite2D()
     this->addClassBinding("sad::Sprite2D", c);
 }
 
+
+static sad::Maybe<sad::db::Variant> __get_custom_object_property(sad::db::custom::Object* o, const sad::String& s)
+{
+    sad::Maybe<sad::db::Variant> result;
+    sad::db::Property* prop = o->getObjectProperty(s);
+    if (prop)
+    {
+        sad::db::Variant v;
+        prop->get(o, v);
+        result.setValue(v);
+    }
+    return result;
+}
+
+static bool __set_custom_object_property(sad::db::custom::Object* o, const sad::String& s, const sad::db::Variant& v)
+{
+    sad::db::Property* prop = o->getObjectProperty(s);
+    if (prop)
+    {
+        return prop->set(o, v);
+    }
+    return false;
+}
+
+static sad::Vector<sad::String> __custom_object_own_property_names(sad::db::custom::Object* o)
+{
+    const sad::Hash<sad::String, sad::db::Property*>& hash = o->schemaProperties();
+    sad::Vector<sad::String> result;
+    for (sad::Hash<sad::String, sad::db::Property*>::const_iterator it = hash.const_begin(); it != hash.const_end(); ++it)
+    {
+        result << it.key();
+    }
+    return result;
+}
+
+static sad::Vector<sad::String> __custom_object_property_names(sad::db::custom::Object* o)
+{
+    sad::Vector<sad::String> result;
+    o->schema()->getPropertyNames(result);
+    return result;
+}
+
+
 void sad::dukpp03::Context::exposeCustomObject()
 {
     sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
 
     c->addObjectConstructor<sad::db::custom::Object>("SadDbCustomObject");
+
+    sad::db::custom::Object tmp;
+    c->registerSchema(tmp.schema());
     c->addCloneObjectMethodFor<sad::db::custom::Object>();
 
     c->addMethod("innerTypeIs", sad::dukpp03::bind_method::from(&sad::db::custom::Object::innerTypeIs));
     c->addMethod("renderableArea", sad::dukpp03::bind_method::from(&sad::db::custom::Object::renderableArea));
+
+    this->registerCallable("SadDBCustomObjectGetProperty", sad::dukpp03::make_function::from(__get_custom_object_property));
+    this->registerCallable("SadDBCustomObjectSetProperty", sad::dukpp03::make_function::from(__set_custom_object_property));
+    this->registerCallable("SadDBCustomObjectOwnPropertyNames", sad::dukpp03::make_function::from(__custom_object_own_property_names));
+    this->registerCallable("SadDBCustomObjectPropertyNames", sad::dukpp03::make_function::from(__custom_object_property_names));
 
     c->addParentBinding(this->getClassBinding("sad::SceneNode"));
 
