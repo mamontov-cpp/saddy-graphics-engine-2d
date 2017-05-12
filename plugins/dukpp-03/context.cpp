@@ -6,6 +6,7 @@
 #include <sadcolor.h>
 #include <p2d/vector.h>
 #include <opengl.h>
+#include <sprite3d.h>
 #include <slurp.h>
 #include <spit.h>
 #include <orthographiccamera.h>
@@ -232,6 +233,7 @@ void sad::dukpp03::Context::initialize()
     this->exposeSize2I();
     this->exposeRect2D();
     this->exposeRect2I();
+    this->exposeSadRectPoint3D();
     this->exposeColor();
     this->exposeAColor();
     this->exposeUtilFS();
@@ -242,6 +244,7 @@ void sad::dukpp03::Context::initialize()
     this->exposeOrthographicCamera();
     this->exposeScene();
     this->exposeSceneNode();
+    this->exposeSprite3D();
     exposeAPI(this);
 
     std::string error;
@@ -406,6 +409,8 @@ void sad::dukpp03::Context::exposeRect2I()
 
     this->addClassBinding("sad::Rect2I", c);       
 }
+
+
 
 static bool ___file_exists(const sad::String& s)
 {
@@ -753,7 +758,7 @@ void sad::dukpp03::Context::exposeOrthographicCamera()
     sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
     c->addObjectConstructor<sad::OrthographicCamera>("SadOrthographicCamera");
     c->addObjectConstructor<sad::OrthographicCamera, int, int>("SadOrthographicCamera");
-    c->addParentBinding(static_cast<sad::dukpp03::ClassBinding*>(this->getClassBinding("sad::Camera")));
+    c->addParentBinding(this->getClassBinding("sad::Camera"));
 
     c->setPrototypeFunction("sad.OrthographicCamera");
 
@@ -813,6 +818,80 @@ void sad::dukpp03::Context::exposeSceneNode()
 
 
     this->addClassBinding("sad::SceneNode", c);
+}
+
+
+void sad::dukpp03::Context::exposeSprite3D()
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+
+    c->registerAsObjectWithSchema<sad::Sprite3D>();
+    c->addObjectConstructor<sad::Sprite3D>("SadSprite3D");
+    c->addCloneObjectMethodFor<sad::Sprite3D>();
+    
+    c->addMethod("setTextureCoordinates", sad::dukpp03::bind_method::from(&sad::Sprite3D::setTextureCoordinates));
+
+    void (sad::Sprite3D::*setTextureCoordinatep)(int, const sad::Point2D& p) = &sad::Sprite3D::setTextureCoordinate;
+    void (sad::Sprite3D::*setTextureCoordinated)(int, double, double) = &sad::Sprite3D::setTextureCoordinate;
+
+    ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * set_texture_coordinate = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
+    set_texture_coordinate->add(sad::dukpp03::bind_method::from(setTextureCoordinatep));
+    set_texture_coordinate->add(sad::dukpp03::bind_method::from(setTextureCoordinated));
+    c->addMethod("setTextureCoordinate", set_texture_coordinate);
+
+    c->addMethod("textureCoordinates", sad::dukpp03::bind_method::from(&sad::Sprite3D::textureCoordinates));
+
+    c->addMethod("renderableArea", sad::dukpp03::bind_method::from(&sad::Sprite3D::renderableArea));
+    c->addMethod("setRenderableArea", sad::dukpp03::bind_method::from(&sad::Sprite3D::renderableArea));
+    c->addMethod("area", sad::dukpp03::bind_method::from(&sad::Sprite3D::area));
+    c->addMethod("point", sad::dukpp03::bind_method::from(&sad::Sprite3D::point));
+    c->addMethod("middle", sad::dukpp03::bind_method::from(&sad::Sprite3D::middle));
+    c->addMethod("setMiddle", sad::dukpp03::bind_method::from(&sad::Sprite3D::setMiddle));
+
+    c->addMethod("setSize", sad::dukpp03::bind_method::from(&sad::Sprite3D::setSize));
+
+    void (sad::Sprite3D::*move_by_3d)(const sad::Point3D&) = &sad::Sprite3D::moveBy;
+    void (sad::Sprite3D::*move_by_2d)(const sad::Point2D&) = &sad::Sprite3D::moveBy;
+
+    ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * move_by = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
+    move_by->add(sad::dukpp03::bind_method::from(move_by_3d));
+    move_by->add(sad::dukpp03::bind_method::from(move_by_2d));
+    c->addMethod("moveBy", move_by);
+    c->addMethod("rotate", sad::dukpp03::bind_method::from(&sad::Sprite3D::rotate));
+    c->addMethod("alpha", sad::dukpp03::bind_method::from(&sad::Sprite3D::alpha));
+    c->addMethod("setAlpha", sad::dukpp03::bind_method::from(&sad::Sprite3D::setAlpha));
+    c->addMethod("setTheta", sad::dukpp03::bind_method::from(&sad::Sprite3D::setTheta));
+    c->addMethod("setColor", sad::dukpp03::bind_method::from(&sad::Sprite3D::setColor));
+    c->addMethod("flipX", sad::dukpp03::bind_method::from(&sad::Sprite3D::flipX));
+    c->addMethod("setFlipX", sad::dukpp03::bind_method::from(&sad::Sprite3D::setFlipX));
+    c->addMethod("flipY", sad::dukpp03::bind_method::from(&sad::Sprite3D::flipY));
+    c->addMethod("setFlipY", sad::dukpp03::bind_method::from(&sad::Sprite3D::setFlipY));
+    c->addMethod("textureName", sad::dukpp03::bind_method::from(&sad::Sprite3D::textureName));
+    c->addMethod("setTextureName", sad::dukpp03::bind_method::from(&sad::Sprite3D::setTextureName));
+
+    c->addParentBinding(this->getClassBinding("sad::SceneNode"));
+
+    c->setPrototypeFunction("sad.Sprite3D");
+
+    this->addClassBinding("sad::Sprite3D", c);
+}
+
+void  sad::dukpp03::Context::exposeSadRectPoint3D()
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addConstructor<sad::Rect<sad::Point3D> >("SadRectPoint3D");
+    c->addConstructor<sad::Rect<sad::Point3D>, sad::Point3D, sad::Point3D>("SadRectPoint3D");
+    c->addConstructor<sad::Rect<sad::Point3D>, sad::Point3D, sad::Point3D, sad::Point3D, sad::Point3D>("SadRectPoint3D");
+    c->addConstructor<sad::Rect<sad::Point3D>, double, double, double, double>("SadRectPoint3D");
+    c->addMethod("width", sad::dukpp03::bind_method::from(&sad::Rect<sad::Point3D>::width));
+    c->addMethod("height", sad::dukpp03::bind_method::from(&sad::Rect<sad::Point3D>::height));
+    c->addMethod("p0", sad::dukpp03::bind_method::from(&sad::Rect<sad::Point3D>::p0));
+    c->addMethod("p1", sad::dukpp03::bind_method::from(&sad::Rect<sad::Point3D>::p1));
+    c->addMethod("p2", sad::dukpp03::bind_method::from(&sad::Rect<sad::Point3D>::p2));
+    c->addMethod("p3", sad::dukpp03::bind_method::from(&sad::Rect<sad::Point3D>::p3));
+    c->addCloneValueObjectMethodFor<sad::Rect<sad::Point3D> >();
+    c->setPrototypeFunction("SadRectPoint3D");
+    this->addClassBinding("sad::Rect<sad::Point3D>", c);  
 }
 
 DECLARE_COMMON_TYPE(sad::dukpp03::Context);

@@ -693,6 +693,12 @@ protected:
     /*! Exposes scene node class and it's functions
      */
     void exposeSceneNode();
+    /*! Exposes Sprite 3D class and it's functions
+     */
+    void exposeSprite3D();
+    /*! Exposes rectangle, which consists from 3D points
+     */
+    void exposeSadRectPoint3D();
 };
 
 #undef SAD_DUKPP03_TEMPLATE_REGFUNC_BODY

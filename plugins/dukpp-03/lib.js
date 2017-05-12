@@ -227,6 +227,19 @@ sad.Rect2I.prototype.toString = function() {
     return "sad::Rect2I(" +  result.join(', ') + ')';
 };
 
+// sad.RectPoint3D
+
+sad.RectPoint3D = SadRectPoint3D;
+sad.Rect3D = SadRectPoint3D;
+
+sad.RectPoint3D.prototype.toString = function() {
+    var result = [];
+    for(var i = 0; i < 4; i++)
+    {
+        result.push(sad.Point3D.prototype.toString.call(this['p' + i]()));
+    }
+    return "sad::Rect<sad::Point3D>(" +  result.join(', ') + ')';
+};
 
 // console object
 
@@ -719,4 +732,4 @@ sad.OrthographicCamera.prototype.move = function(o) {
 }
 
 sad.Scene = SadScene;
-
+sad.Sprite3D = SadSprite3D;
