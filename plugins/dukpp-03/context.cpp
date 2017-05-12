@@ -1021,6 +1021,65 @@ void sad::dukpp03::Context::exposeSprite2D()
     c->addObjectConstructor<sad::Sprite2D>("SadSprite2D");
     c->addCloneObjectMethodFor<sad::Sprite2D>();
 
+
+    c->addMethod("setTextureCoordinates", sad::dukpp03::bind_method::from(&sad::Sprite2D::setTextureCoordinates));
+
+    void (sad::Sprite2D::*setTextureCoordinatep)(int, const sad::Point2D& p) = &sad::Sprite2D::setTextureCoordinate;
+    void (sad::Sprite2D::*setTextureCoordinated)(int, double, double) = &sad::Sprite2D::setTextureCoordinate;
+
+    ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * set_texture_coordinate = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
+    set_texture_coordinate->add(sad::dukpp03::bind_method::from(setTextureCoordinatep));
+    set_texture_coordinate->add(sad::dukpp03::bind_method::from(setTextureCoordinated));
+    c->addMethod("setTextureCoordinate", set_texture_coordinate);
+
+    c->addMethod("textureCoordinates", sad::dukpp03::bind_method::from(&sad::Sprite2D::textureCoordinates));
+    c->addMethod("setRenderableArea", sad::dukpp03::bind_method::from(&sad::Sprite2D::setRenderableArea));
+    c->addMethod("renderableArea", sad::dukpp03::bind_method::from(&sad::Sprite2D::renderableArea));
+    c->addMethod("setArea", sad::dukpp03::bind_method::from(&sad::Sprite2D::setArea));
+    c->addMethod("point", sad::dukpp03::bind_method::from(&sad::Sprite2D::point));
+    c->addMethod("middle", sad::dukpp03::bind_method::from(&sad::Sprite2D::middle));
+    c->addMethod("setMiddle", sad::dukpp03::bind_method::from(&sad::Sprite2D::setMiddle));
+    c->addMethod("size", sad::dukpp03::bind_method::from(&sad::Sprite2D::size));
+    c->addMethod("setSize", sad::dukpp03::bind_method::from(&sad::Sprite2D::setSize));
+    c->addMethod("moveBy", sad::dukpp03::bind_method::from(&sad::Sprite2D::moveBy));
+    c->addMethod("moveTo", sad::dukpp03::bind_method::from(&sad::Sprite2D::moveTo));
+    c->addMethod("rotate", sad::dukpp03::bind_method::from(&sad::Sprite2D::rotate));
+    c->addMethod("setAngle", sad::dukpp03::bind_method::from(&sad::Sprite2D::setAngle));
+    c->addMethod("setColor", sad::dukpp03::bind_method::from(&sad::Sprite2D::setColor));
+
+    c->addMethod("setFlipX", sad::dukpp03::bind_method::from(&sad::Sprite2D::setFlipX));
+    c->addMethod("flipX", sad::dukpp03::bind_method::from(&sad::Sprite2D::flipX));
+
+    c->addMethod("setFlipY", sad::dukpp03::bind_method::from(&sad::Sprite2D::setFlipY));
+    c->addMethod("flipY", sad::dukpp03::bind_method::from(&sad::Sprite2D::flipY));
+
+    c->addMethod("setTexureName", sad::dukpp03::bind_method::from(&sad::Sprite2D::setTexureName));
+    c->addMethod("textureName", sad::dukpp03::bind_method::from(&sad::Sprite2D::textureName));
+
+
+    void (sad::Sprite2D::*set_string)(const sad::String& p) = &sad::Sprite2D::set;
+    void (sad::Sprite2D::*set_opts)(const sad::Sprite2D::Options & o) = &sad::Sprite2D::set;
+
+    ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * set_overload = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
+    set_overload->add(sad::dukpp03::bind_method::from(set_string));
+    set_overload->add(sad::dukpp03::bind_method::from(set_opts));
+    c->addMethod("set", set_overload);
+
+    c->addMethod("optionsName", sad::dukpp03::bind_method::from(&sad::Sprite2D::optionsName));
+    c->addMethod("treeName", sad::dukpp03::bind_method::from(&sad::Sprite2D::treeName));
+
+
+    void (sad::Sprite2D::*msp2)(const sad::Point2D & p1,  const sad::Point2D & p2) = &sad::Sprite2D::makeSpanBetweenPoints;
+    void (sad::Sprite2D::*msp3)( const sad::Rect2D & r,  const sad::Point2D & p1, const sad::Point2D & p2) = &sad::Sprite2D::makeSpanBetweenPoints;
+
+    ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * msp = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
+    msp->add(sad::dukpp03::bind_method::from(msp2));
+    msp->add(sad::dukpp03::bind_method::from(msp2));
+    c->addMethod("makeSpanBetweenPoints", msp);
+
+    c->addMethod("setChangeSizeWhenOptionsAreChanged", sad::dukpp03::bind_method::from(&sad::Sprite2D::setChangeSizeWhenOptionsAreChanged));
+    c->addMethod("changeSizeWhenOptionsAreChanged", sad::dukpp03::bind_method::from(&sad::Sprite2D::changeSizeWhenOptionsAreChanged));
+
     c->addParentBinding(this->getClassBinding("sad::SceneNode"));
 
     c->setPrototypeFunction("sad.Sprite2D");
