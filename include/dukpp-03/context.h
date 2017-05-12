@@ -699,6 +699,9 @@ protected:
     /*! Exposes rectangle, which consists from 3D points
      */
     void exposeSadRectPoint3D();
+    /*! Exposes label class
+     */
+    void exposeLabel();
 };
 
 #undef SAD_DUKPP03_TEMPLATE_REGFUNC_BODY

@@ -10,6 +10,7 @@
 #include <slurp.h>
 #include <spit.h>
 #include <orthographiccamera.h>
+#include <label.h>
 #include <mousecursor.h>
 
 #include <dukpp-03/renderer.h>
@@ -245,6 +246,7 @@ void sad::dukpp03::Context::initialize()
     this->exposeScene();
     this->exposeSceneNode();
     this->exposeSprite3D();
+    this->exposeLabel();
     exposeAPI(this);
 
     std::string error;
@@ -892,6 +894,118 @@ void  sad::dukpp03::Context::exposeSadRectPoint3D()
     c->addCloneValueObjectMethodFor<sad::Rect<sad::Point3D> >();
     c->setPrototypeFunction("SadRectPoint3D");
     this->addClassBinding("sad::Rect<sad::Point3D>", c);  
+}
+
+static void label_set_font_1(sad::Label* l, const sad::String& s)
+{
+    l->setFont(s);
+}
+
+static void label_set_font_2(sad::Label* l, const sad::String& s, sad::Renderer* r)
+{
+    l->setFont(s, r);
+}
+
+static void label_set_font_3(sad::Label* l, const sad::String& s, sad::Renderer* r, const sad::String& tree)
+{
+    l->setFont(s, r, tree);
+}
+
+void sad::dukpp03::Context::exposeLabel()
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+
+    c->registerAsObjectWithSchema<sad::Label>();
+    c->addObjectConstructor<sad::Label>("SadLabel");
+    c->addCloneObjectMethodFor<sad::Label>();
+
+    c->addMethod("setArea", sad::dukpp03::bind_method::from(&sad::Label::setArea));
+    c->addMethod("region", sad::dukpp03::bind_method::from(&sad::Label::region));
+
+    ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * set_font = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
+   
+    set_font->add(sad::dukpp03::make_function::from(label_set_font_1));
+    set_font->add(sad::dukpp03::make_function::from(label_set_font_2));
+    set_font->add(sad::dukpp03::make_function::from(label_set_font_3));
+    
+    this->registerCallable("SadLabelSetFont", set_font);
+
+    c->addMethod("string", sad::dukpp03::bind_method::from(&sad::Label::string));
+    c->addMethod("setString", sad::dukpp03::bind_method::from(&sad::Label::setString));
+    c->addMethod("setFontName", sad::dukpp03::bind_method::from(&sad::Label::setFontName));
+    c->addMethod("fontName", sad::dukpp03::bind_method::from(&sad::Label::fontName));
+
+    void (sad::Label::*set_point_1)(const sad::Point2D&) = &sad::Label::setPoint;
+    void (sad::Label::*set_point_x_y)(double x, double y) = &sad::Label::setPoint;
+
+    ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * set_point = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
+    set_point->add(sad::dukpp03::bind_method::from(set_point_1));
+    set_point->add(sad::dukpp03::bind_method::from(set_point_x_y));
+    c->addMethod("setPoint", set_point);
+
+    c->addMethod("setAngle", sad::dukpp03::bind_method::from(&sad::Label::setAngle));
+    c->addMethod("pointSize", sad::dukpp03::bind_method::from(&sad::Label::pointSize));
+    c->addMethod("setPointSize", sad::dukpp03::bind_method::from(&sad::Label::setPointSize));
+    c->addMethod("setSize", sad::dukpp03::bind_method::from(&sad::Label::setSize));
+
+    c->addMethod("builtinLineSpacing", sad::dukpp03::bind_method::from(&sad::Label::builtinLineSpacing));
+    c->addMethod("lineSpacing", sad::dukpp03::bind_method::from(&sad::Label::lineSpacing));
+    c->addMethod("setLineSpacing", sad::dukpp03::bind_method::from(&sad::Label::setLineSpacing));
+
+    c->addMethod("lineSpacingRatio", sad::dukpp03::bind_method::from(&sad::Label::lineSpacingRatio));
+    c->addMethod("setLineSpacingRatio", sad::dukpp03::bind_method::from(&sad::Label::setLineSpacingRatio));
+
+
+    void (sad::Label::*set_color_a)(const sad::AColor&) = &sad::Label::setColor;
+    void (sad::Label::*set_point_r_g_b_a)(sad::uchar,sad::uchar,sad::uchar,sad::uchar) = &sad::Label::setColor;
+
+    ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * set_color = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
+    set_color->add(sad::dukpp03::bind_method::from(set_color_a));
+    set_color->add(sad::dukpp03::bind_method::from(set_point_r_g_b_a));
+    c->addMethod("setColor", set_color);
+
+    c->addMethod("setMaximalLineWidth", sad::dukpp03::bind_method::from(&sad::Label::setMaximalLineWidth));
+    c->addMethod("maximalLineWidth", sad::dukpp03::bind_method::from(&sad::Label::maximalLineWidth));
+
+    c->addMethod("setOverflowStrategy", sad::dukpp03::bind_method::from(&sad::Label::setOverflowStrategyFromIndex));
+    c->addMethod("overflowStrategy", sad::dukpp03::bind_method::from(&sad::Label::overflowStrategyAsIndex));
+
+    c->addMethod("setBreakText", sad::dukpp03::bind_method::from(&sad::Label::setBreakTextFromIndex));
+    c->addMethod("breakText", sad::dukpp03::bind_method::from(&sad::Label::breakTextAsIndex));
+
+    c->addMethod("setTextEllipsisPosition", sad::dukpp03::bind_method::from(&sad::Label::setTextEllipsisPositionAsIndex));
+    c->addMethod("textEllipsis", sad::dukpp03::bind_method::from(&sad::Label::textEllipsisAsIndex));
+
+    c->addMethod("setMaximalLinesCount", sad::dukpp03::bind_method::from(&sad::Label::setMaximalLinesCount));
+    c->addMethod("maximalLinesCount", sad::dukpp03::bind_method::from(&sad::Label::maximalLinesCount));
+
+    c->addMethod("setOverflowStrategyForLines", sad::dukpp03::bind_method::from(&sad::Label::setOverflowStrategyForLinesFromIndex));
+    c->addMethod("overflowStrategyForLines", sad::dukpp03::bind_method::from(&sad::Label::overflowStrategyForLinesAsIndex));
+
+    c->addMethod("setTextEllipsisPositionForLines", sad::dukpp03::bind_method::from(&sad::Label::setTextEllipsisPositionForLinesAsIndex));
+    c->addMethod("textEllipsisForLines", sad::dukpp03::bind_method::from(&sad::Label::textEllipsisForLinesAsIndex));
+
+    c->addMethod("hasFormatting", sad::dukpp03::bind_method::from(&sad::Label::hasFormatting));
+    c->addMethod("setHasFormatting", sad::dukpp03::bind_method::from(&sad::Label::setHasFormatting));
+
+    c->addMethod("makeFormatted", sad::dukpp03::bind_method::from(&sad::Label::makeFormatted));
+    c->addMethod("disableFormatting", sad::dukpp03::bind_method::from(&sad::Label::disableFormatting));
+
+    c->addMethod("makeSpanBetweenPoints", sad::dukpp03::bind_method::from(&sad::Label::makeSpanBetweenPoints));
+
+    c->addMethod("moveBy", sad::dukpp03::bind_method::from(&sad::Label::moveBy));
+
+    c->addMethod("renderedStringLength", sad::dukpp03::bind_method::from(&sad::Label::renderedStringLength));
+
+    c->addMethod("setRenderingStringLimit", sad::dukpp03::bind_method::from(&sad::Label::setRenderingStringLimit));
+    c->addMethod("clearRenderingStringLimit", sad::dukpp03::bind_method::from(&sad::Label::clearRenderingStringLimit));
+    c->addMethod("setRenderingStringLimitAsRatioToLength", sad::dukpp03::bind_method::from(&sad::Label::setRenderingStringLimitAsRatioToLength));
+
+    c->addParentBinding(this->getClassBinding("sad::SceneNode"));
+
+    c->setPrototypeFunction("sad.Label");
+
+    this->addClassBinding("sad::Label", c);
 }
 
 DECLARE_COMMON_TYPE(sad::dukpp03::Context);

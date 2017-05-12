@@ -733,3 +733,26 @@ sad.OrthographicCamera.prototype.move = function(o) {
 
 sad.Scene = SadScene;
 sad.Sprite3D = SadSprite3D;
+
+sad.Label = SadLabel;
+
+sad.Label.OverflowStrategy = {
+    "LOS_VISIBLE" : 0,
+    "LOS_HIDDEN" : 1,
+    "LOS_ELLIPSIS" : 2
+};
+
+sad.Label.BreakText = {
+    "LBT_NORMAL" : 0,
+    "LBT_BREAK_WORD" : 1
+};
+
+sad.Label.TextEllipsisPosition = {
+    "LTEP_BEGIN" : 0,
+    "LTEP_MIDDLE" : 1,
+    "LTEP_END" : 2
+};
+
+sad.Label.prototype.setFont = function(font, r, tree) {
+    return SadLabelSetFont(this, font, r, tree);
+};
