@@ -757,4 +757,7 @@ const std::string __context_eval_info = std::string("var sad = {};\n"
 "\n"
 "sad.Label.prototype.setFont = function(font, r, tree) {\n"
 "    return SadLabelSetFont(this, font, r, tree);\n"
-"};\n");
+"};\n"
+"\n"
+"sad.Sprite2D = SadSprite2D;\n"
+"sad.Sprite2D.Options = SadSprite2DOptions;\n");

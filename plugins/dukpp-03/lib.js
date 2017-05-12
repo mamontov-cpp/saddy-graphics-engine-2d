@@ -756,3 +756,6 @@ sad.Label.TextEllipsisPosition = {
 sad.Label.prototype.setFont = function(font, r, tree) {
     return SadLabelSetFont(this, font, r, tree);
 };
+
+sad.Sprite2D = SadSprite2D;
+sad.Sprite2D.Options = SadSprite2DOptions;

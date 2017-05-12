@@ -702,6 +702,15 @@ protected:
     /*! Exposes label class
      */
     void exposeLabel();
+    /*! Exposes Sprite2D class and it's functions
+     */
+    void exposeSprite2D();
+    /*! Exposes Sprite2D::Options class and it's functions
+     */
+    void exposeSprite2DOptions();
+    /*! Exposes sad::db::CustomObject class and it's functions
+     */
+    void exposeCustomObject();
 };
 
 #undef SAD_DUKPP03_TEMPLATE_REGFUNC_BODY

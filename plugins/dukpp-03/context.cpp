@@ -7,6 +7,8 @@
 #include <p2d/vector.h>
 #include <opengl.h>
 #include <sprite3d.h>
+#include <sprite2d.h>
+#include <db/custom/customobject.h>
 #include <slurp.h>
 #include <spit.h>
 #include <orthographiccamera.h>
@@ -247,6 +249,9 @@ void sad::dukpp03::Context::initialize()
     this->exposeSceneNode();
     this->exposeSprite3D();
     this->exposeLabel();
+    this->exposeSprite2D();
+    this->exposeSprite2DOptions();
+    this->exposeCustomObject();
     exposeAPI(this);
 
     std::string error;
@@ -1006,6 +1011,44 @@ void sad::dukpp03::Context::exposeLabel()
     c->setPrototypeFunction("sad.Label");
 
     this->addClassBinding("sad::Label", c);
+}
+
+void sad::dukpp03::Context::exposeSprite2D()
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+
+    c->registerAsObjectWithSchema<sad::Sprite2D>();
+    c->addObjectConstructor<sad::Sprite2D>("SadSprite2D");
+    c->addCloneObjectMethodFor<sad::Sprite2D>();
+
+    c->addParentBinding(this->getClassBinding("sad::SceneNode"));
+
+    c->setPrototypeFunction("sad.Sprite2D");
+
+    this->addClassBinding("sad::Sprite2D", c);
+}
+
+void sad::dukpp03::Context::exposeCustomObject()
+{
+    
+}
+
+void sad::dukpp03::Context::exposeSprite2DOptions()
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+
+    c->addConstructor<sad::Sprite2D::Options>("SadSprite2DOptions");
+    c->addCloneValueObjectMethodFor<sad::Sprite2D::Options>();
+
+    c->addAccessor("Texture", sad::dukpp03::getter::from(&sad::Sprite2D::Options::Texture), sad::dukpp03::setter::from(&sad::Sprite2D::Options::Texture));
+    c->addAccessor("TextureRectangle", sad::dukpp03::getter::from(&sad::Sprite2D::Options::TextureRectangle), sad::dukpp03::setter::from(&sad::Sprite2D::Options::TextureRectangle));
+    c->addAccessor("Rectangle", sad::dukpp03::getter::from(&sad::Sprite2D::Options::Rectangle), sad::dukpp03::setter::from(&sad::Sprite2D::Options::Rectangle));
+    c->addAccessor("Transparent", sad::dukpp03::getter::from(&sad::Sprite2D::Options::Transparent), sad::dukpp03::setter::from(&sad::Sprite2D::Options::Transparent));
+    c->addAccessor("TransparentColor", sad::dukpp03::getter::from(&sad::Sprite2D::Options::TransparentColor), sad::dukpp03::setter::from(&sad::Sprite2D::Options::TransparentColor));
+
+    c->setPrototypeFunction("sad.Sprite2D.Options");
+
+    this->addClassBinding("sad::Sprite2D::Options", c);
 }
 
 DECLARE_COMMON_TYPE(sad::dukpp03::Context);
