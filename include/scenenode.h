@@ -30,6 +30,24 @@ public:
         \param[out] r a vector of regions
      */
     virtual void regions(sad::Vector<sad::Rect2D> & r);
+    /*! Returns regions for a scene node
+        \return region list
+     */
+    inline sad::Vector<sad::Rect2D>  getRegions()
+    {
+        sad::Vector<sad::Rect2D> r;
+        regions(r);
+        return r;
+    }
+    /*! Returns first region or empty rect if nothing
+        \return first region
+     */
+    inline sad::Rect2D region0()
+    {
+        sad::Vector<sad::Rect2D> r;
+        regions(r);
+        return (r.size() == 0) ? sad::Rect2D() : r[0];
+    }
     /*! Called, when renderer is changed for a scene
      */
     virtual void rendererChanged();

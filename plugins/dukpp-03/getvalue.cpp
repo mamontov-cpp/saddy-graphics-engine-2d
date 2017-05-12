@@ -2,6 +2,8 @@
 #include "object.h"
 #include "classmetadatacontainer.h"
 
+#include <iostream>
+
 ::dukpp03::Maybe<double> dukpp03::internal::tryGetDoubleProperty(
     sad::dukpp03::BasicContext* ctx, 
     duk_idx_t pos,
@@ -106,6 +108,15 @@ dukpp03::Maybe<sad::db::Object*> dukpp03::GetValue<sad::db::Object*,  sad::dukpp
                         {
                             sad::Object** object = reinterpret_cast<sad::Object**>(v->data());
                             result.setValue(static_cast<sad::db::Object*>(*object));
+                        }
+                    }
+                    else
+                    {
+                        // A patch for sad::Scene and other classes, derived directly from sad::db::Object
+                        if (v->isSadObject() && v->pointerStarsCount() == 1) 
+                        {
+                            sad::db::Object** object = reinterpret_cast<sad::db::Object**>(v->data());
+                            result.setValue(*object);
                         }
                     }
                 }

@@ -718,4 +718,6 @@ const std::string __context_eval_info = std::string("var sad = {};\n"
 "    } else {\n"
 "        this.move2d(o);\n"
 "    }\n"
-"}\n");
+"}\n"
+"\n"
+"sad.Scene = SadScene;\n");

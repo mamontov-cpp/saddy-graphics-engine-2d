@@ -681,12 +681,18 @@ protected:
     /*! Exposes renderer and it's functions
      */
     void exposeRenderer();
-    /*! Exposes camera and its's function
+    /*! Exposes camera and its's functions
      */
     void exposeCamera();
-    /*! Exposes orthographic camera and its's function
+    /*! Exposes orthographic camera and its's functions
      */
     void exposeOrthographicCamera();
+    /*! Exposes scene class and it's functions
+     */
+    void exposeScene();
+    /*! Exposes scene node class and it's functions
+     */
+    void exposeSceneNode();
 };
 
 #undef SAD_DUKPP03_TEMPLATE_REGFUNC_BODY

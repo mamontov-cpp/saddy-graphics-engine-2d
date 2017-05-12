@@ -240,6 +240,8 @@ void sad::dukpp03::Context::initialize()
     this->exposeRenderer();
     this->exposeCamera();
     this->exposeOrthographicCamera();
+    this->exposeScene();
+    this->exposeSceneNode();
     exposeAPI(this);
 
     std::string error;
@@ -756,6 +758,61 @@ void sad::dukpp03::Context::exposeOrthographicCamera()
     c->setPrototypeFunction("sad.OrthographicCamera");
 
     this->addClassBinding("sad::OrthographicCamera", c);
+}
+
+void sad::dukpp03::Context::exposeScene()
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addObjectConstructor<sad::Scene>("SadScene");
+    c->addMethod("addNode", sad::dukpp03::bind_method::from(&sad::Scene::addNode));
+    c->addMethod("add", sad::dukpp03::bind_method::from(&sad::Scene::addNode));
+    c->addMethod("removeNode", sad::dukpp03::bind_method::from(&sad::Scene::removeNode));
+    c->addMethod("remove", sad::dukpp03::bind_method::from(&sad::Scene::removeNode));
+    c->addMethod("clearNodes", sad::dukpp03::bind_method::from(&sad::Scene::clearNodes));
+    c->addMethod("clear", sad::dukpp03::bind_method::from(&sad::Scene::clearNodes));
+    c->addMethod("getCamera", sad::dukpp03::bind_method::from(&sad::Scene::getCamera));
+    c->addMethod("camera", sad::dukpp03::bind_method::from(&sad::Scene::getCamera));
+    c->addMethod("setCamera", sad::dukpp03::bind_method::from(&sad::Scene::setCamera));
+    c->addMethod("findLayer", sad::dukpp03::bind_method::from(&sad::Scene::findLayer));
+    c->addMethod("setLayer", sad::dukpp03::bind_method::from(&sad::Scene::setLayer));
+    c->addMethod("swapLayers", sad::dukpp03::bind_method::from(&sad::Scene::swapLayers));
+    c->addMethod("objectCount", sad::dukpp03::bind_method::from(&sad::Scene::objectCount));
+    c->addMethod("objects", sad::dukpp03::bind_method::from(&sad::Scene::objects));
+    c->addMethod("setActive", sad::dukpp03::bind_method::from(&sad::Scene::setActive));
+    c->addMethod("active", sad::dukpp03::bind_method::from(&sad::Scene::active));
+    c->addMethod("setObjectName", sad::dukpp03::bind_method::from(&sad::Scene::setObjectName));
+    c->addMethod("objectName", sad::dukpp03::bind_method::from(&sad::Scene::objectName));
+    
+    c->addAccessor("MajorId", sad::dukpp03::getter::from(&sad::Scene::MajorId), sad::dukpp03::setter::from(&sad::Scene::MajorId));
+    c->addAccessor("MinorId", sad::dukpp03::getter::from(&sad::Scene::MinorId), sad::dukpp03::setter::from(&sad::Scene::MinorId));
+
+    c->setPrototypeFunction("sad.Scene");
+
+    this->addClassBinding("sad::Scene", c);
+}
+
+void sad::dukpp03::Context::exposeSceneNode()
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addMethod("visible", sad::dukpp03::bind_method::from(&sad::SceneNode::visible));
+    c->addMethod("setVisible", sad::dukpp03::bind_method::from(&sad::SceneNode::setVisible));
+    c->addMethod("regions", sad::dukpp03::bind_method::from(&sad::SceneNode::getRegions));
+    c->addMethod("getRegions", sad::dukpp03::bind_method::from(&sad::SceneNode::getRegions));
+    c->addMethod("region0", sad::dukpp03::bind_method::from(&sad::SceneNode::region0));
+    c->addMethod("scene", sad::dukpp03::bind_method::from(&sad::SceneNode::scene));
+    c->addMethod("setScene", sad::dukpp03::bind_method::from(&sad::SceneNode::setScene));
+    c->addMethod("setTreeName", sad::dukpp03::bind_method::from(&sad::SceneNode::setTreeName));
+    c->addMethod("moveBy", sad::dukpp03::bind_method::from(&sad::SceneNode::moveBy));
+    c->addMethod("setActive", sad::dukpp03::bind_method::from(&sad::SceneNode::setActive));
+    c->addMethod("active", sad::dukpp03::bind_method::from(&sad::SceneNode::active));
+    c->addMethod("setObjectName", sad::dukpp03::bind_method::from(&sad::SceneNode::setObjectName));
+    c->addMethod("objectName", sad::dukpp03::bind_method::from(&sad::SceneNode::objectName));
+    
+    c->addAccessor("MajorId", sad::dukpp03::getter::from(&sad::SceneNode::MajorId), sad::dukpp03::setter::from(&sad::SceneNode::MajorId));
+    c->addAccessor("MinorId", sad::dukpp03::getter::from(&sad::SceneNode::MinorId), sad::dukpp03::setter::from(&sad::SceneNode::MinorId));
+
+
+    this->addClassBinding("sad::SceneNode", c);
 }
 
 DECLARE_COMMON_TYPE(sad::dukpp03::Context);

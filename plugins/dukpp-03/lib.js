@@ -717,3 +717,6 @@ sad.OrthographicCamera.prototype.move = function(o) {
         this.move2d(o);
     }
 }
+
+sad.Scene = SadScene;
+
