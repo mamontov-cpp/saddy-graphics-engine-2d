@@ -457,6 +457,8 @@ sad.db = {};
 sad.db.Database = SadDBDatabase;
 sad.db.Table = SadDBTable;
 
+sad.db.custom = {};
+sad.db.custom.Object = SadDbCustomObject; 
 
 sad.input = {};
 

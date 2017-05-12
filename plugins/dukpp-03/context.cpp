@@ -1089,6 +1089,19 @@ void sad::dukpp03::Context::exposeSprite2D()
 
 void sad::dukpp03::Context::exposeCustomObject()
 {
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+
+    c->addObjectConstructor<sad::db::custom::Object>("SadDbCustomObject");
+    c->addCloneObjectMethodFor<sad::db::custom::Object>();
+
+    c->addMethod("innerTypeIs", sad::dukpp03::bind_method::from(&sad::db::custom::Object::innerTypeIs));
+    c->addMethod("renderableArea", sad::dukpp03::bind_method::from(&sad::db::custom::Object::renderableArea));
+
+    c->addParentBinding(this->getClassBinding("sad::SceneNode"));
+
+    c->setPrototypeFunction("sad.db.custom.Object");
+
+    this->addClassBinding("sad::db::custom::Object", c);
     
 }
 
