@@ -668,4 +668,33 @@ public:
     }
 };
 
+namespace internal
+{
+
+
+/*! An instantiation for allowing getting properties of sad::db::Object
+ */
+template<>
+class TryGetValueFromObject<sad::db::Object, sad::dukpp03::BasicContext>
+{
+public:
+/*! Performs getting value from stack 
+    \param[in] ctx context
+    \param[in] pos index for stack
+    \param[out] result an output value. Won't be changed if result exists, will be set to result otherwise
+    \return a value if it exists, otherwise empty maybe
+ */
+inline static void perform(sad::dukpp03::BasicContext* ctx, duk_idx_t pos, ::dukpp03::Maybe<sad::db::Object>& result)
+{
+    ::dukpp03::Maybe<sad::db::Object*> o = ::dukpp03::GetValue<sad::db::Object*,  sad::dukpp03::BasicContext>::perform(ctx, pos);
+    if (o.exists())
+    {
+        result.setReference(o.value());
+    }
+}
+
+};
+
+}
+
 }

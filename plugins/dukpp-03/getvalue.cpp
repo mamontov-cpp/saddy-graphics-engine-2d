@@ -110,7 +110,8 @@ dukpp03::Maybe<sad::db::Object*> dukpp03::GetValue<sad::db::Object*,  sad::dukpp
                             result.setValue(static_cast<sad::db::Object*>(*object));
                         }
                     }
-                    else
+                    
+                    if (result.exists() == false) 
                     {
                         // A patch for sad::Scene and other classes, derived directly from sad::db::Object
                         if (v->isSadObject() && v->pointerStarsCount() == 1) 
