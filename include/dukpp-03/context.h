@@ -725,6 +725,12 @@ void exposeAPI(sad::dukpp03::Context* ctx);
 */
 void exposeHFSM(sad::dukpp03::Context* ctx);
 
+/*! Exposes physics functions, related to context
+     \param[in] ctx context
+*/
+void exposeP2D(sad::dukpp03::Context* ctx);
+
+
 }
 
 }

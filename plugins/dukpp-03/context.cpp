@@ -265,6 +265,7 @@ void sad::dukpp03::Context::initialize()
     assert( ok );
 
     exposeHFSM(this);
+    exposeP2D(this);
 }
 
 
