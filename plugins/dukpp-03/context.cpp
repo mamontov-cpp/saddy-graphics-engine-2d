@@ -1148,6 +1148,75 @@ void sad::dukpp03::Context::exposeCustomObject()
     this->registerCallable("SadDBCustomObjectOwnPropertyNames", sad::dukpp03::make_function::from(__custom_object_own_property_names));
     this->registerCallable("SadDBCustomObjectPropertyNames", sad::dukpp03::make_function::from(__custom_object_property_names));
 
+    c->addMethod("setSchemaName", sad::dukpp03::bind_method::from(&sad::db::custom::Object::setSchemaName));
+    c->addMethod("schemaName", sad::dukpp03::bind_method::from(&sad::db::custom::Object::schemaName));
+
+    c->addMethod("setFontSize", sad::dukpp03::bind_method::from(&sad::db::custom::Object::setFontSize));
+    c->addMethod("fontSize", sad::dukpp03::bind_method::from(&sad::db::custom::Object::fontSize));
+
+    c->addMethod("setFontName", sad::dukpp03::bind_method::from(&sad::db::custom::Object::setFontName));
+    c->addMethod("fontName", sad::dukpp03::bind_method::from(&sad::db::custom::Object::fontName));
+
+    c->addMethod("setLineSpacingRatio", sad::dukpp03::bind_method::from(&sad::db::custom::Object::setLineSpacingRatio));
+    c->addMethod("lineSpacingRatio", sad::dukpp03::bind_method::from(&sad::db::custom::Object::lineSpacingRatio));
+
+    c->addMethod("setMaximalLineWidth", sad::dukpp03::bind_method::from(&sad::db::custom::Object::setMaximalLineWidth));
+    c->addMethod("maximalLineWidth", sad::dukpp03::bind_method::from(&sad::db::custom::Object::maximalLineWidth));
+
+    c->addMethod("setAngle", sad::dukpp03::bind_method::from(&sad::db::custom::Object::setAngle));
+    c->addMethod("setArea", sad::dukpp03::bind_method::from(&sad::db::custom::Object::setArea));
+
+    c->addMethod("string", sad::dukpp03::bind_method::from(&sad::db::custom::Object::string));
+    c->addMethod("setString", sad::dukpp03::bind_method::from(&sad::db::custom::Object::setString));
+
+    c->addMethod("setColor", sad::dukpp03::bind_method::from(&sad::db::custom::Object::setColor));
+
+    c->addMethod("flipX", sad::dukpp03::bind_method::from(&sad::db::custom::Object::flipX));
+    c->addMethod("setFlipX", sad::dukpp03::bind_method::from(&sad::db::custom::Object::setFlipX));
+
+    c->addMethod("flipY", sad::dukpp03::bind_method::from(&sad::db::custom::Object::flipY));
+    c->addMethod("setFlipY", sad::dukpp03::bind_method::from(&sad::db::custom::Object::setFlipY));
+
+    c->addMethod("canBeRendered", sad::dukpp03::bind_method::from(&sad::db::custom::Object::canBeRendered));
+
+    c->addMethod("setOptions", sad::dukpp03::bind_method::from(&sad::db::custom::Object::setOptions));
+
+    c->addMethod("setTextureCoordinates", sad::dukpp03::bind_method::from(&sad::db::custom::Object::setTextureCoordinates));
+    c->addMethod("textureCoordinates", sad::dukpp03::bind_method::from(&sad::db::custom::Object::textureCoordinates));
+
+    c->addMethod("setOverflowStrategy", sad::dukpp03::bind_method::from(&sad::db::custom::Object::setOverflowStrategyFromIndex));
+    c->addMethod("overflowStrategy", sad::dukpp03::bind_method::from(&sad::db::custom::Object::overflowStrategyAsIndex));
+
+    c->addMethod("setBreakText", sad::dukpp03::bind_method::from(&sad::db::custom::Object::setBreakTextFromIndex));
+    c->addMethod("breakText", sad::dukpp03::bind_method::from(&sad::db::custom::Object::breakTextAsIndex));
+
+    c->addMethod("setTextEllipsisPosition", sad::dukpp03::bind_method::from(&sad::db::custom::Object::setTextEllipsisPositionAsIndex));
+    c->addMethod("textEllipsis", sad::dukpp03::bind_method::from(&sad::db::custom::Object::textEllipsisAsIndex));
+
+    c->addMethod("setMaximalLinesCount", sad::dukpp03::bind_method::from(&sad::db::custom::Object::setMaximalLinesCount));
+    c->addMethod("maximalLinesCount", sad::dukpp03::bind_method::from(&sad::db::custom::Object::maximalLinesCount));
+
+    c->addMethod("setOverflowStrategyForLines", sad::dukpp03::bind_method::from(&sad::db::custom::Object::setOverflowStrategyForLinesFromIndex));
+    c->addMethod("overflowStrategyForLines", sad::dukpp03::bind_method::from(&sad::db::custom::Object::overflowStrategyForLinesAsIndex));
+
+    c->addMethod("setTextEllipsisPositionForLines", sad::dukpp03::bind_method::from(&sad::db::custom::Object::setTextEllipsisPositionForLinesAsIndex));
+    c->addMethod("textEllipsisForLines", sad::dukpp03::bind_method::from(&sad::db::custom::Object::textEllipsisForLinesAsIndex));
+
+    c->addMethod("setHasFormatting", sad::dukpp03::bind_method::from(&sad::db::custom::Object::setHasFormatting));
+    c->addMethod("hasFormatting", sad::dukpp03::bind_method::from(&sad::db::custom::Object::hasFormatting));
+
+    c->addMethod("makeFormatted", sad::dukpp03::bind_method::from(&sad::db::custom::Object::makeFormatted));
+    c->addMethod("disableFormatting", sad::dukpp03::bind_method::from(&sad::db::custom::Object::disableFormatting));
+
+    c->addMethod("copyCustomPropertyValuesFrom", sad::dukpp03::bind_method::from(&sad::db::custom::Object::copyCustomPropertyValuesFrom));
+    c->addMethod("makeSpanBetweenPoints", sad::dukpp03::bind_method::from(&sad::db::custom::Object::makeSpanBetweenPoints));
+    c->addMethod("moveBy", sad::dukpp03::bind_method::from(&sad::db::custom::Object::moveBy));
+    c->addMethod("renderedStringLength", sad::dukpp03::bind_method::from(&sad::db::custom::Object::renderedStringLength));
+    c->addMethod("setRenderingStringLimit", sad::dukpp03::bind_method::from(&sad::db::custom::Object::setRenderingStringLimit));
+    c->addMethod("clearRenderingStringLimit", sad::dukpp03::bind_method::from(&sad::db::custom::Object::clearRenderingStringLimit));
+    c->addMethod("setRenderingStringLimitAsRatioToLength", sad::dukpp03::bind_method::from(&sad::db::custom::Object::setRenderingStringLimitAsRatioToLength));
+
+
     c->addParentBinding(this->getClassBinding("sad::SceneNode"));
 
     c->setPrototypeFunction("sad.db.custom.Object");
