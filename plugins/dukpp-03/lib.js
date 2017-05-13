@@ -778,3 +778,42 @@ sad.Label.prototype.setFont = function(font, r, tree) {
 
 sad.Sprite2D = SadSprite2D;
 sad.Sprite2D.Options = SadSprite2DOptions;
+
+sad.p2d = {};
+
+sad.p2d.BoundType = {
+	"BT_LEFT" : 0,
+	"BT_RIGHT" : 1,
+	"BT_DOWN" : 2,
+	"BT_UP" : 3
+};
+
+sad.p2d.Bound = function(type, position) {
+	if (typeof type == "undefined") {
+		type = sad.p2d.BoundType.BT_LEFT;
+	}
+	if (typeof position == "undefined") {
+		position = 0;
+	}
+	if ((type < 0) || (type > 3)) {
+		throw new TypeError("Argument 0 is not a sad::p2d::BoundType");
+	}
+	this.type = type;
+	this.position = position;
+	this.clone =  function() {
+		return new sad.p2d.Bound(this.type, this.position);
+	};
+	this.center = function() {
+		return new sad.Point2D(0,0);
+	};
+	this.rotate = function(angle) {
+		
+	};
+	this.move = function(v) {
+		
+	};
+	this.dump = function() {
+		var b =  ["Left", "Right", "Bottom", "Top"];
+		return b[this.type] + " bound at " + this.position;
+	};
+};

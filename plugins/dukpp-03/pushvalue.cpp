@@ -1,6 +1,8 @@
 #include "dukpp-03/context.h"
 #include "dukpp-03/pushvariant.h"
 
+#include <sstream>
+
 
 static duk_ret_t localFinalize(duk_context *ctx)
 {
@@ -52,4 +54,26 @@ void dukpp03::PushValue<const char*, sad::dukpp03::BasicContext>::perform(sad::d
 void dukpp03::PushValue<sad::db::Variant, sad::dukpp03::BasicContext>::perform(sad::dukpp03::BasicContext* ctx, const sad::db::Variant& v)
 {
     sad::dukpp03::pushVariant(ctx, v);
+}
+
+void dukpp03::PushValue<sad::p2d::Bound*, sad::dukpp03::BasicContext>::perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::Bound* v)
+{
+    duk_bool_t result = duk_peval_string(ctx->context(), "sad.p2d.Bound");
+    assert(result == 0);
+    duk_push_int(ctx->context(), static_cast<int>(v->type()));
+    duk_push_number(ctx->context(), v->position());
+    duk_new(ctx->context(), 2);
+}
+
+void dukpp03::PushValue<sad::p2d::Bound, sad::dukpp03::BasicContext>::perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::Bound v)
+{
+    dukpp03::PushValue<sad::p2d::Bound*, sad::dukpp03::BasicContext>::perform(ctx, &v);
+}
+
+void dukpp03::PushValue<sad::p2d::CollisionShape*, sad::dukpp03::BasicContext>::perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::CollisionShape* v)
+{
+    if (const_cast<sad::p2d::CollisionShape*>(v)->metaIndex() == sad::p2d::Bound::globalMetaIndex())
+    {
+        dukpp03::PushValue<sad::p2d::Bound*, sad::dukpp03::BasicContext>::perform(ctx, static_cast<const sad::p2d::Bound*>(v));
+    }
 }

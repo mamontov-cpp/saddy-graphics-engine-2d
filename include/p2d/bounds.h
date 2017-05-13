@@ -19,10 +19,10 @@ namespace p2d
  */
 enum BoundType
 {
-    BT_LEFT,  //!<  A left bound reacts on objects from left
-    BT_RIGHT, //!<  A right bound reacts on objects from right
-    BT_DOWN,  //!<  A down bound reacts on object from below
-    BT_UP     //!<  An up bound reacts on objects upper than specified
+    BT_LEFT  = 0, //!<  A left bound reacts on objects from left
+    BT_RIGHT = 1, //!<  A right bound reacts on objects from right
+    BT_DOWN  = 2, //!<  A down bound reacts on object from below
+    BT_UP    = 3  //!<  An up bound reacts on objects upper than specified
 };
 
 class Bound: public p2d::CollisionShape

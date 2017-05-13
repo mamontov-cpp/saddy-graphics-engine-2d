@@ -10,6 +10,7 @@
 #include "../sadsize.h"
 #include "../sadvector.h"
 #include "../sadhash.h"
+#include "../p2d/bounds.h"
 // ReSharper disable once CppUnusedIncludeDirective
 #include "../db/save.h"
 #include "../db/load.h"
@@ -425,6 +426,43 @@ static ::dukpp03::Maybe<sad::AColor> perform(
     sad::dukpp03::BasicContext* ctx,
     duk_idx_t pos
 );
+
+};
+
+
+/*! An instantiation for sad::p2d::Bound
+*/
+template<>
+class GetValue<sad::p2d::Bound*, sad::dukpp03::BasicContext>
+{
+public:
+    /*! Performs getting value from stack
+    \param[in] ctx context
+    \param[in] pos index for stack
+    \return a value if it exists, otherwise empty maybe
+    */
+    static ::dukpp03::Maybe<sad::p2d::Bound*> perform(
+        sad::dukpp03::BasicContext* ctx,
+        duk_idx_t pos
+    );
+
+};
+
+/*! An instantiation for sad::p2d::Bound
+*/
+template<>
+class GetValue<sad::p2d::CollisionShape*, sad::dukpp03::BasicContext>
+{
+public:
+    /*! Performs getting value from stack
+    \param[in] ctx context
+    \param[in] pos index for stack
+    \return a value if it exists, otherwise empty maybe
+    */
+    static ::dukpp03::Maybe<sad::p2d::CollisionShape*> perform(
+        sad::dukpp03::BasicContext* ctx,
+        duk_idx_t pos
+    );
 
 };
 

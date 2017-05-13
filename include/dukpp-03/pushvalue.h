@@ -6,6 +6,7 @@
 #include "basiccontext.h"
 #include "../sadstring.h"
 #include "../db/dbvariant.h"
+#include "../p2d/bounds.h"
 #include "../sadvector.h"
 #include "../sadhash.h"
 #include "../isrefcountable.h"
@@ -239,6 +240,46 @@ public:
     \param[in] v value
  */
 static void perform(sad::dukpp03::BasicContext* ctx, const sad::db::Variant& v);
+};
+
+
+/*! An instantiation for pushing sad::p2d::Bound on stack
+*/
+template<>
+class PushValue<sad::p2d::Bound, sad::dukpp03::BasicContext>
+{
+public:
+    /*! Performs pushing value
+    \param[in] ctx context
+    \param[in] v value
+    */
+    static void perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::Bound v);
+};
+
+/*! An instantiation for pushing sad::p2d::Bound on stack
+ */
+template<>
+class PushValue<sad::p2d::Bound*, sad::dukpp03::BasicContext>
+{
+public:
+    /*! Performs pushing value
+    \param[in] ctx context
+    \param[in] v value
+    */
+    static void perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::Bound* v);
+};
+
+/*! An instantiation for pushing sad::p2d::CollisionShape on stack
+*/
+template<>
+class PushValue<sad::p2d::CollisionShape*, sad::dukpp03::BasicContext>
+{
+public:
+    /*! Performs pushing value
+    \param[in] ctx context
+    \param[in] v value
+    */
+    static void perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::CollisionShape* v);
 };
 
 /*! An instantiation, which ensures, that created sad::Object and sad::db::Object 

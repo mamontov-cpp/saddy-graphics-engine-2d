@@ -8,6 +8,7 @@
 #include <p2d/line.h>
 #include <p2d/rectangle.h>
 #include <p2d/collisiontest.h>
+#include <p2d/vector.h>
 
 #include <cassert>
 
@@ -64,9 +65,17 @@ static bool __collidesL2L(const sad::Point2D& p11, const sad::Point2D& p12, cons
     return test1.invoke(&l1x, &l2x);
 }
 
+static sad::p2d::Vector __ortho(const sad::p2d::Vector& v, int i)
+{
+    if ((i < 0) || (i > 1))
+    {
+        return v;
+    }
+    return sad::p2d::ortho(v, static_cast<sad::p2d::OrthoVectorIndex>(i));
+}
+
 void sad::dukpp03::exposeP2D(sad::dukpp03::Context* ctx)
 {
-    PERFORM_AND_ASSERT("sad.p2d = {};");
 
     ctx->registerCallable("SadP2DAxle", sad::dukpp03::make_function::from(sad::p2d::axle));
 
@@ -155,5 +164,25 @@ void sad::dukpp03::exposeP2D(sad::dukpp03::Context* ctx)
         "sad.is_fuzzy_zero = function(x, prec) { if (typeof prec == \"undefined\") prec = 0.001; return SadIsFuzzyZero(x, prec); };"
         "sad.non_fuzzy_zero = function(x, prec) { if (typeof prec == \"undefined\") prec = 0.001; return SadNonFuzzyZero(x, prec); };"
         "sad.equal = function(x1, x2, prec) { if (typeof prec == \"undefined\") prec = 0.001; return __SadEqual(x1, x2, prec); };"
+    );
+
+    // p2d/vector.h
+
+    ctx->registerCallable("SadP2DModulo", sad::dukpp03::make_function::from(sad::p2d::modulo));
+    ctx->registerCallable("SadP2DBasis", sad::dukpp03::make_function::from(sad::p2d::basis));
+    ctx->registerCallable("SadP2DUnit", sad::dukpp03::make_function::from(sad::p2d::unit));
+    ctx->registerCallable("SadP2DOrtho", sad::dukpp03::make_function::from(__ortho));
+    ctx->registerCallable("SadP2DScalar", sad::dukpp03::make_function::from(sad::p2d::scalar));
+
+
+    PERFORM_AND_ASSERT(
+        "sad.p2d.OrthoVectorIndex = {};"
+        "sad.p2d.OrthoVectorIndex.OVI_DEG_90 = 0;"
+        "sad.p2d.OrthoVectorIndex.OVI_DEG_270 = 1;"
+        "sad.p2d.modulo = SadP2DModulo;"
+        "sad.p2d.basis = SadP2DBasis;"
+        "sad.p2d.unit = SadP2DUnit;"
+        "sad.p2d.ortho = SadP2DOrtho;"
+        "sad.p2d.scalar = SadP2DScalar;"
     );
 }

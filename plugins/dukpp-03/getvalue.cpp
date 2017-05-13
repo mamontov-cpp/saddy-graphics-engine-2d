@@ -252,6 +252,45 @@ dukpp03::Maybe<sad::db::Object*> dukpp03::GetValue<sad::db::Object*,  sad::dukpp
     return result;
 }
 
+::dukpp03::Maybe<sad::p2d::Bound*> dukpp03::GetValue<sad::p2d::Bound*, sad::dukpp03::BasicContext>::perform(
+    sad::dukpp03::BasicContext* ctx,
+    duk_idx_t pos
+)
+{
+    ::dukpp03::Maybe<sad::p2d::Bound*> result;
+    if (duk_is_object(ctx->context(), pos))
+    {
+        ::dukpp03::Maybe<int> maybetype = ::dukpp03::internal::tryGetIntProperty(ctx, pos, "type");
+        ::dukpp03::Maybe<double> maybeposition = ::dukpp03::internal::tryGetDoubleProperty(ctx, pos, "position");
+        if (maybetype.exists() && maybeposition.exists())
+        {
+            if (maybetype.value() >= 0 && maybetype.value() <= 3)
+            {
+                sad::p2d::Bound* b = new sad::p2d::Bound();
+                b->setType(static_cast<sad::p2d::BoundType>(maybetype.value()));
+                b->setPosition(maybeposition.value());
+                result.setValue(b);
+            }
+        }
+    }
+    return result;
+}
+
+
+::dukpp03::Maybe<sad::p2d::CollisionShape*> dukpp03::GetValue<sad::p2d::CollisionShape*, sad::dukpp03::BasicContext>::perform(
+    sad::dukpp03::BasicContext* ctx,
+    duk_idx_t pos
+)
+{
+    ::dukpp03::Maybe<sad::p2d::CollisionShape*> result;
+
+    ::dukpp03::Maybe<sad::p2d::Bound*> maybe_bound = dukpp03::GetValue<sad::p2d::Bound*, sad::dukpp03::BasicContext>::perform(ctx, pos);
+    if (maybe_bound.exists())
+    {
+        result.setValue(maybe_bound.value());
+    }
+    return result;
+}
 
 
 ::dukpp03::Maybe<sad::Point3D>  dukpp03::GetValue<sad::Point3D,  sad::dukpp03::BasicContext>::perform(

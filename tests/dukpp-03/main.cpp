@@ -3,6 +3,7 @@
 #pragma warning(disable: 4351)
 #include <stdio.h>
 #include "3rdparty/tpunit++/tpunit++.hpp"
+#include <p2d/bounds.h>
 #pragma warning(pop)
 
 #define TEST_INTERACTIVE
