@@ -346,6 +346,29 @@ dukpp03::Maybe<sad::db::Object*> dukpp03::GetValue<sad::db::Object*,  sad::dukpp
     return result;
 }
 
+
+
+::dukpp03::Maybe<sad::p2d::Circle*> dukpp03::GetValue<sad::p2d::Circle*, sad::dukpp03::BasicContext>::perform(
+    sad::dukpp03::BasicContext* ctx,
+    duk_idx_t pos
+)
+{
+    ::dukpp03::Maybe<sad::p2d::Circle*> result;
+    if (duk_is_object(ctx->context(), pos))
+    {
+        ::dukpp03::Maybe<sad::Point2D> maybe_center = dukpp03::internal::tryGetPoint2DProperty(ctx, pos, "m_center");
+        ::dukpp03::Maybe<double> maybe_radius = dukpp03::internal::tryGetDoubleProperty(ctx, pos, "m_radius");
+        if (maybe_center.exists() && maybe_radius.exists())
+        {
+            sad::p2d::Circle* b = new sad::p2d::Circle();
+            b->setCenter(maybe_center.value());
+            b->setRadius(maybe_radius.value());
+            result.setValue(b);
+        }
+    }
+    return result;
+}
+
 ::dukpp03::Maybe<sad::p2d::CollisionShape*> dukpp03::GetValue<sad::p2d::CollisionShape*, sad::dukpp03::BasicContext>::perform(
     sad::dukpp03::BasicContext* ctx,
     duk_idx_t pos
@@ -377,6 +400,17 @@ dukpp03::Maybe<sad::db::Object*> dukpp03::GetValue<sad::db::Object*,  sad::dukpp
             result.setValue(maybe_rectangle.value());
         }
     }
+
+    // Try to get circle
+    if (result.exists() == false)
+    {
+        ::dukpp03::Maybe<sad::p2d::Circle*> maybe_circle = dukpp03::GetValue<sad::p2d::Circle*, sad::dukpp03::BasicContext>::perform(ctx, pos);
+        if (maybe_circle.exists())
+        {
+            result.setValue(maybe_circle.value());
+        }
+    }
+
     return result;
 }
 

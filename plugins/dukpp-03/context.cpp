@@ -31,7 +31,7 @@
 
 DECLARE_COMMON_TYPE(sad::dukpp03::CompiledFunction)
 
-#define CONFIG_DEBUG
+//#define CONFIG_DEBUG
 
 // ============================================ PUBLIC METHODS ============================================
 

@@ -83,6 +83,16 @@ void dukpp03::PushValue<sad::p2d::Rectangle*, sad::dukpp03::BasicContext>::perfo
     duk_new(ctx->context(), 1);
 }
 
+void dukpp03::PushValue<sad::p2d::Circle*, sad::dukpp03::BasicContext>::perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::Circle* v)
+{
+    duk_bool_t result = duk_peval_string(ctx->context(), "sad.p2d.Circle");
+    assert(result == 0);
+    dukpp03::PushValue<sad::Point2D, sad::dukpp03::BasicContext>::perform(ctx, v->centerRef());
+    dukpp03::PushValue<double, sad::dukpp03::BasicContext>::perform(ctx, v->radius());
+    duk_new(ctx->context(), 2);
+}
+
+
 void dukpp03::PushValue<sad::p2d::Bound, sad::dukpp03::BasicContext>::perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::Bound v)
 {
     dukpp03::PushValue<sad::p2d::Bound*, sad::dukpp03::BasicContext>::perform(ctx, &v);
@@ -97,6 +107,11 @@ void dukpp03::PushValue<sad::p2d::Line, sad::dukpp03::BasicContext>::perform(sad
 void dukpp03::PushValue<sad::p2d::Rectangle, sad::dukpp03::BasicContext>::perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::Rectangle& v)
 {
     dukpp03::PushValue<sad::p2d::Rectangle*, sad::dukpp03::BasicContext>::perform(ctx, &v);
+}
+
+void dukpp03::PushValue<sad::p2d::Circle, sad::dukpp03::BasicContext>::perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::Circle& v)
+{
+    dukpp03::PushValue<sad::p2d::Circle*, sad::dukpp03::BasicContext>::perform(ctx, &v);
 }
 
 
@@ -120,5 +135,10 @@ void dukpp03::PushValue<sad::p2d::CollisionShape*, sad::dukpp03::BasicContext>::
     if (const_cast<sad::p2d::CollisionShape*>(v)->metaIndex() == sad::p2d::Rectangle::globalMetaIndex())
     {
         dukpp03::PushValue<sad::p2d::Rectangle*, sad::dukpp03::BasicContext>::perform(ctx, static_cast<const sad::p2d::Rectangle*>(v));
+    }
+
+    if (const_cast<sad::p2d::CollisionShape*>(v)->metaIndex() == sad::p2d::Circle::globalMetaIndex())
+    {
+        dukpp03::PushValue<sad::p2d::Circle*, sad::dukpp03::BasicContext>::perform(ctx, static_cast<const sad::p2d::Circle*>(v));
     }
 }

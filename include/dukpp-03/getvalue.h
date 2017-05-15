@@ -13,6 +13,7 @@
 #include "../p2d/bounds.h"
 #include "../p2d/line.h"
 #include "../p2d/rectangle.h"
+#include "../p2d/circle.h"
 // ReSharper disable once CppUnusedIncludeDirective
 #include "../db/save.h"
 #include "../db/load.h"
@@ -492,6 +493,24 @@ public:
     \return a value if it exists, otherwise empty maybe
     */
     static ::dukpp03::Maybe<sad::p2d::Rectangle*> perform(
+        sad::dukpp03::BasicContext* ctx,
+        duk_idx_t pos
+    );
+
+};
+
+/*! An instantiation for sad::p2d::Circle
+ */
+template<>
+class GetValue<sad::p2d::Circle*, sad::dukpp03::BasicContext>
+{
+public:
+    /*! Performs getting value from stack
+    \param[in] ctx context
+    \param[in] pos index for stack
+    \return a value if it exists, otherwise empty maybe
+    */
+    static ::dukpp03::Maybe<sad::p2d::Circle*> perform(
         sad::dukpp03::BasicContext* ctx,
         duk_idx_t pos
     );

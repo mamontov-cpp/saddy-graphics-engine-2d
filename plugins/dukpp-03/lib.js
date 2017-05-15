@@ -1055,3 +1055,67 @@ sad.p2d.Rectangle = function(o) {
 	}
 	this.setRect(o);
 };
+
+
+sad.p2d.Circle = function(center, radius) {
+	if (typeof center == "undefined") {
+		center = new sad.Point2D(0, 0);
+	};
+	if (typeof radius == "undefined") {
+		radius = 0;
+	};
+	this.clone = function() {
+		return new sad.p2d.Circle(this.m_center.clone(), this.m_radius);
+	};
+	this.center = function() {
+		return this.m_center;
+	};
+	this.centerRef = this.center;
+	this.radius = function() {
+		return this.m_radius;
+	};
+	this.setCenter =  function(p) {
+		if (sad.p2d.isPoint2D(p)) {
+			this.m_center = p;
+		} else {
+			throw new TypeError("Argument 0 is not a sad::Point2D");
+		}
+	};
+	this.setRadius = function(radius) {
+		if (typeof radius == "number") {
+			this.m_radius = radius;
+		} else {
+			throw new TypeError("Argument 0 is not a number");
+		} 
+	};
+	this.rotate = function(angle) {
+		if (typeof angle != "number") {
+			throw new TypeError("Argument 0 is not a number");
+		} 
+	};
+	this.moveBy = function(d) {
+		if (sad.p2d.isPoint2D(d)) {
+			this.m_center = new sad.Point2D(this.m_center.x + d.x, this.m_center.y + d.y);
+		} else {
+			throw new TypeError("Argument 0 is not a sad::Point2D");
+		}
+	};
+	this.move = this.moveBy;
+	this.dump = function(o) {
+		return "Circle with center (" + this.m_center.x +"," +  + this.m_center.y + ") and radius " + this.m_radius;
+	};
+	this.resizeBy = function(v) {
+		if (sad.p2d.isPoint2D(v)) {
+			var modulo = sad.p2d.modulo(v);
+			if (v.x > 0 || v.y > 0) {
+				this.m_radius += modulo;
+			} else {
+				this.m_radius -= modulo;
+			}
+		} else {
+			throw new TypeError("Argument 0 is not a sad::Point2D");
+		}
+	};
+	this.setCenter(center);
+	this.setRadius(radius);
+};

@@ -9,6 +9,7 @@
 #include "../p2d/bounds.h"
 #include "../p2d/line.h"
 #include "../p2d/rectangle.h"
+#include "../p2d/circle.h"
 #include "../sadvector.h"
 #include "../sadhash.h"
 #include "../isrefcountable.h"
@@ -246,7 +247,7 @@ static void perform(sad::dukpp03::BasicContext* ctx, const sad::db::Variant& v);
 
 
 /*! An instantiation for pushing sad::p2d::Bound on stack
-*/
+ */
 template<>
 class PushValue<sad::p2d::Bound, sad::dukpp03::BasicContext>
 {
@@ -259,7 +260,7 @@ public:
 };
 
 /*! An instantiation for pushing sad::p2d::Line on stack
-*/
+ */
 template<>
 class PushValue<sad::p2d::Line, sad::dukpp03::BasicContext>
 {
@@ -272,7 +273,7 @@ public:
 };
 
 /*! An instantiation for pushing sad::p2d::Rectangle on stack
-*/
+ */
 template<>
 class PushValue<sad::p2d::Rectangle, sad::dukpp03::BasicContext>
 {
@@ -282,6 +283,19 @@ public:
     \param[in] v value
     */
     static void perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::Rectangle& v);
+};
+
+/*! An instantiation for pushing sad::p2d::Rectangle on stack
+ */
+template<>
+class PushValue<sad::p2d::Circle, sad::dukpp03::BasicContext>
+{
+public:
+    /*! Performs pushing value
+    \param[in] ctx context
+    \param[in] v value
+    */
+    static void perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::Circle& v);
 };
 
 /*! An instantiation for pushing sad::p2d::Bound on stack
@@ -322,6 +336,21 @@ public:
     */
     static void perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::Rectangle* v);
 };
+
+
+/*! An instantiation for pushing sad::p2d::Circle on stack
+ */
+template<>
+class PushValue<sad::p2d::Circle*, sad::dukpp03::BasicContext>
+{
+public:
+    /*! Performs pushing value
+    \param[in] ctx context
+    \param[in] v value
+    */
+    static void perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::Circle* v);
+};
+
 
 /*! An instantiation for pushing sad::p2d::CollisionShape on stack
 */
