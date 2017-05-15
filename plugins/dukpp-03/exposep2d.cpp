@@ -74,6 +74,10 @@ static sad::p2d::Vector __ortho(const sad::p2d::Vector& v, int i)
     return sad::p2d::ortho(v, static_cast<sad::p2d::OrthoVectorIndex>(i));
 }
 
+static bool __isRect2D(const sad::Rect2D& p) {
+	return true;
+}
+
 void sad::dukpp03::exposeP2D(sad::dukpp03::Context* ctx)
 {
 
@@ -122,7 +126,7 @@ void sad::dukpp03::exposeP2D(sad::dukpp03::Context* ctx)
     ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * rotate_overload = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
     rotate_overload->add(sad::dukpp03::make_function::from(__rotateRect));
     rotate_overload->add(sad::dukpp03::make_function::from(__rotateVector));
-    ctx->registerCallable("__SadRotate", is_within_overload);
+    ctx->registerCallable("__SadRotate", rotate_overload);
 
     ctx->registerCallable("SadAngleOf", sad::dukpp03::make_function::from(sad::angleOf));
     ctx->registerCallable("SadAcos", sad::dukpp03::make_function::from(sad::acos));
@@ -173,6 +177,7 @@ void sad::dukpp03::exposeP2D(sad::dukpp03::Context* ctx)
     ctx->registerCallable("SadP2DUnit", sad::dukpp03::make_function::from(sad::p2d::unit));
     ctx->registerCallable("SadP2DOrtho", sad::dukpp03::make_function::from(__ortho));
     ctx->registerCallable("SadP2DScalar", sad::dukpp03::make_function::from(sad::p2d::scalar));
+    ctx->registerCallable("SadP2DRect2D", sad::dukpp03::make_function::from(__isRect2D));
 
 
     PERFORM_AND_ASSERT(

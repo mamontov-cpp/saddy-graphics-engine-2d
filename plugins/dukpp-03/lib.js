@@ -829,6 +829,15 @@ sad.p2d.isPoint2D = function(o) {
 	return false;
 };
 
+sad.p2d.isRect2D = function(o) {
+	try {
+		return SadP2DRect2D(o);
+	} catch(ex) {
+		
+	}
+	return false;
+};
+
 sad.p2d.Matrix2x2 = {};
 
 sad.p2d.Matrix2x2.counterclockwise = function(angle) {
@@ -965,4 +974,84 @@ sad.p2d.Line = function(cx1, cy1, cx2, cy2) {
 	
 	this.setCutter(cx1, cy1, cx2, cy2);
 	isconstructorcall = false;
+};
+
+sad.p2d.Rectangle = function(o) {
+	this.clone = function() {
+		return new sad.p2d.Rectangle(this.m_rect.clone());
+	};
+	this.setRect = function(o) {
+		if (sad.p2d.isRect2D(o)) {
+			this.m_rect = o;
+		} else {
+			throw new TypeError("Argument 0 is not a sad::Rect2D");
+		}
+	};
+	this.point = function(i) {
+		if (typeof i == "number") {
+			if (i > -1 && i < 4) {
+				return  this.m_rect["p" + i]();
+			} else {
+				throw new TypeError("Please, specify value in [0..3] range")
+			}
+		} else {
+			throw new TypeError("Argument 0 is not a number");
+		}
+	};
+	this.points = function() {
+		return [this.m_rect.p0(), this.m_rect.p1(), this.m_rect.p2(), this.m_rect.p3()];
+	};
+	this.rect = function() {
+		return this.m_rect;
+	};
+	this.center = function() {
+		var p1 = this.m_rect.p0();
+		var p2 = this.m_rect.p2();
+		return new sad.Point2D((p1.x + p2.x) / 2.0, (p1.y + p2.y) / 2.0);
+	};
+	this.rotate = function(angle) {
+		if (typeof angle == "number") {
+			this.m_rect = sad.rotate(this.m_rect, angle);
+		} else {
+			throw new TypeError("Argument 0 is not a number");
+		} 
+	};
+	this.moveBy = function(d) {
+		if (sad.p2d.isPoint2D(d)) {
+			this.m_rect = sad.moveBy(d, this.m_rect);
+		} else {
+			throw new TypeError("Argument 0 is not a sad::Point2D");
+		}
+	};
+	this.dump = function(o) {
+		var pts = this.points();
+		return "Rectangle:\n[{0}, {1} - {2}, {3}]\n[{4}, {5} - {6}, {7}]\n"
+				.replace("{0}", pts[0].x)
+				.replace("{1}", pts[0].y)
+				.replace("{2}", pts[1].x)
+				.replace("{3}", pts[1].y)
+				.replace("{4}", pts[3].x)
+				.replace("{5}", pts[3].y)
+				.replace("{6}", pts[2].x)
+				.replace("{7}", pts[2].y);
+	};
+	this.resizeBy = function(v) {
+		var sum = function(p, cx, cy) {
+			return p.plus( new sad.Point2D(v.x * cx, v.y * cy) );
+		};
+		var pts = this.points();
+		if (sad.p2d.isPoint2D(v)) {
+			pts[0] = sum(pts[0], -1, -1);
+			pts[1] = sum(pts[1], 1, -1);
+			pts[2] = sum(pts[2], 1, 1);
+			pts[3] = sum(pts[3], -1, 1);
+			this.setRect(new sad.Rect2D(pts[0], pts[1], pts[2], pts[3]));
+		} else {
+			throw new TypeError("Argument 0 is not a sad::Point2D");
+		}
+	};
+	if (typeof o == "undefined") {
+		o = new sad.Rect2D();
+	}
+	this.setRect(o);
 };

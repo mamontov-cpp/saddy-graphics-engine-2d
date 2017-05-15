@@ -321,6 +321,31 @@ dukpp03::Maybe<sad::db::Object*> dukpp03::GetValue<sad::db::Object*,  sad::dukpp
 }
 
 
+::dukpp03::Maybe<sad::p2d::Rectangle*> dukpp03::GetValue<sad::p2d::Rectangle*, sad::dukpp03::BasicContext>::perform(
+    sad::dukpp03::BasicContext* ctx,
+    duk_idx_t pos
+)
+{
+    ::dukpp03::Maybe<sad::p2d::Rectangle*> result;
+    if (duk_is_object(ctx->context(), pos))
+    {
+        ::dukpp03::Maybe<sad::Rect2D> part;
+        if (duk_has_prop_string(ctx->context(), pos, "m_rect"))
+        {
+            duk_get_prop_string(ctx->context(), pos, "m_rect");
+            part = ::dukpp03::GetValue<sad::Rect2D, sad::dukpp03::BasicContext>::perform(ctx, -1);
+            duk_pop(ctx->context());
+        }
+        if (part.exists())
+        {
+            sad::p2d::Rectangle* b = new sad::p2d::Rectangle();
+            b->setRect(part.value());
+            result.setValue(b);
+        }
+    }
+    return result;
+}
+
 ::dukpp03::Maybe<sad::p2d::CollisionShape*> dukpp03::GetValue<sad::p2d::CollisionShape*, sad::dukpp03::BasicContext>::perform(
     sad::dukpp03::BasicContext* ctx,
     duk_idx_t pos
@@ -340,6 +365,16 @@ dukpp03::Maybe<sad::db::Object*> dukpp03::GetValue<sad::db::Object*,  sad::dukpp
         if (maybe_line.exists())
         {
             result.setValue(maybe_line.value());
+        }
+    }
+    
+    // Try to get rectangle
+    if (result.exists() == false)
+    {
+        ::dukpp03::Maybe<sad::p2d::Rectangle*> maybe_rectangle = dukpp03::GetValue<sad::p2d::Rectangle*, sad::dukpp03::BasicContext>::perform(ctx, pos);
+        if (maybe_rectangle.exists())
+        {
+            result.setValue(maybe_rectangle.value());
         }
     }
     return result;
