@@ -65,15 +65,41 @@ void dukpp03::PushValue<sad::p2d::Bound*, sad::dukpp03::BasicContext>::perform(s
     duk_new(ctx->context(), 2);
 }
 
+
+void dukpp03::PushValue<sad::p2d::Line*, sad::dukpp03::BasicContext>::perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::Line* v)
+{
+    duk_bool_t result = duk_peval_string(ctx->context(), "sad.p2d.Line");
+    assert(result == 0);
+    dukpp03::PushValue<sad::Point2D, sad::dukpp03::BasicContext>::perform(ctx, v->p1());
+    dukpp03::PushValue<sad::Point2D, sad::dukpp03::BasicContext>::perform(ctx, v->p2());
+    duk_new(ctx->context(), 2);
+}
+
 void dukpp03::PushValue<sad::p2d::Bound, sad::dukpp03::BasicContext>::perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::Bound v)
 {
     dukpp03::PushValue<sad::p2d::Bound*, sad::dukpp03::BasicContext>::perform(ctx, &v);
 }
 
+void dukpp03::PushValue<sad::p2d::Line, sad::dukpp03::BasicContext>::perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::Line& v)
+{
+    dukpp03::PushValue<sad::p2d::Line*, sad::dukpp03::BasicContext>::perform(ctx, &v);
+}
+
+
 void dukpp03::PushValue<sad::p2d::CollisionShape*, sad::dukpp03::BasicContext>::perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::CollisionShape* v)
 {
+    if (v == NULL)
+    {
+        duk_push_null(ctx->context());
+        return;
+    }
     if (const_cast<sad::p2d::CollisionShape*>(v)->metaIndex() == sad::p2d::Bound::globalMetaIndex())
     {
         dukpp03::PushValue<sad::p2d::Bound*, sad::dukpp03::BasicContext>::perform(ctx, static_cast<const sad::p2d::Bound*>(v));
+    }
+
+    if (const_cast<sad::p2d::CollisionShape*>(v)->metaIndex() == sad::p2d::Line::globalMetaIndex())
+    {
+        dukpp03::PushValue<sad::p2d::Line*, sad::dukpp03::BasicContext>::perform(ctx, static_cast<const sad::p2d::Line*>(v));
     }
 }

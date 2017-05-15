@@ -54,6 +54,24 @@
 }
 
 
+
+::dukpp03::Maybe<sad::Point2D>  dukpp03::internal::tryGetPoint2DProperty(
+    sad::dukpp03::BasicContext* ctx, 
+    duk_idx_t pos,
+    const char* propname
+)
+{
+    ::dukpp03::Maybe<sad::Point2D> result;
+    if (duk_has_prop_string(ctx->context(), pos, propname))
+    {
+        duk_get_prop_string(ctx->context(), pos, propname);
+        result = ::dukpp03::GetValue<sad::Point2D, sad::dukpp03::BasicContext>::perform(ctx, -1);
+        duk_pop(ctx->context());
+    }
+    return result;
+}
+
+
 dukpp03::Maybe<const char*> dukpp03::GetValue<const char*, sad::dukpp03::BasicContext>::perform(
     sad::dukpp03::BasicContext* ctx, 
     duk_idx_t pos
@@ -277,6 +295,32 @@ dukpp03::Maybe<sad::db::Object*> dukpp03::GetValue<sad::db::Object*,  sad::dukpp
 }
 
 
+::dukpp03::Maybe<sad::p2d::Line*> dukpp03::GetValue<sad::p2d::Line*, sad::dukpp03::BasicContext>::perform(
+    sad::dukpp03::BasicContext* ctx,
+    duk_idx_t pos
+)
+{
+    ::dukpp03::Maybe<sad::p2d::Line*> result;
+    if (duk_is_object(ctx->context(), pos))
+    {
+        ::dukpp03::Maybe<sad::Pair<sad::Point2D,  sad::Point2D> > part;
+        if (duk_has_prop_string(ctx->context(), pos, "m_c"))
+        {
+            duk_get_prop_string(ctx->context(), pos, "m_c");
+            part = ::dukpp03::GetValue<sad::Pair<sad::Point2D,  sad::Point2D>, sad::dukpp03::BasicContext>::perform(ctx, -1);
+            duk_pop(ctx->context());
+        }
+        if (part.exists())
+        {
+            sad::p2d::Line* b = new sad::p2d::Line();
+            b->setCutter(part.value().p1(), part.value().p2());
+            result.setValue(b);
+        }
+    }
+    return result;
+}
+
+
 ::dukpp03::Maybe<sad::p2d::CollisionShape*> dukpp03::GetValue<sad::p2d::CollisionShape*, sad::dukpp03::BasicContext>::perform(
     sad::dukpp03::BasicContext* ctx,
     duk_idx_t pos
@@ -288,6 +332,15 @@ dukpp03::Maybe<sad::db::Object*> dukpp03::GetValue<sad::db::Object*,  sad::dukpp
     if (maybe_bound.exists())
     {
         result.setValue(maybe_bound.value());
+    }
+    // Try to get line
+    if (result.exists() == false)
+    {
+        ::dukpp03::Maybe<sad::p2d::Line*> maybe_line = dukpp03::GetValue<sad::p2d::Line*, sad::dukpp03::BasicContext>::perform(ctx, pos);
+        if (maybe_line.exists())
+        {
+            result.setValue(maybe_line.value());
+        }
     }
     return result;
 }

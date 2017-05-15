@@ -15,128 +15,128 @@ sad.internal.divide = function(a, b) { return a / b; };
 
 
 sad.internal.copyObject = function(dest, src) {
-    for(var key in src) {
-        if (src.hasOwnProperty(key)) {
-            dest[key] = src[key];
-        }
-    }
+	for(var key in src) {
+		if (src.hasOwnProperty(key)) {
+			dest[key] = src[key];
+		}
+	}
 }
 
 sad.internal.makeMathFns = function(obj) {
-    obj.plus = function(o) {
-        return this.makeWithFn(sad.internal.plus, o);
-    };
+	obj.plus = function(o) {
+		return this.makeWithFn(sad.internal.plus, o);
+	};
 
-    obj.minus = function(o) {
-        return this.makeWithFn(sad.internal.minus, o);
-    };
+	obj.minus = function(o) {
+		return this.makeWithFn(sad.internal.minus, o);
+	};
 
-    obj.multiply = function(o) {
-        return this.makeWithFn(sad.internal.multiply, o);
-    };
+	obj.multiply = function(o) {
+		return this.makeWithFn(sad.internal.multiply, o);
+	};
 
-    obj.divide = function(o) {
-        return this.makeWithFn(sad.internal.divide, o);
-    };
+	obj.divide = function(o) {
+		return this.makeWithFn(sad.internal.divide, o);
+	};
 };
 
-//  sad.Point2D bindings
+//	sad.Point2D bindings
 
 sad.Point2D.prototype.to3d = function() {
-    return new sad.Point3D(this.x, this.y, 0);
+	return new sad.Point3D(this.x, this.y, 0);
 };
 
 sad.Point2D.prototype.to3i = function() {
-    return new sad.Point3I(this.x, this.y, 0);
+	return new sad.Point3I(this.x, this.y, 0);
 };
 
 sad.Point2D.prototype.to2i = function() {
-    return new sad.Point2I(this.x, this.y);
+	return new sad.Point2I(this.x, this.y);
 };
 
 sad.Point2D.prototype.makeWithFn = function(fn, o) {
-    return new sad.Point2D(fn(this.x, o.x), fn(this.y, o.y));
+	return new sad.Point2D(fn(this.x, o.x), fn(this.y, o.y));
 };
 
 sad.internal.makeMathFns(sad.Point2D.prototype);
 
 sad.Point2D.prototype.toString = function() {
-    return "sad::Point2D(" + this.x + ',' + this.y + ')';
+	return "sad::Point2D(" + this.x + ',' + this.y + ')';
 };
 
-//  sad.Point3D bindings
+//	sad.Point3D bindings
 
 sad.Point3D.prototype.to2d = function() {
-    return new sad.Point2D(this.x, this.y);
+	return new sad.Point2D(this.x, this.y);
 };
 
 sad.Point3D.prototype.to2i = function() {
-    return new sad.Point2I(this.x, this.y);
+	return new sad.Point2I(this.x, this.y);
 };
 
 sad.Point3D.prototype.to3I = function() {
-    return new sad.Point3I(this.x, this.y, this.z);
+	return new sad.Point3I(this.x, this.y, this.z);
 };
 
 
 sad.Point3D.prototype.makeWithFn = function(fn, o) {
-    return new sad.Point3D(fn(this.x, o.x), fn(this.y, o.y), fn(this.z, o.z));
+	return new sad.Point3D(fn(this.x, o.x), fn(this.y, o.y), fn(this.z, o.z));
 };
 
 sad.internal.makeMathFns(sad.Point3D.prototype);
 
 sad.Point3D.prototype.toString = function() {
-    return "sad::Point3D(" + this.x + ',' + this.y + ',' + this.z + ')';
+	return "sad::Point3D(" + this.x + ',' + this.y + ',' + this.z + ')';
 };
 
 // sad.Point2I 
 
 sad.Point2I.prototype.to2d = function() {
-    return new sad.Point2D(this.x, this.y);
+	return new sad.Point2D(this.x, this.y);
 };
 
 sad.Point2I.prototype.to3d = function() {
-    return new sad.Point3D(this.x, this.y, 0);
+	return new sad.Point3D(this.x, this.y, 0);
 };
 
 sad.Point2I.prototype.to3i = function() {
-    return new sad.Point3I(this.x, this.y, 0);
+	return new sad.Point3I(this.x, this.y, 0);
 };
 
 
 sad.Point2I.prototype.makeWithFn = function(fn, o) {
-    return new sad.Point2I(fn(this.x, o.x), fn(this.y, o.y));
+	return new sad.Point2I(fn(this.x, o.x), fn(this.y, o.y));
 };
 
 sad.internal.makeMathFns(sad.Point2I.prototype);
 
 sad.Point2I.prototype.toString = function() {
-    return "sad::Point2I(" + this.x + ',' + this.y  + ')';
+	return "sad::Point2I(" + this.x + ',' + this.y	+ ')';
 };
 
 // sad.Point3I
 
 sad.Point3I.prototype.to2d = function() {
-    return new sad.Point2D(this.x, this.y);
+	return new sad.Point2D(this.x, this.y);
 };
 
 sad.Point3I.prototype.to2i = function() {
-    return new sad.Point2I(this.x, this.y);
+	return new sad.Point2I(this.x, this.y);
 };
 
 sad.Point3I.prototype.to3d = function() {
-    return new sad.Point3D(this.x, this.y, this.z);
+	return new sad.Point3D(this.x, this.y, this.z);
 };
 
 
 sad.Point3I.prototype.makeWithFn = function(fn, o) {
-    return new sad.Point3I(fn(this.x, o.x), fn(this.y, o.y), fn(this.z, o.z));
+	return new sad.Point3I(fn(this.x, o.x), fn(this.y, o.y), fn(this.z, o.z));
 };
 
 sad.internal.makeMathFns(sad.Point3I.prototype);
 
 sad.Point3I.prototype.toString = function() {
-    return "sad::Point3I(" + this.x + ',' + this.y + ',' + this.z + ')';
+	return "sad::Point3I(" + this.x + ',' + this.y + ',' + this.z + ')';
 };
 
 // sad.p2d.Vector bindings
@@ -146,25 +146,25 @@ sad.p2d.Vector = SadP2DVector;
 
 
 sad.p2d.Vector.prototype.to3d = function() {
-    return new sad.Point3D(this.x, this.y, 0);
+	return new sad.Point3D(this.x, this.y, 0);
 };
 
 sad.p2d.Vector.prototype.to3i = function() {
-    return new sad.Point3I(this.x, this.y, 0);
+	return new sad.Point3I(this.x, this.y, 0);
 };
 
 sad.p2d.Vector.prototype.to2i = function() {
-    return new sad.Point2I(this.x, this.y);
+	return new sad.Point2I(this.x, this.y);
 };
 
 sad.p2d.Vector.prototype.makeWithFn = function(fn, o) {
-    return new sad.Point2D(fn(this.x, o.x), fn(this.y, o.y));
+	return new sad.Point2D(fn(this.x, o.x), fn(this.y, o.y));
 };
 
 sad.internal.makeMathFns(sad.p2d.Vector.prototype);
 
 sad.p2d.Vector.prototype.toString = function() {
-    return "sad::p2d::Vector(" + this.x + ',' + this.y + ')';
+	return "sad::p2d::Vector(" + this.x + ',' + this.y + ')';
 };
 
 sad.p2d.modulo = SadP2DModulo;
@@ -179,20 +179,20 @@ sad.p2d.OVI_DEG_270 = 1;
 
 sad.Size2D = SadSize2D;
 sad.Size2D.prototype.to2i = function() {
-    return new sad.Size2I(this.width, this.height);
+	return new sad.Size2I(this.width, this.height);
 };
 sad.Size2D.prototype.toString = function() {
-    return "sad::Size2D(" + this.width + ',' + this.height + ')';
+	return "sad::Size2D(" + this.width + ',' + this.height + ')';
 };
 
 // sad.Size2I
 
 sad.Size2I = SadSize2I;
 sad.Size2I.prototype.to2d = function() {
-    return new sad.Size2D(this.width, this.height);
+	return new sad.Size2D(this.width, this.height);
 };
 sad.Size2I.prototype.toString = function() {
-    return "sad::Size2I(" + this.width + ',' + this.height + ')';
+	return "sad::Size2I(" + this.width + ',' + this.height + ')';
 };
 
 // sad.Rect2D
@@ -200,15 +200,15 @@ sad.Size2I.prototype.toString = function() {
 sad.Rect2D = SadRect2D;
 
 sad.Rect2D.prototype.to2i = function() {
-    return new sad.Rect2I(this.p0().to2i(), this.p1().to2i(), this.p2().to2i(), this.p3().to2i());
+	return new sad.Rect2I(this.p0().to2i(), this.p1().to2i(), this.p2().to2i(), this.p3().to2i());
 };
 sad.Rect2D.prototype.toString = function() {
-    var result = [];
-    for(var i = 0; i < 4; i++)
-    {
-        result.push(sad.Point2D.prototype.toString.call(this['p' + i]()));
-    }
-    return "sad::Rect2D(" +  result.join(', ') + ')';
+	var result = [];
+	for(var i = 0; i < 4; i++)
+	{
+		result.push(sad.Point2D.prototype.toString.call(this['p' + i]()));
+	}
+	return "sad::Rect2D(" +	 result.join(', ') + ')';
 };
 
 // sad.Rect2I
@@ -216,15 +216,15 @@ sad.Rect2D.prototype.toString = function() {
 sad.Rect2I = SadRect2I;
 
 sad.Rect2I.prototype.to2d = function() {
-    return new sad.Rect2D(this.p0().to2d(), this.p1().to2d(), this.p2().to2d(), this.p3().to2d());
+	return new sad.Rect2D(this.p0().to2d(), this.p1().to2d(), this.p2().to2d(), this.p3().to2d());
 };
 sad.Rect2I.prototype.toString = function() {
-    var result = [];
-    for(var i = 0; i < 4; i++)
-    {
-        result.push(sad.Point2I.prototype.toString.call(this['p' + i]()));
-    }
-    return "sad::Rect2I(" +  result.join(', ') + ')';
+	var result = [];
+	for(var i = 0; i < 4; i++)
+	{
+		result.push(sad.Point2I.prototype.toString.call(this['p' + i]()));
+	}
+	return "sad::Rect2I(" +	 result.join(', ') + ')';
 };
 
 // sad.RectPoint3D
@@ -233,88 +233,88 @@ sad.RectPoint3D = SadRectPoint3D;
 sad.Rect3D = SadRectPoint3D;
 
 sad.RectPoint3D.prototype.toString = function() {
-    var result = [];
-    for(var i = 0; i < 4; i++)
-    {
-        result.push(sad.Point3D.prototype.toString.call(this['p' + i]()));
-    }
-    return "sad::Rect<sad::Point3D>(" +  result.join(', ') + ')';
+	var result = [];
+	for(var i = 0; i < 4; i++)
+	{
+		result.push(sad.Point3D.prototype.toString.call(this['p' + i]()));
+	}
+	return "sad::Rect<sad::Point3D>(" +	 result.join(', ') + ')';
 };
 
 // console object
 
 var console = {};
 console.dump = function(o) {
-    var type = typeof o;
-    if (type == "undefined") { return "undefined"};
-    if ((type == "boolean") || (type == "number") || (type == "string") || (type == "symbol") || (type == "function")) { return o.toString();}
-    if (type == "object")
-    {
-        if (o === null)
-        {
-            return "null";
-        }
-        if (o instanceof Array)
-        {
-            var  i = 0; 
-            var  result = [];
-            for(var i = 0; i < o.length; i++)
-            {
-                if (i in o)
-                {
-                    result.push(console.dump(o[i]));
-                }
-            }
-            return "[" + result.join(", ") + "]";
-        }
-        else
-        {
-            if (SadInternalIsNativeObject(o))
-            {
-                if (o.hasOwnProperty('toString'))
-                {
-                    return o.toString();
-                } 
-                var hasPrototypeToString = false;
-                if (typeof o.prototype != "undefined")
-                {
-                    hasPrototypeToString = (o.prototype.hasOwnProperty('toString') && o.prototype.toString != Object.toString);
-                }
-                if (hasPrototypeToString)
-                {
-                    return o.toString();
-                }
-                return SadInternalDumpNativeObject(o);
-            }
-            else
-            {
-                if (o.hasOwnProperty('toString'))
-                {
-                    return o.toString();
-                }
-                else
-                {
-                    var asString = o.toString();
-                    if (asString != "[object Object]")
-                    {
-                        return asString;
-                    }
-                    else
-                    {
-                        var result = [];
-                        for(var key in o) { result.push("\"" + key + "\"" + ' : ' + console.dump(o[key]));}
-                    }
-                }
-                return "{" + result.join(", ") + "}";
-            }
-        }
-    }
-    return "";
+	var type = typeof o;
+	if (type == "undefined") { return "undefined"};
+	if ((type == "boolean") || (type == "number") || (type == "string") || (type == "symbol") || (type == "function")) { return o.toString();}
+	if (type == "object")
+	{
+		if (o === null)
+		{
+			return "null";
+		}
+		if (o instanceof Array)
+		{
+			var	 i = 0; 
+			var	 result = [];
+			for(var i = 0; i < o.length; i++)
+			{
+				if (i in o)
+				{
+					result.push(console.dump(o[i]));
+				}
+			}
+			return "[" + result.join(", ") + "]";
+		}
+		else
+		{
+			if (SadInternalIsNativeObject(o))
+			{
+				if (o.hasOwnProperty('toString'))
+				{
+					return o.toString();
+				} 
+				var hasPrototypeToString = false;
+				if (typeof o.prototype != "undefined")
+				{
+					hasPrototypeToString = (o.prototype.hasOwnProperty('toString') && o.prototype.toString != Object.toString);
+				}
+				if (hasPrototypeToString)
+				{
+					return o.toString();
+				}
+				return SadInternalDumpNativeObject(o);
+			}
+			else
+			{
+				if (o.hasOwnProperty('toString'))
+				{
+					return o.toString();
+				}
+				else
+				{
+					var asString = o.toString();
+					if (asString != "[object Object]")
+					{
+						return asString;
+					}
+					else
+					{
+						var result = [];
+						for(var key in o) { result.push("\"" + key + "\"" + ' : ' + console.dump(o[key]));}
+					}
+				}
+				return "{" + result.join(", ") + "}";
+			}
+		}
+	}
+	return "";
 };
 
 console.log = function(o)
 {
-    print(console.dump(o));
+	print(console.dump(o));
 };
 
 // sad.util and sad.fs
@@ -334,40 +334,40 @@ sad.spit = SadSpit;
 sad.slurp = SadSlurp;
 
 sad.spitJSON = function(a, obj) {
-    return sad.spit(a, JSON.stringify(obj, null, 2));
+	return sad.spit(a, JSON.stringify(obj, null, 2));
 };
 
 sad.slurpJSON = function(o) {
-    var  r = sad.slurp(o);
-    if (r !== null) {
-        return JSON.parse(r);
-    }
-    return null;
+	var	 r = sad.slurp(o);
+	if (r !== null) {
+		return JSON.parse(r);
+	}
+	return null;
 };
 
 
 // context
 
 context.evalFromFile = function(string) {
-    var s = sad.slurp(string);
-    if (s == null) {
-        throw new Error("Cannot read file \"" + string + "\"");
-    }
-    return eval(s);
+	var s = sad.slurp(string);
+	if (s == null) {
+		throw new Error("Cannot read file \"" + string + "\"");
+	}
+	return eval(s);
 };
 
 context.eval = function(string) {
-    return eval(string);
+	return eval(string);
 };
 
 sad.Context = SadContext;
 
 sad.Context.prototype.eval = function(string) {
-    return SadContextEval(this, string);
+	return SadContextEval(this, string);
 };
 
 sad.Context.prototype.evalFromFile = function(string) {
-    return SadContextEvalFromFile(this, string);
+	return SadContextEvalFromFile(this, string);
 };
 
 // sad.Renderer bindings
@@ -375,8 +375,8 @@ sad.Context.prototype.evalFromFile = function(string) {
 sad.Renderer = SadRenderer;
 
 sad.Renderer.ref = SadRendererRef;
-sad.Renderer.makeFPSInterpolationDefault = function() {  SadInternalMakeFPSInterpolationDefault(this); }
-sad.Renderer.makeFPSInterpolationObjectDependent = function() {  SadInternalMakeFPSInterpolationObjectDependent(this); }
+sad.Renderer.makeFPSInterpolationDefault = function() {	 SadInternalMakeFPSInterpolationDefault(this); }
+sad.Renderer.makeFPSInterpolationObjectDependent = function() {	 SadInternalMakeFPSInterpolationObjectDependent(this); }
 
 // sad.Settings bindings
 
@@ -387,8 +387,8 @@ sad.Settings = SadSettings;
 sad.Timer = SadTimer;
 
 sad.Timer.prototype.elapsedInMs = function() {
-    this.stop();
-    return this.elapsed();
+	this.stop();
+	return this.elapsed();
 };
 
 // sad.Thread bindings
@@ -400,22 +400,22 @@ sad.Thread = SadThread;
 sad.Color = SadColor;
 
 sad.internal.uCharToInt = function(a) {
-    if (a.length == 0) {
-        return 0;
-    }
-    return a[0].charCodeAt(0);
+	if (a.length == 0) {
+		return 0;
+	}
+	return a[0].charCodeAt(0);
 }
 
 sad.Color.prototype.toString = function() {
-    var o =  [ sad.internal.uCharToInt(this.r),  sad.internal.uCharToInt(this.g), sad.internal.uCharToInt(this.b) ]; 
-    return "sad::Color(" + o.join(', ')  + ")";
+	var o =	 [ sad.internal.uCharToInt(this.r),	 sad.internal.uCharToInt(this.g), sad.internal.uCharToInt(this.b) ]; 
+	return "sad::Color(" + o.join(', ')	 + ")";
 }
 
 sad.AColor = SadAColor;
 
 sad.AColor.prototype.toString = function() {
-    var o =  [ sad.internal.uCharToInt(this.r),  sad.internal.uCharToInt(this.g), sad.internal.uCharToInt(this.b), sad.internal.uCharToInt(this.a) ]; 
-    return "sad::AColor(" + o.join(', ')  + ")";
+	var o =	 [ sad.internal.uCharToInt(this.r),	 sad.internal.uCharToInt(this.g), sad.internal.uCharToInt(this.b), sad.internal.uCharToInt(this.a) ]; 
+	return "sad::AColor(" + o.join(', ')  + ")";
 }
 
 // sad.log.Log bindings
@@ -427,13 +427,13 @@ sad.log.Log.prototype.addTarget = function(a) { SadInternalLogAddTarget(this, a)
 sad.log.Log.prototype.removeTarget = function(a) { SadInternalLogRemoveTarget(this, a); }
 
 sad.log.Priority = {
-    "FATAL" : 6, 
-    "CRITICAL" : 5, 
-    "WARNING" : 4,
-    "MESSAGE" : 3, 
-    "DEBUG" : 2, 
-    "USER" : 1, 
-    "SADDY_INTERNAL" : 0  
+	"FATAL" : 6, 
+	"CRITICAL" : 5, 
+	"WARNING" : 4,
+	"MESSAGE" : 3, 
+	"DEBUG" : 2, 
+	"USER" : 1, 
+	"SADDY_INTERNAL" : 0  
 };
 
 sad.log.ConsoleTarget = SadLogConsoleTarget;
@@ -450,7 +450,7 @@ sad.resource = {};
 sad.resource.Tree = SadResourceTree;
 
 sad.resource.Tree.prototype.ref = function() {
-    return sad.Renderer.ref().tree("");
+	return sad.Renderer.ref().tree("");
 }
 
 sad.db = {};
@@ -469,11 +469,11 @@ sad.db.custom.Object.prototype.setProperty = function(name, value) {
 };
 
 sad.db.custom.Object.prototype.ownPropertyNames = function() {
-    return SadDBCustomObjectOwnPropertyNames(this);
+	return SadDBCustomObjectOwnPropertyNames(this);
 };
 
 sad.db.custom.Object.prototype.propertyNames = function() {
-    return SadDBCustomObjectPropertyNames(this);
+	return SadDBCustomObjectPropertyNames(this);
 };
 
 
@@ -494,191 +494,191 @@ sad.input.MouseWheelEvent = SadInputMouseWheelEvent;
 sad.input.ResizeEvent = SadInputResizeEvent;
 
 sad.KeyboardKey = {
-    "Numeric0": 48,
-    "Numeric1": 49,
-    "Numeric2": 50,
-    "Numeric3": 51,
-    "Numeric4": 52,
-    "Numeric5": 53,
-    "Numeric6": 54,
-    "Numeric7": 55,
-    "Numeric8": 56,
-    "Numeric9": 57,
-    "A": 65,
-    "B": 66,
-    "C": 67,
-    "D": 68,
-    "E": 69,
-    "F": 70,
-    "G": 71,
-    "H": 72,
-    "I": 73,
-    "J": 74,
-    "K": 75,
-    "L": 76,
-    "M": 77,
-    "N": 78,
-    "O": 79,
-    "P": 80,
-    "Q": 81,
-    "R": 82,
-    "S": 83,
-    "T": 84,
-    "U": 85,
-    "V": 86,
-    "W": 87,
-    "X": 88,
-    "Y": 89,
-    "Z": 90,  
-    "Minus": 45, 
-    "Equal": 61,
-    "BackSlash": 92, 
-    "Tilde": 126, 
-    "OpeningSquareBracket": 91,
-    "ClosingSquareBracket": 93,
-    "Semicolon": 59,
-    "Comma": 44,
-    "Period": 46,
-    "Slash": 47,
-    "Apostrophe": 39,
-    "Esc": 256,  
-    "F1" : 257,  
-    "F2" : 258,  
-    "F3" : 259,  
-    "F4" : 260,  
-    "F5" : 261,  
-    "F6" : 262,  
-    "F7" : 263,  
-    "F8" : 264,  
-    "F9" : 265,  
-    "F10": 266,  
-    "F11": 267,  
-    "F12": 268,  
-    "Pause":  269,  
-    "Insert": 270,  
-    "Delete": 271,  
-    "Backspace": 272,  
-    "Enter": 273,  
-    "Space": 274,  
-    "PrintScreen": 275,  
-    "Home": 276,  
-    "End": 277,  
-    "PageUp": 278,  
-    "PageDown": 279,  
-    "Tab": 280,  
-    "NumLock": 281,  
-    "ScrollLock": 282,  
-    "CapsLock": 283,  
-    "WindowsKey": 284,  
-    "AppKey": 285,  
-    "KeyLeft": 286,  
-    "KeyRight": 287,  
-    "KeyUp": 288,  
-    "KeyDown": 289,  
-    "LeftShift": 290,  
-    "RightShift": 291,  
-    "LeftControl": 292,  
-    "RightControl": 293,  
-    "LeftAlt": 294,  
-    "RightAlt": 295,  
-    "KeyNone": 296  
+	"Numeric0": 48,
+	"Numeric1": 49,
+	"Numeric2": 50,
+	"Numeric3": 51,
+	"Numeric4": 52,
+	"Numeric5": 53,
+	"Numeric6": 54,
+	"Numeric7": 55,
+	"Numeric8": 56,
+	"Numeric9": 57,
+	"A": 65,
+	"B": 66,
+	"C": 67,
+	"D": 68,
+	"E": 69,
+	"F": 70,
+	"G": 71,
+	"H": 72,
+	"I": 73,
+	"J": 74,
+	"K": 75,
+	"L": 76,
+	"M": 77,
+	"N": 78,
+	"O": 79,
+	"P": 80,
+	"Q": 81,
+	"R": 82,
+	"S": 83,
+	"T": 84,
+	"U": 85,
+	"V": 86,
+	"W": 87,
+	"X": 88,
+	"Y": 89,
+	"Z": 90,  
+	"Minus": 45, 
+	"Equal": 61,
+	"BackSlash": 92, 
+	"Tilde": 126, 
+	"OpeningSquareBracket": 91,
+	"ClosingSquareBracket": 93,
+	"Semicolon": 59,
+	"Comma": 44,
+	"Period": 46,
+	"Slash": 47,
+	"Apostrophe": 39,
+	"Esc": 256,	 
+	"F1" : 257,	 
+	"F2" : 258,	 
+	"F3" : 259,	 
+	"F4" : 260,	 
+	"F5" : 261,	 
+	"F6" : 262,	 
+	"F7" : 263,	 
+	"F8" : 264,	 
+	"F9" : 265,	 
+	"F10": 266,	 
+	"F11": 267,	 
+	"F12": 268,	 
+	"Pause":  269,	
+	"Insert": 270,	
+	"Delete": 271,	
+	"Backspace": 272,  
+	"Enter": 273,  
+	"Space": 274,  
+	"PrintScreen": 275,	 
+	"Home": 276,  
+	"End": 277,	 
+	"PageUp": 278,	
+	"PageDown": 279,  
+	"Tab": 280,	 
+	"NumLock": 281,	 
+	"ScrollLock": 282,	
+	"CapsLock": 283,  
+	"WindowsKey": 284,	
+	"AppKey": 285,	
+	"KeyLeft": 286,	 
+	"KeyRight": 287,  
+	"KeyUp": 288,  
+	"KeyDown": 289,	 
+	"LeftShift": 290,  
+	"RightShift": 291,	
+	"LeftControl": 292,	 
+	"RightControl": 293,  
+	"LeftAlt": 294,	 
+	"RightAlt": 295,  
+	"KeyNone": 296	
 };
 
 sad.MouseButton = {
-    "MouseLeft"   : -16535,
-    "MouseMiddle" : -16534,
-    "MouseRight"  : -16533,
-    "MouseNone"   : 0
+	"MouseLeft"	  : -16535,
+	"MouseMiddle" : -16534,
+	"MouseRight"  : -16533,
+	"MouseNone"	  : 0
 };
 
 sad.SpecialKey = {
-    "HoldsControl" :  -16538,  
-    "HoldsAlt"     :  -16537,  
-    "HoldsShift"   :  -16536  
+	"HoldsControl" :  -16538,  
+	"HoldsAlt"	   :  -16537,  
+	"HoldsShift"   :  -16536  
 };
 
 sad.input.EventType = {
-    "ET_Quit" : 0,
-    "ET_Activate" : 1,
-    "ET_Deactivate" : 2,
-    "ET_MouseEnter" : 3,
-    "ET_MouseLeave" : 4,
-    "ET_KeyPress" : 5,
-    "ET_KeyRelease" : 6,
-    "ET_MouseMove" : 7,
-    "ET_MousePress" : 8,
-    "ET_MouseRelease" : 9,
-    "ET_MouseDoubleClick" : 10,
-    "ET_MouseWheel" : 11,
-    "ET_Resize" : 12
+	"ET_Quit" : 0,
+	"ET_Activate" : 1,
+	"ET_Deactivate" : 2,
+	"ET_MouseEnter" : 3,
+	"ET_MouseLeave" : 4,
+	"ET_KeyPress" : 5,
+	"ET_KeyRelease" : 6,
+	"ET_MouseMove" : 7,
+	"ET_MousePress" : 8,
+	"ET_MouseRelease" : 9,
+	"ET_MouseDoubleClick" : 10,
+	"ET_MouseWheel" : 11,
+	"ET_Resize" : 12
 };
 
 sad.input.JSControls = SadInputJSControls;
 
 sad.input.JSControls.prototype.onQuit = function(ctx, fn) {
-    return this.onEvent(sad.input.EventType.ET_Quit, ctx, fn);
+	return this.onEvent(sad.input.EventType.ET_Quit, ctx, fn);
 };
 
 sad.input.JSControls.prototype.onActivate = function(ctx, fn) {
-    return this.onEvent(sad.input.EventType.ET_Quit, ctx, fn);
+	return this.onEvent(sad.input.EventType.ET_Quit, ctx, fn);
 };
 
 sad.input.JSControls.prototype.onDeactivate = function(ctx, fn) {
-    return this.onEvent(sad.input.EventType.ET_Deactivate, ctx, fn);
+	return this.onEvent(sad.input.EventType.ET_Deactivate, ctx, fn);
 };
 
 sad.input.JSControls.prototype.onMouseEnter = function(ctx, fn) {
-    return this.onEvent(sad.input.EventType.ET_MouseEnter, ctx, fn);
+	return this.onEvent(sad.input.EventType.ET_MouseEnter, ctx, fn);
 };
 
 sad.input.JSControls.prototype.onEnter = sad.input.JSControls.prototype.onMouseEnter ;
 
 sad.input.JSControls.prototype.onMouseLeave = function(ctx, fn) {
-    return this.onEvent(sad.input.EventType.ET_MouseLeave, ctx, fn);
+	return this.onEvent(sad.input.EventType.ET_MouseLeave, ctx, fn);
 };
 
 sad.input.JSControls.prototype.onLeave = sad.input.JSControls.prototype.onMouseLeave ;
 
 sad.input.JSControls.prototype.onKeyPress = function(ctx, fn) {
-    return this.onEvent(sad.input.EventType.ET_KeyPress, ctx, fn);
+	return this.onEvent(sad.input.EventType.ET_KeyPress, ctx, fn);
 };
 
 sad.input.JSControls.prototype.onKeyRelease = function(ctx, fn) {
-    return this.onEvent(sad.input.EventType.ET_KeyRelease, ctx, fn);
+	return this.onEvent(sad.input.EventType.ET_KeyRelease, ctx, fn);
 };
 
 sad.input.JSControls.prototype.onMouseMove = function(ctx, fn) {
-    return this.onEvent(sad.input.EventType.ET_MouseMove, ctx, fn);
+	return this.onEvent(sad.input.EventType.ET_MouseMove, ctx, fn);
 };
 
 sad.input.JSControls.prototype.onMove  = sad.input.JSControls.prototype.onMouseMove;
 
 sad.input.JSControls.prototype.onMousePress = function(ctx, fn) {
-    return this.onEvent(sad.input.EventType.ET_MousePress, ctx, fn);
+	return this.onEvent(sad.input.EventType.ET_MousePress, ctx, fn);
 };
 
 sad.input.JSControls.prototype.onClick = sad.input.JSControls.prototype.onMousePress;
 
 sad.input.JSControls.prototype.onMouseRelease = function(ctx, fn) {
-    return this.onEvent(sad.input.EventType.ET_MouseRelease, ctx, fn);
+	return this.onEvent(sad.input.EventType.ET_MouseRelease, ctx, fn);
 };
 
 sad.input.JSControls.prototype.onRelease = sad.input.JSControls.prototype.onMouseRelease;
 
 sad.input.JSControls.prototype.onMouseDoubleClick = function(ctx, fn) {
-    return this.onEvent(sad.input.EventType.ET_MouseDoubleClick, ctx, fn);
+	return this.onEvent(sad.input.EventType.ET_MouseDoubleClick, ctx, fn);
 };
 
 sad.input.JSControls.prototype.onDblClick = sad.input.JSControls.prototype.onMouseDoubleClick;
 
 sad.input.JSControls.prototype.onMouseWheel = function(ctx, fn) {
-    return this.onEvent(sad.input.EventType.ET_MouseWheel, ctx, fn);
+	return this.onEvent(sad.input.EventType.ET_MouseWheel, ctx, fn);
 };
 
 sad.input.JSControls.prototype.onWheel = sad.input.JSControls.prototype.onMouseWheel;
 
 sad.input.JSControls.prototype.onResize = function(ctx, fn) {
-    return this.onEvent(sad.input.EventType.ET_Resize, ctx, fn);
+	return this.onEvent(sad.input.EventType.ET_Resize, ctx, fn);
 };
 
 sad.isValidKeyboardKey = SadIsValidKeyboardKey;
@@ -687,67 +687,67 @@ sad.defaultKeyIfNotValid = SadDefaultKeyIfNotValid;
 
 
 sad.pipeline = function(r) {
-    return {
-        "r" : r,
-        "beforeScene" : function() {
-            return {
-                "r" : this.r,
-                "eachFrame": function(step, ctx, fn) { SadPipelineBeforeSceneEachFrame(this.r, step, ctx, fn) },
-                "eachMS": function(step, interval, ctx, fn) { SadPipelineBeforeSceneEachMS(this.r, step, interval, ctx, fn) },
-                "oneShot": function(step, ctx, fn) { SadPipelineBeforeSceneOneShot(this.r, step, ctx, fn) },
-                "delayed": function(step, interval, ctx, fn) { SadPipelineBeforeSceneDelayed(this.r, step, interval, ctx, fn) }
-            };
-        },
-        "afterScene" : function() {
-            return {
-                "r" : this.r,
-                "eachFrame": function(step, ctx, fn) { SadPipelineAfterSceneEachFrame(this.r, step, ctx, fn) },
-                "eachMS": function(step, interval, ctx, fn) { SadPipelineAfterSceneEachMS(this.r, step, interval, ctx, fn) },
-                "oneShot": function(step, ctx, fn) { SadPipelineAfterSceneOneShot(this.r, step, ctx, fn) },
-                "delayed": function(step, interval, ctx, fn) { SadPipelineAfterSceneDelayed(this.r, step, interval, ctx, fn) }
-            };
-        },
-        "beforeEvent" : function(ev) {
-            return {
-                "r" : this.r,
-                "ev" : ev, 
-                "eachFrame": function(step, ctx, fn) { SadPipelineBeforeEventEachFrame(this.r, this.ev, step, ctx, fn) },
-                "eachMS": function(step, interval, ctx, fn) { SadPipelineBeforeEventEachMS(this.r, this.ev, step, interval, ctx, fn) },
-                "oneShot": function(step, ctx, fn) { SadPipelineBeforeEventOneShot(this.r, this.ev, step, ctx, fn) },
-                "delayed": function(step, interval, ctx, fn) { SadPipelineBeforeEventDelayed(this.r, this.ev, step, interval, ctx, fn) }
-            };
-        },
-        "afterEvent" : function(ev) {
-            return {
-                "r" : this.r,
-                "ev" : ev, 
-                "eachFrame": function(step, ctx, fn) { SadPipelineAfterEventEachFrame(this.r, this.ev, step, ctx, fn) },
-                "eachMS": function(step, interval, ctx, fn) { SadPipelineAfterEventEachMS(this.r, this.ev, step, interval, ctx, fn) },
-                "oneShot": function(step, ctx, fn) { SadPipelineAfterEventOneShot(this.r, this.ev, step, ctx, fn) },
-                "delayed": function(step, interval, ctx, fn) { SadPipelineAfterEventDelayed(this.r, this.ev, step, interval, ctx, fn) }
-            };
-        }
-    };
+	return {
+		"r" : r,
+		"beforeScene" : function() {
+			return {
+				"r" : this.r,
+				"eachFrame": function(step, ctx, fn) { SadPipelineBeforeSceneEachFrame(this.r, step, ctx, fn) },
+				"eachMS": function(step, interval, ctx, fn) { SadPipelineBeforeSceneEachMS(this.r, step, interval, ctx, fn) },
+				"oneShot": function(step, ctx, fn) { SadPipelineBeforeSceneOneShot(this.r, step, ctx, fn) },
+				"delayed": function(step, interval, ctx, fn) { SadPipelineBeforeSceneDelayed(this.r, step, interval, ctx, fn) }
+			};
+		},
+		"afterScene" : function() {
+			return {
+				"r" : this.r,
+				"eachFrame": function(step, ctx, fn) { SadPipelineAfterSceneEachFrame(this.r, step, ctx, fn) },
+				"eachMS": function(step, interval, ctx, fn) { SadPipelineAfterSceneEachMS(this.r, step, interval, ctx, fn) },
+				"oneShot": function(step, ctx, fn) { SadPipelineAfterSceneOneShot(this.r, step, ctx, fn) },
+				"delayed": function(step, interval, ctx, fn) { SadPipelineAfterSceneDelayed(this.r, step, interval, ctx, fn) }
+			};
+		},
+		"beforeEvent" : function(ev) {
+			return {
+				"r" : this.r,
+				"ev" : ev, 
+				"eachFrame": function(step, ctx, fn) { SadPipelineBeforeEventEachFrame(this.r, this.ev, step, ctx, fn) },
+				"eachMS": function(step, interval, ctx, fn) { SadPipelineBeforeEventEachMS(this.r, this.ev, step, interval, ctx, fn) },
+				"oneShot": function(step, ctx, fn) { SadPipelineBeforeEventOneShot(this.r, this.ev, step, ctx, fn) },
+				"delayed": function(step, interval, ctx, fn) { SadPipelineBeforeEventDelayed(this.r, this.ev, step, interval, ctx, fn) }
+			};
+		},
+		"afterEvent" : function(ev) {
+			return {
+				"r" : this.r,
+				"ev" : ev, 
+				"eachFrame": function(step, ctx, fn) { SadPipelineAfterEventEachFrame(this.r, this.ev, step, ctx, fn) },
+				"eachMS": function(step, interval, ctx, fn) { SadPipelineAfterEventEachMS(this.r, this.ev, step, interval, ctx, fn) },
+				"oneShot": function(step, ctx, fn) { SadPipelineAfterEventOneShot(this.r, this.ev, step, ctx, fn) },
+				"delayed": function(step, interval, ctx, fn) { SadPipelineAfterEventDelayed(this.r, this.ev, step, interval, ctx, fn) }
+			};
+		}
+	};
 };
 
 sad.Camera = SadCamera;
 
 sad.Camera.prototype.move = function(o) {
-    if (typeof o['z'] != "undefined") {
-        this.move3d(o);
-    } else {
-        this.move2d(o);
-    }
+	if (typeof o['z'] != "undefined") {
+		this.move3d(o);
+	} else {
+		this.move2d(o);
+	}
 }
 
 sad.OrthographicCamera = SadOrthographicCamera;
 
 sad.OrthographicCamera.prototype.move = function(o) {
-    if (typeof o['z'] != "undefined") {
-        this.move3d(o);
-    } else {
-        this.move2d(o);
-    }
+	if (typeof o['z'] != "undefined") {
+		this.move3d(o);
+	} else {
+		this.move2d(o);
+	}
 }
 
 sad.Scene = SadScene;
@@ -756,24 +756,24 @@ sad.Sprite3D = SadSprite3D;
 sad.Label = SadLabel;
 
 sad.Label.OverflowStrategy = {
-    "LOS_VISIBLE" : 0,
-    "LOS_HIDDEN" : 1,
-    "LOS_ELLIPSIS" : 2
+	"LOS_VISIBLE" : 0,
+	"LOS_HIDDEN" : 1,
+	"LOS_ELLIPSIS" : 2
 };
 
 sad.Label.BreakText = {
-    "LBT_NORMAL" : 0,
-    "LBT_BREAK_WORD" : 1
+	"LBT_NORMAL" : 0,
+	"LBT_BREAK_WORD" : 1
 };
 
 sad.Label.TextEllipsisPosition = {
-    "LTEP_BEGIN" : 0,
-    "LTEP_MIDDLE" : 1,
-    "LTEP_END" : 2
+	"LTEP_BEGIN" : 0,
+	"LTEP_MIDDLE" : 1,
+	"LTEP_END" : 2
 };
 
 sad.Label.prototype.setFont = function(font, r, tree) {
-    return SadLabelSetFont(this, font, r, tree);
+	return SadLabelSetFont(this, font, r, tree);
 };
 
 sad.Sprite2D = SadSprite2D;
@@ -813,7 +813,156 @@ sad.p2d.Bound = function(type, position) {
 		
 	};
 	this.dump = function() {
-		var b =  ["Left", "Right", "Bottom", "Top"];
+		var b =	 ["Left", "Right", "Bottom", "Top"];
 		return b[this.type] + " bound at " + this.position;
 	};
+};
+
+sad.p2d.isPoint2D = function(o) {
+	if (typeof o == "object") {
+		if (o != null) {
+			if (typeof o["x"] == "number" && typeof o["y"] == "number") {
+				return true;
+			}
+		}
+	}
+	return false;
+};
+
+sad.p2d.Matrix2x2 = {};
+
+sad.p2d.Matrix2x2.counterclockwise = function(angle) {
+	var m = [[0,0], [0], [0]];
+	var cos = Math.cos(angle);
+	var sin = Math.sin(angle);
+	m[0][0] = cos; m[1][1] = cos;
+	m[0][1] = (-1) * sin; m[1][0] = sin;
+	return m;
+};
+
+sad.p2d.Matrix2x2.multiply = function(m, p) {
+	var x = p.x * m[0][0] 
+		  + p.y * m[1][0];
+	var y = p.x * m[0][1] 
+		  + p.y * m[1][1];
+	return new sad.Point2D(x, y);
+};
+
+sad.p2d.Line = function(cx1, cy1, cx2, cy2) {
+	var isconstructorcall = true;
+	this.clone = function() {
+		return new sad.p2d.Line([this.m_c[0].clone(), this.m_c[1].clone()]);
+	};
+	this.setCutter = function(x1,y1,x2,y2) {
+		var cerror = true;
+		if (typeof x2 == "undefined" && typeof y2 =="undefined") {
+			if (typeof x1 == "undefined" && typeof y1 == "undefined") {
+				this.m_c = [new sad.Point2D(0, 0), new sad.Point2D(0, 0)];
+				cerror = false;
+			} else {
+				if (typeof x1 != "undefined" && typeof y1 == "undefined") {
+					var error = true;
+					cerror = false;
+					if (x1 instanceof Array) {
+						if (x1.length == 2) {
+							if (sad.p2d.isPoint2D(x1[0]) && sad.p2d.isPoint2D(x1[1])) {
+									error = false;
+									this.m_c = x1;
+							}
+						}
+					} 
+					if (error) {
+						throw new TypeError("Argument 0 is not a sad::p2d::Cutter2D instance");
+					}
+				} else {
+					if (typeof x1 != "undefined"  && typeof y1 != "undefined") {
+						cerror = false;
+						if (sad.p2d.isPoint2D(x1) && sad.p2d.isPoint2D(y1)) { 
+							this.m_c = [x1, y1];
+						} else {
+							throw new TypeError("Arguments 0 and 1 must have type sad::Point2D");
+						}
+					}
+				}
+			}
+		} else {
+			if (typeof x1  == "number" && typeof y1	 == "number" && typeof x2  == "number" && typeof y2	 == "number") {
+				cerror = false;
+				this.m_c = [ new sad.Point2D(x1, y1), new sad.Point2D(x2, y2)];
+			}
+		}
+		if (cerror) {
+			if (isconstructorcall) {
+				throw new TypeError("Could not match call arguments for sad.p2d.Line constructor");
+			} else {
+				throw new TypeError("Could not match call arguments for sad.p2d.Line.setCutter");
+			}
+		}
+	};
+	this.cutter = function() {
+		return this.m_c;
+	};
+	this.center = function() {
+		return new sad.Point2D((this.m_c[0].x + this.m_c[1].x) / 2.0, (this.m_c[0].y + this.m_c[1].y) / 2.0);
+	};
+	this.move = function(d) {
+		if (sad.p2d.isPoint2D(d)) {
+			this.m_c[0] = new sad.Point2D(this.m_c[0].x + d.x, this.m_c[0].y + d.y);
+			this.m_c[1] = new sad.Point2D(this.m_c[1].x + d.x, this.m_c[1].y + d.y);
+		} else {
+			throw new TypeError("Could not match argument 1 with type sad::Point2D");
+		}
+	};
+	this.rotate = function(angle) {
+		if (typeof angle == "number") {
+			var center = this.center();
+			var centerdp1 = this.m_c[0].minus(center);
+			var centerdp2 = this.m_c[1].minus(center);
+			var m = sad.p2d.Matrix2x2.counterclockwise(angle);
+			var x1 = sad.p2d.Matrix2x2.multiply(m, centerdp1).plus(center);
+			var x2 = sad.p2d.Matrix2x2.multiply(m, centerdp2).plus(center);
+			this.m_c = [x1, x2];
+		} else {
+			throw new TypeError("Could not match argument 1 with type double");
+		}
+	}
+	this.p1 = function() {
+		return this.m_c[0];
+	};
+	this.p2 = function() {
+		return this.m_c[1];
+	};
+	this.setP1 = function(d) {
+		if (sad.p2d.isPoint2D(d)) {
+			this.m_c[0] = d;
+		} else {
+			throw new TypeError("Could not match argument 1 with type sad::Point2D");
+		}
+	};
+	this.setP2 = function(d) {
+		if (sad.p2d.isPoint2D(d)) {
+			this.m_c[1] = d;
+		} else {
+			throw new TypeError("Could not match argument 1 with type sad::Point2D");
+		}
+	};
+	this.dump = function() {
+		return "Line at (" + this.m_c[0].x + ", " + this.m_c[0].y + ") - (" + this.m_c[1].x + ", " + this.m_c[1].y + ")";
+	}
+	this.resizeBy = function(v) {
+		if (sad.p2d.isPoint2D(v)) {
+			var n = this.p2().minus(this.p1());
+			n = sad.p2d.unit(n); 
+			var length = sad.p2d.scalar(n, v);
+			var vec = new sad.Point2D(n.x * length, n.y * length);
+			this.m_c[1] = this.m_c[1].plus(vec);
+			this.m_c[0] = this.m_c[0].minus(vec);
+		} else {
+			throw new TypeError("Could not match argument 1 with type sad::Point2D");
+		}
+	};
+	
+	
+	this.setCutter(cx1, cy1, cx2, cy2);
+	isconstructorcall = false;
 };

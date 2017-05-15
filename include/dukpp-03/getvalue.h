@@ -11,6 +11,7 @@
 #include "../sadvector.h"
 #include "../sadhash.h"
 #include "../p2d/bounds.h"
+#include "../p2d/line.h"
 // ReSharper disable once CppUnusedIncludeDirective
 #include "../db/save.h"
 #include "../db/load.h"
@@ -67,6 +68,18 @@ namespace internal
     \return 
  */
 ::dukpp03::Maybe<unsigned char> tryGetUnsignedCharProperty(
+    sad::dukpp03::BasicContext* ctx, 
+    duk_idx_t pos,
+    const char* propname
+);
+
+/*! Tries to get property with unsigned char value from object
+    \param[in] ctx context
+    \param[in] pos position of object in stack
+    \param[in] propname a property name
+    \return 
+ */
+::dukpp03::Maybe<sad::Point2D> tryGetPoint2DProperty(
     sad::dukpp03::BasicContext* ctx, 
     duk_idx_t pos,
     const char* propname
@@ -442,6 +455,24 @@ public:
     \return a value if it exists, otherwise empty maybe
     */
     static ::dukpp03::Maybe<sad::p2d::Bound*> perform(
+        sad::dukpp03::BasicContext* ctx,
+        duk_idx_t pos
+    );
+
+};
+
+/*! An instantiation for sad::p2d::Bound
+*/
+template<>
+class GetValue<sad::p2d::Line*, sad::dukpp03::BasicContext>
+{
+public:
+    /*! Performs getting value from stack
+    \param[in] ctx context
+    \param[in] pos index for stack
+    \return a value if it exists, otherwise empty maybe
+    */
+    static ::dukpp03::Maybe<sad::p2d::Line*> perform(
         sad::dukpp03::BasicContext* ctx,
         duk_idx_t pos
     );
