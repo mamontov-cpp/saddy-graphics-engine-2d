@@ -11,19 +11,30 @@ sad::p2d::ElasticForce::ElasticForce(
                            double resistance
 )
 {
-    m_first = first;
     m_second = second;
+    if (m_second)
+    {
+        m_second->addRef();
+    }
     m_defaultdistance = m_second->currentShape()->center()
-                        .distance(m_first->currentShape()->center());
+                        .distance(first->currentShape()->center());
     m_elasticity = elasticity;
     m_resistance = resistance;
 }
 
-const sad::p2d::Vector & sad::p2d::ElasticForce::value() const
+sad::p2d::ElasticForce::~ElasticForce()
+{
+    if (m_second)
+    {
+        m_second->delRef();
+    }
+}
+
+const sad::p2d::Vector & sad::p2d::ElasticForce::value(sad::p2d::Body* first) const
 {
     sad::p2d::ElasticForce * force = const_cast<sad::p2d::ElasticForce *>(this);
-    p2d::Point s1 = m_first->currentShape()->center();	
-    p2d::Point s2 = m_second->currentShape()->center();
+    p2d::Point s1 = m_second->currentShape()->center();    
+    p2d::Point s2 = first->currentShape()->center();
     
     double distance = s1.distance(s2);
     double delta = distance - m_defaultdistance;
@@ -37,7 +48,7 @@ const sad::p2d::Vector & sad::p2d::ElasticForce::value() const
         force->m_value = p2d::Vector();
         return force->m_value;
     }
-    p2d::Vector v = m_second->tangentialVelocity();
+    p2d::Vector v = first->tangentialVelocity();
     v *= p2d::modulo(v);
     v *= m_resistance;
     force->m_value -= v;
@@ -45,4 +56,9 @@ const sad::p2d::Vector & sad::p2d::ElasticForce::value() const
     return m_value;
 }
 
+
+sad::p2d::Body* sad::p2d::ElasticForce::dependsFromBody() const
+{
+    return m_second;
+}
 

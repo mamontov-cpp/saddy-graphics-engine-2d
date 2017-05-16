@@ -13,6 +13,8 @@ namespace sad
 namespace p2d
 {
 
+class Body;
+
 /*! A class for getting default value for a tickable state
  */
 template<>
@@ -45,17 +47,23 @@ public:
       */
      inline bool isAlive() const { return m_alive; }
      /*! Returns a value
+         \param[in] body a body
          \return value of force
       */
-     virtual double value() const;
+     virtual double value(sad::p2d::Body* body) const;
      /*! Sets a value for force
          \param[in] value a new value of force
       */
      virtual void setValue(double value);
      /*! Steps a force to next iteration
+         \param[in] body a body
          \param[in] time a time step size
       */
-     virtual void step(double time);
+     virtual void step(sad::p2d::Body* body, double time);
+     /** Returns a pointer to body, which force depends from (but not applied to).
+         This body should be strong-referenced to ensure some memory-related checks
+      */
+     virtual sad::p2d::Body* dependsFromBody() const;
 protected:
      bool m_alive;       //!< If false, this force should be removed from container 
      double    m_value;  //!< A value of force
@@ -77,9 +85,10 @@ public:
      inline ImpulseForce(double v) : Force(v) {}
 
      /*! Steps a force to next iteration
+         \param[in] body a body for force
          \param[in] time a time step size
       */
-     virtual void step(double time);
+     virtual void step(sad::p2d::Body* body, double time);
 };
 
 

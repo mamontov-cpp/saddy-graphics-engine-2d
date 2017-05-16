@@ -4,6 +4,7 @@
     Describes a force, acting on object
  */
 #pragma once
+#include <stdexcept>
 
 #include "vector.h"
 #include "tickable.h"
@@ -18,6 +19,9 @@ namespace sad
 
 namespace p2d
 {
+
+class Body;
+
 /*! A class for getting default value for a tickable state
  */
 template<>
@@ -55,17 +59,19 @@ public:
      */
     inline bool isAlive() const { return m_alive; }
     /*! Returns a value
+        \param[in] body a body, to which force is applied to
         \return value of force
      */
-    virtual const T & value() const { return  m_value; }
+    virtual const T & value(sad::p2d::Body* body) const { return  m_value; }
     /*! Sets a value for force
         \param[in] value a new value of force
      */
     virtual void setValue(const T & value) { m_value = value; }
     /*! Steps a force to next iteration
+        \param[in] body a body, to which force is applied to
         \param[in] time a time step size
      */
-    virtual void step(double time) {}
+    virtual void step(sad::p2d::Body* body, double time) {}
     
     /** Returns global meta data for force
         \return global meta data
@@ -84,6 +90,13 @@ public:
     virtual sad::ClassMetaData * metaData() const
     {
         return sad::p2d::Force<T>::globalMetaData();
+    }
+    /** Returns a pointer to body, which force depends from (but not applied to).
+        This body should be strong-referenced to ensure some memory-related checks
+     */
+    virtual sad::p2d::Body* dependsFromBody() const
+    {
+        return NULL;
     }
 protected:
     bool m_alive;  //!< If false, this force should be removed from container 
@@ -107,9 +120,10 @@ public:
     inline ImpulseForce(const T & v) : p2d::Force<T>(v) {}
 
     /*! Steps a force to next iteration
+        \param[in] body a body
         \param[in] time a time step size
      */
-    virtual void step(double time) { this->die(); }
+    virtual void step(sad::p2d::Body* body, double time) { this->die(); }
 
     /** Returns global meta data for force
         \return global meta data
@@ -151,16 +165,54 @@ public:
     /*! Immediately adds new force to container
         \param[in] force new force
      */
-    void add(p2d::Force<T> * force) { if (force) { force->addRef(); m_forces.push_back(force); } }
+    void add(sad::p2d::Force<T> * force) 
+    { 
+        if (force) 
+        {
+            checkBody(force);
+            force->addRef(); 
+            m_forces.push_back(force); 
+        } 
+    }
     /*! Schedules adding a force to container
         \param[in] force new force
      */
-    void scheduleAdd(p2d::Force<T> * force)  { m_queued << new ScheduledAdd(force); }
+    void scheduleAdd(sad::p2d::Force<T>* force)  
+    { 
+        if (force)
+        {
+            checkBody(force);
+            m_queued << new ScheduledAdd(force);
+        }
+    }
     /*! Schedules adding a force to container
         \param[in] force new force
         \param[in] time a current time
      */
-    void scheduleAdd(p2d::Force<T> * force, double time)  { m_queued << new ScheduledAddAt(time, force); }
+    void scheduleAdd(sad::p2d::Force<T> * force, double time)  
+    {
+        if (force)
+        {
+            checkBody(force);
+            m_queued << new ScheduledAddAt(force, time);
+        }
+    }
+
+    /*! Removes specified force from a list
+        \param[in] force a force
+     */
+    void remove(sad::p2d::Force<T>* force)
+    {
+        for (size_t i = 0; i < m_forces.size(); i++)
+        {
+            if (force == m_forces[i])
+            {
+                force->delRef();
+                m_forces.removeAt(i);
+                --i;
+            }
+        }
+    }
     /*! Clears a force container
      */
     void clear() 
@@ -169,10 +221,12 @@ public:
         {
             m_forces[i]->delRef();
         }
+        m_forces.clear();
         for(size_t i = 0; i < m_queued.size(); i++)
         {
             delete m_queued[i];
         }
+        m_queued.clear();
     }
     /*! Steps an acting forces on time
         \param[in] time a specific time
@@ -182,7 +236,7 @@ public:
         for(size_t i = 0; i < m_forces.size(); i++)
         {
             p2d::Force<T> * p = m_forces[i];
-            p->step(time);
+            p->step(m_body, time);
             if (p->isAlive() == false)
             {
                 m_forces[i]->delRef();
@@ -208,14 +262,32 @@ public:
     {
         for(size_t i = 0; i < m_forces.size(); i++)
         {
-            accumulator += m_forces[i]->value();
+            accumulator += m_forces[i]->value(m_body);
         }
     }
     /*! Whether container has a forces
         \return whether container has a forces
      */
     bool hasForces() const { return m_forces.size() != 0; }
+    /*! Set body for forces container. Note, that movement stores data by weak reference, so
+        this class should not be exposed to some script data
+         \param[in] body a body
+    */
+    void setBody(sad::p2d::Body* body)
+    {
+        m_body = body;
+    }
 protected:
+    /*! Checks body consistency for added force
+        \param[in] force added force
+     */
+    void checkBody(sad::p2d::Force<T> * force)
+    {
+        if ((force->dependsFromBody() == m_body) && m_body != NULL)
+        {
+            throw std::logic_error("Attempted to add force, related to current body");
+        }
+    }
     /*! A queued command for performing of data
      */
     class Command
@@ -257,7 +329,7 @@ protected:
     class ScheduledAddAt: public sad::p2d::ActingForces<T>::Command
     {
     public:
-        ScheduledAddAt(p2d::Force<T> * f) : m_force(f), m_time(0) { if (f) f->addRef();}
+        ScheduledAddAt(p2d::Force<T>* f, double time) : m_force(f), m_time(time) { if (f) f->addRef();}
         /*! Adds a force to container
           \param[in] time current time step size
           \param[in] container a container
@@ -280,6 +352,9 @@ protected:
     typedef p2d::Force<T> * force_t;
     typedef typename p2d::ActingForces<T>::Command * command_t;
 protected:
+    /*! A body to be set as main for container
+     */
+    sad::p2d::Body* m_body;
     sad::Vector< force_t >    m_forces;                       //!< A forces list, acting on body
     sad::Vector< command_t >  m_queued;                       //!< A queued list of commands
 };

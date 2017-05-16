@@ -19,6 +19,8 @@ namespace sad
 
 namespace p2d
 {
+
+class Body;
 /*! An abstract listener, used to be called, when movement steps to next 
     step, to synchronize other parameters, with it.
  */
@@ -437,6 +439,10 @@ class Movement
          m_next_position.setValue(v);
          m_next_position_time.clear();
      }
+     /*! Sets next planned position for body at time
+         \param[in] v position
+         \param[in] time a time
+      */
      void setNextPositionAt(const _Value & v, double time)
      {
          m_position_is_cached = false;
@@ -456,6 +462,14 @@ class Movement
          p *= time / 2;
          p += m_velocity;
          return p;
+     }
+     /*! Set body for forces container. Note, that movement stores data by weak reference, so 
+         this class should not be exposed to some script data
+         \param[in] body a body
+      */
+     void setBody(sad::p2d::Body* body)
+     {
+         m_force.setBody(body);
      }
 };
 

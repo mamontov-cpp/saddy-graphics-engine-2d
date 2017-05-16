@@ -32,11 +32,15 @@ public:
         \param[in] elasticity an elasticity coefficient
         \param[in] resistance a resistant coefficient
      */
-    ElasticForce(p2d::Body * first, p2d::Body * second, double elasticity = 20, double resistance = 0.005);
+    ElasticForce(p2d::Body* first, p2d::Body * second, double elasticity = 20, double resistance = 0.005);
+    /*! Removes force's reference from second body
+     */
+    ~ElasticForce();
     /*! Returns a value of elastic force, computing formulo - k * dx + b * v
+        \param[in] body a body
         \return a value for the force
      */
-    virtual const p2d::Vector & value() const;
+    virtual const p2d::Vector & value(sad::p2d::Body* body) const;
     /*! Sets a default distance, which must persist between two bodies
         \param[in] dist a distance
      */
@@ -61,8 +65,11 @@ public:
         \return resistance coefficient
      */
     inline double resistance() const { return -m_resistance; }
+    /** Returns a pointer to body, which force depends from (but not applied to).
+        This body should be strong-referenced to ensure some memory-related checks
+    */
+    virtual sad::p2d::Body* dependsFromBody() const;
 private:
-     p2d::Body * m_first;          //!< A first body, which is linked to current body
      p2d::Body * m_second;         //!< A second body, which is force is acting towards
      double  m_defaultdistance;    //!< An initial distance between bodies, which must persist
 

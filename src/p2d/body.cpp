@@ -100,10 +100,12 @@ sad::p2d::Body::Body()
     m_tangential = new p2d::TangentialMovement();
     m_tangential->addListener( new move_t(this, &p2d::Body::notifyMove) );
     m_tangential->setWeight(m_weight);
+    m_tangential->setBody(this);
 
     m_angular = new p2d::AngularMovement();
     m_angular->addListener( new rotate_t(this, &p2d::Body::notifyRotate) );
     m_angular->setWeight(m_weight);
+    m_angular->setBody(this);
 
     p2d::Line * l = new p2d::Line();
     l->setCutter(p2d::cutter(0,0,0,0));
@@ -157,7 +159,7 @@ void sad::p2d::Body::setCurrentGO(sad::p2d::GhostOptions * ghost)
 
 void sad::p2d::Body::sheduleGO(sad::p2d::GhostOptions *next)
 {
-    m_ghost->push(next);	
+    m_ghost->push(next);    
 }
 
 bool sad::p2d::Body::isGhost() const
@@ -188,7 +190,7 @@ void sad::p2d::Body::setShape(sad::p2d::CollisionShape * shape)
     delete Temporary;
     Temporary = NULL;
     if (m_lastsampleindex > -1)
-        Temporary = m_current->clone(m_lastsampleindex + 1);	
+        Temporary = m_current->clone(m_lastsampleindex + 1);    
 }
 
 
@@ -265,7 +267,7 @@ void sad::p2d::Body::setCurrentAngle(double angle)
 
 void sad::p2d::Body::sheduleAngle(double angle)
 {
-    m_angular->setNextPosition(angle);	
+    m_angular->setNextPosition(angle);  
     buildCaches();
 }
 
@@ -350,6 +352,62 @@ void sad::p2d::Body::clearListeners()
     m_angular->clearListeners();
 }
 
+void sad::p2d::Body::addForce(sad::p2d::Force<sad::p2d::Vector>* force)
+{
+    m_tangential->forces().add(force);
+}
+
+void sad::p2d::Body::addForce(sad::p2d::Force<double>* force)
+{
+    m_angular->forces().add(force);
+}
+
+void sad::p2d::Body::sheduleAddForce(sad::p2d::Force<sad::p2d::Vector>* force, double time)
+{
+    m_tangential->forces().scheduleAdd(force, time);
+}
+
+void sad::p2d::Body::sheduleAddForce(sad::p2d::Force<double>* force, double time)
+{
+    m_angular->forces().scheduleAdd(force, time);
+}
+
+void sad::p2d::Body::sheduleAddForce(sad::p2d::Force<sad::p2d::Vector>* force)
+{
+    m_tangential->forces().scheduleAdd(force);
+}
+
+void sad::p2d::Body::sheduleAddForce(sad::p2d::Force<double>* force)
+{
+    m_angular->forces().scheduleAdd(force);
+}
+
+void sad::p2d::Body::removeForce(sad::p2d::Force<sad::p2d::Vector>* force)
+{
+    m_tangential->forces().remove(force);
+}
+
+void sad::p2d::Body::removeForce(sad::p2d::Force<double>* force)
+{
+    m_angular->forces().remove(force);
+}
+
+void sad::p2d::Body::clearTangentialForces()
+{
+    m_tangential->forces().clear();
+}
+
+void sad::p2d::Body::clearAngularForces()
+{
+    m_angular->forces().clear();
+}
+
+void sad::p2d::Body::clearForces()
+{
+    this->clearTangentialForces();
+    this->clearAngularForces();
+}
+
 sad::p2d::TangentialActingForces & sad::p2d::Body::tangentialForces()
 {
     return m_tangential->forces();
@@ -404,7 +462,7 @@ void sad::p2d::Body::correctPosition(const sad::p2d::Vector & distance)
         {
             this->shedulePosition(this->position() + distance);
         }
-    }	
+    }   
     else
     {
         sad::p2d::Vector position = this->position();
@@ -436,7 +494,7 @@ void sad::p2d::Body::correctTangentialVelocity(const p2d::Vector & v)
 
 
 void sad::p2d::Body::setSamplingCount(int samples)
-{	
+{   
     delete Temporary;
     Temporary = m_current->clone(samples);
     m_lastsampleindex = samples - 1;

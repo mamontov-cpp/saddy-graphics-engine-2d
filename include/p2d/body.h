@@ -263,6 +263,53 @@ public:
     /*! Clears all of listeners for body
      */
     void clearListeners();
+    /*! Adds new force to tangential forces list
+        \param[in] force a force
+     */
+    void addForce(sad::p2d::Force<sad::p2d::Vector>* force);
+    /*! Adds new force to angular forces list
+        \param[in] force a force
+     */
+    void addForce(sad::p2d::Force<double>* force);
+    /*! Removes force from tangential forces list
+        \param[in] force a force
+     */
+    void removeForce(sad::p2d::Force<sad::p2d::Vector>* force);
+    /*! Removes force from  to angular forces list
+        \param[in] force a force
+     */
+    void removeForce(sad::p2d::Force<double>* force);
+    /*! Clears tangential forces
+     */
+    void clearTangentialForces();
+    /*! Clears angular forces
+     */
+    void clearAngularForces();
+    /*! Clear forces
+     */
+    void clearForces();
+    /*! Adds new force to tangential forces list
+    \param[in] force a force
+    \param[in] time a time for adding a force
+    */
+    void sheduleAddForce(sad::p2d::Force<sad::p2d::Vector>* force);
+    /*! Adds new force to angular forces list
+    \param[in] force a force
+    \param[in] time a time for adding a force
+    */
+    void sheduleAddForce(sad::p2d::Force<double>* force);
+    /*! Adds new force to tangential forces list
+        \param[in] force a force
+        \param[in] time a time for adding a force
+     */
+    void sheduleAddForce(sad::p2d::Force<sad::p2d::Vector>* force, double time);
+    /*! Adds new force to angular forces list
+        \param[in] force a force
+        \param[in] time a time for adding a force
+     */
+    void sheduleAddForce(sad::p2d::Force<double>* force, double time);
+
+
     /*! Returns a tangential forces, acting on body
      */
     p2d::TangentialActingForces & tangentialForces();

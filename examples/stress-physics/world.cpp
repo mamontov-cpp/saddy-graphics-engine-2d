@@ -103,7 +103,7 @@ void World::run()
         // Add a gravity force
         if (i != 0 && i != 2) 
         {
-            g[i]->body()->tangentialForces().add( new sad::p2d::TangentialForce(sad::p2d::Vector(0, -60) ) );
+            g[i]->body()->addForce( new sad::p2d::TangentialForce(sad::p2d::Vector(0, -60) ) );
         }
         else
         {
@@ -126,7 +126,7 @@ void World::run()
     {
         int  f = forces[i][0];
         int  s = forces[i][1];
-        g[s]->addTangentialForce( new sad::p2d::ElasticForce(g[f]->body(), g[s]->body()) );
+        g[s]->addTangentialForce( new sad::p2d::ElasticForce(g[s]->body(), g[f]->body()) );
     }
     int graphic[12][2] = { 
         {0, 1}, {1, 2}, {0, 3}, {1, 4}, {3, 4}, {2, 5},
@@ -152,7 +152,7 @@ void World::run()
     platform1->setTangentialVelocity(sad::p2d::Vector(0, -5));
     this->addObject(platform1);
 
-    Platform * platform2= new Platform();
+    Platform * platform2 = new Platform();
     platform2->setPosition(sad::p2d::Point(650, 200));
     platform2->body()->setWeight(sad::p2d::Weight::infinite());
     platform2->setTangentialVelocity(sad::p2d::Vector(0, -5));
