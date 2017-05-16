@@ -12,7 +12,7 @@ namespace sad
 
 namespace p2d
 {
-/*! An elastic force is implemented, using formulo
+/*! An elastic force is implemented, using formula
     - k * dx + b * v * v, where dx is difference, between distance of
     centers of both bodies and default distance, which by default is constructed,
     when creating force, v is a current speed of body, k is coefficient of elasticity 
@@ -23,6 +23,7 @@ namespace p2d
  */
 class ElasticForce: public p2d::TangentialForce
 {
+SAD_OBJECT
 public:
     /*! Creates new elastic force with default distance, taken from distance between two
         bodies
@@ -72,3 +73,5 @@ private:
 }
 
 }
+
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::p2d::ElasticForce)

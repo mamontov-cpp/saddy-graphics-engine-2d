@@ -1,6 +1,9 @@
 #include <p2d/elasticforce.h>
 #include <log/log.h>
 
+DECLARE_SOBJ_INHERITANCE(sad::p2d::ElasticForce, sad::p2d::Force<sad::p2d::Vector>)
+
+
 sad::p2d::ElasticForce::ElasticForce(
                            sad::p2d::Body * first, 
                            sad::p2d::Body * second,

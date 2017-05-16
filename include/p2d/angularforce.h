@@ -26,8 +26,9 @@ class TickableDefaultValue<double>
 /*! Describes a specific force with double for sake of optimization.
  */
 template<>
-class Force<double>
+class Force<double>: public sad::Object
 {
+SAD_OBJECT
 public:
      /*! Creates zero force
       */
@@ -65,7 +66,8 @@ protected:
 template<>
 class ImpulseForce<double>: public p2d::Force<double>
 {
-  public:
+SAD_OBJECT
+public:
      /*! Creates zero force
       */
      inline ImpulseForce() : Force() {  }
@@ -90,3 +92,5 @@ typedef p2d::ActingForces<double>      AngularActingForces;
 
 }
 
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::p2d::Force<double>)
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::p2d::ImpulseForce<double>)

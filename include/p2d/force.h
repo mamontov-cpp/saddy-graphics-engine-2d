@@ -9,6 +9,8 @@
 #include "tickable.h"
 
 #include "../sadvector.h"
+#include "../object.h"
+#include "../db/dbtypename.h"
 #include "../fuzzyequal.h"
 
 namespace sad
@@ -29,8 +31,10 @@ public:
 
 /*! Describes a specific force with value type T.
  */
-template<typename T>
-class Force
+template<
+    typename T
+>
+class Force: public sad::Object
 {
 public:
     /*! Creates zero force
@@ -62,6 +66,25 @@ public:
         \param[in] time a time step size
      */
     virtual void step(double time) {}
+    
+    /** Returns global meta data for force
+        \return global meta data
+     */
+    static sad::ClassMetaData* globalMetaData()
+    {
+        sad::db::TypeName<T>::init();
+        sad::String myName = "sad::p2d::Force<"; 
+        myName += sad::db::TypeName<T>::name();
+        myName += ">";
+        return sad::ClassMetaDataContainer::ref()->getWithParent<sad::Object>(myName);  
+    }
+    /** Returns global meta data for force
+        \return global meta data
+     */
+    virtual sad::ClassMetaData * metaData() const
+    {
+        return sad::p2d::Force<T>::globalMetaData();
+    }
 protected:
     bool m_alive;  //!< If false, this force should be removed from container 
     T    m_value;  //!< A value of force
@@ -69,7 +92,9 @@ protected:
 
 /*! Describes a simple impulse force with value T
  */ 
-template<typename T>
+template<
+    typename T
+>
 class ImpulseForce: public p2d::Force<T>
 {
 public:
@@ -85,6 +110,25 @@ public:
         \param[in] time a time step size
      */
     virtual void step(double time) { this->die(); }
+
+    /** Returns global meta data for force
+        \return global meta data
+     */
+    static sad::ClassMetaData* globalMetaData()
+    {
+        sad::db::TypeName<T>::init();
+        sad::String myName = "sad::p2d::ImpulseForce<"; 
+        myName += sad::db::TypeName<T>::name();
+        myName += ">";
+        return sad::ClassMetaDataContainer::ref()->getWithParent<sad::p2d::Force<T> >(myName);  
+    }
+    /** Returns global meta data for force
+        \return global meta data
+     */
+    virtual sad::ClassMetaData * metaData() const
+    {
+        return sad::p2d::Force<T>::globalMetaData();
+    }
 };
 
 
@@ -248,3 +292,6 @@ typedef p2d::ActingForces<p2d::Vector> TangentialActingForces;
 }
 
 }
+
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::p2d::Force<p2d::Vector>)
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::p2d::ImpulseForce<p2d::Vector>)
