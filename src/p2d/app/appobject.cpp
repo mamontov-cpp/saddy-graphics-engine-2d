@@ -9,6 +9,9 @@ sad::p2d::app::Object::Object()
     // objects
     m_sprite = new Sprite2D(NULL, sad::Rect2D(), sad::Rect2D());
     m_body = new sad::p2d::Body();
+    m_body->addRef();
+    m_sprite->addRef();
+
     
     // Set self as user object to make type inference inside collisions
     // possible
@@ -29,6 +32,7 @@ sad::p2d::app::Object::Object()
 
 sad::p2d::app::Object::~Object()
 {
+    printf("%p: destroyed\n", this);
     if (m_app == NULL)
     {
         if (m_body) {
