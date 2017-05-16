@@ -9,6 +9,7 @@
 #include <p2d/rectangle.h>
 #include <p2d/collisiontest.h>
 #include <p2d/vector.h>
+#include <p2d/infiniteline.h>
 
 #include <cassert>
 
@@ -75,7 +76,58 @@ static sad::p2d::Vector __ortho(const sad::p2d::Vector& v, int i)
 }
 
 static bool __isRect2D(const sad::Rect2D& p) {
-	return true;
+    return true;
+}
+
+// Expose sad::p2d::InfiniteLine and related
+static void exposeInfiniteLine(sad::dukpp03::Context* ctx)
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addConstructor<sad::p2d::InfiniteLine>("SadP2DInfiniteLine");
+    c->addConstructor<sad::p2d::InfiniteLine, double, double, double>("SadP2DInfiniteLine");
+    c->addCloneValueObjectMethodFor<sad::p2d::InfiniteLine>();
+
+    sad::p2d::MaybePoint (sad::p2d::InfiniteLine::*intersection1)(const sad::p2d::InfiniteLine&) const = sad::p2d::InfiniteLine::intersection;
+    sad::p2d::MaybePoint (sad::p2d::InfiniteLine::*intersection2)(const sad::p2d::Cutter2D& a) const = sad::p2d::InfiniteLine::intersection;
+
+
+    ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * intersection_overload = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
+    intersection_overload->add(sad::dukpp03::bind_method::from(intersection1));
+    intersection_overload->add(sad::dukpp03::bind_method::from(intersection1));
+
+    c->addMethod("intersection", intersection_overload);
+    c->addMethod("hasPoint", sad::dukpp03::bind_method::from(&sad::p2d::InfiniteLine::hasPoint));
+    c->addMethod("isSame", sad::dukpp03::bind_method::from(&sad::p2d::InfiniteLine::isSame));
+    c->addMethod("isCollinear", sad::dukpp03::bind_method::from(&sad::p2d::InfiniteLine::isCollinear));
+    c->addMethod("kx", sad::dukpp03::bind_method::from(&sad::p2d::InfiniteLine::kx));
+    c->addMethod("ky", sad::dukpp03::bind_method::from(&sad::p2d::InfiniteLine::ky));
+    c->addMethod("b", sad::dukpp03::bind_method::from(&sad::p2d::InfiniteLine::b));
+    c->addMethod("direction", sad::dukpp03::bind_method::from(&sad::p2d::InfiniteLine::direction));
+
+    c->setPrototypeFunction("SadP2DInfiniteLine");
+
+    ctx->addClassBinding("sad::p2d::InfiniteLine", c);
+
+    ctx->registerCallable("SadP2DInfiniteLineFromCutter", sad::dukpp03::make_function::from(sad::p2d::InfiniteLine::fromCutter));
+
+    ctx->registerCallable("SadP2DInfiniteLineAppliedVector", sad::dukpp03::make_function::from(sad::p2d::InfiniteLine::appliedVector));
+    
+    
+    sad::p2d::MaybePoint (*gintersection1)(const sad::p2d::Cutter2D & a, const sad::p2d::Cutter2D & b) = sad::p2d::intersection;
+    sad::p2d::MaybePoint (*gintersection2)(const sad::p2d::Point & x, const sad::p2d::Vector & v, const sad::p2d::Cutter2D & c) = sad::p2d::intersection;
+
+    ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * global_intersection_overload = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
+    global_intersection_overload->add(sad::dukpp03::make_function::from(gintersection1));
+    global_intersection_overload->add(sad::dukpp03::make_function::from(gintersection2));
+    ctx->registerCallable("SadP2DIntersection", global_intersection_overload);
+
+    PERFORM_AND_ASSERT(
+        "sad.p2d.InfiniteLine = SadP2DInfiniteLine;"
+        "sad.p2d.InfiniteLine.fromCutter = SadP2DInfiniteLineFromCutter;"
+        "sad.p2d.InfiniteLine.appliedVector = SadP2DInfiniteLineAppliedVector;"
+        "sad.p2d.intersection = SadP2DIntersection;"
+        "sad.p2d.InfiniteLine.prototype.toString = function() { return \"sad::p2d::InfiniteLine(\" + this.kx() + \",\" + this.ky() + \",\" + this.b() + \")\";};"
+    );
 }
 
 void sad::dukpp03::exposeP2D(sad::dukpp03::Context* ctx)
@@ -190,4 +242,6 @@ void sad::dukpp03::exposeP2D(sad::dukpp03::Context* ctx)
         "sad.p2d.ortho = SadP2DOrtho;"
         "sad.p2d.scalar = SadP2DScalar;"
     );
+
+    exposeInfiniteLine(ctx);
 }

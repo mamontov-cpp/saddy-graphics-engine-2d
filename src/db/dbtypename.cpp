@@ -34,6 +34,7 @@
 #include "p2d/line.h"
 #include "p2d/rectangle.h"
 #include "p2d/circle.h"
+#include "p2d/infiniteline.h"
 
 #include "animations/animationsgroup.h"
 
@@ -232,6 +233,7 @@ DECLARE_COMMON_TYPE(sad::p2d::Bound)
 DECLARE_COMMON_TYPE(sad::p2d::Line)
 DECLARE_COMMON_TYPE(sad::p2d::Rectangle)
 DECLARE_COMMON_TYPE(sad::p2d::Circle)
+DECLARE_COMMON_TYPE(sad::p2d::InfiniteLine)
 
 DECLARE_COMMON_TYPE(sad::animations::Group)
 
