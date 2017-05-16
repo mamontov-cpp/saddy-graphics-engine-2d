@@ -188,6 +188,8 @@ struct WorldTest : tpunit::TestFixture
    {
        p2dworld::UserObject1  * u11 = new p2dworld::UserObject1();
        p2dworld::UserObject1  * u21 = new p2dworld::UserObject1();
+       u11->addRef();
+       u21->addRef();
 
        this->eventperformed = 0;
        ::eventperformed = 0;
@@ -219,15 +221,17 @@ struct WorldTest : tpunit::TestFixture
        ASSERT_TRUE( this->eventperformed == 2 );
        ASSERT_TRUE( ::eventperformed == 2 );
        delete w;
-       delete u11;
-       delete u21;
+       u11->delRef();
+       u21->delRef();
    }
 
    void testCollisionCallbacksForU1U2()
    {
        p2dworld::UserObject1  * u1 = new p2dworld::UserObject1();
        p2dworld::UserObject2  * u2 = new p2dworld::UserObject2();
-
+       u1->addRef();
+       u2->addRef();
+   
        this->eventperformed = 0;
        ::eventperformed = 0;
        sad::p2d::Body * b1 = new sad::p2d::Body();
@@ -258,8 +262,8 @@ struct WorldTest : tpunit::TestFixture
        ASSERT_TRUE( this->eventperformed == 2 );
        ASSERT_TRUE( ::eventperformed == 2 );
        delete w;
-       delete u1;
-       delete u2;
+       u1->delRef();
+       u2->delRef();
    }
    
    
@@ -358,7 +362,9 @@ struct WorldTest : tpunit::TestFixture
    {
        p2dworld::UserObject1  * u1 = new p2dworld::UserObject1();
        p2dworld::UserObject2  * u2 = new p2dworld::UserObject2();
-
+       u1->addRef();
+       u2->addRef();
+   
        this->eventperformed = 0;
        ::eventperformed = 0;
        sad::p2d::Body * b1 = new sad::p2d::Body();
@@ -399,8 +405,9 @@ struct WorldTest : tpunit::TestFixture
        ASSERT_TRUE( sad::is_fuzzy_equal(u2->angle(), 2.0) );
 
        delete w;
-       delete u1;
-       delete u2;
+
+       u1->delRef();
+       u2->delRef();
    }
 
    void testMultipleSteps()
@@ -444,6 +451,8 @@ struct WorldTest : tpunit::TestFixture
    {
        p2dworld::UserObject1  * u1 = new p2dworld::UserObject1();
        p2dworld::UserObject2  * u2 = new p2dworld::UserObject2();
+       u1->addRef();
+       u2->addRef();
 
        this->eventperformed = 0;
        ::eventperformed = 0;
@@ -480,14 +489,15 @@ struct WorldTest : tpunit::TestFixture
        w->step(1.0);
        ASSERT_TRUE( ::eventperformed == 2 );
        delete w;
-       delete u1;
-       delete u2;  
+       u1->delRef();
+       u2->delRef();  
    }
 
    void testPickedGroupsTypeCheck()
    {
        p2dworld::UserObject1  * u1 = new p2dworld::UserObject1();
        //p2dworld::UserObject2  * u2 = new p2dworld::UserObject2();
+       u1->addRef();
 
        this->eventperformed = 0;
        ::eventperformed = 0;
@@ -517,7 +527,7 @@ struct WorldTest : tpunit::TestFixture
        w->step(1.0);
        ASSERT_TRUE( ::eventperformed > 0 );
        delete w;
-       delete u1;
+       u1->delRef();
        //delete u2;  
     }
 

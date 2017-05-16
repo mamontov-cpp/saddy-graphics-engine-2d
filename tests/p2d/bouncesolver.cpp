@@ -45,6 +45,7 @@ struct BounceSolverTest : tpunit::TestFixture
    {
         // Create ball
         Ball * ball = new Ball(); 
+        ball->addRef();
         sad::p2d::Body * ballbody = new sad::p2d::Body();
         
         sad::p2d::Circle * circle = new sad::p2d::Circle();
@@ -85,7 +86,7 @@ struct BounceSolverTest : tpunit::TestFixture
         delete world;
         delete m_solver;
         delete walls;
-        delete ball;
+        ball->delRef();
 
         ASSERT_TRUE( sad::is_fuzzy_equal(v.x(), 0, 1) == false );
         ASSERT_TRUE( sad::is_fuzzy_equal(v.y(), 0, 1) == false );

@@ -151,7 +151,7 @@ public:
     /*! Immediately adds new force to container
         \param[in] force new force
      */
-    void add(p2d::Force<T> * force) { m_forces.push_back(force); }
+    void add(p2d::Force<T> * force) { if (force) { force->addRef(); m_forces.push_back(force); } }
     /*! Schedules adding a force to container
         \param[in] force new force
      */
@@ -167,7 +167,7 @@ public:
     {
         for(size_t i = 0; i < m_forces.size(); i++)
         {
-            delete m_forces[i];
+            m_forces[i]->delRef();
         }
         for(size_t i = 0; i < m_queued.size(); i++)
         {
@@ -185,7 +185,7 @@ public:
             p->step(time);
             if (p->isAlive() == false)
             {
-                delete m_forces[i];
+                m_forces[i]->delRef();
                 m_forces.removeAt(i);
                 --i;
             }
@@ -234,10 +234,10 @@ protected:
     };
     /*! A sheduled adding, without time checking
      */
-    class ScheduledAdd
+    class ScheduledAdd: public sad::p2d::ActingForces<T>::Command
     {
     public:
-        ScheduledAdd(p2d::Force<T> * f) : m_force(f) {}
+        ScheduledAdd(p2d::Force<T> * f) : m_force(f) { if (f) f->addRef(); }
         /*! Adds a force to container
           \param[in] time current time step size
           \param[in] container a container
@@ -246,19 +246,18 @@ protected:
         virtual bool perform(double time, ActingForces<T> * container)
         {
             container->add(m_force);
-            m_force = NULL;
             return true;
         }
-        virtual ~ScheduledAdd() { delete m_force; }
+        virtual ~ScheduledAdd() { if (m_force) m_force->delRef(); }
     protected:
         p2d::Force<T> * m_force; //!< A force         
     };
     /*! A sheduled adding, without time checking
      */
-    class ScheduledAddAt
+    class ScheduledAddAt: public sad::p2d::ActingForces<T>::Command
     {
     public:
-        ScheduledAddAt(p2d::Force<T> * f) : m_force(f), m_time(0) {}
+        ScheduledAddAt(p2d::Force<T> * f) : m_force(f), m_time(0) { if (f) f->addRef();}
         /*! Adds a force to container
           \param[in] time current time step size
           \param[in] container a container
@@ -269,12 +268,11 @@ protected:
             if (time > m_time || ::sad::is_fuzzy_equal(time, m_time))
             {
                 container->add(m_force);
-                m_force = NULL;
                 return true;
             }
             return false;
         }
-        virtual ~ScheduledAddAt() { delete m_force; }
+        virtual ~ScheduledAddAt() { if (m_force) m_force->delRef(); }
     protected:
         p2d::Force<T> * m_force; //!< A force
         double  m_time;          //!< A time, when should be added a force           
