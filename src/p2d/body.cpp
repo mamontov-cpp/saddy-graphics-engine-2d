@@ -2,6 +2,7 @@
 #include "p2d/world.h"
 #include "p2d/circle.h"
 #include "p2d/line.h"
+#include <cstdio>
 
 DECLARE_SOBJ(sad::p2d::Body);
 
@@ -27,6 +28,7 @@ void sad::p2d::Body::setUserObject(sad::Object * o)
     {
         m_user_object->delRef();
     }
+    //printf("Set user object %p on body %p\n", o, this);
     m_user_object = o;
     if (m_user_object)
     {
@@ -117,6 +119,7 @@ sad::p2d::Body::Body()
 
 sad::p2d::Body::~Body()
 {
+    //printf("Destroying body %p with %p\n", this, m_user_object);
     delete m_weight;
     delete m_ghost;
     delete m_tangential;

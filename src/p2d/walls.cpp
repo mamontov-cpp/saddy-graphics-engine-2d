@@ -79,6 +79,11 @@ void sad::p2d::Walls::makeWalls(double width, double height)
     m_walls[1]->setOppositeBody(m_walls[0]->body());
     m_walls[2]->setOppositeBody(m_walls[3]->body());
     m_walls[3]->setOppositeBody(m_walls[2]->body());
+
+    for(size_t i = 0; i < m_walls.size(); i++)
+    {
+        m_walls[i]->addRef();
+    }
 }
 
 const sad::Vector<sad::p2d::Body *> sad::p2d::Walls::bodies() const
@@ -91,7 +96,7 @@ sad::p2d::Walls::~Walls()
 {
     for(size_t i = 0; i < m_walls.count(); i++)
     {
-        delete m_walls[i];
+        m_walls[i]->delRef();
     }
 }
 

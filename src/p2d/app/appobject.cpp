@@ -32,14 +32,13 @@ sad::p2d::app::Object::Object()
 
 sad::p2d::app::Object::~Object()
 {
-    printf("%p: destroyed\n", this);
-    if (m_app == NULL)
+    //printf("%p: destroyed\n", static_cast<sad::Object*>(this));    
+    if (m_body) 
     {
-        if (m_body) {
-            m_body->delRef();
-        }
+        m_body->delRef();
     }
-    if (m_sprite) {
+    if (m_sprite) 
+    {
         m_sprite->delRef();
     }
 }
@@ -109,7 +108,7 @@ void sad::p2d::app::Object::stopVertical()
 
 void sad::p2d::app::Object::stop()
 {
-    m_body->setCurrentTangentialVelocity(p2d::Vector(0,0));	
+    m_body->setCurrentTangentialVelocity(p2d::Vector(0,0)); 
 }
 
 sad::p2d::Body * sad::p2d::app::Object::body()
