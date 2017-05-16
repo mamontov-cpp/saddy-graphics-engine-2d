@@ -184,10 +184,15 @@ dukpp03::Maybe<sad::db::Object*> dukpp03::GetValue<sad::db::Object*,  sad::dukpp
                     }
                     else
                     {
-                        if (sad::ClassMetaDataContainer::ref()->contains(v->baseName()))
+                        bool created = false;
+                        if (sad::ClassMetaDataContainer::ref()->get(v->baseName(), created)->canBeCastedTo("sad::Object"))
                         {
-                            bool created = false;
-                            if (sad::ClassMetaDataContainer::ref()->get(v->baseName(), created)->canBeCastedTo("sad::Object"))
+                            sad::Object** object = reinterpret_cast<sad::Object**>(v->data());
+                            result.setValue(*object);
+                        }
+                        else
+                        {
+                            if (v->isSadObject() && v->pointerStarsCount() == 1) 
                             {
                                 sad::Object** object = reinterpret_cast<sad::Object**>(v->data());
                                 result.setValue(*object);

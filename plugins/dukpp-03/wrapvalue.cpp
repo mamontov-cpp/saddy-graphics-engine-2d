@@ -5,6 +5,14 @@ void sad::dukpp03::WrapValue::perform(void* context, void* variant, bool wrapped
 {
     sad::db::Variant* v = reinterpret_cast<sad::db::Variant*>(variant);
     sad::Maybe<sad::db::Object*> mo =  v->get<sad::db::Object*>(false);
+    if (v->isSadObject() && (v->pointerStarsCount() == 1) && mo.exists() == false)
+    {
+        sad::Object** r = reinterpret_cast<sad::Object**>(v->data());
+        if (r)
+        {
+            mo.setValue(*r);
+        }
+    }
     if (mo.exists())
     {
         sad::db::Object* object = mo.value();

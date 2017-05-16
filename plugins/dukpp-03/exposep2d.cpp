@@ -10,6 +10,7 @@
 #include <p2d/collisiontest.h>
 #include <p2d/vector.h>
 #include <p2d/infiniteline.h>
+#include <p2d/body.h>
 
 #include <cassert>
 
@@ -79,7 +80,7 @@ static bool __isRect2D(const sad::Rect2D& p) {
     return true;
 }
 
-// Expose sad::p2d::InfiniteLine and related
+// Expose sad::p2d::InfiniteLine and related functions
 static void exposeInfiniteLine(sad::dukpp03::Context* ctx)
 {
     sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
@@ -127,6 +128,28 @@ static void exposeInfiniteLine(sad::dukpp03::Context* ctx)
         "sad.p2d.InfiniteLine.appliedVector = SadP2DInfiniteLineAppliedVector;"
         "sad.p2d.intersection = SadP2DIntersection;"
         "sad.p2d.InfiniteLine.prototype.toString = function() { return \"sad::p2d::InfiniteLine(\" + this.kx() + \",\" + this.ky() + \",\" + this.b() + \")\";};"
+    );
+}
+
+// Expose sad::p2d::Body and related functions
+static void exposeBody(sad::dukpp03::Context* ctx)
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addObjectConstructor<sad::p2d::Body>("SadP2DBody");
+    c->addMethod("setUserObject", sad::dukpp03::bind_method::from(&sad::p2d::Body::setUserObject));
+    c->addMethod("userObject", sad::dukpp03::bind_method::from(&sad::p2d::Body::userObject));
+    c->addMethod("setShape", sad::dukpp03::bind_method::from(&sad::p2d::Body::setShape));
+    c->addMethod("currentShape", sad::dukpp03::bind_method::from(&sad::p2d::Body::currentShape));
+    c->addMethod("userType", sad::dukpp03::bind_method::from(&sad::p2d::Body::userType));
+
+    c->setPrototypeFunction("SadP2DBody");
+
+    ctx->addClassBinding("sad::p2d::Body", c);
+
+    PERFORM_AND_ASSERT(
+        "sad.p2d.Body = SadP2DBody;"
+        "sad.p2d.Body.prototype.setCollisionShape = function(o) { return this.setShape(o); };"
+        "sad.p2d.Body.prototype.shape = function() { return this.currentShape(); };"
     );
 }
 
@@ -244,4 +267,5 @@ void sad::dukpp03::exposeP2D(sad::dukpp03::Context* ctx)
     );
 
     exposeInfiniteLine(ctx);
+    exposeBody(ctx);
 }

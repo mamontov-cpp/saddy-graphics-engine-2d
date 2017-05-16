@@ -215,6 +215,12 @@ void sad::dukpp03::Context::initialize()
         sad::dukpp03::internal::conversion_table.declareImplicit<sad::Renderer*, sad::dukpp03::Renderer*>();
     }
 
+    bool ___b = sad::Sprite2D::globalMetaData()->canBeCastedTo("sad::Object");
+    ___b = ___b && sad::Label::globalMetaData()->canBeCastedTo("sad::Object");
+    ___b = ___b && sad::db::custom::Object::globalMetaData()->canBeCastedTo("sad::Object");
+    ___b = ___b && sad::Sprite3D::globalMetaData()->canBeCastedTo("sad::Object");
+    assert(___b);
+
     // Register SadInternalIsNativeObject function
     duk_push_global_object(m_context);
     duk_push_c_function(m_context, isNativeObject, 1);

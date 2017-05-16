@@ -23,7 +23,15 @@ void sad::p2d::Body::notifyMove(const sad::p2d::Vector & delta)
 
 void sad::p2d::Body::setUserObject(sad::Object * o)
 {
+    if (m_user_object)
+    {
+        m_user_object->delRef();
+    }
     m_user_object = o;
+    if (m_user_object)
+    {
+        m_user_object->addRef();
+    }
 }
 
 
@@ -115,6 +123,10 @@ sad::p2d::Body::~Body()
     delete m_angular;
     delete m_current;
     delete[] Temporary;
+    if (m_user_object)
+    {
+        m_user_object->delRef();
+    }
 }
 
 void sad::p2d::Body::setWeight(sad::p2d::Weight * weight)

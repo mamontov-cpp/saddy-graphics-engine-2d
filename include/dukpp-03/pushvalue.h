@@ -380,9 +380,9 @@ public:
  */
 static void perform(sad::dukpp03::BasicContext* ctx, T* v)
 {
-    ::dukpp03::FinalizerFunction f = ::dukpp03::internal::finalizerMaker(v, ctx);
     if (v != NULL)
     {
+        ::dukpp03::FinalizerFunction f = ::dukpp03::internal::finalizerMaker(v, ctx);
         ctx->template pushVariant<T*>(sad::dukpp03::BasicContext::VariantUtils::template makeFrom(v), f);
     }
     else

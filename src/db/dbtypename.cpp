@@ -234,6 +234,7 @@ DECLARE_COMMON_TYPE(sad::p2d::Line)
 DECLARE_COMMON_TYPE(sad::p2d::Rectangle)
 DECLARE_COMMON_TYPE(sad::p2d::Circle)
 DECLARE_COMMON_TYPE(sad::p2d::InfiniteLine)
+DECLARE_COMMON_TYPE(sad::p2d::CollisionShape)
 
 DECLARE_COMMON_TYPE(sad::animations::Group)
 

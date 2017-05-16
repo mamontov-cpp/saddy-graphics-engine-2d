@@ -4,6 +4,7 @@
 #include "object.h"
 #include "sadptrhash.h"
 #include "sadstring.h"
+#include "sprite2d.h"
 #define _INC_STDIO
 #include "3rdparty/tpunit++/tpunit++.hpp"
 #pragma warning(pop)
@@ -178,6 +179,7 @@ struct SadObjectTest : tpunit::TestFixture
        TEST(SadObjectTest::testFailCast),
        TEST(SadObjectTest::testCastMethod),
        TEST(SadObjectTest::testName)
+       TEST(SadObjectTest::testSprite)
    ) {}
    /*! Cache, which stores objects by class
     */
@@ -401,6 +403,12 @@ struct SadObjectTest : tpunit::TestFixture
    {
         DirectDescendant1 a;
         ASSERT_TRUE( a.className() == "DirectDescendant1" );
+   }
+   
+   void testSprite()
+   {
+       sad::Sprite2D m;
+       ASSERT_TRUE(m.metaData()->canBeCastedTo("sad::Object"));   
    }
 
 } test_object;
