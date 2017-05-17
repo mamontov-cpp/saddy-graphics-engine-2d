@@ -345,11 +345,20 @@ sad::p2d::CollisionShape * sad::p2d::Body::currentShape()
     return m_current;
 }
 
+void sad::p2d::Body::clearMoveListeners()
+{
+    m_tangential->clearListeners();
+}
+
+void sad::p2d::Body::clearRotateListeners()
+{
+    m_angular->clearListeners();
+}
 
 void sad::p2d::Body::clearListeners()
 {
-    m_tangential->clearListeners();
-    m_angular->clearListeners();
+    this->clearMoveListeners();
+    this->clearRotateListeners();
 }
 
 void sad::p2d::Body::addForce(sad::p2d::Force<sad::p2d::Vector>* force)

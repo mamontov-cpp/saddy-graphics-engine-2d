@@ -30,7 +30,7 @@ public:
     >
     void call(const _EventType& e)
     {
-        ::dukpp03::PushValue<_EventType, sad::dukpp03::Context>::perform(m_ctx, e);
+        ::dukpp03::PushValue<_EventType, sad::dukpp03::BasicContext>::perform(m_ctx, e);
         m_function.call(m_ctx);
         ::dukpp03::Maybe<std::string>  maybe_error = m_ctx->errorOnStack(-1);
         if (maybe_error.exists())

@@ -779,7 +779,6 @@ sad.Label.prototype.setFont = function(font, r, tree) {
 sad.Sprite2D = SadSprite2D;
 sad.Sprite2D.Options = SadSprite2DOptions;
 
-sad.p2d = {};
 
 sad.p2d.BoundType = {
 	"BT_LEFT" : 0,

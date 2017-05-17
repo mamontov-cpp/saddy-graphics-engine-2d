@@ -1,4 +1,5 @@
 #include "dukpp-03/context.h"
+#include "dukpp-03/jsmovementlistener.h"
 
 #include <geometry2d.h>
 #include <fuzzyequal.h>
@@ -276,6 +277,46 @@ static void exposeInfiniteLine(sad::dukpp03::Context* ctx)
     );
 }
 
+static sad::p2d::AbstractMovementDeltaListener<sad::p2d::Vector>* __addMoveListener(
+    sad::p2d::Body* b,
+    sad::dukpp03::Context* ctx, 
+    sad::dukpp03::CompiledFunction f
+)
+{
+    sad::p2d::AbstractMovementDeltaListener<sad::p2d::Vector>* result = new sad::dukpp03::JSMovementListener<sad::p2d::Vector>(ctx, f);
+    b->addMoveListener(result);
+    return result;
+}
+
+
+static void __removeMoveListener(
+    sad::p2d::Body* b,
+    sad::p2d::AbstractMovementDeltaListener<sad::p2d::Vector>* l
+)
+{
+    b->removeMoveListener(l);
+}
+
+static sad::p2d::AbstractMovementDeltaListener<double>* __addRotateListener(
+    sad::p2d::Body* b,
+    sad::dukpp03::Context* ctx, 
+    sad::dukpp03::CompiledFunction f
+)
+{
+    sad::p2d::AbstractMovementDeltaListener<double>* result = new sad::dukpp03::JSMovementListener<double>(ctx, f);
+    b->addRotateListener(result);
+    return result;
+}
+
+static void __removeRotateListener(
+    sad::p2d::Body* b,
+    sad::p2d::AbstractMovementDeltaListener<double>* l 
+)
+{
+    b->removeRotateListener(l);
+}
+
+
 // Expose sad::p2d::Body and related functions
 static void exposeBody(sad::dukpp03::Context* ctx)
 {
@@ -342,16 +383,30 @@ static void exposeBody(sad::dukpp03::Context* ctx)
     c->addMethod("tangentialForcesList", sad::dukpp03::bind_method::from(&sad::p2d::Body::tangentialForcesList));
     c->addMethod("angularForcesList", sad::dukpp03::bind_method::from(&sad::p2d::Body::angularForcesList));
     c->addMethod("stepDiscreteChangingValues", sad::dukpp03::bind_method::from(&sad::p2d::Body::stepDiscreteChangingValues));
-   c->addMethod("stepPositionsAndVelocities", sad::dukpp03::bind_method::from(&sad::p2d::Body::stepPositionsAndVelocities));
+    c->addMethod("stepPositionsAndVelocities", sad::dukpp03::bind_method::from(&sad::p2d::Body::stepPositionsAndVelocities));
+    c->addMethod("clearMoveListeners", sad::dukpp03::bind_method::from(&sad::p2d::Body::clearMoveListeners));
+    c->addMethod("clearRotateListeners", sad::dukpp03::bind_method::from(&sad::p2d::Body::clearRotateListeners));
+    c->addMethod("clearListeners", sad::dukpp03::bind_method::from(&sad::p2d::Body::clearListeners));
+    c->addMethod("move", sad::dukpp03::bind_method::from(&sad::p2d::Body::move));
+    c->addMethod("rotate", sad::dukpp03::bind_method::from(&sad::p2d::Body::rotate));
 
-    
     c->setPrototypeFunction("SadP2DBody");
 
     ctx->addClassBinding("sad::p2d::Body", c);
 
+    ctx->registerCallable("__SadP2DAddMoveListener", sad::dukpp03::make_function::from(__addMoveListener));
+    ctx->registerCallable("__SadP2DAddRotateListener", sad::dukpp03::make_function::from(__addRotateListener));
+
+    ctx->registerCallable("__SadP2DRemoveMoveListener", sad::dukpp03::make_function::from(__removeMoveListener));
+    ctx->registerCallable("__SadP2DRemoveRotateListener", sad::dukpp03::make_function::from(__removeRotateListener));
+
     PERFORM_AND_ASSERT(
         "sad.p2d.Body = SadP2DBody;"
         "sad.p2d.Body.prototype.setCollisionShape = function(o) { return this.setShape(o); };"
+        "sad.p2d.Body.prototype.addMoveListener = function(ctx, f) { return __SadP2DAddMoveListener(this, ctx, f); };"
+        "sad.p2d.Body.prototype.addRotateListener = function(ctx, f) { return __SadP2DAddRotateListener(this, ctx, f); };"
+        "sad.p2d.Body.prototype.removeMoveListener = function(o) { return __SadP2DRemoveMoveListener(this, o); };"
+        "sad.p2d.Body.prototype.removeRotateListener = function(o) { return __SadP2DRemoveRotateListener(this, o); };"
         "sad.p2d.Body.prototype.shape = function() { return this.currentShape(); };"
     );
 }

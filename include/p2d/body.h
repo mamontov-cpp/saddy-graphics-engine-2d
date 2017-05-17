@@ -260,6 +260,12 @@ public:
     /*! Rotates body by specified angle
      */
     void rotate(double delta);
+    /*! Clears all move listeners for body
+     */
+    void clearMoveListeners();
+    /*! Clears all rotate listeners for body
+     */
+    void clearRotateListeners();
     /*! Clears all of listeners for body
      */
     void clearListeners();
