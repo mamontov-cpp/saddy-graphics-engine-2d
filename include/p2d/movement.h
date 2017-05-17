@@ -191,25 +191,31 @@ class Movement
       */
      void clearListeners()
      {
-         for(size_t i = 0 ; i < m_listeners.count(); i++)
+        for(size_t i = 0 ; i < m_listeners.count(); i++)
             delete m_listeners[i];
-         m_listeners.clear();
+        m_listeners.clear();
      }
      /*! Adds a listener for movement
          \param[in] l listener
       */ 
      void addListener(listener_t  l)
      {
-         if (std::find(m_listeners.begin(), m_listeners.end(), l) 
+        if (std::find(m_listeners.begin(), m_listeners.end(), l) 
              == m_listeners.end())
-             m_listeners << l;
+            m_listeners << l;
      }
      /*! Removes a listener for movement
          \param[in] l listener
       */
      void removeListener(listener_t l)
      {
-         m_listeners.removeFirst(l);
+        for(size_t i = 0 ; i < m_listeners.count(); i++) {
+            if (m_listeners[i] == l) {
+                m_listeners.removeAt(i);
+                delete m_listeners[i];
+                --i;
+            }
+        }
      }
      /*! Performs a force step for current time period
          Also clears all caches
@@ -221,8 +227,8 @@ class Movement
          m_acceleration_cache = false;
          m_position_cache = false;
      }
-     /*! Returns an acting forces	
-         \return an acting forces	
+     /*! Returns an acting forces   
+         \return an acting forces   
       */
      p2d::ActingForces<_Value> & forces() { return m_force; }
      /*! Determines a difference between velocity end of specified time
