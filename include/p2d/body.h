@@ -297,13 +297,13 @@ public:
     */
     const sad::Vector<sad::p2d::Force<double>* >& angularForcesList();
     /*! Adds new force to tangential forces list
-    \param[in] force a force
-    \param[in] time a time for adding a force
+        \param[in] force a force
+        \param[in] time a time for adding a force
     */
     void sheduleAddForce(sad::p2d::Force<sad::p2d::Vector>* force);
     /*! Adds new force to angular forces list
-    \param[in] force a force
-    \param[in] time a time for adding a force
+        \param[in] force a force
+        \param[in] time a time for adding a force
     */
     void sheduleAddForce(sad::p2d::Force<double>* force);
     /*! Adds new force to tangential forces list

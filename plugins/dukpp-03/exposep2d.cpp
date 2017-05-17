@@ -122,6 +122,9 @@ static void exposeForcePoint2D(sad::dukpp03::Context* ctx)
         "sad.p2d.TangentialForce = SadP2DTangentialForce;"
         "sad.p2d.TangentialForce.prototype.value = function(o)   { if (typeof o == \"undefined\") return SadP2DTangentialForceValue(this); else return this._value(); };"
         "sad.p2d.TangentialForce.prototype.toString = function() { return \"sad::p2d::Force<sad::p2d::Vector>(\" + this.value().toString()  + \")\";};"
+        "sad.p2d.force = function(o)  {  var d = null; if (sad.p2d.isPoint2D(o)) d = new sad.p2d.TangentialForce(); else d = new sad.p2d.AngularForce(); d.setValue(o);  return d; };"
+        "sad.p2d.impulseForce = function(o)  { var d = null; if (sad.p2d.isPoint2D(o)) d =  new sad.p2d.TangentialImpulseForce(); else return  d = sad.p2d.AngularImpulseForce(); d.setValue(o); return d;  };"
+        "var pnt = function(x, y) {  if (typeof x == \"undefined\" && typeof y == \"undefined\") return sad.Point2D(); else return new sad.Point2D(x, y);  };"
     );
 }
 
@@ -198,18 +201,6 @@ static void exposeElasticForce(sad::dukpp03::Context* ctx)
     c->addObjectConstructor<sad::p2d::ElasticForce, sad::p2d::Body*, sad::p2d::Body*, double >("SadP2DElasticForce");
     c->addObjectConstructor<sad::p2d::ElasticForce, sad::p2d::Body*, sad::p2d::Body*, double, double >("SadP2DElasticForce");
 
-    c->addMethod("setObjectName", sad::dukpp03::bind_method::from(&sad::p2d::Force<sad::p2d::Vector>::setObjectName));
-    c->addMethod("objectName", sad::dukpp03::bind_method::from(&sad::p2d::Force<sad::p2d::Vector>::objectName));
-
-    c->addAccessor("MajorId", sad::dukpp03::getter::from(&sad::p2d::Force<sad::p2d::Vector>::MajorId), sad::dukpp03::setter::from(&sad::p2d::Force<sad::p2d::Vector>::MajorId));
-    c->addAccessor("MinorId", sad::dukpp03::getter::from(&sad::p2d::Force<sad::p2d::Vector>::MinorId), sad::dukpp03::setter::from(&sad::p2d::Force<sad::p2d::Vector>::MinorId));
-
-
-    c->addMethod("value", sad::dukpp03::bind_method::from(&sad::p2d::Force<sad::p2d::Vector>::value));
-    c->addMethod("setValue", sad::dukpp03::bind_method::from(&sad::p2d::Force<sad::p2d::Vector>::setValue));
-    c->addMethod("die", sad::dukpp03::bind_method::from(&sad::p2d::Force<sad::p2d::Vector>::die));
-    c->addMethod("isAlive", sad::dukpp03::bind_method::from(&sad::p2d::Force<sad::p2d::Vector>::isAlive));
-
     c->addMethod("defaultDistance", sad::dukpp03::bind_method::from(&sad::p2d::ElasticForce::defaultDistance));
     c->addMethod("setDefaultDistance", sad::dukpp03::bind_method::from(&sad::p2d::ElasticForce::setDefaultDistance));
 
@@ -220,6 +211,8 @@ static void exposeElasticForce(sad::dukpp03::Context* ctx)
     c->addMethod("setElasticity", sad::dukpp03::bind_method::from(&sad::p2d::ElasticForce::setElasticity));
 
     c->addMethod("dependsFromBody", sad::dukpp03::bind_method::from(&sad::p2d::ElasticForce::dependsFromBody));
+
+    c->addParentBinding(ctx->getClassBinding("sad::p2d::Force<sad::p2d::Vector>"));
 
     c->setPrototypeFunction("SadP2DElasticForce");
 
@@ -288,12 +281,70 @@ static void exposeBody(sad::dukpp03::Context* ctx)
 {
     sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
     c->addObjectConstructor<sad::p2d::Body>("SadP2DBody");
+    
+    c->addMethod("setObjectName", sad::dukpp03::bind_method::from(&sad::p2d::Body::setObjectName));
+    c->addMethod("objectName", sad::dukpp03::bind_method::from(&sad::p2d::Body::objectName));
+
+    c->addAccessor("MajorId", sad::dukpp03::getter::from(&sad::p2d::Body::MajorId), sad::dukpp03::setter::from(&sad::p2d::Body::MajorId));
+    c->addAccessor("MinorId", sad::dukpp03::getter::from(&sad::p2d::Body::MinorId), sad::dukpp03::setter::from(&sad::p2d::Body::MinorId));
+
+
     c->addMethod("setUserObject", sad::dukpp03::bind_method::from(&sad::p2d::Body::setUserObject));
     c->addMethod("userObject", sad::dukpp03::bind_method::from(&sad::p2d::Body::userObject));
     c->addMethod("setShape", sad::dukpp03::bind_method::from(&sad::p2d::Body::setShape));
     c->addMethod("currentShape", sad::dukpp03::bind_method::from(&sad::p2d::Body::currentShape));
     c->addMethod("userType", sad::dukpp03::bind_method::from(&sad::p2d::Body::userType));
 
+    {
+         void (sad::p2d::Body::*addForce1)(sad::p2d::Force<sad::p2d::Vector>*) = &sad::p2d::Body::addForce;
+         void (sad::p2d::Body::*addForce2)(sad::p2d::Force<double>* ) =  &sad::p2d::Body::addForce;
+
+
+        ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * overload = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
+        overload->add(sad::dukpp03::bind_method::from(addForce1));
+        overload->add(sad::dukpp03::bind_method::from(addForce2));
+
+        c->addMethod("addForce", overload);
+    }
+
+    {
+         void (sad::p2d::Body::*addForce1)(sad::p2d::Force<sad::p2d::Vector>*) = &sad::p2d::Body::sheduleAddForce;
+         void (sad::p2d::Body::*addForce2)(sad::p2d::Force<double>* ) =  &sad::p2d::Body::sheduleAddForce;
+
+         void (sad::p2d::Body::*addForce3)(sad::p2d::Force<sad::p2d::Vector>*, double) = &sad::p2d::Body::sheduleAddForce;
+         void (sad::p2d::Body::*addForce4)(sad::p2d::Force<double>*, double ) =  &sad::p2d::Body::sheduleAddForce;
+
+
+        ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * overload = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
+        overload->add(sad::dukpp03::bind_method::from(addForce1));
+        overload->add(sad::dukpp03::bind_method::from(addForce2));
+        overload->add(sad::dukpp03::bind_method::from(addForce3));
+        overload->add(sad::dukpp03::bind_method::from(addForce4));
+
+        c->addMethod("sheduleAddForce", overload);
+    }
+
+    {
+         void (sad::p2d::Body::*removeForce1)(sad::p2d::Force<sad::p2d::Vector>*) = &sad::p2d::Body::removeForce;
+         void (sad::p2d::Body::*removeForce2)(sad::p2d::Force<double>* ) =  &sad::p2d::Body::removeForce;
+
+
+        ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * overload = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
+        overload->add(sad::dukpp03::bind_method::from(removeForce1));
+        overload->add(sad::dukpp03::bind_method::from(removeForce2));
+
+        c->addMethod("removeForce", overload);
+    }
+
+    c->addMethod("clearTangentialForces", sad::dukpp03::bind_method::from(&sad::p2d::Body::clearTangentialForces));
+    c->addMethod("clearAngularForces", sad::dukpp03::bind_method::from(&sad::p2d::Body::clearAngularForces));
+    c->addMethod("clearForces", sad::dukpp03::bind_method::from(&sad::p2d::Body::clearForces));
+    c->addMethod("tangentialForcesList", sad::dukpp03::bind_method::from(&sad::p2d::Body::tangentialForcesList));
+    c->addMethod("angularForcesList", sad::dukpp03::bind_method::from(&sad::p2d::Body::angularForcesList));
+    c->addMethod("stepDiscreteChangingValues", sad::dukpp03::bind_method::from(&sad::p2d::Body::stepDiscreteChangingValues));
+   c->addMethod("stepPositionsAndVelocities", sad::dukpp03::bind_method::from(&sad::p2d::Body::stepPositionsAndVelocities));
+
+    
     c->setPrototypeFunction("SadP2DBody");
 
     ctx->addClassBinding("sad::p2d::Body", c);
