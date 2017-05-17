@@ -408,6 +408,16 @@ void sad::p2d::Body::clearForces()
     this->clearAngularForces();
 }
 
+const sad::Vector<sad::p2d::Force<sad::p2d::Vector>* >&  sad::p2d::Body::tangentialForcesList()
+{
+    return m_tangential->forces().forces();
+}
+
+const sad::Vector<sad::p2d::Force<double>* >& sad::p2d::Body::angularForcesList()
+{
+    return m_angular->forces().forces();
+}
+
 sad::p2d::TangentialActingForces & sad::p2d::Body::tangentialForces()
 {
     return m_tangential->forces();

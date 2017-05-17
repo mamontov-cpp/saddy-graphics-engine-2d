@@ -288,6 +288,14 @@ public:
     /*! Clear forces
      */
     void clearForces();
+    /*! Returns list of tangential forces
+        \return list of tangential forces
+     */
+    const sad::Vector<sad::p2d::Force<sad::p2d::Vector>* >& tangentialForcesList();
+    /*! Returns list of angular forces
+        \return list of angular forces
+    */
+    const sad::Vector<sad::p2d::Force<double>* >& angularForcesList();
     /*! Adds new force to tangential forces list
     \param[in] force a force
     \param[in] time a time for adding a force

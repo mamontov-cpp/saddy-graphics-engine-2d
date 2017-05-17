@@ -269,10 +269,17 @@ public:
         \return whether container has a forces
      */
     bool hasForces() const { return m_forces.size() != 0; }
+    /*! Returns list of forces, acting on body
+        \return list of forces
+     */
+    const sad::Vector<sad::p2d::Force<T>* > & forces() const
+    {
+        return m_forces;
+    }
     /*! Set body for forces container. Note, that movement stores data by weak reference, so
         this class should not be exposed to some script data
-         \param[in] body a body
-    */
+        \param[in] body a body
+     */
     void setBody(sad::p2d::Body* body)
     {
         m_body = body;
