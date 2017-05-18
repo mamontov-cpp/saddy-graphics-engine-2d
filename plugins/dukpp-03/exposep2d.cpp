@@ -18,6 +18,10 @@
 #include <p2d/weight.h>
 #include <p2d/world.h>
 #include <p2d/bouncesolver.h>
+#include <p2d/simplecollisiondetector.h>
+#include <p2d/multisamplingcollisiondetector.h>
+#include <p2d/broadcollisiondetector.h>
+#include <p2d/collisionevent.h>
 
 #include <cassert>
 
@@ -540,6 +544,64 @@ static void exposeBounceSolver(sad::dukpp03::Context* ctx)
     );
 }
 
+
+
+
+static void exposeCollisionDetector(sad::dukpp03::Context* ctx)
+{
+    {
+        sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+
+        c->addMethod("setObjectName", sad::dukpp03::bind_method::from(&sad::p2d::CollisionDetector::setObjectName));
+        c->addMethod("objectName", sad::dukpp03::bind_method::from(&sad::p2d::CollisionDetector::objectName));
+
+        c->addAccessor("MajorId", sad::dukpp03::getter::from(&sad::p2d::CollisionDetector::MajorId), sad::dukpp03::setter::from(&sad::p2d::CollisionDetector::MajorId));
+        c->addAccessor("MinorId", sad::dukpp03::getter::from(&sad::p2d::CollisionDetector::MinorId), sad::dukpp03::setter::from(&sad::p2d::CollisionDetector::MinorId));
+
+        c->addMethod("collides", sad::dukpp03::bind_method::from(&sad::p2d::CollisionDetector::collides));
+        c->addMethod("sampleCount", sad::dukpp03::bind_method::from(&sad::p2d::CollisionDetector::sampleCount));
+
+        ctx->addClassBinding("sad::p2d::CollisionDetector", c);
+    }
+
+    {
+        sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+        c->addObjectConstructor<sad::p2d::SimpleCollisionDetector>("SadP2DSimpleCollisionDetector");
+        c->addParentBinding(ctx->getClassBinding("sad::p2d::CollisionDetector"));
+
+        ctx->addClassBinding("sad::p2d::SimpleCollisionDetector", c);
+    }
+
+    {
+        sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+        c->addObjectConstructor<sad::p2d::BroadCollisionDetector>("SadP2DBroadCollisionDetector");
+        c->addParentBinding(ctx->getClassBinding("sad::p2d::CollisionDetector"));
+
+        ctx->addClassBinding("sad::p2d::BroadCollisionDetector", c);
+    }
+    {
+        sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+        c->addObjectConstructor<sad::p2d::MultisamplingCollisionDetector>("SadP2DMultisamplingCollisionDetector");
+        c->addObjectConstructor<sad::p2d::MultisamplingCollisionDetector, unsigned int>("SadP2DMultisamplingCollisionDetector");
+
+        c->addParentBinding(ctx->getClassBinding("sad::p2d::CollisionDetector"));
+
+        ctx->addClassBinding("sad::p2d::MultisamplingCollisionDetector", c);
+    }
+
+
+    PERFORM_AND_ASSERT(
+        "sad.p2d.SimpleCollisionDetector = SadP2DSimpleCollisionDetector;"
+        "sad.p2d.BroadCollisionDetector = SadP2DBroadCollisionDetector;"
+        "sad.p2d.MultisamplingCollisionDetector = SadP2DMultisamplingCollisionDetector;"
+    );
+}
+
+static sad::p2d::BasicCollisionEvent __makeEvent(sad::p2d::Body* b1, sad::p2d::Body* b2, double time)
+{
+    return sad::p2d::BasicCollisionEvent(b1, b2, time);
+}
+
 void sad::dukpp03::exposeP2D(sad::dukpp03::Context* ctx)
 {
 
@@ -640,6 +702,7 @@ void sad::dukpp03::exposeP2D(sad::dukpp03::Context* ctx)
     ctx->registerCallable("SadP2DOrtho", sad::dukpp03::make_function::from(__ortho));
     ctx->registerCallable("SadP2DScalar", sad::dukpp03::make_function::from(sad::p2d::scalar));
     ctx->registerCallable("SadP2DRect2D", sad::dukpp03::make_function::from(__isRect2D));
+    ctx->registerCallable("SadP2DMakeEvent", sad::dukpp03::make_function::from(__makeEvent));
 
 
     PERFORM_AND_ASSERT(
@@ -651,6 +714,7 @@ void sad::dukpp03::exposeP2D(sad::dukpp03::Context* ctx)
         "sad.p2d.unit = SadP2DUnit;"
         "sad.p2d.ortho = SadP2DOrtho;"
         "sad.p2d.scalar = SadP2DScalar;"
+        "sad.p2d.makeEvent = SadP2DMakeEvent;"
     );
 
     exposeInfiniteLine(ctx);
@@ -662,4 +726,5 @@ void sad::dukpp03::exposeP2D(sad::dukpp03::Context* ctx)
     exposeElasticForce(ctx);
     exposeWeight(ctx);
     exposeBounceSolver(ctx);
+    exposeCollisionDetector(ctx);
 }

@@ -1,6 +1,7 @@
 #include "dukpp-03/getvalue.h"
 #include "object.h"
 #include "classmetadatacontainer.h"
+#include "p2d/body.h"
 
 #include <iostream>
 
@@ -416,6 +417,20 @@ dukpp03::Maybe<sad::db::Object*> dukpp03::GetValue<sad::db::Object*,  sad::dukpp
         }
     }
 
+    return result;
+}
+
+::dukpp03::Maybe<sad::p2d::BasicCollisionEvent> dukpp03::GetValue<sad::p2d::BasicCollisionEvent, sad::dukpp03::BasicContext>::perform(
+    sad::dukpp03::BasicContext* ctx,
+    duk_idx_t pos
+)
+{
+    ::dukpp03::Maybe<sad::p2d::BasicCollisionEvent> result;
+    ::dukpp03::Maybe<sad::Triplet<sad::p2d::Body*, sad::p2d::Body*, double> > maybe_triplet = dukpp03::GetValue<sad::Triplet<sad::p2d::Body*, sad::p2d::Body*, double>, sad::dukpp03::BasicContext>::perform(ctx, pos);
+    if (maybe_triplet.exists())
+    {
+        result.setValue(sad::p2d::BasicCollisionEvent(maybe_triplet.value().p1(), maybe_triplet.value().p2(), maybe_triplet.value().p3()));
+    }
     return result;
 }
 

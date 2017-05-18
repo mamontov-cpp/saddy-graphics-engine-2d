@@ -8,6 +8,7 @@
 #include "body.h"
 #include "collisiontest.h"
 #include "../maybe.h"
+#include "../object.h"
 
 
 namespace sad
@@ -19,9 +20,10 @@ typedef sad::Maybe<double> MaybeTime;
 /*! A basic collision detector, used to determine, whether bodies
     collide and when does it ocurred.
  */
-class CollisionDetector
+class CollisionDetector: public sad::Object
 {
-  public:
+SAD_OBJECT
+public:
       /*! Tests, whether two bodies collide within specified limit
           testing their movement in interval [0, limit] and returning
           time if possible
@@ -44,3 +46,5 @@ class CollisionDetector
 }
 
 }
+
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::p2d::CollisionDetector)

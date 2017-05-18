@@ -18,6 +18,7 @@ namespace p2d
  */
 class SimpleCollisionDetector: public p2d::CollisionDetector
 {
+SAD_OBJECT
 public:
      /*! Creates new detector
          \param[in] moment moment when tests will be performed as proportion to time
@@ -52,3 +53,5 @@ private:
 }
 
 }
+
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::p2d::SimpleCollisionDetector)

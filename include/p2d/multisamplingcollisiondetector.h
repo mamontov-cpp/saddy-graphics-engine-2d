@@ -17,6 +17,7 @@ namespace p2d
  */
 class MultisamplingCollisionDetector: public p2d::CollisionDetector
 {
+SAD_OBJECT
 public:
      /*! Creates new detector
          \param[in] tests amount of tests to be performed on each iteration
@@ -56,3 +57,5 @@ private:
 }
 
 }
+
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::p2d::MultisamplingCollisionDetector)

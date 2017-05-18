@@ -1,5 +1,7 @@
 #include "p2d/collisiondetector.h"
 
+DECLARE_SOBJ(sad::p2d::CollisionDetector);
+
 sad::p2d::CollisionDetector::~CollisionDetector()
 {
 }

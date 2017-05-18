@@ -2,6 +2,8 @@
 #include "p2d/broadcollisiondetector.h"
 #include "p2d/collisiontest.h"
 
+DECLARE_SOBJ_INHERITANCE(sad::p2d::BroadCollisionDetector, sad::p2d::CollisionDetector);
+
 
 sad::p2d::BroadCollisionDetector::BroadCollisionDetector(
     sad::p2d::CollisionTest * test

@@ -10,6 +10,7 @@
 #include "../p2d/line.h"
 #include "../p2d/rectangle.h"
 #include "../p2d/circle.h"
+#include "../p2d/collisionevent.h"
 #include "../sadvector.h"
 #include "../sadhash.h"
 #include "../isrefcountable.h"
@@ -364,6 +365,21 @@ public:
     */
     static void perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::CollisionShape* v);
 };
+
+
+/*! An instantiation for pushing sad::p2d::BasicCollisionEvent on stack
+*/
+template<>
+class PushValue<sad::p2d::BasicCollisionEvent, sad::dukpp03::BasicContext>
+{
+public:
+    /*! Performs pushing value
+    \param[in] ctx context
+    \param[in] v value
+    */
+    static void perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::BasicCollisionEvent& v);
+};
+
 
 /*! An instantiation, which ensures, that created sad::Object and sad::db::Object 
     will be garbage-collected

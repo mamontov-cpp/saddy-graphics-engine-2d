@@ -37,6 +37,8 @@
 #include "p2d/infiniteline.h"
 #include "p2d/movement.h"
 #include "p2d/weight.h"
+#include "p2d/collisionevent.h"
+#include "p2d/collisionhandler.h"
 
 #include "animations/animationsgroup.h"
 
@@ -240,7 +242,8 @@ DECLARE_COMMON_TYPE(sad::p2d::CollisionShape)
 DECLARE_COMMON_TYPE(sad::p2d::AbstractMovementDeltaListener<sad::p2d::Vector>)
 DECLARE_COMMON_TYPE(sad::p2d::AbstractMovementDeltaListener<double>)
 DECLARE_COMMON_TYPE(sad::p2d::Weight)
-
+DECLARE_COMMON_TYPE(sad::p2d::BasicCollisionEvent)
+DECLARE_COMMON_TYPE(sad::p2d::BasicCollisionHandler)
 
 DECLARE_COMMON_TYPE(sad::animations::Group)
 

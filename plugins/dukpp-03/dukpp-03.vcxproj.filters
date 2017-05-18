@@ -81,6 +81,9 @@
     <ClCompile Include="exposep2d.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="jscollisionhandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\dukpp-03\context.h">
@@ -156,6 +159,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\dukpp-03\jshfsmhandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\dukpp-03\jsmovementlistener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\dukpp-03\jscollisionhandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

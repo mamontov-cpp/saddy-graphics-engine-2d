@@ -48,7 +48,7 @@ struct Push<sad::p2d::Vector>
 }
 
 
-/*! A js handler to be used as movement listender
+/*! A js handler to be used as movement listener
  */    
 template<
     typename _Value

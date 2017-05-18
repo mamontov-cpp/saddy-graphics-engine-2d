@@ -22,6 +22,7 @@ class SimpleCollisionDetector;
  */
 class BroadCollisionDetector: public p2d::CollisionDetector
 {
+SAD_OBJECT
 public:
      BroadCollisionDetector(p2d::CollisionTest * test = new p2d::CollisionTest());
      ~BroadCollisionDetector();
@@ -45,3 +46,4 @@ protected:
 
 }
 
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::p2d::BroadCollisionDetector)

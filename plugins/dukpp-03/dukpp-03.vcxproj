@@ -28,6 +28,7 @@
     <ClCompile Include="exposep2d.cpp" />
     <ClCompile Include="getter.cpp" />
     <ClCompile Include="getvalue.cpp" />
+    <ClCompile Include="jscollisionhandler.cpp" />
     <ClCompile Include="jscontrols.cpp" />
     <ClCompile Include="jshandler.cpp" />
     <ClCompile Include="jshfsmhandler.cpp" />
@@ -51,9 +52,11 @@
     <ClInclude Include="..\..\include\dukpp-03\getaddressoftype.h" />
     <ClInclude Include="..\..\include\dukpp-03\getter.h" />
     <ClInclude Include="..\..\include\dukpp-03\getvalue.h" />
+    <ClInclude Include="..\..\include\dukpp-03\jscollisionhandler.h" />
     <ClInclude Include="..\..\include\dukpp-03\jscontrols.h" />
     <ClInclude Include="..\..\include\dukpp-03\jshandler.h" />
     <ClInclude Include="..\..\include\dukpp-03\jshfsmhandler.h" />
+    <ClInclude Include="..\..\include\dukpp-03\jsmovementlistener.h" />
     <ClInclude Include="..\..\include\dukpp-03\jspipelinestep.h" />
     <ClInclude Include="..\..\include\dukpp-03\mapinterface.h" />
     <ClInclude Include="..\..\include\dukpp-03\mutex.h" />

@@ -1,5 +1,6 @@
 #include "dukpp-03/context.h"
 #include "dukpp-03/pushvariant.h"
+#include "p2d/body.h"
 
 #include <sstream>
 
@@ -115,6 +116,7 @@ void dukpp03::PushValue<sad::p2d::Circle, sad::dukpp03::BasicContext>::perform(s
 }
 
 
+
 void dukpp03::PushValue<sad::p2d::CollisionShape*, sad::dukpp03::BasicContext>::perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::CollisionShape* v)
 {
     if (v == NULL)
@@ -141,4 +143,11 @@ void dukpp03::PushValue<sad::p2d::CollisionShape*, sad::dukpp03::BasicContext>::
     {
         dukpp03::PushValue<sad::p2d::Circle*, sad::dukpp03::BasicContext>::perform(ctx, static_cast<const sad::p2d::Circle*>(v));
     }
+}
+
+
+void dukpp03::PushValue<sad::p2d::BasicCollisionEvent, sad::dukpp03::BasicContext>::perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::BasicCollisionEvent& v)
+{
+    sad::Triplet<sad::p2d::Body*, sad::p2d::Body*, double> tr(v.m_object_1, v.m_object_2, v.m_time);
+    dukpp03::PushValue<sad::Triplet<sad::p2d::Body*, sad::p2d::Body*, double>, sad::dukpp03::BasicContext>::perform(ctx, tr);
 }

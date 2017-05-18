@@ -12,12 +12,13 @@ sad::p2d::World::World()
     m_time_step = 1;
     m_transformer = new p2d::CircleToHullTransformer(*(p2d::CircleToHullTransformer::ref()));
     m_detector = new p2d::SimpleCollisionDetector();
+    m_detector->addRef();
 }
 
 sad::p2d::World::~World()
 {
     delete m_transformer;
-    delete m_detector;
+    m_detector->delRef();
     for( bodies_to_types_t::iterator it = m_allbodies.begin();
         it != m_allbodies.end();
         it++
@@ -39,8 +40,9 @@ sad::p2d::CircleToHullTransformer * sad::p2d::World::transformer()
 
 void sad::p2d::World::setDetector(sad::p2d::CollisionDetector * d)
 {
-    delete m_detector;
+    m_detector->delRef();
     m_detector = d;
+    m_detector->addRef();
     for( bodies_to_types_t::iterator it = m_allbodies.begin();
         it != m_allbodies.end();
         it++
