@@ -602,6 +602,32 @@ static sad::p2d::BasicCollisionEvent __makeEvent(sad::p2d::Body* b1, sad::p2d::B
     return sad::p2d::BasicCollisionEvent(b1, b2, time);
 }
 
+
+static bool __invokeCollisionTest(sad::p2d::CollisionTest* c1, sad::p2d::CollisionShape* b1, sad::p2d::CollisionShape* b2)
+{
+    return c1->invoke(b1, b2);
+}
+
+
+
+static void exposeCollisionTest(sad::dukpp03::Context* ctx)
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addConstructor<sad::p2d::CollisionTest >("SadP2DCollisionTest");
+
+    c->setPrototypeFunction("SadP2DCollisionTest");
+
+    ctx->addClassBinding("sad::p2d::CollisionTest", c);
+
+    ctx->registerCallable("SadP2DInvokeCollisionTest", sad::dukpp03::make_function::from(__invokeCollisionTest));
+
+    PERFORM_AND_ASSERT(
+        "sad.p2d.CollisionTest = SadP2DCollisionTest;"
+        "sad.p2d.CollisionTest.prototype.invoke = function(b1, b2)   { return SadP2DInvokeCollisionTest(this, b1, b2) };"
+        "sad.p2d.CollisionTest.prototype.collides = sad.p2d.CollisionTest.prototype.invoke;"
+    );
+}
+
 void sad::dukpp03::exposeP2D(sad::dukpp03::Context* ctx)
 {
 
@@ -727,4 +753,5 @@ void sad::dukpp03::exposeP2D(sad::dukpp03::Context* ctx)
     exposeWeight(ctx);
     exposeBounceSolver(ctx);
     exposeCollisionDetector(ctx);
+    exposeCollisionTest(ctx);
 }

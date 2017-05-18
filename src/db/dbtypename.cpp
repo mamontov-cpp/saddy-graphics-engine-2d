@@ -39,6 +39,7 @@
 #include "p2d/weight.h"
 #include "p2d/collisionevent.h"
 #include "p2d/collisionhandler.h"
+#include "p2d/collisiontest.h"
 
 #include "animations/animationsgroup.h"
 
@@ -244,6 +245,7 @@ DECLARE_COMMON_TYPE(sad::p2d::AbstractMovementDeltaListener<double>)
 DECLARE_COMMON_TYPE(sad::p2d::Weight)
 DECLARE_COMMON_TYPE(sad::p2d::BasicCollisionEvent)
 DECLARE_COMMON_TYPE(sad::p2d::BasicCollisionHandler)
+DECLARE_COMMON_TYPE(sad::p2d::CollisionTest)
 
 DECLARE_COMMON_TYPE(sad::animations::Group)
 
