@@ -5,6 +5,8 @@
 #include "body.h"
 #include "findcontactpoints.h"
 
+#include "../object.h"
+
 namespace sad
 {
 
@@ -17,8 +19,9 @@ namespace p2d
     objects must be checked for collision with p2d::CollisionTest, before calling a
     bounce. 
  */
-class BounceSolver
+class BounceSolver: public sad::Object
 {
+SAD_OBJECT
 public:
     /*! Constructs new solver
      */
@@ -148,3 +151,4 @@ protected:
 
 }
 
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::p2d::BounceSolver)

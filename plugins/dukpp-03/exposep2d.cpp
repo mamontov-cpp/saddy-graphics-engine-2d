@@ -17,6 +17,7 @@
 #include <p2d/elasticforce.h>
 #include <p2d/weight.h>
 #include <p2d/world.h>
+#include <p2d/bouncesolver.h>
 
 #include <cassert>
 
@@ -490,6 +491,55 @@ static void exposeBody(sad::dukpp03::Context* ctx)
     );
 }
 
+
+static void __bounceSolverPushResilienceCoefficient(sad::p2d::BounceSolver* b, double r, int index)
+{
+    if (index != 1 && index != 2) 
+    {
+        throw new std::logic_error("Invalid coefficent index for resilience");
+    }
+    b->pushResilienceCoefficient(r, index);
+}
+
+static void __bounceSolverPushRotationFriction(sad::p2d::BounceSolver* b, double r, int index)
+{
+    if (index != 1 && index != 2)
+    {
+        throw new std::logic_error("Invalid coefficent index for rotation friction");
+    }
+    b->pushRotationFriction(r, index);
+}
+
+
+static void exposeBounceSolver(sad::dukpp03::Context* ctx)
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addObjectConstructor<sad::p2d::BounceSolver >("SadP2BounceSolver");
+
+    c->addMethod("setObjectName", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::setObjectName));
+    c->addMethod("objectName", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::objectName));
+
+    c->addAccessor("MajorId", sad::dukpp03::getter::from(&sad::p2d::BounceSolver::MajorId), sad::dukpp03::setter::from(&sad::p2d::BounceSolver::MajorId));
+    c->addAccessor("MinorId", sad::dukpp03::getter::from(&sad::p2d::BounceSolver::MinorId), sad::dukpp03::setter::from(&sad::p2d::BounceSolver::MinorId));
+
+    c->addMethod("bounce", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::bounce));
+    c->addMethod("enableDebug", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::enableDebug));
+    c->addMethod("dump", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::dump));
+
+    c->setPrototypeFunction("SadP2BounceSolver");
+
+    ctx->addClassBinding("sad::p2d::BounceSolver", c);
+
+    ctx->registerCallable("SadP2DBounceSolverPushResilienceCoefficient", sad::dukpp03::make_function::from(__bounceSolverPushResilienceCoefficient));
+    ctx->registerCallable("SadP2DBounceSolverPushRotationFriction", sad::dukpp03::make_function::from(__bounceSolverPushRotationFriction));
+
+    PERFORM_AND_ASSERT(
+        "sad.p2d.BounceSolver = SadP2BounceSolver;"
+        "sad.p2d.BounceSolver.prototype.pushResilienceCoefficient = function(r, index)   { if (typeof index == \"undefined\")  { SadP2DBounceSolverPushResilienceCoefficient(this, r, 1); SadP2DBounceSolverPushResilienceCoefficient(this, r, 2); } else SadP2DBounceSolverPushResilienceCoefficient(this, r, index);   };"
+        "sad.p2d.BounceSolver.prototype.pushRotationFriction = function(r, index) { if (typeof index == \"undefined\")  { SadP2DBounceSolverPushRotationFriction(this, r, 1); SadP2DBounceSolverPushRotationFriction(this, r, 2); } else SadP2DBounceSolverPushRotationFriction(this, r, index); };"
+    );
+}
+
 void sad::dukpp03::exposeP2D(sad::dukpp03::Context* ctx)
 {
 
@@ -611,4 +661,5 @@ void sad::dukpp03::exposeP2D(sad::dukpp03::Context* ctx)
     exposeImpulseForceDouble(ctx);
     exposeElasticForce(ctx);
     exposeWeight(ctx);
+    exposeBounceSolver(ctx);
 }
