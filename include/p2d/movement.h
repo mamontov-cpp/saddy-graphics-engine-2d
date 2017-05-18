@@ -5,7 +5,6 @@
  */
 #pragma once
 #include "weight.h"
-#include "tickable.h"
 #include "vector.h"
 #include "force.h"
 
@@ -211,7 +210,7 @@ class Movement
      {
         for(size_t i = 0 ; i < m_listeners.count(); i++) {
             if (m_listeners[i] == l) {
-                m_listeners.removeAt(i);
+                m_listeners.removeAt(static_cast<unsigned long>(i));
                 delete m_listeners[i];
                 --i;
             }

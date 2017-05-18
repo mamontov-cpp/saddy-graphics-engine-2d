@@ -1166,9 +1166,6 @@
     <ClInclude Include="include\p2d\force.h">
       <Filter>Заголовочные файлы\p2d</Filter>
     </ClInclude>
-    <ClInclude Include="include\p2d\ghostoptions.h">
-      <Filter>Заголовочные файлы\p2d</Filter>
-    </ClInclude>
     <ClInclude Include="include\p2d\grahamscan.h">
       <Filter>Заголовочные файлы\p2d</Filter>
     </ClInclude>
@@ -1191,9 +1188,6 @@
       <Filter>Заголовочные файлы\p2d</Filter>
     </ClInclude>
     <ClInclude Include="include\p2d\simplecollisiondetector.h">
-      <Filter>Заголовочные файлы\p2d</Filter>
-    </ClInclude>
-    <ClInclude Include="include\p2d\tickable.h">
       <Filter>Заголовочные файлы\p2d</Filter>
     </ClInclude>
     <ClInclude Include="include\p2d\vector.h">

@@ -67,7 +67,6 @@ sad::p2d::CollisionShape & sad::p2d::Body::at(double time, int index) const
 
 void sad::p2d::Body::stepDiscreteChangingValues(double time)
 {
-    m_ghost->step();
     m_tangential->forces().step(time);
     m_angular->forces().step(time);
 }
@@ -90,21 +89,16 @@ void sad::p2d::Body::trySetTransformer()
     }
 }
 
-sad::p2d::Body::Body()
-{
-    m_weight = new p2d::Weight();
-    m_ghost = new p2d::GhostOptionsFlow();
-    m_world = NULL;
-    m_user_object = NULL;
-    
+sad::p2d::Body::Body() : m_is_ghost(false), m_world(NULL), m_user_object(NULL)
+{    
     m_tangential = new p2d::TangentialMovement();
     m_tangential->addListener( new move_t(this, &p2d::Body::notifyMove) );
-    m_tangential->setWeight(m_weight);
+    m_tangential->setWeight(&m_weight);
     m_tangential->setBody(this);
 
     m_angular = new p2d::AngularMovement();
     m_angular->addListener( new rotate_t(this, &p2d::Body::notifyRotate) );
-    m_angular->setWeight(m_weight);
+    m_angular->setWeight(&m_weight);
     m_angular->setBody(this);
 
     p2d::Line * l = new p2d::Line();
@@ -122,8 +116,6 @@ sad::p2d::Body::Body()
 sad::p2d::Body::~Body()
 {
     //printf("Destroying body %p with %p\n", this, m_user_object);
-    delete m_weight;
-    delete m_ghost;
     delete m_tangential;
     delete m_angular;
     delete m_current;
@@ -134,37 +126,25 @@ sad::p2d::Body::~Body()
     }
 }
 
-void sad::p2d::Body::setWeight(sad::p2d::Weight * weight)
-{
-    delete m_weight;
-    m_weight = weight;
-    m_tangential->setWeight(m_weight);
-    m_angular->setWeight(m_weight);
-}
 
 void sad::p2d::Body::setWeight(const sad::p2d::Weight & weight)
 {
-    *m_weight = weight;
+    m_weight = weight;
 }
 
 const sad::p2d::Weight & sad::p2d::Body::weight() const
 {
-    return *m_weight;
+    return m_weight;
 }
 
-void sad::p2d::Body::setCurrentGO(sad::p2d::GhostOptions * ghost)
+void sad::p2d::Body::setIsGhost(bool value)
 {
-    m_ghost->setCurrent(ghost);
-}
-
-void sad::p2d::Body::sheduleGO(sad::p2d::GhostOptions *next)
-{
-    m_ghost->push(next);    
+    m_is_ghost = value;
 }
 
 bool sad::p2d::Body::isGhost() const
 {
-    return m_ghost->value();
+    return m_is_ghost;
 }
 
 void sad::p2d::Body::setWorld(sad::p2d::World * world)
@@ -465,7 +445,7 @@ void sad::p2d::Body::buildCaches()
 
 sad::p2d::Weight & sad::p2d::Body::weight()
 {
-    return *m_weight;
+    return m_weight;
 }
 
 

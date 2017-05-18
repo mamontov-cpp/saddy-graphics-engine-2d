@@ -80,7 +80,7 @@ void sad::dukpp03::JSControls::unbind(const sad::String& event_handler_id)
         {
             if (vector[j].p1() == event_handler_id)
             {
-                vector.removeAt(j);
+                vector.removeAt(static_cast<unsigned long>(j));
                 --j;
             }
         }

@@ -15,6 +15,8 @@
 #include <p2d/force.h>
 #include <p2d/angularforce.h>
 #include <p2d/elasticforce.h>
+#include <p2d/weight.h>
+#include <p2d/world.h>
 
 #include <cassert>
 
@@ -277,6 +279,33 @@ static void exposeInfiniteLine(sad::dukpp03::Context* ctx)
     );
 }
 
+// Expose sad::p2d::Weight and it's methods
+static void exposeWeight(sad::dukpp03::Context* ctx)
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addConstructor<sad::p2d::Weight>("SadP2DWeight");
+    c->addConstructor<sad::p2d::Weight, double>("SadP2DWeight");
+    c->addConstructor<sad::p2d::Weight, double, bool>("SadP2DWeight");
+    c->addCloneValueObjectMethodFor<sad::p2d::Weight>();
+
+    c->addMethod("isInfinite", sad::dukpp03::bind_method::from(&sad::p2d::Weight::isInfinite));
+    c->addMethod("value", sad::dukpp03::bind_method::from(&sad::p2d::Weight::value));
+    c->addMethod("setValue", sad::dukpp03::bind_method::from(&sad::p2d::Weight::setValue));
+
+    c->setPrototypeFunction("SadP2DWeight");
+
+    ctx->addClassBinding("sad::p2d::Weight", c);
+
+    ctx->registerCallable("SadP2DWeightInfinite", sad::dukpp03::make_function::from(sad::p2d::Weight::infinite));
+    ctx->registerCallable("SadP2DWeightConstant", sad::dukpp03::make_function::from(sad::p2d::Weight::constant));
+    PERFORM_AND_ASSERT(
+        "sad.p2d.Weight = SadP2DWeight;"
+        "sad.p2d.Weight.infinite = SadP2DWeightInfinite;"
+        "sad.p2d.Weight.constant = SadP2DWeightConstant;"
+        "sad.p2d.Weight.prototype.toString = function() { return \"sad::p2d::Body(\" + this.value() + \", \" + this.isInfinite() + \")\"; };"
+    );
+}
+
 static sad::p2d::AbstractMovementDeltaListener<sad::p2d::Vector>* __addMoveListener(
     sad::p2d::Body* b,
     sad::dukpp03::Context* ctx, 
@@ -389,6 +418,53 @@ static void exposeBody(sad::dukpp03::Context* ctx)
     c->addMethod("clearListeners", sad::dukpp03::bind_method::from(&sad::p2d::Body::clearListeners));
     c->addMethod("move", sad::dukpp03::bind_method::from(&sad::p2d::Body::move));
     c->addMethod("rotate", sad::dukpp03::bind_method::from(&sad::p2d::Body::rotate));
+    c->addMethod("setWeight", sad::dukpp03::bind_method::from(&sad::p2d::Body::setWeight));
+    const sad::p2d::Weight & (sad::p2d::Body::*weight)() const = &sad::p2d::Body::weight;
+    c->addMethod("weight", sad::dukpp03::bind_method::from(weight));
+    c->addMethod("setIsGhost", sad::dukpp03::bind_method::from(&sad::p2d::Body::setIsGhost));
+    c->addMethod("isGhost", sad::dukpp03::bind_method::from(&sad::p2d::Body::isGhost));
+    c->addMethod("setWorld", sad::dukpp03::bind_method::from(&sad::p2d::Body::setWorld));
+    c->addMethod("world", sad::dukpp03::bind_method::from(&sad::p2d::Body::world));
+
+    c->addMethod("setCurrentPosition", sad::dukpp03::bind_method::from(&sad::p2d::Body::setCurrentPosition));
+    c->addMethod("shedulePosition", sad::dukpp03::bind_method::from(&sad::p2d::Body::shedulePosition));
+    c->addMethod("shedulePositionAt", sad::dukpp03::bind_method::from(&sad::p2d::Body::shedulePositionAt));
+    c->addMethod("position", sad::dukpp03::bind_method::from(&sad::p2d::Body::position));
+    c->addMethod("willPositionChange", sad::dukpp03::bind_method::from(&sad::p2d::Body::willPositionChange));
+    c->addMethod("nextPosition", sad::dukpp03::bind_method::from(&sad::p2d::Body::nextPosition));
+
+    c->addMethod("setCurrentTangentialVelocity", sad::dukpp03::bind_method::from(&sad::p2d::Body::setCurrentTangentialVelocity));
+    c->addMethod("sheduleTangentialVelocity", sad::dukpp03::bind_method::from(&sad::p2d::Body::sheduleTangentialVelocity));
+    c->addMethod("sheduleTangentialVelocityAt", sad::dukpp03::bind_method::from(&sad::p2d::Body::sheduleTangentialVelocityAt));
+    c->addMethod("tangentialVelocity", sad::dukpp03::bind_method::from(&sad::p2d::Body::tangentialVelocity));
+    c->addMethod("willTangentialVelocityChange", sad::dukpp03::bind_method::from(&sad::p2d::Body::willTangentialVelocityChange));
+    c->addMethod("nextTangentialVelocity", sad::dukpp03::bind_method::from(&sad::p2d::Body::nextTangentialVelocity));
+
+    c->addMethod("setCurrentAngle", sad::dukpp03::bind_method::from(&sad::p2d::Body::setCurrentAngle));
+    c->addMethod("sheduleAngleAt", sad::dukpp03::bind_method::from(&sad::p2d::Body::sheduleAngleAt));
+    c->addMethod("angle", sad::dukpp03::bind_method::from(&sad::p2d::Body::angle));
+    c->addMethod("willAngleChange", sad::dukpp03::bind_method::from(&sad::p2d::Body::willAngleChange));
+    c->addMethod("nextAngle", sad::dukpp03::bind_method::from(&sad::p2d::Body::nextAngle));
+
+    c->addMethod("setCurrentAngularVelocity", sad::dukpp03::bind_method::from(&sad::p2d::Body::setCurrentAngularVelocity));
+    c->addMethod("sheduleAngularVelocity", sad::dukpp03::bind_method::from(&sad::p2d::Body::sheduleAngularVelocity));
+    c->addMethod("sheduleAngularVelocityAt", sad::dukpp03::bind_method::from(&sad::p2d::Body::sheduleAngularVelocityAt));
+    c->addMethod("angularVelocity", sad::dukpp03::bind_method::from(&sad::p2d::Body::angularVelocity));
+    c->addMethod("angularVelocityAt", sad::dukpp03::bind_method::from(&sad::p2d::Body::angularVelocityAt));
+    c->addMethod("willAngularVelocityChange", sad::dukpp03::bind_method::from(&sad::p2d::Body::willAngularVelocityChange));
+    c->addMethod("nextAngularVelocity", sad::dukpp03::bind_method::from(&sad::p2d::Body::nextAngularVelocity));
+
+    c->addMethod("averageChangeIndependentTangentialVelocity", sad::dukpp03::bind_method::from(&sad::p2d::Body::averageChangeIndependentTangentialVelocity));
+    c->addMethod("tangentialVelocityAt", sad::dukpp03::bind_method::from(&sad::p2d::Body::tangentialVelocityAt));
+    c->addMethod("timeStep", sad::dukpp03::bind_method::from(&sad::p2d::Body::timeStep));
+    c->addMethod("correctPosition", sad::dukpp03::bind_method::from(&sad::p2d::Body::correctPosition));
+    c->addMethod("correctTangentialVelocity", sad::dukpp03::bind_method::from(&sad::p2d::Body::correctTangentialVelocity));
+
+    c->addMethod("setFixed", sad::dukpp03::bind_method::from(&sad::p2d::Body::setFixed));
+    c->addMethod("fixed", sad::dukpp03::bind_method::from(&sad::p2d::Body::fixed));
+
+    c->addMethod("setSamplingCount", sad::dukpp03::bind_method::from(&sad::p2d::Body::setSamplingCount));
+
 
     c->setPrototypeFunction("SadP2DBody");
 
@@ -408,6 +484,9 @@ static void exposeBody(sad::dukpp03::Context* ctx)
         "sad.p2d.Body.prototype.removeMoveListener = function(o) { return __SadP2DRemoveMoveListener(this, o); };"
         "sad.p2d.Body.prototype.removeRotateListener = function(o) { return __SadP2DRemoveRotateListener(this, o); };"
         "sad.p2d.Body.prototype.shape = function() { return this.currentShape(); };"
+        "sad.p2d.Body.prototype.setVelocity = function(o) { if (sad.p2d.isPoint2D(o)) this.setCurrentTangentialVelocity(o); else this.setCurrentAngularVelocity(o); };"
+        "sad.p2d.Body.prototype.sheduleVelocity = function(o) { if (sad.p2d.isPoint2D(o)) this.sheduleTangentialVelocity(o); else this.sheduleAngularVelocity(o); };"
+        "sad.p2d.Body.prototype.setPosition = function(o) { if (sad.p2d.isPoint2D(o)) this.setCurrentPosition(o); else this.setCurrentAngle(o); };"
     );
 }
 
@@ -531,4 +610,5 @@ void sad::dukpp03::exposeP2D(sad::dukpp03::Context* ctx)
     exposeForceDouble(ctx);
     exposeImpulseForceDouble(ctx);
     exposeElasticForce(ctx);
+    exposeWeight(ctx);
 }

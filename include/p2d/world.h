@@ -13,6 +13,7 @@
 
 #include "../sadhash.h"
 #include "../sadpair.h"
+#include "../object.h"
 
 #include "../temporarilyimmutablecontainer.h"
 
@@ -25,8 +26,9 @@ class Body;
 /*! A world is a set if simulated items, and callbacks used to define
     behaviour between them
  */
-class World: public sad::TemporarilyImmutableContainer<p2d::Body>
+class World: public sad::Object, public sad::TemporarilyImmutableContainer<p2d::Body>
 {
+SAD_OBJECT
 public:
      typedef sad::Pair<sad::String, sad::String> type_pair_t;
      typedef sad::Pair<type_pair_t, sad::p2d::BasicCollisionHandler *> types_with_handler_t;
@@ -308,3 +310,5 @@ protected:
 }
 
 }
+
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::p2d::World)

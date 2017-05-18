@@ -20,30 +20,27 @@ public:
         \param[in] finite
      */
     Weight(double value = 1.0, bool finite = true);
-    /*! This class could be inherited
-     */
-    virtual ~Weight();
     /*! Determines, whether weight is infinite
         \return true if infinite
      */
-    virtual bool isInfinite() const;
+    bool isInfinite() const;
     /*! Returns weight value
         \return true value
      */
-    virtual double value() const;
+    double value() const;
     /*! Sets a value for a weight
         \param[in] value a value for a weight
      */
-    virtual void setValue(double value);
+    void setValue(double value);
     /*! Creates new constant weight
         \param[in] value weight 
         \return created weight
      */
-    static Weight * constant(double value);
+    static Weight constant(double value);
     /*! Returns infinite weight
         \return created weight
      */
-    static Weight * infinite();
+    static Weight infinite();
 protected:
     bool m_finite;  //!< Is weight of object is finite
     double m_value; //!< Value of weight

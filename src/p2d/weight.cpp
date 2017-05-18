@@ -8,11 +8,6 @@ sad::p2d::Weight::Weight(double value, bool finite)
     
 }
 
-sad::p2d::Weight::~Weight()
-{
-    
-}
-
 bool sad::p2d::Weight::isInfinite() const
 {
     return !m_finite;
@@ -26,14 +21,14 @@ double sad::p2d::Weight::value() const
     return result;
 }
 
-sad::p2d::Weight * sad::p2d::Weight::constant(double value)
+sad::p2d::Weight sad::p2d::Weight::constant(double value)
 {
-    return new p2d::Weight(value, true);
+    return p2d::Weight(value, true);
 }
 
-sad::p2d::Weight * sad::p2d::Weight::infinite()
+sad::p2d::Weight sad::p2d::Weight::infinite()
 {
-    return new p2d::Weight(0.0, false);
+    return p2d::Weight(0.0, false);
 }
 
 void sad::p2d::Weight::setValue(double value)

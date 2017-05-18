@@ -124,9 +124,9 @@ public:
 
             for (i = 0; i < n; i++) 
             {
-                if (duk_has_prop_index(ctx, pos, i))
+                if (duk_has_prop_index(ctx, pos, static_cast<duk_uarridx_t>(i)))
                 {
-                    duk_get_prop_index(ctx, pos, i);
+                    duk_get_prop_index(ctx, pos, static_cast<duk_uarridx_t>(i));
                     dukpp03::Maybe<_ValueType> val = dukpp03::GetValue<_ValueType, _Context>::perform(c, -1);
                     bool fail = false;
                     if (val.exists())

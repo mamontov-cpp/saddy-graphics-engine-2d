@@ -23,7 +23,7 @@ struct Push
         \param[in] ctx context
         \param[in] e value
      */
-    inline static push(sad::dukpp03::BasicContext* ctx, const _Value& e)
+    inline static void push(sad::dukpp03::BasicContext* ctx, const _Value& e)
     {
         ::dukpp03::PushValue<_Value, sad::dukpp03::BasicContext>::perform(ctx, e);
     }
@@ -38,7 +38,7 @@ struct Push<sad::p2d::Vector>
         \param[in] ctx context
         \param[in] e value
      */
-    inline static push(sad::dukpp03::BasicContext* ctx, const sad::p2d::Vector& e)
+    inline static void push(sad::dukpp03::BasicContext* ctx, const sad::p2d::Vector& e)
     {
         ::dukpp03::PushValue<sad::Point2D, sad::dukpp03::BasicContext>::perform(ctx, e);
     }

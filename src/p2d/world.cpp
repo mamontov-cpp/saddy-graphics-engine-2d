@@ -1,5 +1,7 @@
 #include "p2d/world.h"
 
+DECLARE_SOBJ(sad::p2d::World);
+
 double sad::p2d::World::timeStep() const
 {
     return m_time_step;

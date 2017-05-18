@@ -7,7 +7,6 @@
 
 #include "collisionshape.h"
 #include "force.h"
-#include "ghostoptions.h"
 #include "angularforce.h"
 #include "movement.h"
 
@@ -106,10 +105,6 @@ public:
     /*! Sets new weight for body
         \param[in] weight new weight
      */
-    void setWeight(p2d::Weight * weight);
-    /*! Sets new weight for body
-        \param[in] weight new weight
-     */
     void setWeight(const p2d::Weight & weight);
     /*! Returns current weight for body
         \return  weight
@@ -119,14 +114,10 @@ public:
         \return  weight
      */
     p2d::Weight & weight();
-    /*! Sets current ghost options
-        \param[in] ghost ghost options
+    /*! Sets flag, which points whether current body is ghost
+        \param[in] value if true body is ghost, otherwise it is not
      */
-    void setCurrentGO(p2d::GhostOptions * ghost);
-    /*! Schedule changing ghost options on next iteration
-        \param[in] next a new ghost options
-     */
-    void sheduleGO(p2d::GhostOptions * next);
+    void setIsGhost(bool value);
     /*! Tests whether body is ghost
         \return whether body is ghost
      */
@@ -380,26 +371,26 @@ public:
 private:
     /*! A weight of specific body
      */
-    p2d::Weight  *   m_weight;
-    /*! An options for ghost mode
+    p2d::Weight m_weight;
+    /*! Whether body is ghost
      */
-    p2d::GhostOptionsFlow * m_ghost;
+    bool m_is_ghost;
     /*! A world simulation
      */
-    p2d::World * m_world;
+    p2d::World* m_world;
     /*! Returns a user object
         \return user object for a body
      */
-    sad::Object * m_user_object;
+    sad::Object* m_user_object;
     /*! A tangential movement for body
      */
-    p2d::TangentialMovement * m_tangential;
+    p2d::TangentialMovement* m_tangential;
     /*! A angular movement for body
      */
-    p2d::AngularMovement * m_angular;
+    p2d::AngularMovement* m_angular;
     /*! A current shape of data
      */
-    CollisionShape * m_current;
+    CollisionShape* m_current;
     /* An index for last sample
      */
     int  m_lastsampleindex;

@@ -7,7 +7,6 @@
 #include <stdexcept>
 
 #include "vector.h"
-#include "tickable.h"
 
 #include "../sadvector.h"
 #include "../object.h"
@@ -21,6 +20,23 @@ namespace p2d
 {
 
 class Body;
+
+
+/*! A class for getting default value, for tickable, used also in
+    movement. Should return something like zero.
+*/
+template<
+    typename _Value
+>
+class TickableDefaultValue
+{
+public:
+    static _Value get();
+    /*! Returns a zero for current type
+    */
+    static _Value zero();
+};
+
 
 /*! A class for getting default value for a tickable state
  */

@@ -520,7 +520,6 @@
     <ClInclude Include="include\p2d\elasticforce.h" />
     <ClInclude Include="include\p2d\findcontactpoints.h" />
     <ClInclude Include="include\p2d\force.h" />
-    <ClInclude Include="include\p2d\ghostoptions.h" />
     <ClInclude Include="include\p2d\grahamscan.h" />
     <ClInclude Include="include\p2d\infiniteline.h" />
     <ClInclude Include="include\p2d\line.h" />
@@ -529,7 +528,6 @@
     <ClInclude Include="include\p2d\point.h" />
     <ClInclude Include="include\p2d\rectangle.h" />
     <ClInclude Include="include\p2d\simplecollisiondetector.h" />
-    <ClInclude Include="include\p2d\tickable.h" />
     <ClInclude Include="include\p2d\vector.h" />
     <ClInclude Include="include\p2d\walls.h" />
     <ClInclude Include="include\p2d\weight.h" />

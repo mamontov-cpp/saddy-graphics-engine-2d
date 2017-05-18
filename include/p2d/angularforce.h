@@ -4,7 +4,6 @@
     Describes a angular force, acting on object
  */
 #pragma once
-#include "tickable.h"
 #include "force.h"
 
 namespace sad
