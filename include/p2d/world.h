@@ -13,6 +13,7 @@
 
 #include "../sadhash.h"
 #include "../sadpair.h"
+#include "../sadvector.h"
 #include "../object.h"
 
 #include "../temporarilyimmutablecontainer.h"
@@ -29,6 +30,54 @@ class Body;
 class World: public sad::Object, public sad::TemporarilyImmutableContainer<p2d::Body>
 {
 SAD_OBJECT
+public:
+    /*! A body location defines, how body is stored in all bodies vector and in groups
+     */
+    struct BodyLocation
+    {
+        /*! Offset of body in a list of all bodies
+         */
+        size_t OffsetInAllBodies;
+        /*! A list of positions of body in group
+         */
+        sad::Vector<size_t> PositionInGroups;
+    };
+    /*! A global container for bodies
+     */
+    struct GlobalBodyContainer
+    {
+        /*! A storage for storing a body to location positions 
+         */
+        sad::Hash<sad::p2d::Body*, BodyLocation> m_body_to_location;
+        /*! A vector of all bodies. Adding body to container will store an item here
+         */
+        sad::Vector<sad::p2d::Body*> m_all_bodies;
+    };
+    /*! A group container for bodies
+     */
+    struct Group
+    {
+        /*! A hash table for storing body to location
+         */
+        sad::Hash<sad::p2d::Body*, int> m_body_to_location;
+        /*! A linear list of bodies
+         */
+        sad::Vector<sad::p2d::Body*> m_bodies;
+    };
+    /*! A handler list for a group pair
+     */
+    struct HandlerList
+    {
+        /*! An index of first group
+         */
+        size_t TypeIndex1;
+        /*! An index of second grop
+         */
+        size_t TypeIndex2;
+        /*! A list of handlers to be invoked
+         */
+        sad::Vector<sad::p2d::BasicCollisionHandler*> List;
+    };
 public:
      typedef sad::Pair<sad::String, sad::String> type_pair_t;
      typedef sad::Pair<type_pair_t, sad::p2d::BasicCollisionHandler *> types_with_handler_t;
