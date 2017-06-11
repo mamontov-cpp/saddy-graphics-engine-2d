@@ -96,6 +96,44 @@ public:
         */
         sad::Vector<size_t> FreePositions;
     };
+    /*! A pair of group with it's activity flag with comparison
+     */
+    struct GroupWithActivityFlag
+    {
+        /*! A stored group
+        */
+        sad::p2d::World::Group Group;
+        /*! An activity flag
+        */
+        bool Active;
+        /*! Makes new group
+        */
+        inline GroupWithActivityFlag() : Active(true)
+        {
+
+        }
+        /*! Marks group as inactive
+        */
+        inline void markAsInactive()
+        {
+            this->Active = false;
+        }
+    };
+    /*! A group container for groups
+     */
+    struct GroupContainer
+    {
+        /*! A group name to location
+         */
+        sad::Hash<sad::String, size_t> m_group_name_to_location;
+        /*! A list of groups with activity flags
+         */
+        sad::Vector<sad::p2d::World::GroupWithActivityFlag> m_groups;
+        /*! A vector of free positions in array above to make sure, that we could store some objects here
+           in near O(1)
+        */
+        sad::Vector<size_t> FreePositions;
+    };
     /*! A handler list for a group pair
      */
     struct HandlerList
@@ -110,6 +148,9 @@ public:
          */
         sad::Vector<sad::p2d::BasicCollisionHandler*> List;
     };
+    /*! A global handler list 
+     */
+    typedef sad::Vector<sad::p2d::World::HandlerList> GlobalHandlerList;
 public:
      typedef sad::Pair<sad::String, sad::String> type_pair_t;
      typedef sad::Pair<type_pair_t, sad::p2d::BasicCollisionHandler *> types_with_handler_t;
@@ -306,18 +347,30 @@ public:
          const sad::String & t2
      );
 protected:
-     /*! Current time step
-      */
-     double m_time_step;
-     /*! A splitted time step
+    /*! Current time step
+     */
+    double m_time_step;
+    /*! A common transformer for all shapes
+     */
+    p2d::CircleToHullTransformer * m_transformer;
+    /*! A collision dispatcher for testing an items for collision
+     */
+    p2d::CollisionDetector * m_detector;
+    /*! A global body container for storing body references
+     */
+    sad::p2d::World::GlobalBodyContainer m_global_body_container;
+    /*! A group container for storing groups
+     */
+    sad::p2d::World::GroupContainer m_group_container;
+    /*! A global handler list for storing handlers
+     */
+    sad::p2d::World::GlobalHandlerList m_global_handler_list;
+    
+    //!< TODO We need protection mutexes and command queue here
+
+    /*! A splitted time step
       */
      sad::Maybe<double> m_splitted_time_step;
-     /*! A common transformer for all shapes
-      */
-     p2d::CircleToHullTransformer * m_transformer;
-     /*! A collision dispatcher for testing an items for collision
-      */
-     p2d::CollisionDetector * m_detector;
      /*! A hash codes for body groups
       */
      sad::Hash<unsigned int, sad::String> m_group_hash_codes;
