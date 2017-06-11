@@ -31,6 +31,30 @@ class World: public sad::Object, public sad::TemporarilyImmutableContainer<p2d::
 {
 SAD_OBJECT
 public:
+    /*! A pair of body with it's activity flag with comparison
+     */
+    struct BodyWithActivityFlag
+    {
+        /*! A stored body 
+         */
+        sad::p2d::Body* Body;
+        /*! An activity flag
+         */
+        bool Active;
+        /*! Makes new pair
+            \param[in] b body
+         */
+        inline BodyWithActivityFlag(sad::p2d::Body* b) : Body(b), Active(true)
+        {
+            
+        }
+        /*! Marks body as inactive
+         */
+        inline void markAsInactive()
+        {
+            this->Active = false;
+        }
+    };
     /*! A body location defines, how body is stored in all bodies vector and in groups
      */
     struct BodyLocation
@@ -48,10 +72,14 @@ public:
     {
         /*! A storage for storing a body to location positions 
          */
-        sad::Hash<sad::p2d::Body*, BodyLocation> m_body_to_location;
+        sad::Hash<sad::p2d::Body*, BodyLocation> BodyToLocation;
         /*! A vector of all bodies. Adding body to container will store an item here
          */
-        sad::Vector<sad::p2d::Body*> m_all_bodies;
+        sad::Vector<sad::p2d::World::BodyWithActivityFlag> AllBodies;
+        /*! A vector of free positions in array above to make sure, that we could store some objects here
+            in near O(1)
+         */
+        sad::Vector<size_t> FreePositions;
     };
     /*! A group container for bodies
      */
@@ -62,7 +90,11 @@ public:
         sad::Hash<sad::p2d::Body*, int> m_body_to_location;
         /*! A linear list of bodies
          */
-        sad::Vector<sad::p2d::Body*> m_bodies;
+        sad::Vector<sad::p2d::World::BodyWithActivityFlag> m_bodies;
+        /*! A vector of free positions in array above to make sure, that we could store some objects here
+            in near O(1)
+        */
+        sad::Vector<size_t> FreePositions;
     };
     /*! A handler list for a group pair
      */
