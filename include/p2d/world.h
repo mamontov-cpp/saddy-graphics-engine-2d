@@ -15,8 +15,7 @@
 #include "../sadpair.h"
 #include "../sadvector.h"
 #include "../object.h"
-
-#include "../temporarilyimmutablecontainer.h"
+#include "../sadmutex.h"
 
 namespace sad
 {
@@ -24,10 +23,11 @@ namespace sad
 namespace p2d
 {
 class Body;
-/*! A world is a set if simulated items, and callbacks used to define
-    behaviour between them
+
+/*! A world is defined as a set if simulated items, stored in groups and a set of
+    callbacks used to define interactions between objects in a different groups.
  */
-class World: public sad::Object, public sad::TemporarilyImmutableContainer<p2d::Body>
+class World: public sad::Object
 {
 SAD_OBJECT
 public:
@@ -80,6 +80,40 @@ public:
             in near O(1)
          */
         sad::Vector<size_t> FreePositions;
+        /*! Performs action on all active bodies with specified time step
+            \param time_step a time step
+         */
+        void performActionWithTimeStep(
+            void (sad::p2d::Body::*action)(double),
+            double time_step
+        );
+
+        /*! Builds bodys' inner caches required for shapes and acceleration
+            \param[in] time_step a current time step for a world
+         */
+        void buildBodyCaches(double time_step);
+        /*! Steps all body options, like ghost options and body
+            \param[in] time_step a time step size
+         */
+        void stepDiscreteChangingValues(double time_step);
+        /*! Steps a position and velocities
+            \param[in] time_step a time step size
+         */
+        void stepPositionsAndVelocities(double time_step);
+        /*! Adds a body to list
+            \param[in] b body
+            \return a position of body in list
+         */
+        BodyToLocation& add(sad::p2d::Body* b);
+        /*! Removes a body from a container
+            \param[in] b body
+         */
+        void remove(sad::p2d::Body* b);
+        /*! Get group locations for a body from a world
+            \param[in] b body
+            \return result
+         */
+        const sad::Vector<size_t>& getGroupLocations(sad::p2d::Body* b);
     };
     /*! A group container for bodies
      */
@@ -151,6 +185,45 @@ public:
     /*! A global handler list 
      */
     typedef sad::Vector<sad::p2d::World::HandlerList> GlobalHandlerList;
+    /*! A queued command type for queued commands
+     */
+    enum QueuedCommandType
+    {
+        P2D_WORLD_QCT_ADD_BODY = 0,
+        P2D_WORLD_QCT_REMOVE_BODY = 1,
+
+        P2D_WORLD_QCT_ADD_BODY_TO_GROUP = 2,
+        P2D_WORLD_QCT_REMOVE_BODY_FROM_GROUP = 3,
+
+        P2D_WORLD_QCT_ADD_GROUP = 4,
+        P2D_WORLD_QCT_REMOVE_GROUP = 5,
+        P2D_WORLD_QCT_CLEAR_GROUP = 6,
+
+        P2D_WORLD_QCT_ADD_HANDLER = 7,
+        P2D_WORLD_QCT_REMOVE_HANDLER = 8,
+        P2D_WORLD_QCT_CLEAR_HANDLERS = 9,
+
+        P2D_WORLD_CLEAR = 10,
+        P2D_WORLD_STEP = 11,
+        P2D_WORLD_SET_TIME_STEP = 12
+    };
+    /*! A queued command as a set of parameters
+     */
+    struct QueuedCommand
+    {
+        /*! A type of command
+         */
+        sad::p2d::World::QueuedCommandType Type;
+        /*! A body to add or remove from command
+         */
+        sad::p2d::Body* Body;
+        /*! A group name to be interpreted in queued command
+         */
+        sad::String GroupName;
+        /*! A step value for stepping or setting step
+         */
+        double StepValue;
+    };
 public:
      typedef sad::Pair<sad::String, sad::String> type_pair_t;
      typedef sad::Pair<type_pair_t, sad::p2d::BasicCollisionHandler *> types_with_handler_t;
@@ -365,8 +438,17 @@ protected:
     /*! A global handler list for storing handlers
      */
     sad::p2d::World::GlobalHandlerList m_global_handler_list;
-    
-    //!< TODO We need protection mutexes and command queue here
+    /*! A command queue for locking a world
+     */
+    sad::Vector<sad::p2d::World::QueuedCommand> m_command_queue;
+    /*! A world lock to support multithreading at least patially
+     */
+    sad::Mutex m_world_lock;
+    /*! Whether world could be changed (not in step)
+     */
+    bool m_is_locked;
+
+    //! TODO: Redo other parts to support queue
 
     /*! A splitted time step
       */
@@ -388,17 +470,7 @@ protected:
      /*! All bodies for checking all information
       */
      bodies_to_types_t m_allbodies;
-     /*! Builds body's inner caches for shapes and acceleration
-      */
-     void buildBodyCaches();
-     /*! Steps all body options, like ghost options and body
-         \param[in] time a time step size
-      */
-     virtual void stepDiscreteChangingValues(double time);
-     /*! Steps a position and velocities
-         \param[in] time a time step size
-      */
-     virtual void stepPositionsAndVelocities(double time);
+
      /*! Executes a reactions for a world
          \param[in] reactions found reactions
       */ 

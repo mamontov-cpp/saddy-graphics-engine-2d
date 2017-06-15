@@ -2,18 +2,114 @@
 
 DECLARE_SOBJ(sad::p2d::World);
 
-double sad::p2d::World::timeStep() const
+// =============================== sad::p2d::World::GlobalBodyContainer METHODS ===============================
+
+void sad::p2d::World::performActionWithTimeStep(
+    void (sad::p2d::Body::*action)(double),
+    double time_step
+)
 {
-    return m_time_step;
+    size_t size = this->AllBodies.size();
+    if (size)
+    {
+        sad::p2d::World::BodyWithActivityFlag* p = &(this->AllBodies[0]);
+        for(size_t i = 0; i < size; i++)
+        {
+            if (p->Active)
+            {
+                sad::p2d::Body* body = p->Body;
+                (body->*action)(time_step);
+            }
+            p++;
+        }
+    }
 }
 
-sad::p2d::World::World()
+void sad::p2d::World::GlobalBodyContainer::buildBodyCaches(double time_step)
 {
-    m_time_step = 1;
+   void (sad::p2d::Body::*action)(double) = &sad::p2d::Body::buildCaches;
+   this->performActionWithTimeStep(action, time_step);
+}
+
+void sad::p2d::World::GlobalBodyContainer::stepDiscreteChangingValues(double time_step)
+{
+    this->performActionWithTimeStep(
+        &sad::p2d::Body::stepDiscreteChangingValues,
+        time_step
+    );
+}
+
+void sad::p2d::World::GlobalBodyContainer::stepPositionsAndVelocities(double time_step)
+{
+    this->performActionWithTimeStep(
+        &sad::p2d::Body::stepPositionsAndVelocities,
+        time_step
+    );
+}
+
+sad::p2d::World::BodyToLocation& sad::p2d::World::GlobalBodyContainer::add(sad::p2d::Body* b)
+{
+    if (BodyToLocation.contains(b))
+    {
+        return BodyToLocation[b];
+    }
+
+
+    size_t position = 0;
+    if (FreePositions.count() != 0)
+    {
+        size_t last_free_position = FreePositions.size() - 1;
+        size_t position = FreePositions[last_free_position];
+        FreePositions.erase(FreePositions.begin() + last_free_position);
+        b->addRef();
+
+        AllBodies[position].Body = b;
+        AllBodies[position].Active = true;
+    }
+    else
+    {
+        position = AllBodies.size();
+        AllBodies.push_back(sad::p2d::World::BodyWithActivityFlag(b));
+    }
+
+    BodyLocation bl;
+    bl.OffsetInAllBodies = position;
+    BodyToLocation.insert(b, bl);
+    return BodyToLocation[b];
+}
+
+void sad::p2d::World::GlobalBodyContainer::remove(sad::p2d::Body* b)
+{
+    if (BodyToLocation.contains(b))
+    {
+        BodyLocation& bl = BodyToLocation[b];
+        FreePosition.push_back(bl.OffsetInAllBodies);
+        AllBodies[bl.OffsetInAllBodies].markAsInactive();
+        b->delRef();
+    }
+}
+
+static sad::Vector<size_t> __empty_vector;
+
+const sad::Vector<size_t>& sad::p2d::World::getGroupLocations(sad::p2d::Body* b)
+{
+    if (BodyToLocation.contains(b))
+    {
+        BodyLocation& bl = BodyToLocation[b];
+        return bl.PositionInGroups;
+    }
+    return __empty_vector;
+}
+
+// =============================== sad::p2d::World METHODS ===============================
+
+sad::p2d::World::World() : m_time_step(1), m_is_locked(false)
+{
     m_transformer = new p2d::CircleToHullTransformer(*(p2d::CircleToHullTransformer::ref()));
     m_detector = new p2d::SimpleCollisionDetector();
     m_detector->addRef();
 }
+
 
 sad::p2d::World::~World()
 {
@@ -50,6 +146,11 @@ void sad::p2d::World::setDetector(sad::p2d::CollisionDetector * d)
     {
         it.key()->setSamplingCount(d->sampleCount());
     }
+}
+
+double sad::p2d::World::timeStep() const
+{
+    return m_time_step;
 }
 
 
@@ -134,60 +235,25 @@ void sad::p2d::World::step(double time)
     while ( sad::non_fuzzy_zero(m_time_step) )
     {
         m_splitted_time_step.clear();
-        buildBodyCaches();
+        m_global_body_container.buildBodyCaches(m_time_step);
         findAndExecuteCollisionCallbacks();
         if (m_splitted_time_step.exists())
         {
-            stepPositionsAndVelocities(m_splitted_time_step.value());
+            m_global_body_container.stepPositionsAndVelocities(m_splitted_time_step.value());
             m_time_step -= m_splitted_time_step.value();
         }
         else
         {
-            stepPositionsAndVelocities(m_time_step);
+            m_global_body_container.stepPositionsAndVelocities(m_time_step);
             m_time_step = 0;
         }
     }
     // Set time step to something to not bug with some interstep calls
     m_time_step = 1;
     // Step forces and body options
-    stepDiscreteChangingValues(time);
+    m_global_body_container.stepDiscreteChangingValues(time);
     unlockChanges();
     performQueuedActions();
-}
-
-void sad::p2d::World::stepDiscreteChangingValues(double time)
-{
-    for( bodies_to_types_t::iterator it = m_allbodies.begin();
-        it != m_allbodies.end();
-        ++it
-       )
-    {
-        it.key()->stepDiscreteChangingValues(time);
-    }
-}
-
-void sad::p2d::World::buildBodyCaches()
-{
-    double t = this->timeStep();
-    for( bodies_to_types_t::iterator it = m_allbodies.begin();
-        it != m_allbodies.end();
-        ++it
-       )
-    {
-        it.key()->TimeStep = t;
-        it.key()->buildCaches();
-    }
-}
-
-void sad::p2d::World::stepPositionsAndVelocities(double time)
-{
-    for( bodies_to_types_t::iterator it = m_allbodies.begin();
-        it != m_allbodies.end();
-        ++it
-       )
-    {
-        it.key()->stepPositionsAndVelocities(time);
-    }
 }
 
 void sad::p2d::World::executeCallbacks(reactions_t & reactions)
