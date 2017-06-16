@@ -6,6 +6,7 @@
 #pragma once
 #include "collisionevent.h"
 #include "body.h"
+#include "../refcountable.h"
 
 namespace sad
 {
@@ -14,7 +15,7 @@ namespace p2d
 {
 /*! A basic collision handler for invoking events
  */
-class BasicCollisionHandler
+class BasicCollisionHandler: public sad::RefCountable
 {
 public:
     /*! Calls a function for basic collision event

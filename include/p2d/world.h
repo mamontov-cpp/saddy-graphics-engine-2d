@@ -4,6 +4,7 @@
     Defines world simulation as set of items and callbacks
  */
 #pragma once
+#include <functional>
 #include "circletohulltransformer.h"
 #include "collisiondetector.h"
 #include "simplecollisiondetector.h"
@@ -62,7 +63,8 @@ public:
         /*! Offset of body in a list of all bodies
          */
         size_t OffsetInAllBodies;
-        /*! A list of positions of body in group
+        /*! A list of positions of body in group, where value is position
+            of group in group list
          */
         sad::Vector<size_t> PositionInGroups;
     };
@@ -80,6 +82,10 @@ public:
             in near O(1)
          */
         sad::Vector<size_t> FreePositions;
+        /*! Performs action on container
+            \param[in] f function
+         */
+        void performAction(const std::function<void(sad::p2d::Body*)>& f);
         /*! Performs action on all active bodies with specified time step
             \param time_step a time step
          */
@@ -87,7 +93,13 @@ public:
             void (sad::p2d::Body::*action)(double),
             double time_step
         );
-
+        /*! Sets sampling count for all active bodies
+            \param[in] sample_count a sample count
+         */
+        void setSamplingCount(int sample_count);
+        /*! Tries to set transformer for all active bodies
+         */
+        void trySetTransformer();
         /*! Builds bodys' inner caches required for shapes and acceleration
             \param[in] time_step a current time step for a world
          */
@@ -104,7 +116,7 @@ public:
             \param[in] b body
             \return a position of body in list
          */
-        BodyToLocation& add(sad::p2d::Body* b);
+        BodyLocation& add(sad::p2d::Body* b);
         /*! Removes a body from a container
             \param[in] b body
          */
@@ -114,6 +126,9 @@ public:
             \return result
          */
         const sad::Vector<size_t>& getGroupLocations(sad::p2d::Body* b);
+        /*! Clears a container
+         */
+        void clear();
     };
     /*! A group container for bodies
      */
@@ -121,14 +136,35 @@ public:
     {
         /*! A hash table for storing body to location
          */
-        sad::Hash<sad::p2d::Body*, int> m_body_to_location;
+        sad::Hash<sad::p2d::Body*, size_t> BodyToLocation;
         /*! A linear list of bodies
          */
-        sad::Vector<sad::p2d::World::BodyWithActivityFlag> m_bodies;
+        sad::Vector<sad::p2d::World::BodyWithActivityFlag> Bodies;
         /*! A vector of free positions in array above to make sure, that we could store some objects here
             in near O(1)
-        */
+         */
         sad::Vector<size_t> FreePositions;
+        /*! Adds body to group
+            \param[in] b body
+            \return location of body in group
+         */
+        size_t add(sad::p2d::Body* b);
+        /*! Removes body from group
+            \param[in] b body
+         */
+        void remove(sad::p2d::Body* b);
+        /*! Returns list of bodies
+            \return list of bodies
+         */
+        const sad::Vector<sad::p2d::World::BodyWithActivityFlag>& bodies() const;
+        /*! Returns location for a body in group
+           \param[in] b body
+           \return  a location of body in vector
+         */
+        sad::Maybe<size_t> getLocation(sad::p2d::Body* b) const;
+        /*! Clears a group
+         */
+        void clear();
     };
     /*! A pair of group with it's activity flag with comparison
      */
@@ -159,14 +195,31 @@ public:
     {
         /*! A group name to location
          */
-        sad::Hash<sad::String, size_t> m_group_name_to_location;
+        sad::Hash<sad::String, size_t> GroupToLocation;
         /*! A list of groups with activity flags
          */
-        sad::Vector<sad::p2d::World::GroupWithActivityFlag> m_groups;
+        sad::Vector<sad::p2d::World::GroupWithActivityFlag> Groups;
         /*! A vector of free positions in array above to make sure, that we could store some objects here
            in near O(1)
         */
         sad::Vector<size_t> FreePositions;
+
+        /*! Adds new group into container
+            \param[in] name name of a group
+         */
+        size_t add(const sad::String& name);
+        /*! Removes a group from a container
+            \param[in] name a name of group
+         */
+        void remove(const sad::String& name);
+        /*! Clears a container from a world
+         */
+        void clear();
+        /*! Returns location for a grouo
+           \param[in] name a group name
+           \return name of group
+         */
+        sad::Maybe<size_t> getLocation(const sad::String& name) const;
     };
     /*! A handler list for a group pair
      */
@@ -175,7 +228,7 @@ public:
         /*! An index of first group
          */
         size_t TypeIndex1;
-        /*! An index of second grop
+        /*! An index of second group
          */
         size_t TypeIndex2;
         /*! A list of handlers to be invoked
@@ -184,28 +237,46 @@ public:
     };
     /*! A global handler list 
      */
-    typedef sad::Vector<sad::p2d::World::HandlerList> GlobalHandlerList;
+    struct GlobalHandlerList
+    {
+        /*! An inner list of handlers
+         */
+        sad::Vector<sad::p2d::World::HandlerList> List;
+        /*! Adds new handler to list
+            \param[in] i1 first index
+            \param[in] i2 second index
+            \param[in] h a handler
+         */
+        void add(size_t i1, size_t i2, sad::p2d::BasicCollisionHandler* h);
+        /*! Removes a handler from a list
+            \param[in] h handler
+         */
+        void remove(sad::p2d::BasicCollisionHandler* h);
+        /*! Clears a handler list
+         */
+        void clear();
+    };
     /*! A queued command type for queued commands
      */
     enum QueuedCommandType
     {
-        P2D_WORLD_QCT_ADD_BODY = 0,
-        P2D_WORLD_QCT_REMOVE_BODY = 1,
+        P2D_WORLD_QCT_ADD_BODY = 0,    //!< Add body command
+        P2D_WORLD_QCT_REMOVE_BODY = 1, //!< Remove body command
 
-        P2D_WORLD_QCT_ADD_BODY_TO_GROUP = 2,
-        P2D_WORLD_QCT_REMOVE_BODY_FROM_GROUP = 3,
+        P2D_WORLD_QCT_ADD_BODY_TO_GROUP = 2,      //!< Add body to group command
+        P2D_WORLD_QCT_REMOVE_BODY_FROM_GROUP = 3, //!< Remove body from group command
 
-        P2D_WORLD_QCT_ADD_GROUP = 4,
-        P2D_WORLD_QCT_REMOVE_GROUP = 5,
-        P2D_WORLD_QCT_CLEAR_GROUP = 6,
+        P2D_WORLD_QCT_ADD_GROUP = 4,    //!< Add group command
+        P2D_WORLD_QCT_REMOVE_GROUP = 5, //!< Remove group command
+        P2D_WORLD_QCT_CLEAR_GROUP = 6,  //!< Clear group command
 
-        P2D_WORLD_QCT_ADD_HANDLER = 7,
-        P2D_WORLD_QCT_REMOVE_HANDLER = 8,
-        P2D_WORLD_QCT_CLEAR_HANDLERS = 9,
+        P2D_WORLD_QCT_ADD_HANDLER = 7,    //!< Add handler command
+        P2D_WORLD_QCT_REMOVE_HANDLER = 8, //!< Remove handler command
+        P2D_WORLD_QCT_CLEAR_HANDLERS = 9, //!< Clear handlers command
 
-        P2D_WORLD_CLEAR = 10,
-        P2D_WORLD_STEP = 11,
-        P2D_WORLD_SET_TIME_STEP = 12
+        P2D_WORLD_CLEAR = 10,             //!<  A global clearing command
+        P2D_WORLD_STEP = 11,              //!<  A stepping command for a world
+        P2D_WORLD_SET_TIME_STEP = 12      //!<  A command for setting a time step
     };
     /*! A queued command as a set of parameters
      */
@@ -244,6 +315,14 @@ public:
      /*! Destroys world
       */
      ~World();
+
+     /*! TODO: Comment here
+      *  \param b
+      */
+     void add(sad::p2d::Body* b);
+     /*! TODO: Comment here
+      */
+     void clear();
      /*! Returns a transformer for all circles
          \return a transformer for all circles
       */
