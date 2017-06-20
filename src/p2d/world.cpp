@@ -434,7 +434,7 @@ void sad::p2d::World::setTransformer(sad::p2d::CircleToHullTransformer * t)
     m_global_body_container.trySetTransformer();
 }
 
-void sad::p2d::World::add(sad::p2d::Body* b)
+void sad::p2d::World::addBody(sad::p2d::Body* b)
 {
     if (isLockedForChanges())
     {
@@ -446,10 +446,102 @@ void sad::p2d::World::add(sad::p2d::Body* b)
     }
     else
     {
-        this->addNow(b);
+        this->addBodyNow(b);
     }
 }
 
+void sad::p2d::World::removeBody(sad::p2d::Body* b)
+{
+    if (isLockedForChanges())
+    {
+        sad::p2d::World::QueuedCommand cmd;
+        cmd.Type = sad::p2d::World::P2D_WORLD_QCT_REMOVE_BODY;
+        cmd.Body = b;
+        b->addRef();
+        addCommand(b);
+    }
+    else
+    {
+        this->removeBodyNow(b);
+    }
+}
+
+void sad::p2d::World::clearBodies()
+{
+    if (isLockedForChanges())
+    {
+        sad::p2d::World::QueuedCommand cmd;
+        cmd.Type = sad::p2d::World::P2D_WORLD_QCT_CLEAR_BODIES;
+        addCommand(b);
+    }
+    else
+    {
+        this->clearBodiesNow();
+    }
+}
+
+void sad::p2d::World::addBodyToGroup(const sad::String& group_name, sad::p2d::Body* b)
+{
+    if (isLockedForChanges())
+    {
+        sad::p2d::World::QueuedCommand cmd;
+        cmd.Type = sad::p2d::World::P2D_WORLD_QCT_ADD_BODY_TO_GROUP;
+        cmd.Body = b;
+        cmd.GroupName = group_name;
+        b->addRef();
+        addCommand(b);
+    }
+    else
+    {
+        this->addBodyToGroupNow(group_name, b);
+    }
+}
+
+void sad::p2d::World::removeFromGroup(const sad::String& group_name, sad::p2d::Body* b)
+{
+    if (isLockedForChanges())
+    {
+        sad::p2d::World::QueuedCommand cmd;
+        cmd.Type = sad::p2d::World::P2D_WORLD_QCT_REMOVE_BODY_FROM_GROUP;
+        cmd.Body = b;
+        cmd.GroupName = group_name;
+        b->addRef();
+        addCommand(b);
+    }
+    else
+    {
+        this->removeBodyFromGroupNow(group_name, b);
+    }
+}
+
+void sad::p2d::World::clearGroup(const sad::String& group_name)
+{
+    if (isLockedForChanges())
+    {
+        sad::p2d::World::QueuedCommand cmd;
+        cmd.Type = sad::p2d::World::P2D_WORLD_QCT_CLEAR_GROUP;
+        cmd.GroupName = group_name;
+        addCommand(b);
+    }
+    else
+    {
+        this->clearGroupNow(group_name);
+    }
+}
+
+void sad::p2d::World::clearGroups()
+{
+    if (isLockedForChanges())
+    {
+        sad::p2d::World::QueuedCommand cmd;
+        cmd.Type = sad::p2d::World::P2D_WORLD_QCT_CLEAR_GROUPS;
+        addCommand(b);
+    }
+    else
+    {
+        this->clearGroupsNow();
+    }
+}
 
 // =============================== sad::p2d::World PRIVATE METHODS ===============================
 
@@ -491,13 +583,13 @@ void sad::p2d::World::performQueuedCommands()
             {
                 case sad::p2d::World::P2D_WORLD_QCT_ADD_BODY:
                 {
-                    addNow(cmd.Body);
+                    addBodyNow(cmd.Body);
                     cmd.Body->delRef();
                     break;
                 }
                 case sad::p2d::World::P2D_WORLD_QCT_REMOVE_BODY:
                 {
-                    removeNow(cmd.Body);
+                    removeBodyNow(cmd.Body);
                     cmd.Body->delRef();
                     break;
                 }

@@ -419,13 +419,46 @@ public:
      void setTransformer(p2d::CircleToHullTransformer * t);
 
 
-     /*! Adds new body to a groups, defined by type of user objects if can be casted to
+     /*! Adds new body to a groups, defined by type of user object and common group, if
+         any
          \param[in] b body
       */
-     void add(sad::p2d::Body* b);
-     /*! TODO: Comment here
+     void addBody(sad::p2d::Body* b);
+     /*! Removes a body from all groups, that bodies in in
+         \param[in] b body
       */
-     void clear();
+     void removeBody(sad::p2d::Body* b);
+     /*! Clear bodies list, removing all bodies from world
+      */
+     void clearBodies();
+     /*! Adds new body to group, if group exists
+         \param[in] group_name a group name for bodies
+         \param[in] b body
+      */
+     void addBodyToGroup(const sad::String& group_name, sad::p2d::Body* b);
+     /*! Removes a body from a group if group exists
+         \param[in] group_name a group name for bodies
+         \param[in] b body
+      */
+     void removeFromGroup(const sad::String& group_name, sad::p2d::Body* b);
+     /*! Clears a group by name
+         \param[in] group_name a name of group
+      */
+     void clearGroup(const sad::String& group_name);
+     /*! Clears all groups in world, removing all bodies
+      */
+     void clearGroups();
+
+     /*! Adds new handler
+         \param[in] h handler
+         \param[in] t1 first type
+         \param[in] t2 second type
+      */
+     void addHandler(
+         sad::p2d::BasicCollisionHandler * h,
+         const sad::String & t1,
+         const sad::String & t2
+     );
 
      /*! Adds new collision handler with specified callbacks
          \param[in] p specified handler
@@ -543,49 +576,12 @@ public:
          \param[in] h registered handler
       */
      void removeHandler(sad::p2d::BasicCollisionHandler * h);
-     /*! When called inside of step() method, makes a world integrate
-         velocities and positions to specified time, and restart step, not
-         stepping through ghostoptions and forces
-         \param[in] time time of item
-      */
-     void splitTimeStepAt(double time);
+
      /*! Steps a world by specified time
          \param[in] time a size of time step
       */
      void step(double time);
-     /*! Adds new body to group by code
-         \param[in] group_code a group code for bodies
-         \param[in] b body
-         \param[in] to_common whether we should add a body to group for bodies
-      */ 
-     void addToGroup(unsigned int group_code, p2d::Body* b, bool to_common = false);
-     /*! Adds new body to group
-         \param[in] group a group for bodies
-         \param[in] b body
-         \param[in] to_common whether we should add a body to group for bodies
-      */ 
-     void addToGroup(const sad::String& group, p2d::Body* b, bool to_common = false);
-     /*! Removes a body from a world. Also clears a user object and body listeners, to make sure,
-         that if user object removed before body, it won't be harmed
-         \param[in] body a body
-     */
-     virtual void remove(p2d::Body * body);
-     /*! Returns hash code for group, inserting it if required
-         \param[in] group a group name
-         \param[in] preferred if hash code is not found, this will be returned
-         \return hash code
-      */
-     unsigned int getGroupCode(const sad::String& group, unsigned int preferred = 0);
-     /*! Adds new handler
-         \param[in] h handler
-         \param[in] t1 first type
-         \param[in] t2 second type
-      */
-     virtual void addHandler(
-         sad::p2d::BasicCollisionHandler * h, 
-         const sad::String & t1, 
-         const sad::String & t2
-     );
+
 protected:
     /*! Current time step
      */
@@ -643,11 +639,11 @@ protected:
     /*! Peforms adding a body to a world
         \param[in] o body
      */
-    void addNow(sad::p2d::Body* o);
+    void addBodyNow(sad::p2d::Body* o);
     /*! Peforms removing a body from all groups and a world
         \param[in] o body
      */
-    void removeNow(sad::p2d::Body* o);
+    void removeBodyNow(sad::p2d::Body* o);
     /*! Clears all bodies, erasing them from a world
      */
     void clearBodiesNow();
