@@ -260,23 +260,24 @@ public:
      */
     enum QueuedCommandType
     {
-        P2D_WORLD_QCT_ADD_BODY = 0,    //!< Add body command
-        P2D_WORLD_QCT_REMOVE_BODY = 1, //!< Remove body command
+        P2D_WORLD_QCT_ADD_BODY = 0,     //!< Add body command
+        P2D_WORLD_QCT_REMOVE_BODY = 1,  //!< Remove body command
+        P2D_WORLD_QCT_CLEAR_BODIES = 2, //!< Clears all bodies
 
-        P2D_WORLD_QCT_ADD_BODY_TO_GROUP = 2,      //!< Add body to group command
-        P2D_WORLD_QCT_REMOVE_BODY_FROM_GROUP = 3, //!< Remove body from group command
+        P2D_WORLD_QCT_ADD_BODY_TO_GROUP = 3,      //!< Add body to group command
+        P2D_WORLD_QCT_REMOVE_BODY_FROM_GROUP = 4, //!< Remove body from group command
 
-        P2D_WORLD_QCT_ADD_GROUP = 4,    //!< Add group command
-        P2D_WORLD_QCT_REMOVE_GROUP = 5, //!< Remove group command
-        P2D_WORLD_QCT_CLEAR_GROUP = 6,  //!< Clear group command
+        P2D_WORLD_QCT_ADD_GROUP = 5,    //!< Add group command
+        P2D_WORLD_QCT_REMOVE_GROUP = 6, //!< Remove group command
+        P2D_WORLD_QCT_CLEAR_GROUP = 7,  //!< Clear group command
+        P2D_WORLD_QCT_CLEAR_GROUPS = 8, //!< Clears all groups, removing them from a world
 
-        P2D_WORLD_QCT_ADD_HANDLER = 7,    //!< Add handler command
-        P2D_WORLD_QCT_REMOVE_HANDLER = 8, //!< Remove handler command
-        P2D_WORLD_QCT_CLEAR_HANDLERS = 9, //!< Clear handlers command
+        P2D_WORLD_QCT_ADD_HANDLER = 9,     //!< Add handler command
+        P2D_WORLD_QCT_REMOVE_HANDLER = 10, //!< Remove handler command
+        P2D_WORLD_QCT_CLEAR_HANDLERS = 11, //!< Clear handlers command
 
-        P2D_WORLD_CLEAR = 10,             //!<  A global clearing command
-        P2D_WORLD_STEP = 11,              //!<  A stepping command for a world
-        P2D_WORLD_SET_TIME_STEP = 12      //!<  A command for setting a time step
+        P2D_WORLD_QCT_CLEAR = 12,          //!<  A global clearing command
+        P2D_WORLD_QCT_STEP = 13,           //!<  A stepping command for a world
     };
     /*! A queued command as a set of parameters
      */
@@ -285,44 +286,121 @@ public:
         /*! A type of command
          */
         sad::p2d::World::QueuedCommandType Type;
+        /*! A handler for adding or removing one
+         */
+        sad::p2d::BasicCollisionHandler* Handler;
         /*! A body to add or remove from command
          */
         sad::p2d::Body* Body;
-        /*! A group name to be interpreted in queued command
+        /*! A group name to be interpreted in queued command or first group name
+            for handler
          */
         sad::String GroupName;
+        /*! A second group name for a handler
+         */
+        sad::String SecondGroupName;
         /*! A step value for stepping or setting step
          */
         double StepValue;
     };
+    /*! A collision event with  a callback, that it can be performed on.
+        Used to store all the collision event's, that were occured in world
+     */
+    struct EventWithCallback
+    {
+        /*! An event
+         */
+        sad::p2d::BasicCollisionEvent Event;
+        /*! A callback, that should be invoked with event
+         */
+        sad::p2d::BasicCollisionHandler* Callback;
+        /*! Makes empty structure for event with callback
+         */
+        inline EventWithCallback() : Callback(NULL)
+        {
+
+        }
+        /*! Makes new event with callback
+            \param ev event
+            \param cb callback
+         */
+        inline EventWithCallback(const  sad::p2d::BasicCollisionEvent& ev, sad::p2d::BasicCollisionHandler* cb) : Event(ev), Callback(cb)
+        {
+
+        }
+        /*! A comparison operator, that only will compare time
+            \param[in] ewc other object
+            \return comparison results
+         */
+        inline bool operator<(const sad::p2d::World::EventWithCallback& ewc)
+        {
+            return this->Event.m_time < ewc.Event.m_time;
+        }
+        /*! A comparison operator, that only will compare time
+            \param[in] ewc other object
+            \return comparison results
+         */
+        inline bool operator>(const sad::p2d::World::EventWithCallback& ewc)
+        {
+            return this->Event.m_time > ewc.Event.m_time;
+        }
+        /*! A comparison operator, that only will compare time. A precision
+            is set to 0.001 to ensure, that most events will differ from each other more than this value.
+            In practice, world has detection precision no more than this value.
+            \param[in] ewc other object
+            \return comparison results
+         */
+        inline bool operator==(const sad::p2d::World::EventWithCallback& ewc)
+        {
+            return sad::is_fuzzy_equal(this->Event.m_time, ewc.Event.m_time, 0.001);
+        }
+
+        /*! A comparison operator, that only will compare time. A precision
+            is set to 0.001 to ensure, that most events will differ from each other more than this value.
+            In practice, world has detection precision no more than this value.
+
+            \param[in] ewc other object
+            \return comparison results
+         */
+        inline bool operator!=(const sad::p2d::World::EventWithCallback& ewc)
+        {
+            return !((*this) == ewc);
+        }
+
+        /*! A comparison operator, that only will compare time
+            \param[in] ewc other object
+            \return comparison results
+         */
+        inline bool operator>=(const sad::p2d::World::EventWithCallback& ewc)
+        {
+            return ((*this) >= ewc) || ((*this) == ewc);
+        }
+
+        /*! A comparison operator, that only will compare time
+            \param[in] ewc other object
+            \return comparison results
+         */
+        inline bool operator<=(const sad::p2d::World::EventWithCallback& ewc)
+        {
+            return ((*this) <= ewc) || ((*this) == ewc);
+        }
+        /*! Invokes a callback
+         */
+        inline void operator()()
+        {
+            Callback->invoke(Event);
+        }
+    };
+    /*! A list pf events with callbacks
+     */
+    typedef sad::Vector<EventWithCallback> EventsWithCallbacks;
 public:
-     typedef sad::Pair<sad::String, sad::String> type_pair_t;
-     typedef sad::Pair<type_pair_t, sad::p2d::BasicCollisionHandler *> types_with_handler_t;
-     typedef sad::Hash<p2d::Body *, sad::Vector<sad::String> > bodies_to_types_t;
-     typedef sad::Pair<sad::p2d::BasicCollisionEvent, sad::p2d::BasicCollisionHandler*> 
-             reaction_t;
-     typedef sad::Vector<reaction_t> reactions_t;
-     /*! Compares two reactions, returns true if time of impact of first is lesser
-         than second
-         \param[in] r1 first reaction
-         \param[in] r2 second reaction
-         \return whether less
-      */
-     static bool compare(const reaction_t & r1, const reaction_t & r2);
      /*! Creates world with default transformer
       */
      World();
      /*! Destroys world
       */
      ~World();
-
-     /*! TODO: Comment here
-      *  \param b
-      */
-     void add(sad::p2d::Body* b);
-     /*! TODO: Comment here
-      */
-     void clear();
      /*! Returns a transformer for all circles
          \return a transformer for all circles
       */
@@ -331,10 +409,24 @@ public:
          \param[in] d detector
       */
      void setDetector(p2d::CollisionDetector * d);
+     /*! Returns current time step for a world
+         \return a time step for a world
+      */
+     double timeStep() const;
      /*! Set transformer for a circles
          \param[in] t transformer
       */
      void setTransformer(p2d::CircleToHullTransformer * t);
+
+
+     /*! TODO: Comment here
+      *  \param b
+      */
+     void add(sad::p2d::Body* b);
+     /*! TODO: Comment here
+      */
+     void clear();
+
      /*! Adds new collision handler with specified callbacks
          \param[in] p specified handler
          \return created handler
@@ -457,10 +549,6 @@ public:
          \param[in] time time of item
       */
      void splitTimeStepAt(double time);
-     /*! Returns current time step for a world
-         \return a time step for a world
-      */
-     double timeStep() const;
      /*! Steps a world by specified time
          \param[in] time a size of time step
       */
@@ -519,77 +607,121 @@ protected:
     sad::p2d::World::GlobalHandlerList m_global_handler_list;
     /*! A command queue for locking a world
      */
-    sad::Vector<sad::p2d::World::QueuedCommand> m_command_queue;
+    sad::Vector<sad::p2d::World::QueuedCommand>* m_command_queue;
+    /*! A lock for adding commands into command queue
+     */
+    sad::Mutex m_command_queue_lock;
     /*! A world lock to support multithreading at least patially
      */
     sad::Mutex m_world_lock;
+    /*! A lock for lockes flag
+     */
+    sad::Mutex m_is_locked_lock;
     /*! Whether world could be changed (not in step)
      */
     bool m_is_locked;
 
-    //! TODO: Redo other parts to support queue
+    /*! Returns whether world is locked and cannot be changed, not in all
+        kinds
+        \return whether world is locked for changes
+     */
+    bool isLockedForChanges();
+    /*! Sets is locked flag
+        \param[in] is_locked a value for a flag
+     */
+    void setIsLockedFlag(bool is_locked);
+    /*! Adds new command to a queue
+        \param[in] c a command
+     */
+    void addCommand(const sad::p2d::World::QueuedCommand& c);
+    /*! Extracts every command from a queue and tries to perform them,
+        effectively changing container
+     */
+    void performQueuedCommands();
 
-    /*! A splitted time step
-      */
-     sad::Maybe<double> m_splitted_time_step;
-     /*! A hash codes for body groups
-      */
-     sad::Hash<unsigned int, sad::String> m_group_hash_codes;
-     /*! A callbacks, with related types
-      */
-     sad::Vector<types_with_handler_t>  m_callbacks;
-     /*! Bodies by groups
-      */
-     sad::Hash<sad::String, sad::Vector<p2d::Body *> > m_groups;
-     /*! A queue for adding bodies with specified groups as a list of triplets - first argument of triplet
-         is whether we should add body to common group, second is a name of group and a third is a body
-         itself
-      */ 
-     sad::Vector<sad::Triplet<bool, sad::String, p2d::Body* > > m_specified_groups_queue;
-     /*! All bodies for checking all information
-      */
-     bodies_to_types_t m_allbodies;
+    //!< TODO: Implement those
+    /*! Peforms adding a body to a world
+        \param[in] o body
+     */
+    void addNow(sad::p2d::Body* o);
+    /*! Peforms removing a body from all groups and a world
+        \param[in] o body
+     */
+    void removeNow(sad::p2d::Body* o);
+    /*! Clears all bodies, erasing them from a world
+     */
+    void clearBodiesNow();
+    /*! Adds a body to specified group
+        \param[in] group_name a group name
+        \param[in] o body
+     */
+    void addBodyToGroupNow(const sad::String& group_name, sad::p2d::Body* o);
+    /*! Adds a body to specified group
+        \param[in] group_name a group name
+        \param[in] o body
+     */
+    void removeBodyFromGroupNow(const sad::String& group_name, sad::p2d::Body* o);
+    /*! Add a group to a list
+        \param group_name a name for group
+     */
+    void addGroupNow(const sad::String& group_name);
+    /*! Removes a group from a list list
+        \param group_name a name for group
+     */
+    void removeGroupNow(const sad::String& group_name);
+    /*! Removes all bodies, from a specified group
+        \param[in] group_name a group name
+     */
+    void clearGroupNow(const sad::String& group_name);
+    /*! Erases all groups from a list
+     */
+    void clearGroupsNow();
+    /*! Adds new handler for groups
+        \param[in] group_name_1 a name for group, objects from which will be passed as first parameter to callback
+        \param[in] group_name_2 a name for group, objects from which will be passed as second parameter to callback
+        \param[in] h a handler
+     */
+    void addHandlerNow(
+        const sad::String & group_name_1,
+        const sad::String & group_name_2,
+        sad::p2d::BasicCollisionHandler* h
+    );
+    /*! Removes a handler from a world
+        \param h a handler
+     */
+    void removeHandlerNow(sad::p2d::BasicCollisionHandler* h);
+    /*! Clears all handlers from a world
+     */
+    void clearHandlersNow();
+    /*! Clears whole world at the moment
+     */
+    void clearNow();
+    /*! Steps a world with specified time step
+        \param time_step a time step
+     */
+    void stepNow(double time_step);
 
-     /*! Executes a reactions for a world
-         \param[in] reactions found reactions
+    //!< TODO: CHECK IF THOSE ARE NEEDED
+     /*! Executes an events with callbacks
+         \param[in] ewc events with callbacks found reactions
       */ 
-     virtual void executeCallbacks(reactions_t & reactions);
+     virtual void executeCallbacks(sad::p2d::World::EventsWithCallbacks& ewc);
      /*! Sorts callbacks. Ascending order of time of impact
-         \param[in] reactions found reactions
+         \param[in] ewc events with callbacks
       */
-     virtual void sortCallbacks(reactions_t & reactions);
+     virtual void sortCallbacks(sad::p2d::World::EventsWithCallbacks& ewc);
      /*! Find specific collision events and populates reactions
-         \param[in] reactions a reactions
+         \param[in]  ewc events with callbacks
       */
-     virtual void findEvents(reactions_t & reactions);
-     /*! Finds a specifif collision event and populates reaction
-         \param[in] reactions a reactions
-         \param[in] twh  types and handlers
+     virtual void findEvents(sad::p2d::World::EventsWithCallbacks& ewc);
+     /*! Finds a specific collision event and populates reaction
+         \param[in]  ewc events with callbacks
       */
-     virtual void findEvent(reactions_t & reactions, const types_with_handler_t & twh);
+     virtual void findEvent(sad::p2d::World::EventsWithCallbacks& ewc);
      /*! Finds and executes callbacks
       */
      virtual void findAndExecuteCollisionCallbacks();
-     /*! Peforms adding a body
-         \param[in] o body
-      */
-     virtual void addNow(p2d::Body * o);
-     /*! Peforms removing a body
-         \param[in] o body
-      */
-     virtual void removeNow(p2d::Body * o);
-     /*! Clears a world
-      */
-     virtual void clearNow(); 
-     /*! Adds body to group immediately
-         \param[in] b body
-         \param[in] g group for body
-         \param[in] to_common whether we should add body to common group
-      */
-     virtual void addBodyToGroupNow(p2d::Body* b, const sad::String& g, bool to_common);
-     /*! Performs queued actions for manipulating with container
-      */
-     virtual void performQueuedActions();
+
 };
 
 }

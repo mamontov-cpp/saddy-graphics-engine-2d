@@ -362,13 +362,15 @@ void sad::p2d::World::GlobalHandlerList::clear()
     List.clear();
 }
 
-// =============================== sad::p2d::World METHODS ===============================
+// =============================== sad::p2d::World PUBLIC METHODS ===============================
 
 sad::p2d::World::World() : m_time_step(1), m_is_locked(false)
 {
     m_transformer = new p2d::CircleToHullTransformer(*(p2d::CircleToHullTransformer::ref()));
     m_detector = new p2d::SimpleCollisionDetector();
     m_detector->addRef();
+
+    m_command_queue = new sad::Vector<sad::p2d::World::QueuedCommand>();
 }
 
 
@@ -379,6 +381,30 @@ sad::p2d::World::~World()
     m_group_container.clear();
     m_global_handler_list.clear();
     m_global_body_container.clear();
+
+    // Clean up command queue
+    for(size_t i = 0; i < m_command_queue->size(); i++)
+    {
+        sad::p2d::World::QueuedCommand& cmd = (*m_command_queue)[i];
+        switch(cmd.Type)
+        {
+            case sad::p2d::World::P2D_WORLD_QCT_ADD_BODY:
+            case sad::p2d::World::P2D_WORLD_QCT_REMOVE_BODY:
+            case sad::p2d::World::P2D_WORLD_QCT_ADD_BODY_TO_GROUP:
+            case sad::p2d::World::P2D_WORLD_QCT_REMOVE_BODY_FROM_GROUP:
+            {
+                cmd.Body->delRef();
+                break;
+            }
+            case sad::p2d::World::P2D_WORLD_QCT_ADD_HANDLER:
+            case sad::p2d::World::P2D_WORLD_QCT_REMOVE_HANDLER:
+            {
+                cmd.Handler->delRef();
+                break;
+            }
+        }
+    }
+    delete m_command_queue;
 }
 
 sad::p2d::CircleToHullTransformer * sad::p2d::World::transformer()
@@ -406,6 +432,129 @@ void sad::p2d::World::setTransformer(sad::p2d::CircleToHullTransformer * t)
     delete m_transformer;
     m_transformer = t;
     m_global_body_container.trySetTransformer();
+}
+
+
+// =============================== sad::p2d::World PRIVATE METHODS ===============================
+
+bool sad::p2d::World::isLockedForChanges()
+{
+    m_is_locked_lock.lock();
+    bool result = m_is_locked;
+    m_is_locked_lock.unlock();
+
+    return result;
+}
+
+void sad::p2d::World::setIsLockedFlag(bool is_locked)
+{
+    m_is_locked_lock.lock();
+    m_is_locked = is_locked;
+    m_is_locked_lock.unlock();
+}
+
+void sad::p2d::World::addCommand(const sad::p2d::World::QueuedCommand& c)
+{
+    m_command_queue_lock.lock();
+    *m_command_queue << c;
+    m_command_queue_lock.unlock();
+}
+
+void sad::p2d::World::performQueuedCommands()
+{
+    m_command_queue_lock.lock();
+
+    if (m_command_queue->size())
+    {
+        sad::Vector<sad::p2d::World::QueuedCommand>* queue = m_command_queue;
+        m_command_queue = new sad::Vector<sad::p2d::World::QueuedCommand>();
+        for(size_t i = 0; i < queue->size(); i++)
+        {
+            sad::p2d::World::QueuedCommand& cmd = (*queue)[i];
+            switch(cmd.Type)
+            {
+                case sad::p2d::World::P2D_WORLD_QCT_ADD_BODY:
+                {
+                    addNow(cmd.Body);
+                    cmd.Body->delRef();
+                    break;
+                }
+                case sad::p2d::World::P2D_WORLD_QCT_REMOVE_BODY:
+                {
+                    removeNow(cmd.Body);
+                    cmd.Body->delRef();
+                    break;
+                }
+                case sad::p2d::World::P2D_WORLD_QCT_CLEAR_BODIES:
+                {
+                    clearBodiesNow();
+                    break;
+                }
+                case sad::p2d::World::P2D_WORLD_QCT_ADD_BODY_TO_GROUP:
+                {
+                    addBodyToGroupNow(cmd.GroupName, cmd.Body);
+                    cmd.Body->delRef();
+                    break;
+                }
+                case sad::p2d::World::P2D_WORLD_QCT_REMOVE_BODY_FROM_GROUP:
+                {
+                    removeBodyFromGroupNow(cmd.GroupName, cmd.Body);
+                    cmd.Body->delRef();
+                    break;
+                }
+                case sad::p2d::World::P2D_WORLD_QCT_ADD_GROUP:
+                {
+                    addGroupNow(cmd.GroupName);
+                    break;
+                }
+                case sad::p2d::World::P2D_WORLD_QCT_REMOVE_GROUP:
+                {
+                    removeGroupNow(cmd.GroupName);
+                    break;
+                }
+                case sad::p2d::World::P2D_WORLD_QCT_CLEAR_GROUP:
+                {
+                    clearGroupNow(cmd.GroupName);
+                    break;
+                }
+                case sad::p2d::World::P2D_WORLD_QCT_CLEAR_GROUPS:
+                {
+                    clearGroupsNow();
+                    break;
+                }
+                case sad::p2d::World::P2D_WORLD_QCT_ADD_HANDLER:
+                {
+                    addHandlerNow(cmd.GroupName, cmd.SecondGroupName, cmd.Handler);
+                    cmd.Handler->delRef();
+                    break;
+                }
+                case sad::p2d::World::P2D_WORLD_QCT_REMOVE_HANDLER:
+                {
+                    removeHandlerNow(cmd.Handler);
+                    cmd.Handler->delRef();
+                    break;
+                }
+                case sad::p2d::World::P2D_WORLD_QCT_CLEAR_HANDLERS:
+                {
+                    clearHandlersNow();
+                    break;
+                }
+                case sad::p2d::World::P2D_WORLD_QCT_CLEAR:
+                {
+                    clearNow();
+                    break;
+                }
+                case sad::p2d::World::P2D_WORLD_QCT_STEP:
+                {
+                    step(cmd.StepValue);
+                    break;
+                }
+            }
+        }
+        delete queue;
+    }
+
+    m_command_queue_lock.unlock();
 }
 
 /*
@@ -508,11 +657,6 @@ void sad::p2d::World::executeCallbacks(reactions_t & reactions)
             reactions.clear();
         }
     }
-}
-
-bool sad::p2d::World::compare(const reaction_t & r1, const reaction_t & r2)
-{
-    return r1.p1().m_time < r2.p1().m_time;
 }
 
 void sad::p2d::World::sortCallbacks(reactions_t & reactions)
