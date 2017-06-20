@@ -419,8 +419,8 @@ public:
      void setTransformer(p2d::CircleToHullTransformer * t);
 
 
-     /*! TODO: Comment here
-      *  \param b
+     /*! Adds new body to a groups, defined by type of user objects if can be casted to
+         \param[in] b body
       */
      void add(sad::p2d::Body* b);
      /*! TODO: Comment here

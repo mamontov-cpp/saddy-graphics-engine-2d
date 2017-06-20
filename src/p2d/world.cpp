@@ -434,6 +434,22 @@ void sad::p2d::World::setTransformer(sad::p2d::CircleToHullTransformer * t)
     m_global_body_container.trySetTransformer();
 }
 
+void sad::p2d::World::add(sad::p2d::Body* b)
+{
+    if (isLockedForChanges())
+    {
+        sad::p2d::World::QueuedCommand cmd;
+        cmd.Type = sad::p2d::World::P2D_WORLD_QCT_ADD_BODY;
+        cmd.Body = b;
+        b->addRef();
+        addCommand(b);
+    }
+    else
+    {
+        this->addNow(b);
+    }
+}
+
 
 // =============================== sad::p2d::World PRIVATE METHODS ===============================
 
@@ -546,7 +562,7 @@ void sad::p2d::World::performQueuedCommands()
                 }
                 case sad::p2d::World::P2D_WORLD_QCT_STEP:
                 {
-                    step(cmd.StepValue);
+                    stepNow(cmd.StepValue);
                     break;
                 }
             }
