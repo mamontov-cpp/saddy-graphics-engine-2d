@@ -59,7 +59,7 @@ void sad::p2d::app::App::removeObject(sad::p2d::app::Object * o)
 {
     sad::p2d::Body * b = o->body();
     m_renderer->scenes()[m_layer]->remove(o);
-    m_world->remove(b);
+    m_world->removeBody(b);
 }
 
 
@@ -67,5 +67,5 @@ void sad::p2d::app::App::addObject(sad::p2d::app::Object * o)
 {
     o->setApp(this);
     m_renderer->scenes()[m_layer]->add(o);
-    m_world->add(o->body());
+    m_world->addBody(o->body());
 }

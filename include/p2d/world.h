@@ -215,7 +215,10 @@ public:
         /*! Clears a container from a world
          */
         void clear();
-        /*! Returns location for a grouo
+        /*! Clear all bodies from a group
+         */
+        void clearBodies();
+        /*! Returns location for a body in a group
            \param[in] name a group name
            \return name of group
          */
@@ -272,12 +275,13 @@ public:
         P2D_WORLD_QCT_CLEAR_GROUP = 7,  //!< Clear group command
         P2D_WORLD_QCT_CLEAR_GROUPS = 8, //!< Clears all groups, removing them from a world
 
-        P2D_WORLD_QCT_ADD_HANDLER = 9,     //!< Add handler command
-        P2D_WORLD_QCT_REMOVE_HANDLER = 10, //!< Remove handler command
-        P2D_WORLD_QCT_CLEAR_HANDLERS = 11, //!< Clear handlers command
+        P2D_WORLD_QCT_ADD_HANDLER = 9,                //!< Add handler command
+        P2D_WORLD_QCT_REMOVE_HANDLER = 10,            //!< Remove handler command
+        P2D_WORLD_QCT_CLEAR_HANDLERS = 11,            //!< Clear handlers command
+        P2D_WORLD_QCT_CLEAR_HANDLERS_FOR_GROUPS = 12, //!< Clears handlers for specified groups
 
-        P2D_WORLD_QCT_CLEAR = 12,          //!<  A global clearing command
-        P2D_WORLD_QCT_STEP = 13,           //!<  A stepping command for a world
+        P2D_WORLD_QCT_CLEAR = 13,                     //!<  A global clearing command
+        P2D_WORLD_QCT_STEP = 14,                      //!<  A stepping command for a world
     };
     /*! A queued command as a set of parameters
      */
@@ -395,193 +399,234 @@ public:
      */
     typedef sad::Vector<EventWithCallback> EventsWithCallbacks;
 public:
-     /*! Creates world with default transformer
-      */
-     World();
-     /*! Destroys world
-      */
-     ~World();
-     /*! Returns a transformer for all circles
-         \return a transformer for all circles
-      */
-     p2d::CircleToHullTransformer * transformer();
-     /*! Sets new detector for a world
-         \param[in] d detector
-      */
-     void setDetector(p2d::CollisionDetector * d);
-     /*! Returns current time step for a world
-         \return a time step for a world
-      */
-     double timeStep() const;
-     /*! Set transformer for a circles
-         \param[in] t transformer
-      */
-     void setTransformer(p2d::CircleToHullTransformer * t);
+    /*! Creates world with default transformer
+     */
+    World();
+    /*! Destroys world
+     */
+    ~World();
+    /*! Returns a transformer for all circles
+        \return a transformer for all circles
+     */
+    sad::p2d::CircleToHullTransformer * transformer();
+    /*! Sets new detector for a world
+        \param[in] d detector
+     */
+    void setDetector(sad::p2d::CollisionDetector * d);
+    /*! Returns current time step for a world
+        \return a time step for a world
+     */
+    double timeStep() const;
+    /*! Set transformer for a circles
+        \param[in] t transformer
+     */
+    void setTransformer(sad::p2d::CircleToHullTransformer * t);
 
 
-     /*! Adds new body to a groups, defined by type of user object and common group, if
-         any
-         \param[in] b body
-      */
-     void addBody(sad::p2d::Body* b);
-     /*! Removes a body from all groups, that bodies in in
-         \param[in] b body
-      */
-     void removeBody(sad::p2d::Body* b);
-     /*! Clear bodies list, removing all bodies from world
-      */
-     void clearBodies();
-     /*! Adds new body to group, if group exists
-         \param[in] group_name a group name for bodies
-         \param[in] b body
-      */
-     void addBodyToGroup(const sad::String& group_name, sad::p2d::Body* b);
-     /*! Removes a body from a group if group exists
-         \param[in] group_name a group name for bodies
-         \param[in] b body
-      */
-     void removeFromGroup(const sad::String& group_name, sad::p2d::Body* b);
-     /*! Clears a group by name
-         \param[in] group_name a name of group
-      */
-     void clearGroup(const sad::String& group_name);
-     /*! Clears all groups in world, removing all bodies
-      */
-     void clearGroups();
+    /*! Adds new body to a groups, defined by type of user object and common group, if
+        any
+        \param[in] b body
+     */
+    void addBody(sad::p2d::Body* b);
+    /*! Removes a body from all groups, that bodies in in
+        \param[in] b body
+     */
+    void removeBody(sad::p2d::Body* b);
+    /*! Clear bodies list, removing all bodies from world
+     */
+    void clearBodies();
+    /*! Adds new body to group, if group exists
+        \param[in] group_name a group name for bodies
+        \param[in] b body
+     */
+    void addBodyToGroup(const sad::String& group_name, sad::p2d::Body* b);
+    /*! Removes a body from a group if group exists
+        \param[in] group_name a group name for bodies
+        \param[in] b body
+     */
+    void removeFromGroup(const sad::String& group_name, sad::p2d::Body* b);
+    /*! Clears a group by name
+        \param[in] group_name a name of group
+     */
+    void clearGroup(const sad::String& group_name);
+    /*! Clears all groups in world, removing all bodies
+     */
+    void clearGroups();
 
-     /*! Adds new handler
-         \param[in] h handler
-         \param[in] t1 first type
-         \param[in] t2 second type
-      */
-     void addHandler(
-         sad::p2d::BasicCollisionHandler * h,
-         const sad::String & t1,
-         const sad::String & t2
-     );
+    /*! Adds new handler for handling collisions between groups.
+        Handler is added only if two groups are here
+        \param[in] first_group_name name of first group, object from which will be passed as first argument to callback.
+        \param[in] second_group_name name of second group, object from which will be passed as first argument to callback
+        \param[in] h handler
+        \return a handler
+    */
+    sad::p2d::BasicCollisionHandler*  addHandler(
+        const sad::String & first_group_name,
+        const sad::String & second_group_name,
+        sad::p2d::BasicCollisionHandler* h
+    );
 
-     /*! Adds new collision handler with specified callbacks
-         \param[in] p specified handler
-         \return created handler
-      */
-     template<typename T1, typename T2>
-     sad::p2d::BasicCollisionHandler*
-     addHandler( void (*p)(const sad::p2d::CollisionEvent<T1, T2> &))
-     {
-         sad::p2d::BasicCollisionHandler * h = 
-             new sad::p2d::FunctionCollisionHandler<T1, T2>(p);
-         sad::String t1 = T1::globalMetaData()->name();
-         sad::String t2 = T2::globalMetaData()->name();
-         this->addHandler(h, t1, t2);
-         return h;
-     }
-     /*! Adds new collision handler with specified callbacks
-         \param[in] g1 first group for collision
-         \param[in] g2 first group for collision
-         \param[in] p specified handler
-         \return created handler
-      */
-     template<typename T1, typename T2>
-     sad::p2d::BasicCollisionHandler*
-     addHandler(const sad::String& g1, const sad::String& g2, void (*p)(const sad::p2d::CollisionEvent<T1, T2> &))
-     {
-         sad::p2d::BasicCollisionHandler * h = 
-             new sad::p2d::FunctionCollisionHandler<T1, T2>(p, false);
-         this->addHandler(h, g1, g2);
-         return h;
-     }
-     /*! Adds new handler   
-         \param[in] p handler
-         \return created handler
-      */
-     sad::p2d::BasicCollisionHandler*
-     addHandler( void (*p)(const sad::p2d::BasicCollisionEvent &));
-     /*! Adds new handler   
-        \param[in] g1 first group for handler
-        \param[in] g2 second group for handler
-        \param[in] p handler
+    /*! Removes handler from a world if it is stored in world
+        \param[in] h registered handler
+     */
+    void removeHandler(sad::p2d::BasicCollisionHandler* h);
+    /*! Clears handlers, removing all handlers in world
+     */
+    void clearHandlers();
+    /*! Clears handlers, specified for certain groups
+        \param[in] first_group first group to specify handler's first argument
+        \param[in] second_group a second group to specify handler's second argument
+     */
+    void clearHandlersForGroups(const sad::String& first_group, const sad::String& second_group);
+    /*! Clears world, removing all objects, groups and handlers from it.
+     */
+    void clear();
+
+    /*! Steps a world by specified time
+        \param[in] time a size of time step
+     */
+    void step(double time);
+
+    /*! Adds new collision handler with specified typed callback
+        \param[in] first_group a first group, where handler should be applied to
+        \param[in] second_group a second group, where handler should be applied to
+        \param[in] f a lambda function to be added
         \return created handler
-      */
-     sad::p2d::BasicCollisionHandler*
-     addHandler(const sad::String& g1, const sad::String& g2, void (*p)(const sad::p2d::BasicCollisionEvent &));
-     /*! Adds new handler
-         \param[in] o binded object
-         \param[in] p new handler
-         \return created inner handler
-      */
-     template<typename _Class, typename T1, typename T2>
-     sad::p2d::BasicCollisionHandler*
-         addHandler( _Class * o, void (_Class::*p)(const sad::p2d::CollisionEvent<T1, T2> &))
-     {
-         sad::p2d::BasicCollisionHandler * h = 
-             new sad::p2d::MethodCollisionHandler<_Class,T1, T2>(o,p);
-         sad::String t1 = T1::globalMetaData()->name();
-         sad::String t2 = T2::globalMetaData()->name();
-         this->addHandler(h, t1, t2);
-         return h;
-     }
-     /*! Adds new handler
-         \param[in] g1 first group for collisions
-         \param[in] g2 second group for collisions
-         \param[in] o binded object
-         \param[in] p new handler
-         \return created inner handler
-      */
-     template<typename _Class, typename T1, typename T2>
-     sad::p2d::BasicCollisionHandler*
-         addHandler(const sad::String& g1, const sad::String& g2, _Class * o, void (_Class::*p)(const sad::p2d::CollisionEvent<T1, T2> &))
-     {
-         sad::p2d::BasicCollisionHandler * h = 
-             new sad::p2d::MethodCollisionHandler<_Class,T1, T2>(o, p, false);
-         this->addHandler(h, g1, g2);
-         return h;
-     }
-     /*! Adds new handler
-         \param[in] o class
-         \param[in] p new handler
-         \return created inner handler
-      */
-     template<typename _Class>
-     sad::p2d::BasicCollisionHandler*
-         addHandler(_Class * o, void (_Class::*p)(const sad::p2d::BasicCollisionEvent &))
-     {
-         sad::p2d::BasicCollisionHandler * h = 
-             new sad::p2d::MethodCollisionHandler<_Class,p2d::Body, p2d::Body>(o, p);
-         sad::String b = "p2d::Body";
-         this->addHandler(h, b, b);
-         return h;
-     }
-     /*! Adds new handler
-         \param[in] g1 first group
-         \param[in] g2 second group
-         \param[in] o class
-         \param[in] p new handler
-         \return created inner handler
-      */
-     template<typename _Class>
-     sad::p2d::BasicCollisionHandler *
-     addHandler(
-        const sad::String& g1, 
-        const sad::String& g2,
-        _Class * o, 
+     */
+    template<typename T1, typename T2>
+    sad::p2d::BasicCollisionHandler* addHandler(
+        const sad::String& first_group,
+        const sad::String& second_group,
+        const std::function<void(const sad::p2d::CollisionEvent<T1, T2>&)>& f
+    )
+    {
+        sad::p2d::BasicCollisionHandler* h = new sad::p2d::TypedCollisionHandler<T1, T2>(f);
+        addHandler(first_group, second_group, h);
+        return h;
+    }
+
+    /*! Adds new collision handler with specified typed callback
+        \param[in] f a lambda function to be added
+        \return a handler
+     */
+    template<typename T1, typename T2>
+    sad::p2d::BasicCollisionHandler* addHandler(const std::function<void(const sad::p2d::CollisionEvent<T1, T2>&)>& f)
+    {
+        sad::String t1 = T1::globalMetaData()->name();
+        sad::String t2 = T2::globalMetaData()->name();
+        return this->addHandler<T1, T2>(t1, t2, f);
+    }
+
+    /*! Adds new collision handler with specified callbacks
+        \param[in] p specified handler
+        \return created handler
+    */
+    template<typename T1, typename T2>
+    sad::p2d::BasicCollisionHandler*
+    addHandler(void (*p)(const sad::p2d::CollisionEvent<T1, T2>&))
+    {
+        return this->addHandler<T1, T2>(p);
+    }
+    /*! Adds new collision handler for grpoups with specified callback
+        \param[in] g1 first group for collision
+        \param[in] g2 first group for collision
+        \param[in] p specified handler
+        \return created handler
+    */
+    template<typename T1, typename T2>
+    sad::p2d::BasicCollisionHandler*
+    addHandler(const sad::String& g1, const sad::String& g2, void (*p)(const sad::p2d::CollisionEvent<T1, T2>&))
+    {
+        return this->addHandler<T1, T2>(g1, g2, p);
+    }
+
+    /*! Adds new handler for group
+        \param[in] first_group a first group
+        \param[in] second_group a second group
+        \param[in] f a function
+        \return a handler
+    */
+    inline sad::p2d::BasicCollisionHandler*
+    addHandler(const sad::String& first_group, const sad::String& second_group, const std::function<void(const sad::p2d::BasicCollisionEvent &)>& f)
+    {
+        sad::p2d::BasicCollisionHandler* h = new sad::p2d::UntypedCollisionHandler(f);
+        return this->addHandler(first_group, second_group, h);
+    }
+
+    /*! Adds new handler for group
+        \param[in] first_group a first group
+        \param[in] second_group a second group
+        \param[in] f a function
+        \return a handler
+    */
+    inline sad::p2d::BasicCollisionHandler*
+    addHandler(const std::function<void(const sad::p2d::BasicCollisionEvent &)>& f)
+    {
+        sad::p2d::BasicCollisionHandler* h = new sad::p2d::UntypedCollisionHandler(f);
+        return this->addHandler("p2d::Body", "p2d::Body", h);
+    }
+
+    /*! Adds new handler
+        \param[in] o object, that method will be called on
+        \param[in] p new handler
+        \return created inner handler
+    */
+    template<typename _Class, typename T1, typename T2>
+    sad::p2d::BasicCollisionHandler*
+    addHandler( _Class * o, void (_Class::*p)(const sad::p2d::CollisionEvent<T1, T2>&))
+    {
+        return this->addHandler<T1, T2>([o, p](const sad::p2d::CollisionEvent<T1, T2>& ev) {
+            (o->*p)(ev);
+        });
+    }
+    /*! Adds new handler
+        \param[in] g1 first group for collisions
+        \param[in] g2 second group for collisions
+        \param[in] o object, used to call method on
+        \param[in] p a handler method
+        \return created inner handler
+    */
+    template<typename _Class, typename T1, typename T2>
+    sad::p2d::BasicCollisionHandler*
+    addHandler(const sad::String& g1, const sad::String& g2, _Class * o, void (_Class::*p)(const sad::p2d::CollisionEvent<T1, T2>&))
+    {
+        return this->addHandler<T1, T2>(g1, g2, [o, p](const sad::p2d::CollisionEvent<T1, T2>& ev) {
+            (o->*p)(ev);
+        });
+    }
+    /*! Adds new handler
+        \param[in] o class
+        \param[in] p new handler
+        \return created inner handler
+    */
+    template<typename _Class>
+    sad::p2d::BasicCollisionHandler*
+    addHandler(_Class * o, void (_Class::*p)(const sad::p2d::BasicCollisionEvent&))
+    {
+        return this->addHandler([o, p](const sad::p2d::BasicCollisionEvent& ev) {
+            (o->*p)(ev);
+        });
+    }
+    /*! Adds new handler for specified groups
+        \param[in] first_group a first group
+        \param[in] second_group a second group
+        \param[in] o an object to call method on
+        \param[in] p a method to be called
+        \return created inner handler
+    */
+    template<typename _Class>
+    sad::p2d::BasicCollisionHandler *
+    addHandler(
+        const sad::String& first_group,
+        const sad::String& second_group,
+        _Class * o,
         void (_Class::*p)(const sad::p2d::BasicCollisionEvent &)
-     )
-     {
-         sad::p2d::BasicCollisionHandler * h = 
-             new sad::p2d::MethodCollisionHandler<_Class,p2d::Body, p2d::Body>(o, p);
-         this->addHandler(h, g1, g2);
-         return h;
-     }
-     /*! Removes handler from a world
-         \param[in] h registered handler
-      */
-     void removeHandler(sad::p2d::BasicCollisionHandler * h);
-
-     /*! Steps a world by specified time
-         \param[in] time a size of time step
-      */
-     void step(double time);
-
+    )
+    {
+        return this->addHandler(first_group, second_group, [o, p](const sad::p2d::BasicCollisionEvent& ev) {
+            (o->*p)(ev);
+        });
+    }
 protected:
     /*! Current time step
      */
@@ -689,6 +734,11 @@ protected:
     /*! Clears all handlers from a world
      */
     void clearHandlersNow();
+    /*! Clears handlers, specified for certain groups
+        \param[in] first_group first group to specify handler's first argument
+        \param[in] second_group a second group to specify handler's second argument
+     */
+    void clearHandlersForGroupsNow(const sad::String& first_group, const sad::String& second_group);
     /*! Clears whole world at the moment
      */
     void clearNow();

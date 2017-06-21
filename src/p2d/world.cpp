@@ -91,6 +91,7 @@ sad::p2d::World::BodyLocation& sad::p2d::World::GlobalBodyContainer::add(sad::p2
     }
     else
     {
+        b->addRef();
         position = AllBodies.size();
         AllBodies.push_back(sad::p2d::World::BodyWithActivityFlag(b));
     }
@@ -173,6 +174,7 @@ size_t sad::p2d::World::Group::add(sad::p2d::Body* b)
     else
     {
         position = Bodies.size();
+        b->addRef();
         Bodies.push_back(sad::p2d::World::BodyWithActivityFlag(b));
     }
 
@@ -235,6 +237,8 @@ void sad::p2d::World::Group::clear()
     this->FreePositions.clear();
 }
 
+
+
 // =============================== sad::p2d::World::GroupContainer METHODS ===============================
 
 size_t sad::p2d::World::GroupContainer::add(const sad::String& name)
@@ -283,6 +287,14 @@ void sad::p2d::World::GroupContainer::remove(const sad::String& name)
 }
 
 void sad::p2d::World::GroupContainer::clear()
+{
+    clearBodies();
+    GroupToLocation.clear();
+    FreePositions.clear();
+    Groups.clear();
+}
+
+void sad::p2d::World::GroupContainer::clearBodies()
 {
     size_t size = this->Groups.size();
     if (size)
@@ -442,7 +454,7 @@ void sad::p2d::World::addBody(sad::p2d::Body* b)
         cmd.Type = sad::p2d::World::P2D_WORLD_QCT_ADD_BODY;
         cmd.Body = b;
         b->addRef();
-        addCommand(b);
+        addCommand(cmd);
     }
     else
     {
@@ -458,7 +470,7 @@ void sad::p2d::World::removeBody(sad::p2d::Body* b)
         cmd.Type = sad::p2d::World::P2D_WORLD_QCT_REMOVE_BODY;
         cmd.Body = b;
         b->addRef();
-        addCommand(b);
+        addCommand(cmd);
     }
     else
     {
@@ -472,7 +484,7 @@ void sad::p2d::World::clearBodies()
     {
         sad::p2d::World::QueuedCommand cmd;
         cmd.Type = sad::p2d::World::P2D_WORLD_QCT_CLEAR_BODIES;
-        addCommand(b);
+        addCommand(cmd);
     }
     else
     {
@@ -489,7 +501,7 @@ void sad::p2d::World::addBodyToGroup(const sad::String& group_name, sad::p2d::Bo
         cmd.Body = b;
         cmd.GroupName = group_name;
         b->addRef();
-        addCommand(b);
+        addCommand(cmd);
     }
     else
     {
@@ -506,7 +518,7 @@ void sad::p2d::World::removeFromGroup(const sad::String& group_name, sad::p2d::B
         cmd.Body = b;
         cmd.GroupName = group_name;
         b->addRef();
-        addCommand(b);
+        addCommand(cmd);
     }
     else
     {
@@ -521,7 +533,7 @@ void sad::p2d::World::clearGroup(const sad::String& group_name)
         sad::p2d::World::QueuedCommand cmd;
         cmd.Type = sad::p2d::World::P2D_WORLD_QCT_CLEAR_GROUP;
         cmd.GroupName = group_name;
-        addCommand(b);
+        addCommand(cmd);
     }
     else
     {
@@ -535,11 +547,109 @@ void sad::p2d::World::clearGroups()
     {
         sad::p2d::World::QueuedCommand cmd;
         cmd.Type = sad::p2d::World::P2D_WORLD_QCT_CLEAR_GROUPS;
-        addCommand(b);
+        addCommand(cmd);
     }
     else
     {
         this->clearGroupsNow();
+    }
+}
+
+sad::p2d::BasicCollisionHandler* sad::p2d::World::addHandler(
+    const sad::String & first_group_name,
+    const sad::String & second_group_name,
+    sad::p2d::BasicCollisionHandler* h
+)
+{
+    if (isLockedForChanges())
+    {
+        sad::p2d::World::QueuedCommand cmd;
+        cmd.Type = sad::p2d::World::P2D_WORLD_QCT_ADD_HANDLER;
+        cmd.GroupName = first_group_name;
+        cmd.SecondGroupName = second_group_name;
+        cmd.Handler = h;
+        h->addRef();
+        addCommand(cmd);
+    }
+    else
+    {
+        this->addHandlerNow(first_group_name, second_group_name, h);
+    }
+    return h;
+}
+
+void sad::p2d::World::removeHandler(sad::p2d::BasicCollisionHandler *h)
+{
+    if (isLockedForChanges())
+    {
+        sad::p2d::World::QueuedCommand cmd;
+        cmd.Type = sad::p2d::World::P2D_WORLD_QCT_REMOVE_HANDLER;
+        cmd.Handler = h;
+        h->addRef();
+        addCommand(cmd);
+    }
+    else
+    {
+        this->removeHandlerNow(h);
+    }
+}
+
+void sad::p2d::World::clearHandlers()
+{
+    if (isLockedForChanges())
+    {
+        sad::p2d::World::QueuedCommand cmd;
+        cmd.Type = sad::p2d::World::P2D_WORLD_QCT_CLEAR_HANDLERS;
+        addCommand(cmd);
+    }
+    else
+    {
+        this->clearHandlersNow();
+    }
+}
+
+void sad::p2d::World::clearHandlersForGroups(const sad::String& first_group, const sad::String& second_group)
+{
+    if (isLockedForChanges())
+    {
+        sad::p2d::World::QueuedCommand cmd;
+        cmd.Type = sad::p2d::World::P2D_WORLD_QCT_CLEAR_HANDLERS_FOR_GROUPS;
+        cmd.GroupName = first_group;
+        cmd.SecondGroupName = second_group;
+        addCommand(cmd);
+    }
+    else
+    {
+        this->clearHandlersForGroupsNow(first_group, second_group);
+    }
+}
+
+void sad::p2d::World::clear()
+{
+    if (isLockedForChanges())
+    {
+        sad::p2d::World::QueuedCommand cmd;
+        cmd.Type = sad::p2d::World::P2D_WORLD_QCT_CLEAR;
+        addCommand(cmd);
+    }
+    else
+    {
+        this->clearNow();
+    }
+}
+
+void sad::p2d::World::step(double time)
+{
+    if (isLockedForChanges())
+    {
+        sad::p2d::World::QueuedCommand cmd;
+        cmd.Type = sad::p2d::World::P2D_WORLD_QCT_STEP;
+        cmd.StepValue = time;
+        addCommand(cmd);
+    }
+    else
+    {
+        this->stepNow(time);
     }
 }
 
@@ -647,6 +757,11 @@ void sad::p2d::World::performQueuedCommands()
                     clearHandlersNow();
                     break;
                 }
+                case sad::p2d::World::P2D_WORLD_QCT_CLEAR_HANDLERS_FOR_GROUPS:
+                {
+                    clearHandlersForGroupsNow(cmd.GroupName, cmd.SecondGroupName);
+                    break;
+                }
                 case sad::p2d::World::P2D_WORLD_QCT_CLEAR:
                 {
                     clearNow();
@@ -665,6 +780,87 @@ void sad::p2d::World::performQueuedCommands()
     m_command_queue_lock.unlock();
 }
 
+
+void sad::p2d::World::addBodyNow(sad::p2d::Body* b)
+{
+    if (!b)
+    {
+        return;
+    }
+    if (m_global_body_container.BodyToLocation.contains(b)== false)
+    {
+        sad::p2d::World::BodyLocation& loc = m_global_body_container.add(b);
+        sad::Maybe<size_t> common_location = m_group_container.getLocation("p2d::Body");
+        if (common_location.exists())
+        {
+            size_t pos = m_group_container.Groups[common_location.value()].Group.add(b);
+            loc.PositionInGroups.push_back(common_location.value());
+        }
+        if (b->userObject() != NULL)
+        {
+            sad::String name = b->userObject()->metaData()->name();
+            common_location = m_group_container.getLocation(name);
+            if (common_location.exists())
+            {
+                size_t pos = m_group_container.Groups[common_location.value()].Group.add(b);
+                loc.PositionInGroups.push_back(common_location.value());
+            }
+        }
+        b->setSamplingCount(m_detector->sampleCount());
+        b->setWorld(this);
+    }
+    else
+    {
+        sad::p2d::World::BodyLocation& loc = m_global_body_container.BodyToLocation[b];
+
+        sad::Maybe<size_t> common_location = m_group_container.getLocation("p2d::Body");
+        if (common_location.exists())
+        {
+            sad::p2d::World::Group& group = m_group_container.Groups[common_location.value()].Group;
+            if (group.BodyToLocation.contains(b) == false)
+            {
+                group.add(b);
+                loc.PositionInGroups.push_back(common_location.value());
+            }
+        }
+
+        if (b->userObject() != NULL)
+        {
+            sad::String name = b->userObject()->metaData()->name();
+            common_location = m_group_container.getLocation(name);
+            if (common_location.exists())
+            {
+                sad::p2d::World::Group& group = m_group_container.Groups[common_location.value()].Group;
+                if (group.BodyToLocation.contains(b) == false)
+                {
+                    group.add(b);
+                    loc.PositionInGroups.push_back(common_location.value());
+                }
+            }
+        }
+    }
+}
+
+void sad::p2d::World::removeBodyNow(sad::p2d::Body* b)
+{
+    if (m_global_body_container.BodyToLocation.contains(b))
+    {
+        sad::p2d::World::BodyLocation& loc = m_global_body_container.add(b);
+        for(size_t i = 0; i < loc.PositionInGroups.size(); i++)
+        {
+            m_group_container.Groups[loc.PositionInGroups[i]].Group.remove(b);
+        }
+        m_global_body_container.remove(b);
+    }
+}
+
+void sad::p2d::World::clearBodiesNow()
+{
+    m_global_body_container.clear();
+    m_group_container.clearBodies();
+}
+
+
 /*
 void sad::p2d::World::removeHandler(sad::p2d::BasicCollisionHandler * h)
 {
@@ -677,53 +873,7 @@ void sad::p2d::World::removeHandler(sad::p2d::BasicCollisionHandler * h)
     }
     delete h;
 }
-void sad::p2d::World::addNow(p2d::Body * b)
-{
-    sad::Vector<sad::String> groups;
-    for(sad::Hash<sad::String, sad::Vector<p2d::Body*> > ::iterator it = m_groups.begin();
-        it != m_groups.end();
-        it++)
-    {
-        if (it.key() == "p2d::Body")
-        {
-            groups << it.key();
-        }
-        if (b->userObject() != NULL)
-        {
-            if (b->userObject()->metaData()->canBeCastedTo(it.key()))
-            {
-                groups << it.key();
-            }
-        }
-    }
-    b->addRef();
-    m_allbodies.insert(b, groups);
-    for(size_t i = 0; i < groups.size(); i++)
-    {
-        m_groups[groups[i]] << b;
-    }
-    b->setSamplingCount(m_detector->sampleCount());
-    b->setWorld(this);
-}
 
-void sad::p2d::World::removeNow(p2d::Body * b)
-{
-    if (m_allbodies.contains(b))
-    {
-        sad::Vector<sad::String> groups = m_allbodies[b];
-        for(size_t i = 0; i < groups.size(); i++)
-        {
-            m_groups[groups[i]].removeAll(b);
-        }
-        m_allbodies.remove(b);
-        b->delRef();
-    }
-}
-
-void sad::p2d::World::splitTimeStepAt(double time)
-{
-    m_splitted_time_step.setValue(time);
-}
 
 void sad::p2d::World::step(double time)
 {
