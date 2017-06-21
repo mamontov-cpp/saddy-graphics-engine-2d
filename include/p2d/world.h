@@ -13,7 +13,6 @@
 #include "collisionhandler.h"
 
 #include "../sadhash.h"
-#include "../sadpair.h"
 #include "../sadvector.h"
 #include "../object.h"
 #include "../sadmutex.h"
@@ -129,6 +128,11 @@ public:
         /*! Clears a container
          */
         void clear();
+        /*! Removes body from group. If all groups are removed, removes it from a container
+            \param[in] b body
+            \param[in] group_offset an offset for group
+         */
+        void removeFromGroup(sad::p2d::Body* b, size_t group_offset);
     };
     /*! A group container for bodies
      */
@@ -223,6 +227,12 @@ public:
            \return name of group
          */
         sad::Maybe<size_t> getLocation(const sad::String& name) const;
+        /*! Makes group and adds body to it, updating body location
+            \param[in] group_name a name of group
+            \param[in] body a body
+            \param[out] loc updated location
+         */
+        void makeGroupAndAddBody(const sad::String& group_name, sad::p2d::Body* body, sad::p2d::World::BodyLocation& loc);
     };
     /*! A handler list for a group pair
      */
@@ -236,7 +246,7 @@ public:
         size_t TypeIndex2;
         /*! A list of handlers to be invoked
          */
-        sad::Vector<sad::p2d::BasicCollisionHandler*> List;
+        sad::Vector<sad::p2d::BasicCollisionHandler*>* List;
     };
     /*! A global handler list 
      */
@@ -258,6 +268,10 @@ public:
         /*! Clears a handler list
          */
         void clear();
+        /*! Removes a handler for a list
+            \param[in] location a location
+         */
+        void removeHandlersFor(size_t location);
     };
     /*! A queued command type for queued commands
      */
@@ -276,12 +290,13 @@ public:
         P2D_WORLD_QCT_CLEAR_GROUPS = 8, //!< Clears all groups, removing them from a world
 
         P2D_WORLD_QCT_ADD_HANDLER = 9,                //!< Add handler command
-        P2D_WORLD_QCT_REMOVE_HANDLER = 10,            //!< Remove handler command
-        P2D_WORLD_QCT_CLEAR_HANDLERS = 11,            //!< Clear handlers command
-        P2D_WORLD_QCT_CLEAR_HANDLERS_FOR_GROUPS = 12, //!< Clears handlers for specified groups
+        P2D_WORLD_QCT_REMOVE_HANDLER_FROM_GROUPS = 10,//!< Removes handler from specified groups 
+        P2D_WORLD_QCT_REMOVE_HANDLER = 11,            //!< Remove handler command
+        P2D_WORLD_QCT_CLEAR_HANDLERS = 12,            //!< Clear handlers command
+        P2D_WORLD_QCT_CLEAR_HANDLERS_FOR_GROUPS = 13, //!< Clears handlers for specified groups
 
-        P2D_WORLD_QCT_CLEAR = 13,                     //!<  A global clearing command
-        P2D_WORLD_QCT_STEP = 14,                      //!<  A stepping command for a world
+        P2D_WORLD_QCT_CLEAR = 14,                     //!<  A global clearing command
+        P2D_WORLD_QCT_STEP = 15,                      //!<  A stepping command for a world
     };
     /*! A queued command as a set of parameters
      */
@@ -317,18 +332,18 @@ public:
         sad::p2d::BasicCollisionEvent Event;
         /*! A callback, that should be invoked with event
          */
-        sad::p2d::BasicCollisionHandler* Callback;
+        sad::Vector<sad::p2d::BasicCollisionHandler*>* CallbackList;
         /*! Makes empty structure for event with callback
          */
-        inline EventWithCallback() : Callback(NULL)
+        inline EventWithCallback() : CallbackList(NULL)
         {
 
         }
         /*! Makes new event with callback
             \param ev event
-            \param cb callback
+            \param cblst callback list
          */
-        inline EventWithCallback(const  sad::p2d::BasicCollisionEvent& ev, sad::p2d::BasicCollisionHandler* cb) : Event(ev), Callback(cb)
+        inline EventWithCallback(const  sad::p2d::BasicCollisionEvent& ev, sad::Vector<sad::p2d::BasicCollisionHandler*>* cblst) : Event(ev), CallbackList(cblst)
         {
 
         }
@@ -336,7 +351,7 @@ public:
             \param[in] ewc other object
             \return comparison results
          */
-        inline bool operator<(const sad::p2d::World::EventWithCallback& ewc)
+        inline bool operator<(const sad::p2d::World::EventWithCallback& ewc) const
         {
             return this->Event.m_time < ewc.Event.m_time;
         }
@@ -344,7 +359,7 @@ public:
             \param[in] ewc other object
             \return comparison results
          */
-        inline bool operator>(const sad::p2d::World::EventWithCallback& ewc)
+        inline bool operator>(const sad::p2d::World::EventWithCallback& ewc) const
         {
             return this->Event.m_time > ewc.Event.m_time;
         }
@@ -354,7 +369,7 @@ public:
             \param[in] ewc other object
             \return comparison results
          */
-        inline bool operator==(const sad::p2d::World::EventWithCallback& ewc)
+        inline bool operator==(const sad::p2d::World::EventWithCallback& ewc) const
         {
             return sad::is_fuzzy_equal(this->Event.m_time, ewc.Event.m_time, 0.001);
         }
@@ -366,7 +381,7 @@ public:
             \param[in] ewc other object
             \return comparison results
          */
-        inline bool operator!=(const sad::p2d::World::EventWithCallback& ewc)
+        inline bool operator!=(const sad::p2d::World::EventWithCallback& ewc) const
         {
             return !((*this) == ewc);
         }
@@ -375,7 +390,7 @@ public:
             \param[in] ewc other object
             \return comparison results
          */
-        inline bool operator>=(const sad::p2d::World::EventWithCallback& ewc)
+        inline bool operator>=(const sad::p2d::World::EventWithCallback& ewc) const
         {
             return ((*this) >= ewc) || ((*this) == ewc);
         }
@@ -384,15 +399,22 @@ public:
             \param[in] ewc other object
             \return comparison results
          */
-        inline bool operator<=(const sad::p2d::World::EventWithCallback& ewc)
+        inline bool operator<=(const sad::p2d::World::EventWithCallback& ewc) const
         {
             return ((*this) <= ewc) || ((*this) == ewc);
         }
         /*! Invokes a callback
          */
-        inline void operator()()
+        inline void operator()() const
         {
-            Callback->invoke(Event);
+            if (CallbackList)
+            {
+                sad::Vector<sad::p2d::BasicCollisionHandler*>& lst = *CallbackList;
+                for(size_t i = 0; i < lst.size(); i++)
+                {
+                    lst[i]->invoke(Event);
+                }
+            }
         }
     };
     /*! A list pf events with callbacks
@@ -404,11 +426,11 @@ public:
     World();
     /*! Destroys world
      */
-    ~World();
+    virtual ~World();
     /*! Returns a transformer for all circles
         \return a transformer for all circles
      */
-    sad::p2d::CircleToHullTransformer * transformer();
+    sad::p2d::CircleToHullTransformer * transformer() const;
     /*! Sets new detector for a world
         \param[in] d detector
      */
@@ -465,7 +487,17 @@ public:
         const sad::String & second_group_name,
         sad::p2d::BasicCollisionHandler* h
     );
-
+    /*! Removes a handler for handling collisions between groups.
+        \param[in] first_group_name name of first group, object from which will be passed as first argument to callback.
+        \param[in] second_group_name name of second group, object from which will be passed as first argument to callback
+        \param[in] h handler
+        \return a handler
+    */
+    void removeHandlerFromGroups(
+        const sad::String & first_group_name,
+        const sad::String & second_group_name,
+        sad::p2d::BasicCollisionHandler* h
+    );
     /*! Removes handler from a world if it is stored in world
         \param[in] h registered handler
      */
@@ -554,8 +586,6 @@ public:
     }
 
     /*! Adds new handler for group
-        \param[in] first_group a first group
-        \param[in] second_group a second group
         \param[in] f a function
         \return a handler
     */
@@ -725,6 +755,17 @@ protected:
     void addHandlerNow(
         const sad::String & group_name_1,
         const sad::String & group_name_2,
+        sad::p2d::BasicCollisionHandler* h
+    );
+    /*! Removes a handler for handling collisions between groups.
+        \param[in] first_group_name name of first group, object from which will be passed as first argument to callback.
+        \param[in] second_group_name name of second group, object from which will be passed as first argument to callback
+        \param[in] h handler
+        \return a handler
+    */
+    void removeHandlerFromGroupsNow(
+        const sad::String & first_group_name,
+        const sad::String & second_group_name,
         sad::p2d::BasicCollisionHandler* h
     );
     /*! Removes a handler from a world

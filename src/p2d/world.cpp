@@ -78,11 +78,11 @@ sad::p2d::World::BodyLocation& sad::p2d::World::GlobalBodyContainer::add(sad::p2
     }
 
 
-    size_t position = 0;
+    size_t position;
     if (FreePositions.size() != 0)
     {
         size_t last_free_position = FreePositions.size() - 1;
-        size_t position = FreePositions[last_free_position];
+        position = FreePositions[last_free_position];
         FreePositions.erase(FreePositions.begin() + last_free_position);
         b->addRef();
 
@@ -151,6 +151,19 @@ void sad::p2d::World::GlobalBodyContainer::clear()
     this->FreePositions.clear();
 }
 
+void sad::p2d::World::GlobalBodyContainer::removeFromGroup(sad::p2d::Body* b, size_t group_offset)
+{
+    if (BodyToLocation.contains(b))
+    {
+        sad::p2d::World::BodyLocation& loc = BodyToLocation[b];
+        loc.PositionInGroups.removeAll(group_offset);
+        if (loc.PositionInGroups.size() == 0)
+        {
+            this->remove(b);
+        }
+    }
+}
+
 // =============================== sad::p2d::World::Group METHODS ===============================
 
 size_t sad::p2d::World::Group::add(sad::p2d::Body* b)
@@ -160,11 +173,11 @@ size_t sad::p2d::World::Group::add(sad::p2d::Body* b)
         return BodyToLocation[b];
     }
 
-    size_t position = 0;
+    size_t position;
     if (FreePositions.size() != 0)
     {
         size_t last_free_position = FreePositions.size() - 1;
-        size_t position = FreePositions[last_free_position];
+        position = FreePositions[last_free_position];
         FreePositions.erase(FreePositions.begin() + last_free_position);
         b->addRef();
 
@@ -238,7 +251,6 @@ void sad::p2d::World::Group::clear()
 }
 
 
-
 // =============================== sad::p2d::World::GroupContainer METHODS ===============================
 
 size_t sad::p2d::World::GroupContainer::add(const sad::String& name)
@@ -248,11 +260,11 @@ size_t sad::p2d::World::GroupContainer::add(const sad::String& name)
         return GroupToLocation[name];
     }
 
-    size_t position = 0;
+    size_t position;
     if (FreePositions.size() != 0)
     {
         size_t last_free_position = FreePositions.size() - 1;
-        size_t position = FreePositions[last_free_position];
+        position = FreePositions[last_free_position];
         FreePositions.erase(FreePositions.begin() + last_free_position);
 
         Groups[position].Group = sad::p2d::World::Group();
@@ -311,6 +323,17 @@ void sad::p2d::World::GroupContainer::clearBodies()
     }
 }
 
+void sad::p2d::World::GroupContainer::makeGroupAndAddBody(const sad::String& group_name, sad::p2d::Body* body, sad::p2d::World::BodyLocation& loc)
+{
+    size_t location = add(group_name);
+    sad::p2d::World::Group& group = this->Groups[location].Group;
+    if (group.BodyToLocation.contains(body) == false)
+    {
+        group.add(body);
+        loc.PositionInGroups.push_back(location);
+    }
+}
+
 sad::Maybe<size_t> sad::p2d::World::GroupContainer::getLocation(const sad::String& name) const
 {
     sad::Maybe<size_t> location;
@@ -329,7 +352,7 @@ void sad::p2d::World::GlobalHandlerList::add(size_t i1, size_t i2, sad::p2d::Bas
     {
         if ((List[i].TypeIndex1) == i1 && (List[i].TypeIndex2 == i2))
         {
-            sad::Vector<sad::p2d::BasicCollisionHandler*>& lst = List[i].List;
+            sad::Vector<sad::p2d::BasicCollisionHandler*>& lst = *(List[i].List);
             if (std::find(lst.begin(), lst.end(), h) == lst.end())
             {
                 lst.push_back(h);
@@ -341,7 +364,8 @@ void sad::p2d::World::GlobalHandlerList::add(size_t i1, size_t i2, sad::p2d::Bas
     sad::p2d::World::HandlerList t;
     t.TypeIndex1 = i1;
     t.TypeIndex2 = i2;
-    t.List.push_back(h);
+    t.List = new sad::Vector<sad::p2d::BasicCollisionHandler*>();
+    t.List->push_back(h);
 
     List.push_back(t);
     h->addRef();
@@ -351,7 +375,7 @@ void sad::p2d::World::GlobalHandlerList::remove(sad::p2d::BasicCollisionHandler*
 {
     for(size_t i = 0; i < List.size(); i++)
     {
-        sad::Vector<sad::p2d::BasicCollisionHandler*>& lst = List[i].List;
+        sad::Vector<sad::p2d::BasicCollisionHandler*>& lst = *(List[i].List);
         sad::Vector<sad::p2d::BasicCollisionHandler*>::iterator it = std::find(lst.begin(), lst.end(), h);
         if (it != lst.end())
         {
@@ -365,13 +389,32 @@ void sad::p2d::World::GlobalHandlerList::clear()
 {
     for(size_t i = 0; i < List.size(); i++)
     {
-        const sad::Vector<sad::p2d::BasicCollisionHandler*>& lst = List[i].List;
+        const sad::Vector<sad::p2d::BasicCollisionHandler*>& lst = *(List[i].List);
         for(size_t j = 0; j < lst.size(); j++)
         {
             lst[j]->delRef();
         }
+        delete List[i].List;
     }
     List.clear();
+}
+
+void sad::p2d::World::GlobalHandlerList::removeHandlersFor(size_t location)
+{
+    for (size_t i = 0; i < List.size(); i++)
+    {
+        if ((List[i].TypeIndex1 == location) || (List[i].TypeIndex2 == location))
+        {
+            const sad::Vector<sad::p2d::BasicCollisionHandler*>& lst = *(List[i].List);
+            for (size_t j = 0; j < lst.size(); j++)
+            {
+                lst[j]->delRef();
+            }
+            delete List[i].List;
+            List.removeAt(i);
+            --i;
+        }
+    }
 }
 
 // =============================== sad::p2d::World PUBLIC METHODS ===============================
@@ -409,17 +452,19 @@ sad::p2d::World::~World()
                 break;
             }
             case sad::p2d::World::P2D_WORLD_QCT_ADD_HANDLER:
+            case sad::p2d::World::P2D_WORLD_QCT_REMOVE_HANDLER_FROM_GROUPS:
             case sad::p2d::World::P2D_WORLD_QCT_REMOVE_HANDLER:
             {
                 cmd.Handler->delRef();
                 break;
             }
+            default: break;
         }
     }
     delete m_command_queue;
 }
 
-sad::p2d::CircleToHullTransformer * sad::p2d::World::transformer()
+sad::p2d::CircleToHullTransformer * sad::p2d::World::transformer() const
 {
     return m_transformer;
 }
@@ -594,6 +639,28 @@ void sad::p2d::World::removeHandler(sad::p2d::BasicCollisionHandler *h)
     }
 }
 
+void sad::p2d::World::removeHandlerFromGroups(
+    const sad::String & first_group_name,
+    const sad::String & second_group_name,
+    sad::p2d::BasicCollisionHandler* h
+)
+{
+    if (isLockedForChanges())
+    {
+        sad::p2d::World::QueuedCommand cmd;
+        cmd.Type = sad::p2d::World::P2D_WORLD_QCT_REMOVE_HANDLER_FROM_GROUPS;
+        cmd.GroupName = first_group_name;
+        cmd.SecondGroupName = second_group_name;
+        cmd.Handler = h;
+        h->addRef();
+        addCommand(cmd);
+    }
+    else
+    {
+        this->removeHandlerFromGroups(first_group_name, second_group_name, h);
+    }
+}
+
 void sad::p2d::World::clearHandlers()
 {
     if (isLockedForChanges())
@@ -746,6 +813,12 @@ void sad::p2d::World::performQueuedCommands()
                     cmd.Handler->delRef();
                     break;
                 }
+                case sad::p2d::World::P2D_WORLD_QCT_REMOVE_HANDLER_FROM_GROUPS:
+                {
+                    removeHandlerFromGroupsNow(cmd.GroupName, cmd.SecondGroupName, cmd.Handler);
+                    cmd.Handler->delRef();
+                    break;
+                }
                 case sad::p2d::World::P2D_WORLD_QCT_REMOVE_HANDLER:
                 {
                     removeHandlerNow(cmd.Handler);
@@ -787,79 +860,167 @@ void sad::p2d::World::addBodyNow(sad::p2d::Body* b)
     {
         return;
     }
-    if (m_global_body_container.BodyToLocation.contains(b)== false)
+    addBodyToGroupNow("p2d::Body", b);
+    if (b->userObject() != NULL)
     {
-        sad::p2d::World::BodyLocation& loc = m_global_body_container.add(b);
-        sad::Maybe<size_t> common_location = m_group_container.getLocation("p2d::Body");
-        if (common_location.exists())
-        {
-            size_t pos = m_group_container.Groups[common_location.value()].Group.add(b);
-            loc.PositionInGroups.push_back(common_location.value());
-        }
-        if (b->userObject() != NULL)
-        {
-            sad::String name = b->userObject()->metaData()->name();
-            common_location = m_group_container.getLocation(name);
-            if (common_location.exists())
-            {
-                size_t pos = m_group_container.Groups[common_location.value()].Group.add(b);
-                loc.PositionInGroups.push_back(common_location.value());
-            }
-        }
-        b->setSamplingCount(m_detector->sampleCount());
-        b->setWorld(this);
-    }
-    else
-    {
-        sad::p2d::World::BodyLocation& loc = m_global_body_container.BodyToLocation[b];
-
-        sad::Maybe<size_t> common_location = m_group_container.getLocation("p2d::Body");
-        if (common_location.exists())
-        {
-            sad::p2d::World::Group& group = m_group_container.Groups[common_location.value()].Group;
-            if (group.BodyToLocation.contains(b) == false)
-            {
-                group.add(b);
-                loc.PositionInGroups.push_back(common_location.value());
-            }
-        }
-
-        if (b->userObject() != NULL)
-        {
-            sad::String name = b->userObject()->metaData()->name();
-            common_location = m_group_container.getLocation(name);
-            if (common_location.exists())
-            {
-                sad::p2d::World::Group& group = m_group_container.Groups[common_location.value()].Group;
-                if (group.BodyToLocation.contains(b) == false)
-                {
-                    group.add(b);
-                    loc.PositionInGroups.push_back(common_location.value());
-                }
-            }
-        }
+        const sad::String& name = b->userObject()->metaData()->name();
+        addBodyToGroupNow(name, b);
     }
 }
 
 void sad::p2d::World::removeBodyNow(sad::p2d::Body* b)
 {
+    m_world_lock.lock();
+    setIsLockedFlag(true);
+
     if (m_global_body_container.BodyToLocation.contains(b))
     {
-        sad::p2d::World::BodyLocation& loc = m_global_body_container.add(b);
+        sad::p2d::World::BodyLocation& loc = m_global_body_container.BodyToLocation[b];
         for(size_t i = 0; i < loc.PositionInGroups.size(); i++)
         {
             m_group_container.Groups[loc.PositionInGroups[i]].Group.remove(b);
         }
         m_global_body_container.remove(b);
     }
+
+    setIsLockedFlag(false);
+    m_world_lock.unlock();
 }
 
 void sad::p2d::World::clearBodiesNow()
 {
+    m_world_lock.lock();
+    setIsLockedFlag(true);
+
     m_global_body_container.clear();
     m_group_container.clearBodies();
+
+    setIsLockedFlag(false);
+    m_world_lock.unlock();
 }
 
+void sad::p2d::World::addBodyToGroupNow(const sad::String& group_name, sad::p2d::Body* o)
+{
+    if (!o)
+    {
+        return;
+    }
+
+    m_world_lock.lock();
+    setIsLockedFlag(true);
+
+    sad::p2d::World::BodyLocation* loc;
+    if (m_global_body_container.BodyToLocation.contains(o)== false)
+    {
+        loc = &(m_global_body_container.add(o));
+        o->setSamplingCount(m_detector->sampleCount());
+        o->setWorld(this);
+    }
+    else
+    {
+        loc = &(m_global_body_container.BodyToLocation[o]);
+    }
+
+    m_group_container.makeGroupAndAddBody(group_name, o, *loc);
+
+    setIsLockedFlag(false);
+    m_world_lock.unlock();
+}
+
+void sad::p2d::World::removeBodyFromGroupNow(const sad::String& group_name, sad::p2d::Body* o)
+{
+    m_world_lock.lock();
+    setIsLockedFlag(true);
+
+    if (m_global_body_container.BodyToLocation.contains(o))
+    {
+        sad::Maybe<size_t> location = m_group_container.getLocation(group_name);
+        if (location.exists())
+        {
+            m_group_container.Groups[location.value()].Group.remove(o);
+            m_global_body_container.removeFromGroup(o, location.value());            
+        }
+    }
+
+    setIsLockedFlag(false);
+    m_world_lock.unlock();
+}
+
+
+void sad::p2d::World::addGroupNow(const sad::String& group_name)
+{
+    m_world_lock.lock();
+    setIsLockedFlag(true);
+
+    m_group_container.add(group_name);
+
+    setIsLockedFlag(false);
+    m_world_lock.unlock();
+}
+
+void sad::p2d::World::removeGroupNow(const sad::String& group_name)
+{
+    clearGroupNow(group_name);
+
+    m_world_lock.lock();
+    setIsLockedFlag(true);
+
+    sad::Maybe<size_t> location = m_group_container.getLocation(group_name);
+    if (location.exists())
+    {
+        m_group_container.remove(group_name);
+        m_global_handler_list.removeHandlersFor(location.value());
+    }
+
+    setIsLockedFlag(false);
+    m_world_lock.unlock();
+}
+
+void sad::p2d::World::clearGroupNow(const sad::String& group_name)
+{
+    m_world_lock.lock();
+    setIsLockedFlag(true);
+    
+    sad::Maybe<size_t> location = m_group_container.getLocation(group_name);
+    if (location.exists())
+    {
+        sad::p2d::World::Group& group = m_group_container.Groups[location.value()].Group;
+        size_t size = group.Bodies.size();
+        if (size)
+        {
+            sad::p2d::World::BodyWithActivityFlag* p = &(group.Bodies[0]);
+            for (size_t i = 0; i < size; i++)
+            {
+                if (p->Active)
+                {
+                    sad::p2d::Body* body = p->Body;
+                    m_global_body_container.removeFromGroup(body, location.value());
+                    body->delRef();
+                }
+                p++;
+            }
+        }
+        group.BodyToLocation.clear();
+        group.Bodies.clear();
+        group.FreePositions.clear();
+    }
+
+    setIsLockedFlag(false);
+    m_world_lock.unlock();
+}
+
+void sad::p2d::World::clearGroupsNow()
+{
+    m_world_lock.lock();
+    setIsLockedFlag(true);
+
+    m_group_container.clear();
+    m_global_body_container.clear();
+    m_global_handler_list.clear();
+
+    setIsLockedFlag(false);
+    m_world_lock.unlock();
+}
 
 /*
 void sad::p2d::World::removeHandler(sad::p2d::BasicCollisionHandler * h)
