@@ -133,6 +133,10 @@ public:
             \param[in] group_offset an offset for group
          */
         void removeFromGroup(sad::p2d::Body* b, size_t group_offset);
+        /*! Returns amount of active bodies in container
+            \return body count
+         */
+        size_t bodyCount();
     };
     /*! A group container for bodies
      */
@@ -169,6 +173,10 @@ public:
         /*! Clears a group
          */
         void clear();
+        /*! Returns amount of bodies in group
+            \return body count
+         */
+        size_t bodyCount();
     };
     /*! A pair of group with it's activity flag with comparison
      */
@@ -233,6 +241,10 @@ public:
             \param[out] loc updated location
          */
         void makeGroupAndAddBody(const sad::String& group_name, sad::p2d::Body* body, sad::p2d::World::BodyLocation& loc);
+        /*! Returns amount of active groups
+            \return amount of active groups
+         */
+        size_t groupCount();
     };
     /*! A handler list for a group pair
      */
@@ -283,6 +295,28 @@ public:
             \param[in] location a location
          */
         void removeHandlersFor(size_t location);
+        /*! Returns total handler count
+            \return total handler count
+         */
+        size_t totalHandlerCount();
+        /*! Returns total handler count for groups
+            \param[in] i1 first group index
+            \param[in] i2 second group index
+            \return handler count
+         */
+        size_t totalHandlerCount(size_t i1, size_t i2);
+        /*! Returns amount of times, handler occurs in container
+            \param[in] h handler
+            \return amount of times
+         */
+        size_t totalHandlerOccurences(sad::p2d::BasicCollisionHandler* h);
+        /*! Returns amount of times, handler occurs in container group pair
+            \param[in] i1 first group index
+            \param[in] i2 second group index
+            \param[in] h handler
+            \return amount of times
+         */
+        size_t totalHandlerOccurences(size_t i1, size_t i2, sad::p2d::BasicCollisionHandler* h);
     };
     /*! A queued command type for queued commands
      */
@@ -529,6 +563,76 @@ public:
         \param[in] time a size of time step
      */
     void step(double time);
+
+    /*! Returns true, if body is in world
+        \param[in] b body
+        \return whether body is in world
+     */
+    bool isBodyInWorld(sad::p2d::Body* b);
+
+    /*! Returns true if body is in group
+        \param[in] group_name a name of group
+        \param[in] b a body
+        \return whether it exists
+     */
+    bool isInGroup(const sad::String& group_name, sad::p2d::Body* b);
+
+    /*! Returns true if group with specified name exists in world
+        \param[in] group_name a name of of group
+        \return whether it exists
+     */
+    bool doesGroupExists(const sad::String& group_name);
+
+    /*! Amount of total active bodies in world
+        \return body count
+     */
+    size_t totalBodyCount();
+    /*! Amount of total active groups in world
+        \return body count
+     */
+    size_t totalGroupCount();
+    /*! Returns amount of bodies in group or 0 if group does not exists
+        \param[in] group_name a name of group
+        \return amount of objects
+     */
+    size_t amountOfBodiesInGroup(const sad::String& group_name);
+
+
+    /*! Returns total amount of handlers in world
+        \return total amount of handlers in world
+     */
+    size_t amountOfHandlers();
+    /*! Returns total amount of handlers in pair of groups
+        \param[in] s1 first group name
+        \param[in] s2 second group name
+        \return handler count
+     */
+    size_t amountOfHandlersForGroups(const sad::String& s1, const sad::String& s2);
+    /*! Returns amount of times, handler occurs in container
+        \param[in] h handler
+        \return amount of times
+     */
+    size_t totalHandlerOccurences(sad::p2d::BasicCollisionHandler* h);
+    /*! Returns amount of times, handler occurs in container group pair
+        \param[in] s1 first group
+        \param[in] s2 second group
+        \param[in] h handler
+        \return amount of times
+     */
+    size_t totalHandlerOccurencesInGroups(const sad::String& s1, const sad::String& s2, sad::p2d::BasicCollisionHandler* h);
+    /*! Returns whether handler is in world
+        \param[in] h handler
+        \return whether handler is in world
+     */
+    bool isHandlerInWorld(sad::p2d::BasicCollisionHandler* h);
+    /*! Returns amount of times, handler occurs in container group pair
+        \param[in] s1 first group
+        \param[in] s2 second group
+        \param[in] h handler
+        \return amount of times
+     */
+    bool isHandlerInGroups(const sad::String& s1, const sad::String& s2, sad::p2d::BasicCollisionHandler* h);
+
 
     /*! Adds new collision handler with specified typed callback
         \param[in] first_group a first group, where handler should be applied to

@@ -163,6 +163,25 @@ void sad::p2d::World::GlobalBodyContainer::removeFromGroup(sad::p2d::Body* b, si
     }
 }
 
+size_t sad::p2d::World::GlobalBodyContainer::bodyCount()
+{
+    size_t size = this->AllBodies.size();
+    size_t result = 0;
+    if (size)
+    {
+        sad::p2d::World::BodyWithActivityFlag* p = &(this->AllBodies[0]);
+        for(size_t i = 0; i < size; i++)
+        {
+            if (p->Active)
+            {
+                result += 1;
+            }
+            p++;
+        }
+    }
+    return result;
+}
+
 // =============================== sad::p2d::World::Group METHODS ===============================
 
 size_t sad::p2d::World::Group::add(sad::p2d::Body* b)
@@ -249,6 +268,25 @@ void sad::p2d::World::Group::clear()
     this->FreePositions.clear();
 }
 
+size_t sad::p2d::World::Group::bodyCount()
+{
+    size_t size = this->Bodies.size();
+    size_t result=  0;
+    if (size)
+    {
+        sad::p2d::World::BodyWithActivityFlag* p = &(this->Bodies[0]);
+        for(size_t i = 0; i < size; i++)
+        {
+            if (p->Active)
+            {
+                result += 1;
+            }
+            p++;
+        }
+    }
+    return result;
+}
+
 
 // =============================== sad::p2d::World::GroupContainer METHODS ===============================
 
@@ -331,6 +369,25 @@ void sad::p2d::World::GroupContainer::makeGroupAndAddBody(const sad::String& gro
         group.add(body);
         loc.PositionInGroups.push_back(location);
     }
+}
+
+size_t sad::p2d::World::GroupContainer::groupCount()
+{
+    size_t size = this->Groups.size();
+    size_t result = 0;
+    if (size)
+    {
+        sad::p2d::World::GroupWithActivityFlag* p = &(this->Groups[0]);
+        for(size_t i = 0; i < size; i++)
+        {
+            if (p->Active)
+            {
+                result += 1;
+            }
+            p++;
+        }
+    }
+    return result;
 }
 
 sad::Maybe<size_t> sad::p2d::World::GroupContainer::getLocation(const sad::String& name) const
@@ -464,6 +521,70 @@ void sad::p2d::World::GlobalHandlerList::removeHandlersFor(size_t location)
             --i;
         }
     }
+}
+
+size_t sad::p2d::World::GlobalHandlerList::totalHandlerCount()
+{
+    size_t result = 0;
+    for (size_t i = 0; i < List.size(); i++)
+    {
+        if (List[i].List)
+        {
+            result += List[i].List->size();
+        }
+    }
+    return result;
+}
+
+size_t sad::p2d::World::GlobalHandlerList::totalHandlerCount(size_t i1, size_t i2)
+{
+    size_t result = 0;
+
+    for (size_t i = 0; i < List.size(); i++)
+    {
+        if ((List[i].TypeIndex1 == i1) && (List[i].TypeIndex2 == i2))
+        {
+           if (List[i].List)
+           {
+               result +=  List[i].List->size();
+           }
+        }
+    }
+
+    return result;
+}
+
+size_t sad::p2d::World::GlobalHandlerList::totalHandlerOccurences(sad::p2d::BasicCollisionHandler* h)
+{
+    size_t result = 0;
+    for(size_t i = 0; i < List.size(); i++)
+    {
+        sad::Vector<sad::p2d::BasicCollisionHandler*>& lst = *(List[i].List);
+        sad::Vector<sad::p2d::BasicCollisionHandler*>::iterator it = std::find(lst.begin(), lst.end(), h);
+        if (it != lst.end())
+        {
+            result++;
+        }
+    }
+    return result;
+}
+
+size_t sad::p2d::World::GlobalHandlerList::totalHandlerOccurences(size_t i1, size_t i2, sad::p2d::BasicCollisionHandler* h)
+{
+    size_t result = 0;
+    for(size_t i = 0; i < List.size(); i++)
+    {
+        if ((List[i].TypeIndex1 == i1) && (List[i].TypeIndex2 == i2))
+        {
+            sad::Vector<sad::p2d::BasicCollisionHandler*>& lst = *(List[i].List);
+            sad::Vector<sad::p2d::BasicCollisionHandler*>::iterator it = std::find(lst.begin(), lst.end(), h);
+            if (it != lst.end())
+            {
+                result++;
+            }
+        }
+    }
+    return result;
 }
 
 // =============================== sad::p2d::World PUBLIC METHODS ===============================
@@ -767,6 +888,168 @@ void sad::p2d::World::step(double time)
     {
         this->stepNow(time);
     }
+}
+
+bool sad::p2d::World::isBodyInWorld(sad::p2d::Body* b)
+{
+    bool result = false;
+    m_world_lock.lock();
+
+    if (m_global_body_container.BodyToLocation.contains(b))
+    {
+        result = true;
+    }
+
+    m_world_lock.unlock();
+
+    return result;
+}
+
+bool sad::p2d::World::isInGroup(const sad::String& group_name, sad::p2d::Body* b)
+{
+    bool result = false;
+    m_world_lock.lock();
+
+    sad::Maybe<size_t> location = m_group_container.getLocation(group_name);
+    if (location.exists())
+    {
+        if (m_group_container.Groups[location.value()].Active)
+        {
+            sad::p2d::World::Group& g = m_group_container.Groups[location.value()].Group;
+            if (g.BodyToLocation.contains(b))
+            {
+                result = true;
+            }
+        }
+    }
+
+    m_world_lock.unlock();
+    return result;
+}
+
+bool sad::p2d::World::doesGroupExists(const sad::String& group_name)
+{
+    bool result = false;
+    m_world_lock.lock();
+
+    sad::Maybe<size_t> location = m_group_container.getLocation(group_name);
+    if (location.exists())
+    {
+        if (m_group_container.Groups[location.value()].Active)
+        {
+            result = true;
+        }
+    }
+
+    m_world_lock.unlock();
+    return result;
+}
+
+size_t sad::p2d::World::totalBodyCount()
+{
+    size_t result = 0;
+    m_world_lock.lock();
+
+    result = m_global_body_container.bodyCount();
+
+    m_world_lock.unlock();
+    return result;
+}
+
+size_t sad::p2d::World::totalGroupCount()
+{
+    size_t result = 0;
+    m_world_lock.lock();
+
+    result = m_group_container.groupCount();
+
+    m_world_lock.unlock();
+    return result;
+}
+
+size_t sad::p2d::World::amountOfBodiesInGroup(const sad::String& group_name)
+{
+    size_t result = 0;
+    m_world_lock.lock();
+
+    sad::Maybe<size_t> location = m_group_container.getLocation(group_name);
+    if (location.exists())
+    {
+        if (m_group_container.Groups[location.value()].Active)
+        {
+            result = m_group_container.Groups[location.value()].Group.bodyCount();
+        }
+    }
+
+    m_world_lock.unlock();
+    return result;
+}
+
+size_t sad::p2d::World::amountOfHandlers()
+{
+    size_t result = 0;
+    m_world_lock.lock();
+
+    result = m_global_handler_list.totalHandlerCount();
+
+    m_world_lock.unlock();
+    return result;
+}
+
+size_t sad::p2d::World::amountOfHandlersForGroups(const sad::String& s1, const sad::String& s2)
+{
+    size_t result = 0;
+    m_world_lock.lock();
+
+    sad::Maybe<size_t> location1 = m_group_container.getLocation(s1);
+    sad::Maybe<size_t> location2 = m_group_container.getLocation(s2);
+
+    if (location1.exists() && location2.exists())
+    {
+        result = m_global_handler_list.totalHandlerCount(location1.value(), location2.value());
+    }
+    m_world_lock.unlock();
+
+    return result;
+}
+
+size_t sad::p2d::World::totalHandlerOccurences(sad::p2d::BasicCollisionHandler* h)
+{
+    size_t result = 0;
+    m_world_lock.lock();
+
+    result = m_global_handler_list.totalHandlerOccurences(h);
+
+    m_world_lock.unlock();
+
+    return result;
+}
+
+size_t sad::p2d::World::totalHandlerOccurencesInGroups(const sad::String& s1, const sad::String& s2, sad::p2d::BasicCollisionHandler* h)
+{
+    size_t result = 0;
+    m_world_lock.lock();
+
+    sad::Maybe<size_t> location1 = m_group_container.getLocation(s1);
+    sad::Maybe<size_t> location2 = m_group_container.getLocation(s2);
+
+    if (location1.exists() && location2.exists())
+    {
+        result = m_global_handler_list.totalHandlerOccurences(location1.value(), location2.value(), h);
+    }
+    m_world_lock.unlock();
+
+    return result;
+}
+
+bool sad::p2d::World::isHandlerInWorld(sad::p2d::BasicCollisionHandler* h)
+{
+    return totalHandlerOccurences(h) != 0;
+}
+
+bool sad::p2d::World::isHandlerInGroups(const sad::String& s1, const sad::String& s2, sad::p2d::BasicCollisionHandler* h)
+{
+    return totalHandlerOccurencesInGroups(s1, s2, h) != 0;
 }
 
 // =============================== sad::p2d::World PRIVATE METHODS ===============================
