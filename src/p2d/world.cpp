@@ -1,6 +1,5 @@
 #include "p2d/world.h"
-
-#include <algorithm>
+#include "collection.h"
 
 DECLARE_SOBJ(sad::p2d::World);
 
@@ -371,6 +370,30 @@ void sad::p2d::World::GlobalHandlerList::add(size_t i1, size_t i2, sad::p2d::Bas
     h->addRef();
 }
 
+void sad::p2d::World::GlobalHandlerList::remove(size_t i1, size_t i2, sad::p2d::BasicCollisionHandler* h)
+{
+    for(size_t i = 0; i < List.size(); i++)
+    {
+        if ((List[i].TypeIndex1) == i1 && (List[i].TypeIndex2 == i2))
+        {
+            sad::Vector<sad::p2d::BasicCollisionHandler*>& lst = *(List[i].List);
+            sad::Vector<sad::p2d::BasicCollisionHandler*>::iterator it = std::find(lst.begin(), lst.end(), h);
+            if (it != lst.end())
+            {
+                lst.erase(it);
+                h->delRef();
+            }
+            if (lst.size() == 0)
+            {
+                delete List[i].List;
+                List.removeAt(i);
+                --i;
+            }
+            return;
+        }
+    }
+}
+
 void sad::p2d::World::GlobalHandlerList::remove(sad::p2d::BasicCollisionHandler* h)
 {
     for(size_t i = 0; i < List.size(); i++)
@@ -382,8 +405,16 @@ void sad::p2d::World::GlobalHandlerList::remove(sad::p2d::BasicCollisionHandler*
             lst.erase(it);
             h->delRef();
         }
+        if (lst.size() == 0)
+        {
+            delete List[i].List;
+            List.removeAt(i);
+            --i;
+        }
     }
 }
+
+
 
 void sad::p2d::World::GlobalHandlerList::clear()
 {
@@ -397,6 +428,24 @@ void sad::p2d::World::GlobalHandlerList::clear()
         delete List[i].List;
     }
     List.clear();
+}
+
+void sad::p2d::World::GlobalHandlerList::clearForGroups(size_t i1, size_t i2)
+{
+    for(size_t i = 0; i < List.size(); i++)
+    {
+        if ((List[i].TypeIndex1) == i1 && (List[i].TypeIndex2 == i2))
+        {
+            const sad::Vector<sad::p2d::BasicCollisionHandler*>& lst = *(List[i].List);
+            for(size_t j = 0; j < lst.size(); j++)
+            {
+                lst[j]->delRef();
+            }
+            delete List[i].List;
+            List.removeAt(i);
+            --i;
+        }
+    }
 }
 
 void sad::p2d::World::GlobalHandlerList::removeHandlersFor(size_t location)
@@ -1022,259 +1071,180 @@ void sad::p2d::World::clearGroupsNow()
     m_world_lock.unlock();
 }
 
-/*
-void sad::p2d::World::removeHandler(sad::p2d::BasicCollisionHandler * h)
+void sad::p2d::World::addHandlerNow(
+    const sad::String & group_name_1,
+    const sad::String & group_name_2,
+    sad::p2d::BasicCollisionHandler* h
+)
 {
-    for(size_t i = 0;  i < m_callbacks.count(); i++)
-    {
-        if (m_callbacks[i].p2() == h)
-        {
-            m_callbacks.removeAt(i);
-        }
-    }
-    delete h;
+    addGroupNow(group_name_1);
+    addGroupNow(group_name_2);
+
+    m_world_lock.lock();
+    setIsLockedFlag(true);
+
+    size_t group_index_1 = m_group_container.getLocation(group_name_1).value();
+    size_t group_index_2 = m_group_container.getLocation(group_name_2).value();
+
+    m_global_handler_list.add(group_index_1, group_index_2, h);
+
+    setIsLockedFlag(false);
+    m_world_lock.unlock();
 }
 
-
-void sad::p2d::World::step(double time)
+void sad::p2d::World::removeHandlerFromGroupsNow(
+    const sad::String & first_group_name,
+    const sad::String & second_group_name,
+    sad::p2d::BasicCollisionHandler* h
+)
 {
-    performQueuedActions();
-    lockChanges();
+    m_world_lock.lock();
+    setIsLockedFlag(true);
+
+    sad::Maybe<size_t> group_index_1 = m_group_container.getLocation(first_group_name);
+    sad::Maybe<size_t> group_index_2 = m_group_container.getLocation(second_group_name);
+
+    if (group_index_1.exists() && group_index_2.exists())
+    {
+        m_global_handler_list.remove(group_index_1.value(), group_index_2.value(), h);
+    }
+
+    setIsLockedFlag(false);
+    m_world_lock.unlock();
+}
+
+void sad::p2d::World::removeHandlerNow(sad::p2d::BasicCollisionHandler* h)
+{
+    m_world_lock.lock();
+    setIsLockedFlag(true);
+
+    m_global_handler_list.remove(h);
+
+    setIsLockedFlag(false);
+    m_world_lock.unlock();
+}
+
+void sad::p2d::World::clearHandlersNow()
+{
+    m_world_lock.lock();
+    setIsLockedFlag(true);
+
+    m_global_handler_list.clear();
+
+    setIsLockedFlag(false);
+    m_world_lock.unlock();
+}
+
+void sad::p2d::World::clearHandlersForGroupsNow(const sad::String& first_group, const sad::String& second_group)
+{
+    m_world_lock.lock();
+    setIsLockedFlag(true);
+
+    sad::Maybe<size_t> group_index_1 = m_group_container.getLocation(first_group);
+    sad::Maybe<size_t> group_index_2 = m_group_container.getLocation(second_group);
+
+    if (group_index_1.exists() && group_index_2.exists())
+    {
+        m_global_handler_list.clearForGroups(group_index_1.value(), group_index_2.value());
+    }
+
+
+    setIsLockedFlag(false);
+    m_world_lock.unlock();
+}
+
+void sad::p2d::World::clearNow()
+{
+    // Does all - clears both groups and all other stuff
+    clearGroupsNow();
+}
+
+void sad::p2d::World::stepNow(double time)
+{
+    performQueuedCommands();
+
+    m_world_lock.lock();
+    setIsLockedFlag(true);
+
     m_time_step = time;
     while ( sad::non_fuzzy_zero(m_time_step) )
     {
-        m_splitted_time_step.clear();
-        m_global_body_container.buildBodyCaches(m_time_step);
-        findAndExecuteCollisionCallbacks();
-        if (m_splitted_time_step.exists())
+        m_global_body_container.buildBodyCaches(time);
         {
-            m_global_body_container.stepPositionsAndVelocities(m_splitted_time_step.value());
-            m_time_step -= m_splitted_time_step.value();
+            sad::p2d::World::EventsWithCallbacks events_with_callbacks;
+            findEvents(events_with_callbacks);
+            std::sort(events_with_callbacks.begin(), events_with_callbacks.end());
+            sad::invoke_functors(events_with_callbacks);
         }
-        else
-        {
-            m_global_body_container.stepPositionsAndVelocities(m_time_step);
-            m_time_step = 0;
-        }
+
+        m_global_body_container.stepPositionsAndVelocities(time);
+        m_global_body_container.stepDiscreteChangingValues(time);
     }
-    // Set time step to something to not bug with some interstep calls
-    m_time_step = 1;
-    // Step forces and body options
-    m_global_body_container.stepDiscreteChangingValues(time);
-    unlockChanges();
-    performQueuedActions();
+
+    setIsLockedFlag(false);
+    m_world_lock.unlock();
+
+    performQueuedCommands();
 }
 
-void sad::p2d::World::executeCallbacks(reactions_t & reactions)
+
+void sad::p2d::World::findEvents(sad::p2d::World::EventsWithCallbacks& ewc)
 {
-    for (size_t i = 0; i < reactions.count(); ++i)
+    for (size_t i = 0; i < m_global_handler_list.List.size(); i++)
     {
-        reactions[i].p2()->invoke(reactions[i].p1());
-        // If time splitted, we should erase all callbacks
-        if (m_splitted_time_step.exists())
+        sad::p2d::World::HandlerList& lst = m_global_handler_list.List[i];
+        if (lst.List)
         {
-            reactions.clear();
+            findEvent(ewc, lst);
         }
     }
 }
-
-void sad::p2d::World::sortCallbacks(reactions_t & reactions)
-{
-    std::sort(reactions.begin(), reactions.end(), p2d::World::compare);
-}
-
-void sad::p2d::World::findAndExecuteCollisionCallbacks()
-{
-    reactions_t reactions;
-    findEvents(reactions);
-    sortCallbacks(reactions);
-    executeCallbacks(reactions);
-}
-
-void sad::p2d::World::findEvents(reactions_t & reactions)
-{
-    for (size_t i = 0; i < m_callbacks.count(); i++)
-    {
-        findEvent(reactions, m_callbacks[i]);
-    }
-}
-
-void sad::p2d::World::findEvent(reactions_t & reactions, const types_with_handler_t & twh)
+void sad::p2d::World::findEvent(sad::p2d::World::EventsWithCallbacks& ewc, sad::p2d::World::HandlerList& lst)
 {
     double step = this->timeStep();
-    if (m_groups.contains(twh.p1().p1()) && m_groups.contains(twh.p1().p2()))
+    size_t group_index_1 = lst.TypeIndex1;
+    size_t group_index_2 = lst.TypeIndex2;
+    sad::Vector<sad::p2d::BasicCollisionHandler*>* callbacks = lst.List;
+
+    if (m_group_container.Groups[group_index_1].Active
+       && m_group_container.Groups[group_index_2].Active)
     {
-        sad::Vector<p2d::Body *> & g1 = m_groups[twh.p1().p1()];
-        sad::Vector<p2d::Body *> & g2 = m_groups[twh.p1().p2()];
-        bool not_same_group = (twh.p1().p1() != twh.p1().p2());
-        p2d::BasicCollisionHandler * h = twh.p2();
-        for (size_t i = 0; i < g1.count(); i++)
+        sad::p2d::World::Group& group1 = m_group_container.Groups[group_index_1].Group;
+        sad::p2d::World::Group& group2 = m_group_container.Groups[group_index_2].Group;
+
+        sad::Vector<sad::p2d::World::BodyWithActivityFlag>& bodies1 = group1.Bodies;
+        sad::Vector<sad::p2d::World::BodyWithActivityFlag>& bodies2 = group2.Bodies;
+
+        bool not_same_group = group_index_1 != group_index_2;
+        for (size_t i = 0; i < bodies1.count(); i++)
         {
             size_t jmin = i + 1;
-            if (not_same_group) jmin = 0;
-            for (size_t j = jmin; j < g2.count(); j++)
+            if (not_same_group)
             {
-                p2d::Body * b1 = g1[i];
-                p2d::Body * b2 = g2[j];
-                if (b1 != b2 && b1->isGhost() == false && b2->isGhost() == false)
+                jmin = 0;
+            }
+            for (size_t j = jmin; j < bodies2.count(); j++)
+            {
+                sad::p2d::Body* b1 = bodies1[i].Body;
+                sad::p2d::Body* b2 = bodies2[j].Body;
+
+                bool b1active = bodies1[i].Active;
+                bool b2active = bodies2[j].Active;
+                if (b1active && b2active && (b1 != b2))
                 {
-                    sad::Maybe<double> time;
-                    b1->TimeStep = step;
-                    b2->TimeStep = step;
-                    time = m_detector->collides(b1, b2, m_time_step);
-                    if (time.exists())
+                    if (!(b1->isGhost()) && !(b2->isGhost()))
                     {
-                        BasicCollisionEvent ev(b1, b2, time.value());
-                        reactions << reaction_t(ev, h);
+                        b1->TimeStep = step;
+                        b2->TimeStep = step;
+                        sad::Maybe<double> time = m_detector->collides(b1, b2, m_time_step);
+                        if (time.exists())
+                        {
+                            sad::p2d::BasicCollisionEvent ev(b1, b2, time.value());
+                            ewc << sad::p2d::World::EventWithCallback(ev, callbacks);
+                        }
                     }
                 }
             }
         }
     }
-
 }
-
-
-
-void sad::p2d::World::clearNow()
-{
-    // To make no problems, with iterators, step through bodies
-    // as vector
-    sad::Vector<p2d::Body *> bodies;
-    for( bodies_to_types_t::iterator it = m_allbodies.begin();
-        it != m_allbodies.end();
-        ++it
-       )
-    {
-        bodies << it.key();
-    }
-    for(size_t i = 0; i < bodies.count(); i++)
-    {
-        removeNow(bodies[i]);
-    }
-}
-
-sad::p2d::BasicCollisionHandler *
-sad::p2d::World::addHandler( void (*p)(const sad::p2d::BasicCollisionEvent &))
-{
-    sad::String b = "p2d::Body";
-    return this->addHandler(b, b, p);
-}
-
-sad::p2d::BasicCollisionHandler *
-sad::p2d::World::addHandler(const sad::String& g1, const sad::String& g2, void (*p)(const sad::p2d::BasicCollisionEvent &))
-{
-    p2d::BasicCollisionHandler * h = 
-    new p2d::FunctionCollisionHandler<p2d::Body, p2d::Body>(p);
-    this->addHandler(h, g1, g2);
-    return h;
-}
-
-void sad::p2d::World::addToGroup(unsigned int group_code, p2d::Body* b, bool to_common)
-{
-    assert(m_group_hash_codes.contains(group_code) && "Unknown body group code");
-
-    this->addToGroup(m_group_hash_codes[group_code], b, to_common);
-}
-
-void sad::p2d::World::addToGroup(const sad::String& group, p2d::Body* b, bool to_common)
-{
-    if (m_lock_changes)
-    {
-        m_command_queue_lock.lock();
-        m_specified_groups_queue << sad::Triplet<bool, sad::String, p2d::Body*>(to_common, group, b);
-        m_command_queue_lock.unlock();
-    }
-    else
-    {
-        m_mutability_lock.lock();
-        addBodyToGroupNow(b, group,  to_common);
-        m_mutability_lock.unlock();
-    }
-}
-
-void sad::p2d::World::remove(p2d::Body * body)
-{
-    body->setUserObject(NULL);
-    body->clearListeners();
-    this->sad::TemporarilyImmutableContainer<p2d::Body>::remove(body);
-}
-
-
-unsigned int sad::p2d::World::getGroupCode(const sad::String& group, unsigned int preferred)
-{
-    unsigned int max = preferred;
-    for(sad::Hash<unsigned int, sad::String>::iterator it =  m_group_hash_codes.begin(); it != m_group_hash_codes.end(); ++it)
-    {
-        if (it.value() == group)
-        {
-            return it.key();
-        }
-        max = (it.key() > max) ? (it.key() + 1) : max;
-    }
-    if (max == 0)
-    {
-        max = 1;
-    }
-    m_group_hash_codes.insert(max, group);
-    return max;
-}
-
-void sad::p2d::World::addHandler(
-         sad::p2d::BasicCollisionHandler * h, 
-         const sad::String & t1, 
-         const sad::String & t2
-)
-{
-    if (m_groups.contains(t1) == false)
-    {
-        m_groups.insert(t1, sad::Vector<p2d::Body *>());
-    }
-    if (m_groups.contains(t2) == false)
-    {
-         m_groups.insert(t2, sad::Vector<p2d::Body *>());
-    }
-    type_pair_t tp(t1, t2);
-    types_with_handler_t twh(tp, h);
-    m_callbacks << twh;
-}
-
-void  sad::p2d::World::addBodyToGroupNow(p2d::Body* b, const sad::String& g, bool to_common)
-{
-    b->addRef();
-    sad::Vector<sad::String> groups;
-    if (to_common)
-    {
-        sad::String body_group = "p2d::Body";
-        groups << body_group;
-        if (m_groups.contains(body_group))
-        {
-            m_groups[body_group] << b;
-        }
-    }
-    if (m_groups.contains(g) == false)
-    {
-        m_groups.insert(g, sad::Vector<sad::p2d::Body*>());
-    }
-    groups << g;
-    m_groups[g] << b;
-    m_allbodies.insert(b, groups);
-    b->setSamplingCount(m_detector->sampleCount());
-    b->setWorld(this);
-}
-
-void sad::p2d::World::performQueuedActions()
-{
-    this->sad::TemporarilyImmutableContainer<p2d::Body>::performQueuedActions();
-    m_command_queue_lock.lock();
-    if (m_specified_groups_queue.size())
-    {
-        for(size_t i = 0; i < m_specified_groups_queue.size(); i++)
-        {
-            this->addBodyToGroupNow(m_specified_groups_queue[i].p3(), m_specified_groups_queue[i].p2(), m_specified_groups_queue[i].p1());
-        }
-        m_specified_groups_queue.clear();
-    }
-    m_command_queue_lock.unlock();
-}
-*/

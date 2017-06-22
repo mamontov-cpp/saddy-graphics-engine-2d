@@ -44,31 +44,6 @@ namespace p2dworld
     typedef sad::p2d::MovementDeltaListener<p2dworld::UserObject2, sad::p2d::Vector> move2_t;
     typedef sad::p2d::MovementDeltaListener<p2dworld::UserObject1, double> rotate1_t;
     typedef sad::p2d::MovementDeltaListener<p2dworld::UserObject2, double> rotate2_t;
-
-    struct StateMachine
-    {
-           int state;
-           sad::p2d::Body * b1;
-           sad::p2d::Body * b2;
-
-           void step(const sad::p2d::BasicCollisionEvent & ev)
-           {		
-                this->state +=1;
-                if (this->state == 1)
-                {
-                    b1->world()->splitTimeStepAt(ev.m_time);
-                    b1->sheduleTangentialVelocityAt(sad::p2d::Vector(0.0, 6.0), ev.m_time);
-                    b2->setCurrentPosition(sad::p2d::Vector(3.0, 3.0));
-                }
-                if (this->state == 2)
-                {
-                    b1->world()->splitTimeStepAt(ev.m_time);
-                    b1->sheduleTangentialVelocityAt(sad::p2d::Vector(-4.0, 0.0), ev.m_time);
-                    b2->setCurrentPosition(sad::p2d::Vector(7.0, 1.5));
-                }
-           }
-
-    };
 }
 DECLARE_SOBJ(p2dworld::UserObject1);
 DECLARE_SOBJ(p2dworld::UserObject2);
@@ -123,7 +98,6 @@ struct WorldTest : tpunit::TestFixture
        TEST(WorldTest::testRemoveFromCallback),
        TEST(WorldTest::testClearFromCallback),
        TEST(WorldTest::testListeners),
-       TEST(WorldTest::testMultipleSteps),
        TEST(WorldTest::testPickedGroups),
        TEST(WorldTest::testPickedGroupsTypeCheck)
    ) {}
@@ -137,7 +111,7 @@ struct WorldTest : tpunit::TestFixture
 
    void removeFirstBody(const sad::p2d::BasicCollisionEvent & ev)
    {
-       ev.m_object_1->world()->remove(ev.m_object_1);
+       ev.m_object_1->world()->removeBody(ev.m_object_1);
    }
 
    void clearWorld(const sad::p2d::BasicCollisionEvent & ev)
@@ -174,8 +148,8 @@ struct WorldTest : tpunit::TestFixture
        sad::p2d::World * w = new sad::p2d::World();
        w->addHandler(::performEvent);
        w->addHandler(this, &WorldTest::performEvent);
-       w->add(b1);
-       w->add(b2);
+       w->addBody(b1);
+       w->addBody(b2);
        
        w->step(1.0);
        w->step(1.0);
@@ -213,8 +187,8 @@ struct WorldTest : tpunit::TestFixture
        w->addHandler(::performEvent11);
        w->addHandler(this, &WorldTest::performEvent11);
        
-       w->add(b1);
-       w->add(b2);
+       w->addBody(b1);
+       w->addBody(b2);
        
        w->step(1.0);
        w->step(1.0);
@@ -254,8 +228,8 @@ struct WorldTest : tpunit::TestFixture
        w->addHandler(::performEvent12);
        w->addHandler(this, &WorldTest::performEvent12);
        
-       w->add(b1);
-       w->add(b2);
+       w->addBody(b1);
+       w->addBody(b2);
        
        w->step(1.0);
        w->step(1.0);
@@ -278,11 +252,11 @@ struct WorldTest : tpunit::TestFixture
        b1->setCurrentTangentialVelocity(sad::p2d::Vector(3.0, 0.0));
        
        sad::p2d::World * w = new sad::p2d::World();
-       w->add(b1);
+       w->addBody(b1);
        
        w->step(1.0);
        w->step(1.0);
-       w->remove(b1);
+       w->removeBody(b1);
        ASSERT_TRUE( ::eventperformed == 1 );
        delete w;
    }
@@ -297,7 +271,7 @@ struct WorldTest : tpunit::TestFixture
        b1->setCurrentTangentialVelocity(sad::p2d::Vector(3.0, 0.0));
        
        sad::p2d::World * w = new sad::p2d::World();
-       w->add(b1);
+       w->addBody(b1);
        
        w->step(1.0);
        w->step(1.0);
@@ -323,8 +297,8 @@ struct WorldTest : tpunit::TestFixture
 
        sad::p2d::World * w = new sad::p2d::World();
        w->addHandler(this, &WorldTest::removeFirstBody);
-       w->add(b1);
-       w->add(b2);
+       w->addBody(b1);
+       w->addBody(b2);
        
        w->step(1.0);
        w->step(1.0);
@@ -349,8 +323,8 @@ struct WorldTest : tpunit::TestFixture
 
        sad::p2d::World * w = new sad::p2d::World();
        w->addHandler(this, &WorldTest::clearWorld);
-       w->add(b1);
-       w->add(b2);
+       w->addBody(b1);
+       w->addBody(b2);
        
        w->step(1.0);
        w->step(1.0);
@@ -390,8 +364,8 @@ struct WorldTest : tpunit::TestFixture
        
        sad::p2d::World * w = new sad::p2d::World();
        
-       w->add(b1);
-       w->add(b2);
+       w->addBody(b1);
+       w->addBody(b2);
        
        w->step(1.0);
        w->step(1.0);
@@ -409,43 +383,6 @@ struct WorldTest : tpunit::TestFixture
        u1->delRef();
        u2->delRef();
    }
-
-   void testMultipleSteps()
-   {
-       p2dworld::StateMachine sm;
-
-       sad::p2d::Body * b1 = new sad::p2d::Body();
-       sad::p2d::Circle * c1 = new sad::p2d::Circle();
-       c1->setRadius(1.0);
-       b1->setShape(c1);
-       b1->setCurrentTangentialVelocity(sad::p2d::Vector(6.0, 0.0));
-       
-       sad::p2d::Body * b2 = new sad::p2d::Body();
-       sad::p2d::Circle * c2 = new sad::p2d::Circle();
-       c2->setRadius(1.0);
-       b2->setShape(c2);
-       b2->setCurrentPosition(sad::p2d::Point(3.0, 0.0));
-    
-       sm.state = 0;
-       sm.b1 = b1;
-       sm.b2 = b2;
-
-       sad::p2d::BroadCollisionDetector * det = new sad::p2d::BroadCollisionDetector();
-       sad::p2d::World * w = new sad::p2d::World();
-       w->setDetector(det);
-       w->addHandler(&sm, &p2dworld::StateMachine::step);
-       w->add(b1);
-       w->add(b2);
-       
-       w->step(1.0);
-       ASSERT_TRUE( sm.state == 2 );
-       ASSERT_FLOAT_EQUAL( b1->position().x(), 2);
-       ASSERT_FLOAT_EQUAL( b1->position().y(), 1.5);
-       ASSERT_FLOAT_EQUAL( b2->position().x(), 7);
-       ASSERT_FLOAT_EQUAL( b2->position().y(), 1.5);
-       delete w;
-   }
-
 
    void testPickedGroups()
    {
@@ -481,9 +418,11 @@ struct WorldTest : tpunit::TestFixture
        w->addHandler("first", "first", ::performEvent);
        w->addHandler(::performEvent);
        
-       w->addToGroup("first", b1);
-       w->addToGroup("first", b2, true);
-       w->addToGroup("second", b3, true);
+       w->addBodyToGroup("first", b1);
+       w->addBodyToGroup("p2d::Body", b2);
+       w->addBodyToGroup("first", b2);
+       w->addBodyToGroup("p2d::Body", b3);
+       w->addBodyToGroup("second", b3);
        
        w->step(1.0);
        w->step(1.0);
@@ -520,8 +459,8 @@ struct WorldTest : tpunit::TestFixture
        // Ok, we ignored handlers
        w->addHandler("first", "second", ::performEventChecked);
        
-       w->addToGroup("first", b1);
-       w->addToGroup("second", b2);
+       w->addBodyToGroup("first", b1);
+       w->addBodyToGroup("second", b2);
        
        w->step(1.0);
        w->step(1.0);

@@ -261,6 +261,12 @@ public:
             \param[in] h a handler
          */
         void add(size_t i1, size_t i2, sad::p2d::BasicCollisionHandler* h);
+        /*! Removes a handler from list
+            \param[in] i1 first index
+            \param[in] i2 second index
+            \param[in] h a handler
+         */
+        void remove(size_t i1, size_t i2, sad::p2d::BasicCollisionHandler* h);
         /*! Removes a handler from a list
             \param[in] h handler
          */
@@ -268,6 +274,11 @@ public:
         /*! Clears a handler list
          */
         void clear();
+        /*! Clears a list for groups
+            \param[in] i1 a group index
+            \param[in] i2 a second group index
+         */
+        void clearForGroups(size_t i1, size_t i2);
         /*! Removes a handler for a list
             \param[in] location a location
          */
@@ -710,7 +721,6 @@ protected:
      */
     void performQueuedCommands();
 
-    //!< TODO: Implement those
     /*! Peforms adding a body to a world
         \param[in] o body
      */
@@ -747,6 +757,7 @@ protected:
     /*! Erases all groups from a list
      */
     void clearGroupsNow();
+
     /*! Adds new handler for groups
         \param[in] group_name_1 a name for group, objects from which will be passed as first parameter to callback
         \param[in] group_name_2 a name for group, objects from which will be passed as second parameter to callback
@@ -787,27 +798,18 @@ protected:
         \param time_step a time step
      */
     void stepNow(double time_step);
+    //!< TODO: Implement those
 
     //!< TODO: CHECK IF THOSE ARE NEEDED
-     /*! Executes an events with callbacks
-         \param[in] ewc events with callbacks found reactions
-      */ 
-     virtual void executeCallbacks(sad::p2d::World::EventsWithCallbacks& ewc);
-     /*! Sorts callbacks. Ascending order of time of impact
-         \param[in] ewc events with callbacks
-      */
-     virtual void sortCallbacks(sad::p2d::World::EventsWithCallbacks& ewc);
-     /*! Find specific collision events and populates reactions
-         \param[in]  ewc events with callbacks
-      */
-     virtual void findEvents(sad::p2d::World::EventsWithCallbacks& ewc);
-     /*! Finds a specific collision event and populates reaction
-         \param[in]  ewc events with callbacks
-      */
-     virtual void findEvent(sad::p2d::World::EventsWithCallbacks& ewc);
-     /*! Finds and executes callbacks
-      */
-     virtual void findAndExecuteCollisionCallbacks();
+    /*! Find specific collision events and populates reactions
+        \param[in] ewc events with callbacks
+     */
+    void findEvents(sad::p2d::World::EventsWithCallbacks& ewc);
+    /*! Finds a specific collision event and populates reaction
+        \param[in] ewc events with callbacks
+        \param[in] lst a handler list to be used
+     */
+    void findEvent(sad::p2d::World::EventsWithCallbacks& ewc, sad::p2d::World::HandlerList& lst);
 
 };
 
