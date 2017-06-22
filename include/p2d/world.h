@@ -568,7 +568,9 @@ public:
     sad::p2d::BasicCollisionHandler*
     addHandler(void (*p)(const sad::p2d::CollisionEvent<T1, T2>&))
     {
-        return this->addHandler<T1, T2>(p);
+        sad::String t1 = T1::globalMetaData()->name();
+        sad::String t2 = T2::globalMetaData()->name();
+        return this->addHandler<T1, T2>(t1, t2, p);
     }
     /*! Adds new collision handler for grpoups with specified callback
         \param[in] g1 first group for collision
@@ -580,7 +582,8 @@ public:
     sad::p2d::BasicCollisionHandler*
     addHandler(const sad::String& g1, const sad::String& g2, void (*p)(const sad::p2d::CollisionEvent<T1, T2>&))
     {
-        return this->addHandler<T1, T2>(g1, g2, p);
+        sad::p2d::BasicCollisionHandler* h = new sad::p2d::TypedCollisionHandler<T1, T2>(p);
+        return addHandler(g1, g2, h);
     }
 
     /*! Adds new handler for group

@@ -1167,19 +1167,16 @@ void sad::p2d::World::stepNow(double time)
     setIsLockedFlag(true);
 
     m_time_step = time;
-    while ( sad::non_fuzzy_zero(m_time_step) )
+    m_global_body_container.buildBodyCaches(time);
     {
-        m_global_body_container.buildBodyCaches(time);
-        {
-            sad::p2d::World::EventsWithCallbacks events_with_callbacks;
-            findEvents(events_with_callbacks);
-            std::sort(events_with_callbacks.begin(), events_with_callbacks.end());
-            sad::invoke_functors(events_with_callbacks);
-        }
-
-        m_global_body_container.stepPositionsAndVelocities(time);
-        m_global_body_container.stepDiscreteChangingValues(time);
+        sad::p2d::World::EventsWithCallbacks events_with_callbacks;
+        findEvents(events_with_callbacks);
+        std::sort(events_with_callbacks.begin(), events_with_callbacks.end());
+        sad::invoke_functors(events_with_callbacks);
     }
+
+    m_global_body_container.stepPositionsAndVelocities(time);
+    m_global_body_container.stepDiscreteChangingValues(time);
 
     setIsLockedFlag(false);
     m_world_lock.unlock();
