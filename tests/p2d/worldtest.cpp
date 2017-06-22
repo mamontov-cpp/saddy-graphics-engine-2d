@@ -457,7 +457,7 @@ struct WorldTest : tpunit::TestFixture
 
        sad::p2d::World * w = new sad::p2d::World();
        // Ok, we ignored handlers
-       w->addHandler("first", "second", ::performEventChecked);
+       w->addHandler("first", "second", ::performEvent);
        
        w->addBodyToGroup("first", b1);
        w->addBodyToGroup("second", b2);
