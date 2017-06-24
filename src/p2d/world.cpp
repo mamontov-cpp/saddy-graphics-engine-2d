@@ -444,7 +444,6 @@ void sad::p2d::World::GlobalHandlerList::remove(size_t i1, size_t i2, sad::p2d::
             {
                 delete List[i].List;
                 List.removeAt(i);
-                --i;
             }
             return;
         }
@@ -756,6 +755,38 @@ void sad::p2d::World::clearGroup(const sad::String& group_name)
     }
 }
 
+
+void sad::p2d::World::addGroup(const sad::String& group_name)
+{
+    if (isLockedForChanges())
+    {
+        sad::p2d::World::QueuedCommand cmd;
+        cmd.Type = sad::p2d::World::P2D_WORLD_QCT_ADD_GROUP;
+        cmd.GroupName = group_name;
+        addCommand(cmd);
+    }
+    else
+    {
+        this->addGroupNow(group_name);
+    }
+}
+
+void sad::p2d::World::removeGroup(const sad::String& group_name)
+{
+    if (isLockedForChanges())
+    {
+        sad::p2d::World::QueuedCommand cmd;
+        cmd.Type = sad::p2d::World::P2D_WORLD_QCT_REMOVE_GROUP;
+        cmd.GroupName = group_name;
+        addCommand(cmd);
+    }
+    else
+    {
+        this->removeGroupNow(group_name);
+    }
+}
+
+
 void sad::p2d::World::clearGroups()
 {
     if (isLockedForChanges())
@@ -947,10 +978,9 @@ bool sad::p2d::World::doesGroupExists(const sad::String& group_name)
 
 size_t sad::p2d::World::totalBodyCount()
 {
-    size_t result = 0;
     m_world_lock.lock();
 
-    result = m_global_body_container.bodyCount();
+    size_t result = m_global_body_container.bodyCount();
 
     m_world_lock.unlock();
     return result;
@@ -958,10 +988,9 @@ size_t sad::p2d::World::totalBodyCount()
 
 size_t sad::p2d::World::totalGroupCount()
 {
-    size_t result = 0;
     m_world_lock.lock();
 
-    result = m_group_container.groupCount();
+    size_t result = m_group_container.groupCount();
 
     m_world_lock.unlock();
     return result;
@@ -987,10 +1016,9 @@ size_t sad::p2d::World::amountOfBodiesInGroup(const sad::String& group_name)
 
 size_t sad::p2d::World::amountOfHandlers()
 {
-    size_t result = 0;
     m_world_lock.lock();
 
-    result = m_global_handler_list.totalHandlerCount();
+    size_t result = m_global_handler_list.totalHandlerCount();
 
     m_world_lock.unlock();
     return result;
@@ -1015,10 +1043,9 @@ size_t sad::p2d::World::amountOfHandlersForGroups(const sad::String& s1, const s
 
 size_t sad::p2d::World::totalHandlerOccurences(sad::p2d::BasicCollisionHandler* h)
 {
-    size_t result = 0;
     m_world_lock.lock();
 
-    result = m_global_handler_list.totalHandlerOccurences(h);
+    size_t result = m_global_handler_list.totalHandlerOccurences(h);
 
     m_world_lock.unlock();
 

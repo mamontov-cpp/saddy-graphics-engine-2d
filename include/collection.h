@@ -2,6 +2,7 @@
 
     A miscellaneous functions for performing actions are stored here
  */
+#pragma once
 #include <sadvector.h>
 #include <functional>
 #include <algorithm>

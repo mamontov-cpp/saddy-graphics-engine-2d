@@ -516,6 +516,15 @@ public:
         \param[in] group_name a name of group
      */
     void clearGroup(const sad::String& group_name);
+
+    /*! Adds new group by name
+        \param[in] group_name a name of group
+     */
+    void addGroup(const sad::String& group_name);
+    /*! Removes group by name
+        \param[in] group_name a name of group
+     */
+    void removeGroup(const sad::String& group_name);
     /*! Clears all groups in world, removing all bodies
      */
     void clearGroups();
@@ -674,7 +683,9 @@ public:
     {
         sad::String t1 = T1::globalMetaData()->name();
         sad::String t2 = T2::globalMetaData()->name();
-        return this->addHandler<T1, T2>(t1, t2, p);
+        sad::p2d::BasicCollisionHandler* h = new sad::p2d::TypedCollisionHandler<T1, T2>(p);
+        addHandler(t1, t2, h);
+        return h;
     }
     /*! Adds new collision handler for grpoups with specified callback
         \param[in] g1 first group for collision
@@ -721,7 +732,7 @@ public:
     */
     template<typename _Class, typename T1, typename T2>
     sad::p2d::BasicCollisionHandler*
-    addHandler( _Class * o, void (_Class::*p)(const sad::p2d::CollisionEvent<T1, T2>&))
+    addHandler(_Class* o, void (_Class::*p)(const sad::p2d::CollisionEvent<T1, T2>&))
     {
         return this->addHandler<T1, T2>([o, p](const sad::p2d::CollisionEvent<T1, T2>& ev) {
             (o->*p)(ev);
@@ -736,7 +747,7 @@ public:
     */
     template<typename _Class, typename T1, typename T2>
     sad::p2d::BasicCollisionHandler*
-    addHandler(const sad::String& g1, const sad::String& g2, _Class * o, void (_Class::*p)(const sad::p2d::CollisionEvent<T1, T2>&))
+    addHandler(const sad::String& g1, const sad::String& g2, _Class* o, void (_Class::*p)(const sad::p2d::CollisionEvent<T1, T2>&))
     {
         return this->addHandler<T1, T2>(g1, g2, [o, p](const sad::p2d::CollisionEvent<T1, T2>& ev) {
             (o->*p)(ev);
@@ -749,9 +760,9 @@ public:
     */
     template<typename _Class>
     sad::p2d::BasicCollisionHandler*
-    addHandler(_Class * o, void (_Class::*p)(const sad::p2d::BasicCollisionEvent&))
+    addHandler(_Class* o, void (_Class::*p)(const sad::p2d::BasicCollisionEvent&))
     {
-        return this->addHandler([o, p](const sad::p2d::BasicCollisionEvent& ev) {
+        return this->addHandler("p2d::Body", "p2d::Body", [o, p](const sad::p2d::BasicCollisionEvent& ev) {
             (o->*p)(ev);
         });
     }
@@ -767,7 +778,7 @@ public:
     addHandler(
         const sad::String& first_group,
         const sad::String& second_group,
-        _Class * o,
+        _Class* o,
         void (_Class::*p)(const sad::p2d::BasicCollisionEvent &)
     )
     {
@@ -905,9 +916,6 @@ protected:
         \param time_step a time step
      */
     void stepNow(double time_step);
-    //!< TODO: Implement those
-
-    //!< TODO: CHECK IF THOSE ARE NEEDED
     /*! Find specific collision events and populates reactions
         \param[in] ewc events with callbacks
      */
@@ -917,7 +925,6 @@ protected:
         \param[in] lst a handler list to be used
      */
     void findEvent(sad::p2d::World::EventsWithCallbacks& ewc, sad::p2d::World::HandlerList& lst);
-
 };
 
 }
