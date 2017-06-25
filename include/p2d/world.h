@@ -137,6 +137,10 @@ public:
             \return body count
          */
         size_t bodyCount();
+        /*! Returns a list of active bodies in container
+            \return a list of bodies
+         */
+        sad::Vector<sad::p2d::Body*> activeBodies();
     };
     /*! A group container for bodies
      */
@@ -177,6 +181,10 @@ public:
             \return body count
          */
         size_t bodyCount();
+        /*! Returns a list of active bodies in container
+            \return a list of bodies
+         */
+        sad::Vector<sad::p2d::Body*> activeBodies();
     };
     /*! A pair of group with it's activity flag with comparison
      */
@@ -245,6 +253,10 @@ public:
             \return amount of active groups
          */
         size_t groupCount();
+        /*! Returns list of existing groups
+            \return list of existing groups
+         */
+        sad::Vector<sad::String> existingGroups() const;
     };
     /*! A handler list for a group pair
      */
@@ -317,6 +329,16 @@ public:
             \return amount of times
          */
         size_t totalHandlerOccurences(size_t i1, size_t i2, sad::p2d::BasicCollisionHandler* h);
+        /*! Returns a handler list for all of groups 
+            \return a handler list
+         */
+        sad::Vector<sad::p2d::BasicCollisionHandler*> handlers();
+        /*! Returns a handler list for all of objects
+            \param[in] i1 first group index
+            \param[in] i2 second group index
+            \return a handler list
+         */
+        sad::Vector<sad::p2d::BasicCollisionHandler*> handlers(size_t i1, size_t i2);
     };
     /*! A queued command type for queued commands
      */
@@ -606,6 +628,18 @@ public:
      */
     size_t amountOfBodiesInGroup(const sad::String& group_name);
 
+    /*! Returns list of all active bodies in world
+        \return list of all active bodies in world 
+     */
+    sad::Vector<sad::p2d::Body*> allBodies();
+    /*! Returns list of existing groups in world
+        \return existing groups
+     */
+    sad::Vector<sad::String> existingGroups();
+    /*! Returns list all bodies in group
+        \return list all bodies in group
+     */
+    sad::Vector<sad::p2d::Body*> allBodiesInGroup(const sad::String& group_name);
 
     /*! Returns total amount of handlers in world
         \return total amount of handlers in world
@@ -642,6 +676,16 @@ public:
      */
     bool isHandlerInGroups(const sad::String& s1, const sad::String& s2, sad::p2d::BasicCollisionHandler* h);
 
+    /*! Returns all handlers, existing in a world
+        \return all handlers, existing in a world
+     */
+    sad::Vector<sad::p2d::BasicCollisionHandler*> allHandlers();
+    /*! Returns all handlers, that are binded to group pair in exact order
+        \param[in] s1 first group
+        \param[in] s2 second group
+        \return all handlers, that are binded to group pair in exact order
+    */
+    sad::Vector<sad::p2d::BasicCollisionHandler*> allHandlersForGroups(const sad::String& s1, const sad::String& s2);
 
     /*! Adds new collision handler with specified typed callback
         \param[in] first_group a first group, where handler should be applied to

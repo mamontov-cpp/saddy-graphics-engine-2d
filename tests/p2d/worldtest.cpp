@@ -787,6 +787,11 @@ struct WorldTest : tpunit::TestFixture
         ASSERT_TRUE(w->doesGroupExists("b2"));
         ASSERT_TRUE(w->amountOfBodiesInGroup("b3") == 1);
 
+        ASSERT_TRUE(w->allBodies().size() == 3);
+        ASSERT_TRUE(w->allBodiesInGroup("b3").size() == 1);
+        ASSERT_TRUE(w->existingGroups().size() == 3);
+
+
         delete w;
     }
 
@@ -1039,6 +1044,10 @@ struct WorldTest : tpunit::TestFixture
 
         ASSERT_TRUE(w->amountOfHandlers() == 2);
         ASSERT_TRUE(w->amountOfHandlersForGroups("b1", "b2") == 2);
+
+        ASSERT_TRUE(w->allHandlers().size() == 2);
+        ASSERT_TRUE(w->allHandlersForGroups("b1", "b2").size() == 2);
+
 
         delete w;
     }
