@@ -89,7 +89,7 @@ void World::run()
     sad::Vector<sad::p2d::Body *> bodies = m_walls->bodies();
     for(size_t i = 0; i < bodies.count(); i++)
     {
-        m_world->add(bodies[i]);
+        m_world->addBody(bodies[i]);
     }
 
     // Build elastic grid with 9 nodes

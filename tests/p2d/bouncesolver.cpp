@@ -67,10 +67,10 @@ struct BounceSolverTest : tpunit::TestFixture
         // Create world
         sad::p2d::World * world = new sad::p2d::World();
         world->addHandler(this, &BounceSolverTest::onWallBall);
-        world->add(ballbody);
+        world->addBody(ballbody);
         for(unsigned int i = 0; i < walls->bodies().size(); i++) 
         {
-            world->add(walls->bodies()[i]);
+            world->addBody(walls->bodies()[i]);
         }
 
         // Create solver

@@ -360,6 +360,10 @@ public:
     /*! Set amount of sampling, needed to cache positions for collision detection
      */
     void setSamplingCount(int samples);
+    /*! Builds inner bodu caches with time step
+        \param time_step a current time step
+     */
+    void buildCaches(double time_step);
 public:
     /*! A special constant, needed to be set by world in order to set step for body
      */

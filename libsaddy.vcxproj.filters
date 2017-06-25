@@ -1643,5 +1643,8 @@
     <ClInclude Include="include\animations\animationssavedrenderingstringlimit.h">
       <Filter>Заголовочные файлы\animations</Filter>
     </ClInclude>
+    <ClInclude Include="include\collection.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

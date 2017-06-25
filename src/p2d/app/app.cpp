@@ -59,13 +59,22 @@ void sad::p2d::app::App::removeObject(sad::p2d::app::Object * o)
 {
     sad::p2d::Body * b = o->body();
     m_renderer->scenes()[m_layer]->remove(o);
-    m_world->remove(b);
+    m_world->removeBody(b);
 }
 
 
-void sad::p2d::app::App::addObject(sad::p2d::app::Object * o)
+void sad::p2d::app::App::addObject(sad::p2d::app::Object * o, const sad::String& additional_group)
 {
     o->setApp(this);
     m_renderer->scenes()[m_layer]->add(o);
-    m_world->add(o->body());
+    m_world->addBody(o->body());
+    if (additional_group.size())
+    {
+        m_world->addBodyToGroup(additional_group, o->body());
+    }
+}
+
+sad::p2d::World* sad::p2d::app::App::world() const
+{
+    return this->m_world;
 }

@@ -65,8 +65,15 @@ public:
         /*! Emits object
          */
         virtual void perform();
+        /*! Adds an additional group, where objects should be stored
+            \param[in] group_name a group name
+         */
+        void addAdditionalGroupForObjects(const sad::String& group_name);
 protected:
         p2d::app::App * m_app;
+        /*! An additional groups for adding into world
+         */
+        sad::Vector<sad::String> m_additional_groups;
 };
 
 

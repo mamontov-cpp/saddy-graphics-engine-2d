@@ -6,6 +6,9 @@ AbstractAutomaticGun::AbstractAutomaticGun()
     m_object = NULL;
     m_dangle = 0;
     setInterval(200); // Fairly random number, as a default
+
+    // An additional group for objects
+    this->addAdditionalGroupForObjects("GameObject");
 }
 
 double AbstractAutomaticGun::angle()

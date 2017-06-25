@@ -29,7 +29,7 @@
 #define FORMAT_H_
 
 #ifdef _MSC_VER
-	#pragma warning(disable: 4996)
+    #pragma warning(disable: 4996)
 #endif
 
 #ifndef _SCL_SECURE_NO_WARNINGS 
@@ -44,12 +44,12 @@ namespace std_util
 
 template<class InputIt, class OutputIt>
 OutputIt copy(InputIt first, InputIt last,
-	OutputIt d_first)
+    OutputIt d_first)
 {
-	while (first != last) {
-		*d_first++ = *first++;
-	}
-	return d_first;
+    while (first != last) {
+        *d_first++ = *first++;
+    }
+    return d_first;
 }
 
 }
@@ -784,7 +784,7 @@ void BasicWriter<Char>::FormatDouble(
 #if _MSC_VER >= 1900
         std_util::copy(p, p + n, p + (spec.width() - n) / 2);
 #else
-		std::copy(p, p + n, p + (spec.width() - n) / 2);
+        std::copy(p, p + n, p + (spec.width() - n) / 2);
 #endif
         FillPadding(p, spec.width(), n, spec.fill());
         return;

@@ -499,5 +499,9 @@ void sad::p2d::Body::setSamplingCount(int samples)
     m_lastsampleindex = samples - 1;
 }
 
-
+void sad::p2d::Body::buildCaches(double time_step)
+{
+    this->TimeStep = time_step;
+    this->buildCaches();
+}
 
