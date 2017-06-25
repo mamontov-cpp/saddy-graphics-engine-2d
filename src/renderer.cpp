@@ -950,7 +950,10 @@ void sad::Renderer::renderScenes()
     this->unlockRendering();
 }
 
-//#define NO_GL_FINISH
+// Temporarily disabled due to issues with explicitly calling glFinish() on Windows 10 GTX770, since
+// sometimes window becomes unresponsible and even crashes on such cases. Removing it does nothing,
+// everything still goes normally. 
+#define NO_GL_FINISH
 
 void sad::Renderer::finishRendering()
 {
