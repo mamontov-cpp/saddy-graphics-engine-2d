@@ -407,7 +407,7 @@ void Game::enterPlayingScreen()
     // Handlers also register types in world, so they MUST BE added before
     // any object ia added to scene
 
-    m_world->addHandler(this, &Game::onWallCollision);
+    m_world->addHandler("sad::p2d::Wall", "GameObject", this, &Game::onWallCollision);
     m_world->addHandler(this, &Game::onBonusCollision);
     m_world->addHandler(this, &Game::onPlayerBulletEnemy);
     m_world->addHandler(this, &Game::onPlayerBulletSEnemy);
@@ -418,9 +418,9 @@ void Game::enterPlayingScreen()
     m_world->addHandler(this, &Game::onPlayerSuperShootingEnemy);
 
     // We add background, emitter and new player's alter-ego at 320,240 - center of screen
-    Player * p  = new  Player();
+    Player* p  = new  Player();
     p->setPosition(sad::p2d::Point(320.0,240.0));
-    addObject(p);
+    addObject(p, "GameObject");
 
     m_player = p;	
 
@@ -469,7 +469,8 @@ GameObject *  Game::produce(Objects type)
     }
     if (result)
     {
-        this->addObject(result);
+        // At the moment we need a common game object group to scan walls for collisions only with enemy object
+        this->addObject(result, "GameObject");
     }
     return result;
 }
@@ -484,7 +485,7 @@ void Game::createWalls()
     const sad::Vector<sad::p2d::Body *> & bodies = m_walls->bodies();
     for(size_t i = 0; i < bodies.count(); i++)
     {
-        m_world->add(bodies[i]);
+        m_world->addBody(bodies[i]);
     }
 }
 
@@ -602,7 +603,7 @@ void Game::moveToStartingScreen()
     m_spawntask->setEvent(new StartScreenRain(this) );
     // Handlers also register types in world, so they MUST BE added before
     // any object ia added to scene
-    m_world->addHandler(this, &Game::onWallCollision);
+    m_world->addHandler("sad::p2d::Wall", "GameObject", this, &Game::onWallCollision);
     this->createWalls();
     
     m_registered_supershooting_enemies_count = 0;

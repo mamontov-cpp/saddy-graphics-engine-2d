@@ -26,7 +26,7 @@ class AutomaticGun: public AbstractAutomaticGun
          // Check paused flag
          if (m_object->game()->isPaused() == false)
          {
-          this->sad::p2d::app::AbstractObjectEmitter::perform();
+             this->sad::p2d::app::AbstractObjectEmitter::perform();
          }
      }
  public:

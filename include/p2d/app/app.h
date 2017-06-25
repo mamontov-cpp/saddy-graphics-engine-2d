@@ -42,8 +42,12 @@ public:
     virtual void run();
     /*! Adds a game object
         \param[in] o game object
+        \param[in] additional_group an additional group, where data should be stored
      */
-    void addObject(p2d::app::Object * o);
+    void addObject(p2d::app::Object * o, const sad::String& additional_group = "");
+    /*! Returns world, used in application
+     */
+    sad::p2d::World* world() const;
     /*! Creates application
      */
     virtual ~App();
