@@ -1,8 +1,12 @@
 #include "dukpp-03/context.h"
 #include "dukpp-03/jsmovementlistener.h"
+#include "dukpp-03/renderer.h"
 
 #include <geometry2d.h>
 #include <fuzzyequal.h>
+#include <renderer.h>
+
+#include <pipeline/pipeline.h>
 
 #include <p2d/axle.h>
 #include <p2d/circle.h>
@@ -17,6 +21,7 @@
 #include <p2d/elasticforce.h>
 #include <p2d/weight.h>
 #include <p2d/world.h>
+#include <p2d/worldsteptask.h>
 #include <p2d/bouncesolver.h>
 #include <p2d/simplecollisiondetector.h>
 #include <p2d/multisamplingcollisiondetector.h>
@@ -684,6 +689,109 @@ static void exposeWalls(sad::dukpp03::Context* ctx)
     }
 }
 
+static void exposeWorld(sad::dukpp03::Context* ctx)
+{
+    {
+        sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+
+        c->addObjectConstructor<sad::p2d::World>("SadP2DWorld");
+ 
+        c->addMethod("setObjectName", sad::dukpp03::bind_method::from(&sad::p2d::World::setObjectName));
+        c->addMethod("objectName", sad::dukpp03::bind_method::from(&sad::p2d::World::objectName));
+
+        c->addAccessor("MajorId", sad::dukpp03::getter::from(&sad::p2d::World::MajorId), sad::dukpp03::setter::from(&sad::p2d::World::MajorId));
+        c->addAccessor("MinorId", sad::dukpp03::getter::from(&sad::p2d::World::MinorId), sad::dukpp03::setter::from(&sad::p2d::World::MinorId));
+
+        ctx->addClassBinding("sad::p2d::World", c);
+
+        PERFORM_AND_ASSERT(
+            "sad.p2d.World = SadP2DWorld;"
+        );
+    }
+}
+
+static sad::String taskNameForWorld(sad::p2d::World* w)
+{
+    std::ostringstream s;
+    s << "sad::p2d::WorldStepTask{m_world: ";
+    s << w;
+    s << "}";
+    return s.str();
+}
+
+static sad::String addStepTask(sad::Renderer* r, sad::p2d::World* w)
+{
+    sad::String result = taskNameForWorld(w);
+    sad::p2d::WorldStepTask* task = new sad::p2d::WorldStepTask(w, r);
+    task->enable();
+    task->mark(result);
+    r->pipeline()->append(task);
+    return result;
+}
+
+static void removeStepTask(sad::Renderer* r, sad::p2d::World* w)
+{
+    sad::String result = taskNameForWorld(w);
+    r->pipeline()->removeByMarkWith(result, true);
+}
+
+static void enableStepTask(sad::Renderer* r, sad::p2d::World* w)
+{
+    sad::String result = taskNameForWorld(w);
+    r->pipeline()->enableByMark(result);
+}
+
+static void disableStepTask(sad::Renderer* r, sad::p2d::World* w)
+{
+    sad::String result = taskNameForWorld(w);
+    r->pipeline()->enableByMark(result);
+}
+
+static void exposeWorldStepTask(sad::dukpp03::Context* ctx)
+{
+    std::function<sad::String(sad::dukpp03::Renderer*, sad::p2d::World*)> add_step_task = [](sad::dukpp03::Renderer* r, sad::p2d::World* w)
+    {
+        return addStepTask(r, w);
+    };
+    ctx->registerCallable("SadP2DAddStepTask", sad::dukpp03::make_function::from(addStepTask));
+    ctx->registerCallable("SadP2DAddStepTask", sad::dukpp03::make_lambda::from(add_step_task));
+
+    std::function<void(sad::dukpp03::Renderer*, sad::p2d::World*)> remove_step_task = [](sad::dukpp03::Renderer* r, sad::p2d::World* w)
+    {
+        removeStepTask(r, w);
+    };
+
+    ctx->registerCallable("SadP2DRemoveStepTask", sad::dukpp03::make_function::from(removeStepTask));
+    ctx->registerCallable("SadP2DRemoveStepTask", sad::dukpp03::make_lambda::from(remove_step_task));
+
+    std::function<void(sad::dukpp03::Renderer*, sad::p2d::World*)> enable_step_task = [](sad::dukpp03::Renderer* r, sad::p2d::World* w)
+    {
+        enableStepTask(r, w);
+    };
+
+    ctx->registerCallable("SadP2DEnableStepTask", sad::dukpp03::make_function::from(enableStepTask));
+    ctx->registerCallable("SadP2DEnableStepTask", sad::dukpp03::make_lambda::from(enable_step_task));
+
+    std::function<void(sad::dukpp03::Renderer*, sad::p2d::World*)> disable_step_task = [](sad::dukpp03::Renderer* r, sad::p2d::World* w)
+    {
+        disableStepTask(r, w);
+    };
+
+    ctx->registerCallable("SadP2DDisableStepTask", sad::dukpp03::make_function::from(disableStepTask));
+    ctx->registerCallable("SadP2DDisableStepTask", sad::dukpp03::make_lambda::from(disable_step_task));
+
+    PERFORM_AND_ASSERT(
+        "sad.p2d.addStepTask = SadP2DAddStepTask;"
+        "sad.p2d.removeStepTask = SadP2DRemoveStepTask;"
+        "sad.p2d.enableStepTask = SadP2DEnableStepTask;"
+        "sad.p2d.disableStepTask = SadP2DDisableStepTask;"
+    );
+}
+
+
+
+
+
 void sad::dukpp03::exposeP2D(sad::dukpp03::Context* ctx)
 {
 
@@ -812,4 +920,6 @@ void sad::dukpp03::exposeP2D(sad::dukpp03::Context* ctx)
     exposeCollisionTest(ctx);
     exposeWall(ctx);
     exposeWalls(ctx);
+    exposeWorld(ctx);
+    exposeWorldStepTask(ctx);
 }

@@ -4,7 +4,10 @@
 sad::p2d::WorldStepTask::WorldStepTask(sad::p2d::World * w, sad::Renderer * r)
 : m_world(w), m_renderer(r)
 {
-
+    if (w)
+    {
+        w->addRef();
+    }
 }
 
 void sad::p2d::WorldStepTask::_process()
@@ -24,7 +27,23 @@ void sad::p2d::WorldStepTask::_process()
         m_world->step(rendertime);
 }
 
-void sad::p2d::WorldStepTask::setWorld(p2d::World * world)
+void sad::p2d::WorldStepTask::setWorld(sad::p2d::World * world)
 {
+    if (m_world)
+    {
+        m_world->delRef();
+    }
     m_world = world;
+    if (m_world)
+    {
+        m_world->addRef();
+    }
+}
+
+sad::p2d::WorldStepTask::~WorldStepTask()
+{
+    if (m_world)
+    {
+        m_world->delRef();
+    }
 }
