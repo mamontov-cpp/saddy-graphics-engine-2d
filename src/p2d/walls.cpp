@@ -8,28 +8,8 @@
 DECLARE_SOBJ(sad::p2d::Walls);
 DECLARE_SOBJ(sad::p2d::Wall);
 
-sad::p2d::Wall::Wall(double padding) : m_padding(padding)
-{
-    m_body = NULL;
-    m_opposite_body = NULL;
-}
+// ============================== sad::p2d::Walls METHODS ==============================
 
-void sad::p2d::Wall::tryTeleport(sad::p2d::Body * b)
-{
-  sad::p2d::Bound * bound = static_cast<sad::p2d::Bound *>(this->m_opposite_body->currentShape());
-  sad::p2d::Vector  n = bound->normal();
-  sad::p2d::CollisionShape & s = b->at(b->timeStep());
-  sad::p2d::Cutter1D projection = s.project(n);
-
-  sad::p2d::Point P = bound->boundingLine().intersection(
-                sad::p2d::InfiniteLine::appliedVector(s.center(), n)
-             ).value();
-  double On = std::min(projection.p1(), projection.p2());
-  double O =  p2d::scalar(s.center(), n);
-
-  P += n * (O - On + COLLISION_PRECISION);
-  b->shedulePosition(P);
-}
 
 sad::p2d::Walls::Walls(double padding) : m_padding(padding)
 {
@@ -98,15 +78,85 @@ sad::p2d::Walls::~Walls()
     }
 }
 
+// ============================== sad::p2d::Wall METHODS ==============================
+
+sad::p2d::Wall::Wall(double padding) : m_padding(padding)
+{
+    m_body = NULL;
+    m_opposite_body = NULL;
+}
+
+void sad::p2d::Wall::tryTeleport(sad::p2d::Body * b)
+{
+    if (this->m_opposite_body == NULL)
+    {
+        return;
+    }
+    sad::p2d::Bound * bound = static_cast<sad::p2d::Bound *>(this->m_opposite_body->currentShape());
+    sad::p2d::Vector  n = bound->normal();
+    sad::p2d::CollisionShape & s = b->at(b->timeStep());
+    sad::p2d::Cutter1D projection = s.project(n);
+
+    sad::p2d::Point P = bound->boundingLine().intersection(
+                sad::p2d::InfiniteLine::appliedVector(s.center(), n)
+             ).value();
+    double On = std::min(projection.p1(), projection.p2());
+    double O =  p2d::scalar(s.center(), n);
+
+    P += n * (O - On + COLLISION_PRECISION);
+    b->shedulePosition(P);
+}
+
+void sad::p2d::Wall::setBody(p2d::Body * b)
+{
+    if (m_body)
+    {
+        m_body->delRef();
+    }
+    m_body = b;
+    if (b)
+    {
+        b->delRef();
+    }
+}
+
+void sad::p2d::Wall::setOppositeBody(p2d::Body * b)
+{
+    if (m_opposite_body)
+    {
+        m_opposite_body->delRef();
+    }
+    m_opposite_body = b;
+    if (b)
+    {
+        b->delRef();
+    }
+}
 
 sad::p2d::BoundType  sad::p2d::Wall::type() const
 {
-    return 	static_cast<p2d::Bound *>(this->body()->currentShape())
+    if (this->m_body == NULL)
+    {
+        return sad::p2d::BT_LEFT;
+    }
+    return  static_cast<p2d::Bound *>(this->body()->currentShape())
             ->type();
 }
 
 int sad::p2d::Wall::typeAsIntegralValue() const
 {
     return static_cast<int>(this->type());
+}
+
+sad::p2d::Wall::~Wall()
+{
+    if (m_body)
+    {
+        m_body->delRef();
+    }
+    if (m_opposite_body)
+    {
+        m_opposite_body->delRef();
+    }
 }
 

@@ -83,15 +83,15 @@ public:
     /*! Sets new body
         \param[in] b body
      */
-    inline void setBody(p2d::Body * b) { m_body = b; }
+    void setBody(p2d::Body * b);
     /*! Returns body for opposite wall
         \return opposite body
      */
-    inline p2d::Body * oppositeBody() const { return m_body; }
+    inline p2d::Body * oppositeBody() const { return m_opposite_body; }
     /*! Sets body for opposite wall
         \param[in] b opposite body
        */
-    inline void setOppositeBody(p2d::Body * b) {m_opposite_body = b;} 
+    void setOppositeBody(p2d::Body * b);
     /*! Returns type of a wall
         \return type of wall
      */
@@ -100,6 +100,9 @@ public:
         \return type of wall
      */
     int typeAsIntegralValue() const;
+    /*! Frees all referenced bodies
+     */
+    ~Wall();
 protected:
     /*! A padding for opposite wall
      */
