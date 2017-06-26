@@ -9,6 +9,8 @@
 #include "db/dbfield.h"
 #include "db/dbmethodpair.h"
 
+// ========================================= sad::p2d::app::Way METHODS =========================================
+
 sad::p2d::app::Way::Way() : m_constructed(true), m_closed(false), m_totaltime(100)
 {
 
@@ -20,26 +22,22 @@ sad::p2d::app::Way::~Way()
 }
 
 
-void sad::p2d::app::Way::step(
-    sad::p2d::app::Way::WayLink * link, 
-    double step,
-    sad::p2d::Point & p
-)
+sad::p2d::Point sad::p2d::app::Way::getPointInTime(double current_time, double step)
 {
-    assert( m_constructed );
-    if (m_waypoints.size() == 1)
+    if (!m_constructed)
     {
-        p = m_waypoints[0];
-        link->CurrentTime += step;
-        return;
+        construct();
     }
 
-    double time = link->CurrentTime  + step;
+    if (m_waypoints.size() == 1)
+    {
+        return m_waypoints[0];
+    }
+
+    double time = current_time + step;
     if (time > m_totaltime  && !m_closed)
     {
-        p = m_waypoints[m_waypoints.size() - 1];
-        link->CurrentTime += step;
-        return;
+        return m_waypoints[m_waypoints.size() - 1];
     }
 
     while(time > m_totaltime)
@@ -63,10 +61,10 @@ void sad::p2d::app::Way::step(
     }
     else
     {
-        p2 = m_waypoints[index+1];
+        p2 = m_waypoints[index + 1];
     }
-    p = p1 + (p2-p1) * (relativetime / timespan);	
-    link->CurrentTime += step;
+    p1 += (p2 - p1) * (relativetime / timespan);
+    return p1;
 }
 
 

@@ -235,6 +235,7 @@ DECLARE_INSTANTIATED_COMMON_TYPE(sad::Vector<sad::dialogue::Phrase>)
 DECLARE_INSTANTIATED_COMMON_TYPE(sad::Vector<unsigned long long>)
 DECLARE_INSTANTIATED_COMMON_TYPE(sad::Vector<sad::String>)
 DECLARE_INSTANTIATED_COMMON_TYPE(sad::Vector<sad::p2d::Body*>)
+DECLARE_INSTANTIATED_COMMON_TYPE(sad::Vector<sad::p2d::BasicCollisionHandler*>)
 
 DECLARE_COMMON_TYPE(sad::p2d::Bound)
 DECLARE_COMMON_TYPE(sad::p2d::Line)

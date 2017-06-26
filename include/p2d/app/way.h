@@ -35,18 +35,6 @@ typedef p2d::Point WayPoint;
 class Way: public sad::db::Object
 {
 public:
-    struct WayLink
-    {
-        inline WayLink(p2d::app::Way* w = NULL)
-        {
-            this->LinkedWay = w;
-            this->CurrentTime = 0;
-        }
-        
-        p2d::app::Way * LinkedWay;
-        double     CurrentTime;
-    };
-public:
     /*! Creates a default closed unconstructed way
      */
     Way();
@@ -54,20 +42,20 @@ public:
      */
     virtual ~Way();
     /*! Steps a link on way
-        \param[in,out] link which is being changed
+        \param[in] current_time a current time 
         \param[in] step a time step
-        \param[out] p a current point
+        \return a oint from way
      */
-    void step(WayLink * link, double step, sad::p2d::Point & p);
+    sad::p2d::Point getPointInTime(double current_time, double step);
     /*! Sets i-th point to another point
         \param[in] i an index for point
         \param[in] p point
      */
-    void setPoint(int i,  const sad::p2d::app::WayPoint & p);
+    void setPoint(int i,  const sad::p2d::app::WayPoint& p);
     /*! Add new point
         \param[in] p point
      */
-    void addPoint(const sad::p2d::app::WayPoint & p);
+    void addPoint(const sad::p2d::app::WayPoint& p);
     /*! Inserts point in specified position
         \param[in] i a position
         \param[in] p point

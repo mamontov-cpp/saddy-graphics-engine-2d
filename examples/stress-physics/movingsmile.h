@@ -14,7 +14,8 @@ class MovingSmile: public sad::p2d::app::Object
 {
  SAD_OBJECT
  protected:
-     sad::p2d::app::Way::WayLink m_link;
+     sad::p2d::app::Way* m_way;
+     double m_time;
  public:
      MovingSmile(sad::p2d::app::Way * o);
      void step(double time);

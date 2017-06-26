@@ -351,7 +351,10 @@ void Game::leaveStartingScreen()
 {
     this->scene()->clear();
     
-    delete m_world;
+    if (m_world)
+    {
+        m_world->delRef();
+    }
     createWorld();
     m_steptask->setWorld(m_world);
     m_registered_supershooting_enemies_count = 0;
@@ -480,8 +483,12 @@ GameObject *  Game::produce(Objects type)
 
 void Game::createWalls()
 {
-    delete m_walls;
+    if (m_walls)
+    {
+        m_walls->delRef();
+    }
     m_walls = new sad::p2d::Walls(14);
+    m_walls->addRef();
     const sad::Vector<sad::p2d::Body *> & bodies = m_walls->bodies();
     for(size_t i = 0; i < bodies.count(); i++)
     {
@@ -570,7 +577,10 @@ void Game::moveToStartingScreen()
 {
     SL_LOCAL_SCOPE("Game::moveToStartingScreen()", *m_renderer);
     m_renderer->setScene(new sad::Scene());
-    delete m_world;
+    if (m_world)
+    {
+        m_world->delRef();
+    }
     createWorld();
     m_steptask->setWorld(m_world);
     

@@ -44,8 +44,7 @@ sad::animations::WayInstance::WayInstance()
 
 sad::animations::WayInstance::WayInstance(const sad::animations::WayInstance& o)
 : sad::animations::Instance(o),
-m_way_link(o.m_way_link),
-m_local_link(o.m_local_link)
+m_way_link(o.m_way_link)
 {
     
 }
@@ -54,7 +53,6 @@ sad::animations::WayInstance& sad::animations::WayInstance::operator=(const sad:
 {
     this->sad::animations::Instance::operator=(o);
     m_way_link = o.m_way_link;
-    m_local_link = o.m_local_link;
     return *this;
 }
 
@@ -199,10 +197,7 @@ void sad::animations::WayInstance::processTime(sad::animations::Animations* anim
 {
     sad::p2d::app::Way* way = static_cast<sad::p2d::app::Way*>(m_way_link.get());
 
-    m_local_link.CurrentTime = time - 0.1;
-    m_local_link.LinkedWay = way;
-    sad::Point2D pos;
-    way->step(&m_local_link, 0.1, pos);
+    sad::Point2D pos = way->getPointInTime(time - 0.1, 0.1);
 
     this->stateCommandAs<sad::Point2D>()->call(pos);
     if (m_body)

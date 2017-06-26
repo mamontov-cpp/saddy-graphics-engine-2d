@@ -150,15 +150,10 @@ void sad::animations::WayMoving::setState(sad::animations::Instance* i, double t
 {
     sad::p2d::app::Way* way = this->way(false);
 
-    sad::p2d::app::Way::WayLink link;
-
     // This actually allows easing function to work as identity in case of linear function or do nothing in
     // all other cases
     double time_position = m_easing->evalBounded(time - 0.1, way->totalTime()) * way->totalTime();
-    link.CurrentTime = time_position;
-    link.LinkedWay = way;
-    sad::Point2D pos;
-    way->step(&link, 0.1, pos);
+    sad::Point2D pos = way->getPointInTime(time_position, 0.1);
 
     i->stateCommandAs<sad::Point2D>()->call(pos);
     if (i->body())

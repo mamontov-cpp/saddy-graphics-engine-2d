@@ -100,9 +100,6 @@ protected:
     /*! Returns a way link
      */
     sad::db::Link m_way_link;
-    /*! A local link to way
-     */
-    sad::p2d::app::Way::WayLink m_local_link;
 };
     
 }

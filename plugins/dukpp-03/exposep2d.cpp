@@ -1,5 +1,6 @@
 #include "dukpp-03/context.h"
 #include "dukpp-03/jsmovementlistener.h"
+#include "dukpp-03/jscollisionhandler.h"
 #include "dukpp-03/renderer.h"
 
 #include <geometry2d.h>
@@ -28,6 +29,7 @@
 #include <p2d/broadcollisiondetector.h>
 #include <p2d/collisionevent.h>
 #include <p2d/walls.h>
+#include <p2d/app/way.h>
 
 #include <cassert>
 
@@ -253,7 +255,7 @@ static void exposeInfiniteLine(sad::dukpp03::Context* ctx)
 
     ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * intersection_overload = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
     intersection_overload->add(sad::dukpp03::bind_method::from(intersection1));
-    intersection_overload->add(sad::dukpp03::bind_method::from(intersection1));
+    intersection_overload->add(sad::dukpp03::bind_method::from(intersection2));
 
     c->addMethod("intersection", intersection_overload);
     c->addMethod("hasPoint", sad::dukpp03::bind_method::from(&sad::p2d::InfiniteLine::hasPoint));
@@ -273,8 +275,8 @@ static void exposeInfiniteLine(sad::dukpp03::Context* ctx)
     ctx->registerCallable("SadP2DInfiniteLineAppliedVector", sad::dukpp03::make_function::from(sad::p2d::InfiniteLine::appliedVector));
     
     
-    sad::p2d::MaybePoint (*gintersection1)(const sad::p2d::Cutter2D & a, const sad::p2d::Cutter2D & b) = sad::p2d::intersection;
-    sad::p2d::MaybePoint (*gintersection2)(const sad::p2d::Point & x, const sad::p2d::Vector & v, const sad::p2d::Cutter2D & c) = sad::p2d::intersection;
+    sad::p2d::MaybePoint (*gintersection1)(const sad::p2d::Cutter2D& a, const sad::p2d::Cutter2D& b) = sad::p2d::intersection;
+    sad::p2d::MaybePoint (*gintersection2)(const sad::p2d::Point& x, const sad::p2d::Vector& v, const sad::p2d::Cutter2D &) = sad::p2d::intersection;
 
     ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * global_intersection_overload = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
     global_intersection_overload->add(sad::dukpp03::make_function::from(gintersection1));
@@ -702,10 +704,63 @@ static void exposeWorld(sad::dukpp03::Context* ctx)
         c->addAccessor("MajorId", sad::dukpp03::getter::from(&sad::p2d::World::MajorId), sad::dukpp03::setter::from(&sad::p2d::World::MajorId));
         c->addAccessor("MinorId", sad::dukpp03::getter::from(&sad::p2d::World::MinorId), sad::dukpp03::setter::from(&sad::p2d::World::MinorId));
 
+        c->addMethod("setDetector", sad::dukpp03::bind_method::from(&sad::p2d::World::setDetector));
+        c->addMethod("timeStep", sad::dukpp03::bind_method::from(&sad::p2d::World::timeStep));
+
+        c->addMethod("addBody", sad::dukpp03::bind_method::from(&sad::p2d::World::addBody));
+        c->addMethod("removeBody", sad::dukpp03::bind_method::from(&sad::p2d::World::removeBody));
+        c->addMethod("clearBodies", sad::dukpp03::bind_method::from(&sad::p2d::World::clearBodies));
+        
+        c->addMethod("addBodyToGroup", sad::dukpp03::bind_method::from(&sad::p2d::World::addBodyToGroup));
+        c->addMethod("removeBodyFromGroup", sad::dukpp03::bind_method::from(&sad::p2d::World::removeBodyFromGroup));
+        c->addMethod("clearGroup", sad::dukpp03::bind_method::from(&sad::p2d::World::clearGroup));
+
+        c->addMethod("addGroup", sad::dukpp03::bind_method::from(&sad::p2d::World::addGroup));
+        c->addMethod("removeGroup", sad::dukpp03::bind_method::from(&sad::p2d::World::removeGroup));
+        c->addMethod("clearGroups", sad::dukpp03::bind_method::from(&sad::p2d::World::clearGroups));
+
+        std::function<sad::p2d::BasicCollisionHandler*(sad::p2d::World*, const sad::String&, const sad::String&, sad::dukpp03::Context*, const sad::dukpp03::CompiledFunction&)> add_handler
+        = [](sad::p2d::World*w, const sad::String& g1, const sad::String& g2, sad::dukpp03::Context* local_ctx, const sad::dukpp03::CompiledFunction& ff) {
+            return w->addHandler(g1, g2, new sad::dukpp03::JSCollisionHandler(local_ctx, ff));
+        };
+        ctx->registerCallable("SadP2DWorldAddHandler", sad::dukpp03::make_lambda::from(add_handler));
+
+        c->addMethod("removeHandlerFromGroups", sad::dukpp03::bind_method::from(&sad::p2d::World::removeHandlerFromGroups));
+        c->addMethod("removeHandler", sad::dukpp03::bind_method::from(&sad::p2d::World::removeHandler));
+        c->addMethod("clearHandlers", sad::dukpp03::bind_method::from(&sad::p2d::World::clearHandlers));
+        c->addMethod("clearHandlersForGroups", sad::dukpp03::bind_method::from(&sad::p2d::World::clearHandlersForGroups));
+
+        c->addMethod("clear", sad::dukpp03::bind_method::from(&sad::p2d::World::clear));
+        c->addMethod("step", sad::dukpp03::bind_method::from(&sad::p2d::World::step));
+
+        c->addMethod("isBodyInWorld", sad::dukpp03::bind_method::from(&sad::p2d::World::isBodyInWorld));
+        c->addMethod("isInGroup", sad::dukpp03::bind_method::from(&sad::p2d::World::isInGroup));
+        c->addMethod("doesGroupExists", sad::dukpp03::bind_method::from(&sad::p2d::World::doesGroupExists));
+
+        c->addMethod("totalBodyCount", sad::dukpp03::bind_method::from(&sad::p2d::World::totalBodyCount));
+        c->addMethod("totalGroupCount", sad::dukpp03::bind_method::from(&sad::p2d::World::totalGroupCount));
+        c->addMethod("amountOfBodiesInGroup", sad::dukpp03::bind_method::from(&sad::p2d::World::amountOfBodiesInGroup));
+
+        c->addMethod("allBodies", sad::dukpp03::bind_method::from(&sad::p2d::World::allBodies));
+        c->addMethod("existingGroups", sad::dukpp03::bind_method::from(&sad::p2d::World::existingGroups));
+        c->addMethod("allBodiesInGroup", sad::dukpp03::bind_method::from(&sad::p2d::World::allBodiesInGroup));
+
+        c->addMethod("amountOfHandlers", sad::dukpp03::bind_method::from(&sad::p2d::World::amountOfHandlers));
+        c->addMethod("amountOfHandlersForGroups", sad::dukpp03::bind_method::from(&sad::p2d::World::amountOfHandlersForGroups));
+        c->addMethod("totalHandlerOccurences", sad::dukpp03::bind_method::from(&sad::p2d::World::totalHandlerOccurences));
+        c->addMethod("totalHandlerOccurencesInGroups", sad::dukpp03::bind_method::from(&sad::p2d::World::totalHandlerOccurencesInGroups));
+
+        c->addMethod("isHandlerInWorld", sad::dukpp03::bind_method::from(&sad::p2d::World::isHandlerInWorld));
+        c->addMethod("isHandlerInGroups", sad::dukpp03::bind_method::from(&sad::p2d::World::isHandlerInGroups));
+        c->addMethod("allHandlers", sad::dukpp03::bind_method::from(&sad::p2d::World::allHandlers));
+        c->addMethod("allHandlersForGroups", sad::dukpp03::bind_method::from(&sad::p2d::World::allHandlersForGroups));
+
+
         ctx->addClassBinding("sad::p2d::World", c);
 
         PERFORM_AND_ASSERT(
             "sad.p2d.World = SadP2DWorld;"
+            "sad.p2d.World.prototype.addHandler = function(g1, g2, ctx, f) { return SadP2DWorldAddHandler(this, g1, g2, ctx, f); };"
         );
     }
 }
@@ -788,6 +843,45 @@ static void exposeWorldStepTask(sad::dukpp03::Context* ctx)
     );
 }
 
+
+void exposeWay(sad::dukpp03::Context* ctx)
+{
+    {
+        sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+
+        c->addObjectConstructor<sad::p2d::app::Way>("SadP2DAppWay");
+
+        c->addMethod("setObjectName", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::setObjectName));
+        c->addMethod("objectName", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::objectName));
+
+        c->addAccessor("MajorId", sad::dukpp03::getter::from(&sad::p2d::app::Way::MajorId), sad::dukpp03::setter::from(&sad::p2d::app::Way::MajorId));
+        c->addAccessor("MinorId", sad::dukpp03::getter::from(&sad::p2d::app::Way::MinorId), sad::dukpp03::setter::from(&sad::p2d::app::Way::MinorId));
+
+        c->addMethod("getPointInTime", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::getPointInTime));
+        c->addMethod("setPoint", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::setPoint));
+        c->addMethod("addPoint", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::addPoint));
+        c->addMethod("insertPoint", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::insertPoint));
+        c->addMethod("removePoint", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::removePoint));
+        c->addMethod("closed", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::closed));
+        c->addMethod("setClosed", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::setClosed));
+        c->addMethod("makeClosed", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::makeClosed));
+        c->addMethod("makeOpen", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::makeOpen));
+        c->addMethod("setTotalTime", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::setTotalTime));
+        c->addMethod("totalTime", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::totalTime));
+        c->addMethod("wayPoints", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::wayPoints));
+        c->addMethod("construct", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::construct));
+        c->addMethod("startConstruction", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::startConstruction));
+        c->addMethod("serializableName", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::serializableName));
+
+        
+        ctx->addClassBinding("sad::p2d::app::Way", c);
+
+        PERFORM_AND_ASSERT(
+            "sad.p2d.app = {};"
+            "sad.p2d.app.Way = SadP2DAppWay;"
+        );
+    }
+}
 
 
 
@@ -922,4 +1016,5 @@ void sad::dukpp03::exposeP2D(sad::dukpp03::Context* ctx)
     exposeWalls(ctx);
     exposeWorld(ctx);
     exposeWorldStepTask(ctx);
+    exposeWay(ctx);
 }

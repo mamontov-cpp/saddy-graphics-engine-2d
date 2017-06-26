@@ -15,6 +15,7 @@ class Phrase;
 namespace p2d
 {
 class Body;
+class BasicCollisionHandler;
 }
 
 template<typename T1, typename T2>
@@ -40,6 +41,7 @@ DEFINE_DEFAULT_INSTANTIATION(sad::Vector<sad::dialogue::Phrase>)
 DEFINE_DEFAULT_INSTANTIATION(sad::Vector<unsigned long long>)
 DEFINE_DEFAULT_INSTANTIATION(sad::Vector<sad::String>)
 DEFINE_DEFAULT_INSTANTIATION(sad::Vector<sad::p2d::Body*>)
+DEFINE_DEFAULT_INSTANTIATION(sad::Vector<sad::p2d::BasicCollisionHandler*>)
 
 // Forward declaration for triplets
 namespace sad

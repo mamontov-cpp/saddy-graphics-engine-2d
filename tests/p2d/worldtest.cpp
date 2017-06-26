@@ -811,7 +811,7 @@ struct WorldTest : tpunit::TestFixture
         w->addBodyToGroup("b1", b1);
         w->addBodyToGroup("b2", b2);
         w->addHandler("b1", "b2", [w, b1, b2](const sad::p2d::BasicCollisionEvent& ev) {
-            w->removeFromGroup("b1", b1);
+            w->removeBodyFromGroup("b1", b1);
         });
         w->step(1.0);
         w->step(1.0);

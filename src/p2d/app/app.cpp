@@ -11,7 +11,9 @@ sad::p2d::app::App::App() : m_layer(0), m_world(NULL), m_steptask(NULL), m_rende
 sad::p2d::app::App::~App()
 {
     if (m_world)
-        delete m_world;
+    {
+        m_world->delRef();
+    }
 }
 
 void sad::p2d::app::App::initApp(unsigned int layer, sad::Renderer * r)
@@ -42,6 +44,7 @@ void sad::p2d::app::App::createWorld()
 {
     m_world = new sad::p2d::World();
     m_world->setDetector(new p2d::SimpleCollisionDetector());
+    m_world->addRef();
 }
 
 void sad::p2d::app::App::quit()

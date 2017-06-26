@@ -805,7 +805,7 @@ void sad::p2d::World::addBodyToGroup(const sad::String& group_name, sad::p2d::Bo
     }
 }
 
-void sad::p2d::World::removeFromGroup(const sad::String& group_name, sad::p2d::Body* b)
+void sad::p2d::World::removeBodyFromGroup(const sad::String& group_name, sad::p2d::Body* b)
 {
     if (isLockedForChanges())
     {

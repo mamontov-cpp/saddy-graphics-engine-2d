@@ -44,13 +44,14 @@ void sad::p2d::Walls::makeWalls(double width, double height)
         sad::p2d::Body * b = new p2d::Body();
         b->setShape(bound);
         b->setWeight( p2d::Weight::infinite() );
+        b->addRef();
         m_bodies << b;
 
-        sad::p2d::Wall * w = new sad::p2d::Wall(m_padding);
-        b->setUserObject(w);
+        sad::p2d::Wall * wall = new sad::p2d::Wall(m_padding);
+        b->setUserObject(wall);
         b->setFixed(true);
-        w->setBody(b);
-        m_walls << w;
+        wall->setBody(b);
+        m_walls << wall;
     }
 
     m_walls[0]->setOppositeBody(m_walls[1]->body());
@@ -75,6 +76,10 @@ sad::p2d::Walls::~Walls()
     for(size_t i = 0; i < m_walls.count(); i++)
     {
         m_walls[i]->delRef();
+    }
+    for (size_t i = 0; i < m_bodies.count(); i++)
+    {
+        m_bodies[i]->delRef();
     }
 }
 
@@ -116,7 +121,7 @@ void sad::p2d::Wall::setBody(p2d::Body * b)
     m_body = b;
     if (b)
     {
-        b->delRef();
+        b->addRef();
     }
 }
 
@@ -129,7 +134,7 @@ void sad::p2d::Wall::setOppositeBody(p2d::Body * b)
     m_opposite_body = b;
     if (b)
     {
-        b->delRef();
+        b->addRef();
     }
 }
 

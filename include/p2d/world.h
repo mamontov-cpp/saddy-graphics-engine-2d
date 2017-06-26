@@ -533,7 +533,7 @@ public:
         \param[in] group_name a group name for bodies
         \param[in] b body
      */
-    void removeFromGroup(const sad::String& group_name, sad::p2d::Body* b);
+    void removeBodyFromGroup(const sad::String& group_name, sad::p2d::Body* b);
     /*! Clears a group by name
         \param[in] group_name a name of group
      */
