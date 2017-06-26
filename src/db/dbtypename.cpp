@@ -31,6 +31,7 @@
 
 #include "p2d/app/way.h"
 #include "p2d/bounds.h"
+#include "p2d/body.h"
 #include "p2d/line.h"
 #include "p2d/rectangle.h"
 #include "p2d/circle.h"
@@ -233,6 +234,7 @@ DECLARE_INSTANTIATED_COMMON_TYPE(sad::Vector<sad::dialogue::Phrase*>)
 DECLARE_INSTANTIATED_COMMON_TYPE(sad::Vector<sad::dialogue::Phrase>)
 DECLARE_INSTANTIATED_COMMON_TYPE(sad::Vector<unsigned long long>)
 DECLARE_INSTANTIATED_COMMON_TYPE(sad::Vector<sad::String>)
+DECLARE_INSTANTIATED_COMMON_TYPE(sad::Vector<sad::p2d::Body*>)
 
 DECLARE_COMMON_TYPE(sad::p2d::Bound)
 DECLARE_COMMON_TYPE(sad::p2d::Line)

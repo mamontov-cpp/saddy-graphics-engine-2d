@@ -22,6 +22,7 @@
 #include <p2d/multisamplingcollisiondetector.h>
 #include <p2d/broadcollisiondetector.h>
 #include <p2d/collisionevent.h>
+#include <p2d/walls.h>
 
 #include <cassert>
 
@@ -544,9 +545,6 @@ static void exposeBounceSolver(sad::dukpp03::Context* ctx)
     );
 }
 
-
-
-
 static void exposeCollisionDetector(sad::dukpp03::Context* ctx)
 {
     {
@@ -626,6 +624,64 @@ static void exposeCollisionTest(sad::dukpp03::Context* ctx)
         "sad.p2d.CollisionTest.prototype.invoke = function(b1, b2)   { return SadP2DInvokeCollisionTest(this, b1, b2) };"
         "sad.p2d.CollisionTest.prototype.collides = sad.p2d.CollisionTest.prototype.invoke;"
     );
+}
+
+
+
+static void exposeWall(sad::dukpp03::Context* ctx)
+{
+    {
+        sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+
+        c->addObjectConstructor<sad::p2d::Wall>("SadP2DWall");
+        c->addObjectConstructor<sad::p2d::Wall, double>("SadP2DWall");
+ 
+        c->addMethod("setObjectName", sad::dukpp03::bind_method::from(&sad::p2d::Wall::setObjectName));
+        c->addMethod("objectName", sad::dukpp03::bind_method::from(&sad::p2d::Wall::objectName));
+
+        c->addAccessor("MajorId", sad::dukpp03::getter::from(&sad::p2d::Wall::MajorId), sad::dukpp03::setter::from(&sad::p2d::Wall::MajorId));
+        c->addAccessor("MinorId", sad::dukpp03::getter::from(&sad::p2d::Wall::MinorId), sad::dukpp03::setter::from(&sad::p2d::Wall::MinorId));
+
+        c->addMethod("tryTeleport", sad::dukpp03::bind_method::from(&sad::p2d::Wall::tryTeleport));
+        c->addMethod("body", sad::dukpp03::bind_method::from(&sad::p2d::Wall::body));
+        c->addMethod("setBody", sad::dukpp03::bind_method::from(&sad::p2d::Wall::setBody));
+        c->addMethod("oppositeBody", sad::dukpp03::bind_method::from(&sad::p2d::Wall::oppositeBody));
+        c->addMethod("setOppositeBody", sad::dukpp03::bind_method::from(&sad::p2d::Wall::setOppositeBody));
+        c->addMethod("type", sad::dukpp03::bind_method::from(&sad::p2d::Wall::typeAsIntegralValue));
+        c->addMethod("typeAsIntegralValue", sad::dukpp03::bind_method::from(&sad::p2d::Wall::typeAsIntegralValue));
+
+        ctx->addClassBinding("sad::p2d::Wall", c);
+
+        PERFORM_AND_ASSERT(
+            "sad.p2d.Wall = SadP2DWall;"
+        );
+    }
+}
+
+static void exposeWalls(sad::dukpp03::Context* ctx)
+{
+    {
+        sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+
+        c->addObjectConstructor<sad::p2d::Walls>("SadP2DWalls");
+        c->addObjectConstructor<sad::p2d::Walls, double>("SadP2DWalls");
+        c->addObjectConstructor<sad::p2d::Walls, double, double>("SadP2DWalls");
+        c->addObjectConstructor<sad::p2d::Walls, double, double, double>("SadP2DWalls");
+ 
+        c->addMethod("setObjectName", sad::dukpp03::bind_method::from(&sad::p2d::Walls::setObjectName));
+        c->addMethod("objectName", sad::dukpp03::bind_method::from(&sad::p2d::Walls::objectName));
+
+        c->addAccessor("MajorId", sad::dukpp03::getter::from(&sad::p2d::Walls::MajorId), sad::dukpp03::setter::from(&sad::p2d::Walls::MajorId));
+        c->addAccessor("MinorId", sad::dukpp03::getter::from(&sad::p2d::Walls::MinorId), sad::dukpp03::setter::from(&sad::p2d::Walls::MinorId));
+
+        c->addMethod("bodies", sad::dukpp03::bind_method::from(&sad::p2d::Walls::bodies));
+        
+        ctx->addClassBinding("sad::p2d::Walls", c);
+
+        PERFORM_AND_ASSERT(
+            "sad.p2d.Walls = SadP2DWalls;"
+        );
+    }
 }
 
 void sad::dukpp03::exposeP2D(sad::dukpp03::Context* ctx)
@@ -754,4 +810,6 @@ void sad::dukpp03::exposeP2D(sad::dukpp03::Context* ctx)
     exposeBounceSolver(ctx);
     exposeCollisionDetector(ctx);
     exposeCollisionTest(ctx);
+    exposeWall(ctx);
+    exposeWalls(ctx);
 }

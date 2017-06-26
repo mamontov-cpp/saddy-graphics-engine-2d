@@ -9,6 +9,7 @@
 #include "wrapvalue.h"
 #include "../3rdparty/dukpp-03/include/dukpp-03.h"
 #include "../3rdparty/dukpp-03/include/object.h"
+#include "../3rdparty/dukpp-03/include/lambda.h"
 
 namespace sad
 {

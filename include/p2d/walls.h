@@ -22,12 +22,10 @@ class Wall;
     within walls behaves normally, and when out of walls - it'll be destroyed
     or teleported (if this is player)
  */
-class Walls
+class Walls: public sad::Object
 {
+SAD_OBJECT
 public:
-    /*! A minimal definition for a wall
-     */
-    typedef sad::Pair<p2d::BoundType, double> minimal_t;
     /*! Creates bounding walls with specified padding, which defines how far
         walls are from edges of window. If we pass here 14, that the bounding
         rectangle will be 14 points larger than screen bounds.
@@ -44,7 +42,7 @@ public:
     Walls(double width, double height, double padding = 0);
     /*! Returns physical bodies of walls to add them into a game world
      */
-    const sad::Vector<p2d::Body *> bodies() const;
+    sad::Vector<p2d::Body *> bodies() const;
     /*! Destroys walls
      */
     virtual ~Walls();
@@ -98,6 +96,10 @@ public:
         \return type of wall
      */
     p2d::BoundType  type() const;
+    /*! Returns type of a wall as the integral value
+        \return type of wall
+     */
+    int typeAsIntegralValue() const;
 protected:
     /*! A padding for opposite wall
      */
@@ -114,4 +116,5 @@ protected:
 
 }
 
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::p2d::Walls)
 DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::p2d::Wall)

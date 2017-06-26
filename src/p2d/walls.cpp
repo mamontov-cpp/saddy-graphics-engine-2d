@@ -5,9 +5,10 @@
 #include <p2d/weight.h>
 #include <renderer.h>
 
+DECLARE_SOBJ(sad::p2d::Walls);
 DECLARE_SOBJ(sad::p2d::Wall);
 
-sad::p2d::Wall::Wall(double padding) :m_padding(padding)
+sad::p2d::Wall::Wall(double padding) : m_padding(padding)
 {
     m_body = NULL;
     m_opposite_body = NULL;
@@ -30,9 +31,6 @@ void sad::p2d::Wall::tryTeleport(sad::p2d::Body * b)
   b->shedulePosition(P);
 }
 
-
-
-
 sad::p2d::Walls::Walls(double padding) : m_padding(padding)
 {
     this->makeWalls(
@@ -51,11 +49,11 @@ void sad::p2d::Walls::makeWalls(double width, double height)
     double w = width;
     double h = height;
     
-    sad::Vector< minimal_t > pairs;
-    pairs << minimal_t( sad::p2d::BT_LEFT, -m_padding );
-    pairs << minimal_t( sad::p2d::BT_RIGHT, w + m_padding);
-    pairs << minimal_t( sad::p2d::BT_UP, h + m_padding );
-    pairs << minimal_t( sad::p2d::BT_DOWN, -m_padding );
+    sad::Vector< sad::Pair<p2d::BoundType, double> > pairs;
+    pairs << sad::Pair<p2d::BoundType, double>( sad::p2d::BT_LEFT, -m_padding );
+    pairs << sad::Pair<p2d::BoundType, double>( sad::p2d::BT_RIGHT, w + m_padding);
+    pairs << sad::Pair<p2d::BoundType, double>( sad::p2d::BT_UP, h + m_padding );
+    pairs << sad::Pair<p2d::BoundType, double>( sad::p2d::BT_DOWN, -m_padding );
 
     for(size_t i = 0; i < pairs.size(); i++)
     {
@@ -86,7 +84,7 @@ void sad::p2d::Walls::makeWalls(double width, double height)
     }
 }
 
-const sad::Vector<sad::p2d::Body *> sad::p2d::Walls::bodies() const
+sad::Vector<sad::p2d::Body *> sad::p2d::Walls::bodies() const
 {
     return m_bodies;
 }
@@ -106,3 +104,9 @@ sad::p2d::BoundType  sad::p2d::Wall::type() const
     return 	static_cast<p2d::Bound *>(this->body()->currentShape())
             ->type();
 }
+
+int sad::p2d::Wall::typeAsIntegralValue() const
+{
+    return static_cast<int>(this->type());
+}
+

@@ -25,6 +25,7 @@ typedef ::dukpp03::rebind_method<sad::dukpp03::BasicContext> rebind_method;
 typedef ::dukpp03::CompiledFunction<sad::dukpp03::BasicContext> CompiledFunction;
 typedef ::dukpp03::getter<sad::dukpp03::BasicContext> getter;
 typedef ::dukpp03::setter<sad::dukpp03::BasicContext> setter;
+typedef ::dukpp03::make_lambda<sad::dukpp03::BasicContext> make_lambda;
 
 
 #define DUKPP03_FROM_STACK(TYPE, CONTEXT, INDEX) (::dukpp03::GetValue< DUKPP03_TYPE(TYPE), sad::dukpp03::BasicContext>::perform((CONTEXT),(INDEX)))
