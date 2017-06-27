@@ -574,6 +574,8 @@ static void exposeCollisionDetector(sad::dukpp03::Context* ctx)
         c->addObjectConstructor<sad::p2d::SimpleCollisionDetector>("SadP2DSimpleCollisionDetector");
         c->addParentBinding(ctx->getClassBinding("sad::p2d::CollisionDetector"));
 
+        c->setPrototypeFunction("SadP2DSimpleCollisionDetector");
+
         ctx->addClassBinding("sad::p2d::SimpleCollisionDetector", c);
     }
 
@@ -582,12 +584,16 @@ static void exposeCollisionDetector(sad::dukpp03::Context* ctx)
         c->addObjectConstructor<sad::p2d::BroadCollisionDetector>("SadP2DBroadCollisionDetector");
         c->addParentBinding(ctx->getClassBinding("sad::p2d::CollisionDetector"));
 
+        c->setPrototypeFunction("SadP2DBroadCollisionDetector");
+
         ctx->addClassBinding("sad::p2d::BroadCollisionDetector", c);
     }
     {
         sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
         c->addObjectConstructor<sad::p2d::MultisamplingCollisionDetector>("SadP2DMultisamplingCollisionDetector");
         c->addObjectConstructor<sad::p2d::MultisamplingCollisionDetector, unsigned int>("SadP2DMultisamplingCollisionDetector");
+
+        c->setPrototypeFunction("SadP2DMultisamplingCollisionDetector");
 
         c->addParentBinding(ctx->getClassBinding("sad::p2d::CollisionDetector"));
 
@@ -626,6 +632,8 @@ static void exposeCollisionTest(sad::dukpp03::Context* ctx)
 
     ctx->registerCallable("SadP2DInvokeCollisionTest", sad::dukpp03::make_function::from(__invokeCollisionTest));
 
+    c->setPrototypeFunction("SadP2DCollisionTest");
+
     PERFORM_AND_ASSERT(
         "sad.p2d.CollisionTest = SadP2DCollisionTest;"
         "sad.p2d.CollisionTest.prototype.invoke = function(b1, b2)   { return SadP2DInvokeCollisionTest(this, b1, b2) };"
@@ -657,6 +665,8 @@ static void exposeWall(sad::dukpp03::Context* ctx)
         c->addMethod("type", sad::dukpp03::bind_method::from(&sad::p2d::Wall::typeAsIntegralValue));
         c->addMethod("typeAsIntegralValue", sad::dukpp03::bind_method::from(&sad::p2d::Wall::typeAsIntegralValue));
 
+        c->setPrototypeFunction("SadP2DWall");
+
         ctx->addClassBinding("sad::p2d::Wall", c);
 
         PERFORM_AND_ASSERT(
@@ -680,6 +690,8 @@ static void exposeWalls(sad::dukpp03::Context* ctx)
 
         c->addAccessor("MajorId", sad::dukpp03::getter::from(&sad::p2d::Walls::MajorId), sad::dukpp03::setter::from(&sad::p2d::Walls::MajorId));
         c->addAccessor("MinorId", sad::dukpp03::getter::from(&sad::p2d::Walls::MinorId), sad::dukpp03::setter::from(&sad::p2d::Walls::MinorId));
+
+        c->setPrototypeFunction("SadP2DWalls");
 
         c->addMethod("bodies", sad::dukpp03::bind_method::from(&sad::p2d::Walls::bodies));
         
@@ -754,6 +766,8 @@ static void exposeWorld(sad::dukpp03::Context* ctx)
         c->addMethod("isHandlerInGroups", sad::dukpp03::bind_method::from(&sad::p2d::World::isHandlerInGroups));
         c->addMethod("allHandlers", sad::dukpp03::bind_method::from(&sad::p2d::World::allHandlers));
         c->addMethod("allHandlersForGroups", sad::dukpp03::bind_method::from(&sad::p2d::World::allHandlersForGroups));
+
+        c->setPrototypeFunction("SadP2DWorld");
 
 
         ctx->addClassBinding("sad::p2d::World", c);
@@ -873,6 +887,7 @@ void exposeWay(sad::dukpp03::Context* ctx)
         c->addMethod("startConstruction", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::startConstruction));
         c->addMethod("serializableName", sad::dukpp03::bind_method::from(&sad::p2d::app::Way::serializableName));
 
+        c->setPrototypeFunction("SadP2DAppWay");
         
         ctx->addClassBinding("sad::p2d::app::Way", c);
 

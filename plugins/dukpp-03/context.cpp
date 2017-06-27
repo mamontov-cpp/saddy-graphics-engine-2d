@@ -274,6 +274,7 @@ void sad::dukpp03::Context::initialize()
 
     exposeHFSM(this);
     exposeP2D(this);
+    exposeDialogue(this);
 }
 
 

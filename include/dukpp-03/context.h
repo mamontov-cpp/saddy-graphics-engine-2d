@@ -723,14 +723,18 @@ void exposeAPI(sad::dukpp03::Context* ctx);
 
 /*! Exposes hierarchical finite state machine functions, related to context
     \param[in] ctx context
-*/
+ */
 void exposeHFSM(sad::dukpp03::Context* ctx);
 
 /*! Exposes physics functions, related to context
-     \param[in] ctx context
-*/
+    \param[in] ctx context
+ */
 void exposeP2D(sad::dukpp03::Context* ctx);
 
+/*! Exposes dialogues functions, related to context
+    \param[in] ctx context
+ */
+void exposeDialogue(sad::dukpp03::Context* ctx);
 
 }
 

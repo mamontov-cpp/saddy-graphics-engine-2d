@@ -26,6 +26,7 @@
     <ClCompile Include="exposeapi.cpp" />
     <ClCompile Include="exposehfsm.cpp" />
     <ClCompile Include="exposep2d.cpp" />
+    <ClCompile Include="exposedialogue.cpp" />
     <ClCompile Include="getter.cpp" />
     <ClCompile Include="getvalue.cpp" />
     <ClCompile Include="jscollisionhandler.cpp" />

@@ -31,6 +31,65 @@ sad::dialogue::Dialogue::~Dialogue()
 
 }
 
+void sad::dialogue::Dialogue::setPhrases(const sad::Vector<sad::dialogue::Phrase>& phrases)
+{
+    clear();
+    for(size_t i = 0; i < phrases.size(); ++i)
+    {
+        m_phrases.push_back(new sad::dialogue::Phrase(phrases[i]));
+    }
+}
+
+
+sad::Vector<sad::dialogue::Phrase> sad::dialogue::Dialogue::copyPhrases() const
+{
+    sad::Vector<sad::dialogue::Phrase> result;
+    for(size_t i = 0; i < m_phrases.size(); ++i)
+    {
+        result.push_back(*(m_phrases[i]));
+    }
+    return result;
+}
+
+void sad::dialogue::Dialogue::addPhrase(const sad::dialogue::Phrase& phrase)
+{
+    m_phrases.push_back(new sad::dialogue::Phrase(phrase));
+}
+
+void sad::dialogue::Dialogue::removePhrase(size_t i)
+{
+    if (i < m_phrases.size())
+    {
+        delete m_phrases[i];
+        m_phrases.removeAt(i);
+    }
+}
+
+sad::dialogue::Phrase sad::dialogue::Dialogue::getPhrase(size_t i) const
+{
+    if (i < m_phrases.size())
+    {
+        return *(m_phrases[i]);
+    }
+    else
+    {
+        return sad::dialogue::Phrase();
+    }
+}
+
+void sad::dialogue::Dialogue::setPhrase(size_t i, const sad::dialogue::Phrase& phrase)
+{
+    if (i < m_phrases.size())
+    {
+        *(m_phrases[i]) = phrase;
+    }
+}
+
+size_t sad::dialogue::Dialogue::phraseCount() const
+{
+    return m_phrases.size();
+}
+
 void sad::dialogue::Dialogue::setPhrases(const sad::Vector<sad::dialogue::Phrase*>& phrases)
 {
     clear();
@@ -71,11 +130,12 @@ sad::db::schema::Schema* sad::dialogue::Dialogue::basicSchema()
             SadDialogueDialogueSchema->addParent(sad::db::Object::basicSchema());
 
             sad::Vector<sad::dialogue::Phrase*>& (sad::dialogue::Dialogue::*f)() = &sad::dialogue::Dialogue::phrases;
+            void (sad::dialogue::Dialogue::*set_phrases)(const  sad::Vector<sad::dialogue::Phrase*>&) = &sad::dialogue::Dialogue::setPhrases;
             SadDialogueDialogueSchema->add(
                 "phrases", 
                 new sad::db::MethodPair<sad::dialogue::Dialogue, sad::Vector<sad::dialogue::Phrase*> >(
                     f,
-                    &sad::dialogue::Dialogue::setPhrases
+                    set_phrases
                 )
             );
 

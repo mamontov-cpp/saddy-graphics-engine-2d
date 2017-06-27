@@ -258,13 +258,13 @@ DECLARE_COMMON_TYPE(sad::layouts::VerticalAlignment)
 DECLARE_COMMON_TYPE(sad::layouts::StackingType)
 
 
-DECLARE_TYPE_AS_SAD_OBJECT(sad::db::Object);
-DECLARE_TYPE_AS_SAD_OBJECT(sad::Object);
-DECLARE_TYPE_AS_SAD_OBJECT(sad::Scene);
-DECLARE_TYPE_AS_SAD_OBJECT(sad::p2d::app::Way);
-DECLARE_TYPE_AS_SAD_OBJECT(sad::dialogue::Dialogue);
+DECLARE_TYPE_AS_SAD_OBJECT(sad::db::Object)
+DECLARE_TYPE_AS_SAD_OBJECT(sad::Object)
+DECLARE_TYPE_AS_SAD_OBJECT(sad::Scene)
+DECLARE_TYPE_AS_SAD_OBJECT(sad::p2d::app::Way)
+DECLARE_TYPE_AS_SAD_OBJECT(sad::dialogue::Dialogue)
 
-DECLARE_COMMON_TYPE(sad::db::Variant);
+DECLARE_COMMON_TYPE(sad::db::Variant)
 
 
 DECLARE_COMMON_TYPE(sad::Maybe<sad::String>)

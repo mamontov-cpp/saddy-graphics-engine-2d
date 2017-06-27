@@ -39,6 +39,36 @@ public:
     /*! Clears dialogue, removing all phrases
      */
     void clear();
+    /*! Sets list of phrases
+        \param[in] phrases a list of phrases
+     */
+    void setPhrases(const sad::Vector<sad::dialogue::Phrase>& phrases);
+    /*! Returns phrases list
+        \return phrases list
+     */
+    sad::Vector<sad::dialogue::Phrase> copyPhrases() const;
+    /*! Adds phrase to a dialogue
+        \param[in] phrase a new phrase
+     */
+    void addPhrase(const sad::dialogue::Phrase& phrase);
+    /*! Removes phrase from a dialog
+        \param[in] i a phrase index
+     */
+    void removePhrase(size_t i);
+    /*! Returns a phrase by index
+        \param[in] i index of phrase
+        \return a phrase
+     */
+    sad::dialogue::Phrase getPhrase(size_t i) const;
+    /*! Sets a phrase by index
+        \param[in] i index of phrase
+        \param[in] phrase a phrase
+     */
+    void setPhrase(size_t i, const sad::dialogue::Phrase& phrase);
+    /*! Returns amount of phrases in dialogue
+        \return amount of phrases
+     */
+    size_t phraseCount() const;
     /*! Sets phrases
         \param[in] phrases
      */
