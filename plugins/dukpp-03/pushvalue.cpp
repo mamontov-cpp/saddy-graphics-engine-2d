@@ -151,3 +151,23 @@ void dukpp03::PushValue<sad::p2d::BasicCollisionEvent, sad::dukpp03::BasicContex
     sad::Triplet<sad::p2d::Body*, sad::p2d::Body*, double> tr(v.m_object_1, v.m_object_2, v.m_time);
     dukpp03::PushValue<sad::Triplet<sad::p2d::Body*, sad::p2d::Body*, double>, sad::dukpp03::BasicContext>::perform(ctx, tr);
 }
+
+void dukpp03::PushValue<sad::layouts::HorizontalAlignment, sad::dukpp03::BasicContext>::perform(sad::dukpp03::BasicContext* ctx, const sad::layouts::HorizontalAlignment& v)
+{
+    dukpp03::PushValue<unsigned  int, sad::dukpp03::BasicContext>::perform(ctx, static_cast<unsigned int>(v));
+}
+
+void dukpp03::PushValue<sad::layouts::VerticalAlignment, sad::dukpp03::BasicContext>::perform(sad::dukpp03::BasicContext* ctx, const sad::layouts::VerticalAlignment& v)
+{
+    dukpp03::PushValue<unsigned  int, sad::dukpp03::BasicContext>::perform(ctx, static_cast<unsigned int>(v));
+}
+
+void dukpp03::PushValue<sad::layouts::StackingType, sad::dukpp03::BasicContext>::perform(sad::dukpp03::BasicContext* ctx, const sad::layouts::StackingType& v)
+{
+    dukpp03::PushValue<unsigned  int, sad::dukpp03::BasicContext>::perform(ctx, static_cast<unsigned int>(v));
+}
+
+void dukpp03::PushValue<sad::layouts::Unit, sad::dukpp03::BasicContext>::perform(sad::dukpp03::BasicContext* ctx, const sad::layouts::Unit& v)
+{
+    dukpp03::PushValue<unsigned  int, sad::dukpp03::BasicContext>::perform(ctx, static_cast<unsigned int>(v));
+}

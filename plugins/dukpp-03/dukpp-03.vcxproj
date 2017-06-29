@@ -25,6 +25,7 @@
     <ClCompile Include="dukpp-03.cpp" />
     <ClCompile Include="exposeapi.cpp" />
     <ClCompile Include="exposehfsm.cpp" />
+    <ClCompile Include="exposelayouts.cpp" />
     <ClCompile Include="exposep2d.cpp" />
     <ClCompile Include="exposedialogue.cpp" />
     <ClCompile Include="getter.cpp" />

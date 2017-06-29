@@ -15,6 +15,10 @@
 #include "../p2d/rectangle.h"
 #include "../p2d/circle.h"
 #include "../p2d/collisionevent.h"
+#include "../layouts/horizontalalignment.h"
+#include "../layouts/verticalalignment.h"
+#include "../layouts/stackingtype.h"
+#include "../layouts/unit.h"
 // ReSharper disable once CppUnusedIncludeDirective
 #include "../db/save.h"
 #include "../db/load.h"
@@ -553,6 +557,76 @@ public:
         duk_idx_t pos
     );
 
+};
+
+
+/*! An instantiation for sad::layouts::HorizontalAlignment
+ */
+template<>
+class GetValue<sad::layouts::HorizontalAlignment, sad::dukpp03::BasicContext>
+{
+public:
+    /*! Performs getting value from stack
+        \param[in] ctx context
+        \param[in] pos index for stack
+        \return a value if it exists, otherwise empty maybe
+     */
+    static ::dukpp03::Maybe<sad::layouts::HorizontalAlignment> perform(
+        sad::dukpp03::BasicContext* ctx,
+        duk_idx_t pos
+    );
+};
+
+/*! An instantiation for sad::layouts::VerticalAlignment
+ */
+template<>
+class GetValue<sad::layouts::VerticalAlignment, sad::dukpp03::BasicContext>
+{
+public:
+    /*! Performs getting value from stack
+        \param[in] ctx context
+        \param[in] pos index for stack
+        \return a value if it exists, otherwise empty maybe
+     */
+    static ::dukpp03::Maybe<sad::layouts::VerticalAlignment> perform(
+        sad::dukpp03::BasicContext* ctx,
+        duk_idx_t pos
+    );
+};
+
+
+/*! An instantiation for sad::layouts::StackingType
+ */
+template<>
+class GetValue<sad::layouts::StackingType, sad::dukpp03::BasicContext>
+{
+public:
+    /*! Performs getting value from stack
+        \param[in] ctx context
+        \param[in] pos index for stack
+        \return a value if it exists, otherwise empty maybe
+    */
+    static ::dukpp03::Maybe<sad::layouts::StackingType> perform(
+        sad::dukpp03::BasicContext* ctx,
+        duk_idx_t pos
+    );
+};
+
+/*! An instantiation for sad::layouts::Unit
+ */
+template<>
+class GetValue<sad::layouts::Unit, sad::dukpp03::BasicContext>
+{
+public:
+    /*! Performs getting value from stack
+    \param[in] ctx context
+    \param[in] pos index for stack
+    \return a value if it exists, otherwise empty maybe
+    */
+    static ::dukpp03::Maybe<sad::layouts::Unit> perform(
+        sad::dukpp03::BasicContext* ctx,
+        duk_idx_t pos
+    );
 };
 
 /*!  An instantiation for sad::Vector<T>, which converts it from array

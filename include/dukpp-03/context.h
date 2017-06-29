@@ -736,6 +736,11 @@ void exposeP2D(sad::dukpp03::Context* ctx);
  */
 void exposeDialogue(sad::dukpp03::Context* ctx);
 
+/*! Exposes layouts functions, related to context
+    \param[in] ctx context
+*/
+void exposeLayouts(sad::dukpp03::Context* ctx);
+
 }
 
 }

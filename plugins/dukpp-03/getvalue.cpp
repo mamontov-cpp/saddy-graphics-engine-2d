@@ -687,3 +687,71 @@ dukpp03::Maybe<sad::db::Object*> dukpp03::GetValue<sad::db::Object*,  sad::dukpp
     return result;
 }
 
+::dukpp03::Maybe<sad::layouts::HorizontalAlignment> dukpp03::GetValue<sad::layouts::HorizontalAlignment, sad::dukpp03::BasicContext>::perform(
+    sad::dukpp03::BasicContext* ctx,
+    duk_idx_t pos
+)
+{
+    ::dukpp03::Maybe<sad::layouts::HorizontalAlignment> result;
+    ::dukpp03::Maybe<unsigned int> v = dukpp03::GetValue<unsigned int, sad::dukpp03::BasicContext>::perform(ctx, pos);
+    if (v.exists())
+    {
+        if (v.value() <= sad::layouts::LHA_Right)
+        {
+            result.setValue(static_cast<sad::layouts::HorizontalAlignment>(v.value()));
+        }
+    }
+    return result;
+}
+
+::dukpp03::Maybe<sad::layouts::VerticalAlignment> dukpp03::GetValue<sad::layouts::VerticalAlignment, sad::dukpp03::BasicContext>::perform(
+    sad::dukpp03::BasicContext* ctx,
+    duk_idx_t pos
+)
+{
+    ::dukpp03::Maybe<sad::layouts::VerticalAlignment> result;
+    ::dukpp03::Maybe<unsigned int> v = dukpp03::GetValue<unsigned int, sad::dukpp03::BasicContext>::perform(ctx, pos);
+    if (v.exists())
+    {
+        if (v.value() <= sad::layouts::LVA_Bottom)
+        {
+            result.setValue(static_cast<sad::layouts::VerticalAlignment>(v.value()));
+        }
+    }
+    return result;
+}
+
+::dukpp03::Maybe<sad::layouts::StackingType> dukpp03::GetValue<sad::layouts::StackingType, sad::dukpp03::BasicContext>::perform(
+    sad::dukpp03::BasicContext* ctx,
+    duk_idx_t pos
+)
+{
+    ::dukpp03::Maybe<sad::layouts::StackingType> result;
+    ::dukpp03::Maybe<unsigned int> v = dukpp03::GetValue<unsigned int, sad::dukpp03::BasicContext>::perform(ctx, pos);
+    if (v.exists())
+    {
+        if (v.value() <= sad::layouts::LST_NoStacking)
+        {
+            result.setValue(static_cast<sad::layouts::StackingType>(v.value()));
+        }
+    }
+    return result;
+}
+
+
+::dukpp03::Maybe<sad::layouts::Unit> dukpp03::GetValue<sad::layouts::Unit, sad::dukpp03::BasicContext>::perform(
+    sad::dukpp03::BasicContext* ctx,
+    duk_idx_t pos
+)
+{
+    ::dukpp03::Maybe<sad::layouts::Unit> result;
+    ::dukpp03::Maybe<unsigned int> v = dukpp03::GetValue<unsigned int, sad::dukpp03::BasicContext>::perform(ctx, pos);
+    if (v.exists())
+    {
+        if (v.value() <= sad::layouts::LU_Percents)
+        {
+            result.setValue(static_cast<sad::layouts::Unit>(v.value()));
+        }
+    }
+    return result;
+}

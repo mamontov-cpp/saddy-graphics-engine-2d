@@ -50,6 +50,7 @@
 #include "layouts/horizontalalignment.h"
 #include "layouts/verticalalignment.h"
 #include "layouts/stackingtype.h"
+#include "layouts/serializablecell.h"
 
 static sad::Mutex typename_cache_lock;
 static sad::Hash<sad::String, sad::String> typename_cache;
@@ -256,6 +257,8 @@ DECLARE_COMMON_TYPE(sad::layouts::LengthValue)
 DECLARE_COMMON_TYPE(sad::layouts::HorizontalAlignment)
 DECLARE_COMMON_TYPE(sad::layouts::VerticalAlignment)
 DECLARE_COMMON_TYPE(sad::layouts::StackingType)
+DECLARE_COMMON_TYPE(sad::layouts::Unit)
+DECLARE_COMMON_TYPE(sad::layouts::SerializableCell)
 
 
 DECLARE_TYPE_AS_SAD_OBJECT(sad::db::Object)

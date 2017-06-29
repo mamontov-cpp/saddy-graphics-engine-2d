@@ -22,7 +22,7 @@ static sad::hfsm::AbstractHandler* _add_leave_handler(sad::hfsm::State* s, sad::
 }
 
 static void _add_handler_for_transition(sad::hfsm::Transition* s, sad::dukpp03::Context* ctx, sad::dukpp03::CompiledFunction f)
-{	
+{
     s->handleWith(new sad::dukpp03::JSHFSMHandler(ctx, f));
 }
 
@@ -131,7 +131,7 @@ void sad::dukpp03::exposeHFSM(sad::dukpp03::Context* ctx)
             "if (typeof state == \"undefined\") return _SadHFSMMachineAdd1(this, name);  "
             "if (typeof force == \"undefined\") return this._addState(name, state, false); "
             "return this._addState(name, state, force);"
-        "};");
+            "};");
 
     }
 }

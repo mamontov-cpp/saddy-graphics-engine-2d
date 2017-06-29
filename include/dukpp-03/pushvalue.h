@@ -14,6 +14,10 @@
 #include "../sadvector.h"
 #include "../sadhash.h"
 #include "../isrefcountable.h"
+#include "../layouts/horizontalalignment.h"
+#include "../layouts/verticalalignment.h"
+#include "../layouts/stackingtype.h"
+#include "../layouts/unit.h"
 
 namespace dukpp03
 {
@@ -254,8 +258,8 @@ class PushValue<sad::p2d::Bound, sad::dukpp03::BasicContext>
 {
 public:
     /*! Performs pushing value
-    \param[in] ctx context
-    \param[in] v value
+        \param[in] ctx context
+        \param[in] v value
     */
     static void perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::Bound v);
 };
@@ -267,8 +271,8 @@ class PushValue<sad::p2d::Line, sad::dukpp03::BasicContext>
 {
 public:
     /*! Performs pushing value
-    \param[in] ctx context
-    \param[in] v value
+        \param[in] ctx context
+        \param[in] v value
     */
     static void perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::Line& v);
 };
@@ -280,8 +284,8 @@ class PushValue<sad::p2d::Rectangle, sad::dukpp03::BasicContext>
 {
 public:
     /*! Performs pushing value
-    \param[in] ctx context
-    \param[in] v value
+        \param[in] ctx context
+        \param[in] v value
     */
     static void perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::Rectangle& v);
 };
@@ -293,8 +297,8 @@ class PushValue<sad::p2d::Circle, sad::dukpp03::BasicContext>
 {
 public:
     /*! Performs pushing value
-    \param[in] ctx context
-    \param[in] v value
+        \param[in] ctx context
+        \param[in] v value
     */
     static void perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::Circle& v);
 };
@@ -306,8 +310,8 @@ class PushValue<sad::p2d::Bound*, sad::dukpp03::BasicContext>
 {
 public:
     /*! Performs pushing value
-    \param[in] ctx context
-    \param[in] v value
+        \param[in] ctx context
+        \param[in] v value
     */
     static void perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::Bound* v);
 };
@@ -319,8 +323,8 @@ class PushValue<sad::p2d::Line*, sad::dukpp03::BasicContext>
 {
 public:
     /*! Performs pushing value
-    \param[in] ctx context
-    \param[in] v value
+        \param[in] ctx context
+        \param[in] v value
     */
     static void perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::Line* v);
 };
@@ -332,8 +336,8 @@ class PushValue<sad::p2d::Rectangle*, sad::dukpp03::BasicContext>
 {
 public:
     /*! Performs pushing value
-    \param[in] ctx context
-    \param[in] v value
+        \param[in] ctx context
+        \param[in] v value
     */
     static void perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::Rectangle* v);
 };
@@ -346,40 +350,92 @@ class PushValue<sad::p2d::Circle*, sad::dukpp03::BasicContext>
 {
 public:
     /*! Performs pushing value
-    \param[in] ctx context
-    \param[in] v value
+        \param[in] ctx context
+        \param[in] v value
     */
     static void perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::Circle* v);
 };
 
 
 /*! An instantiation for pushing sad::p2d::CollisionShape on stack
-*/
+ */
 template<>
 class PushValue<sad::p2d::CollisionShape*, sad::dukpp03::BasicContext>
 {
 public:
     /*! Performs pushing value
-    \param[in] ctx context
-    \param[in] v value
+        \param[in] ctx context
+        \param[in] v value
     */
     static void perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::CollisionShape* v);
 };
 
 
 /*! An instantiation for pushing sad::p2d::BasicCollisionEvent on stack
-*/
+ */
 template<>
 class PushValue<sad::p2d::BasicCollisionEvent, sad::dukpp03::BasicContext>
+{
+public:
+    /*! Performs pushing value
+        \param[in] ctx context
+        \param[in] v value
+    */
+    static void perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::BasicCollisionEvent& v);
+};
+
+
+/*! An instantiation for pushing sad::layouts::HorizontalAlignment on stack
+ */
+template<>
+class PushValue<sad::layouts::HorizontalAlignment, sad::dukpp03::BasicContext>
+{
+public:
+    /*! Performs pushing value
+        \param[in] ctx context
+        \param[in] v value
+    */
+    static void perform(sad::dukpp03::BasicContext* ctx, const sad::layouts::HorizontalAlignment& v);
+};
+
+/*! An instantiation for pushing sad::layouts::VerticalAlignment on stack
+ */
+template<>
+class PushValue<sad::layouts::VerticalAlignment, sad::dukpp03::BasicContext>
+{
+public:
+    /*! Performs pushing value
+        \param[in] ctx context
+        \param[in] v value
+    */
+    static void perform(sad::dukpp03::BasicContext* ctx, const sad::layouts::VerticalAlignment& v);
+};
+
+/*! An instantiation for pushing sad::layouts::VerticalAlignment on stack
+ */
+template<>
+class PushValue<sad::layouts::StackingType, sad::dukpp03::BasicContext>
+{
+public:
+    /*! Performs pushing value
+        \param[in] ctx context
+        \param[in] v value
+    */
+    static void perform(sad::dukpp03::BasicContext* ctx, const sad::layouts::StackingType& v);
+};
+
+/*! An instantiation for pushing sad::layouts::Unit on stack
+ */
+template<>
+class PushValue<sad::layouts::Unit, sad::dukpp03::BasicContext>
 {
 public:
     /*! Performs pushing value
     \param[in] ctx context
     \param[in] v value
     */
-    static void perform(sad::dukpp03::BasicContext* ctx, const sad::p2d::BasicCollisionEvent& v);
+    static void perform(sad::dukpp03::BasicContext* ctx, const sad::layouts::Unit& v);
 };
-
 
 /*! An instantiation, which ensures, that created sad::Object and sad::db::Object 
     will be garbage-collected
