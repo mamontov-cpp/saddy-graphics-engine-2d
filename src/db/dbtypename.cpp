@@ -258,7 +258,6 @@ DECLARE_COMMON_TYPE(sad::layouts::HorizontalAlignment)
 DECLARE_COMMON_TYPE(sad::layouts::VerticalAlignment)
 DECLARE_COMMON_TYPE(sad::layouts::StackingType)
 DECLARE_COMMON_TYPE(sad::layouts::Unit)
-DECLARE_COMMON_TYPE(sad::layouts::SerializableCell)
 
 
 DECLARE_TYPE_AS_SAD_OBJECT(sad::db::Object)

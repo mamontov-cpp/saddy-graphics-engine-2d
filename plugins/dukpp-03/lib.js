@@ -1118,3 +1118,34 @@ sad.p2d.Circle = function(center, radius) {
 	this.setCenter(center);
 	this.setRadius(radius);
 };
+
+SadLayoutsSerializableCellToString = function() {
+	var o = {
+		"Width" : "#Width#",
+		"Height" : "#Height#",
+		"RowSpan" : this.RowSpan,
+		"ColSpan" : this.ColSpan,
+		"VAlign" : "#VAlign#",
+		"HAlign" : "#HAlign#",
+		"Children" : this.Children,
+		"StackingType" : "#StackingType#",
+		"PaddingTop" : this.PaddingTop,
+		"PaddingBottom" : this.PaddingBottom,
+		"PaddingLeft" : this.PaddingLeft,
+		"PaddingRight" : this.PaddingRight,
+		"AssignedArea" : "#ASSIGNEDAREA#",
+		"Row" : this.Row,
+		"Col" : this.Col
+	};
+	var str = JSON.stringify(o, null, 2);
+	var valigns = ["sad.layouts.LVA_Top", "sad.layouts.LVA_Middle", "sad.layouts.LVA_Bottom"];
+	var haligns = ["sad.layouts.LHA_Left", "sad.layouts.LHA_Middle", "sad.layouts.LHA_Right"];
+	var stackingtype = ["sad.layouts.LST_Horizontal", "sad.layouts.LST_Vertical", "sad.layouts.LST_NoStacking"];
+	var result = str.replace("\"#Width#\"", sad.layouts.LengthValue.prototype.toString.call(this.Width))
+					.replace("\"#Height#\"", sad.layouts.LengthValue.prototype.toString.call(this.Height))
+					.replace("\"#VAlign#\"",valigns[this.VAlign])
+					.replace("\"#HAlign#\"",haligns[this.HAlign])
+					.replace("\"#StackingType#\"",stackingtype[this.StackingType])
+					.replace("\"#ASSIGNEDAREA#\"", sad.Rect2D.prototype.toString.call(this.AssignedArea));
+	return "sad::layouts::SerializableCell(" + result + ")";
+};

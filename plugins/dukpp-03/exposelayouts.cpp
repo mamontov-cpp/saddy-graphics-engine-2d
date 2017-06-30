@@ -97,7 +97,7 @@ void sad::dukpp03::exposeLayouts(sad::dukpp03::Context* ctx)
         c->addAccessor("AssignedArea", sad::dukpp03::getter::from(&sad::layouts::SerializableCell::AssignedArea), sad::dukpp03::setter::from(&sad::layouts::SerializableCell::AssignedArea));
         
         c->addAccessor("Row", sad::dukpp03::getter::from(&sad::layouts::SerializableCell::Row), sad::dukpp03::setter::from(&sad::layouts::SerializableCell::Row));
-        c->addAccessor("Col", sad::dukpp03::getter::from(&sad::layouts::SerializableCell::Row), sad::dukpp03::setter::from(&sad::layouts::SerializableCell::Col));
+        c->addAccessor("Col", sad::dukpp03::getter::from(&sad::layouts::SerializableCell::Col), sad::dukpp03::setter::from(&sad::layouts::SerializableCell::Col));
 
 
         c->setPrototypeFunction("SadLayoutsSerializableCell");
@@ -107,6 +107,7 @@ void sad::dukpp03::exposeLayouts(sad::dukpp03::Context* ctx)
 
         PERFORM_AND_ASSERT(
             "sad.layouts.SerializableCell = SadLayoutsSerializableCell;"
+            "sad.layouts.SerializableCell.prototype.toString = SadLayoutsSerializableCellToString"
         );
     }
 }
