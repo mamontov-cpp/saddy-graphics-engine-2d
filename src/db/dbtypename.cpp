@@ -51,6 +51,7 @@
 #include "layouts/verticalalignment.h"
 #include "layouts/stackingtype.h"
 #include "layouts/serializablecell.h"
+#include "layouts/grid.h"
 
 static sad::Mutex typename_cache_lock;
 static sad::Hash<sad::String, sad::String> typename_cache;

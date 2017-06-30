@@ -7,10 +7,22 @@
 
 #include <layouts/lengthvalue.h>
 #include <layouts/serializablecell.h>
+#include <layouts/cell.h>
+#include <layouts/grid.h>
 
 #include <cassert>
 
 #define PERFORM_AND_ASSERT(X)   {bool b = ctx->eval(X); assert(b); }
+
+static sad::layouts::Grid::SearchResult make1()
+{
+    return sad::layouts::Grid::SearchResult(0,0);
+}
+
+static sad::layouts::Grid::SearchResult make2(size_t a1, size_t a2)
+{
+    return sad::layouts::Grid::SearchResult(a1, a2);
+}
 
 void sad::dukpp03::exposeLayouts(sad::dukpp03::Context* ctx)
 {
@@ -108,6 +120,19 @@ void sad::dukpp03::exposeLayouts(sad::dukpp03::Context* ctx)
         PERFORM_AND_ASSERT(
             "sad.layouts.SerializableCell = SadLayoutsSerializableCell;"
             "sad.layouts.SerializableCell.prototype.toString = SadLayoutsSerializableCellToString"
+        );
+    }
+    {
+
+        ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * overload = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
+        overload->add(sad::dukpp03::make_function::from(make1));
+        overload->add(sad::dukpp03::make_function::from(make2));
+        ctx->registerCallable("SadLayoutsGridSearchResultMake", overload);
+
+        PERFORM_AND_ASSERT(
+            "sad.layouts.Grid = function() {};"
+            "sad.layouts.Grid.SearchResult = {};"
+            "sad.layouts.Grid.SearchResult.make = SadLayoutsGridSearchResultMake;"            
         );
     }
 }
