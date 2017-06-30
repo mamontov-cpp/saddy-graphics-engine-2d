@@ -51,6 +51,7 @@
 #include "layouts/verticalalignment.h"
 #include "layouts/stackingtype.h"
 #include "layouts/serializablecell.h"
+#include "layouts/cell.h"
 #include "layouts/grid.h"
 
 static sad::Mutex typename_cache_lock;
@@ -164,8 +165,8 @@ const sad::String&  sad::db::internal::fetchTypeNameForTemplate4(
     const sad::String& type_name,
     const sad::String& arg1,
     const sad::String& arg2,
-    const sad::String& arg3,	
-    const sad::String& arg4	
+    const sad::String& arg3,
+    const sad::String& arg4
 )
 {
     templates_dependent_on_4_args_lock.lock();
@@ -238,6 +239,7 @@ DECLARE_INSTANTIATED_COMMON_TYPE(sad::Vector<unsigned long long>)
 DECLARE_INSTANTIATED_COMMON_TYPE(sad::Vector<sad::String>)
 DECLARE_INSTANTIATED_COMMON_TYPE(sad::Vector<sad::p2d::Body*>)
 DECLARE_INSTANTIATED_COMMON_TYPE(sad::Vector<sad::p2d::BasicCollisionHandler*>)
+DECLARE_INSTANTIATED_COMMON_TYPE(sad::Vector<sad::layouts::SerializableCell>)
 
 DECLARE_COMMON_TYPE(sad::p2d::Bound)
 DECLARE_COMMON_TYPE(sad::p2d::Line)
@@ -259,6 +261,7 @@ DECLARE_COMMON_TYPE(sad::layouts::HorizontalAlignment)
 DECLARE_COMMON_TYPE(sad::layouts::VerticalAlignment)
 DECLARE_COMMON_TYPE(sad::layouts::StackingType)
 DECLARE_COMMON_TYPE(sad::layouts::Unit)
+DECLARE_COMMON_TYPE(sad::layouts::Cell)
 
 
 DECLARE_TYPE_AS_SAD_OBJECT(sad::db::Object)

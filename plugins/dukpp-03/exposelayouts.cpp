@@ -5,6 +5,8 @@
 #include <fuzzyequal.h>
 #include <renderer.h>
 
+#include <db/dbtable.h>
+
 #include <layouts/lengthvalue.h>
 #include <layouts/serializablecell.h>
 #include <layouts/cell.h>
@@ -22,6 +24,97 @@ static sad::layouts::Grid::SearchResult make1()
 static sad::layouts::Grid::SearchResult make2(size_t a1, size_t a2)
 {
     return sad::layouts::Grid::SearchResult(a1, a2);
+}
+
+static void exposeGrid(sad::dukpp03::Context* ctx)
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addObjectConstructor<sad::layouts::Grid>("SadLayoutsGrid");
+
+    c->addMethod("setObjectName", sad::dukpp03::bind_method::from(&sad::layouts::Grid::setObjectName));
+    c->addMethod("objectName", sad::dukpp03::bind_method::from(&sad::layouts::Grid::objectName));
+
+    c->addAccessor("MajorId", sad::dukpp03::getter::from(&sad::layouts::Grid::MajorId), sad::dukpp03::setter::from(&sad::layouts::Grid::MajorId));
+    c->addAccessor("MinorId", sad::dukpp03::getter::from(&sad::layouts::Grid::MinorId), sad::dukpp03::setter::from(&sad::layouts::Grid::MinorId));
+
+    sad::layouts::Cell* (sad::layouts::Grid::*cell1)(unsigned int row, unsigned int col) = &sad::layouts::Grid::cell;
+    sad::layouts::Cell* (sad::layouts::Grid::*cell2)(size_t pos) const = &sad::layouts::Grid::cell;
+
+    c->addMethod("cell", sad::dukpp03::bind_method::from(cell1));
+    c->addMethod("cell", sad::dukpp03::bind_method::from(cell2));
+
+    c->addMethod("_setTreeName", sad::dukpp03::bind_method::from(&sad::layouts::Grid::setTreeName));
+    c->addMethod("renderer", sad::dukpp03::bind_method::from(&sad::layouts::Grid::renderer));
+    c->addMethod("render", sad::dukpp03::bind_method::from(&sad::layouts::Grid::render));
+    c->addMethod("renderWithColor", sad::dukpp03::bind_method::from(&sad::layouts::Grid::renderWithColor));
+    c->addMethod("regions", sad::dukpp03::bind_method::from(&sad::layouts::Grid::getRegions));
+    c->addMethod("getRegions", sad::dukpp03::bind_method::from(&sad::layouts::Grid::getRegions));
+
+    c->addMethod("setArea", sad::dukpp03::bind_method::from(&sad::layouts::Grid::setArea));
+    c->addMethod("area", sad::dukpp03::bind_method::from(&sad::layouts::Grid::area));
+
+    c->addMethod("setRows", sad::dukpp03::bind_method::from(&sad::layouts::Grid::setRows));
+    c->addMethod("rows", sad::dukpp03::bind_method::from(&sad::layouts::Grid::rows));
+    
+    c->addMethod("setColumns", sad::dukpp03::bind_method::from(&sad::layouts::Grid::setColumns));
+    c->addMethod("columns", sad::dukpp03::bind_method::from(&sad::layouts::Grid::columns));
+
+    c->addMethod("setPaddingTop", sad::dukpp03::bind_method::from(&sad::layouts::Grid::setPaddingTop));
+    c->addMethod("setDefaultPaddingTop", sad::dukpp03::bind_method::from(&sad::layouts::Grid::setDefaultPaddingTop));
+    c->addMethod("paddingTop", sad::dukpp03::bind_method::from(&sad::layouts::Grid::paddingTop));
+
+    c->addMethod("setPaddingBottom", sad::dukpp03::bind_method::from(&sad::layouts::Grid::setPaddingBottom));
+    c->addMethod("setDefaultPaddingBottom", sad::dukpp03::bind_method::from(&sad::layouts::Grid::setDefaultPaddingBottom));
+    c->addMethod("paddingBottom", sad::dukpp03::bind_method::from(&sad::layouts::Grid::paddingBottom));
+
+    c->addMethod("setPaddingLeft", sad::dukpp03::bind_method::from(&sad::layouts::Grid::setPaddingLeft));
+    c->addMethod("setDefaultPaddingLeft", sad::dukpp03::bind_method::from(&sad::layouts::Grid::setDefaultPaddingLeft));
+    c->addMethod("paddingLeft", sad::dukpp03::bind_method::from(&sad::layouts::Grid::paddingLeft));
+
+    c->addMethod("setPaddingRight", sad::dukpp03::bind_method::from(&sad::layouts::Grid::setPaddingRight));
+    c->addMethod("setDefaultPaddingRight", sad::dukpp03::bind_method::from(&sad::layouts::Grid::setDefaultPaddingRight));
+    c->addMethod("paddingRight", sad::dukpp03::bind_method::from(&sad::layouts::Grid::paddingRight));
+
+    c->addMethod("setFixedWidth", sad::dukpp03::bind_method::from(&sad::layouts::Grid::setFixedWidth));
+    c->addMethod("fixedWidth", sad::dukpp03::bind_method::from(&sad::layouts::Grid::fixedWidth));
+
+    c->addMethod("setFixedHeight", sad::dukpp03::bind_method::from(&sad::layouts::Grid::setFixedHeight));
+    c->addMethod("fixedHeight", sad::dukpp03::bind_method::from(&sad::layouts::Grid::fixedHeight));
+
+    c->addMethod("setRenderColor", sad::dukpp03::bind_method::from(&sad::layouts::Grid::setRenderColor));
+    c->addMethod("renderColor", sad::dukpp03::bind_method::from(&sad::layouts::Grid::renderColor));
+
+    c->addMethod("cells", sad::dukpp03::bind_method::from(&sad::layouts::Grid::cells));
+    c->addMethod("setCells", sad::dukpp03::bind_method::from(&sad::layouts::Grid::setCells));
+
+    c->addMethod("moveBy", sad::dukpp03::bind_method::from(&sad::layouts::Grid::moveBy));
+    
+    sad::Maybe<sad::layouts::Grid::SearchResult> (sad::layouts::Grid::*find1)(sad::SceneNode* node) const = sad::layouts::Grid::find;
+    sad::Maybe<sad::layouts::Grid::SearchResult> (sad::layouts::Grid::*find2)(unsigned long long major_id) const = sad::layouts::Grid::find;
+
+    c->addMethod("find", sad::dukpp03::bind_method::from(find1));
+    c->addMethod("find", sad::dukpp03::bind_method::from(find2));
+
+    c->addMethod("merge", sad::dukpp03::bind_method::from(&sad::layouts::Grid::merge));
+    c->addMethod("split", sad::dukpp03::bind_method::from(&sad::layouts::Grid::split));
+
+    c->addMethod("update", sad::dukpp03::bind_method::from(&sad::layouts::Grid::update));
+    c->addMethod("children", sad::dukpp03::bind_method::from(&sad::layouts::Grid::children));
+    c->addMethod("childrenMajorIds", sad::dukpp03::bind_method::from(&sad::layouts::Grid::childrenMajorIds));
+    c->addMethod("allocatedCellCount", sad::dukpp03::bind_method::from(&sad::layouts::Grid::allocatedCellCount));
+    c->addMethod("setTable", sad::dukpp03::bind_method::from(&sad::layouts::Grid::setTable));
+
+
+    c->setPrototypeFunction("SadLayoutsGrid");
+
+    ctx->addClassBinding("sad::layouts::Grid", c);
+
+    PERFORM_AND_ASSERT(
+        "sad.layouts.Grid = SadLayoutsGrid;"
+        "sad.layouts.Grid.prototype.setTreeName = function(o, a) {"
+        "    if (typeof a == \"undefined\") this._setTreeName(o, \"\"); else this._setTreeName(o, a);"
+        "}"
+    );
 }
 
 void sad::dukpp03::exposeLayouts(sad::dukpp03::Context* ctx)
@@ -122,6 +215,9 @@ void sad::dukpp03::exposeLayouts(sad::dukpp03::Context* ctx)
             "sad.layouts.SerializableCell.prototype.toString = SadLayoutsSerializableCellToString"
         );
     }
+
+    exposeGrid(ctx);
+
     {
 
         ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * overload = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
@@ -130,7 +226,6 @@ void sad::dukpp03::exposeLayouts(sad::dukpp03::Context* ctx)
         ctx->registerCallable("SadLayoutsGridSearchResultMake", overload);
 
         PERFORM_AND_ASSERT(
-            "sad.layouts.Grid = function() {};"
             "sad.layouts.Grid.SearchResult = {};"
             "sad.layouts.Grid.SearchResult.make = SadLayoutsGridSearchResultMake;"            
         );

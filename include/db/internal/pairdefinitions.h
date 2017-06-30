@@ -18,6 +18,11 @@ class Body;
 class BasicCollisionHandler;
 }
 
+namespace layouts
+{
+class SerializableCell;
+}
+
 template<typename T1, typename T2>
 class Pair;
 
@@ -42,6 +47,7 @@ DEFINE_DEFAULT_INSTANTIATION(sad::Vector<unsigned long long>)
 DEFINE_DEFAULT_INSTANTIATION(sad::Vector<sad::String>)
 DEFINE_DEFAULT_INSTANTIATION(sad::Vector<sad::p2d::Body*>)
 DEFINE_DEFAULT_INSTANTIATION(sad::Vector<sad::p2d::BasicCollisionHandler*>)
+DEFINE_DEFAULT_INSTANTIATION(sad::Vector<sad::layouts::SerializableCell>)
 
 // Forward declaration for triplets
 namespace sad

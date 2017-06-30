@@ -104,7 +104,14 @@ void sad::layouts::Grid::regions(sad::Vector<sad::Rect2D> & r)
 {
     r << m_area;
 }
- 
+
+sad::Vector<sad::Rect2D> sad::layouts::Grid::getRegions()
+{
+    sad::Vector<sad::Rect2D> r;
+    r << m_area;
+    return r;
+}
+
 bool sad::layouts::Grid::load(const picojson::value& v)
 {
     m_loading = true;

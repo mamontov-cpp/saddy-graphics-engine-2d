@@ -63,6 +63,10 @@ public:
         \param[in] clr color
      */ 
     virtual void renderWithColor(const sad::AColor& clr);
+    /*! Returns list of regions
+        \return list of regions
+     */
+    sad::Vector<sad::Rect2D> getRegions();
     /*! Fills vector of regions with exactly one region, describing an area of grid
         \param[out] r a vector of regions
      */
@@ -246,7 +250,7 @@ public:
     /*! Sets a table, propagating database to a cells
         \param[in] t a table
      */
-    virtual void setTable(sad::db::Table* t);	
+    virtual void setTable(sad::db::Table* t);
 private:
     /*! The grid is not copyable
         \param[in] grid a grid      
