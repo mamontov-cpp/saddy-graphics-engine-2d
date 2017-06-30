@@ -26,6 +26,29 @@ static sad::layouts::Grid::SearchResult make2(size_t a1, size_t a2)
     return sad::layouts::Grid::SearchResult(a1, a2);
 }
 
+static void exposeCell(sad::dukpp03::Context* ctx)
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+
+    c->addMethod("getProperty", sad::dukpp03::bind_method::from(&sad::layouts::Cell::getProperty));
+    c->addMethod("setProperty", sad::dukpp03::bind_method::from(&sad::layouts::Cell::setProperty));
+    //c->addMethod("setProperty", sad::dukpp03::bind_expl::with_args_and_no_return_type2<sad::layouts::Cell,const sad::String&, const sad::db::Variant&>::from(&sad::layouts::Cell::setProperty));
+
+
+
+    c->addAccessor("Rendered", sad::dukpp03::getter::from(&sad::layouts::Cell::Rendered), sad::dukpp03::setter::from(&sad::layouts::Cell::Rendered));
+    c->addAccessor("Row", sad::dukpp03::getter::from(&sad::layouts::Cell::Row), sad::dukpp03::setter::from(&sad::layouts::Cell::Row));
+    c->addAccessor("Col", sad::dukpp03::getter::from(&sad::layouts::Cell::Col), sad::dukpp03::setter::from(&sad::layouts::Cell::Col));
+
+    c->setPrototypeFunction("sad.layouts.Cell");
+
+    ctx->addClassBinding("sad::layouts::Cell", c);
+
+    PERFORM_AND_ASSERT(
+        "sad.layouts.Cell = function() {};"
+    );
+}
+
 static void exposeGrid(sad::dukpp03::Context* ctx)
 {
     sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
@@ -217,6 +240,7 @@ void sad::dukpp03::exposeLayouts(sad::dukpp03::Context* ctx)
     }
 
     exposeGrid(ctx);
+    exposeCell(ctx);
 
     {
 
