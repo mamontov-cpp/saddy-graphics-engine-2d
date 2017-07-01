@@ -5,6 +5,7 @@
 #include <fuzzyequal.h>
 #include <renderer.h>
 
+#include <db/dbdatabase.h>
 #include <db/dbtable.h>
 
 #include <layouts/lengthvalue.h>
@@ -26,20 +27,116 @@ static sad::layouts::Grid::SearchResult make2(size_t a1, size_t a2)
     return sad::layouts::Grid::SearchResult(a1, a2);
 }
 
+template<typename _ReturnType>
+struct acc
+{
+
+template<_ReturnType (sad::layouts::Cell::*Field)>
+static _ReturnType get(sad::layouts::Cell* c)
+{
+    return c->*Field;
+}
+
+
+template<_ReturnType(sad::layouts::Cell::*Field)>
+static void set(sad::layouts::Cell* c, _ReturnType v)
+{
+    c->*Field = v;
+}
+
+
+};
+
+
 static void exposeCell(sad::dukpp03::Context* ctx)
 {
     sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
 
     c->addMethod("getProperty", sad::dukpp03::bind_method::from(&sad::layouts::Cell::getProperty));
-    c->addMethod("setProperty", sad::dukpp03::bind_method::from(&sad::layouts::Cell::setProperty));
-    //c->addMethod("setProperty", sad::dukpp03::bind_expl::with_args_and_no_return_type2<sad::layouts::Cell,const sad::String&, const sad::db::Variant&>::from(&sad::layouts::Cell::setProperty));
+    {
+        std::function<void(sad::layouts::Cell*, const sad::String&, const sad::db::Variant&)> lambda1 = [](sad::layouts::Cell* c, const sad::String& name, const sad::db::Variant& v) {
+            c->setProperty(name, v);
+        };
+        c->addMethod("setProperty", sad::dukpp03::bind_lambda::from(lambda1));
+        c->addMethod("setProperty", sad::dukpp03::bind_method::from(&sad::layouts::Cell::setProperty));
+    }
+
+    c->addMethod("setGrid", sad::dukpp03::bind_method::from(&sad::layouts::Cell::setGrid));
+    {
+        std::function<sad::layouts::SerializableCell(sad::layouts::Cell*)> lambda = [](sad::layouts::Cell* c) {
+            sad::layouts::SerializableCell cell;
+            c->toSerializable(cell);
+            return cell;
+        };
+        c->addMethod("toSerializable", sad::dukpp03::bind_lambda::from(lambda));
+    }
+    c->addMethod("fromSerializable", sad::dukpp03::bind_method::from(&sad::layouts::Cell::fromSerializable));
+    c->addMethod("update", sad::dukpp03::bind_method::from(&sad::layouts::Cell::update));
+    {
+        std::function<void(sad::layouts::Cell*, const sad::layouts::LengthValue&)> lambda = [](sad::layouts::Cell* c, const sad::layouts::LengthValue& v) {
+            c->setWidth(v);
+        };
+        c->addMethod("setWidth", sad::dukpp03::bind_method::from(&sad::layouts::Cell::setWidth));
+        c->addMethod("setWidth", sad::dukpp03::bind_lambda::from(lambda));
+    }
+    c->addMethod("width", sad::dukpp03::bind_method::from(&sad::layouts::Cell::width));
+    {
+        std::function<void(sad::layouts::Cell*, const sad::layouts::LengthValue&)> lambda = [](sad::layouts::Cell* c, const sad::layouts::LengthValue& v) {
+            c->setHeight(v);
+        };
+        c->addMethod("setHeight", sad::dukpp03::bind_method::from(&sad::layouts::Cell::setHeight));
+        c->addMethod("setHeight", sad::dukpp03::bind_lambda::from(lambda));
+    }
+    c->addMethod("height", sad::dukpp03::bind_method::from(&sad::layouts::Cell::height));
+
+    c->addMethod("rowSpan", sad::dukpp03::bind_method::from(&sad::layouts::Cell::rowSpan));
+    c->addMethod("colSpan", sad::dukpp03::bind_method::from(&sad::layouts::Cell::colSpan));
+
+    {
+        std::function<void(sad::layouts::Cell*, const sad::layouts::VerticalAlignment)> lambda = [](sad::layouts::Cell* c, const sad::layouts::VerticalAlignment v) {
+            c->setVerticalAlignment(v);
+        };
+        c->addMethod("setVerticalAlignment", sad::dukpp03::bind_method::from(&sad::layouts::Cell::setVerticalAlignment));
+        c->addMethod("setVerticalAlignment", sad::dukpp03::bind_lambda::from(lambda));
+    }
+    c->addMethod("verticalAlignment", sad::dukpp03::bind_method::from(&sad::layouts::Cell::verticalAlignment));
+
+    {
+        std::function<void(sad::layouts::Cell*, const sad::layouts::HorizontalAlignment)> lambda = [](sad::layouts::Cell* c, const sad::layouts::HorizontalAlignment v) {
+            c->setHorizontalAlignment(v);
+        };
+        c->addMethod("setHorizontalAlignment", sad::dukpp03::bind_method::from(&sad::layouts::Cell::setHorizontalAlignment));
+        c->addMethod("setHorizontalAlignment", sad::dukpp03::bind_lambda::from(lambda));
+    }
+    c->addMethod("horizontalAlignment", sad::dukpp03::bind_method::from(&sad::layouts::Cell::horizontalAlignment));
 
 
+    {
+        std::function<void(sad::layouts::Cell*, const sad::layouts::StackingType)> lambda = [](sad::layouts::Cell* c, const sad::layouts::StackingType v) {
+            c->setStackingType(v);
+        };
+        c->addMethod("setStackingType", sad::dukpp03::bind_method::from(&sad::layouts::Cell::setStackingType));
+        c->addMethod("setStackingType", sad::dukpp03::bind_lambda::from(lambda));
+    }
+    c->addMethod("stackingType", sad::dukpp03::bind_method::from(&sad::layouts::Cell::stackingType));
 
-    c->addAccessor("Rendered", sad::dukpp03::getter::from(&sad::layouts::Cell::Rendered), sad::dukpp03::setter::from(&sad::layouts::Cell::Rendered));
-    c->addAccessor("Row", sad::dukpp03::getter::from(&sad::layouts::Cell::Row), sad::dukpp03::setter::from(&sad::layouts::Cell::Row));
-    c->addAccessor("Col", sad::dukpp03::getter::from(&sad::layouts::Cell::Col), sad::dukpp03::setter::from(&sad::layouts::Cell::Col));
 
+    {
+        std::function<bool(sad::layouts::Cell*)> f1 = acc<bool>::get<&sad::layouts::Cell::Rendered>;
+        std::function<void(sad::layouts::Cell*, bool)> f2 = acc<bool>::set<&sad::layouts::Cell::Rendered>;
+        c->addAccessor("Rendered", sad::dukpp03::bind_lambda::from(f1), sad::dukpp03::bind_lambda::from(f2));
+    }
+    {
+        std::function<unsigned int(sad::layouts::Cell*)> f1 = acc<unsigned int>::get<&sad::layouts::Cell::Row>;
+        std::function<void(sad::layouts::Cell*, unsigned int)> f2 = acc<unsigned int>::set<&sad::layouts::Cell::Row>;
+        c->addAccessor("Row", sad::dukpp03::bind_lambda::from(f1), sad::dukpp03::bind_lambda::from(f2));
+    }
+    {
+        std::function<unsigned int(sad::layouts::Cell*)> f1 = acc<unsigned int>::get<&sad::layouts::Cell::Col>;
+        std::function<void(sad::layouts::Cell*, unsigned int)> f2 = acc<unsigned int>::set<&sad::layouts::Cell::Col>;
+        c->addAccessor("Col", sad::dukpp03::bind_lambda::from(f1), sad::dukpp03::bind_lambda::from(f2));
+    }
+    
     c->setPrototypeFunction("sad.layouts.Cell");
 
     ctx->addClassBinding("sad::layouts::Cell", c);
@@ -112,8 +209,8 @@ static void exposeGrid(sad::dukpp03::Context* ctx)
 
     c->addMethod("moveBy", sad::dukpp03::bind_method::from(&sad::layouts::Grid::moveBy));
     
-    sad::Maybe<sad::layouts::Grid::SearchResult> (sad::layouts::Grid::*find1)(sad::SceneNode* node) const = sad::layouts::Grid::find;
-    sad::Maybe<sad::layouts::Grid::SearchResult> (sad::layouts::Grid::*find2)(unsigned long long major_id) const = sad::layouts::Grid::find;
+    sad::Maybe<sad::layouts::Grid::SearchResult> (sad::layouts::Grid::*find1)(sad::SceneNode* node) const = &sad::layouts::Grid::find;
+    sad::Maybe<sad::layouts::Grid::SearchResult> (sad::layouts::Grid::*find2)(unsigned long long major_id) const = &sad::layouts::Grid::find;
 
     c->addMethod("find", sad::dukpp03::bind_method::from(find1));
     c->addMethod("find", sad::dukpp03::bind_method::from(find2));

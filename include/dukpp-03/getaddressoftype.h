@@ -15,15 +15,21 @@ class Window;
 namespace resource
 {
 
-class Tree;    
-
+class Tree;
 }
 
 namespace pipeline
 {
 
 class Pipeline;
-    
+
+}
+
+namespace layouts
+{
+
+class Cell;
+
 }
 
 namespace dukpp03
@@ -265,6 +271,23 @@ public:
         return ::dukpp03::Maybe<const char*>();
     }
 };
+
+/*! Returns address of type stored in variant.
+*/
+template<>
+struct GetAddressOfType<sad::layouts::Cell*, false, false>
+{
+public:
+    /*! Returns address of type, stored in variant - hence nothing for plain types
+    \param[in] v value
+    \return empty maybe
+    */
+    static ::dukpp03::Maybe<sad::layouts::Cell*> getAddress(sad::db::Variant* v)
+    {
+        return ::dukpp03::Maybe<sad::layouts::Cell*>();
+    }
+};
+
 
 }
 
