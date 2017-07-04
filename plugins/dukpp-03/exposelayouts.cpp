@@ -120,7 +120,70 @@ static void exposeCell(sad::dukpp03::Context* ctx)
     }
     c->addMethod("stackingType", sad::dukpp03::bind_method::from(&sad::layouts::Cell::stackingType));
 
+    {
+        std::function<void(sad::layouts::Cell*, double)> lambda = [](sad::layouts::Cell* c, double v) {
+            c->setPaddingTop(v);
+        };
+        c->addMethod("setPaddingTop", sad::dukpp03::bind_method::from(&sad::layouts::Cell::setPaddingTop));
+        c->addMethod("setPaddingTop", sad::dukpp03::bind_lambda::from(lambda));
+    }
+    c->addMethod("paddingTop", sad::dukpp03::bind_method::from(&sad::layouts::Cell::paddingTop));
 
+    {
+        std::function<void(sad::layouts::Cell*, double)> lambda = [](sad::layouts::Cell* c, double v) {
+            c->setPaddingBottom(v);
+        };
+        c->addMethod("setPaddingBottom", sad::dukpp03::bind_method::from(&sad::layouts::Cell::setPaddingBottom));
+        c->addMethod("setPaddingBottom", sad::dukpp03::bind_lambda::from(lambda));
+    }
+    c->addMethod("paddingBottom", sad::dukpp03::bind_method::from(&sad::layouts::Cell::paddingBottom));
+
+    {
+        std::function<void(sad::layouts::Cell*, double)> lambda = [](sad::layouts::Cell* c, double v) {
+            c->setPaddingLeft(v);
+        };
+        c->addMethod("setPaddingLeft", sad::dukpp03::bind_method::from(&sad::layouts::Cell::setPaddingLeft));
+        c->addMethod("setPaddingLeft", sad::dukpp03::bind_lambda::from(lambda));
+    }
+    c->addMethod("paddingLeft", sad::dukpp03::bind_method::from(&sad::layouts::Cell::paddingLeft));
+
+    {
+        std::function<void(sad::layouts::Cell*, double)> lambda = [](sad::layouts::Cell* c, double v) {
+            c->setPaddingRight(v);
+        };
+        c->addMethod("setPaddingRight", sad::dukpp03::bind_method::from(&sad::layouts::Cell::setPaddingRight));
+        c->addMethod("setPaddingRight", sad::dukpp03::bind_lambda::from(lambda));
+    }
+    c->addMethod("paddingRight", sad::dukpp03::bind_method::from(&sad::layouts::Cell::paddingRight));
+
+    {
+        std::function<void(sad::layouts::Cell*, const sad::Vector<sad::SceneNode*>&, bool)> lambda1 = [](sad::layouts::Cell* c, const sad::Vector<sad::SceneNode*>& v, bool b) {
+            c->setChildren(v, b);
+        };
+        std::function<void(sad::layouts::Cell*, const sad::Vector<sad::SceneNode*>&)> lambda2 = [](sad::layouts::Cell* c, const sad::Vector<sad::SceneNode*>& v) {
+            c->setChildren(v);
+        };
+        std::function<void(sad::layouts::Cell*, const sad::Vector<unsigned long long>&, bool)> lambda3 = [](sad::layouts::Cell* c, const sad::Vector<unsigned long long>& v, bool b) {
+            c->setChildren(v, b);
+        };
+        std::function<void(sad::layouts::Cell*, const sad::Vector<unsigned long long>&)> lambda4 = [](sad::layouts::Cell* c, const sad::Vector<unsigned long long>& v) {
+            c->setChildren(v);
+        };
+
+
+        c->addMethod("setChildren", sad::dukpp03::bind_lambda::from(lambda1));
+        c->addMethod("setChildren", sad::dukpp03::bind_lambda::from(lambda2));
+        c->addMethod("setChildren", sad::dukpp03::bind_lambda::from(lambda3));
+        c->addMethod("setChildren", sad::dukpp03::bind_lambda::from(lambda4));
+    }
+    c->addMethod("children", sad::dukpp03::bind_method::from(&sad::layouts::Cell::children));
+    c->addMethod("childrenMajorIds", sad::dukpp03::bind_method::from(&sad::layouts::Cell::childrenMajorIds));
+
+    {
+        std::function<sad::Rect2D(sad::layouts::Cell*)> f1 = acc<sad::Rect2D>::get<&sad::layouts::Cell::AssignedArea>;
+        std::function<void(sad::layouts::Cell*, sad::Rect2D)> f2 = acc<sad::Rect2D>::set<&sad::layouts::Cell::AssignedArea>;
+        c->addAccessor("AssignedArea", sad::dukpp03::bind_lambda::from(f1), sad::dukpp03::bind_lambda::from(f2));
+    }
     {
         std::function<bool(sad::layouts::Cell*)> f1 = acc<bool>::get<&sad::layouts::Cell::Rendered>;
         std::function<void(sad::layouts::Cell*, bool)> f2 = acc<bool>::set<&sad::layouts::Cell::Rendered>;
