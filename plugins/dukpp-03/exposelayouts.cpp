@@ -180,6 +180,93 @@ static void exposeCell(sad::dukpp03::Context* ctx)
     c->addMethod("childrenMajorIds", sad::dukpp03::bind_method::from(&sad::layouts::Cell::childrenMajorIds));
 
     {
+        std::function<void(sad::layouts::Cell*, sad::SceneNode*, bool)> lambda1 = [](sad::layouts::Cell* c, sad::SceneNode* v, bool b) {
+            c->addChild(v, b);
+        };
+        std::function<void(sad::layouts::Cell*, sad::SceneNode*)> lambda2 = [](sad::layouts::Cell* c, sad::SceneNode* v) {
+            c->addChild(v);
+        };
+        std::function<void(sad::layouts::Cell*, unsigned long long, bool)> lambda3 = [](sad::layouts::Cell* c, unsigned long long v, bool b) {
+            c->addChild(v, b);
+        };
+        std::function<void(sad::layouts::Cell*, unsigned long long)> lambda4 = [](sad::layouts::Cell* c, unsigned long long v) {
+            c->addChild(v);
+        };
+
+
+        c->addMethod("addChild", sad::dukpp03::bind_lambda::from(lambda1));
+        c->addMethod("addChild", sad::dukpp03::bind_lambda::from(lambda2));
+        c->addMethod("addChild", sad::dukpp03::bind_lambda::from(lambda3));
+        c->addMethod("addChild", sad::dukpp03::bind_lambda::from(lambda4));
+    }
+
+    {
+        std::function<void(sad::layouts::Cell*, unsigned int, sad::SceneNode*, bool)> lambda1 = [](sad::layouts::Cell* c, unsigned int pos, sad::SceneNode* v, bool b) {
+            c->insertChild(pos, v, b);
+        };
+        std::function<void(sad::layouts::Cell*, unsigned int, sad::SceneNode*)> lambda2 = [](sad::layouts::Cell* c, unsigned int pos, sad::SceneNode* v) {
+            c->insertChild(pos, v);
+        };
+        std::function<void(sad::layouts::Cell*, unsigned int, unsigned long long, bool)> lambda3 = [](sad::layouts::Cell* c, unsigned int pos, unsigned long long v, bool b) {
+            c->insertChild(pos, v, b);
+        };
+        std::function<void(sad::layouts::Cell*, unsigned int, unsigned long long)> lambda4 = [](sad::layouts::Cell* c, unsigned int pos, unsigned long long v) {
+            c->insertChild(pos, v);
+        };
+
+
+        c->addMethod("insertChild", sad::dukpp03::bind_lambda::from(lambda1));
+        c->addMethod("insertChild", sad::dukpp03::bind_lambda::from(lambda2));
+        c->addMethod("insertChild", sad::dukpp03::bind_lambda::from(lambda3));
+        c->addMethod("insertChild", sad::dukpp03::bind_lambda::from(lambda4));
+    }
+
+    {
+        std::function<void(sad::layouts::Cell*, unsigned int)> lambda = [](sad::layouts::Cell* c, unsigned int v) {
+            c->removeChild(v);
+        };
+        c->addMethod("removeChild", sad::dukpp03::bind_method::from(&sad::layouts::Cell::removeChild));
+        c->addMethod("removeChild", sad::dukpp03::bind_lambda::from(lambda));
+    }
+
+    {
+        std::function<void(sad::layouts::Cell*)> lambda = [](sad::layouts::Cell* c) {
+            c->clear();
+        };
+        c->addMethod("clear", sad::dukpp03::bind_method::from(&sad::layouts::Cell::clear));
+        c->addMethod("clear", sad::dukpp03::bind_lambda::from(lambda));
+    }
+
+    {
+        std::function<void(sad::layouts::Cell*, unsigned int, unsigned int)> lambda = [](sad::layouts::Cell* c, unsigned int v1, unsigned int v2) {
+            c->swapChildren(v1, v2);
+        };
+        c->addMethod("swapChildren", sad::dukpp03::bind_method::from(&sad::layouts::Cell::swapChildren));
+        c->addMethod("swapChildren", sad::dukpp03::bind_lambda::from(lambda));
+    }
+
+    c->addMethod("childrenCount", sad::dukpp03::bind_method::from(&sad::layouts::Cell::childrenCount));
+    c->addMethod("child", sad::dukpp03::bind_method::from(&sad::layouts::Cell::child));
+    c->addMethod("childMajorId", sad::dukpp03::bind_method::from(&sad::layouts::Cell::childMajorId));
+    
+    sad::Maybe<size_t>(sad::layouts::Cell::*find1)(sad::SceneNode*) const = &sad::layouts::Cell::find;
+    c->addMethod("find", sad::dukpp03::bind_method::from(find1));
+
+    sad::Maybe<size_t>(sad::layouts::Cell::*find2)(unsigned long long) const = &sad::layouts::Cell::find;
+    c->addMethod("find", sad::dukpp03::bind_method::from(find2));
+
+    c->addMethod("database", sad::dukpp03::bind_method::from(&sad::layouts::Cell::database));
+    c->addMethod("setDatabase", sad::dukpp03::bind_method::from(&sad::layouts::Cell::setDatabase));
+    c->addMethod("moveBy", sad::dukpp03::bind_method::from(&sad::layouts::Cell::moveBy));
+
+    c->addMethod("preferredSize", sad::dukpp03::bind_method::from(&sad::layouts::Cell::preferredSize));
+    c->addMethod("computedSize", sad::dukpp03::bind_method::from(&sad::layouts::Cell::computedSize));
+    c->addMethod("maximalSize", sad::dukpp03::bind_method::from(&sad::layouts::Cell::maximalSize));
+
+    c->addMethod("grid", sad::dukpp03::bind_method::from(&sad::layouts::Cell::grid));
+
+
+    {
         std::function<sad::Rect2D(sad::layouts::Cell*)> f1 = acc<sad::Rect2D>::get<&sad::layouts::Cell::AssignedArea>;
         std::function<void(sad::layouts::Cell*, sad::Rect2D)> f2 = acc<sad::Rect2D>::set<&sad::layouts::Cell::AssignedArea>;
         c->addAccessor("AssignedArea", sad::dukpp03::bind_lambda::from(f1), sad::dukpp03::bind_lambda::from(f2));

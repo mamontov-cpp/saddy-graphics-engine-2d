@@ -20,7 +20,7 @@ class BasicCollisionHandler;
 
 namespace layouts
 {
-class SerializableCell;
+struct SerializableCell;
 }
 
 template<typename T1, typename T2>
