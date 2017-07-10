@@ -178,7 +178,7 @@ struct SadObjectTest : tpunit::TestFixture
        TEST(SadObjectTest::testInheritedFrom4),
        TEST(SadObjectTest::testFailCast),
        TEST(SadObjectTest::testCastMethod),
-       TEST(SadObjectTest::testName)
+       TEST(SadObjectTest::testName),
        TEST(SadObjectTest::testSprite)
    ) {}
    /*! Cache, which stores objects by class
