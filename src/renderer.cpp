@@ -405,6 +405,15 @@ void sad::Renderer::reshape(int width, int height)
     glLoadIdentity ();  
 }
 
+void sad::Renderer::insert(sad::Scene* s, size_t position)
+{
+    if (s)
+    {
+        s->setRenderer(this);
+        this->sad::TemporarilyImmutableContainer<sad::Scene>::insert(s, position);
+    }
+}
+
 void sad::Renderer::add(sad::Scene * scene)
 {
     if (scene)
@@ -965,8 +974,11 @@ void sad::Renderer::finishRendering()
 
 void sad::Renderer::addNow(sad::Scene * s)
 {
-    s->addRef();
-    m_scenes << s;  
+    if (s)
+    {
+        s->addRef();
+        m_scenes << s;
+    }
 }
 
 void sad::Renderer::removeNow(sad::Scene * s)
@@ -987,6 +999,15 @@ void sad::Renderer::clearNow()
         m_scenes[i]->delRef();
     }
     m_scenes.clear();
+}
+
+void sad::Renderer::insertNow(sad::Scene* s, size_t position)
+{
+    if (s)
+    {
+        s->addRef();
+        m_scenes.insert(s, position);
+    }
 }
 
 

@@ -777,6 +777,9 @@
     <ClCompile Include="src\animations\animationssavedrenderingstringlimit.cpp">
       <Filter>Файлы исходного кода\animations</Filter>
     </ClCompile>
+    <ClCompile Include="src\pipeline\pipelinedelayedtask.cpp">
+      <Filter>Файлы исходного кода\pipeline</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\camera.h">
@@ -1645,6 +1648,9 @@
     </ClInclude>
     <ClInclude Include="include\collection.h">
       <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\pipeline\pipelinedelayedtask.h">
+      <Filter>Заголовочные файлы\pipeline</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

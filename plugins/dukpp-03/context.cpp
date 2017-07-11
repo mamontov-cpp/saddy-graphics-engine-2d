@@ -651,6 +651,8 @@ void sad::dukpp03::Context::exposeRenderer()
     c->addMethod("remove", sad::dukpp03::bind_method::from(&sad::Renderer::removeScene));
     c->addMethod("addScene", sad::dukpp03::bind_method::from(&sad::Renderer::addScene));
     c->addMethod("removeScene", sad::dukpp03::bind_method::from(&sad::Renderer::removeScene));
+    c->addMethod("insert", sad::dukpp03::bind_method::from(&sad::Renderer::insert));
+    c->addMethod("insertScene", sad::dukpp03::bind_method::from(&sad::Renderer::insertScene));
     c->addMethod("clear", sad::dukpp03::bind_method::from(&sad::Renderer::clearScenes));
     c->addMethod("swapLayers", sad::dukpp03::bind_method::from(&sad::Renderer::swapLayers));
     c->addMethod("scenes", sad::dukpp03::bind_method::from(&sad::Renderer::scenes));
@@ -714,6 +716,8 @@ void sad::dukpp03::Context::exposeRenderer()
     cext->addMethod("remove", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::removeScene));
     cext->addMethod("addScene", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::addScene));
     cext->addMethod("removeScene", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::removeScene));
+    cext->addMethod("insert", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::insert));
+    cext->addMethod("insertScene", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::insertScene));
     cext->addMethod("clear", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::clearScenes));
     cext->addMethod("swapLayers", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::swapLayers));
     cext->addMethod("scenes", sad::dukpp03::bind_method::from(&sad::Renderer::scenes));

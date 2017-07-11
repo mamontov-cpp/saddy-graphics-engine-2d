@@ -16,7 +16,7 @@ namespace sad
     added and removed objects can have different type
  */
 template<
-    typename _AddingObjectType,
+    typename _AddedObjectType,
     typename _RemovedObjectType
 >
 class TemporarilyImmutableContainerWithHeterogeneousCommands
@@ -31,7 +31,7 @@ public:
     /*! Adds new object to container
         \param[in] o object
      */
-    virtual void add(const _AddingObjectType & o)
+    virtual void add(const _AddedObjectType & o)
     {
         if (m_lock_changes)
         {
@@ -90,25 +90,48 @@ public:
     
     }
 protected:
+    /*! Inserts new object to container. Hidden, because container should not expose this function by default
+        \param[in] o object
+        \param[in] position a position
+    */
+    virtual void insert(const _AddedObjectType & o, size_t position)
+    {
+        if (m_lock_changes)
+        {
+            QueuedCommand  c;
+            c.Type = CT_INSERT;
+            c.Added = o;
+            c.Position = position;
+            pushCommand(c);
+        }
+        else
+        {
+            m_mutability_lock.lock();
+            insertNow(o, position);
+            m_mutability_lock.unlock();
+        }
+    }
+
      /*! A described command type for queue of commands
       */
      enum CommandType
      {
         CT_ADD,
         CT_REMOVE,
-        CT_CLEAR
+        CT_CLEAR,
+        CT_INSERT
      };
      /*! A command, which should be executed inside of queue
       */
      struct QueuedCommand
      {
          CommandType Type;              //!< An action, which should be performed
-         _AddingObjectType  Added;      //!< An object, which is being added
+         _AddedObjectType  Added;      //!< An object, which is being added
          _RemovedObjectType Removed;    //!< An object, which is being removed
-
+         size_t Position;               //!< A position for inserting object into queue
          /*! By default command is left unitialized
           */
-         inline QueuedCommand() : Type(CT_ADD) //-V730
+         inline QueuedCommand() : Type(CT_ADD), Position(0) //-V730
          {
 
          }
@@ -147,11 +170,20 @@ protected:
      /*! Immediately adds an object to container
           \param[in] o object
       */
-     virtual void addNow(_AddingObjectType o) = 0;
-     /*! Immediately removed an object from container
+     virtual void addNow(_AddedObjectType o) = 0;
+     /*! Immediately removes an object from container
           \param[in] o object
       */
      virtual void removeNow(_RemovedObjectType o) = 0;
+     /*! Immediately inserts an object to container.
+         This function is hidden, since it should be used in some advanced containers
+         \param[in] o object
+         \param[in] position a position for object
+      */
+     virtual void insertNow(_AddedObjectType o, size_t position)
+     {
+     
+     }
      /*! Immediately clears a container
       */
      virtual void clearNow() = 0;
@@ -168,6 +200,7 @@ protected:
                 case CT_ADD : addNow(c.Added); break;
                 case CT_REMOVE: removeNow(c.Removed); break;
                 case CT_CLEAR:  clearNow(); break;
+                case CT_INSERT: insertNow(c.Added, c.Position); break;
             };
         }
         m_command_queue.clear();

@@ -261,6 +261,19 @@ public:
     {
         this->add(s);
     }
+    /*! Inserts scene into renderer
+        \param[in] s scene
+        \param[in] position a position
+     */
+    void insert(sad::Scene* s, size_t position);
+    /*! Inserts scene into renderer
+        \param[in] s scene
+        \param[in] position a position
+     */
+    inline void insertScene(sad::Scene* s, size_t position)
+    {
+        this->insert(s, position);
+    }
     /*! Removes scene from a renderer
         \param[in] s scene
      */
@@ -553,6 +566,12 @@ protected:
     /*! Clears scene from a scene list
      */
     virtual void clearNow();
+    /*! Inserts a scene into specified position.
+        This function is hidden, since it should be used in some advanced containers
+        \param[in] s a scene to be added
+        \param[in] position a used position
+     */
+    virtual void insertNow(sad::Scene* s, size_t position);
 };
 
 }
