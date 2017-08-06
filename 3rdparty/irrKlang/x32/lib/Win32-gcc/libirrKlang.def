@@ -1,0 +1,5 @@
+EXPORTS
+    _ZN8irrklang20createIrrKlangDeviceENS_21E_SOUND_OUTPUT_DRIVEREiPKcS2_ @1
+    _ZN8irrklang21createSoundDeviceListENS_21E_SOUND_OUTPUT_DRIVEREPKc @2
+    _ZN8irrklang27createIrrKlangAudioRecorderEPNS_12ISoundEngineENS_21E_SOUND_OUTPUT_DRIVEREPKcS4_ @3
+    _ZN8irrklang29createAudioRecorderDeviceListENS_21E_SOUND_OUTPUT_DRIVEREPKc @4
