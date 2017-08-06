@@ -1,0 +1,7 @@
+version: 1.7.0.{build}
+image: Visual Studio 2017
+environment:
+  matrix:
+  - {}
+build:
+  verbosity: minimal
