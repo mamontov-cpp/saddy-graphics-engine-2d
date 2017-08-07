@@ -1,5 +1,3 @@
-[![AppVeyor](https://ci.appveyor.com/api/projects/status/u99u4tsb9dv6qwx3?svg=true)](https://ci.appveyor.com/project/mamontov-cpp/saddy-graphics-engine-2d)
-
 # Saddy 
 
 Saddy is an open-source crossplatform 2D graphic engine, based on OpenGL, which can be used to create simple games.
