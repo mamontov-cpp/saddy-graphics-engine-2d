@@ -20,14 +20,14 @@ install:
           $env:vcvar_arg = 'x86_amd64';
           $env:ARCH = 'x64';
           $env:MINGWPATH='C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw32\bin\'
-          $env:MINGWQTDIR='C:\Qt\5.9.1\mingw53_32\' 
+          $env:MINGWQTDIR='C:\Qt\5.9.1\mingw53_32\'
           $env:MSVCQTDIR='C:\Qt\5.9.1\msvc2017_64\'
         }
         else {
           $env:vcvar_arg = 'x86';
           $env:ARCH = 'Win32';  
           $env:MINGWPATH='C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\mingw32\bin\'
-          $env:MINGWQTDIR='C:\Qt\5.9.1\mingw53_32\' 
+          $env:MINGWQTDIR='C:\Qt\5.9.1\mingw53_32\'
           $env:MSVCQTDIR='C:\Qt\5.9.1\msvc2015\'
         }
   - cmd: git submodule init
