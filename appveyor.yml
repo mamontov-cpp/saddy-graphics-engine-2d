@@ -41,6 +41,9 @@ install:
   - cmd: if [%TOOLS%]==[MinGW] set QTDIR=%MINGWQTDIR%
 
 build_script:
+  - dir C:\Qt\5.9.1\
+  - echo %MSVCQTDIR%
+  - echo %QTDIR%
   - dir %QTDIR%
   - if [%TOOLS%]==[MSVC] "build-all-msvc.bat" %CONFIGURATION% %ARCH%
   - if [%TOOLS%]==[MinGW] "build-all-mingw.bat" %CONFIGURATION%
