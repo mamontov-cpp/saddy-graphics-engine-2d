@@ -28,7 +28,7 @@ install:
           $env:ARCH = 'Win32';  
           $env:MINGWPATH='C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\mingw32\bin\';
           $env:MINGWQTDIR='C:\Qt\5.9.1\mingw53_32\';
-          $env:MSVCQTDIR='C:\Qt\5.9.1\msvc2015\';
+          $env:MSVCQTDIR='C:\Qt\5.9.1\winrt_x86_msvc2017\';
         }
   - cmd: git submodule init
   - cmd: git submodule update
@@ -41,8 +41,6 @@ install:
   - cmd: if [%TOOLS%]==[MinGW] set QTDIR=%MINGWQTDIR%
 
 build_script:
-  - dir C:\Qt\5.9.1\
-  - dir C:\Qt\5.9\
   - echo %MSVCQTDIR%
   - echo %QTDIR%
   - dir %QTDIR%
