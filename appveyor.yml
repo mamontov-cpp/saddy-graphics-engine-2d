@@ -32,9 +32,9 @@ install:
           $env:MSVCQTDIR='C:\Qt\5.9.1\winrt_x86_msvc2017\';
           $env:IRRKLANG_ROOT_SUFFIX='3rdparty\irrKlang\x32';
         }
-  - cmd: git submodule init
-  - cmd: git submodule update
-  - cmd: git submodule status
+#  - cmd: git submodule init
+#  - cmd: git submodule update
+#  - cmd: git submodule status
   - cmd: if [%TOOLS%]==[MSVC] "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools\VsDevCmd.bat"
   - cmd: if [%TOOLS%]==[MSVC] set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\;%MSVCQTDIR\bin%;%PATH%
   - cmd: if [%TOOLS%]==[MSVC] set QTDIR=%MSVCQTDIR%
@@ -46,5 +46,7 @@ install:
   - cmd: set FREETYPE_LIB=%FREETYPE_DIR%lib\
   - cmd: set IRRKLANG_ROOT=%cd%\%IRRKLANG_ROOT_SUFFIX%
 build_script:
-  - if [%TOOLS%]==[MSVC] "build-all-msvc.bat" %CONFIGURATION% %ARCH%
+  - dir %QTDIR%\include\
+  - dir %QTDIR%\
+#  - if [%TOOLS%]==[MSVC] "build-all-msvc.bat" %CONFIGURATION% %ARCH%
   - if [%TOOLS%]==[MinGW] "build-all-mingw.bat" %CONFIGURATION%
