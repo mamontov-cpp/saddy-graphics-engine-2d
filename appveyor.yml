@@ -42,7 +42,6 @@ install:
   - cmd: if [%TOOLS%]==[MinGW] dir %MINGWPATH%  
   - cmd: if [%TOOLS%]==[MinGW] set QTDIR=%MINGWQTDIR%
   - cmd: set FREETYPE_DIR=%cd%\3rdparty\freetype\
-  - cmd: dir %FREETYPE_DIR%
   - cmd: set FREETYPE_INCLUDE=%FREETYPE_DIR%include\
   - cmd: set FREETYPE_LIB=%FREETYPE_DIR%lib\
   - cmd: set IRRKLANG_ROOT=%cd%\%IRRKLANG_ROOT_SUFFIX%
