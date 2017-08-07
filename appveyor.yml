@@ -1,7 +1,32 @@
 version: 1.7.0.{build}
-image: Visual Studio 2017
+
 environment:
   matrix:
-  - {}
-build:
-  verbosity: minimal
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017 
+      TOOLS: "MSVC"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      TOOLS: "MinGW"
+
+configuration:
+  - Debug
+  - Release
+
+platform:
+  - x86
+  - x64
+
+install:  
+  - ps: if($env:build_platform -eq 'x64') {
+          $env:vcvar_arg = 'x86_amd64';
+          $env:ARCH = 'x64';
+        }
+        else {
+          $env:vcvar_arg = 'x86';
+          $env:ARCH = 'Win32';  
+        }
+
+build_script:
+  - if [%TOOLS%]==[MSVC] "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall" %vcvar_arg%
+  - if [%TOOLS%]==[MinGW] SET PATH=C:\mingw64\bin;%PATH%
+  - if [%TOOLS%]==[MSVC] "build-all-msvc.bat" %CONFIGURATION% %ARCH%
+  - if [%TOOLS%]==[MinGW] "build-all-mingw.bat" %CONFIGURATION%
