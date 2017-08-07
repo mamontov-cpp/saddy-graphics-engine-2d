@@ -27,7 +27,6 @@ devenv libsaddy.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
 devenv tools/atlasgen/atlasgen.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
 devenv plugins/dukpp-03/dukpp-03.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
 devenv tools/exporter/exporter.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-REM devenv plugins/freetype/saddy-ft.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
 devenv plugins/irrklang/irrklang.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
 devenv plugins/dukpp-03-irrklang/dukpp-03-irrklang.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
 devenv tools/ifaceed/ifaceed/ifaceed.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error

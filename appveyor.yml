@@ -39,6 +39,7 @@ install:
   - cmd: if [%TOOLS%]==[MinGW] SET PATH=%MINGWPATH%;%MINGWQTDIR%\bin;%PATH%
   - cmd: if [%TOOLS%]==[MinGW] dir %MINGWPATH%  
   - cmd: if [%TOOLS%]==[MinGW] set QTDIR=%MINGWQTDIR%
+  - cmd: set FREETYPE_DIR=%cd%\3rdparty\freetype\
 
 build_script:
   - if [%TOOLS%]==[MSVC] "build-all-msvc.bat" %CONFIGURATION% %ARCH%
