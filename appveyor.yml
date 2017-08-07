@@ -28,11 +28,12 @@ install:
         }
 
 build_script:
+  - git submodule init
+  - git submodule update
+  - git submodule status
   - if [%TOOLS%]==[MSVC] "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools\VsDevCmd.bat"
   - if [%TOOLS%]==[MSVC] set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\;%PATH%
   - if [%TOOLS%]==[MinGW] SET PATH=%MINGWPATH%;%PATH%
-  - echo %PATH%
   - if [%TOOLS%]==[MinGW] dir %MINGWPATH%
-  - if [%TOOLS%]==[MSVC]  dir "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\"
   - if [%TOOLS%]==[MSVC] "build-all-msvc.bat" %CONFIGURATION% %ARCH%
   - if [%TOOLS%]==[MinGW] "build-all-mingw.bat" %CONFIGURATION%

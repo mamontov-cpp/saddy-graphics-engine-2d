@@ -24,90 +24,95 @@ if [%VALID%] EQU [0]  (
 @echo on
 call %BatchToRun%
 cd tools/atlasgen
-qmake CONFIG+=%QtConfig% atlasgen.pro
-mingw32-make
+qmake CONFIG+=%QtConfig% atlasgen.pro || goto :error
+mingw32-make || goto :error
 cd ../..
 cd tools/exporter
-qmake CONFIG+=%QtConfig% exporter.pro
-mingw32-make
+qmake CONFIG+=%QtConfig% exporter.pro || goto :error
+mingw32-make || goto :error
 cd ../..
 cd plugins/freetype
-call %BatchToRun%
+call %BatchToRun% || goto :error
 cd ../..
 cd tools/ifaceed
 qmake CONFIG+=%QtConfig% ifaceed.pro
 mingw32-make
 cd ../..
 cd plugins/dukpp-03
-call %BatchToRun%
+call %BatchToRun% || goto :error
 cd ../..
 cd plugins/irrklang
-call %BatchToRun%
+call %BatchToRun% || goto :error
 cd ../..
 cd plugins/dukpp-03-irrklang
 call %BatchToRun%
 cd ../..
 cd examples/game
-call %BatchToRun%
+call %BatchToRun% || goto :error
 cd ../..
 cd examples/multithreading
-call %BatchToRun%
+call %BatchToRun% || goto :error
 cd ../..
 cd examples/stress-physics
-call %BatchToRun%
+call %BatchToRun% || goto :error
 cd ../..
 cd tests/animations
-call %BatchToRun%
+call %BatchToRun% || goto :error
 cd ../..
 cd tests/db
-call %BatchToRun%
+call %BatchToRun% || goto :error
 cd ../..
 cd tests/dukpp-03
-call %BatchToRun%
+call %BatchToRun% || goto :error
 cd ../..
 cd tests/freetype
-call %BatchToRun%
+call %BatchToRun% || goto :error
 cd ../..
 cd tests/hfsm
-call %BatchToRun%
+call %BatchToRun% || goto :error
 cd ../..
 cd tests/input
-call %BatchToRun%
+call %BatchToRun% || goto :error
 cd ../..
 cd tests/irrklang
-call %BatchToRun%
+call %BatchToRun% || goto :error
 cd ../..
 cd tests/dukpp-03-irrklang
-call %BatchToRun%
+call %BatchToRun% || goto :error
 cd ../..
 cd tests/p2d
-call %BatchToRun%
+call %BatchToRun% || goto :error
 cd ../..
 cd tests/pipeline
-call %BatchToRun%
+call %BatchToRun% || goto :error
 cd ../..
 cd tests/resource
-call %BatchToRun%
+call %BatchToRun% || goto :error
 cd ../..
 cd tests/sad
-call %BatchToRun%
+call %BatchToRun% || goto :error
 cd ../..
 cd tests/layouts
-call %BatchToRun%
+call %BatchToRun% || goto :error
 cd ../..
 cd tools/isqt580
-qmake CONFIG+=%QtConfig% isqt580.pro
-mingw32-make
+qmake CONFIG+=%QtConfig% isqt580.pro || goto :error
+mingw32-make || goto :error
 cd ../..
 %CHECKQTVERTOOL%
 if errorlevel 1 (
 	cd plugins/qt-widget
-	qmake CONFIG+=%QtConfig% qt-widget.pro
-	mingw32-make
+	qmake CONFIG+=%QtConfig% qt-widget.pro || goto :error
+	mingw32-make || goto :error
 	cd ../..
 	
 	cd examples/example-game-in-qt
-	qmake CONFIG+=%QtConfig% example-game-in-qt.pro
-	mingw32-make
+	qmake CONFIG+=%QtConfig% example-game-in-qt.pro || goto :error
+	mingw32-make || goto :error
 	cd ../..
 )
+goto :EOF
+
+:error
+echo Failed with error #%errorlevel%.
+exit /b %errorlevel%
