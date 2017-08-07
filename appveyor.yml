@@ -19,14 +19,18 @@ install:
   - ps: if($env:build_platform -eq 'x64') {
           $env:vcvar_arg = 'x86_amd64';
           $env:ARCH = 'x64';
+          $env:MINGWPATH=C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\bin
         }
         else {
           $env:vcvar_arg = 'x86';
           $env:ARCH = 'Win32';  
+          $env:MINGWPATH=C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\bin
         }
 
 build_script:
   - if [%TOOLS%]==[MSVC] "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall" %vcvar_arg%
-  - if [%TOOLS%]==[MinGW] SET PATH=C:\mingw64\bin;%PATH%
+  - if [%TOOLS%]==[MSVC] set DEVENV="%VS140COMNTOOLS%\..\IDE\devenv.exe"
+  - if [%TOOLS%]==[MSVC] set PATH=%DEVENV%;%PATH%
+  - if [%TOOLS%]==[MinGW] SET PATH=%MINGWPATH%;%PATH%
   - if [%TOOLS%]==[MSVC] "build-all-msvc.bat" %CONFIGURATION% %ARCH%
   - if [%TOOLS%]==[MinGW] "build-all-mingw.bat" %CONFIGURATION%
