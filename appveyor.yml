@@ -42,7 +42,7 @@ install:
 
 build_script:
   - dir C:\Qt\5.9.1\
-  - dir C:\Qt\5.8\
+  - dir C:\Qt\5.9\
   - echo %MSVCQTDIR%
   - echo %QTDIR%
   - dir %QTDIR%
