@@ -32,5 +32,8 @@ build_script:
   - if [%TOOLS%]==[MSVC] set DEVENV="%VS140COMNTOOLS%\..\IDE\devenv.exe"
   - if [%TOOLS%]==[MSVC] set PATH=%DEVENV%;%PATH%
   - if [%TOOLS%]==[MinGW] SET PATH=%MINGWPATH%;%PATH%
+  - echo %PATH%
+  - if [%TOOLS%]==[MinGW] g++ -v
+  - if [%TOOLS%]==[MSVC] cl /?
   - if [%TOOLS%]==[MSVC] "build-all-msvc.bat" %CONFIGURATION% %ARCH%
   - if [%TOOLS%]==[MinGW] "build-all-mingw.bat" %CONFIGURATION%
