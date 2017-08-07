@@ -19,12 +19,12 @@ install:
   - ps: if($env:build_platform -eq 'x64') {
           $env:vcvar_arg = 'x86_amd64';
           $env:ARCH = 'x64';
-          $env:MINGWPATH=C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\bin
+          $env:MINGWPATH='C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\bin'
         }
         else {
           $env:vcvar_arg = 'x86';
           $env:ARCH = 'Win32';  
-          $env:MINGWPATH=C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\bin
+          $env:MINGWPATH='C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\bin'
         }
 
 build_script:
