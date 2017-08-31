@@ -3,7 +3,7 @@
 ######################################################################
 
 QT += core gui opengl script
-CONFIG += console opengl
+CONFIG += console opengl script
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TEMPLATE = app
 TARGET = 
@@ -34,6 +34,8 @@ INCLUDEPATH += . \
 	       ../../include/os/ \
 	       ../../include/primitives/ \
 	       ../../include/templates/ \
+               ../../include/3rdparty/dukpp-03/plugins/qt/ \
+               ../../include/3rdparty/dukpp-03/include/
 
 # Input
 HEADERS += ifaceed/mainpanel.h \
@@ -611,7 +613,22 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/scripting/layouts/gridbindings.cpp \
     ifaceed/scripting/layouts/scriptablegrid.cpp \
     ifaceed/scripting/layouts/scriptablegridcell.cpp \
-    ifaceed/scripting/layouts/scriptablelengthvalue.cpp 	
+    ifaceed/scripting/layouts/scriptablelengthvalue.cpp \ 	
+    ../../include/3rdparty/dukpp-03/plugins/qt/classbinding.cpp \
+    ../../include/3rdparty/dukpp-03/plugins/qt/context.cpp \
+    ../../include/3rdparty/dukpp-03/plugins/qt/convert.cpp \
+    ../../include/3rdparty/dukpp-03/plugins/qt/metaconstructor.cpp \
+    ../../include/3rdparty/dukpp-03/plugins/qt/metamethod.cpp \
+    ../../include/3rdparty/dukpp-03/plugins/qt/metapropertyaccessor.cpp \
+    ../../include/3rdparty/dukpp-03/plugins/qt/pushvariant.cpp \
+    ../../include/3rdparty/dukpp-03/plugins/qt/qobjectfinalizer.cpp \
+    ../../include/3rdparty/dukpp-03/plugins/qt/registermetatype.cpp \
+    ../../include/3rdparty/dukpp-03/plugins/qt/toqobject.cpp \
+    ../../include/3rdparty/dukpp-03/plugins/qt/wrapvalue.cpp \
+    ../../include/3rdparty/dukpp-03/src/abstractcallable.cpp \
+    ../../include/3rdparty/dukpp-03/src/abstractcontext.cpp \
+    ../../include/3rdparty/dukpp-03/src/duktape.cpp \
+    ../../include/3rdparty/dukpp-03/src/object.cpp
 
 DESTDIR = ../../bin/ifaceed/
 

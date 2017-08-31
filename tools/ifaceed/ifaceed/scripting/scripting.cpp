@@ -178,7 +178,7 @@ void scripting::Scripting::Thread::run()
 }
 
 // ================================== PUBLIC METHODS OF scripting::Scripting ==================================
-scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_editor(NULL)
+scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_editor(NULL), m_ctx(NULL)
 {
     m_flags = QScriptValue::ReadOnly|QScriptValue::Undeletable;
     m_engine = new QScriptEngine();
@@ -231,6 +231,11 @@ void scripting::Scripting::setEditor(core::Editor* editor)
 core::Editor* scripting::Scripting::editor() const
 {
     return m_editor;
+}
+
+dukpp03::qt::Context* scripting::Scripting::context() const
+{
+    return m_ctx;
 }
 
 QScriptEngine* scripting::Scripting::engine() const
@@ -290,14 +295,28 @@ QSet<QString> scripting::Scripting::commonProperties()
 
 void scripting::Scripting::propertiesAndFunctions(
     QStringList& properties,
-    QStringList& functions
+    QStringList& functions,
+    bool get_global
 )
 {
-    QSet<QString> propertiesset = this->commonProperties();
+    QSet<QString> propertiesset;
+    if (get_global)
+    {
+        propertiesset = this->commonProperties();
+    }
     QSet<QString> functionsset;
+    duk_context* ctx = m_ctx;
+    if (get_global)
+    {
+        duk_push_global_object(ctx);
+    }
 
     propertiesAndFunctions(propertiesset, functionsset, m_engine->globalObject());
 
+    if (duk_pop(ctx))
+    {
+
+    }
     properties = propertiesset.toList();
     functions = functionsset.toList();
 }

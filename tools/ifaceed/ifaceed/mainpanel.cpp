@@ -1690,7 +1690,7 @@ void MainPanel::initConsoleAutocompletion()
     ui.txtConsoleCode->setCompleter(consolecompleter);
     consolecompleter->setModel(
         consolecompleter->modelFromEngine(
-            m_scripting->engine(),
+            m_scripting->context(),
             replaceincompleter,
             m_scripting->commonProperties()
         )

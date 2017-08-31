@@ -9,6 +9,7 @@
 #include <QVector>
 #include <QThread>
 #include <QSet>
+#include <context.h>
 
 namespace core
 {
@@ -83,20 +84,12 @@ protected:
     /*! Returns all functions and properties, defined in system
         \param[out] properties list of properties
         \param[out] functions list of functions
+        \param[in] get_global whether we should get common properties and fetch global object
      */
     void propertiesAndFunctions(
         QStringList& properties,
-        QStringList& functions
-    );
-    /*! Appends all functions and properties, defined in system for given object
-        \param[out] properties list of properties
-        \param[out] functions list of functions
-        \param[in] v an object, whose properties are being appended
-     */
-    void propertiesAndFunctions(
-        QSet<QString>& properties,
-        QSet<QString>& functions,
-        const QScriptValue& v
+        QStringList& functions,
+        bool get_global = true
     );
     /*! Returns screen width. Used, when scripting
         \return screen width
@@ -113,7 +106,11 @@ protected:
     /*! Returns linked editor to scripting
         \return an editor
      */
-    core::Editor* editor() const;	
+    core::Editor* editor() const;
+    /*! Returns context from scripting
+        \return context
+     */
+    dukpp03::qt::Context* context() const;
 public slots:
     /*! Run script in console
      */
@@ -185,6 +182,10 @@ protected:
     /*! A flags to be set as property
      */
     QScriptValue::PropertyFlags m_flags;
+
+    /*! A context for Qt embedded parts
+     */
+    dukpp03::qt::Context* m_ctx;
 };
 
 }
