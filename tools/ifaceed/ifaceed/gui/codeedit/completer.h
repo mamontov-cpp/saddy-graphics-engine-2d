@@ -10,7 +10,7 @@
 #include <QSet>
 #include <QString>
 #include <QStandardItemModel>
-#include "context.h"
+#include "dukqt.h"
 
 namespace gui
 {

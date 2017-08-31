@@ -9,7 +9,7 @@
 #include <QVector>
 #include <QThread>
 #include <QSet>
-#include <context.h>
+#include <dukqt.h>
 
 namespace core
 {
@@ -25,38 +25,12 @@ class Scripting: public QObject
 {
 Q_OBJECT
 public:
-
-/*! A polling thread, that polls engine and forces it to quit if need to
+/*! An enum for copying objects
  */
-class Thread: public QThread
+enum CopyPropertiesDirection
 {
-public:
-    /*! A timeout for quitting a thread
-     */
-    static int TIMEOUT;
-    /*! Determines, how often we should poll thread
-     */
-    static int POLLINGTIME;
-    /*! Creates new thread
-        \param[in] me a thread
-     */
-    Thread(scripting::Scripting* me);
-    /*! A linked thread
-     */
-    virtual ~Thread();
-    /*! Forces thread to quit
-     */
-    void forceQuit();
-    /*! Runs a thread, running script
-     */
-    virtual void run();	
-protected:
-    /*! Whether we should quit 
-     */
-    bool m_should_i_quit;
-    /*! A scripting part
-     */
-    scripting::Scripting* m_s;
+    SSC_CPD_FROM_HEAP_TO_GLOBAL = 0, // From stashed heap to global object
+    SSC_CPD_FROM_GLOBAL_TO_HEAP = 1  // From global object to heap
 };
     /*! Creates new label actions
         \param[in] parent a parent object
@@ -175,6 +149,10 @@ protected:
         \param[out] v a global value (E)
      */
     void initAnimationGroupBindings(QScriptValue& v);
+    /*! Copies properties from source object to destination object
+        \param[in] direction a direction in which copying  is performed
+     */
+    void copyProperties(scripting::Scripting::CopyPropertiesDirection direction);
     /*! An editor, where scripting object belongs to
      */
     core::Editor* m_editor;
@@ -194,6 +172,9 @@ protected:
     /*! A context for Qt embedded parts
      */
     dukpp03::qt::Context* m_ctx;
+    /*! Whether we are evaluating script at the moment
+     */
+    bool m_evaluating;
 };
 
 }

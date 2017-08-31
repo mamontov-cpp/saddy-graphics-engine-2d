@@ -138,48 +138,87 @@
 #include "animations/easinggetter.h"
 #include "animations/easingsetter.h"
 
+#include "lambda.h"
+#include "function.h"
+
 Q_DECLARE_METATYPE(QScriptContext*) //-V566
+Q_DECLARE_METATYPE(QString*)
+Q_DECLARE_METATYPE(sad::db::Object*)
+Q_DECLARE_METATYPE(sad::db::Object**)
+Q_DECLARE_METATYPE(sad::db::Object***)
 
-// ================================== PUBLIC METHODS OF scripting::Scripting::Thread ==================================
-int scripting::Scripting::Thread::TIMEOUT = 60000;
+// ================================== Miscellaneous functions =================================================
 
-int scripting::Scripting::Thread::POLLINGTIME = 300;
-
-scripting::Scripting::Thread::Thread(scripting::Scripting* me) : m_should_i_quit(false), m_s(me)
-{
-    
-}
-
-scripting::Scripting::Thread::~Thread()
-{
-    
-}
-
-void scripting::Scripting::Thread::forceQuit()
-{
-    m_should_i_quit = true;	
-}
-
-void scripting::Scripting::Thread::run()
-{
-    this->msleep(scripting::Scripting::Thread::POLLINGTIME);
-
-    int timeout = 0;
-    while (!m_should_i_quit && m_s->engine()->isEvaluating())
-    {
-        this->msleep(scripting::Scripting::Thread::POLLINGTIME);
-        timeout += scripting::Scripting::Thread::POLLINGTIME; 
-        m_should_i_quit = timeout >= scripting::Scripting::Thread::TIMEOUT;
-    }
-    if (m_should_i_quit && timeout >= scripting::Scripting::Thread::TIMEOUT)
-    {
-        m_s->cancelExecution();
-    }
-}
 
 // ================================== PUBLIC METHODS OF scripting::Scripting ==================================
-scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_editor(NULL), m_ctx(NULL)
+
+/*! Checks, whether object is native in context
+ * \brief is_native_object whether object is native
+ * \param ctx context
+ * \return value
+ */
+static duk_ret_t is_native_object(duk_context* ctx)
 {
+    int count = duk_get_top(ctx);
+    if (count != 1)
+    {
+        duk_push_error_object(ctx, DUK_ERR_TYPE_ERROR, "isNativeObject: got %d arguments, instead of 1", count);
+        duk_throw(ctx);
+        return 0;
+    }
+    duk_bool_t result = 0;
+    if (duk_is_object(ctx, 0))
+    {
+        result = duk_has_prop_string(ctx, 0, DUKPP03_VARIANT_PROPERTY_SIGNATURE);
+    }
+    duk_push_boolean(ctx, result);
+    return 1;
+}
+
+/*! Dumps native object from variant
+    \param[in] v variant
+    \return string
+ */
+static QString dump_native_object(const QVariant& v)
+{
+    if (v.canConvert<sad::db::Object*>())
+    {
+        sad::db::Object* object = v.value<sad::db::Object*>();
+        std::stringstream ss;
+        ss << object->serializableName();
+        ss << "(" << object << ")";
+        std::string name = ss.str();
+        return name.c_str();
+    }
+    else
+    {
+        std::stringstream ss;
+        ss << v.typeName();
+        ss << "(" << v.data() << ")";
+        std::string name = ss.str();
+        return name.c_str();
+    }
+}
+
+scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_editor(NULL), m_ctx(NULL), m_evaluating(false)
+{
+    dukpp03::qt::registerMetaType<sad::db::Object*>();
+    dukpp03::qt::registerMetaType<sad::db::Object**>();
+
+    m_ctx = new dukpp03::qt::Context();
+    // Initialize isNativeObject
+    m_ctx->registerNativeFunction("isNativeObject", is_native_object, 1);
+    m_ctx->registerCallable("dumpNativeObject", dukpp03::qt::make_function::from(dump_native_object));
+
+    scripting::Scripting* me = this;
+    std::function<void(QString c)> output_string = [me](QString c) {
+        gui::uiblocks::UIConsoleBlock* cblk = me->editor()->uiBlocks()->uiConsoleBlock();
+        cblk->txtConsoleResults->append(c + "<br />");
+    };
+    m_ctx->registerCallable("outputString", dukpp03::make_lambda<dukpp03::qt::BasicContext>::from(output_string));
+    bool b = m_ctx->eval("internal = {}; internal.isNatibeObject = isNativeObject; internal.dumpNativeObject = dumpNativeObject; internal.outputString = outputString;");
+    assert(b);
+
     m_flags = QScriptValue::ReadOnly|QScriptValue::Undeletable;
     m_engine = new QScriptEngine();
     m_value = m_engine->newQObject(this, QScriptEngine::QtOwnership, QScriptEngine::SkipMethodsInEnumeration);
@@ -200,11 +239,16 @@ scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_editor(NUL
 
     scripting::Callable* oresourceschema = scripting::make_scripting_call(scripting::resource_schema, this);
     m_registered_classes << oresourceschema;
-    m_value.setProperty("resourceSchema", m_engine->newObject(oresourceschema), m_flags);    
+    m_value.setProperty("resourceSchema", m_engine->newObject(oresourceschema), m_flags);
+
+    // Don't forget to call after object is initialized
+    copyProperties(scripting::Scripting::SSC_CPD_FROM_GLOBAL_TO_HEAP);
 }
 
 scripting::Scripting::~Scripting()
 {
+    delete m_ctx;
+
     m_engine->collectGarbage();
     delete m_engine;
     for(size_t i = 0; i < m_registered_classes.size(); i++)
@@ -362,33 +406,36 @@ int scripting::Scripting::screenHeight()
 
 void scripting::Scripting::runScript()
 {
-    if (m_engine->isEvaluating())
+    if (m_evaluating)
     {
         return;
     }
+    m_evaluating = true;
+    // Restore old properties, that can be destroyed by user's actions
+    copyProperties(scripting::Scripting::SSC_CPD_FROM_HEAP_TO_GLOBAL);
+    // Set maximum execution time to 30 000 seconds
+    m_ctx->setMaximumExecutionTime(30000);
+
     history::BatchCommand* c = new history::BatchCommand();
     m_editor->setCurrentBatchCommand(c);
 
     gui::uiblocks::UIConsoleBlock* cblk = m_editor->uiBlocks()->uiConsoleBlock();
     cblk->txtConsoleResults->setText("");
     QString text = cblk->txtConsoleCode->toPlainText();
-    
+    /*
     QScriptValue globalValue = m_engine->globalObject();
     globalValue.setProperty("console", m_value, m_flags);
     globalValue.setProperty("E",m_value,m_flags);
     globalValue.setProperty("---",m_value,m_flags);
-    
-    scripting::Scripting::Thread poller(this);
-    poller.start();
-    QScriptValue result = m_engine->evaluate(text, "console.js");
-    poller.forceQuit();
-
-    if (result.isError())
+    */
+    std::string error;
+    bool success = m_ctx->eval(text.toStdString(), false, &error);
+    if (!success)
     {
+        QString qerror = error.c_str();
+        qerror.replace("\n", "<br />");
         cblk->txtConsoleResults->append(QString("<font color=\"red\">")
-                                        + result.toString()
-                                        + QString("<br/>Backtrace:<br/>")
-                                        + m_engine->uncaughtExceptionBacktrace().join("<br/>")
+                                        + qerror
                                         + QString("</font>")
         );
         c->rollback(m_editor);
@@ -396,6 +443,8 @@ void scripting::Scripting::runScript()
     }
     else
     {
+        // TODO: Show string value here.
+        m_ctx->cleanStack();
         if (c->count())
         {
             m_editor->history()->add(c);
@@ -407,7 +456,7 @@ void scripting::Scripting::runScript()
     }
 
     m_editor->setCurrentBatchCommand(NULL);
-    poller.wait();
+    m_evaluating = false;
 }
 
 
@@ -615,7 +664,7 @@ void scripting::Scripting::initDatabasePropertyBindings(QScriptValue& v)
         "	}"
         "	if (arguments.length == 2)"
         "	{"
-        "		return E.scenes.set(arguments[0], arguments[1]);"
+        "		return E.db.set(arguments[0], arguments[1]);"
         "	}"
         "	throw new Error(\"Specify 1 or 2 arguments\");"
         "};"
@@ -1669,6 +1718,32 @@ void scripting::Scripting::initAnimationGroupBindings(QScriptValue& v)
         "	throw new Error(\"Specify 2 or 3 arguments\");"
         "};"
     );
+}
+
+void scripting::Scripting::copyProperties(scripting::Scripting::CopyPropertiesDirection direction)
+{
+    duk_context* c = m_ctx->context();
+    if (direction == scripting::Scripting::SSC_CPD_FROM_GLOBAL_TO_HEAP)
+    {
+        duk_push_global_object(c); // Will have id -3
+        duk_push_global_stash(c); // Will have id -2
+    }
+    else
+    {
+        duk_push_global_stash(c); // Will have id -3
+        duk_push_global_object(c); // Will have id -2
+    }
+
+    duk_enum(c, -2, DUK_ENUM_OWN_PROPERTIES_ONLY); // -1
+    while(duk_next(c, -1, 1))
+    {
+        // value -1, name -2, enum -3, destination object -4, source object -5
+        duk_put_prop(c, -4);
+        // put prop removes stack items, so we could do nothing after putting prop
+    }
+
+
+    duk_pop_3(c); // duk_enum object + 2 objects
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
