@@ -148,9 +148,8 @@ Q_DECLARE_METATYPE(sad::db::Object**)
 Q_DECLARE_METATYPE(sad::db::Object***)
 
 // ================================== Miscellaneous functions =================================================
+extern const std::string __context_eval_info;
 
-
-// ================================== PUBLIC METHODS OF scripting::Scripting ==================================
 
 /*! Checks, whether object is native in context
  * \brief is_native_object whether object is native
@@ -200,6 +199,9 @@ static QString dump_native_object(const QVariant& v)
     }
 }
 
+// ================================== PUBLIC METHODS OF scripting::Scripting ==================================
+
+
 scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_editor(NULL), m_ctx(NULL), m_evaluating(false)
 {
     dukpp03::qt::registerMetaType<sad::db::Object*>();
@@ -213,16 +215,21 @@ scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_editor(NUL
     scripting::Scripting* me = this;
     std::function<void(QString c)> output_string = [me](QString c) {
         gui::uiblocks::UIConsoleBlock* cblk = me->editor()->uiBlocks()->uiConsoleBlock();
-        cblk->txtConsoleResults->append(c + "<br />");
+        cblk->txtConsoleResults->append(c);
     };
     m_ctx->registerCallable("outputString", dukpp03::make_lambda<dukpp03::qt::BasicContext>::from(output_string));
-    bool b = m_ctx->eval("internal = {}; internal.isNatibeObject = isNativeObject; internal.dumpNativeObject = dumpNativeObject; internal.outputString = outputString;");
+    bool b = m_ctx->eval("internal = {}; internal.isNativeObject = isNativeObject; internal.dumpNativeObject = dumpNativeObject; internal.outputString = outputString;");
     assert(b);
+
+    std::string error;
+    b = m_ctx->eval(__context_eval_info, true, &error);
+    assert(b);
+
 
     m_flags = QScriptValue::ReadOnly|QScriptValue::Undeletable;
     m_engine = new QScriptEngine();
     m_value = m_engine->newQObject(this, QScriptEngine::QtOwnership, QScriptEngine::SkipMethodsInEnumeration);
-    m_value.setProperty("log", m_engine->newFunction(scripting::scripting_log), m_flags);  // E.log
+    //m_value.setProperty("log", m_engine->newFunction(scripting::scripting_log), m_flags);  // E.log
     
     QScriptValue globalValue = m_engine->globalObject();
     globalValue.setProperty("console", m_value, m_flags);

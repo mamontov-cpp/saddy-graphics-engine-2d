@@ -532,7 +532,6 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/scripting/fromvalue.cpp \
     ifaceed/scripting/multimethod.cpp \
     ifaceed/scripting/queryobject.cpp \
-    ifaceed/scripting/scriptinglog.cpp \
     ifaceed/scripting/classwrapper.cpp \
     ifaceed/scripting/point2d.cpp \
     ifaceed/scripting/point2i.cpp \
@@ -628,7 +627,8 @@ SOURCES += ifaceed/main.cpp \
     ../../include/3rdparty/dukpp-03/src/abstractcallable.cpp \
     ../../include/3rdparty/dukpp-03/src/abstractcontext.cpp \
     ../../include/3rdparty/dukpp-03/src/duktape.cpp \
-    ../../include/3rdparty/dukpp-03/src/object.cpp
+    ../../include/3rdparty/dukpp-03/src/object.cpp \
+    ifaceed/scripting/lib.js.cpp
 
 DESTDIR = ../../bin/ifaceed/
 
