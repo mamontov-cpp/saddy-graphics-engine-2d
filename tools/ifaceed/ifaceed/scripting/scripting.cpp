@@ -295,28 +295,14 @@ QSet<QString> scripting::Scripting::commonProperties()
 
 void scripting::Scripting::propertiesAndFunctions(
     QStringList& properties,
-    QStringList& functions,
-    bool get_global
+    QStringList& functions
 )
 {
     QSet<QString> propertiesset;
-    if (get_global)
-    {
-        propertiesset = this->commonProperties();
-    }
     QSet<QString> functionsset;
-    duk_context* ctx = m_ctx;
-    if (get_global)
-    {
-        duk_push_global_object(ctx);
-    }
 
-    propertiesAndFunctions(propertiesset, functionsset, m_engine->globalObject());
+    this->propertiesAndFunctions(propertiesset, functionsset);
 
-    if (duk_pop(ctx))
-    {
-
-    }
     properties = propertiesset.toList();
     functions = functionsset.toList();
 }
@@ -325,25 +311,40 @@ void scripting::Scripting::propertiesAndFunctions(
 void scripting::Scripting::propertiesAndFunctions(
     QSet<QString>& properties,
     QSet<QString>& functions,
-    const QScriptValue& v
+    bool get_global
 )
 {
-    QScriptValueIterator it(v);
-    while(it.hasNext())
+    duk_context* c = m_ctx->context();
+    if (get_global)
     {
-        it.next();
-        if (it.name() != "prototype" && it.name() != "__prototype__" && it.name() != "constructor")
+        properties = this->commonProperties();
+        duk_push_global_object(c);
+    }
+    duk_enum(c, -1, DUK_ENUM_OWN_PROPERTIES_ONLY);
+    while(duk_next(c, -1, 1))
+    {
+        QString name = duk_get_string(c, -2);
+        if (name != "prototype" && name != "__prototype__" && name != "constructor")
         {
-           if (it.value().isFunction() || it.value().scriptClass() != NULL)
+           if (duk_is_function(c, -1))
            {
-               functions.insert(it.name());
+               functions.insert(name);
            }
            else
            {
-               properties.insert(it.name());
-               this->propertiesAndFunctions(properties, functions, it.value());
+               properties.insert(name);
+               if (duk_is_object(c, -1))
+               {
+                   this->propertiesAndFunctions(properties, functions, false);
+               }
            }
         }
+        duk_pop_2(c);
+    }
+    duk_pop(c);
+    if (get_global)
+    {
+        duk_pop(c);
     }
 }
 

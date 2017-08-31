@@ -84,13 +84,21 @@ protected:
     /*! Returns all functions and properties, defined in system
         \param[out] properties list of properties
         \param[out] functions list of functions
-        \param[in] get_global whether we should get common properties and fetch global object
      */
     void propertiesAndFunctions(
         QStringList& properties,
-        QStringList& functions,
-        bool get_global = true
+        QStringList& functions
     );
+    /*! Returns all functions and properties
+        \param[out] properties list of properties
+        \param[out] functions list of functions
+        \param[in] get_global whether we should get global object props
+     */
+    void propertiesAndFunctions(
+        QSet<QString> &properties,
+        QSet<QString> &functions,
+        bool get_global = true
+     );
     /*! Returns screen width. Used, when scripting
         \return screen width
      */
