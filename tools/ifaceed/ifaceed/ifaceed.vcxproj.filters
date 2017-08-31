@@ -1311,9 +1311,6 @@
     <ClCompile Include="scripting\multimethod.cpp">
       <Filter>Source Files\scripting</Filter>
     </ClCompile>
-    <ClCompile Include="scripting\scriptinglog.cpp">
-      <Filter>Source Files\scripting</Filter>
-    </ClCompile>
     <ClCompile Include="scripting\point2d.cpp">
       <Filter>Source Files\scripting</Filter>
     </ClCompile>
@@ -2126,6 +2123,12 @@
     </ClCompile>
     <ClCompile Include="stringeditordialog.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\lib.js.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\dukqt.cpp">
+      <Filter>Source Files\scripting</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

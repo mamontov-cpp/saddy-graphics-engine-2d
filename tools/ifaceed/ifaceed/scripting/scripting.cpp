@@ -450,7 +450,12 @@ void scripting::Scripting::runScript()
     }
     else
     {
-        // TODO: Show string value here.
+        if (m_ctx->getTop() > 0)
+        {
+            duk_eval_string(m_ctx->context(), "internal.log");
+            duk_swap(m_ctx->context(), -1, -2);
+            duk_call(m_ctx->context(), 1);
+        }
         m_ctx->cleanStack();
         if (c->count())
         {
@@ -1794,4 +1799,3 @@ void scripting::Scripting::loadScript()
         }
     }
 }
-
