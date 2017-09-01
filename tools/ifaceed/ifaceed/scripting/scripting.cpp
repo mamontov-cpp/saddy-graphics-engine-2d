@@ -248,8 +248,6 @@ scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_editor(NUL
     m_registered_classes << oresourceschema;
     m_value.setProperty("resourceSchema", m_engine->newObject(oresourceschema), m_flags);
 
-    // Don't forget to call after object is initialized
-    copyProperties(scripting::Scripting::SSC_CPD_FROM_GLOBAL_TO_HEAP);
 }
 
 scripting::Scripting::~Scripting()
@@ -277,6 +275,9 @@ void scripting::Scripting::setEditor(core::Editor* editor)
     this->initAnimationsBindings(m_value);
     this->initAnimationInstanceBindings(m_value);
     this->initAnimationGroupBindings(m_value);
+
+    // Don't forget to call after object is initialized
+    copyProperties(scripting::Scripting::SSC_CPD_FROM_GLOBAL_TO_HEAP);
 }
 
 core::Editor* scripting::Scripting::editor() const
@@ -452,9 +453,12 @@ void scripting::Scripting::runScript()
     {
         if (m_ctx->getTop() > 0)
         {
-            duk_eval_string(m_ctx->context(), "internal.log");
-            duk_swap(m_ctx->context(), -1, -2);
-            duk_call(m_ctx->context(), 1);
+            if (!duk_is_undefined(m_ctx->context(), -1))
+            {
+                duk_eval_string(m_ctx->context(), "internal.log");
+                duk_swap(m_ctx->context(), -1, -2);
+                duk_call(m_ctx->context(), 1);
+            }
         }
         m_ctx->cleanStack();
         if (c->count())
@@ -1737,25 +1741,41 @@ void scripting::Scripting::copyProperties(scripting::Scripting::CopyPropertiesDi
     duk_context* c = m_ctx->context();
     if (direction == scripting::Scripting::SSC_CPD_FROM_GLOBAL_TO_HEAP)
     {
-        duk_push_global_object(c); // Will have id -3
-        duk_push_global_stash(c); // Will have id -2
+        duk_push_global_object(c); // Will have id -2
+        duk_push_global_stash(c); // Will have id -1
     }
     else
     {
-        duk_push_global_stash(c); // Will have id -3
-        duk_push_global_object(c); // Will have id -2
+        duk_push_global_stash(c); // Will have id -2
+        duk_push_global_object(c); // Will have id -1
     }
 
-    duk_enum(c, -2, DUK_ENUM_OWN_PROPERTIES_ONLY); // -1
+    this->copyObjectsOnStackRecursive(-2, -1);
+
+
+    duk_pop_2(c);
+}
+
+void scripting::Scripting::copyObjectsOnStackRecursive(duk_idx_t source_id, duk_idx_t dest_id)
+{
+    duk_context* c = m_ctx->context();
+    duk_enum(c, source_id, DUK_ENUM_OWN_PROPERTIES_ONLY); // -1
     while(duk_next(c, -1, 1))
     {
-        // value -1, name -2, enum -3, destination object -4, source object -5
-        duk_put_prop(c, -4);
+        // value -1, name -2, enum -3, destination object - dest_id-3, source_id -3
+        if (duk_is_object(c, -1) && !duk_is_c_function(c, -1) && !duk_is_function(c, -1))
+        {
+            duk_push_object(c);
+            // From value to new objects
+            this->copyObjectsOnStackRecursive(-2, -1);
+            // Pop old object
+            duk_swap(c, -2, -1);
+            duk_pop(c);
+        }
         // put prop removes stack items, so we could do nothing after putting prop
+        duk_put_prop(c, dest_id - 3);
     }
-
-
-    duk_pop_3(c); // duk_enum object + 2 objects
+    duk_pop(c);
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst

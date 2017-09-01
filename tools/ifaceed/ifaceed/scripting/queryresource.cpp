@@ -15,25 +15,25 @@
 
 #include "../qstdstring.h"
 
-sad::String scripting::resource_type(scripting::Scripting* scripting, sad::String name)
+QString scripting::resource_type(scripting::Scripting* scripting, QString name)
 {
     sad::resource::Tree* tree = sad::Renderer::ref()->tree("");
-    sad::resource::Resource* resource = tree->root()->resource(name);
-    sad::String result = "";
+    sad::resource::Resource* resource = tree->root()->resource(name.toStdString());
+    QString result;
     if (resource)
     {
-        result = resource->metaData()->name();
+        result = resource->metaData()->name().c_str();
     }
     return result;
 }
 
-QScriptValue scripting::resource_options(scripting::Scripting* scripting, sad::String name)
+QScriptValue scripting::resource_options(scripting::Scripting* scripting, QString name)
 {
     QScriptEngine* e = scripting->engine();
     QScriptValue result = e->nullValue();
 
     sad::resource::Tree* tree = sad::Renderer::ref()->tree("");
-    sad::resource::Resource* resource = tree->root()->resource(name);
+    sad::resource::Resource* resource = tree->root()->resource(name.toStdString());
 
     if (resource)
     {
@@ -63,13 +63,13 @@ QScriptValue scripting::resource_options(scripting::Scripting* scripting, sad::S
     return result;
 }
 
-QScriptValue scripting::resource_schema(scripting::Scripting* scripting, sad::String name)
+QScriptValue scripting::resource_schema(scripting::Scripting* scripting, QString name)
 {
     QScriptEngine* e = scripting->engine();
     QScriptValue result = e->nullValue();
 
     sad::resource::Tree* tree = sad::Renderer::ref()->tree("");
-    sad::resource::Resource* resource = tree->root()->resource(name);
+    sad::resource::Resource* resource = tree->root()->resource(name.toStdString());
 
     if (resource)
     {
