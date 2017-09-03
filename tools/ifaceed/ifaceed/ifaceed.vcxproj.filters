@@ -2834,6 +2834,9 @@
     <ClInclude Include="GeneratedFiles\ui_stringeditordialog.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
+    <ClInclude Include="scripting\dukqtcontext.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="acolordialog.h">

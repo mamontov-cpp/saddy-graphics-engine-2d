@@ -121,6 +121,7 @@
 #include <QFileDialog>
 #include <QTextStream>
 #include <QScriptValueIterator>
+#include <QTextEdit>
 
 #include <animations/animationsblinking.h>
 #include <animations/animationscamerashaking.h>
@@ -142,10 +143,6 @@
 #include "function.h"
 
 Q_DECLARE_METATYPE(QScriptContext*) //-V566
-Q_DECLARE_METATYPE(QString*)
-Q_DECLARE_METATYPE(sad::db::Object*)
-Q_DECLARE_METATYPE(sad::db::Object**)
-Q_DECLARE_METATYPE(sad::db::Object***)
 
 // ================================== Miscellaneous functions =================================================
 extern const std::string __context_eval_info;
@@ -199,6 +196,28 @@ static QString dump_native_object(const QVariant& v)
     }
 }
 
+
+dukpp03::Maybe<sad::String> dukpp03::GetValue<sad::String, dukpp03::qt::BasicContext>::perform(
+    dukpp03::qt::BasicContext* ctx,
+    duk_idx_t pos
+)
+{
+    dukpp03::Maybe<sad::String> result;
+    if (duk_is_string(ctx->context(), pos))
+    {
+        result.setValue(duk_to_string(ctx->context(), pos));
+    }
+    return result;
+}
+
+void dukpp03::PushValue<sad::String, dukpp03::qt::BasicContext>::perform(
+    dukpp03::qt::BasicContext* ctx, 
+    const sad::String& v
+)
+{
+    duk_push_string(ctx->context(), v.c_str());
+}
+
 // ================================== PUBLIC METHODS OF scripting::Scripting ==================================
 
 
@@ -206,6 +225,7 @@ scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_editor(NUL
 {
     dukpp03::qt::registerMetaType<sad::db::Object*>();
     dukpp03::qt::registerMetaType<sad::db::Object**>();
+    dukpp03::qt::registerMetaType<sad::String>();
 
     m_ctx = new dukpp03::qt::Context();
     // Initialize isNativeObject
@@ -223,6 +243,13 @@ scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_editor(NUL
 
     std::string error;
     b = m_ctx->eval(__context_eval_info, true, &error);
+    assert(b);
+
+    dukpp03::Object* obj = new dukpp03::Object();
+    obj->addProperty("resourceType", curried1::from(this, scripting::resource_type));
+    obj->registerIn(m_ctx, "E");
+
+    b = m_ctx->eval("E.log = internal.log; E.dump = internal.dump; console = E;", true, &error);
     assert(b);
 
 

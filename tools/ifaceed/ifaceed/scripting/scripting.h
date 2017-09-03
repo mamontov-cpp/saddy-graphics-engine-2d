@@ -9,7 +9,7 @@
 #include <QVector>
 #include <QThread>
 #include <QSet>
-#include <dukqt.h>
+#include "dukqtcontext.h"
 
 namespace core
 {

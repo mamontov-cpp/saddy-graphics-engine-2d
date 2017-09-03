@@ -64,7 +64,6 @@
 
 #include "closuremethodcall.h"
 
-Q_DECLARE_METATYPE(sad::db::Object*) //-V566
 Q_DECLARE_METATYPE(sad::Scene*) //-V566
 Q_DECLARE_METATYPE(sad::SceneNode*) //-V566
 Q_DECLARE_METATYPE(sad::p2d::app::Way*) //-V566

@@ -4921,6 +4921,7 @@
     </CustomBuild>
     <ClInclude Include="scripting\dialogues\dialoguesbindings.h" />
     <ClInclude Include="scripting\dialogues\dialoguessetter.h" />
+    <ClInclude Include="scripting\dukqtcontext.h" />
     <ClInclude Include="scripting\fromvalue.h" />
     <ClInclude Include="scripting\functioncall.h" />
     <ClInclude Include="scripting\groups\groupsbindings.h" />
