@@ -153,6 +153,11 @@ protected:
         \param[in] direction a direction in which copying  is performed
      */
     void copyProperties(scripting::Scripting::CopyPropertiesDirection direction);
+    /*! Copies properties from source object to destination object recursive
+        \param[in] source_id position of source object on stack
+        \param[in] dest_id position of destination object on stack
+     */
+    void copyObjectsOnStackRecursive(duk_idx_t source_id, duk_idx_t dest_id);
     /*! An editor, where scripting object belongs to
      */
     core::Editor* m_editor;
