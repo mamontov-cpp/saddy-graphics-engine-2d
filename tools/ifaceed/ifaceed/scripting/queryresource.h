@@ -18,7 +18,7 @@ class Scripting;
     \param[in] name name of resource
     \return resource type
  */
-QString resource_type(scripting::Scripting* scripting, QString name);
+QString resource_type(QString name);
 
 /*! Returns object wrapper for sad::Sprite2D::Options. Note, that this
     will return just a simple object, not a mutable thing, because we should

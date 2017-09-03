@@ -246,7 +246,7 @@ scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_editor(NUL
     assert(b);
 
     dukpp03::Object* obj = new dukpp03::Object();
-    obj->addProperty("resourceType", curried1::from(this, scripting::resource_type));
+    obj->addProperty("resourceType", dukpp03::qt::make_function::from(scripting::resource_type));
     obj->registerIn(m_ctx, "E");
 
     b = m_ctx->eval("E.log = internal.log; E.dump = internal.dump; console = E;", true, &error);
@@ -263,9 +263,7 @@ scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_editor(NUL
     globalValue.setProperty("E",m_value,m_flags);
     globalValue.setProperty("---",m_value,m_flags);
     
-    scripting::Callable* oresourcetype = scripting::make_scripting_call(scripting::resource_type, this);
-    m_registered_classes << oresourcetype;
-    m_value.setProperty("resourceType", m_engine->newObject(oresourcetype), m_flags);
+    
 
     scripting::Callable* oresourceoptions = scripting::make_scripting_call(scripting::resource_options, this);
     m_registered_classes << oresourceoptions;

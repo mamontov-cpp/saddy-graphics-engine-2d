@@ -15,7 +15,7 @@
 
 #include "../qstdstring.h"
 
-QString scripting::resource_type(scripting::Scripting* scripting, QString name)
+QString scripting::resource_type(QString name)
 {
     sad::resource::Tree* tree = sad::Renderer::ref()->tree("");
     sad::resource::Resource* resource = tree->root()->resource(name.toStdString());
