@@ -13,7 +13,6 @@
 #include "../../../include/3rdparty/dukpp-03/plugins/qt/toqobject.cpp"
 #include "../../../include/3rdparty/dukpp-03/plugins/qt/wrapvalue.cpp"
 
-#include "../../../include/3rdparty/dukpp-03/src/object.cpp"
 #include "../../../include/3rdparty/dukpp-03/src/abstractcallable.cpp"
 #include "../../../include/3rdparty/dukpp-03/src/abstractcontext.cpp"
 #endif

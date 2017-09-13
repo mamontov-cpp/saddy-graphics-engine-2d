@@ -245,9 +245,9 @@ scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_editor(NUL
     b = m_ctx->eval(__context_eval_info, true, &error);
     assert(b);
 
-    dukpp03::Object* obj = new dukpp03::Object();
-    obj->addProperty("resourceType", dukpp03::qt::make_function::from(scripting::resource_type));
-    obj->registerIn(m_ctx, "E");
+    dukpp03::qt::JSObject* obj = new dukpp03::qt::JSObject();
+    obj->setProperty("resourceType", dukpp03::qt::make_function::from(scripting::resource_type));
+    obj->registerAsGlobalVariable(m_ctx, "E");
 
     b = m_ctx->eval("E.log = internal.log; E.dump = internal.dump; console = E;", true, &error);
     assert(b);
