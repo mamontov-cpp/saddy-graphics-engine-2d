@@ -210,12 +210,107 @@ dukpp03::Maybe<sad::String> dukpp03::GetValue<sad::String, dukpp03::qt::BasicCon
     return result;
 }
 
+dukpp03::Maybe<QStringList> dukpp03::GetValue<QStringList, dukpp03::qt::BasicContext>::perform(
+    dukpp03::qt::BasicContext* c,
+    duk_idx_t pos
+)
+{
+    dukpp03::Maybe<QStringList> result;
+    duk_context* ctx = c->context();
+    if (duk_is_array(ctx, pos))
+    {
+        result.setValue(QStringList());
+        // ReSharper disable once CppInitializedValueIsAlwaysRewritten
+        duk_size_t i = 0, n = duk_get_length(ctx, pos);
+
+        for (i = 0; i < n; i++) {
+            duk_get_prop_index(ctx, pos, i);
+            dukpp03::Maybe<QString> val = dukpp03::GetValue<QString, dukpp03::qt::BasicContext>::perform(c, -1);
+            if (val.exists())
+            {
+                result.mutableValue().push_back(val.value());
+            }
+            else
+            {
+                result.clear();
+                return result;
+            }
+            duk_pop(ctx);
+        }
+    }
+    return result;
+}
+
+
+dukpp03::Maybe<sad::Vector<sad::String> > dukpp03::GetValue<sad::Vector<sad::String>, dukpp03::qt::BasicContext>::perform(
+    dukpp03::qt::BasicContext* c,
+    duk_idx_t pos
+)
+{
+    dukpp03::Maybe<sad::Vector<sad::String> > result;
+    duk_context* ctx = c->context();
+    if (duk_is_array(ctx, pos))
+    {
+        result.setValue(sad::Vector<sad::String>());
+        // ReSharper disable once CppInitializedValueIsAlwaysRewritten
+        duk_size_t i = 0, n = duk_get_length(ctx, pos);
+
+        for (i = 0; i < n; i++) {
+            duk_get_prop_index(ctx, pos, i);
+            dukpp03::Maybe<sad::String> val = dukpp03::GetValue<sad::String, dukpp03::qt::BasicContext>::perform(c, -1);
+            if (val.exists())
+            {
+                result.mutableValue().push_back(val.value());
+            }
+            else
+            {
+                result.clear();
+                return result;
+            }
+            duk_pop(ctx);
+        }
+    }
+    return result;
+}
+
 void dukpp03::PushValue<sad::String, dukpp03::qt::BasicContext>::perform(
     dukpp03::qt::BasicContext* ctx, 
     const sad::String& v
 )
 {
     duk_push_string(ctx->context(), v.c_str());
+}
+
+void dukpp03::PushValue<QStringList, dukpp03::qt::BasicContext>::perform(
+    dukpp03::qt::BasicContext* c,
+    const QStringList& v
+)
+{
+    duk_context* ctx = c->context();
+    int arr_idx = duk_push_array(ctx);
+    int index = 0;
+    for (QStringList::const_iterator it = v.begin(); it != v.end(); ++it)
+    {
+        dukpp03::PushValue<QString, dukpp03::qt::BasicContext>::perform(c, *it);
+        duk_put_prop_index(ctx, arr_idx, index);
+        ++index;
+    }
+}
+
+void dukpp03::PushValue<sad::Vector<sad::String>, dukpp03::qt::BasicContext>::perform(
+    dukpp03::qt::BasicContext* c,
+    const sad::Vector<sad::String>& v
+)
+{
+    duk_context* ctx = c->context();
+    int arr_idx = duk_push_array(ctx);
+    int index = 0;
+    for (size_t i = 0; i < v.size(); i++)
+    {
+        dukpp03::PushValue<sad::String, dukpp03::qt::BasicContext>::perform(c, v[i]);
+        duk_put_prop_index(ctx, arr_idx, index);
+        ++index;
+    }
 }
 
 // ================================== PUBLIC METHODS OF scripting::Scripting ==================================
@@ -231,6 +326,7 @@ scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_editor(NUL
     // Initialize isNativeObject
     m_ctx->registerNativeFunction("isNativeObject", is_native_object, 1);
     m_ctx->registerCallable("dumpNativeObject", dukpp03::qt::make_function::from(dump_native_object));
+
 
     scripting::Scripting* me = this;
     std::function<void(QString c)> output_string = [me](QString c) {
