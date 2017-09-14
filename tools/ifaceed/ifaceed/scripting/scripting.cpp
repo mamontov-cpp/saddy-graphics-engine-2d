@@ -146,7 +146,7 @@ Q_DECLARE_METATYPE(QScriptContext*) //-V566
 
 // ================================== Miscellaneous functions =================================================
 extern const std::string __context_eval_info;
-
+extern const std::string __context_types_info;
 
 /*! Checks, whether object is native in context
  * \brief is_native_object whether object is native
@@ -620,7 +620,23 @@ void scripting::Scripting::cancelExecution()
 
 void scripting::Scripting::initSadTypeConstructors()
 {
-    
+    dukpp03::qt::ClassBinding* c = new dukpp03::qt::ClassBinding();
+    c->addConstructor<sad::Point2D>("SadPoint2D");
+    c->addConstructor<sad::Point2D, double, double>("SadPoint2D");
+    c->addMethod("x", dukpp03::qt::bind_method::from(&sad::Point2D::x));
+    c->addMethod("y", dukpp03::qt::bind_method::from(&sad::Point2D::y));
+    c->addMethod("setX", dukpp03::qt::bind_method::from(&sad::Point2D::setX));
+    c->addMethod("setY", dukpp03::qt::bind_method::from(&sad::Point2D::setY));
+    c->addMethod("distance", dukpp03::qt::bind_method::from(&sad::Point2D::distance));
+    c->setPrototypeFunction("SadPoint2D");
+
+    m_ctx->addClassBinding("sad::Point2D", c);
+    bool b = m_ctx->eval("p2d = SadPoint2D;");
+    assert(b);
+
+    b = m_ctx->eval(__context_types_info, true);
+    assert(b);
+
     // A sad::Point2D constructor	
     scripting::MultiMethod* point2dconstructor = new scripting::MultiMethod(m_engine, "p2d");
     point2dconstructor->add(scripting::make_constructor<sad::Point2D>(this));

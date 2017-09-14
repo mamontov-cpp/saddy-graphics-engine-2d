@@ -11,16 +11,30 @@
 #include <QStringList>
 #include <sadvector.h>
 #include <sadstring.h>
+#include <sadpoint.h>
+#include <sadrect.h>
+#include <sadcolor.h>
+
+/*! Makes binding types easier by declaring  meta types for T, T* and T** respectively
+ */
+#define Q_DUKPP03_DECLARE_METATYPE(T) Q_DECLARE_METATYPE(T) Q_DECLARE_METATYPE(T*) Q_DECLARE_METATYPE(T**)
 
 Q_DECLARE_METATYPE(QString*)
 Q_DECLARE_METATYPE(QStringList*)
-Q_DECLARE_METATYPE(sad::db::Object*)
-Q_DECLARE_METATYPE(sad::db::Object**)
-Q_DECLARE_METATYPE(sad::db::Object***)
-Q_DECLARE_METATYPE(sad::String)
-Q_DECLARE_METATYPE(sad::String*)
-Q_DECLARE_METATYPE(sad::Vector<sad::String>)
-Q_DECLARE_METATYPE(sad::Vector<sad::String>*)
+Q_DUKPP03_DECLARE_METATYPE(sad::db::Object*)
+Q_DUKPP03_DECLARE_METATYPE(sad::String)
+Q_DUKPP03_DECLARE_METATYPE(sad::Vector<sad::String>)
+Q_DUKPP03_DECLARE_METATYPE(sad::Point2D)
+Q_DUKPP03_DECLARE_METATYPE(sad::Point2I)
+Q_DUKPP03_DECLARE_METATYPE(sad::Point3D)
+Q_DUKPP03_DECLARE_METATYPE(sad::Point3I)
+Q_DUKPP03_DECLARE_METATYPE(sad::Size2D)
+Q_DUKPP03_DECLARE_METATYPE(sad::Size2I)
+Q_DUKPP03_DECLARE_METATYPE(sad::Rect2D)
+Q_DUKPP03_DECLARE_METATYPE(sad::Rect2I)
+Q_DUKPP03_DECLARE_METATYPE(sad::Color)
+Q_DUKPP03_DECLARE_METATYPE(sad::AColor)
+
 
 /*! A typedef for currying first part
  */

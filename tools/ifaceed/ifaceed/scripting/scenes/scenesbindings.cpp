@@ -21,9 +21,6 @@
 
 #include <db/dbdatabase.h>
 
-Q_DECLARE_METATYPE(sad::Point2D)
-Q_DECLARE_METATYPE(sad::Rect2D)
-Q_DECLARE_METATYPE(sad::AColor)
 Q_DECLARE_METATYPE(sad::Scene*) //-V566
 
 unsigned long long scripting::scenes::add(scripting::Scripting* s, QString name)
