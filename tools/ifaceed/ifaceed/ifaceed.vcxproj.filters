@@ -2130,6 +2130,12 @@
     <ClCompile Include="scripting\dukqt.cpp">
       <Filter>Source Files\scripting</Filter>
     </ClCompile>
+    <ClCompile Include="scripting\pushvalue.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\getvalue.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">

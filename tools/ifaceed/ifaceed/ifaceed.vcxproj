@@ -2181,6 +2181,7 @@
     <ClCompile Include="scripting\dialogues\dialoguesphraseref.cpp" />
     <ClCompile Include="scripting\dukqt.cpp" />
     <ClCompile Include="scripting\fromvalue.cpp" />
+    <ClCompile Include="scripting\getvalue.cpp" />
     <ClCompile Include="scripting\groups\groupsbindings.cpp" />
     <ClCompile Include="scripting\groups\groupsloopedsetter.cpp" />
     <ClCompile Include="scripting\groups\groupsnamesetter.cpp" />
@@ -2203,6 +2204,7 @@
     <ClCompile Include="scripting\point2i.cpp" />
     <ClCompile Include="scripting\point3d.cpp" />
     <ClCompile Include="scripting\point3i.cpp" />
+    <ClCompile Include="scripting\pushvalue.cpp" />
     <ClCompile Include="scripting\queryobject.cpp" />
     <ClCompile Include="scripting\queryresource.cpp" />
     <ClCompile Include="scripting\querytable.cpp" />
@@ -2217,7 +2219,9 @@
     <ClCompile Include="scripting\scenenodes\scenenodesschemasetter.cpp" />
     <ClCompile Include="scripting\scenes\scenesbindings.cpp" />
     <ClCompile Include="scripting\scenes\scenesnamesetter.cpp" />
-    <ClCompile Include="scripting\scripting.cpp" />
+    <ClCompile Include="scripting\scripting.cpp">
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/bigobj %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
     <ClCompile Include="scripting\size2d.cpp" />
     <ClCompile Include="scripting\size2i.cpp" />
     <ClCompile Include="scripting\tovalue.cpp" />

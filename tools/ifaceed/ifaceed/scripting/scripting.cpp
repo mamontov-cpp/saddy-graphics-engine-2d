@@ -197,123 +197,6 @@ static QString dump_native_object(const QVariant& v)
     }
 }
 
-
-dukpp03::Maybe<sad::String> dukpp03::GetValue<sad::String, dukpp03::qt::BasicContext>::perform(
-    dukpp03::qt::BasicContext* ctx,
-    duk_idx_t pos
-)
-{
-    dukpp03::Maybe<sad::String> result;
-    if (duk_is_string(ctx->context(), pos))
-    {
-        result.setValue(duk_to_string(ctx->context(), pos));
-    }
-    return result;
-}
-
-dukpp03::Maybe<QStringList> dukpp03::GetValue<QStringList, dukpp03::qt::BasicContext>::perform(
-    dukpp03::qt::BasicContext* c,
-    duk_idx_t pos
-)
-{
-    dukpp03::Maybe<QStringList> result;
-    duk_context* ctx = c->context();
-    if (duk_is_array(ctx, pos))
-    {
-        result.setValue(QStringList());
-        // ReSharper disable once CppInitializedValueIsAlwaysRewritten
-        duk_size_t i = 0, n = duk_get_length(ctx, pos);
-
-        for (i = 0; i < n; i++) {
-            duk_get_prop_index(ctx, pos, i);
-            dukpp03::Maybe<QString> val = dukpp03::GetValue<QString, dukpp03::qt::BasicContext>::perform(c, -1);
-            if (val.exists())
-            {
-                result.mutableValue().push_back(val.value());
-            }
-            else
-            {
-                result.clear();
-                return result;
-            }
-            duk_pop(ctx);
-        }
-    }
-    return result;
-}
-
-
-dukpp03::Maybe<sad::Vector<sad::String> > dukpp03::GetValue<sad::Vector<sad::String>, dukpp03::qt::BasicContext>::perform(
-    dukpp03::qt::BasicContext* c,
-    duk_idx_t pos
-)
-{
-    dukpp03::Maybe<sad::Vector<sad::String> > result;
-    duk_context* ctx = c->context();
-    if (duk_is_array(ctx, pos))
-    {
-        result.setValue(sad::Vector<sad::String>());
-        // ReSharper disable once CppInitializedValueIsAlwaysRewritten
-        duk_size_t i = 0, n = duk_get_length(ctx, pos);
-
-        for (i = 0; i < n; i++) {
-            duk_get_prop_index(ctx, pos, i);
-            dukpp03::Maybe<sad::String> val = dukpp03::GetValue<sad::String, dukpp03::qt::BasicContext>::perform(c, -1);
-            if (val.exists())
-            {
-                result.mutableValue().push_back(val.value());
-            }
-            else
-            {
-                result.clear();
-                return result;
-            }
-            duk_pop(ctx);
-        }
-    }
-    return result;
-}
-
-void dukpp03::PushValue<sad::String, dukpp03::qt::BasicContext>::perform(
-    dukpp03::qt::BasicContext* ctx, 
-    const sad::String& v
-)
-{
-    duk_push_string(ctx->context(), v.c_str());
-}
-
-void dukpp03::PushValue<QStringList, dukpp03::qt::BasicContext>::perform(
-    dukpp03::qt::BasicContext* c,
-    const QStringList& v
-)
-{
-    duk_context* ctx = c->context();
-    int arr_idx = duk_push_array(ctx);
-    int index = 0;
-    for (QStringList::const_iterator it = v.begin(); it != v.end(); ++it)
-    {
-        dukpp03::PushValue<QString, dukpp03::qt::BasicContext>::perform(c, *it);
-        duk_put_prop_index(ctx, arr_idx, index);
-        ++index;
-    }
-}
-
-void dukpp03::PushValue<sad::Vector<sad::String>, dukpp03::qt::BasicContext>::perform(
-    dukpp03::qt::BasicContext* c,
-    const sad::Vector<sad::String>& v
-)
-{
-    duk_context* ctx = c->context();
-    int arr_idx = duk_push_array(ctx);
-    int index = 0;
-    for (size_t i = 0; i < v.size(); i++)
-    {
-        dukpp03::PushValue<sad::String, dukpp03::qt::BasicContext>::perform(c, v[i]);
-        duk_put_prop_index(ctx, arr_idx, index);
-        ++index;
-    }
-}
-
 // ================================== PUBLIC METHODS OF scripting::Scripting ==================================
 
 
@@ -344,33 +227,28 @@ scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_editor(NUL
 
     dukpp03::qt::JSObject* obj = new dukpp03::qt::JSObject();
     obj->setProperty("resourceType", dukpp03::qt::make_function::from(scripting::resource_type));
+    obj->setProperty("resourceOptions", dukpp03::qt::curried1::from(this, scripting::resource_options));
+    obj->setProperty("resourceSchema", dukpp03::qt::curried1::from(this, scripting::resource_schema));
+
     obj->registerAsGlobalVariable(m_ctx, "E");
     m_global_value = obj;
     m_global_value->addRef();
 
     b = m_ctx->eval("E.log = internal.log; E.dump = internal.dump; console = E;", true, &error);
     assert(b);
+    
 
-
-    m_flags = QScriptValue::ReadOnly|QScriptValue::Undeletable;
+    // TODO: Remove this
+    m_flags = QScriptValue::ReadOnly | QScriptValue::Undeletable;
     m_engine = new QScriptEngine();
     m_value = m_engine->newQObject(this, QScriptEngine::QtOwnership, QScriptEngine::SkipMethodsInEnumeration);
     //m_value.setProperty("log", m_engine->newFunction(scripting::scripting_log), m_flags);  // E.log
-    
+
     QScriptValue globalValue = m_engine->globalObject();
     globalValue.setProperty("console", m_value, m_flags);
-    globalValue.setProperty("E",m_value,m_flags);
-    globalValue.setProperty("---",m_value,m_flags);
-    
-    
+    globalValue.setProperty("E", m_value, m_flags);
+    globalValue.setProperty("---", m_value, m_flags);
 
-    scripting::Callable* oresourceoptions = scripting::make_scripting_call(scripting::resource_options, this);
-    m_registered_classes << oresourceoptions;
-    m_value.setProperty("resourceOptions",m_engine->newObject(oresourceoptions), m_flags);
-
-    scripting::Callable* oresourceschema = scripting::make_scripting_call(scripting::resource_schema, this);
-    m_registered_classes << oresourceschema;
-    m_value.setProperty("resourceSchema", m_engine->newObject(oresourceschema), m_flags);
 
 }
 

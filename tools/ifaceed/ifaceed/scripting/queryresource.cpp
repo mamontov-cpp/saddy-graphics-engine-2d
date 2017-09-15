@@ -27,10 +27,10 @@ QString scripting::resource_type(QString name)
     return result;
 }
 
-QScriptValue scripting::resource_options(scripting::Scripting* scripting, QString name)
+dukpp03::Maybe<QHash<QString, QVariant> > scripting::resource_options(scripting::Scripting* scripting, QString name)
 {
     QScriptEngine* e = scripting->engine();
-    QScriptValue result = e->nullValue();
+    dukpp03::Maybe<QHash<QString, QVariant> > result;
 
     sad::resource::Tree* tree = sad::Renderer::ref()->tree("");
     sad::resource::Resource* resource = tree->root()->resource(name.toStdString());
@@ -39,34 +39,35 @@ QScriptValue scripting::resource_options(scripting::Scripting* scripting, QStrin
     {
         if (resource->metaData()->canBeCastedTo("sad::Sprite2D::Options"))
         {
+            QHash<QString, QVariant> props;
             sad::Sprite2D::Options* o = sad::checked_cast<sad::Sprite2D::Options>(resource);
 
-            result = scripting->engine()->newObject();
-            result.setProperty("Texture",
-                scripting::FromValue<sad::String>::perform(o->Texture, e)
-            );
-            result.setProperty("TextureRectangle",
-                scripting::FromValue<sad::Rect2D>::perform(o->TextureRectangle, e)
-            );
-            result.setProperty("Rectangle",
-                scripting::FromValue<sad::Rect2D>::perform(o->Rectangle, e)
-            );
-            result.setProperty("Transparent",
-                scripting::FromValue<bool>::perform(o->Transparent, e)
-            );
-            result.setProperty("TransparentColor",
-                scripting::FromValue<sad::Color>::perform(o->TransparentColor, e)
-            );
+            props.insert("Texture", QString(o->Texture.c_str()));
+            
+            QVariant tr;
+            tr.setValue(o->TextureRectangle);
+            props.insert("TextureRectangle", tr);
+
+            QVariant r;
+            r.setValue(o->Rectangle);
+            props.insert("Rectangle", r);
+
+            props.insert("Transparent", o->Transparent);
+            
+            QVariant tc;
+            tc.setValue(o->TransparentColor);
+            props.insert("TransparentColor", tc);
+
+            result.setValue(props);
         }
     }
 
     return result;
 }
 
-QScriptValue scripting::resource_schema(scripting::Scripting* scripting, QString name)
+dukpp03::qt::JSObject* scripting::resource_schema(scripting::Scripting* scripting, QString name)
 {
-    QScriptEngine* e = scripting->engine();
-    QScriptValue result = e->nullValue();
+    dukpp03::qt::JSObject* result = NULL;
 
     sad::resource::Tree* tree = sad::Renderer::ref()->tree("");
     sad::resource::Resource* resource = tree->root()->resource(name.toStdString());
@@ -75,14 +76,14 @@ QScriptValue scripting::resource_schema(scripting::Scripting* scripting, QString
     {
         if (resource->metaData()->canBeCastedTo("sad::db::custom::Schema"))
         {
+            result = new dukpp03::qt::JSObject();
+            
             sad::db::custom::Schema* o = sad::checked_cast<sad::db::custom::Schema>(resource);
 
-            result = scripting->engine()->newObject();
-            result.setProperty("TreeItemName",
-                scripting::FromValue<sad::String>::perform(o->treeItemName(), e)
-            );
+            result->setProperty("TreeItemName", o->treeItemName().c_str());
 
-            QScriptValue resultprops = e->newObject();
+            dukpp03::qt::JSObject* properties = new dukpp03::qt::JSObject();
+
 
             sad::Hash<sad::String, sad::db::Property*> props;
             o->getCustomProperties(props);
@@ -95,10 +96,10 @@ QScriptValue scripting::resource_schema(scripting::Scripting* scripting, QString
                 {
                     proptype += "*";
                 }
-                resultprops.setProperty(STD2QSTRING(it.key()), proptype);
+                properties->setProperty(it.key(), proptype);
             }
 
-            result.setProperty("Properties", resultprops);
+            result->setProperty("Properties", properties);
         }
     }
 

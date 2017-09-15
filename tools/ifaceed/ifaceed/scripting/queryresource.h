@@ -5,8 +5,10 @@
     to perform lookup for most of object stuff
   */
 #pragma once
-#include <QScriptEngine>
 #include <QString>
+#include <QVariant>
+#include <dukqt.h>
+
 
 namespace scripting
 {
@@ -28,7 +30,7 @@ QString resource_type(QString name);
     \param[in] name name of resource
     \return object
  */
-QScriptValue resource_options(scripting::Scripting* scripting, QString name);
+dukpp03::Maybe<QHash<QString, QVariant> > resource_options(scripting::Scripting* scripting, QString name);
 
 /*! Returns object wrapper for sad::db::custom::Schema. Note, that this
     will return just a simple object, not a mutable thing, because we should
@@ -38,6 +40,6 @@ QScriptValue resource_options(scripting::Scripting* scripting, QString name);
     \param[in] name name of resource
     \return object
  */
-QScriptValue resource_schema(scripting::Scripting* scripting, QString name);
+dukpp03::qt::JSObject* resource_schema(scripting::Scripting* scripting, QString name);
 
 }

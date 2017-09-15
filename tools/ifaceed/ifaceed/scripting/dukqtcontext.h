@@ -24,6 +24,9 @@ namespace qt
 /*! Makes lambda, that could be registered as method
  */
 typedef dukpp03::bind_lambda<dukpp03::qt::BasicContext> bind_lambda;
+/*! A lambda with curreid first argument
+ */
+typedef dukpp03::curried1<dukpp03::qt::BasicContext> curried1;
 
 }
 
