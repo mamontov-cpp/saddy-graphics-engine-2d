@@ -735,7 +735,7 @@ void scripting::Scripting::initSadTypeConstructors()
     m_global_value->setProperty("screenHeight", dukpp03::qt::make_function::from(scripting::Scripting::screenHeight));
 
     // TODO: Remove all after this point
-    // A sad::Point2D constructor	
+    // A sad::Point2D constructor   
     scripting::MultiMethod* point2dconstructor = new scripting::MultiMethod(m_engine, "p2d");
     point2dconstructor->add(scripting::make_constructor<sad::Point2D>(this));
     point2dconstructor->add(scripting::make_constructor<sad::Point2D, double, double>(this));
@@ -743,13 +743,13 @@ void scripting::Scripting::initSadTypeConstructors()
 
     qScriptRegisterMetaType(m_engine, scripting::Point2D::toValue, scripting::Point2D::fromValue);
 
-    // A sad::Point2I constructor	
+    // A sad::Point2I constructor   
     scripting::MultiMethod* point2iconstructor = new scripting::MultiMethod(m_engine, "p2i");
     point2iconstructor->add(scripting::make_constructor<sad::Point2I>(this));
     point2iconstructor->add(scripting::make_constructor<sad::Point2I, int, int>(this));
     this->registerScriptClass("p2i", point2iconstructor);
 
-    // A sad::Point3D constructor	
+    // A sad::Point3D constructor   
     scripting::MultiMethod* point3dconstructor = new scripting::MultiMethod(m_engine, "p3d");
     point3dconstructor->add(scripting::make_constructor<sad::Point3D>(this));
     point3dconstructor->add(scripting::make_constructor<sad::Point3D, sad::Point2D>(this));
@@ -757,7 +757,7 @@ void scripting::Scripting::initSadTypeConstructors()
     point3dconstructor->add(scripting::make_constructor<sad::Point3D, double, double, double>(this));
     this->registerScriptClass("p3d", point3dconstructor);
 
-    // A sad::Point3I constructor	
+    // A sad::Point3I constructor   
     scripting::MultiMethod* point3iconstructor = new scripting::MultiMethod(m_engine, "p3i");
     point3iconstructor->add(scripting::make_constructor<sad::Point3I>(this));
     point3iconstructor->add(scripting::make_constructor<sad::Point3I, sad::Point2I>(this));
@@ -781,13 +781,13 @@ void scripting::Scripting::initSadTypeConstructors()
     rect2iconstructor->add(scripting::make_constructor<sad::Rect2I, sad::Point2I, sad::Point2I, sad::Point2I, sad::Point2I>(this));
     this->registerScriptClass("r2i", rect2iconstructor);
 
-    // A sad::Size2D constructor	
+    // A sad::Size2D constructor    
     scripting::MultiMethod* size2dconstructor = new scripting::MultiMethod(m_engine, "s2d");
     size2dconstructor->add(scripting::make_constructor<sad::Size2D>(this));
     size2dconstructor->add(scripting::make_constructor<sad::Size2D, double, double>(this));
     this->registerScriptClass("s2d", size2dconstructor);
 
-    // A sad::Size2I constructor	
+    // A sad::Size2I constructor    
     scripting::MultiMethod* size2iconstructor = new scripting::MultiMethod(m_engine, "s2i");
     size2iconstructor->add(scripting::make_constructor<sad::Size2I>(this));
     size2iconstructor->add(scripting::make_constructor<sad::Size2I, unsigned int, unsigned int>(this));
@@ -827,30 +827,8 @@ void scripting::Scripting::initDatabasePropertyBindings()
     db->setProperty("addProperty", dukpp03::qt::curried1::from(this, scripting::database::addProperty));
     db->setProperty("removeProperty", dukpp03::qt::curried1::from(this, scripting::database::removeProperty));
 
-    m_global_value->setProperty("db", db);
-    /*
-    QScriptValue db = m_engine->newObject();
-    
-    db.setProperty("list", m_engine->newFunction(scripting::database::list), m_flags); // E.db.list
-    
-    scripting::Callable* tp = scripting::make_scripting_call(scripting::database::type, this);
-    m_registered_classes << tp;
-    db.setProperty("type", m_engine->newObject(tp), m_flags); // E.db.type
-
-    db.setProperty("readableProperties", m_engine->newFunction(scripting::database::readableProperties), m_flags); // E.db.readableProperties
-    db.setProperty("writableProperties", m_engine->newFunction(scripting::database::writableProperties), m_flags); // E.db.writableProperties
-
-
-    scripting::Callable* add = scripting::make_scripting_call(scripting::database::addProperty, this);
-    m_registered_classes << add;
-    db.setProperty("add", m_engine->newObject(add), m_flags); // E.db.add
-    
-    scripting::Callable* remove = scripting::make_scripting_call(scripting::database::removeProperty, this);
-    m_registered_classes << remove;
-    db.setProperty("remove", m_engine->newObject(remove), m_flags); // E.db.remove
-
-    scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
-#define PUSH_SETTER(TYPE) set->add(new scripting::database::PropertySetter< TYPE >(m_engine));
+    dukpp03::qt::MultiMethod* set = new dukpp03::qt::MultiMethod();
+#define PUSH_SETTER(TYPE) set->add(new scripting::database::PropertySetter< TYPE >(this));
     PUSH_SETTER( double )
     PUSH_SETTER( float )
     PUSH_SETTER( int )
@@ -879,11 +857,11 @@ void scripting::Scripting::initDatabasePropertyBindings()
     PUSH_SETTER( unsigned long long )
     PUSH_SETTER( unsigned short )
 #undef PUSH_SETTER
-    m_registered_classes << set;
-    db.setProperty("set", m_engine->newObject(set), m_flags); // E.db.set
+    db->setProperty("set",  static_cast<dukpp03::qt::Callable*>(set)); // E.db.set
 
-    scripting::MultiMethod* get = new scripting::MultiMethod(m_engine, "get");
-#define PUSH_GETTER(TYPE) get->add(new scripting::database::PropertyGetter< TYPE >(m_engine));
+
+    dukpp03::qt::MultiMethod* get = new dukpp03::qt::MultiMethod();
+#define PUSH_GETTER(TYPE) get->add(new scripting::database::PropertyGetter< TYPE >());
     PUSH_GETTER( double )
     PUSH_GETTER( float )
     PUSH_GETTER( int )
@@ -912,25 +890,24 @@ void scripting::Scripting::initDatabasePropertyBindings()
     PUSH_GETTER( unsigned long long )
     PUSH_GETTER( unsigned short )
 #undef PUSH_GETTER
-    m_registered_classes << get;
-    db.setProperty("get", m_engine->newObject(get), m_flags); // E.db.get
-    
-    v.setProperty("db", db, m_flags); // E.db
+    db->setProperty("get", static_cast<dukpp03::qt::Callable*>(get)); // E.db.get
 
-    m_engine->evaluate(
+    m_global_value->setProperty("db", db);
+
+    bool b = m_ctx->eval(
         "E.db.attr = function() {"  
-        "	if (arguments.length == 1)"
-        "	{"
-        "		return E.db.get(arguments[0]);"
-        "	}"
-        "	if (arguments.length == 2)"
-        "	{"
-        "		return E.db.set(arguments[0], arguments[1]);"
-        "	}"
-        "	throw new Error(\"Specify 1 or 2 arguments\");"
+        "   if (arguments.length == 1)"
+        "   {"
+        "       return E.db.get(arguments[0]);"
+        "   }"
+        "   if (arguments.length == 2)"
+        "   {"
+        "       return E.db.set(arguments[0], arguments[1]);"
+        "   }"
+        "   throw new Error(\"Specify 1 or 2 arguments\");"
         "};"
     );
-    */
+    assert(b);
 }
 
 void scripting::Scripting::initSceneBindings(QScriptValue& v)
@@ -977,15 +954,15 @@ void scripting::Scripting::initSceneBindings(QScriptValue& v)
 
     m_engine->evaluate(
         "E.scenes.attr = function() {"  
-        "	if (arguments.length == 2)"
-        "	{"
-        "		return E.scenes.get(arguments[0], arguments[1]);"
-        "	}"
-        "	if (arguments.length == 3)"
-        "	{"
-        "		return E.scenes.set(arguments[0], arguments[1], arguments[2]);"
-        "	}"
-        "	throw new Error(\"Specify 2 or 3 arguments\");"
+        "   if (arguments.length == 2)"
+        "   {"
+        "       return E.scenes.get(arguments[0], arguments[1]);"
+        "   }"
+        "   if (arguments.length == 3)"
+        "   {"
+        "       return E.scenes.set(arguments[0], arguments[1], arguments[2]);"
+        "   }"
+        "   throw new Error(\"Specify 2 or 3 arguments\");"
         "};"
     );
 }
@@ -1093,7 +1070,7 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
     get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned long long>(m_engine, "majorid"));
     get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned long long>(m_engine, "minorid"));
     get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned long long>(m_engine, "scene"));
-    get->add(new scripting::AbstractGetter<sad::SceneNode*, bool>(m_engine, "visible"));	
+    get->add(new scripting::AbstractGetter<sad::SceneNode*, bool>(m_engine, "visible"));    
     get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::Rect2D>(m_engine, "area"));
     get->add(new scripting::AbstractGetter<sad::SceneNode*, double>(m_engine, "angle"));
     get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::AColor>(m_engine, "color"));    
@@ -1159,56 +1136,56 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
 
     m_engine->evaluate(
         "E.scenenodes.addLabel = function(o) {"  
-        "	if (\"fontsize\" in o == false)"
+        "   if (\"fontsize\" in o == false)"
         "   {                              "
         "     o[\"fontsize\"] = 16;        "
         "   }                              "
-        "	if (\"color\" in o == false)   "
-        "	{"
-        "	   o[\"color\"] = aclr(255, 255, 255, 0);"
-        "	}"
-        "	if (\"name\" in o == false)   "
-        "	{"
-        "	   o[\"name\"] = \"\";"
-        "	}"
-        "	return E.scenenodes._addLabel(o[\"scene\"], o[\"font\"], o[\"fontsize\"], o[\"text\"], o[\"name\"], o[\"point\"], o[\"color\"]);"
+        "   if (\"color\" in o == false)   "
+        "   {"
+        "      o[\"color\"] = aclr(255, 255, 255, 0);"
+        "   }"
+        "   if (\"name\" in o == false)   "
+        "   {"
+        "      o[\"name\"] = \"\";"
+        "   }"
+        "   return E.scenenodes._addLabel(o[\"scene\"], o[\"font\"], o[\"fontsize\"], o[\"text\"], o[\"name\"], o[\"point\"], o[\"color\"]);"
         "};"
         "E.scenenodes.addSprite2D = function(o) {"
-        "	if (\"color\" in o == false)   "
-        "	{"
-        "	   o[\"color\"] = aclr(255, 255, 255, 0);"
-        "	}"
-        "	if (\"name\" in o == false)   "
-        "	{"
-        "	   o[\"name\"] = \"\";"
-        "	}"
-        "	return E.scenenodes._addSprite2D(o[\"scene\"], o[\"sprite\"], o[\"name\"], o[\"area\"], o[\"color\"]);"
+        "   if (\"color\" in o == false)   "
+        "   {"
+        "      o[\"color\"] = aclr(255, 255, 255, 0);"
+        "   }"
+        "   if (\"name\" in o == false)   "
+        "   {"
+        "      o[\"name\"] = \"\";"
+        "   }"
+        "   return E.scenenodes._addSprite2D(o[\"scene\"], o[\"sprite\"], o[\"name\"], o[\"area\"], o[\"color\"]);"
         "};"
         "E.scenenodes.addCustomObject = function(o) {"
-        "	if (\"fontsize\" in o == false)"
+        "   if (\"fontsize\" in o == false)"
         "   {                              "
         "     o[\"fontsize\"] = 16;        "
         "   }                              "
-        "	if (\"color\" in o == false)   "
-        "	{"
-        "	   o[\"color\"] = aclr(255, 255, 255, 0);"
-        "	}"
-        "	if (\"name\" in o == false)   "
-        "	{"
-        "	   o[\"name\"] = \"\";"
-        "	}"
-        "	return E.scenenodes._addCustomObject(o[\"scene\"], o[\"schema\"], o[\"name\"], o[\"fontsize\"], o[\"text\"],  o[\"area\"], o[\"color\"]);"
+        "   if (\"color\" in o == false)   "
+        "   {"
+        "      o[\"color\"] = aclr(255, 255, 255, 0);"
+        "   }"
+        "   if (\"name\" in o == false)   "
+        "   {"
+        "      o[\"name\"] = \"\";"
+        "   }"
+        "   return E.scenenodes._addCustomObject(o[\"scene\"], o[\"schema\"], o[\"name\"], o[\"fontsize\"], o[\"text\"],  o[\"area\"], o[\"color\"]);"
         "};"
         "E.scenenodes.attr = function() {"  
-        "	if (arguments.length == 2)"
-        "	{"
-        "		return E.scenenodes.get(arguments[0], arguments[1]);"
-        "	}"
-        "	if (arguments.length == 3)"
-        "	{"
-        "		return E.scenenodes.set(arguments[0], arguments[1], arguments[2]);"
-        "	}"
-        "	throw new Error(\"Specify 2 or 3 arguments\");"
+        "   if (arguments.length == 2)"
+        "   {"
+        "       return E.scenenodes.get(arguments[0], arguments[1]);"
+        "   }"
+        "   if (arguments.length == 3)"
+        "   {"
+        "       return E.scenenodes.set(arguments[0], arguments[1], arguments[2]);"
+        "   }"
+        "   throw new Error(\"Specify 2 or 3 arguments\");"
         "};"
     );
 }
@@ -1319,34 +1296,34 @@ void scripting::Scripting::initWaysBindings(QScriptValue& v)
         "   {                              "
         "      o = {};                     "
         "   }                              "
-        "	if (\"name\" in o == false)    "
+        "   if (\"name\" in o == false)    "
         "   {                              "
         "     o[\"name\"] = \"\";          "
         "   }                              "
-        "	if (\"totaltime\" in o == false)   "
-        "	{"
-        "	   o[\"totaltime\"] = 0;       "
-        "	}"
-        "	if (\"closed\" in o == false)  "
-        "	{"
-        "	   o[\"closed\"] = false;      "
-        "	}"
-        "	if (\"points\" in o == false)  "
-        "	{"
-        "	   o[\"points\"] = [];         "
-        "	}"
-        "	return E.ways._add(o[\"name\"], o[\"totaltime\"], o[\"closed\"], o[\"points\"]);"
+        "   if (\"totaltime\" in o == false)   "
+        "   {"
+        "      o[\"totaltime\"] = 0;       "
+        "   }"
+        "   if (\"closed\" in o == false)  "
+        "   {"
+        "      o[\"closed\"] = false;      "
+        "   }"
+        "   if (\"points\" in o == false)  "
+        "   {"
+        "      o[\"points\"] = [];         "
+        "   }"
+        "   return E.ways._add(o[\"name\"], o[\"totaltime\"], o[\"closed\"], o[\"points\"]);"
         "};"
         "E.ways.attr = function() {"  
-        "	if (arguments.length == 2)"
-        "	{"
-        "		return E.ways.get(arguments[0], arguments[1]);"
-        "	}"
-        "	if (arguments.length == 3)"
-        "	{"
-        "		return E.ways.set(arguments[0], arguments[1], arguments[2]);"
-        "	}"
-        "	throw new Error(\"Specify 2 or 3 arguments\");"
+        "   if (arguments.length == 2)"
+        "   {"
+        "       return E.ways.get(arguments[0], arguments[1]);"
+        "   }"
+        "   if (arguments.length == 3)"
+        "   {"
+        "       return E.ways.set(arguments[0], arguments[1], arguments[2]);"
+        "   }"
+        "   throw new Error(\"Specify 2 or 3 arguments\");"
         "};"
     );
 }
@@ -1406,33 +1383,33 @@ void scripting::Scripting::initDialoguesBindings(QScriptValue& v)
 
     m_engine->evaluate(
         "var phrase = function(actorName, actorPortrait, text, duration, viewHint) {"  
-        "	return {\"actorName\" : actorName, \"actorPortrait\" : actorPortrait, \"text\": text, \"duration\": duration, \"viewHint\" : viewHint};"
+        "   return {\"actorName\" : actorName, \"actorPortrait\" : actorPortrait, \"text\": text, \"duration\": duration, \"viewHint\" : viewHint};"
         "};"
         "E.dialogues.add = function(o) {"  
         "   if (typeof o != \"object\")    "
         "   {                              "
         "      o = {};                     "
         "   }                              "
-        "	if (\"name\" in o == false)    "
+        "   if (\"name\" in o == false)    "
         "   {                              "
         "     o[\"name\"] = \"\";          "
         "   }                              "
-        "	if (\"phrases\" in o == false) "
-        "	{                              "
-        "	   o[\"phrases\"] = [];        "
-        "	}                              "
-        "	return E.dialogues._add(o[\"name\"], o[\"phrases\"]);"
+        "   if (\"phrases\" in o == false) "
+        "   {                              "
+        "      o[\"phrases\"] = [];        "
+        "   }                              "
+        "   return E.dialogues._add(o[\"name\"], o[\"phrases\"]);"
         "};"
         "E.dialogues.attr = function() {"  
-        "	if (arguments.length == 2)"
-        "	{"
-        "		return E.dialogues.get(arguments[0], arguments[1]);"
-        "	}"
-        "	if (arguments.length == 3)"
-        "	{"
-        "		return E.dialogues.set(arguments[0], arguments[1], arguments[2]);"
-        "	}"
-        "	throw new Error(\"Specify 2 or 3 arguments\");"
+        "   if (arguments.length == 2)"
+        "   {"
+        "       return E.dialogues.get(arguments[0], arguments[1]);"
+        "   }"
+        "   if (arguments.length == 3)"
+        "   {"
+        "       return E.dialogues.set(arguments[0], arguments[1], arguments[2]);"
+        "   }"
+        "   throw new Error(\"Specify 2 or 3 arguments\");"
         "};"
     );
 }
@@ -1637,23 +1614,23 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
     get->add(new scripting::animations::EasingGetter<unsigned int>(m_engine, "easing_type", &sad::animations::easing::Function::functionTypeAsUnsignedInt));
     get->add(new scripting::animations::EasingGetter<double>(m_engine, "easing_overshoot_amplitude", &sad::animations::easing::Function::overshootAmplitude));
     get->add(new scripting::animations::EasingGetter<double>(m_engine, "easing_period", &sad::animations::easing::Function::period));
-    get->add(new scripting::AbstractGetter<sad::animations::Blinking*, unsigned int>(m_engine, "frequency"));	
+    get->add(new scripting::AbstractGetter<sad::animations::Blinking*, unsigned int>(m_engine, "frequency"));   
     get->add(new scripting::AbstractGetter<sad::animations::CameraShaking*, sad::Point2D>(m_engine, "offset"));
     get->add(new scripting::AbstractGetter<sad::animations::CameraShaking*, int>(m_engine, "frequency"));
     get->add(new scripting::AbstractGetter<sad::animations::CameraRotation*, sad::Point3D>(m_engine, "pivot"));
     get->add(new scripting::AbstractGetter<sad::animations::CameraRotation*, double>(m_engine, "min_angle"));
-    get->add(new scripting::AbstractGetter<sad::animations::CameraRotation*, double>(m_engine, "max_angle"));	
+    get->add(new scripting::AbstractGetter<sad::animations::CameraRotation*, double>(m_engine, "max_angle"));   
     get->add(new scripting::AbstractGetter<sad::animations::Color*, sad::AColor>(m_engine, "min_color"));
-    get->add(new scripting::AbstractGetter<sad::animations::Color*, sad::AColor>(m_engine, "max_color"));	
-    get->add(new scripting::AbstractGetter<sad::animations::FontList*, sad::Vector<sad::String> >(m_engine, "fonts"));	
-    get->add(new scripting::AbstractGetter<sad::animations::FontSize*, unsigned int >(m_engine, "min_size"));	
+    get->add(new scripting::AbstractGetter<sad::animations::Color*, sad::AColor>(m_engine, "max_color"));   
+    get->add(new scripting::AbstractGetter<sad::animations::FontList*, sad::Vector<sad::String> >(m_engine, "fonts"));  
+    get->add(new scripting::AbstractGetter<sad::animations::FontSize*, unsigned int >(m_engine, "min_size"));   
     get->add(new scripting::AbstractGetter<sad::animations::FontSize*, unsigned int >(m_engine, "max_size"));
     get->add(new scripting::AbstractGetter<sad::animations::Resize*, sad::Point2D >(m_engine, "start_size"));
-    get->add(new scripting::AbstractGetter<sad::animations::Resize*, sad::Point2D >(m_engine, "end_size"));	
+    get->add(new scripting::AbstractGetter<sad::animations::Resize*, sad::Point2D >(m_engine, "end_size")); 
     get->add(new scripting::AbstractGetter<sad::animations::Rotate*, double >(m_engine, "min_angle"));
-    get->add(new scripting::AbstractGetter<sad::animations::Rotate*, double >(m_engine, "max_angle"));	
-    get->add(new scripting::AbstractGetter<sad::animations::SimpleMovement*, sad::Point2D>(m_engine, "start_point"));	
-    get->add(new scripting::AbstractGetter<sad::animations::SimpleMovement*, sad::Point2D>(m_engine, "end_point"));		
+    get->add(new scripting::AbstractGetter<sad::animations::Rotate*, double >(m_engine, "max_angle"));  
+    get->add(new scripting::AbstractGetter<sad::animations::SimpleMovement*, sad::Point2D>(m_engine, "start_point"));   
+    get->add(new scripting::AbstractGetter<sad::animations::SimpleMovement*, sad::Point2D>(m_engine, "end_point"));     
     get->add(new scripting::AbstractGetter<sad::animations::OptionList*, sad::Vector<sad::String> >(m_engine, "list"));
     get->add(new scripting::AbstractGetter<sad::animations::TextureCoordinatesContinuous*, sad::Rect2D >(m_engine, "start_rect"));
     get->add(new scripting::AbstractGetter<sad::animations::TextureCoordinatesContinuous*, sad::Rect2D >(m_engine, "end_rect"));
@@ -1673,19 +1650,19 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
         "   {                              "
         "      o = {};                     "
         "   }                              "
-        "	if (\"name\" in o == false)    "
+        "   if (\"name\" in o == false)    "
         "   {                              "
         "     o[\"name\"] = \"\";          "
         "   }                              "
-        "	if (\"time\" in o == false)    "
-        "	{                              "
-        "	   o[\"time\"] = 0;            "
-        "	}                              "
-        "	if (\"looped\" in o == false)  "
-        "	{                              "
-        "	   o[\"looped\"] = false;      "
-        "	}                              "
-        "	return E.animations._add(\"{CLASSNAME}\", o[\"name\"], o[\"time\"], o[\"looped\"]);"
+        "   if (\"time\" in o == false)    "
+        "   {                              "
+        "      o[\"time\"] = 0;            "
+        "   }                              "
+        "   if (\"looped\" in o == false)  "
+        "   {                              "
+        "      o[\"looped\"] = false;      "
+        "   }                              "
+        "   return E.animations._add(\"{CLASSNAME}\", o[\"name\"], o[\"time\"], o[\"looped\"]);"
         "};"
     );
 
@@ -1718,15 +1695,15 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
         
     m_engine->evaluate(
         "E.animations.attr = function() {"  
-        "	if (arguments.length == 2)"
-        "	{"
-        "		return E.animations.get(arguments[0], arguments[1]);"
-        "	}"
-        "	if (arguments.length == 3)"
-        "	{"
-        "		return E.animations.set(arguments[0], arguments[1], arguments[2]);"
-        "	}"
-        "	throw new Error(\"Specify 2 or 3 arguments\");"
+        "   if (arguments.length == 2)"
+        "   {"
+        "       return E.animations.get(arguments[0], arguments[1]);"
+        "   }"
+        "   if (arguments.length == 3)"
+        "   {"
+        "       return E.animations.set(arguments[0], arguments[1], arguments[2]);"
+        "   }"
+        "   throw new Error(\"Specify 2 or 3 arguments\");"
         "};"
     );
 
@@ -1840,53 +1817,53 @@ void scripting::Scripting::initAnimationInstanceBindings(QScriptValue& v)
         "             o[\"animationid\"] = o[\"animation\"]; o[\"animationname\"] = \"\"; "
         "        }                         "
         "   }"
-        "	if (\"name\" in o == false)    "
+        "   if (\"name\" in o == false)    "
         "   {                              "
         "     o[\"name\"] = \"\";          "
         "   }                              "
-        "	if (\"object\" in o == false)  "
-        "	{                              "
-        "	   o[\"object\"] = 0;          "
-        "	}                              "
-        "	if (\"starttime\" in o == false)    "
-        "	{                              "
-        "	   o[\"starttime\"] = 0;            "
-        "	}                              "
-        "	return E.animations.instances._addInstance(o[\"name\"], o[\"animationid\"], o[\"animationname\"], o[\"object\"], o[\"starttime\"]);"
+        "   if (\"object\" in o == false)  "
+        "   {                              "
+        "      o[\"object\"] = 0;          "
+        "   }                              "
+        "   if (\"starttime\" in o == false)    "
+        "   {                              "
+        "      o[\"starttime\"] = 0;            "
+        "   }                              "
+        "   return E.animations.instances._addInstance(o[\"name\"], o[\"animationid\"], o[\"animationname\"], o[\"object\"], o[\"starttime\"]);"
         "};"
         "E.animations.instances.addWayInstance = function(o) {"
         "   if (typeof o != \"object\")    "
         "   {                              "
         "      o = {};                     "
         "   }                              "
-        "	if (\"name\" in o == false)    "
+        "   if (\"name\" in o == false)    "
         "   {                              "
         "     o[\"name\"] = \"\";          "
         "   }                              "
-        "	if (\"way\" in o == false)     "
-        "	{                              "
-        "	   o[\"way\"] = 0;             "
-        "	}                              "
-        "	if (\"object\" in o == false)  "
-        "	{                              "
-        "	   o[\"object\"] = 0;          "
-        "	}                              "
-        "	if (\"starttime\" in o == false)    "
-        "	{                              "
-        "	   o[\"starttime\"] = 0;            "
-        "	}                              "
-        "	return E.animations.instances._addWayInstance(o[\"name\"], o[\"way\"], o[\"object\"], o[\"starttime\"]);"
+        "   if (\"way\" in o == false)     "
+        "   {                              "
+        "      o[\"way\"] = 0;             "
+        "   }                              "
+        "   if (\"object\" in o == false)  "
+        "   {                              "
+        "      o[\"object\"] = 0;          "
+        "   }                              "
+        "   if (\"starttime\" in o == false)    "
+        "   {                              "
+        "      o[\"starttime\"] = 0;            "
+        "   }                              "
+        "   return E.animations.instances._addWayInstance(o[\"name\"], o[\"way\"], o[\"object\"], o[\"starttime\"]);"
         "};"
         "E.animations.instances.attr = function() {"
-        "	if (arguments.length == 2)"
-        "	{"
-        "		return E.animations.instances.get(arguments[0], arguments[1]);"
-        "	}"
-        "	if (arguments.length == 3)"
-        "	{"
-        "		return E.animations.instances.set(arguments[0], arguments[1], arguments[2]);"
-        "	}"
-        "	throw new Error(\"Specify 2 or 3 arguments\");"
+        "   if (arguments.length == 2)"
+        "   {"
+        "       return E.animations.instances.get(arguments[0], arguments[1]);"
+        "   }"
+        "   if (arguments.length == 3)"
+        "   {"
+        "       return E.animations.instances.set(arguments[0], arguments[1], arguments[2]);"
+        "   }"
+        "   throw new Error(\"Specify 2 or 3 arguments\");"
         "};"
     );
 }
@@ -1958,26 +1935,26 @@ void scripting::Scripting::initAnimationGroupBindings(QScriptValue& v)
         "   {                              "
         "      o = {};                     "
         "   }                              "
-        "	if (\"name\" in o == false)    "
+        "   if (\"name\" in o == false)    "
         "   {                              "
         "     o[\"name\"] = \"\";          "
         "   }                              "
-        "	if (\"looped\" in o == false)  "
-        "	{                              "
-        "	   o[\"looped\"] = false;      "
-        "	}                              "
-        "	return E.animations.groups._add(o[\"name\"], o[\"looped\"]);"
+        "   if (\"looped\" in o == false)  "
+        "   {                              "
+        "      o[\"looped\"] = false;      "
+        "   }                              "
+        "   return E.animations.groups._add(o[\"name\"], o[\"looped\"]);"
         "};"
         "E.animations.groups.attr = function() {"
-        "	if (arguments.length == 2)"
-        "	{"
-        "		return E.animations.groups.get(arguments[0], arguments[1]);"
-        "	}"
-        "	if (arguments.length == 3)"
-        "	{"
-        "		return E.animations.groups.set(arguments[0], arguments[1], arguments[2]);"
-        "	}"
-        "	throw new Error(\"Specify 2 or 3 arguments\");"
+        "   if (arguments.length == 2)"
+        "   {"
+        "       return E.animations.groups.get(arguments[0], arguments[1]);"
+        "   }"
+        "   if (arguments.length == 3)"
+        "   {"
+        "       return E.animations.groups.set(arguments[0], arguments[1], arguments[2]);"
+        "   }"
+        "   throw new Error(\"Specify 2 or 3 arguments\");"
         "};"
     );
 }

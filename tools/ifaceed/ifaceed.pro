@@ -627,7 +627,9 @@ SOURCES += ifaceed/main.cpp \
     ../../include/3rdparty/dukpp-03/src/abstractcallable.cpp \
     ../../include/3rdparty/dukpp-03/src/abstractcontext.cpp \
     ../../include/3rdparty/dukpp-03/src/duktape.cpp \
-    ifaceed/scripting/lib.js.cpp
+    ifaceed/scripting/lib.js.cpp \
+    ifaceed/scripting/getvalue.cpp \
+    ifaceed/scripting/pushvalue.cpp
 
 DESTDIR = ../../bin/ifaceed/
 
