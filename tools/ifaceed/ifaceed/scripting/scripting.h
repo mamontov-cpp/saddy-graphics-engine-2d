@@ -113,10 +113,9 @@ protected:
     /*! Inits inner script with constructors for common types
      */
     void initSadTypeConstructors();
-    /*! Inits all bindings for scenes
-        \param[out] v a global value (E)
-    */
-    void initDatabasePropertyBindings(QScriptValue& v);
+    /*! Inits all bindings for database and database properties
+     */
+    void initDatabasePropertyBindings();
     /*! Inits scenes bindings for scenes
         \param[out] v a global value (E)
      */

@@ -97,7 +97,7 @@ public:
 
 
 /*! An instantiation for getting sad::Vector<sad::String>
-*/
+ */
 template<>
 class GetValue<sad::Vector<sad::String>, dukpp03::qt::BasicContext>
 {
@@ -113,6 +113,22 @@ public:
     );
 };
 
+/*! An instantiation for getting sad::db::Object*
+ */
+template<>
+class GetValue<sad::db::Object*, dukpp03::qt::BasicContext>
+{
+public:
+    /*! Performs getting value from stack
+    \param[in] ctx context
+    \param[in] pos index for stack
+    \return a value if it exists, otherwise empty maybe
+    */
+    static dukpp03::Maybe<sad::db::Object* > perform(
+        dukpp03::qt::BasicContext* ctx,
+        duk_idx_t pos
+    );
+};
 
 /*! An instantiation for pushing sad::String on stack
  */

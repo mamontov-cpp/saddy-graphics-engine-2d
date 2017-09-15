@@ -31,6 +31,10 @@ void scripting::database::initializeInvisiblePropertiesList()
 
 const QSet<QString>& scripting::database::getInvisibleProperties()
 {
+    if (invisible_properties.size() == 0)
+    {
+        initializeInvisiblePropertiesList();
+    }
     return invisible_properties;
 }
 
@@ -54,28 +58,25 @@ bool scripting::database::removeProperty(scripting::Scripting* s, sad::String na
     return result;
 }
 
-QScriptValue scripting::database::list(QScriptContext* ctx, QScriptEngine* engine)
+QStringList scripting::database::list()
 {
-    if (ctx->argumentCount() != 0)
-    {
-        ctx->throwError("list: accepts only 0 arguments");
-        return QScriptValue();
-    }
     QStringList list;
     sad::db::Database* db = sad::Renderer::ref()->database("");
     sad::db::Database::Properties::const_iterator it = db->begin();
+    const QSet<QString>& set = scripting::database::getInvisibleProperties();
     for(; it != db->end(); ++it)
     {
-        if (it.key() != "palette")
+        QString key = STD2QSTRING(it.key());
+        if (set.contains(key) == false)
         {
-            list << STD2QSTRING(it.key());
+            list << key;
         }
     }
 
-    return scripting::FromValue<QStringList>::perform(list, engine);
+    return list;
 }
 
-sad::String scripting::database::type(scripting::Scripting* s, sad::db::Object* o)
+sad::String scripting::database::type(sad::db::Object* o)
 {
     return o->serializableName();
 }

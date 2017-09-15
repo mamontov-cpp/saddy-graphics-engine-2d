@@ -39,17 +39,14 @@ bool addProperty(scripting::Scripting* s, sad::String type, sad::String name);
  */
 bool removeProperty(scripting::Scripting* s, sad::String name);
 /*! Lists database properties
-    \param[in] ctx context
-    \param[in] engine an engine list
     \return list of strings with propeties of database
  */
-QScriptValue list(QScriptContext* ctx, QScriptEngine* engine);
+QStringList list();
 /*! Returns type of object
-    \param[in] s scripting part
     \param[in] o object
     \return an object type
  */
-sad::String type(scripting::Scripting* s, sad::db::Object* o);
+sad::String type(sad::db::Object* o);
 /*! Lists readableProperties for a type
     \param[in] ctx context
     \param[in] engine an engine list

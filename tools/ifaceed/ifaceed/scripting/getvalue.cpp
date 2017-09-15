@@ -11,6 +11,9 @@
 #include "isaabb.h"
 #include "point2d.h"
 
+#include <renderer.h>
+#include <db/dbdatabase.h>
+
 
 dukpp03::Maybe<sad::String> dukpp03::GetValue<sad::String, dukpp03::qt::BasicContext>::perform(
     dukpp03::qt::BasicContext* ctx,
@@ -83,6 +86,46 @@ dukpp03::Maybe<sad::Vector<sad::String> > dukpp03::GetValue<sad::Vector<sad::Str
                 return result;
             }
             duk_pop(ctx);
+        }
+    }
+    return result;
+}
+
+
+dukpp03::Maybe<sad::db::Object*> dukpp03::GetValue<sad::db::Object*, dukpp03::qt::BasicContext>::perform(
+    dukpp03::qt::BasicContext* ctx,
+    duk_idx_t pos
+)
+{
+    dukpp03::Maybe<sad::db::Object*> result;
+    dukpp03::Maybe<sad::String> maybe_name = dukpp03::GetValue<sad::String, dukpp03::qt::BasicContext>::perform(ctx, pos);
+    if (maybe_name.exists())
+    {
+        sad::Vector<sad::db::Object*> vector = sad::Renderer::ref()->database("")->queryByName(maybe_name.value());
+        if (vector.size())
+        {
+            for (size_t i = 0; (i < vector.size()) && (result.exists() == false); i++)
+            {
+                if (vector[i]->Active) {
+                    result.setValue(vector[i]);
+                }
+            }
+        }
+    }
+
+    if (result.exists() == false)
+    {
+        dukpp03::Maybe<unsigned long long> maybe_major_id = dukpp03::GetValue<unsigned long long, dukpp03::qt::BasicContext>::perform(ctx, pos);
+        if (maybe_major_id.exists())
+        {
+            sad::db::Object* object = sad::Renderer::ref()->database("")->queryByMajorId(maybe_major_id.value());
+            if (object)
+            {
+                if (object->Active)
+                {
+                    result.setValue(object);
+                }
+            }
         }
     }
     return result;

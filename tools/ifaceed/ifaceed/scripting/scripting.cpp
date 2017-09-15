@@ -269,7 +269,7 @@ void scripting::Scripting::setEditor(core::Editor* editor)
 {
     m_editor = editor;
     this->initSadTypeConstructors();
-    this->initDatabasePropertyBindings(m_value);
+    this->initDatabasePropertyBindings();
     this->initSceneBindings(m_value);
     this->initSceneNodesBindings(m_value);
     this->initLayoutGridBindings(m_value);
@@ -817,8 +817,14 @@ void scripting::Scripting::initSadTypeConstructors()
     m_value.setProperty("screenHeight", m_engine->newObject(screenHeight), m_flags); // E.screenHeight
 }
 
-void scripting::Scripting::initDatabasePropertyBindings(QScriptValue& v)
+void scripting::Scripting::initDatabasePropertyBindings()
 {
+    dukpp03::qt::JSObject* db = new dukpp03::qt::JSObject();
+    db->setProperty("list", dukpp03::qt::make_function::from(scripting::database::list));
+    db->setProperty("type", dukpp03::qt::make_function::from(scripting::database::type));
+
+    m_global_value->setProperty("db", db);
+    /*
     QScriptValue db = m_engine->newObject();
     
     db.setProperty("list", m_engine->newFunction(scripting::database::list), m_flags); // E.db.list
@@ -920,6 +926,7 @@ void scripting::Scripting::initDatabasePropertyBindings(QScriptValue& v)
         "	throw new Error(\"Specify 1 or 2 arguments\");"
         "};"
     );
+    */
 }
 
 void scripting::Scripting::initSceneBindings(QScriptValue& v)
