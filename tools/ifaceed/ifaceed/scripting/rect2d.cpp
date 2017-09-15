@@ -61,7 +61,7 @@ QScriptValue scripting::Rect2D::movedToPoint(scripting::Point2D* p)
     sad::Rect2D rect = this->toRect();
     if (sad::isAABB(rect) == false)
     {
-        engine()->currentContext()->throwError(QScriptContext::SyntaxError, "movedToPoint(): rectangle must be axis-alogned");
+        engine()->currentContext()->throwError(QScriptContext::SyntaxError, "movedToPoint(): rectangle must be axis-aligned");
         return QScriptValue();
     }
 

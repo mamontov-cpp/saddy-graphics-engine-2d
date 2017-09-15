@@ -119,6 +119,7 @@
 #include "groups/groupssequentialsetter.h"
 
 #include <QFileDialog>
+#include <QDebug>
 #include <QTextStream>
 #include <QScriptValueIterator>
 #include <QTextEdit>
@@ -344,6 +345,8 @@ scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_editor(NUL
     dukpp03::qt::JSObject* obj = new dukpp03::qt::JSObject();
     obj->setProperty("resourceType", dukpp03::qt::make_function::from(scripting::resource_type));
     obj->registerAsGlobalVariable(m_ctx, "E");
+    m_global_value = obj;
+    m_global_value->addRef();
 
     b = m_ctx->eval("E.log = internal.log; E.dump = internal.dump; console = E;", true, &error);
     assert(b);
@@ -374,6 +377,7 @@ scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_editor(NUL
 scripting::Scripting::~Scripting()
 {
     delete m_ctx;
+    m_global_value->delRef();
 
     m_engine->collectGarbage();
     delete m_engine;
@@ -620,23 +624,239 @@ void scripting::Scripting::cancelExecution()
 
 void scripting::Scripting::initSadTypeConstructors()
 {
-    dukpp03::qt::ClassBinding* c = new dukpp03::qt::ClassBinding();
-    c->addConstructor<sad::Point2D>("SadPoint2D");
-    c->addConstructor<sad::Point2D, double, double>("SadPoint2D");
-    c->addMethod("x", dukpp03::qt::bind_method::from(&sad::Point2D::x));
-    c->addMethod("y", dukpp03::qt::bind_method::from(&sad::Point2D::y));
-    c->addMethod("setX", dukpp03::qt::bind_method::from(&sad::Point2D::setX));
-    c->addMethod("setY", dukpp03::qt::bind_method::from(&sad::Point2D::setY));
-    c->addMethod("distance", dukpp03::qt::bind_method::from(&sad::Point2D::distance));
-    c->setPrototypeFunction("SadPoint2D");
+    {
+        dukpp03::qt::ClassBinding* c = new dukpp03::qt::ClassBinding();
+        c->addConstructor<sad::Point2D>("SadPoint2D");
+        c->addConstructor<sad::Point2D, double, double>("SadPoint2D");
+        c->addMethod("x", dukpp03::qt::bind_method::from(&sad::Point2D::x));
+        c->addMethod("y", dukpp03::qt::bind_method::from(&sad::Point2D::y));
+        c->addMethod("setX", dukpp03::qt::bind_method::from(&sad::Point2D::setX));
+        c->addMethod("setY", dukpp03::qt::bind_method::from(&sad::Point2D::setY));
+        c->addMethod("distance", dukpp03::qt::bind_method::from(&sad::Point2D::distance));
+        c->setPrototypeFunction("SadPoint2D");
 
-    m_ctx->addClassBinding("sad::Point2D", c);
-    bool b = m_ctx->eval("p2d = SadPoint2D;");
+        m_ctx->addClassBinding("sad::Point2D", c);
+        bool b = m_ctx->eval("p2d = SadPoint2D;");
+        assert(b);
+    }
+
+    {
+        dukpp03::qt::ClassBinding* c = new dukpp03::qt::ClassBinding();
+        c->addConstructor<sad::Point3D>("SadPoint3D");
+        c->addConstructor<sad::Point3D, double, double>("SadPoint3D");
+        c->addConstructor<sad::Point3D, double, double, double>("SadPoint3D");
+        c->addMethod("x", dukpp03::qt::rebind_method::to<sad::Point3D>::from(&sad::Point3D::x));
+        c->addMethod("y", dukpp03::qt::rebind_method::to<sad::Point3D>::from(&sad::Point3D::y));
+        c->addMethod("z", dukpp03::qt::bind_method::from(&sad::Point3D::z));
+        c->addMethod("setX", dukpp03::qt::rebind_method::to<sad::Point3D>::from(&sad::Point3D::setX));
+        c->addMethod("setY", dukpp03::qt::rebind_method::to<sad::Point3D>::from(&sad::Point3D::setY));
+        c->addMethod("setZ", dukpp03::qt::bind_method::from(&sad::Point3D::setZ));
+        c->setPrototypeFunction("SadPoint3D");
+
+        m_ctx->addClassBinding("sad::Point3D", c);
+        bool b = m_ctx->eval("p3d = SadPoint3D;");
+        assert(b);
+    }
+
+    {
+        dukpp03::qt::ClassBinding* c = new dukpp03::qt::ClassBinding();
+        c->addConstructor<sad::Point2I>("SadPoint2I");
+        c->addConstructor<sad::Point2I, int, int>("SadPoint2I");
+        c->addMethod("x", dukpp03::qt::bind_method::from(&sad::Point2I::x));
+        c->addMethod("y", dukpp03::qt::bind_method::from(&sad::Point2I::y));
+        c->addMethod("setX", dukpp03::qt::bind_method::from(&sad::Point2I::setX));
+        c->addMethod("setY", dukpp03::qt::bind_method::from(&sad::Point2I::setY));
+        c->addMethod("distance", dukpp03::qt::bind_method::from(&sad::Point2I::distance));
+        c->setPrototypeFunction("SadPoint2I");
+
+        m_ctx->addClassBinding("sad::Point2I", c);
+        bool b = m_ctx->eval("p2i = SadPoint2I;");
+        assert(b);
+    }
+
+    {
+        dukpp03::qt::ClassBinding* c = new dukpp03::qt::ClassBinding();
+        c->addConstructor<sad::Point3I>("SadPoint3I");
+        c->addConstructor<sad::Point3I, int, int>("SadPoint3I");
+        c->addConstructor<sad::Point3I, int, int, int>("SadPoint3I");
+        c->addMethod("x", dukpp03::qt::rebind_method::to<sad::Point3I>::from(&sad::Point3I::x));
+        c->addMethod("y", dukpp03::qt::rebind_method::to<sad::Point3I>::from(&sad::Point3I::y));
+        c->addMethod("z", dukpp03::qt::bind_method::from(&sad::Point3I::z));
+        c->addMethod("setX", dukpp03::qt::rebind_method::to<sad::Point3I>::from(&sad::Point3I::setX));
+        c->addMethod("setY", dukpp03::qt::rebind_method::to<sad::Point3I>::from(&sad::Point3I::setY));
+        c->addMethod("setZ", dukpp03::qt::bind_method::from(&sad::Point3I::setZ));
+        c->setPrototypeFunction("SadPoint3I");
+
+        m_ctx->addClassBinding("sad::Point3I", c);
+        bool b = m_ctx->eval("p3i = SadPoint3I;");
+        assert(b);
+    }
+
+    {
+        dukpp03::qt::ClassBinding* c = new dukpp03::qt::ClassBinding();
+        c->addConstructor<sad::Size2D>("SadSize2D");
+        c->addConstructor<sad::Size2D, double, double>("SadSize2D");
+        c->addAccessor("Width", dukpp03::qt::getter::from(&sad::Size2D::Width), dukpp03::qt::setter::from(&sad::Size2D::Width));
+        c->addAccessor("Height", dukpp03::qt::getter::from(&sad::Size2D::Height), dukpp03::qt::setter::from(&sad::Size2D::Height));
+        c->setPrototypeFunction("SadSize2D");
+
+        m_ctx->addClassBinding("sad::Size2D", c);
+        bool b = m_ctx->eval("s2d = SadSize2D;");
+        assert(b);
+    }
+
+    {
+        dukpp03::qt::ClassBinding* c = new dukpp03::qt::ClassBinding();
+        c->addConstructor<sad::Size2I>("SadSize2I");
+        c->addConstructor<sad::Size2I, unsigned int, unsigned int>("SadSize2I");
+        c->addAccessor("Width", dukpp03::qt::getter::from(&sad::Size2I::Width), dukpp03::qt::setter::from(&sad::Size2I::Width));
+        c->addAccessor("Height", dukpp03::qt::getter::from(&sad::Size2I::Height), dukpp03::qt::setter::from(&sad::Size2I::Height));
+        c->setPrototypeFunction("SadSize2I");
+
+        m_ctx->addClassBinding("sad::Size2I", c);
+        bool b = m_ctx->eval("s2i = SadSize2I;");
+        assert(b);
+    }
+
+    {
+        dukpp03::qt::ClassBinding* c = new dukpp03::qt::ClassBinding();
+        c->addConstructor<sad::Rect2D>("SadRect2D");
+        c->addConstructor<sad::Rect2D, sad::Point2D, sad::Point2D>("SadRect2D");
+        c->addConstructor<sad::Rect2D, sad::Point2D, sad::Point2D, sad::Point2D, sad::Point2D>("SadRect2D");
+        c->addConstructor<sad::Rect2D, double, double, double, double>("SadRect2D");
+        c->addMethod("width", dukpp03::qt::bind_method::from(&sad::Rect2D::width));
+        c->addMethod("height", dukpp03::qt::bind_method::from(&sad::Rect2D::height));
+        c->addMethod("p0", dukpp03::qt::bind_method::from(&sad::Rect2D::p0));
+        c->addMethod("p1", dukpp03::qt::bind_method::from(&sad::Rect2D::p1));
+        c->addMethod("p2", dukpp03::qt::bind_method::from(&sad::Rect2D::p2));
+        c->addMethod("p3", dukpp03::qt::bind_method::from(&sad::Rect2D::p3));
+        std::function<dukpp03::Maybe<sad::Point2D>(sad::Rect2D*, int)> point = [](sad::Rect2D* r, int i) {
+            dukpp03::Maybe<sad::Point2D> maybepoint;
+            if (i >= 0 && i  < 4) {
+                maybepoint.setValue((*r)[i]);
+                return maybepoint;
+            }
+            return maybepoint;
+        };
+        c->addMethod("point", dukpp03::qt::bind_lambda::from(point));
+        std::function<void(sad::Rect2D*, int, const sad::Point2D&)> set_point = [](sad::Rect2D* r, int i, const sad::Point2D& p) {
+            if (i >= 0 && i  < 4) {
+                (*r)[i] = p;
+            }
+        };
+        c->addMethod("setPoint", dukpp03::qt::bind_lambda::from(set_point));
+        std::function<sad::Rect2D(sad::Rect2D*, const sad::Point2D)> moved_to_point = [](sad::Rect2D* r, const sad::Point2D& p) {
+            sad::Rect2D rect = *r;
+            if (sad::isAABB(rect) == false)
+            {
+                throw std::logic_error("movedToPoint(): rectangle must be axis-aligned");
+                return rect;
+            }
+
+            sad::Point2D  oldcenter = (rect[0] + rect[2]) / 2.0;
+            sad::Point2D  newcenter =p;
+            sad::Point2D newp0 = (newcenter - oldcenter) + rect[0];
+            sad::Point2D newp2 = (newcenter - oldcenter) + rect[2];
+            return sad::Rect2D(newp0, newp2);
+        };
+        c->addMethod("movedToPoint", dukpp03::qt::bind_lambda::from(moved_to_point));
+
+        c->setPrototypeFunction("SadRect2D");
+
+        m_ctx->addClassBinding("sad::Rect2D", c);
+
+        bool b = m_ctx->eval("r2d = SadRect2D;");
+        assert(b);
+    }
+    {
+        dukpp03::qt::ClassBinding* c = new dukpp03::qt::ClassBinding();
+        c->addConstructor<sad::Rect2I>("SadRect2I");
+        c->addConstructor<sad::Rect2I, sad::Point2I, sad::Point2I>("SadRect2I");
+        c->addConstructor<sad::Rect2I, sad::Point2I, sad::Point2I, sad::Point2I, sad::Point2I>("SadRect2I");
+        c->addConstructor<sad::Rect2I, double, double, double, double>("SadRect2I");
+        c->addMethod("width", dukpp03::qt::bind_method::from(&sad::Rect2I::width));
+        c->addMethod("height", dukpp03::qt::bind_method::from(&sad::Rect2I::height));
+        c->addMethod("p0", dukpp03::qt::bind_method::from(&sad::Rect2I::p0));
+        c->addMethod("p1", dukpp03::qt::bind_method::from(&sad::Rect2I::p1));
+        c->addMethod("p2", dukpp03::qt::bind_method::from(&sad::Rect2I::p2));
+        c->addMethod("p3", dukpp03::qt::bind_method::from(&sad::Rect2I::p3));
+        std::function<dukpp03::Maybe<sad::Point2I>(sad::Rect2I*, int)> point = [](sad::Rect2I* r, int i) {
+            dukpp03::Maybe<sad::Point2I> maybepoint;
+            if (i >= 0 && i  < 4) {
+                maybepoint.setValue((*r)[i]);
+                return maybepoint;
+            }
+            return maybepoint;
+        };
+        c->addMethod("point", dukpp03::qt::bind_lambda::from(point));
+        std::function<void(sad::Rect2I*, int, const sad::Point2I&)> set_point = [](sad::Rect2I* r, int i, const sad::Point2I& p) {
+            if (i >= 0 && i  < 4) {
+                (*r)[i] = p;
+            }
+        };
+        c->addMethod("setPoint", dukpp03::qt::bind_lambda::from(set_point));
+
+        c->setPrototypeFunction("SadRect2I");
+
+        m_ctx->addClassBinding("sad::Rect2I", c);
+
+        bool b = m_ctx->eval("r2i = SadRect2I;");
+        assert(b);
+    }
+
+    {
+        dukpp03::qt::ClassBinding* c = new dukpp03::qt::ClassBinding();
+        c->addConstructor<sad::Color>("SadColor");
+        c->addConstructor<sad::Color, unsigned char, unsigned char, unsigned char>("SadColor");
+        c->addMethod("r", dukpp03::qt::bind_method::from(&sad::Color::r));
+        c->addMethod("g", dukpp03::qt::bind_method::from(&sad::Color::g));
+        c->addMethod("b", dukpp03::qt::bind_method::from(&sad::Color::b));
+        c->addMethod("setR", dukpp03::qt::bind_method::from(&sad::Color::setR));
+        c->addMethod("setG", dukpp03::qt::bind_method::from(&sad::Color::setG));
+        c->addMethod("setB", dukpp03::qt::bind_method::from(&sad::Color::setB));
+        c->setPrototypeFunction("SadColor");
+
+        m_ctx->addClassBinding("sad::Color", c);
+
+        bool b = m_ctx->eval("clr = SadColor;");
+        assert(b);
+    }
+
+    {
+        dukpp03::qt::ClassBinding* c = new dukpp03::qt::ClassBinding();
+        c->addConstructor<sad::AColor>("SadAColor");
+        c->addConstructor<sad::AColor, unsigned char, unsigned char, unsigned char>("SadAColor");
+        c->addConstructor<sad::AColor, unsigned char, unsigned char, unsigned char, unsigned char>("SadAColor");
+        c->addMethod("r", dukpp03::qt::rebind_method::to<sad::AColor>::from(&sad::AColor::r));
+        c->addMethod("g", dukpp03::qt::rebind_method::to<sad::AColor>::from(&sad::AColor::g));
+        c->addMethod("b",  dukpp03::qt::rebind_method::to<sad::AColor>::from(&sad::AColor::b));
+        c->addMethod("a", dukpp03::qt::bind_method::from(&sad::AColor::a));
+        c->addMethod("setR", dukpp03::qt::rebind_method::to<sad::AColor>::from(&sad::AColor::setR));
+        c->addMethod("setG", dukpp03::qt::rebind_method::to<sad::AColor>::from(&sad::AColor::setG));
+        c->addMethod("setB", dukpp03::qt::rebind_method::to<sad::AColor>::from(&sad::AColor::setB));
+        c->addMethod("setA", dukpp03::qt::bind_method::from(&sad::AColor::setA));
+
+        c->setPrototypeFunction("SadAColor");
+
+        m_ctx->addClassBinding("sad::AColor", c);
+
+        bool b = m_ctx->eval("aclr = SadAColor;");
+        assert(b);
+    }
+
+
+    std::string error;
+    bool b = m_ctx->eval(__context_types_info, true, &error);
+    if (!b)
+    {
+        qDebug() << QString(error.c_str());
+    }
     assert(b);
 
-    b = m_ctx->eval(__context_types_info, true);
-    assert(b);
+    m_global_value->setProperty("screenWidth", dukpp03::qt::make_function::from(scripting::Scripting::screenWidth));
+    m_global_value->setProperty("screenHeight", dukpp03::qt::make_function::from(scripting::Scripting::screenHeight));
 
+    // TODO: Remove all after this point
     // A sad::Point2D constructor	
     scripting::MultiMethod* point2dconstructor = new scripting::MultiMethod(m_engine, "p2d");
     point2dconstructor->add(scripting::make_constructor<sad::Point2D>(this));

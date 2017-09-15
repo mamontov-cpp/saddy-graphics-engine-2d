@@ -6,6 +6,7 @@
 #include <dukqt.h>
 #include <curry1.h>
 #include <object.h>
+#include <thislambda.h>
 
 #include <QString>
 #include <QStringList>
@@ -14,6 +15,19 @@
 #include <sadpoint.h>
 #include <sadrect.h>
 #include <sadcolor.h>
+
+namespace dukpp03
+{
+
+namespace qt
+{
+/*! Makes lambda, that could be registered as method
+ */
+typedef dukpp03::bind_lambda<dukpp03::qt::BasicContext> bind_lambda;
+
+}
+
+}
 
 /*! Makes binding types easier by declaring  meta types for T, T* and T** respectively
  */

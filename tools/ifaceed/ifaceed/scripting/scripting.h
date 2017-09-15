@@ -177,6 +177,9 @@ protected:
     /*! A context for Qt embedded parts
      */
     dukpp03::qt::Context* m_ctx;
+    /*! A global value for editing global "E" property
+     */
+    dukpp03::qt::JSObject* m_global_value;
     /*! Whether we are evaluating script at the moment
      */
     bool m_evaluating;
