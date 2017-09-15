@@ -822,6 +822,10 @@ void scripting::Scripting::initDatabasePropertyBindings()
     dukpp03::qt::JSObject* db = new dukpp03::qt::JSObject();
     db->setProperty("list", dukpp03::qt::make_function::from(scripting::database::list));
     db->setProperty("type", dukpp03::qt::make_function::from(scripting::database::type));
+    db->setProperty("readableProperties", dukpp03::qt::make_function::from(scripting::database::readableProperties));
+    db->setProperty("writableProperties", dukpp03::qt::make_function::from(scripting::database::writableProperties));
+    db->setProperty("addProperty", dukpp03::qt::curried1::from(this, scripting::database::addProperty));
+    db->setProperty("removeProperty", dukpp03::qt::curried1::from(this, scripting::database::removeProperty));
 
     m_global_value->setProperty("db", db);
     /*

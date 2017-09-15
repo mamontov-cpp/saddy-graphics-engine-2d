@@ -48,17 +48,15 @@ QStringList list();
  */
 sad::String type(sad::db::Object* o);
 /*! Lists readableProperties for a type
-    \param[in] ctx context
-    \param[in] engine an engine list
+    \param[in] o object 
     \return list of strings with propeties of database
  */
-QScriptValue readableProperties(QScriptContext* ctx, QScriptEngine* engine);
+QStringList readableProperties(sad::db::Object* o);
 /*! Lists writableProperties for a type
-    \param[in] ctx context
-    \param[in] engine an engine list
+    \param[in] o object
     \return list of strings with propeties of database
  */
-QScriptValue writableProperties(QScriptContext* ctx, QScriptEngine* engine);
+QStringList writableProperties(sad::db::Object* o);
 
 }
 
