@@ -202,9 +202,24 @@ void sad::Texture::upload()
     }
     // Create ID of texture and bind it
     glGenTextures(1, static_cast<GLuint *>(&Id));
+	// glGenTextures can cause GL_INVALID_VALUE if n (1st arg) is negative.
+
+	/* Possible errors:
+	GL_INVALID_ENUM is generated if target (1st arg) is not one of the allowable values.
+	GL_INVALID_VALUE is generated if texture is not a name returned from a previous call to glGenTextures.
+	GL_INVALID_OPERATION is generated if texture was previously created with a target that doesn't match that of target.
+	*/
     glBindTexture(GL_TEXTURE_2D, Id);
 
-    glPixelStorei(GL_UNPACK_ALIGNMENT,1);   
+	/* Possible errors:
+	GL_INVALID_ENUM is generated if pname (1st arg) is not an accepted value.
+	GL_INVALID_VALUE is generated if a negative row length, pixel skip, or row skip value is specified, or if alignment is specified as other than 1, 2, 4, or 8.
+	*/
+    glPixelStorei(GL_UNPACK_ALIGNMENT,1);
+
+	/* Possible errors:
+	GL_INVALID_ENUM, GL_INVALID_OPERATION, GL_INVALID_VALUE, GL_TEXTURE_BASE_LEVEL
+	*/
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
     
@@ -234,6 +249,9 @@ void sad::Texture::upload()
         if (version.p1() == 1 && version.p2() < 4)
         {
             // In case of OpenGL <1.4 there is not much we can do, so we ignore BuildMipMap flags
+			/* Possible errors:
+			GL_INVALID_ENUM , GL_INVALID_OPERATION, GL_INVALID_VALUE
+			*/
             res = gluBuild2DMipmaps(GL_TEXTURE_2D, components, Width, Height, opengl_format, opengl10_type, Buffer->buffer());
         }
         else
@@ -415,8 +433,11 @@ void sad::Texture::bind()
 void sad::Texture::unload()
 {
 #ifndef TEXTURE_LOADER_TEST
-    if (OnGPU)
-        glDeleteTextures(1, &Id);
+	if (OnGPU)
+	{
+		// glDeleteTextures causes an GL_INVALID_VALUE if n (1st arg) is negative.
+		glDeleteTextures(1, &Id);
+	}
     OnGPU = false;
 #endif
 }
