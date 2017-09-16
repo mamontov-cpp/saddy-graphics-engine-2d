@@ -317,6 +317,11 @@ protected:
     /*! A renderer, which is held by a texture
      */
     sad::Renderer * m_renderer;
+private:
+	/*! Checks for errors in work of OpenGL and sends message to log (internal message)
+		\param[in] render if render is NULL sends error to global log else sends error to local log of render
+	*/
+	void checkForErrors(sad::Renderer * render);
 };
 
 }
