@@ -523,3 +523,18 @@ void sad::Texture::convertToPOTTexture()
     delete this->Buffer;
     this->Buffer = buffer;
 }
+
+void sad::Texture::checkForErrors(sad::Renderer * render) {
+	// Get an info about errors during operation
+	GLint errorcode = glGetError();
+	// If there is an error add it to the log (internal message)
+	if (errorcode)
+	{
+		// If there is no render send message to global log
+		if (render == NULL)
+			SL_INTERNAL(gluErrorString(errorcode));
+		// Else send message to local log of render
+		else
+			SL_COND_LOCAL_INTERNAL(gluErrorString(errorcode), render);
+	}
+}
