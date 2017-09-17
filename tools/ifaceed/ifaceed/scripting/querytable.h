@@ -4,7 +4,7 @@
     Queries table for objects, returning list of major ids for objects
  */
 #pragma once
-#include <QScriptEngine>
+#include <QVector>
 #include <sadstring.h>
 
 class QScriptContext;
@@ -20,11 +20,9 @@ namespace scripting
     \param[in] engine engine part
     \return list of major ids
  */
-QScriptValue query_table(
+QVector<unsigned long long> query_table(
     const sad::String& table,
-    const sad::String& typeofobjects,
-    QScriptContext* ctx,
-    QScriptEngine* engine
+    const sad::String& typeofobjects
 );
 
 }

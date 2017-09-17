@@ -45,12 +45,10 @@ void moveBack(scripting::Scripting* s, sad::Scene* scene);
     \param[in] scene scene to be removed
  */
 void moveFront(scripting::Scripting* s, sad::Scene* scene);
-/*! Lists database properties
-    \param[in] ctx context
-    \param[in] engine an engine list
-    \return list of strings with propeties of database
+/*! Returns all major ids for scenes in database
+    \return list of major ids for scenes in database
  */
-QScriptValue list(QScriptContext* ctx, QScriptEngine* engine);
+QVector<unsigned long long> list();
 
 }
 

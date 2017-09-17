@@ -15,6 +15,8 @@
 #include <sadpoint.h>
 #include <sadrect.h>
 #include <sadcolor.h>
+#include <scene.h>
+#include <scenenode.h>
 
 namespace dukpp03
 {
@@ -39,6 +41,8 @@ typedef dukpp03::curried1<dukpp03::qt::BasicContext> curried1;
 Q_DECLARE_METATYPE(QString*)
 Q_DECLARE_METATYPE(QStringList*)
 Q_DUKPP03_DECLARE_METATYPE(sad::db::Object*)
+Q_DUKPP03_DECLARE_METATYPE(sad::Scene*)
+Q_DUKPP03_DECLARE_METATYPE(sad::SceneNode*)
 Q_DUKPP03_DECLARE_METATYPE(sad::String)
 Q_DUKPP03_DECLARE_METATYPE(sad::Vector<sad::String>)
 Q_DUKPP03_DECLARE_METATYPE(sad::Point2D)
@@ -61,74 +65,26 @@ typedef dukpp03::curried1<dukpp03::qt::BasicContext> curried1;
 namespace dukpp03
 {
 
-/*! An instantiation for getting sad::String
+/*! Declared get value instantiation for TYPE
  */
-template<>
-class GetValue<sad::String, dukpp03::qt::BasicContext>
-{
-public:
-    /*! Performs getting value from stack
-        \param[in] ctx context
-        \param[in] pos index for stack
-        \return a value if it exists, otherwise empty maybe
-    */
-    static dukpp03::Maybe<sad::String> perform(
-        dukpp03::qt::BasicContext* ctx,
-        duk_idx_t pos
-    );
+#define DEFINE_GET_VALUE_INSTANTIATION( TYPE )      \
+template<>                                          \
+class GetValue< TYPE , dukpp03::qt::BasicContext>   \
+{                                                   \
+public:                                             \
+    static dukpp03::Maybe< TYPE > perform(          \
+        dukpp03::qt::BasicContext* ctx,             \
+        duk_idx_t pos                               \
+    );                                              \
 };
 
-/*! An instantiation for getting QStringList
-*/
-template<>
-class GetValue<QStringList, dukpp03::qt::BasicContext>
-{
-public:
-    /*! Performs getting value from stack
-    \param[in] ctx context
-    \param[in] pos index for stack
-    \return a value if it exists, otherwise empty maybe
-    */
-    static dukpp03::Maybe<QStringList> perform(
-        dukpp03::qt::BasicContext* ctx,
-        duk_idx_t pos
-    );
-};
+DEFINE_GET_VALUE_INSTANTIATION(sad::String)
+DEFINE_GET_VALUE_INSTANTIATION(QStringList)
+DEFINE_GET_VALUE_INSTANTIATION(sad::Vector<sad::String> )
+DEFINE_GET_VALUE_INSTANTIATION(sad::db::Object* )
+DEFINE_GET_VALUE_INSTANTIATION(sad::Scene* )
 
-
-/*! An instantiation for getting sad::Vector<sad::String>
- */
-template<>
-class GetValue<sad::Vector<sad::String>, dukpp03::qt::BasicContext>
-{
-public:
-    /*! Performs getting value from stack
-    \param[in] ctx context
-    \param[in] pos index for stack
-    \return a value if it exists, otherwise empty maybe
-    */
-    static dukpp03::Maybe<sad::Vector<sad::String> > perform(
-        dukpp03::qt::BasicContext* ctx,
-        duk_idx_t pos
-    );
-};
-
-/*! An instantiation for getting sad::db::Object*
- */
-template<>
-class GetValue<sad::db::Object*, dukpp03::qt::BasicContext>
-{
-public:
-    /*! Performs getting value from stack
-    \param[in] ctx context
-    \param[in] pos index for stack
-    \return a value if it exists, otherwise empty maybe
-    */
-    static dukpp03::Maybe<sad::db::Object* > perform(
-        dukpp03::qt::BasicContext* ctx,
-        duk_idx_t pos
-    );
-};
+#undef DEFINE_GET_VALUE_INSTANTIATION
 
 /*! An instantiation for pushing sad::String on stack
  */

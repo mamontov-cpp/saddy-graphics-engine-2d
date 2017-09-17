@@ -912,10 +912,26 @@ void scripting::Scripting::initDatabasePropertyBindings()
 
 void scripting::Scripting::initSceneBindings(QScriptValue& v)
 {
+    {
+        dukpp03::qt::JSObject* scenes = new dukpp03::qt::JSObject();
+        scenes->setProperty("list", dukpp03::qt::make_function::from(scripting::scenes::list));
+
+        dukpp03::qt::MultiMethod* add = new dukpp03::qt::MultiMethod();
+        add->add(dukpp03::qt::curried1::from(this, scripting::scenes::add));
+        add->add(dukpp03::qt::curried1::from(this, scripting::scenes::addNameless));
+        scenes->setProperty("add", static_cast<dukpp03::qt::Callable*>(add)); // E.db.add
+
+        scenes->setProperty("remove", dukpp03::qt::curried1::from(this, scripting::scenes::remove));
+        scenes->setProperty("moveBack", dukpp03::qt::curried1::from(this, scripting::scenes::moveBack));
+        scenes->setProperty("moveFront", dukpp03::qt::curried1::from(this, scripting::scenes::moveFront));
+
+        m_global_value->setProperty("scenes", scenes);
+    }
+
     QScriptValue scenes = m_engine->newObject();
 
 
-    scenes.setProperty("list", m_engine->newFunction(scripting::scenes::list), m_flags);  // E.scenes.list
+    //scenes.setProperty("list", m_engine->newFunction(scripting::scenes::list), m_flags);  // E.scenes.list
 
     // An add method
     scripting::MultiMethod* add = new scripting::MultiMethod(m_engine, "add");

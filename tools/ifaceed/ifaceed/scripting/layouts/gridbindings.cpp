@@ -29,7 +29,8 @@ QScriptValue scripting::layouts::list(
     QScriptEngine* engine
 )
 {
-    return scripting::query_table("layouts", "sad::layouts::Grid", ctx, engine);
+    return QScriptValue();
+    //return scripting::query_table("layouts", "sad::layouts::Grid", ctx, engine);
 }
 
 QScriptValue scripting::layouts::query(

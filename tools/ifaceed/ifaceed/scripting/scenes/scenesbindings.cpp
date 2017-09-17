@@ -21,7 +21,6 @@
 
 #include <db/dbdatabase.h>
 
-Q_DECLARE_METATYPE(sad::Scene*) //-V566
 
 unsigned long long scripting::scenes::add(scripting::Scripting* s, QString name)
 {
@@ -67,7 +66,7 @@ void scripting::scenes::moveFront(scripting::Scripting* s, sad::Scene* scene)
     }
 }
 
-QScriptValue scripting::scenes::list(QScriptContext* ctx, QScriptEngine* engine)
+QVector<unsigned long long> scripting::scenes::list()
 {
-    return scripting::query_table("scenes", "sad::Scene", ctx, engine);
+    return scripting::query_table("scenes", "sad::Scene");
 }

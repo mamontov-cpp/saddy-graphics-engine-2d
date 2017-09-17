@@ -32,7 +32,8 @@ QScriptValue scripting::groups::list(
     QScriptEngine* engine
 )
 {
-    return scripting::query_table("animationgroups", "sad::animations::Group", ctx, engine);
+    return QScriptValue();
+    //return scripting::query_table("animationgroups", "sad::animations::Group", ctx, engine);
 }
 
 

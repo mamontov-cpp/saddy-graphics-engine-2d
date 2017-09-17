@@ -20,7 +20,8 @@ QScriptValue scripting::dialogues::list(
     QScriptEngine* engine
 )
 {
-    return scripting::query_table("dialogues", "sad::dialogue::Dialogue", ctx, engine);
+    return QScriptValue();
+    //return scripting::query_table("dialogues", "sad::dialogue::Dialogue", ctx, engine);
 }
 
 unsigned long long scripting::dialogues::_add(

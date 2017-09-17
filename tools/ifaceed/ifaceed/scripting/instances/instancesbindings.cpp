@@ -31,7 +31,8 @@ QScriptValue scripting::instances::list(
     QScriptEngine* engine
 )
 {
-    return scripting::query_table("animationinstances", "sad::animations::Instance", ctx, engine);
+    return QScriptValue();
+    //return scripting::query_table("animationinstances", "sad::animations::Instance", ctx, engine);
 }
 
 unsigned long long scripting::instances::_addInstance(

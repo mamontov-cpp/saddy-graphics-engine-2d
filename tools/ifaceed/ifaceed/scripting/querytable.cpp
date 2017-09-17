@@ -9,18 +9,11 @@
 #include <db/dbtable.h>
 
 
-QScriptValue scripting::query_table(
+QVector<unsigned long long> scripting::query_table(
     const sad::String& table,
-    const sad::String& typeofobjects,
-    QScriptContext* ctx,
-    QScriptEngine* engine
+    const sad::String& typeofobjects
 )
 {
-    if (ctx->argumentCount() != 0)
-    {
-        ctx->throwError("list: accepts only 0 arguments");
-    }
-
     sad::db::Database* db = sad::Renderer::ref()->database("");
     sad::Vector<sad::db::Object*> objs;
     db->table(table)->objects(objs);
@@ -34,5 +27,5 @@ QScriptValue scripting::query_table(
         }
     }
 
-    return scripting::FromValue<QVector<unsigned long long> >::perform(result, engine);
+    return result;
 }

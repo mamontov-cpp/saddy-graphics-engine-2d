@@ -20,7 +20,8 @@ QScriptValue scripting::animations::list(
     QScriptEngine* engine
 )
 {
-    return scripting::query_table("animations", "sad::animations::Animation", ctx, engine);
+    return QScriptValue();
+    //return scripting::query_table("animations", "sad::animations::Animation", ctx, engine);
 }
 
 

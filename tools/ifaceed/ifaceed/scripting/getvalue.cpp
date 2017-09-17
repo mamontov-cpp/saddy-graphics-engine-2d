@@ -130,3 +130,25 @@ dukpp03::Maybe<sad::db::Object*> dukpp03::GetValue<sad::db::Object*, dukpp03::qt
     }
     return result;
 }
+
+
+#define OVERLOAD_GET_AS_QUERY(T)                                                 \
+dukpp03::Maybe<T*> dukpp03::GetValue<T*, dukpp03::qt::BasicContext>::perform(    \
+    dukpp03::qt::BasicContext* ctx,                                              \
+    duk_idx_t pos                                                                \
+)                                                                                \
+{                                                                                \
+    dukpp03::Maybe<T*> result;                                          \
+    dukpp03::Maybe<sad::db::Object*> mb = dukpp03::GetValue<sad::db::Object*, dukpp03::qt::BasicContext>::perform(ctx, pos); \
+    if (mb.exists())                                                             \
+    {                                                                            \
+        sad::db::TypeName<T>::init();                                            \
+        if (mb.value()->isInstanceOf(sad::db::TypeName<T>::baseName()))          \
+        {                                                                        \
+            result.setValue(static_cast<T*>(mb.value()));                        \
+        }                                                                        \
+    }                                                                            \
+    return result;                                                               \
+}
+
+OVERLOAD_GET_AS_QUERY(sad::Scene)

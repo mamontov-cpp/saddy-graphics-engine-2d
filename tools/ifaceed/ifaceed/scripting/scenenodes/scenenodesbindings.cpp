@@ -31,7 +31,8 @@ QScriptValue scripting::scenenodes::list(
     QScriptEngine* engine
 )
 {
-    return scripting::query_table("scenenodes", "sad::SceneNode", ctx, engine);
+    return QScriptValue();
+    //return scripting::query_table("scenenodes", "sad::SceneNode", ctx, engine);
 }
 
 QVector<unsigned long long> scripting::scenenodes::listScene(scripting::Scripting* scripting, sad::Scene* scene)

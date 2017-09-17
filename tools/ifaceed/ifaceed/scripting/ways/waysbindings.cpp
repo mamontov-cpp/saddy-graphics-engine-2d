@@ -24,7 +24,8 @@ QScriptValue scripting::ways::list(
     QScriptEngine* engine
 )
 {
-    return scripting::query_table("ways", "sad::p2d::app::Way", ctx, engine);
+    return QScriptValue();
+    //return scripting::query_table("ways", "sad::p2d::app::Way", ctx, engine);
 }
 
 unsigned long long scripting::ways::_add(
