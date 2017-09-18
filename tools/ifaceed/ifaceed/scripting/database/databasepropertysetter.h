@@ -44,7 +44,7 @@ class PropertySetter: public dukpp03::qt::FunctionCallable
 {
 public:
     /*! Constructs new setter object
-        \param[in] scripting
+        \param[in] scripting a scripting object
      */
     PropertySetter(scripting::Scripting* scripting) : dukpp03::qt::FunctionCallable(), m_scripting(scripting)
     {
@@ -59,7 +59,7 @@ public:
         return 2;
     }
 
-    /*! Destroys a getter
+    /*! Destroys a setter
      */
     virtual ~PropertySetter()
     {
@@ -76,6 +76,7 @@ public:
 
     /*! Determines, whether it can be called with this context
         \param[in] ctx context
+        \return result of check
      */
     virtual std::pair<int, bool> canBeCalled(dukpp03::qt::BasicContext* ctx)
     {

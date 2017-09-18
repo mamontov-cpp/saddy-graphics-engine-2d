@@ -78,9 +78,10 @@
 #include "database/databasepropertygetter.h"
 
 #include "scenes/scenesbindings.h"
-#include "scenes/scenesnamesetter.h"
+//#include "scenes/scenesnamesetter.h"
 
 #include "scenenodes/scenenodesbindings.h"
+/*
 #include "scenenodes/scenenodessetter.h"
 #include "scenenodes/scenenodesflagsetter.h"
 #include "scenenodes/scenenodesareasetter.h"
@@ -90,34 +91,39 @@
 #include "scenenodes/scenenodesschemasetter.h"
 #include "scenenodes/scenenodescustomgetter.h"
 #include "scenenodes/scenenodescustomsetter.h"
+*/
 
 #include "layouts/gridbindings.h"
 
 #include "ways/waysbindings.h"
-#include "ways/wayssetter.h"
+//#include "ways/wayssetter.h"
 
 #include "dialogues/dialoguesbindings.h"
-#include "dialogues/dialoguessetter.h"
+//#include "dialogues/dialoguessetter.h"
 
 #include "animations/animationsbindings.h"
+/*
 #include "animations/animationspoint2dsetter.h"
 #include "animations/animationssetter.h"
 #include "animations/animationswidgetsetter.h"
 #include "animations/animationswaysetter.h"
-
+*/
 #include "instances/instancesbindings.h"
+/*
 #include "instances/instancesnamesetter.h"
 #include "instances/instancesanimationsetter.h"
 #include "instances/instancesanimationdbsetter.h"
 #include "instances/instancesobjectsetter.h"
 #include "instances/instancesstarttimesetter.h"
 #include "instances/instanceswaysetter.h"
+*/
 
 #include "groups/groupsbindings.h"
+/*
 #include "groups/groupsnamesetter.h"
 #include "groups/groupsloopedsetter.h"
 #include "groups/groupssequentialsetter.h"
-
+*/
 #include <QFileDialog>
 #include <QDebug>
 #include <QTextStream>
@@ -137,8 +143,8 @@
 #include <animations/animationstexturecoordinatescontinuous.h>
 #include <animations/animationstexturecoordinateslist.h>
 #include <animations/animationswaymoving.h>
-#include "animations/easinggetter.h"
-#include "animations/easingsetter.h"
+//#include "animations/easinggetter.h"
+//#include "animations/easingsetter.h"
 
 #include "lambda.h"
 #include "function.h"
@@ -953,6 +959,7 @@ void scripting::Scripting::initSceneBindings(QScriptValue& v)
     m_registered_classes << movefront;
     scenes.setProperty("moveFront", m_engine->newObject(movefront), m_flags); // E.scenes.moveFront
 
+    /*
     scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
     set->add(new scripting::scenes::NameSetter(m_engine));
     m_registered_classes << set;
@@ -965,7 +972,7 @@ void scripting::Scripting::initSceneBindings(QScriptValue& v)
     get->add(new scripting::AbstractGetter<sad::Scene*, unsigned long long>(m_engine, "minorid"));
     m_registered_classes << get;
     scenes.setProperty("get", m_engine->newObject(get), m_flags); // E.scenes.set
-
+    */
     v.setProperty("scenes", scenes, m_flags); // E.scenes
 
     m_engine->evaluate(
@@ -1020,6 +1027,7 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
     scenenodes.setProperty("spanBetweenTwoPoints", m_engine->newObject(spanBetweenTwoPoints)); // E.scenenodes.spanBetweenTwoPoints
 
 
+    /*
     scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
     // All props
     set->add(new scripting::scenenodes::FlagSetter(m_editor, m_engine, "visible", history::scenenodes::changeVisibility));
@@ -1141,7 +1149,7 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
 #undef PUSH_GETTER
     m_registered_classes << get;
     scenenodes.setProperty("get", m_engine->newObject(get), m_flags); // E.scenes.get
-
+    */
     v.setProperty("scenenodes", scenenodes, m_flags); // E.scenenodes
 
     m_engine->evaluate(
@@ -1287,6 +1295,7 @@ void scripting::Scripting::initWaysBindings(QScriptValue& v)
     m_registered_classes << point;
     ways.setProperty("point", m_engine->newObject(point), m_flags); // E.ways.point
 
+    /*
     scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
     set->add(new scripting::ways::Setter<sad::String, history::ways::ChangeName>(m_engine, "name"));
     set->add(new scripting::ways::Setter<double, history::ways::ChangeTotalTime>(m_engine, "totaltime"));
@@ -1303,7 +1312,7 @@ void scripting::Scripting::initWaysBindings(QScriptValue& v)
     get->add(new scripting::AbstractGetter<sad::p2d::app::Way*, bool>(m_engine, "closed"));
     m_registered_classes << get;
     ways.setProperty("get", m_engine->newObject(get), m_flags); // E.ways.get
-
+    */
     v.setProperty("ways", ways, m_flags); // E.ways
 
     m_engine->evaluate(
@@ -1381,6 +1390,7 @@ void scripting::Scripting::initDialoguesBindings(QScriptValue& v)
     m_registered_classes << phrase;
     dialogues.setProperty("phrase", m_engine->newObject(phrase), m_flags); // E.dialogues.point
 
+    /*
     scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
     set->add(new scripting::dialogues::Setter<sad::String, history::dialogues::ChangeName>(m_engine, "name"));
     m_registered_classes << set;
@@ -1393,7 +1403,7 @@ void scripting::Scripting::initDialoguesBindings(QScriptValue& v)
     get->add(new scripting::AbstractGetter<sad::dialogue::Dialogue*, unsigned long long>(m_engine, "minorid"));
     m_registered_classes << get;
     dialogues.setProperty("get", m_engine->newObject(get), m_flags); // E.dialogues.get
-
+    */
 
     v.setProperty("dialogues", dialogues, m_flags); // E.dialogues
 
@@ -1478,6 +1488,7 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
     animations.setProperty("moveFrontInCompositeList", m_engine->newObject(moveFrontInCompositeList), m_flags); // E.animations.moveFrontInCompositeList
 
 
+    /*
     scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
     set->add(new scripting::animations::Setter<sad::animations::Animation, sad::String, history::animations::ChangeName>(m_engine, "name"));
     set->add(new scripting::animations::Setter<sad::animations::Animation, double, history::animations::ChangeTime>(m_engine, "time"));
@@ -1656,7 +1667,7 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
     
     m_registered_classes << get;
     animations.setProperty("get", m_engine->newObject(get), m_flags); // E.animations.set
-
+    */
 
     v.setProperty("animations", animations, m_flags); // E.animations
     
@@ -1785,6 +1796,7 @@ void scripting::Scripting::initAnimationInstanceBindings(QScriptValue& v)
     m_registered_classes << remove;
     instances.setProperty("remove", m_engine->newObject(remove), m_flags); // E.animations.instances.remove
 
+    /*
     scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
     set->add(new scripting::instances::NameSetter(m_engine));
     set->add(new scripting::instances::AnimationSetter(m_engine));
@@ -1809,7 +1821,7 @@ void scripting::Scripting::initAnimationInstanceBindings(QScriptValue& v)
     
     m_registered_classes << get;
     instances.setProperty("get", m_engine->newObject(get), m_flags); // E.animations.instances.get
-
+    */
     v.property("animations").setProperty("instances", instances, m_flags);
 
     m_engine->evaluate(
@@ -1922,6 +1934,7 @@ void scripting::Scripting::initAnimationGroupBindings(QScriptValue& v)
     groups.setProperty("removeInstance", m_engine->newObject(removeInstance), m_flags); // E.animations.groups.removeInstance
 
 
+    /*
     scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
     set->add(new scripting::groups::NameSetter(m_engine));
     set->add(new scripting::groups::LoopedSetter(m_engine));
@@ -1941,7 +1954,7 @@ void scripting::Scripting::initAnimationGroupBindings(QScriptValue& v)
     
     m_registered_classes << get;
     groups.setProperty("get", m_engine->newObject(get), m_flags); // E.scenes.set
-
+    */
     v.property("animations").setProperty("groups", groups, m_flags);
 
 

@@ -13,7 +13,7 @@
 
 namespace core
 {
-class Editor;	
+class Editor;
 }
 
 namespace scripting

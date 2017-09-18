@@ -4,6 +4,9 @@
     Defines a basic setter for property
  */
 #pragma once
+#include "dukqtcontext.h"
+#include <functional>
+
 #include "maybe.h"
 #include "callable.h"
 #include "tovalue.h"
@@ -20,160 +23,165 @@
 
 namespace scripting
 {
-    
+
+/*! A setter, that can be used to set property of object of
+    particular type.
+ */
 template<
-    typename _Type,
+    typename _ObjectType,
     typename _PropertyType
 >
-class AbstractSetter: public scripting::Callable
+class AbstractSetter: public dukpp03::qt::FunctionCallable
 {
 public:
-    /*! Represents a constructor call for a function with two arguments
-        \param[in] e engine
-        \param[in] name name of function call
+    /*! A converter function, that can be used to convert values for properties
      */
-    AbstractSetter(
-        QScriptEngine* e, 
-        const QString& name
-    ) : scripting::Callable(e, name ,3)
+    typedef std::function<
+               dukpp03::Maybe<_PropertyType>(
+                   dukpp03::qt::BasicContext* ctx,
+                   duk_idx_t pos
+              )
+            >  Converter;
+    /*! A condition, that can be used to check values for matching
+     */
+    typedef std::function<
+              dukpp03::Maybe<sad::String>(
+                  const _PropertyType& type
+              )
+            >  Condition;
+
+    /*! A change of property action, that should be invoked on success
+     */
+    typedef std::function<
+                void(scripting::Scripting* s, _ObjectType obj, const sad::String& propertyname, _PropertyType oldvalue,  _PropertyType newvalue)
+            >  Action;
+    /*! Constructs new setter
+        \param[in] scripting a scripting object
+     */
+    AbstractSetter(scripting::Scripting* scripting) : dukpp03::qt::FunctionCallable(), m_scripting(scripting), m_match_all_properties(false)
     {
-        addConverter(new scripting::ToValue<_PropertyType>());
+
     }
-    /*! Could be inherited
+
+    /*! Returns amount of required arguments
+        \return amount of required arguments
+     */
+    virtual int requiredArguments()
+    {
+        return 3; // object, name of property, value
+    }
+
+    /*! Destroys a setter
      */
     virtual ~AbstractSetter()
     {
         
     }
-    /*! Adds new converter to a setter
-        \param[in] a converter 
+    /*! Add new converter for values, passed to setter
+        \param[in] c converter
      */
-    void addConverter(scripting::AbstractToValue<_PropertyType>* a)
+    void addConverter(Converter c)
     {
-        m_converts << a;
+        m_converters.push_back(c);
     }
-    /*! Adds a conditions to a setter
-        \param[in] a converter
+    /*! Adds new condition for values, passed to setter
+        \param[in] c condition
      */
-    void addCondition(scripting::AbstractCondition<_PropertyType>* a)
+    void addCondition(Condition c)
     {
-        m_conditons << a;
+        m_conditions.push_back(c);
     }
-    /*! Pushes new matches property name
+    /*! An action to pe performed on values
+        \param[in] a an action
+     */
+    void addAction(Action a)
+    {
+        m_actions.push_back(a);
+    }
+
+    /*! Makes setter match all properties
+     */
+    void matchAllProperties()
+    {
+        m_match_all_properties = true;
+    }
+
+    /*! Sets property name for a setter
+        \param[in] name a property name for a setter
+     */
+    void setPropertyName(const sad::String& name)
+    {
+        m_match_all_properties = false;
+        m_matched_property = name;
+    }
+    /*! Adds property name to list of property names, that are excluded
         \param[in] name a property name
      */
-    void addMatched(const QString& name)
+    void addExcludedPropertyName(const sad::String& name)
     {
-        m_matched_property_names << Q2STDSTRING(name);
+        m_excluded_properties.push_back(name);
     }
-    /*! Adds excluded property name
-        \param[in] name a property name
+
+    /*! Adds excluded property names
+        \param[in] names excluded property names
      */
-    void addExcluded(const QString& name)
+    void addExcludedPropertyNames(const char* names[])
     {
-        m_excluded_property_names << Q2STDSTRING(name);
+        size_t i = 0;
+        while(names[i])
+        {
+            addExcludedPropertyName(names[i]);
+            ++i;
+        }
     }
+
     /*! Determines, whether it can be called with this context
         \param[in] ctx context
-        \return whether it could be called, or error
+        \return result of check
      */
-    virtual scripting::MatchResult canBeCalled(QScriptContext* ctx)
+    virtual std::pair<int, bool>  canBeCalled(dukpp03::qt::BasicContext* ctx)
     {
-        scripting::MatchResult result;
-        result._1() = 0;
-        checkArgumentCount(result, ctx);
-        checkArgument<_Type>(result, 0, ctx);
-        checkArgument<sad::String>(result, 1, ctx);
-        // Use converters to enhance match result
-        if (result._2().exists() == false)
+        int required_args = this->requiredArguments();
+        if (ctx->getTop() != required_args)
         {
-            QScriptValue argt =  ctx->argument(2);
-            sad::Maybe<_PropertyType> value;
-            for(size_t i = 0; i < m_converts.size() && value.exists() == false; i++)
-            {
-                value = m_converts[i]->toValue(argt);
-            }
-            if (value.exists() == false)
-            {
-                sad::db::TypeName<_PropertyType>::init();
-                QString tname = sad::db::TypeName<_PropertyType>::baseName().c_str();
-                QString argstr = QString::number(3);
-                result._2().setValue(QString("must have argument ") + argstr + QString(" of type ") + tname);
-            }
-            else
-            {
-                result._1() += 1;
-                for(size_t i = 0; i < m_conditons.size() && result._2().exists() == false; i++)
-                {
-                    result._2() = m_conditons[i]->check(value.value());
-                }
-            }
+            return std::make_pair(-1, false);
         }
-
-        bool propertymatches = true;
-        sad::Maybe<sad::String> propname = scripting::ToValue<sad::String>::perform(ctx->argument(1));			
-        if (propname.exists())
+        int a = 0;
+        dukpp03::Maybe<_ObjectType> maybe_object = dukpp03::GetValue< _ObjectType, dukpp03::qt::BasicContext >::perform(ctx, 0);
+        dukpp03::Maybe<sad::String> maybe_prop_name = dukpp03::GetValue< sad::String, dukpp03::qt::BasicContext >::perform(ctx, 1);
+        if (maybe_object.exists())
         {
-            if (m_matched_property_names.size())
+            a += 1;
+            if (maybe_prop_name.exists())
             {
-                propertymatches = std::find(
-                    m_matched_property_names.begin(), 
-                    m_matched_property_names.end(), 
-                    propname.value()
-                ) != m_matched_property_names.end();
-            }
-            if (m_excluded_property_names.size() && propertymatches)
-            {
-                propertymatches = std::find(
-                    m_excluded_property_names.begin(), 
-                    m_excluded_property_names.end(), 
-                    propname.value()
-                ) == m_excluded_property_names.end();
-            }
-            if (propertymatches)
-            {
-                result._1() += 1;				
-            }
-        }
-
-        if (result._2().exists() == false)
-        {			
-            if (propertymatches)
-            {
-                sad::Maybe<_Type> basicvalue = scripting::ToValue<_Type>::perform(ctx->argument(0));
-                sad::db::Object* object = basicvalue.value();
-                sad::db::Property* prop = object->getObjectProperty(propname.value());
-                if (prop)
+                a += 1;
+                if (this->isCorrespondsToPropertyName(maybe_prop_name.value()))
                 {
-                    result._1() += 1;
-                    sad::db::TypeName<_PropertyType>::init();
-                    if (prop->baseType() != sad::db::TypeName<_PropertyType>::baseName() || prop->pointerStarsCount() != 0)
+                    a += 1;
+                    dukpp03::Maybe<_PropertyType> maybe_value = this->tryGetPropertyValueFromStack(ctx, 2);
+                    if (maybe_value.exists())
                     {
-                        QString qpropname = propname.value().c_str();
-                        QString basetype = sad::db::TypeName<_PropertyType>::baseName().c_str();
-                        result._2().setValue(QString("property ") + qpropname + QString(" is not of type ") + basetype);
+                        a += 1;
+                        if (this->tryGetPropertyError(maybe_value.value()) == false)
+                        {
+                            a += 1;
+                            if (maybe_object->getProperty<_PropertyType>().exists())
+                            {
+                                a += 1;
+                            }
+                        }
                     }
                 }
-                else
-                {
-                    propertymatches = false;
-                }
-            }
-
-            if (propertymatches == false)
-            {
-                QString qpropname = propname.value().c_str();
-                result._2().setValue(QString("property ") + qpropname + QString(" is not writeable"));
             }
         }
-        return result;
+        return std::make_pair(a, a == 6);
     }
     /*! Calls actually a function
         \param[in] ctx context
      */
     virtual QScriptValue call(QScriptContext* ctx, QScriptEngine*)
     {
-        sad::Maybe<_Type>       basicvalue = scripting::ToValue<_Type>::perform(ctx->argument(0)); 
+        sad::Maybe<_ObjectType>       basicvalue = scripting::ToValue<_ObjectType>::perform(ctx->argument(0));
         sad::Maybe<sad::String> propname = scripting::ToValue<sad::String>::perform(ctx->argument(1));
 
         QScriptValue argt =  ctx->argument(2);
@@ -189,30 +197,105 @@ public:
         std::equal_to<_PropertyType> comparator;
         if (comparator(newvalue.value(), oldvalue.value()) == false)
         {
-            setProperty(basicvalue.value(), propname.value(), oldvalue.value(), newvalue.value());
+            callActions(basicvalue.value(), propname.value(), oldvalue.value(), newvalue.value());
         }
         return ctx->thisObject();
     }
-    /*! Performs actually setting property
-        \param[in] obj an object to be set
-        \param[in] propertyname a property for object
-        \param[in] oldvalue old value 
-        \param[in] newvalue new value
-     */
-    virtual void setProperty(_Type obj, const sad::String& propertyname, _PropertyType oldvalue,  _PropertyType newvalue) = 0;
+
 protected:
-    /*! A matched properties list. If empty - every kind of property is matched
+    /*! Returns true if setter corresponds to property name
+        \param[in] name a name
+        \return  whether setter corresponds to it
      */
-    sad::Vector<sad::String> m_matched_property_names;
-    /*! A property names, that should be excluded from this name
+    virtual bool isCorrespondsToPropertyName(const sad::String& name)
+    {
+        bool result = true;
+        if (!m_match_all_properties)
+        {
+            result = (m_matched_property == name);
+        }
+        if (result)
+        {
+            result = std::find(
+                m_excluded_properties.begin(),
+                m_excluded_properties.end(),
+                name
+            ) == m_excluded_properties.end();
+        }
+        return result;
+    }
+
+    /*!
+     * Tries to get property value from stack
+     * \param[in] ctx context
+     * \param[in] obj_id object id
+     * \return a value or nothing
      */
-    sad::Vector<sad::String> m_excluded_property_names;
-    /*! Describes a list of converters for setter
+    dukpp03::Maybe<_PropertyType> tryGetPropertyValueFromStack(
+        dukpp03::qt::BasicContext* ctx,
+        duk_idx_t obj_id
+    )
+    {
+        dukpp03::Maybe<_PropertyType> value = dukpp03::GetValue<_PropertyType, dukpp03::qt::BasicContext>::perform(ctx, obj_id);
+        if (value.exists() == false)
+        {
+            for(size_t i = 0; (i < m_converters.size()) && (value.exists() == false); i++)
+            {
+                value = m_converters(ctx, obj_id);
+            }
+        }
+        return value;
+    }
+
+    /*! Checks value for property type
+        \param[in] value a value
+        \return an error if value is invalid
      */
-    sad::PtrVector<scripting::AbstractToValue<_PropertyType> > m_converts;
-    /*! Describes a list of conditions for setter
+    dukpp03::Maybe<sad::String> tryGetPropertyError(const _PropertyType& value)
+    {
+         dukpp03::Maybe<sad::String> result;
+         for(size_t i = 0; (i < m_conditions.size()) && (result.exists() == false); i++)
+         {
+             result = m_conditions(value);
+         }
+         return result;
+    }
+
+    /*! Calls all corresponding actions, setting property or performing other actions
+        \param[in] obj an object to be set
+        \param[in] property_name a property for object
+        \param[in] old_value old value
+        \param[in] new_value new value
      */
-    sad::PtrVector<scripting::AbstractCondition<_PropertyType> > m_conditons;
+    virtual void callActions(_ObjectType obj, const sad::String& property_name, _PropertyType old_value,  _PropertyType new_value)
+    {
+        for(size_t i = 0; i < m_actions.size(); i++)
+        {
+            m_actions[i](obj, property_name, old_value, new_value);
+        }
+    }
+
+    /*! An inner scripting link
+     */
+    scripting::Scripting* m_scripting;
+    /*! A converter for values
+     */
+    sad::Vector<Converter> m_converters;
+    /*! A conditions for checking values
+     */
+    sad::Vector<Condition> m_conditions;
+    /*! An actions to be performed on values
+     */
+    sad::Vector<Action> m_actions;
+    /*! Makes setter match all properties for object
+     */
+    bool m_match_all_properties;
+    /*! A property name, that setter corresponds to (if it doesn't corresponds to all properties of same type)
+     */
+    sad::String m_matched_property;
+    /*! A list of excluded properties
+     */
+    sad::Vector<sad::String> m_excluded_properties;
 };
 
 }
