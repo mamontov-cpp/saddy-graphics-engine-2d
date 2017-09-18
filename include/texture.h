@@ -318,10 +318,10 @@ protected:
      */
     sad::Renderer * m_renderer;
 private:
-	/*! Checks for errors in work of OpenGL and converts them into string
-		\return string with error description (NULL if there wasn't any error)
-	*/
-	unsigned char const * checkForErrors();
+    /*! Checks for errors in work of OpenGL and converts them into string
+        \return string with error description (NULL if there wasn't any error)
+    */
+    unsigned char const * checkForErrors();
 };
 
 }
