@@ -206,7 +206,7 @@ void sad::Texture::upload()
     glGenTextures(1, static_cast<GLuint *>(&Id));
     // glGenTextures can cause GL_INVALID_VALUE if n (1st arg) is negative.
     // Call function to know if there was any error and send message to log if error occurred
-    gl_error = checkForErrors();
+    gl_error = getGLError();
     if (gl_error != NULL)
         SL_COND_LOCAL_INTERNAL(gl_error, r);
 
@@ -217,7 +217,7 @@ void sad::Texture::upload()
     */
     glBindTexture(GL_TEXTURE_2D, Id);
     // Call function to know if there was any error and send message to log if error occurred
-    gl_error = checkForErrors();
+    gl_error = getGLError();
     if (gl_error != NULL)
         SL_COND_LOCAL_INTERNAL(gl_error, r);
 
@@ -227,7 +227,7 @@ void sad::Texture::upload()
     */
     glPixelStorei(GL_UNPACK_ALIGNMENT,1);
     // Call function to know if there was any error and send message to log if error occurred
-    gl_error = checkForErrors();
+    gl_error = getGLError();
     if (gl_error != NULL)
         SL_COND_LOCAL_INTERNAL(gl_error, r);
 
@@ -236,13 +236,13 @@ void sad::Texture::upload()
     */
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
     // Call function to know if there was any error and send message to log if error occurred
-    gl_error = checkForErrors();
+    gl_error = getGLError();
     if (gl_error != NULL)
         SL_COND_LOCAL_INTERNAL(gl_error, r);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
     // Call function to know if there was any error and send message to log if error occurred
-    gl_error = checkForErrors();
+    gl_error = getGLError();
     if (gl_error != NULL)
         SL_COND_LOCAL_INTERNAL(gl_error, r);
     
@@ -250,20 +250,20 @@ void sad::Texture::upload()
     {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
         // Call function to know if there was any error and send message to log if error occurred
-        gl_error = checkForErrors();
+        gl_error = getGLError();
         if (gl_error != NULL)
             SL_COND_LOCAL_INTERNAL(gl_error, r);
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
         // Call function to know if there was any error and send message to log if error occurred
-        gl_error = checkForErrors();
+        gl_error = getGLError();
         if (gl_error != NULL)
             SL_COND_LOCAL_INTERNAL(gl_error, r);
     }
 
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     // Call function to know if there was any error and send message to log if error occurred
-    gl_error = checkForErrors();
+    gl_error = getGLError();
     if (gl_error != NULL)
         SL_COND_LOCAL_INTERNAL(gl_error, r);
 
@@ -271,7 +271,7 @@ void sad::Texture::upload()
     {
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
         // Call function to know if there was any error and send message to log if error occurred
-        gl_error = checkForErrors();
+        gl_error = getGLError();
         if (gl_error != NULL)
             SL_COND_LOCAL_INTERNAL(gl_error, r);
     }
@@ -279,7 +279,7 @@ void sad::Texture::upload()
     {
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         // Call function to know if there was any error and send message to log if error occurred
-        gl_error = checkForErrors();
+        gl_error = getGLError();
         if (gl_error != NULL)
             SL_COND_LOCAL_INTERNAL(gl_error, r);
     }
@@ -299,7 +299,7 @@ void sad::Texture::upload()
             */
             res = gluBuild2DMipmaps(GL_TEXTURE_2D, components, Width, Height, opengl_format, opengl10_type, Buffer->buffer());
             // Call function to know if there was any error and send message to log if error occurred
-            gl_error = checkForErrors();
+            gl_error = getGLError();
             if (gl_error != NULL)
                 SL_COND_LOCAL_INTERNAL(gl_error, r);
         }
@@ -309,7 +309,7 @@ void sad::Texture::upload()
             {
                 glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE); 
                 // Call function to know if there was any error and send message to log if error occurred
-                gl_error = checkForErrors();
+                gl_error = getGLError();
                 if (gl_error != NULL)
                     SL_COND_LOCAL_INTERNAL(gl_error, r);
             }
@@ -317,7 +317,7 @@ void sad::Texture::upload()
             {
                 glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_FALSE);
                 // Call function to know if there was any error and send message to log if error occurred
-                gl_error = checkForErrors();
+                gl_error = getGLError();
                 if (gl_error != NULL)
                     SL_COND_LOCAL_INTERNAL(gl_error, r);
             }
@@ -485,7 +485,7 @@ void sad::Texture::bind()
         upload();
     glBindTexture(GL_TEXTURE_2D, Id);
     // Call function to know if there was any error and send message to log if error occurred
-    unsigned char const * gl_error = checkForErrors();
+    unsigned char const * gl_error = getGLError();
     if (gl_error != NULL)
         SL_INTERNAL(gl_error);
 #endif
@@ -499,7 +499,7 @@ void sad::Texture::unload()
         // glDeleteTextures causes an GL_INVALID_VALUE if n (1st arg) is negative.
         glDeleteTextures(1, &Id);
         // Call function to know if there was any error and send message to log if error occurred
-        unsigned char const * gl_error = checkForErrors();
+        unsigned char const * gl_error = getGLError();
         if (gl_error != NULL)
             SL_INTERNAL(gl_error);
     }
@@ -610,7 +610,7 @@ void sad::Texture::convertToPOTTexture()
     this->Buffer = buffer;
 }
 
-unsigned char const * sad::Texture::checkForErrors() {
+unsigned char const * sad::Texture::getGLError() {
     // Get an info about errors during operation
     GLint errorcode = glGetError();
     // If there is an error return its description
