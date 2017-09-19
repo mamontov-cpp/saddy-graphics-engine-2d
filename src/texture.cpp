@@ -200,28 +200,88 @@ void sad::Texture::upload()
             convertToPOTTexture();
         }
     }
+    // String that contains an error description after OpenGL funstions calls
+    unsigned char const * gl_error;
     // Create ID of texture and bind it
     glGenTextures(1, static_cast<GLuint *>(&Id));
-    glBindTexture(GL_TEXTURE_2D, Id);
+    // glGenTextures can cause GL_INVALID_VALUE if n (1st arg) is negative.
+    // Call function to know if there was any error and send message to log if error occurred
+    gl_error = getGLError();
+    if (gl_error != NULL)
+        SL_COND_LOCAL_INTERNAL(gl_error, r);
 
-    glPixelStorei(GL_UNPACK_ALIGNMENT,1);   
+    /* Possible errors:
+    GL_INVALID_ENUM is generated if target (1st arg) is not one of the allowable values.
+    GL_INVALID_VALUE is generated if texture is not a name returned from a previous call to glGenTextures.
+    GL_INVALID_OPERATION is generated if texture was previously created with a target that doesn't match that of target.
+    */
+    glBindTexture(GL_TEXTURE_2D, Id);
+    // Call function to know if there was any error and send message to log if error occurred
+    gl_error = getGLError();
+    if (gl_error != NULL)
+        SL_COND_LOCAL_INTERNAL(gl_error, r);
+
+    /* Possible errors:
+    GL_INVALID_ENUM is generated if pname (1st arg) is not an accepted value.
+    GL_INVALID_VALUE is generated if a negative row length, pixel skip, or row skip value is specified, or if alignment is specified as other than 1, 2, 4, or 8.
+    */
+    glPixelStorei(GL_UNPACK_ALIGNMENT,1);
+    // Call function to know if there was any error and send message to log if error occurred
+    gl_error = getGLError();
+    if (gl_error != NULL)
+        SL_COND_LOCAL_INTERNAL(gl_error, r);
+
+    /* Possible errors:
+    GL_INVALID_ENUM, GL_INVALID_OPERATION, GL_INVALID_VALUE, GL_TEXTURE_BASE_LEVEL
+    */
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+    // Call function to know if there was any error and send message to log if error occurred
+    gl_error = getGLError();
+    if (gl_error != NULL)
+        SL_COND_LOCAL_INTERNAL(gl_error, r);
+
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+    // Call function to know if there was any error and send message to log if error occurred
+    gl_error = getGLError();
+    if (gl_error != NULL)
+        SL_COND_LOCAL_INTERNAL(gl_error, r);
     
     if (!BuildMipMaps)
     {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+        // Call function to know if there was any error and send message to log if error occurred
+        gl_error = getGLError();
+        if (gl_error != NULL)
+            SL_COND_LOCAL_INTERNAL(gl_error, r);
+
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
+        // Call function to know if there was any error and send message to log if error occurred
+        gl_error = getGLError();
+        if (gl_error != NULL)
+            SL_COND_LOCAL_INTERNAL(gl_error, r);
     }
 
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    // Call function to know if there was any error and send message to log if error occurred
+    gl_error = getGLError();
+    if (gl_error != NULL)
+        SL_COND_LOCAL_INTERNAL(gl_error, r);
+
     if (BuildMipMaps)
     {
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+        // Call function to know if there was any error and send message to log if error occurred
+        gl_error = getGLError();
+        if (gl_error != NULL)
+            SL_COND_LOCAL_INTERNAL(gl_error, r);
     }
     else
     {
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        // Call function to know if there was any error and send message to log if error occurred
+        gl_error = getGLError();
+        if (gl_error != NULL)
+            SL_COND_LOCAL_INTERNAL(gl_error, r);
     }
 
     // Actually upload image to GPU   
@@ -234,17 +294,32 @@ void sad::Texture::upload()
         if (version.p1() == 1 && version.p2() < 4)
         {
             // In case of OpenGL <1.4 there is not much we can do, so we ignore BuildMipMap flags
+            /* Possible errors:
+            GL_INVALID_ENUM , GL_INVALID_OPERATION, GL_INVALID_VALUE
+            */
             res = gluBuild2DMipmaps(GL_TEXTURE_2D, components, Width, Height, opengl_format, opengl10_type, Buffer->buffer());
+            // Call function to know if there was any error and send message to log if error occurred
+            gl_error = getGLError();
+            if (gl_error != NULL)
+                SL_COND_LOCAL_INTERNAL(gl_error, r);
         }
         else
         {
             if (BuildMipMaps)
             {
                 glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE); 
+                // Call function to know if there was any error and send message to log if error occurred
+                gl_error = getGLError();
+                if (gl_error != NULL)
+                    SL_COND_LOCAL_INTERNAL(gl_error, r);
             }
             else
             {
                 glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_FALSE);
+                // Call function to know if there was any error and send message to log if error occurred
+                gl_error = getGLError();
+                if (gl_error != NULL)
+                    SL_COND_LOCAL_INTERNAL(gl_error, r);
             }
             glTexImage2D(GL_TEXTURE_2D, 0, opengl_internalformat, Width, Height, 0, opengl_format, opengl_type, Buffer->buffer());
             res = glGetError();
@@ -409,6 +484,10 @@ void sad::Texture::bind()
     if (!OnGPU)
         upload();
     glBindTexture(GL_TEXTURE_2D, Id);
+    // Call function to know if there was any error and send message to log if error occurred
+    unsigned char const * gl_error = getGLError();
+    if (gl_error != NULL)
+        SL_INTERNAL(gl_error);
 #endif
 }
 
@@ -416,7 +495,14 @@ void sad::Texture::unload()
 {
 #ifndef TEXTURE_LOADER_TEST
     if (OnGPU)
+    {
+        // glDeleteTextures causes an GL_INVALID_VALUE if n (1st arg) is negative.
         glDeleteTextures(1, &Id);
+        // Call function to know if there was any error and send message to log if error occurred
+        unsigned char const * gl_error = getGLError();
+        if (gl_error != NULL)
+            SL_INTERNAL(gl_error);
+    }
     OnGPU = false;
 #endif
 }
@@ -522,4 +608,14 @@ void sad::Texture::convertToPOTTexture()
 
     delete this->Buffer;
     this->Buffer = buffer;
+}
+
+unsigned char const * sad::Texture::getGLError() {
+    // Get an info about errors during operation
+    GLint errorcode = glGetError();
+    // If there is an error return its description
+    if (errorcode)
+        return gluErrorString(errorcode);
+    // Else return NULL
+    return NULL;
 }
