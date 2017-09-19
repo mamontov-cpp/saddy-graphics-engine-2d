@@ -207,7 +207,7 @@ void sad::Texture::upload()
     // glGenTextures can cause GL_INVALID_VALUE if n (1st arg) is negative.
     // Call function to know if there was any error and send message to log if error occurred
     gl_error = checkForErrors();
-    if(gl_error!=NULL)
+    if (gl_error != NULL)
         SL_COND_LOCAL_INTERNAL(gl_error, r);
 
     /* Possible errors:
