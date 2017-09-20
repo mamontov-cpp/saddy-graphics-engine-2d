@@ -1,4 +1,4 @@
-#include "groupssequentialsetter.h"
+/*#include "groupssequentialsetter.h"
 
 // ReSharper disable once CppUnusedIncludeDirective
 #include <db/save.h>
@@ -37,4 +37,4 @@ void scripting::groups::SequentialSetter::setProperty(
     history::Command* c = new history::groups::ChangeSequential(obj, oldvalue, newvalue);								
     editor->currentBatchCommand()->add(c);
     c->commit(editor);	
-}
+}*/

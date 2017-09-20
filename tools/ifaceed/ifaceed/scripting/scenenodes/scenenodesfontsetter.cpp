@@ -1,4 +1,4 @@
-#include "scenenodesfontsetter.h"
+/*#include "scenenodesfontsetter.h"
 
 // ReSharper disable once CppUnusedIncludeDirective
 #include <db/save.h>
@@ -47,4 +47,5 @@ scripting::MatchResult scripting::scenenodes::FontSetter::canBeCalled(QScriptCon
    }
    return result;
 }
+*/
 

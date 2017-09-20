@@ -171,7 +171,7 @@ public:
             }
             else
             {
-                ctx->throwError(std::string("Property ") + prop_name + std::string(" is not writeable"));
+                ctx->throwError(std::string("Property \"") + prop_name + std::string("\" is not writeable"));
                 throw new dukpp03::ArgumentException();
                 return 0;
             }

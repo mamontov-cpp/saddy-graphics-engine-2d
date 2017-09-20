@@ -1,4 +1,4 @@
-#include "instancesobjectsetter.h"
+/*#include "instancesobjectsetter.h"
 
 // ReSharper disable once CppUnusedIncludeDirective
 #include <db/save.h>
@@ -114,4 +114,4 @@ void scripting::instances::ObjectSetter::setProperty(
     history::Command* c  = new history::instances::ChangeObject(obj, oldid, newid);		
     editor->currentBatchCommand()->add(c);
     c->commit(editor);
-}
+}*/

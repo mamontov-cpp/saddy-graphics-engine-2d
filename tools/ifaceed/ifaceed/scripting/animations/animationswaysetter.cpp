@@ -1,4 +1,4 @@
-#include "animationswaysetter.h"
+/*#include "animationswaysetter.h"
 
 // ReSharper disable once CppUnusedIncludeDirective
 #include <db/save.h>
@@ -97,4 +97,4 @@ scripting::animations::WaySetter::WaySetter(
 scripting::animations::WaySetter::~WaySetter()
 {
 
-}
+}*/

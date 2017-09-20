@@ -1,4 +1,4 @@
-#include "scenenodesfontsizesetter.h"
+/*#include "scenenodesfontsizesetter.h"
 
 // ReSharper disable once CppUnusedIncludeDirective
 #include <db/save.h>
@@ -29,3 +29,4 @@ scripting::MatchResult  scripting::scenenodes::FontSizeSetter::canBeCalled(QScri
    }
    return result;
 }
+*/

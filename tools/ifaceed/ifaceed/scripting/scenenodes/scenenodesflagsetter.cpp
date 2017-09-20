@@ -1,4 +1,4 @@
-#include "scenenodesflagsetter.h"
+/*#include "scenenodesflagsetter.h"
 
 scripting::scenenodes::FlagSetter::FlagSetter(
         core::Editor* ed,
@@ -20,3 +20,4 @@ history::Command* scripting::scenenodes::FlagSetter::command(sad::SceneNode* obj
     return m_f(m_editor, obj, oldvalue, newvalue);
 }
 
+*/

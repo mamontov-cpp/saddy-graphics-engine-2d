@@ -1,4 +1,4 @@
-#include "groupsloopedsetter.h"
+/*#include "groupsloopedsetter.h"
 
 // ReSharper disable once CppUnusedIncludeDirective
 #include <db/save.h>
@@ -37,4 +37,4 @@ void scripting::groups::LoopedSetter::setProperty(
     history::Command* c = new history::groups::ChangeLooped(obj, oldvalue, newvalue);								
     editor->currentBatchCommand()->add(c);
     c->commit(editor);	
-}
+}*/

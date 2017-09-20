@@ -9,8 +9,6 @@
 
 #include "maybe.h"
 #include "callable.h"
-#include "tovalue.h"
-#include "abstractcondition.h"
 
 #include "../qstdstring.h"
 
@@ -19,10 +17,10 @@
 #include <db/dbproperty.h>
 #include <db/dbobject.h>
 
-#include <sadptrvector.h>
-
 namespace scripting
 {
+
+class Scripting;
 
 /*! A setter, that can be used to set property of object of
     particular type.
@@ -55,12 +53,21 @@ public:
     typedef std::function<
                 void(scripting::Scripting* s, _ObjectType obj, const sad::String& propertyname, _PropertyType oldvalue,  _PropertyType newvalue)
             >  Action;
+
     /*! Constructs new setter
         \param[in] scripting a scripting object
      */
     AbstractSetter(scripting::Scripting* scripting) : dukpp03::qt::FunctionCallable(), m_scripting(scripting), m_match_all_properties(false)
     {
 
+    }
+
+    /*! Clones an object
+        \return copy of object
+     */
+    dukpp03::qt::Callable* clone()
+    {
+        return new scripting::AbstractSetter<_ObjectType, _PropertyType>(*this);
     }
 
     /*! Returns amount of required arguments
@@ -162,10 +169,10 @@ public:
                     if (maybe_value.exists())
                     {
                         a += 1;
-                        if (this->tryGetPropertyError(maybe_value.value()) == false)
+                        if (this->tryGetPropertyError(maybe_value.value()).exists() == false)
                         {
                             a += 1;
-                            if (maybe_object->getProperty<_PropertyType>().exists())
+                            if (maybe_object.value()->template getProperty<_PropertyType>(maybe_prop_name.value()).exists())
                             {
                                 a += 1;
                             }
@@ -176,32 +183,87 @@ public:
         }
         return std::make_pair(a, a == 6);
     }
-    /*! Calls actually a function
+    /*! Invoked, when setter is actually called
         \param[in] ctx context
+        \return amount of values in context
      */
-    virtual QScriptValue call(QScriptContext* ctx, QScriptEngine*)
+    virtual int call(dukpp03::qt::BasicContext* ctx)
     {
-        sad::Maybe<_ObjectType>       basicvalue = scripting::ToValue<_ObjectType>::perform(ctx->argument(0));
-        sad::Maybe<sad::String> propname = scripting::ToValue<sad::String>::perform(ctx->argument(1));
-
-        QScriptValue argt =  ctx->argument(2);
-        sad::Maybe<_PropertyType> newvalue;
-        for(size_t i = 0; i < m_converts.size() && newvalue.exists() == false; i++)
+        int required_args = this->requiredArguments();
+        if (ctx->getTop() != required_args)
         {
-            newvalue = m_converts[i]->toValue(argt);
+            ctx->throwInvalidArgumentCountError(ctx->getTop(), 3);
+            throw new dukpp03::ArgumentException();
+            return 0;
         }
-
-        sad::db::Object* object = basicvalue.value();
-        sad::Maybe<_PropertyType> oldvalue = object->getProperty<_PropertyType>(propname.value());
-
-        std::equal_to<_PropertyType> comparator;
-        if (comparator(newvalue.value(), oldvalue.value()) == false)
+        dukpp03::Maybe<_ObjectType> maybe_object = dukpp03::GetValue< _ObjectType, dukpp03::qt::BasicContext >::perform(ctx, 0);
+        dukpp03::Maybe<sad::String> maybe_prop_name = dukpp03::GetValue< sad::String, dukpp03::qt::BasicContext >::perform(ctx, 1);
+        if (maybe_object.exists())
         {
-            callActions(basicvalue.value(), propname.value(), oldvalue.value(), newvalue.value());
+            if (maybe_prop_name.exists())
+            {
+                if (this->isCorrespondsToPropertyName(maybe_prop_name.value()))
+                {
+                    dukpp03::Maybe<_PropertyType> maybe_value = this->tryGetPropertyValueFromStack(ctx, 2);
+                    if (maybe_value.exists())
+                    {
+                        dukpp03::Maybe<sad::String> property_error = this->tryGetPropertyError(maybe_value.value());
+                        if (property_error.exists() == false)
+                        {
+                            if (maybe_object.value()->template getProperty<_PropertyType>(maybe_prop_name.value()).exists())
+                            {
+                                _PropertyType oldvalue = maybe_object.value()->template getProperty<_PropertyType>(maybe_prop_name.value()).value();
+                                std::equal_to<_PropertyType> comparator;
+                                if (comparator(oldvalue, maybe_value.value()) == false)
+                                {
+                                    callActions(
+                                        maybe_object.value(),
+                                        maybe_prop_name.value(),
+                                        oldvalue,
+                                        maybe_value.value()
+                                    );
+                                }
+                            }
+                            else
+                            {
+                                ctx->throwError(std::string("Property \"") + maybe_prop_name.value() + std::string("\" is not writeable"));
+                                throw new dukpp03::ArgumentException();
+                            }
+                        }
+                        else
+                        {
+                            ctx->throwError(property_error.value());
+                            throw new dukpp03::ArgumentException();
+                        }
+                    }
+                    else
+                    {
+                        std::string name = dukpp03::qt::BasicContext::template typeName< _PropertyType >();
+                        ctx->throwInvalidTypeError(3, name);
+                        throw dukpp03::ArgumentException();
+                    }
+                }
+                else
+                {
+                    ctx->throwError(std::string("Property \"") + maybe_prop_name.value() + std::string("\" is not writeable"));
+                    throw new dukpp03::ArgumentException();
+                }
+            }
+            else
+            {
+                std::string name = dukpp03::qt::BasicContext::template typeName< sad::String >();
+                ctx->throwInvalidTypeError(2, name);
+                throw dukpp03::ArgumentException();
+            }
         }
-        return ctx->thisObject();
+        else
+        {
+            std::string name = dukpp03::qt::BasicContext::template typeName< _ObjectType >();
+            ctx->throwInvalidTypeError(1, name);
+            throw dukpp03::ArgumentException();
+        }
+        return 0;
     }
-
 protected:
     /*! Returns true if setter corresponds to property name
         \param[in] name a name
@@ -241,7 +303,7 @@ protected:
         {
             for(size_t i = 0; (i < m_converters.size()) && (value.exists() == false); i++)
             {
-                value = m_converters(ctx, obj_id);
+                value = (m_converters[i])(ctx, obj_id);
             }
         }
         return value;
@@ -256,7 +318,7 @@ protected:
          dukpp03::Maybe<sad::String> result;
          for(size_t i = 0; (i < m_conditions.size()) && (result.exists() == false); i++)
          {
-             result = m_conditions(value);
+             result = (m_conditions[i])(value);
          }
          return result;
     }
@@ -271,7 +333,7 @@ protected:
     {
         for(size_t i = 0; i < m_actions.size(); i++)
         {
-            m_actions[i](obj, property_name, old_value, new_value);
+            (m_actions[i])(m_scripting, obj, property_name, old_value, new_value);
         }
     }
 
@@ -297,5 +359,21 @@ protected:
      */
     sad::Vector<sad::String> m_excluded_properties;
 };
+
+/*! Constructs setter for specified property
+    \param scripting a scripting object
+    \param name a name of property
+    \return a setter
+ */
+template<
+    typename _ObjectType,
+    typename _PropertyType
+>
+inline scripting::AbstractSetter<_ObjectType, _PropertyType>* setterForProperty(scripting::Scripting* scripting, const sad::String& name)
+{
+    scripting::AbstractSetter<_ObjectType, _PropertyType>* result = new scripting::AbstractSetter<_ObjectType, _PropertyType>(scripting);
+    result->setPropertyName(name);
+    return result;
+}
 
 }

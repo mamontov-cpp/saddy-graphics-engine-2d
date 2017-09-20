@@ -126,7 +126,7 @@ public:
             }
             else
             {
-                ctx->throwError(std::string("Property ") + prop_name + std::string(" is not readable"));
+                ctx->throwError(std::string("Property \"") + prop_name + std::string("\" is not readable"));
                 throw new dukpp03::ArgumentException();
                 return 0;
             }

@@ -1,4 +1,4 @@
-#include "groupsnamesetter.h"
+/*#include "groupsnamesetter.h"
 
 // ReSharper disable once CppUnusedIncludeDirective
 #include <db/save.h>
@@ -51,4 +51,4 @@ void scripting::groups::NameSetter::setProperty(
         editor->currentBatchCommand()->add(c);
         c->commit(editor);
     }
-}
+}*/

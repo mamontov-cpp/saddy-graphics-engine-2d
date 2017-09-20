@@ -1,4 +1,4 @@
-#include "scenenodesareasetter.h"
+/*#include "scenenodesareasetter.h"
 
 // ReSharper disable once CppUnusedIncludeDirective
 #include <db/save.h>
@@ -6,6 +6,7 @@
 #include "../tovalue.h"
 
 #include <geometry2d.h>
+
 
 
 scripting::scenenodes::AreaSetter::AreaSetter(QScriptEngine* e)
@@ -31,4 +32,4 @@ scripting::MatchResult scripting::scenenodes::AreaSetter::canBeCalled(QScriptCon
         }
    }
    return result;
-}
+}*/

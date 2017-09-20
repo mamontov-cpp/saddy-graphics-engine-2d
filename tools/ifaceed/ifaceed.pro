@@ -253,7 +253,6 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/scripting/size2i.h \
     ifaceed/scripting/scriptingcall.h \
     ifaceed/scripting/makescriptingcall.h \
-    ifaceed/scripting/scenes/scenesnamesetter.h \
     ifaceed/scripting/abstractgetter.h \
     ifaceed/scripting/abstractsetter.h \
     ifaceed/scripting/scenes/scenesbindings.h \
@@ -543,7 +542,6 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/scripting/color.cpp \
     ifaceed/scripting/size2d.cpp \
     ifaceed/scripting/size2i.cpp \
-    ifaceed/scripting/scenes/scenesnamesetter.cpp \
     ifaceed/scripting/scenes/scenesbindings.cpp \
     ifaceed/scripting/database/databasebindings.cpp \
     ifaceed/scripting/querytable.cpp \

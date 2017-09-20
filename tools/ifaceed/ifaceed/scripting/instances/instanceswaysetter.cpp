@@ -1,4 +1,4 @@
-#include "instanceswaysetter.h"
+/*#include "instanceswaysetter.h"
 
 // ReSharper disable once CppUnusedIncludeDirective
 #include <db/save.h>
@@ -114,4 +114,4 @@ void scripting::instances::WaySetter::setProperty(
     history::Command* c  = new history::instances::ChangeWay(obj, oldid, newid);		
     editor->currentBatchCommand()->add(c);
     c->commit(editor);
-}
+}*/

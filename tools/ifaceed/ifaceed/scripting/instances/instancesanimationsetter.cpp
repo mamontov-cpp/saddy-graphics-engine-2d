@@ -1,4 +1,4 @@
-#include "instancesanimationsetter.h"
+/*#include "instancesanimationsetter.h"
 
 #include <QRadioButton>
 
@@ -126,4 +126,4 @@ void scripting::instances::AnimationSetter::setProperty(
         editor->currentBatchCommand()->add(c);
         c->commit(editor);
     }
-}
+}*/

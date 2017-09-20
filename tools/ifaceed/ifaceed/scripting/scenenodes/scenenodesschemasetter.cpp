@@ -1,4 +1,4 @@
-#include "scenenodesschemasetter.h"
+/*#include "scenenodesschemasetter.h"
 
 // ReSharper disable once CppUnusedIncludeDirective
 #include <db/save.h>
@@ -70,3 +70,4 @@ history::Command* scripting::scenenodes::SchemaSetter::command(
         newvalue
     );
 }
+*/

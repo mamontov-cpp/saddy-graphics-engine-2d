@@ -1,4 +1,4 @@
-#include "scenenodesoptionssetter.h"
+/*#include "scenenodesoptionssetter.h"
 
 // ReSharper disable once CppUnusedIncludeDirective
 #include <db/save.h>
@@ -58,3 +58,5 @@ history::Command* scripting::scenenodes::OptionsSetter::command(
     sad::Maybe<sad::Rect2D> area = obj->getProperty<sad::Rect2D>("area");
     return new history::sprite2d::ChangeOptions(obj, area.value(), oldvalue, newvalue);
 }
+
+*/

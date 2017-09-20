@@ -1,4 +1,4 @@
-#include "instancesanimationdbsetter.h"
+/*#include "instancesanimationdbsetter.h"
 
 #include <QRadioButton>
 
@@ -163,4 +163,4 @@ void scripting::instances::AnimationDBSetter::setProperty(
         editor->currentBatchCommand()->add(c);
         c->commit(editor);
     }
-}
+}*/
