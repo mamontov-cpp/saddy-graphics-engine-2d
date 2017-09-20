@@ -20,22 +20,16 @@ class Scripting;
 namespace scenenodes
 {
 
-/*! Lists all scene nodes from all scenes
-    \param[in] ctx context
-    \param[in] engine an enginge
-    \return a scene nodes list
+/*! Lists all major ids for scene nodes from all scenes
+    \return a list of all major ids for all scene nodes of current window
  */
-QScriptValue list(
-    QScriptContext* ctx,
-    QScriptEngine* engine
-);
+QVector<unsigned long long> list();
 
-/*! Lists a scene node from a scene
-    \param[in] scripting a scripting part
+/*! Lists all major ids for scene nodes, contained in specified scene
     \param[in] scene a scene
-    \return a scene nodes list
+    \return all major ids for scene nodes
  */
-QVector<unsigned long long> listScene(scripting::Scripting* scripting, sad::Scene* scene);
+QVector<unsigned long long> listScene(sad::Scene* scene);
 
 
 /*! Adds label. Prefixed by underscore, since it will be mapped to _addLabel function and addLabel

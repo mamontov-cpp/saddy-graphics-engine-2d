@@ -977,14 +977,15 @@ void scripting::Scripting::initSceneBindings(QScriptValue& v)
 
 void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
 {
+    {
+        dukpp03::qt::JSObject* scenenodes = new dukpp03::qt::JSObject();
+        scenenodes->setProperty("list", dukpp03::qt::make_function::from(scripting::scenenodes::list));
+        scenenodes->setProperty("listScene", dukpp03::qt::make_function::from(scripting::scenenodes::listScene));
+
+        m_global_value->setProperty("scenenodes", scenenodes);
+    }
+
     QScriptValue scenenodes = m_engine->newObject();
-
-    scenenodes.setProperty("list", m_engine->newFunction(scripting::scenenodes::list), m_flags); // E.scenenodes.list
-
-    scripting::Callable* listscene = scripting::make_scripting_call(scripting::scenenodes::listScene, this);
-    m_registered_classes << listscene;
-    scenenodes.setProperty("listScene", m_engine->newObject(listscene), m_flags); // E.scenenodes.listScene
-
 
     scripting::Callable* _addlabel = scripting::make_scripting_call(scripting::scenenodes::_addLabel, this);
     m_registered_classes << _addlabel;

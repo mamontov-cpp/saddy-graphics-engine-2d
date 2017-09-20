@@ -26,16 +26,12 @@
 
 #include <db/custom/customobject.h>
 
-QScriptValue scripting::scenenodes::list(
-    QScriptContext* ctx,
-    QScriptEngine* engine
-)
+QVector<unsigned long long>  scripting::scenenodes::list()
 {
-    return QScriptValue();
-    //return scripting::query_table("scenenodes", "sad::SceneNode", ctx, engine);
+    return scripting::query_table("scenenodes", "sad::SceneNode");
 }
 
-QVector<unsigned long long> scripting::scenenodes::listScene(scripting::Scripting* scripting, sad::Scene* scene)
+QVector<unsigned long long> scripting::scenenodes::listScene(sad::Scene* scene)
 {
     QVector<unsigned long long> result;
     const sad::Vector<sad::SceneNode*>& scenenodes = scene->objects();
