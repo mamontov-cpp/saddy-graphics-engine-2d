@@ -8,7 +8,7 @@
 
 namespace core
 {
-class Editor;    
+class Editor;
 }
 
 namespace scripting
@@ -25,21 +25,27 @@ public:
     /*! A callback for building command 
      */
     typedef history::Command* (*Callback)(core::Editor*, sad::SceneNode*, bool, bool);
-    /*! Constructs new visibility setter 
-        \param[in] ed editor
-        \param[in] e engine
-        \param[in] prop a property to be set
-        \param[in] f flag
+
+    /*! Constructs new setter, which receives flag
+        \param[in] scripting a scripting
+        \param[in] property_name a property name, that will be handled by setter
+        \param[in] f a callback for getting a command to be applied
      */
     FlagSetter(
-        core::Editor* ed,
-        QScriptEngine* e, 
-        const QString& prop, 
+        scripting::Scripting* scripting,
+        const sad::String& property_name,
         scripting::scenenodes::FlagSetter::Callback f
     );
+
+    /*! Clones an object
+        \return copy of object
+     */
+    dukpp03::qt::Callable* clone();
+
     /*! Can be inherited
      */
     virtual  ~FlagSetter();
+
     /*! Returns command for editing a property
         \param[in] obj an object to be set
         \param[in] propertyname a property for object
@@ -52,9 +58,6 @@ protected:
     /*! A callback
      */
     Callback m_f;
-    /*! An editor
-     */
-    core::Editor* m_editor;
 };
 
 

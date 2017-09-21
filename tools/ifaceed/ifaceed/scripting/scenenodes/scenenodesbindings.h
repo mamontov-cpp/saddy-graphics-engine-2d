@@ -110,7 +110,10 @@ void makeBackground(
     \param[in] scripting a scripting part
     \param[in] node node to be removed
  */
-void remove(scripting::Scripting* scripting, sad::SceneNode* node);
+void remove(
+    scripting::Scripting* scripting,
+    sad::SceneNode* node
+);
 
 /*! Spans an object between two points
     \param[in] scripting a scripting part

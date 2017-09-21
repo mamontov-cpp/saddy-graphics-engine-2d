@@ -154,7 +154,7 @@ public:
             return std::make_pair(-1, false);
         }
         int a = 0;
-        dukpp03::Maybe<_ObjectType> maybe_object = dukpp03::GetValue< _ObjectType, dukpp03::qt::BasicContext >::perform(ctx, 0);
+        dukpp03::Maybe<_ObjectType> maybe_object = this->tryGetObjectFromStack(ctx, 0, false);
         dukpp03::Maybe<sad::String> maybe_prop_name = dukpp03::GetValue< sad::String, dukpp03::qt::BasicContext >::perform(ctx, 1);
         if (maybe_object.exists())
         {
@@ -196,7 +196,7 @@ public:
             throw new dukpp03::ArgumentException();
             return 0;
         }
-        dukpp03::Maybe<_ObjectType> maybe_object = dukpp03::GetValue< _ObjectType, dukpp03::qt::BasicContext >::perform(ctx, 0);
+        dukpp03::Maybe<_ObjectType> maybe_object = this->tryGetObjectFromStack(ctx, 0, true);
         dukpp03::Maybe<sad::String> maybe_prop_name = dukpp03::GetValue< sad::String, dukpp03::qt::BasicContext >::perform(ctx, 1);
         if (maybe_object.exists())
         {
@@ -265,6 +265,16 @@ public:
         return 0;
     }
 protected:
+    /*! Tries to get object from a stack
+        \param ctx context
+        \param id id of object
+        \param is_being_called whether a setter is being called
+        \return a value
+     */
+    virtual dukpp03::Maybe<_ObjectType> tryGetObjectFromStack(dukpp03::qt::BasicContext* ctx, duk_idx_t id, bool is_being_called)
+    {
+        return dukpp03::GetValue<_ObjectType, dukpp03::qt::BasicContext >::perform(ctx, id);
+    }
     /*! Returns true if setter corresponds to property name
         \param[in] name a name
         \return  whether setter corresponds to it

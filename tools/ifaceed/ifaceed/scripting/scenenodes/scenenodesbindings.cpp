@@ -57,16 +57,20 @@ unsigned long long scripting::scenenodes::_addLabel(
     QScriptEngine* engine = scripting->engine();
     sad::resource::Tree* tree = sad::Renderer::ref()->tree("");
     sad::resource::Resource* maybefont = tree->root()->resource(resource);
-    if (!maybefont)
+    bool error = true;
+    if (maybefont)
     {
-        engine->currentContext()->throwError(QScriptContext::TypeError, QString("_addLabel: ") + resource.c_str() + " does not name font resource");
-        return 0;
+        if (maybefont->metaData()->canBeCastedTo("sad::Font")
+            || maybefont->metaData()->canBeCastedTo("sad::freetype::Font"))
+        {
+            error = false;
+        }
     }
-
-    if (maybefont->metaData()->canBeCastedTo("sad::Font") == false
-        && maybefont->metaData()->canBeCastedTo("sad::freetype::Font") == false)
+    if (error)
     {
-        engine->currentContext()->throwError(QScriptContext::TypeError, QString("_addLabel: ") + resource.c_str() + " does not name font resource");
+        std::string resource_not_found_error = std::string("_addLabel: ") + resource.c_str() + " does not name font resource";
+        scripting->context()->throwError(resource_not_found_error);
+        throw new dukpp03::ArgumentException();
         return 0;
     }
 
@@ -100,24 +104,30 @@ unsigned long long scripting::scenenodes::_addSprite2D(
     sad::AColor clr
 )
 {
-    QScriptEngine* engine = scripting->engine();
     sad::resource::Tree* tree = sad::Renderer::ref()->tree("");
     sad::resource::Resource* maybeopts = tree->root()->resource(resource);
-    if (!maybeopts)
+    bool error = true;
+    if (maybeopts)
     {
-        engine->currentContext()->throwError(QScriptContext::TypeError, QString("_addLabel: ") + resource.c_str() + " does not name sprite options resource (sad::Sprite2D::Options type)");
-        return 0;
+        if (maybeopts->metaData()->canBeCastedTo("sad::Sprite2D::Options"))
+        {
+            error = false;
+        }
     }
 
-    if (maybeopts->metaData()->canBeCastedTo("sad::Sprite2D::Options") == false)
+    if (error)
     {
-        engine->currentContext()->throwError(QScriptContext::TypeError, QString("_addLabel: ") + resource.c_str() + " does not name sprite options resource (sad::Sprite2D::Options type)");
+        std::string resource_not_found_error = std::string("_addSprite2D: ") + resource.c_str() + " does not name sprite options resource (sad::Sprite2D::Options type)";
+        scripting->context()->throwError(resource_not_found_error);
+        throw new dukpp03::ArgumentException();
         return 0;
     }
 
     if (sad::isAABB(rect) == false)
     {
-        engine->currentContext()->throwError(QScriptContext::TypeError, QString("_addLabel: ") + resource.c_str() + " rectangle must be axis aligned");
+        std::string rectangle_argument_error = "_addSprite2D: passed rectangle must be axis-aligned bounding box";
+        scripting->context()->throwError(rectangle_argument_error);
+        throw new dukpp03::ArgumentException();
         return 0;
     }
 
@@ -154,24 +164,30 @@ unsigned long long scripting::scenenodes::_addCustomObject(
     sad::AColor clr
 )
 {
-    QScriptEngine* engine = scripting->engine();
     sad::resource::Tree* tree = sad::Renderer::ref()->tree("");
     sad::resource::Resource* maybeschema = tree->root()->resource(resource);
-    if (!maybeschema)
+    bool error = true;
+    if (maybeschema)
     {
-        engine->currentContext()->throwError(QScriptContext::TypeError, QString("_addLabel: ") + resource.c_str() + " does not name schema resource (sad::db::custom::Schema type)");
-        return 0;
+        if (maybeschema->metaData()->canBeCastedTo("sad::db::custom::Schema"))
+        {
+            error = false;
+        }
     }
 
-    if (maybeschema->metaData()->canBeCastedTo("sad::db::custom::Schema") == false)
+    if (error)
     {
-        engine->currentContext()->throwError(QScriptContext::TypeError, QString("_addLabel: ") + resource.c_str() + " does not name schema resource (sad::db::custom::Schema type)");
+        std::string resource_not_found_error = std::string("_addCustomObject: ") + resource.c_str() + " does not name schema resource (sad::db::custom::Schema type)";
+        scripting->context()->throwError(resource_not_found_error);
+        throw new dukpp03::ArgumentException();
         return 0;
     }
 
     if (sad::isAABB(rect) == false)
     {
-        engine->currentContext()->throwError(QScriptContext::TypeError, QString("_addLabel: ") + resource.c_str() + " rectangle must be axis aligned");
+        std::string rectangle_argument_error = "_addCustomObject: passed rectangle must be axis-aligned bounding box";
+        scripting->context()->throwError(rectangle_argument_error);
+        throw new dukpp03::ArgumentException();
         return 0;
     }
 

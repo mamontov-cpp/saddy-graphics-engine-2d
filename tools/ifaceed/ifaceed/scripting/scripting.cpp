@@ -32,9 +32,12 @@
 #include "../history/scenenodes/scenenodeschangename.h"
 #include "../history/scenenodes/scenenodeschangeangle.h"
 #include "../history/scenenodes/scenenodeschangecolor.h"
+#include "../history/scenenodes/scenenodeschangearea.h"
 #include "../history/scenenodes/scenenodeschangevisibility.h"
 
+#include "../history/label/changefontsize.h"
 #include "../history/label/changetext.h"
+#include "../history/label/changefontname.h"
 #include "../history/label/changelinespacing.h"
 #include "../history/label/changemaximallinewidth.h"
 #include "../history/label/changebreaktext.h"
@@ -81,20 +84,14 @@
 #include "database/databasepropertygetter.h"
 
 #include "scenes/scenesbindings.h"
-//#include "scenes/scenesnamesetter.h"
 
 #include "scenenodes/scenenodesbindings.h"
-/*
 #include "scenenodes/scenenodessetter.h"
 #include "scenenodes/scenenodesflagsetter.h"
-#include "scenenodes/scenenodesareasetter.h"
-#include "scenenodes/scenenodesfontsizesetter.h"
-#include "scenenodes/scenenodesfontsetter.h"
 #include "scenenodes/scenenodesoptionssetter.h"
 #include "scenenodes/scenenodesschemasetter.h"
-#include "scenenodes/scenenodescustomgetter.h"
 #include "scenenodes/scenenodescustomsetter.h"
-*/
+#include "scenenodes/scenenodescustomgetter.h"
 
 #include "layouts/gridbindings.h"
 
@@ -281,8 +278,8 @@ void scripting::Scripting::setEditor(core::Editor* editor)
     m_editor = editor;
     this->initSadTypeConstructors();
     this->initDatabasePropertyBindings();
-    this->initSceneBindings(m_value);
-    this->initSceneNodesBindings(m_value);
+    this->initSceneBindings();
+    this->initSceneNodesBindings();
     this->initLayoutGridBindings(m_value);
     this->initWaysBindings(m_value);
     this->initDialoguesBindings(m_value);
@@ -915,7 +912,7 @@ void scripting::Scripting::initDatabasePropertyBindings()
     assert(b);
 }
 
-void scripting::Scripting::initSceneBindings(QScriptValue& v)
+void scripting::Scripting::initSceneBindings()
 {
     dukpp03::qt::JSObject* scenes = new dukpp03::qt::JSObject();
     scenes->setProperty("list", dukpp03::qt::make_function::from(scripting::scenes::list));
@@ -975,176 +972,197 @@ void scripting::Scripting::initSceneBindings(QScriptValue& v)
 }
 
 
-void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
+void scripting::Scripting::initSceneNodesBindings()
 {
-    {
-        dukpp03::qt::JSObject* scenenodes = new dukpp03::qt::JSObject();
-        scenenodes->setProperty("list", dukpp03::qt::make_function::from(scripting::scenenodes::list));
-        scenenodes->setProperty("listScene", dukpp03::qt::make_function::from(scripting::scenenodes::listScene));
+    dukpp03::qt::JSObject* scenenodes = new dukpp03::qt::JSObject();
+    scenenodes->setProperty("list", dukpp03::qt::make_function::from(scripting::scenenodes::list));
+    scenenodes->setProperty("listScene", dukpp03::qt::make_function::from(scripting::scenenodes::listScene));
+    scenenodes->setProperty("_addLabel", dukpp03::qt::curried1::from(this, scripting::scenenodes::_addLabel));
+    scenenodes->setProperty("_addSprite2D", dukpp03::qt::curried1::from(this, scripting::scenenodes::_addSprite2D));
+    scenenodes->setProperty("_addCustomObject", dukpp03::qt::curried1::from(this, scripting::scenenodes::_addCustomObject));
+    scenenodes->setProperty("makeBackground", dukpp03::qt::curried1::from(this, scripting::scenenodes::makeBackground));
+    scenenodes->setProperty("remove", dukpp03::qt::curried1::from(this, scripting::scenenodes::remove));
+    scenenodes->setProperty("spanBetweenTwoPoints", dukpp03::qt::curried1::from(this, scripting::scenenodes::spanBetweenTwoPoints));
 
-        m_global_value->setProperty("scenenodes", scenenodes);
+    dukpp03::qt::MultiMethod* set = new dukpp03::qt::MultiMethod();
+
+    {
+        // All props
+        set->add(new scripting::scenenodes::FlagSetter(this, "visible", history::scenenodes::changeVisibility));
+        set->add(new scripting::scenenodes::Setter<sad::String, history::scenenodes::ChangeName>(this, "name"));
+
+        scripting::scenenodes::Setter<sad::Rect2D, history::scenenodes::ChangeArea>* area_setter = new scripting::scenenodes::Setter<sad::Rect2D, history::scenenodes::ChangeArea>(this, "area");
+        std::function<dukpp03::Maybe<sad::String>(const sad::Rect2D&)> is_aabb = [](const sad::Rect2D& val) {
+            dukpp03::Maybe<sad::String> result;
+            if (sad::isAABB(val) == false)
+            {
+                result.setValue("Rectangle must be axis-aligned");
+            }
+            return result;
+        };
+        area_setter->addCondition(is_aabb);
+        set->add(area_setter);
+
+        set->add(new scripting::scenenodes::Setter<double, history::scenenodes::ChangeAngle>(this, "angle"));
+        set->add(new scripting::scenenodes::Setter<sad::AColor, history::scenenodes::ChangeColor>(this, "color"));
+
+        // sad::Label props
+        scripting::scenenodes::Setter<unsigned int, history::label::ChangeFontSize>* font_size_setter = new scripting::scenenodes::Setter<unsigned int, history::label::ChangeFontSize>(this, "fontsize");
+        std::function<dukpp03::Maybe<sad::String>(const unsigned long&)> is_greater_than_zero = [](const unsigned long& val) {
+            dukpp03::Maybe<sad::String> result;
+            if (val == 0)
+            {
+                result.setValue("Value must be greater than zero");
+            }
+            return result;
+        };
+        font_size_setter->addCondition(is_greater_than_zero);
+        set->add(font_size_setter);
+        set->add(new scripting::scenenodes::Setter<sad::String, history::label::ChangeText>(this, "text"));
+        set->add(new scripting::scenenodes::Setter<float, history::label::ChangeLineSpacing>(this, "linespacing"));
+        set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeMaximalLineWidth>(this, "maximallinewidth"));
+        set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeOverflowStrategy>(this, "overflowstrategy"));
+        set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeBreakText>(this, "breaktext"));
+        set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeTextEllipsis>(this, "textellipsisposition"));
+        set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeMaximalLinesCount>(this, "maximallinescount"));
+        set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeOverflowStrategyForLines>(this, "overflowstrategyforlines"));
+        set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeTextEllipsisForLines>(this, "textellipsispositionforlines"));
+        set->add(new scripting::scenenodes::Setter<bool, history::label::ChangeHasFormatting>(this, "hasformatting"));
+
+        scripting::scenenodes::Setter<sad::String, history::label::ChangeFontName>* font_setter = new scripting::scenenodes::Setter<sad::String, history::label::ChangeFontName>(this, "font");
+        std::function<dukpp03::Maybe<sad::String>(const sad::String&)> font_exists = [](const sad::String& resource_name) {
+            dukpp03::Maybe<sad::String> result;
+            sad::resource::Resource* resource = sad::Renderer::ref()->tree("")->root()->resource(resource_name);
+            bool valid = false;
+            if (resource) {
+                if (resource->metaData()->canBeCastedTo("sad::freetype::Font")
+                    || resource->metaData()->canBeCastedTo("sad::TextureMappedFont")
+                    || resource->metaData()->canBeCastedTo("sad::Font"))
+                {
+                    valid = true;
+                }
+            }
+            if (!valid)
+            {
+                result.setValue(resource_name + " is not a font resource");
+            }
+            return result;
+        };
+        font_setter->addCondition(font_exists);
+        set->add(font_setter);
+        // sad::Sprite2D props
+        set->add(new scripting::scenenodes::FlagSetter(this, "flipx", history::sprite2d::changeFlipX));
+        set->add(new scripting::scenenodes::FlagSetter(this, "flipy", history::sprite2d::changeFlipY));
+        set->add(new scripting::scenenodes::OptionsSetter(this));
+        // sad::db::CustomObject props
+        set->add(new scripting::scenenodes::SchemaSetter(this));
+#define PUSH_SETTER(TYPE) set->add(new scripting::scenenodes::CustomSetter< TYPE >(this));
+        PUSH_SETTER( double )
+        PUSH_SETTER( float )
+        PUSH_SETTER( int )
+        PUSH_SETTER( long )
+        PUSH_SETTER( long long )
+        PUSH_SETTER( sad::AColor )
+        PUSH_SETTER( sad::Color )
+        PUSH_SETTER( sad::Point2D )
+        PUSH_SETTER( sad::Point2I )
+        PUSH_SETTER( sad::Point3D )
+        PUSH_SETTER( sad::Point3I )
+        PUSH_SETTER( sad::Size2D )
+        PUSH_SETTER( sad::Size2I )
+        PUSH_SETTER( sad::Rect2D )
+        PUSH_SETTER( sad::Rect2I )
+        PUSH_SETTER( sad::String )
+        PUSH_SETTER( std::string )
+        PUSH_SETTER( QString )
+        PUSH_SETTER( short )
+        PUSH_SETTER( bool )
+        PUSH_SETTER( char )
+        PUSH_SETTER( signed char )
+        PUSH_SETTER( unsigned char )
+        PUSH_SETTER( unsigned int )
+        PUSH_SETTER( unsigned long )
+        PUSH_SETTER( unsigned long long )
+        PUSH_SETTER( unsigned short )
+    #undef PUSH_SETTER
     }
 
-    QScriptValue scenenodes = m_engine->newObject();
+    scenenodes->setProperty("set",  static_cast<dukpp03::qt::Callable*>(set)); // E.scenenodes.set
+    dukpp03::qt::MultiMethod* get = new dukpp03::qt::MultiMethod();
+    {
+        // All
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>("name"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>("layer"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned long long>("majorid"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned long long>("minorid"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned long long>("scene"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, bool>("visible"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::Rect2D>("area"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, double>("angle"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::AColor>("color"));
+        // sad::Label props
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>("fontsize"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>("text"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, float>("linespacing"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>("font"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>("maximallinewidth"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>("overflowstrategy"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>("breaktext"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>("textellipsisposition"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>("maximallinescount"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>("overflowstrategyforlines"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>("textellipsispositionforlines"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, bool>("hasformatting"));
 
-    scripting::Callable* _addlabel = scripting::make_scripting_call(scripting::scenenodes::_addLabel, this);
-    m_registered_classes << _addlabel;
-    scenenodes.setProperty("_addLabel", m_engine->newObject(_addlabel), m_flags); // E.scenenodes._addLabel
+        // sad::Sprite2D props
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, bool>("flipx"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, bool>("flipy"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>("options"));
+        // sad::db::CustomObject props
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>( "schema"));
+    #define PUSH_GETTER(TYPE) get->add(scripting::scenenodes::custom_getter< TYPE >());
+        PUSH_GETTER( double )
+        PUSH_GETTER( float )
+        PUSH_GETTER( int )
+        PUSH_GETTER( long )
+        PUSH_GETTER( long long )
+        PUSH_GETTER( sad::AColor )
+        PUSH_GETTER( sad::Color )
+        PUSH_GETTER( sad::Point2D )
+        PUSH_GETTER( sad::Point2I )
+        PUSH_GETTER( sad::Point3D )
+        PUSH_GETTER( sad::Point3I )
+        PUSH_GETTER( sad::Size2D )
+        PUSH_GETTER( sad::Size2I )
+        PUSH_GETTER( sad::Rect2D )
+        PUSH_GETTER( sad::Rect2I )
+        PUSH_GETTER( sad::String )
+        PUSH_GETTER( std::string )
+        PUSH_GETTER( QString )
+        PUSH_GETTER( short )
+        PUSH_GETTER( bool )
+        PUSH_GETTER( char )
+        PUSH_GETTER( signed char )
+        PUSH_GETTER( unsigned char )
+        PUSH_GETTER( unsigned int )
+        PUSH_GETTER( unsigned long )
+        PUSH_GETTER( unsigned long long )
+        PUSH_GETTER( unsigned short )
+    #undef PUSH_GETTER
+    }
+    scenenodes->setProperty("get",  static_cast<dukpp03::qt::Callable*>(get)); // E.scenenodes.get
 
-    scripting::Callable* _addsprite2d = scripting::make_scripting_call(scripting::scenenodes::_addSprite2D, this);
-    m_registered_classes << _addsprite2d;
-    scenenodes.setProperty("_addSprite2D", m_engine->newObject(_addsprite2d), m_flags); // E.scenenodes._addSprite2D
+    m_global_value->setProperty("scenenodes", scenenodes);
 
-    scripting::Callable* _addcustomobject = scripting::make_scripting_call(scripting::scenenodes::_addCustomObject, this);
-    m_registered_classes << _addcustomobject;
-    scenenodes.setProperty("_addCustomObject", m_engine->newObject(_addcustomobject), m_flags); // E.scenenodes._addCustomObject
-
-    scripting::Callable* makeBackground = scripting::make_scripting_call(scripting::scenenodes::makeBackground, this);
-    m_registered_classes << makeBackground;
-    scenenodes.setProperty("makeBackground", m_engine->newObject(makeBackground), m_flags); // E.scenenodes.makeBackground
-
-    scripting::Callable* remove = scripting::make_scripting_call(scripting::scenenodes::remove, this);
-    m_registered_classes << remove;
-    scenenodes.setProperty("remove", m_engine->newObject(remove)); // E.scenenodes.remove
-
-    scripting::Callable* spanBetweenTwoPoints = scripting::make_scripting_call(scripting::scenenodes::spanBetweenTwoPoints, this);
-    m_registered_classes << spanBetweenTwoPoints;
-    scenenodes.setProperty("spanBetweenTwoPoints", m_engine->newObject(spanBetweenTwoPoints)); // E.scenenodes.spanBetweenTwoPoints
-
-
-    /*
-    scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
-    // All props
-    set->add(new scripting::scenenodes::FlagSetter(m_editor, m_engine, "visible", history::scenenodes::changeVisibility));
-    set->add(new scripting::scenenodes::Setter<sad::String, history::scenenodes::ChangeName>(m_engine, "name"));
-    set->add(new scripting::scenenodes::AreaSetter(m_engine));
-    set->add(new scripting::scenenodes::Setter<double, history::scenenodes::ChangeAngle>(m_engine, "angle"));
-    set->add(new scripting::scenenodes::Setter<sad::AColor, history::scenenodes::ChangeColor>(m_engine, "color"));
-    // sad::Label props
-    set->add(new scripting::scenenodes::FontSizeSetter(m_engine));
-    set->add(new scripting::scenenodes::Setter<sad::String, history::label::ChangeText>(m_engine, "text"));
-    set->add(new scripting::scenenodes::Setter<float, history::label::ChangeLineSpacing>(m_engine, "linespacing"));
-    set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeMaximalLineWidth>(m_engine, "maximallinewidth"));
-    set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeOverflowStrategy>(m_engine, "overflowstrategy"));
-    set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeBreakText>(m_engine, "breaktext"));
-    set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeTextEllipsis>(m_engine, "textellipsisposition"));
-    set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeMaximalLinesCount>(m_engine, "maximallinescount"));
-    set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeOverflowStrategyForLines>(m_engine, "overflowstrategyforlines"));
-    set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeTextEllipsisForLines>(m_engine, "textellipsispositionforlines"));
-    set->add(new scripting::scenenodes::Setter<bool, history::label::ChangeHasFormatting>(m_engine, "hasformatting"));
-
-    set->add(new scripting::scenenodes::FontSetter(m_engine));
-    // sad::Sprite2D props
-    set->add(new scripting::scenenodes::FlagSetter(m_editor, m_engine, "flipx", history::sprite2d::changeFlipX));
-    set->add(new scripting::scenenodes::FlagSetter(m_editor, m_engine, "flipy", history::sprite2d::changeFlipY));
-    set->add(new scripting::scenenodes::OptionsSetter(m_engine));
-    // sad::db::CustomObject props
-    set->add(new scripting::scenenodes::SchemaSetter(m_engine));
-#define PUSH_SETTER(TYPE) set->add(new scripting::scenenodes::CustomSetter< TYPE >(m_engine));
-    PUSH_SETTER( double )
-    PUSH_SETTER( float )
-    PUSH_SETTER( int )
-    PUSH_SETTER( long )
-    PUSH_SETTER( long long )
-    PUSH_SETTER( sad::AColor )
-    PUSH_SETTER( sad::Color )
-    PUSH_SETTER( sad::Point2D )
-    PUSH_SETTER( sad::Point2I )
-    PUSH_SETTER( sad::Point3D )
-    PUSH_SETTER( sad::Point3I )
-    PUSH_SETTER( sad::Size2D )
-    PUSH_SETTER( sad::Size2I )
-    PUSH_SETTER( sad::Rect2D )
-    PUSH_SETTER( sad::Rect2I )
-    PUSH_SETTER( sad::String )
-    PUSH_SETTER( std::string )
-    PUSH_SETTER( QString )
-    PUSH_SETTER( short )
-    PUSH_SETTER( bool )
-    PUSH_SETTER( char )
-    PUSH_SETTER( signed char )
-    PUSH_SETTER( unsigned char )
-    PUSH_SETTER( unsigned int )
-    PUSH_SETTER( unsigned long )
-    PUSH_SETTER( unsigned long long )
-    PUSH_SETTER( unsigned short )
-#undef PUSH_SETTER
-    m_registered_classes << set;
-    scenenodes.setProperty("set", m_engine->newObject(set), m_flags); // E.scenes.set
-    
-    scripting::MultiMethod* get = new scripting::MultiMethod(m_engine, "get");
-    // All
-    get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>(m_engine, "name"));
-    get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>(m_engine, "layer"));
-    get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned long long>(m_engine, "majorid"));
-    get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned long long>(m_engine, "minorid"));
-    get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned long long>(m_engine, "scene"));
-    get->add(new scripting::AbstractGetter<sad::SceneNode*, bool>(m_engine, "visible"));    
-    get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::Rect2D>(m_engine, "area"));
-    get->add(new scripting::AbstractGetter<sad::SceneNode*, double>(m_engine, "angle"));
-    get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::AColor>(m_engine, "color"));    
-    // sad::Label props
-    get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>(m_engine, "fontsize"));
-    get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>(m_engine, "text"));
-    get->add(new scripting::AbstractGetter<sad::SceneNode*, float>(m_engine, "linespacing"));
-    get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>(m_engine, "font"));
-    get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>(m_engine, "maximallinewidth"));
-    get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>(m_engine, "overflowstrategy"));
-    get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>(m_engine, "breaktext"));
-    get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>(m_engine, "textellipsisposition"));
-    get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>(m_engine, "maximallinescount"));
-    get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>(m_engine, "overflowstrategyforlines"));
-    get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>(m_engine, "textellipsispositionforlines"));
-    get->add(new scripting::AbstractGetter<sad::SceneNode*, bool>(m_engine, "hasformatting"));
-
-    // sad::Sprite2D props
-    get->add(new scripting::AbstractGetter<sad::SceneNode*, bool>(m_engine, "flipx"));
-    get->add(new scripting::AbstractGetter<sad::SceneNode*, bool>(m_engine, "flipy"));
-    get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>(m_engine, "options"));
-    // sad::db::CustomObject props
-    get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>(m_engine, "schema"));
-#define PUSH_GETTER(TYPE) get->add(scripting::scenenodes::custom_getter< TYPE >(m_engine));
-    PUSH_GETTER( double )
-    PUSH_GETTER( float )
-    PUSH_GETTER( int )
-    PUSH_GETTER( long )
-    PUSH_GETTER( long long )
-    PUSH_GETTER( sad::AColor )
-    PUSH_GETTER( sad::Color )
-    PUSH_GETTER( sad::Point2D )
-    PUSH_GETTER( sad::Point2I )
-    PUSH_GETTER( sad::Point3D )
-    PUSH_GETTER( sad::Point3I )
-    PUSH_GETTER( sad::Size2D )
-    PUSH_GETTER( sad::Size2I )
-    PUSH_GETTER( sad::Rect2D )
-    PUSH_GETTER( sad::Rect2I )
-    PUSH_GETTER( sad::String )
-    PUSH_GETTER( std::string )
-    PUSH_GETTER( QString )
-    PUSH_GETTER( short )
-    PUSH_GETTER( bool )
-    PUSH_GETTER( char )
-    PUSH_GETTER( signed char )
-    PUSH_GETTER( unsigned char )
-    PUSH_GETTER( unsigned int )
-    PUSH_GETTER( unsigned long )
-    PUSH_GETTER( unsigned long long )
-    PUSH_GETTER( unsigned short )
-#undef PUSH_GETTER
-    m_registered_classes << get;
-    scenenodes.setProperty("get", m_engine->newObject(get), m_flags); // E.scenes.get
-    */
-    v.setProperty("scenenodes", scenenodes, m_flags); // E.scenenodes
-
-    m_engine->evaluate(
+    bool b = m_ctx->eval(
         "E.OverflowStrategy = { \"Visible\": 0, \"Hidden\": 1, \"Ellipsis\": 2 };"
         "E.BreakText = { \"Normal\": 0, \"BreakWord\": 1};"
         "E.TextEllipsisPosition = { \"Begin\": 0, \"Middle\": 1, \"End\": 2};"
     );
+    assert( b );
 
-    m_engine->evaluate(
-        "E.scenenodes.addLabel = function(o) {"  
+    b = m_ctx->eval(
+        "E.scenenodes.addLabel = function(o) {"
         "   if (\"fontsize\" in o == false)"
         "   {                              "
         "     o[\"fontsize\"] = 16;        "
@@ -1185,18 +1203,19 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
         "   }"
         "   return E.scenenodes._addCustomObject(o[\"scene\"], o[\"schema\"], o[\"name\"], o[\"fontsize\"], o[\"text\"],  o[\"area\"], o[\"color\"]);"
         "};"
-        "E.scenenodes.attr = function() {"  
+        "E.scenenodes.attr = function() {"
         "   if (arguments.length == 2)"
         "   {"
         "       return E.scenenodes.get(arguments[0], arguments[1]);"
         "   }"
         "   if (arguments.length == 3)"
         "   {"
-        "       return E.scenenodes.set(arguments[0], arguments[1], arguments[2]);"
+        "       return E.scenenodes.set(arguments[0], arguments[1], arguments[2]); return E.scenenodes;"
         "   }"
         "   throw new Error(\"Specify 2 or 3 arguments\");"
         "};"
     );
+    assert( b );
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst

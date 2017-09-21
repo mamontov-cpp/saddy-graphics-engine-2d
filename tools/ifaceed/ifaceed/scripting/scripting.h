@@ -119,11 +119,11 @@ protected:
     /*! Inits scenes bindings for scenes
         \param[out] v a global value (E)
      */
-    void initSceneBindings(QScriptValue& v);
+    void initSceneBindings();
     /*! Inits scene nodes bindings
         \param[out] v a global value (E)
      */
-    void initSceneNodesBindings(QScriptValue& v);
+    void initSceneNodesBindings();
     /*! Inits layout grid bindings
         \param[out] v a global value (E)
      */

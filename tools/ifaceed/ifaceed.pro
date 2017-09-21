@@ -264,9 +264,6 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/scripting/queryresource.h \
     ifaceed/scripting/scenenodes/scenenodesabstractsetter.h \
     ifaceed/scripting/scenenodes/scenenodessetter.h \
-    ifaceed/scripting/scenenodes/scenenodesareasetter.h \
-    ifaceed/scripting/scenenodes/scenenodesfontsizesetter.h \
-    ifaceed/scripting/scenenodes/scenenodesfontsetter.h \
     ifaceed/scripting/scenenodes/scenenodescustomgetter.h \
     ifaceed/scripting/scenenodes/scenenodescustomsetter.h \
     ifaceed/scripting/scenenodes/scenenodesflagsetter.h \
@@ -341,7 +338,8 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/scripting/layouts/gridbindings.h \
     ifaceed/scripting/layouts/scriptablegrid.h \
     ifaceed/scripting/layouts/scriptablegridcell.h \
-    ifaceed/scripting/layouts/scriptablelengthvalue.h 	
+    ifaceed/scripting/layouts/scriptablelengthvalue.h \ 	
+    ifaceed/scripting/dukqtcontext.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui \
     ifaceed/reloadfilelist.ui \
@@ -547,9 +545,6 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/scripting/querytable.cpp \
     ifaceed/scripting/scenenodes/scenenodesbindings.cpp \
     ifaceed/scripting/queryresource.cpp \
-    ifaceed/scripting/scenenodes/scenenodesareasetter.cpp \
-    ifaceed/scripting/scenenodes/scenenodesfontsizesetter.cpp \
-    ifaceed/scripting/scenenodes/scenenodesfontsetter.cpp \
     ifaceed/scripting/scenenodes/scenenodesflagsetter.cpp \
     ifaceed/scripting/scenenodes/scenenodesoptionssetter.cpp \
     ifaceed/scripting/scenenodes/scenenodesschemasetter.cpp \

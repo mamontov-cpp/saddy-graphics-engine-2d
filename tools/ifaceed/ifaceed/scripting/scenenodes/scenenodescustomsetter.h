@@ -23,10 +23,10 @@ template<
 class CustomSetter: public scripting::scenenodes::AbstractSetter<T>
 {
 public:
-    /*! Creates new setter for specified area
-        \param e
+    /*! Creates new setter family for specified property type
+        \param scripting a scripting object
      */
-    CustomSetter(QScriptEngine* e) : scripting::scenenodes::AbstractSetter<T>(e)
+    CustomSetter(scripting::Scripting* scripting) : scripting::scenenodes::AbstractSetter<T>(scripting)
     {
         const char* excluded[] = {
             "name",
@@ -47,20 +47,34 @@ public:
             "flipy",
             "options",
             "schema",
+            "maximallinewidth",
+            "overflowstrategy",
+            "breaktext",
+            "textellipsisposition",
+            "maximallinescount",
+            "overflowstrategyforlines",
+            "textellipsispositionforlines",
+            "hasformatting",
             NULL
         };
-        int i = 0;
-        while(excluded[i] != NULL) {
-            this->addExcluded(excluded[i]);
-            ++i;
-        }
+        this->matchAllProperties();
+        this->addExcludedPropertyNames(excluded);
     }
+    /*! Clones an object
+        \return copy of object
+     */
+    dukpp03::qt::Callable* clone()
+    {
+        return new scripting::scenenodes::CustomSetter<T>(*this);
+    }
+
     /*! Can be inherited
      */
     virtual ~CustomSetter()
     {
         
     }
+
     /*! Returns command for editing a property
         \param[in] obj an object to be set
         \param[in] prop property name
