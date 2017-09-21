@@ -15,15 +15,12 @@ class Scripting;
 namespace layouts
 {
 
-/*! Lists all grids
+/*! Lists all grids, present in database, returning list of their major id
     \param[in] ctx context
     \param[in] engine an engine
-    \return a ways list
+    \return list of major ids for all grids in database
  */
-QScriptValue list(
-    QScriptContext* ctx,
-    QScriptEngine* engine
-);
+QVector<unsigned long long> list();
 
 /*! Fetches a grid by it's name or major id. Takes name or major id of object
     \param[in] ctx context
@@ -64,17 +61,6 @@ QScriptValue parent(
     QScriptContext* ctx,
     QScriptEngine* engine
 );
-
-/*! Returns a length value, constructed from unit and value
-    \param[in] ctx context
-    \param[in] engine
-    \return null if nothing, otherwise value
- */
-QScriptValue length_value(
-    QScriptContext* ctx,
-    QScriptEngine* engine	
-);
-
 
 }
 

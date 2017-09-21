@@ -7,6 +7,7 @@
 #include <curry1.h>
 #include <object.h>
 #include <thislambda.h>
+#include <lambda.h>
 
 #include <QString>
 #include <QStringList>
@@ -26,7 +27,10 @@ namespace qt
 /*! Makes lambda, that could be registered as method
  */
 typedef dukpp03::bind_lambda<dukpp03::qt::BasicContext> bind_lambda;
-/*! A lambda with curreid first argument
+/*! Makes lambda, that could be registered as function
+ */
+typedef dukpp03::make_lambda<dukpp03::qt::BasicContext> make_lambda;
+/*! A lambda with curried first argument
  */
 typedef dukpp03::curried1<dukpp03::qt::BasicContext> curried1;
 

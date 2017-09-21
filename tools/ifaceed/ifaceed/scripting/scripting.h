@@ -117,17 +117,14 @@ protected:
      */
     void initDatabasePropertyBindings();
     /*! Inits scenes bindings for scenes
-        \param[out] v a global value (E)
      */
     void initSceneBindings();
     /*! Inits scene nodes bindings
-        \param[out] v a global value (E)
      */
     void initSceneNodesBindings();
     /*! Inits layout grid bindings
-        \param[out] v a global value (E)
      */
-    void initLayoutGridBindings(QScriptValue& v);
+    void initLayoutGridBindings();
     /*! Inits way bindings
         \param[out] v a global value (E)
      */

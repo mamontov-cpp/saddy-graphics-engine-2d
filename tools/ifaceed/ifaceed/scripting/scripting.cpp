@@ -93,6 +93,7 @@
 #include "scenenodes/scenenodescustomsetter.h"
 #include "scenenodes/scenenodescustomgetter.h"
 
+#include "layouts/scriptablelengthvalue.h"
 #include "layouts/gridbindings.h"
 
 #include "ways/waysbindings.h"
@@ -152,6 +153,7 @@
 #include "function.h"
 
 Q_DECLARE_METATYPE(QScriptContext*) //-V566
+Q_DUKPP03_DECLARE_METATYPE(scripting::layouts::ScriptableLengthValue)  //-V566
 
 // ================================== Miscellaneous functions =================================================
 extern const std::string __context_eval_info;
@@ -280,7 +282,7 @@ void scripting::Scripting::setEditor(core::Editor* editor)
     this->initDatabasePropertyBindings();
     this->initSceneBindings();
     this->initSceneNodesBindings();
-    this->initLayoutGridBindings(m_value);
+    this->initLayoutGridBindings();
     this->initWaysBindings(m_value);
     this->initDialoguesBindings(m_value);
     this->initAnimationsBindings(m_value);
@@ -1219,48 +1221,81 @@ void scripting::Scripting::initSceneNodesBindings()
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
-void scripting::Scripting::initLayoutGridBindings(QScriptValue& v)
+void scripting::Scripting::initLayoutGridBindings()
 {
+    {
+        dukpp03::qt::registerMetaType<scripting::layouts::ScriptableLengthValue>();
+        dukpp03::qt::JSObject* layouts = new dukpp03::qt::JSObject();
+
+
+        m_global_value->setProperty("layouts", layouts);
+
+        dukpp03::qt::JSObject* unit = new dukpp03::qt::JSObject();
+        unit->setProperty("LU_Auto", static_cast<unsigned int>(sad::layouts::LU_Auto));
+        unit->setProperty("LU_Pixels", static_cast<unsigned int>(sad::layouts::LU_Pixels));
+        unit->setProperty("LU_Percents", static_cast<unsigned int>(sad::layouts::LU_Percents));
+        layouts->setProperty("Unit", unit); // E.layouts.Unit
+        layouts->setEvaluatedProperty("LU_Auto", "E.layouts.Unit.LU_Auto");
+        layouts->setEvaluatedProperty("LU_Pixels", "E.layouts.Unit.LU_Pixels");
+        layouts->setEvaluatedProperty("LU_Percents", "E.layouts.Unit.LU_Percents");
+
+        dukpp03::qt::JSObject* horizontal_alignment = new dukpp03::qt::JSObject();
+        horizontal_alignment->setProperty("LHA_Left", static_cast<unsigned int>(sad::layouts::LHA_Left));
+        horizontal_alignment->setProperty("LHA_Middle", static_cast<unsigned int>(sad::layouts::LHA_Middle));
+        horizontal_alignment->setProperty("LHA_Right", static_cast<unsigned int>(sad::layouts::LHA_Right));
+        layouts->setProperty("HorizontalAlignment", horizontal_alignment); // E.layouts.HorizontalAlignment
+        layouts->setEvaluatedProperty("LHA_Left", "E.layouts.HorizontalAlignment.LHA_Left");
+        layouts->setEvaluatedProperty("LHA_Middle", "E.layouts.HorizontalAlignment.LHA_Middle");
+        layouts->setEvaluatedProperty("LHA_Right", "E.layouts.HorizontalAlignment.LHA_Right");
+
+        dukpp03::qt::JSObject* vertical_alignment = new dukpp03::qt::JSObject();
+        vertical_alignment->setProperty("LVA_Top", static_cast<unsigned int>(sad::layouts::LVA_Top));
+        vertical_alignment->setProperty("LVA_Middle", static_cast<unsigned int>(sad::layouts::LVA_Middle));
+        vertical_alignment->setProperty("LVA_Bottom", static_cast<unsigned int>(sad::layouts::LVA_Bottom));
+        layouts->setProperty("VerticalAlignment", vertical_alignment); // E.layouts.VerticalAlignment
+        layouts->setEvaluatedProperty("LVA_Top", "E.layouts.VerticalAlignment.LVA_Top");
+        layouts->setEvaluatedProperty("LVA_Middle", "E.layouts.VerticalAlignment.LVA_Middle");
+        layouts->setEvaluatedProperty("LVA_Bottom", "E.layouts.VerticalAlignment.LVA_Bottom");
+
+         dukpp03::qt::JSObject* stacking_type = new dukpp03::qt::JSObject();
+        stacking_type->setProperty("LST_Horizontal", static_cast<unsigned int>(sad::layouts::LST_Horizontal));
+        stacking_type->setProperty("LST_Vertical", static_cast<unsigned int>(sad::layouts::LST_Vertical));
+        stacking_type->setProperty("LST_NoStacking", static_cast<unsigned int>(sad::layouts::LST_NoStacking));
+        layouts->setProperty("StackingType", stacking_type); // E.layouts.StackingType
+        layouts->setEvaluatedProperty("LST_Horizontal", "E.layouts.StackingType.LST_Horizontal");
+        layouts->setEvaluatedProperty("LST_Vertical", "E.layouts.StackingType.LST_Vertical");
+        layouts->setEvaluatedProperty("LST_NoStacking", "E.layouts.StackingType.LST_NoStacking");
+
+        scripting::Scripting* me = this;
+        std::function<scripting::layouts::ScriptableLengthValue*(unsigned int, double)> length_value = [me](unsigned int unit, double value)
+        {
+            if ((unit != sad::layouts::LU_Auto) && (unit != sad::layouts::LU_Percents) && (unit != sad::layouts::LU_Pixels))
+            {
+                me->context()->throwError("Argument 1 must have sad::layouts::Unit type");
+                throw new dukpp03::ArgumentException();
+            }
+            return new scripting::layouts::ScriptableLengthValue(static_cast<sad::layouts::Unit>(unit), value, me);
+        };
+        layouts->setProperty("LengthValue", static_cast<dukpp03::qt::Callable*>(dukpp03::qt::make_lambda::from(length_value)));
+
+        bool b  = m_ctx->eval(
+            "E.layouts.Auto = function() { return E.layouts.LengthValue(E.layouts.Unit.LU_Auto, 0); };"
+            "E.layouts.Pixels = function(a) { if (typeof a != \"number\") throw \"E.layouts.Pixels: first argument should be numeric\"; return E.layouts.LengthValue(E.layouts.Unit.LU_Pixels, a); };"
+            "E.layouts.Percents = function(a) { if (typeof a != \"number\") throw \"E.layouts.Percents: first argument should be numeric\"; return E.layouts.LengthValue(E.layouts.Unit.LU_Percents, a); };"
+        );
+        assert( b );
+
+        layouts->setProperty("list", dukpp03::qt::make_function::from(scripting::layouts::list)); // E.layouts.list
+    }
+
     QScriptValue layouts = m_engine->newObject();
 
-    layouts.setProperty("list", m_engine->newFunction(scripting::layouts::list), m_flags); // E.layouts.list
     layouts.setProperty("query", m_engine->newFunction(scripting::layouts::query), m_flags); // E.layouts.query
     layouts.setProperty("add", m_engine->newFunction(scripting::layouts::add), m_flags); // E.layouts.add
     layouts.setProperty("remove", m_engine->newFunction(scripting::layouts::remove), m_flags); // E.layouts.remove
     layouts.setProperty("parent", m_engine->newFunction(scripting::layouts::parent), m_flags); // E.layouts.parent
-    layouts.setProperty("LengthValue", m_engine->newFunction(scripting::layouts::length_value), m_flags); // E.layouts.LengthValue
 
-    QScriptValue unit = m_engine->newObject();
-    unit.setProperty("LU_Auto", QScriptValue(static_cast<unsigned int>(sad::layouts::LU_Auto)), m_flags);
-    unit.setProperty("LU_Pixels", QScriptValue(static_cast<unsigned int>(sad::layouts::LU_Pixels)), m_flags);
-    unit.setProperty("LU_Percents", QScriptValue(static_cast<unsigned int>(sad::layouts::LU_Percents)), m_flags);
-    layouts.setProperty("Unit", unit); // E.layouts.Unit
-
-    QScriptValue horizontal_alignment = m_engine->newObject();
-    horizontal_alignment.setProperty("LHA_Left", QScriptValue(static_cast<unsigned int>(sad::layouts::LHA_Left)), m_flags);
-    horizontal_alignment.setProperty("LHA_Middle", QScriptValue(static_cast<unsigned int>(sad::layouts::LHA_Middle)), m_flags);
-    horizontal_alignment.setProperty("LHA_Right", QScriptValue(static_cast<unsigned int>(sad::layouts::LHA_Right)), m_flags);
-    layouts.setProperty("HorizontalAlignment", horizontal_alignment); // E.layouts.HorizontalAlignment
-
-    QScriptValue vertical_alignment = m_engine->newObject();
-    vertical_alignment.setProperty("LVA_Top", QScriptValue(static_cast<unsigned int>(sad::layouts::LVA_Top)), m_flags);
-    vertical_alignment.setProperty("LVA_Middle", QScriptValue(static_cast<unsigned int>(sad::layouts::LVA_Middle)), m_flags);
-    vertical_alignment.setProperty("LVA_Bottom", QScriptValue(static_cast<unsigned int>(sad::layouts::LVA_Bottom)), m_flags);
-    layouts.setProperty("VerticalAlignment", vertical_alignment); // E.layouts.VerticalAlignment
-
-    QScriptValue stacking_type = m_engine->newObject();
-    stacking_type.setProperty("LST_Horizontal", QScriptValue(static_cast<unsigned int>(sad::layouts::LST_Horizontal)), m_flags);
-    stacking_type.setProperty("LST_Vertical", QScriptValue(static_cast<unsigned int>(sad::layouts::LST_Vertical)), m_flags);
-    stacking_type.setProperty("LST_NoStacking", QScriptValue(static_cast<unsigned int>(sad::layouts::LST_NoStacking)), m_flags);
-    layouts.setProperty("StackingType", stacking_type); // E.layouts.StackingType
-
-    v.setProperty("layouts", layouts, m_flags); // E.layouts
-
-    m_engine->evaluate(
-        "E.layouts.Auto = function() { return E.layouts.LengthValue(E.layouts.Unit.LU_Auto, 0); };"
-        "E.layouts.Pixels = function(a) { if (typeof a != \"number\") throw \"E.layouts.Pixels: first argument should be numeric\"; return E.layouts.LengthValue(E.layouts.Unit.LU_Pixels, a); };"
-        "E.layouts.Percents = function(a) { if (typeof a != \"number\") throw \"E.layouts.Percents: first argument should be numeric\"; return E.layouts.LengthValue(E.layouts.Unit.LU_Percents, a); };"
-    );
+    //v.setProperty("layouts", layouts, m_flags); // E.layouts
 }
 
 void scripting::Scripting::initWaysBindings(QScriptValue& v)

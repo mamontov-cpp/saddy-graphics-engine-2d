@@ -24,13 +24,9 @@
 
 #include "../../history/layouts/layoutsnew.h"
 
-QScriptValue scripting::layouts::list(
-    QScriptContext* ctx,
-    QScriptEngine* engine
-)
+QVector<unsigned long long>scripting::layouts::list()
 {
-    return QScriptValue();
-    //return scripting::query_table("layouts", "sad::layouts::Grid", ctx, engine);
+    return scripting::query_table("layouts", "sad::layouts::Grid");
 }
 
 QScriptValue scripting::layouts::query(
@@ -155,27 +151,3 @@ QScriptValue scripting::layouts::parent(
     return engine->nullValue();
 }
 
-QScriptValue scripting::layouts::length_value(
-    QScriptContext* ctx,
-    QScriptEngine* engine	
-)
-{
-    if (ctx->argumentCount() != 2)
-    {
-        ctx->throwError("LengthValue: accepts only 2 arguments");
-    }
-    sad::Maybe<sad::layouts::Unit> mu_maybe = scripting::ToValue<sad::layouts::Unit>::perform(ctx->argument(0));
-    sad::Maybe<double> mv_maybe = scripting::ToValue<double>::perform(ctx->argument(1));
-    scripting::Scripting* e = static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject());
-    if (mu_maybe.exists() == false)
-    {
-        ctx->throwError("LengthValue: first argument is not a valid unit. Please, use one of E.layouts.Unit.LU_Auto, E.layouts.Unit.LU_Pixels, E.layouts.Unit.LU_Percents values");
-        return engine->nullValue();
-    }
-    if (mv_maybe.exists() == false)
-    {
-        ctx->throwError("LengthValue: second argument is not a valid value.");
-        return engine->nullValue();
-    }
-    return engine->newQObject(new scripting::layouts::ScriptableLengthValue(mu_maybe.value(), mv_maybe.value(), e));
-}
