@@ -6,6 +6,7 @@
 #pragma once
 
 #include <QScriptEngine>
+#include "scriptablegrid.h"
 
 namespace scripting
 {
@@ -23,24 +24,18 @@ namespace layouts
 QVector<unsigned long long> list();
 
 /*! Fetches a grid by it's name or major id. Takes name or major id of object
-    \param[in] ctx context
-    \param[in] engine an engine
-    \return an object or null	
+    \param[in] s scripting
+    \param[in] grid a grid value
+    \return result
  */
-QScriptValue query(
-    QScriptContext* ctx,
-    QScriptEngine* engine	
-);
+scripting::layouts::ScriptableGrid* _query(scripting::Scripting* s, sad::layouts::Grid* grid);
 
-/*! Adds new grid to list. Takes one parameter as name or nothing.
-    \param[in] ctx context
-    \param[in] engine an engine
+/*! Adds new grid to list. Takes a name, which can be empty.
+    \param[in] s scripting value
+    \param[in] name a name for object
     \return a scriptable reference to a new grid
  */
-QScriptValue add(
-    QScriptContext* ctx,
-    QScriptEngine* engine	
-);
+scripting::layouts::ScriptableGrid* add(scripting::Scripting* s, const sad::String& name);
 
 /*!	Removes a grid from a list. Takes name or major id of node
     \param[in] ctx context

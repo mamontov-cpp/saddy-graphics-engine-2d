@@ -1286,12 +1286,27 @@ void scripting::Scripting::initLayoutGridBindings()
         assert( b );
 
         layouts->setProperty("list", dukpp03::qt::make_function::from(scripting::layouts::list)); // E.layouts.list
+        layouts->setProperty("_query", dukpp03::qt::curried1::from(this, scripting::layouts::_query)); // E.layouts._query
+
+        dukpp03::qt::MultiMethod* add = new dukpp03::qt::MultiMethod();
+        {
+            add->add(dukpp03::qt::curried1::from(this, scripting::layouts::add));
+            scripting::Scripting* me = this;
+            std::function<scripting::layouts::ScriptableGrid*()> add_no_args = [me]() {
+                return scripting::layouts::add(me, "");
+            };
+            add->add(dukpp03::qt::make_lambda::from(add_no_args));
+        }
+        layouts->setProperty("add", static_cast<dukpp03::qt::Callable*>(add)); // E.scenenodes.add
+
+        b = m_ctx->eval(
+            "E.layouts.query = function(a) {  try { return E.layouts._query(a); } catch(e) { return null; } };"
+        );
+        assert( b );
     }
 
     QScriptValue layouts = m_engine->newObject();
 
-    layouts.setProperty("query", m_engine->newFunction(scripting::layouts::query), m_flags); // E.layouts.query
-    layouts.setProperty("add", m_engine->newFunction(scripting::layouts::add), m_flags); // E.layouts.add
     layouts.setProperty("remove", m_engine->newFunction(scripting::layouts::remove), m_flags); // E.layouts.remove
     layouts.setProperty("parent", m_engine->newFunction(scripting::layouts::parent), m_flags); // E.layouts.parent
 

@@ -2210,15 +2210,11 @@
     <ClCompile Include="scripting\querytable.cpp" />
     <ClCompile Include="scripting\rect2d.cpp" />
     <ClCompile Include="scripting\rect2i.cpp" />
-    <ClCompile Include="scripting\scenenodes\scenenodesareasetter.cpp" />
     <ClCompile Include="scripting\scenenodes\scenenodesbindings.cpp" />
     <ClCompile Include="scripting\scenenodes\scenenodesflagsetter.cpp" />
-    <ClCompile Include="scripting\scenenodes\scenenodesfontsetter.cpp" />
-    <ClCompile Include="scripting\scenenodes\scenenodesfontsizesetter.cpp" />
     <ClCompile Include="scripting\scenenodes\scenenodesoptionssetter.cpp" />
     <ClCompile Include="scripting\scenenodes\scenenodesschemasetter.cpp" />
     <ClCompile Include="scripting\scenes\scenesbindings.cpp" />
-    <ClCompile Include="scripting\scenes\scenesnamesetter.cpp" />
     <ClCompile Include="scripting\scripting.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/bigobj %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
@@ -5256,18 +5252,14 @@
     <ClInclude Include="scripting\querytable.h" />
     <ClInclude Include="scripting\registerconstructor.h" />
     <ClInclude Include="scripting\scenenodes\scenenodesabstractsetter.h" />
-    <ClInclude Include="scripting\scenenodes\scenenodesareasetter.h" />
     <ClInclude Include="scripting\scenenodes\scenenodesbindings.h" />
     <ClInclude Include="scripting\scenenodes\scenenodescustomgetter.h" />
     <ClInclude Include="scripting\scenenodes\scenenodescustomsetter.h" />
     <ClInclude Include="scripting\scenenodes\scenenodesflagsetter.h" />
-    <ClInclude Include="scripting\scenenodes\scenenodesfontsetter.h" />
-    <ClInclude Include="scripting\scenenodes\scenenodesfontsizesetter.h" />
     <ClInclude Include="scripting\scenenodes\scenenodesoptionssetter.h" />
     <ClInclude Include="scripting\scenenodes\scenenodesschemasetter.h" />
     <ClInclude Include="scripting\scenenodes\scenenodessetter.h" />
     <ClInclude Include="scripting\scenes\scenesbindings.h" />
-    <ClInclude Include="scripting\scenes\scenesnamesetter.h" />
     <ClInclude Include="scripting\scriptingcall.h" />
     <ClInclude Include="scripting\scriptinglog.h" />
     <CustomBuild Include="scripting\size2d.h">

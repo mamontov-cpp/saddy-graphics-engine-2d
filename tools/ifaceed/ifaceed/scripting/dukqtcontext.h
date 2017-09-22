@@ -18,6 +18,7 @@
 #include <sadcolor.h>
 #include <scene.h>
 #include <scenenode.h>
+#include <layouts/grid.h>
 
 namespace dukpp03
 {
@@ -47,6 +48,7 @@ Q_DECLARE_METATYPE(QStringList*)
 Q_DUKPP03_DECLARE_METATYPE(sad::db::Object*)
 Q_DUKPP03_DECLARE_METATYPE(sad::Scene*)
 Q_DUKPP03_DECLARE_METATYPE(sad::SceneNode*)
+Q_DUKPP03_DECLARE_METATYPE(sad::layouts::Grid*)
 Q_DUKPP03_DECLARE_METATYPE(sad::String)
 Q_DUKPP03_DECLARE_METATYPE(sad::Vector<sad::String>)
 Q_DUKPP03_DECLARE_METATYPE(sad::Point2D)
@@ -88,6 +90,7 @@ DEFINE_GET_VALUE_INSTANTIATION(sad::Vector<sad::String> )
 DEFINE_GET_VALUE_INSTANTIATION(sad::db::Object* )
 DEFINE_GET_VALUE_INSTANTIATION(sad::Scene* )
 DEFINE_GET_VALUE_INSTANTIATION(sad::SceneNode* )
+DEFINE_GET_VALUE_INSTANTIATION(sad::layouts::Grid*)
 
 #undef DEFINE_GET_VALUE_INSTANTIATION
 

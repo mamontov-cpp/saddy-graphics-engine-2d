@@ -29,49 +29,20 @@ QVector<unsigned long long>scripting::layouts::list()
     return scripting::query_table("layouts", "sad::layouts::Grid");
 }
 
-QScriptValue scripting::layouts::query(
-    QScriptContext* ctx,
-    QScriptEngine* engine	
+scripting::layouts::ScriptableGrid*  scripting::layouts::_query(
+    scripting::Scripting* s,
+    sad::layouts::Grid* grid
 )
 {
-    if (ctx->argumentCount() != 1)
-    {
-        ctx->throwError("list: accepts only 1 argument");
-    }
-
-    sad::Maybe<sad::layouts::Grid*> maybe_grid = scripting::query<sad::layouts::Grid*>(ctx->argument(0)); 
-    scripting::Scripting* e = static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject());
-    if (maybe_grid.exists())
-    {
-        return engine->newQObject(new scripting::layouts::ScriptableGrid(maybe_grid.value()->MajorId, e));
-    }
-    return engine->nullValue();
+    return new scripting::layouts::ScriptableGrid(grid->MajorId, s);
 }
 
 
-QScriptValue scripting::layouts::add(
-    QScriptContext* ctx,
-    QScriptEngine* engine	
+scripting::layouts::ScriptableGrid*  scripting::layouts::add(
+    scripting::Scripting* s,
+    const sad::String& name
 )
 {
-    if (ctx->argumentCount() > 1)
-    {
-        ctx->throwError("add: accepts only 0 or 1 arguments");
-    }
-    sad::String name = "";
-    if (ctx->argumentCount() == 1)
-    {
-        sad::Maybe<sad::String> name_maybe = scripting::ToValue<sad::String>::perform(ctx->argument(0));
-        if (name_maybe.exists())
-        {
-            name = name_maybe.value();
-        }
-        else
-        {
-            ctx->throwError("add: name should be a string");
-            return engine->nullValue();
-        }
-    }
     sad::layouts::Grid* grid = new sad::layouts::Grid();
     grid->Active = true;
     grid->setTreeName(sad::Renderer::ref(), "");
@@ -81,15 +52,14 @@ QScriptValue scripting::layouts::add(
     grid->setRows(1);
     grid->setColumns(1);
     grid->setRenderColor(gui::RenderGrids::defaultColor());
-    scripting::Scripting* e = static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject());
-    core::Editor* editor = e->editor();
+    core::Editor* editor = s->editor();
     editor->actions()->gridActions()->addGridToGridList(grid);
     editor->renderGrids()->add(grid);
     sad::Renderer::ref()->database("")->table("layouts")->add(grid);
 
     editor->currentBatchCommand()->add(new history::layouts::New(grid));
 
-    return engine->newQObject(new scripting::layouts::ScriptableGrid(grid->MajorId, e));
+    return new scripting::layouts::ScriptableGrid(grid->MajorId, s);
 }
 
 QScriptValue scripting::layouts::remove(
