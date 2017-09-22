@@ -62,62 +62,39 @@ scripting::layouts::ScriptableGrid*  scripting::layouts::add(
     return new scripting::layouts::ScriptableGrid(grid->MajorId, s);
 }
 
-QScriptValue scripting::layouts::remove(
-    QScriptContext* ctx,
-    QScriptEngine* engine	
+void scripting::layouts::remove(
+    scripting::Scripting* s,
+    sad::layouts::Grid* grid
 )
 {
-    if (ctx->argumentCount() != 1)
-    {
-        ctx->throwError("remove: accepts only 1 argument");
-    }
-
-    sad::Maybe<sad::layouts::Grid*> maybe_grid = scripting::query<sad::layouts::Grid*>(ctx->argument(0)); 
-    scripting::Scripting* e = static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject());
-    if (maybe_grid.exists())
-    {
-        core::Editor* editor = e->editor();
-        editor->actions()->gridActions()->scriptableRemoveGrid(maybe_grid.value(), false);
-    }
-    else
-    {
-        ctx->throwError("remove: cannot find grid to be removed");
-    }
-    return engine->nullValue();
+    core::Editor* editor = s->editor();
+    editor->actions()->gridActions()->scriptableRemoveGrid(grid, false);
 }
 
 
-QScriptValue scripting::layouts::parent(
-    QScriptContext* ctx,
-    QScriptEngine* engine
+dukpp03::Maybe<QVector<QVariant> > scripting::layouts::parent(
+    scripting::Scripting* scripting,
+    sad::SceneNode* node
 )
 {
-    if (ctx->argumentCount() != 1)
+    dukpp03::Maybe<QVector<QVariant> > result;
+    core::Editor* editor = scripting->editor();
+    gui::actions::GridActions* ga = editor->actions()->gridActions();
+    sad::Vector<gui::GridPosition> v = ga->findRelatedGrids(node);
+    if (v.size())
     {
-        ctx->throwError("parent: accepts only 1 argument");
-    }
+        gui::GridPosition g = v[0];
 
-    sad::Maybe<sad::SceneNode*> maybe_node = scripting::query<sad::SceneNode*>(ctx->argument(0));
-    scripting::Scripting* e = static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject());
-    if (maybe_node.exists())
-    {
-        core::Editor* editor = e->editor();
-        gui::actions::GridActions* ga = editor->actions()->gridActions();
-        sad::Vector<gui::GridPosition> v = ga->findRelatedGrids(maybe_node.value());
-        if (v.size())
-        {
-            gui::GridPosition g = v[0];
-            QScriptValue result = engine->newArray(2);
-            QScriptValue source = engine->newQObject(new scripting::layouts::ScriptableGridCell(g.Grid->MajorId, g.Row, g.Col, e));
-            result.setProperty(0, source);
-            result.setProperty(1, QScriptValue(static_cast<unsigned int>(g.Pos)));
-            return result;
-        }
+        QVector<QVariant> result_vector;
+        QVariant first_result;
+        first_result.setValue(new scripting::layouts::ScriptableGridCell(g.Grid->MajorId, g.Row, g.Col, scripting));
+
+        QVariant second_result;
+        second_result.setValue(static_cast<unsigned int>(g.Pos));
+
+        result_vector << first_result << second_result;
+        result.setValue(result_vector);
     }
-    else
-    {
-        ctx->throwError("parent: cannot find object to be searched in grids");
-    }
-    return engine->nullValue();
+    return result;
 }
 

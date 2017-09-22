@@ -6,6 +6,8 @@
 #pragma once
 
 #include <QScriptEngine>
+#include <QVariant>
+#include "../dukqtcontext.h"
 #include "scriptablegrid.h"
 
 namespace scripting
@@ -37,24 +39,24 @@ scripting::layouts::ScriptableGrid* _query(scripting::Scripting* s, sad::layouts
  */
 scripting::layouts::ScriptableGrid* add(scripting::Scripting* s, const sad::String& name);
 
-/*!	Removes a grid from a list. Takes name or major id of node
-    \param[in] ctx context
-    \param[in] engine an engine
+/*!	Removes a grid from a list. When called, from script, takes name or major id of node
+    \param[in] s scripting
+    \param[in] grid a grid to be removed
     \return a scriptable reference to a new grid
  */
-QScriptValue remove(
-    QScriptContext* ctx,
-    QScriptEngine* engine	
+void remove(
+    scripting::Scripting* s,
+    sad::layouts::Grid* grid
 );
 
 /*!	Returns a position of object in grid if any grid is set as parent for an object
-    \param[in] ctx context
-    \param[in] engine an engine
-    \return empty array if nothing is found, otherwise to elements - cell reference and position
+    \param[in] scripting a scripting context
+    \param[in] node a node
+    \return null if nothing is found, otherwise to elements - cell reference and position
  */
-QScriptValue parent(
-    QScriptContext* ctx,
-    QScriptEngine* engine
+dukpp03::Maybe<QVector<QVariant> > parent(
+    scripting::Scripting* scripting,
+    sad::SceneNode* node
 );
 
 }

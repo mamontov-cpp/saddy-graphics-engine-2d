@@ -3,10 +3,9 @@
     A grid cell scripting bindings should be placed here
  */
 #pragma once
-#include "../classwrapper.h"
 
 #include <layouts/grid.h>
-
+#include <QObject>
 #include <QScriptValue>
 
 namespace history
@@ -26,7 +25,7 @@ class ScriptableLengthValue;
 
 /*! A wrapper for a reference for grid cell
  */
-class ScriptableGridCell: public scripting::ClassWrapper
+class ScriptableGridCell: public QObject
 {
     Q_OBJECT
 public:
@@ -42,10 +41,6 @@ public:
         unsigned int column,
         scripting::Scripting* s
     );
-    /*! Converts object to string representation
-        \return object to string
-     */
-    virtual QString toString() const;
     /*! A destructor for grid cell
      */
     virtual ~ScriptableGridCell();
@@ -63,13 +58,17 @@ public:
      */
     bool swapChildrenWithCallName(const QString& callname, int pos1, int pos2) const;
 public slots:
+    /*! Converts object to string representation
+       \return object to string
+    */
+    virtual QString toString() const;
     /*! Returns true, if referenced object is valid
      */
     bool valid() const;
     /*! Returns area for a grid cell
         \return area
      */
-    QScriptValue area() const;
+    sad::Rect2D area() const;
     /*! Returns major id of grid for cell
         \return major id
      */
@@ -81,7 +80,7 @@ public slots:
     /*! Returns width of cell
         \return width of cell
      */
-    QScriptValue width() const;
+    scripting::layouts::ScriptableLengthValue* width() const;
     /*! Sets height for a cell
         \param value a value for height of cell
      */
@@ -89,7 +88,7 @@ public slots:
     /*! Returns height of cell
         \return height of cell
      */
-    QScriptValue height() const;
+    scripting::layouts::ScriptableLengthValue* height() const;
     /*! Returns list of children's major ids
         \return list of children's major ids
      */

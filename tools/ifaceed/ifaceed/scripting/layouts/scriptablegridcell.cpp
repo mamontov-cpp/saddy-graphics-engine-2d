@@ -34,17 +34,6 @@ scripting::layouts::ScriptableGridCell::ScriptableGridCell(
 
 }
 
-QString scripting::layouts::ScriptableGridCell::toString() const
-{
-    if (!valid())
-    {
-        return "ScriptableGridCell(<invalid>)";
-    }
-    QString result = QString("ScriptableGridCell(majorid : %1, row : %2, column: %3)")
-                     .arg(m_majorid).arg(m_row).arg(m_column);
-    return result;
-}
-
 scripting::layouts::ScriptableGridCell::~ScriptableGridCell()
 {
 
@@ -70,7 +59,8 @@ sad::layouts::Cell* scripting::layouts::ScriptableGridCell::cell(bool throwexc, 
     }
     if (throwexc)
     {
-        m_scripting->engine()->currentContext()->throwError(QString("ScriptableGridCell.") + name  + ": Reference to a grid cell is not a valid instance");
+        m_scripting->context()->throwError(std::string("ScriptableGridCell.") + name.toStdString()  + ": Reference to a grid cell is not a valid instance");
+        throw new dukpp03::ArgumentException();
     }
     return NULL;
 }
@@ -78,7 +68,7 @@ sad::layouts::Cell* scripting::layouts::ScriptableGridCell::cell(bool throwexc, 
 bool scripting::layouts::ScriptableGridCell::swapChildrenWithCallName(const QString& callname, int pos1, int pos2) const
 {
     bool result = false;
-    sad::layouts::Cell* cell = this->cell(true, "callname");
+    sad::layouts::Cell* cell = this->cell(true, callname);
     if (cell)
     {
         if (pos1 >= 0 && pos2 >= 0 && pos1 < cell->children().size() && pos2 < cell->children().size())
@@ -99,12 +89,24 @@ bool scripting::layouts::ScriptableGridCell::swapChildrenWithCallName(const QStr
 
 // ================================== PUBLIC SLOTS METHODS =========================
 
+QString scripting::layouts::ScriptableGridCell::toString() const
+{
+    if (!valid())
+    {
+        return "ScriptableGridCell(<invalid>)";
+    }
+    QString result = QString("ScriptableGridCell(majorid : %1, row : %2, column: %3)")
+        .arg(m_majorid).arg(m_row).arg(m_column);
+    return result;
+}
+
+
 bool scripting::layouts::ScriptableGridCell::valid() const
 {
     return cell(false) != NULL;
 }
 
-QScriptValue scripting::layouts::ScriptableGridCell::area() const
+sad::Rect2D  scripting::layouts::ScriptableGridCell::area() const
 {
     sad::Rect2D v;
     sad::layouts::Cell* c = cell(true, "area");
@@ -112,7 +114,7 @@ QScriptValue scripting::layouts::ScriptableGridCell::area() const
     {
         v = c->AssignedArea;
     }
-    return scripting::FromValue<sad::Rect2D>::perform(v, m_scripting->engine());    
+    return v;
 }
 
 unsigned long long scripting::layouts::ScriptableGridCell::grid() const
@@ -137,20 +139,18 @@ void scripting::layouts::ScriptableGridCell::setWidth(scripting::layouts::Script
     }
 }
 
-QScriptValue scripting::layouts::ScriptableGridCell::width() const
+scripting::layouts::ScriptableLengthValue* scripting::layouts::ScriptableGridCell::width() const
 {
     sad::layouts::Cell* c = this->cell(true, "width");
-    QScriptEngine* engine = m_scripting->engine();
     scripting::layouts::ScriptableLengthValue* lv;
     if (c)
     {
-        lv = new scripting::layouts::ScriptableLengthValue(c->width(), m_scripting);
+        return  new scripting::layouts::ScriptableLengthValue(c->width(), m_scripting);
     }
     else
     {
-        lv = new scripting::layouts::ScriptableLengthValue(sad::layouts::LU_Auto, 0, m_scripting);
+        return new scripting::layouts::ScriptableLengthValue(sad::layouts::LU_Auto, 0, m_scripting);
     }
-    return engine->newQObject(lv);
 }
 
 void scripting::layouts::ScriptableGridCell::setHeight(scripting::layouts::ScriptableLengthValue* value) const
@@ -169,20 +169,18 @@ void scripting::layouts::ScriptableGridCell::setHeight(scripting::layouts::Scrip
     }
 }
 
-QScriptValue scripting::layouts::ScriptableGridCell::height() const
+scripting::layouts::ScriptableLengthValue*  scripting::layouts::ScriptableGridCell::height() const
 {
     sad::layouts::Cell* c = this->cell(true, "height");
-    QScriptEngine* engine = m_scripting->engine();
     scripting::layouts::ScriptableLengthValue* lv;
     if (c)
     {
-        lv = new scripting::layouts::ScriptableLengthValue(c->height(), m_scripting);
+        return new scripting::layouts::ScriptableLengthValue(c->height(), m_scripting);
     }
     else
     {
-        lv = new scripting::layouts::ScriptableLengthValue(sad::layouts::LU_Auto, 0, m_scripting);
+        return new scripting::layouts::ScriptableLengthValue(sad::layouts::LU_Auto, 0, m_scripting);
     }
-    return engine->newQObject(lv);
 }
 
 QScriptValue scripting::layouts::ScriptableGridCell::children() const
