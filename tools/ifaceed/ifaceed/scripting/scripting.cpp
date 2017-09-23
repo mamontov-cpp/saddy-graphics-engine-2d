@@ -1492,6 +1492,14 @@ void scripting::Scripting::initAnimationsBindings()
     m_animations_value = new dukpp03::qt::JSObject();
     m_animations_value->setProperty("list", dukpp03::qt::make_function::from(scripting::animations::list)); // E.animations.list
     m_animations_value->setProperty("_add", dukpp03::qt::curried1::from(this, scripting::animations::_add)); // E.animations._add
+    m_animations_value->setProperty("remove", dukpp03::qt::curried1::from(this, scripting::animations::remove)); // E.animations.remove
+    m_animations_value->setProperty("addToComposite", dukpp03::qt::curried1::from(this, scripting::animations::addToComposite)); // E.animations.addToComposite
+    m_animations_value->setProperty("removeFromComposite", dukpp03::qt::curried1::from(this, scripting::animations::removeFromComposite)); // E.animations.removeFromComposite
+    m_animations_value->setProperty("compositeLength", dukpp03::qt::curried1::from(this, scripting::animations::compositeLength)); // E.animations.compositeLength
+    m_animations_value->setProperty("getAnimation", dukpp03::qt::curried1::from(this, scripting::animations::getAnimation)); // E.animations.getAnimation
+    m_animations_value->setProperty("moveBackInCompositeList", dukpp03::qt::curried1::from(this, scripting::animations::moveBackInCompositeList)); // E.animations.moveBackInCompositeList
+    m_animations_value->setProperty("moveFrontInCompositeList", dukpp03::qt::curried1::from(this, scripting::animations::moveFrontInCompositeList)); // E.animations.moveFrontInCompositeList
+
 
     m_global_value->setProperty("animations", m_animations_value);
     
@@ -1545,52 +1553,72 @@ void scripting::Scripting::initAnimationsBindings()
         assert(b);
         ++i;
     }
+
+    bool b  = m_ctx->eval(
+        "E.animations.attr = function() {"
+        "   if (arguments.length == 2)"
+        "   {"
+        "       return E.animations.get(arguments[0], arguments[1]);"
+        "   }"
+        "   if (arguments.length == 3)"
+        "   {"
+        "       return E.animations.set(arguments[0], arguments[1], arguments[2]); return E.animations;"
+        "   }"
+        "   throw new Error(\"Specify 2 or 3 arguments\");"
+        "};"
+    );
+    assert( b );
+
+     b = m_ctx->eval(
+        "E.animations.easingsToNames = ["
+        "\"Linear\","
+        "\"InSine\","
+        "\"OutSine\","
+        "\"InOutSine\","
+        "\"InQuad\","
+        "\"OutQuad\","
+        "\"InOutQuad\","
+        "\"InCubic\","
+        "\"OutCubic\","
+        "\"InOutCubic\","
+        "\"InQuart\","
+        "\"OutQuart\","
+        "\"InOutQuart\","
+        "\"InQuint\","
+        "\"OutQuint\","
+        "\"InOutQuint\","
+        "\"InExpo\","
+        "\"OutExpo\","
+        "\"InOutExpo\","
+        "\"InCirc\","
+        "\"OutCirc\","
+        "\"InOutCirc\","
+        "\"InElastic\","
+        "\"OutElastic\","
+        "\"InOutElastic\","
+        "\"InBack\","
+        "\"OutBack\","
+        "\"InOutBack\","
+        "\"InBounce\","
+        "\"OutBounce\","
+        "\"InOutBounce\""
+        "];"
+        "E.animations.findKey = function(o, val) {"
+        "    for(var key in o) {"
+        "       if (o.hasOwnProperty(key)) {"
+        "           if (o[key] == val) return parseInt(key);"
+        "       } "
+        "    }"
+        "};"
+        "E.animations.easing = function(a)"
+        "{"
+        "  if (typeof a == \"string\") return E.animations.findKey(E.animations.easingsToNames, a); else return  E.animations.easingsToNames[a]; "
+        "};"
+    );
+     assert(b);
     
     /*
     QScriptValue animations = m_engine->newObject();
-    
-    animations.setProperty("list", m_engine->newFunction(scripting::animations::list), m_flags); // E.animations.list
-
-    scripting::Callable* _add = scripting::make_scripting_call(scripting::animations::_add, this);
-    _add->setName("_add");
-    m_registered_classes << _add;
-    animations.setProperty("_add", m_engine->newObject(_add), m_flags); // E.animations._add
-
-    scripting::Callable* remove = scripting::make_scripting_call(scripting::animations::remove, this);
-    remove->setName("remove");
-    m_registered_classes << remove;
-    animations.setProperty("remove", m_engine->newObject(remove), m_flags); // E.animations.remove
-
-    scripting::Callable* addToComposite = scripting::make_scripting_call(scripting::animations::addToComposite, this);
-    addToComposite->setName("addToComposite");
-    m_registered_classes << addToComposite;
-    animations.setProperty("addToComposite", m_engine->newObject(addToComposite), m_flags); // E.animations.addToComposite
-
-    scripting::Callable* removeFromComposite = scripting::make_scripting_call(scripting::animations::removeFromComposite, this);
-    removeFromComposite->setName("removeFromComposite");
-    m_registered_classes << removeFromComposite;
-    animations.setProperty("removeFromComposite", m_engine->newObject(removeFromComposite), m_flags); // E.animations.removeFromComposite
-
-    scripting::Callable* compositeLength = scripting::make_scripting_call(scripting::animations::compositeLength, this);
-    compositeLength->setName("compositeLength");
-    m_registered_classes << compositeLength;
-    animations.setProperty("compositeLength", m_engine->newObject(compositeLength), m_flags); // E.animations.compositeLength
-
-    scripting::Callable* getAnimation = scripting::make_scripting_call(scripting::animations::getAnimation, this);
-    getAnimation->setName("getAnimation");
-    m_registered_classes << getAnimation;
-    animations.setProperty("getAnimation", m_engine->newObject(getAnimation), m_flags); // E.animations.getAnimation
-
-    scripting::Callable* moveBackInCompositeList = scripting::make_scripting_call(scripting::animations::moveBackInCompositeList, this);
-    moveBackInCompositeList->setName("moveBackInCompositeList");
-    m_registered_classes << moveBackInCompositeList;
-    animations.setProperty("moveBackInCompositeList", m_engine->newObject(moveBackInCompositeList), m_flags); // E.animations.moveBackInCompositeList
-
-    scripting::Callable* moveFrontInCompositeList = scripting::make_scripting_call(scripting::animations::moveFrontInCompositeList, this);
-    moveFrontInCompositeList->setName("moveFrontInCompositeList");
-    m_registered_classes << moveFrontInCompositeList;
-    animations.setProperty("moveFrontInCompositeList", m_engine->newObject(moveFrontInCompositeList), m_flags); // E.animations.moveFrontInCompositeList
-
 
     scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
     set->add(new scripting::animations::Setter<sad::animations::Animation, sad::String, history::animations::ChangeName>(m_engine, "name"));
@@ -1773,60 +1801,6 @@ void scripting::Scripting::initAnimationsBindings()
 
     v.setProperty("animations", animations, m_flags); // E.animations
     
-           
-    m_engine->evaluate(
-        "E.animations.attr = function() {"  
-        "   if (arguments.length == 2)"
-        "   {"
-        "       return E.animations.get(arguments[0], arguments[1]);"
-        "   }"
-        "   if (arguments.length == 3)"
-        "   {"
-        "       return E.animations.set(arguments[0], arguments[1], arguments[2]);"
-        "   }"
-        "   throw new Error(\"Specify 2 or 3 arguments\");"
-        "};"
-    );
-
-    m_engine->evaluate(
-        "E.animations.easingsToNames = ["
-        "\"Linear\","
-        "\"InSine\","
-        "\"OutSine\","
-        "\"InOutSine\","
-        "\"InQuad\","
-        "\"OutQuad\","
-        "\"InOutQuad\","
-        "\"InCubic\","
-        "\"OutCubic\","
-        "\"InOutCubic\","
-        "\"InQuart\","
-        "\"OutQuart\","
-        "\"InOutQuart\","
-        "\"InQuint\","
-        "\"OutQuint\","
-        "\"InOutQuint\","
-        "\"InExpo\","
-        "\"OutExpo\","
-        "\"InOutExpo\","
-        "\"InCirc\","
-        "\"OutCirc\","
-        "\"InOutCirc\","
-        "\"InElastic\","
-        "\"OutElastic\","
-        "\"InOutElastic\","
-        "\"InBack\","
-        "\"OutBack\","
-        "\"InOutBack\","
-        "\"InBounce\","
-        "\"OutBounce\","
-        "\"InOutBounce\""
-        "];" 
-        "E.animations.easing = function(a)"
-        "{"
-        "  if (typeof(a) == \"string\") return E.animations.easingsToNames.indexOf(a); else return  E.animations.easingsToNames[a]; "
-        "};"
-    );
     */
 }
 
