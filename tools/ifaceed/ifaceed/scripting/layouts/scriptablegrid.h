@@ -7,7 +7,6 @@
 
 #include <layouts/grid.h>
 
-#include <QScriptValue>
 #include <QVariant>
 #include <QObject>
 

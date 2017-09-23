@@ -1316,6 +1316,9 @@ void scripting::Scripting::initLayoutGridBindings()
 
     {
         dukpp03::qt::ClassBinding* binding = new dukpp03::qt::ClassBinding();
+        binding->addMethod("children", dukpp03::qt::bind_method::from(&scripting::layouts::ScriptableGridCell::children));
+        binding->addMethod("findChild", dukpp03::qt::bind_method::from(&scripting::layouts::ScriptableGridCell::findChild));
+        binding->addMethod("addChild", dukpp03::qt::bind_method::from(&scripting::layouts::ScriptableGridCell::addChild));
         binding->registerMetaObject<scripting::layouts::ScriptableGridCell>();
         m_ctx->addClassBinding("scripting::layouts::ScriptableGridCell", binding);
     }
