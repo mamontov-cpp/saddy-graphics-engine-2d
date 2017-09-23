@@ -133,9 +133,8 @@ protected:
      */
     void initDialoguesBindings();
     /*! Inits animations bindings
-        \param[out] v a global value (E)
      */
-    void initAnimationsBindings(QScriptValue& v);
+    void initAnimationsBindings();
     /*! Inits animation instances bindings
         \param[out] v a global value (E)
      */
@@ -175,6 +174,9 @@ protected:
     /*! A global value for editing global "E" property
      */
     dukpp03::qt::JSObject* m_global_value;
+    /*! A global value for editing global "E.animations" property
+     */
+    dukpp03::qt::JSObject* m_animations_value;
     /*! Whether we are evaluating script at the moment
      */
     bool m_evaluating;

@@ -15,13 +15,9 @@
 #include "../../history/animations/animationsnew.h"
 #include "../../history/animations/animationsswapincomposite.h"
 
-QScriptValue scripting::animations::list(
-    QScriptContext* ctx,
-    QScriptEngine* engine
-)
+QVector<unsigned long long> scripting::animations::list()
 {
-    return QScriptValue();
-    //return scripting::query_table("animations", "sad::animations::Animation", ctx, engine);
+    return scripting::query_table("animations", "sad::animations::Animation");
 }
 
 
@@ -54,7 +50,9 @@ unsigned long long scripting::animations::_add(
     }
     else
     {
-        scripting->engine()->currentContext()->throwError(QScriptContext::SyntaxError, QString("_add(): cannot created animation of following type - ") + type.c_str());
+        QString error = QString("_add(): cannot created animation of following type - ") + type.c_str();
+        scripting->context()->throwError(error.toStdString());
+        throw dukpp03::ArgumentException();
     }
     return result;
 }

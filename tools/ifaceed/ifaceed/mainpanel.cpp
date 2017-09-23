@@ -64,7 +64,6 @@
 
 #include "closuremethodcall.h"
 
-Q_DECLARE_METATYPE(sad::animations::Animation*) //-V566
 Q_DECLARE_METATYPE(sad::animations::Instance*) //-V566
 Q_DECLARE_METATYPE(sad::animations::Group*) //-V566
 

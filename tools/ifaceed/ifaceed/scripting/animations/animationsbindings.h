@@ -22,15 +22,10 @@ class Scripting;
 namespace animations
 {
 
-/*! Lists all animations
-    \param[in] ctx context
-    \param[in] engine an enginge
-    \return a ways list
+/*! Returns all major ids for animations, stored in database
+    \return list of animations, stored in database
  */
-QScriptValue list(
-    QScriptContext* ctx,
-    QScriptEngine* engine
-);
+QVector<unsigned long long> list();
 
 
 /*! Adds animation. Prefixed by underscore, since it will be mapped to _add function and add
