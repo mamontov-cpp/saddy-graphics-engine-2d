@@ -131,7 +131,7 @@ protected:
     /*! Inits dialogues bindings
         \param[out] v a global value (E)
      */
-    void initDialoguesBindings(QScriptValue& v);
+    void initDialoguesBindings();
     /*! Inits animations bindings
         \param[out] v a global value (E)
      */

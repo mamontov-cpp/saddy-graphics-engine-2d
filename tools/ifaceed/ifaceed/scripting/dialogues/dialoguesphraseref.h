@@ -25,6 +25,8 @@ class DialogueActions;
 namespace scripting
 {
 
+class Scripting;
+
 namespace dialogues
 {
 
@@ -44,10 +46,11 @@ public:
      */
     PhraseRef();
     /*! Constructs new wrapper
+        \param[in] scripting a scripting part
         \param[in] d a dialogue, which is referenced
         \param[in] pos a position
      */
-    PhraseRef(sad::dialogue::Dialogue* d, unsigned int pos);
+    PhraseRef(scripting::Scripting* scripting, sad::dialogue::Dialogue* d, unsigned int pos);
     /*! Could be inherited
      */
     virtual ~PhraseRef();
@@ -118,6 +121,9 @@ public slots:
      */
     void moveFront();
 protected:
+    /*! A scripting part
+     */
+    scripting::Scripting* m_scripting;
     /*! An inner point dialogue
      */
     sad::dialogue::Dialogue* m_d;

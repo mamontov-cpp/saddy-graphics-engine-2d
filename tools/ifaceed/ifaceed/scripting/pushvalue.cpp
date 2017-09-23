@@ -51,3 +51,29 @@ void dukpp03::PushValue<sad::Vector<sad::String>, dukpp03::qt::BasicContext>::pe
         ++index;
     }
 }
+
+
+
+void dukpp03::PushValue<sad::dialogue::Phrase, dukpp03::qt::BasicContext>::perform(
+    dukpp03::qt::BasicContext* c,
+    const sad::dialogue::Phrase& v
+)
+{
+    duk_context* ctx = c->context();
+    int obj_idx = duk_push_object(ctx);
+
+    dukpp03::PushValue<sad::String, dukpp03::qt::BasicContext>::perform(c, v.actorName());
+    duk_put_prop_string(ctx, obj_idx, "actorName");
+
+    dukpp03::PushValue<sad::String, dukpp03::qt::BasicContext>::perform(c, v.actorPortrait());
+    duk_put_prop_string(ctx, obj_idx, "actorPortrait");
+
+    dukpp03::PushValue<sad::String, dukpp03::qt::BasicContext>::perform(c, v.phrase());
+    duk_put_prop_string(ctx, obj_idx, "text");
+
+    dukpp03::PushValue<double, dukpp03::qt::BasicContext>::perform(c, v.duration());
+    duk_put_prop_string(ctx, obj_idx, "duration");
+
+    dukpp03::PushValue<sad::String, dukpp03::qt::BasicContext>::perform(c, v.viewHint());
+    duk_put_prop_string(ctx, obj_idx, "viewHint");
+}

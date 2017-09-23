@@ -15,19 +15,15 @@
 #include "../../history/dialogues/dialoguesphrasenew.h"
 #include "../../history/dialogues/dialoguesphraseremove.h"
 
-QScriptValue scripting::dialogues::list(
-    QScriptContext* ctx,
-    QScriptEngine* engine
-)
+QVector<unsigned long long> scripting::dialogues::list()
 {
-    return QScriptValue();
-    //return scripting::query_table("dialogues", "sad::dialogue::Dialogue", ctx, engine);
+    return scripting::query_table("dialogues", "sad::dialogue::Dialogue");
 }
 
 unsigned long long scripting::dialogues::_add(
     scripting::Scripting* scripting, 
     sad::String name,
-    sad::Vector<sad::dialogue::Phrase> phrases
+    QVector<sad::dialogue::Phrase> phrases
 )
 {
     core::Editor* e = scripting->editor();
@@ -93,13 +89,13 @@ unsigned int scripting::dialogues::length(scripting::Scripting* scripting, sad::
     return d->phrases().count();
 }
 
-QScriptValue scripting::dialogues::phrase(scripting::Scripting* scripting, sad::dialogue::Dialogue* d, unsigned int pos)
+dukpp03::Maybe<scripting::dialogues::PhraseRef*> scripting::dialogues::phrase(scripting::Scripting* scripting, sad::dialogue::Dialogue* d, unsigned int pos)
 {
     if (pos >= d->phrases().count())
     {
-        scripting->engine()->currentContext()->throwError(QScriptContext::SyntaxError, "phrase: position is out of dialogue");
-        return scripting->engine()->undefinedValue();
+        scripting->context()->throwError("phrase: position is out of dialogue");
+        throw new dukpp03::ArgumentException();
     }
 
-    return scripting->engine()->newQObject(new scripting::dialogues::PhraseRef(d, pos));
+    return dukpp03::Maybe<scripting::dialogues::PhraseRef*>(new scripting::dialogues::PhraseRef(scripting, d, pos));
 }

@@ -156,3 +156,60 @@ OVERLOAD_GET_AS_QUERY(sad::SceneNode)
 OVERLOAD_GET_AS_QUERY(sad::layouts::Grid)
 OVERLOAD_GET_AS_QUERY(sad::p2d::app::Way)
 OVERLOAD_GET_AS_QUERY(sad::dialogue::Dialogue)
+
+
+/*! Tries to get property for specified object
+    \param[in] ctx context
+    \param[in] pos position
+    \param[in] property_name a name of property
+    \return result
+ */
+template<
+    typename T
+>
+inline dukpp03::Maybe<T> tryGetProperty(
+    dukpp03::qt::BasicContext* ctx,
+    duk_idx_t pos,
+    const char* property_name
+)
+{
+    duk_context* c = ctx->context();
+    dukpp03::Maybe<T> result;
+    if (duk_has_prop_string(c, pos, property_name))
+    {
+        if (duk_get_prop_string(c, pos, property_name))
+        {
+            result = dukpp03::GetValue<T, dukpp03::qt::BasicContext>::perform(ctx, -1);
+            duk_pop(c);
+        }
+    }
+    return result;
+}
+
+dukpp03::Maybe<sad::dialogue::Phrase> dukpp03::GetValue<sad::dialogue::Phrase, dukpp03::qt::BasicContext>::perform(
+    dukpp03::qt::BasicContext* ctx,
+    duk_idx_t pos
+)
+{
+    dukpp03::Maybe<sad::dialogue::Phrase> result;
+    duk_context* c = ctx->context();
+    if (duk_is_object(c, pos))
+    {
+        dukpp03::Maybe<sad::String> actor_name = tryGetProperty<sad::String>(ctx, pos, "actorName");
+        dukpp03::Maybe<sad::String> actor_portrait = tryGetProperty<sad::String>(ctx, pos, "actorPortrait");
+        dukpp03::Maybe<sad::String> phrase = tryGetProperty<sad::String>(ctx, pos, "text");
+        dukpp03::Maybe<double> duration = tryGetProperty<double>(ctx, pos, "duration");
+        dukpp03::Maybe<sad::String> viewHint = tryGetProperty<sad::String>(ctx, pos, "viewHint");
+        if (actor_name.exists() && actor_portrait.exists() && phrase.exists() && duration.exists() && viewHint.exists())
+        {
+            sad::dialogue::Phrase result_value;
+            result_value.setActorName(actor_name.value());
+            result_value.setActorPortrait(actor_portrait.value());
+            result_value.setPhrase(phrase.value());
+            result_value.setDuration(duration.value());
+            result_value.setViewHint(viewHint.value());
+            result.setValue(result_value);
+        }
+    }
+    return result;
+}

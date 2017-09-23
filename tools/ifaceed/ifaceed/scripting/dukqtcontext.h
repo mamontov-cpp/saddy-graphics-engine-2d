@@ -97,6 +97,7 @@ DEFINE_GET_VALUE_INSTANTIATION(sad::SceneNode* )
 DEFINE_GET_VALUE_INSTANTIATION(sad::layouts::Grid*)
 DEFINE_GET_VALUE_INSTANTIATION(sad::p2d::app::Way*)
 DEFINE_GET_VALUE_INSTANTIATION(sad::dialogue::Dialogue*)
+DEFINE_GET_VALUE_INSTANTIATION(sad::dialogue::Phrase)
 
 #undef DEFINE_GET_VALUE_INSTANTIATION
 
@@ -137,6 +138,20 @@ public:
     \param[in] v value
     */
     static void perform(dukpp03::qt::BasicContext* ctx, const sad::Vector<sad::String>& v);
+};
+
+
+/*! An instantiation for pushing sad::dialogue::Phrase on stack
+*/
+template<>
+class PushValue<sad::dialogue::Phrase, dukpp03::qt::BasicContext>
+{
+public:
+    /*! Performs pushing value
+    \param[in] ctx context
+    \param[in] v value
+    */
+    static void perform(dukpp03::qt::BasicContext* ctx, const sad::dialogue::Phrase& v);
 };
 
 

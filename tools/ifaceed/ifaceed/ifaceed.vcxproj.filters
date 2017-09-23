@@ -2591,9 +2591,6 @@
     <ClInclude Include="scripting\dialogues\dialoguesbindings.h">
       <Filter>Header Files\scripting\dialogues</Filter>
     </ClInclude>
-    <ClInclude Include="scripting\dialogues\dialoguessetter.h">
-      <Filter>Header Files\scripting\dialogues</Filter>
-    </ClInclude>
     <ClInclude Include="scripting\animations\animationsbindings.h">
       <Filter>Header Files\scripting\animations</Filter>
     </ClInclude>

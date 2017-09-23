@@ -101,7 +101,6 @@
 #include "ways/wayssetter.h"
 
 #include "dialogues/dialoguesbindings.h"
-//#include "dialogues/dialoguessetter.h"
 
 #include "animations/animationsbindings.h"
 /*
@@ -153,6 +152,7 @@
 #include "lambda.h"
 #include "function.h"
 
+Q_DECLARE_METATYPE(sad::dialogue::Phrase) //-V566
 Q_DECLARE_METATYPE(QScriptContext*) //-V566
 Q_DUKPP03_DECLARE_METATYPE(scripting::layouts::ScriptableLengthValue)  //-V566
 
@@ -286,7 +286,7 @@ void scripting::Scripting::setEditor(core::Editor* editor)
     this->initSceneNodesBindings();
     this->initLayoutGridBindings();
     this->initWaysBindings();
-    this->initDialoguesBindings(m_value);
+    this->initDialoguesBindings();
     this->initAnimationsBindings(m_value);
     this->initAnimationInstanceBindings(m_value);
     this->initAnimationGroupBindings(m_value);
@@ -1410,64 +1410,53 @@ void scripting::Scripting::initWaysBindings()
 }
 
 
-void scripting::Scripting::initDialoguesBindings(QScriptValue& v)
+void scripting::Scripting::initDialoguesBindings()
 {
-    QScriptValue dialogues = m_engine->newObject();
+    dukpp03::qt::registerMetaType<scripting::dialogues::PhraseRef>();
 
-    dialogues.setProperty("list", m_engine->newFunction(scripting::dialogues::list), m_flags); // E.dialogues.list
-
-    scripting::Callable* _add = scripting::make_scripting_call(scripting::dialogues::_add, this);
-    _add->setName("_add");
-    m_registered_classes << _add;
-    dialogues.setProperty("_add", m_engine->newObject(_add), m_flags); // E.dialogues._add
-
-    scripting::Callable* remove = scripting::make_scripting_call(scripting::dialogues::remove, this);
-    remove->setName("remove");
-    m_registered_classes << remove;
-    dialogues.setProperty("remove", m_engine->newObject(remove), m_flags); // E.dialogues.remove
-
-    scripting::Callable* addPhrase = scripting::make_scripting_call(scripting::dialogues::addPhrase, this);
-    addPhrase->setName("addPhrase");
-    m_registered_classes << addPhrase;
-    dialogues.setProperty("addPhrase", m_engine->newObject(addPhrase), m_flags); // E.dialogues.addPhrase
-
-    scripting::Callable* removePhrase = scripting::make_scripting_call(scripting::dialogues::removePhrase, this);
-    removePhrase->setName("removePhrase");
-    m_registered_classes << removePhrase;
-    dialogues.setProperty("removePhrase", m_engine->newObject(removePhrase), m_flags); // E.dialogues.removePhrase
-
-    scripting::Callable* length = scripting::make_scripting_call(scripting::dialogues::length, this);
-    length->setName("length");
-    m_registered_classes << length;
-    dialogues.setProperty("length", m_engine->newObject(length), m_flags); // E.dialogues.length
-
-    scripting::Callable* phrase = scripting::make_scripting_call(scripting::dialogues::phrase, this);
-    phrase->setName("phrase");
-    m_registered_classes << phrase;
-    dialogues.setProperty("phrase", m_engine->newObject(phrase), m_flags); // E.dialogues.point
-
-    /*
-    scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
-    set->add(new scripting::dialogues::Setter<sad::String, history::dialogues::ChangeName>(m_engine, "name"));
-    m_registered_classes << set;
-    dialogues.setProperty("set", m_engine->newObject(set), m_flags); // E.dialogues.set
+    dukpp03::qt::JSObject* dialogues = new dukpp03::qt::JSObject();
+    dialogues->setProperty("list", dukpp03::qt::make_function::from(scripting::dialogues::list)); // E.dialogues.list
+    dialogues->setProperty("_add", dukpp03::qt::curried1::from(this, scripting::dialogues::_add)); // E.dialogues._add
+    dialogues->setProperty("remove", dukpp03::qt::curried1::from(this, scripting::dialogues::remove)); // E.dialogues.remove
+    dialogues->setProperty("addPhrase", dukpp03::qt::curried1::from(this, scripting::dialogues::addPhrase)); // E.dialogues.addPhrase
+    dialogues->setProperty("removePhrase", dukpp03::qt::curried1::from(this, scripting::dialogues::removePhrase)); // E.dialogues.removePhrase
+    dialogues->setProperty("length", dukpp03::qt::curried1::from(this, scripting::dialogues::length)); // E.dialogues.length
+    dialogues->setProperty("phrase", dukpp03::qt::curried1::from(this, scripting::dialogues::phrase)); // E.dialogues.phrase
 
 
-    scripting::MultiMethod* get = new scripting::MultiMethod(m_engine, "get");
-    get->add(new scripting::AbstractGetter<sad::dialogue::Dialogue*, sad::String>(m_engine, "name"));
-    get->add(new scripting::AbstractGetter<sad::dialogue::Dialogue*, unsigned long long>(m_engine, "majorid"));
-    get->add(new scripting::AbstractGetter<sad::dialogue::Dialogue*, unsigned long long>(m_engine, "minorid"));
-    m_registered_classes << get;
-    dialogues.setProperty("get", m_engine->newObject(get), m_flags); // E.dialogues.get
-    */
+    dukpp03::qt::MultiMethod* set = new dukpp03::qt::MultiMethod();
 
-    v.setProperty("dialogues", dialogues, m_flags); // E.dialogues
+    {
+        scripting::AbstractSetter<sad::dialogue::Dialogue*, sad::String>* name_setter = scripting::setterForProperty<sad::dialogue::Dialogue*, sad::String>(this, "name");
+        std::function<
+            void(scripting::Scripting*, sad::dialogue::Dialogue*, const sad::String&, sad::String oldvalue, sad::String newvalue)
+        > set_name_action = [](scripting::Scripting* s, sad::dialogue::Dialogue* obj, const sad::String& propertyname, sad::String oldvalue, sad::String newvalue) {
+            core::Editor* editor = s->editor();
 
-    m_engine->evaluate(
-        "var phrase = function(actorName, actorPortrait, text, duration, viewHint) {"  
+            history::Command* c = new history::dialogues::ChangeName(obj, oldvalue, newvalue);
+            editor->currentBatchCommand()->add(c);
+            c->commit(editor);
+        };
+        name_setter->addAction(set_name_action);
+        set->add(name_setter);
+    }
+
+    dialogues->setProperty("set", static_cast<dukpp03::qt::Callable*>(set)); // E.dialogues.set
+
+    dukpp03::qt::MultiMethod* get = new dukpp03::qt::MultiMethod();
+    {
+        get->add(new scripting::AbstractGetter<sad::dialogue::Dialogue*, sad::String>("name"));
+        get->add(new scripting::AbstractGetter<sad::dialogue::Dialogue*, unsigned long long>("majorid"));
+        get->add(new scripting::AbstractGetter<sad::dialogue::Dialogue*, unsigned long long>("minorid"));
+    }
+    dialogues->setProperty("get", static_cast<dukpp03::qt::Callable*>(get)); // E.dialogues.get
+
+    m_global_value->setProperty("dialogues", dialogues);
+    bool b  = m_ctx->eval(
+        "var phrase = function(actorName, actorPortrait, text, duration, viewHint) {"
         "   return {\"actorName\" : actorName, \"actorPortrait\" : actorPortrait, \"text\": text, \"duration\": duration, \"viewHint\" : viewHint};"
         "};"
-        "E.dialogues.add = function(o) {"  
+        "E.dialogues.add = function(o) {"
         "   if (typeof o != \"object\")    "
         "   {                              "
         "      o = {};                     "
@@ -1482,7 +1471,7 @@ void scripting::Scripting::initDialoguesBindings(QScriptValue& v)
         "   }                              "
         "   return E.dialogues._add(o[\"name\"], o[\"phrases\"]);"
         "};"
-        "E.dialogues.attr = function() {"  
+        "E.dialogues.attr = function() {"
         "   if (arguments.length == 2)"
         "   {"
         "       return E.dialogues.get(arguments[0], arguments[1]);"
@@ -1494,6 +1483,7 @@ void scripting::Scripting::initDialoguesBindings(QScriptValue& v)
         "   throw new Error(\"Specify 2 or 3 arguments\");"
         "};"
     );
+    assert(b);
 }
 
 
