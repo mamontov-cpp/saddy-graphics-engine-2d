@@ -98,7 +98,7 @@
 #include "layouts/gridbindings.h"
 
 #include "ways/waysbindings.h"
-//#include "ways/wayssetter.h"
+#include "ways/wayssetter.h"
 
 #include "dialogues/dialoguesbindings.h"
 //#include "dialogues/dialoguessetter.h"
@@ -285,7 +285,7 @@ void scripting::Scripting::setEditor(core::Editor* editor)
     this->initSceneBindings();
     this->initSceneNodesBindings();
     this->initLayoutGridBindings();
-    this->initWaysBindings(m_value);
+    this->initWaysBindings();
     this->initDialoguesBindings(m_value);
     this->initAnimationsBindings(m_value);
     this->initAnimationInstanceBindings(m_value);
@@ -1330,64 +1330,41 @@ void scripting::Scripting::initLayoutGridBindings()
     
 }
 
-void scripting::Scripting::initWaysBindings(QScriptValue& v)
+void scripting::Scripting::initWaysBindings()
 {
-    QScriptValue ways = m_engine->newObject();
+    dukpp03::qt::registerMetaType<scripting::ways::PointRef>();
 
-    ways.setProperty("list", m_engine->newFunction(scripting::ways::list), m_flags); // E.ways.list
+    dukpp03::qt::JSObject* ways = new dukpp03::qt::JSObject();
+    ways->setProperty("list", dukpp03::qt::make_function::from(scripting::ways::list)); // E.ways.list
+    ways->setProperty("_add", dukpp03::qt::curried1::from(this, scripting::ways::_add)); // E.ways._add
+    ways->setProperty("remove", dukpp03::qt::curried1::from(this, scripting::ways::remove)); // E.ways.remove
+    ways->setProperty("length", dukpp03::qt::curried1::from(this, scripting::ways::length)); // E.ways.length
+    ways->setProperty("addPoint", dukpp03::qt::curried1::from(this, scripting::ways::addPoint)); // E.ways.addPoint
+    ways->setProperty("removePoint", dukpp03::qt::curried1::from(this, scripting::ways::removePoint)); // E.ways.removePoint
+    ways->setProperty("point", dukpp03::qt::curried1::from(this, scripting::ways::point)); // E.ways.point
 
-    scripting::Callable* _add = scripting::make_scripting_call(scripting::ways::_add, this);
-    _add->setName("_add");
-    m_registered_classes << _add;
-    ways.setProperty("_add", m_engine->newObject(_add), m_flags); // E.ways._add
+    dukpp03::qt::MultiMethod* set = new dukpp03::qt::MultiMethod();
+    {
+        set->add(new scripting::ways::Setter<sad::String, history::ways::ChangeName>(this, "name"));
+        set->add(new scripting::ways::Setter<double, history::ways::ChangeTotalTime>(this, "totaltime"));
+        set->add(new scripting::ways::Setter<bool, history::ways::ChangeClosed>(this, "closed"));
+    }
+    ways->setProperty("set", static_cast<dukpp03::qt::Callable*>(set)); // E.ways.set
 
-    scripting::Callable* remove = scripting::make_scripting_call(scripting::ways::remove, this);
-    remove->setName("remove");
-    m_registered_classes << remove;
-    ways.setProperty("remove", m_engine->newObject(remove), m_flags); // E.ways.remove
+    dukpp03::qt::MultiMethod* get = new dukpp03::qt::MultiMethod();
+    {
+        get->add(new scripting::AbstractGetter<sad::p2d::app::Way*, sad::String>("name"));
+        get->add(new scripting::AbstractGetter<sad::p2d::app::Way*, unsigned long long>("majorid"));
+        get->add(new scripting::AbstractGetter<sad::p2d::app::Way*, unsigned long long>("minorid"));
+        get->add(new scripting::AbstractGetter<sad::p2d::app::Way*, double>("totaltime"));
+        get->add(new scripting::AbstractGetter<sad::p2d::app::Way*, bool>("closed"));
+    }
+    ways->setProperty("get", static_cast<dukpp03::qt::Callable*>(get)); // E.ways.get
 
-    scripting::Callable* length = scripting::make_scripting_call(scripting::ways::length, this);
-    length->setName("length");
-    m_registered_classes << length;
-    ways.setProperty("length", m_engine->newObject(length), m_flags); // E.ways.length
+    m_global_value->setProperty("ways", ways);
 
-    scripting::Callable* addPoint = scripting::make_scripting_call(scripting::ways::addPoint, this);
-    addPoint->setName("addPoint");
-    m_registered_classes << addPoint;
-    ways.setProperty("addPoint", m_engine->newObject(addPoint), m_flags); // E.ways.addPoint
-
-    scripting::Callable* removePoint = scripting::make_scripting_call(scripting::ways::removePoint, this);
-    removePoint->setName("removePoint");
-    m_registered_classes << removePoint;
-    ways.setProperty("removePoint", m_engine->newObject(removePoint), m_flags); // E.ways.removePoint
-
-    scripting::Callable* point = scripting::make_scripting_call(scripting::ways::point, this);
-    point->setName("point");
-    m_registered_classes << point;
-    ways.setProperty("point", m_engine->newObject(point), m_flags); // E.ways.point
-
-    /*
-    scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
-    set->add(new scripting::ways::Setter<sad::String, history::ways::ChangeName>(m_engine, "name"));
-    set->add(new scripting::ways::Setter<double, history::ways::ChangeTotalTime>(m_engine, "totaltime"));
-    set->add(new scripting::ways::Setter<bool, history::ways::ChangeClosed>(m_engine, "closed"));
-    m_registered_classes << set;
-    ways.setProperty("set", m_engine->newObject(set), m_flags); // E.ways.set
-
-
-    scripting::MultiMethod* get = new scripting::MultiMethod(m_engine, "get");
-    get->add(new scripting::AbstractGetter<sad::p2d::app::Way*, sad::String>(m_engine, "name"));
-    get->add(new scripting::AbstractGetter<sad::p2d::app::Way*, unsigned long long>(m_engine, "majorid"));
-    get->add(new scripting::AbstractGetter<sad::p2d::app::Way*, unsigned long long>(m_engine, "minorid"));
-    get->add(new scripting::AbstractGetter<sad::p2d::app::Way*, double>(m_engine, "totaltime"));
-    get->add(new scripting::AbstractGetter<sad::p2d::app::Way*, bool>(m_engine, "closed"));
-    m_registered_classes << get;
-    ways.setProperty("get", m_engine->newObject(get), m_flags); // E.ways.get
-    */
-    v.setProperty("ways", ways, m_flags); // E.ways
-
-    m_engine->evaluate(
-        "E.ways.add = function(o) {"  
+    bool b = m_ctx->eval(
+        "E.ways.add = function(o) {"
         "   if (typeof o != \"object\")    "
         "   {                              "
         "      o = {};                     "
@@ -1410,18 +1387,19 @@ void scripting::Scripting::initWaysBindings(QScriptValue& v)
         "   }"
         "   return E.ways._add(o[\"name\"], o[\"totaltime\"], o[\"closed\"], o[\"points\"]);"
         "};"
-        "E.ways.attr = function() {"  
+        "E.ways.attr = function() {"
         "   if (arguments.length == 2)"
         "   {"
         "       return E.ways.get(arguments[0], arguments[1]);"
         "   }"
         "   if (arguments.length == 3)"
         "   {"
-        "       return E.ways.set(arguments[0], arguments[1], arguments[2]);"
+        "       return E.ways.set(arguments[0], arguments[1], arguments[2]); return E.ways;"
         "   }"
         "   throw new Error(\"Specify 2 or 3 arguments\");"
         "};"
     );
+    assert(b);
 }
 
 

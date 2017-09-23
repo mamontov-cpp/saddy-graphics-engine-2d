@@ -154,3 +154,4 @@ dukpp03::Maybe<T*> dukpp03::GetValue<T*, dukpp03::qt::BasicContext>::perform(   
 OVERLOAD_GET_AS_QUERY(sad::Scene)
 OVERLOAD_GET_AS_QUERY(sad::SceneNode)
 OVERLOAD_GET_AS_QUERY(sad::layouts::Grid)
+OVERLOAD_GET_AS_QUERY(sad::p2d::app::Way)

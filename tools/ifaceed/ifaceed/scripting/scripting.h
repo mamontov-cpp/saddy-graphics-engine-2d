@@ -126,9 +126,8 @@ protected:
      */
     void initLayoutGridBindings();
     /*! Inits way bindings
-        \param[out] v a global value (E)
      */
-    void initWaysBindings(QScriptValue& v);
+    void initWaysBindings();
     /*! Inits dialogues bindings
         \param[out] v a global value (E)
      */

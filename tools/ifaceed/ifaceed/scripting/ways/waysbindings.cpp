@@ -19,13 +19,9 @@
 #include "../../history/ways/wayswaypointremove.h"
 
 
-QScriptValue scripting::ways::list(
-    QScriptContext* ctx,
-    QScriptEngine* engine
-)
+QVector<unsigned long long>  scripting::ways::list()
 {
-    return QScriptValue();
-    //return scripting::query_table("ways", "sad::p2d::app::Way", ctx, engine);
+    return scripting::query_table("ways", "sad::p2d::app::Way");
 }
 
 unsigned long long scripting::ways::_add(
@@ -33,7 +29,7 @@ unsigned long long scripting::ways::_add(
     sad::String name,
     double totaltime,
     bool closed,
-    sad::Vector<sad::p2d::app::WayPoint> points
+    QVector<sad::Point2D> points
 )
 {
     core::Editor* e = scripting->editor();
@@ -42,7 +38,10 @@ unsigned long long scripting::ways::_add(
     w->setObjectName(name);
     w->setTotalTime(totaltime);
     w->setClosed(closed);
-    w->setProperty("waypoints", points);
+    for(size_t i = 0; i < points.size(); i++)
+    {
+        w->addPoint(points[i]);
+    }
 
     sad::Renderer::ref()->database("")->table("ways")->add(w);
     history::ways::New* c = new history::ways::New(w);
@@ -88,13 +87,15 @@ bool scripting::ways::removePoint(scripting::Scripting* scripting, sad::p2d::app
     return true;
 }
 
-QScriptValue scripting::ways::point(scripting::Scripting* scripting, sad::p2d::app::Way* way, unsigned int pos)
+dukpp03::Maybe<scripting::ways::PointRef*> scripting::ways::point(scripting::Scripting* scripting, sad::p2d::app::Way* way, unsigned int pos)
 {
+    dukpp03::Maybe<scripting::ways::PointRef*> result;
     if (pos >= way->wayPoints().count())
     {
-        scripting->engine()->currentContext()->throwError(QScriptContext::SyntaxError, "point: position is out of way");
-        return scripting->engine()->undefinedValue();
+        scripting->context()->throwError("point: position is out of way");
+        throw dukpp03::ArgumentException();
     }
 
-    return scripting->engine()->newQObject(new scripting::ways::PointRef(way, pos));
+    result.setValue(new scripting::ways::PointRef(scripting, way, pos));
+    return result;
 }
