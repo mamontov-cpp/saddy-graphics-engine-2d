@@ -23,6 +23,21 @@
 #include <dialogue/dialogue.h>
 #include <animations/animationsanimation.h>
 #include <animations/animationscomposite.h>
+#include <animations/animationsblinking.h>
+#include <animations/animationscamerashaking.h>
+#include <animations/animationscamerarotation.h>
+#include <animations/animationscolor.h>
+#include <animations/animationsfontlist.h>
+#include <animations/animationsfontsize.h>
+#include <animations/animationsresize.h>
+#include <animations/animationsrotate.h>
+#include <animations/animationsoptionlist.h>
+#include <animations/animationstexturecoordinateslist.h>
+#include <animations/animationstexturecoordinatescontinuous.h>
+#include <animations/animationssimplemovement.h>
+#include <animations/animationswaymoving.h>
+
+
 
 namespace dukpp03
 {
@@ -57,6 +72,19 @@ Q_DUKPP03_DECLARE_METATYPE(sad::p2d::app::Way*)
 Q_DUKPP03_DECLARE_METATYPE(sad::dialogue::Dialogue*)
 Q_DUKPP03_DECLARE_METATYPE(sad::animations::Animation*)
 Q_DUKPP03_DECLARE_METATYPE(sad::animations::Composite*)
+Q_DUKPP03_DECLARE_METATYPE(sad::animations::Blinking*)
+Q_DUKPP03_DECLARE_METATYPE(sad::animations::CameraShaking*)
+Q_DUKPP03_DECLARE_METATYPE(sad::animations::CameraRotation*)
+Q_DUKPP03_DECLARE_METATYPE(sad::animations::Color*)
+Q_DUKPP03_DECLARE_METATYPE(sad::animations::FontList*)
+Q_DUKPP03_DECLARE_METATYPE(sad::animations::FontSize*)
+Q_DUKPP03_DECLARE_METATYPE(sad::animations::Resize*)
+Q_DUKPP03_DECLARE_METATYPE(sad::animations::Rotate*)
+Q_DUKPP03_DECLARE_METATYPE(sad::animations::OptionList*)
+Q_DUKPP03_DECLARE_METATYPE(sad::animations::TextureCoordinatesList*)
+Q_DUKPP03_DECLARE_METATYPE(sad::animations::SimpleMovement*)
+Q_DUKPP03_DECLARE_METATYPE(sad::animations::TextureCoordinatesContinuous*)
+Q_DUKPP03_DECLARE_METATYPE(sad::animations::WayMoving*)
 Q_DUKPP03_DECLARE_METATYPE(sad::String)
 Q_DUKPP03_DECLARE_METATYPE(sad::Vector<sad::String>)
 Q_DUKPP03_DECLARE_METATYPE(sad::Point2D)
@@ -104,6 +132,19 @@ DEFINE_GET_VALUE_INSTANTIATION(sad::dialogue::Dialogue*)
 DEFINE_GET_VALUE_INSTANTIATION(sad::dialogue::Phrase)
 DEFINE_GET_VALUE_INSTANTIATION(sad::animations::Animation*)
 DEFINE_GET_VALUE_INSTANTIATION(sad::animations::Composite*)
+DEFINE_GET_VALUE_INSTANTIATION(sad::animations::Blinking*)
+DEFINE_GET_VALUE_INSTANTIATION(sad::animations::CameraShaking*)
+DEFINE_GET_VALUE_INSTANTIATION(sad::animations::CameraRotation*)
+DEFINE_GET_VALUE_INSTANTIATION(sad::animations::Color*)
+DEFINE_GET_VALUE_INSTANTIATION(sad::animations::FontList*)
+DEFINE_GET_VALUE_INSTANTIATION(sad::animations::FontSize*)
+DEFINE_GET_VALUE_INSTANTIATION(sad::animations::Resize*)
+DEFINE_GET_VALUE_INSTANTIATION(sad::animations::Rotate*)
+DEFINE_GET_VALUE_INSTANTIATION(sad::animations::OptionList*)
+DEFINE_GET_VALUE_INSTANTIATION(sad::animations::TextureCoordinatesList*)
+DEFINE_GET_VALUE_INSTANTIATION(sad::animations::SimpleMovement*)
+DEFINE_GET_VALUE_INSTANTIATION(sad::animations::TextureCoordinatesContinuous*)
+DEFINE_GET_VALUE_INSTANTIATION(sad::animations::WayMoving*)
 
 #undef DEFINE_GET_VALUE_INSTANTIATION
 
