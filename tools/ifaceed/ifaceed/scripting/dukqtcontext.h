@@ -20,6 +20,7 @@
 #include <scenenode.h>
 #include <layouts/grid.h>
 #include <p2d/app/way.h>
+#include <dialogue/dialogue.h>
 
 namespace dukpp03
 {
@@ -51,6 +52,7 @@ Q_DUKPP03_DECLARE_METATYPE(sad::Scene*)
 Q_DUKPP03_DECLARE_METATYPE(sad::SceneNode*)
 Q_DUKPP03_DECLARE_METATYPE(sad::layouts::Grid*)
 Q_DUKPP03_DECLARE_METATYPE(sad::p2d::app::Way*)
+Q_DUKPP03_DECLARE_METATYPE(sad::dialogue::Dialogue*)
 Q_DUKPP03_DECLARE_METATYPE(sad::String)
 Q_DUKPP03_DECLARE_METATYPE(sad::Vector<sad::String>)
 Q_DUKPP03_DECLARE_METATYPE(sad::Point2D)
@@ -94,6 +96,7 @@ DEFINE_GET_VALUE_INSTANTIATION(sad::Scene* )
 DEFINE_GET_VALUE_INSTANTIATION(sad::SceneNode* )
 DEFINE_GET_VALUE_INSTANTIATION(sad::layouts::Grid*)
 DEFINE_GET_VALUE_INSTANTIATION(sad::p2d::app::Way*)
+DEFINE_GET_VALUE_INSTANTIATION(sad::dialogue::Dialogue*)
 
 #undef DEFINE_GET_VALUE_INSTANTIATION
 

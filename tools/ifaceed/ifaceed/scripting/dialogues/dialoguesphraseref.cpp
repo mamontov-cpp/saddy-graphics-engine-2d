@@ -32,17 +32,17 @@ bool scripting::dialogues::PhraseRef::valid() const
 {
     if (!m_d)
     {
-        this->engine()->currentContext()->throwError("Invalid dialogue for phrase reference");
+        //this->engine()->currentContext()->throwError("Invalid dialogue for phrase reference");
         return false;
     }
     if (!m_d->Active)
     {
-        this->engine()->currentContext()->throwError("Invalid dialogue for phrase reference");
+        //this->engine()->currentContext()->throwError("Invalid dialogue for phrase reference");
         return false;
     }
     if (m_pos >= m_d->phrases().count())
     {
-        this->engine()->currentContext()->throwError("Invalid position of phrase");
+        //this->engine()->currentContext()->throwError("Invalid position of phrase");
         return false;
     }
 
@@ -62,8 +62,10 @@ const sad::dialogue::Phrase& scripting::dialogues::PhraseRef::toPhrase() const
 
 gui::actions::DialogueActions* scripting::dialogues::PhraseRef::actions() const
 {
-    scripting::Scripting* e = static_cast<scripting::Scripting*>(this->engine()->globalObject().property("---").toQObject());
-    return e->editor()->actions()->dialogueActions();
+    // return NULL;
+    //scripting::Scripting* e = static_cast<scripting::Scripting*>(this->engine()->globalObject().property("---").toQObject());
+    //return e->editor()->actions()->dialogueActions();
+    return NULL;
 }
 
 void scripting::dialogues::PhraseRef::setActorName(QString name)
@@ -156,6 +158,11 @@ QString scripting::dialogues::PhraseRef::viewHint() const
     return STD2QSTRING(toPhrase().viewHint());				
 }
 
+unsigned int scripting::dialogues::PhraseRef::position() const
+{
+    return m_pos;
+}
+
 QString  scripting::dialogues::PhraseRef::toString() const
 {
     if (!valid())
@@ -163,25 +170,19 @@ QString  scripting::dialogues::PhraseRef::toString() const
         return "PhraseRef(<invalid>)";
     }
     QString result = QString("PhraseRef(dialogue : %1, pos: %2, actorName : %3, actorPortrait : %4, text: %5, duration: %6, viewHint: %7)")
-                     .arg(m_d->MajorId)
-                     .arg(m_pos)
-                     .arg(this->actorName())
-                     .arg(this->actorPortrait())
-                     .arg(this->text())
-                     .arg(this->duration())
-                     .arg(this->viewHint());
+        .arg(m_d->MajorId)
+        .arg(m_pos)
+        .arg(this->actorName())
+        .arg(this->actorPortrait())
+        .arg(this->text())
+        .arg(this->duration())
+        .arg(this->viewHint());
     return result;
 }
 
-unsigned int scripting::dialogues::PhraseRef::position() const
-{
-    return m_pos;
-}
-
-
 void scripting::dialogues::PhraseRef::moveBack()
 {
-    if (!valid())
+    /*if (!valid())
     {
         return;
     }
@@ -195,12 +196,12 @@ void scripting::dialogues::PhraseRef::moveBack()
         editor->currentBatchCommand()->add(c);
         
         m_pos--;
-    }
+    }*/
 }
 
 void scripting::dialogues::PhraseRef::moveFront()
 {
-    if (!valid())
+    /*if (!valid())
     {
         return;
     }
@@ -214,5 +215,5 @@ void scripting::dialogues::PhraseRef::moveFront()
         editor->currentBatchCommand()->add(c);
         
         m_pos++;
-    }
+    }*/
 }

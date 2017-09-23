@@ -4,7 +4,8 @@
     A wrapper for reference to a phrase from dialogue
  */
 #pragma once
-#include "../classwrapper.h"
+
+#include <QObject>
 
 #include <dialogue/dialogue.h>
 #include <dialogue/phrase.h>
@@ -29,7 +30,7 @@ namespace dialogues
 
 /*! A wrapper for reference to a phrase from dialogue
  */
-class PhraseRef: public scripting::ClassWrapper
+class PhraseRef: public QObject
 {
  Q_OBJECT
  Q_PROPERTY(QString actorName READ actorName WRITE setActorName)
@@ -101,15 +102,15 @@ public:
         \return view hint for a phrase
      */
     QString viewHint() const;
-    /*! Contains to string
-        \return object to string
-     */
-    QString toString() const;
     /*! Returns a position to point ref
         \return position
      */
     unsigned int position() const;
 public slots:
+    /*! Contains to string
+        \return object to string
+    */
+    QString toString() const;
     /*! Moves point back in list
      */
     void moveBack();

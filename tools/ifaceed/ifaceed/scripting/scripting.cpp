@@ -1361,6 +1361,13 @@ void scripting::Scripting::initWaysBindings()
     }
     ways->setProperty("get", static_cast<dukpp03::qt::Callable*>(get)); // E.ways.get
 
+    {
+        dukpp03::qt::ClassBinding* binding = new dukpp03::qt::ClassBinding();
+        binding->addMethod("toPoint", dukpp03::qt::bind_method::from(&scripting::ways::PointRef::toPoint));
+        binding->registerMetaObject<scripting::ways::PointRef>();
+        m_ctx->addClassBinding("scripting::ways::PointRef", binding);
+    }
+
     m_global_value->setProperty("ways", ways);
 
     bool b = m_ctx->eval(

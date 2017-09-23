@@ -93,3 +93,6 @@ protected:
 }
 
 }
+
+
+Q_DECLARE_METATYPE(scripting::ways::PointRef**)
