@@ -103,12 +103,12 @@
 #include "dialogues/dialoguesbindings.h"
 
 #include "animations/animationsbindings.h"
-/*
 #include "animations/animationspoint2dsetter.h"
 #include "animations/animationssetter.h"
 #include "animations/animationswidgetsetter.h"
 #include "animations/animationswaysetter.h"
-*/
+#include "animations/easingsetter.h"
+
 #include "instances/instancesbindings.h"
 /*
 #include "instances/instancesnamesetter.h"
@@ -146,12 +146,14 @@
 #include <animations/animationstexturecoordinatescontinuous.h>
 #include <animations/animationstexturecoordinateslist.h>
 #include <animations/animationswaymoving.h>
-//#include "animations/easinggetter.h"
-//#include "animations/easingsetter.h"
+
+#include "animations/easinggetter.h"
+#include "animations/easingsetter.h"
 
 #include "lambda.h"
 #include "function.h"
 
+Q_DECLARE_METATYPE(sad::Vector<unsigned long long>) //-V566
 Q_DECLARE_METATYPE(sad::dialogue::Phrase) //-V566
 Q_DECLARE_METATYPE(QScriptContext*) //-V566
 Q_DUKPP03_DECLARE_METATYPE(scripting::layouts::ScriptableLengthValue)  //-V566
@@ -1501,6 +1503,196 @@ void scripting::Scripting::initAnimationsBindings()
     m_animations_value->setProperty("moveFrontInCompositeList", dukpp03::qt::curried1::from(this, scripting::animations::moveFrontInCompositeList)); // E.animations.moveFrontInCompositeList
 
 
+
+    dukpp03::qt::MultiMethod* set = new dukpp03::qt::MultiMethod();
+    {
+        set->add(new scripting::animations::Setter<sad::animations::Animation, sad::String, history::animations::ChangeName>(this, "name"));
+        set->add(new scripting::animations::Setter<sad::animations::Animation, double, history::animations::ChangeTime>(this, "time"));
+        set->add(new scripting::animations::Setter<sad::animations::Animation, bool, history::animations::ChangeLooped>(this, "looped"));
+        set->add(new scripting::animations::Setter<sad::animations::Blinking, unsigned int, history::animations::ChangeBlinkingFrequency>(this, "frequency"));
+        set->add(new scripting::animations::Setter<sad::animations::CameraShaking, sad::Point2D, history::animations::ChangeCameraOffset>(this, "offset"));
+        set->add(new scripting::animations::Setter<sad::animations::CameraShaking, int, history::animations::ChangeShakingFrequency>(this, "frequency"));
+        set->add(new scripting::animations::Setter<sad::animations::CameraRotation, sad::Point3D, history::animations::ChangeCameraPivot>(this, "pivot"));
+
+        gui::uiblocks::UIAnimationBlock* ablk = m_editor->uiBlocks()->uiAnimationBlock();
+        set->add(new scripting::animations::WidgetSetter<
+            sad::animations::CameraRotation,
+            QDoubleSpinBox*,
+            double,
+            history::animations::ChangeCameraAngle
+         >(this, ablk->dsbCameraRotationStartingAngle, "min_angle")
+        );
+        set->add(new scripting::animations::WidgetSetter<
+            sad::animations::CameraRotation,
+            QDoubleSpinBox*,
+            double,
+            history::animations::ChangeCameraAngle
+         >(this, ablk->dsbCameraRotationEndingAngle, "max_angle")
+        );
+        set->add(new scripting::animations::WidgetSetter<
+            sad::animations::Color,
+            gui::colorview::ColorView*,
+            sad::AColor,
+            history::animations::ChangeColorColor
+         >(this, ablk->cwColorStartingColor, "min_color")
+        );
+        set->add(new scripting::animations::WidgetSetter<
+            sad::animations::Color,
+            gui::colorview::ColorView*,
+            sad::AColor,
+            history::animations::ChangeColorColor
+         >(this, ablk->cwColorEndingColor, "max_color")
+        );
+        set->add(new scripting::animations::Setter<sad::animations::FontList, sad::Vector<sad::String>, history::animations::ChangeFontListFonts>(this, "fonts"));
+        set->add(new scripting::animations::WidgetSetter<
+            sad::animations::FontSize,
+            QSpinBox*,
+            unsigned int,
+            history::animations::ChangeFontSizeSize
+         >(this, ablk->sbFontSizeStartingSize, "min_size")
+        );
+        set->add(new scripting::animations::WidgetSetter<
+            sad::animations::FontSize,
+            QSpinBox*,
+            unsigned int,
+            history::animations::ChangeFontSizeSize
+         >(this, ablk->sbFontSizeEndingSize, "max_size")
+        );
+        set->add(new scripting::animations::Setter<sad::animations::Resize, sad::Point2D, history::animations::ChangeResizeStartingSize>(this, "start_size"));
+        set->add(new scripting::animations::Setter<sad::animations::Resize, sad::Point2D, history::animations::ChangeResizeEndingSize>(this, "end_size"));
+        set->add(new scripting::animations::WidgetSetter<
+            sad::animations::Rotate,
+            QDoubleSpinBox*,
+            double,
+            history::animations::ChangeRotateAngle
+         >(this, ablk->dsbRotateStartingAngle, "min_angle")
+        );
+        set->add(new scripting::animations::WidgetSetter<
+            sad::animations::Rotate,
+            QDoubleSpinBox*,
+            double,
+            history::animations::ChangeRotateAngle
+         >(this, ablk->dsbRotateEndingAngle, "max_angle")
+        );
+        set->add(new scripting::animations::WidgetSetter<
+            sad::animations::OptionList,
+            QTextEdit*,
+            sad::Vector<sad::String>,
+            history::animations::ChangeList
+         >(this, ablk->txtOptionListList, "list")
+        );
+        set->add(new scripting::animations::WidgetSetter<
+            sad::animations::TextureCoordinatesList,
+            QTextEdit*,
+            sad::Vector<sad::String>,
+            history::animations::ChangeList
+         >(this, ablk->txtTextureCoordinatesList, "list")
+        );
+        set->add(new scripting::animations::Point2DSetter<
+            sad::animations::SimpleMovement,
+            history::animations::ChangePropertyAsPoint2DDisplayedInTwoSpinboxes
+         >(this, "start_point", ablk->dabSimpleMovementStartingPointX, ablk->dabSimpleMovementStartingPointY)
+        );
+        set->add(new scripting::animations::Point2DSetter<
+            sad::animations::SimpleMovement,
+            history::animations::ChangePropertyAsPoint2DDisplayedInTwoSpinboxes
+         >(this, "end_point", ablk->dabSimpleMovementEndingPointX, ablk->dabSimpleMovementEndingPointY)
+        );
+
+        set->add(new scripting::animations::EasingSetter<
+            unsigned int,
+            history::animations::ChangeEasingFunctionType
+         >(this, "easing_type", &sad::animations::easing::Function::functionTypeAsUnsignedInt)
+        );
+        set->add(new scripting::animations::EasingSetter<
+            double,
+            history::animations::ChangeEasingOvershootAmplitude
+         >(this, "easing_overshoot_amplitude", &sad::animations::easing::Function::overshootAmplitude)
+        );
+        set->add(new scripting::animations::EasingSetter<
+            double,
+            history::animations::ChangeEasingPeriod
+         >(this, "easing_period", &sad::animations::easing::Function::period)
+        );
+
+        std::function<dukpp03::Maybe<sad::String>(const sad::Rect2D&)> is_aabb = [](const sad::Rect2D& val) {
+            dukpp03::Maybe<sad::String> result;
+            if (sad::isAABB(val) == false)
+            {
+                result.setValue("Rectangle must be axis-aligned");
+            }
+            return result;
+        };
+
+        scripting::animations::WidgetSetter<
+            sad::animations::TextureCoordinatesContinuous,
+            gui::rectwidget::RectWidget*,
+            sad::Rect2D,
+            history::animations::ChangeRect
+        >* rect1 = new scripting::animations::WidgetSetter<
+            sad::animations::TextureCoordinatesContinuous,
+            gui::rectwidget::RectWidget*,
+            sad::Rect2D,
+            history::animations::ChangeRect
+        >(this, ablk->rctTCCStartingRect, "start_rect");
+        rect1->addCondition(is_aabb);
+        set->add(rect1);
+
+        scripting::animations::WidgetSetter<
+            sad::animations::TextureCoordinatesContinuous,
+            gui::rectwidget::RectWidget*,
+            sad::Rect2D,
+            history::animations::ChangeRect
+        >* rect2 = new scripting::animations::WidgetSetter<
+            sad::animations::TextureCoordinatesContinuous,
+            gui::rectwidget::RectWidget*,
+            sad::Rect2D,
+            history::animations::ChangeRect
+        >(this, ablk->rctTCCEndingRect, "end_rect");
+        rect2->addCondition(is_aabb);
+        set->add(rect2);
+
+        set->add(new scripting::animations::WaySetter(this));
+    }
+
+    m_animations_value->setProperty("set", static_cast<dukpp03::qt::Callable*>(set)); // E.animations.set
+
+    dukpp03::qt::MultiMethod* get = new dukpp03::qt::MultiMethod();
+    {
+        get->add(new scripting::AbstractGetter<sad::animations::Animation*, sad::String>("name"));
+        get->add(new scripting::AbstractGetter<sad::animations::Animation*, unsigned long long>("majorid"));
+        get->add(new scripting::AbstractGetter<sad::animations::Animation*, unsigned long long>("minorid"));
+        get->add(new scripting::AbstractGetter<sad::animations::Animation*, double>("time"));
+        get->add(new scripting::AbstractGetter<sad::animations::Animation*, bool>("looped"));
+        get->add(new scripting::animations::EasingGetter<unsigned int>("easing_type", &sad::animations::easing::Function::functionTypeAsUnsignedInt));
+        get->add(new scripting::animations::EasingGetter<double>("easing_overshoot_amplitude", &sad::animations::easing::Function::overshootAmplitude));
+        get->add(new scripting::animations::EasingGetter<double>("easing_period", &sad::animations::easing::Function::period));
+        get->add(new scripting::AbstractGetter<sad::animations::Blinking*, unsigned int>("frequency"));
+        get->add(new scripting::AbstractGetter<sad::animations::CameraShaking*, sad::Point2D>("offset"));
+        get->add(new scripting::AbstractGetter<sad::animations::CameraShaking*, int>("frequency"));
+        get->add(new scripting::AbstractGetter<sad::animations::CameraRotation*, sad::Point3D>("pivot"));
+        get->add(new scripting::AbstractGetter<sad::animations::CameraRotation*, double>("min_angle"));
+        get->add(new scripting::AbstractGetter<sad::animations::CameraRotation*, double>("max_angle"));
+        get->add(new scripting::AbstractGetter<sad::animations::Color*, sad::AColor>("min_color"));
+        get->add(new scripting::AbstractGetter<sad::animations::Color*, sad::AColor>("max_color"));
+        get->add(new scripting::AbstractGetter<sad::animations::FontList*, sad::Vector<sad::String> >("fonts"));
+        get->add(new scripting::AbstractGetter<sad::animations::FontSize*, unsigned int >("min_size"));
+        get->add(new scripting::AbstractGetter<sad::animations::FontSize*, unsigned int >("max_size"));
+        get->add(new scripting::AbstractGetter<sad::animations::Resize*, sad::Point2D >("start_size"));
+        get->add(new scripting::AbstractGetter<sad::animations::Resize*, sad::Point2D >("end_size"));
+        get->add(new scripting::AbstractGetter<sad::animations::Rotate*, double >("min_angle"));
+        get->add(new scripting::AbstractGetter<sad::animations::Rotate*, double >("max_angle"));
+        get->add(new scripting::AbstractGetter<sad::animations::SimpleMovement*, sad::Point2D>("start_point"));
+        get->add(new scripting::AbstractGetter<sad::animations::SimpleMovement*, sad::Point2D>("end_point"));
+        get->add(new scripting::AbstractGetter<sad::animations::OptionList*, sad::Vector<sad::String> >("list"));
+        get->add(new scripting::AbstractGetter<sad::animations::TextureCoordinatesContinuous*, sad::Rect2D >("start_rect"));
+        get->add(new scripting::AbstractGetter<sad::animations::TextureCoordinatesContinuous*, sad::Rect2D >("end_rect"));
+        get->add(new scripting::AbstractGetter<sad::animations::TextureCoordinatesList*, sad::Vector<sad::String> >("list"));
+        get->add(new scripting::AbstractGetter<sad::animations::WayMoving*, unsigned long long >("way"));
+        get->add(new scripting::AbstractGetter<sad::animations::Composite*, sad::Vector<unsigned long long> >("list"));
+    }
+    m_animations_value->setProperty("get", static_cast<dukpp03::qt::Callable*>(get)); // E.animations.get
+
     m_global_value->setProperty("animations", m_animations_value);
     
     QString templateanimationadd(
@@ -1620,181 +1812,7 @@ void scripting::Scripting::initAnimationsBindings()
     /*
     QScriptValue animations = m_engine->newObject();
 
-    scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
-    set->add(new scripting::animations::Setter<sad::animations::Animation, sad::String, history::animations::ChangeName>(m_engine, "name"));
-    set->add(new scripting::animations::Setter<sad::animations::Animation, double, history::animations::ChangeTime>(m_engine, "time"));
-    set->add(new scripting::animations::Setter<sad::animations::Animation, bool, history::animations::ChangeLooped>(m_engine, "looped"));
-    set->add(new scripting::animations::Setter<sad::animations::Blinking, unsigned int, history::animations::ChangeBlinkingFrequency>(m_engine, "frequency"));
-    set->add(new scripting::animations::Setter<sad::animations::CameraShaking, sad::Point2D, history::animations::ChangeCameraOffset>(m_engine, "offset"));
-    set->add(new scripting::animations::Setter<sad::animations::CameraShaking, int, history::animations::ChangeShakingFrequency>(m_engine, "frequency"));
-    set->add(new scripting::animations::Setter<sad::animations::CameraRotation, sad::Point3D, history::animations::ChangeCameraPivot>(m_engine, "pivot"));
-
-    gui::uiblocks::UIAnimationBlock* ablk = m_editor->uiBlocks()->uiAnimationBlock();
-    set->add(new scripting::animations::WidgetSetter<
-                sad::animations::CameraRotation, 
-                QDoubleSpinBox*,
-                double, 
-                history::animations::ChangeCameraAngle
-            >(m_engine,  ablk->dsbCameraRotationStartingAngle, "min_angle")
-    );
-    set->add(new scripting::animations::WidgetSetter<
-                sad::animations::CameraRotation, 
-                QDoubleSpinBox*,
-                double, 
-                history::animations::ChangeCameraAngle
-            >(m_engine,  ablk->dsbCameraRotationEndingAngle, "max_angle")
-    );
-    set->add(new scripting::animations::WidgetSetter<
-                sad::animations::Color, 
-                gui::colorview::ColorView*,
-                sad::AColor, 
-                history::animations::ChangeColorColor
-            >(m_engine, ablk->cwColorStartingColor, "min_color")
-    );
-    set->add(new scripting::animations::WidgetSetter<
-                sad::animations::Color, 
-                gui::colorview::ColorView*,
-                sad::AColor, 
-                history::animations::ChangeColorColor
-            >(m_engine, ablk->cwColorEndingColor, "max_color")
-    );
-    set->add(new scripting::animations::Setter<sad::animations::FontList, sad::Vector<sad::String>, history::animations::ChangeFontListFonts>(m_engine, "fonts"));
-    set->add(new scripting::animations::WidgetSetter<
-                sad::animations::FontSize, 
-                QSpinBox*,
-                unsigned int, 
-                history::animations::ChangeFontSizeSize
-            >(m_engine, ablk->sbFontSizeStartingSize, "min_size")
-    );
-    set->add(new scripting::animations::WidgetSetter<
-                sad::animations::FontSize, 
-                QSpinBox*,
-                unsigned int, 
-                history::animations::ChangeFontSizeSize
-            >(m_engine, ablk->sbFontSizeEndingSize, "max_size")
-    );
-    set->add(new scripting::animations::Setter<sad::animations::Resize, sad::Point2D, history::animations::ChangeResizeStartingSize>(m_engine, "start_size"));
-    set->add(new scripting::animations::Setter<sad::animations::Resize, sad::Point2D, history::animations::ChangeResizeEndingSize>(m_engine, "end_size"));
-    set->add(new scripting::animations::WidgetSetter<
-                sad::animations::Rotate, 
-                QDoubleSpinBox*,
-                double, 
-                history::animations::ChangeRotateAngle
-            >(m_engine, ablk->dsbRotateStartingAngle, "min_angle")
-    );
-    set->add(new scripting::animations::WidgetSetter<
-                sad::animations::Rotate, 
-                QDoubleSpinBox*,
-                double, 
-                history::animations::ChangeRotateAngle
-            >(m_engine, ablk->dsbRotateEndingAngle, "max_angle")
-    );
-    set->add(new scripting::animations::WidgetSetter<
-                sad::animations::OptionList, 
-                QTextEdit*,
-                sad::Vector<sad::String>, 
-                history::animations::ChangeList
-            >(m_engine, ablk->txtOptionListList, "list")
-    );
-    set->add(new scripting::animations::WidgetSetter<
-                sad::animations::TextureCoordinatesList, 
-                QTextEdit*,
-                sad::Vector<sad::String>, 
-                history::animations::ChangeList
-            >(m_engine, ablk->txtTextureCoordinatesList, "list")
-    );
-    set->add(new scripting::animations::Point2DSetter<
-                sad::animations::SimpleMovement, 
-                history::animations::ChangePropertyAsPoint2DDisplayedInTwoSpinboxes
-            >(m_engine, "start_point", ablk->dabSimpleMovementStartingPointX,ablk->dabSimpleMovementStartingPointY)
-    );
-    set->add(new scripting::animations::Point2DSetter<
-                sad::animations::SimpleMovement, 
-                history::animations::ChangePropertyAsPoint2DDisplayedInTwoSpinboxes
-            >(m_engine, "end_point", ablk->dabSimpleMovementEndingPointX,ablk->dabSimpleMovementEndingPointY)
-    );
-    
-    set->add(new scripting::animations::EasingSetter<
-                unsigned int, 
-                history::animations::ChangeEasingFunctionType
-            >(m_engine, "easing_type", &sad::animations::easing::Function::functionTypeAsUnsignedInt)
-    );
-    set->add(new scripting::animations::EasingSetter<
-                double, 
-                history::animations::ChangeEasingOvershootAmplitude
-            >(m_engine, "easing_overshoot_amplitude", &sad::animations::easing::Function::overshootAmplitude)
-    );
-    set->add(new scripting::animations::EasingSetter<
-                double, 
-                history::animations::ChangeEasingPeriod
-            >(m_engine, "easing_period", &sad::animations::easing::Function::period)
-    );
-
-
-    scripting::animations::WidgetSetter<
-        sad::animations::TextureCoordinatesContinuous,
-        gui::rectwidget::RectWidget*,
-        sad::Rect2D,
-        history::animations::ChangeRect
-    >* rect1 = new scripting::animations::WidgetSetter<
-        sad::animations::TextureCoordinatesContinuous,
-        gui::rectwidget::RectWidget*,
-        sad::Rect2D,
-        history::animations::ChangeRect
-    >(m_engine,  ablk->rctTCCStartingRect, "start_rect");
-    rect1->addCondition(new IsAABB());
-    set->add(rect1);
-
-    scripting::animations::WidgetSetter<
-        sad::animations::TextureCoordinatesContinuous,
-        gui::rectwidget::RectWidget*,
-        sad::Rect2D,
-        history::animations::ChangeRect
-    >* rect2 = new scripting::animations::WidgetSetter<
-        sad::animations::TextureCoordinatesContinuous,
-        gui::rectwidget::RectWidget*,
-        sad::Rect2D,
-        history::animations::ChangeRect
-    >(m_engine,  ablk->rctTCCEndingRect, "end_rect");
-    rect2->addCondition(new IsAABB());
-    set->add(rect2);
-
-    set->add(new scripting::animations::WaySetter(m_engine));
-    m_registered_classes << set;
-    animations.setProperty("set", m_engine->newObject(set), m_flags); // E.animations.set
-
     scripting::MultiMethod* get = new scripting::MultiMethod(m_engine, "get");
-    get->add(new scripting::AbstractGetter<sad::animations::Animation*, sad::String>(m_engine, "name"));
-    get->add(new scripting::AbstractGetter<sad::animations::Animation*, unsigned long long>(m_engine, "majorid"));
-    get->add(new scripting::AbstractGetter<sad::animations::Animation*, unsigned long long>(m_engine, "minorid"));
-    get->add(new scripting::AbstractGetter<sad::animations::Animation*, double>(m_engine, "time"));
-    get->add(new scripting::AbstractGetter<sad::animations::Animation*, bool>(m_engine, "looped"));
-    get->add(new scripting::animations::EasingGetter<unsigned int>(m_engine, "easing_type", &sad::animations::easing::Function::functionTypeAsUnsignedInt));
-    get->add(new scripting::animations::EasingGetter<double>(m_engine, "easing_overshoot_amplitude", &sad::animations::easing::Function::overshootAmplitude));
-    get->add(new scripting::animations::EasingGetter<double>(m_engine, "easing_period", &sad::animations::easing::Function::period));
-    get->add(new scripting::AbstractGetter<sad::animations::Blinking*, unsigned int>(m_engine, "frequency"));   
-    get->add(new scripting::AbstractGetter<sad::animations::CameraShaking*, sad::Point2D>(m_engine, "offset"));
-    get->add(new scripting::AbstractGetter<sad::animations::CameraShaking*, int>(m_engine, "frequency"));
-    get->add(new scripting::AbstractGetter<sad::animations::CameraRotation*, sad::Point3D>(m_engine, "pivot"));
-    get->add(new scripting::AbstractGetter<sad::animations::CameraRotation*, double>(m_engine, "min_angle"));
-    get->add(new scripting::AbstractGetter<sad::animations::CameraRotation*, double>(m_engine, "max_angle"));   
-    get->add(new scripting::AbstractGetter<sad::animations::Color*, sad::AColor>(m_engine, "min_color"));
-    get->add(new scripting::AbstractGetter<sad::animations::Color*, sad::AColor>(m_engine, "max_color"));   
-    get->add(new scripting::AbstractGetter<sad::animations::FontList*, sad::Vector<sad::String> >(m_engine, "fonts"));  
-    get->add(new scripting::AbstractGetter<sad::animations::FontSize*, unsigned int >(m_engine, "min_size"));   
-    get->add(new scripting::AbstractGetter<sad::animations::FontSize*, unsigned int >(m_engine, "max_size"));
-    get->add(new scripting::AbstractGetter<sad::animations::Resize*, sad::Point2D >(m_engine, "start_size"));
-    get->add(new scripting::AbstractGetter<sad::animations::Resize*, sad::Point2D >(m_engine, "end_size")); 
-    get->add(new scripting::AbstractGetter<sad::animations::Rotate*, double >(m_engine, "min_angle"));
-    get->add(new scripting::AbstractGetter<sad::animations::Rotate*, double >(m_engine, "max_angle"));  
-    get->add(new scripting::AbstractGetter<sad::animations::SimpleMovement*, sad::Point2D>(m_engine, "start_point"));   
-    get->add(new scripting::AbstractGetter<sad::animations::SimpleMovement*, sad::Point2D>(m_engine, "end_point"));     
-    get->add(new scripting::AbstractGetter<sad::animations::OptionList*, sad::Vector<sad::String> >(m_engine, "list"));
-    get->add(new scripting::AbstractGetter<sad::animations::TextureCoordinatesContinuous*, sad::Rect2D >(m_engine, "start_rect"));
-    get->add(new scripting::AbstractGetter<sad::animations::TextureCoordinatesContinuous*, sad::Rect2D >(m_engine, "end_rect"));
-    get->add(new scripting::AbstractGetter<sad::animations::TextureCoordinatesList*, sad::Vector<sad::String> >(m_engine, "list"));
-    get->add(new scripting::AbstractGetter<sad::animations::WayMoving*, unsigned long long >(m_engine, "way"));
-    get->add(new scripting::AbstractGetter<sad::animations::Composite*, sad::Vector<unsigned long long> >(m_engine, "list"));
     
     m_registered_classes << get;
     animations.setProperty("get", m_engine->newObject(get), m_flags); // E.animations.set

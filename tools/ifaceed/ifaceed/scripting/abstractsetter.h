@@ -172,7 +172,7 @@ public:
                         if (this->tryGetPropertyError(maybe_value.value()).exists() == false)
                         {
                             a += 1;
-                            if (maybe_object.value()->template getProperty<_PropertyType>(maybe_prop_name.value()).exists())
+                            if (this->hasProperty(maybe_object.value(), maybe_prop_name.value()))
                             {
                                 a += 1;
                             }
@@ -210,9 +210,9 @@ public:
                         dukpp03::Maybe<sad::String> property_error = this->tryGetPropertyError(maybe_value.value());
                         if (property_error.exists() == false)
                         {
-                            if (maybe_object.value()->template getProperty<_PropertyType>(maybe_prop_name.value()).exists())
+                            if (this->hasProperty(maybe_object.value(), maybe_prop_name.value()))
                             {
-                                _PropertyType oldvalue = maybe_object.value()->template getProperty<_PropertyType>(maybe_prop_name.value()).value();
+                                _PropertyType oldvalue = this->getOldPropertyValue(maybe_object.value(), maybe_prop_name.value());
                                 std::equal_to<_PropertyType> comparator;
                                 if (comparator(oldvalue, maybe_value.value()) == false)
                                 {
@@ -331,6 +331,26 @@ protected:
              result = (m_conditions[i])(value);
          }
          return result;
+    }
+
+    /*! Checks if property exists in object
+        \param[in] value object
+        \param[in] property_name a name of property
+        \return true, if exists
+    */
+    virtual bool hasProperty(_ObjectType value, const sad::String& property_name)
+    {
+        return value->template getProperty<_PropertyType>(property_name).exists();
+    }
+
+    /*! Returns old property value
+        \param[in] value object
+        \param property_name a name of property
+        \return property value
+     */
+    virtual  _PropertyType getOldPropertyValue(_ObjectType value, const sad::String& property_name)
+    {
+        return value->template getProperty<_PropertyType>(property_name).value();
     }
 
     /*! Calls all corresponding actions, setting property or performing other actions

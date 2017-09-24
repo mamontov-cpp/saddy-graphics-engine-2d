@@ -128,7 +128,7 @@ public:
                 if (this->isCorrespondsToPropertyName(maybe_prop_name.value()))
                 {
                     a += 1;
-                    if (maybe_object.value()->template getProperty<_PropertyType>(maybe_prop_name.value()).exists())
+                    if (this->tryGetPropertyValue(maybe_object.value(), maybe_prop_name.value()).exists())
                     {
                         a += 1;
                     }
@@ -159,7 +159,7 @@ public:
             {
                 if (this->isCorrespondsToPropertyName(maybe_prop_name.value()))
                 {
-                    sad::Maybe<_PropertyType> maybe_prop_value = maybe_object.value()->template getProperty<_PropertyType>(maybe_prop_name.value());
+                    sad::Maybe<_PropertyType> maybe_prop_value = this->tryGetPropertyValue(maybe_object.value(), maybe_prop_name.value());
                     if (maybe_prop_value.exists())
                     {
                         dukpp03::PushValue<_PropertyType, dukpp03::qt::BasicContext>::perform(ctx, maybe_prop_value.value());
@@ -193,6 +193,15 @@ public:
         return 0;
     }
 protected:
+    /*! Tries to return property value
+        \param[in] value object
+        \param[in] property_name a name of property
+        \return property value if it exists, nothing otherwise
+    */
+    virtual  sad::Maybe<_PropertyType> tryGetPropertyValue(_ObjectType value, const sad::String& property_name)
+    {
+        return value->template getProperty<_PropertyType>(property_name);
+    }
     /*! Returns true if getter corresponds to property name
         \param[in] name a name
         \return  whether setter corresponds to it

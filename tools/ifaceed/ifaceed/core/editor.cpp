@@ -808,8 +808,8 @@ void core::Editor::saddyQuitSlot()
 void core::Editor::runQtEventLoop()
 {
     m_mainwindow = new MainPanel();
-    m_mainwindow->setEditor(this);
     m_ui_blocks->init(m_mainwindow);
+    m_mainwindow->setEditor(this);
 
     gui::actions::GridActions* ga = m_actions->gridActions();
 

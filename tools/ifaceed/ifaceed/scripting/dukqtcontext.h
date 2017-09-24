@@ -187,6 +187,20 @@ public:
     static void perform(dukpp03::qt::BasicContext* ctx, const sad::Vector<sad::String>& v);
 };
 
+/*! An instantiation for pushing sad::Vector<unsigned long long> on stack
+*/
+template<>
+class PushValue<sad::Vector<unsigned long long>, dukpp03::qt::BasicContext>
+{
+public:
+    /*! Performs pushing value
+    \param[in] ctx context
+    \param[in] v value
+    */
+    static void perform(dukpp03::qt::BasicContext* ctx, const sad::Vector<unsigned long long>& v);
+};
+
+
 
 /*! An instantiation for pushing sad::dialogue::Phrase on stack
 */

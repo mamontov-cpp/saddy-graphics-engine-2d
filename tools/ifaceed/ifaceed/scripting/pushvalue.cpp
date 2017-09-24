@@ -52,6 +52,23 @@ void dukpp03::PushValue<sad::Vector<sad::String>, dukpp03::qt::BasicContext>::pe
     }
 }
 
+void dukpp03::PushValue<sad::Vector<unsigned long long>, dukpp03::qt::BasicContext>::perform(
+    dukpp03::qt::BasicContext* c,
+    const sad::Vector<unsigned long long>& v
+)
+{
+    duk_context* ctx = c->context();
+    int arr_idx = duk_push_array(ctx);
+    int index = 0;
+    for (size_t i = 0; i < v.size(); i++)
+    {
+        dukpp03::PushValue<unsigned long long, dukpp03::qt::BasicContext>::perform(c, v[i]);
+        duk_put_prop_index(ctx, arr_idx, index);
+        ++index;
+    }
+}
+
+
 
 
 void dukpp03::PushValue<sad::dialogue::Phrase, dukpp03::qt::BasicContext>::perform(
