@@ -153,6 +153,12 @@
 #include "lambda.h"
 #include "function.h"
 
+Q_DECLARE_METATYPE(scripting::layouts::ScriptableGrid*)
+Q_DECLARE_METATYPE(scripting::layouts::ScriptableGridCell*)
+Q_DECLARE_METATYPE(scripting::ways::PointRef*)
+Q_DECLARE_METATYPE(scripting::dialogues::PhraseRef*)
+Q_DECLARE_METATYPE(QVector<sad::dialogue::Phrase>)
+Q_DECLARE_METATYPE(QVector<sad::Point2D>)
 Q_DECLARE_METATYPE(sad::Vector<unsigned long long>) //-V566
 Q_DECLARE_METATYPE(sad::dialogue::Phrase) //-V566
 Q_DECLARE_METATYPE(QScriptContext*) //-V566
@@ -1824,6 +1830,7 @@ void scripting::Scripting::initAnimationsBindings()
 
 void scripting::Scripting::initAnimationInstanceBindings(QScriptValue& v)
 {
+    /*
     QScriptValue instances = m_engine->newObject();
 
     instances.setProperty("list", m_engine->newFunction(scripting::instances::list), m_flags); // E.animations.instances.list
@@ -1843,7 +1850,6 @@ void scripting::Scripting::initAnimationInstanceBindings(QScriptValue& v)
     m_registered_classes << remove;
     instances.setProperty("remove", m_engine->newObject(remove), m_flags); // E.animations.instances.remove
 
-    /*
     scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
     set->add(new scripting::instances::NameSetter(m_engine));
     set->add(new scripting::instances::AnimationSetter(m_engine));
@@ -1868,7 +1874,6 @@ void scripting::Scripting::initAnimationInstanceBindings(QScriptValue& v)
     
     m_registered_classes << get;
     instances.setProperty("get", m_engine->newObject(get), m_flags); // E.animations.instances.get
-    */
     v.property("animations").setProperty("instances", instances, m_flags);
 
     m_engine->evaluate(
@@ -1941,6 +1946,7 @@ void scripting::Scripting::initAnimationInstanceBindings(QScriptValue& v)
         "   throw new Error(\"Specify 2 or 3 arguments\");"
         "};"
     );
+    */
 }
 
 

@@ -275,7 +275,6 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/scripting/animations/animationswidgetsetter.h \
     ifaceed/scripting/dialogues/dialoguesbindings.h \
     ifaceed/scripting/dialogues/dialoguesphraseref.h \
-    ifaceed/scripting/dialogues/dialoguessetter.h \
     ifaceed/scripting/ways/wayspointref.h \
     ifaceed/scripting/ways/wayssetter.h \
     ifaceed/scripting/animations/animationswaysetter.h \
@@ -659,4 +658,4 @@ win32 {
         LIBS += -lglu32 -lopengl32 -lkernel32 -luser32 -lgdi32 -lwinspool  -lshell32 -lcomdlg32 -ladvapi32 -lfreetype
 }
 
-QMAKE_CXXFLAGS += -Wno-reorder -Wno-unused -Wno-sign-compare -w
+QMAKE_CXXFLAGS += -Wa,-mbig-obj -Wno-reorder -Wno-unused -Wno-sign-compare -w
