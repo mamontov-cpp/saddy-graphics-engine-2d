@@ -4,6 +4,7 @@
     A bindings for animations are listed here
  */
 #pragma once
+#include "../dukqtcontext.h"
 #include <sadstring.h>
 #include <sadrect.h>
 #include <maybe.h>
@@ -133,6 +134,13 @@ void checkPropertiesForAnimations(
     QStringList& list,
     bool readable
 );
+
+/*! Initializes bindings for animations
+    \param[in] s scripting object
+    \param[in] e a global binding object
+    \return created animations object
+ */
+dukpp03::qt::JSObject* init(scripting::Scripting* s, dukpp03::qt::JSObject* e);
 
 }
 

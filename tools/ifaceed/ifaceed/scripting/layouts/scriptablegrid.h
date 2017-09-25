@@ -9,6 +9,7 @@
 
 #include <QVariant>
 #include <QObject>
+#include <QMetaType>
 
 namespace scripting
 {

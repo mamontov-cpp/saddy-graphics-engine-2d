@@ -6,6 +6,7 @@
 
 #include <layouts/grid.h>
 #include <QObject>
+#include <QMetaType>
 #include <3rdparty/dukpp-03/include/maybe.h>
 
 namespace history

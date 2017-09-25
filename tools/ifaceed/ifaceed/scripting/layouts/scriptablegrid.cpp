@@ -21,6 +21,10 @@
 
 #include "../../qstdstring.h"
 
+Q_DECLARE_METATYPE(scripting::layouts::ScriptableGrid*)
+Q_DECLARE_METATYPE(scripting::layouts::ScriptableGridCell*)
+
+
 // ==================================== PUBLIC METHODS ====================================
 
 scripting::layouts::ScriptableGrid::ScriptableGrid(

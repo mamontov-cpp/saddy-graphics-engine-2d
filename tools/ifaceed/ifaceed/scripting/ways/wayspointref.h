@@ -6,6 +6,7 @@
 #pragma once
 
 #include <QObject>
+#include <QMetaType>
 
 #include <sadpoint.h>
 

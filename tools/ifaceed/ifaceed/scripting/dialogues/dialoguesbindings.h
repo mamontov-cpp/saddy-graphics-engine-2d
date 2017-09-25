@@ -4,13 +4,13 @@
     A bindings for dialogues are listed here
  */
 #pragma once
+#include "../dukqtcontext.h"
 #include <sadstring.h>
 
 #include <QScriptEngine>
 #include <QVector>
 
 #include <dialogue/dialogue.h>
-#include <3rdparty/dukpp-03/include/maybe.h>
 
 #include "dialoguesphraseref.h"
 
@@ -81,6 +81,13 @@ unsigned int length(scripting::Scripting* scripting, sad::dialogue::Dialogue* d)
     \param[in] pos a position
  */
 dukpp03::Maybe<scripting::dialogues::PhraseRef*> phrase(scripting::Scripting* scripting, sad::dialogue::Dialogue* d, unsigned int pos);
+
+/*! Initializes bindings for dialogues
+    \param[in] s scripting object
+    \param[in] e a global binding object
+    \return created animations object
+ */
+dukpp03::qt::JSObject* init(scripting::Scripting* s, dukpp03::qt::JSObject* e);
 
 }
 

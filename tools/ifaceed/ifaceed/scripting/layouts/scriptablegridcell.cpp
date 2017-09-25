@@ -1,4 +1,5 @@
 #include "scriptablegridcell.h"
+#include "scriptablegrid.h"
 
 #include "scriptablelengthvalue.h"
 
@@ -21,6 +22,10 @@
 #include "../../history/layouts/layoutsremovechild.h"
 #include "../../history/layouts/layoutsclearcell.h"
 #include "../../history/layouts/layoutsswapchildren.h"
+
+Q_DECLARE_METATYPE(scripting::layouts::ScriptableGrid*)
+Q_DECLARE_METATYPE(scripting::layouts::ScriptableGridCell*)
+
 
 // ================================== PUBLIC METHODS =========================
 

@@ -4,6 +4,7 @@
     A bindings for ways are listed here
  */
 #pragma once
+#include "../dukqtcontext.h"
 #include <sadstring.h>
 
 #include <QVector>
@@ -73,6 +74,13 @@ bool removePoint(scripting::Scripting* scripting, sad::p2d::app::Way* way, unsig
     \param[in] pos a position
  */
 dukpp03::Maybe<scripting::ways::PointRef*> point(scripting::Scripting* scripting, sad::p2d::app::Way* way, unsigned int pos);
+
+/*! Initializes bindings for ways
+    \param[in] s scripting object
+    \param[in] e a global binding object
+    \return created animations object
+ */
+dukpp03::qt::JSObject* init(scripting::Scripting* s, dukpp03::qt::JSObject* e);
 
 }
 

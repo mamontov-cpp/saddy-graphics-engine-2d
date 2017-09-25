@@ -24,6 +24,10 @@
 
 #include "../../history/layouts/layoutsnew.h"
 
+Q_DECLARE_METATYPE(scripting::layouts::ScriptableGrid*)
+Q_DECLARE_METATYPE(scripting::layouts::ScriptableGridCell*)
+
+
 QVector<unsigned long long>scripting::layouts::list()
 {
     return scripting::query_table("layouts", "sad::layouts::Grid");
