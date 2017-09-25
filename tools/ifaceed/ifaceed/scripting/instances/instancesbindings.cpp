@@ -23,16 +23,9 @@
 
 #include <animations/animationswayinstance.h>
 
-Q_DECLARE_METATYPE(sad::animations::Instance*); //-V566
-Q_DECLARE_METATYPE(sad::animations::WayInstance*); //-V566
-
-QScriptValue scripting::instances::list(
-    QScriptContext* ctx,
-    QScriptEngine* engine
-)
+QVector<unsigned long long> scripting::instances::list()
 {
-    return QScriptValue();
-    //return scripting::query_table("animationinstances", "sad::animations::Instance", ctx, engine);
+    return scripting::query_table("animationinstances", "sad::animations::Instance");
 }
 
 unsigned long long scripting::instances::_addInstance(
@@ -72,11 +65,12 @@ unsigned long long scripting::instances::_addInstance(
             if (!valid)
             {
                 delete instance;
-                scripting->engine()->currentContext()->throwError(QScriptContext::SyntaxError, QString("_addInstance(): \"") + QString(animationname.c_str()) + "\" does not name a valid resource");
-                return result;
+                scripting->context()->throwError(std::string("_addInstance(): \"") + std::string(animationname) + "\" does not name a valid resource");
+                throw new dukpp03::ArgumentException();
             }
         }
-    } else
+    } 
+    else 
     {
         instance->setProperty("animation", sad::String(""));
     }
@@ -92,8 +86,8 @@ unsigned long long scripting::instances::_addInstance(
          else
          {
              delete instance;
-             scripting->engine()->currentContext()->throwError(QScriptContext::SyntaxError, QString("_addInstance(): \"") + QString::number(animationid) + "\" does not name a valid animation");
-             return result;
+             scripting->context()->throwError(std::string("_addInstance(): \"") + QString::number(animationid).toStdString() + "\" does not name a valid animation");
+             throw new dukpp03::ArgumentException();
          }
     }
     else
@@ -143,7 +137,7 @@ unsigned long long scripting::instances::_addInstance(
     else
     {
         delete instance;
-        scripting->engine()->currentContext()->throwError(QScriptContext::SyntaxError, QString("_addInstance(): \"") + object.toString() + "\" does not name a valid object");
+        scripting->context()->throwError(std::string("_addInstance(): \"") + object.toString().toStdString() + "\" does not name a valid object");
         return result;
     }
 

@@ -171,6 +171,9 @@ OVERLOAD_GET_AS_QUERY(sad::animations::TextureCoordinatesList)
 OVERLOAD_GET_AS_QUERY(sad::animations::SimpleMovement)
 OVERLOAD_GET_AS_QUERY(sad::animations::TextureCoordinatesContinuous)
 OVERLOAD_GET_AS_QUERY(sad::animations::WayMoving)
+OVERLOAD_GET_AS_QUERY(sad::animations::Instance)
+OVERLOAD_GET_AS_QUERY(sad::animations::WayInstance)
+OVERLOAD_GET_AS_QUERY(sad::animations::Group)
 
 
 /*! Tries to get property for specified object

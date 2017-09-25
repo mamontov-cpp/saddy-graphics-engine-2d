@@ -27,10 +27,7 @@ namespace instances
     \param[in] engine an enginge
     \return a ways list
  */
-QScriptValue list(
-    QScriptContext* ctx,
-    QScriptEngine* engine
-);
+QVector<unsigned long long> list();
 
 /*! Adds animation instance. Prefixed by underscore, since it will be mapped to _addInstance function and addInstance
     is reserved for call, which will take object, preprocess it's fields and call _addInstance using fields of this object.

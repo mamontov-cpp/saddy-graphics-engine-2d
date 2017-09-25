@@ -36,8 +36,9 @@
 #include <animations/animationstexturecoordinatescontinuous.h>
 #include <animations/animationssimplemovement.h>
 #include <animations/animationswaymoving.h>
-
-
+#include <animations/animationsinstance.h>
+#include <animations/animationswayinstance.h>
+#include <animations/animationsgroup.h>
 
 namespace dukpp03
 {
@@ -145,6 +146,9 @@ DEFINE_GET_VALUE_INSTANTIATION(sad::animations::TextureCoordinatesList*)
 DEFINE_GET_VALUE_INSTANTIATION(sad::animations::SimpleMovement*)
 DEFINE_GET_VALUE_INSTANTIATION(sad::animations::TextureCoordinatesContinuous*)
 DEFINE_GET_VALUE_INSTANTIATION(sad::animations::WayMoving*)
+DEFINE_GET_VALUE_INSTANTIATION(sad::animations::Instance*)
+DEFINE_GET_VALUE_INSTANTIATION(sad::animations::WayInstance*)
+DEFINE_GET_VALUE_INSTANTIATION(sad::animations::Group*)
 
 #undef DEFINE_GET_VALUE_INSTANTIATION
 
