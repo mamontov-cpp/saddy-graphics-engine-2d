@@ -179,7 +179,7 @@ scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_editor(NUL
     scripting::Scripting* me = this;
     std::function<void(QString c)> output_string = [me](QString c) {
         gui::uiblocks::UIConsoleBlock* cblk = me->editor()->uiBlocks()->uiConsoleBlock();
-        cblk->txtConsoleResults->append(c);
+        cblk->txtConsoleResults->append(QString("<font color=\"black\">") + c + "</font>");
     };
     m_ctx->registerCallable("outputString", dukpp03::make_lambda<dukpp03::qt::BasicContext>::from(output_string));
     bool b = m_ctx->eval("internal = {}; internal.isNativeObject = isNativeObject; internal.dumpNativeObject = dumpNativeObject; internal.outputString = outputString;");
@@ -240,7 +240,7 @@ void scripting::Scripting::setEditor(core::Editor* editor)
     this->initWaysBindings();
     this->initDialoguesBindings();
     this->initAnimationsBindings();
-    this->initAnimationInstanceBindings(m_value);
+    this->initAnimationInstanceBindings();
     this->initAnimationGroupBindings(m_value);
 
     // Don't forget to call after object is initialized
@@ -1299,8 +1299,9 @@ void scripting::Scripting::initAnimationsBindings()
     m_animations_value = scripting::animations::init(this, m_global_value);
 }
 
-void scripting::Scripting::initAnimationInstanceBindings(QScriptValue& v)
+void scripting::Scripting::initAnimationInstanceBindings()
 {
+    scripting::instances::init(this ,m_animations_value);
     /*
     QScriptValue instances = m_engine->newObject();
 
@@ -1345,78 +1346,7 @@ void scripting::Scripting::initAnimationInstanceBindings(QScriptValue& v)
     
     m_registered_classes << get;
     instances.setProperty("get", m_engine->newObject(get), m_flags); // E.animations.instances.get
-    v.property("animations").setProperty("instances", instances, m_flags);
 
-    m_engine->evaluate(
-        "E.animations.instances.addInstance = function(o) {"
-        "   if (typeof o != \"object\")    "
-        "   {                              "
-        "      o = {};                     "
-        "   }                              "
-        "   if (\"animation\" in o == false)"
-        "   {                              "
-        "     o[\"animationid\"] = 0; o[\"animationname\"] =\"\"; "
-        "   }                              "
-        "   else                           "
-        "   {                              "
-        "        if (typeof o[\"animation\"] == \"string\") "
-        "        {                         "
-        "             o[\"animationid\"] = 0; o[\"animationname\"] = o[\"animation\"]; "
-        "        }                         "
-        "        else "
-        "        {                         "
-        "             o[\"animationid\"] = o[\"animation\"]; o[\"animationname\"] = \"\"; "
-        "        }                         "
-        "   }"
-        "   if (\"name\" in o == false)    "
-        "   {                              "
-        "     o[\"name\"] = \"\";          "
-        "   }                              "
-        "   if (\"object\" in o == false)  "
-        "   {                              "
-        "      o[\"object\"] = 0;          "
-        "   }                              "
-        "   if (\"starttime\" in o == false)    "
-        "   {                              "
-        "      o[\"starttime\"] = 0;            "
-        "   }                              "
-        "   return E.animations.instances._addInstance(o[\"name\"], o[\"animationid\"], o[\"animationname\"], o[\"object\"], o[\"starttime\"]);"
-        "};"
-        "E.animations.instances.addWayInstance = function(o) {"
-        "   if (typeof o != \"object\")    "
-        "   {                              "
-        "      o = {};                     "
-        "   }                              "
-        "   if (\"name\" in o == false)    "
-        "   {                              "
-        "     o[\"name\"] = \"\";          "
-        "   }                              "
-        "   if (\"way\" in o == false)     "
-        "   {                              "
-        "      o[\"way\"] = 0;             "
-        "   }                              "
-        "   if (\"object\" in o == false)  "
-        "   {                              "
-        "      o[\"object\"] = 0;          "
-        "   }                              "
-        "   if (\"starttime\" in o == false)    "
-        "   {                              "
-        "      o[\"starttime\"] = 0;            "
-        "   }                              "
-        "   return E.animations.instances._addWayInstance(o[\"name\"], o[\"way\"], o[\"object\"], o[\"starttime\"]);"
-        "};"
-        "E.animations.instances.attr = function() {"
-        "   if (arguments.length == 2)"
-        "   {"
-        "       return E.animations.instances.get(arguments[0], arguments[1]);"
-        "   }"
-        "   if (arguments.length == 3)"
-        "   {"
-        "       return E.animations.instances.set(arguments[0], arguments[1], arguments[2]);"
-        "   }"
-        "   throw new Error(\"Specify 2 or 3 arguments\");"
-        "};"
-    );
     */
 }
 

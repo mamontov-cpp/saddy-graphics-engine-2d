@@ -138,7 +138,7 @@ protected:
     /*! Inits animation instances bindings
         \param[out] v a global value (E)
      */
-    void initAnimationInstanceBindings(QScriptValue& v);
+    void initAnimationInstanceBindings();
     /*! Inits animation groups bindings
         \param[out] v a global value (E)
      */
