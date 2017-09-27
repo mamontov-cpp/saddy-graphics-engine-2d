@@ -85,7 +85,7 @@ dukpp03::Maybe<scripting::dialogues::PhraseRef*> phrase(scripting::Scripting* sc
 /*! Initializes bindings for dialogues
     \param[in] s scripting object
     \param[in] e a global binding object
-    \return created animations object
+    \return created dialogues object
  */
 dukpp03::qt::JSObject* init(scripting::Scripting* s, dukpp03::qt::JSObject* e);
 

@@ -25,7 +25,6 @@
 
 
 Q_DECLARE_METATYPE(sad::animations::Group*); //-V566
-Q_DECLARE_METATYPE(sad::animations::Instance*); //-V566
 
 QScriptValue scripting::groups::list(
     QScriptContext* ctx,

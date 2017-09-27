@@ -59,6 +59,13 @@ dukpp03::Maybe<QVector<QVariant> > parent(
     sad::SceneNode* node
 );
 
+/*! Initializes bindings for grids
+    \param[in] s scripting object
+    \param[in] e a global binding object
+    \return created layout grid object
+*/
+dukpp03::qt::JSObject* init(scripting::Scripting* s, dukpp03::qt::JSObject* e);
+
 }
 
 }

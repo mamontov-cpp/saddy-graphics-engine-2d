@@ -1605,24 +1605,6 @@
     <ClCompile Include="scripting\instances\instancesbindings.cpp">
       <Filter>Source Files\scripting\instances</Filter>
     </ClCompile>
-    <ClCompile Include="scripting\instances\instancesnamesetter.cpp">
-      <Filter>Source Files\scripting\instances</Filter>
-    </ClCompile>
-    <ClCompile Include="scripting\instances\instancesanimationsetter.cpp">
-      <Filter>Source Files\scripting\instances</Filter>
-    </ClCompile>
-    <ClCompile Include="scripting\instances\instancesanimationdbsetter.cpp">
-      <Filter>Source Files\scripting\instances</Filter>
-    </ClCompile>
-    <ClCompile Include="scripting\instances\instancesobjectsetter.cpp">
-      <Filter>Source Files\scripting\instances</Filter>
-    </ClCompile>
-    <ClCompile Include="scripting\instances\instancesstarttimesetter.cpp">
-      <Filter>Source Files\scripting\instances</Filter>
-    </ClCompile>
-    <ClCompile Include="scripting\instances\instanceswaysetter.cpp">
-      <Filter>Source Files\scripting\instances</Filter>
-    </ClCompile>
     <ClCompile Include="scripting\groups\groupsbindings.cpp">
       <Filter>Source Files\scripting\groups</Filter>
     </ClCompile>
@@ -2613,24 +2595,6 @@
       <Filter>Header Files\scripting</Filter>
     </ClInclude>
     <ClInclude Include="scripting\instances\instancesbindings.h">
-      <Filter>Header Files\scripting\instances</Filter>
-    </ClInclude>
-    <ClInclude Include="scripting\instances\instancesnamesetter.h">
-      <Filter>Header Files\scripting\instances</Filter>
-    </ClInclude>
-    <ClInclude Include="scripting\instances\instancesanimationsetter.h">
-      <Filter>Header Files\scripting\instances</Filter>
-    </ClInclude>
-    <ClInclude Include="scripting\instances\instancesanimationdbsetter.h">
-      <Filter>Header Files\scripting\instances</Filter>
-    </ClInclude>
-    <ClInclude Include="scripting\instances\instancesobjectsetter.h">
-      <Filter>Header Files\scripting\instances</Filter>
-    </ClInclude>
-    <ClInclude Include="scripting\instances\instancesstarttimesetter.h">
-      <Filter>Header Files\scripting\instances</Filter>
-    </ClInclude>
-    <ClInclude Include="scripting\instances\instanceswaysetter.h">
       <Filter>Header Files\scripting\instances</Filter>
     </ClInclude>
     <ClInclude Include="scripting\groups\groupsbindings.h">

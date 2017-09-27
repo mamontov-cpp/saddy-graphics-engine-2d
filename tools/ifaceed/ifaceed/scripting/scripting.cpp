@@ -13,9 +13,6 @@
 #include "isaabb.h"
 #include "point2d.h"
 
-
-#include <animations/animationssimplemovement.h>
-
 #include "../scriptinghelp.h"
 
 #include "../core/editor.h"
@@ -26,65 +23,14 @@
 #include "../gui/uiblocks/uiconsoleblock.h"
 #include "../gui/uiblocks/uianimationblock.h"
 
-#include "../history/scenes/sceneschangename.h"
-
-
-#include "../history/scenenodes/scenenodeschangename.h"
-#include "../history/scenenodes/scenenodeschangeangle.h"
-#include "../history/scenenodes/scenenodeschangecolor.h"
-#include "../history/scenenodes/scenenodeschangearea.h"
-#include "../history/scenenodes/scenenodeschangevisibility.h"
-
-#include "../history/label/changefontsize.h"
-#include "../history/label/changetext.h"
-#include "../history/label/changefontname.h"
-#include "../history/label/changelinespacing.h"
-#include "../history/label/changemaximallinewidth.h"
-#include "../history/label/changebreaktext.h"
-#include "../history/label/changeoverflowstrategy.h"
-#include "../history/label/changetextellipsis.h"
-#include "../history/label/changemaximallinescount.h"
-#include "../history/label/changeoverflowstrategyforlines.h"
-#include "../history/label/changetextellipsisforlines.h"
-#include "../history/label/changehasformatting.h"
-
-#include "../history/sprite2d/changeflipx.h"
-#include "../history/sprite2d/changeflipy.h"
-
 #include "database/databasebindings.h"
-#include "database/databasepropertysetter.h"
-#include "database/databasepropertygetter.h"
-
 #include "scenes/scenesbindings.h"
-
 #include "scenenodes/scenenodesbindings.h"
-#include "scenenodes/scenenodessetter.h"
-#include "scenenodes/scenenodesflagsetter.h"
-#include "scenenodes/scenenodesoptionssetter.h"
-#include "scenenodes/scenenodesschemasetter.h"
-#include "scenenodes/scenenodescustomsetter.h"
-#include "scenenodes/scenenodescustomgetter.h"
-
-#include "layouts/scriptablelengthvalue.h"
-#include "layouts/scriptablegridcell.h"
 #include "layouts/gridbindings.h"
-
 #include "ways/waysbindings.h"
-
 #include "dialogues/dialoguesbindings.h"
-
 #include "animations/animationsbindings.h"
-
 #include "instances/instancesbindings.h"
-/*
-#include "instances/instancesnamesetter.h"
-#include "instances/instancesanimationsetter.h"
-#include "instances/instancesanimationdbsetter.h"
-#include "instances/instancesobjectsetter.h"
-#include "instances/instancesstarttimesetter.h"
-#include "instances/instanceswaysetter.h"
-*/
-
 #include "groups/groupsbindings.h"
 /*
 #include "groups/groupsnamesetter.h"
@@ -102,11 +48,8 @@
 #include "lambda.h"
 #include "function.h"
 
-Q_DECLARE_METATYPE(scripting::layouts::ScriptableGrid*)
-Q_DECLARE_METATYPE(scripting::layouts::ScriptableGridCell*)
 Q_DECLARE_METATYPE(sad::Vector<unsigned long long>) //-V566
 Q_DECLARE_METATYPE(QScriptContext*) //-V566
-Q_DUKPP03_DECLARE_METATYPE(scripting::layouts::ScriptableLengthValue)  //-V566
 
 // ================================== Miscellaneous functions =================================================
 extern const std::string __context_eval_info;
@@ -691,595 +634,28 @@ void scripting::Scripting::initSadTypeConstructors()
 
     m_global_value->setProperty("screenWidth", dukpp03::qt::make_function::from(scripting::Scripting::screenWidth));
     m_global_value->setProperty("screenHeight", dukpp03::qt::make_function::from(scripting::Scripting::screenHeight));
-
-    // TODO: Remove all after this point
-    // A sad::Point2D constructor   
-    scripting::MultiMethod* point2dconstructor = new scripting::MultiMethod(m_engine, "p2d");
-    point2dconstructor->add(scripting::make_constructor<sad::Point2D>(this));
-    point2dconstructor->add(scripting::make_constructor<sad::Point2D, double, double>(this));
-    this->registerScriptClass("p2d", point2dconstructor);
-
-    qScriptRegisterMetaType(m_engine, scripting::Point2D::toValue, scripting::Point2D::fromValue);
-
-    // A sad::Point2I constructor   
-    scripting::MultiMethod* point2iconstructor = new scripting::MultiMethod(m_engine, "p2i");
-    point2iconstructor->add(scripting::make_constructor<sad::Point2I>(this));
-    point2iconstructor->add(scripting::make_constructor<sad::Point2I, int, int>(this));
-    this->registerScriptClass("p2i", point2iconstructor);
-
-    // A sad::Point3D constructor   
-    scripting::MultiMethod* point3dconstructor = new scripting::MultiMethod(m_engine, "p3d");
-    point3dconstructor->add(scripting::make_constructor<sad::Point3D>(this));
-    point3dconstructor->add(scripting::make_constructor<sad::Point3D, sad::Point2D>(this));
-    point3dconstructor->add(scripting::make_constructor<sad::Point3D, double, double>(this));
-    point3dconstructor->add(scripting::make_constructor<sad::Point3D, double, double, double>(this));
-    this->registerScriptClass("p3d", point3dconstructor);
-
-    // A sad::Point3I constructor   
-    scripting::MultiMethod* point3iconstructor = new scripting::MultiMethod(m_engine, "p3i");
-    point3iconstructor->add(scripting::make_constructor<sad::Point3I>(this));
-    point3iconstructor->add(scripting::make_constructor<sad::Point3I, sad::Point2I>(this));
-    point3iconstructor->add(scripting::make_constructor<sad::Point3I, int, int>(this));
-    point3iconstructor->add(scripting::make_constructor<sad::Point3I, int, int, int>(this));
-    this->registerScriptClass("p3i", point3iconstructor);
-
-    // A sad::Rect2D constructor
-    scripting::MultiMethod* rect2dconstructor = new scripting::MultiMethod(m_engine, "r2d");
-    rect2dconstructor->add(scripting::make_constructor<sad::Rect2D>(this));
-    rect2dconstructor->add(scripting::make_constructor<sad::Rect2D, sad::Point2D, sad::Point2D>(this));
-    rect2dconstructor->add(scripting::make_constructor<sad::Rect2D, double, double, double, double>(this));
-    rect2dconstructor->add(scripting::make_constructor<sad::Rect2D, sad::Point2D, sad::Point2D, sad::Point2D, sad::Point2D>(this));
-    this->registerScriptClass("r2d", rect2dconstructor);
-
-    // A sad::Rect2I constructor
-    scripting::MultiMethod* rect2iconstructor = new scripting::MultiMethod(m_engine, "r2i");
-    rect2iconstructor->add(scripting::make_constructor<sad::Rect2I>(this));
-    rect2iconstructor->add(scripting::make_constructor<sad::Rect2I, sad::Point2I, sad::Point2I>(this));
-    rect2iconstructor->add(scripting::make_constructor<sad::Rect2I, int, int, int, int>(this));
-    rect2iconstructor->add(scripting::make_constructor<sad::Rect2I, sad::Point2I, sad::Point2I, sad::Point2I, sad::Point2I>(this));
-    this->registerScriptClass("r2i", rect2iconstructor);
-
-    // A sad::Size2D constructor    
-    scripting::MultiMethod* size2dconstructor = new scripting::MultiMethod(m_engine, "s2d");
-    size2dconstructor->add(scripting::make_constructor<sad::Size2D>(this));
-    size2dconstructor->add(scripting::make_constructor<sad::Size2D, double, double>(this));
-    this->registerScriptClass("s2d", size2dconstructor);
-
-    // A sad::Size2I constructor    
-    scripting::MultiMethod* size2iconstructor = new scripting::MultiMethod(m_engine, "s2i");
-    size2iconstructor->add(scripting::make_constructor<sad::Size2I>(this));
-    size2iconstructor->add(scripting::make_constructor<sad::Size2I, unsigned int, unsigned int>(this));
-    this->registerScriptClass("s2i", size2iconstructor);
-
-    // A sad::Color
-    scripting::MultiMethod* clrconstructor = new scripting::MultiMethod(m_engine, "clr");
-    clrconstructor->add(scripting::make_constructor<sad::Color>(this));
-    clrconstructor->add(scripting::make_constructor<sad::Color, unsigned char, unsigned char, unsigned char>(this));
-    this->registerScriptClass("clr", clrconstructor);
-
-    // A sad::AColor
-    scripting::MultiMethod* aclrconstructor = new scripting::MultiMethod(m_engine, "aclr");
-    aclrconstructor->add(scripting::make_constructor<sad::AColor>(this));
-    aclrconstructor->add(scripting::make_constructor<sad::AColor, unsigned char, unsigned char, unsigned char>(this));
-    aclrconstructor->add(scripting::make_constructor<sad::AColor, unsigned char, unsigned char, unsigned char, unsigned char>(this));
-    this->registerScriptClass("aclr", aclrconstructor);   
-
-    scripting::Callable* screenWidth = scripting::make_function_call(scripting::Scripting::screenWidth, this);
-    screenWidth->setName("screenWidth");
-    m_registered_classes << screenWidth;
-    m_value.setProperty("screenWidth", m_engine->newObject(screenWidth), m_flags); // E.screenWidth
-
-    scripting::Callable* screenHeight = scripting::make_function_call(scripting::Scripting::screenHeight, this);
-    screenHeight->setName("screenHeight");
-    m_registered_classes << screenHeight;
-    m_value.setProperty("screenHeight", m_engine->newObject(screenHeight), m_flags); // E.screenHeight
 }
 
 void scripting::Scripting::initDatabasePropertyBindings()
 {
-    dukpp03::qt::JSObject* db = new dukpp03::qt::JSObject();
-    db->setProperty("list", dukpp03::qt::make_function::from(scripting::database::list));
-    db->setProperty("type", dukpp03::qt::make_function::from(scripting::database::type));
-    db->setProperty("readableProperties", dukpp03::qt::make_function::from(scripting::database::readableProperties));
-    db->setProperty("writableProperties", dukpp03::qt::make_function::from(scripting::database::writableProperties));
-    db->setProperty("addProperty", dukpp03::qt::curried1::from(this, scripting::database::addProperty));
-    db->setProperty("removeProperty", dukpp03::qt::curried1::from(this, scripting::database::removeProperty));
-
-    dukpp03::qt::MultiMethod* set = new dukpp03::qt::MultiMethod();
-#define PUSH_SETTER(TYPE) set->add(new scripting::database::PropertySetter< TYPE >(this));
-    PUSH_SETTER( double )
-    PUSH_SETTER( float )
-    PUSH_SETTER( int )
-    PUSH_SETTER( long )
-    PUSH_SETTER( long long )
-    PUSH_SETTER( sad::AColor )
-    PUSH_SETTER( sad::Color )
-    PUSH_SETTER( sad::Point2D )
-    PUSH_SETTER( sad::Point2I )
-    PUSH_SETTER( sad::Point3D )
-    PUSH_SETTER( sad::Point3I )
-    PUSH_SETTER( sad::Size2D )
-    PUSH_SETTER( sad::Size2I )
-    PUSH_SETTER( sad::Rect2D )
-    PUSH_SETTER( sad::Rect2I )
-    PUSH_SETTER( sad::String )
-    PUSH_SETTER( std::string )
-    PUSH_SETTER( QString )
-    PUSH_SETTER( short )
-    PUSH_SETTER( bool )
-    PUSH_SETTER( char )
-    PUSH_SETTER( signed char )
-    PUSH_SETTER( unsigned char )
-    PUSH_SETTER( unsigned int )
-    PUSH_SETTER( unsigned long )
-    PUSH_SETTER( unsigned long long )
-    PUSH_SETTER( unsigned short )
-#undef PUSH_SETTER
-    db->setProperty("set",  static_cast<dukpp03::qt::Callable*>(set)); // E.db.set
-
-
-    dukpp03::qt::MultiMethod* get = new dukpp03::qt::MultiMethod();
-#define PUSH_GETTER(TYPE) get->add(new scripting::database::PropertyGetter< TYPE >());
-    PUSH_GETTER( double )
-    PUSH_GETTER( float )
-    PUSH_GETTER( int )
-    PUSH_GETTER( long )
-    PUSH_GETTER( long long )
-    PUSH_GETTER( sad::AColor )
-    PUSH_GETTER( sad::Color )
-    PUSH_GETTER( sad::Point2D )
-    PUSH_GETTER( sad::Point2I )
-    PUSH_GETTER( sad::Point3D )
-    PUSH_GETTER( sad::Point3I )
-    PUSH_GETTER( sad::Size2D )
-    PUSH_GETTER( sad::Size2I )
-    PUSH_GETTER( sad::Rect2D )
-    PUSH_GETTER( sad::Rect2I )
-    PUSH_GETTER( sad::String )
-    PUSH_GETTER( std::string )
-    PUSH_GETTER( QString )
-    PUSH_GETTER( short )
-    PUSH_GETTER( bool )
-    PUSH_GETTER( char )
-    PUSH_GETTER( signed char )
-    PUSH_GETTER( unsigned char )
-    PUSH_GETTER( unsigned int )
-    PUSH_GETTER( unsigned long )
-    PUSH_GETTER( unsigned long long )
-    PUSH_GETTER( unsigned short )
-#undef PUSH_GETTER
-    db->setProperty("get", static_cast<dukpp03::qt::Callable*>(get)); // E.db.get
-
-    m_global_value->setProperty("db", db);
-
-    bool b = m_ctx->eval(
-        "E.db.attr = function() {"  
-        "   if (arguments.length == 1)"
-        "   {"
-        "       return E.db.get(arguments[0]);"
-        "   }"
-        "   if (arguments.length == 2)"
-        "   {"
-        "       E.db.set(arguments[0], arguments[1]); return E.db;"
-        "   }"
-        "   throw new Error(\"Specify 1 or 2 arguments\");"
-        "};"
-    );
-    assert(b);
+    scripting::database::init(this, m_global_value);
 }
 
 void scripting::Scripting::initSceneBindings()
 {
-    dukpp03::qt::JSObject* scenes = new dukpp03::qt::JSObject();
-    scenes->setProperty("list", dukpp03::qt::make_function::from(scripting::scenes::list));
-
-    dukpp03::qt::MultiMethod* add = new dukpp03::qt::MultiMethod();
-    add->add(dukpp03::qt::curried1::from(this, scripting::scenes::add));
-    add->add(dukpp03::qt::curried1::from(this, scripting::scenes::addNameless));
-    scenes->setProperty("add", static_cast<dukpp03::qt::Callable*>(add)); // E.db.add
-
-    scenes->setProperty("remove", dukpp03::qt::curried1::from(this, scripting::scenes::remove));
-    scenes->setProperty("moveBack", dukpp03::qt::curried1::from(this, scripting::scenes::moveBack));
-    scenes->setProperty("moveFront", dukpp03::qt::curried1::from(this, scripting::scenes::moveFront));
-
-    dukpp03::qt::MultiMethod* set = new dukpp03::qt::MultiMethod();
-
-    {
-        scripting::AbstractSetter<sad::Scene*, sad::String>* name_setter  = scripting::setterForProperty<sad::Scene*, sad::String>(this, "name");
-        std::function<
-            void(scripting::Scripting*, sad::Scene*, const sad::String&, sad::String oldvalue, sad::String newvalue)
-        > set_name_action = [](scripting::Scripting* s, sad::Scene* obj, const sad::String& propertyname, sad::String oldvalue, sad::String newvalue) {
-            core::Editor* editor =  s->editor();
-
-            history::Command* c = new history::scenes::ChangeName(obj, oldvalue, newvalue);
-            editor->currentBatchCommand()->add(c);
-            c->commit(editor);
-        };
-        name_setter->addAction(set_name_action);
-        set->add(name_setter);
-    }
-
-    scenes->setProperty("set",  static_cast<dukpp03::qt::Callable*>(set)); // E.scenes.set
-
-    dukpp03::qt::MultiMethod* get = new dukpp03::qt::MultiMethod();
-    get->add(new scripting::AbstractGetter<sad::Scene*, sad::String>("name"));
-    get->add(new scripting::AbstractGetter<sad::Scene*, unsigned int>("layer"));
-    get->add(new scripting::AbstractGetter<sad::Scene*, unsigned long long>("majorid"));
-    get->add(new scripting::AbstractGetter<sad::Scene*, unsigned long long>("minorid"));
-    scenes->setProperty("get",  static_cast<dukpp03::qt::Callable*>(get)); // E.scenes.get
-
-    m_global_value->setProperty("scenes", scenes);
-
-
-    bool b = m_ctx->eval(
-        "E.scenes.attr = function() {"
-        "   if (arguments.length == 2)"
-        "   {"
-        "       return E.scenes.get(arguments[0], arguments[1]);"
-        "   }"
-        "   if (arguments.length == 3)"
-        "   {"
-        "       E.scenes.set(arguments[0], arguments[1], arguments[2]); return E.scenes;"
-        "   }"
-        "   throw new Error(\"Specify 2 or 3 arguments\");"
-        "};"
-    );
-    assert(b);
+    scripting::scenes::init(this, m_global_value);
 }
 
 
 void scripting::Scripting::initSceneNodesBindings()
 {
-    dukpp03::qt::JSObject* scenenodes = new dukpp03::qt::JSObject();
-    scenenodes->setProperty("list", dukpp03::qt::make_function::from(scripting::scenenodes::list));
-    scenenodes->setProperty("listScene", dukpp03::qt::make_function::from(scripting::scenenodes::listScene));
-    scenenodes->setProperty("_addLabel", dukpp03::qt::curried1::from(this, scripting::scenenodes::_addLabel));
-    scenenodes->setProperty("_addSprite2D", dukpp03::qt::curried1::from(this, scripting::scenenodes::_addSprite2D));
-    scenenodes->setProperty("_addCustomObject", dukpp03::qt::curried1::from(this, scripting::scenenodes::_addCustomObject));
-    scenenodes->setProperty("makeBackground", dukpp03::qt::curried1::from(this, scripting::scenenodes::makeBackground));
-    scenenodes->setProperty("remove", dukpp03::qt::curried1::from(this, scripting::scenenodes::remove));
-    scenenodes->setProperty("spanBetweenTwoPoints", dukpp03::qt::curried1::from(this, scripting::scenenodes::spanBetweenTwoPoints));
-
-    dukpp03::qt::MultiMethod* set = new dukpp03::qt::MultiMethod();
-
-    {
-        // All props
-        set->add(new scripting::scenenodes::FlagSetter(this, "visible", history::scenenodes::changeVisibility));
-        set->add(new scripting::scenenodes::Setter<sad::String, history::scenenodes::ChangeName>(this, "name"));
-
-        scripting::scenenodes::Setter<sad::Rect2D, history::scenenodes::ChangeArea>* area_setter = new scripting::scenenodes::Setter<sad::Rect2D, history::scenenodes::ChangeArea>(this, "area");
-        std::function<dukpp03::Maybe<sad::String>(const sad::Rect2D&)> is_aabb = [](const sad::Rect2D& val) {
-            dukpp03::Maybe<sad::String> result;
-            if (sad::isAABB(val) == false)
-            {
-                result.setValue("Rectangle must be axis-aligned");
-            }
-            return result;
-        };
-        area_setter->addCondition(is_aabb);
-        set->add(area_setter);
-
-        set->add(new scripting::scenenodes::Setter<double, history::scenenodes::ChangeAngle>(this, "angle"));
-        set->add(new scripting::scenenodes::Setter<sad::AColor, history::scenenodes::ChangeColor>(this, "color"));
-
-        // sad::Label props
-        scripting::scenenodes::Setter<unsigned int, history::label::ChangeFontSize>* font_size_setter = new scripting::scenenodes::Setter<unsigned int, history::label::ChangeFontSize>(this, "fontsize");
-        std::function<dukpp03::Maybe<sad::String>(const unsigned long&)> is_greater_than_zero = [](const unsigned long& val) {
-            dukpp03::Maybe<sad::String> result;
-            if (val == 0)
-            {
-                result.setValue("Value must be greater than zero");
-            }
-            return result;
-        };
-        font_size_setter->addCondition(is_greater_than_zero);
-        set->add(font_size_setter);
-        set->add(new scripting::scenenodes::Setter<sad::String, history::label::ChangeText>(this, "text"));
-        set->add(new scripting::scenenodes::Setter<float, history::label::ChangeLineSpacing>(this, "linespacing"));
-        set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeMaximalLineWidth>(this, "maximallinewidth"));
-        set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeOverflowStrategy>(this, "overflowstrategy"));
-        set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeBreakText>(this, "breaktext"));
-        set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeTextEllipsis>(this, "textellipsisposition"));
-        set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeMaximalLinesCount>(this, "maximallinescount"));
-        set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeOverflowStrategyForLines>(this, "overflowstrategyforlines"));
-        set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeTextEllipsisForLines>(this, "textellipsispositionforlines"));
-        set->add(new scripting::scenenodes::Setter<bool, history::label::ChangeHasFormatting>(this, "hasformatting"));
-
-        scripting::scenenodes::Setter<sad::String, history::label::ChangeFontName>* font_setter = new scripting::scenenodes::Setter<sad::String, history::label::ChangeFontName>(this, "font");
-        std::function<dukpp03::Maybe<sad::String>(const sad::String&)> font_exists = [](const sad::String& resource_name) {
-            dukpp03::Maybe<sad::String> result;
-            sad::resource::Resource* resource = sad::Renderer::ref()->tree("")->root()->resource(resource_name);
-            bool valid = false;
-            if (resource) {
-                if (resource->metaData()->canBeCastedTo("sad::freetype::Font")
-                    || resource->metaData()->canBeCastedTo("sad::TextureMappedFont")
-                    || resource->metaData()->canBeCastedTo("sad::Font"))
-                {
-                    valid = true;
-                }
-            }
-            if (!valid)
-            {
-                result.setValue(resource_name + " is not a font resource");
-            }
-            return result;
-        };
-        font_setter->addCondition(font_exists);
-        set->add(font_setter);
-        // sad::Sprite2D props
-        set->add(new scripting::scenenodes::FlagSetter(this, "flipx", history::sprite2d::changeFlipX));
-        set->add(new scripting::scenenodes::FlagSetter(this, "flipy", history::sprite2d::changeFlipY));
-        set->add(new scripting::scenenodes::OptionsSetter(this));
-        // sad::db::CustomObject props
-        set->add(new scripting::scenenodes::SchemaSetter(this));
-#define PUSH_SETTER(TYPE) set->add(new scripting::scenenodes::CustomSetter< TYPE >(this));
-        PUSH_SETTER( double )
-        PUSH_SETTER( float )
-        PUSH_SETTER( int )
-        PUSH_SETTER( long )
-        PUSH_SETTER( long long )
-        PUSH_SETTER( sad::AColor )
-        PUSH_SETTER( sad::Color )
-        PUSH_SETTER( sad::Point2D )
-        PUSH_SETTER( sad::Point2I )
-        PUSH_SETTER( sad::Point3D )
-        PUSH_SETTER( sad::Point3I )
-        PUSH_SETTER( sad::Size2D )
-        PUSH_SETTER( sad::Size2I )
-        PUSH_SETTER( sad::Rect2D )
-        PUSH_SETTER( sad::Rect2I )
-        PUSH_SETTER( sad::String )
-        PUSH_SETTER( std::string )
-        PUSH_SETTER( QString )
-        PUSH_SETTER( short )
-        PUSH_SETTER( bool )
-        PUSH_SETTER( char )
-        PUSH_SETTER( signed char )
-        PUSH_SETTER( unsigned char )
-        PUSH_SETTER( unsigned int )
-        PUSH_SETTER( unsigned long )
-        PUSH_SETTER( unsigned long long )
-        PUSH_SETTER( unsigned short )
-    #undef PUSH_SETTER
-    }
-
-    scenenodes->setProperty("set",  static_cast<dukpp03::qt::Callable*>(set)); // E.scenenodes.set
-    dukpp03::qt::MultiMethod* get = new dukpp03::qt::MultiMethod();
-    {
-        // All
-        get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>("name"));
-        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>("layer"));
-        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned long long>("majorid"));
-        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned long long>("minorid"));
-        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned long long>("scene"));
-        get->add(new scripting::AbstractGetter<sad::SceneNode*, bool>("visible"));
-        get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::Rect2D>("area"));
-        get->add(new scripting::AbstractGetter<sad::SceneNode*, double>("angle"));
-        get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::AColor>("color"));
-        // sad::Label props
-        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>("fontsize"));
-        get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>("text"));
-        get->add(new scripting::AbstractGetter<sad::SceneNode*, float>("linespacing"));
-        get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>("font"));
-        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>("maximallinewidth"));
-        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>("overflowstrategy"));
-        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>("breaktext"));
-        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>("textellipsisposition"));
-        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>("maximallinescount"));
-        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>("overflowstrategyforlines"));
-        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>("textellipsispositionforlines"));
-        get->add(new scripting::AbstractGetter<sad::SceneNode*, bool>("hasformatting"));
-
-        // sad::Sprite2D props
-        get->add(new scripting::AbstractGetter<sad::SceneNode*, bool>("flipx"));
-        get->add(new scripting::AbstractGetter<sad::SceneNode*, bool>("flipy"));
-        get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>("options"));
-        // sad::db::CustomObject props
-        get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>( "schema"));
-    #define PUSH_GETTER(TYPE) get->add(scripting::scenenodes::custom_getter< TYPE >());
-        PUSH_GETTER( double )
-        PUSH_GETTER( float )
-        PUSH_GETTER( int )
-        PUSH_GETTER( long )
-        PUSH_GETTER( long long )
-        PUSH_GETTER( sad::AColor )
-        PUSH_GETTER( sad::Color )
-        PUSH_GETTER( sad::Point2D )
-        PUSH_GETTER( sad::Point2I )
-        PUSH_GETTER( sad::Point3D )
-        PUSH_GETTER( sad::Point3I )
-        PUSH_GETTER( sad::Size2D )
-        PUSH_GETTER( sad::Size2I )
-        PUSH_GETTER( sad::Rect2D )
-        PUSH_GETTER( sad::Rect2I )
-        PUSH_GETTER( sad::String )
-        PUSH_GETTER( std::string )
-        PUSH_GETTER( QString )
-        PUSH_GETTER( short )
-        PUSH_GETTER( bool )
-        PUSH_GETTER( char )
-        PUSH_GETTER( signed char )
-        PUSH_GETTER( unsigned char )
-        PUSH_GETTER( unsigned int )
-        PUSH_GETTER( unsigned long )
-        PUSH_GETTER( unsigned long long )
-        PUSH_GETTER( unsigned short )
-    #undef PUSH_GETTER
-    }
-    scenenodes->setProperty("get",  static_cast<dukpp03::qt::Callable*>(get)); // E.scenenodes.get
-
-    m_global_value->setProperty("scenenodes", scenenodes);
-
-    bool b = m_ctx->eval(
-        "E.OverflowStrategy = { \"Visible\": 0, \"Hidden\": 1, \"Ellipsis\": 2 };"
-        "E.BreakText = { \"Normal\": 0, \"BreakWord\": 1};"
-        "E.TextEllipsisPosition = { \"Begin\": 0, \"Middle\": 1, \"End\": 2};"
-    );
-    assert( b );
-
-    b = m_ctx->eval(
-        "E.scenenodes.addLabel = function(o) {"
-        "   if (\"fontsize\" in o == false)"
-        "   {                              "
-        "     o[\"fontsize\"] = 16;        "
-        "   }                              "
-        "   if (\"color\" in o == false)   "
-        "   {"
-        "      o[\"color\"] = aclr(255, 255, 255, 0);"
-        "   }"
-        "   if (\"name\" in o == false)   "
-        "   {"
-        "      o[\"name\"] = \"\";"
-        "   }"
-        "   return E.scenenodes._addLabel(o[\"scene\"], o[\"font\"], o[\"fontsize\"], o[\"text\"], o[\"name\"], o[\"point\"], o[\"color\"]);"
-        "};"
-        "E.scenenodes.addSprite2D = function(o) {"
-        "   if (\"color\" in o == false)   "
-        "   {"
-        "      o[\"color\"] = aclr(255, 255, 255, 0);"
-        "   }"
-        "   if (\"name\" in o == false)   "
-        "   {"
-        "      o[\"name\"] = \"\";"
-        "   }"
-        "   return E.scenenodes._addSprite2D(o[\"scene\"], o[\"sprite\"], o[\"name\"], o[\"area\"], o[\"color\"]);"
-        "};"
-        "E.scenenodes.addCustomObject = function(o) {"
-        "   if (\"fontsize\" in o == false)"
-        "   {                              "
-        "     o[\"fontsize\"] = 16;        "
-        "   }                              "
-        "   if (\"color\" in o == false)   "
-        "   {"
-        "      o[\"color\"] = aclr(255, 255, 255, 0);"
-        "   }"
-        "   if (\"name\" in o == false)   "
-        "   {"
-        "      o[\"name\"] = \"\";"
-        "   }"
-        "   return E.scenenodes._addCustomObject(o[\"scene\"], o[\"schema\"], o[\"name\"], o[\"fontsize\"], o[\"text\"],  o[\"area\"], o[\"color\"]);"
-        "};"
-        "E.scenenodes.attr = function() {"
-        "   if (arguments.length == 2)"
-        "   {"
-        "       return E.scenenodes.get(arguments[0], arguments[1]);"
-        "   }"
-        "   if (arguments.length == 3)"
-        "   {"
-        "       return E.scenenodes.set(arguments[0], arguments[1], arguments[2]); return E.scenenodes;"
-        "   }"
-        "   throw new Error(\"Specify 2 or 3 arguments\");"
-        "};"
-    );
-    assert( b );
+    scripting::scenenodes::init(this, m_global_value);
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
 void scripting::Scripting::initLayoutGridBindings()
 {
-    dukpp03::qt::registerMetaType<scripting::layouts::ScriptableLengthValue>();
-    dukpp03::qt::registerMetaType<scripting::layouts::ScriptableGrid>();
-    dukpp03::qt::registerMetaType<scripting::layouts::ScriptableGridCell>();
-
-    dukpp03::qt::JSObject* layouts = new dukpp03::qt::JSObject();
-
-    m_global_value->setProperty("layouts", layouts);
-
-    dukpp03::qt::JSObject* unit = new dukpp03::qt::JSObject();
-    unit->setProperty("LU_Auto", static_cast<unsigned int>(sad::layouts::LU_Auto));
-    unit->setProperty("LU_Pixels", static_cast<unsigned int>(sad::layouts::LU_Pixels));
-    unit->setProperty("LU_Percents", static_cast<unsigned int>(sad::layouts::LU_Percents));
-    layouts->setProperty("Unit", unit); // E.layouts.Unit
-    layouts->setEvaluatedProperty("LU_Auto", "E.layouts.Unit.LU_Auto");
-    layouts->setEvaluatedProperty("LU_Pixels", "E.layouts.Unit.LU_Pixels");
-    layouts->setEvaluatedProperty("LU_Percents", "E.layouts.Unit.LU_Percents");
-
-    dukpp03::qt::JSObject* horizontal_alignment = new dukpp03::qt::JSObject();
-    horizontal_alignment->setProperty("LHA_Left", static_cast<unsigned int>(sad::layouts::LHA_Left));
-    horizontal_alignment->setProperty("LHA_Middle", static_cast<unsigned int>(sad::layouts::LHA_Middle));
-    horizontal_alignment->setProperty("LHA_Right", static_cast<unsigned int>(sad::layouts::LHA_Right));
-    layouts->setProperty("HorizontalAlignment", horizontal_alignment); // E.layouts.HorizontalAlignment
-    layouts->setEvaluatedProperty("LHA_Left", "E.layouts.HorizontalAlignment.LHA_Left");
-    layouts->setEvaluatedProperty("LHA_Middle", "E.layouts.HorizontalAlignment.LHA_Middle");
-    layouts->setEvaluatedProperty("LHA_Right", "E.layouts.HorizontalAlignment.LHA_Right");
-
-    dukpp03::qt::JSObject* vertical_alignment = new dukpp03::qt::JSObject();
-    vertical_alignment->setProperty("LVA_Top", static_cast<unsigned int>(sad::layouts::LVA_Top));
-    vertical_alignment->setProperty("LVA_Middle", static_cast<unsigned int>(sad::layouts::LVA_Middle));
-    vertical_alignment->setProperty("LVA_Bottom", static_cast<unsigned int>(sad::layouts::LVA_Bottom));
-    layouts->setProperty("VerticalAlignment", vertical_alignment); // E.layouts.VerticalAlignment
-    layouts->setEvaluatedProperty("LVA_Top", "E.layouts.VerticalAlignment.LVA_Top");
-    layouts->setEvaluatedProperty("LVA_Middle", "E.layouts.VerticalAlignment.LVA_Middle");
-    layouts->setEvaluatedProperty("LVA_Bottom", "E.layouts.VerticalAlignment.LVA_Bottom");
-
-    dukpp03::qt::JSObject* stacking_type = new dukpp03::qt::JSObject();
-    stacking_type->setProperty("LST_Horizontal", static_cast<unsigned int>(sad::layouts::LST_Horizontal));
-    stacking_type->setProperty("LST_Vertical", static_cast<unsigned int>(sad::layouts::LST_Vertical));
-    stacking_type->setProperty("LST_NoStacking", static_cast<unsigned int>(sad::layouts::LST_NoStacking));
-    layouts->setProperty("StackingType", stacking_type); // E.layouts.StackingType
-    layouts->setEvaluatedProperty("LST_Horizontal", "E.layouts.StackingType.LST_Horizontal");
-    layouts->setEvaluatedProperty("LST_Vertical", "E.layouts.StackingType.LST_Vertical");
-    layouts->setEvaluatedProperty("LST_NoStacking", "E.layouts.StackingType.LST_NoStacking");
-
-    scripting::Scripting* scriptable_me = this;
-    std::function<scripting::layouts::ScriptableLengthValue*(unsigned int, double)> length_value = [scriptable_me](unsigned int unit, double value)
-    {
-        if ((unit != sad::layouts::LU_Auto) && (unit != sad::layouts::LU_Percents) && (unit != sad::layouts::LU_Pixels))
-        {
-            scriptable_me->context()->throwError("Argument 1 must have sad::layouts::Unit type");
-            throw new dukpp03::ArgumentException();
-        }
-        return new scripting::layouts::ScriptableLengthValue(static_cast<sad::layouts::Unit>(unit), value, scriptable_me);
-    };
-    layouts->setProperty("LengthValue", static_cast<dukpp03::qt::Callable*>(dukpp03::qt::make_lambda::from(length_value)));
-
-    bool b  = m_ctx->eval(
-        "E.layouts.Auto = function() { return E.layouts.LengthValue(E.layouts.Unit.LU_Auto, 0); };"
-        "E.layouts.Pixels = function(a) { if (typeof a != \"number\") throw \"E.layouts.Pixels: first argument should be numeric\"; return E.layouts.LengthValue(E.layouts.Unit.LU_Pixels, a); };"
-        "E.layouts.Percents = function(a) { if (typeof a != \"number\") throw \"E.layouts.Percents: first argument should be numeric\"; return E.layouts.LengthValue(E.layouts.Unit.LU_Percents, a); };"
-    );
-    assert( b );
-
-    layouts->setProperty("list", dukpp03::qt::make_function::from(scripting::layouts::list)); // E.layouts.list
-    layouts->setProperty("_query", dukpp03::qt::curried1::from(this, scripting::layouts::_query)); // E.layouts._query
-
-    dukpp03::qt::MultiMethod* add = new dukpp03::qt::MultiMethod();
-    {
-        add->add(dukpp03::qt::curried1::from(this, scripting::layouts::add));
-        scripting::Scripting* local_me = this;
-        std::function<scripting::layouts::ScriptableGrid*()> add_no_args = [local_me]() {
-            return scripting::layouts::add(local_me, "");
-        };
-        add->add(dukpp03::qt::make_lambda::from(add_no_args));
-    }
-    layouts->setProperty("add", static_cast<dukpp03::qt::Callable*>(add)); // E.scenenodes.add
-    layouts->setProperty("remove", dukpp03::qt::curried1::from(this, scripting::layouts::remove)); // E.layouts.remove
-    layouts->setProperty("parent", dukpp03::qt::curried1::from(this, scripting::layouts::parent)); // E.layouts.parent
-
-    {
-        dukpp03::qt::ClassBinding* binding = new dukpp03::qt::ClassBinding();
-        binding->addMethod("setArea", dukpp03::qt::bind_method::from(&scripting::layouts::ScriptableGrid::setArea));
-        binding->addMethod("findChild", dukpp03::qt::bind_method::from(&scripting::layouts::ScriptableGrid::findChild));
-        binding->addMethod("cell", dukpp03::qt::bind_method::from(&scripting::layouts::ScriptableGrid::cell));
-        binding->addMethod("children", dukpp03::qt::bind_method::from(&scripting::layouts::ScriptableGrid::children));
-        binding->registerMetaObject<scripting::layouts::ScriptableGrid>();
-        m_ctx->addClassBinding("scripting::layouts::ScriptableGrid", binding);
-    }
-
-    {
-        dukpp03::qt::ClassBinding* binding = new dukpp03::qt::ClassBinding();
-        binding->addMethod("children", dukpp03::qt::bind_method::from(&scripting::layouts::ScriptableGridCell::children));
-        binding->addMethod("findChild", dukpp03::qt::bind_method::from(&scripting::layouts::ScriptableGridCell::findChild));
-        binding->addMethod("addChild", dukpp03::qt::bind_method::from(&scripting::layouts::ScriptableGridCell::addChild));
-        binding->registerMetaObject<scripting::layouts::ScriptableGridCell>();
-        m_ctx->addClassBinding("scripting::layouts::ScriptableGridCell", binding);
-    }
-
-    b = m_ctx->eval(
-        "E.layouts.query = function(a) {  try { return E.layouts._query(a); } catch(e) { return null; } };"
-    );
-    assert( b );
-    
+    scripting::layouts::init(this, m_global_value);
 }
 
 void scripting::Scripting::initWaysBindings()
@@ -1301,58 +677,13 @@ void scripting::Scripting::initAnimationsBindings()
 
 void scripting::Scripting::initAnimationInstanceBindings()
 {
-    scripting::instances::init(this ,m_animations_value);
-    /*
-    QScriptValue instances = m_engine->newObject();
-
-    instances.setProperty("list", m_engine->newFunction(scripting::instances::list), m_flags); // E.animations.instances.list
-
-    scripting::Callable* _addInstance = scripting::make_scripting_call(scripting::instances::_addInstance, this);
-    _addInstance->setName("_addInstance");
-    m_registered_classes << _addInstance;
-    instances.setProperty("_addInstance", m_engine->newObject(_addInstance), m_flags); // E.animations.instances._addInstance
-
-    scripting::Callable* _addWayInstance = scripting::make_scripting_call(scripting::instances::_addWayInstance, this);
-    _addWayInstance->setName("_addWayInstance");
-    m_registered_classes << _addWayInstance;
-    instances.setProperty("_addWayInstance", m_engine->newObject(_addWayInstance), m_flags); // E.animations.instances._addWayInstance
-
-    scripting::Callable* remove = scripting::make_scripting_call(scripting::instances::remove, this);
-    remove->setName("remove");
-    m_registered_classes << remove;
-    instances.setProperty("remove", m_engine->newObject(remove), m_flags); // E.animations.instances.remove
-
-    scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
-    set->add(new scripting::instances::NameSetter(m_engine));
-    set->add(new scripting::instances::AnimationSetter(m_engine));
-    set->add(new scripting::instances::AnimationDBSetter(m_engine));
-    set->add(new scripting::instances::ObjectSetter(m_engine));
-    set->add(new scripting::instances::StartTimeSetter(m_engine));
-    set->add(new scripting::instances::WaySetter(m_engine));
-    
-    m_registered_classes << set;
-    instances.setProperty("set", m_engine->newObject(set), m_flags); // E.animations.instances.set
-
-
-    scripting::MultiMethod* get = new scripting::MultiMethod(m_engine, "get");
-    get->add(new scripting::AbstractGetter<sad::animations::Instance*, sad::String>(m_engine, "name"));
-    get->add(new scripting::AbstractGetter<sad::animations::Instance*, unsigned long long>(m_engine, "majorid"));
-    get->add(new scripting::AbstractGetter<sad::animations::Instance*, unsigned long long>(m_engine, "minorid"));
-    get->add(new scripting::AbstractGetter<sad::animations::Instance*, sad::String>(m_engine, "animation"));
-    get->add(new scripting::AbstractGetter<sad::animations::Instance*, unsigned long long>(m_engine, "animationmajorid"));
-    get->add(new scripting::AbstractGetter<sad::animations::Instance*, unsigned long long>(m_engine, "object"));
-    get->add(new scripting::AbstractGetter<sad::animations::Instance*, double>(m_engine, "starttime"));
-    get->add(new scripting::AbstractGetter<sad::animations::WayInstance*, unsigned long long>(m_engine, "way"));
-    
-    m_registered_classes << get;
-    instances.setProperty("get", m_engine->newObject(get), m_flags); // E.animations.instances.get
-
-    */
+    scripting::instances::init(this, m_animations_value);
 }
 
 
 void scripting::Scripting::initAnimationGroupBindings(QScriptValue& v)
 {
+    /*
     QScriptValue groups = m_engine->newObject();
 
     groups.setProperty("list", m_engine->newFunction(scripting::groups::list), m_flags); // E.animations.groups.list
@@ -1386,7 +717,7 @@ void scripting::Scripting::initAnimationGroupBindings(QScriptValue& v)
     removeInstance->setName("removeInstance");
     m_registered_classes << removeInstance;
     groups.setProperty("removeInstance", m_engine->newObject(removeInstance), m_flags); // E.animations.groups.removeInstance
-
+    */
 
     /*
     scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
@@ -1409,6 +740,7 @@ void scripting::Scripting::initAnimationGroupBindings(QScriptValue& v)
     m_registered_classes << get;
     groups.setProperty("get", m_engine->newObject(get), m_flags); // E.scenes.set
     */
+    /*
     v.property("animations").setProperty("groups", groups, m_flags);
 
 
@@ -1440,6 +772,7 @@ void scripting::Scripting::initAnimationGroupBindings(QScriptValue& v)
         "   throw new Error(\"Specify 2 or 3 arguments\");"
         "};"
     );
+    */
 }
 
 void scripting::Scripting::copyProperties(scripting::Scripting::CopyPropertiesDirection direction)

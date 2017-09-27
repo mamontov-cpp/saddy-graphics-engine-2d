@@ -4,6 +4,7 @@
     A scene nodes bindings and data
  */
 #pragma once
+#include "../dukqtcontext.h"
 #include <sadstring.h>
 #include <sadrect.h>
 #include <sadcolor.h>
@@ -127,6 +128,13 @@ void spanBetweenTwoPoints(
     sad::Point2D p1,
     sad::Point2D p2
 );
+
+/*! Initializes bindings for scene nodes
+    \param[in] s scripting object
+    \param[in] e a global binding object
+    \return created scene nodes object
+*/
+dukpp03::qt::JSObject* init(scripting::Scripting* s, dukpp03::qt::JSObject* e);
 
 }
 

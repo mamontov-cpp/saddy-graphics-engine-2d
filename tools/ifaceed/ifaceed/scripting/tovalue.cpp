@@ -844,7 +844,7 @@ scripting::ToValue< TYPE >::perform(                        \
 {                                                           \
     return scripting::query< TYPE >(v);                     \
 }
-
+/*
 DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::db::Object*)
 DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::Scene*)
 DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::SceneNode*)
@@ -877,6 +877,7 @@ DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::Instance*)
 DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::WayInstance*)
 
 DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::Group*)
+*/
 
 sad::Maybe<sad::dialogue::Phrase>
 scripting::ToValue<sad::dialogue::Phrase>::perform(
@@ -1102,6 +1103,7 @@ DEFINE_BASIC_METHODS_FOR_TYPE( unsigned int )
 DEFINE_BASIC_METHODS_FOR_TYPE( unsigned long )
 DEFINE_BASIC_METHODS_FOR_TYPE( unsigned long long )
 DEFINE_BASIC_METHODS_FOR_TYPE( unsigned short )
+/*
 DEFINE_BASIC_METHODS_FOR_TYPE( sad::db::Object* )
 DEFINE_BASIC_METHODS_FOR_TYPE( sad::Scene* )
 DEFINE_BASIC_METHODS_FOR_TYPE( sad::SceneNode* )
@@ -1135,6 +1137,7 @@ DEFINE_BASIC_METHODS_FOR_TYPE(sad::animations::Instance*)
 DEFINE_BASIC_METHODS_FOR_TYPE(sad::animations::WayInstance*)
 
 DEFINE_BASIC_METHODS_FOR_TYPE(sad::animations::Group*)
+*/
 
 DEFINE_BASIC_METHODS_FOR_TYPE(sad::Vector<sad::String>)
 #undef DEFINE_BASIC_METHODS_FOR_TYPE

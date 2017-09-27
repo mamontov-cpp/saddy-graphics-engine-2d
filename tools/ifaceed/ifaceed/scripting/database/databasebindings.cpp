@@ -1,5 +1,7 @@
 #include "../scripting.h"
 #include "databasebindings.h"
+#include "databasepropertysetter.h"
+#include "databasepropertygetter.h"
 
 #include <renderer.h>
 
@@ -218,4 +220,98 @@ QStringList scripting::database::writableProperties(sad::db::Object* o)
     scripting::groups::checkProperties(o, list, false);
 
     return list;
+}
+
+dukpp03::qt::JSObject* scripting::database::init(scripting::Scripting* s, dukpp03::qt::JSObject* e)
+{
+    dukpp03::qt::JSObject* db = new dukpp03::qt::JSObject();
+    db->setProperty("list", dukpp03::qt::make_function::from(scripting::database::list));
+    db->setProperty("type", dukpp03::qt::make_function::from(scripting::database::type));
+    db->setProperty("readableProperties", dukpp03::qt::make_function::from(scripting::database::readableProperties));
+    db->setProperty("writableProperties", dukpp03::qt::make_function::from(scripting::database::writableProperties));
+    db->setProperty("addProperty", dukpp03::qt::curried1::from(s, scripting::database::addProperty));
+    db->setProperty("removeProperty", dukpp03::qt::curried1::from(s, scripting::database::removeProperty));
+
+    dukpp03::qt::MultiMethod* set = new dukpp03::qt::MultiMethod();
+#define PUSH_SETTER(TYPE) set->add(new scripting::database::PropertySetter< TYPE >(s));
+    PUSH_SETTER(double)
+        PUSH_SETTER(float)
+        PUSH_SETTER(int)
+        PUSH_SETTER(long)
+        PUSH_SETTER(long long)
+        PUSH_SETTER(sad::AColor)
+        PUSH_SETTER(sad::Color)
+        PUSH_SETTER(sad::Point2D)
+        PUSH_SETTER(sad::Point2I)
+        PUSH_SETTER(sad::Point3D)
+        PUSH_SETTER(sad::Point3I)
+        PUSH_SETTER(sad::Size2D)
+        PUSH_SETTER(sad::Size2I)
+        PUSH_SETTER(sad::Rect2D)
+        PUSH_SETTER(sad::Rect2I)
+        PUSH_SETTER(sad::String)
+        PUSH_SETTER(std::string)
+        PUSH_SETTER(QString)
+        PUSH_SETTER(short)
+        PUSH_SETTER(bool)
+        PUSH_SETTER(char)
+        PUSH_SETTER(signed char)
+        PUSH_SETTER(unsigned char)
+        PUSH_SETTER(unsigned int)
+        PUSH_SETTER(unsigned long)
+        PUSH_SETTER(unsigned long long)
+        PUSH_SETTER(unsigned short)
+#undef PUSH_SETTER
+        db->setProperty("set", static_cast<dukpp03::qt::Callable*>(set)); // E.db.set
+
+
+    dukpp03::qt::MultiMethod* get = new dukpp03::qt::MultiMethod();
+#define PUSH_GETTER(TYPE) get->add(new scripting::database::PropertyGetter< TYPE >());
+    PUSH_GETTER(double)
+        PUSH_GETTER(float)
+        PUSH_GETTER(int)
+        PUSH_GETTER(long)
+        PUSH_GETTER(long long)
+        PUSH_GETTER(sad::AColor)
+        PUSH_GETTER(sad::Color)
+        PUSH_GETTER(sad::Point2D)
+        PUSH_GETTER(sad::Point2I)
+        PUSH_GETTER(sad::Point3D)
+        PUSH_GETTER(sad::Point3I)
+        PUSH_GETTER(sad::Size2D)
+        PUSH_GETTER(sad::Size2I)
+        PUSH_GETTER(sad::Rect2D)
+        PUSH_GETTER(sad::Rect2I)
+        PUSH_GETTER(sad::String)
+        PUSH_GETTER(std::string)
+        PUSH_GETTER(QString)
+        PUSH_GETTER(short)
+        PUSH_GETTER(bool)
+        PUSH_GETTER(char)
+        PUSH_GETTER(signed char)
+        PUSH_GETTER(unsigned char)
+        PUSH_GETTER(unsigned int)
+        PUSH_GETTER(unsigned long)
+        PUSH_GETTER(unsigned long long)
+        PUSH_GETTER(unsigned short)
+#undef PUSH_GETTER
+        db->setProperty("get", static_cast<dukpp03::qt::Callable*>(get)); // E.db.get
+
+    e->setProperty("db", db);
+
+    bool b = s->context()->eval(
+        "E.db.attr = function() {"
+        "   if (arguments.length == 1)"
+        "   {"
+        "       return E.db.get(arguments[0]);"
+        "   }"
+        "   if (arguments.length == 2)"
+        "   {"
+        "       E.db.set(arguments[0], arguments[1]); return E.db;"
+        "   }"
+        "   throw new Error(\"Specify 1 or 2 arguments\");"
+        "};"
+    );
+    assert(b);
+    return db;
 }

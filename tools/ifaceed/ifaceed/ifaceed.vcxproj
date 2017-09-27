@@ -2186,13 +2186,7 @@
     <ClCompile Include="scripting\groups\groupsloopedsetter.cpp" />
     <ClCompile Include="scripting\groups\groupsnamesetter.cpp" />
     <ClCompile Include="scripting\groups\groupssequentialsetter.cpp" />
-    <ClCompile Include="scripting\instances\instancesanimationdbsetter.cpp" />
-    <ClCompile Include="scripting\instances\instancesanimationsetter.cpp" />
     <ClCompile Include="scripting\instances\instancesbindings.cpp" />
-    <ClCompile Include="scripting\instances\instancesnamesetter.cpp" />
-    <ClCompile Include="scripting\instances\instancesobjectsetter.cpp" />
-    <ClCompile Include="scripting\instances\instancesstarttimesetter.cpp" />
-    <ClCompile Include="scripting\instances\instanceswaysetter.cpp" />
     <ClCompile Include="scripting\isaabb.cpp" />
     <ClCompile Include="scripting\layouts\gridbindings.cpp" />
     <ClCompile Include="scripting\layouts\scriptablegrid.cpp" />
@@ -2210,7 +2204,9 @@
     <ClCompile Include="scripting\querytable.cpp" />
     <ClCompile Include="scripting\rect2d.cpp" />
     <ClCompile Include="scripting\rect2i.cpp" />
-    <ClCompile Include="scripting\scenenodes\scenenodesbindings.cpp" />
+    <ClCompile Include="scripting\scenenodes\scenenodesbindings.cpp">
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/bigobj %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
     <ClCompile Include="scripting\scenenodes\scenenodesflagsetter.cpp" />
     <ClCompile Include="scripting\scenenodes\scenenodesoptionssetter.cpp" />
     <ClCompile Include="scripting\scenenodes\scenenodesschemasetter.cpp" />
@@ -4927,13 +4923,7 @@
     <ClInclude Include="scripting\groups\groupsloopedsetter.h" />
     <ClInclude Include="scripting\groups\groupsnamesetter.h" />
     <ClInclude Include="scripting\groups\groupssequentialsetter.h" />
-    <ClInclude Include="scripting\instances\instancesanimationdbsetter.h" />
-    <ClInclude Include="scripting\instances\instancesanimationsetter.h" />
     <ClInclude Include="scripting\instances\instancesbindings.h" />
-    <ClInclude Include="scripting\instances\instancesnamesetter.h" />
-    <ClInclude Include="scripting\instances\instancesobjectsetter.h" />
-    <ClInclude Include="scripting\instances\instancesstarttimesetter.h" />
-    <ClInclude Include="scripting\instances\instanceswaysetter.h" />
     <ClInclude Include="scripting\isaabb.h" />
     <ClInclude Include="scripting\layouts\gridbindings.h" />
     <CustomBuild Include="scripting\layouts\scriptablegrid.h">

@@ -4,14 +4,12 @@
     Describes bindings for editing database properties
  */
 #pragma once
-#include <QScriptContext>
-#include <QScriptEngine>
-
 #include <QSet>
 
 #include <sadstring.h>
 
 #include <db/dbobject.h>
+#include "../dukqtcontext.h"
 
 namespace scripting
 {
@@ -57,6 +55,13 @@ QStringList readableProperties(sad::db::Object* o);
     \return list of strings with propeties of database
  */
 QStringList writableProperties(sad::db::Object* o);
+
+/*! Initializes bindings for database
+    \param[in] s scripting object
+    \param[in] e a global binding object
+    \return created database handling object
+*/
+dukpp03::qt::JSObject* init(scripting::Scripting* s, dukpp03::qt::JSObject* e);
 
 }
 

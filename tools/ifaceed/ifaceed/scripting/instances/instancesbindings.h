@@ -39,8 +39,8 @@ QVector<unsigned long long> list();
 unsigned long long _addWayInstance(
     scripting::Scripting* scripting,
     sad::String name,
-    QScriptValue way,
-    QScriptValue object,
+    const QVariant& way,
+    const QVariant& object,
     double starttime
 );
 

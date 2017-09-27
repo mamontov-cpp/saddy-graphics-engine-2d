@@ -78,7 +78,7 @@ dukpp03::Maybe<scripting::ways::PointRef*> point(scripting::Scripting* scripting
 /*! Initializes bindings for ways
     \param[in] s scripting object
     \param[in] e a global binding object
-    \return created animations object
+    \return created ways object
  */
 dukpp03::qt::JSObject* init(scripting::Scripting* s, dukpp03::qt::JSObject* e);
 

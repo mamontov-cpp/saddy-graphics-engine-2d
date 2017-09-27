@@ -50,6 +50,13 @@ void moveFront(scripting::Scripting* s, sad::Scene* scene);
  */
 QVector<unsigned long long> list();
 
+/*! Initializes bindings for scenes
+    \param[in] s scripting object
+    \param[in] e a global binding object
+    \return created scenes object
+*/
+dukpp03::qt::JSObject* init(scripting::Scripting* s, dukpp03::qt::JSObject* e);
+
 }
 
 }
