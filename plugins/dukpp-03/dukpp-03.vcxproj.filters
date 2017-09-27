@@ -90,6 +90,9 @@
     <ClCompile Include="exposelayouts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="exposeanimations.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\dukpp-03\context.h">
