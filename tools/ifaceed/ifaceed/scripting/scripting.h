@@ -5,9 +5,6 @@
  */
 #pragma once
 #include <QObject>
-#include <QScriptEngine>
-#include <QVector>
-#include <QThread>
 #include <QSet>
 #include "dukqtcontext.h"
 
@@ -39,18 +36,6 @@ enum CopyPropertiesDirection
     /*! This class could be inherited
      */
     virtual ~Scripting();
-    /*! Returns an engine
-        \return engine
-     */
-    QScriptEngine* engine() const;
-    /*! Registers function in object
-       \param name name of function
-       \param v a value representation of function
-     */
-    void registerFunction(const QString& name, QScriptValue& v);
-    /*! Registerd script class as global function
-     */
-    void registerScriptClass(const QString& name, QScriptClass* c);
     /*! Returns common properties, which all classes could have
         \return common properties
      */
@@ -100,9 +85,6 @@ public slots:
     /*! Shows help
      */
     void showHelp();
-    /*! Cancels execution of script
-     */
-    void cancelExecution();
     /*! Saves script to a file
      */
     void saveScript();
@@ -113,36 +95,6 @@ protected:
     /*! Inits inner script with constructors for common types
      */
     void initSadTypeConstructors();
-    /*! Inits all bindings for database and database properties
-     */
-    void initDatabasePropertyBindings();
-    /*! Inits scenes bindings for scenes
-     */
-    void initSceneBindings();
-    /*! Inits scene nodes bindings
-     */
-    void initSceneNodesBindings();
-    /*! Inits layout grid bindings
-     */
-    void initLayoutGridBindings();
-    /*! Inits way bindings
-     */
-    void initWaysBindings();
-    /*! Inits dialogues bindings
-        \param[out] v a global value (E)
-     */
-    void initDialoguesBindings();
-    /*! Inits animations bindings
-     */
-    void initAnimationsBindings();
-    /*! Inits animation instances bindings
-        \param[out] v a global value (E)
-     */
-    void initAnimationInstanceBindings();
-    /*! Inits animation groups bindings
-        \param[out] v a global value (E)
-     */
-    void initAnimationGroupBindings(QScriptValue& v);
     /*! Copies properties from source object to destination object
         \param[in] direction a direction in which copying  is performed
      */
@@ -155,19 +107,6 @@ protected:
     /*! An editor, where scripting object belongs to
      */
     core::Editor* m_editor;
-    /*! An engine to be run
-     */
-    QScriptEngine* m_engine;
-    /*! A value, where all bindings are stored
-     */
-    QScriptValue m_value;
-    /*! A list of registered classes in engine
-     */
-    QVector<QScriptClass*> m_registered_classes;
-    /*! A flags to be set as property
-     */
-    QScriptValue::PropertyFlags m_flags;
-
     /*! A context for Qt embedded parts
      */
     dukpp03::qt::Context* m_ctx;

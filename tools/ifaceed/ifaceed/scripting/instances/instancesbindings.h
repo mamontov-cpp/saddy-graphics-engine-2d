@@ -7,7 +7,6 @@
 #include "../dukqtcontext.h"
 #include <sadrect.h>
 
-#include <QScriptEngine>
 #include <QVariant>
 #include <QVector>
 

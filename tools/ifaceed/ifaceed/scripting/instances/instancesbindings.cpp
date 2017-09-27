@@ -736,7 +736,7 @@ dukpp03::qt::JSObject* scripting::instances::init(scripting::Scripting* s, dukpp
         "   }"
         "   if (arguments.length == 3)"
         "   {"
-        "       return E.animations.instances.set(arguments[0], arguments[1], arguments[2]); return E.animations.instances;"
+        "       E.animations.instances.set(arguments[0], arguments[1], arguments[2]); return E.animations.instances;"
         "   }"
         "   throw new Error(\"Specify 2 or 3 arguments\");"
         "};"

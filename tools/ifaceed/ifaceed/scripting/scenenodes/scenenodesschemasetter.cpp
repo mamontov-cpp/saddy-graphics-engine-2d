@@ -3,8 +3,6 @@
 // ReSharper disable once CppUnusedIncludeDirective
 #include <db/save.h>
 
-#include "../tovalue.h"
-
 #include "../../history/customobject/customobjectchangeschema.h"
 
 #include "../../qstdstring.h"

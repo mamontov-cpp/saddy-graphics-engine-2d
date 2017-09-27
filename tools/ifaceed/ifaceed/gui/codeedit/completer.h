@@ -5,7 +5,6 @@
  */
 #pragma once
 #include <QCompleter>
-#include <QScriptEngine>
 #include <QHash>
 #include <QSet>
 #include <QString>

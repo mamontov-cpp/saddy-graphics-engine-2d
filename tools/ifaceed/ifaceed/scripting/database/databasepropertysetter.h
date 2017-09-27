@@ -13,9 +13,6 @@
 
 #include <db/dbdatabase.h>
 
-#include "../tovalue.h"
-#include "../fromvalue.h"
-#include "../callable.h"
 #include "../scripting.h"
 
 #include "../../core/editor.h"

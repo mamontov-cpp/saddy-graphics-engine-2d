@@ -7,8 +7,6 @@
 #include <QVector>
 #include <sadstring.h>
 
-class QScriptContext;
-
 namespace scripting
 {
 

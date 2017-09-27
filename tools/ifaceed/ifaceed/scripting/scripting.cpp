@@ -1,17 +1,10 @@
 #include "scripting.h"
 #include "scriptinghelptext.h"
 // ReSharper disable once CppUnusedIncludeDirective
-#include "constructorcall.h"
-#include "makeconstructor.h"
-#include "scriptinglog.h"
-#include "multimethod.h"
-#include "makescriptingcall.h"
-#include "makefunctioncall.h"
 #include "abstractgetter.h"
 #include "abstractsetter.h"
 #include "queryresource.h"
-#include "isaabb.h"
-#include "point2d.h"
+
 
 #include "../scriptinghelp.h"
 
@@ -21,7 +14,7 @@
 
 #include "../gui/uiblocks/uiblocks.h"
 #include "../gui/uiblocks/uiconsoleblock.h"
-#include "../gui/uiblocks/uianimationblock.h"
+
 
 #include "database/databasebindings.h"
 #include "scenes/scenesbindings.h"
@@ -32,15 +25,10 @@
 #include "animations/animationsbindings.h"
 #include "instances/instancesbindings.h"
 #include "groups/groupsbindings.h"
-/*
-#include "groups/groupsnamesetter.h"
-#include "groups/groupsloopedsetter.h"
-#include "groups/groupssequentialsetter.h"
-*/
+
 #include <QFileDialog>
 #include <QDebug>
 #include <QTextStream>
-#include <QScriptValueIterator>
 #include <QTextEdit>
 
 #include <scene.h>
@@ -49,7 +37,6 @@
 #include "function.h"
 
 Q_DECLARE_METATYPE(sad::Vector<unsigned long long>) //-V566
-Q_DECLARE_METATYPE(QScriptContext*) //-V566
 
 // ================================== Miscellaneous functions =================================================
 extern const std::string __context_eval_info;
@@ -144,47 +131,27 @@ scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_editor(NUL
     b = m_ctx->eval("E.log = internal.log; E.dump = internal.dump; console = E;", true, &error);
     assert(b);
     
-
-    // TODO: Remove this
-    m_flags = QScriptValue::ReadOnly | QScriptValue::Undeletable;
-    m_engine = new QScriptEngine();
-    m_value = m_engine->newQObject(this, QScriptEngine::QtOwnership, QScriptEngine::SkipMethodsInEnumeration);
-    //m_value.setProperty("log", m_engine->newFunction(scripting::scripting_log), m_flags);  // E.log
-
-    QScriptValue globalValue = m_engine->globalObject();
-    globalValue.setProperty("console", m_value, m_flags);
-    globalValue.setProperty("E", m_value, m_flags);
-    globalValue.setProperty("---", m_value, m_flags);
-
-
 }
 
 scripting::Scripting::~Scripting()
 {
     delete m_ctx;
     m_global_value->delRef();
-
-    m_engine->collectGarbage();
-    delete m_engine;
-    for(size_t i = 0; i < m_registered_classes.size(); i++)
-    {
-        delete m_registered_classes[i];
-    }
 }
 
 void scripting::Scripting::setEditor(core::Editor* editor)
 {
     m_editor = editor;
     this->initSadTypeConstructors();
-    this->initDatabasePropertyBindings();
-    this->initSceneBindings();
-    this->initSceneNodesBindings();
-    this->initLayoutGridBindings();
-    this->initWaysBindings();
-    this->initDialoguesBindings();
-    this->initAnimationsBindings();
-    this->initAnimationInstanceBindings();
-    this->initAnimationGroupBindings(m_value);
+    scripting::database::init(this, m_global_value);
+    scripting::scenes::init(this, m_global_value);
+    scripting::scenenodes::init(this, m_global_value);
+    scripting::layouts::init(this, m_global_value);
+    scripting::ways::init(this, m_global_value);
+    scripting::dialogues::init(this, m_global_value);
+    m_animations_value = scripting::animations::init(this, m_global_value);
+    scripting::instances::init(this, m_animations_value);
+    scripting::groups::init(this, m_animations_value);
 
     // Don't forget to call after object is initialized
     copyProperties(scripting::Scripting::SSC_CPD_FROM_GLOBAL_TO_HEAP);
@@ -198,26 +165,6 @@ core::Editor* scripting::Scripting::editor() const
 dukpp03::qt::Context* scripting::Scripting::context() const
 {
     return m_ctx;
-}
-
-QScriptEngine* scripting::Scripting::engine() const
-{
-    return m_engine;
-}
-
-// ReSharper disable once CppMemberFunctionMayBeConst
-void scripting::Scripting::registerFunction(const QString& name, QScriptValue& v)
-{
-    v.setProperty("name", name);
-    m_engine->globalObject().setProperty(name, v, m_flags);
-}
-
-void scripting::Scripting::registerScriptClass(const QString& name, QScriptClass* c)
-{
-    m_engine->globalObject().setProperty(name, m_engine->newObject(c), m_flags);
-    if (m_registered_classes.contains(c) == false) {
-        m_registered_classes << c;
-    }
 }
 
 // ReSharper disable once CppMemberFunctionMayBeStatic
@@ -392,14 +339,6 @@ void scripting::Scripting::showHelp()
 }
 
 
-// ReSharper disable once CppMemberFunctionMayBeConst
-void scripting::Scripting::cancelExecution()
-{
-    if (m_engine->isEvaluating())
-    {
-        m_engine->abortEvaluation(m_engine->currentContext()->throwError(QScriptContext::SyntaxError, "Aborted due timeout"));
-    }
-}
 
 void scripting::Scripting::initSadTypeConstructors()
 {
@@ -634,145 +573,6 @@ void scripting::Scripting::initSadTypeConstructors()
 
     m_global_value->setProperty("screenWidth", dukpp03::qt::make_function::from(scripting::Scripting::screenWidth));
     m_global_value->setProperty("screenHeight", dukpp03::qt::make_function::from(scripting::Scripting::screenHeight));
-}
-
-void scripting::Scripting::initDatabasePropertyBindings()
-{
-    scripting::database::init(this, m_global_value);
-}
-
-void scripting::Scripting::initSceneBindings()
-{
-    scripting::scenes::init(this, m_global_value);
-}
-
-
-void scripting::Scripting::initSceneNodesBindings()
-{
-    scripting::scenenodes::init(this, m_global_value);
-}
-
-// ReSharper disable once CppMemberFunctionMayBeConst
-void scripting::Scripting::initLayoutGridBindings()
-{
-    scripting::layouts::init(this, m_global_value);
-}
-
-void scripting::Scripting::initWaysBindings()
-{
-    scripting::ways::init(this, m_global_value);
-}
-
-
-void scripting::Scripting::initDialoguesBindings()
-{
-    scripting::dialogues::init(this, m_global_value);
-}
-
-
-void scripting::Scripting::initAnimationsBindings()
-{
-    m_animations_value = scripting::animations::init(this, m_global_value);
-}
-
-void scripting::Scripting::initAnimationInstanceBindings()
-{
-    scripting::instances::init(this, m_animations_value);
-}
-
-
-void scripting::Scripting::initAnimationGroupBindings(QScriptValue& v)
-{
-    /*
-    QScriptValue groups = m_engine->newObject();
-
-    groups.setProperty("list", m_engine->newFunction(scripting::groups::list), m_flags); // E.animations.groups.list
-
-    scripting::Callable* _add = scripting::make_scripting_call(scripting::groups::_add, this);
-    _add->setName("_add");
-    m_registered_classes << _add;
-    groups.setProperty("_add", m_engine->newObject(_add), m_flags); // E.animations.groups._add
-
-    scripting::Callable* remove = scripting::make_scripting_call(scripting::groups::remove, this);
-    remove->setName("remove");
-    m_registered_classes << remove;
-    groups.setProperty("remove", m_engine->newObject(remove), m_flags); // E.animations.groups.remove
-
-    scripting::Callable* length = scripting::make_scripting_call(scripting::groups::length, this);
-    length->setName("length");
-    m_registered_classes << length;
-    groups.setProperty("length", m_engine->newObject(length), m_flags); // E.animations.groups.length
-
-    scripting::Callable* entry = scripting::make_scripting_call(scripting::groups::entry, this);
-    entry->setName("entry");
-    m_registered_classes << entry;
-    groups.setProperty("entry", m_engine->newObject(entry), m_flags); // E.animations.groups.entry
-
-    scripting::Callable* addInstance = scripting::make_scripting_call(scripting::groups::addInstance, this);
-    addInstance->setName("addInstance");
-    m_registered_classes << addInstance;
-    groups.setProperty("addInstance", m_engine->newObject(addInstance), m_flags); // E.animations.groups.addInstance
-
-    scripting::Callable* removeInstance = scripting::make_scripting_call(scripting::groups::removeInstance, this);
-    removeInstance->setName("removeInstance");
-    m_registered_classes << removeInstance;
-    groups.setProperty("removeInstance", m_engine->newObject(removeInstance), m_flags); // E.animations.groups.removeInstance
-    */
-
-    /*
-    scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
-    set->add(new scripting::groups::NameSetter(m_engine));
-    set->add(new scripting::groups::LoopedSetter(m_engine));
-    set->add(new scripting::groups::SequentialSetter(m_engine));
-    
-    m_registered_classes << set;
-    groups.setProperty("set", m_engine->newObject(set), m_flags); // E.animations.groups.set
-
-
-    scripting::MultiMethod* get = new scripting::MultiMethod(m_engine, "get");
-    get->add(new scripting::AbstractGetter<sad::animations::Group*, sad::String>(m_engine, "name"));
-    get->add(new scripting::AbstractGetter<sad::animations::Group*, unsigned long long>(m_engine, "majorid"));
-    get->add(new scripting::AbstractGetter<sad::animations::Group*, unsigned long long>(m_engine, "minorid"));
-    get->add(new scripting::AbstractGetter<sad::animations::Group*, bool>(m_engine, "looped"));
-    get->add(new scripting::AbstractGetter<sad::animations::Group*, bool>(m_engine, "sequential"));
-    get->add(new scripting::AbstractGetter<sad::animations::Group*, sad::Vector<unsigned long long> >(m_engine, "instances"));
-    
-    m_registered_classes << get;
-    groups.setProperty("get", m_engine->newObject(get), m_flags); // E.scenes.set
-    */
-    /*
-    v.property("animations").setProperty("groups", groups, m_flags);
-
-
-    m_engine->evaluate(
-         "E.animations.groups.add = function(o) {"
-        "   if (typeof o != \"object\")    "
-        "   {                              "
-        "      o = {};                     "
-        "   }                              "
-        "   if (\"name\" in o == false)    "
-        "   {                              "
-        "     o[\"name\"] = \"\";          "
-        "   }                              "
-        "   if (\"looped\" in o == false)  "
-        "   {                              "
-        "      o[\"looped\"] = false;      "
-        "   }                              "
-        "   return E.animations.groups._add(o[\"name\"], o[\"looped\"]);"
-        "};"
-        "E.animations.groups.attr = function() {"
-        "   if (arguments.length == 2)"
-        "   {"
-        "       return E.animations.groups.get(arguments[0], arguments[1]);"
-        "   }"
-        "   if (arguments.length == 3)"
-        "   {"
-        "       return E.animations.groups.set(arguments[0], arguments[1], arguments[2]);"
-        "   }"
-        "   throw new Error(\"Specify 2 or 3 arguments\");"
-        "};"
-    );
-    */
 }
 
 void scripting::Scripting::copyProperties(scripting::Scripting::CopyPropertiesDirection direction)

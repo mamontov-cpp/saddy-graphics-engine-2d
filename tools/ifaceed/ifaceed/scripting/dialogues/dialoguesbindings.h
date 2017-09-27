@@ -7,7 +7,6 @@
 #include "../dukqtcontext.h"
 #include <sadstring.h>
 
-#include <QScriptEngine>
 #include <QVector>
 
 #include <dialogue/dialogue.h>

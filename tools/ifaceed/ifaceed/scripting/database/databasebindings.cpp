@@ -5,9 +5,6 @@
 
 #include <renderer.h>
 
-#include "../tovalue.h"
-#include "../fromvalue.h"
-
 #include "../../qstdstring.h"
 
 #include "../../core/editor.h"

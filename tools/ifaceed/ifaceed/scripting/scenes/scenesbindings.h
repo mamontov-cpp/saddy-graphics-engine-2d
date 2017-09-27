@@ -4,14 +4,10 @@
     Describes bindings for editing scenes
  */
 #pragma once
-#include <QScriptContext>
-#include <QScriptEngine>
 
 #include <QString>
 
 #include <scene.h>
-
-#include "../tovalue.h"
 
 namespace scripting
 {

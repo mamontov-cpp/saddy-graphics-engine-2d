@@ -10,7 +10,6 @@
 #include <sadcolor.h>
 #include <scene.h>
 
-#include <QScriptEngine>
 #include <QVector>
 
 namespace scripting

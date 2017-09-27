@@ -83,7 +83,6 @@ unsigned long long scripting::scenenodes::_addLabel(
     sad::AColor clr
 )
 {
-    QScriptEngine* engine = scripting->engine();
     sad::resource::Tree* tree = sad::Renderer::ref()->tree("");
     sad::resource::Resource* maybefont = tree->root()->resource(resource);
     bool error = true;

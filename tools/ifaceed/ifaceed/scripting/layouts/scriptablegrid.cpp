@@ -13,9 +13,6 @@
 
 #include "../core/editor.h"
 
-#include "../fromvalue.h"
-#include "../tovalue.h"
-
 #include "../gui/actions/actions.h"
 #include "../gui/actions/gridactions.h"
 

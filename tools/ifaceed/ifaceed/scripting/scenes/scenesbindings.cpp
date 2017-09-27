@@ -3,8 +3,6 @@
 
 #include "scenesbindings.h"
 
-#include "../fromvalue.h"
-
 #include "../../qstdstring.h"
 
 #include "../../core/editor.h"

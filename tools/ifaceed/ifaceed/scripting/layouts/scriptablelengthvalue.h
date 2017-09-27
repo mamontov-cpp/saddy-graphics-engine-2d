@@ -5,7 +5,8 @@
 #pragma once
 #include <layouts/grid.h>
 
-#include <QScriptValue>
+#include <QObject>
+#include <QMetaType>
 
 namespace scripting
 {

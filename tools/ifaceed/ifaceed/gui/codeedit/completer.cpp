@@ -1,7 +1,5 @@
 #include "completer.h"
 
-#include <QScriptValue>
-#include <QScriptValueIterator>
 #include <QStandardItemModel>
 #include <QStandardItem>
 

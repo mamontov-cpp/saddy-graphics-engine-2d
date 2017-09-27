@@ -1,15 +1,8 @@
 #include "scripting.h"
 // ReSharper disable once CppUnusedIncludeDirective
-#include "constructorcall.h"
-#include "makeconstructor.h"
-#include "scriptinglog.h"
 #include "multimethod.h"
-#include "makescriptingcall.h"
-#include "makefunctioncall.h"
 #include "abstractgetter.h"
 #include "queryresource.h"
-#include "isaabb.h"
-#include "point2d.h"
 
 #include <renderer.h>
 #include <db/dbdatabase.h>

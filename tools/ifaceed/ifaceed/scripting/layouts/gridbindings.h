@@ -5,7 +5,6 @@
 #pragma once
 #pragma once
 
-#include <QScriptEngine>
 #include <QVariant>
 #include "../dukqtcontext.h"
 #include "scriptablegrid.h"

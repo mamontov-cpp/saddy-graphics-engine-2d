@@ -1,7 +1,5 @@
 #include "scriptablelengthvalue.h"
 
-#include "../fromvalue.h"
-#include "../tovalue.h"
 
 #include "../scripting.h"
 

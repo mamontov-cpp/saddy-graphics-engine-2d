@@ -9,7 +9,6 @@
 #include <sadrect.h>
 #include <maybe.h>
 
-#include <QScriptEngine>
 #include <QVector>
 
 #include <animations/animationsanimation.h>

@@ -1,6 +1,5 @@
 #include "queryresource.h"
 #include "scripting.h"
-#include "fromvalue.h"
 
 #include <renderer.h>
 
@@ -29,7 +28,6 @@ QString scripting::resource_type(QString name)
 
 dukpp03::Maybe<QHash<QString, QVariant> > scripting::resource_options(scripting::Scripting* scripting, QString name)
 {
-    QScriptEngine* e = scripting->engine();
     dukpp03::Maybe<QHash<QString, QVariant> > result;
 
     sad::resource::Tree* tree = sad::Renderer::ref()->tree("");

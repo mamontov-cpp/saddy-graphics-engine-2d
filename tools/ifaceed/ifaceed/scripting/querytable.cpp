@@ -1,8 +1,6 @@
 #include "querytable.h"
-#include "fromvalue.h"
 
 #include <QVector>
-#include <QScriptContext>
 
 #include <renderer.h>
 #include <db/dbdatabase.h>

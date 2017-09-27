@@ -14,9 +14,6 @@
 
 #include "../core/editor.h"
 
-#include "../fromvalue.h"
-#include "../tovalue.h"
-
 #include "../../history/layouts/layoutschangecell.h"
 #include "../../history/layouts/layoutsaddchild.h"
 #include "../../history/layouts/layoutsremovechild.h"
@@ -319,7 +316,7 @@ void scripting::layouts::ScriptableGridCell::setStackingType(unsigned int v) con
     }
     if (!st_maybe.exists())
     {
-        m_scripting->engine()->currentContext()->throwError("ScriptableGridCell.setStackingType: argument is not a valid E.layouts.StackingType member");
+        m_scripting->context()->throwError("ScriptableGridCell.setStackingType: argument is not a valid E.layouts.StackingType member");
         throw dukpp03::ArgumentException();
     }
     if (c && st_maybe.exists())
