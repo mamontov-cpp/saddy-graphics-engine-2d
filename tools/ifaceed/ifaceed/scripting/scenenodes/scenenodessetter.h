@@ -23,7 +23,7 @@ class Setter: public scripting::scenenodes::AbstractSetter<_PropertyType>
 public:	
     /*! Constructs new setter for property
         \param[in] scripting a scripting object
-        \param[in] name a name for property to be handled by setter
+        \param[in] property_name a name for property to be handled by setter
      */
     Setter(
         scripting::Scripting* scripting,

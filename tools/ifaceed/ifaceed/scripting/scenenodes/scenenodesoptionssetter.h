@@ -17,7 +17,7 @@ class OptionsSetter: public scripting::scenenodes::AbstractSetter<sad::String>
 {
 public:
     /*! Creates new setter for setting options property of object
-        \param e
+        \param scripting a scripting object
      */
     OptionsSetter(scripting::Scripting* scripting);
     /*! Clones an object

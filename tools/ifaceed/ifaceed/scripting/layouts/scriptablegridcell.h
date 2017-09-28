@@ -69,7 +69,7 @@ public:
      */
     dukpp03::Maybe<unsigned int> findChild(sad::SceneNode* o) const;
     /*! Tries to add child to a cell. If child already has parent grid, returns false
-        \param[in] o object
+        \param[in] node  a node object
         \return false, if child already has parent grid
      */
     bool addChild(sad::SceneNode* node) const;

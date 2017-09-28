@@ -14,8 +14,6 @@ namespace scripting
     with specified types
     \param[in] table name of table
     \param[in] typeofobjects type, that most ob objects have
-    \param[in] ctx context
-    \param[in] engine engine part
     \return list of major ids
  */
 QVector<unsigned long long> query_table(

@@ -18,8 +18,6 @@ namespace layouts
 {
 
 /*! Lists all grids, present in database, returning list of their major id
-    \param[in] ctx context
-    \param[in] engine an engine
     \return list of major ids for all grids in database
  */
 QVector<unsigned long long> list();
