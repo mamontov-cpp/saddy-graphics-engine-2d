@@ -22,7 +22,7 @@ if [%VALID%] EQU [0]  (
 	exit /B 1
 )
 @echo on
-REM devenv libsaddy.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
+devenv libsaddy.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
 REM devenv tools/atlasgen/atlasgen.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
 REM devenv plugins/dukpp-03/dukpp-03.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
 REM devenv plugins/freetype/saddy-ft.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
