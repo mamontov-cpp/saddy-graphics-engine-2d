@@ -12,8 +12,8 @@ environment:
 #      TOOLS: "MinGW"
 
 configuration:
-  - Debug
-#  - Release
+#  - Debug
+  - Release
 
 install:  
   - ps: if($env:PLATFORM -eq 'x64') {
@@ -54,4 +54,4 @@ build_script:
 test_script:
   - "tests_prepare.bat"
   - cd  bin
-  - if [%ARCH%]==[Win32] ( if [%CONFIGURATION%]==[Debug] ( "tests-debug.bat" ) ELSE ( "tests-release.bat" ) ) 
+  - if [%CONFIGURATION%]==[Debug] ( "tests-debug.bat" ) ELSE ( "tests-release.bat" )
