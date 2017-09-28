@@ -50,3 +50,7 @@ install:
 build_script:
   - if [%TOOLS%]==[MSVC] "build-all-msvc.bat" %CONFIGURATION% %ARCH%
   - if [%TOOLS%]==[MinGW] "build-all-mingw.bat" %CONFIGURATION%
+test_script:
+  - "tests_prepare.bat"
+  - cd  bin
+  - if [%ARCH%]==[Win32] ( if [%CONFIGURATION%]==[Debug] "tests-debug.bat" ) 

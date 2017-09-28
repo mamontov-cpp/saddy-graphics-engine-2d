@@ -23,3 +23,5 @@ replace_in_file("plugins/qt-widget/qt-widget.vcxproj", /<AdditionalDependencies>
 replace_in_file("examples/example-game-in-qt/example-game-in-qt.vcxproj.user", /<QTDIR>[^<]+<\/QTDIR>/, "<QTDIR>$(QTDIR)</QTDIR>")
 replace_in_file("examples/example-game-in-qt/example-game-in-qt.vcxproj", /<AdditionalIncludeDirectories>/, "<AdditionalIncludeDirectories>$(QTDIR)\\include\\QtANGLE;")
 replace_in_file("examples/example-game-in-qt/example-game-in-qt.vcxproj", /<AdditionalDependencies>/, "<AdditionalDependencies>WindowsApp.lib;")
+# Comment pipeline test
+replace_in_file("tests/dukpp-03/pipeline.cpp", /__pipeline_test/, "/*__pipeline_test*/")
