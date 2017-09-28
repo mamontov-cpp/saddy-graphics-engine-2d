@@ -1,16 +1,16 @@
 echo Starting tests
-tests-animations-release.exe || goto :error
-tests-db-release.exe || goto :error
-tests-sad-release.exe || goto :error
-tests-dukpp-03-release.exe || goto :error
+REM tests-animations-release.exe || goto :error
+REM tests-db-release.exe || goto :error
+REM tests-sad-release.exe || goto :error
+REM tests-dukpp-03-release.exe || goto :error
 tests-freetype-release.exe || goto :error
-tests-hfsm-release.exe || goto :error
-tests-input-release.exe || goto :error
-tests-p2d-release.exe || goto :error
-tests-pipeline-release.exe || goto :error
-tests-resource-release.exe || goto :error
-tests-sad-release.exe || goto :error
-tests-layouts-release.exe || goto :error
+REM tests-hfsm-release.exe || goto :error
+REM tests-input-release.exe || goto :error
+REM tests-p2d-release.exe || goto :error
+REM tests-pipeline-release.exe || goto :error
+REM tests-resource-release.exe || goto :error
+REM tests-sad-release.exe || goto :error
+REM tests-layouts-release.exe || goto :error
 goto :EOF
 
 :error
