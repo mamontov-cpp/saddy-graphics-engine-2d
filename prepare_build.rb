@@ -1,8 +1,12 @@
 #!/usr/bin/ruby -w
 
-# Patch tools/ifaceed/ifaceed/ifaceed.vcxproj.user
 
-file_name = "tools/ifaceed/ifaceed/ifaceed.vcxproj.user"
-text = File.read(file_name)
-new_contents = text.gsub(/<QTDIR>[^<]+<\/QTDIR>/, "<QTDIR>$(QTDIR)</QTDIR>")
-File.open(file_name, "w") {|file| file.puts new_contents }
+def replace_in_file(file_name, regex, entry)
+  text = File.read(file_name)
+  new_contents = text.gsub(regex, entry)
+  File.open(file_name, "w") {|file| file.puts new_contents }
+end
+
+# Patch tools/ifaceed/ifaceed/ifaceed.vcxproj.user
+replace_in_file("tools/ifaceed/ifaceed/ifaceed.vcxproj.user", /<QTDIR>[^<]+<\/QTDIR>/, "<QTDIR>$(QTDIR)</QTDIR>")
+replace_in_file("tools/ifaceed/ifaceed/ifaceed.vcxproj", /<AdditionalIncludeDirectories>/, "<AdditionalIncludeDirectories>$(QTDIR)\\include\\QtANGLE;")
