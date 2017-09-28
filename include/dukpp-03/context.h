@@ -739,8 +739,12 @@ void exposeDialogue(sad::dukpp03::Context* ctx);
 
 /*! Exposes layouts functions, related to context
     \param[in] ctx context
-*/
+ */
 void exposeLayouts(sad::dukpp03::Context* ctx);
+/*! Exposes animations classes and functions, related to context
+    \param[in] ctx context
+ */
+void exposeAnimations(sad::dukpp03::Context* ctx);
 
 }
 
