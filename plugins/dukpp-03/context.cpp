@@ -276,6 +276,7 @@ void sad::dukpp03::Context::initialize()
     exposeP2D(this);
     exposeDialogue(this);
     exposeLayouts(this);
+    exposeAnimations(this);
 }
 
 

@@ -8,7 +8,6 @@
 #include "timerinterface.h"
 #include "wrapvalue.h"
 #include "../3rdparty/dukpp-03/include/dukpp-03.h"
-#include "../3rdparty/dukpp-03/include/object.h"
 #include "../3rdparty/dukpp-03/include/lambda.h"
 #include "../3rdparty/dukpp-03/include/thislambda.h"
 #include "../3rdparty/dukpp-03/include/thisexplicitmethod.h"
@@ -27,6 +26,10 @@ typedef ::dukpp03::Context<
     sad::dukpp03::TimerInterface,
     sad::dukpp03::WrapValue
 > BasicContext;
+
+/*! An object for basic context
+ */
+typedef ::dukpp03::JSObject<sad::dukpp03::BasicContext> JSObject;
 
 }
 

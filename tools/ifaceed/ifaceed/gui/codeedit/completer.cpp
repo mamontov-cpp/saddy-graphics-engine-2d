@@ -1,7 +1,5 @@
 #include "completer.h"
 
-#include <QScriptValue>
-#include <QScriptValueIterator>
 #include <QStandardItemModel>
 #include <QStandardItem>
 
@@ -22,12 +20,11 @@ gui::codeedit::Completer::~Completer()
 }
 
 QAbstractItemModel* gui::codeedit::Completer::modelFromEngine(
-    QScriptEngine* e,
+    dukpp03::qt::Context* ctx,
     const QHash<QString, QString>& firstlevelreplace,
     const QSet<QString>& commonset
 )
 {
-    QScriptValue global = e->globalObject();
     QStandardItemModel* model = new QStandardItemModel(this);
     QStandardItem* root = model->invisibleRootItem();
     {
@@ -41,13 +38,14 @@ QAbstractItemModel* gui::codeedit::Completer::modelFromEngine(
         }
     }
 
-    QScriptValueIterator it(global);
-    while(it.hasNext())
+    duk_context* c = ctx->context();
+    duk_push_global_object(c);
+    duk_enum(c, -1, DUK_ENUM_OWN_PROPERTIES_ONLY);
+    while(duk_next(c, -1, 1))
     {
-        it.next();
-        if (it.name() != "prototype" && it.name() != "__prototype__" && it.name() != "constructor")
+        QString name = duk_get_string(c, -2);
+        if (name != "prototype" && name != "__prototype__" && name != "constructor")
         {
-            QString name = it.name();
             if (firstlevelreplace.contains(name))
             {
                 QStandardItem *item = new QStandardItem();
@@ -57,30 +55,44 @@ QAbstractItemModel* gui::codeedit::Completer::modelFromEngine(
             else
             {
                 QStandardItem *item = new QStandardItem();
-                item->setText(it.name());
+                item->setText(name);
                 root->appendRow(item);
-                gui::codeedit::Completer::scanValue(item, it.value());
+                if (duk_is_object(c, -1))
+                {
+                    gui::codeedit::Completer::scanValue(item, ctx);
+                }
             }
         }
+        duk_pop_2(c);
     }
+    duk_pop(c);
+    duk_pop(c);
     return model;
 }
 
 
-void gui::codeedit::Completer::scanValue(QStandardItem* parent, const QScriptValue& v)
+void gui::codeedit::Completer::scanValue(QStandardItem* parent, dukpp03::qt::Context* ctx)
 {
-    QScriptValueIterator it(v);
-    while(it.hasNext())
+    duk_context* c = ctx->context();
+    if (duk_is_object(c, -1))
     {
-        it.next();
-        if (it.name() != "prototype" && it.name() != "__prototype__" && it.name() != "constructor")
+        duk_enum(c, -1, DUK_ENUM_OWN_PROPERTIES_ONLY);
+        while(duk_next(c, -1, 1))
         {
-            QString name = it.name();
-            QStandardItem *item = new QStandardItem();
-            item->setText(name);
-            parent->appendRow(item);
-            gui::codeedit::Completer::scanValue(item, it.value());
+            QString name = duk_get_string(c, -2);
+            if (name != "prototype" && name != "__prototype__" && name != "constructor")
+            {
+                QStandardItem *item = new QStandardItem();
+                item->setText(name);
+                parent->appendRow(item);
+                if (duk_is_object(c, -1))
+                {
+                    gui::codeedit::Completer::scanValue(item, ctx);
+                }
+            }
+            duk_pop_2(c);
         }
+        duk_pop(c);
     }
 }
 

@@ -4,11 +4,10 @@
     A bindings for animation instances are listed here
  */
 #pragma once
-#include <sadstring.h>
+#include "../dukqtcontext.h"
 #include <sadrect.h>
-#include <maybe.h>
 
-#include <QScriptEngine>
+#include <QVariant>
 #include <QVector>
 
 #include <animations/animationsinstance.h>
@@ -22,34 +21,10 @@ class Scripting;
 namespace instances
 {
 
-/*! Lists all animation instances
-    \param[in] ctx context
-    \param[in] engine an enginge
-    \return a ways list
+/*! Lists all animation instances, returning their major ids as list
+    \return a list of all major ids for animation instances in database
  */
-QScriptValue list(
-    QScriptContext* ctx,
-    QScriptEngine* engine
-);
-
-/*! Adds animation instance. Prefixed by underscore, since it will be mapped to _addInstance function and addInstance
-    is reserved for call, which will take object, preprocess it's fields and call _addInstance using fields of this object.
-    \param[in] scripting a scripting part
-    \param[in] name a name for object
-    \param[in] animationid major id of animation to be added
-    \param[in] animationname name of animation if added as resource
-    \param[in] object an object to be added
-    \param[in] starttime a start time for instance
-    \return major id for animation if added, 0 otherwise
- */
-unsigned long long _addInstance(
-    scripting::Scripting* scripting,
-    sad::String name,
-    unsigned long long animationid,
-    sad::String animationname,
-    QScriptValue object,
-    double starttime
-);
+QVector<unsigned long long> list();
 
 /*! Adds way animation instance. Prefixed by underscore, since it will be mapped to _addWayInstance function and addWayInstance
     is reserved for call, which will take object, preprocess it's fields and call _addWayInstance using fields of this object.
@@ -63,8 +38,8 @@ unsigned long long _addInstance(
 unsigned long long _addWayInstance(
     scripting::Scripting* scripting,
     sad::String name,
-    QScriptValue way,
-    QScriptValue object,
+    const QVariant& way,
+    const QVariant& object,
     double starttime
 );
 
@@ -87,6 +62,13 @@ void checkProperties(
     QStringList& list,
     bool readable
 );
+
+/*! Initializes bindings for animation instances
+    \param[in] s scripting object
+    \param[in] animations a global binding object for animations
+    \return created animations object
+*/
+dukpp03::qt::JSObject* init(scripting::Scripting* s, dukpp03::qt::JSObject* animations);
 
 }
 

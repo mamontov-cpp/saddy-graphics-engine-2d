@@ -11,24 +11,22 @@ namespace scripting
 
 namespace scenenodes
 {
-/*! A setter for schema property
+/*! A setter for schema property of scene node
  */
 class SchemaSetter: public scripting::scenenodes::AbstractSetter<sad::String>
 {
 public:
     /*! Creates new setter for specified area
-        \param e
+        \param scripting a scripting for an area
      */
-    SchemaSetter(QScriptEngine* e);
+    SchemaSetter(scripting::Scripting* scripting);
+    /*! Clones an object
+        \return copy of object
+     */
+    dukpp03::qt::Callable* clone();
     /*! Can be inherited
      */
     virtual ~SchemaSetter();
-    /*! Determines, whether it can be called with this context
-        Additionally checks, whether font exists
-        \param[in] ctx context
-        \return whether it could be called, or error
-     */
-    virtual scripting::MatchResult canBeCalled(QScriptContext* ctx);
     /*! Returns command for editing a property
         \param[in] obj an object to be set
         \param[in] prop property name

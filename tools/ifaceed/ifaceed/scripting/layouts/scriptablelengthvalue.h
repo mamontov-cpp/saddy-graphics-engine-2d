@@ -3,11 +3,10 @@
     A grid length value scripting bindings should be placed here
  */
 #pragma once
-#include "../classwrapper.h"
-
 #include <layouts/grid.h>
 
-#include <QScriptValue>
+#include <QObject>
+#include <QMetaType>
 
 namespace scripting
 {
@@ -19,10 +18,25 @@ namespace layouts
 
 /*! A wrapper for a reference to a length value
  */
-class ScriptableLengthValue: public scripting::ClassWrapper
+class ScriptableLengthValue: public QObject
 {
     Q_OBJECT
 public:
+    /*! A helper constructor for metatype
+     */
+    inline ScriptableLengthValue() : m_scripting(NULL)
+    {
+
+    }
+
+    /*! A helper constructor for metatype
+        \param[in] o value
+     */
+    inline ScriptableLengthValue(const ScriptableLengthValue& o) : m_value(o.m_value), m_scripting(o.m_scripting)
+    {
+
+    }
+
     /*! Initializes a length value
         \param[in] value a numeric value for scriptable length
         \param[in] unit a unit for value
@@ -46,14 +60,14 @@ public:
         \return real value
      */
     sad::layouts::LengthValue toValue() const;
-    /*! Converts object to string representation
-        \return object to string
-     */
-    virtual QString toString() const;
     /*! A destructor for grid cell
      */
     virtual ~ScriptableLengthValue();
 public slots:
+    /*! Converts object to string representation
+        \return object to string
+     */
+    virtual QString toString() const;
     /*! Returns underlying length value size
      */
     double value() const;
@@ -64,11 +78,11 @@ public slots:
     /*! Returns unit value
         \return unit value
      */
-    QScriptValue unit() const;
+    int unit() const;
     /*! Sets unit for underlying size
         \param[in] v size
      */
-    void setUnit(QScriptValue v);
+    void setUnit(unsigned int v);
 protected:
     /*! A real length value
      */

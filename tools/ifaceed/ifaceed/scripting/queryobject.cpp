@@ -1,18 +1,17 @@
 #include "queryobject.h"
-#include "tovalue.h"
 
 #include <renderer.h>
 
 #include <db/dbdatabase.h>
 
-sad::db::Object* scripting::query_object(const QScriptValue& v)
+sad::db::Object* scripting::query_object(const QVariant& v)
 {
-    sad::Maybe<sad::String> maybename = scripting::ToValue<sad::String>::perform(v);
     
     sad::db::Object* result = NULL;
-    if (maybename.exists())
+    if (v.canConvert(QVariant::String))
     {
-        sad::Vector<sad::db::Object*> vector = sad::Renderer::ref()->database("")->queryByName(maybename.value());
+        sad::String name = v.value<QString>().toStdString();
+        sad::Vector<sad::db::Object*> vector = sad::Renderer::ref()->database("")->queryByName(name);
         if (vector.size())
         {
             for(size_t i = 0; i < vector.size() && !result; i++)
@@ -26,18 +25,21 @@ sad::db::Object* scripting::query_object(const QScriptValue& v)
 
     if (result == NULL)
     {
-        sad::Maybe<unsigned long long> maybemajorid = scripting::ToValue<unsigned long long>::perform(v);
-        if (maybemajorid.exists())
+        if (v.canConvert(QVariant::ULongLong)) 
         {
-            sad::db::Object* object = sad::Renderer::ref()->database("")->queryByMajorId(maybemajorid.value());
-            if (object)
+            sad::Maybe<unsigned long long> maybemajorid = v.value<unsigned long long>();
+            if (maybemajorid.exists())
             {
-                if (object->Active == false)
+                sad::db::Object* object = sad::Renderer::ref()->database("")->queryByMajorId(maybemajorid.value());
+                if (object)
                 {
-                    object = NULL;
+                    if (object->Active == false)
+                    {
+                        object = NULL;
+                    }
                 }
+                result = object;
             }
-            result = object;
         }
     }
 

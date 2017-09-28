@@ -26,6 +26,7 @@
     <ClCompile Include="exposeanimations.cpp" />
     <ClCompile Include="exposeapi.cpp" />
     <ClCompile Include="exposehfsm.cpp" />
+    <ClCompile Include="exposeanimations.cpp" />
     <ClCompile Include="exposelayouts.cpp" />
     <ClCompile Include="exposep2d.cpp" />
     <ClCompile Include="exposedialogue.cpp" />

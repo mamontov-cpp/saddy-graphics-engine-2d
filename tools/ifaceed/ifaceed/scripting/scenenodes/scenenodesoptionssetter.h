@@ -16,19 +16,17 @@ namespace scenenodes
 class OptionsSetter: public scripting::scenenodes::AbstractSetter<sad::String>
 {
 public:
-    /*! Creates new setter for specified area
-        \param e
+    /*! Creates new setter for setting options property of object
+        \param scripting a scripting object
      */
-    OptionsSetter(QScriptEngine* e);
-    /*! Can be inherited
+    OptionsSetter(scripting::Scripting* scripting);
+    /*! Clones an object
+        \return copy of object
+     */
+    dukpp03::qt::Callable* clone();
+    /*! Could be inherited
      */
     virtual ~OptionsSetter();
-    /*! Determines, whether it can be called with this context
-        Additionally checks, whether font exists
-        \param[in] ctx context
-        \return whether it could be called, or error
-     */
-    virtual scripting::MatchResult canBeCalled(QScriptContext* ctx);
     /*! Returns command for editing a property
         \param[in] obj an object to be set
         \param[in] prop property name
@@ -36,7 +34,7 @@ public:
         \param[in] newvalue new value
         \return a command to be used
      */
-    virtual history::Command* command(sad::SceneNode* obj, const sad::String& prop, sad::String oldvalue,  sad::String newvalue);
+    virtual history::Command* command(sad::SceneNode* obj, const sad::String& prop, sad::String oldvalue, sad::String newvalue);
 };
 
 }

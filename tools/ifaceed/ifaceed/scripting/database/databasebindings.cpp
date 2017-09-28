@@ -1,10 +1,9 @@
 #include "../scripting.h"
 #include "databasebindings.h"
+#include "databasepropertysetter.h"
+#include "databasepropertygetter.h"
 
 #include <renderer.h>
-
-#include "../tovalue.h"
-#include "../fromvalue.h"
 
 #include "../../qstdstring.h"
 
@@ -26,11 +25,15 @@ void scripting::database::initializeInvisiblePropertiesList()
     invisible_properties.insert("global_renderer_offset");
     invisible_properties.insert("global_renderer_grid_enabled");
     invisible_properties.insert("global_renderer_grid_settings");
-    invisible_properties.insert("global_renderer_grid_color");    
+    invisible_properties.insert("global_renderer_grid_color");
 }
 
 const QSet<QString>& scripting::database::getInvisibleProperties()
 {
+    if (invisible_properties.size() == 0)
+    {
+        initializeInvisiblePropertiesList();
+    }
     return invisible_properties;
 }
 
@@ -54,58 +57,43 @@ bool scripting::database::removeProperty(scripting::Scripting* s, sad::String na
     return result;
 }
 
-QScriptValue scripting::database::list(QScriptContext* ctx, QScriptEngine* engine)
+QStringList scripting::database::list()
 {
-    if (ctx->argumentCount() != 0)
-    {
-        ctx->throwError("list: accepts only 0 arguments");
-        return QScriptValue();
-    }
     QStringList list;
     sad::db::Database* db = sad::Renderer::ref()->database("");
     sad::db::Database::Properties::const_iterator it = db->begin();
+    const QSet<QString>& set = scripting::database::getInvisibleProperties();
     for(; it != db->end(); ++it)
     {
-        if (it.key() != "palette")
+        QString key = STD2QSTRING(it.key());
+        if (set.contains(key) == false)
         {
-            list << STD2QSTRING(it.key());
+            list << key;
         }
     }
 
-    return scripting::FromValue<QStringList>::perform(list, engine);
+    return list;
 }
 
-sad::String scripting::database::type(scripting::Scripting* s, sad::db::Object* o)
+sad::String scripting::database::type(sad::db::Object* o)
 {
     return o->serializableName();
 }
 
-QScriptValue scripting::database::readableProperties(QScriptContext* ctx, QScriptEngine* engine)
+QStringList scripting::database::readableProperties(sad::db::Object* o)
 {
-    if (ctx->argumentCount() != 1)
-    {
-        ctx->throwError("readableProperties(): accepts only 1 argument");
-        return QScriptValue();
-    }
-
-    sad::Maybe<sad::db::Object*> obj = scripting::ToValue<sad::db::Object*>::perform(ctx->argument(0));
-    if (obj.exists() == false)
-    {
-        ctx->throwError("readableProperties(): first argument must be sad::db::Object");
-        return QScriptValue();
-    }
 
     QStringList list;
     list << "majorid";
     list << "minorid";
     list << "name";
 
-    if (obj.value()->isInstanceOf("sad::Scene"))
+    if (o->isInstanceOf("sad::Scene"))
     {
         list << "layer";
     }
 
-    if (obj.value()->isInstanceOf("sad::SceneNode"))
+    if (o->isInstanceOf("sad::SceneNode"))
     {
         list << "layer";
         list << "scene";
@@ -115,8 +103,8 @@ QScriptValue scripting::database::readableProperties(QScriptContext* ctx, QScrip
         list << "color";
     }
 
-    if (obj.value()->isInstanceOf("sad::Label")
-        || obj.value()->isInstanceOf("sad::db::custom::Object"))
+    if (o->isInstanceOf("sad::Label")
+        || o->isInstanceOf("sad::db::custom::Object"))
     {
         list << "fontsize";
         list << "text";
@@ -132,19 +120,19 @@ QScriptValue scripting::database::readableProperties(QScriptContext* ctx, QScrip
         list << "hasformatting";
     }
 
-    if (obj.value()->isInstanceOf("sad::Sprite2D")
-        || obj.value()->isInstanceOf("sad::db::custom::Object"))
+    if (o->isInstanceOf("sad::Sprite2D")
+        || o->isInstanceOf("sad::db::custom::Object"))
     {
         list << "flipx";
         list << "flipy";
         list << "options";
     }
 
-    if (obj.value()->isInstanceOf("sad::db::custom::Object"))
+    if (o->isInstanceOf("sad::db::custom::Object"))
     {
         list << "schema";
-        sad::db::custom::Object* o = static_cast<sad::db::custom::Object*>(obj.value());
-        const sad::Hash<sad::String, sad::db::Property*> & sprops =  o->schemaProperties();
+        sad::db::custom::Object* co = static_cast<sad::db::custom::Object*>(o);
+        const sad::Hash<sad::String, sad::db::Property*> & sprops =  co->schemaProperties();
         for(sad::Hash<sad::String, sad::db::Property*>::const_iterator it = sprops.const_begin();
             it != sprops.const_end();
             ++it)
@@ -153,38 +141,25 @@ QScriptValue scripting::database::readableProperties(QScriptContext* ctx, QScrip
         }
     }
 
-    if (obj.value()->isInstanceOf("sad::p2d::app::Way"))
+    if (o->isInstanceOf("sad::p2d::app::Way"))
     {
         list << "totaltime";
         list << "closed";
     }
 
-    scripting::animations::checkPropertiesForAnimations(obj, list, true);
-    scripting::instances::checkProperties(obj, list, true);
-    scripting::groups::checkProperties(obj, list, true);
+    scripting::animations::checkPropertiesForAnimations(o, list, true);
+    scripting::instances::checkProperties(o, list, true);
+    scripting::groups::checkProperties(o, list, true);
 
-    return scripting::FromValue<QStringList>::perform(list, engine);
+    return list;
 }
 
-QScriptValue scripting::database::writableProperties(QScriptContext* ctx, QScriptEngine* engine)
+QStringList scripting::database::writableProperties(sad::db::Object* o)
 {
-    if (ctx->argumentCount() != 1)
-    {
-        ctx->throwError("writableProperties(): accepts only 1 argument");
-        return QScriptValue();
-    }
-
-    sad::Maybe<sad::db::Object*> obj = scripting::ToValue<sad::db::Object*>::perform(ctx->argument(0));
-    if (obj.exists() == false)
-    {
-        ctx->throwError("writableProperties(): first argument must be sad::db::Object");
-        return QScriptValue();
-    }
-
     QStringList list;
     list << "name";
 
-    if (obj.value()->isInstanceOf("sad::SceneNode"))
+    if (o->isInstanceOf("sad::SceneNode"))
     {
         list << "visible";
         list << "area";
@@ -192,8 +167,8 @@ QScriptValue scripting::database::writableProperties(QScriptContext* ctx, QScrip
         list << "color";
     }
 
-    if (obj.value()->isInstanceOf("sad::Label")
-        || obj.value()->isInstanceOf("sad::db::custom::Object"))
+    if (o->isInstanceOf("sad::Label")
+        || o->isInstanceOf("sad::db::custom::Object"))
     {
         list << "fontsize";
         list << "text";
@@ -209,19 +184,19 @@ QScriptValue scripting::database::writableProperties(QScriptContext* ctx, QScrip
         list << "hasformatting";
     }
 
-    if (obj.value()->isInstanceOf("sad::Sprite2D")
-        || obj.value()->isInstanceOf("sad::db::custom::Object"))
+    if (o->isInstanceOf("sad::Sprite2D")
+        || o->isInstanceOf("sad::db::custom::Object"))
     {
         list << "flipx";
         list << "flipy";
         list << "options";
     }
 
-    if (obj.value()->isInstanceOf("sad::db::custom::Object"))
+    if (o->isInstanceOf("sad::db::custom::Object"))
     {
         list << "schema";
-        sad::db::custom::Object* o = static_cast<sad::db::custom::Object*>(obj.value());
-        const sad::Hash<sad::String, sad::db::Property*> & sprops =  o->schemaProperties();
+        sad::db::custom::Object* co = static_cast<sad::db::custom::Object*>(o);
+        const sad::Hash<sad::String, sad::db::Property*> & sprops =  co->schemaProperties();
         for(sad::Hash<sad::String, sad::db::Property*>::const_iterator it = sprops.const_begin();
             it != sprops.const_end();
             ++it)
@@ -230,16 +205,110 @@ QScriptValue scripting::database::writableProperties(QScriptContext* ctx, QScrip
         }
     }
 
-    if (obj.value()->isInstanceOf("sad::p2d::app::Way"))
+    if (o->isInstanceOf("sad::p2d::app::Way"))
     {
         list << "totaltime";
         list << "closed";
     }
 
 
-    scripting::animations::checkPropertiesForAnimations(obj, list, false);
-    scripting::instances::checkProperties(obj, list, false);
-    scripting::groups::checkProperties(obj, list, false);
+    scripting::animations::checkPropertiesForAnimations(o, list, false);
+    scripting::instances::checkProperties(o, list, false);
+    scripting::groups::checkProperties(o, list, false);
 
-    return scripting::FromValue<QStringList>::perform(list, engine);
+    return list;
+}
+
+dukpp03::qt::JSObject* scripting::database::init(scripting::Scripting* s, dukpp03::qt::JSObject* e)
+{
+    dukpp03::qt::JSObject* db = new dukpp03::qt::JSObject();
+    db->setProperty("list", dukpp03::qt::make_function::from(scripting::database::list));
+    db->setProperty("type", dukpp03::qt::make_function::from(scripting::database::type));
+    db->setProperty("readableProperties", dukpp03::qt::make_function::from(scripting::database::readableProperties));
+    db->setProperty("writableProperties", dukpp03::qt::make_function::from(scripting::database::writableProperties));
+    db->setProperty("addProperty", dukpp03::qt::curried1::from(s, scripting::database::addProperty));
+    db->setProperty("removeProperty", dukpp03::qt::curried1::from(s, scripting::database::removeProperty));
+
+    dukpp03::qt::MultiMethod* set = new dukpp03::qt::MultiMethod();
+#define PUSH_SETTER(TYPE) set->add(new scripting::database::PropertySetter< TYPE >(s));
+    PUSH_SETTER(double)
+        PUSH_SETTER(float)
+        PUSH_SETTER(int)
+        PUSH_SETTER(long)
+        PUSH_SETTER(long long)
+        PUSH_SETTER(sad::AColor)
+        PUSH_SETTER(sad::Color)
+        PUSH_SETTER(sad::Point2D)
+        PUSH_SETTER(sad::Point2I)
+        PUSH_SETTER(sad::Point3D)
+        PUSH_SETTER(sad::Point3I)
+        PUSH_SETTER(sad::Size2D)
+        PUSH_SETTER(sad::Size2I)
+        PUSH_SETTER(sad::Rect2D)
+        PUSH_SETTER(sad::Rect2I)
+        PUSH_SETTER(sad::String)
+        PUSH_SETTER(std::string)
+        PUSH_SETTER(QString)
+        PUSH_SETTER(short)
+        PUSH_SETTER(bool)
+        PUSH_SETTER(char)
+        PUSH_SETTER(signed char)
+        PUSH_SETTER(unsigned char)
+        PUSH_SETTER(unsigned int)
+        PUSH_SETTER(unsigned long)
+        PUSH_SETTER(unsigned long long)
+        PUSH_SETTER(unsigned short)
+#undef PUSH_SETTER
+        db->setProperty("set", static_cast<dukpp03::qt::Callable*>(set)); // E.db.set
+
+
+    dukpp03::qt::MultiMethod* get = new dukpp03::qt::MultiMethod();
+#define PUSH_GETTER(TYPE) get->add(new scripting::database::PropertyGetter< TYPE >());
+    PUSH_GETTER(double)
+        PUSH_GETTER(float)
+        PUSH_GETTER(int)
+        PUSH_GETTER(long)
+        PUSH_GETTER(long long)
+        PUSH_GETTER(sad::AColor)
+        PUSH_GETTER(sad::Color)
+        PUSH_GETTER(sad::Point2D)
+        PUSH_GETTER(sad::Point2I)
+        PUSH_GETTER(sad::Point3D)
+        PUSH_GETTER(sad::Point3I)
+        PUSH_GETTER(sad::Size2D)
+        PUSH_GETTER(sad::Size2I)
+        PUSH_GETTER(sad::Rect2D)
+        PUSH_GETTER(sad::Rect2I)
+        PUSH_GETTER(sad::String)
+        PUSH_GETTER(std::string)
+        PUSH_GETTER(QString)
+        PUSH_GETTER(short)
+        PUSH_GETTER(bool)
+        PUSH_GETTER(char)
+        PUSH_GETTER(signed char)
+        PUSH_GETTER(unsigned char)
+        PUSH_GETTER(unsigned int)
+        PUSH_GETTER(unsigned long)
+        PUSH_GETTER(unsigned long long)
+        PUSH_GETTER(unsigned short)
+#undef PUSH_GETTER
+        db->setProperty("get", static_cast<dukpp03::qt::Callable*>(get)); // E.db.get
+
+    e->setProperty("db", db);
+
+    bool b = s->context()->eval(
+        "E.db.attr = function() {"
+        "   if (arguments.length == 1)"
+        "   {"
+        "       return E.db.get(arguments[0]);"
+        "   }"
+        "   if (arguments.length == 2)"
+        "   {"
+        "       E.db.set(arguments[0], arguments[1]); return E.db;"
+        "   }"
+        "   throw new Error(\"Specify 1 or 2 arguments\");"
+        "};"
+    );
+    assert(b);
+    return db;
 }

@@ -3574,9 +3574,9 @@ rect:</string>
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>10</y>
-        <width>195</width>
-        <height>371</height>
+        <y>30</y>
+        <width>171</width>
+        <height>351</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">

@@ -3,11 +3,11 @@
     A grid cell scripting bindings should be placed here
  */
 #pragma once
-#include "../classwrapper.h"
 
 #include <layouts/grid.h>
-
-#include <QScriptValue>
+#include <QObject>
+#include <QMetaType>
+#include <3rdparty/dukpp-03/include/maybe.h>
 
 namespace history
 {
@@ -26,7 +26,7 @@ class ScriptableLengthValue;
 
 /*! A wrapper for a reference for grid cell
  */
-class ScriptableGridCell: public scripting::ClassWrapper
+class ScriptableGridCell: public QObject
 {
     Q_OBJECT
 public:
@@ -42,10 +42,6 @@ public:
         unsigned int column,
         scripting::Scripting* s
     );
-    /*! Converts object to string representation
-        \return object to string
-     */
-    virtual QString toString() const;
     /*! A destructor for grid cell
      */
     virtual ~ScriptableGridCell();
@@ -62,14 +58,33 @@ public:
         \return false on invalid positions
      */
     bool swapChildrenWithCallName(const QString& callname, int pos1, int pos2) const;
+    /*! Returns list of children's major ids
+        \return list of children's major ids
+     */
+    // ReSharper disable once CppHidingFunction
+    QVector<unsigned long long> children() const;
+    /*! Tries to find child by major id
+        \param[in] o object
+        \return NULL if not found, otherwise position
+     */
+    dukpp03::Maybe<unsigned int> findChild(sad::SceneNode* o) const;
+    /*! Tries to add child to a cell. If child already has parent grid, returns false
+        \param[in] node  a node object
+        \return false, if child already has parent grid
+     */
+    bool addChild(sad::SceneNode* node) const;
 public slots:
+    /*! Converts object to string representation
+       \return object to string
+    */
+    virtual QString toString() const;
     /*! Returns true, if referenced object is valid
      */
     bool valid() const;
     /*! Returns area for a grid cell
         \return area
      */
-    QScriptValue area() const;
+    sad::Rect2D area() const;
     /*! Returns major id of grid for cell
         \return major id
      */
@@ -81,7 +96,7 @@ public slots:
     /*! Returns width of cell
         \return width of cell
      */
-    QScriptValue width() const;
+    scripting::layouts::ScriptableLengthValue* width() const;
     /*! Sets height for a cell
         \param value a value for height of cell
      */
@@ -89,41 +104,31 @@ public slots:
     /*! Returns height of cell
         \return height of cell
      */
-    QScriptValue height() const;
-    /*! Returns list of children's major ids
-        \return list of children's major ids
-     */
-    // ReSharper disable once CppHidingFunction
-    QScriptValue children() const;
-    /*! Tries to find child by major id
-        \param[in] o object
-        \return NULL if not found, otherwise position
-     */
-    QScriptValue findChild(const QScriptValue& o) const;
+    scripting::layouts::ScriptableLengthValue* height() const;
     /*! Sets horizontal alignment for cell
         \param[in] v value
      */
-    void setHorizontalAlignment(const QScriptValue& v) const;
+    void setHorizontalAlignment(unsigned int v) const;
     /*! Returns horizontal alignment for a scriptable grid cell
         \return horizontal alignment
      */
-    QScriptValue horizontalAlignment() const;
+    unsigned int  horizontalAlignment() const;
     /*! Sets vertical alignment for cell
         \param[in] v value
      */
-    void setVerticalAlignment(const QScriptValue& v) const;
+    void setVerticalAlignment(unsigned int  v) const;
     /*! Returns vertical alignment for a scriptable grid cell
         \return vertical alignment
      */
-    QScriptValue verticalAlignment() const;
+    unsigned int  verticalAlignment() const;
     /*! Sets stacking type for cell
         \param[in] v value
      */
-    void setStackingType(const QScriptValue& v) const;
+    void setStackingType(unsigned int  v) const;
     /*! Returns stacking type for a scriptable grid cell
         \return stacking type
      */
-    QScriptValue stackingType() const;
+    unsigned int  stackingType() const;
     /*! Sets top padding for cell
         \param[in] v new padding value
      */
@@ -156,11 +161,6 @@ public slots:
         \return right padding for cell
      */
     double paddingRight() const;
-    /*! Tries to add child to a cell. If child already has parent grid, returns false
-        \param[in] o object
-        \return false, if child already has parent grid
-     */
-    bool addChild(const QScriptValue& o) const;
     /*! Tries to remove child from a cell
         \param[in] pos position of object
         \return false if invalid position
@@ -220,3 +220,4 @@ protected:
 
 }
 
+Q_DECLARE_METATYPE(scripting::layouts::ScriptableGridCell**);

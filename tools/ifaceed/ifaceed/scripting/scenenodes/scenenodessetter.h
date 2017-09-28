@@ -12,7 +12,7 @@ namespace scripting
 namespace scenenodes
 {
 
-/*! A common setter for setting common property
+/*! A common setter for setting a property of scene node
  */
 template<
     typename _PropertyType,
@@ -21,19 +21,26 @@ template<
 class Setter: public scripting::scenenodes::AbstractSetter<_PropertyType>
 {
 public:	
-    /*! Construct new setter for property
-        \param[in] e engine
-        \param[in] name a name for property
+    /*! Constructs new setter for property
+        \param[in] scripting a scripting object
+        \param[in] property_name a name for property to be handled by setter
      */
     Setter(
-        QScriptEngine* e,
-        const QString& name = ""
-    ) : scripting::scenenodes::AbstractSetter<_PropertyType>(e)
+        scripting::Scripting* scripting,
+        const sad::String& property_name
+    ) : scripting::scenenodes::AbstractSetter<_PropertyType>(scripting, property_name)
     {
-        if (name.length()) {
-            this->addMatched(name);
-        }
+
     }
+
+    /*! Clones an object
+        \return copy of object
+     */
+    dukpp03::qt::Callable* clone()
+    {
+        return new scripting::scenenodes::Setter<_PropertyType, _CommandType>(*this);
+    }
+
     /*! Could be inherited
      */ 
     virtual ~Setter()
@@ -48,7 +55,7 @@ public:
      */
     virtual history::Command* command(sad::SceneNode* obj, const sad::String&, _PropertyType oldvalue,  _PropertyType newvalue)
     {
-        return new _CommandType(obj, oldvalue, newvalue);	
+        return new _CommandType(obj, oldvalue, newvalue);
     }
 };
 
