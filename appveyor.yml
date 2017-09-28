@@ -2,7 +2,8 @@ version: 1.7.0.{build}
 
 environment:
   matrix:
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017 
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      PLATFORM: x86	
       TOOLS: "MSVC"
 #    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
 #      TOOLS: "MinGW"
@@ -11,8 +12,8 @@ configuration:
   - Debug
 #  - Release
 
-platform:
-  - x86
+#platform:
+#  - x86
 #  - x64
 
 install:  
@@ -45,8 +46,7 @@ install:
   - cmd: set FREETYPE_INCLUDE=%FREETYPE_DIR%include\
   - cmd: set FREETYPE_LIB=%FREETYPE_DIR%lib\
   - cmd: set IRRKLANG_ROOT=%cd%\%IRRKLANG_ROOT_SUFFIX%
+  - cmd: ruby prepare_build.rb
 build_script:
-  - dir %QTDIR%\include\
-  - dir %QTDIR%\
   - if [%TOOLS%]==[MSVC] "build-all-msvc.bat" %CONFIGURATION% %ARCH%
   - if [%TOOLS%]==[MinGW] "build-all-mingw.bat" %CONFIGURATION%
