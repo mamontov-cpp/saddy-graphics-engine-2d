@@ -23,20 +23,6 @@ if [%VALID%] EQU [0]  (
 )
 @echo on
 devenv libsaddy.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv plugins/dukpp-03/dukpp-03.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv plugins/freetype/saddy-ft.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv plugins/irrklang/irrklang.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv plugins/dukpp-03-irrklang/dukpp-03-irrklang.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv tests/freetype/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv tests/hfsm/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv tests/input/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv tests/irrklang/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv tests/dukpp-03-irrklang/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv tests/p2d/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv tests/pipeline/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv tests/resource/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv tests/sad/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv tests/layouts/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
 devenv tools/isqt580/isqt580.vcxproj  /Build "%1|%2" /out lastsolutionbuild.log || goto :error
 %CHECKQTVERTOOL%
 if errorlevel 1 (
