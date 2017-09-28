@@ -25,3 +25,4 @@ replace_in_file("examples/example-game-in-qt/example-game-in-qt.vcxproj", /<Addi
 replace_in_file("examples/example-game-in-qt/example-game-in-qt.vcxproj", /<AdditionalDependencies>/, "<AdditionalDependencies>WindowsApp.lib;")
 # Comment pipeline test
 replace_in_file("tests/dukpp-03/pipeline.cpp", /__pipeline_test/, "/*__pipeline_test*/")
+replace_in_file("tests/dukpp-03/main.cpp", /\#define[ ]+TEST_INTERACTIVE/, "//#define TEST_INTERACTIVE")
