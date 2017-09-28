@@ -12,9 +12,6 @@ replace_in_file("tools/atlasgen/atlasgen.vcxproj", /<AdditionalIncludeDirectorie
 
 replace_in_file("tools/exporter/exporter.vcxproj.user", /<QTDIR>[^<]+<\/QTDIR>/, "<QTDIR>$(QTDIR)</QTDIR>")
 replace_in_file("tools/exporter/exporter.vcxproj", /<AdditionalIncludeDirectories>/, "<AdditionalIncludeDirectories>$(QTDIR)\\include\\QtANGLE;")
-if ENV["PLATFORM"] != 'x64'
-  replace_in_file("tools/exporter/exporter.vcxproj", /<AdditionalDependencies>/, "<AdditionalDependencies>WindowsApp.lib;")
-end
 
 replace_in_file("tools/ifaceed/ifaceed/ifaceed.vcxproj.user", /<QTDIR>[^<]+<\/QTDIR>/, "<QTDIR>$(QTDIR)</QTDIR>")
 replace_in_file("tools/ifaceed/ifaceed/ifaceed.vcxproj", /<AdditionalIncludeDirectories>/, "<AdditionalIncludeDirectories>$(QTDIR)\\include\\QtANGLE;")
