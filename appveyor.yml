@@ -9,7 +9,7 @@ environment:
 #      TOOLS: "MinGW"
 
 configuration:
-#  - Debug
+  - Debug
   - Release
 
 #platform:
