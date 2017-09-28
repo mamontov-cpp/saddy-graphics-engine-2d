@@ -1296,224 +1296,8 @@
     <ClCompile Include="gui\codeedit\highlighter.cpp">
       <Filter>Source Files\gui\codeedit</Filter>
     </ClCompile>
-    <ClCompile Include="scripting\tovalue.cpp">
-      <Filter>Source Files\scripting</Filter>
-    </ClCompile>
     <ClCompile Include="scripting\queryobject.cpp">
       <Filter>Source Files\scripting</Filter>
-    </ClCompile>
-    <ClCompile Include="scripting\fromvalue.cpp">
-      <Filter>Source Files\scripting</Filter>
-    </ClCompile>
-    <ClCompile Include="scripting\callable.cpp">
-      <Filter>Source Files\scripting</Filter>
-    </ClCompile>
-    <ClCompile Include="scripting\multimethod.cpp">
-      <Filter>Source Files\scripting</Filter>
-    </ClCompile>
-    <ClCompile Include="scripting\scriptinglog.cpp">
-      <Filter>Source Files\scripting</Filter>
-    </ClCompile>
-    <ClCompile Include="scripting\point2d.cpp">
-      <Filter>Source Files\scripting</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_point2d.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\GUITests\moc_point2d.cpp">
-      <Filter>Generated Files\GUITests</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_point2d.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Template\moc_point2d.cpp">
-      <Filter>Generated Files\Template</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\UnitTests\moc_point2d.cpp">
-      <Filter>Generated Files\UnitTests</Filter>
-    </ClCompile>
-    <ClCompile Include="scripting\classwrapper.cpp">
-      <Filter>Source Files\scripting</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_classwrapper.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\GUITests\moc_classwrapper.cpp">
-      <Filter>Generated Files\GUITests</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_classwrapper.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Template\moc_classwrapper.cpp">
-      <Filter>Generated Files\Template</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\UnitTests\moc_classwrapper.cpp">
-      <Filter>Generated Files\UnitTests</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_point2i.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\GUITests\moc_point2i.cpp">
-      <Filter>Generated Files\GUITests</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_point2i.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Template\moc_point2i.cpp">
-      <Filter>Generated Files\Template</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\UnitTests\moc_point2i.cpp">
-      <Filter>Generated Files\UnitTests</Filter>
-    </ClCompile>
-    <ClCompile Include="scripting\point2i.cpp">
-      <Filter>Source Files\scripting</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_point3d.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\GUITests\moc_point3d.cpp">
-      <Filter>Generated Files\GUITests</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_point3d.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Template\moc_point3d.cpp">
-      <Filter>Generated Files\Template</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\UnitTests\moc_point3d.cpp">
-      <Filter>Generated Files\UnitTests</Filter>
-    </ClCompile>
-    <ClCompile Include="scripting\point3d.cpp">
-      <Filter>Source Files\scripting</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_point3i.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\GUITests\moc_point3i.cpp">
-      <Filter>Generated Files\GUITests</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_point3i.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Template\moc_point3i.cpp">
-      <Filter>Generated Files\Template</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\UnitTests\moc_point3i.cpp">
-      <Filter>Generated Files\UnitTests</Filter>
-    </ClCompile>
-    <ClCompile Include="scripting\point3i.cpp">
-      <Filter>Source Files\scripting</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_rect2d.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\GUITests\moc_rect2d.cpp">
-      <Filter>Generated Files\GUITests</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_rect2d.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Template\moc_rect2d.cpp">
-      <Filter>Generated Files\Template</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\UnitTests\moc_rect2d.cpp">
-      <Filter>Generated Files\UnitTests</Filter>
-    </ClCompile>
-    <ClCompile Include="scripting\rect2d.cpp">
-      <Filter>Source Files\scripting</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_rect2i.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\GUITests\moc_rect2i.cpp">
-      <Filter>Generated Files\GUITests</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_rect2i.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Template\moc_rect2i.cpp">
-      <Filter>Generated Files\Template</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\UnitTests\moc_rect2i.cpp">
-      <Filter>Generated Files\UnitTests</Filter>
-    </ClCompile>
-    <ClCompile Include="scripting\rect2i.cpp">
-      <Filter>Source Files\scripting</Filter>
-    </ClCompile>
-    <ClCompile Include="scripting\size2d.cpp">
-      <Filter>Source Files\scripting</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_size2d.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\GUITests\moc_size2d.cpp">
-      <Filter>Generated Files\GUITests</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_size2d.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Template\moc_size2d.cpp">
-      <Filter>Generated Files\Template</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\UnitTests\moc_size2d.cpp">
-      <Filter>Generated Files\UnitTests</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_size2i.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\GUITests\moc_size2i.cpp">
-      <Filter>Generated Files\GUITests</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_size2i.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Template\moc_size2i.cpp">
-      <Filter>Generated Files\Template</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\UnitTests\moc_size2i.cpp">
-      <Filter>Generated Files\UnitTests</Filter>
-    </ClCompile>
-    <ClCompile Include="scripting\size2i.cpp">
-      <Filter>Source Files\scripting</Filter>
-    </ClCompile>
-    <ClCompile Include="scripting\color.cpp">
-      <Filter>Source Files\scripting</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_color.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\GUITests\moc_color.cpp">
-      <Filter>Generated Files\GUITests</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_color.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Template\moc_color.cpp">
-      <Filter>Generated Files\Template</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\UnitTests\moc_color.cpp">
-      <Filter>Generated Files\UnitTests</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_acolor.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\GUITests\moc_acolor.cpp">
-      <Filter>Generated Files\GUITests</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_acolor.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Template\moc_acolor.cpp">
-      <Filter>Generated Files\Template</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\UnitTests\moc_acolor.cpp">
-      <Filter>Generated Files\UnitTests</Filter>
-    </ClCompile>
-    <ClCompile Include="scripting\acolor.cpp">
-      <Filter>Source Files\scripting</Filter>
-    </ClCompile>
-    <ClCompile Include="scripting\scenes\scenesnamesetter.cpp">
-      <Filter>Source Files\scripting\scenes</Filter>
     </ClCompile>
     <ClCompile Include="scripting\querytable.cpp">
       <Filter>Source Files\scripting</Filter>
@@ -1529,15 +1313,6 @@
     </ClCompile>
     <ClCompile Include="scripting\queryresource.cpp">
       <Filter>Source Files\scripting</Filter>
-    </ClCompile>
-    <ClCompile Include="scripting\scenenodes\scenenodesfontsizesetter.cpp">
-      <Filter>Source Files\scripting\scenenodes</Filter>
-    </ClCompile>
-    <ClCompile Include="scripting\scenenodes\scenenodesareasetter.cpp">
-      <Filter>Source Files\scripting\scenenodes</Filter>
-    </ClCompile>
-    <ClCompile Include="scripting\scenenodes\scenenodesfontsetter.cpp">
-      <Filter>Source Files\scripting\scenenodes</Filter>
     </ClCompile>
     <ClCompile Include="scripting\scenenodes\scenenodesflagsetter.cpp">
       <Filter>Source Files\scripting\scenenodes</Filter>
@@ -1596,9 +1371,6 @@
     <ClCompile Include="scripting\animations\animationswaysetter.cpp">
       <Filter>Source Files\scripting\animations</Filter>
     </ClCompile>
-    <ClCompile Include="scripting\isaabb.cpp">
-      <Filter>Source Files\scripting</Filter>
-    </ClCompile>
     <ClCompile Include="gui\codeedit\completer.cpp">
       <Filter>Source Files\gui\codeedit</Filter>
     </ClCompile>
@@ -1620,31 +1392,7 @@
     <ClCompile Include="scripting\instances\instancesbindings.cpp">
       <Filter>Source Files\scripting\instances</Filter>
     </ClCompile>
-    <ClCompile Include="scripting\instances\instancesnamesetter.cpp">
-      <Filter>Source Files\scripting\instances</Filter>
-    </ClCompile>
-    <ClCompile Include="scripting\instances\instancesanimationsetter.cpp">
-      <Filter>Source Files\scripting\instances</Filter>
-    </ClCompile>
-    <ClCompile Include="scripting\instances\instancesanimationdbsetter.cpp">
-      <Filter>Source Files\scripting\instances</Filter>
-    </ClCompile>
-    <ClCompile Include="scripting\instances\instancesobjectsetter.cpp">
-      <Filter>Source Files\scripting\instances</Filter>
-    </ClCompile>
-    <ClCompile Include="scripting\instances\instancesstarttimesetter.cpp">
-      <Filter>Source Files\scripting\instances</Filter>
-    </ClCompile>
-    <ClCompile Include="scripting\instances\instanceswaysetter.cpp">
-      <Filter>Source Files\scripting\instances</Filter>
-    </ClCompile>
     <ClCompile Include="scripting\groups\groupsbindings.cpp">
-      <Filter>Source Files\scripting\groups</Filter>
-    </ClCompile>
-    <ClCompile Include="scripting\groups\groupsnamesetter.cpp">
-      <Filter>Source Files\scripting\groups</Filter>
-    </ClCompile>
-    <ClCompile Include="scripting\groups\groupsloopedsetter.cpp">
       <Filter>Source Files\scripting\groups</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_scriptinghelp.cpp">
@@ -1950,9 +1698,6 @@
     <ClCompile Include="history\groups\groupschangesequential.cpp">
       <Filter>Source Files\history\groups</Filter>
     </ClCompile>
-    <ClCompile Include="scripting\groups\groupssequentialsetter.cpp">
-      <Filter>Source Files\scripting\groups</Filter>
-    </ClCompile>
     <ClCompile Include="gui\qt-palette-color-picker\colorpicker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -2126,6 +1871,18 @@
     </ClCompile>
     <ClCompile Include="stringeditordialog.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\lib.js.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\dukqt.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\pushvalue.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\getvalue.cpp">
+      <Filter>Source Files\scripting</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2498,52 +2255,13 @@
     <ClInclude Include="gui\codeedit\highlighter.h">
       <Filter>Header Files\gui\codeedit</Filter>
     </ClInclude>
-    <ClInclude Include="scripting\tovalue.h">
-      <Filter>Header Files\scripting</Filter>
-    </ClInclude>
     <ClInclude Include="scripting\queryobject.h">
-      <Filter>Header Files\scripting</Filter>
-    </ClInclude>
-    <ClInclude Include="scripting\fromvalue.h">
-      <Filter>Header Files\scripting</Filter>
-    </ClInclude>
-    <ClInclude Include="scripting\constructorcall.h">
-      <Filter>Header Files\scripting</Filter>
-    </ClInclude>
-    <ClInclude Include="scripting\callable.h">
-      <Filter>Header Files\scripting</Filter>
-    </ClInclude>
-    <ClInclude Include="scripting\registerconstructor.h">
-      <Filter>Header Files\scripting</Filter>
-    </ClInclude>
-    <ClInclude Include="scripting\makeconstructor.h">
-      <Filter>Header Files\scripting</Filter>
-    </ClInclude>
-    <ClInclude Include="scripting\multimethod.h">
-      <Filter>Header Files\scripting</Filter>
-    </ClInclude>
-    <ClInclude Include="scripting\scriptinglog.h">
-      <Filter>Header Files\scripting</Filter>
-    </ClInclude>
-    <ClInclude Include="scripting\functioncall.h">
-      <Filter>Header Files\scripting</Filter>
-    </ClInclude>
-    <ClInclude Include="scripting\makefunctioncall.h">
-      <Filter>Header Files\scripting</Filter>
-    </ClInclude>
-    <ClInclude Include="scripting\makescriptingcall.h">
       <Filter>Header Files\scripting</Filter>
     </ClInclude>
     <ClInclude Include="scripting\abstractsetter.h">
       <Filter>Header Files\scripting</Filter>
     </ClInclude>
-    <ClInclude Include="scripting\scenes\scenesnamesetter.h">
-      <Filter>Header Files\scripting\scenes</Filter>
-    </ClInclude>
     <ClInclude Include="scripting\abstractgetter.h">
-      <Filter>Header Files\scripting</Filter>
-    </ClInclude>
-    <ClInclude Include="scripting\scriptingcall.h">
       <Filter>Header Files\scripting</Filter>
     </ClInclude>
     <ClInclude Include="scripting\querytable.h">
@@ -2573,15 +2291,6 @@
     <ClInclude Include="scripting\scenenodes\scenenodessetter.h">
       <Filter>Header Files\scripting\scenenodes</Filter>
     </ClInclude>
-    <ClInclude Include="scripting\scenenodes\scenenodesfontsizesetter.h">
-      <Filter>Header Files\scripting\scenenodes</Filter>
-    </ClInclude>
-    <ClInclude Include="scripting\scenenodes\scenenodesareasetter.h">
-      <Filter>Header Files\scripting\scenenodes</Filter>
-    </ClInclude>
-    <ClInclude Include="scripting\scenenodes\scenenodesfontsetter.h">
-      <Filter>Header Files\scripting\scenenodes</Filter>
-    </ClInclude>
     <ClInclude Include="scripting\scenenodes\scenenodesoptionssetter.h">
       <Filter>Header Files\scripting\scenenodes</Filter>
     </ClInclude>
@@ -2606,9 +2315,6 @@
     <ClInclude Include="scripting\dialogues\dialoguesbindings.h">
       <Filter>Header Files\scripting\dialogues</Filter>
     </ClInclude>
-    <ClInclude Include="scripting\dialogues\dialoguessetter.h">
-      <Filter>Header Files\scripting\dialogues</Filter>
-    </ClInclude>
     <ClInclude Include="scripting\animations\animationsbindings.h">
       <Filter>Header Files\scripting\animations</Filter>
     </ClInclude>
@@ -2618,46 +2324,13 @@
     <ClInclude Include="scripting\animations\animationswidgetsetter.h">
       <Filter>Header Files\scripting\animations</Filter>
     </ClInclude>
-    <ClInclude Include="scripting\abstracttovalue.h">
-      <Filter>Header Files\scripting</Filter>
-    </ClInclude>
-    <ClInclude Include="scripting\abstractcondition.h">
-      <Filter>Header Files\scripting</Filter>
-    </ClInclude>
     <ClInclude Include="scripting\animations\animationswaysetter.h">
       <Filter>Header Files\scripting\animations</Filter>
-    </ClInclude>
-    <ClInclude Include="scripting\isaabb.h">
-      <Filter>Header Files\scripting</Filter>
     </ClInclude>
     <ClInclude Include="scripting\instances\instancesbindings.h">
       <Filter>Header Files\scripting\instances</Filter>
     </ClInclude>
-    <ClInclude Include="scripting\instances\instancesnamesetter.h">
-      <Filter>Header Files\scripting\instances</Filter>
-    </ClInclude>
-    <ClInclude Include="scripting\instances\instancesanimationsetter.h">
-      <Filter>Header Files\scripting\instances</Filter>
-    </ClInclude>
-    <ClInclude Include="scripting\instances\instancesanimationdbsetter.h">
-      <Filter>Header Files\scripting\instances</Filter>
-    </ClInclude>
-    <ClInclude Include="scripting\instances\instancesobjectsetter.h">
-      <Filter>Header Files\scripting\instances</Filter>
-    </ClInclude>
-    <ClInclude Include="scripting\instances\instancesstarttimesetter.h">
-      <Filter>Header Files\scripting\instances</Filter>
-    </ClInclude>
-    <ClInclude Include="scripting\instances\instanceswaysetter.h">
-      <Filter>Header Files\scripting\instances</Filter>
-    </ClInclude>
     <ClInclude Include="scripting\groups\groupsbindings.h">
-      <Filter>Header Files\scripting\groups</Filter>
-    </ClInclude>
-    <ClInclude Include="scripting\groups\groupsnamesetter.h">
-      <Filter>Header Files\scripting\groups</Filter>
-    </ClInclude>
-    <ClInclude Include="scripting\groups\groupsloopedsetter.h">
       <Filter>Header Files\scripting\groups</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_scriptinghelp.h">
@@ -2756,9 +2429,6 @@
     <ClInclude Include="history\groups\groupschangesequential.h">
       <Filter>Header Files\history\groups</Filter>
     </ClInclude>
-    <ClInclude Include="scripting\groups\groupssequentialsetter.h">
-      <Filter>Header Files\scripting\groups</Filter>
-    </ClInclude>
     <ClInclude Include="history\animations\animationschangeeasingproperty.h">
       <Filter>Header Files\history\animations</Filter>
     </ClInclude>
@@ -2830,6 +2500,12 @@
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_stringeditordialog.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\dukqtcontext.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\scriptinghelptext.h">
+      <Filter>Header Files\scripting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2972,39 +2648,6 @@
       <Filter>Header Files\gui\codeedit</Filter>
     </CustomBuild>
     <CustomBuild Include="scripting\scripting.h">
-      <Filter>Header Files\scripting</Filter>
-    </CustomBuild>
-    <CustomBuild Include="scripting\point2d.h">
-      <Filter>Header Files\scripting</Filter>
-    </CustomBuild>
-    <CustomBuild Include="scripting\classwrapper.h">
-      <Filter>Header Files\scripting</Filter>
-    </CustomBuild>
-    <CustomBuild Include="scripting\point2i.h">
-      <Filter>Header Files\scripting</Filter>
-    </CustomBuild>
-    <CustomBuild Include="scripting\point3d.h">
-      <Filter>Header Files\scripting</Filter>
-    </CustomBuild>
-    <CustomBuild Include="scripting\point3i.h">
-      <Filter>Header Files\scripting</Filter>
-    </CustomBuild>
-    <CustomBuild Include="scripting\rect2d.h">
-      <Filter>Header Files\scripting</Filter>
-    </CustomBuild>
-    <CustomBuild Include="scripting\rect2i.h">
-      <Filter>Header Files\scripting</Filter>
-    </CustomBuild>
-    <CustomBuild Include="scripting\size2d.h">
-      <Filter>Header Files\scripting</Filter>
-    </CustomBuild>
-    <CustomBuild Include="scripting\size2i.h">
-      <Filter>Header Files\scripting</Filter>
-    </CustomBuild>
-    <CustomBuild Include="scripting\color.h">
-      <Filter>Header Files\scripting</Filter>
-    </CustomBuild>
-    <CustomBuild Include="scripting\acolor.h">
       <Filter>Header Files\scripting</Filter>
     </CustomBuild>
     <CustomBuild Include="scripting\ways\wayspointref.h">

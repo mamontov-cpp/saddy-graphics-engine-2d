@@ -190,8 +190,8 @@ core::Editor::Editor()
 
 }
 core::Editor::~Editor()
-{	
-    delete m_args;	
+{
+    delete m_args;
     delete m_renderthread;
     delete m_parsed_args;
     delete m_history;
@@ -217,6 +217,10 @@ void core::Editor::init(int argc,char ** argv)
     m_parsed_args->addFlag("debug");
     m_parsed_args->parse(argc, const_cast<const char **>(argv));
     
+#ifdef HAVE_QT5
+    QCoreApplication::addLibraryPath(".");
+#endif
+
     m_qtapp = new QApplication(m_args->count(), m_args->arguments());
 
     // This thread only runs qt event loop. SaddyThread runs only event loop of renderer of Saddy.
@@ -804,8 +808,8 @@ void core::Editor::saddyQuitSlot()
 void core::Editor::runQtEventLoop()
 {
     m_mainwindow = new MainPanel();
-    m_mainwindow->setEditor(this);
     m_ui_blocks->init(m_mainwindow);
+    m_mainwindow->setEditor(this);
 
     gui::actions::GridActions* ga = m_actions->gridActions();
 

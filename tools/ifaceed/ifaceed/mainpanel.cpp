@@ -64,13 +64,6 @@
 
 #include "closuremethodcall.h"
 
-Q_DECLARE_METATYPE(sad::db::Object*) //-V566
-Q_DECLARE_METATYPE(sad::Scene*) //-V566
-Q_DECLARE_METATYPE(sad::SceneNode*) //-V566
-Q_DECLARE_METATYPE(sad::p2d::app::Way*) //-V566
-Q_DECLARE_METATYPE(sad::dialogue::Dialogue*) //-V566
-Q_DECLARE_METATYPE(sad::animations::Animation*) //-V566
-Q_DECLARE_METATYPE(sad::animations::Instance*) //-V566
 Q_DECLARE_METATYPE(sad::animations::Group*) //-V566
 
 //====================  PUBLIC METHODS HERE ====================
@@ -1690,7 +1683,7 @@ void MainPanel::initConsoleAutocompletion()
     ui.txtConsoleCode->setCompleter(consolecompleter);
     consolecompleter->setModel(
         consolecompleter->modelFromEngine(
-            m_scripting->engine(),
+            m_scripting->context(),
             replaceincompleter,
             m_scripting->commonProperties()
         )

@@ -5,14 +5,12 @@
  */
 #pragma once
 #include <QObject>
-#include <QScriptEngine>
-#include <QVector>
-#include <QThread>
 #include <QSet>
+#include "dukqtcontext.h"
 
 namespace core
 {
-class Editor;	
+class Editor;
 }
 
 namespace scripting
@@ -24,38 +22,12 @@ class Scripting: public QObject
 {
 Q_OBJECT
 public:
-
-/*! A polling thread, that polls engine and forces it to quit if need to
+/*! An enum for copying objects
  */
-class Thread: public QThread
+enum CopyPropertiesDirection
 {
-public:
-    /*! A timeout for quitting a thread
-     */
-    static int TIMEOUT;
-    /*! Determines, how often we should poll thread
-     */
-    static int POLLINGTIME;
-    /*! Creates new thread
-        \param[in] me a thread
-     */
-    Thread(scripting::Scripting* me);
-    /*! A linked thread
-     */
-    virtual ~Thread();
-    /*! Forces thread to quit
-     */
-    void forceQuit();
-    /*! Runs a thread, running script
-     */
-    virtual void run();	
-protected:
-    /*! Whether we should quit 
-     */
-    bool m_should_i_quit;
-    /*! A scripting part
-     */
-    scripting::Scripting* m_s;
+    SSC_CPD_FROM_HEAP_TO_GLOBAL = 0, // From stashed heap to global object
+    SSC_CPD_FROM_GLOBAL_TO_HEAP = 1  // From global object to heap
 };
     /*! Creates new label actions
         \param[in] parent a parent object
@@ -64,18 +36,6 @@ protected:
     /*! This class could be inherited
      */
     virtual ~Scripting();
-    /*! Returns an engine
-        \return engine
-     */
-    QScriptEngine* engine() const;
-    /*! Registers function in object
-       \param name name of function
-       \param v a value representation of function
-     */
-    void registerFunction(const QString& name, QScriptValue& v);
-    /*! Registerd script class as global function
-     */
-    void registerScriptClass(const QString& name, QScriptClass* c);
     /*! Returns common properties, which all classes could have
         \return common properties
      */
@@ -88,16 +48,16 @@ protected:
         QStringList& properties,
         QStringList& functions
     );
-    /*! Appends all functions and properties, defined in system for given object
+    /*! Returns all functions and properties
         \param[out] properties list of properties
         \param[out] functions list of functions
-        \param[in] v an object, whose properties are being appended
+        \param[in] get_global whether we should get global object props
      */
     void propertiesAndFunctions(
-        QSet<QString>& properties,
-        QSet<QString>& functions,
-        const QScriptValue& v
-    );
+        QSet<QString> &properties,
+        QSet<QString> &functions,
+        bool get_global = true
+     );
     /*! Returns screen width. Used, when scripting
         \return screen width
      */
@@ -113,7 +73,11 @@ protected:
     /*! Returns linked editor to scripting
         \return an editor
      */
-    core::Editor* editor() const;	
+    core::Editor* editor() const;
+    /*! Returns context from scripting
+        \return context
+     */
+    dukpp03::qt::Context* context() const;
 public slots:
     /*! Run script in console
      */
@@ -121,9 +85,6 @@ public slots:
     /*! Shows help
      */
     void showHelp();
-    /*! Cancels execution of script
-     */
-    void cancelExecution();
     /*! Saves script to a file
      */
     void saveScript();
@@ -134,57 +95,30 @@ protected:
     /*! Inits inner script with constructors for common types
      */
     void initSadTypeConstructors();
-    /*! Inits all bindings for scenes
-        \param[out] v a global value (E)
-    */
-    void initDatabasePropertyBindings(QScriptValue& v);
-    /*! Inits scenes bindings for scenes
-        \param[out] v a global value (E)
+    /*! Copies properties from source object to destination object
+        \param[in] direction a direction in which copying  is performed
      */
-    void initSceneBindings(QScriptValue& v);
-    /*! Inits scene nodes bindings
-        \param[out] v a global value (E)
+    void copyProperties(scripting::Scripting::CopyPropertiesDirection direction);
+    /*! Copies properties from source object to destination object recursive
+        \param[in] source_id position of source object on stack
+        \param[in] dest_id position of destination object on stack
      */
-    void initSceneNodesBindings(QScriptValue& v);
-    /*! Inits layout grid bindings
-        \param[out] v a global value (E)
-     */
-    void initLayoutGridBindings(QScriptValue& v);
-    /*! Inits way bindings
-        \param[out] v a global value (E)
-     */
-    void initWaysBindings(QScriptValue& v);
-    /*! Inits dialogues bindings
-        \param[out] v a global value (E)
-     */
-    void initDialoguesBindings(QScriptValue& v);
-    /*! Inits animations bindings
-        \param[out] v a global value (E)
-     */
-    void initAnimationsBindings(QScriptValue& v);
-    /*! Inits animation instances bindings
-        \param[out] v a global value (E)
-     */
-    void initAnimationInstanceBindings(QScriptValue& v);
-    /*! Inits animation groups bindings
-        \param[out] v a global value (E)
-     */
-    void initAnimationGroupBindings(QScriptValue& v);
+    void copyObjectsOnStackRecursive(duk_idx_t source_id, duk_idx_t dest_id);
     /*! An editor, where scripting object belongs to
      */
     core::Editor* m_editor;
-    /*! An engine to be run
+    /*! A context for Qt embedded parts
      */
-    QScriptEngine* m_engine;
-    /*! A value, where all bindings are stored
+    dukpp03::qt::Context* m_ctx;
+    /*! A global value for editing global "E" property
      */
-    QScriptValue m_value;
-    /*! A list of registered classes in engine
+    dukpp03::qt::JSObject* m_global_value;
+    /*! A global value for editing global "E.animations" property
      */
-    QVector<QScriptClass*> m_registered_classes;
-    /*! A flags to be set as property
+    dukpp03::qt::JSObject* m_animations_value;
+    /*! Whether we are evaluating script at the moment
      */
-    QScriptValue::PropertyFlags m_flags;
+    bool m_evaluating;
 };
 
 }

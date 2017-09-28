@@ -4,7 +4,7 @@
     A function for querying object from database
  */
 #pragma once
-#include <QScriptValue>
+#include <QVariant>
 
 #include <maybe.h>
 
@@ -17,12 +17,12 @@ namespace scripting
     \param[in] v value
     \return NULL if not found
  */
-sad::db::Object* query_object(const QScriptValue& v);
+sad::db::Object* query_object(const QVariant& v);
 
 template<
     typename T
 >
-sad::Maybe<T> query(const QScriptValue& v)
+sad::Maybe<T> query(const QVariant& v)
 {
     sad::Maybe<T> result;
     sad::db::Object* object = scripting::query_object(v);

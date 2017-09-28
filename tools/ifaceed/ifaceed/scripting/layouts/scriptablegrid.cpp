@@ -13,13 +13,14 @@
 
 #include "../core/editor.h"
 
-#include "../fromvalue.h"
-#include "../tovalue.h"
-
 #include "../gui/actions/actions.h"
 #include "../gui/actions/gridactions.h"
 
 #include "../../qstdstring.h"
+
+Q_DECLARE_METATYPE(scripting::layouts::ScriptableGrid*)
+Q_DECLARE_METATYPE(scripting::layouts::ScriptableGridCell*)
+
 
 // ==================================== PUBLIC METHODS ====================================
 
@@ -34,18 +35,6 @@ scripting::layouts::ScriptableGrid::ScriptableGrid(
 scripting::layouts::ScriptableGrid::~ScriptableGrid() 
 {
     
-}
-
-
-QString scripting::layouts::ScriptableGrid::toString() const
-{
-    if (!valid())
-    {
-        return "ScriptableGrid(<invalid>)";
-    }
-    QString result = QString("ScriptableGrid(majorid : %1)")
-                     .arg(m_majorid);
-    return result;	
 }
 
 sad::layouts::Grid* scripting::layouts::ScriptableGrid::grid(bool throwexc, const QString& name) const
@@ -64,12 +53,105 @@ sad::layouts::Grid* scripting::layouts::ScriptableGrid::grid(bool throwexc, cons
     }
     if (throwexc)
     {
-        m_scripting->engine()->currentContext()->throwError(QString("ScriptableGrid.") + name  + ": Reference to a grid is not a valid instance");
+        m_scripting->context()->throwError(std::string("ScriptableGrid.") + name.toStdString()  + ": Reference to a grid is not a valid instance");
+        throw dukpp03::ArgumentException();
     }
     return NULL;
 }
 
+void scripting::layouts::ScriptableGrid::setArea(sad::Rect2D new_area) const
+{
+    if (!sad::isAABB(new_area))
+    {
+        m_scripting->context()->throwError("setArea: rectangle is not axis-aligned");
+        throw new dukpp03::ArgumentException();
+    }
+    sad::layouts::Grid* g = grid(true, "setArea");
+    if (g)
+    {
+        m_scripting->editor()->actions()->gridActions()->tryChangeAreaForGrid(g, new_area, false);
+    }
+}
+
+dukpp03::Maybe<QVector<QVariant> > scripting::layouts::ScriptableGrid::findChild(sad::SceneNode* o)
+{
+    dukpp03::Maybe<QVector<QVariant> > result;
+    sad::layouts::Grid* g = grid(true, "findChild");
+    if (g)
+    {
+        sad::Maybe<sad::layouts::Grid::SearchResult> res = g->find(o);
+        if (res.exists())
+        {
+            sad::layouts::Cell* c = g->cell(res.value().p1());
+
+            QVector<QVariant> result_vector;
+
+            QVariant first_variant;
+            first_variant.setValue(new scripting::layouts::ScriptableGridCell(g->MajorId, c->Row, c->Col, m_scripting));
+
+            QVariant second_variant;
+            second_variant.setValue(static_cast<unsigned int>(res.value().p2()));
+
+            result_vector << first_variant << second_variant;
+            result.setValue(result_vector);
+        }
+    }
+    return result;
+}
+
+
+scripting::layouts::ScriptableGridCell* scripting::layouts::ScriptableGrid::cell(int row, int column)
+{
+    sad::layouts::Grid* g = grid(true, "cell");
+    if (g)
+    {
+        if (row < 0 || column < 0 || row >= g->rows() || column >= g->columns())
+        {
+            QString errorMessage = "ScriptableGrid.cell: There are no such cell %1, %2 in grid";
+            errorMessage = errorMessage.arg(row).arg(column);
+            m_scripting->context()->throwError(errorMessage.toStdString());
+            throw new dukpp03::ArgumentException();
+        }
+        else
+        {
+            return new scripting::layouts::ScriptableGridCell(g->MajorId, row, column, m_scripting);
+        }
+    }
+    else
+    {
+        m_scripting->context()->throwError("ScriptableGrid.cell: Attempt to get cell for non-existing grid");
+        throw new dukpp03::ArgumentException();
+    }
+    return NULL;
+}
+
+QVector<unsigned long long> scripting::layouts::ScriptableGrid::children() const
+{
+    QVector<unsigned long long> result;
+    sad::layouts::Grid* g = grid(true, "children");
+    if (g)
+    {
+        sad::Vector<unsigned long long> major_ids = g->childrenMajorIds();
+        for (size_t i = 0; i < major_ids.size(); i++)
+        {
+            result << major_ids[i];
+        }
+    }
+    return result;
+}
+
 // ==================================== PUBLIC SLOT METHODS ====================================
+
+QString scripting::layouts::ScriptableGrid::toString() const
+{
+    if (!valid())
+    {
+        return "ScriptableGrid(<invalid>)";
+    }
+    QString result = QString("ScriptableGrid(majorid : %1)")
+        .arg(m_majorid);
+    return result;
+}
 
 bool scripting::layouts::ScriptableGrid::valid() const
 {
@@ -77,7 +159,7 @@ bool scripting::layouts::ScriptableGrid::valid() const
 }
 
 
-QScriptValue scripting::layouts::ScriptableGrid::area() const
+sad::Rect2D scripting::layouts::ScriptableGrid::area() const
 {
     sad::Rect2D v;
     sad::layouts::Grid* g = grid(true, "area");
@@ -85,22 +167,7 @@ QScriptValue scripting::layouts::ScriptableGrid::area() const
     {
         v = g->area();
     }
-    return scripting::FromValue<sad::Rect2D>::perform(v, m_scripting->engine());
-}
-
-void scripting::layouts::ScriptableGrid::setArea(const QScriptValue& newarea) const
-{
-    sad::Maybe<sad::Rect2D> rect_maybe = scripting::ToValue<sad::Rect2D>::perform(newarea);
-    if (rect_maybe.exists() == false)
-    {
-        m_scripting->engine()->currentContext()->throwError("ScriptableGrid.setArea(): argument is not valid rectangle");
-        return;
-    }
-    sad::layouts::Grid* g = grid(true, "setArea");
-    if (g)
-    {
-        m_scripting->editor()->actions()->gridActions()->tryChangeAreaForGrid(g, rect_maybe.value(), false);
-    }
+    return v;
 }
 
 unsigned long long scripting::layouts::ScriptableGrid::majorId() const
@@ -201,8 +268,8 @@ void scripting::layouts::ScriptableGrid::setRows(int rows) const
 {
     if (rows <= 0)
     {
-        m_scripting->engine()->currentContext()->throwError("ScriptableGrid.setRows: 0 is not a valid value for row count");
-        return;
+        m_scripting->context()->throwError("ScriptableGrid.setRows: amount of rows cannot be lesser or equal to 0");
+        throw new dukpp03::ArgumentException();
     }
 
     sad::layouts::Grid* g = grid(true, "setRows");
@@ -227,8 +294,8 @@ void scripting::layouts::ScriptableGrid::setColumns(int columns) const
 {
     if (columns <= 0)
     {
-        m_scripting->engine()->currentContext()->throwError("ScriptableGrid.setColumns: 0 is not a valid value for row count");
-        return;
+        m_scripting->context()->throwError("ScriptableGrid.setColumns: amount of columns cannot be lesser or equal to 0");
+        throw new dukpp03::ArgumentException();
     }
 
     sad::layouts::Grid* g = grid(true, "setColumns");
@@ -368,26 +435,6 @@ void scripting::layouts::ScriptableGrid::setPaddingRight(double v) const
     this->setPaddingRight(v, true);
 }
 
-QScriptValue scripting::layouts::ScriptableGrid::cell(int row, int column)
-{
-    QScriptValue val = m_scripting->engine()->nullValue();
-    sad::layouts::Grid* g = grid(true, "cell");
-    if (g)
-    {
-        if (row < 0 || column < 0 || row >= g->rows() || column >= g->columns())
-        {
-            QString errorMessage = "ScriptableGrid.cell: There are no such cell %1, %2 in grid";
-            errorMessage = errorMessage.arg(row).arg(column);
-            m_scripting->engine()->currentContext()->throwError(errorMessage);
-        }
-        else
-        {
-            val = m_scripting->engine()->newQObject(new scripting::layouts::ScriptableGridCell(g->MajorId, row, column, m_scripting));
-        }
-    }
-    return val;
-}
-
 bool scripting::layouts::ScriptableGrid::merge(int row, int column, int rowspan, int colspan)
 {
     sad::layouts::Grid* g = grid(true, "merge");
@@ -409,45 +456,3 @@ bool scripting::layouts::ScriptableGrid::split(int row, int column, int rowspan,
     }
     return false;
 }
-
-QScriptValue scripting::layouts::ScriptableGrid::findChild(const QScriptValue& o)
-{
-    QScriptEngine* e = m_scripting->engine();
-    QScriptValue val = e->nullValue();
-    sad::layouts::Grid* g = grid(true, "findChild");
-    if (g)
-    {
-        sad::Maybe<sad::SceneNode*> maybe_obj = scripting::query<sad::SceneNode*>(o);
-        if (maybe_obj.exists())
-        {
-
-            sad::Maybe<sad::layouts::Grid::SearchResult> res = g->find(maybe_obj.value());
-            if (res.exists())
-            {
-                sad::layouts::Cell* c = g->cell(res.value().p1());
-                val = e->newArray(2);
-                QScriptValue source = e->newQObject(new scripting::layouts::ScriptableGridCell(g->MajorId, c->Row, c->Col, m_scripting));
-                val.setProperty(0, source);
-                val.setProperty(1, QScriptValue(static_cast<unsigned int>(res.value().p2())));
-            }
-        }
-        else
-        {
-            m_scripting->engine()->currentContext()->throwError("ScriptableGrid.findChild: argument is not a reference to a scene node");
-        }
-    }
-    return val;
-}
-
-QScriptValue scripting::layouts::ScriptableGrid::children() const
-{
-    QScriptEngine* e = m_scripting->engine();
-    QScriptValue val = e->newArray(0);
-    sad::layouts::Grid* g = grid(true, "children");
-    if (g)
-    {
-        val = scripting::FromValue<sad::Vector<unsigned long long> >::perform(g->childrenMajorIds(), e);
-    }
-    return val;
-}
-

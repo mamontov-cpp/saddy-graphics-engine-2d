@@ -27,23 +27,43 @@ class Setter: public scripting::AbstractSetter<_AnimationType*,_PropertyType>
 {
 public:	
     /*! Construct new setter for property
-        \param[in] e engine
+        \param[in] s scripting part
         \param[in] name a name for property
      */
     Setter(
-        QScriptEngine* e,
-        const QString& name = ""
-    ) : scripting::AbstractSetter<_AnimationType*,_PropertyType>(e, "set")
+        scripting::Scripting* s,
+        const sad::String& name = ""
+    ) : scripting::AbstractSetter<_AnimationType*,_PropertyType>(s)
     {
-        if (name.length()) {
-            this->addMatched(name);
-        }
+        this->setPropertyName(name);
     }
+
+    /*! Clones an object
+        \return copy of object
+     */
+    dukpp03::qt::Callable* clone()
+    {
+        return new scripting::animations::Setter<_AnimationType, _PropertyType, _CommandType>(*this);
+    }
+
     /*! Could be inherited
      */ 
     virtual ~Setter()
     {
         
+    }
+
+
+    /*! Calls all corresponding actions, setting property or performing other actions
+        \param[in] obj an object to be set
+        \param[in] property_name a property for object
+        \param[in] old_value old value
+        \param[in] new_value new value
+    */
+    virtual void callActions(_AnimationType* obj, const sad::String& property_name, _PropertyType old_value, _PropertyType new_value)
+    {
+        this->scripting::AbstractSetter<_AnimationType*, _PropertyType>::callActions(obj, property_name, old_value, new_value);
+        this->setProperty(obj, property_name, old_value, new_value);
     }
 
     /*! Performs actually setting property
@@ -54,11 +74,9 @@ public:
      */
     virtual void setProperty(_AnimationType* obj, const sad::String& propertyname, _PropertyType oldvalue,  _PropertyType newvalue)
     {
-        QScriptValue main = this->engine()->globalObject().property("---");
-        scripting::Scripting* e = static_cast<scripting::Scripting*>(main.toQObject());
-        core::Editor* editor =  e->editor();
+        core::Editor* editor =  this->m_scripting->editor();
 
-        history::Command* c =  new _CommandType(obj, oldvalue, newvalue);							
+        history::Command* c =  new _CommandType(obj, oldvalue, newvalue);
         editor->currentBatchCommand()->add(c);
         c->commit(editor);
     }
