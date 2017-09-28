@@ -214,7 +214,7 @@
       <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;saddy-ft-debug.lib;saddy-debug.lib;freetype.lib;OPENGL32.lib;GLU32.lib;Qt5Scriptd.lib;Qt5Widgetsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;saddy-ft-debug.lib;saddy-debug.lib;freetype.lib;OPENGL32.lib;GLU32.lib;Qt5Widgetsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(TargetPath)</OutputFile>
       <AdditionalLibraryDirectories>../../../lib/;$(QTDIR)\lib;$(FREETYPE_LIB);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -234,7 +234,7 @@
       <BufferSecurityCheck>false</BufferSecurityCheck>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;freetype.lib;saddy-ft-debug.lib;saddy-debug.lib;OPENGL32.lib;GLU32.lib;Qt5Scriptd.lib;Qt5Widgetsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;freetype.lib;saddy-ft-debug.lib;saddy-debug.lib;OPENGL32.lib;GLU32.lib;Qt5Widgetsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(TargetPath)</OutputFile>
       <AdditionalLibraryDirectories>../../../lib/;$(QTDIR)\lib;$(FREETYPE_LIB);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -252,7 +252,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>qtmaind.lib;QtCored4.lib;QtGuid4.lib;saddy-ft-debug.lib;saddy-debug.lib;freetype.lib;OPENGL32.lib;GLU32.lib;QtScriptd4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qtmaind.lib;QtCored4.lib;QtGuid4.lib;saddy-ft-debug.lib;saddy-debug.lib;freetype.lib;OPENGL32.lib;GLU32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>../../../bin/ifaceed/iface-editor-debug.exe</OutputFile>
       <AdditionalLibraryDirectories>../../../lib/;$(QTDIR)\lib;$(FREETYPE_LIB);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -270,7 +270,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>qtmaind.lib;QtCored4.lib;QtGuid4.lib;saddy-ft-debug.lib;saddy-debug.lib;freetype.lib;OPENGL32.lib;GLU32.lib;QtScriptd4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qtmaind.lib;QtCored4.lib;QtGuid4.lib;saddy-ft-debug.lib;saddy-debug.lib;freetype.lib;OPENGL32.lib;GLU32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>../../../bin/ifaceed/iface-editor-debug.exe</OutputFile>
       <AdditionalLibraryDirectories>../../../lib/;$(QTDIR)\lib;$(FREETYPE_LIB);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>

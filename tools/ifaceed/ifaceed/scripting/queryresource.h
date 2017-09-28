@@ -16,7 +16,6 @@ namespace scripting
 class Scripting;
 
 /*! Returns resource type for scripting (empty string if not found)
-    \param[in] scripting a scripting part
     \param[in] name name of resource
     \return resource type
  */

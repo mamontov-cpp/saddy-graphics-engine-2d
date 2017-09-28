@@ -30,7 +30,7 @@ class EasingSetter: public scripting::AbstractSetter<sad::animations::Animation*
 {
 public:
     /*! Represents a constructor call for a function with two arguments
-        \param[in] e engine
+        \param[in] scripting scripting part
         \param[in] name name of function call
         \param[in] getter a getter for property
      */
