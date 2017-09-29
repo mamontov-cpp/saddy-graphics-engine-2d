@@ -13,8 +13,8 @@ environment:
       TOOLS: "MinGW"
 
 configuration:
-  - Debug
-#  - Release
+#  - Debug
+  - Release
 
 install:  
   - ps: if($env:PLATFORM -eq 'x64') {
@@ -43,7 +43,6 @@ install:
   - cmd: if [%TOOLS%]==[MSVC] set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\;%MSVCQTDIR\bin%;%PATH%
   - cmd: if [%TOOLS%]==[MSVC] set QTDIR=%MSVCQTDIR%
   - cmd: if [%TOOLS%]==[MinGW] SET PATH=%MINGWPATH%;%MINGWQTDIR%\bin;%PATH%
-  - cmd: if [%TOOLS%]==[MinGW] dir %MINGWPATH%  
   - cmd: if [%TOOLS%]==[MinGW] set QTDIR=%MINGWQTDIR%
   - cmd: set FREETYPE_DIR=%cd%\%FREETYPE_DIR_SUFFIX%\
   - cmd: set FREETYPE_INCLUDE=%FREETYPE_DIR%include\
