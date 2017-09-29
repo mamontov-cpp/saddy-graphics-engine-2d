@@ -1,4 +1,4 @@
-![AppVeyor](https://ci.appveyor.com/api/projects/status/u99u4tsb9dv6qwx3?svg=true&branch=master)](https://ci.appveyor.com/project/mamontov-cpp/saddy-graphics-engine-2d)
+[![AppVeyor](https://ci.appveyor.com/api/projects/status/u99u4tsb9dv6qwx3?svg=true&branch=master)](https://ci.appveyor.com/project/mamontov-cpp/saddy-graphics-engine-2d)
 
 # Saddy 
 
