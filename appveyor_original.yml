@@ -2,19 +2,18 @@ version: 1.7.0.{build}
 
 environment:
   matrix:
-#    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-#      PLATFORM: x86
-#      TOOLS: "MSVC"
-#    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-#      PLATFORM: x64
-#      TOOLS: "MSVC"
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       PLATFORM: x86
-      TOOLS: "MinGW"
+      TOOLS: "MSVC"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      PLATFORM: x64
+      TOOLS: "MSVC"
+#    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+#      TOOLS: "MinGW"
 
 configuration:
   - Debug
-#  - Release
+  - Release
 
 install:  
   - ps: if($env:PLATFORM -eq 'x64') {
@@ -34,8 +33,7 @@ install:
           $env:MSVCQTDIR='C:\Qt\5.9.1\winrt_x86_msvc2017\';
           $env:IRRKLANG_ROOT_SUFFIX='3rdparty\irrKlang\x32';
           $env:FREETYPE_DIR_SUFFIX='3rdparty\freetype\x32';
-        } 
-  - ps: if($env:TOOLS -eq 'MinGW') { Get-Command sh.exe -All | Remove-Item }
+        }
   - cmd: git submodule init
   - cmd: git submodule update
   - cmd: git submodule status
