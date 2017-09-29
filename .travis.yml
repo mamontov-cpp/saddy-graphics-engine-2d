@@ -23,6 +23,7 @@ before_install:
   - export CC=/usr/bin/gcc-6
   - export CXX=/usr/bin/g++-6
   - gcc -v && g++ -v && cmake --version
-  - "./build-all-linux-gcc.sh $CONFIGURATION"
+  - ruby prepare_build.rb
+  - "./build-travis.sh $CONFIGURATION"
 script: 
    - "echo Attempted to build $CONFIGURATION"
