@@ -3,7 +3,10 @@ version: 1.7.0.{build}
 environment:
   matrix:
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-      PLATFORM: x86	
+      PLATFORM: x86
+      TOOLS: "MSVC"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      PLATFORM: x64
       TOOLS: "MSVC"
 #    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
 #      TOOLS: "MinGW"
@@ -12,18 +15,15 @@ configuration:
   - Debug
   - Release
 
-#platform:
-#  - x86
-#  - x64
-
 install:  
-  - ps: if($env:build_platform -eq 'x64') {
+  - ps: if($env:PLATFORM -eq 'x64') {
           $env:vcvar_arg = 'x86_amd64';
           $env:ARCH = 'x64';
           $env:MINGWPATH='C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw32\bin\';
           $env:MINGWQTDIR='C:\Qt\5.9.1\mingw53_32\';
           $env:MSVCQTDIR='C:\Qt\5.9.1\msvc2017_64\';
           $env:IRRKLANG_ROOT_SUFFIX='3rdparty\irrKlang\x64';
+          $env:FREETYPE_DIR_SUFFIX='3rdparty\freetype\x64';
         }
         else {
           $env:vcvar_arg = 'x86';
@@ -32,6 +32,7 @@ install:
           $env:MINGWQTDIR='C:\Qt\5.9.1\mingw53_32\';
           $env:MSVCQTDIR='C:\Qt\5.9.1\winrt_x86_msvc2017\';
           $env:IRRKLANG_ROOT_SUFFIX='3rdparty\irrKlang\x32';
+          $env:FREETYPE_DIR_SUFFIX='3rdparty\freetype\x32';
         }
   - cmd: git submodule init
   - cmd: git submodule update
@@ -42,7 +43,7 @@ install:
   - cmd: if [%TOOLS%]==[MinGW] SET PATH=%MINGWPATH%;%MINGWQTDIR%\bin;%PATH%
   - cmd: if [%TOOLS%]==[MinGW] dir %MINGWPATH%  
   - cmd: if [%TOOLS%]==[MinGW] set QTDIR=%MINGWQTDIR%
-  - cmd: set FREETYPE_DIR=%cd%\3rdparty\freetype\
+  - cmd: set FREETYPE_DIR=%cd%\%FREETYPE_DIR_SUFFIX%\
   - cmd: set FREETYPE_INCLUDE=%FREETYPE_DIR%include\
   - cmd: set FREETYPE_LIB=%FREETYPE_DIR%lib\
   - cmd: set IRRKLANG_ROOT=%cd%\%IRRKLANG_ROOT_SUFFIX%
@@ -53,4 +54,4 @@ build_script:
 test_script:
   - "tests_prepare.bat"
   - cd  bin
-  - if [%ARCH%]==[Win32] ( if [%CONFIGURATION%]==[Debug] ( "tests-debug.bat" ) ELSE ( "tests-release.bat" ) ) 
+  - if [%CONFIGURATION%]==[Debug] ( "tests-debug.bat" ) ELSE ( "tests-release.bat" )
