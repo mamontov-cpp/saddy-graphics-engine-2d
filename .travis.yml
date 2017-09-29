@@ -25,8 +25,8 @@ before_install:
   - gcc -v && g++ -v && cmake --version
   - ruby prepare_build.rb
   - sudo chmod +x build-travis.sh
-  - IRRKLANG_ROOT="$(pwd)/3rdparty/irrKlang/x32/"
-  - export IRRKLANG_ROOT="$(pwd)/3rdparty/irrKlang/x32/"
+  - IRRKLANG_ROOT="$(pwd)/3rdparty/irrKlang/x64/"
+  - export IRRKLANG_ROOT="$(pwd)/3rdparty/irrKlang/x64/"
   - ls $IRRKLANG_ROOT
   - ./build-travis.sh $CONFIGURATION
 script: 
