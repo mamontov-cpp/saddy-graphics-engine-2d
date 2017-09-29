@@ -32,7 +32,5 @@ before_install:
   - ls $IRRKLANG_ROOT
   - ./build-travis.sh $CONFIGURATION
 script: 
-   - "echo Attempted to build $CONFIGURATION"
-test:
   - cd bin/
   - if [ $CONFIGURATION -eq "Debug" ]; then ./tests-debug.sh; else  ./tests-release.sh 
