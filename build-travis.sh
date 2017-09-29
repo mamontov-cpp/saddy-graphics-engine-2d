@@ -1,3 +1,4 @@
+set -e
 cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$1 && make
 cd plugins/freetype
 cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$1 && make
@@ -50,6 +51,7 @@ cd ../..
 cd tests/pipeline
 cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$1 && make
 cd ../..
+cd tests/resource
 cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$1 && make
 cd ../..
 cd tests/sad
