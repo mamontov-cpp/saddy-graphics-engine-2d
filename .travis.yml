@@ -3,17 +3,17 @@ sudo: enabled
 compiler: gcc
 dist: trusty
 addons:
-apt:
-  sources:
-    - ubuntu-toolchain-r-test
-  packages:
-    - g++-6
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-6
 os: linux
 git:
   submodules: true
 env:
-  - CONFIGURATION=Debug
-  - CONFIGURATION=Release
+  - CONFIGURATION=Debug CC=gcc-6 CXX=g++-6 TARGETS="compiler-gcc"
+  - CONFIGURATION=Release CC=gcc-6 CXX=g++-6 TARGETS="compiler-gcc"
 
 script:
   - "./build-all-linux-gcc.sh $CONFIGURATION"
