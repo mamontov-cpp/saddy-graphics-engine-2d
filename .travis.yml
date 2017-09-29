@@ -14,8 +14,8 @@ os: linux
 git:
   submodules: true
 env:
-  - CONFIGURATION=Debug
-  - CONFIGURATION=Release
+  - CONFIGURATION=Debug TESTS=./tests-debug.sh
+  - CONFIGURATION=Release TESTS=./tests-release.sh
 
 before_install:
   - sudo ln -s /usr/bin/gcc-6 /usr/local/bin/gcc
@@ -34,4 +34,4 @@ before_install:
 script: 
   - cd bin/
   - ls
-  - if [$CONFIGURATION -eq "Debug" ]; then ./tests-debug.sh; else  ./tests-release.sh; fi
+  - $TESTS
