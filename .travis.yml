@@ -28,6 +28,6 @@ before_install:
   - IRRKLANG_ROOT="$(pwd)/3rdparty/irrKlang/x32/"
   - export IRRKLANG_ROOT="$(pwd)/3rdparty/irrKlang/x32/"
   - ls $IRRKLANG_ROOT
-  - env IRRKLANG_ROOT="$(pwd)/3rdparty/irrKlang/x32/"  ./build-travis.sh $CONFIGURATION
+  - ./build-travis.sh $CONFIGURATION
 script: 
    - "echo Attempted to build $CONFIGURATION"
