@@ -35,10 +35,10 @@ install:
           $env:IRRKLANG_ROOT_SUFFIX='3rdparty\irrKlang\x32';
           $env:FREETYPE_DIR_SUFFIX='3rdparty\freetype\x32';
         } 
-  - ps: if($env:TOOLS -eq 'MinGW') { Get-Command sh.exe -All | Remove-Item }
   - cmd: git submodule init
   - cmd: git submodule update
   - cmd: git submodule status
+  - ps: if($env:TOOLS -eq 'MinGW') { Get-Command sh.exe -All | Remove-Item }
   - cmd: if [%TOOLS%]==[MSVC] "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools\VsDevCmd.bat"
   - cmd: if [%TOOLS%]==[MSVC] set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\;%MSVCQTDIR\bin%;%PATH%
   - cmd: if [%TOOLS%]==[MSVC] set QTDIR=%MSVCQTDIR%
