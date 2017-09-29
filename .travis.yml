@@ -24,6 +24,7 @@ before_install:
   - export CXX=/usr/bin/g++-6
   - gcc -v && g++ -v && cmake --version
   - ruby prepare_build.rb
+  - sudo chmod +x build-travis.sh
   - "./build-travis.sh $CONFIGURATION"
 script: 
    - "echo Attempted to build $CONFIGURATION"
