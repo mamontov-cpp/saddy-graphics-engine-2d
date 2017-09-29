@@ -1,5 +1,5 @@
 language: cpp
-sudo: enabled
+sudo: required
 compiler: gcc
 dist: trusty
 addons:
@@ -7,13 +7,22 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
     packages:
+      - gcc-6
       - g++-6
+      - cmake
 os: linux
 git:
   submodules: true
 env:
-  - CONFIGURATION=Debug CC=gcc-6 CXX=g++-6 TARGETS="compiler-gcc"
-  - CONFIGURATION=Release CC=gcc-6 CXX=g++-6 TARGETS="compiler-gcc"
+  - CONFIGURATION=Debug
+  - CONFIGURATION=Release
 
-script:
+before_install:
+  - ln -s /usr/bin/gcc-6 /usr/local/bin/gcc
+  - ln -s /usr/bin/g++-6 /usr/local/bin/g++
+  - export CC=/usr/bin/gcc-6
+  - export CXX=/usr/bin/g++-6
+  - gcc -v && g++ -v && cmake --version
   - "./build-all-linux-gcc.sh $CONFIGURATION"
+script: 
+   - "echo Attempted to build $CONFIGURATION"
