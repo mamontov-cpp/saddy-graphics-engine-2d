@@ -33,4 +33,4 @@ before_install:
   - ./build-travis.sh $CONFIGURATION
 script: 
   - cd bin/
-  - if [ $CONFIGURATION -eq "Debug" ]; then ./tests-debug.sh; else  ./tests-release.sh 
+  - if [ $CONFIGURATION -eq "Debug" ]; then ./tests-debug.sh; else  ./tests-release.sh;
