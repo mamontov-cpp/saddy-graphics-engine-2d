@@ -2,12 +2,10 @@ language: cpp
 sudo: enabled
 compiler: gcc
 os: linux
+git:
+  submodules: true
 env:
   - CONFIGURATION=Debug
   - CONFIGURATION=Release
-before_install:
-  - cmd: git submodule init
-  - cmd: git submodule update
-  - cmd: git submodule status
 install:
   - "./build-all-linux-gcc.sh $CONFIGURATION"
