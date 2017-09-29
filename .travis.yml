@@ -1,11 +1,19 @@
 language: cpp
 sudo: enabled
 compiler: gcc
+dist: trusty
+addons:
+apt:
+  sources:
+    - ubuntu-toolchain-r-test
+  packages:
+    - g++-6
 os: linux
 git:
   submodules: true
 env:
   - CONFIGURATION=Debug
   - CONFIGURATION=Release
-install:
+
+script:
   - "./build-all-linux-gcc.sh $CONFIGURATION"
