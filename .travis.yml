@@ -10,6 +10,7 @@ addons:
       - gcc-6
       - g++-6
       - cmake
+      - libstdc++-6-dev
 os: linux
 git:
   submodules: true
