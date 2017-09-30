@@ -1,5 +1,7 @@
 [![AppVeyor](https://ci.appveyor.com/api/projects/status/u99u4tsb9dv6qwx3?svg=true&branch=master)](https://ci.appveyor.com/project/mamontov-cpp/saddy-graphics-engine-2d)
 
+[![Travis](https://travis-matrix-badges.herokuapp.com/repos/mamontov-cpp/saddy-graphics-engine-2d/branches/master)(https://travis-ci.org/mamontov-cpp/saddy-graphics-engine-2d)
+
 # Saddy 
 
 Saddy is an open-source crossplatform 2D graphic engine, based on OpenGL, which can be used to create simple games.
@@ -11,6 +13,13 @@ Saddy is an open-source crossplatform 2D graphic engine, based on OpenGL, which 
 | MSVC x32      | ![1](https://appveyor-matrix-badges.herokuapp.com/repos/mamontov-cpp/saddy-graphics-engine-2d/branch/master/1) | ![2](https://appveyor-matrix-badges.herokuapp.com/repos/mamontov-cpp/saddy-graphics-engine-2d/branch/master/2)    |
 | MSVC x64      | ![1](https://appveyor-matrix-badges.herokuapp.com/repos/mamontov-cpp/saddy-graphics-engine-2d/branch/master/3) | ![2](https://appveyor-matrix-badges.herokuapp.com/repos/mamontov-cpp/saddy-graphics-engine-2d/branch/master/4)    |
 | MinGW         | ![1](https://appveyor-matrix-badges.herokuapp.com/repos/mamontov-cpp/saddy-graphics-engine-2d/branch/master/5) | ![2](https://appveyor-matrix-badges.herokuapp.com/repos/mamontov-cpp/saddy-graphics-engine-2d/branch/master/6)    |
+
+
+| Platform      | Debug                                                                                                          | Release                                                                                                           |
+| ------------- |----------------------------------------------------------------------------------------------------------------| ------------------------------------------------------------------------------------------------------------------|
+| Ubuntu        | ![1](https://travis-matrix-badges.herokuapp.com/repos/mamontov-cpp/saddy-graphics-engine-2d/branches/master/1) | ![2](https://travis-matrix-badges.herokuapp.com/repos/mamontov-cpp/saddy-graphics-engine-2d/branches/master/2)    |
+
+
 
 ## News
 
