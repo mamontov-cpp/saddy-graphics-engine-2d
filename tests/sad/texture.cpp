@@ -6,7 +6,7 @@
 #define _INC_STDIO
 #include "texture.h"
 #include <renderer.h>
-#include <log\log.h>
+#include <log/log.h>
 #include "3rdparty/tpunit++/tpunit++.hpp"
 #define TAR7Z_SADDY
 #include "3rdparty/tar7z/include/archive.h"
