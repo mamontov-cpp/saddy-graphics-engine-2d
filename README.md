@@ -2,6 +2,8 @@
 
 # Saddy 
 
+[![Join the chat at https://gitter.im/saddy-graphics-engine-2d/Lobby](https://badges.gitter.im/saddy-graphics-engine-2d/Lobby.svg)](https://gitter.im/saddy-graphics-engine-2d/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Saddy is an open-source crossplatform 2D graphic engine, based on OpenGL, which can be used to create simple games.
 
 ## Build status
