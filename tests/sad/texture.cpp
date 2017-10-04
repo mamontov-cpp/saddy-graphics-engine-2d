@@ -5,6 +5,8 @@
 #include <cstring>
 #define _INC_STDIO
 #include "texture.h"
+#include <renderer.h>
+#include <log/log.h>
 #include "3rdparty/tpunit++/tpunit++.hpp"
 #define TAR7Z_SADDY
 #include "3rdparty/tar7z/include/archive.h"
@@ -38,7 +40,8 @@ struct SadTextureTest : tpunit::TestFixture
         TEST(SadTextureTest::testTarLoadSRGBA),
         TEST(SadTextureTest::testTarLoadSR3G3B2),
         TEST(SadTextureTest::testTarLoadSR5G6B5),
-        TEST(SadTextureTest::testTarLoadSR4G4B4A4)
+        TEST(SadTextureTest::testTarLoadSR4G4B4A4),
+        TEST(SadTextureTest::testTextureUploadError)
     ) {}
    
     // Test converting texture to POT-texture
@@ -260,6 +263,79 @@ struct SadTextureTest : tpunit::TestFixture
         tar7z::Entry* e = a.file("nice.sr4g4b4a4");
         ASSERT_TRUE(e);
         ASSERT_TRUE( c.load(e) );
+    }
+
+    void testTextureUploadError()
+    {
+        class RecoverableLogTarget : public sad::log::Target
+        {
+        public:
+            RecoverableLogTarget()
+            {
+
+            }
+
+            virtual void receive(const sad::log::Message & message)
+            {
+                m_messages.push_back(message.message());
+                if (message.file())
+                {
+                    m_files.push_back(message.file());
+                }
+                else
+                {
+                    m_files.push_back("");
+                }
+            }
+
+            const sad::Vector<sad::String>& messages() const
+            {
+                return m_messages;
+            }
+
+            const sad::Vector<sad::String>& files() const
+            {
+                return m_files;
+            }
+        protected:
+            sad::Vector<sad::String> m_messages;
+            sad::Vector<sad::String> m_files;
+        };
+        sad::Renderer r;
+        RecoverableLogTarget* t = new RecoverableLogTarget();
+        r.log()->addTarget(t);
+        sad::uchar pixels[16] =
+        {
+            12, 12, 12, 12,   12, 12, 12, 12,
+            12, 12, 12, 12,   12, 12, 12, 12,
+        };
+
+        sad::Texture c;
+        c.Bpp = 32;
+        c.Width = 2;
+        c.Height = 2;
+        sad::Vector<sad::uchar>* data = &(reinterpret_cast<sad::Texture::DefaultBuffer*>(c.Buffer)->Data);
+        for (int i = 0; i < 16; i++)
+        {
+            (*data) << pixels[i];
+        }
+        c.setRenderer(&r);
+        c.upload();
+        const sad::Vector<sad::String>& messages = t->messages();
+        const sad::Vector<sad::String>& files = t->files();
+        ASSERT_TRUE(messages.size() > 0);
+        bool found_unhandled_error = false;
+        for (size_t i = 0; i < files.size(); i++)
+        {
+            if (files[i].getOccurence("texture.cpp") >= 0)
+            {
+                if (messages[i].length() >  0)
+                {
+                    found_unhandled_error = true;
+                }
+            }
+        }
+        ASSERT_TRUE(found_unhandled_error);
     }
 
 } _sad_texture_test;
