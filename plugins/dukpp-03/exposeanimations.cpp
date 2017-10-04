@@ -6,6 +6,7 @@
 #include <renderer.h>
 
 #include <animations/animationsanimation.h>
+#include <animations/animationssimplemovement.h>
 
 #include <cassert>
 
@@ -32,6 +33,19 @@ static void exposeAnimation(sad::dukpp03::Context* ctx)
 }
 
 
+static void exposeSimpleMovement(sad::dukpp03::Context* ctx)
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addObjectConstructor<sad::animations::SimpleMovement>("SadAnimationsSimpleMovement");
+    c->addMethod("setStartingPoint", sad::dukpp03::bind_method::from(&sad::animations::SimpleMovement::setStartingPoint));
+    c->addMethod("setEndingPoint", sad::dukpp03::bind_method::from(&sad::animations::SimpleMovement::setEndingPoint));
+    c->setPrototypeFunction("SadAnimationsSimpleMovement");
+
+    ctx->addClassBinding("sad::animations::SimpleMovement", c);
+  
+    PERFORM_AND_ASSERT("sad.animations.SimpleMovement = SadAnimationsSimpleMovement");
+}
+
 void sad::dukpp03::exposeAnimations(sad::dukpp03::Context* ctx)
 {
     PERFORM_AND_ASSERT(
@@ -39,4 +53,5 @@ void sad::dukpp03::exposeAnimations(sad::dukpp03::Context* ctx)
     );
 
     exposeAnimation(ctx);
+    exposeSimpleMovement(ctx);
 }
