@@ -31,11 +31,12 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::Animation, sad::resource::Resource);
 sad::animations::Animation::Animation() : m_looped(false), m_time(0), m_inner_valid(true), m_valid(true)
 {
     m_easing = new sad::animations::easing::Function();
+    m_easing->addRef();
 }
 
 sad::animations::Animation::~Animation()
 {
-    delete m_easing;
+    m_easing->delRef();
 }
 
 static sad::db::schema::Schema* AnimationAnimationSchema = NULL;
@@ -109,8 +110,12 @@ double sad::animations::Animation::time() const
 
 void sad::animations::Animation::setEasing(sad::animations::easing::Function* f)
 {
-    delete m_easing;
+    m_easing->delRef();
     m_easing = f;
+    if (m_easing)
+    {
+        m_easing->addRef();
+    }
 }
 
 sad::animations::easing::Function* sad::animations::Animation::easing() const
