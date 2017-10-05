@@ -43,6 +43,7 @@
 #include "p2d/collisiontest.h"
 
 #include "animations/animationsgroup.h"
+#include "animations/animationsfactory.h"
 
 #include "animations/easing/easingfunction.h"
 
@@ -255,6 +256,7 @@ DECLARE_COMMON_TYPE(sad::p2d::BasicCollisionHandler)
 DECLARE_COMMON_TYPE(sad::p2d::CollisionTest)
 
 DECLARE_COMMON_TYPE(sad::animations::Group)
+DECLARE_COMMON_TYPE(sad::animations::Factory)
 
 DECLARE_COMMON_TYPE(sad::layouts::LengthValue)
 DECLARE_COMMON_TYPE(sad::layouts::HorizontalAlignment)

@@ -9,6 +9,9 @@
 
 #include <animations/animationsanimation.h>
 #include <animations/animationssimplemovement.h>
+#include <animations/animationsblinking.h>
+
+#include <animations/animationsfactory.h>
 
 #include <cassert>
 
@@ -85,12 +88,46 @@ static void exposeSimpleMovement(sad::dukpp03::Context* ctx)
 
     ctx->addClassBinding("sad::animations::SimpleMovement", c);
   
-    PERFORM_AND_ASSERT("sad.animations.SimpleMovement = SadAnimationsSimpleMovement");
+    PERFORM_AND_ASSERT("sad.animations.SimpleMovement = SadAnimationsSimpleMovement;");
 }
+
+
+static void exposeBlinking(sad::dukpp03::Context* ctx)
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addObjectConstructor<sad::animations::Blinking>("SadAnimationsBlinking");
+    c->addCloneObjectMethodFor<sad::animations::Blinking>();
+    c->addMethod("setFrequency", sad::dukpp03::bind_method::from(&sad::animations::Blinking::setFrequency));
+    c->addMethod("frequency", sad::dukpp03::bind_method::from(&sad::animations::Blinking::frequency));
+    c->setPrototypeFunction("SadAnimationsBlinking");
+    c->addParentBinding(ctx->getClassBinding("sad::animations::Animation"));
+
+    ctx->addClassBinding("sad::animations::Blinking", c);
+
+    PERFORM_AND_ASSERT("sad.animations.Blinking = SadAnimationsBlinking;");
+}
+
+
+static void exposeFactory(sad::dukpp03::Context* ctx)
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addObjectConstructor<sad::animations::Factory>("SadAnimationsFactory");
+    c->addMethod("create", sad::dukpp03::bind_method::from(&sad::animations::Factory::create));
+    c->addMethod("clear", sad::dukpp03::bind_method::from(&sad::animations::Factory::clear));
+    c->addMethod("registeredClasses", sad::dukpp03::bind_method::from(&sad::animations::Factory::registeredClasses));
+    c->setPrototypeFunction("SadAnimationsFactory");
+
+    ctx->addClassBinding("sad::animations::Factory", c);
+
+    PERFORM_AND_ASSERT("sad.animations.Factory = SadAnimationsFactory;");
+}
+
 
 void sad::dukpp03::exposeAnimations(sad::dukpp03::Context* ctx)
 {
     exposeEasingFunction(ctx);
     exposeAnimation(ctx);
     exposeSimpleMovement(ctx);
+    exposeBlinking(ctx);
+    exposeFactory(ctx);
 }
