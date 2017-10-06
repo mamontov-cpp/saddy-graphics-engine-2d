@@ -255,7 +255,6 @@ DECLARE_COMMON_TYPE(sad::p2d::BasicCollisionEvent)
 DECLARE_COMMON_TYPE(sad::p2d::BasicCollisionHandler)
 DECLARE_COMMON_TYPE(sad::p2d::CollisionTest)
 
-DECLARE_COMMON_TYPE(sad::animations::Group)
 DECLARE_COMMON_TYPE(sad::animations::Factory)
 
 DECLARE_COMMON_TYPE(sad::layouts::LengthValue)
