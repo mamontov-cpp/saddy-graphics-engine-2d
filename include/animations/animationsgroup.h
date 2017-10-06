@@ -19,10 +19,10 @@ namespace animations
 
 /*! An animation group as a list of running animation instances
  */
-class Group: public sad::db::Object, 
-public sad::animations::Process,
+class Group: public sad::animations::Process,
 public sad::TemporarilyImmutableContainer<sad::animations::Instance>
 {
+SAD_OBJECT
 public:
     /*! Constructs new empty group
      */
@@ -353,3 +353,6 @@ protected:
 }
 
 }
+
+
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::animations::Group)

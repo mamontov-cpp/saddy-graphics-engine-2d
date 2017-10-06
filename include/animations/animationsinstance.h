@@ -33,7 +33,7 @@ namespace animations
 
 class Animations;
 
-class Instance: public sad::Object, public sad::animations::Process
+class Instance: public sad::animations::Process
 {
 SAD_OBJECT
 public:

@@ -21,6 +21,8 @@
 #include "db/dbmethodpair.h"
 #include "db/dbtable.h"
 
+DECLARE_SOBJ_INHERITANCE(sad::animations::Group, sad::animations::Process)
+
 // =========================== PUBLIC METHODS ===========================
 
 sad::animations::Group::Group() : 
@@ -423,12 +425,12 @@ void sad::animations::Group::cancel(sad::animations::Animations* animations)
 
 void sad::animations::Group::addedToPipeline()
 {
-    this->addRef();
+
 }
 
 void sad::animations::Group::removedFromPipeline()
 {
-    this->delRef();
+
 }
 
 void  sad::animations::Group::addCallbackOnEnd(sad::animations::Callback* c)

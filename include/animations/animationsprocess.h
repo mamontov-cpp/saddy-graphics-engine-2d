@@ -5,13 +5,13 @@
  */ 
 #pragma once
 #include <functional>
-
+#include "../object.h"
 namespace sad
 {
 
 namespace db
 {
-class Object;	
+class Object;
 }
 
 namespace animations
@@ -22,9 +22,10 @@ class Instance;
 class Group;
 /*! A process for animations as element of animations pipeline
  */
-class Process
+class Process: public sad::Object
 {
 public:
+    SAD_OBJECT
     /*! Must be inherited
      */
     virtual ~Process();
@@ -113,3 +114,5 @@ public:
 }
 
 }
+
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::animations::Process)

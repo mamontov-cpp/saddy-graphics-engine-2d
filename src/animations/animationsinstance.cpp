@@ -20,7 +20,7 @@
 #include "db/dbmethodpair.h"
 #include "db/dbtable.h"
 
-DECLARE_SOBJ(sad::animations::Instance);
+DECLARE_SOBJ_INHERITANCE(sad::animations::Instance, sad::animations::Process)
 
 sad::animations::Instance::Instance()
 : m_paused(false),
@@ -439,7 +439,6 @@ void sad::animations::Instance::cancel(sad::animations::Animations* animations)
 
 void sad::animations::Instance::addedToPipeline()
 {
-    this->addRef();
     // NOTE: That should fix https://github.com/mamontov-cpp/saddy-graphics-engine-2d/issues/60
     // that instances could not be restarted without explicit calls
     this->clearFinished();
@@ -447,7 +446,7 @@ void sad::animations::Instance::addedToPipeline()
 
 void sad::animations::Instance::removedFromPipeline()
 {   
-    this->delRef();
+
 }
 
 void sad::animations::Instance::setStateCommand(
