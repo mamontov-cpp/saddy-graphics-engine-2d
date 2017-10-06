@@ -2,7 +2,7 @@
 
 // ========================= PUBLIC METHODS =========================
 
-sad::animations::Animations::Animations()
+sad::animations::Animations::Animations() : m_lock_changes(false)
 {
     
 }
@@ -86,17 +86,8 @@ sad::animations::SavedObjectStateCache& sad::animations::Animations::cache()
 sad::Vector<sad::animations::Process*> sad::animations::Animations::queryProcessesRelatedToObject(sad::db::Object* o)
 {
     m_lock.lock();
+    performQueuedActions();
     sad::Vector<sad::animations::Process*> result;
-    for(size_t i = 0; i < m_command_queue.size(); i++)
-    {
-        if (m_command_queue[i].Type == QueueCommand::CT_ADD)
-        {
-            if (m_command_queue[i].Process->isRelatedToObject(o))
-            {
-                result << m_command_queue[i].Process;
-            }
-        }
-    }
     for(size_t i = 0; i < m_list.size(); i++)
     {
         if (m_list[i]->isRelatedToObject(o))
@@ -112,17 +103,7 @@ sad::Vector<sad::animations::Process*> sad::animations::Animations::queryProcess
 void sad::animations::Animations::stopProcessesRelatedToObject(sad::db::Object* o)
 {
     m_lock.lock();
-    sad::Vector<sad::animations::Process*> result;
-    for(size_t i = 0; i < m_command_queue.size(); i++)
-    {
-        if (m_command_queue[i].Type == QueueCommand::CT_ADD)
-        {
-            if (m_command_queue[i].Process->isRelatedToObject(o))
-            {
-                m_command_queue[i].Process->stopInstancesRelatedToObject(o, this);
-            }
-        }
-    }
+    performQueuedActions();
     for(size_t i = 0; i < m_list.size(); i++)
     {
         if (m_list[i]->isRelatedToObject(o))
@@ -134,6 +115,17 @@ void sad::animations::Animations::stopProcessesRelatedToObject(sad::db::Object* 
 }
 
 // ========================= PROTECTED METHODS =========================
+
+sad::animations::Animations::Animations(const sad::animations::Animations& o) : m_lock_changes(false)
+{
+    throw std::logic_error("sad::animations::Animations cannot be copied");
+}
+
+sad::animations::Animations& sad::animations::Animations::operator=(const sad::animations::Animations& o)
+{
+    throw std::logic_error("sad::animations::Animations cannot be copied");
+    return *this;
+}
 
 void sad::animations::Animations::_process()
 {
@@ -161,7 +153,7 @@ void sad::animations::Animations::addNow(sad::animations::Process* o)
 {
     m_lock.lock();
     // If process is already in animation, don't do stuff
-    sad::Vector<sad::animations::Process*>::iterator it = std::find(
+    const sad::Vector<sad::animations::Process*>::iterator it = std::find(
         m_list.begin(),
         m_list.end(),
         o
@@ -185,7 +177,7 @@ void sad::animations::Animations::removeNow(sad::animations::Process* o)
     m_lock.lock();
     if (o)
     {
-        sad::Vector<sad::animations::Process*>::iterator it = std::find(
+        const sad::Vector<sad::animations::Process*>::iterator it = std::find(
             m_list.begin(),
             m_list.end(),
             o
@@ -237,9 +229,8 @@ void sad::animations::Animations::unlockChanges()
 
 bool sad::animations::Animations::containerLocked()
 {
-    bool result = false;
     m_lock_changes_lock.lock();
-    result = m_lock_changes;
+    const bool result = m_lock_changes;
     m_lock_changes_lock.unlock();
     return result;
 }
@@ -256,6 +247,7 @@ void sad::animations::Animations::performQueuedActions()
            case QueueCommand::CT_ADD :    { addNow(c.Process); c.Process->delRef(); break; }
            case QueueCommand::CT_REMOVE:  { removeNow(c.Process); c.Process->delRef(); break; }
            case QueueCommand::CT_CLEAR:   { clearNow(); break; }
+           default: {}
        };
    }
    m_command_queue.clear();

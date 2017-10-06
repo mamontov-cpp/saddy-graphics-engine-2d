@@ -5,9 +5,6 @@
  */
 #pragma once
 
-#include "../temporarilyimmutablecontainer.h"
-#include "../sadvector.h"
-
 #include "../pipeline/pipelineprocess.h"
 
 #include "../sadmutex.h"
@@ -87,6 +84,15 @@ public:
      */
     void stopProcessesRelatedToObject(sad::db::Object* o);
 protected:
+    /*! Throws exception, as this object is non-copyable
+        \param[in] o object
+     */
+    Animations(const sad::animations::Animations& o);
+    /*! Throws exception, as this object is non-copyable
+        \param[in] o object
+        \return self-reference
+     */
+    Animations& operator=(const sad::animations::Animations& o);
     /*! Runs every process
      */ 
     virtual void _process();
