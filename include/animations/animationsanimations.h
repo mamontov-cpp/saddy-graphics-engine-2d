@@ -28,6 +28,7 @@ class Animations: public sad::pipeline::AbstractProcess,
 public sad::TemporarilyImmutableContainer<sad::animations::Process>
 {
 public:
+
     /*! Creates new empty animations list
      */
     Animations();

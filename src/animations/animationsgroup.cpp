@@ -441,7 +441,7 @@ void sad::animations::Group::addCallbackOnStart(sad::animations::Callback* c)
     m_callbacks_on_start << c;
 }
 
-void sad::animations::Group::stopInstanceRelatedToObject(sad::db::Object* object, sad::animations::Animations* a)
+void sad::animations::Group::stopInstancesRelatedToObject(sad::db::Object* object, sad::animations::Animations* a)
 {
     if (m_instances.size() == 0)
     {
@@ -469,6 +469,120 @@ bool sad::animations::Group::isRelatedToObject(sad::db::Object* object)
     return is_related;
 }
 
+
+bool sad::animations::Group::isRelatedToMatchedObject(const std::function<bool(sad::db::Object*)>& f)
+{
+    bool is_related = false;
+    for(size_t i = 0; i < m_instances.size(); i++)
+    {
+        is_related = is_related || m_instances[i]->isRelatedToMatchedObject(f);
+    }
+    return is_related;
+}
+
+
+void sad::animations::Group::stopInstancesRelatedToMatchedObject(const std::function<bool(sad::db::Object*)>& f, sad::animations::Animations* a)
+{
+    if (m_instances.size() == 0)
+    {
+        getInstances(m_instances);
+    }
+    for(size_t i = 0; i < m_instances.size(); i++)
+    {
+        if (m_instances[i]->isRelatedToMatchedObject(f))
+        {
+            m_instances[i]->cancel(a);
+            m_instances.removeAt(i);
+            --i;
+        }
+    }
+}
+
+bool sad::animations::Group::isRelatedToMatchedAnimation(const std::function<bool(sad::animations::Animation*)>& f)
+{
+    bool is_related = false;
+    for(size_t i = 0; i < m_instances.size(); i++)
+    {
+        is_related = is_related || m_instances[i]->isRelatedToMatchedAnimation(f);
+    }
+    return is_related;
+}
+
+
+void sad::animations::Group::stopInstancesRelatedToMatchedAnimation(const std::function<bool(sad::animations::Animation*)>& f, sad::animations::Animations* a)
+{
+    if (m_instances.size() == 0)
+    {
+        getInstances(m_instances);
+    }
+    for(size_t i = 0; i < m_instances.size(); i++)
+    {
+        if (m_instances[i]->isRelatedToMatchedAnimation(f))
+        {
+            m_instances[i]->cancel(a);
+            m_instances.removeAt(i);
+            --i;
+        }
+    }
+}
+
+
+bool sad::animations::Group::isRelatedToMatchedInstance(const std::function<bool(sad::animations::Instance*)>& f)
+{
+    bool is_related = false;
+    for(size_t i = 0; i < m_instances.size(); i++)
+    {
+        is_related = is_related || m_instances[i]->isRelatedToMatchedInstance(f);
+    }
+    return is_related;
+}
+
+
+void sad::animations::Group::stopInstancesRelatedToMatchedInstance(const std::function<bool(sad::animations::Instance*)>& f, sad::animations::Animations* a)
+{
+    if (m_instances.size() == 0)
+    {
+        getInstances(m_instances);
+    }
+    for(size_t i = 0; i < m_instances.size(); i++)
+    {
+        if (m_instances[i]->isRelatedToMatchedInstance(f))
+        {
+            m_instances[i]->cancel(a);
+            m_instances.removeAt(i);
+            --i;
+        }
+    }
+}
+
+bool sad::animations::Group::isRelatedToMatchedGroup(const std::function<bool(sad::animations::Group*)>& f)
+{
+    bool is_related = f(this);
+    for(size_t i = 0; i < m_instances.size(); i++)
+    {
+        is_related = is_related || m_instances[i]->isRelatedToMatchedGroup(f);
+    }
+    return is_related;
+}
+
+void sad::animations::Group::stopInstancesRelatedToMatchedGrouo(const std::function<bool(sad::animations::Group*)>& f, sad::animations::Animations* a)
+{
+    if (f(this))
+    {
+         a->remove(this);
+         return;
+    }
+
+    for(size_t i = 0; i < m_instances.size(); i++)
+    {
+        if (m_instances[i]->isRelatedToMatchedGroup(f))
+        {
+            m_instances[i]->cancel(a);
+            m_instances.removeAt(i);
+            --i;
+        }
+    }
+}
 
 bool sad::animations::Group::isSequential() const
 {

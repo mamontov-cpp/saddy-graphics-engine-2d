@@ -4,6 +4,7 @@
     Defines a process for animations as element of animations pipeline
  */ 
 #pragma once
+#include <functional>
 
 namespace sad
 {
@@ -16,6 +17,9 @@ class Object;
 namespace animations
 {
 class Animations;
+class Animation;
+class Instance;
+class Group;
 /*! A process for animations as element of animations pipeline
  */
 class Process
@@ -58,12 +62,52 @@ public:
         \param[in] object a related object
         \param[in] a animations list
      */
-    virtual void stopInstanceRelatedToObject(sad::db::Object* object, sad::animations::Animations* a) = 0;
-    /*! Returns true of if object is related to this process
+    virtual void stopInstancesRelatedToObject(sad::db::Object* object, sad::animations::Animations* a) = 0;
+    /*! Returns true of if process is related to object
         \param[in] object a tested object
         \return true if related
      */
     virtual bool isRelatedToObject(sad::db::Object* object) = 0;
+    /*! Returns true of if process is related to object, matched by function
+        \param[in] f function for testing
+        \return true if related
+     */
+    virtual bool isRelatedToMatchedObject(const std::function<bool(sad::db::Object*)>& f) = 0;
+    /*! If current instance is related to matched objects, stops related part
+        \param[in] f function for testing
+        \param[in] a animations list
+     */
+    virtual void stopInstancesRelatedToMatchedObject(const std::function<bool(sad::db::Object*)>& f, sad::animations::Animations* a) = 0;
+    /*! Returns true of if process is related to animation, matched by function
+        \param[in] f function for testing
+        \return true if related
+     */
+    virtual bool isRelatedToMatchedAnimation(const std::function<bool(sad::animations::Animation*)>& f) = 0;
+    /*! If current instance is related to matched objects, stops related part
+        \param[in] f function for testing
+        \param[in] a animations list
+     */
+    virtual void stopInstancesRelatedToMatchedAnimation(const std::function<bool(sad::animations::Animation*)>& f, sad::animations::Animations* a) = 0;
+    /*! Returns true of if process is related to instance, matched by function
+        \param[in] f function for testing
+        \return true if related
+     */
+    virtual bool isRelatedToMatchedInstance(const std::function<bool(sad::animations::Instance*)>& f) = 0;
+    /*! If current instance is related to matched objects, stops related part
+        \param[in] f function for testing
+        \param[in] a animations list
+     */
+    virtual void stopInstancesRelatedToMatchedInstance(const std::function<bool(sad::animations::Instance*)>& f, sad::animations::Animations* a) = 0;
+    /*! Returns true of if process is related to instance, matched by function
+        \param[in] f function for testing
+        \return true if related
+     */
+    virtual bool isRelatedToMatchedGroup(const std::function<bool(sad::animations::Group*)>& f) = 0;
+    /*! If current instance is related to matched objects, stops related part
+        \param[in] f function for testing
+        \param[in] a animations list
+     */
+    virtual void stopInstancesRelatedToMatchedGrouo(const std::function<bool(sad::animations::Group*)>& f, sad::animations::Animations* a) = 0;
 };
 
 }

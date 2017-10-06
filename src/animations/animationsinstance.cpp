@@ -556,7 +556,7 @@ const
     return m_state_commands;
 }
 
-void sad::animations::Instance::stopInstanceRelatedToObject(sad::db::Object* object, sad::animations::Animations* a)
+void sad::animations::Instance::stopInstancesRelatedToObject(sad::db::Object* object, sad::animations::Animations* a)
 {
     if (m_object.get() == object)
     {
@@ -567,6 +567,57 @@ void sad::animations::Instance::stopInstanceRelatedToObject(sad::db::Object* obj
 bool sad::animations::Instance::isRelatedToObject(sad::db::Object* object)
 {
     return m_object.get() == object;
+}
+
+bool sad::animations::Instance::isRelatedToMatchedObject(const std::function<bool(sad::db::Object*)>& f)
+{
+    return f(m_object.get());
+}
+
+void sad::animations::Instance::stopInstancesRelatedToMatchedObject(const std::function<bool(sad::db::Object*)>& f, sad::animations::Animations* a)
+{
+    if (f(m_object.get()))
+    {
+        a->remove(this);
+    }
+}
+
+bool sad::animations::Instance::isRelatedToMatchedAnimation(const std::function<bool(sad::animations::Animation*)>& f)
+{
+    return f(this->animation(true));
+}
+
+void sad::animations::Instance::stopInstancesRelatedToMatchedAnimation(const std::function<bool(sad::animations::Animation*)>& f, sad::animations::Animations* a)
+{
+    if (f(this->animation(true)))
+    {
+        a->remove(this);
+    }
+}
+
+bool sad::animations::Instance::isRelatedToMatchedInstance(const std::function<bool(sad::animations::Instance*)>& f)
+{
+    return f(this);
+}
+
+
+void sad::animations::Instance::stopInstancesRelatedToMatchedInstance(const std::function<bool(sad::animations::Instance*)>& f, sad::animations::Animations* a)
+{
+    if (f(this))
+    {
+        a->remove(this);
+    }
+}
+
+bool sad::animations::Instance::isRelatedToMatchedGroup(const std::function<bool(sad::animations::Group*)>& f)
+{
+    return false;
+}
+
+
+void sad::animations::Instance::stopInstancesRelatedToMatchedGrouo(const std::function<bool(sad::animations::Group*)>& f, sad::animations::Animations* a)
+{
+
 }
 
 
@@ -745,6 +796,6 @@ void sad::animations::Instance::fireOnStartCallbacks()
 {
     for(size_t i = 0; i < m_callbacks_on_start.size(); i++)
     {
-        m_callbacks_on_start[i]->invoke();        
+        m_callbacks_on_start[i]->invoke();
     }
 }

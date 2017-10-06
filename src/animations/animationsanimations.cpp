@@ -53,7 +53,7 @@ void sad::animations::Animations::stopProcessesRelatedToObject(sad::db::Object* 
         {
             if (m_command_queue[i].Added->isRelatedToObject(o))
             {
-                m_command_queue[i].Added->stopInstanceRelatedToObject(o, this);
+                m_command_queue[i].Added->stopInstancesRelatedToObject(o, this);
             }
         }
     }
@@ -61,7 +61,7 @@ void sad::animations::Animations::stopProcessesRelatedToObject(sad::db::Object* 
     {
         if (m_list[i]->isRelatedToObject(o))
         {
-            m_list[i]->stopInstanceRelatedToObject(o, this);
+            m_list[i]->stopInstancesRelatedToObject(o, this);
         }
     }
     m_lock.unlock();
