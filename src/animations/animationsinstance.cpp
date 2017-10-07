@@ -559,7 +559,7 @@ void sad::animations::Instance::stopInstancesRelatedToObject(sad::db::Object* ob
 {
     if (m_object.get() == object)
     {
-        a->remove(this);
+        a->notifyProcessRemoval(this);
     }
 }
 
@@ -577,7 +577,7 @@ void sad::animations::Instance::stopInstancesRelatedToMatchedObject(const std::f
 {
     if (f(m_object.get()))
     {
-        a->remove(this);
+        a->notifyProcessRemoval(this);
     }
 }
 
@@ -590,7 +590,7 @@ void sad::animations::Instance::stopInstancesRelatedToMatchedAnimation(const std
 {
     if (f(this->animation(true)))
     {
-        a->remove(this);
+        a->notifyProcessRemoval(this);
     }
 }
 
@@ -604,7 +604,7 @@ void sad::animations::Instance::stopInstancesRelatedToMatchedInstance(const std:
 {
     if (f(this))
     {
-        a->remove(this);
+        a->notifyProcessRemoval(this);
     }
 }
 

@@ -25,32 +25,6 @@ namespace animations
 class Animations: public sad::pipeline::AbstractProcess
 {
 public:
-    /*! A queued command for storing all of data
-     */
-    struct QueueCommand
-    {
-        /*! A command type for storing commands for animations
-         */
-        enum CommandType
-        {
-            CT_ADD,     //!< This command adds new animation process to pipeline
-            CT_REMOVE,  //!< This command removes animation process from pipeline
-            CT_CLEAR,   //!< This command clears pipeline
-
-            CT_INSERT_AT,     //!< This command insert animation at specified place
-            CT_REMOVE_AT,     //!< This command removes animation at specified place
-            CT_INSERT_BEFORE, //!< This command inserts process before specified
-            CT_INSERT_AFTER,  //!< This command inserts process after specified
-
-            CT_SWAP           //!< This command swaps two command
-        };
-
-        CommandType Type;
-        sad::animations::Process* Process; //!< A process to be handled in command
-        size_t Position1; //!< A position for insertions or removal
-        size_t Position2; //!< A second position for swap
-    };
-
     /*! Creates new empty animations list
      */
     Animations();
@@ -61,14 +35,199 @@ public:
     /*! Adds new process to container
         \param[in] o an animation process
      */
-    virtual void add(sad::animations::Process * o);
+    void add(sad::animations::Process * o);
     /*! Removes process from container
         \param[in] o an animation process
      */
-    virtual void remove(sad::animations::Process* o);
+    void remove(sad::animations::Process* o);
+    /*! Removes a process by name
+        \param[in] name a name of process
+     */
+    void removeByName(const sad::String& name);
+    /*! Removes a process by name and type
+        \param[in] type a type of object
+        \param[in] name a name of process
+     */
+    void removeByNameAndType(const sad::String& type, const sad::String& name);
+    /*! Removes a process by major id
+        \param[in] major_id a major id for process
+     */
+    void removeByMajorId(unsigned long long major_id);
     /*! Clears a container, removing all processes
      */
-    virtual void clear();
+    void clear();
+    /*! Inserts process at specified position
+        \param[in] position a position for process
+        \param[in] o process
+     */
+    void insertAt(unsigned int position, sad::animations::Process* o);
+    /*! Removes process at specified position
+        \param[in] position  a position for removal of object
+     */
+    void removeAt(unsigned int position);
+    /*! Returs amount of processes of list
+        \return amount of processes in list
+     */
+    unsigned int count() const;
+    /*! Returns list, copying all of stored animations
+        \return list
+     */
+    sad::Vector<sad::animations::Process*> list() const;
+    /*! Returns position of process in container
+        \param[in] o object
+        \return a position of process
+     */
+    int find(sad::animations::Process* o);
+
+    /*! Inserts one process before another
+        \param[in] before a pivot process
+        \param[in] o another process
+     */
+    void insertBefore(sad::animations::Process* before, sad::animations::Process* o);
+    /*! Inserts one process before another
+        \param[in] name a name of another process
+        \param[in] o another process
+    */
+    void insertBefore(const sad::String& name, sad::animations::Process* o);
+    /*! Inserts one process before another
+        \param[in] type a type of process
+        \param[in] name a name of another process
+        \param[in] o another process
+    */
+    void insertBefore(const sad::String& type, const sad::String& name, sad::animations::Process* o);
+    /*! Inserts one process before another
+        \param[in] major_id a major id of pivot process
+        \param[in] o another process
+    */
+    void insertBefore(unsigned long long major_id, sad::animations::Process* o);
+    /*! Inserts one process before another animation related to object
+        \param[in] before a pivot object
+        \param[in] o another process
+    */
+    void insertBeforeInstanceWithObject(sad::db::Object* before, sad::animations::Process* o);
+    /*! Inserts one process before another animation related to object
+        \param[in] name a name
+        \param[in] o another process
+    */
+    void insertBeforeInstanceWithObject(const sad::String& name, sad::animations::Process* o);
+    /*! Inserts one process before another animation related to object
+        \param[in] type a type
+        \param[in] name a name
+        \param[in] o another process
+    */
+    void insertBeforeInstanceWithObject(const sad::String& type, const sad::String& name, sad::animations::Process* o);
+    /*! Inserts one process before another animation related to object
+        \param[in] major_id a major id
+        \param[in] o another process
+    */
+    void insertBeforeInstanceWithObject(unsigned long long major_id, sad::animations::Process* o);
+    /*! Inserts one process before another animation related to object
+        \param[in] before a pivot process
+        \param[in] o another process
+    */
+    void insertBeforeInstanceWithAnimation(sad::animations::Animation* before, sad::animations::Process* o);
+    /*! Inserts one process before another animation related to object
+        \param[in] name a name
+        \param[in] o another process
+    */
+    void insertBeforeInstanceWithAnimation(const sad::String& name, sad::animations::Process* o);
+    /*! Inserts one process before another animation related to object
+        \param[in] type a type
+        \param[in] name a name
+        \param[in] o another process
+    */
+    void insertBeforeInstanceWithAnimation(const sad::String& type, const sad::String& name, sad::animations::Process* o);
+    /*! Inserts one process before another animation related to object
+        \param[in] major_id a major id
+        \param[in] o another process
+    */
+    void insertBeforeInstanceWithAnimation(unsigned long long major_id, sad::animations::Process* o);
+
+    /*! Inserts one process after another
+        \param[in] after a pivot process
+        \param[in] o another process
+    */
+    void insertAfter(sad::animations::Process* after, sad::animations::Process* o);
+    /*! Inserts one process after another
+        \param[in] name a name of another process
+        \param[in] o another process
+    */
+    void insertAfter(const sad::String& name, sad::animations::Process* o);
+    /*! Inserts one process after another
+        \param[in] type a type of process
+        \param[in] name a name of another process
+        \param[in] o another process
+    */
+    void insertAfter(const sad::String& type, const sad::String& name, sad::animations::Process* o);
+    /*! Inserts one process after another
+        \param[in] major_id a major id of pivot process
+        \param[in] o another process
+    */
+    void insertAfter(unsigned long long major_id, sad::animations::Process* o);
+    /*! Inserts one process after another animation related to object
+        \param[in] after a pivot object
+        \param[in] o another process
+    */
+    void insertAfterInstanceWithObject(sad::db::Object* after, sad::animations::Process* o);
+    /*! Inserts one process after another animation related to object
+        \param[in] name a name
+        \param[in] o another process
+    */
+    void insertAfterInstanceWithObject(const sad::String& name, sad::animations::Process* o);
+    /*! Inserts one process after another animation related to object
+        \param[in] type a type
+        \param[in] name a name
+        \param[in] o another process
+    */
+    void insertAfterInstanceWithObject(const sad::String& type, const sad::String& name, sad::animations::Process* o);
+    /*! Inserts one process after another animation related to object
+        \param[in] major_id a major id
+        \param[in] o another process
+    */
+    void insertAfterInstanceWithObject(unsigned long long major_id, sad::animations::Process* o);
+    /*! Inserts one process after another animation related to object
+        \param[in] after a pivot process
+        \param[in] o another process
+    */
+    void insertAfterInstanceWithAnimation(sad::animations::Animation* after, sad::animations::Process* o);
+    /*! Inserts one process after another animation related to object
+        \param[in] name a name
+        \param[in] o another process
+    */
+    void insertAfterInstanceWithAnimation(const sad::String& name, sad::animations::Process* o);
+    /*! Inserts one process after another animation related to object
+        \param[in] type a type
+        \param[in] name a name
+        \param[in] o another process
+    */
+    void insertAfterInstanceWithAnimation(const sad::String& type, const sad::String& name, sad::animations::Process* o);
+    /*! Inserts one process after another animation related to object
+        \param[in] major_id a major id
+        \param[in] o another process
+    */
+    void insertAfterInstanceWithAnimation(unsigned long long major_id, sad::animations::Process* o);
+    /*! Swaps first process position with second process
+        \param[in] first a first process
+        \param[in] second a second process
+     */
+    void swap(sad::animations::Process* first, sad::animations::Process* second);
+    /*! Swaps first process named name1 with position of name2
+        \param[in] name1 first name
+        \param[in] name2 second name
+     */
+    void swap(const sad::String& name1, const sad::String name2);
+    /*! Swaps first process named name1 with type1 position of name2 with type2
+        \param[in] type1 first type
+        \param[in] name1 first name
+        \param[in] type2 second type
+        \param[in] name2 second name
+    */
+    void swap(const sad::String& type1, const sad::String& name1, const sad::String& type2, const sad::String name2);
+    /*! Swaps first process named major_id1 with position of major_id2
+        \param[in] major_id1 first major id
+        \param[in] major_id2 second major id
+    */
+    void swap(unsigned long long major_id1, unsigned long long major_id2);
 
     /*! A cache, for saving object state
         \return cache for saving state
@@ -83,6 +242,24 @@ public:
         \param[in] o object
      */
     void stopProcessesRelatedToObject(sad::db::Object* o);
+    /*! Stops processes, related to object
+        \param[in] name a name of object
+     */
+    void stopProcessesRelatedToObjectWithName(const sad::String& name);
+    /*! Stops processes, related to object with type
+        \param[in] type an object with type
+        \param[in] name a name of object
+     */
+    void stopProcessesRelatedToObjectWithTypeAndName(const sad::String& type, const sad::String& name);
+    /*! Stops processes, related to object with specified major id
+        \param[in] major_id a major id of object
+     */
+    void stopProcessesRelatedToObjectWithMajorId(unsigned long long major_id);
+
+    /*! Notifies, that process should be removed. This is inner function, DO NOT CALL IT
+        \param[in] process a process
+     */
+    void notifyProcessRemoval(sad::animations::Process* process);
 protected:
     /*! Throws exception, as this object is non-copyable
         \param[in] o object
@@ -107,10 +284,84 @@ protected:
     /*! Clears an animation list
      */
     void clearNow();
-    /*! Pushes new command to queue
-        \param[in] c queued command
+    /*! Inserts an animation process to list at position
+        \param[in] position a position of object
+        \param[in] o an object
      */
-    void pushCommand(const QueueCommand & c);
+    void insertAtNow(unsigned int position, sad::animations::Process* o);
+    /*! Removes an animation process at specified position
+        \param[in] position a position
+     */
+    void removeAtNow(unsigned int position);
+    /*! Returns position of first matched process
+        \param[in] f a matching function
+        \return a position or -1 if not found
+     */
+    int findFirst(const std::function<bool(sad::animations::Process*)>& f);
+    /*! Returns position of last matched process
+        \param[in] f a matching function
+        \return a position or -1 if not found
+    */
+    int findLast(const std::function<bool(sad::animations::Process*)>& f);
+    /*! Inserts a process before first matched
+        \param[in] f matching function
+        \param[in] o a process
+     */
+    void insertBeforeFirstMatched(const std::function<bool(sad::animations::Process*)>& f, sad::animations::Process* o);
+    /*! Inserts a process after last matched
+        \param[in] f matching function
+         \param[in] o a process
+     */
+    void insertAfterLastMatched(const std::function<bool(sad::animations::Process*)>& f, sad::animations::Process* o);
+    /*! Inserts one process before another
+        \param[in] before a pivot process
+        \param[in] o another process
+    */
+    void insertBeforeNow(sad::animations::Process* before, sad::animations::Process* o);
+    /*! Inserts one process before another
+       \param[in] name a name of another process
+       \param[in] o another process
+    */
+    void insertBeforeNow(const sad::String& name, sad::animations::Process* o);
+    /*! Inserts one process before another
+       \param[in] type a type of process
+       \param[in] name a name of another process
+       \param[in] o another process
+    */
+    void insertBeforeNow(const sad::String& type, const sad::String& name, sad::animations::Process* o);
+    /*! Inserts one process before another
+        \param[in] major_id a major id of pivot process
+        \param[in] o another process
+    */
+    void insertBeforeNow(unsigned long long major_id, sad::animations::Process* o);
+
+
+    /*! Inserts one process after another
+        \param[in] after a pivot process
+        \param[in] o another process
+    */
+    void insertAfterNow(sad::animations::Process* after, sad::animations::Process* o);
+    /*! Inserts one process after another
+        \param[in] name a name of another process
+        \param[in] o another process
+    */
+    void insertAfterNow(const sad::String& name, sad::animations::Process* o);
+    /*! Inserts one process after another
+        \param[in] type a type of process
+        \param[in] name a name of another process
+        \param[in] o another process
+    */
+    void insertAfterNow(const sad::String& type, const sad::String& name, sad::animations::Process* o);
+    /*! Inserts one process after another
+        \param[in] major_id a major id of pivot process
+        \param[in] o another process
+    */
+    void insertAfterNow(unsigned long long major_id, sad::animations::Process* o);
+
+    /*! Pushes new command to queue
+        \param[in] f a function
+     */
+    void pushCommand(const std::function<void()>& f);
     /*! Locks a changes inside an inner container of animations
      */
     void lockChanges();
@@ -124,6 +375,10 @@ protected:
     /*! Performs all queued actions, clearing command queue
      */
     void performQueuedActions();
+    /*! Performs an action or queues it
+        \param[in] f function
+     */
+    void performOrQueue(const std::function<void()>& f);
 
     /*! A list of animations processes
      */
@@ -136,7 +391,7 @@ protected:
     sad::Mutex m_lock;
     /*! A queued commands container
      */
-    sad::Vector<QueueCommand> m_command_queue;
+    sad::Vector<std::function<void()> > m_command_queue;
     /*! A lock, for adding a commands into lock
      */
     sad::Mutex                  m_command_queue_lock;
