@@ -280,7 +280,7 @@ public:
         \param[in] f function for testing
         \param[in] a animations list
      */
-    virtual void stopInstancesRelatedToMatchedGrouo(const std::function<bool(sad::animations::Group*)>& f, sad::animations::Animations* a);
+    virtual void stopInstancesRelatedToMatchedGroup(const std::function<bool(sad::animations::Group*)>& f, sad::animations::Animations* a);
     /*! Returns whether instances in group should be played sequentially
         \return flag value
      */

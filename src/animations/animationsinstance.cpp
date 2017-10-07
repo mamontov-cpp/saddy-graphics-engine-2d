@@ -614,7 +614,7 @@ bool sad::animations::Instance::isRelatedToMatchedGroup(const std::function<bool
 }
 
 
-void sad::animations::Instance::stopInstancesRelatedToMatchedGrouo(const std::function<bool(sad::animations::Group*)>& f, sad::animations::Animations* a)
+void sad::animations::Instance::stopInstancesRelatedToMatchedGroup(const std::function<bool(sad::animations::Group*)>& f, sad::animations::Animations* a)
 {
 
 }

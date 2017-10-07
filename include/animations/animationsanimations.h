@@ -256,6 +256,24 @@ public:
      */
     void stopProcessesRelatedToObjectWithMajorId(unsigned long long major_id);
 
+    /*! Stops processes, related to object
+        \param[in] o object
+    */
+    void stopProcessesRelatedToAnimation(sad::animations::Animation* o);
+    /*! Stops processes, related to animation
+        \param[in] name a name of object
+    */
+    void stopProcessesRelatedToAnimationWithName(const sad::String& name);
+    /*! Stops processes, related to animation with type
+        \param[in] type an object with type
+        \param[in] name a name of object
+    */
+    void stopProcessesRelatedToAnimationWithTypeAndName(const sad::String& type, const sad::String& name);
+    /*! Stops processes, related to animation with specified major id
+        \param[in] major_id a major id of object
+    */
+    void stopProcessesRelatedToAnimationWithMajorId(unsigned long long major_id);
+
     /*! Notifies, that process should be removed. This is inner function, DO NOT CALL IT
         \param[in] process a process
      */
