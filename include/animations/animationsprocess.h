@@ -59,16 +59,6 @@ public:
     /*! Called, when process is removed from pipeline
      */
     virtual void removedFromPipeline() = 0;
-    /*! If current instance is related to specified object, stops related part
-        \param[in] object a related object
-        \param[in] a animations list
-     */
-    virtual void stopInstancesRelatedToObject(sad::db::Object* object, sad::animations::Animations* a) = 0;
-    /*! Returns true of if process is related to object
-        \param[in] object a tested object
-        \return true if related
-     */
-    virtual bool isRelatedToObject(sad::db::Object* object) = 0;
     /*! Returns true of if process is related to object, matched by function
         \param[in] f function for testing
         \return true if related
@@ -89,26 +79,16 @@ public:
         \param[in] a animations list
      */
     virtual void stopInstancesRelatedToMatchedAnimation(const std::function<bool(sad::animations::Animation*)>& f, sad::animations::Animations* a) = 0;
-    /*! Returns true of if process is related to instance, matched by function
+    /*! Returns true of if process is related to process, matched by function
         \param[in] f function for testing
         \return true if related
      */
-    virtual bool isRelatedToMatchedInstance(const std::function<bool(sad::animations::Instance*)>& f) = 0;
+    virtual bool isRelatedToMatchedProcess(const std::function<bool(sad::animations::Process*)>& f) = 0;
     /*! If current instance is related to matched objects, stops related part
         \param[in] f function for testing
         \param[in] a animations list
      */
-    virtual void stopInstancesRelatedToMatchedInstance(const std::function<bool(sad::animations::Instance*)>& f, sad::animations::Animations* a) = 0;
-    /*! Returns true of if process is related to instance, matched by function
-        \param[in] f function for testing
-        \return true if related
-     */
-    virtual bool isRelatedToMatchedGroup(const std::function<bool(sad::animations::Group*)>& f) = 0;
-    /*! If current instance is related to matched objects, stops related part
-        \param[in] f function for testing
-        \param[in] a animations list
-     */
-    virtual void stopInstancesRelatedToMatchedGroup(const std::function<bool(sad::animations::Group*)>& f, sad::animations::Animations* a) = 0;
+    virtual void stopInstancesRelatedToMatchedProcess(const std::function<bool(sad::animations::Process*)>& f, sad::animations::Animations* a) = 0;
 };
 
 }

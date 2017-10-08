@@ -338,16 +338,6 @@ public:
         \return instance
      */
     const sad::Vector<sad::animations::setstate::AbstractSetStateCommand*>& stateCommands() const;
-    /*! If current instance is related to specified object, removes it from animations
-        \param[in] object a related object
-        \param[in] a animations list
-     */
-    virtual void stopInstancesRelatedToObject(sad::db::Object* object, sad::animations::Animations* a);
-    /*! Returns true of if object is related to this process
-        \param[in] object a tested object
-        \return true if related
-     */
-    virtual bool isRelatedToObject(sad::db::Object* object);
     /*! Returns true of if process is related to object, matched by function
         \param[in] f function for testing
         \return true if related
@@ -372,22 +362,12 @@ public:
         \param[in] f function for testing
         \return true if related
      */
-    virtual bool isRelatedToMatchedInstance(const std::function<bool(sad::animations::Instance*)>& f);
+    virtual bool isRelatedToMatchedProcess(const std::function<bool(sad::animations::Process*)>& f);
     /*! If current instance is related to matched objects, stops related part
         \param[in] f function for testing
         \param[in] a animations list
      */
-    virtual void stopInstancesRelatedToMatchedInstance(const std::function<bool(sad::animations::Instance*)>& f, sad::animations::Animations* a);
-    /*! Returns true of if process is related to instance, matched by function
-        \param[in] f function for testing
-        \return true if related
-     */
-    virtual bool isRelatedToMatchedGroup(const std::function<bool(sad::animations::Group*)>& f);
-    /*! If current instance is related to matched objects, stops related part
-        \param[in] f function for testing
-        \param[in] a animations list
-     */
-    virtual void stopInstancesRelatedToMatchedGroup(const std::function<bool(sad::animations::Group*)>& f, sad::animations::Animations* a);
+    virtual void stopInstancesRelatedToMatchedProcess(const std::function<bool(sad::animations::Process*)>& f, sad::animations::Animations* a);
 
     /*! Tries to restore object state from cache
         \param[in] animations animations an animations

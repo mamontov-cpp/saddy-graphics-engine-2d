@@ -169,8 +169,11 @@ void sad::animations::Animations::insertBefore(unsigned long long major_id, sad:
 
 void  sad::animations::Animations::insertBeforeInstanceWithObject(sad::db::Object* before, sad::animations::Process* o)
 {
-    std::function<bool(sad::animations::Process*)> matcher = [before](sad::animations::Process* m) -> bool  {
-        return m->isRelatedToObject(before);
+    std::function<bool(sad::db::Object*)> object_matcher = [before](sad::db::Object* object) -> bool {
+        return object == before;
+    };
+    std::function<bool(sad::animations::Process*)> matcher = [object_matcher](sad::animations::Process* m) -> bool  {
+        return m->isRelatedToMatchedObject(object_matcher);
     };
     o->addRef();
     before->addRef();
@@ -345,8 +348,11 @@ void sad::animations::Animations::insertAfter(unsigned long long major_id, sad::
 
 void  sad::animations::Animations::insertAfterInstanceWithObject(sad::db::Object* after, sad::animations::Process* o)
 {
-    std::function<bool(sad::animations::Process*)> matcher = [after](sad::animations::Process* m) -> bool {
-        return m->isRelatedToObject(after);
+    std::function<bool(sad::db::Object*)> object_matcher = [after](sad::db::Object* object) -> bool {
+        return object == after;
+    };
+    std::function<bool(sad::animations::Process*)> matcher = [object_matcher](sad::animations::Process* m) -> bool {
+        return m->isRelatedToMatchedObject(object_matcher);
     };
     o->addRef();
     after->addRef();
@@ -590,21 +596,184 @@ sad::animations::SavedObjectStateCache& sad::animations::Animations::cache()
     return m_cache;
 }
 
-sad::Vector<sad::animations::Process*> sad::animations::Animations::queryProcessesRelatedToObject(sad::db::Object* o)
+sad::Vector<sad::animations::Process*>  sad::animations::Animations::queryProcessesByName(const sad::String& name)
 {
-    m_lock.lock();
-    sad::Vector<sad::animations::Process*> result;
-    for(size_t i = 0; i < m_list.size(); i++)
-    {
-        if (m_list[i]->isRelatedToObject(o))
-        {
-            result << m_list[i];
-        }
-    }
-    m_lock.unlock();
-    return result;
+    return this->queryProcesses([name](sad::animations::Process* o) -> bool {
+        return o->objectName() == name;
+    });
 }
 
+sad::Vector<sad::animations::Process*> sad::animations::Animations::queryProcessesByTypeAndName(const sad::String& type, const sad::String& name)
+{
+    return this->queryProcesses([type, name](sad::animations::Process* o) -> bool {
+        if (o->isInstanceOf(type))
+        { 
+            return o->objectName() == name;
+        }
+        return false;
+    });
+}
+
+sad::Vector<sad::animations::Process*> sad::animations::Animations::queryProcessesByMajorId(unsigned long long major_id)
+{
+    return this->queryProcesses([major_id](sad::animations::Process* o) -> bool {
+        return o->MajorId == major_id;
+    });
+}
+
+sad::Vector<sad::animations::Process*> sad::animations::Animations::queryProcessesRelatedToObject(sad::db::Object* o)
+{
+    return this->queryProcessesRelatedToMatchedObject([o](sad::db::Object* object) -> bool {
+        return object == o;
+    });
+}
+
+sad::Vector<sad::animations::Process*> sad::animations::Animations::queryProcessesRelatedToObjectByName(const sad::String& name)
+{
+    return this->queryProcessesRelatedToMatchedObject([name](sad::db::Object* o) -> bool {
+        if (o)
+        {
+            return o->objectName() == name;
+        }
+        return false;
+    });
+}
+
+sad::Vector<sad::animations::Process*> sad::animations::Animations::queryProcessesRelatedToObjectByTypeAndName(const sad::String& type, const sad::String& name)
+{
+    return this->queryProcessesRelatedToMatchedObject([type, name](sad::db::Object* o) -> bool {
+        if (o)
+        {
+            if (o->isInstanceOf(type))
+            { 
+                return o->objectName() == name;
+            }
+        }
+        return false;
+    });
+}
+
+sad::Vector<sad::animations::Process*> sad::animations::Animations::queryProcessesRelatedToObjectByMajorId(unsigned long long major_id)
+{
+    return this->queryProcessesRelatedToMatchedObject([major_id](sad::db::Object* o) -> bool {
+        if (o)
+        {
+            return o->MajorId == major_id;
+        }
+        return false;
+    });
+}
+
+
+sad::Vector<sad::animations::Process*> sad::animations::Animations::queryProcessesRelatedToAnimation(sad::animations::Animation* o)
+{
+    return this->queryProcessesRelatedToMatchedAnimation([o](sad::animations::Animation* animation) -> bool {
+        return animation == o;
+    });
+}
+
+
+sad::Vector<sad::animations::Process*> sad::animations::Animations::queryProcessesRelatedToAnimationByName(const sad::String& name)
+{
+    return this->queryProcessesRelatedToMatchedAnimation([name](sad::animations::Animation* o) -> bool {
+        if (o)
+        {
+            return o->objectName() == name;
+        }
+        return false;
+    });
+}
+
+sad::Vector<sad::animations::Process*> sad::animations::Animations::queryProcessesRelatedToAnimationByTypeAndName(const sad::String& type, const sad::String& name)
+{
+    return this->queryProcessesRelatedToMatchedAnimation([type, name](sad::animations::Animation* o) -> bool {
+        if (o)
+        {
+            if (o->isInstanceOf(type))
+            {
+                return o->objectName() == name;
+            }
+        }
+        return false;
+    });
+}
+
+sad::Vector<sad::animations::Process*> sad::animations::Animations::queryProcessesRelatedToAnimationByMajorId(unsigned long long major_id)
+{
+    return this->queryProcessesRelatedToMatchedAnimation([major_id](sad::animations::Animation* o) -> bool {
+        if (o)
+        {
+            return o->MajorId == major_id;
+        }
+        return false;
+    });
+}
+
+void sad::animations::Animations::stopProcess(sad::animations::Process* o)
+{
+    if (!o)
+    {
+        return;
+    }
+    o->addRef();
+    performOrQueue([this, o] {
+        std::function<bool(sad::animations::Process*)> matcher = [o](sad::animations::Process* obj) {
+            return obj == o;
+        };
+        sad::Vector<sad::animations::Process*> list = this->list();
+        for (size_t i = 0; i < list.size(); i++)
+        {
+            list[i]->stopInstancesRelatedToMatchedProcess(matcher, this);
+        }
+        o->delRef();
+    });
+}
+
+void sad::animations::Animations::stopProcessByName(const sad::String& name)
+{
+    performOrQueue([this, name] {
+        std::function<bool(sad::animations::Process*)> matcher = [name](sad::animations::Process* obj) {
+            return obj->objectName() == name;
+        };
+        sad::Vector<sad::animations::Process*> list = this->list();
+        for (size_t i = 0; i < list.size(); i++)
+        {
+            list[i]->stopInstancesRelatedToMatchedProcess(matcher, this);
+        }
+    });
+}
+
+void sad::animations::Animations::stopProcessByTypeAndName(const sad::String& type, const sad::String& name)
+{
+    performOrQueue([this, type, name] {
+        std::function<bool(sad::animations::Process*)> matcher = [type, name](sad::animations::Process* obj) {
+            if (obj->isInstanceOf(type)) 
+            {
+                return obj->objectName() == name;
+            }
+            return false;
+        };
+        sad::Vector<sad::animations::Process*> list = this->list();
+        for (size_t i = 0; i < list.size(); i++)
+        {
+            list[i]->stopInstancesRelatedToMatchedProcess(matcher, this);
+        }
+    });
+}
+
+void sad::animations::Animations::stopProcessByMajorId(unsigned long long major_id)
+{
+    performOrQueue([this, major_id] {
+        std::function<bool(sad::animations::Process*)> matcher = [major_id](sad::animations::Process* obj) {
+            return obj->MajorId == major_id;
+        };
+        sad::Vector<sad::animations::Process*> list = this->list();
+        for (size_t i = 0; i < list.size(); i++)
+        {
+            list[i]->stopInstancesRelatedToMatchedProcess(matcher, this);
+        }
+    });
+}
 
 void sad::animations::Animations::stopProcessesRelatedToObject(sad::db::Object* o)
 {
@@ -614,10 +783,17 @@ void sad::animations::Animations::stopProcessesRelatedToObject(sad::db::Object* 
     }
     o->addRef();
     performOrQueue([this, o] {
+        std::function<bool(sad::db::Object*)> matcher = [o](sad::db::Object* obj) {
+            if (obj)
+            {
+                return obj == o;
+            }
+            return false;
+        };
         sad::Vector<sad::animations::Process*> list = this->list();
         for (size_t i = 0; i < list.size(); i++)
         {
-            list[i]->stopInstancesRelatedToObject(o, this);
+            list[i]->stopInstancesRelatedToMatchedObject(matcher, this);
         }
         o->delRef();
     });
@@ -758,6 +934,130 @@ void sad::animations::Animations::stopProcessesRelatedToAnimationWithMajorId(uns
     });
 }
 
+size_t sad::animations::Animations::countProcesses(sad::animations::Process* o)
+{
+    return queryProcesses([o](sad::animations::Process* p) ->bool {
+        return p == o;
+    }).size();
+}
+
+size_t sad::animations::Animations::countProcessesByName(const sad::String& name)
+{
+    return queryProcessesByName(name).size();
+}
+
+size_t sad::animations::Animations::countProcessesByTypeAndName(const sad::String& type, const sad::String& name)
+{
+    return queryProcessesByTypeAndName(type, name).size();
+}
+
+size_t sad::animations::Animations::countProcessesByMajorId(unsigned long long major_id)
+{
+    return queryProcessesByMajorId(major_id).size();
+}
+
+size_t sad::animations::Animations::countProcessesRelatedToObject(sad::db::Object* o)
+{
+    return queryProcessesRelatedToObject(o).size();
+}
+
+size_t sad::animations::Animations::countProcessesRelatedToObjectByName(const sad::String& name)
+{
+    return queryProcessesRelatedToObjectByName(name).size();
+}
+
+size_t sad::animations::Animations::countProcessesRelatedToObjectByTypeAndName(const sad::String& type, const sad::String& name)
+{
+    return queryProcessesRelatedToObjectByTypeAndName(type, name).size();
+}
+
+size_t sad::animations::Animations::countProcessesRelatedToObjectByMajorId(unsigned long long major_id)
+{
+    return queryProcessesRelatedToObjectByMajorId(major_id).size();
+}
+
+
+size_t sad::animations::Animations::countProcessesRelatedToAnimation(sad::animations::Animation* o)
+{
+    return queryProcessesRelatedToAnimation(o).size();
+}
+
+size_t sad::animations::Animations::countProcessesRelatedToAnimationByName(const sad::String& name)
+{
+    return queryProcessesRelatedToAnimationByName(name).size();
+}
+
+size_t sad::animations::Animations::countProcessesRelatedToAnimationByTypeAndName(const sad::String& type, const sad::String& name)
+{
+    return queryProcessesRelatedToAnimationByTypeAndName(type, name).size();
+}
+
+size_t sad::animations::Animations::countProcessesRelatedToAnimationByMajorId(unsigned long long major_id)
+{
+    return queryProcessesRelatedToAnimationByMajorId(major_id).size();
+}
+
+
+bool sad::animations::Animations::hasProcesses(sad::animations::Process* o)
+{
+    return countProcesses(o) != 0;
+}
+
+bool sad::animations::Animations::hasProcessesByName(const sad::String& name)
+{
+    return queryProcessesByName(name).size() != 0;
+}
+
+bool sad::animations::Animations::hasProcessesByTypeAndName(const sad::String& type, const sad::String& name)
+{
+    return queryProcessesByTypeAndName(type, name).size() != 0;
+}
+
+bool sad::animations::Animations::hasProcessesByMajorId(unsigned long long major_id)
+{
+    return queryProcessesByMajorId(major_id).size() != 0;
+}
+
+bool sad::animations::Animations::hasProcessesRelatedToObject(sad::db::Object* o)
+{
+    return queryProcessesRelatedToObject(o).size() != 0;
+}
+
+bool sad::animations::Animations::hasProcessesRelatedToObjectByName(const sad::String& name)
+{
+    return queryProcessesRelatedToObjectByName(name).size() != 0;
+}
+
+bool sad::animations::Animations::hasProcessesRelatedToObjectByTypeAndName(const sad::String& type, const sad::String& name)
+{
+    return queryProcessesRelatedToObjectByTypeAndName(type, name).size() != 0;
+}
+
+bool sad::animations::Animations::hasProcessesRelatedToObjectByMajorId(unsigned long long major_id)
+{
+    return queryProcessesRelatedToObjectByMajorId(major_id).size() != 0;
+}
+
+
+bool sad::animations::Animations::hasProcessesRelatedToAnimation(sad::animations::Animation* o)
+{
+    return queryProcessesRelatedToAnimation(o).size() != 0;
+}
+
+bool sad::animations::Animations::hasProcessesRelatedToAnimationByName(const sad::String& name)
+{
+    return queryProcessesRelatedToAnimationByName(name).size() != 0;
+}
+
+bool sad::animations::Animations::hasProcessesRelatedToAnimationByTypeAndName(const sad::String& type, const sad::String& name)
+{
+    return queryProcessesRelatedToAnimationByTypeAndName(type, name).size() != 0;
+}
+
+bool sad::animations::Animations::hasProcessesRelatedToAnimationByMajorId(unsigned long long major_id)
+{
+    return queryProcessesRelatedToAnimationByMajorId(major_id).size() != 0;
+}
 
 void sad::animations::Animations::notifyProcessRemoval(sad::animations::Process* process)
 {
@@ -1063,3 +1363,47 @@ void sad::animations::Animations::performOrQueue(const std::function<void()>& f)
     }
 }
 
+sad::Vector<sad::animations::Process*> sad::animations::Animations::queryProcesses(const std::function<bool(sad::animations::Process*)>& f)
+{
+    m_lock.lock();
+    sad::Vector<sad::animations::Process*> result;
+    for (size_t i = 0; i < m_list.size(); i++)
+    {
+        if (f(m_list[i]))
+        {
+            result << m_list[i];
+        }
+    }
+    m_lock.unlock();
+    return result;
+}
+
+sad::Vector<sad::animations::Process*> sad::animations::Animations::queryProcessesRelatedToMatchedObject(const std::function<bool(sad::db::Object*)>& f)
+{
+    m_lock.lock();
+    sad::Vector<sad::animations::Process*> result;
+    for (size_t i = 0; i < m_list.size(); i++)
+    {
+        if (m_list[i]->isRelatedToMatchedObject(f))
+        {
+            result << m_list[i];
+        }
+    }
+    m_lock.unlock();
+    return result;
+}
+
+sad::Vector<sad::animations::Process*> sad::animations::Animations::queryProcessesRelatedToMatchedAnimation(const std::function<bool(sad::animations::Animation*)>& f)
+{
+    m_lock.lock();
+    sad::Vector<sad::animations::Process*> result;
+    for (size_t i = 0; i < m_list.size(); i++)
+    {
+        if (m_list[i]->isRelatedToMatchedAnimation(f))
+        {
+            result << m_list[i];
+        }
+    }
+    m_lock.unlock();
+    return result;
+}

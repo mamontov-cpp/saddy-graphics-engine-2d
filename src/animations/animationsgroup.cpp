@@ -443,35 +443,6 @@ void sad::animations::Group::addCallbackOnStart(sad::animations::Callback* c)
     m_callbacks_on_start << c;
 }
 
-void sad::animations::Group::stopInstancesRelatedToObject(sad::db::Object* object, sad::animations::Animations* a)
-{
-    if (m_instances.size() == 0)
-    {
-        getInstances(m_instances);	
-    }
-    for(size_t i = 0; i < m_instances.size(); i++)
-    {
-        if (m_instances[i]->isRelatedToObject(object))
-        {
-            m_instances[i]->cancel(a);
-            m_instances.removeAt(i);
-            --i;
-        }
-    }	
-}
-
-
-bool sad::animations::Group::isRelatedToObject(sad::db::Object* object)
-{
-    bool is_related = false;
-    for(size_t i = 0; i < m_instances.size(); i++)
-    {
-        is_related = is_related || m_instances[i]->isRelatedToObject(object);
-    }
-    return is_related;
-}
-
-
 bool sad::animations::Group::isRelatedToMatchedObject(const std::function<bool(sad::db::Object*)>& f)
 {
     bool is_related = false;
@@ -529,18 +500,18 @@ void sad::animations::Group::stopInstancesRelatedToMatchedAnimation(const std::f
 }
 
 
-bool sad::animations::Group::isRelatedToMatchedInstance(const std::function<bool(sad::animations::Instance*)>& f)
+bool sad::animations::Group::isRelatedToMatchedProcess(const std::function<bool(sad::animations::Process*)>& f)
 {
     bool is_related = false;
     for(size_t i = 0; i < m_instances.size(); i++)
     {
-        is_related = is_related || m_instances[i]->isRelatedToMatchedInstance(f);
+        is_related = is_related || m_instances[i]->isRelatedToMatchedProcess(f);
     }
     return is_related;
 }
 
 
-void sad::animations::Group::stopInstancesRelatedToMatchedInstance(const std::function<bool(sad::animations::Instance*)>& f, sad::animations::Animations* a)
+void sad::animations::Group::stopInstancesRelatedToMatchedProcess(const std::function<bool(sad::animations::Process*)>& f, sad::animations::Animations* a)
 {
     if (m_instances.size() == 0)
     {
@@ -548,36 +519,7 @@ void sad::animations::Group::stopInstancesRelatedToMatchedInstance(const std::fu
     }
     for(size_t i = 0; i < m_instances.size(); i++)
     {
-        if (m_instances[i]->isRelatedToMatchedInstance(f))
-        {
-            m_instances[i]->cancel(a);
-            m_instances.removeAt(i);
-            --i;
-        }
-    }
-}
-
-bool sad::animations::Group::isRelatedToMatchedGroup(const std::function<bool(sad::animations::Group*)>& f)
-{
-    bool is_related = f(this);
-    for(size_t i = 0; i < m_instances.size(); i++)
-    {
-        is_related = is_related || m_instances[i]->isRelatedToMatchedGroup(f);
-    }
-    return is_related;
-}
-
-void sad::animations::Group::stopInstancesRelatedToMatchedGroup(const std::function<bool(sad::animations::Group*)>& f, sad::animations::Animations* a)
-{
-    if (f(this))
-    {
-         a->remove(this);
-         return;
-    }
-
-    for(size_t i = 0; i < m_instances.size(); i++)
-    {
-        if (m_instances[i]->isRelatedToMatchedGroup(f))
+        if (m_instances[i]->isRelatedToMatchedProcess(f))
         {
             m_instances[i]->cancel(a);
             m_instances.removeAt(i);

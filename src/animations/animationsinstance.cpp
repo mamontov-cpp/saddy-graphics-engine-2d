@@ -555,19 +555,6 @@ const
     return m_state_commands;
 }
 
-void sad::animations::Instance::stopInstancesRelatedToObject(sad::db::Object* object, sad::animations::Animations* a)
-{
-    if (m_object.get() == object)
-    {
-        a->notifyProcessRemoval(this);
-    }
-}
-
-bool sad::animations::Instance::isRelatedToObject(sad::db::Object* object)
-{
-    return m_object.get() == object;
-}
-
 bool sad::animations::Instance::isRelatedToMatchedObject(const std::function<bool(sad::db::Object*)>& f)
 {
     return f(m_object.get());
@@ -594,31 +581,19 @@ void sad::animations::Instance::stopInstancesRelatedToMatchedAnimation(const std
     }
 }
 
-bool sad::animations::Instance::isRelatedToMatchedInstance(const std::function<bool(sad::animations::Instance*)>& f)
+bool sad::animations::Instance::isRelatedToMatchedProcess(const std::function<bool(sad::animations::Process*)>& f)
 {
     return f(this);
 }
 
 
-void sad::animations::Instance::stopInstancesRelatedToMatchedInstance(const std::function<bool(sad::animations::Instance*)>& f, sad::animations::Animations* a)
+void sad::animations::Instance::stopInstancesRelatedToMatchedProcess(const std::function<bool(sad::animations::Process*)>& f, sad::animations::Animations* a)
 {
     if (f(this))
     {
         a->notifyProcessRemoval(this);
     }
 }
-
-bool sad::animations::Instance::isRelatedToMatchedGroup(const std::function<bool(sad::animations::Group*)>& f)
-{
-    return false;
-}
-
-
-void sad::animations::Instance::stopInstancesRelatedToMatchedGroup(const std::function<bool(sad::animations::Group*)>& f, sad::animations::Animations* a)
-{
-
-}
-
 
 // ================================== PROTECTED METHODS ==================================
 

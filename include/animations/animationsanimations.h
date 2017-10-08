@@ -233,11 +233,80 @@ public:
         \return cache for saving state
      */
     sad::animations::SavedObjectStateCache& cache();
-    /*! Queries processes, relates to specified object
+    
+    /*! Queries processes by name
+        \param[in] name a name of process
+     */
+    sad::Vector<sad::animations::Process*> queryProcessesByName(const sad::String& name);
+    /*! Queries processes by type and name
+        \param[in] type a type of process
+        \param[in] name a name of process
+     */
+    sad::Vector<sad::animations::Process*> queryProcessesByTypeAndName(const sad::String& type, const sad::String& name);
+    /*! Queries processes by major id
+        \param[in] major_id a major id for process
+     */
+    sad::Vector<sad::animations::Process*> queryProcessesByMajorId(unsigned long long major_id);
+    /*! Queries processes, related to specified object
         \param[in] o specified object
         \return list of related processes
      */
     sad::Vector<sad::animations::Process*> queryProcessesRelatedToObject(sad::db::Object* o);
+    /*! Queries processes, related to specified object by name
+        \param[in] name a name of object
+        \return list of related processes
+    */
+    sad::Vector<sad::animations::Process*> queryProcessesRelatedToObjectByName(const sad::String& name);
+    /*! Queries processes, related to specified object by type and name
+        \param[in] type a type of object
+        \param[in] name a name of object
+        \return list of related processes
+     */
+    sad::Vector<sad::animations::Process*> queryProcessesRelatedToObjectByTypeAndName(const sad::String& type, const sad::String& name);
+    /*! Queries processes, related to specified object by major id
+        \param[in] major_id a major id for object
+        \return list of related processes
+    */
+    sad::Vector<sad::animations::Process*> queryProcessesRelatedToObjectByMajorId(unsigned long long major_id);
+    /*! Queries processes, related to specified animation
+        \param[in] o specified object
+        \return list of related processes
+    */
+    sad::Vector<sad::animations::Process*> queryProcessesRelatedToAnimation(sad::animations::Animation* o);
+    /*! Queries processes, related to specified animation by name
+        \param[in] name a name of animation
+        \return list of related processes
+     */
+    sad::Vector<sad::animations::Process*> queryProcessesRelatedToAnimationByName(const sad::String& name);
+    /*! Queries processes, related to specified animation by type and name
+        \param[in] type a type of animation
+        \param[in] name a name of animation
+        \return list of related processes
+     */
+    sad::Vector<sad::animations::Process*> queryProcessesRelatedToAnimationByTypeAndName(const sad::String& type, const sad::String& name);
+    /*! Queries processes, related to specified animation by major id
+        \param[in] major_id a major id for animation
+        \return list of related processes
+     */
+    sad::Vector<sad::animations::Process*> queryProcessesRelatedToAnimationByMajorId(unsigned long long major_id);
+
+    /*! Stops processes or instances, nested in group
+        \param[in] o process
+     */
+    void stopProcess(sad::animations::Process* o);
+    /*! Stops processes by their name
+        \param[in] name a name of process
+     */
+    void stopProcessByName(const sad::String& name);
+    /*! Stops processes by their name and type
+        \param[in] type a type of process
+        \param[in] name a name of process
+     */
+    void stopProcessByTypeAndName(const sad::String& type, const sad::String& name);
+    /*! Stops processes by their major id
+        \param[in] major_id a major id
+     */
+    void stopProcessByMajorId(unsigned long long major_id);
     /*! Stops processes, related to object
         \param[in] o object
      */
@@ -273,6 +342,134 @@ public:
         \param[in] major_id a major id of object
     */
     void stopProcessesRelatedToAnimationWithMajorId(unsigned long long major_id);
+
+    /*! Count processes, related for passed by pointer
+        \param[in] o process
+        \return amount of processes
+     */
+    size_t countProcesses(sad::animations::Process* o);
+    /*! Count processes, related to one with name
+        \param[in] name a name of process
+        \return amount of processes
+     */
+    size_t countProcessesByName(const sad::String& name);
+    /*! Count processes, related to one with type and name
+        \param[in] type a type of process
+        \param[in] name a name of process
+        \return amount of processes
+    */
+    size_t countProcessesByTypeAndName(const sad::String& type, const sad::String& name);
+    /*! Count processes, related to one with major id
+        \param[in] major_id a major id of process
+        \return amount of processes
+    */
+    size_t countProcessesByMajorId(unsigned long long major_id);
+    /*! Count processes, related to object
+        \param[in] o process
+        \return amount of processes
+     */
+    size_t countProcessesRelatedToObject(sad::db::Object* o);
+    /*! Count processes, related to object with name
+        \param[in] name a name of process
+        \return amount of processes
+     */
+    size_t countProcessesRelatedToObjectByName(const sad::String& name);
+    /*! Count processes, related to object with type and name
+        \param[in] type a type of process
+        \param[in] name a name of process
+        \return amount of processes
+     */
+    size_t countProcessesRelatedToObjectByTypeAndName(const sad::String& type, const sad::String& name);
+    /*! Count processes, related to object with major id
+        \param[in] major_id a major id of process
+        \return amount of processes
+     */
+    size_t countProcessesRelatedToObjectByMajorId(unsigned long long major_id);
+    /*! Count processes, related to animation
+        \param[in] o process
+        \return amount of processes
+     */
+    size_t countProcessesRelatedToAnimation(sad::animations::Animation* o);
+    /*! Count processes, related to animation with name
+        \param[in] name a name of process
+        \return amount of processes
+     */
+    size_t countProcessesRelatedToAnimationByName(const sad::String& name);
+    /*! Count processes, related to animation with type and name
+        \param[in] type a type of process
+        \param[in] name a name of process
+        \return amount of processes
+     */
+    size_t countProcessesRelatedToAnimationByTypeAndName(const sad::String& type, const sad::String& name);
+    /*! Count processes, related to animation with major id
+        \param[in] major_id a major id of process
+        \return amount of processes
+     */
+    size_t countProcessesRelatedToAnimationByMajorId(unsigned long long major_id);
+
+    /*! Returns, whether there are  processes, related for passed by pointer
+        \param[in] o process
+        \return whether there are reated processes
+     */
+    bool hasProcesses(sad::animations::Process* o);
+    /*! Returns, whether there are  processes, related to one with name
+        \param[in] name a name of process
+        \return whether there are reated processes
+     */
+    bool hasProcessesByName(const sad::String& name);
+    /*! Returns, whether there are  processes, related to one with type and name
+        \param[in] type a type of process
+        \param[in] name a name of process
+        \return whether there are reated processes
+     */
+    bool hasProcessesByTypeAndName(const sad::String& type, const sad::String& name);
+    /*! Returns, whether there are  processes, related to one with major id
+        \param[in] major_id a major id of process
+        \return whether there are reated processes
+     */
+    bool hasProcessesByMajorId(unsigned long long major_id);
+    /*! Returns, whether there are  processes, related to object
+        \param[in] o process
+        \return whether there are reated processes
+     */
+    bool hasProcessesRelatedToObject(sad::db::Object* o);
+    /*! Returns, whether there are  processes, related to object with name
+        \param[in] name a name of process
+        \return whether there are reated processes
+     */
+    bool hasProcessesRelatedToObjectByName(const sad::String& name);
+    /*! Returns, whether there are  processes, related to object with type and name
+        \param[in] type a type of process
+        \param[in] name a name of process
+        \return whether there are reated processes
+     */
+    bool hasProcessesRelatedToObjectByTypeAndName(const sad::String& type, const sad::String& name);
+    /*! Returns, whether there are  processes, related to object with major id
+        \param[in] major_id a major id of process
+        \return whether there are reated processes
+     */
+    bool hasProcessesRelatedToObjectByMajorId(unsigned long long major_id);
+    /*! Returns, whether there are  processes, related to animation
+        \param[in] o process
+        \return whether there are reated processes
+     */
+    bool hasProcessesRelatedToAnimation(sad::animations::Animation* o);
+    /*! Returns, whether there are  processes, related to animation with name
+        \param[in] name a name of process
+        \return whether there are reated processes
+     */
+    bool hasProcessesRelatedToAnimationByName(const sad::String& name);
+    /*! Returns, whether there are  processes, related to animation with type and name
+        \param[in] type a type of process
+        \param[in] name a name of process
+        \return whether there are reated processes
+     */
+    bool hasProcessesRelatedToAnimationByTypeAndName(const sad::String& type, const sad::String& name);
+    /*! Returns, whether there are  processes, related to animation with major id
+        \param[in] major_id a major id of process
+        \return whether there are reated processes
+     */
+    bool hasProcessesRelatedToAnimationByMajorId(unsigned long long major_id);
 
     /*! Notifies, that process should be removed. This is inner function, DO NOT CALL IT
         \param[in] process a process
@@ -397,6 +594,18 @@ protected:
         \param[in] f function
      */
     void performOrQueue(const std::function<void()>& f);
+    /*! Querys processes
+        \param[in] f a functional object for predicate
+    */
+    sad::Vector<sad::animations::Process*> queryProcesses(const std::function<bool(sad::animations::Process*)>& f);
+    /*! Querys processes, related to matched object
+        \param[in] f a functional object for predicate
+     */
+    sad::Vector<sad::animations::Process*> queryProcessesRelatedToMatchedObject(const std::function<bool(sad::db::Object*)>& f);
+    /*! Querys processes, related to matched animation
+        \param[in] f a functional object for predicate
+    */
+    sad::Vector<sad::animations::Process*> queryProcessesRelatedToMatchedAnimation(const std::function<bool(sad::animations::Animation*)>& f);
 
     /*! A list of animations processes
      */
