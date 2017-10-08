@@ -608,6 +608,7 @@ void sad::dukpp03::Context::exposeRenderer()
 {
     sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding(); 
     c->addMethod("init", sad::dukpp03::bind_method::from(&sad::Renderer::init));
+    c->addMethod("animations", sad::dukpp03::bind_method::from(&sad::Renderer::animations));
     c->addMethod("settings", sad::dukpp03::bind_method::from(&sad::Renderer::settings));
     c->addMethod("run", sad::dukpp03::bind_method::from(&sad::Renderer::run));
     c->addMethod("quit", sad::dukpp03::bind_method::from(&sad::Renderer::quit));
@@ -673,6 +674,7 @@ void sad::dukpp03::Context::exposeRenderer()
     sad::dukpp03::ClassBinding* cext = new sad::dukpp03::ClassBinding(); 
     cext->addObjectConstructor<sad::dukpp03::Renderer>("SadRenderer");
     cext->addMethod("init", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::init));
+    cext->addMethod("animations", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::animations));
     cext->addMethod("settings", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::settings));
     cext->addMethod("run", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::run));
     cext->addMethod("quit", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::quit));
@@ -1090,7 +1092,7 @@ void sad::dukpp03::Context::exposeSprite2D()
 
     ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * msp = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
     msp->add(sad::dukpp03::bind_method::from(msp2));
-    msp->add(sad::dukpp03::bind_method::from(msp2));
+    msp->add(sad::dukpp03::bind_method::from(msp3));
     c->addMethod("makeSpanBetweenPoints", msp);
 
     c->addMethod("setChangeSizeWhenOptionsAreChanged", sad::dukpp03::bind_method::from(&sad::Sprite2D::setChangeSizeWhenOptionsAreChanged));

@@ -5,6 +5,8 @@
 #include <fuzzyequal.h>
 #include <renderer.h>
 
+#include <animations/animationsanimations.h>
+
 #include <animations/easing/easingfunction.h>
 
 #include <animations/animationsanimation.h>
@@ -123,6 +125,215 @@ static void exposeFactory(sad::dukpp03::Context* ctx)
 }
 
 
+static void exposeAnimationsObject(sad::dukpp03::Context* ctx)
+{
+    PERFORM_AND_ASSERT("SadAnimationsAnimations = function() { }; sad.animations.Animations = SadAnimationsAnimations;");
+
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addMethod("add", sad::dukpp03::bind_method::from(&sad::animations::Animations::add));
+    c->addMethod("remove", sad::dukpp03::bind_method::from(&sad::animations::Animations::remove));
+    c->addMethod("removeByName", sad::dukpp03::bind_method::from(&sad::animations::Animations::removeByName));
+    c->addMethod("removeByNameAndType", sad::dukpp03::bind_method::from(&sad::animations::Animations::removeByNameAndType));
+    c->addMethod("removeByMajorId", sad::dukpp03::bind_method::from(&sad::animations::Animations::removeByMajorId));
+    c->addMethod("clear", sad::dukpp03::bind_method::from(&sad::animations::Animations::clear));
+    c->addMethod("insertAt", sad::dukpp03::bind_method::from(&sad::animations::Animations::insertAt));
+    c->addMethod("removeAt", sad::dukpp03::bind_method::from(&sad::animations::Animations::removeAt));
+    c->addMethod("count", sad::dukpp03::bind_method::from(&sad::animations::Animations::count));
+    c->addMethod("list", sad::dukpp03::bind_method::from(&sad::animations::Animations::list));
+    c->addMethod("find", sad::dukpp03::bind_method::from(&sad::animations::Animations::find));
+    {
+        ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * overload = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
+        {
+            void (sad::animations::Animations::*f)(sad::animations::Process* before, sad::animations::Process* o) = &sad::animations::Animations::insertBefore;
+            overload->add(sad::dukpp03::bind_method::from(f));
+        }
+        {
+            void (sad::animations::Animations::*f)(const sad::String& name, sad::animations::Process* o) = &sad::animations::Animations::insertBefore;
+            overload->add(sad::dukpp03::bind_method::from(f));
+        }
+        {
+            void (sad::animations::Animations::*f)(const sad::String& type, const sad::String& name, sad::animations::Process* o) = &sad::animations::Animations::insertBefore;
+            overload->add(sad::dukpp03::bind_method::from(f));
+        }
+        {
+            void (sad::animations::Animations::*f)(unsigned long long major_id, sad::animations::Process* o) = &sad::animations::Animations::insertBefore;
+            overload->add(sad::dukpp03::bind_method::from(f));
+        }
+        c->addMethod("insertBefore", overload);
+    }
+    {
+        ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * overload = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
+        {
+            void (sad::animations::Animations::*f)(sad::db::Object* before, sad::animations::Process* o) = &sad::animations::Animations::insertBeforeInstanceWithObject;
+            overload->add(sad::dukpp03::bind_method::from(f));
+        }
+        {
+            void (sad::animations::Animations::*f)(const sad::String& name, sad::animations::Process* o) = &sad::animations::Animations::insertBeforeInstanceWithObject;
+            overload->add(sad::dukpp03::bind_method::from(f));
+        }
+        {
+            void (sad::animations::Animations::*f)(const sad::String& type, const sad::String& name, sad::animations::Process* o) = &sad::animations::Animations::insertBeforeInstanceWithObject;
+            overload->add(sad::dukpp03::bind_method::from(f));
+        }
+        {
+            void (sad::animations::Animations::*f)(unsigned long long major_id, sad::animations::Process* o) = &sad::animations::Animations::insertBeforeInstanceWithObject;
+            overload->add(sad::dukpp03::bind_method::from(f));
+        }
+        c->addMethod("insertBeforeInstanceWithObject", overload);
+    }
+    {
+        ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * overload = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
+        {
+            void (sad::animations::Animations::*f)(sad::animations::Animation* before, sad::animations::Process* o) = &sad::animations::Animations::insertBeforeInstanceWithAnimation;
+            overload->add(sad::dukpp03::bind_method::from(f));
+        }
+        {
+            void (sad::animations::Animations::*f)(const sad::String& name, sad::animations::Process* o) = &sad::animations::Animations::insertBeforeInstanceWithAnimation;
+            overload->add(sad::dukpp03::bind_method::from(f));
+        }
+        {
+            void (sad::animations::Animations::*f)(const sad::String& type, const sad::String& name, sad::animations::Process* o) = &sad::animations::Animations::insertBeforeInstanceWithAnimation;
+            overload->add(sad::dukpp03::bind_method::from(f));
+        }
+        {
+            void (sad::animations::Animations::*f)(unsigned long long major_id, sad::animations::Process* o) = &sad::animations::Animations::insertBeforeInstanceWithAnimation;
+            overload->add(sad::dukpp03::bind_method::from(f));
+        }
+        c->addMethod("insertBeforeInstanceWithAnimation", overload);
+    }
+    {
+        ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * overload = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
+        {
+            void (sad::animations::Animations::*f)(sad::animations::Process* after, sad::animations::Process* o) = &sad::animations::Animations::insertAfter;
+            overload->add(sad::dukpp03::bind_method::from(f));
+        }
+        {
+            void (sad::animations::Animations::*f)(const sad::String& name, sad::animations::Process* o) = &sad::animations::Animations::insertAfter;
+            overload->add(sad::dukpp03::bind_method::from(f));
+        }
+        {
+            void (sad::animations::Animations::*f)(const sad::String& type, const sad::String& name, sad::animations::Process* o) = &sad::animations::Animations::insertAfter;
+            overload->add(sad::dukpp03::bind_method::from(f));
+        }
+        {
+            void (sad::animations::Animations::*f)(unsigned long long major_id, sad::animations::Process* o) = &sad::animations::Animations::insertAfter;
+            overload->add(sad::dukpp03::bind_method::from(f));
+        }
+        c->addMethod("insertAfter", overload);
+    }
+    {
+        ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * overload = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
+        {
+            void (sad::animations::Animations::*f)(sad::db::Object* after, sad::animations::Process* o) = &sad::animations::Animations::insertAfterInstanceWithObject;
+            overload->add(sad::dukpp03::bind_method::from(f));
+        }
+        {
+            void (sad::animations::Animations::*f)(const sad::String& name, sad::animations::Process* o) = &sad::animations::Animations::insertAfterInstanceWithObject;
+            overload->add(sad::dukpp03::bind_method::from(f));
+        }
+        {
+            void (sad::animations::Animations::*f)(const sad::String& type, const sad::String& name, sad::animations::Process* o) = &sad::animations::Animations::insertAfterInstanceWithObject;
+            overload->add(sad::dukpp03::bind_method::from(f));
+        }
+        {
+            void (sad::animations::Animations::*f)(unsigned long long major_id, sad::animations::Process* o) = &sad::animations::Animations::insertAfterInstanceWithObject;
+            overload->add(sad::dukpp03::bind_method::from(f));
+        }
+        c->addMethod("insertAfterInstanceWithObject", overload);
+    }
+    {
+        ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * overload = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
+        {
+            void (sad::animations::Animations::*f)(sad::animations::Animation* after, sad::animations::Process* o) = &sad::animations::Animations::insertAfterInstanceWithAnimation;
+            overload->add(sad::dukpp03::bind_method::from(f));
+        }
+        {
+            void (sad::animations::Animations::*f)(const sad::String& name, sad::animations::Process* o) = &sad::animations::Animations::insertAfterInstanceWithAnimation;
+            overload->add(sad::dukpp03::bind_method::from(f));
+        }
+        {
+            void (sad::animations::Animations::*f)(const sad::String& type, const sad::String& name, sad::animations::Process* o) = &sad::animations::Animations::insertAfterInstanceWithAnimation;
+            overload->add(sad::dukpp03::bind_method::from(f));
+        }
+        {
+            void (sad::animations::Animations::*f)(unsigned long long major_id, sad::animations::Process* o) = &sad::animations::Animations::insertAfterInstanceWithAnimation;
+            overload->add(sad::dukpp03::bind_method::from(f));
+        }
+        c->addMethod("insertAfterInstanceWithAnimation", overload);
+    }
+    {
+        ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * overload = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
+        {
+            void (sad::animations::Animations::*f)(sad::animations::Process* first, sad::animations::Process* second) = &sad::animations::Animations::swap;
+            overload->add(sad::dukpp03::bind_method::from(f));
+        }
+        {
+            void (sad::animations::Animations::*f)(const sad::String& name1, const sad::String name2) = &sad::animations::Animations::swap;
+            overload->add(sad::dukpp03::bind_method::from(f));
+        }
+        {
+            void (sad::animations::Animations::*f)(const sad::String& type1, const sad::String& name1, const sad::String& type2, const sad::String name2) = &sad::animations::Animations::swap;
+            overload->add(sad::dukpp03::bind_method::from(f));
+        }
+        {
+            void (sad::animations::Animations::*f)(unsigned long long major_id1, unsigned long long major_id2) = &sad::animations::Animations::swap;
+            overload->add(sad::dukpp03::bind_method::from(f));
+        }
+        c->addMethod("swap", overload);
+    }
+    c->addMethod("queryProcessesByName", sad::dukpp03::bind_method::from(&sad::animations::Animations::queryProcessesByName));
+    c->addMethod("queryProcessesByTypeAndName", sad::dukpp03::bind_method::from(&sad::animations::Animations::queryProcessesByTypeAndName));
+    c->addMethod("queryProcessesByMajorId", sad::dukpp03::bind_method::from(&sad::animations::Animations::queryProcessesByMajorId));
+    c->addMethod("queryProcessesRelatedToObject", sad::dukpp03::bind_method::from(&sad::animations::Animations::queryProcessesRelatedToObject));
+    c->addMethod("queryProcessesRelatedToObjectByName", sad::dukpp03::bind_method::from(&sad::animations::Animations::queryProcessesRelatedToObjectByName));
+    c->addMethod("queryProcessesRelatedToObjectByTypeAndName", sad::dukpp03::bind_method::from(&sad::animations::Animations::queryProcessesRelatedToObjectByTypeAndName));
+    c->addMethod("queryProcessesRelatedToObjectByMajorId", sad::dukpp03::bind_method::from(&sad::animations::Animations::queryProcessesRelatedToObjectByMajorId));
+    c->addMethod("queryProcessesRelatedToAnimation", sad::dukpp03::bind_method::from(&sad::animations::Animations::queryProcessesRelatedToAnimation));
+    c->addMethod("queryProcessesRelatedToAnimationByName", sad::dukpp03::bind_method::from(&sad::animations::Animations::queryProcessesRelatedToAnimationByName));
+    c->addMethod("queryProcessesRelatedToAnimationByTypeAndName", sad::dukpp03::bind_method::from(&sad::animations::Animations::queryProcessesRelatedToAnimationByTypeAndName));
+    c->addMethod("queryProcessesRelatedToAnimationByMajorId", sad::dukpp03::bind_method::from(&sad::animations::Animations::queryProcessesRelatedToAnimationByMajorId));
+    c->addMethod("stopProcess", sad::dukpp03::bind_method::from(&sad::animations::Animations::stopProcess));
+    c->addMethod("stopProcessByName", sad::dukpp03::bind_method::from(&sad::animations::Animations::stopProcessByName));
+    c->addMethod("stopProcessByTypeAndName", sad::dukpp03::bind_method::from(&sad::animations::Animations::stopProcessByTypeAndName));
+    c->addMethod("stopProcessByMajorId", sad::dukpp03::bind_method::from(&sad::animations::Animations::stopProcessByMajorId));
+    c->addMethod("stopProcessesRelatedToObject", sad::dukpp03::bind_method::from(&sad::animations::Animations::stopProcessesRelatedToObject));
+    c->addMethod("stopProcessesRelatedToObjectWithName", sad::dukpp03::bind_method::from(&sad::animations::Animations::stopProcessesRelatedToObjectWithName));
+    c->addMethod("stopProcessesRelatedToObjectWithTypeAndName", sad::dukpp03::bind_method::from(&sad::animations::Animations::stopProcessesRelatedToObjectWithTypeAndName));
+    c->addMethod("stopProcessesRelatedToObjectWithMajorId", sad::dukpp03::bind_method::from(&sad::animations::Animations::stopProcessesRelatedToObjectWithMajorId));
+    c->addMethod("stopProcessesRelatedToAnimation", sad::dukpp03::bind_method::from(&sad::animations::Animations::stopProcessesRelatedToAnimation));
+    c->addMethod("stopProcessesRelatedToAnimationWithName", sad::dukpp03::bind_method::from(&sad::animations::Animations::stopProcessesRelatedToAnimationWithName));
+    c->addMethod("stopProcessesRelatedToAnimationWithTypeAndName", sad::dukpp03::bind_method::from(&sad::animations::Animations::stopProcessesRelatedToAnimationWithTypeAndName));
+    c->addMethod("stopProcessesRelatedToAnimationWithMajorId", sad::dukpp03::bind_method::from(&sad::animations::Animations::stopProcessesRelatedToAnimationWithMajorId));
+    c->addMethod("countProcesses", sad::dukpp03::bind_method::from(&sad::animations::Animations::countProcesses));
+    c->addMethod("countProcessesByName", sad::dukpp03::bind_method::from(&sad::animations::Animations::countProcessesByName));
+    c->addMethod("countProcessesByTypeAndName", sad::dukpp03::bind_method::from(&sad::animations::Animations::countProcessesByTypeAndName));
+    c->addMethod("countProcessesByMajorId", sad::dukpp03::bind_method::from(&sad::animations::Animations::countProcessesByMajorId));
+    c->addMethod("countProcessesRelatedToObject", sad::dukpp03::bind_method::from(&sad::animations::Animations::countProcessesRelatedToObject));
+    c->addMethod("countProcessesRelatedToObjectByName", sad::dukpp03::bind_method::from(&sad::animations::Animations::countProcessesRelatedToObjectByName));
+    c->addMethod("countProcessesRelatedToObjectByTypeAndName", sad::dukpp03::bind_method::from(&sad::animations::Animations::countProcessesRelatedToObjectByTypeAndName));
+    c->addMethod("countProcessesRelatedToObjectByMajorId", sad::dukpp03::bind_method::from(&sad::animations::Animations::countProcessesRelatedToObjectByMajorId));
+    c->addMethod("countProcessesRelatedToAnimation", sad::dukpp03::bind_method::from(&sad::animations::Animations::countProcessesRelatedToAnimation));
+    c->addMethod("countProcessesRelatedToAnimationByName", sad::dukpp03::bind_method::from(&sad::animations::Animations::countProcessesRelatedToAnimationByName));
+    c->addMethod("countProcessesRelatedToAnimationByTypeAndName", sad::dukpp03::bind_method::from(&sad::animations::Animations::countProcessesRelatedToAnimationByTypeAndName));
+    c->addMethod("countProcessesRelatedToAnimationByMajorId", sad::dukpp03::bind_method::from(&sad::animations::Animations::countProcessesRelatedToAnimationByMajorId));
+    c->addMethod("hasProcesses", sad::dukpp03::bind_method::from(&sad::animations::Animations::hasProcesses));
+    c->addMethod("hasProcessesByName", sad::dukpp03::bind_method::from(&sad::animations::Animations::hasProcessesByName));
+    c->addMethod("hasProcessesByTypeAndName", sad::dukpp03::bind_method::from(&sad::animations::Animations::hasProcessesByTypeAndName));
+    c->addMethod("hasProcessesByMajorId", sad::dukpp03::bind_method::from(&sad::animations::Animations::hasProcessesByMajorId));
+    c->addMethod("hasProcessesRelatedToObject", sad::dukpp03::bind_method::from(&sad::animations::Animations::hasProcessesRelatedToObject));
+    c->addMethod("hasProcessesRelatedToObjectByName", sad::dukpp03::bind_method::from(&sad::animations::Animations::hasProcessesRelatedToObjectByName));
+    c->addMethod("hasProcessesRelatedToObjectByTypeAndName", sad::dukpp03::bind_method::from(&sad::animations::Animations::hasProcessesRelatedToObjectByTypeAndName));
+    c->addMethod("hasProcessesRelatedToObjectByMajorId", sad::dukpp03::bind_method::from(&sad::animations::Animations::hasProcessesRelatedToObjectByMajorId));
+    c->addMethod("hasProcessesRelatedToAnimation", sad::dukpp03::bind_method::from(&sad::animations::Animations::hasProcessesRelatedToAnimation));
+    c->addMethod("hasProcessesRelatedToAnimationByName", sad::dukpp03::bind_method::from(&sad::animations::Animations::hasProcessesRelatedToAnimationByName));
+    c->addMethod("hasProcessesRelatedToAnimationByTypeAndName", sad::dukpp03::bind_method::from(&sad::animations::Animations::hasProcessesRelatedToAnimationByTypeAndName));
+    c->addMethod("hasProcessesRelatedToAnimationByMajorId", sad::dukpp03::bind_method::from(&sad::animations::Animations::hasProcessesRelatedToAnimationByMajorId));
+    c->setPrototypeFunction("SadAnimationsAnimations");
+
+    ctx->addClassBinding("sad::animations::Animations", c);
+}
+
+
 void sad::dukpp03::exposeAnimations(sad::dukpp03::Context* ctx)
 {
     exposeEasingFunction(ctx);
@@ -130,4 +341,6 @@ void sad::dukpp03::exposeAnimations(sad::dukpp03::Context* ctx)
     exposeSimpleMovement(ctx);
     exposeBlinking(ctx);
     exposeFactory(ctx);
+
+    exposeAnimationsObject(ctx);
 }
