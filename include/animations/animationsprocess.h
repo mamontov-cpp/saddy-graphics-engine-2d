@@ -5,7 +5,9 @@
  */ 
 #pragma once
 #include <functional>
+#include "../mrobject.h"
 #include "../object.h"
+
 namespace sad
 {
 
@@ -22,7 +24,7 @@ class Instance;
 class Group;
 /*! A process for animations as element of animations pipeline
  */
-class Process: public sad::Object
+class Process: public sad::Object, public sad::MRObject
 {
 public:
     SAD_OBJECT
