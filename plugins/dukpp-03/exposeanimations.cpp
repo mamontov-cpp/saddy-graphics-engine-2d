@@ -1,6 +1,8 @@
 #include "dukpp-03/context.h"
 #include "dukpp-03/renderer.h"
 
+#include <db/dbtable.h>
+
 #include <geometry2d.h>
 #include <fuzzyequal.h>
 #include <renderer.h>
@@ -20,7 +22,9 @@
 #include <animations/animationsoptionlist.h>
 #include <animations/animationsresize.h>
 #include <animations/animationsrotate.h>
-
+#include <animations/animationscomposite.h>
+#include <animations/animationsparallel.h>
+#include <animations/animationssequential.h>
 
 #include <animations/animationsfactory.h>
 
@@ -485,6 +489,59 @@ static void exposeFontSize(sad::dukpp03::Context* ctx)
 }
 
 
+static void exposeComposite(sad::dukpp03::Context* ctx)
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addMethod("setTable", sad::dukpp03::bind_method::from(&sad::animations::Composite::setTable));
+    void (sad::animations::Composite::*_add1)(unsigned long long majorid) = &sad::animations::Composite::add;
+    void (sad::animations::Composite::*_add2)(sad::animations::Animation* o) = &sad::animations::Composite::add;
+    c->addMethod("add", sad::dukpp03::bind_method::from(_add1));
+    c->addMethod("add", sad::dukpp03::bind_method::from(_add2));
+    void (sad::animations::Composite::*_insert1)(unsigned long long majorid, int pos) = &sad::animations::Composite::insert;
+    void (sad::animations::Composite::*_insert2)(sad::animations::Animation* o, int pos) = &sad::animations::Composite::insert;
+    c->addMethod("insert", sad::dukpp03::bind_method::from(_insert1));
+    c->addMethod("insert", sad::dukpp03::bind_method::from(_insert2));
+    
+    c->addMethod("swap", sad::dukpp03::bind_method::from(&sad::animations::Composite::swap));
+    c->addMethod("remove", sad::dukpp03::bind_method::from(&sad::animations::Composite::remove));
+    c->addMethod("animation", sad::dukpp03::bind_method::from(&sad::animations::Composite::animation));
+    c->addMethod("size", sad::dukpp03::bind_method::from(&sad::animations::Composite::size));
+    c->addMethod("clear", sad::dukpp03::bind_method::from(&sad::animations::Composite::clear));
+    c->addMethod("setAnimationsNames", sad::dukpp03::bind_method::from(&sad::animations::Composite::setAnimationsNames));
+    c->addMethod("animationNames", sad::dukpp03::bind_method::from(&sad::animations::Composite::animationNames));
+    c->addMethod("setAnimationsMajorId", sad::dukpp03::bind_method::from(&sad::animations::Composite::setAnimationsMajorId));
+    c->addMethod("animationMajorIds", sad::dukpp03::bind_method::from(&sad::animations::Composite::animationMajorIds));
+    c->addParentBinding(ctx->getClassBinding("sad::animations::Animation"));
+
+    ctx->addClassBinding("sad::animations::Composite", c);
+}
+
+static void exposeParallel(sad::dukpp03::Context* ctx)
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addObjectConstructor<sad::animations::Parallel>("SadAnimationsParallel");
+    c->addCloneObjectMethodFor<sad::animations::Parallel>();
+    c->setPrototypeFunction("SadAnimationsParallel");
+    c->addParentBinding(ctx->getClassBinding("sad::animations::Composite"));
+
+    ctx->addClassBinding("sad::animations::Parallel", c);
+
+    PERFORM_AND_ASSERT("sad.animations.Parallel = SadAnimationsParallel;");
+}
+
+static void exposeSequential(sad::dukpp03::Context* ctx)
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addObjectConstructor<sad::animations::Sequential>("SadAnimationsSequential");
+    c->addCloneObjectMethodFor<sad::animations::Sequential>();
+    c->setPrototypeFunction("SadAnimationsSequential");
+    c->addParentBinding(ctx->getClassBinding("sad::animations::Composite"));
+
+    ctx->addClassBinding("sad::animations::Sequential", c);
+
+    PERFORM_AND_ASSERT("sad.animations.Sequential = SadAnimationsSequential;");
+}
+
 
 void sad::dukpp03::exposeAnimations(sad::dukpp03::Context* ctx)
 {
@@ -501,6 +558,9 @@ void sad::dukpp03::exposeAnimations(sad::dukpp03::Context* ctx)
     exposeFactory(ctx);
     exposeResize(ctx);
     exposeRotate(ctx);
+    exposeComposite(ctx);
+    exposeParallel(ctx);
+    exposeSequential(ctx);
 
     exposeAnimationsObject(ctx);
 }

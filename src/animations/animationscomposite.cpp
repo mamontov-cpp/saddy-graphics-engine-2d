@@ -247,6 +247,24 @@ void sad::animations::Composite::insert(unsigned long long majorid, int pos)
     this->updateValidFlag();
 }
 
+void sad::animations::Composite::insert(sad::animations::Animation* o, int pos)
+{
+    sad::TreeDbLink<sad::animations::Animation>* link = new sad::TreeDbLink<sad::animations::Animation>();
+    link->setParent(this);
+    if (m_database.exists())
+    {
+        link->setDatabase(m_database.value());
+    }
+    if (m_tree.exists())
+    {
+        link->setTree(m_tree.value());
+    }
+    link->setObject(o);
+    m_links.insert(link, pos);
+    m_inner_valid = m_links.size() != 0;
+    this->updateValidFlag();
+}
+
 void sad::animations::Composite::swap(int pos1, int pos2)
 {
     if (pos1 >=0 

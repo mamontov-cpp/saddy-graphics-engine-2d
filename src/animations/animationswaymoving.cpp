@@ -87,7 +87,7 @@ sad::db::schema::Schema* sad::animations::WayMoving::schema() const
 void sad::animations::WayMoving::setTable(sad::db::Table * table)
 {
     this->sad::db::Object::setTable(table);
-    m_way.setDatabase(table->database());	
+    m_way.setDatabase(table->database());
 }
 
 
