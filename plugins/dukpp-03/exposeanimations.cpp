@@ -12,6 +12,7 @@
 #include <animations/animationsanimation.h>
 #include <animations/animationssimplemovement.h>
 #include <animations/animationsblinking.h>
+#include <animations/animationstyping.h>
 
 #include <animations/animationsfactory.h>
 
@@ -334,12 +335,28 @@ static void exposeAnimationsObject(sad::dukpp03::Context* ctx)
 }
 
 
+
+static void exposeTyping(sad::dukpp03::Context* ctx)
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addObjectConstructor<sad::animations::Typing>("SadAnimationsTyping");
+    c->addCloneObjectMethodFor<sad::animations::Typing>();
+    c->setPrototypeFunction("SadAnimationsTyping");
+    c->addParentBinding(ctx->getClassBinding("sad::animations::Animation"));
+
+    ctx->addClassBinding("sad::animations::Typing", c);
+
+    PERFORM_AND_ASSERT("sad.animations.Typing = SadAnimationsTyping;");
+}
+
+
 void sad::dukpp03::exposeAnimations(sad::dukpp03::Context* ctx)
 {
     exposeEasingFunction(ctx);
     exposeAnimation(ctx);
     exposeSimpleMovement(ctx);
     exposeBlinking(ctx);
+    exposeTyping(ctx);
     exposeFactory(ctx);
 
     exposeAnimationsObject(ctx);
