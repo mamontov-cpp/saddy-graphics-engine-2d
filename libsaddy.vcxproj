@@ -378,6 +378,7 @@
     <ClInclude Include="include\classmetadatacontainer.h" />
     <ClInclude Include="include\closure.h" />
     <ClInclude Include="include\collection.h" />
+    <ClInclude Include="include\db\dbstronglink.h" />
     <ClInclude Include="include\db\dbtypedlink.h" />
     <ClInclude Include="include\equalto.h" />
     <ClInclude Include="include\font.h" />
@@ -404,6 +405,7 @@
     <ClInclude Include="include\matrix3x3.h" />
     <ClInclude Include="include\maybe.h" />
     <ClInclude Include="include\mousecursor.h" />
+    <ClInclude Include="include\mrobject.h" />
     <ClInclude Include="include\object.h" />
     <ClInclude Include="include\objectdependentfpsinterpolation.h" />
     <ClInclude Include="include\opengl.h" />

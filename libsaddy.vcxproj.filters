@@ -1652,5 +1652,11 @@
     <ClInclude Include="include\pipeline\pipelinedelayedtask.h">
       <Filter>Заголовочные файлы\pipeline</Filter>
     </ClInclude>
+    <ClInclude Include="include\mrobject.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\db\dbstronglink.h">
+      <Filter>Заголовочные файлы\db</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

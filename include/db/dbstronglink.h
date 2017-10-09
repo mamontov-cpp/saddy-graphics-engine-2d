@@ -80,7 +80,7 @@ public:
         m_changed = true;
     }
     /*! Makes link fetch object by it's major id
-        \param[in] minor_id a specified major id, which object must have
+        \param[in] major_id a specified major id, which object must have
      */
     void setMajorId(unsigned long long major_id)
     {
