@@ -12,6 +12,8 @@
 #include <animations/animationsanimation.h>
 #include <animations/animationssimplemovement.h>
 #include <animations/animationsblinking.h>
+#include <animations/animationstexturecoordinatescontinuous.h>
+#include <animations/animationstexturecoordinateslist.h>
 #include <animations/animationstyping.h>
 
 #include <animations/animationsfactory.h>
@@ -335,6 +337,43 @@ static void exposeAnimationsObject(sad::dukpp03::Context* ctx)
 }
 
 
+static void exposeTextureCoordinatesContinuous(sad::dukpp03::Context* ctx)
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addObjectConstructor<sad::animations::TextureCoordinatesContinuous>("SadAnimationsTextureCoordinatesContinuous");
+    c->addCloneObjectMethodFor<sad::animations::TextureCoordinatesContinuous>();
+    c->addMethod("setStartRect", sad::dukpp03::bind_method::from(&sad::animations::TextureCoordinatesContinuous::setStartRect));
+    c->addMethod("startRect", sad::dukpp03::bind_method::from(&sad::animations::TextureCoordinatesContinuous::startRect));
+    c->addMethod("setEndRect", sad::dukpp03::bind_method::from(&sad::animations::TextureCoordinatesContinuous::setEndRect));
+    c->addMethod("endRect", sad::dukpp03::bind_method::from(&sad::animations::TextureCoordinatesContinuous::endRect));
+    c->setPrototypeFunction("SadAnimationsTextureCoordinatesContinuous");
+    c->addParentBinding(ctx->getClassBinding("sad::animations::Animation"));
+
+    ctx->addClassBinding("sad::animations::TextureCoordinatesContinuous", c);
+
+    PERFORM_AND_ASSERT("sad.animations.TextureCoordinatesContinuous = SadAnimationsTextureCoordinatesContinuous;");
+}
+
+
+static void exposeTextureCoordinatesList(sad::dukpp03::Context* ctx)
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addObjectConstructor<sad::animations::TextureCoordinatesList>("SadAnimationsTextureCoordinatesList");
+    c->addCloneObjectMethodFor<sad::animations::TextureCoordinatesList>();
+    c->addMethod("setList", sad::dukpp03::bind_method::from(&sad::animations::TextureCoordinatesList::setList));
+    c->addMethod("list", sad::dukpp03::bind_method::from(&sad::animations::TextureCoordinatesList::list));
+    c->addMethod("setTreeName", sad::dukpp03::bind_method::from(&sad::animations::TextureCoordinatesList::setTreeName));    
+    std::function<void(sad::animations::TextureCoordinatesList*, sad::dukpp03::Renderer*, const sad::String&)> lambda = [](sad::animations::TextureCoordinatesList* a, sad::dukpp03::Renderer* r, const sad::String& s) {
+            a->setTreeName(r, s);
+    };
+    c->addMethod("setTreeName", sad::dukpp03::bind_lambda::from(lambda));
+    c->setPrototypeFunction("SadAnimationsTextureCoordinatesList");
+    c->addParentBinding(ctx->getClassBinding("sad::animations::Animation"));
+
+    ctx->addClassBinding("sad::animations::TextureCoordinatesList", c);
+
+    PERFORM_AND_ASSERT("sad.animations.TextureCoordinatesList = SadAnimationsTextureCoordinatesList;");
+}
 
 static void exposeTyping(sad::dukpp03::Context* ctx)
 {
@@ -357,6 +396,8 @@ void sad::dukpp03::exposeAnimations(sad::dukpp03::Context* ctx)
     exposeSimpleMovement(ctx);
     exposeBlinking(ctx);
     exposeTyping(ctx);
+    exposeTextureCoordinatesList(ctx);
+    exposeTextureCoordinatesContinuous(ctx);
     exposeFactory(ctx);
 
     exposeAnimationsObject(ctx);
