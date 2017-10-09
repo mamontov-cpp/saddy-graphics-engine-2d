@@ -15,6 +15,12 @@
 #include <animations/animationstexturecoordinatescontinuous.h>
 #include <animations/animationstexturecoordinateslist.h>
 #include <animations/animationstyping.h>
+#include <animations/animationsfontlist.h>
+#include <animations/animationsfontsize.h>
+#include <animations/animationsoptionlist.h>
+#include <animations/animationsresize.h>
+#include <animations/animationsrotate.h>
+
 
 #include <animations/animationsfactory.h>
 
@@ -375,6 +381,37 @@ static void exposeTextureCoordinatesList(sad::dukpp03::Context* ctx)
     PERFORM_AND_ASSERT("sad.animations.TextureCoordinatesList = SadAnimationsTextureCoordinatesList;");
 }
 
+static void exposeFontList(sad::dukpp03::Context* ctx)
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addObjectConstructor<sad::animations::FontList>("SadAnimationsFontList");
+    c->addCloneObjectMethodFor<sad::animations::FontList>();
+    c->addMethod("setFonts", sad::dukpp03::bind_method::from(&sad::animations::FontList::setFonts));
+    c->addMethod("fonts", sad::dukpp03::bind_method::from(&sad::animations::FontList::fonts));
+    c->setPrototypeFunction("SadAnimationsFontList");
+    c->addParentBinding(ctx->getClassBinding("sad::animations::Animation"));
+
+    ctx->addClassBinding("sad::animations::FontList", c);
+
+    PERFORM_AND_ASSERT("sad.animations.FontList = SadAnimationsFontList;");
+}
+
+
+static void exposeOptionList(sad::dukpp03::Context* ctx)
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addObjectConstructor<sad::animations::OptionList>("SadAnimationsOptionList");
+    c->addCloneObjectMethodFor<sad::animations::OptionList>();
+    c->addMethod("setList", sad::dukpp03::bind_method::from(&sad::animations::OptionList::setList));
+    c->addMethod("list", sad::dukpp03::bind_method::from(&sad::animations::OptionList::list));
+    c->setPrototypeFunction("SadAnimationsOptionList");
+    c->addParentBinding(ctx->getClassBinding("sad::animations::Animation"));
+
+    ctx->addClassBinding("sad::animations::OptionList", c);
+
+    PERFORM_AND_ASSERT("sad.animations.OptionList = SadAnimationsOptionList;");
+}
+
 static void exposeTyping(sad::dukpp03::Context* ctx)
 {
     sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
@@ -388,6 +425,66 @@ static void exposeTyping(sad::dukpp03::Context* ctx)
     PERFORM_AND_ASSERT("sad.animations.Typing = SadAnimationsTyping;");
 }
 
+static void exposeResize(sad::dukpp03::Context* ctx)
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addObjectConstructor<sad::animations::Resize>("SadAnimationsResize");
+    c->addCloneObjectMethodFor<sad::animations::Resize>();
+    void (sad::animations::Resize::*f1)(const sad::Point2D& v) = &sad::animations::Resize::setStartSize;
+    void (sad::animations::Resize::*f2)(const sad::Size2D& v) = &sad::animations::Resize::setStartSize;
+    c->addMethod("setStartSize", sad::dukpp03::bind_method::from(f1));
+    c->addMethod("setStartSize", sad::dukpp03::bind_method::from(f2));
+    f1 = &sad::animations::Resize::setEndSize;
+    f2 = &sad::animations::Resize::setEndSize;
+    c->addMethod("setEndSize", sad::dukpp03::bind_method::from(f1));
+    c->addMethod("setEndSize", sad::dukpp03::bind_method::from(f2));
+
+    c->addMethod("startSize", sad::dukpp03::bind_method::from(&sad::animations::Resize::startSize));
+    c->addMethod("endSize", sad::dukpp03::bind_method::from(&sad::animations::Resize::endSize));
+
+    c->setPrototypeFunction("SadAnimationsResize");
+    c->addParentBinding(ctx->getClassBinding("sad::animations::Animation"));
+
+    ctx->addClassBinding("sad::animations::Resize", c);
+
+    PERFORM_AND_ASSERT("sad.animations.Resize = SadAnimationsResize;");
+}
+
+static void exposeRotate(sad::dukpp03::Context* ctx)
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addObjectConstructor<sad::animations::Rotate>("SadAnimationsRotate");
+    c->addCloneObjectMethodFor<sad::animations::Rotate>();
+    c->addMethod("setMinAngle", sad::dukpp03::bind_method::from(&sad::animations::Rotate::setMinAngle));
+    c->addMethod("minAngle", sad::dukpp03::bind_method::from(&sad::animations::Rotate::minAngle));
+    c->addMethod("setMaxAngle", sad::dukpp03::bind_method::from(&sad::animations::Rotate::setMaxAngle));
+    c->addMethod("maxAngle", sad::dukpp03::bind_method::from(&sad::animations::Rotate::maxAngle));
+    c->setPrototypeFunction("SadAnimationsRotate");
+    c->addParentBinding(ctx->getClassBinding("sad::animations::Animation"));
+
+    ctx->addClassBinding("sad::animations::Rotate", c);
+
+    PERFORM_AND_ASSERT("sad.animations.Rotate = SadAnimationsRotate;");
+}
+
+static void exposeFontSize(sad::dukpp03::Context* ctx)
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addObjectConstructor<sad::animations::FontSize>("SadAnimationsFontSize");
+    c->addCloneObjectMethodFor<sad::animations::FontSize>();
+    c->addMethod("setMinSize", sad::dukpp03::bind_method::from(&sad::animations::FontSize::setMinSize));
+    c->addMethod("minSize", sad::dukpp03::bind_method::from(&sad::animations::FontSize::minSize));
+    c->addMethod("setMaxSize", sad::dukpp03::bind_method::from(&sad::animations::FontSize::setMaxSize));
+    c->addMethod("maxSize", sad::dukpp03::bind_method::from(&sad::animations::FontSize::maxSize));
+    c->setPrototypeFunction("SadAnimationsFontSize");
+    c->addParentBinding(ctx->getClassBinding("sad::animations::Animation"));
+
+    ctx->addClassBinding("sad::animations::FontSize", c);
+
+    PERFORM_AND_ASSERT("sad.animations.FontSize = SadAnimationsFontSize;");
+}
+
+
 
 void sad::dukpp03::exposeAnimations(sad::dukpp03::Context* ctx)
 {
@@ -395,10 +492,15 @@ void sad::dukpp03::exposeAnimations(sad::dukpp03::Context* ctx)
     exposeAnimation(ctx);
     exposeSimpleMovement(ctx);
     exposeBlinking(ctx);
+    exposeFontList(ctx);
+    exposeFontSize(ctx);
+    exposeOptionList(ctx);
     exposeTyping(ctx);
     exposeTextureCoordinatesList(ctx);
     exposeTextureCoordinatesContinuous(ctx);
     exposeFactory(ctx);
+    exposeResize(ctx);
+    exposeRotate(ctx);
 
     exposeAnimationsObject(ctx);
 }
