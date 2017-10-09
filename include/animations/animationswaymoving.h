@@ -8,7 +8,7 @@
 
 #include "../p2d/app/way.h"
 
-#include "../db/dblink.h"
+#include "../db/dbstronglink.h"
 
 
 namespace sad
@@ -51,10 +51,9 @@ public:
      */ 
     void setWay(sad::p2d::app::Way * way);
     /*! Returns way
-        \param[in] check  whether we should type-check wat
         \return way
      */
-    sad::p2d::app::Way* way(bool check = true) const;
+    sad::p2d::app::Way* way() const;
     /*! Sets way object id
         \param[in] id
      */
@@ -79,9 +78,9 @@ public:
      */
     virtual bool applicableTo(sad::db::Object* o);
 protected:
-    /*! Fetches a link for animation
+    /*! A link for a way
      */
-    sad::db::Link m_way;
+    sad::db::StrongLink<sad::p2d::app::Way> m_way;
 };
 
 }

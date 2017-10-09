@@ -25,6 +25,7 @@
 #include <animations/animationscomposite.h>
 #include <animations/animationsparallel.h>
 #include <animations/animationssequential.h>
+#include <animations/animationswaymoving.h>
 
 #include <animations/animationsfactory.h>
 
@@ -542,6 +543,23 @@ static void exposeSequential(sad::dukpp03::Context* ctx)
     PERFORM_AND_ASSERT("sad.animations.Sequential = SadAnimationsSequential;");
 }
 
+static void exposeWayMoving(sad::dukpp03::Context* ctx)
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addObjectConstructor<sad::animations::WayMoving>("SadAnimationsWayMoving");
+    c->addCloneObjectMethodFor<sad::animations::WayMoving>();
+    c->addMethod("setTable", sad::dukpp03::bind_method::from(&sad::animations::WayMoving::setTable));
+    c->addMethod("setWay", sad::dukpp03::bind_method::from(&sad::animations::WayMoving::setWay));
+    c->addMethod("way", sad::dukpp03::bind_method::from(&sad::animations::WayMoving::way));
+    c->addMethod("setWayObjectId", sad::dukpp03::bind_method::from(&sad::animations::WayMoving::setWayObjectId));
+    c->addMethod("wayObjectId", sad::dukpp03::bind_method::from(&sad::animations::WayMoving::wayObjectId));
+    c->setPrototypeFunction("SadAnimationsWayMoving");
+    c->addParentBinding(ctx->getClassBinding("sad::animations::Animation"));
+
+    ctx->addClassBinding("sad::animations::WayMoving", c);
+
+    PERFORM_AND_ASSERT("sad.animations.WayMoving = SadAnimationsWayMoving;");
+}
 
 void sad::dukpp03::exposeAnimations(sad::dukpp03::Context* ctx)
 {
@@ -561,6 +579,7 @@ void sad::dukpp03::exposeAnimations(sad::dukpp03::Context* ctx)
     exposeComposite(ctx);
     exposeParallel(ctx);
     exposeSequential(ctx);
+    exposeWayMoving(ctx);
 
     exposeAnimationsObject(ctx);
 }
