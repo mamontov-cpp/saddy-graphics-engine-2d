@@ -26,6 +26,7 @@
 #include <animations/animationsparallel.h>
 #include <animations/animationssequential.h>
 #include <animations/animationswaymoving.h>
+#include <animations/animationsprocess.h>
 
 #include <animations/animationsfactory.h>
 
@@ -561,6 +562,136 @@ static void exposeWayMoving(sad::dukpp03::Context* ctx)
     PERFORM_AND_ASSERT("sad.animations.WayMoving = SadAnimationsWayMoving;");
 }
 
+template< 
+    typename _Object
+>
+static void __addMethodsToProcess(
+    sad::dukpp03::ClassBinding* c, 
+    const sad::String& nameForQuery,
+    const sad::String& nameForStop,
+    bool (sad::animations::Process::*query)(const std::function<bool(_Object)>& f),
+    void (sad::animations::Process::*stop)(const std::function<bool(_Object)>& f, sad::animations::Animations* a)
+)
+{
+    {
+        std::function<bool(sad::animations::Process*, _Object)> lambda1 = [query](sad::animations::Process* p, _Object o) {
+            return (p->*query)([o](_Object obj)  -> bool {
+                return obj == o;
+            });
+        };
+        c->addMethod(nameForQuery, sad::dukpp03::bind_lambda::from(lambda1));
+        std::function<bool(sad::animations::Process*, const sad::String&)> lambda2 = [query](sad::animations::Process* p, const sad::String& name) {
+            return (p->*query)([name](_Object obj)  -> bool {
+                if (obj)
+                {
+                    return obj->objectName() == name;
+                }
+                return false;
+            });
+        };
+        c->addMethod(nameForQuery, sad::dukpp03::bind_lambda::from(lambda2));
+        std::function<bool(sad::animations::Process*, const sad::String&, const sad::String&)> lambda3 = [query](sad::animations::Process* p, const sad::String& type, const sad::String& name) {
+            return (p->*query)([type, name](_Object obj)  -> bool {
+                if (obj)
+                {
+                    if (obj->isInstanceOf(type))
+                    {
+                        return obj->objectName() == name;
+                    }
+                }
+                return false;
+            });
+        };
+        c->addMethod(nameForQuery, sad::dukpp03::bind_lambda::from(lambda3));
+        std::function<bool(sad::animations::Process*, unsigned long long)> lambda4 = [query](sad::animations::Process* p, unsigned long long major_id) {
+            return (p->*query)([major_id](_Object obj)  -> bool {
+                if (obj)
+                {
+                    return obj->MajorId = major_id;
+                }
+                return false;
+            });
+        };
+        c->addMethod(nameForQuery, sad::dukpp03::bind_lambda::from(lambda4));
+    }
+    {
+        std::function<void(sad::animations::Process*, sad::animations::Animations*, _Object)> lambda1 = [stop](sad::animations::Process* p, sad::animations::Animations* a, _Object o) {
+            (p->*stop)([o](_Object obj)  -> bool {
+                return obj == o;
+            }, a);
+        };
+        c->addMethod(nameForStop, sad::dukpp03::bind_lambda::from(lambda1));
+        std::function<void(sad::animations::Process*, sad::animations::Animations*, const sad::String&)> lambda2 = [stop](sad::animations::Process* p, sad::animations::Animations* a, const sad::String& name) {
+            (p->*stop)([name](_Object obj)  -> bool {
+                if (obj)
+                {
+                    return obj->objectName() == name;
+                }
+                return false;
+            }, a);
+        };
+        c->addMethod(nameForStop, sad::dukpp03::bind_lambda::from(lambda2));
+        std::function<void(sad::animations::Process*, sad::animations::Animations*, const sad::String&, const sad::String&)> lambda3 = [stop](sad::animations::Process* p, sad::animations::Animations* a, const sad::String& type, const sad::String& name) {
+            (p->*stop)([type, name](_Object obj)  -> bool {
+                if (obj)
+                {
+                    if (obj->isInstanceOf(type))
+                    {
+                        return obj->objectName() == name;
+                    }
+                }
+                return false;
+            }, a);
+        };
+        c->addMethod(nameForStop, sad::dukpp03::bind_lambda::from(lambda3));
+        std::function<void(sad::animations::Process*, sad::animations::Animations*, unsigned long long)> lambda4 = [stop](sad::animations::Process* p, sad::animations::Animations* a, unsigned long long major_id) {
+            (p->*stop)([major_id](_Object obj)  -> bool {
+                if (obj)
+                {
+                    return obj->MajorId = major_id;
+                }
+                return false;
+            }, a);
+        };
+        c->addMethod(nameForStop, sad::dukpp03::bind_lambda::from(lambda4));
+    }
+}
+
+static void exposeProcess(sad::dukpp03::Context* ctx)
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addMethod("restart", sad::dukpp03::bind_method::from(&sad::animations::Process::restart));
+    c->addMethod("clearFinished", sad::dukpp03::bind_method::from(&sad::animations::Process::clearFinished));
+    c->addMethod("finished", sad::dukpp03::bind_method::from(&sad::animations::Process::finished));
+    c->addMethod("process", sad::dukpp03::bind_method::from(&sad::animations::Process::process));
+    c->addMethod("pause", sad::dukpp03::bind_method::from(&sad::animations::Process::pause));
+    c->addMethod("resume", sad::dukpp03::bind_method::from(&sad::animations::Process::resume));
+    c->addMethod("cancel", sad::dukpp03::bind_method::from(&sad::animations::Process::cancel));
+
+    __addMethodsToProcess<sad::db::Object*>(c, 
+        "isRelatedToMatchedObject", 
+        "stopInstancesRelatedToMatchedObject", 
+        &sad::animations::Process::isRelatedToMatchedObject,
+        &sad::animations::Process::stopInstancesRelatedToMatchedObject
+     );
+    __addMethodsToProcess<sad::animations::Animation*>(c,
+        "isRelatedToMatchedAnimation",
+        "stopInstancesRelatedToMatchedAnimation",
+        &sad::animations::Process::isRelatedToMatchedAnimation,
+        &sad::animations::Process::stopInstancesRelatedToMatchedAnimation
+     );
+
+    __addMethodsToProcess<sad::animations::Process*>(c,
+        "isRelatedToMatchedProcess",
+        "stopInstancesRelatedToMatchedProcess",
+        &sad::animations::Process::isRelatedToMatchedProcess,
+        &sad::animations::Process::stopInstancesRelatedToMatchedProcess
+    );
+    
+
+    ctx->addClassBinding("sad::animations::Process", c);
+}
+
 void sad::dukpp03::exposeAnimations(sad::dukpp03::Context* ctx)
 {
     exposeEasingFunction(ctx);
@@ -580,6 +711,7 @@ void sad::dukpp03::exposeAnimations(sad::dukpp03::Context* ctx)
     exposeParallel(ctx);
     exposeSequential(ctx);
     exposeWayMoving(ctx);
+    exposeProcess(ctx);
 
     exposeAnimationsObject(ctx);
 }
