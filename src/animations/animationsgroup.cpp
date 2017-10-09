@@ -425,7 +425,7 @@ void sad::animations::Group::cancel(sad::animations::Animations* animations)
 
 void sad::animations::Group::addedToPipeline()
 {
-
+	this->clearFinished();
 }
 
 void sad::animations::Group::removedFromPipeline()
