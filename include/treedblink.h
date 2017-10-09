@@ -277,7 +277,7 @@ protected:
         }
         if (m_parent)
         {
-            m_parent->isParent(parent);
+            return m_parent->isParent(parent);
         }
         return false;
     }

@@ -8,6 +8,8 @@
 #include <animations/animationsinstance.h>
 #include <animations/animationsanimations.h>
 #include <animations/animationssequential.h>
+#include <db/dbtable.h>
+#include <db/dbdatabase.h>
 #pragma warning(pop)
 
 int instances_count = 0;
@@ -31,7 +33,8 @@ struct AnimationsTest : tpunit::TestFixture
 	   TEST(AnimationsTest::testSimpleCircularGraph),
 	   TEST(AnimationsTest::testAddRemove),
 	   TEST(AnimationsTest::testMultipleEdges),
-	   TEST(AnimationsTest::testComplex)	   
+	   TEST(AnimationsTest::testComplex),
+	   TEST(AnimationsTest::testDatabase)
    ) {}
    
 
@@ -134,6 +137,32 @@ struct AnimationsTest : tpunit::TestFixture
 	   ASSERT_TRUE( instances_count == 4);
 	   
 	   mr1->delRef();
+	   ASSERT_TRUE( instances_count == 0);	
+   }
+   
+   void testDatabase()
+   {
+	   instances_count = 0;
+	   sad::db::Database* db = new sad::db::Database();
+	   db->addRef();
+	   MarkedSequential* mr1 = new MarkedSequential();
+	   MarkedSequential* mr2 = new MarkedSequential();
+	   sad::db::Table* table = new sad::db::Table();
+	   db->addTable("animations", table);
+	   table->add(mr1);
+	   table->add(mr2);
+	   mr1->setTable(table);
+	   mr2->setTable(table);
+	   ASSERT_TRUE( mr1->MajorId != 0);	
+	   ASSERT_TRUE( mr2->MajorId != 0);		   
+	   mr1->add(mr2->MajorId);
+	   mr2->add(mr1->MajorId);
+	   mr1->animation(0);
+	   mr2->animation(0);	   
+	   ASSERT_TRUE( instances_count == 2);	
+
+	   db->delRef();
+	   
 	   ASSERT_TRUE( instances_count == 0);	
    }
 
