@@ -7,14 +7,31 @@
 #include <label.h>
 #include <animations/animationsinstance.h>
 #include <animations/animationsanimations.h>
+#include <animations/animationssequential.h>
 #pragma warning(pop)
+
+int instances_count = 0;
+/*! A marked sequential object test
+ */
+class MarkedSequential: public sad::animations::Sequential
+{
+public:
+	MarkedSequential() { instances_count += 1; }
+	~MarkedSequential() { instances_count -= 1; } 
+};
+
 
 
 struct AnimationsTest : tpunit::TestFixture
 {
  public:
    AnimationsTest() : tpunit::TestFixture(
-       TEST(AnimationsTest::testQueryInstancesByObject)
+       TEST(AnimationsTest::testQueryInstancesByObject),
+	   TEST(AnimationsTest::testSimpleSequentialGraph),
+	   TEST(AnimationsTest::testSimpleCircularGraph),
+	   TEST(AnimationsTest::testAddRemove),
+	   TEST(AnimationsTest::testMultipleEdges),
+	   TEST(AnimationsTest::testComplex)	   
    ) {}
    
 
@@ -39,6 +56,85 @@ struct AnimationsTest : tpunit::TestFixture
 
         processes = anims.queryProcessesRelatedToObject(NULL);
         ASSERT_TRUE( processes.size() == 0);
+   }
+   
+   void testSimpleSequentialGraph()
+   {
+	   instances_count = 0;
+	   MarkedSequential* mr1 = new MarkedSequential();
+	   MarkedSequential* mr2 = new MarkedSequential();
+	   mr1->addRef();
+	   mr1->add(mr2);
+	   ASSERT_TRUE( instances_count == 2);
+	   
+	   mr1->delRef();
+	   ASSERT_TRUE( instances_count == 0);	   
+   }
+   
+   void testSimpleCircularGraph()
+   {
+	   instances_count = 0;
+	   MarkedSequential* mr1 = new MarkedSequential();
+	   MarkedSequential* mr2 = new MarkedSequential();
+	   mr1->addRef();
+	   mr1->add(mr2);
+	   mr2->add(mr1);
+	   ASSERT_TRUE( instances_count == 2);
+	   
+	   mr1->delRef();
+	   ASSERT_TRUE( instances_count == 0);
+   }
+   
+   void testAddRemove()
+   {
+	   instances_count = 0;
+	   MarkedSequential* mr1 = new MarkedSequential();
+	   MarkedSequential* mr2 = new MarkedSequential();
+	   mr1->addRef();
+	   mr2->addRef();
+	   mr1->add(mr2);
+	   mr2->add(mr1);
+	   mr1->remove(0);
+	   mr2->remove(0);
+	   ASSERT_TRUE( instances_count == 2);
+	   
+	   mr1->delRef();
+	   mr2->delRef();
+	   ASSERT_TRUE( instances_count == 0);	   
+   }
+   
+   void testMultipleEdges()
+   {
+	   instances_count = 0;
+	   MarkedSequential* mr1 = new MarkedSequential();
+	   MarkedSequential* mr2 = new MarkedSequential();
+	   mr1->addRef();
+	   mr1->add(mr2);
+	   mr1->add(mr2);
+	   mr2->add(mr1);
+	   ASSERT_TRUE( instances_count == 2);
+	   
+	   mr1->delRef();
+	   ASSERT_TRUE( instances_count == 0);	   
+   }
+   
+   void testComplex()
+   {
+	   instances_count = 0;
+	   MarkedSequential* mr1 = new MarkedSequential();
+	   MarkedSequential* mr2 = new MarkedSequential();
+	   MarkedSequential* mr3 = new MarkedSequential();
+	   MarkedSequential* mr4 = new MarkedSequential();	   
+	   mr1->addRef();
+	   mr1->add(mr2);
+	   mr1->add(mr3);
+	   mr2->add(mr4);
+	   mr3->add(mr4);
+	   mr4->add(mr1);
+	   ASSERT_TRUE( instances_count == 4);
+	   
+	   mr1->delRef();
+	   ASSERT_TRUE( instances_count == 0);	
    }
 
 } _animations_test;
