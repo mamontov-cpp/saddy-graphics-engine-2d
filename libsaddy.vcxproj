@@ -380,6 +380,7 @@
     <ClInclude Include="include\collection.h" />
     <ClInclude Include="include\db\dbstronglink.h" />
     <ClInclude Include="include\db\dbtypedlink.h" />
+    <ClInclude Include="include\db\dbuntypedstronglink.h" />
     <ClInclude Include="include\equalto.h" />
     <ClInclude Include="include\font.h" />
     <ClInclude Include="include\formattedlabel.h" />
@@ -417,6 +418,7 @@
     <ClInclude Include="include\refcountable.h" />
     <ClInclude Include="include\renderer.h" />
     <ClInclude Include="include\resource\resourcefile.h" />
+    <ClInclude Include="include\resource\resourcestronglink.h" />
     <ClInclude Include="include\sadcolor.h" />
     <ClInclude Include="include\sadhash.h" />
     <ClInclude Include="include\sadlinkedlist.h" />

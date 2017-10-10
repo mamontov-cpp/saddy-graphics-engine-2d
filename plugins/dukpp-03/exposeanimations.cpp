@@ -1,5 +1,6 @@
 #include "dukpp-03/context.h"
 #include "dukpp-03/renderer.h"
+#include "dukpp-03/jsanimationcallback.h"
 
 #include <db/dbtable.h>
 
@@ -27,6 +28,8 @@
 #include <animations/animationssequential.h>
 #include <animations/animationswaymoving.h>
 #include <animations/animationsprocess.h>
+#include <animations/animationsinstance.h>
+#include <animations/animationswayinstance.h>
 
 #include <animations/animationsfactory.h>
 
@@ -692,6 +695,92 @@ static void exposeProcess(sad::dukpp03::Context* ctx)
     ctx->addClassBinding("sad::animations::Process", c);
 }
 
+static void exposeInstance(sad::dukpp03::Context* ctx)
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addObjectConstructor<sad::animations::Instance>("SadAnimationsInstance");
+    c->addCloneObjectMethodFor<sad::animations::Instance>();
+    c->addMethod("setTreeName", sad::dukpp03::bind_method::from(&sad::animations::Instance::setTreeName));
+    c->addMethod("setTable", sad::dukpp03::bind_method::from(&sad::animations::Instance::setTable));
+    c->addMethod("serializableName", sad::dukpp03::bind_method::from(&sad::animations::Instance::serializableName));
+    c->addMethod("setAnimation", sad::dukpp03::bind_method::from(&sad::animations::Instance::setAnimation));
+    c->addMethod("animation", sad::dukpp03::bind_method::from(&sad::animations::Instance::animation));
+    c->addMethod("setObject", sad::dukpp03::bind_method::from(&sad::animations::Instance::setObject));
+    c->addMethod("object", sad::dukpp03::bind_method::from(&sad::animations::Instance::object));
+    c->addMethod("setAnimationName", sad::dukpp03::bind_method::from(&sad::animations::Instance::setAnimationName));
+    c->addMethod("animationName", sad::dukpp03::bind_method::from(&sad::animations::Instance::animationName));
+    c->addMethod("setAnimationMajorId", sad::dukpp03::bind_method::from(&sad::animations::Instance::setAnimationMajorId));
+    c->addMethod("animationMajorId", sad::dukpp03::bind_method::from(&sad::animations::Instance::animationMajorId));
+    c->addMethod("setStartTime", sad::dukpp03::bind_method::from(&sad::animations::Instance::setStartTime));
+    c->addMethod("startTime", sad::dukpp03::bind_method::from(&sad::animations::Instance::startTime));
+    c->addMethod("setObjectId", sad::dukpp03::bind_method::from(&sad::animations::Instance::setObjectId));
+    c->addMethod("objectId", sad::dukpp03::bind_method::from(&sad::animations::Instance::objectId));
+    c->addMethod("restart", sad::dukpp03::bind_method::from(&sad::animations::Instance::restart));
+    c->addMethod("clearFinished", sad::dukpp03::bind_method::from(&sad::animations::Instance::clearFinished));
+    c->addMethod("finished", sad::dukpp03::bind_method::from(&sad::animations::Instance::finished));
+    c->addMethod("pause", sad::dukpp03::bind_method::from(&sad::animations::Instance::pause));
+    c->addMethod("resume", sad::dukpp03::bind_method::from(&sad::animations::Instance::resume));
+    c->addMethod("cancel", sad::dukpp03::bind_method::from(&sad::animations::Instance::cancel));
+    c->addMethod("markAsValid", sad::dukpp03::bind_method::from(&sad::animations::Instance::markAsValid));
+
+    std::function<sad::dukpp03::JSAnimationCallback*(sad::animations::Instance*, sad::dukpp03::Context*, sad::dukpp03::CompiledFunction)> add_on_start = [](sad::animations::Instance* i,  sad::dukpp03::Context* context, sad::dukpp03::CompiledFunction f) {
+        sad::dukpp03::JSAnimationCallback* cb = new sad::dukpp03::JSAnimationCallback(context, f);
+        i->addCallbackOnStart(cb);
+        return cb;
+    };
+    c->addMethod("addCallbackOnStart", sad::dukpp03::bind_lambda::from(add_on_start));
+    c->addMethod("start", sad::dukpp03::bind_lambda::from(add_on_start));
+
+    std::function<sad::dukpp03::JSAnimationCallback*(sad::animations::Instance*, sad::dukpp03::Context*, sad::dukpp03::CompiledFunction)> add_on_end = [](sad::animations::Instance* i, sad::dukpp03::Context* context, sad::dukpp03::CompiledFunction f) {
+        sad::dukpp03::JSAnimationCallback* cb = new sad::dukpp03::JSAnimationCallback(context, f);
+        i->addCallbackOnEnd(new sad::dukpp03::JSAnimationCallback(context, f));
+        return cb;
+    };
+    c->addMethod("addCallbackOnEnd", sad::dukpp03::bind_lambda::from(add_on_end));
+    c->addMethod("end", sad::dukpp03::bind_lambda::from(add_on_end));
+
+    std::function<void(sad::animations::Instance*, sad::dukpp03::JSAnimationCallback*)> remove_on_start = [](sad::animations::Instance* i, sad::dukpp03::JSAnimationCallback* cb) {
+        i->removeCallbackOnStart(cb);
+    };
+    c->addMethod("removeCallbackOnStart", sad::dukpp03::bind_lambda::from(remove_on_start));
+    std::function<void(sad::animations::Instance*, sad::dukpp03::JSAnimationCallback*)> remove_on_end = [](sad::animations::Instance* i, sad::dukpp03::JSAnimationCallback* cb) {
+        i->removeCallbackOnEnd(cb);
+    };
+    c->addMethod("removeCallbackOnEnd", sad::dukpp03::bind_lambda::from(remove_on_end));
+    std::function<void(sad::animations::Instance*, sad::dukpp03::JSAnimationCallback*)> remove_cb = [](sad::animations::Instance* i, sad::dukpp03::JSAnimationCallback* cb) {
+        i->removeCallback(cb);
+    };
+    c->addMethod("removeCallback", sad::dukpp03::bind_lambda::from(remove_cb));
+    c->addMethod("clearCallbacksOnStart", sad::dukpp03::bind_method::from(&sad::animations::Instance::clearCallbacksOnStart));
+    c->addMethod("clearCallbacksOnEnd", sad::dukpp03::bind_method::from(&sad::animations::Instance::clearCallbacksOnEnd));
+    c->addMethod("clearCallbacks", sad::dukpp03::bind_method::from(&sad::animations::Instance::clearCallbacks));
+
+    c->setPrototypeFunction("SadAnimationsInstance");
+    c->addParentBinding(ctx->getClassBinding("sad::animations::Process"));
+
+    ctx->addClassBinding("sad::animations::Instance", c);
+
+    PERFORM_AND_ASSERT("sad.animations.Instance = SadAnimationsInstance;");
+}
+
+static void exposeWayInstance(sad::dukpp03::Context* ctx)
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addObjectConstructor<sad::animations::WayInstance>("SadAnimationsWayInstance");
+    c->addCloneObjectMethodFor<sad::animations::WayInstance>();
+    c->addMethod("setWayMajorId", sad::dukpp03::bind_method::from(&sad::animations::WayInstance::setWayMajorId));
+    c->addMethod("wayMajorId", sad::dukpp03::bind_method::from(&sad::animations::WayInstance::wayMajorId));
+    c->addMethod("setWay", sad::dukpp03::bind_method::from(&sad::animations::WayInstance::setWay));
+    c->addMethod("way", sad::dukpp03::bind_method::from(&sad::animations::WayInstance::way));
+
+    c->setPrototypeFunction("SadAnimationsWayInstance");
+    c->addParentBinding(ctx->getClassBinding("sad::animations::Instance"));
+
+    ctx->addClassBinding("sad::animations::WayInstance", c);
+
+    PERFORM_AND_ASSERT("sad.animations.WayInstance = SadAnimationsWayInstance;");
+}
+
 void sad::dukpp03::exposeAnimations(sad::dukpp03::Context* ctx)
 {
     exposeEasingFunction(ctx);
@@ -712,6 +801,8 @@ void sad::dukpp03::exposeAnimations(sad::dukpp03::Context* ctx)
     exposeSequential(ctx);
     exposeWayMoving(ctx);
     exposeProcess(ctx);
+    exposeInstance(ctx);
+    exposeWayInstance(ctx);
 
     exposeAnimationsObject(ctx);
 }

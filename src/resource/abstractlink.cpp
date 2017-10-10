@@ -109,7 +109,7 @@ void  sad::resource::AbstractLink::setTree(resource::Tree * tree)
     m_render_dependent = false;
     m_tree = tree;
     if (changed)
-    {				
+    {
         if (m_resource && m_notify_resource)
         {
             m_resource->removeLink(this);

@@ -98,7 +98,7 @@ void gui::AnimationProcess::timerExpired()
             if (m_instance)
             {
                 // Update animation time if instance updates it (WayMoving animation type could do it)
-                double animationtime = m_instance->animation(false)->time();
+                double animationtime = m_instance->animation()->time();
                 QDoubleSpinBox* timebox = m_editor->uiBlocks()->uiAnimationBlock()->dsbAnimationTime;
                 double animationbeforetime = timebox->value();
                 if (sad::is_fuzzy_equal(animationtime, animationbeforetime) == false)

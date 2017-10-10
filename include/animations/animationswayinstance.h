@@ -6,7 +6,7 @@
 #pragma once
 #include "animationsinstance.h"
 
-#include "../db/dblink.h"
+#include "../db/dbstronglink.h"
 
 #include "../p2d/app/way.h"
 
@@ -99,7 +99,7 @@ protected:
     virtual void restoreObjectState(sad::animations::Animations* animations);
     /*! Returns a way link
      */
-    sad::db::Link m_way_link;
+    sad::db::StrongLink<sad::p2d::app::Way> m_way_link;
 };
     
 }
