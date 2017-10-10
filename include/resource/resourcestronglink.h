@@ -40,6 +40,10 @@ public:
      */
     sad::resource::StrongLink<T>& operator=(const sad::resource::StrongLink<T>& o)
     {
+        if (m_cached_object)
+        {
+            m_cached_object->delRef();
+        }
         m_link = o.m_link;
         m_cached_object = NULL;
         m_changed = true;

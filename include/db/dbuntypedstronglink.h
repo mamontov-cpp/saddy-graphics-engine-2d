@@ -37,6 +37,10 @@ public:
      */
     inline sad::db::UntypedStrongLink& operator=(const sad::db::UntypedStrongLink& o)
     {
+        if (m_cached_object)
+        {
+            m_cached_object->delRef();
+        }
         m_link = o.m_link;
         m_cached_object = NULL;
         m_changed = true;

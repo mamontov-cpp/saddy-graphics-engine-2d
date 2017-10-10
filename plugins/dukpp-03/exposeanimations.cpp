@@ -30,6 +30,7 @@
 #include <animations/animationsprocess.h>
 #include <animations/animationsinstance.h>
 #include <animations/animationswayinstance.h>
+#include <animations/animationsgroup.h>
 
 #include <animations/animationsfactory.h>
 
@@ -781,6 +782,78 @@ static void exposeWayInstance(sad::dukpp03::Context* ctx)
     PERFORM_AND_ASSERT("sad.animations.WayInstance = SadAnimationsWayInstance;");
 }
 
+
+
+static void exposeGroup(sad::dukpp03::Context* ctx)
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addObjectConstructor<sad::animations::Group>("SadAnimationsGroup");
+    c->addCloneObjectMethodFor<sad::animations::Group>();
+    c->addMethod("isSequential", sad::dukpp03::bind_method::from(&sad::animations::Group::isSequential));
+    c->addMethod("toggleIsSequential", sad::dukpp03::bind_method::from(&sad::animations::Group::toggleIsSequential));
+    c->addMethod("clear", sad::dukpp03::bind_method::from(&sad::animations::Group::clear));
+    c->addMethod("add", sad::dukpp03::bind_method::from(&sad::animations::Group::add));
+    c->addMethod("insert", sad::dukpp03::bind_method::from(&sad::animations::Group::insert));
+    c->addMethod("remove", sad::dukpp03::bind_method::from(&sad::animations::Group::remove));
+    c->addMethod("count", sad::dukpp03::bind_method::from(&sad::animations::Group::count));
+    c->addMethod("get", sad::dukpp03::bind_method::from(&sad::animations::Group::get));
+    c->addMethod("getMajorId", sad::dukpp03::bind_method::from(&sad::animations::Group::getMajorId));
+    c->addMethod("setTable", sad::dukpp03::bind_method::from(&sad::animations::Group::setTable));
+    c->addMethod("serializableName", sad::dukpp03::bind_method::from(&sad::animations::Group::serializableName));
+    c->addMethod("setInstances", sad::dukpp03::bind_method::from(&sad::animations::Group::setInstances));
+    c->addMethod("instances", sad::dukpp03::bind_method::from(&sad::animations::Group::instances));
+    c->addMethod("findInstance", sad::dukpp03::bind_method::from(&sad::animations::Group::findInstance));
+    c->addMethod("setLooped", sad::dukpp03::bind_method::from(&sad::animations::Group::setLooped));
+    c->addMethod("looped", sad::dukpp03::bind_method::from(&sad::animations::Group::looped));
+    c->addMethod("restart", sad::dukpp03::bind_method::from(&sad::animations::Group::restart));
+    c->addMethod("clearFinished", sad::dukpp03::bind_method::from(&sad::animations::Group::clearFinished));
+    c->addMethod("finished", sad::dukpp03::bind_method::from(&sad::animations::Group::finished));
+    c->addMethod("process", sad::dukpp03::bind_method::from(&sad::animations::Group::process));
+    c->addMethod("pause", sad::dukpp03::bind_method::from(&sad::animations::Group::pause));
+    c->addMethod("resume", sad::dukpp03::bind_method::from(&sad::animations::Group::resume));
+    c->addMethod("cancel", sad::dukpp03::bind_method::from(&sad::animations::Group::cancel));
+
+    std::function<sad::dukpp03::JSAnimationCallback*(sad::animations::Group*, sad::dukpp03::Context*, sad::dukpp03::CompiledFunction)> add_on_start = [](sad::animations::Group* i, sad::dukpp03::Context* context, sad::dukpp03::CompiledFunction f) {
+        sad::dukpp03::JSAnimationCallback* cb = new sad::dukpp03::JSAnimationCallback(context, f);
+        i->addCallbackOnStart(cb);
+        return cb;
+    };
+    c->addMethod("addCallbackOnStart", sad::dukpp03::bind_lambda::from(add_on_start));
+    c->addMethod("start", sad::dukpp03::bind_lambda::from(add_on_start));
+
+    std::function<sad::dukpp03::JSAnimationCallback*(sad::animations::Group*, sad::dukpp03::Context*, sad::dukpp03::CompiledFunction)> add_on_end = [](sad::animations::Group* i, sad::dukpp03::Context* context, sad::dukpp03::CompiledFunction f) {
+        sad::dukpp03::JSAnimationCallback* cb = new sad::dukpp03::JSAnimationCallback(context, f);
+        i->addCallbackOnEnd(new sad::dukpp03::JSAnimationCallback(context, f));
+        return cb;
+    };
+    c->addMethod("addCallbackOnEnd", sad::dukpp03::bind_lambda::from(add_on_end));
+    c->addMethod("end", sad::dukpp03::bind_lambda::from(add_on_end));
+
+    std::function<void(sad::animations::Group*, sad::dukpp03::JSAnimationCallback*)> remove_on_start = [](sad::animations::Group* i, sad::dukpp03::JSAnimationCallback* cb) {
+        i->removeCallbackOnStart(cb);
+    };
+    c->addMethod("removeCallbackOnStart", sad::dukpp03::bind_lambda::from(remove_on_start));
+    std::function<void(sad::animations::Group*, sad::dukpp03::JSAnimationCallback*)> remove_on_end = [](sad::animations::Group* i, sad::dukpp03::JSAnimationCallback* cb) {
+        i->removeCallbackOnEnd(cb);
+    };
+    c->addMethod("removeCallbackOnEnd", sad::dukpp03::bind_lambda::from(remove_on_end));
+    std::function<void(sad::animations::Group*, sad::dukpp03::JSAnimationCallback*)> remove_cb = [](sad::animations::Group* i, sad::dukpp03::JSAnimationCallback* cb) {
+        i->removeCallback(cb);
+    };
+    c->addMethod("removeCallback", sad::dukpp03::bind_lambda::from(remove_cb));
+    c->addMethod("clearCallbacksOnStart", sad::dukpp03::bind_method::from(&sad::animations::Group::clearCallbacksOnStart));
+    c->addMethod("clearCallbacksOnEnd", sad::dukpp03::bind_method::from(&sad::animations::Group::clearCallbacksOnEnd));
+    c->addMethod("clearCallbacks", sad::dukpp03::bind_method::from(&sad::animations::Group::clearCallbacks));
+
+    c->setPrototypeFunction("SadAnimationsGroup");
+    c->addParentBinding(ctx->getClassBinding("sad::animations::Process"));
+
+    ctx->addClassBinding("sad::animations::Group", c);
+
+    PERFORM_AND_ASSERT("sad.animations.Group = SadAnimationsGroup;");
+}
+
+
 void sad::dukpp03::exposeAnimations(sad::dukpp03::Context* ctx)
 {
     exposeEasingFunction(ctx);
@@ -803,6 +876,7 @@ void sad::dukpp03::exposeAnimations(sad::dukpp03::Context* ctx)
     exposeProcess(ctx);
     exposeInstance(ctx);
     exposeWayInstance(ctx);
+    exposeGroup(ctx);
 
     exposeAnimationsObject(ctx);
 }
