@@ -5,7 +5,6 @@
 #include <db/dbtable.h>
 
 #include <geometry2d.h>
-#include <fuzzyequal.h>
 #include <renderer.h>
 
 #include <animations/animationsanimations.h>
@@ -15,6 +14,9 @@
 #include <animations/animationsanimation.h>
 #include <animations/animationssimplemovement.h>
 #include <animations/animationsblinking.h>
+#include <animations/animationscolor.h>
+#include <animations/animationscamerarotation.h>
+#include <animations/animationscamerashaking.h>
 #include <animations/animationstexturecoordinatescontinuous.h>
 #include <animations/animationstexturecoordinateslist.h>
 #include <animations/animationstyping.h>
@@ -126,6 +128,60 @@ static void exposeBlinking(sad::dukpp03::Context* ctx)
     ctx->addClassBinding("sad::animations::Blinking", c);
 
     PERFORM_AND_ASSERT("sad.animations.Blinking = SadAnimationsBlinking;");
+}
+
+static void exposeColor(sad::dukpp03::Context* ctx)
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addObjectConstructor<sad::animations::Color>("SadAnimationsColor");
+    c->addCloneObjectMethodFor<sad::animations::Color>();
+    c->addMethod("minColor", sad::dukpp03::bind_method::from(&sad::animations::Color::minColor));
+    c->addMethod("setMinColor", sad::dukpp03::bind_method::from(&sad::animations::Color::setMinColor));
+    c->addMethod("maxColor", sad::dukpp03::bind_method::from(&sad::animations::Color::maxColor));
+    c->addMethod("setMaxColor", sad::dukpp03::bind_method::from(&sad::animations::Color::setMaxColor));
+    c->setPrototypeFunction("SadAnimationsColor");
+    c->addParentBinding(ctx->getClassBinding("sad::animations::Animation"));
+
+    ctx->addClassBinding("sad::animations::Color", c);
+
+    PERFORM_AND_ASSERT("sad.animations.Color = SadAnimationsColor;");
+}
+
+static void exposeCameraRotation(sad::dukpp03::Context* ctx)
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addObjectConstructor<sad::animations::CameraRotation>("SadAnimationsCameraRotation");
+    c->addCloneObjectMethodFor<sad::animations::CameraRotation>();
+    c->addMethod("minAngle", sad::dukpp03::bind_method::from(&sad::animations::CameraRotation::minAngle));
+    c->addMethod("setMinAngle", sad::dukpp03::bind_method::from(&sad::animations::CameraRotation::setMinAngle));
+    c->addMethod("maxAngle", sad::dukpp03::bind_method::from(&sad::animations::CameraRotation::maxAngle));
+    c->addMethod("setMaxAngle", sad::dukpp03::bind_method::from(&sad::animations::CameraRotation::setMaxAngle));
+    c->addMethod("pivot", sad::dukpp03::bind_method::from(&sad::animations::CameraRotation::pivot));
+    c->addMethod("setPivot", sad::dukpp03::bind_method::from(&sad::animations::CameraRotation::setPivot));
+    c->setPrototypeFunction("SadAnimationsCameraRotation");
+    c->addParentBinding(ctx->getClassBinding("sad::animations::Animation"));
+
+    ctx->addClassBinding("sad::animations::CameraRotation", c);
+
+    PERFORM_AND_ASSERT("sad.animations.CameraRotation = SadAnimationsCameraRotation;");
+}
+
+
+static void exposeCameraShaking(sad::dukpp03::Context* ctx)
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addObjectConstructor<sad::animations::CameraShaking>("SadAnimationsCameraShaking");
+    c->addCloneObjectMethodFor<sad::animations::CameraShaking>();
+    c->addMethod("setOffset", sad::dukpp03::bind_method::from(&sad::animations::CameraShaking::setOffset));
+    c->addMethod("offset", sad::dukpp03::bind_method::from(&sad::animations::CameraShaking::offset));
+    c->addMethod("setFrequency", sad::dukpp03::bind_method::from(&sad::animations::CameraShaking::setFrequency));
+    c->addMethod("frequency", sad::dukpp03::bind_method::from(&sad::animations::CameraShaking::frequency));
+    c->setPrototypeFunction("SadAnimationsCameraShaking");
+    c->addParentBinding(ctx->getClassBinding("sad::animations::Animation"));
+
+    ctx->addClassBinding("sad::animations::CameraShaking", c);
+
+    PERFORM_AND_ASSERT("sad.animations.CameraShaking = SadAnimationsCameraShaking;");
 }
 
 
@@ -859,6 +915,9 @@ void sad::dukpp03::exposeAnimations(sad::dukpp03::Context* ctx)
     exposeEasingFunction(ctx);
     exposeAnimation(ctx);
     exposeSimpleMovement(ctx);
+    exposeColor(ctx);
+    exposeCameraRotation(ctx);
+    exposeCameraShaking(ctx);
     exposeBlinking(ctx);
     exposeFontList(ctx);
     exposeFontSize(ctx);
