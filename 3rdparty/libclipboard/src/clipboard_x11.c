@@ -115,7 +115,7 @@ struct clipboard_c {
  *  The standard atom names. These values should match the
  *  std_x_atoms enumeration.
  */
-const char const *g_std_atom_names[X_ATOM_END] = {
+const char *g_std_atom_names[X_ATOM_END] = {
     "TARGETS", "MULTIPLE", "TIMESTAMP", "INCR",
     "CLIPBOARD", "UTF8_STRING",
 };
@@ -129,7 +129,7 @@ const char const *g_std_atom_names[X_ATOM_END] = {
  *  \param [in] number The number of atoms to intern.
  *  \return true iff all atoms were interned.
  */
-static bool x11_intern_atoms(xcb_connection_t *xc, atom_c *atoms, const char const **atom_names, int number) {
+static bool x11_intern_atoms(xcb_connection_t *xc, atom_c *atoms, const char **atom_names, int number) {
     for (int i = 0; i < number; i++) {
         atoms[i].cookie = xcb_intern_atom(xc, 0,
                                           strlen(atom_names[i]), atom_names[i]);
@@ -247,7 +247,7 @@ static void x11_retrieve_selection(clipboard_c *cb, xcb_selection_notify_event_t
             }
 
             size_t unit_size = (reply->format / 8);
-            buf = cb->realloc(buf, unit_size * (bufsiz + nitems));
+            buf = (unsigned char*)(cb->realloc(buf, unit_size * (bufsiz + nitems)));
             if (buf == NULL) {
                 fprintf(stderr, "x11_retrieve_selection: [Err] realloc failed\n");
                 break;
@@ -411,18 +411,17 @@ static void *x11_event_loop(void *arg) {
 }
 
 LCB_API clipboard_c *LCB_CC clipboard_new(clipboard_opts *cb_opts) {
-    clipboard_opts defaults = {
-        .x11.display_name = NULL,
-        .x11.action_timeout = LCB_X11_ACTION_TIMEOUT_DEFAULT,
-        .x11.transfer_size = LCB_X11_TRANSFER_SIZE_DEFAULT,
-    };
+    clipboard_opts defaults;
+    defaults.x11.display_name = NULL,
+    defaults.x11.action_timeout = LCB_X11_ACTION_TIMEOUT_DEFAULT,
+    defaults.x11.transfer_size = LCB_X11_TRANSFER_SIZE_DEFAULT,
 
     if (cb_opts == NULL) {
         cb_opts = &defaults;
     }
 
     clipboard_calloc_fn calloc_fn = cb_opts->user_calloc_fn ? cb_opts->user_calloc_fn : calloc;
-    clipboard_c *cb = calloc_fn(1, sizeof(clipboard_c));
+    clipboard_c *cb = (clipboard_c*)(calloc_fn(1, sizeof(clipboard_c)));
     if (cb == NULL) {
         return NULL;
     }
@@ -575,7 +574,7 @@ LCB_API bool LCB_CC clipboard_has_ownership(clipboard_c *cb, clipboard_mode mode
  */
 static void retrieve_text_selection(clipboard_c *cb, selection_c *sel, char **ret, int *length) {
     if (sel->data != NULL && sel->target == cb->std_atoms[X_ATOM_UTF8_STRING].atom) {
-        *ret = cb->malloc(sizeof(char) * (sel->length + 1));
+        *ret = (char*)(cb->malloc(sizeof(char) * (sel->length + 1)));
         if (*ret != NULL) {
             memcpy(*ret, sel->data, sel->length);
             (*ret)[sel->length] = '\0';
@@ -662,7 +661,7 @@ LCB_API bool LCB_CC clipboard_set_text_ex(clipboard_c *cb, const char *src, int 
             length = strlen(src);
         }
 
-        sel->data = cb->malloc(sizeof(char) * (length + 1));
+        sel->data = (unsigned char*)(cb->malloc(sizeof(char) * (length + 1)));
         if (sel->data != NULL) {
             memcpy(sel->data, src, length);
             sel->data[length] = '\0';
