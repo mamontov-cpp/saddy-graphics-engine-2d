@@ -412,9 +412,9 @@ static void *x11_event_loop(void *arg) {
 
 LCB_API clipboard_c *LCB_CC clipboard_new(clipboard_opts *cb_opts) {
     clipboard_opts defaults;
-    defaults.x11.display_name = NULL,
-    defaults.x11.action_timeout = LCB_X11_ACTION_TIMEOUT_DEFAULT,
-    defaults.x11.transfer_size = LCB_X11_TRANSFER_SIZE_DEFAULT,
+    defaults.x11.display_name = NULL;
+    defaults.x11.action_timeout = LCB_X11_ACTION_TIMEOUT_DEFAULT;
+    defaults.x11.transfer_size = LCB_X11_TRANSFER_SIZE_DEFAULT;
 
     if (cb_opts == NULL) {
         cb_opts = &defaults;
