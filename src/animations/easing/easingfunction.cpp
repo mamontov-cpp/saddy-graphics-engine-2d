@@ -19,6 +19,15 @@ m_period(0)
 }
 
 
+sad::animations::easing::Function::Function(unsigned int type, double overshootAmplitude, double period) : m_overshoot_amplitude(overshootAmplitude), m_period(period)
+{
+    if (type > static_cast<unsigned int>(sad::animations::easing::ATTT_InOutBounce))
+    {
+        type = sad::animations::easing::ATTT_InOutBounce;
+    }
+    m_type = static_cast<sad::animations::easing::Types>(type);
+    m_callback = sad::animations::easing::callbackByType(m_type);
+}
 
 sad::animations::easing::Function::Function(sad::animations::easing::Types type, double overshootAmplitude, double period)
 : m_type(type), m_overshoot_amplitude(overshootAmplitude), m_period(period)

@@ -23,6 +23,7 @@
     <ClCompile Include="classbinding.cpp" />
     <ClCompile Include="context.cpp" />
     <ClCompile Include="dukpp-03.cpp" />
+    <ClCompile Include="exposeanimations.cpp" />
     <ClCompile Include="exposeapi.cpp" />
     <ClCompile Include="exposehfsm.cpp" />
     <ClCompile Include="exposelayouts.cpp" />
@@ -30,6 +31,7 @@
     <ClCompile Include="exposedialogue.cpp" />
     <ClCompile Include="getter.cpp" />
     <ClCompile Include="getvalue.cpp" />
+    <ClCompile Include="jsanimationcallback.cpp" />
     <ClCompile Include="jscollisionhandler.cpp" />
     <ClCompile Include="jscontrols.cpp" />
     <ClCompile Include="jshandler.cpp" />
@@ -54,6 +56,7 @@
     <ClInclude Include="..\..\include\dukpp-03\getaddressoftype.h" />
     <ClInclude Include="..\..\include\dukpp-03\getter.h" />
     <ClInclude Include="..\..\include\dukpp-03\getvalue.h" />
+    <ClInclude Include="..\..\include\dukpp-03\jsanimationcallback.h" />
     <ClInclude Include="..\..\include\dukpp-03\jscollisionhandler.h" />
     <ClInclude Include="..\..\include\dukpp-03\jscontrols.h" />
     <ClInclude Include="..\..\include\dukpp-03\jshandler.h" />
@@ -78,7 +81,7 @@
     <ProjectGuid>{4FE11C6E-642A-4CBA-BD95-D3B8357FD609}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>duktape</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

@@ -33,7 +33,7 @@
 #include "db/dbmethodpair.h"
 #include "db/dbtable.h"
 
-DECLARE_SOBJ_INHERITANCE(sad::animations::WayInstance, sad::animations::Instance);
+DECLARE_SOBJ_INHERITANCE(sad::animations::WayInstance, sad::animations::Instance)
 
 // ============================ PUBLIC METHODS ============================
 
@@ -126,16 +126,7 @@ void sad::animations::WayInstance::setWay(sad::p2d::app::Way* i)
 
 sad::p2d::app::Way* sad::animations::WayInstance::way() const
 {
-    sad::db::Object* i = const_cast<sad::animations::WayInstance*>(this)->m_way_link.get();
-    sad::p2d::app::Way* result = NULL;
-    if (i)
-    {
-        if (i->serializableName() == "sad::p2d::app::Way")
-        {
-            result = static_cast<sad::p2d::app::Way*>(i);
-        }
-    }
-    return result; 
+    return m_way_link.get();
 }
 
 // ============================ PROTECTED METHODS ============================

@@ -3,10 +3,9 @@
 #pragma warning(disable: 4351)
 #include <stdio.h>
 #include "3rdparty/tpunit++/tpunit++.hpp"
-#include <p2d/circle.h>
 #pragma warning(pop)
 
-//#define TEST_INTERACTIVE
+#define TEST_INTERACTIVE
 
 #ifdef TEST_INTERACTIVE
     #include "dukpp-03/context.h"

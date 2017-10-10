@@ -4,12 +4,13 @@
     Defines an animations group as a list of running animation instances
  */
 #pragma once
+#include <functional>
 #include "animationsinstance.h"
 
-#include "../db/dblink.h"
+#include "../db/dbstronglink.h"
 
-#include "../temporarilyimmutablecontainer.h"
 #include "../sadvector.h"
+#include "../sadmutex.h"
 
 namespace sad
 {
@@ -19,11 +20,13 @@ namespace animations
 
 /*! An animation group as a list of running animation instances
  */
-class Group: public sad::db::Object, 
-public sad::animations::Process,
-public sad::TemporarilyImmutableContainer<sad::animations::Instance>
+class Group: public sad::animations::Process
 {
+SAD_OBJECT
 public:
+    /*! A link instance
+     */
+    typedef sad::db::StrongLink<sad::animations::Instance> InstanceLink;
     /*! Constructs new empty group
      */
     Group();
@@ -47,6 +50,43 @@ public:
         \return schema
      */
     virtual sad::db::schema::Schema* schema() const;
+    /*! Returns whether instances in group should be played sequentially
+        \return flag value
+    */
+    bool isSequential() const;
+    /*! Sets an attribute, which makes group play instances sequentially to true or false
+        \param[in] flag a flag
+    */
+    void toggleIsSequential(bool flag);
+    /*! Clears a group
+     */
+    void clear();
+    /*! Adds new instance to group
+        \param[in] i instance
+     */
+    void add(sad::animations::Instance* i);
+    /*! Inserts an instance to position
+        \param[in] pos position
+        \param[in] i instance
+     */
+    void insert(int pos, sad::animations::Instance* i);
+    /*! Removes an instance from group
+        \param[in] i instance
+     */
+    void remove(sad::animations::Instance* i);
+    /*! Amount of instances in group
+     */
+    size_t count();
+    /*! Returns instance with position
+        \param[in] pos a position
+        \return an instance
+     */
+    sad::animations::Instance* get(int pos);
+    /*! Returns instance with position
+        \param[in] pos a position
+        \return an instance's major id
+    */
+    unsigned long long getMajorId(int pos);
     /*! Sets a table
         \param[in] t a table
      */
@@ -122,24 +162,25 @@ public:
     /*! Adds new callback in animation group, which should be called,
         when group is done playing
         \param[in] c
+        \return callback
      */
-    void addCallbackOnEnd(sad::animations::Callback* c);
+    sad::animations::Callback* addCallbackOnEnd(sad::animations::Callback* c);
     /*! Adds a callback, which should be called, when group is done playing
         \param[in] f function
      */
     template<typename _Fun>
-    void end(_Fun f)
+    sad::animations::Callback*  end(_Fun f)
     {
-        addCallbackOnEnd(new sad::animations::FunctionCall<_Fun>(f));
+        return addCallbackOnEnd(new sad::animations::FunctionCall<_Fun>(f));
     }
     /*! Adds a callback, which should be called, when group is done playing
         \param[in] o object
         \param[in] m method
      */
     template<typename _Object, typename _Method>
-    void end(_Object* o, _Method m)
+    sad::animations::Callback*  end(_Object* o, _Method m)
     {
-        addCallbackOnEnd(new sad::animations::MethodCall0<_Object, _Method>(o, m));
+        return addCallbackOnEnd(new sad::animations::MethodCall0<_Object, _Method>(o, m));
     }
     /*! Adds a callback, which should be called, when group is done playing
         \param[in] o object
@@ -147,9 +188,9 @@ public:
         \param[in] a argument
      */
     template<typename _Object, typename _Method, typename _Arg>
-    void end(_Object* o, _Method m, const _Arg& a)
+    sad::animations::Callback*  end(_Object* o, _Method m, const _Arg& a)
     {
-        addCallbackOnEnd(new sad::animations::MethodCall1<_Object, _Method, _Arg>(o, m, a));
+        return addCallbackOnEnd(new sad::animations::MethodCall1<_Object, _Method, _Arg>(o, m, a));
     }
     /*! Adds a callback, which should be called, when group is done playing
         \param[in] o object
@@ -158,9 +199,9 @@ public:
         \param[in] a2 second argument
      */
     template<typename _Object, typename _Method, typename _Arg1, typename _Arg2>
-    void end(_Object* o, _Method m, const _Arg1& a1,const _Arg2& a2)
+    sad::animations::Callback*  end(_Object* o, _Method m, const _Arg1& a1,const _Arg2& a2)
     {
-        addCallbackOnEnd(new sad::animations::MethodCall2<_Object, _Method, _Arg1, _Arg2>(o, m, a1, a2));
+        return addCallbackOnEnd(new sad::animations::MethodCall2<_Object, _Method, _Arg1, _Arg2>(o, m, a1, a2));
     }
     /*! Adds a callback, which should be called, when group is done playing
         \param[in] o object
@@ -170,31 +211,32 @@ public:
         \param[in] a3 third argument
      */
     template<typename _Object, typename _Method, typename _Arg1, typename _Arg2, typename _Arg3>
-    void end(_Object* o, _Method m, const _Arg1& a1,const _Arg2& a2, const _Arg3& a3)
+    sad::animations::Callback*  end(_Object* o, _Method m, const _Arg1& a1,const _Arg2& a2, const _Arg3& a3)
     {
-        addCallbackOnEnd(new sad::animations::MethodCall3<_Object, _Method, _Arg1, _Arg2, _Arg3>(o, m, a1, a2, a3));
+        return addCallbackOnEnd(new sad::animations::MethodCall3<_Object, _Method, _Arg1, _Arg2, _Arg3>(o, m, a1, a2, a3));
     }
     /*! Adds new callback in animation group, which should be called,
         when group is started being played
         \param[in] c a new callback
+        \return callback
      */
-    void addCallbackOnStart(sad::animations::Callback* c);
+    sad::animations::Callback* addCallbackOnStart(sad::animations::Callback* c);
     /*! Adds a callback, which should be called, when group is started being played
         \param[in] f function
      */
     template<typename _Fun>
-    void start(_Fun f)
+    sad::animations::Callback*  start(_Fun f)
     {
-        addCallbackOnStart(new sad::animations::FunctionCall<_Fun>(f));
+        return addCallbackOnStart(new sad::animations::FunctionCall<_Fun>(f));
     }
     /*! Adds a callback, which should be called, when group is started being played
         \param[in] o object
         \param[in] m method
      */
     template<typename _Object, typename _Method>
-    void start(_Object* o, _Method m)
+    sad::animations::Callback*  start(_Object* o, _Method m)
     {
-        addCallbackOnStart(new sad::animations::MethodCall0<_Object, _Method>(o, m));
+        return addCallbackOnStart(new sad::animations::MethodCall0<_Object, _Method>(o, m));
     }
     /*! Adds a callback, which should be called, when group is started being played
         \param[in] o object
@@ -202,9 +244,9 @@ public:
         \param[in] a argument
      */
     template<typename _Object, typename _Method, typename _Arg>
-    void start(_Object* o, _Method m, const _Arg& a)
+    sad::animations::Callback*  start(_Object* o, _Method m, const _Arg& a)
     {
-        addCallbackOnStart(new sad::animations::MethodCall1<_Object, _Method, _Arg>(o, m, a));
+        return  addCallbackOnStart(new sad::animations::MethodCall1<_Object, _Method, _Arg>(o, m, a));
     }
     /*! Adds a callback, which should be called, when group is started being played
         \param[in] o object
@@ -213,9 +255,9 @@ public:
         \param[in] a2 second argument
      */
     template<typename _Object, typename _Method, typename _Arg1, typename _Arg2>
-    void start(_Object* o, _Method m, const _Arg1& a1,const _Arg2& a2)
+    sad::animations::Callback*  start(_Object* o, _Method m, const _Arg1& a1,const _Arg2& a2)
     {
-        addCallbackOnStart(new sad::animations::MethodCall2<_Object, _Method, _Arg1, _Arg2>(o, m, a1, a2));
+        return addCallbackOnStart(new sad::animations::MethodCall2<_Object, _Method, _Arg1, _Arg2>(o, m, a1, a2));
     }
     /*! Adds a callback, which should be called, when group is started being played
         \param[in] o object
@@ -225,91 +267,116 @@ public:
         \param[in] a3 third argument
      */
     template<typename _Object, typename _Method, typename _Arg1, typename _Arg2, typename _Arg3>
-    void start(_Object* o, _Method m, const _Arg1& a1,const _Arg2& a2, const _Arg3& a3)
+    sad::animations::Callback*  start(_Object* o, _Method m, const _Arg1& a1,const _Arg2& a2, const _Arg3& a3)
     {
-        addCallbackOnStart(new sad::animations::MethodCall3<_Object, _Method, _Arg1, _Arg2, _Arg3>(o, m, a1, a2, a3));
+        return addCallbackOnStart(new sad::animations::MethodCall3<_Object, _Method, _Arg1, _Arg2, _Arg3>(o, m, a1, a2, a3));
     }
-    /*! If current group played instances is related to specified object, stops related part.
-        Not all instances are being scanned, only played one.
-        \param[in] object a related object
-        \param[in] a animations list
+
+    /*! Removes callback on start
+        \param[in] c callback
+    */
+    void removeCallbackOnStart(sad::animations::Callback* c);
+    /*! Removes callback on end
+        \param[in] c callback
+    */
+    void removeCallbackOnEnd(sad::animations::Callback* c);
+    /*! Removes callback from all vectors
+        \param[in] c callback
+    */
+    void removeCallback(sad::animations::Callback* c);
+    /*! Clears callbacks on start
      */
-    virtual void stopInstanceRelatedToObject(sad::db::Object* object, sad::animations::Animations* a);
-    /*! Returns true of if object is related to this group's played instances.
-        Not all instances are being scanned, only played one.
-        \param[in] object a tested object
+    void clearCallbacksOnStart();
+    /*! Clears callbacks on end
+     */
+    void clearCallbacksOnEnd();
+    /*! Clear all callbacks
+     */
+    void clearCallbacks();
+
+    /*! Returns true of if process is related to object, matched by function
+        \param[in] f function for testing
         \return true if related
      */
-    virtual bool isRelatedToObject(sad::db::Object* object);
-    /*! Returns whether instances in group should be played sequentially
-        \return flag value
+    virtual bool isRelatedToMatchedObject(const std::function<bool(sad::db::Object*)>& f);
+    /*! If current instance is related to matched objects, stops related part
+        \param[in] f function for testing
+        \param[in] a animations list
      */
-    bool isSequential() const;
-    /*! Sets an attribute, which makes group play instances sequentially to true or false
-        \param[in] flag a flag
+    virtual void stopInstancesRelatedToMatchedObject(const std::function<bool(sad::db::Object*)>& f, sad::animations::Animations* a);
+    /*! Returns true of if process is related to animation, matched by function
+        \param[in] f function for testing
+        \return true if related
      */
-    void toggleIsSequential(bool flag);
+    virtual bool isRelatedToMatchedAnimation(const std::function<bool(sad::animations::Animation*)>& f);
+    /*! If current instance is related to matched objects, stops related part
+        \param[in] f function for testing
+        \param[in] a animations list
+     */
+    virtual void stopInstancesRelatedToMatchedAnimation(const std::function<bool(sad::animations::Animation*)>& f, sad::animations::Animations* a);
+    /*! Returns true of if process is related to instance, matched by function
+        \param[in] f function for testing
+        \return true if related
+     */
+    virtual bool isRelatedToMatchedProcess(const std::function<bool(sad::animations::Process*)>& f);
+    /*! If current instance is related to matched objects, stops related part
+        \param[in] f function for testing
+        \param[in] a animations list
+     */
+    virtual void stopInstancesRelatedToMatchedProcess(const std::function<bool(sad::animations::Process*)>& f, sad::animations::Animations* a);
 protected:
-     /*! Immediately adds an object to container
-          \param[in] o object
-      */
-     virtual void addNow(sad::animations::Instance* o);
-     /*! Immediately removed an object from container
-          \param[in] o object
-      */
-     virtual void removeNow(sad::animations::Instance* o);
-     /*! Immediately clears a container
-      */
-     virtual void clearNow();
-     /*! Fetches instances for animations group
+    /*! Clears links in group
+     */
+    void clearLinks();
+    /*! Fetches instances for animations group
         \param[out] result a result data
-      */
-     void getInstances(sad::Vector<sad::animations::Instance*> & result);
-     /*! Clear references
-      */
-     void clearReferences();
-     /*! Copies state from other group
-         \param[in] o group
-      */
-     void copyState(const sad::animations::Group& o);
-     /*! Fires callbacks on start for animation groups
-      */
-     void fireOnStartCallbacks();
-     /*! A links for instances
-      */
-     sad::Vector<sad::db::Link> m_instance_links;
-     /*! An instances to be processed
-      */
-     sad::Vector<sad::animations::Instance*> m_instances; 
-     /*! A finished instances for sequential animations
-      */
-     sad::Vector<sad::animations::Instance*> m_finished_instances;
-     /*! A referenced links
-      */
-     sad::Vector<sad::animations::Instance*> m_referenced;
-     /*! Whether animation is looped
-      */
-     bool m_looped;
-     /*! Whether animation is started
-      */
-     bool m_started;
-     /*! A cached parent animations to made cancelling possible
-      */
-     sad::animations::Animations* m_parent;
-     /*! A callbacks, that should be called, when group starts being played
-      */
+     */
+    void getInstances(sad::Vector<sad::animations::Instance*> & result);
+    /*! Copies state from other group
+        \param[in] o group
+     */
+    void copyState(const sad::animations::Group& o);
+    /*! Fires callbacks on start for animation groups
+     */
+    void fireOnStartCallbacks();
+    /*! A links for instances
+     */
+    sad::Vector<InstanceLink*> m_instance_links;
+    /*! An instances to be processed
+     */
+    sad::Vector<sad::animations::Instance*> m_instances; 
+    /*! A finished instances for sequential animations
+     */
+    sad::Vector<sad::animations::Instance*> m_finished_instances;
+    /*! Whether animation is looped
+     */
+    bool m_looped;
+    /*! Whether animation is started
+     */
+    bool m_started;
+    /*! A cached parent animations to made cancelling possible
+     */
+    sad::animations::Animations* m_parent;
+    /*! A callbacks, that should be called, when group starts being played
+     */
     sad::PtrVector<sad::animations::Callback> m_callbacks_on_start;
-     /*! A callbacks, that should be called, when group stops being played
-      */
+    /*! A callbacks, that should be called, when group stops being played
+     */
     sad::PtrVector<sad::animations::Callback> m_callbacks_on_end;
     /*! Whether animations should be played sequentially
-     */
+    */
     bool m_sequential;
     /*! A current instance
      */
     size_t m_current_instance;
+    /*! A lock
+     */
+    sad::Mutex m_lock;
 };
 
 }
 
 }
+
+
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::animations::Group)

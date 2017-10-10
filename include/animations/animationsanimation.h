@@ -6,6 +6,7 @@
 #pragma once
 
 #include "../resource/resource.h"
+#include "../mrobject.h"
 
 #include "animationssavedobjectstatecreators.h"
 
@@ -27,7 +28,7 @@ class Function;
 
 }
 
-class Animation: public sad::resource::Resource
+class Animation: public sad::resource::Resource, public sad::MRObject
 {
 SAD_OBJECT
 public:
