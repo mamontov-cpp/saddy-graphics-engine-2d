@@ -37,8 +37,8 @@ link_directories("../../lib")
 IF (WIN32)
   add_definitions(-DWIN32)
   IF (MINGW)
-	add_definitions(-DMINGW)	
-	SET_GCC_FLAGS()	
+	add_definitions(-DMINGW)
+	SET_GCC_FLAGS()
 	set(GLOBAL_LIBS m opengl32  glu32)
   ENDIF()
   IF (MSVC)
@@ -49,14 +49,14 @@ ELSE()
   add_definitions(-DUNIX -DLINUX -DGCC -DX11)
   SET_GCC_FLAGS()
   link_directories("/usr/X11R6/lib")
-  set(GLOBAL_LIBS m rt GL GLU pthread X11)
+  set(GLOBAL_LIBS m rt GL GLU pthread X11 xcb)
 ENDIF()
 
 add_executable(${SADDY_APPLICATION_NAME}  ${SRCS} ${HDRS})
 
 target_link_libraries(${SADDY_APPLICATION_NAME} "${SADDY_LIBRARY_NAME}")
 target_link_libraries(${SADDY_APPLICATION_NAME} ${GLOBAL_LIBS})
-  
+
 set_target_properties(${SADDY_APPLICATION_NAME}
     PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY "../../lib"
