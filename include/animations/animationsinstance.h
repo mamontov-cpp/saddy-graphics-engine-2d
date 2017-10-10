@@ -216,7 +216,7 @@ public:
     template<typename _Object, typename _Method, typename _Arg>
     sad::animations::Callback* end(_Object* o, _Method m, const _Arg& a)
     {
-        return ;addCallbackOnEnd(new sad::animations::MethodCall1<_Object, _Method, _Arg>(o, m, a));
+        return addCallbackOnEnd(new sad::animations::MethodCall1<_Object, _Method, _Arg>(o, m, a));
     }
     /*! Adds a callback, which should be called on start
         \param[in] o object
