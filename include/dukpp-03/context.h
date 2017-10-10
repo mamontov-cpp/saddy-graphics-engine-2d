@@ -713,6 +713,9 @@ protected:
     /*! Exposes sad::db::CustomObject class and it's functions
      */
     void exposeCustomObject();
+    /*! Exposes clipboard class and it's functions
+     */
+    void exposeClipboard();
 };
 
 #undef SAD_DUKPP03_TEMPLATE_REGFUNC_BODY

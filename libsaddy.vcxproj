@@ -167,6 +167,7 @@
     <ClCompile Include="src\classmetadata.cpp" />
     <ClCompile Include="src\classmetadatacastfunction.cpp" />
     <ClCompile Include="src\classmetadatacontainer.cpp" />
+    <ClCompile Include="src\clipboard.cpp" />
     <ClCompile Include="src\closure.cpp" />
     <ClCompile Include="src\font.cpp" />
     <ClCompile Include="src\formattedlabel.cpp" />
@@ -376,6 +377,7 @@
     <ClInclude Include="include\classmetadata.h" />
     <ClInclude Include="include\classmetadatacastfunction.h" />
     <ClInclude Include="include\classmetadatacontainer.h" />
+    <ClInclude Include="include\clipboard.h" />
     <ClInclude Include="include\closure.h" />
     <ClInclude Include="include\collection.h" />
     <ClInclude Include="include\db\dbstronglink.h" />

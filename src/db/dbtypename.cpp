@@ -56,6 +56,8 @@
 #include "layouts/cell.h"
 #include "layouts/grid.h"
 
+#include "../clipboard.h"
+
 static sad::Mutex typename_cache_lock;
 static sad::Hash<sad::String, sad::String> typename_cache;
 
@@ -217,6 +219,7 @@ DECLARE_COMMON_TYPE(unsigned long long)
 DECLARE_COMMON_TYPE(float)
 DECLARE_COMMON_TYPE(double)
 DECLARE_COMMON_TYPE(long double)
+DECLARE_COMMON_TYPE(sad::Clipboard)
 DECLARE_COMMON_TYPE(std::string)
 DECLARE_COMMON_TYPE(sad::String)
 DECLARE_COMMON_TYPE(sad::Point2D)
