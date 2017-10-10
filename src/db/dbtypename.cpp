@@ -56,6 +56,8 @@
 #include "layouts/cell.h"
 #include "layouts/grid.h"
 
+#include "clipboard.h"
+
 static sad::Mutex typename_cache_lock;
 static sad::Hash<sad::String, sad::String> typename_cache;
 
@@ -100,7 +102,7 @@ static sad::Hash<sad::String, sad::Hash<sad::String, sad::Hash<sad::String, sad:
 const sad::String&  sad::db::internal::fetchTypeNameForTemplate2(
     const sad::String& type_name,
     const sad::String& arg1,
-    const sad::String& arg2	
+    const sad::String& arg2
 )
 {
     templates_dependent_on_2_args_lock.lock();
@@ -131,7 +133,7 @@ const sad::String&  sad::db::internal::fetchTypeNameForTemplate3(
     const sad::String& type_name,
     const sad::String& arg1,
     const sad::String& arg2,
-    const sad::String& arg3	
+    const sad::String& arg3
 )
 {
     templates_dependent_on_3_args_lock.lock();
@@ -195,7 +197,7 @@ const sad::String&  sad::db::internal::fetchTypeNameForTemplate4(
     if (slice4.contains(arg4) == false)
     {
         slice4.insert(arg4, type_name + "<" + arg1 + "," + arg2 + "," + arg3 + "," + arg4 + ">");
-    }	
+    }
     const sad::String& result =  slice4[arg4];
     templates_dependent_on_4_args_lock.unlock();
     return result;
@@ -217,6 +219,7 @@ DECLARE_COMMON_TYPE(unsigned long long)
 DECLARE_COMMON_TYPE(float)
 DECLARE_COMMON_TYPE(double)
 DECLARE_COMMON_TYPE(long double)
+DECLARE_COMMON_TYPE(sad::Clipboard)
 DECLARE_COMMON_TYPE(std::string)
 DECLARE_COMMON_TYPE(sad::String)
 DECLARE_COMMON_TYPE(sad::Point2D)

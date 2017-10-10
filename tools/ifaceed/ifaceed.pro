@@ -6,7 +6,7 @@ QT += core gui opengl
 CONFIG += console opengl
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TEMPLATE = app
-TARGET = 
+TARGET =
 DEPENDPATH += . \
               ifaceed \
               ifaceed/core \
@@ -109,7 +109,7 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/scenenodes/scenenodesnew.h \
     ifaceed/gui/actions/labelactions.h \
     ifaceed/gui/actions/scenenodeactions.h \
-    ifaceed/gui/actions/sceneactions.h \	
+    ifaceed/gui/actions/sceneactions.h \
     ifaceed/core/borders/activeborder.h \
     ifaceed/core/borders/border.h \
     ifaceed/core/borders/selectionborder.h \
@@ -203,7 +203,7 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/animations/animationsswapincomposite.h \
     ifaceed/history/groups/groupsaddinstance.h \
     ifaceed/history/groups/groupschangelooped.h \
-    ifaceed/history/groups/groupschangesequential.h \	
+    ifaceed/history/groups/groupschangesequential.h \
     ifaceed/history/groups/groupschangename.h \
     ifaceed/history/groups/groupschangeproperty.h \
     ifaceed/history/groups/groupsnew.h \
@@ -277,7 +277,7 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/gui/uiblocks/uiscenenodeblock.h \
     ifaceed/gui/uiblocks/uispriteblock.h \
     ifaceed/gui/uiblocks/uiwayblock.h \
-    ifaceed/gui/uiblocks/uilayoutblock.h \	
+    ifaceed/gui/uiblocks/uilayoutblock.h \
     ifaceed/gui/mainpanelproxy.h \
     ifaceed/history/animations/animationschangeeasingfunctiontype.h \
     ifaceed/history/animations/animationschangeeasingovershootamplitude.h \
@@ -289,32 +289,32 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/gui/childrenprovider.h \
     ifaceed/gui/actions/gridactions.h \
     ifaceed/gui/rendergrids.h \
-    ifaceed/gui/rendereditorgrid.h \	
+    ifaceed/gui/rendereditorgrid.h \
     ifaceed/history/layouts/layoutsnew.h \
-    ifaceed/history/layouts/layoutschangename.h \	
+    ifaceed/history/layouts/layoutschangename.h \
     ifaceed/history/layouts/layoutsaddchild.h \
-    ifaceed/history/layouts/layoutsremovechild.h \	
+    ifaceed/history/layouts/layoutsremovechild.h \
     ifaceed/history/layouts/layoutsclearcell.h \
-    ifaceed/history/layouts/layoutsswapchildren.h \	
+    ifaceed/history/layouts/layoutsswapchildren.h \
     ifaceed/history/layouts/layoutschange.h \
-    ifaceed/history/layouts/layoutschangecell.h \	
+    ifaceed/history/layouts/layoutschangecell.h \
     ifaceed/history/layouts/layoutsremove.h \
     ifaceed/scripting/layouts/gridbindings.h \
     ifaceed/scripting/layouts/scriptablegrid.h \
     ifaceed/scripting/layouts/scriptablegridcell.h \
-    ifaceed/scripting/layouts/scriptablelengthvalue.h \ 	
+    ifaceed/scripting/layouts/scriptablelengthvalue.h \
     ifaceed/scripting/dukqtcontext.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui \
     ifaceed/reloadfilelist.ui \
     ifaceed/scriptinghelp.ui \
     ifaceed/gridandoffset.ui \
-    ifaceed/stringeditordialog.ui 
+    ifaceed/stringeditordialog.ui
 
 
 SOURCES += ifaceed/main.cpp \
            ifaceed/mainpanel.cpp \
-           ifaceed/gridandoffset.cpp \		   
+           ifaceed/gridandoffset.cpp \
     ifaceed/core/typeconverters/qcolortosadacolor.cpp \
     ifaceed/core/typeconverters/qcolortosadcolor.cpp \
     ifaceed/core/typeconverters/qlistqlistqcolortosadvectorsadvectoracolor.cpp \
@@ -375,7 +375,7 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/history/scenes/scenesremove.cpp \
     ifaceed/core/synchronization.cpp \
     ifaceed/history/scenenodes/scenenodesnew.cpp \
-    ifaceed/history/scenenodes/scenenodesspan.cpp \		
+    ifaceed/history/scenenodes/scenenodesspan.cpp \
     ifaceed/gui/actions/abstractactions.cpp \
     ifaceed/gui/actions/actions.cpp \
     ifaceed/gui/actions/labelactions.cpp \
@@ -464,7 +464,7 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/history/animations/animationsswapincomposite.cpp \
     ifaceed/history/groups/groupsaddinstance.cpp \
     ifaceed/history/groups/groupschangelooped.cpp \
-    ifaceed/history/groups/groupschangesequential.cpp \	
+    ifaceed/history/groups/groupschangesequential.cpp \
     ifaceed/history/groups/groupschangename.cpp \
     ifaceed/history/groups/groupsnew.cpp \
     ifaceed/history/groups/groupsremove.cpp \
@@ -524,7 +524,7 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/gui/uiblocks/uiscenenodeblock.cpp \
     ifaceed/gui/uiblocks/uispriteblock.cpp \
     ifaceed/gui/uiblocks/uiwayblock.cpp \
-    ifaceed/gui/uiblocks/uilayoutblock.cpp \	
+    ifaceed/gui/uiblocks/uilayoutblock.cpp \
     ifaceed/gui/mainpanelproxy.cpp \
     ifaceed/history/animations/animationschangeeasingfunctiontype.cpp \
     ifaceed/history/animations/animationschangeeasingovershootamplitude.cpp \
@@ -533,18 +533,18 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/gui/childrenprovider.cpp \
     ifaceed/gui/actions/gridactions.cpp \
     ifaceed/gui/rendergrids.cpp \
-    ifaceed/gui/rendereditorgrid.cpp \	
+    ifaceed/gui/rendereditorgrid.cpp \
     ifaceed/history/layouts/layoutsnew.cpp \
     ifaceed/history/layouts/layoutschangename.cpp \
     ifaceed/history/layouts/layoutsaddchild.cpp \
     ifaceed/history/layouts/layoutsremovechild.cpp \
-    ifaceed/history/layouts/layoutsswapchildren.cpp \	
+    ifaceed/history/layouts/layoutsswapchildren.cpp \
     ifaceed/history/layouts/layoutsremove.cpp \
     ifaceed/history/layouts/layoutsclearcell.cpp \
     ifaceed/scripting/layouts/gridbindings.cpp \
     ifaceed/scripting/layouts/scriptablegrid.cpp \
     ifaceed/scripting/layouts/scriptablegridcell.cpp \
-    ifaceed/scripting/layouts/scriptablelengthvalue.cpp \ 	
+    ifaceed/scripting/layouts/scriptablelengthvalue.cpp \
     ../../include/3rdparty/dukpp-03/plugins/qt/classbinding.cpp \
     ../../include/3rdparty/dukpp-03/plugins/qt/context.cpp \
     ../../include/3rdparty/dukpp-03/plugins/qt/convert.cpp \
@@ -591,10 +591,11 @@ unix {
         LIBS += -lGLU
         LIBS += -lX11
         LIBS += -lfreetype
+        LIBS += -lxcb
 }
 
 win32 {
-        QMAKE_LIBDIR += $$quote($$(FREETYPE_DIR))\\lib 
+        QMAKE_LIBDIR += $$quote($$(FREETYPE_DIR))\\lib
         LIBS += -lglu32 -lopengl32 -lkernel32 -luser32 -lgdi32 -lwinspool  -lshell32 -lcomdlg32 -ladvapi32 -lfreetype
 }
 
