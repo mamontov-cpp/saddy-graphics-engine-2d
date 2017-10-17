@@ -1,6 +1,6 @@
 #ifdef WIN32
-	#include <GL/gl.h>
-	#include <GL/glu.h>
+    #include <GL/gl.h>
+    #include <GL/glu.h>
 #endif
 
 #include <renderer.h>
@@ -8,7 +8,14 @@
 #include <imgui.h>
 #include <window.h>
 #include <os/windowhandles.h>
+#include <mousecursor.h>
 #include <keycodes.h>
+#include <orthographiccamera.h>
+#include <scene.h>
+#include <pipeline/pipeline.h>
+#include <pipeline/pipelineprocess.h>
+#include <input/controls.h>
+#include <input/events.h>
 
 
 void render_draw_lists(ImDrawData* draw_data)
@@ -100,25 +107,220 @@ sad::Hash<sad::Renderer*, sad::String> hash;
 
 static const char* get_clipboard_text(void* user_data)
 {
-	sad::Renderer* ref = static_cast<sad::Renderer*>(user_data);
-	if (hash.contains(ref))
-	{
-		hash[ref]  = ref->clipboard()->get();
-	}
-	else
-	{
-		hash.insert(ref, ref->clipboard()->get());
-	}
+    sad::Renderer* ref = static_cast<sad::Renderer*>(user_data);
+    if (hash.contains(ref))
+    {
+        hash[ref]  = ref->clipboard()->get();
+    }
+    else
+    {
+        hash.insert(ref, ref->clipboard()->get());
+    }
     return hash[ref].c_str();
 }
 
 static void set_clipboard_text(void* user_data, const char* text)
 {
     sad::Renderer* ref = static_cast<sad::Renderer*>(user_data);
-	ref->clipboard()->set(text);
+    ref->clipboard()->set(text);
+}
+
+static GLuint       font_texture = 0;
+
+static bool create_device_objects()
+{
+    // Build texture atlas
+    ImGuiIO& io = ImGui::GetIO();
+    unsigned char* pixels;
+    int width, height;
+    io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);   // Load as RGBA 32-bits (75% of the memory is wasted, but default font is so small) because it is more likely to be compatible with user's existing shaders. If your ImTextureId represent a higher-level concept than just a GL texture id, consider calling GetTexDataAsAlpha8() instead to save on GPU memory.
+
+    // Upload texture to graphics system
+    GLint last_texture;
+    glGetIntegerv(GL_TEXTURE_BINDING_2D, &last_texture);
+    glGenTextures(1, &font_texture);
+    glBindTexture(GL_TEXTURE_2D, font_texture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+
+    // Store our identifier
+    io.Fonts->TexID = (void *)(intptr_t)font_texture;
+
+    // Restore state
+    glBindTexture(GL_TEXTURE_2D, last_texture);
+
+    return true;
+}
+
+static void  invalidate_device_objects()
+{
+    if (font_texture)
+    {
+        glDeleteTextures(1, &font_texture);
+        ImGui::GetIO().Fonts->TexID = 0;
+        font_texture = 0;
+    }
+}
+
+static void shutdown()
+{
+    invalidate_device_objects();
+    ImGui::Shutdown();
 }
 
 
+void new_frame()
+{
+    if (!font_texture)
+        create_device_objects();
+    ImGuiIO& io = ImGui::GetIO();
+
+    // Setup display size (every frame to accommodate for window resizing)
+    int w, h;
+    sad::Rect2I r = sad::Renderer::ref()->window()->rect();
+    w = r.width();
+    h = r.height();
+    
+    io.DisplaySize = ImVec2((float)w, (float)h);
+    io.DisplayFramebufferScale = ImVec2(1, 1);
+
+    // Setup time step
+    io.DeltaTime = 1000 / sad::Renderer::ref()->fps();
+
+    // Setup inputs
+    // (we already got mouse wheel, keyboard keys & characters from glfw callbacks polled in glfwPollEvents())
+    if ((sad::Renderer::ref()->window()->hidden() == false) && (sad::Renderer::ref()->window()->minimized() == false))
+    {
+        if (io.WantMoveMouse)
+        {
+            sad::Renderer::ref()->setCursorPosition(sad::Point2D((double)io.MousePos.x, (double)io.MousePos.y));
+        }
+        else
+        {
+            double mouse_x, mouse_y;
+            sad::MaybePoint3D mp = sad::Renderer::ref()->cursorPosition();
+            if (mp.exists())
+            {
+                sad::Point3D p = mp.value();
+                io.MousePos = ImVec2((float)(p.x()), (float)(p.y()));   // Get mouse position in screen coordinates (set to -1,-1 if no mouse / on another screen, etc.)
+            }
+            else
+            {
+                io.MousePos = ImVec2(-FLT_MAX,-FLT_MAX);
+            }
+        }
+    }
+    else
+    {
+        io.MousePos = ImVec2(-FLT_MAX,-FLT_MAX);
+    }
+
+
+    // Hide OS mouse cursor if ImGui is drawing it
+    if (io.MouseDrawCursor) {
+        sad::Renderer::ref()->cursor()->hide();
+    } else {
+        sad::Renderer::ref()->cursor()->show();
+    }
+
+    // Start the frame
+    ImGui::NewFrame();
+}
+
+static void mouse_move_callback(const sad::input::MouseMoveEvent& ev)
+{
+    ImGuiIO& io = ImGui::GetIO();
+    io.MousePos = ImVec2((float)(ev.pos2D().x()), (float)(ev.pos2D().y()));
+}
+
+static void key_press_callback(const sad::input::KeyPressEvent& ev)
+{
+    ImGuiIO& io = ImGui::GetIO();
+    io.KeysDown[ev.key()] = true;
+
+    if (ev.ReadableKey.exists())
+    {
+        io.AddInputCharactersUTF8(ev.ReadableKey.value().c_str());
+    }
+
+    io.KeyCtrl = ev.CtrlHeld;
+    io.KeyShift = ev.ShiftHeld;
+    io.KeyAlt = ev.AltHeld;
+    io.KeySuper = false;
+}
+
+static void key_release_callback(const sad::input::KeyReleaseEvent& ev)
+{
+    ImGuiIO& io = ImGui::GetIO();
+    io.KeysDown[ev.key()] = false;
+
+
+    io.KeyCtrl = ev.CtrlHeld;
+    io.KeyShift = ev.ShiftHeld;
+    io.KeyAlt = ev.AltHeld;
+    io.KeySuper = false;
+}
+
+static void mouse_press_callback(const sad::input::MousePressEvent& ev)
+{
+    ImGuiIO& io = ImGui::GetIO();
+    switch (ev.Button)
+    {
+        case sad::MouseLeft: { io.MouseDown[0] = true; }
+        case sad::MouseMiddle: { io.MouseDown[1] = true; }
+        case sad::MouseRight: { io.MouseDown[2] = true; }
+    };
+}
+
+static void mouse_release_callback(const sad::input::MousePressEvent& ev)
+{
+    ImGuiIO& io = ImGui::GetIO();
+    switch (ev.Button)
+    {
+        case sad::MouseLeft: { io.MouseDown[0] = false; }
+        case sad::MouseMiddle: { io.MouseDown[1] = false; }
+        case sad::MouseRight: { io.MouseDown[2] = false; }
+    };
+}
+
+static void mouse_wheel_callback(const sad::input::MouseWheelEvent& ev)
+{
+    ImGuiIO& io = ImGui::GetIO();
+    io.MouseWheel = ev.Delta;
+}
+
+
+bool show_test_window = true;
+bool show_another_window = false;
+ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+
+static void imgui_callback()
+{
+    static float f = 0.0f;
+    ImGui::Text("Hello, world!");
+    ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
+    ImGui::ColorEdit3("clear color", (float*)&clear_color);
+    if (ImGui::Button("Test Window")) show_test_window ^= 1;
+    if (ImGui::Button("Another Window")) show_another_window ^= 1;
+    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+
+    ImGui::Begin("Another Window", &show_another_window);
+    ImGui::Text("Hello from another window!");
+    ImGui::End();
+  
+    ImGui::SetNextWindowPos(ImVec2(650, 20), ImGuiCond_FirstUseEver);
+    ImGui::ShowTestWindow(&show_test_window);
+}
+
+static void run_imgui_pipeline()
+{
+    new_frame();
+
+    imgui_callback();
+
+    ImGui::Render();
+}
 
 void init(sad::Renderer* r)
 {
@@ -150,22 +352,41 @@ void init(sad::Renderer* r)
 #ifdef _WIN32
     io.ImeWindowHandle = r->window()->handles()->WND;
 #endif
+
+    sad::input::Controls* controls = sad::Renderer::ref()->controls();
+    controls->add(*sad::input::ET_Quit, shutdown);
+    controls->add(*sad::input::ET_MouseMove, mouse_move_callback);
+    controls->add(*sad::input::ET_KeyPress, key_press_callback);
+    controls->add(*sad::input::ET_KeyRelease, key_release_callback);
+    controls->add(*sad::input::ET_MousePress, mouse_press_callback);
+    controls->add(*sad::input::ET_MouseRelease, mouse_release_callback);
+    controls->add(*sad::input::ET_MouseWheel, mouse_wheel_callback);
+
+    sad::pipeline::Process * step = new sad::pipeline::Process(run_imgui_pipeline);
+    sad::Renderer::ref()->pipeline()->insertBefore("sad::MouseCursor::renderCursorIfNeedTo", step, "run_imgui_pipeline");
 }
 
 int main(int argc, char** argv)
 {
-	sad::Renderer* renderer = sad::Renderer::ref();    
-	sad::log::ConsoleTarget * consoletarget = new sad::log::ConsoleTarget(
+    sad::Renderer* renderer = sad::Renderer::ref();
+    sad::log::ConsoleTarget * consoletarget = new sad::log::ConsoleTarget(
         "{0}: [{1}] {3}{2}{4}", 0, true
     );
     renderer->log()->addTarget(consoletarget);
     renderer->init(sad::Settings(640,480,false));
     renderer->setWindowTitle("ImGui demo");
-	init(renderer);
-	
+
+    // Setup proper matrices
+    sad::Scene* s = new sad::Scene();
+    s->setCamera(new sad::OrthographicCamera());
+    s->setRenderer(renderer);
+    renderer->add(s);
+
+    init(renderer);
+    
     // Set window size to be fixed
     renderer->makeFixedSize();
-	renderer->run();
-	
-	return 0;
+    renderer->run();
+    
+    return 0;
 }
