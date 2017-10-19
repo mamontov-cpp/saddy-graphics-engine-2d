@@ -186,7 +186,7 @@ void new_frame()
     io.DisplayFramebufferScale = ImVec2(1, 1);
 
     // Setup time step
-    io.DeltaTime = 1000 / sad::Renderer::ref()->fps();
+    io.DeltaTime = 1.0 / sad::Renderer::ref()->fps();
 
     // Setup inputs
     // (we already got mouse wheel, keyboard keys & characters from glfw callbacks polled in glfwPollEvents())
@@ -203,7 +203,8 @@ void new_frame()
             if (mp.exists())
             {
                 sad::Point3D p = mp.value();
-                io.MousePos = ImVec2((float)(p.x()), (float)(p.y()));   // Get mouse position in screen coordinates (set to -1,-1 if no mouse / on another screen, etc.)
+				sad::Rect2I r = sad::Renderer::ref()->window()->rect();
+                io.MousePos = ImVec2((float)(p.x()), r.height() - (float)(p.y()));   // Get mouse position in screen coordinates (set to -1,-1 if no mouse / on another screen, etc.)
             }
             else
             {
@@ -230,8 +231,9 @@ void new_frame()
 
 static void mouse_move_callback(const sad::input::MouseMoveEvent& ev)
 {
+	sad::Rect2I r = sad::Renderer::ref()->window()->rect();
     ImGuiIO& io = ImGui::GetIO();
-    io.MousePos = ImVec2((float)(ev.pos2D().x()), (float)(ev.pos2D().y()));
+    io.MousePos = ImVec2((float)(ev.pos2D().x()), r.height() - (float)(ev.pos2D().y()));
 }
 
 static void key_press_callback(const sad::input::KeyPressEvent& ev)
@@ -298,13 +300,15 @@ ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 static void imgui_callback()
 {
     static float f = 0.0f;
+	char buf[1000] = "";
     ImGui::Text("Hello, world!");
     ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
     ImGui::ColorEdit3("clear color", (float*)&clear_color);
     if (ImGui::Button("Test Window")) show_test_window ^= 1;
     if (ImGui::Button("Another Window")) show_another_window ^= 1;
     ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-
+	ImGui::InputText("string", buf, 256);
+	printf("%d %d\n", show_test_window, show_another_window);
     ImGui::Begin("Another Window", &show_another_window);
     ImGui::Text("Hello from another window!");
     ImGui::End();
@@ -373,15 +377,14 @@ int main(int argc, char** argv)
         "{0}: [{1}] {3}{2}{4}", 0, true
     );
     renderer->log()->addTarget(consoletarget);
-    renderer->init(sad::Settings(640,480,false));
+    renderer->init(sad::Settings(1024,768,false));
     renderer->setWindowTitle("ImGui demo");
 
     // Setup proper matrices
     sad::Scene* s = new sad::Scene();
-    s->setCamera(new sad::OrthographicCamera());
-    s->setRenderer(renderer);
     renderer->add(s);
-
+    s->setCamera(new sad::OrthographicCamera());
+     
     init(renderer);
     
     // Set window size to be fixed
