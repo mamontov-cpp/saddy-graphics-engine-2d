@@ -203,7 +203,7 @@ void new_frame()
             if (mp.exists())
             {
                 sad::Point3D p = mp.value();
-				sad::Rect2I r = sad::Renderer::ref()->window()->rect();
+                sad::Rect2I r = sad::Renderer::ref()->window()->rect();
                 io.MousePos = ImVec2((float)(p.x()), r.height() - (float)(p.y()));   // Get mouse position in screen coordinates (set to -1,-1 if no mouse / on another screen, etc.)
             }
             else
@@ -231,7 +231,7 @@ void new_frame()
 
 static void mouse_move_callback(const sad::input::MouseMoveEvent& ev)
 {
-	sad::Rect2I r = sad::Renderer::ref()->window()->rect();
+    sad::Rect2I r = sad::Renderer::ref()->window()->rect();
     ImGuiIO& io = ImGui::GetIO();
     io.MousePos = ImVec2((float)(ev.pos2D().x()), r.height() - (float)(ev.pos2D().y()));
 }
@@ -267,22 +267,37 @@ static void key_release_callback(const sad::input::KeyReleaseEvent& ev)
 static void mouse_press_callback(const sad::input::MousePressEvent& ev)
 {
     ImGuiIO& io = ImGui::GetIO();
+    printf("Press\n");
     switch (ev.Button)
     {
         case sad::MouseLeft: { io.MouseDown[0] = true; }
-        case sad::MouseMiddle: { io.MouseDown[1] = true; }
-        case sad::MouseRight: { io.MouseDown[2] = true; }
+        case sad::MouseMiddle: { io.MouseDown[2] = true; }
+        case sad::MouseRight: { io.MouseDown[1] = true; }
+    };
+}
+
+static void mouse_double_click_callback(const sad::input::MouseDoubleClickEvent& ev)
+{
+    ImGuiIO& io = ImGui::GetIO();
+    printf("Double click\n");
+    switch (ev.Button)
+    {
+        case sad::MouseLeft: { io.MouseDown[0] = true; }
+        case sad::MouseMiddle: { io.MouseDown[2] = true; }
+        case sad::MouseRight: { io.MouseDown[1] = true; }
     };
 }
 
 static void mouse_release_callback(const sad::input::MousePressEvent& ev)
 {
     ImGuiIO& io = ImGui::GetIO();
+    printf("Release\n");
+
     switch (ev.Button)
     {
         case sad::MouseLeft: { io.MouseDown[0] = false; }
-        case sad::MouseMiddle: { io.MouseDown[1] = false; }
-        case sad::MouseRight: { io.MouseDown[2] = false; }
+        case sad::MouseMiddle: { io.MouseDown[2] = false; }
+        case sad::MouseRight: { io.MouseDown[1] = false; }
     };
 }
 
@@ -300,21 +315,27 @@ ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 static void imgui_callback()
 {
     static float f = 0.0f;
-	char buf[1000] = "";
+    char buf[1000] = "";
     ImGui::Text("Hello, world!");
     ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
     ImGui::ColorEdit3("clear color", (float*)&clear_color);
     if (ImGui::Button("Test Window")) show_test_window ^= 1;
     if (ImGui::Button("Another Window")) show_another_window ^= 1;
     ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-	ImGui::InputText("string", buf, 256);
-	printf("%d %d\n", show_test_window, show_another_window);
-    ImGui::Begin("Another Window", &show_another_window);
-    ImGui::Text("Hello from another window!");
-    ImGui::End();
-  
+    ImGui::InputText("string", buf, 256);
+
+    if (show_another_window)
+    {
+        ImGui::Begin("Another Window", &show_another_window);
+        ImGui::Text("Hello from another window!");
+        ImGui::End();
+    }
+    
     ImGui::SetNextWindowPos(ImVec2(650, 20), ImGuiCond_FirstUseEver);
-    ImGui::ShowTestWindow(&show_test_window);
+    if (show_test_window)
+    {
+        ImGui::ShowTestWindow(&show_test_window);
+    }
 }
 
 static void run_imgui_pipeline()
@@ -324,6 +345,9 @@ static void run_imgui_pipeline()
     imgui_callback();
 
     ImGui::Render();
+
+    ImGuiIO& io = ImGui::GetIO();
+    io.MouseDoubleClicked[0] = io.MouseDoubleClicked[1]  =  io.MouseDoubleClicked[2] = false;
 }
 
 void init(sad::Renderer* r)
@@ -365,6 +389,7 @@ void init(sad::Renderer* r)
     controls->add(*sad::input::ET_MousePress, mouse_press_callback);
     controls->add(*sad::input::ET_MouseRelease, mouse_release_callback);
     controls->add(*sad::input::ET_MouseWheel, mouse_wheel_callback);
+    controls->add(*sad::input::ET_MouseDoubleClick, mouse_double_click_callback);
 
     sad::pipeline::Process * step = new sad::pipeline::Process(run_imgui_pipeline);
     sad::Renderer::ref()->pipeline()->insertBefore("sad::MouseCursor::renderCursorIfNeedTo", step, "run_imgui_pipeline");
