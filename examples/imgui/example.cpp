@@ -238,6 +238,12 @@ static void key_press_callback(const sad::input::KeyPressEvent& ev)
 
     if (ev.ReadableKey.exists())
     {
+        printf("Bytes: ");
+        for(size_t i = 0; i < ev.ReadableKey.value().size(); i++)
+        {
+            printf("%d ", ev.ReadableKey.value().c_str()[i]);
+        }
+        printf("\n");
         io.AddInputCharactersUTF8(ev.ReadableKey.value().c_str());
     }
 
@@ -394,6 +400,8 @@ void init(sad::Renderer* r)
 
     sad::pipeline::Process * step = new sad::pipeline::Process(run_imgui_pipeline);
     sad::Renderer::ref()->pipeline()->insertBefore("sad::MouseCursor::renderCursorIfNeedTo", step, "run_imgui_pipeline");
+ 
+    io.Fonts->AddFontFromFileTTF("PTM55F.ttf", 14.0f, NULL, io.Fonts->GetGlyphRangesCyrillic());
 }
 
 int main(int argc, char** argv)
