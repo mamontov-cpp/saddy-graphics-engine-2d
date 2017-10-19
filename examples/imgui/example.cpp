@@ -200,15 +200,10 @@ void new_frame()
         {
             double mouse_x, mouse_y;
             sad::MaybePoint3D mp = sad::Renderer::ref()->cursorPosition();
-            if (mp.exists())
-            {
-                sad::Point3D p = mp.value();
-                sad::Rect2I r = sad::Renderer::ref()->window()->rect();
-                io.MousePos = ImVec2((float)(p.x()), r.height() - (float)(p.y()));   // Get mouse position in screen coordinates (set to -1,-1 if no mouse / on another screen, etc.)
-            }
-            else
+            if (mp.exists() == false)
             {
                 io.MousePos = ImVec2(-FLT_MAX,-FLT_MAX);
+                sad::Point3D p = mp.value();
             }
         }
     }
@@ -274,6 +269,8 @@ static void mouse_press_callback(const sad::input::MousePressEvent& ev)
         case sad::MouseMiddle: { io.MouseDown[2] = true; }
         case sad::MouseRight: { io.MouseDown[1] = true; }
     };
+    sad::Rect2I r = sad::Renderer::ref()->window()->rect();
+    io.MousePos = ImVec2((float)(ev.pos2D().x()), r.height() - (float)(ev.pos2D().y()));
 }
 
 static void mouse_double_click_callback(const sad::input::MouseDoubleClickEvent& ev)
@@ -286,6 +283,8 @@ static void mouse_double_click_callback(const sad::input::MouseDoubleClickEvent&
         case sad::MouseMiddle: { io.MouseDown[2] = true; }
         case sad::MouseRight: { io.MouseDown[1] = true; }
     };
+    sad::Rect2I r = sad::Renderer::ref()->window()->rect();
+    io.MousePos = ImVec2((float)(ev.pos2D().x()), r.height() - (float)(ev.pos2D().y()));
 }
 
 static void mouse_release_callback(const sad::input::MousePressEvent& ev)
@@ -299,6 +298,8 @@ static void mouse_release_callback(const sad::input::MousePressEvent& ev)
         case sad::MouseMiddle: { io.MouseDown[2] = false; }
         case sad::MouseRight: { io.MouseDown[1] = false; }
     };
+    sad::Rect2I r = sad::Renderer::ref()->window()->rect();
+    io.MousePos = ImVec2((float)(ev.pos2D().x()), r.height() - (float)(ev.pos2D().y()));
 }
 
 static void mouse_wheel_callback(const sad::input::MouseWheelEvent& ev)
