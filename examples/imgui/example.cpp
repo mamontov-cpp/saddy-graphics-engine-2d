@@ -228,7 +228,7 @@ static void mouse_move_callback(const sad::input::MouseMoveEvent& ev)
 {
     sad::Rect2I r = sad::Renderer::ref()->window()->rect();
     ImGuiIO& io = ImGui::GetIO();
-    io.MousePos = ImVec2((float)(ev.pos2D().x()), r.height() - (float)(ev.pos2D().y()));
+    io.MousePos = ImVec2((float)(ev.Point.x()), (ev.Point.y()));
 }
 
 static void key_press_callback(const sad::input::KeyPressEvent& ev)
@@ -276,7 +276,7 @@ static void mouse_press_callback(const sad::input::MousePressEvent& ev)
         case sad::MouseRight: { io.MouseDown[1] = true; }
     };
     sad::Rect2I r = sad::Renderer::ref()->window()->rect();
-    io.MousePos = ImVec2((float)(ev.pos2D().x()), r.height() - (float)(ev.pos2D().y()));
+    io.MousePos = ImVec2((float)(ev.Point.x()),  (float)(ev.Point.y()));
 }
 
 static void mouse_double_click_callback(const sad::input::MouseDoubleClickEvent& ev)
@@ -290,7 +290,7 @@ static void mouse_double_click_callback(const sad::input::MouseDoubleClickEvent&
         case sad::MouseRight: { io.MouseDown[1] = true; }
     };
     sad::Rect2I r = sad::Renderer::ref()->window()->rect();
-    io.MousePos = ImVec2((float)(ev.pos2D().x()), r.height() - (float)(ev.pos2D().y()));
+    io.MousePos = ImVec2((float)(ev.Point.x()), (float)(ev.Point.y()));
 }
 
 static void mouse_release_callback(const sad::input::MousePressEvent& ev)
@@ -305,7 +305,7 @@ static void mouse_release_callback(const sad::input::MousePressEvent& ev)
         case sad::MouseRight: { io.MouseDown[1] = false; }
     };
     sad::Rect2I r = sad::Renderer::ref()->window()->rect();
-    io.MousePos = ImVec2((float)(ev.pos2D().x()), r.height() - (float)(ev.pos2D().y()));
+    io.MousePos = ImVec2((float)(ev.Point.x()), (float)(ev.Point.y()));
 }
 
 static void mouse_wheel_callback(const sad::input::MouseWheelEvent& ev)
@@ -417,7 +417,7 @@ int main(int argc, char** argv)
     // Setup proper matrices
     sad::Scene* s = new sad::Scene();
     renderer->add(s);
-    s->setCamera(new sad::OrthographicCamera());
+    s->setCamera(new sad::Camera());
      
     init(renderer);
     

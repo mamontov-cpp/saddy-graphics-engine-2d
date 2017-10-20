@@ -67,6 +67,7 @@ void sad::os::SystemEventDispatcher::reset()
         TrackMouseEvent(&e);
 
         sad::input::MouseEnterEvent ev;
+        ev.Point = sad::Point2D(pt.value().x(), pt.value().y());
         ev.Point3D = pt.value();
         m_renderer->controls()->postEvent(sad::input::ET_MouseEnter, ev);
     }
@@ -137,6 +138,23 @@ sad::os::SystemWindowEventDispatchResult sad::os::SystemEventDispatcher::dispatc
 
 #endif
 
+sad::Point2D  sad::os::SystemEventDispatcher::toClient(const sad::Point2D& p)
+{
+#ifndef WIN32
+    return p;
+#else
+    RECT window; 
+    GetWindowRect(m_renderer->window()->handles()->WND, &window);
+    POINT begin;
+    begin.x = 0; 
+    begin.y = 0;
+    ClientToScreen(m_renderer->window()->handles()->WND, &begin);
+    LONG x_offset = begin.x - window.left;
+    LONG y_offset = begin.y - window.top;
+    return sad::Point2D(p.x() + x_offset, p.y() + y_offset);
+#endif
+}
+
 #ifdef X11
 
 void sad::os::SystemEventDispatcher::reset()
@@ -151,6 +169,7 @@ void sad::os::SystemEventDispatcher::reset()
     if (pnt.exists())
     {
         sad::input::MouseEnterEvent ev;
+        ev.Point = sad::Point2D(pnt.value().x(), pnt.value().y()); // Dumb, but what else?
         ev.Point3D = pnt.value();
         m_renderer->controls()->postEvent(sad::input::ET_MouseEnter, ev);
     }
@@ -278,6 +297,7 @@ void sad::os::SystemEventDispatcher::processMouseMove(sad::os::SystemWindowEvent
         TrackMouseEvent(&e);
 
         sad::input::MouseEnterEvent ev;
+        ev.Point = this->toClient(p);
         ev.Point3D = op;
         m_renderer->controls()->postEvent(sad::input::ET_MouseEnter, ev);
 #ifdef EVENT_LOGGING
@@ -285,6 +305,7 @@ void sad::os::SystemEventDispatcher::processMouseMove(sad::os::SystemWindowEvent
 #endif
     }
     sad::input::MouseMoveEvent mmev;
+    mmev.Point = this->toClient(p);
     mmev.Point3D = op;
 #ifdef EVENT_LOGGING
         SL_LOCAL_INTERNAL(fmt::Format("Triggered MouseMoveEvent({0}, {1}, {2})") << op.x() << op.y() << op.z(), *m_renderer);
@@ -295,6 +316,7 @@ void sad::os::SystemEventDispatcher::processMouseMove(sad::os::SystemWindowEvent
     sad::Point2D p(e.Event.xbutton.x, e.Event.xbutton.y);
     sad::Point3D op = m_renderer->mapToViewport(p);
     sad::input::MouseMoveEvent mmev;
+    mmev.Point = this->toClient(p);
     mmev.Point3D = op;
     m_renderer->controls()->postEvent(sad::input::ET_MouseMove, mmev);
 #endif
@@ -338,6 +360,7 @@ void sad::os::SystemEventDispatcher::processMouseWheel(sad::os::SystemWindowEven
 #endif
 
     sad::input::MouseWheelEvent ev;
+    ev.Point = this->toClient(p);
     ev.Point3D = viewportpoint;
     ev.Delta = delta;
     m_renderer->controls()->postEvent(sad::input::ET_MouseWheel, ev);
@@ -524,6 +547,7 @@ void sad::os::SystemEventDispatcher::processMousePress(sad::os::SystemWindowEven
             if (m_doubleclick_timer.elapsed() <= m_renderer->controls()->doubleClickSensivity())
             {
                 sad::input::MouseDoubleClickEvent dlclev;
+                dlclev.Point = this->toClient(p);
                 dlclev.Point3D = viewportpoint;
                 dlclev.Button = btn;
                 maybedcev.setValue(dlclev);
@@ -541,6 +565,7 @@ void sad::os::SystemEventDispatcher::processMousePress(sad::os::SystemWindowEven
 
 
     sad::input::MousePressEvent ev;
+    ev.Point = this->toClient(p);
     ev.Point3D  = viewportpoint;
     ev.Button = btn;
 #ifdef EVENT_LOGGING
@@ -604,6 +629,7 @@ void sad::os::SystemEventDispatcher::processMouseRelease(sad::os::SystemWindowEv
 #endif
 
     sad::input::MouseReleaseEvent ev;
+    ev.Point = this->toClient(p);
     ev.Point3D  = viewportpoint;
     ev.Button = btn;
 #ifdef EVENT_LOGGING
@@ -627,6 +653,7 @@ void sad::os::SystemEventDispatcher::processMouseEnter(sad::os::SystemWindowEven
     sad::Point2D p(e.Event.xcrossing.x, e.Event.xcrossing.y);
     sad::Point3D op = m_renderer->mapToViewport(p);
     sad::input::MouseEnterEvent ev;
+    ev.Point = this->toClient(p);
     ev.Point3D = op;
     m_renderer->controls()->postEvent(sad::input::ET_MouseEnter, ev);
 #ifdef EVENT_LOGGING
@@ -651,6 +678,7 @@ void sad::os::SystemEventDispatcher::processMouseDoubleClick(sad::os::SystemWind
     sad::Point3D viewportpoint = m_renderer->mapToViewport(p);
 
     sad::input::MouseDoubleClickEvent ev;
+    ev.Point = this->toClient(p);
     ev.Point3D  = viewportpoint;
     ev.Button = btn;
 
