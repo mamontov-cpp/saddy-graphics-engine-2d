@@ -241,7 +241,7 @@ sad::KeyboardKey syskeys[syskeycount] = { // Keyboard mapping table
     sad::OpeningSquareBracket, // 219   0xDB VK_OEM_4
     sad::BackSlash,            // 220   0xDC VK_OEM_5
     sad::ClosingSquareBracket, // 221   0xDD VK_OEM_6
-    sad::Apostrophe            // 222   0xDE VK_OEM_6   
+    sad::Apostrophe            // 222   0xDE VK_OEM_6
 };
 
 
@@ -272,7 +272,7 @@ unsigned int mapping[totalmappingsize] = {
     XK_F10,    sad::F10,
     XK_F11,    sad::F11,
     XK_F12,    sad::F12,
-    // Most WM hook this key so binding on it still have no purpose. 
+    // Most WM hook this key so binding on it still have no purpose.
     XK_Sys_Req,        sad::PrintScreen,
     XK_Scroll_Lock,    sad::ScrollLock,
     XK_Pause,          sad::Pause,
@@ -552,7 +552,7 @@ sad::KeyboardKey sad::os::KeyDecoder::decode(sad::os::SystemWindowEvent * e)
 {
 #ifdef WIN32
     sad::KeyboardKey key = sad::KeyNone;
-    if (m_table.contains(e->WParam)) 
+    if (m_table.contains(e->WParam))
     {
         key = m_table[e->WParam];
     }
@@ -562,7 +562,7 @@ sad::KeyboardKey sad::os::KeyDecoder::decode(sad::os::SystemWindowEvent * e)
 #ifdef X11
     sad::KeyboardKey key = sad::KeyNone;
     ::KeySym keysym = XLookupKeysym(&(e->Event.xkey), 0);
-    if (m_table.contains(keysym)) 
+    if (m_table.contains(keysym))
     {
         key = m_table[keysym];
     }
@@ -630,7 +630,7 @@ sad::Maybe<sad::String>  sad::os::KeyDecoder::convert(sad::os::SystemWindowEvent
     ucs2_to_utf8(*reinterpret_cast<int32_t*>(buffer), reinterpret_cast<unsigned char*>(buffer_utf8));
     //buffer[1] = 0;
     result.setValue(buffer_utf8);
-    
+
     m_key_states[e->WParam] = 0;
     m_key_states[VK_SHIFT] = 0;
     m_key_states[VK_CONTROL] = 0;
@@ -639,45 +639,52 @@ sad::Maybe<sad::String>  sad::os::KeyDecoder::convert(sad::os::SystemWindowEvent
     m_key_states[VK_RMENU] = 0;
     m_key_states[VK_CAPITAL] = 0;
 
-    
+
 #endif
 
 #ifdef X11
-    const int bufferlength = 10;
+    const int bufferlength = 150;
     char buffer[bufferlength];
-    int length = XLookupString(&(e->Event.xkey), buffer, bufferlength, &m_key_sym, NULL);
+    memset(buffer, 0, 150);
+    Status status = 0;
+    int length = Xutf8LookupString(win->handles()->IC, reinterpret_cast<XKeyPressedEvent*>(&(e->Event)), buffer, bufferlength, &m_key_sym, &status);
     if (length != 0)
     {
         result.setValue(buffer);
+    }
+    if (m_key_sym == XK_space)
+    {
+        result.setValue(" ");
     }
 #endif
 
     return result;
 }
 
-const int readablekeyscount = 11;
+const int readablekeyscount = 12;
 sad::KeyboardKey readablekeys[readablekeyscount] = {
     sad::Minus,
     sad::Equal,
-    
+
     sad::BackSlash,
     sad::Tilde,
     sad::OpeningSquareBracket,
-    
+
     sad::ClosingSquareBracket,
     sad::Semicolon,
     sad::Comma,
 
     sad::Period,
     sad::Slash,
-    sad::Apostrophe
+    sad::Apostrophe,
+    sad::Space
 };
 
 bool sad::os::KeyDecoder::isReadable(sad::KeyboardKey key)
 {
     bool is_readable = (key >= '0' && key <= '9');
     is_readable = is_readable || (key >= 'A' && key <= 'Z');
-    for(int i = 0 ; i < readablekeyscount; i++) 
+    for(int i = 0 ; i < readablekeyscount; i++)
     {
         is_readable = is_readable || (key == readablekeys[i]);
     }

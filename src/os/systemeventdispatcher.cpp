@@ -23,7 +23,7 @@
 //#define EVENT_LOGGING
 
 sad::os::SystemEventDispatcher::SystemEventDispatcher() //-V730
-: m_renderer(NULL), 
+: m_renderer(NULL),
 m_decoder_for_keypress_events(new sad::os::KeyDecoder()),
 m_decoder_for_keyrelease_events(new sad::os::KeyDecoder())
 #ifdef X11
@@ -70,7 +70,7 @@ void sad::os::SystemEventDispatcher::reset()
         ev.Point3D = pt.value();
         m_renderer->controls()->postEvent(sad::input::ET_MouseEnter, ev);
     }
-    sad::Rect2I  r = m_renderer->window()->rect();  
+    sad::Rect2I  r = m_renderer->window()->rect();
     m_old_window_size = sad::Size2I((unsigned int)(r.width()), (unsigned)(r.height()));
 }
 
@@ -79,9 +79,9 @@ sad::os::SystemWindowEventDispatchResult sad::os::SystemEventDispatcher::dispatc
 )
 {
     sad::os::SystemWindowEventDispatchResult result;
-    switch(e.MSG) 
+    switch(e.MSG)
     {
-        case WM_QUIT: 
+        case WM_QUIT:
         case WM_CLOSE:
             processQuit(e); break;
         case WM_ACTIVATE:
@@ -130,7 +130,7 @@ sad::os::SystemWindowEventDispatchResult sad::os::SystemEventDispatcher::dispatc
             break;
         case WM_NCHITTEST:
             result = processHitTest(e);
-            break;		
+            break;
     };
     return result;
 }
@@ -141,10 +141,10 @@ sad::os::SystemWindowEventDispatchResult sad::os::SystemEventDispatcher::dispatc
 
 void sad::os::SystemEventDispatcher::reset()
 {
-    m_alt_is_held = false;	
+    m_alt_is_held = false;
     m_in_doubleclick = false;
     m_doubleclick_timer.start();
-    sad::Rect2I  r = m_renderer->window()->rect();  
+    sad::Rect2I  r = m_renderer->window()->rect();
     m_old_window_size = sad::Size2I(r.width(), r.height());
 
     sad::MaybePoint3D pnt = m_renderer->cursorPosition();
@@ -168,15 +168,18 @@ sad::os::SystemWindowEventDispatchResult sad::os::SystemEventDispatcher::dispatc
     {
         case ClientMessage:
             rawatomname = XGetAtomName(
-                m_renderer->window()->handles()->Dpy, 
+                m_renderer->window()->handles()->Dpy,
                 xev.xclient.message_type
             );
             atomname = rawatomname;
             XFree(rawatomname);
             if (atomname == "WM_PROTOCOLS")
-            {			
+            {
                 processQuit(e);
             }
+            break;
+        case MappingNotify:
+            XRefreshKeyboardMapping(&xev.xmapping);
             break;
         case ConfigureNotify:
             processResize(e);
@@ -290,7 +293,7 @@ void sad::os::SystemEventDispatcher::processMouseMove(sad::os::SystemWindowEvent
 #endif
 #ifdef X11
     sad::Point2D p(e.Event.xbutton.x, e.Event.xbutton.y);
-    sad::Point3D op = m_renderer->mapToViewport(p);	
+    sad::Point3D op = m_renderer->mapToViewport(p);
     sad::input::MouseMoveEvent mmev;
     mmev.Point3D = op;
     m_renderer->controls()->postEvent(sad::input::ET_MouseMove, mmev);
@@ -305,7 +308,7 @@ void sad::os::SystemEventDispatcher::processMouseLeave(sad::os::SystemWindowEven
     sad::input::MouseLeaveEvent mlev;
     m_renderer->controls()->postEvent(sad::input::ET_MouseLeave, mlev);
 #ifdef EVENT_LOGGING
-    SL_LOCAL_INTERNAL("Triggered MouseLeaveEvent()", *m_renderer);			
+    SL_LOCAL_INTERNAL("Triggered MouseLeaveEvent()", *m_renderer);
 #endif
 }
 
@@ -340,14 +343,14 @@ void sad::os::SystemEventDispatcher::processMouseWheel(sad::os::SystemWindowEven
     m_renderer->controls()->postEvent(sad::input::ET_MouseWheel, ev);
 #ifdef EVENT_LOGGING
     SL_LOCAL_INTERNAL(
-        fmt::Format("Triggered MouseWheelEvent({0}, [{1}, {2}, {3}])") 
+        fmt::Format("Triggered MouseWheelEvent({0}, [{1}, {2}, {3}])")
         << delta
-        << viewportpoint.x() 
-        << viewportpoint.y() 
-        << viewportpoint.z(), 
+        << viewportpoint.x()
+        << viewportpoint.y()
+        << viewportpoint.z(),
         *m_renderer
     );
-#endif	
+#endif
 }
 
 
@@ -358,7 +361,7 @@ void sad::os::SystemEventDispatcher::processResize(sad::os::SystemWindowEvent & 
     if (e.WParam != SIZE_MINIMIZED)
     {
         m_renderer->window()->setMinimized(false);
-        if (size.Width != m_old_window_size.Width 
+        if (size.Width != m_old_window_size.Width
             || size.Height != m_old_window_size.Height)
         {
             sad::input::ResizeEvent ev;
@@ -379,15 +382,15 @@ void sad::os::SystemEventDispatcher::processResize(sad::os::SystemWindowEvent & 
     sad::Size2I size(e.Event.xconfigure.width,e.Event.xconfigure.height);
 #ifdef EVENT_LOGGING
     SL_LOCAL_INTERNAL(
-        fmt::Format("Triggered Resize({0}, {1}), ({2}, {3})") 
+        fmt::Format("Triggered Resize({0}, {1}), ({2}, {3})")
         << size.Width
         << size.Height
-        << m_old_window_size.Width 
-        << m_old_window_size.Height, 
+        << m_old_window_size.Width
+        << m_old_window_size.Height,
         *m_renderer
     );
-#endif	
-    if (size.Width != m_old_window_size.Width 
+#endif
+    if (size.Width != m_old_window_size.Width
             || size.Height != m_old_window_size.Height)
     {
         sad::input::ResizeEvent ev;
@@ -406,7 +409,7 @@ void sad::os::SystemEventDispatcher::processKeyPress(
 {
     sad::KeyboardKey key = m_decoder_for_keypress_events->decode(&e);
     sad::input::KeyPressEvent ev;
-    ev.ReadableKey = m_decoder_for_keypress_events->convert(&e, m_renderer->window());	
+    ev.ReadableKey = m_decoder_for_keypress_events->convert(&e, m_renderer->window());
     ev.Key = key;
 #ifdef WIN32
     short ctrlstate = GetAsyncKeyState(VK_CONTROL);
@@ -414,7 +417,7 @@ void sad::os::SystemEventDispatcher::processKeyPress(
     short rctrlstate =  GetAsyncKeyState(VK_RCONTROL);
     ev.CtrlHeld  = ctrlstate < 0 || lctrlstate < 0 || rctrlstate < 0;
     ev.AltHeld   = GetAsyncKeyState(VK_MENU) < 0;
-    ev.ShiftHeld = GetAsyncKeyState(VK_SHIFT) < 0 || GetAsyncKeyState(VK_LSHIFT) < 0 || GetAsyncKeyState(VK_RSHIFT) < 0;	
+    ev.ShiftHeld = GetAsyncKeyState(VK_SHIFT) < 0 || GetAsyncKeyState(VK_LSHIFT) < 0 || GetAsyncKeyState(VK_RSHIFT) < 0;
 #endif
 
 #ifdef X11
@@ -428,12 +431,12 @@ void sad::os::SystemEventDispatcher::processKeyPress(
 #endif
 #ifdef EVENT_LOGGING
     SL_LOCAL_INTERNAL(
-        fmt::Format("Triggered KeyPressEvent({0}, {1}, [{2}, {3}, {4}])") 
+        fmt::Format("Triggered KeyPressEvent({0}, {1}, [{2}, {3}, {4}])")
         << ev.Key
-        << (ev.ReadableKey.exists() ? ev.ReadableKey.value() : "non-printable") 
-        << ev.CtrlHeld 
+        << (ev.ReadableKey.exists() ? ev.ReadableKey.value() : "non-printable")
+        << ev.CtrlHeld
         << ev.AltHeld
-        << ev.ShiftHeld, 
+        << ev.ShiftHeld,
         *m_renderer
     );
 #endif
@@ -446,12 +449,12 @@ void sad::os::SystemEventDispatcher::processKeyRelease(
 {
     sad::KeyboardKey key = m_decoder_for_keyrelease_events->decode(&e);
     sad::input::KeyReleaseEvent ev;
-    ev.ReadableKey = m_decoder_for_keyrelease_events->convert(&e, m_renderer->window());	
+    ev.ReadableKey = m_decoder_for_keyrelease_events->convert(&e, m_renderer->window());
     ev.Key = key;
 #ifdef WIN32
     ev.CtrlHeld  = GetAsyncKeyState(VK_CONTROL) < 0;
     ev.AltHeld   = GetAsyncKeyState(VK_MENU) < 0;
-    ev.ShiftHeld = GetAsyncKeyState(VK_SHIFT) < 0;	
+    ev.ShiftHeld = GetAsyncKeyState(VK_SHIFT) < 0;
 #endif
 
 
@@ -467,16 +470,16 @@ void sad::os::SystemEventDispatcher::processKeyRelease(
 
 #ifdef EVENT_LOGGING
     SL_LOCAL_INTERNAL(
-        fmt::Format("Triggered KeyReleaseEvent({0}, {1}, [{2}, {3}, {4}])") 
+        fmt::Format("Triggered KeyReleaseEvent({0}, {1}, [{2}, {3}, {4}])")
         << ev.Key
-        << (ev.ReadableKey.exists() ? ev.ReadableKey.value() : "non-printable") 
-        << ev.CtrlHeld 
+        << (ev.ReadableKey.exists() ? ev.ReadableKey.value() : "non-printable")
+        << ev.CtrlHeld
         << ev.AltHeld
-        << ev.ShiftHeld, 
+        << ev.ShiftHeld,
         *m_renderer
     );
 #endif
-    m_renderer->controls()->postEvent(sad::input::ET_KeyRelease, ev);	
+    m_renderer->controls()->postEvent(sad::input::ET_KeyRelease, ev);
 }
 
 void sad::os::SystemEventDispatcher::processMousePress(sad::os::SystemWindowEvent & e)
@@ -484,7 +487,7 @@ void sad::os::SystemEventDispatcher::processMousePress(sad::os::SystemWindowEven
     sad::Maybe<sad::input::MouseDoubleClickEvent> maybedcev;
 #ifdef WIN32
     sad::MouseButton btn = sad::MouseLeft;
-    switch(e.MSG) 
+    switch(e.MSG)
     {
         case WM_RBUTTONDOWN: btn = sad::MouseRight; break;
         case WM_MBUTTONDOWN: btn = sad::MouseMiddle; break;
@@ -535,18 +538,18 @@ void sad::os::SystemEventDispatcher::processMousePress(sad::os::SystemWindowEven
     }
 #endif
 
-    
+
 
     sad::input::MousePressEvent ev;
     ev.Point3D  = viewportpoint;
     ev.Button = btn;
 #ifdef EVENT_LOGGING
     SL_LOCAL_INTERNAL(
-        fmt::Format("Triggered MousePressEvent({0}, [{1}, {2}, {3}])") 
+        fmt::Format("Triggered MousePressEvent({0}, [{1}, {2}, {3}])")
         << btn
-        << viewportpoint.x() 
-        << viewportpoint.y() 
-        << viewportpoint.z(), 
+        << viewportpoint.x()
+        << viewportpoint.y()
+        << viewportpoint.z(),
         *m_renderer
     );
 #endif
@@ -557,14 +560,14 @@ void sad::os::SystemEventDispatcher::processMousePress(sad::os::SystemWindowEven
     {
 #ifdef EVENT_LOGGING
         SL_LOCAL_INTERNAL(
-            fmt::Format("Triggered MouseDoubleClickEvent({0}, [{1}, {2}, {3}])") 
+            fmt::Format("Triggered MouseDoubleClickEvent({0}, [{1}, {2}, {3}])")
             << btn
-            << viewportpoint.x() 
-            << viewportpoint.y() 
-            << viewportpoint.z(), 
+            << viewportpoint.x()
+            << viewportpoint.y()
+            << viewportpoint.z(),
             *m_renderer
         );
-#endif	
+#endif
         m_renderer->controls()->postEvent(sad::input::ET_MouseDoubleClick, maybedcev.value());
     }
 
@@ -574,7 +577,7 @@ void sad::os::SystemEventDispatcher::processMouseRelease(sad::os::SystemWindowEv
 {
 #ifdef WIN32
     sad::MouseButton btn = sad::MouseLeft;
-    switch(e.MSG) 
+    switch(e.MSG)
     {
         case WM_RBUTTONUP: btn = sad::MouseRight; break;
         case WM_MBUTTONUP: btn = sad::MouseMiddle; break;
@@ -584,14 +587,14 @@ void sad::os::SystemEventDispatcher::processMouseRelease(sad::os::SystemWindowEv
 #endif
 
 #ifdef X11
-    if (e.Event.xbutton.button != Button1 
-        && e.Event.xbutton.button != Button2 
+    if (e.Event.xbutton.button != Button1
+        && e.Event.xbutton.button != Button2
         && e.Event.xbutton.button != Button3)
     {
         return;
     }
     sad::MouseButton btn = sad::MouseLeft;
-    switch(e.Event.xbutton.button) 
+    switch(e.Event.xbutton.button)
     {
         case Button2: btn = sad::MouseRight; break;
         case Button3: btn = sad::MouseMiddle; break;
@@ -605,15 +608,15 @@ void sad::os::SystemEventDispatcher::processMouseRelease(sad::os::SystemWindowEv
     ev.Button = btn;
 #ifdef EVENT_LOGGING
     SL_LOCAL_INTERNAL(
-        fmt::Format("Triggered MouseReleaseEvent({0}, [{1}, {2}, {3}])") 
+        fmt::Format("Triggered MouseReleaseEvent({0}, [{1}, {2}, {3}])")
         << btn
-        << viewportpoint.x() 
-        << viewportpoint.y() 
-        << viewportpoint.z(), 
+        << viewportpoint.x()
+        << viewportpoint.y()
+        << viewportpoint.z(),
         *m_renderer
     );
 #endif
-    m_renderer->controls()->postEvent(sad::input::ET_MouseRelease, ev);	
+    m_renderer->controls()->postEvent(sad::input::ET_MouseRelease, ev);
 }
 
 
@@ -639,7 +642,7 @@ void sad::os::SystemEventDispatcher::processMouseEnter(sad::os::SystemWindowEven
 void sad::os::SystemEventDispatcher::processMouseDoubleClick(sad::os::SystemWindowEvent & e)
 {
     sad::MouseButton btn = sad::MouseLeft;
-    switch(e.MSG) 
+    switch(e.MSG)
     {
         case WM_RBUTTONDBLCLK: btn = sad::MouseRight; break;
         case WM_MBUTTONDBLCLK: btn = sad::MouseMiddle; break;
@@ -653,15 +656,15 @@ void sad::os::SystemEventDispatcher::processMouseDoubleClick(sad::os::SystemWind
 
 #ifdef EVENT_LOGGING
     SL_LOCAL_INTERNAL(
-        fmt::Format("Triggered MouseDoubleClickEvent({0}, [{1}, {2}, {3}])") 
+        fmt::Format("Triggered MouseDoubleClickEvent({0}, [{1}, {2}, {3}])")
         << btn
-        << viewportpoint.x() 
-        << viewportpoint.y() 
-        << viewportpoint.z(), 
+        << viewportpoint.x()
+        << viewportpoint.y()
+        << viewportpoint.z(),
         *m_renderer
     );
 #endif
-    m_renderer->controls()->postEvent(sad::input::ET_MouseDoubleClick, ev);	
+    m_renderer->controls()->postEvent(sad::input::ET_MouseDoubleClick, ev);
 }
 
 // A window resize array
@@ -669,7 +672,7 @@ static const int windowresizepointscount = 8;
 static  LRESULT windowresizepoints[windowresizepointscount] = {
     HTTOPLEFT,
     HTTOP,
-    
+
     HTTOPRIGHT,
     HTRIGHT,
     HTLEFT,
@@ -691,12 +694,12 @@ sad::os::SystemWindowEventDispatchResult  sad::os::SystemEventDispatcher::proces
     bool isusertriestoresize = false;
     for(int i = 0; i < windowresizepointscount; i++)
         isusertriestoresize = isusertriestoresize || (windowresizepoints[i] == result.value());
-        
+
     if (isusertriestoresize)
     {
         result = HTBORDER;
     }
-        
+
     return result;
 }
 

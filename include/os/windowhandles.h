@@ -1,5 +1,5 @@
 /*! \file windowhandles.h
-    
+
 
     Defines window OS-dependent handles, which should be used for identifying window
     and calling OS-dependent functions on them
@@ -35,6 +35,8 @@
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
 #include <X11/Xutil.h>
+#include <X11/Xresource.h>
+#include <X11/Xlocale.h>
 #include <GL/glx.h>
 #include "../3rdparty/glext/glxext.h"
 #endif
@@ -56,10 +58,10 @@ public:
 #ifdef WIN32
     /*! Instance of current process, as module
      */
-    HINSTANCE    ProcessInstance;       
+    HINSTANCE    ProcessInstance;
     /*! Handle for a window
      */
-    HWND	     WND;				   
+    HWND	     WND;
     /*! Device context
      */
     HDC		     DC;
@@ -68,34 +70,43 @@ public:
     RECT         AdjustedWindowRect;
     /*! A window class
      */
-    sad::String  Class;        
+    sad::String  Class;
 #endif
 
 #ifdef X11
-    /*! Display, where window is displayed 
+    /*! Display, where window is displayed
      */
-    Display*     Dpy;                  
+    Display*     Dpy;
     /*! A screen, where window is displayed
      */
-    int          Screen;           
+    int          Screen;
     /*! A window
      */
-    ::Window     Win;                   
+    ::Window     Win;
     /*! A visual information
      */
-    XVisualInfo * VisualInfo; 
+    XVisualInfo * VisualInfo;
     /*! A color map for a window
      */
     Colormap      ColorMap;
     /*! A frame buffer config for window creation
      */
     GLXFBConfig   FBC;
+    /* Input method
+     */
+    XIM IM;
+    /*! Input context
+     */
+    XIC IC;
+    /*! Styles for input
+     */
+    XIMStyles *Styles;
 #endif
     /*! Creates new zero-filled handles
      */
     inline WindowHandles()  //-V730
-    { 
-        cleanup(); 
+    {
+        cleanup();
     }
 
     inline void cleanup()
