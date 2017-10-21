@@ -18,8 +18,10 @@
 #include <input/events.h>
 
 
+#include "../game/game.h"
+
 void render_draw_lists(ImDrawData* draw_data)
-// Note that this implementation is little overcomplicated because we are saving/setting up/restoring every OpenGL state explicitly, in order to be able to run within any OpenGL engine that doesn't do so. 
+// Note that this implementation is little overcomplicated because we are saving/setting up/restoring every OpenGL state explicitly, in order to be able to run within any OpenGL engine that doesn't do so.
 // If text or lines are blurry when integrating ImGui in your engine: in your Render function, try translating your projection matrix by (0.5f,0.5f) or (0.375f,0.375f)
 {
     // Avoid rendering when minimized, scale coordinates for retina displays (screen coordinates != framebuffer coordinates)
@@ -35,7 +37,7 @@ void render_draw_lists(ImDrawData* draw_data)
     GLint last_texture; glGetIntegerv(GL_TEXTURE_BINDING_2D, &last_texture);
     GLint last_polygon_mode[2]; glGetIntegerv(GL_POLYGON_MODE, last_polygon_mode);
     GLint last_viewport[4]; glGetIntegerv(GL_VIEWPORT, last_viewport);
-    GLint last_scissor_box[4]; glGetIntegerv(GL_SCISSOR_BOX, last_scissor_box); 
+    GLint last_scissor_box[4]; glGetIntegerv(GL_SCISSOR_BOX, last_scissor_box);
     glPushAttrib(GL_ENABLE_BIT | GL_COLOR_BUFFER_BIT | GL_TRANSFORM_BIT);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -181,7 +183,7 @@ void new_frame()
     sad::Rect2I r = sad::Renderer::ref()->window()->rect();
     w = r.width();
     h = r.height();
-    
+
     io.DisplaySize = ImVec2((float)w, (float)h);
     io.DisplayFramebufferScale = ImVec2(1, 1);
 
@@ -238,12 +240,6 @@ static void key_press_callback(const sad::input::KeyPressEvent& ev)
 
     if (ev.ReadableKey.exists())
     {
-        printf("Bytes: ");
-        for(size_t i = 0; i < ev.ReadableKey.value().size(); i++)
-        {
-            printf("%d ", ev.ReadableKey.value().c_str()[i]);
-        }
-        printf("\n");
         io.AddInputCharactersUTF8(ev.ReadableKey.value().c_str());
     }
 
@@ -268,7 +264,6 @@ static void key_release_callback(const sad::input::KeyReleaseEvent& ev)
 static void mouse_press_callback(const sad::input::MousePressEvent& ev)
 {
     ImGuiIO& io = ImGui::GetIO();
-    printf("Press\n");
     switch (ev.Button)
     {
         case sad::MouseLeft: { io.MouseDown[0] = true; }
@@ -282,7 +277,6 @@ static void mouse_press_callback(const sad::input::MousePressEvent& ev)
 static void mouse_double_click_callback(const sad::input::MouseDoubleClickEvent& ev)
 {
     ImGuiIO& io = ImGui::GetIO();
-    printf("Double click\n");
     switch (ev.Button)
     {
         case sad::MouseLeft: { io.MouseDown[0] = true; }
@@ -296,8 +290,7 @@ static void mouse_double_click_callback(const sad::input::MouseDoubleClickEvent&
 static void mouse_release_callback(const sad::input::MousePressEvent& ev)
 {
     ImGuiIO& io = ImGui::GetIO();
-    printf("Release\n");
-
+    
     switch (ev.Button)
     {
         case sad::MouseLeft: { io.MouseDown[0] = false; }
@@ -315,35 +308,7 @@ static void mouse_wheel_callback(const sad::input::MouseWheelEvent& ev)
 }
 
 
-bool show_test_window = true;
-bool show_another_window = false;
-ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-
-static void imgui_callback()
-{
-    static float f = 0.0f;
-    char buf[1000] = "";
-    ImGui::Text("Hello, world!");
-    ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
-    ImGui::ColorEdit3("clear color", (float*)&clear_color);
-    if (ImGui::Button("Test Window")) show_test_window ^= 1;
-    if (ImGui::Button("Another Window")) show_another_window ^= 1;
-    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-    ImGui::InputText("string", buf, 256);
-
-    if (show_another_window)
-    {
-        ImGui::Begin("Another Window", &show_another_window);
-        ImGui::Text("Hello from another window!");
-        ImGui::End();
-    }
-    
-    ImGui::SetNextWindowPos(ImVec2(650, 20), ImGuiCond_FirstUseEver);
-    if (show_test_window)
-    {
-        ImGui::ShowTestWindow(&show_test_window);
-    }
-}
+static void imgui_callback();
 
 static void run_imgui_pipeline()
 {
@@ -400,30 +365,49 @@ void init(sad::Renderer* r)
 
     sad::pipeline::Process * step = new sad::pipeline::Process(run_imgui_pipeline);
     sad::Renderer::ref()->pipeline()->insertBefore("sad::MouseCursor::renderCursorIfNeedTo", step, "run_imgui_pipeline");
- 
+
     io.Fonts->AddFontFromFileTTF("PTM55F.ttf", 14.0f, NULL, io.Fonts->GetGlyphRangesCyrillic());
 }
+
+Game* game;
+bool show_test_window = false;
+
+static void imgui_callback()
+{
+    ImGui::SetNextWindowSize(ImVec2(130, 130), ImGuiCond_FirstUseEver);
+    ImGui::Begin("Cheating board");
+	if (game->isInPlayingState())
+	{
+		if (ImGui::Button("+1 health")) game->increasePlayerHealth(1);
+		if (ImGui::Button("+50 score")) game->increasePlayerScore(50);
+		if (ImGui::Button("Kill enemies")) game->killEnemies();
+	}
+    if (ImGui::Button("Test Window")) show_test_window ^= 1;
+    ImGui::End();
+
+    ImGui::SetNextWindowPos(ImVec2(250, 20), ImGuiCond_FirstUseEver);
+    if (show_test_window)
+    {
+        ImGui::ShowTestWindow(&show_test_window);
+    }
+}
+
 
 int main(int argc, char** argv)
 {
     sad::Renderer* renderer = sad::Renderer::ref();
-    sad::log::ConsoleTarget * consoletarget = new sad::log::ConsoleTarget(
-        "{0}: [{1}] {3}{2}{4}", 0, true
-    );
-    renderer->log()->addTarget(consoletarget);
-    renderer->init(sad::Settings(1024,768,false));
-    renderer->setWindowTitle("ImGui demo");
+    game = new Game(sad::Renderer::ref());
+    if (!game->trySetup())
+    {
+        delete game;
+        return 1;
+    }
+    game->initialize();
 
-    // Setup proper matrices
-    sad::Scene* s = new sad::Scene();
-    renderer->add(s);
-    s->setCamera(new sad::Camera());
-     
     init(renderer);
-    
-    // Set window size to be fixed
-    renderer->makeFixedSize();
-    renderer->run();
-    
+	
+    game->run();
+    delete game;
+
     return 0;
 }
