@@ -10,13 +10,13 @@ if [%2] EQU [Win32]  SET PLATFORMVALID=1
 if [%2] EQU [x64]  SET PLATFORMVALID=1
 
 if [%PLATFORMVALID%] EQU [0] (
-	echo Build script for all libraries for Microsoft Visual C++ 2017. Just run it from Command line of Visual Studio  
+	echo Build script for all libraries for Microsoft Visual C++ 2017. Just run it from Command line of Visual Studio
     echo Syntax:
 	echo build-all-msvc.bat "[Debug|Release]" "[Win32|x64]"
 	exit /B 1
 )
 if [%VALID%] EQU [0]  (
-	echo Build script for all libraries for Microsoft Visual C++ 2017. Just run it from Command line of Visual Studio  
+	echo Build script for all libraries for Microsoft Visual C++ 2017. Just run it from Command line of Visual Studio
     echo Syntax:
 	echo build-all-msvc.bat "[Debug|Release]" "[Win32|x64]"
 	exit /B 1
@@ -49,8 +49,8 @@ devenv tests/layouts/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log 
 devenv tools/isqt580/isqt580.vcxproj  /Build "%1|%2" /out lastsolutionbuild.log || goto :error
 %CHECKQTVERTOOL%
 if errorlevel 1 (
-	devenv plugins/qt-widget/qt-widget.vcxproj  /Build "%1|%2" /out lastsolutionbuild.log
-	devenv examples/example-game-in-qt/example-game-in-qt.vcxproj  /Build "%1|%2" /out lastsolutionbuild.log
+  devenv plugins/qt-widget/qt-widget.vcxproj  /Build "%1|%2" /out lastsolutionbuild.log
+  devenv examples/example-game-in-qt/example-game-in-qt.vcxproj  /Build "%1|%2" /out lastsolutionbuild.log
 )
 goto :EOF
 

@@ -45,6 +45,9 @@ cd ../..
 cd plugins/irrklang
 eval $BatchToRun
 cd ../..
+cd plugins/imgui
+eval $BatchToRun
+cd ../..
 cd plugins/dukpp-03-irrklang
 eval $BatchToRun
 cd ../..
