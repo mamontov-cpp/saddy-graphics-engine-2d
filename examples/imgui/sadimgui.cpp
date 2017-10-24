@@ -1,4 +1,17 @@
 #include "sadimgui.h"
+#ifdef WIN32
+    #ifndef NOMINMAX
+    #define NOMINMAX 
+    #endif
+    #include <windows.h>
+    #include <gl/gl.h>
+    #include <gl/glu.h>
+#endif
+
+#ifdef X11
+    #include <GL/gl.h>
+    #include <GL/glu.h>
+#endif
 
 #include <renderer.h>
 #include <log/consoletarget.h>
@@ -17,6 +30,128 @@
 bool sad::imgui::ImGui::m_event_processing_enabled = false;
 
 bool sad::imgui::ImGui::m_pipeline_enabled = false;
+
+std::vector<sad::imgui::ImGui::Process> sad::imgui::ImGui::m_pipeline;
+
+bool sad::imgui::ImGui::add(std::function<void()> fn)
+{
+    Process p(fn);
+    m_pipeline.push_back(fn);
+    return true;
+}
+
+bool sad::imgui::ImGui::add(const std::string& name, std::function<void()> fn)
+{
+    if (sad::imgui::ImGui::hasProcess(name))
+    {
+        return false;
+    }
+    Process p(name, fn);
+    m_pipeline.push_back(fn);
+    return true;
+}
+
+void sad::imgui::ImGui::remove(const std::string& name)
+{
+    for(size_t i = 0; i < m_pipeline.size(); i++) 
+    {
+        if (m_pipeline[i].Name == name)
+        {
+            m_pipeline.erase(m_pipeline.begin() + i);
+            --i;
+        }
+    }
+}
+
+bool sad::imgui::ImGui::hasProcess(const std::string& name)
+{
+    return sad::imgui::ImGui::findProcess(name) != -1;
+}
+
+int sad::imgui::ImGui::findProcess(const std::string& name)
+{
+    for(size_t i = 0; i < m_pipeline.size(); i++) 
+    {
+        if (m_pipeline[i].Name == name)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+bool sad::imgui::ImGui::insertBefore(const std::string& name, const Process& p)
+{
+    if (p.Name.size())
+    {
+        if (sad::imgui::ImGui::hasProcess(p.Name))
+        {
+            return false;
+        }
+    }
+    int pos = sad::imgui::ImGui::findProcess(name);
+    if (pos == -1)
+    {
+        m_pipeline.push_back(p);
+    }
+    else
+    {
+        m_pipeline.insert(m_pipeline.begin() + pos, p);
+    }
+    return true;
+}
+
+bool sad::imgui::ImGui::insertAfter(const std::string& name, const Process& p)
+{
+    if (p.Name.size())
+    {
+        if (sad::imgui::ImGui::hasProcess(p.Name))
+        {
+            return false;
+        }
+    }
+    int pos = sad::imgui::ImGui::findProcess(name);
+    if (pos == -1)
+    {
+        m_pipeline.push_back(p);
+    }
+    else
+    {
+        if (pos == (m_pipeline.size() - 1))
+        {
+            m_pipeline.push_back(p);
+        }
+        else
+        {
+            m_pipeline.insert(m_pipeline.begin() + pos, p);
+        }
+    }
+    return true;
+}
+
+bool sad::imgui::ImGui::insert(size_t pos, const Process& p)
+{
+    if (p.Name.size())
+    {
+        if (sad::imgui::ImGui::hasProcess(p.Name))
+        {
+            return false;
+        }
+    }
+     if (pos >= m_pipeline.size())
+    {
+        m_pipeline.push_back(p);
+    }
+    else
+    {
+        m_pipeline.insert(m_pipeline.begin() + pos, p);
+    }
+}
+
+size_t sad::imgui::ImGui::pipelineSize()
+{
+    return m_pipeline.size();
+}
 
 void sad::imgui::ImGui::enable()
 {
@@ -48,6 +183,14 @@ void sad::imgui::ImGui::togglePipelineEnabled(bool flag)
 bool sad::imgui::ImGui::isPipelineEnabled()
 {
     return m_pipeline_enabled;
+}
+
+void sad::imgui::ImGui::runPipeline()
+{
+    for(size_t i = 0; i < m_pipeline.size(); i++)
+    {
+        m_pipeline[i].Function();
+    }
 }
 
 /*! A rendering callback for ImGui
@@ -400,14 +543,14 @@ static void run_imgui_pipeline()
     if (sad::imgui::ImGui::isPipelineEnabled())
     {
         new_frame();
-        imgui_callback();
+        sad::imgui::ImGui::runPipeline();
         ImGui::Render();
     }
 }
 
 void sad::imgui::ImGui::init()
 {
-    ImGuiIO& io = ImGui::GetIO();
+    ::ImGuiIO& io = ::ImGui::GetIO();
     io.KeyMap[ImGuiKey_Tab] = sad::Tab;                     // Keyboard mapping. ImGui will use those indices to peek into the io.KeyDown[] array.
     io.KeyMap[ImGuiKey_LeftArrow] = sad::KeyLeft;
     io.KeyMap[ImGuiKey_RightArrow] = sad::KeyRight;
