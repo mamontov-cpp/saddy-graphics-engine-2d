@@ -4,7 +4,6 @@
 
 int main(int argc, char** argv)
 {
-    sad::Renderer* renderer = sad::Renderer::ref();
     Game* game = new Game(sad::Renderer::ref());
     if (!game->trySetup())
     {

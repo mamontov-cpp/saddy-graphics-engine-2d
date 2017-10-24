@@ -29,10 +29,12 @@ devenv plugins/freetype/saddy-ft.vcxproj /Build "%1|%2" /out lastsolutionbuild.l
 devenv tools/exporter/exporter.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
 devenv plugins/irrklang/irrklang.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
 devenv plugins/dukpp-03-irrklang/dukpp-03-irrklang.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
+devenv plugins/imgui/imgui.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
 devenv tools/ifaceed/ifaceed/ifaceed.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
 devenv examples/game/game.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
 devenv examples/multithreading/multithreading.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
 devenv examples/stress-physics/stress-physics.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
+devenv examples/imgui/imgui.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
 devenv tests/animations/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
 devenv tests/db/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
 devenv tests/dukpp-03/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error

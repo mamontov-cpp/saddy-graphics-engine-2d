@@ -146,6 +146,7 @@ bool sad::imgui::ImGui::insert(size_t pos, const Process& p)
     {
         m_pipeline.insert(m_pipeline.begin() + pos, p);
     }
+    return true;
 }
 
 size_t sad::imgui::ImGui::pipelineSize()
