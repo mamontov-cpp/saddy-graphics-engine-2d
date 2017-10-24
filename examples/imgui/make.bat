@@ -1,1 +1,0 @@
-g++ game.cpp example.cpp -o../../bin/example-imgui-debug.exe -I../../3rdparty/imgui/ -I../../include/ -L../../lib/ -lsaddy-debug -lsaddy-imgui-debug -lglu32 -lgdi32 -lm -lopengl32 -ladvapi32

@@ -60,6 +60,9 @@ cd ../..
 cd examples/stress-physics
 eval $BatchToRun
 cd ../..
+cd examples/imgui
+eval $BatchToRun
+cd ../..
 cd tests/animations
 eval $BatchToRun
 cd ../..

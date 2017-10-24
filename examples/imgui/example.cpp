@@ -1,9 +1,4 @@
-#ifdef WIN32
-    #include <GL/gl.h>
-    #include <GL/glu.h>
-#endif
-
-#include "sadimgui.h"
+#include <imgui/sadimgui.h>
 
 #include "../game/game.h"
 
