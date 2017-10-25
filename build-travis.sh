@@ -12,6 +12,9 @@ cd ../..
 cd plugins/dukpp-03-irrklang
 (cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$1 && make) || (exit 1)
 cd ../..
+cd plugins/imgui
+(cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$1 && make) || (exit 1)
+cd ../..
 cd examples/game
 (cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$1 && make) || (exit 1)
 cd ../..
@@ -19,6 +22,9 @@ cd examples/multithreading
 (cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$1 && make) || (exit 1)
 cd ../..
 cd examples/stress-physics
+(cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$1 && make) || (exit 1)
+cd ../..
+cd examples/imgui
 (cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$1 && make) || (exit 1)
 cd ../..
 cd tests/animations

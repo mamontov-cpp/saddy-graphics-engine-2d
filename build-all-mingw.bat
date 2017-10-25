@@ -44,6 +44,9 @@ cd ../..
 cd plugins/irrklang
 call %BatchToRun% || goto :error
 cd ../..
+cd plugins/imgui
+call %BatchToRun% || goto :error
+cd ../..
 cd plugins/dukpp-03-irrklang
 call %BatchToRun%
 cd ../..
@@ -54,6 +57,9 @@ cd examples/multithreading
 call %BatchToRun% || goto :error
 cd ../..
 cd examples/stress-physics
+call %BatchToRun% || goto :error
+cd ../..
+cd examples/imgui
 call %BatchToRun% || goto :error
 cd ../..
 cd tests/animations
@@ -101,15 +107,14 @@ mingw32-make || goto :error
 cd ../..
 %CHECKQTVERTOOL%
 if errorlevel 1 (
-	cd plugins/qt-widget
-	qmake CONFIG+=%QtConfig% qt-widget.pro || goto :error
-	mingw32-make || goto :error
-	cd ../..
-	
-	cd examples/example-game-in-qt
-	qmake CONFIG+=%QtConfig% example-game-in-qt.pro || goto :error
-	mingw32-make || goto :error
-	cd ../..
+  cd plugins/qt-widget
+  qmake CONFIG+=%QtConfig% qt-widget.pro || goto :error
+  mingw32-make || goto :error
+  cd ../..
+  cd examples/example-game-in-qt
+  qmake CONFIG+=%QtConfig% example-game-in-qt.pro || goto :error
+  mingw32-make || goto :error
+  cd ../..
 )
 goto :EOF
 

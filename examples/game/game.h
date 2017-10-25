@@ -69,6 +69,10 @@ public:
         \return highscore
      */
     int highscore() const;
+	/*! Returns true, if game is in playing state
+	    \return true if game is in playing state
+	 */ 
+	bool isInPlayingState();
     /*! Tests whether game is paused
         \return whether game is paused
      */

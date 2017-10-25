@@ -48,7 +48,7 @@ sad::db::schema::Schema* sad::Scene::basicSchema()
         if (SadSceneSchema == NULL)
         {
             SadSceneSchema = new sad::db::schema::Schema();
-            SadSceneSchema->addParent(sad::db::Object::basicSchema());	
+            SadSceneSchema->addParent(sad::db::Object::basicSchema());  
             SadSceneSchema->add(
                 "layer", 
                 new sad::db::MethodPair<sad::Scene, unsigned int>(
@@ -95,9 +95,16 @@ sad::Camera & sad::Scene::camera() const
 
 void sad::Scene::setCamera(sad::Camera * camera) 
 { 
-    m_camera->delRef(); 
+    if (m_camera)
+    {
+        m_camera->delRef(); 
+    }
     m_camera = camera;
-    m_camera->addRef();
+    if (m_camera)
+    {
+        m_camera->Scene = this;
+        m_camera->addRef();
+    }
 }
 
 int sad::Scene::findLayer(sad::SceneNode * node)
@@ -175,7 +182,7 @@ void sad::Scene::render()
 }
 
 unsigned int sad::Scene::cachedSceneLayer() const
-{	
+{   
     return m_cached_layer;
 }
 
@@ -201,7 +208,7 @@ static sad::String SceneSerializableName = "sad::Scene";
 
 const sad::String& sad::Scene::serializableName() const
 {
-    return SceneSerializableName;	
+    return SceneSerializableName;   
 }
 
 void sad::Scene::addNow(sad::SceneNode * node)
