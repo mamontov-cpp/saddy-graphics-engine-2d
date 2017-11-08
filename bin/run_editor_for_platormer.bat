@@ -1,1 +1,1 @@
-"ifaceed/iface-editor-debug.exe" -resources "examples/multithreading/config.json" -width 800 -height 600
+"ifaceed/iface-editor-debug.exe" -resources "examples/multithreading/config.json" -width 640 -height 480
