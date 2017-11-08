@@ -3,35 +3,34 @@
         {
             "name":"backgrounds_list\/set2_backgroundng",
             "size":"640;480",
-            "texrect":"1;1;640;480"
+            "texrect":"0;0;640;480"
         },
         {
             "name":"backgrounds_list\/set2_hillsng",
             "size":"640;480",
-            "texrect":"1;483;640;480"
+            "texrect":"0;480;640;480"
         },
         {
             "name":"backgrounds_list\/set2_tilesng",
             "size":"640;480",
-            "texrect":"643;1;640;480"
+            "texrect":"640;0;640;480"
         },
         {
             "name":"backgrounds_list\/set3_backgroundng",
             "size":"640;480",
-            "texrect":"643;483;640;480"
+            "texrect":"640;480;640;480"
         },
         {
             "name":"backgrounds_list\/set3_hillsng",
             "size":"640;480",
-            "texrect":"1;965;640;480"
+            "texrect":"0;960;640;480"
         },
         {
             "name":"backgrounds_list\/set3_tilesng",
             "size":"640;480",
-            "texrect":"643;965;640;480"
+            "texrect":"640;960;640;480"
         }
     ],
     "file":"examples/multithreading/backgrounds.png",
-    "no-mipmaps":true,
     "resource":"backgrounds"
 }
