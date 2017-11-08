@@ -2011,7 +2011,7 @@
             "texrect":"937;397;34;34"
         }
     ],
-    "file":"icons.png",
+    "file":"examples/multithreading/icons.png",
     "no-mipmaps":true,
     "resource":"icons"
 }

@@ -1076,7 +1076,7 @@
             "texrect":"881;194;24;22"
         }
     ],
-    "file":"enemies.png",
+    "file":"examples/multithreading/enemies.png",
     "no-mipmaps":true,
     "resource":"enemies"
 }

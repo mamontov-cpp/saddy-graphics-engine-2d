@@ -31,7 +31,7 @@
             "texrect":"643;965;640;480"
         }
     ],
-    "file":"backgrounds.png",
+    "file":"examples/multithreading/backgrounds.png",
     "no-mipmaps":true,
     "resource":"backgrounds"
 }

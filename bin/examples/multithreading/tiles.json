@@ -541,7 +541,7 @@
             "texrect":"793;166;64;53"
         }
     ],
-    "file":"tiles.png",
+    "file":"examples/multithreading/tiles.png",
     "no-mipmaps":true,
     "resource":"tiles"
 }
