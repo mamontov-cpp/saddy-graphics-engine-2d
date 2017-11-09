@@ -29,6 +29,11 @@
             "name":"backgrounds_list\/set3_tilesng",
             "size":"640;480",
             "texrect":"643;965;640;480"
+        },
+        {
+            "name":"backgrounds_list\/titlelabel",
+            "size":"380;120",
+            "texrect":"1284;1;380;120"
         }
     ],
     "file":"examples/multithreading/backgrounds.png",
