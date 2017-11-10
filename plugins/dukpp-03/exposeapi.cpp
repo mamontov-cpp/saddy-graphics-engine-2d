@@ -348,7 +348,7 @@ static void __after_event_delayed(
     sad::dukpp03::CompiledFunction function
 )
 {
-    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_DELAYED>(
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineDelayedTask(
         interval,
         ctx,
         function
