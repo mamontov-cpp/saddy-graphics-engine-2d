@@ -5,6 +5,7 @@
 #include "dukpp-03/semaphore.h"
 #include "dukpp-03/jscontrols.h"
 #include "dukpp-03/jspipelinestep.h"
+#include "dukpp-03/jspipelinedelayedtask.h"
 
 #include <sadpoint.h>
 #include <sadsize.h>
@@ -116,7 +117,7 @@ static void __before_scene_delayed(
     sad::dukpp03::CompiledFunction function
 )
 {
-    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_DELAYED>(
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineDelayedTask(
         interval,
         ctx,
         function
@@ -191,7 +192,7 @@ static void __after_scene_delayed(
     sad::dukpp03::CompiledFunction function
 )
 {
-    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_DELAYED>(
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineDelayedTask(
         interval,
         ctx,
         function
@@ -269,7 +270,7 @@ static void __before_event_delayed(
     sad::dukpp03::CompiledFunction function
 )
 {
-    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_DELAYED>(
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineDelayedTask(
         interval,
         ctx,
         function
