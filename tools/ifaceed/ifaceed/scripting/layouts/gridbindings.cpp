@@ -9,7 +9,6 @@
 #include "../scripting.h"
 #include "../querytable.h"
 #include "../queryobject.h"
-#include "../tovalue.h"
 
 #include "scriptablegrid.h"
 #include "scriptablegridcell.h"
@@ -24,57 +23,33 @@
 
 #include "../../history/layouts/layoutsnew.h"
 
-QScriptValue scripting::layouts::list(
-    QScriptContext* ctx,
-    QScriptEngine* engine
-)
+#include "../abstractgetter.h"
+#include "../abstractsetter.h"
+
+Q_DECLARE_METATYPE(scripting::layouts::ScriptableGrid*)
+Q_DECLARE_METATYPE(scripting::layouts::ScriptableGridCell*)
+Q_DECLARE_METATYPE(sad::Vector<unsigned long long>) //-V566
+Q_DUKPP03_DECLARE_METATYPE(scripting::layouts::ScriptableLengthValue)  //-V566
+
+QVector<unsigned long long>scripting::layouts::list()
 {
-    return scripting::query_table("layouts", "sad::layouts::Grid", ctx, engine);
+    return scripting::query_table("layouts", "sad::layouts::Grid");
 }
 
-QScriptValue scripting::layouts::query(
-    QScriptContext* ctx,
-    QScriptEngine* engine	
+scripting::layouts::ScriptableGrid*  scripting::layouts::_query(
+    scripting::Scripting* s,
+    sad::layouts::Grid* grid
 )
 {
-    if (ctx->argumentCount() != 1)
-    {
-        ctx->throwError("list: accepts only 1 argument");
-    }
-
-    sad::Maybe<sad::layouts::Grid*> maybe_grid = scripting::query<sad::layouts::Grid*>(ctx->argument(0)); 
-    scripting::Scripting* e = static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject());
-    if (maybe_grid.exists())
-    {
-        return engine->newQObject(new scripting::layouts::ScriptableGrid(maybe_grid.value()->MajorId, e));
-    }
-    return engine->nullValue();
+    return new scripting::layouts::ScriptableGrid(grid->MajorId, s);
 }
 
 
-QScriptValue scripting::layouts::add(
-    QScriptContext* ctx,
-    QScriptEngine* engine	
+scripting::layouts::ScriptableGrid*  scripting::layouts::add(
+    scripting::Scripting* s,
+    const sad::String& name
 )
 {
-    if (ctx->argumentCount() > 1)
-    {
-        ctx->throwError("add: accepts only 0 or 1 arguments");
-    }
-    sad::String name = "";
-    if (ctx->argumentCount() == 1)
-    {
-        sad::Maybe<sad::String> name_maybe = scripting::ToValue<sad::String>::perform(ctx->argument(0));
-        if (name_maybe.exists())
-        {
-            name = name_maybe.value();
-        }
-        else
-        {
-            ctx->throwError("add: name should be a string");
-            return engine->nullValue();
-        }
-    }
     sad::layouts::Grid* grid = new sad::layouts::Grid();
     grid->Active = true;
     grid->setTreeName(sad::Renderer::ref(), "");
@@ -84,97 +59,156 @@ QScriptValue scripting::layouts::add(
     grid->setRows(1);
     grid->setColumns(1);
     grid->setRenderColor(gui::RenderGrids::defaultColor());
-    scripting::Scripting* e = static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject());
-    core::Editor* editor = e->editor();
+    core::Editor* editor = s->editor();
     editor->actions()->gridActions()->addGridToGridList(grid);
     editor->renderGrids()->add(grid);
     sad::Renderer::ref()->database("")->table("layouts")->add(grid);
 
     editor->currentBatchCommand()->add(new history::layouts::New(grid));
 
-    return engine->newQObject(new scripting::layouts::ScriptableGrid(grid->MajorId, e));
+    return new scripting::layouts::ScriptableGrid(grid->MajorId, s);
 }
 
-QScriptValue scripting::layouts::remove(
-    QScriptContext* ctx,
-    QScriptEngine* engine	
+void scripting::layouts::remove(
+    scripting::Scripting* s,
+    sad::layouts::Grid* grid
 )
 {
-    if (ctx->argumentCount() != 1)
-    {
-        ctx->throwError("remove: accepts only 1 argument");
-    }
-
-    sad::Maybe<sad::layouts::Grid*> maybe_grid = scripting::query<sad::layouts::Grid*>(ctx->argument(0)); 
-    scripting::Scripting* e = static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject());
-    if (maybe_grid.exists())
-    {
-        core::Editor* editor = e->editor();
-        editor->actions()->gridActions()->scriptableRemoveGrid(maybe_grid.value(), false);
-    }
-    else
-    {
-        ctx->throwError("remove: cannot find grid to be removed");
-    }
-    return engine->nullValue();
+    core::Editor* editor = s->editor();
+    editor->actions()->gridActions()->scriptableRemoveGrid(grid, false);
 }
 
 
-QScriptValue scripting::layouts::parent(
-    QScriptContext* ctx,
-    QScriptEngine* engine
+dukpp03::Maybe<QVector<QVariant> > scripting::layouts::parent(
+    scripting::Scripting* scripting,
+    sad::SceneNode* node
 )
 {
-    if (ctx->argumentCount() != 1)
+    dukpp03::Maybe<QVector<QVariant> > result;
+    core::Editor* editor = scripting->editor();
+    gui::actions::GridActions* ga = editor->actions()->gridActions();
+    sad::Vector<gui::GridPosition> v = ga->findRelatedGrids(node);
+    if (v.size())
     {
-        ctx->throwError("parent: accepts only 1 argument");
-    }
+        gui::GridPosition g = v[0];
 
-    sad::Maybe<sad::SceneNode*> maybe_node = scripting::query<sad::SceneNode*>(ctx->argument(0));
-    scripting::Scripting* e = static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject());
-    if (maybe_node.exists())
+        QVector<QVariant> result_vector;
+        QVariant first_result;
+        first_result.setValue(new scripting::layouts::ScriptableGridCell(g.Grid->MajorId, g.Row, g.Col, scripting));
+
+        QVariant second_result;
+        second_result.setValue(static_cast<unsigned int>(g.Pos));
+
+        result_vector << first_result << second_result;
+        result.setValue(result_vector);
+    }
+    return result;
+}
+
+dukpp03::qt::JSObject* scripting::layouts::init(scripting::Scripting* s, dukpp03::qt::JSObject* e)
+{
+    dukpp03::qt::registerMetaType<scripting::layouts::ScriptableLengthValue>();
+    dukpp03::qt::registerMetaType<scripting::layouts::ScriptableGrid>();
+    dukpp03::qt::registerMetaType<scripting::layouts::ScriptableGridCell>();
+
+    dukpp03::qt::JSObject* layouts = new dukpp03::qt::JSObject();
+
+    e->setProperty("layouts", layouts);
+
+    dukpp03::qt::JSObject* unit = new dukpp03::qt::JSObject();
+    unit->setProperty("LU_Auto", static_cast<unsigned int>(sad::layouts::LU_Auto));
+    unit->setProperty("LU_Pixels", static_cast<unsigned int>(sad::layouts::LU_Pixels));
+    unit->setProperty("LU_Percents", static_cast<unsigned int>(sad::layouts::LU_Percents));
+    layouts->setProperty("Unit", unit); // E.layouts.Unit
+    layouts->setEvaluatedProperty("LU_Auto", "E.layouts.Unit.LU_Auto");
+    layouts->setEvaluatedProperty("LU_Pixels", "E.layouts.Unit.LU_Pixels");
+    layouts->setEvaluatedProperty("LU_Percents", "E.layouts.Unit.LU_Percents");
+
+    dukpp03::qt::JSObject* horizontal_alignment = new dukpp03::qt::JSObject();
+    horizontal_alignment->setProperty("LHA_Left", static_cast<unsigned int>(sad::layouts::LHA_Left));
+    horizontal_alignment->setProperty("LHA_Middle", static_cast<unsigned int>(sad::layouts::LHA_Middle));
+    horizontal_alignment->setProperty("LHA_Right", static_cast<unsigned int>(sad::layouts::LHA_Right));
+    layouts->setProperty("HorizontalAlignment", horizontal_alignment); // E.layouts.HorizontalAlignment
+    layouts->setEvaluatedProperty("LHA_Left", "E.layouts.HorizontalAlignment.LHA_Left");
+    layouts->setEvaluatedProperty("LHA_Middle", "E.layouts.HorizontalAlignment.LHA_Middle");
+    layouts->setEvaluatedProperty("LHA_Right", "E.layouts.HorizontalAlignment.LHA_Right");
+
+    dukpp03::qt::JSObject* vertical_alignment = new dukpp03::qt::JSObject();
+    vertical_alignment->setProperty("LVA_Top", static_cast<unsigned int>(sad::layouts::LVA_Top));
+    vertical_alignment->setProperty("LVA_Middle", static_cast<unsigned int>(sad::layouts::LVA_Middle));
+    vertical_alignment->setProperty("LVA_Bottom", static_cast<unsigned int>(sad::layouts::LVA_Bottom));
+    layouts->setProperty("VerticalAlignment", vertical_alignment); // E.layouts.VerticalAlignment
+    layouts->setEvaluatedProperty("LVA_Top", "E.layouts.VerticalAlignment.LVA_Top");
+    layouts->setEvaluatedProperty("LVA_Middle", "E.layouts.VerticalAlignment.LVA_Middle");
+    layouts->setEvaluatedProperty("LVA_Bottom", "E.layouts.VerticalAlignment.LVA_Bottom");
+
+    dukpp03::qt::JSObject* stacking_type = new dukpp03::qt::JSObject();
+    stacking_type->setProperty("LST_Horizontal", static_cast<unsigned int>(sad::layouts::LST_Horizontal));
+    stacking_type->setProperty("LST_Vertical", static_cast<unsigned int>(sad::layouts::LST_Vertical));
+    stacking_type->setProperty("LST_NoStacking", static_cast<unsigned int>(sad::layouts::LST_NoStacking));
+    layouts->setProperty("StackingType", stacking_type); // E.layouts.StackingType
+    layouts->setEvaluatedProperty("LST_Horizontal", "E.layouts.StackingType.LST_Horizontal");
+    layouts->setEvaluatedProperty("LST_Vertical", "E.layouts.StackingType.LST_Vertical");
+    layouts->setEvaluatedProperty("LST_NoStacking", "E.layouts.StackingType.LST_NoStacking");
+
+    scripting::Scripting* scriptable_me = s;
+    std::function<scripting::layouts::ScriptableLengthValue*(unsigned int, double)> length_value = [scriptable_me](unsigned int unit, double value)
     {
-        core::Editor* editor = e->editor();
-        gui::actions::GridActions* ga = editor->actions()->gridActions();
-        sad::Vector<gui::GridPosition> v = ga->findRelatedGrids(maybe_node.value());
-        if (v.size())
+        if ((unit != sad::layouts::LU_Auto) && (unit != sad::layouts::LU_Percents) && (unit != sad::layouts::LU_Pixels))
         {
-            gui::GridPosition g = v[0];
-            QScriptValue result = engine->newArray(2);
-            QScriptValue source = engine->newQObject(new scripting::layouts::ScriptableGridCell(g.Grid->MajorId, g.Row, g.Col, e));
-            result.setProperty(0, source);
-            result.setProperty(1, QScriptValue(static_cast<unsigned int>(g.Pos)));
-            return result;
+            scriptable_me->context()->throwError("Argument 1 must have sad::layouts::Unit type");
+            throw new dukpp03::ArgumentException();
         }
-    }
-    else
-    {
-        ctx->throwError("parent: cannot find object to be searched in grids");
-    }
-    return engine->nullValue();
-}
+        return new scripting::layouts::ScriptableLengthValue(static_cast<sad::layouts::Unit>(unit), value, scriptable_me);
+    };
+    layouts->setProperty("LengthValue", static_cast<dukpp03::qt::Callable*>(dukpp03::qt::make_lambda::from(length_value)));
 
-QScriptValue scripting::layouts::length_value(
-    QScriptContext* ctx,
-    QScriptEngine* engine	
-)
-{
-    if (ctx->argumentCount() != 2)
+    bool b = s->context()->eval(
+        "E.layouts.Auto = function() { return E.layouts.LengthValue(E.layouts.Unit.LU_Auto, 0); };"
+        "E.layouts.Pixels = function(a) { if (typeof a != \"number\") throw \"E.layouts.Pixels: first argument should be numeric\"; return E.layouts.LengthValue(E.layouts.Unit.LU_Pixels, a); };"
+        "E.layouts.Percents = function(a) { if (typeof a != \"number\") throw \"E.layouts.Percents: first argument should be numeric\"; return E.layouts.LengthValue(E.layouts.Unit.LU_Percents, a); };"
+    );
+    assert(b);
+
+    layouts->setProperty("list", dukpp03::qt::make_function::from(scripting::layouts::list)); // E.layouts.list
+    layouts->setProperty("_query", dukpp03::qt::curried1::from(s, scripting::layouts::_query)); // E.layouts._query
+
+    dukpp03::qt::MultiMethod* add = new dukpp03::qt::MultiMethod();
     {
-        ctx->throwError("LengthValue: accepts only 2 arguments");
+        add->add(dukpp03::qt::curried1::from(s, scripting::layouts::add));
+        scripting::Scripting* local_me = s;
+        std::function<scripting::layouts::ScriptableGrid*()> add_no_args = [local_me]() {
+            return scripting::layouts::add(local_me, "");
+        };
+        add->add(dukpp03::qt::make_lambda::from(add_no_args));
     }
-    sad::Maybe<sad::layouts::Unit> mu_maybe = scripting::ToValue<sad::layouts::Unit>::perform(ctx->argument(0));
-    sad::Maybe<double> mv_maybe = scripting::ToValue<double>::perform(ctx->argument(1));
-    scripting::Scripting* e = static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject());
-    if (mu_maybe.exists() == false)
+    layouts->setProperty("add", static_cast<dukpp03::qt::Callable*>(add)); // E.scenenodes.add
+    layouts->setProperty("remove", dukpp03::qt::curried1::from(s, scripting::layouts::remove)); // E.layouts.remove
+    layouts->setProperty("parent", dukpp03::qt::curried1::from(s, scripting::layouts::parent)); // E.layouts.parent
+
     {
-        ctx->throwError("LengthValue: first argument is not a valid unit. Please, use one of E.layouts.Unit.LU_Auto, E.layouts.Unit.LU_Pixels, E.layouts.Unit.LU_Percents values");
-        return engine->nullValue();
+        dukpp03::qt::ClassBinding* binding = new dukpp03::qt::ClassBinding();
+        binding->addMethod("setArea", dukpp03::qt::bind_method::from(&scripting::layouts::ScriptableGrid::setArea));
+        binding->addMethod("findChild", dukpp03::qt::bind_method::from(&scripting::layouts::ScriptableGrid::findChild));
+        binding->addMethod("cell", dukpp03::qt::bind_method::from(&scripting::layouts::ScriptableGrid::cell));
+        binding->addMethod("children", dukpp03::qt::bind_method::from(&scripting::layouts::ScriptableGrid::children));
+        binding->registerMetaObject<scripting::layouts::ScriptableGrid>();
+        s->context()->addClassBinding("scripting::layouts::ScriptableGrid", binding);
     }
-    if (mv_maybe.exists() == false)
+
     {
-        ctx->throwError("LengthValue: second argument is not a valid value.");
-        return engine->nullValue();
+        dukpp03::qt::ClassBinding* binding = new dukpp03::qt::ClassBinding();
+        binding->addMethod("children", dukpp03::qt::bind_method::from(&scripting::layouts::ScriptableGridCell::children));
+        binding->addMethod("findChild", dukpp03::qt::bind_method::from(&scripting::layouts::ScriptableGridCell::findChild));
+        binding->addMethod("addChild", dukpp03::qt::bind_method::from(&scripting::layouts::ScriptableGridCell::addChild));
+        binding->registerMetaObject<scripting::layouts::ScriptableGridCell>();
+        s->context()->addClassBinding("scripting::layouts::ScriptableGridCell", binding);
     }
-    return engine->newQObject(new scripting::layouts::ScriptableLengthValue(mu_maybe.value(), mv_maybe.value(), e));
+
+    b = s->context()->eval(
+        "E.layouts.query = function(a) {  try { return E.layouts._query(a); } catch(e) { return null; } };"
+    );
+    assert(b);
+
+    return layouts;
 }

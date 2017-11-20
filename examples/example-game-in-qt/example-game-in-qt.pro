@@ -6,20 +6,20 @@ QT += core gui opengl widgets
 CONFIG += console opengl
 TEMPLATE = app
 
-TARGET = 
+TARGET =
 DEPENDPATH += . \
               ../../include/
 INCLUDEPATH += . \
-               ../../include/ 
+               ../../include/
 
 # Input
-HEADERS += mainwindow.h 
+HEADERS += mainwindow.h
 
 FORMS += mainwindow.ui
 
 SOURCES += mainwindow.cpp \
     game.cpp \
-    main.cpp 
+    main.cpp
 
 DESTDIR = ../../bin/
 
@@ -48,6 +48,7 @@ unix {
         LIBS += -lGL
         LIBS += -lGLU
         LIBS += -lX11
+        LIBS += -lxcb
 }
 
 win32 {

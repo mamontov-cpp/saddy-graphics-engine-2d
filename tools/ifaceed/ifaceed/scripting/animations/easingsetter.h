@@ -20,6 +20,8 @@ namespace scripting
 namespace animations
 {
 
+/*! A setter for setting easing functions  for animation
+ */
 template<
     typename _PropertyType,
     typename _CommandType
@@ -28,121 +30,46 @@ class EasingSetter: public scripting::AbstractSetter<sad::animations::Animation*
 {
 public:
     /*! Represents a constructor call for a function with two arguments
-        \param[in] e engine
+        \param[in] scripting scripting part
         \param[in] name name of function call
         \param[in] getter a getter for property
      */
     EasingSetter(
-        QScriptEngine* e, 
-        const QString& name,
+        scripting::Scripting* scripting, 
+        const sad::String& name,
         _PropertyType (sad::animations::easing::Function::*getter)() const
-    ) : scripting::AbstractSetter<sad::animations::Animation*, _PropertyType>(e, name), m_getter(getter)
+    ) : scripting::AbstractSetter<sad::animations::Animation*, _PropertyType>(scripting), m_getter(getter)
     {
-        if (name.length()) {
-            this->addMatched(name);
-        }
+        this->setPropertyName(name);
     }
+
     /*! Could be inherited
      */
     virtual ~EasingSetter()
     {
 
-    }   
-    /*! Determines, whether it can be called with this context
-        \param[in] ctx context
-        \return whether it could be called, or error
-     */
-    virtual scripting::MatchResult canBeCalled(QScriptContext* ctx)
-    {
-        scripting::MatchResult result;
-        result._1() = 0;
-        scripting::Callable* me = this;
-        me->checkArgumentCount(result, ctx);
-        me->checkArgument<sad::animations::Animation*>(result, 0, ctx);
-        me->checkArgument<sad::String>(result, 1, ctx);
-        // Use converters to enhance match result
-        if (result._2().exists() == false)
-        {
-            QScriptValue argt =  ctx->argument(2);
-            sad::Maybe<_PropertyType> value;
-            for(size_t i = 0; i < this->m_converts.size() && value.exists() == false; i++)
-            {
-                value = this->m_converts[i]->toValue(argt);
-            }
-            if (value.exists() == false)
-            {
-                sad::db::TypeName<_PropertyType>::init();
-                QString tname = sad::db::TypeName<_PropertyType>::baseName().c_str();
-                QString argstr = QString::number(3);
-                result._2().setValue(QString("must have argument ") + argstr + QString(" of type ") + tname);
-            }
-            else
-            {
-                result._1() += 1;
-                for(size_t i = 0; i < this->m_conditons.size() && result._2().exists() == false; i++)
-                {
-                    result._2() = this->m_conditons[i]->check(value.value());
-                }
-            }
-        }
-
-        bool propertymatches = true;
-        sad::Maybe<sad::String> propname = scripting::ToValue<sad::String>::perform(ctx->argument(1));			
-        if (propname.exists())
-        {
-            if (this->m_matched_property_names.size())
-            {
-                propertymatches = std::find(
-                    this->m_matched_property_names.begin(), 
-                    this->m_matched_property_names.end(), 
-                    propname.value()
-                ) != this->m_matched_property_names.end();
-            }
-            if (this->m_excluded_property_names.size() && propertymatches)
-            {
-                propertymatches = std::find(
-                    this->m_excluded_property_names.begin(), 
-                    this->m_excluded_property_names.end(), 
-                    propname.value()
-                ) == this->m_excluded_property_names.end();
-            }
-            if (propertymatches)
-            {
-                result._1() += 1;				
-            }
-            else
-            {
-                result._1()  = 0;
-                result._2().setValue(QString("property ") + STD2QSTRING(propname.value()) + QString(" is not writeable"));
-            }
-        }
-        
-        return result;
     }
-    /*! Calls actually a function
-        \param[in] ctx context
-     */
-    virtual QScriptValue call(QScriptContext* ctx, QScriptEngine*)
+
+    /*! Clones an object
+         \return copy of object
+    */
+    dukpp03::qt::Callable* clone()
     {
-        sad::Maybe<sad::animations::Animation*>       basicvalue = scripting::ToValue<sad::animations::Animation*>::perform(ctx->argument(0)); 
-        sad::Maybe<sad::String> propname = scripting::ToValue<sad::String>::perform(ctx->argument(1));
-
-        QScriptValue argt =  ctx->argument(2);
-        sad::Maybe<_PropertyType> newvalue;
-        for(size_t i = 0; i < this->m_converts.size() && newvalue.exists() == false; i++)
-        {
-            newvalue = this->m_converts[i]->toValue(argt);
-        }
-       
-        _PropertyType oldvalue = ((basicvalue.value()->easing())->*m_getter)();
-
-        std::equal_to<_PropertyType> comparator;
-        if (comparator(newvalue.value(), oldvalue) == false)
-        {
-            setProperty(basicvalue.value(), propname.value(), oldvalue, newvalue.value());
-        }
-        return ctx->thisObject();
+        return new scripting::animations::EasingSetter<_PropertyType, _CommandType>(*this);
     }
+
+    /*! Calls all corresponding actions, setting property or performing other actions
+        \param[in] obj an object to be set
+        \param[in] property_name a property for object
+        \param[in] old_value old value
+        \param[in] new_value new value
+    */
+    virtual void callActions(sad::animations::Animation* obj, const sad::String& property_name, _PropertyType old_value, _PropertyType new_value)
+    {
+        this->scripting::AbstractSetter<sad::animations::Animation*, _PropertyType>::callActions(obj, property_name, old_value, new_value);
+        this->setProperty(obj, property_name, old_value, new_value);
+    }
+
     /*! Performs making new command and committing it
         \param[in] obj an object to be set
         \param[in] propertyname a property for object
@@ -151,8 +78,7 @@ public:
      */
     virtual void setProperty(sad::animations::Animation* obj, const sad::String& propertyname, _PropertyType oldvalue,  _PropertyType newvalue)
     {
-        QScriptValue main = this->engine()->globalObject().property("---");
-        scripting::Scripting* e = static_cast<scripting::Scripting*>(main.toQObject());
+        scripting::Scripting* e = this->m_scripting;
         core::Editor* editor =  e->editor();
 
         _CommandType* c = new _CommandType(obj, oldvalue, newvalue);
@@ -160,6 +86,25 @@ public:
         editor->currentBatchCommand()->add(c);
     }
 protected:
+    /*! Checks if property exists in object
+        \param[in] value object
+        \param[in] property_name a name of property
+        \return true, if exists
+    */
+    virtual bool hasProperty(sad::animations::Animation* value, const sad::String& property_name)
+    {
+        return true;
+    }
+
+    /*! Returns old property value
+        \param[in] value object
+        \param property_name a name of property
+        \return property value
+    */
+    virtual  _PropertyType getOldPropertyValue(sad::animations::Animation* value, const sad::String& property_name)
+    {
+        return ((value->easing())->*m_getter)();
+    }
     /*! A getter for easing function
      */
     _PropertyType (sad::animations::easing::Function::*m_getter)() const;

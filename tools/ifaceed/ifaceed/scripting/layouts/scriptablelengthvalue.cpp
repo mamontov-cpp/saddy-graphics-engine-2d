@@ -1,7 +1,5 @@
 #include "scriptablelengthvalue.h"
 
-#include "../fromvalue.h"
-#include "../tovalue.h"
 
 #include "../scripting.h"
 
@@ -72,20 +70,20 @@ void scripting::layouts::ScriptableLengthValue::setValue(double v)
     m_value.Value = v;
 }
 
-QScriptValue scripting::layouts::ScriptableLengthValue::unit() const
+int scripting::layouts::ScriptableLengthValue::unit() const
 {
-    return scripting::FromValue<sad::layouts::Unit>::perform(m_value.Unit, m_scripting->engine());
+    return static_cast<int>(m_value.Unit);
 }
 
-void scripting::layouts::ScriptableLengthValue::setUnit(QScriptValue v)
+void scripting::layouts::ScriptableLengthValue::setUnit(unsigned int v)
 {
-    sad::Maybe<sad::layouts::Unit> mu_maybe = scripting::ToValue<sad::layouts::Unit>::perform(v);
-    if (mu_maybe.exists())
+    if ((v == sad::layouts::LU_Auto) || (v == sad::layouts::LU_Percents) || (v == sad::layouts::LU_Pixels))
     {
-        m_value.Unit = mu_maybe.value();
+        m_value.Unit = static_cast<sad::layouts::Unit>(v);
     }
     else
     {
-        m_scripting->engine()->currentContext()->throwError("ScriptableLengthValue::setUnit(): argument is not valid unit");
+        m_scripting->context()->throwError("ScriptableLengthValue::setUnit(): argument is not valid unit");
+        throw new dukpp03::ArgumentException();
     }
 }

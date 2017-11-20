@@ -7,6 +7,7 @@
 #include "../maybe.h"
 #include "../sadsize.h"
 #include "../keycodes.h"
+#include "../sadpoint.h"
 #include "../timer.h"
 
 namespace sad
@@ -57,6 +58,9 @@ public:
      */
     sad::os::SystemWindowEventDispatchResult dispatch(SystemWindowEvent & e);
 protected:
+    /*! Converts point to client point
+     */
+    sad::Point2D toClient(const sad::Point2D& p);
     /*! Processes event, when window is being closed
         \param[in] e system event
      */

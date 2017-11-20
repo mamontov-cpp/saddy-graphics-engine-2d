@@ -7,3 +7,6 @@
 [submodule "include/3rdparty/dukpp-03"]
 	path = include/3rdparty/dukpp-03
 	url = https://github.com/mamontov-cpp/dukpp-03.git
+[submodule "3rdparty/imgui"]
+	path = 3rdparty/imgui
+	url = https://github.com/ocornut/imgui.git

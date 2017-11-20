@@ -3,8 +3,6 @@
 // ReSharper disable once CppUnusedIncludeDirective
 #include <db/save.h>
 
-#include "../tovalue.h"
-
 #include "../../history/customobject/customobjectchangeschema.h"
 
 #include "../../qstdstring.h"
@@ -14,25 +12,23 @@
 #include <resource/tree.h>
 #include <resource/resource.h>
 
-scripting::scenenodes::SchemaSetter::SchemaSetter(QScriptEngine* e)
-    : scripting::scenenodes::AbstractSetter<sad::String>(e)
+scripting::scenenodes::SchemaSetter::SchemaSetter(scripting::Scripting* scripting)
+    : scripting::scenenodes::AbstractSetter<sad::String>(scripting, "schema")
 {
-    addMatched("schema");
-}
+    std::function<
+        void(scripting::Scripting*, sad::SceneNode*, const sad::String&, sad::String oldvalue, sad::String newvalue)
+    > check_if_custom_object = [](scripting::Scripting* s, sad::SceneNode* obj, const sad::String& propertyname, sad::String oldvalue, sad::String newvalue) {
+        if (obj->metaData()->canBeCastedTo("sad::db::custom::Object") == false)
+        {
+          s->context()->throwError("First argument is not a custom object");
+          throw new dukpp03::ArgumentException();
+        }
+    };
+    addAction(check_if_custom_object);
 
-scripting::scenenodes::SchemaSetter::~SchemaSetter()
-{
-
-}
-
-scripting::MatchResult  scripting::scenenodes::SchemaSetter::canBeCalled(QScriptContext* ctx)
-{
-   scripting::MatchResult result = this->scripting::scenenodes::AbstractSetter<sad::String>::canBeCalled(ctx);
-   if (result._2().exists() == false)
-   {
-        sad::Maybe<sad::String> r = scripting::ToValue<sad::String>::perform(ctx->argument(2));
-        sad::String resourcename = r.value();
-        sad::resource::Resource* resource = sad::Renderer::ref()->tree("")->root()->resource(resourcename);
+    std::function<dukpp03::Maybe<sad::String>(const sad::String&)> is_schema_exists = [](const sad::String& resource_name) {
+        dukpp03::Maybe<sad::String> result;
+        sad::resource::Resource* resource = sad::Renderer::ref()->tree("")->root()->resource(resource_name);
         bool valid = false;
         if (resource) {
             if (resource->metaData()->canBeCastedTo("sad::db::custom::Schema"))
@@ -42,25 +38,28 @@ scripting::MatchResult  scripting::scenenodes::SchemaSetter::canBeCalled(QScript
         }
         if (!valid)
         {
-            result._2().setValue(STD2QSTRING(resourcename) + " is not a schema resource");
+            result.setValue(resource_name + " is not a schema resource");
         }
-   }
-    if (result._2().exists() == false)
-    {
-         sad::Maybe<sad::SceneNode*> r = scripting::ToValue<sad::SceneNode*>::perform(ctx->argument(0));
-         sad::SceneNode* node = r.value();
-         if (node->metaData()->canBeCastedTo("sad::db::custom::Object") == false)
-         {
-             result._2().setValue("first argument is not a custom object");
-         }
-    }
-   return result;
+        return result;
+    };
+    addCondition(is_schema_exists);
+}
+
+
+dukpp03::qt::Callable* scripting::scenenodes::SchemaSetter::clone()
+{
+    return new scripting::scenenodes::SchemaSetter(*this);
+}
+
+scripting::scenenodes::SchemaSetter::~SchemaSetter()
+{
+
 }
 
 history::Command* scripting::scenenodes::SchemaSetter::command(
-    sad::SceneNode* obj, 
-    const sad::String&, 
-    sad::String oldvalue,  
+    sad::SceneNode* obj,
+    const sad::String&,
+    sad::String oldvalue,
     sad::String newvalue
 )
 {

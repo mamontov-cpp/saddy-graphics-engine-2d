@@ -20,7 +20,7 @@
 #include "db/dbmethodpair.h"
 #include "db/dbtable.h"
 
-DECLARE_SOBJ(sad::animations::Instance);
+DECLARE_SOBJ_INHERITANCE(sad::animations::Instance, sad::animations::Process)
 
 sad::animations::Instance::Instance()
 : m_paused(false),
@@ -194,56 +194,16 @@ void sad::animations::Instance::setAnimation(sad::animations::Animation* o)
     m_tree_link_active = true;
 }
 
-static const int validtypescount = 17;
-static sad::String validtypes[] = {
-    "sad::animations::Animation",      // 1
-    "sad::animations::Blinking",       // 2
-    "sad::animations::CameraRotation", // 3
-    "sad::animations::CameraShaking",  // 4
-    "sad::animations::Color",          // 5
-    "sad::animations::FontList",       // 6
-    "sad::animations::FontSize",       // 7
-    "sad::animations::OptionList",     // 8
-    "sad::animations::Parallel",       // 9
-    "sad::animations::Resize",         // 10
-    "sad::animations::Rotate",         // 11
-    "sad::animations::SimpleMovement", // 12
-    "sad::animations::Sequential",     // 13
-    "sad::animations::TextureCoordinatesContinuous",// 14
-    "sad::animations::TextureCoordinatesList",      // 15
-    "sad::animations::Typing",                      // 16
-    "sad::animations::WayMoving"                    // 17
-};
-
-sad::animations::Animation* sad::animations::Instance::animation(bool check) const
+sad::animations::Animation* sad::animations::Instance::animation() const
 {
-    sad::animations::Animation* result = NULL;
+    sad::animations::Animation* result;
     if (m_tree_link_active)
     {
         result = m_animation.get();
     }
     else
     {
-        sad::db::Object* o = const_cast<sad::animations::Instance*>(this)->m_animation_db_link.get();
-        if (o)
-        {
-            if (check)
-            {
-                bool valid = false;
-                for(size_t i  = 0; (i < validtypescount) && (valid == false); i++)
-                {
-                    valid = valid || o->isInstanceOf(validtypes[i]);
-                }
-                if (valid)
-                {
-                    result = static_cast<sad::animations::Animation*>(o);
-                }
-            }
-            else
-            {
-                result = static_cast<sad::animations::Animation*>(o);
-            }
-        }
+        result = m_animation_db_link.get();
     }
     return result;
 }
@@ -338,14 +298,66 @@ double sad::animations::Instance::startTime() const
     return m_start_time;
 }
 
-void sad::animations::Instance::addCallbackOnStart(sad::animations::Callback* c)
+sad::animations::Callback* sad::animations::Instance::addCallbackOnStart(sad::animations::Callback* c)
 {
-    m_callbacks_on_start << c;    
+    m_callbacks_on_start << c;
+    return c;
 }
 
-void sad::animations::Instance::addCallbackOnEnd(sad::animations::Callback* c)
+sad::animations::Callback* sad::animations::Instance::addCallbackOnEnd(sad::animations::Callback* c)
 {
     m_callbacks_on_end << c;
+    return c;
+}
+
+void sad::animations::Instance::removeCallbackOnStart(sad::animations::Callback* c)
+{
+    sad::PtrVector<sad::animations::Callback>::iterator it = std::find(m_callbacks_on_start.begin(), m_callbacks_on_start.end(), c);
+    if (it != m_callbacks_on_start.end())
+    {
+        m_callbacks_on_start.erase(it);
+        delete c;
+    }
+}
+
+void sad::animations::Instance::removeCallbackOnEnd(sad::animations::Callback* c)
+{
+    sad::PtrVector<sad::animations::Callback>::iterator it = std::find(m_callbacks_on_end.begin(), m_callbacks_on_end.end(), c);
+    if (it != m_callbacks_on_end.end())
+    {
+        m_callbacks_on_end.erase(it);
+        delete c;
+    }
+}
+
+void sad::animations::Instance::removeCallback(sad::animations::Callback* c)
+{
+    removeCallbackOnStart(c);
+    removeCallbackOnEnd(c);
+}
+
+void sad::animations::Instance::clearCallbacksOnStart()
+{
+    for(size_t i = 0; i < m_callbacks_on_start.size(); i++)
+    {
+        delete m_callbacks_on_start[i];
+    }
+    m_callbacks_on_start.clear();
+}
+
+void sad::animations::Instance::clearCallbacksOnEnd()
+{
+    for (size_t i = 0; i < m_callbacks_on_end.size(); i++)
+    {
+        delete m_callbacks_on_end[i];
+    }
+    m_callbacks_on_end.clear();
+}
+
+void sad::animations::Instance::clearCallbacks()
+{
+    clearCallbacksOnStart();
+    clearCallbacksOnEnd();
 }
 
 void sad::animations::Instance::restart(sad::animations::Animations* animations)
@@ -439,7 +451,6 @@ void sad::animations::Instance::cancel(sad::animations::Animations* animations)
 
 void sad::animations::Instance::addedToPipeline()
 {
-    this->addRef();
     // NOTE: That should fix https://github.com/mamontov-cpp/saddy-graphics-engine-2d/issues/60
     // that instances could not be restarted without explicit calls
     this->clearFinished();
@@ -447,7 +458,7 @@ void sad::animations::Instance::addedToPipeline()
 
 void sad::animations::Instance::removedFromPipeline()
 {   
-    this->delRef();
+
 }
 
 void sad::animations::Instance::setStateCommand(
@@ -556,19 +567,45 @@ const
     return m_state_commands;
 }
 
-void sad::animations::Instance::stopInstanceRelatedToObject(sad::db::Object* object, sad::animations::Animations* a)
+bool sad::animations::Instance::isRelatedToMatchedObject(const std::function<bool(sad::db::Object*)>& f)
 {
-    if (m_object.get() == object)
+    return f(m_object.get());
+}
+
+void sad::animations::Instance::stopInstancesRelatedToMatchedObject(const std::function<bool(sad::db::Object*)>& f, sad::animations::Animations* a)
+{
+    if (f(m_object.get()))
     {
-        a->remove(this);
+        a->notifyProcessRemoval(this);
     }
 }
 
-bool sad::animations::Instance::isRelatedToObject(sad::db::Object* object)
+bool sad::animations::Instance::isRelatedToMatchedAnimation(const std::function<bool(sad::animations::Animation*)>& f)
 {
-    return m_object.get() == object;
+    return f(this->animation());
 }
 
+void sad::animations::Instance::stopInstancesRelatedToMatchedAnimation(const std::function<bool(sad::animations::Animation*)>& f, sad::animations::Animations* a)
+{
+    if (f(this->animation()))
+    {
+        a->notifyProcessRemoval(this);
+    }
+}
+
+bool sad::animations::Instance::isRelatedToMatchedProcess(const std::function<bool(sad::animations::Process*)>& f)
+{
+    return f(this);
+}
+
+
+void sad::animations::Instance::stopInstancesRelatedToMatchedProcess(const std::function<bool(sad::animations::Process*)>& f, sad::animations::Animations* a)
+{
+    if (f(this))
+    {
+        a->notifyProcessRemoval(this);
+    }
+}
 
 // ================================== PROTECTED METHODS ==================================
 
@@ -581,7 +618,7 @@ double sad::animations::Instance::computeTime(
     double elapsed = m_start_time + m_timer.elapsed();
     double result = elapsed;
 
-    sad::animations::Animation* a = this->animation(false);
+    sad::animations::Animation* a = this->animation();
     // If time is expired, animation is or looped, or should be stopped
     if (elapsed > a->time())
     {
@@ -613,7 +650,7 @@ double sad::animations::Instance::computeTime(
 
 void sad::animations::Instance::processTime(sad::animations::Animations*, double time)
 {
-    sad::animations::Animation* a =  this->animation(false);
+    sad::animations::Animation* a =  this->animation();
     a->setState(this, time);
 }
 
@@ -622,7 +659,7 @@ void sad::animations::Instance::start(sad::animations::Animations* animations)
     this->checkIfValid(animations);
     if (m_valid)
     {
-        sad::animations::Animation* a = this->animation(false);
+        sad::animations::Animation* a = this->animation();
         this->saveStateAndCompile(animations);
         a->start(this);
         a->setState(this, m_start_time);
@@ -647,7 +684,7 @@ void sad::animations::Instance::markAsFinished()
 
 void sad::animations::Instance::checkIfValid(sad::animations::Animations*)
 {
-    sad::animations::Animation* a = this->animation(true);
+    sad::animations::Animation* a = this->animation();
     sad::db::Object* o = this->object();
 
     m_valid = (a && o);
@@ -660,7 +697,7 @@ void sad::animations::Instance::checkIfValid(sad::animations::Animations*)
 
 void sad::animations::Instance::saveStateAndCompile(sad::animations::Animations* animations)
 {
-    sad::animations::Animation* a = this->animation(false);
+    sad::animations::Animation* a = this->animation();
     sad::db::Object* o = this->object();
 
     const sad::Vector<sad::animations::AbstractSavedObjectStateCreator*>& creators = a->creators();
@@ -685,7 +722,7 @@ void sad::animations::Instance::saveStateAndCompile(sad::animations::Animations*
 
 void sad::animations::Instance::restoreObjectState(sad::animations::Animations* animations)
 {
-    const sad::Vector<sad::animations::AbstractSavedObjectStateCreator*>& creators = this->animation(false)->creators();
+    const sad::Vector<sad::animations::AbstractSavedObjectStateCreator*>& creators = this->animation()->creators();
     for(size_t i = 0; i < creators.size(); i++) {
         animations->cache().restore(this->object(), creators[i]->name());
     }
@@ -745,6 +782,6 @@ void sad::animations::Instance::fireOnStartCallbacks()
 {
     for(size_t i = 0; i < m_callbacks_on_start.size(); i++)
     {
-        m_callbacks_on_start[i]->invoke();        
+        m_callbacks_on_start[i]->invoke();
     }
 }

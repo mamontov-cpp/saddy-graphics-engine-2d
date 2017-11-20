@@ -4,7 +4,8 @@
     A wrapper for reference to a phrase from dialogue
  */
 #pragma once
-#include "../classwrapper.h"
+
+#include <QObject>
 
 #include <dialogue/dialogue.h>
 #include <dialogue/phrase.h>
@@ -24,12 +25,14 @@ class DialogueActions;
 namespace scripting
 {
 
+class Scripting;
+
 namespace dialogues
 {
 
 /*! A wrapper for reference to a phrase from dialogue
  */
-class PhraseRef: public scripting::ClassWrapper
+class PhraseRef: public QObject
 {
  Q_OBJECT
  Q_PROPERTY(QString actorName READ actorName WRITE setActorName)
@@ -43,10 +46,11 @@ public:
      */
     PhraseRef();
     /*! Constructs new wrapper
+        \param[in] scripting a scripting part
         \param[in] d a dialogue, which is referenced
         \param[in] pos a position
      */
-    PhraseRef(sad::dialogue::Dialogue* d, unsigned int pos);
+    PhraseRef(scripting::Scripting* scripting, sad::dialogue::Dialogue* d, unsigned int pos);
     /*! Could be inherited
      */
     virtual ~PhraseRef();
@@ -101,15 +105,15 @@ public:
         \return view hint for a phrase
      */
     QString viewHint() const;
-    /*! Contains to string
-        \return object to string
-     */
-    QString toString() const;
     /*! Returns a position to point ref
         \return position
      */
     unsigned int position() const;
 public slots:
+    /*! Contains to string
+        \return object to string
+    */
+    QString toString() const;
     /*! Moves point back in list
      */
     void moveBack();
@@ -117,6 +121,9 @@ public slots:
      */
     void moveFront();
 protected:
+    /*! A scripting part
+     */
+    scripting::Scripting* m_scripting;
     /*! An inner point dialogue
      */
     sad::dialogue::Dialogue* m_d;

@@ -4,13 +4,15 @@
     A bindings for dialogues are listed here
  */
 #pragma once
+#include "../dukqtcontext.h"
 #include <sadstring.h>
-#include <sadrect.h>
 
-#include <QScriptEngine>
 #include <QVector>
 
 #include <dialogue/dialogue.h>
+
+#include "dialoguesphraseref.h"
+
 
 namespace scripting
 {
@@ -20,15 +22,10 @@ class Scripting;
 namespace dialogues
 {
 
-/*! Lists all dialogues
-    \param[in] ctx context
-    \param[in] engine an enginge
-    \return a dialogues list
+/*! Lists all major ids for all dialogues in database
+    \return a major ids for dialogues
  */
-QScriptValue list(
-    QScriptContext* ctx,
-    QScriptEngine* engine
-);
+QVector<unsigned long long> list();
 
 /*! Adds dialogue. Prefixed by underscore, since it will be mapped to _add function and add
     is reserved for call, which will take object, preprocess it's fields and call _add using fields of this object.
@@ -39,7 +36,7 @@ QScriptValue list(
 unsigned long long _add(
     scripting::Scripting* scripting, 
     sad::String name,
-    sad::Vector<sad::dialogue::Phrase> phrases
+    QVector<sad::dialogue::Phrase> phrases
 );
 
 /*! Removes a dialogue
@@ -82,7 +79,14 @@ unsigned int length(scripting::Scripting* scripting, sad::dialogue::Dialogue* d)
     \param[in] d a dialogue to be removed
     \param[in] pos a position
  */
-QScriptValue phrase(scripting::Scripting* scripting, sad::dialogue::Dialogue* d, unsigned int pos);
+dukpp03::Maybe<scripting::dialogues::PhraseRef*> phrase(scripting::Scripting* scripting, sad::dialogue::Dialogue* d, unsigned int pos);
+
+/*! Initializes bindings for dialogues
+    \param[in] s scripting object
+    \param[in] e a global binding object
+    \return created dialogues object
+ */
+dukpp03::qt::JSObject* init(scripting::Scripting* s, dukpp03::qt::JSObject* e);
 
 }
 

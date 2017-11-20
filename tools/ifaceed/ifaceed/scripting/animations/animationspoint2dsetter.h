@@ -5,6 +5,7 @@
     and displayed, as two QDoubleSpinBox
  */
 #pragma once
+#include <QDoubleSpinBox>
 #include "../abstractsetter.h"
 
 #include "../scripting.h"
@@ -29,28 +30,48 @@ class Point2DSetter: public scripting::AbstractSetter<_AnimationType*,sad::Point
 {
 public:
     /*! Construct new setter for property
-        \param[in] e engine
+        \param[in] scripting a scripting part
         \param[in] name a name for property
         \param[in] xwidget a widget for storing x coordinate
         \param[in] ywidget a widget for storing y coordinate
      */
     Point2DSetter(
-        QScriptEngine* e,
-        const QString& name,
+        scripting::Scripting* scripting,
+        const sad::String& name,
         QDoubleSpinBox* xwidget,
         QDoubleSpinBox* ywidget
-    ) : scripting::AbstractSetter<_AnimationType*,sad::Point2D>(e, "set"), m_xwidget(xwidget), m_ywidget(ywidget)
+    ) : scripting::AbstractSetter<_AnimationType*,sad::Point2D>(scripting), m_xwidget(xwidget), m_ywidget(ywidget)
     {
-        if (name.length()) {
-            this->addMatched(name);
-        }
+        this->setPropertyName(name);
     }
+
+    /*! Clones an object
+        \return copy of object
+     */
+    dukpp03::qt::Callable* clone()
+    {
+        return new scripting::animations::Point2DSetter<_AnimationType, _CommandType>(*this);
+    }
+
     /*! Could be inherited
      */ 
     virtual ~Point2DSetter()
     {
         
     }
+
+    /*! Calls all corresponding actions, setting property or performing other actions
+        \param[in] obj an object to be set
+        \param[in] property_name a property for object
+        \param[in] old_value old value
+        \param[in] new_value new value
+    */
+    virtual void callActions(_AnimationType* obj, const sad::String& property_name, sad::Point2D old_value, sad::Point2D new_value)
+    {
+        this->scripting::AbstractSetter<_AnimationType*, sad::Point2D>::callActions(obj, property_name, old_value, new_value);
+        this->setProperty(obj, property_name, old_value, new_value);
+    }
+
 
     /*! Performs actually setting property
         \param[in] obj an object to be set
@@ -60,9 +81,7 @@ public:
      */
     virtual void setProperty(_AnimationType* obj, const sad::String& propertyname, sad::Point2D oldvalue,  sad::Point2D newvalue)
     {
-        QScriptValue main = this->engine()->globalObject().property("---");
-        scripting::Scripting* e = static_cast<scripting::Scripting*>(main.toQObject());
-        core::Editor* editor =  e->editor();
+        core::Editor* editor =  this->m_scripting->editor();
 
         history::Command* c =  new _CommandType(obj, propertyname, oldvalue, newvalue, m_xwidget, m_ywidget);							
         editor->currentBatchCommand()->add(c);

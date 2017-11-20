@@ -7,12 +7,41 @@
 
 #include "../../history/scenenodes/scenenodesnew.h"
 #include "../../history/scenenodes/scenenodesspan.h"
+#include "../../history/scenenodes/scenenodeschangename.h"
+#include "../../history/scenenodes/scenenodeschangeangle.h"
+#include "../../history/scenenodes/scenenodeschangecolor.h"
+#include "../../history/scenenodes/scenenodeschangearea.h"
+#include "../../history/scenenodes/scenenodeschangevisibility.h"
 
+#include "../../history/label/changefontsize.h"
+#include "../../history/label/changetext.h"
+#include "../../history/label/changefontname.h"
+#include "../../history/label/changelinespacing.h"
+#include "../../history/label/changemaximallinewidth.h"
+#include "../../history/label/changebreaktext.h"
+#include "../../history/label/changeoverflowstrategy.h"
+#include "../../history/label/changetextellipsis.h"
+#include "../../history/label/changemaximallinescount.h"
+#include "../../history/label/changeoverflowstrategyforlines.h"
+#include "../../history/label/changetextellipsisforlines.h"
+#include "../../history/label/changehasformatting.h"
+
+#include "../../history/sprite2d/changeflipx.h"
+#include "../../history/sprite2d/changeflipy.h"
 
 #include "../../gui/actions/actions.h"
 #include "../../gui/actions/scenenodeactions.h"
 #include "../../gui/actions/sprite2dactions.h"
 #include "../../gui/actions/gridactions.h"
+
+#include "scenenodessetter.h"
+#include "scenenodesflagsetter.h"
+#include "scenenodesoptionssetter.h"
+#include "scenenodesschemasetter.h"
+#include "scenenodescustomsetter.h"
+#include "scenenodescustomgetter.h"
+
+#include "../abstractgetter.h"
 
 #include <renderer.h>
 #include <label.h>
@@ -26,15 +55,12 @@
 
 #include <db/custom/customobject.h>
 
-QScriptValue scripting::scenenodes::list(
-    QScriptContext* ctx,
-    QScriptEngine* engine
-)
+QVector<unsigned long long>  scripting::scenenodes::list()
 {
-    return scripting::query_table("scenenodes", "sad::SceneNode", ctx, engine);
+    return scripting::query_table("scenenodes", "sad::SceneNode");
 }
 
-QVector<unsigned long long> scripting::scenenodes::listScene(scripting::Scripting* scripting, sad::Scene* scene)
+QVector<unsigned long long> scripting::scenenodes::listScene(sad::Scene* scene)
 {
     QVector<unsigned long long> result;
     const sad::Vector<sad::SceneNode*>& scenenodes = scene->objects();
@@ -57,19 +83,22 @@ unsigned long long scripting::scenenodes::_addLabel(
     sad::AColor clr
 )
 {
-    QScriptEngine* engine = scripting->engine();
     sad::resource::Tree* tree = sad::Renderer::ref()->tree("");
     sad::resource::Resource* maybefont = tree->root()->resource(resource);
-    if (!maybefont)
+    bool error = true;
+    if (maybefont)
     {
-        engine->currentContext()->throwError(QScriptContext::TypeError, QString("_addLabel: ") + resource.c_str() + " does not name font resource");
-        return 0;
+        if (maybefont->metaData()->canBeCastedTo("sad::Font")
+            || maybefont->metaData()->canBeCastedTo("sad::freetype::Font"))
+        {
+            error = false;
+        }
     }
-
-    if (maybefont->metaData()->canBeCastedTo("sad::Font") == false
-        && maybefont->metaData()->canBeCastedTo("sad::freetype::Font") == false)
+    if (error)
     {
-        engine->currentContext()->throwError(QScriptContext::TypeError, QString("_addLabel: ") + resource.c_str() + " does not name font resource");
+        std::string resource_not_found_error = std::string("_addLabel: ") + resource.c_str() + " does not name font resource";
+        scripting->context()->throwError(resource_not_found_error);
+        throw new dukpp03::ArgumentException();
         return 0;
     }
 
@@ -103,24 +132,30 @@ unsigned long long scripting::scenenodes::_addSprite2D(
     sad::AColor clr
 )
 {
-    QScriptEngine* engine = scripting->engine();
     sad::resource::Tree* tree = sad::Renderer::ref()->tree("");
     sad::resource::Resource* maybeopts = tree->root()->resource(resource);
-    if (!maybeopts)
+    bool error = true;
+    if (maybeopts)
     {
-        engine->currentContext()->throwError(QScriptContext::TypeError, QString("_addLabel: ") + resource.c_str() + " does not name sprite options resource (sad::Sprite2D::Options type)");
-        return 0;
+        if (maybeopts->metaData()->canBeCastedTo("sad::Sprite2D::Options"))
+        {
+            error = false;
+        }
     }
 
-    if (maybeopts->metaData()->canBeCastedTo("sad::Sprite2D::Options") == false)
+    if (error)
     {
-        engine->currentContext()->throwError(QScriptContext::TypeError, QString("_addLabel: ") + resource.c_str() + " does not name sprite options resource (sad::Sprite2D::Options type)");
+        std::string resource_not_found_error = std::string("_addSprite2D: ") + resource.c_str() + " does not name sprite options resource (sad::Sprite2D::Options type)";
+        scripting->context()->throwError(resource_not_found_error);
+        throw new dukpp03::ArgumentException();
         return 0;
     }
 
     if (sad::isAABB(rect) == false)
     {
-        engine->currentContext()->throwError(QScriptContext::TypeError, QString("_addLabel: ") + resource.c_str() + " rectangle must be axis aligned");
+        std::string rectangle_argument_error = "_addSprite2D: passed rectangle must be axis-aligned bounding box";
+        scripting->context()->throwError(rectangle_argument_error);
+        throw new dukpp03::ArgumentException();
         return 0;
     }
 
@@ -157,24 +192,30 @@ unsigned long long scripting::scenenodes::_addCustomObject(
     sad::AColor clr
 )
 {
-    QScriptEngine* engine = scripting->engine();
     sad::resource::Tree* tree = sad::Renderer::ref()->tree("");
     sad::resource::Resource* maybeschema = tree->root()->resource(resource);
-    if (!maybeschema)
+    bool error = true;
+    if (maybeschema)
     {
-        engine->currentContext()->throwError(QScriptContext::TypeError, QString("_addLabel: ") + resource.c_str() + " does not name schema resource (sad::db::custom::Schema type)");
-        return 0;
+        if (maybeschema->metaData()->canBeCastedTo("sad::db::custom::Schema"))
+        {
+            error = false;
+        }
     }
 
-    if (maybeschema->metaData()->canBeCastedTo("sad::db::custom::Schema") == false)
+    if (error)
     {
-        engine->currentContext()->throwError(QScriptContext::TypeError, QString("_addLabel: ") + resource.c_str() + " does not name schema resource (sad::db::custom::Schema type)");
+        std::string resource_not_found_error = std::string("_addCustomObject: ") + resource.c_str() + " does not name schema resource (sad::db::custom::Schema type)";
+        scripting->context()->throwError(resource_not_found_error);
+        throw new dukpp03::ArgumentException();
         return 0;
     }
 
     if (sad::isAABB(rect) == false)
     {
-        engine->currentContext()->throwError(QScriptContext::TypeError, QString("_addLabel: ") + resource.c_str() + " rectangle must be axis aligned");
+        std::string rectangle_argument_error = "_addCustomObject: passed rectangle must be axis-aligned bounding box";
+        scripting->context()->throwError(rectangle_argument_error);
+        throw new dukpp03::ArgumentException();
         return 0;
     }
 
@@ -256,4 +297,251 @@ void scripting::scenenodes::spanBetweenTwoPoints(
             }
         }
     }
+}
+
+dukpp03::qt::JSObject* scripting::scenenodes::init(scripting::Scripting* s, dukpp03::qt::JSObject* e)
+{
+    dukpp03::qt::JSObject* scenenodes = new dukpp03::qt::JSObject();
+    scenenodes->setProperty("list", dukpp03::qt::make_function::from(scripting::scenenodes::list));
+    scenenodes->setProperty("listScene", dukpp03::qt::make_function::from(scripting::scenenodes::listScene));
+    scenenodes->setProperty("_addLabel", dukpp03::qt::curried1::from(s, scripting::scenenodes::_addLabel));
+    scenenodes->setProperty("_addSprite2D", dukpp03::qt::curried1::from(s, scripting::scenenodes::_addSprite2D));
+    scenenodes->setProperty("_addCustomObject", dukpp03::qt::curried1::from(s, scripting::scenenodes::_addCustomObject));
+    scenenodes->setProperty("makeBackground", dukpp03::qt::curried1::from(s, scripting::scenenodes::makeBackground));
+    scenenodes->setProperty("remove", dukpp03::qt::curried1::from(s, scripting::scenenodes::remove));
+    scenenodes->setProperty("spanBetweenTwoPoints", dukpp03::qt::curried1::from(s, scripting::scenenodes::spanBetweenTwoPoints));
+
+    dukpp03::qt::MultiMethod* set = new dukpp03::qt::MultiMethod();
+
+    {
+        // All props
+        set->add(new scripting::scenenodes::FlagSetter(s, "visible", history::scenenodes::changeVisibility));
+        set->add(new scripting::scenenodes::Setter<sad::String, history::scenenodes::ChangeName>(s, "name"));
+
+        scripting::scenenodes::Setter<sad::Rect2D, history::scenenodes::ChangeArea>* area_setter = new scripting::scenenodes::Setter<sad::Rect2D, history::scenenodes::ChangeArea>(s, "area");
+        std::function<dukpp03::Maybe<sad::String>(const sad::Rect2D&)> is_aabb = [](const sad::Rect2D& val) {
+            dukpp03::Maybe<sad::String> result;
+            if (sad::isAABB(val) == false)
+            {
+                result.setValue("Rectangle must be axis-aligned");
+            }
+            return result;
+        };
+        area_setter->addCondition(is_aabb);
+        set->add(area_setter);
+
+        set->add(new scripting::scenenodes::Setter<double, history::scenenodes::ChangeAngle>(s, "angle"));
+        set->add(new scripting::scenenodes::Setter<sad::AColor, history::scenenodes::ChangeColor>(s, "color"));
+
+        // sad::Label props
+        scripting::scenenodes::Setter<unsigned int, history::label::ChangeFontSize>* font_size_setter = new scripting::scenenodes::Setter<unsigned int, history::label::ChangeFontSize>(s, "fontsize");
+        std::function<dukpp03::Maybe<sad::String>(const unsigned long&)> is_greater_than_zero = [](const unsigned long& val) {
+            dukpp03::Maybe<sad::String> result;
+            if (val == 0)
+            {
+                result.setValue("Value must be greater than zero");
+            }
+            return result;
+        };
+        font_size_setter->addCondition(is_greater_than_zero);
+        set->add(font_size_setter);
+        set->add(new scripting::scenenodes::Setter<sad::String, history::label::ChangeText>(s, "text"));
+        set->add(new scripting::scenenodes::Setter<float, history::label::ChangeLineSpacing>(s, "linespacing"));
+        set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeMaximalLineWidth>(s, "maximallinewidth"));
+        set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeOverflowStrategy>(s, "overflowstrategy"));
+        set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeBreakText>(s, "breaktext"));
+        set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeTextEllipsis>(s, "textellipsisposition"));
+        set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeMaximalLinesCount>(s, "maximallinescount"));
+        set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeOverflowStrategyForLines>(s, "overflowstrategyforlines"));
+        set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeTextEllipsisForLines>(s, "textellipsispositionforlines"));
+        set->add(new scripting::scenenodes::Setter<bool, history::label::ChangeHasFormatting>(s, "hasformatting"));
+
+        scripting::scenenodes::Setter<sad::String, history::label::ChangeFontName>* font_setter = new scripting::scenenodes::Setter<sad::String, history::label::ChangeFontName>(s, "font");
+        std::function<dukpp03::Maybe<sad::String>(const sad::String&)> font_exists = [](const sad::String& resource_name) {
+            dukpp03::Maybe<sad::String> result;
+            sad::resource::Resource* resource = sad::Renderer::ref()->tree("")->root()->resource(resource_name);
+            bool valid = false;
+            if (resource) {
+                if (resource->metaData()->canBeCastedTo("sad::freetype::Font")
+                    || resource->metaData()->canBeCastedTo("sad::TextureMappedFont")
+                    || resource->metaData()->canBeCastedTo("sad::Font"))
+                {
+                    valid = true;
+                }
+            }
+            if (!valid)
+            {
+                result.setValue(resource_name + " is not a font resource");
+            }
+            return result;
+        };
+        font_setter->addCondition(font_exists);
+        set->add(font_setter);
+        // sad::Sprite2D props
+        set->add(new scripting::scenenodes::FlagSetter(s, "flipx", history::sprite2d::changeFlipX));
+        set->add(new scripting::scenenodes::FlagSetter(s, "flipy", history::sprite2d::changeFlipY));
+        set->add(new scripting::scenenodes::OptionsSetter(s));
+        // sad::db::CustomObject props
+        set->add(new scripting::scenenodes::SchemaSetter(s));
+#define PUSH_SETTER(TYPE) set->add(new scripting::scenenodes::CustomSetter< TYPE >(s));
+        PUSH_SETTER(double)
+            PUSH_SETTER(float)
+            PUSH_SETTER(int)
+            PUSH_SETTER(long)
+            PUSH_SETTER(long long)
+            PUSH_SETTER(sad::AColor)
+            PUSH_SETTER(sad::Color)
+            PUSH_SETTER(sad::Point2D)
+            PUSH_SETTER(sad::Point2I)
+            PUSH_SETTER(sad::Point3D)
+            PUSH_SETTER(sad::Point3I)
+            PUSH_SETTER(sad::Size2D)
+            PUSH_SETTER(sad::Size2I)
+            PUSH_SETTER(sad::Rect2D)
+            PUSH_SETTER(sad::Rect2I)
+            PUSH_SETTER(sad::String)
+            PUSH_SETTER(std::string)
+            PUSH_SETTER(QString)
+            PUSH_SETTER(short)
+            PUSH_SETTER(bool)
+            PUSH_SETTER(char)
+            PUSH_SETTER(signed char)
+            PUSH_SETTER(unsigned char)
+            PUSH_SETTER(unsigned int)
+            PUSH_SETTER(unsigned long)
+            PUSH_SETTER(unsigned long long)
+            PUSH_SETTER(unsigned short)
+#undef PUSH_SETTER
+    }
+
+    scenenodes->setProperty("set", static_cast<dukpp03::qt::Callable*>(set)); // E.scenenodes.set
+    dukpp03::qt::MultiMethod* get = new dukpp03::qt::MultiMethod();
+    {
+        // All
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>("name"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>("layer"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned long long>("majorid"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned long long>("minorid"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned long long>("scene"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, bool>("visible"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::Rect2D>("area"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, double>("angle"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::AColor>("color"));
+        // sad::Label props
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>("fontsize"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>("text"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, float>("linespacing"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>("font"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>("maximallinewidth"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>("overflowstrategy"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>("breaktext"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>("textellipsisposition"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>("maximallinescount"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>("overflowstrategyforlines"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>("textellipsispositionforlines"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, bool>("hasformatting"));
+
+        // sad::Sprite2D props
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, bool>("flipx"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, bool>("flipy"));
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>("options"));
+        // sad::db::CustomObject props
+        get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>("schema"));
+#define PUSH_GETTER(TYPE) get->add(scripting::scenenodes::custom_getter< TYPE >());
+            PUSH_GETTER(double)
+            PUSH_GETTER(float)
+            PUSH_GETTER(int)
+            PUSH_GETTER(long)
+            PUSH_GETTER(long long)
+            PUSH_GETTER(sad::AColor)
+            PUSH_GETTER(sad::Color)
+            PUSH_GETTER(sad::Point2D)
+            PUSH_GETTER(sad::Point2I)
+            PUSH_GETTER(sad::Point3D)
+            PUSH_GETTER(sad::Point3I)
+            PUSH_GETTER(sad::Size2D)
+            PUSH_GETTER(sad::Size2I)
+            PUSH_GETTER(sad::Rect2D)
+            PUSH_GETTER(sad::Rect2I)
+            PUSH_GETTER(sad::String)
+            PUSH_GETTER(std::string)
+            PUSH_GETTER(QString)
+            PUSH_GETTER(short)
+            PUSH_GETTER(bool)
+            PUSH_GETTER(char)
+            PUSH_GETTER(signed char)
+            PUSH_GETTER(unsigned char)
+            PUSH_GETTER(unsigned int)
+            PUSH_GETTER(unsigned long)
+            PUSH_GETTER(unsigned long long)
+            PUSH_GETTER(unsigned short)
+#undef PUSH_GETTER
+    }
+    scenenodes->setProperty("get", static_cast<dukpp03::qt::Callable*>(get)); // E.scenenodes.get
+
+    e->setProperty("scenenodes", scenenodes);
+
+    bool b = s->context()->eval(
+        "E.OverflowStrategy = { \"Visible\": 0, \"Hidden\": 1, \"Ellipsis\": 2 };"
+        "E.BreakText = { \"Normal\": 0, \"BreakWord\": 1};"
+        "E.TextEllipsisPosition = { \"Begin\": 0, \"Middle\": 1, \"End\": 2};"
+    );
+    assert(b);
+
+    b = s->context()->eval(
+        "E.scenenodes.addLabel = function(o) {"
+        "   if (\"fontsize\" in o == false)"
+        "   {                              "
+        "     o[\"fontsize\"] = 16;        "
+        "   }                              "
+        "   if (\"color\" in o == false)   "
+        "   {"
+        "      o[\"color\"] = aclr(255, 255, 255, 0);"
+        "   }"
+        "   if (\"name\" in o == false)   "
+        "   {"
+        "      o[\"name\"] = \"\";"
+        "   }"
+        "   return E.scenenodes._addLabel(o[\"scene\"], o[\"font\"], o[\"fontsize\"], o[\"text\"], o[\"name\"], o[\"point\"], o[\"color\"]);"
+        "};"
+        "E.scenenodes.addSprite2D = function(o) {"
+        "   if (\"color\" in o == false)   "
+        "   {"
+        "      o[\"color\"] = aclr(255, 255, 255, 0);"
+        "   }"
+        "   if (\"name\" in o == false)   "
+        "   {"
+        "      o[\"name\"] = \"\";"
+        "   }"
+        "   return E.scenenodes._addSprite2D(o[\"scene\"], o[\"sprite\"], o[\"name\"], o[\"area\"], o[\"color\"]);"
+        "};"
+        "E.scenenodes.addCustomObject = function(o) {"
+        "   if (\"fontsize\" in o == false)"
+        "   {                              "
+        "     o[\"fontsize\"] = 16;        "
+        "   }                              "
+        "   if (\"color\" in o == false)   "
+        "   {"
+        "      o[\"color\"] = aclr(255, 255, 255, 0);"
+        "   }"
+        "   if (\"name\" in o == false)   "
+        "   {"
+        "      o[\"name\"] = \"\";"
+        "   }"
+        "   return E.scenenodes._addCustomObject(o[\"scene\"], o[\"schema\"], o[\"name\"], o[\"fontsize\"], o[\"text\"],  o[\"area\"], o[\"color\"]);"
+        "};"
+        "E.scenenodes.attr = function() {"
+        "   if (arguments.length == 2)"
+        "   {"
+        "       return E.scenenodes.get(arguments[0], arguments[1]);"
+        "   }"
+        "   if (arguments.length == 3)"
+        "   {"
+        "       return E.scenenodes.set(arguments[0], arguments[1], arguments[2]); return E.scenenodes;"
+        "   }"
+        "   throw new Error(\"Specify 2 or 3 arguments\");"
+        "};"
+    );
+    assert(b);
+    return scenenodes;
 }
