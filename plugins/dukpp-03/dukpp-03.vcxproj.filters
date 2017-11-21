@@ -90,6 +90,9 @@
     <ClCompile Include="exposelayouts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="jspipelinedelayedtask.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="exposeanimations.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -179,6 +182,9 @@
     <ClInclude Include="..\..\include\dukpp-03\jscollisionhandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\dukpp-03\jspipelinedelayedtask.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>      
     <ClInclude Include="..\..\include\dukpp-03\jsanimationcallback.h">
       <Filter>Header Files</Filter>
     </ClInclude>

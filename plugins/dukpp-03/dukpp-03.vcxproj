@@ -36,6 +36,7 @@
     <ClCompile Include="jscontrols.cpp" />
     <ClCompile Include="jshandler.cpp" />
     <ClCompile Include="jshfsmhandler.cpp" />
+    <ClCompile Include="jspipelinedelayedtask.cpp" />
     <ClCompile Include="jspipelinestep.cpp" />
     <ClCompile Include="mutex.cpp" />
     <ClCompile Include="pushvalue.cpp" />
@@ -62,6 +63,7 @@
     <ClInclude Include="..\..\include\dukpp-03\jshandler.h" />
     <ClInclude Include="..\..\include\dukpp-03\jshfsmhandler.h" />
     <ClInclude Include="..\..\include\dukpp-03\jsmovementlistener.h" />
+    <ClInclude Include="..\..\include\dukpp-03\jspipelinedelayedtask.h" />
     <ClInclude Include="..\..\include\dukpp-03\jspipelinestep.h" />
     <ClInclude Include="..\..\include\dukpp-03\mapinterface.h" />
     <ClInclude Include="..\..\include\dukpp-03\mutex.h" />
