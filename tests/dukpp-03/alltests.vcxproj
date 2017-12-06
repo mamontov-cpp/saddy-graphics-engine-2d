@@ -186,6 +186,7 @@
     <ClCompile Include="point3i.cpp" />
     <ClCompile Include="rect2d.cpp" />
     <ClCompile Include="rect2i.cpp" />
+    <ClCompile Include="simplemovementanimation.cpp" />
     <ClCompile Include="size2d.cpp" />
     <ClCompile Include="size2i.cpp" />
     <ClCompile Include="vectorandhash.cpp" />
