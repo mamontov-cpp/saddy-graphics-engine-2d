@@ -68,6 +68,9 @@
     </ClCompile>
     <ClCompile Include="simplemovementanimation.cpp">
       <Filter>Файлы исходного кода</Filter>
+    </ClCompile>    
+    <ClCompile Include="coloranimation.cpp">
+      <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
