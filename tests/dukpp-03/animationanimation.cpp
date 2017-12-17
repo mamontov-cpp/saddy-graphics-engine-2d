@@ -18,7 +18,8 @@ public:
         TEST(AnimationAnimationTest::testObjectName),
         TEST(AnimationAnimationTest::testMajorId),
         TEST(AnimationAnimationTest::testMinorId),
-        TEST(AnimationAnimationTest::testLooped)
+        TEST(AnimationAnimationTest::testLooped),
+        TEST(AnimationAnimationTest::testTime)
     ) {}
     
     /*! Test for getting and setting objectName property
@@ -99,5 +100,25 @@ public:
         ::dukpp03::Maybe<bool> result = ::dukpp03::GetValue<bool, sad::dukpp03::BasicContext>::perform(&ctx, -1);
         ASSERT_TRUE(result.exists());
         ASSERT_TRUE(result.value() == false);
+    }
+    
+    /*! Test for getting and setting time property
+    */
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
+    void testTime() {
+        std::string error;
+        sad::dukpp03::Context ctx;
+        ctx.registerGlobal("animationObject", static_cast <sad::animations::Animation*> (new sad::animations::Color()));
+        bool eval_result = ctx.eval("animationObject.setTime(4.0); animationObject.time()", false, &error);
+        if (!eval_result)
+        {
+            printf("%s\n", error.c_str());
+        }
+        ASSERT_TRUE(eval_result);
+        ASSERT_TRUE(error.size() == 0);
+        ::dukpp03::Maybe<double> result = ::dukpp03::GetValue<double, sad::dukpp03::BasicContext>::perform(&ctx, -1);
+        ASSERT_TRUE(result.exists());
+        ASSERT_TRUE(result.value() == 4.0);
     }
 } _animationanimation_test;
