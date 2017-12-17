@@ -15,7 +15,8 @@ struct AnimationAnimationTest : tpunit::TestFixture
 {
 public:
     AnimationAnimationTest() : tpunit::TestFixture(
-        TEST(AnimationAnimationTest::testObjectName)
+        TEST(AnimationAnimationTest::testObjectName),
+        TEST(AnimationAnimationTest::testMajorId)
     ) {}
     
     /*! Test for getting and setting objectName property
@@ -36,5 +37,25 @@ public:
         ::dukpp03::Maybe<sad::String> result = ::dukpp03::GetValue<sad::String, sad::dukpp03::BasicContext>::perform(&ctx, -1);
         ASSERT_TRUE(result.exists());
         ASSERT_TRUE(result.value() == "name");
+    }
+    
+    /*! Test for getting and setting majorId property
+    */
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
+    void testMajorId() {
+        std::string error;
+        sad::dukpp03::Context ctx;
+        ctx.registerGlobal("animationObject", static_cast <sad::animations::Animation*> (new sad::animations::Color()));
+        bool eval_result = ctx.eval("animationObject.MajorId=14; animationObject.MajorId", false, &error);
+        if (!eval_result)
+        {
+            printf("%s\n", error.c_str());
+        }
+        ASSERT_TRUE(eval_result);
+        ASSERT_TRUE(error.size() == 0);
+        ::dukpp03::Maybe<long> result = ::dukpp03::GetValue<long, sad::dukpp03::BasicContext>::perform(&ctx, -1);
+        ASSERT_TRUE(result.exists());
+        ASSERT_TRUE(result.value() == 14);
     }
 } _animationanimation_test;
