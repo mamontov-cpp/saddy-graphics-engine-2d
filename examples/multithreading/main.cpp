@@ -23,6 +23,8 @@
 #include <animations/animationsparallel.h>
 #include <animations/animationsinstance.h>
 
+#include "game.h"
+
 
 #ifdef WIN32
 #include <windows.h>
@@ -150,7 +152,7 @@ int thread(void * p)
     /*! Load resources
      */
     sad::Vector<sad::resource::Error *> errors = r.loadResources("examples/multithreading.json");
-    if (errors.size() != 0)
+    if (!errors.empty())
     {
 
         SL_LOCAL_FATAL(sad::resource::format(errors), r);
@@ -243,10 +245,10 @@ int main(int argc, char** argv)
 int main(int argc, char** argv)
 #endif
 {
-    sad::Renderer::ref()->information("Multithreading demo", "This is demo for multithreading");
+    Game main_game;
     // Here we create two waitable threads
-    sad::Thread a(thread,static_cast<void *>(const_cast<char*>("thread1.txt")));
-    sad::Thread b(thread,static_cast<void *>(const_cast<char*>("thread2.txt")));
+    sad::Thread a(&main_game, &Game::runMainGameThread);
+    sad::Thread b(&main_game, &Game::runInventoryThread);
 
     // Run them
     a.run();
