@@ -119,7 +119,7 @@ void threads::GameThread::sendKillSignalFrom(threads::GameThread* other)
 {
     if (m_renderer_started) {
         sad::Renderer* renderer = m_renderer;
-        m_renderer->pipeline()->appendTask([=,renderer]() -> void {
+        m_renderer->pipeline()->appendTask([renderer]() -> void {
             renderer->quit();
         });
     } else {

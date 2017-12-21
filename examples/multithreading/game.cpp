@@ -106,7 +106,6 @@ void Game::runInventoryThread()
     // TODO: Khomich loading database code here
     SL_LOCAL_DEBUG("Starting new renderer\n", renderer);
     m_inventory_thread->markAsRendererStarted();
-    threads::GameThread* inventory_thread = m_inventory_thread;
     // Kill other window, if closed
     renderer.controls()->addLambda(
         *sad::input::ET_Quit,
@@ -125,6 +124,7 @@ void Game::runInventoryThread()
 // ==================================== PRIVATE METHODS ====================================
 
 Game::Game(const Game&)  // NOLINT
+: m_main_thread(NULL), m_inventory_thread(NULL), m_is_quitting(false)
 {
     throw std::logic_error("Not implemented");
 }
