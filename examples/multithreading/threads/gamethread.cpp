@@ -148,3 +148,13 @@ void threads::GameThread::markAsRendererStarted()
 {
     m_renderer_started = true;
 }
+
+void threads::GameThread::setState(threads::GameState state)
+{
+    m_state = state;
+}
+
+threads::GameState threads::GameThread::state() const
+{
+    return m_state;
+}

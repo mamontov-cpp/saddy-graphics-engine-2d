@@ -8,6 +8,8 @@
 #include <sadmutex.h>
 #include <maybe.h>
 
+#include "gamestate.h"
+
 namespace threads
 {
 /*! A game thread object, that is used to perform
@@ -65,7 +67,16 @@ public:
     /*! Marks that renderer is started
      */
     void markAsRendererStarted();
+    /*! Sets a gane state
+     */
+    void setState(threads::GameState state);
+    /*! Returns a state
+     */
+    threads::GameState state() const;
 protected:
+    /*! An inner game state for a thread
+     */
+    threads::GameState m_state;
     /*! Whether there was an error in some thread
      */
     sad::Maybe<sad::String> m_error;
