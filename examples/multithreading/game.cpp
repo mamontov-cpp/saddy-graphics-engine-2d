@@ -47,12 +47,12 @@ void Game::runMainGameThread()
         }
         if (m_inventory_thread->hasErrors())
         {
-            error += "Main thread errors: ";
+            error += "Inventory thread errors: ";
             error += m_inventory_thread->errors();
             error +=  "\n";
         }
         // Output errors
-        m_main_thread->renderer()->error("Initilaization error", error);
+        m_main_thread->renderer()->error(error, "Initilaization error");
 
         // Kill inventory thread
         m_inventory_thread->sendKillSignalFrom(m_main_thread);

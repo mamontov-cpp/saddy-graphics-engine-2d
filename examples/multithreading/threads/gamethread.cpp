@@ -10,6 +10,8 @@
 
 #include <util/free.h>
 
+#include <irrklang/sound.h>
+
 
 threads::GameThread::GameThread() : m_killed(false), m_need_to_wait(false), m_renderer_started(false)
 {
@@ -73,6 +75,8 @@ void threads::GameThread::tryInitialize(
     sad::Scene * scene = new sad::Scene();
     m_renderer->setScene(scene);
     m_renderer->tree()->factory()->registerResource<sad::freetype::Font>();
+    m_renderer->tree()->factory()->registerResource<sad::irrklang::Sound>();
+    m_renderer->tree()->factory()->registerDefaultFileTypeFor<sad::irrklang::Sound>();
 
     /* Setup the logging. We redirect all messages to a file, passed as parameter to thread
        variable

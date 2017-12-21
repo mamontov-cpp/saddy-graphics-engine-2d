@@ -4,5 +4,9 @@
 		"type": "sad::freetype::Font",
 		"name": "Arcade Classic",
 		"filename": "examples/multithreading/ARCADECLASSIC.TTF"
-	}
+	},
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/Bit Quest.mp3", "name" : "main_theme" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/Drinking-Alone.mp3", "name" : "lose_theme" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/Jerry Five.mp3", "name" : "title_theme" }
+	
 ]
