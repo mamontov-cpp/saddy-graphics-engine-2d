@@ -11,7 +11,7 @@ namespace threads
  */
 enum GameState
 {
-    GS_UNITIALIZED = 0, // Renderer not fully started ye
+    GS_UNITIALIZED = 0, // Renderer not fully started yet
     GS_START = 1,       // A starting screen
     GS_PLAYING = 2,     // A playing screen is presented
     GS_LOST = 3         // A player had lost a game
