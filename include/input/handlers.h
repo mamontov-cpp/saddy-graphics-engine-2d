@@ -6,6 +6,7 @@
  */
 #pragma once
 #include "events.h"
+#include <functional>
 
 namespace sad
 {
@@ -50,6 +51,52 @@ protected:
         \param[in] e event type
      */
     virtual void invoke(const _EventType & e) = 0;
+};
+
+/*! A callback, which calls a simple function, which is specified on creation.
+ */
+class VoidStdFunctionHandler: public sad::input::AbstractHandler
+{
+public:
+    /*! Constructs new handler
+        \param[in] f callback
+     */
+    inline VoidStdFunctionHandler(const std::function<void()>& f) : m_f(f)
+    {
+    }
+	
+    /*! Invokes a callback function
+        \param[in] e event type
+     */
+    virtual void invoke(const sad::input::AbstractEvent & e);
+private:
+   std::function<void()> m_f; //!< Called function
+};
+
+/*! A callback, which calls a simple function, which is specified on creation.
+ */
+template<
+typename _EventType
+>
+class StdFunctionHandler: public sad::input::AbstractHandlerForType<_EventType>
+{
+public:
+    /*! Constructs new handler
+        \param[in] f callback
+     */
+    StdFunctionHandler(const std::function<void(const _EventType &)>& f) : m_f(f)
+    {
+    }
+	
+    /*! Invokes a callback function
+        \param[in] e event type
+     */
+    virtual void invoke(const _EventType & e)
+    {
+        m_f(e);
+    }
+private:
+   std::function<void(const _EventType &)> m_f; //!< Called function
 };
 
 /*! A callback, which calls a simple function, which is specified on creation.

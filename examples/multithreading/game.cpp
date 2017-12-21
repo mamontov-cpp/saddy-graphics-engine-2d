@@ -1,107 +1,124 @@
 #include "game.h"
 
-#include <renderer.h>
+#include "threads/gamethread.h"
 
-#include <freetype/font.h>
-
-#include <stdexcept>
+#include <input/controls.h>
 
 // ==================================== PUBLIC METHODS ====================================
 
-Game::Game()  // NOLINT
+Game::Game()  : m_is_quitting(false) // NOLINT
 {
-
+    m_main_thread = new threads::GameThread();
+    m_inventory_thread = new threads::GameThread();
 }
 
 Game::~Game()  // NOLINT
 {
-
+    delete m_main_thread;
+    delete m_inventory_thread;
 }
 
 void Game::runMainGameThread()
 {
-    /* Firstly, we create our own renderer, which will do all kind of tasks
-    */
-    sad::Renderer r;
-    /*! Create and set scene for renderer;
-     */
-    sad::Scene * scene = new sad::Scene();
-    r.setScene(scene);
-    r.tree()->factory()->registerResource<sad::freetype::Font>();
-
-    sad::log::FileTarget * fl = new sad::log::FileTarget();
-    bool b = fl->open(static_cast<const char *>(p));
-    if (!b)
+    sad::Renderer& renderer= *(m_main_thread->renderer());
+    // We wait for inventory thread later to get initialization result,
+    // so initialize flag now
+    m_inventory_thread->needsToBeNotifiedFromLater();
+    SL_LOCAL_DEBUG("Initializing main thread\n", renderer);
+    // Attempt to load resouces
+    m_main_thread->tryInitialize(
+        "main_thread.txt",
+        "examples/multithreading/config_main_thread.json",
+        "Platformer (MultiWindow)"
+    );
+    SL_LOCAL_DEBUG("Waiting for inventory thread\n", renderer);
+    // Wait for inventory to load it's resources
+    m_inventory_thread->waitForNotify();
+    SL_LOCAL_DEBUG("Checking status\n", renderer);
+    if (m_main_thread->hasErrors() || m_inventory_thread->hasErrors())
     {
-        SL_LOCAL_DEBUG("Failed to open local file", r);
+        // Format errors
+        sad::String error;
+        if (m_main_thread->hasErrors())
+        {
+            error += "Main thread errors: ";
+            error += m_main_thread->errors();
+            error +=  "\n";
+        }
+        if (m_inventory_thread->hasErrors())
+        {
+            error += "Main thread errors: ";
+            error += m_inventory_thread->errors();
+            error +=  "\n";
+        }
+        // Output errors
+        m_main_thread->renderer()->error("Initilaization error", error);
+
+        // Kill inventory thread
+        m_inventory_thread->sendKillSignalFrom(m_main_thread);
+        // Exit here
+        return;
     }
-    r.log()->addTarget( fl);
-
-    /* Create 800x600 window in windowed mode and toggle a fixed size of window
-     */
-    r.init(sad::Settings(800,600, false));
-    r.makeFixedSize();
-
-
-
-    /* Bind built-ing scene to renderer
-     */
-    scene->setRenderer(&r);
-
-    /*! Load resources
-     */
-    sad::Vector<sad::resource::Error *> errors = r.loadResources("examples/multmultithreading/multmultithreading.json");
-    if (!errors.empty())
+    else
     {
-
-        SL_LOCAL_FATAL(sad::resource::format(errors), r);
-        sad::util::free(errors);
-        return 1;
+        m_inventory_thread->sendResumeSignalFrom(m_main_thread);
     }
 
+    // TODO: Khomich loading database code here
+    SL_LOCAL_DEBUG("Starting\n", renderer);
+    renderer.controls()->addLambda(
+        *sad::input::ET_Quit,
+        [this]() -> void {
+            if (!m_is_quitting) {
+                m_is_quitting = true;
+                m_inventory_thread->sendKillSignalFrom(m_main_thread);
+            }
+        }
+    );
+    m_main_thread->markAsRendererStarted();
+    renderer.run();
 }
 
 void Game::runInventoryThread()
 {
-    /* Firstly, we create our own renderer, which will do all kind of tasks
-     */
-    sad::Renderer r;
-    /*! Create and set scene for renderer;
-     */
-    sad::Scene * scene = new sad::Scene();
-    r.setScene(scene);
-    r.tree()->factory()->registerResource<sad::freetype::Font>();
+    sad::Renderer& renderer= *(m_inventory_thread->renderer());
 
-    sad::log::FileTarget * fl = new sad::log::FileTarget();
-    bool b = fl->open(static_cast<const char *>(p));
-    if (!b)
+    // We wait for main thread later to get initialization result,
+    // so initialize flag now
+    m_main_thread->needsToBeNotifiedFromLater();
+    // Attempt to load resouces
+    SL_LOCAL_DEBUG("Initializing inventory thread\n", renderer);
+    m_inventory_thread->tryInitialize(
+        "inventory_thread.txt",
+        "examples/multithreading/config_inventory_thread.json",
+        "Inventory"
+    );
+    m_inventory_thread->notify();
+    SL_LOCAL_DEBUG("Waiting for main thread\n", renderer);
+    // Wait for signal (kill or resume from main thread)
+    m_main_thread->waitForNotify();
+    if (m_inventory_thread->isKilled())
     {
-        SL_LOCAL_DEBUG("Failed to open local file", r);
-    }
-    r.log()->addTarget( fl);
-
-    /* Create 800x600 window in windowed mode and toggle a fixed size of window
-     */
-    r.init(sad::Settings(800,600, false));
-    r.makeFixedSize();
-
-
-
-    /* Bind built-ing scene to renderer
-     */
-    scene->setRenderer(&r);
-
-    /*! Load resources
-     */
-    sad::Vector<sad::resource::Error *> errors = r.loadResources("examples/multithreading.json");
-    if (!errors.empty())
-    {
-
-        SL_LOCAL_FATAL(sad::resource::format(errors), r);
-        sad::util::free(errors);
-        return 1;
+        SL_LOCAL_DEBUG("Killed\n", renderer);
+        return;
     }
 
+    // TODO: Khomich loading database code here
+    SL_LOCAL_DEBUG("Starting new renderer\n", renderer);
+    m_inventory_thread->markAsRendererStarted();
+    threads::GameThread* inventory_thread = m_inventory_thread;
+    // Kill other window, if closed
+    renderer.controls()->addLambda(
+        *sad::input::ET_Quit,
+        [this]() -> void {
+            if (!m_is_quitting) {
+                m_is_quitting = true;
+                m_main_thread->sendKillSignalFrom(m_inventory_thread);
+            }
+        }
+    );
+
+    renderer.run();
 }
 
 

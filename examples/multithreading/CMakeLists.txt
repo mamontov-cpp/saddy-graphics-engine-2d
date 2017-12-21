@@ -5,8 +5,8 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "../../cmake")
 
 find_package(Freetype REQUIRED)
 
-file(GLOB SRCS *.cpp)
-file(GLOB HDRS *.h)
+file(GLOB SRCS *.cpp threads/*.cpp game/*.cpp)
+file(GLOB HDRS *.h threads/*.h game/*.h)
 
 set(SADDY_APPLICATION_NAME "multithreading-example")
 set(SADDY_LIBRARY_NAME "saddy")

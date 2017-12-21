@@ -12,3 +12,10 @@ void sad::input::VoidFreeFunctionHandler::invoke(
     m_f();
 }
 
+void sad::input::VoidStdFunctionHandler::invoke(
+    const sad::input::AbstractEvent & e
+)
+{
+    m_f();
+}
+
