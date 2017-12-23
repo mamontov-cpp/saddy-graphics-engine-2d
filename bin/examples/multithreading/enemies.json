@@ -2,1077 +2,1077 @@
     "atlas":[
         {
             "name":"enemies_list\/blockBrownng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"1;1;64;64"
         },
         {
             "name":"enemies_list\/blockBrown_brokenng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"67;1;64;64"
         },
         {
             "name":"enemies_list\/blockGreenng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"1;67;64;64"
         },
         {
             "name":"enemies_list\/blockGreen_keyng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"67;67;64;64"
         },
         {
             "name":"enemies_list\/blockGreen_lockng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"133;1;64;64"
         },
         {
             "name":"enemies_list\/blockGreen_puzzleng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"133;67;64;64"
         },
         {
             "name":"enemies_list\/blockGreyng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"1;133;64;64"
         },
         {
             "name":"enemies_list\/blockGrey_brokenng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"67;133;64;64"
         },
         {
             "name":"enemies_list\/blockRedng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"133;133;64;64"
         },
         {
             "name":"enemies_list\/blockRed_keyng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"199;1;64;64"
         },
         {
             "name":"enemies_list\/blockRed_lockng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"199;67;64;64"
         },
         {
             "name":"enemies_list\/blockRed_puzzleng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"199;133;64;64"
         },
         {
             "name":"enemies_list\/blueCrystalng",
-            "size":"32;30",
+            "size":"16;15",
             "texrect":"965;511;32;30"
         },
         {
             "name":"enemies_list\/blueGemng",
-            "size":"22;22",
+            "size":"11;11",
             "texrect":"881;222;22;22"
         },
         {
             "name":"enemies_list\/blueJewelng",
-            "size":"24;22",
+            "size":"12;11",
             "texrect":"881;118;24;22"
         },
         {
             "name":"enemies_list\/buttonFloorng",
-            "size":"54;12",
+            "size":"27;6",
             "texrect":"521;505;54;12"
         },
         {
             "name":"enemies_list\/buttonFloor_pressedng",
-            "size":"54;8",
+            "size":"27;4",
             "texrect":"777;507;54;8"
         },
         {
             "name":"enemies_list\/buttonGreenng",
-            "size":"50;29",
+            "size":"25;14",
             "texrect":"139;588;50;29"
         },
         {
             "name":"enemies_list\/buttonGreen_pressedng",
-            "size":"50;17",
+            "size":"25;8",
             "texrect":"176;519;50;17"
         },
         {
             "name":"enemies_list\/buttonRedng",
-            "size":"50;29",
+            "size":"25;14",
             "texrect":"191;588;50;29"
         },
         {
             "name":"enemies_list\/buttonRed_pressedng",
-            "size":"50;17",
+            "size":"25;8",
             "texrect":"228;519;50;17"
         },
         {
             "name":"enemies_list\/discGreenng",
-            "size":"34;35",
+            "size":"17;17",
             "texrect":"159;669;34;35"
         },
         {
             "name":"enemies_list\/discRedng",
-            "size":"34;35",
+            "size":"17;17",
             "texrect":"195;669;34;35"
         },
         {
             "name":"enemies_list\/doorGreenng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"1;199;64;64"
         },
         {
             "name":"enemies_list\/doorGreen_lockng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"67;199;64;64"
         },
         {
             "name":"enemies_list\/doorGreen_topng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"133;199;64;64"
         },
         {
             "name":"enemies_list\/doorOpenng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"199;199;64;64"
         },
         {
             "name":"enemies_list\/doorOpen_topng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"265;1;64;64"
         },
         {
             "name":"enemies_list\/doorRedng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"265;67;64;64"
         },
         {
             "name":"enemies_list\/doorRed_lockng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"265;133;64;64"
         },
         {
             "name":"enemies_list\/doorRed_topng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"265;199;64;64"
         },
         {
             "name":"enemies_list\/enemyFloating_1ng",
-            "size":"42;40",
+            "size":"21;20",
             "texrect":"907;34;42;40"
         },
         {
             "name":"enemies_list\/enemyFloating_2ng",
-            "size":"55;55",
+            "size":"27;27",
             "texrect":"463;67;55;55"
         },
         {
             "name":"enemies_list\/enemyFloating_3ng",
-            "size":"40;40",
+            "size":"20;20",
             "texrect":"907;351;40;40"
         },
         {
             "name":"enemies_list\/enemyFloating_4ng",
-            "size":"42;40",
+            "size":"21;20",
             "texrect":"907;76;42;40"
         },
         {
             "name":"enemies_list\/enemyFlyingAlt_1ng",
-            "size":"52;36",
+            "size":"26;18",
             "texrect":"841;274;52;36"
         },
         {
             "name":"enemies_list\/enemyFlyingAlt_2ng",
-            "size":"63;24",
+            "size":"31;12",
             "texrect":"67;519;63;24"
         },
         {
             "name":"enemies_list\/enemyFlyingAlt_3ng",
-            "size":"52;29",
+            "size":"26;14",
             "texrect":"43;547;52;29"
         },
         {
             "name":"enemies_list\/enemyFlyingAlt_4ng",
-            "size":"60;29",
+            "size":"30;14",
             "texrect":"777;476;60;29"
         },
         {
             "name":"enemies_list\/enemyFlying_1ng",
-            "size":"64;38",
+            "size":"32;19",
             "texrect":"587;1;64;38"
         },
         {
             "name":"enemies_list\/enemyFlying_2ng",
-            "size":"64;38",
+            "size":"32;19",
             "texrect":"587;41;64;38"
         },
         {
             "name":"enemies_list\/enemyFlying_3ng",
-            "size":"64;43",
+            "size":"32;21",
             "texrect":"521;48;64;43"
         },
         {
             "name":"enemies_list\/enemyFlying_4ng",
-            "size":"60;25",
+            "size":"30;12",
             "texrect":"97;547;60;25"
         },
         {
             "name":"enemies_list\/enemySpikey_1ng",
-            "size":"32;40",
+            "size":"16;20",
             "texrect":"965;246;32;40"
         },
         {
             "name":"enemies_list\/enemySpikey_2ng",
-            "size":"32;28",
+            "size":"16;14",
             "texrect":"243;588;32;28"
         },
         {
             "name":"enemies_list\/enemySpikey_3ng",
-            "size":"32;64",
+            "size":"16;32",
             "texrect":"719;141;32;64"
         },
         {
             "name":"enemies_list\/enemySpikey_4ng",
-            "size":"32;40",
+            "size":"16;20",
             "texrect":"965;288;32;40"
         },
         {
             "name":"enemies_list\/enemySwimming_1ng",
-            "size":"44;32",
+            "size":"22;16",
             "texrect":"38;626;44;32"
         },
         {
             "name":"enemies_list\/enemySwimming_2ng",
-            "size":"44;32",
+            "size":"22;16",
             "texrect":"84;626;44;32"
         },
         {
             "name":"enemies_list\/enemySwimming_3ng",
-            "size":"46;32",
+            "size":"23;16",
             "texrect":"91;588;46;32"
         },
         {
             "name":"enemies_list\/enemySwimming_4ng",
-            "size":"44;32",
+            "size":"22;16",
             "texrect":"130;626;44;32"
         },
         {
             "name":"enemies_list\/enemyWalking_1ng",
-            "size":"32;44",
+            "size":"16;22",
             "texrect":"965;104;32;44"
         },
         {
             "name":"enemies_list\/enemyWalking_2ng",
-            "size":"32;42",
+            "size":"16;21",
             "texrect":"965;150;32;42"
         },
         {
             "name":"enemies_list\/enemyWalking_3ng",
-            "size":"49;38",
+            "size":"24;19",
             "texrect":"777;34;49;38"
         },
         {
             "name":"enemies_list\/enemyWalking_4ng",
-            "size":"35;41",
+            "size":"17;20",
             "texrect":"1;626;35;41"
         },
         {
             "name":"enemies_list\/fenceng",
-            "size":"64;45",
+            "size":"32;22",
             "texrect":"131;463;64;45"
         },
         {
             "name":"enemies_list\/fenceBrokenng",
-            "size":"64;45",
+            "size":"32;22",
             "texrect":"197;463;64;45"
         },
         {
             "name":"enemies_list\/fenceLeftng",
-            "size":"64;45",
+            "size":"32;22",
             "texrect":"263;463;64;45"
         },
         {
             "name":"enemies_list\/fenceMidng",
-            "size":"64;45",
+            "size":"32;22",
             "texrect":"329;463;64;45"
         },
         {
             "name":"enemies_list\/fenceOpenng",
-            "size":"64;45",
+            "size":"32;22",
             "texrect":"395;463;64;45"
         },
         {
             "name":"enemies_list\/fenceRightng",
-            "size":"64;45",
+            "size":"32;22",
             "texrect":"521;1;64;45"
         },
         {
             "name":"enemies_list\/flagGreen_downng",
-            "size":"15;61",
+            "size":"7;30",
             "texrect":"753;141;15;61"
         },
         {
             "name":"enemies_list\/flagGreen_upng",
-            "size":"59;61",
+            "size":"29;30",
             "texrect":"133;397;59;61"
         },
         {
             "name":"enemies_list\/flagRed_downng",
-            "size":"15;61",
+            "size":"7;30",
             "texrect":"627;81;15;61"
         },
         {
             "name":"enemies_list\/flagRed_upng",
-            "size":"59;61",
+            "size":"29;30",
             "texrect":"194;397;59;61"
         },
         {
             "name":"enemies_list\/fluidBlueng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"331;1;64;64"
         },
         {
             "name":"enemies_list\/fluidBlue_topng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"331;67;64;64"
         },
         {
             "name":"enemies_list\/fluidBrownng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"331;133;64;64"
         },
         {
             "name":"enemies_list\/fluidBrown_topng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"331;199;64;64"
         },
         {
             "name":"enemies_list\/fluidGreenng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"397;1;64;64"
         },
         {
             "name":"enemies_list\/fluidGreen_topng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"397;67;64;64"
         },
         {
             "name":"enemies_list\/fluidRedng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"397;133;64;64"
         },
         {
             "name":"enemies_list\/fluidRed_topng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"397;199;64;64"
         },
         {
             "name":"enemies_list\/greenCrystalng",
-            "size":"32;30",
+            "size":"16;15",
             "texrect":"337;626;32;30"
         },
         {
             "name":"enemies_list\/greenGemng",
-            "size":"22;22",
+            "size":"11;11",
             "texrect":"881;246;22;22"
         },
         {
             "name":"enemies_list\/greenJewelng",
-            "size":"24;22",
+            "size":"12;11",
             "texrect":"881;142;24;22"
         },
         {
             "name":"enemies_list\/keyGreenng",
-            "size":"29;30",
+            "size":"14;15",
             "texrect":"472;626;29;30"
         },
         {
             "name":"enemies_list\/keyRedng",
-            "size":"29;30",
+            "size":"14;15",
             "texrect":"503;626;29;30"
         },
         {
             "name":"enemies_list\/ladderNarrow_midng",
-            "size":"56;64",
+            "size":"28;32",
             "texrect":"463;1;56;64"
         },
         {
             "name":"enemies_list\/ladderNarrow_topng",
-            "size":"56;48",
+            "size":"28;24",
             "texrect":"521;93;56;48"
         },
         {
             "name":"enemies_list\/ladderWide_midng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"1;265;64;64"
         },
         {
             "name":"enemies_list\/ladderWide_topng",
-            "size":"64;48",
+            "size":"32;24",
             "texrect":"65;463;64;48"
         },
         {
             "name":"enemies_list\/lockGreenng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"67;265;64;64"
         },
         {
             "name":"enemies_list\/lockGreenBottomng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"133;265;64;64"
         },
         {
             "name":"enemies_list\/lockGreenLeftng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"199;265;64;64"
         },
         {
             "name":"enemies_list\/lockGreenLockng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"265;265;64;64"
         },
         {
             "name":"enemies_list\/lockGreenMidng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"331;265;64;64"
         },
         {
             "name":"enemies_list\/lockGreenRightng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"397;265;64;64"
         },
         {
             "name":"enemies_list\/lockGreenTopng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"1;331;64;64"
         },
         {
             "name":"enemies_list\/lockRedng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"67;331;64;64"
         },
         {
             "name":"enemies_list\/lockRedBottomng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"133;331;64;64"
         },
         {
             "name":"enemies_list\/lockRedLeftng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"199;331;64;64"
         },
         {
             "name":"enemies_list\/lockRedLockng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"265;331;64;64"
         },
         {
             "name":"enemies_list\/lockRedMidng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"331;331;64;64"
         },
         {
             "name":"enemies_list\/lockRedRightng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"397;331;64;64"
         },
         {
             "name":"enemies_list\/lockRedTopng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"1;397;64;64"
         },
         {
             "name":"enemies_list\/outlineCrystalng",
-            "size":"38;36",
+            "size":"19;18",
             "texrect":"81;669;38;36"
         },
         {
             "name":"enemies_list\/outlineDiscng",
-            "size":"40;41",
+            "size":"20;20",
             "texrect":"907;118;40;41"
         },
         {
             "name":"enemies_list\/outlineDisc_altng",
-            "size":"40;41",
+            "size":"20;20",
             "texrect":"907;161;40;41"
         },
         {
             "name":"enemies_list\/outlineGemng",
-            "size":"28;28",
+            "size":"14;14",
             "texrect":"341;588;28;28"
         },
         {
             "name":"enemies_list\/outlineJewelng",
-            "size":"30;28",
+            "size":"15;14",
             "texrect":"277;588;30;28"
         },
         {
             "name":"enemies_list\/outlineKeyng",
-            "size":"36;36",
+            "size":"18;18",
             "texrect":"121;669;36;36"
         },
         {
             "name":"enemies_list\/outlinePuzzleng",
-            "size":"40;40",
+            "size":"20;20",
             "texrect":"907;393;40;40"
         },
         {
             "name":"enemies_list\/plantBlue_1ng",
-            "size":"26;48",
+            "size":"13;24",
             "texrect":"965;330;26;48"
         },
         {
             "name":"enemies_list\/plantBlue_2ng",
-            "size":"44;34",
+            "size":"22;17",
             "texrect":"45;588;44;34"
         },
         {
             "name":"enemies_list\/plantBlue_3ng",
-            "size":"42;24",
+            "size":"21;12",
             "texrect":"463;436;42;24"
         },
         {
             "name":"enemies_list\/plantBlue_4ng",
-            "size":"29;55",
+            "size":"14;27",
             "texrect":"907;294;29;55"
         },
         {
             "name":"enemies_list\/plantBlue_5ng",
-            "size":"44;22",
+            "size":"22;11",
             "texrect":"587;494;44;22"
         },
         {
             "name":"enemies_list\/plantBlue_6ng",
-            "size":"34;39",
+            "size":"17;19",
             "texrect":"1;747;34;39"
         },
         {
             "name":"enemies_list\/plantBottom_1ng",
-            "size":"28;64",
+            "size":"14;32",
             "texrect":"777;267;28;64"
         },
         {
             "name":"enemies_list\/plantBottom_2ng",
-            "size":"36;64",
+            "size":"18;32",
             "texrect":"587;428;36;64"
         },
         {
             "name":"enemies_list\/plantDark_1ng",
-            "size":"38;37",
+            "size":"19;18",
             "texrect":"1;669;38;37"
         },
         {
             "name":"enemies_list\/plantDark_2ng",
-            "size":"36;31",
+            "size":"18;15",
             "texrect":"261;626;36;31"
         },
         {
             "name":"enemies_list\/plantDark_3ng",
-            "size":"26;50",
+            "size":"13;25",
             "texrect":"965;194;26;50"
         },
         {
             "name":"enemies_list\/plantDark_4ng",
-            "size":"32;49",
+            "size":"16;24",
             "texrect":"965;1;32;49"
         },
         {
             "name":"enemies_list\/plantDark_5ng",
-            "size":"28;32",
+            "size":"14;16",
             "texrect":"303;669;28;32"
         },
         {
             "name":"enemies_list\/plantDark_6ng",
-            "size":"27;38",
+            "size":"13;19",
             "texrect":"37;747;27;38"
         },
         {
             "name":"enemies_list\/plantGreen_1ng",
-            "size":"44;44",
+            "size":"22;22",
             "texrect":"719;355;44;44"
         },
         {
             "name":"enemies_list\/plantGreen_2ng",
-            "size":"44;32",
+            "size":"22;16",
             "texrect":"176;626;44;32"
         },
         {
             "name":"enemies_list\/plantGreen_3ng",
-            "size":"36;31",
+            "size":"18;15",
             "texrect":"299;626;36;31"
         },
         {
             "name":"enemies_list\/plantGreen_4ng",
-            "size":"29;50",
+            "size":"14;25",
             "texrect":"965;52;29;50"
         },
         {
             "name":"enemies_list\/plantGreen_5ng",
-            "size":"41;47",
+            "size":"20;23",
             "texrect":"841;33;41;47"
         },
         {
             "name":"enemies_list\/plantGreen_6ng",
-            "size":"42;36",
+            "size":"21;18",
             "texrect":"1;588;42;36"
         },
         {
             "name":"enemies_list\/plantLeaves_1ng",
-            "size":"38;64",
+            "size":"19;32",
             "texrect":"587;81;38;64"
         },
         {
             "name":"enemies_list\/plantLeaves_3ng",
-            "size":"38;64",
+            "size":"19;32",
             "texrect":"587;147;38;64"
         },
         {
             "name":"enemies_list\/plantRed_1ng",
-            "size":"31;30",
+            "size":"15;15",
             "texrect":"439;626;31;30"
         },
         {
             "name":"enemies_list\/plantRed_2ng",
-            "size":"30;28",
+            "size":"15;14",
             "texrect":"309;588;30;28"
         },
         {
             "name":"enemies_list\/plantRed_3ng",
-            "size":"42;23",
+            "size":"21;11",
             "texrect":"132;519;42;23"
         },
         {
             "name":"enemies_list\/plantRed_4ng",
-            "size":"34;37",
+            "size":"17;18",
             "texrect":"39;708;34;37"
         },
         {
             "name":"enemies_list\/plantRed_5ng",
-            "size":"37;32",
+            "size":"18;16",
             "texrect":"222;626;37;32"
         },
         {
             "name":"enemies_list\/plantRed_6ng",
-            "size":"40;50",
+            "size":"20;25",
             "texrect":"719;251;40;50"
         },
         {
             "name":"enemies_list\/plantStem_cornerLeftng",
-            "size":"36;37",
+            "size":"18;18",
             "texrect":"1;708;36;37"
         },
         {
             "name":"enemies_list\/plantStem_cornerRightng",
-            "size":"38;37",
+            "size":"19;18",
             "texrect":"41;669;38;37"
         },
         {
             "name":"enemies_list\/plantStem_crossng",
-            "size":"64;64",
+            "size":"32;32",
             "texrect":"67;397;64;64"
         },
         {
             "name":"enemies_list\/plantStem_horizontalng",
-            "size":"64;10",
+            "size":"32;5",
             "texrect":"841;503;64;10"
         },
         {
             "name":"enemies_list\/plantStem_Tleftng",
-            "size":"38;64",
+            "size":"19;32",
             "texrect":"587;213;38;64"
         },
         {
             "name":"enemies_list\/plantStem_Trightng",
-            "size":"36;64",
+            "size":"18;32",
             "texrect":"463;174;36;64"
         },
         {
             "name":"enemies_list\/plantStem_verticalng",
-            "size":"10;64",
+            "size":"5;32",
             "texrect":"627;147;10;64"
         },
         {
             "name":"enemies_list\/plantThorns_horizontalng",
-            "size":"64;36",
+            "size":"32;18",
             "texrect":"653;1;64;36"
         },
         {
             "name":"enemies_list\/plantThorns_verticalng",
-            "size":"36;64",
+            "size":"18;32",
             "texrect":"653;39;36;64"
         },
         {
             "name":"enemies_list\/plantTop_blueng",
-            "size":"62;54",
+            "size":"31;27",
             "texrect":"321;397;62;54"
         },
         {
             "name":"enemies_list\/plantTop_leavesng",
-            "size":"62;31",
+            "size":"31;15",
             "texrect":"777;1;62;31"
         },
         {
             "name":"enemies_list\/plantTop_redng",
-            "size":"62;54",
+            "size":"31;27",
             "texrect":"385;397;62;54"
         },
         {
             "name":"enemies_list\/plantTop_yellowng",
-            "size":"62;54",
+            "size":"31;27",
             "texrect":"1;463;62;54"
         },
         {
             "name":"enemies_list\/playerGreen_deadng",
-            "size":"38;43",
+            "size":"19;21",
             "texrect":"907;204;38;43"
         },
         {
             "name":"enemies_list\/playerGreen_duckng",
-            "size":"56;31",
+            "size":"28;15",
             "texrect":"907;1;56;31"
         },
         {
             "name":"enemies_list\/playerGreen_fallng",
-            "size":"38;49",
+            "size":"19;24",
             "texrect":"777;74;38;49"
         },
         {
             "name":"enemies_list\/playerGreen_hitng",
-            "size":"46;40",
+            "size":"23;20",
             "texrect":"777;125;46;40"
         },
         {
             "name":"enemies_list\/playerGreen_rollng",
-            "size":"40;40",
+            "size":"20;20",
             "texrect":"907;435;40;40"
         },
         {
             "name":"enemies_list\/playerGreen_standng",
-            "size":"38;50",
+            "size":"19;25",
             "texrect":"841;118;38;50"
         },
         {
             "name":"enemies_list\/playerGreen_swim1ng",
-            "size":"40;53",
+            "size":"20;26",
             "texrect":"719;41;40;53"
         },
         {
             "name":"enemies_list\/playerGreen_swim2ng",
-            "size":"41;54",
+            "size":"20;27",
             "texrect":"653;453;41;54"
         },
         {
             "name":"enemies_list\/playerGreen_switch1ng",
-            "size":"51;50",
+            "size":"25;25",
             "texrect":"521;257;51;50"
         },
         {
             "name":"enemies_list\/playerGreen_switch2ng",
-            "size":"50;50",
+            "size":"25;25",
             "texrect":"521;350;50;50"
         },
         {
             "name":"enemies_list\/playerGreen_up1ng",
-            "size":"38;50",
+            "size":"19;25",
             "texrect":"841;170;38;50"
         },
         {
             "name":"enemies_list\/playerGreen_up2ng",
-            "size":"38;43",
+            "size":"19;21",
             "texrect":"907;249;38;43"
         },
         {
             "name":"enemies_list\/playerGreen_up3ng",
-            "size":"40;39",
+            "size":"20;19",
             "texrect":"1;547;40;39"
         },
         {
             "name":"enemies_list\/playerGreen_walk1ng",
-            "size":"38;50",
+            "size":"19;25",
             "texrect":"841;222;38;50"
         },
         {
             "name":"enemies_list\/playerGreen_walk2ng",
-            "size":"38;48",
+            "size":"19;24",
             "texrect":"777;167;38;48"
         },
         {
             "name":"enemies_list\/playerGreen_walk3ng",
-            "size":"38;48",
+            "size":"19;24",
             "texrect":"777;217;38;48"
         },
         {
             "name":"enemies_list\/playerGreen_walk4ng",
-            "size":"48;43",
+            "size":"24;21",
             "texrect":"719;96;48;43"
         },
         {
             "name":"enemies_list\/playerGreen_walk5ng",
-            "size":"64;39",
+            "size":"32;19",
             "texrect":"521;309;64;39"
         },
         {
             "name":"enemies_list\/playerRed_deadng",
-            "size":"39;46",
+            "size":"19;23",
             "texrect":"777;333;39;46"
         },
         {
             "name":"enemies_list\/playerRed_duckng",
-            "size":"56;34",
+            "size":"28;17",
             "texrect":"841;82;56;34"
         },
         {
             "name":"enemies_list\/playerRed_fallng",
-            "size":"39;50",
+            "size":"19;25",
             "texrect":"719;303;39;50"
         },
         {
             "name":"enemies_list\/playerRed_hitng",
-            "size":"56;38",
+            "size":"28;19",
             "texrect":"461;463;56;38"
         },
         {
             "name":"enemies_list\/playerRed_rollng",
-            "size":"40;40",
+            "size":"20;20",
             "texrect":"907;477;40;40"
         },
         {
             "name":"enemies_list\/playerRed_standng",
-            "size":"39;48",
+            "size":"19;24",
             "texrect":"841;312;39;48"
         },
         {
             "name":"enemies_list\/playerRed_swim1ng",
-            "size":"47;50",
+            "size":"23;25",
             "texrect":"587;376;47;50"
         },
         {
             "name":"enemies_list\/playerRed_swim2ng",
-            "size":"48;51",
+            "size":"24;25",
             "texrect":"521;452;48;51"
         },
         {
             "name":"enemies_list\/playerRed_switch1ng",
-            "size":"52;48",
+            "size":"26;24",
             "texrect":"521;402;52;48"
         },
         {
             "name":"enemies_list\/playerRed_switch2ng",
-            "size":"51;48",
+            "size":"25;24",
             "texrect":"463;124;51;48"
         },
         {
             "name":"enemies_list\/playerRed_up1ng",
-            "size":"39;48",
+            "size":"19;24",
             "texrect":"841;362;39;48"
         },
         {
             "name":"enemies_list\/playerRed_up2ng",
-            "size":"39;46",
+            "size":"19;23",
             "texrect":"777;381;39;46"
         },
         {
             "name":"enemies_list\/playerRed_up3ng",
-            "size":"56;38",
+            "size":"28;19",
             "texrect":"719;1;56;38"
         },
         {
             "name":"enemies_list\/playerRed_walk1ng",
-            "size":"39;48",
+            "size":"19;24",
             "texrect":"841;412;39;48"
         },
         {
             "name":"enemies_list\/playerRed_walk2ng",
-            "size":"39;45",
+            "size":"19;22",
             "texrect":"777;429;39;45"
         },
         {
             "name":"enemies_list\/playerRed_walk3ng",
-            "size":"39;45",
+            "size":"19;22",
             "texrect":"719;401;39;45"
         },
         {
             "name":"enemies_list\/playerRed_walk4ng",
-            "size":"49;42",
+            "size":"24;21",
             "texrect":"719;207;49;42"
         },
         {
             "name":"enemies_list\/playerRed_walk5ng",
-            "size":"64;38",
+            "size":"32;19",
             "texrect":"587;279;64;38"
         },
         {
             "name":"enemies_list\/puzzleGreenng",
-            "size":"34;34",
+            "size":"17;17",
             "texrect":"231;669;34;34"
         },
         {
             "name":"enemies_list\/puzzleRedng",
-            "size":"34;34",
+            "size":"17;17",
             "texrect":"267;669;34;34"
         },
         {
             "name":"enemies_list\/redCrystalng",
-            "size":"32;30",
+            "size":"16;15",
             "texrect":"371;626;32;30"
         },
         {
             "name":"enemies_list\/redGemng",
-            "size":"22;22",
+            "size":"11;11",
             "texrect":"882;312;22;22"
         },
         {
             "name":"enemies_list\/redJewelng",
-            "size":"24;22",
+            "size":"12;11",
             "texrect":"881;170;24;22"
         },
         {
             "name":"enemies_list\/signArrowng",
-            "size":"48;39",
+            "size":"24;19",
             "texrect":"841;462;48;39"
         },
         {
             "name":"enemies_list\/signArrow_BLng",
-            "size":"42;55",
+            "size":"21;27",
             "texrect":"653;105;42;55"
         },
         {
             "name":"enemies_list\/signArrow_BRng",
-            "size":"41;55",
+            "size":"20;27",
             "texrect":"653;396;41;55"
         },
         {
             "name":"enemies_list\/signArrow_downng",
-            "size":"39;58",
+            "size":"19;29",
             "texrect":"653;276;39;58"
         },
         {
             "name":"enemies_list\/signArrow_leftng",
-            "size":"48;55",
+            "size":"24;27",
             "texrect":"521;143;48;55"
         },
         {
             "name":"enemies_list\/signArrow_rightng",
-            "size":"48;55",
+            "size":"24;27",
             "texrect":"521;200;48;55"
         },
         {
             "name":"enemies_list\/signArrow_TLng",
-            "size":"42;55",
+            "size":"21;27",
             "texrect":"653;162;42;55"
         },
         {
             "name":"enemies_list\/signArrow_TRng",
-            "size":"42;55",
+            "size":"21;27",
             "texrect":"653;219;42;55"
         },
         {
             "name":"enemies_list\/signArrow_upng",
-            "size":"39;58",
+            "size":"19;29",
             "texrect":"653;336;39;58"
         },
         {
             "name":"enemies_list\/signLargeng",
-            "size":"64;55",
+            "size":"32;27",
             "texrect":"255;397;64;55"
         },
         {
             "name":"enemies_list\/signpostng",
-            "size":"12;55",
+            "size":"6;27",
             "texrect":"938;294;12;55"
         },
         {
             "name":"enemies_list\/signSmallng",
-            "size":"44;55",
+            "size":"22;27",
             "texrect":"587;319;44;55"
         },
         {
             "name":"enemies_list\/spikesHighng",
-            "size":"64;30",
+            "size":"32;15",
             "texrect":"841;1;64;30"
         },
         {
             "name":"enemies_list\/spikesLowng",
-            "size":"64;26",
+            "size":"32;13",
             "texrect":"1;519;64;26"
         },
         {
             "name":"enemies_list\/switchGreen_leftng",
-            "size":"47;47",
+            "size":"23;23",
             "texrect":"463;240;47;47"
         },
         {
             "name":"enemies_list\/switchGreen_midng",
-            "size":"30;58",
+            "size":"15;29",
             "texrect":"807;267;30;58"
         },
         {
             "name":"enemies_list\/switchGreen_offng",
-            "size":"26;40",
+            "size":"13;20",
             "texrect":"965;427;26;40"
         },
         {
             "name":"enemies_list\/switchGreen_onng",
-            "size":"26;40",
+            "size":"13;20",
             "texrect":"965;469;26;40"
         },
         {
             "name":"enemies_list\/switchGreen_rightng",
-            "size":"47;47",
+            "size":"23;23",
             "texrect":"463;289;47;47"
         },
         {
             "name":"enemies_list\/switchRed_leftng",
-            "size":"47;47",
+            "size":"23;23",
             "texrect":"463;338;47;47"
         },
         {
             "name":"enemies_list\/switchRed_midng",
-            "size":"30;58",
+            "size":"15;29",
             "texrect":"719;448;30;58"
         },
         {
             "name":"enemies_list\/switchRed_offng",
-            "size":"26;40",
+            "size":"13;20",
             "texrect":"691;39;26;40"
         },
         {
             "name":"enemies_list\/switchRed_onng",
-            "size":"26;40",
+            "size":"13;20",
             "texrect":"625;428;26;40"
         },
         {
             "name":"enemies_list\/switchRed_rightng",
-            "size":"47;47",
+            "size":"23;23",
             "texrect":"463;387;47;47"
         },
         {
             "name":"enemies_list\/vineng",
-            "size":"10;64",
+            "size":"5;32",
             "texrect":"639;147;10;64"
         },
         {
             "name":"enemies_list\/vine_bottomng",
-            "size":"10;38",
+            "size":"5;19",
             "texrect":"951;34;10;38"
         },
         {
             "name":"enemies_list\/vine_bottomAltng",
-            "size":"25;45",
+            "size":"12;22",
             "texrect":"965;380;25;45"
         },
         {
             "name":"enemies_list\/yellowCrystalng",
-            "size":"32;30",
+            "size":"16;15",
             "texrect":"405;626;32;30"
         },
         {
             "name":"enemies_list\/yellowGemng",
-            "size":"22;22",
+            "size":"11;11",
             "texrect":"882;336;22;22"
         },
         {
             "name":"enemies_list\/yellowJewelng",
-            "size":"24;22",
+            "size":"12;11",
             "texrect":"881;194;24;22"
         }
     ],
