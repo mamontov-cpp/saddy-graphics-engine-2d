@@ -100,6 +100,11 @@ public:
         \param[in] o animation
      */
     void add(sad::animations::Animation* o);
+    /*! Inserts new animations to list 
+        \param[in] o animation
+        \param[in] pos position
+     */
+    void insert(sad::animations::Animation* o, int pos);
     /*! Removes an animation from specified position
         \param[in] i an index
      */

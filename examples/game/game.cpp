@@ -192,6 +192,11 @@ int Game::highscore() const
     return m_highscore;
 }
 
+bool Game::isInPlayingState()
+{
+	return m_machine->isInState(GameState::PLAYING);
+}
+
 void Game::trySetHighscore(int score)
 {
     if (score > m_highscore)

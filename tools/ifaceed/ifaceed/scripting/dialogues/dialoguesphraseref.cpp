@@ -12,13 +12,13 @@
 #include "../../history/dialogues/dialoguesphraseswap.h"
 
 
-scripting::dialogues::PhraseRef::PhraseRef() : m_d(NULL), m_pos(0)
+scripting::dialogues::PhraseRef::PhraseRef() : m_scripting(NULL), m_d(NULL), m_pos(0)
 {
     
 }
 
-scripting::dialogues::PhraseRef::PhraseRef(sad::dialogue::Dialogue* d, unsigned int pos)
-: m_d(d), m_pos(pos)
+scripting::dialogues::PhraseRef::PhraseRef(scripting::Scripting* scripting, sad::dialogue::Dialogue* d, unsigned int pos)
+: m_scripting(scripting), m_d(d), m_pos(pos)
 {
     
 }
@@ -32,18 +32,18 @@ bool scripting::dialogues::PhraseRef::valid() const
 {
     if (!m_d)
     {
-        this->engine()->currentContext()->throwError("Invalid dialogue for phrase reference");
-        return false;
+        m_scripting->context()->throwError("Invalid dialogue for phrase reference");
+        throw new dukpp03::ArgumentException();
     }
     if (!m_d->Active)
     {
-        this->engine()->currentContext()->throwError("Invalid dialogue for phrase reference");
-        return false;
+        m_scripting->context()->throwError("Invalid dialogue for phrase reference");
+        throw new dukpp03::ArgumentException();
     }
     if (m_pos >= m_d->phrases().count())
     {
-        this->engine()->currentContext()->throwError("Invalid position of phrase");
-        return false;
+        m_scripting->context()->throwError("Invalid position of phrase");
+        throw new dukpp03::ArgumentException();
     }
 
     return true;
@@ -62,8 +62,7 @@ const sad::dialogue::Phrase& scripting::dialogues::PhraseRef::toPhrase() const
 
 gui::actions::DialogueActions* scripting::dialogues::PhraseRef::actions() const
 {
-    scripting::Scripting* e = static_cast<scripting::Scripting*>(this->engine()->globalObject().property("---").toQObject());
-    return e->editor()->actions()->dialogueActions();
+    return m_scripting->editor()->actions()->dialogueActions();
 }
 
 void scripting::dialogues::PhraseRef::setActorName(QString name)
@@ -81,7 +80,7 @@ void scripting::dialogues::PhraseRef::setActorPortrait(QString portrait)
     {
         return;
     }
-    this->actions()->changePhraseActorPortrait(m_d, m_pos, Q2STDSTRING(portrait), false);	
+    this->actions()->changePhraseActorPortrait(m_d, m_pos, Q2STDSTRING(portrait), false);
 }
 
 void scripting::dialogues::PhraseRef::setText(QString phrase)
@@ -90,7 +89,7 @@ void scripting::dialogues::PhraseRef::setText(QString phrase)
     {
         return;
     }
-    this->actions()->changePhraseText(m_d, m_pos, Q2STDSTRING(phrase), false);		
+    this->actions()->changePhraseText(m_d, m_pos, Q2STDSTRING(phrase), false);
 }
 
 void scripting::dialogues::PhraseRef::setDuration(double duration)
@@ -99,7 +98,7 @@ void scripting::dialogues::PhraseRef::setDuration(double duration)
     {
         return;
     }
-    this->actions()->changePhraseDuration(m_d, m_pos, duration, false);		
+    this->actions()->changePhraseDuration(m_d, m_pos, duration, false);
 }
 
 void scripting::dialogues::PhraseRef::setViewHint(QString viewhint)
@@ -108,7 +107,7 @@ void scripting::dialogues::PhraseRef::setViewHint(QString viewhint)
     {
         return;
     }
-    this->actions()->changePhraseViewHint(m_d, m_pos, Q2STDSTRING(viewhint), false);			
+    this->actions()->changePhraseViewHint(m_d, m_pos, Q2STDSTRING(viewhint), false);
 }
 
 QString scripting::dialogues::PhraseRef::actorName() const
@@ -117,7 +116,7 @@ QString scripting::dialogues::PhraseRef::actorName() const
     {
         return "";
     }
-    return STD2QSTRING(toPhrase().actorName());	
+    return STD2QSTRING(toPhrase().actorName());
 }
 
 QString scripting::dialogues::PhraseRef::actorPortrait() const
@@ -126,7 +125,7 @@ QString scripting::dialogues::PhraseRef::actorPortrait() const
     {
         return "";
     }
-    return STD2QSTRING(toPhrase().actorPortrait());		
+    return STD2QSTRING(toPhrase().actorPortrait());
 }
 
 QString scripting::dialogues::PhraseRef::text() const
@@ -135,7 +134,7 @@ QString scripting::dialogues::PhraseRef::text() const
     {
         return "";
     }
-    return STD2QSTRING(toPhrase().phrase());			
+    return STD2QSTRING(toPhrase().phrase());
 }
 
 double scripting::dialogues::PhraseRef::duration() const
@@ -144,7 +143,7 @@ double scripting::dialogues::PhraseRef::duration() const
     {
         return 0;
     }
-    return toPhrase().duration();				
+    return toPhrase().duration();
 }
 
 QString scripting::dialogues::PhraseRef::viewHint() const
@@ -153,7 +152,12 @@ QString scripting::dialogues::PhraseRef::viewHint() const
     {
         return "";
     }
-    return STD2QSTRING(toPhrase().viewHint());				
+    return STD2QSTRING(toPhrase().viewHint());
+}
+
+unsigned int scripting::dialogues::PhraseRef::position() const
+{
+    return m_pos;
 }
 
 QString  scripting::dialogues::PhraseRef::toString() const
@@ -163,21 +167,15 @@ QString  scripting::dialogues::PhraseRef::toString() const
         return "PhraseRef(<invalid>)";
     }
     QString result = QString("PhraseRef(dialogue : %1, pos: %2, actorName : %3, actorPortrait : %4, text: %5, duration: %6, viewHint: %7)")
-                     .arg(m_d->MajorId)
-                     .arg(m_pos)
-                     .arg(this->actorName())
-                     .arg(this->actorPortrait())
-                     .arg(this->text())
-                     .arg(this->duration())
-                     .arg(this->viewHint());
+        .arg(m_d->MajorId)
+        .arg(m_pos)
+        .arg(this->actorName())
+        .arg(this->actorPortrait())
+        .arg(this->text())
+        .arg(this->duration())
+        .arg(this->viewHint());
     return result;
 }
-
-unsigned int scripting::dialogues::PhraseRef::position() const
-{
-    return m_pos;
-}
-
 
 void scripting::dialogues::PhraseRef::moveBack()
 {
@@ -187,8 +185,7 @@ void scripting::dialogues::PhraseRef::moveBack()
     }
     if (m_pos > 0)
     {
-        scripting::Scripting* e = static_cast<scripting::Scripting*>(this->engine()->globalObject().property("---").toQObject());
-        core::Editor* editor = e->editor();
+        core::Editor* editor = m_scripting->editor();
 
         history::Command* c = new history::dialogues::PhraseSwap(m_d, m_pos - 1, m_pos);
         c->commit(editor);
@@ -206,8 +203,7 @@ void scripting::dialogues::PhraseRef::moveFront()
     }
     if (m_pos < m_d->phrases().count() - 1)
     {
-        scripting::Scripting* e = static_cast<scripting::Scripting*>(this->engine()->globalObject().property("---").toQObject());
-        core::Editor* editor = e->editor();
+        core::Editor* editor = m_scripting->editor();
 
         history::Command* c = new history::dialogues::PhraseSwap(m_d, m_pos, m_pos + 1);
         c->commit(editor);

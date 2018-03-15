@@ -780,6 +780,9 @@
     <ClCompile Include="src\pipeline\pipelinedelayedtask.cpp">
       <Filter>Файлы исходного кода\pipeline</Filter>
     </ClCompile>
+    <ClCompile Include="src\clipboard.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\camera.h">
@@ -1651,6 +1654,21 @@
     </ClInclude>
     <ClInclude Include="include\pipeline\pipelinedelayedtask.h">
       <Filter>Заголовочные файлы\pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="include\mrobject.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\db\dbstronglink.h">
+      <Filter>Заголовочные файлы\db</Filter>
+    </ClInclude>
+    <ClInclude Include="include\db\dbuntypedstronglink.h">
+      <Filter>Заголовочные файлы\db</Filter>
+    </ClInclude>
+    <ClInclude Include="include\resource\resourcestronglink.h">
+      <Filter>Заголовочные файлы\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="include\clipboard.h">
+      <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

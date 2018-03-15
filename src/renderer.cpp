@@ -259,6 +259,11 @@ sad::GLContext * sad::Renderer::context()
     return m_context;
 }
 
+sad::Clipboard* sad::Renderer::clipboard()
+{
+    return &m_clipboard;
+}
+
 const sad::Settings & sad::Renderer::settings() const
 {
     return m_glsettings;

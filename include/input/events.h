@@ -201,7 +201,10 @@ class MouseCursorEvent: public sad::input::AbstractEvent
 public:
     /*! A point in 3-dimensional space, for those, who don't use orthographic projections
      */
-    sad::Point3D Point3D;
+    sad::Point3D Point3D; 
+    /*! A window client-space point
+     */
+    sad::Point2D Point;
 
     inline MouseCursorEvent() : Point3D()
     {

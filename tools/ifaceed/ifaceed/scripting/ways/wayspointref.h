@@ -4,7 +4,9 @@
     A wrapper for reference to way point
  */
 #pragma once
-#include "../classwrapper.h"
+
+#include <QObject>
+#include <QMetaType>
 
 #include <sadpoint.h>
 
@@ -13,12 +15,14 @@
 namespace scripting
 {
 
+class Scripting;
+
 namespace ways
 {
 
 /*! A wrapper to point reference
  */
-class PointRef: public scripting::ClassWrapper
+class PointRef: public QObject
 {
  Q_OBJECT
  Q_PROPERTY(double x READ x WRITE setX)
@@ -29,10 +33,11 @@ public:
      */
     PointRef();
     /*! Constructs new wrapper
+        \param[in] s scripting
         \param[in] way a way, whose point is referenced
         \param[in] pos a position
      */
-    PointRef(sad::p2d::app::Way* way, unsigned int pos);
+    PointRef(scripting::Scripting* s, sad::p2d::app::Way* way, unsigned int pos);
     /*! Could be inherited
      */
     virtual ~PointRef();
@@ -59,15 +64,15 @@ public:
         \param[in] y y coordinate
      */
     void setY(double y);
-    /*! Converts object to string representation
-        \return object to string
-     */
-    QString toString() const;
     /*! Returns a position to point ref
         \return position
      */
     unsigned int position() const;
 public slots:
+    /*! Converts object to string representation
+        \return object to string
+    */
+    QString toString() const;
     /*! Moves point back in list
      */
     void moveBack();
@@ -75,6 +80,9 @@ public slots:
      */
     void moveFront();
 protected:
+    /*! A scripting part for throwing exception
+     */
+    scripting::Scripting* m_scripting;
     /*! An inner point wrapper
      */
     sad::p2d::app::Way* m_way;
@@ -86,3 +94,6 @@ protected:
 }
 
 }
+
+
+Q_DECLARE_METATYPE(scripting::ways::PointRef**)

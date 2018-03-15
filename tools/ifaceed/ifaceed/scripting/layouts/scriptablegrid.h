@@ -3,11 +3,13 @@
     A grid scripting interface is placed here
  */
 #pragma once
-#include "../classwrapper.h"
+#include "../dukqtcontext.h"
 
 #include <layouts/grid.h>
 
-#include <QScriptValue>
+#include <QVariant>
+#include <QObject>
+#include <QMetaType>
 
 namespace scripting
 {
@@ -17,9 +19,11 @@ class Scripting;
 namespace layouts
 {
 
+class ScriptableGridCell;
+
 /*! A wrapper to point reference
  */
-class ScriptableGrid: public scripting::ClassWrapper
+class ScriptableGrid: public QObject
 {
  Q_OBJECT
 public:
@@ -34,28 +38,43 @@ public:
     /*! A destructor for grid
      */
     virtual ~ScriptableGrid();
-    /*! Converts object to string representation
-        \return object to string
-     */
-    QString toString() const;
     /*! Returns object, if reference is valid or returns NULL and throws exception otherwise
         \param[in] throwexc whether we should throw exception or not
         \param[in] name a name for a called method, which can be used in exception
         \return grid
      */
     sad::layouts::Grid* grid(bool throwexc = true, const QString& name = "") const;
-public slots:	
+    /*! Sets an area for a grid
+        \param[in] new_area new area value
+    */
+    void setArea(sad::Rect2D new_area) const;
+    /*! Tries to find child by major id
+        \param[in] o object
+        \return null value if not found, array with first element of cell, and second is position, otherwise
+    */
+    dukpp03::Maybe<QVector<QVariant> > findChild(sad::SceneNode* o);
+    /*! Returns a cell for specified row or column
+        \param[in] row a row value
+        \param[in] column a column value
+        \return NULL and throws exception if cell not exists, cell otherwiser
+    */
+    scripting::layouts::ScriptableGridCell* cell(int row, int column);
+    /*! Returns list of childrens major ids from a grid
+        \return list of major ids of children
+    */
+    QVector<unsigned long long> children() const;
+public slots:
+    /*! Converts object to string representation
+        \return object to string
+    */
+    QString toString() const;
     /*! Returns true, if referenced object is valid
-     */		 
+     */
     bool valid() const;
     /*! Returns area for a grid
         \return area
      */
-    QScriptValue area() const;
-    /*! Sets an area for a grid
-        \param[in] newarea new area value
-     */
-    void setArea(const QScriptValue& newarea) const;
+    sad::Rect2D area() const;
     /*! Returns current major id of grid
         \returns current major id of grid
      */
@@ -156,12 +175,6 @@ public slots:
         \param v value
      */
     void setPaddingRight(double v) const;
-    /*! Returns a cell for specified row or column
-        \param[in] row a row value
-        \param[in] column a column value
-        \return NULL and throws exception if cell not exists, cell otherwiser
-     */
-    QScriptValue cell(int row, int column);
     /*! Tries to merge cells, using specified region
         \param[in] row row of top-left cell of region
         \param[in] column column of top-left cell of region
@@ -178,15 +191,6 @@ public slots:
         \return whether it was successfull or failed
      */
     bool split(int row, int column, int rowspan, int colspan);
-    /*! Tries to find child by major id
-        \param[in] o object
-        \return NULL if not found, array with first element of cell, and second is position, otherwise
-     */
-    QScriptValue findChild(const QScriptValue& o);
-    /*! Returns list of childrens major ids from a grid
-        \return list of major ids of children
-     */
-    QScriptValue children() const;
 protected:
     /*! A major id for database object
      */
@@ -199,3 +203,6 @@ protected:
 }
 
 }
+
+
+Q_DECLARE_METATYPE(scripting::layouts::ScriptableGrid**)

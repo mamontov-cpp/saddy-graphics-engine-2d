@@ -18,6 +18,13 @@ namespace pipeline
 class DelayedTask : public sad::pipeline::AbstractTask
 {
 public:
+	/*! Default constructor with empty delegate
+		\param[in] interval an interval for task
+	*/
+	DelayedTask(double interval) : m_interval(interval), m_delegate(NULL), m_performed(false)
+	{
+		m_timer.start();
+	}
     /*! Creates process for specified callable
         \param[in] f first callable object
         \param[in] interval an interval, after which function will be called

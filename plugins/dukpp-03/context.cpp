@@ -260,6 +260,7 @@ void sad::dukpp03::Context::initialize()
     this->exposeSprite2D();
     this->exposeSprite2DOptions();
     this->exposeCustomObject();
+    this->exposeClipboard();
     exposeAPI(this);
 
     std::string error;
@@ -276,6 +277,7 @@ void sad::dukpp03::Context::initialize()
     exposeP2D(this);
     exposeDialogue(this);
     exposeLayouts(this);
+    exposeAnimations(this);
 }
 
 
@@ -607,9 +609,11 @@ void sad::dukpp03::Context::exposeRenderer()
 {
     sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding(); 
     c->addMethod("init", sad::dukpp03::bind_method::from(&sad::Renderer::init));
+    c->addMethod("animations", sad::dukpp03::bind_method::from(&sad::Renderer::animations));
     c->addMethod("settings", sad::dukpp03::bind_method::from(&sad::Renderer::settings));
     c->addMethod("run", sad::dukpp03::bind_method::from(&sad::Renderer::run));
     c->addMethod("quit", sad::dukpp03::bind_method::from(&sad::Renderer::quit));
+    c->addMethod("clipboard", sad::dukpp03::bind_method::from(&sad::Renderer::clipboard));
     c->addMethod("makeFixedSize", sad::dukpp03::bind_method::from(&sad::Renderer::makeFixedSize));
     c->addMethod("makeResizeable", sad::dukpp03::bind_method::from(&sad::Renderer::makeResizeable));
     c->addMethod("running", sad::dukpp03::bind_method::from(&sad::Renderer::running));
@@ -671,7 +675,9 @@ void sad::dukpp03::Context::exposeRenderer()
 
     sad::dukpp03::ClassBinding* cext = new sad::dukpp03::ClassBinding(); 
     cext->addObjectConstructor<sad::dukpp03::Renderer>("SadRenderer");
+    cext->addMethod("clipboard", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::clipboard));
     cext->addMethod("init", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::init));
+    cext->addMethod("animations", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::animations));
     cext->addMethod("settings", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::settings));
     cext->addMethod("run", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::run));
     cext->addMethod("quit", sad::dukpp03::rebind_method::to<sad::dukpp03::Renderer>::from(&sad::Renderer::quit));
@@ -1089,7 +1095,7 @@ void sad::dukpp03::Context::exposeSprite2D()
 
     ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * msp = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
     msp->add(sad::dukpp03::bind_method::from(msp2));
-    msp->add(sad::dukpp03::bind_method::from(msp2));
+    msp->add(sad::dukpp03::bind_method::from(msp3));
     c->addMethod("makeSpanBetweenPoints", msp);
 
     c->addMethod("setChangeSizeWhenOptionsAreChanged", sad::dukpp03::bind_method::from(&sad::Sprite2D::setChangeSizeWhenOptionsAreChanged));
@@ -1256,6 +1262,16 @@ void sad::dukpp03::Context::exposeSprite2DOptions()
     c->setPrototypeFunction("sad.Sprite2D.Options");
 
     this->addClassBinding("sad::Sprite2D::Options", c);
+}
+
+void sad::dukpp03::Context::exposeClipboard()
+{
+    sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
+    c->addMethod("get", sad::dukpp03::bind_method::from(&sad::Clipboard::get));
+    c->addMethod("set", sad::dukpp03::bind_method::from(&sad::Clipboard::set));
+    c->addMethod("clear", sad::dukpp03::bind_method::from(&sad::Clipboard::clear));
+    
+    this->addClassBinding("sad::Clipboard", c);
 }
 
 DECLARE_COMMON_TYPE(sad::dukpp03::Context);

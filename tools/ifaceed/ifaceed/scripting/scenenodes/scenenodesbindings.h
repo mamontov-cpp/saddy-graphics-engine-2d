@@ -4,12 +4,12 @@
     A scene nodes bindings and data
  */
 #pragma once
+#include "../dukqtcontext.h"
 #include <sadstring.h>
 #include <sadrect.h>
 #include <sadcolor.h>
 #include <scene.h>
 
-#include <QScriptEngine>
 #include <QVector>
 
 namespace scripting
@@ -20,22 +20,16 @@ class Scripting;
 namespace scenenodes
 {
 
-/*! Lists all scene nodes from all scenes
-    \param[in] ctx context
-    \param[in] engine an enginge
-    \return a scene nodes list
+/*! Lists all major ids for scene nodes from all scenes
+    \return a list of all major ids for all scene nodes of current window
  */
-QScriptValue list(
-    QScriptContext* ctx,
-    QScriptEngine* engine
-);
+QVector<unsigned long long> list();
 
-/*! Lists a scene node from a scene
-    \param[in] scripting a scripting part
+/*! Lists all major ids for scene nodes, contained in specified scene
     \param[in] scene a scene
-    \return a scene nodes list
+    \return all major ids for scene nodes
  */
-QVector<unsigned long long> listScene(scripting::Scripting* scripting, sad::Scene* scene);
+QVector<unsigned long long> listScene(sad::Scene* scene);
 
 
 /*! Adds label. Prefixed by underscore, since it will be mapped to _addLabel function and addLabel
@@ -116,7 +110,10 @@ void makeBackground(
     \param[in] scripting a scripting part
     \param[in] node node to be removed
  */
-void remove(scripting::Scripting* scripting, sad::SceneNode* node);
+void remove(
+    scripting::Scripting* scripting,
+    sad::SceneNode* node
+);
 
 /*! Spans an object between two points
     \param[in] scripting a scripting part
@@ -130,6 +127,13 @@ void spanBetweenTwoPoints(
     sad::Point2D p1,
     sad::Point2D p2
 );
+
+/*! Initializes bindings for scene nodes
+    \param[in] s scripting object
+    \param[in] e a global binding object
+    \return created scene nodes object
+*/
+dukpp03::qt::JSObject* init(scripting::Scripting* s, dukpp03::qt::JSObject* e);
 
 }
 

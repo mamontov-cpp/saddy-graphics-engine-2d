@@ -1,4 +1,5 @@
 #include "scriptablegridcell.h"
+#include "scriptablegrid.h"
 
 #include "scriptablelengthvalue.h"
 
@@ -13,14 +14,15 @@
 
 #include "../core/editor.h"
 
-#include "../fromvalue.h"
-#include "../tovalue.h"
-
 #include "../../history/layouts/layoutschangecell.h"
 #include "../../history/layouts/layoutsaddchild.h"
 #include "../../history/layouts/layoutsremovechild.h"
 #include "../../history/layouts/layoutsclearcell.h"
 #include "../../history/layouts/layoutsswapchildren.h"
+
+Q_DECLARE_METATYPE(scripting::layouts::ScriptableGrid*)
+Q_DECLARE_METATYPE(scripting::layouts::ScriptableGridCell*)
+
 
 // ================================== PUBLIC METHODS =========================
 
@@ -32,17 +34,6 @@ scripting::layouts::ScriptableGridCell::ScriptableGridCell(
 ) : m_majorid(major_id), m_row(row), m_column(column), m_scripting(s)
 {
 
-}
-
-QString scripting::layouts::ScriptableGridCell::toString() const
-{
-    if (!valid())
-    {
-        return "ScriptableGridCell(<invalid>)";
-    }
-    QString result = QString("ScriptableGridCell(majorid : %1, row : %2, column: %3)")
-                     .arg(m_majorid).arg(m_row).arg(m_column);
-    return result;
 }
 
 scripting::layouts::ScriptableGridCell::~ScriptableGridCell()
@@ -70,7 +61,8 @@ sad::layouts::Cell* scripting::layouts::ScriptableGridCell::cell(bool throwexc, 
     }
     if (throwexc)
     {
-        m_scripting->engine()->currentContext()->throwError(QString("ScriptableGridCell.") + name  + ": Reference to a grid cell is not a valid instance");
+        m_scripting->context()->throwError(std::string("ScriptableGridCell.") + name.toStdString()  + ": Reference to a grid cell is not a valid instance");
+        throw new dukpp03::ArgumentException();
     }
     return NULL;
 }
@@ -78,7 +70,7 @@ sad::layouts::Cell* scripting::layouts::ScriptableGridCell::cell(bool throwexc, 
 bool scripting::layouts::ScriptableGridCell::swapChildrenWithCallName(const QString& callname, int pos1, int pos2) const
 {
     bool result = false;
-    sad::layouts::Cell* cell = this->cell(true, "callname");
+    sad::layouts::Cell* cell = this->cell(true, callname);
     if (cell)
     {
         if (pos1 >= 0 && pos2 >= 0 && pos1 < cell->children().size() && pos2 < cell->children().size())
@@ -97,14 +89,82 @@ bool scripting::layouts::ScriptableGridCell::swapChildrenWithCallName(const QStr
     return result;    
 }
 
+
+QVector<unsigned long long>  scripting::layouts::ScriptableGridCell::children() const
+{
+    QVector<unsigned long long> result;
+    sad::layouts::Cell* cell = this->cell(true, "children");
+    if (cell)
+    {
+        sad::Vector<unsigned long long>  children = cell->childrenMajorIds();
+        for(size_t i = 0; i < children.size(); i++)
+        {
+            result << children[i];
+        }
+    }
+    return result;
+}
+
+dukpp03::Maybe<unsigned int> scripting::layouts::ScriptableGridCell::findChild(sad::SceneNode* o) const
+{
+    dukpp03::Maybe<unsigned int> result;
+    sad::layouts::Cell* cell = this->cell(true, "findChild");
+    if (cell)
+    {
+        sad::Maybe<size_t> res = cell->find(o);
+        if (res.exists())
+        {
+            result.setValue(static_cast<unsigned int>(res.value()));
+        }
+    }
+    return result;
+}
+
+
+bool scripting::layouts::ScriptableGridCell::addChild(sad::SceneNode* node) const
+{
+    bool result = false;
+    sad::layouts::Cell* cell = this->cell(true, "addChild");
+    if (cell)
+    {
+        core::Editor* editor = m_scripting->editor();
+        gui::actions::GridActions* actions = editor->actions()->gridActions();
+        if (actions->parentGridFor(node) == NULL)
+        {
+            sad::Maybe<sad::Rect2D> oldarea = node->getProperty<sad::Rect2D>("area");
+            if (oldarea.exists())
+            {
+                result = true;
+                history::layouts::AddChild* c = new history::layouts::AddChild(cell->grid(), m_row, m_column, node, oldarea.value());
+                c->commit(editor);
+                editor->currentBatchCommand()->add(c);
+            }
+        }
+    }
+
+    return result;
+}
+
 // ================================== PUBLIC SLOTS METHODS =========================
+
+QString scripting::layouts::ScriptableGridCell::toString() const
+{
+    if (!valid())
+    {
+        return "ScriptableGridCell(<invalid>)";
+    }
+    QString result = QString("ScriptableGridCell(majorid : %1, row : %2, column: %3)")
+        .arg(m_majorid).arg(m_row).arg(m_column);
+    return result;
+}
+
 
 bool scripting::layouts::ScriptableGridCell::valid() const
 {
     return cell(false) != NULL;
 }
 
-QScriptValue scripting::layouts::ScriptableGridCell::area() const
+sad::Rect2D  scripting::layouts::ScriptableGridCell::area() const
 {
     sad::Rect2D v;
     sad::layouts::Cell* c = cell(true, "area");
@@ -112,7 +172,7 @@ QScriptValue scripting::layouts::ScriptableGridCell::area() const
     {
         v = c->AssignedArea;
     }
-    return scripting::FromValue<sad::Rect2D>::perform(v, m_scripting->engine());    
+    return v;
 }
 
 unsigned long long scripting::layouts::ScriptableGridCell::grid() const
@@ -137,20 +197,14 @@ void scripting::layouts::ScriptableGridCell::setWidth(scripting::layouts::Script
     }
 }
 
-QScriptValue scripting::layouts::ScriptableGridCell::width() const
+scripting::layouts::ScriptableLengthValue* scripting::layouts::ScriptableGridCell::width() const
 {
     sad::layouts::Cell* c = this->cell(true, "width");
-    QScriptEngine* engine = m_scripting->engine();
-    scripting::layouts::ScriptableLengthValue* lv;
     if (c)
     {
-        lv = new scripting::layouts::ScriptableLengthValue(c->width(), m_scripting);
+        return  new scripting::layouts::ScriptableLengthValue(c->width(), m_scripting);
     }
-    else
-    {
-        lv = new scripting::layouts::ScriptableLengthValue(sad::layouts::LU_Auto, 0, m_scripting);
-    }
-    return engine->newQObject(lv);
+    return new scripting::layouts::ScriptableLengthValue(sad::layouts::LU_Auto, 0, m_scripting);
 }
 
 void scripting::layouts::ScriptableGridCell::setHeight(scripting::layouts::ScriptableLengthValue* value) const
@@ -169,67 +223,28 @@ void scripting::layouts::ScriptableGridCell::setHeight(scripting::layouts::Scrip
     }
 }
 
-QScriptValue scripting::layouts::ScriptableGridCell::height() const
+scripting::layouts::ScriptableLengthValue*  scripting::layouts::ScriptableGridCell::height() const
 {
     sad::layouts::Cell* c = this->cell(true, "height");
-    QScriptEngine* engine = m_scripting->engine();
-    scripting::layouts::ScriptableLengthValue* lv;
     if (c)
     {
-        lv = new scripting::layouts::ScriptableLengthValue(c->height(), m_scripting);
+        return new scripting::layouts::ScriptableLengthValue(c->height(), m_scripting);
     }
-    else
-    {
-        lv = new scripting::layouts::ScriptableLengthValue(sad::layouts::LU_Auto, 0, m_scripting);
-    }
-    return engine->newQObject(lv);
+    return new scripting::layouts::ScriptableLengthValue(sad::layouts::LU_Auto, 0, m_scripting);
 }
 
-QScriptValue scripting::layouts::ScriptableGridCell::children() const
-{
-    QScriptEngine* e = m_scripting->engine();
-    QScriptValue val = e->newArray(0);
-    sad::layouts::Cell* cell = this->cell(true, "children");
-    if (cell)
-    {
-        val = scripting::FromValue<sad::Vector<unsigned long long> >::perform(cell->childrenMajorIds(), e);
-    }
-    return val;
-}
-
-QScriptValue scripting::layouts::ScriptableGridCell::findChild(const QScriptValue& o) const
-{
-    QScriptEngine* e = m_scripting->engine();
-    QScriptValue val = e->nullValue();
-    sad::layouts::Cell* cell = this->cell(true, "findChild");
-    if (cell)
-    {
-        sad::Maybe<sad::SceneNode*> maybe_obj = scripting::query<sad::SceneNode*>(o);
-        if (maybe_obj.exists())
-        {
-
-            sad::Maybe<size_t> res = cell->find(maybe_obj.value());
-            if (res.exists())
-            {
-                val = QScriptValue(static_cast<unsigned int>(res.value()));
-            }
-        }
-        else
-        {
-            m_scripting->engine()->currentContext()->throwError("ScriptableGridCell.findChild: argument is not a reference to a scene node");
-        }
-    }
-    return val;
-}
-
-
-void scripting::layouts::ScriptableGridCell::setHorizontalAlignment(const QScriptValue& v) const
+void scripting::layouts::ScriptableGridCell::setHorizontalAlignment(unsigned int v) const
 {
     sad::layouts::Cell* c = this->cell(true, "setHorizontalAlignment");
-    sad::Maybe<sad::layouts::HorizontalAlignment> ha_maybe = scripting::ToValue<sad::layouts::HorizontalAlignment>::perform(v);
+    sad::Maybe<sad::layouts::HorizontalAlignment> ha_maybe;
+    if ((v == sad::layouts::LHA_Left) || (v == sad::layouts::LHA_Middle) || (v == sad::layouts::LHA_Right))
+    {
+        ha_maybe.setValue(static_cast<sad::layouts::HorizontalAlignment>(v));
+    }
     if (!ha_maybe.exists())
     {
-        m_scripting->engine()->currentContext()->throwError("ScriptableGridCell.setHorizontalAlignment: argument is not a valid E.layouts.HorizontalAlignment member");
+        m_scripting->context()->throwError("ScriptableGridCell.setHorizontalAlignment: argument is not a valid E.layouts.HorizontalAlignment member");
+        throw dukpp03::ArgumentException();
     }
     if (c && ha_maybe.exists())
     {
@@ -244,25 +259,29 @@ void scripting::layouts::ScriptableGridCell::setHorizontalAlignment(const QScrip
 }
 
 
-QScriptValue scripting::layouts::ScriptableGridCell::horizontalAlignment() const
+unsigned int scripting::layouts::ScriptableGridCell::horizontalAlignment() const
 {
     sad::layouts::Cell* c = this->cell(true, "horizontalAlignment");
-    QScriptEngine* engine = m_scripting->engine();
-    QScriptValue lv = engine->nullValue();
-    if (c)
+    if (!c)
     {
-       lv = scripting::FromValue<sad::layouts::HorizontalAlignment>::perform(c->horizontalAlignment(), engine);
+        m_scripting->context()->throwError("ScriptableGridCell.horizontalAlignment: attempt to get alignment for invalid cell");
+        throw dukpp03::ArgumentException();
     }
-    return lv;
+    return c->horizontalAlignment();
 }
 
-void scripting::layouts::ScriptableGridCell::setVerticalAlignment(const QScriptValue& v) const
+void scripting::layouts::ScriptableGridCell::setVerticalAlignment(unsigned int v) const
 {
     sad::layouts::Cell* c = this->cell(true, "setVerticalAlignment");
-    sad::Maybe<sad::layouts::VerticalAlignment> va_maybe = scripting::ToValue<sad::layouts::VerticalAlignment>::perform(v);
+    sad::Maybe<sad::layouts::VerticalAlignment> va_maybe;
+    if ((v == sad::layouts::LVA_Bottom) || (v == sad::layouts::LVA_Top) || (v == sad::layouts::LVA_Middle))
+    {
+        va_maybe.setValue(static_cast<sad::layouts::VerticalAlignment>(v));
+    }
     if (!va_maybe.exists())
     {
-        m_scripting->engine()->currentContext()->throwError("ScriptableGridCell.setVerticalAlignment: argument is not a valid E.layouts.VerticalAlignment member");
+        m_scripting->context()->throwError("ScriptableGridCell.setVerticalAlignment: argument is not a valid E.layouts.VerticalAlignment member");
+        throw dukpp03::ArgumentException();
     }
     if (c && va_maybe.exists())
     {
@@ -276,25 +295,29 @@ void scripting::layouts::ScriptableGridCell::setVerticalAlignment(const QScriptV
     }
 }
 
-QScriptValue scripting::layouts::ScriptableGridCell::verticalAlignment() const
+unsigned int scripting::layouts::ScriptableGridCell::verticalAlignment() const
 {
     sad::layouts::Cell* c = this->cell(true, "verticalAlignment");
-    QScriptEngine* engine = m_scripting->engine();
-    QScriptValue lv = engine->nullValue();
-    if (c)
+    if (!c)
     {
-       lv = scripting::FromValue<sad::layouts::VerticalAlignment>::perform(c->verticalAlignment(), engine);
+        m_scripting->context()->throwError("ScriptableGridCell.verticalAlignment: attempt to get alignment for invalid cell");
+        throw dukpp03::ArgumentException();
     }
-    return lv;
+    return c->verticalAlignment();
 }
 
-void scripting::layouts::ScriptableGridCell::setStackingType(const QScriptValue& v) const
+void scripting::layouts::ScriptableGridCell::setStackingType(unsigned int v) const
 {
     sad::layouts::Cell* c = this->cell(true, "setStackingType");
-    sad::Maybe<sad::layouts::StackingType> st_maybe = scripting::ToValue<sad::layouts::StackingType>::perform(v);
+    sad::Maybe<sad::layouts::StackingType> st_maybe;
+    if ((v == sad::layouts::LST_Horizontal) || (v == sad::layouts::LST_Vertical) || (v == sad::layouts::LST_NoStacking))
+    {
+        st_maybe.setValue(static_cast<sad::layouts::StackingType>(v));
+    }
     if (!st_maybe.exists())
     {
-        m_scripting->engine()->currentContext()->throwError("ScriptableGridCell.setStackingType: argument is not a valid E.layouts.StackingType member");
+        m_scripting->context()->throwError("ScriptableGridCell.setStackingType: argument is not a valid E.layouts.StackingType member");
+        throw dukpp03::ArgumentException();
     }
     if (c && st_maybe.exists())
     {
@@ -309,16 +332,15 @@ void scripting::layouts::ScriptableGridCell::setStackingType(const QScriptValue&
     }
 }
 
-QScriptValue scripting::layouts::ScriptableGridCell::stackingType() const
+unsigned int scripting::layouts::ScriptableGridCell::stackingType() const
 {
     sad::layouts::Cell* c = this->cell(true, "stackingType");
-    QScriptEngine* engine = m_scripting->engine();
-    QScriptValue lv = engine->nullValue();
-    if (c)
+    if (!c)
     {
-       lv = scripting::FromValue<sad::layouts::StackingType>::perform(c->stackingType(), engine);
+        m_scripting->context()->throwError("ScriptableGridCell.stackingType: attempt to get stacking type for invalid cell");
+        throw dukpp03::ArgumentException();
     }
-    return lv;
+    return c->stackingType();
 }
 
 void scripting::layouts::ScriptableGridCell::setPaddingTop(double v) const
@@ -379,39 +401,6 @@ double scripting::layouts::ScriptableGridCell::paddingRight() const
         return c->paddingRight();
     }
     return 0;
-}
-
-bool scripting::layouts::ScriptableGridCell::addChild(const QScriptValue& o) const
-{
-    bool result = false;
-    sad::layouts::Cell* cell = this->cell(true, "addChild");
-    if (cell)
-    {
-        sad::Maybe<sad::SceneNode*> maybe_obj = scripting::query<sad::SceneNode*>(o);
-        if (maybe_obj.exists())
-        {
-            sad::SceneNode* node = maybe_obj.value();
-            core::Editor* editor = m_scripting->editor();
-            gui::actions::GridActions* actions = editor->actions()->gridActions();
-            if (actions->parentGridFor(node) == NULL)
-            {
-                sad::Maybe<sad::Rect2D> oldarea = node->getProperty<sad::Rect2D>("area");
-                if (oldarea.exists())
-                {
-                    result = true;
-                    history::layouts::AddChild* c = new history::layouts::AddChild(cell->grid(), m_row, m_column, node, oldarea.value());
-                    c->commit(editor);
-                    editor->currentBatchCommand()->add(c);
-                }
-            }
-        }
-        else
-        {
-            m_scripting->engine()->currentContext()->throwError("ScriptableGridCell.addChild: argument is not a reference to a scene node");
-        }
-    }
-
-    return result;
 }
 
 bool  scripting::layouts::ScriptableGridCell::removeChild(int pos) const

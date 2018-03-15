@@ -305,7 +305,7 @@
 				<li>method <b>getAnimation(composite animation, position)</b> -  returns animation as major id from composite animation's list, specified by pos (composite is Parallel or Sequential animation). Returns 0, if position is not valid </li>
 				<li>method <b>moveBackInCompositeList(composite animation, position)</b> -  moves animation back in composite animation's list. Returns true on success, false on error </li>
 				<li>method <b>moveFrontInCompositeList(composite animation, position)</b> -  moves animation front in composite animation's list. Returns true on success, false on error </li>
-				<li>method <b>set(\"animationname\", \"propertyname\", \"value\")</b> - sets property of animation. 
+				<li>method <b>set(\"animationname\", \"propertyname\", \"value\")</b> - sets property of animation.
 					<ul>
 						<li><b>[All animation types]</b> property <b>\"name\"</b>  - name as string</li>
 						<li><b>[All animation types]</b> property <b>\"time\"</b>  - a time, how long animation should be played.</li>
@@ -374,7 +374,7 @@
                <li>property <b>instances</b> - holds all operations related to animation instances
                    <ul>
 						<li>method <b>list()</b> - lists all animation instances, returning all of majorids for it</li>
-						<li>method <b>_addInstance(name, reference to animation from database as number, reference to animation from tree as string, reference to object, starting time)</b> - adds new instance. id of animation from database take priority if it valid.</li>
+						<li>method <b>_addInstance(name, reference to animation from database or resource as number or string, reference to object, starting time)</b> - adds new instance. id of animation from database take priority if it valid.</li>
 						<li>method <b>addInstance(object)</b> - does the same as previous only style is different and animation fields can be used as both references. Fields \"name\",  \"animation\", \"object\", \"starttime\" are optional.</li>
 						<li>method <b>_addWayInstance(name, reference to way, reference to object, starting time)</b> - adds new way instance.</li>
 						<li>method <b>addWayInstance(object)</b> - does the same as previous only style is different. Fields \"name\",  \"way\", \"object\", \"starttime\" are optional.</li>
@@ -477,9 +477,9 @@
 					</ul>
 				</li>
 			</ul>
-			
-			Related non-properties: 
-			
+
+			Related non-properties:
+
 			<ul>
 				<li>Class <b>ScriptableGrid</b> - a reference to real grid. This class provides following operations:
 					<ul>
@@ -501,7 +501,7 @@
 						<li>method <b>paddingTop()</b> - returns default top padding for grid cells</li>
 						<li>method <b>paddingBottom()</b> - returns default bottom padding for grid cells</li>
 						<li>method <b>paddingLeft()</b> - returns default left padding for grid cells</li>
-						<li>method <b>paddingRight()</b> - returns default right padding for grid cells</li>						
+						<li>method <b>paddingRight()</b> - returns default right padding for grid cells</li>
 						<li>method <b>setPaddingTop(double, [bool])</b> - set top padding for grid. Flag, determines, whether change should be propagated to cells</li>
 						<li>method <b>setPaddingBottom(double, [bool])</b> - set bottom padding for grid. Flag, determines, whether change should be propagated to cells</li>
 						<li>method <b>setPaddingLeft(double, [bool])</b> - set left padding for grid. Flag, determines, whether change should be propagated to cells</li>

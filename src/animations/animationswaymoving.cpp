@@ -87,7 +87,7 @@ sad::db::schema::Schema* sad::animations::WayMoving::schema() const
 void sad::animations::WayMoving::setTable(sad::db::Table * table)
 {
     this->sad::db::Object::setTable(table);
-    m_way.setDatabase(table->database());	
+    m_way.setDatabase(table->database());
 }
 
 
@@ -107,7 +107,7 @@ bool sad::animations::WayMoving::loadFromValue(const picojson::value& v)
 
         flag = flag && result;
     }
-    return flag;	
+    return flag;
 }
 
 void sad::animations::WayMoving::setWay(sad::p2d::app::Way * way)
@@ -115,25 +115,9 @@ void sad::animations::WayMoving::setWay(sad::p2d::app::Way * way)
     m_way.setObject(way);
 }
 
-sad::p2d::app::Way* sad::animations::WayMoving::way(bool check) const
+sad::p2d::app::Way* sad::animations::WayMoving::way() const
 {
-    sad::p2d::app::Way* result = NULL;
-    sad::db::Object* o = const_cast<sad::animations::WayMoving*>(this)->m_way.get();
-    if (o)
-    {
-        if (check)
-        {
-            if (o->isInstanceOf("sad::p2d::app::Way"))
-            {
-                result = static_cast<sad::p2d::app::Way*>(o);
-            }
-        }
-        else
-        {
-            result = static_cast<sad::p2d::app::Way*>(o);
-        }
-    }
-    return result;
+    return m_way.get();
 }
 
 void sad::animations::WayMoving::setWayObjectId(unsigned long long id)
@@ -148,7 +132,7 @@ unsigned long long sad::animations::WayMoving::wayObjectId() const
 
 void sad::animations::WayMoving::setState(sad::animations::Instance* i, double time)
 {
-    sad::p2d::app::Way* way = this->way(false);
+    sad::p2d::app::Way* way = this->way();
 
     // This actually allows easing function to work as identity in case of linear function or do nothing in
     // all other cases
@@ -189,9 +173,9 @@ sad::animations::setstate::AbstractSetStateCommand* sad::animations::WayMoving::
 bool sad::animations::WayMoving::applicableTo(sad::db::Object* o)
 {
     bool result = false;
-    if (o && way(true) != NULL)
+    if (o && way() != NULL)
     {
-        double waytime = way(false)->totalTime();
+        double waytime = way()->totalTime();
         bool areapropertyexists = o->getProperty<sad::Rect2D>("area").exists();
         bool waytimenotzero = !sad::is_fuzzy_zero(waytime);
         result = areapropertyexists && waytimenotzero;

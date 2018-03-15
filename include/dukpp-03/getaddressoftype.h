@@ -5,6 +5,7 @@
 #pragma once
 #include "../db/dbvariant.h"
 #include "../3rdparty/dukpp-03.h"
+#include "../animations/animationsanimations.h"
 
 namespace sad
 {
@@ -166,6 +167,20 @@ public:
     inline static ::dukpp03::Maybe<sad::Renderer*> getAddress(sad::db::Variant* v)
     {
         return ::dukpp03::Maybe<sad::Renderer*>();
+    }
+};
+
+template<>
+struct GetAddressOfType<sad::animations::Animations*, false, false>
+{
+public:
+    /*! Returns address of type, stored in variant.
+    \param[in] v value
+    \return empty maybe
+    */
+    inline static ::dukpp03::Maybe<sad::animations::Animations*> getAddress(sad::db::Variant* v)
+    {
+        return ::dukpp03::Maybe<sad::animations::Animations*>();
     }
 };
 

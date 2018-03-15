@@ -13,13 +13,14 @@ namespace scenenodes
 {
 
 /*! Returns a getter for custom property for custom objects
+    \return a getter for custom property for custom object
  */
 template<
     typename T
 >
-scripting::Callable* custom_getter(QScriptEngine* engine)
+dukpp03::qt::Callable* custom_getter()
 {
-    scripting::AbstractGetter<sad::SceneNode*, T>* result = new scripting::AbstractGetter<sad::SceneNode*, T>(engine);
+    scripting::AbstractGetter<sad::SceneNode*, T>* result = new scripting::AbstractGetter<sad::SceneNode*, T>();
     const char* excluded[] = {
         "name",
         "texturecoordinates",
@@ -39,13 +40,18 @@ scripting::Callable* custom_getter(QScriptEngine* engine)
         "flipy",
         "options",
         "schema",
+        "maximallinewidth",
+        "overflowstrategy",
+        "breaktext",
+        "textellipsisposition",
+        "maximallinescount",
+        "overflowstrategyforlines",
+        "textellipsispositionforlines",
+        "hasformatting",
         NULL
     };
-    int i = 0;
-    while(excluded[i] != NULL) {
-        result->addExcluded(excluded[i]);
-        ++i;
-    }
+    result->addExcludedPropertyNames(excluded);
+    result->matchAllProperties();
     return result;
 }
 

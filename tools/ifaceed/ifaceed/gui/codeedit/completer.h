@@ -5,11 +5,11 @@
  */
 #pragma once
 #include <QCompleter>
-#include <QScriptEngine>
 #include <QHash>
 #include <QSet>
 #include <QString>
 #include <QStandardItemModel>
+#include "dukqt.h"
 
 namespace gui
 {
@@ -34,20 +34,23 @@ public:
      */
     virtual ~Completer();
     /*! Constructs model from engine
-        \param[in] e engine to be taken as generator
+        \param[in] ctx context
         \param[in] firstlevelreplace an entries, which must be replaced at top level
         \param[in] commonset a set of common properties to be added to root
      */
     QAbstractItemModel* modelFromEngine(
-        QScriptEngine* e,
+        dukpp03::qt::Context* ctx,
         const QHash<QString, QString>& firstlevelreplace,
         const QSet<QString>& commonset
     );
     /*! Scans value, filling parent item
         \param[in, out] parent a parent item
-        \param[in] v value
+        \param[in] ctx context, where value is stored
      */
-    static void scanValue(QStandardItem* parent, const QScriptValue& v);
+    static void scanValue(
+        QStandardItem* parent,
+        dukpp03::qt::Context* ctx
+    );
 protected:
     /*! Splits path
         \param[in] path path

@@ -4,13 +4,14 @@
     A bindings for ways are listed here
  */
 #pragma once
+#include "../dukqtcontext.h"
 #include <sadstring.h>
-#include <sadrect.h>
 
-#include <QScriptEngine>
 #include <QVector>
 
 #include <p2d/app/way.h>
+#include "wayspointref.h"
+#include <3rdparty/dukpp-03/include/maybe.h>
 
 namespace scripting
 {
@@ -20,15 +21,10 @@ class Scripting;
 namespace ways
 {
 
-/*! Lists all ways
-    \param[in] ctx context
-    \param[in] engine an engine
-    \return a ways list
+/*! Returns major ids list for all ways, stored in database
+    \return major ids list for all ways
  */
-QScriptValue list(
-    QScriptContext* ctx,
-    QScriptEngine* engine
-);
+QVector<unsigned long long> list();
 
 /*! Adds way. Prefixed by underscore, since it will be mapped to _add function and add
     is reserved for call, which will take object, preprocess it's fields and call _add using fields of this object.
@@ -43,7 +39,7 @@ unsigned long long _add(
     sad::String name,
     double totaltime,
     bool closed,
-    sad::Vector<sad::p2d::app::WayPoint> points
+    QVector<sad::Point2D> points
 );
 
 /*! Removes a way
@@ -77,7 +73,14 @@ bool removePoint(scripting::Scripting* scripting, sad::p2d::app::Way* way, unsig
     \param[in] way a way to be removed
     \param[in] pos a position
  */
-QScriptValue point(scripting::Scripting* scripting, sad::p2d::app::Way* way, unsigned int pos);
+dukpp03::Maybe<scripting::ways::PointRef*> point(scripting::Scripting* scripting, sad::p2d::app::Way* way, unsigned int pos);
+
+/*! Initializes bindings for ways
+    \param[in] s scripting object
+    \param[in] e a global binding object
+    \return created ways object
+ */
+dukpp03::qt::JSObject* init(scripting::Scripting* s, dukpp03::qt::JSObject* e);
 
 }
 

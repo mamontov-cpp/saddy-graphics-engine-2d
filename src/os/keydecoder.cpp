@@ -1,6 +1,7 @@
 #include "os/keydecoder.h"
 #include "os/systemwindowevent.h"
 #include "window.h"
+#include <cstdint>
 
 sad::os::KeyDecoder::KeyDecoder()
 {
@@ -240,7 +241,7 @@ sad::KeyboardKey syskeys[syskeycount] = { // Keyboard mapping table
     sad::OpeningSquareBracket, // 219   0xDB VK_OEM_4
     sad::BackSlash,            // 220   0xDC VK_OEM_5
     sad::ClosingSquareBracket, // 221   0xDD VK_OEM_6
-    sad::Apostrophe            // 222   0xDE VK_OEM_6	
+    sad::Apostrophe            // 222   0xDE VK_OEM_6
 };
 
 
@@ -271,7 +272,7 @@ unsigned int mapping[totalmappingsize] = {
     XK_F10,    sad::F10,
     XK_F11,    sad::F11,
     XK_F12,    sad::F12,
-    // Most WM hook this key so binding on it still have no purpose. 
+    // Most WM hook this key so binding on it still have no purpose.
     XK_Sys_Req,        sad::PrintScreen,
     XK_Scroll_Lock,    sad::ScrollLock,
     XK_Pause,          sad::Pause,
@@ -497,8 +498,8 @@ unsigned int mapping[totalmappingsize] = {
     XK_Cyrillic_yu,    sad::Period,
     XK_Cyrillic_YU,    sad::Period,
 #endif
-    XK_slash,		   sad::Slash,
-    XK_question,	   sad::Slash,
+    XK_slash,          sad::Slash,
+    XK_question,       sad::Slash,
     XK_Return,         sad::Enter,
     XK_Delete,         sad::Delete,
     XK_End,            sad::End,
@@ -551,7 +552,7 @@ sad::KeyboardKey sad::os::KeyDecoder::decode(sad::os::SystemWindowEvent * e)
 {
 #ifdef WIN32
     sad::KeyboardKey key = sad::KeyNone;
-    if (m_table.contains(e->WParam)) 
+    if (m_table.contains(e->WParam))
     {
         key = m_table[e->WParam];
     }
@@ -561,7 +562,7 @@ sad::KeyboardKey sad::os::KeyDecoder::decode(sad::os::SystemWindowEvent * e)
 #ifdef X11
     sad::KeyboardKey key = sad::KeyNone;
     ::KeySym keysym = XLookupKeysym(&(e->Event.xkey), 0);
-    if (m_table.contains(keysym)) 
+    if (m_table.contains(keysym))
     {
         key = m_table[keysym];
     }
@@ -569,7 +570,49 @@ sad::KeyboardKey sad::os::KeyDecoder::decode(sad::os::SystemWindowEvent * e)
 #endif
 }
 
-
+// Taken from https://github.com/benkasminbullock/unicode-c/blob/master/unicode.c
+#define UNI_SUR_HIGH_START  0xD800
+#define UNI_SUR_HIGH_END    0xDBFF
+#define UNI_SUR_LOW_START   0xDC00
+#define UNI_SUR_LOW_END     0xDFFF
+#define UNICODE_SURROGATE_PAIR -2
+#define UNICODE_UTF8_4 0x1fffff
+#define UNICODE_TOO_BIG -7
+int32_t ucs2_to_utf8 (int32_t ucs2, unsigned char * utf8)
+{
+    if (ucs2 < 0x80) {
+        utf8[0] = ucs2;
+        utf8[1] = '\0';
+        return 1;
+    }
+    if (ucs2 < 0x800) {
+        utf8[0] = (ucs2 >> 6)   | 0xC0;
+        utf8[1] = (ucs2 & 0x3F) | 0x80;
+        utf8[2] = '\0';
+        return 2;
+    }
+    if (ucs2 < 0xFFFF) {
+        utf8[0] = ((ucs2 >> 12)       ) | 0xE0;
+        utf8[1] = ((ucs2 >> 6 ) & 0x3F) | 0x80;
+        utf8[2] = ((ucs2      ) & 0x3F) | 0x80;
+        utf8[3] = '\0';
+    if (ucs2 >= UNI_SUR_HIGH_START && ucs2 <= UNI_SUR_LOW_END) {
+        /* Ill-formed. */
+        return UNICODE_SURROGATE_PAIR;
+    }
+        return 3;
+    }
+    if (ucs2 <= UNICODE_UTF8_4) {
+    /* http://tidy.sourceforge.net/cgi-bin/lxr/source/src/utf8.c#L380 */
+    utf8[0] = 0xF0 | (ucs2 >> 18);
+    utf8[1] = 0x80 | ((ucs2 >> 12) & 0x3F);
+    utf8[2] = 0x80 | ((ucs2 >> 6) & 0x3F);
+    utf8[3] = 0x80 | ((ucs2 & 0x3F));
+        utf8[4] = '\0';
+        return 4;
+    }
+    return UNICODE_TOO_BIG;
+}
 
 sad::Maybe<sad::String>  sad::os::KeyDecoder::convert(sad::os::SystemWindowEvent * e, sad::Window * win)
 {
@@ -579,12 +622,15 @@ sad::Maybe<sad::String>  sad::os::KeyDecoder::convert(sad::os::SystemWindowEvent
         return result;
 #ifdef WIN32
     GetKeyboardState(m_key_states);
-    char buffer[10] = "";
+    char buffer[20] = "", buffer_utf8[20];
     HKL kl = GetKeyboardLayout(GetCurrentThreadId());
-    ToAsciiEx(e->WParam, e->LParam, m_key_states, (LPWORD)buffer, 0, kl);
-    buffer[1] = 0;
-    result.setValue(buffer);
-    
+    ZeroMemory(buffer, 20);
+    ToUnicodeEx(e->WParam, e->LParam, m_key_states, (LPWSTR)buffer, 5, 0, kl);
+    // Man, this looks bad. But still, what could we do?
+    ucs2_to_utf8(*reinterpret_cast<int32_t*>(buffer), reinterpret_cast<unsigned char*>(buffer_utf8));
+    //buffer[1] = 0;
+    result.setValue(buffer_utf8);
+
     m_key_states[e->WParam] = 0;
     m_key_states[VK_SHIFT] = 0;
     m_key_states[VK_CONTROL] = 0;
@@ -593,45 +639,52 @@ sad::Maybe<sad::String>  sad::os::KeyDecoder::convert(sad::os::SystemWindowEvent
     m_key_states[VK_RMENU] = 0;
     m_key_states[VK_CAPITAL] = 0;
 
-    
+
 #endif
 
 #ifdef X11
-    const int bufferlength = 10;
+    const int bufferlength = 150;
     char buffer[bufferlength];
-    int length = XLookupString(&(e->Event.xkey), buffer, bufferlength, &m_key_sym, NULL);
+    memset(buffer, 0, 150);
+    Status status = 0;
+    int length = Xutf8LookupString(win->handles()->IC, reinterpret_cast<XKeyPressedEvent*>(&(e->Event)), buffer, bufferlength, &m_key_sym, &status);
     if (length != 0)
     {
         result.setValue(buffer);
+    }
+    if (m_key_sym == XK_space)
+    {
+        result.setValue(" ");
     }
 #endif
 
     return result;
 }
 
-const int readablekeyscount = 11;
+const int readablekeyscount = 12;
 sad::KeyboardKey readablekeys[readablekeyscount] = {
     sad::Minus,
     sad::Equal,
-    
+
     sad::BackSlash,
     sad::Tilde,
     sad::OpeningSquareBracket,
-    
+
     sad::ClosingSquareBracket,
     sad::Semicolon,
     sad::Comma,
 
     sad::Period,
     sad::Slash,
-    sad::Apostrophe
+    sad::Apostrophe,
+    sad::Space
 };
 
 bool sad::os::KeyDecoder::isReadable(sad::KeyboardKey key)
 {
     bool is_readable = (key >= '0' && key <= '9');
     is_readable = is_readable || (key >= 'A' && key <= 'Z');
-    for(int i = 0 ; i < readablekeyscount; i++) 
+    for(int i = 0 ; i < readablekeyscount; i++)
     {
         is_readable = is_readable || (key == readablekeys[i]);
     }
