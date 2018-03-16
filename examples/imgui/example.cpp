@@ -13,6 +13,7 @@ int main(int argc, char** argv)
     bool show_test_window = false;
     game->initialize();
 
+    
     sad::imgui::ImGui::init();
     sad::imgui::ImGui::enable();
     sad::imgui::ImGui::add([game,&show_test_window]() -> void {
@@ -30,11 +31,11 @@ int main(int argc, char** argv)
         ImGui::SetNextWindowPos(ImVec2(250, 20), ImGuiCond_FirstUseEver);
         if (show_test_window)
         {
-            ImGui::ShowTestWindow(&show_test_window);
+            ImGui::ShowDemoWindow(&show_test_window);
         }
     });
     // Initialize example with cyrillic fonts
-    ImGui::GetIO().Fonts->AddFontFromFileTTF("PTM55F.ttf", 14.0f, NULL, ImGui::GetIO().Fonts->GetGlyphRangesCyrillic());
+    ImGui::GetIO().Fonts->AddFontFromFileTTF("./PTM55F.ttf", 14.0f, NULL, ImGui::GetIO().Fonts->GetGlyphRangesCyrillic());
 
     game->run();
     delete game;
