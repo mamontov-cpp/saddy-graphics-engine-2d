@@ -354,6 +354,7 @@ static void shutdown()
     invalidate_device_objects();
     // Seems to be unused in new versios of ImGui
     // ImGui::Shutdown();
+    ImGui::DestroyContext();
 }
 
 /*! Called on beginning of new frame
