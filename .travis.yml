@@ -1,0 +1,38 @@
+language: cpp
+sudo: required
+compiler: gcc
+dist: trusty
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - gcc-6
+      - g++-6
+      - cmake
+      - libstdc++-6-dev
+os: linux
+git:
+  submodules: true
+env:
+  - CONFIGURATION=Debug TESTS=./tests-debug.sh
+  - CONFIGURATION=Release TESTS=./tests-release.sh
+
+before_install:
+  - sudo ln -s /usr/bin/gcc-6 /usr/local/bin/gcc
+  - sudo ln -s /usr/bin/g++-6 /usr/local/bin/g++
+  - export CC=/usr/bin/gcc-6
+  - export CXX=/usr/bin/g++-6
+  - gcc -v && g++ -v && cmake --version
+  - ruby prepare_build.rb
+  - sudo chmod +x build-travis.sh
+  - sudo chmod +x bin/tests-debug.sh
+  - sudo chmod +x bin/tests-release.sh
+  - IRRKLANG_ROOT="$(pwd)/3rdparty/irrKlang/x64/"
+  - export IRRKLANG_ROOT="$(pwd)/3rdparty/irrKlang/x64/"
+  - ls $IRRKLANG_ROOT
+  - ./build-travis.sh $CONFIGURATION
+script: 
+  - cd bin/
+  - ls
+  - echo "Tests are disabled due to problems with pthreads. If you want, please test using real ubuntu  17.04"

@@ -4,14 +4,10 @@
     Describes bindings for editing scenes
  */
 #pragma once
-#include <QScriptContext>
-#include <QScriptEngine>
 
 #include <QString>
 
 #include <scene.h>
-
-#include "../tovalue.h"
 
 namespace scripting
 {
@@ -45,12 +41,17 @@ void moveBack(scripting::Scripting* s, sad::Scene* scene);
     \param[in] scene scene to be removed
  */
 void moveFront(scripting::Scripting* s, sad::Scene* scene);
-/*! Lists database properties
-    \param[in] ctx context
-    \param[in] engine an engine list
-    \return list of strings with propeties of database
+/*! Returns all major ids for scenes in database
+    \return list of major ids for scenes in database
  */
-QScriptValue list(QScriptContext* ctx, QScriptEngine* engine);
+QVector<unsigned long long> list();
+
+/*! Initializes bindings for scenes
+    \param[in] s scripting object
+    \param[in] e a global binding object
+    \return created scenes object
+*/
+dukpp03::qt::JSObject* init(scripting::Scripting* s, dukpp03::qt::JSObject* e);
 
 }
 

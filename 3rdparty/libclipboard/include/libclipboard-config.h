@@ -1,0 +1,7 @@
+#ifdef WIN32
+   #define LIBCLIPBOARD_FORCE_WIN32  1
+   #define LIBCLIPBOARD_BUILD_WIN32 1
+#else
+   #define LIBCLIPBOARD_FORCE_X11 1
+   #define LIBCLIPBOARD_BUILD_X11 1
+#endif

@@ -28,6 +28,7 @@
 #include "sadmutex.h"
 #include "primitiverenderer.h"
 #include "texture.h"
+#include "clipboard.h"
 
 #include "imageformats/loader.h"
 
@@ -161,6 +162,10 @@ public:
         \return OpenGL context
      */
     sad::GLContext* context();
+    /*! Returns a clipboard object
+        \return clipboard
+     */
+    sad::Clipboard* clipboard();
     /*! Returns settings for a renderer
         \return settings
      */
@@ -480,6 +485,9 @@ protected:
     /*! A list of animations
      */
     sad::animations::Animations* m_animations;
+    /*! Clipboard for working with system clipboard
+     */
+    sad::Clipboard m_clipboard;
     
     /*! A pipeline, as processes and tasks, which wille be performed in any time
         of runtime

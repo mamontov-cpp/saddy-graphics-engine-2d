@@ -5,6 +5,7 @@
 #include "dukpp-03/semaphore.h"
 #include "dukpp-03/jscontrols.h"
 #include "dukpp-03/jspipelinestep.h"
+#include "dukpp-03/jspipelinedelayedtask.h"
 
 #include <sadpoint.h>
 #include <sadsize.h>
@@ -116,7 +117,7 @@ static void __before_scene_delayed(
     sad::dukpp03::CompiledFunction function
 )
 {
-    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_DELAYED>(
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineDelayedTask(
         interval,
         ctx,
         function
@@ -191,7 +192,7 @@ static void __after_scene_delayed(
     sad::dukpp03::CompiledFunction function
 )
 {
-    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_DELAYED>(
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineDelayedTask(
         interval,
         ctx,
         function
@@ -269,7 +270,7 @@ static void __before_event_delayed(
     sad::dukpp03::CompiledFunction function
 )
 {
-    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_DELAYED>(
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineDelayedTask(
         interval,
         ctx,
         function
@@ -347,7 +348,7 @@ static void __after_event_delayed(
     sad::dukpp03::CompiledFunction function
 )
 {
-    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineStep<sad::dukpp03::SDJST_DELAYED>(
+    sad::pipeline::Step* step = new sad::dukpp03::JSPipelineDelayedTask(
         interval,
         ctx,
         function
@@ -709,6 +710,7 @@ void sad::dukpp03::exposeAPI(sad::dukpp03::Context* ctx)
         c->addMethod("pos2D", sad::dukpp03::rebind_method::to<sad::input::MouseMoveEvent>::from(&sad::input::MouseCursorEvent::pos2D));
         c->addMethod("setPoint", sad::dukpp03::rebind_method::to<sad::input::MouseMoveEvent>::from(&sad::input::MouseCursorEvent::setPoint));
         c->addAccessor("Point3D", sad::dukpp03::getter::to<sad::input::MouseMoveEvent>::from(&sad::input::MouseCursorEvent::Point3D), sad::dukpp03::setter::to<sad::input::MouseMoveEvent>::from(&sad::input::MouseCursorEvent::Point3D));
+        c->addAccessor("Point", sad::dukpp03::getter::to<sad::input::MouseMoveEvent>::from(&sad::input::MouseCursorEvent::Point), sad::dukpp03::setter::to<sad::input::MouseMoveEvent>::from(&sad::input::MouseCursorEvent::Point));
 
         ctx->addClassBinding("sad::input::MouseMoveEvent", c);  	    
     }
@@ -719,6 +721,7 @@ void sad::dukpp03::exposeAPI(sad::dukpp03::Context* ctx)
         c->addMethod("pos2D", sad::dukpp03::rebind_method::to<sad::input::MouseEnterEvent>::from(&sad::input::MouseCursorEvent::pos2D));
         c->addMethod("setPoint", sad::dukpp03::rebind_method::to<sad::input::MouseEnterEvent>::from(&sad::input::MouseCursorEvent::setPoint));
         c->addAccessor("Point3D", sad::dukpp03::getter::to<sad::input::MouseEnterEvent>::from(&sad::input::MouseCursorEvent::Point3D), sad::dukpp03::setter::to<sad::input::MouseEnterEvent>::from(&sad::input::MouseCursorEvent::Point3D));
+        c->addAccessor("Point", sad::dukpp03::getter::to<sad::input::MouseEnterEvent>::from(&sad::input::MouseCursorEvent::Point), sad::dukpp03::setter::to<sad::input::MouseEnterEvent>::from(&sad::input::MouseCursorEvent::Point));
 
         ctx->addClassBinding("sad::input::MouseEnterEvent", c);  	    
     }
@@ -731,6 +734,7 @@ void sad::dukpp03::exposeAPI(sad::dukpp03::Context* ctx)
         c->addMethod("button", sad::dukpp03::rebind_method::to<sad::input::MousePressEvent>::from(&sad::input::MouseEvent::button));
 
         c->addAccessor("Point3D", sad::dukpp03::getter::to<sad::input::MousePressEvent>::from(&sad::input::MouseCursorEvent::Point3D), sad::dukpp03::setter::to<sad::input::MousePressEvent>::from(&sad::input::MouseCursorEvent::Point3D));
+        c->addAccessor("Point", sad::dukpp03::getter::to<sad::input::MousePressEvent>::from(&sad::input::MouseCursorEvent::Point), sad::dukpp03::setter::to<sad::input::MousePressEvent>::from(&sad::input::MouseCursorEvent::Point));
 
         ctx->addClassBinding("sad::input::MousePressEvent", c);  	    
     }
@@ -743,6 +747,7 @@ void sad::dukpp03::exposeAPI(sad::dukpp03::Context* ctx)
         c->addMethod("button", sad::dukpp03::rebind_method::to<sad::input::MouseReleaseEvent>::from(&sad::input::MouseEvent::button));
 
         c->addAccessor("Point3D", sad::dukpp03::getter::to<sad::input::MouseReleaseEvent>::from(&sad::input::MouseCursorEvent::Point3D), sad::dukpp03::setter::to<sad::input::MouseReleaseEvent>::from(&sad::input::MouseCursorEvent::Point3D));
+        c->addAccessor("Point", sad::dukpp03::getter::to<sad::input::MouseReleaseEvent>::from(&sad::input::MouseCursorEvent::Point), sad::dukpp03::setter::to<sad::input::MouseReleaseEvent>::from(&sad::input::MouseCursorEvent::Point));
 
         ctx->addClassBinding("sad::input::MouseReleaseEvent", c);  	    
     }
@@ -755,8 +760,9 @@ void sad::dukpp03::exposeAPI(sad::dukpp03::Context* ctx)
         c->addMethod("button", sad::dukpp03::rebind_method::to<sad::input::MouseDoubleClickEvent>::from(&sad::input::MouseEvent::button));
 
         c->addAccessor("Point3D", sad::dukpp03::getter::to<sad::input::MouseDoubleClickEvent>::from(&sad::input::MouseCursorEvent::Point3D), sad::dukpp03::setter::to<sad::input::MouseDoubleClickEvent>::from(&sad::input::MouseCursorEvent::Point3D));
+        c->addAccessor("Point", sad::dukpp03::getter::to<sad::input::MouseDoubleClickEvent>::from(&sad::input::MouseCursorEvent::Point), sad::dukpp03::setter::to<sad::input::MouseDoubleClickEvent>::from(&sad::input::MouseCursorEvent::Point));
 
-        ctx->addClassBinding("sad::input::MouseDoubleClickEvent", c);  	    
+        ctx->addClassBinding("sad::input::MouseDoubleClickEvent", c);
     }
     {
         sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
@@ -765,9 +771,10 @@ void sad::dukpp03::exposeAPI(sad::dukpp03::Context* ctx)
         c->addMethod("pos2D", sad::dukpp03::rebind_method::to<sad::input::MouseWheelEvent>::from(&sad::input::MouseCursorEvent::pos2D));
         c->addMethod("setPoint", sad::dukpp03::rebind_method::to<sad::input::MouseWheelEvent>::from(&sad::input::MouseCursorEvent::setPoint));    
         c->addAccessor("Point3D", sad::dukpp03::getter::to<sad::input::MouseWheelEvent>::from(&sad::input::MouseCursorEvent::Point3D), sad::dukpp03::setter::to<sad::input::MouseWheelEvent>::from(&sad::input::MouseCursorEvent::Point3D));
+        c->addAccessor("Point", sad::dukpp03::getter::to<sad::input::MouseWheelEvent>::from(&sad::input::MouseCursorEvent::Point), sad::dukpp03::setter::to<sad::input::MouseWheelEvent>::from(&sad::input::MouseCursorEvent::Point));
         c->addAccessor("Delta", sad::dukpp03::getter::from(&sad::input::MouseWheelEvent::Delta), sad::dukpp03::setter::from(&sad::input::MouseWheelEvent::Delta));
 
-        ctx->addClassBinding("sad::input::MouseWheelEvent", c);  	    
+        ctx->addClassBinding("sad::input::MouseWheelEvent", c);
     }
     {
         sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();

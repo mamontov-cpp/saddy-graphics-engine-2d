@@ -13,6 +13,8 @@ ELSE()
 	set(BITSX64 OFF)
 ENDIF()
 
+MESSAGE( STATUS "BITSX64:         " ${BITSX64} )
+
 find_path(
   IRRKLANG_INCLUDE_DIR
   irrKlang.h

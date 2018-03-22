@@ -4,14 +4,12 @@
     A bindings for animation instances are listed here
  */
 #pragma once
+#include "../dukqtcontext.h"
 #include <sadstring.h>
-#include <sadrect.h>
 #include <maybe.h>
 
-#include <QScriptEngine>
 #include <QVector>
 
-#include <animations/animationsgroup.h>
 
 namespace scripting
 {
@@ -21,15 +19,10 @@ class Scripting;
 namespace groups
 {
 
-/*! Lists all animation groups
-    \param[in] ctx context
-    \param[in] engine an enginge
-    \return a list of major ids
+/*! Lists of major ids for all animation groups in database
+    \return major ids for all animation groups in database
  */
-QScriptValue list(
-    QScriptContext* ctx,
-    QScriptEngine* engine
-);
+QVector<unsigned long long> list();
 
 /*! Adds group. Prefixed by underscore, since it will be mapped to _add function and add
     is reserved for call, which will take object, preprocess it's fields and call _add using fields of this object.
@@ -71,7 +64,7 @@ unsigned int length(
  */
 unsigned long long entry(
     scripting::Scripting* scripting,
-    sad::animations::Group* group,	
+    sad::animations::Group* group,
     unsigned int pos
 );
 
@@ -85,7 +78,7 @@ unsigned long long entry(
  */
 bool addInstance(
     scripting::Scripting* scripting,
-    sad::animations::Group* group,	
+    sad::animations::Group* group,
     sad::animations::Instance* minstance
 );
 
@@ -99,7 +92,7 @@ bool addInstance(
  */
 bool removeInstance(
     scripting::Scripting* scripting,
-    sad::animations::Group* group,	
+    sad::animations::Group* group,
     unsigned int pos
 );
 
@@ -113,6 +106,13 @@ void checkProperties(
     QStringList& list,
     bool readable
 );
+
+/*! Initializes bindings for animation instances
+    \param[in] s scripting object
+    \param[in] animations a global binding object for animations
+    \return created animations object
+ */
+dukpp03::qt::JSObject* init(scripting::Scripting* s, dukpp03::qt::JSObject* animations);
 
 }
 

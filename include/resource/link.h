@@ -329,7 +329,7 @@ public:
      */
     inline _Resource* get() const
     {
-        return static_cast<_Resource*>(this->resource());	
+        return static_cast<_Resource*>(this->resource());
     }
 protected:
     /*! Copies callbacks from other link

@@ -30,6 +30,12 @@ public:
         \param[in] type a type of function
         \param[in] overshootAmplitude an overshoot amplitude
         \param[in] period specified period
+    */
+    Function(unsigned int type, double overshootAmplitude, double period);
+    /*! Creates a function with specified parameters
+        \param[in] type a type of function
+        \param[in] overshootAmplitude an overshoot amplitude
+        \param[in] period specified period
      */
     Function(sad::animations::easing::Types type, double overshootAmplitude, double period);
     /*! Could be inherited

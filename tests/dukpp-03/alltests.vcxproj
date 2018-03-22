@@ -22,7 +22,7 @@
     <ProjectGuid>{5B5B3727-B8C3-4E82-9C20-71A8CEC898B9}</ProjectGuid>
     <RootNamespace>alltests</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -174,6 +174,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="animationanimation.cpp" />
+    <ClCompile Include="coloranimation.cpp" />
     <ClCompile Include="context.cpp" />
     <ClCompile Include="convert.cpp" />
     <ClCompile Include="fs.cpp" />
@@ -186,6 +188,7 @@
     <ClCompile Include="point3i.cpp" />
     <ClCompile Include="rect2d.cpp" />
     <ClCompile Include="rect2i.cpp" />
+    <ClCompile Include="simplemovementanimation.cpp" />
     <ClCompile Include="size2d.cpp" />
     <ClCompile Include="size2i.cpp" />
     <ClCompile Include="vectorandhash.cpp" />

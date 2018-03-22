@@ -10,13 +10,14 @@
 
 #include "../object.h"
 
-#include "../db/dblink.h"
+#include "../db/dbuntypedstronglink.h"
+#include "../db/dbstronglink.h"
 #include "../db/dbvariant.h"
 
 #include "../p2d/body.h"
 #include "../p2d/collisionshape.h"
 
-#include "../resource/link.h"
+#include "../resource/resourcestronglink.h"
 
 #include "animationsanimation.h"
 #include "animationscallback.h"
@@ -33,7 +34,7 @@ namespace animations
 
 class Animations;
 
-class Instance: public sad::Object, public sad::animations::Process
+class Instance: public sad::animations::Process
 {
 SAD_OBJECT
 public:
@@ -78,10 +79,9 @@ public:
      */
     void setAnimation(sad::animations::Animation* o);
     /*! Returns animation object
-        \param[in] check whether we should perform type checking
         \return animation object
      */
-    sad::animations::Animation* animation(bool check = true) const;
+    sad::animations::Animation* animation() const;
     /*! Sets object
         \param[in] o object
      */
@@ -127,88 +127,120 @@ public:
     /*! Adds new callback, which should be called,
         when instance is started playing
         \param[in] c callback
+        \return callback
      */
-    void addCallbackOnStart(sad::animations::Callback* c);
+    sad::animations::Callback* addCallbackOnStart(sad::animations::Callback* c);
     /*! Adds new callback, which should be called,
         when instance is finished playing
         \param[in] c callback
+        \return callback
      */
-    void addCallbackOnEnd(sad::animations::Callback* c);
+    sad::animations::Callback* addCallbackOnEnd(sad::animations::Callback* c);
+    /*! Removes callback on start
+        \param[in] c callback
+     */
+    void removeCallbackOnStart(sad::animations::Callback* c);
+    /*! Removes callback on end
+        \param[in] c callback
+     */
+    void removeCallbackOnEnd(sad::animations::Callback* c);
+    /*! Removes callback from all vectors
+        \param[in] c callback
+     */
+    void removeCallback(sad::animations::Callback* c);
+    /*! Clears callbacks on start
+     */
+    void clearCallbacksOnStart();
+    /*! Clears callbacks on end
+     */
+    void clearCallbacksOnEnd();
+    /*! Clear all callbacks
+     */
+    void clearCallbacks();
+
     /*! Adds a callback, which should be called on start
         \param[in] f function
+        \return callback
      */
     template<typename _Fun>
-    void start(_Fun f)
+    sad::animations::Callback* start(_Fun f)
     {
-        addCallbackOnStart(new sad::animations::FunctionCall<_Fun>(f));
+        return addCallbackOnStart(new sad::animations::FunctionCall<_Fun>(f));
     }
     /*! Adds a callback, which should be called on end
         \param[in] f function
+        \return callback
      */
     template<typename _Fun>
-    void end(_Fun f)
+    sad::animations::Callback* end(_Fun f)
     {
-        addCallbackOnEnd(new sad::animations::FunctionCall<_Fun>(f));
+        return addCallbackOnEnd(new sad::animations::FunctionCall<_Fun>(f));
     }
      /*! Adds a callback, which should be called on start
         \param[in] o object
         \param[in] m method
+        \return callback
      */
     template<typename _Object, typename _Method>
-    void start(_Object* o, _Method m)
+    sad::animations::Callback* start(_Object* o, _Method m)
     {
-        addCallbackOnStart(new sad::animations::MethodCall0<_Object, _Method>(o, m));
+        return addCallbackOnStart(new sad::animations::MethodCall0<_Object, _Method>(o, m));
     }
     /*! Adds a callback, which should be called on end
         \param[in] o object
         \param[in] m method
+        \return callback
      */
     template<typename _Object, typename _Method>
-    void end(_Object* o, _Method m)
+    sad::animations::Callback* end(_Object* o, _Method m)
     {
-        addCallbackOnEnd(new sad::animations::MethodCall0<_Object, _Method>(o, m));
+        return addCallbackOnEnd(new sad::animations::MethodCall0<_Object, _Method>(o, m));
     }
     /*! Adds a callback, which should be called on start
         \param[in] o object
         \param[in] m method
         \param[in] a argument
+        \return callback
      */
     template<typename _Object, typename _Method, typename _Arg>
-    void start(_Object* o, _Method m, const _Arg& a)
+    sad::animations::Callback* start(_Object* o, _Method m, const _Arg& a)
     {
-        addCallbackOnStart(new sad::animations::MethodCall1<_Object, _Method, _Arg>(o, m, a));
+        return addCallbackOnStart(new sad::animations::MethodCall1<_Object, _Method, _Arg>(o, m, a));
     }
     /*! Adds a callback, which should be called on end
         \param[in] o object
         \param[in] m method
         \param[in] a argument
+        \return callback
      */
     template<typename _Object, typename _Method, typename _Arg>
-    void end(_Object* o, _Method m, const _Arg& a)
+    sad::animations::Callback* end(_Object* o, _Method m, const _Arg& a)
     {
-        addCallbackOnEnd(new sad::animations::MethodCall1<_Object, _Method, _Arg>(o, m, a));
+        return addCallbackOnEnd(new sad::animations::MethodCall1<_Object, _Method, _Arg>(o, m, a));
     }
     /*! Adds a callback, which should be called on start
         \param[in] o object
         \param[in] m method
         \param[in] a1 first argument
         \param[in] a2 second argument
+        \return callback
      */
     template<typename _Object, typename _Method, typename _Arg1, typename _Arg2>
-    void start(_Object* o, _Method m, const _Arg1& a1,const _Arg2& a2)
+    sad::animations::Callback* start(_Object* o, _Method m, const _Arg1& a1,const _Arg2& a2)
     {
-        addCallbackOnStart(new sad::animations::MethodCall2<_Object, _Method, _Arg1, _Arg2>(o, m, a1, a2));
+        return addCallbackOnStart(new sad::animations::MethodCall2<_Object, _Method, _Arg1, _Arg2>(o, m, a1, a2));
     }
     /*! Adds a callback, which should be called on end
         \param[in] o object
         \param[in] m method
         \param[in] a1 first argument
         \param[in] a2 second argument
+        \return callback
      */
     template<typename _Object, typename _Method, typename _Arg1, typename _Arg2>
-    void end(_Object* o, _Method m, const _Arg1& a1,const _Arg2& a2)
+    sad::animations::Callback* end(_Object* o, _Method m, const _Arg1& a1,const _Arg2& a2)
     {
-        addCallbackOnEnd(new sad::animations::MethodCall2<_Object, _Method, _Arg1, _Arg2>(o, m, a1, a2));
+        return addCallbackOnEnd(new sad::animations::MethodCall2<_Object, _Method, _Arg1, _Arg2>(o, m, a1, a2));
     }
     /*! Adds a callback, which should be called on start
         \param[in] o object
@@ -216,11 +248,12 @@ public:
         \param[in] a1 first argument
         \param[in] a2 second argument
         \param[in] a3 third argument
+        \return callback
      */
     template<typename _Object, typename _Method, typename _Arg1, typename _Arg2, typename _Arg3>
-    void start(_Object* o, _Method m, const _Arg1& a1,const _Arg2& a2, const _Arg3& a3)
+    sad::animations::Callback* start(_Object* o, _Method m, const _Arg1& a1,const _Arg2& a2, const _Arg3& a3)
     {
-        addCallbackOnStart(new sad::animations::MethodCall3<_Object, _Method, _Arg1, _Arg2, _Arg3>(o, m, a1, a2, a3));
+        return addCallbackOnStart(new sad::animations::MethodCall3<_Object, _Method, _Arg1, _Arg2, _Arg3>(o, m, a1, a2, a3));
     }
     /*! Adds a callback, which should be called on end
         \param[in] o object
@@ -228,11 +261,12 @@ public:
         \param[in] a1 first argument
         \param[in] a2 second argument
         \param[in] a3 third argument
+        \return callback
      */
     template<typename _Object, typename _Method, typename _Arg1, typename _Arg2, typename _Arg3>
-    void end(_Object* o, _Method m, const _Arg1& a1,const _Arg2& a2, const _Arg3& a3)
+    sad::animations::Callback* end(_Object* o, _Method m, const _Arg1& a1,const _Arg2& a2, const _Arg3& a3)
     {
-        addCallbackOnEnd(new sad::animations::MethodCall3<_Object, _Method, _Arg1, _Arg2, _Arg3>(o, m, a1, a2, a3));
+        return addCallbackOnEnd(new sad::animations::MethodCall3<_Object, _Method, _Arg1, _Arg2, _Arg3>(o, m, a1, a2, a3));
     }
     /*! Restarts an animation process
         \param[in] animations an animations process
@@ -338,16 +372,37 @@ public:
         \return instance
      */
     const sad::Vector<sad::animations::setstate::AbstractSetStateCommand*>& stateCommands() const;
-    /*! If current instance is related to specified object, removes it from animations
-        \param[in] object a related object
-        \param[in] a animations list
-     */
-    virtual void stopInstanceRelatedToObject(sad::db::Object* object, sad::animations::Animations* a);
-    /*! Returns true of if object is related to this process
-        \param[in] object a tested object
+    /*! Returns true of if process is related to object, matched by function
+        \param[in] f function for testing
         \return true if related
      */
-    virtual bool isRelatedToObject(sad::db::Object* object);
+    virtual bool isRelatedToMatchedObject(const std::function<bool(sad::db::Object*)>& f);
+    /*! If current instance is related to matched objects, stops related part
+        \param[in] f function for testing
+        \param[in] a animations list
+     */
+    virtual void stopInstancesRelatedToMatchedObject(const std::function<bool(sad::db::Object*)>& f, sad::animations::Animations* a);
+    /*! Returns true of if process is related to animation, matched by function
+        \param[in] f function for testing
+        \return true if related
+     */
+    virtual bool isRelatedToMatchedAnimation(const std::function<bool(sad::animations::Animation*)>& f);
+    /*! If current instance is related to matched objects, stops related part
+        \param[in] f function for testing
+        \param[in] a animations list
+     */
+    virtual void stopInstancesRelatedToMatchedAnimation(const std::function<bool(sad::animations::Animation*)>& f, sad::animations::Animations* a);
+    /*! Returns true of if process is related to instance, matched by function
+        \param[in] f function for testing
+        \return true if related
+     */
+    virtual bool isRelatedToMatchedProcess(const std::function<bool(sad::animations::Process*)>& f);
+    /*! If current instance is related to matched objects, stops related part
+        \param[in] f function for testing
+        \param[in] a animations list
+     */
+    virtual void stopInstancesRelatedToMatchedProcess(const std::function<bool(sad::animations::Process*)>& f, sad::animations::Animations* a);
+
     /*! Tries to restore object state from cache
         \param[in] animations animations an animations
      */
@@ -391,13 +446,13 @@ protected:
     void fireOnStartCallbacks();
     /*! A linked object
      */
-    sad::db::Link m_object;
+    sad::db::UntypedStrongLink m_object;
     /*! A linked animation for instance
      */
-    sad::resource::Link<sad::animations::Animation> m_animation;
+    sad::resource::StrongLink<sad::animations::Animation> m_animation;
     /*! A database link for animation
      */
-    sad::db::Link m_animation_db_link;
+    sad::db::StrongLink<sad::animations::Animation> m_animation_db_link;
     /*! Whether active is tree link or database link
      */
     bool m_tree_link_active;

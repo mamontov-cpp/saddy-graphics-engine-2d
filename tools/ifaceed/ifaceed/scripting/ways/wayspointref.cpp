@@ -15,8 +15,8 @@ scripting::ways::PointRef::PointRef() : m_way(NULL), m_pos(0)
     
 }
 
-scripting::ways::PointRef::PointRef(sad::p2d::app::Way* way, unsigned int pos)
-: m_way(way), m_pos(pos)
+scripting::ways::PointRef::PointRef(scripting::Scripting* s, sad::p2d::app::Way* way, unsigned int pos)
+: m_scripting(s), m_way(way), m_pos(pos)
 {
     
 }
@@ -30,17 +30,17 @@ bool scripting::ways::PointRef::valid() const
 {
     if (!m_way)
     {
-        this->engine()->currentContext()->throwError("Invalid way for point reference");
+        m_scripting->context()->throwError("Invalid way for point reference");
         return false;
     }
     if (!m_way->Active)
     {
-        this->engine()->currentContext()->throwError("Invalid way for point reference");
+        m_scripting->context()->throwError("Invalid way for point reference");
         return false;
     }
     if (m_pos >= m_way->wayPoints().count())
     {
-        this->engine()->currentContext()->throwError("Invalid position of point");
+        m_scripting->context()->throwError("Invalid position of point");
         return false;
     }
 
@@ -82,7 +82,7 @@ void  scripting::ways::PointRef::setX(double x)
     {
         return ;
     }
-    scripting::Scripting* e = static_cast<scripting::Scripting*>(this->engine()->globalObject().property("---").toQObject());
+    scripting::Scripting* e = m_scripting;
     core::Editor* editor = e->editor();
     if (sad::is_fuzzy_equal(x, this->x()) == false)
     {
@@ -101,7 +101,7 @@ void scripting::ways::PointRef::setY(double y)
     {
         return ;
     }
-    scripting::Scripting* e = static_cast<scripting::Scripting*>(this->engine()->globalObject().property("---").toQObject());
+    scripting::Scripting* e = m_scripting;
     core::Editor* editor = e->editor();
     if (sad::is_fuzzy_equal(y, this->y()) == false)
     {
@@ -114,6 +114,12 @@ void scripting::ways::PointRef::setY(double y)
     }
 }
 
+
+unsigned int scripting::ways::PointRef::position() const
+{
+    return m_pos;
+}
+
 QString scripting::ways::PointRef::toString() const
 {
     if (!valid())
@@ -121,16 +127,11 @@ QString scripting::ways::PointRef::toString() const
         return "PointRef(<invalid>)";
     }
     QString result = QString("PointRef(way : %1, pos: %2, x : %3, y : %4)")
-                     .arg(m_way->MajorId)
-                     .arg(m_pos)
-                     .arg(this->x())
-                     .arg(this->y());
+        .arg(m_way->MajorId)
+        .arg(m_pos)
+        .arg(this->x())
+        .arg(this->y());
     return result;
-}
-
-unsigned int scripting::ways::PointRef::position() const
-{
-    return m_pos;
 }
 
 void scripting::ways::PointRef::moveBack()
@@ -141,7 +142,7 @@ void scripting::ways::PointRef::moveBack()
     }
     if (m_pos > 0)
     {
-        scripting::Scripting* e = static_cast<scripting::Scripting*>(this->engine()->globalObject().property("---").toQObject());
+        scripting::Scripting* e = m_scripting;
         core::Editor* editor = e->editor();
 
         history::Command* c = new history::ways::WayPointSwap(m_way, m_pos - 1, m_pos);
@@ -160,7 +161,7 @@ void scripting::ways::PointRef::moveFront()
     }
     if (m_pos < m_way->wayPoints().count() - 1)
     {
-        scripting::Scripting* e = static_cast<scripting::Scripting*>(this->engine()->globalObject().property("---").toQObject());
+        scripting::Scripting* e = m_scripting;
         core::Editor* editor = e->editor();
 
         history::Command* c = new history::ways::WayPointSwap(m_way, m_pos, m_pos + 1);

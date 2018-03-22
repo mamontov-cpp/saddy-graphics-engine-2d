@@ -3,8 +3,6 @@
 
 #include "scenesbindings.h"
 
-#include "../fromvalue.h"
-
 #include "../../qstdstring.h"
 
 #include "../../core/editor.h"
@@ -16,15 +14,15 @@
 #include "../../gui/uiblocks/uisceneblock.h"
 
 #include "../../history/scenes/sceneslayerswap.h"
+#include "../../history/scenes/sceneschangename.h"
+
+#include "../abstractgetter.h"
+#include "../abstractsetter.h"
 
 #include <renderer.h>
 
 #include <db/dbdatabase.h>
 
-Q_DECLARE_METATYPE(sad::Point2D)
-Q_DECLARE_METATYPE(sad::Rect2D)
-Q_DECLARE_METATYPE(sad::AColor)
-Q_DECLARE_METATYPE(sad::Scene*) //-V566
 
 unsigned long long scripting::scenes::add(scripting::Scripting* s, QString name)
 {
@@ -70,7 +68,68 @@ void scripting::scenes::moveFront(scripting::Scripting* s, sad::Scene* scene)
     }
 }
 
-QScriptValue scripting::scenes::list(QScriptContext* ctx, QScriptEngine* engine)
+QVector<unsigned long long> scripting::scenes::list()
 {
-    return scripting::query_table("scenes", "sad::Scene", ctx, engine);
+    return scripting::query_table("scenes", "sad::Scene");
+}
+
+
+dukpp03::qt::JSObject* scripting::scenes::init(scripting::Scripting* s, dukpp03::qt::JSObject* e)
+{
+    dukpp03::qt::JSObject* scenes = new dukpp03::qt::JSObject();
+    scenes->setProperty("list", dukpp03::qt::make_function::from(scripting::scenes::list));
+
+    dukpp03::qt::MultiMethod* add = new dukpp03::qt::MultiMethod();
+    add->add(dukpp03::qt::curried1::from(s, scripting::scenes::add));
+    add->add(dukpp03::qt::curried1::from(s, scripting::scenes::addNameless));
+    scenes->setProperty("add", static_cast<dukpp03::qt::Callable*>(add)); // E.db.add
+
+    scenes->setProperty("remove", dukpp03::qt::curried1::from(s, scripting::scenes::remove));
+    scenes->setProperty("moveBack", dukpp03::qt::curried1::from(s, scripting::scenes::moveBack));
+    scenes->setProperty("moveFront", dukpp03::qt::curried1::from(s, scripting::scenes::moveFront));
+
+    dukpp03::qt::MultiMethod* set = new dukpp03::qt::MultiMethod();
+
+    {
+        scripting::AbstractSetter<sad::Scene*, sad::String>* name_setter = scripting::setterForProperty<sad::Scene*, sad::String>(s, "name");
+        std::function<
+            void(scripting::Scripting*, sad::Scene*, const sad::String&, sad::String oldvalue, sad::String newvalue)
+        > set_name_action = [](scripting::Scripting* s, sad::Scene* obj, const sad::String& propertyname, sad::String oldvalue, sad::String newvalue) {
+            core::Editor* editor = s->editor();
+
+            history::Command* c = new history::scenes::ChangeName(obj, oldvalue, newvalue);
+            editor->currentBatchCommand()->add(c);
+            c->commit(editor);
+        };
+        name_setter->addAction(set_name_action);
+        set->add(name_setter);
+    }
+
+    scenes->setProperty("set", static_cast<dukpp03::qt::Callable*>(set)); // E.scenes.set
+
+    dukpp03::qt::MultiMethod* get = new dukpp03::qt::MultiMethod();
+    get->add(new scripting::AbstractGetter<sad::Scene*, sad::String>("name"));
+    get->add(new scripting::AbstractGetter<sad::Scene*, unsigned int>("layer"));
+    get->add(new scripting::AbstractGetter<sad::Scene*, unsigned long long>("majorid"));
+    get->add(new scripting::AbstractGetter<sad::Scene*, unsigned long long>("minorid"));
+    scenes->setProperty("get", static_cast<dukpp03::qt::Callable*>(get)); // E.scenes.get
+
+    e->setProperty("scenes", scenes);
+
+
+    bool b = s->context()->eval(
+        "E.scenes.attr = function() {"
+        "   if (arguments.length == 2)"
+        "   {"
+        "       return E.scenes.get(arguments[0], arguments[1]);"
+        "   }"
+        "   if (arguments.length == 3)"
+        "   {"
+        "       E.scenes.set(arguments[0], arguments[1], arguments[2]); return E.scenes;"
+        "   }"
+        "   throw new Error(\"Specify 2 or 3 arguments\");"
+        "};"
+    );
+    assert(b);
+    return scenes;
 }
