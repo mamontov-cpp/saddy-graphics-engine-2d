@@ -68,11 +68,14 @@
     </ClCompile>
     <ClCompile Include="simplemovementanimation.cpp">
       <Filter>Файлы исходного кода</Filter>
-    </ClCompile>    
+    </ClCompile>
     <ClCompile Include="coloranimation.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="animationanimation.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="camerarotationanimation.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
