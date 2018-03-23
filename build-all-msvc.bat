@@ -22,7 +22,7 @@ if [%VALID%] EQU [0]  (
 	exit /B 1
 )
 @echo on
-devenv libsaddy.vcxproj /Build "%1|%2" /out lastsolutionbuild.log /Log errors.log   || goto :error
+devenv libsaddy.vcxproj /Build "%1|%2" /out lastsolutionbuild.log /log errors.log   || goto :error
 echo %errorlevel%
 devenv tools/atlasgen/atlasgen.vcxproj /Build "%1|%2" /out lastsolutionbuild.log /Log errors.log   || goto :error
 devenv plugins/dukpp-03/dukpp-03.vcxproj /Build "%1|%2" /out lastsolutionbuild.log /Log errors.log || goto :error
