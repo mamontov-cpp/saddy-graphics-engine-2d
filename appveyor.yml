@@ -2,18 +2,18 @@ version: 1.7.0.{build}
 
 environment:
   matrix:
-#    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-#      PLATFORM: x86
-#      TOOLS: "MSVC"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      PLATFORM: x86
+      TOOLS: "MSVC"
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       PLATFORM: x64
       TOOLS: "MSVC"
-#    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-#      PLATFORM: x86
-#      TOOLS: "MinGW"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      PLATFORM: x86
+      TOOLS: "MinGW"
 
 configuration:
-#  - Debug
+  - Debug
   - Release
 
 install:  
