@@ -23,6 +23,7 @@ if [%VALID%] EQU [0]  (
 )
 @echo on
 devenv libsaddy.vcxproj /Build "%1|%2" /out lastsolutionbuild.log /Log errors.log   || goto :error
+echo %errorlevel%
 devenv tools/atlasgen/atlasgen.vcxproj /Build "%1|%2" /out lastsolutionbuild.log /Log errors.log   || goto :error
 devenv plugins/dukpp-03/dukpp-03.vcxproj /Build "%1|%2" /out lastsolutionbuild.log /Log errors.log || goto :error
 devenv plugins/freetype/saddy-ft.vcxproj /Build "%1|%2" /out lastsolutionbuild.log /Log errors.log || goto :error
