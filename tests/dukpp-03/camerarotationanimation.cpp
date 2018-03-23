@@ -10,7 +10,7 @@
 #pragma warning(pop)
 
 /*! Tests for CameraRotation class
-*/
+ */
 struct CameraRotationAnimationTest : tpunit::TestFixture
 {
 public:
@@ -26,10 +26,11 @@ public:
     ) {}
     
     /*! Test for getting and setting minAngle property
-    */
+     */
     // ReSharper disable once CppMemberFunctionMayBeStatic
     // ReSharper disable once CppMemberFunctionMayBeConst
-    void testMinAngle() {
+    void testMinAngle() 
+    {
         std::string error;
         sad::dukpp03::Context ctx;
         bool eval_result = ctx.eval("var b = new sad.animations.CameraRotation(); b.setMinAngle(1); b.minAngle()", false, &error);
@@ -44,11 +45,12 @@ public:
         ASSERT_TRUE(result.value() == 1);
     }
 
-      /*! Test for getting and setting maxAngle property
-    */
+    /*! Test for getting and setting maxAngle property
+     */
     // ReSharper disable once CppMemberFunctionMayBeStatic
     // ReSharper disable once CppMemberFunctionMayBeConst
-    void testMaxAngle() {
+    void testMaxAngle() 
+    {
         std::string error;
         sad::dukpp03::Context ctx;
         bool eval_result = ctx.eval("var b = new sad.animations.CameraRotation(); b.setMaxAngle(180); b.maxAngle()", false, &error);
@@ -63,11 +65,12 @@ public:
         ASSERT_TRUE(result.value() == 180);
     }
 
-         /*! Test for getting and setting pivot property
-    */
+    /*! Test for getting and setting pivot property
+     */
     // ReSharper disable once CppMemberFunctionMayBeStatic
     // ReSharper disable once CppMemberFunctionMayBeConst
-     void testPivot() {
+    void testPivot() 
+    {
         std::string error;
         sad::dukpp03::Context ctx;
         bool eval_result = ctx.eval("var b = new sad.animations.CameraRotation(); b.setPivot(new sad.Point3D(10,10,10)); b.pivot()", false, &error);
@@ -82,11 +85,12 @@ public:
         ASSERT_TRUE(result.value().x() == 10 && result.value().y() == 10 && result.value().z() == 10);
     }
  
- /*! Test for getting and setting looped property
-    */
+    /*! Test for getting and setting looped property
+     */
     // ReSharper disable once CppMemberFunctionMayBeStatic
     // ReSharper disable once CppMemberFunctionMayBeConst
-    void testLooped() {
+    void testLooped() 
+    {
         std::string error;
         sad::dukpp03::Context ctx;
         bool eval_result = ctx.eval("var b = new sad.animations.CameraRotation(); b.setLooped(false); b.looped()", false, &error);
@@ -103,10 +107,11 @@ public:
     
 
     /*! Test for getting and setting time property
-    */
+     */
     // ReSharper disable once CppMemberFunctionMayBeStatic
     // ReSharper disable once CppMemberFunctionMayBeConst
-    void testTime() {
+    void testTime() 
+    {
         std::string error;
         sad::dukpp03::Context ctx;
         bool eval_result = ctx.eval("var b = new sad.animations.CameraRotation(); b.setTime(4.0); b.time()", false, &error);
@@ -122,10 +127,11 @@ public:
     }
 
      /*! Test for getting and setting objectName property
-    */
+      */
     // ReSharper disable once CppMemberFunctionMayBeStatic
     // ReSharper disable once CppMemberFunctionMayBeConst
-    void testObjectName() {
+    void testObjectName() 
+    {
         std::string error;
         sad::dukpp03::Context ctx;
         bool eval_result = ctx.eval("var b = new sad.animations.CameraRotation(); b.setObjectName(\"name\"); b.objectName()", false, &error);
@@ -140,11 +146,12 @@ public:
         ASSERT_TRUE(result.value() == "name");
     }
 
-        /*! Test for getting and setting majorId property
-    */
+    /*! Test for getting and setting majorId property
+     */
     // ReSharper disable once CppMemberFunctionMayBeStatic
     // ReSharper disable once CppMemberFunctionMayBeConst
-    void testMajorId() {
+    void testMajorId() 
+    {
         std::string error;
         sad::dukpp03::Context ctx;
         bool eval_result = ctx.eval("var b = new sad.animations.CameraRotation(); b.MajorId=14; b.MajorId", false, &error);
@@ -159,11 +166,12 @@ public:
         ASSERT_TRUE(result.value() == 14);
     }
     
-      /*! Test for getting and setting minorId property
-    */
+    /*! Test for getting and setting minorId property
+     */
     // ReSharper disable once CppMemberFunctionMayBeStatic
     // ReSharper disable once CppMemberFunctionMayBeConst
-    void testMinorId() {
+    void testMinorId() 
+    {
         std::string error;
         sad::dukpp03::Context ctx;
         bool eval_result = ctx.eval("var b = new sad.animations.CameraRotation(); b.MinorId=11; b.MinorId", false, &error);
