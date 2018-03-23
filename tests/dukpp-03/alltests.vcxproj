@@ -175,6 +175,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="animationanimation.cpp" />
+    <ClCompile Include="camerarotationanimation.cpp" />
     <ClCompile Include="coloranimation.cpp" />
     <ClCompile Include="context.cpp" />
     <ClCompile Include="convert.cpp" />
