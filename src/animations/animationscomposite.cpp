@@ -251,7 +251,7 @@ void sad::animations::Composite::insert(unsigned long long majorid, int pos)
 void sad::animations::Composite::insert(sad::animations::Animation* o, int pos)
 {
     sad::TreeDbLink<sad::animations::Animation>* link = new sad::TreeDbLink<sad::animations::Animation>();
-	for (sad::Hash<sad::MRObject*, unsigned int>::iterator iter = m_parents.begin(); iter != m_parents.end(); ++iter)
+	for (sad::Hash<sad::MRObject*, long unsigned int>::iterator iter = m_parents.begin(); iter != m_parents.end(); ++iter)
 	{
 		if (o->isParent(iter.key()))
 		{
@@ -289,7 +289,7 @@ void sad::animations::Composite::swap(int pos1, int pos2)
 void sad::animations::Composite::add(sad::animations::Animation* o)
 {
     sad::TreeDbLink<sad::animations::Animation>* link = new sad::TreeDbLink<sad::animations::Animation>();
-	for (sad::Hash<sad::MRObject*, unsigned int>::iterator iter =m_parents.begin();iter!= m_parents.end(); ++iter)
+	for (sad::Hash<sad::MRObject*, long unsigned int>::iterator iter =m_parents.begin();iter!= m_parents.end(); ++iter)
 	{
 		if (o->isParent(iter.key()))
 		{
