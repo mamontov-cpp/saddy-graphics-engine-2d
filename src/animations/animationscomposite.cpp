@@ -223,6 +223,7 @@ void sad::animations::Composite::add(unsigned long long majorid)
     {
         link->setTree(m_tree.value());
     }
+
     link->setMajorId(majorid);
     m_links << link;
     m_inner_valid = m_links.size() != 0;
@@ -250,6 +251,13 @@ void sad::animations::Composite::insert(unsigned long long majorid, int pos)
 void sad::animations::Composite::insert(sad::animations::Animation* o, int pos)
 {
     sad::TreeDbLink<sad::animations::Animation>* link = new sad::TreeDbLink<sad::animations::Animation>();
+    for (sad::Hash<sad::MRObject*, size_t>::iterator iter = m_parents.begin(); iter != m_parents.end(); ++iter)
+    {
+        if (o->isParent(iter.key()))
+        {
+             throw std::logic_error("Detected loop in sad::animations::Composite::insert");
+        }
+    }
     link->setParent(this);
     if (m_database.exists())
     {
@@ -281,6 +289,13 @@ void sad::animations::Composite::swap(int pos1, int pos2)
 void sad::animations::Composite::add(sad::animations::Animation* o)
 {
     sad::TreeDbLink<sad::animations::Animation>* link = new sad::TreeDbLink<sad::animations::Animation>();
+    for (sad::Hash<sad::MRObject*, size_t>::iterator iter = m_parents.begin(); iter != m_parents.end(); ++iter)
+    {
+        if (o->isParent(iter.key()))
+        {
+             throw std::logic_error("Detected loop in sad::animations::Composite::insert");
+        }
+    }
     link->setParent(this);
     if (m_database.exists())
     {
@@ -290,7 +305,7 @@ void sad::animations::Composite::add(sad::animations::Animation* o)
     {
         link->setTree(m_tree.value());
     }
-    link->setObject(o);
+	link->setObject(o);
     m_links << link;
     m_inner_valid = m_links.size() != 0;
     this->updateValidFlag();
