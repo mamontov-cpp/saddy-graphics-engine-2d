@@ -2,7 +2,11 @@
 
 #include "threads/gamethread.h"
 
+#include "nodes/background.h"
+
 #include <input/controls.h>
+
+#include <sprite2d.h>
 
 // ==================================== PUBLIC METHODS ====================================
 
@@ -63,6 +67,9 @@ void Game::runMainGameThread()
     {
         m_inventory_thread->sendResumeSignalFrom(m_main_thread);
     }
+
+    nodes::Background* background = new nodes::Background();
+    renderer.scenes()[0]->addNode(background);
 
     // TODO: Khomich loading database code here
     SL_LOCAL_DEBUG("Starting\n", renderer);

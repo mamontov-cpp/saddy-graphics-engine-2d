@@ -352,6 +352,8 @@ bool sad::os::WindowImpl::chooseAndSetPixelFormatDescriptor(bool lastresult)
         0,
         0,0,0
     };
+    pfd.cColorBits = 24;
+    pfd.cAlphaBits = 8;
 
     int      pixelformat=0; //Pixel format
     pixelformat = ChoosePixelFormat(m_handles.DC, &pfd);
