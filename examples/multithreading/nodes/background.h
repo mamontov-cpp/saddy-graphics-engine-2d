@@ -48,9 +48,15 @@ private:
     /*! A second rainbow texture to fit for label
      */
     sad::Sprite2D* m_rainbow_label2;
+    /*! An outline label
+     */
+    sad::Sprite2D* m_outline_label;
     /*! A main texture rectangle
      */
     sad::Rect2D m_main_texture_rect;
+    /*! An inner time for background
+     */
+    double m_t;
 };
 
 }

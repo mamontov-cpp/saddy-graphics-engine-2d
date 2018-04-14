@@ -3,17 +3,17 @@
         {
             "name":"label_base",
             "size":"384;124",
-            "texrect":"1;1;384;124"
+            "texrect":"3;1;384;124"
         },
         {
-            "name":"label_outlinen",
+            "name":"label_outline",
             "size":"384;124",
-            "texrect":"1;127;384;124"
+            "texrect":"3;127;384;123"
         },
         {
             "name":"label_rainbow",
             "size":"384;124",
-            "texrect":"1;253;384;124"
+            "texrect":"1;266;380;124"
         }
     ],
     "file":"labels.png",
