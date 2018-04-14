@@ -51,6 +51,10 @@ private:
     /*! An outline label
      */
     sad::Sprite2D* m_outline_label;
+    /*! A main background 
+     */
+    sad::Sprite2D* m_main_background;
+
     /*! A main texture rectangle
      */
     sad::Rect2D m_main_texture_rect;

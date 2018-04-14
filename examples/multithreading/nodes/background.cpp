@@ -25,11 +25,13 @@ nodes::Background::Background() : m_t(0)
     m_rainbow_label1 = new sad::Sprite2D();
     m_rainbow_label2 = new sad::Sprite2D();
     m_outline_label = new sad::Sprite2D();
+    m_main_background = new sad::Sprite2D();
 
     m_base_label->addRef();
     m_rainbow_label1->addRef();
     m_rainbow_label2->addRef();
     m_outline_label->addRef();
+    m_main_background->addRef();
 }
 
 nodes::Background::~Background()
@@ -38,6 +40,7 @@ nodes::Background::~Background()
     m_rainbow_label1->delRef();
     m_rainbow_label2->delRef();
     m_outline_label->delRef();
+    m_main_background->delRef();
 }
 
 
@@ -80,6 +83,12 @@ void nodes::Background::render()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     m_outline_label->render();
+
+    glBlendFunc(GL_ONE_MINUS_DST_ALPHA, GL_DST_ALPHA);
+
+    m_main_background->render();
+
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void nodes::Background::rendererChanged()
@@ -88,6 +97,7 @@ void nodes::Background::rendererChanged()
     m_rainbow_label1->rendererChanged();
     m_rainbow_label2->rendererChanged();
     m_outline_label->rendererChanged();
+    m_main_background->rendererChanged();
 
     m_base_label->setTreeName("");
     m_base_label->set("label_base");
@@ -109,6 +119,10 @@ void nodes::Background::rendererChanged()
     m_outline_label->setTreeName("");
     m_outline_label->set("label_outline");
     m_outline_label->setArea(sad::Rect2D(x, y, x + WIDTH, y + HEIGHT - 1));
+
+    m_main_background->setTreeName("");
+    m_main_background->set("backgrounds_list/set3_backgroundng");
+    m_main_background->setArea(sad::Rect2D(0, 0, 800, 600));
 }
 
 void nodes::Background::setScene(sad::Scene* scene)
@@ -117,6 +131,7 @@ void nodes::Background::setScene(sad::Scene* scene)
     m_rainbow_label1->setScene(scene);
     m_rainbow_label2->setScene(scene);
     m_outline_label->setScene(scene);
+    m_main_background->setScene(scene);
 }
 
 // ========================================== PRIVATE METHODS ==========================================

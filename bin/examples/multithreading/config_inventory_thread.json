@@ -1,4 +1,5 @@
 [
+    { "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/backgrounds.json" },
 	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/icons.json" },
 	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/labels.json" },
 	{ 
