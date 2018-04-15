@@ -54,6 +54,15 @@ private:
     /*! A main background 
      */
     sad::Sprite2D* m_main_background;
+    /*! A hills background
+     */
+    sad::Sprite2D* m_hills_background;
+    /*! An inner tile for drawing floor
+     */
+    sad::Sprite2D* m_inner_tile;
+    /*! A top tile for drawing floor
+    */
+    sad::Sprite2D* m_top_tile;
 
     /*! A main texture rectangle
      */
@@ -61,6 +70,12 @@ private:
     /*! An inner time for background
      */
     double m_t;
+    /*! A second period time
+     */
+    double m_t2;
+    /*! A third period time
+     */
+    double m_t3;
 };
 
 }
