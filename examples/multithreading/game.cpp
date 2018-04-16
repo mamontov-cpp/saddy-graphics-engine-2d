@@ -7,6 +7,12 @@
 #include <input/controls.h>
 
 #include <sprite2d.h>
+#include <label.h>
+
+#include <db/dbdatabase.h>
+#include <db/dbpopulatescenesfromdatabase.h>
+
+#include <animations/animationsinstance.h>
 
 // ==================================== PUBLIC METHODS ====================================
 
@@ -68,8 +74,65 @@ void Game::runMainGameThread()
         m_inventory_thread->sendResumeSignalFrom(m_main_thread);
     }
 
-    nodes::Background* background = new nodes::Background();
-    renderer.scenes()[0]->addNode(background);
+    sad::db::Database* db = new sad::db::Database();
+    db->setRenderer(&renderer);
+    bool result = db->loadFromFile("examples/multithreading/titlescreen.json", &renderer);
+    if (result)
+    {
+        renderer.addDatabase("titlescreen", db);
+    }
+    else
+    {
+        SL_LOCAL_FATAL("Unable to load title screen", renderer);
+    }
+    
+    sad::db::populateScenesFromDatabase(&renderer, db);
+
+    sad::Scene* scene = renderer.scenes()[0];
+    // Use introspection to dump or debug some objects
+    SL_LOCAL_DEBUG(fmt::Format("Scene has {0} objects") << scene->objectCount(), renderer);
+    const sad::Vector<sad::SceneNode*>& objects = scene->objects();
+    for(size_t i = 0; i < scene->objectCount(); i++) 
+    {
+        sad::SceneNode* node = objects[i];
+        SL_LOCAL_DEBUG(fmt::Format("Object {0}: {1}") << i << node->metaData()->name(), renderer);
+        if (node->metaData()->name() == "sad::Sprite2D") 
+        {
+            sad::Sprite2D* sprite = static_cast<sad::Sprite2D*>(node);
+            if (sprite->texture())
+            {
+                SL_LOCAL_DEBUG("Sprite has texture", renderer);
+            }
+            else 
+            {
+                SL_LOCAL_DEBUG("Sprite has no texture", renderer);
+            }
+        }
+        if (node->metaData()->name() == "sad::Label") 
+        {
+            sad::Label* label = static_cast<sad::Label*>(node);
+            if (label->font())
+            {
+                SL_LOCAL_DEBUG("Label has font", renderer);
+            }
+            else 
+            {
+                SL_LOCAL_DEBUG("Label has no font", renderer);
+            }
+        }
+        
+    }
+
+    nodes::Background* background = new nodes::Background(true);
+    scene->addNode(background);
+    scene->setLayer(background, 0); 
+    
+    // Play animations
+    sad::animations::Instance* player_walk = db->objectByName<sad::animations::Instance>("player_walk");
+    sad::animations::Instance* player_walk2 = db->objectByName<sad::animations::Instance>("player_walk2");
+    renderer.animations()->add(player_walk);
+    renderer.animations()->add(player_walk2);
+    
 
     // TODO: Khomich loading database code here
     SL_LOCAL_DEBUG("Starting\n", renderer);
@@ -109,6 +172,11 @@ void Game::runInventoryThread()
         SL_LOCAL_DEBUG("Killed\n", renderer);
         return;
     }
+
+    sad::Scene* scene = renderer.scenes()[0];
+    nodes::Background* background = new nodes::Background(false);
+    scene->addNode(background);
+
 
     // TODO: Khomich loading database code here
     SL_LOCAL_DEBUG("Starting new renderer\n", renderer);

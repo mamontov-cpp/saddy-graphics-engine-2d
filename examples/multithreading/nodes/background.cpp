@@ -23,7 +23,7 @@ DECLARE_SOBJ_INHERITANCE(nodes::Background, sad::SceneNode);
 
 // ========================================== PUBLIC METHODS ==========================================
 
-nodes::Background::Background() : m_t(0), m_t2(0), m_t3(0)
+nodes::Background::Background(bool should_show) : m_t(0), m_t2(0), m_t3(0), m_show_label(should_show)
 {
     m_base_label = new sad::Sprite2D();
     m_rainbow_label1 = new sad::Sprite2D();
@@ -59,12 +59,14 @@ nodes::Background::~Background()
 
 void nodes::Background::render()
 {
-    // Base label is used as mask
-    m_base_label->render();
-
-    // Now this is tricky, the rainbow transition effect is modelled 
-    // as two sprites with varying widths
-    glBlendFunc(GL_DST_ALPHA, GL_ONE_MINUS_DST_ALPHA);
+    if (m_show_label) 
+    {
+        // Base label is used as mask
+        m_base_label->render();
+        // Now this is tricky, the rainbow transition effect is modelled 
+        // as two sprites with varying widths
+        glBlendFunc(GL_DST_ALPHA, GL_ONE_MINUS_DST_ALPHA);
+    }
 
     double dt = 1.0 / m_base_label->scene()->renderer()->fps();
     m_t += dt;
@@ -89,26 +91,30 @@ void nodes::Background::render()
     double y = POSITION_Y;
     double width1 = static_cast<double>(static_cast<int>(WIDTH *  percents));
 
-    double tex_width = (1.0 - percents) * m_main_texture_rect.width();
+    if (m_show_label)
+    {
+        double tex_width = (1.0 - percents) * m_main_texture_rect.width();
 
-    sad::Rect2D rect1(m_main_texture_rect.p0().x() + tex_width, m_main_texture_rect.p0().y(), m_main_texture_rect.p2().x(), m_main_texture_rect.p2().y());
-    sad::Rect2D rect2(m_main_texture_rect.p0().x(), m_main_texture_rect.p0().y(), m_main_texture_rect.p0().x() + tex_width, m_main_texture_rect.p2().y());
+        sad::Rect2D rect1(m_main_texture_rect.p0().x() + tex_width, m_main_texture_rect.p0().y(), m_main_texture_rect.p2().x(), m_main_texture_rect.p2().y());
+        sad::Rect2D rect2(m_main_texture_rect.p0().x(), m_main_texture_rect.p0().y(), m_main_texture_rect.p0().x() + tex_width, m_main_texture_rect.p2().y());
 
-    m_rainbow_label1->setTextureCoordinates(rect1);
-    m_rainbow_label2->setTextureCoordinates(rect2);
+        m_rainbow_label1->setTextureCoordinates(rect1);
+        m_rainbow_label2->setTextureCoordinates(rect2);
 
-    m_rainbow_label1->setArea(sad::Rect2D(x, y, x + width1, y + HEIGHT));
-    m_rainbow_label2->setArea(sad::Rect2D(x + width1, y, x + WIDTH, y + HEIGHT));
+        m_rainbow_label1->setArea(sad::Rect2D(x, y, x + width1, y + HEIGHT));
+        m_rainbow_label2->setArea(sad::Rect2D(x + width1, y, x + WIDTH, y + HEIGHT));
 
-    m_rainbow_label1->render();
+        m_rainbow_label1->render();
 
-    m_rainbow_label2->render();
+        m_rainbow_label2->render();
 
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    m_outline_label->render();
+        m_outline_label->render();
 
-    glBlendFunc(GL_ONE_MINUS_DST_ALPHA, GL_DST_ALPHA);
+        glBlendFunc(GL_ONE_MINUS_DST_ALPHA, GL_DST_ALPHA);
+    }
+
     // Draw scrolling background
     double p0y = m_main_background->area().p0().y();
     double height = m_main_background->area().height();
@@ -216,7 +222,7 @@ void nodes::Background::setScene(sad::Scene* scene)
 
 // ========================================== PRIVATE METHODS ==========================================
 
-nodes::Background::Background(const nodes::Background& b) : m_base_label(NULL), m_rainbow_label1(NULL), m_rainbow_label2(NULL), m_t(0), m_t2(0), m_t3(0)
+nodes::Background::Background(const nodes::Background& b) : m_base_label(NULL), m_rainbow_label1(NULL), m_rainbow_label2(NULL), m_t(0), m_t2(0), m_t3(0), m_show_label(false)
 {
     
 }

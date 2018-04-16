@@ -12,8 +12,9 @@ class Background: public sad::SceneNode
 {
 SAD_OBJECT
     /*! Makes new background, initializing a data
+        \param[in] should_show whether we should show label
      */
-    Background();
+    Background(bool should_show);
     /*! Frees memory from all sprites
      */
     virtual ~Background();
@@ -76,6 +77,10 @@ private:
     /*! A third period time
      */
     double m_t3;
+    
+    /*! Whether we should show label
+     */
+    bool m_show_label;
 };
 
 }
