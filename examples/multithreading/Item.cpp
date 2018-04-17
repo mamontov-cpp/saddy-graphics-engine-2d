@@ -1,11 +1,13 @@
-#include item.h
+#include "item.h"
 
 
-Item::Item(string icon, string title){
-	this.icon = icon;
-	this.title = title; 
+game::Item::Item(const sad::String& icon, const sad::String& title)  : m_icon(icon), m_title(title)
+{
+
 }
 
-Item::~Item(){
+
+game::Item::~Item()
+{
 
 }

@@ -15,6 +15,8 @@
 #include <sadthread.h>
 #include <sprite2d.h>
 #include <label.h>
+#include "game\inventory.h"
+#include "game\item.h"
 #include <texturemappedfont.h>
 #include <freetype/font.h>
 #include <animations/animationstyping.h>
@@ -22,6 +24,8 @@
 #include <animations/animationscolor.h>
 #include <animations/animationsparallel.h>
 #include <animations/animationsinstance.h>
+
+#include "3rdparty/tpunit++/tpunit++.hpp"
 
 
 #ifdef WIN32
@@ -231,30 +235,30 @@ int thread(void * p)
 }
 
 
+// Runs built-in tests for Inventory and item
+#define RUN_TESTS
+
 /* This macro manupilation is to make console window hidden in MSVC window
  */
-#ifdef WIN32
-#ifndef MSVC_RELEASE
-int CALLBACK WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine,  int nCmdShow)
-#else
 int main(int argc, char** argv)
-#endif
-#else
-int main(int argc, char** argv)
-#endif
 {
-    sad::Renderer::ref()->information("Multithreading demo", "This is demo for multithreading");
-    // Here we create two waitable threads
-    sad::Thread a(thread,static_cast<void *>(const_cast<char*>("thread1.txt")));
-    sad::Thread b(thread,static_cast<void *>(const_cast<char*>("thread2.txt")));
+#ifdef RUN_TESTS
+	int result = tpunit::Tests::Run();
+	return result;
+#else
+	sad::Renderer::ref()->information("Multithreading demo", "This is demo for multithreading");
+	// Here we create two waitable threads
+	sad::Thread a(thread, static_cast<void *>(const_cast<char*>("thread1.txt")));
+	sad::Thread b(thread, static_cast<void *>(const_cast<char*>("thread2.txt")));
 
-    // Run them
-    a.run();
-    b.run();
+	// Run them
+	a.run();
+	b.run();
 
-    // And wait
-    a.wait();
-    b.wait();
-    return 0;
+	// And wait
+	a.wait();
+	b.wait();
+	return 0;
+#endif // RUN_TESTS
 }
 

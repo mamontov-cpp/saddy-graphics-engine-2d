@@ -1,15 +1,24 @@
 #pragma once
-#include "game.h"
+#include "../../examples/game/game.h"
 #include "item.h"
+#include "sadhash.h"
 
-Class game::Inventory{
+namespace game 
+{
+
+class Inventory 
+{
 public:
-	Item::Item items[int][int];
 	Inventory();
-	~Inventory();
-	
-	Item::item getItemByIndex(int i, int j);
-	void addItem(Item::Item);
-	bool checkCell();
-	void replaceItem(Item);
+	virtual ~Inventory();
+	game::Item* getItemByIndex(int i, int j);
+	bool addItem(Item* item);
+	void replaceItem(int i1, int j1, int i2, int j2);
+protected:
+	sad::Hash<int, sad::Hash<int, game::Item *> > m_items;
+	int m_height;
+	int m_width;
+	int m_items_count;
+};
+
 }

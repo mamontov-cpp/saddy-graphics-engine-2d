@@ -1,10 +1,19 @@
 #pragma once
-#include "game.h"
-#include "string.h"
+#include "../../examples/game/game.h"
+#include <sadstring.h>
 
-Class game::Item{
-	string icon;
-	string title;
-	Item(string, string);
-	~Item();
+using namespace std;
+namespace game 
+{
+
+class Item 
+{
+public:
+	Item(const sad::String&, const sad::String&);
+	virtual ~Item();
+protected:
+	sad::String m_icon;
+	sad::String m_title;
+};
+
 }
