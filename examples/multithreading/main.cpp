@@ -28,31 +28,37 @@
 #include "3rdparty/tpunit++/tpunit++.hpp"
 #include "game.h"
 
-// Runs built-in tests for Inventory and item
-#define RUN_TESTS
+#ifdef WIN32
+#include <windows.h>
+#endif
+
+
 
 /* This macro manupilation is to make console window hidden in MSVC window
  */
-int main(int argc, char** argv)
-{
-#ifdef RUN_TESTS
-	int result = tpunit::Tests::Run();
-	return result;
+#ifdef WIN32
+#ifndef MSVC_RELEASE
+int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 #else
+int main(int argc, char** argv)
+#endif
+#else
+int main(int argc, char** argv)
+#endif
+{
+    Game main_game;
+    // Here we create two waitable threads
+    sad::Thread a(&main_game, &Game::runMainGameThread);
+    sad::Thread b(&main_game, &Game::runInventoryThread);
 
-  Game main_game;
-  // Here we create two waitable threads
-  sad::Thread a(&main_game, &Game::runMainGameThread);
-  sad::Thread b(&main_game, &Game::runInventoryThread);
+    // Run them
+    a.run();
+    b.run();
 
-	// Run them
-	a.run();
-	b.run();
+    // And wait
+    a.wait();
+    b.wait();
+    return 0;
 
-	// And wait
-	a.wait();
-	b.wait();
-	return 0;
-#endif // RUN_TESTS
 }
 

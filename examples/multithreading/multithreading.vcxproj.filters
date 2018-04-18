@@ -25,6 +25,12 @@
     <Filter Include="Файлы исходного кода\nodes">
       <UniqueIdentifier>{4db81c38-60fd-49c6-86ea-cbd696ad6901}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Заголовочные файлы\game">
+      <UniqueIdentifier>{699ed292-96a5-4938-bc51-339e40b03ed2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\game">
+      <UniqueIdentifier>{520d2f08-8961-4050-9357-72f5430bb5cf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -39,6 +45,12 @@
     <ClCompile Include="nodes\background.cpp">
       <Filter>Файлы исходного кода\nodes</Filter>
     </ClCompile>
+    <ClCompile Include="game\item.cpp">
+      <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
+    <ClCompile Include="game\inventory.cpp">
+      <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -52,6 +64,12 @@
     </ClInclude>
     <ClInclude Include="nodes\background.h">
       <Filter>Заголовочные файлы\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="game\inventory.h">
+      <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\item.h">
+      <Filter>Заголовочные файлы\game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
