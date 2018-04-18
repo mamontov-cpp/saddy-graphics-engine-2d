@@ -1,5 +1,4 @@
 #pragma once
-#include "../../examples/game/game.h"
 #include <sadstring.h>
 
 using namespace std;
