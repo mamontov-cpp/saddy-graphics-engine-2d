@@ -1,5 +1,7 @@
 #include "inventory.h"
 
+using namespace std;
+
 game::Inventory::Inventory() : m_height(10), m_width(20), m_items_count(0), m_max_size(200)
 {
 
@@ -42,10 +44,7 @@ bool game::Inventory::addItem(game::Item* item)
 
 void game::Inventory::replaceItem(int i1, int j1, int i2, int j2) 
 {
-	game::Item * temp = NULL;
-	temp = m_items[i1][j1];
-	m_items[i1][j1] = m_items[i2][j2];
-	m_items[i2][j2] = temp;
+	std::swap(m_items[i1][j1], m_items[i2][j2])
 }
 
 

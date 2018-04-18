@@ -2,6 +2,7 @@
 #include "../../examples/game/game.h"
 #include "item.h"
 #include "sadhash.h"
+#include <iostream>
 
 namespace game 
 {
