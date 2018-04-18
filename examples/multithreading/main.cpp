@@ -15,8 +15,8 @@
 #include <sadthread.h>
 #include <sprite2d.h>
 #include <label.h>
-#include "game\inventory.h"
-#include "game\item.h"
+#include "game/inventory.h"
+#include "game/item.h"
 #include <texturemappedfont.h>
 #include <freetype/font.h>
 #include <animations/animationstyping.h>
