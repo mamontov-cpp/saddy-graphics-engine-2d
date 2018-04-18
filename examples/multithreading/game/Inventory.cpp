@@ -1,6 +1,6 @@
 #include "inventory.h"
 
-game::Inventory::Inventory() : m_height(10), m_width(20), m_items_count(0)
+game::Inventory::Inventory() : m_height(10), m_width(20), m_items_count(0), m_max_size(200)
 {
 
 }
@@ -26,18 +26,18 @@ game::Item* game::Inventory::getItemByIndex(int i, int j)
 
 bool game::Inventory::addItem(game::Item* item) 
 {
-	if (m_items_count == 200)
+	if (m_items_count == m_max_size)
 		return false;
-		for (int i = 0; i < m_height; i++) {
-			for (int j = 0; j < m_width; j++) {
-				if (m_items[i][j] == NULL) {
-					m_items[i][j] = item;
-					m_items_count++;
-					return true;
-				}
+	for (int i = 0; i < m_height; i++) {
+		for (int j = 0; j < m_width; j++) {
+			if (m_items[i][j] == NULL) {
+				m_items[i][j] = item;
+				m_items_count++;
+				return true;
 			}
 		}
-		return false;
+	}
+	return false;
 }
 
 void game::Inventory::replaceItem(int i1, int j1, int i2, int j2) 

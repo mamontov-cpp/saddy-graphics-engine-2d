@@ -19,6 +19,7 @@ protected:
 	int m_height;
 	int m_width;
 	int m_items_count;
+	int m_max_size;
 };
 
 }
