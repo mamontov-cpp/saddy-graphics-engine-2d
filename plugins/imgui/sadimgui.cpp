@@ -352,7 +352,9 @@ static void  invalidate_device_objects()
 static void shutdown()
 {
     invalidate_device_objects();
-    ImGui::Shutdown();
+    // Seems to be unused in new versios of ImGui
+    // ImGui::Shutdown();
+    ImGui::DestroyContext();
 }
 
 /*! Called on beginning of new frame
@@ -551,6 +553,7 @@ static void run_imgui_pipeline()
 
 void sad::imgui::ImGui::init()
 {
+    ::ImGui::CreateContext();
     ::ImGuiIO& io = ::ImGui::GetIO();
     io.KeyMap[ImGuiKey_Tab] = sad::Tab;                     // Keyboard mapping. ImGui will use those indices to peek into the io.KeyDown[] array.
     io.KeyMap[ImGuiKey_LeftArrow] = sad::KeyLeft;

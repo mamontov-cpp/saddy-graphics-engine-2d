@@ -13,10 +13,45 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
+    <Filter Include="Заголовочные файлы\threads">
+      <UniqueIdentifier>{f38c4d25-c187-4c2e-a86c-a9c5115ccaed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\threads">
+      <UniqueIdentifier>{5c253326-dfa3-4874-8b16-fa5e7abb6897}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\nodes">
+      <UniqueIdentifier>{e3d072be-e141-46f9-a708-e665c5005923}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\nodes">
+      <UniqueIdentifier>{4db81c38-60fd-49c6-86ea-cbd696ad6901}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
+    <ClCompile Include="game.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="threads\gamethread.cpp">
+      <Filter>Файлы исходного кода\threads</Filter>
+    </ClCompile>
+    <ClCompile Include="nodes\background.cpp">
+      <Filter>Файлы исходного кода\nodes</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="game.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="threads\gamethread.h">
+      <Filter>Заголовочные файлы\threads</Filter>
+    </ClInclude>
+    <ClInclude Include="threads\gamestate.h">
+      <Filter>Заголовочные файлы\threads</Filter>
+    </ClInclude>
+    <ClInclude Include="nodes\background.h">
+      <Filter>Заголовочные файлы\nodes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,0 +1,22 @@
+{
+    "atlas":[
+        {
+            "name":"label_base",
+            "size":"384;124",
+            "texrect":"3;1;384;124"
+        },
+        {
+            "name":"label_outline",
+            "size":"384;124",
+            "texrect":"3;125;384;124"
+        },
+        {
+            "name":"label_rainbow",
+            "size":"384;124",
+            "texrect":"1;266;380;124"
+        }
+    ],
+    "file":"labels.png",
+    "no-mipmaps":true,
+    "resource":"labels"
+}

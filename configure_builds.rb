@@ -44,14 +44,14 @@ File.open("build-all-mingw.bat", "w") {|file| file.puts textWinMinGW }
 textWinMSVC = File.read("build-all-msvc.bat.template")
 
 if (!@qtIsEnabled)
-  textWinMSVC = textWinMSVC.gsub("devenv tools/atlasgen/atlasgen.vcxproj /Build \"%1|%2\" /out lastsolutionbuild.log || goto :error\n", "")
-  textWinMSVC = textWinMSVC.gsub("devenv tools/exporter/exporter.vcxproj /Build \"%1|%2\" /out lastsolutionbuild.log || goto :error\n", "")
-  textWinMSVC = textWinMSVC.gsub("devenv tools/ifaceed/ifaceed/ifaceed.vcxproj /Build \"%1|%2\" /out lastsolutionbuild.log || goto :error\n", "")
-  textWinMSVC = textWinMSVC.gsub("devenv tools/isqt580/isqt580.vcxproj  /Build \"%1|%2\" /out lastsolutionbuild.log || goto :error\n", "")
+  textWinMSVC = textWinMSVC.gsub("msbuild tools/atlasgen/atlasgen.vcxproj /m /verbosity:minimal /p:Configuration=\"%1\" /p:Platform=\"%2\"  /p:BuildProjectReferences=false || goto :error\n", "")
+  textWinMSVC = textWinMSVC.gsub("msbuild tools/exporter/exporter.vcxproj /m /verbosity:minimal /p:Configuration=\"%1\" /p:Platform=\"%2\"  /p:BuildProjectReferences=false || goto :error\n", "")
+  textWinMSVC = textWinMSVC.gsub("msbuild tools/ifaceed/ifaceed/ifaceed.vcxproj /m /verbosity:minimal /p:Configuration=\"%1\" /p:Platform=\"%2\"  /p:BuildProjectReferences=false || goto :error\n", "")
+  textWinMSVC = textWinMSVC.gsub("msbuild tools/isqt580/isqt580.vcxproj  /m /verbosity:minimal /p:Configuration=\"%1\" /p:Platform=\"%2\"  /p:BuildProjectReferences=false || goto :error\n", "")
   textWinMSVC = textWinMSVC.gsub("%CHECKQTVERTOOL%\n", "")
   replaceString = "if errorlevel 1 (\n"
-  replaceString += "  devenv plugins/qt-widget/qt-widget.vcxproj  /Build \"%1|%2\" /out lastsolutionbuild.log\n"
-  replaceString += "  devenv examples/example-game-in-qt/example-game-in-qt.vcxproj  /Build \"%1|%2\" /out lastsolutionbuild.log\n"
+  replaceString += "  msbuild plugins/qt-widget/qt-widget.vcxproj  /m /verbosity:minimal /p:Configuration=\"%1\" /p:Platform=\"%2\"  /p:BuildProjectReferences=false || goto :error\n"
+  replaceString += "  msbuild examples/example-game-in-qt/example-game-in-qt.vcxproj  /m /verbosity:minimal /p:Configuration=\"%1\" /p:Platform=\"%2\"  /p:BuildProjectReferences=false  || goto :error\n"
   replaceString += ")\n"
   textWinMSVC = textWinMSVC.gsub(replaceString, "")
 end
