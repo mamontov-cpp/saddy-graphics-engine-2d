@@ -145,6 +145,13 @@ void Game::runMainGameThread()
 	};
 	state GameState;
 
+	renderer.controls()->addLambda(
+		*sad::input::ET_KeyPress & sad::KeyUp,
+		[this, choisePointer, &GameState]() -> void {
+		choisePointer->setMiddle(sad::Point2D(330, 275));
+		GameState = state::play;
+	}
+	);
 
     // TODO: Khomich loading database code here
     SL_LOCAL_DEBUG("Starting\n", renderer);
