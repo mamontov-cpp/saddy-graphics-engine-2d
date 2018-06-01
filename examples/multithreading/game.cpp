@@ -264,7 +264,16 @@ void Game::changeScene(long darkeningTime, std::function<void()> loadNewData, st
 
     sad::animations::Instance* darkeningScreen = this->setAnimationForScreenTransition(renderer, darkeningTime, true);
     local_actions = actionsAfterTransition;
+    darkeningScreen->end([this, &renderer, darkeningTime]() {
+        this->loadDataThread->wait();
+        this->local_actions();
 
+        sad::animations::Instance* brighteningScreen = this->setAnimationForScreenTransition(renderer, darkeningTime, false);
+        brighteningScreen->end([]() {
+        });
+
+		renderer.animations()->add(brighteningScreen);
+	});
     renderer.animations()->add(darkeningScreen);
 }
 
