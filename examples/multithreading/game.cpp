@@ -139,6 +139,12 @@ void Game::runMainGameThread()
 	sad::Sprite2D* choisePointer = db->objectByName<sad::Sprite2D>("PlayerPick");
 	choisePointer->setMiddle(sad::Point2D(330, 275));
 
+	enum state {
+		play,
+		exit
+	};
+	state GameState;
+
 
     // TODO: Khomich loading database code here
     SL_LOCAL_DEBUG("Starting\n", renderer);
