@@ -275,3 +275,9 @@ Game& Game::operator=(const Game&)
     // ReSharper disable once CppUnreachableCode
     return *this;
 }
+
+
+void Game::loadingDataFunction()
+{
+	local_actions();
+}
