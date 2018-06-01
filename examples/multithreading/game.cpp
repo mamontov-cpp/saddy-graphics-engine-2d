@@ -134,7 +134,11 @@ void Game::runMainGameThread()
     sad::animations::Instance* player_walk2 = db->objectByName<sad::animations::Instance>("player_walk2");
     renderer.animations()->add(player_walk);
     renderer.animations()->add(player_walk2);
-    
+
+	// Pointer for the menu options
+	sad::Sprite2D* choisePointer = db->objectByName<sad::Sprite2D>("PlayerPick");
+	choisePointer->setMiddle(sad::Point2D(330, 275));
+
 
     // TODO: Khomich loading database code here
     SL_LOCAL_DEBUG("Starting\n", renderer);
