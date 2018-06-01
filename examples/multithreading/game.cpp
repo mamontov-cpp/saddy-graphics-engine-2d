@@ -161,6 +161,18 @@ void Game::runMainGameThread()
 	}
 	);
 
+	renderer.controls()->addLambda(
+		*sad::input::ET_KeyPress & sad::Enter,
+		[this, &GameState]() -> void {
+		if (GameState == state::exit)
+		{
+		}
+		else if (GameState == state::play)
+		{
+		}
+	}
+	);
+
     // TODO: Khomich loading database code here
     SL_LOCAL_DEBUG("Starting\n", renderer);
     renderer.controls()->addLambda(
