@@ -26,6 +26,9 @@ public:
     /*! Runs inventorty thread
      */
     void runInventoryThread();
+	/*! Quits game
+	*/
+    void quitGame();
 private:
     /*! Disabled constructor
      */

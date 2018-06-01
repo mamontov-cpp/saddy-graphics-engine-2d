@@ -6,6 +6,8 @@
 
 #include <input/controls.h>
 
+#include <keymouseconditions.h>
+
 #include <sprite2d.h>
 #include <label.h>
 
@@ -132,7 +134,52 @@ void Game::runMainGameThread()
     sad::animations::Instance* player_walk2 = db->objectByName<sad::animations::Instance>("player_walk2");
     renderer.animations()->add(player_walk);
     renderer.animations()->add(player_walk2);
-    
+
+    // Pointer for the menu options
+    sad::Sprite2D* choisePointer = db->objectByName<sad::Sprite2D>("PlayerPick");
+    choisePointer->setMiddle(sad::Point2D(330, 275));
+
+    enum state {
+        play,
+        exit
+    };
+    state GameState;
+
+    renderer.controls()->addLambda(
+        *sad::input::ET_KeyPress & sad::KeyUp,
+        [this, choisePointer, &GameState]() -> void {
+        choisePointer->setMiddle(sad::Point2D(330, 275));
+        GameState = state::play;
+    }
+    );
+
+    renderer.controls()->addLambda(
+        *sad::input::ET_KeyPress & sad::KeyDown,
+        [this, choisePointer, &GameState]() -> void {
+        choisePointer->setMiddle(sad::Point2D(330, 230));
+        GameState = state::exit;
+    }
+    );
+
+    renderer.controls()->addLambda(
+        *sad::input::ET_KeyPress & sad::Enter,
+        [this, &GameState]() -> void {
+        if (GameState == state::exit)
+        {
+            this->quitGame();
+        }
+        else if (GameState == state::play)
+        {
+        }
+    }
+    );
+
+    renderer.controls()->addLambda(
+        *sad::input::ET_KeyPress & sad::Esc,
+        [this]() -> void {
+        this->quitGame();
+    }
+    );
 
     // TODO: Khomich loading database code here
     SL_LOCAL_DEBUG("Starting\n", renderer);
@@ -193,6 +240,15 @@ void Game::runInventoryThread()
     );
 
     renderer.run();
+}
+
+void Game::quitGame()
+{
+    if (!m_is_quitting) {
+        m_is_quitting = true;
+        m_inventory_thread->sendKillSignalFrom(m_main_thread);
+        m_main_thread->sendKillSignalFrom(m_inventory_thread);
+	}
 }
 
 
