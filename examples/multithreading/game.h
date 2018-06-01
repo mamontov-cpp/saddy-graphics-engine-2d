@@ -28,7 +28,7 @@ public:
     void runInventoryThread();
 	/*! Quits game
 	*/
-	void quitGame();
+    void quitGame();
 private:
     /*! Disabled constructor
      */
