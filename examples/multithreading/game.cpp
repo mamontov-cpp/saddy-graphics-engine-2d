@@ -15,6 +15,8 @@
 #include <db/dbpopulatescenesfromdatabase.h>
 
 #include <animations/animationsinstance.h>
+#include <animations/animationscolor.h>
+#include <animations/animationsinstance.h>
 
 // ==================================== PUBLIC METHODS ====================================
 
@@ -279,5 +281,5 @@ Game& Game::operator=(const Game&)
 
 void Game::loadingDataFunction()
 {
-	local_actions();
+    local_actions();
 }
