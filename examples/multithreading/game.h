@@ -7,6 +7,8 @@
 
 #include <functional>
 
+#include <sprite2d.h>
+
 namespace threads
 {
 class GameThread;
@@ -38,6 +40,13 @@ public:
         \param[in] actionsAfterTransition function with actions that will be done after loading data
     */
     void changeScene(long darkeningTime, std::function<void()> loadNewData, std::function<void()> actionsAfterTransition);	
+    /*! Transitions the game from current scene to the next one
+        \param[in] renderer renderer for animation
+        \param[in] time time period for animation
+        \param[in] dark if true - transition for bolder color, false - sprite will fade into nothing
+        \return animation
+    */
+    sad::animations::Instance* setAnimationForScreenTransition(sad::Renderer &renderer, long time, bool dark);
 private:
     /*! Disabled constructor
      */
