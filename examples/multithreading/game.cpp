@@ -252,6 +252,15 @@ void Game::quitGame()
 }
 
 
+void Game::changeScene(long darkeningTime, std::function<void()> loadNewData, std::function<void()> actionsAfterTransition)
+{
+    local_actions = loadNewData;
+    loadDataThread = new sad::Thread (this,&Game::loadingDataFunction);
+    loadDataThread->run();
+
+}
+
+
 // ==================================== PRIVATE METHODS ====================================
 
 Game::Game(const Game&)  // NOLINT
