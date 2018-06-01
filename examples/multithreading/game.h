@@ -3,6 +3,7 @@
     Main game class
  */
 #pragma once
+#include <sadthread.h>
 
 #include <functional>
 
@@ -54,4 +55,13 @@ private:
     /*! Whether game is quitting
      */
     bool m_is_quitting;
+    /*! For storing loading data lambda functions
+     */
+    void loadingDataFunction();
+    /*! Function object for storing lambdas
+     */
+    std::function<void()> local_actions;
+    /*! Additional thread for data loading
+     */
+    sad::Thread *loadDataThread;
 };
