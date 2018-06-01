@@ -264,8 +264,34 @@ void Game::changeScene(long darkeningTime, std::function<void()> loadNewData, st
 
 sad::animations::Instance* Game::setAnimationForScreenTransition(sad::Renderer & renderer, long time, bool dark)
 {
-    sad::animations::Instance* animation = new sad::animations::Instance();
+    sad::Texture* tex = new sad::Texture();
+    tex->load("white_square.png", &renderer);
+    tex->setRenderer(&renderer);
 
+    sad::Sprite2D* sprite = new sad::Sprite2D();
+    sprite->setTexture(tex);
+    sprite->setTextureCoordinates(sad::Rect2D(0, 0, 2, 2));
+    sprite->setArea(sad::Rect2D(0, 0, 800, 600));
+    sprite->setColor(sad::AColor(0, 0, 0, 248));
+
+    renderer.scenes()[renderer.scenes().size() - 1]->addNode(sprite);
+
+    sad::animations::Color* color = new sad::animations::Color();
+    unsigned int start = 0, end = 255;
+    if (dark)
+    {
+        start = 255;
+        end = 0;
+    }
+    color->setMinColor(sad::AColor(0, 0, 0, start));
+    color->setMaxColor(sad::AColor(0, 0, 0, end));
+    color->setTime(time);
+    color->setLooped(false);
+	
+    sad::animations::Instance* animation = new sad::animations::Instance();
+    animation->setAnimation(color);
+    animation->setObject(sprite);
+    animation->clearFinished();
     return animation;
 }
 
