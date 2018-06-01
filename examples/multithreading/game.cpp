@@ -172,6 +172,7 @@ void Game::runMainGameThread()
         }
         else if (GameState == state::play)
         {
+            this->changeScene(1000, []()-> void {}, []()-> void {});
         }
     }
     );
