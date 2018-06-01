@@ -6,6 +6,8 @@
 
 #include <input/controls.h>
 
+#include <keymouseconditions.h>
+
 #include <sprite2d.h>
 #include <label.h>
 
