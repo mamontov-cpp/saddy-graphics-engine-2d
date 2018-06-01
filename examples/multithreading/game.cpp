@@ -166,6 +166,7 @@ void Game::runMainGameThread()
 		[this, &GameState]() -> void {
 		if (GameState == state::exit)
 		{
+			this->quitGame();
 		}
 		else if (GameState == state::play)
 		{
