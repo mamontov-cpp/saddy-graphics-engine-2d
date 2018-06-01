@@ -4,6 +4,8 @@
  */
 #pragma once
 
+#include <functional>
+
 namespace threads
 {
 class GameThread;
@@ -29,6 +31,12 @@ public:
 	/*! Quits game
 	*/
     void quitGame();
+    /*! Transitions the game from current scene to the next one
+        \param[in] darkeningTime period of time during wich the screen will darken, ms
+        \param[in] loadNewData functon for loading elements for the new scene
+        \param[in] actionsAfterTransition function with actions that will be done after loading data
+    */
+    void changeScene(long darkeningTime, std::function<void()> loadNewData, std::function<void()> actionsAfterTransition);	
 private:
     /*! Disabled constructor
      */
