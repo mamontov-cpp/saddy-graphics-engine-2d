@@ -173,6 +173,13 @@ void Game::runMainGameThread()
 	}
 	);
 
+	renderer.controls()->addLambda(
+		*sad::input::ET_KeyPress & sad::Esc,
+		[this]() -> void {
+		this->quitGame();
+	}
+	);
+
     // TODO: Khomich loading database code here
     SL_LOCAL_DEBUG("Starting\n", renderer);
     renderer.controls()->addLambda(
