@@ -262,6 +262,13 @@ void Game::changeScene(long darkeningTime, std::function<void()> loadNewData, st
 
 }
 
+sad::animations::Instance* Game::setAnimationForScreenTransition(sad::Renderer & renderer, long time, bool dark)
+{
+    sad::animations::Instance* animation = new sad::animations::Instance();
+
+    return animation;
+}
+
 
 // ==================================== PRIVATE METHODS ====================================
 
