@@ -234,6 +234,15 @@ void Game::runInventoryThread()
     renderer.run();
 }
 
+void Game::quitGame()
+{
+	if (!m_is_quitting) {
+		m_is_quitting = true;
+		m_inventory_thread->sendKillSignalFrom(m_main_thread);
+		m_main_thread->sendKillSignalFrom(m_inventory_thread);
+	}
+}
+
 
 // ==================================== PRIVATE METHODS ====================================
 
