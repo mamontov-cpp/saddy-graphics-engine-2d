@@ -13,7 +13,7 @@
 #include <irrklang/sound.h>
 
 
-threads::GameThread::GameThread() : m_killed(false), m_need_to_wait(false), m_renderer_started(false)
+threads::GameThread::GameThread() : m_state(threads::GS_UNITIALIZED), m_killed(false), m_need_to_wait(false), m_renderer_started(false)
 {
     m_renderer = new sad::Renderer();
 }
@@ -59,7 +59,7 @@ const sad::String& threads::GameThread::errors() const
     return m_error.value();
 }
 
-bool threads::GameThread::isKilled()
+bool threads::GameThread::isKilled() const
 {
     return m_killed;
 }

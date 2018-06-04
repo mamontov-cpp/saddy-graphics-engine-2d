@@ -41,7 +41,7 @@ public:
     const sad::String& errors() const;
     /*! Whether this thread is killed
      */
-    bool isKilled();
+    bool isKilled() const;
     /*! Tries to initialize a current thread
         \param[in] log_name a name for log item
         \param[in] config_name a config item

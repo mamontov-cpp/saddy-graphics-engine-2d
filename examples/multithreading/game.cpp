@@ -16,6 +16,7 @@
 
 #include <animations/animationsinstance.h>
 #include <animations/animationscolor.h>
+#include <utility>
 #include <animations/animationsinstance.h>
 
 // ==================================== PUBLIC METHODS ====================================
@@ -102,7 +103,7 @@ void Game::runMainGameThread()
         SL_LOCAL_DEBUG(fmt::Format("Object {0}: {1}") << i << node->metaData()->name(), renderer);
         if (node->metaData()->name() == "sad::Sprite2D") 
         {
-            sad::Sprite2D* sprite = static_cast<sad::Sprite2D*>(node);
+            sad::Sprite2D* sprite = dynamic_cast<sad::Sprite2D*>(node);
             if (sprite->texture())
             {
                 SL_LOCAL_DEBUG("Sprite has texture", renderer);
@@ -114,7 +115,7 @@ void Game::runMainGameThread()
         }
         if (node->metaData()->name() == "sad::Label") 
         {
-            sad::Label* label = static_cast<sad::Label*>(node);
+            sad::Label* label = dynamic_cast<sad::Label*>(node);
             if (label->font())
             {
                 SL_LOCAL_DEBUG("Label has font", renderer);
@@ -257,7 +258,7 @@ void Game::quitGame()
 
 void Game::changeScene(long darkeningTime, std::function<void()> loadNewData, std::function<void()> actionsAfterTransition)
 {
-    local_actions = loadNewData;
+    local_actions = std::move(loadNewData);
     loadDataThread = new sad::Thread (this,&Game::loadingDataFunction);
     loadDataThread->run();
 
