@@ -11,6 +11,8 @@
 
 #include <sadhash.h>
 
+#include <hfsm/hfsmmachine.h>
+
 namespace threads
 {
 class GameThread;
@@ -18,14 +20,14 @@ class GameThread;
 
 /*! Main game class
  */
-class Game
+class Game  // NOLINT(cppcoreguidelines-special-member-functions)
 {
 public:
     /*! A main menu state
      */
     enum MainMenuState
     {
-        GMMS_NEW_GAME = 0,  //!< A new game is selected
+        GMMS_PLAY     = 0,  //!< A new game is selected
         GMMS_OPTIONS  = 1,  //!< Options are selected
         GMMS_EXIT     = 2   //!< An exit state is selected
     };
@@ -41,9 +43,20 @@ public:
     /*! Runs inventorty thread
      */
     void runInventoryThread();
-	/*! Quits game
-	*/
+    /*! Quits game
+     */
     void quitGame();
+    /*! Returns highest score for a game
+     */
+    int highscore() const;
+    /*! Sets new highscore for a game
+        \param[in] highscore a highscore
+     */
+    void setHighscore(int highscore);
+    /*! Start starting state
+     */
+    void tryStartStartingState();
+    
     /*! Transitions the game from current scene to the next one
         \param[in] darkeningTime period of time during wich the screen will darken, ms
         \param[in] loadNewData functon for loading elements for the new scene
@@ -82,6 +95,16 @@ private:
         to a label, where should be placed marker (player stuff)
      */
     sad::Hash<size_t, sad::String> m_main_menu_states_to_labels;
+
+    /*! A state machine for searching data 
+     */
+    sad::hfsm::Machine m_state_machine;
+    /*! A state machine for paused state
+     */
+    sad::hfsm::Machine m_paused_state_machine;
+    /*! A highestscore for game
+     */
+    int m_highscore;
 
     /*! For storing loading data lambda functions
      */

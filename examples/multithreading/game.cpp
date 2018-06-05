@@ -19,14 +19,41 @@
 #include <utility>
 #include <animations/animationsinstance.h>
 
+#include <slurpjson.h>
+#include <spitjson.h>
+
 // ==================================== PUBLIC METHODS ====================================
 
-Game::Game()  : m_is_quitting(false), m_main_menu_state(Game::MainMenuState) // NOLINT
+Game::Game()  : m_is_quitting(false), m_main_menu_state(Game::GMMS_PLAY), m_highscore(0) // NOLINT
 {
     m_main_thread = new threads::GameThread();
     m_inventory_thread = new threads::GameThread();
 
-    m_main_menu_states_to_labels.insert()
+    m_main_menu_states_to_labels.insert(Game::GMMS_PLAY   , "Play");
+    m_main_menu_states_to_labels.insert(Game::GMMS_OPTIONS, "Options");
+    m_main_menu_states_to_labels.insert(Game::GMMS_EXIT   , "Exit");
+
+    // Init common state machine
+    m_state_machine.addState("starting_screen", new sad::hfsm::State());
+    m_state_machine.addState("options", new sad::hfsm::State());
+    m_state_machine.addState("playing", new sad::hfsm::State());
+
+    m_state_machine.addTransition("starting_screen", "options", new sad::hfsm::Transition());
+    m_state_machine.addTransition("options", "starting_screen", new sad::hfsm::Transition());
+
+    m_state_machine.addTransition("starting_screen", "playing", new sad::hfsm::Transition());
+    m_state_machine.addTransition("playing", "starting_screen", new sad::hfsm::Transition());
+
+    m_state_machine.enterState("starting_screen");
+
+    // Init state machine for handling pause
+    m_paused_state_machine.addState("playing", new sad::hfsm::State());
+    m_paused_state_machine.addState("paused", new sad::hfsm::State());
+
+    m_paused_state_machine.addTransition("playing", "paused", new sad::hfsm::Transition());
+    m_paused_state_machine.addTransition("paused", "playing", new sad::hfsm::Transition());
+
+    m_paused_state_machine.enterState("playing");
 }
 
 Game::~Game()  // NOLINT
@@ -35,9 +62,23 @@ Game::~Game()  // NOLINT
     delete m_inventory_thread;
 }
 
+/*! A padding, that will be used in main menu between label and player choice
+ */
+const double padding_between_label_and_player_choice = 15;
+
 void Game::runMainGameThread()
 {
     sad::Renderer& renderer= *(m_main_thread->renderer());
+
+    sad::Maybe<picojson::value> maybe_json = sad::slurpJson("highscore.json", &renderer);
+    if (maybe_json.exists())
+    {
+        picojson::value val = maybe_json.value();
+        if (val.is<double>())
+        {
+            setHighscore(val.get<double>());
+        }
+    }
     // We wait for inventory thread later to get initialization result,
     // so initialize flag now
     m_inventory_thread->needsToBeNotifiedFromLater();
@@ -130,64 +171,75 @@ void Game::runMainGameThread()
 
     }
 
-    nodes::Background* background = new nodes::Background(true);
-    scene->addNode(background);
-    scene->setLayer(background, 0);
+    tryStartStartingState();
 
-    // Play animations
-    sad::animations::Instance* player_walk = db->objectByName<sad::animations::Instance>("player_walk");
-    sad::animations::Instance* player_walk2 = db->objectByName<sad::animations::Instance>("player_walk2");
-    renderer.animations()->add(player_walk);
-    renderer.animations()->add(player_walk2);
-
-    // Pointer for the menu options
-    sad::Sprite2D* choisePointer = db->objectByName<sad::Sprite2D>("PlayerPick");
-    choisePointer->setMiddle(sad::Point2D(330, 275));
-
-    enum state {
-        play,
-        exit
+    // Set pointer for the menu options
+    std::function<void(Game::MainMenuState)> put_player_pick_according_to_menu_state = [this, db](Game::MainMenuState state) {
+        sad::Sprite2D* choice_pointer = db->objectByName<sad::Sprite2D>("PlayerPick");
+        sad::Label* new_game_label = db->objectByName<sad::Label>(this->m_main_menu_states_to_labels[state]);
+        double x = new_game_label->area().p0().x() - padding_between_label_and_player_choice - (choice_pointer->area().width() / 2.0);
+        double y = (new_game_label->area().p0().y() - new_game_label->area().height() / 2.0);
+        choice_pointer->setMiddle(sad::Point2D(x, y));
     };
-    state GameState;
+    put_player_pick_according_to_menu_state(Game::GMMS_PLAY);
 
     renderer.controls()->addLambda(
-        *sad::input::ET_KeyPress & sad::KeyUp,
-        [this, choisePointer, &GameState]() -> void {
-        choisePointer->setMiddle(sad::Point2D(330, 275));
-        GameState = state::play;
-    }
+        *sad::input::ET_KeyPress 
+        & sad::KeyUp 
+        & ((&m_state_machine) * sad::String("starting_screen")) 
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        [this, put_player_pick_according_to_menu_state]() -> void {
+            if (this->m_main_menu_state == Game::GMMS_PLAY)
+            {
+                this->m_main_menu_state = Game::GMMS_EXIT;
+            }
+            else
+            {
+                this->m_main_menu_state =  static_cast<Game::MainMenuState>(static_cast<int>(this->m_main_menu_state) - 1);
+            }
+            put_player_pick_according_to_menu_state(this->m_main_menu_state);
+        }
     );
 
     renderer.controls()->addLambda(
-        *sad::input::ET_KeyPress & sad::KeyDown,
-        [this, choisePointer, &GameState]() -> void {
-        choisePointer->setMiddle(sad::Point2D(330, 230));
-        GameState = state::exit;
-    }
+        *sad::input::ET_KeyPress 
+        & sad::KeyDown
+        & ((&m_state_machine) * sad::String("starting_screen"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        [this, put_player_pick_according_to_menu_state]() -> void {
+            if (this->m_main_menu_state == Game::GMMS_EXIT)
+            {
+                this->m_main_menu_state = Game::GMMS_PLAY;
+            }
+            else
+            {
+                this->m_main_menu_state = static_cast<Game::MainMenuState>(static_cast<int>(this->m_main_menu_state) + 1);  // NOLINT(misc-misplaced-widening-cast)
+            }
+            put_player_pick_according_to_menu_state(this->m_main_menu_state);
+        }
     );
 
     renderer.controls()->addLambda(
-        *sad::input::ET_KeyPress & sad::Enter,
-        [this, &GameState]() -> void {
-        if (GameState == state::exit)
-        {
-            this->quitGame();
+        *sad::input::ET_KeyPress & sad::Enter
+        & ((&m_state_machine) * sad::String("starting_screen"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        [this]() -> void {
+            switch(this->m_main_menu_state)
+            {
+                case Game::GMMS_PLAY: this->changeScene(1000, []()-> void {}, []()-> void {}); break;
+                case Game::GMMS_OPTIONS:
+                case Game::GMMS_EXIT: this->quitGame(); break;
+            }
         }
-        else if (GameState == state::play)
-        {
-            this->changeScene(1000, []()-> void {}, []()-> void {});
-        }
-    }
     );
 
     renderer.controls()->addLambda(
         *sad::input::ET_KeyPress & sad::Esc,
         [this]() -> void {
-        this->quitGame();
-    }
+            this->quitGame();
+        }
     );
 
-    // TODO: Khomich loading database code here
     SL_LOCAL_DEBUG("Starting\n", renderer);
     renderer.controls()->addLambda(
         *sad::input::ET_Quit,
@@ -230,8 +282,6 @@ void Game::runInventoryThread()
     nodes::Background* background = new nodes::Background(false);
     scene->addNode(background);
 
-
-    // TODO: Khomich loading database code here
     SL_LOCAL_DEBUG("Starting new renderer\n", renderer);
     m_inventory_thread->markAsRendererStarted();
     // Kill other window, if closed
@@ -254,9 +304,46 @@ void Game::quitGame()
         m_is_quitting = true;
         m_inventory_thread->sendKillSignalFrom(m_main_thread);
         m_main_thread->sendKillSignalFrom(m_inventory_thread);
-	}
+        // Save data to JSON
+        sad::spitJson("highscore.json", picojson::value(static_cast<double>(m_highscore)), m_main_thread->renderer());
+    }
 }
 
+int Game::highscore() const
+{
+    return m_highscore;
+}
+
+void Game::setHighscore(int highscore)
+{
+    m_highscore = highscore;
+}
+
+void Game::tryStartStartingState()
+{
+    // Play animations
+    sad::Renderer* renderer = m_main_thread->renderer();
+    sad::db::Database* db  = renderer->database("titlescreen");
+    sad::animations::Instance* player_walk = db->objectByName<sad::animations::Instance>("player_walk");
+    sad::animations::Instance* player_walk2 = db->objectByName<sad::animations::Instance>("player_walk2");
+    renderer->animations()->add(player_walk);
+    renderer->animations()->add(player_walk2);
+
+    sad::Scene* scene = renderer->scenes()[0];
+    nodes::Background* background = new nodes::Background(true);
+    scene->addNode(background);
+    scene->setLayer(background, 0);
+
+    sad::Label* highscore = db->objectByName<sad::Label>("Highscore");
+    highscore->setString(sad::String("HIGHSCORE   IS   ") + sad::String::number(m_highscore));
+    const double middle = 400; // A middle position data
+    double width = highscore->area().width();
+    // A hardcoded data from titlescreen database
+    highscore->setArea(sad::Rect2D(middle - width / 2.0, 585, middle + width / 2.0, 549));
+
+    m_state_machine.enterState("starting_screen");
+    m_paused_state_machine.enterState("playing");
+}
 
 void Game::changeScene(long darkeningTime, std::function<void()> loadNewData, std::function<void()> actionsAfterTransition)
 {
