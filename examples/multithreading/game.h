@@ -9,6 +9,8 @@
 
 #include <sprite2d.h>
 
+#include <sadhash.h>
+
 namespace threads
 {
 class GameThread;
@@ -19,6 +21,14 @@ class GameThread;
 class Game
 {
 public:
+    /*! A main menu state
+     */
+    enum MainMenuState
+    {
+        GMMS_NEW_GAME = 0,  //!< A new game is selected
+        GMMS_OPTIONS  = 1,  //!< Options are selected
+        GMMS_EXIT     = 2   //!< An exit state is selected
+    };
     /*! Constructs game object
      */
     Game();
@@ -39,7 +49,7 @@ public:
         \param[in] loadNewData functon for loading elements for the new scene
         \param[in] actionsAfterTransition function with actions that will be done after loading data
     */
-    void changeScene(long darkeningTime, std::function<void()> loadNewData, std::function<void()> actionsAfterTransition);	
+    void changeScene(long darkeningTime, std::function<void()> loadNewData, std::function<void()> actionsAfterTransition);
     /*! Transitions the game from current scene to the next one
         \param[in] renderer renderer for animation
         \param[in] time time period for animation
@@ -64,6 +74,15 @@ private:
     /*! Whether game is quitting
      */
     bool m_is_quitting;
+
+    /*!  A main menu state for main menu
+     */
+    Game::MainMenuState  m_main_menu_state;
+    /*! A mappping, that maps a state index from Game::MainMenuState
+        to a label, where should be placed marker (player stuff)
+     */
+    sad::Hash<size_t, sad::String> m_main_menu_states_to_labels;
+
     /*! For storing loading data lambda functions
      */
     void loadingDataFunction();

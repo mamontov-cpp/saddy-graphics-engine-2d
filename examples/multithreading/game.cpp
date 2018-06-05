@@ -21,10 +21,12 @@
 
 // ==================================== PUBLIC METHODS ====================================
 
-Game::Game()  : m_is_quitting(false) // NOLINT
+Game::Game()  : m_is_quitting(false), m_main_menu_state(Game::MainMenuState) // NOLINT
 {
     m_main_thread = new threads::GameThread();
     m_inventory_thread = new threads::GameThread();
+
+    m_main_menu_states_to_labels.insert()
 }
 
 Game::~Game()  // NOLINT
@@ -90,48 +92,48 @@ void Game::runMainGameThread()
     {
         SL_LOCAL_FATAL("Unable to load title screen", renderer);
     }
-    
+
     sad::db::populateScenesFromDatabase(&renderer, db);
 
     sad::Scene* scene = renderer.scenes()[0];
     // Use introspection to dump or debug some objects
     SL_LOCAL_DEBUG(fmt::Format("Scene has {0} objects") << scene->objectCount(), renderer);
     const sad::Vector<sad::SceneNode*>& objects = scene->objects();
-    for(size_t i = 0; i < scene->objectCount(); i++) 
+    for(size_t i = 0; i < scene->objectCount(); i++)
     {
         sad::SceneNode* node = objects[i];
         SL_LOCAL_DEBUG(fmt::Format("Object {0}: {1}") << i << node->metaData()->name(), renderer);
-        if (node->metaData()->name() == "sad::Sprite2D") 
+        if (node->metaData()->name() == "sad::Sprite2D")
         {
             sad::Sprite2D* sprite = dynamic_cast<sad::Sprite2D*>(node);
             if (sprite->texture())
             {
                 SL_LOCAL_DEBUG("Sprite has texture", renderer);
             }
-            else 
+            else
             {
                 SL_LOCAL_DEBUG("Sprite has no texture", renderer);
             }
         }
-        if (node->metaData()->name() == "sad::Label") 
+        if (node->metaData()->name() == "sad::Label")
         {
             sad::Label* label = dynamic_cast<sad::Label*>(node);
             if (label->font())
             {
                 SL_LOCAL_DEBUG("Label has font", renderer);
             }
-            else 
+            else
             {
                 SL_LOCAL_DEBUG("Label has no font", renderer);
             }
         }
-        
+
     }
 
     nodes::Background* background = new nodes::Background(true);
     scene->addNode(background);
-    scene->setLayer(background, 0); 
-    
+    scene->setLayer(background, 0);
+
     // Play animations
     sad::animations::Instance* player_walk = db->objectByName<sad::animations::Instance>("player_walk");
     sad::animations::Instance* player_walk2 = db->objectByName<sad::animations::Instance>("player_walk2");
@@ -304,7 +306,7 @@ sad::animations::Instance* Game::setAnimationForScreenTransition(sad::Renderer &
     color->setMaxColor(sad::AColor(0, 0, 0, end));
     color->setTime(time);
     color->setLooped(false);
-	
+
     sad::animations::Instance* animation = new sad::animations::Instance();
     animation->setAnimation(color);
     animation->setObject(sprite);
