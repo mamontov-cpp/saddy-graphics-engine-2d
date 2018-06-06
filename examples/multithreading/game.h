@@ -14,6 +14,7 @@
 #include <hfsm/hfsmmachine.h>
 
 #include <irrklang/singlesound.h>
+#include <irrklang/engine.h>
 
 namespace threads
 {

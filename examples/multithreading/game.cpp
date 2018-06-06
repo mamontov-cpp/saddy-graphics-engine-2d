@@ -247,7 +247,7 @@ void Game::runMainGameThread()
             if (!m_is_quitting) {
                 m_is_quitting = true;
                 m_inventory_thread->sendKillSignalFrom(m_main_thread);
-                m_theme.stop();
+                sad::irrklang::Engine::eref()->stopAllSounds();
             }
         }
     );
@@ -292,7 +292,7 @@ void Game::runInventoryThread()
             if (!m_is_quitting) {
                 m_is_quitting = true;
                 m_main_thread->sendKillSignalFrom(m_inventory_thread);
-                m_theme.stop();
+                sad::irrklang::Engine::eref()->stopAllSounds();
             }
         }
     );
@@ -306,7 +306,7 @@ void Game::quitGame()
         m_is_quitting = true;
         m_inventory_thread->sendKillSignalFrom(m_main_thread);
         m_main_thread->sendKillSignalFrom(m_inventory_thread);
-        m_theme.stop();
+        sad::irrklang::Engine::eref()->stopAllSounds();
         // Save data to JSON
         sad::spitJson("highscore.json", picojson::value(static_cast<double>(m_highscore)), m_main_thread->renderer());
     }
