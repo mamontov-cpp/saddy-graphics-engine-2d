@@ -13,6 +13,8 @@
 
 #include <hfsm/hfsmmachine.h>
 
+#include <irrklang/singlesound.h>
+
 namespace threads
 {
 class GameThread;
@@ -56,7 +58,7 @@ public:
     /*! Start starting state
      */
     void tryStartStartingState();
-    
+
     /*! Transitions the game from current scene to the next one
         \param[in] darkeningTime period of time during wich the screen will darken, ms
         \param[in] loadNewData functon for loading elements for the new scene
@@ -96,7 +98,7 @@ private:
      */
     sad::Hash<size_t, sad::String> m_main_menu_states_to_labels;
 
-    /*! A state machine for searching data 
+    /*! A state machine for searching data
      */
     sad::hfsm::Machine m_state_machine;
     /*! A state machine for paused state
@@ -106,6 +108,12 @@ private:
      */
     int m_highscore;
 
+    /*! A theme sound, that should be played
+     */
+    sad::irrklang::SingleSound m_theme;
+    /*! A theme playing song
+     */
+    ::irrklang::ISound* m_theme_playing;
     /*! For storing loading data lambda functions
      */
     void loadingDataFunction();

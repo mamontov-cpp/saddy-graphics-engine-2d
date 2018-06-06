@@ -184,9 +184,9 @@ void Game::runMainGameThread()
     put_player_pick_according_to_menu_state(Game::GMMS_PLAY);
 
     renderer.controls()->addLambda(
-        *sad::input::ET_KeyPress 
-        & sad::KeyUp 
-        & ((&m_state_machine) * sad::String("starting_screen")) 
+        *sad::input::ET_KeyPress
+        & sad::KeyUp
+        & ((&m_state_machine) * sad::String("starting_screen"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         [this, put_player_pick_according_to_menu_state]() -> void {
             if (this->m_main_menu_state == Game::GMMS_PLAY)
@@ -202,7 +202,7 @@ void Game::runMainGameThread()
     );
 
     renderer.controls()->addLambda(
-        *sad::input::ET_KeyPress 
+        *sad::input::ET_KeyPress
         & sad::KeyDown
         & ((&m_state_machine) * sad::String("starting_screen"))
         & ((&m_paused_state_machine) * sad::String("playing")),
@@ -247,6 +247,7 @@ void Game::runMainGameThread()
             if (!m_is_quitting) {
                 m_is_quitting = true;
                 m_inventory_thread->sendKillSignalFrom(m_main_thread);
+                m_theme.stop();
             }
         }
     );
@@ -291,6 +292,7 @@ void Game::runInventoryThread()
             if (!m_is_quitting) {
                 m_is_quitting = true;
                 m_main_thread->sendKillSignalFrom(m_inventory_thread);
+                m_theme.stop();
             }
         }
     );
@@ -304,6 +306,7 @@ void Game::quitGame()
         m_is_quitting = true;
         m_inventory_thread->sendKillSignalFrom(m_main_thread);
         m_main_thread->sendKillSignalFrom(m_inventory_thread);
+        m_theme.stop();
         // Save data to JSON
         sad::spitJson("highscore.json", picojson::value(static_cast<double>(m_highscore)), m_main_thread->renderer());
     }
@@ -343,6 +346,9 @@ void Game::tryStartStartingState()
 
     m_state_machine.enterState("starting_screen");
     m_paused_state_machine.enterState("playing");
+
+    sad::irrklang::Sound* theme = m_inventory_thread->renderer()->tree("")->get<sad::irrklang::Sound>("main_theme");
+    m_theme_playing = m_theme.play2D(theme, 1.0);
 }
 
 void Game::changeScene(long darkeningTime, std::function<void()> loadNewData, std::function<void()> actionsAfterTransition)
