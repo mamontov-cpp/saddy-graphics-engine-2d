@@ -70,6 +70,33 @@ protected:
     int (*m_f)();
 };
 
+/*! Executes a function with zero arguments and returns zero
+*/
+template<
+    typename _FunctionType
+>
+class FreeZeroArgStdExecutableFunction
+    :public sad::AbsractThreadExecutableFunction
+{
+public:
+    /*! Creates a function
+    \param[in] f function, which will be executed
+    */
+    inline FreeZeroArgStdExecutableFunction(std::function<_FunctionType> *f) : m_f(f)
+    {
+    }
+    /*! Executes code  and returns zero
+        \return 0
+    */
+    virtual int execute();
+    /*! Creates a clone of executable function
+        \returns exact copy of current thread executable function
+    */
+    virtual AbsractThreadExecutableFunction * clone() const;
+protected:
+    std::function<_FunctionType> *m_f;
+};
+
 /*! Executes a function with one argument and returns zero
  */
 template<
