@@ -96,7 +96,10 @@ public:
     /*! Creates a clone of executable function
         \returns exact copy of current thread executable function
     */
-    virtual AbsractThreadExecutableFunction * clone() const;
+    virtual AbsractThreadExecutableFunction * clone() const
+    {
+        return new sad::util::FreeZeroArgStdExecutableFunction<_FunctionType>(*this);
+    }
 protected:
     std::function<_FunctionType> *m_f;
 };
