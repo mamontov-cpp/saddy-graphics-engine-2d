@@ -60,6 +60,23 @@ public:
     {
         this->initialize(new sad::util::FreeZeroArgIntExecutableFunction(f) );
     }
+    /*! Constructs new thread with specified function
+        \param[in] f function
+     */
+    template<
+        typename _FunctionType
+    >
+    inline Thread(std::function<_FunctionType> *f )
+    {
+        this->initialize(new sad::util::FreeZeroArgStdExecutableFunction<_FunctionType>(f) );
+    }
+    /*! Constructs new thread with specified function
+        \param[in] f function
+     */
+    inline Thread(std::function<int()> *f )
+    {
+        this->initialize(new sad::util::FreeZeroArgStdIntExecutableFunction(f) );
+    }
     /*! Creates new thread, executing void function with one argument
         \param[in] f function
         \param[in] a argument
