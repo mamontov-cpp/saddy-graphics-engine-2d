@@ -14,7 +14,7 @@ public:
         \return 0
      */
     virtual int execute();
-    /*! Cretes a clone of executable function
+    /*! Creates a clone of executable function
         \returns exact copy of current thread executable function
      */
     virtual AbsractThreadExecutableFunction * clone() const;
@@ -36,7 +36,7 @@ public:
         \return 0
      */
     virtual int execute();
-    /*! Cretes a clone of executable function
+    /*! Creates a clone of executable function
         \returns exact copy of current thread executable function
      */
     virtual AbsractThreadExecutableFunction * clone() const;
@@ -60,7 +60,7 @@ public:
         \return 0
      */
     virtual int execute();
-    /*! Cretes a clone of executable function
+    /*! Creates a clone of executable function
         \returns exact copy of current thread executable function
      */
     virtual AbsractThreadExecutableFunction * clone() const;
@@ -96,7 +96,7 @@ public:
         m_f(m_arg);
         return 0;
     }
-    /*! Cretes a clone of executable function
+    /*! Creates a clone of executable function
         \returns exact copy of current thread executable function
      */
     virtual AbsractThreadExecutableFunction * clone() const
@@ -135,7 +135,7 @@ public:
     {
         return m_f(m_arg);
     }
-    /*! Cretes a clone of executable function
+    /*! Creates a clone of executable function
         \returns exact copy of current thread executable function
      */
     virtual AbsractThreadExecutableFunction * clone() const
@@ -176,7 +176,7 @@ public:
         (m_o->*m_m)();
         return 0;
     }
-    /*! Cretes a clone of executable function
+    /*! Creates a clone of executable function
         \returns exact copy of current thread executable function
      */
     virtual AbsractThreadExecutableFunction * clone() const
@@ -218,7 +218,7 @@ public:
     {
         return (m_o->*m_m)();
     }
-    /*! Cretes a clone of executable function
+    /*! Creates a clone of executable function
         \returns exact copy of current thread executable function
      */
     virtual AbsractThreadExecutableFunction * clone() const
@@ -265,7 +265,7 @@ public:
         (m_o->*m_m)(m_a);
         return 0;
     }
-    /*! Cretes a clone of executable function
+    /*! Creates a clone of executable function
         \returns exact copy of current thread executable function
      */
     virtual AbsractThreadExecutableFunction * clone() const
@@ -316,7 +316,7 @@ public:
     {
         return (m_o->*m_m)(m_a);
     }
-    /*! Cretes a clone of executable function
+    /*! Creates a clone of executable function
         \returns exact copy of current thread executable function
      */
     virtual AbsractThreadExecutableFunction * clone() const
