@@ -80,7 +80,7 @@ class FreeZeroArgStdExecutableFunction
 {
 public:
     /*! Creates a function
-    \param[in] f function, which will be executed
+        \param[in] f function, which will be executed
     */
     inline FreeZeroArgStdExecutableFunction(std::function<_FunctionType> *f) : m_f(f)
     {
