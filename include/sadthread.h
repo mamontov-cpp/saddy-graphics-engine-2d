@@ -63,9 +63,12 @@ public:
     /*! Constructs new thread with specified function
         \param[in] f function
      */
-    inline Thread(std::function<void()> *f )
+    template<
+        typename _FunctionType
+    >
+    inline Thread(std::function<_FunctionType> *f )
     {
-        this->initialize(new sad::util::FreeZeroArgStdExecutableFunction<void()>(f) );
+        this->initialize(new sad::util::FreeZeroArgStdExecutableFunction<_FunctionType>(f) );
     }
     /*! Creates new thread, executing void function with one argument
         \param[in] f function
