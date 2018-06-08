@@ -1,3 +1,5 @@
+#include <functional>
+
 namespace sad
 {
 
