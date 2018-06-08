@@ -100,6 +100,14 @@ struct sadThreadTest : tpunit::TestFixture
        ASSERT_TRUE( thread.exitCode() == 1 );
        }
        {
+       std::function<void()> vthreadstdv = vthreadv;
+       sad::Thread thread(&vthreadstdv);
+       thread.run();
+       thread.wait(100);
+       ASSERT_TRUE( thread.exitCode() == 0 );
+       ASSERT_TRUE( vthreadvrunned == true );
+       }
+       {
        vthreadvrunned = false;
        sad::Thread thread(vthreadav, true);
        thread.run();
