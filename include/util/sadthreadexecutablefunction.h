@@ -88,7 +88,11 @@ public:
     /*! Executes code  and returns zero
         \return 0
     */
-    virtual int execute();
+    virtual int execute()
+    {
+        (*m_f)();
+        return 0;
+    }
     /*! Creates a clone of executable function
         \returns exact copy of current thread executable function
     */
