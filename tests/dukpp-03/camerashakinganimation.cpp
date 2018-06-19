@@ -18,7 +18,7 @@ public:
         TEST(CameraShakingTest::testMinFrequency),
         TEST(CameraShakingTest::testMaxFrequency),
 		TEST(CameraShakingTest::testSetMinOffset),
-		TEST(CameraShakingTest::testSetMaxOffset),
+		TEST(CameraShakingTest::testSetMaxOffset)
     ) {}
     
     /*! Test for getting and setting minAngle property
@@ -72,7 +72,7 @@ public:
         }
         ASSERT_TRUE(eval_result);
         ASSERT_TRUE(error.size() == 0);
-        ::dukpp03::Maybe<double> result = ::dukpp03::GetValue<int, sad::dukpp03::BasicContext>::perform(&ctx, -1);
+        ::dukpp03::Maybe<double> result = ::dukpp03::GetValue<double, sad::dukpp03::BasicContext>::perform(&ctx, -1);
         ASSERT_TRUE(result.exists());
         ASSERT_TRUE(result.value() == 1);
     }
@@ -88,7 +88,7 @@ public:
         }
         ASSERT_TRUE(eval_result);
         ASSERT_TRUE(error.size() == 0);
-        ::dukpp03::Maybe<double> result = ::dukpp03::GetValue<int, sad::dukpp03::BasicContext>::perform(&ctx, -1);
+        ::dukpp03::Maybe<double> result = ::dukpp03::GetValue<double, sad::dukpp03::BasicContext>::perform(&ctx, -1);
         ASSERT_TRUE(result.exists());
         ASSERT_TRUE(result.value() == 255);
     }
