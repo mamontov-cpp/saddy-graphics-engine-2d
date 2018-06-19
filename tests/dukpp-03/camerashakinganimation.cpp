@@ -17,7 +17,8 @@ public:
     CameraShakingTest() : tpunit::TestFixture(
         TEST(CameraShakingTest::testMinFrequency),
         TEST(CameraShakingTest::testMaxFrequency),
-         
+		TEST(CameraShakingTest::testSetMinOffset),
+		TEST(CameraShakingTest::testSetMaxOffset),
     ) {}
     
     /*! Test for getting and setting minAngle property
@@ -60,7 +61,37 @@ public:
         ASSERT_TRUE(result.value() == 255);
     }
 
+	void testSetMinOffset() 
+    {
+        std::string error;
+        sad::dukpp03::Context ctx;
+        bool eval_result = ctx.eval("var b = new sad.animations.CameraShaking(); b.setOffset(new sad.Point2D(1,1)); b.offset().getX()", false, &error);
+        if (!eval_result)
+        {
+            printf("%s\n", error.c_str());
+        }
+        ASSERT_TRUE(eval_result);
+        ASSERT_TRUE(error.size() == 0);
+        ::dukpp03::Maybe<double> result = ::dukpp03::GetValue<int, sad::dukpp03::BasicContext>::perform(&ctx, -1);
+        ASSERT_TRUE(result.exists());
+        ASSERT_TRUE(result.value() == 1);
+    }
    
+   void testSetMaxOffset() 
+    {
+        std::string error;
+        sad::dukpp03::Context ctx;
+        bool eval_result = ctx.eval("var b = new sad.animations.CameraShaking(); b.setOffset(new sad.Point2D(255,255)); b.offset().getX()", false, &error);
+        if (!eval_result)
+        {
+            printf("%s\n", error.c_str());
+        }
+        ASSERT_TRUE(eval_result);
+        ASSERT_TRUE(error.size() == 0);
+        ::dukpp03::Maybe<double> result = ::dukpp03::GetValue<int, sad::dukpp03::BasicContext>::perform(&ctx, -1);
+        ASSERT_TRUE(result.exists());
+        ASSERT_TRUE(result.value() == 255);
+    }
  
  
    
