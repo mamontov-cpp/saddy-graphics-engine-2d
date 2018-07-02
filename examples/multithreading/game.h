@@ -16,6 +16,8 @@
 #include <irrklang/singlesound.h>
 #include <irrklang/engine.h>
 
+#include "scenetransitionprocess.h"
+
 namespace threads
 {
 class GameThread;
@@ -73,6 +75,13 @@ public:
         \return animation
     */
     sad::animations::Instance* setAnimationForScreenTransition(sad::Renderer &renderer, long time, bool dark);
+
+    /*! Returns renderer for main thread
+     */
+    sad::Renderer* rendererForMainThread() const;
+    /*! Returns renderer for inventory thread
+     */
+    sad::Renderer* rendererForInventoryThread() const;
 private:
     /*! Disabled constructor
      */
@@ -116,13 +125,7 @@ private:
      */
     ::irrklang::ISound* m_theme_playing;
 
-    /*! Additional thread for data loading
+    /*! A transition process
      */
-    sad::Thread* m_load_data_thread;
-    /*! A transition sprite
-     */
-    sad::Sprite2D* m_transition_sprite;
-    /*! A transition texture
-     */
-    sad::Texture* m_transition_texture;
+    SceneTransitionProcess* m_transition_process;
 };
