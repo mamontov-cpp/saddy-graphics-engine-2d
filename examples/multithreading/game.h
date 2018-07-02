@@ -115,4 +115,14 @@ private:
     /*! A theme playing song
      */
     ::irrklang::ISound* m_theme_playing;
+
+    /*! Additional thread for data loading
+     */
+    sad::Thread* m_load_data_thread;
+    /*! A transition sprite
+     */
+    sad::Sprite2D* m_transition_sprite;
+    /*! A transition texture
+     */
+    sad::Texture* m_transition_texture;
 };
