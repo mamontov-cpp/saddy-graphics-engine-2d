@@ -278,6 +278,9 @@ public:
     /*! Whether animation is finished
      */
     virtual bool finished() const;
+    /*! Disable state restoring for object on finish
+     */
+    virtual void disableStateRestoringOnFinish();
     /*! Called on every step of instance work
         \param[in] animations animations, container, which contains all cached data
      */
@@ -507,6 +510,9 @@ protected:
     /*! Whether object is referenced in animation
      */
     bool m_object_referenced;
+    /*! Whether we should restor instance if finished
+     */
+    bool m_restore_on_finished;
 };
 
 }

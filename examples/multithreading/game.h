@@ -115,7 +115,4 @@ private:
     /*! A theme playing song
      */
     ::irrklang::ISound* m_theme_playing;
-    /*! Additional thread for data loading
-     */
-    sad::Thread* m_load_data_thread;
 };

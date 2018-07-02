@@ -409,6 +409,7 @@ sad::animations::Instance* Game::setAnimationForScreenTransition(sad::Renderer &
     animation->setAnimation(color);
     animation->setObject(sprite);
     animation->clearFinished();
+    animation->disableStateRestoringOnFinish();
     return animation;
 }
 
