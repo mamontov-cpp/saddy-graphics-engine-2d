@@ -52,10 +52,17 @@ Game::Game()  : m_is_quitting(false), m_main_menu_state(Game::GMMS_PLAY), m_high
 
     // Init state machine for handling pause
     m_paused_state_machine.addState("playing", new sad::hfsm::State());
+    // This third stated indicates, that we are transitioning between multiple scenes
+    m_paused_state_machine.addState("transitioning", new sad::hfsm::State());
     m_paused_state_machine.addState("paused", new sad::hfsm::State());
 
     m_paused_state_machine.addTransition("playing", "paused", new sad::hfsm::Transition());
+    m_paused_state_machine.addTransition("playing", "transitioning", new sad::hfsm::Transition());
+    m_paused_state_machine.addTransition("transitioning", "playing", new sad::hfsm::Transition());
+
     m_paused_state_machine.addTransition("paused", "playing", new sad::hfsm::Transition());
+    m_paused_state_machine.addTransition("paused", "transitioning", new sad::hfsm::Transition());
+    m_paused_state_machine.addTransition("transitioning", "paused", new sad::hfsm::Transition());
 
     m_paused_state_machine.enterState("playing");
 }
@@ -428,4 +435,3 @@ Game& Game::operator=(const Game&)
     // ReSharper disable once CppUnreachableCode
     return *this;
 }
-
