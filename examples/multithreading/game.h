@@ -61,11 +61,11 @@ public:
     void tryStartStartingState();
 
     /*! Transitions the game from current scene to the next one
-        \param[in] darkeningTime period of time during wich the screen will darken, ms
-        \param[in] loadNewData functon for loading elements for the new scene
-        \param[in] actionsAfterTransition function with actions that will be done after loading data
+        \param[in] load_new_data functon for loading elements for the new scene
+        \param[in] on_loaded function, which will be called, when scene is loaded
+        \param[in] actions_after_transition function with actions that will be done after loading data
     */
-    void changeScene(long darkeningTime, std::function<void()> loadNewData, std::function<void()> actionsAfterTransition);
+    void changeScene(std::function<void()> load_new_data, std::function<void()> on_loaded, std::function<void()> actions_after_transition);
     /*! Transitions the game from current scene to the next one
         \param[in] renderer renderer for animation
         \param[in] time time period for animation
@@ -115,13 +115,7 @@ private:
     /*! A theme playing song
      */
     ::irrklang::ISound* m_theme_playing;
-    /*! For storing loading data lambda functions
-     */
-    void loadingDataFunction();
-    /*! Function object for storing lambdas
-     */
-    std::function<void()> local_actions;
     /*! Additional thread for data loading
      */
-    sad::Thread *loadDataThread;
+    sad::Thread* m_load_data_thread;
 };

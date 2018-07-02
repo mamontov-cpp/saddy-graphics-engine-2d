@@ -101,7 +101,7 @@ struct sadThreadTest : tpunit::TestFixture
        }
        {
        std::function<void()> vthreadstdv = vthreadv;
-       sad::Thread thread(&vthreadstdv);
+       sad::Thread thread(vthreadstdv);
        thread.run();
        thread.wait(100);
        ASSERT_TRUE( thread.exitCode() == 0 );
@@ -109,7 +109,7 @@ struct sadThreadTest : tpunit::TestFixture
        }
        {
        std::function<int()> vthreadstdi = vthreadi;
-       sad::Thread thread(&vthreadstdi);
+       sad::Thread thread(vthreadstdi);
        thread.run();
        ASSERT_TRUE( thread.exitCode() == 1 );
        }

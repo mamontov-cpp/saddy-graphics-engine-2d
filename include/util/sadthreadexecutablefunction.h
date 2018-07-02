@@ -82,7 +82,7 @@ public:
     /*! Creates a function
         \param[in] f function, which will be executed
     */
-    inline FreeZeroArgStdExecutableFunction(std::function<_FunctionType> *f) : m_f(f)
+    inline FreeZeroArgStdExecutableFunction(const std::function<_FunctionType>& f) : m_f(f)
     {
     }
     /*! Executes code  and returns zero
@@ -90,7 +90,7 @@ public:
     */
     virtual int execute()
     {
-        (*m_f)();
+        (m_f)();
         return 0;
     }
     /*! Creates a clone of executable function
@@ -101,7 +101,7 @@ public:
         return new sad::util::FreeZeroArgStdExecutableFunction<_FunctionType>(*this);
     }
 protected:
-    std::function<_FunctionType> *m_f;
+    std::function<_FunctionType> m_f;
 };
 
 /*! Executes a function with zero arguments and returns zero
@@ -113,7 +113,7 @@ public:
     /*! Creates a function
         \param[in] f function, which will be executed
     */
-    inline FreeZeroArgStdIntExecutableFunction(std::function<int()> *f) : m_f(f)
+    inline FreeZeroArgStdIntExecutableFunction(const std::function<int()>& f) : m_f(f)
     {
     }
     /*! Executes code  and returns zero
@@ -121,7 +121,7 @@ public:
     */
     virtual int execute()
     {
-        return (*m_f)();
+        return (m_f)();
     }
     /*! Creates a clone of executable function
         \returns exact copy of current thread executable function
@@ -131,7 +131,7 @@ public:
         return new sad::util::FreeZeroArgStdIntExecutableFunction(*this);
     }
 protected:
-    std::function<int()> *m_f;
+    std::function<int()> m_f;
 };
 
 /*! Executes a function with one argument and returns zero

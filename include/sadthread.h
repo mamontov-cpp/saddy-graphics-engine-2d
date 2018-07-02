@@ -66,14 +66,14 @@ public:
     template<
         typename _FunctionType
     >
-    inline Thread(std::function<_FunctionType> *f )
+    inline Thread(const std::function<_FunctionType>& f )
     {
         this->initialize(new sad::util::FreeZeroArgStdExecutableFunction<_FunctionType>(f) );
     }
     /*! Constructs new thread with specified function
         \param[in] f function
      */
-    inline Thread(std::function<int()> *f )
+    inline Thread(const std::function<int()>& f )
     {
         this->initialize(new sad::util::FreeZeroArgStdIntExecutableFunction(f) );
     }

@@ -22,6 +22,10 @@
 #include <slurpjson.h>
 #include <spitjson.h>
 
+/*! A transition time, used to make transition between screens
+ */
+#define TRANSITION_TIME (1000)
+
 // ==================================== PUBLIC METHODS ====================================
 
 Game::Game()  : m_is_quitting(false), m_main_menu_state(Game::GMMS_PLAY), m_highscore(0) // NOLINT
@@ -226,7 +230,7 @@ void Game::runMainGameThread()
         [this]() -> void {
             switch(this->m_main_menu_state)
             {
-                case Game::GMMS_PLAY: this->changeScene(1000, []()-> void {}, []()-> void {}); break;
+                case Game::GMMS_PLAY: this->changeScene([]()-> void { printf("Loading"); }, []() -> void { printf("On loaded"); }, []()-> void { printf("Stage loaded"); }); break;
                 case Game::GMMS_OPTIONS:
                 case Game::GMMS_EXIT: this->quitGame(); break;
             }
@@ -351,23 +355,24 @@ void Game::tryStartStartingState()
     m_theme_playing = m_theme.play2D(theme, 1.0);
 }
 
-void Game::changeScene(long darkeningTime, std::function<void()> loadNewData, std::function<void()> actionsAfterTransition)
+void Game::changeScene(std::function<void()> load_new_data, std::function<void()> on_loaded, std::function<void()> actions_after_transition)
 {
-    local_actions = std::move(loadNewData);
-    loadDataThread = new sad::Thread (this,&Game::loadingDataFunction);
-    loadDataThread->run();
+    m_load_data_thread = new sad::Thread (load_new_data);
+    m_load_data_thread->run();
 
     sad::Renderer& renderer = *(m_main_thread->renderer());
 
-    sad::animations::Instance* darkeningScreen = this->setAnimationForScreenTransition(renderer, darkeningTime, true);
-    local_actions = actionsAfterTransition;
-    darkeningScreen->end([this, &renderer, darkeningTime]() {
-        this->loadDataThread->wait();
-        this->local_actions();
+    sad::animations::Instance* darkeningScreen = this->setAnimationForScreenTransition(renderer, TRANSITION_TIME, true);
+    darkeningScreen->end([this, &renderer, on_loaded, actions_after_transition]() {
+        // Wait for other thread to complete
+        this->m_load_data_thread->wait();
+        delete this->m_load_data_thread;
+        m_load_data_thread = NULL;
 
-        sad::animations::Instance* brighteningScreen = this->setAnimationForScreenTransition(renderer, darkeningTime, false);
-        brighteningScreen->end([]() {
-        });
+        on_loaded();
+
+        sad::animations::Instance* brighteningScreen = this->setAnimationForScreenTransition(renderer, TRANSITION_TIME, false);
+        brighteningScreen->end(actions_after_transition);
 
 		renderer.animations()->add(brighteningScreen);
 	});
@@ -423,8 +428,3 @@ Game& Game::operator=(const Game&)
     return *this;
 }
 
-
-void Game::loadingDataFunction()
-{
-    local_actions();
-}
