@@ -201,8 +201,6 @@
     <ClCompile Include="game\item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="nodes\background.cpp" />
-    <ClCompile Include="scenetransitionoptions.cpp" />
-    <ClCompile Include="scenetransitionprocess.cpp" />
     <ClCompile Include="threads\gamethread.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -210,8 +208,6 @@
     <ClInclude Include="game\inventory.h" />
     <ClInclude Include="game\item.h" />
     <ClInclude Include="nodes\background.h" />
-    <ClInclude Include="scenetransitionoptions.h" />
-    <ClInclude Include="scenetransitionprocess.h" />
     <ClInclude Include="threads\gamestate.h" />
     <ClInclude Include="threads\gamethread.h" />
   </ItemGroup>

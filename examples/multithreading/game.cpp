@@ -65,13 +65,10 @@ Game::Game()  : m_is_quitting(false), m_main_menu_state(Game::GMMS_PLAY), m_high
     m_paused_state_machine.addTransition("transitioning", "paused", new sad::hfsm::Transition());
 
     m_paused_state_machine.enterState("playing");
-
-    m_transition_process = new SceneTransitionProcess(this);
 }
 
 Game::~Game()  // NOLINT
 {
-    delete m_transition_process;
     delete m_main_thread;
     delete m_inventory_thread;
 }
@@ -261,7 +258,6 @@ void Game::runMainGameThread()
             if (!m_is_quitting) {
                 m_is_quitting = true;
                 m_inventory_thread->sendKillSignalFrom(m_main_thread);
-                m_transition_process->unloadTexturesForMainThread();
                 sad::irrklang::Engine::eref()->stopAllSounds();
             }
         }
@@ -307,7 +303,6 @@ void Game::runInventoryThread()
             if (!m_is_quitting) {
                 m_is_quitting = true;
                 m_main_thread->sendKillSignalFrom(m_inventory_thread);
-                m_transition_process->unloadTexturesForInventoryThread();
                 sad::irrklang::Engine::eref()->stopAllSounds();
             }
         }
@@ -369,12 +364,6 @@ void Game::tryStartStartingState()
 
 void Game::changeScene(std::function<void()> load_new_data, std::function<void()> on_loaded, std::function<void()> actions_after_transition)
 {
-    sad::Renderer* renderer = m_main_thread->renderer(); 
-    sad::Texture* tex = new sad::Texture();
-    tex->load("white_square.png", renderer);
-    tex->setRenderer(renderer);
-
-    /*
     m_load_data_thread = new sad::Thread (load_new_data);
     m_load_data_thread->run();
 
@@ -395,7 +384,6 @@ void Game::changeScene(std::function<void()> load_new_data, std::function<void()
 		renderer.animations()->add(brighteningScreen);
 	});
     renderer.animations()->add(darkeningScreen);
-    */
 }
 
 sad::animations::Instance* Game::setAnimationForScreenTransition(sad::Renderer & renderer, long time, bool dark)
@@ -432,15 +420,6 @@ sad::animations::Instance* Game::setAnimationForScreenTransition(sad::Renderer &
     return animation;
 }
 
-sad::Renderer* Game::rendererForMainThread() const
-{
-    return m_main_thread->renderer();
-}
-
-sad::Renderer* Game::rendererForInventoryThread() const
-{
-    return m_inventory_thread->renderer();
-}
 
 // ==================================== PRIVATE METHODS ====================================
 
