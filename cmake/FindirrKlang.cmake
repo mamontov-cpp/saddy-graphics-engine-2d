@@ -23,10 +23,14 @@ find_path(
 	ENV IRRKLANG_ROOT
   PATHS
 	/usr/include
+	"$ENV{IRRKLANG_ROOT}/irrklang-1.5.0/include"
+	"$ENV{IRRKLANG_ROOT}/irrKlang-64bit-1.5.0/include"
   PATH_SUFFIXES
 	include
 	irrKlang-1.5.0/include
 	irrKlang-64bit-1.5.0/include
+	"irrKlang-1.5.0\\include"
+	"irrKlang-64bit-1.5.0\\include"
 )
 
 IF (WIN32)
@@ -79,10 +83,13 @@ IF (WIN32)
 			ENV IRRKLANG_ROOT
 		  PATHS
 			/usr/lib
+			"$ENV{IRRKLANG_ROOT}/irrklang-1.5.0/lib/Win32-gcc"
 		  PATH_SUFFIXES
 			lib
 			lib/Win32-gcc
+			"lib\\Win32-gcc"
 			irrKlang-1.5.0/lib/Win32-gcc
+			"irrKlang-1.5.0\\lib\\Win32-gcc"
 			Win32-gcc
 		)
 			
