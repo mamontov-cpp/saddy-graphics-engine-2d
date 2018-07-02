@@ -1,3 +1,5 @@
+#include <functional>
+
 namespace sad
 {
 
@@ -14,7 +16,7 @@ public:
         \return 0
      */
     virtual int execute();
-    /*! Cretes a clone of executable function
+    /*! Creates a clone of executable function
         \returns exact copy of current thread executable function
      */
     virtual AbsractThreadExecutableFunction * clone() const;
@@ -36,7 +38,7 @@ public:
         \return 0
      */
     virtual int execute();
-    /*! Cretes a clone of executable function
+    /*! Creates a clone of executable function
         \returns exact copy of current thread executable function
      */
     virtual AbsractThreadExecutableFunction * clone() const;
@@ -60,12 +62,76 @@ public:
         \return 0
      */
     virtual int execute();
-    /*! Cretes a clone of executable function
+    /*! Creates a clone of executable function
         \returns exact copy of current thread executable function
      */
     virtual AbsractThreadExecutableFunction * clone() const;
 protected:
     int (*m_f)();
+};
+
+/*! Executes a function with zero arguments and returns zero
+*/
+template<
+    typename _FunctionType
+>
+class FreeZeroArgStdExecutableFunction
+    :public sad::AbsractThreadExecutableFunction
+{
+public:
+    /*! Creates a function
+        \param[in] f function, which will be executed
+    */
+    inline FreeZeroArgStdExecutableFunction(const std::function<_FunctionType>& f) : m_f(f)
+    {
+    }
+    /*! Executes code  and returns zero
+        \return 0
+    */
+    virtual int execute()
+    {
+        (m_f)();
+        return 0;
+    }
+    /*! Creates a clone of executable function
+        \returns exact copy of current thread executable function
+    */
+    virtual AbsractThreadExecutableFunction * clone() const
+    {
+        return new sad::util::FreeZeroArgStdExecutableFunction<_FunctionType>(*this);
+    }
+protected:
+    std::function<_FunctionType> m_f;
+};
+
+/*! Executes a function with zero arguments and returns zero
+*/
+class FreeZeroArgStdIntExecutableFunction
+    :public sad::AbsractThreadExecutableFunction
+{
+public:
+    /*! Creates a function
+        \param[in] f function, which will be executed
+    */
+    inline FreeZeroArgStdIntExecutableFunction(const std::function<int()>& f) : m_f(f)
+    {
+    }
+    /*! Executes code  and returns zero
+        \return 0
+    */
+    virtual int execute()
+    {
+        return (m_f)();
+    }
+    /*! Creates a clone of executable function
+        \returns exact copy of current thread executable function
+    */
+    virtual AbsractThreadExecutableFunction * clone() const
+    {
+        return new sad::util::FreeZeroArgStdIntExecutableFunction(*this);
+    }
+protected:
+    std::function<int()> m_f;
 };
 
 /*! Executes a function with one argument and returns zero
@@ -96,7 +162,7 @@ public:
         m_f(m_arg);
         return 0;
     }
-    /*! Cretes a clone of executable function
+    /*! Creates a clone of executable function
         \returns exact copy of current thread executable function
      */
     virtual AbsractThreadExecutableFunction * clone() const
@@ -135,7 +201,7 @@ public:
     {
         return m_f(m_arg);
     }
-    /*! Cretes a clone of executable function
+    /*! Creates a clone of executable function
         \returns exact copy of current thread executable function
      */
     virtual AbsractThreadExecutableFunction * clone() const
@@ -176,7 +242,7 @@ public:
         (m_o->*m_m)();
         return 0;
     }
-    /*! Cretes a clone of executable function
+    /*! Creates a clone of executable function
         \returns exact copy of current thread executable function
      */
     virtual AbsractThreadExecutableFunction * clone() const
@@ -218,7 +284,7 @@ public:
     {
         return (m_o->*m_m)();
     }
-    /*! Cretes a clone of executable function
+    /*! Creates a clone of executable function
         \returns exact copy of current thread executable function
      */
     virtual AbsractThreadExecutableFunction * clone() const
@@ -265,7 +331,7 @@ public:
         (m_o->*m_m)(m_a);
         return 0;
     }
-    /*! Cretes a clone of executable function
+    /*! Creates a clone of executable function
         \returns exact copy of current thread executable function
      */
     virtual AbsractThreadExecutableFunction * clone() const
@@ -316,7 +382,7 @@ public:
     {
         return (m_o->*m_m)(m_a);
     }
-    /*! Cretes a clone of executable function
+    /*! Creates a clone of executable function
         \returns exact copy of current thread executable function
      */
     virtual AbsractThreadExecutableFunction * clone() const

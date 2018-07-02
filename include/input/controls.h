@@ -91,6 +91,34 @@ public:
     {
         return add(tac, new sad::input::VoidFreeFunctionHandler(f));
     }
+	
+	/*! Adds new handler with conditions
+        \param[in] tac type and conditions
+        \param[in] f function
+        \return a handler
+     */
+    inline sad::input::AbstractHandler* addLambda(
+        const sad::input::HandlerTypeAndConditions & tac, 
+        const std::function<void()>& f
+    )
+    {
+        return add(tac, new sad::input::VoidStdFunctionHandler(f));
+    }
+	/*! Adds new handler with conditions
+        \param[in] tac type and conditions
+        \param[in] f function
+        \return a handler
+     */
+    template<
+        typename _EventType
+    >	 
+    inline sad::input::AbstractHandler* addLambda(
+        const sad::input::HandlerTypeAndConditions & tac, 
+        const std::function<void(const _EventType &)>& f
+    )
+    {
+        return add(tac, new sad::input::StdFunctionHandler<_EventType>(f));
+    }	
     /*! Adds new handler as a method call for conditions
         \param[in] tac type and conditions
         \param[in] o object, which callback will be called on

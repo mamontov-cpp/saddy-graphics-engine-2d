@@ -1,0 +1,12 @@
+[
+	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/backgrounds.json" },
+	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/enemies.json" },
+	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/icons.json" },
+	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/tiles.json" },
+	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/labels.json" },
+	{ 
+		"type": "sad::freetype::Font",
+		"name": "Arcade Classic",
+		"filename": "examples/multithreading/ARCADECLASSIC.TTF"
+	}
+]

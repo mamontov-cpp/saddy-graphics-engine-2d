@@ -40,3 +40,4 @@ end
 # Comment pipeline test
 replace_in_file("tests/dukpp-03/pipeline.cpp", /__pipeline_test/, "/*__pipeline_test*/")
 replace_in_file("tests/dukpp-03/main.cpp", /\#define[ ]+TEST_INTERACTIVE/, "//#define TEST_INTERACTIVE")
+

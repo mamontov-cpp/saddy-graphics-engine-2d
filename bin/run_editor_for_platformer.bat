@@ -1,0 +1,1 @@
+"ifaceed/iface-editor-debug.exe" -resources "examples/multithreading/config_main_thread.json" -width 800 -height 600

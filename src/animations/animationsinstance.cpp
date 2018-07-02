@@ -33,7 +33,8 @@ m_valid(true),
 m_shape(NULL),
 m_body(NULL),
 m_tree_link_active(true),
-m_object_referenced(false)
+m_object_referenced(false),
+m_restore_on_finished(true)
 {
 
 }
@@ -56,7 +57,8 @@ m_body(o.m_body),
 m_basic_area(o.m_basic_area),
 m_basic_center(o.m_basic_center),
 m_basic_string(o.m_basic_string),
-m_object_referenced(o.m_object_referenced)
+m_object_referenced(o.m_object_referenced),
+m_restore_on_finished(o.m_restore_on_finished)
 {
     copyState(o);
 }
@@ -82,6 +84,7 @@ sad::animations::Instance& sad::animations::Instance::operator=(const sad::anima
     m_basic_center = o.m_basic_center;
     m_basic_string = o.m_basic_string;
     m_object_referenced = o.m_object_referenced;
+    m_restore_on_finished = o.m_restore_on_finished;
     copyState(o);
     return *this;
 }
@@ -382,6 +385,12 @@ void sad::animations::Instance::clearFinished()
 bool sad::animations::Instance::finished() const
 {
     return m_finished;
+}
+
+
+void sad::animations::Instance::disableStateRestoringOnFinish()
+{
+    m_restore_on_finished = false;
 }
 
 
@@ -722,9 +731,12 @@ void sad::animations::Instance::saveStateAndCompile(sad::animations::Animations*
 
 void sad::animations::Instance::restoreObjectState(sad::animations::Animations* animations)
 {
-    const sad::Vector<sad::animations::AbstractSavedObjectStateCreator*>& creators = this->animation()->creators();
-    for(size_t i = 0; i < creators.size(); i++) {
-        animations->cache().restore(this->object(), creators[i]->name());
+    if (m_restore_on_finished) 
+    {
+        const sad::Vector<sad::animations::AbstractSavedObjectStateCreator*>& creators = this->animation()->creators();
+        for(size_t i = 0; i < creators.size(); i++) {
+            animations->cache().restore(this->object(), creators[i]->name());
+        }
     }
 }
 
