@@ -22,10 +22,6 @@
 #include <slurpjson.h>
 #include <spitjson.h>
 
-/*! A transition time, used to make transition between screens
- */
-#define TRANSITION_TIME (1000)
-
 // ==================================== PUBLIC METHODS ====================================
 
 Game::Game()  : m_is_quitting(false), m_main_menu_state(Game::GMMS_PLAY), m_highscore(0) // NOLINT
@@ -369,7 +365,7 @@ void Game::tryStartStartingState()
 
 void Game::changeScene(std::function<void()> load_new_data, std::function<void()> on_loaded, std::function<void()> actions_after_transition)
 {
-    sad::Renderer* renderer = m_main_thread->renderer(); 
+    sad::Renderer* renderer = m_main_thread->renderer();
     sad::Texture* tex = new sad::Texture();
     tex->load("white_square.png", renderer);
     tex->setRenderer(renderer);
