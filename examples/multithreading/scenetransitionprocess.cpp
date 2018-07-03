@@ -3,14 +3,16 @@
 
 #include <stdexcept>
 #include <pipeline/pipeline.h>
+#include <sadsleep.h>
+
 
 /*! A transition time, used to make transition between screens
  */
 #define TRANSITION_TIME (1000)
 
-// ======================================= PUBLIC METHODS =======================================
+// ======================================= PUBLIC METHODS ======================================= 
 
-SceneTransitionProcess::SceneTransitionProcess(Game* game)
+SceneTransitionProcess::SceneTransitionProcess(Game* game) : m_game(game)  // NOLINT(cppcoreguidelines-pro-type-member-init)
 {
     fillThreadData(&m_main_thread_data,  game->rendererForMainThread());
     fillThreadData(&m_inventory_thread_data, game->rendererForInventoryThread());
@@ -24,10 +26,13 @@ SceneTransitionProcess::~SceneTransitionProcess()
 
 void SceneTransitionProcess::start(const SceneTransitionOptions& options)
 {
+    Game* game = m_game;
     m_options = options;
     SceneTransitionOptions* opts = &(m_options);
     SceneTransitionProcess::ThreadData* main  = &(m_main_thread_data);
     SceneTransitionProcess::ThreadData* inventory  = &(m_inventory_thread_data);
+
+    m_game->enterTransitioningState();
 
     main->Sprite->setColor(sad::AColor(0, 0, 0, 255));
     inventory->Sprite->setColor(sad::AColor(0, 0, 0, 255));
@@ -53,17 +58,22 @@ void SceneTransitionProcess::start(const SceneTransitionOptions& options)
     main->Thread = new sad::Thread(opts->mainThread().LoadFunction);
     inventory->Thread = new sad::Thread(opts->inventoryThread().LoadFunction);
 
-    std::function<void()> task_for_main_renderer = [main, inventory, opts]() {
+    std::function<void()> task_for_main_renderer = [game, main, inventory, opts]() {
         main->Thread->run();
-        sad::Renderer* r = inventory->Renderer;
-        r->scenes()[r->scenes().size() - 1]->addNode(inventory->Sprite);
+        sad::Renderer* r = main->Renderer;
+        r->scenes()[r->scenes().size() - 1]->addNode(main->Sprite);
+        main->LoadWaitingLock.lock();
 
-        std::function<void()> on_main_darkening_end = [r, main, inventory, opts]() {
+        std::function<void()> on_main_darkening_end = [r, game, main, inventory, opts]() {
             // Wait for other thread to complete
             main->Thread->wait();
             inventory->Thread->wait();
+            main->LoadWaitingLock.unlock();
+            
+            inventory->LoadWaitingLock.lock();
             delete main->Thread;
             main->Thread = NULL;
+            inventory->LoadWaitingLock.unlock();
 
             (opts->mainThread().OnLoadedFunction)();
             r->scenes()[r->scenes().size() - 1]->removeNode(main->Sprite);
@@ -75,7 +85,7 @@ void SceneTransitionProcess::start(const SceneTransitionOptions& options)
                 sad::sleep(100);
             }
 
-            main->LighteningAnimationInstance->end([r, main, inventory, opts]() {
+            main->LighteningAnimationInstance->end([r, game, main, inventory, opts]() {
                 main->FinishedDarkening = true;
                 while(!inventory->FinishedDarkening)
                 {
@@ -83,25 +93,30 @@ void SceneTransitionProcess::start(const SceneTransitionOptions& options)
                 }
                 (opts->mainThread().OnFinishedFunction)();
                 r->scenes()[r->scenes().size() - 1]->removeNode(main->Sprite);
+                game->enterPlayingState();
             });
-    		r->animations()->add(main->LighteningAnimationInstance);
-    	};
+            r->animations()->add(main->LighteningAnimationInstance);
+        };
         main->DarkeningAnimationInstance->end(on_main_darkening_end);
 
         r->animations()->add(main->DarkeningAnimationInstance);
     };
 
-    std::function<void()> task_for_inventory_renderer = [main, inventory, opts]() {
+    std::function<void()> task_for_inventory_renderer = [game, main, inventory, opts]() {
         inventory->Thread->run();
         sad::Renderer* r = inventory->Renderer;
         r->scenes()[r->scenes().size() - 1]->addNode(inventory->Sprite);
-
-        std::function<void()> on_inventory_darkening_end = [r, main, inventory, opts]() {
+        inventory->LoadWaitingLock.lock();
+        std::function<void()> on_inventory_darkening_end = [r, game, main, inventory, opts]() {
             // Wait for other thread to complete
             inventory->Thread->wait();
             main->Thread->wait();
+            inventory->LoadWaitingLock.unlock();
+
+            main->LoadWaitingLock.lock();
             delete inventory->Thread;
             inventory->Thread = NULL;
+            main->LoadWaitingLock.unlock();
 
             (opts->inventoryThread().OnLoadedFunction)();
             r->scenes()[r->scenes().size() - 1]->removeNode(inventory->Sprite);
@@ -113,7 +128,7 @@ void SceneTransitionProcess::start(const SceneTransitionOptions& options)
                 sad::sleep(100);
             }
 
-            inventory->LighteningAnimationInstance->end([r, main, inventory, opts]() {
+            inventory->LighteningAnimationInstance->end([r, game, main, inventory, opts]() {
                 inventory->FinishedDarkening = true;
                 while(!main->FinishedDarkening)
                 {
@@ -121,6 +136,7 @@ void SceneTransitionProcess::start(const SceneTransitionOptions& options)
                 }
                 (opts->inventoryThread().OnFinishedFunction)();
                 r->scenes()[r->scenes().size() - 1]->removeNode(inventory->Sprite);
+                game->enterPlayingState();
             });
             r->animations()->add(inventory->LighteningAnimationInstance);
         };
@@ -162,7 +178,7 @@ sad::Texture* SceneTransitionProcess::makeTextureForRenderer(sad::Renderer* r)
     // Make a texture for sprite, that will shroud objects
     sad::Texture* t = new sad::Texture();
     // Create 2x2x4 white texture
-    sad::Texture::DefaultBuffer* buf = static_cast<sad::Texture::DefaultBuffer*>(t->Buffer);
+    sad::Texture::DefaultBuffer* buf = dynamic_cast<sad::Texture::DefaultBuffer*>(t->Buffer);
     buf->Data.resize(16, 255);
     t->BuildMipMaps = true;
     t->Bpp = 32;
@@ -251,13 +267,13 @@ sad::animations::Instance* SceneTransitionProcess::makeInstance(sad::animations:
     return animation;
 }
 
-SceneTransitionProcess::SceneTransitionProcess(const SceneTransitionProcess&)
+// ReSharper disable once CppPossiblyUninitializedMember
+SceneTransitionProcess::SceneTransitionProcess(const SceneTransitionProcess&)  // NOLINT(cppcoreguidelines-pro-type-member-init, cppcoreguidelines-pro-type-member-init)
 {
     throw std::logic_error("This object is non-copyable");
 }
 
-SceneTransitionProcess& SceneTransitionProcess::operator=(const SceneTransitionProcess& p)
+SceneTransitionProcess& SceneTransitionProcess::operator=(const SceneTransitionProcess& p) const
 {
     throw std::logic_error("This object is non-copyable");
-    return *this;
 }

@@ -15,9 +15,6 @@
 #include <db/dbpopulatescenesfromdatabase.h>
 
 #include <animations/animationsinstance.h>
-#include <animations/animationscolor.h>
-#include <utility>
-#include <animations/animationsinstance.h>
 
 #include <slurpjson.h>
 #include <spitjson.h>
@@ -236,7 +233,7 @@ void Game::runMainGameThread()
         [this]() -> void {
             switch(this->m_main_menu_state)
             {
-                case Game::GMMS_PLAY: this->changeScene([]()-> void { printf("Loading"); }, []() -> void { printf("On loaded"); }, []()-> void { printf("Stage loaded"); }); break;
+                case Game::GMMS_PLAY: this->changeScene(SceneTransitionOptions()); break;
                 case Game::GMMS_OPTIONS:
                 case Game::GMMS_EXIT: this->quitGame(); break;
             }
@@ -363,70 +360,26 @@ void Game::tryStartStartingState()
     m_theme_playing = m_theme.play2D(theme, 1.0);
 }
 
-void Game::changeScene(std::function<void()> load_new_data, std::function<void()> on_loaded, std::function<void()> actions_after_transition)
+void Game::enterPlayingState()
 {
-    sad::Renderer* renderer = m_main_thread->renderer();
-    sad::Texture* tex = new sad::Texture();
-    tex->load("white_square.png", renderer);
-    tex->setRenderer(renderer);
-
-    /*
-    m_load_data_thread = new sad::Thread (load_new_data);
-    m_load_data_thread->run();
-
-    sad::Renderer& renderer = *(m_main_thread->renderer());
-
-    sad::animations::Instance* darkeningScreen = this->setAnimationForScreenTransition(renderer, TRANSITION_TIME, true);
-    darkeningScreen->end([this, &renderer, on_loaded, actions_after_transition]() {
-        // Wait for other thread to complete
-        this->m_load_data_thread->wait();
-        delete this->m_load_data_thread;
-        m_load_data_thread = NULL;
-
-        on_loaded();
-
-        sad::animations::Instance* brighteningScreen = this->setAnimationForScreenTransition(renderer, TRANSITION_TIME, false);
-        brighteningScreen->end(actions_after_transition);
-
-		renderer.animations()->add(brighteningScreen);
-	});
-    renderer.animations()->add(darkeningScreen);
-    */
+    m_paused_state_machine.enterState("playing");
 }
 
-sad::animations::Instance* Game::setAnimationForScreenTransition(sad::Renderer & renderer, long time, bool dark)
+void Game::enterTransitioningState()
 {
-    sad::Texture* tex = new sad::Texture();
-    tex->load("white_square.png", &renderer);
-    tex->setRenderer(&renderer);
-
-    sad::Sprite2D* sprite = new sad::Sprite2D();
-    sprite->setTexture(tex);
-    sprite->setTextureCoordinates(sad::Rect2D(0, 0, 2, 2));
-    sprite->setArea(sad::Rect2D(0, 0, 800, 600));
-    sprite->setColor(sad::AColor(0, 0, 0, 248));
-
-    renderer.scenes()[renderer.scenes().size() - 1]->addNode(sprite);
-
-    sad::animations::Color* color = new sad::animations::Color();
-    unsigned int start = 0, end = 255;
-    if (dark)
-    {
-        start = 255;
-        end = 0;
-    }
-    color->setMinColor(sad::AColor(0, 0, 0, start));
-    color->setMaxColor(sad::AColor(0, 0, 0, end));
-    color->setTime(time);
-    color->setLooped(false);
-
-    sad::animations::Instance* animation = new sad::animations::Instance();
-    animation->setAnimation(color);
-    animation->setObject(sprite);
-    animation->clearFinished();
-    animation->disableStateRestoringOnFinish();
-    return animation;
+    m_paused_state_machine.enterState("transitioning");
 }
+
+void Game::enterPausedState()
+{
+    m_paused_state_machine.enterState("paused");
+}
+
+void Game::changeScene(const SceneTransitionOptions& opts) const
+{
+    m_transition_process->start(opts);
+}
+
 
 sad::Renderer* Game::rendererForMainThread() const
 {
@@ -441,7 +394,8 @@ sad::Renderer* Game::rendererForInventoryThread() const
 // ==================================== PRIVATE METHODS ====================================
 
 Game::Game(const Game&)  // NOLINT
-: m_main_thread(NULL), m_inventory_thread(NULL), m_is_quitting(false)
+    : m_main_thread(NULL), m_inventory_thread(NULL), m_is_quitting(false), m_main_menu_state(Game::GMMS_PLAY),
+      m_highscore(0), m_theme_playing(NULL), m_transition_process(NULL)
 {
     throw std::logic_error("Not implemented");
 }

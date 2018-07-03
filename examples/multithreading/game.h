@@ -61,20 +61,20 @@ public:
     /*! Start starting state
      */
     void tryStartStartingState();
+    /*! Enters playing state on paused state machine
+     */
+    void enterPlayingState();
+    /*! Enter transiioning state on paused state machine
+     */
+    void enterTransitioningState();
+    /*! Enter paused state on paused state machine
+     */
+    void enterPausedState();
 
     /*! Transitions the game from current scene to the next one
-        \param[in] load_new_data functon for loading elements for the new scene
-        \param[in] on_loaded function, which will be called, when scene is loaded
-        \param[in] actions_after_transition function with actions that will be done after loading data
-    */
-    void changeScene(std::function<void()> load_new_data, std::function<void()> on_loaded, std::function<void()> actions_after_transition);
-    /*! Transitions the game from current scene to the next one
-        \param[in] renderer renderer for animation
-        \param[in] time time period for animation
-        \param[in] dark if true - transition for bolder color, false - sprite will fade into nothing
-        \return animation
-    */
-    sad::animations::Instance* setAnimationForScreenTransition(sad::Renderer &renderer, long time, bool dark);
+        \param[in] opts options
+     */
+    void changeScene(const SceneTransitionOptions& opts) const;
 
     /*! Returns renderer for main thread
      */

@@ -7,7 +7,7 @@
 #include <renderer.h>
 #include <sadthread.h>
 #include <sprite2d.h>
-#include <sadsleep.h>
+#include <sadmutex.h>
 #include <animations/animationscolor.h>
 #include <animations/animationsinstance.h>
 
@@ -53,6 +53,9 @@ struct ThreadData
     /*! A darkening animation instance for thread
      */
     sad::animations::Instance* DarkeningAnimationInstance;
+    /*! Whether thread finished waiting for loading
+    */
+    sad::Mutex LoadWaitingLock;
     /*! Whether thread data executed on loaded actions
      */
     bool ExecutedOnLoaded;
@@ -120,7 +123,7 @@ private:
          \param[in] p process
          \return self-reference
      */
-    SceneTransitionProcess& operator=(const SceneTransitionProcess& p);
+    SceneTransitionProcess& operator=(const SceneTransitionProcess& p) const;
     /*! A parent game options
      */
     Game* m_game;
