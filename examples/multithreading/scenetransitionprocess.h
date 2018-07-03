@@ -1,5 +1,5 @@
 /*! \file scenetransitionprocess.h
-    
+
     A process, determining a scene transition work
  */
 #pragma once
@@ -16,7 +16,7 @@ class Game;
 class SceneTransitionProcess
 {
 public:
-/*!  A thread data for process 
+/*!  A thread data for process
  */
 struct ThreadData
 {
@@ -57,6 +57,11 @@ private:
         \param[in] t texture
      */
     static void unloadTextureIfOnGPU(sad::Texture* t);
+    /*! Makes white 2x2 texture for renderer
+        \param[in] r renderer
+        \return a
+     */
+    static sad::Texture* makeTextureForRenderer(sad::Renderer* r);
     /*! A parent game options
      */
     Game* m_game;
