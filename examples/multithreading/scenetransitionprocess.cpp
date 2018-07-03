@@ -11,7 +11,7 @@ SceneTransitionProcess::SceneTransitionProcess(Game* game)
 
     m_inventory_thread_data.Renderer = game->rendererForInventoryThread();
     m_main_thread_data.Thread = NULL;
-    m_inventory_thread_data.Texture = new sad::Texture(m_inventory_thread_data.Renderer);
+    m_inventory_thread_data.Texture = makeTextureForRenderer(m_inventory_thread_data.Renderer);
 }
 
 
