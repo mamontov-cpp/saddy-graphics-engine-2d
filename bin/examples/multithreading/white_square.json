@@ -1,0 +1,11 @@
+{
+    "atlas":[
+        {
+            "name":"white_square",
+            "size":"64;64",
+            "texrect":"0;0;64;64"
+        }
+    ],
+    "file":"examples/multithreading/white_square.png",
+    "resource":"texture/white_square"
+}
