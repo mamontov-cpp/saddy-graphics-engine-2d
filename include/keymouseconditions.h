@@ -26,7 +26,7 @@ public:
     {
 
     }
-    /*! Casts event to a KetEvent and tests it against conditions
+    /*! Casts event to a KeyEvent and tests it against conditions
         \param[in] e event
         \return whether we should  run an event
      */
@@ -56,7 +56,7 @@ public:
         \param[in] key a key, which must be hold to trigger condition
      */
     SpecialKeyHoldCondition(sad::SpecialKey key);
-    /*! Casts event to a KetEvent and tests it against conditions
+    /*! Casts event to a KeyEvent and tests it against conditions
         \param[in] e event
         \return whether we should  run an event
      */
@@ -87,7 +87,7 @@ public:
     {
 
     }
-    /*! Casts event to a KetEvent and tests it against conditions
+    /*! Casts event to a MouseEvent and tests it against conditions
         \param[in] e event
         \return whether we should  run an event
      */
