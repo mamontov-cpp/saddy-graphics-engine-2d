@@ -16,7 +16,12 @@
 #include <irrklang/singlesound.h>
 #include <irrklang/engine.h>
 
+#include <keymouseconditions.h>
+
+#include "game/conditions.h"
+
 #include "scenetransitionprocess.h"
+
 
 namespace threads
 {
@@ -131,4 +136,11 @@ private:
     /*! A transition process
      */
     SceneTransitionProcess* m_transition_process;
+
+    /*! A global game options
+     */
+    game::Options m_options;
+    /*! An ingame used key conditions
+     */
+    game::Conditions m_conditions;
 };

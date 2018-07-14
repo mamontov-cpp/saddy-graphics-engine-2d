@@ -79,6 +79,8 @@ const double padding_between_label_and_player_choice = 15;
 void Game::runMainGameThread()
 {
     sad::Renderer& renderer= *(m_main_thread->renderer());
+    m_options.load(&renderer);
+    m_conditions.apply(m_options);
 
     sad::Maybe<picojson::value> maybe_json = sad::slurpJson("highscore.json", &renderer);
     if (maybe_json.exists())
@@ -195,7 +197,7 @@ void Game::runMainGameThread()
 
     renderer.controls()->addLambda(
         *sad::input::ET_KeyPress
-        & sad::KeyUp
+        & m_conditions.ConditionsForMainRenderer.UpKeyConditions[game::Conditions::CS_START_SCREEN]
         & ((&m_state_machine) * sad::String("starting_screen"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         [this, put_player_pick_according_to_menu_state]() -> void {
@@ -213,7 +215,7 @@ void Game::runMainGameThread()
 
     renderer.controls()->addLambda(
         *sad::input::ET_KeyPress
-        & sad::KeyDown
+        & m_conditions.ConditionsForMainRenderer.DownKeyConditions[game::Conditions::CS_START_SCREEN]
         & ((&m_state_machine) * sad::String("starting_screen"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         [this, put_player_pick_according_to_menu_state]() -> void {
@@ -230,7 +232,8 @@ void Game::runMainGameThread()
     );
 
     renderer.controls()->addLambda(
-        *sad::input::ET_KeyPress & sad::Enter
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.JumpActionConditions[game::Conditions::CS_START_SCREEN]
         & ((&m_state_machine) * sad::String("starting_screen"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         [this]() -> void {
@@ -249,6 +252,8 @@ void Game::runMainGameThread()
             this->quitGame();
         }
     );
+
+    // TODO: Add handlers for each stuff
 
     SL_LOCAL_DEBUG("Starting\n", renderer);
     renderer.controls()->addLambda(
@@ -321,6 +326,7 @@ void Game::quitGame()
         sad::irrklang::Engine::eref()->stopAllSounds();
         // Save data to JSON
         sad::spitJson("highscore.json", picojson::value(static_cast<double>(m_highscore)), m_main_thread->renderer());
+        m_options.save(m_main_thread->renderer());
     }
 }
 

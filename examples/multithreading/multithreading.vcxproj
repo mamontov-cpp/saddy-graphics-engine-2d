@@ -197,6 +197,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="game\conditions.cpp" />
     <ClCompile Include="game\inventory.cpp" />
     <ClCompile Include="game\item.cpp" />
     <ClCompile Include="game\options.cpp" />
@@ -208,6 +209,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
+    <ClInclude Include="game\conditions.h" />
     <ClInclude Include="game\inventory.h" />
     <ClInclude Include="game\item.h" />
     <ClInclude Include="game\options.h" />
