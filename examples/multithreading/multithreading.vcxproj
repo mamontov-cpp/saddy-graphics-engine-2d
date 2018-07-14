@@ -199,6 +199,7 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="game\inventory.cpp" />
     <ClCompile Include="game\item.cpp" />
+    <ClCompile Include="game\options.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="nodes\background.cpp" />
     <ClCompile Include="scenetransitionoptions.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="game\inventory.h" />
     <ClInclude Include="game\item.h" />
+    <ClInclude Include="game\options.h" />
     <ClInclude Include="nodes\background.h" />
     <ClInclude Include="scenetransitionoptions.h" />
     <ClInclude Include="scenetransitionprocess.h" />

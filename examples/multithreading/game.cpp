@@ -21,7 +21,7 @@
 
 // ==================================== PUBLIC METHODS ====================================
 
-Game::Game()  : m_is_quitting(false), m_main_menu_state(Game::GMMS_PLAY), m_highscore(0) // NOLINT
+Game::Game()  : m_is_quitting(false), m_main_menu_state(Game::GMMS_PLAY), m_highscore(0), m_loaded_options_database{false, false} // NOLINT
 {
     m_main_thread = new threads::GameThread();
     m_inventory_thread = new threads::GameThread();
@@ -60,6 +60,9 @@ Game::Game()  : m_is_quitting(false), m_main_menu_state(Game::GMMS_PLAY), m_high
     m_paused_state_machine.enterState("playing");
 
     m_transition_process = new SceneTransitionProcess(this);
+
+    m_loaded_options_database[0] = false;
+    m_loaded_options_database[1] = false;
 }
 
 Game::~Game()  // NOLINT

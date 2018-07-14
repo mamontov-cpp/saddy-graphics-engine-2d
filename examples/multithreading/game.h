@@ -117,6 +117,9 @@ private:
     /*! A highestscore for game
      */
     int m_highscore;
+    /*! Loaded options database
+     */
+    bool m_loaded_options_database[2];
 
     /*! A theme sound, that should be played
      */
