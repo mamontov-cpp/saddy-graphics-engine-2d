@@ -185,66 +185,8 @@ void Game::runMainGameThread()
 
     tryStartStartingState();
 
-    // Set pointer for the menu options
-    std::function<void(Game::MainMenuState)> put_player_pick_according_to_menu_state = [this, db](Game::MainMenuState state) {
-        sad::Sprite2D* choice_pointer = db->objectByName<sad::Sprite2D>("PlayerPick");
-        sad::Label* new_game_label = db->objectByName<sad::Label>(this->m_main_menu_states_to_labels[state]);
-        double x = new_game_label->area().p0().x() - padding_between_label_and_player_choice - (choice_pointer->area().width() / 2.0);
-        double y = (new_game_label->area().p0().y() - new_game_label->area().height() / 2.0);
-        choice_pointer->setMiddle(sad::Point2D(x, y));
-    };
-    put_player_pick_according_to_menu_state(Game::GMMS_PLAY);
-
-    renderer.controls()->addLambda(
-        *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForMainRenderer.UpKeyConditions[game::Conditions::CS_START_SCREEN]
-        & ((&m_state_machine) * sad::String("starting_screen"))
-        & ((&m_paused_state_machine) * sad::String("playing")),
-        [this, put_player_pick_according_to_menu_state]() -> void {
-            if (this->m_main_menu_state == Game::GMMS_PLAY)
-            {
-                this->m_main_menu_state = Game::GMMS_EXIT;
-            }
-            else
-            {
-                this->m_main_menu_state =  static_cast<Game::MainMenuState>(static_cast<int>(this->m_main_menu_state) - 1);
-            }
-            put_player_pick_according_to_menu_state(this->m_main_menu_state);
-        }
-    );
-
-    renderer.controls()->addLambda(
-        *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForMainRenderer.DownKeyConditions[game::Conditions::CS_START_SCREEN]
-        & ((&m_state_machine) * sad::String("starting_screen"))
-        & ((&m_paused_state_machine) * sad::String("playing")),
-        [this, put_player_pick_according_to_menu_state]() -> void {
-            if (this->m_main_menu_state == Game::GMMS_EXIT)
-            {
-                this->m_main_menu_state = Game::GMMS_PLAY;
-            }
-            else
-            {
-                this->m_main_menu_state = static_cast<Game::MainMenuState>(static_cast<int>(this->m_main_menu_state) + 1);  // NOLINT(misc-misplaced-widening-cast)
-            }
-            put_player_pick_according_to_menu_state(this->m_main_menu_state);
-        }
-    );
-
-    renderer.controls()->addLambda(
-        *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForMainRenderer.JumpActionConditions[game::Conditions::CS_START_SCREEN]
-        & ((&m_state_machine) * sad::String("starting_screen"))
-        & ((&m_paused_state_machine) * sad::String("playing")),
-        [this]() -> void {
-            switch(this->m_main_menu_state)
-            {
-                case Game::GMMS_PLAY: this->changeScene(SceneTransitionOptions()); break;
-                case Game::GMMS_OPTIONS:
-                case Game::GMMS_EXIT: this->quitGame(); break;
-            }
-        }
-    );
+    setControlsForMainThread(&renderer, db);
+    setControlsForInventoryThread(m_inventory_thread->renderer());
 
     renderer.controls()->addLambda(
         *sad::input::ET_KeyPress & sad::Esc,
@@ -252,8 +194,6 @@ void Game::runMainGameThread()
             this->quitGame();
         }
     );
-
-    // TODO: Add handlers for each stuff
 
     SL_LOCAL_DEBUG("Starting\n", renderer);
     renderer.controls()->addLambda(
@@ -316,6 +256,284 @@ void Game::runInventoryThread()
 
     renderer.run();
 }
+
+void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* db)
+{
+    // Set pointer for the main menu options
+    std::function<void(Game::MainMenuState)> put_player_pick_according_to_menu_state = [this, db](Game::MainMenuState state) {
+        sad::Sprite2D* choice_pointer = db->objectByName<sad::Sprite2D>("PlayerPick");
+        sad::Label* new_game_label = db->objectByName<sad::Label>(this->m_main_menu_states_to_labels[state]);
+        double x = new_game_label->area().p0().x() - padding_between_label_and_player_choice - (choice_pointer->area().width() / 2.0);
+        double y = (new_game_label->area().p0().y() - new_game_label->area().height() / 2.0);
+        choice_pointer->setMiddle(sad::Point2D(x, y));
+    };
+    put_player_pick_according_to_menu_state(Game::GMMS_PLAY);
+
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.UpKeyConditions[game::Conditions::CS_START_SCREEN]
+        & ((&m_state_machine) * sad::String("starting_screen"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        [this, put_player_pick_according_to_menu_state]() -> void {
+        if (this->m_main_menu_state == Game::GMMS_PLAY)
+        {
+            this->m_main_menu_state = Game::GMMS_EXIT;
+        }
+        else
+        {
+            this->m_main_menu_state = static_cast<Game::MainMenuState>(static_cast<int>(this->m_main_menu_state) - 1);
+        }
+        put_player_pick_according_to_menu_state(this->m_main_menu_state);
+    });
+
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.DownKeyConditions[game::Conditions::CS_START_SCREEN]
+        & ((&m_state_machine) * sad::String("starting_screen"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        [this, put_player_pick_according_to_menu_state]() -> void {
+        if (this->m_main_menu_state == Game::GMMS_EXIT)
+        {
+            this->m_main_menu_state = Game::GMMS_PLAY;
+        }
+        else
+        {
+            this->m_main_menu_state = static_cast<Game::MainMenuState>(static_cast<int>(this->m_main_menu_state) + 1);  // NOLINT(misc-misplaced-widening-cast)
+        }
+        put_player_pick_according_to_menu_state(this->m_main_menu_state);
+    });
+
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.JumpActionConditions[game::Conditions::CS_START_SCREEN]
+        & ((&m_state_machine) * sad::String("starting_screen"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        [this]() -> void {
+        switch (this->m_main_menu_state)
+        {
+        case Game::GMMS_PLAY: this->changeScene(SceneTransitionOptions()); break;
+        case Game::GMMS_OPTIONS:
+        case Game::GMMS_EXIT: this->quitGame(); break;
+        }
+    });
+
+    std::function<void()> empty_callback = [](){};
+
+    // An options
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.LeftKeyConditions[game::Conditions::CS_OPTIONS_SCREEN]
+        & ((&m_state_machine) * sad::String("options"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        empty_callback
+    );
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.RightKeyConditions[game::Conditions::CS_OPTIONS_SCREEN]
+        & ((&m_state_machine) * sad::String("options"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        empty_callback
+    );
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.UpKeyConditions[game::Conditions::CS_OPTIONS_SCREEN]
+        & ((&m_state_machine) * sad::String("options"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        empty_callback
+    );
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.DownKeyConditions[game::Conditions::CS_OPTIONS_SCREEN]
+        & ((&m_state_machine) * sad::String("options"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        empty_callback
+    );
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.JumpActionConditions[game::Conditions::CS_OPTIONS_SCREEN]
+        & ((&m_state_machine) * sad::String("options"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        empty_callback
+    );
+
+    // A playing game screen
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.LeftKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING]
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        empty_callback
+    );
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.RightKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING]
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        empty_callback
+    );
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.UpKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING]
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        empty_callback
+    );
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.DownKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING]
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        empty_callback
+    );
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.JumpActionConditions[game::Conditions::CS_PLAYGAME_PLAYING]
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        empty_callback
+    );
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.PauseCondition
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        empty_callback
+    );
+
+    // A paused game screen
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.UpKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED]
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("paused")),
+        empty_callback
+    );
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.DownKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED]
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("paused")),
+        empty_callback
+    );
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.JumpActionConditions[game::Conditions::CS_PLAYGAME_PAUSED]
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("paused")),
+        empty_callback
+    );
+}
+
+void Game::setControlsForInventoryThread(sad::Renderer* renderer)
+{
+    std::function<void()> empty_callback = []() {};
+
+    // An options
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForInventoryRenderer.LeftKeyConditions[game::Conditions::CS_OPTIONS_SCREEN]
+        & ((&m_state_machine) * sad::String("options"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        empty_callback
+    );
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForInventoryRenderer.RightKeyConditions[game::Conditions::CS_OPTIONS_SCREEN]
+        & ((&m_state_machine) * sad::String("options"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        empty_callback
+    );
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForInventoryRenderer.UpKeyConditions[game::Conditions::CS_OPTIONS_SCREEN]
+        & ((&m_state_machine) * sad::String("options"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        empty_callback
+    );
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForInventoryRenderer.DownKeyConditions[game::Conditions::CS_OPTIONS_SCREEN]
+        & ((&m_state_machine) * sad::String("options"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        empty_callback
+    );
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForInventoryRenderer.JumpActionConditions[game::Conditions::CS_OPTIONS_SCREEN]
+        & ((&m_state_machine) * sad::String("options"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        empty_callback
+    );
+
+    // A playing game screen
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForInventoryRenderer.LeftKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING]
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        empty_callback
+    );
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForInventoryRenderer.RightKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING]
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        empty_callback
+    );
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForInventoryRenderer.UpKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING]
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        empty_callback
+    );
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForInventoryRenderer.DownKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING]
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        empty_callback
+    );
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForInventoryRenderer.JumpActionConditions[game::Conditions::CS_PLAYGAME_PLAYING]
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        empty_callback
+    );
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForInventoryRenderer.PauseCondition
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        empty_callback
+    );
+
+    // A paused game screen
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForInventoryRenderer.UpKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED]
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("paused")),
+        empty_callback
+    );
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForInventoryRenderer.DownKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED]
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("paused")),
+        empty_callback
+    );
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForInventoryRenderer.JumpActionConditions[game::Conditions::CS_PLAYGAME_PAUSED]
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("paused")),
+        empty_callback
+    );
+}
+
+
 
 void Game::quitGame()
 {

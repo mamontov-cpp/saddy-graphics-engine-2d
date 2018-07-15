@@ -53,6 +53,15 @@ public:
     /*! Runs inventorty thread
      */
     void runInventoryThread();
+    /*! Sets controls for main thread
+        \param[in] renderer a renderer for main thread
+        \param[in] db database
+     */
+    void setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* db);
+    /*! Sets controls for inventory thread
+        \param[in] renderer a renderer for main thread
+     */
+    void setControlsForInventoryThread(sad::Renderer* renderer);
     /*! Quits game
      */
     void quitGame();
