@@ -63,6 +63,8 @@ Game::Game()  : m_is_quitting(false), m_main_menu_state(Game::GMMS_PLAY), m_high
 
     m_loaded_options_database[0] = false;
     m_loaded_options_database[1] = false;
+
+    m_options_screen.init(m_main_thread->renderer(), m_inventory_thread->renderer());
 }
 
 Game::~Game()  // NOLINT
@@ -311,9 +313,9 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
         [this]() -> void {
         switch (this->m_main_menu_state)
         {
-        case Game::GMMS_PLAY: this->changeScene(SceneTransitionOptions()); break;
-        case Game::GMMS_OPTIONS:
-        case Game::GMMS_EXIT: this->quitGame(); break;
+            case Game::GMMS_PLAY: this->changeScene(SceneTransitionOptions()); break;
+            case Game::GMMS_OPTIONS: this->changeSceneToOptions(); break;
+            case Game::GMMS_EXIT: this->quitGame(); break;
         }
     });
 
@@ -583,8 +585,13 @@ void Game::tryStartStartingState()
     m_state_machine.enterState("starting_screen");
     m_paused_state_machine.enterState("playing");
 
-    sad::irrklang::Sound* theme = m_inventory_thread->renderer()->tree("")->get<sad::irrklang::Sound>("main_theme");
-    m_theme_playing = m_theme.play2D(theme, 1.0);
+    playTheme("main_theme");
+}
+
+void Game::playTheme(const sad::String& theme)
+{
+    sad::irrklang::Sound* theme_data = m_inventory_thread->renderer()->tree("")->get<sad::irrklang::Sound>(theme);
+    m_theme_playing = m_theme.play2D(theme_data, m_options.MusicVolume);
 }
 
 void Game::enterPlayingState()
@@ -607,6 +614,63 @@ void Game::changeScene(const SceneTransitionOptions& opts) const
     m_transition_process->start(opts);
 }
 
+void Game::changeSceneToOptions()
+{
+    SceneTransitionOptions options;
+    sad::Renderer* main_renderer = m_main_thread->renderer();
+    sad::Renderer* inventory_renderer = m_inventory_thread->renderer();
+
+    options.mainThread().LoadFunction = [this]() {  this->tryLoadOptionsScreen(false); };
+    options.inventoryThread().LoadFunction = [this]() {  this->tryLoadOptionsScreen(true); };
+
+    options.mainThread().OnLoadedFunction = [=]()  {
+        sad::db::populateScenesFromDatabase(main_renderer, main_renderer->database("optionsscreen"));
+        this->optionsScreen().initForMainRenderer();
+        // Init options screen
+    };
+
+    options.inventoryThread().OnLoadedFunction = [=]() {
+        sad::db::populateScenesFromDatabase(inventory_renderer, inventory_renderer->database("optionsscreen"));
+        this->optionsScreen().initForInventoryRenderer();
+        // Init options screen
+    };
+
+    options.mainThread().OnFinishedFunction = [this]() {   this->enterOptionsState(); this->enterPlayingState(); };
+    options.inventoryThread().OnFinishedFunction = [this]() { this->enterOptionsState();  this->enterPlayingState(); };
+
+    this->enterTransitioningState();
+    changeScene(options);
+}
+
+void Game::enterOptionsState()
+{
+     m_state_machine.enterState("options");
+}
+
+void Game::tryLoadOptionsScreen(bool is_inventory_thread)
+{
+    int index = (is_inventory_thread) ? 1 : 0;
+    sad::Renderer* renderer =(is_inventory_thread) ? (m_inventory_thread->renderer()) : (m_main_thread->renderer());
+    if (m_loaded_options_database[index])
+    {
+        renderer->database("options")->restoreSnapshot();
+    }
+    else
+    {
+        sad::db::Database* database = new sad::db::Database();
+        database->setRenderer(renderer);
+        database->tryLoadFrom("examples/multithreading/optionsscreen.json");
+        database->saveSnapshot();
+        renderer->addDatabase("optionsscreen", database);
+        m_loaded_options_database[index] = true;
+    }
+}
+
+OptionsScreen& Game::optionsScreen()
+{
+    return m_options_screen;
+}
+
 
 sad::Renderer* Game::rendererForMainThread() const
 {
@@ -622,7 +686,7 @@ sad::Renderer* Game::rendererForInventoryThread() const
 
 Game::Game(const Game&)  // NOLINT
     : m_main_thread(NULL), m_inventory_thread(NULL), m_is_quitting(false), m_main_menu_state(Game::GMMS_PLAY),
-      m_highscore(0), m_theme_playing(NULL), m_transition_process(NULL)
+      m_highscore(0), m_loaded_options_database{ false, false }, m_theme_playing(NULL), m_transition_process(NULL)
 {
     throw std::logic_error("Not implemented");
 }

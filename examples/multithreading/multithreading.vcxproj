@@ -203,6 +203,7 @@
     <ClCompile Include="game\options.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="nodes\background.cpp" />
+    <ClCompile Include="optionsscreen.cpp" />
     <ClCompile Include="scenetransitionoptions.cpp" />
     <ClCompile Include="scenetransitionprocess.cpp" />
     <ClCompile Include="threads\gamethread.cpp" />
@@ -214,6 +215,7 @@
     <ClInclude Include="game\item.h" />
     <ClInclude Include="game\options.h" />
     <ClInclude Include="nodes\background.h" />
+    <ClInclude Include="optionsscreen.h" />
     <ClInclude Include="scenetransitionoptions.h" />
     <ClInclude Include="scenetransitionprocess.h" />
     <ClInclude Include="threads\gamestate.h" />

@@ -16,11 +16,10 @@
 #include <irrklang/singlesound.h>
 #include <irrklang/engine.h>
 
-#include <keymouseconditions.h>
-
 #include "game/conditions.h"
 
 #include "scenetransitionprocess.h"
+#include "optionsscreen.h"
 
 
 namespace threads
@@ -75,6 +74,10 @@ public:
     /*! Start starting state
      */
     void tryStartStartingState();
+    /*! Plays theme for a game
+        \parma[in] theme a theme for game
+     */
+    void playTheme(const sad::String& theme);
     /*! Enters playing state on paused state machine
      */
     void enterPlayingState();
@@ -89,6 +92,20 @@ public:
         \param[in] opts options
      */
     void changeScene(const SceneTransitionOptions& opts) const;
+    /*! Changes scene to options screen
+     */
+    void changeSceneToOptions();
+    /*! Enters options state
+     */
+    void enterOptionsState();
+    /*! Tries loading options screen
+        \param[in] is_inventory_thread whether it's inventory thread
+     */
+    void tryLoadOptionsScreen(bool is_inventory_thread);
+    /*! Returns options screen
+        \return options screen
+     */
+    OptionsScreen& optionsScreen();
 
     /*! Returns renderer for main thread
      */
@@ -152,4 +169,7 @@ private:
     /*! An ingame used key conditions
      */
     game::Conditions m_conditions;
+    /*! An options screen
+     */
+    OptionsScreen m_options_screen;
 };
