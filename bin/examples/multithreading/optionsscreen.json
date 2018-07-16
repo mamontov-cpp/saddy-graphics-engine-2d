@@ -522,13 +522,13 @@
                         ],
                         "col":2.000000,
                         "col_span":2.000000,
-                        "halign":1.000000,
+                        "halign":0.000000,
                         "height":{
                             "unit":0.000000,
                             "value":0.000000
                         },
                         "padding_bottom":5.000000,
-                        "padding_left":5.000000,
+                        "padding_left":110.000000,
                         "padding_right":5.000000,
                         "padding_top":5.000000,
                         "row":1.000000,
@@ -777,13 +777,13 @@
                         ],
                         "col":2.000000,
                         "col_span":2.000000,
-                        "halign":1.000000,
+                        "halign":0.000000,
                         "height":{
                             "unit":0.000000,
                             "value":0.000000
                         },
                         "padding_bottom":5.000000,
-                        "padding_left":5.000000,
+                        "padding_left":114.000000,
                         "padding_right":5.000000,
                         "padding_top":5.000000,
                         "row":3.000000,
@@ -1510,6 +1510,53 @@
                 "angle":0.000000,
                 "area":{
                     "p1":{
+                        "x":243.306044,
+                        "y":387.040819
+                    },
+                    "p2":{
+                        "x":347.306044,
+                        "y":387.040819
+                    },
+                    "p3":{
+                        "x":347.306044,
+                        "y":356.706347
+                    },
+                    "p4":{
+                        "x":243.306044,
+                        "y":356.706347
+                    }
+                },
+                "breaktext":0.000000,
+                "color":{
+                    "a":0.000000,
+                    "b":0.000000,
+                    "g":0.000000,
+                    "r":192.000000
+                },
+                "font":"Liberation Sans",
+                "fontsize":30.000000,
+                "hasformatting":false,
+                "layer":8.000000,
+                "linespacing":1.000000,
+                "majorid":12.000000,
+                "maximallinescount":0.000000,
+                "maximallinewidth":0.000000,
+                "minorid":9.000000,
+                "name":"DownLabelValue",
+                "overflowstrategy":0.000000,
+                "overflowstrategyforlines":0.000000,
+                "scene":2.000000,
+                "text":"KeyDown",
+                "textellipsisposition":0.000000,
+                "textellipsispositionforlines":0.000000,
+                "type":"sad::Label",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
                         "x":0.000000,
                         "y":0.000000
                     },
@@ -1559,53 +1606,6 @@
                     }
                 },
                 "type":"sad::Sprite2D",
-                "visible":true
-            },
-            {
-                "active":true,
-                "angle":0.000000,
-                "area":{
-                    "p1":{
-                        "x":243.306044,
-                        "y":387.040819
-                    },
-                    "p2":{
-                        "x":347.306044,
-                        "y":387.040819
-                    },
-                    "p3":{
-                        "x":347.306044,
-                        "y":356.706347
-                    },
-                    "p4":{
-                        "x":243.306044,
-                        "y":356.706347
-                    }
-                },
-                "breaktext":0.000000,
-                "color":{
-                    "a":0.000000,
-                    "b":0.000000,
-                    "g":0.000000,
-                    "r":192.000000
-                },
-                "font":"Liberation Sans",
-                "fontsize":30.000000,
-                "hasformatting":false,
-                "layer":8.000000,
-                "linespacing":1.000000,
-                "majorid":12.000000,
-                "maximallinescount":0.000000,
-                "maximallinewidth":0.000000,
-                "minorid":9.000000,
-                "name":"DownLabelValue",
-                "overflowstrategy":0.000000,
-                "overflowstrategyforlines":0.000000,
-                "scene":2.000000,
-                "text":"KeyDown",
-                "textellipsisposition":0.000000,
-                "textellipsispositionforlines":0.000000,
-                "type":"sad::Label",
                 "visible":true
             },
             {
@@ -2466,19 +2466,19 @@
                 "angle":0.000000,
                 "area":{
                     "p1":{
-                        "x":495.870698,
+                        "x":494.741392,
                         "y":402.756918
                     },
                     "p2":{
-                        "x":657.870698,
+                        "x":656.741392,
                         "y":402.756918
                     },
                     "p3":{
-                        "x":657.870698,
+                        "x":656.741392,
                         "y":433.091390
                     },
                     "p4":{
-                        "x":495.870698,
+                        "x":494.741392,
                         "y":433.091390
                     }
                 },
@@ -2578,19 +2578,19 @@
                 "angle":0.000000,
                 "area":{
                     "p1":{
-                        "x":499.370698,
+                        "x":498.741392,
                         "y":310.655776
                     },
                     "p2":{
-                        "x":654.370698,
+                        "x":653.741392,
                         "y":310.655776
                     },
                     "p3":{
-                        "x":654.370698,
+                        "x":653.741392,
                         "y":340.990248
                     },
                     "p4":{
-                        "x":499.370698,
+                        "x":498.741392,
                         "y":340.990248
                     }
                 },

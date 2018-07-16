@@ -106,6 +106,14 @@ public:
         \return options screen
      */
     OptionsScreen& optionsScreen();
+    /*! Plays sound
+        \param[in] sound_name a name of sound
+     */
+    void playSound(const sad::String& sound_name) const;
+    /*! Returns in-game options
+        \return game options
+     */
+    game::Options* options();
 
     /*! Returns renderer for main thread
      */

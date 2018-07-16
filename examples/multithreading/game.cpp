@@ -64,7 +64,7 @@ Game::Game()  : m_is_quitting(false), m_main_menu_state(Game::GMMS_PLAY), m_high
     m_loaded_options_database[0] = false;
     m_loaded_options_database[1] = false;
 
-    m_options_screen.init(m_main_thread->renderer(), m_inventory_thread->renderer());
+    m_options_screen.init(this, m_main_thread->renderer(), m_inventory_thread->renderer());
 }
 
 Game::~Game()  // NOLINT
@@ -285,6 +285,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
         {
             this->m_main_menu_state = static_cast<Game::MainMenuState>(static_cast<int>(this->m_main_menu_state) - 1);
         }
+        this->playSound("misc_menu");
         put_player_pick_according_to_menu_state(this->m_main_menu_state);
     });
 
@@ -302,6 +303,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
         {
             this->m_main_menu_state = static_cast<Game::MainMenuState>(static_cast<int>(this->m_main_menu_state) + 1);  // NOLINT(misc-misplaced-widening-cast)
         }
+        this->playSound("misc_menu");
         put_player_pick_according_to_menu_state(this->m_main_menu_state);
     });
 
@@ -311,6 +313,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
         & ((&m_state_machine) * sad::String("starting_screen"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         [this]() -> void {
+        this->playSound("misc_menu_2");
         switch (this->m_main_menu_state)
         {
             case Game::GMMS_PLAY: this->changeScene(SceneTransitionOptions()); break;
@@ -327,28 +330,28 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
         & m_conditions.ConditionsForMainRenderer.LeftKeyConditions[game::Conditions::CS_OPTIONS_SCREEN]
         & ((&m_state_machine) * sad::String("options"))
         & ((&m_paused_state_machine) * sad::String("playing")),
-        empty_callback
+        [this]() { this->optionsScreen().moveToPreviousItem(); }
     );
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
         & m_conditions.ConditionsForMainRenderer.RightKeyConditions[game::Conditions::CS_OPTIONS_SCREEN]
         & ((&m_state_machine) * sad::String("options"))
         & ((&m_paused_state_machine) * sad::String("playing")),
-        empty_callback
+        [this]() { this->optionsScreen().moveToNextItem(); }
     );
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
         & m_conditions.ConditionsForMainRenderer.UpKeyConditions[game::Conditions::CS_OPTIONS_SCREEN]
         & ((&m_state_machine) * sad::String("options"))
         & ((&m_paused_state_machine) * sad::String("playing")),
-        empty_callback
+        [this]() { this->optionsScreen().moveToPreviousItem(); }
     );
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
         & m_conditions.ConditionsForMainRenderer.DownKeyConditions[game::Conditions::CS_OPTIONS_SCREEN]
         & ((&m_state_machine) * sad::String("options"))
         & ((&m_paused_state_machine) * sad::String("playing")),
-        empty_callback
+        [this]() { this->optionsScreen().moveToNextItem(); }
     );
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
@@ -436,28 +439,28 @@ void Game::setControlsForInventoryThread(sad::Renderer* renderer)
         & m_conditions.ConditionsForInventoryRenderer.LeftKeyConditions[game::Conditions::CS_OPTIONS_SCREEN]
         & ((&m_state_machine) * sad::String("options"))
         & ((&m_paused_state_machine) * sad::String("playing")),
-        empty_callback
+        [this]() { this->optionsScreen().moveToPreviousItem(); }
     );
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
         & m_conditions.ConditionsForInventoryRenderer.RightKeyConditions[game::Conditions::CS_OPTIONS_SCREEN]
         & ((&m_state_machine) * sad::String("options"))
         & ((&m_paused_state_machine) * sad::String("playing")),
-        empty_callback
+        [this]() { this->optionsScreen().moveToNextItem(); }
     );
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
         & m_conditions.ConditionsForInventoryRenderer.UpKeyConditions[game::Conditions::CS_OPTIONS_SCREEN]
         & ((&m_state_machine) * sad::String("options"))
         & ((&m_paused_state_machine) * sad::String("playing")),
-        empty_callback
+        [this]() { this->optionsScreen().moveToPreviousItem(); }
     );
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
         & m_conditions.ConditionsForInventoryRenderer.DownKeyConditions[game::Conditions::CS_OPTIONS_SCREEN]
         & ((&m_state_machine) * sad::String("options"))
         & ((&m_paused_state_machine) * sad::String("playing")),
-        empty_callback
+        [this]() { this->optionsScreen().moveToNextItem(); }
     );
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
@@ -671,6 +674,17 @@ OptionsScreen& Game::optionsScreen()
     return m_options_screen;
 }
 
+void Game::playSound(const sad::String& sound_name) const
+{
+    sad::irrklang::Sound* theme_data = m_inventory_thread->renderer()->tree("")->get<sad::irrklang::Sound>(sound_name);
+    theme_data->play2D(m_options.SoundVolume, false);
+}
+
+
+game::Options* Game::options()
+{
+    return &m_options;
+}
 
 sad::Renderer* Game::rendererForMainThread() const
 {

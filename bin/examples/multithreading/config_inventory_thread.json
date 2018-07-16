@@ -16,5 +16,7 @@
 	},
 	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/Bit Quest.mp3", "name" : "main_theme" },
 	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/Drinking-Alone.mp3", "name" : "lose_theme" },
-	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/Jerry Five.mp3", "name" : "title_theme" }
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/Jerry Five.mp3", "name" : "title_theme" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/misc_menu.wav", "name" : "misc_menu" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/misc_menu_2.wav", "name" : "misc_menu_2" }
 ]
