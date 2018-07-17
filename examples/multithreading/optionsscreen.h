@@ -24,6 +24,21 @@ class Game;
 class OptionsScreen  // NOLINT(hicpp-special-member-functions, cppcoreguidelines-special-member-functions)
 {
 public:
+    /*! A type of selected menu ite
+     */ 
+    enum MenuItemType
+    {
+        MIT_LEFT_KEY  = 0,       //!< A left key is selected
+        MIT_RIGHT_KEY = 1,       //!< A right key is selected
+        MIT_DOWN_KEY  = 2,       //!< A down key is selected
+        MIT_UP_KEY    = 3,       //!< An up key is selected
+        MIT_JUMP_ACTION_KEY = 4, //!< A jump key is being selected
+        MIT_PAUSE_KEY = 5,       //!< A pause key is being selected,
+        MIT_SOUND_VOLUME = 6,    //!< A sound volume is being selected
+        MIT_MUSIC_VOLUME = 7,    //!< A music volume is being selected
+        MIT_SAVE = 8,            //!< A save button is selected
+        MIT_RESET = 9            //!< A reset button is selected
+    };
     /*! An options screen
      */
     OptionsScreen();
