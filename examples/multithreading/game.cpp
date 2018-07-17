@@ -205,6 +205,8 @@ void Game::runMainGameThread()
                 m_is_quitting = true;
                 m_inventory_thread->sendKillSignalFrom(m_main_thread);
                 m_transition_process->unloadTexturesForMainThread();
+                sad::spitJson("highscore.json", picojson::value(static_cast<double>(m_highscore)), m_main_thread->renderer());
+                m_options.save(m_main_thread->renderer());
                 sad::irrklang::Engine::eref()->stopAllSounds();
             }
         }
@@ -252,6 +254,8 @@ void Game::runInventoryThread()
                 m_main_thread->sendKillSignalFrom(m_inventory_thread);
                 m_transition_process->unloadTexturesForInventoryThread();
                 sad::irrklang::Engine::eref()->stopAllSounds();
+                sad::spitJson("highscore.json", picojson::value(static_cast<double>(m_highscore)), m_main_thread->renderer());
+                m_options.save(m_main_thread->renderer());
             }
         }
     );
@@ -353,12 +357,20 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
         & ((&m_paused_state_machine) * sad::String("playing")),
         [this]() { this->optionsScreen().moveToNextItem(); }
     );
-    renderer->controls()->addLambda(
+    renderer->controls()->add(
         *sad::input::ET_KeyPress
         & m_conditions.ConditionsForMainRenderer.JumpActionConditions[game::Conditions::CS_OPTIONS_SCREEN]
         & ((&m_state_machine) * sad::String("options"))
         & ((&m_paused_state_machine) * sad::String("playing")),
-        empty_callback
+        &(this->optionsScreen()),
+        &OptionsScreen::tryStartEditing
+    );
+    renderer->controls()->add(
+        *sad::input::ET_KeyPress
+        & ((&m_state_machine) * sad::String("options"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        &(this->optionsScreen()),
+        &OptionsScreen::tryHandleEditing
     );
 
     // A playing game screen
@@ -462,12 +474,20 @@ void Game::setControlsForInventoryThread(sad::Renderer* renderer)
         & ((&m_paused_state_machine) * sad::String("playing")),
         [this]() { this->optionsScreen().moveToNextItem(); }
     );
-    renderer->controls()->addLambda(
+    renderer->controls()->add(
         *sad::input::ET_KeyPress
         & m_conditions.ConditionsForInventoryRenderer.JumpActionConditions[game::Conditions::CS_OPTIONS_SCREEN]
         & ((&m_state_machine) * sad::String("options"))
         & ((&m_paused_state_machine) * sad::String("playing")),
-        empty_callback
+        &(this->optionsScreen()),
+        &OptionsScreen::tryStartEditing
+    );
+    renderer->controls()->add(
+        *sad::input::ET_KeyPress
+        & ((&m_state_machine) * sad::String("options"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        &(this->optionsScreen()),
+        &OptionsScreen::tryHandleEditing
     );
 
     // A playing game screen
@@ -597,6 +617,12 @@ void Game::playTheme(const sad::String& theme)
     m_theme_playing = m_theme.play2D(theme_data, m_options.MusicVolume);
 }
 
+void Game::setThemeVolume(double volume)
+{
+    m_options.MusicVolume = volume;
+    m_theme_playing->setVolume(volume);
+}
+
 void Game::enterPlayingState()
 {
     m_paused_state_machine.enterState("playing");
@@ -684,6 +710,11 @@ void Game::playSound(const sad::String& sound_name) const
 game::Options* Game::options()
 {
     return &m_options;
+}
+
+game::Conditions* Game::conditions()
+{
+    return &m_conditions;
 }
 
 sad::Renderer* Game::rendererForMainThread() const

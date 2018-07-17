@@ -78,6 +78,10 @@ public:
         \parma[in] theme a theme for game
      */
     void playTheme(const sad::String& theme);
+    /*! Sets music volume
+        \param[in] volume a volume
+     */
+    void setThemeVolume(double volume);
     /*! Enters playing state on paused state machine
      */
     void enterPlayingState();
@@ -114,6 +118,9 @@ public:
         \return game options
      */
     game::Options* options();
+    /*! A conditions for game
+     */
+    game::Conditions* conditions();
 
     /*! Returns renderer for main thread
      */

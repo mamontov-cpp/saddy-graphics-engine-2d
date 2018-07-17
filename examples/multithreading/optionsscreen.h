@@ -10,11 +10,17 @@
 
 #include <animations/animationsblinking.h>
 #include <animations/animationsinstance.h>
+#include <input/events.h>
 
 
 namespace sad
 {
 class Renderer;
+}
+
+namespace game
+{
+class Options;
 }
 
 class Game;
@@ -63,6 +69,13 @@ public:
     /*! Moves to previous item
      */
     void moveToPreviousItem();
+    /*! Tries to start editing option or press button
+     */
+    void tryStartEditing();
+    /*! Tries to perform editing action
+        \param[in] ev event
+     */
+    void tryHandleEditing(const sad::input::KeyPressEvent& ev);
 private:
 /*! A state for thread
  */
@@ -91,7 +104,45 @@ struct StateForThread  // NOLINT(hicpp-special-member-functions, cppcoreguidelin
      */
     ~StateForThread();
 };
-
+    /*! Changes sound volume by difference that increments or decrement a screen
+        \param[in] diff a difference
+    */
+    void changeSoundVolume(double diff) const;
+    /*! Changes music volume by difference that increments or decrement a screen
+        \param[in] diff a difference
+     */
+    void changeMusicVolume(double diff) const;
+    /*! Sets width for slider value
+        \param[in] renderer a renderer data
+        \param[in] value a value data
+        \param[in] sprite_name a sprite name
+        \param[in] max_width a max width
+     */
+    static void setWidthForSliderValue(sad::Renderer* renderer, double value, const sad::String& sprite_name, double max_width);
+    /*! Tries set keyboard option, according to value
+        \param[in] key key value
+        \param[in] key_option a key options
+        \param[in] label_name a name for label
+     */
+    void trySetKeyboardOption(sad::KeyboardKey key, sad::KeyboardKey (game::Options::*key_option), const sad::String& label_name);
+    /*! Returns true if key is not maching any key from config, except current selected key
+        \param[in] key keyboard key
+        \return true if key is not matching
+     */
+    bool isKeyNotMatchingAnyFromConfigExceptCurrent(sad::KeyboardKey key) const;
+    /*! Exists editing state
+     */
+    void exitEditingState();
+    /*! Reinitializes label values, according to config
+     */
+    void initAccordingToConfig();
+    /*! Reinitializes label values, according to config
+        \param[in] state a state for thread
+     */
+    void initAccordingToConfig(OptionsScreen::StateForThread& state) const;
+    /*! Starts editing item, moving to specific data
+     */
+    void startEditingItem();
     /*! Moves to item for difference 
         \param[in] difference a difference between old value and new value
      */
@@ -129,6 +180,9 @@ struct StateForThread  // NOLINT(hicpp-special-member-functions, cppcoreguidelin
     /*! Is editing a menu item options
      */
     bool m_editing;
+    /*! Whether event has been already handled, to ensure that several key events, based on same key won't work
+     */
+    bool m_already_handled;
     /*! A current menu item
      */
     int m_current_menu_item;
