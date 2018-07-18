@@ -99,6 +99,12 @@ public:
     /*! Changes scene to options screen
      */
     void changeSceneToOptions();
+    /*! Changes scene to starting screen
+     */
+    void changeSceneToStartingScreen();
+    /*! Enters starting state
+     */
+    void enterStartScreenState();
     /*! Enters options state
      */
     void enterOptionsState();

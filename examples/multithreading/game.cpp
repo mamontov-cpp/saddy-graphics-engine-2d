@@ -643,6 +643,30 @@ void Game::changeScene(const SceneTransitionOptions& opts) const
     m_transition_process->start(opts);
 }
 
+void Game::changeSceneToStartingScreen()
+{
+    SceneTransitionOptions options;
+    sad::Renderer* main_renderer = m_main_thread->renderer();
+    sad::Renderer* inventory_renderer = m_inventory_thread->renderer();
+
+    options.mainThread().LoadFunction = [this, main_renderer]() { main_renderer->database("titlescreen")->restoreSnapshot(); };
+    options.mainThread().OnLoadedFunction = [=]()  {
+        sad::db::populateScenesFromDatabase(main_renderer, main_renderer->database("titlescreen"));
+        //this->optionsScreen().initForMainRenderer();
+    };
+
+    options.inventoryThread().OnLoadedFunction = [=]() {
+        //sad::db::populateScenesFromDatabase(inventory_renderer, inventory_renderer->database("titlescreen"));
+        //this->optionsScreen().initForInventoryRenderer();
+    };
+
+    options.mainThread().OnFinishedFunction = [this]() {   this->enterStartScreenState(); this->enterPlayingState(); };
+    options.inventoryThread().OnFinishedFunction = [this]() { this->enterStartScreenState();  this->enterPlayingState(); };
+
+    this->enterTransitioningState();
+    changeScene(options);
+}
+
 void Game::changeSceneToOptions()
 {
     SceneTransitionOptions options;
@@ -655,13 +679,11 @@ void Game::changeSceneToOptions()
     options.mainThread().OnLoadedFunction = [=]()  {
         sad::db::populateScenesFromDatabase(main_renderer, main_renderer->database("optionsscreen"));
         this->optionsScreen().initForMainRenderer();
-        // Init options screen
     };
 
     options.inventoryThread().OnLoadedFunction = [=]() {
         sad::db::populateScenesFromDatabase(inventory_renderer, inventory_renderer->database("optionsscreen"));
         this->optionsScreen().initForInventoryRenderer();
-        // Init options screen
     };
 
     options.mainThread().OnFinishedFunction = [this]() {   this->enterOptionsState(); this->enterPlayingState(); };
@@ -669,6 +691,11 @@ void Game::changeSceneToOptions()
 
     this->enterTransitioningState();
     changeScene(options);
+}
+
+void Game::enterStartScreenState()
+{
+    m_state_machine.enterState("starting_screen");
 }
 
 void Game::enterOptionsState()

@@ -61,6 +61,7 @@ void SceneTransitionProcess::start(const SceneTransitionOptions& options)
     std::function<void()> task_for_main_renderer = [game, main, inventory, opts]() {
         main->Thread->run();
         sad::Renderer* r = main->Renderer;
+        r->animations()->clear();
         r->scenes()[r->scenes().size() - 1]->addNode(main->Sprite);
         main->LoadWaitingLock.lock();
 
@@ -105,6 +106,7 @@ void SceneTransitionProcess::start(const SceneTransitionOptions& options)
     std::function<void()> task_for_inventory_renderer = [game, main, inventory, opts]() {
         inventory->Thread->run();
         sad::Renderer* r = inventory->Renderer;
+        r->animations()->clear();
         r->scenes()[r->scenes().size() - 1]->addNode(inventory->Sprite);
         inventory->LoadWaitingLock.lock();
         std::function<void()> on_inventory_darkening_end = [r, game, main, inventory, opts]() {

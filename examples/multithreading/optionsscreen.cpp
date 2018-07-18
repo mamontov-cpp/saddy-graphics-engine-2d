@@ -86,7 +86,8 @@ void OptionsScreen::tryStartEditing()
         {
             if (m_current_menu_item == OptionsScreen::MIT_SAVE)
             {
-                
+                m_game->options()->save(m_main_state.Renderer);
+                m_game->changeSceneToStartingScreen();
             }
             if (m_current_menu_item == OptionsScreen::MIT_RESET)
             {
