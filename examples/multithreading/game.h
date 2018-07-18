@@ -52,6 +52,11 @@ public:
     /*! Runs inventorty thread
      */
     void runInventoryThread();
+
+    /*! For starting screen synchronizes state of player's picked point with current menu ite
+        \param[in] state picked option
+     */
+    void putPlayerPickAccordingToMenuState(Game::MainMenuState state);
     /*! Sets controls for main thread
         \param[in] renderer a renderer for main thread
         \param[in] db database

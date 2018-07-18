@@ -261,24 +261,29 @@ void Game::runInventoryThread()
     renderer.run();
 }
 
+void Game::putPlayerPickAccordingToMenuState(Game::MainMenuState state)
+{
+    sad::Renderer* renderer = m_main_thread->renderer();
+    sad::db::Database* db = renderer->database("titlescreen");
+    sad::Sprite2D* choice_pointer = db->objectByName<sad::Sprite2D>("PlayerPick");
+    sad::Label* new_game_label = db->objectByName<sad::Label>(this->m_main_menu_states_to_labels[state]);
+    double x = new_game_label->area().p0().x() - padding_between_label_and_player_choice - (choice_pointer->area().width() / 2.0);
+    double y = (new_game_label->area().p0().y() - new_game_label->area().height() / 2.0);
+    choice_pointer->setMiddle(sad::Point2D(x, y));
+}
+
 void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* db)
 {
     // Set pointer for the main menu options
-    std::function<void(Game::MainMenuState)> put_player_pick_according_to_menu_state = [this, db](Game::MainMenuState state) {
-        sad::Sprite2D* choice_pointer = db->objectByName<sad::Sprite2D>("PlayerPick");
-        sad::Label* new_game_label = db->objectByName<sad::Label>(this->m_main_menu_states_to_labels[state]);
-        double x = new_game_label->area().p0().x() - padding_between_label_and_player_choice - (choice_pointer->area().width() / 2.0);
-        double y = (new_game_label->area().p0().y() - new_game_label->area().height() / 2.0);
-        choice_pointer->setMiddle(sad::Point2D(x, y));
-    };
-    put_player_pick_according_to_menu_state(Game::GMMS_PLAY);
+    this->m_main_menu_state = GMMS_PLAY;
+    this->putPlayerPickAccordingToMenuState(this->m_main_menu_state);
 
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
         & m_conditions.ConditionsForMainRenderer.UpKeyConditions[game::Conditions::CS_START_SCREEN]
         & ((&m_state_machine) * sad::String("starting_screen"))
         & ((&m_paused_state_machine) * sad::String("playing")),
-        [this, put_player_pick_according_to_menu_state]() -> void {
+        [this]() -> void {
         if (this->m_main_menu_state == Game::GMMS_PLAY)
         {
             this->m_main_menu_state = Game::GMMS_EXIT;
@@ -288,7 +293,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
             this->m_main_menu_state = static_cast<Game::MainMenuState>(static_cast<int>(this->m_main_menu_state) - 1);
         }
         this->playSound("misc_menu");
-        put_player_pick_according_to_menu_state(this->m_main_menu_state);
+        this->putPlayerPickAccordingToMenuState(this->m_main_menu_state);
     });
 
     renderer->controls()->addLambda(
@@ -296,7 +301,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
         & m_conditions.ConditionsForMainRenderer.DownKeyConditions[game::Conditions::CS_START_SCREEN]
         & ((&m_state_machine) * sad::String("starting_screen"))
         & ((&m_paused_state_machine) * sad::String("playing")),
-        [this, put_player_pick_according_to_menu_state]() -> void {
+        [this]() -> void {
         if (this->m_main_menu_state == Game::GMMS_EXIT)
         {
             this->m_main_menu_state = Game::GMMS_PLAY;
@@ -306,7 +311,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
             this->m_main_menu_state = static_cast<Game::MainMenuState>(static_cast<int>(this->m_main_menu_state) + 1);  // NOLINT(misc-misplaced-widening-cast)
         }
         this->playSound("misc_menu");
-        put_player_pick_according_to_menu_state(this->m_main_menu_state);
+        this->putPlayerPickAccordingToMenuState(this->m_main_menu_state);
     });
 
     renderer->controls()->addLambda(
@@ -661,10 +666,12 @@ void Game::changeSceneToStartingScreen()
     sad::Renderer* main_renderer = m_main_thread->renderer();
     sad::Renderer* inventory_renderer = m_inventory_thread->renderer();
 
+    Game::MainMenuState  state = m_main_menu_state;
     options.mainThread().LoadFunction = [this, main_renderer]() { main_renderer->database("titlescreen")->restoreSnapshot(); };
     options.mainThread().OnLoadedFunction = [=]()  {
         sad::db::populateScenesFromDatabase(main_renderer, main_renderer->database("titlescreen"));
         this->initStartScreenForMainThread();
+        this->putPlayerPickAccordingToMenuState(state);
     };
 
     options.inventoryThread().OnLoadedFunction = [this, inventory_renderer]() {
@@ -722,7 +729,7 @@ void Game::tryLoadOptionsScreen(bool is_inventory_thread)
     sad::Renderer* renderer =(is_inventory_thread) ? (m_inventory_thread->renderer()) : (m_main_thread->renderer());
     if (m_loaded_options_database[index])
     {
-        renderer->database("options")->restoreSnapshot();
+        renderer->database("optionsscreen")->restoreSnapshot();
     }
     else
     {
