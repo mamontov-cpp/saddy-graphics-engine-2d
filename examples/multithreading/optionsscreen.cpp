@@ -100,7 +100,7 @@ void OptionsScreen::tryStartEditing()
                 m_game->conditions()->apply(*(m_game->options()));
 
                 m_game->setThemeVolume(1.0);
-                m_game->options()->SoundVolume = 1.0;                
+                m_game->options()->SoundVolume = 1.0;
 
                 this->initAccordingToConfig();
             }
@@ -272,19 +272,8 @@ void OptionsScreen::initAccordingToConfig(OptionsScreen::StateForThread& state) 
     setLabelValue(state.Renderer, "JumpLabelValue", sad::keyToString(m_game->options()->JumpActionKey));
     setLabelValue(state.Renderer, "PauseLabelValue", sad::keyToString(m_game->options()->PauseKey));
 
-    sad::Sprite2D* sound_volume = db->objectByName<sad::Sprite2D>("SoundLabelValue");
-    if (sound_volume)
-    {
-        state.SoundVoumeSliderWidth = sound_volume->area().width();
-        OptionsScreen::setWidthForSliderValue(state.Renderer, m_game->options()->SoundVolume, "SoundLabelValue", state.SoundVoumeSliderWidth);
-    }
-
-    sad::Sprite2D* music_volume = db->objectByName<sad::Sprite2D>("MusicLabelValue");
-    if (sound_volume)
-    {
-        state.MusicVolumeSliderWidth = music_volume->area().width();
-        OptionsScreen::setWidthForSliderValue(state.Renderer, m_game->options()->MusicVolume, "MusicLabelValue", state.MusicVolumeSliderWidth);
-    }
+    OptionsScreen::setWidthForSliderValue(state.Renderer, m_game->options()->SoundVolume, "SoundLabelValue", state.SoundVoumeSliderWidth);
+    OptionsScreen::setWidthForSliderValue(state.Renderer, m_game->options()->MusicVolume, "MusicLabelValue", state.MusicVolumeSliderWidth);
 }
 
 void OptionsScreen::startEditingItem()
@@ -381,6 +370,19 @@ void OptionsScreen::initForRenderer(OptionsScreen::StateForThread& state)
     {
         o->setVisible(true);
     }
+    
+    sad::Sprite2D* sound_volume = db->objectByName<sad::Sprite2D>("SoundLabelValue");
+    if (sound_volume)
+    {
+        state.SoundVoumeSliderWidth = sound_volume->area().width();
+    }
+    
+    sad::Sprite2D* music_volume = db->objectByName<sad::Sprite2D>("MusicLabelValue");
+    if (music_volume)
+    {
+        state.MusicVolumeSliderWidth = music_volume->area().width();
+    }
+    
     initAccordingToConfig(state);
     m_current_menu_item = 0;
 }
