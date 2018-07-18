@@ -35,6 +35,10 @@ sad::Scene::~Scene()
     m_camera->delRef();
 }
 
+void sad::Scene::reset()
+{
+    this->clear();
+}
 
 static sad::db::schema::Schema* SadSceneSchema;
 

@@ -529,6 +529,7 @@ bool sad::db::Database::restoreSnapshot(unsigned long index)
             bool loaded = false;
             if (o)
             {
+                o->reset();
                 loaded = o->load(it.value());
                 if (!loaded)
                 {
