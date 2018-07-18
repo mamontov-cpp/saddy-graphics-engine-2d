@@ -74,6 +74,12 @@ public:
     /*! Start starting state
      */
     void tryStartStartingState();
+    /*! Inits start screen for main thread
+     */
+    void initStartScreenForMainThread();
+    /*! Inits start screen for inventory thread
+     */
+    void initStartScreenForInventoryThread();
     /*! Plays theme for a game
         \parma[in] theme a theme for game
      */

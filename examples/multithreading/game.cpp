@@ -239,9 +239,7 @@ void Game::runInventoryThread()
         return;
     }
 
-    sad::Scene* scene = renderer.scenes()[0];
-    nodes::Background* background = new nodes::Background(false);
-    scene->addNode(background);
+    this->initStartScreenForInventoryThread();
 
     SL_LOCAL_DEBUG("Starting new renderer\n", renderer);
     m_inventory_thread->markAsRendererStarted();
@@ -585,6 +583,16 @@ void Game::setHighscore(int highscore)
 
 void Game::tryStartStartingState()
 {
+    this->initStartScreenForMainThread();
+
+    m_state_machine.enterState("starting_screen");
+    m_paused_state_machine.enterState("playing");
+
+    playTheme("main_theme");
+}
+
+void Game::initStartScreenForMainThread()
+{
     // Play animations
     sad::Renderer* renderer = m_main_thread->renderer();
     sad::db::Database* db  = renderer->database("titlescreen");
@@ -604,11 +612,15 @@ void Game::tryStartStartingState()
     double width = highscore->area().width();
     // A hardcoded data from titlescreen database
     highscore->setArea(sad::Rect2D(middle - width / 2.0, 585, middle + width / 2.0, 549));
+}
 
-    m_state_machine.enterState("starting_screen");
-    m_paused_state_machine.enterState("playing");
+void Game::initStartScreenForInventoryThread()
+{
+    sad::Renderer& renderer= *(m_inventory_thread->renderer());
 
-    playTheme("main_theme");
+    sad::Scene* scene = renderer.scenes()[0];
+    nodes::Background* background = new nodes::Background(false);
+    scene->addNode(background);
 }
 
 void Game::playTheme(const sad::String& theme)
@@ -652,15 +664,16 @@ void Game::changeSceneToStartingScreen()
     options.mainThread().LoadFunction = [this, main_renderer]() { main_renderer->database("titlescreen")->restoreSnapshot(); };
     options.mainThread().OnLoadedFunction = [=]()  {
         sad::db::populateScenesFromDatabase(main_renderer, main_renderer->database("titlescreen"));
-        //this->optionsScreen().initForMainRenderer();
+        this->initStartScreenForMainThread();
     };
 
-    options.inventoryThread().OnLoadedFunction = [=]() {
-        //sad::db::populateScenesFromDatabase(inventory_renderer, inventory_renderer->database("titlescreen"));
-        //this->optionsScreen().initForInventoryRenderer();
+    options.inventoryThread().OnLoadedFunction = [this, inventory_renderer]() {
+        inventory_renderer->clearScenes();
+        inventory_renderer->addScene(new sad::Scene());
+        this->initStartScreenForInventoryThread();
     };
 
-    options.mainThread().OnFinishedFunction = [this]() {   this->enterStartScreenState(); this->enterPlayingState(); };
+    options.mainThread().OnFinishedFunction = [this]() {   this->playTheme("main_theme"); this->enterStartScreenState(); this->enterPlayingState(); };
     options.inventoryThread().OnFinishedFunction = [this]() { this->enterStartScreenState();  this->enterPlayingState(); };
 
     this->enterTransitioningState();
@@ -686,7 +699,7 @@ void Game::changeSceneToOptions()
         this->optionsScreen().initForInventoryRenderer();
     };
 
-    options.mainThread().OnFinishedFunction = [this]() {   this->enterOptionsState(); this->enterPlayingState(); };
+    options.mainThread().OnFinishedFunction = [this]() {  this->enterOptionsState(); this->enterPlayingState(); };
     options.inventoryThread().OnFinishedFunction = [this]() { this->enterOptionsState();  this->enterPlayingState(); };
 
     this->enterTransitioningState();
