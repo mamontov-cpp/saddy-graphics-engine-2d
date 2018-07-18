@@ -139,22 +139,22 @@ void nodes::Background::render()
 
 
     // Do not offset more than three tiles, which we draw forward anyway
-    while (offset < -99.0)
+    while (offset < -120.0)
     {
-        offset += 99.0;
+        offset += 120.0;
     }
 
-    m_inner_tile->setArea(sad::Rect2D(offset, 0, offset + 32, 32));
-    m_top_tile->setArea(sad::Rect2D(offset, 33, offset + 32, 65));
+    m_inner_tile->setArea(sad::Rect2D(offset, 0, offset + 39, 39));
+    m_top_tile->setArea(sad::Rect2D(offset, 40, offset + 39, 79));
 
     // Draw floor
-    for(size_t i = 0; i < 30; i++) 
+    for(size_t i = 0; i < 24; i++) 
     {
         m_inner_tile->render();
         m_top_tile->render();
 
-        m_top_tile->moveBy(sad::Point2D(33, 0));
-        m_inner_tile->moveBy(sad::Point2D(33, 0));
+        m_top_tile->moveBy(sad::Point2D(40, 0));
+        m_inner_tile->moveBy(sad::Point2D(40, 0));
     }
 }
 
