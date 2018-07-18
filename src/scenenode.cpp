@@ -29,6 +29,12 @@ sad::SceneNode::~SceneNode()
 static sad::db::schema::Schema* SceneNodeBasicSchema = NULL;
 static sad::Mutex SceneNodeBasicSchemaInit;
 
+void sad::SceneNode::reset()
+{
+    m_scene = NULL;
+    this->sad::db::Object::reset();
+}
+
 sad::db::schema::Schema* sad::SceneNode::basicSchema()
 {
     if (SceneNodeBasicSchema == NULL)

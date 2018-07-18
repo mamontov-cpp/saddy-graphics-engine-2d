@@ -526,10 +526,19 @@ bool sad::db::Database::restoreSnapshot(unsigned long index)
             ++it)
         {
             sad::db::Object* o = table->queryByMajorId(it.key());
+            if (o)
+            {
+                 o->reset();
+            }
+        }
+        for(sad::db::Database::TableSnapshot::iterator it = tablesnapshot.begin();
+            it != tablesnapshot.end();
+            ++it)
+        {
+            sad::db::Object* o = table->queryByMajorId(it.key());
             bool loaded = false;
             if (o)
             {
-                o->reset();
                 loaded = o->load(it.value());
                 if (!loaded)
                 {

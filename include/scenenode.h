@@ -54,6 +54,10 @@ public:
     /*! Must be implemented in order to get node destroyed
      */
     virtual ~SceneNode();
+    /*! Resets object's non-serialized state, when restoring snapshot to 
+        ensure idempotency of restoring objects
+     */
+    virtual void reset();
     /*! A basic schema for object
         \return a schema 
      */
