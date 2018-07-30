@@ -1,0 +1,75 @@
+{
+  "config": "platforms.json",
+  "texture": "platforms.png",
+  "resource": "platforms",
+  "sprites": [
+    {
+      "texture": "platforms/10x2_mono.png",
+      "name": "platforms_list/10x2_mono"
+    },
+    {
+      "texture": "platforms/1x1.png",
+      "name": "platforms_list/1x1"
+    },
+    {
+      "texture": "platforms/1x2.png",
+      "name": "platforms_list/1x2"
+    },
+    {
+      "texture": "platforms/1x2_mono.png",
+      "name": "platforms_list/1x2_mono"
+    },
+    {
+      "texture": "platforms/1x4.png",
+      "name": "platforms_list/1x4"
+    },
+    {
+      "texture": "platforms/1x6.png",
+      "name": "platforms_list/1x6"
+    },
+    {
+      "texture": "platforms/20x2_mono.png",
+      "name": "platforms_list/20x2_mono"
+    },
+    {
+      "texture": "platforms/2x1.png",
+      "name": "platforms_list/2x1"
+    },
+    {
+      "texture": "platforms/2x2.png",
+      "name": "platforms_list/2x2ng"
+    },
+    {
+      "texture": "platforms/2x4.png",
+      "name": "platforms_list/2x4"
+    },
+    {
+      "texture": "platforms/2x6.png",
+      "name": "platforms_list/2x6"
+    },
+    {
+      "texture": "platforms/3x1.png",
+      "name": "platforms_list/3x1"
+    },
+    {
+      "texture": "platforms/3x2.png",
+      "name": "platforms_list/3x2"
+    },
+    {
+      "texture": "platforms/3x2_mono.png",
+      "name": "platforms_list/3x2_mono"
+    },
+    {
+      "texture": "platforms/5x1.png",
+      "name": "platforms_list/5x1"
+    },
+    {
+      "texture": "platforms/5x2.png",
+      "name": "platforms_list/5x2"
+    },
+    {
+      "texture": "platforms/5x2_mono.png",
+      "name": "platforms_list/5x2_mono"
+    }
+  ]
+}
