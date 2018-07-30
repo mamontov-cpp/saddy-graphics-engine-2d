@@ -4,6 +4,7 @@
 	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/tiles.json" },
 	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/labels.json" },
 	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/white_square.json" },
+	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/slot.json" },
 	{ 
 		"type": "sad::freetype::Font",
 		"name": "Arcade Classic",

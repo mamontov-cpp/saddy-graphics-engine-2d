@@ -1,0 +1,12 @@
+{
+    "atlas":[
+        {
+            "name":"slots\/slot",
+            "size":"64;64",
+            "texrect":"0;0;64;64"
+        }
+    ],
+    "file":"slot.png",
+    "no-mipmaps":true,
+    "resource":"slot"
+}
