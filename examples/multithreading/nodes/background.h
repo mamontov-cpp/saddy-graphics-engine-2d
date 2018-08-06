@@ -29,7 +29,7 @@ SAD_OBJECT
     /*! Updates scene for all of background
         \param[in] scene a scene, which will render a node
     */
-    virtual void setScene(sad::Scene * scene);
+    virtual void setScene(sad::Scene* scene);
 private: 
     /*! Background is non-copyable, to make implementation simpler
         \param[in] b other background

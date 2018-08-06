@@ -9,7 +9,7 @@
 namespace game 
 {
 
- /*! \class Inventory 
+ /*! \class game::Inventory 
   *
   *  An inventory for storing each item
   */
@@ -22,6 +22,9 @@ public:
     /*! Frees all items, deleting them
      */
     virtual ~Inventory();
+    /*! Clears all inventory items in inventory
+     */
+    void clear();
     /*! Returns item by it's index in inventory
      *  \param[in] i row 
      *  \param[in] j column

@@ -3,6 +3,7 @@
 #include "threads/gamethread.h"
 
 #include "nodes/background.h"
+#include "nodes/inventorynode.h"
 
 #include <input/controls.h>
 
@@ -25,6 +26,8 @@ Game::Game()  : m_is_quitting(false), m_main_menu_state(Game::GMMS_PLAY), m_high
 {
     m_main_thread = new threads::GameThread();
     m_inventory_thread = new threads::GameThread();
+
+    m_inventory = new game::Inventory();
 
     m_main_menu_states_to_labels.insert(Game::GMMS_PLAY   , "Play");
     m_main_menu_states_to_labels.insert(Game::GMMS_OPTIONS, "Options");
@@ -72,6 +75,8 @@ Game::~Game()  // NOLINT
     delete m_transition_process;
     delete m_main_thread;
     delete m_inventory_thread;
+
+    delete m_inventory;
 }
 
 /*! A padding, that will be used in main menu between label and player choice
@@ -323,7 +328,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
         this->playSound("misc_menu_2");
         switch (this->m_main_menu_state)
         {
-            case Game::GMMS_PLAY: this->changeScene(SceneTransitionOptions()); break;
+            case Game::GMMS_PLAY: this->changeSceneToPlayingScreen(); break;
             case Game::GMMS_OPTIONS: this->changeSceneToOptions(); break;
             case Game::GMMS_EXIT: this->quitGame(); break;
         }
@@ -410,7 +415,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
         & m_conditions.ConditionsForMainRenderer.JumpActionConditions[game::Conditions::CS_PLAYGAME_PLAYING]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
-        empty_callback
+        [this] { this->changeSceneToStartingScreen();  }
     );
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
@@ -596,6 +601,7 @@ void Game::tryStartStartingState()
     playTheme("main_theme");
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void Game::initStartScreenForMainThread()
 {
     // Play animations
@@ -619,6 +625,7 @@ void Game::initStartScreenForMainThread()
     highscore->setArea(sad::Rect2D(middle - width / 2.0, 585, middle + width / 2.0, 549));
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void Game::initStartScreenForInventoryThread()
 {
     sad::Renderer& renderer= *(m_inventory_thread->renderer());
@@ -667,7 +674,7 @@ void Game::changeSceneToStartingScreen()
     sad::Renderer* inventory_renderer = m_inventory_thread->renderer();
 
     Game::MainMenuState  state = m_main_menu_state;
-    options.mainThread().LoadFunction = [this, main_renderer]() { main_renderer->database("titlescreen")->restoreSnapshot(); };
+    options.mainThread().LoadFunction = [main_renderer]() { main_renderer->database("titlescreen")->restoreSnapshot(); };
     options.mainThread().OnLoadedFunction = [=]()  {
         sad::db::populateScenesFromDatabase(main_renderer, main_renderer->database("titlescreen"));
         this->initStartScreenForMainThread();
@@ -682,6 +689,33 @@ void Game::changeSceneToStartingScreen()
 
     options.mainThread().OnFinishedFunction = [this]() {   this->playTheme("main_theme"); this->enterStartScreenState(); this->enterPlayingState(); };
     options.inventoryThread().OnFinishedFunction = [this]() { this->enterStartScreenState();  this->enterPlayingState(); };
+
+    this->enterTransitioningState();
+    changeScene(options);
+}
+
+void Game::changeSceneToPlayingScreen()
+{
+    SceneTransitionOptions options;
+    sad::Renderer* main_renderer = m_main_thread->renderer();
+    sad::Renderer* inventory_renderer = m_inventory_thread->renderer();
+
+
+    options.mainThread().OnLoadedFunction = [=]() {
+        main_renderer->clearScenes();
+        main_renderer->addScene(new sad::Scene());
+    };
+
+    options.inventoryThread().OnLoadedFunction = [=]() {
+        sad::Scene* scene = new sad::Scene();
+        scene->setRenderer(inventory_renderer);
+        scene->addNode(new nodes::InventoryNode(m_inventory));
+        inventory_renderer->clearScenes();
+        inventory_renderer->addScene(scene);
+    };
+
+    options.mainThread().OnFinishedFunction = [this]() {  this->enterPlayingScreenState(); this->enterPlayingState(); };
+    options.inventoryThread().OnFinishedFunction = [this]() { this->enterPlayingScreenState();  this->enterPlayingState(); };
 
     this->enterTransitioningState();
     changeScene(options);
@@ -721,6 +755,11 @@ void Game::enterStartScreenState()
 void Game::enterOptionsState()
 {
      m_state_machine.enterState("options");
+}
+
+void Game::enterPlayingScreenState()
+{
+    m_state_machine.enterState("playing");
 }
 
 void Game::tryLoadOptionsScreen(bool is_inventory_thread)
@@ -778,7 +817,8 @@ sad::Renderer* Game::rendererForInventoryThread() const
 
 Game::Game(const Game&)  // NOLINT
     : m_main_thread(NULL), m_inventory_thread(NULL), m_is_quitting(false), m_main_menu_state(Game::GMMS_PLAY),
-      m_highscore(0), m_loaded_options_database{ false, false }, m_theme_playing(NULL), m_transition_process(NULL)
+      m_highscore(0), m_loaded_options_database{false, false}, m_theme_playing(NULL), m_transition_process(NULL),
+      m_inventory(NULL)
 {
     throw std::logic_error("Not implemented");
 }

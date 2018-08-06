@@ -17,6 +17,7 @@
 #include <irrklang/engine.h>
 
 #include "game/conditions.h"
+#include "game/inventory.h"
 
 #include "scenetransitionprocess.h"
 #include "optionsscreen.h"
@@ -107,6 +108,9 @@ public:
         \param[in] opts options
      */
     void changeScene(const SceneTransitionOptions& opts) const;
+    /*! Change scene to playing screen
+     */
+    void changeSceneToPlayingScreen();
     /*! Changes scene to options screen
      */
     void changeSceneToOptions();
@@ -119,6 +123,9 @@ public:
     /*! Enters options state
      */
     void enterOptionsState();
+    /*! Enters playing game screen state
+     */
+    void enterPlayingScreenState();
     /*! Tries loading options screen
         \param[in] is_inventory_thread whether it's inventory thread
      */
@@ -201,6 +208,9 @@ private:
     /*! An ingame used key conditions
      */
     game::Conditions m_conditions;
+    /*! An in-game inventory
+     */
+    game::Inventory* m_inventory;
     /*! An options screen
      */
     OptionsScreen m_options_screen;

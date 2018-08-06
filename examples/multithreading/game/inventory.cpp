@@ -1,8 +1,8 @@
 #include "inventory.h"
 
-const int game::Inventory::Width = 25;
+const int game::Inventory::Width = 9;
 
-const int game::Inventory::Height = 20;
+const int game::Inventory::Height = 7;
 
 
 // ============================================ PUBLIC METHODS  ============================================
@@ -19,7 +19,7 @@ game::Inventory::Inventory() : m_items_count(0)
     }
 }
 
-game::Inventory::~Inventory() 
+void game::Inventory::clear()
 {
     for (sad::Hash<int, sad::Hash<int, game::Item *> >::iterator it = m_items.begin(); it != m_items.end(); ++it)
     {
@@ -29,6 +29,11 @@ game::Inventory::~Inventory()
             delete jt.value();
         }
     }
+}
+
+game::Inventory::~Inventory() 
+{
+    this->clear();
 }
 
 game::Item* game::Inventory::getItemByIndex(int i, int j) 

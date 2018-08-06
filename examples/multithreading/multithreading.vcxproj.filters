@@ -66,6 +66,9 @@
     <ClCompile Include="optionsscreen.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
+    <ClCompile Include="nodes\inventorynode.cpp">
+      <Filter>Файлы исходного кода\nodes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -100,6 +103,9 @@
     </ClInclude>
     <ClInclude Include="optionsscreen.h">
       <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="nodes\inventorynode.h">
+      <Filter>Заголовочные файлы\nodes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
