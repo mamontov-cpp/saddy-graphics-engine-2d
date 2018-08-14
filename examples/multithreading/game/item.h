@@ -16,8 +16,9 @@ public:
     /*! Constructs new item
      *  \param[in] icon an icon for item
      *  \param[in] title a title for item
+     *  \param[in] description a description for item
      */
-    Item(const sad::String& icon, const sad::String& title);
+    Item(const sad::String& icon, const sad::String& title, const sad::String& description);
     /*! An item can be inherited to implement own items
      */
     virtual ~Item();
@@ -28,6 +29,9 @@ protected:
     /*! A highlight title for item
      */
     sad::String m_title;
+	/*! A description for item
+	 */
+	sad::String m_description;
 };
 
 }

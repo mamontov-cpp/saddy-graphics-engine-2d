@@ -2,7 +2,7 @@
 
 const int game::Inventory::Width = 9;
 
-const int game::Inventory::Height = 7;
+const int game::Inventory::Height = 5; // 6,7-th row is reserved for recycle bin, which should be placed on 7-th row, 9-th place
 
 
 // ============================================ PUBLIC METHODS  ============================================
