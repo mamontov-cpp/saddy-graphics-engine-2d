@@ -60,6 +60,9 @@ private:
     /*! A slot item, used to draw inventory slots
      */
     sad::Sprite2D* m_slot;
+    /*! A basket item sprite
+     */
+    sad::Sprite2D* m_basket_item;
 };
 
 }
