@@ -87,6 +87,9 @@ private:
     /*! A basket item sprite
      */
     sad::Sprite2D* m_basket_item;
+    /*! Whether we already computed inventory slots places
+     */
+    bool m_computed_inventory_slots_places;
 };
 
 }

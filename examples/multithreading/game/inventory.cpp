@@ -135,10 +135,40 @@ game::Item* game::Inventory::takeItem(int i, int j)
     return item;;
 }
 
+game::Item* game::Inventory::item(int i, int j)
+{
+    if (!m_items.contains(i))
+    {
+        return NULL;
+    }
+    if (!m_items[i].contains(j))
+    {
+        return NULL;
+    }
+    return m_items[i][j];
+}
+
 
 const game::Inventory::HashMap& game::Inventory::items() const
 {
     return m_items;
+}
+
+void game::Inventory::eachExisting(std::function<void(int, int, game::Item*&)> f)
+{
+    for (game::Inventory::HashMap::iterator it = m_items.begin(); it != m_items.end(); ++it)
+    {
+        int row = it.key();
+        game::Inventory::RowHashMap& rowmap = it.value();
+        for (game::Inventory::RowHashMap::iterator jt = rowmap.begin(); jt != rowmap.end(); ++jt)
+        {
+            int column = jt.key();
+            if (jt.value())
+            {
+                f (row, column, jt.value());
+            }
+        }
+    }
 }
 
 void game::Inventory::setNode(nodes::InventoryNode* node)

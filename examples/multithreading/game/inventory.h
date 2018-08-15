@@ -6,6 +6,9 @@
 #include "item.h"
 #include <sadhash.h>
 
+#include <utility>
+#include <functional>
+
 namespace nodes
 {
 class InventoryNode;
@@ -69,10 +72,20 @@ public:
      *  \return pointer to item or NULL if not found
      */
     game::Item* takeItem(int i, int j);
+    /*! Returns an item from inventory
+     *  \param[in] i an index for row
+     *  \param[in] j an index for column
+     *  \return pointer to item or NULL if not found
+     */
+    game::Item* item(int i, int j);
     /*! Returns an items from inventory
      *  \return an items list from inventory
      */
     const game::Inventory::HashMap& items() const;
+    /*! Performs action with each existing item in inventory
+        \param[in] f function, which is called with row, column and item
+     */
+    void eachExisting(std::function<void(int, int, game::Item*&)> f);
     /*! Sets node for inventory
      *  \param[in] node a node item data
      */
