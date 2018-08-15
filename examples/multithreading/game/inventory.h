@@ -110,6 +110,9 @@ protected:
      */
     nodes::InventoryNode* m_node;
 private:
+    /*! Deletes all items from inventory
+	 */ 
+    void deleteAllItems();
     /*! A copying is disabled for inventory
      *  \param[in] inventory other inventory
      */

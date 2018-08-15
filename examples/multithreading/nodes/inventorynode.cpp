@@ -4,6 +4,8 @@
 
 #include <stdexcept>
 
+#include <pipeline/pipeline.h>
+
 
 DECLARE_SOBJ_INHERITANCE(nodes::InventoryNode, sad::SceneNode);
 // A padding between icons
@@ -153,6 +155,12 @@ void nodes::InventoryNode::setScene(sad::Scene* scene)
             scene->add(item->sprite());
         }
     });
+    if (scene->renderer())
+    {
+        scene->renderer()->pipeline()->appendTask([this, scene]() {
+            scene->setLayer(this, 0);
+        });
+    }
 }
 
 void nodes::InventoryNode::clearInventorySprites()

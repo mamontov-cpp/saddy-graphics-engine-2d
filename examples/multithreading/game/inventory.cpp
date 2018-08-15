@@ -27,19 +27,12 @@ void game::Inventory::clear()
     {
         m_node->clearInventorySprites();
     }
-    for (sad::Hash<int, sad::Hash<int, game::Item *> >::iterator it = m_items.begin(); it != m_items.end(); ++it)
-    {
-        sad::Hash<int, game::Item *>& items = it.value();
-        for (sad::Hash<int, game::Item *>::iterator jt = items.begin(); jt != items.end(); ++jt)
-        {
-            delete jt.value();
-        }
-    }
+    this->deleteAllItems();
 }
 
 game::Inventory::~Inventory()
 {
-    this->clear();
+    this->deleteAllItems();
 }
 
 game::Item* game::Inventory::getItemByIndex(int i, int j)
@@ -182,6 +175,20 @@ nodes::InventoryNode* game::Inventory::node() const
 }
 
 // ============================================ PRIVATE METHODS  ============================================
+
+
+void game::Inventory::deleteAllItems()
+{
+    for (sad::Hash<int, sad::Hash<int, game::Item *> >::iterator it = m_items.begin(); it != m_items.end(); ++it)
+    {
+        sad::Hash<int, game::Item *>& items = it.value();
+        for (sad::Hash<int, game::Item *>::iterator jt = items.begin(); jt != items.end(); ++jt)
+        {
+            delete jt.value();
+            jt.value() = NULL;
+        }
+    }
+}
 
 game::Inventory::Inventory(const game::Inventory&) : m_items_count(0), m_node(NULL)
 {
