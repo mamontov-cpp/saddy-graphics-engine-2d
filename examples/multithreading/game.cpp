@@ -702,6 +702,9 @@ void Game::changeSceneToPlayingScreen()
     sad::Renderer* inventory_renderer = m_inventory_thread->renderer();
 
     m_player->reset();
+    m_player->inventory()->addItem(new game::Item("icons_list/Ac_Medal01ng", "A medal", "Data "));
+    m_player->inventory()->addItem(new game::Item("icons_list/Ac_Medal02ng", "An item", "Data 2"));
+    m_player->inventory()->addItem(new game::Item("icons_list/Ac_Medal03ng", "A stuff", "Data 3"));
 
     options.mainThread().OnLoadedFunction = [=]() {
         main_renderer->clearScenes();
