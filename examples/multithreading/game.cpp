@@ -27,7 +27,7 @@ Game::Game()  : m_is_quitting(false), m_main_menu_state(Game::GMMS_PLAY), m_high
     m_main_thread = new threads::GameThread();
     m_inventory_thread = new threads::GameThread();
 
-    m_inventory = new game::Inventory();
+    m_player = new game::Player();
 
     m_main_menu_states_to_labels.insert(Game::GMMS_PLAY   , "Play");
     m_main_menu_states_to_labels.insert(Game::GMMS_OPTIONS, "Options");
@@ -76,7 +76,7 @@ Game::~Game()  // NOLINT
     delete m_main_thread;
     delete m_inventory_thread;
 
-    delete m_inventory;
+    delete m_player;
 }
 
 /*! A padding, that will be used in main menu between label and player choice
@@ -675,6 +675,7 @@ void Game::changeSceneToStartingScreen()
 
     Game::MainMenuState  state = m_main_menu_state;
     options.mainThread().LoadFunction = [main_renderer]() { main_renderer->database("titlescreen")->restoreSnapshot(); };
+    options.inventoryThread().LoadFunction = [this]() { this->m_player->reset(); };
     options.mainThread().OnLoadedFunction = [=]()  {
         sad::db::populateScenesFromDatabase(main_renderer, main_renderer->database("titlescreen"));
         this->initStartScreenForMainThread();
@@ -700,6 +701,7 @@ void Game::changeSceneToPlayingScreen()
     sad::Renderer* main_renderer = m_main_thread->renderer();
     sad::Renderer* inventory_renderer = m_inventory_thread->renderer();
 
+    m_player->reset();
 
     options.mainThread().OnLoadedFunction = [=]() {
         main_renderer->clearScenes();
@@ -709,7 +711,7 @@ void Game::changeSceneToPlayingScreen()
     options.inventoryThread().OnLoadedFunction = [=]() {
         sad::Scene* scene = new sad::Scene();
         scene->setRenderer(inventory_renderer);
-        scene->addNode(new nodes::InventoryNode(m_inventory));
+        scene->addNode(new nodes::InventoryNode(m_player->inventory()));
         inventory_renderer->clearScenes();
         inventory_renderer->addScene(scene);
     };
@@ -723,12 +725,14 @@ void Game::changeSceneToPlayingScreen()
 
 void Game::changeSceneToOptions()
 {
+    this->m_player->reset();
+
     SceneTransitionOptions options;
     sad::Renderer* main_renderer = m_main_thread->renderer();
     sad::Renderer* inventory_renderer = m_inventory_thread->renderer();
 
     options.mainThread().LoadFunction = [this]() {  this->tryLoadOptionsScreen(false); };
-    options.inventoryThread().LoadFunction = [this]() {  this->tryLoadOptionsScreen(true); };
+    options.inventoryThread().LoadFunction = [this]() { this->m_player->reset(); this->tryLoadOptionsScreen(true); };
 
     options.mainThread().OnLoadedFunction = [=]()  {
         sad::db::populateScenesFromDatabase(main_renderer, main_renderer->database("optionsscreen"));
@@ -818,7 +822,7 @@ sad::Renderer* Game::rendererForInventoryThread() const
 Game::Game(const Game&)  // NOLINT
     : m_main_thread(NULL), m_inventory_thread(NULL), m_is_quitting(false), m_main_menu_state(Game::GMMS_PLAY),
       m_highscore(0), m_loaded_options_database{false, false}, m_theme_playing(NULL), m_transition_process(NULL),
-      m_inventory(NULL)
+      m_player(NULL)
 {
     throw std::logic_error("Not implemented");
 }

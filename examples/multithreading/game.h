@@ -17,7 +17,7 @@
 #include <irrklang/engine.h>
 
 #include "game/conditions.h"
-#include "game/inventory.h"
+#include "game/player.h"
 
 #include "scenetransitionprocess.h"
 #include "optionsscreen.h"
@@ -208,9 +208,9 @@ private:
     /*! An ingame used key conditions
      */
     game::Conditions m_conditions;
-    /*! An in-game inventory
+    /*! A player, that will be used in game
      */
-    game::Inventory* m_inventory;
+    game::Player* m_player;
     /*! An options screen
      */
     OptionsScreen m_options_screen;

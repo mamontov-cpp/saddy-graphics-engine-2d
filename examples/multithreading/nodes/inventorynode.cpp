@@ -20,6 +20,7 @@ nodes::InventoryNode::InventoryNode(game::Inventory* inventory) : m_inventory(in
     m_slot  = new sad::Sprite2D();
     m_basket_item = new sad::Sprite2D();
 
+    m_inventory->setNode(this);
 
     m_label->addRef();
     m_background->addRef();
