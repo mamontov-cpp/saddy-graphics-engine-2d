@@ -1,21 +1,33 @@
 /*! \file inventory.h
- * 
+ *
  *  Describes an in-game inventory
  */
 #pragma once
 #include "item.h"
 #include <sadhash.h>
 
-namespace game 
+namespace nodes
+{
+class InventoryNode;
+}
+
+
+namespace game
 {
 
- /*! \class game::Inventory 
+ /*! \class game::Inventory
   *
   *  An inventory for storing each item
   */
-class Inventory 
+class Inventory
 {
 public:
+    /*! An inventory row map
+     */
+    typedef sad::Hash<int, game::Item *> RowHashMap;
+    /*! A list of item as a hash map
+     */
+    typedef sad::Hash<int, game::Inventory::RowHashMap> HashMap;
     /*! Creates an empty directory
      */
     Inventory();
@@ -26,14 +38,14 @@ public:
      */
     void clear();
     /*! Returns item by it's index in inventory
-     *  \param[in] i row 
+     *  \param[in] i row
      *  \param[in] j column
      *  \return item or NULL if not found
      */
     game::Item* getItemByIndex(int i, int j);
     /*! Adds item to inventory
      *  \param[in] item an item in inventory
-     *  \return false if inventory is full, true otherwise 
+     *  \return false if inventory is full, true otherwise
      */
     bool addItem(game::Item* item);
     /*! Replaces items by positions
@@ -57,6 +69,17 @@ public:
      *  \return pointer to item or NULL if not found
      */
     game::Item* takeItem(int i, int j);
+    /*! Returns an items from inventory
+     *  \return an items list from inventory
+     */
+    const game::Inventory::HashMap& items() const;
+    /*! Sets node for inventory
+     *  \param[in] node a node item data
+     */
+    void setNode(nodes::InventoryNode* node);
+    /*! Returns node for inventory
+     */
+    nodes::InventoryNode* node() const;
     /*! A maximal horizontal cells of inventory
      */
     static const int Width;
@@ -66,10 +89,13 @@ public:
 protected:
     /*! A hash-map, storing all of items
      */
-    sad::Hash<int, sad::Hash<int, game::Item *> > m_items;
+    game::Inventory::HashMap m_items;
     /*! Amount of items in inventory
      */
     size_t m_items_count;
+    /*! An inventory node
+     */
+    nodes::InventoryNode* m_node;
 private:
     /*! A copying is disabled for inventory
      *  \param[in] inventory other inventory

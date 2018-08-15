@@ -3,10 +3,12 @@
  *  An inventory node item, that draws a background and items
  */
 #pragma once
-#include <sprite2d.h> 
+#include <sprite2d.h>
 #include <label.h>
 
 #include "../game/inventory.h"
+
+#include <sadvector.h>
 
 namespace nodes
 {
@@ -37,6 +39,28 @@ public:
         \param[in] scene a scene, which will render a node
      */
     virtual void setScene(sad::Scene* scene);
+
+    /*! Called, when inventory is being cleared
+     */
+    void clearInventorySprites();
+    /*! Tries to make sprite if not exists for item and store them
+     *  \param[in] i a row for an item
+     *  \param[in] j a column for an item
+     *  \param[in] item an item for store
+     */
+    void tryMakeSpriteAndStore(int i, int j, game::Item* item);
+    /*! Swaps sprite positions on screen
+     *  \param[in] row1     a row for first sprite
+     *  \param[in] column1  a column for first sprite
+     *  \param[in] row2     a row for second sprite
+     *  \param[in] column2  a column for second sprite
+     */
+    void swapSpritePositions(int row1, int column1, int row2, int column2);
+    /*! Erases sprite for an item with position
+     *  \param[in] i a row for an item
+     *  \param[in] j a column fir an item
+     */
+    void eraseSprite(int i, int j);
 private:
     /*! Background is non-copyable, to make implementation simpler
         \param[in] b other background

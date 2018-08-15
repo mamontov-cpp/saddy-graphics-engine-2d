@@ -113,8 +113,29 @@ void nodes::InventoryNode::setScene(sad::Scene* scene)
     m_basket_item->setScene(scene);
 }
 
+void nodes::InventoryNode::clearInventorySprites()
+{
+    // TODO:
+}
 
-// ========================================== PRIVATE METHODS ==========================================  
+void nodes::InventoryNode::tryMakeSpriteAndStore(int i, int j, game::Item* item)
+{
+    // TODO:
+}
+
+
+void nodes::InventoryNode::swapSpritePositions(int row1, int column1, int row2, int column2)
+{
+    // TODO:
+}
+
+void nodes::InventoryNode::eraseSprite(int i, int j)
+{
+    // TODO:
+}
+
+
+// ========================================== PRIVATE METHODS ==========================================
 
 nodes::InventoryNode::InventoryNode(const nodes::InventoryNode&) : m_inventory(NULL), m_background(NULL), m_label(NULL), m_slot(NULL), m_basket_item(NULL)  // NOLINT(bugprone-copy-constructor-init)
 {
