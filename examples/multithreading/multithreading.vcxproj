@@ -199,6 +199,7 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="game\conditions.cpp" />
     <ClCompile Include="game\inventory.cpp" />
+	<ClCompile Include="game\player.cpp" />
     <ClCompile Include="game\item.cpp" />
     <ClCompile Include="game\options.cpp" />
     <ClCompile Include="main.cpp" />
@@ -213,7 +214,8 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="game\conditions.h" />
     <ClInclude Include="game\inventory.h" />
-    <ClInclude Include="game\item.h" />
+    <ClInclude Include="game\player.h" />
+	<ClInclude Include="game\item.h" />
     <ClInclude Include="game\options.h" />
     <ClInclude Include="nodes\background.h" />
     <ClInclude Include="nodes\inventorynode.h" />

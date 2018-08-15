@@ -51,6 +51,9 @@
     <ClCompile Include="game\inventory.cpp">
       <Filter>Файлы исходного кода\game</Filter>
     </ClCompile>
+	<ClCompile Include="game\player.cpp">
+      <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
     <ClCompile Include="scenetransitionoptions.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
@@ -87,6 +90,9 @@
       <Filter>Заголовочные файлы\game</Filter>
     </ClInclude>
     <ClInclude Include="game\item.h">
+      <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+	<ClInclude Include="game\player.h">
       <Filter>Заголовочные файлы\game</Filter>
     </ClInclude>
     <ClInclude Include="scenetransitionoptions.h">
