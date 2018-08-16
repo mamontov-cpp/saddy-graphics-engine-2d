@@ -13,6 +13,8 @@
 namespace nodes
 {
 
+class InventoryPopup;
+
 /*! \class nodes::InventoryNode
  *
  *  A basic inventory node, that renders inventory background and it's items
@@ -69,6 +71,9 @@ public:
      *  \param[in] column a column  for slot icon
      */
     sad::Rect2D getInventoryIconPosition(int row, int column);
+    /*! Returns inventory popup
+     */
+    nodes::InventoryPopup* popup();
 private:
     /*! Background is non-copyable, to make implementation simpler
      *  \param[in] b other background
@@ -95,6 +100,9 @@ private:
     /*! A basket item sprite
      */
     sad::Sprite2D* m_basket_item;
+    /*! An inventory popup
+     */
+    nodes::InventoryPopup* m_popup;
     /*! Whether we already computed inventory slots places
      */
     bool m_computed_inventory_slots_places;

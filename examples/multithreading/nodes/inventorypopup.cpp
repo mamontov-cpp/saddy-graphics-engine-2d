@@ -64,6 +64,7 @@ void nodes::InventoryPopup::rendererChanged()
 
 void nodes::InventoryPopup::setScene(sad::Scene* scene)
 {
+    this->sad::SceneNode::setScene(scene);
     m_background_underlay->setScene(scene);
     m_background_overlay->setScene(scene);
     m_label->setScene(scene);
@@ -95,7 +96,7 @@ void nodes::InventoryPopup::showAt(const sad::Point2D& p)
 
 void nodes::InventoryPopup::recomputePopupPosition()
 {
-    sad::Renderer* r = m_label->scene()->renderer();
+    sad::Renderer* r = this->scene()->renderer();
     double screen_width = r->settings().width();
 
     const sad::Rect2D& rect_area = m_label->area();
@@ -123,7 +124,7 @@ void nodes::InventoryPopup::recomputePopupPosition()
     }
     else
     {
-        if (py - outer_width >= 0)
+        if (py - outer_height >= 0)
         {
             // Consider as top-right point
             setAreaForPopup(px - outer_width, py, outer_width, outer_height);
@@ -142,13 +143,11 @@ void nodes::InventoryPopup::setAreaForPopup(double px,  double py, double width,
     m_background_overlay->setArea(sad::Rect2D(
         px + OUTER_PADDING,
         py - height + OUTER_PADDING,
-        px + width - 2 * OUTER_PADDING,
+        px + width - OUTER_PADDING,
         py - OUTER_PADDING
     ));
-    m_label->setArea(sad::Rect2D(
+    m_label->setPoint(sad::Point2D(
         px + OUTER_PADDING + INNER_PADDING,
-        py - height + (OUTER_PADDING + INNER_PADDING),
-        px + width - 2 * (OUTER_PADDING + INNER_PADDING),
         py -  (OUTER_PADDING + INNER_PADDING)
     ));
 }

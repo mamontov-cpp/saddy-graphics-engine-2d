@@ -2,6 +2,8 @@
 
 #include "../nodes/inventorynode.h"
 
+#include <geometry2d.h>
+
 const int game::Inventory::Width = 9;
 
 const int game::Inventory::Height = 5; // 6,7-th row is reserved for recycle bin, which should be placed on 7-th row, 9-th place
@@ -162,6 +164,32 @@ void game::Inventory::eachExisting(std::function<void(int, int, game::Item*&)> f
             }
         }
     }
+}
+
+game::Item* game::Inventory::getItemWhichIsUnderCursor(const sad::Point2D& p)
+{
+    for (game::Inventory::HashMap::iterator it = m_items.begin(); it != m_items.end(); ++it)
+    {
+        int row = it.key();
+        game::Inventory::RowHashMap& rowmap = it.value();
+        for (game::Inventory::RowHashMap::iterator jt = rowmap.begin(); jt != rowmap.end(); ++jt)
+        {
+            int column = jt.key();
+            game::Item* item = jt.value();
+            if (item)
+            {
+                sad::Sprite2D* sprite = item->sprite();
+                if (sprite)
+                {
+                    if (sad::isWithin(p, sprite->area()))
+                    {
+                        return item;
+                    }
+                }
+            }
+        }
+    }
+    return NULL;
 }
 
 void game::Inventory::setNode(nodes::InventoryNode* node)

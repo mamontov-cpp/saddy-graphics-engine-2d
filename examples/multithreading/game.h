@@ -26,6 +26,7 @@
 namespace nodes
 {
 class InventoryNode;
+class InventoryPopup;
 }
 
 namespace threads
@@ -157,6 +158,11 @@ public:
     /*! Returns renderer for inventory thread
      */
     sad::Renderer* rendererForInventoryThread() const;
+    /*! Tries to show inventory popup, which succeeds only if
+        cursor is on item
+        \param[in] p point
+     */
+    void tryShowInventoryPopup(const sad::Point2D& p);
 private:
     /*! Disabled constructor
      */
@@ -206,9 +212,15 @@ private:
     /*! A transition process
      */
     SceneTransitionProcess* m_transition_process;
-    /*! A n inventory node
+    /*! Whether we are dragging inventory item
+     */
+    bool m_is_dragging_inventory_item;
+    /*! An inventory node
      */
     nodes::InventoryNode* m_inventory_node;
+    /*! An inventory popup
+     */
+    nodes::InventoryPopup* m_inventory_popup;
 
     /*! A global game options
      */

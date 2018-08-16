@@ -4,8 +4,10 @@
 
 #include "nodes/background.h"
 #include "nodes/inventorynode.h"
+#include "nodes/inventorypopup.h"
 
 #include <input/controls.h>
+#include <pipeline/pipeline.h>
 
 #include <keymouseconditions.h>
 
@@ -26,7 +28,9 @@ Game::Game()  : m_is_quitting(false),
 m_main_menu_state(Game::GMMS_PLAY),
 m_highscore(0),
 m_loaded_options_database{false, false},
-m_inventory_node(NULL) // NOLINT
+m_is_dragging_inventory_item(false),
+m_inventory_node(NULL),
+m_inventory_popup(NULL) // NOLINT
 {
     m_main_thread = new threads::GameThread();
     m_inventory_thread = new threads::GameThread();
@@ -266,6 +270,19 @@ void Game::runInventoryThread()
             }
         }
     );
+
+    renderer.pipeline()->appendProcess([=, this]() {
+        if (this->m_inventory_popup)
+        {
+            if (!(this->m_is_dragging_inventory_item))
+            {
+                if (!(this->m_paused_state_machine.isInState("paused")))
+                {
+                    this->m_inventory_popup->render();
+                }
+            }
+        }
+    });
 
     renderer.run();
 }
@@ -572,6 +589,16 @@ void Game::setControlsForInventoryThread(sad::Renderer* renderer)
         & ((&m_paused_state_machine) * sad::String("paused")),
         empty_callback
     );
+
+    std::function<void(const sad::input::MouseMoveEvent& e)> move_callback = [=, this](const sad::input::MouseMoveEvent& e) {
+        this->tryShowInventoryPopup(e.pos2D());
+    };
+    renderer->controls()->addLambda(
+        *sad::input::ET_MouseMove
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        move_callback
+    );
 }
 
 
@@ -678,6 +705,10 @@ void Game::changeScene(const SceneTransitionOptions& opts) const
 void Game::changeSceneToStartingScreen()
 {
     SceneTransitionOptions options;
+
+    m_inventory_popup = NULL;
+    m_is_dragging_inventory_item = false;
+
     sad::Renderer* main_renderer = m_main_thread->renderer();
     sad::Renderer* inventory_renderer = m_inventory_thread->renderer();
 
@@ -706,6 +737,10 @@ void Game::changeSceneToStartingScreen()
 void Game::changeSceneToPlayingScreen()
 {
     SceneTransitionOptions options;
+
+    m_inventory_popup = NULL;
+    m_is_dragging_inventory_item = false;
+
     sad::Renderer* main_renderer = m_main_thread->renderer();
     sad::Renderer* inventory_renderer = m_inventory_thread->renderer();
 
@@ -723,13 +758,23 @@ void Game::changeSceneToPlayingScreen()
         sad::Scene* scene = new sad::Scene();
         scene->setRenderer(inventory_renderer);
         this->m_inventory_node = new nodes::InventoryNode(m_player->inventory());
+        this->m_inventory_popup = this->m_inventory_node->popup();
         scene->addNode(this->m_inventory_node);
         inventory_renderer->clearScenes();
         inventory_renderer->addScene(scene);
     };
 
     options.mainThread().OnFinishedFunction = [this]() {  this->enterPlayingScreenState(); this->enterPlayingState(); };
-    options.inventoryThread().OnFinishedFunction = [this]() { this->enterPlayingScreenState();  this->enterPlayingState(); };
+    options.inventoryThread().OnFinishedFunction = [this, inventory_renderer]() {
+        this->enterPlayingScreenState();
+        this->enterPlayingState();
+        sad::MaybePoint3D mbp3d = inventory_renderer->cursorPosition();
+        if (mbp3d.exists())
+        {
+            sad::Point2D pnt(mbp3d.value().x(), mbp3d.value().y());
+            this->tryShowInventoryPopup(pnt);
+        }
+    };
 
     this->enterTransitioningState();
     changeScene(options);
@@ -738,6 +783,10 @@ void Game::changeSceneToPlayingScreen()
 void Game::changeSceneToOptions()
 {
     this->m_player->reset();
+
+
+    m_inventory_popup = NULL;
+    m_is_dragging_inventory_item = false;
 
     SceneTransitionOptions options;
     sad::Renderer* main_renderer = m_main_thread->renderer();
@@ -829,12 +878,33 @@ sad::Renderer* Game::rendererForInventoryThread() const
     return m_inventory_thread->renderer();
 }
 
+void Game::tryShowInventoryPopup(const sad::Point2D& p)
+{
+    game::Item* item = m_player->inventory()->getItemWhichIsUnderCursor(p);
+    if (item)
+    {
+        if (m_inventory_popup)
+        {
+            m_inventory_popup->setDescription(item->title(), item->description());
+            m_inventory_popup->showAt(p);
+            m_inventory_popup->setVisible(true);
+        }
+    }
+    else
+    {
+        if (m_inventory_popup)
+        {
+            m_inventory_popup->setVisible(false);
+        }
+    }
+}
+
 // ==================================== PRIVATE METHODS ====================================
 
 Game::Game(const Game&)  // NOLINT
     : m_main_thread(NULL), m_inventory_thread(NULL), m_is_quitting(false), m_main_menu_state(Game::GMMS_PLAY),
       m_highscore(0), m_loaded_options_database{false, false}, m_theme_playing(NULL), m_transition_process(NULL),
-      m_player(NULL), m_inventory_node(NULL)
+      m_player(NULL), m_is_dragging_inventory_item(false), m_inventory_node(NULL), m_inventory_popup(NULL)
 {
     throw std::logic_error("Not implemented");
 }

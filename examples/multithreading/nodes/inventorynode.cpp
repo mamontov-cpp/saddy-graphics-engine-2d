@@ -1,4 +1,5 @@
 #include "inventorynode.h"
+#include "inventorypopup.h"
 
 #include "../game/inventory.h"
 
@@ -22,6 +23,8 @@ m_computed_inventory_slots_places(false)
     m_label = new sad::Label();
     m_slot  = new sad::Sprite2D();
     m_basket_item = new sad::Sprite2D();
+    m_popup = new nodes::InventoryPopup();
+    m_popup->setVisible(false);
 
     m_inventory->setNode(this);
     m_inventory->eachExisting([](int row, int column, game::Item* item) {
@@ -33,10 +36,12 @@ m_computed_inventory_slots_places(false)
     m_background->addRef();
     m_slot->addRef();
     m_basket_item->addRef();
+    m_popup->addRef();
 }
 
 nodes::InventoryNode::~InventoryNode()
 {
+    m_popup->delRef();
     m_basket_item->delRef();
     m_slot->delRef();
     m_background->delRef();
@@ -108,6 +113,7 @@ void nodes::InventoryNode::rendererChanged()
     m_label->rendererChanged();
     m_slot->rendererChanged();
     m_basket_item->rendererChanged();
+    m_popup->rendererChanged();
 
     m_background->setTreeName("");
     m_background->set("white_square");
@@ -148,6 +154,7 @@ void nodes::InventoryNode::setScene(sad::Scene* scene)
     m_label->setScene(scene);
     m_slot->setScene(scene);
     m_basket_item->setScene(scene);
+    m_popup->setScene(scene);
 
     // Update settings for inventory nodes
     m_inventory->eachExisting([scene](int row, int column, game::Item* item) {
@@ -263,6 +270,11 @@ sad::Rect2D nodes::InventoryNode::getInventoryIconPosition(int row, int column)
 
 
     return sad::Rect2D(x - halfwidth, y - halfheight, x + halfwidth, y + halfheight);
+}
+
+nodes::InventoryPopup* nodes::InventoryNode::popup()
+{
+    return m_popup;
 }
 
 // ========================================== PRIVATE METHODS ==========================================

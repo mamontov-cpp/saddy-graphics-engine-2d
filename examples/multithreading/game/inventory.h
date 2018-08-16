@@ -86,6 +86,11 @@ public:
         \param[in] f function, which is called with row, column and item
      */
     void eachExisting(std::function<void(int, int, game::Item*&)> f);
+    /*! Returns an item, which is under current cursor
+        \param[in] p point
+        \return item or NULL, if not under cursor
+     */
+    game::Item* getItemWhichIsUnderCursor(const sad::Point2D& p);
     /*! Sets node for inventory
      *  \param[in] node a node item data
      */
@@ -111,7 +116,7 @@ protected:
     nodes::InventoryNode* m_node;
 private:
     /*! Deletes all items from inventory
-	 */ 
+	 */
     void deleteAllItems();
     /*! A copying is disabled for inventory
      *  \param[in] inventory other inventory
