@@ -10,8 +10,8 @@
 DECLARE_SOBJ_INHERITANCE(nodes::InventoryNode, sad::SceneNode);
 // A padding between icons
 #define PADDING 18
-// An icon size
-#define ICON_SIZE (48)
+
+const double nodes::InventoryNode::IconSize = 48;
 
 // ========================================== PUBLIC METHODS ==========================================
 
@@ -59,8 +59,8 @@ void nodes::InventoryNode::render()
     double total_width = (width + PADDING) * game::Inventory::Width - PADDING;
     double startx = 400 - total_width / 2.0;
 
-    double halfwidth = ICON_SIZE / 2;
-    double halfheight = ICON_SIZE / 2;
+    double halfwidth = nodes::InventoryNode::IconSize / 2;
+    double halfheight = nodes::InventoryNode::IconSize / 2;
 
     for(int i = 0; i < game::Inventory::Height; i++)
     {
@@ -142,6 +142,8 @@ void nodes::InventoryNode::rendererChanged()
 
 void nodes::InventoryNode::setScene(sad::Scene* scene)
 {
+    this->sad::SceneNode::setScene(scene);
+
     m_background->setScene(scene);
     m_label->setScene(scene);
     m_slot->setScene(scene);
@@ -180,20 +182,88 @@ void nodes::InventoryNode::clearInventorySprites()
 
 void nodes::InventoryNode::tryMakeSpriteAndStore(int i, int j, game::Item* item)
 {
-    // TODO:
+    this->scene()->renderer()->pipeline()->appendTask([=, i, j, item, this]() {
+        sad::Sprite2D* sprite = new sad::Sprite2D();
+        this->scene()->add(sprite);
+        sprite->setScene(this->scene());
+        sprite->rendererChanged();
+        sprite->setTreeName("");
+        sprite->set(item->icon());
+        sprite->setArea(this->getInventoryIconPosition(i, j));
+        item->setSprite(sprite);
+    });
 }
 
 
 void nodes::InventoryNode::swapSpritePositions(int row1, int column1, int row2, int column2)
 {
-    // TODO:
+    this->scene()->renderer()->pipeline()->appendTask([=, row1, column1, row2, column2, this]() {
+        {
+            game::Item* item = m_inventory->item(row1, column1);
+            if (item)
+            {
+                sad::Sprite2D* sprite = item->sprite();
+                if (sprite)
+                {
+                    sprite->setArea(this->getInventoryIconPosition(row2, column2));
+                }
+            }
+        }
+        {
+            game::Item* item = m_inventory->item(row2, column2);
+            if (item)
+            {
+                sad::Sprite2D* sprite = item->sprite();
+                if (sprite)
+                {
+                    sprite->setArea(this->getInventoryIconPosition(row1, column1));
+                }
+            }
+        }
+    });
 }
 
 void nodes::InventoryNode::eraseSprite(int i, int j)
 {
-    // TODO:
+    this->scene()->renderer()->pipeline()->appendTask([=, this, i, j]() {
+        game::Item* item = m_inventory->item(i, j);
+        if (item)
+        {
+            sad::Sprite2D* sprite = item->sprite();
+            if (sprite)
+            {
+                sprite->scene()->remove(sprite);
+            }
+        }
+    });
 }
 
+
+sad::Rect2D nodes::InventoryNode::getInventoryIconPosition(int row, int column)
+{
+    double topy = 600 - m_label->area().height();
+
+    double width = m_slot->area().width();
+    double height = m_slot->area().height();
+
+    // Move lower to ensure that we don't intersect label
+    topy -= height;
+
+    double total_width = (width + PADDING) * game::Inventory::Width - PADDING;
+    double startx = 400 - total_width / 2.0;
+
+    double y = topy - (height + PADDING) * row;
+    double x = startx + (width + PADDING) * column;
+
+    x += width / 2;
+    y += height / 2;
+
+    double halfwidth = nodes::InventoryNode::IconSize / 2.0;
+    double halfheight = nodes::InventoryNode::IconSize / 2.0;
+
+
+    return sad::Rect2D(x - halfwidth, y - halfheight, x + halfwidth, y + halfheight);
+}
 
 // ========================================== PRIVATE METHODS ==========================================
 

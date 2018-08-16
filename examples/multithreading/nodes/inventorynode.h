@@ -21,6 +21,9 @@ class InventoryNode : public sad::SceneNode
 {
 SAD_OBJECT
 public:
+    /*! An icon size for node
+     */
+    const static double IconSize;
     /*! An inventory item
         \param[in] inventory an inventory item
      */
@@ -61,15 +64,20 @@ public:
      *  \param[in] j a column fir an item
      */
     void eraseSprite(int i, int j);
+    /*! Returns an inventory slot icon position
+     *  \param[in] row a row for slot icon
+     *  \param[in] column a column  for slot icon
+     */
+    sad::Rect2D getInventoryIconPosition(int row, int column);
 private:
     /*! Background is non-copyable, to make implementation simpler
-        \param[in] b other background
-    */
+     *  \param[in] b other background
+     */
     InventoryNode(const nodes::InventoryNode& b);
     /*! Background is non-copyable, to make implementation simpler
-        \param[in] b other background
-        \return background
-    */
+     *  \param[in] b other background
+     *  \return background
+     */
     nodes::InventoryNode& operator=(const nodes::InventoryNode& b);
 
     /*! An inventory data

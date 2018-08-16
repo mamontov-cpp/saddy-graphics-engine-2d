@@ -536,8 +536,12 @@ void Game::setControlsForInventoryThread(sad::Renderer* renderer)
         & m_conditions.ConditionsForInventoryRenderer.JumpActionConditions[game::Conditions::CS_PLAYGAME_PLAYING]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
-        empty_callback
-    );
+        [this]() {
+            game::Item* item = new game::Item("icons_list/Ac_Medal01ng", "A medal", "[DATA EXPUNGED]");
+            if (this->m_player->inventory()->addItem(item) == false) {
+                delete item;
+            }
+    });
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
         & m_conditions.ConditionsForInventoryRenderer.PauseCondition
