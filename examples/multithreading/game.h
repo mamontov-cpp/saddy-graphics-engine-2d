@@ -23,6 +23,11 @@
 #include "optionsscreen.h"
 
 
+namespace nodes
+{
+class InventoryNode;
+}
+
 namespace threads
 {
 class GameThread;
@@ -201,6 +206,9 @@ private:
     /*! A transition process
      */
     SceneTransitionProcess* m_transition_process;
+    /*! A n inventory node
+     */
+    nodes::InventoryNode* m_inventory_node;
 
     /*! A global game options
      */

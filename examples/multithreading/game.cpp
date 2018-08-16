@@ -22,7 +22,11 @@
 
 // ==================================== PUBLIC METHODS ====================================
 
-Game::Game()  : m_is_quitting(false), m_main_menu_state(Game::GMMS_PLAY), m_highscore(0), m_loaded_options_database{false, false} // NOLINT
+Game::Game()  : m_is_quitting(false),
+m_main_menu_state(Game::GMMS_PLAY),
+m_highscore(0),
+m_loaded_options_database{false, false},
+m_inventory_node(NULL) // NOLINT
 {
     m_main_thread = new threads::GameThread();
     m_inventory_thread = new threads::GameThread();
@@ -711,10 +715,11 @@ void Game::changeSceneToPlayingScreen()
         main_renderer->addScene(new sad::Scene());
     };
 
-    options.inventoryThread().OnLoadedFunction = [=]() {
+    options.inventoryThread().OnLoadedFunction = [=, this]() {
         sad::Scene* scene = new sad::Scene();
         scene->setRenderer(inventory_renderer);
-        scene->addNode(new nodes::InventoryNode(m_player->inventory()));
+        this->m_inventory_node = new nodes::InventoryNode(m_player->inventory());
+        scene->addNode(this->m_inventory_node);
         inventory_renderer->clearScenes();
         inventory_renderer->addScene(scene);
     };
@@ -825,7 +830,7 @@ sad::Renderer* Game::rendererForInventoryThread() const
 Game::Game(const Game&)  // NOLINT
     : m_main_thread(NULL), m_inventory_thread(NULL), m_is_quitting(false), m_main_menu_state(Game::GMMS_PLAY),
       m_highscore(0), m_loaded_options_database{false, false}, m_theme_playing(NULL), m_transition_process(NULL),
-      m_player(NULL)
+      m_player(NULL), m_inventory_node(NULL)
 {
     throw std::logic_error("Not implemented");
 }

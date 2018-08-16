@@ -205,6 +205,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="nodes\background.cpp" />
     <ClCompile Include="nodes\inventorynode.cpp" />
+	<ClInclude Include="nodes\inventorypopup.cpp" />
     <ClCompile Include="optionsscreen.cpp" />
     <ClCompile Include="scenetransitionoptions.cpp" />
     <ClCompile Include="scenetransitionprocess.cpp" />
@@ -219,6 +220,7 @@
     <ClInclude Include="game\options.h" />
     <ClInclude Include="nodes\background.h" />
     <ClInclude Include="nodes\inventorynode.h" />
+	<ClInclude Include="nodes\inventorypopup.h" />
     <ClInclude Include="optionsscreen.h" />
     <ClInclude Include="scenetransitionoptions.h" />
     <ClInclude Include="scenetransitionprocess.h" />
