@@ -786,6 +786,7 @@ void Game::changeSceneToPlayingScreen()
         scene->addNode(this->m_inventory_node);
         inventory_renderer->clearScenes();
         inventory_renderer->addScene(scene);
+        this->playTheme("title_theme");
     };
 
     options.mainThread().OnFinishedFunction = [this]() {  this->enterPlayingScreenState(); this->enterPlayingState(); };

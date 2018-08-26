@@ -137,9 +137,6 @@ protected:
     /*! A hash-map, storing all of items
      */
     game::Inventory::HashMap m_items;
-    /*! Amount of items in inventory
-     */
-    size_t m_items_count;
     /*! An inventory node
      */
     nodes::InventoryNode* m_node;

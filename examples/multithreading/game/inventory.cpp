@@ -11,7 +11,7 @@ const int game::Inventory::Height = 5; // 6,7-th row is reserved for recycle bin
 
 // ============================================ PUBLIC METHODS  ============================================
 
-game::Inventory::Inventory() : m_items_count(0), m_node(NULL), m_started_dragging_item(false)
+game::Inventory::Inventory() : m_node(NULL), m_started_dragging_item(false)
 {
     for(size_t i = 0; i < game::Inventory::Height; i++)
     {
@@ -61,8 +61,6 @@ game::Item* game::Inventory::getItemByIndex(int i, int j)
 
 bool game::Inventory::addItem(game::Item* item)
 {
-    if (m_items_count == Height * Width)
-        return false;
     for (int i = 0; i < Height; i++) {
         for (int j = 0; j < Width; j++) {
             if (m_items[i][j] == NULL) {
@@ -71,7 +69,6 @@ bool game::Inventory::addItem(game::Item* item)
                 {
                     m_node->tryMakeSpriteAndStore(i, j, item);
                 }
-                m_items_count++;
                 return true;
             }
         }
@@ -244,6 +241,11 @@ void game::Inventory::tryStartDraggingItem(const sad::Point2D& p)
                m_started_dragging_item = true;
                m_old_item_area = item->sprite()->area();
                m_clicked_point_for_dragging = p;
+               sad::Scene* scene = item->sprite()->scene();
+               if (scene)
+               {
+                   scene->setLayer(item->sprite(), scene->objectCount() - 1);
+               }
            }
        }
    }
@@ -309,7 +311,7 @@ void game::Inventory::deleteAllItems()
     }
 }
 
-game::Inventory::Inventory(const game::Inventory&) : m_items_count(0), m_node(NULL), m_started_dragging_item(false)
+game::Inventory::Inventory(const game::Inventory&) : m_node(NULL), m_started_dragging_item(false)
 {
 
 }
