@@ -91,6 +91,10 @@ Game::~Game()  // NOLINT
 
     delete m_player;
     delete m_eval_context;
+    for (sad::Hash<sad::String, sad::String*>::iterator it = m_item_names_to_scripts.begin(); it != m_item_names_to_scripts.end(); ++it)
+    {
+        delete it.value();
+    }
 }
 
 /*! A padding, that will be used in main menu between label and player choice
@@ -535,7 +539,7 @@ void Game::setControlsForInventoryThread(sad::Renderer* renderer)
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         [this]() {
-            game::Item* item = new game::Item("icons_list/Ac_Medal01ng", "A medal", "[DATA EXPUNGED]");
+            game::Item* item = this->makeItem("icons_list/Ac_Medal01ng", "A medal", "[DATA EXPUNGED]");
             if (!this->m_player->inventory()->addItem(item)) {
                 delete item;
             }
@@ -569,6 +573,31 @@ void Game::setControlsForInventoryThread(sad::Renderer* renderer)
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("paused")),
         empty_callback
+    );
+
+    std::function<void(const sad::input::MousePressEvent& e)> left_button_click = [=](const sad::input::MousePressEvent& e) {
+        sad::Maybe<sad::Triplet<int, int, game::Item*> > result_data = this->m_player->inventory()->getItemWhichIsUnderCursor(e.pos2D());
+        if (result_data.exists())
+        {
+            game::Item* item  = result_data.value().p3();
+            this->playSound("apply_item");
+            item->applyActiveEffect();
+            if (item->shouldDeleteWhenApplied())
+            {
+                delete this->m_player->inventory()->takeItem(result_data.value().p1(), result_data.value().p2());
+                if (this->m_inventory_popup)
+                {
+                    this->m_inventory_popup->setVisible(false);
+                }
+            }
+        }
+    };
+    renderer->controls()->addLambda(
+        *sad::input::ET_MousePress
+        & sad::MouseLeft
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        left_button_click
     );
 
     std::function<void(const sad::input::MousePressEvent& e)> right_button_click = [=](const sad::input::MousePressEvent& e) {
@@ -749,9 +778,9 @@ void Game::changeSceneToPlayingScreen()
     sad::Renderer* inventory_renderer = m_inventory_thread->renderer();
 
     m_player->reset();
-    m_player->inventory()->addItem(new game::Item("icons_list/Ac_Medal01ng", "A medal", "Data "));
-    m_player->inventory()->addItem(new game::Item("icons_list/Ac_Medal02ng", "An item", "Data 2"));
-    m_player->inventory()->addItem(new game::Item("icons_list/Ac_Medal03ng", "A stuff", "Data 3"));
+    m_player->inventory()->addItem(this->makeItem("icons_list/Ac_Medal01ng", "A medal", "Data "));
+    m_player->inventory()->addItem(this->makeItem("icons_list/Ac_Medal02ng", "An item", "Data 2", true));
+    m_player->inventory()->addItem(this->makeItem("icons_list/Ac_Medal03ng", "A stuff", "Data 3"));
 
     options.mainThread().OnLoadedFunction = [=]() {
         main_renderer->clearScenes();
@@ -921,7 +950,50 @@ void Game::tryShowInventoryPopup(const sad::Point2D& p) const
     }
 }
 
+bool Game::evalScript(const sad::String& s) const
+{
+    sad::String result;
+    if (!m_eval_context->eval(s, true, &result))
+    {
+        SL_LOCAL_WARNING(sad::String("Warning: error, when evaluating script:") + s + ": \n" + result + "\n\n", (*m_main_thread->renderer()));
+        return false;
+    }
+    return true;
+}
+
+game::Item* Game::makeItem(const sad::String& icon, const sad::String& title, const sad::String& description, bool delete_after_apply)
+{
+    game::Item* item = new game::Item(icon, title, description, delete_after_apply);
+    item->setGame(this);
+    item->setEvaluatedScript(this->tryGetScriptForItem(title));
+    return item;
+}
+
 // ==================================== PRIVATE METHODS ====================================
+
+sad::String* Game::tryGetScriptForItem(const sad::String& title)
+{
+    if (m_item_names_to_scripts.contains(title))
+    {
+        return m_item_names_to_scripts[title];
+    }
+
+    sad::String escaped_title = title;
+    sad::String escaped_characters = "\\/`~!@#$%^&*-+=\"\'[]{}<>,.?";  
+    for(size_t i = 0; i < escaped_characters.length(); i++)
+    {
+        escaped_title.replaceAllOccurences(sad::String(&(escaped_characters[i]), 1), "_");
+    }
+    sad::Renderer* renderer = m_main_thread->renderer();
+    sad::Maybe<sad::String> maybe_js = sad::slurp(sad::String("examples/multithreading/") + escaped_title + ".js", renderer);
+    sad::String* result = new sad::String();
+    if (maybe_js.exists())
+    {
+        *result = maybe_js.value();
+    }
+    m_item_names_to_scripts.insert(title, result);
+    return result;
+}
 
 Game::Game(const Game&)  // NOLINT
     : m_main_thread(NULL), m_inventory_thread(NULL), m_is_quitting(false), m_main_menu_state(Game::GMMS_PLAY),

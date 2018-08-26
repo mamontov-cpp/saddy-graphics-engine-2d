@@ -65,6 +65,7 @@ bool game::Inventory::addItem(game::Item* item)
         for (int j = 0; j < Width; j++) {
             if (m_items[i][j] == NULL) {
                 m_items[i][j] = item;
+                item->notifyAdded();
                 if (m_node)
                 {
                     m_node->tryMakeSpriteAndStore(i, j, item);
@@ -134,6 +135,10 @@ game::Item* game::Inventory::takeItem(int i, int j)
         m_node->eraseSprite(i, j);
     }
     game::Item* item = m_items[i][j];
+    if (item)
+    {
+        item->notifyRemoved();
+    }
     m_items[i][j] = NULL;
     return item;;
 }

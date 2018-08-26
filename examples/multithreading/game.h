@@ -20,6 +20,10 @@
 
 #include <dukpp-03/context.h>
 
+namespace game
+{
+class Item;    
+}
 
 namespace nodes
 {
@@ -161,7 +165,25 @@ public:
         \param[in] p point
      */
     void tryShowInventoryPopup(const sad::Point2D& p) const;
+    /*! Evaluates script, passed as JS
+     *  \param[in] s string data
+     *  \return whether evaluate was successfull
+     */
+    bool evalScript(const sad::String& s) const;
+    /*! Constructs new item
+    *  \param[in] icon an icon for item
+    *  \param[in] title a title for item
+    *  \param[in] description a description for item
+    *  \param[in] delete_after_apply whether we should apply an item data
+    *  \return new item
+    */
+    game::Item* makeItem(const sad::String& icon, const sad::String& title, const sad::String& description, bool delete_after_apply = false);
 private:
+    /*! Tries to get script for item
+     *  \param[in] title item's title
+     *  \return name for title
+     */
+    sad::String* tryGetScriptForItem(const sad::String& title);
     /*! Disabled constructor
      */
     Game(const Game&);
@@ -232,4 +254,7 @@ private:
     /*! A context for game
      */
     sad::dukpp03::Context* m_eval_context;
+    /*! An item names to related scripts for item
+     */
+    sad::Hash<sad::String, sad::String*> m_item_names_to_scripts;
 };
