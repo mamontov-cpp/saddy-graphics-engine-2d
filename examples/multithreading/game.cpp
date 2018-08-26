@@ -177,31 +177,6 @@ void Game::runMainGameThread()
     {
         sad::SceneNode* node = objects[i];
         SL_LOCAL_DEBUG(fmt::Format("Object {0}: {1}") << i << node->metaData()->name(), renderer);
-        if (node->metaData()->name() == "sad::Sprite2D")
-        {
-            sad::Sprite2D* sprite = dynamic_cast<sad::Sprite2D*>(node);
-            if (sprite->texture())
-            {
-                SL_LOCAL_DEBUG("Sprite has texture", renderer);
-            }
-            else
-            {
-                SL_LOCAL_DEBUG("Sprite has no texture", renderer);
-            }
-        }
-        if (node->metaData()->name() == "sad::Label")
-        {
-            sad::Label* label = dynamic_cast<sad::Label*>(node);
-            if (label->font())
-            {
-                SL_LOCAL_DEBUG("Label has font", renderer);
-            }
-            else
-            {
-                SL_LOCAL_DEBUG("Label has no font", renderer);
-            }
-        }
-
     }
 
     tryStartStartingState();
