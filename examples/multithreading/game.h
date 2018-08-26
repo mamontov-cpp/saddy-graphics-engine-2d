@@ -18,6 +18,8 @@
 #include "scenetransitionprocess.h"
 #include "optionsscreen.h"
 
+#include <dukpp-03/context.h>
+
 
 namespace nodes
 {
@@ -227,4 +229,7 @@ private:
     /*! An options screen
      */
     OptionsScreen m_options_screen;
+    /*! A context for game
+     */
+    sad::dukpp03::Context* m_eval_context;
 };

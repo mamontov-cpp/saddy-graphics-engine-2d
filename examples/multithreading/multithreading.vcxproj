@@ -98,7 +98,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>GLU32.lib;OPENGL32.lib;..\..\lib\saddy-debug.lib;..\..\lib\saddy-ft-debug.lib;$(FREETYPE_LIB)\freetype.lib;..\..\lib\saddy-irrklang-debug.lib;irrKlang.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>GLU32.lib;OPENGL32.lib;..\..\lib\saddy-debug.lib;..\..\lib\saddy-ft-debug.lib;$(FREETYPE_LIB)\freetype.lib;..\..\lib\saddy-irrklang-debug.lib;..\..\lib\saddy-dukpp-03-debug.lib;..\..\lib\saddy-dukpp-03-irrklang-debug.lib;irrKlang.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(TargetPath)</OutputFile>
       <AdditionalLibraryDirectories>$(IRRKLANG_ROOT)/lib/Win32-visualStudio/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
@@ -155,7 +155,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>GLU32.lib;OPENGL32.lib;..\..\lib\saddy-release.lib;..\..\lib\saddy-ft-release.lib;..\..\lib\saddy-irrklang-release.lib;irrKlang.lib;$(FREETYPE_LIB)\freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>GLU32.lib;OPENGL32.lib;..\..\lib\saddy-release.lib;..\..\lib\saddy-ft-release.lib;..\..\lib\saddy-irrklang-release.lib;..\..\lib\saddy-dukpp-03-release.lib;..\..\lib\saddy-dukpp-03-irrklang-release.lib;irrKlang.lib;$(FREETYPE_LIB)\freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(TargetPath)</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>

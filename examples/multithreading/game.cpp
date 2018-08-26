@@ -24,6 +24,8 @@
 
 #include <functional>
 
+#include <dukpp-03-irrklang/dukpp-03-irrklang.h>
+
 // ==================================== PUBLIC METHODS ====================================
 
 Game::Game()  : m_is_quitting(false),  // NOLINT(cppcoreguidelines-pro-type-member-init)
@@ -33,6 +35,8 @@ m_loaded_options_database{false, false},
 m_inventory_node(NULL),
 m_inventory_popup(NULL) // NOLINT
 {
+    m_eval_context = new sad::dukpp03::Context();
+    sad::dukpp03irrklang::init(m_eval_context);
     m_main_thread = new threads::GameThread();
     m_inventory_thread = new threads::GameThread();
 
@@ -86,6 +90,7 @@ Game::~Game()  // NOLINT
     delete m_inventory_thread;
 
     delete m_player;
+    delete m_eval_context;
 }
 
 /*! A padding, that will be used in main menu between label and player choice
@@ -946,7 +951,7 @@ void Game::tryShowInventoryPopup(const sad::Point2D& p) const
 Game::Game(const Game&)  // NOLINT
     : m_main_thread(NULL), m_inventory_thread(NULL), m_is_quitting(false), m_main_menu_state(Game::GMMS_PLAY),
       m_highscore(0), m_loaded_options_database{false, false}, m_theme_playing(NULL), m_transition_process(NULL), 
-      m_inventory_node(NULL), m_inventory_popup(NULL)
+      m_inventory_node(NULL), m_inventory_popup(NULL), m_eval_context(NULL)
 {
     throw std::logic_error("Not implemented");
 }
