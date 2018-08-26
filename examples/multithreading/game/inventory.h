@@ -5,6 +5,7 @@
 #pragma once
 #include "item.h"
 #include <sadhash.h>
+#include <sadrect.h>
 
 #include <utility>
 #include <functional>
@@ -40,6 +41,9 @@ public:
     /*! Clears all inventory items in inventory
      */
     void clear();
+    /*! Resets inventory, clearing it and some local data
+     */
+    void reset();
     /*! Returns item by it's index in inventory
      *  \param[in] i row
      *  \param[in] j column
@@ -83,14 +87,14 @@ public:
      */
     const game::Inventory::HashMap& items() const;
     /*! Performs action with each existing item in inventory
-        \param[in] f function, which is called with row, column and item
+     *  \param[in] f function, which is called with row, column and item
      */
-    void eachExisting(std::function<void(int, int, game::Item*&)> f);
+    void eachExisting(const std::function<void(int, int, game::Item*&)>& f);
     /*! Returns an item, which is under current cursor
         \param[in] p point
-        \return item or NULL, if not under cursor
+        \return item or nothing, with row and column as first items
      */
-    game::Item* getItemWhichIsUnderCursor(const sad::Point2D& p);
+    sad::Maybe<sad::Triplet<int, int, game::Item*> > getItemWhichIsUnderCursor(const sad::Point2D& p);
     /*! Sets node for inventory
      *  \param[in] node a node item data
      */
@@ -98,6 +102,31 @@ public:
     /*! Returns node for inventory
      */
     nodes::InventoryNode* node() const;
+    /*! Sets basket area for basket
+     *  \param[in] rect area
+     */
+    void setBasketArea(const sad::Rect2D& rect);
+    /*! Tests, whether point in basket's area
+     *  \param[in] p point
+     *  \return whether point in basket's area
+     */
+    bool isInBasketArea(const sad::Point2D& p) const;
+    /*! Whether we are dragging item
+     *  \return true, if we are dragging item
+     */
+    bool isStartedDraggingItem() const;
+    /*! Tries to start dragging item, if can
+     *  \param[in] p point, whhere user clicked
+     */
+    void tryStartDraggingItem(const sad::Point2D& p);
+    /*! Tries to move dragged area to current point
+     *  \param[in] p point
+     */
+    void tryMoveDraggedItem(const sad::Point2D& p) const;
+    /*! Tries to release dragged item, placing it or removing
+     *  \param[in] p point
+     */
+    void tryReleaseDraggedItem(const sad::Point2D& p);
     /*! A maximal horizontal cells of inventory
      */
     static const int Width;
@@ -114,18 +143,33 @@ protected:
     /*! An inventory node
      */
     nodes::InventoryNode* m_node;
+    /*! An area for basket rectangle
+     */
+    sad::Rect2D m_basket_rect;
+    /*! Whether we started dragging item
+     */
+    bool m_started_dragging_item;
+    /*! An old rectangle area for dragging item
+     */
+    sad::Rect2D m_old_item_area;
+    /*! A clicked point for dragging
+     */
+    sad::Point2D m_clicked_point_for_dragging;
+    /*! An item being dragged
+     */
+    sad::Triplet<int, int, game::Item*> m_item_being_dragged;
 private:
     /*! Deletes all items from inventory
-	 */
+     */
     void deleteAllItems();
     /*! A copying is disabled for inventory
      *  \param[in] inventory other inventory
      */
     Inventory(const game::Inventory& inventory);
     /*! A copying is disabled for inventory
-    *  \param[in] inventory other inventory
-    *  \return result
-    */
+     *  \param[in] inventory other inventory
+     *  \return result
+     */
     game::Inventory& operator=(const game::Inventory& inventory);
 };
 

@@ -57,7 +57,7 @@ void nodes::InventoryPopup::rendererChanged()
     m_label->setTreeName("");
     m_label->setFontName("Liberation Sans");
     m_label->setSize(32);
-    m_label->setMaximalLineWidth(20);
+    m_label->setMaximalLineWidth(50);
     m_label->setBreakText(sad::Label::LBT_BREAK_WORD);
     m_label->setColor(sad::AColor(255, 255, 255));
 }

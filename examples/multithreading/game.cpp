@@ -22,13 +22,14 @@
 #include <slurpjson.h>
 #include <spitjson.h>
 
+#include <functional>
+
 // ==================================== PUBLIC METHODS ====================================
 
-Game::Game()  : m_is_quitting(false),
+Game::Game()  : m_is_quitting(false),  // NOLINT(cppcoreguidelines-pro-type-member-init)
 m_main_menu_state(Game::GMMS_PLAY),
 m_highscore(0),
 m_loaded_options_database{false, false},
-m_is_dragging_inventory_item(false),
 m_inventory_node(NULL),
 m_inventory_popup(NULL) // NOLINT
 {
@@ -271,10 +272,10 @@ void Game::runInventoryThread()
         }
     );
 
-    renderer.pipeline()->appendProcess([=, this]() {
+    renderer.pipeline()->appendProcess([=]() {
         if (this->m_inventory_popup)
         {
-            if (!(this->m_is_dragging_inventory_item))
+            if (!(this->m_player->inventory()->isStartedDraggingItem()))
             {
                 if (!(this->m_paused_state_machine.isInState("paused")))
                 {
@@ -555,7 +556,7 @@ void Game::setControlsForInventoryThread(sad::Renderer* renderer)
         & ((&m_paused_state_machine) * sad::String("playing")),
         [this]() {
             game::Item* item = new game::Item("icons_list/Ac_Medal01ng", "A medal", "[DATA EXPUNGED]");
-            if (this->m_player->inventory()->addItem(item) == false) {
+            if (!this->m_player->inventory()->addItem(item)) {
                 delete item;
             }
     });
@@ -590,8 +591,31 @@ void Game::setControlsForInventoryThread(sad::Renderer* renderer)
         empty_callback
     );
 
-    std::function<void(const sad::input::MouseMoveEvent& e)> move_callback = [=, this](const sad::input::MouseMoveEvent& e) {
+    std::function<void(const sad::input::MousePressEvent& e)> right_button_click = [=](const sad::input::MousePressEvent& e) {
+        this->m_player->inventory()->tryStartDraggingItem(e.pos2D());
+    };
+    renderer->controls()->addLambda(
+        *sad::input::ET_MousePress
+        & sad::MouseRight
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        right_button_click
+    );
+
+    std::function<void(const sad::input::MouseReleaseEvent& e)> right_button_release = [=](const sad::input::MouseReleaseEvent& e) {
+        this->m_player->inventory()->tryReleaseDraggedItem(e.pos2D());
+    };
+    renderer->controls()->addLambda(
+        *sad::input::ET_MouseRelease
+        & sad::MouseRight
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        right_button_release
+    );
+
+    std::function<void(const sad::input::MouseMoveEvent& e)> move_callback = [=](const sad::input::MouseMoveEvent& e) {
         this->tryShowInventoryPopup(e.pos2D());
+        this->m_player->inventory()->tryMoveDraggedItem(e.pos2D());
     };
     renderer->controls()->addLambda(
         *sad::input::ET_MouseMove
@@ -707,7 +731,7 @@ void Game::changeSceneToStartingScreen()
     SceneTransitionOptions options;
 
     m_inventory_popup = NULL;
-    m_is_dragging_inventory_item = false;
+    
 
     sad::Renderer* main_renderer = m_main_thread->renderer();
     sad::Renderer* inventory_renderer = m_inventory_thread->renderer();
@@ -739,7 +763,7 @@ void Game::changeSceneToPlayingScreen()
     SceneTransitionOptions options;
 
     m_inventory_popup = NULL;
-    m_is_dragging_inventory_item = false;
+    
 
     sad::Renderer* main_renderer = m_main_thread->renderer();
     sad::Renderer* inventory_renderer = m_inventory_thread->renderer();
@@ -754,7 +778,7 @@ void Game::changeSceneToPlayingScreen()
         main_renderer->addScene(new sad::Scene());
     };
 
-    options.inventoryThread().OnLoadedFunction = [=, this]() {
+    options.inventoryThread().OnLoadedFunction = [=]() {
         sad::Scene* scene = new sad::Scene();
         scene->setRenderer(inventory_renderer);
         this->m_inventory_node = new nodes::InventoryNode(m_player->inventory());
@@ -786,7 +810,7 @@ void Game::changeSceneToOptions()
 
 
     m_inventory_popup = NULL;
-    m_is_dragging_inventory_item = false;
+    
 
     SceneTransitionOptions options;
     sad::Renderer* main_renderer = m_main_thread->renderer();
@@ -878,19 +902,36 @@ sad::Renderer* Game::rendererForInventoryThread() const
     return m_inventory_thread->renderer();
 }
 
-void Game::tryShowInventoryPopup(const sad::Point2D& p)
+void Game::tryShowInventoryPopup(const sad::Point2D& p) const
 {
-    game::Item* item = m_player->inventory()->getItemWhichIsUnderCursor(p);
-    if (item)
-    {
-        if (m_inventory_popup)
+    sad::Maybe<sad::Triplet<int, int, game::Item*> > result_data = m_player->inventory()->getItemWhichIsUnderCursor(p);
+    bool handled = false;
+    if (!(m_player->inventory()->isStartedDraggingItem()))
+    { 
+        if (m_player->inventory()->isInBasketArea(p))
         {
-            m_inventory_popup->setDescription(item->title(), item->description());
-            m_inventory_popup->showAt(p);
-            m_inventory_popup->setVisible(true);
+            if (m_inventory_popup)
+            {
+                m_inventory_popup->setDescription("Basket", "Drag here item, which you want to be removed.\nYou can drag items by pressing right mouse buttons on item, which you want to drag and dragging them here\nUse left mouse button to apply item\'s effect, if any.");
+                m_inventory_popup->showAt(p);
+                m_inventory_popup->setVisible(true);
+                handled = true;
+            }
+        }
+        if (result_data.exists())
+        {
+            game::Item* item = result_data.value().p3();
+            if (m_inventory_popup)
+            {
+                m_inventory_popup->setDescription(item->title(), item->description());
+                m_inventory_popup->showAt(p);
+                m_inventory_popup->setVisible(true);
+                handled = true;
+            }
         }
     }
-    else
+
+    if (!handled)
     {
         if (m_inventory_popup)
         {
@@ -903,8 +944,8 @@ void Game::tryShowInventoryPopup(const sad::Point2D& p)
 
 Game::Game(const Game&)  // NOLINT
     : m_main_thread(NULL), m_inventory_thread(NULL), m_is_quitting(false), m_main_menu_state(Game::GMMS_PLAY),
-      m_highscore(0), m_loaded_options_database{false, false}, m_theme_playing(NULL), m_transition_process(NULL),
-      m_player(NULL), m_is_dragging_inventory_item(false), m_inventory_node(NULL), m_inventory_popup(NULL)
+      m_highscore(0), m_loaded_options_database{false, false}, m_theme_playing(NULL), m_transition_process(NULL), 
+      m_inventory_node(NULL), m_inventory_popup(NULL)
 {
     throw std::logic_error("Not implemented");
 }

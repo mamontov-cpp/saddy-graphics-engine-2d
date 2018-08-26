@@ -51,7 +51,7 @@
     <ClCompile Include="game\inventory.cpp">
       <Filter>Файлы исходного кода\game</Filter>
     </ClCompile>
-	<ClCompile Include="game\player.cpp">
+    <ClCompile Include="game\player.cpp">
       <Filter>Файлы исходного кода\game</Filter>
     </ClCompile>
     <ClCompile Include="scenetransitionoptions.cpp">
@@ -72,7 +72,7 @@
     <ClCompile Include="nodes\inventorynode.cpp">
       <Filter>Файлы исходного кода\nodes</Filter>
     </ClCompile>
-	<ClCompile Include="nodes\inventorypopup.cpp">
+    <ClCompile Include="nodes\inventorypopup.cpp">
       <Filter>Файлы исходного кода\nodes</Filter>
     </ClCompile>
   </ItemGroup>
@@ -95,7 +95,7 @@
     <ClInclude Include="game\item.h">
       <Filter>Заголовочные файлы\game</Filter>
     </ClInclude>
-	<ClInclude Include="game\player.h">
+    <ClInclude Include="game\player.h">
       <Filter>Заголовочные файлы\game</Filter>
     </ClInclude>
     <ClInclude Include="scenetransitionoptions.h">
@@ -116,7 +116,7 @@
     <ClInclude Include="nodes\inventorynode.h">
       <Filter>Заголовочные файлы\nodes</Filter>
     </ClInclude>
-	<ClInclude Include="nodes\inventorypopup.h">
+    <ClInclude Include="nodes\inventorypopup.h">
       <Filter>Заголовочные файлы\nodes</Filter>
     </ClInclude>
   </ItemGroup>

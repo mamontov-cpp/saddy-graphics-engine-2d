@@ -264,7 +264,6 @@ void OptionsScreen::setWidthForSliderValue(sad::Renderer* renderer, double value
 
 void OptionsScreen::initAccordingToConfig(OptionsScreen::StateForThread& state) const
 {
-    sad::db::Database* db = state.Renderer->database("optionsscreen");
     setLabelValue(state.Renderer, "LeftLabelValue", sad::keyToString(m_game->options()->LeftKey));
     setLabelValue(state.Renderer, "RightLabelValue", sad::keyToString(m_game->options()->RightKey));
     setLabelValue(state.Renderer, "DownLabelValue", sad::keyToString(m_game->options()->DownKey));

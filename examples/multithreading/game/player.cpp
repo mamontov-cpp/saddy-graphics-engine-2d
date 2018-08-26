@@ -9,8 +9,7 @@ game::Player::Player()
 
 void game::Player::reset()
 {
-    m_inventory.clear();
-    m_inventory.setNode(NULL);
+    m_inventory.reset();
 }
 
 

@@ -47,20 +47,13 @@ public:
 
     /*! Called, when inventory is being cleared
      */
-    void clearInventorySprites();
+    void clearInventorySprites() const;
     /*! Tries to make sprite if not exists for item and store them
      *  \param[in] i a row for an item
      *  \param[in] j a column for an item
      *  \param[in] item an item for store
      */
     void tryMakeSpriteAndStore(int i, int j, game::Item* item);
-    /*! Swaps sprite positions on screen
-     *  \param[in] row1     a row for first sprite
-     *  \param[in] column1  a column for first sprite
-     *  \param[in] row2     a row for second sprite
-     *  \param[in] column2  a column for second sprite
-     */
-    void swapSpritePositions(int row1, int column1, int row2, int column2);
     /*! Erases sprite for an item with position
      *  \param[in] i a row for an item
      *  \param[in] j a column fir an item
@@ -70,11 +63,23 @@ public:
      *  \param[in] row a row for slot icon
      *  \param[in] column a column  for slot icon
      */
-    sad::Rect2D getInventoryIconPosition(int row, int column);
+    sad::Rect2D getInventoryIconPosition(int row, int column) const;
+    /*! Returns an inventory slot position
+    *  \param[in] row a row for slot icon
+    *  \param[in] column a column  for slot icon
+    */
+    sad::Rect2D getInventorySlotPosition(int row, int column) const;
     /*! Returns inventory popup
      */
-    nodes::InventoryPopup* popup();
+    nodes::InventoryPopup* popup() const;
 private:
+    /*! Gets position of rectangle in slot
+     *  \param[in] row a row
+     *  \param[in] column a column
+     *  \param[in] input_width a width
+     *  \param[in] input_height a height data
+     */
+    sad::Rect2D getPositionInSlot(int row, int column, double input_width, double input_height) const;
     /*! Background is non-copyable, to make implementation simpler
      *  \param[in] b other background
      */

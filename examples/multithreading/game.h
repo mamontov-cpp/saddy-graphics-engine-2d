@@ -3,10 +3,6 @@
     Main game class
  */
 #pragma once
-#include <sadthread.h>
-
-#include <functional>
-
 #include <sprite2d.h>
 
 #include <sadhash.h>
@@ -162,7 +158,7 @@ public:
         cursor is on item
         \param[in] p point
      */
-    void tryShowInventoryPopup(const sad::Point2D& p);
+    void tryShowInventoryPopup(const sad::Point2D& p) const;
 private:
     /*! Disabled constructor
      */
@@ -212,9 +208,6 @@ private:
     /*! A transition process
      */
     SceneTransitionProcess* m_transition_process;
-    /*! Whether we are dragging inventory item
-     */
-    bool m_is_dragging_inventory_item;
     /*! An inventory node
      */
     nodes::InventoryNode* m_inventory_node;
@@ -230,7 +223,7 @@ private:
     game::Conditions m_conditions;
     /*! A player, that will be used in game
      */
-    game::Player* m_player;
+    game::Player* m_player{NULL};
     /*! An options screen
      */
     OptionsScreen m_options_screen;
