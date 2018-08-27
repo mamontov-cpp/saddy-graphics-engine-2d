@@ -107,8 +107,8 @@ void gui::AnimationProcess::timerExpired()
                 }
 
                 if (m_instance->finished())
-                {					
-                    this->stop();					
+                {
+                    this->stop();
                 }
             }
         }
