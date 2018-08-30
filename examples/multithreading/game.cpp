@@ -1153,6 +1153,73 @@ void Game::initGamePhysics()
             }
         }
         // We don't group platforms vertically except it's columns, because it could be solved by bounce solver easily
+        std::sort(platform_sprites.begin(), platform_sprites.end(), [](sad::Sprite2D* a, sad::Sprite2D* b) {
+            return a->area()[0].y() < b->area()[0].y();
+        });
+        // Group some platforms vertically
+        for (size_t i = 0; i < platform_sprites.size(); i++)
+        {
+            sad::Vector<sad::Sprite2D*> sprites_in_group;
+            sprites_in_group << platform_sprites[i];
+            sad::Rect2D common_rectangle = platform_sprites[i]->area();
+            for (size_t j = i + 1; j < platform_sprites.size(); j++)
+            {
+                sad::Rect2D candidate_rectangle = platform_sprites[j]->area();
+                double common_ymin = std::min(common_rectangle.p0().y(), common_rectangle.p2().y());
+                double common_ymax = std::max(common_rectangle.p0().y(), common_rectangle.p2().y());
+
+                double candidate_ymin = std::min(candidate_rectangle.p0().y(), candidate_rectangle.p2().y());
+                double candidate_ymax = std::max(candidate_rectangle.p0().y(), candidate_rectangle.p2().y());
+
+                double common_xmin = std::min(common_rectangle.p0().x(), common_rectangle.p2().x());
+                double common_xmax = std::max(common_rectangle.p0().x(), common_rectangle.p2().x());
+
+                double candidate_xmin = std::min(candidate_rectangle.p0().x(), candidate_rectangle.p2().x());
+                double candidate_xmax = std::max(candidate_rectangle.p0().x(), candidate_rectangle.p2().x());
+
+                if (sad::is_fuzzy_equal(common_xmin, candidate_xmin, DESIGNER_PRECISION_ERROR)
+                    && sad::is_fuzzy_equal(common_xmax, candidate_xmax, DESIGNER_PRECISION_ERROR)
+                    && sad::is_fuzzy_equal(common_ymax, candidate_ymin, DESIGNER_PRECISION_ERROR))
+                {
+                    sprites_in_group << platform_sprites[j];
+                    common_rectangle = sad::Rect2D(common_xmin, common_ymin, common_xmax, candidate_ymax);
+                }
+            }
+            if (sprites_in_group.size() > 1)
+            {
+                sad::p2d::Body* body = new sad::p2d::Body();
+                body->setCurrentAngularVelocity(0);
+                body->setCurrentTangentialVelocity(sad::p2d::Vector(0, 0));
+                sad::p2d::Rectangle* rect = new sad::p2d::Rectangle();
+                // Slight increase of area, due to paddings
+                common_rectangle = sad::Rect2D(common_rectangle[0].x(), common_rectangle[0].y(), common_rectangle[2].x() + 1, common_rectangle[2].y());
+                rect->setRect(common_rectangle);
+                body->setShape(rect);
+
+                m_physics_world->addBodyToGroup("platforms", body);
+                for (size_t k = 0; k < sprites_in_group.size(); k++)
+                {
+                    platform_sprites.removeFirst(sprites_in_group[k]);
+                }
+                // Decrement, so we can iterate through other platforms
+                --i;
+            }
+        }
+        // Add remaining platforms to world
+        for (size_t i = 0; i < platform_sprites.size(); i++)
+        {
+            sad::p2d::Body* body = new sad::p2d::Body();
+            body->setCurrentAngularVelocity(0);
+            body->setCurrentTangentialVelocity(sad::p2d::Vector(0, 0));
+            sad::Rect2D common_rectangle = platform_sprites[i]->area();
+            sad::p2d::Rectangle* rect = new sad::p2d::Rectangle();
+            // Slight increase of area, due to paddings
+            common_rectangle = sad::Rect2D(common_rectangle[0].x(), common_rectangle[0].y(), common_rectangle[2].x() + 1, common_rectangle[2].y());
+            rect->setRect(common_rectangle);
+            body->setShape(rect);
+
+            m_physics_world->addBodyToGroup("platforms", body);
+        }
     }
 }
 
