@@ -21,8 +21,8 @@ install:
           $env:vcvar_arg = 'x86_amd64';
           $env:ARCH = 'x64';
           $env:MINGWPATH='C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw32\bin\';
-          $env:MINGWQTDIR='C:\Qt\5.10.1\mingw53_32\';
-          $env:MSVCQTDIR='C:\Qt\5.10.1\msvc2017_64\';
+          $env:MINGWQTDIR='C:\Qt\5.11\mingw53_32\';
+          $env:MSVCQTDIR='C:\Qt\5.11\msvc2017_64\';
           $env:IRRKLANG_ROOT_SUFFIX='3rdparty\irrKlang\x64';
           $env:FREETYPE_DIR_SUFFIX='3rdparty\freetype\x64';
         }
@@ -30,8 +30,8 @@ install:
           $env:vcvar_arg = 'x86';
           $env:ARCH = 'Win32';  
           $env:MINGWPATH='C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\mingw32\bin\';
-          $env:MINGWQTDIR='C:\Qt\5.10.1\mingw53_32\';
-          $env:MSVCQTDIR='C:\Qt\5.10.1\winrt_x86_msvc2017\';
+          $env:MINGWQTDIR='C:\Qt\5.11\mingw53_32\';
+          $env:MSVCQTDIR='C:\Qt\5.11\winrt_x86_msvc2017\';
           $env:IRRKLANG_ROOT_SUFFIX='3rdparty\irrKlang\x32';
           $env:FREETYPE_DIR_SUFFIX='3rdparty\freetype\x32';
         } 
