@@ -20,6 +20,8 @@
 
 #include <dukpp-03/context.h>
 
+#include <p2d/world.h>
+
 namespace game
 {
 class Item;    
@@ -138,6 +140,9 @@ public:
         \param[in] is_inventory_thread whether it's inventory thread
      */
     void tryLoadOptionsScreen(bool is_inventory_thread);
+    /*! Tries loading game screen
+     */
+    void tryLoadGameScreen();
     /*! Returns options screen
         \return options screen
      */
@@ -184,6 +189,12 @@ private:
      *  \return name for title
      */
     sad::String* tryGetScriptForItem(const sad::String& title);
+    /*! Destroys physics world
+     */
+    void destroyWorld();
+    /*! Inits in-game physics
+     */
+    void initGamePhysics();
     /*! Disabled constructor
      */
     Game(const Game&);
@@ -218,9 +229,12 @@ private:
     /*! A highestscore for game
      */
     int m_highscore;
-    /*! Loaded options database
+    /*! Whether, we loaded options database
      */
     bool m_loaded_options_database[2];
+    /*! Whether we loaded game screen
+     */
+    bool m_loaded_game_screen;
 
     /*! A theme sound, that should be played
      */
@@ -257,4 +271,7 @@ private:
     /*! An item names to related scripts for item
      */
     sad::Hash<sad::String, sad::String*> m_item_names_to_scripts;
+    /*! A world, which is used in game
+     */
+    sad::p2d::World* m_physics_world;
 };
