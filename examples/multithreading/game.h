@@ -274,4 +274,7 @@ private:
     /*! A world, which is used in game
      */
     sad::p2d::World* m_physics_world;
+	/*! Whether we should render world bodies
+	 */
+	bool m_is_rendering_world_bodies;
 };

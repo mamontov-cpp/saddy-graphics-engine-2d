@@ -38,7 +38,8 @@ m_loaded_options_database{false, false},
 m_loaded_game_screen(false),
 m_inventory_node(NULL),
 m_inventory_popup(NULL),
-m_physics_world(NULL)// NOLINT
+m_physics_world(NULL),
+m_is_rendering_world_bodies(false) // NOLINT
 {
     m_eval_context = new sad::dukpp03::Context();
     sad::dukpp03irrklang::init(m_eval_context);
@@ -436,6 +437,13 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
         & ((&m_paused_state_machine) * sad::String("playing")),
         empty_callback
     );
+	renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & sad::Tab
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        [this] { this->m_is_rendering_world_bodies = !this->m_is_rendering_world_bodies;  }
+    );
 
     // A paused game screen
     renderer->controls()->addLambda(
@@ -459,6 +467,45 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
         & ((&m_paused_state_machine) * sad::String("paused")),
         empty_callback
     );
+	
+	
+	renderer->pipeline()->appendProcess([=]() {
+        if (this->m_state_machine.isInState("playing"))
+        {
+			if (this->m_paused_state_machine.isInState("paused") == false)
+			{
+				if (m_is_rendering_world_bodies)
+				{
+					sad::Vector<sad::p2d::Body*> bodies = m_physics_world->allBodies();
+					if (bodies.size())
+					{
+						for(size_t i = 0; i < bodies.size(); i++) 
+						{
+							sad::p2d::CollisionShape* shape =  bodies[i]->currentShape();
+							if (shape->metaIndex() == sad::p2d::Rectangle::globalMetaIndex())
+							{
+								renderer->render()->rectangle(dynamic_cast<sad::p2d::Rectangle*>(shape)->rect(), sad::AColor(0, 0, 255, 255));
+							}
+							if (shape->metaIndex() == sad::p2d::Circle::globalMetaIndex())
+							{
+								sad::Vector<sad::p2d::Point> list_of_points;
+								shape->populatePoints(list_of_points);
+								for (size_t j = 0; j < (list_of_points.size() - 1); j++) 
+								{
+									renderer->render()->line(list_of_points[j], list_of_points[j + 1], sad::AColor(0, 0, 255, 255));
+								}
+							}
+							if (shape->metaIndex() == sad::p2d::Line::globalMetaIndex())
+							{
+								sad::p2d::Line* line = dynamic_cast<sad::p2d::Line*>(shape);
+								renderer->render()->line(line->cutter().p1(), line->cutter().p2(), sad::AColor(0, 0, 255, 255));
+							}
+						}
+					}
+				}
+			}
+        }
+    });
 }
 
 void Game::setControlsForInventoryThread(sad::Renderer* renderer)
@@ -781,6 +828,7 @@ void Game::changeSceneToPlayingScreen()
     SceneTransitionOptions options;
 
     m_inventory_popup = NULL;
+	m_is_rendering_world_bodies = false;
     
 
     sad::Renderer* main_renderer = m_main_thread->renderer();
@@ -1226,7 +1274,7 @@ void Game::initGamePhysics()
 Game::Game(const Game&)  // NOLINT
     : m_main_thread(NULL), m_inventory_thread(NULL), m_is_quitting(false), m_main_menu_state(Game::GMMS_PLAY),
       m_highscore(0), m_loaded_options_database{false, false}, m_loaded_game_screen(false), m_theme_playing(NULL), m_transition_process(NULL),
-      m_inventory_node(NULL), m_inventory_popup(NULL), m_eval_context(NULL), m_physics_world(NULL)
+      m_inventory_node(NULL), m_inventory_popup(NULL), m_eval_context(NULL), m_physics_world(NULL),m_is_rendering_world_bodies(false)
 {
     throw std::logic_error("Not implemented");
 }
