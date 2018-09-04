@@ -24,7 +24,12 @@ void sad::p2d::WorldStepTask::_process()
         rendertime = 1.0 / 60.0; 
     }
     if (m_enabled)
-        m_world->step(rendertime);
+    {
+        if (m_world)
+        {
+            m_world->step(rendertime);
+        }
+    }
 }
 
 void sad::p2d::WorldStepTask::setWorld(sad::p2d::World * world)
