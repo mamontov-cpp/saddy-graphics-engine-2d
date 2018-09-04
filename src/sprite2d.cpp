@@ -409,6 +409,11 @@ void sad::Sprite2D::moveTo(const sad::Point2D & p)
     moveBy(dist);
 }
 
+bool  sad::Sprite2D::canBeRotated() const
+{
+    return true;
+}
+
 void sad::Sprite2D::rotate(double angle)
 {
     m_angle += angle;

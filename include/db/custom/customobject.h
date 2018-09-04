@@ -100,6 +100,14 @@ public:
         \param[in] width a width of object
      */
     void setMaximalLineWidth(unsigned int width);
+    /*! Returns true
+        \return if node can be rotated
+     */
+    virtual bool canBeRotated() const;
+    /*! Rotates a sprite around his middle point counter-clockwise
+        \param[in]  angle an angle, which defines how sprite should be rotated
+     */
+    virtual void rotate(double angle);
     /*! Returns angle, used in object
         \return angle in object
      */

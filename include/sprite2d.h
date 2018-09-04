@@ -195,10 +195,14 @@ public:
         \param[in] p a new center for a sprite
      */
     void moveTo(const sad::Point2D & p);
+    /*! Returns true
+        \return if node can be rotated
+     */
+    virtual bool canBeRotated() const;
     /*! Rotates a sprite around his middle point counter-clockwise
         \param[in]  angle an angle, which defines how sprite should be rotated
      */
-    void rotate(double angle);
+    virtual void rotate(double angle);
     /*! Sets sprite counter-clockwise rotation angle
         \param[in] alpha alpha rotation angle
      */

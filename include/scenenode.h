@@ -127,6 +127,14 @@ public:
         \param[in] p point
      */
     virtual void moveBy(const sad::Point2D& p);
+    /*! Tests if scene node can be rotated
+        \return if node can be rotated
+     */
+    virtual bool canBeRotated() const;
+    /*! Tries to rotate item by specified angle
+        \param[in] delta a delta for node
+     */
+    virtual void rotate(double delta);
 protected:
     /*! Determines, whether scene node is visible and should be rendered. It's same as m_active but can be used for different purposes,
         when object is active, but hidden by somewhere else in chain of responsibility of application.

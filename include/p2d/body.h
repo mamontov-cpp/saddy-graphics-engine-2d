@@ -37,13 +37,43 @@ public:
     /*! Returns current shape for a body
      */
     p2d::CollisionShape * currentShape();
+
+    /*! Sets linked user objects
+        \param[in] objects list of objects
+     */
+    template<
+        typename _ObjectType
+    >
+    void setUserObjects(const sad::Vector<_ObjectType*>& objects)
+    {
+        if (m_user_objects.size())
+        {
+            for(size_t i = 0; i < m_user_objects.size(); i++)
+            {
+                m_user_objects[i]->delRef();
+            }
+        }
+        m_user_objects.clear();
+        for(size_t i = 0; i < objects.size(); i++)
+        {
+            if (objects[i])
+            {
+                objects[i]->addRef();
+                m_user_objects << objects[i];
+            }
+        }
+    }
+    /*! Returns user objects
+        \return objects
+     */
+    const sad::Vector<sad::Object*>& userObjects() const;
     /*! Sets user object for a body
      */
-    virtual void setUserObject(sad::Object * o);
+    void setUserObject(sad::Object * o);
     /*! Returns an inner user-defined object
         \return inner user-defined object
      */
-    virtual sad::Object * userObject() const;
+    sad::Object * userObject() const;
     /*! Returns a type of user-defined object
         \return type of object
      */
@@ -78,6 +108,20 @@ public:
     {
         m_tangential->addListener(listener);
     }
+    /*! Adds listener for body movement
+        \param[in] listener a common listener 
+     */
+    inline void addMoveListener(const std::function<void(const sad::p2d::Vector&)>& fn)
+    {
+        m_tangential->addListener(new  sad::p2d::LambdaMovementDeltaListener<sad::p2d::Vector>(fn));
+    }
+    /*! Adds listener for body movement
+        \param[in] listener a common listener 
+     */
+    inline void addMoveListener(const std::function<void(sad::p2d::Vector)>& fn)
+    {
+        m_tangential->addListener(new  sad::p2d::LambdaMovementDeltaListener<sad::p2d::Vector>(fn));
+    }
     /*! Removes listener for body movement
         \param[in] listener a common listener 
      */
@@ -91,6 +135,45 @@ public:
     inline void addRotateListener(p2d::AngularMovement::listener_t listener)
     {
         m_angular->addListener(listener);
+    }
+    /*! Adds listener for body rotation
+        \param[in] listener a common listener 
+     */
+    inline void addRotateListener(const std::function<void(const double&)>& fn)
+    {
+        m_angular->addListener(new  sad::p2d::LambdaMovementDeltaListener<double>(fn));
+    }
+    /*! Adds listener for body rotation
+        \param[in] listener a common listener 
+     */
+    inline void addRotateListener(const std::function<void(double)>& fn)
+    {
+        m_angular->addListener(new  sad::p2d::LambdaMovementDeltaListener<double>(fn));
+    }
+
+    /*! Attached list of objects fully, adding listeners for them, that will move them according to body position
+        \param[in] objects an objects, that will be set as inner
+     */
+    template<
+        typename _Object
+    >
+    inline void attachObjects(const sad::Vector<_Object*>& objects)
+    {
+        this->addMoveListener(new sad::p2d::ObjectGroupTangentialDeltaListener<_Object>(objects));
+        this->addRotateListener(new sad::p2d::ObjectGroupAngularDeltaListener<_Object>(objects));
+        this->setUserObjects(objects);
+    }
+    /*! Attached object fully, adding listeners for them, that will move it according to body position
+        \param[in] object an object
+     */
+    template<
+        typename _Object
+    >
+    inline void attachObject(_Object* object)
+    {
+        this->addMoveListener(new sad::p2d::ObjectGroupTangentialDeltaListener<_Object>(object));
+        this->addRotateListener(new sad::p2d::ObjectGroupAngularDeltaListener<_Object>(object));
+        this->setUserObject(object);
     }
     /*! Removes listener for body rotation
         \param[in] listener a common listener
@@ -385,7 +468,7 @@ private:
     /*! Returns a user object
         \return user object for a body
      */
-    sad::Object* m_user_object;
+    sad::Vector<sad::Object*> m_user_objects;
     /*! A tangential movement for body
      */
     p2d::TangentialMovement* m_tangential;

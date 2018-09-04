@@ -335,6 +335,16 @@ void sad::Sprite3D::moveTo(const sad::Point3D & p)
     moveBy(dist);
 }
 
+bool sad::Sprite3D::canBeRotated() const
+{
+    return true;
+}
+
+void sad::Sprite3D::rotate(double angle)
+{
+    rotate(angle, 0);
+}
+
 void sad::Sprite3D::rotate(double alpha, double theta)
 {
     m_alpha += alpha;

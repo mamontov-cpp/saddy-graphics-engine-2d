@@ -8,6 +8,8 @@
 #include "vector.h"
 #include "force.h"
 
+#include <functional>
+
 #include "../sadvector.h"
 #include "../geometry2d.h"
 
@@ -29,11 +31,146 @@ template<
 class AbstractMovementDeltaListener
 {
  public:
-     /*! Notifies a movement for delta
-         \param[in] delta delta from previous value to current
-      */
-     virtual void notify(const _Value & delta) = 0;
-     virtual ~AbstractMovementDeltaListener() {}
+    /*! Notifies a movement for delta
+        \param[in] delta delta from previous value to current
+     */
+    virtual void notify(const _Value & delta) = 0;
+    virtual ~AbstractMovementDeltaListener() {}
+};
+
+/*! A lambda as movement listener
+ */
+template<
+    typename _Value
+>
+class LambdaMovementDeltaListener: public p2d::AbstractMovementDeltaListener<_Value>
+{
+public: 
+    /*! Constructs a listener, that calls a function
+        \param[in] f a function
+     */
+    inline LambdaMovementDeltaListener(const std::function<void(const _Value&)>& f) : m_fn(f)
+    {
+    }
+    /*! Constructs a listener, that calls a function
+        \param[in] f a function
+     */
+    inline LambdaMovementDeltaListener(const std::function<void(_Value)>& f)
+    {
+         m_fn = [=, f](const _Value& val) { f(val); };
+    }
+    /*! Notifies a movement for delta
+        \param[in] delta delta from previous value to current
+     */
+    virtual void notify(const _Value & delta)
+    {
+        m_fn(delta);
+    }
+    virtual ~LambdaMovementDeltaListener() {}
+protected:
+    std::function<void(const _Value&)> m_fn;
+};
+
+/*! A tangential listener for object group, where object must be scene node
+ */
+template<
+    typename _Object
+>
+class ObjectGroupTangentialDeltaListener: public  p2d::AbstractMovementDeltaListener<sad::p2d::Vector>
+{
+public: 
+    /*! Constructs a listener, that moves objects, according to notification
+        \param[in] lst list of objects
+     */
+    inline ObjectGroupTangentialDeltaListener(const sad::Vector<_Object*>& lst) : m_objects(lst)
+    {
+        for(size_t i = 0; i < m_objects.size(); i++)
+        {
+            m_objects[i]->addRef();
+        }
+    }
+    /*! Constructs a listener, that moves object, according to notification
+        \param[in] lst list of object
+     */
+    inline ObjectGroupTangentialDeltaListener(_Object* o)
+    {
+        m_objects << o;
+        o->addRef();
+    }
+    /*! Notifies a movement for delta
+        \param[in] delta delta from previous value to current
+     */
+    virtual void notify(const sad::p2d::Vector & delta)
+    {
+        for(size_t i = 0; i < m_objects.size(); i++)
+        {
+            m_objects[i]->moveBy(delta);
+        }
+    }
+    /*! Deletes all objects
+     */
+    virtual ~ObjectGroupTangentialDeltaListener() 
+    {
+        for(size_t i = 0; i < m_objects.size(); i++)
+        {
+            m_objects[i]->delRef();
+        }
+    }
+protected:
+    sad::Vector<_Object*> m_objects;
+};
+
+
+/*! A angular listener for object group, where object must be scene node
+ */
+template<
+    typename _Object
+>
+class ObjectGroupAngularDeltaListener: public  p2d::AbstractMovementDeltaListener<double>
+{
+public: 
+    /*! Constructs a listener, that moves objects, according to notification
+        \param[in] lst list of objects
+     */
+    inline ObjectGroupAngularDeltaListener(const sad::Vector<_Object*>& lst) : m_objects(lst)
+    {
+        for(size_t i = 0; i < m_objects.size(); i++)
+        {
+            m_objects[i]->addRef();
+        }
+    }
+    /*! Constructs a listener, that moves object, according to notification
+        \param[in] lst list of object
+     */
+    inline ObjectGroupAngularDeltaListener(_Object* o)
+    {
+        m_objects << o;
+        o->addRef();
+    }
+    /*! Notifies a movement for delta
+        \param[in] delta delta from previous value to current
+     */
+    virtual void notify(const double & delta)
+    {
+        for(size_t i = 0; i < m_objects.size(); i++)
+        {
+            if (m_objects[i]->canBeRotated())
+            {
+                m_objects[i]->rotate(delta);
+            }
+        }
+    }
+    /*! Deletes all objects
+     */
+    virtual ~ObjectGroupAngularDeltaListener() 
+    {
+        for(size_t i = 0; i < m_objects.size(); i++)
+        {
+            m_objects[i]->delRef();
+        }
+    }
+protected:
+    sad::Vector<_Object*> m_objects;
 };
 
 /*! A specific movement delta listener, that calls a listener for specific
@@ -43,31 +180,31 @@ template<typename _Class, typename _Value>
 class MovementDeltaListener: public p2d::AbstractMovementDeltaListener<_Value>
 {
 public:
-      typedef void (_Class::*method_t)(const _Value &);
+    typedef void (_Class::*method_t)(const _Value &);
 
-      /*! Defines a listener, that calls a specific method for object
-          \param[in] o object
-          \param[in] f method
-       */
-      inline MovementDeltaListener(_Class * o, method_t f)
-      : m_object(o), m_fun(f)
-      {
-      }
-      /*! Calls a specific method for movement of object.
-          Called when movement changed a current value for positions, or
-          after step, when current value is changed
-          \param[in] delta a difference between previous and current body
-       */
-      virtual void notify(const _Value & delta)
-      {
-          (m_object->*m_fun)(delta);
-      }
-      /*! This class does not own object nor method, so nothing here
-       */
-      ~MovementDeltaListener() {}
+    /*! Defines a listener, that calls a specific method for object
+        \param[in] o object
+        \param[in] f method
+     */
+    inline MovementDeltaListener(_Class * o, method_t f)
+    : m_object(o), m_fun(f)
+    {
+    }
+    /*! Calls a specific method for movement of object.
+        Called when movement changed a current value for positions, or
+        after step, when current value is changed
+        \param[in] delta a difference between previous and current body
+     */
+    virtual void notify(const _Value & delta)
+    {
+        (m_object->*m_fun)(delta);
+    }
+    /*! This class does not own object nor method, so nothing here
+     */
+    ~MovementDeltaListener() {}
 protected:
-      _Class *  m_object; //!< An object
-      method_t  m_fun;      //!< A called pointer to method of class
+    _Class *  m_object; //!< An object
+    method_t  m_fun;      //!< A called pointer to method of class
 };
 
 /*! Describes a movement in specifiec direction, using _Value type as type
@@ -80,11 +217,11 @@ template<
 >
 class Movement
 {
- public:
+public:
      /*! A specific listener for a values
       */
      typedef p2d::AbstractMovementDeltaListener<_Value> * listener_t;
- protected:
+protected:
      /*! A steppable forces
          The force is owned by movement
       */
@@ -128,7 +265,7 @@ class Movement
      /*! Whether position is cached
       */
      bool   m_position_is_cached;
- protected:
+protected:
      /*! Called, when object moved on step, or by setting a current value
          \param[in] delta a difference from new value and current value
       */
@@ -158,7 +295,7 @@ class Movement
             }
          }
      }
- public:
+public:
      /*! By a default  a weight is one, force is empty, and
          velocity and position should be zeroish
       */

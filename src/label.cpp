@@ -344,6 +344,16 @@ void sad::Label::setScene(sad::Scene * scene)
     }
 }
 
+bool sad::Label::canBeRotated() const
+{
+    return true;
+}
+
+void sad::Label::rotate(double angle)
+{ 
+    this->setAngle(this->angle() + angle);
+}
+
 void sad::Label::setPoint(const sad::Point2D & point)
 {
     m_point = point;

@@ -22,33 +22,46 @@ void sad::p2d::Body::notifyMove(const sad::p2d::Vector & delta)
     m_current->move(delta);
 }
 
+const sad::Vector<sad::Object*>& sad::p2d::Body::userObjects() const
+{
+    return m_user_objects;
+}
+
 void sad::p2d::Body::setUserObject(sad::Object * o)
 {
-    if (m_user_object)
+    if (m_user_objects.size())
     {
-        m_user_object->delRef();
+        for(size_t i = 0; i < m_user_objects.size(); i++)
+        {
+            m_user_objects[i]->delRef();
+        }
     }
+    m_user_objects.clear();
     //printf("Set user object %p on body %p\n", o, this);
-    m_user_object = o;
-    if (m_user_object)
+    if (o)
     {
-        m_user_object->addRef();
+        m_user_objects << o;
+        o->addRef();
     }
 }
 
 
 sad::Object * sad::p2d::Body::userObject() const
 {
-    return m_user_object;
+    if (m_user_objects.size() == 0)
+    {
+        return NULL;
+    }
+    return m_user_objects[0];
 }
 
 const sad::String & sad::p2d::Body::userType() const
 {
-    if (m_user_object == NULL)
+    if (m_user_objects.size() == 0)
     {
         return this->metaData()->name();
     }
-    return m_user_object->metaData()->name();
+    return m_user_objects[0]->metaData()->name();
 }
 
 sad::p2d::CollisionShape & sad::p2d::Body::at(double time, int index) const
@@ -89,7 +102,7 @@ void sad::p2d::Body::trySetTransformer()
     }
 }
 
-sad::p2d::Body::Body() : m_is_ghost(false), m_world(NULL), m_user_object(NULL)
+sad::p2d::Body::Body() : m_is_ghost(false), m_world(NULL)
 {    
     m_tangential = new p2d::TangentialMovement();
     m_tangential->addListener( new move_t(this, &p2d::Body::notifyMove) );
@@ -120,9 +133,12 @@ sad::p2d::Body::~Body()
     delete m_angular;
     delete m_current;
     delete[] Temporary;
-    if (m_user_object)
+    if (m_user_objects.size())
     {
-        m_user_object->delRef();
+        for(size_t i = 0; i < m_user_objects.size(); i++)
+        {
+            m_user_objects[i]->delRef();
+        }
     }
 }
 
