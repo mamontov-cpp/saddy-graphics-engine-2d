@@ -14,6 +14,7 @@
 #include "../geometry2d.h"
 
 #include <algorithm>
+#include <utility>
 
 namespace sad
 {
@@ -43,13 +44,13 @@ class AbstractMovementDeltaListener
 template<
     typename _Value
 >
-class LambdaMovementDeltaListener: public p2d::AbstractMovementDeltaListener<_Value>
+class LambdaMovementDeltaListener: public p2d::AbstractMovementDeltaListener<_Value>  // NOLINT(cppcoreguidelines-special-member-functions)
 {
 public: 
     /*! Constructs a listener, that calls a function
         \param[in] f a function
      */
-    inline LambdaMovementDeltaListener(const std::function<void(const _Value&)>& f) : m_fn(f)
+    inline LambdaMovementDeltaListener(std::function<void(const _Value&)> f) : m_fn(std::move(f))
     {
     }
     /*! Constructs a listener, that calls a function
@@ -57,7 +58,7 @@ public:
      */
     inline LambdaMovementDeltaListener(const std::function<void(_Value)>& f)
     {
-         m_fn = [=, f](const _Value& val) { f(val); };
+         m_fn = [=](const _Value& val) { f(val); };
     }
     /*! Notifies a movement for delta
         \param[in] delta delta from previous value to current
@@ -76,7 +77,7 @@ protected:
 template<
     typename _Object
 >
-class ObjectGroupTangentialDeltaListener: public  p2d::AbstractMovementDeltaListener<sad::p2d::Vector>
+class ObjectGroupTangentialDeltaListener: public  p2d::AbstractMovementDeltaListener<sad::p2d::Vector>  // NOLINT(cppcoreguidelines-special-member-functions)
 {
 public: 
     /*! Constructs a listener, that moves objects, according to notification
@@ -90,7 +91,7 @@ public:
         }
     }
     /*! Constructs a listener, that moves object, according to notification
-        \param[in] lst list of object
+        \param[in] o a basic object
      */
     inline ObjectGroupTangentialDeltaListener(_Object* o)
     {
@@ -126,7 +127,7 @@ protected:
 template<
     typename _Object
 >
-class ObjectGroupAngularDeltaListener: public  p2d::AbstractMovementDeltaListener<double>
+class ObjectGroupAngularDeltaListener: public  p2d::AbstractMovementDeltaListener<double>  // NOLINT(cppcoreguidelines-special-member-functions)
 {
 public: 
     /*! Constructs a listener, that moves objects, according to notification
@@ -140,7 +141,7 @@ public:
         }
     }
     /*! Constructs a listener, that moves object, according to notification
-        \param[in] lst list of object
+        \param[in] o an object
      */
     inline ObjectGroupAngularDeltaListener(_Object* o)
     {
@@ -177,7 +178,7 @@ protected:
     movement.
  */
 template<typename _Class, typename _Value>
-class MovementDeltaListener: public p2d::AbstractMovementDeltaListener<_Value>
+class MovementDeltaListener: public p2d::AbstractMovementDeltaListener<_Value>  // NOLINT(cppcoreguidelines-special-member-functions)
 {
 public:
     typedef void (_Class::*method_t)(const _Value &);
