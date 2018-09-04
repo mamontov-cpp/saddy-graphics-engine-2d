@@ -1304,6 +1304,25 @@ void Game::initGamePhysics()
             m_physics_world->addBodyToGroup("platforms", body);
         }
     }
+    
+    std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_player_and_platforms = [=](const sad::p2d::BasicCollisionEvent & ev) {
+        printf("Event\n");
+        sad::p2d::Vector v = ev.m_object_2->tangentialVelocity();
+        double av = ev.m_object_2->angularVelocity();
+        this->m_bounce_solver->pushResilienceCoefficient(0.0);
+        this->m_bounce_solver->pushRotationFriction(0.0);
+        this->m_bounce_solver->bounce(ev.m_object_1, ev.m_object_2);
+        ev.m_object_2->setCurrentTangentialVelocity(v);
+        ev.m_object_2->setCurrentAngularVelocity(av);
+        ev.m_object_2->sheduleTangentialVelocity(v);
+        ev.m_object_2->sheduleAngularVelocity(av);
+
+        ev.m_object_1->setCurrentTangentialVelocity(v);
+        ev.m_object_1->setCurrentAngularVelocity(av);
+        ev.m_object_1->sheduleTangentialVelocity(v);
+        ev.m_object_1->sheduleAngularVelocity(av);
+    };
+    m_physics_world->addHandler("player", "platforms", collision_between_player_and_platforms);
     m_step_task->setWorld(m_physics_world);
 }
 
