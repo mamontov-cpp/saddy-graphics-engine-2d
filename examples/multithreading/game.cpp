@@ -1188,6 +1188,10 @@ void Game::initGamePhysics()
                 sad::p2d::Rectangle* rect = new sad::p2d::Rectangle();
                 // Slight increase of area, due to paddings
                 common_rectangle = sad::Rect2D(common_rectangle[0].x(), common_rectangle[0].y(), common_rectangle[2].x() + 1, common_rectangle[2].y());
+                // Small fix for tiny platforms, to ensure their bounding box will be some times smaller than one
+                if (common_rectangle.height() < 40) {
+                    common_rectangle = sad::Rect2D(common_rectangle[0].x(), common_rectangle[0].y()  + 3, common_rectangle[2].x() - 1, common_rectangle[2].y());
+                }
                 rect->setRect(common_rectangle);
                 body->setShape(rect);
 
@@ -1263,6 +1267,10 @@ void Game::initGamePhysics()
             sad::p2d::Rectangle* rect = new sad::p2d::Rectangle();
             // Slight increase of area, due to paddings
             common_rectangle = sad::Rect2D(common_rectangle[0].x(), common_rectangle[0].y(), common_rectangle[2].x() + 1, common_rectangle[2].y());
+            // Small fix for tiny platforms, to ensure their bounding box will be some times smaller than one
+            if (common_rectangle.height() < 40) {
+                common_rectangle = sad::Rect2D(common_rectangle[0].x(), common_rectangle[0].y() + 3, common_rectangle[2].x() - 1, common_rectangle[2].y());
+            }
             rect->setRect(common_rectangle);
             body->setShape(rect);
 

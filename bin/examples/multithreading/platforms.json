@@ -37,8 +37,8 @@
         },
         {
             "name":"platforms_list\/2x1",
-            "size":"79;40",
-            "texrect":"163;244;79;40"
+            "size":"79;32",
+            "texrect":"163;244;79;32"
         },
         {
             "name":"platforms_list\/2x2ng",
@@ -57,8 +57,8 @@
         },
         {
             "name":"platforms_list\/3x1",
-            "size":"119;40",
-            "texrect":"605;163;119;40"
+            "size":"119;32",
+            "texrect":"605;163;119;32"
         },
         {
             "name":"platforms_list\/3x2",
@@ -72,8 +72,8 @@
         },
         {
             "name":"platforms_list\/5x1",
-            "size":"199;40",
-            "texrect":"404;163;199;40"
+            "size":"199;32",
+            "texrect":"404;163;199;32"
         },
         {
             "name":"platforms_list\/5x2",
@@ -86,7 +86,7 @@
             "texrect":"82;163;199;79"
         }
     ],
-    "file":"platforms.png",
+    "file":"platforms.tga",
     "no-mipmaps":true,
     "resource":"platforms"
 }
