@@ -87,6 +87,8 @@ m_is_rendering_world_bodies(false) // NOLINT
     m_loaded_options_database[1] = false;
 
     m_options_screen.init(this, m_main_thread->renderer(), m_inventory_thread->renderer());
+    
+    m_step_task = new sad::p2d::WorldStepTask(NULL, m_main_thread->renderer());
 }
 
 Game::~Game()  // NOLINT
@@ -102,6 +104,7 @@ Game::~Game()  // NOLINT
         delete it.value();
     }
     this->destroyWorld();
+    delete m_step_task;
 }
 
 /*! A padding, that will be used in main menu between label and player choice
@@ -468,7 +471,18 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
         empty_callback
     );
     
-    
+    // Processing of physics events
+    renderer->pipeline()->appendProcess([=]() {
+        if (this->m_state_machine.isInState("playing"))
+        {
+            if (this->m_paused_state_machine.isInState("paused") == false)
+            {
+                this->m_step_task->enable();
+                this->m_step_task->process();
+            }
+        }
+    });
+    // A debug collision shape rendering
     renderer->pipeline()->appendProcess([=]() {
         if (this->m_state_machine.isInState("playing"))
         {
@@ -790,6 +804,7 @@ void Game::changeScene(const SceneTransitionOptions& opts) const
 
 void Game::changeSceneToStartingScreen()
 {
+    m_is_rendering_world_bodies = false;
     this->destroyWorld();
     SceneTransitionOptions options;
 
@@ -875,6 +890,7 @@ void Game::changeSceneToPlayingScreen()
 
 void Game::changeSceneToOptions()
 {
+    m_is_rendering_world_bodies = false;
     this->destroyWorld();
     this->m_player->reset();
 
@@ -1077,7 +1093,8 @@ void Game::destroyWorld()
 {
     if (m_physics_world)
     {
-        delete  m_physics_world;
+        m_step_task->setWorld(NULL);
+        m_physics_world->delRef();
         m_physics_world = NULL;
     }
 }
@@ -1085,6 +1102,7 @@ void Game::destroyWorld()
 void Game::initGamePhysics()
 {
     m_physics_world = new sad::p2d::World();
+	m_physics_world->addRef();
     m_physics_world->addGroup("player");
     m_physics_world->addGroup("platforms");
     sad::Renderer* renderer = m_main_thread->renderer();
@@ -1277,6 +1295,7 @@ void Game::initGamePhysics()
             m_physics_world->addBodyToGroup("platforms", body);
         }
     }
+    m_step_task->setWorld(m_physics_world);
 }
 
 Game::Game(const Game&)  // NOLINT

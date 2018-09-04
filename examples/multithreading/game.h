@@ -21,6 +21,7 @@
 #include <dukpp-03/context.h>
 
 #include <p2d/world.h>
+#include <p2d/worldsteptask.h>
 
 namespace game
 {
@@ -274,7 +275,10 @@ private:
     /*! A world, which is used in game
      */
     sad::p2d::World* m_physics_world;
-	/*! Whether we should render world bodies
-	 */
-	bool m_is_rendering_world_bodies;
+    /*! A world step task for pipeline
+     */
+    sad::p2d::WorldStepTask* m_step_task;
+    /*! Whether we should render world bodies
+     */
+    bool m_is_rendering_world_bodies;
 };
