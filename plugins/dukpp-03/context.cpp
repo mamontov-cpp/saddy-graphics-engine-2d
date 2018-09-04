@@ -885,7 +885,15 @@ void sad::dukpp03::Context::exposeSprite3D()
     move_by->add(sad::dukpp03::bind_method::from(move_by_3d));
     move_by->add(sad::dukpp03::bind_method::from(move_by_2d));
     c->addMethod("moveBy", move_by);
-    c->addMethod("rotate", sad::dukpp03::bind_method::from(&sad::Sprite3D::rotate));
+    
+    void (sad::Sprite3D::*rotate_1)(double) = &sad::Sprite3D::rotate;
+    void (sad::Sprite3D::*rotate_2)(double, double) = &sad::Sprite3D::rotate;
+
+    ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * rotate = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
+    rotate->add(sad::dukpp03::bind_method::from(rotate_1));
+    rotate->add(sad::dukpp03::bind_method::from(rotate_2));
+    c->addMethod("rotate", rotate);
+
     c->addMethod("alpha", sad::dukpp03::bind_method::from(&sad::Sprite3D::alpha));
     c->addMethod("setAlpha", sad::dukpp03::bind_method::from(&sad::Sprite3D::setAlpha));
     c->addMethod("setTheta", sad::dukpp03::bind_method::from(&sad::Sprite3D::setTheta));
