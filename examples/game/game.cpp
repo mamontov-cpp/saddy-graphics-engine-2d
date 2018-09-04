@@ -430,7 +430,7 @@ void Game::enterPlayingScreen()
     p->setPosition(sad::p2d::Point(320.0,240.0));
     addObject(p, "GameObject");
 
-    m_player = p;	
+    m_player = p;
 
     createWalls();
 }
