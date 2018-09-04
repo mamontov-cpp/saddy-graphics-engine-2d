@@ -22,6 +22,7 @@
 
 #include <p2d/world.h>
 #include <p2d/worldsteptask.h>
+#include <p2d/bouncesolver.h>
 
 namespace game
 {
@@ -278,6 +279,9 @@ private:
     /*! A world step task for pipeline
      */
     sad::p2d::WorldStepTask* m_step_task;
+    /*! A bounce solver for solving collisions
+     */
+    sad::p2d::BounceSolver* m_bounce_solver;
     /*! Whether we should render world bodies
      */
     bool m_is_rendering_world_bodies;

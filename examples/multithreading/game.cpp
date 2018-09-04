@@ -89,10 +89,14 @@ m_is_rendering_world_bodies(false) // NOLINT
     m_options_screen.init(this, m_main_thread->renderer(), m_inventory_thread->renderer());
     
     m_step_task = new sad::p2d::WorldStepTask(NULL, m_main_thread->renderer());
+    
+    m_bounce_solver = new sad::p2d::BounceSolver();
 }
 
 Game::~Game()  // NOLINT
 {
+    delete m_bounce_solver;
+
     delete m_transition_process;
     delete m_main_thread;
     delete m_inventory_thread;
@@ -1119,6 +1123,7 @@ void Game::initGamePhysics()
         rect->setRect(sprite->area());
         body->setShape(rect);
         body->addForce(new sad::p2d::TangentialForce(sad::p2d::Vector(0, -4))); // -4 is arbitrarily defined, to make player fall slowly
+        body->attachObject(sprite);
 
         m_physics_world->addBodyToGroup("player", body);
         m_player->setBody(body);
@@ -1155,7 +1160,7 @@ void Game::initGamePhysics()
             sad::p2d::Body* body = new sad::p2d::Body();
             body->setCurrentAngularVelocity(0);
             body->setCurrentTangentialVelocity(sad::p2d::Vector(0, 0));
-            body->setUserObject(ungrouped_platform_sprites[i]);
+            body->attachObject(ungrouped_platform_sprites[i]);
             sad::p2d::Rectangle* rect = new sad::p2d::Rectangle();
             sad::Rect2D rct = ungrouped_platform_sprites[i]->area();
             // Slight increase of area, due to paddings
@@ -1212,6 +1217,7 @@ void Game::initGamePhysics()
                 }
                 rect->setRect(common_rectangle);
                 body->setShape(rect);
+                body->attachObjects(sprites_in_group);
 
                 m_physics_world->addBodyToGroup("platforms", body);
                 for(size_t k = 0 ; k < sprites_in_group.size(); k++)
@@ -1265,6 +1271,8 @@ void Game::initGamePhysics()
                 common_rectangle = sad::Rect2D(common_rectangle[0].x(), common_rectangle[0].y(), common_rectangle[2].x() + 1, common_rectangle[2].y());
                 rect->setRect(common_rectangle);
                 body->setShape(rect);
+                body->attachObjects(sprites_in_group);
+
 
                 m_physics_world->addBodyToGroup("platforms", body);
                 for (size_t k = 0; k < sprites_in_group.size(); k++)
@@ -1281,6 +1289,7 @@ void Game::initGamePhysics()
             sad::p2d::Body* body = new sad::p2d::Body();
             body->setCurrentAngularVelocity(0);
             body->setCurrentTangentialVelocity(sad::p2d::Vector(0, 0));
+            body->attachObject(platform_sprites[i]);
             sad::Rect2D common_rectangle = platform_sprites[i]->area();
             sad::p2d::Rectangle* rect = new sad::p2d::Rectangle();
             // Slight increase of area, due to paddings
