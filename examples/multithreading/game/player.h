@@ -15,6 +15,12 @@ namespace game
 class Player
 {
 public:
+    /*! Maximal horizontal velocity for player
+     */
+    static const int MaxHorizontalVelocity;
+    /*! Maximal vertical velocity for player
+     */
+    static const int MaxVerticalVelocity;
     /*! A player, that will be used in game
      */
     Player();
@@ -33,6 +39,10 @@ public:
      *  \param[in] body a body for player
      */
     void setBody(sad::p2d::Body* body);
+    /*! Sets horizontal velocity for player
+     *  \param[in] value velocity value
+     */
+    void setHorizontalVelocity(double value);
 private:
     /*! Player's inventory, that will be carried around
      */

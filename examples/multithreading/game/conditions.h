@@ -7,6 +7,8 @@
 #include <keymouseconditions.h>
 #include <sadvector.h>
 
+// A condition for enum
+#define CS_PLAYGAME_PLAYING CS_PLAYGAME_PLAYING_PRESSED
 namespace game
 { 
 
@@ -18,10 +20,11 @@ struct Conditions
      */
     enum State
     {
-        CS_START_SCREEN     = 0,   //!< A starting screen
-        CS_OPTIONS_SCREEN   = 1,   //!< An options screen
-        CS_PLAYGAME_PLAYING = 2,   //!< A playing screen, when playing
-        CS_PLAYGAME_PAUSED  = 3    //!< A playing screen, when paused
+        CS_START_SCREEN     = 0,           //!< A starting screen
+        CS_OPTIONS_SCREEN   = 1,           //!< An options screen
+        CS_PLAYGAME_PLAYING_PRESSED  = 2,  //!< A press on playing screen(common version)
+        CS_PLAYGAME_PLAYING_RELEASED = 3,  //!< A press on playing screen, when released
+        CS_PLAYGAME_PAUSED  = 4            //!< A playing screen, when paused
     };
 
 /*! A conditions for specified renderer
@@ -30,19 +33,19 @@ struct ConditionsForRenderer
 {
     /*! A list of conditions, that depends on left key
      */
-    sad::KeyHoldCondition* LeftKeyConditions[4];
+    sad::KeyHoldCondition* LeftKeyConditions[5];
     /*! A list of conditions, that depends on right key
      */
-    sad::KeyHoldCondition* RightKeyConditions[4];
+    sad::KeyHoldCondition* RightKeyConditions[5];
     /*! A list of conditions, that depends on up key
     */
-    sad::KeyHoldCondition* UpKeyConditions[4];
+    sad::KeyHoldCondition* UpKeyConditions[5];
     /*! A list of conditions, that depends on down key
      */
-    sad::KeyHoldCondition* DownKeyConditions[4];
+    sad::KeyHoldCondition* DownKeyConditions[5];
     /*! A list of conditions, that depends on jump/action key
     */
-    sad::KeyHoldCondition* JumpActionConditions[4];
+    sad::KeyHoldCondition* JumpActionConditions[5];
     /*! A pause key condition, depends only if key is pause and in case if use is playing
      */
     sad::KeyHoldCondition* PauseCondition;
@@ -78,8 +81,9 @@ struct ConditionsForRenderer
     /*! Sets key for specified conditions
         \param[in] c conditions
         \param[in] key a keyboard key
+        \param[in] length a length of array
      */
-    static void setKeyForConditions(sad::KeyHoldCondition* c[4], sad::KeyboardKey key);
+    static void setKeyForConditions(sad::KeyHoldCondition* c[], sad::KeyboardKey key, size_t length = 5);
 };
     /*! Constructs a conditions
      */

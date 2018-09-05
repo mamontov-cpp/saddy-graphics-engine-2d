@@ -404,18 +404,36 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
     // A playing game screen
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForMainRenderer.LeftKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING]
+        & m_conditions.ConditionsForMainRenderer.LeftKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_PRESSED]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
-        empty_callback
-    );
+        [this]() {  
+        this->m_player->setHorizontalVelocity(game::Player::MaxHorizontalVelocity * -1);
+    });
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForMainRenderer.RightKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING]
+        & m_conditions.ConditionsForMainRenderer.LeftKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
-        empty_callback
-    );
+        [this]() {  
+        this->m_player->setHorizontalVelocity(0);
+    });
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.RightKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_PRESSED]
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        [this]() {
+        this->m_player->setHorizontalVelocity(game::Player::MaxHorizontalVelocity);
+    });
+	renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.RightKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED]
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        [this]() {
+        this->m_player->setHorizontalVelocity(0);
+    });
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
         & m_conditions.ConditionsForMainRenderer.UpKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING]
@@ -1106,7 +1124,7 @@ void Game::destroyWorld()
 void Game::initGamePhysics()
 {
     m_physics_world = new sad::p2d::World();
-	m_physics_world->addRef();
+    m_physics_world->addRef();
     m_physics_world->addGroup("player");
     m_physics_world->addGroup("platforms");
     sad::Renderer* renderer = m_main_thread->renderer();

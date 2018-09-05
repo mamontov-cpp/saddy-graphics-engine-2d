@@ -7,13 +7,29 @@ void game::Conditions::ConditionsForRenderer::init(bool is_inventory_thread)
     // Unused on starting screen and on paused screen
     LeftKeyConditions[game::Conditions::CS_START_SCREEN] = NULL;
     LeftKeyConditions[game::Conditions::CS_OPTIONS_SCREEN] = new sad::KeyHoldCondition(sad::KeyLeft);
-    LeftKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING] = new sad::KeyHoldCondition(sad::KeyLeft);
+    LeftKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_PRESSED] = new sad::KeyHoldCondition(sad::KeyLeft);
+    if (is_inventory_thread)
+    {
+         LeftKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED] = NULL;
+    }
+    else
+    {
+        LeftKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED] = new sad::KeyHoldCondition(sad::KeyRight);
+    }
     LeftKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED] = NULL;
 
     // Unused on starting screen and on  paused screen
     RightKeyConditions[game::Conditions::CS_START_SCREEN] = NULL;
     RightKeyConditions[game::Conditions::CS_OPTIONS_SCREEN] = new sad::KeyHoldCondition(sad::KeyRight);
-    RightKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING] = new sad::KeyHoldCondition(sad::KeyRight);
+    RightKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_PRESSED] = new sad::KeyHoldCondition(sad::KeyRight);
+    if (is_inventory_thread)
+    {
+        RightKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED]= NULL;
+    }
+    else
+    {
+        RightKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED] = new sad::KeyHoldCondition(sad::KeyRight);
+    }
     RightKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED] = NULL;
 
     if (is_inventory_thread)
@@ -25,7 +41,8 @@ void game::Conditions::ConditionsForRenderer::init(bool is_inventory_thread)
         UpKeyConditions[game::Conditions::CS_START_SCREEN] = new sad::KeyHoldCondition(sad::KeyUp);
     }
     UpKeyConditions[game::Conditions::CS_OPTIONS_SCREEN] = new sad::KeyHoldCondition(sad::KeyUp);
-    UpKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING] = new sad::KeyHoldCondition(sad::KeyUp);
+    UpKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_PRESSED] = new sad::KeyHoldCondition(sad::KeyUp);
+    UpKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED] = NULL; 
     UpKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED] = new sad::KeyHoldCondition(sad::KeyUp);
 
 
@@ -38,7 +55,15 @@ void game::Conditions::ConditionsForRenderer::init(bool is_inventory_thread)
         DownKeyConditions[game::Conditions::CS_START_SCREEN] = new sad::KeyHoldCondition(sad::KeyDown);
     }
     DownKeyConditions[game::Conditions::CS_OPTIONS_SCREEN] = new sad::KeyHoldCondition(sad::KeyDown);
-    DownKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING] = new sad::KeyHoldCondition(sad::KeyDown);
+    DownKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_PRESSED] = new sad::KeyHoldCondition(sad::KeyDown);
+    if (is_inventory_thread)
+    {
+        DownKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED] = NULL;
+    }
+    else
+    { 
+        DownKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED] = new sad::KeyHoldCondition(sad::KeyDown);
+    }
     DownKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED] = new sad::KeyHoldCondition(sad::KeyDown);
 
     if (is_inventory_thread)
@@ -51,7 +76,8 @@ void game::Conditions::ConditionsForRenderer::init(bool is_inventory_thread)
     }
 
     JumpActionConditions[game::Conditions::CS_OPTIONS_SCREEN] = new sad::KeyHoldCondition(sad::Space);
-    JumpActionConditions[game::Conditions::CS_PLAYGAME_PLAYING] = new sad::KeyHoldCondition(sad::Space);
+    JumpActionConditions[game::Conditions::CS_PLAYGAME_PLAYING_PRESSED] = new sad::KeyHoldCondition(sad::Space);
+    JumpActionConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED] = NULL;
     JumpActionConditions[game::Conditions::CS_PLAYGAME_PAUSED] = new sad::KeyHoldCondition(sad::Space);
 
     PauseCondition = new sad::KeyHoldCondition(sad::P);
@@ -88,9 +114,9 @@ void game::Conditions::ConditionsForRenderer::setPauseKey(sad::KeyboardKey key) 
     PauseCondition->setKey(key);
 }
 
-void game::Conditions::ConditionsForRenderer::setKeyForConditions(sad::KeyHoldCondition* c[4], sad::KeyboardKey key)
+void game::Conditions::ConditionsForRenderer::setKeyForConditions(sad::KeyHoldCondition* c[], sad::KeyboardKey key,size_t length)
 {
-    for(int i = 0; i < 4; i++)
+    for(int i = 0; i < length; i++)
     {
         if (c[i])
         {
@@ -98,6 +124,7 @@ void game::Conditions::ConditionsForRenderer::setKeyForConditions(sad::KeyHoldCo
         }
     }
 }
+
 
 // ============================================ game::Conditions ============================================
 
