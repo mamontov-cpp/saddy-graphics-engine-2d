@@ -34,7 +34,15 @@
 // A precision error for designer's editor when designing level
 #define DESIGNER_PRECISION_ERROR  (2.0)
 
-const sad::Point2D Game::GravityForceValue(0.0, -4.0); // -4 is arbitrarily defined, to make player fall slowly
+const sad::Point2D Game::GravityForceValue(0.0, -300.0); // -300 is arbitrarily defined, to make player fall slowly
+
+class BS: public sad::p2d::BounceSolver
+{
+public:
+    BS() {}
+    virtual ~BS() {}
+    void logFCPError(const char * m) { printf("%s: %s\n", m, this->dump().c_str()); };
+};
 
 // ==================================== PUBLIC METHODS ====================================
 
@@ -99,7 +107,8 @@ m_running_tasks(0) // NOLINT
     
     m_step_task = new sad::p2d::WorldStepTask(NULL, m_main_thread->renderer());
     
-    m_bounce_solver = new sad::p2d::BounceSolver();
+    m_bounce_solver = new BS();
+    m_bounce_solver->enableDebug();
 }
 
 Game::~Game()  // NOLINT
@@ -448,15 +457,32 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
         & m_conditions.ConditionsForMainRenderer.UpKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
-        empty_callback
-    );
+        [this] {
+        if (this->m_player->canJump()) {
+            this->m_player->incrementVerticalVelocity(game::Player::MaxVerticalVelocity);
+            this->m_player->disableResting();
+        }
+    });
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForMainRenderer.DownKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING]
+        & m_conditions.ConditionsForMainRenderer.DownKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_PRESSED]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
-        empty_callback
-    );
+        [this] {
+        if (this->m_player->isResting() == false) {
+            this->m_player->incrementVerticalVelocity(game::Player::MaxVerticalVelocity * -1);
+        }
+    });
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyRelease
+        & m_conditions.ConditionsForMainRenderer.DownKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED]
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        [this] {
+        if (this->m_player->isResting() == false) {
+            this->m_player->incrementVerticalVelocity(game::Player::MaxVerticalVelocity);
+        }
+    });
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
         & m_conditions.ConditionsForMainRenderer.JumpActionConditions[game::Conditions::CS_PLAYGAME_PLAYING]
@@ -517,11 +543,13 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
                 sad::Rect2D area = this->m_player->area(); 
                 if (area[0].x() < 0)
                 {
+                   printf("Boundary collision\n");
                    this->m_player->move(sad::Point2D(area[0].x() * - 1 + 0.1, 0.0));
                    this->m_player->setHorizontalVelocity(0.0);
                 }
                 if (area[2].x() > max_level_x)
                 {
+                    printf("Boundary collision\n");
                     this->m_player->move(sad::Point2D(max_level_x - area[2].x() - 0.1, 0.0));
                 }
                 m_running_tasks_lock.lock();
@@ -1448,9 +1476,9 @@ void Game::initGamePhysics()
             ev.m_object_1->sheduleAngularVelocity(0);
             if (sad::p2d::collides(player_part, platform_part)) {
                 ev.m_object_1->setCurrentTangentialVelocity(player_velocity);
-                ev.m_object_1->sheduleTangentialVelocity(player_velocity);
+                //ev.m_object_1->sheduleTangentialVelocity(player_velocity);
             } else {
-                this->m_player->setHorizontalVelocity(0.0);
+                ev.m_object_1->setCurrentTangentialVelocity(player_velocity);
             }
             ev.m_object_2->setCurrentTangentialVelocity(v);
             ev.m_object_2->setCurrentAngularVelocity(0);

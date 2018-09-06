@@ -31,6 +31,14 @@ public:
      *  \return inventory of player
      */
     game::Inventory* inventory();
+    /*! Whether player is resting on platform
+        \return whether he is resting
+     */
+    bool isResting() const;
+    /*! Whether player can jump
+        \return whether player can jump
+     */
+    bool canJump() const;
     /*! Sets sprite for player
      *  \param[in] sprite a sprite
      */
@@ -43,6 +51,9 @@ public:
      *  \param[in] value velocity value
      */
     void setHorizontalVelocity(double value);
+    /*! Increments vertical velocity of player by value
+     */
+    void incrementVerticalVelocity(double value);
     /*! Enables gravity for body
      */
     void enableGravity();

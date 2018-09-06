@@ -3,7 +3,7 @@
 #include <cstdio>
 
 const int game::Player::MaxHorizontalVelocity = 200;
-const int game::Player::MaxVerticalVelocity = 200;
+const int game::Player::MaxVerticalVelocity = 400;
 
 game::Player::Player() : m_sprite(NULL), m_body(NULL), m_is_resting(false), m_resting_platform(NULL), m_own_horizontal_velocity(0)
 {
@@ -25,6 +25,16 @@ void game::Player::reset()
 game::Inventory* game::Player::inventory()
 {
     return &m_inventory;
+}
+
+bool game::Player::canJump() const
+{
+    return isResting();
+}
+
+bool game::Player::isResting() const
+{
+    return m_is_resting;
 }
 
 
@@ -58,6 +68,18 @@ void game::Player::setHorizontalVelocity(double value)
     m_own_horizontal_velocity = value;
 }
 
+void game::Player::incrementVerticalVelocity(double value)
+{
+    if (m_body->willTangentialVelocityChange())
+    {
+        m_body->sheduleTangentialVelocity(m_body->nextTangentialVelocity() + sad::p2d::Vector(0, value));
+    }
+    else
+    {
+         m_body->setCurrentTangentialVelocity(m_body->tangentialVelocity() + sad::p2d::Vector(0, value));
+    }
+}
+
 void game::Player::enableGravity()
 {
     Game::enableGravity(m_body);
@@ -75,6 +97,11 @@ void game::Player::restOnPlatform(sad::p2d::Body* b, const  sad::p2d::Vector& ol
         return;
     }
     this->disableGravity();
+    // If we collided second time, it means we're stuck, so force going out of platform
+    if (m_resting_platform == b)
+    {
+        m_body->shedulePosition(m_body->nextPosition() + sad::p2d::Vector(0, 0.1));
+    }
     m_is_resting = true;
     m_resting_platform = b;
     
@@ -108,5 +135,12 @@ sad::Rect2D game::Player::area() const
 
 void game::Player::move(const sad::Point2D& p)
 {
-    m_body->move(p);
+    if (m_body->willPositionChange())
+    {
+        m_body->shedulePosition(m_body->nextPosition() + p);
+    }
+    else
+    {
+        m_body->move(p);
+    }
 }
