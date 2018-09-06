@@ -13,6 +13,7 @@
 
 #include <sprite2d.h>
 #include <label.h>
+#include <sadsleep.h>
 
 #include <db/dbdatabase.h>
 #include <db/dbpopulatescenesfromdatabase.h>
@@ -46,7 +47,8 @@ m_inventory_node(NULL),
 m_inventory_popup(NULL),
 m_physics_world(NULL),
 m_is_rendering_world_bodies(false),
-max_level_x(0.0) // NOLINT
+max_level_x(0.0),
+m_running_tasks(0) // NOLINT
 {
     m_eval_context = new sad::dukpp03::Context();
     sad::dukpp03irrklang::init(m_eval_context);
@@ -504,8 +506,11 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
     renderer->pipeline()->appendProcess([=]() {
         if (this->m_state_machine.isInState("playing"))
         {
-            if (this->m_paused_state_machine.isInState("paused") == false)
+            if (this->m_paused_state_machine.isInState("playing"))
             {
+                m_running_tasks_lock.lock();
+                ++m_running_tasks;
+                m_running_tasks_lock.unlock();
                 this->m_step_task->enable();
                 this->m_step_task->process();
                 // If player went too far into left or right, block the way
@@ -519,6 +524,9 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
                 {
                     this->m_player->move(sad::Point2D(max_level_x - area[2].x() - 0.1, 0.0));
                 }
+                m_running_tasks_lock.lock();
+                --m_running_tasks;
+                m_running_tasks_lock.unlock();
             }
         }
     });
@@ -526,10 +534,13 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
     renderer->pipeline()->appendProcess([=]() {
         if (this->m_state_machine.isInState("playing"))
         {
-            if (this->m_paused_state_machine.isInState("paused") == false)
+            if (this->m_paused_state_machine.isInState("playing"))
             {
                 if (m_is_rendering_world_bodies)
                 {
+                    m_running_tasks_lock.lock();
+                    ++m_running_tasks;
+                    m_running_tasks_lock.unlock();
                     sad::Vector<sad::p2d::Body*> bodies = m_physics_world->allBodies();
                     if (bodies.size())
                     {
@@ -556,6 +567,9 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
                             }
                         }
                     }
+                    m_running_tasks_lock.lock();
+                    --m_running_tasks;
+                    m_running_tasks_lock.unlock();
                 }
             }
         }
@@ -873,6 +887,8 @@ void Game::changeSceneToStartingScreen()
     options.inventoryThread().OnFinishedFunction = [this]() { this->enterStartScreenState();  this->enterPlayingState(); };
 
     this->enterTransitioningState();
+    this->waitForPipelineTasks();
+    printf("Starting to change screen to starting\n");
     changeScene(options);
 }
 
@@ -925,6 +941,8 @@ void Game::changeSceneToPlayingScreen()
     };
 
     this->enterTransitioningState();
+    this->waitForPipelineTasks();
+
     changeScene(options);
 }
 
@@ -959,6 +977,8 @@ void Game::changeSceneToOptions()
     options.inventoryThread().OnFinishedFunction = [this]() { this->enterOptionsState();  this->enterPlayingState(); };
 
     this->enterTransitioningState();
+    this->waitForPipelineTasks();
+
     changeScene(options);
 }
 
@@ -1106,6 +1126,19 @@ game::Item* Game::makeItem(const sad::String& icon, const sad::String& title, co
 void Game::enableGravity(sad::p2d::Body* b)
 {
     Game::setGravityForBody(b, Game::GravityForceValue);
+}
+
+void Game::waitForPipelineTasks()
+{
+    int amount = 0;
+    do
+    {
+        sad::sleep(100);
+        m_running_tasks_lock.lock();
+        amount = m_running_tasks;
+        m_running_tasks_lock.unlock();
+    }
+    while(amount > 0);
 }
 
 
@@ -1432,7 +1465,8 @@ void Game::initGamePhysics()
 Game::Game(const Game&)  // NOLINT
     : m_main_thread(NULL), m_inventory_thread(NULL), m_is_quitting(false), m_main_menu_state(Game::GMMS_PLAY),
       m_highscore(0), m_loaded_options_database{false, false}, m_loaded_game_screen(false), m_theme_playing(NULL), m_transition_process(NULL),
-      m_inventory_node(NULL), m_inventory_popup(NULL), m_eval_context(NULL), m_physics_world(NULL),m_is_rendering_world_bodies(false), max_level_x(0)
+      m_inventory_node(NULL), m_inventory_popup(NULL), m_eval_context(NULL), m_physics_world(NULL),m_is_rendering_world_bodies(false), max_level_x(0),
+      m_running_tasks(0)
 {
     throw std::logic_error("Not implemented");
 }

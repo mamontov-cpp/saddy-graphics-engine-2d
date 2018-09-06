@@ -4,13 +4,19 @@
  */
 #pragma once
 #include <sprite2d.h>
-
 #include <sadhash.h>
+#include <sadmutex.h>
 
 #include <hfsm/hfsmmachine.h>
 
 #include <irrklang/singlesound.h>
 #include <irrklang/engine.h>
+
+#include <dukpp-03/context.h>
+
+#include <p2d/world.h>
+#include <p2d/worldsteptask.h>
+#include <p2d/bouncesolver.h>
 
 #include "game/conditions.h"
 #include "game/player.h"
@@ -18,11 +24,6 @@
 #include "scenetransitionprocess.h"
 #include "optionsscreen.h"
 
-#include <dukpp-03/context.h>
-
-#include <p2d/world.h>
-#include <p2d/worldsteptask.h>
-#include <p2d/bouncesolver.h>
 
 namespace game
 {
@@ -201,6 +202,9 @@ public:
      *  \param[in] v value of force
      */
     static void setGravityForBody(sad::p2d::Body* b, const sad::p2d::Vector& v);
+    /*! Wait for pipeline tasks to finish
+     */
+    void waitForPipelineTasks();
 private:
     /*! Tries to get script for item
      *  \param[in] title item's title
@@ -304,4 +308,10 @@ private:
     /*! Maximal level x
      */ 
     double max_level_x;
+    /*! Amount of running tasks in pipeline at the moment
+     */
+    size_t m_running_tasks;
+    /*! A lock for running tasks counter
+     */
+    sad::Mutex m_running_tasks_lock;
 };
