@@ -2,7 +2,7 @@
 #pragma warning(disable: 4273)
 #pragma warning(disable: 4351)
 #pragma warning(disable: 4101)
-#include <stdio.h>
+#include <cstdio>
 #include <3rdparty/tpunit++/tpunit++.hpp>
 #include <sadvector.h>
 #include <p2d/findcontactpoints.h>

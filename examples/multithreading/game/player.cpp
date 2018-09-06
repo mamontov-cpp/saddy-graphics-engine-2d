@@ -63,6 +63,7 @@ void game::Player::setHorizontalVelocity(double value)
     }
     v.setX(v.x() + value);
     printf("New horizontal velocity: %lf\n", v.x());
+    b->setCurrentTangentialVelocity(v);
     b->sheduleTangentialVelocity(v);
     
     m_own_horizontal_velocity = value;

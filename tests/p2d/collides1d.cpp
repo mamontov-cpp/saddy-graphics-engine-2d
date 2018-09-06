@@ -1,7 +1,7 @@
 #pragma warning(push)
 #pragma warning(disable: 4273)
 #pragma warning(disable: 4351)
-#include <stdio.h>
+#include <cstdio>
 #include "3rdparty/tpunit++/tpunit++.hpp"
 #include "p2d/collides1d.h"
 #pragma warning(pop)

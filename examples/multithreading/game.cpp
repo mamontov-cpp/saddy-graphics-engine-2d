@@ -1474,11 +1474,34 @@ void Game::initGamePhysics()
         {
             ev.m_object_1->setCurrentAngularVelocity(0);
             ev.m_object_1->sheduleAngularVelocity(0);
+            // Force sliding by offsetting objects after collision
             if (sad::p2d::collides(player_part, platform_part)) {
-                ev.m_object_1->setCurrentTangentialVelocity(player_velocity);
-                //ev.m_object_1->sheduleTangentialVelocity(player_velocity);
+                sad::p2d::Vector force_value;
+                ev.m_object_1->tangentialForces().value(force_value);
+                player_velocity += force_value * ev.m_time;
+                ev.m_object_1->sheduleTangentialVelocity(player_velocity);
+                // TODO: Do it better
+                /*
+                if (ev.m_object_1->willPositionChange()) {
+                    ev.m_object_1->shedulePosition(ev.m_object_1->nextPosition() + sad::p2d::Vector(0, -2));
+                } else {
+                    ev.m_object_1->shedulePosition(ev.m_object_1->setCurrentPosition() + player_velocity. player_velocity force_value sad::p2d::Vector(0, -2));
+                }
+                */
             } else {
                 ev.m_object_1->setCurrentTangentialVelocity(player_velocity);
+                ev.m_object_1->sheduleTangentialVelocity(player_velocity);
+                // TODO: Do it better
+                /*
+                if (player_part.p1() > platform_part.p2())
+                {
+                    ev.m_object_1->shedulePosition(ev.m_object_1->nextPosition() + sad::p2d::Vector(2, 0));
+                }
+                else
+                {
+                    ev.m_object_1->shedulePosition(ev.m_object_1->nextPosition() + sad::p2d::Vector(-2, 0));
+                }
+                */
             }
             ev.m_object_2->setCurrentTangentialVelocity(v);
             ev.m_object_2->setCurrentAngularVelocity(0);

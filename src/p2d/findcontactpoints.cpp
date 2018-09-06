@@ -173,10 +173,12 @@ sad::p2d::SetOfPointsPair sad::p2d::FindContactPoints::exec(
     sad::p2d::SetOfPointsPair result;
     bool xlessthanzero = (v.x() < 0 && sad::non_fuzzy_zero(v.x()));
     bool ylessthanzero = (v.y() < 0 && sad::non_fuzzy_zero(v.y()));
+    /*
     if (xlessthanzero && ylessthanzero)
     {
         return result;
     }
+    */
     for(size_t i = 0 ; i < c1.sides(); i++)
     {
         for(size_t j = 0; j < c2.sides(); j++)

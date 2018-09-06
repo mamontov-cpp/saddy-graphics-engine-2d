@@ -104,7 +104,7 @@
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EntryPointSymbol>
       </EntryPointSymbol>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
@@ -186,7 +186,7 @@
       <AdditionalDependencies>GLU32.lib;OPENGL32.lib;..\..\lib\saddy-release.lib;$(FREETYPE_LIB)\freetype.lib;..\..\lib\saddy-ft-release.lib;..\..\lib\saddy-irrklang-release.lib;..\..\lib\saddy-dukpp-03-release.lib;..\..\lib\saddy-dukpp-03-irrklang-release.lib;irrKlang.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(TargetPath)</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
