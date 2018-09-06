@@ -68,7 +68,8 @@ void SceneTransitionProcess::start(const SceneTransitionOptions& options)
         std::function<void()> on_main_darkening_end = [r, game, main, inventory, opts]() {
             // Wait for other thread to complete
             main->Thread->wait();
-            inventory->Thread->wait();
+            if (inventory->Thread)
+                inventory->Thread->wait();
             main->LoadWaitingLock.unlock();
             
             inventory->LoadWaitingLock.lock();
@@ -112,7 +113,8 @@ void SceneTransitionProcess::start(const SceneTransitionOptions& options)
         std::function<void()> on_inventory_darkening_end = [r, game, main, inventory, opts]() {
             // Wait for other thread to complete
             inventory->Thread->wait();
-            main->Thread->wait();
+            if (main->Thread)
+                main->Thread->wait();
             inventory->LoadWaitingLock.unlock();
 
             main->LoadWaitingLock.lock();
