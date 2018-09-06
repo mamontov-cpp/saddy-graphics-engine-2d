@@ -53,6 +53,9 @@ public:
         GMMS_OPTIONS  = 1,  //!< Options are selected
         GMMS_EXIT     = 2   //!< An exit state is selected
     };
+    /*! A default gravity forcevalue
+     */
+    static const sad::Point2D GravityForceValue;
     /*! Constructs game object
      */
     Game();
@@ -185,6 +188,19 @@ public:
     *  \return new item
     */
     game::Item* makeItem(const sad::String& icon, const sad::String& title, const sad::String& description, bool delete_after_apply = false);
+    /*! Enables gravity for body
+     *  \param[in] b body
+     */
+    static void enableGravity(sad::p2d::Body* b);
+    /*! Disables gravity for body
+     *  \param[in] b body
+     */
+    static void disableGravity(sad::p2d::Body* b);
+    /*! Sets gravity for body
+     *  \param[in] b body
+     *  \param[in] v value of force
+     */
+    static void setGravityForBody(sad::p2d::Body* b, const sad::p2d::Vector& v);
 private:
     /*! Tries to get script for item
      *  \param[in] title item's title
@@ -285,4 +301,7 @@ private:
     /*! Whether we should render world bodies
      */
     bool m_is_rendering_world_bodies;
+    /*! Maximal level x
+     */ 
+    double max_level_x;
 };

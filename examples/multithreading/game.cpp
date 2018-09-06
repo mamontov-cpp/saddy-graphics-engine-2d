@@ -26,8 +26,14 @@
 
 #include <dukpp-03-irrklang/dukpp-03-irrklang.h>
 
+#include <p2d/collides1d.h>
+#include <p2d/force.h>
+
+
 // A precision error for designer's editor when designing level
 #define DESIGNER_PRECISION_ERROR  (2.0)
+
+const sad::Point2D Game::GravityForceValue(0.0, -4.0); // -4 is arbitrarily defined, to make player fall slowly
 
 // ==================================== PUBLIC METHODS ====================================
 
@@ -39,7 +45,8 @@ m_loaded_game_screen(false),
 m_inventory_node(NULL),
 m_inventory_popup(NULL),
 m_physics_world(NULL),
-m_is_rendering_world_bodies(false) // NOLINT
+m_is_rendering_world_bodies(false),
+max_level_x(0.0) // NOLINT
 {
     m_eval_context = new sad::dukpp03::Context();
     sad::dukpp03irrklang::init(m_eval_context);
@@ -411,7 +418,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
         this->m_player->setHorizontalVelocity(game::Player::MaxHorizontalVelocity * -1);
     });
     renderer->controls()->addLambda(
-        *sad::input::ET_KeyPress
+        *sad::input::ET_KeyRelease
         & m_conditions.ConditionsForMainRenderer.LeftKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
@@ -426,8 +433,8 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
         [this]() {
         this->m_player->setHorizontalVelocity(game::Player::MaxHorizontalVelocity);
     });
-	renderer->controls()->addLambda(
-        *sad::input::ET_KeyPress
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyRelease
         & m_conditions.ConditionsForMainRenderer.RightKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
@@ -501,6 +508,17 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
             {
                 this->m_step_task->enable();
                 this->m_step_task->process();
+                // If player went too far into left or right, block the way
+                sad::Rect2D area = this->m_player->area(); 
+                if (area[0].x() < 0)
+                {
+                   this->m_player->move(sad::Point2D(area[0].x() * - 1 + 0.1, 0.0));
+                   this->m_player->setHorizontalVelocity(0.0);
+                }
+                if (area[2].x() > max_level_x)
+                {
+                    this->m_player->move(sad::Point2D(max_level_x - area[2].x() - 0.1, 0.0));
+                }
             }
         }
     });
@@ -1085,6 +1103,36 @@ game::Item* Game::makeItem(const sad::String& icon, const sad::String& title, co
     return item;
 }
 
+void Game::enableGravity(sad::p2d::Body* b)
+{
+    Game::setGravityForBody(b, Game::GravityForceValue);
+}
+
+
+
+void Game::disableGravity(sad::p2d::Body* b)
+{
+    Game::setGravityForBody(b, sad::p2d::Vector(0.0, 0.0));
+
+}
+
+void Game::setGravityForBody(sad::p2d::Body* b, const sad::p2d::Vector& v)
+{
+    if (!b)
+    {
+        return;
+    }
+    const sad::Vector<sad::p2d::Force<sad::p2d::Vector>* >& forces = b->tangentialForcesList();
+    if (forces.size() == 0)
+    {
+        b->addForce(new sad::p2d::TangentialForce(Game::GravityForceValue)); 
+    }
+    else
+    {
+        forces[0]->setValue(v);
+    }
+}
+
 // ==================================== PRIVATE METHODS ====================================
 
 sad::String* Game::tryGetScriptForItem(const sad::String& title)
@@ -1127,6 +1175,9 @@ void Game::initGamePhysics()
     m_physics_world->addRef();
     m_physics_world->addGroup("player");
     m_physics_world->addGroup("platforms");
+
+    max_level_x = 0;
+
     sad::Renderer* renderer = m_main_thread->renderer();
     sad::db::Database* db = renderer->database("gamescreen");
     sad::Sprite2D* sprite = db->objectByName<sad::Sprite2D>("Player");
@@ -1140,11 +1191,11 @@ void Game::initGamePhysics()
         sad::p2d::Rectangle* rect = new sad::p2d::Rectangle();
         rect->setRect(sprite->area());
         body->setShape(rect);
-        body->addForce(new sad::p2d::TangentialForce(sad::p2d::Vector(0, -4))); // -4 is arbitrarily defined, to make player fall slowly
         body->attachObject(sprite);
 
         m_physics_world->addBodyToGroup("player", body);
         m_player->setBody(body);
+        m_player->enableGravity();
     }
     sad::Scene* main_scene = db->objectByName<sad::Scene>("main");
     if (main_scene)
@@ -1161,13 +1212,18 @@ void Game::initGamePhysics()
                 name.toUpper();
                 if ((name.getOccurence("FLOOR") != -1)  || (name.getOccurence("PLATFORM") != -1))
                 {
-                    if (name.getOccurence("MOVING") != -1)
+                    sad::Sprite2D* node = dynamic_cast<sad::Sprite2D*>(nodes[i]);
+                    if (node) 
                     {
-                        ungrouped_platform_sprites << dynamic_cast<sad::Sprite2D*>(nodes[i]);
-                    }
-                    else
-                    {
-                        platform_sprites << dynamic_cast<sad::Sprite2D*>(nodes[i]);
+                        if (name.getOccurence("MOVING") != -1)
+                        {
+                            ungrouped_platform_sprites << node;
+                        }
+                        else
+                        {
+                            platform_sprites << node;
+                        }
+                        max_level_x = std::max(max_level_x, node->area()[2].x());
                     }
                 }
             }
@@ -1326,19 +1382,48 @@ void Game::initGamePhysics()
     std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_player_and_platforms = [=](const sad::p2d::BasicCollisionEvent & ev) {
         printf("Event\n");
         sad::p2d::Vector v = ev.m_object_2->tangentialVelocity();
-        double av = ev.m_object_2->angularVelocity();
+        sad::p2d::Vector player_velocity = ev.m_object_1->tangentialVelocity();
+        sad::Point2D current_position_1 = ev.m_object_1->position();
+        sad::Point2D current_position_2 = ev.m_object_2->position();
+
         this->m_bounce_solver->pushResilienceCoefficient(0.0);
         this->m_bounce_solver->pushRotationFriction(0.0);
         this->m_bounce_solver->bounce(ev.m_object_1, ev.m_object_2);
-        ev.m_object_2->setCurrentTangentialVelocity(v);
-        ev.m_object_2->setCurrentAngularVelocity(av);
-        ev.m_object_2->sheduleTangentialVelocity(v);
-        ev.m_object_2->sheduleAngularVelocity(av);
+        sad::Point2D next_position_1 = ev.m_object_1->nextPosition();
+        sad::Point2D next_position_2 = ev.m_object_2->nextPosition();
 
-        ev.m_object_1->setCurrentTangentialVelocity(v);
-        ev.m_object_1->setCurrentAngularVelocity(av);
-        ev.m_object_1->sheduleTangentialVelocity(v);
-        ev.m_object_1->sheduleAngularVelocity(av);
+        sad::Rect2D shape_1 = dynamic_cast<sad::p2d::Rectangle*>(ev.m_object_1->currentShape())->rect();
+        sad::Rect2D shape_2 = dynamic_cast<sad::p2d::Rectangle*>(ev.m_object_2->currentShape())->rect();
+
+        sad::moveBy(next_position_1 - current_position_1, shape_1);
+        sad::moveBy(next_position_2 - current_position_2, shape_2);
+
+        double min_player_y = std::min(shape_1[0].y(), shape_1[2].y());
+        double max_platform_y = std::max(shape_2[0].y(), shape_2[2].y());
+        
+        sad::p2d::Cutter1D player_part(std::min(shape_1[0].x(), shape_1[2].x()), std::max(shape_1[0].x(), shape_1[2].x()));
+        sad::p2d::Cutter1D platform_part(std::min(shape_2[0].x(), shape_2[2].x()), std::max(shape_2[0].x(), shape_2[2].x()));
+
+        if ((sad::is_fuzzy_equal(max_platform_y, min_player_y) || (min_player_y > max_platform_y))
+            && (sad::p2d::collides(player_part, platform_part)))
+        {
+            this->m_player->restOnPlatform(ev.m_object_2, v);
+        }
+        else
+        {
+            ev.m_object_1->setCurrentAngularVelocity(0);
+            ev.m_object_1->sheduleAngularVelocity(0);
+            if (sad::p2d::collides(player_part, platform_part)) {
+                ev.m_object_1->setCurrentTangentialVelocity(player_velocity);
+                ev.m_object_1->sheduleTangentialVelocity(player_velocity);
+            } else {
+                this->m_player->setHorizontalVelocity(0.0);
+            }
+            ev.m_object_2->setCurrentTangentialVelocity(v);
+            ev.m_object_2->setCurrentAngularVelocity(0);
+            ev.m_object_2->sheduleTangentialVelocity(v);
+            ev.m_object_2->sheduleAngularVelocity(0);
+        }
     };
     m_physics_world->addHandler("player", "platforms", collision_between_player_and_platforms);
     m_step_task->setWorld(m_physics_world);
@@ -1347,7 +1432,7 @@ void Game::initGamePhysics()
 Game::Game(const Game&)  // NOLINT
     : m_main_thread(NULL), m_inventory_thread(NULL), m_is_quitting(false), m_main_menu_state(Game::GMMS_PLAY),
       m_highscore(0), m_loaded_options_database{false, false}, m_loaded_game_screen(false), m_theme_playing(NULL), m_transition_process(NULL),
-      m_inventory_node(NULL), m_inventory_popup(NULL), m_eval_context(NULL), m_physics_world(NULL),m_is_rendering_world_bodies(false)
+      m_inventory_node(NULL), m_inventory_popup(NULL), m_eval_context(NULL), m_physics_world(NULL),m_is_rendering_world_bodies(false), max_level_x(0)
 {
     throw std::logic_error("Not implemented");
 }

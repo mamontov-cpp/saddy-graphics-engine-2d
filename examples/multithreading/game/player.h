@@ -43,7 +43,30 @@ public:
      *  \param[in] value velocity value
      */
     void setHorizontalVelocity(double value);
+    /*! Enables gravity for body
+     */
+    void enableGravity();
+    /*! Disables gravity for body
+     */
+    void disableGravity();
+    /*! Rests player on platform
+        \param[in] b body
+        \param[in] old_velocity old platform's velocity
+     */
+    void restOnPlatform(sad::p2d::Body* b, const  sad::p2d::Vector& old_velocity);
+    /*! Disables resting player on platform
+     */
+    void disableResting();
+    /*! Fetches area for user
+     */
+    sad::Rect2D area() const;
+    /*! Moves player by point
+     */
+    void move(const sad::Point2D& p);
 private:
+    /*! A player's own horizontal velocity
+     */
+    double m_own_horizontal_velocity;
     /*! Player's inventory, that will be carried around
      */
     game::Inventory m_inventory;
@@ -53,6 +76,12 @@ private:
     /*! A player's body
      */
     sad::p2d::Body* m_body;
+    /*! Whether player is resting on platform
+     */
+    bool m_is_resting;
+    /*! A platform, where player is resting
+     */
+    sad::p2d::Body* m_resting_platform;
 };
 
 }
