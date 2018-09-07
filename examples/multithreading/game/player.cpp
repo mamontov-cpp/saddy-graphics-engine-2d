@@ -81,10 +81,21 @@ void game::Player::incrementVerticalVelocity(double value) const
 {
     if (m_body->willTangentialVelocityChange())
     {
-        m_body->sheduleTangentialVelocity(m_body->nextTangentialVelocity() + sad::p2d::Vector(0, value));
+        sad::p2d::Vector v = m_body->nextTangentialVelocity();
+        if (!(this->isXCoordinateFixed()))
+        {
+            v.setX(m_own_horizontal_velocity);
+        }        
+        m_body->sheduleTangentialVelocity(v + sad::p2d::Vector(0, value));
     }
     else
     {
+         sad::p2d::Vector v = m_body->tangentialVelocity();
+         if (m_is_resting)
+         {
+             v.setX(m_own_horizontal_velocity);
+             v.setY(0.0);
+         }
          m_body->sheduleTangentialVelocity(m_body->tangentialVelocity() + sad::p2d::Vector(0, value));
     }
     printf("Next tangential velocity after increment: %lf, %lf\n", m_body->nextTangentialVelocity().x(), m_body->nextTangentialVelocity().y());
