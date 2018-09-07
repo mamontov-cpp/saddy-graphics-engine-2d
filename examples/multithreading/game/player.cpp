@@ -85,8 +85,9 @@ void game::Player::incrementVerticalVelocity(double value) const
     }
     else
     {
-         m_body->setCurrentTangentialVelocity(m_body->tangentialVelocity() + sad::p2d::Vector(0, value));
+         m_body->sheduleTangentialVelocity(m_body->tangentialVelocity() + sad::p2d::Vector(0, value));
     }
+    printf("Next tangential velocity after increment: %lf, %lf\n", m_body->nextTangentialVelocity().x(), m_body->nextTangentialVelocity().y());
 }
 
 void game::Player::enableGravity() const

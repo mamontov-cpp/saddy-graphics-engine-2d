@@ -1548,6 +1548,11 @@ void Game::initGamePhysics()
         bool willVelocityChange = ev.m_object_1->willTangentialVelocityChange();
         sad::p2d::Vector v = ev.m_object_2->tangentialVelocity();
         sad::p2d::Vector player_velocity = ev.m_object_1->tangentialVelocity();
+        sad::p2d::Vector next_velocity;
+        if (willVelocityChange)
+        {
+            next_velocity = ev.m_object_1->nextTangentialVelocity();
+        }
         sad::Point2D current_position_1 = ev.m_object_1->position();
         sad::Point2D current_position_2 = ev.m_object_2->position();
 
@@ -1641,11 +1646,6 @@ void Game::initGamePhysics()
                     ev.m_object_1->shedulePosition(sad::Point2D(x, y));
                     this->m_player->setYCoordinateFixed(true);
                 }
-                if (!willVelocityChange)
-                {
-                    player_velocity += force_value * ev.m_time;
-                    ev.m_object_1->sheduleTangentialVelocity(player_velocity);
-                }
             }
             else
             {
@@ -1672,11 +1672,15 @@ void Game::initGamePhysics()
                     ev.m_object_1->shedulePosition(sad::Point2D(x, y));
                     this->m_player->setXCoordinateFixed(true);
                 }
-                if (!willVelocityChange)
-                {
-                    player_velocity += force_value * ev.m_time;
-                    ev.m_object_1->sheduleTangentialVelocity(player_velocity);
-                }
+            }
+            if (!willVelocityChange)
+            {
+                player_velocity += force_value * ev.m_time;
+                ev.m_object_1->sheduleTangentialVelocity(player_velocity);
+            }
+            else
+            {
+                ev.m_object_1->sheduleTangentialVelocity(next_velocity);
             }
         }
         ev.m_object_2->setCurrentTangentialVelocity(v);
