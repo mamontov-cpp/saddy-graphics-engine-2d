@@ -181,3 +181,19 @@ sad::p2d::Body* game::Player::body() const
 {
     return m_body;
 }
+
+void game::Player::testResting()
+{
+    if (m_is_resting)
+    {
+        sad::Rect2D shape_1 = dynamic_cast<sad::p2d::Rectangle*>(m_body->currentShape())->rect();
+        sad::Rect2D shape_2 = dynamic_cast<sad::p2d::Rectangle*>(m_resting_platform->currentShape())->rect();
+
+        sad::p2d::Cutter1D player_part(std::min(shape_1[0].x(), shape_1[2].x()), std::max(shape_1[0].x(), shape_1[2].x()));
+        sad::p2d::Cutter1D platform_part(std::min(shape_2[0].x(), shape_2[2].x()), std::max(shape_2[0].x(), shape_2[2].x()));
+        if (!sad::p2d::collides(player_part, platform_part))
+        {
+            this->disableResting();
+        }
+    }
+}

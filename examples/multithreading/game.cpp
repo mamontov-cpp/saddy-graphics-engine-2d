@@ -1277,6 +1277,10 @@ void Game::initGamePhysics()
         rect->setRect(sprite->area());
         body->setShape(rect);
         body->attachObject(sprite);
+        std::function<void (sad::p2d::Vector)> move_listener = [this](sad::p2d::Vector) {
+            this->m_player->testResting();
+        };
+        body->addMoveListener(move_listener);
 
         m_physics_world->addBodyToGroup("player", body);
         m_player->setBody(body);

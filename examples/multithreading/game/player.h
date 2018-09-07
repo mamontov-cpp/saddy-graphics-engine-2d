@@ -97,6 +97,9 @@ public:
      *  \return body
      */
     sad::p2d::Body* body() const;
+    /*! Tests resting a player
+     */
+    void testResting();
 private:
     /*! A player's own horizontal velocity
      */
