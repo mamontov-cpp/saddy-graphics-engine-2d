@@ -13,12 +13,12 @@ sad::p2d::BounceSolver::BounceSolver() : m_toi(0)
 }
 
 sad::p2d::BounceSolver::~BounceSolver()
-{	
+{
     delete m_find;
 }
 
 
-void sad::p2d::BounceSolver::bounce(sad::p2d::Body * b1, sad::p2d::Body * b2)
+bool sad::p2d::BounceSolver::bounce(sad::p2d::Body * b1, sad::p2d::Body * b2)
 {
     m_first = b1;
     m_second = b2;
@@ -28,6 +28,7 @@ void sad::p2d::BounceSolver::bounce(sad::p2d::Body * b1, sad::p2d::Body * b2)
     {
         this->performBouncing(pairs);
         this->resetCoefficients();
+        return true;
     }
     else
     {
@@ -36,6 +37,7 @@ void sad::p2d::BounceSolver::bounce(sad::p2d::Body * b1, sad::p2d::Body * b2)
             reason = "TOI is negative";
         logFCPError(reason);
     }
+    return false;
 }
 
 

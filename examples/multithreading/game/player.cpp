@@ -1,6 +1,9 @@
 #include "player.h"
 #include "../game.h"
+
 #include <cstdio>
+
+#include <p2d/world.h>
 
 const int game::Player::MaxHorizontalVelocity = 200;
 const int game::Player::MaxVerticalVelocity = 400;
@@ -100,12 +103,6 @@ void game::Player::restOnPlatform(sad::p2d::Body* b, const  sad::p2d::Vector& ol
         return;
     }
     this->disableGravity();
-    // If we collided second time, it means we're stuck, so force going out of platform
-    if (m_resting_platform == b)
-    {
-        printf("Fixing position\n");
-        m_body->shedulePosition(m_body->nextPosition() + sad::p2d::Vector(0, 0.1));
-    }
     m_is_resting = true;
     m_resting_platform = b;
     
@@ -194,6 +191,24 @@ void game::Player::testResting()
         if (!sad::p2d::collides(player_part, platform_part))
         {
             this->disableResting();
+        } 
+        else
+        {
+            sad::p2d::Vector old_velocity =  m_resting_platform->tangentialVelocity();
+            sad::p2d::Vector own_velocity = old_velocity;
+            own_velocity.setX(own_velocity.x() + m_own_horizontal_velocity);
+            if (this->isYCoordinateFixed())
+            {
+                own_velocity.setY(m_body->tangentialVelocity().y());
+            }
+            if (this->isXCoordinateFixed())
+            {
+                own_velocity.setX(m_body->tangentialVelocity().x());
+            }
+
+            m_body->setCurrentTangentialVelocity(own_velocity);
+            m_body->sheduleTangentialVelocity(own_velocity);
         }
+
     }
 }

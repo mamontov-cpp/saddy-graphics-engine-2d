@@ -90,8 +90,9 @@ public:
     /*! A solver, for bodies
         \param[in] b1 first body
         \param[in] b2 second body
+        \return true if bouncing was successfull and there were no errors
      */
-    void bounce(p2d::Body * b1, p2d::Body * b2);
+    bool bounce(p2d::Body * b1, p2d::Body * b2);
     /*! Logs error, when unable to find contact points
         \param[in] m message
      */
