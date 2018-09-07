@@ -5,7 +5,7 @@
 const int game::Player::MaxHorizontalVelocity = 200;
 const int game::Player::MaxVerticalVelocity = 400;
 
-game::Player::Player() : m_sprite(NULL), m_body(NULL), m_is_resting(false), m_resting_platform(NULL), m_own_horizontal_velocity(0)
+game::Player::Player() : m_own_horizontal_velocity(0), m_sprite(NULL), m_body(NULL), m_is_resting(false), m_resting_platform(NULL), m_fixed_x(false), m_fixed_y(false)
 {
 
 }
@@ -19,6 +19,8 @@ void game::Player::reset()
     m_is_resting = false;
     m_resting_platform = NULL;
     m_own_horizontal_velocity = 0;
+    m_fixed_x = false;
+    m_fixed_y = false;
 }
 
 
@@ -69,7 +71,7 @@ void game::Player::setHorizontalVelocity(double value)
     m_own_horizontal_velocity = value;
 }
 
-void game::Player::incrementVerticalVelocity(double value)
+void game::Player::incrementVerticalVelocity(double value) const
 {
     if (m_body->willTangentialVelocityChange())
     {
@@ -81,12 +83,12 @@ void game::Player::incrementVerticalVelocity(double value)
     }
 }
 
-void game::Player::enableGravity()
+void game::Player::enableGravity() const
 {
     Game::enableGravity(m_body);
 }
 
-void game::Player::disableGravity()
+void game::Player::disableGravity() const
 {
     Game::disableGravity(m_body);
 }
@@ -101,6 +103,7 @@ void game::Player::restOnPlatform(sad::p2d::Body* b, const  sad::p2d::Vector& ol
     // If we collided second time, it means we're stuck, so force going out of platform
     if (m_resting_platform == b)
     {
+        printf("Fixing position\n");
         m_body->shedulePosition(m_body->nextPosition() + sad::p2d::Vector(0, 0.1));
     }
     m_is_resting = true;
@@ -134,7 +137,7 @@ sad::Rect2D game::Player::area() const
     return m_sprite->area();
 }
 
-void game::Player::move(const sad::Point2D& p)
+void game::Player::move(const sad::Point2D& p) const
 {
     if (m_body->willPositionChange())
     {
@@ -144,4 +147,37 @@ void game::Player::move(const sad::Point2D& p)
     {
         m_body->move(p);
     }
+}
+
+
+void game::Player::clearFixedFlags()
+{
+    m_fixed_x = false;
+    m_fixed_y = false;
+}
+
+bool game::Player::isXCoordinateFixed() const
+{
+    return m_fixed_x;
+}
+
+bool game::Player::isYCoordinateFixed() const
+{
+    return m_fixed_y;
+}
+
+
+void game::Player::setXCoordinateFixed(bool value)
+{
+    m_fixed_x = value;
+}
+
+void game::Player::setYCoordinateFixed(bool value)
+{
+    m_fixed_y = value;
+}
+
+sad::p2d::Body* game::Player::body() const
+{
+    return m_body;
 }

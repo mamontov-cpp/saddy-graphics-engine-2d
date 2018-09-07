@@ -53,13 +53,13 @@ public:
     void setHorizontalVelocity(double value);
     /*! Increments vertical velocity of player by value
      */
-    void incrementVerticalVelocity(double value);
+    void incrementVerticalVelocity(double value) const;
     /*! Enables gravity for body
      */
-    void enableGravity();
+    void enableGravity() const;
     /*! Disables gravity for body
      */
-    void disableGravity();
+    void disableGravity() const;
     /*! Rests player on platform
         \param[in] b body
         \param[in] old_velocity old platform's velocity
@@ -73,7 +73,30 @@ public:
     sad::Rect2D area() const;
     /*! Moves player by point
      */
-    void move(const sad::Point2D& p);
+    void move(const sad::Point2D& p) const;
+    /*! Clears flags, which determine, whether player's position is fixed
+     */
+    void clearFixedFlags();
+    /*! Tests, whether x coordinate fixed
+     *  \return whehter it's fixed
+     */
+    bool isXCoordinateFixed() const;
+    /*! Tests, whether y coordinate fixed
+     *  \return whehter it's fixed
+     */
+    bool isYCoordinateFixed() const;
+    /*! Makes x coordinate fixed or not
+     *  \param[in] value m new value
+     */
+    void setXCoordinateFixed(bool value);
+    /*! Makes y coordinate fixed or not
+     *  \param[in] value m new value
+     */
+    void setYCoordinateFixed(bool value);
+    /*! Returns body for player
+     *  \return body
+     */
+    sad::p2d::Body* body() const;
 private:
     /*! A player's own horizontal velocity
      */
@@ -93,6 +116,12 @@ private:
     /*! A platform, where player is resting
      */
     sad::p2d::Body* m_resting_platform;
+    /*! Whether x position is fixed
+     */
+    bool m_fixed_x;
+    /*! Whether y position is fixed
+     */
+    bool m_fixed_y;
 };
 
 }

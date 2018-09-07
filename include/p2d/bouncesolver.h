@@ -79,6 +79,14 @@ public:
         delete m_find; 
         m_find = find;
     }
+    /*! Returns  time of impact
+     *  \return time of impact
+     */
+    inline double toi() const { return m_toi; }
+    /*! Returns  corrected time of impact
+     *  \return time of impact
+     */
+    inline double correctedTOI() const { return (m_toi < 0.0) ? 0.0 : m_toi; }
     /*! A solver, for bodies
         \param[in] b1 first body
         \param[in] b2 second body
@@ -112,7 +120,7 @@ protected:
     double      m_resilience[2]; //!< A resilience coefficients for bodies
     double      m_rotationfriction[2];   //!< A tangential friction, which is applied to rotation
         
-    bool		m_debug; //!< Whether debug logging is enabled
+    bool        m_debug; //!< Whether debug logging is enabled
     /*! A special flag, which is set to false if bodies has two points of collision
         If it's set to false - we should not count rotation
      */

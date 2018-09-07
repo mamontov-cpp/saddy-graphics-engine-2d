@@ -469,7 +469,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         [this] {
-        if (this->m_player->isResting() == false) {
+        if (!this->m_player->isResting()) {
             this->m_player->incrementVerticalVelocity(game::Player::MaxVerticalVelocity * -1);
         }
     });
@@ -479,7 +479,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         [this] {
-        if (this->m_player->isResting() == false) {
+        if (!this->m_player->isResting()) {
             this->m_player->incrementVerticalVelocity(game::Player::MaxVerticalVelocity);
         }
     });
@@ -537,20 +537,43 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
                 m_running_tasks_lock.lock();
                 ++m_running_tasks;
                 m_running_tasks_lock.unlock();
+                this->m_player->clearFixedFlags();
                 this->m_step_task->enable();
                 this->m_step_task->process();
                 // If player went too far into left or right, block the way
                 sad::Rect2D area = this->m_player->area(); 
-                if (area[0].x() < 0)
-                {
-                   printf("Boundary collision\n");
-                   this->m_player->move(sad::Point2D(area[0].x() * - 1 + 0.1, 0.0));
-                   this->m_player->setHorizontalVelocity(0.0);
-                }
-                if (area[2].x() > max_level_x)
+                if ((area[0].x() < 0) && (!sad::is_fuzzy_equal(area[0].x(), 0.0)))
                 {
                     printf("Boundary collision\n");
-                    this->m_player->move(sad::Point2D(max_level_x - area[2].x() - 0.1, 0.0));
+                    if (this->m_player->body()->willPositionChange())
+                    {
+                        sad::Point2D cp = this->m_player->body()->position();
+                        sad::Point2D p = this->m_player->body()->nextPosition();
+                        this->m_player->body()->shedulePosition(sad::Point2D(cp.x()  + area[0].x() * - 1, p.y()));
+                        this->m_player->setXCoordinateFixed(true);
+                    } 
+                    else 
+                    {
+                        this->m_player->move(sad::Point2D(area[0].x() * - 1, 0.0));
+                        this->m_player->setXCoordinateFixed(true);
+                    }
+                    this->m_player->setHorizontalVelocity(0.0);
+                }
+                if (area[2].x() > max_level_x && (!sad::is_fuzzy_equal(area[2].x(), max_level_x)))
+                {
+                    printf("Boundary collision\n");
+                    if (this->m_player->body()->willPositionChange())
+                    {
+                        sad::Point2D cp = this->m_player->body()->position();
+                        sad::Point2D p = this->m_player->body()->nextPosition();
+                        this->m_player->body()->shedulePosition(sad::Point2D(cp.x() - area[2].x(), p.y()));
+                        this->m_player->setXCoordinateFixed(true);
+                    }
+                    else
+                    {
+                        this->m_player->move(sad::Point2D(max_level_x - area[2].x(), 0.0));
+                        this->m_player->setXCoordinateFixed(true);
+                    }
                 }
                 m_running_tasks_lock.lock();
                 --m_running_tasks;
@@ -570,7 +593,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
                     ++m_running_tasks;
                     m_running_tasks_lock.unlock();
                     sad::Vector<sad::p2d::Body*> bodies = m_physics_world->allBodies();
-                    if (bodies.size())
+                    if (!bodies.empty())
                     {
                         for(size_t i = 0; i < bodies.size(); i++) 
                         {
@@ -1158,6 +1181,7 @@ void Game::enableGravity(sad::p2d::Body* b)
 
 void Game::waitForPipelineTasks()
 {
+    // ReSharper disable once CppInitializedValueIsAlwaysRewritten
     int amount = 0;
     do
     {
@@ -1184,7 +1208,7 @@ void Game::setGravityForBody(sad::p2d::Body* b, const sad::p2d::Vector& v)
         return;
     }
     const sad::Vector<sad::p2d::Force<sad::p2d::Vector>* >& forces = b->tangentialForcesList();
-    if (forces.size() == 0)
+    if (forces.empty())
     {
         b->addForce(new sad::p2d::TangentialForce(Game::GravityForceValue)); 
     }
@@ -1439,9 +1463,11 @@ void Game::initGamePhysics()
             m_physics_world->addBodyToGroup("platforms", body);
         }
     }
-    
+
+    // Handle all collision as non-resilient, enabling sliding
     std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_player_and_platforms = [=](const sad::p2d::BasicCollisionEvent & ev) {
         printf("Event\n");
+        bool willVelocityChange = ev.m_object_1->willTangentialVelocityChange();
         sad::p2d::Vector v = ev.m_object_2->tangentialVelocity();
         sad::p2d::Vector player_velocity = ev.m_object_1->tangentialVelocity();
         sad::Point2D current_position_1 = ev.m_object_1->position();
@@ -1450,6 +1476,7 @@ void Game::initGamePhysics()
         this->m_bounce_solver->pushResilienceCoefficient(0.0);
         this->m_bounce_solver->pushRotationFriction(0.0);
         this->m_bounce_solver->bounce(ev.m_object_1, ev.m_object_2);
+        double ctoi = this->m_bounce_solver->correctedTOI();
         sad::Point2D next_position_1 = ev.m_object_1->nextPosition();
         sad::Point2D next_position_2 = ev.m_object_2->nextPosition();
 
@@ -1461,7 +1488,7 @@ void Game::initGamePhysics()
 
         double min_player_y = std::min(shape_1[0].y(), shape_1[2].y());
         double max_platform_y = std::max(shape_2[0].y(), shape_2[2].y());
-        
+
         sad::p2d::Cutter1D player_part(std::min(shape_1[0].x(), shape_1[2].x()), std::max(shape_1[0].x(), shape_1[2].x()));
         sad::p2d::Cutter1D platform_part(std::min(shape_2[0].x(), shape_2[2].x()), std::max(shape_2[0].x(), shape_2[2].x()));
 
@@ -1469,39 +1496,67 @@ void Game::initGamePhysics()
             && (sad::p2d::collides(player_part, platform_part)))
         {
             this->m_player->restOnPlatform(ev.m_object_2, v);
+            this->m_player->setYCoordinateFixed(true);
         }
         else
         {
             ev.m_object_1->setCurrentAngularVelocity(0);
             ev.m_object_1->sheduleAngularVelocity(0);
+            double tick = this->m_physics_world->timeStep();
+
+            sad::p2d::Vector force_value;
+            ev.m_object_1->tangentialForces().value(force_value);
+
             // Force sliding by offsetting objects after collision
-            if (sad::p2d::collides(player_part, platform_part)) {
-                sad::p2d::Vector force_value;
-                ev.m_object_1->tangentialForces().value(force_value);
-                player_velocity += force_value * ev.m_time;
-                ev.m_object_1->sheduleTangentialVelocity(player_velocity);
-                // TODO: Do it better
-                /*
-                if (ev.m_object_1->willPositionChange()) {
-                    ev.m_object_1->shedulePosition(ev.m_object_1->nextPosition() + sad::p2d::Vector(0, -2));
-                } else {
-                    ev.m_object_1->shedulePosition(ev.m_object_1->setCurrentPosition() + player_velocity. player_velocity force_value sad::p2d::Vector(0, -2));
-                }
-                */
-            } else {
-                ev.m_object_1->setCurrentTangentialVelocity(player_velocity);
-                ev.m_object_1->sheduleTangentialVelocity(player_velocity);
-                // TODO: Do it better
-                /*
-                if (player_part.p1() > platform_part.p2())
+            if (sad::p2d::collides(player_part, platform_part))
+            {
+                if (ev.m_object_1->willPositionChange())
                 {
-                    ev.m_object_1->shedulePosition(ev.m_object_1->nextPosition() + sad::p2d::Vector(2, 0));
+                    double x = ev.m_object_1->nextPosition().x();
+                    if (!(this->m_player->isXCoordinateFixed()))
+                    {
+                        x = ev.m_object_1->position().x() + player_velocity.x() * tick + force_value.x() * tick * tick / 2.0;
+                    }
+                    ev.m_object_1->shedulePosition(sad::Point2D(x, ev.m_object_1->position().y() + player_velocity.y() * (ctoi * 0.99)));
+                    this->m_player->setYCoordinateFixed(true);
+
                 }
                 else
                 {
-                    ev.m_object_1->shedulePosition(ev.m_object_1->nextPosition() + sad::p2d::Vector(-2, 0));
+                    double x = ev.m_object_1->position().x() + player_velocity.x() * tick + force_value.x() * tick * tick / 2.0;
+                    ev.m_object_1->shedulePosition(sad::Point2D(x, ev.m_object_1->position().y() + player_velocity.y() * (ctoi * 0.99)));
+                    this->m_player->setYCoordinateFixed(true);
                 }
-                */
+                if (!willVelocityChange)
+                {
+                    player_velocity += force_value * ev.m_time;
+                    ev.m_object_1->sheduleTangentialVelocity(player_velocity);
+                }
+            }
+            else
+            {
+                if (ev.m_object_1->willPositionChange())
+                {
+                    double y = ev.m_object_1->nextPosition().y();
+                    if (!(this->m_player->isYCoordinateFixed()))
+                    {
+                        y = ev.m_object_1->position().y() + player_velocity.y() * tick + force_value.y() * tick * tick / 2.0;
+                    }
+                    ev.m_object_1->shedulePosition(sad::Point2D(ev.m_object_1->position().x() + player_velocity.x() * (ctoi * 0.99), y));
+                    this->m_player->setXCoordinateFixed(true);
+
+                }
+                else
+                {
+                    double y = ev.m_object_1->position().y() + player_velocity.y() * tick + force_value.y() * tick * tick / 2.0;
+                    ev.m_object_1->shedulePosition(sad::Point2D(ev.m_object_1->position().x() + player_velocity.x() * (ctoi * 0.99), y));
+                    this->m_player->setXCoordinateFixed(true);
+                }
+                if (!willVelocityChange)
+                {
+                    player_velocity += force_value * ev.m_time;
+                    ev.m_object_1->sheduleTangentialVelocity(player_velocity);
+                }
             }
             ev.m_object_2->setCurrentTangentialVelocity(v);
             ev.m_object_2->setCurrentAngularVelocity(0);
@@ -1515,8 +1570,10 @@ void Game::initGamePhysics()
 
 Game::Game(const Game&)  // NOLINT
     : m_main_thread(NULL), m_inventory_thread(NULL), m_is_quitting(false), m_main_menu_state(Game::GMMS_PLAY),
-      m_highscore(0), m_loaded_options_database{false, false}, m_loaded_game_screen(false), m_theme_playing(NULL), m_transition_process(NULL),
-      m_inventory_node(NULL), m_inventory_popup(NULL), m_eval_context(NULL), m_physics_world(NULL),m_is_rendering_world_bodies(false), max_level_x(0),
+      m_highscore(0), m_loaded_options_database{false, false}, m_loaded_game_screen(false), m_theme_playing(NULL),
+      m_transition_process(NULL),
+      m_inventory_node(NULL), m_inventory_popup(NULL), m_eval_context(NULL), m_physics_world(NULL),
+      m_step_task(NULL), m_bounce_solver(NULL), m_is_rendering_world_bodies(false), max_level_x(0),
       m_running_tasks(0)
 {
     throw std::logic_error("Not implemented");
