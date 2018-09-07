@@ -428,7 +428,12 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
         & m_conditions.ConditionsForMainRenderer.LeftKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_PRESSED]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
-        [this]() {  
+        [this]() {
+        this->m_player->sprite()->setFlipX(true);
+        if (this->m_player->isResting())
+        {
+            this->m_player->sprite()->set("enemies_list/playerRed_walk1ng");
+        }
         this->m_player->setHorizontalVelocity(game::Player::MaxHorizontalVelocity * -1);
     });
     renderer->controls()->addLambda(
@@ -437,6 +442,14 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         [this]() {  
+        if (this->m_player->isResting())
+        {
+            this->m_player->sprite()->set("enemies_list/playerRed_standng");
+        }
+        else
+        {
+            this->m_player->sprite()->set("enemies_list/playerRed_up2ng");
+        }
         this->m_player->setHorizontalVelocity(0);
     });
     renderer->controls()->addLambda(
@@ -445,6 +458,11 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         [this]() {
+        this->m_player->sprite()->setFlipX(false);
+        if (this->m_player->isResting())
+        {
+            this->m_player->sprite()->set("enemies_list/playerRed_walk1ng");
+        }
         this->m_player->setHorizontalVelocity(game::Player::MaxHorizontalVelocity);
     });
     renderer->controls()->addLambda(
@@ -453,6 +471,14 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         [this]() {
+        if (this->m_player->isResting())
+        {
+            this->m_player->sprite()->set("enemies_list/playerRed_standng");
+        }
+        else
+        {
+            this->m_player->sprite()->set("enemies_list/playerRed_up2ng");
+        }
         this->m_player->setHorizontalVelocity(0);
     });
     renderer->controls()->addLambda(
@@ -464,6 +490,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
         if (this->m_player->canJump()) {
             this->m_player->incrementVerticalVelocity(game::Player::MaxVerticalVelocity);
             this->m_player->disableResting();
+            this->m_player->sprite()->set("enemies_list/playerRed_up1ng");
         }
     });
     renderer->controls()->addLambda(
@@ -474,6 +501,9 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
         [this] {
         if (!this->m_player->isResting()) {
             this->m_player->incrementVerticalVelocity(game::Player::MaxVerticalVelocity * -1);
+            this->m_player->pushOptions("enemies_list/playerRed_fallng");
+        } else {
+            this->m_player->pushOptions("enemies_list/playerRed_duckng");
         }
     });
     renderer->controls()->addLambda(
@@ -484,6 +514,8 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
         [this] {
         if (!this->m_player->isResting()) {
             this->m_player->incrementVerticalVelocity(game::Player::MaxVerticalVelocity);
+        } else {
+            this->m_player->popOptions();
         }
     });
     renderer->controls()->addLambda(

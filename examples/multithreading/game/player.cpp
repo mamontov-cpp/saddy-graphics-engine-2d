@@ -1,6 +1,7 @@
 #include "player.h"
 #include "../game.h"
 
+
 #include <cstdio>
 
 #include <p2d/world.h>
@@ -10,7 +11,9 @@ const int game::Player::MaxVerticalVelocity = 400;
 
 game::Player::Player() : m_own_horizontal_velocity(0), m_sprite(NULL), m_body(NULL), m_is_resting(false), m_resting_platform(NULL), m_fixed_x(false), m_fixed_y(false)
 {
+    m_walking_animation ;
 
+    //m_walking_animation->addRef();
 }
 
 
@@ -119,6 +122,16 @@ void game::Player::restOnPlatform(sad::p2d::Body* b, const  sad::p2d::Vector& ol
     m_body->setCurrentAngularVelocity(av);
     m_body->sheduleTangentialVelocity(own_velocity);
     m_body->sheduleAngularVelocity(av);
+
+    m_old_options.clear();
+    if (!sad::is_fuzzy_zero(m_own_horizontal_velocity))
+    {
+         m_sprite->set("enemies_list/playerRed_walk1ng");
+    } 
+    else 
+    {
+        m_sprite->set("enemies_list/playerRed_standng");
+    }
 }
 
 void game::Player::disableResting()
@@ -179,6 +192,11 @@ sad::p2d::Body* game::Player::body() const
     return m_body;
 }
 
+sad::Sprite2D* game::Player::sprite() const
+{
+    return m_sprite;
+}
+
 void game::Player::testResting()
 {
     if (m_is_resting)
@@ -210,5 +228,27 @@ void game::Player::testResting()
             m_body->sheduleTangentialVelocity(own_velocity);
         }
 
+    }
+}
+
+
+void game::Player::pushOptions(const sad::String& new_options)
+{
+    if (new_options != m_sprite->optionsName())
+    {
+        printf("Is not equal\n");
+        m_old_options << m_sprite->optionsName();
+    }
+    printf("Setting options %s\n", new_options.c_str());
+    m_sprite->set(new_options);
+}
+
+void game::Player::popOptions()
+{
+    if (m_old_options.size())
+    {
+        printf("Restoring options %s\n", m_old_options[m_old_options.size() - 1].c_str());
+        m_sprite->set(m_old_options[m_old_options.size() - 1]);
+        m_old_options.removeAt(m_old_options.size() - 1);
     }
 }

@@ -6,6 +6,8 @@
 #include "inventory.h"
 #include <sprite2d.h>
 #include <p2d/body.h>
+#include <animations/animationsinstance.h>
+#include <animations/animationsoptionlist.h>
 
 namespace game
 {
@@ -97,9 +99,20 @@ public:
      *  \return body
      */
     sad::p2d::Body* body() const;
+    /*! Returns sprite for player
+        \return sprite for player
+     */
+    sad::Sprite2D* sprite() const;
     /*! Tests resting a player
      */
     void testResting();
+    /*! Pushes old options, replaces with new in sprite
+     *  \param[in] new_options a new options
+     */
+    void pushOptions(const sad::String& new_options);
+    /*! Pops options
+     */
+    void popOptions();
 private:
     /*! A player's own horizontal velocity
      */
@@ -125,6 +138,15 @@ private:
     /*! Whether y position is fixed
      */
     bool m_fixed_y;
+    /*! A walking animation for player
+     */
+    sad::animations::OptionList* m_walking_animation;
+    /*! An animation instance
+     */
+    sad::animations::Instance* m_instance;
+    /*! An old options for sprite
+     */
+    sad::Vector<sad::String> m_old_options;
 };
 
 }
