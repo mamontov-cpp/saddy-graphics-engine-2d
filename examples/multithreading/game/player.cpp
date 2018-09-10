@@ -16,13 +16,50 @@ m_body(NULL),
 m_is_resting(false),
 m_is_ducking(false),
 m_is_free_fall(false),
+m_is_walking_animation_playing(false),
+m_is_jumping_animation_playing(false),
 m_resting_platform(NULL),
 m_fixed_x(false),
 m_fixed_y(false)
 {
-    m_walking_animation ;
 
-    //m_walking_animation->addRef();
+    m_walking_animation = new sad::animations::OptionList();
+    sad::Vector<sad::String> list; 
+    list << "enemies_list/playerRed_walk1ng"
+         << "enemies_list/playerRed_walk2ng"
+         << "enemies_list/playerRed_walk3ng";
+    m_walking_animation->setList(list);
+    m_walking_animation->setTime(200.0);
+    m_walking_animation->setLooped(true);
+    m_walking_animation->addRef();
+
+    m_walking_instance = new sad::animations::Instance();
+    m_walking_instance->setAnimation(m_walking_animation);
+    m_walking_instance->addRef();
+
+    list.clear();
+
+    m_jumping_animation = new sad::animations::OptionList();
+    list << "enemies_list/playerRed_up1ng"
+         << "enemies_list/playerRed_up2ng";
+    m_jumping_animation->setList(list);
+    m_jumping_animation->setTime(500.0);
+    m_jumping_animation->setLooped(false);
+    m_jumping_animation->addRef();
+
+    m_jumping_instance = new sad::animations::Instance();
+    m_jumping_instance->setAnimation(m_jumping_animation);
+    m_jumping_instance->end([this]() { this->m_is_jumping_animation_playing = false; }); 
+    m_jumping_instance->addRef();
+}
+
+game::Player::~Player()
+{
+    m_walking_instance->delRef();
+    m_walking_animation->delRef();
+
+    m_jumping_animation->delRef();
+    m_jumping_instance->delRef();
 }
 
 
@@ -32,10 +69,15 @@ void game::Player::reset()
     m_sprite = NULL;
     m_body = NULL;
     m_is_resting = false;
+    m_is_ducking = false;
+    m_is_free_fall = false;
     m_resting_platform = NULL;
     m_own_horizontal_velocity = 0;
     m_fixed_x = false;
     m_fixed_y = false;
+    m_old_velocity = sad::p2d::Vector(0, 0);
+    m_is_walking_animation_playing = false;
+    m_is_jumping_animation_playing = false;
 }
 
 
@@ -85,6 +127,17 @@ void game::Player::setHorizontalVelocity(double value)
     b->sheduleTangentialVelocity(v);
     
     m_own_horizontal_velocity = value;
+    if (m_is_resting && !m_is_ducking)
+    {
+        if (sad::is_fuzzy_zero(m_own_horizontal_velocity))
+        {
+            this->cancelWalkingAnimation();
+        }
+        else
+        {
+            this->playWalkingAnimation();
+        }
+    }
 }
 
 void game::Player::incrementVerticalVelocity(double value) const
@@ -127,6 +180,7 @@ void game::Player::restOnPlatform(sad::p2d::Body* b, const  sad::p2d::Vector& ol
     {
         return;
     }
+    this->cancelJumpingAnimation();
     this->disableGravity();
     m_is_resting = true;
     m_is_free_fall = false;
@@ -311,9 +365,11 @@ void game::Player::tryJump()
     if (this->canJump()) 
     {
         this->stopFallingOrStopDucking();
+        this->cancelWalkingAnimation();
         this->incrementVerticalVelocity(game::Player::MaxVerticalVelocity);
         this->disableResting();
-        this->sprite()->set("enemies_list/playerRed_up1ng");
+        this->sprite()->set("enemies_list/playerRed_up2ng");
+        this->playJumpingAnimation();
     }
 }
 
@@ -321,6 +377,7 @@ void game::Player::startFallingOrDuck()
 {
     if (!m_is_resting) {
         m_is_free_fall = true;
+        this->cancelJumpingAnimation();
         this->incrementVerticalVelocity(game::Player::MaxVerticalVelocity * -1);
         this->pushOptions("enemies_list/playerRed_fallng");
     } else {
@@ -332,6 +389,7 @@ void game::Player::stopFallingOrStopDucking()
 {
     if (!m_is_resting) {
         m_is_free_fall = false;
+        this->cancelJumpingAnimation();
         this->incrementVerticalVelocity(game::Player::MaxVerticalVelocity);
         this->popOptions();
     } else {
@@ -344,6 +402,7 @@ void game::Player::duck()
     if (!m_is_ducking && m_is_resting)
     {
         m_is_ducking = true;
+        this->cancelWalkingAnimation();
         this->pushOptions("enemies_list/playerRed_duckng");
         correctShape();
     }
@@ -355,6 +414,10 @@ void game::Player::stopDucking()
     {
         m_is_ducking = false;
         this->popOptions();
+        if (!sad::is_fuzzy_zero(m_own_horizontal_velocity))
+        {
+            this->playWalkingAnimation();
+        }
         correctShape();
     }
 }
@@ -376,6 +439,53 @@ const sad::p2d::Vector& game::Player::oldVelocity() const
 
 // ===================================== PRIVATE METHODS =====================================
 
+sad::animations::Animations* game::Player::animations()
+{
+    return this->m_sprite->scene()->renderer()->animations();
+}
+
+void game::Player::playWalkingAnimation()
+{
+    if (!m_is_walking_animation_playing)
+    {
+        m_walking_instance->clearFinished();
+        m_walking_instance->setObject(m_sprite); 
+        this->animations()->add(m_walking_instance);
+        m_is_walking_animation_playing = true;
+    }
+}
+
+void game::Player::cancelWalkingAnimation()
+{
+    if (m_is_walking_animation_playing)
+    {
+        m_walking_instance->cancel(this->animations());
+        this->animations()->remove(m_walking_instance);
+        m_is_walking_animation_playing = false;
+    }
+}
+
+void game::Player::playJumpingAnimation()
+{
+    if (!m_is_jumping_animation_playing)
+    {
+        m_jumping_instance->clearFinished();
+        m_jumping_instance->setObject(m_sprite); 
+        this->animations()->add(m_jumping_instance);
+        m_is_jumping_animation_playing = true;
+    }
+}
+
+void game::Player::cancelJumpingAnimation()
+{
+    if (!m_is_jumping_animation_playing)
+    {
+        m_jumping_instance->cancel(this->animations());
+        this->animations()->remove(m_jumping_instance);
+        m_is_jumping_animation_playing = false;
+    }
+}
+
 void game::Player::startMoving(bool flip_flag, double velocity)
 {
     m_sprite->setFlipX(flip_flag);
@@ -383,7 +493,10 @@ void game::Player::startMoving(bool flip_flag, double velocity)
     {
         if (!m_is_ducking)
         {
-            m_sprite->set("enemies_list/playerRed_walk1ng");
+            if (!m_is_walking_animation_playing)
+            {
+                m_sprite->set("enemies_list/playerRed_walk1ng");
+            }
         }
     }
     this->setHorizontalVelocity(velocity);

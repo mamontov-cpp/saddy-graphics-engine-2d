@@ -26,6 +26,9 @@ public:
     /*! A player, that will be used in game
      */
     Player();
+    /*! Frees data from player
+     */
+    ~Player();
     /*! Resets player's items in game
      */
     void reset();
@@ -150,6 +153,22 @@ public:
      */
     const sad::p2d::Vector& oldVelocity() const;
 private:
+    /*! Returns animations list
+        \return animations
+     */
+    sad::animations::Animations* animations();
+    /*! Plays walking animation
+     */
+    void playWalkingAnimation();
+    /*! Cancels walking animation
+     */
+    void cancelWalkingAnimation();
+    /*! Plays jumping animation
+     */
+    void playJumpingAnimation();
+    /*! Cancels jumping animation
+     */
+    void cancelJumpingAnimation();
     /*! Starts moving player in specified direction (positive - right, negative - left)
         \param[in] flip_flag flip flag value
         \param[in] velocity a velocity value
@@ -183,6 +202,12 @@ private:
     /*! Whether we are free falling, using down button
      */
     bool m_is_free_fall;
+    /*! True, if walking animation is playing
+     */
+    bool m_is_walking_animation_playing;
+    /*! True, if jumping animation is playing
+     */
+    bool m_is_jumping_animation_playing;
     /*! A platform, where player is resting
      */
     sad::p2d::Body* m_resting_platform;
@@ -192,12 +217,20 @@ private:
     /*! Whether y position is fixed
      */
     bool m_fixed_y;
-    /*! A walking animation for player
+
+    /*! A walking animation for actor
      */
     sad::animations::OptionList* m_walking_animation;
-    /*! An animation instance
+    /*! A walking animation instance
      */
-    sad::animations::Instance* m_instance;
+    sad::animations::Instance* m_walking_instance;
+    
+    /*! A jumping animation for player
+     */
+    sad::animations::OptionList* m_jumping_animation;
+    /*! A jumping animation instance
+     */
+    sad::animations::Instance* m_jumping_instance;
     /*! An old options for sprite
      */
     sad::Vector<sad::String> m_old_options;
