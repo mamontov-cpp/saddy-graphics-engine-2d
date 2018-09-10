@@ -157,6 +157,12 @@ public:
         \param[in] sound_name a name of sound
      */
     void playSound(const sad::String& sound_name) const;
+    /*! Plays walking sound
+     */
+    void playWalkingSound();
+    /*! Stops walking sound
+     */ 
+    void stopWalkingSound();
     /*! Returns in-game options
         \return game options
      */
@@ -264,6 +270,9 @@ private:
     /*! A theme playing song
      */
     ::irrklang::ISound* m_theme_playing;
+    /*! A footsteps sound is playing
+     */
+    sad::irrklang::SingleSound m_footsteps;
 
     /*! A transition process
      */

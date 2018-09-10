@@ -9,6 +9,8 @@
 #include <animations/animationsinstance.h>
 #include <animations/animationsoptionlist.h>
 
+class Game;
+
 namespace game
 {
 
@@ -29,6 +31,10 @@ public:
     /*! Frees data from player
      */
     ~Player();
+    /*! Sets game for player
+        \param[in] gama a game
+     */
+    void setGame(Game* game);
     /*! Resets player's items in game
      */
     void reset();
@@ -234,6 +240,9 @@ private:
     /*! An old options for sprite
      */
     sad::Vector<sad::String> m_old_options;
+    /*! A game for player
+     */
+    Game* m_game;
 };
 
 }

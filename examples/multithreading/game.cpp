@@ -67,6 +67,7 @@ m_running_tasks(0) // NOLINT
     m_inventory_thread = new threads::GameThread();
 
     m_player = new game::Player();
+    m_player->setGame(this);
 
     m_main_menu_states_to_labels.insert(Game::GMMS_PLAY   , "Play");
     m_main_menu_states_to_labels.insert(Game::GMMS_OPTIONS, "Options");
@@ -935,6 +936,8 @@ void Game::changeScene(const SceneTransitionOptions& opts) const
 
 void Game::changeSceneToStartingScreen()
 {
+    m_footsteps.stop();
+
     m_is_rendering_world_bodies = false;
     this->destroyWorld();
     SceneTransitionOptions options;
@@ -972,7 +975,7 @@ void Game::changeSceneToStartingScreen()
 void Game::changeSceneToPlayingScreen()
 {
     this->destroyWorld();
-
+    m_footsteps.stop();
     SceneTransitionOptions options;
 
     m_inventory_popup = NULL;
@@ -1025,6 +1028,8 @@ void Game::changeSceneToPlayingScreen()
 
 void Game::changeSceneToOptions()
 {
+    m_footsteps.stop();
+
     m_is_rendering_world_bodies = false;
     this->destroyWorld();
     this->m_player->reset();
@@ -1122,6 +1127,16 @@ void Game::playSound(const sad::String& sound_name) const
     theme_data->play2D(m_options.SoundVolume, false);
 }
 
+void Game::playWalkingSound()
+{
+    sad::irrklang::Sound* theme_data = m_inventory_thread->renderer()->tree("")->get<sad::irrklang::Sound>("footstep");
+    m_footsteps.play2D(theme_data, m_options.MusicVolume);
+}
+
+void Game::stopWalkingSound()
+{
+    m_footsteps.stop();
+}
 
 game::Options* Game::options()
 {

@@ -20,7 +20,8 @@ m_is_walking_animation_playing(false),
 m_is_jumping_animation_playing(false),
 m_resting_platform(NULL),
 m_fixed_x(false),
-m_fixed_y(false)
+m_fixed_y(false),
+m_game(NULL)
 {
 
     m_walking_animation = new sad::animations::OptionList();
@@ -62,6 +63,11 @@ game::Player::~Player()
     m_jumping_instance->delRef();
 }
 
+
+void game::Player::setGame(Game* game)
+{
+    m_game = game;
+}
 
 void game::Player::reset()
 {
@@ -132,10 +138,12 @@ void game::Player::setHorizontalVelocity(double value)
         if (sad::is_fuzzy_zero(m_own_horizontal_velocity))
         {
             this->cancelWalkingAnimation();
+            m_game->stopWalkingSound();
         }
         else
         {
             this->playWalkingAnimation();
+            m_game->playWalkingSound();
         }
     }
 }
@@ -217,6 +225,10 @@ void game::Player::disableResting()
     this->enableGravity();
     m_is_resting = false;
     m_resting_platform = NULL;
+    
+    this->cancelWalkingAnimation();
+    m_game->stopWalkingSound();
+   this->m_sprite->set("enemies_list/playerRed_up2ng");
 }
 
 
@@ -365,11 +377,10 @@ void game::Player::tryJump()
     if (this->canJump()) 
     {
         this->stopFallingOrStopDucking();
-        this->cancelWalkingAnimation();
         this->incrementVerticalVelocity(game::Player::MaxVerticalVelocity);
         this->disableResting();
-        this->sprite()->set("enemies_list/playerRed_up2ng");
         this->playJumpingAnimation();
+        m_game->playSound("jump");
     }
 }
 
@@ -403,6 +414,7 @@ void game::Player::duck()
     {
         m_is_ducking = true;
         this->cancelWalkingAnimation();
+        m_game->stopWalkingSound();
         this->pushOptions("enemies_list/playerRed_duckng");
         correctShape();
     }

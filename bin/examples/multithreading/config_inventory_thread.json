@@ -20,5 +20,7 @@
 	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/Jerry Five.mp3", "name" : "title_theme" },
 	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/misc_menu.wav", "name" : "misc_menu" },
 	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/misc_menu_2.wav", "name" : "misc_menu_2" },
-	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/applyitem.wav", "name" : "apply_item" }
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/applyitem.wav", "name" : "apply_item" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/jump2.wav", "name" : "jump" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/footstep.wav", "name" : "footstep" }
 ]
