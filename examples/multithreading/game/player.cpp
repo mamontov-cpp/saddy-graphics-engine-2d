@@ -213,10 +213,12 @@ void game::Player::restOnPlatform(sad::p2d::Body* b, const  sad::p2d::Vector& ol
     if (!sad::is_fuzzy_zero(m_own_horizontal_velocity))
     {
          m_sprite->set("enemies_list/playerRed_walk1ng");
+         m_game->playWalkingSound();
     } 
     else 
     {
         m_sprite->set("enemies_list/playerRed_standng");
+        m_game->stopWalkingSound();
     }
 }
 
