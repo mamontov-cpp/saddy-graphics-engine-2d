@@ -9,7 +9,16 @@
 const int game::Player::MaxHorizontalVelocity = 200;
 const int game::Player::MaxVerticalVelocity = 400;
 
-game::Player::Player() : m_own_horizontal_velocity(0), m_sprite(NULL), m_body(NULL), m_is_resting(false), m_resting_platform(NULL), m_fixed_x(false), m_fixed_y(false)
+game::Player::Player() 
+: m_own_horizontal_velocity(0), 
+m_sprite(NULL), 
+m_body(NULL), 
+m_is_resting(false),
+m_is_ducking(false),
+m_is_free_fall(false),
+m_resting_platform(NULL),
+m_fixed_x(false),
+m_fixed_y(false)
 {
     m_walking_animation ;
 
@@ -59,7 +68,8 @@ void game::Player::setBody(sad::p2d::Body* body)
 void game::Player::setHorizontalVelocity(double value)
 {
     sad::p2d::Body* b = m_body;
-    sad::p2d::Vector v = b->tangentialVelocity(); 
+    sad::p2d::Vector v = b->tangentialVelocity();
+    m_old_velocity = v;
     printf("Old horizontal velocity: %lf, Old own velocity %lf, Setting %lf\n", v.x(), m_own_horizontal_velocity, value);
     if (m_is_resting)
     {
@@ -119,6 +129,8 @@ void game::Player::restOnPlatform(sad::p2d::Body* b, const  sad::p2d::Vector& ol
     }
     this->disableGravity();
     m_is_resting = true;
+    m_is_free_fall = false;
+    m_is_ducking = false;
     m_resting_platform = b;
     
     double av = 0;
@@ -263,4 +275,126 @@ void game::Player::popOptions()
         m_sprite->set(m_old_options[m_old_options.size() - 1]);
         m_old_options.removeAt(m_old_options.size() - 1);
     }
+}
+
+void game::Player::startMovingLeft()
+{
+    this->startMoving(true, game::Player::MaxHorizontalVelocity * -1);
+}
+
+void game::Player::startMovingRight()
+{
+    this->startMoving(false, game::Player::MaxHorizontalVelocity);
+}
+
+void game::Player::stopMovingHorizontally()
+{
+    if (m_is_resting)
+    {
+        if (!m_is_ducking)
+        {
+            this->m_sprite->set("enemies_list/playerRed_standng");
+        }
+    }
+    else
+    {
+        if (!m_is_free_fall)
+        {
+            this->m_sprite->set("enemies_list/playerRed_up2ng");
+        }
+    }
+    this->setHorizontalVelocity(0);
+}
+
+void game::Player::tryJump()
+{
+    if (this->canJump()) 
+    {
+        this->stopFallingOrStopDucking();
+        this->incrementVerticalVelocity(game::Player::MaxVerticalVelocity);
+        this->disableResting();
+        this->sprite()->set("enemies_list/playerRed_up1ng");
+    }
+}
+
+void game::Player::startFallingOrDuck()
+{
+    if (!m_is_resting) {
+        m_is_free_fall = true;
+        this->incrementVerticalVelocity(game::Player::MaxVerticalVelocity * -1);
+        this->pushOptions("enemies_list/playerRed_fallng");
+    } else {
+        this->duck();
+    }
+}
+
+void game::Player::stopFallingOrStopDucking()
+{
+    if (!m_is_resting) {
+        m_is_free_fall = false;
+        this->incrementVerticalVelocity(game::Player::MaxVerticalVelocity);
+        this->popOptions();
+    } else {
+        this->stopDucking();
+    }
+}
+
+void game::Player::duck()
+{
+    if (!m_is_ducking && m_is_resting)
+    {
+        m_is_ducking = true;
+        this->pushOptions("enemies_list/playerRed_duckng");
+        correctShape();
+    }
+}
+
+void game::Player::stopDucking()
+{ 
+    if (m_is_ducking && m_is_resting)
+    {
+        m_is_ducking = false;
+        this->popOptions();
+        correctShape();
+    }
+}
+
+bool game::Player::isDucking() const
+{
+    return m_is_ducking;
+}
+
+bool game::Player::isFreefalling() const
+{
+    return m_is_free_fall;
+}
+
+const sad::p2d::Vector& game::Player::oldVelocity() const
+{
+    return m_old_velocity;
+}
+
+// ===================================== PRIVATE METHODS =====================================
+
+void game::Player::startMoving(bool flip_flag, double velocity)
+{
+    m_sprite->setFlipX(flip_flag);
+    if (m_is_resting)
+    {
+        if (!m_is_ducking)
+        {
+            m_sprite->set("enemies_list/playerRed_walk1ng");
+        }
+    }
+    this->setHorizontalVelocity(velocity);
+}
+
+void game::Player::correctShape()
+{
+    sad::p2d::Rectangle*  shape = dynamic_cast<sad::p2d::Rectangle*>(m_body->currentShape());
+    sad::Point2D start_point = shape->rect()[0];
+    sad::Point2D width_height(this->m_sprite->area().width(), this->m_sprite->area().height());
+    sad::Rect2D corrected_rect(start_point, start_point + width_height);
+    this->m_sprite->setArea(corrected_rect);
+    shape->setRect(corrected_rect);
 }

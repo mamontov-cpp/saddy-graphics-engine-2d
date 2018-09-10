@@ -423,101 +423,62 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
     );
 
     // A playing game screen
-    renderer->controls()->addLambda(
+    renderer->controls()->add(
         *sad::input::ET_KeyPress
         & m_conditions.ConditionsForMainRenderer.LeftKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_PRESSED]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
-        [this]() {
-        this->m_player->sprite()->setFlipX(true);
-        if (this->m_player->isResting())
-        {
-            this->m_player->sprite()->set("enemies_list/playerRed_walk1ng");
-        }
-        this->m_player->setHorizontalVelocity(game::Player::MaxHorizontalVelocity * -1);
-    });
-    renderer->controls()->addLambda(
+        this->m_player,
+        &game::Player::startMovingLeft
+    );
+    renderer->controls()->add(
         *sad::input::ET_KeyRelease
         & m_conditions.ConditionsForMainRenderer.LeftKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
-        [this]() {  
-        if (this->m_player->isResting())
-        {
-            this->m_player->sprite()->set("enemies_list/playerRed_standng");
-        }
-        else
-        {
-            this->m_player->sprite()->set("enemies_list/playerRed_up2ng");
-        }
-        this->m_player->setHorizontalVelocity(0);
-    });
-    renderer->controls()->addLambda(
+        this->m_player,
+        &game::Player::stopMovingHorizontally
+    );
+    renderer->controls()->add(
         *sad::input::ET_KeyPress
         & m_conditions.ConditionsForMainRenderer.RightKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_PRESSED]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
-        [this]() {
-        this->m_player->sprite()->setFlipX(false);
-        if (this->m_player->isResting())
-        {
-            this->m_player->sprite()->set("enemies_list/playerRed_walk1ng");
-        }
-        this->m_player->setHorizontalVelocity(game::Player::MaxHorizontalVelocity);
-    });
-    renderer->controls()->addLambda(
+        this->m_player,
+        &game::Player::startMovingRight
+    );
+    renderer->controls()->add(
         *sad::input::ET_KeyRelease
         & m_conditions.ConditionsForMainRenderer.RightKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
-        [this]() {
-        if (this->m_player->isResting())
-        {
-            this->m_player->sprite()->set("enemies_list/playerRed_standng");
-        }
-        else
-        {
-            this->m_player->sprite()->set("enemies_list/playerRed_up2ng");
-        }
-        this->m_player->setHorizontalVelocity(0);
-    });
-    renderer->controls()->addLambda(
+        this->m_player,
+        &game::Player::stopMovingHorizontally
+    );
+    renderer->controls()->add(
         *sad::input::ET_KeyPress
         & m_conditions.ConditionsForMainRenderer.UpKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
-        [this] {
-        if (this->m_player->canJump()) {
-            this->m_player->incrementVerticalVelocity(game::Player::MaxVerticalVelocity);
-            this->m_player->disableResting();
-            this->m_player->sprite()->set("enemies_list/playerRed_up1ng");
-        }
-    });
-    renderer->controls()->addLambda(
+        this->m_player,
+        &game::Player::tryJump
+    );
+    renderer->controls()->add(
         *sad::input::ET_KeyPress
         & m_conditions.ConditionsForMainRenderer.DownKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_PRESSED]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
-        [this] {
-        if (!this->m_player->isResting()) {
-            this->m_player->incrementVerticalVelocity(game::Player::MaxVerticalVelocity * -1);
-            this->m_player->pushOptions("enemies_list/playerRed_fallng");
-        } else {
-            this->m_player->pushOptions("enemies_list/playerRed_duckng");
-        }
-    });
-    renderer->controls()->addLambda(
+        this->m_player,
+        &game::Player::startFallingOrDuck
+    );
+    renderer->controls()->add(
         *sad::input::ET_KeyRelease
         & m_conditions.ConditionsForMainRenderer.DownKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
-        [this] {
-        if (!this->m_player->isResting()) {
-            this->m_player->incrementVerticalVelocity(game::Player::MaxVerticalVelocity);
-        } else {
-            this->m_player->popOptions();
-        }
-    });
+        this->m_player,
+        &game::Player::stopFallingOrStopDucking
+    );
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
         & m_conditions.ConditionsForMainRenderer.JumpActionConditions[game::Conditions::CS_PLAYGAME_PLAYING]
@@ -1541,6 +1502,7 @@ void Game::initGamePhysics()
     std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_player_and_platforms = [=](const sad::p2d::BasicCollisionEvent & ev) {
         printf("Event\n");
         double tick = this->m_physics_world->timeStep();
+        double precision_collision = 0.1; // A correction to ensure, that TOI won't be negative
 
         sad::p2d::Vector force_value;
         ev.m_object_1->tangentialForces().value(force_value);
@@ -1560,7 +1522,13 @@ void Game::initGamePhysics()
         this->m_bounce_solver->pushRotationFriction(0.0);
         if (!this->m_bounce_solver->bounce(ev.m_object_1, ev.m_object_2))
         {
-            return;
+            ev.m_object_1->setCurrentTangentialVelocity(this->m_player->oldVelocity());
+            bool bounced = this->m_bounce_solver->bounce(ev.m_object_1, ev.m_object_2);
+            ev.m_object_1->setCurrentTangentialVelocity(player_velocity);
+            if (!bounced)
+            {
+                return;
+            }
         }
         double ctoi = this->m_bounce_solver->correctedTOI();
         sad::Point2D next_position_1 = ev.m_object_1->nextPosition();
@@ -1584,7 +1552,7 @@ void Game::initGamePhysics()
             if (ev.m_object_1->willPositionChange())
             {
                 double x = ev.m_object_1->nextPosition().x();
-                double y = ev.m_object_1->position().y() + player_velocity.y() * (ctoi * 0.99);
+                double y = ev.m_object_1->position().y() + player_velocity.y() * (ctoi * 0.99) + precision_collision;
                 if (!(this->m_player->isXCoordinateFixed()))
                 {
                     x = ev.m_object_1->position().x() + player_velocity.x() * tick + force_value.x() * tick * tick / 2.0;
@@ -1600,7 +1568,7 @@ void Game::initGamePhysics()
             else
             {
                 double x = ev.m_object_1->position().x() + player_velocity.x() * tick + force_value.x() * tick * tick / 2.0;
-                double y = ev.m_object_1->position().y() + player_velocity.y() * (ctoi * 0.99);
+                double y = ev.m_object_1->position().y() + player_velocity.y() * (ctoi * 0.99) + precision_collision;
                 if (ev.m_object_2->tangentialVelocity().y() > 0)
                 {
                     y += ev.m_object_2->tangentialVelocity().y() * tick;
@@ -1622,7 +1590,7 @@ void Game::initGamePhysics()
                 if (ev.m_object_1->willPositionChange())
                 {
                     double x = ev.m_object_1->nextPosition().x();
-                    double y = ev.m_object_1->position().y() + player_velocity.y() * (ctoi * 0.99);
+                    double y = ev.m_object_1->position().y() + player_velocity.y() * (ctoi * 0.99) - precision_collision;
                     if (!(this->m_player->isXCoordinateFixed()))
                     {
                         x = ev.m_object_1->position().x() + player_velocity.x() * tick + force_value.x() * tick * tick / 2.0;
@@ -1638,7 +1606,7 @@ void Game::initGamePhysics()
                 else
                 {
                     double x = ev.m_object_1->position().x() + player_velocity.x() * tick + force_value.x() * tick * tick / 2.0;
-                    double y = ev.m_object_1->position().y() + player_velocity.y() * (ctoi * 0.99);
+                    double y = ev.m_object_1->position().y() + player_velocity.y() * (ctoi * 0.99) - precision_collision;
                     if (ev.m_object_2->tangentialVelocity().y() < 0)
                     {
                         y += ev.m_object_2->tangentialVelocity().y() * tick;
@@ -1649,10 +1617,11 @@ void Game::initGamePhysics()
             }
             else
             {
-                double correction = 0;
-                if ((player_part.p2() < platform_part.p1() && v.x() < 0) || (v.x() > 0))
+                bool is_front_collision = player_part.p2() < platform_part.p1();
+                double correction = (is_front_collision) ? (precision_collision * - 1) : precision_collision;
+                if ((is_front_collision && v.x() < 0) || (v.x() > 0))
                 {
-                   correction = v.x() * tick;
+                   correction += v.x() * tick;
                 }
                 double x = ev.m_object_1->position().x() + player_velocity.x() * (ctoi * 0.99) + correction;
                 if (ev.m_object_1->willPositionChange())

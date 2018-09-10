@@ -113,7 +113,52 @@ public:
     /*! Pops options
      */
     void popOptions();
+    /*! Starts moving actor to left
+     */
+    void startMovingLeft();
+    /*! Start moving actor to right
+     */
+    void startMovingRight();
+    /*! Stops actor from moving horizontally
+     */
+    void stopMovingHorizontally();
+    /*! Makes actor try to jump
+     */
+    void tryJump();
+    /*! Makes actor start falling or duck
+     */
+    void startFallingOrDuck();
+    /*! Stops falling or ducking for actor
+     */
+    void stopFallingOrStopDucking();
+    /*! Makes actor stop ducking
+     */
+    void duck();
+    /*!  Makes actor stand, not duck
+     */
+    void stopDucking();
+    /*! Returns whether actor is ducking
+        \return whether actor is ducking
+     */
+    bool isDucking() const;
+    /*! Returns whether actor is freefalling
+        \return whether actor is freefalling
+     */
+    bool isFreefalling() const;
+    /*! Returns old velocity for player
+        \return old veloctity
+     */
+    const sad::p2d::Vector& oldVelocity() const;
 private:
+    /*! Starts moving player in specified direction (positive - right, negative - left)
+        \param[in] flip_flag flip flag value
+        \param[in] velocity a velocity value
+     */
+    void startMoving(bool flip_flag, double velocity);
+    /*! Synchronizes actor's shape with it's area.
+        Used for ducking
+     */
+    void correctShape();
     /*! A player's own horizontal velocity
      */
     double m_own_horizontal_velocity;
@@ -123,12 +168,21 @@ private:
     /*! A player's sprite
      */
     sad::Sprite2D* m_sprite;
+    /*! An old velocity, until player canceled moving or other stuff
+     */ 
+    sad::p2d::Vector m_old_velocity;
     /*! A player's body
      */
     sad::p2d::Body* m_body;
     /*! Whether player is resting on platform
      */
     bool m_is_resting;
+    /*! Whether player is ducking
+     */
+    bool m_is_ducking;
+    /*! Whether we are free falling, using down button
+     */
+    bool m_is_free_fall;
     /*! A platform, where player is resting
      */
     sad::p2d::Body* m_resting_platform;
