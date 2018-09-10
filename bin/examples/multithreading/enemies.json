@@ -882,13 +882,13 @@
         },
         {
             "name":"enemies_list\/playerRed_walk2ng",
-            "size":"19;22",
-            "texrect":"777;429;39;45"
+            "size":"19;24",
+            "texrect":"777;428;39;47"
         },
         {
             "name":"enemies_list\/playerRed_walk3ng",
-            "size":"19;22",
-            "texrect":"719;401;39;45"
+            "size":"19;24",
+            "texrect":"719;399;39;47"
         },
         {
             "name":"enemies_list\/playerRed_walk4ng",
