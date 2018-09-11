@@ -1,37 +1,53 @@
-/*!  \file player.h
-
-     Describes a player, that will exist in game
+/*! \file actor.h
+    
+    Defines an actor, which can respond to user actions
  */
 #pragma once
-#include "inventory.h"
-#include <sprite2d.h>
+#include "actoroptions.h" 
 #include <p2d/body.h>
-#include <actor.h>
-#include <animations/animationsinstance.h>
-#include <animations/animationsoptionlist.h>
-
-class Game;
 
 namespace game
 {
 
-/*! A player
+/*! An actor, that can respond to user actions
  */
-class Player
+class Actor
 {
 public:
-    /*! Maximal horizontal velocity for player
+    /*! Makes new actor options
+        \param[in] opts an actor options
      */
-    static const int MaxHorizontalVelocity;
-    /*! Maximal vertical velocity for player
+    Actor(game::ActorOptions* opts);
+    /*! Destroys an actor
      */
-    static const int MaxVerticalVelocity;
-    /*! A player, that will be used in game
+    ~Actor();
+
+    /*! Tries to start actor going up
      */
-    Player();
-    /*! Frees data from player
+    void tryStartGoingUp();
+    /*! Tries to start actor from going up
      */
-    ~Player();
+    void tryStopGoingUp();
+    /*! Tries to start actor going down
+     */
+    void tryStartGoingDown();
+    /*! Tries to stop actor from going down
+     */
+    void tryStopGoingDown();
+    /*! Tries to start actor going left
+     */
+    void tryStartGoingLeft();
+    /*! Tries to stop actor from going left
+     */
+    void tryStopGoingLeft();
+    /*! Tries to stop actor from going right
+     */
+    void tryStopGoingRight();
+    /*! Called on platform collision
+        \patam[in] platform a platform, which were collided
+     */
+    void onPlatformCollision(sad::p2d::Body* platform);
+
     /*! Sets game for player
         \param[in] gama a game
      */
@@ -39,10 +55,7 @@ public:
     /*! Resets player's items in game
      */
     void reset();
-    /*! Returns player's inventory
-     *  \return inventory of player
-     */
-    game::Inventory* inventory();
+
     /*! Whether player is resting on platform
         \return whether he is resting
      */
@@ -160,12 +173,90 @@ public:
      */
     const sad::p2d::Vector& oldVelocity() const;
 private:
-    /*! Player's inventory, that will be carried around
+   /*! Returns animations list
+        \return animations
      */
-    game::Inventory m_inventory;
-    /*! An actor for player
+    sad::animations::Animations* animations();
+    /*! Plays walking animation
      */
-    game::Actor* m_actor;
+    void playWalkingAnimation();
+    /*! Cancels walking animation
+     */
+    void cancelWalkingAnimation();
+    /*! Plays jumping animation
+     */
+    void playJumpingAnimation();
+    /*! Cancels jumping animation
+     */
+    void cancelJumpingAnimation();
+    /*! Starts moving player in specified direction (positive - right, negative - left)
+        \param[in] flip_flag flip flag value
+        \param[in] velocity a velocity value
+     */
+    void startMoving(bool flip_flag, double velocity);
+    /*! Synchronizes actor's shape with it's area.
+        Used for ducking
+     */
+    void correctShape();
+    /*! A player's own horizontal velocity
+     */
+    double m_own_horizontal_velocity;
+    /*! A player's sprite
+     */
+    sad::Sprite2D* m_sprite;
+    /*! An old velocity, until player canceled moving or other stuff
+     */ 
+    sad::p2d::Vector m_old_velocity;
+    /*! A player's body
+     */
+    sad::p2d::Body* m_body;
+    /*! Whether player is resting on platform
+     */
+    bool m_is_resting;
+    /*! Whether player is ducking
+     */
+    bool m_is_ducking;
+    /*! Whether we are free falling, using down button
+     */
+    bool m_is_free_fall;
+    /*! True, if walking animation is playing
+     */
+    bool m_is_walking_animation_playing;
+    /*! True, if jumping animation is playing
+     */
+    bool m_is_jumping_animation_playing;
+    /*! A platform, where player is resting
+     */
+    sad::p2d::Body* m_resting_platform;
+    /*! Whether x position is fixed
+     */
+    bool m_fixed_x;
+    /*! Whether y position is fixed
+     */
+    bool m_fixed_y;
+
+    /*! A walking animation for actor
+     */
+    sad::animations::OptionList* m_walking_animation;
+    /*! A walking animation instance
+     */
+    sad::animations::Instance* m_walking_instance;
+    
+    /*! A jumping animation for player
+     */
+    sad::animations::OptionList* m_jumping_animation;
+    /*! A jumping animation instance
+     */
+    sad::animations::Instance* m_jumping_instance;
+    /*! An old options for sprite
+     */
+    sad::Vector<sad::String> m_old_options;
+    /*! A game for player
+     */
+    Game* m_game;
+    /*! An in-game options for actor
+     */
+    game::ActorOptions* m_options;
 };
 
 }

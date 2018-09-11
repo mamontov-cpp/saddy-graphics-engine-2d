@@ -4,9 +4,11 @@
  */
 #pragma once
 #include <stdexcept>
+#include <refcountable.h>
 
 #include <sadstring.h>
 #include <geometry2d.h>
+
 
 namespace game
 {
@@ -17,7 +19,7 @@ namespace game
 
     call corresponding actor options.
  */
-struct ActorOptions
+struct ActorOptions: public sad::RefCountable;
 {
 public:
     /*! Whether actor, should float and ignore a gravity
