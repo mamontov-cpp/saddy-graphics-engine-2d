@@ -458,11 +458,18 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
     );
     renderer->controls()->add(
         *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForMainRenderer.UpKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING]
+        & m_conditions.ConditionsForMainRenderer.UpKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_PRESSED]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         this->m_player,
         &game::Player::tryJump
+    );
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyRelease
+        & m_conditions.ConditionsForMainRenderer.UpKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED]
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        empty_callback
     );
     renderer->controls()->add(
         *sad::input::ET_KeyPress

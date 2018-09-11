@@ -42,7 +42,14 @@ void game::Conditions::ConditionsForRenderer::init(bool is_inventory_thread)
     }
     UpKeyConditions[game::Conditions::CS_OPTIONS_SCREEN] = new sad::KeyHoldCondition(sad::KeyUp);
     UpKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_PRESSED] = new sad::KeyHoldCondition(sad::KeyUp);
-    UpKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED] = NULL; 
+    if (is_inventory_thread)
+    {
+        UpKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED] = NULL; 
+    }
+    else
+    {
+        UpKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED] = new sad::KeyHoldCondition(sad::KeyUp); 
+    }
     UpKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED] = new sad::KeyHoldCondition(sad::KeyUp);
 
 
