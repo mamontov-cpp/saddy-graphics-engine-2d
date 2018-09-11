@@ -212,6 +212,14 @@ public:
     /*! Wait for pipeline tasks to finish
      */
     void waitForPipelineTasks();
+    /*! Returns a bounce solver for game
+        \return solver
+     */
+    sad::p2d::BounceSolver* bounceSolver() const;
+    /*! Returns a world for physics simulation
+        \return world
+     */
+    sad::p2d::World* physicsWorld() const;
 private:
     /*! Tries to get script for item
      *  \param[in] title item's title

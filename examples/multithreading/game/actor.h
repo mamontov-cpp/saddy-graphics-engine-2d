@@ -5,6 +5,7 @@
 #pragma once
 #include "actoroptions.h" 
 #include <p2d/body.h>
+#include <p2d/world.h>
 
 namespace game
 {
@@ -45,13 +46,16 @@ public:
     /*! Tries to stop actor from going left
      */
     void tryStopGoingLeft();
+    /*! Tries to start actor going right
+     */
+    void tryStartGoingRight();
     /*! Tries to stop actor from going right
      */
     void tryStopGoingRight();
     /*! Called on platform collision
-        \patam[in] platform a platform, which were collided
+        \patam[in] ev collision event
      */
-    void onPlatformCollision(sad::p2d::Body* platform);
+    void onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev);
 
     /*! Sets game for player
         \param[in] gama a game
