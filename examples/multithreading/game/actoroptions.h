@@ -59,6 +59,9 @@ public:
     /*! A sprite for ducking actor
      */
     sad::String DuckingSprite;
+    /*! A sprite for floate mode
+     */
+    sad::String FloaterSprite;
 
     /*! Constructs default actor options - non-valid, non-floater
      */
@@ -81,6 +84,32 @@ public:
         {
             throw std::logic_error("Please, specify maximal vertical velocity")
         }
+        
+        
+        if  (WalkingAnimationOptions.size() == 0)
+        {
+            throw std::logic_error("Please, specify walking animation options")
+        }
+        
+        if (sad::is_fuzzy_zero(WalkingAnimationTime))
+        {
+            throw std::logic_error("Please, specify time for walking animation")
+        }
+
+        if  (JumpingAnimationOptions.size() == 0)
+        {
+            throw std::logic_error("Please, specify jumping animation options")
+        }
+        
+        if (sad::is_fuzzy_zero(JumpingAnimationTime))
+        {
+            throw std::logic_error("Please, specify time for walking animation")
+        }
+        
+        if (FloaterSprite.length() == 0)
+        {
+            throw std::logic_error("Please, specify floater sprite")
+        }
 
         if (StandingSprite.length() == 0)
         {
@@ -102,32 +131,9 @@ public:
             throw std::logic_error("Please, specify falling sprite")
         }
         
-        if (!IsFloater)
+        if (DuckingSprite.length() == 0)
         {
-            if  (WalkingAnimationOptions.size() == 0)
-            {
-                throw std::logic_error("Please, specify walking animation options")
-            }
-            
-            if (sad::is_fuzzy_zero(WalkingAnimationTime))
-            {
-                throw std::logic_error("Please, specify time for walking animation")
-            }
-
-            if  (JumpingAnimationOptions.size() == 0)
-            {
-                throw std::logic_error("Please, specify jumping animation options")
-            }
-            
-            if (sad::is_fuzzy_zero(JumpingAnimationTime))
-            {
-                throw std::logic_error("Please, specify time for walking animation")
-            }
-            
-            if (DuckingSprite.length() == 0)
-            {
-                throw std::logic_error("Please, specify ducking sprite")
-            }
+            throw std::logic_error("Please, specify ducking sprite")
         }
     }
 };
