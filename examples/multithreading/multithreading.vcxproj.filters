@@ -75,6 +75,9 @@
     <ClCompile Include="nodes\inventorypopup.cpp">
       <Filter>Файлы исходного кода\nodes</Filter>
     </ClCompile>
+    <ClCompile Include="game\actor.cpp">
+      <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -118,6 +121,12 @@
     </ClInclude>
     <ClInclude Include="nodes\inventorypopup.h">
       <Filter>Заголовочные файлы\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="game\actoroptions.h">
+      <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\actor.h">
+      <Filter>Заголовочные файлы\game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

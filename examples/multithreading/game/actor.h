@@ -3,20 +3,25 @@
     Defines an actor, which can respond to user actions
  */
 #pragma once
-#include "actoroptions.h" 
 #include <p2d/body.h>
 #include <p2d/world.h>
+#include <sprite2d.h>
+#include <animations/animationsinstance.h>
+#include <animations/animationsoptionlist.h>
+
+#include "actoroptions.h" 
+
+class Game;
 
 namespace game
 {
 
 /*! An actor, that can respond to user actions
  */
-class Actor
+class Actor  // NOLINT(cppcoreguidelines-special-member-functions)
 {
 public:
     /*! Makes new actor options
-        \param[in] opts an actor options
      */
     Actor();
     /*! Destroys an actor
@@ -58,7 +63,7 @@ public:
     void onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev);
 
     /*! Sets game for player
-        \param[in] gama a game
+        \param[in] game a game
      */
     void setGame(Game* game);
     /*! Resets player's items in game
@@ -181,11 +186,16 @@ public:
         \return old veloctity
      */
     const sad::p2d::Vector& oldVelocity() const;
+    /*! Checks boundary collision for horizontal collision
+        \param[in] left_bound a left bound
+        \param[in] right_bound a right bound
+     */
+    void checkBoundaryCollision(double left_bound, double right_bound);
 private:
    /*! Returns animations list
         \return animations
      */
-    sad::animations::Animations* animations();
+    sad::animations::Animations* animations() const;
     /*! Plays walking animation
      */
     void playWalkingAnimation();
@@ -206,7 +216,7 @@ private:
     /*! Synchronizes actor's shape with it's area.
         Used for ducking
      */
-    void correctShape();
+    void correctShape() const;
     /*! A player's own horizontal velocity
      */
     double m_own_horizontal_velocity;

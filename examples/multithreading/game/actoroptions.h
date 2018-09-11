@@ -7,7 +7,6 @@
 #include <refcountable.h>
 
 #include <sadstring.h>
-#include <geometry2d.h>
 
 
 namespace game
@@ -19,7 +18,7 @@ namespace game
 
     call corresponding actor options.
  */
-struct ActorOptions: public sad::RefCountable;
+struct ActorOptions: public sad::RefCountable
 {
 public:
     /*! Whether actor, should float and ignore a gravity
@@ -75,67 +74,67 @@ public:
     /*! Validates options, throws exception if buggy
         \throws logic_error if there were an error
      */
-    inline void validate()
+    inline void validate() const
     {
         if (sad::is_fuzzy_zero(MaxHorizontalVelocity))
         {
-            throw std::logic_error("Please, specify maximal horizontal velocity")
+            throw std::logic_error("Please, specify maximal horizontal velocity");
         }
 
         if (sad::is_fuzzy_zero(MaxVerticalVelocity))
         {
-            throw std::logic_error("Please, specify maximal vertical velocity")
+            throw std::logic_error("Please, specify maximal vertical velocity");
         }
         
         
         if  (WalkingAnimationOptions.size() == 0)
         {
-            throw std::logic_error("Please, specify walking animation options")
+            throw std::logic_error("Please, specify walking animation options");
         }
         
         if (sad::is_fuzzy_zero(WalkingAnimationTime))
         {
-            throw std::logic_error("Please, specify time for walking animation")
+            throw std::logic_error("Please, specify time for walking animation");
         }
 
         if  (JumpingAnimationOptions.size() == 0)
         {
-            throw std::logic_error("Please, specify jumping animation options")
+            throw std::logic_error("Please, specify jumping animation options");
         }
         
         if (sad::is_fuzzy_zero(JumpingAnimationTime))
         {
-            throw std::logic_error("Please, specify time for walking animation")
+            throw std::logic_error("Please, specify time for walking animation");
         }
         
         if (FloaterSprite.length() == 0)
         {
-            throw std::logic_error("Please, specify floater sprite")
+            throw std::logic_error("Please, specify floater sprite");
         }
 
         if (StandingSprite.length() == 0)
         {
-            throw std::logic_error("Please, specify standing sprite")
+            throw std::logic_error("Please, specify standing sprite");
         }
         
         if (WalkingSprite.length() == 0)
         {
-            throw std::logic_error("Please, specify walking sprite")
+            throw std::logic_error("Please, specify walking sprite");
         }
 
         if (JumpingSprite.length() == 0)
         {
-            throw std::logic_error("Please, specify jumping sprite")
+            throw std::logic_error("Please, specify jumping sprite");
         }
 
         if (FallingSprite.length() == 0)
         {
-            throw std::logic_error("Please, specify falling sprite")
+            throw std::logic_error("Please, specify falling sprite");
         }
         
         if (DuckingSprite.length() == 0)
         {
-            throw std::logic_error("Please, specify ducking sprite")
+            throw std::logic_error("Please, specify ducking sprite");
         }
     }
 };

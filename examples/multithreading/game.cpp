@@ -27,7 +27,6 @@
 
 #include <dukpp-03-irrklang/dukpp-03-irrklang.h>
 
-#include <p2d/collides1d.h>
 #include <p2d/force.h>
 
 
@@ -143,7 +142,7 @@ m_running_tasks(0) // NOLINT
     player_opts->DuckingSprite = "enemies_list/playerRed_duckng";
     player_opts->FloaterSprite = "enemies_list/playerRed_rollng";
 
-    m_player.setActorOptions(player_opts);
+    m_player->setActorOptions(player_opts);
     m_actor_options.insert("player", player_opts);
 }
 
@@ -162,9 +161,9 @@ Game::~Game()  // NOLINT
         delete it.value();
     }
 
-    for (sad::Hash<sad::String, game::ActorOptions*>::iterator ao = m_actor_options.begin(); ao != m_item_names_to_scripts.end(); ++ao)
+    for (sad::Hash<sad::String, game::ActorOptions*>::iterator ao = m_actor_options.begin(); ao != m_actor_options.end(); ++ao)
     {
-        ao->delRef();
+        ao.value()->delRef();
     }
     this->destroyWorld();
     delete m_step_task;
@@ -612,41 +611,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
                 this->m_player->clearFixedFlags();
                 this->m_step_task->enable();
                 this->m_step_task->process();
-                // If player went too far into left or right, block the way
-                sad::Rect2D area = this->m_player->area(); 
-                if ((area[0].x() < 0) && (!sad::is_fuzzy_equal(area[0].x(), 0.0)))
-                {
-                    printf("Boundary collision\n");
-                    if (this->m_player->body()->willPositionChange())
-                    {
-                        sad::Point2D cp = this->m_player->body()->position();
-                        sad::Point2D p = this->m_player->body()->nextPosition();
-                        this->m_player->body()->shedulePosition(sad::Point2D(cp.x()  + area[0].x() * - 1, p.y()));
-                        this->m_player->setXCoordinateFixed(true);
-                    } 
-                    else 
-                    {
-                        this->m_player->move(sad::Point2D(area[0].x() * - 1, 0.0));
-                        this->m_player->setXCoordinateFixed(true);
-                    }
-                    this->m_player->setHorizontalVelocity(0.0);
-                }
-                if (area[2].x() > max_level_x && (!sad::is_fuzzy_equal(area[2].x(), max_level_x)))
-                {
-                    printf("Boundary collision\n");
-                    if (this->m_player->body()->willPositionChange())
-                    {
-                        sad::Point2D cp = this->m_player->body()->position();
-                        sad::Point2D p = this->m_player->body()->nextPosition();
-                        this->m_player->body()->shedulePosition(sad::Point2D(cp.x() - area[2].x(), p.y()));
-                        this->m_player->setXCoordinateFixed(true);
-                    }
-                    else
-                    {
-                        this->m_player->move(sad::Point2D(max_level_x - area[2].x(), 0.0));
-                        this->m_player->setXCoordinateFixed(true);
-                    }
-                }
+                this->m_player->checkBoundaryCollision(0.0, max_level_x);
                 m_running_tasks_lock.lock();
                 --m_running_tasks;
                 m_running_tasks_lock.unlock();
@@ -1578,7 +1543,7 @@ Game::Game(const Game&)  // NOLINT
     : m_main_thread(NULL), m_inventory_thread(NULL), m_is_quitting(false), m_main_menu_state(Game::GMMS_PLAY),
       m_highscore(0), m_loaded_options_database{false, false}, m_loaded_game_screen(false), m_theme_playing(NULL),
       m_transition_process(NULL),
-      m_inventory_node(NULL), m_inventory_popup(NULL), m_eval_context(NULL), m_physics_world(NULL),
+      m_inventory_node(NULL), m_inventory_popup(NULL), m_player(NULL), m_eval_context(NULL), m_physics_world(NULL),
       m_step_task(NULL), m_bounce_solver(NULL), m_is_rendering_world_bodies(false), max_level_x(0),
       m_running_tasks(0)
 {

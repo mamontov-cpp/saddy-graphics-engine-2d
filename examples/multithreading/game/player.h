@@ -4,11 +4,7 @@
  */
 #pragma once
 #include "inventory.h"
-#include <sprite2d.h>
-#include <p2d/body.h>
-#include <actor.h>
-#include <animations/animationsinstance.h>
-#include <animations/animationsoptionlist.h>
+#include "actor.h"
 
 class Game;
 
@@ -43,7 +39,7 @@ public:
      */
     void onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev);
     /*! Sets game for player
-        \param[in] gama a game
+        \param[in] game a game
      */
     void setGame(Game* game);
     /*! Resets player's items in game
@@ -93,6 +89,14 @@ public:
     /*! Tests resting a player
      */
     void testResting();
+    /*! Checks boundary collision for horizontal collision
+        \param[in] left_bound a left bound
+        \param[in] right_bound a right bound
+     */
+    void checkBoundaryCollision(double left_bound, double right_bound);
+    /*! Enables gravity for player
+     */
+    void enableGravity() const;
 private:
     /*! Player's inventory, that will be carried around
      */

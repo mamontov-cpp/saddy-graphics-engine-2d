@@ -4,32 +4,32 @@
 #include <cstdio>
 
 #include <p2d/world.h>
+#include <p2d/collides1d.h>
 
 // ============================================== PUBLIC METHODS ==============================================
 
-void game::Actor::Actor() : m_game(NULL), 
-m_options(NULL), 
-m_walking_animation(NULL), 
-m_walking_instance(NULL), 
-m_jumping_animation(NULL), 
-m_jumping_instance(NULL),
-m_own_horizontal_velocity(0), 
+game::Actor::Actor() : m_own_horizontal_velocity(0), 
 m_sprite(NULL), 
 m_body(NULL), 
-m_is_resting(false),
-m_is_ducking(false),
+m_is_resting(false), 
+m_is_ducking(false), 
 m_is_free_fall(false),
-m_is_walking_animation_playing(false),
-m_is_jumping_animation_playing(false),
-m_resting_platform(NULL),
+m_is_walking_animation_playing(false), 
+m_is_jumping_animation_playing(false), 
+m_resting_platform(NULL), 
 m_fixed_x(false),
 m_fixed_y(false),
-m_game(NULL)
+m_walking_animation(NULL),
+m_walking_instance(NULL),
+m_jumping_animation(NULL),
+m_jumping_instance(NULL),
+m_game(NULL),
+m_options(NULL)
 {
 
 }
 
-void game::Actor::~Actor()
+game::Actor::~Actor()
 {
     if (m_options)
     {
@@ -65,7 +65,7 @@ bool game::Actor::setOptions(game::ActorOptions* opts)
     
     if (!opts)
     {
-        reurn false;
+        return false;
     }
     opts->validate();
     opts->addRef();
@@ -110,6 +110,7 @@ void game::Actor::tryStartGoingUp()
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void game::Actor::tryStopGoingUp()
 {
     if (m_options)
@@ -237,7 +238,7 @@ void game::Actor::onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev)
     bounce_solver->pushRotationFriction(0.0);
     if (!bounce_solver->bounce(ev.m_object_1, ev.m_object_2))
     {
-        ev.m_object_1->setCurrentTangentialVelocity(this->m_player->oldVelocity());
+        ev.m_object_1->setCurrentTangentialVelocity(this->oldVelocity());
         bool bounced = bounce_solver->bounce(ev.m_object_1, ev.m_object_2);
         ev.m_object_1->setCurrentTangentialVelocity(player_velocity);
         if (!bounced)
@@ -499,7 +500,6 @@ void game::Actor::enableGravity() const
 
 void game::Actor::disableGravity() const
 {
-{
     if (!m_options)
     {
         return;
@@ -683,7 +683,7 @@ void game::Actor::pushOptions(const sad::String& new_options)
 
 void game::Actor::popOptions()
 {
-    if (m_old_options.size())
+    if (!m_old_options.empty())
     {
         printf("Restoring options %s\n", m_old_options[m_old_options.size() - 1].c_str());
         m_sprite->set(m_old_options[m_old_options.size() - 1]);
@@ -831,9 +831,47 @@ const sad::p2d::Vector& game::Actor::oldVelocity() const
     return m_old_velocity;
 }
 
+void game::Actor::checkBoundaryCollision(double left_bound, double right_bound)
+{
+    // If player went too far into left or right, block the way
+    sad::Rect2D area = this->m_sprite->area();
+    if ((area[0].x() < left_bound) && (!sad::is_fuzzy_equal(area[0].x(), left_bound)))
+    {
+        if (m_body->willPositionChange())
+        {
+            sad::Point2D cp = m_body->position();
+            sad::Point2D p = m_body->nextPosition();
+            m_body->shedulePosition(sad::Point2D(cp.x() + (area[0].x() - left_bound) * -1, p.y()));
+            this->setXCoordinateFixed(true);
+        }
+        else
+        {
+            m_body->move(sad::Point2D((area[0].x() - left_bound) * -1, 0.0));
+            this->setXCoordinateFixed(true);
+        }
+        this->setHorizontalVelocity(0.0);
+    }
+    if (area[2].x() > right_bound && (!sad::is_fuzzy_equal(area[2].x(), right_bound)))
+    {
+        printf("Boundary collision\n");
+        if (this->m_body->willPositionChange())
+        {
+            sad::Point2D cp = this->m_body->position();
+            sad::Point2D p = this->m_body->nextPosition();
+            this->m_body->shedulePosition(sad::Point2D(cp.x() - (area[2].x() - right_bound), p.y()));
+            this->setXCoordinateFixed(true);
+        }
+        else
+        {
+            this->m_body->move(sad::Point2D(right_bound - area[2].x(), 0.0));
+            this->setXCoordinateFixed(true);
+        }
+    }
+}
+
 // ===================================== PRIVATE METHODS =====================================
 
-sad::animations::Animations* game::Actor::animations()
+sad::animations::Animations* game::Actor::animations() const
 {
     return this->m_sprite->scene()->renderer()->animations();
 }
@@ -914,7 +952,7 @@ void game::Actor::startMoving(bool flip_flag, double velocity)
     this->setHorizontalVelocity(velocity);
 }
 
-void game::Actor::correctShape()
+void game::Actor::correctShape() const
 {
     sad::p2d::Rectangle*  shape = dynamic_cast<sad::p2d::Rectangle*>(m_body->currentShape());
     sad::Point2D start_point = shape->rect()[0];

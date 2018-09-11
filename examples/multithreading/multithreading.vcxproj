@@ -197,6 +197,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="game\actor.cpp" />
     <ClCompile Include="game\conditions.cpp" />
     <ClCompile Include="game\inventory.cpp" />
     <ClCompile Include="game\player.cpp" />
@@ -213,6 +214,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
+    <ClInclude Include="game\actor.h" />
+    <ClInclude Include="game\actoroptions.h" />
     <ClInclude Include="game\conditions.h" />
     <ClInclude Include="game\inventory.h" />
     <ClInclude Include="game\player.h" />
