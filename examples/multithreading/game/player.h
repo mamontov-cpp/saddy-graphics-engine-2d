@@ -32,6 +32,12 @@ public:
     /*! Frees data from player
      */
     ~Player();
+    /*! Tries to set actor options for player
+        \param[in] opts an options
+        \throws logic_error if options are invalid
+        \return true if setting is succesfull, otherwise false
+     */
+    bool setActorOptions(game::ActorOptions* opts);
     /*! Sets game for player
         \param[in] gama a game
      */
@@ -165,7 +171,7 @@ private:
     game::Inventory m_inventory;
     /*! An actor for player
      */
-    game::Actor* m_actor;
+    game::Actor m_actor;
 };
 
 }

@@ -54,6 +54,7 @@ m_game(NULL)
     m_jumping_instance->addRef();
 }
 
+
 game::Player::~Player()
 {
     m_walking_instance->delRef();
@@ -61,6 +62,11 @@ game::Player::~Player()
 
     m_jumping_animation->delRef();
     m_jumping_instance->delRef();
+}
+
+bool game::Player::setActorOptions(game::ActorOptions* opts)
+{
+    return m_actor->setOptions(opts);
 }
 
 

@@ -17,11 +17,16 @@ public:
     /*! Makes new actor options
         \param[in] opts an actor options
      */
-    Actor(game::ActorOptions* opts);
+    Actor();
     /*! Destroys an actor
      */
     ~Actor();
-
+    /*! Sets options for actor, returns false if options are already set
+        \param[in] opts options
+        \throws logic_error if options are invalid
+        \return true if setting is succesfull, otherwise false
+     */
+    bool setOptions(game::ActorOptions* opts);
     /*! Tries to start actor going up
      */
     void tryStartGoingUp();

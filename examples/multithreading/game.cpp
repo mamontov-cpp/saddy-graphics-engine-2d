@@ -113,6 +113,38 @@ m_running_tasks(0) // NOLINT
     
     m_bounce_solver = new BS();
     m_bounce_solver->enableDebug();
+
+    // A player actor options
+    game::ActorOptions* player_opts = new game::ActorOptions();
+    player_opts->addRef();
+    player_opts->IsFloater = false;
+    player_opts->CanEmitSound = true;
+    player_opts->MaxHorizontalVelocity = game::Player::MaxHorizontalVelocity;
+    player_opts->MaxVerticalVelocity = game::Player::MaxVerticalVelocity;
+    sad::Vector<sad::String> list; 
+    list << "enemies_list/playerRed_walk1ng"
+         << "enemies_list/playerRed_walk2ng"
+         << "enemies_list/playerRed_walk3ng";
+    player_opts->WalkingAnimationOptions = list;
+    player_opts->WalkingAnimationTime = 200.0;
+
+    list.clear();
+
+    list << "enemies_list/playerRed_up1ng"
+         << "enemies_list/playerRed_up2ng";
+    player_opts->JumpingAnimationOptions = list;
+    player_opts->JumpingAnimationTime = 500.0;
+
+    player_opts->StandingSprite = "enemies_list/playerRed_standng";
+    player_opts->WalkingSprite = "enemies_list/playerRed_walk1ng";
+    player_opts->WalkingSprite = "enemies_list/playerRed_walk1ng";
+    player_opts->JumpingSprite = "enemies_list/playerRed_up2ng";
+    player_opts->FallingSprite = "enemies_list/playerRed_fallng";
+    player_opts->DuckingSprite = "enemies_list/playerRed_duckng";
+    player_opts->FloaterSprite = "enemies_list/playerRed_rollng";
+
+    m_player.setActorOptions(player_opts);
+    m_actor_options.insert("player", player_opts);
 }
 
 Game::~Game()  // NOLINT
@@ -128,6 +160,11 @@ Game::~Game()  // NOLINT
     for (sad::Hash<sad::String, sad::String*>::iterator it = m_item_names_to_scripts.begin(); it != m_item_names_to_scripts.end(); ++it)
     {
         delete it.value();
+    }
+
+    for (sad::Hash<sad::String, game::ActorOptions*>::iterator ao = m_actor_options.begin(); ao != m_item_names_to_scripts.end(); ++ao)
+    {
+        ao->delRef();
     }
     this->destroyWorld();
     delete m_step_task;

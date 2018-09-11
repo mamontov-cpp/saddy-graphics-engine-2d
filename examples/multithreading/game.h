@@ -20,6 +20,7 @@
 
 #include "game/conditions.h"
 #include "game/player.h"
+#include "game/actoroptions.h"
 
 #include "scenetransitionprocess.h"
 #include "optionsscreen.h"
@@ -292,7 +293,7 @@ private:
     game::Conditions m_conditions;
     /*! A player, that will be used in game
      */
-    game::Player* m_player{NULL};
+    game::Player* m_player;
     /*! An options screen
      */
     OptionsScreen m_options_screen;
@@ -302,6 +303,9 @@ private:
     /*! An item names to related scripts for item
      */
     sad::Hash<sad::String, sad::String*> m_item_names_to_scripts;
+    /*! An actor options list;
+     */
+    sad::Hash<sad::String, game::ActorOptions*> m_actor_options;
     /*! A world, which is used in game
      */
     sad::p2d::World* m_physics_world;
