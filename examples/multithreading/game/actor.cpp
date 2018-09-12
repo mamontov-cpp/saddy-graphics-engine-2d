@@ -111,7 +111,7 @@ void game::Actor::tryStartGoingUp()
 
     if (m_options)
     {
-        if (m_options->IsFloater)
+        if (m_is_floater)
         {
             // TODO: Implement floater
         }
@@ -130,7 +130,7 @@ void game::Actor::tryStopGoingUp()
 
     if (m_options)
     {
-        if (m_options->IsFloater)
+        if (m_is_floater)
         {
             // TODO: Implement floater
         }
@@ -148,7 +148,7 @@ void game::Actor::tryStartGoingDown()
 
     if (m_options)
     {
-        if (m_options->IsFloater)
+        if (m_is_floater)
         {
             // TODO: Implement floater
         }
@@ -166,7 +166,7 @@ void game::Actor::tryStopGoingDown()
 
     if (m_options)
     {
-        if (m_options->IsFloater)
+        if (m_is_floater)
         {
             // TODO: Implement floater
         }
@@ -188,7 +188,7 @@ void game::Actor::tryStartGoingLeft()
 
     if (m_options)
     {
-        if (m_options->IsFloater)
+        if (m_is_floater)
         {
             // TODO: Implement floater
         }
@@ -206,7 +206,7 @@ void game::Actor::tryStopGoingLeft()
 
     if (m_options)
     {
-        if (m_options->IsFloater)
+        if (m_is_floater)
         {
             // TODO: Implement floater
         }
@@ -229,7 +229,7 @@ void game::Actor::tryStartGoingRight()
 
     if (m_options)
     {
-        if (m_options->IsFloater)
+        if (m_is_floater)
         {
             // TODO: Implement floater
         }
@@ -247,7 +247,7 @@ void game::Actor::tryStopGoingRight()
 
     if (m_options)
     {
-        if (m_options->IsFloater)
+        if (m_is_floater)
         {
             // TODO: Implement floater
         }
@@ -579,7 +579,6 @@ void game::Actor::init()
         {
             m_body->setCurrentTangentialVelocity(sad::p2d::Vector(new_velocity_x, new_velocity_y));
         }
-        //! TODO
     }
     else
     {
