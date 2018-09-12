@@ -214,7 +214,24 @@ public:
      */
     void checkBoundaryCollision(double left_bound, double right_bound);
 private:
-   /*! Returns animations list
+    /*! Compute whether floater should go up or down
+        \param[out] is_going_up whether we should go up
+        \param[out] is_going_down whether we should go down
+     */
+    void computeIsGoingUpDownFlags(bool& is_going_up, bool& is_going_down);
+    /*! Compute whether floater should go left or right
+        \param[out] is_going_left whether we should go left
+        \param[out] is_going_right whether we should go right
+     */
+    void computeIsGoingLeftRightFlags(bool& is_going_left, bool& is_going_right);
+    /*! Sets correct angle for floater
+     */
+    void setAngleForFloater();
+    /*! Sets vertical velocity value
+        \param[in] v velocity
+     */
+    void setVerticalVelocity(double v) const;
+    /*! Returns animations list
         \return animations
      */
     sad::animations::Animations* animations() const;

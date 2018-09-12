@@ -6,8 +6,6 @@
 #include <p2d/world.h>
 #include <p2d/collides1d.h>
 
-#define _USE_MATH_DEFINES
-#include <math.h>
 
 // ============================================== PUBLIC METHODS ==============================================
 
@@ -113,7 +111,9 @@ void game::Actor::tryStartGoingUp()
     {
         if (m_is_floater)
         {
-            // TODO: Implement floater
+            this->disableResting();
+            this->setAngleForFloater();
+            this->setVerticalVelocity(m_options->FloaterVerticalVelocity);
         }
         else
         {
@@ -132,7 +132,17 @@ void game::Actor::tryStopGoingUp()
     {
         if (m_is_floater)
         {
-            // TODO: Implement floater
+            this->setAngleForFloater();
+            bool is_going_up = false, is_going_down = false;
+            this->computeIsGoingUpDownFlags(is_going_up, is_going_down);
+            if (is_going_down)
+            { 
+                this->setVerticalVelocity(m_options->FloaterVerticalVelocity * - 1);
+            }
+            else
+            {
+                this->setVerticalVelocity(0.0);
+            }
         }
     }
 }
@@ -150,7 +160,8 @@ void game::Actor::tryStartGoingDown()
     {
         if (m_is_floater)
         {
-            // TODO: Implement floater
+            this->setAngleForFloater();
+            this->setVerticalVelocity(m_options->FloaterVerticalVelocity * - 1);
         }
         else
         {
@@ -168,7 +179,18 @@ void game::Actor::tryStopGoingDown()
     {
         if (m_is_floater)
         {
-            // TODO: Implement floater
+            this->setAngleForFloater();
+            bool is_going_up = false, is_going_down = false;
+            this->computeIsGoingUpDownFlags(is_going_up, is_going_down);
+            if (is_going_up)
+            {
+                this->disableResting();
+                this->setVerticalVelocity(m_options->FloaterVerticalVelocity);
+            }
+            else
+            {
+                this->setVerticalVelocity(0.0);
+            }
         }
         else
         {
@@ -190,12 +212,9 @@ void game::Actor::tryStartGoingLeft()
     {
         if (m_is_floater)
         {
-            // TODO: Implement floater
+            this->setAngleForFloater();
         }
-        else
-        {
-            this->startMovingLeft();
-        }
+        this->startMovingLeft();
     }
 }
 
@@ -208,7 +227,17 @@ void game::Actor::tryStopGoingLeft()
     {
         if (m_is_floater)
         {
-            // TODO: Implement floater
+            bool is_going_left = false, is_going_right = false;
+            this->computeIsGoingLeftRightFlags(is_going_left, is_going_right);
+            this->setAngleForFloater();
+            if (is_going_right)
+            {
+                this->startMovingRight();
+            }
+            else
+            {
+                this->stopMovingHorizontally();
+            }
         }
         else
         {
@@ -231,12 +260,9 @@ void game::Actor::tryStartGoingRight()
     {
         if (m_is_floater)
         {
-            // TODO: Implement floater
-        }
-        else
-        {
-            this->startMovingRight();
-        }
+            this->setAngleForFloater();
+        }        
+        this->startMovingRight();
     }
 }
 
@@ -249,7 +275,17 @@ void game::Actor::tryStopGoingRight()
     {
         if (m_is_floater)
         {
-            // TODO: Implement floater
+            bool is_going_left = false, is_going_right = false;
+            this->computeIsGoingLeftRightFlags(is_going_left, is_going_right);
+            this->setAngleForFloater();
+            if (is_going_left)
+            {
+                this->startMovingLeft();
+            }
+            else
+            {
+                this->stopMovingHorizontally();
+            }
         }
         else
         {
@@ -456,44 +492,13 @@ void game::Actor::init()
     {
         return;
     }
-    bool isGoingUp = false;
-    bool isGoingDown = false;
-    bool isGoingLeft = false;
-    bool isGoingRight = false;
+    bool is_going_up = false;
+    bool is_going_down = false;
+    bool is_going_left = false;
+    bool is_going_right = false;
 
-    if (m_key_states[game::Actor::ABTN_UP] && m_key_states[game::Actor::ABTN_DOWN])
-    {
-       if (m_key_states[LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_UP])
-       {
-           isGoingUp = true;
-       }
-       else
-       {
-           isGoingDown = true;
-       }
-    } 
-    else
-    {
-        if (m_key_states[game::Actor::ABTN_UP]) isGoingUp = true;
-        if (m_key_states[game::Actor::ABTN_DOWN]) isGoingDown = true;
-    }
-
-    if (m_key_states[game::Actor::ABTN_LEFT] && m_key_states[game::Actor::ABTN_RIGHT])
-    {
-       if (m_key_states[LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_LEFT])
-       {
-           isGoingLeft = true;
-       }
-       else
-       {
-           isGoingRight = true;
-       }
-    } 
-    else
-    {
-        if (m_key_states[game::Actor::ABTN_LEFT]) isGoingLeft = true;
-        if (m_key_states[game::Actor::ABTN_RIGHT]) isGoingRight = true;
-    }
+    this->computeIsGoingUpDownFlags(is_going_up, is_going_down);    
+    this->computeIsGoingUpDownFlags(is_going_left, is_going_right);
 
     m_sprite->setAngle(0.0);
     if (m_is_floater)
@@ -508,68 +513,61 @@ void game::Actor::init()
         m_sprite->set(m_options->FloaterSprite);
         correctShape();
         this->disableGravity();
-        double angle = 0;
+        this->setAngleForFloater();
         double new_velocity_x = 0;
         double new_velocity_y = 0;
-        if (isGoingLeft)
+        if (is_going_left)
         {
             m_sprite->setFlipX(true);
-            new_velocity_x  = m_options->MaxHorizontalVelocity * - 1;
-            if (isGoingUp)
+            new_velocity_x  = m_options->FloaterHorizontalVelocity * - 1;
+            if (is_going_up)
             {
-                new_velocity_y = m_options->MaxVerticalVelocity;
-                angle = M_PI / 4.0;
+                new_velocity_y = m_options->FloaterVerticalVelocity;
                 this->disableResting();
             }
             else
             {
-                if (isGoingDown)
+                if (is_going_down)
                 {
-                    new_velocity_y = m_options->MaxVerticalVelocity * -1;
-                    angle = M_PI / -4.0;
+                    new_velocity_y = m_options->FloaterVerticalVelocity * -1;
                 }
             }
         }
         else
         {
             m_sprite->setFlipX(false);
-            if (isGoingRight)
+            if (is_going_right)
             {
-                new_velocity_x  = m_options->MaxHorizontalVelocity;
-                if (isGoingUp)
+                new_velocity_x  = m_options->FloaterHorizontalVelocity;
+                if (is_going_up)
                 {
-                    new_velocity_y = m_options->MaxVerticalVelocity;
-                    angle = M_PI / 4.0;
+                    new_velocity_y = m_options->FloaterVerticalVelocity;
                     this->disableResting();
                 }
                 else
                 {
-                    if (isGoingDown)
+                    if (is_going_down)
                     {
-                        new_velocity_y = m_options->MaxVerticalVelocity * -1;
-                        angle = M_PI / -4.0;
+                        new_velocity_y = m_options->FloaterVerticalVelocity * -1;
                     }
                 }
             }
             else
             {
-                if (isGoingUp)
+                if (is_going_up)
                 {
-                    new_velocity_y = m_options->MaxVerticalVelocity;
-                    angle = M_PI / 2.0;
+                    new_velocity_y = m_options->FloaterVerticalVelocity;
                     this->disableResting();
                 }
                 else
                 {
-                    if (isGoingDown)
+                    if (is_going_down)
                     {
-                        new_velocity_y = m_options->MaxVerticalVelocity * -1;
-                        angle = M_PI / -2.0;
+                        new_velocity_y = m_options->FloaterVerticalVelocity * -1;
                     }
                 }
             }
         }
-        m_sprite->setAngle(angle);
 
         if (m_body->willTangentialVelocityChange())
         {
@@ -583,6 +581,10 @@ void game::Actor::init()
     else
     {
         //! TODO
+        if (!m_is_resting)
+        {
+            this->enableGravity();
+        }
     }
 }
 
@@ -629,7 +631,7 @@ void game::Actor::setHorizontalVelocity(double value)
     sad::p2d::Vector v = b->tangentialVelocity();
     m_old_velocity = v;
     printf("Old horizontal velocity: %lf, Old own velocity %lf, Setting %lf\n", v.x(), m_own_horizontal_velocity, value);
-    if (m_is_resting && !(m_options->IsFloater))
+    if (m_is_resting && !m_is_floater)
     {
         v.setX(m_resting_platform->tangentialVelocity().x());
     } 
@@ -643,7 +645,7 @@ void game::Actor::setHorizontalVelocity(double value)
     b->sheduleTangentialVelocity(v);
     
     m_own_horizontal_velocity = value;
-    if (m_is_resting && !m_is_ducking)
+    if (m_is_resting && !m_is_ducking && !m_is_floater)
     {
         if (sad::is_fuzzy_zero(m_own_horizontal_velocity))
         {
@@ -737,28 +739,37 @@ void game::Actor::restOnPlatform(sad::p2d::Body* b, const  sad::p2d::Vector& old
     b->sheduleAngularVelocity(av);
 
     sad::p2d::Vector own_velocity = old_velocity;
-    own_velocity.setX(own_velocity.x() + m_own_horizontal_velocity);
-
+    if (m_is_floater)
+    {
+        own_velocity = this->oldVelocity();
+    }
+    else
+    { 
+        own_velocity.setX(own_velocity.x() + m_own_horizontal_velocity);
+    }
     m_body->setCurrentTangentialVelocity(own_velocity);
     m_body->setCurrentAngularVelocity(av);
     m_body->sheduleTangentialVelocity(own_velocity);
     m_body->sheduleAngularVelocity(av);
 
     m_old_options.clear();
-    if (!sad::is_fuzzy_zero(m_own_horizontal_velocity))
-    {
-         m_sprite->set(m_options->StandingSprite);
-         if (m_options->CanEmitSound)
-         {
-             m_game->playWalkingSound();
-         }
-    } 
-    else 
-    {
-        m_sprite->set(m_options->WalkingSprite);
-        if (m_options->CanEmitSound)
+    if (!m_is_floater)
+    { 
+        if (!sad::is_fuzzy_zero(m_own_horizontal_velocity))
         {
-            m_game->stopWalkingSound();
+             m_sprite->set(m_options->StandingSprite);
+             if (m_options->CanEmitSound)
+             {
+                 m_game->playWalkingSound();
+             }
+        } 
+        else 
+        {
+            m_sprite->set(m_options->WalkingSprite);
+            if (m_options->CanEmitSound)
+            {
+                m_game->stopWalkingSound();
+            }
         }
     }
 }
@@ -774,7 +785,7 @@ void game::Actor::disableResting()
     m_resting_platform = NULL;
     
     this->cancelWalkingAnimation();
-    if (m_options->CanEmitSound)
+    if (m_options->CanEmitSound && !m_is_floater)
     {
         m_game->stopWalkingSound();
     } 
@@ -911,7 +922,8 @@ void game::Actor::startMovingLeft()
     {
         return;
     }
-    this->startMoving(true, m_options->MaxHorizontalVelocity * -1);
+    double v = (m_is_floater) ? m_options->FloaterHorizontalVelocity : m_options->WalkerHorizontalVelocity;
+    this->startMoving(true, v * -1);
 }
 
 void game::Actor::startMovingRight()
@@ -920,7 +932,8 @@ void game::Actor::startMovingRight()
     {
         return;
     }
-    this->startMoving(false, m_options->MaxHorizontalVelocity);
+    double v = (m_is_floater) ? m_options->FloaterHorizontalVelocity : m_options->WalkerHorizontalVelocity;
+    this->startMoving(false, v);
 }
 
 void game::Actor::stopMovingHorizontally()
@@ -929,18 +942,21 @@ void game::Actor::stopMovingHorizontally()
     {
         return;
     }
-    if (m_is_resting)
+    if (!m_is_floater)
     {
-        if (!m_is_ducking)
+        if (m_is_resting)
         {
-            this->m_sprite->set(m_options->StandingSprite);
+            if (!m_is_ducking)
+            {
+                this->m_sprite->set(m_options->StandingSprite);
+            }
         }
-    }
-    else
-    {
-        if (!m_is_free_fall)
+        else
         {
-            this->m_sprite->set(m_options->JumpingSprite);
+            if (!m_is_free_fall)
+            {
+                this->m_sprite->set(m_options->JumpingSprite);
+            }
         }
     }
     this->setHorizontalVelocity(0);
@@ -955,7 +971,7 @@ void game::Actor::tryJump()
     if (this->canJump()) 
     {
         this->stopFallingOrStopDucking();
-        this->incrementVerticalVelocity(m_options->MaxVerticalVelocity);
+        this->incrementVerticalVelocity(m_options->WalkerVerticalVelocity);
         this->disableResting();
         this->playJumpingAnimation();
         if (m_options->CanEmitSound)
@@ -974,7 +990,7 @@ void game::Actor::startFallingOrDuck()
     if (!m_is_resting) {
         m_is_free_fall = true;
         this->cancelJumpingAnimation();
-        this->incrementVerticalVelocity(m_options->MaxVerticalVelocity * -1);
+        this->incrementVerticalVelocity(m_options->WalkerVerticalVelocity * -1);
         this->pushOptions(m_options->FallingSprite);
     } else {
         this->duck();
@@ -990,7 +1006,7 @@ void game::Actor::stopFallingOrStopDucking()
     if (!m_is_resting) {
         m_is_free_fall = false;
         this->cancelJumpingAnimation();
-        this->incrementVerticalVelocity(m_options->MaxVerticalVelocity);
+        this->incrementVerticalVelocity(m_options->WalkerVerticalVelocity);
         this->popOptions();
     } else {
         this->stopDucking();
@@ -1085,6 +1101,133 @@ void game::Actor::checkBoundaryCollision(double left_bound, double right_bound)
 
 // ===================================== PRIVATE METHODS =====================================
 
+void game::Actor::computeIsGoingUpDownFlags(bool& is_going_up, bool& is_going_down)
+{
+    is_going_up = false;
+    is_going_down = false;
+    if (m_key_states[game::Actor::ABTN_UP] && m_key_states[game::Actor::ABTN_DOWN])
+    {
+        if (m_key_states[LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_UP])
+        {
+            is_going_up = true;
+        }
+        else
+        {
+            is_going_down = true;
+        }
+    }
+    else
+    {
+        if (m_key_states[game::Actor::ABTN_UP]) is_going_up = true;
+        if (m_key_states[game::Actor::ABTN_DOWN]) is_going_down = true;
+    }
+}
+
+void game::Actor::computeIsGoingLeftRightFlags(bool& is_going_left, bool& is_going_right)
+{
+    is_going_left = false;
+    is_going_right = false;
+    if (m_key_states[game::Actor::ABTN_LEFT] && m_key_states[game::Actor::ABTN_RIGHT])
+    {
+        if (m_key_states[LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_LEFT])
+        {
+            is_going_left = true;
+        }
+        else
+        {
+            is_going_right = true;
+        }
+    }
+    else
+    {
+        if (m_key_states[game::Actor::ABTN_LEFT]) is_going_left = true;
+        if (m_key_states[game::Actor::ABTN_RIGHT]) is_going_right = true;
+    }
+}
+
+void game::Actor::setAngleForFloater()
+{
+    bool is_going_up = false;
+    bool is_going_down = false;
+    bool is_going_left = false;
+    bool is_going_right = false;
+
+    this->computeIsGoingUpDownFlags(is_going_up, is_going_down);
+    this->computeIsGoingUpDownFlags(is_going_left, is_going_right);
+
+    double angle = 0;
+
+    if (is_going_left)
+    {
+        m_sprite->setFlipX(true);
+        if (is_going_up)
+        {
+            angle = M_PI / 4.0;
+        }
+        else
+        {
+            if (is_going_down)
+            {
+                angle = M_PI / -4.0;
+            }
+        }
+    }
+    else
+    {
+        m_sprite->setFlipX(false);
+        if (is_going_right)
+        {
+            if (is_going_up)
+            {
+                angle = M_PI / 4.0;
+            }
+            else
+            {
+                if (is_going_down)
+                {
+                    angle = M_PI / -4.0;
+                }
+            }
+        }
+        else
+        {
+            if (is_going_up)
+            {
+                angle = M_PI / 2.0;
+            }
+            else
+            {
+                if (is_going_down)
+                {
+                    angle = M_PI / -2.0;
+                }
+            }
+        }
+    }
+    m_sprite->setAngle(angle);
+}
+
+void game::Actor::setVerticalVelocity(double v) const
+{
+    if (!m_options)
+    {
+        return;
+    }
+    sad::p2d::Body* b = m_body;
+    if (b->willTangentialVelocityChange())
+    {
+        sad::p2d::Vector velocity = b->nextTangentialVelocity();
+        velocity.setY(v);
+        b->sheduleTangentialVelocity(velocity);
+    }
+    else
+    {
+        sad::p2d::Vector velocity = b->tangentialVelocity();
+        velocity.setY(v);
+        b->setCurrentTangentialVelocity(velocity);
+    }
+}
+
 sad::animations::Animations* game::Actor::animations() const
 {
     return this->m_sprite->scene()->renderer()->animations();
@@ -1157,13 +1300,16 @@ void game::Actor::startMoving(bool flip_flag, double velocity)
         return;
     }
     m_sprite->setFlipX(flip_flag);
-    if (m_is_resting)
-    {
-        if (!m_is_ducking)
+    if (!m_is_floater)
+    { 
+        if (m_is_resting)
         {
-            if (!m_is_walking_animation_playing)
+            if (!m_is_ducking)
             {
-                m_sprite->set(m_options->WalkingSprite);
+                if (!m_is_walking_animation_playing)
+                {
+                    m_sprite->set(m_options->WalkingSprite);
+                }
             }
         }
     }

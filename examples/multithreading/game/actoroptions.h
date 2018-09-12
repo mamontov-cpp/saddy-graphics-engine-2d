@@ -18,9 +18,8 @@ namespace game
 
     call corresponding actor options.
  */
-struct ActorOptions: public sad::RefCountable
+struct ActorOptions: sad::RefCountable
 {
-public:
     /*! Whether actor, should float and ignore a gravity
      */
     bool IsFloater;
@@ -29,10 +28,16 @@ public:
     bool CanEmitSound;
     /*! A maximal horizontal velocity for actor
      */
-    double MaxHorizontalVelocity;
+    double WalkerHorizontalVelocity;
     /*! A maximal vertical velocity for actor
      */
-    double MaxVerticalVelocity;
+    double WalkerVerticalVelocity;
+    /*! A floater's horizontal velocity
+     */
+    double FloaterHorizontalVelocity;
+    /*! A floater's vertical velocity
+     */
+    double FloaterVerticalVelocity;
     /*! A sprite list for walking animations
      */
     sad::Vector<sad::String> WalkingAnimationOptions;
@@ -66,7 +71,7 @@ public:
 
     /*! Constructs default actor options - non-valid, non-floater
      */
-    inline ActorOptions() : IsFloater(false), CanEmitSound(false), MaxHorizontalVelocity(0), MaxVerticalVelocity(0), WalkingAnimationTime(0),  JumpingAnimationTime(0)
+    inline ActorOptions() : IsFloater(false), CanEmitSound(false), WalkerHorizontalVelocity(0), WalkerVerticalVelocity(0), FloaterHorizontalVelocity(0), FloaterVerticalVelocity(0), WalkingAnimationTime(0),  JumpingAnimationTime(0)
     {
 
     }
@@ -76,18 +81,28 @@ public:
      */
     inline void validate() const
     {
-        if (sad::is_fuzzy_zero(MaxHorizontalVelocity))
+        if (sad::is_fuzzy_zero(WalkerHorizontalVelocity))
         {
-            throw std::logic_error("Please, specify maximal horizontal velocity");
+            throw std::logic_error("Please, specify maximal horizontal velocity for walker");
         }
 
-        if (sad::is_fuzzy_zero(MaxVerticalVelocity))
+        if (sad::is_fuzzy_zero(WalkerVerticalVelocity))
         {
-            throw std::logic_error("Please, specify maximal vertical velocity");
+            throw std::logic_error("Please, specify maximal vertical velocity for walker");
         }
+
+        if (sad::is_fuzzy_zero(FloaterHorizontalVelocity))
+        {
+            throw std::logic_error("Please, specify maximal horizontal velocity for floater");
+        }
+
+        if (sad::is_fuzzy_zero(FloaterVerticalVelocity))
+        {
+            throw std::logic_error("Please, specify maximal vertical velocity for floater");
+        }
+
         
-        
-        if  (WalkingAnimationOptions.size() == 0)
+        if  (WalkingAnimationOptions.empty())
         {
             throw std::logic_error("Please, specify walking animation options");
         }
@@ -97,7 +112,7 @@ public:
             throw std::logic_error("Please, specify time for walking animation");
         }
 
-        if  (JumpingAnimationOptions.size() == 0)
+        if  (JumpingAnimationOptions.empty())
         {
             throw std::logic_error("Please, specify jumping animation options");
         }

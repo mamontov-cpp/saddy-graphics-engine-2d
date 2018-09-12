@@ -118,8 +118,11 @@ m_running_tasks(0) // NOLINT
     player_opts->addRef();
     player_opts->IsFloater = false;
     player_opts->CanEmitSound = true;
-    player_opts->MaxHorizontalVelocity = game::Player::MaxHorizontalVelocity;
-    player_opts->MaxVerticalVelocity = game::Player::MaxVerticalVelocity;
+    player_opts->WalkerHorizontalVelocity = game::Player::MaxHorizontalVelocity;
+    player_opts->WalkerVerticalVelocity = game::Player::MaxVerticalVelocity;
+    player_opts->FloaterHorizontalVelocity = game::Player::MaxHorizontalVelocity / 2.0;
+    player_opts->FloaterVerticalVelocity = game::Player::MaxVerticalVelocity / 2.0;
+
     sad::Vector<sad::String> list; 
     list << "enemies_list/playerRed_walk1ng"
          << "enemies_list/playerRed_walk2ng"
