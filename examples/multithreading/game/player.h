@@ -45,6 +45,17 @@ public:
     /*! Resets player's items in game
      */
     void reset();
+    /*! Inits player's sprite according to state
+     */
+    void init();
+    /*! Returns true if actor is in a floater state
+        \return whether actor is floater
+     */
+    bool isFloater() const;
+    /*! Sets a floater state for an actor
+        \param[in] is_floater a floater state
+     */
+    void setFloaterState(bool is_floater);
     /*! Returns player's inventory
      *  \return inventory of player
      */

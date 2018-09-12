@@ -37,6 +37,21 @@ void game::Player::reset()
 }
 
 
+void game::Player::init()
+{
+    m_actor.init();
+}
+
+bool game::Actor::isFloater() const
+{
+    return m_actor.isFloater();
+}
+
+void game::Actor::setFloaterState(bool is_floater)
+{
+    m_actor.setFloaterState(is_floater);
+}
+
 game::Inventory* game::Player::inventory()
 {
     return &m_inventory;

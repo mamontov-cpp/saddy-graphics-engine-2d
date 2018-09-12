@@ -8,6 +8,7 @@
 #include <sprite2d.h>
 #include <animations/animationsinstance.h>
 #include <animations/animationsoptionlist.h>
+#include <bitset>
 
 #include "actoroptions.h" 
 
@@ -15,12 +16,22 @@ class Game;
 
 namespace game
 {
-
+// A last key bitset offset
+#define LAST_KEY_BITSET_OFFSET (4)
 /*! An actor, that can respond to user actions
  */
 class Actor  // NOLINT(cppcoreguidelines-special-member-functions)
 {
-public:
+public: 
+    /*! A button for getting status bit
+     */
+    enum Button
+    {
+        ABTN_LEFT = 0,   //!< Left button status
+        ABTN_RIGHT = 1,  //!< Right button status
+        ABTN_UP = 2,     //!< Up button status
+        ABTN_DOWN = 3    //!< Down button status
+    };
     /*! Makes new actor options
      */
     Actor();
@@ -66,9 +77,20 @@ public:
         \param[in] game a game
      */
     void setGame(Game* game);
-    /*! Resets player's items in game
+    /*! Resets player's state in game
      */
     void reset();
+    /*! Inits player's sprite according to state
+     */
+    void init();
+    /*! Returns true if actor is in a floater state
+        \return whether actor is floater
+     */
+    bool isFloater() const;
+    /*! Sets a floater state for an actor
+        \param[in] is_floater a floater state
+     */
+    void setFloaterState(bool is_floater);
 
     /*! Whether player is resting on platform
         \return whether he is resting
@@ -220,6 +242,10 @@ private:
     /*! A player's own horizontal velocity
      */
     double m_own_horizontal_velocity;
+    /*! A main key states
+        A (4 + key number) holds whether this type of button was pressed last
+     */
+    std::bitset<8> m_key_states;
     /*! A player's sprite
      */
     sad::Sprite2D* m_sprite;
@@ -253,6 +279,9 @@ private:
     /*! Whether y position is fixed
      */
     bool m_fixed_y;
+    /*! Whether actor is floating object
+     */
+    bool m_is_floater;
 
     /*! A walking animation for actor
      */

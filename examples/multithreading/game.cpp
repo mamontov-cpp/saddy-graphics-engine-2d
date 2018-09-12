@@ -529,7 +529,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
         & m_conditions.ConditionsForMainRenderer.JumpActionConditions[game::Conditions::CS_PLAYGAME_PLAYING]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
-        [this] { this->changeSceneToStartingScreen();  }
+        [this] { this->m_player->setFloaterState(!(this->m_player->isFloater()));  }
     );
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
@@ -1344,6 +1344,7 @@ void Game::initGamePhysics()
         m_physics_world->addBodyToGroup("player", body);
         m_player->setBody(body);
         m_player->enableGravity();
+        m_player->init();
     }
     sad::Scene* main_scene = db->objectByName<sad::Scene>("main");
     if (main_scene)

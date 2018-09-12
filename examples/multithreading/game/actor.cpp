@@ -6,6 +6,9 @@
 #include <p2d/world.h>
 #include <p2d/collides1d.h>
 
+#define _USE_MATH_DEFINES
+#include <math.h>
+
 // ============================================== PUBLIC METHODS ==============================================
 
 game::Actor::Actor() : m_own_horizontal_velocity(0), 
@@ -19,6 +22,7 @@ m_is_jumping_animation_playing(false),
 m_resting_platform(NULL), 
 m_fixed_x(false),
 m_fixed_y(false),
+m_is_floater(false),
 m_walking_animation(NULL),
 m_walking_instance(NULL),
 m_jumping_animation(NULL),
@@ -26,7 +30,7 @@ m_jumping_instance(NULL),
 m_game(NULL),
 m_options(NULL)
 {
-
+    m_key_states.reset();
 }
 
 game::Actor::~Actor()
@@ -70,6 +74,7 @@ bool game::Actor::setOptions(game::ActorOptions* opts)
     opts->validate();
     opts->addRef();
     m_options = opts;
+    m_is_floater = m_options->IsFloater;
 
     m_walking_animation = new sad::animations::OptionList();
     m_walking_animation->setList(opts->WalkingAnimationOptions);
@@ -97,6 +102,13 @@ bool game::Actor::setOptions(game::ActorOptions* opts)
 
 void game::Actor::tryStartGoingUp()
 {
+    m_key_states.set(game::Actor::ABTN_UP);
+
+    m_key_states.reset(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_UP);
+    m_key_states.reset(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_DOWN);
+
+    m_key_states.set(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_UP);
+
     if (m_options)
     {
         if (m_options->IsFloater)
@@ -113,6 +125,9 @@ void game::Actor::tryStartGoingUp()
 // ReSharper disable once CppMemberFunctionMayBeConst
 void game::Actor::tryStopGoingUp()
 {
+    m_key_states.reset(game::Actor::ABTN_UP);
+    m_key_states.reset(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_UP);
+
     if (m_options)
     {
         if (m_options->IsFloater)
@@ -124,6 +139,13 @@ void game::Actor::tryStopGoingUp()
 
 void game::Actor::tryStartGoingDown()
 {
+    m_key_states.set(game::Actor::ABTN_DOWN);
+
+    m_key_states.reset(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_UP);
+    m_key_states.reset(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_DOWN);
+
+    m_key_states.set(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_DOWN);
+
     if (m_options)
     {
         if (m_options->IsFloater)
@@ -139,6 +161,9 @@ void game::Actor::tryStartGoingDown()
 
 void game::Actor::tryStopGoingDown()
 {
+    m_key_states.reset(game::Actor::ABTN_DOWN);
+    m_key_states.reset(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_DOWN);
+
     if (m_options)
     {
         if (m_options->IsFloater)
@@ -154,6 +179,13 @@ void game::Actor::tryStopGoingDown()
 
 void game::Actor::tryStartGoingLeft()
 {
+    m_key_states.set(game::Actor::ABTN_LEFT);
+
+    m_key_states.reset(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_LEFT);
+    m_key_states.reset(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_RIGHT);
+
+    m_key_states.set(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_LEFT);
+
     if (m_options)
     {
         if (m_options->IsFloater)
@@ -169,6 +201,9 @@ void game::Actor::tryStartGoingLeft()
 
 void game::Actor::tryStopGoingLeft()
 {
+    m_key_states.reset(game::Actor::ABTN_LEFT);
+    m_key_states.reset(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_LEFT);
+
     if (m_options)
     {
         if (m_options->IsFloater)
@@ -185,6 +220,13 @@ void game::Actor::tryStopGoingLeft()
 
 void game::Actor::tryStartGoingRight()
 {
+    m_key_states.set(game::Actor::ABTN_RIGHT);
+
+    m_key_states.reset(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_LEFT);
+    m_key_states.reset(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_RIGHT);
+
+    m_key_states.set(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_RIGHT);
+
     if (m_options)
     {
         if (m_options->IsFloater)
@@ -200,6 +242,9 @@ void game::Actor::tryStartGoingRight()
 
 void game::Actor::tryStopGoingRight()
 {
+    m_key_states.reset(game::Actor::ABTN_RIGHT);
+    m_key_states.reset(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_RIGHT);
+
     if (m_options)
     {
         if (m_options->IsFloater)
@@ -383,6 +428,8 @@ void game::Actor::setGame(Game* game)
 
 void game::Actor::reset()
 {
+    m_key_states.reset();
+
     m_sprite = NULL;
     m_body = NULL;
     m_is_resting = false;
@@ -395,8 +442,106 @@ void game::Actor::reset()
     m_old_velocity = sad::p2d::Vector(0, 0);
     m_is_walking_animation_playing = false;
     m_is_jumping_animation_playing = false;
+
+    if (m_options)
+    {
+        m_is_floater = m_options->IsFloater;
+    }
 }
 
+
+void game::Actor::init()
+{
+    if (!m_sprite || !m_options)
+    {
+        return;
+    }
+    bool isGoingUp = false;
+    bool isGoingDown = false;
+    bool isGoingLeft = false;
+    bool isGoingRight = false;
+
+    if (m_key_states[game::Actor::ABTN_UP] && m_key_states[game::Actor::ABTN_DOWN])
+    {
+       if (m_key_states[LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_UP])
+       {
+           isGoingUp = true;
+       }
+       else
+       {
+           isGoingDown = true;
+       }
+    } 
+    else
+    {
+        if (m_key_states[game::Actor::ABTN_UP]) isGoingUp = true;
+        if (m_key_states[game::Actor::ABTN_DOWN]) isGoingDown = true;
+    }
+
+    if (m_key_states[game::Actor::ABTN_LEFT] && m_key_states[game::Actor::ABTN_RIGHT])
+    {
+       if (m_key_states[LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_LEFT])
+       {
+           isGoingLeft = true;
+       }
+       else
+       {
+           isGoingRight = true;
+       }
+    } 
+    else
+    {
+        if (m_key_states[game::Actor::ABTN_LEFT]) isGoingLeft = true;
+        if (m_key_states[game::Actor::ABTN_RIGHT]) isGoingRight = true;
+    }
+
+    m_sprite->setAngle(0.0);
+    if (m_is_floater)
+    {
+        this->cancelWalkingAnimation();
+        this->cancelJumpingAnimation();
+        if (m_options->CanEmitSound)
+        {
+            m_game->stopWalkingSound();
+        }
+
+        m_sprite->set(m_options->FloaterSprite);
+        correctShape();
+        this->disableGravity();
+        double angle = 0;
+        if (isGoingLeft)
+        {
+            if (isGoingUp)
+            {
+                angle = M_PI / 4.0;
+                this->disableResting();
+            }
+        }
+        else
+        {
+
+        }
+        m_sprite->setAngle(angle);
+
+        //willTangentialVelocityChange
+        //! TODO
+    }
+    else
+    {
+        //! TODO
+    }
+}
+
+bool game::Actor::isFloater() const
+{
+    return m_is_floater;
+}
+
+void game::Actor::setFloaterState(bool is_floater)
+{
+    m_is_floater = is_floater;
+    this->init();
+}
 
 
 bool game::Actor::canJump() const
@@ -495,7 +640,14 @@ void game::Actor::enableGravity() const
     {
         return;
     }
-    Game::enableGravity(m_body);
+    if (this->m_is_floater)
+    {
+        Game::disableGravity(m_body);
+    }
+    else
+    {
+        Game::enableGravity(m_body);
+    }
 }
 
 void game::Actor::disableGravity() const
@@ -571,8 +723,11 @@ void game::Actor::disableResting()
     if (m_options->CanEmitSound)
     {
         m_game->stopWalkingSound();
+    } 
+    if (!m_is_floater)
+    {       
+        this->m_sprite->set(m_options->JumpingSprite);
     }
-   this->m_sprite->set(m_options->JumpingSprite);
 }
 
 
@@ -651,6 +806,11 @@ void game::Actor::testResting()
         else
         {
             sad::p2d::Vector old_velocity =  m_resting_platform->tangentialVelocity();
+            if (m_is_floater)
+            {
+                old_velocity.setX(0.0);
+                old_velocity.setY(0.0);
+            }
             sad::p2d::Vector own_velocity = old_velocity;
             own_velocity.setX(own_velocity.x() + m_own_horizontal_velocity);
             if (this->isYCoordinateFixed())
