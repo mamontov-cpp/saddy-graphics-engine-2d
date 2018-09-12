@@ -509,21 +509,76 @@ void game::Actor::init()
         correctShape();
         this->disableGravity();
         double angle = 0;
+        double new_velocity_x = 0;
+        double new_velocity_y = 0;
         if (isGoingLeft)
         {
+            m_sprite->setFlipX(true);
+            new_velocity_x  = m_options->MaxHorizontalVelocity * - 1;
             if (isGoingUp)
             {
+                new_velocity_y = m_options->MaxVerticalVelocity;
                 angle = M_PI / 4.0;
                 this->disableResting();
+            }
+            else
+            {
+                if (isGoingDown)
+                {
+                    new_velocity_y = m_options->MaxVerticalVelocity * -1;
+                    angle = M_PI / -4.0;
+                }
             }
         }
         else
         {
-
+            m_sprite->setFlipX(false);
+            if (isGoingRight)
+            {
+                new_velocity_x  = m_options->MaxHorizontalVelocity;
+                if (isGoingUp)
+                {
+                    new_velocity_y = m_options->MaxVerticalVelocity;
+                    angle = M_PI / 4.0;
+                    this->disableResting();
+                }
+                else
+                {
+                    if (isGoingDown)
+                    {
+                        new_velocity_y = m_options->MaxVerticalVelocity * -1;
+                        angle = M_PI / -4.0;
+                    }
+                }
+            }
+            else
+            {
+                if (isGoingUp)
+                {
+                    new_velocity_y = m_options->MaxVerticalVelocity;
+                    angle = M_PI / 2.0;
+                    this->disableResting();
+                }
+                else
+                {
+                    if (isGoingDown)
+                    {
+                        new_velocity_y = m_options->MaxVerticalVelocity * -1;
+                        angle = M_PI / -2.0;
+                    }
+                }
+            }
         }
         m_sprite->setAngle(angle);
 
-        //willTangentialVelocityChange
+        if (m_body->willTangentialVelocityChange())
+        {
+            m_body->sheduleTangentialVelocity(sad::p2d::Vector(new_velocity_x, new_velocity_y));
+        }
+        else
+        {
+            m_body->setCurrentTangentialVelocity(sad::p2d::Vector(new_velocity_x, new_velocity_y));
+        }
         //! TODO
     }
     else
@@ -1045,6 +1100,7 @@ void game::Actor::playWalkingAnimation()
 
     if (!m_is_walking_animation_playing)
     {
+        m_walking_instance->enableStateRestoringOnFinish();
         m_walking_instance->clearFinished();
         m_walking_instance->setObject(m_sprite); 
         this->animations()->add(m_walking_instance);
@@ -1061,6 +1117,7 @@ void game::Actor::cancelWalkingAnimation()
 
     if (m_is_walking_animation_playing)
     {
+        m_walking_instance->disableStateRestoringOnFinish();
         m_walking_instance->cancel(this->animations());
         this->animations()->remove(m_walking_instance);
         m_is_walking_animation_playing = false;
@@ -1076,6 +1133,7 @@ void game::Actor::playJumpingAnimation()
     if (!m_is_jumping_animation_playing)
     {
         m_jumping_instance->clearFinished();
+        m_jumping_instance->enableStateRestoringOnFinish();
         m_jumping_instance->setObject(m_sprite); 
         this->animations()->add(m_jumping_instance);
         m_is_jumping_animation_playing = true;
@@ -1084,8 +1142,9 @@ void game::Actor::playJumpingAnimation()
 
 void game::Actor::cancelJumpingAnimation()
 {
-    if (!m_is_jumping_animation_playing)
+    if (m_is_jumping_animation_playing)
     {
+        m_jumping_instance->disableStateRestoringOnFinish();
         m_jumping_instance->cancel(this->animations());
         this->animations()->remove(m_jumping_instance);
         m_is_jumping_animation_playing = false;

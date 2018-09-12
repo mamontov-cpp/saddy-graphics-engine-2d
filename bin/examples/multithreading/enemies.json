@@ -743,7 +743,7 @@
         {
             "name":"enemies_list\/playerGreen_rollng",
             "size":"20;20",
-            "texrect":"907;435;40;40"
+            "texrect":"907;436;40;40"
         },
         {
             "name":"enemies_list\/playerGreen_standng",

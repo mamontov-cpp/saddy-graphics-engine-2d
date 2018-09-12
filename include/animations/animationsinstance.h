@@ -281,6 +281,9 @@ public:
     /*! Disable state restoring for object on finish
      */
     virtual void disableStateRestoringOnFinish();
+    /*! Enable state restoring for object on finish
+     */
+    virtual void enableStateRestoringOnFinish();
     /*! Called on every step of instance work
         \param[in] animations animations, container, which contains all cached data
      */

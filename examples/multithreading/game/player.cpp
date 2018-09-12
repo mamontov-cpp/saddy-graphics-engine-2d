@@ -42,12 +42,12 @@ void game::Player::init()
     m_actor.init();
 }
 
-bool game::Actor::isFloater() const
+bool game::Player::isFloater() const
 {
     return m_actor.isFloater();
 }
 
-void game::Actor::setFloaterState(bool is_floater)
+void game::Player::setFloaterState(bool is_floater)
 {
     m_actor.setFloaterState(is_floater);
 }
