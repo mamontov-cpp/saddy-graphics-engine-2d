@@ -106,7 +106,7 @@ void game::Actor::tryStartGoingUp()
     m_key_states.reset(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_DOWN);
 
     m_key_states.set(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_UP);
-
+    
     if (m_options)
     {
         if (m_is_floater)
@@ -498,7 +498,7 @@ void game::Actor::init()
     bool is_going_right = false;
 
     this->computeIsGoingUpDownFlags(is_going_up, is_going_down);    
-    this->computeIsGoingUpDownFlags(is_going_left, is_going_right);
+    this->computeIsGoingLeftRightFlags(is_going_left, is_going_right);
 
     m_sprite->setAngle(0.0);
     if (m_is_floater)
@@ -899,10 +899,8 @@ void game::Actor::pushOptions(const sad::String& new_options)
 {
     if (new_options != m_sprite->optionsName())
     {
-        printf("Is not equal\n");
         m_old_options << m_sprite->optionsName();
     }
-    printf("Setting options %s\n", new_options.c_str());
     m_sprite->set(new_options);
 }
 
@@ -910,7 +908,6 @@ void game::Actor::popOptions()
 {
     if (!m_old_options.empty())
     {
-        printf("Restoring options %s\n", m_old_options[m_old_options.size() - 1].c_str());
         m_sprite->set(m_old_options[m_old_options.size() - 1]);
         m_old_options.removeAt(m_old_options.size() - 1);
     }
@@ -922,7 +919,7 @@ void game::Actor::startMovingLeft()
     {
         return;
     }
-    double v = (m_is_floater) ? m_options->FloaterHorizontalVelocity : m_options->WalkerHorizontalVelocity;
+    double v = ((m_is_floater) ? m_options->FloaterHorizontalVelocity : m_options->WalkerHorizontalVelocity);
     this->startMoving(true, v * -1);
 }
 
@@ -932,7 +929,7 @@ void game::Actor::startMovingRight()
     {
         return;
     }
-    double v = (m_is_floater) ? m_options->FloaterHorizontalVelocity : m_options->WalkerHorizontalVelocity;
+    double v = ((m_is_floater) ? m_options->FloaterHorizontalVelocity : m_options->WalkerHorizontalVelocity);
     this->startMoving(false, v);
 }
 
@@ -1153,7 +1150,7 @@ void game::Actor::setAngleForFloater()
     bool is_going_right = false;
 
     this->computeIsGoingUpDownFlags(is_going_up, is_going_down);
-    this->computeIsGoingUpDownFlags(is_going_left, is_going_right);
+    this->computeIsGoingLeftRightFlags(is_going_left, is_going_right);
 
     double angle = 0;
 
@@ -1162,13 +1159,13 @@ void game::Actor::setAngleForFloater()
         m_sprite->setFlipX(true);
         if (is_going_up)
         {
-            angle = M_PI / 4.0;
+            angle = M_PI / -4.0;
         }
         else
         {
             if (is_going_down)
             {
-                angle = M_PI / -4.0;
+                angle = M_PI / 4.0;
             }
         }
     }

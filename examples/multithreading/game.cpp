@@ -121,7 +121,8 @@ m_running_tasks(0) // NOLINT
     player_opts->WalkerHorizontalVelocity = game::Player::MaxHorizontalVelocity;
     player_opts->WalkerVerticalVelocity = game::Player::MaxVerticalVelocity;
     player_opts->FloaterHorizontalVelocity = game::Player::MaxHorizontalVelocity / 2.0;
-    player_opts->FloaterVerticalVelocity = game::Player::MaxVerticalVelocity / 2.0;
+    // Made those velocity equal to ensure that floater will exactly float
+    player_opts->FloaterVerticalVelocity = player_opts->FloaterHorizontalVelocity;
 
     sad::Vector<sad::String> list; 
     list << "enemies_list/playerRed_walk1ng"
