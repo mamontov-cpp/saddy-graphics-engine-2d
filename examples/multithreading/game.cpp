@@ -549,6 +549,13 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
         & ((&m_paused_state_machine) * sad::String("playing")),
         [this] { this->m_is_rendering_world_bodies = !this->m_is_rendering_world_bodies;  }
     );
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & sad::Backspace
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        [this] { this->changeSceneToStartingScreen();  }
+    );
 
     // A paused game screen
     renderer->controls()->addLambda(
@@ -1344,6 +1351,7 @@ void Game::initGamePhysics()
             this->m_player->testResting();
         };
         body->addMoveListener(move_listener);
+        body->initPosition(sprite->middle());
 
         m_physics_world->addBodyToGroup("player", body);
         m_player->setBody(body);
@@ -1394,6 +1402,7 @@ void Game::initGamePhysics()
             rct = sad::Rect2D(rct[0].x(), rct[0].y(), rct[2].x() + 1, rct[2].y());
             rect->setRect(rct);
             body->setShape(rect);
+            body->initPosition(ungrouped_platform_sprites[i]->middle());
             if (ungrouped_platform_sprites[i]->objectName() == "MovingPlatform4")
             {
                 moving_platform = body;
@@ -1449,6 +1458,7 @@ void Game::initGamePhysics()
                 rect->setRect(common_rectangle);
                 body->setShape(rect);
                 body->attachObjects(sprites_in_group);
+                body->initPosition((common_rectangle[0] + common_rectangle[2]) / 2.0);
 
                 m_physics_world->addBodyToGroup("platforms", body);
                 for(size_t k = 0 ; k < sprites_in_group.size(); k++)
@@ -1503,6 +1513,7 @@ void Game::initGamePhysics()
                 rect->setRect(common_rectangle);
                 body->setShape(rect);
                 body->attachObjects(sprites_in_group);
+                body->initPosition((common_rectangle[0] + common_rectangle[2]) / 2.0);
 
 
                 m_physics_world->addBodyToGroup("platforms", body);
@@ -1531,6 +1542,7 @@ void Game::initGamePhysics()
             }
             rect->setRect(common_rectangle);
             body->setShape(rect);
+            body->initPosition(platform_sprites[i]->middle());
 
             m_physics_world->addBodyToGroup("platforms", body);
         }
