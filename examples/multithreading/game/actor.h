@@ -18,6 +18,8 @@ namespace game
 {
 // A last key bitset offset
 #define LAST_KEY_BITSET_OFFSET (4)
+// A precision for resting detection
+#define RESTING_DETECTION_PRECISION (0.5)
 /*! An actor, that can respond to user actions
  */
 class Actor  // NOLINT(cppcoreguidelines-special-member-functions)
@@ -81,8 +83,9 @@ public:
      */
     void reset();
     /*! Inits player's sprite according to state
+        \param[in] no_sound whether we should disable sound on actor 
      */
-    void init();
+    void init(bool no_sound = false);
     /*! Returns true if actor is in a floater state
         \return whether actor is floater
      */
@@ -165,13 +168,6 @@ public:
     /*! Tests resting a player
      */
     void testResting();
-    /*! Pushes old options, replaces with new in sprite
-     *  \param[in] new_options a new options
-     */
-    void pushOptions(const sad::String& new_options);
-    /*! Pops options
-     */
-    void popOptions();
     /*! Starts moving actor to left
      */
     void startMovingLeft();
@@ -211,8 +207,10 @@ public:
     /*! Checks boundary collision for horizontal collision
         \param[in] left_bound a left bound
         \param[in] right_bound a right bound
+        \param[in] up_bound an upper bound for actor
+        \param[in] bottom_bound a bottom bound for actor
      */
-    void checkBoundaryCollision(double left_bound, double right_bound);
+    void checkBoundaryCollision(double left_bound, double right_bound, double up_bound, double bottom_bound);
 private:
     /*! Compute whether floater should go up or down
         \param[out] is_going_up whether we should go up
@@ -227,6 +225,11 @@ private:
     /*! Sets correct angle for floater
      */
     void setAngleForFloater();
+    /*! Computes velocity for floater
+        \throws std::logic_error on invalid options or not floater
+        \return velocity for floater
+     */
+    sad::p2d::Vector computeVelocityForFloater();
     /*! Sets vertical velocity value
         \param[in] v velocity
      */
@@ -313,9 +316,6 @@ private:
     /*! A jumping animation instance
      */
     sad::animations::Instance* m_jumping_instance;
-    /*! An old options for sprite
-     */
-    sad::Vector<sad::String> m_old_options;
     /*! A game for player
      */
     Game* m_game;

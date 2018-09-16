@@ -46,8 +46,9 @@ public:
      */
     void reset();
     /*! Inits player's sprite according to state
+        \param[in] no_sound whether we should disable sound on actor 
      */
-    void init();
+    void init(bool no_sound = false);
     /*! Returns true if actor is in a floater state
         \return whether actor is floater
      */
@@ -103,8 +104,10 @@ public:
     /*! Checks boundary collision for horizontal collision
         \param[in] left_bound a left bound
         \param[in] right_bound a right bound
+        \param[in] up_bound an upper bound for actor
+        \param[in] bottom_bound a bottom bound for actor
      */
-    void checkBoundaryCollision(double left_bound, double right_bound);
+    void checkBoundaryCollision(double left_bound, double right_bound, double up_bound, double bottom_bound);
     /*! Enables gravity for player
      */
     void enableGravity() const;

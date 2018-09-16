@@ -615,7 +615,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
                 this->m_player->clearFixedFlags();
                 this->m_step_task->enable();
                 this->m_step_task->process();
-                this->m_player->checkBoundaryCollision(0.0, max_level_x);
+                this->m_player->checkBoundaryCollision(0.0, max_level_x, 600, 0);
                 m_running_tasks_lock.lock();
                 --m_running_tasks;
                 m_running_tasks_lock.unlock();
@@ -1348,7 +1348,7 @@ void Game::initGamePhysics()
         m_physics_world->addBodyToGroup("player", body);
         m_player->setBody(body);
         m_player->enableGravity();
-        m_player->init();
+        m_player->init(true);
     }
     sad::Scene* main_scene = db->objectByName<sad::Scene>("main");
     if (main_scene)

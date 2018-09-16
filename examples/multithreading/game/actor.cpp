@@ -225,19 +225,15 @@ void game::Actor::tryStopGoingLeft()
 
     if (m_options)
     {
+        bool is_going_left = false, is_going_right = false;
+        this->computeIsGoingLeftRightFlags(is_going_left, is_going_right);
         if (m_is_floater)
         {
-            bool is_going_left = false, is_going_right = false;
-            this->computeIsGoingLeftRightFlags(is_going_left, is_going_right);
             this->setAngleForFloater();
-            if (is_going_right)
-            {
-                this->startMovingRight();
-            }
-            else
-            {
-                this->stopMovingHorizontally();
-            }
+        }
+        if (is_going_right)
+        {
+            this->startMovingRight();
         }
         else
         {
@@ -273,19 +269,15 @@ void game::Actor::tryStopGoingRight()
 
     if (m_options)
     {
+        bool is_going_left = false, is_going_right = false;
+        this->computeIsGoingLeftRightFlags(is_going_left, is_going_right);
         if (m_is_floater)
         {
-            bool is_going_left = false, is_going_right = false;
-            this->computeIsGoingLeftRightFlags(is_going_left, is_going_right);
             this->setAngleForFloater();
-            if (is_going_left)
-            {
-                this->startMovingLeft();
-            }
-            else
-            {
-                this->stopMovingHorizontally();
-            }
+        }
+        if (is_going_left)
+        {
+            this->startMovingLeft();
         }
         else
         {
@@ -296,7 +288,6 @@ void game::Actor::tryStopGoingRight()
 
 void game::Actor::onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev)
 {
-    printf("Event\n");
     double tick = m_game->physicsWorld()->timeStep();
     double precision_collision = 0.1; // A correction to ensure, that TOI won't be negative
 
@@ -311,6 +302,10 @@ void game::Actor::onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev)
     {
         next_velocity = ev.m_object_1->nextTangentialVelocity();
     }
+
+    bool willActorPositionChange = ev.m_object_1->willPositionChange();
+    sad::p2d::Vector nextActorPosition = ev.m_object_1->nextPosition();
+
     sad::Point2D current_position_1 = ev.m_object_1->position();
     sad::Point2D current_position_2 = ev.m_object_2->position();
 
@@ -343,13 +338,16 @@ void game::Actor::onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev)
     sad::p2d::Cutter1D player_part(std::min(shape_1[0].x(), shape_1[2].x()), std::max(shape_1[0].x(), shape_1[2].x()));
     sad::p2d::Cutter1D platform_part(std::min(shape_2[0].x(), shape_2[2].x()), std::max(shape_2[0].x(), shape_2[2].x()));
 
+    double ctoi_tick = ctoi * 0.9; // 0.9 is a pretty magic coefficient to solve some issues with collision
+
     if ((sad::is_fuzzy_equal(max_platform_y, min_player_y) || (min_player_y > max_platform_y))
         && (sad::p2d::collides(player_part, platform_part)))
     {
-        if (ev.m_object_1->willPositionChange())
+        printf("Resting collision\n");
+        if (willActorPositionChange)
         {
-            double x = ev.m_object_1->nextPosition().x();
-            double y = ev.m_object_1->position().y() + player_velocity.y() * (ctoi * 0.99) + precision_collision;
+            double x = nextActorPosition.x();
+            double y = ev.m_object_1->position().y() + player_velocity.y() * ctoi_tick + precision_collision;
             if (!(this->isXCoordinateFixed()))
             {
                 x = ev.m_object_1->position().x() + player_velocity.x() * tick + force_value.x() * tick * tick / 2.0;
@@ -365,7 +363,7 @@ void game::Actor::onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev)
         else
         {
             double x = ev.m_object_1->position().x() + player_velocity.x() * tick + force_value.x() * tick * tick / 2.0;
-            double y = ev.m_object_1->position().y() + player_velocity.y() * (ctoi * 0.99) + precision_collision;
+            double y = ev.m_object_1->position().y() + player_velocity.y() * ctoi_tick + precision_collision;
             if (ev.m_object_2->tangentialVelocity().y() > 0)
             {
                 y += ev.m_object_2->tangentialVelocity().y() * tick;
@@ -384,10 +382,11 @@ void game::Actor::onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev)
         // Force sliding by offsetting objects after collision
         if (sad::p2d::collides(player_part, platform_part))
         {
-            if (ev.m_object_1->willPositionChange())
+            printf("Top collision\n");
+            if (willActorPositionChange)
             {
-                double x = ev.m_object_1->nextPosition().x();
-                double y = ev.m_object_1->position().y() + player_velocity.y() * (ctoi * 0.99) - precision_collision;
+                double x = nextActorPosition.x();
+                double y = ev.m_object_1->position().y() + player_velocity.y() * ctoi_tick - precision_collision;
                 if (!(this->isXCoordinateFixed()))
                 {
                     x = ev.m_object_1->position().x() + player_velocity.x() * tick + force_value.x() * tick * tick / 2.0;
@@ -403,7 +402,7 @@ void game::Actor::onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev)
             else
             {
                 double x = ev.m_object_1->position().x() + player_velocity.x() * tick + force_value.x() * tick * tick / 2.0;
-                double y = ev.m_object_1->position().y() + player_velocity.y() * (ctoi * 0.99) - precision_collision;
+                double y = ev.m_object_1->position().y() + player_velocity.y() * ctoi_tick - precision_collision;
                 if (ev.m_object_2->tangentialVelocity().y() < 0)
                 {
                     y += ev.m_object_2->tangentialVelocity().y() * tick;
@@ -415,22 +414,29 @@ void game::Actor::onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev)
         else
         {
             bool is_front_collision = player_part.p2() < platform_part.p1();
+            if (is_front_collision)
+            {
+                printf("Front collision\n");
+            }
+            else
+            {
+                printf("Back collision");
+            }
             double correction = (is_front_collision) ? (precision_collision * - 1) : precision_collision;
             if ((is_front_collision && v.x() < 0) || (v.x() > 0))
             {
                correction += v.x() * tick;
             }
-            double x = ev.m_object_1->position().x() + player_velocity.x() * (ctoi * 0.99) + correction;
-            if (ev.m_object_1->willPositionChange())
+            double x = ev.m_object_1->position().x() + player_velocity.x() * ctoi_tick + correction;
+            if (willActorPositionChange)
             {
-                double y = ev.m_object_1->nextPosition().y();
+                double y = nextActorPosition.y();
                 if (!(this->isYCoordinateFixed()))
                 {
                     y = ev.m_object_1->position().y() + player_velocity.y() * tick + force_value.y() * tick * tick / 2.0;
                 }
                 ev.m_object_1->shedulePosition(sad::Point2D(x, y));
                 this->setXCoordinateFixed(true);
-
             }
             else
             {
@@ -441,7 +447,7 @@ void game::Actor::onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev)
         }
         if (!willVelocityChange)
         {
-            player_velocity += force_value * ev.m_time;
+            player_velocity += force_value * ctoi_tick;
             ev.m_object_1->sheduleTangentialVelocity(player_velocity);
         }
         else
@@ -486,11 +492,16 @@ void game::Actor::reset()
 }
 
 
-void game::Actor::init()
+void game::Actor::init(bool no_sound)
 {
     if (!m_sprite || !m_options)
     {
         return;
+    }
+    bool can_emit_sound = m_options->CanEmitSound;
+    if (no_sound)
+    {
+        m_options->CanEmitSound  = false;
     }
     bool is_going_up = false;
     bool is_going_down = false;
@@ -580,11 +591,82 @@ void game::Actor::init()
     }
     else
     {
-        //! TODO
         if (!m_is_resting)
         {
             this->enableGravity();
         }
+        else
+        {
+            this->testResting();
+            // Test vertical collision, since platform can go up
+            if (m_is_resting)
+            {
+                double lower_bound = m_sprite->area()[0].y();
+                double upper_bound = dynamic_cast<sad::p2d::Rectangle*>(m_resting_platform->currentShape())->rect()[2].y();                
+                if ((lower_bound > upper_bound) && !sad::is_fuzzy_equal(lower_bound, upper_bound, RESTING_DETECTION_PRECISION))
+                {
+                    // Disable resting
+                    this->disableResting();
+                    this->enableGravity();
+                }
+            }
+        }
+        m_is_ducking = false;
+        m_is_free_fall = false;
+        if (is_going_up || !is_going_down) 
+        {
+            if (m_is_resting)
+            { 
+                if (is_going_up)
+                { 
+                    this->tryJump();
+                }
+                else
+                {
+                    m_sprite->set(m_options->StandingSprite);
+                }
+                this->correctShape();
+            }
+            else
+            {
+                if (is_going_up)
+                { 
+                    this->setVerticalVelocity(m_options->WalkerVerticalVelocity);
+                }
+                m_sprite->set(m_options->JumpingSprite);
+                this->correctShape();
+                if (m_options->CanEmitSound)
+                {
+                    m_game->playSound("jump");
+                }
+            }
+        }
+        else
+        {
+            this->setVerticalVelocity(0.0);
+            this->startFallingOrDuck();
+        }
+
+        if (is_going_left)
+        {
+            startMovingLeft();
+        }
+        else
+        {
+            if (is_going_right)
+            {
+                startMovingRight();
+            }
+            else
+            {
+                setHorizontalVelocity(0.0);
+            }
+        }
+    }
+
+    if (no_sound)
+    {
+        m_options->CanEmitSound = can_emit_sound;
     }
 }
 
@@ -727,9 +809,14 @@ void game::Actor::restOnPlatform(sad::p2d::Body* b, const  sad::p2d::Vector& old
     }
     this->cancelJumpingAnimation();
     this->disableGravity();
+    bool already_resting = m_is_resting;
     m_is_resting = true;
-    m_is_free_fall = false;
-    m_is_ducking = false;
+    // Do not change any status flags if already resting
+    if (!already_resting)
+    { 
+        m_is_free_fall = false;
+        m_is_ducking = false;
+    }
     m_resting_platform = b;
     
     double av = 0;
@@ -741,7 +828,7 @@ void game::Actor::restOnPlatform(sad::p2d::Body* b, const  sad::p2d::Vector& old
     sad::p2d::Vector own_velocity = old_velocity;
     if (m_is_floater)
     {
-        own_velocity = this->oldVelocity();
+        own_velocity = this->computeVelocityForFloater();
     }
     else
     { 
@@ -752,23 +839,28 @@ void game::Actor::restOnPlatform(sad::p2d::Body* b, const  sad::p2d::Vector& old
     m_body->sheduleTangentialVelocity(own_velocity);
     m_body->sheduleAngularVelocity(av);
 
-    m_old_options.clear();
     if (!m_is_floater)
     { 
         if (!sad::is_fuzzy_zero(m_own_horizontal_velocity))
         {
-             m_sprite->set(m_options->StandingSprite);
-             if (m_options->CanEmitSound)
-             {
-                 m_game->playWalkingSound();
+             if (!already_resting)
+             { 
+                m_sprite->set(m_options->StandingSprite);
+                if (m_options->CanEmitSound)
+                {
+                    m_game->playWalkingSound();
+                }
              }
         } 
         else 
         {
-            m_sprite->set(m_options->WalkingSprite);
-            if (m_options->CanEmitSound)
-            {
-                m_game->stopWalkingSound();
+            if (!already_resting)
+            { 
+                m_sprite->set(m_options->WalkingSprite);
+                if (m_options->CanEmitSound)
+                {
+                    m_game->stopWalkingSound();
+                }
             }
         }
     }
@@ -867,24 +959,33 @@ void game::Actor::testResting()
         if (!sad::p2d::collides(player_part, platform_part))
         {
             this->disableResting();
+            // Restore speed for floater
+            if (m_is_floater)
+            {
+                sad::p2d::Vector own_velocity = this->computeVelocityForFloater();
+                m_body->setCurrentTangentialVelocity(own_velocity);
+                m_body->sheduleTangentialVelocity(own_velocity);
+            }
         } 
         else
         {
             sad::p2d::Vector old_velocity =  m_resting_platform->tangentialVelocity();
+            sad::p2d::Vector own_velocity = old_velocity;
             if (m_is_floater)
             {
-                old_velocity.setX(0.0);
-                old_velocity.setY(0.0);
+                own_velocity = this->computeVelocityForFloater();
             }
-            sad::p2d::Vector own_velocity = old_velocity;
-            own_velocity.setX(own_velocity.x() + m_own_horizontal_velocity);
-            if (this->isYCoordinateFixed())
-            {
-                own_velocity.setY(m_body->tangentialVelocity().y());
-            }
-            if (this->isXCoordinateFixed())
-            {
-                own_velocity.setX(m_body->tangentialVelocity().x());
+            else
+            { 
+                own_velocity.setX(own_velocity.x() + m_own_horizontal_velocity);
+                if (this->isYCoordinateFixed())
+                {
+                    own_velocity.setY(m_body->tangentialVelocity().y());
+                }
+                if (this->isXCoordinateFixed())
+                {
+                    own_velocity.setX(m_body->tangentialVelocity().x());
+                }
             }
 
             m_body->setCurrentTangentialVelocity(own_velocity);
@@ -893,26 +994,6 @@ void game::Actor::testResting()
 
     }
 }
-
-
-void game::Actor::pushOptions(const sad::String& new_options)
-{
-    if (new_options != m_sprite->optionsName())
-    {
-        m_old_options << m_sprite->optionsName();
-    }
-    m_sprite->set(new_options);
-}
-
-void game::Actor::popOptions()
-{
-    if (!m_old_options.empty())
-    {
-        m_sprite->set(m_old_options[m_old_options.size() - 1]);
-        m_old_options.removeAt(m_old_options.size() - 1);
-    }
-}
-
 void game::Actor::startMovingLeft()
 {
     if (!m_options)
@@ -988,7 +1069,8 @@ void game::Actor::startFallingOrDuck()
         m_is_free_fall = true;
         this->cancelJumpingAnimation();
         this->incrementVerticalVelocity(m_options->WalkerVerticalVelocity * -1);
-        this->pushOptions(m_options->FallingSprite);
+        m_sprite->set(m_options->FallingSprite);
+        this->correctShape();
     } else {
         this->duck();
     }
@@ -1004,7 +1086,8 @@ void game::Actor::stopFallingOrStopDucking()
         m_is_free_fall = false;
         this->cancelJumpingAnimation();
         this->incrementVerticalVelocity(m_options->WalkerVerticalVelocity);
-        this->popOptions();
+        m_sprite->set(m_options->JumpingSprite);
+        this->correctShape();
     } else {
         this->stopDucking();
     }
@@ -1024,7 +1107,7 @@ void game::Actor::duck()
         {
             m_game->stopWalkingSound();
         }
-        this->pushOptions(m_options->DuckingSprite);
+        m_sprite->set(m_options->DuckingSprite);
         correctShape();
     }
 }
@@ -1034,7 +1117,17 @@ void game::Actor::stopDucking()
     if (m_is_ducking && m_is_resting)
     {
         m_is_ducking = false;
-        this->popOptions();
+        bool is_going_left = false, is_going_right = false;
+        if (is_going_left || is_going_right)
+        {
+            m_sprite->set(m_options->WalkingSprite);
+        }
+        else
+        {
+            m_sprite->set(m_options->StandingSprite);
+        }
+        this->correctShape();
+
         if (!sad::is_fuzzy_zero(m_own_horizontal_velocity))
         {
             this->playWalkingAnimation();
@@ -1058,7 +1151,7 @@ const sad::p2d::Vector& game::Actor::oldVelocity() const
     return m_old_velocity;
 }
 
-void game::Actor::checkBoundaryCollision(double left_bound, double right_bound)
+void game::Actor::checkBoundaryCollision(double left_bound, double right_bound, double up_bound, double bottom_bound)
 {
     // If player went too far into left or right, block the way
     sad::Rect2D area = this->m_sprite->area();
@@ -1080,7 +1173,6 @@ void game::Actor::checkBoundaryCollision(double left_bound, double right_bound)
     }
     if (area[2].x() > right_bound && (!sad::is_fuzzy_equal(area[2].x(), right_bound)))
     {
-        printf("Boundary collision\n");
         if (this->m_body->willPositionChange())
         {
             sad::Point2D cp = this->m_body->position();
@@ -1092,6 +1184,36 @@ void game::Actor::checkBoundaryCollision(double left_bound, double right_bound)
         {
             this->m_body->move(sad::Point2D(right_bound - area[2].x(), 0.0));
             this->setXCoordinateFixed(true);
+        }
+    }
+    if (area[2].y() > up_bound && (!sad::is_fuzzy_equal(area[2].y(), up_bound)))
+    {
+        if (this->m_body->willPositionChange())
+        {
+            sad::Point2D cp = this->m_body->position();
+            sad::Point2D p = this->m_body->nextPosition();
+            this->m_body->shedulePosition(sad::Point2D(p.x(), cp.y() + (up_bound - area[2].y())));
+            this->setYCoordinateFixed(true);
+        }
+        else
+        {
+            this->m_body->move(sad::Point2D(0.0, up_bound - area[2].y()));
+            this->setYCoordinateFixed(true);
+        }
+    }
+    if (area[0].y() < bottom_bound && (!sad::is_fuzzy_equal(area[2].y(), bottom_bound)))
+    {
+        if (this->m_body->willPositionChange())
+        {
+            sad::Point2D cp = this->m_body->position();
+            sad::Point2D p = this->m_body->nextPosition();
+            this->m_body->shedulePosition(sad::Point2D(p.x(), cp.y() - (bottom_bound - area[0].y())));
+            this->setYCoordinateFixed(true);
+        }
+        else
+        {
+            this->m_body->move(sad::Point2D(0.0, bottom_bound - area[0].y()));
+            this->setYCoordinateFixed(true);
         }
     }
 }
@@ -1202,6 +1324,53 @@ void game::Actor::setAngleForFloater()
         }
     }
     m_sprite->setAngle(angle);
+}
+
+sad::p2d::Vector game::Actor::computeVelocityForFloater()
+{
+    bool is_going_up = false;
+    bool is_going_down = false;
+    bool is_going_left = false;
+    bool is_going_right = false;
+
+    this->computeIsGoingUpDownFlags(is_going_up, is_going_down);
+    this->computeIsGoingLeftRightFlags(is_going_left, is_going_right);
+
+    sad::p2d::Vector result(0.0, 0.0);
+    if (!m_is_floater)
+    {
+        throw std::logic_error("Must be floater");
+    }
+    if (!m_options)
+    {
+        throw std::logic_error("Must have options");
+    }
+
+    if (is_going_left)
+    {
+        result.setX(-1 * m_options->FloaterHorizontalVelocity);
+    }
+    else
+    {
+        if (is_going_right)
+        {
+            result.setX(m_options->FloaterHorizontalVelocity);
+        }
+    }
+
+    if (is_going_up)
+    {
+        result.setY(m_options->FloaterVerticalVelocity);
+    }
+    else
+    {
+        if (is_going_down)
+        {
+            result.setY(-1 * m_options->FloaterVerticalVelocity);
+        }
+    }
+
+    return result;
 }
 
 void game::Actor::setVerticalVelocity(double v) const

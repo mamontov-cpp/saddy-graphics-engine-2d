@@ -37,9 +37,9 @@ void game::Player::reset()
 }
 
 
-void game::Player::init()
+void game::Player::init(bool no_sound)
 {
-    m_actor.init();
+    m_actor.init(no_sound);
 }
 
 bool game::Player::isFloater() const
@@ -119,9 +119,9 @@ void game::Player::testResting()
     m_actor.testResting();
 }
 
-void game::Player::checkBoundaryCollision(double left_bound, double right_bound)
+void game::Player::checkBoundaryCollision(double left_bound, double right_bound, double up_bound, double bottom_bound)
 {
-    m_actor.checkBoundaryCollision(left_bound, right_bound);
+    m_actor.checkBoundaryCollision(left_bound, right_bound, up_bound, bottom_bound);
 }
 
 void game::Player::enableGravity() const
