@@ -573,6 +573,14 @@ public:
          m_position_is_cached =  false;
          fireMovement(delta);
      }
+     /*! Inits position for movement to not move stuff
+      *  \param[in] v a position
+      */
+     inline void initPosition(const _Value& v)
+     {
+         m_position = v;
+         m_position_is_cached = false;
+     }
      /*! Sets next planned position for body
          \param[in] v position
       */

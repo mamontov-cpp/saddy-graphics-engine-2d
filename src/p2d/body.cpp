@@ -190,6 +190,17 @@ void sad::p2d::Body::setShape(sad::p2d::CollisionShape * shape)
 }
 
 
+void sad::p2d::Body::initAngle(double angle) const
+{
+    m_angular->initPosition(angle);
+}
+
+void sad::p2d::Body::initPosition(const p2d::Point& p) const
+{
+    m_tangential->initPosition(p);
+}
+
+
 void sad::p2d::Body::setCurrentPosition(const sad::p2d::Point & p)
 {
     m_tangential->setCurrentPosition(p);

@@ -439,6 +439,9 @@ static void exposeBody(sad::dukpp03::Context* ctx)
     c->addMethod("setWorld", sad::dukpp03::bind_method::from(&sad::p2d::Body::setWorld));
     c->addMethod("world", sad::dukpp03::bind_method::from(&sad::p2d::Body::world));
 
+    c->addMethod("initPosition", sad::dukpp03::bind_method::from(&sad::p2d::Body::initPosition));
+    c->addMethod("initAngle", sad::dukpp03::bind_method::from(&sad::p2d::Body::initAngle));
+
     c->addMethod("setCurrentPosition", sad::dukpp03::bind_method::from(&sad::p2d::Body::setCurrentPosition));
     c->addMethod("shedulePosition", sad::dukpp03::bind_method::from(&sad::p2d::Body::shedulePosition));
     c->addMethod("shedulePositionAt", sad::dukpp03::bind_method::from(&sad::p2d::Body::shedulePositionAt));

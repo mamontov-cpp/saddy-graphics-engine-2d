@@ -223,6 +223,14 @@ public:
 
     typedef p2d::MovementDeltaListener<p2d::Body, p2d::Vector> move_t;
     typedef p2d::MovementDeltaListener<p2d::Body, double> rotate_t;
+    /*! Inits angle for body
+        \param[in] angle an angle
+     */
+    void initAngle(double angle) const;
+    /*! Inits position for body
+        \param[in] p point
+     */
+    void initPosition(const p2d::Point& p) const;
     /*! Sets current position for object
         \param[in] p point
      */
