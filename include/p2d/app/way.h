@@ -76,7 +76,7 @@ public:
     void makeClosed();
     /*! Makes a way simple, as open
      */
-    void makeOpen();	
+    void makeOpen();
     /*! Sets a total time for a way
         \param[in] time a time for data
      */ 
@@ -113,11 +113,11 @@ public:
      */
     virtual bool load(const picojson::value& v);
 protected:
-    bool m_constructed; //!< Whether way is constructed
-    bool m_closed;		//!< Whether way is closed
-    double m_totaltime; //!< Amount of time,  which is needed to pass all way
-    sad::Vector<p2d::app::WayPoint> m_waypoints; //!< A set of waypoints
-    sad::Vector<double>        m_times;     //!< A time, when the point should be reached
+    bool m_constructed;                           //!< Whether way is constructed
+    bool m_closed;                                //!< Whether way is closed
+    double m_totaltime;                           //!< Amount of time,  which is needed to pass all way
+    sad::Vector<p2d::app::WayPoint> m_waypoints;  //!< A set of waypoints
+    sad::Vector<double>        m_times;           //!< A time, when the point should be reached
 };
 
 }
