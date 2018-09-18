@@ -18,6 +18,8 @@
 #include <p2d/worldsteptask.h>
 #include <p2d/bouncesolver.h>
 
+#include "threads/tasklock.h"
+
 #include "game/conditions.h"
 #include "game/player.h"
 #include "game/actoroptions.h"
@@ -340,10 +342,7 @@ private:
     /*! Maximal level x
      */ 
     double max_level_x;
-    /*! Amount of running tasks in pipeline at the moment
+    /*! A task lock
      */
-    size_t m_running_tasks;
-    /*! A lock for running tasks counter
-     */
-    sad::Mutex m_running_tasks_lock;
+    threads::TaskLock m_task_lock;
 };

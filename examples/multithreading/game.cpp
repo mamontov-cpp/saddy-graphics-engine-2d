@@ -56,8 +56,7 @@ m_inventory_node(NULL),
 m_inventory_popup(NULL),
 m_physics_world(NULL),
 m_is_rendering_world_bodies(false),
-max_level_x(0.0),
-m_running_tasks(0) // NOLINT
+max_level_x(0.0) // NOLINT
 {
     // Initialize context
     m_eval_context = new sad::dukpp03::Context();
@@ -610,9 +609,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
         {
             if (this->m_paused_state_machine.isInState("playing"))
             {
-                m_running_tasks_lock.lock();
-                ++m_running_tasks;
-                m_running_tasks_lock.unlock();
+                m_task_lock.acquire();
 
                 m_moving_platform_registry.movePlatforms(m_step_task->stepTick());
                 this->m_player->clearFixedFlags();
@@ -621,9 +618,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
                 this->m_player->checkBoundaryCollision(0.0, max_level_x, 600, 0);
                 this->m_triggers.tryRun(this->m_player, this->m_eval_context);
 
-                m_running_tasks_lock.lock();
-                --m_running_tasks;
-                m_running_tasks_lock.unlock();
+                m_task_lock.release();
             }
         }
     });
@@ -635,9 +630,8 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
             {
                 if (m_is_rendering_world_bodies)
                 {
-                    m_running_tasks_lock.lock();
-                    ++m_running_tasks;
-                    m_running_tasks_lock.unlock();
+                    m_task_lock.acquire();
+
                     sad::Vector<sad::p2d::Body*> bodies = m_physics_world->allBodies();
                     if (!bodies.empty())
                     {
@@ -664,9 +658,8 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
                             }
                         }
                     }
-                    m_running_tasks_lock.lock();
-                    --m_running_tasks;
-                    m_running_tasks_lock.unlock();
+
+                    m_task_lock.release();
                 }
             }
         }
@@ -1255,16 +1248,7 @@ void Game::enableGravity(sad::p2d::Body* b)
 
 void Game::waitForPipelineTasks()
 {
-    // ReSharper disable once CppInitializedValueIsAlwaysRewritten
-    int amount = 0;
-    do
-    {
-        sad::sleep(100);
-        m_running_tasks_lock.lock();
-        amount = m_running_tasks;
-        m_running_tasks_lock.unlock();
-    }
-    while(amount > 0);
+    m_task_lock.waitForTasks();
 }
 
 sad::p2d::BounceSolver* Game::bounceSolver() const
@@ -1570,8 +1554,7 @@ Game::Game(const Game&)  // NOLINT
       m_highscore(0), m_loaded_options_database{false, false}, m_loaded_game_screen(false), m_theme_playing(NULL),
       m_transition_process(NULL),
       m_inventory_node(NULL), m_inventory_popup(NULL), m_player(NULL), m_eval_context(NULL), m_physics_world(NULL),
-      m_step_task(NULL), m_bounce_solver(NULL), m_is_rendering_world_bodies(false), max_level_x(0),
-      m_running_tasks(0)
+      m_step_task(NULL), m_bounce_solver(NULL), m_is_rendering_world_bodies(false), max_level_x(0)
 {
     throw std::logic_error("Not implemented");
 }
