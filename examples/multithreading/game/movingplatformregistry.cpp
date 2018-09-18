@@ -1,0 +1,195 @@
+#include "movingplatformregistry.h"
+
+
+// =================================== PUBLIC METHODS ==================================
+
+game::MovingPlatformRegistry::MovingPlatformRegistry() : m_db(NULL)
+{
+
+}
+
+game::MovingPlatformRegistry::MovingPlatformRegistry(const game::MovingPlatformRegistry& o)
+{
+    this->copyState(o);
+}
+
+game::MovingPlatformRegistry& game::MovingPlatformRegistry::operator=(const game::MovingPlatformRegistry& o)
+{
+    this->destroy();
+    this->copyState(o);
+    return *this;
+}
+
+game::MovingPlatformRegistry::~MovingPlatformRegistry()
+{
+    this->destroy();
+}
+
+void game::MovingPlatformRegistry::setDatabase(sad::db::Database* db)
+{
+    this->m_db = db;
+}
+
+bool game::MovingPlatformRegistry::add(sad::p2d::Body* platform, sad::p2d::app::Way* way)
+{
+    if ((platform == NULL) || (way == NULL))
+    {
+        return false;
+    }
+    for (size_t i = 0; i < m_states.size(); i++)
+    {
+        if (m_states[i].Platform == platform)
+        {
+            return false;
+        }
+    }
+    platform->addRef();
+    way->addRef();
+    platform->setCurrentPosition(way->getPointInTime(0.0, 0.0));
+
+    game::MovingPlatformState state;
+    state.Platform = platform;
+    state.Way = way;
+    state.Time = 0.0;
+    state.Downward = false;
+    m_states << state;
+}
+
+bool game::MovingPlatformRegistry::add(const sad::String& platform_name, const sad::String& way_name)
+{
+    if (!m_db)
+    {
+        return false;
+    }
+    sad::p2d::app::Way* way = m_db->objectByName<sad::p2d::app::Way>(way_name);
+    if (!way)
+    {
+        return false;
+    }
+    if (m_platforms.contains(platform_name))
+    {
+        return add(m_platforms[platform_name], way);
+    }
+    else
+    {
+        return false;
+    }
+}
+
+
+void game::MovingPlatformRegistry::remove(sad::p2d::Body* platform)
+{
+    for (size_t i = 0; i < m_states.size(); i++)
+    {
+        if (m_states[i].Platform == platform)
+        {
+            game::MovingPlatformState& state = m_states[i];
+            state.Platform->delRef();
+            state.Way->delRef();
+            m_states.removeAt(i);
+            --i;
+        }
+    }
+}
+
+void game::MovingPlatformRegistry::clear()
+{
+    this->destroy();
+}
+
+void game::MovingPlatformRegistry::movePlatforms(double tick)
+{
+    for (size_t i = 0; i < m_states.size(); i++)
+    {
+        game::MovingPlatformState& state = m_states[i];
+        double ctime = state.Time;
+        if (state.Downward)
+        {
+            ctime -= tick;
+        }
+        else
+        {
+            ctime += tick;
+        }
+        bool valid = true;
+        // Fix outbounding time, when we should change trajectory
+        do
+        {
+            valid = true;
+            if (ctime < 0)
+            {
+                state.Downward = false;
+                ctime *= -1;
+                valid = false;
+            }
+            if (ctime > state.Way->totalTime())
+            {
+                if (state.Way->closed())
+                {
+                    while (ctime > state.Way->totalTime())
+                    {
+                        ctime -= state.Way->totalTime();
+                    }
+                }
+                else
+                {
+                    state.Downward = true;
+                    ctime = state.Way->totalTime() - (ctime - state.Way->totalTime());
+                }
+                valid = false;
+            }
+        } while (!valid);
+
+        state.Platform->shedulePosition(state.Way->getPointInTime(ctime, 0.0)); // 0.0 - because it's just a part of sum in getPointInTime
+
+        sad::p2d::Vector p = state.Platform->position();
+        sad::p2d::Vector cp = state.Platform->nextPosition();
+        state.Platform->setCurrentTangentialVelocity((cp -p) / tick);
+
+        state.Time = ctime;
+    }
+}
+
+void game::MovingPlatformRegistry::addPlatform(const sad::String& name, sad::p2d::Body* platform)
+{
+    if ((platform) && (m_platforms.contains(name) == false))
+    {
+        platform->addRef();
+        m_platforms.insert(name, platform);
+    }
+}
+
+// =================================== PRIVATE METHODS ==================================
+
+void game::MovingPlatformRegistry::copyState(const game::MovingPlatformRegistry& o)
+{
+    for (size_t i = 0; i < o.m_states.size(); i++)
+    {
+        game::MovingPlatformState state = o.m_states[i];
+        state.Platform->addRef();
+        state.Way->addRef();
+        m_states << state;
+    }
+    m_platforms = o.m_platforms;
+    for(auto it = m_platforms.begin(); it != m_platforms.end(); ++it)
+    {
+        it.value()->addRef();
+    }
+    m_db = o.m_db;
+}
+
+void game::MovingPlatformRegistry::destroy()
+{
+    for (size_t i = 0; i < m_states.size(); i++)
+    {
+        game::MovingPlatformState& state = m_states[i];
+        state.Platform->delRef();
+        state.Way->delRef();
+    }
+    m_states.clear();
+    for(auto it = m_platforms.begin(); it != m_platforms.end(); ++it)
+    {
+        it.value()->delRef();
+    }
+    m_platforms.clear();
+}

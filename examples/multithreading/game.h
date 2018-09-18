@@ -21,6 +21,7 @@
 #include "game/conditions.h"
 #include "game/player.h"
 #include "game/actoroptions.h"
+#include "game/movingplatformregistry.h"
 
 #include "scenetransitionprocess.h"
 #include "optionsscreen.h"
@@ -28,7 +29,7 @@
 
 namespace game
 {
-class Item;    
+class Item;
 }
 
 namespace nodes
@@ -302,6 +303,9 @@ private:
     /*! A player, that will be used in game
      */
     game::Player* m_player;
+    /*! A registry, which holds all data for moving platforms
+     */
+    game::MovingPlatformRegistry m_moving_platform_registry;
     /*! An options screen
      */
     OptionsScreen m_options_screen;

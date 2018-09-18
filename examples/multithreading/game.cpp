@@ -43,9 +43,6 @@ public:
     void logFCPError(const char * m) { printf("%s: %s\n", m, this->dump().c_str()); };
 };
 
-sad::p2d::Body* moving_platform = NULL;
-bool moving_top = false;
-
 // ==================================== PUBLIC METHODS ====================================
 
 Game::Game()  : m_is_quitting(false),  // NOLINT(cppcoreguidelines-pro-type-member-init)
@@ -589,36 +586,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
                 m_running_tasks_lock.lock();
                 ++m_running_tasks;
                 m_running_tasks_lock.unlock();
-                if (moving_platform)
-                {
-                    sad::Point2D a = dynamic_cast<sad::p2d::Rectangle*>(moving_platform->currentShape())->rect()[0];
-                    //printf("Platform: %lf,%lf\n", a.x(), a.y());
-                    if (a.y() <= 310)
-                    {
-                        if (a.y() >= 140)
-                        {
-                            if (moving_top)
-                            {
-                                moving_platform->setCurrentTangentialVelocity(sad::Point2D(50, 50));
-                            } 
-                            else
-                            {
-                                moving_platform->setCurrentTangentialVelocity(sad::Point2D(-50, -50));
-                            }
-                        }
-                        else
-                        {
-                            moving_platform->setCurrentTangentialVelocity(sad::Point2D(50, 50));
-                            moving_top = true;
-                        }
-                    }
-                    else
-                    {
-                        moving_platform->setCurrentTangentialVelocity(sad::Point2D(-50, -50));
-                        moving_top = false;
-                    }
-                    //printf("Velocity: %lf,%lf\n", moving_platform->tangentialVelocity().x(), moving_platform->tangentialVelocity().y());
-                }
+                m_moving_platform_registry.movePlatforms(m_step_task->stepTick());
                 this->m_player->clearFixedFlags();
                 this->m_step_task->enable();
                 this->m_step_task->process();
@@ -997,6 +965,7 @@ void Game::changeSceneToPlayingScreen()
 {
     this->destroyWorld();
     m_footsteps.stop();
+    m_moving_platform_registry.clear();
     SceneTransitionOptions options;
 
     m_inventory_popup = NULL;
@@ -1014,7 +983,9 @@ void Game::changeSceneToPlayingScreen()
     options.mainThread().LoadFunction = [this]() {  this->tryLoadGameScreen(); };
 
     options.mainThread().OnLoadedFunction = [=]() {
-        sad::db::populateScenesFromDatabase(main_renderer, main_renderer->database("gamescreen"));
+        sad::db::Database* db = main_renderer->database("gamescreen");
+        this->m_moving_platform_registry.setDatabase(db);
+        sad::db::populateScenesFromDatabase(main_renderer, db);
         this->initGamePhysics();
     };
 
@@ -1403,10 +1374,7 @@ void Game::initGamePhysics()
             rect->setRect(rct);
             body->setShape(rect);
             body->initPosition(ungrouped_platform_sprites[i]->middle());
-            if (ungrouped_platform_sprites[i]->objectName() == "MovingPlatform4")
-            {
-                moving_platform = body;
-            }
+            m_moving_platform_registry.addPlatform(ungrouped_platform_sprites[i]->objectName(), body);
 
             m_physics_world->addBodyToGroup("platforms", body);
         }
@@ -1554,6 +1522,8 @@ void Game::initGamePhysics()
     };
     m_physics_world->addHandler("player", "platforms", collision_between_player_and_platforms);
     m_step_task->setWorld(m_physics_world);
+
+    m_moving_platform_registry.add("MovingPlatform4", "Way1");
 }
 
 Game::Game(const Game&)  // NOLINT
