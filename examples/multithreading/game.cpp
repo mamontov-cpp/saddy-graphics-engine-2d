@@ -1224,11 +1224,12 @@ bool Game::evalScript(const sad::String& s) const
     return true;
 }
 
-void Game::evaluateInitializationScript()
+void Game::evaluateInitializationScript() const
 {
     sad::Maybe<sad::String> maybe_script = sad::slurp("examples/multithreading/init.js", m_main_thread->renderer());
     if (maybe_script.exists())
     {
+        // ReSharper disable CppExpressionWithoutSideEffects
         this->evalScript(maybe_script.value());
     }
 }

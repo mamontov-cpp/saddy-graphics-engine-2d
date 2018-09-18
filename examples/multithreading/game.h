@@ -5,7 +5,6 @@
 #pragma once
 #include <sprite2d.h>
 #include <sadhash.h>
-#include <sadmutex.h>
 
 #include <hfsm/hfsmmachine.h>
 
@@ -194,7 +193,7 @@ public:
     bool evalScript(const sad::String& s) const;
     /*! Evaluates initialization script
      */
-    void evaluateInitializationScript();
+    void evaluateInitializationScript() const;
     /*! Constructs new item
     *  \param[in] icon an icon for item
     *  \param[in] title a title for item

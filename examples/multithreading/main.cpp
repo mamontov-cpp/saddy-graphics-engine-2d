@@ -19,11 +19,11 @@
 /* This macro manupilation is to make console window hidden in MSVC window
  */
 #ifdef WIN32
-//#ifndef MSVC_RELEASE
-//int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
-//#else
+#ifdef MSVC_RELEASE
+int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+#else
 int main(int argc, char** argv)
-//#endif
+#endif
 #else
 int main(int argc, char** argv)
 #endif

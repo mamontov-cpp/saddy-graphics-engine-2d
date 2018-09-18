@@ -8,7 +8,7 @@ game::MovingPlatformRegistry::MovingPlatformRegistry() : m_db(NULL)
 
 }
 
-game::MovingPlatformRegistry::MovingPlatformRegistry(const game::MovingPlatformRegistry& o)
+game::MovingPlatformRegistry::MovingPlatformRegistry(const game::MovingPlatformRegistry& o) : m_db(o.m_db)
 {
     this->copyState(o);
 }
@@ -47,12 +47,9 @@ bool game::MovingPlatformRegistry::add(sad::p2d::Body* platform, sad::p2d::app::
     way->addRef();
     platform->setCurrentPosition(way->getPointInTime(0.0, 0.0));
 
-    game::MovingPlatformState state;
-    state.Platform = platform;
-    state.Way = way;
-    state.Time = 0.0;
-    state.Downward = false;
+    game::MovingPlatformState state{platform, way, 0.0, false};
     m_states << state;
+    return true;
 }
 
 bool game::MovingPlatformRegistry::add(const sad::String& platform_name, const sad::String& way_name)
@@ -111,6 +108,7 @@ void game::MovingPlatformRegistry::movePlatforms(double tick)
         {
             ctime += tick;
         }
+        // ReSharper disable once CppInitializedValueIsAlwaysRewritten
         bool valid = true;
         // Fix outbounding time, when we should change trajectory
         do
@@ -152,7 +150,7 @@ void game::MovingPlatformRegistry::movePlatforms(double tick)
 
 void game::MovingPlatformRegistry::addPlatform(const sad::String& name, sad::p2d::Body* platform)
 {
-    if ((platform) && (m_platforms.contains(name) == false))
+    if ((platform) && (!m_platforms.contains(name)))
     {
         platform->addRef();
         m_platforms.insert(name, platform);

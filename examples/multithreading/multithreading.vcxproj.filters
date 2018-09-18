@@ -78,6 +78,15 @@
     <ClCompile Include="game\actor.cpp">
       <Filter>Файлы исходного кода\game</Filter>
     </ClCompile>
+    <ClCompile Include="threads\tasklock.cpp">
+      <Filter>Файлы исходного кода\threads</Filter>
+    </ClCompile>
+    <ClCompile Include="game\triggers.cpp">
+      <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
+    <ClCompile Include="game\movingplatformregistry.cpp">
+      <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -126,6 +135,18 @@
       <Filter>Заголовочные файлы\game</Filter>
     </ClInclude>
     <ClInclude Include="game\actor.h">
+      <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="threads\tasklock.h">
+      <Filter>Заголовочные файлы\threads</Filter>
+    </ClInclude>
+    <ClInclude Include="game\movingplatformstate.h">
+      <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\triggers.h">
+      <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\movingplatformregistry.h">
       <Filter>Заголовочные файлы\game</Filter>
     </ClInclude>
   </ItemGroup>

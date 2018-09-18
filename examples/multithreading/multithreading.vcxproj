@@ -132,7 +132,7 @@
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EntryPointSymbol>
       </EntryPointSymbol>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
@@ -158,7 +158,7 @@
       <AdditionalDependencies>GLU32.lib;OPENGL32.lib;..\..\lib\saddy-release.lib;..\..\lib\saddy-ft-release.lib;..\..\lib\saddy-irrklang-release.lib;..\..\lib\saddy-dukpp-03-release.lib;..\..\lib\saddy-dukpp-03-irrklang-release.lib;irrKlang.lib;$(FREETYPE_LIB)\freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(TargetPath)</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
@@ -200,9 +200,11 @@
     <ClCompile Include="game\actor.cpp" />
     <ClCompile Include="game\conditions.cpp" />
     <ClCompile Include="game\inventory.cpp" />
+    <ClCompile Include="game\movingplatformregistry.cpp" />
     <ClCompile Include="game\player.cpp" />
     <ClCompile Include="game\item.cpp" />
     <ClCompile Include="game\options.cpp" />
+    <ClCompile Include="game\triggers.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="nodes\background.cpp" />
     <ClCompile Include="nodes\inventorynode.cpp" />
@@ -211,6 +213,7 @@
     <ClCompile Include="scenetransitionoptions.cpp" />
     <ClCompile Include="scenetransitionprocess.cpp" />
     <ClCompile Include="threads\gamethread.cpp" />
+    <ClCompile Include="threads\tasklock.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
@@ -218,9 +221,12 @@
     <ClInclude Include="game\actoroptions.h" />
     <ClInclude Include="game\conditions.h" />
     <ClInclude Include="game\inventory.h" />
+    <ClInclude Include="game\movingplatformregistry.h" />
+    <ClInclude Include="game\movingplatformstate.h" />
     <ClInclude Include="game\player.h" />
     <ClInclude Include="game\item.h" />
     <ClInclude Include="game\options.h" />
+    <ClInclude Include="game\triggers.h" />
     <ClInclude Include="nodes\background.h" />
     <ClInclude Include="nodes\inventorynode.h" />
     <ClInclude Include="nodes\inventorypopup.h" />
@@ -229,6 +235,7 @@
     <ClInclude Include="scenetransitionprocess.h" />
     <ClInclude Include="threads\gamestate.h" />
     <ClInclude Include="threads\gamethread.h" />
+    <ClInclude Include="threads\tasklock.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
