@@ -95,6 +95,10 @@ public:
      *  \param[in] body a body for player
      */
     void setBody(sad::p2d::Body* body);
+    /*! Returns a bodies area for player
+     *  \return area for player
+     */
+    sad::Rect2D area();
     /*! Clears flags, which determine, whether player's position is fixed
      */
     void clearFixedFlags();

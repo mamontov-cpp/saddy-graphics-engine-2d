@@ -109,6 +109,11 @@ void game::Player::setBody(sad::p2d::Body* body)
     m_actor.setBody(body);
 }
 
+sad::Rect2D game::Player::area()
+{
+    return dynamic_cast<sad::p2d::Rectangle*>(m_actor.body()->currentShape())->rect();
+}
+
 void game::Player::clearFixedFlags()
 {
     m_actor.clearFixedFlags();

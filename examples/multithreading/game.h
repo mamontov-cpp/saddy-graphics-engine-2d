@@ -22,6 +22,7 @@
 #include "game/player.h"
 #include "game/actoroptions.h"
 #include "game/movingplatformregistry.h"
+#include "game/triggers.h"
 
 #include "scenetransitionprocess.h"
 #include "optionsscreen.h"
@@ -309,6 +310,9 @@ private:
     /*! A registry, which holds all data for moving platforms
      */
     game::MovingPlatformRegistry m_moving_platform_registry;
+    /*! A local triggers for game
+     */
+    game::Triggers m_triggers;
     /*! An options screen
      */
     OptionsScreen m_options_screen;

@@ -64,10 +64,26 @@ m_running_tasks(0) // NOLINT
     sad::dukpp03irrklang::init(m_eval_context);
     // Bind self
     m_eval_context->registerGlobal("game", this);
+
+    // Bind callables
     std::function<void(const sad::String&, const sad::String&)> make_platform_go_on_way = [=](const sad::String& platform, const sad::String& way) {
         this->m_moving_platform_registry.add(platform, way);
     };
+    std::function<void(double, const sad::dukpp03::CompiledFunction&)> add_trigger = [=](double x, const sad::dukpp03::CompiledFunction& f) {
+        this->m_triggers.add(x, f, false);
+    };
+    std::function<void(double, const sad::dukpp03::CompiledFunction&)> add_trigger_once = [=](double x, const sad::dukpp03::CompiledFunction& f) {
+        this->m_triggers.add(x, f, true);
+    };
+    std::function<void(const sad::String&)> print = [=](const sad::String& message) {
+        printf("%s\n", message.c_str());
+        SL_LOCAL_DEBUG(message, *(m_main_thread->renderer()));
+    };
+
     m_eval_context->registerCallable("makePlatformGoOnWay", sad::dukpp03::make_lambda::from(make_platform_go_on_way));
+    m_eval_context->registerCallable("addTrigger", sad::dukpp03::make_lambda::from(add_trigger));
+    m_eval_context->registerCallable("addTriggerOnce", sad::dukpp03::make_lambda::from(add_trigger_once));
+    m_eval_context->registerCallable("print", sad::dukpp03::make_lambda::from(print));
 
 
     m_main_thread = new threads::GameThread();
@@ -597,11 +613,14 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
                 m_running_tasks_lock.lock();
                 ++m_running_tasks;
                 m_running_tasks_lock.unlock();
+
                 m_moving_platform_registry.movePlatforms(m_step_task->stepTick());
                 this->m_player->clearFixedFlags();
                 this->m_step_task->enable();
                 this->m_step_task->process();
                 this->m_player->checkBoundaryCollision(0.0, max_level_x, 600, 0);
+                this->m_triggers.tryRun(this->m_player, this->m_eval_context);
+
                 m_running_tasks_lock.lock();
                 --m_running_tasks;
                 m_running_tasks_lock.unlock();
