@@ -189,6 +189,9 @@ public:
      *  \return whether evaluate was successfull
      */
     bool evalScript(const sad::String& s) const;
+    /*! Evaluates initialization script
+     */
+    void evaluateInitializationScript();
     /*! Constructs new item
     *  \param[in] icon an icon for item
     *  \param[in] title a title for item

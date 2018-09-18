@@ -1,0 +1,1 @@
+makePlatformGoOnWay("MovingPlatform4", "Way1");

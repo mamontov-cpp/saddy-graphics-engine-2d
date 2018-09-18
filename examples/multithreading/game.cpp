@@ -43,6 +43,8 @@ public:
     void logFCPError(const char * m) { printf("%s: %s\n", m, this->dump().c_str()); };
 };
 
+DECLARE_COMMON_TYPE(Game);
+
 // ==================================== PUBLIC METHODS ====================================
 
 Game::Game()  : m_is_quitting(false),  // NOLINT(cppcoreguidelines-pro-type-member-init)
@@ -57,8 +59,17 @@ m_is_rendering_world_bodies(false),
 max_level_x(0.0),
 m_running_tasks(0) // NOLINT
 {
+    // Initialize context
     m_eval_context = new sad::dukpp03::Context();
     sad::dukpp03irrklang::init(m_eval_context);
+    // Bind self
+    m_eval_context->registerGlobal("game", this);
+    std::function<void(const sad::String&, const sad::String&)> make_platform_go_on_way = [=](const sad::String& platform, const sad::String& way) {
+        this->m_moving_platform_registry.add(platform, way);
+    };
+    m_eval_context->registerCallable("makePlatformGoOnWay", sad::dukpp03::make_lambda::from(make_platform_go_on_way));
+
+
     m_main_thread = new threads::GameThread();
     m_inventory_thread = new threads::GameThread();
 
@@ -987,6 +998,8 @@ void Game::changeSceneToPlayingScreen()
         this->m_moving_platform_registry.setDatabase(db);
         sad::db::populateScenesFromDatabase(main_renderer, db);
         this->initGamePhysics();
+        // When loaded we should evaluate initialization script
+        this->evaluateInitializationScript();
     };
 
     options.inventoryThread().OnLoadedFunction = [=]() {
@@ -1197,6 +1210,15 @@ bool Game::evalScript(const sad::String& s) const
         return false;
     }
     return true;
+}
+
+void Game::evaluateInitializationScript()
+{
+    sad::Maybe<sad::String> maybe_script = sad::slurp("examples/multithreading/init.js", m_main_thread->renderer());
+    if (maybe_script.exists())
+    {
+        this->evalScript(maybe_script.value());
+    }
 }
 
 game::Item* Game::makeItem(const sad::String& icon, const sad::String& title, const sad::String& description, bool delete_after_apply)
@@ -1522,8 +1544,6 @@ void Game::initGamePhysics()
     };
     m_physics_world->addHandler("player", "platforms", collision_between_player_and_platforms);
     m_step_task->setWorld(m_physics_world);
-
-    m_moving_platform_registry.add("MovingPlatform4", "Way1");
 }
 
 Game::Game(const Game&)  // NOLINT
