@@ -12,6 +12,21 @@ sad::p2d::WorldStepTask::WorldStepTask(sad::p2d::World * w, sad::Renderer * r)
 
 void sad::p2d::WorldStepTask::_process()
 {
+    if (m_enabled)
+    {
+        if (m_world)
+        {
+            m_world->step(this->stepTick());
+        }
+    }
+}
+
+double sad::p2d::WorldStepTask::stepTick()
+{
+    if (!m_renderer)
+    {
+        return 1.0 / 60.0;
+    }
     // 1.0 is a second, so if 1 frame at 1s, we will step second
     double fps = m_renderer->fps();
     double rendertime = 1.0 / fps;
@@ -23,13 +38,7 @@ void sad::p2d::WorldStepTask::_process()
     {
         rendertime = 1.0 / 60.0; 
     }
-    if (m_enabled)
-    {
-        if (m_world)
-        {
-            m_world->step(rendertime);
-        }
-    }
+    return rendertime;
 }
 
 void sad::p2d::WorldStepTask::setWorld(sad::p2d::World * world)
