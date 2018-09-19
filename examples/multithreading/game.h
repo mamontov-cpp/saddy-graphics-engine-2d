@@ -24,6 +24,7 @@
 #include "game/actoroptions.h"
 #include "game/movingplatformregistry.h"
 #include "game/triggers.h"
+#include "game/actors.h"
 
 #include "scenetransitionprocess.h"
 #include "optionsscreen.h"
@@ -317,6 +318,9 @@ private:
     /*! A local triggers for game
      */
     game::Triggers m_triggers;
+    /*! A list of actors in game
+     */
+    game::Actors m_actors;
     /*! An options screen
      */
     OptionsScreen m_options_screen;

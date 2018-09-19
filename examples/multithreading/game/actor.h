@@ -9,6 +9,7 @@
 #include <animations/animationsinstance.h>
 #include <animations/animationsoptionlist.h>
 #include <bitset>
+#include <refcountable.h>
 
 #include "actoroptions.h" 
 
@@ -22,7 +23,7 @@ namespace game
 #define RESTING_DETECTION_PRECISION (0.5)
 /*! An actor, that can respond to user actions
  */
-class Actor  // NOLINT(cppcoreguidelines-special-member-functions)
+class Actor: public sad::RefCountable  // NOLINT(cppcoreguidelines-special-member-functions)
 {
 public: 
     /*! A button for getting status bit

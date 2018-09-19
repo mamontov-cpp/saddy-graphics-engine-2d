@@ -9,6 +9,11 @@ void game::Triggers::add(double x, const sad::dukpp03::CompiledFunction& func, b
     m_triggers << game::Triggers::Data(x, func, once);
 }
 
+void game::Triggers::clear()
+{
+    m_triggers.clear();
+}
+
 void game::Triggers::tryRun(game::Player* p, sad::dukpp03::Context *ctx)
 {
     double localx = p->area()[0].x();

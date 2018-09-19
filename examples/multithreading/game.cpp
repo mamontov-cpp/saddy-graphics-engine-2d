@@ -522,16 +522,17 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
         {
             if (this->m_paused_state_machine.isInState("playing"))
             {
-                m_task_lock.acquire();
+                this->m_task_lock.acquire();
 
-                m_moving_platform_registry.movePlatforms(m_step_task->stepTick());
+                this->m_moving_platform_registry.movePlatforms(m_step_task->stepTick());
+                this->m_actors.process(this, this->m_eval_context);
                 this->m_player->clearFixedFlags();
                 this->m_step_task->enable();
                 this->m_step_task->process();
                 this->m_player->checkBoundaryCollision(0.0, max_level_x, 600, 0);
                 this->m_triggers.tryRun(this->m_player, this->m_eval_context);
 
-                m_task_lock.release();
+                this->m_task_lock.release();
             }
         }
     });
@@ -862,6 +863,8 @@ void Game::changeScene(const SceneTransitionOptions& opts) const
 void Game::changeSceneToStartingScreen()
 {
     m_footsteps.stop();
+    m_triggers.clear();
+    m_actors.clear();
 
     m_is_rendering_world_bodies = false;
     this->destroyWorld();
@@ -901,6 +904,8 @@ void Game::changeSceneToPlayingScreen()
 {
     this->destroyWorld();
     m_footsteps.stop();
+    m_actors.clear();
+    m_triggers.clear();
     m_moving_platform_registry.clear();
     SceneTransitionOptions options;
 
@@ -959,6 +964,8 @@ void Game::changeSceneToPlayingScreen()
 void Game::changeSceneToOptions()
 {
     m_footsteps.stop();
+    m_triggers.clear();
+    m_actors.clear();
 
     m_is_rendering_world_bodies = false;
     this->destroyWorld();

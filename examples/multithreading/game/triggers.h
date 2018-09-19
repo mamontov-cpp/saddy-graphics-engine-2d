@@ -30,6 +30,9 @@ public:
      *  \param[in] once whether trigger should work once
      */
     void add(double x, const sad::dukpp03::CompiledFunction& func, bool once);
+    /*! Clears list of triggers
+     */
+    void clear();
     /*! Tries to run triggers
      *  \param[in] player, whose location we should check
      *  \param[in] ctx context ot be runned in
