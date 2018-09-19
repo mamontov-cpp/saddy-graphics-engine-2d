@@ -227,6 +227,9 @@ public:
      */
     sad::p2d::World* physicsWorld() const;
 private:
+    /*! Inits evaluation context
+     */
+    void initContext();
     /*! Tries to get script for item
      *  \param[in] title item's title
      *  \return name for title

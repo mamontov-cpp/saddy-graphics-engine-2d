@@ -16,12 +16,6 @@ namespace game
 class Player
 {
 public:
-    /*! Maximal horizontal velocity for player
-     */
-    static const int MaxHorizontalVelocity;
-    /*! Maximal vertical velocity for player
-     */
-    static const int MaxVerticalVelocity;
     /*! A player, that will be used in game
      */
     Player();

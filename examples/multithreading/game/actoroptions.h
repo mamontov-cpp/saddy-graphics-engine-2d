@@ -5,9 +5,9 @@
 #pragma once
 #include <stdexcept>
 #include <refcountable.h>
+#include <fuzzyequal.h>
 
 #include <sadstring.h>
-
 
 namespace game
 {
@@ -153,5 +153,10 @@ struct ActorOptions: sad::RefCountable
         }
     }
 };
+
+/*! Exposes actor options
+ *  \param[in] c context
+ */
+void exposeActorOptions(void* c);
 
 }

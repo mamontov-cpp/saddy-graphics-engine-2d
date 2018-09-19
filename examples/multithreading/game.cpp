@@ -58,35 +58,10 @@ m_physics_world(NULL),
 m_is_rendering_world_bodies(false),
 max_level_x(0.0) // NOLINT
 {
-    // Initialize context
-    m_eval_context = new sad::dukpp03::Context();
-    sad::dukpp03irrklang::init(m_eval_context);
-    // Bind self
-    m_eval_context->registerGlobal("game", this);
-
-    // Bind callables
-    std::function<void(const sad::String&, const sad::String&)> make_platform_go_on_way = [=](const sad::String& platform, const sad::String& way) {
-        this->m_moving_platform_registry.add(platform, way);
-    };
-    std::function<void(double, const sad::dukpp03::CompiledFunction&)> add_trigger = [=](double x, const sad::dukpp03::CompiledFunction& f) {
-        this->m_triggers.add(x, f, false);
-    };
-    std::function<void(double, const sad::dukpp03::CompiledFunction&)> add_trigger_once = [=](double x, const sad::dukpp03::CompiledFunction& f) {
-        this->m_triggers.add(x, f, true);
-    };
-    std::function<void(const sad::String&)> print = [=](const sad::String& message) {
-        printf("%s\n", message.c_str());
-        SL_LOCAL_DEBUG(message, *(m_main_thread->renderer()));
-    };
-
-    m_eval_context->registerCallable("makePlatformGoOnWay", sad::dukpp03::make_lambda::from(make_platform_go_on_way));
-    m_eval_context->registerCallable("addTrigger", sad::dukpp03::make_lambda::from(add_trigger));
-    m_eval_context->registerCallable("addTriggerOnce", sad::dukpp03::make_lambda::from(add_trigger_once));
-    m_eval_context->registerCallable("print", sad::dukpp03::make_lambda::from(print));
-
-
     m_main_thread = new threads::GameThread();
     m_inventory_thread = new threads::GameThread();
+
+    this->initContext();
 
     m_player = new game::Player();
     m_player->setGame(this);
@@ -95,34 +70,6 @@ max_level_x(0.0) // NOLINT
     m_main_menu_states_to_labels.insert(Game::GMMS_OPTIONS, "Options");
     m_main_menu_states_to_labels.insert(Game::GMMS_EXIT   , "Exit");
 
-    // Init common state machine
-    m_state_machine.addState("starting_screen", new sad::hfsm::State());
-    m_state_machine.addState("options", new sad::hfsm::State());
-    m_state_machine.addState("playing", new sad::hfsm::State());
-
-    m_state_machine.addTransition("starting_screen", "options", new sad::hfsm::Transition());
-    m_state_machine.addTransition("options", "starting_screen", new sad::hfsm::Transition());
-
-    m_state_machine.addTransition("starting_screen", "playing", new sad::hfsm::Transition());
-    m_state_machine.addTransition("playing", "starting_screen", new sad::hfsm::Transition());
-
-    m_state_machine.enterState("starting_screen");
-
-    // Init state machine for handling pause
-    m_paused_state_machine.addState("playing", new sad::hfsm::State());
-    // This third stated indicates, that we are transitioning between multiple scenes
-    m_paused_state_machine.addState("transitioning", new sad::hfsm::State());
-    m_paused_state_machine.addState("paused", new sad::hfsm::State());
-
-    m_paused_state_machine.addTransition("playing", "paused", new sad::hfsm::Transition());
-    m_paused_state_machine.addTransition("playing", "transitioning", new sad::hfsm::Transition());
-    m_paused_state_machine.addTransition("transitioning", "playing", new sad::hfsm::Transition());
-
-    m_paused_state_machine.addTransition("paused", "playing", new sad::hfsm::Transition());
-    m_paused_state_machine.addTransition("paused", "transitioning", new sad::hfsm::Transition());
-    m_paused_state_machine.addTransition("transitioning", "paused", new sad::hfsm::Transition());
-
-    m_paused_state_machine.enterState("playing");
 
     m_transition_process = new SceneTransitionProcess(this);
 
@@ -136,41 +83,7 @@ max_level_x(0.0) // NOLINT
     m_bounce_solver = new BS();
     m_bounce_solver->enableDebug();
 
-    // A player actor options
-    game::ActorOptions* player_opts = new game::ActorOptions();
-    player_opts->addRef();
-    player_opts->IsFloater = false;
-    player_opts->CanEmitSound = true;
-    player_opts->WalkerHorizontalVelocity = game::Player::MaxHorizontalVelocity;
-    player_opts->WalkerVerticalVelocity = game::Player::MaxVerticalVelocity;
-    player_opts->FloaterHorizontalVelocity = game::Player::MaxHorizontalVelocity / 2.0;
-    // Made those velocity equal to ensure that floater will exactly float
-    player_opts->FloaterVerticalVelocity = player_opts->FloaterHorizontalVelocity;
-
-    sad::Vector<sad::String> list; 
-    list << "enemies_list/playerRed_walk1ng"
-         << "enemies_list/playerRed_walk2ng"
-         << "enemies_list/playerRed_walk3ng";
-    player_opts->WalkingAnimationOptions = list;
-    player_opts->WalkingAnimationTime = 200.0;
-
-    list.clear();
-
-    list << "enemies_list/playerRed_up1ng"
-         << "enemies_list/playerRed_up2ng";
-    player_opts->JumpingAnimationOptions = list;
-    player_opts->JumpingAnimationTime = 500.0;
-
-    player_opts->StandingSprite = "enemies_list/playerRed_standng";
-    player_opts->WalkingSprite = "enemies_list/playerRed_walk1ng";
-    player_opts->WalkingSprite = "enemies_list/playerRed_walk1ng";
-    player_opts->JumpingSprite = "enemies_list/playerRed_up2ng";
-    player_opts->FallingSprite = "enemies_list/playerRed_fallng";
-    player_opts->DuckingSprite = "enemies_list/playerRed_duckng";
-    player_opts->FloaterSprite = "enemies_list/playerRed_rollng";
-
-    m_player->setActorOptions(player_opts);
-    m_actor_options.insert("player", player_opts);
+    m_player->setActorOptions(m_actor_options["player"]);
 }
 
 Game::~Game()  // NOLINT
@@ -1286,6 +1199,61 @@ void Game::setGravityForBody(sad::p2d::Body* b, const sad::p2d::Vector& v)
 }
 
 // ==================================== PRIVATE METHODS ====================================
+
+void Game::initContext()
+{
+    // Initialize context
+    m_eval_context = new sad::dukpp03::Context();
+    sad::dukpp03irrklang::init(m_eval_context);
+    // Bind self
+    m_eval_context->registerGlobal("game", this);
+    m_eval_context->registerGlobal("state_machine", &m_state_machine);
+    m_eval_context->registerGlobal("paused_state_machine", &m_paused_state_machine);
+
+
+    // Bind callables
+    std::function<void(const sad::String&, const sad::String&)> make_platform_go_on_way = [=](const sad::String& platform, const sad::String& way) {
+        this->m_moving_platform_registry.add(platform, way);
+    };
+    std::function<void(double, const sad::dukpp03::CompiledFunction&)> add_trigger = [=](double x, const sad::dukpp03::CompiledFunction& f) {
+        this->m_triggers.add(x, f, false);
+    };
+    std::function<void(double, const sad::dukpp03::CompiledFunction&)> add_trigger_once = [=](double x, const sad::dukpp03::CompiledFunction& f) {
+        this->m_triggers.add(x, f, true);
+    };
+    std::function<void(const sad::String&)> print = [=](const sad::String& message) {
+        printf("%s\n", message.c_str());
+        SL_LOCAL_DEBUG(message, *(m_main_thread->renderer()));
+    };
+
+    m_eval_context->registerCallable("makePlatformGoOnWay", sad::dukpp03::make_lambda::from(make_platform_go_on_way));
+    m_eval_context->registerCallable("addTrigger", sad::dukpp03::make_lambda::from(add_trigger));
+    m_eval_context->registerCallable("addTriggerOnce", sad::dukpp03::make_lambda::from(add_trigger_once));
+    m_eval_context->registerCallable("print", sad::dukpp03::make_lambda::from(print));
+    game::exposeActorOptions(m_eval_context);
+
+    std::function<bool(const sad::String&, const game::ActorOptions&)> add_actor_options = [=](const sad::String& name, const game::ActorOptions& opts) {
+        if (m_actor_options.contains(name)) {
+            return false;
+        }
+        game::ActorOptions* nopts = new game::ActorOptions(opts);
+        nopts->addRef();
+        m_actor_options.insert(name, nopts);
+        return true;
+    };
+    m_eval_context->registerCallable("addActorOptions", sad::dukpp03::make_lambda::from(add_actor_options));
+
+    // Fetch and run game initialization script
+    sad::Maybe<sad::String> maybe_script = sad::slurp("examples/multithreading/game_init.js", m_main_thread->renderer());
+    if (maybe_script.exists())
+    {
+        this->evalScript(maybe_script.value());
+    }
+    else
+    {
+        SL_LOCAL_FATAL("Unable to run game initialization script", *(m_main_thread->renderer()));
+    }
+}
 
 sad::String* Game::tryGetScriptForItem(const sad::String& title)
 {

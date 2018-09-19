@@ -1,8 +1,5 @@
 #include "player.h"
 
-const int game::Player::MaxHorizontalVelocity = 200;
-const int game::Player::MaxVerticalVelocity = 400;
-
 game::Player::Player()
 {
 
