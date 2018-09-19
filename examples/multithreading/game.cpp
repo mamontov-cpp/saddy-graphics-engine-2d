@@ -1200,6 +1200,33 @@ void Game::setGravityForBody(sad::p2d::Body* b, const sad::p2d::Vector& v)
 
 // ==================================== PRIVATE METHODS ====================================
 
+// Player cannot be copied so, disable it here to ensure context proper initialization
+namespace sad
+{
+
+namespace dukpp03
+{
+
+
+template<>
+struct GetAddressOfType<game::Player*, false, false>
+{
+public:
+    /*! Returns address of type, stored in variant.
+        \param[in] v value
+        \return empty maybe
+     */
+    static ::dukpp03::Maybe<game::Player*> getAddress(sad::db::Variant*)
+    {
+        return ::dukpp03::Maybe<game::Player*>();
+    }
+};
+
+}
+
+}
+
+
 void Game::initContext()
 {
     // Initialize context
@@ -1242,6 +1269,33 @@ void Game::initContext()
         return true;
     };
     m_eval_context->registerCallable("addActorOptions", sad::dukpp03::make_lambda::from(add_actor_options));
+
+    // Expose player to script
+    sad::dukpp03::ClassBinding* player_binding = new sad::dukpp03::ClassBinding();
+    player_binding->addMethod("reset", sad::dukpp03::bind_method::from(&game::Player::reset));
+    player_binding->addMethod("middle", sad::dukpp03::bind_method::from(&game::Player::middle));
+    player_binding->addMethod("area", sad::dukpp03::bind_method::from(&game::Player::area));
+    player_binding->addMethod("isFloater", sad::dukpp03::bind_method::from(&game::Player::isFloater));
+    player_binding->addMethod("setFloaterState", sad::dukpp03::bind_method::from(&game::Player::setFloaterState));
+
+    player_binding->addMethod("tryStartGoingUp", sad::dukpp03::bind_method::from(&game::Player::tryStartGoingUp));
+    player_binding->addMethod("tryStartGoingDown", sad::dukpp03::bind_method::from(&game::Player::tryStartGoingDown));
+    player_binding->addMethod("tryStartGoingLeft", sad::dukpp03::bind_method::from(&game::Player::tryStartGoingLeft));
+    player_binding->addMethod("tryStartGoingRight", sad::dukpp03::bind_method::from(&game::Player::tryStartGoingRight));
+
+    player_binding->addMethod("tryStopGoingUp", sad::dukpp03::bind_method::from(&game::Player::tryStopGoingUp));
+    player_binding->addMethod("tryStopGoingDown", sad::dukpp03::bind_method::from(&game::Player::tryStopGoingDown));
+    player_binding->addMethod("tryStopGoingLeft", sad::dukpp03::bind_method::from(&game::Player::tryStopGoingLeft));
+    player_binding->addMethod("tryStopGoingRight", sad::dukpp03::bind_method::from(&game::Player::tryStopGoingRight));
+
+    player_binding->addMethod("clearFixedFlags", sad::dukpp03::bind_method::from(&game::Player::clearFixedFlags));
+    player_binding->addMethod("testResting", sad::dukpp03::bind_method::from(&game::Player::testResting));
+    player_binding->addMethod("enableGravity", sad::dukpp03::bind_method::from(&game::Player::enableGravity));
+
+    m_eval_context->addClassBinding("game::Player", player_binding);
+    std::function<game::Player*()> player = [=]() { return this->m_player; };
+    m_eval_context->registerCallable("player", sad::dukpp03::make_lambda::from(player));
+
 
     // Fetch and run game initialization script
     sad::Maybe<sad::String> maybe_script = sad::slurp("examples/multithreading/game_init.js", m_main_thread->renderer());

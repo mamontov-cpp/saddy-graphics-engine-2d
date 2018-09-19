@@ -468,6 +468,11 @@ void game::Actor::setGame(Game* game)
     m_game = game;
 }
 
+Game* game::Actor::game() const
+{
+    return m_game;
+}
+
 void game::Actor::reset()
 {
     m_key_states.reset();

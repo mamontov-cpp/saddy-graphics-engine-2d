@@ -1,4 +1,7 @@
 #include "player.h"
+#include <object.h>
+
+DECLARE_COMMON_TYPE(game::Player)
 
 game::Player::Player()
 {
@@ -25,6 +28,11 @@ void game::Player::onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev)
 void game::Player::setGame(Game* game)
 {
     m_actor.setGame(game);
+}
+
+Game* game::Player::game() const
+{
+    return m_actor.game();
 }
 
 void game::Player::reset()
@@ -109,6 +117,12 @@ void game::Player::setBody(sad::p2d::Body* body)
 sad::Rect2D game::Player::area()
 {
     return dynamic_cast<sad::p2d::Rectangle*>(m_actor.body()->currentShape())->rect();
+}
+
+sad::Point2D game::Player::middle()
+{
+    sad::Rect2D rect = this->area();
+    return (rect[0] + rect[2]) / 2.0;
 }
 
 void game::Player::clearFixedFlags()

@@ -1,5 +1,6 @@
 makePlatformGoOnWay("MovingPlatform4", "Way1");
 // Just a simple JS trigger
 addTriggerOnce(400, function() {
-	print("This is test triggger");
+	print("Player has reached point of " + player().middle().x  + "," + player().middle().y + " which is more than 400\n");
+	player().tryStartGoingUp();
 });

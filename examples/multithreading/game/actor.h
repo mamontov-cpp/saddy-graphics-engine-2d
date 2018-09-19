@@ -79,6 +79,10 @@ public:
         \param[in] game a game
      */
     void setGame(Game* game);
+    /*! Returns game for actor
+        \return game
+     */
+    Game* game() const;
     /*! Resets player's state in game
      */
     void reset();

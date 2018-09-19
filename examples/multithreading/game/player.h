@@ -36,6 +36,10 @@ public:
         \param[in] game a game
      */
     void setGame(Game* game);
+    /*! Returns game for player
+     *   \return game
+     */
+    Game* game() const;
     /*! Resets player's items in game
      */
     void reset();
@@ -93,6 +97,10 @@ public:
      *  \return area for player
      */
     sad::Rect2D area();
+    /*! Returns middle point for player
+     *  \return middle point
+     */
+    sad::Point2D middle();
     /*! Clears flags, which determine, whether player's position is fixed
      */
     void clearFixedFlags();
