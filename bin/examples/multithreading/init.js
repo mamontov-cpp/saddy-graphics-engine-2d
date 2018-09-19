@@ -8,9 +8,9 @@ addTriggerOnce(400, function() {
 			if (Math.random() * 4.0 > 3.8) {
 				actor.tryStartGoingUp();
 			}
-			if (state["left"] == 1) {
+			if (state["left"]) {
 				if (actor.middle().x < 60) {
-					return {"left": 0};
+					return {"left": false};
 				} else {
 					actor.tryStopGoingRight();
 					actor.tryStartGoingLeft();
@@ -18,7 +18,7 @@ addTriggerOnce(400, function() {
 				}
 			} else {
 				if (actor.middle().x > 500) {
-					return {"left": 1};
+					return {"left": true};
 				} else {
 					actor.tryStopGoingLeft();
 					actor.tryStartGoingRight();
@@ -28,5 +28,5 @@ addTriggerOnce(400, function() {
 		} else {
 			return state;
 		}
-	}, {'left': 1});
+	}, {'left': true});
 });

@@ -53,7 +53,7 @@ public:
      *  \param[in] state a state for working
      *  \return if actor is already here, returns false. Also returns false, if actor is NULL
      */
-    bool add(game::Actor* actor, sad::dukpp03::CompiledFunction fn, const  sad::Hash<sad::String, sad::db::Variant>& state);
+    bool add(game::Actor* actor, const sad::dukpp03::CompiledFunction& fn, const  sad::Hash<sad::String, sad::db::Variant>& state);
     /*! Removes an actor from list, erasing all data
      *  \param[in] actor an actor
      */
@@ -70,6 +70,12 @@ public:
         \param[in] bottom_bound a bottom bound for actor
      */
     void checkBoundaryCollision(double left_bound, double right_bound, double up_bound, double bottom_bound);
+    /*! Clear fixed flags
+     */
+    void clearFixedFlags();
+    /*! Performs forces if velocity were changed
+     */
+    void performForceActionIfVelocityWereChanged();
     /*! Clears actors list
      */
     void clear();

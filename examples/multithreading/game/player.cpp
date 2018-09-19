@@ -104,6 +104,11 @@ void game::Player::tryStopGoingRight()
     m_actor.tryStopGoingRight();
 }
 
+void game::Player::performForceActionIfVelocityWereChanged() const
+{
+    m_actor.performForceActionIfVelocityWereChanged();
+}
+
 void game::Player::setSprite(sad::Sprite2D* sprite)
 {
     m_actor.setSprite(sprite);

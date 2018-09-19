@@ -85,6 +85,9 @@ public:
      */
     void tryStopGoingRight();
 
+    /*! Performs forces if velocity were changed
+     */
+    void performForceActionIfVelocityWereChanged() const;
     /*! Sets sprite for player
      *  \param[in] sprite a sprite
      */

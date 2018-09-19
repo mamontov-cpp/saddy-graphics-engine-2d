@@ -72,6 +72,10 @@ public:
     /*! Tries to stop actor from going right
      */
     void tryStopGoingRight();
+
+    /*! Performs forces if velocity were changed
+     */
+    void performForceActionIfVelocityWereChanged() const;
     /*! Called on platform collision
         \patam[in] ev collision event
      */
@@ -91,7 +95,7 @@ public:
     /*! Sets velocity for actor
      *  \param[in] v velocity
      */
-    void setVelocity(const sad::p2d::Vector& v);
+    void setVelocity(const sad::p2d::Vector& v) const;
     /*! Inits player's sprite according to state
         \param[in] no_sound whether we should disable sound on actor 
      */
@@ -136,7 +140,7 @@ public:
     void setHorizontalVelocity(double value);
     /*! Increments vertical velocity of player by value
      */
-    void incrementVerticalVelocity(double value) const;
+    void incrementVerticalVelocity(double value);
     /*! Enables gravity for body
      */
     void enableGravity() const;
@@ -237,15 +241,15 @@ public:
     /*! A notify function for vector
      *  \param[in] v a vector object
      */
-    void moveBy(const sad::p2d::Vector& v);
+    void moveBy(const sad::p2d::Vector& v) const;
     /*! Returns true, called by body function
      *  \return true
      */
-    bool canBeRotated() const;
+    static bool canBeRotated();
     /*! Rotates an actor by a specified angle
      * \param[in] angle a used angle
      */
-    void rotate(double angle);
+    void rotate(double angle) const;
 private:
     /*! Compute whether floater should go up or down
         \param[out] is_going_up whether we should go up
@@ -260,6 +264,10 @@ private:
     /*! Sets correct angle for floater
      */
     void setAngleForFloater();
+    /*! Shedules velocity for next frame
+     *  \param[in] v velocity
+     */
+    void sheduleVelocity(const sad::p2d::Vector& v);
     /*! Computes velocity for floater
         \throws std::logic_error on invalid options or not floater
         \return velocity for floater
@@ -325,6 +333,9 @@ private:
     /*! True, if jumping animation is playing
      */
     bool m_is_jumping_animation_playing;
+    /*! A velocity change flag
+     */
+    bool m_velocity_changed;
     /*! A platform, where player is resting
      */
     sad::p2d::Body* m_resting_platform;

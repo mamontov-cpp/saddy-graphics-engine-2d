@@ -11,7 +11,9 @@
 #include "game.h"
 
 #ifdef WIN32
-#include <windows.h>
+#ifdef MSVC_RELEASE
+#include <Windows.h>
+#endif
 #endif
 
 
@@ -40,6 +42,9 @@ int main(int argc, char** argv)
     // And wait
     a.wait();
     b.wait();
+
+    // Free irrklang to remove inner racing conditions with windows sound subsystems
+    sad::irrklang::Engine::freeInstance();
     return 0;
 
 }

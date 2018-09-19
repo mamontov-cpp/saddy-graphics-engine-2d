@@ -14,25 +14,26 @@ DECLARE_SOBJ(game::Actor)
 
 // ============================================== PUBLIC METHODS ==============================================
 
-game::Actor::Actor() : m_own_horizontal_velocity(0), 
-m_sprite(NULL), 
-m_body(NULL), 
-m_is_resting(false), 
-m_is_ducking(false), 
+game::Actor::Actor() : m_own_horizontal_velocity(0),
+m_sprite(NULL),
+m_body(NULL),
+m_is_resting(false),
+m_is_ducking(false),
 m_is_free_fall(false),
-m_is_walking_animation_playing(false), 
+m_is_walking_animation_playing(false),
 m_is_jumping_animation_playing(false), 
-m_resting_platform(NULL), 
+m_velocity_changed(false),
+m_resting_platform(NULL),
 m_fixed_x(false),
 m_fixed_y(false),
 m_is_floater(false),
+m_is_dying(false),
 m_walking_animation(NULL),
 m_walking_instance(NULL),
 m_jumping_animation(NULL),
 m_jumping_instance(NULL),
 m_game(NULL),
-m_options(NULL),
-m_is_dying(false)
+m_options(NULL)
 {
     m_key_states.reset();
 }
@@ -454,11 +455,13 @@ void game::Actor::onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev)
         if (!willVelocityChange)
         {
             player_velocity += force_value * ctoi_tick;
-            ev.m_object_1->sheduleTangentialVelocity(player_velocity);
+            this->sheduleVelocity(player_velocity);
+            // Do not change this velocity
+            m_velocity_changed = false;
         }
         else
         {
-            ev.m_object_1->sheduleTangentialVelocity(next_velocity);
+            this->sheduleVelocity(next_velocity);
         }
     }
     ev.m_object_2->setCurrentTangentialVelocity(v);
@@ -467,6 +470,24 @@ void game::Actor::onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev)
     ev.m_object_2->sheduleAngularVelocity(0);
     ev.m_object_2->shedulePosition(ev.m_object_2->position() + v * tick);
 }
+
+void game::Actor::performForceActionIfVelocityWereChanged() const
+{
+    if (m_velocity_changed && !m_is_resting)
+    { 
+        sad::p2d::Vector v;
+        this->m_body->tangentialForces().value(v);
+        v *= m_game->physicsWorld()->timeStep();
+        if (m_body->weight().isInfinite() == false)
+        {
+            v /= m_body->weight().value();
+        }
+        sad::p2d::Vector velocity = m_body->tangentialVelocity();
+        velocity += v;
+        m_body->setCurrentTangentialVelocity(velocity);
+    }
+}
+
 
 
 void game::Actor::setGame(Game* game)
@@ -485,6 +506,7 @@ void game::Actor::reset()
 
     m_sprite = NULL;
     m_body = NULL;
+    m_velocity_changed = false;
     m_is_resting = false;
     m_is_ducking = false;
     m_is_free_fall = false;
@@ -502,7 +524,7 @@ void game::Actor::reset()
     }
 }
 
-void game::Actor::setVelocity(const sad::p2d::Vector& v)
+void game::Actor::setVelocity(const sad::p2d::Vector& v) const
 {
     m_body->setCurrentTangentialVelocity(v);
 }
@@ -752,7 +774,7 @@ void game::Actor::setHorizontalVelocity(double value)
     {
         v.setY(b->nextTangentialVelocity().y());
     }
-    b->sheduleTangentialVelocity(v);
+    this->sheduleVelocity(v);
     
     m_own_horizontal_velocity = value;
     if (m_is_resting && !m_is_ducking && !m_is_floater)
@@ -776,7 +798,7 @@ void game::Actor::setHorizontalVelocity(double value)
     }
 }
 
-void game::Actor::incrementVerticalVelocity(double value) const
+void game::Actor::incrementVerticalVelocity(double value)
 {
     if (m_body->willTangentialVelocityChange())
     {
@@ -785,7 +807,7 @@ void game::Actor::incrementVerticalVelocity(double value) const
         {
             v.setX(m_own_horizontal_velocity);
         }        
-        m_body->sheduleTangentialVelocity(v + sad::p2d::Vector(0, value));
+        this->sheduleVelocity(v + sad::p2d::Vector(0, value));
     }
     else
     {
@@ -795,7 +817,7 @@ void game::Actor::incrementVerticalVelocity(double value) const
              v.setX(m_own_horizontal_velocity);
              v.setY(0.0);
          }
-         m_body->sheduleTangentialVelocity(m_body->tangentialVelocity() + sad::p2d::Vector(0, value));
+         this->sheduleVelocity(m_body->tangentialVelocity() + sad::p2d::Vector(0, value));
     }
     printf("Next tangential velocity after increment: %lf, %lf\n", m_body->nextTangentialVelocity().x(), m_body->nextTangentialVelocity().y());
 }
@@ -944,6 +966,7 @@ void game::Actor::clearFixedFlags()
 {
     m_fixed_x = false;
     m_fixed_y = false;
+    m_velocity_changed = false;
 }
 
 bool game::Actor::isXCoordinateFixed() const
@@ -1252,17 +1275,17 @@ void game::Actor::checkBoundaryCollision(double left_bound, double right_bound, 
     }
 }
 
-void game::Actor::moveBy(const sad::p2d::Vector& v)
+void game::Actor::moveBy(const sad::p2d::Vector& v) const
 {
     m_sprite->moveBy(v);
 }
 
-bool game::Actor::canBeRotated() const
+bool game::Actor::canBeRotated()
 {
     return true;
 }
 
-void game::Actor::rotate(double angle)
+void game::Actor::rotate(double angle) const
 {
     m_sprite->rotate(angle);
 }
@@ -1539,5 +1562,11 @@ void game::Actor::correctShape() const
     sad::Rect2D corrected_rect(start_point, start_point + width_height);
     this->m_sprite->setArea(corrected_rect);
     shape->setRect(corrected_rect);
+}
+
+void game::Actor::sheduleVelocity(const sad::p2d::Vector& v)
+{
+    this->m_body->sheduleTangentialVelocity(v);
+    m_velocity_changed = true;
 }
 

@@ -198,6 +198,8 @@
   <ItemGroup>
     <ClCompile Include="game.cpp" />
     <ClCompile Include="game\actor.cpp" />
+    <ClCompile Include="game\actoroptions.cpp" />
+    <ClCompile Include="game\actors.cpp" />
     <ClCompile Include="game\conditions.cpp" />
     <ClCompile Include="game\inventory.cpp" />
     <ClCompile Include="game\movingplatformregistry.cpp" />
@@ -219,6 +221,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="game\actor.h" />
     <ClInclude Include="game\actoroptions.h" />
+    <ClInclude Include="game\actors.h" />
     <ClInclude Include="game\conditions.h" />
     <ClInclude Include="game\inventory.h" />
     <ClInclude Include="game\movingplatformregistry.h" />
