@@ -5,7 +5,7 @@ addTriggerOnce(400, function() {
 	player().tryStartGoingUp();
 	spawnEnemyWalkerAt("player", new sad.Point2D(400, 500), function(actor, state) {
 		if (actor.isResting()) {
-			if (Math.random() * 2.0 > 1.0) {
+			if (Math.random() * 4.0 > 3.8) {
 				actor.tryStartGoingUp();
 			}
 			if (state["left"] == 1) {

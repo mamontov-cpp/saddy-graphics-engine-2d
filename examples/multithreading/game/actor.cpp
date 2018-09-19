@@ -739,7 +739,6 @@ void game::Actor::setHorizontalVelocity(double value)
     sad::p2d::Body* b = m_body;
     sad::p2d::Vector v = b->tangentialVelocity();
     m_old_velocity = v;
-    printf("Old horizontal velocity: %lf, Old own velocity %lf, Setting %lf\n", v.x(), m_own_horizontal_velocity, value);
     if (m_is_resting && !m_is_floater)
     {
         v.setX(m_resting_platform->tangentialVelocity().x());
@@ -749,8 +748,10 @@ void game::Actor::setHorizontalVelocity(double value)
         v.setX(0.0);
     }
     v.setX(v.x() + value);
-    printf("New horizontal velocity: %lf\n", v.x());
-    b->setCurrentTangentialVelocity(v);
+    if (b->willTangentialVelocityChange())
+    {
+        v.setY(b->nextTangentialVelocity().y());
+    }
     b->sheduleTangentialVelocity(v);
     
     m_own_horizontal_velocity = value;
