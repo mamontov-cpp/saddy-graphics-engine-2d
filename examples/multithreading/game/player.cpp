@@ -121,8 +121,7 @@ sad::Rect2D game::Player::area()
 
 sad::Point2D game::Player::middle()
 {
-    sad::Rect2D rect = this->area();
-    return (rect[0] + rect[2]) / 2.0;
+    return m_actor.middle();
 }
 
 void game::Player::clearFixedFlags()

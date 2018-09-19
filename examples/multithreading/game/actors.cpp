@@ -74,12 +74,24 @@ void game::Actors::process(Game* game, sad::dukpp03::Context* ctx)
                 ::dukpp03::Maybe<sad::Hash<sad::String, sad::db::Variant> > maybe_state = ::dukpp03::GetValue<sad::Hash<sad::String, sad::db::Variant>,sad::dukpp03::BasicContext>::perform(ctx, -1);
                 if (maybe_state.exists())
                 {
-                    m_actors[i]->State = maybe_state.mutableValue();
+                    m_actors[i]->State = maybe_state.value();
+                }
+                else
+                {
+                    printf("No state is left, does it exists");
                 }
             }
 
             ctx->cleanStack();
         }
+    }
+}
+
+void game::Actors::checkBoundaryCollision(double left_bound, double right_bound, double up_bound, double bottom_bound)
+{
+    for(size_t i = 0 ; i < m_actors.size(); i++)
+    {
+        m_actors[i]->Actor->checkBoundaryCollision(left_bound, right_bound, up_bound, bottom_bound);
     }
 }
 

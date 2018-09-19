@@ -9,7 +9,7 @@
 #include <animations/animationsinstance.h>
 #include <animations/animationsoptionlist.h>
 #include <bitset>
-#include <refcountable.h>
+#include <object.h>
 
 #include "actoroptions.h" 
 
@@ -23,8 +23,9 @@ namespace game
 #define RESTING_DETECTION_PRECISION (0.5)
 /*! An actor, that can respond to user actions
  */
-class Actor: public sad::RefCountable  // NOLINT(cppcoreguidelines-special-member-functions)
+class Actor: public sad::Object  // NOLINT(cppcoreguidelines-special-member-functions)
 {
+SAD_OBJECT
 public: 
     /*! A button for getting status bit
      */
@@ -153,6 +154,10 @@ public:
     /*! Fetches area for user
      */
     sad::Rect2D area() const;
+    /*! Returns middle of actor
+     *  \return middle of actor
+     */
+    sad::Point2D middle() const;
     /*! Moves player by point
      */
     void move(const sad::Point2D& p) const;
@@ -229,6 +234,18 @@ public:
         \param[in] bottom_bound a bottom bound for actor
      */
     void checkBoundaryCollision(double left_bound, double right_bound, double up_bound, double bottom_bound);
+    /*! A notify function for vector
+     *  \param[in] v a vector object
+     */
+    void moveBy(const sad::p2d::Vector& v);
+    /*! Returns true, called by body function
+     *  \return true
+     */
+    bool canBeRotated() const;
+    /*! Rotates an actor by a specified angle
+     * \param[in] angle a used angle
+     */
+    void rotate(double angle);
 private:
     /*! Compute whether floater should go up or down
         \param[out] is_going_up whether we should go up
@@ -346,3 +363,6 @@ private:
 };
 
 }
+
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(game::Actor)
+

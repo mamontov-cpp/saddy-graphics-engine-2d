@@ -8,7 +8,9 @@
 
 #include <object.h>
 
-DECLARE_COMMON_TYPE(game::Actor)
+
+DECLARE_SOBJ(game::Actor)
+
 
 // ============================================== PUBLIC METHODS ==============================================
 
@@ -918,6 +920,12 @@ sad::Rect2D game::Actor::area() const
     return m_sprite->area();
 }
 
+sad::Point2D game::Actor::middle() const
+{
+    sad::Rect2D rect = this->area();
+    return (rect[0] + rect[2]) / 2.0;
+}
+
 void game::Actor::move(const sad::Point2D& p) const
 {
     if (m_body->willPositionChange())
@@ -1241,6 +1249,21 @@ void game::Actor::checkBoundaryCollision(double left_bound, double right_bound, 
             this->setYCoordinateFixed(true);
         }
     }
+}
+
+void game::Actor::moveBy(const sad::p2d::Vector& v)
+{
+    m_sprite->moveBy(v);
+}
+
+bool game::Actor::canBeRotated() const
+{
+    return true;
+}
+
+void game::Actor::rotate(double angle)
+{
+    m_sprite->rotate(angle);
 }
 
 // ===================================== PRIVATE METHODS =====================================

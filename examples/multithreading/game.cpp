@@ -530,6 +530,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
                 this->m_step_task->enable();
                 this->m_step_task->process();
                 this->m_player->checkBoundaryCollision(0.0, max_level_x, 600, 0);
+                this->m_actors.checkBoundaryCollision(0.0, max_level_x, 600, 0);
                 this->m_triggers.tryRun(this->m_player, this->m_eval_context);
 
                 this->m_task_lock.release();
@@ -1260,10 +1261,64 @@ void Game::initContext()
         SL_LOCAL_DEBUG(message, *(m_main_thread->renderer()));
     };
 
+    std::function<void(const sad::String&,
+                       const sad::Point2D&,
+                       const sad::dukpp03::CompiledFunction&,
+                       const sad::Hash<sad::String, sad::db::Variant>&)
+    > spawn_enemy_walker =  [=](const sad::String& optname,
+            const sad::Point2D& middle,
+            const sad::dukpp03::CompiledFunction& function,
+            const sad::Hash<sad::String, sad::db::Variant>& state
+    ) {
+        if (m_actor_options.contains(optname))
+        {
+            game::ActorOptions* options = m_actor_options[optname];
+
+            sad::Scene* scene = this->rendererForMainThread()->database("gamescreen")->objectByName<sad::Scene>("main");
+            if (scene)
+            {
+                sad::Sprite2D* sprite = new sad::Sprite2D();
+                sprite->setScene(scene);
+                sprite->setTreeName(this->rendererForMainThread(), "");
+                sprite->set(options->JumpingSprite);
+                sprite->moveTo(middle);
+                scene->add(sprite);
+
+                game::Actor* actor = new game::Actor();
+                actor->setGame(this);
+                actor->setSprite(sprite);
+                actor->setOptions(options);
+
+                sad::p2d::Body* body = new sad::p2d::Body();
+                body->setCurrentAngularVelocity(0);
+                body->setCurrentTangentialVelocity(sad::p2d::Vector(0,0));
+                sad::p2d::Rectangle* rect = new sad::p2d::Rectangle();
+                rect->setRect(sprite->area());
+                body->setShape(rect);
+
+                body->attachObject(actor);
+
+                std::function<void (sad::p2d::Vector)> move_listener = [=](sad::p2d::Vector) {
+                    actor->testResting();
+                };
+                body->addMoveListener(move_listener);
+                body->initPosition(sprite->middle());
+
+                this->m_physics_world->addBodyToGroup("enemies", body);
+                actor->setBody(body);
+                actor->enableGravity();
+                actor->init(true);
+
+                this->m_actors.add(actor, function, state);
+            }
+        }
+    };
+
+    m_eval_context->registerCallable("spawnEnemyWalkerAt", sad::dukpp03::make_lambda::from(spawn_enemy_walker));
     m_eval_context->registerCallable("makePlatformGoOnWay", sad::dukpp03::make_lambda::from(make_platform_go_on_way));
     m_eval_context->registerCallable("addTrigger", sad::dukpp03::make_lambda::from(add_trigger));
     m_eval_context->registerCallable("addTriggerOnce", sad::dukpp03::make_lambda::from(add_trigger_once));
-    m_eval_context->registerCallable("print", sad::dukpp03::make_lambda::from(print));
+    m_eval_context->registerCallable("gamePrint", sad::dukpp03::make_lambda::from(print));
     game::exposeActorOptions(m_eval_context);
 
     std::function<bool(const sad::String&, const game::ActorOptions&)> add_actor_options = [=](const sad::String& name, const game::ActorOptions& opts) {
@@ -1302,6 +1357,29 @@ void Game::initContext()
     m_eval_context->addClassBinding("game::Player", player_binding);
     std::function<game::Player*()> player = [=]() { return this->m_player; };
     m_eval_context->registerCallable("player", sad::dukpp03::make_lambda::from(player));
+
+    sad::dukpp03::ClassBinding* actor_binding = new sad::dukpp03::ClassBinding();
+
+    actor_binding->addMethod("isResting", sad::dukpp03::bind_method::from(&game::Actor::isResting));
+    actor_binding->addMethod("area", sad::dukpp03::bind_method::from(&game::Actor::area));
+    actor_binding->addMethod("middle", sad::dukpp03::bind_method::from(&game::Actor::middle));
+
+    actor_binding->addMethod("isFloater", sad::dukpp03::bind_method::from(&game::Actor::isFloater));
+    actor_binding->addMethod("setFloaterState", sad::dukpp03::bind_method::from(&game::Actor::setFloaterState));
+
+    actor_binding->addMethod("setVelocity", sad::dukpp03::bind_method::from(&game::Actor::setVelocity));
+
+    actor_binding->addMethod("tryStartGoingUp", sad::dukpp03::bind_method::from(&game::Actor::tryStartGoingUp));
+    actor_binding->addMethod("tryStartGoingDown", sad::dukpp03::bind_method::from(&game::Actor::tryStartGoingDown));
+    actor_binding->addMethod("tryStartGoingLeft", sad::dukpp03::bind_method::from(&game::Actor::tryStartGoingLeft));
+    actor_binding->addMethod("tryStartGoingRight", sad::dukpp03::bind_method::from(&game::Actor::tryStartGoingRight));
+
+    actor_binding->addMethod("tryStopGoingUp", sad::dukpp03::bind_method::from(&game::Actor::tryStopGoingUp));
+    actor_binding->addMethod("tryStopGoingDown", sad::dukpp03::bind_method::from(&game::Actor::tryStopGoingDown));
+    actor_binding->addMethod("tryStopGoingLeft", sad::dukpp03::bind_method::from(&game::Actor::tryStopGoingLeft));
+    actor_binding->addMethod("tryStopGoingRight", sad::dukpp03::bind_method::from(&game::Actor::tryStopGoingRight));
+
+    m_eval_context->addClassBinding("game::Actor", actor_binding);
 
 
     // Fetch and run game initialization script
@@ -1355,6 +1433,7 @@ void Game::initGamePhysics()
     m_physics_world = new sad::p2d::World();
     m_physics_world->addRef();
     m_physics_world->addGroup("player");
+    m_physics_world->addGroup("enemies");
     m_physics_world->addGroup("platforms");
 
     max_level_x = 0;
@@ -1575,7 +1654,15 @@ void Game::initGamePhysics()
     std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_player_and_platforms = [=](const sad::p2d::BasicCollisionEvent & ev) {
         this->m_player->onPlatformCollision(ev);
     };
+    std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_enemy_and_platforms = [=](const sad::p2d::BasicCollisionEvent & ev) {
+        game::Actor* a = dynamic_cast<game::Actor*>(ev.m_object_1->userObject());
+        if (a)
+        {
+            a->onPlatformCollision(ev);
+        }
+    };
     m_physics_world->addHandler("player", "platforms", collision_between_player_and_platforms);
+    m_physics_world->addHandler("enemies", "platforms", collision_between_enemy_and_platforms);
     m_step_task->setWorld(m_physics_world);
 }
 
