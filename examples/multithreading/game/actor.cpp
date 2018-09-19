@@ -6,6 +6,9 @@
 #include <p2d/world.h>
 #include <p2d/collides1d.h>
 
+#include <object.h>
+
+DECLARE_COMMON_TYPE(game::Actor)
 
 // ============================================== PUBLIC METHODS ==============================================
 
@@ -494,6 +497,11 @@ void game::Actor::reset()
     {
         m_is_floater = m_options->IsFloater;
     }
+}
+
+void game::Actor::setVelocity(const sad::p2d::Vector& v)
+{
+    m_body->setCurrentTangentialVelocity(v);
 }
 
 

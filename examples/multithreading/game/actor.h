@@ -86,6 +86,10 @@ public:
     /*! Resets player's state in game
      */
     void reset();
+    /*! Sets velocity for actor
+     *  \param[in] v velocity
+     */
+    void setVelocity(const sad::p2d::Vector& v);
     /*! Inits player's sprite according to state
         \param[in] no_sound whether we should disable sound on actor 
      */
