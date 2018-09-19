@@ -94,6 +94,15 @@ public:
         \param[in] no_sound whether we should disable sound on actor 
      */
     void init(bool no_sound = false);
+    /*! Returns whether actor is dying
+        \return whether actor is dying
+     */
+    bool isDying() const;
+    /*! Sets dying flag for actor
+     *  \param[in] value a value for dying
+     */
+    void setDying(bool value);
+
     /*! Returns true if actor is in a floater state
         \return whether actor is floater
      */
@@ -310,6 +319,9 @@ private:
     /*! Whether actor is floating object
      */
     bool m_is_floater;
+    /*! Whether actor is dying
+     */
+    bool m_is_dying;
 
     /*! A walking animation for actor
      */

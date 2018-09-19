@@ -29,7 +29,8 @@ m_walking_instance(NULL),
 m_jumping_animation(NULL),
 m_jumping_instance(NULL),
 m_game(NULL),
-m_options(NULL)
+m_options(NULL),
+m_is_dying(false)
 {
     m_key_states.reset();
 }
@@ -681,6 +682,17 @@ void game::Actor::init(bool no_sound)
     {
         m_options->CanEmitSound = can_emit_sound;
     }
+}
+
+
+bool game::Actor::isDying() const
+{
+    return m_is_dying;
+}
+
+void game::Actor::setDying(bool value)
+{
+    m_is_dying = value;
 }
 
 bool game::Actor::isFloater() const
