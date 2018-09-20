@@ -10,6 +10,8 @@
 #include "angularforce.h"
 #include "movement.h"
 
+#include "../maybe.h"
+
 #include "../object.h"
 #include "../sadstring.h"
 
@@ -455,6 +457,10 @@ public:
         \param time_step a current time step
      */
     void buildCaches(double time_step);
+    /*! Returns a last collision for body
+     *  \return reference to last collision
+     */
+    sad::Maybe<sad::Pair<double, sad::p2d::Vector> >& lastCollision();
 public:
     /*! A special constant, needed to be set by world in order to set step for body
      */
@@ -498,6 +504,9 @@ private:
     /*! Describes, whether this body should not be changed
      */
     bool m_fixed;
+    /*! A last collision data for body
+     */
+    sad::Maybe<sad::Pair<double, sad::p2d::Vector> > m_last_collision;
 };
 
 }

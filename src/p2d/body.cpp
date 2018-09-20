@@ -88,6 +88,8 @@ void sad::p2d::Body::stepPositionsAndVelocities(double time)
 {
     m_tangential->step(time, this->timeStep());
     m_angular->step(time, this->timeStep());
+
+    m_last_collision.clear();
 }
 
 void sad::p2d::Body::trySetTransformer()
@@ -530,5 +532,10 @@ void sad::p2d::Body::buildCaches(double time_step)
 {
     this->TimeStep = time_step;
     this->buildCaches();
+}
+
+sad::Maybe<sad::Pair<double, sad::p2d::Vector> >& sad::p2d::Body::lastCollision()
+{
+    return m_last_collision;
 }
 
