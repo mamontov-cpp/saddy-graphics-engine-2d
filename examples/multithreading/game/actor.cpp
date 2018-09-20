@@ -327,6 +327,7 @@ void game::Actor::onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev)
 
     sad::Rect2D shape_1 = dynamic_cast<sad::p2d::Rectangle*>(ev.m_object_1->currentShape())->rect();
     sad::Rect2D shape_2 = dynamic_cast<sad::p2d::Rectangle*>(ev.m_object_2->currentShape())->rect();
+    sad::Rect2D old_player_shape = shape_1;
 
     sad::moveBy(next_position_1 - current_position_1, shape_1);
     sad::moveBy(next_position_2 - current_position_2, shape_2);
@@ -343,30 +344,22 @@ void game::Actor::onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev)
         && (sad::p2d::collides(player_part, platform_part)))
     {
         printf("Resting collision\n");
+        double y = (max_platform_y + ev.m_object_2->tangentialVelocity().y() * tick -  old_player_shape[0].y()) + ev.m_object_1->position().y() + precision_collision;
+
         if (willActorPositionChange)
         {
             double x = nextActorPosition.x();
-            double y = ev.m_object_1->position().y() + player_velocity.y() * ctoi_tick + precision_collision;
             if (!(this->isXCoordinateFixed()))
             {
                 x = ev.m_object_1->position().x() + player_velocity.x() * tick + force_value.x() * tick * tick / 2.0;
             }
-            if (ev.m_object_2->tangentialVelocity().y() > 0)
-            {
-                y += ev.m_object_2->tangentialVelocity().y() * tick;
-            }
+            y = std::max(nextActorPosition.y(), y);
             ev.m_object_1->shedulePosition(sad::Point2D(x, y));
             this->setYCoordinateFixed(true);
-
         }
         else
         {
             double x = ev.m_object_1->position().x() + player_velocity.x() * tick + force_value.x() * tick * tick / 2.0;
-            double y = ev.m_object_1->position().y() + player_velocity.y() * ctoi_tick + precision_collision;
-            if (ev.m_object_2->tangentialVelocity().y() > 0)
-            {
-                y += ev.m_object_2->tangentialVelocity().y() * tick;
-            }
             ev.m_object_1->shedulePosition(sad::Point2D(x, y));
             this->setYCoordinateFixed(true);
         }
@@ -1131,6 +1124,16 @@ const sad::p2d::Vector& game::Actor::oldVelocity() const
 
 void game::Actor::checkBoundaryCollision(double left_bound, double right_bound, double up_bound, double bottom_bound)
 {
+    // Reset position for resting platforms, before going into boundary collision
+    if (!m_is_floater && m_is_resting)
+    {
+        sad::Point2D p = m_body->position();
+        double my_y = this->area()[0].y();
+        double rect_upper_y = dynamic_cast<sad::p2d::Rectangle*>(m_resting_platform->currentShape())->rect()[2].y();
+        p.setY(p.y() + (rect_upper_y + 0.1 - my_y));
+        m_body->setCurrentPosition(p);
+    }
+
     // If player went too far into left or right, block the way
     sad::Rect2D area = this->m_sprite->area();
     if ((area[0].x() < left_bound) && (!sad::is_fuzzy_equal(area[0].x(), left_bound)))
