@@ -73,9 +73,6 @@ public:
      */
     void tryStopGoingRight();
 
-    /*! Performs forces if velocity were changed
-     */
-    void performForceActionIfVelocityWereChanged() const;
     /*! Called on platform collision
         \patam[in] ev collision event
      */
@@ -333,9 +330,6 @@ private:
     /*! True, if jumping animation is playing
      */
     bool m_is_jumping_animation_playing;
-    /*! A velocity change flag
-     */
-    bool m_velocity_changed;
     /*! A platform, where player is resting
      */
     sad::p2d::Body* m_resting_platform;

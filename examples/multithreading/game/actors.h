@@ -73,9 +73,6 @@ public:
     /*! Clear fixed flags
      */
     void clearFixedFlags();
-    /*! Performs forces if velocity were changed
-     */
-    void performForceActionIfVelocityWereChanged();
     /*! Clears actors list
      */
     void clear();

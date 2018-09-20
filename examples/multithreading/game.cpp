@@ -530,8 +530,6 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
                 this->m_actors.process(this, this->m_eval_context);
                 this->m_step_task->enable();
                 this->m_step_task->process();
-                this->m_player->performForceActionIfVelocityWereChanged();
-                this->m_actors.performForceActionIfVelocityWereChanged();
                 this->m_player->checkBoundaryCollision(0.0, max_level_x, 600, 0);
                 this->m_actors.checkBoundaryCollision(0.0, max_level_x, 600, 0);
                 this->m_triggers.tryRun(this->m_player, this->m_eval_context);

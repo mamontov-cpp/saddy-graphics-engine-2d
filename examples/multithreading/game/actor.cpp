@@ -22,7 +22,6 @@ m_is_ducking(false),
 m_is_free_fall(false),
 m_is_walking_animation_playing(false),
 m_is_jumping_animation_playing(false), 
-m_velocity_changed(false),
 m_resting_platform(NULL),
 m_fixed_x(false),
 m_fixed_y(false),
@@ -301,14 +300,8 @@ void game::Actor::onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev)
     sad::p2d::Vector force_value;
     ev.m_object_1->tangentialForces().value(force_value);
 
-    bool willVelocityChange = ev.m_object_1->willTangentialVelocityChange();
     sad::p2d::Vector v = ev.m_object_2->tangentialVelocity();
     sad::p2d::Vector player_velocity = ev.m_object_1->tangentialVelocity();
-    sad::p2d::Vector next_velocity;
-    if (willVelocityChange)
-    {
-        next_velocity = ev.m_object_1->nextTangentialVelocity();
-    }
 
     bool willActorPositionChange = ev.m_object_1->willPositionChange();
     sad::p2d::Vector nextActorPosition = ev.m_object_1->nextPosition();
@@ -319,11 +312,10 @@ void game::Actor::onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev)
     sad::p2d::BounceSolver* bounce_solver = m_game->bounceSolver();
     bounce_solver->pushResilienceCoefficient(0.0);
     bounce_solver->pushRotationFriction(0.0);
+    bounce_solver->toggleInelasticCollisions(true);
     if (!bounce_solver->bounce(ev.m_object_1, ev.m_object_2))
     {
-        ev.m_object_1->setCurrentTangentialVelocity(this->oldVelocity());
         bool bounced = bounce_solver->bounce(ev.m_object_1, ev.m_object_2);
-        ev.m_object_1->setCurrentTangentialVelocity(player_velocity);
         if (!bounced)
         {
             return;
@@ -404,7 +396,6 @@ void game::Actor::onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev)
                 }
                 ev.m_object_1->shedulePosition(sad::Point2D(x, y));
                 this->setYCoordinateFixed(true);
-
             }
             else
             {
@@ -452,43 +443,9 @@ void game::Actor::onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev)
                 this->setXCoordinateFixed(true);
             }
         }
-        if (!willVelocityChange)
-        {
-            player_velocity += force_value * ctoi_tick;
-            this->sheduleVelocity(player_velocity);
-            // Do not change this velocity
-            m_velocity_changed = false;
-        }
-        else
-        {
-            this->sheduleVelocity(next_velocity);
-        }
     }
-    ev.m_object_2->setCurrentTangentialVelocity(v);
-    ev.m_object_2->setCurrentAngularVelocity(0);
-    ev.m_object_2->sheduleTangentialVelocity(v);
-    ev.m_object_2->sheduleAngularVelocity(0);
     ev.m_object_2->shedulePosition(ev.m_object_2->position() + v * tick);
 }
-
-void game::Actor::performForceActionIfVelocityWereChanged() const
-{
-    if (m_velocity_changed && !m_is_resting)
-    { 
-        sad::p2d::Vector v;
-        this->m_body->tangentialForces().value(v);
-        v *= m_game->physicsWorld()->timeStep();
-        if (m_body->weight().isInfinite() == false)
-        {
-            v /= m_body->weight().value();
-        }
-        sad::p2d::Vector velocity = m_body->tangentialVelocity();
-        velocity += v;
-        m_body->setCurrentTangentialVelocity(velocity);
-    }
-}
-
-
 
 void game::Actor::setGame(Game* game)
 {
@@ -506,7 +463,6 @@ void game::Actor::reset()
 
     m_sprite = NULL;
     m_body = NULL;
-    m_velocity_changed = false;
     m_is_resting = false;
     m_is_ducking = false;
     m_is_free_fall = false;
@@ -546,7 +502,7 @@ void game::Actor::init(bool no_sound)
     bool is_going_left = false;
     bool is_going_right = false;
 
-    this->computeIsGoingUpDownFlags(is_going_up, is_going_down);    
+    this->computeIsGoingUpDownFlags(is_going_up, is_going_down);
     this->computeIsGoingLeftRightFlags(is_going_left, is_going_right);
 
     m_sprite->setAngle(0.0);
@@ -618,14 +574,7 @@ void game::Actor::init(bool no_sound)
             }
         }
 
-        if (m_body->willTangentialVelocityChange())
-        {
-            m_body->sheduleTangentialVelocity(sad::p2d::Vector(new_velocity_x, new_velocity_y));
-        }
-        else
-        {
-            m_body->setCurrentTangentialVelocity(sad::p2d::Vector(new_velocity_x, new_velocity_y));
-        }
+        m_body->setCurrentTangentialVelocity(sad::p2d::Vector(new_velocity_x, new_velocity_y));
     }
     else
     {
@@ -770,11 +719,7 @@ void game::Actor::setHorizontalVelocity(double value)
         v.setX(0.0);
     }
     v.setX(v.x() + value);
-    if (b->willTangentialVelocityChange())
-    {
-        v.setY(b->nextTangentialVelocity().y());
-    }
-    this->sheduleVelocity(v);
+    this->m_body->setCurrentTangentialVelocity(v);
     
     m_own_horizontal_velocity = value;
     if (m_is_resting && !m_is_ducking && !m_is_floater)
@@ -800,25 +745,13 @@ void game::Actor::setHorizontalVelocity(double value)
 
 void game::Actor::incrementVerticalVelocity(double value)
 {
-    if (m_body->willTangentialVelocityChange())
+    sad::p2d::Vector v = m_body->tangentialVelocity();
+    if (m_is_resting)
     {
-        sad::p2d::Vector v = m_body->nextTangentialVelocity();
-        if (!(this->isXCoordinateFixed()))
-        {
-            v.setX(m_own_horizontal_velocity);
-        }        
-        this->sheduleVelocity(v + sad::p2d::Vector(0, value));
+        v.setX(m_own_horizontal_velocity);
+        v.setY(0.0);
     }
-    else
-    {
-         sad::p2d::Vector v = m_body->tangentialVelocity();
-         if (m_is_resting)
-         {
-             v.setX(m_own_horizontal_velocity);
-             v.setY(0.0);
-         }
-         this->sheduleVelocity(m_body->tangentialVelocity() + sad::p2d::Vector(0, value));
-    }
+    this->m_body->setCurrentTangentialVelocity(v + sad::p2d::Vector(0, value));
     printf("Next tangential velocity after increment: %lf, %lf\n", m_body->nextTangentialVelocity().x(), m_body->nextTangentialVelocity().y());
 }
 
@@ -868,12 +801,6 @@ void game::Actor::restOnPlatform(sad::p2d::Body* b, const  sad::p2d::Vector& old
         m_is_ducking = false;
     }
     m_resting_platform = b;
-    
-    double av = 0;
-    b->setCurrentTangentialVelocity(old_velocity);
-    b->setCurrentAngularVelocity(av);
-    b->sheduleTangentialVelocity(old_velocity);
-    b->sheduleAngularVelocity(av);
 
     sad::p2d::Vector own_velocity = old_velocity;
     if (m_is_floater)
@@ -885,9 +812,6 @@ void game::Actor::restOnPlatform(sad::p2d::Body* b, const  sad::p2d::Vector& old
         own_velocity.setX(own_velocity.x() + m_own_horizontal_velocity);
     }
     m_body->setCurrentTangentialVelocity(own_velocity);
-    m_body->setCurrentAngularVelocity(av);
-    m_body->sheduleTangentialVelocity(own_velocity);
-    m_body->sheduleAngularVelocity(av);
 
     if (!m_is_floater)
     { 
@@ -966,7 +890,6 @@ void game::Actor::clearFixedFlags()
 {
     m_fixed_x = false;
     m_fixed_y = false;
-    m_velocity_changed = false;
 }
 
 bool game::Actor::isXCoordinateFixed() const
@@ -1021,7 +944,6 @@ void game::Actor::testResting()
             {
                 sad::p2d::Vector own_velocity = this->computeVelocityForFloater();
                 m_body->setCurrentTangentialVelocity(own_velocity);
-                m_body->sheduleTangentialVelocity(own_velocity);
             }
         } 
         else
@@ -1046,7 +968,6 @@ void game::Actor::testResting()
             }
 
             m_body->setCurrentTangentialVelocity(own_velocity);
-            m_body->sheduleTangentialVelocity(own_velocity);
         }
 
     }
@@ -1452,18 +1373,9 @@ void game::Actor::setVerticalVelocity(double v) const
         return;
     }
     sad::p2d::Body* b = m_body;
-    if (b->willTangentialVelocityChange())
-    {
-        sad::p2d::Vector velocity = b->nextTangentialVelocity();
-        velocity.setY(v);
-        b->sheduleTangentialVelocity(velocity);
-    }
-    else
-    {
-        sad::p2d::Vector velocity = b->tangentialVelocity();
-        velocity.setY(v);
-        b->setCurrentTangentialVelocity(velocity);
-    }
+    sad::p2d::Vector velocity = b->tangentialVelocity();
+    velocity.setY(v);
+    b->setCurrentTangentialVelocity(velocity);
 }
 
 sad::animations::Animations* game::Actor::animations() const
@@ -1563,10 +1475,3 @@ void game::Actor::correctShape() const
     this->m_sprite->setArea(corrected_rect);
     shape->setRect(corrected_rect);
 }
-
-void game::Actor::sheduleVelocity(const sad::p2d::Vector& v)
-{
-    this->m_body->sheduleTangentialVelocity(v);
-    m_velocity_changed = true;
-}
-

@@ -104,14 +104,6 @@ void game::Actors::clearFixedFlags()
     }
 }
 
-void game::Actors::performForceActionIfVelocityWereChanged()
-{
-    for (size_t i = 0; i < m_actors.size(); i++)
-    {
-        m_actors[i]->Actor->performForceActionIfVelocityWereChanged();
-    }
-}
-
 void game::Actors::clear()
 {
     this->destroy();
