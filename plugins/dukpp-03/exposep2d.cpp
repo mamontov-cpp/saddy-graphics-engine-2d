@@ -540,6 +540,8 @@ static void exposeBounceSolver(sad::dukpp03::Context* ctx)
     c->addMethod("bounce", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::bounce));
     c->addMethod("enableDebug", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::enableDebug));
     c->addMethod("dump", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::dump));
+    c->addMethod("toggleInelasticCollisions", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::toggleInelasticCollisions));
+    c->addMethod("isEnabledInelasticCollisions", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::isEnabledInelasticCollisions));
 
     c->setPrototypeFunction("SadP2BounceSolver");
 

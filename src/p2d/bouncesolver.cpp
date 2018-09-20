@@ -3,7 +3,7 @@
 
 DECLARE_SOBJ(sad::p2d::BounceSolver);
 
-sad::p2d::BounceSolver::BounceSolver() : m_toi(0)
+sad::p2d::BounceSolver::BounceSolver() : m_toi(0), m_inelastic_collisions(false)
 {
     m_find = new sad::p2d::FindContactPoints();
     m_first = NULL;
@@ -127,15 +127,18 @@ void sad::p2d::BounceSolver::performBouncing(const sad::p2d::SetOfPointsPair & p
     sad::p2d::Vector tangentialPart2 = v2;
     tangentialPart2 -= normalPart2;
 
-    this->resolveNormalSpeed(m_first, normalPart1, m_second, cachedNormal2, 0);		
-    m_first->correctTangentialVelocity(normalPart1 + tangentialPart1);		
+    this->resolveNormalSpeed(m_first, normalPart1, m_second, cachedNormal2, 0);
+    if (!m_inelastic_collisions) {
+        m_first->correctTangentialVelocity(normalPart1 + tangentialPart1);
+    }
     m_first->correctPosition(m_av1 * m_toi);
-    this->tryResolveFriction(m_first, tangentialPart1, normalPart1 - cachedNormal1, 0, pivot1);	
-    this->resolveNormalSpeed(m_second, normalPart2, m_first, cachedNormal1, 1);		
-    m_second->correctTangentialVelocity(normalPart2 + tangentialPart2);		
-    m_second->correctPosition(m_av2 * m_toi);		
-    this->tryResolveFriction(m_second, tangentialPart2, normalPart2 - cachedNormal2, 1, pivot2);	
-
+    this->tryResolveFriction(m_first, tangentialPart1, normalPart1 - cachedNormal1, 0, pivot1);
+    this->resolveNormalSpeed(m_second, normalPart2, m_first, cachedNormal1, 1);
+    if (!m_inelastic_collisions) {
+        m_second->correctTangentialVelocity(normalPart2 + tangentialPart2);
+    }
+    m_second->correctPosition(m_av2 * m_toi);
+    this->tryResolveFriction(m_second, tangentialPart2, normalPart2 - cachedNormal2, 1, pivot2);
 }
 
 
@@ -167,6 +170,16 @@ std::string sad::p2d::BounceSolver::dump()
                        << m_second->nextTangentialVelocity().x() <<m_second->nextTangentialVelocity().y()					
                 );
     return result;
+}
+
+void sad::p2d::BounceSolver::toggleInelasticCollisions(bool b)
+{
+    m_inelastic_collisions = b;
+}
+
+bool sad::p2d::BounceSolver::isEnabledInelasticCollisions() const
+{
+    return m_inelastic_collisions;
 }
 
 void sad::p2d::BounceSolver::logFCPError(const char * m)
@@ -282,7 +295,8 @@ void sad::p2d::BounceSolver::tryResolveFriction(
 {
     if (sad::non_fuzzy_zero(m_rotationfriction[index]) 
         && b->weight().isInfinite() == false 
-        && m_shouldperformrotationfriction)
+        && m_shouldperformrotationfriction
+        && !m_inelastic_collisions)
     {
         double w = b->angularVelocityAt(m_toi);
         sad::p2d::Vector tangential = m_force_moment[index];

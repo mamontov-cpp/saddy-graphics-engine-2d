@@ -104,6 +104,14 @@ public:
         \return dump of all collected data
      */
     std::string dump();
+    /*! Toggles inelastic collisions
+        \param[in] b inelastic collisions
+     */
+    void toggleInelasticCollisions(bool b);
+    /*! Returns whether inelastic collisions are enabled
+        \return whether they are enabled
+     */
+    bool isEnabledInelasticCollisions() const;
 protected:
     p2d::FindContactPoints * m_find;  //!< Current algorithm for finding a contact poinnts
     p2d::Body * m_first;   //!< First body to test against
@@ -126,6 +134,10 @@ protected:
         If it's set to false - we should not count rotation
      */
     bool        m_shouldperformrotationfriction;
+    /*! A special flag, that makes all collision inelastic, thus disabling changing velocity
+        for solver
+     */
+    bool        m_inelastic_collisions;
     /*! Performs bouncing off for an object with a solver
         \param[in] pairs a set of pairs of collision points for time of impact
      */ 
