@@ -3,7 +3,9 @@
 #include "renderer.h"
 #include "mainloop.h"
 #include "window.h"
-#include "glcontext.h"
+#ifndef _WIN32
+    #include "glcontext.h"
+#endif
 
 #include "log/log.h"
 
@@ -13,7 +15,9 @@
 #include "input/events.h"
 #include "input/controls.h"
 
-#include <cstring>
+#ifndef _WIN32
+    #include <cstring>
+#endif
 
 #ifdef WIN32
 #include <windowsx.h>
@@ -26,6 +30,9 @@ sad::os::SystemEventDispatcher::SystemEventDispatcher() //-V730
 : m_renderer(NULL),
 m_decoder_for_keypress_events(new sad::os::KeyDecoder()),
 m_decoder_for_keyrelease_events(new sad::os::KeyDecoder())
+#ifdef WIN32
+, m_is_in_window(false)
+#endif
 #ifdef X11
 , m_alt_is_held(false),
 m_in_doubleclick(false)
@@ -69,10 +76,12 @@ void sad::os::SystemEventDispatcher::reset()
         sad::input::MouseEnterEvent ev;
         ev.Point = sad::Point2D(pt.value().x(), pt.value().y());
         ev.Point3D = pt.value();
-        m_renderer->controls()->postEvent(sad::input::ET_MouseEnter, ev);
+        m_renderer->mainLoop()->pushDispatch([=]() {
+            m_renderer->controls()->postEvent(sad::input::ET_MouseEnter, ev);
+        });
     }
     sad::Rect2I  r = m_renderer->window()->rect();
-    m_old_window_size = sad::Size2I((unsigned int)(r.width()), (unsigned)(r.height()));
+    m_old_window_size = sad::Size2I(static_cast<unsigned int>(r.width()), static_cast<unsigned>(r.height()));
 }
 
 sad::os::SystemWindowEventDispatchResult sad::os::SystemEventDispatcher::dispatch(
@@ -132,13 +141,14 @@ sad::os::SystemWindowEventDispatchResult sad::os::SystemEventDispatcher::dispatc
         case WM_NCHITTEST:
             result = processHitTest(e);
             break;
+        default: break;
     };
     return result;
 }
 
 #endif
 
-sad::Point2D  sad::os::SystemEventDispatcher::toClient(const sad::Point2D& p)
+sad::Point2D  sad::os::SystemEventDispatcher::toClient(const sad::Point2D& p) const
 {
 #ifndef WIN32
     return p;
@@ -151,7 +161,7 @@ sad::Point2D  sad::os::SystemEventDispatcher::toClient(const sad::Point2D& p)
     ClientToScreen(m_renderer->window()->handles()->WND, &begin);
     LONG x_offset = begin.x - window.left;
     LONG y_offset = begin.y - window.top;
-    return sad::Point2D(p.x() + x_offset, p.y() + y_offset);
+    return {p.x() + x_offset, p.y() + y_offset};
 #endif
 }
 
@@ -247,7 +257,13 @@ void sad::os::SystemEventDispatcher::processQuit(sad::os::SystemWindowEvent & e)
     if (m_renderer->running())
     {
         sad::input::QuitEvent ev;
+#ifdef _WIN32
+        m_renderer->mainLoop()->pushDispatch([=]() {
+#endif
         m_renderer->controls()->postEvent(sad::input::ET_Quit, ev);
+#ifdef _WIN32
+        });
+#endif
         m_renderer->mainLoop()->stop();
     }
 }
@@ -255,26 +271,38 @@ void sad::os::SystemEventDispatcher::processQuit(sad::os::SystemWindowEvent & e)
 
 void sad::os::SystemEventDispatcher::processActivate(sad::os::SystemWindowEvent & e)
 {
-    if (m_renderer->window()->active() == false)
+    if (!m_renderer->window()->active())
     {
 #ifdef EVENT_LOGGING
         SL_LOCAL_INTERNAL("Triggered ActivateEvent()", *m_renderer);
 #endif
         sad::input::ActivateEvent ev;
+#ifdef _WIN32
+        m_renderer->mainLoop()->pushDispatch([=]() {
+#endif
         m_renderer->controls()->postEvent(sad::input::ET_Activate, ev);
+#ifdef _WIN32
+        });
+#endif
         m_renderer->window()->setActive(true);
     }
 }
 
 void sad::os::SystemEventDispatcher::processDeactivate(sad::os::SystemWindowEvent & e)
 {
-    if (m_renderer->window()->active() == true)
+    if (m_renderer->window()->active())
     {
 #ifdef EVENT_LOGGING
         SL_LOCAL_INTERNAL("Triggered DeactivateEvent()", *m_renderer);
 #endif
         sad::input::ActivateEvent ev;
+#ifdef _WIN32
+        m_renderer->mainLoop()->pushDispatch([=]() {
+#endif
         m_renderer->controls()->postEvent(sad::input::ET_Deactivate, ev);
+#ifdef _WIN32
+        });
+#endif
         m_renderer->window()->setActive(false);
     }
 }
@@ -284,22 +312,28 @@ void sad::os::SystemEventDispatcher::processMouseMove(sad::os::SystemWindowEvent
 #ifdef WIN32
     sad::Point2D p(GET_X_LPARAM(e.LParam), GET_Y_LPARAM(e.LParam));
     sad::Point3D op = m_renderer->mapToViewport(p);
-    if (m_is_in_window == false)
+    if (!m_is_in_window)
     {
         m_is_in_window = true;
 
         // Force window to track data
-        TRACKMOUSEEVENT e;
-        e.cbSize = sizeof(TRACKMOUSEEVENT);
-        e.dwFlags = TME_LEAVE;
-        e.hwndTrack = m_renderer->window()->handles()->WND;
-        e.dwHoverTime = HOVER_DEFAULT;
-        TrackMouseEvent(&e);
+        TRACKMOUSEEVENT trackmouseevent;
+        trackmouseevent.cbSize = sizeof(TRACKMOUSEEVENT);
+        trackmouseevent.dwFlags = TME_LEAVE;
+        trackmouseevent.hwndTrack = m_renderer->window()->handles()->WND;
+        trackmouseevent.dwHoverTime = HOVER_DEFAULT;
+        TrackMouseEvent(&trackmouseevent);
 
         sad::input::MouseEnterEvent ev;
         ev.Point = this->toClient(p);
         ev.Point3D = op;
-        m_renderer->controls()->postEvent(sad::input::ET_MouseEnter, ev);
+#ifdef _WIN32
+        m_renderer->mainLoop()->pushDispatch([=]() {
+#endif
+            m_renderer->controls()->postEvent(sad::input::ET_MouseEnter, ev);
+#ifdef _WIN32
+        });
+#endif
 #ifdef EVENT_LOGGING
         SL_LOCAL_INTERNAL(fmt::Format("Triggered MouseEnterEvent({0}, {1}, {2})") << op.x() << op.y() << op.z(), *m_renderer);
 #endif
@@ -310,7 +344,13 @@ void sad::os::SystemEventDispatcher::processMouseMove(sad::os::SystemWindowEvent
 #ifdef EVENT_LOGGING
         SL_LOCAL_INTERNAL(fmt::Format("Triggered MouseMoveEvent({0}, {1}, {2})") << op.x() << op.y() << op.z(), *m_renderer);
 #endif
-    m_renderer->controls()->postEvent(sad::input::ET_MouseMove, mmev);
+#ifdef _WIN32
+        m_renderer->mainLoop()->pushDispatch([=]() {
+#endif
+        m_renderer->controls()->postEvent(sad::input::ET_MouseMove, mmev);
+#ifdef _WIN32
+        });
+#endif
 #endif
 #ifdef X11
     sad::Point2D p(e.Event.xbutton.x, e.Event.xbutton.y);
@@ -328,16 +368,23 @@ void sad::os::SystemEventDispatcher::processMouseLeave(sad::os::SystemWindowEven
     m_is_in_window = false;
 #endif
     sad::input::MouseLeaveEvent mlev;
+#ifdef _WIN32
+    m_renderer->mainLoop()->pushDispatch([=]() {
+#endif
     m_renderer->controls()->postEvent(sad::input::ET_MouseLeave, mlev);
+#ifdef _WIN32
+    });
+#endif
 #ifdef EVENT_LOGGING
     SL_LOCAL_INTERNAL("Triggered MouseLeaveEvent()", *m_renderer);
 #endif
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void sad::os::SystemEventDispatcher::processMouseWheel(sad::os::SystemWindowEvent & e)
 {
 #ifdef WIN32
-    double delta=GET_WHEEL_DELTA_WPARAM(e.WParam)/(double)WHEEL_DELTA;
+    double delta=GET_WHEEL_DELTA_WPARAM(e.WParam)/static_cast<double>(WHEEL_DELTA);
     sad::Point2D p(GET_X_LPARAM(e.LParam), GET_Y_LPARAM(e.LParam));
     sad::Point3D viewportpoint = m_renderer->mapToViewport(p);
 #endif
@@ -363,7 +410,13 @@ void sad::os::SystemEventDispatcher::processMouseWheel(sad::os::SystemWindowEven
     ev.Point = this->toClient(p);
     ev.Point3D = viewportpoint;
     ev.Delta = delta;
+#ifdef _WIN32
+    m_renderer->mainLoop()->pushDispatch([=]() {
+#endif
     m_renderer->controls()->postEvent(sad::input::ET_MouseWheel, ev);
+#ifdef _WIN32
+    });
+#endif
 #ifdef EVENT_LOGGING
     SL_LOCAL_INTERNAL(
         fmt::Format("Triggered MouseWheelEvent({0}, [{1}, {2}, {3}])")
@@ -390,9 +443,15 @@ void sad::os::SystemEventDispatcher::processResize(sad::os::SystemWindowEvent & 
             sad::input::ResizeEvent ev;
             ev.OldSize = m_old_window_size;
             ev.NewSize = size;
+#ifdef _WIN32
+            m_renderer->mainLoop()->pushDispatch([=]() {
+#endif
             m_renderer->controls()->postEvent(sad::input::ET_Resize, ev);
             m_renderer->reshape(size.Width, size.Height);
             m_old_window_size = size;
+#ifdef _WIN32
+            });
+#endif
         }
     }
     else
@@ -426,6 +485,7 @@ void sad::os::SystemEventDispatcher::processResize(sad::os::SystemWindowEvent & 
 #endif
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void sad::os::SystemEventDispatcher::processKeyPress(
     sad::os::SystemWindowEvent & e
 )
@@ -463,7 +523,13 @@ void sad::os::SystemEventDispatcher::processKeyPress(
         *m_renderer
     );
 #endif
-    m_renderer->controls()->postEvent(sad::input::ET_KeyPress, ev);
+#ifdef _WIN32
+    m_renderer->mainLoop()->pushDispatch([=]() {
+#endif
+        m_renderer->controls()->postEvent(sad::input::ET_KeyPress, ev);
+#ifdef _WIN32
+    });
+#endif
 }
 
 void sad::os::SystemEventDispatcher::processKeyRelease(
@@ -502,7 +568,13 @@ void sad::os::SystemEventDispatcher::processKeyRelease(
         *m_renderer
     );
 #endif
+#ifdef _WIN32
+    m_renderer->mainLoop()->pushDispatch([=]() {
+#endif
     m_renderer->controls()->postEvent(sad::input::ET_KeyRelease, ev);
+#ifdef _WIN32
+    });
+#endif
 }
 
 void sad::os::SystemEventDispatcher::processMousePress(sad::os::SystemWindowEvent & e)
@@ -510,6 +582,7 @@ void sad::os::SystemEventDispatcher::processMousePress(sad::os::SystemWindowEven
     sad::Maybe<sad::input::MouseDoubleClickEvent> maybedcev;
 #ifdef WIN32
     sad::MouseButton btn = sad::MouseLeft;
+    // ReSharper disable once CppDefaultCaseNotHandledInSwitchStatement
     switch(e.MSG)
     {
         case WM_RBUTTONDOWN: btn = sad::MouseRight; break;
@@ -578,8 +651,13 @@ void sad::os::SystemEventDispatcher::processMousePress(sad::os::SystemWindowEven
         *m_renderer
     );
 #endif
+#ifdef _WIN32
+    m_renderer->mainLoop()->pushDispatch([=]() {
+#endif
     m_renderer->controls()->postEvent(sad::input::ET_MousePress, ev);
-
+#ifdef _WIN32
+    });
+#endif
     // Pose double click if need to
     if (maybedcev.exists())
     {
@@ -593,15 +671,23 @@ void sad::os::SystemEventDispatcher::processMousePress(sad::os::SystemWindowEven
             *m_renderer
         );
 #endif
+#ifdef _WIN32
+        m_renderer->mainLoop()->pushDispatch([=]() {
+#endif
         m_renderer->controls()->postEvent(sad::input::ET_MouseDoubleClick, maybedcev.value());
+#ifdef _WIN32
+        });
+#endif
     }
 
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void sad::os::SystemEventDispatcher::processMouseRelease(sad::os::SystemWindowEvent & e)
 {
 #ifdef WIN32
     sad::MouseButton btn = sad::MouseLeft;
+    // ReSharper disable once CppDefaultCaseNotHandledInSwitchStatement
     switch(e.MSG)
     {
         case WM_RBUTTONUP: btn = sad::MouseRight; break;
@@ -642,7 +728,13 @@ void sad::os::SystemEventDispatcher::processMouseRelease(sad::os::SystemWindowEv
         *m_renderer
     );
 #endif
+#ifdef _WIN32
+    m_renderer->mainLoop()->pushDispatch([=]() {
+#endif
     m_renderer->controls()->postEvent(sad::input::ET_MouseRelease, ev);
+#ifdef _WIN32
+    });
+#endif
 }
 
 
@@ -666,9 +758,11 @@ void sad::os::SystemEventDispatcher::processMouseEnter(sad::os::SystemWindowEven
 #ifdef WIN32
 
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void sad::os::SystemEventDispatcher::processMouseDoubleClick(sad::os::SystemWindowEvent & e)
 {
     sad::MouseButton btn = sad::MouseLeft;
+    // ReSharper disable once CppDefaultCaseNotHandledInSwitchStatement
     switch(e.MSG)
     {
         case WM_RBUTTONDBLCLK: btn = sad::MouseRight; break;
@@ -692,7 +786,13 @@ void sad::os::SystemEventDispatcher::processMouseDoubleClick(sad::os::SystemWind
         *m_renderer
     );
 #endif
+#ifdef _WIN32
+    m_renderer->mainLoop()->pushDispatch([=]() {
+#endif
     m_renderer->controls()->postEvent(sad::input::ET_MouseDoubleClick, ev);
+#ifdef _WIN32
+    });
+#endif
 }
 
 // A window resize array
@@ -712,16 +812,16 @@ static  LRESULT windowresizepoints[windowresizepointscount] = {
 
 sad::os::SystemWindowEventDispatchResult  sad::os::SystemEventDispatcher::processHitTest(
     sad::os::SystemWindowEvent & e
-)
+) const
 {
 
     sad::os::SystemWindowEventDispatchResult  result;
     result.setValue(DefWindowProcA(e.WND, e.MSG, e.WParam, e.LParam));
-    if (m_renderer->window()->fixed() == false)
+    if (!m_renderer->window()->fixed())
         return result;
     bool isusertriestoresize = false;
-    for(int i = 0; i < windowresizepointscount; i++)
-        isusertriestoresize = isusertriestoresize || (windowresizepoints[i] == result.value());
+    for (long windowresizepoint : windowresizepoints)
+        isusertriestoresize = isusertriestoresize || (windowresizepoint == result.value());
 
     if (isusertriestoresize)
     {

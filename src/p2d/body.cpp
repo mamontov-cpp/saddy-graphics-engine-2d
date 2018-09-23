@@ -57,25 +57,29 @@ sad::Object * sad::p2d::Body::userObject() const
 
 const sad::String & sad::p2d::Body::userType() const
 {
-    if (m_user_objects.size() == 0)
+    if (m_user_objects.empty())
     {
         return this->metaData()->name();
     }
     return m_user_objects[0]->metaData()->name();
 }
 
-sad::p2d::CollisionShape & sad::p2d::Body::at(double time, int index) const
+sad::p2d::CollisionShape& sad::p2d::Body::at(double time, int index) const
 {
     sad::p2d::Body * me = const_cast<sad::p2d::Body *>(this);
 
     // Light optimization, because most of our collision shapes are POD-like structures
     // We can reduce amount of allocations, using untyped copying instead all of high-level
     // operations
-    memcpy(me->Temporary + index, me->m_current, me->m_shapesize);
 
-    (me->Temporary + index)->move(m_tangential->positionDelta(time, me->TimeStep));
-    (me->Temporary + index)->rotate(m_angular->positionDelta(time, me->TimeStep));
-    return *(me->Temporary + index);
+    // Recompute base pointer by computing correct offset
+    unsigned char* bytes = reinterpret_cast<unsigned char*>(me->Temporary) + index * me->m_shapesize;
+    sad::p2d::CollisionShape* base_shape = reinterpret_cast<sad::p2d::CollisionShape*>(bytes);
+    memcpy(base_shape, me->m_current, me->m_shapesize);
+
+    base_shape->move(m_tangential->positionDelta(time, me->TimeStep));
+    base_shape->rotate(m_angular->positionDelta(time, me->TimeStep));
+    return *base_shape;
 }
 
 void sad::p2d::Body::stepDiscreteChangingValues(double time)
@@ -185,7 +189,7 @@ void sad::p2d::Body::setShape(sad::p2d::CollisionShape * shape)
     m_current->rotate(this->m_angular->position());
     m_shapesize = m_current->sizeOfType();
 
-    delete Temporary;
+    delete[] Temporary;
     Temporary = NULL;
     if (m_lastsampleindex > -1)
         Temporary = m_current->clone(m_lastsampleindex + 1);    

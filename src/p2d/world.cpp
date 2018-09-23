@@ -729,6 +729,11 @@ void sad::p2d::World::setDetector(sad::p2d::CollisionDetector * d)
     m_global_body_container.setSamplingCount(m_detector->sampleCount());
 }
 
+sad::p2d::CollisionDetector* sad::p2d::World::detector() const
+{
+    return m_detector;
+}
+
 double sad::p2d::World::timeStep() const
 {
     return m_time_step;

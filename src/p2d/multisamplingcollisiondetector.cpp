@@ -14,8 +14,14 @@ sad::p2d::MaybeTime sad::p2d::MultisamplingCollisionDetector::collides(sad::p2d:
     }
     for(unsigned int  i = 0; i  < m_tests && !(result.exists()); i++)
     {
-        sad::p2d::CollisionShape * s1 = b1->Temporary + i;
-        sad::p2d::CollisionShape * s2 = b2->Temporary + i;
+        size_t size_of_type_1 = b1->currentShape()->sizeOfType();
+        size_t size_of_type_2 = b2->currentShape()->sizeOfType();
+
+        unsigned char* shape_ptr_1 = reinterpret_cast<unsigned char*>(b1->Temporary) + i * size_of_type_1;
+        unsigned char* shape_ptr_2 = reinterpret_cast<unsigned char*>(b2->Temporary) + i * size_of_type_2;
+
+        sad::p2d::CollisionShape* s1 = reinterpret_cast<sad::p2d::CollisionShape*>(shape_ptr_1);
+        sad::p2d::CollisionShape* s2 = reinterpret_cast<sad::p2d::CollisionShape*>(shape_ptr_2);
         if (m_tester->invoke(s1, s2))
         {
             result.setValue(limit / m_tests * (i+1));

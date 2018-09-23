@@ -6,6 +6,11 @@
     use sad::Renderer::run() instead.
  */
 #pragma once
+#ifdef _WIN32
+    #include <functional>
+    #include <sadvector.h>
+    #include <sadmutex.h>
+#endif
 
 namespace sad
 {
@@ -62,6 +67,15 @@ public:
     /*! Deinits main loop after finishing it
      */
     virtual void deinitMainLoop();
+#ifdef _WIN32
+    /*! Pushes dispatches for main loop
+        \param[in] f function
+     */
+    void pushDispatch(const std::function<void()>& f);
+    /*! Runs and cleans dispatches for main loop
+     */
+    void runAndCleanDispatches();
+#endif
 protected:
     /*! Tries to elevate priority of current process, when performing main loop
      */
@@ -96,6 +110,12 @@ protected:
     /*! A system event disptacher for dispachign all events
      */
     sad::os::SystemEventDispatcher * m_dispatcher;
+#ifdef _WIN32
+    sad::Vector<std::function<void()> > m_event_dispatches;
+    /*! An event dispatches lock
+     */
+    sad::Mutex m_event_dispatches_lock;
+#endif
 private:
     /*! Disabled to made main loop non-copyable
         \param[in] o other main loop

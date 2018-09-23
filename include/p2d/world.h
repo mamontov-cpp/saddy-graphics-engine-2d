@@ -502,6 +502,10 @@ public:
         \param[in] d detector
      */
     void setDetector(sad::p2d::CollisionDetector * d);
+    /*! Returns a collision detector for a world
+        \return detector
+     */
+    sad::p2d::CollisionDetector* detector() const;
     /*! Returns current time step for a world
         \return a time step for a world
      */
