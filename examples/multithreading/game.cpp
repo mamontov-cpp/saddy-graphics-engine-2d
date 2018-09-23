@@ -13,7 +13,6 @@
 
 #include <sprite2d.h>
 #include <label.h>
-#include <sadsleep.h>
 
 #include <db/dbdatabase.h>
 #include <db/dbpopulatescenesfromdatabase.h>
@@ -525,6 +524,8 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
                 this->m_task_lock.acquire();
 
                 this->m_moving_platform_registry.movePlatforms(m_step_task->stepTick());
+                this->m_player->testResting();
+                this->m_actors.testResting();
                 this->m_player->clearFixedFlags();
                 this->m_actors.clearFixedFlags();
                 this->m_actors.process(this, this->m_eval_context);
@@ -532,54 +533,14 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
                 this->m_step_task->process();
                 this->m_player->checkBoundaryCollision(0.0, max_level_x, 600, 0);
                 this->m_actors.checkBoundaryCollision(0.0, max_level_x, 600, 0);
+                this->tryRenderDebugShapes();
                 this->m_triggers.tryRun(this->m_player, this->m_eval_context);
 
                 this->m_task_lock.release();
             }
         }
     });
-    // A debug collision shape rendering
-    renderer->pipeline()->appendProcess([=]() {
-        if (this->m_state_machine.isInState("playing"))
-        {
-            if (this->m_paused_state_machine.isInState("playing"))
-            {
-                if (m_is_rendering_world_bodies)
-                {
-                    m_task_lock.acquire();
-
-                    sad::Vector<sad::p2d::Body*> bodies = m_physics_world->allBodies();
-                    if (!bodies.empty())
-                    {
-                        for(size_t i = 0; i < bodies.size(); i++) 
-                        {
-                            sad::p2d::CollisionShape* shape =  bodies[i]->currentShape();
-                            if (shape->metaIndex() == sad::p2d::Rectangle::globalMetaIndex())
-                            {
-                                renderer->render()->rectangle(dynamic_cast<sad::p2d::Rectangle*>(shape)->rect(), sad::AColor(0, 0, 255, 255));
-                            }
-                            if (shape->metaIndex() == sad::p2d::Circle::globalMetaIndex())
-                            {
-                                sad::Vector<sad::p2d::Point> list_of_points;
-                                shape->populatePoints(list_of_points);
-                                for (size_t j = 0; j < (list_of_points.size() - 1); j++) 
-                                {
-                                    renderer->render()->line(list_of_points[j], list_of_points[j + 1], sad::AColor(0, 0, 255, 255));
-                                }
-                            }
-                            if (shape->metaIndex() == sad::p2d::Line::globalMetaIndex())
-                            {
-                                sad::p2d::Line* line = dynamic_cast<sad::p2d::Line*>(shape);
-                                renderer->render()->line(line->cutter().p1(), line->cutter().p2(), sad::AColor(0, 0, 255, 255));
-                            }
-                        }
-                    }
-
-                    m_task_lock.release();
-                }
-            }
-        }
-    });
+    
 }
 
 void Game::setControlsForInventoryThread(sad::Renderer* renderer)
@@ -1222,12 +1183,11 @@ struct GetAddressOfType<game::Player*, false, false>
 {
 public:
     /*! Returns address of type, stored in variant.
-        \param[in] v value
         \return empty maybe
      */
     static ::dukpp03::Maybe<game::Player*> getAddress(sad::db::Variant*)
     {
-        return ::dukpp03::Maybe<game::Player*>();
+        return {};
     }
 };
 
@@ -1298,11 +1258,6 @@ void Game::initContext()
                 body->setShape(rect);
 
                 body->attachObject(actor);
-
-                std::function<void (sad::p2d::Vector)> move_listener = [=](sad::p2d::Vector) {
-                    actor->testResting();
-                };
-                body->addMoveListener(move_listener);
                 body->initPosition(sprite->middle());
 
                 this->m_physics_world->addBodyToGroup("enemies", body);
@@ -1432,6 +1387,7 @@ void Game::destroyWorld()
 void Game::initGamePhysics()
 {
     m_physics_world = new sad::p2d::World();
+    m_physics_world->setDetector(new sad::p2d::MultisamplingCollisionDetector(2.0));
     m_physics_world->addRef();
     m_physics_world->addGroup("player");
     m_physics_world->addGroup("enemies");
@@ -1453,10 +1409,6 @@ void Game::initGamePhysics()
         rect->setRect(sprite->area());
         body->setShape(rect);
         body->attachObject(sprite);
-        std::function<void (sad::p2d::Vector)> move_listener = [this](sad::p2d::Vector) {
-            this->m_player->testResting();
-        };
-        body->addMoveListener(move_listener);
         body->initPosition(sprite->middle());
 
         m_physics_world->addBodyToGroup("player", body);
@@ -1665,6 +1617,43 @@ void Game::initGamePhysics()
     m_physics_world->addHandler("player", "platforms", collision_between_player_and_platforms);
     m_physics_world->addHandler("enemies", "platforms", collision_between_enemy_and_platforms);
     m_step_task->setWorld(m_physics_world);
+}
+
+
+
+void Game::tryRenderDebugShapes() const
+{
+    if (!m_is_rendering_world_bodies)
+    {
+        return;
+    }
+    sad::Renderer* renderer = m_main_thread->renderer();
+    sad::Vector<sad::p2d::Body*> bodies = m_physics_world->allBodies();
+    if (!bodies.empty())
+    {
+        for (size_t i = 0; i < bodies.size(); i++)
+        {
+            sad::p2d::CollisionShape* shape = bodies[i]->currentShape();
+            if (shape->metaIndex() == sad::p2d::Rectangle::globalMetaIndex())
+            {
+                renderer->render()->rectangle(dynamic_cast<sad::p2d::Rectangle*>(shape)->rect(), sad::AColor(0, 0, 255, 255));
+            }
+            if (shape->metaIndex() == sad::p2d::Circle::globalMetaIndex())
+            {
+                sad::Vector<sad::p2d::Point> list_of_points;
+                shape->populatePoints(list_of_points);
+                for (size_t j = 0; j < (list_of_points.size() - 1); j++)
+                {
+                    renderer->render()->line(list_of_points[j], list_of_points[j + 1], sad::AColor(0, 0, 255, 255));
+                }
+            }
+            if (shape->metaIndex() == sad::p2d::Line::globalMetaIndex())
+            {
+                sad::p2d::Line* line = dynamic_cast<sad::p2d::Line*>(shape);
+                renderer->render()->line(line->cutter().p1(), line->cutter().p2(), sad::AColor(0, 0, 255, 255));
+            }
+        }
+    }
 }
 
 Game::Game(const Game&)  // NOLINT

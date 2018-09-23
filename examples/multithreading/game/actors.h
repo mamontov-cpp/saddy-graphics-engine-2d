@@ -70,6 +70,9 @@ public:
         \param[in] bottom_bound a bottom bound for actor
      */
     void checkBoundaryCollision(double left_bound, double right_bound, double up_bound, double bottom_bound);
+    /*! Tests resting
+     */
+    void testResting();
     /*! Clear fixed flags
      */
     void clearFixedFlags();

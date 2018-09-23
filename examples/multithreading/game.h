@@ -242,6 +242,9 @@ private:
     /*! Inits in-game physics
      */
     void initGamePhysics();
+    /*! Renders debug game shapes
+     */
+    void tryRenderDebugShapes() const;
     /*! Disabled constructor
      */
     Game(const Game&);

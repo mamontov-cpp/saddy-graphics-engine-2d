@@ -295,7 +295,7 @@ void game::Actor::tryStopGoingRight()
 void game::Actor::onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev)
 {
     double tick = m_game->physicsWorld()->timeStep();
-    double precision_collision = 0.1; // A correction to ensure, that TOI won't be negative
+    double precision_collision = 0.5; // A correction to ensure, that TOI won't be negative
 
     sad::p2d::Vector force_value;
     ev.m_object_1->tangentialForces().value(force_value);
@@ -948,7 +948,7 @@ void game::Actor::testResting()
                 own_velocity = this->computeVelocityForFloater();
             }
             else
-            { 
+            {
                 own_velocity.setX(own_velocity.x() + m_own_horizontal_velocity);
                 if (this->isYCoordinateFixed())
                 {
@@ -959,7 +959,6 @@ void game::Actor::testResting()
                     own_velocity.setX(m_body->tangentialVelocity().x());
                 }
             }
-
             m_body->setCurrentTangentialVelocity(own_velocity);
         }
 
@@ -1125,14 +1124,19 @@ const sad::p2d::Vector& game::Actor::oldVelocity() const
 void game::Actor::checkBoundaryCollision(double left_bound, double right_bound, double up_bound, double bottom_bound)
 {
     // Reset position for resting platforms, before going into boundary collision
-    if (!m_is_floater && m_is_resting)
+    /*if (!m_is_floater && m_is_resting)
     {
         sad::Point2D p = m_body->position();
         double my_y = this->area()[0].y();
         double rect_upper_y = dynamic_cast<sad::p2d::Rectangle*>(m_resting_platform->currentShape())->rect()[2].y();
-        p.setY(p.y() + (rect_upper_y + 0.1 - my_y));
-        m_body->setCurrentPosition(p);
-    }
+        p.setY(p.y() + (rect_upper_y - my_y));
+        sad::p2d::CollisionTest detector;
+        do 
+        {
+            m_body->setCurrentPosition(p);
+            p.setY(p.y() + 0.1);
+        } while ((m_resting_platform != NULL) && detector.invoke(m_body->currentShape(), m_resting_platform->currentShape()));
+    }*/
 
     // If player went too far into left or right, block the way
     sad::Rect2D area = this->m_sprite->area();

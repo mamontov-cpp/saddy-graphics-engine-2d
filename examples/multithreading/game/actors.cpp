@@ -96,6 +96,14 @@ void game::Actors::checkBoundaryCollision(double left_bound, double right_bound,
     }
 }
 
+void game::Actors::testResting()
+{
+    for (size_t i = 0; i < m_actors.size(); i++)
+    {
+        m_actors[i]->Actor->testResting();
+    }
+}
+
 void game::Actors::clearFixedFlags()
 {
     for (size_t i = 0; i < m_actors.size(); i++)
