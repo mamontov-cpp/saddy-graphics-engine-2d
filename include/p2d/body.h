@@ -470,6 +470,9 @@ public:
      */
     CollisionShape * Temporary;
 private:
+    /*! Kills temporary shapes
+     */
+    void killTemporaryShapes();
     /*! A weight of specific body
      */
     p2d::Weight m_weight;

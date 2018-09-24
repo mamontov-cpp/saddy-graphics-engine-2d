@@ -138,7 +138,7 @@ sad::p2d::Body::~Body()
     delete m_tangential;
     delete m_angular;
     delete m_current;
-    delete[] Temporary;
+    this->killTemporaryShapes();
     if (m_user_objects.size())
     {
         for(size_t i = 0; i < m_user_objects.size(); i++)
@@ -187,9 +187,10 @@ void sad::p2d::Body::setShape(sad::p2d::CollisionShape * shape)
     this->trySetTransformer();
     m_current->move(this->m_tangential->position());
     m_current->rotate(this->m_angular->position());
+
+    this->killTemporaryShapes();
     m_shapesize = m_current->sizeOfType();
 
-    delete[] Temporary;
     Temporary = NULL;
     if (m_lastsampleindex > -1)
         Temporary = m_current->clone(m_lastsampleindex + 1);    
@@ -471,7 +472,7 @@ void sad::p2d::Body::buildCaches()
     {
         // Saves inner data, using at. After that, caches results can be used by 
         // any kind of detector to build data
-        this->at(t * (i+1), i );
+        this->at(slice * (i+1), i );
     }
 }
 
@@ -543,3 +544,20 @@ sad::Maybe<sad::Pair<double, sad::p2d::Vector> >& sad::p2d::Body::lastCollision(
     return m_last_collision;
 }
 
+
+void sad::p2d::Body::killTemporaryShapes()
+{
+    if (this->Temporary)
+    {
+        unsigned char* bytes = reinterpret_cast<unsigned char*>(this->Temporary);
+        for(int i = 0; i <= m_lastsampleindex; i++)
+        {
+            sad::p2d::CollisionShape* shape_ptr = reinterpret_cast<sad::p2d::CollisionShape*>(bytes);
+            shape_ptr->~CollisionShape();
+            bytes += m_shapesize;
+        }
+        // We call manually destructors, so free now
+        free(this->Temporary);
+        this->Temporary = NULL;
+    }
+}
