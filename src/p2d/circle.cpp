@@ -99,3 +99,8 @@ unsigned int sad::p2d::Circle::globalMetaIndex()
 {
     return 1;
 }
+
+void sad::p2d::Circle::deleteBlock(sad::p2d::CollisionShape* block)
+{
+    delete[] static_cast<sad::p2d::Circle*>(block);
+}

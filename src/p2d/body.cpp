@@ -528,7 +528,7 @@ void sad::p2d::Body::correctTangentialVelocity(const p2d::Vector & v)
 
 void sad::p2d::Body::setSamplingCount(int samples)
 {   
-    delete Temporary;
+    this->killTemporaryShapes();
     Temporary = m_current->clone(samples);
     m_lastsampleindex = samples - 1;
 }
@@ -549,15 +549,7 @@ void sad::p2d::Body::killTemporaryShapes()
 {
     if (this->Temporary)
     {
-        unsigned char* bytes = reinterpret_cast<unsigned char*>(this->Temporary);
-        for(int i = 0; i <= m_lastsampleindex; i++)
-        {
-            sad::p2d::CollisionShape* shape_ptr = reinterpret_cast<sad::p2d::CollisionShape*>(bytes);
-            shape_ptr->~CollisionShape();
-            bytes += m_shapesize;
-        }
-        // We call manually destructors, so free now
-        free(this->Temporary);
+        this->Temporary->deleteBlock(this->Temporary);
         this->Temporary = NULL;
     }
 }

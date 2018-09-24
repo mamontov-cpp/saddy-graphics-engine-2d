@@ -111,3 +111,8 @@ unsigned int sad::p2d::Line::globalMetaIndex()
 {
     return 2;
 }
+
+void sad::p2d::Line::deleteBlock(sad::p2d::CollisionShape* block)
+{
+    delete[] static_cast<sad::p2d::Line*>(block);
+}

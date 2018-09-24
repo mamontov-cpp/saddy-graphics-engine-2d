@@ -99,6 +99,10 @@ public:
         type of object, since we must keep shapes as POD as possible
      */
     static unsigned int globalMetaIndex();
+    /*! Frees block of memory, correctly, casting an object to specified type
+        \param[in] block a block of memory
+     */
+    virtual void deleteBlock(sad::p2d::CollisionShape* block);
 protected:
     p2d::Point m_center; //!< Center of circle
     double m_radius; //!< Radius of circle

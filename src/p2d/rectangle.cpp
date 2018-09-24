@@ -132,3 +132,8 @@ unsigned int sad::p2d::Rectangle::globalMetaIndex()
 {
     return 0;
 }
+
+void sad::p2d::Rectangle::deleteBlock(sad::p2d::CollisionShape* block)
+{
+    delete[] static_cast<sad::p2d::Rectangle*>(block);
+}
