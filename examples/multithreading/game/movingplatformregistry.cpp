@@ -138,11 +138,11 @@ void game::MovingPlatformRegistry::movePlatforms(double tick)
             }
         } while (!valid);
 
-        state.Platform->shedulePosition(state.Way->getPointInTime(ctime, 0.0)); // 0.0 - because it's just a part of sum in getPointInTime
 
+        sad::p2d::Vector nextPosition = state.Way->getPointInTime(ctime, 0.0); // 0.0 - because it's just a part of sum in getPointInTime
         sad::p2d::Vector p = state.Platform->position();
-        sad::p2d::Vector cp = state.Platform->nextPosition();
-        state.Platform->setCurrentTangentialVelocity((cp -p) / tick);
+        sad::p2d::Vector cp = nextPosition;
+        state.Platform->setCurrentTangentialVelocity((cp - p) / tick);
 
         state.Time = ctime;
     }

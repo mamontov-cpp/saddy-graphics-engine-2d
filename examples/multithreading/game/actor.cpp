@@ -295,7 +295,7 @@ void game::Actor::tryStopGoingRight()
 void game::Actor::onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev)
 {
     double tick = m_game->physicsWorld()->timeStep();
-    double precision_collision = 0.5; // A correction to ensure, that TOI won't be negative
+    double precision_collision = 1.0; // A correction to ensure, that TOI won't be negative
 
     sad::p2d::Vector force_value;
     ev.m_object_1->tangentialForces().value(force_value);
