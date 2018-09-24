@@ -295,7 +295,8 @@ void game::Actor::tryStopGoingRight()
 void game::Actor::onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev)
 {
     double tick = m_game->physicsWorld()->timeStep();
-    double precision_collision = 1.0; // A correction to ensure, that TOI won't be negative
+    int samplingCount = m_game->physicsWorld()->detector()->sampleCount();
+    double precision_collision = 0.5; // A correction to ensure, that TOI won't be negative
 
     sad::p2d::Vector force_value;
     ev.m_object_1->tangentialForces().value(force_value);
@@ -362,6 +363,15 @@ void game::Actor::onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev)
             double x = ev.m_object_1->position().x() + player_velocity.x() * tick + force_value.x() * tick * tick / 2.0;
             ev.m_object_1->shedulePosition(sad::Point2D(x, y));
             this->setYCoordinateFixed(true);
+        }
+        sad::p2d::Rectangle& rect1 = dynamic_cast<sad::p2d::Rectangle&>(ev.m_object_1->at(tick, samplingCount - 1));
+        sad::p2d::Rectangle& rect2 = dynamic_cast<sad::p2d::Rectangle&>(ev.m_object_2->at(tick, samplingCount - 1));
+        sad::p2d::CollisionTest detector;
+        if (detector.invoke(&rect1, &rect2))
+        {
+            sad::p2d::Vector v = ev.m_object_1->nextPosition();
+            v.setY(v.y() + rect2.rect()[2].y() - rect1.rect()[0].y()  + precision_collision);
+            ev.m_object_1->shedulePosition(v);
         }
         this->restOnPlatform(ev.m_object_2, v);
         this->setYCoordinateFixed(true);
@@ -1123,21 +1133,6 @@ const sad::p2d::Vector& game::Actor::oldVelocity() const
 
 void game::Actor::checkBoundaryCollision(double left_bound, double right_bound, double up_bound, double bottom_bound)
 {
-    // Reset position for resting platforms, before going into boundary collision
-    /*if (!m_is_floater && m_is_resting)
-    {
-        sad::Point2D p = m_body->position();
-        double my_y = this->area()[0].y();
-        double rect_upper_y = dynamic_cast<sad::p2d::Rectangle*>(m_resting_platform->currentShape())->rect()[2].y();
-        p.setY(p.y() + (rect_upper_y - my_y));
-        sad::p2d::CollisionTest detector;
-        do 
-        {
-            m_body->setCurrentPosition(p);
-            p.setY(p.y() + 0.1);
-        } while ((m_resting_platform != NULL) && detector.invoke(m_body->currentShape(), m_resting_platform->currentShape()));
-    }*/
-
     // If player went too far into left or right, block the way
     sad::Rect2D area = this->m_sprite->area();
     if ((area[0].x() < left_bound) && (!sad::is_fuzzy_equal(area[0].x(), left_bound)))
