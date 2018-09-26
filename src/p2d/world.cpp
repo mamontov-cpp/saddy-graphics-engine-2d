@@ -23,16 +23,6 @@ void sad::p2d::World::GlobalBodyContainer::performAction(const std::function<voi
     }
 }
 
-void sad::p2d::World::GlobalBodyContainer::performActionWithTimeStep(
-    void (sad::p2d::Body::*action)(double),
-    double time_step
-)
-{
-    this->performAction([action, time_step](sad::p2d::Body* body) {
-        (body->*action)(time_step);
-    });
-}
-
 void sad::p2d::World::GlobalBodyContainer::setSamplingCount(int sample_count)
 {
     this->performAction([sample_count](sad::p2d::Body* body) {
@@ -49,24 +39,23 @@ void sad::p2d::World::GlobalBodyContainer::trySetTransformer()
 
 void sad::p2d::World::GlobalBodyContainer::buildBodyCaches(double time_step)
 {
-   void (sad::p2d::Body::*action)(double) = &sad::p2d::Body::buildCaches;
-   this->performActionWithTimeStep(action, time_step);
+   this->performAction([time_step](sad::p2d::Body* body) {
+       body->buildCaches(time_step);
+   });
 }
 
 void sad::p2d::World::GlobalBodyContainer::stepDiscreteChangingValues(double time_step)
 {
-    this->performActionWithTimeStep(
-        &sad::p2d::Body::stepDiscreteChangingValues,
-        time_step
-    );
+    this->performAction([time_step](sad::p2d::Body* body) {
+        body->stepDiscreteChangingValues(time_step);
+    });
 }
 
 void sad::p2d::World::GlobalBodyContainer::stepPositionsAndVelocities(double time_step)
 {
-    this->performActionWithTimeStep(
-        &sad::p2d::Body::stepPositionsAndVelocities,
-        time_step
-    );
+    this->performAction([time_step](sad::p2d::Body* body) {
+        body->stepPositionsAndVelocities(time_step);
+    });
 }
 
 sad::p2d::World::BodyLocation& sad::p2d::World::GlobalBodyContainer::add(sad::p2d::Body* b)
@@ -78,7 +67,7 @@ sad::p2d::World::BodyLocation& sad::p2d::World::GlobalBodyContainer::add(sad::p2
 
 
     size_t position;
-    if (FreePositions.size() != 0)
+    if (!FreePositions.empty())
     {
         size_t last_free_position = FreePositions.size() - 1;
         position = FreePositions[last_free_position];
@@ -156,7 +145,7 @@ void sad::p2d::World::GlobalBodyContainer::removeFromGroup(sad::p2d::Body* b, si
     {
         sad::p2d::World::BodyLocation& loc = BodyToLocation[b];
         loc.PositionInGroups.removeAll(group_offset);
-        if (loc.PositionInGroups.size() == 0)
+        if (loc.PositionInGroups.empty())
         {
             this->remove(b);
         }
@@ -211,7 +200,7 @@ size_t sad::p2d::World::Group::add(sad::p2d::Body* b)
     }
 
     size_t position;
-    if (FreePositions.size() != 0)
+    if (!FreePositions.empty())
     {
         size_t last_free_position = FreePositions.size() - 1;
         position = FreePositions[last_free_position];
@@ -337,7 +326,7 @@ size_t sad::p2d::World::GroupContainer::add(const sad::String& name)
     }
 
     size_t position;
-    if (FreePositions.size() != 0)
+    if (!FreePositions.empty())
     {
         size_t last_free_position = FreePositions.size() - 1;
         position = FreePositions[last_free_position];
@@ -403,7 +392,7 @@ void sad::p2d::World::GroupContainer::makeGroupAndAddBody(const sad::String& gro
 {
     size_t location = add(group_name);
     sad::p2d::World::Group& group = this->Groups[location].Group;
-    if (group.BodyToLocation.contains(body) == false)
+    if (!group.BodyToLocation.contains(body))
     {
         group.add(body);
         loc.PositionInGroups.push_back(location);
@@ -468,7 +457,7 @@ void sad::p2d::World::GlobalHandlerList::add(size_t i1, size_t i2, sad::p2d::Bas
             return;
         }
     }
-    sad::p2d::World::HandlerList t;
+    sad::p2d::World::HandlerList t;  // NOLINT(cppcoreguidelines-pro-type-member-init)
     t.TypeIndex1 = i1;
     t.TypeIndex2 = i2;
     t.List = new sad::Vector<sad::p2d::BasicCollisionHandler*>();
@@ -491,7 +480,7 @@ void sad::p2d::World::GlobalHandlerList::remove(size_t i1, size_t i2, sad::p2d::
                 lst.erase(it);
                 h->delRef();
             }
-            if (lst.size() == 0)
+            if (lst.empty())
             {
                 delete List[i].List;
                 List.removeAt(i);
@@ -512,7 +501,7 @@ void sad::p2d::World::GlobalHandlerList::remove(sad::p2d::BasicCollisionHandler*
             lst.erase(it);
             h->delRef();
         }
-        if (lst.size() == 0)
+        if (lst.empty())
         {
             delete List[i].List;
             List.removeAt(i);
@@ -1262,7 +1251,7 @@ void sad::p2d::World::performQueuedCommands()
 {
     m_command_queue_lock.lock();
 
-    if (m_command_queue->size())
+    if (!m_command_queue->empty())
     {
         sad::Vector<sad::p2d::World::QueuedCommand>* queue = m_command_queue;
         m_command_queue = new sad::Vector<sad::p2d::World::QueuedCommand>();
@@ -1423,7 +1412,7 @@ void sad::p2d::World::addBodyToGroupNow(const sad::String& group_name, sad::p2d:
     setIsLockedFlag(true);
 
     sad::p2d::World::BodyLocation* loc;
-    if (m_global_body_container.BodyToLocation.contains(o)== false)
+    if (!m_global_body_container.BodyToLocation.contains(o))
     {
         loc = &(m_global_body_container.add(o));
         o->setSamplingCount(m_detector->sampleCount());

@@ -208,6 +208,41 @@ protected:
     method_t  m_fun;      //!< A called pointer to method of class
 };
 
+
+/*! A specific movement delta listener, that calls a listener for specific
+    movement.
+ */
+template<typename _Class, typename _Value>
+class MovementDelta—onstListener : public p2d::AbstractMovementDeltaListener<_Value>  // NOLINT(cppcoreguidelines-special-member-functions)
+{
+public:
+    typedef void (_Class::*method_t)(const _Value &) const;
+
+    /*! Defines a listener, that calls a specific method for object
+        \param[in] o object
+        \param[in] f method
+     */
+    inline MovementDelta—onstListener(_Class * o, method_t f)
+        : m_object(o), m_fun(f)
+    {
+    }
+    /*! Calls a specific method for movement of object.
+        Called when movement changed a current value for positions, or
+        after step, when current value is changed
+        \param[in] delta a difference between previous and current body
+     */
+    virtual void notify(const _Value & delta)
+    {
+        (m_object->*m_fun)(delta);
+    }
+    /*! This class does not own object nor method, so nothing here
+     */
+    ~MovementDelta—onstListener() {}
+protected:
+    _Class *  m_object; //!< An object
+    method_t  m_fun;      //!< A called pointer to method of class
+};
+
 /*! Describes a movement in specifiec direction, using _Value type as type
     of coordinate axis, or set of axis. 
 
