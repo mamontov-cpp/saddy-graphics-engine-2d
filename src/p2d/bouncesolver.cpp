@@ -3,7 +3,13 @@
 
 DECLARE_SOBJ(sad::p2d::BounceSolver);
 
-sad::p2d::BounceSolver::BounceSolver() : m_toi(0), m_inelastic_collisions(false)
+sad::p2d::BounceSolver::BounceSolver()
+: m_toi(0),
+  m_inelastic_collisions(false),
+  m_inelastic_collision_type(sad::p2d::BounceSolver::ICT_NO_INELASTIC_COLLISION),
+  m_resilience{1.0, 1.0},
+  m_rotationfriction{0.0, 0.0},
+  m_shouldperformrotationfriction(true)
 {
     m_find = new sad::p2d::FindContactPoints();
     m_first = NULL;
@@ -24,7 +30,7 @@ bool sad::p2d::BounceSolver::bounce(sad::p2d::Body * b1, sad::p2d::Body * b2)
     m_second = b2;
     p2d::SetOfPointsPair pairs;
     this->solveTOIFCP(pairs);
-    if (pairs.size() > 0 &&  (m_toi > 0 || sad::is_fuzzy_zero(m_toi, COLLISION_PRECISION * 1000)))
+    if (!pairs.empty() &&  (m_toi > 0 || sad::is_fuzzy_zero(m_toi, COLLISION_PRECISION * 1000)))
     {
         this->performBouncing(pairs);
         this->resetCoefficients();
@@ -33,7 +39,7 @@ bool sad::p2d::BounceSolver::bounce(sad::p2d::Body * b1, sad::p2d::Body * b2)
     else
     {
         const char * reason = "Can't find pairs";
-        if (pairs.size() > 0)
+        if (!pairs.empty())
             reason = "TOI is negative";
         logFCPError(reason);
     }
@@ -60,7 +66,7 @@ void sad::p2d::BounceSolver::solveTOIFCP(sad::p2d::SetOfPointsPair & pairs)
         m_shouldperformrotationfriction = false;
     }
     
-    if (pairs.size() > 0)
+    if (!pairs.empty())
     {
         m_contact.setValue(pairs[0]);
         // Compute time of impact
@@ -288,13 +294,13 @@ void sad::p2d::BounceSolver::resetCoefficients()
 void sad::p2d::BounceSolver::tryResolveFriction(
     sad::p2d::Body * b, 
     const sad::p2d::Vector & t, 
-    const sad::p2d::Vector & ni, 
+    const sad::p2d::Vector &  /*ni*/,
     int index,
-    double pivot
+    double  /*pivot*/
 )
 {
     if (sad::non_fuzzy_zero(m_rotationfriction[index]) 
-        && b->weight().isInfinite() == false 
+        && !b->weight().isInfinite()
         && m_shouldperformrotationfriction
         && !m_inelastic_collisions)
     {
@@ -309,7 +315,7 @@ void sad::p2d::BounceSolver::tryResolveFriction(
         tangential *= rotation_tangential_modulo;
         tangential += t;
 
-        if (sad::non_fuzzy_zero(p2d::modulo(tangential)) && b->weight().isInfinite() == false)
+        if (sad::non_fuzzy_zero(p2d::modulo(tangential)) && !b->weight().isInfinite())
         {
             tangential *= (1 - m_rotationfriction[index] / b->weight().value());
             // Compute new tangential velocity

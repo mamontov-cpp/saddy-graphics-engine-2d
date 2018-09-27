@@ -23,6 +23,14 @@ class BounceSolver: public sad::Object
 {
 SAD_OBJECT
 public:
+    /*! A type of inelastic collisions for solver
+     */
+    enum InelasticCollisionType
+    {
+       ICT_NO_INELASTIC_COLLISION = 0,   //!< Resolve all collisions as elastic, do not enable special routine for inelastic collisions
+       ICT_FIRST = 1,                    //!< First body in collision will stick to other body and move as one with it, other won't change it's speed
+       ICT_SECOND = 2                    //!< Second body in collision
+    };
     /*! Constructs new solver
      */
     BounceSolver();
@@ -112,6 +120,14 @@ public:
         \return whether they are enabled
      */
     bool isEnabledInelasticCollisions() const;
+    /*! Sets whether inelastic collision types are enabled
+         \param type type of collisions
+     */
+    void setInelasticCollisionType(sad::p2d::BounceSolver::InelasticCollisionType type);
+    /*! Returns inelastic collision types
+        \return inelastic collision types
+     */
+    sad::p2d::BounceSolver::InelasticCollisionType inelasticCollisionType() const;
 protected:
     p2d::FindContactPoints * m_find;  //!< Current algorithm for finding a contact poinnts
     p2d::Body * m_first;   //!< First body to test against
@@ -138,6 +154,9 @@ protected:
         for solver
      */
     bool        m_inelastic_collisions;
+    /*! An inelastic collision type, that turns those types on or off
+     */
+    sad::p2d::BounceSolver::InelasticCollisionType m_inelastic_collision_type;
     /*! Performs bouncing off for an object with a solver
         \param[in] pairs a set of pairs of collision points for time of impact
      */ 
