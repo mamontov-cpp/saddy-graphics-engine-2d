@@ -25,7 +25,9 @@ sad::p2d::BounceSolver::BounceSolver()
   m_inelastic_collision_type(sad::p2d::BounceSolver::ICT_NO_INELASTIC_COLLISION),
   m_resilience{1.0, 1.0},
   m_rotationfriction{0.0, 0.0},
-  m_shouldperformrotationfriction(true)
+  m_shouldperformrotationfriction(true),
+  m_recursion_limit(100),
+  m_recursion_counter(0)
 {
     m_find = new sad::p2d::FindContactPoints();
     m_first = NULL;
@@ -41,21 +43,30 @@ sad::p2d::BounceSolver::~BounceSolver()
 
 bool sad::p2d::BounceSolver::bounce(sad::p2d::Body* b1, sad::p2d::Body* b2)
 {
+    ++m_recursion_counter;
+    if (m_recursion_counter > m_recursion_limit)
+    {
+        this->logFCPError("Recursion limit reached");
+        return false;
+    }
+    bool result;
     if (m_inelastic_collision_type == sad::p2d::BounceSolver::ICT_NO_INELASTIC_COLLISION)
     {
-        return this->bounceNormal(b1, b2);
+         result = this->bounceNormal(b1, b2);
     }
     else
     {
         if (m_inelastic_collision_type == sad::p2d::BounceSolver::ICT_FIRST)
         {
-            return this->inelasticBounceWithFixedSecondBody(b1, b2);
+            result = this->inelasticBounceWithFixedSecondBody(b1, b2);
         }
         else
         {
-            return this->inelasticBounceWithFixedSecondBody(b2, b1);
+            result = this->inelasticBounceWithFixedSecondBody(b2, b1);
         }
     }
+    --m_recursion_counter;
+    return result;
 }
 
 
@@ -146,8 +157,7 @@ bool sad::p2d::BounceSolver::inelasticBounceWithFixedSecondBody(sad::p2d::Body* 
                 &&  (m_toi > 0 || sad::is_fuzzy_zero(m_toi, COLLISION_PRECISION * 1000))
                 && ((m_toi < world_step)  || sad::is_fuzzy_equal(m_toi, world_step)))
             {
-                // TODO: insert new collisions into list, recompute position, recompute other collisions
-                this->performBouncing(pairs);
+                // TODO: compute collision position, insert new collisions into list, recompute other collisions
 
                 this->resetCoefficients();
                 task.destroy();
@@ -167,6 +177,16 @@ bool sad::p2d::BounceSolver::inelasticBounceWithFixedSecondBody(sad::p2d::Body* 
     return false;
 }
 
+void sad::p2d::BounceSolver::setRecursionLimit(size_t limit)
+{
+    m_recursion_limit = limit;
+}
+
+
+size_t sad::p2d::BounceSolver::recursionLimit() const
+{
+    return m_recursion_limit;
+}
 
 sad::Maybe<sad::p2d::BounceSolver::SolverTask> sad::p2d::BounceSolver::findBasicTaskForInelasticBounce()
 {

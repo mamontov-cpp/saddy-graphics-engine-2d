@@ -144,6 +144,14 @@ public:
         \return inelastic collision types
      */
     sad::p2d::BounceSolver::InelasticCollisionType inelasticCollisionType() const;
+    /*! Sets recursion limit for solving collisions
+        \param[in] limit a limit for recursion
+     */
+    void setRecursionLimit(size_t limit);
+    /*! Returns recursion limit fo solving collisions
+        \return[in] recursion limit
+     */
+    size_t recursionLimit() const;
 protected:
     p2d::FindContactPoints * m_find;  //!< Current algorithm for finding a contact poinnts
     p2d::Body * m_first;   //!< First body to test against
@@ -173,6 +181,12 @@ protected:
     /*! An inelastic collision type, that turns those types on or off
      */
     sad::p2d::BounceSolver::InelasticCollisionType m_inelastic_collision_type;
+    /*! A recursion limit for solving recursive dependencies
+     */
+    size_t    m_recursion_limit;
+    /*! An inner recursion counter for avoiding stack overflow
+     */
+    size_t    m_recursion_counter;
     /*! Inelastic bounce with fixed second body, where first body sticks to second
         \param[in] b1 first body
         \param[in] b2 second body
