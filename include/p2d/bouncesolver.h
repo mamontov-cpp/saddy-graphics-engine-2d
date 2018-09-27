@@ -5,6 +5,7 @@
 #include "body.h"
 #include "findcontactpoints.h"
 
+#include "../maybe.h"
 #include "../object.h"
 
 namespace sad
@@ -12,6 +13,8 @@ namespace sad
 
 namespace p2d
 {
+
+class CollisionTest;
 /*! A bounce solver allows to easily solve problems with 
     bouncing of various objects. 
     
@@ -30,6 +33,19 @@ public:
        ICT_NO_INELASTIC_COLLISION = 0,   //!< Resolve all collisions as elastic, do not enable special routine for inelastic collisions
        ICT_FIRST = 1,                    //!< First body in collision will stick to other body and move as one with it, other won't change it's speed
        ICT_SECOND = 2                    //!< Second body in collision
+    };
+    /*! A solver task for solving collision data
+     */
+    struct SolverTask
+    {
+        sad::p2d::CollisionShape* First{NULL};          //!<  A first moving shape
+        sad::p2d::Vector          FirstVelocity;        //!<  A first velocity for solving
+        sad::p2d::CollisionShape* Second{NULL};         //!<  A second moving shape
+        sad::p2d::Vector          SecondVelocity;       //!<  A second velocity for solving
+        double PivotTime{0};                            //!< A pivot time for solving, 0 is for start
+        /*! Kills task
+         */
+        void destroy();
     };
     /*! Constructs new solver
      */
@@ -157,10 +173,74 @@ protected:
     /*! An inelastic collision type, that turns those types on or off
      */
     sad::p2d::BounceSolver::InelasticCollisionType m_inelastic_collision_type;
+    /*! Inelastic bounce with fixed second body, where first body sticks to second
+        \param[in] b1 first body
+        \param[in] b2 second body
+        \return true if it was successfully computed
+     */
+    bool inelasticBounceWithFixedSecondBody(sad::p2d::Body* b1, sad::p2d::Body* b2);
+    /*! Tries to find basic task for inelastic bounce solving
+        \return basic task if can be found
+     */
+    sad::Maybe<sad::p2d::BounceSolver::SolverTask> findBasicTaskForInelasticBounce();
+    /*! Tries to find basic task for collision data
+        \param[in] data a local data
+        \param[in] first_shape shape for first object for collision
+        \param[out] solver_task solver task a solver task
+     */
+    void tryFindBasicTaskForInelasticBounceForData(
+        sad::p2d::Body::CollisionData& data,
+        sad::p2d::CollisionShape*  first_shape,
+        sad::Maybe<sad::p2d::BounceSolver::SolverTask>& solver_task
+    );
+    /*! Tries to find basic task for collision data
+        \param[in] data a local data
+        \param[in] first_shape shape for first object for collision
+        \param[in] second_data a data for second solver
+        \param[out] solver_task solver task a solver task
+     */
+    void tryFindBasicTaskForInelasticBounceForData(
+        sad::p2d::Body::CollisionData& data,
+        sad::p2d::CollisionShape*  first_shape,
+
+        sad::p2d::Body::CollisionData& second_data,
+        sad::Maybe<sad::p2d::BounceSolver::SolverTask>& solver_task
+    );
+    /*! Tries to find basic task for inelastic bounce with collisions
+        \param[in] data a local data
+        \param[in] first_shape a shape for first object
+        \param[out] solver_task solver task a solver task
+     */
+    void tryFindBasicTaskForInelasticBounceWithCollisions(
+        sad::p2d::Body::CollisionData& data,
+        sad::p2d::CollisionShape*  first_shape,
+        sad::Maybe<sad::p2d::BounceSolver::SolverTask>& solver_task
+    );
+    /*! Bounces with normal data
+        \param[in] b1 first body
+        \param[in] b2 second body
+        \return true
+     */
+    bool bounceNormal(sad::p2d::Body* b1, sad::p2d::Body* b2);
     /*! Performs bouncing off for an object with a solver
         \param[in] pairs a set of pairs of collision points for time of impact
      */ 
     void performBouncing(const p2d::SetOfPointsPair & pairs);
+
+    /*! Approximately solves time of impact and finds contact points for two object
+        \param[in] first a first body
+        \param[in] av1 an average velocity for first body
+        \param[in] second a second body
+        \param[in] av2 an average velocity for second body
+        \param[out] pairs  a set of pairs of collision points for time of impact
+     */
+    void solveTOIFCP(
+        sad::p2d::CollisionShape* first,
+        const sad::p2d::Vector& av1,
+        sad::p2d::CollisionShape* second,
+        const sad::p2d::Vector& av2,
+        sad::p2d::SetOfPointsPair& pairs
+    );
     /*! Approximately solves time of impact and finds contact points for two object
         \param[out] pairs a set of pairs of collision points for time of impact
      */

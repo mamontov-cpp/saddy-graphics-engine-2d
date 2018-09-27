@@ -241,6 +241,15 @@ sad::p2d::Vector sad::p2d::Body::nextPosition() const
     return m_tangential->nextPosition();
 }
 
+sad::p2d::Vector sad::p2d::Body::positionAt(double time) const
+{
+    if (!m_world)
+    {
+        return this->position();
+    }
+    return this->position() + m_tangential->positionDelta(time, m_world->timeStep());
+}
+
 void sad::p2d::Body::setCurrentTangentialVelocity(const p2d::Vector & v) const
 {
     m_tangential->setCurrentVelocity(v);

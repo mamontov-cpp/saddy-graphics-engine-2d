@@ -1,5 +1,21 @@
 #include <p2d/bouncesolver.h>
+#include <p2d/world.h>
+
 #include <log/log.h>
+
+
+void sad::p2d::BounceSolver::SolverTask::destroy()
+{
+    if (First)
+    {
+        First->deleteBlock(First);
+    }
+    if (Second)
+    {
+        Second->deleteBlock(Second);
+    }
+}
+
 
 DECLARE_SOBJ(sad::p2d::BounceSolver);
 
@@ -23,40 +39,42 @@ sad::p2d::BounceSolver::~BounceSolver()
     delete m_find;
 }
 
-
-bool sad::p2d::BounceSolver::bounce(sad::p2d::Body * b1, sad::p2d::Body * b2)
+bool sad::p2d::BounceSolver::bounce(sad::p2d::Body* b1, sad::p2d::Body* b2)
 {
-    m_first = b1;
-    m_second = b2;
-    p2d::SetOfPointsPair pairs;
-    this->solveTOIFCP(pairs);
-    if (!pairs.empty() &&  (m_toi > 0 || sad::is_fuzzy_zero(m_toi, COLLISION_PRECISION * 1000)))
+    if (m_inelastic_collision_type == sad::p2d::BounceSolver::ICT_NO_INELASTIC_COLLISION)
     {
-        this->performBouncing(pairs);
-        this->resetCoefficients();
-        return true;
+        return this->bounceNormal(b1, b2);
     }
     else
     {
-        const char * reason = "Can't find pairs";
-        if (!pairs.empty())
-            reason = "TOI is negative";
-        logFCPError(reason);
+        if (m_inelastic_collision_type == sad::p2d::BounceSolver::ICT_FIRST)
+        {
+            return this->inelasticBounceWithFixedSecondBody(b1, b2);
+        }
+        else
+        {
+            return this->inelasticBounceWithFixedSecondBody(b2, b1);
+        }
     }
-    return false;
 }
 
 
-void sad::p2d::BounceSolver::solveTOIFCP(sad::p2d::SetOfPointsPair & pairs)
+void  sad::p2d::BounceSolver::solveTOIFCP(
+    sad::p2d::CollisionShape* first,
+    const sad::p2d::Vector& av1,
+    sad::p2d::CollisionShape* second,
+    const sad::p2d::Vector& av2,
+    sad::p2d::SetOfPointsPair& pairs
+)
 {
+    m_av1 = av1;
+    m_av2 = av2;
+
+
     m_contact.clear();
-    
-    m_av1 = m_first->averageChangeIndependentTangentialVelocity();
-    m_av2 = m_second->averageChangeIndependentTangentialVelocity();
 
-
-    pairs = m_find->invoke(m_first->currentShape(),   m_av1,
-                           m_second->currentShape(),  m_av2
+    pairs = m_find->invoke(first,   m_av1,
+                           second,  m_av2
                            );
     if (pairs.size()  == 2)
     {
@@ -65,7 +83,7 @@ void sad::p2d::BounceSolver::solveTOIFCP(sad::p2d::SetOfPointsPair & pairs)
         pairs.removeAt(1);
         m_shouldperformrotationfriction = false;
     }
-    
+
     if (!pairs.empty())
     {
         m_contact.setValue(pairs[0]);
@@ -89,11 +107,247 @@ void sad::p2d::BounceSolver::solveTOIFCP(sad::p2d::SetOfPointsPair & pairs)
         {
             time = (y1 - y2) / (avy2 - avy1);
         }
-                
+
         time -= COLLISION_PRECISION;
         m_toi = time;
     }
 }
+
+void sad::p2d::BounceSolver::solveTOIFCP(sad::p2d::SetOfPointsPair& pairs)
+{    
+    this->solveTOIFCP(
+        m_first->currentShape(),
+        m_first->averageChangeIndependentTangentialVelocity(),
+        m_second->currentShape(),
+        m_second->averageChangeIndependentTangentialVelocity(),
+        pairs
+    );
+}
+
+bool sad::p2d::BounceSolver::inelasticBounceWithFixedSecondBody(sad::p2d::Body* b1, sad::p2d::Body* b2)
+{
+    m_first = b1;
+    m_second = b2;
+
+    double world_step = m_first->world()->timeStep();
+
+    sad::Maybe<sad::p2d::BounceSolver::SolverTask> maybe_task = this->findBasicTaskForInelasticBounce();
+    if (maybe_task.exists())
+    {
+        sad::p2d::BounceSolver::SolverTask task = maybe_task.value();
+        if (sad::is_fuzzy_zero(task.PivotTime) && (task.PivotTime >= 0  && task.PivotTime <= world_step))
+        {
+            // Further compute TOI and perform inelastic bounce
+            sad::p2d::SetOfPointsPair pairs;
+            this->solveTOIFCP(task.First, task.FirstVelocity, task.Second, task.SecondVelocity, pairs);
+            m_toi += task.PivotTime;
+
+            if (!pairs.empty()
+                &&  (m_toi > 0 || sad::is_fuzzy_zero(m_toi, COLLISION_PRECISION * 1000))
+                && ((m_toi < world_step)  || sad::is_fuzzy_equal(m_toi, world_step)))
+            {
+                // TODO: insert new collisions into list, recompute position, recompute other collisions
+                this->performBouncing(pairs);
+
+                this->resetCoefficients();
+                task.destroy();
+                return true;
+            }
+            else
+            {
+                const char* reason = "Can't find pairs";
+                if (!pairs.empty())
+                    reason = "TOI is negative";
+                logFCPError(reason);
+                task.destroy();
+            }
+        }
+    }
+
+    return false;
+}
+
+
+sad::Maybe<sad::p2d::BounceSolver::SolverTask> sad::p2d::BounceSolver::findBasicTaskForInelasticBounce()
+{
+    sad::p2d::CollisionShape* s1  = m_first->currentShape()->clone();
+    sad::p2d::Vector cp1 = m_first->position();
+
+    // Determine specific velocities and times, when bodies had collided
+    double world_step = m_first->world()->timeStep();
+    if (m_first->collisions().empty())
+    {
+        sad::p2d::Vector v = (m_first->positionAt(world_step) - cp1) / world_step;
+        //sad::p2d::Vector pos = m_first->()
+        m_first->collisions().add({
+            {}, 0,  sad::p2d::Vector(0,0), v, cp1
+        });
+        m_first->collisions().add({
+            {}, world_step,  sad::p2d::Vector(0,0), v, m_first->positionAt(world_step)
+        });
+    }
+    sad::Maybe<sad::p2d::BounceSolver::SolverTask> solver_task;
+    for(size_t i = 0 ; i < m_first->collisions().size(); i++)
+    {
+        sad::p2d::Body::CollisionData& data = m_first->collisions()[i];
+        sad::p2d::CollisionShape* first_shape = s1->clone();
+        first_shape->move(data.Position - cp1);
+
+        this->tryFindBasicTaskForInelasticBounceForData(data, first_shape, solver_task);
+
+        first_shape->deleteBlock(first_shape);
+    }
+
+
+    return solver_task;
+}
+
+
+void sad::p2d::BounceSolver::tryFindBasicTaskForInelasticBounceForData(
+    sad::p2d::Body::CollisionData& data,
+    sad::p2d::CollisionShape*  first_shape,
+    sad::Maybe<sad::p2d::BounceSolver::SolverTask>& solver_task
+)
+{
+    sad::p2d::Vector first_velocity = data.PlatformSpeed + data.OwnSpeed;
+
+    // Get second body position at this time
+    if (m_second->collisions().empty())
+    {
+        sad::p2d::CollisionShape* second_shape  = m_second->currentShape()->clone();
+        sad::p2d::Vector cp2 = m_second->position();
+
+        sad::p2d::Vector position = m_second->positionAt(data.TOI);
+        sad::p2d::Vector dposition = position - cp2;
+        second_shape->move(dposition);
+
+        sad::p2d::Vector av2 = dposition / data.TOI;
+        if (sad::is_fuzzy_zero(data.TOI))
+        {
+            av2 = m_second->tangentialVelocity();
+        }
+        sad::p2d::CollisionTest test;
+        if (test.invoke(first_shape, second_shape))
+        {
+            solver_task.setValue({first_shape->clone(1), first_velocity, second_shape, av2, data.TOI});
+        }
+        else
+        {
+            second_shape->deleteBlock(second_shape);
+        }
+    }
+    else
+    {
+        // What if platform jumped too? We should scan it too.
+        sad::p2d::Body::CollisionData& first_collision_data =  m_second->collisions()[0];
+        sad::p2d::Body::CollisionData& last_collision_data =  m_second->collisions()[m_second->collisions().size() - 1];
+
+        if (data.TOI < first_collision_data.TOI)
+        {
+            this->tryFindBasicTaskForInelasticBounceForData(data, first_shape, first_collision_data, solver_task);
+        }
+        else
+        {
+            if (data.TOI > last_collision_data.TOI)
+            {
+                this->tryFindBasicTaskForInelasticBounceForData(data, first_shape, last_collision_data, solver_task);
+            }
+            else
+            {
+                // Full scan in between for platform
+                this->tryFindBasicTaskForInelasticBounceWithCollisions(data, first_shape, solver_task);
+            }
+        }
+    }
+}
+
+
+void sad::p2d::BounceSolver::tryFindBasicTaskForInelasticBounceForData(
+    sad::p2d::Body::CollisionData& data,
+    sad::p2d::CollisionShape*  first_shape,
+
+    sad::p2d::Body::CollisionData& second_data,
+    sad::Maybe<sad::p2d::BounceSolver::SolverTask>& solver_task
+)
+{
+    sad::p2d::CollisionTest test;
+
+    sad::p2d::CollisionShape* second_shape  = m_second->currentShape()->clone();
+    sad::p2d::Vector cp2 = m_second->position();
+
+    double dtime = data.TOI - second_data.TOI;
+    sad::p2d::Vector speed = (second_data.PlatformSpeed + second_data.OwnSpeed);
+    sad::p2d::Vector first_velocity = data.PlatformSpeed + data.OwnSpeed;
+    sad::p2d::Vector npos = second_data.Position + speed * dtime;
+    second_shape->move(npos - cp2);
+    if (test.invoke(first_shape, second_shape))
+    {
+        solver_task.setValue({first_shape->clone(1), first_velocity, second_shape, speed, data.TOI});
+    }
+    else
+    {
+        second_shape->deleteBlock(second_shape);
+    }
+}
+
+void sad::p2d::BounceSolver::tryFindBasicTaskForInelasticBounceWithCollisions(
+    sad::p2d::Body::CollisionData& data,
+    sad::p2d::CollisionShape*  first_shape,
+    sad::Maybe<sad::p2d::BounceSolver::SolverTask>& solver_task
+)
+{
+    sad::p2d::CollisionTest test;
+
+    sad::p2d::Vector first_velocity = data.PlatformSpeed + data.OwnSpeed;
+
+    sad::Vector<sad::p2d::Body::CollisionData>& list = m_second->collisions();
+    double toi = data.TOI;
+    for(size_t i = 1; i < list.size(); i++)
+    {
+        if (sad::is_fuzzy_equal(data.TOI, list[i-1].TOI)
+            || sad::is_fuzzy_equal(data.TOI, list[i].TOI)
+            || (list[i-1].TOI <= data.TOI) && (data.TOI <= list[i].TOI))
+        {
+            sad::p2d::CollisionShape* second_shape  = m_second->currentShape()->clone();
+            sad::p2d::Vector cp2 = m_second->position();
+            sad::p2d::Vector speed = list[i-1].PlatformSpeed + list[i-1].OwnSpeed;
+            sad::p2d::Vector dv = (list[i -1].Position  + speed * (data.TOI - list[i-1].TOI))  - cp2;
+            second_shape->move(dv);
+            if (test.invoke(first_shape, second_shape))
+            {
+                solver_task.setValue({first_shape->clone(1), first_velocity, second_shape, speed, data.TOI});
+            }
+            else
+            {
+                second_shape->deleteBlock(second_shape);
+            }
+            return;
+        }
+    }
+}
+
+bool sad::p2d::BounceSolver::bounceNormal(sad::p2d::Body* b1, sad::p2d::Body* b2)
+{
+    m_first = b1;
+    m_second = b2;
+    p2d::SetOfPointsPair pairs;
+    this->solveTOIFCP(pairs);
+    if (!pairs.empty() &&  (m_toi > 0 || sad::is_fuzzy_zero(m_toi, COLLISION_PRECISION * 1000)))
+    {
+        this->performBouncing(pairs);
+        this->resetCoefficients();
+        return true;
+    }
+    else
+    {
+        const char* reason = "Can't find pairs";
+        if (!pairs.empty())
+            reason = "TOI is negative";
+        logFCPError(reason);
+    }
+    return false;
+}
+
 
 /*! Implement solving for bouncing
     \param[in] pairs pairs of contact points

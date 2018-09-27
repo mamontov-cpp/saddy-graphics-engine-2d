@@ -270,6 +270,11 @@ struct CollisionData
         \return next position
      */
     p2d::Vector nextPosition() const;
+    /*! Computes body position at specified time
+        \param[in] time a time
+        \return value
+     */
+    p2d::Vector positionAt(double time) const;
     /*! Sets current tangential velocity
         \param[in] v velocity
      */
