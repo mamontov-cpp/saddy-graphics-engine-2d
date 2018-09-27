@@ -235,8 +235,8 @@ struct CollisionData
     typedef p2d::MovementDeltaListener<p2d::Body, p2d::Vector> move_t;
     typedef p2d::MovementDeltaListener<p2d::Body, double> rotate_t;
 
-    typedef p2d::MovementDelta—onstListener<p2d::Body, p2d::Vector> const_move_t;
-    typedef p2d::MovementDelta—onstListener<p2d::Body, double> const_rotate_t;
+    typedef p2d::MovementDeltaConstListener<p2d::Body, p2d::Vector> const_move_t;
+    typedef p2d::MovementDeltaConstListener<p2d::Body, double> const_rotate_t;
     /*! Inits angle for body
         \param[in] angle an angle
      */

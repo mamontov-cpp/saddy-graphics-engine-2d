@@ -379,8 +379,8 @@ static void exposeBody(sad::dukpp03::Context* ctx)
     c->addMethod("userType", sad::dukpp03::bind_method::from(&sad::p2d::Body::userType));
 
     {
-         void (sad::p2d::Body::*addForce1)(sad::p2d::Force<sad::p2d::Vector>*) = &sad::p2d::Body::addForce;
-         void (sad::p2d::Body::*addForce2)(sad::p2d::Force<double>* ) =  &sad::p2d::Body::addForce;
+         void (sad::p2d::Body::*addForce1)(sad::p2d::Force<sad::p2d::Vector>*) const = &sad::p2d::Body::addForce;
+         void (sad::p2d::Body::*addForce2)(sad::p2d::Force<double>* ) const =  &sad::p2d::Body::addForce;
 
 
         ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * overload = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
@@ -391,11 +391,11 @@ static void exposeBody(sad::dukpp03::Context* ctx)
     }
 
     {
-         void (sad::p2d::Body::*addForce1)(sad::p2d::Force<sad::p2d::Vector>*) = &sad::p2d::Body::sheduleAddForce;
-         void (sad::p2d::Body::*addForce2)(sad::p2d::Force<double>* ) =  &sad::p2d::Body::sheduleAddForce;
+         void (sad::p2d::Body::*addForce1)(sad::p2d::Force<sad::p2d::Vector>*) const = &sad::p2d::Body::sheduleAddForce;
+         void (sad::p2d::Body::*addForce2)(sad::p2d::Force<double>* ) const =  &sad::p2d::Body::sheduleAddForce;
 
-         void (sad::p2d::Body::*addForce3)(sad::p2d::Force<sad::p2d::Vector>*, double) = &sad::p2d::Body::sheduleAddForce;
-         void (sad::p2d::Body::*addForce4)(sad::p2d::Force<double>*, double ) =  &sad::p2d::Body::sheduleAddForce;
+         void (sad::p2d::Body::*addForce3)(sad::p2d::Force<sad::p2d::Vector>*, double) const = &sad::p2d::Body::sheduleAddForce;
+         void (sad::p2d::Body::*addForce4)(sad::p2d::Force<double>*, double ) const =  &sad::p2d::Body::sheduleAddForce;
 
 
         ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * overload = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
@@ -408,8 +408,8 @@ static void exposeBody(sad::dukpp03::Context* ctx)
     }
 
     {
-         void (sad::p2d::Body::*removeForce1)(sad::p2d::Force<sad::p2d::Vector>*) = &sad::p2d::Body::removeForce;
-         void (sad::p2d::Body::*removeForce2)(sad::p2d::Force<double>* ) =  &sad::p2d::Body::removeForce;
+         void (sad::p2d::Body::*removeForce1)(sad::p2d::Force<sad::p2d::Vector>*) const = &sad::p2d::Body::removeForce;
+         void (sad::p2d::Body::*removeForce2)(sad::p2d::Force<double>* ) const =  &sad::p2d::Body::removeForce;
 
 
         ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * overload = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();

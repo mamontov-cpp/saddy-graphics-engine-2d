@@ -213,7 +213,7 @@ protected:
     movement.
  */
 template<typename _Class, typename _Value>
-class MovementDelta—onstListener : public p2d::AbstractMovementDeltaListener<_Value>  // NOLINT(cppcoreguidelines-special-member-functions)
+class MovementDeltaConstListener : public p2d::AbstractMovementDeltaListener<_Value>  // NOLINT(cppcoreguidelines-special-member-functions)
 {
 public:
     typedef void (_Class::*method_t)(const _Value &) const;
@@ -222,7 +222,7 @@ public:
         \param[in] o object
         \param[in] f method
      */
-    inline MovementDelta—onstListener(_Class * o, method_t f)
+    inline MovementDeltaConstListener(_Class * o, method_t f)
         : m_object(o), m_fun(f)
     {
     }
@@ -237,7 +237,7 @@ public:
     }
     /*! This class does not own object nor method, so nothing here
      */
-    ~MovementDelta—onstListener() {}
+    ~MovementDeltaConstListener() {}
 protected:
     _Class *  m_object; //!< An object
     method_t  m_fun;      //!< A called pointer to method of class
