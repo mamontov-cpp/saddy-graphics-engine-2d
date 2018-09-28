@@ -462,6 +462,17 @@ bool sad::p2d::BounceSolver::isEnabledInelasticCollisions() const
     return m_inelastic_collisions;
 }
 
+void sad::p2d::BounceSolver::setInelasticCollisionType(sad::p2d::BounceSolver::InelasticCollisionType type)
+{
+    m_inelastic_collision_type = type;
+    m_inelastic_collisions = (type != sad::p2d::BounceSolver::ICT_NO_INELASTIC_COLLISION);
+}
+
+sad::p2d::BounceSolver::InelasticCollisionType sad::p2d::BounceSolver::inelasticCollisionType() const
+{
+    return m_inelastic_collision_type;
+}
+
 void sad::p2d::BounceSolver::logFCPError(const char * m)
 {
     if (m_debug)
