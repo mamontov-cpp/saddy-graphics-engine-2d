@@ -57,7 +57,7 @@ struct CollisionData
     >
     void setUserObjects(const sad::Vector<_ObjectType*>& objects)
     {
-        if (m_user_objects.size())
+        if (!m_user_objects.empty())
         {
             for(size_t i = 0; i < m_user_objects.size(); i++)
             {

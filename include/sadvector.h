@@ -20,7 +20,11 @@ template<
 class Vector: public std::vector<T>
 {
 public:
-    Vector();                                       
+    Vector();
+    inline Vector(std::initializer_list<T> init) : std::vector<T>(init)
+    {
+
+    }
     virtual ~Vector();                                       //!< Destructor.
     inline size_t count() const;                             //!< Returns a size of Vector
     inline T*   data()  const;                               //!< Returns a pointer to data

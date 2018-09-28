@@ -152,6 +152,22 @@ public:
         \return[in] recursion limit
      */
     size_t recursionLimit() const;
+    /*! Sets collision precision step for solver
+        \param[in] step a step value
+     */
+    void setCollisionPrecisionStep(double step);
+    /*! Returns a collision precision step
+        \return a precision step
+     */
+    double collisionPrecisionStep() const;
+    /*! Sets max solver iterations for solver for inelastic collisions
+        \param[in] value a value
+     */
+    void setMaxSolverIterations(size_t value);
+    /*! Returns max solver iterations for solver for inelastic collisions
+        \return a value
+     */
+    size_t maxSolverIterations() const;
 protected:
     p2d::FindContactPoints * m_find;  //!< Current algorithm for finding a contact poinnts
     p2d::Body * m_first;   //!< First body to test against
@@ -187,12 +203,28 @@ protected:
     /*! An inner recursion counter for avoiding stack overflow
      */
     size_t    m_recursion_counter;
+    /*! A collision precision step
+     */
+    double    m_collision_precision_step;
+    /*! A maximal solver iterations for inelastic collisions
+     */
+    size_t    m_max_solver_iterations;
     /*! Inelastic bounce with fixed second body, where first body sticks to second
         \param[in] b1 first body
         \param[in] b2 second body
         \return true if it was successfully computed
      */
     bool inelasticBounceWithFixedSecondBody(sad::p2d::Body* b1, sad::p2d::Body* b2);
+    /*! Fixes local inelastic collision for first body
+        \param[in] task solver task
+        \return a collision data for solver
+     */
+    sad::p2d::Body::CollisionData fixLocalInelasticCollision(const sad::p2d::BounceSolver::SolverTask& task);
+    /*! Inserts collision data into first body's collision list
+        \param[in] data a data for first body
+        \return a position where it was inserted
+     */
+    size_t insertDataIntoCollisionList(const sad::p2d::Body::CollisionData& data);
     /*! Tries to find basic task for inelastic bounce solving
         \return basic task if can be found
      */
