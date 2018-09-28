@@ -215,16 +215,25 @@ protected:
         \return true if it was successfully computed
      */
     bool inelasticBounceWithFixedSecondBody(sad::p2d::Body* b1, sad::p2d::Body* b2);
-    /*! Fixes local inelastic collision for first body
-        \param[in] task solver task
-        \return a collision data for solver
+    /*! Returns list of bodies to recompute collisions with
+        \param[in] position a list of positions
+        \return
      */
-    sad::p2d::Body::CollisionData fixLocalInelasticCollision(const sad::p2d::BounceSolver::SolverTask& task);
+    sad::Vector<sad::p2d::Body*> getBodiesToRecomputeCollisionsWith(size_t position);
+    /*! Reshedules first bodies position after inelastic bounce
+        \param[in] insert_position a position for inserted position
+     */
+    void resheduleFistBodyPositionAfterInElasticBounce(size_t insert_position);
     /*! Inserts collision data into first body's collision list
         \param[in] data a data for first body
         \return a position where it was inserted
      */
     size_t insertDataIntoCollisionList(const sad::p2d::Body::CollisionData& data);
+    /*! Fixes local inelastic collision for first body
+        \param[in] task solver task
+        \return a collision data for solver
+     */
+    sad::p2d::Body::CollisionData fixLocalInelasticCollision(const sad::p2d::BounceSolver::SolverTask& task);
     /*! Tries to find basic task for inelastic bounce solving
         \return basic task if can be found
      */
@@ -262,6 +271,12 @@ protected:
         sad::p2d::CollisionShape*  first_shape,
         sad::Maybe<sad::p2d::BounceSolver::SolverTask>& solver_task
     );
+    /*! Returns true if already handled inelastic collision between two bodies
+        \param[in] first first body
+        \param[in] second second body
+        \return true if second body is in list of collisions of first body
+     */
+    static bool isAlreadyHandledInelasticCollisionBetween(sad::p2d::Body* first, sad::p2d::Body* second);
     /*! Bounces with normal data
         \param[in] b1 first body
         \param[in] b2 second body

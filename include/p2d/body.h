@@ -40,6 +40,7 @@ struct CollisionData
     double TOI;                          //!< Time of impact with inelastic collision
     sad::p2d::Vector PlatformSpeed;      //!< A platform speed, applied to body after collision
     sad::p2d::Vector OwnSpeed;           //!< An own speed, applied to body after collision
+    sad::p2d::Vector DOwnSpeed;          //!< A delta for own speed in body
     sad::p2d::Vector Position;           //!< A position for collision data
     sad::p2d::Vector DPosition;          //!< A position delta, applied to body
 };
