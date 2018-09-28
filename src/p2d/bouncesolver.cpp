@@ -184,6 +184,28 @@ bool sad::p2d::BounceSolver::inelasticBounceWithFixedSecondBody(sad::p2d::Body* 
     return false;
 }
 
+/*! Returns max of two values if they have same sign, otherwise sum
+    \param[in] a value
+    \param[in] b value
+ */
+inline double maxOrSum(double a, double b)
+{
+    if (a < 0) {
+        return (b < 0) ? std::min(a, b) : (a + b);
+    } else {
+        return (b > 0) ? std::max(a, b) : (a + b);
+    }
+}
+
+/*! Returns max of two values if they have same sign, otherwise sum
+    \param[in] a value
+    \param[in] b value
+ */
+inline sad::p2d::Vector maxOrSum(const sad::p2d::Vector& a, const sad::p2d::Vector&  b)
+{
+    return {maxOrSum(a.x(), b.x()), maxOrSum(a.y(), b.y())};
+}
+
 
 size_t sad::p2d::BounceSolver::insertDataIntoCollisionList(const sad::p2d::Body::CollisionData& data)
 {
@@ -200,10 +222,15 @@ size_t sad::p2d::BounceSolver::insertDataIntoCollisionList(const sad::p2d::Body:
         {
             // Recompute platform velocity
             first_collision.Bodies << data.Bodies[0];
-            // No, you cannot do it, recompute with all bodies n account
-            first_collision.Position = (first_collision.Position + data.Position) / 2.0;
-            first_collision.PlatformSpeed = data.PlatformSpeed; // Oops, still should do something here, where the max formula?
-            first_collision.OwnSpeed = data.OwnSpeed;
+
+            // Recompute base position with position according to current data
+            sad::p2d::Vector base_position = data.Position - data.DPosition;
+            sad::p2d::Vector result_dposition = maxOrSum(first_collision.DPosition, data.DPosition);
+            first_collision.Position = base_position + result_dposition;
+            first_collision.DPosition = result_dposition;
+
+            first_collision.PlatformSpeed = maxOrSum(first_collision.PlatformSpeed, data.PlatformSpeed);
+            first_collision.OwnSpeed = data.OwnSpeed;  // Oops, still should do something here, where the max formula?
             return result;
         }
     }
@@ -222,10 +249,15 @@ size_t sad::p2d::BounceSolver::insertDataIntoCollisionList(const sad::p2d::Body:
              {
                  // Recompute platform velocity
                  next_collision.Bodies << data.Bodies[0];
-                 // No, you cannot do it, recompute with all bodies in account
-                 next_collision.Position = (first_collision.Position + data.Position) / 2.0;
-                 next_collision.PlatformSpeed = data.PlatformSpeed; // Oops, still should do something here, where the max formula?
-                 next_collision.OwnSpeed = data.OwnSpeed;
+
+                 // Recompute base position with position according to current data
+                 sad::p2d::Vector base_position = data.Position - data.DPosition;
+                 sad::p2d::Vector result_dposition = maxOrSum(next_collision.DPosition, data.DPosition);
+                 next_collision.Position = base_position + result_dposition;
+                 next_collision.DPosition = result_dposition;
+
+                 next_collision.PlatformSpeed = maxOrSum(next_collision.PlatformSpeed, data.PlatformSpeed);
+                 next_collision.OwnSpeed = data.OwnSpeed;  // Oops, still should do something here, where the max formula?
                  return i;
              }
          }
@@ -270,11 +302,13 @@ sad::p2d::Body::CollisionData  sad::p2d::BounceSolver::fixLocalInelasticCollisio
     sad::p2d::CollisionTest test;
     double iteration = 0;
     bool colliding = true;
+    sad::p2d::Vector result_dposition(0.0, 0.0);
     do
     {
         sad::p2d::Vector dpos = speed_sum * m_collision_precision_step;
         first_toi_collision_shape->move(dpos);
         toi_collision_position += dpos;
+        result_dposition += dpos;
         colliding = test.invoke(first_toi_collision_shape, second_toi_collision_shape);
         ++iteration;
     } while((iteration < m_max_solver_iterations) && colliding);
@@ -286,7 +320,7 @@ sad::p2d::Body::CollisionData  sad::p2d::BounceSolver::fixLocalInelasticCollisio
     first_toi_collision_shape->deleteBlock(first_toi_collision_shape);
     second_toi_collision_shape->deleteBlock(second_toi_collision_shape);
 
-    return { {m_second},  m_toi, effective_platform_speed, new_speed, toi_collision_position};
+    return { {m_second},  m_toi, effective_platform_speed, new_speed, toi_collision_position, result_dposition};
 }
 
 void sad::p2d::BounceSolver::setRecursionLimit(size_t limit)
@@ -333,10 +367,10 @@ sad::Maybe<sad::p2d::BounceSolver::SolverTask> sad::p2d::BounceSolver::findBasic
         sad::p2d::Vector v = (m_first->positionAt(world_step) - cp1) / world_step;
         //sad::p2d::Vector pos = m_first->()
         m_first->collisions().add({
-            {}, 0,  sad::p2d::Vector(0,0), v, cp1
+            {}, 0,  sad::p2d::Vector(0,0), v, cp1, sad::p2d::Vector(0,0)
         });
         m_first->collisions().add({
-            {}, world_step,  sad::p2d::Vector(0,0), v, m_first->positionAt(world_step)
+            {}, world_step,  sad::p2d::Vector(0,0), v, m_first->positionAt(world_step), sad::p2d::Vector(0,0)
         });
     }
     sad::Maybe<sad::p2d::BounceSolver::SolverTask> solver_task;

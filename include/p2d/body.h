@@ -41,6 +41,7 @@ struct CollisionData
     sad::p2d::Vector PlatformSpeed;      //!< A platform speed, applied to body after collision
     sad::p2d::Vector OwnSpeed;           //!< An own speed, applied to body after collision
     sad::p2d::Vector Position;           //!< A position for collision data
+    sad::p2d::Vector DPosition;          //!< A position delta, applied to body
 };
     /*! Construct new body line with zero width at (0,0) with zero speed
      */
