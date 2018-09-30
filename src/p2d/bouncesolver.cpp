@@ -411,12 +411,24 @@ sad::p2d::Body::CollisionData  sad::p2d::BounceSolver::fixLocalInelasticCollisio
     sad::p2d::Vector reverse_own_speed = task.FirstVelocity * - 1;
 
     sad::p2d::Vector speed_sum  = effective_platform_speed + reverse_own_speed;
+    sad::p2d::Vector result_dposition(0.0, 0.0);
+
     if (sad::is_fuzzy_zero(sad::p2d::modulo(speed_sum)))
     {
         second_toi_collision_shape->normalToPointOnSurface(first_toi_collision_shape->center(), speed_sum);
-    }
-    sad::p2d::Vector result_dposition(0.0, 0.0);
+        if (sad::is_fuzzy_zero(sad::p2d::modulo(speed_sum)))
+        {
+            speed_sum.setX(1.0);
+        }
+        sad::p2d::Cutter1D second_cutter = second_toi_collision_shape->project(speed_sum);
+        sad::p2d::Cutter1D first_cutter = first_toi_collision_shape->project(speed_sum);
+        speed_sum *= std::max(second_cutter.p1(), second_cutter.p2()) - std::min(first_cutter.p1(), first_cutter.p2());
 
+        first_toi_collision_shape->move(speed_sum);
+        toi_collision_position += speed_sum;
+        result_dposition += speed_sum;
+    }
+    
     sad::p2d::CollisionTest test;
     double iteration = 0;
     bool colliding;
