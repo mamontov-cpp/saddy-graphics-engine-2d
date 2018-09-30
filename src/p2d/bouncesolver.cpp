@@ -6,7 +6,7 @@
 
 //  =============================== sad::p2d::BounceSolver::SolverTask ================
 
-void sad::p2d::BounceSolver::SolverTask::destroy()
+void sad::p2d::BounceSolver::SolverTask::destroy() const
 {
     if (First)
     {
@@ -25,15 +25,16 @@ DECLARE_SOBJ(sad::p2d::BounceSolver);
 
 sad::p2d::BounceSolver::BounceSolver()
 : m_toi(0),
-  m_inelastic_collisions(false),
-  m_inelastic_collision_type(sad::p2d::BounceSolver::ICT_NO_INELASTIC_COLLISION),
   m_resilience{1.0, 1.0},
   m_rotationfriction{0.0, 0.0},
   m_shouldperformrotationfriction(true),
+  m_inelastic_collisions(false),
+  m_inelastic_collision_type(sad::p2d::BounceSolver::ICT_NO_INELASTIC_COLLISION),
   m_recursion_limit(100),
   m_recursion_counter(0),
-  m_collision_precision_step(0.1),
-  m_max_solver_iterations(100)
+  m_collision_precision_step(0.001),
+  m_max_solver_iterations(100),
+  m_ignore_no_contact_points(false)
 {
     m_find = new sad::p2d::FindContactPoints();
     m_first = NULL;
@@ -86,10 +87,6 @@ void sad::p2d::BounceSolver::logFCPError(const char * m)
     tpl <<  "2nd body: \n{3}\n";
     tpl <<  "velocity ({4},{5})\nTOI: {6} Reason: {7} \n";
 
-    sad::p2d::Point center1 = m_first->currentShape()->center();
-
-    sad::p2d::Point center2 = m_second->currentShape()->center();
-
     SL_INTERNAL(fmt::Format(tpl) << m_first->currentShape()->dump()
                                  << m_av1.x() << m_av1.y()
                                  << m_second->currentShape()->dump()
@@ -99,7 +96,7 @@ void sad::p2d::BounceSolver::logFCPError(const char * m)
     }
 }
 
-std::string sad::p2d::BounceSolver::dump()
+std::string sad::p2d::BounceSolver::dump() const
 {
     std::string contacts = "not found!\n";
     if (m_contact.exists())
@@ -183,6 +180,16 @@ size_t sad::p2d::BounceSolver::maxSolverIterations() const
     return m_max_solver_iterations;
 }
 
+void sad::p2d::BounceSolver::toggleIgnoreContactPoints(bool value)
+{
+    m_ignore_no_contact_points =  value;
+}
+
+bool sad::p2d::BounceSolver::getIgnoreContactPointsFlag() const
+{
+    return m_ignore_no_contact_points;
+}
+
 // =========================================== PRIVATE METHODS =============================
 
 bool sad::p2d::BounceSolver::inelasticBounceWithFixedSecondBody(sad::p2d::Body* b1, sad::p2d::Body* b2)
@@ -196,14 +203,16 @@ bool sad::p2d::BounceSolver::inelasticBounceWithFixedSecondBody(sad::p2d::Body* 
     if (maybe_task.exists())
     {
         sad::p2d::BounceSolver::SolverTask task = maybe_task.value();
-        if (sad::is_fuzzy_zero(task.PivotTime) && (task.PivotTime >= 0  && task.PivotTime <= world_step))
+        if (sad::is_fuzzy_zero(task.PivotTime) || (task.PivotTime >= 0  && task.PivotTime <= world_step) || sad::is_fuzzy_equal(task.PivotTime, world_step))
         {
             // Further compute TOI and perform inelastic bounce
             sad::p2d::SetOfPointsPair pairs;
             this->solveTOIFCP(task.First, task.FirstVelocity, task.Second, task.SecondVelocity, pairs);
             m_toi += task.PivotTime;
 
-            if (!pairs.empty()
+            bool has_pairs_or_flag_is_set = !pairs.empty()  || m_ignore_no_contact_points;
+
+            if (has_pairs_or_flag_is_set
                 &&  (m_toi > 0 || sad::is_fuzzy_zero(m_toi, COLLISION_PRECISION * 1000))
                 && ((m_toi < world_step)  || sad::is_fuzzy_equal(m_toi, world_step)))
             {
@@ -240,7 +249,7 @@ bool sad::p2d::BounceSolver::inelasticBounceWithFixedSecondBody(sad::p2d::Body* 
     return false;
 }
 
-sad::Vector<sad::p2d::Body*> sad::p2d::BounceSolver::getBodiesToRecomputeCollisionsWith(size_t position)
+sad::Vector<sad::p2d::Body*> sad::p2d::BounceSolver::getBodiesToRecomputeCollisionsWith(size_t position) const
 {
     sad::Vector<sad::p2d::Body*> result;
     for(size_t i = position + 1; i < m_first->collisions().size(); i++)
@@ -251,7 +260,7 @@ sad::Vector<sad::p2d::Body*> sad::p2d::BounceSolver::getBodiesToRecomputeCollisi
     return result;
 }
 
-void sad::p2d::BounceSolver::resheduleFistBodyPositionAfterInElasticBounce(size_t insert_position)
+void sad::p2d::BounceSolver::resheduleFistBodyPositionAfterInElasticBounce(size_t insert_position) const
 {
 
     if (insert_position != m_first->collisions().size() - 1)
@@ -304,7 +313,7 @@ inline sad::p2d::Vector maxOrSum(const sad::p2d::Vector& a, const sad::p2d::Vect
 }
 
 
-size_t sad::p2d::BounceSolver::insertDataIntoCollisionList(const sad::p2d::Body::CollisionData& data)
+size_t sad::p2d::BounceSolver::insertDataIntoCollisionList(const sad::p2d::Body::CollisionData& data) const
 {
     size_t result = 0;
     sad::p2d::Body::CollisionData& first_collision = m_first->collisions()[0];
@@ -377,7 +386,7 @@ size_t sad::p2d::BounceSolver::insertDataIntoCollisionList(const sad::p2d::Body:
     return result;
 }
 
-sad::p2d::Body::CollisionData  sad::p2d::BounceSolver::fixLocalInelasticCollision(const sad::p2d::BounceSolver::SolverTask& task)
+sad::p2d::Body::CollisionData  sad::p2d::BounceSolver::fixLocalInelasticCollision(const sad::p2d::BounceSolver::SolverTask& task) const
 {
     sad::p2d::Vector dposition = m_first->position() - m_first->currentShape()->center();
     sad::p2d::Vector collision_position = task.First->center() + dposition;
@@ -402,23 +411,31 @@ sad::p2d::Body::CollisionData  sad::p2d::BounceSolver::fixLocalInelasticCollisio
     sad::p2d::Vector reverse_own_speed = task.FirstVelocity * - 1;
 
     sad::p2d::Vector speed_sum  = effective_platform_speed + reverse_own_speed;
+    if (sad::is_fuzzy_zero(sad::p2d::modulo(speed_sum)))
+    {
+        second_toi_collision_shape->normalToPointOnSurface(first_toi_collision_shape->center(), speed_sum);
+    }
+    sad::p2d::Vector result_dposition(0.0, 0.0);
+
     sad::p2d::CollisionTest test;
     double iteration = 0;
-    bool colliding = true;
-    sad::p2d::Vector result_dposition(0.0, 0.0);
-    do
-    {
-        sad::p2d::Vector dpos = speed_sum * m_collision_precision_step;
-        first_toi_collision_shape->move(dpos);
-        toi_collision_position += dpos;
-        result_dposition += dpos;
-        colliding = test.invoke(first_toi_collision_shape, second_toi_collision_shape);
-        ++iteration;
-    } while((iteration < m_max_solver_iterations) && colliding);
+    bool colliding;
+    if (test.invoke(first_toi_collision_shape, second_toi_collision_shape))
+    { 
+        do
+        {
+            sad::p2d::Vector dpos = speed_sum * m_collision_precision_step;
+            first_toi_collision_shape->move(dpos);
+            toi_collision_position += dpos;
+            result_dposition += dpos;
+            colliding = test.invoke(first_toi_collision_shape, second_toi_collision_shape);
+            ++iteration;
+        } while((iteration < m_max_solver_iterations) && colliding);
+    }
 
     // Compute new speed for first body
 
-    sad::p2d::Vector d_speed = normal * sad::p2d::scalar(task.FirstVelocity, normal);
+    sad::p2d::Vector d_speed = normal * sad::p2d::scalar(task.FirstVelocity, normal) * (-1.0);
     sad::p2d::Vector new_speed = task.FirstVelocity +  d_speed;
     first_toi_collision_shape->deleteBlock(first_toi_collision_shape);
     second_toi_collision_shape->deleteBlock(second_toi_collision_shape);
@@ -426,7 +443,7 @@ sad::p2d::Body::CollisionData  sad::p2d::BounceSolver::fixLocalInelasticCollisio
     return { {m_second},  m_toi, effective_platform_speed, new_speed, d_speed, toi_collision_position, result_dposition};
 }
 
-sad::Maybe<sad::p2d::BounceSolver::SolverTask> sad::p2d::BounceSolver::findBasicTaskForInelasticBounce()
+sad::Maybe<sad::p2d::BounceSolver::SolverTask> sad::p2d::BounceSolver::findBasicTaskForInelasticBounce() const
 {
     sad::p2d::CollisionShape* s1  = m_first->currentShape()->clone();
     sad::p2d::Vector cp1 = m_first->position();
@@ -466,7 +483,7 @@ void sad::p2d::BounceSolver::tryFindBasicTaskForInelasticBounceForData(
     sad::p2d::Body::CollisionData& data,
     sad::p2d::CollisionShape*  first_shape,
     sad::Maybe<sad::p2d::BounceSolver::SolverTask>& solver_task
-)
+) const
 {
     sad::p2d::Vector first_velocity = data.PlatformSpeed + data.OwnSpeed;
 
@@ -527,7 +544,7 @@ void sad::p2d::BounceSolver::tryFindBasicTaskForInelasticBounceForData(
 
     sad::p2d::Body::CollisionData& second_data,
     sad::Maybe<sad::p2d::BounceSolver::SolverTask>& solver_task
-)
+) const
 {
     sad::p2d::CollisionTest test;
 
@@ -553,14 +570,13 @@ void sad::p2d::BounceSolver::tryFindBasicTaskForInelasticBounceWithCollisions(
     sad::p2d::Body::CollisionData& data,
     sad::p2d::CollisionShape*  first_shape,
     sad::Maybe<sad::p2d::BounceSolver::SolverTask>& solver_task
-)
+) const
 {
     sad::p2d::CollisionTest test;
 
     sad::p2d::Vector first_velocity = data.PlatformSpeed + data.OwnSpeed;
 
     sad::Vector<sad::p2d::Body::CollisionData>& list = m_second->collisions();
-    double toi = data.TOI;
     for(size_t i = 1; i < list.size(); i++)
     {
         if (sad::is_fuzzy_equal(data.TOI, list[i-1].TOI)
@@ -630,9 +646,6 @@ bool sad::p2d::BounceSolver::bounceNormal(sad::p2d::Body* b1, sad::p2d::Body* b2
 void sad::p2d::BounceSolver::performBouncing(const sad::p2d::SetOfPointsPair & pairs)
 {
     //TODO: Implement another types of friction
-
-    double m1 = m_first->weight().value();
-    double m2 = m_second->weight().value();
 
     sad::p2d::Point normal1;
     m_first->currentShape()->normalToPointOnSurface(pairs[0].p1(), normal1);
@@ -717,7 +730,7 @@ void  sad::p2d::BounceSolver::solveTOIFCP(
         double avx2 = m_av2.x();
         double avy2 = m_av2.y();
 
-        double time = 0;
+        double time;
         if (sad::non_fuzzy_zero(avx2 - avx1))
         {
             time = (x1 - x2) / (avx2 - avx1);
@@ -856,9 +869,9 @@ void sad::p2d::BounceSolver::tryResolveFriction(
             // won't change, so we must convert a tangential part to velocity. 
             tangential -= t;
             double wR = sad::p2d::scalar(tangential, tangentialUnit);
-            double w = wR / forcemomentlength;
+            double angular = wR / forcemomentlength;
 
-            b->sheduleAngularVelocity(w);
+            b->sheduleAngularVelocity(angular);
         }
     }
 }

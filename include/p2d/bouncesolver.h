@@ -22,7 +22,7 @@ class CollisionTest;
     objects must be checked for collision with p2d::CollisionTest, before calling a
     bounce. 
  */
-class BounceSolver: public sad::Object
+class BounceSolver: public sad::Object  // NOLINT(cppcoreguidelines-special-member-functions)
 {
 SAD_OBJECT
 public:
@@ -45,7 +45,7 @@ public:
         double PivotTime{0};                            //!< A pivot time for solving, 0 is for start
         /*! Kills task
          */
-        void destroy();
+        void destroy() const;
     };
     /*! Constructs new solver
      */
@@ -94,7 +94,7 @@ public:
     /*! Returns current method for finding contact points
         \return current method
      */
-    inline p2d::FindContactPoints * find() { return m_find; }
+    inline p2d::FindContactPoints * find() const { return m_find; }
     /*! Sets method for finding contact points
         \param[in] find new method for finding contact points
      */
@@ -127,7 +127,7 @@ public:
     /*! Dumps all collision data to string
         \return dump of all collected data
      */
-    std::string dump();
+    std::string dump() const;
     /*! Toggles inelastic collisions
         \param[in] b inelastic collisions
      */
@@ -168,6 +168,14 @@ public:
         \return a value
      */
     size_t maxSolverIterations() const;
+    /*! Toggles flags for ignoring contact points
+        \param[in] value a flag value
+     */
+    void toggleIgnoreContactPoints(bool value);
+    /*! Returns flags for ignoring contact points
+        \return a flag
+     */
+    bool getIgnoreContactPointsFlag() const;
 protected:
     p2d::FindContactPoints * m_find;  //!< Current algorithm for finding a contact poinnts
     p2d::Body * m_first;   //!< First body to test against
@@ -209,6 +217,9 @@ protected:
     /*! A maximal solver iterations for inelastic collisions
      */
     size_t    m_max_solver_iterations;
+    /*! Test if we should ignore contact points
+     */
+    bool m_ignore_no_contact_points;
     /*! Inelastic bounce with fixed second body, where first body sticks to second
         \param[in] b1 first body
         \param[in] b2 second body
@@ -219,25 +230,25 @@ protected:
         \param[in] position a list of positions
         \return
      */
-    sad::Vector<sad::p2d::Body*> getBodiesToRecomputeCollisionsWith(size_t position);
+    sad::Vector<sad::p2d::Body*> getBodiesToRecomputeCollisionsWith(size_t position) const;
     /*! Reshedules first bodies position after inelastic bounce
         \param[in] insert_position a position for inserted position
      */
-    void resheduleFistBodyPositionAfterInElasticBounce(size_t insert_position);
+    void resheduleFistBodyPositionAfterInElasticBounce(size_t insert_position) const;
     /*! Inserts collision data into first body's collision list
         \param[in] data a data for first body
         \return a position where it was inserted
      */
-    size_t insertDataIntoCollisionList(const sad::p2d::Body::CollisionData& data);
+    size_t insertDataIntoCollisionList(const sad::p2d::Body::CollisionData& data) const;
     /*! Fixes local inelastic collision for first body
         \param[in] task solver task
         \return a collision data for solver
      */
-    sad::p2d::Body::CollisionData fixLocalInelasticCollision(const sad::p2d::BounceSolver::SolverTask& task);
+    sad::p2d::Body::CollisionData fixLocalInelasticCollision(const sad::p2d::BounceSolver::SolverTask& task) const;
     /*! Tries to find basic task for inelastic bounce solving
         \return basic task if can be found
      */
-    sad::Maybe<sad::p2d::BounceSolver::SolverTask> findBasicTaskForInelasticBounce();
+    sad::Maybe<sad::p2d::BounceSolver::SolverTask> findBasicTaskForInelasticBounce() const;
     /*! Tries to find basic task for collision data
         \param[in] data a local data
         \param[in] first_shape shape for first object for collision
@@ -247,7 +258,7 @@ protected:
         sad::p2d::Body::CollisionData& data,
         sad::p2d::CollisionShape*  first_shape,
         sad::Maybe<sad::p2d::BounceSolver::SolverTask>& solver_task
-    );
+    ) const;
     /*! Tries to find basic task for collision data
         \param[in] data a local data
         \param[in] first_shape shape for first object for collision
@@ -260,7 +271,7 @@ protected:
 
         sad::p2d::Body::CollisionData& second_data,
         sad::Maybe<sad::p2d::BounceSolver::SolverTask>& solver_task
-    );
+    ) const;
     /*! Tries to find basic task for inelastic bounce with collisions
         \param[in] data a local data
         \param[in] first_shape a shape for first object
@@ -270,7 +281,7 @@ protected:
         sad::p2d::Body::CollisionData& data,
         sad::p2d::CollisionShape*  first_shape,
         sad::Maybe<sad::p2d::BounceSolver::SolverTask>& solver_task
-    );
+    ) const;
     /*! Returns true if already handled inelastic collision between two bodies
         \param[in] first first body
         \param[in] second second body
