@@ -317,7 +317,7 @@ size_t sad::p2d::BounceSolver::insertDataIntoCollisionList(const sad::p2d::Body:
 {
     size_t result = 0;
     sad::p2d::Body::CollisionData& first_collision = m_first->collisions()[0];
-    if (sad::is_fuzzy_equal(first_collision.TOI, data.TOI))
+    if (sad::is_fuzzy_equal(first_collision.TOI, data.TOI, COLLISION_PRECISION))
     {
         if (first_collision.Bodies.empty())
         {
@@ -348,7 +348,7 @@ size_t sad::p2d::BounceSolver::insertDataIntoCollisionList(const sad::p2d::Body:
     {
          sad::p2d::Body::CollisionData& prev_collision = m_first->collisions()[i - 1];
          sad::p2d::Body::CollisionData& next_collision = m_first->collisions()[i];
-         if (sad::is_fuzzy_equal(next_collision.TOI, data.TOI))
+         if (sad::is_fuzzy_equal(next_collision.TOI, data.TOI, COLLISION_PRECISION))
          {
              if (next_collision.Bodies.empty())
              {

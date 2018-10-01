@@ -38,7 +38,10 @@ public:
      TEST(BounceSolverTest::testInelasticLeftCollision9),
      TEST(BounceSolverTest::testInelasticLeftCollision10),
      TEST(BounceSolverTest::testInelasticLeftCollision11),
-     TEST(BounceSolverTest::testInelasticLeftCollision12)
+     TEST(BounceSolverTest::testInelasticLeftCollision12),
+     TEST(BounceSolverTest::testInelasticLeftCollisionComplex1),
+     TEST(BounceSolverTest::testInelasticLeftCollisionComplex2),
+     TEST(BounceSolverTest::testInelasticLeftCollisionEverythingMoving)
     ), m_solver(nullptr)
     {
     }
@@ -535,7 +538,8 @@ public:
 
         sad::p2d::CollisionTest test;
         ASSERT_TRUE(!test.invoke(player->currentShape(), platform->currentShape()));
-        ASSERT_TRUE(sad::is_fuzzy_equal(player->currentShape()->center().y(), 5.0));
+        ASSERT_TRUE(player->currentShape()->center().y() >=  4.0);
+        ASSERT_TRUE(player->currentShape()->center().y() <= 6.0);
         ASSERT_TRUE(player->currentShape()->center().x() >= -2.0);
         ASSERT_TRUE(player->currentShape()->center().x() <= 0.0);
     }
@@ -583,7 +587,8 @@ public:
 
         sad::p2d::CollisionTest test;
         ASSERT_TRUE(!test.invoke(player->currentShape(), platform->currentShape()));
-        ASSERT_TRUE(sad::is_fuzzy_equal(player->currentShape()->center().x(), 7.0));
+        ASSERT_TRUE(player->currentShape()->center().x() >= 6.0);
+        ASSERT_TRUE(player->currentShape()->center().x() <= 8.0);
         ASSERT_TRUE(player->currentShape()->center().y() >= -2.0);
         ASSERT_TRUE(player->currentShape()->center().y() <= 0.0);
     }
@@ -631,9 +636,191 @@ public:
 
         sad::p2d::CollisionTest test;
         ASSERT_TRUE(!test.invoke(player->currentShape(), platform->currentShape()));
-        ASSERT_TRUE(sad::is_fuzzy_equal(player->currentShape()->center().x(), 7.0));
+        ASSERT_TRUE(player->currentShape()->center().x() >= 6.0);
+        ASSERT_TRUE(player->currentShape()->center().x() <= 8.0);
         ASSERT_TRUE(player->currentShape()->center().y() >= 6.0);
         ASSERT_TRUE(player->currentShape()->center().y() <= 8.0);
+    }
+
+    /*! Tests inelastic collision from a data
+     */
+     // ReSharper disable once CppMemberFunctionMayBeStatic
+     // ReSharper disable once CppMemberFunctionMayBeConst
+    void testInelasticLeftCollisionComplex1()
+    {
+        sad::p2d::BounceSolver solver;
+        solver.setInelasticCollisionType(sad::p2d::BounceSolver::ICT_FIRST);
+        solver.toggleInelasticCollisions(true);
+        solver.toggleIgnoreContactPoints(true);
+
+        sad::p2d::Body* player = new sad::p2d::Body();
+        sad::p2d::Rectangle* player_rect = new sad::p2d::Rectangle();
+        player_rect->setRect(sad::Rect2D(4, 5, 6, 7));
+        player->setShape(player_rect);
+        player->initPosition(sad::Point2D(5, 6));
+        player->setCurrentTangentialVelocity(sad::p2d::Vector(-4, -3));
+
+
+        sad::p2d::Body* platform1 = new sad::p2d::Body();
+        sad::p2d::Rectangle* platform_rect1 = new sad::p2d::Rectangle();
+        platform_rect1->setRect(sad::Rect2D(0, 0, 2, 7));
+        platform1->setShape(platform_rect1);
+        platform1->initPosition(sad::Point2D(1, 3.5));
+
+        sad::p2d::Body* platform2 = new sad::p2d::Body();
+        sad::p2d::Rectangle* platform_rect2 = new sad::p2d::Rectangle();
+        platform_rect2->setRect(sad::Rect2D(2, 0, 9, 2));
+        platform2->setShape(platform_rect2);
+        platform2->initPosition(sad::Point2D(5.5, 1));
+
+
+        sad::p2d::World world;
+        world.addGroup("1");
+        world.addGroup("2");
+        world.addBodyToGroup("1", player);
+        world.addBodyToGroup("2", platform1);
+        world.addBodyToGroup("2", platform2);
+        world.addHandler("1", "2", [&solver](const sad::p2d::BasicCollisionEvent& ev) {
+            solver.bounce(ev.m_object_1, ev.m_object_2);
+        });
+
+        world.step(0.5);
+        world.step(0.5);
+        world.step(0.5);
+        world.step(0.5);
+
+        sad::p2d::CollisionTest test;
+        ASSERT_TRUE(!test.invoke(player->currentShape(), platform1->currentShape()));
+        ASSERT_TRUE(!test.invoke(player->currentShape(), platform2->currentShape()));
+        ASSERT_TRUE(player->currentShape()->center().x() >= 2.0);
+        ASSERT_TRUE(player->currentShape()->center().x() <= 4.0);
+        ASSERT_TRUE(player->currentShape()->center().y() >= 2.0);
+        ASSERT_TRUE(player->currentShape()->center().y() <= 4.0);
+    }
+
+
+    /*! Tests inelastic collision from a data
+     */
+     // ReSharper disable once CppMemberFunctionMayBeStatic
+     // ReSharper disable once CppMemberFunctionMayBeConst
+    void testInelasticLeftCollisionComplex2()
+    {
+        sad::p2d::BounceSolver solver;
+        solver.setInelasticCollisionType(sad::p2d::BounceSolver::ICT_FIRST);
+        solver.toggleInelasticCollisions(true);
+        solver.toggleIgnoreContactPoints(true);
+
+        sad::p2d::Body* player = new sad::p2d::Body();
+        sad::p2d::Rectangle* player_rect = new sad::p2d::Rectangle();
+        player_rect->setRect(sad::Rect2D(4, 5, 6, 7));
+        player->setShape(player_rect);
+        player->initPosition(sad::Point2D(5, 6));
+        player->setCurrentTangentialVelocity(sad::p2d::Vector(-3, -5));
+
+
+        sad::p2d::Body* platform1 = new sad::p2d::Body();
+        sad::p2d::Rectangle* platform_rect1 = new sad::p2d::Rectangle();
+        platform_rect1->setRect(sad::Rect2D(0, 0, 2, 7));
+        platform1->setShape(platform_rect1);
+        platform1->initPosition(sad::Point2D(1, 3.5));
+
+        sad::p2d::Body* platform2 = new sad::p2d::Body();
+        sad::p2d::Rectangle* platform_rect2 = new sad::p2d::Rectangle();
+        platform_rect2->setRect(sad::Rect2D(2, 0, 9, 2));
+        platform2->setShape(platform_rect2);
+        platform2->initPosition(sad::Point2D(5.5, 1));
+
+
+        sad::p2d::World world;
+        world.addGroup("1");
+        world.addGroup("2");
+        world.addBodyToGroup("1", player);
+        world.addBodyToGroup("2", platform1);
+        world.addBodyToGroup("2", platform2);
+        world.addHandler("1", "2", [&solver](const sad::p2d::BasicCollisionEvent& ev) {
+            solver.bounce(ev.m_object_1, ev.m_object_2);
+        });
+
+        world.step(0.5);
+        world.step(0.5);
+        world.step(0.5);
+        world.step(0.5);
+
+        sad::p2d::CollisionTest test;
+        ASSERT_TRUE(!test.invoke(player->currentShape(), platform1->currentShape()));
+        ASSERT_TRUE(!test.invoke(player->currentShape(), platform2->currentShape()));
+        ASSERT_TRUE(player->currentShape()->center().x() >= 2.0);
+        ASSERT_TRUE(player->currentShape()->center().x() <= 4.0);
+        ASSERT_TRUE(player->currentShape()->center().y() >= 2.0);
+        ASSERT_TRUE(player->currentShape()->center().y() <= 4.0);
+    }
+
+    /*! Tests inelastic collision from a data
+     */
+     // ReSharper disable once CppMemberFunctionMayBeStatic
+     // ReSharper disable once CppMemberFunctionMayBeConst
+    void testInelasticLeftCollisionEverythingMoving()
+    {
+        sad::p2d::BounceSolver solver;
+        solver.setInelasticCollisionType(sad::p2d::BounceSolver::ICT_FIRST);
+        solver.toggleInelasticCollisions(true);
+        solver.toggleIgnoreContactPoints(true);
+
+        sad::p2d::Body* player = new sad::p2d::Body();
+        sad::p2d::Rectangle* player_rect = new sad::p2d::Rectangle();
+        player_rect->setRect(sad::Rect2D(5, 5, 7, 7));
+        player->setShape(player_rect);
+        player->initPosition(sad::Point2D(6, 6));
+        player->setCurrentTangentialVelocity(sad::p2d::Vector(-3, -3));
+
+
+        sad::p2d::Body* platform1 = new sad::p2d::Body();
+        sad::p2d::Rectangle* platform_rect1 = new sad::p2d::Rectangle();
+        platform_rect1->setRect(sad::Rect2D(-1, 0, 1, 7));
+        platform1->setShape(platform_rect1);
+        platform1->initPosition(sad::Point2D(0, 3.5));
+        platform1->setCurrentTangentialVelocity(sad::p2d::Vector(1, 0));
+
+
+        sad::p2d::Body* platform2 = new sad::p2d::Body();
+        sad::p2d::Rectangle* platform_rect2 = new sad::p2d::Rectangle();
+        platform_rect2->setRect(sad::Rect2D(0, -1, 9, 1));
+        platform2->setShape(platform_rect2);
+        platform2->initPosition(sad::Point2D(5.5, 0));
+        platform2->setCurrentTangentialVelocity(sad::p2d::Vector(0, 1));
+
+
+        sad::p2d::World world;
+        world.addGroup("1");
+        world.addGroup("2");
+        world.addBodyToGroup("1", player);
+        world.addBodyToGroup("2", platform1);
+        world.addBodyToGroup("2", platform2);
+        world.addHandler("1", "2", [&solver](const sad::p2d::BasicCollisionEvent& ev) {
+            solver.bounce(ev.m_object_1, ev.m_object_2);
+        });
+
+        double t = 0;
+        world.step(0.5);
+        t += 0.5;
+        world.step(0.5);
+        t += 0.5;
+        world.step(0.5);
+        t += 0.5;
+        world.step(0.5);
+        t += 0.5;
+        world.step(0.5);
+        t += 0.5;
+        world.step(0.5);
+        t += 0.5;
+
+        sad::p2d::CollisionTest test;
+        ASSERT_TRUE(!test.invoke(player->currentShape(), platform1->currentShape()));
+        ASSERT_TRUE(!test.invoke(player->currentShape(), platform2->currentShape()));
+        ASSERT_TRUE(player->currentShape()->center().x() >= 4.0);
+        ASSERT_TRUE(player->currentShape()->center().x() <= 6.0);
+        ASSERT_TRUE(player->currentShape()->center().y() >= 4.0);
+        ASSERT_TRUE(player->currentShape()->center().y() <= 6.0);
     }
 
 
