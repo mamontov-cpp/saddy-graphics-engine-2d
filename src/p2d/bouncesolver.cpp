@@ -337,12 +337,19 @@ size_t sad::p2d::BounceSolver::insertDataIntoCollisionList(const sad::p2d::Body:
 
             first_collision.PlatformSpeed = maxOrSum(first_collision.PlatformSpeed, data.PlatformSpeed);
 
-            sad::p2d::Vector base_own_speed = data.OwnSpeed - data.DOwnSpeed;
+            sad::p2d::Vector base_own_speed = first_collision.OwnSpeed - first_collision.DOwnSpeed;
             sad::p2d::Vector result_d_own_speed = data.DOwnSpeed + first_collision.DOwnSpeed;
             first_collision.OwnSpeed = base_own_speed + result_d_own_speed;
             first_collision.DOwnSpeed = result_d_own_speed;
             return result;
         }
+    }
+
+    // Resolve tiny negative TOI
+    if (data.TOI < first_collision.TOI)
+    {
+        m_first->collisions().insert(data, 0);
+        return 0;
     }
     for (size_t i = 1; i < m_first->collisions().size(); i++)
     {
@@ -366,7 +373,7 @@ size_t sad::p2d::BounceSolver::insertDataIntoCollisionList(const sad::p2d::Body:
                  next_collision.Position = base_position + result_dposition;
                  next_collision.DPosition = result_dposition;
 
-                 sad::p2d::Vector base_own_speed = data.OwnSpeed - data.DOwnSpeed;
+                 sad::p2d::Vector base_own_speed = next_collision.OwnSpeed - next_collision.DOwnSpeed;
                  sad::p2d::Vector result_d_own_speed = data.DOwnSpeed + next_collision.DOwnSpeed;
                  next_collision.OwnSpeed = base_own_speed + result_d_own_speed;
                  next_collision.DOwnSpeed = result_d_own_speed;
