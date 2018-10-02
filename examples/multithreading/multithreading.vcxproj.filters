@@ -93,6 +93,9 @@
     <ClCompile Include="game\actoroptions.cpp">
       <Filter>Файлы исходного кода\game</Filter>
     </ClCompile>
+    <ClCompile Include="game\walls.cpp">
+      <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -156,6 +159,9 @@
       <Filter>Заголовочные файлы\game</Filter>
     </ClInclude>
     <ClInclude Include="game\actors.h">
+      <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\walls.h">
       <Filter>Заголовочные файлы\game</Filter>
     </ClInclude>
   </ItemGroup>

@@ -207,6 +207,7 @@
     <ClCompile Include="game\item.cpp" />
     <ClCompile Include="game\options.cpp" />
     <ClCompile Include="game\triggers.cpp" />
+    <ClCompile Include="game\walls.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="nodes\background.cpp" />
     <ClCompile Include="nodes\inventorynode.cpp" />
@@ -230,6 +231,7 @@
     <ClInclude Include="game\item.h" />
     <ClInclude Include="game\options.h" />
     <ClInclude Include="game\triggers.h" />
+    <ClInclude Include="game\walls.h" />
     <ClInclude Include="nodes\background.h" />
     <ClInclude Include="nodes\inventorynode.h" />
     <ClInclude Include="nodes\inventorypopup.h" />
