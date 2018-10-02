@@ -142,6 +142,21 @@ void sad::p2d::BounceSolver::setInelasticCollisionType(sad::p2d::BounceSolver::I
     m_inelastic_collisions = (type != sad::p2d::BounceSolver::ICT_NO_INELASTIC_COLLISION);
 }
 
+void sad::p2d::BounceSolver::setInelasticCollisionTypeAsUnsignedInt(unsigned int type)
+{
+    if (type > sad::p2d::BounceSolver::ICT_SECOND)
+    {
+        type = sad::p2d::BounceSolver::ICT_SECOND;
+    }
+    this->setInelasticCollisionType(static_cast<sad::p2d::BounceSolver::InelasticCollisionType>(type));
+}
+
+unsigned int sad::p2d::BounceSolver::inelasticCollisionTypeAsUnsignedInt() const
+{
+    return this->inelasticCollisionType();
+}
+
+
 sad::p2d::BounceSolver::InelasticCollisionType sad::p2d::BounceSolver::inelasticCollisionType() const
 {
     return m_inelastic_collision_type;

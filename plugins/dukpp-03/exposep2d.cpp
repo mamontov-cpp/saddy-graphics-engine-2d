@@ -542,6 +542,20 @@ static void exposeBounceSolver(sad::dukpp03::Context* ctx)
     c->addMethod("dump", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::dump));
     c->addMethod("toggleInelasticCollisions", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::toggleInelasticCollisions));
     c->addMethod("isEnabledInelasticCollisions", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::isEnabledInelasticCollisions));
+    c->addMethod("toi", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::toi));
+    c->addMethod("correctedTOI", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::correctedTOI));
+    c->addMethod("toggleInelasticCollisions", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::toggleInelasticCollisions));
+    c->addMethod("isEnabledInelasticCollisions", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::isEnabledInelasticCollisions));
+    c->addMethod("setInelasticCollisionType", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::setInelasticCollisionTypeAsUnsignedInt));
+    c->addMethod("inelasticCollisionType", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::inelasticCollisionTypeAsUnsignedInt));
+    c->addMethod("setRecursionLimit", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::setRecursionLimit));
+    c->addMethod("recursionLimit", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::recursionLimit));
+    c->addMethod("setCollisionPrecisionStep", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::setCollisionPrecisionStep));
+    c->addMethod("collisionPrecisionStep", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::collisionPrecisionStep));
+    c->addMethod("setMaxSolverIterations", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::setMaxSolverIterations));
+    c->addMethod("maxSolverIterations", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::maxSolverIterations));
+    c->addMethod("toggleIgnoreContactPoints", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::toggleIgnoreContactPoints));
+    c->addMethod("getIgnoreContactPointsFlag", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::getIgnoreContactPointsFlag));
 
     c->setPrototypeFunction("SadP2BounceSolver");
 
@@ -554,6 +568,10 @@ static void exposeBounceSolver(sad::dukpp03::Context* ctx)
         "sad.p2d.BounceSolver = SadP2BounceSolver;"
         "sad.p2d.BounceSolver.prototype.pushResilienceCoefficient = function(r, index)   { if (typeof index == \"undefined\")  { SadP2DBounceSolverPushResilienceCoefficient(this, r, 1); SadP2DBounceSolverPushResilienceCoefficient(this, r, 2); } else SadP2DBounceSolverPushResilienceCoefficient(this, r, index);   };"
         "sad.p2d.BounceSolver.prototype.pushRotationFriction = function(r, index) { if (typeof index == \"undefined\")  { SadP2DBounceSolverPushRotationFriction(this, r, 1); SadP2DBounceSolverPushRotationFriction(this, r, 2); } else SadP2DBounceSolverPushRotationFriction(this, r, index); };"
+        "sad.p2d.BounceSolver.InelasticCollisionType = {};"
+        "sad.p2d.BounceSolver.InelasticCollisionType.ICT_NO_INELASTIC_COLLISION = 0;"
+        "sad.p2d.BounceSolver.InelasticCollisionType.ICT_FIRST = 1;"
+        "sad.p2d.BounceSolver.InelasticCollisionType.ICT_SECOND = 2;"
     );
 }
 

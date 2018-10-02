@@ -137,13 +137,21 @@ public:
      */
     bool isEnabledInelasticCollisions() const;
     /*! Sets whether inelastic collision types are enabled
-         \param type type of collisions
+        \param[in] type type of collisions
      */
     void setInelasticCollisionType(sad::p2d::BounceSolver::InelasticCollisionType type);
+    /*! Sets whether inelastic collision types are enabled. Used for scripting
+        \param[in] type type of collisions
+     */
+    void setInelasticCollisionTypeAsUnsignedInt(unsigned int type);
     /*! Returns inelastic collision types
         \return inelastic collision types
      */
     sad::p2d::BounceSolver::InelasticCollisionType inelasticCollisionType() const;
+    /*! Returns inelastic collision types as unsigned int
+        \return inelastic collision types
+     */
+    unsigned int inelasticCollisionTypeAsUnsignedInt() const;
     /*! Sets recursion limit for solving collisions
         \param[in] limit a limit for recursion
      */
