@@ -80,6 +80,9 @@ max_level_x(0.0) // NOLINT
     m_step_task = new sad::p2d::WorldStepTask(NULL, m_main_thread->renderer());
     
     m_bounce_solver = new BS();
+    m_bounce_solver->toggleIgnoreContactPoints(true);
+    m_bounce_solver->toggleInelasticCollisions(true);
+    m_bounce_solver->setInelasticCollisionType(sad::p2d::BounceSolver::ICT_FIRST);
     m_bounce_solver->enableDebug();
 
     m_player->setActorOptions(m_actor_options["player"]);
@@ -1392,6 +1395,7 @@ void Game::initGamePhysics()
     m_physics_world->addGroup("player");
     m_physics_world->addGroup("enemies");
     m_physics_world->addGroup("platforms");
+    m_physics_world->addGroup("walls");
 
     max_level_x = 0;
 
@@ -1602,6 +1606,9 @@ void Game::initGamePhysics()
             m_physics_world->addBodyToGroup("platforms", body);
         }
     }
+    /*! A special length for walls to make them exta large
+     */
+    const double length = 10000;
 
     // Handle all collision as non-resilient, enabling sliding
     std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_player_and_platforms = [=](const sad::p2d::BasicCollisionEvent & ev) {

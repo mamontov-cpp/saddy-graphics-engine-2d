@@ -294,35 +294,16 @@ void game::Actor::tryStopGoingRight()
 
 void game::Actor::onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev)
 {
-    double tick = m_game->physicsWorld()->timeStep();
-    int samplingCount = m_game->physicsWorld()->detector()->sampleCount();
-    double precision_collision = 0.5; // A correction to ensure, that TOI won't be negative
-
-    sad::p2d::Vector force_value;
-    ev.m_object_1->tangentialForces().value(force_value);
-
-    sad::p2d::Vector v = ev.m_object_2->tangentialVelocity();
-    sad::p2d::Vector player_velocity = ev.m_object_1->tangentialVelocity();
-
-    bool willActorPositionChange = ev.m_object_1->willPositionChange();
-    sad::p2d::Vector nextActorPosition = ev.m_object_1->nextPosition();
+    sad::p2d::BounceSolver* bounce_solver = m_game->bounceSolver();
+    if (!bounce_solver->bounce(ev.m_object_1, ev.m_object_2))
+    {
+        return;
+    }
+    double ctoi = bounce_solver->correctedTOI();
 
     sad::Point2D current_position_1 = ev.m_object_1->position();
     sad::Point2D current_position_2 = ev.m_object_2->position();
 
-    sad::p2d::BounceSolver* bounce_solver = m_game->bounceSolver();
-    bounce_solver->pushResilienceCoefficient(0.0);
-    bounce_solver->pushRotationFriction(0.0);
-    bounce_solver->toggleInelasticCollisions(true);
-    if (!bounce_solver->bounce(ev.m_object_1, ev.m_object_2))
-    {
-        bool bounced = bounce_solver->bounce(ev.m_object_1, ev.m_object_2);
-        if (!bounced)
-        {
-            return;
-        }
-    }
-    double ctoi = bounce_solver->correctedTOI();
     sad::Point2D next_position_1 = ev.m_object_1->nextPosition();
     sad::Point2D next_position_2 = ev.m_object_2->nextPosition();
 
@@ -339,115 +320,14 @@ void game::Actor::onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev)
     sad::p2d::Cutter1D player_part(std::min(shape_1[0].x(), shape_1[2].x()), std::max(shape_1[0].x(), shape_1[2].x()));
     sad::p2d::Cutter1D platform_part(std::min(shape_2[0].x(), shape_2[2].x()), std::max(shape_2[0].x(), shape_2[2].x()));
 
-    double ctoi_tick = ctoi * 0.9; // 0.9 is a pretty magic coefficient to solve some issues with collision
-
     if ((sad::is_fuzzy_equal(max_platform_y, min_player_y) || (min_player_y > max_platform_y))
         && (sad::p2d::collides(player_part, platform_part)))
     {
         printf("Resting collision\n");
-        double y = (max_platform_y + ev.m_object_2->tangentialVelocity().y() * tick -  old_player_shape[0].y()) + ev.m_object_1->position().y() + precision_collision;
 
-        if (willActorPositionChange)
-        {
-            double x = nextActorPosition.x();
-            if (!(this->isXCoordinateFixed()))
-            {
-                x = ev.m_object_1->position().x() + player_velocity.x() * tick + force_value.x() * tick * tick / 2.0;
-            }
-            y = std::max(nextActorPosition.y(), y);
-            ev.m_object_1->shedulePosition(sad::Point2D(x, y));
-            this->setYCoordinateFixed(true);
-        }
-        else
-        {
-            double x = ev.m_object_1->position().x() + player_velocity.x() * tick + force_value.x() * tick * tick / 2.0;
-            ev.m_object_1->shedulePosition(sad::Point2D(x, y));
-            this->setYCoordinateFixed(true);
-        }
-        sad::p2d::Rectangle& rect1 = dynamic_cast<sad::p2d::Rectangle&>(ev.m_object_1->at(tick, samplingCount - 1));
-        sad::p2d::Rectangle& rect2 = dynamic_cast<sad::p2d::Rectangle&>(ev.m_object_2->at(tick, samplingCount - 1));
-        sad::p2d::CollisionTest detector;
-        if (detector.invoke(&rect1, &rect2))
-        {
-            sad::p2d::Vector v = ev.m_object_1->nextPosition();
-            v.setY(v.y() + rect2.rect()[2].y() - rect1.rect()[0].y()  + precision_collision);
-            ev.m_object_1->shedulePosition(v);
-        }
+        sad::p2d::Vector v = ev.m_object_2->tangentialVelocity();
         this->restOnPlatform(ev.m_object_2, v);
-        this->setYCoordinateFixed(true);
     }
-    else
-    {
-        ev.m_object_1->setCurrentAngularVelocity(0);
-        ev.m_object_1->sheduleAngularVelocity(0);
-
-        // Force sliding by offsetting objects after collision
-        if (sad::p2d::collides(player_part, platform_part))
-        {
-            printf("Top collision\n");
-            if (willActorPositionChange)
-            {
-                double x = nextActorPosition.x();
-                double y = ev.m_object_1->position().y() + player_velocity.y() * ctoi_tick - precision_collision;
-                if (!(this->isXCoordinateFixed()))
-                {
-                    x = ev.m_object_1->position().x() + player_velocity.x() * tick + force_value.x() * tick * tick / 2.0;
-                }
-                if (ev.m_object_2->tangentialVelocity().y() < 0)
-                {
-                    y += ev.m_object_2->tangentialVelocity().y() * tick;
-                }
-                ev.m_object_1->shedulePosition(sad::Point2D(x, y));
-                this->setYCoordinateFixed(true);
-            }
-            else
-            {
-                double x = ev.m_object_1->position().x() + player_velocity.x() * tick + force_value.x() * tick * tick / 2.0;
-                double y = ev.m_object_1->position().y() + player_velocity.y() * ctoi_tick - precision_collision;
-                if (ev.m_object_2->tangentialVelocity().y() < 0)
-                {
-                    y += ev.m_object_2->tangentialVelocity().y() * tick;
-                }
-                ev.m_object_1->shedulePosition(sad::Point2D(x, y));
-                this->setYCoordinateFixed(true);
-            }
-        }
-        else
-        {
-            bool is_front_collision = player_part.p2() < platform_part.p1();
-            if (is_front_collision)
-            {
-                printf("Front collision\n");
-            }
-            else
-            {
-                printf("Back collision");
-            }
-            double correction = (is_front_collision) ? (precision_collision * - 1) : precision_collision;
-            if ((is_front_collision && v.x() < 0) || (v.x() > 0))
-            {
-               correction += v.x() * tick;
-            }
-            double x = ev.m_object_1->position().x() + player_velocity.x() * ctoi_tick + correction;
-            if (willActorPositionChange)
-            {
-                double y = nextActorPosition.y();
-                if (!(this->isYCoordinateFixed()))
-                {
-                    y = ev.m_object_1->position().y() + player_velocity.y() * tick + force_value.y() * tick * tick / 2.0;
-                }
-                ev.m_object_1->shedulePosition(sad::Point2D(x, y));
-                this->setXCoordinateFixed(true);
-            }
-            else
-            {
-                double y = ev.m_object_1->position().y() + player_velocity.y() * tick + force_value.y() * tick * tick / 2.0;
-                ev.m_object_1->shedulePosition(sad::Point2D(x, y));
-                this->setXCoordinateFixed(true);
-            }
-        }
-    }
-    ev.m_object_2->shedulePosition(ev.m_object_2->position() + v * tick);
 }
 
 void game::Actor::setGame(Game* game)
