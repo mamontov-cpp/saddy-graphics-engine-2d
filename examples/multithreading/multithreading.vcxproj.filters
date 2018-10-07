@@ -31,6 +31,12 @@
     <Filter Include="Файлы исходного кода\game">
       <UniqueIdentifier>{520d2f08-8961-4050-9357-72f5430bb5cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы исходного кода\bots">
+      <UniqueIdentifier>{a6321d70-1b03-449c-b8a5-5a21336e2a69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\bots">
+      <UniqueIdentifier>{2318091c-a1ed-40c3-a11c-14113c6faa5e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -95,6 +101,18 @@
     </ClCompile>
     <ClCompile Include="game\walls.cpp">
       <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
+    <ClCompile Include="bots\botregistry.cpp">
+      <Filter>Файлы исходного кода\bots</Filter>
+    </ClCompile>
+    <ClCompile Include="bots\abstractbot.cpp">
+      <Filter>Файлы исходного кода\bots</Filter>
+    </ClCompile>
+    <ClCompile Include="bots\jsbot.cpp">
+      <Filter>Файлы исходного кода\bots</Filter>
+    </ClCompile>
+    <ClCompile Include="bots\randombot.cpp">
+      <Filter>Файлы исходного кода\bots</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -163,6 +181,18 @@
     </ClInclude>
     <ClInclude Include="game\walls.h">
       <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="bots\abstractbot.h">
+      <Filter>Заголовочные файлы\bots</Filter>
+    </ClInclude>
+    <ClInclude Include="bots\botregistry.h">
+      <Filter>Заголовочные файлы\bots</Filter>
+    </ClInclude>
+    <ClInclude Include="bots\jsbot.h">
+      <Filter>Заголовочные файлы\bots</Filter>
+    </ClInclude>
+    <ClInclude Include="bots\randombot.h">
+      <Filter>Заголовочные файлы\bots</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

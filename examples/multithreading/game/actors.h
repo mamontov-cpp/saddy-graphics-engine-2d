@@ -11,6 +11,7 @@
 #include <sadstring.h>
 
 #include "actor.h"
+#include "../bots/abstractbot.h"
 
 
 class Game;
@@ -28,8 +29,7 @@ public:
 struct Data
 {
     game::Actor* Actor;                                     //!< A stored actor in-game
-    sad::dukpp03::CompiledFunction Function;          //!< A compiled function
-    sad::Hash<sad::String, sad::db::Variant> State;   //!< An inner variant for state
+    bots::AbstractBot* Bot;                                 //!< An AI for it
 };
 public:
     /*! Inits default actors list
@@ -49,11 +49,10 @@ public:
     ~Actors();
     /*! Tries to add new actor in list
      *  \param[in] actor an actor
-     *  \param[in] fn function (actor, state) -> (state), which performs an action. Can use other global stuff
-     *  \param[in] state a state for working
+     *  \param[in] bot a bot to be added
      *  \return if actor is already here, returns false. Also returns false, if actor is NULL
      */
-    bool add(game::Actor* actor, const sad::dukpp03::CompiledFunction& fn, const  sad::Hash<sad::String, sad::db::Variant>& state);
+    bool add(game::Actor* actor, bots::AbstractBot* bot);
     /*! Removes an actor from list, erasing all data
      *  \param[in] actor an actor
      */

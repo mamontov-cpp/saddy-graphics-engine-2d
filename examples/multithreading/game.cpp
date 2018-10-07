@@ -6,6 +6,9 @@
 #include "nodes/inventorynode.h"
 #include "nodes/inventorypopup.h"
 
+#include "bots/jsbot.h"
+#include "bots/randombot.h"
+
 #include <input/controls.h>
 #include <pipeline/pipeline.h>
 
@@ -27,6 +30,7 @@
 #include <dukpp-03-irrklang/dukpp-03-irrklang.h>
 
 #include <p2d/force.h>
+
 
 
 // A precision error for designer's editor when designing level
@@ -84,6 +88,8 @@ max_level_x(0.0) // NOLINT
     m_bounce_solver->toggleInelasticCollisions(true);
     m_bounce_solver->setInelasticCollisionType(sad::p2d::BounceSolver::ICT_FIRST);
     m_bounce_solver->enableDebug();
+
+    m_bot_registry.insert("random_60_500", new bots::RandomBot(50, 600));
 
     m_player->setActorOptions(m_actor_options["player"]);
 }
@@ -1232,46 +1238,32 @@ void Game::initContext()
             const sad::dukpp03::CompiledFunction& function,
             const sad::Hash<sad::String, sad::db::Variant>& state
     ) {
-        if (m_actor_options.contains(optname))
+        game::Actor* actor = this->makeEnemy(optname, middle);
+        if (actor)
         {
-            game::ActorOptions* options = m_actor_options[optname];
-
-            sad::Scene* scene = this->rendererForMainThread()->database("gamescreen")->objectByName<sad::Scene>("main");
-            if (scene)
+            this->m_actors.add(actor, new bots::JSBot(function, state, this->m_eval_context));
+        }
+    };
+    std::function<void(const sad::String&,
+        const sad::Point2D&,
+        const sad::String& botname)
+    > spawn_enemy_walker2 = [=](const sad::String& optname,
+        const sad::Point2D& middle,
+        const sad::String& botname
+    ) {
+        if (this->m_bot_registry.contains(botname))
+        { 
+            game::Actor* actor = this->makeEnemy(optname, middle);
+            if (actor)
             {
-                sad::Sprite2D* sprite = new sad::Sprite2D();
-                sprite->setScene(scene);
-                sprite->setTreeName(this->rendererForMainThread(), "");
-                sprite->set(options->JumpingSprite);
-                sprite->moveTo(middle);
-                scene->add(sprite);
-
-                game::Actor* actor = new game::Actor();
-                actor->setGame(this);
-                actor->setSprite(sprite);
-                actor->setOptions(options);
-
-                sad::p2d::Body* body = new sad::p2d::Body();
-                body->setCurrentAngularVelocity(0);
-                body->setCurrentTangentialVelocity(sad::p2d::Vector(0,0));
-                sad::p2d::Rectangle* rect = new sad::p2d::Rectangle();
-                rect->setRect(sprite->area());
-                body->setShape(rect);
-
-                body->attachObject(actor);
-                body->initPosition(sprite->middle());
-
-                this->m_physics_world->addBodyToGroup("enemies", body);
-                actor->setBody(body);
-                actor->enableGravity();
-                actor->init(true);
-
-                this->m_actors.add(actor, function, state);
+                this->m_actors.add(actor, this->m_bot_registry.get(botname)->clone());
             }
         }
     };
-
-    m_eval_context->registerCallable("spawnEnemyWalkerAt", sad::dukpp03::make_lambda::from(spawn_enemy_walker));
+    sad::dukpp03::MultiMethod* spawn_enemy_walker_at = new sad::dukpp03::MultiMethod();
+    spawn_enemy_walker_at->add(sad::dukpp03::make_lambda::from(spawn_enemy_walker));
+    spawn_enemy_walker_at->add(sad::dukpp03::make_lambda::from(spawn_enemy_walker2));
+    m_eval_context->registerCallable("spawnEnemyWalkerAt", spawn_enemy_walker_at);
     m_eval_context->registerCallable("makePlatformGoOnWay", sad::dukpp03::make_lambda::from(make_platform_go_on_way));
     m_eval_context->registerCallable("addTrigger", sad::dukpp03::make_lambda::from(add_trigger));
     m_eval_context->registerCallable("addTriggerOnce", sad::dukpp03::make_lambda::from(add_trigger_once));
@@ -1660,6 +1652,48 @@ void Game::tryRenderDebugShapes() const
             }
         }
     }
+}
+
+game::Actor* Game::makeEnemy(const sad::String& optname, const sad::Point2D& middle)
+{
+    if (m_actor_options.contains(optname))
+    {
+        game::ActorOptions* options = m_actor_options[optname];
+
+        sad::Scene* scene = this->rendererForMainThread()->database("gamescreen")->objectByName<sad::Scene>("main");
+        if (scene)
+        {
+            sad::Sprite2D* sprite = new sad::Sprite2D();
+            sprite->setScene(scene);
+            sprite->setTreeName(this->rendererForMainThread(), "");
+            sprite->set(options->JumpingSprite);
+            sprite->moveTo(middle);
+            scene->add(sprite);
+
+            game::Actor* actor = new game::Actor();
+            actor->setGame(this);
+            actor->setSprite(sprite);
+            actor->setOptions(options);
+
+            sad::p2d::Body* body = new sad::p2d::Body();
+            body->setCurrentAngularVelocity(0);
+            body->setCurrentTangentialVelocity(sad::p2d::Vector(0, 0));
+            sad::p2d::Rectangle* rect = new sad::p2d::Rectangle();
+            rect->setRect(sprite->area());
+            body->setShape(rect);
+
+            body->attachObject(actor);
+            body->initPosition(sprite->middle());
+
+            this->m_physics_world->addBodyToGroup("enemies", body);
+            actor->setBody(body);
+            actor->enableGravity();
+            actor->init(true);
+
+            return actor;
+        }
+    }
+    return NULL;
 }
 
 Game::Game(const Game&)  // NOLINT

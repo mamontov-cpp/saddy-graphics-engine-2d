@@ -21,7 +21,7 @@ game::Actors::~Actors()
 }
 
 
-bool game::Actors::add(game::Actor* actor, const sad::dukpp03::CompiledFunction& fn, const  sad::Hash<sad::String, sad::db::Variant>& state)
+bool game::Actors::add(game::Actor* actor, bots::AbstractBot* bot)
 {
     if (!actor)
     {
@@ -36,7 +36,7 @@ bool game::Actors::add(game::Actor* actor, const sad::dukpp03::CompiledFunction&
     }
 
     actor->addRef();
-    m_actors << new game::Actors::Data{actor, fn, state};
+    m_actors << new game::Actors::Data{actor, bot};
     return true;
 }
 
@@ -47,6 +47,7 @@ void game::Actors::remove(game::Actor* actor)
         if (m_actors[i]->Actor == actor)
         {
             actor->delRef();
+            delete m_actors[i]->Bot;
             delete m_actors[i];
             m_actors.removeAt(i);
             --i;
@@ -58,32 +59,10 @@ void game::Actors::process(Game* game, sad::dukpp03::Context* ctx)
 {
     for(size_t i = 0 ; i < m_actors.size(); i++)
     {
-        if (!m_actors[i]->Actor->isDying())
+        game::Actor* actor = m_actors[i]->Actor;
+        if (!actor->isDying())
         {
-            ::dukpp03::PushValue<game::Actor*,sad::dukpp03::BasicContext>::perform(ctx, m_actors[i]->Actor);
-            ::dukpp03::PushValue<sad::Hash<sad::String, sad::db::Variant>,sad::dukpp03::BasicContext>::perform(ctx, m_actors[i]->State);
-            m_actors[i]->Function.call(ctx);
-
-            ::dukpp03::Maybe<std::string> data = ctx->errorOnStack(-1);
-            if (data.exists())
-            {
-                sad::String log_entry = data.value() + "\n";
-                SL_LOCAL_CRITICAL(log_entry, *(game->rendererForMainThread()));
-            }
-            else
-            {
-                ::dukpp03::Maybe<sad::Hash<sad::String, sad::db::Variant> > maybe_state = ::dukpp03::GetValue<sad::Hash<sad::String, sad::db::Variant>,sad::dukpp03::BasicContext>::perform(ctx, -1);
-                if (maybe_state.exists())
-                {
-                    m_actors[i]->State = maybe_state.value();
-                }
-                else
-                {
-                    printf("No state is left, does it exists");
-                }
-            }
-
-            ctx->cleanStack();
+            m_actors[i]->Bot->perform(game, actor);
         }
     }
 }
@@ -115,9 +94,10 @@ void game::Actors::copyState(const game::Actors& o)
 {
     for(size_t i = 0; i < o.m_actors.size(); i++)
     {
-        game::Actors::Data* data = o.m_actors[i];
-        data->Actor->addRef();
-        this->m_actors << new game::Actors::Data(*data);
+        game::Actors::Data data = *(o.m_actors[i]);
+        data.Actor->addRef();
+        data.Bot = data.Bot->clone();
+        this->m_actors << new game::Actors::Data(data);
     }
 }
 
@@ -127,6 +107,7 @@ void game::Actors::destroy()
     {
         game::Actors::Data* data = m_actors[i];
         data->Actor->delRef();
+        delete data->Bot;
         delete data;
     }
     m_actors.clear();

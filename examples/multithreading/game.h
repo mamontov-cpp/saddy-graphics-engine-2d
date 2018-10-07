@@ -27,6 +27,8 @@
 #include "game/actors.h"
 #include "game/walls.h"
 
+#include "bots/botregistry.h"
+
 #include "scenetransitionprocess.h"
 #include "optionsscreen.h"
 
@@ -246,6 +248,11 @@ private:
     /*! Renders debug game shapes
      */
     void tryRenderDebugShapes() const;
+    /*! Makes new enemy actor
+        \param[in] optname a name for options
+        \param[in] middle a middle of enemy
+     */
+    game::Actor* makeEnemy(const sad::String& optname, const sad::Point2D& middle);
     /*! Disabled constructor
      */
     Game(const Game&);
@@ -340,6 +347,9 @@ private:
     /*! An actor options list;
      */
     sad::Hash<sad::String, game::ActorOptions*> m_actor_options;
+    /*! A bot registry for storing all types for bots
+     */
+    bots::BotRegistry m_bot_registry;
     /*! A world, which is used in game
      */
     sad::p2d::World* m_physics_world;
