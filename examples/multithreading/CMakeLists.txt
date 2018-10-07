@@ -7,8 +7,8 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/../../cm
 find_package(Freetype REQUIRED)
 find_package(irrKlang REQUIRED)
 
-file(GLOB SRCS *.cpp nodes/*.cpp threads/*.cpp game/*.cpp tests/*.cpp)
-file(GLOB HDRS *.h  nodes/*.h threads/*.h game/*.h tests/*.h)
+file(GLOB SRCS *.cpp nodes/*.cpp threads/*.cpp game/*.cpp bots/*.cpp tests/*.cpp)
+file(GLOB HDRS *.h  nodes/*.h threads/*.h game/*.h bots/*.h tests/*.h)
 
 set(SADDY_APPLICATION_NAME "multithreading-example")
 set(SADDY_LIBRARY_NAME "saddy")
