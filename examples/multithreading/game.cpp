@@ -534,8 +534,6 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
                 this->m_actors.process(this, this->m_eval_context);
                 this->m_step_task->enable();
                 this->m_step_task->process();
-                this->m_player->checkBoundaryCollision(0.0, max_level_x, 600, 0);
-                this->m_actors.checkBoundaryCollision(0.0, max_level_x, 600, 0);
                 this->tryRenderDebugShapes();
                 this->m_triggers.tryRun(this->m_player, this->m_eval_context);
 
@@ -1606,9 +1604,8 @@ void Game::initGamePhysics()
             m_physics_world->addBodyToGroup("platforms", body);
         }
     }
-    /*! A special length for walls to make them exta large
-     */
-    const double length = 10000;
+    m_walls.init(0, max_level_x, 600, 0);
+    m_walls.addToWorld(m_physics_world);
 
     // Handle all collision as non-resilient, enabling sliding
     std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_player_and_platforms = [=](const sad::p2d::BasicCollisionEvent & ev) {
@@ -1623,6 +1620,8 @@ void Game::initGamePhysics()
     };
     m_physics_world->addHandler("player", "platforms", collision_between_player_and_platforms);
     m_physics_world->addHandler("enemies", "platforms", collision_between_enemy_and_platforms);
+    m_physics_world->addHandler("player", "walls", collision_between_player_and_platforms);
+    m_physics_world->addHandler("enemies", "walls", collision_between_enemy_and_platforms);
     m_step_task->setWorld(m_physics_world);
 }
 

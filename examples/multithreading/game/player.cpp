@@ -134,11 +134,6 @@ void game::Player::testResting()
     m_actor.testResting();
 }
 
-void game::Player::checkBoundaryCollision(double left_bound, double right_bound, double up_bound, double bottom_bound)
-{
-    m_actor.checkBoundaryCollision(left_bound, right_bound, up_bound, bottom_bound);
-}
-
 void game::Player::enableGravity() const
 {
     m_actor.enableGravity();

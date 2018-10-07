@@ -88,14 +88,6 @@ void game::Actors::process(Game* game, sad::dukpp03::Context* ctx)
     }
 }
 
-void game::Actors::checkBoundaryCollision(double left_bound, double right_bound, double up_bound, double bottom_bound)
-{
-    for(size_t i = 0 ; i < m_actors.size(); i++)
-    {
-        m_actors[i]->Actor->checkBoundaryCollision(left_bound, right_bound, up_bound, bottom_bound);
-    }
-}
-
 void game::Actors::testResting()
 {
     for (size_t i = 0; i < m_actors.size(); i++)

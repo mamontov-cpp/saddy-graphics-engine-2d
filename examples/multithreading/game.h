@@ -25,6 +25,7 @@
 #include "game/movingplatformregistry.h"
 #include "game/triggers.h"
 #include "game/actors.h"
+#include "game/walls.h"
 
 #include "scenetransitionprocess.h"
 #include "optionsscreen.h"
@@ -324,6 +325,9 @@ private:
     /*! A list of actors in game
      */
     game::Actors m_actors;
+    /*! An in-game walls
+     */
+    game::Walls m_walls;
     /*! An options screen
      */
     OptionsScreen m_options_screen;

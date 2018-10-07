@@ -299,20 +299,18 @@ void game::Actor::onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev)
     {
         return;
     }
-    double ctoi = bounce_solver->correctedTOI();
-
     sad::Point2D current_position_1 = ev.m_object_1->position();
-    sad::Point2D current_position_2 = ev.m_object_2->position();
-
     sad::Point2D next_position_1 = ev.m_object_1->nextPosition();
-    sad::Point2D next_position_2 = ev.m_object_2->nextPosition();
+
+    sad::Point2D current_position_2 = ev.m_object_2->position();
+    sad::Point2D next_position_2 = ev.m_object_2->positionAt(ev.m_object_2->world()->timeStep());
 
     sad::Rect2D shape_1 = dynamic_cast<sad::p2d::Rectangle*>(ev.m_object_1->currentShape())->rect();
     sad::Rect2D shape_2 = dynamic_cast<sad::p2d::Rectangle*>(ev.m_object_2->currentShape())->rect();
-    sad::Rect2D old_player_shape = shape_1;
 
     sad::moveBy(next_position_1 - current_position_1, shape_1);
     sad::moveBy(next_position_2 - current_position_2, shape_2);
+
 
     double min_player_y = std::min(shape_1[0].y(), shape_1[2].y());
     double max_platform_y = std::max(shape_2[0].y(), shape_2[2].y());
@@ -626,6 +624,7 @@ void game::Actor::setHorizontalVelocity(double value)
     }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void game::Actor::incrementVerticalVelocity(double value)
 {
     sad::p2d::Vector v = m_body->tangentialVelocity();
@@ -1009,73 +1008,6 @@ bool game::Actor::isFreefalling() const
 const sad::p2d::Vector& game::Actor::oldVelocity() const
 {
     return m_old_velocity;
-}
-
-void game::Actor::checkBoundaryCollision(double left_bound, double right_bound, double up_bound, double bottom_bound)
-{
-    // If player went too far into left or right, block the way
-    sad::Rect2D area = this->m_sprite->area();
-    if ((area[0].x() < left_bound) && (!sad::is_fuzzy_equal(area[0].x(), left_bound)))
-    {
-        if (m_body->willPositionChange())
-        {
-            sad::Point2D cp = m_body->position();
-            sad::Point2D p = m_body->nextPosition();
-            m_body->shedulePosition(sad::Point2D(cp.x() + (area[0].x() - left_bound) * -1, p.y()));
-            this->setXCoordinateFixed(true);
-        }
-        else
-        {
-            m_body->move(sad::Point2D((area[0].x() - left_bound) * -1, 0.0));
-            this->setXCoordinateFixed(true);
-        }
-        this->setHorizontalVelocity(0.0);
-    }
-    if (area[2].x() > right_bound && (!sad::is_fuzzy_equal(area[2].x(), right_bound)))
-    {
-        if (this->m_body->willPositionChange())
-        {
-            sad::Point2D cp = this->m_body->position();
-            sad::Point2D p = this->m_body->nextPosition();
-            this->m_body->shedulePosition(sad::Point2D(cp.x() - (area[2].x() - right_bound), p.y()));
-            this->setXCoordinateFixed(true);
-        }
-        else
-        {
-            this->m_body->move(sad::Point2D(right_bound - area[2].x(), 0.0));
-            this->setXCoordinateFixed(true);
-        }
-    }
-    if (area[2].y() > up_bound && (!sad::is_fuzzy_equal(area[2].y(), up_bound)))
-    {
-        if (this->m_body->willPositionChange())
-        {
-            sad::Point2D cp = this->m_body->position();
-            sad::Point2D p = this->m_body->nextPosition();
-            this->m_body->shedulePosition(sad::Point2D(p.x(), cp.y() + (up_bound - area[2].y())));
-            this->setYCoordinateFixed(true);
-        }
-        else
-        {
-            this->m_body->move(sad::Point2D(0.0, up_bound - area[2].y()));
-            this->setYCoordinateFixed(true);
-        }
-    }
-    if (area[0].y() < bottom_bound && (!sad::is_fuzzy_equal(area[2].y(), bottom_bound)))
-    {
-        if (this->m_body->willPositionChange())
-        {
-            sad::Point2D cp = this->m_body->position();
-            sad::Point2D p = this->m_body->nextPosition();
-            this->m_body->shedulePosition(sad::Point2D(p.x(), cp.y() - (bottom_bound - area[0].y())));
-            this->setYCoordinateFixed(true);
-        }
-        else
-        {
-            this->m_body->move(sad::Point2D(0.0, bottom_bound - area[0].y()));
-            this->setYCoordinateFixed(true);
-        }
-    }
 }
 
 void game::Actor::moveBy(const sad::p2d::Vector& v) const

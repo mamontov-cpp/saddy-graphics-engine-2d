@@ -228,13 +228,6 @@ public:
         \return old veloctity
      */
     const sad::p2d::Vector& oldVelocity() const;
-    /*! Checks boundary collision for horizontal collision
-        \param[in] left_bound a left bound
-        \param[in] right_bound a right bound
-        \param[in] up_bound an upper bound for actor
-        \param[in] bottom_bound a bottom bound for actor
-     */
-    void checkBoundaryCollision(double left_bound, double right_bound, double up_bound, double bottom_bound);
     /*! A notify function for vector
      *  \param[in] v a vector object
      */
