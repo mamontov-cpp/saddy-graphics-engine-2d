@@ -230,6 +230,10 @@ public:
         \return world
      */
     sad::p2d::World* physicsWorld() const;
+    /*! Kills actor by body
+        \param[in] body a body for actor
+     */
+    void killActorByBody(sad::p2d::Body* body);
 private:
     /*! Inits evaluation context
      */

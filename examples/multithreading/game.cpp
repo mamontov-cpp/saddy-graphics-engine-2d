@@ -30,7 +30,7 @@
 #include <dukpp-03-irrklang/dukpp-03-irrklang.h>
 
 #include <p2d/force.h>
-
+#include "bots/nullbot.h"
 
 
 // A precision error for designer's editor when designing level
@@ -1152,6 +1152,11 @@ sad::p2d::World* Game::physicsWorld() const
     return m_physics_world;
 }
 
+void Game::killActorByBody(sad::p2d::Body* body)
+{
+    
+}
+
 void Game::disableGravity(sad::p2d::Body* b)
 {
     Game::setGravityForBody(b, sad::p2d::Vector(0.0, 0.0));
@@ -1260,10 +1265,40 @@ void Game::initContext()
             }
         }
     };
+    std::function<void(const sad::String&,
+        const sad::Point2D&,
+        double from,
+        double to,
+        double dive_height
+    )
+    > spawn_animated_floater = [=](const sad::String& optname,
+        const sad::Point2D& middle,
+        double /*from*/,
+        double /*to*/,
+        double /*dive_height*/
+        ) {
+        game::Actor* actor = this->makeEnemy(optname, middle);
+        if (actor)
+        {
+            this->m_actors.add(actor, new bots::NullBot());
+
+            sad::animations::OptionList* list = new sad::animations::OptionList();
+            list->setList(this->m_actor_options["optname"]->FloaterFlyAnimationOptions);
+            list->setTime(500);
+            list->setLooped(true);
+
+            sad::animations::Instance* i = new sad::animations::Instance();
+            i->setAnimation(list);
+            i->setObject(actor->sprite());
+
+            this->rendererForMainThread()->animations()->add(i);
+        }
+    };
     sad::dukpp03::MultiMethod* spawn_enemy_walker_at = new sad::dukpp03::MultiMethod();
     spawn_enemy_walker_at->add(sad::dukpp03::make_lambda::from(spawn_enemy_walker));
     spawn_enemy_walker_at->add(sad::dukpp03::make_lambda::from(spawn_enemy_walker2));
     m_eval_context->registerCallable("spawnEnemyWalkerAt", spawn_enemy_walker_at);
+    m_eval_context->registerCallable("spawnAnimatedFloater", sad::dukpp03::make_lambda::from(spawn_animated_floater));
     m_eval_context->registerCallable("makePlatformGoOnWay", sad::dukpp03::make_lambda::from(make_platform_go_on_way));
     m_eval_context->registerCallable("addTrigger", sad::dukpp03::make_lambda::from(add_trigger));
     m_eval_context->registerCallable("addTriggerOnce", sad::dukpp03::make_lambda::from(add_trigger_once));

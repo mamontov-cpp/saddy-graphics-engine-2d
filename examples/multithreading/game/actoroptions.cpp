@@ -92,5 +92,10 @@ void game::exposeActorOptions(void* c)
          sad::dukpp03::getter::from(&game::ActorOptions::FloaterSprite),
          sad::dukpp03::setter::from(&game::ActorOptions::FloaterSprite)
     );
+    binding->addAccessor(
+        "FloaterFlyAnimationOptions",
+        sad::dukpp03::getter::from(&game::ActorOptions::FloaterFlyAnimationOptions),
+        sad::dukpp03::setter::from(&game::ActorOptions::FloaterFlyAnimationOptions)
+    );
     ctx->addClassBinding("game::ActorOptions", binding);
 }

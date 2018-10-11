@@ -199,6 +199,7 @@
     <ClCompile Include="bots\abstractbot.cpp" />
     <ClCompile Include="bots\botregistry.cpp" />
     <ClCompile Include="bots\jsbot.cpp" />
+    <ClCompile Include="bots\nullbot.cpp" />
     <ClCompile Include="bots\randombot.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="game\actor.cpp" />
@@ -226,6 +227,7 @@
     <ClInclude Include="bots\abstractbot.h" />
     <ClInclude Include="bots\botregistry.h" />
     <ClInclude Include="bots\jsbot.h" />
+    <ClInclude Include="bots\nullbot.h" />
     <ClInclude Include="bots\randombot.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="game\actor.h" />

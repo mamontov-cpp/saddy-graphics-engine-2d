@@ -114,6 +114,9 @@
     <ClCompile Include="bots\randombot.cpp">
       <Filter>Файлы исходного кода\bots</Filter>
     </ClCompile>
+    <ClCompile Include="bots\nullbot.cpp">
+      <Filter>Файлы исходного кода\bots</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -192,6 +195,9 @@
       <Filter>Заголовочные файлы\bots</Filter>
     </ClInclude>
     <ClInclude Include="bots\randombot.h">
+      <Filter>Заголовочные файлы\bots</Filter>
+    </ClInclude>
+    <ClInclude Include="bots\nullbot.h">
       <Filter>Заголовочные файлы\bots</Filter>
     </ClInclude>
   </ItemGroup>

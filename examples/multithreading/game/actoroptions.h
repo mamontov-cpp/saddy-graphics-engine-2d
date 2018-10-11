@@ -68,6 +68,9 @@ struct ActorOptions: sad::RefCountable
     /*! A sprite for floate mode
      */
     sad::String FloaterSprite;
+    /*! A floater flying options
+     */
+    sad::Vector<sad::String> FloaterFlyAnimationOptions;
 
     /*! Constructs default actor options - non-valid, non-floater
      */

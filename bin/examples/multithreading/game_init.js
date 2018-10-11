@@ -55,3 +55,51 @@ playerOptions.DuckingSprite = "enemies_list/playerRed_duckng";
 playerOptions.FloaterSprite = "enemies_list/playerRed_rollng";
 
 addActorOptions("player", playerOptions);
+
+var animatedFloaterOptions = new ActorOptions();
+animatedFloaterOptions.IsFloater = true;
+animatedFloaterOptions.CanEmitSound = false;
+
+animatedFloaterOptions.WalkerHorizontalVelocity = 200;
+animatedFloaterOptions.WalkerVerticalVelocity = 400;
+
+animatedFloaterOptions.FloaterHorizontalVelocity = 400;
+animatedFloaterOptions.FloaterVerticalVelocity = 400;
+
+animatedFloaterOptions.WalkingAnimationTime = 200;
+animatedFloaterOptions.JumpingAnimationTime = 500;
+
+animatedFloaterOptions.StandingSprite = "enemies_list/enemyFlying_2ng";
+animatedFloaterOptions.WalkingSprite = "enemies_list/enemyFlying_2ng";
+animatedFloaterOptions.WalkingSprite = "enemies_list/enemyFlying_2ng";
+animatedFloaterOptions.JumpingSprite = "enemies_list/enemyFlying_2ng";
+animatedFloaterOptions.FallingSprite = "enemies_list/enemyFlying_2ng";
+animatedFloaterOptions.DuckingSprite = "enemies_list/enemyFlying_2ng";
+animatedFloaterOptions.FloaterSprite = "enemies_list/enemyFlying_2ng";
+animatedFloaterOptions.FloaterFlyAnimationOptions = ["enemies_list/enemyFlying_1ng", "enemies_list/enemyFlying_2ng", "enemies_list/enemyFlying_3ng", "enemies_list/enemyFlying_4ng"];
+
+addActorOptions("animated_floater_1", animatedFloaterOptions);
+
+animatedFloaterOptions = new ActorOptions();
+animatedFloaterOptions.IsFloater = true;
+animatedFloaterOptions.CanEmitSound = false;
+
+animatedFloaterOptions.WalkerHorizontalVelocity = 200;
+animatedFloaterOptions.WalkerVerticalVelocity = 400;
+
+animatedFloaterOptions.FloaterHorizontalVelocity = 400;
+animatedFloaterOptions.FloaterVerticalVelocity = 400;
+
+animatedFloaterOptions.WalkingAnimationTime = 200;
+animatedFloaterOptions.JumpingAnimationTime = 500;
+
+animatedFloaterOptions.StandingSprite = "enemies_list/enemyFlyingAlt_2ng";
+animatedFloaterOptions.WalkingSprite = "enemies_list/enemyFlyingAlt_2ng";
+animatedFloaterOptions.WalkingSprite = "enemies_list/enemyFlyingAlt_2ng";
+animatedFloaterOptions.JumpingSprite = "enemies_list/enemyFlyingAlt_2ng";
+animatedFloaterOptions.FallingSprite = "enemies_list/enemyFlyingAlt_2ng";
+animatedFloaterOptions.DuckingSprite = "enemies_list/enemyFlyingAlt_2ng";
+animatedFloaterOptions.FloaterSprite = "enemies_list/enemyFlyingAlt_2ng";
+animatedFloaterOptions.FloaterFlyAnimationOptions = ["enemies_list/enemyFlyingAlt_1ng", "enemies_list/enemyFlyingAlt_2ng", "enemies_list/enemyFlyingAlt_3ng", "enemies_list/enemyFlyingAlt_4ng"];
+
+addActorOptions("animated_floater_2", animatedFloaterOptions);
