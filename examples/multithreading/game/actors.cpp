@@ -55,6 +55,22 @@ void game::Actors::remove(game::Actor* actor)
     }
 }
 
+void game::Actors::remove(sad::p2d::Body* body)
+{
+    for (size_t i = 0; i < m_actors.size(); i++)
+    {
+        game::Actor* actor = m_actors[i]->Actor;
+        if (actor->body() == body)
+        {
+            actor->delRef();
+            delete m_actors[i]->Bot;
+            delete m_actors[i];
+            m_actors.removeAt(i);
+            --i;
+        }
+    }
+}
+
 void game::Actors::process(Game* game, sad::dukpp03::Context* ctx)
 {
     for(size_t i = 0 ; i < m_actors.size(); i++)

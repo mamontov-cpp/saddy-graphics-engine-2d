@@ -57,6 +57,10 @@ public:
      *  \param[in] actor an actor
      */
     void remove(game::Actor* actor);
+    /*! Removes an actor by body from list 
+     *  \param[in] body a body
+     */
+    void remove(sad::p2d::Body* body);
     /*! Processes an actors, performing actions
      *  \param[in] game a game
      *  \param[in] ctx context

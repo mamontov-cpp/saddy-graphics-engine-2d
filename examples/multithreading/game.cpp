@@ -500,6 +500,18 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* 
         & ((&m_paused_state_machine) * sad::String("playing")),
         [this] { this->changeSceneToStartingScreen();  }
     );
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & sad::End
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        [this] {
+        sad::Vector<sad::p2d::Body*> bodies = this->m_physics_world->allBodiesInGroup("enemies");
+        for(size_t i = 0; i < bodies.size(); i++)
+        {
+            this->killActorByBody(bodies[i]);
+        }
+    });
 
     // A paused game screen
     renderer->controls()->addLambda(
@@ -1154,7 +1166,9 @@ sad::p2d::World* Game::physicsWorld() const
 
 void Game::killActorByBody(sad::p2d::Body* body)
 {
-    
+    m_physics_world->removeBody(body);
+    this->rendererForMainThread()->scenes()[0]->removeNode(static_cast<sad::SceneNode*>(body->userObject()));
+    m_actors.remove(body);
 }
 
 void Game::disableGravity(sad::p2d::Body* b)
@@ -1283,8 +1297,8 @@ void Game::initContext()
             this->m_actors.add(actor, new bots::NullBot());
 
             sad::animations::OptionList* list = new sad::animations::OptionList();
-            list->setList(this->m_actor_options["optname"]->FloaterFlyAnimationOptions);
-            list->setTime(500);
+            list->setList(this->m_actor_options[optname]->FloaterFlyAnimationOptions);
+            list->setTime(200);
             list->setLooped(true);
 
             sad::animations::Instance* i = new sad::animations::Instance();
