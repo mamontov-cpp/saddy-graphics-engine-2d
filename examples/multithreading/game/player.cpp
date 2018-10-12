@@ -138,3 +138,9 @@ void game::Player::enableGravity() const
 {
     m_actor.enableGravity();
 }
+
+
+game::Actor* game::Player::actor()
+{
+    return &m_actor;
+}

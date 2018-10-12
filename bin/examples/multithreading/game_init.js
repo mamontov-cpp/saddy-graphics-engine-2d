@@ -106,5 +106,42 @@ animatedFloaterOptions.FloaterFlyAnimationOptions = ["enemies_list/enemyFlyingAl
 animatedFloaterOptions.WalkingAnimationOptions = animatedFloaterOptions.FloaterFlyAnimationOptions;
 animatedFloaterOptions.JumpingAnimationOptions =  animatedFloaterOptions.FloaterFlyAnimationOptions;
 
-
 addActorOptions("animated_floater_2", animatedFloaterOptions);
+
+var makeFloaterOptions = function(tile_name) {
+    var animatedFloaterOptions = new ActorOptions();
+    animatedFloaterOptions.IsFloater = true;
+    animatedFloaterOptions.CanEmitSound = false;
+
+    animatedFloaterOptions.WalkerHorizontalVelocity = 200;
+    animatedFloaterOptions.WalkerVerticalVelocity = 400;
+
+    animatedFloaterOptions.FloaterHorizontalVelocity = 20;
+    animatedFloaterOptions.FloaterVerticalVelocity = 20;
+
+    animatedFloaterOptions.WalkingAnimationTime = 200;
+    animatedFloaterOptions.JumpingAnimationTime = 500;
+
+    animatedFloaterOptions.StandingSprite = tile_name;
+    animatedFloaterOptions.WalkingSprite = animatedFloaterOptions.StandingSprite;
+    animatedFloaterOptions.WalkingSprite = animatedFloaterOptions.StandingSprite;
+    animatedFloaterOptions.JumpingSprite = animatedFloaterOptions.StandingSprite;
+    animatedFloaterOptions.FallingSprite = animatedFloaterOptions.StandingSprite;
+    animatedFloaterOptions.DuckingSprite = animatedFloaterOptions.StandingSprite;
+    animatedFloaterOptions.FloaterSprite = animatedFloaterOptions.StandingSprite;
+    animatedFloaterOptions.FloaterFlyAnimationOptions = [tile_name];
+    animatedFloaterOptions.WalkingAnimationOptions = animatedFloaterOptions.FloaterFlyAnimationOptions;
+    animatedFloaterOptions.JumpingAnimationOptions =  animatedFloaterOptions.FloaterFlyAnimationOptions;
+ 
+    return animatedFloaterOptions;
+};
+
+
+addActorOptions("red_disc", makeFloaterOptions("enemies_list/discRedng"));
+addActorOptions("green_disc", makeFloaterOptions("enemies_list/discGreenng"));
+addActorOptions("enemy_floater_4", makeFloaterOptions("enemies_list/enemyFloating_4ng"));
+addActorOptions("enemy_floater_3", makeFloaterOptions("enemies_list/enemyFloating_3ng"));
+addActorOptions("enemy_floater_2", makeFloaterOptions("enemies_list/enemyFloating_2ng"));
+addActorOptions("enemy_floater_1", makeFloaterOptions("enemies_list/enemyFloating_1ng"));
+addActorOptions("green_floater", makeFloaterOptions("enemies_list/playerGreen_rollng"));
+

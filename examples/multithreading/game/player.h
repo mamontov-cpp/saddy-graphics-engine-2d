@@ -110,6 +110,9 @@ public:
     /*! Enables gravity for player
      */
     void enableGravity() const;
+    /*! Returns an actor
+     */
+    game::Actor* actor();
 private:
     /*! Player's inventory, that will be carried around
      */

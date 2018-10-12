@@ -234,6 +234,10 @@ public:
         \param[in] body a body for actor
      */
     void killActorByBody(sad::p2d::Body* body);
+    /*! Returns a player
+        \return player
+     */
+    game::Player* player() const;
 private:
     /*! Inits evaluation context
      */
