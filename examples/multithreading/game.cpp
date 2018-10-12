@@ -11,6 +11,7 @@
 #include "bots/nullbot.h"
 #include "bots/divingfloaterbot.h"
 #include "bots/followplayerfloater.h"
+#include "bots/directionbot.h"
 
 #include <input/controls.h>
 #include <pipeline/pipeline.h>
@@ -1317,11 +1318,26 @@ void Game::initContext()
     )
     > spawn_follow_player_floater = [=](const sad::String& optname,
         const sad::Point2D& middle
-        ) {
+    ) {
         game::Actor* actor = this->makeEnemy(optname, middle);
         if (actor)
         {
             this->m_actors.add(actor, new bots::FollowPlayerFloater());
+        }
+    };
+    std::function<void(const sad::String&,
+        const sad::Point2D&,
+        int,
+        int
+    )
+    > spawn_enemy_in_direction = [=](const sad::String& optname,
+        const sad::Point2D& middle,
+        int h, int v
+    ) {
+        game::Actor* actor = this->makeEnemy(optname, middle);
+        if (actor)
+        {
+            this->m_actors.add(actor, new bots::DirectionBot(h, v));
         }
     };
     sad::dukpp03::MultiMethod* spawn_enemy_walker_at = new sad::dukpp03::MultiMethod();
@@ -1330,6 +1346,7 @@ void Game::initContext()
     m_eval_context->registerCallable("spawnEnemyWalkerAt", spawn_enemy_walker_at);
     m_eval_context->registerCallable("spawnAnimatedFloater", sad::dukpp03::make_lambda::from(spawn_animated_floater));
     m_eval_context->registerCallable("spawnFollowPlayerFloater", sad::dukpp03::make_lambda::from(spawn_follow_player_floater));
+    m_eval_context->registerCallable("spawnEnemyInDirection", sad::dukpp03::make_lambda::from(spawn_enemy_in_direction));
     m_eval_context->registerCallable("makePlatformGoOnWay", sad::dukpp03::make_lambda::from(make_platform_go_on_way));
     m_eval_context->registerCallable("addTrigger", sad::dukpp03::make_lambda::from(add_trigger));
     m_eval_context->registerCallable("addTriggerOnce", sad::dukpp03::make_lambda::from(add_trigger_once));

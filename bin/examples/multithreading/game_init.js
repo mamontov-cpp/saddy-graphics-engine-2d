@@ -145,3 +145,83 @@ addActorOptions("enemy_floater_2", makeFloaterOptions("enemies_list/enemyFloatin
 addActorOptions("enemy_floater_1", makeFloaterOptions("enemies_list/enemyFloating_1ng"));
 addActorOptions("green_floater", makeFloaterOptions("enemies_list/playerGreen_rollng"));
 
+
+var playerLikeOptions = new ActorOptions();
+playerLikeOptions.IsFloater = false;
+playerLikeOptions.CanEmitSound = false;
+
+playerLikeOptions.WalkerHorizontalVelocity = 200;
+playerLikeOptions.WalkerVerticalVelocity = 400;
+
+playerLikeOptions.FloaterHorizontalVelocity = 200;
+playerLikeOptions.FloaterVerticalVelocity = 200;
+
+playerLikeOptions.WalkingAnimationOptions =  ["enemies_list/playerRed_walk1ng", "enemies_list/playerRed_walk2ng", "enemies_list/playerRed_walk3ng"];
+playerLikeOptions.WalkingAnimationTime = 200;
+
+playerLikeOptions.JumpingAnimationOptions =  ["enemies_list/playerRed_up1ng", "enemies_list/playerRed_up2ng"];
+playerLikeOptions.JumpingAnimationTime = 500;
+
+playerLikeOptions.StandingSprite = "enemies_list/playerRed_standng";
+playerLikeOptions.WalkingSprite = "enemies_list/playerRed_walk1ng";
+playerLikeOptions.WalkingSprite = "enemies_list/playerRed_walk1ng";
+playerLikeOptions.JumpingSprite = "enemies_list/playerRed_up2ng";
+playerLikeOptions.FallingSprite = "enemies_list/playerRed_fallng";
+playerLikeOptions.DuckingSprite = "enemies_list/playerRed_duckng";
+playerLikeOptions.FloaterSprite = "enemies_list/playerRed_rollng";
+
+addActorOptions("player_like_enemy", playerLikeOptions);
+
+
+var greenPlayerOptions = new ActorOptions();
+greenPlayerOptions.IsFloater = false;
+greenPlayerOptions.CanEmitSound = false;
+
+greenPlayerOptions.WalkerHorizontalVelocity = 100;
+greenPlayerOptions.WalkerVerticalVelocity = 300;
+
+greenPlayerOptions.FloaterHorizontalVelocity = 100;
+greenPlayerOptions.FloaterVerticalVelocity = 100;
+
+greenPlayerOptions.WalkingAnimationOptions =  ["enemies_list/playerGreen_walk1ng", "enemies_list/playerGreen_walk2ng", "enemies_list/playerGreen_walk3ng"];
+greenPlayerOptions.WalkingAnimationTime = 200;
+
+greenPlayerOptions.JumpingAnimationOptions =  ["enemies_list/playerGreen_up1ng", "enemies_list/playerGreen_up2ng"];
+greenPlayerOptions.JumpingAnimationTime = 500;
+
+greenPlayerOptions.StandingSprite = "enemies_list/playerGreen_standng";
+greenPlayerOptions.WalkingSprite = "enemies_list/playerGreen_walk1ng";
+greenPlayerOptions.WalkingSprite = "enemies_list/playerGreen_walk1ng";
+greenPlayerOptions.JumpingSprite = "enemies_list/playerGreen_up2ng";
+greenPlayerOptions.FallingSprite = "enemies_list/playerGreen_fallng";
+greenPlayerOptions.DuckingSprite = "enemies_list/playerGreen_duckng";
+greenPlayerOptions.FloaterSprite = "enemies_list/playerGreen_rollng";
+
+addActorOptions("green_walker", greenPlayerOptions);
+
+
+var enemyOptions = new ActorOptions();
+enemyOptions.IsFloater = false;
+enemyOptions.CanEmitSound = false;
+
+enemyOptions.WalkerHorizontalVelocity = 100;
+enemyOptions.WalkerVerticalVelocity = 300;
+
+enemyOptions.FloaterHorizontalVelocity = 100;
+enemyOptions.FloaterVerticalVelocity = 100;
+
+enemyOptions.WalkingAnimationOptions =  ["enemies_list/enemyWalking_1ng", "enemies_list/enemyWalking_2ng", "enemies_list/enemyWalking_3ng"];
+enemyOptions.WalkingAnimationTime = 200;
+
+enemyOptions.JumpingAnimationOptions =  ["enemies_list/enemyWalking_1ng", "enemies_list/enemyWalking_2ng"];
+enemyOptions.JumpingAnimationTime = 500;
+
+enemyOptions.StandingSprite = "enemies_list/enemyWalking_1ng";
+enemyOptions.WalkingSprite = "enemies_list/enemyWalking_1ng";
+enemyOptions.JumpingSprite = "enemies_list/enemyWalking_2ng";
+enemyOptions.FallingSprite = "enemies_list/enemyWalking_2ng";
+enemyOptions.DuckingSprite = "enemies_list/enemySpikey_2ng";
+enemyOptions.FloaterSprite = "enemies_list/enemyFloating_2ng";
+
+addActorOptions("enemy_walker", enemyOptions);
+
