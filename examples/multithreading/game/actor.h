@@ -240,6 +240,10 @@ public:
      * \param[in] angle a used angle
      */
     void rotate(double angle) const;
+    /*! Returns resting platform
+        \return resting platform
+     */
+    sad::p2d::Body* restingPlatform();
 private:
     /*! Compute whether floater should go up or down
         \param[out] is_going_up whether we should go up

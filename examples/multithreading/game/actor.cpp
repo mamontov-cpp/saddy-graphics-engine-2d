@@ -1025,6 +1025,11 @@ void game::Actor::rotate(double angle) const
     m_sprite->rotate(angle);
 }
 
+sad::p2d::Body* game::Actor::restingPlatform()
+{
+    return m_resting_platform;
+}
+
 // ===================================== PRIVATE METHODS =====================================
 
 void game::Actor::computeIsGoingUpDownFlags(bool& is_going_up, bool& is_going_down)

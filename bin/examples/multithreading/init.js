@@ -10,8 +10,10 @@ addTriggerOnce(400, function() {
 	spawnEnemyWalkerAt("player", new sad.Point2D(400, 500), "random_60_500");
 	//spawnAnimatedFloater("animated_floater_1", new sad.Point2D(500, 500), 50, 750, 40);
 	//spawnAnimatedFloater("animated_floater_2", new sad.Point2D(600, 500), 50, 750, 40);
+	/*
 	spawnEnemyInDirection("red_disc", new sad.Point2D(500, 500), HDir.Right, VDir.Down);
 	spawnEnemyInDirection("green_floater", new sad.Point2D(600, 500), HDir.Right, VDir.Down);
+	*/
 	spawnEnemyInDirection("green_walker", new sad.Point2D(200, 300), HDir.Right, VDir.None);
-	spawnEnemyInDirection("enemy_walker", new sad.Point2D(100, 300), HDir.Right, VDir.None);
+	spawnPlatformPatrol("enemy_walker", new sad.Point2D(220, 300));
 });
