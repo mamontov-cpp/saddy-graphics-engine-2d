@@ -22,5 +22,9 @@
 	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/misc_menu_2.wav", "name" : "misc_menu_2" },
 	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/applyitem.wav", "name" : "apply_item" },
 	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/jump2.wav", "name" : "jump" },
-	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/footstep.wav", "name" : "footstep" }
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/footstep.wav", "name" : "footstep" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/swing.mp3", "name" : "swing" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/shooting_1.mp3", "name" : "shooting_1" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/shooting_2.mp3", "name" : "shooting_2" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/shooting_3.mp3", "name" : "shooting_3" }
 ]
