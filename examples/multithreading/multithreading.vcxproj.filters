@@ -117,6 +117,18 @@
     <ClCompile Include="bots\nullbot.cpp">
       <Filter>Файлы исходного кода\bots</Filter>
     </ClCompile>
+    <ClCompile Include="bots\platformpatrolbot.cpp">
+      <Filter>Файлы исходного кода\bots</Filter>
+    </ClCompile>
+    <ClCompile Include="bots\directionbot.cpp">
+      <Filter>Файлы исходного кода\bots</Filter>
+    </ClCompile>
+    <ClCompile Include="bots\divingfloaterbot.cpp">
+      <Filter>Файлы исходного кода\bots</Filter>
+    </ClCompile>
+    <ClCompile Include="bots\followplayerfloater.cpp">
+      <Filter>Файлы исходного кода\bots</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -198,6 +210,18 @@
       <Filter>Заголовочные файлы\bots</Filter>
     </ClInclude>
     <ClInclude Include="bots\nullbot.h">
+      <Filter>Заголовочные файлы\bots</Filter>
+    </ClInclude>
+    <ClInclude Include="bots\followplayerfloater.h">
+      <Filter>Заголовочные файлы\bots</Filter>
+    </ClInclude>
+    <ClInclude Include="bots\platformpatrolbot.h">
+      <Filter>Заголовочные файлы\bots</Filter>
+    </ClInclude>
+    <ClInclude Include="bots\directionbot.h">
+      <Filter>Заголовочные файлы\bots</Filter>
+    </ClInclude>
+    <ClInclude Include="bots\divingfloaterbot.h">
       <Filter>Заголовочные файлы\bots</Filter>
     </ClInclude>
   </ItemGroup>

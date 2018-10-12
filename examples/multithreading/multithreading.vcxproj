@@ -198,8 +198,12 @@
   <ItemGroup>
     <ClCompile Include="bots\abstractbot.cpp" />
     <ClCompile Include="bots\botregistry.cpp" />
+    <ClCompile Include="bots\directionbot.cpp" />
+    <ClCompile Include="bots\divingfloaterbot.cpp" />
+    <ClCompile Include="bots\followplayerfloater.cpp" />
     <ClCompile Include="bots\jsbot.cpp" />
     <ClCompile Include="bots\nullbot.cpp" />
+    <ClCompile Include="bots\platformpatrolbot.cpp" />
     <ClCompile Include="bots\randombot.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="game\actor.cpp" />
@@ -226,8 +230,12 @@
   <ItemGroup>
     <ClInclude Include="bots\abstractbot.h" />
     <ClInclude Include="bots\botregistry.h" />
+    <ClInclude Include="bots\directionbot.h" />
+    <ClInclude Include="bots\divingfloaterbot.h" />
+    <ClInclude Include="bots\followplayerfloater.h" />
     <ClInclude Include="bots\jsbot.h" />
     <ClInclude Include="bots\nullbot.h" />
+    <ClInclude Include="bots\platformpatrolbot.h" />
     <ClInclude Include="bots\randombot.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="game\actor.h" />
