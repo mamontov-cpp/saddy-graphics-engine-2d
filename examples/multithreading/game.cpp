@@ -8,6 +8,8 @@
 
 #include "bots/jsbot.h"
 #include "bots/randombot.h"
+#include "bots/nullbot.h"
+#include "bots/divingfloaterbot.h"
 
 #include <input/controls.h>
 #include <pipeline/pipeline.h>
@@ -30,21 +32,12 @@
 #include <dukpp-03-irrklang/dukpp-03-irrklang.h>
 
 #include <p2d/force.h>
-#include "bots/nullbot.h"
 
 
 // A precision error for designer's editor when designing level
 #define DESIGNER_PRECISION_ERROR  (2.0)
 
 const sad::Point2D Game::GravityForceValue(0.0, -300.0); // -300 is arbitrarily defined, to make player fall slowly
-
-class BS: public sad::p2d::BounceSolver
-{
-public:
-    BS() {}
-    virtual ~BS() {}
-    void logFCPError(const char * m) { printf("%s: %s\n", m, this->dump().c_str()); };
-};
 
 DECLARE_COMMON_TYPE(Game);
 
@@ -83,7 +76,7 @@ max_level_x(0.0) // NOLINT
     
     m_step_task = new sad::p2d::WorldStepTask(NULL, m_main_thread->renderer());
     
-    m_bounce_solver = new BS();
+    m_bounce_solver = new sad::p2d::BounceSolver();
     m_bounce_solver->toggleIgnoreContactPoints(true);
     m_bounce_solver->toggleInelasticCollisions(true);
     m_bounce_solver->setInelasticCollisionType(sad::p2d::BounceSolver::ICT_FIRST);
@@ -303,7 +296,7 @@ void Game::putPlayerPickAccordingToMenuState(Game::MainMenuState state)
     choice_pointer->setMiddle(sad::Point2D(x, y));
 }
 
-void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database* db)
+void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
 {
     // Set pointer for the main menu options
     this->m_main_menu_state = GMMS_PLAY;
@@ -1166,9 +1159,14 @@ sad::p2d::World* Game::physicsWorld() const
 
 void Game::killActorByBody(sad::p2d::Body* body)
 {
+    sad::db::Database* db = this->rendererForMainThread()->database("gamescreen");
+    sad::Scene* main_scene = db->objectByName<sad::Scene>("main");
+
+    game::Actor* actor = static_cast<game::Actor*>(body->userObject());
+    this->rendererForMainThread()->animations()->stopProcessesRelatedToObject(actor->sprite());
     m_physics_world->removeBody(body);
-    this->rendererForMainThread()->scenes()[0]->removeNode(static_cast<sad::SceneNode*>(body->userObject()));
-    m_actors.remove(body);
+    main_scene->removeNode(actor->sprite());
+    m_actors.remove(actor);
 }
 
 void Game::disableGravity(sad::p2d::Body* b)
@@ -1287,14 +1285,14 @@ void Game::initContext()
     )
     > spawn_animated_floater = [=](const sad::String& optname,
         const sad::Point2D& middle,
-        double /*from*/,
-        double /*to*/,
-        double /*dive_height*/
+        double from,
+        double to,
+        double dive_height
         ) {
         game::Actor* actor = this->makeEnemy(optname, middle);
         if (actor)
         {
-            this->m_actors.add(actor, new bots::NullBot());
+            this->m_actors.add(actor, new bots::DivingFloaterBot(from, to, middle.y(), middle.y() - dive_height));
 
             sad::animations::OptionList* list = new sad::animations::OptionList();
             list->setList(this->m_actor_options[optname]->FloaterFlyAnimationOptions);

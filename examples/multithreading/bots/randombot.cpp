@@ -25,7 +25,7 @@ bots::AbstractBot* bots::RandomBot::clone() const
     return new bots::RandomBot(m_min_left_offset, m_max_right_offset);
 }
 
-void bots::RandomBot::perform(Game* game, game::Actor* actor)
+void bots::RandomBot::perform(Game*, game::Actor* actor)
 {
     sad::Scene* scene = actor->sprite()->scene();
     if (!scene)
