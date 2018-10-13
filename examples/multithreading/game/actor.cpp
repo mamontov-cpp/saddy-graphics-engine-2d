@@ -32,7 +32,8 @@ m_walking_instance(NULL),
 m_jumping_animation(NULL),
 m_jumping_instance(NULL),
 m_game(NULL),
-m_options(NULL)
+m_options(NULL),
+m_is_last_moved_left(false)
 {
     m_key_states.reset();
 }
@@ -207,6 +208,7 @@ void game::Actor::tryStopGoingDown()
 
 void game::Actor::tryStartGoingLeft()
 {
+    m_is_last_moved_left = true;
     m_key_states.set(game::Actor::ABTN_LEFT);
 
     m_key_states.reset(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_LEFT);
@@ -251,6 +253,7 @@ void game::Actor::tryStopGoingLeft()
 
 void game::Actor::tryStartGoingRight()
 {
+    m_is_last_moved_left = false;
     m_key_states.set(game::Actor::ABTN_RIGHT);
 
     m_key_states.reset(LAST_KEY_BITSET_OFFSET + game::Actor::ABTN_LEFT);
@@ -1028,6 +1031,11 @@ void game::Actor::rotate(double angle) const
 sad::p2d::Body* game::Actor::restingPlatform()
 {
     return m_resting_platform;
+}
+
+bool game::Actor::isLastMovedLeft() const
+{
+    return m_is_last_moved_left;
 }
 
 // ===================================== PRIVATE METHODS =====================================

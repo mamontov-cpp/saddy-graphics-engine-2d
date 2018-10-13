@@ -35,6 +35,9 @@
 #include <dukpp-03-irrklang/dukpp-03-irrklang.h>
 
 #include <p2d/force.h>
+#include <p2d/infiniteline.h>
+
+#include "weapons/laser.h"
 
 
 // A precision error for designer's editor when designing level
@@ -109,6 +112,7 @@ Game::~Game()  // NOLINT
     {
         ao.value()->delRef();
     }
+    this->clearProjectiles(false);
     this->destroyWorld();
     delete m_step_task;
 }
@@ -473,8 +477,27 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
         & m_conditions.ConditionsForMainRenderer.JumpActionConditions[game::Conditions::CS_PLAYGAME_PLAYING]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
-        [this] { this->m_player->setFloaterState(!(this->m_player->isFloater()));  }
-    );
+        [this] {
+        // this->m_player->setFloaterState(!(this->m_player->isFloater()));
+        sad::MaybePoint3D pnt = this->rendererForMainThread()->cursorPosition();
+        //bool is_left = this->m_player->isLastMovedLeft();
+        double angle = 0;
+        if (pnt.exists())
+        {
+            sad::Point2D middle = this->m_player->middle();
+            double dy = pnt.value().y() - middle.y();
+            double dx = pnt.value().x() - middle.x();
+            if (!sad::is_fuzzy_zero(dx))
+            {
+                angle = atan2(dy, dx);
+            }
+        }
+        //this->playSound("swing");
+        //this->addProjectile(new weapons::Swing(this, this->m_player->actor(), "icons_list/S_Sword01ng", 2, 5000, is_left, true));
+        this->playSound("shooting_2");
+        //this->spawnBullet("bullets/green/x_huge", this->m_player->actor(), 400, angle, true, true);
+        this->addProjectile(new weapons::Laser(this, this->m_player->actor(), "bullets/green/x_huge", angle, 10, 600, 500, true));
+    });
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
         & m_conditions.ConditionsForMainRenderer.PauseCondition
@@ -541,6 +564,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
                 this->m_task_lock.acquire();
 
                 this->m_moving_platform_registry.movePlatforms(m_step_task->stepTick());
+                this->updateProjectiles();
                 this->m_player->testResting();
                 this->m_actors.testResting();
                 this->m_player->clearFixedFlags();
@@ -843,6 +867,7 @@ void Game::changeSceneToStartingScreen()
     m_footsteps.stop();
     m_triggers.clear();
     m_actors.clear();
+    this->clearProjectiles();
 
     m_is_rendering_world_bodies = false;
     this->destroyWorld();
@@ -885,6 +910,8 @@ void Game::changeSceneToPlayingScreen()
     m_actors.clear();
     m_triggers.clear();
     m_moving_platform_registry.clear();
+    this->clearProjectiles();
+
     SceneTransitionOptions options;
 
     m_inventory_popup = NULL;
@@ -944,6 +971,8 @@ void Game::changeSceneToOptions()
     m_footsteps.stop();
     m_triggers.clear();
     m_actors.clear();
+    this->clearProjectiles();
+
 
     m_is_rendering_world_bodies = false;
     this->destroyWorld();
@@ -1166,6 +1195,7 @@ void Game::killActorByBody(sad::p2d::Body* body)
     sad::Scene* main_scene = db->objectByName<sad::Scene>("main");
 
     game::Actor* actor = static_cast<game::Actor*>(body->userObject());
+    this->killProjectilesRelatedToActor(actor);
     this->rendererForMainThread()->animations()->stopProcessesRelatedToObject(actor->sprite());
     m_physics_world->removeBody(body);
     main_scene->removeNode(actor->sprite());
@@ -1175,6 +1205,154 @@ void Game::killActorByBody(sad::p2d::Body* body)
 game::Player* Game::player() const
 {
     return m_player;
+}
+
+void Game::killProjectilesRelatedToActor(game::Actor* actor)
+{
+    for(size_t i  = 0; i < m_projectiles.size(); i++)
+    {
+        if (m_projectiles[i]->actor() == actor)
+        {
+            m_projectiles[i]->kill();
+            m_projectiles[i]->delRef();
+            m_projectiles.removeAt(i);
+            --i;
+        }
+    }
+}
+
+void Game::killProjectile(weapons::Projectile* projectile)
+{
+    for (size_t i = 0; i < m_projectiles.size(); i++)
+    {
+        if (m_projectiles[i] == projectile)
+        {
+            m_projectiles[i]->kill();
+            m_projectiles[i]->delRef();
+            m_projectiles.removeAt(i);
+            --i;
+        }
+    }
+}
+
+void Game::addProjectile(weapons::Projectile* projectile)
+{
+    if (std::find(m_projectiles.begin(), m_projectiles.end(), projectile) == m_projectiles.end())
+    {
+        projectile->addRef();
+        m_projectiles << projectile;
+    }
+}
+
+sad::Point2D Game::pointOnActorForBullet(game::Actor* actor, double angle)  const
+{
+    while (angle < 0)
+    {
+        angle += 2 * M_PI;
+    }
+
+    while (angle > 2 * M_PI)
+    {
+        angle -= 2 * M_PI;
+    }
+
+    sad::Point2D middle = actor->middle();
+    sad::p2d::InfiniteLine line = sad::p2d::InfiniteLine::appliedVector(middle, sad::p2d::Vector(cos(angle), sin(angle)));
+    double rect_angle = 0;
+    if (!sad::is_fuzzy_zero(actor->area().width()))
+    {
+        rect_angle = atan2(actor->area().height(), actor->area().width());
+    }
+    sad::p2d::MaybePoint pivot_point;
+    if ((angle <= rect_angle) || (angle >= (2 * M_PI - rect_angle)))
+    {
+        pivot_point = line.intersection(sad::p2d::Cutter2D(actor->area()[1], actor->area()[2]));
+    }
+    else
+    {
+        if (angle <= (M_PI - rect_angle))
+        {
+            pivot_point = line.intersection(sad::p2d::Cutter2D(actor->area()[2], actor->area()[3]));
+        }
+        else
+        {
+            if (angle < M_PI + rect_angle)
+            {
+                pivot_point = line.intersection(sad::p2d::Cutter2D(actor->area()[0], actor->area()[3]));
+            }
+            else
+            {
+                pivot_point = line.intersection(sad::p2d::Cutter2D(actor->area()[0], actor->area()[1]));
+            }
+        }
+    }
+    sad::Point2D result_middle;
+    if (!pivot_point.exists())
+    {
+        result_middle = middle;
+    }
+    else
+    {
+        result_middle = pivot_point.value();
+    }
+    return result_middle;
+}
+
+void Game::spawnBullet(const sad::String& icon_name, game::Actor* actor, double speed, double angle, bool apply_gravity, bool is_player) const
+{
+    while(angle < 0)
+    {
+        angle += 2* M_PI;
+    }
+
+    while (angle > 2 * M_PI)
+    {
+        angle -= 2 * M_PI;
+    }
+
+    sad::Renderer* r = this->rendererForMainThread();
+    sad::Sprite2D::Options* opts = r->tree()->get<sad::Sprite2D::Options>(icon_name);
+    if (opts)
+    {
+        sad::db::Database* db = r->database("gamescreen");
+        sad::Scene* main_scene = db->objectByName<sad::Scene>("main");
+
+        sad::Point2D result_middle = this->pointOnActorForBullet(actor, angle);
+        
+        double halfwidth = opts->Rectangle.width() / 2.0, halfheight = opts->Rectangle.height() / 2.0;
+        result_middle.setX(result_middle.x() + halfwidth * cos(angle));
+        result_middle.setY(result_middle.y() + halfheight * sin(angle));
+        sad::Rect2D area(result_middle.x() - halfwidth, result_middle.y() - halfheight, result_middle.x() + halfwidth, result_middle.y() + halfheight);
+        sad::Sprite2D* sprite = new sad::Sprite2D();
+        sprite->setScene(main_scene);
+        sprite->setTreeName(r, "");
+        sprite->set(*opts);
+        sprite->setArea(area);
+        main_scene->addNode(sprite);
+
+        sad::p2d::Rectangle* rectangle = new sad::p2d::Rectangle();
+        rectangle->setRect(sprite->renderableArea());
+
+        sad::p2d::Body* body = new sad::p2d::Body();
+        body->setCurrentAngularVelocity(0);
+        body->setCurrentTangentialVelocity(sad::p2d::Vector(speed * cos(angle), speed * sin(angle)));
+        body->attachObject(sprite);
+        body->setShape(rectangle);
+        body->initPosition(sprite->middle());
+        if (apply_gravity)
+        {
+            body->addForce(new sad::p2d::TangentialForce(Game::GravityForceValue));
+        }
+
+        if (is_player)
+        {
+            this->physicsWorld()->addBodyToGroup("player_bullets", body);
+        }
+        else
+        {
+            this->physicsWorld()->addBodyToGroup("enemy_bullets", body);
+        }
+    }
 }
 
 void Game::disableGravity(sad::p2d::Body* b)
@@ -1440,6 +1618,20 @@ void Game::initContext()
     }
 }
 
+
+void Game::clearProjectiles(bool kill)
+{
+    for(size_t i = 0; i < m_projectiles.size(); i++)
+    {
+        if (kill)
+        { 
+            m_projectiles[i]->kill();
+        }
+        m_projectiles[i]->delRef();
+    }
+    m_projectiles.clear();
+}
+
 sad::String* Game::tryGetScriptForItem(const sad::String& title)
 {
     if (m_item_names_to_scripts.contains(title))
@@ -1483,6 +1675,8 @@ void Game::initGamePhysics()
     m_physics_world->addGroup("enemies");
     m_physics_world->addGroup("platforms");
     m_physics_world->addGroup("walls");
+    m_physics_world->addGroup("player_bullets");
+    m_physics_world->addGroup("enemy_bullets");
 
     max_level_x = 0;
 
@@ -1791,6 +1985,18 @@ game::Actor* Game::makeEnemy(const sad::String& optname, const sad::Point2D& mid
         }
     }
     return NULL;
+}
+
+void Game::updateProjectiles() const
+{
+    if (!m_projectiles.empty()) 
+    {
+        sad::Vector<weapons::Projectile*> projectiles = m_projectiles;
+        for (size_t i = 0; i < projectiles.size(); i++)
+        {
+            projectiles[i]->update();
+        }
+    }
 }
 
 Game::Game(const Game&)  // NOLINT

@@ -144,3 +144,8 @@ game::Actor* game::Player::actor()
 {
     return &m_actor;
 }
+
+bool game::Player::isLastMovedLeft() const
+{
+    return m_actor.isLastMovedLeft();
+}

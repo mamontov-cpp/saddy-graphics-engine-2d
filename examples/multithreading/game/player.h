@@ -113,6 +113,10 @@ public:
     /*! Returns an actor
      */
     game::Actor* actor();
+    /*! Whether actor last moved left
+        \return whether last time actor moved left
+     */
+    bool isLastMovedLeft() const;
 private:
     /*! Player's inventory, that will be carried around
      */

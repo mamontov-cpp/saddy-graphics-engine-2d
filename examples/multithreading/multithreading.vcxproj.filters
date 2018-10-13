@@ -37,6 +37,12 @@
     <Filter Include="Заголовочные файлы\bots">
       <UniqueIdentifier>{2318091c-a1ed-40c3-a11c-14113c6faa5e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Заголовочные файлы\weapons">
+      <UniqueIdentifier>{16ac72c4-554b-4469-b2b2-6ba0ae065133}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\weapons">
+      <UniqueIdentifier>{34d68fc5-34df-4472-bf6a-2fa9303d8a95}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -128,6 +134,15 @@
     </ClCompile>
     <ClCompile Include="bots\followplayerfloater.cpp">
       <Filter>Файлы исходного кода\bots</Filter>
+    </ClCompile>
+    <ClCompile Include="weapons\swing.cpp">
+      <Filter>Файлы исходного кода\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="weapons\laser.cpp">
+      <Filter>Файлы исходного кода\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="weapons\projectile.cpp">
+      <Filter>Файлы исходного кода\weapons</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -223,6 +238,15 @@
     </ClInclude>
     <ClInclude Include="bots\divingfloaterbot.h">
       <Filter>Заголовочные файлы\bots</Filter>
+    </ClInclude>
+    <ClInclude Include="weapons\swing.h">
+      <Filter>Заголовочные файлы\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="weapons\laser.h">
+      <Filter>Заголовочные файлы\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="weapons\projectile.h">
+      <Filter>Заголовочные файлы\weapons</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

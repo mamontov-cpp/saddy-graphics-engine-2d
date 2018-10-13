@@ -27,6 +27,8 @@
 #include "game/actors.h"
 #include "game/walls.h"
 
+#include "weapons/swing.h"
+
 #include "bots/botregistry.h"
 
 #include "scenetransitionprocess.h"
@@ -238,10 +240,41 @@ public:
         \return player
      */
     game::Player* player() const;
+    /*! Kill projectiles, related to actor
+        \param[in] actor an actor
+     */
+    void killProjectilesRelatedToActor(game::Actor* actor);
+    /*! Kills projectile object, removing it's data
+        \param[in] projectile a projectile
+     */
+    void killProjectile(weapons::Projectile* projectile);
+    /*! Adds new projectile into game
+        \param[in] projectile a projectile
+     */
+    void addProjectile(weapons::Projectile* projectile);
+    /*! Returns point on actor for bullet
+        \param[in] actor an actor
+        \param[in] angle an angle
+        \return result
+     */
+    sad::Point2D pointOnActorForBullet(game::Actor* actor, double angle) const;
+    /*! Spawns bullet in samge direction
+        \param[in] icon_name a name for sprite of bullet
+        \param[in] actor an actor
+        \param[in] speed a speed of bullet
+        \param[in] angle an angle of attack
+        \param[in] apply_gravity whether we should apply a gravity to a bullet
+        \param[in] is_player whether bullet belongs to player
+     */
+    void spawnBullet(const sad::String& icon_name, game::Actor* actor, double speed, double angle, bool apply_gravity, bool is_player = true) const;
 private:
     /*! Inits evaluation context
      */
     void initContext();
+    /*! Clear stored local projectiles
+     *  \param[in] kill whether we should call kill on each of them
+     */
+    void clearProjectiles(bool kill = true);
     /*! Tries to get script for item
      *  \param[in] title item's title
      *  \return name for title
@@ -261,6 +294,9 @@ private:
         \param[in] middle a middle of enemy
      */
     game::Actor* makeEnemy(const sad::String& optname, const sad::Point2D& middle);
+    /*! Update projectiles objects
+     */
+    void updateProjectiles() const;
     /*! Disabled constructor
      */
     Game(const Game&);
@@ -376,4 +412,7 @@ private:
     /*! A task lock
      */
     threads::TaskLock m_task_lock;
+    /*! A swings list
+     */
+    sad::Vector<weapons::Projectile*> m_projectiles;
 };

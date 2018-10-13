@@ -244,6 +244,10 @@ public:
         \return resting platform
      */
     sad::p2d::Body* restingPlatform();
+    /*! Whether actor last moved left
+        \return whether last time actor moved left
+     */
+    bool isLastMovedLeft() const;
 private:
     /*! Compute whether floater should go up or down
         \param[out] is_going_up whether we should go up
@@ -362,6 +366,9 @@ private:
     /*! An in-game options for actor
      */
     game::ActorOptions* m_options;
+    /*! Whether last time we moved left
+     */
+    bool m_is_last_moved_left;
 };
 
 }

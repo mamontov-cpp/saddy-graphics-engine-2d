@@ -226,6 +226,9 @@
     <ClCompile Include="scenetransitionprocess.cpp" />
     <ClCompile Include="threads\gamethread.cpp" />
     <ClCompile Include="threads\tasklock.cpp" />
+    <ClCompile Include="weapons\laser.cpp" />
+    <ClCompile Include="weapons\projectile.cpp" />
+    <ClCompile Include="weapons\swing.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bots\abstractbot.h" />
@@ -259,6 +262,9 @@
     <ClInclude Include="threads\gamestate.h" />
     <ClInclude Include="threads\gamethread.h" />
     <ClInclude Include="threads\tasklock.h" />
+    <ClInclude Include="weapons\laser.h" />
+    <ClInclude Include="weapons\projectile.h" />
+    <ClInclude Include="weapons\swing.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
