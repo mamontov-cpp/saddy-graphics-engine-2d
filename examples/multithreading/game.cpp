@@ -8,7 +8,6 @@
 
 #include "bots/jsbot.h"
 #include "bots/randombot.h"
-#include "bots/nullbot.h"
 #include "bots/divingfloaterbot.h"
 #include "bots/followplayerfloater.h"
 #include "bots/directionbot.h"
@@ -26,6 +25,7 @@
 #include <db/dbpopulatescenesfromdatabase.h>
 
 #include <animations/animationsinstance.h>
+#include <animations/animationssimplemovement.h>
 
 #include <slurpjson.h>
 #include <spitjson.h>
@@ -494,9 +494,9 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
         }
         //this->playSound("swing");
         //this->addProjectile(new weapons::Swing(this, this->m_player->actor(), "icons_list/S_Sword01ng", 2, 5000, is_left, true));
-        this->playSound("shooting_2");
-        //this->spawnBullet("bullets/green/x_huge", this->m_player->actor(), 400, angle, true, true);
-        this->addProjectile(new weapons::Laser(this, this->m_player->actor(), "bullets/green/x_huge", angle, 10, 600, 500, true));
+        this->playSound("shooting_1");
+        this->spawnBullet("bullets/green/x_huge", this->m_player->actor(), 400, angle, true, true);
+        //this->addProjectile(new weapons::Laser(this, this->m_player->actor(), "bullets/green/x_huge", angle, 10, 600, 500, true));
     });
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
@@ -1326,7 +1326,7 @@ void Game::spawnBullet(const sad::String& icon_name, game::Actor* actor, double 
         sad::Sprite2D* sprite = new sad::Sprite2D();
         sprite->setScene(main_scene);
         sprite->setTreeName(r, "");
-        sprite->set(*opts);
+        sprite->set(icon_name);
         sprite->setArea(area);
         main_scene->addNode(sprite);
 
@@ -1905,6 +1905,74 @@ void Game::initGamePhysics()
     m_physics_world->addHandler("enemies", "platforms", collision_between_enemy_and_platforms);
     m_physics_world->addHandler("player", "walls", collision_between_player_and_platforms);
     m_physics_world->addHandler("enemies", "walls", collision_between_enemy_and_platforms);
+    std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_walls_and_bullet = [=](const sad::p2d::BasicCollisionEvent & ev) {
+        sad::Object* a = ev.m_object_2->userObject();
+        // This conditions only holds only in case of bullets,
+        if (a->metaData()->name() == sad::Sprite2D::globalMetaData()->name())
+        {
+            sad::Sprite2D* local_sprite = static_cast<sad::Sprite2D*>(a);
+            local_sprite->scene()->removeNode(local_sprite);
+
+            this->m_physics_world->removeBody(ev.m_object_2);
+        }
+    };
+    m_physics_world->addHandler("walls", "player_bullets", collision_between_walls_and_bullet);
+    m_physics_world->addHandler("walls", "enemy_bullets", collision_between_walls_and_bullet);
+    std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_platform_and_bullet = [=](const sad::p2d::BasicCollisionEvent & ev) {
+        sad::Object* a = ev.m_object_2->userObject();
+        // This conditions only holds only in case of bullets,
+        if (a->metaData()->name() == sad::Sprite2D::globalMetaData()->name())
+        {
+            sad::Sprite2D* local_sprite = static_cast<sad::Sprite2D*>(a);
+            sad::Scene* scene = local_sprite->scene();
+            sad::Point2D middle = local_sprite->middle();
+
+            sad::String options_name = local_sprite->optionsName();
+            sad::Sprite2D::Options* opts = scene->renderer()->tree()->get<sad::Sprite2D::Options>(options_name);
+
+            local_sprite->scene()->removeNode(local_sprite);
+            this->m_physics_world->removeBody(ev.m_object_2);
+
+            double dist  = 10;
+            sad::Point2D vectors[4] = {
+                sad::Point2D(-dist, -dist),
+                sad::Point2D(dist, -dist),
+                sad::Point2D(-dist, dist),
+                sad::Point2D(dist, dist)
+            };
+            this->playSound("hit");
+            for (auto vector : vectors)
+            {
+                sad::Sprite2D* anim_sprite = new sad::Sprite2D();
+                anim_sprite->setScene(scene);
+                anim_sprite->setTreeName(scene->renderer(), "");
+                anim_sprite->set(options_name);
+               
+                sad::Rect2D rect(
+                    middle.x() - opts->Rectangle.width() / 4.0, -middle.x() - opts->Rectangle.height() / 4.0,
+                    middle.x() + opts->Rectangle.width() / 4.0, -middle.x() + opts->Rectangle.height() / 4.0
+                );
+                anim_sprite->setArea(rect);
+                scene->addNode(anim_sprite);
+
+                sad::animations::SimpleMovement* movement = new sad::animations::SimpleMovement();
+                movement->setTime(300);
+                movement->setStartingPoint(middle);
+                movement->setEndingPoint(middle + vector);
+
+                sad::animations::Instance* instance = new sad::animations::Instance();
+                instance->setObject(anim_sprite);
+                instance->setAnimation(movement);
+                instance->end([=] { anim_sprite->scene()->removeNode(anim_sprite); });
+
+                scene->renderer()->animations()->add(instance);
+            }
+        }
+    };
+
+    m_physics_world->addHandler("platforms", "player_bullets", collision_between_platform_and_bullet);
+    m_physics_world->addHandler("platforms", "enemy_bullets", collision_between_platform_and_bullet);
+
     m_step_task->setWorld(m_physics_world);
 }
 

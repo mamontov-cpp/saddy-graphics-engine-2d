@@ -259,6 +259,10 @@ public:
         \param[in] optionsname a name of attached options element
      */
     void set(const sad::String & optionsname);
+    /*! Returns options for sprite
+        \return options
+     */
+    sad::Sprite2D::Options* getOptions() const;
     /*! Returns option name
         \return options name
      */

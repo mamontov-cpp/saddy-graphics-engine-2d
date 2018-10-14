@@ -526,6 +526,11 @@ void sad::Sprite2D::set(const sad::String & optionsname)
     }
 }
 
+sad::Sprite2D::Options* sad::Sprite2D::getOptions() const
+{
+    return m_options.get();
+}
+
 const sad::String& sad::Sprite2D::optionsName() const
 {
     return m_options.path();

@@ -26,5 +26,6 @@
 	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/swing.mp3", "name" : "swing" },
 	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/shooting_1.mp3", "name" : "shooting_1" },
 	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/shooting_2.mp3", "name" : "shooting_2" },
-	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/shooting_3.mp3", "name" : "shooting_3" }
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/shooting_3.mp3", "name" : "shooting_3" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/hit.mp3", "name" : "hit" }
 ]
