@@ -105,9 +105,9 @@ m_hit_animation_for_players(NULL)// NOLINT
 
     m_hit_animation_for_enemies = new sad::animations::Blinking();
     m_hit_animation_for_enemies->addRef();
-    m_hit_animation_for_enemies->setTime(1000);
+    m_hit_animation_for_enemies->setTime(500);
     m_hit_animation_for_enemies->setLooped(false);
-    m_hit_animation_for_enemies->setFrequency(10);
+    m_hit_animation_for_enemies->setFrequency(5);
 
     m_hit_animation_for_players = new sad::animations::Blinking();
     m_hit_animation_for_players->addRef();
