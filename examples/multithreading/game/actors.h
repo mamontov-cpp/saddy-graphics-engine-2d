@@ -69,9 +69,6 @@ public:
     /*! Tests resting
      */
     void testResting();
-    /*! Clear fixed flags
-     */
-    void clearFixedFlags();
     /*! Clears actors list
      */
     void clear();

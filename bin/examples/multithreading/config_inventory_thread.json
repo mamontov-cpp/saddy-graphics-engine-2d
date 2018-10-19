@@ -27,5 +27,7 @@
 	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/shooting_1.mp3", "name" : "shooting_1" },
 	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/shooting_2.mp3", "name" : "shooting_2" },
 	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/shooting_3.mp3", "name" : "shooting_3" },
-	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/hit.mp3", "name" : "hit" }
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/hit.mp3", "name" : "hit" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/hit_enemy.wav", "name" : "hit_enemy" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/hurt.wav", "name" : "hurt" }
 ]

@@ -1,6 +1,8 @@
 #include "player.h"
 #include <object.h>
 
+#include "../game.h"
+
 DECLARE_COMMON_TYPE(game::Player)
 
 game::Player::Player()
@@ -39,6 +41,7 @@ void game::Player::reset()
 {
     m_inventory.reset();
     m_actor.reset();
+    this->setLives(Game::BasicPlayerLivesCount);
 }
 
 
@@ -124,11 +127,6 @@ sad::Point2D game::Player::middle()
     return m_actor.middle();
 }
 
-void game::Player::clearFixedFlags()
-{
-    m_actor.clearFixedFlags();
-}
-
 void game::Player::testResting()
 {
     m_actor.testResting();
@@ -149,3 +147,40 @@ bool game::Player::isLastMovedLeft() const
 {
     return m_actor.isLastMovedLeft();
 }
+
+void game::Player::toggleInvincibility(bool on)
+{
+    m_actor.toggleInvincibility(on);
+}
+
+bool game::Player::isInvincible() const
+{
+    return m_actor.isInvincible();
+}
+
+int game::Player::lives() const
+{
+    return m_actor.lives();
+}
+
+void game::Player::setLives(int lives)
+{
+    m_actor.setLives(lives);
+}
+
+ void game::Player::incrementLives(int lives)
+{
+     m_actor.incrementLives(lives);
+}
+
+void game::Player::decrementLives(int lives)
+{
+    m_actor.decrementLives(lives);
+}
+
+void game::Player::onDeath(const std::function<void(game::Actor*)>& action)
+{
+    m_actor.onDeath(action);
+}
+
+

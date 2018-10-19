@@ -9,6 +9,7 @@
 #include <animations/animationsinstance.h>
 #include <animations/animationsoptionlist.h>
 #include <bitset>
+#include <functional>
 #include <object.h>
 
 #include "actoroptions.h" 
@@ -26,7 +27,7 @@ namespace game
 class Actor: public sad::Object  // NOLINT(cppcoreguidelines-special-member-functions)
 {
 SAD_OBJECT
-public: 
+public:
     /*! A button for getting status bit
      */
     enum Button
@@ -162,25 +163,6 @@ public:
     /*! Moves player by point
      */
     void move(const sad::Point2D& p) const;
-    /*! Clears flags, which determine, whether player's position is fixed
-     */
-    void clearFixedFlags();
-    /*! Tests, whether x coordinate fixed
-     *  \return whehter it's fixed
-     */
-    bool isXCoordinateFixed() const;
-    /*! Tests, whether y coordinate fixed
-     *  \return whehter it's fixed
-     */
-    bool isYCoordinateFixed() const;
-    /*! Makes x coordinate fixed or not
-     *  \param[in] value m new value
-     */
-    void setXCoordinateFixed(bool value);
-    /*! Makes y coordinate fixed or not
-     *  \param[in] value m new value
-     */
-    void setYCoordinateFixed(bool value);
     /*! Returns body for player
      *  \return body
      */
@@ -248,6 +230,34 @@ public:
         \return whether last time actor moved left
      */
     bool isLastMovedLeft() const;
+    /*! Sets, whether actor should be invincibility
+        \param[in] on whether actor is invincible
+     */
+    void toggleInvincibility(bool on);
+    /*! Returns true if actor is invincible
+        \return true if actor is invincible
+     */
+    bool isInvincible() const;
+    /*! Return amount of lives for actor
+        \return amount of lives
+     */
+    int lives() const;
+    /*! Sets amount of lives for actor
+        \param[in] lives amount of lives for actor
+     */
+    void setLives(int lives);
+    /*! Increments amount of lives for actor by specified amount
+        \param[in] lives amount of lives
+     */
+    void incrementLives(int lives);
+    /*! Decrement amount of lives and kills an actor if should to
+         \param[in] lives amount of lives
+     */
+    void decrementLives(int lives);
+    /*! Sets action for actor
+        \param[in] action for actor, that will be called, when actor is dead
+     */
+    void onDeath(const std::function<void(game::Actor*)>& action);
 private:
     /*! Compute whether floater should go up or down
         \param[out] is_going_up whether we should go up
@@ -334,12 +344,6 @@ private:
     /*! A platform, where player is resting
      */
     sad::p2d::Body* m_resting_platform;
-    /*! Whether x position is fixed
-     */
-    bool m_fixed_x;
-    /*! Whether y position is fixed
-     */
-    bool m_fixed_y;
     /*! Whether actor is floating object
      */
     bool m_is_floater;
@@ -369,6 +373,15 @@ private:
     /*! Whether last time we moved left
      */
     bool m_is_last_moved_left;
+    /*! An invcibility flag for making an actor invincible
+     */
+    bool m_is_invincible;
+    /*! Amount of lives for actor
+     */
+    int m_lives;
+    /*! An action, that should be called, when actor is dying
+     */
+    std::function<void(game::Actor*)> m_on_death_action;
 };
 
 }

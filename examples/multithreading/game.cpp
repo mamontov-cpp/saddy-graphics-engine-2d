@@ -45,6 +45,10 @@
 
 const sad::Point2D Game::GravityForceValue(0.0, -300.0); // -300 is arbitrarily defined, to make player fall slowly
 
+const int Game::BasicEnemyLivesCount = 3; //< Amount of lives for enemy
+
+const int Game::BasicPlayerLivesCount = 5; // Amount of lives for player
+
 DECLARE_COMMON_TYPE(Game);
 
 // ==================================== PUBLIC METHODS ====================================
@@ -67,6 +71,7 @@ max_level_x(0.0) // NOLINT
 
     m_player = new game::Player();
     m_player->setGame(this);
+    m_player->setLives(Game::BasicPlayerLivesCount);
 
     m_main_menu_states_to_labels.insert(Game::GMMS_PLAY   , "Play");
     m_main_menu_states_to_labels.insert(Game::GMMS_OPTIONS, "Options");
@@ -567,8 +572,6 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
                 this->updateProjectiles();
                 this->m_player->testResting();
                 this->m_actors.testResting();
-                this->m_player->clearFixedFlags();
-                this->m_actors.clearFixedFlags();
                 this->m_actors.process(this, this->m_eval_context);
                 this->m_step_task->enable();
                 this->m_step_task->process();
@@ -1355,6 +1358,62 @@ void Game::spawnBullet(const sad::String& icon_name, game::Actor* actor, double 
     }
 }
 
+void Game::tryDecayBullet(sad::p2d::Body* bullet, const sad::String& sound)
+{
+    sad::Object* a = bullet->userObject();
+    // This conditions only holds only in case of bullets,
+    if (a->metaData()->name() == sad::Sprite2D::globalMetaData()->name())
+    {
+        sad::Sprite2D* local_sprite = static_cast<sad::Sprite2D*>(a);
+        sad::Scene* scene = local_sprite->scene();
+        sad::Point2D middle = local_sprite->middle();
+
+        sad::String options_name = local_sprite->optionsName();
+        sad::Sprite2D::Options* opts = scene->renderer()->tree()->get<sad::Sprite2D::Options>(options_name);
+
+        local_sprite->scene()->removeNode(local_sprite);
+        this->m_physics_world->removeBody(bullet);
+
+        double dist  = 10;
+        sad::Point2D vectors[4] = {
+            sad::Point2D(-dist, -dist),
+            sad::Point2D(dist, -dist),
+            sad::Point2D(-dist, dist),
+            sad::Point2D(dist, dist)
+        };
+        if (sound.length())
+        {
+            this->playSound(sound);
+        }
+        for (auto vector : vectors)
+        {
+            sad::Sprite2D* anim_sprite = new sad::Sprite2D();
+            anim_sprite->setScene(scene);
+            anim_sprite->setTreeName(scene->renderer(), "");
+            anim_sprite->set(options_name);
+
+            sad::Rect2D rect(
+                middle.x() - opts->Rectangle.width() / 4.0, -middle.x() - opts->Rectangle.height() / 4.0,
+                middle.x() + opts->Rectangle.width() / 4.0, -middle.x() + opts->Rectangle.height() / 4.0
+            );
+            anim_sprite->setArea(rect);
+            scene->addNode(anim_sprite);
+
+            sad::animations::SimpleMovement* movement = new sad::animations::SimpleMovement();
+            movement->setTime(300);
+            movement->setStartingPoint(middle);
+            movement->setEndingPoint(middle + vector);
+
+            sad::animations::Instance* instance = new sad::animations::Instance();
+            instance->setObject(anim_sprite);
+            instance->setAnimation(movement);
+            instance->end([=] { anim_sprite->scene()->removeNode(anim_sprite); });
+
+            scene->renderer()->animations()->add(instance);
+        }
+    }
+}
+
 void Game::disableGravity(sad::p2d::Body* b)
 {
     Game::setGravityForBody(b, sad::p2d::Vector(0.0, 0.0));
@@ -1573,8 +1632,13 @@ void Game::initContext()
     player_binding->addMethod("tryStopGoingDown", sad::dukpp03::bind_method::from(&game::Player::tryStopGoingDown));
     player_binding->addMethod("tryStopGoingLeft", sad::dukpp03::bind_method::from(&game::Player::tryStopGoingLeft));
     player_binding->addMethod("tryStopGoingRight", sad::dukpp03::bind_method::from(&game::Player::tryStopGoingRight));
+    player_binding->addMethod("setLives", sad::dukpp03::bind_method::from(&game::Player::setLives));
+    player_binding->addMethod("incrementLives", sad::dukpp03::bind_method::from(&game::Player::incrementLives));
+    player_binding->addMethod("decrementLives", sad::dukpp03::bind_method::from(&game::Player::decrementLives));
+    player_binding->addMethod("lives", sad::dukpp03::bind_method::from(&game::Player::lives));
+    player_binding->addMethod("toggleInvincibility", sad::dukpp03::bind_method::from(&game::Player::toggleInvincibility));
+    player_binding->addMethod("isInvincible", sad::dukpp03::bind_method::from(&game::Player::isInvincible));
 
-    player_binding->addMethod("clearFixedFlags", sad::dukpp03::bind_method::from(&game::Player::clearFixedFlags));
     player_binding->addMethod("testResting", sad::dukpp03::bind_method::from(&game::Player::testResting));
     player_binding->addMethod("enableGravity", sad::dukpp03::bind_method::from(&game::Player::enableGravity));
 
@@ -1587,6 +1651,13 @@ void Game::initContext()
     actor_binding->addMethod("isResting", sad::dukpp03::bind_method::from(&game::Actor::isResting));
     actor_binding->addMethod("area", sad::dukpp03::bind_method::from(&game::Actor::area));
     actor_binding->addMethod("middle", sad::dukpp03::bind_method::from(&game::Actor::middle));
+
+    actor_binding->addMethod("lives", sad::dukpp03::bind_method::from(&game::Actor::lives));
+    actor_binding->addMethod("setLives", sad::dukpp03::bind_method::from(&game::Actor::setLives));
+    actor_binding->addMethod("incrementLives", sad::dukpp03::bind_method::from(&game::Actor::incrementLives));
+    actor_binding->addMethod("decrementLives", sad::dukpp03::bind_method::from(&game::Actor::decrementLives));
+    actor_binding->addMethod("toggleInvincibility", sad::dukpp03::bind_method::from(&game::Actor::toggleInvincibility));
+    actor_binding->addMethod("isInvincible", sad::dukpp03::bind_method::from(&game::Actor::isInvincible));
 
     actor_binding->addMethod("isFloater", sad::dukpp03::bind_method::from(&game::Actor::isFloater));
     actor_binding->addMethod("setFloaterState", sad::dukpp03::bind_method::from(&game::Actor::setFloaterState));
@@ -1919,59 +1990,32 @@ void Game::initGamePhysics()
     m_physics_world->addHandler("walls", "player_bullets", collision_between_walls_and_bullet);
     m_physics_world->addHandler("walls", "enemy_bullets", collision_between_walls_and_bullet);
     std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_platform_and_bullet = [=](const sad::p2d::BasicCollisionEvent & ev) {
-        sad::Object* a = ev.m_object_2->userObject();
-        // This conditions only holds only in case of bullets,
-        if (a->metaData()->name() == sad::Sprite2D::globalMetaData()->name())
-        {
-            sad::Sprite2D* local_sprite = static_cast<sad::Sprite2D*>(a);
-            sad::Scene* scene = local_sprite->scene();
-            sad::Point2D middle = local_sprite->middle();
-
-            sad::String options_name = local_sprite->optionsName();
-            sad::Sprite2D::Options* opts = scene->renderer()->tree()->get<sad::Sprite2D::Options>(options_name);
-
-            local_sprite->scene()->removeNode(local_sprite);
-            this->m_physics_world->removeBody(ev.m_object_2);
-
-            double dist  = 10;
-            sad::Point2D vectors[4] = {
-                sad::Point2D(-dist, -dist),
-                sad::Point2D(dist, -dist),
-                sad::Point2D(-dist, dist),
-                sad::Point2D(dist, dist)
-            };
-            this->playSound("hit");
-            for (auto vector : vectors)
-            {
-                sad::Sprite2D* anim_sprite = new sad::Sprite2D();
-                anim_sprite->setScene(scene);
-                anim_sprite->setTreeName(scene->renderer(), "");
-                anim_sprite->set(options_name);
-               
-                sad::Rect2D rect(
-                    middle.x() - opts->Rectangle.width() / 4.0, -middle.x() - opts->Rectangle.height() / 4.0,
-                    middle.x() + opts->Rectangle.width() / 4.0, -middle.x() + opts->Rectangle.height() / 4.0
-                );
-                anim_sprite->setArea(rect);
-                scene->addNode(anim_sprite);
-
-                sad::animations::SimpleMovement* movement = new sad::animations::SimpleMovement();
-                movement->setTime(300);
-                movement->setStartingPoint(middle);
-                movement->setEndingPoint(middle + vector);
-
-                sad::animations::Instance* instance = new sad::animations::Instance();
-                instance->setObject(anim_sprite);
-                instance->setAnimation(movement);
-                instance->end([=] { anim_sprite->scene()->removeNode(anim_sprite); });
-
-                scene->renderer()->animations()->add(instance);
-            }
-        }
+        this->tryDecayBullet(ev.m_object_2, "hit");
     };
 
     m_physics_world->addHandler("platforms", "player_bullets", collision_between_platform_and_bullet);
     m_physics_world->addHandler("platforms", "enemy_bullets", collision_between_platform_and_bullet);
+
+    std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_enemy_and_bullet = [=](const sad::p2d::BasicCollisionEvent & ev) {
+        this->tryDecayBullet(ev.m_object_2, "hit_enemy");
+        game::Actor* actor = static_cast<game::Actor*>(ev.m_object_1->userObject());
+        if (!actor->isInvincible())
+        {
+
+        }
+    };
+
+    std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_player_and_bullet = [=](const sad::p2d::BasicCollisionEvent & ev) {
+        this->tryDecayBullet(ev.m_object_2, "hurt");
+        if (!this->m_player->isInvincible())
+        {
+
+        }
+    };
+
+    m_physics_world->addHandler("enemies", "player_bullets", collision_between_enemy_and_bullet);
+    m_physics_world->addHandler("player", "enemy_bullets", collision_between_player_and_bullet);
+
 
     m_step_task->setWorld(m_physics_world);
 }
@@ -2030,6 +2074,7 @@ game::Actor* Game::makeEnemy(const sad::String& optname, const sad::Point2D& mid
             scene->add(sprite);
 
             game::Actor* actor = new game::Actor();
+            actor->setLives(Game::BasicEnemyLivesCount);
             actor->setGame(this);
             actor->setSprite(sprite);
             actor->setOptions(options);

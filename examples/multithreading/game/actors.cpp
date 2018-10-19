@@ -91,14 +91,6 @@ void game::Actors::testResting()
     }
 }
 
-void game::Actors::clearFixedFlags()
-{
-    for (size_t i = 0; i < m_actors.size(); i++)
-    {
-        m_actors[i]->Actor->clearFixedFlags();
-    }
-}
-
 void game::Actors::clear()
 {
     this->destroy();

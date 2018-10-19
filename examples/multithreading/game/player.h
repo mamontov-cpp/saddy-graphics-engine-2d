@@ -101,9 +101,6 @@ public:
      *  \return middle point
      */
     sad::Point2D middle();
-    /*! Clears flags, which determine, whether player's position is fixed
-     */
-    void clearFixedFlags();
     /*! Tests resting a player
      */
     void testResting();
@@ -117,6 +114,35 @@ public:
         \return whether last time actor moved left
      */
     bool isLastMovedLeft() const;
+
+    /*! Sets, whether actor should be invincibility
+        \param[in] on whether actor is invincible
+     */
+    void toggleInvincibility(bool on);
+    /*! Returns true if actor is invincible
+        \return true if actor is invincible
+     */
+    bool isInvincible() const;
+    /*! Return amount of lives for actor
+        \return amount of lives
+     */
+    int lives() const;
+    /*! Sets amount of lives for actor
+        \param[in] lives amount of lives for actor
+     */
+    void setLives(int lives);
+    /*! Increments amount of lives for actor by specified amount
+        \param[in] lives amount of lives
+     */
+    void incrementLives(int lives);
+    /*! Decrement amount of lives and kills an actor if should to
+         \param[in] lives amount of lives
+     */
+    void decrementLives(int lives);
+    /*! Sets action for actor
+        \param[in] action for actor, that will be called, when actor is dead
+     */
+    void onDeath(const std::function<void(game::Actor*)>& action);
 private:
     /*! Player's inventory, that will be carried around
      */

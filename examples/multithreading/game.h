@@ -67,6 +67,12 @@ public:
     /*! A default gravity forcevalue
      */
     static const sad::Point2D GravityForceValue;
+    /*! Amount of lives for basic enemy
+     */
+    static const int BasicEnemyLivesCount;
+    /*! Amount of lives for player
+     */
+    static const int BasicPlayerLivesCount;
     /*! Constructs game object
      */
     Game();
@@ -267,6 +273,11 @@ public:
         \param[in] is_player whether bullet belongs to player
      */
     void spawnBullet(const sad::String& icon_name, game::Actor* actor, double speed, double angle, bool apply_gravity, bool is_player = true) const;
+    /*! Tries to play decaying animation for specific bullet
+         \param[in] bullet a bullet
+         \param[in] sound a sound to be played, pass empty string if none
+     */
+    void tryDecayBullet(sad::p2d::Body* bullet, const sad::String& sound);
 private:
     /*! Inits evaluation context
      */

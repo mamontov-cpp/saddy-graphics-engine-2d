@@ -23,8 +23,6 @@ m_is_free_fall(false),
 m_is_walking_animation_playing(false),
 m_is_jumping_animation_playing(false), 
 m_resting_platform(NULL),
-m_fixed_x(false),
-m_fixed_y(false),
 m_is_floater(false),
 m_is_dying(false),
 m_walking_animation(NULL),
@@ -33,9 +31,12 @@ m_jumping_animation(NULL),
 m_jumping_instance(NULL),
 m_game(NULL),
 m_options(NULL),
-m_is_last_moved_left(false)
+m_is_last_moved_left(false),
+m_is_invincible(false),
+m_lives(1)
 {
     m_key_states.reset();
+    m_on_death_action = [](game::Actor*) {};
 }
 
 game::Actor::~Actor()
@@ -352,8 +353,6 @@ void game::Actor::reset()
     m_is_free_fall = false;
     m_resting_platform = NULL;
     m_own_horizontal_velocity = 0;
-    m_fixed_x = false;
-    m_fixed_y = false;
     m_old_velocity = sad::p2d::Vector(0, 0);
     m_is_walking_animation_playing = false;
     m_is_jumping_animation_playing = false;
@@ -770,34 +769,6 @@ void game::Actor::move(const sad::Point2D& p) const
     }
 }
 
-
-void game::Actor::clearFixedFlags()
-{
-    m_fixed_x = false;
-    m_fixed_y = false;
-}
-
-bool game::Actor::isXCoordinateFixed() const
-{
-    return m_fixed_x;
-}
-
-bool game::Actor::isYCoordinateFixed() const
-{
-    return m_fixed_y;
-}
-
-
-void game::Actor::setXCoordinateFixed(bool value)
-{
-    m_fixed_x = value;
-}
-
-void game::Actor::setYCoordinateFixed(bool value)
-{
-    m_fixed_y = value;
-}
-
 sad::p2d::Body* game::Actor::body() const
 {
     return m_body;
@@ -842,14 +813,6 @@ void game::Actor::testResting()
             else
             {
                 own_velocity.setX(own_velocity.x() + m_own_horizontal_velocity);
-                if (this->isYCoordinateFixed())
-                {
-                    own_velocity.setY(m_body->tangentialVelocity().y());
-                }
-                if (this->isXCoordinateFixed())
-                {
-                    own_velocity.setX(m_body->tangentialVelocity().x());
-                }
             }
             m_body->setCurrentTangentialVelocity(own_velocity);
         }
@@ -1037,6 +1000,53 @@ bool game::Actor::isLastMovedLeft() const
 {
     return m_is_last_moved_left;
 }
+
+void game::Actor::toggleInvincibility(bool on)
+{
+    m_is_invincible = on;
+}
+
+bool game::Actor::isInvincible() const
+{
+    return m_is_invincible;
+}
+
+int game::Actor::lives() const
+{
+    return m_lives;
+}
+
+void game::Actor::setLives(int lives)
+{
+    m_lives = lives;
+    if (m_lives <= 0)
+    {
+        m_on_death_action(this);
+    }
+}
+
+void game::Actor::incrementLives(int lives)
+{
+    m_lives += lives;
+}
+
+void game::Actor::decrementLives(int lives)
+{
+    m_lives -= lives;
+    if (m_lives <= 0)
+    {
+        m_on_death_action(this);
+    }
+}
+
+
+void game::Actor::onDeath(const std::function<void(game::Actor*)>& action)
+{
+    m_on_death_action = action;
+}
+
+
+
 
 // ===================================== PRIVATE METHODS =====================================
 
