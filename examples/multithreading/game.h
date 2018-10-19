@@ -254,6 +254,10 @@ public:
         \param[in] body a body for actor
      */
     void killActorByBody(sad::p2d::Body* body);
+    /*! Kills actor, without killing sprite
+        \param[in] actor actor to be killed
+     */
+    void killActorWithoutSprite(game::Actor* actor);
     /*! Returns a player
         \return player
      */
@@ -290,6 +294,10 @@ public:
          \param[in] sound a sound to be played, pass empty string if none
      */
     void tryDecayBullet(sad::p2d::Body* bullet, const sad::String& sound);
+    /*! Spawn death animation for actos sprite
+        \param[in] sprite a sprite
+     */
+    sad::animations::Instance* spawnDeathAnimationForActorsSprite(sad::Sprite2D* sprite);
 private:
     /*! Inits evaluation context
      */

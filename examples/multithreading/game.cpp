@@ -27,7 +27,8 @@
 #include <animations/animationsinstance.h>
 #include <animations/animationssimplemovement.h>
 #include <animations/animationsblinking.h>
-
+#include <animations/animationsparallel.h>
+#include <animations/animationsrotate.h>
 #include <slurpjson.h>
 #include <spitjson.h>
 
@@ -1236,6 +1237,17 @@ void Game::killActorByBody(sad::p2d::Body* body)
     m_actors.remove(actor);
 }
 
+void Game::killActorWithoutSprite(game::Actor* actor)
+{
+    sad::db::Database* db = this->rendererForMainThread()->database("gamescreen");
+    sad::Scene* main_scene = db->objectByName<sad::Scene>("main");
+
+    this->killProjectilesRelatedToActor(actor);
+    this->rendererForMainThread()->animations()->stopProcessesRelatedToObject(actor->sprite());
+    m_physics_world->removeBody(actor->body());
+    m_actors.remove(actor);
+}
+
 game::Player* Game::player() const
 {
     return m_player;
@@ -1445,10 +1457,41 @@ void Game::tryDecayBullet(sad::p2d::Body* bullet, const sad::String& sound)
     }
 }
 
+sad::animations::Instance* Game::spawnDeathAnimationForActorsSprite(sad::Sprite2D* sprite)
+{
+    sad::Point2D middle = sprite->middle();
+
+    sad::animations::SimpleMovement* movement = new sad::animations::SimpleMovement();
+    movement->setStartingPoint(middle);
+    movement->setEndingPoint(sad::Point2D(middle.x(), -(sprite->area().height())));
+    movement->setTime(2000);
+    movement->setLooped(false);
+
+    /*
+    sad::animations::Rotate* rotate = new sad::animations::Rotate();
+    rotate->setMinAngle(0);
+    rotate->setMaxAngle(4 * M_PI);
+    rotate->setTime(2000);
+    rotate->setLooped(false);
+
+    sad::animations::Parallel* parallel = new sad::animations::Parallel();
+    parallel->add(movement);
+    parallel->add(rotate);
+    parallel->setTime(2000);
+    parallel->setLooped(false);
+    */
+
+    sad::animations::Instance* instance= new sad::animations::Instance();
+    instance->setAnimation(movement);
+    instance->setObject(sprite);
+    instance->end([=]{ sprite->scene()->removeNode(sprite); });
+
+    this->rendererForMainThread()->animations()->add(instance);
+}
+
 void Game::disableGravity(sad::p2d::Body* b)
 {
     Game::setGravityForBody(b, sad::p2d::Vector(0.0, 0.0));
-
 }
 
 void Game::setGravityForBody(sad::p2d::Body* b, const sad::p2d::Vector& v)
@@ -2126,6 +2169,11 @@ game::Actor* Game::makeEnemy(const sad::String& optname, const sad::Point2D& mid
             actor->enableGravity();
             actor->init(true);
             actor->setHurtAnimation(m_hit_animation_for_enemies);
+            actor->onDeath([=](game::Actor* me) {
+                sad::Sprite2D* sprite = me->sprite();
+                this->spawnDeathAnimationForActorsSprite(sprite);
+                this->killActorWithoutSprite(me);
+            });
 
             return actor;
         }
