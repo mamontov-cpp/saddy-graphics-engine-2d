@@ -78,19 +78,6 @@ m_hit_animation_for_players(NULL)// NOLINT
     m_player = new game::Player();
     m_player->setGame(this);
     m_player->setLives(Game::BasicPlayerLivesCount);
-    m_player->onDeath([=](game::Actor*) {
-        // TODO: Make large screen YOU LOSE
-
-        // TODO: Copy score to highscore
-
-        this->m_player->toggleIsDead(true);
-        sad::Sprite2D* sprite = this->m_player->actor()->sprite();
-        this->playSound("lose");
-        this->m_physics_world->removeBody(this->m_player->actor()->body());
-        this->rendererForMainThread()->animations()->stopProcessesRelatedToObject(sprite);
-        sad::animations::Instance* instance =  this->spawnDeathAnimationForActorsSprite(sprite);
-        instance->end([=]() {  this->changeSceneToStartingScreen(); });
-    });
 
     m_main_menu_states_to_labels.insert(Game::GMMS_PLAY   , "Play");
     m_main_menu_states_to_labels.insert(Game::GMMS_OPTIONS, "Options");
@@ -2048,12 +2035,36 @@ void Game::initGamePhysics()
     m_walls.init(0, max_level_x, 600, 0);
     m_walls.addToWorld(m_physics_world);
 
+    std::function<void()> player_die_callback = [=]() {
+        // TODO: Make large screen YOU LOSE
+
+        // TODO: Copy score to highscore
+
+        this->m_player->toggleIsDead(true);
+        sad::Sprite2D* sprite = this->m_player->actor()->sprite();
+        this->playSound("lose");
+        this->m_physics_world->removeBody(this->m_player->actor()->body());
+        this->rendererForMainThread()->animations()->stopProcessesRelatedToObject(sprite);
+        sad::animations::Instance* instance =  this->spawnDeathAnimationForActorsSprite(sprite);
+        instance->end([=]() {  this->changeSceneToStartingScreen(); });
+    };
+
     // Handle all collision as non-resilient, enabling sliding
     std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_player_and_platforms = [=](const sad::p2d::BasicCollisionEvent & ev) {
+        if (!this->m_player->isFloater() && ev.m_object_1 == this->m_walls.bottomWall())
+        {
+            player_die_callback();
+            return;
+        }
         this->m_player->onPlatformCollision(ev);
     };
     std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_enemy_and_platforms = [=](const sad::p2d::BasicCollisionEvent & ev) {
         game::Actor* a = dynamic_cast<game::Actor*>(ev.m_object_1->userObject());
+        if (!a->isFloater() && ev.m_object_1 == this->m_walls.bottomWall())
+        {
+            this->killActorByBody(a->body());
+            return;
+        }
         if (a)
         {
             a->onPlatformCollision(ev);
@@ -2107,6 +2118,11 @@ void Game::initGamePhysics()
     m_physics_world->addHandler("enemies", "player", collision_between_player_and_enemies);
 
     m_step_task->setWorld(m_physics_world);
+
+    // Make player die, when killed by bullet
+    m_player->onDeath([=](game::Actor*) {
+        player_die_callback();
+    });
 }
 
 
