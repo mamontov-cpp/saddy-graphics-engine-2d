@@ -5,7 +5,7 @@
 
 DECLARE_COMMON_TYPE(game::Player)
 
-game::Player::Player()
+game::Player::Player() : m_is_dead(false)
 {
 
 }
@@ -41,6 +41,7 @@ void game::Player::reset()
 {
     m_inventory.reset();
     m_actor.reset();
+    m_is_dead = false;
     this->setLives(Game::BasicPlayerLivesCount);
 }
 
@@ -119,21 +120,37 @@ void game::Player::setBody(sad::p2d::Body* body)
 
 sad::Rect2D game::Player::area()
 {
+    if (m_is_dead)
+    {
+        return {};
+    }
     return dynamic_cast<sad::p2d::Rectangle*>(m_actor.body()->currentShape())->rect();
 }
 
 sad::Point2D game::Player::middle()
 {
+    if (m_is_dead)
+    {
+        return {};
+    }
     return m_actor.middle();
 }
 
 void game::Player::testResting()
 {
+    if (m_is_dead)
+    {
+        return;
+    }
     m_actor.testResting();
 }
 
 void game::Player::enableGravity() const
 {
+    if (m_is_dead)
+    {
+        return;
+    }
     m_actor.enableGravity();
 }
 
@@ -191,5 +208,10 @@ void game::Player::setHurtAnimation(sad::animations::Animation* animation)
 void game::Player::tryDecrementLives(int lives)
 {
      m_actor.tryDecrementLives(lives);
+}
+
+void game::Player::toggleIsDead(bool is_dead)
+{
+    m_is_dead = is_dead;
 }
 

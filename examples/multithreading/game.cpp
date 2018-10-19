@@ -49,7 +49,7 @@ const sad::Point2D Game::GravityForceValue(0.0, -300.0); // -300 is arbitrarily 
 
 const int Game::BasicEnemyLivesCount = 3; //< Amount of lives for enemy
 
-const int Game::BasicPlayerLivesCount = 5; // Amount of lives for player
+const int Game::BasicPlayerLivesCount = 1; // Amount of lives for player
 
 DECLARE_COMMON_TYPE(Game);
 
@@ -78,6 +78,19 @@ m_hit_animation_for_players(NULL)// NOLINT
     m_player = new game::Player();
     m_player->setGame(this);
     m_player->setLives(Game::BasicPlayerLivesCount);
+    m_player->onDeath([=](game::Actor*) {
+        // TODO: Make large screen YOU LOSE
+
+        // TODO: Copy score to highscore
+
+        this->m_player->toggleIsDead(true);
+        sad::Sprite2D* sprite = this->m_player->actor()->sprite();
+        this->playSound("lose");
+        this->m_physics_world->removeBody(this->m_player->actor()->body());
+        this->rendererForMainThread()->animations()->stopProcessesRelatedToObject(sprite);
+        sad::animations::Instance* instance =  this->spawnDeathAnimationForActorsSprite(sprite);
+        instance->end([=]() {  this->changeSceneToStartingScreen(); });
+    });
 
     m_main_menu_states_to_labels.insert(Game::GMMS_PLAY   , "Play");
     m_main_menu_states_to_labels.insert(Game::GMMS_OPTIONS, "Options");
@@ -2084,7 +2097,8 @@ void Game::initGamePhysics()
     };
 
     std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_player_and_enemies = [=](const sad::p2d::BasicCollisionEvent & ev) {
-         this->player()->tryDecrementLives(1);
+        if (!this->player()->isInvincible()) this->playSound("hurt");
+        this->player()->tryDecrementLives(1);
     };
 
 

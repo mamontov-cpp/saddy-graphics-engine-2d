@@ -151,6 +151,10 @@ public:
         \param[in] lives amount of lives
      */
     void tryDecrementLives(int lives);
+    /*! Toggles whether player is dead
+        \param[in] is_dead new value
+     */
+    void toggleIsDead(bool is_dead);
 private:
     /*! Player's inventory, that will be carried around
      */
@@ -158,6 +162,9 @@ private:
     /*! An actor for player
      */
     game::Actor m_actor;
+    /*! Whether player is dead
+     */
+    bool m_is_dead;
 };
 
 }
