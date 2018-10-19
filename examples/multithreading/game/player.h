@@ -115,34 +115,42 @@ public:
      */
     bool isLastMovedLeft() const;
 
-    /*! Sets, whether actor should be invincibility
-        \param[in] on whether actor is invincible
+    /*! Sets, whether player should be invincibility
+        \param[in] on whether player is invincible
      */
     void toggleInvincibility(bool on);
-    /*! Returns true if actor is invincible
-        \return true if actor is invincible
+    /*! Returns true if player is invincible
+        \return true if player is invincible
      */
     bool isInvincible() const;
-    /*! Return amount of lives for actor
+    /*! Return amount of lives for player
         \return amount of lives
      */
     int lives() const;
-    /*! Sets amount of lives for actor
+    /*! Sets amount of lives for player
         \param[in] lives amount of lives for actor
      */
     void setLives(int lives);
-    /*! Increments amount of lives for actor by specified amount
+    /*! Increments amount of lives for player by specified amount
         \param[in] lives amount of lives
      */
     void incrementLives(int lives);
-    /*! Decrement amount of lives and kills an actor if should to
+    /*! Decrement amount of lives and kills an player if should to
          \param[in] lives amount of lives
      */
     void decrementLives(int lives);
-    /*! Sets action for actor
-        \param[in] action for actor, that will be called, when actor is dead
+    /*! Sets action for player
+        \param[in] action for player, that will be called, when player is dead
      */
     void onDeath(const std::function<void(game::Actor*)>& action);
+    /*!  Sets animation, which is called, when player is hurt
+         \param[in] animation
+     */
+    void setHurtAnimation(sad::animations::Animation* animation);
+    /*! If player is not invincible, decrements lives, triggering animations, otherwise does nothing
+        \param[in] lives amount of lives
+     */
+    void tryDecrementLives(int lives);
 private:
     /*! Player's inventory, that will be carried around
      */

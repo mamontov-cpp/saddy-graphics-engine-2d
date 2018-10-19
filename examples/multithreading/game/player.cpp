@@ -183,4 +183,13 @@ void game::Player::onDeath(const std::function<void(game::Actor*)>& action)
     m_actor.onDeath(action);
 }
 
+void game::Player::setHurtAnimation(sad::animations::Animation* animation)
+{
+    m_actor.setHurtAnimation(animation);
+}
+
+void game::Player::tryDecrementLives(int lives)
+{
+     m_actor.tryDecrementLives(lives);
+}
 

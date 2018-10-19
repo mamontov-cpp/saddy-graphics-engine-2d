@@ -34,6 +34,18 @@
 #include "scenetransitionprocess.h"
 #include "optionsscreen.h"
 
+namespace sad
+{
+
+namespace animations
+{
+
+class Blinking;
+
+}
+
+}
+
 
 namespace game
 {
@@ -426,4 +438,10 @@ private:
     /*! A swings list
      */
     sad::Vector<weapons::Projectile*> m_projectiles;
+    /*! An animation for hitting the enemies
+     */
+    sad::animations::Blinking* m_hit_animation_for_enemies;
+    /*! An animation for hitting the players
+     */
+    sad::animations::Blinking* m_hit_animation_for_players;
 };

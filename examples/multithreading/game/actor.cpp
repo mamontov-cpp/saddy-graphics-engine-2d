@@ -33,7 +33,8 @@ m_game(NULL),
 m_options(NULL),
 m_is_last_moved_left(false),
 m_is_invincible(false),
-m_lives(1)
+m_lives(1),
+m_hurt_animation(NULL)
 {
     m_key_states.reset();
     m_on_death_action = [](game::Actor*) {};
@@ -1039,13 +1040,38 @@ void game::Actor::decrementLives(int lives)
     }
 }
 
+void game::Actor::tryDecrementLives(int lives)
+{
+    if (!this->isInvincible())
+    {
+        m_lives -= lives;
+        if (m_lives <= 0)
+        {
+            m_on_death_action(this);
+        }
+        else
+        {
+            this->toggleInvincibility(true);
+            sad::animations::Instance* instance = new sad::animations::Instance();
+            instance->setAnimation(m_hurt_animation);
+            instance->setObject(m_sprite);
+            instance->end([=]() { this->toggleInvincibility(false); });
+
+            m_game->rendererForMainThread()->animations()->add(instance);
+        }
+    }
+}
+
 
 void game::Actor::onDeath(const std::function<void(game::Actor*)>& action)
 {
     m_on_death_action = action;
 }
 
-
+void game::Actor::setHurtAnimation(sad::animations::Animation* animation)
+{
+    m_hurt_animation = animation;
+}
 
 
 // ===================================== PRIVATE METHODS =====================================

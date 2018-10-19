@@ -26,6 +26,7 @@
 
 #include <animations/animationsinstance.h>
 #include <animations/animationssimplemovement.h>
+#include <animations/animationsblinking.h>
 
 #include <slurpjson.h>
 #include <spitjson.h>
@@ -62,7 +63,11 @@ m_inventory_node(NULL),
 m_inventory_popup(NULL),
 m_physics_world(NULL),
 m_is_rendering_world_bodies(false),
-max_level_x(0.0) // NOLINT
+max_level_x(0.0),
+m_theme_playing(NULL),
+m_eval_context(NULL),
+m_hit_animation_for_enemies(NULL),
+m_hit_animation_for_players(NULL)// NOLINT
 {
     m_main_thread = new threads::GameThread();
     m_inventory_thread = new threads::GameThread();
@@ -96,10 +101,26 @@ max_level_x(0.0) // NOLINT
     m_bot_registry.insert("random_60_500", new bots::RandomBot(50, 600));
 
     m_player->setActorOptions(m_actor_options["player"]);
+
+    m_hit_animation_for_enemies = new sad::animations::Blinking();
+    m_hit_animation_for_enemies->addRef();
+    m_hit_animation_for_enemies->setTime(1000);
+    m_hit_animation_for_enemies->setLooped(false);
+    m_hit_animation_for_enemies->setFrequency(10);
+
+    m_hit_animation_for_players = new sad::animations::Blinking();
+    m_hit_animation_for_players->addRef();
+    m_hit_animation_for_players->setTime(2000);
+    m_hit_animation_for_players->setLooped(false);
+    m_hit_animation_for_players->setFrequency(20);
+    m_player->setHurtAnimation(m_hit_animation_for_players);
 }
 
 Game::~Game()  // NOLINT
 {
+    m_hit_animation_for_players->delRef();
+    m_hit_animation_for_enemies->delRef();
+
     delete m_bounce_solver;
 
     delete m_transition_process;
@@ -496,7 +517,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
         //this->playSound("swing");
         //this->addProjectile(new weapons::Swing(this, this->m_player->actor(), "icons_list/S_Sword01ng", 2, 5000, is_left, true));
         this->playSound("shooting_1");
-        this->spawnBullet("bullets/green/x_huge", this->m_player->actor(), 400, angle, true, true);
+        this->spawnBullet("bullets/green/x_huge", this->m_player->actor(), 400, angle, false, true);
         //this->addProjectile(new weapons::Laser(this, this->m_player->actor(), "bullets/green/x_huge", angle, 10, 600, 500, true));
     };
     renderer->controls()->addLambda(
@@ -2006,26 +2027,27 @@ void Game::initGamePhysics()
     m_physics_world->addHandler("platforms", "player_bullets", collision_between_platform_and_bullet);
     m_physics_world->addHandler("platforms", "enemy_bullets", collision_between_platform_and_bullet);
 
-    std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_enemy_and_bullet = [=](const sad::p2d::BasicCollisionEvent & ev) {
-        this->tryDecayBullet(ev.m_object_2, "hit_enemy");
-        game::Actor* actor = static_cast<game::Actor*>(ev.m_object_1->userObject());
-        if (!actor->isInvincible())
-        {
 
-        }
+
+    std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_enemy_and_bullet = [=](const sad::p2d::BasicCollisionEvent & ev) {
+        game::Actor* actor = static_cast<game::Actor*>(ev.m_object_1->userObject());
+        if (!actor->isInvincible()) this->tryDecayBullet(ev.m_object_2, "hit_enemy");
+        actor->tryDecrementLives(1);
     };
 
     std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_player_and_bullet = [=](const sad::p2d::BasicCollisionEvent & ev) {
-        this->tryDecayBullet(ev.m_object_2, "hurt");
-        if (!this->m_player->isInvincible())
-        {
-
-        }
+        if (!this->player()->isInvincible()) this->tryDecayBullet(ev.m_object_2, "hurt");
+        this->player()->tryDecrementLives(1);
     };
+
+    std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_player_and_enemies = [=](const sad::p2d::BasicCollisionEvent & ev) {
+         this->player()->tryDecrementLives(1);
+    };
+
 
     m_physics_world->addHandler("enemies", "player_bullets", collision_between_enemy_and_bullet);
     m_physics_world->addHandler("player", "enemy_bullets", collision_between_player_and_bullet);
-
+    m_physics_world->addHandler("enemies", "player", collision_between_player_and_enemies);
 
     m_step_task->setWorld(m_physics_world);
 }
@@ -2103,6 +2125,7 @@ game::Actor* Game::makeEnemy(const sad::String& optname, const sad::Point2D& mid
             actor->setBody(body);
             actor->enableGravity();
             actor->init(true);
+            actor->setHurtAnimation(m_hit_animation_for_enemies);
 
             return actor;
         }
@@ -2123,11 +2146,26 @@ void Game::updateProjectiles() const
 }
 
 Game::Game(const Game&)  // NOLINT
-    : m_main_thread(NULL), m_inventory_thread(NULL), m_is_quitting(false), m_main_menu_state(Game::GMMS_PLAY),
-      m_highscore(0), m_loaded_options_database{false, false}, m_loaded_game_screen(false), m_theme_playing(NULL),
-      m_transition_process(NULL),
-      m_inventory_node(NULL), m_inventory_popup(NULL), m_player(NULL), m_eval_context(NULL), m_physics_world(NULL),
-      m_step_task(NULL), m_bounce_solver(NULL), m_is_rendering_world_bodies(false), max_level_x(0)
+: m_main_thread(NULL),
+m_inventory_thread(NULL),
+m_is_quitting(false),
+m_main_menu_state(Game::GMMS_PLAY),
+m_highscore(0),
+m_loaded_options_database{false, false},
+m_loaded_game_screen(false),
+m_theme_playing(NULL),
+m_transition_process(NULL),
+m_inventory_node(NULL),
+m_inventory_popup(NULL),
+m_player(NULL),
+m_eval_context(NULL),
+m_physics_world(NULL),
+m_step_task(NULL),
+m_bounce_solver(NULL),
+m_is_rendering_world_bodies(false),
+max_level_x(0),
+m_hit_animation_for_enemies(NULL),
+m_hit_animation_for_players(NULL)
 {
     throw std::logic_error("Not implemented");
 }
