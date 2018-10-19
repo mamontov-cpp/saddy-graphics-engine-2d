@@ -1467,7 +1467,6 @@ sad::animations::Instance* Game::spawnDeathAnimationForActorsSprite(sad::Sprite2
     movement->setTime(2000);
     movement->setLooped(false);
 
-    /*
     sad::animations::Rotate* rotate = new sad::animations::Rotate();
     rotate->setMinAngle(0);
     rotate->setMaxAngle(4 * M_PI);
@@ -1479,14 +1478,15 @@ sad::animations::Instance* Game::spawnDeathAnimationForActorsSprite(sad::Sprite2
     parallel->add(rotate);
     parallel->setTime(2000);
     parallel->setLooped(false);
-    */
 
     sad::animations::Instance* instance= new sad::animations::Instance();
-    instance->setAnimation(movement);
     instance->setObject(sprite);
+    instance->setAnimation(parallel);
     instance->end([=]{ sprite->scene()->removeNode(sprite); });
 
     this->rendererForMainThread()->animations()->add(instance);
+
+    return instance;
 }
 
 void Game::disableGravity(sad::p2d::Body* b)
@@ -2171,8 +2171,8 @@ game::Actor* Game::makeEnemy(const sad::String& optname, const sad::Point2D& mid
             actor->setHurtAnimation(m_hit_animation_for_enemies);
             actor->onDeath([=](game::Actor* me) {
                 sad::Sprite2D* sprite = me->sprite();
-                this->spawnDeathAnimationForActorsSprite(sprite);
                 this->killActorWithoutSprite(me);
+                this->spawnDeathAnimationForActorsSprite(sprite);
             });
 
             return actor;
