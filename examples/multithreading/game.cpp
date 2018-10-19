@@ -477,12 +477,8 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
         this->m_player,
         &game::Player::tryStopGoingDown
     );
-    renderer->controls()->addLambda(
-        *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForMainRenderer.JumpActionConditions[game::Conditions::CS_PLAYGAME_PLAYING]
-        & ((&m_state_machine) * sad::String("playing"))
-        & ((&m_paused_state_machine) * sad::String("playing")),
-        [this] {
+
+    std::function<void()> perform_action = [this] {
         // this->m_player->setFloaterState(!(this->m_player->isFloater()));
         sad::MaybePoint3D pnt = this->rendererForMainThread()->cursorPosition();
         //bool is_left = this->m_player->isLastMovedLeft();
@@ -502,7 +498,21 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
         this->playSound("shooting_1");
         this->spawnBullet("bullets/green/x_huge", this->m_player->actor(), 400, angle, true, true);
         //this->addProjectile(new weapons::Laser(this, this->m_player->actor(), "bullets/green/x_huge", angle, 10, 600, 500, true));
-    });
+    };
+    renderer->controls()->addLambda(
+        *sad::input::ET_MousePress
+        & sad::MouseLeft
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        perform_action
+    );
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.JumpActionConditions[game::Conditions::CS_PLAYGAME_PLAYING]
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        perform_action
+    );
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
         & m_conditions.ConditionsForMainRenderer.PauseCondition
