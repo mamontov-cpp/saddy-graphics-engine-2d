@@ -28,6 +28,7 @@
 #include "game/walls.h"
 
 #include "weapons/swing.h"
+#include "weapons/bullet.h"
 
 #include "bots/botregistry.h"
 
@@ -161,6 +162,9 @@ public:
     /*! Changes scene to starting screen
      */
     void changeSceneToStartingScreen();
+    /*! Changes screen to lose screen
+     */
+    void changeSceneToLoseScreen();
     /*! Enters starting state
      */
     void enterStartScreenState();
@@ -174,6 +178,10 @@ public:
         \param[in] is_inventory_thread whether it's inventory thread
      */
     void tryLoadOptionsScreen(bool is_inventory_thread);
+    /*! Tries loading lose screen
+        \param[in] is_inventory_thread whether it's inventory thread
+     */
+    void tryLoadLoseScreen(bool is_inventory_thread);
     /*! Tries loading game screen
      */
     void tryLoadGameScreen();
@@ -288,7 +296,7 @@ public:
         \param[in] apply_gravity whether we should apply a gravity to a bullet
         \param[in] is_player whether bullet belongs to player
      */
-    void spawnBullet(const sad::String& icon_name, game::Actor* actor, double speed, double angle, bool apply_gravity, bool is_player = true) const;
+    weapons::Bullet* spawnBullet(const sad::String& icon_name, game::Actor* actor, double speed, double angle, bool apply_gravity, bool is_player = true) const;
     /*! Tries to play decaying animation for specific bullet
          \param[in] bullet a bullet
          \param[in] sound a sound to be played, pass empty string if none
@@ -365,6 +373,9 @@ private:
     /*! Whether, we loaded options database
      */
     bool m_loaded_options_database[2];
+    /*! Whether, we loaded lose screen database
+     */
+    bool m_loaded_lose_screen_database[2];
     /*! Whether we loaded game screen
      */
     bool m_loaded_game_screen;
@@ -439,7 +450,7 @@ private:
     bool m_is_rendering_world_bodies;
     /*! Maximal level x
      */ 
-    double max_level_x;
+    double m_max_level_x;
     /*! A task lock
      */
     threads::TaskLock m_task_lock;

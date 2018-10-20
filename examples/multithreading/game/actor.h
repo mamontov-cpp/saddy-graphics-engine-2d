@@ -225,7 +225,7 @@ public:
     /*! Returns resting platform
         \return resting platform
      */
-    sad::p2d::Body* restingPlatform();
+    sad::p2d::Body* restingPlatform() const;
     /*! Whether actor last moved left
         \return whether last time actor moved left
      */
@@ -280,10 +280,6 @@ private:
     /*! Sets correct angle for floater
      */
     void setAngleForFloater();
-    /*! Shedules velocity for next frame
-     *  \param[in] v velocity
-     */
-    void sheduleVelocity(const sad::p2d::Vector& v);
     /*! Computes velocity for floater
         \throws std::logic_error on invalid options or not floater
         \return velocity for floater

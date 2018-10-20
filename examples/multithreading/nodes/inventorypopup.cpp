@@ -2,7 +2,7 @@
 
 #include <geometry2d.h>
 
-DECLARE_SOBJ_INHERITANCE(nodes::InventoryPopup, sad::SceneNode);
+DECLARE_SOBJ_INHERITANCE(nodes::InventoryPopup, sad::SceneNode)
 
 // An inner padding between label  and overlay
 #define INNER_PADDING 14

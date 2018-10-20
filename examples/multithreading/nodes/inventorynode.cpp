@@ -8,7 +8,7 @@
 #include <pipeline/pipeline.h>
 
 
-DECLARE_SOBJ_INHERITANCE(nodes::InventoryNode, sad::SceneNode);
+DECLARE_SOBJ_INHERITANCE(nodes::InventoryNode, sad::SceneNode)
 // A padding between icons
 #define PADDING 18
 // A resize padding, to include user error, when dragging items to make it easier for user to  drag items

@@ -590,6 +590,12 @@ protected:
     /*! Performs all queued actions, clearing command queue
      */
     void performQueuedActions();
+    /*! Pauses all animations
+     */
+    void pause();
+    /*! Resumes animations
+     */
+    void resume();
     /*! Performs an action or queues it
         \param[in] f function
      */
@@ -628,6 +634,9 @@ protected:
     /*! A lock for protected m_lock_changed flag
      */
     sad::Mutex                 m_lock_changes_lock;
+    /*! Whether animations are paused
+     */
+    bool m_paused;
 };
 
 }

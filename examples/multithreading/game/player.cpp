@@ -69,42 +69,74 @@ game::Inventory* game::Player::inventory()
 
 void game::Player::tryStartGoingUp()
 {
+    if (m_is_dead)
+    {
+        return;
+    }
     m_actor.tryStartGoingUp();
 }
 
 void game::Player::tryStopGoingUp()
 {
+    if (m_is_dead)
+    {
+        return;
+    }
     m_actor.tryStopGoingUp();
 }
 
 void game::Player::tryStartGoingDown()
 {
+    if (m_is_dead)
+    {
+        return;
+    }
     m_actor.tryStartGoingDown();
 }
 
 void game::Player::tryStopGoingDown()
 {
+    if (m_is_dead)
+    {
+        return;
+    }
     m_actor.tryStopGoingDown();
 }
 
 void game::Player::tryStartGoingLeft()
 {
+    if (m_is_dead)
+    {
+        return;
+    }
     m_actor.tryStartGoingLeft();
 }
 
 void game::Player::tryStopGoingLeft()
 {
+    if (m_is_dead)
+    {
+        return;
+    }
     m_actor.tryStopGoingLeft();
 }
 
 
 void game::Player::tryStartGoingRight()
 {
+    if (m_is_dead)
+    {
+        return;
+    }
     m_actor.tryStartGoingRight();
 }
 
 void game::Player::tryStopGoingRight()
 {
+    if (m_is_dead)
+    {
+        return;
+    }
     m_actor.tryStopGoingRight();
 }
 
@@ -118,7 +150,7 @@ void game::Player::setBody(sad::p2d::Body* body)
     m_actor.setBody(body);
 }
 
-sad::Rect2D game::Player::area()
+sad::Rect2D game::Player::area() const
 {
     if (m_is_dead)
     {
@@ -127,7 +159,7 @@ sad::Rect2D game::Player::area()
     return dynamic_cast<sad::p2d::Rectangle*>(m_actor.body()->currentShape())->rect();
 }
 
-sad::Point2D game::Player::middle()
+sad::Point2D game::Player::middle() const
 {
     if (m_is_dead)
     {

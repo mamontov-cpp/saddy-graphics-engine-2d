@@ -96,11 +96,11 @@ public:
     /*! Returns a bodies area for player
      *  \return area for player
      */
-    sad::Rect2D area();
+    sad::Rect2D area() const;
     /*! Returns middle point for player
      *  \return middle point
      */
-    sad::Point2D middle();
+    sad::Point2D middle() const;
     /*! Tests resting a player
      */
     void testResting();

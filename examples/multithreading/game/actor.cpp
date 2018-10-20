@@ -992,7 +992,7 @@ void game::Actor::rotate(double angle) const
     m_sprite->rotate(angle);
 }
 
-sad::p2d::Body* game::Actor::restingPlatform()
+sad::p2d::Body* game::Actor::restingPlatform() const
 {
     return m_resting_platform;
 }

@@ -14,7 +14,9 @@
 #include "bots/platformpatrolbot.h"
 
 #include <input/controls.h>
+
 #include <pipeline/pipeline.h>
+#include <pipeline/pipelinedelayedtask.h>
 
 #include <keymouseconditions.h>
 
@@ -59,14 +61,15 @@ Game::Game()  : m_is_quitting(false),  // NOLINT(cppcoreguidelines-pro-type-memb
 m_main_menu_state(Game::GMMS_PLAY),
 m_highscore(0),
 m_loaded_options_database{false, false},
+m_loaded_lose_screen_database{false, false},
 m_loaded_game_screen(false),
+m_theme_playing(NULL),
 m_inventory_node(NULL),
 m_inventory_popup(NULL),
+m_eval_context(NULL),
 m_physics_world(NULL),
 m_is_rendering_world_bodies(false),
-max_level_x(0.0),
-m_theme_playing(NULL),
-m_eval_context(NULL),
+m_max_level_x(0.0),
 m_hit_animation_for_enemies(NULL),
 m_hit_animation_for_players(NULL)// NOLINT
 {
@@ -304,16 +307,21 @@ void Game::runInventoryThread()
     );
 
     renderer.pipeline()->appendProcess([=]() {
+        this->m_task_lock.acquire();
         if (this->m_inventory_popup)
         {
             if (!(this->m_player->inventory()->isStartedDraggingItem()))
             {
                 if (!(this->m_paused_state_machine.isInState("paused")))
                 {
-                    this->m_inventory_popup->render();
+                    if (this->m_inventory_popup)
+                    {
+                        this->m_inventory_popup->render();
+                    }
                 }
             }
         }
+        this->m_task_lock.release();
     });
 
     renderer.run();
@@ -938,6 +946,45 @@ void Game::changeSceneToStartingScreen()
     changeScene(options);
 }
 
+void Game::changeSceneToLoseScreen()
+{
+    m_footsteps.stop();
+    m_triggers.clear();
+    m_actors.clear();
+    this->clearProjectiles();
+
+    m_is_rendering_world_bodies = false;
+    this->destroyWorld();
+    SceneTransitionOptions options;
+
+    m_inventory_popup = NULL;
+
+
+    sad::Renderer* main_renderer = m_main_thread->renderer();
+    sad::Renderer* inventory_renderer = m_inventory_thread->renderer();
+
+    options.mainThread().LoadFunction = [this]() { this->tryLoadLoseScreen(false); };
+    options.inventoryThread().LoadFunction = [this]() { this->m_player->reset(); this->tryLoadLoseScreen(true); };
+    options.mainThread().OnLoadedFunction = [=]() {
+        sad::db::populateScenesFromDatabase(main_renderer, main_renderer->database("lose_screen"));
+    };
+
+    options.inventoryThread().OnLoadedFunction = [inventory_renderer]() {
+        sad::db::populateScenesFromDatabase(inventory_renderer, inventory_renderer->database("lose_screen"));
+    };
+
+    options.mainThread().OnFinishedFunction = [this]() {
+        this->playSound("lose_screen"); this->m_state_machine.enterState("lose_screen"); this->enterPlayingState();
+        this->rendererForMainThread()->pipeline()->append(new sad::pipeline::DelayedTask([=] { this->changeSceneToStartingScreen();  }, 1500));
+    };
+    options.inventoryThread().OnFinishedFunction = [this]() {  this->enterPlayingState(); };
+
+    this->enterTransitioningState();
+    this->waitForPipelineTasks();
+    printf("Starting to change screen to losing\n");
+    changeScene(options);
+}
+
 void Game::changeSceneToPlayingScreen()
 {
     this->destroyWorld();
@@ -1074,6 +1121,25 @@ void Game::tryLoadOptionsScreen(bool is_inventory_thread)
         database->saveSnapshot();
         renderer->addDatabase("optionsscreen", database);
         m_loaded_options_database[index] = true;
+    }
+}
+
+void Game::tryLoadLoseScreen(bool is_inventory_thread)
+{
+    int index = (is_inventory_thread) ? 1 : 0;
+    sad::Renderer* renderer = (is_inventory_thread) ? (m_inventory_thread->renderer()) : (m_main_thread->renderer());
+    if (m_loaded_lose_screen_database[index])
+    {
+        renderer->database("lose_screen")->restoreSnapshot();
+    }
+    else
+    {
+        sad::db::Database* database = new sad::db::Database();
+        database->setRenderer(renderer);
+        database->tryLoadFrom("examples/multithreading/lose_screen.json");
+        database->saveSnapshot();
+        renderer->addDatabase("lose_screen", database);
+        m_loaded_lose_screen_database[index] = true;
     }
 }
 
@@ -1239,9 +1305,6 @@ void Game::killActorByBody(sad::p2d::Body* body)
 
 void Game::killActorWithoutSprite(game::Actor* actor)
 {
-    sad::db::Database* db = this->rendererForMainThread()->database("gamescreen");
-    sad::Scene* main_scene = db->objectByName<sad::Scene>("main");
-
     this->killProjectilesRelatedToActor(actor);
     this->rendererForMainThread()->animations()->stopProcessesRelatedToObject(actor->sprite());
     m_physics_world->removeBody(actor->body());
@@ -1344,7 +1407,7 @@ sad::Point2D Game::pointOnActorForBullet(game::Actor* actor, double angle)  cons
     return result_middle;
 }
 
-void Game::spawnBullet(const sad::String& icon_name, game::Actor* actor, double speed, double angle, bool apply_gravity, bool is_player) const
+weapons::Bullet* Game::spawnBullet(const sad::String& icon_name, game::Actor* actor, double speed, double angle, bool apply_gravity, bool is_player) const
 {
     while(angle < 0)
     {
@@ -1379,10 +1442,13 @@ void Game::spawnBullet(const sad::String& icon_name, game::Actor* actor, double 
         sad::p2d::Rectangle* rectangle = new sad::p2d::Rectangle();
         rectangle->setRect(sprite->renderableArea());
 
+        weapons::Bullet* bullet = new weapons::Bullet();
+        bullet->setSprite(sprite);
+
         sad::p2d::Body* body = new sad::p2d::Body();
         body->setCurrentAngularVelocity(0);
         body->setCurrentTangentialVelocity(sad::p2d::Vector(speed * cos(angle), speed * sin(angle)));
-        body->attachObject(sprite);
+        body->attachObject(bullet);
         body->setShape(rectangle);
         body->initPosition(sprite->middle());
         if (apply_gravity)
@@ -1398,24 +1464,30 @@ void Game::spawnBullet(const sad::String& icon_name, game::Actor* actor, double 
         {
             this->physicsWorld()->addBodyToGroup("enemy_bullets", body);
         }
+        return bullet;
     }
+    return NULL;
 }
 
 void Game::tryDecayBullet(sad::p2d::Body* bullet, const sad::String& sound)
 {
     sad::Object* a = bullet->userObject();
     // This conditions only holds only in case of bullets,
-    if (a->metaData()->name() == sad::Sprite2D::globalMetaData()->name())
+    if (a->metaData()->name() == weapons::Bullet::globalMetaData()->name())
     {
-        sad::Sprite2D* local_sprite = static_cast<sad::Sprite2D*>(a);
+        weapons::Bullet* bullet_object = static_cast<weapons::Bullet*>(a);
+        sad::Sprite2D* local_sprite = bullet_object->sprite();
         sad::Scene* scene = local_sprite->scene();
         sad::Point2D middle = local_sprite->middle();
 
         sad::String options_name = local_sprite->optionsName();
         sad::Sprite2D::Options* opts = scene->renderer()->tree()->get<sad::Sprite2D::Options>(options_name);
 
-        local_sprite->scene()->removeNode(local_sprite);
-        this->m_physics_world->removeBody(bullet);
+        this->rendererForMainThread()->pipeline()->appendTask([=]() {
+            local_sprite->scene()->removeNode(local_sprite);
+            this->m_physics_world->removeBody(bullet);
+        });
+        
 
         double dist  = 10;
         sad::Point2D vectors[4] = {
@@ -1464,19 +1536,19 @@ sad::animations::Instance* Game::spawnDeathAnimationForActorsSprite(sad::Sprite2
     sad::animations::SimpleMovement* movement = new sad::animations::SimpleMovement();
     movement->setStartingPoint(middle);
     movement->setEndingPoint(sad::Point2D(middle.x(), -(sprite->area().height())));
-    movement->setTime(2000);
+    movement->setTime(1000);
     movement->setLooped(false);
 
     sad::animations::Rotate* rotate = new sad::animations::Rotate();
     rotate->setMinAngle(0);
     rotate->setMaxAngle(4 * M_PI);
-    rotate->setTime(2000);
+    rotate->setTime(1000);
     rotate->setLooped(false);
 
     sad::animations::Parallel* parallel = new sad::animations::Parallel();
     parallel->add(movement);
     parallel->add(rotate);
-    parallel->setTime(2000);
+    parallel->setTime(1000);
     parallel->setLooped(false);
 
     sad::animations::Instance* instance= new sad::animations::Instance();
@@ -1823,7 +1895,7 @@ void Game::initGamePhysics()
     m_physics_world->addGroup("player_bullets");
     m_physics_world->addGroup("enemy_bullets");
 
-    max_level_x = 0;
+    m_max_level_x = 0;
 
     sad::Renderer* renderer = m_main_thread->renderer();
     sad::db::Database* db = renderer->database("gamescreen");
@@ -1872,7 +1944,7 @@ void Game::initGamePhysics()
                         {
                             platform_sprites << node;
                         }
-                        max_level_x = std::max(max_level_x, node->area()[2].x());
+                        m_max_level_x = std::max(m_max_level_x, node->area()[2].x());
                     }
                 }
             }
@@ -2032,7 +2104,7 @@ void Game::initGamePhysics()
             m_physics_world->addBodyToGroup("platforms", body);
         }
     }
-    m_walls.init(0, max_level_x, 600, 0);
+    m_walls.init(0, m_max_level_x, 600, 0);
     m_walls.addToWorld(m_physics_world);
 
     std::function<void()> player_die_callback = [=]() {
@@ -2041,17 +2113,17 @@ void Game::initGamePhysics()
         // TODO: Copy score to highscore
 
         this->m_player->toggleIsDead(true);
-        sad::Sprite2D* sprite = this->m_player->actor()->sprite();
+        sad::Sprite2D* local_sprite = this->m_player->actor()->sprite();
         this->playSound("lose");
         this->m_physics_world->removeBody(this->m_player->actor()->body());
-        this->rendererForMainThread()->animations()->stopProcessesRelatedToObject(sprite);
-        sad::animations::Instance* instance =  this->spawnDeathAnimationForActorsSprite(sprite);
-        instance->end([=]() {  this->changeSceneToStartingScreen(); });
+        this->rendererForMainThread()->animations()->stopProcessesRelatedToObject(local_sprite);
+        sad::animations::Instance* instance =  this->spawnDeathAnimationForActorsSprite(local_sprite);
+        instance->end([=]() {  this->changeSceneToLoseScreen(); });
     };
 
     // Handle all collision as non-resilient, enabling sliding
     std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_player_and_platforms = [=](const sad::p2d::BasicCollisionEvent & ev) {
-        if (!this->m_player->isFloater() && ev.m_object_1 == this->m_walls.bottomWall())
+        if (!this->m_player->isFloater() && ev.m_object_2 == this->m_walls.bottomWall())
         {
             player_die_callback();
             return;
@@ -2060,9 +2132,11 @@ void Game::initGamePhysics()
     };
     std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_enemy_and_platforms = [=](const sad::p2d::BasicCollisionEvent & ev) {
         game::Actor* a = dynamic_cast<game::Actor*>(ev.m_object_1->userObject());
-        if (!a->isFloater() && ev.m_object_1 == this->m_walls.bottomWall())
+        if (!a->isFloater() && ev.m_object_2 == this->m_walls.bottomWall())
         {
-            this->killActorByBody(a->body());
+            sad::Sprite2D* local_sprite = a->sprite();
+            this->killActorWithoutSprite(a);
+            this->spawnDeathAnimationForActorsSprite(local_sprite);
             return;
         }
         if (a)
@@ -2077,12 +2151,15 @@ void Game::initGamePhysics()
     std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_walls_and_bullet = [=](const sad::p2d::BasicCollisionEvent & ev) {
         sad::Object* a = ev.m_object_2->userObject();
         // This conditions only holds only in case of bullets,
-        if (a->metaData()->name() == sad::Sprite2D::globalMetaData()->name())
+        if (a->metaData()->name() == weapons::Bullet::globalMetaData()->name())
         {
-            sad::Sprite2D* local_sprite = static_cast<sad::Sprite2D*>(a);
-            local_sprite->scene()->removeNode(local_sprite);
+            weapons::Bullet* b = static_cast<weapons::Bullet*>(a);
+            sad::Sprite2D* local_sprite = b->sprite();
+            this->rendererForMainThread()->pipeline()->appendTask([=]() {
+                local_sprite->scene()->removeNode(local_sprite);
 
-            this->m_physics_world->removeBody(ev.m_object_2);
+                this->m_physics_world->removeBody(ev.m_object_2);
+            });
         }
     };
     m_physics_world->addHandler("walls", "player_bullets", collision_between_walls_and_bullet);
@@ -2098,13 +2175,16 @@ void Game::initGamePhysics()
 
     std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_enemy_and_bullet = [=](const sad::p2d::BasicCollisionEvent & ev) {
         game::Actor* actor = static_cast<game::Actor*>(ev.m_object_1->userObject());
+        weapons::Projectile* projectile = static_cast<weapons::Projectile*>(ev.m_object_2->userObject());
         if (!actor->isInvincible()) this->tryDecayBullet(ev.m_object_2, "hit_enemy");
-        actor->tryDecrementLives(1);
+        actor->tryDecrementLives(projectile->damage());
     };
 
     std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_player_and_bullet = [=](const sad::p2d::BasicCollisionEvent & ev) {
+        weapons::Projectile* projectile = static_cast<weapons::Projectile*>(ev.m_object_2->userObject());
+        int dmg = projectile->damage();
         if (!this->player()->isInvincible()) this->tryDecayBullet(ev.m_object_2, "hurt");
-        this->player()->tryDecrementLives(1);
+        this->player()->tryDecrementLives(dmg);
     };
 
     std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_player_and_enemies = [=](const sad::p2d::BasicCollisionEvent & ev) {
@@ -2200,9 +2280,9 @@ game::Actor* Game::makeEnemy(const sad::String& optname, const sad::Point2D& mid
             actor->init(true);
             actor->setHurtAnimation(m_hit_animation_for_enemies);
             actor->onDeath([=](game::Actor* me) {
-                sad::Sprite2D* sprite = me->sprite();
+                sad::Sprite2D* local_sprite = me->sprite();
                 this->killActorWithoutSprite(me);
-                this->spawnDeathAnimationForActorsSprite(sprite);
+                this->spawnDeathAnimationForActorsSprite(local_sprite);
             });
 
             return actor;
@@ -2241,7 +2321,7 @@ m_physics_world(NULL),
 m_step_task(NULL),
 m_bounce_solver(NULL),
 m_is_rendering_world_bodies(false),
-max_level_x(0),
+m_max_level_x(0),
 m_hit_animation_for_enemies(NULL),
 m_hit_animation_for_players(NULL)
 {

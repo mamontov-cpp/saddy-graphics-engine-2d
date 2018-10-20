@@ -14,6 +14,9 @@ namespace weapons
 class Projectile: public sad::Object
 {
     SAD_OBJECT
+    /*! Constructs new projectile
+     */
+    Projectile();
     /*! Must be inherited
      */
     virtual ~Projectile();
@@ -27,6 +30,18 @@ class Projectile: public sad::Object
     /*! Updates side for a swing
      */
     virtual void update() = 0;
+    /*! A damage from projectile
+        \param[in] damage a damage
+     */
+    void setDamage(int damage);
+    /*! Returns simple damage from projectile
+        \return projectile damage
+     */
+    int damage() const;
+protected:
+    /*! A damage from projectile
+     */
+    int m_damage;
 };
 
 }

@@ -4,12 +4,20 @@
 state_machine.addState("starting_screen", new sad.hfsm.State());
 state_machine.addState("options", new sad.hfsm.State());
 state_machine.addState("playing", new sad.hfsm.State());
+state_machine.addState("lose_screen", new sad.hfsm.State());
+state_machine.addState("win_screen", new sad.hfsm.State());
 
 state_machine.addTransition("starting_screen", "options", new sad.hfsm.Transition());
 state_machine.addTransition("options", "starting_screen", new sad.hfsm.Transition());
 
 state_machine.addTransition("starting_screen", "playing", new sad.hfsm.Transition());
 state_machine.addTransition("playing", "starting_screen", new sad.hfsm.Transition());
+
+state_machine.addTransition("playing", "lose_screen", new sad.hfsm.Transition());
+state_machine.addTransition("lose_screen", "starting_screen", new sad.hfsm.Transition());
+
+state_machine.addTransition("playing", "win_screen", new sad.hfsm.Transition());
+state_machine.addTransition("win_screen", "starting_screen", new sad.hfsm.Transition());
 
 state_machine.enterState("starting_screen");
 
