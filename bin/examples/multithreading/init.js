@@ -14,6 +14,7 @@ addTriggerOnce(400, function() {
 	spawnEnemyInDirection("red_disc", new sad.Point2D(500, 500), HDir.Right, VDir.Down);
 	spawnEnemyInDirection("green_floater", new sad.Point2D(600, 500), HDir.Right, VDir.Down);
 	*/
-	spawnEnemyInDirection("green_walker", new sad.Point2D(200, 300), HDir.Right, VDir.None);
-	spawnPlatformPatrol("enemy_walker", new sad.Point2D(220, 300));
+	// spawnEnemyInDirection("green_walker", new sad.Point2D(200, 300), HDir.Right, VDir.None);
+	//spawnPlatformPatrol("enemy_walker", new sad.Point2D(220, 300));
+	triggerWinGame();
 });

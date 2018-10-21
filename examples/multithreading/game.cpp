@@ -31,6 +31,8 @@
 #include <animations/animationsblinking.h>
 #include <animations/animationsparallel.h>
 #include <animations/animationsrotate.h>
+#include <animations/animationsgroup.h>
+
 #include <slurpjson.h>
 #include <spitjson.h>
 
@@ -62,6 +64,7 @@ m_main_menu_state(Game::GMMS_PLAY),
 m_highscore(0),
 m_loaded_options_database{false, false},
 m_loaded_lose_screen_database{false, false},
+m_loaded_win_screen_database{false, false},
 m_loaded_game_screen(false),
 m_theme_playing(NULL),
 m_inventory_node(NULL),
@@ -900,6 +903,33 @@ void Game::enterPausedState()
     m_paused_state_machine.enterState("paused");
 }
 
+void Game::triggerWinGame()
+{
+    // TODO: Copy score to highscore
+
+    this->m_player->toggleIsDead(true);
+    sad::Sprite2D* local_sprite = this->m_player->actor()->sprite();
+    this->playSound("win");
+    this->m_physics_world->removeBody(this->m_player->actor()->body());
+    this->rendererForMainThread()->animations()->stopProcessesRelatedToObject(local_sprite);
+
+    sad::Point2D middle = local_sprite->middle();
+
+    sad::animations::SimpleMovement* movement = new sad::animations::SimpleMovement();
+    movement->setStartingPoint(middle);
+    movement->setEndingPoint(sad::Point2D(middle.x() + this->rendererForMainThread()->settings().width(), middle.y()));
+    movement->setTime(800);
+    movement->setLooped(false);
+
+
+    sad::animations::Instance* instance = new sad::animations::Instance();
+    instance->setObject(local_sprite);
+    instance->setAnimation(movement);
+    instance->end([=] { local_sprite->scene()->removeNode(local_sprite); this->changeSceneToWinScreen(); });
+
+    this->rendererForMainThread()->animations()->add(instance);
+}
+
 void Game::changeScene(const SceneTransitionOptions& opts) const
 {
     m_transition_process->start(opts);
@@ -982,6 +1012,52 @@ void Game::changeSceneToLoseScreen()
     this->enterTransitioningState();
     this->waitForPipelineTasks();
     printf("Starting to change screen to losing\n");
+    changeScene(options);
+}
+
+void Game::changeSceneToWinScreen()
+{
+    m_footsteps.stop();
+    m_triggers.clear();
+    m_actors.clear();
+    this->clearProjectiles();
+
+    m_is_rendering_world_bodies = false;
+    this->destroyWorld();
+    SceneTransitionOptions options;
+
+    m_inventory_popup = NULL;
+
+
+    sad::Renderer* main_renderer = m_main_thread->renderer();
+    sad::Renderer* inventory_renderer = m_inventory_thread->renderer();
+
+    options.mainThread().LoadFunction = [this]() { this->tryLoadWinScreen(false); };
+    options.inventoryThread().LoadFunction = [this]() { this->m_player->reset(); this->tryLoadWinScreen(true); };
+    options.mainThread().OnLoadedFunction = [=]() {
+        sad::db::populateScenesFromDatabase(main_renderer, main_renderer->database("win_screen"));
+    };
+
+    options.inventoryThread().OnLoadedFunction = [inventory_renderer]() {
+        sad::db::populateScenesFromDatabase(inventory_renderer, inventory_renderer->database("win_screen"));
+    };
+
+    options.mainThread().OnFinishedFunction = [this]() {
+        this->playSound("win_screen"); this->m_state_machine.enterState("win_screen"); this->enterPlayingState();
+        this->rendererForMainThread()->pipeline()->append(new sad::pipeline::DelayedTask([=] { this->changeSceneToStartingScreen();  }, 2100));
+        sad::animations::Group* group = this->rendererForMainThread()->database("win_screen")->objectByName<sad::animations::Group>("Group1");
+        this->rendererForMainThread()->animations()->add(group);
+    };
+    options.inventoryThread().OnFinishedFunction = [this]() {
+        sad::animations::Group* group = this->rendererForInventoryThread()->database("win_screen")->objectByName<sad::animations::Group>("Group1");
+        this->rendererForInventoryThread()->animations()->add(group);
+
+        this->enterPlayingState();
+    };
+
+    this->enterTransitioningState();
+    this->waitForPipelineTasks();
+    printf("Starting to change screen to winning\n");
     changeScene(options);
 }
 
@@ -1107,40 +1183,17 @@ void Game::enterPlayingScreenState()
 
 void Game::tryLoadOptionsScreen(bool is_inventory_thread)
 {
-    int index = (is_inventory_thread) ? 1 : 0;
-    sad::Renderer* renderer =(is_inventory_thread) ? (m_inventory_thread->renderer()) : (m_main_thread->renderer());
-    if (m_loaded_options_database[index])
-    {
-        renderer->database("optionsscreen")->restoreSnapshot();
-    }
-    else
-    {
-        sad::db::Database* database = new sad::db::Database();
-        database->setRenderer(renderer);
-        database->tryLoadFrom("examples/multithreading/optionsscreen.json");
-        database->saveSnapshot();
-        renderer->addDatabase("optionsscreen", database);
-        m_loaded_options_database[index] = true;
-    }
+    this->tryLoadIdenticalScreenDatabase(m_loaded_options_database, "optionsscreen", "examples/multithreading/optionsscreen.json", is_inventory_thread);
 }
 
 void Game::tryLoadLoseScreen(bool is_inventory_thread)
 {
-    int index = (is_inventory_thread) ? 1 : 0;
-    sad::Renderer* renderer = (is_inventory_thread) ? (m_inventory_thread->renderer()) : (m_main_thread->renderer());
-    if (m_loaded_lose_screen_database[index])
-    {
-        renderer->database("lose_screen")->restoreSnapshot();
-    }
-    else
-    {
-        sad::db::Database* database = new sad::db::Database();
-        database->setRenderer(renderer);
-        database->tryLoadFrom("examples/multithreading/lose_screen.json");
-        database->saveSnapshot();
-        renderer->addDatabase("lose_screen", database);
-        m_loaded_lose_screen_database[index] = true;
-    }
+    this->tryLoadIdenticalScreenDatabase(m_loaded_lose_screen_database, "lose_screen", "examples/multithreading/lose_screen.json", is_inventory_thread);
+}
+
+void Game::tryLoadWinScreen(bool is_inventory_thread)
+{
+    this->tryLoadIdenticalScreenDatabase(m_loaded_win_screen_database, "win_screen", "examples/multithreading/win_screen.json", is_inventory_thread);
 }
 
 void Game::tryLoadGameScreen()
@@ -1748,6 +1801,12 @@ void Game::initContext()
     m_eval_context->registerCallable("addTrigger", sad::dukpp03::make_lambda::from(add_trigger));
     m_eval_context->registerCallable("addTriggerOnce", sad::dukpp03::make_lambda::from(add_trigger_once));
     m_eval_context->registerCallable("gamePrint", sad::dukpp03::make_lambda::from(print));
+
+    std::function<void()> trigger_win_game = [=] {
+        this->rendererForMainThread()->pipeline()->appendTask([=] { this->triggerWinGame(); });
+    };
+    m_eval_context->registerCallable("triggerWinGame", sad::dukpp03::make_lambda::from(trigger_win_game));
+
     game::exposeActorOptions(m_eval_context);
 
     std::function<bool(const sad::String&, const game::ActorOptions&)> add_actor_options = [=](const sad::String& name, const game::ActorOptions& opts) {
@@ -2108,8 +2167,6 @@ void Game::initGamePhysics()
     m_walls.addToWorld(m_physics_world);
 
     std::function<void()> player_die_callback = [=]() {
-        // TODO: Make large screen YOU LOSE
-
         // TODO: Copy score to highscore
 
         this->m_player->toggleIsDead(true);
@@ -2303,6 +2360,25 @@ void Game::updateProjectiles() const
     }
 }
 
+void Game::tryLoadIdenticalScreenDatabase(bool* loaded, const sad::String& db_name, const sad::String& file_name, bool is_inventory_thread) const
+{
+    int index = (is_inventory_thread) ? 1 : 0;
+    sad::Renderer* renderer = (is_inventory_thread) ? (m_inventory_thread->renderer()) : (m_main_thread->renderer());
+    if (loaded[index])
+    {
+        renderer->database(db_name)->restoreSnapshot();
+    }
+    else
+    {
+        sad::db::Database* database = new sad::db::Database();
+        database->setRenderer(renderer);
+        database->tryLoadFrom(file_name);
+        database->saveSnapshot();
+        renderer->addDatabase(db_name, database);
+        loaded[index] = true;
+    }
+}
+
 Game::Game(const Game&)  // NOLINT
 : m_main_thread(NULL),
 m_inventory_thread(NULL),
@@ -2311,6 +2387,7 @@ m_main_menu_state(Game::GMMS_PLAY),
 m_highscore(0),
 m_loaded_options_database{false, false},
 m_loaded_lose_screen_database{ false, false },
+m_loaded_win_screen_database{false, false},
 m_loaded_game_screen(false),
 m_theme_playing(NULL),
 m_transition_process(NULL),

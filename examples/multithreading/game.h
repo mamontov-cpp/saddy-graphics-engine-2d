@@ -148,7 +148,9 @@ public:
     /*! Enter paused state on paused state machine
      */
     void enterPausedState();
-
+    /*! Triggers win game
+     */
+    void triggerWinGame();
     /*! Transitions the game from current scene to the next one
         \param[in] opts options
      */
@@ -165,6 +167,9 @@ public:
     /*! Changes screen to lose screen
      */
     void changeSceneToLoseScreen();
+    /*! Changes screen to win screen
+     */
+    void changeSceneToWinScreen();
     /*! Enters starting state
      */
     void enterStartScreenState();
@@ -182,6 +187,10 @@ public:
         \param[in] is_inventory_thread whether it's inventory thread
      */
     void tryLoadLoseScreen(bool is_inventory_thread);
+    /*! Tries loading win screen
+        \param[in] is_inventory_thread whether it's inventory thread
+     */
+    void tryLoadWinScreen(bool is_inventory_thread);
     /*! Tries loading game screen
      */
     void tryLoadGameScreen();
@@ -336,6 +345,13 @@ private:
     /*! Update projectiles objects
      */
     void updateProjectiles() const;
+    /*! Tries to load identical screen database 
+        \param[in] loaded a flags for loaded databases
+        \param[in] db_name a database name
+        \param[in] file_name a file, from which we should load database
+        \param[in] is_inventory_thread inventory thread
+     */
+    void tryLoadIdenticalScreenDatabase(bool* loaded, const sad::String& db_name, const sad::String& file_name, bool is_inventory_thread) const;
     /*! Disabled constructor
      */
     Game(const Game&);
@@ -376,6 +392,9 @@ private:
     /*! Whether, we loaded lose screen database
      */
     bool m_loaded_lose_screen_database[2];
+    /*! Whether we loaded win screen database
+     */
+    bool m_loaded_win_screen_database[2];
     /*! Whether we loaded game screen
      */
     bool m_loaded_game_screen;
