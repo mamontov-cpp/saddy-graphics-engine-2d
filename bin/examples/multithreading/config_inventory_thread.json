@@ -1,10 +1,13 @@
 [
 	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/backgrounds.json" },
+	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/enemies.json" },
 	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/icons.json" },
 	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/tiles.json" },
 	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/labels.json" },
 	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/white_square.json" },
 	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/slot.json" },
+	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/coins.json" },
+	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/coins_decay.json" },
 	{ 
 		"type": "sad::freetype::Font",
 		"name": "Arcade Classic",
