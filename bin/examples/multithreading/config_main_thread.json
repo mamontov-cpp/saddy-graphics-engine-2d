@@ -7,6 +7,7 @@
 	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/white_square.json" },
 	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/platforms.json" },
 	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/bullets.json" },
+	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/coins.json" },
 	{ 
 		"type": "sad::freetype::Font",
 		"name": "Arcade Classic",

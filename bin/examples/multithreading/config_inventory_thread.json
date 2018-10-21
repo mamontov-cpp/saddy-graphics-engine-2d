@@ -31,5 +31,8 @@
 	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/hit_enemy.wav", "name" : "hit_enemy" },
 	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/hurt.wav", "name" : "hurt" },
 	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/lose.mp3", "name" : "lose" },
-	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/lose_screen.mp3", "name" : "lose_screen" }
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/lose_screen.mp3", "name" : "lose_screen" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/coin.mp3", "name" : "coin" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/win.mp3", "name" : "win" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/win_screen.mp3", "name" : "win_screen" }
 ]
