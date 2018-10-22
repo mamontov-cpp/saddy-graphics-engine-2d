@@ -620,6 +620,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
                 this->m_step_task->process();
                 this->tryRenderDebugShapes();
                 this->m_triggers.tryRun(this->m_player, this->m_eval_context);
+                this->m_unanimated_coins.animateNearestCoins(this->m_player->middle());
 
                 this->m_task_lock.release();
             }
@@ -1537,7 +1538,7 @@ void Game::tryDecayBullet(sad::p2d::Body* bullet, const sad::String& sound)
         sad::Sprite2D::Options* opts = scene->renderer()->tree()->get<sad::Sprite2D::Options>(options_name);
 
         this->rendererForMainThread()->pipeline()->appendTask([=]() {
-            local_sprite->scene()->removeNode(local_sprite);
+            scene->removeNode(local_sprite);
             this->m_physics_world->removeBody(bullet);
         });
         
@@ -1951,6 +1952,7 @@ void Game::initGamePhysics()
     m_physics_world->addGroup("enemies");
     m_physics_world->addGroup("platforms");
     m_physics_world->addGroup("walls");
+    m_physics_world->addGroup("coins");
     m_physics_world->addGroup("player_bullets");
     m_physics_world->addGroup("enemy_bullets");
 
@@ -2162,6 +2164,23 @@ void Game::initGamePhysics()
 
             m_physics_world->addBodyToGroup("platforms", body);
         }
+
+        sad::Vector<sad::Sprite2D*> coin_sprites = game::UnanimatedCoins::fetchCoinSprites(db);
+        m_unanimated_coins.init(coin_sprites, db, this->rendererForMainThread());
+        for(size_t i = 0; i < coin_sprites.size(); i++)
+        {
+            sad::p2d::Body* body = new sad::p2d::Body();
+            body->setCurrentAngularVelocity(0);
+            body->setCurrentTangentialVelocity(sad::p2d::Vector(0, 0));
+            body->attachObject(coin_sprites[i]);
+
+            sad::p2d::Rectangle* rect = new sad::p2d::Rectangle();
+            rect->setRect(coin_sprites[i]->area());
+            body->setShape(rect);
+            body->initPosition(platform_sprites[i]->middle());
+
+            m_physics_world->addBodyToGroup("coins", body);
+        }
     }
     m_walls.init(0, m_max_level_x, 600, 0);
     m_walls.addToWorld(m_physics_world);
@@ -2213,7 +2232,7 @@ void Game::initGamePhysics()
             weapons::Bullet* b = static_cast<weapons::Bullet*>(a);
             sad::Sprite2D* local_sprite = b->sprite();
             this->rendererForMainThread()->pipeline()->appendTask([=]() {
-                local_sprite->scene()->removeNode(local_sprite);
+                main_scene->removeNode(local_sprite);
 
                 this->m_physics_world->removeBody(ev.m_object_2);
             });
@@ -2253,6 +2272,25 @@ void Game::initGamePhysics()
     m_physics_world->addHandler("enemies", "player_bullets", collision_between_enemy_and_bullet);
     m_physics_world->addHandler("player", "enemy_bullets", collision_between_player_and_bullet);
     m_physics_world->addHandler("enemies", "player", collision_between_player_and_enemies);
+
+    std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_player_and_coins = [=](const sad::p2d::BasicCollisionEvent & ev) {
+        this->playSound("coin");
+
+        sad::animations::Animation* a = db->objectByName<sad::animations::Animation>("coin_decay");
+        if (a)
+        { 
+            sad::Sprite2D* local_sprite = static_cast<sad::Sprite2D*>(ev.m_object_1->userObject());
+
+            sad::animations::Instance* instance = new sad::animations::Instance();
+            instance->setAnimation(a);
+            instance->setObject(local_sprite);
+            instance->end([=] { local_sprite->scene()->removeNode(local_sprite);  });
+            this->rendererForMainThread()->animations()->add(instance);
+
+            this->rendererForMainThread()->pipeline()->appendTask([=] { this->m_physics_world->removeBody(ev.m_object_1); });
+         }
+    };
+    m_physics_world->addHandler("coins", "player", collision_between_player_and_coins);
 
     m_step_task->setWorld(m_physics_world);
 

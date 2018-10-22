@@ -26,8 +26,8 @@
 #include "game/triggers.h"
 #include "game/actors.h"
 #include "game/walls.h"
+#include "game/unanimatedcoins.h"
 
-#include "weapons/swing.h"
 #include "weapons/bullet.h"
 
 #include "bots/botregistry.h"
@@ -482,4 +482,7 @@ private:
     /*! An animation for hitting the players
      */
     sad::animations::Blinking* m_hit_animation_for_players;
+    /*! Unanimated coins for game
+     */
+    game::UnanimatedCoins m_unanimated_coins;
 };

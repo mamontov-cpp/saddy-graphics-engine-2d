@@ -47,6 +47,9 @@ protected:
     /*! A relates renderer
      */
     sad::Renderer* m_renderer;
+    /*! An animation
+     */
+    sad::animations::Animation* m_animation;
 };
 
 }

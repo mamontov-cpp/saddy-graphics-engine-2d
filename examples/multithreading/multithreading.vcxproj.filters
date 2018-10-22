@@ -147,6 +147,9 @@
     <ClCompile Include="weapons\bullet.cpp">
       <Filter>Файлы исходного кода\weapons</Filter>
     </ClCompile>
+    <ClCompile Include="game\unanimatedcoins.cpp">
+      <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -253,6 +256,9 @@
     </ClInclude>
     <ClInclude Include="weapons\bullet.h">
       <Filter>Заголовочные файлы\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="game\unanimatedcoins.h">
+      <Filter>Заголовочные файлы\game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
