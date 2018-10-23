@@ -11,7 +11,7 @@
 
 // =============================== PUBLIC METHODS ===============================
 
-weapons::Weapon::Weapon()
+weapons::Weapon::Weapon()  // NOLINT(cppcoreguidelines-pro-type-member-init)
 : m_shooting_interval(1000),
 m_amount_of_projectiles(1),
 m_delay(0),
