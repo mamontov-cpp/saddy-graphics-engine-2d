@@ -29,6 +29,7 @@
 #include "game/unanimatedcoins.h"
 
 #include "weapons/bullet.h"
+#include "weapons/bulletsettings.h"
 
 #include "bots/botregistry.h"
 
@@ -298,19 +299,17 @@ public:
      */
     sad::Point2D pointOnActorForBullet(game::Actor* actor, double angle) const;
     /*! Spawns bullet in samge direction
-        \param[in] icon_name a name for sprite of bullet
         \param[in] actor an actor
-        \param[in] speed a speed of bullet
         \param[in] angle an angle of attack
-        \param[in] apply_gravity whether we should apply a gravity to a bullet
-        \param[in] is_player whether bullet belongs to player
+        \param[in] settings settings for bullets
      */
-    weapons::Bullet* spawnBullet(const sad::String& icon_name, game::Actor* actor, double speed, double angle, bool apply_gravity, bool is_player = true) const;
+    weapons::Bullet* spawnBullet(game::Actor* actor, double angle, const weapons::BulletSettings& settings) const;
     /*! Tries to play decaying animation for specific bullet
          \param[in] bullet a bullet
          \param[in] sound a sound to be played, pass empty string if none
+         \param[in] is_enemy_hit whether we hit the enemy
      */
-    void tryDecayBullet(sad::p2d::Body* bullet, const sad::String& sound);
+    void tryDecayBullet(sad::p2d::Body* bullet, const sad::String& sound, bool is_enemy_hit);
     /*! Spawn death animation for actos sprite
         \param[in] sprite a sprite
      */
@@ -464,6 +463,9 @@ private:
     /*! A bounce solver for solving collisions
      */
     sad::p2d::BounceSolver* m_bounce_solver;
+    /*! A bounce solver for bullets
+     */
+    sad::p2d::BounceSolver* m_bounce_solver_for_bullets;
     /*! Whether we should render world bodies
      */
     bool m_is_rendering_world_bodies;

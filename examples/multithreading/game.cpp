@@ -103,7 +103,8 @@ m_hit_animation_for_players(NULL)// NOLINT
     m_bounce_solver->toggleIgnoreContactPoints(true);
     m_bounce_solver->toggleInelasticCollisions(true);
     m_bounce_solver->setInelasticCollisionType(sad::p2d::BounceSolver::ICT_FIRST);
-    m_bounce_solver->enableDebug();
+
+    m_bounce_solver_for_bullets = new sad::p2d::BounceSolver();
 
     m_bot_registry.insert("random_60_500", new bots::RandomBot(50, 600));
 
@@ -129,6 +130,7 @@ Game::~Game()  // NOLINT
     m_hit_animation_for_enemies->delRef();
 
     delete m_bounce_solver;
+    delete m_bounce_solver_for_bullets;
 
     delete m_transition_process;
     delete m_main_thread;
@@ -525,11 +527,30 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
             {
                 angle = atan2(dy, dx);
             }
+            if (angle < 0)
+            {
+                angle += 2 * M_PI;
+            }
         }
         //this->playSound("swing");
         //this->addProjectile(new weapons::Swing(this, this->m_player->actor(), "icons_list/S_Sword01ng", 2, 5000, is_left, true));
         this->playSound("shooting_1");
-        this->spawnBullet("bullets/green/x_huge", this->m_player->actor(), 400, angle, false, true);
+        weapons::BulletSettings settings;
+        settings.IsPiercing = true;
+        settings.ApplyGravity = true;
+        settings.GravityValue.setY(-150);
+        if ((angle < M_PI / 2.0) || (angle > 1.5 * M_PI))
+        {
+            settings.GravityValue.setX(100);
+        }
+        else
+        {
+
+            settings.GravityValue.setX(-100);
+        }
+        settings.MaxBounceCount = 3;
+        settings.BounceResilienceCoefficient = 1.0;
+        this->spawnBullet(this->m_player->actor(), angle, settings);
         //this->addProjectile(new weapons::Laser(this, this->m_player->actor(), "bullets/green/x_huge", angle, 10, 600, 500, true));
     };
     renderer->controls()->addLambda(
@@ -1461,8 +1482,9 @@ sad::Point2D Game::pointOnActorForBullet(game::Actor* actor, double angle)  cons
     return result_middle;
 }
 
-weapons::Bullet* Game::spawnBullet(const sad::String& icon_name, game::Actor* actor, double speed, double angle, bool apply_gravity, bool is_player) const
+weapons::Bullet* Game::spawnBullet(game::Actor* actor, double angle, const weapons::BulletSettings& settings) const
 {
+    bool is_player = m_player->actor() == actor;
     while(angle < 0)
     {
         angle += 2* M_PI;
@@ -1474,7 +1496,7 @@ weapons::Bullet* Game::spawnBullet(const sad::String& icon_name, game::Actor* ac
     }
 
     sad::Renderer* r = this->rendererForMainThread();
-    sad::Sprite2D::Options* opts = r->tree()->get<sad::Sprite2D::Options>(icon_name);
+    sad::Sprite2D::Options* opts = r->tree()->get<sad::Sprite2D::Options>(settings.IconName);
     if (opts)
     {
         sad::db::Database* db = r->database("gamescreen");
@@ -1489,7 +1511,7 @@ weapons::Bullet* Game::spawnBullet(const sad::String& icon_name, game::Actor* ac
         sad::Sprite2D* sprite = new sad::Sprite2D();
         sprite->setScene(main_scene);
         sprite->setTreeName(r, "");
-        sprite->set(icon_name);
+        sprite->set(settings.IconName);
         sprite->setArea(area);
         main_scene->addNode(sprite);
 
@@ -1498,16 +1520,20 @@ weapons::Bullet* Game::spawnBullet(const sad::String& icon_name, game::Actor* ac
 
         weapons::Bullet* bullet = new weapons::Bullet();
         bullet->setSprite(sprite);
+        bullet->setIsGhost(settings.IsGhost);
+        bullet->setBounceCountLeft(settings.MaxBounceCount);
+        bullet->setBounceResilienceCoefficient(settings.BounceResilienceCoefficient);
+        bullet->setIsPiercing(settings.IsPiercing);
 
         sad::p2d::Body* body = new sad::p2d::Body();
-        body->setCurrentAngularVelocity(0);
-        body->setCurrentTangentialVelocity(sad::p2d::Vector(speed * cos(angle), speed * sin(angle)));
+        body->setCurrentAngularVelocity(settings.AngularSpeed);
+        body->setCurrentTangentialVelocity(sad::p2d::Vector(settings.Speed * cos(angle), settings.Speed * sin(angle)));
         body->attachObject(bullet);
         body->setShape(rectangle);
         body->initPosition(sprite->middle());
-        if (apply_gravity)
+        if (settings.ApplyGravity)
         {
-            body->addForce(new sad::p2d::TangentialForce(Game::GravityForceValue));
+            body->addForce(new sad::p2d::TangentialForce(settings.GravityValue));
         }
 
         if (is_player)
@@ -1523,13 +1549,20 @@ weapons::Bullet* Game::spawnBullet(const sad::String& icon_name, game::Actor* ac
     return NULL;
 }
 
-void Game::tryDecayBullet(sad::p2d::Body* bullet, const sad::String& sound)
+void Game::tryDecayBullet(sad::p2d::Body* bullet, const sad::String& sound, bool is_enemy_hit)
 {
     sad::Object* a = bullet->userObject();
     // This conditions only holds only in case of bullets,
     if (a->metaData()->name() == weapons::Bullet::globalMetaData()->name())
     {
         weapons::Bullet* bullet_object = static_cast<weapons::Bullet*>(a);
+        if (is_enemy_hit)
+        {
+            if (bullet_object->isPiercing())
+            {
+                return;
+            }
+        }
         sad::Sprite2D* local_sprite = bullet_object->sprite();
         sad::Scene* scene = local_sprite->scene();
         sad::Point2D middle = local_sprite->middle();
@@ -2241,9 +2274,31 @@ void Game::initGamePhysics()
     m_physics_world->addHandler("walls", "player_bullets", collision_between_walls_and_bullet);
     m_physics_world->addHandler("walls", "enemy_bullets", collision_between_walls_and_bullet);
     std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_platform_and_bullet = [=](const sad::p2d::BasicCollisionEvent & ev) {
-        this->tryDecayBullet(ev.m_object_2, "hit");
+        sad::p2d::Body* maybe_bullet_body = ev.m_object_2;
+        sad::Object* obj = maybe_bullet_body->userObject();
+        if (obj->isInstanceOf("weapons::Bullet"))
+        {
+            weapons::Bullet* bullet = static_cast<weapons::Bullet*>(obj);
+            if (!bullet->isGhost())
+            {
+                if (bullet->bounceCountLeft() <= 0)
+                {
+                    this->tryDecayBullet(ev.m_object_2, "hit", false);
+                }
+                else
+                {
+                    bullet->setBounceCountLeft(bullet->bounceCountLeft() - 1);
+                    this->m_bounce_solver_for_bullets->pushResilienceCoefficient(bullet->bounceResilienceCoefficient(), 1);
+                    this->m_bounce_solver_for_bullets->pushResilienceCoefficient(bullet->bounceResilienceCoefficient(), 2);
+                    sad::p2d::Weight w = ev.m_object_1->weight();
+                    ev.m_object_1->setWeight(sad::p2d::Weight::infinite());
+                    this->m_bounce_solver_for_bullets->bounce(ev.m_object_1, ev.m_object_2);
+                    // Restore weight;
+                    ev.m_object_1->setWeight(w);
+                }
+            }
+        }
     };
-
     m_physics_world->addHandler("platforms", "player_bullets", collision_between_platform_and_bullet);
     m_physics_world->addHandler("platforms", "enemy_bullets", collision_between_platform_and_bullet);
 
@@ -2252,14 +2307,14 @@ void Game::initGamePhysics()
     std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_enemy_and_bullet = [=](const sad::p2d::BasicCollisionEvent & ev) {
         game::Actor* actor = static_cast<game::Actor*>(ev.m_object_1->userObject());
         weapons::Projectile* projectile = static_cast<weapons::Projectile*>(ev.m_object_2->userObject());
-        if (!actor->isInvincible()) this->tryDecayBullet(ev.m_object_2, "hit_enemy");
+        if (!actor->isInvincible()) this->tryDecayBullet(ev.m_object_2, "hit_enemy", true);
         actor->tryDecrementLives(projectile->damage());
     };
 
     std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_player_and_bullet = [=](const sad::p2d::BasicCollisionEvent & ev) {
         weapons::Projectile* projectile = static_cast<weapons::Projectile*>(ev.m_object_2->userObject());
         int dmg = projectile->damage();
-        if (!this->player()->isInvincible()) this->tryDecayBullet(ev.m_object_2, "hurt");
+        if (!this->player()->isInvincible()) this->tryDecayBullet(ev.m_object_2, "hurt", true);
         this->player()->tryDecrementLives(dmg);
     };
 
@@ -2436,6 +2491,7 @@ m_eval_context(NULL),
 m_physics_world(NULL),
 m_step_task(NULL),
 m_bounce_solver(NULL),
+m_bounce_solver_for_bullets(NULL),
 m_is_rendering_world_bodies(false),
 m_max_level_x(0),
 m_hit_animation_for_enemies(NULL),
