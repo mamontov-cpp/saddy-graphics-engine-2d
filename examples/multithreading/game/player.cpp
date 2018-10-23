@@ -247,3 +247,8 @@ void game::Player::toggleIsDead(bool is_dead)
     m_is_dead = is_dead;
 }
 
+bool game::Player::isDead() const
+{
+    return m_is_dead;
+}
+

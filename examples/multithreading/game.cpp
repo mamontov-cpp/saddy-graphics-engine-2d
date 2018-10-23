@@ -638,7 +638,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
                 this->updateProjectiles();
                 this->m_player->testResting();
                 this->m_actors.testResting();
-                this->m_actors.process(this, this->m_eval_context);
+                this->m_actors.process(this);
                 this->m_step_task->enable();
                 this->m_step_task->process();
                 this->tryRenderDebugShapes();
@@ -1648,6 +1648,15 @@ sad::animations::Instance* Game::spawnDeathAnimationForActorsSprite(sad::Sprite2
     this->rendererForMainThread()->animations()->add(instance);
 
     return instance;
+}
+
+bool Game::isDead(game::Actor* actor) const
+{
+    if (m_player->actor() == actor)
+    {
+        return m_player->isDead();
+    }
+    return m_actors.isDead(actor);
 }
 
 void Game::disableGravity(sad::p2d::Body* b)

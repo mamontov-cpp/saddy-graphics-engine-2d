@@ -61,11 +61,16 @@ public:
      *  \param[in] body a body
      */
     void remove(sad::p2d::Body* body);
+    /*! Tests if actor is absent in list
+     *  \param[in] actor an actor
+     *  \return true if dead (defined as absent as list)
+     */
+    bool isDead(game::Actor* actor) const;
     /*! Processes an actors, performing actions
      *  \param[in] game a game
      *  \param[in] ctx context
      */
-    void process(Game* game, sad::dukpp03::Context* ctx);
+    void process(Game* game);
     /*! Tests resting
      */
     void testResting();

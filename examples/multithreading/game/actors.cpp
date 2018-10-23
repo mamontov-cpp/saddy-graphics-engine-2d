@@ -71,7 +71,20 @@ void game::Actors::remove(sad::p2d::Body* body)
     }
 }
 
-void game::Actors::process(Game* game, sad::dukpp03::Context* ctx)
+bool game::Actors::isDead(game::Actor* actor) const
+{
+    for (size_t i = 0; i < m_actors.size(); i++)
+    {
+        game::Actor* local_actor = m_actors[i]->Actor;
+        if (local_actor == actor)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+void game::Actors::process(Game* game)
 {
     for(size_t i = 0 ; i < m_actors.size(); i++)
     {

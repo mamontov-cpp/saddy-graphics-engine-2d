@@ -155,6 +155,10 @@ public:
         \param[in] is_dead new value
      */
     void toggleIsDead(bool is_dead);
+    /*! Returns true, if player is dead
+        \return whether player is dead
+     */
+    bool isDead() const;
 private:
     /*! Player's inventory, that will be carried around
      */

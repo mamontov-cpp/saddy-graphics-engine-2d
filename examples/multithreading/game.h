@@ -314,6 +314,11 @@ public:
         \param[in] sprite a sprite
      */
     sad::animations::Instance* spawnDeathAnimationForActorsSprite(sad::Sprite2D* sprite);
+    /*! Tests if actor is dead
+        \param[in] actor an actor
+        \return
+     */
+    bool isDead(game::Actor* actor) const;
 private:
     /*! Inits evaluation context
      */
