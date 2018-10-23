@@ -59,4 +59,9 @@ public:
     }
 };
 
+/*! Exposes bullet settings to context
+    \param[in] c context
+ */
+void exposeBulletSettings(void* c);
+
 }

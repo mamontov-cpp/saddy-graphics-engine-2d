@@ -6,6 +6,7 @@
 #include <sprite2d.h>
 #include <timer.h>
 #include "projectile.h"
+#include "swingsettings.h"
 
 class Game;
 
@@ -32,13 +33,9 @@ SAD_OBJECT
     /*! Constructs a swing
         \param[in] game game
         \param[in] actor an actor
-        \param[in] icon an icon
-        \param[in] scale_factor a factor of scale, for icon
-        \param[in] time a time for a swing
-        \param[in] left whether we should move left or right
-        \param[in] is_player whether swing is from player's weapon
+        \param[in] settings a setting for swing
      */
-    Swing(Game* game, game::Actor* actor, const sad::String& icon, double scale_factor, double time, bool left, bool is_player = true);
+    Swing(Game* game, game::Actor* actor,const weapons::SwingSettings& settings);
     /*! Destroys swing object
      */
     virtual ~Swing();

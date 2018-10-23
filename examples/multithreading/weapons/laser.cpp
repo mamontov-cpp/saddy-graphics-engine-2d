@@ -7,15 +7,20 @@
 #include <scene.h>
 
 #include "../game.h"
+#include "../game/player.h"
+
 
 DECLARE_SOBJ_INHERITANCE(weapons::Laser, weapons::Projectile)
 
-weapons::Laser::Laser(Game* game, game::Actor* actor, const sad::String& icon, double angle, double width, double height, double time, bool is_player)
-: m_game(game), m_sprite(NULL), m_body(NULL), m_max_time(time)
+weapons::Laser::Laser(Game* game, game::Actor* actor, double angle, const weapons::LaserSettings& settings)
+: m_game(game), m_sprite(NULL), m_body(NULL), m_max_time(settings.Time)
 {
+    bool is_player =  game->player()->actor() == actor;
     sad::Point2D point = game->pointOnActorForBullet(actor, angle);
     sad::Renderer* r = game->rendererForMainThread();
-    sad::Sprite2D::Options* opts = r->tree()->get<sad::Sprite2D::Options>(icon);
+    sad::Sprite2D::Options* opts = r->tree()->get<sad::Sprite2D::Options>(settings.IconName);
+    double width = settings.Width;
+    double height = settings.Height;
     if (opts)
     {
         sad::db::Database* db = r->database("gamescreen");

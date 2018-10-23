@@ -16,16 +16,17 @@ const double weapons::Swing::RightAngleStart = 180;
 const double weapons::Swing::RightAngleEnd = 79;
 
 
-weapons::Swing::Swing(Game* game, game::Actor* actor, const sad::String& icon, double scale_factor, double time, bool left, bool is_player)
-: m_left(left),
-m_swing_sprite(NULL),
+weapons::Swing::Swing(Game* game, game::Actor* actor, const weapons::SwingSettings& settings)
+: m_swing_sprite(NULL),
 m_body(NULL),
 m_attached_actor(actor),
 m_game(game),  
-m_max_time(time)
+m_max_time(settings.DecayTime)
 {
+    m_left = actor->isLastMovedLeft();
+    bool is_player = game->player()->actor() == actor;
     sad::Renderer* r  = game->rendererForMainThread();
-    sad::Sprite2D::Options* opts =  r->tree()->get<sad::Sprite2D::Options>(icon);
+    sad::Sprite2D::Options* opts =  r->tree()->get<sad::Sprite2D::Options>(settings.IconName);
     if (opts)
     {
         sad::db::Database* db = r->database("gamescreen");
@@ -37,8 +38,8 @@ m_max_time(time)
         sprite->set(*opts);
 
         sad::Rect2D area = actor->sprite()->area();
-        m_local_width = opts->Rectangle.width() * scale_factor;
-        m_local_height = opts->Rectangle.height() * scale_factor;
+        m_local_width = opts->Rectangle.width() * settings.ScaleFactor;
+        m_local_height = opts->Rectangle.height() * settings.ScaleFactor;
         if (!m_left)
         {
             sad::Rect2D rect(area[2].x(), area[2].y(), area[2].x() + m_local_width, area[2].y() + m_local_height);

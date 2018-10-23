@@ -44,6 +44,7 @@
 #include <p2d/infiniteline.h>
 
 #include "weapons/laser.h"
+#include "weapons/swing.h"
 
 
 // A precision error for designer's editor when designing level
@@ -532,8 +533,8 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
                 angle += 2 * M_PI;
             }
         }
-        //this->playSound("swing");
-        //this->addProjectile(new weapons::Swing(this, this->m_player->actor(), "icons_list/S_Sword01ng", 2, 5000, is_left, true));
+        this->playSound("swing");
+        this->addProjectile(new weapons::Swing(this, this->m_player->actor(), weapons::SwingSettings()));
         this->playSound("shooting_1");
         weapons::BulletSettings settings;
         settings.IsPiercing = true;
@@ -551,7 +552,8 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
         settings.MaxBounceCount = 3;
         settings.BounceResilienceCoefficient = 1.0;
         this->spawnBullet(this->m_player->actor(), angle, settings);
-        //this->addProjectile(new weapons::Laser(this, this->m_player->actor(), "bullets/green/x_huge", angle, 10, 600, 500, true));
+
+        this->addProjectile(new weapons::Laser(this, this->m_player->actor(), angle, weapons::LaserSettings()));
     };
     renderer->controls()->addLambda(
         *sad::input::ET_MousePress
@@ -1842,6 +1844,10 @@ void Game::initContext()
     m_eval_context->registerCallable("triggerWinGame", sad::dukpp03::make_lambda::from(trigger_win_game));
 
     game::exposeActorOptions(m_eval_context);
+    weapons::exposeSwingSettings(m_eval_context);
+    weapons::exposeBulletSettings(m_eval_context);
+    weapons::exposeLaserSettings(m_eval_context);
+
 
     std::function<bool(const sad::String&, const game::ActorOptions&)> add_actor_options = [=](const sad::String& name, const game::ActorOptions& opts) {
         if (m_actor_options.contains(name)) {

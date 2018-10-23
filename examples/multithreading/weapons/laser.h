@@ -6,6 +6,7 @@
 #include <sprite2d.h>
 #include <timer.h>
 #include "projectile.h"
+#include "lasersettings.h"
 
 class Game;
 
@@ -20,14 +21,10 @@ SAD_OBJECT
     /*! Constructs a laser
         \param[in] game game
         \param[in] actor an actor
-        \param[in] icon an icon
         \param[in] angle an angle
-        \param[in] width a width of beam
-        \param[in] height a height of beam
-        \param[in] time a time for a laser
-        \param[in] is_player whether swing is from player's weapon
+        \param[in] settings a settings for laser
      */
-    Laser(Game* game, game::Actor* actor, const sad::String& icon, double angle, double width, double height, double time, bool is_player = true);
+    Laser(Game* game, game::Actor* actor, double angle, const weapons::LaserSettings& settings);
     /*! Destroys swing object
      */
     virtual ~Laser();
