@@ -34,6 +34,7 @@
 #include "bots/botregistry.h"
 
 #include "scenetransitionprocess.h"
+#include "delayedtasks.h"
 #include "optionsscreen.h"
 
 namespace sad
@@ -319,6 +320,11 @@ public:
         \return
      */
     bool isDead(game::Actor* actor) const;
+    /*! Adds delayed task, which can be paused
+        \param[in] time a time
+        \param[in] fn a function
+     */
+    void addDelayedTask(double time, const std::function<void()>& fn);
 private:
     /*! Inits evaluation context
      */
@@ -492,4 +498,7 @@ private:
     /*! Unanimated coins for game
      */
     game::UnanimatedCoins m_unanimated_coins;
+    /*! A list of delayed tasks
+     */
+    DelayedTasks m_delayed_tasks;
 };

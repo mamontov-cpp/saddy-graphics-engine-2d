@@ -644,6 +644,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
                 this->tryRenderDebugShapes();
                 this->m_triggers.tryRun(this->m_player, this->m_eval_context);
                 this->m_unanimated_coins.animateNearestCoins(this->m_player->middle());
+                this->m_delayed_tasks.tryExecute();
 
                 this->m_task_lock.release();
             }
@@ -1657,6 +1658,11 @@ bool Game::isDead(game::Actor* actor) const
         return m_player->isDead();
     }
     return m_actors.isDead(actor);
+}
+
+void Game::addDelayedTask(double time, const std::function<void()>& fn)
+{
+    m_delayed_tasks.add(DelayedTask(time, fn));
 }
 
 void Game::disableGravity(sad::p2d::Body* b)
