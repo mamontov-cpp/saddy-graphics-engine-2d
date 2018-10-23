@@ -10,6 +10,11 @@
 
 class Game;
 
+namespace game
+{
+class Actor;
+}
+
 namespace weapons
 {
 
@@ -42,6 +47,12 @@ private:
     /*! A game
      */
     Game* m_game;
+    /*! A local actor
+     */
+    game::Actor* m_actor;
+    /*! A last actor middle point
+     */
+    sad::Point2D m_last_actor_middle;
     /*! A sing sprite
      */
     sad::Sprite2D* m_sprite;

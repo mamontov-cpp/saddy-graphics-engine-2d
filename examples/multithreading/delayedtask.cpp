@@ -30,6 +30,8 @@ bool DelayedTask::tryExecute()
 void DelayedTask::pause()
 {
     m_is_paused = true;
+    m_timer.stop();
+    m_elapsed_time += m_timer.elapsed();
     m_paused_timer.start();
 }
 

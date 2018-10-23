@@ -266,6 +266,11 @@ public:
          \param[in] animation
      */
     void setHurtAnimation(sad::animations::Animation* animation);
+    /*! Modifies damage from weapon, allowing to increase it or decrease
+     * \param[in] base_dmg base damage
+     * \return value
+     */
+    int modifyDamage(int base_dmg);
 private:
     /*! Compute whether floater should go up or down
         \param[out] is_going_up whether we should go up

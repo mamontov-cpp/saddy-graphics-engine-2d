@@ -107,6 +107,11 @@ void weapons::Swing::update()
 {
     if (m_swing_sprite)
     {
+        if (m_game->isDead(m_attached_actor))
+        {
+            m_game->killProjectile(this);
+            return;
+        }
         m_timer.stop();
         double elapsed = m_timer.elapsed();
         if (elapsed > m_max_time)

@@ -1073,6 +1073,11 @@ void game::Actor::setHurtAnimation(sad::animations::Animation* animation)
     m_hurt_animation = animation;
 }
 
+int game::Actor::modifyDamage(int base_dmg)
+{
+    return base_dmg;
+}
+
 
 // ===================================== PRIVATE METHODS =====================================
 
