@@ -34,7 +34,8 @@ m_options(NULL),
 m_is_last_moved_left(false),
 m_is_invincible(false),
 m_lives(1),
-m_hurt_animation(NULL)
+m_hurt_animation(NULL),
+m_lookup_angle(0)
 {
     m_key_states.reset();
     m_on_death_action = [](game::Actor*) {};
@@ -1073,11 +1074,22 @@ void game::Actor::setHurtAnimation(sad::animations::Animation* animation)
     m_hurt_animation = animation;
 }
 
+// ReSharper disable once CppMemberFunctionMayBeStatic
+// ReSharper disable once CppMemberFunctionMayBeConst
 int game::Actor::modifyDamage(int base_dmg)
 {
     return base_dmg;
 }
 
+double game::Actor::lookupAngle() const
+{
+    return m_lookup_angle;
+}
+
+void game::Actor::setLookupAngle(double angle)
+{
+    m_lookup_angle = angle;
+}
 
 // ===================================== PRIVATE METHODS =====================================
 

@@ -271,6 +271,13 @@ public:
      * \return value
      */
     int modifyDamage(int base_dmg);
+    /*! Returns lookup angle for actor
+     */
+    double lookupAngle() const;
+    /*! Sets lookup angle
+     *  \param[in] angle an angle
+     */
+    void setLookupAngle(double angle);
 private:
     /*! Compute whether floater should go up or down
         \param[out] is_going_up whether we should go up
@@ -394,6 +401,9 @@ private:
     /*! An animation, which is called, when actor is hurt
      */
     sad::animations::Animation* m_hurt_animation;
+    /*! A lookup angle for actor
+     */
+    double m_lookup_angle;
 };
 
 }

@@ -150,6 +150,24 @@
     <ClCompile Include="game\unanimatedcoins.cpp">
       <Filter>Файлы исходного кода\game</Filter>
     </ClCompile>
+    <ClCompile Include="delayedtasks.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="delayedtask.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="weapons\swingsettings.cpp">
+      <Filter>Файлы исходного кода\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="weapons\weapon.cpp">
+      <Filter>Файлы исходного кода\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="weapons\bulletsettings.cpp">
+      <Filter>Файлы исходного кода\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="weapons\lasersettings.cpp">
+      <Filter>Файлы исходного кода\weapons</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -259,6 +277,24 @@
     </ClInclude>
     <ClInclude Include="game\unanimatedcoins.h">
       <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="delayedtasks.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="delayedtask.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="weapons\weapon.h">
+      <Filter>Заголовочные файлы\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="weapons\bulletsettings.h">
+      <Filter>Заголовочные файлы\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="weapons\lasersettings.h">
+      <Filter>Заголовочные файлы\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="weapons\swingsettings.h">
+      <Filter>Заголовочные файлы\weapons</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

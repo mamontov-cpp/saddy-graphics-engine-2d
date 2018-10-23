@@ -205,6 +205,8 @@
     <ClCompile Include="bots\nullbot.cpp" />
     <ClCompile Include="bots\platformpatrolbot.cpp" />
     <ClCompile Include="bots\randombot.cpp" />
+    <ClCompile Include="delayedtask.cpp" />
+    <ClCompile Include="delayedtasks.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="game\actor.cpp" />
     <ClCompile Include="game\actoroptions.cpp" />
@@ -228,9 +230,13 @@
     <ClCompile Include="threads\gamethread.cpp" />
     <ClCompile Include="threads\tasklock.cpp" />
     <ClCompile Include="weapons\bullet.cpp" />
+    <ClCompile Include="weapons\bulletsettings.cpp" />
     <ClCompile Include="weapons\laser.cpp" />
+    <ClCompile Include="weapons\lasersettings.cpp" />
     <ClCompile Include="weapons\projectile.cpp" />
     <ClCompile Include="weapons\swing.cpp" />
+    <ClCompile Include="weapons\swingsettings.cpp" />
+    <ClCompile Include="weapons\weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bots\abstractbot.h" />
@@ -242,6 +248,8 @@
     <ClInclude Include="bots\nullbot.h" />
     <ClInclude Include="bots\platformpatrolbot.h" />
     <ClInclude Include="bots\randombot.h" />
+    <ClInclude Include="delayedtask.h" />
+    <ClInclude Include="delayedtasks.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="game\actor.h" />
     <ClInclude Include="game\actoroptions.h" />
@@ -266,9 +274,13 @@
     <ClInclude Include="threads\gamethread.h" />
     <ClInclude Include="threads\tasklock.h" />
     <ClInclude Include="weapons\bullet.h" />
+    <ClInclude Include="weapons\bulletsettings.h" />
     <ClInclude Include="weapons\laser.h" />
+    <ClInclude Include="weapons\lasersettings.h" />
     <ClInclude Include="weapons\projectile.h" />
     <ClInclude Include="weapons\swing.h" />
+    <ClInclude Include="weapons\swingsettings.h" />
+    <ClInclude Include="weapons\weapon.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

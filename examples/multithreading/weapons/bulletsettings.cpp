@@ -56,5 +56,10 @@ void weapons::exposeBulletSettings(void* c)
          sad::dukpp03::getter::from(&weapons::BulletSettings::IsPiercing),
          sad::dukpp03::setter::from(&weapons::BulletSettings::IsPiercing)
     );
+    binding->addAccessor(
+        "IsNavigatingGravityToDirection",
+        sad::dukpp03::getter::from(&weapons::BulletSettings::IsNavigatingGravityToDirection),
+        sad::dukpp03::setter::from(&weapons::BulletSettings::IsNavigatingGravityToDirection)
+    );
     ctx->addClassBinding("weapons::BulletSettings", binding);
 }

@@ -42,6 +42,9 @@ public:
     /*! If set to true bullet won't decay, when enemy is hit
      */
     bool IsPiercing;
+    /*! Is navigating gravity to direction of bullet angle
+     */
+    bool IsNavigatingGravityToDirection;
 
     /*! Default bullet settings
      */
@@ -53,7 +56,8 @@ public:
     IsGhost(false),
     MaxBounceCount(0),
     BounceResilienceCoefficient(1.0),
-    IsPiercing(false)
+    IsPiercing(false),
+    IsNavigatingGravityToDirection(false)
     {
 
     }

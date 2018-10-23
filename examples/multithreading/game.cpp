@@ -514,24 +514,28 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
         &game::Player::tryStopGoingDown
     );
 
-    std::function<void()> perform_action = [this] {
+    std::function<void(const sad::Point2D& p)> set_lookup_angle = [this](const sad::Point2D& pnt) {
+        double angle = 0;
+        sad::Point2D middle = this->m_player->middle();
+        double dy = pnt.y() - middle.y();
+        double dx = pnt.x() - middle.x();
+        if (!sad::is_fuzzy_zero(dx))
+        {
+            angle = atan2(dy, dx);
+        }
+        this->m_player->actor()->setLookupAngle(angle);
+    };
+
+    std::function<void(const sad::input::MouseMoveEvent&)> mouse_move_event = [=](const sad::input::MouseMoveEvent& ev) {
+        set_lookup_angle(ev.pos2D());
+    };
+
+    std::function<void()> perform_action = [this, set_lookup_angle]() {
         // this->m_player->setFloaterState(!(this->m_player->isFloater()));
         sad::MaybePoint3D pnt = this->rendererForMainThread()->cursorPosition();
-        //bool is_left = this->m_player->isLastMovedLeft();
-        double angle = 0;
         if (pnt.exists())
         {
-            sad::Point2D middle = this->m_player->middle();
-            double dy = pnt.value().y() - middle.y();
-            double dx = pnt.value().x() - middle.x();
-            if (!sad::is_fuzzy_zero(dx))
-            {
-                angle = atan2(dy, dx);
-            }
-            if (angle < 0)
-            {
-                angle += 2 * M_PI;
-            }
+           set_lookup_angle(pnt.value());
         }
         this->playSound("swing");
         this->addProjectile(new weapons::Swing(this, this->m_player->actor(), weapons::SwingSettings()));
@@ -540,21 +544,21 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
         settings.IsPiercing = true;
         settings.ApplyGravity = true;
         settings.GravityValue.setY(-150);
-        if ((angle < M_PI / 2.0) || (angle > 1.5 * M_PI))
-        {
-            settings.GravityValue.setX(100);
-        }
-        else
-        {
-
-            settings.GravityValue.setX(-100);
-        }
+        settings.GravityValue.setX(50);
         settings.MaxBounceCount = 3;
         settings.BounceResilienceCoefficient = 1.0;
+        double angle = this->m_player->actor()->lookupAngle();
         this->spawnBullet(this->m_player->actor(), angle, settings);
 
         this->addProjectile(new weapons::Laser(this, this->m_player->actor(), angle, weapons::LaserSettings()));
     };
+
+    renderer->controls()->addLambda(
+        *sad::input::ET_MouseMove
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        mouse_move_event
+    );
     renderer->controls()->addLambda(
         *sad::input::ET_MousePress
         & sad::MouseLeft
@@ -588,14 +592,14 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
         & sad::Backspace
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
-        [this] { this->changeSceneToStartingScreen();  }
+        [this]() { this->changeSceneToStartingScreen();  }
     );
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
         & sad::End
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
-        [this] {
+        [this]() {
         sad::Vector<sad::p2d::Body*> bodies = this->m_physics_world->allBodiesInGroup("enemies");
         for(size_t i = 0; i < bodies.size(); i++)
         {
@@ -1540,7 +1544,12 @@ weapons::Bullet* Game::spawnBullet(game::Actor* actor, double angle, const weapo
         body->initPosition(sprite->middle());
         if (settings.ApplyGravity)
         {
-            body->addForce(new sad::p2d::TangentialForce(settings.GravityValue));
+            sad::Point2D gravity = settings.GravityValue;
+            if (!((angle < M_PI / 2.0) || (angle > 1.5 * M_PI)))
+            {
+                gravity.setX(-(gravity.x)());
+            }
+            body->addForce(new sad::p2d::TangentialForce(gravity));
         }
 
         if (is_player)

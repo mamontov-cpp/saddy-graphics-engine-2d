@@ -50,9 +50,6 @@ private:
     /*! A local actor
      */
     game::Actor* m_actor;
-    /*! A last actor middle point
-     */
-    sad::Point2D m_last_actor_middle;
     /*! A sing sprite
      */
     sad::Sprite2D* m_sprite;
@@ -65,6 +62,15 @@ private:
     /*! A maximal time for swing
      */
     double m_max_time;
+    /*! A delta angle for placing laser
+     */
+    double m_dangle;
+    /*! A width for laser
+     */
+    double m_width;
+    /*! A height for laser
+     */
+    double m_height;
 };
 
 }
