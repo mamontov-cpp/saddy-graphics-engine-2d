@@ -965,6 +965,7 @@ void Game::changeSceneToStartingScreen()
     m_footsteps.stop();
     m_triggers.clear();
     m_actors.clear();
+    m_delayed_tasks.clear();
     this->clearProjectiles();
 
     m_is_rendering_world_bodies = false;
@@ -1006,6 +1007,7 @@ void Game::changeSceneToLoseScreen()
     m_footsteps.stop();
     m_triggers.clear();
     m_actors.clear();
+    m_delayed_tasks.clear();
     this->clearProjectiles();
 
     m_is_rendering_world_bodies = false;
@@ -1045,6 +1047,7 @@ void Game::changeSceneToWinScreen()
     m_footsteps.stop();
     m_triggers.clear();
     m_actors.clear();
+    m_delayed_tasks.clear();
     this->clearProjectiles();
 
     m_is_rendering_world_bodies = false;
@@ -1093,6 +1096,7 @@ void Game::changeSceneToPlayingScreen()
     m_actors.clear();
     m_triggers.clear();
     m_moving_platform_registry.clear();
+    m_delayed_tasks.clear();
     this->clearProjectiles();
 
     SceneTransitionOptions options;
