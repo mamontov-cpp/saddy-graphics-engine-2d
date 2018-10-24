@@ -1,10 +1,14 @@
 #include "actor.h"
 #include "../game.h"
 
+#include "../weapons/weapon.h"
+
 #include <cstdio>
 
 #include <p2d/world.h>
 #include <p2d/collides1d.h>
+
+#include <dukpp-03/context.h>
 
 #include <object.h>
 
@@ -35,7 +39,8 @@ m_is_last_moved_left(false),
 m_is_invincible(false),
 m_lives(1),
 m_hurt_animation(NULL),
-m_lookup_angle(0)
+m_lookup_angle(0),
+m_weapon(NULL)
 {
     m_key_states.reset();
     m_on_death_action = [](game::Actor*) {};
@@ -46,6 +51,11 @@ game::Actor::~Actor()
     if (m_options)
     {
         m_options->delRef();
+    }
+
+    if (m_weapon)
+    {
+        m_weapon->delRef();
     }
 
     if (m_walking_instance)
@@ -1091,6 +1101,37 @@ void game::Actor::setLookupAngle(double angle)
     m_lookup_angle = angle;
 }
 
+void game::Actor::setWeapon(weapons::Weapon* w)
+{
+    if (m_weapon)
+    {
+        m_weapon->delRef();
+    }
+    m_weapon = w;
+    if (m_weapon)
+    {
+        m_weapon->addRef();
+    }
+}
+
+void game::Actor::removeWeapon()
+{
+    setWeapon(NULL);
+}
+
+weapons::Weapon* game::Actor::weapon() const
+{
+    return m_weapon;
+}
+
+void game::Actor::tryShoot()
+{
+    if (m_weapon)
+    {
+        m_weapon->tryShoot(this->game(), this);
+    }
+}
+
 // ===================================== PRIVATE METHODS =====================================
 
 void game::Actor::computeIsGoingUpDownFlags(bool& is_going_up, bool& is_going_down)
@@ -1354,4 +1395,41 @@ void game::Actor::correctShape() const
     sad::Rect2D corrected_rect(start_point, start_point + width_height);
     this->m_sprite->setArea(corrected_rect);
     shape->setRect(corrected_rect);
+}
+
+void game::exposeActor(void* c)
+{
+    sad::dukpp03::Context* ctx = reinterpret_cast<sad::dukpp03::Context*>(c);
+
+    sad::dukpp03::ClassBinding* actor_binding = new sad::dukpp03::ClassBinding();
+
+    actor_binding->addMethod("isResting", sad::dukpp03::bind_method::from(&game::Actor::isResting));
+    actor_binding->addMethod("area", sad::dukpp03::bind_method::from(&game::Actor::area));
+    actor_binding->addMethod("middle", sad::dukpp03::bind_method::from(&game::Actor::middle));
+
+    actor_binding->addMethod("lives", sad::dukpp03::bind_method::from(&game::Actor::lives));
+    actor_binding->addMethod("setLives", sad::dukpp03::bind_method::from(&game::Actor::setLives));
+    actor_binding->addMethod("incrementLives", sad::dukpp03::bind_method::from(&game::Actor::incrementLives));
+    actor_binding->addMethod("decrementLives", sad::dukpp03::bind_method::from(&game::Actor::decrementLives));
+    actor_binding->addMethod("toggleInvincibility", sad::dukpp03::bind_method::from(&game::Actor::toggleInvincibility));
+    actor_binding->addMethod("isInvincible", sad::dukpp03::bind_method::from(&game::Actor::isInvincible));
+
+    actor_binding->addMethod("isFloater", sad::dukpp03::bind_method::from(&game::Actor::isFloater));
+    actor_binding->addMethod("setFloaterState", sad::dukpp03::bind_method::from(&game::Actor::setFloaterState));
+
+    actor_binding->addMethod("setVelocity", sad::dukpp03::bind_method::from(&game::Actor::setVelocity));
+
+    actor_binding->addMethod("tryStartGoingUp", sad::dukpp03::bind_method::from(&game::Actor::tryStartGoingUp));
+    actor_binding->addMethod("tryStartGoingDown", sad::dukpp03::bind_method::from(&game::Actor::tryStartGoingDown));
+    actor_binding->addMethod("tryStartGoingLeft", sad::dukpp03::bind_method::from(&game::Actor::tryStartGoingLeft));
+    actor_binding->addMethod("tryStartGoingRight", sad::dukpp03::bind_method::from(&game::Actor::tryStartGoingRight));
+
+    actor_binding->addMethod("tryStopGoingUp", sad::dukpp03::bind_method::from(&game::Actor::tryStopGoingUp));
+    actor_binding->addMethod("tryStopGoingDown", sad::dukpp03::bind_method::from(&game::Actor::tryStopGoingDown));
+    actor_binding->addMethod("tryStopGoingLeft", sad::dukpp03::bind_method::from(&game::Actor::tryStopGoingLeft));
+    actor_binding->addMethod("tryStopGoingRight", sad::dukpp03::bind_method::from(&game::Actor::tryStopGoingRight));
+    actor_binding->addMethod("lookupAngle", sad::dukpp03::bind_method::from(&game::Actor::lookupAngle));
+    actor_binding->addMethod("setLookupAngle", sad::dukpp03::bind_method::from(&game::Actor::setLookupAngle));
+
+    ctx->addClassBinding("game::Actor", actor_binding);
 }

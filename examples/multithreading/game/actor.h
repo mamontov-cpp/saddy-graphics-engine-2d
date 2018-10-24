@@ -16,6 +16,14 @@
 
 class Game;
 
+namespace weapons
+{
+
+class Weapon;
+
+}
+
+
 namespace game
 {
 // A last key bitset offset
@@ -278,6 +286,20 @@ public:
      *  \param[in] angle an angle
      */
     void setLookupAngle(double angle);
+    /*! Sets weaponry for actor
+     *  \param[in] w weapon
+     */
+    void setWeapon(weapons::Weapon* w);
+    /*! Removes weaponry from actor
+     */
+    void removeWeapon();
+    /*! Returns weaponry for actor
+     *  \return weapon
+     */
+    weapons::Weapon* weapon() const;
+    /*! Tries to shoot for actor
+     */
+    void tryShoot();
 private:
     /*! Compute whether floater should go up or down
         \param[out] is_going_up whether we should go up
@@ -404,7 +426,15 @@ private:
     /*! A lookup angle for actor
      */
     double m_lookup_angle;
+    /*! A weapon for actor;
+     */
+    weapons::Weapon* m_weapon;
 };
+
+/*! Exposes actor to context
+    \param[in] c context
+ */
+void exposeActor(void* c);
 
 }
 

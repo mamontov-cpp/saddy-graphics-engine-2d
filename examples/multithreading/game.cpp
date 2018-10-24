@@ -6,13 +6,6 @@
 #include "nodes/inventorynode.h"
 #include "nodes/inventorypopup.h"
 
-#include "bots/jsbot.h"
-#include "bots/randombot.h"
-#include "bots/divingfloaterbot.h"
-#include "bots/followplayerfloater.h"
-#include "bots/directionbot.h"
-#include "bots/platformpatrolbot.h"
-
 #include <input/controls.h>
 
 #include <pipeline/pipeline.h>
@@ -45,6 +38,10 @@
 
 #include "weapons/laser.h"
 #include "weapons/swing.h"
+
+#include "bots/randombot.h"
+
+#include "scripting/exposespawnenemy.h"
 
 
 // A precision error for designer's editor when designing level
@@ -935,28 +932,30 @@ void Game::enterPausedState()
 void Game::triggerWinGame()
 {
     // TODO: Copy score to highscore
+    // We append task here to avoid dangers of dying inside physics loop
+    this->rendererForMainThread()->pipeline()->appendTask([=] {
+        this->m_player->toggleIsDead(true);
+        sad::Sprite2D* local_sprite = this->m_player->actor()->sprite();
+        this->playSound("win");
+        this->m_physics_world->removeBody(this->m_player->actor()->body());
+        this->rendererForMainThread()->animations()->stopProcessesRelatedToObject(local_sprite);
 
-    this->m_player->toggleIsDead(true);
-    sad::Sprite2D* local_sprite = this->m_player->actor()->sprite();
-    this->playSound("win");
-    this->m_physics_world->removeBody(this->m_player->actor()->body());
-    this->rendererForMainThread()->animations()->stopProcessesRelatedToObject(local_sprite);
+        sad::Point2D middle = local_sprite->middle();
 
-    sad::Point2D middle = local_sprite->middle();
-
-    sad::animations::SimpleMovement* movement = new sad::animations::SimpleMovement();
-    movement->setStartingPoint(middle);
-    movement->setEndingPoint(sad::Point2D(middle.x() + this->rendererForMainThread()->settings().width(), middle.y()));
-    movement->setTime(800);
-    movement->setLooped(false);
+        sad::animations::SimpleMovement* movement = new sad::animations::SimpleMovement();
+        movement->setStartingPoint(middle);
+        movement->setEndingPoint(sad::Point2D(middle.x() + this->rendererForMainThread()->settings().width(), middle.y()));
+        movement->setTime(800);
+        movement->setLooped(false);
 
 
-    sad::animations::Instance* instance = new sad::animations::Instance();
-    instance->setObject(local_sprite);
-    instance->setAnimation(movement);
-    instance->end([=] { local_sprite->scene()->removeNode(local_sprite); this->changeSceneToWinScreen(); });
+        sad::animations::Instance* instance = new sad::animations::Instance();
+        instance->setObject(local_sprite);
+        instance->setAnimation(movement);
+        instance->end([=] { local_sprite->scene()->removeNode(local_sprite); this->changeSceneToWinScreen(); });
 
-    this->rendererForMainThread()->animations()->add(instance);
+        this->rendererForMainThread()->animations()->add(instance);
+    });
 }
 
 void Game::changeScene(const SceneTransitionOptions& opts) const
@@ -1678,6 +1677,91 @@ void Game::addDelayedTask(double time, const std::function<void()>& fn)
     m_delayed_tasks.add(DelayedTask(time, fn));
 }
 
+game::Actor* Game::makeEnemy(const sad::String& optname, const sad::Point2D& middle)
+{
+    if (m_actor_options.contains(optname))
+    {
+        game::ActorOptions* options = m_actor_options[optname];
+
+        sad::Scene* scene = this->rendererForMainThread()->database("gamescreen")->objectByName<sad::Scene>("main");
+        if (scene)
+        {
+            sad::Sprite2D* sprite = new sad::Sprite2D();
+            sprite->setScene(scene);
+            sprite->setTreeName(this->rendererForMainThread(), "");
+            sprite->set(options->JumpingSprite);
+            sprite->moveTo(middle);
+            scene->add(sprite);
+
+            game::Actor* actor = new game::Actor();
+            actor->setLives(Game::BasicEnemyLivesCount);
+            actor->setGame(this);
+            actor->setSprite(sprite);
+            actor->setOptions(options);
+
+            sad::p2d::Body* body = new sad::p2d::Body();
+            body->setCurrentAngularVelocity(0);
+            body->setCurrentTangentialVelocity(sad::p2d::Vector(0, 0));
+            sad::p2d::Rectangle* rect = new sad::p2d::Rectangle();
+            rect->setRect(sprite->area());
+            body->setShape(rect);
+
+            body->attachObject(actor);
+            body->initPosition(sprite->middle());
+
+            this->m_physics_world->addBodyToGroup("enemies", body);
+            actor->setBody(body);
+            actor->enableGravity();
+            actor->init(true);
+            actor->setHurtAnimation(m_hit_animation_for_enemies);
+            actor->onDeath([=](game::Actor* me) {
+                sad::Sprite2D* local_sprite = me->sprite();
+                this->killActorWithoutSprite(me);
+                this->spawnDeathAnimationForActorsSprite(local_sprite);
+            });
+
+            return actor;
+        }
+    }
+    return NULL;
+}
+
+bots::AbstractBot* Game::getFromRegistry(const sad::String& bot_name)
+{
+    return m_bot_registry.get(bot_name);
+}
+
+bool Game::hasBotInRegistry(const sad::String& bot_name) const
+{
+    return m_bot_registry.contains(bot_name);
+}
+
+void Game::addActor(game::Actor* actor, bots::AbstractBot* bot)
+{
+    m_actors.add(actor, bot);
+}
+
+void Game::addToMainRenderer(sad::animations::Process* p)
+{
+    this->rendererForMainThread()->animations()->add(p);
+}
+
+game::ActorOptions* Game::getActorOptions(const sad::String& name)
+{
+    return (m_actor_options.contains(name)) ? m_actor_options[name] : NULL;
+}
+
+bool Game::addActorOptions(const sad::String& name, const game::ActorOptions& opts)
+{
+    if (m_actor_options.contains(name)) {
+        return false;
+    }
+    game::ActorOptions* nopts = new game::ActorOptions(opts);
+    nopts->addRef();
+    m_actor_options.insert(name, nopts);
+    return true;
+}
+
 void Game::disableGravity(sad::p2d::Body* b)
 {
     Game::setGravityForBody(b, sad::p2d::Vector(0.0, 0.0));
@@ -1702,32 +1786,6 @@ void Game::setGravityForBody(sad::p2d::Body* b, const sad::p2d::Vector& v)
 
 // ==================================== PRIVATE METHODS ====================================
 
-// Player cannot be copied so, disable it here to ensure context proper initialization
-namespace sad
-{
-
-namespace dukpp03
-{
-
-
-template<>
-struct GetAddressOfType<game::Player*, false, false>
-{
-public:
-    /*! Returns address of type, stored in variant.
-        \return empty maybe
-     */
-    static ::dukpp03::Maybe<game::Player*> getAddress(sad::db::Variant*)
-    {
-        return {};
-    }
-};
-
-}
-
-}
-
-
 void Game::initContext()
 {
     // Initialize context
@@ -1737,7 +1795,6 @@ void Game::initContext()
     m_eval_context->registerGlobal("game", this);
     m_eval_context->registerGlobal("state_machine", &m_state_machine);
     m_eval_context->registerGlobal("paused_state_machine", &m_paused_state_machine);
-
 
     // Bind callables
     std::function<void(const sad::String&, const sad::String&)> make_platform_go_on_way = [=](const sad::String& platform, const sad::String& way) {
@@ -1753,201 +1810,23 @@ void Game::initContext()
         printf("%s\n", message.c_str());
         SL_LOCAL_DEBUG(message, *(m_main_thread->renderer()));
     };
+    std::function<void()> trigger_win_game = [=] {
+        this->triggerWinGame();
+    };
 
-    std::function<void(const sad::String&,
-                       const sad::Point2D&,
-                       const sad::dukpp03::CompiledFunction&,
-                       const sad::Hash<sad::String, sad::db::Variant>&)
-    > spawn_enemy_walker =  [=](const sad::String& optname,
-            const sad::Point2D& middle,
-            const sad::dukpp03::CompiledFunction& function,
-            const sad::Hash<sad::String, sad::db::Variant>& state
-    ) {
-        game::Actor* actor = this->makeEnemy(optname, middle);
-        if (actor)
-        {
-            this->m_actors.add(actor, new bots::JSBot(function, state, this->m_eval_context));
-        }
-    };
-    std::function<void(const sad::String&,
-        const sad::Point2D&,
-        const sad::String& botname)
-    > spawn_enemy_walker2 = [=](const sad::String& optname,
-        const sad::Point2D& middle,
-        const sad::String& botname
-    ) {
-        if (this->m_bot_registry.contains(botname))
-        { 
-            game::Actor* actor = this->makeEnemy(optname, middle);
-            if (actor)
-            {
-                this->m_actors.add(actor, this->m_bot_registry.get(botname)->clone());
-            }
-        }
-    };
-    std::function<void(const sad::String&,
-        const sad::Point2D&,
-        double from,
-        double to,
-        double dive_height
-    )
-    > spawn_animated_floater = [=](const sad::String& optname,
-        const sad::Point2D& middle,
-        double from,
-        double to,
-        double dive_height
-        ) {
-        game::Actor* actor = this->makeEnemy(optname, middle);
-        if (actor)
-        {
-            this->m_actors.add(actor, new bots::DivingFloaterBot(from, to, middle.y(), middle.y() - dive_height));
-
-            sad::animations::OptionList* list = new sad::animations::OptionList();
-            list->setList(this->m_actor_options[optname]->FloaterFlyAnimationOptions);
-            list->setTime(200);
-            list->setLooped(true);
-
-            sad::animations::Instance* i = new sad::animations::Instance();
-            i->setAnimation(list);
-            i->setObject(actor->sprite());
-
-            this->rendererForMainThread()->animations()->add(i);
-        }
-    };
-    std::function<void(const sad::String&,
-        const sad::Point2D&
-    )
-    > spawn_follow_player_floater = [=](const sad::String& optname,
-        const sad::Point2D& middle
-    ) {
-        game::Actor* actor = this->makeEnemy(optname, middle);
-        if (actor)
-        {
-            this->m_actors.add(actor, new bots::FollowPlayerFloater());
-        }
-    };
-    std::function<void(const sad::String&,
-        const sad::Point2D&,
-        int,
-        int
-    )
-    > spawn_enemy_in_direction = [=](const sad::String& optname,
-        const sad::Point2D& middle,
-        int h, int v
-    ) {
-        game::Actor* actor = this->makeEnemy(optname, middle);
-        if (actor)
-        {
-            this->m_actors.add(actor, new bots::DirectionBot(h, v));
-        }
-    };
-    std::function<void(const sad::String&,
-        const sad::Point2D&
-    )
-    > spawn_platform_patrol = [=](const sad::String& optname,
-        const sad::Point2D& middle
-    ) {
-        game::Actor* actor = this->makeEnemy(optname, middle);
-        if (actor)
-        {
-            this->m_actors.add(actor, new bots::PlatformPatrolBot());
-        }
-    };
-    sad::dukpp03::MultiMethod* spawn_enemy_walker_at = new sad::dukpp03::MultiMethod();
-    spawn_enemy_walker_at->add(sad::dukpp03::make_lambda::from(spawn_enemy_walker));
-    spawn_enemy_walker_at->add(sad::dukpp03::make_lambda::from(spawn_enemy_walker2));
-    m_eval_context->registerCallable("spawnEnemyWalkerAt", spawn_enemy_walker_at);
-    m_eval_context->registerCallable("spawnAnimatedFloater", sad::dukpp03::make_lambda::from(spawn_animated_floater));
-    m_eval_context->registerCallable("spawnFollowPlayerFloater", sad::dukpp03::make_lambda::from(spawn_follow_player_floater));
-    m_eval_context->registerCallable("spawnEnemyInDirection", sad::dukpp03::make_lambda::from(spawn_enemy_in_direction));
-    m_eval_context->registerCallable("spawnPlatformPatrol", sad::dukpp03::make_lambda::from(spawn_platform_patrol));
     m_eval_context->registerCallable("makePlatformGoOnWay", sad::dukpp03::make_lambda::from(make_platform_go_on_way));
     m_eval_context->registerCallable("addTrigger", sad::dukpp03::make_lambda::from(add_trigger));
     m_eval_context->registerCallable("addTriggerOnce", sad::dukpp03::make_lambda::from(add_trigger_once));
     m_eval_context->registerCallable("gamePrint", sad::dukpp03::make_lambda::from(print));
-
-    std::function<void()> trigger_win_game = [=] {
-        this->rendererForMainThread()->pipeline()->appendTask([=] { this->triggerWinGame(); });
-    };
     m_eval_context->registerCallable("triggerWinGame", sad::dukpp03::make_lambda::from(trigger_win_game));
 
-    game::exposeActorOptions(m_eval_context);
+    scripting::exposeSpawnEnemy(m_eval_context, this);
+    game::exposeActorOptions(m_eval_context, this);
     weapons::exposeSwingSettings(m_eval_context);
     weapons::exposeBulletSettings(m_eval_context);
     weapons::exposeLaserSettings(m_eval_context);
-
-
-    std::function<bool(const sad::String&, const game::ActorOptions&)> add_actor_options = [=](const sad::String& name, const game::ActorOptions& opts) {
-        if (m_actor_options.contains(name)) {
-            return false;
-        }
-        game::ActorOptions* nopts = new game::ActorOptions(opts);
-        nopts->addRef();
-        m_actor_options.insert(name, nopts);
-        return true;
-    };
-    m_eval_context->registerCallable("addActorOptions", sad::dukpp03::make_lambda::from(add_actor_options));
-
-    // Expose player to script
-    sad::dukpp03::ClassBinding* player_binding = new sad::dukpp03::ClassBinding();
-    player_binding->addMethod("reset", sad::dukpp03::bind_method::from(&game::Player::reset));
-    player_binding->addMethod("middle", sad::dukpp03::bind_method::from(&game::Player::middle));
-    player_binding->addMethod("area", sad::dukpp03::bind_method::from(&game::Player::area));
-    player_binding->addMethod("isFloater", sad::dukpp03::bind_method::from(&game::Player::isFloater));
-    player_binding->addMethod("setFloaterState", sad::dukpp03::bind_method::from(&game::Player::setFloaterState));
-
-    player_binding->addMethod("tryStartGoingUp", sad::dukpp03::bind_method::from(&game::Player::tryStartGoingUp));
-    player_binding->addMethod("tryStartGoingDown", sad::dukpp03::bind_method::from(&game::Player::tryStartGoingDown));
-    player_binding->addMethod("tryStartGoingLeft", sad::dukpp03::bind_method::from(&game::Player::tryStartGoingLeft));
-    player_binding->addMethod("tryStartGoingRight", sad::dukpp03::bind_method::from(&game::Player::tryStartGoingRight));
-
-    player_binding->addMethod("tryStopGoingUp", sad::dukpp03::bind_method::from(&game::Player::tryStopGoingUp));
-    player_binding->addMethod("tryStopGoingDown", sad::dukpp03::bind_method::from(&game::Player::tryStopGoingDown));
-    player_binding->addMethod("tryStopGoingLeft", sad::dukpp03::bind_method::from(&game::Player::tryStopGoingLeft));
-    player_binding->addMethod("tryStopGoingRight", sad::dukpp03::bind_method::from(&game::Player::tryStopGoingRight));
-    player_binding->addMethod("setLives", sad::dukpp03::bind_method::from(&game::Player::setLives));
-    player_binding->addMethod("incrementLives", sad::dukpp03::bind_method::from(&game::Player::incrementLives));
-    player_binding->addMethod("decrementLives", sad::dukpp03::bind_method::from(&game::Player::decrementLives));
-    player_binding->addMethod("lives", sad::dukpp03::bind_method::from(&game::Player::lives));
-    player_binding->addMethod("toggleInvincibility", sad::dukpp03::bind_method::from(&game::Player::toggleInvincibility));
-    player_binding->addMethod("isInvincible", sad::dukpp03::bind_method::from(&game::Player::isInvincible));
-
-    player_binding->addMethod("testResting", sad::dukpp03::bind_method::from(&game::Player::testResting));
-    player_binding->addMethod("enableGravity", sad::dukpp03::bind_method::from(&game::Player::enableGravity));
-
-    m_eval_context->addClassBinding("game::Player", player_binding);
-    std::function<game::Player*()> player = [=]() { return this->m_player; };
-    m_eval_context->registerCallable("player", sad::dukpp03::make_lambda::from(player));
-
-    sad::dukpp03::ClassBinding* actor_binding = new sad::dukpp03::ClassBinding();
-
-    actor_binding->addMethod("isResting", sad::dukpp03::bind_method::from(&game::Actor::isResting));
-    actor_binding->addMethod("area", sad::dukpp03::bind_method::from(&game::Actor::area));
-    actor_binding->addMethod("middle", sad::dukpp03::bind_method::from(&game::Actor::middle));
-
-    actor_binding->addMethod("lives", sad::dukpp03::bind_method::from(&game::Actor::lives));
-    actor_binding->addMethod("setLives", sad::dukpp03::bind_method::from(&game::Actor::setLives));
-    actor_binding->addMethod("incrementLives", sad::dukpp03::bind_method::from(&game::Actor::incrementLives));
-    actor_binding->addMethod("decrementLives", sad::dukpp03::bind_method::from(&game::Actor::decrementLives));
-    actor_binding->addMethod("toggleInvincibility", sad::dukpp03::bind_method::from(&game::Actor::toggleInvincibility));
-    actor_binding->addMethod("isInvincible", sad::dukpp03::bind_method::from(&game::Actor::isInvincible));
-
-    actor_binding->addMethod("isFloater", sad::dukpp03::bind_method::from(&game::Actor::isFloater));
-    actor_binding->addMethod("setFloaterState", sad::dukpp03::bind_method::from(&game::Actor::setFloaterState));
-
-    actor_binding->addMethod("setVelocity", sad::dukpp03::bind_method::from(&game::Actor::setVelocity));
-
-    actor_binding->addMethod("tryStartGoingUp", sad::dukpp03::bind_method::from(&game::Actor::tryStartGoingUp));
-    actor_binding->addMethod("tryStartGoingDown", sad::dukpp03::bind_method::from(&game::Actor::tryStartGoingDown));
-    actor_binding->addMethod("tryStartGoingLeft", sad::dukpp03::bind_method::from(&game::Actor::tryStartGoingLeft));
-    actor_binding->addMethod("tryStartGoingRight", sad::dukpp03::bind_method::from(&game::Actor::tryStartGoingRight));
-
-    actor_binding->addMethod("tryStopGoingUp", sad::dukpp03::bind_method::from(&game::Actor::tryStopGoingUp));
-    actor_binding->addMethod("tryStopGoingDown", sad::dukpp03::bind_method::from(&game::Actor::tryStopGoingDown));
-    actor_binding->addMethod("tryStopGoingLeft", sad::dukpp03::bind_method::from(&game::Actor::tryStopGoingLeft));
-    actor_binding->addMethod("tryStopGoingRight", sad::dukpp03::bind_method::from(&game::Actor::tryStopGoingRight));
-
-    m_eval_context->addClassBinding("game::Actor", actor_binding);
+    game::exposePlayer(m_eval_context, this);
+    game::exposeActor(m_eval_context);
 
 
     // Fetch and run game initialization script
@@ -2424,55 +2303,6 @@ void Game::tryRenderDebugShapes() const
             }
         }
     }
-}
-
-game::Actor* Game::makeEnemy(const sad::String& optname, const sad::Point2D& middle)
-{
-    if (m_actor_options.contains(optname))
-    {
-        game::ActorOptions* options = m_actor_options[optname];
-
-        sad::Scene* scene = this->rendererForMainThread()->database("gamescreen")->objectByName<sad::Scene>("main");
-        if (scene)
-        {
-            sad::Sprite2D* sprite = new sad::Sprite2D();
-            sprite->setScene(scene);
-            sprite->setTreeName(this->rendererForMainThread(), "");
-            sprite->set(options->JumpingSprite);
-            sprite->moveTo(middle);
-            scene->add(sprite);
-
-            game::Actor* actor = new game::Actor();
-            actor->setLives(Game::BasicEnemyLivesCount);
-            actor->setGame(this);
-            actor->setSprite(sprite);
-            actor->setOptions(options);
-
-            sad::p2d::Body* body = new sad::p2d::Body();
-            body->setCurrentAngularVelocity(0);
-            body->setCurrentTangentialVelocity(sad::p2d::Vector(0, 0));
-            sad::p2d::Rectangle* rect = new sad::p2d::Rectangle();
-            rect->setRect(sprite->area());
-            body->setShape(rect);
-
-            body->attachObject(actor);
-            body->initPosition(sprite->middle());
-
-            this->m_physics_world->addBodyToGroup("enemies", body);
-            actor->setBody(body);
-            actor->enableGravity();
-            actor->init(true);
-            actor->setHurtAnimation(m_hit_animation_for_enemies);
-            actor->onDeath([=](game::Actor* me) {
-                sad::Sprite2D* local_sprite = me->sprite();
-                this->killActorWithoutSprite(me);
-                this->spawnDeathAnimationForActorsSprite(local_sprite);
-            });
-
-            return actor;
-        }
-    }
-    return NULL;
 }
 
 void Game::updateProjectiles() const

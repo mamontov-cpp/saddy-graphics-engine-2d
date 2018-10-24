@@ -159,6 +159,20 @@ public:
         \return whether player is dead
      */
     bool isDead() const;
+    /*! Sets weaponry for actor
+     *  \param[in] w weapon
+     */
+    void setWeapon(weapons::Weapon* w);
+    /*! Removes weaponry from actor
+     */
+    void removeWeapon();
+    /*! Returns weaponry for actor
+     *  \return weapon
+     */
+    weapons::Weapon* weapon() const;
+    /*! Tries to shoot for actor
+     */
+    void tryShoot();
 private:
     /*! Player's inventory, that will be carried around
      */
@@ -170,5 +184,12 @@ private:
      */
     bool m_is_dead;
 };
+
+
+/*! Exposes player to context
+    \param[in] c context
+    \param[in] game a game
+ */
+void exposePlayer(void* c, Game* game);
 
 }

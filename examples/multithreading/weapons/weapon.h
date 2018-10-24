@@ -5,7 +5,7 @@
 #pragma once
 #include <timer.h>
 
-#include <refcountable.h>
+#include <object.h>
 
 
 #include "bulletsettings.h"
@@ -26,8 +26,9 @@ namespace weapons
 {
 /*! A weapon, that can be held by actor
  */
-class Weapon : public sad::RefCountable
+class Weapon : public sad::Object
 {
+SAD_OBJECT
 public:
 /*! A type of weapon used
  */
@@ -107,9 +108,8 @@ enum Type
     /*! Tries to shoot from weapon
      *  \param[in] game a game
      *  \param[in] actor an actor, who will shoot
-     *  \param[in] angle an angle in which he would be shooting
      */
-    void tryShoot(Game* game, game::Actor* actor, double angle);
+    void tryShoot(Game* game, game::Actor* actor);
     /*! Pauses weapon
      */
     void pause();
@@ -175,3 +175,4 @@ struct
 
 }
 
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(weapons::Weapon)

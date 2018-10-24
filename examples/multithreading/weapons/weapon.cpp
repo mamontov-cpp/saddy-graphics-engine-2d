@@ -9,6 +9,8 @@
 #include "bullet.h"
 #include "laser.h"
 
+DECLARE_SOBJ(weapons::Weapon)
+
 // =============================== PUBLIC METHODS ===============================
 
 weapons::Weapon::Weapon()  // NOLINT(cppcoreguidelines-pro-type-member-init)
@@ -116,7 +118,7 @@ void weapons::Weapon::setSettings(const weapons::LaserSettings& s)
 }
 
 
-void weapons::Weapon::tryShoot(Game* game, game::Actor* actor, double angle)
+void weapons::Weapon::tryShoot(Game* game, game::Actor* actor)
 {
     if (m_is_paused)
     {
@@ -130,6 +132,8 @@ void weapons::Weapon::tryShoot(Game* game, game::Actor* actor, double angle)
     {
         return;
     }
+
+    double angle = actor->lookupAngle();
 
     m_timer.stop();
     if (m_elapsed_time + m_timer.elapsed() < m_shooting_interval)

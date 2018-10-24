@@ -36,7 +36,6 @@
 #include "scenetransitionprocess.h"
 #include "delayedtasks.h"
 #include "optionsscreen.h"
-
 namespace sad
 {
 
@@ -325,6 +324,40 @@ public:
         \param[in] fn a function
      */
     void addDelayedTask(double time, const std::function<void()>& fn);
+    /*! Makes new enemy actor
+        \param[in] optname a name for options
+        \param[in] middle a middle of enemy
+     */
+    game::Actor* makeEnemy(const sad::String& optname, const sad::Point2D& middle);
+    /*! Tries to fetch from registry abstract bot
+        \param[in] bot_name a name of bot
+        \return bot or  NULL if not found
+     */
+    bots::AbstractBot* getFromRegistry(const sad::String& bot_name);
+    /*! Returns true if we have bot in registry
+        \param[in] bot_name a name for bot
+        \return true if bot is in registry
+     */
+    bool hasBotInRegistry(const sad::String& bot_name) const;
+    /*! Adds new bot to game
+        \param[in] actor an actor
+        \param[in] bot a bot
+     */
+    void addActor(game::Actor* actor, bots::AbstractBot* bot);
+    /*! Adds animation process into main renderer
+        \param[in] p process
+     */
+    void addToMainRenderer(sad::animations::Process* p);
+    /*! Returns actor options by name
+        \param[in] name a name for options
+        \return actor options by name
+     */
+    game::ActorOptions* getActorOptions(const sad::String& name);
+    /*! Adds actor options to game
+        \param[in] name a name for options
+        \param[in] opts options
+     */
+    bool addActorOptions(const sad::String& name, const game::ActorOptions& opts);
 private:
     /*! Inits evaluation context
      */
@@ -347,11 +380,6 @@ private:
     /*! Renders debug game shapes
      */
     void tryRenderDebugShapes() const;
-    /*! Makes new enemy actor
-        \param[in] optname a name for options
-        \param[in] middle a middle of enemy
-     */
-    game::Actor* makeEnemy(const sad::String& optname, const sad::Point2D& middle);
     /*! Update projectiles objects
      */
     void updateProjectiles() const;

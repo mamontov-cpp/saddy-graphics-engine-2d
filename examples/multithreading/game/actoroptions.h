@@ -9,6 +9,9 @@
 
 #include <sadstring.h>
 
+
+class Game;
+
 namespace game
 {
 
@@ -159,7 +162,8 @@ struct ActorOptions: sad::RefCountable
 
 /*! Exposes actor options
  *  \param[in] c context
+ *  \param[in] game a game
  */
-void exposeActorOptions(void* c);
+void exposeActorOptions(void* c, Game* game);
 
 }

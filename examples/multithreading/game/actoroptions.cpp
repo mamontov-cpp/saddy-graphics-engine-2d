@@ -2,11 +2,12 @@
 
 #include <dukpp-03/context.h>
 
+#include "../game.h"
 
 DECLARE_COMMON_TYPE(game::ActorOptions)
 
 
-void game::exposeActorOptions(void* c)
+void game::exposeActorOptions(void* c, Game* game)
 {
     sad::dukpp03::Context* ctx = reinterpret_cast<sad::dukpp03::Context*>(c);
 
@@ -98,4 +99,9 @@ void game::exposeActorOptions(void* c)
         sad::dukpp03::setter::from(&game::ActorOptions::FloaterFlyAnimationOptions)
     );
     ctx->addClassBinding("game::ActorOptions", binding);
+
+    std::function<bool(const sad::String&, const game::ActorOptions&)> add_actor_options = [=](const sad::String& name, const game::ActorOptions& opts) {
+        return game->addActorOptions(name, opts);
+    };
+    ctx->registerCallable("addActorOptions", sad::dukpp03::make_lambda::from(add_actor_options));
 }

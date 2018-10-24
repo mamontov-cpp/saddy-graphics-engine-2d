@@ -3,6 +3,8 @@
 
 #include "../game.h"
 
+#include <dukpp-03/context.h>
+
 DECLARE_COMMON_TYPE(game::Player)
 
 game::Player::Player() : m_is_dead(false)
@@ -252,3 +254,87 @@ bool game::Player::isDead() const
     return m_is_dead;
 }
 
+void game::Player::setWeapon(weapons::Weapon* w)
+{
+    m_actor.setWeapon(w);
+}
+
+
+void game::Player::removeWeapon()
+{
+    m_actor.removeWeapon();
+}
+
+weapons::Weapon* game::Player::weapon() const
+{
+    return m_actor.weapon();
+}
+
+void game::Player::tryShoot()
+{
+    m_actor.tryShoot();
+}
+
+// ===================================== UTILITY FUNCTIONS =====================================
+
+// Player cannot be copied so, disable it here to ensure context proper initialization
+namespace sad
+{
+
+namespace dukpp03
+{
+
+
+template<>
+struct GetAddressOfType<game::Player*, false, false>
+{
+public:
+    /*! Returns address of type, stored in variant.
+        \return empty maybe
+     */
+    static ::dukpp03::Maybe<game::Player*> getAddress(sad::db::Variant*)
+    {
+        return {};
+    }
+};
+
+}
+
+}
+
+
+void game::exposePlayer(void* c, Game* game)
+{
+    sad::dukpp03::Context* ctx = reinterpret_cast<sad::dukpp03::Context*>(c);
+
+    // Expose player to script
+    sad::dukpp03::ClassBinding* player_binding = new sad::dukpp03::ClassBinding();
+    player_binding->addMethod("reset", sad::dukpp03::bind_method::from(&game::Player::reset));
+    player_binding->addMethod("middle", sad::dukpp03::bind_method::from(&game::Player::middle));
+    player_binding->addMethod("area", sad::dukpp03::bind_method::from(&game::Player::area));
+    player_binding->addMethod("isFloater", sad::dukpp03::bind_method::from(&game::Player::isFloater));
+    player_binding->addMethod("setFloaterState", sad::dukpp03::bind_method::from(&game::Player::setFloaterState));
+
+    player_binding->addMethod("tryStartGoingUp", sad::dukpp03::bind_method::from(&game::Player::tryStartGoingUp));
+    player_binding->addMethod("tryStartGoingDown", sad::dukpp03::bind_method::from(&game::Player::tryStartGoingDown));
+    player_binding->addMethod("tryStartGoingLeft", sad::dukpp03::bind_method::from(&game::Player::tryStartGoingLeft));
+    player_binding->addMethod("tryStartGoingRight", sad::dukpp03::bind_method::from(&game::Player::tryStartGoingRight));
+
+    player_binding->addMethod("tryStopGoingUp", sad::dukpp03::bind_method::from(&game::Player::tryStopGoingUp));
+    player_binding->addMethod("tryStopGoingDown", sad::dukpp03::bind_method::from(&game::Player::tryStopGoingDown));
+    player_binding->addMethod("tryStopGoingLeft", sad::dukpp03::bind_method::from(&game::Player::tryStopGoingLeft));
+    player_binding->addMethod("tryStopGoingRight", sad::dukpp03::bind_method::from(&game::Player::tryStopGoingRight));
+    player_binding->addMethod("setLives", sad::dukpp03::bind_method::from(&game::Player::setLives));
+    player_binding->addMethod("incrementLives", sad::dukpp03::bind_method::from(&game::Player::incrementLives));
+    player_binding->addMethod("decrementLives", sad::dukpp03::bind_method::from(&game::Player::decrementLives));
+    player_binding->addMethod("lives", sad::dukpp03::bind_method::from(&game::Player::lives));
+    player_binding->addMethod("toggleInvincibility", sad::dukpp03::bind_method::from(&game::Player::toggleInvincibility));
+    player_binding->addMethod("isInvincible", sad::dukpp03::bind_method::from(&game::Player::isInvincible));
+
+    player_binding->addMethod("testResting", sad::dukpp03::bind_method::from(&game::Player::testResting));
+    player_binding->addMethod("enableGravity", sad::dukpp03::bind_method::from(&game::Player::enableGravity));
+
+    ctx->addClassBinding("game::Player", player_binding);
+    std::function<game::Player*()> player = [=]() { return game->player(); };
+    ctx->registerCallable("player", sad::dukpp03::make_lambda::from(player));
+}
