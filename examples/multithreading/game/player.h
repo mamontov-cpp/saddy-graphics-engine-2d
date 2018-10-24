@@ -173,6 +173,11 @@ public:
     /*! Tries to shoot for actor
      */
     void tryShoot();
+    /*! Inits physics for player
+     *  \param[in] world a world, where player belongs
+     *  \param[in] db database
+     */
+    void initPhysics(sad::p2d::World* world, sad::db::Database* db);
 private:
     /*! Player's inventory, that will be carried around
      */

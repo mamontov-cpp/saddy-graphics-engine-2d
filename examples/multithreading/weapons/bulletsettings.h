@@ -45,6 +45,9 @@ public:
     /*! Is navigating gravity to direction of bullet angle
      */
     bool IsNavigatingGravityToDirection;
+    /*! A sound for shot
+     */
+    sad::String SoundName;
 
     /*! Default bullet settings
      */

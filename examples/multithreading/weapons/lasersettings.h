@@ -26,6 +26,9 @@ public:
     /*! An existence time for sprite
      */
     double Time;
+    /*! A sound for shot
+     */
+    sad::String SoundName;
 
     /*! A settings for laser
      */

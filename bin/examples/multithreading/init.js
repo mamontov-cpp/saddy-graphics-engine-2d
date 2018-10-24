@@ -4,6 +4,28 @@ var VDir = { "Up": 0, "Down": 1,  "None": 2};
 
 makePlatformGoOnWay("MovingPlatform4", "Way1");
 // Just a simple JS trigger
+
+addTriggerOnce(200, function() {
+	gamePrint("Have a nice weapon!");
+	var min_angle = Math.PI * (-0.25);
+	var weapon = new Weapon();
+	weapon.setShootingInterval(1000);
+	weapon.setAmountOfProjectiles(5);
+	weapon.setDelay(50);
+	weapon.setBaseDamage(1);
+	weapon.setMinAngleDelta(min_angle);
+	weapon.setMaxAngleDelta(min_angle * (-1));
+	var settings = new BulletSettings();
+	settings.IconName = "bullets/yellow/x_huge";
+	settings.MaxBounceCount = 3;
+	settings.ApplyGravity = true;
+	settings.GravityValue = new sad.Point2D(0, -300);
+	settings.BounceResilienceCoefficient = 0.9;
+	weapon.setSettings(settings);
+	player().setWeapon(weapon);
+	gamePrint("Weapon is given");
+});
+
 addTriggerOnce(400, function() {
 	gamePrint("Player has reached point of " + player().middle().x  + "," + player().middle().y + " which is more than 400\n");
 	player().tryStartGoingUp();

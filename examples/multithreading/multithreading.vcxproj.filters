@@ -43,6 +43,12 @@
     <Filter Include="Файлы исходного кода\weapons">
       <UniqueIdentifier>{34d68fc5-34df-4472-bf6a-2fa9303d8a95}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Заголовочные файлы\scripting">
+      <UniqueIdentifier>{afb741d3-3228-47c5-9304-1a886d749125}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\scripting">
+      <UniqueIdentifier>{f385f50c-588d-496a-b375-0b88c8168ebd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -167,6 +173,12 @@
     </ClCompile>
     <ClCompile Include="weapons\lasersettings.cpp">
       <Filter>Файлы исходного кода\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\exposespawnenemy.cpp">
+      <Filter>Файлы исходного кода\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="initphysics.cpp">
+      <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -295,6 +307,12 @@
     </ClInclude>
     <ClInclude Include="weapons\swingsettings.h">
       <Filter>Заголовочные файлы\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\exposespawnenemy.h">
+      <Filter>Заголовочные файлы\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="initphysics.h">
+      <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

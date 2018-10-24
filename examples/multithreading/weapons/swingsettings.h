@@ -22,6 +22,9 @@ public:
     /*! A decay time for swing
      */
     double DecayTime;
+    /*! A sound for shot
+     */
+    sad::String SoundName;
 
     /*! Constructs default settings
      */

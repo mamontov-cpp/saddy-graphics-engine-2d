@@ -347,7 +347,7 @@ public:
     /*! Adds animation process into main renderer
         \param[in] p process
      */
-    void addToMainRenderer(sad::animations::Process* p);
+    void addToMainRenderer(sad::animations::Process* p) const;
     /*! Returns actor options by name
         \param[in] name a name for options
         \return actor options by name

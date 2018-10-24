@@ -2,6 +2,7 @@
 #include <object.h>
 
 #include "../game.h"
+#include "../weapons/weapon.h"
 
 #include <dukpp-03/context.h>
 
@@ -275,6 +276,29 @@ void game::Player::tryShoot()
     m_actor.tryShoot();
 }
 
+void game::Player::initPhysics(sad::p2d::World* world, sad::db::Database* db)
+{
+    sad::Sprite2D* sprite = db->objectByName<sad::Sprite2D>("Player");
+    if (sprite)
+    {
+        this->setSprite(sprite);
+        sad::p2d::Body* body = new sad::p2d::Body();
+        body->setCurrentAngularVelocity(0);
+        body->setCurrentTangentialVelocity(sad::p2d::Vector(0, 0));
+        body->setUserObject(sprite);
+        sad::p2d::Rectangle* rect = new sad::p2d::Rectangle();
+        rect->setRect(sprite->area());
+        body->setShape(rect);
+        body->attachObject(sprite);
+        body->initPosition(sprite->middle());
+
+        world->addBodyToGroup("player", body);
+        this->setBody(body);
+        this->enableGravity();
+        this->init(true);
+    }
+}
+
 // ===================================== UTILITY FUNCTIONS =====================================
 
 // Player cannot be copied so, disable it here to ensure context proper initialization
@@ -333,6 +357,11 @@ void game::exposePlayer(void* c, Game* game)
 
     player_binding->addMethod("testResting", sad::dukpp03::bind_method::from(&game::Player::testResting));
     player_binding->addMethod("enableGravity", sad::dukpp03::bind_method::from(&game::Player::enableGravity));
+
+    player_binding->addMethod("setWeapon", sad::dukpp03::bind_method::from(&game::Player::setWeapon));
+    player_binding->addMethod("removeWeapon", sad::dukpp03::bind_method::from(&game::Player::removeWeapon));
+    player_binding->addMethod("weapon", sad::dukpp03::bind_method::from(&game::Player::weapon));
+    player_binding->addMethod("tryShoot", sad::dukpp03::bind_method::from(&game::Player::tryShoot));
 
     ctx->addClassBinding("game::Player", player_binding);
     std::function<game::Player*()> player = [=]() { return game->player(); };

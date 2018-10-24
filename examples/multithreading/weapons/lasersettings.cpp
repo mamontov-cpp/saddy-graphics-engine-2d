@@ -31,5 +31,10 @@ void weapons::exposeLaserSettings(void* c)
          sad::dukpp03::getter::from(&weapons::LaserSettings::Time),
          sad::dukpp03::setter::from(&weapons::LaserSettings::Time)
     );
+    binding->addAccessor(
+        "SoundName",
+        sad::dukpp03::getter::from(&weapons::LaserSettings::SoundName),
+        sad::dukpp03::setter::from(&weapons::LaserSettings::SoundName)
+    );
     ctx->addClassBinding("weapons::LaserSettings", binding);
 }

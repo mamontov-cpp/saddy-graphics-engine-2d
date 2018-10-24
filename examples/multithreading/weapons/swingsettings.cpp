@@ -26,5 +26,10 @@ void weapons::exposeSwingSettings(void* c)
          sad::dukpp03::getter::from(&weapons::SwingSettings::DecayTime),
          sad::dukpp03::setter::from(&weapons::SwingSettings::DecayTime)
     );
+    binding->addAccessor(
+        "SoundName",
+        sad::dukpp03::getter::from(&weapons::SwingSettings::SoundName),
+        sad::dukpp03::setter::from(&weapons::SwingSettings::SoundName)
+    );
     ctx->addClassBinding("weapons::SwingSettings", binding);
 }

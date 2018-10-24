@@ -1431,5 +1431,11 @@ void game::exposeActor(void* c)
     actor_binding->addMethod("lookupAngle", sad::dukpp03::bind_method::from(&game::Actor::lookupAngle));
     actor_binding->addMethod("setLookupAngle", sad::dukpp03::bind_method::from(&game::Actor::setLookupAngle));
 
+    actor_binding->addMethod("setWeapon", sad::dukpp03::bind_method::from(&game::Actor::setWeapon));
+    actor_binding->addMethod("removeWeapon", sad::dukpp03::bind_method::from(&game::Actor::removeWeapon));
+    actor_binding->addMethod("weapon", sad::dukpp03::bind_method::from(&game::Actor::weapon));
+    actor_binding->addMethod("tryShoot", sad::dukpp03::bind_method::from(&game::Actor::tryShoot));
+
+
     ctx->addClassBinding("game::Actor", actor_binding);
 }

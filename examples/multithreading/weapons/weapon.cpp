@@ -2,12 +2,15 @@
 
 #include <fuzzyequal.h>
 
+#include <dukpp-03/context.h>
+
 #include "../game/actor.h"
 #include "../game.h"
 
 #include "swing.h"
 #include "bullet.h"
 #include "laser.h"
+
 
 DECLARE_SOBJ(weapons::Weapon)
 
@@ -140,6 +143,7 @@ void weapons::Weapon::tryShoot(Game* game, game::Actor* actor)
     {
         return;
     }
+    m_timer.start();
     m_elapsed_time = 0;
 
     double dangle = 0;
@@ -197,6 +201,9 @@ void weapons::Weapon::spawnProjectile(Game* game, game::Actor* actor, double ang
         if (m_settings.Type == weapons::Weapon::WWT_SWING)
         {
             weapons::SwingSettings s = *(m_settings.Settings.Swing);
+            sad::String sound = "swing";
+            if (s.SoundName.length()) sound = s.SoundName;
+            actor->game()->playSound(sound);
             weapons::Swing* swing = new weapons::Swing(game, actor, s);
             swing->setDamage(actor->modifyDamage(base_dmg));
             game->addProjectile(swing);
@@ -204,12 +211,18 @@ void weapons::Weapon::spawnProjectile(Game* game, game::Actor* actor, double ang
         if (m_settings.Type == weapons::Weapon::WWT_BULLET)
         {
             weapons::BulletSettings s = *(m_settings.Settings.Bullet);
+            sad::String sound = "shooting_1";
+            if (s.SoundName.length()) sound = s.SoundName;
+            actor->game()->playSound(sound);
             weapons::Bullet* bullet = game->spawnBullet(actor, angle, s);
             bullet->setDamage(actor->modifyDamage(base_dmg));
         }
         if (m_settings.Type == weapons::Weapon::WWT_LASER)
         {
             weapons::LaserSettings s = *(m_settings.Settings.Laser);
+            sad::String sound = "shooting_2";
+            if (s.SoundName.length()) sound = s.SoundName;
+            actor->game()->playSound(sound);
             weapons::Laser* laser = new weapons::Laser(game, actor, angle, s);
             laser->setDamage(actor->modifyDamage(base_dmg));
             game->addProjectile(laser);
@@ -218,6 +231,7 @@ void weapons::Weapon::spawnProjectile(Game* game, game::Actor* actor, double ang
     else
     {
         double base_dmg = this->baseDamage();
+        double dangle = angle - actor->lookupAngle();
         if (m_settings.Type == weapons::Weapon::WWT_SWING)
         {
             weapons::SwingSettings s = *(m_settings.Settings.Swing);
@@ -226,6 +240,9 @@ void weapons::Weapon::spawnProjectile(Game* game, game::Actor* actor, double ang
                 {
                     return;
                 }
+                sad::String sound = "swing";
+                if (s.SoundName.length()) sound = s.SoundName;
+                actor->game()->playSound(sound);
                 weapons::Swing* swing = new weapons::Swing(game, actor, s);
                 swing->setDamage(actor->modifyDamage(base_dmg));
                 game->addProjectile(swing);
@@ -239,7 +256,10 @@ void weapons::Weapon::spawnProjectile(Game* game, game::Actor* actor, double ang
                 {
                     return;
                 }
-                weapons::Bullet* bullet = game->spawnBullet(actor, angle, s);
+                sad::String sound = "shooting_1";
+                if (s.SoundName.length()) sound = s.SoundName;
+                actor->game()->playSound(sound);
+                weapons::Bullet* bullet = game->spawnBullet(actor, actor->lookupAngle() + dangle, s);
                 bullet->setDamage(actor->modifyDamage(base_dmg));
             });
         }
@@ -251,7 +271,10 @@ void weapons::Weapon::spawnProjectile(Game* game, game::Actor* actor, double ang
                 {
                     return;
                 }
-                weapons::Laser* laser = new weapons::Laser(game, actor, angle, s);
+                sad::String sound = "shooting_2";
+                if (s.SoundName.length()) sound = s.SoundName;
+                actor->game()->playSound(sound);
+                weapons::Laser* laser = new weapons::Laser(game, actor, actor->lookupAngle() + dangle, s);
                 laser->setDamage(actor->modifyDamage(base_dmg));
                 game->addProjectile(laser);
             });
@@ -280,4 +303,38 @@ void weapons::Weapon::clearSettings()
     m_settings.Settings.Bullet = NULL;
     m_settings.Settings.Swing = NULL;
     m_settings.Settings.Laser = NULL;
+}
+
+
+void weapons::exposeWeapon(void* c)
+{
+    sad::dukpp03::Context* ctx = reinterpret_cast<sad::dukpp03::Context*>(c);
+
+    sad::dukpp03::ClassBinding* weapon_binding = new sad::dukpp03::ClassBinding();
+    weapon_binding->addObjectConstructor<weapons::Weapon>("Weapon");
+
+    weapon_binding->addMethod("setShootingInterval", sad::dukpp03::bind_method::from(&weapons::Weapon::setShootingInterval));
+    weapon_binding->addMethod("shootingInterval", sad::dukpp03::bind_method::from(&weapons::Weapon::shootingInterval));
+    weapon_binding->addMethod("setAmountOfProjectiles", sad::dukpp03::bind_method::from(&weapons::Weapon::setAmountOfProjectiles));
+    weapon_binding->addMethod("amountOfProjectiles", sad::dukpp03::bind_method::from(&weapons::Weapon::amountOfProjectiles));
+    weapon_binding->addMethod("setDelay", sad::dukpp03::bind_method::from(&weapons::Weapon::setDelay));
+    weapon_binding->addMethod("delay", sad::dukpp03::bind_method::from(&weapons::Weapon::delay));
+    weapon_binding->addMethod("setBaseDamage", sad::dukpp03::bind_method::from(&weapons::Weapon::setBaseDamage));
+    weapon_binding->addMethod("baseDamage", sad::dukpp03::bind_method::from(&weapons::Weapon::baseDamage));
+    weapon_binding->addMethod("setMinAngleDelta", sad::dukpp03::bind_method::from(&weapons::Weapon::setMinAngleDelta));
+    weapon_binding->addMethod("minAngleDelta", sad::dukpp03::bind_method::from(&weapons::Weapon::minAngleDelta));
+    weapon_binding->addMethod("setMaxAngleDelta", sad::dukpp03::bind_method::from(&weapons::Weapon::setMaxAngleDelta));
+    weapon_binding->addMethod("maxAngleDelta", sad::dukpp03::bind_method::from(&weapons::Weapon::maxAngleDelta));
+
+    void (weapons::Weapon::*m_s1)(const weapons::SwingSettings&) = &weapons::Weapon::setSettings;
+    void (weapons::Weapon::*m_s2)(const weapons::BulletSettings&) = &weapons::Weapon::setSettings;
+    void (weapons::Weapon::*m_s3)(const weapons::LaserSettings&) = &weapons::Weapon::setSettings;
+
+    sad::dukpp03::MultiMethod* set_settings = new sad::dukpp03::MultiMethod();
+    set_settings->add(sad::dukpp03::bind_method::from(m_s1));
+    set_settings->add(sad::dukpp03::bind_method::from(m_s2));
+    set_settings->add(sad::dukpp03::bind_method::from(m_s3));
+    weapon_binding->addMethod("setSettings", set_settings);
+
+    ctx->addClassBinding("weapons::Weapon", weapon_binding);
 }

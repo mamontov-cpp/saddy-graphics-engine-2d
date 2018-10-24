@@ -173,6 +173,12 @@ struct
 };
 
 
+/*! Exposes weapon for context
+    \param[in] c context
+ */
+void exposeWeapon(void* c);
+
 }
 
 DECLARE_TYPE_AS_SAD_OBJECT_ENUM(weapons::Weapon)
+

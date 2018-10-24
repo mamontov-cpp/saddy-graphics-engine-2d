@@ -43,9 +43,8 @@
 
 #include "scripting/exposespawnenemy.h"
 
-
-// A precision error for designer's editor when designing level
-#define DESIGNER_PRECISION_ERROR  (2.0)
+#include "initphysics.h"
+#include "weapons/weapon.h"
 
 const sad::Point2D Game::GravityForceValue(0.0, -300.0); // -300 is arbitrarily defined, to make player fall slowly
 
@@ -534,20 +533,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
         {
            set_lookup_angle(pnt.value());
         }
-        this->playSound("swing");
-        this->addProjectile(new weapons::Swing(this, this->m_player->actor(), weapons::SwingSettings()));
-        this->playSound("shooting_1");
-        weapons::BulletSettings settings;
-        settings.IsPiercing = true;
-        settings.ApplyGravity = true;
-        settings.GravityValue.setY(-150);
-        settings.GravityValue.setX(50);
-        settings.MaxBounceCount = 3;
-        settings.BounceResilienceCoefficient = 1.0;
-        double angle = this->m_player->actor()->lookupAngle();
-        this->spawnBullet(this->m_player->actor(), angle, settings);
-
-        this->addProjectile(new weapons::Laser(this, this->m_player->actor(), angle, weapons::LaserSettings()));
+        m_player->tryShoot();
     };
 
     renderer->controls()->addLambda(
@@ -1741,7 +1727,7 @@ void Game::addActor(game::Actor* actor, bots::AbstractBot* bot)
     m_actors.add(actor, bot);
 }
 
-void Game::addToMainRenderer(sad::animations::Process* p)
+void Game::addToMainRenderer(sad::animations::Process* p) const
 {
     this->rendererForMainThread()->animations()->add(p);
 }
@@ -1825,6 +1811,7 @@ void Game::initContext()
     weapons::exposeSwingSettings(m_eval_context);
     weapons::exposeBulletSettings(m_eval_context);
     weapons::exposeLaserSettings(m_eval_context);
+    weapons::exposeWeapon(m_eval_context);
     game::exposePlayer(m_eval_context, this);
     game::exposeActor(m_eval_context);
 
@@ -1892,242 +1879,19 @@ void Game::destroyWorld()
 void Game::initGamePhysics()
 {
     m_physics_world = new sad::p2d::World();
-    m_physics_world->setDetector(new sad::p2d::MultisamplingCollisionDetector(2.0));
-    m_physics_world->addRef();
-    m_physics_world->addGroup("player");
-    m_physics_world->addGroup("enemies");
-    m_physics_world->addGroup("platforms");
-    m_physics_world->addGroup("walls");
-    m_physics_world->addGroup("coins");
-    m_physics_world->addGroup("player_bullets");
-    m_physics_world->addGroup("enemy_bullets");
-
+    initPhysicsWorld(m_physics_world);
     m_max_level_x = 0;
 
     sad::Renderer* renderer = m_main_thread->renderer();
     sad::db::Database* db = renderer->database("gamescreen");
-    sad::Sprite2D* sprite = db->objectByName<sad::Sprite2D>("Player");
-    if (sprite)
-    { 
-        m_player->setSprite(sprite);
-        sad::p2d::Body* body = new sad::p2d::Body();
-        body->setCurrentAngularVelocity(0);
-        body->setCurrentTangentialVelocity(sad::p2d::Vector(0,0));
-        body->setUserObject(sprite);
-        sad::p2d::Rectangle* rect = new sad::p2d::Rectangle();
-        rect->setRect(sprite->area());
-        body->setShape(rect);
-        body->attachObject(sprite);
-        body->initPosition(sprite->middle());
-
-        m_physics_world->addBodyToGroup("player", body);
-        m_player->setBody(body);
-        m_player->enableGravity();
-        m_player->init(true);
-    }
+    m_player->initPhysics(m_physics_world, db);
     sad::Scene* main_scene = db->objectByName<sad::Scene>("main");
     if (main_scene)
     {
-        const sad::Vector<sad::SceneNode*>&  nodes = main_scene->objects();
-        // Filter grouped and ungrouped platforms
-        sad::Vector<sad::Sprite2D*> platform_sprites;
-        sad::Vector<sad::Sprite2D*> ungrouped_platform_sprites;
-        for (size_t i = 0; i < nodes.size(); i++)
-        {
-            if (nodes[i]->isInstanceOf("sad::Sprite2D"))
-            {
-                sad::String name = nodes[i]->objectName();
-                name.toUpper();
-                if ((name.getOccurence("FLOOR") != -1)  || (name.getOccurence("PLATFORM") != -1))
-                {
-                    sad::Sprite2D* node = dynamic_cast<sad::Sprite2D*>(nodes[i]);
-                    if (node) 
-                    {
-                        if (name.getOccurence("MOVING") != -1)
-                        {
-                            ungrouped_platform_sprites << node;
-                        }
-                        else
-                        {
-                            platform_sprites << node;
-                        }
-                        m_max_level_x = std::max(m_max_level_x, node->area()[2].x());
-                    }
-                }
-            }
-        }
-        // Add unfiltered platforms to group
-        for (size_t i = 0; i < ungrouped_platform_sprites.size(); i++)
-        {
-            sad::p2d::Body* body = new sad::p2d::Body();
-            body->setCurrentAngularVelocity(0);
-            body->setCurrentTangentialVelocity(sad::p2d::Vector(0, 0));
-            body->attachObject(ungrouped_platform_sprites[i]);
-            sad::p2d::Rectangle* rect = new sad::p2d::Rectangle();
-            sad::Rect2D rct = ungrouped_platform_sprites[i]->area();
-            // Slight increase of area, due to paddings
-            rct = sad::Rect2D(rct[0].x(), rct[0].y(), rct[2].x() + 1, rct[2].y());
-            rect->setRect(rct);
-            body->setShape(rect);
-            body->initPosition(ungrouped_platform_sprites[i]->middle());
-            m_moving_platform_registry.addPlatform(ungrouped_platform_sprites[i]->objectName(), body);
-
-            m_physics_world->addBodyToGroup("platforms", body);
-        }
-        // Sort sprites according from left to right
-        std::sort(platform_sprites.begin(), platform_sprites.end(), [](sad::Sprite2D* a, sad::Sprite2D* b) {
-            return a->area()[0].x() < b->area()[0].x();
-        });
-        // Group some platforms horizontally
-        for(size_t i = 0; i < platform_sprites.size(); i++)
-        {
-            sad::Vector<sad::Sprite2D*> sprites_in_group;
-            sprites_in_group << platform_sprites[i];
-            sad::Rect2D common_rectangle = platform_sprites[i]->area();
-            for (size_t j = i + 1; j < platform_sprites.size(); j++)
-            {
-                sad::Rect2D candidate_rectangle = platform_sprites[j]->area();
-                double common_ymin = std::min(common_rectangle.p0().y(), common_rectangle.p2().y());
-                double common_ymax = std::max(common_rectangle.p0().y(), common_rectangle.p2().y());
-
-                double candidate_ymin = std::min(candidate_rectangle.p0().y(), candidate_rectangle.p2().y());
-                double candidate_ymax = std::max(candidate_rectangle.p0().y(), candidate_rectangle.p2().y());
-
-                double common_xmin = std::min(common_rectangle.p0().x(), common_rectangle.p2().x());
-                double common_xmax = std::max(common_rectangle.p0().x(), common_rectangle.p2().x());
-
-                double candidate_xmin = std::min(candidate_rectangle.p0().x(), candidate_rectangle.p2().x());
-                double candidate_xmax = std::max(candidate_rectangle.p0().x(), candidate_rectangle.p2().x());
-
-                if (sad::is_fuzzy_equal(common_ymin, candidate_ymin, DESIGNER_PRECISION_ERROR) 
-                    && sad::is_fuzzy_equal(common_ymax, candidate_ymax, DESIGNER_PRECISION_ERROR)
-                    && sad::is_fuzzy_equal(common_xmax, candidate_xmin, DESIGNER_PRECISION_ERROR))
-                {
-                    sprites_in_group << platform_sprites[j];
-                    common_rectangle = sad::Rect2D(common_xmin, common_ymin, candidate_xmax, common_ymax);
-                }
-            }
-            if (sprites_in_group.size() > 1)
-            {
-                sad::p2d::Body* body = new sad::p2d::Body();
-                body->setCurrentAngularVelocity(0);
-                body->setCurrentTangentialVelocity(sad::p2d::Vector(0, 0));
-                sad::p2d::Rectangle* rect = new sad::p2d::Rectangle();
-                // Slight increase of area, due to paddings
-                common_rectangle = sad::Rect2D(common_rectangle[0].x(), common_rectangle[0].y(), common_rectangle[2].x() + 1, common_rectangle[2].y());
-                // Small fix for tiny platforms, to ensure their bounding box will be some times smaller than one
-                if (common_rectangle.height() < 40) {
-                    common_rectangle = sad::Rect2D(common_rectangle[0].x(), common_rectangle[0].y()  + 3, common_rectangle[2].x() - 1, common_rectangle[2].y());
-                }
-                rect->setRect(common_rectangle);
-                body->setShape(rect);
-                body->attachObjects(sprites_in_group);
-                body->initPosition((common_rectangle[0] + common_rectangle[2]) / 2.0);
-
-                m_physics_world->addBodyToGroup("platforms", body);
-                for(size_t k = 0 ; k < sprites_in_group.size(); k++)
-                {
-                    platform_sprites.removeFirst(sprites_in_group[k]);
-                }
-                // Decrement, so we can iterate through other platforms
-                --i;
-            }
-        }
-        // We don't group platforms vertically except it's columns, because it could be solved by bounce solver easily
-        std::sort(platform_sprites.begin(), platform_sprites.end(), [](sad::Sprite2D* a, sad::Sprite2D* b) {
-            return a->area()[0].y() < b->area()[0].y();
-        });
-        // Group some platforms vertically
-        for (size_t i = 0; i < platform_sprites.size(); i++)
-        {
-            sad::Vector<sad::Sprite2D*> sprites_in_group;
-            sprites_in_group << platform_sprites[i];
-            sad::Rect2D common_rectangle = platform_sprites[i]->area();
-            for (size_t j = i + 1; j < platform_sprites.size(); j++)
-            {
-                sad::Rect2D candidate_rectangle = platform_sprites[j]->area();
-                double common_ymin = std::min(common_rectangle.p0().y(), common_rectangle.p2().y());
-                double common_ymax = std::max(common_rectangle.p0().y(), common_rectangle.p2().y());
-
-                double candidate_ymin = std::min(candidate_rectangle.p0().y(), candidate_rectangle.p2().y());
-                double candidate_ymax = std::max(candidate_rectangle.p0().y(), candidate_rectangle.p2().y());
-
-                double common_xmin = std::min(common_rectangle.p0().x(), common_rectangle.p2().x());
-                double common_xmax = std::max(common_rectangle.p0().x(), common_rectangle.p2().x());
-
-                double candidate_xmin = std::min(candidate_rectangle.p0().x(), candidate_rectangle.p2().x());
-                double candidate_xmax = std::max(candidate_rectangle.p0().x(), candidate_rectangle.p2().x());
-
-                if (sad::is_fuzzy_equal(common_xmin, candidate_xmin, DESIGNER_PRECISION_ERROR)
-                    && sad::is_fuzzy_equal(common_xmax, candidate_xmax, DESIGNER_PRECISION_ERROR)
-                    && sad::is_fuzzy_equal(common_ymax, candidate_ymin, DESIGNER_PRECISION_ERROR))
-                {
-                    sprites_in_group << platform_sprites[j];
-                    common_rectangle = sad::Rect2D(common_xmin, common_ymin, common_xmax, candidate_ymax);
-                }
-            }
-            if (sprites_in_group.size() > 1)
-            {
-                sad::p2d::Body* body = new sad::p2d::Body();
-                body->setCurrentAngularVelocity(0);
-                body->setCurrentTangentialVelocity(sad::p2d::Vector(0, 0));
-                sad::p2d::Rectangle* rect = new sad::p2d::Rectangle();
-                // Slight increase of area, due to paddings
-                common_rectangle = sad::Rect2D(common_rectangle[0].x(), common_rectangle[0].y(), common_rectangle[2].x() + 1, common_rectangle[2].y());
-                rect->setRect(common_rectangle);
-                body->setShape(rect);
-                body->attachObjects(sprites_in_group);
-                body->initPosition((common_rectangle[0] + common_rectangle[2]) / 2.0);
-
-
-                m_physics_world->addBodyToGroup("platforms", body);
-                for (size_t k = 0; k < sprites_in_group.size(); k++)
-                {
-                    platform_sprites.removeFirst(sprites_in_group[k]);
-                }
-                // Decrement, so we can iterate through other platforms
-                --i;
-            }
-        }
-        // Add remaining platforms to world
-        for (size_t i = 0; i < platform_sprites.size(); i++)
-        {
-            sad::p2d::Body* body = new sad::p2d::Body();
-            body->setCurrentAngularVelocity(0);
-            body->setCurrentTangentialVelocity(sad::p2d::Vector(0, 0));
-            body->attachObject(platform_sprites[i]);
-            sad::Rect2D common_rectangle = platform_sprites[i]->area();
-            sad::p2d::Rectangle* rect = new sad::p2d::Rectangle();
-            // Slight increase of area, due to paddings
-            common_rectangle = sad::Rect2D(common_rectangle[0].x(), common_rectangle[0].y(), common_rectangle[2].x() + 1, common_rectangle[2].y());
-            // Small fix for tiny platforms, to ensure their bounding box will be some times smaller than one
-            if (common_rectangle.height() < 40) {
-                common_rectangle = sad::Rect2D(common_rectangle[0].x(), common_rectangle[0].y() + 3, common_rectangle[2].x() - 1, common_rectangle[2].y());
-            }
-            rect->setRect(common_rectangle);
-            body->setShape(rect);
-            body->initPosition(platform_sprites[i]->middle());
-
-            m_physics_world->addBodyToGroup("platforms", body);
-        }
-
-        sad::Vector<sad::Sprite2D*> coin_sprites = game::UnanimatedCoins::fetchCoinSprites(db);
-        m_unanimated_coins.init(coin_sprites, db, this->rendererForMainThread());
-        for(size_t i = 0; i < coin_sprites.size(); i++)
-        {
-            sad::p2d::Body* body = new sad::p2d::Body();
-            body->setCurrentAngularVelocity(0);
-            body->setCurrentTangentialVelocity(sad::p2d::Vector(0, 0));
-            body->attachObject(coin_sprites[i]);
-
-            sad::p2d::Rectangle* rect = new sad::p2d::Rectangle();
-            rect->setRect(coin_sprites[i]->area());
-            body->setShape(rect);
-            body->initPosition(platform_sprites[i]->middle());
-
-            m_physics_world->addBodyToGroup("coins", body);
-        }
+        initPhysicsPlatforms(m_physics_world, main_scene, &m_moving_platform_registry);
+        initCoins(m_physics_world, db, this->rendererForMainThread(), &m_unanimated_coins);
     }
+    m_max_level_x = 800;
     m_walls.init(0, m_max_level_x, 600, 0);
     m_walls.addToWorld(m_physics_world);
 

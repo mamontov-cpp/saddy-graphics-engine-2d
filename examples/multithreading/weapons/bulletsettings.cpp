@@ -61,5 +61,10 @@ void weapons::exposeBulletSettings(void* c)
         sad::dukpp03::getter::from(&weapons::BulletSettings::IsNavigatingGravityToDirection),
         sad::dukpp03::setter::from(&weapons::BulletSettings::IsNavigatingGravityToDirection)
     );
+    binding->addAccessor(
+        "SoundName",
+        sad::dukpp03::getter::from(&weapons::BulletSettings::SoundName),
+        sad::dukpp03::setter::from(&weapons::BulletSettings::SoundName)
+    );
     ctx->addClassBinding("weapons::BulletSettings", binding);
 }

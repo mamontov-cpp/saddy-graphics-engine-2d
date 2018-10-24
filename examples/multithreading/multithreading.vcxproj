@@ -220,6 +220,7 @@
     <ClCompile Include="game\triggers.cpp" />
     <ClCompile Include="game\unanimatedcoins.cpp" />
     <ClCompile Include="game\walls.cpp" />
+    <ClCompile Include="initphysics.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="nodes\background.cpp" />
     <ClCompile Include="nodes\inventorynode.cpp" />
@@ -227,6 +228,7 @@
     <ClCompile Include="optionsscreen.cpp" />
     <ClCompile Include="scenetransitionoptions.cpp" />
     <ClCompile Include="scenetransitionprocess.cpp" />
+    <ClCompile Include="scripting\exposespawnenemy.cpp" />
     <ClCompile Include="threads\gamethread.cpp" />
     <ClCompile Include="threads\tasklock.cpp" />
     <ClCompile Include="weapons\bullet.cpp" />
@@ -264,12 +266,14 @@
     <ClInclude Include="game\triggers.h" />
     <ClInclude Include="game\unanimatedcoins.h" />
     <ClInclude Include="game\walls.h" />
+    <ClInclude Include="initphysics.h" />
     <ClInclude Include="nodes\background.h" />
     <ClInclude Include="nodes\inventorynode.h" />
     <ClInclude Include="nodes\inventorypopup.h" />
     <ClInclude Include="optionsscreen.h" />
     <ClInclude Include="scenetransitionoptions.h" />
     <ClInclude Include="scenetransitionprocess.h" />
+    <ClInclude Include="scripting\exposespawnenemy.h" />
     <ClInclude Include="threads\gamestate.h" />
     <ClInclude Include="threads\gamethread.h" />
     <ClInclude Include="threads\tasklock.h" />
