@@ -11,6 +11,7 @@
 #include <bitset>
 #include <functional>
 #include <object.h>
+#include <scene.h>
 
 #include "actoroptions.h" 
 
@@ -300,6 +301,15 @@ public:
     /*! Tries to shoot for actor
      */
     void tryShoot();
+    /*! Returns point for spawning a projectile
+     *  \param[in] angle an angle
+     *  \return point
+     */
+    sad::Point2D pointForProjectileSpawn(double angle);
+    /*! Returns scene for actor
+     *  \return scene
+     */
+    sad::Scene* scene() const;
 private:
     /*! Compute whether floater should go up or down
         \param[out] is_going_up whether we should go up

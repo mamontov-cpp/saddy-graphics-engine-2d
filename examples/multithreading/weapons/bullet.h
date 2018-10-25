@@ -4,6 +4,15 @@
  */
 #pragma once
 #include "projectile.h"
+#include "bulletsettings.h"
+
+
+class Game;
+
+namespace game
+{
+class Actor;
+}
 
 namespace weapons
 {
@@ -12,9 +21,13 @@ class Bullet: public weapons::Projectile
 {
 SAD_OBJECT
 public:
-    /*! Creates new bullet
+    /*! Constructs a bullet
+        \param[in] game game
+        \param[in] actor an actor
+        \param[in] angle an angle
+        \param[in] settings a settings for laser
      */
-    Bullet();
+    Bullet(Game* game, game::Actor* actor, double angle, const weapons::BulletSettings& settings);
     /*! Destroys bullet
      */
     virtual ~Bullet();
@@ -80,10 +93,32 @@ public:
         \return whether is piercing
      */
     bool isPiercing() const;
+    /*! Called, when bullet hits platform
+     * \param[in] body a body
+     */
+    void onPlatformHit(sad::p2d::Body* body);
+    /*! Called, when bullet hits wall
+     * \param body
+     */
+    void onWallHit(sad::p2d::Body* body);
+    /*! Called when bullet hits player
+     * \param[in] player a player
+     */
+    void onPlayerHit(game::Player* player);
+    /*! Called, when bullet hits enemy (not player)
+        \param[in] actor enemy's actor
+     */
+    void onEnemyHit(game::Actor* actor);
 protected:
+    /*! A game link
+     */
+    Game* m_game;
     /*! An inner sprite
      */
     sad::Sprite2D* m_sprite;
+    /*! A body for bullet
+     */
+    sad::p2d::Body* m_body;
     /*! Whether bullet should go through platforms
      */
     bool m_is_ghost;
@@ -96,6 +131,9 @@ protected:
     /*! Whether bullet is piercing
      */
     bool m_is_piercing;
+    /*! Whether bullet should decay
+     */
+    bool m_should_decay;
 };
 
 }

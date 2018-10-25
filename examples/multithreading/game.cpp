@@ -1411,6 +1411,7 @@ void Game::killProjectile(weapons::Projectile* projectile)
             m_projectiles[i]->delRef();
             m_projectiles.removeAt(i);
             --i;
+            return;
         }
     }
 }
@@ -1421,199 +1422,6 @@ void Game::addProjectile(weapons::Projectile* projectile)
     {
         projectile->addRef();
         m_projectiles << projectile;
-    }
-}
-
-sad::Point2D Game::pointOnActorForBullet(game::Actor* actor, double angle)  const
-{
-    while (angle < 0)
-    {
-        angle += 2 * M_PI;
-    }
-
-    while (angle > 2 * M_PI)
-    {
-        angle -= 2 * M_PI;
-    }
-
-    sad::Point2D middle = actor->middle();
-    sad::p2d::InfiniteLine line = sad::p2d::InfiniteLine::appliedVector(middle, sad::p2d::Vector(cos(angle), sin(angle)));
-    double rect_angle = 0;
-    if (!sad::is_fuzzy_zero(actor->area().width()))
-    {
-        rect_angle = atan2(actor->area().height(), actor->area().width());
-    }
-    sad::p2d::MaybePoint pivot_point;
-    if ((angle <= rect_angle) || (angle >= (2 * M_PI - rect_angle)))
-    {
-        pivot_point = line.intersection(sad::p2d::Cutter2D(actor->area()[1], actor->area()[2]));
-    }
-    else
-    {
-        if (angle <= (M_PI - rect_angle))
-        {
-            pivot_point = line.intersection(sad::p2d::Cutter2D(actor->area()[2], actor->area()[3]));
-        }
-        else
-        {
-            if (angle < M_PI + rect_angle)
-            {
-                pivot_point = line.intersection(sad::p2d::Cutter2D(actor->area()[0], actor->area()[3]));
-            }
-            else
-            {
-                pivot_point = line.intersection(sad::p2d::Cutter2D(actor->area()[0], actor->area()[1]));
-            }
-        }
-    }
-    sad::Point2D result_middle;
-    if (!pivot_point.exists())
-    {
-        result_middle = middle;
-    }
-    else
-    {
-        result_middle = pivot_point.value();
-    }
-    return result_middle;
-}
-
-weapons::Bullet* Game::spawnBullet(game::Actor* actor, double angle, const weapons::BulletSettings& settings) const
-{
-    bool is_player = m_player->actor() == actor;
-    while(angle < 0)
-    {
-        angle += 2* M_PI;
-    }
-
-    while (angle > 2 * M_PI)
-    {
-        angle -= 2 * M_PI;
-    }
-
-    sad::Renderer* r = this->rendererForMainThread();
-    sad::Sprite2D::Options* opts = r->tree()->get<sad::Sprite2D::Options>(settings.IconName);
-    if (opts)
-    {
-        sad::db::Database* db = r->database("gamescreen");
-        sad::Scene* main_scene = db->objectByName<sad::Scene>("main");
-
-        sad::Point2D result_middle = this->pointOnActorForBullet(actor, angle);
-        
-        double halfwidth = opts->Rectangle.width() / 2.0, halfheight = opts->Rectangle.height() / 2.0;
-        result_middle.setX(result_middle.x() + halfwidth * cos(angle));
-        result_middle.setY(result_middle.y() + halfheight * sin(angle));
-        sad::Rect2D area(result_middle.x() - halfwidth, result_middle.y() - halfheight, result_middle.x() + halfwidth, result_middle.y() + halfheight);
-        sad::Sprite2D* sprite = new sad::Sprite2D();
-        sprite->setScene(main_scene);
-        sprite->setTreeName(r, "");
-        sprite->set(settings.IconName);
-        sprite->setArea(area);
-        main_scene->addNode(sprite);
-
-        sad::p2d::Rectangle* rectangle = new sad::p2d::Rectangle();
-        rectangle->setRect(sprite->renderableArea());
-
-        weapons::Bullet* bullet = new weapons::Bullet();
-        bullet->setSprite(sprite);
-        bullet->setIsGhost(settings.IsGhost);
-        bullet->setBounceCountLeft(settings.MaxBounceCount);
-        bullet->setBounceResilienceCoefficient(settings.BounceResilienceCoefficient);
-        bullet->setIsPiercing(settings.IsPiercing);
-
-        sad::p2d::Body* body = new sad::p2d::Body();
-        body->setCurrentAngularVelocity(settings.AngularSpeed);
-        body->setCurrentTangentialVelocity(sad::p2d::Vector(settings.Speed * cos(angle), settings.Speed * sin(angle)));
-        body->attachObject(bullet);
-        body->setShape(rectangle);
-        body->initPosition(sprite->middle());
-        if (settings.ApplyGravity)
-        {
-            sad::Point2D gravity = settings.GravityValue;
-            if (!((angle < M_PI / 2.0) || (angle > 1.5 * M_PI)))
-            {
-                gravity.setX(-(gravity.x)());
-            }
-            body->addForce(new sad::p2d::TangentialForce(gravity));
-        }
-
-        if (is_player)
-        {
-            this->physicsWorld()->addBodyToGroup("player_bullets", body);
-        }
-        else
-        {
-            this->physicsWorld()->addBodyToGroup("enemy_bullets", body);
-        }
-        return bullet;
-    }
-    return NULL;
-}
-
-void Game::tryDecayBullet(sad::p2d::Body* bullet, const sad::String& sound, bool is_enemy_hit)
-{
-    sad::Object* a = bullet->userObject();
-    // This conditions only holds only in case of bullets,
-    if (a->metaData()->name() == weapons::Bullet::globalMetaData()->name())
-    {
-        weapons::Bullet* bullet_object = static_cast<weapons::Bullet*>(a);
-        if (is_enemy_hit)
-        {
-            if (bullet_object->isPiercing())
-            {
-                return;
-            }
-        }
-        sad::Sprite2D* local_sprite = bullet_object->sprite();
-        sad::Scene* scene = local_sprite->scene();
-        sad::Point2D middle = local_sprite->middle();
-
-        sad::String options_name = local_sprite->optionsName();
-        sad::Sprite2D::Options* opts = scene->renderer()->tree()->get<sad::Sprite2D::Options>(options_name);
-
-        this->rendererForMainThread()->pipeline()->appendTask([=]() {
-            scene->removeNode(local_sprite);
-            this->m_physics_world->removeBody(bullet);
-        });
-        
-
-        double dist  = 10;
-        sad::Point2D vectors[4] = {
-            sad::Point2D(-dist, -dist),
-            sad::Point2D(dist, -dist),
-            sad::Point2D(-dist, dist),
-            sad::Point2D(dist, dist)
-        };
-        if (sound.length())
-        {
-            this->playSound(sound);
-        }
-        for (auto vector : vectors)
-        {
-            sad::Sprite2D* anim_sprite = new sad::Sprite2D();
-            anim_sprite->setScene(scene);
-            anim_sprite->setTreeName(scene->renderer(), "");
-            anim_sprite->set(options_name);
-
-            sad::Rect2D rect(
-                middle.x() - opts->Rectangle.width() / 4.0, -middle.x() - opts->Rectangle.height() / 4.0,
-                middle.x() + opts->Rectangle.width() / 4.0, -middle.x() + opts->Rectangle.height() / 4.0
-            );
-            anim_sprite->setArea(rect);
-            scene->addNode(anim_sprite);
-
-            sad::animations::SimpleMovement* movement = new sad::animations::SimpleMovement();
-            movement->setTime(300);
-            movement->setStartingPoint(middle);
-            movement->setEndingPoint(middle + vector);
-
-            sad::animations::Instance* instance = new sad::animations::Instance();
-            instance->setObject(anim_sprite);
-            instance->setAnimation(movement);
-            instance->end([=] { anim_sprite->scene()->removeNode(anim_sprite); });
-
-            scene->renderer()->animations()->add(instance);
-        }
     }
 }
 
@@ -1746,6 +1554,11 @@ bool Game::addActorOptions(const sad::String& name, const game::ActorOptions& op
     nopts->addRef();
     m_actor_options.insert(name, nopts);
     return true;
+}
+
+sad::p2d::BounceSolver* Game::bounceSolverForBullets() const
+{
+    return m_bounce_solver_for_bullets;
 }
 
 void Game::disableGravity(sad::p2d::Body* b)
@@ -1937,44 +1750,14 @@ void Game::initGamePhysics()
     std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_walls_and_bullet = [=](const sad::p2d::BasicCollisionEvent & ev) {
         sad::Object* a = ev.m_object_2->userObject();
         // This conditions only holds only in case of bullets,
-        if (a->metaData()->name() == weapons::Bullet::globalMetaData()->name())
-        {
-            weapons::Bullet* b = static_cast<weapons::Bullet*>(a);
-            sad::Sprite2D* local_sprite = b->sprite();
-            this->rendererForMainThread()->pipeline()->appendTask([=]() {
-                main_scene->removeNode(local_sprite);
-
-                this->m_physics_world->removeBody(ev.m_object_2);
-            });
-        }
+        static_cast<weapons::Projectile*>(a)->onWallHit(ev.m_object_1);
     };
     m_physics_world->addHandler("walls", "player_bullets", collision_between_walls_and_bullet);
     m_physics_world->addHandler("walls", "enemy_bullets", collision_between_walls_and_bullet);
     std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_platform_and_bullet = [=](const sad::p2d::BasicCollisionEvent & ev) {
         sad::p2d::Body* maybe_bullet_body = ev.m_object_2;
         sad::Object* obj = maybe_bullet_body->userObject();
-        if (obj->isInstanceOf("weapons::Bullet"))
-        {
-            weapons::Bullet* bullet = static_cast<weapons::Bullet*>(obj);
-            if (!bullet->isGhost())
-            {
-                if (bullet->bounceCountLeft() <= 0)
-                {
-                    this->tryDecayBullet(ev.m_object_2, "hit", false);
-                }
-                else
-                {
-                    bullet->setBounceCountLeft(bullet->bounceCountLeft() - 1);
-                    this->m_bounce_solver_for_bullets->pushResilienceCoefficient(bullet->bounceResilienceCoefficient(), 1);
-                    this->m_bounce_solver_for_bullets->pushResilienceCoefficient(bullet->bounceResilienceCoefficient(), 2);
-                    sad::p2d::Weight w = ev.m_object_1->weight();
-                    ev.m_object_1->setWeight(sad::p2d::Weight::infinite());
-                    this->m_bounce_solver_for_bullets->bounce(ev.m_object_1, ev.m_object_2);
-                    // Restore weight;
-                    ev.m_object_1->setWeight(w);
-                }
-            }
-        }
+        static_cast<weapons::Projectile*>(obj)->onPlatformHit(ev.m_object_1);
     };
     m_physics_world->addHandler("platforms", "player_bullets", collision_between_platform_and_bullet);
     m_physics_world->addHandler("platforms", "enemy_bullets", collision_between_platform_and_bullet);
@@ -1984,15 +1767,15 @@ void Game::initGamePhysics()
     std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_enemy_and_bullet = [=](const sad::p2d::BasicCollisionEvent & ev) {
         game::Actor* actor = static_cast<game::Actor*>(ev.m_object_1->userObject());
         weapons::Projectile* projectile = static_cast<weapons::Projectile*>(ev.m_object_2->userObject());
-        if (!actor->isInvincible()) this->tryDecayBullet(ev.m_object_2, "hit_enemy", true);
         actor->tryDecrementLives(projectile->damage());
+        projectile->onEnemyHit(actor);
     };
 
     std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_player_and_bullet = [=](const sad::p2d::BasicCollisionEvent & ev) {
         weapons::Projectile* projectile = static_cast<weapons::Projectile*>(ev.m_object_2->userObject());
         int dmg = projectile->damage();
-        if (!this->player()->isInvincible()) this->tryDecayBullet(ev.m_object_2, "hurt", true);
         this->player()->tryDecrementLives(dmg);
+        projectile->onPlayerHit(m_player);
     };
 
     std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_player_and_enemies = [=](const sad::p2d::BasicCollisionEvent & ev) {

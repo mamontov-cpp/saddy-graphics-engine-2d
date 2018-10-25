@@ -214,7 +214,7 @@ void weapons::Weapon::spawnProjectile(Game* game, game::Actor* actor, double ang
             sad::String sound = "shooting_1";
             if (s.SoundName.length()) sound = s.SoundName;
             actor->game()->playSound(sound);
-            weapons::Bullet* bullet = game->spawnBullet(actor, angle, s);
+            weapons::Bullet* bullet = new weapons::Bullet(game, actor, angle, s);
             bullet->setDamage(actor->modifyDamage(base_dmg));
         }
         if (m_settings.Type == weapons::Weapon::WWT_LASER)
@@ -259,8 +259,9 @@ void weapons::Weapon::spawnProjectile(Game* game, game::Actor* actor, double ang
                 sad::String sound = "shooting_1";
                 if (s.SoundName.length()) sound = s.SoundName;
                 actor->game()->playSound(sound);
-                weapons::Bullet* bullet = game->spawnBullet(actor, actor->lookupAngle() + dangle, s);
+                weapons::Bullet* bullet = new weapons::Bullet(game, actor, actor->lookupAngle() + dangle, s);
                 bullet->setDamage(actor->modifyDamage(base_dmg));
+                game->addProjectile(bullet);
             });
         }
         if (m_settings.Type == weapons::Weapon::WWT_LASER)

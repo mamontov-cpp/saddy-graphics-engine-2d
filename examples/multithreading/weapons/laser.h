@@ -44,9 +44,6 @@ SAD_OBJECT
      */
     virtual void update();
 private:
-    /*! A game
-     */
-    Game* m_game;
     /*! A local actor
      */
     game::Actor* m_actor;

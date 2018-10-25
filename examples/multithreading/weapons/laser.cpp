@@ -13,11 +13,12 @@
 DECLARE_SOBJ_INHERITANCE(weapons::Laser, weapons::Projectile)
 
 weapons::Laser::Laser(Game* game, game::Actor* actor, double angle, const weapons::LaserSettings& settings)
-: m_game(game), m_actor(actor), m_sprite(NULL), m_body(NULL), m_max_time(settings.Time), m_dangle(0), m_width(0), m_height(0)
+: m_actor(actor), m_sprite(NULL), m_body(NULL), m_max_time(settings.Time), m_dangle(0), m_width(0), m_height(0)
 {
+    m_game = game;
     bool is_player =  game->player()->actor() == actor;
     m_dangle = angle - actor->lookupAngle();
-    sad::Point2D point = game->pointOnActorForBullet(actor, angle);
+    sad::Point2D point = actor->pointForProjectileSpawn(angle);
     sad::Renderer* r = game->rendererForMainThread();
     sad::Sprite2D::Options* opts = r->tree()->get<sad::Sprite2D::Options>(settings.IconName);
     double width = settings.Width;
@@ -101,7 +102,7 @@ void weapons::Laser::update()
             return;
         }
         double angle = m_actor->lookupAngle() + m_dangle;
-        sad::Point2D point = m_actor->game()->pointOnActorForBullet(m_actor, angle);
+        sad::Point2D point = m_actor->pointForProjectileSpawn(angle);
         sad::Point2D middle(point.x() + m_height / 2.0 * cos(angle), point.y() + m_height / 2.0 *  sin(angle));
 
         sad::Rect2D rect(

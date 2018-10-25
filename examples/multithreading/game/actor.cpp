@@ -3,10 +3,12 @@
 
 #include "../weapons/weapon.h"
 
+#include <cmath>
 #include <cstdio>
 
 #include <p2d/world.h>
 #include <p2d/collides1d.h>
+#include <p2d/infiniteline.h>
 
 #include <dukpp-03/context.h>
 
@@ -1130,6 +1132,65 @@ void game::Actor::tryShoot()
     {
         m_weapon->tryShoot(this->game(), this);
     }
+}
+
+sad::Point2D game::Actor::pointForProjectileSpawn(double angle)
+{
+    while (angle < 0)
+    {
+        angle += 2 * M_PI;
+    }
+
+    while (angle > 2 * M_PI)
+    {
+        angle -= 2 * M_PI;
+    }
+
+    sad::Point2D middle = this->middle();
+    sad::p2d::InfiniteLine line = sad::p2d::InfiniteLine::appliedVector(middle, sad::p2d::Vector(cos(angle), sin(angle)));
+    double rect_angle = 0;
+    if (!sad::is_fuzzy_zero(this->area().width()))
+    {
+        rect_angle = atan2(this->area().height(), this->area().width());
+    }
+    sad::p2d::MaybePoint pivot_point;
+    if ((angle <= rect_angle) || (angle >= (2 * M_PI - rect_angle)))
+    {
+        pivot_point = line.intersection(sad::p2d::Cutter2D(this->area()[1], this->area()[2]));
+    }
+    else
+    {
+        if (angle <= (M_PI - rect_angle))
+        {
+            pivot_point = line.intersection(sad::p2d::Cutter2D(this->area()[2], this->area()[3]));
+        }
+        else
+        {
+            if (angle < M_PI + rect_angle)
+            {
+                pivot_point = line.intersection(sad::p2d::Cutter2D(this->area()[0], this->area()[3]));
+            }
+            else
+            {
+                pivot_point = line.intersection(sad::p2d::Cutter2D(this->area()[0], this->area()[1]));
+            }
+        }
+    }
+    sad::Point2D result_middle;
+    if (!pivot_point.exists())
+    {
+        result_middle = middle;
+    }
+    else
+    {
+        result_middle = pivot_point.value();
+    }
+    return result_middle;
+}
+
+sad::Scene* game::Actor::scene() const
+{
+    return m_sprite->scene();
 }
 
 // ===================================== PRIVATE METHODS =====================================

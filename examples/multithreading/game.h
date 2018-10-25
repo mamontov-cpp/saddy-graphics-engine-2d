@@ -292,24 +292,6 @@ public:
         \param[in] projectile a projectile
      */
     void addProjectile(weapons::Projectile* projectile);
-    /*! Returns point on actor for bullet
-        \param[in] actor an actor
-        \param[in] angle an angle
-        \return result
-     */
-    sad::Point2D pointOnActorForBullet(game::Actor* actor, double angle) const;
-    /*! Spawns bullet in samge direction
-        \param[in] actor an actor
-        \param[in] angle an angle of attack
-        \param[in] settings settings for bullets
-     */
-    weapons::Bullet* spawnBullet(game::Actor* actor, double angle, const weapons::BulletSettings& settings) const;
-    /*! Tries to play decaying animation for specific bullet
-         \param[in] bullet a bullet
-         \param[in] sound a sound to be played, pass empty string if none
-         \param[in] is_enemy_hit whether we hit the enemy
-     */
-    void tryDecayBullet(sad::p2d::Body* bullet, const sad::String& sound, bool is_enemy_hit);
     /*! Spawn death animation for actos sprite
         \param[in] sprite a sprite
      */
@@ -358,6 +340,10 @@ public:
         \param[in] opts options
      */
     bool addActorOptions(const sad::String& name, const game::ActorOptions& opts);
+    /*! Returns bounce solver for bullets
+     * \return solver for bullets
+     */
+    sad::p2d::BounceSolver* bounceSolverForBullets() const;
 private:
     /*! Inits evaluation context
      */

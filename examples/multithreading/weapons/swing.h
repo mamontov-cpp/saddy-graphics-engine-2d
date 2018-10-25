@@ -62,9 +62,6 @@ private:
     /*! An actor, from which we should remove a swing
      */
     game::Actor* m_attached_actor;
-    /*! A game
-     */
-    Game* m_game;
     /*! A timer objects
      */
     sad::Timer m_timer;

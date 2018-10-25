@@ -20,9 +20,9 @@ weapons::Swing::Swing(Game* game, game::Actor* actor, const weapons::SwingSettin
 : m_swing_sprite(NULL),
 m_body(NULL),
 m_attached_actor(actor),
-m_game(game),  
 m_max_time(settings.DecayTime)
 {
+    m_game = game;
     m_left = actor->isLastMovedLeft();
     bool is_player = game->player()->actor() == actor;
     sad::Renderer* r  = game->rendererForMainThread();
