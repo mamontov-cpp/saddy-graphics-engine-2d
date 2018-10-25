@@ -104,6 +104,7 @@ void weapons::Weapon::setSettings(const weapons::SwingSettings& s)
     this->clearSettings();
     m_settings.Type = weapons::Weapon::WWT_SWING;
     m_settings.Settings.Swing = new weapons::SwingSettings(s);
+    if (m_settings.Settings.Swing->SoundName.empty()) m_settings.Settings.Swing->SoundName = "swing";
 }
 
 void weapons::Weapon::setSettings(const weapons::BulletSettings& s)
@@ -111,6 +112,7 @@ void weapons::Weapon::setSettings(const weapons::BulletSettings& s)
     this->clearSettings();
     m_settings.Type = weapons::Weapon::WWT_BULLET;
     m_settings.Settings.Bullet = new weapons::BulletSettings(s);
+    if (m_settings.Settings.Bullet->SoundName.empty()) m_settings.Settings.Bullet->SoundName = "shooting_1";
 }
 
 void weapons::Weapon::setSettings(const weapons::LaserSettings& s)
@@ -118,6 +120,7 @@ void weapons::Weapon::setSettings(const weapons::LaserSettings& s)
     this->clearSettings();
     m_settings.Type = weapons::Weapon::WWT_LASER;
     m_settings.Settings.Laser = new weapons::LaserSettings(s);
+    if (m_settings.Settings.Laser->SoundName.empty()) m_settings.Settings.Laser->SoundName = "shooting_2";
 }
 
 
@@ -191,96 +194,62 @@ void weapons::Weapon::spawnProjectile(Game* game, game::Actor* actor, double ang
     {
         return;
     }
+    double base_dmg = this->baseDamage();
     if (sad::is_fuzzy_zero(delay))
     {
         if (game->isDead(actor))
         {
             return;
         }
-        double base_dmg = this->baseDamage();
-        if (m_settings.Type == weapons::Weapon::WWT_SWING)
-        {
-            weapons::SwingSettings s = *(m_settings.Settings.Swing);
-            sad::String sound = "swing";
-            if (s.SoundName.length()) sound = s.SoundName;
-            actor->game()->playSound(sound);
-            weapons::Swing* swing = new weapons::Swing(game, actor, s);
-            swing->setDamage(actor->modifyDamage(base_dmg));
-            game->addProjectile(swing);
-        }
-        if (m_settings.Type == weapons::Weapon::WWT_BULLET)
-        {
-            weapons::BulletSettings s = *(m_settings.Settings.Bullet);
-            sad::String sound = "shooting_1";
-            if (s.SoundName.length()) sound = s.SoundName;
-            actor->game()->playSound(sound);
-            weapons::Bullet* bullet = new weapons::Bullet(game, actor, angle, s);
-            bullet->setDamage(actor->modifyDamage(base_dmg));
-        }
-        if (m_settings.Type == weapons::Weapon::WWT_LASER)
-        {
-            weapons::LaserSettings s = *(m_settings.Settings.Laser);
-            sad::String sound = "shooting_2";
-            if (s.SoundName.length()) sound = s.SoundName;
-            actor->game()->playSound(sound);
-            weapons::Laser* laser = new weapons::Laser(game, actor, angle, s);
-            laser->setDamage(actor->modifyDamage(base_dmg));
-            game->addProjectile(laser);
-        }
+        weapons::Projectile* projectile = this->makeProjectile(game, actor, angle);
+        projectile->setDamage(actor->modifyDamage(base_dmg));
+        game->addProjectile(projectile);
     }
     else
     {
-        double base_dmg = this->baseDamage();
         double dangle = angle - actor->lookupAngle();
-        if (m_settings.Type == weapons::Weapon::WWT_SWING)
-        {
-            weapons::SwingSettings s = *(m_settings.Settings.Swing);
-            game->addDelayedTask(delay, [=] {
-                if (game->isDead(actor))
-                {
-                    return;
-                }
-                sad::String sound = "swing";
-                if (s.SoundName.length()) sound = s.SoundName;
-                actor->game()->playSound(sound);
-                weapons::Swing* swing = new weapons::Swing(game, actor, s);
-                swing->setDamage(actor->modifyDamage(base_dmg));
-                game->addProjectile(swing);
-            });
-        }
-        if (m_settings.Type == weapons::Weapon::WWT_BULLET)
-        {
-            weapons::BulletSettings s = *(m_settings.Settings.Bullet);
-            game->addDelayedTask(delay, [=] {
-                if (game->isDead(actor))
-                {
-                    return;
-                }
-                sad::String sound = "shooting_1";
-                if (s.SoundName.length()) sound = s.SoundName;
-                actor->game()->playSound(sound);
-                weapons::Bullet* bullet = new weapons::Bullet(game, actor, actor->lookupAngle() + dangle, s);
-                bullet->setDamage(actor->modifyDamage(base_dmg));
-                game->addProjectile(bullet);
-            });
-        }
-        if (m_settings.Type == weapons::Weapon::WWT_LASER)
-        {
-            weapons::LaserSettings s = *(m_settings.Settings.Laser);
-            game->addDelayedTask(delay, [=] {
-                if (game->isDead(actor))
-                {
-                    return;
-                }
-                sad::String sound = "shooting_2";
-                if (s.SoundName.length()) sound = s.SoundName;
-                actor->game()->playSound(sound);
-                weapons::Laser* laser = new weapons::Laser(game, actor, actor->lookupAngle() + dangle, s);
-                laser->setDamage(actor->modifyDamage(base_dmg));
-                game->addProjectile(laser);
-            });
-        }
+        game->addDelayedTask(delay, [=] {
+            if (game->isDead(actor))
+            {
+                return;
+            }
+            weapons::Weapon* weapon = actor->weapon();
+            if (weapon)
+            { 
+                weapons::Projectile* projectile = actor->weapon()->makeProjectile(game, actor, actor->lookupAngle() + dangle);
+                projectile->setDamage(actor->modifyDamage(base_dmg));
+                game->addProjectile(projectile);
+            }
+        });
     }
+}
+
+weapons::Projectile* weapons::Weapon::makeProjectile(Game* game, game::Actor* actor, double angle) const
+{
+    switch (m_settings.Type)
+    {
+        case weapons::Weapon::WWT_NONE:
+            return NULL;
+        case weapons::Weapon::WWT_SWING:
+            {
+                weapons::SwingSettings s = *(m_settings.Settings.Swing);
+                actor->game()->playSound(s.SoundName);
+                return new weapons::Swing(game, actor, s);
+            }
+        case weapons::Weapon::WWT_BULLET:
+            {
+                weapons::BulletSettings s = *(m_settings.Settings.Bullet);
+                actor->game()->playSound(s.SoundName);
+                return new weapons::Bullet(game, actor, angle, s);;
+            }
+        case weapons::Weapon::WWT_LASER:
+            {
+                weapons::LaserSettings s = *(m_settings.Settings.Laser);
+                actor->game()->playSound(s.SoundName);
+                return new weapons::Laser(game, actor, angle, s);
+            }
+    }
+    return NULL;
 }
 
 void weapons::Weapon::clearSettings()

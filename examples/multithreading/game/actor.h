@@ -305,11 +305,18 @@ public:
      *  \param[in] angle an angle
      *  \return point
      */
-    sad::Point2D pointForProjectileSpawn(double angle);
+    sad::Point2D pointForProjectileSpawn(double angle) const;
     /*! Returns scene for actor
      *  \return scene
      */
     sad::Scene* scene() const;
+    /*! Plays death animation
+     *  \return instance
+     */
+    sad::animations::Instance* playDeathAnimation();
+    /*! Makes actor die
+     */
+    void die();
 private:
     /*! Compute whether floater should go up or down
         \param[out] is_going_up whether we should go up

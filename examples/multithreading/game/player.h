@@ -178,6 +178,12 @@ public:
      *  \param[in] db database
      */
     void initPhysics(sad::p2d::World* world, sad::db::Database* db);
+    /*! Kills a player, making him die
+     */
+    void die();
+    /*! Called on bototm wall collision
+     */
+    void onBottomWallCollision();
 private:
     /*! Player's inventory, that will be carried around
      */

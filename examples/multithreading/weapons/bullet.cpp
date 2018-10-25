@@ -19,8 +19,7 @@
 DECLARE_SOBJ_INHERITANCE(weapons::Bullet, weapons::Projectile)
 
 weapons::Bullet::Bullet(Game* game, game::Actor* actor, double angle, const weapons::BulletSettings& settings)
-: m_game(game),
-m_sprite(NULL),
+: m_sprite(NULL),
 m_body(NULL),
 m_is_ghost(false),
 m_bounce_count_left(0),
@@ -28,7 +27,7 @@ m_bounce_resilience_coefficient(1.0),
 m_is_piercing(false),
 m_should_decay(true)
 {
-
+    m_game = game;
     this->setIsGhost(settings.IsGhost);
     this->setBounceCountLeft(settings.MaxBounceCount);
     this->setBounceResilienceCoefficient(settings.BounceResilienceCoefficient);
@@ -59,7 +58,8 @@ m_should_decay(true)
     double halfwidth = 5, halfheight = 5;
     if (opts)
     {
-        double halfwidth = opts->Rectangle.width() / 2.0, halfheight = opts->Rectangle.height() / 2.0;
+        halfwidth = opts->Rectangle.width() / 2.0;
+        halfheight = opts->Rectangle.height() / 2.0;
     }
     result_middle.setX(result_middle.x() + halfwidth * cos(angle));
     result_middle.setY(result_middle.y() + halfheight * sin(angle));

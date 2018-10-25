@@ -10,7 +10,9 @@ DECLARE_COMMON_TYPE(game::Player)
 
 game::Player::Player() : m_is_dead(false)
 {
-
+    this->onDeath([=](game::Actor*) {
+        this->die();
+    });
 }
 
 
@@ -296,6 +298,28 @@ void game::Player::initPhysics(sad::p2d::World* world, sad::db::Database* db)
         this->setBody(body);
         this->enableGravity();
         this->init(true);
+    }
+}
+
+void game::Player::die()
+{
+    // TODO: Copy score to highscore
+
+    Game* game = this->game();
+    this->toggleIsDead(true);
+    sad::Sprite2D* local_sprite = m_actor.sprite();
+    game->playSound("lose");
+    game->physicsWorld()->removeBody(this->actor()->body());
+    game->rendererForMainThread()->animations()->stopProcessesRelatedToObject(local_sprite);
+    sad::animations::Instance* instance = m_actor.playDeathAnimation();
+    instance->end([=]() {  game->changeSceneToLoseScreen(); });
+}
+
+void game::Player::onBottomWallCollision()
+{
+    if (!this->isFloater())
+    {
+        this->die();
     }
 }
 

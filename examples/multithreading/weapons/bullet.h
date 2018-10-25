@@ -110,9 +110,6 @@ public:
      */
     void onEnemyHit(game::Actor* actor);
 protected:
-    /*! A game link
-     */
-    Game* m_game;
     /*! An inner sprite
      */
     sad::Sprite2D* m_sprite;

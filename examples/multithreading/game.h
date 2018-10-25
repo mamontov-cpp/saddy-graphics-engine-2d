@@ -292,10 +292,6 @@ public:
         \param[in] projectile a projectile
      */
     void addProjectile(weapons::Projectile* projectile);
-    /*! Spawn death animation for actos sprite
-        \param[in] sprite a sprite
-     */
-    sad::animations::Instance* spawnDeathAnimationForActorsSprite(sad::Sprite2D* sprite);
     /*! Tests if actor is dead
         \param[in] actor an actor
         \return
@@ -315,7 +311,7 @@ public:
         \param[in] bot_name a name of bot
         \return bot or  NULL if not found
      */
-    bots::AbstractBot* getFromRegistry(const sad::String& bot_name);
+    bots::AbstractBot* getFromRegistry(const sad::String& bot_name) const;
     /*! Returns true if we have bot in registry
         \param[in] bot_name a name for bot
         \return true if bot is in registry

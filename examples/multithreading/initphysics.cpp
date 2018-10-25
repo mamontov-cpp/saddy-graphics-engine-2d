@@ -1,6 +1,9 @@
 #include "initphysics.h"
+#include "game.h"
 
 #include <p2d/multisamplingcollisiondetector.h>
+
+#include <pipeline/pipeline.h>
 
 #include <sprite2d.h>
 
@@ -206,7 +209,7 @@ void initPhysicsPlatforms(sad::p2d::World* world, sad::Scene* main_scene, game::
     }
 }
 
-void initCoins(sad::p2d::World* world, sad::db::Database* db, sad::Renderer* r, game::UnanimatedCoins* coins)
+void initCoins(Game* game, sad::p2d::World* world, sad::db::Database* db, sad::Renderer* r, game::UnanimatedCoins* coins)
 {
     sad::Vector<sad::Sprite2D*> coin_sprites = game::UnanimatedCoins::fetchCoinSprites(db);
     coins->init(coin_sprites, db, r);
@@ -224,4 +227,23 @@ void initCoins(sad::p2d::World* world, sad::db::Database* db, sad::Renderer* r, 
 
         world->addBodyToGroup("coins", body);
     }
+
+    std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_player_and_coins = [=](const sad::p2d::BasicCollisionEvent & ev) {
+        game->playSound("coin");
+
+        sad::animations::Animation* a = db->objectByName<sad::animations::Animation>("coin_decay");
+        if (a)
+        {
+            sad::Sprite2D* local_sprite = static_cast<sad::Sprite2D*>(ev.m_object_1->userObject());
+
+            sad::animations::Instance* instance = new sad::animations::Instance();
+            instance->setAnimation(a);
+            instance->setObject(local_sprite);
+            instance->end([=] { local_sprite->scene()->removeNode(local_sprite);  });
+            game->rendererForMainThread()->animations()->add(instance);
+
+            game->rendererForMainThread()->pipeline()->appendTask([=] { game->physicsWorld()->removeBody(ev.m_object_1); });
+        }
+    };
+    game->physicsWorld()->addHandler("coins", "player", collision_between_player_and_coins);
 }

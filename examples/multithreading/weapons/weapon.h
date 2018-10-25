@@ -12,6 +12,8 @@
 #include "swingsettings.h"
 #include "lasersettings.h"
 
+#include "projectile.h"
+
 
 class Game;
 
@@ -124,6 +126,13 @@ protected:
      *  \param[in] delay a delay
      */
     void spawnProjectile(Game* game, game::Actor* actor, double angle, double delay);
+    /*! Spawns projectiles for weapon
+     *  \param[in] game a game
+     *  \param[in] actor an actor
+     *  \param[in] angle an angle
+     *  \return a projectile
+     */
+    weapons::Projectile* makeProjectile(Game* game, game::Actor* actor, double angle) const;
     /*! Clears settings for weapon
      */
     void clearSettings();

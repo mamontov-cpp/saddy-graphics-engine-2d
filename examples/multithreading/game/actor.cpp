@@ -10,6 +10,12 @@
 #include <p2d/collides1d.h>
 #include <p2d/infiniteline.h>
 
+#include <animations/animationssimplemovement.h>
+#include <animations/animationsrotate.h>
+#include <animations/animationsparallel.h>
+#include <animations/animationsanimations.h>
+
+
 #include <dukpp-03/context.h>
 
 #include <object.h>
@@ -1134,7 +1140,7 @@ void game::Actor::tryShoot()
     }
 }
 
-sad::Point2D game::Actor::pointForProjectileSpawn(double angle)
+sad::Point2D game::Actor::pointForProjectileSpawn(double angle) const
 {
     while (angle < 0)
     {
@@ -1191,6 +1197,47 @@ sad::Point2D game::Actor::pointForProjectileSpawn(double angle)
 sad::Scene* game::Actor::scene() const
 {
     return m_sprite->scene();
+}
+
+sad::animations::Instance* game::Actor::playDeathAnimation()
+{
+    sad::Point2D middle = m_sprite->middle();
+    sad::Sprite2D* sprite = m_sprite;
+
+    sad::animations::SimpleMovement* movement = new sad::animations::SimpleMovement();
+    movement->setStartingPoint(middle);
+    movement->setEndingPoint(sad::Point2D(middle.x(), -(m_sprite->area().height())));
+    movement->setTime(1000);
+    movement->setLooped(false);
+
+    sad::animations::Rotate* rotate = new sad::animations::Rotate();
+    rotate->setMinAngle(0);
+    rotate->setMaxAngle(4 * M_PI);
+    rotate->setTime(1000);
+    rotate->setLooped(false);
+
+    sad::animations::Parallel* parallel = new sad::animations::Parallel();
+    parallel->add(movement);
+    parallel->add(rotate);
+    parallel->setTime(1000);
+    parallel->setLooped(false);
+
+    sad::animations::Instance* instance = new sad::animations::Instance();
+    instance->setObject(m_sprite);
+    instance->setAnimation(parallel);
+    instance->end([=] { sprite->scene()->removeNode(sprite); });
+
+    m_game->rendererForMainThread()->animations()->add(instance);
+
+    return instance;
+}
+
+void game::Actor::die()
+{
+    this->addRef();
+    m_game->killActorWithoutSprite(this);
+    this->playDeathAnimation();
+    this->delRef();
 }
 
 // ===================================== PRIVATE METHODS =====================================

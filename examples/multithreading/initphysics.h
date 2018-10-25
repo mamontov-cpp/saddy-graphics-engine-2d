@@ -11,6 +11,8 @@
 #include "game/movingplatformregistry.h"
 #include "game/unanimatedcoins.h"
 
+class Game;
+
 /*! Inits physics world
  *  \param[in] world a main world
  */
@@ -24,9 +26,10 @@ void initPhysicsWorld(sad::p2d::World* world);
 void initPhysicsPlatforms(sad::p2d::World* world, sad::Scene* main_scene, game::MovingPlatformRegistry* registry);
 
 /*! Inits coins
+ *  \param[in] game a game
  *  \param[in] world a main world
- *  \parma[in] db database
+ *  \param[in] db database
  *  \param[in] r renderer
  *  \param[in] coins a coins
  */
-void initCoins(sad::p2d::World* world, sad::db::Database* db, sad::Renderer* r, game::UnanimatedCoins* coins);
+void initCoins(Game* game, sad::p2d::World* world, sad::db::Database* db, sad::Renderer* r, game::UnanimatedCoins* coins);
