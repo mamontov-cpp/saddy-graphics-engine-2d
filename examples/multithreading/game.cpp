@@ -921,7 +921,10 @@ void Game::triggerWinGame()
         this->m_player->toggleIsDead(true);
         sad::Sprite2D* local_sprite = this->m_player->actor()->sprite();
         this->playSound("win");
-        this->m_physics_world->removeBody(this->m_player->actor()->body());
+        if (this->m_physics_world)
+        { 
+            this->m_physics_world->removeBody(this->m_player->actor()->body());
+        }
         this->rendererForMainThread()->animations()->stopProcessesRelatedToObject(local_sprite);
 
         sad::Point2D middle = local_sprite->middle();

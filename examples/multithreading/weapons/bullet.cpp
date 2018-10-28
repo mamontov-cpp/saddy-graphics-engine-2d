@@ -148,7 +148,7 @@ void weapons::Bullet::kill()
     sad::String options_name = m_sprite->optionsName();
     sad::Sprite2D::Options* opts = scene->renderer()->tree()->get<sad::Sprite2D::Options>(options_name);
 
-    sad::p2d::World* wld = m_game->physicsWorld();
+    Game* game = m_game;
     m_game->rendererForMainThread()->pipeline()->appendTask([=]() {
         if (m_sprite)
         {
@@ -156,7 +156,10 @@ void weapons::Bullet::kill()
         }
         if (m_body)
         {
-            wld->removeBody(m_body);
+            if (game->physicsWorld())
+            { 
+                game->physicsWorld()->removeBody(m_body);
+            }
         }
     });
 
