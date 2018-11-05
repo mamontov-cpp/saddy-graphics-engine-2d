@@ -14,6 +14,7 @@
 #include <scene.h>
 
 #include "actoroptions.h" 
+#include "../bots/shootingstrategies/shootingstrategy.h"
 
 class Game;
 
@@ -317,6 +318,10 @@ public:
     /*! Makes actor die
      */
     void die();
+    /*! Sets shooting strategy for bot
+     *  \param[in] s a strategy
+     */
+    void setShootingStrategy(bots::shootingstrategies::ShootingStrategy* s);
 private:
     /*! Compute whether floater should go up or down
         \param[out] is_going_up whether we should go up

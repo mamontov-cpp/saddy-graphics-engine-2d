@@ -39,6 +39,13 @@
 
 #include "bots/randombot.h"
 
+#include "bots/shootingstrategies/shootingstrategy.h"
+#include "bots/shootingstrategies/fixedanglestrategy.h"
+#include "bots/shootingstrategies/playerlocatingstrategy.h"
+#include "bots/shootingstrategies/randomstrategy.h"
+#include "bots/shootingstrategies/turningstrategy.h"
+
+
 #include "scripting/exposespawnenemy.h"
 
 #include "initphysics.h"
@@ -1434,6 +1441,11 @@ bool Game::isDead(game::Actor* actor) const
     return m_actors.isDead(actor);
 }
 
+void Game::setStrategyForBot(game::Actor* actor, bots::shootingstrategies::ShootingStrategy* s)
+{
+    m_actors.setStrategyForBot(actor, s);
+}
+
 void Game::addDelayedTask(double time, const std::function<void()>& fn)
 {
     m_delayed_tasks.add(DelayedTask(time, fn));
@@ -1591,6 +1603,11 @@ void Game::initContext()
     weapons::exposeWeapon(m_eval_context);
     game::exposePlayer(m_eval_context, this);
     game::exposeActor(m_eval_context);
+    bots::shootingstrategies::exposeShootingStrategy(m_eval_context);
+    bots::shootingstrategies::exposeFixedAngleStrategy(m_eval_context);
+    bots::shootingstrategies::exposePlayerLocationStrategy(m_eval_context);
+    bots::shootingstrategies::exposeRandomStrategy(m_eval_context);
+    bots::shootingstrategies::exposeTurningStrategy(m_eval_context);
 
 
     // Fetch and run game initialization script

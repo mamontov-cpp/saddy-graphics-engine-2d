@@ -18,8 +18,8 @@ addTriggerOnce(200, function() {
 	var settings = new BulletSettings();
 	settings.IconName = "bullets/yellow/x_huge";
 	settings.MaxBounceCount = 0;
-	settings.ApplyGravity = true;
-	settings.GravityValue = new sad.Point2D(0, 300);
+	settings.ApplyGravity = false;
+	/*settings.GravityValue = new sad.Point2D(0, 300);*/
 	settings.BounceResilienceCoefficient = 0.9;
 	weapon.setSettings(settings);
 	player().setWeapon(weapon);
@@ -36,7 +36,28 @@ addTriggerOnce(400, function() {
 	spawnEnemyInDirection("red_disc", new sad.Point2D(500, 500), HDir.Right, VDir.Down);
 	spawnEnemyInDirection("green_floater", new sad.Point2D(600, 500), HDir.Right, VDir.Down);
 	*/
-	spawnEnemyInDirection("green_walker", new sad.Point2D(200, 300), HDir.Right, VDir.None);
+	var actor = spawnEnemyInDirection("green_walker", new sad.Point2D(200, 300), HDir.Right, VDir.None);
+	var weapon = new Weapon();
+	weapon.setShootingInterval(100);
+	weapon.setAmountOfProjectiles(1);
+	weapon.setBaseDamage(1);
+	var settings = new BulletSettings();
+	settings.IconName = "bullets/yellow/x_huge";
+	settings.MaxBounceCount = 0;
+	settings.ApplyGravity = false;
+	settings.BounceResilienceCoefficient = 0.9;
+	weapon.setSettings(settings);
+	actor.setWeapon(weapon);
+	/*
+	var strategy = new FixedAngleStrategy(Math.PI);
+	var strategy = new TurningStrategy(2.0);
+	var strategy = new PlayerLocatingStrategy();
+	*/
+	var strategy = new RandomStrategy();
+	strategy.setInterval(100);
+	
+	actor.setShootingStrategy(strategy); 
+	
 	spawnPlatformPatrol("enemy_walker", new sad.Point2D(220, 300));
 });
 

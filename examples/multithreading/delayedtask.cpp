@@ -5,21 +5,20 @@
 
 DelayedTask::DelayedTask(double time, std::function<void()>  f)
 : m_fn(std::move(f)),
-m_elapsed_time(0),
-m_time(time),
-m_is_paused(false)
+m_time(time)
 {
     m_timer.start();
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 bool DelayedTask::tryExecute()
 {
-     if (m_is_paused)
+     if (m_timer.paused())
      {
          return false;
      }
-     m_timer.stop();
-     if (m_elapsed_time + m_timer.elapsed() >= m_time)
+
+     if (m_timer.elapsed() >= m_time)
      {
          m_fn();
          return true;
@@ -29,17 +28,11 @@ bool DelayedTask::tryExecute()
 
 void DelayedTask::pause()
 {
-    m_is_paused = true;
-    m_timer.stop();
-    m_elapsed_time += m_timer.elapsed();
-    m_paused_timer.start();
+    m_timer.pause();
 }
 
 void DelayedTask::resume()
 {
-    m_is_paused = false;
-    m_paused_timer.stop();
-    m_elapsed_time += m_paused_timer.elapsed();
-    m_timer.start();
+    m_timer.resume();
 }
 

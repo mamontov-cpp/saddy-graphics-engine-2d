@@ -1,7 +1,7 @@
 #include "pausabletimer.h"
 
 sad::PausableTimer::PausableTimer() 
-: m_elapsed(0), m_running(false)
+: m_running(false), m_elapsed(0)
 {
 
 }

@@ -205,6 +205,11 @@
     <ClCompile Include="bots\nullbot.cpp" />
     <ClCompile Include="bots\platformpatrolbot.cpp" />
     <ClCompile Include="bots\randombot.cpp" />
+    <ClCompile Include="bots\shootingstrategies\fixedanglestrategy.cpp" />
+    <ClCompile Include="bots\shootingstrategies\playerlocatingstrategy.cpp" />
+    <ClCompile Include="bots\shootingstrategies\randomstrategy.cpp" />
+    <ClCompile Include="bots\shootingstrategies\shootingstrategy.cpp" />
+    <ClCompile Include="bots\shootingstrategies\turningstrategy.cpp" />
     <ClCompile Include="delayedtask.cpp" />
     <ClCompile Include="delayedtasks.cpp" />
     <ClCompile Include="game.cpp" />
@@ -250,6 +255,11 @@
     <ClInclude Include="bots\nullbot.h" />
     <ClInclude Include="bots\platformpatrolbot.h" />
     <ClInclude Include="bots\randombot.h" />
+    <ClInclude Include="bots\shootingstrategies\fixedanglestrategy.h" />
+    <ClInclude Include="bots\shootingstrategies\playerlocatingstrategy.h" />
+    <ClInclude Include="bots\shootingstrategies\randomstrategy.h" />
+    <ClInclude Include="bots\shootingstrategies\shootingstrategy.h" />
+    <ClInclude Include="bots\shootingstrategies\turningstrategy.h" />
     <ClInclude Include="delayedtask.h" />
     <ClInclude Include="delayedtasks.h" />
     <ClInclude Include="game.h" />

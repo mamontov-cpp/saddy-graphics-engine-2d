@@ -297,6 +297,11 @@ public:
         \return
      */
     bool isDead(game::Actor* actor) const;
+    /*! Sets shooting strategy for bot
+     *  \param[in] actor an actor
+     *  \param[in] s strategy
+     */
+    void setStrategyForBot(game::Actor* actor, bots::shootingstrategies::ShootingStrategy* s);
     /*! Adds delayed task, which can be paused
         \param[in] time a time
         \param[in] fn a function

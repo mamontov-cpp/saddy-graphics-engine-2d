@@ -4,7 +4,7 @@
  */
 #pragma once
 #include <functional>
-#include <timer.h>
+#include <pausabletimer.h>
 
 class Game;
 
@@ -34,17 +34,8 @@ protected:
     std::function<void()> m_fn;
     /*! A timer value
      */
-    sad::Timer m_timer;
-    /*! Elapsed time
-     */
-    sad::Timer m_paused_timer;
-    /*! An already elapsed time for task
-     */
-    double m_elapsed_time;
+    sad::PausableTimer m_timer;
     /*! A total execution time
      */
     double m_time;
-    /*! Whether task is paused
-     */
-    bool m_is_paused;
 };

@@ -66,9 +66,13 @@ public:
      *  \return true if dead (defined as absent as list)
      */
     bool isDead(game::Actor* actor) const;
+    /*! Sets shooting strategy for bot
+     *  \param[in] actor an actor
+     *  \param[in] s strategy
+     */
+    void setStrategyForBot(game::Actor* actor, bots::shootingstrategies::ShootingStrategy* s);
     /*! Processes an actors, performing actions
      *  \param[in] game a game
-     *  \param[in] ctx context
      */
     void process(Game* game);
     /*! Tests resting

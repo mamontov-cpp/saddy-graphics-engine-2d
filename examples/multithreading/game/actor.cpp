@@ -1240,6 +1240,14 @@ void game::Actor::die()
     this->delRef();
 }
 
+void game::Actor::setShootingStrategy(bots::shootingstrategies::ShootingStrategy* s)
+{
+    if (m_game)
+    {
+        m_game->setStrategyForBot(this, s);
+    }
+}
+
 // ===================================== PRIVATE METHODS =====================================
 
 void game::Actor::computeIsGoingUpDownFlags(bool& is_going_up, bool& is_going_down)
@@ -1543,6 +1551,8 @@ void game::exposeActor(void* c)
     actor_binding->addMethod("removeWeapon", sad::dukpp03::bind_method::from(&game::Actor::removeWeapon));
     actor_binding->addMethod("weapon", sad::dukpp03::bind_method::from(&game::Actor::weapon));
     actor_binding->addMethod("tryShoot", sad::dukpp03::bind_method::from(&game::Actor::tryShoot));
+
+    actor_binding->addMethod("setShootingStrategy", sad::dukpp03::bind_method::from(&game::Actor::setShootingStrategy));
 
 
     ctx->addClassBinding("game::Actor", actor_binding);

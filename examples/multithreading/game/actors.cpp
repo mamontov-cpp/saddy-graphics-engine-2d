@@ -84,6 +84,18 @@ bool game::Actors::isDead(game::Actor* actor) const
     return true;
 }
 
+void game::Actors::setStrategyForBot(game::Actor* actor, bots::shootingstrategies::ShootingStrategy* s)
+{
+    for (size_t i = 0; i < m_actors.size(); i++)
+    {
+        game::Actor* local_actor = m_actors[i]->Actor;
+        if (local_actor == actor)
+        {
+            m_actors[i]->Bot->setStrategy(s);
+        }
+    }
+}
+
 void game::Actors::process(Game* game)
 {
     for(size_t i = 0 ; i < m_actors.size(); i++)
@@ -92,6 +104,14 @@ void game::Actors::process(Game* game)
         if (!actor->isDying())
         {
             m_actors[i]->Bot->perform(game, actor);
+            bots::shootingstrategies::ShootingStrategy* strategy = m_actors[i]->Bot->strategy();
+            if (!actor->isDying())
+            {
+                if (strategy)
+                {
+                    strategy->tryShoot(actor);
+                }
+            }
         }
     }
 }

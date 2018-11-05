@@ -49,6 +49,12 @@
     <Filter Include="Файлы исходного кода\scripting">
       <UniqueIdentifier>{f385f50c-588d-496a-b375-0b88c8168ebd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Заголовочные файлы\bots\shootingstrategies">
+      <UniqueIdentifier>{556e5272-3b37-4fa0-a264-8ae79b92394a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\bots\shootingstrategies">
+      <UniqueIdentifier>{215822aa-bae8-4129-ac11-ac618a4f0954}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -179,6 +185,21 @@
     </ClCompile>
     <ClCompile Include="initphysics.cpp">
       <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="bots\shootingstrategies\shootingstrategy.cpp">
+      <Filter>Файлы исходного кода\bots\shootingstrategies</Filter>
+    </ClCompile>
+    <ClCompile Include="bots\shootingstrategies\fixedanglestrategy.cpp">
+      <Filter>Файлы исходного кода\bots\shootingstrategies</Filter>
+    </ClCompile>
+    <ClCompile Include="bots\shootingstrategies\turningstrategy.cpp">
+      <Filter>Файлы исходного кода\bots\shootingstrategies</Filter>
+    </ClCompile>
+    <ClCompile Include="bots\shootingstrategies\playerlocatingstrategy.cpp">
+      <Filter>Файлы исходного кода\bots\shootingstrategies</Filter>
+    </ClCompile>
+    <ClCompile Include="bots\shootingstrategies\randomstrategy.cpp">
+      <Filter>Файлы исходного кода\bots\shootingstrategies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -313,6 +334,21 @@
     </ClInclude>
     <ClInclude Include="initphysics.h">
       <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="bots\shootingstrategies\shootingstrategy.h">
+      <Filter>Заголовочные файлы\bots\shootingstrategies</Filter>
+    </ClInclude>
+    <ClInclude Include="bots\shootingstrategies\fixedanglestrategy.h">
+      <Filter>Заголовочные файлы\bots\shootingstrategies</Filter>
+    </ClInclude>
+    <ClInclude Include="bots\shootingstrategies\turningstrategy.h">
+      <Filter>Заголовочные файлы\bots\shootingstrategies</Filter>
+    </ClInclude>
+    <ClInclude Include="bots\shootingstrategies\playerlocatingstrategy.h">
+      <Filter>Заголовочные файлы\bots\shootingstrategies</Filter>
+    </ClInclude>
+    <ClInclude Include="bots\shootingstrategies\randomstrategy.h">
+      <Filter>Заголовочные файлы\bots\shootingstrategies</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

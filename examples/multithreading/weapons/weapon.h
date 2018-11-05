@@ -3,7 +3,7 @@
     A weapon
  */
 #pragma once
-#include <timer.h>
+#include <pausabletimer.h>
 
 #include <object.h>
 
@@ -169,16 +169,7 @@ struct
 
     /*! A timer for weapon
      */
-    sad::Timer m_timer;
-    /*! A paused timer for weapon
-     */
-    sad::Timer m_paused_timer;
-    /*! Elapsed time
-     */
-    double m_elapsed_time;
-    /*! Is paused flag
-     */
-    bool m_is_paused;
+    sad::PausableTimer m_timer;
 };
 
 

@@ -22,9 +22,7 @@ m_amount_of_projectiles(1),
 m_delay(0),
 m_base_damage(1),
 m_min_dangle(0),
-m_max_dangle(0),
-m_elapsed_time(0),
-m_is_paused(false)
+m_max_dangle(0)
 {
     m_timer.start();
     m_settings.Type = weapons::Weapon::WWT_NONE;
@@ -126,7 +124,7 @@ void weapons::Weapon::setSettings(const weapons::LaserSettings& s)
 
 void weapons::Weapon::tryShoot(Game* game, game::Actor* actor)
 {
-    if (m_is_paused)
+    if (m_timer.paused())
     {
         return;
     }
@@ -141,13 +139,12 @@ void weapons::Weapon::tryShoot(Game* game, game::Actor* actor)
 
     double angle = actor->lookupAngle();
 
-    m_timer.stop();
-    if (m_elapsed_time + m_timer.elapsed() < m_shooting_interval)
+    double elapsed = m_timer.elapsed();
+    if ( elapsed < m_shooting_interval)
     {
         return;
     }
     m_timer.start();
-    m_elapsed_time = 0;
 
     double dangle = 0;
     double cur_angle = angle + (m_max_dangle - m_min_dangle) / 2.0;
@@ -171,18 +168,12 @@ void weapons::Weapon::tryShoot(Game* game, game::Actor* actor)
 
 void weapons::Weapon::pause()
 {
-    m_is_paused = true;
-    m_timer.stop();
-    m_elapsed_time += m_timer.elapsed();
-    m_paused_timer.start();
+    m_timer.pause();
 }
 
 void weapons::Weapon::resume()
 {
-    m_is_paused = false;
-    m_paused_timer.stop();
-    m_elapsed_time += m_paused_timer.elapsed();
-    m_timer.start();
+    m_timer.resume();
 }
 
 
