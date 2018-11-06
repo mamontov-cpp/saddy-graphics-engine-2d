@@ -1074,6 +1074,11 @@
             "name":"enemies_list\/yellowJewelng",
             "size":"12;11",
             "texrect":"881;194;24;22"
+        },
+        {
+            "name":"heart\/heart",
+            "size":"41;34",
+            "texrect":"282;514;41;34"
         }
     ],
     "file":"examples/multithreading/enemies.png",
