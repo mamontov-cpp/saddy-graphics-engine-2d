@@ -1077,8 +1077,8 @@
         },
         {
             "name":"heart\/heart",
-            "size":"41;34",
-            "texrect":"282;514;41;34"
+            "size":"30;24",
+            "texrect":"164;548;30;24"
         }
     ],
     "file":"examples/multithreading/enemies.png",

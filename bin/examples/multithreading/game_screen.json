@@ -286,6 +286,62 @@
                 "angle":0.000000,
                 "area":{
                     "p1":{
+                        "x":0.000000,
+                        "y":0.000000
+                    },
+                    "p2":{
+                        "x":800.000000,
+                        "y":0.000000
+                    },
+                    "p3":{
+                        "x":800.000000,
+                        "y":600.000000
+                    },
+                    "p4":{
+                        "x":0.000000,
+                        "y":600.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":1.000000,
+                "majorid":14.000000,
+                "minorid":9.000000,
+                "name":"BgTile",
+                "options":"backgrounds_list\/set3_tilesng",
+                "scene":2.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":643.000000,
+                        "y":965.000000
+                    },
+                    "p2":{
+                        "x":1283.000000,
+                        "y":965.000000
+                    },
+                    "p3":{
+                        "x":1283.000000,
+                        "y":1445.000000
+                    },
+                    "p4":{
+                        "x":643.000000,
+                        "y":1445.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
                         "x":84.500000,
                         "y":81.000000
                     },
@@ -366,62 +422,6 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":1.000000,
-                "majorid":14.000000,
-                "minorid":9.000000,
-                "name":"BgTile",
-                "options":"backgrounds_list\/set3_tilesng",
-                "scene":2.000000,
-                "texturecoordinates":{
-                    "p1":{
-                        "x":643.000000,
-                        "y":965.000000
-                    },
-                    "p2":{
-                        "x":1283.000000,
-                        "y":965.000000
-                    },
-                    "p3":{
-                        "x":1283.000000,
-                        "y":1445.000000
-                    },
-                    "p4":{
-                        "x":643.000000,
-                        "y":1445.000000
-                    }
-                },
-                "type":"sad::Sprite2D",
-                "visible":true
-            },
-            {
-                "active":true,
-                "angle":0.000000,
-                "area":{
-                    "p1":{
-                        "x":0.000000,
-                        "y":0.000000
-                    },
-                    "p2":{
-                        "x":800.000000,
-                        "y":0.000000
-                    },
-                    "p3":{
-                        "x":800.000000,
-                        "y":600.000000
-                    },
-                    "p4":{
-                        "x":0.000000,
-                        "y":600.000000
-                    }
-                },
-                "color":{
-                    "a":0.000000,
-                    "b":255.000000,
-                    "g":255.000000,
-                    "r":255.000000
-                },
-                "flipx":false,
-                "flipy":false,
                 "layer":2.000000,
                 "majorid":13.000000,
                 "minorid":8.000000,
@@ -444,62 +444,6 @@
                     "p4":{
                         "x":1.000000,
                         "y":1445.000000
-                    }
-                },
-                "type":"sad::Sprite2D",
-                "visible":true
-            },
-            {
-                "active":true,
-                "angle":0.000000,
-                "area":{
-                    "p1":{
-                        "x":0.000000,
-                        "y":0.000000
-                    },
-                    "p2":{
-                        "x":800.000000,
-                        "y":0.000000
-                    },
-                    "p3":{
-                        "x":800.000000,
-                        "y":600.000000
-                    },
-                    "p4":{
-                        "x":0.000000,
-                        "y":600.000000
-                    }
-                },
-                "color":{
-                    "a":0.000000,
-                    "b":255.000000,
-                    "g":255.000000,
-                    "r":255.000000
-                },
-                "flipx":false,
-                "flipy":false,
-                "layer":0.000000,
-                "majorid":12.000000,
-                "minorid":7.000000,
-                "name":"Background",
-                "options":"backgrounds_list\/set3_backgroundng",
-                "scene":2.000000,
-                "texturecoordinates":{
-                    "p1":{
-                        "x":643.000000,
-                        "y":483.000000
-                    },
-                    "p2":{
-                        "x":1283.000000,
-                        "y":483.000000
-                    },
-                    "p3":{
-                        "x":1283.000000,
-                        "y":963.000000
-                    },
-                    "p4":{
-                        "x":643.000000,
-                        "y":963.000000
                     }
                 },
                 "type":"sad::Sprite2D",
@@ -556,6 +500,62 @@
                     "p4":{
                         "x":82.000000,
                         "y":323.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":0.000000,
+                        "y":0.000000
+                    },
+                    "p2":{
+                        "x":800.000000,
+                        "y":0.000000
+                    },
+                    "p3":{
+                        "x":800.000000,
+                        "y":600.000000
+                    },
+                    "p4":{
+                        "x":0.000000,
+                        "y":600.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":0.000000,
+                "majorid":12.000000,
+                "minorid":7.000000,
+                "name":"Background",
+                "options":"backgrounds_list\/set3_backgroundng",
+                "scene":2.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":643.000000,
+                        "y":483.000000
+                    },
+                    "p2":{
+                        "x":1283.000000,
+                        "y":483.000000
+                    },
+                    "p3":{
+                        "x":1283.000000,
+                        "y":963.000000
+                    },
+                    "p4":{
+                        "x":643.000000,
+                        "y":963.000000
                     }
                 },
                 "type":"sad::Sprite2D",
@@ -790,20 +790,20 @@
                 "angle":0.000000,
                 "area":{
                     "p1":{
-                        "x":2.000001,
-                        "y":597.593980
+                        "x":537.000000,
+                        "y":596.000000
                     },
                     "p2":{
-                        "x":202.000001,
-                        "y":597.593980
+                        "x":603.000000,
+                        "y":596.000000
                     },
                     "p3":{
-                        "x":202.000001,
-                        "y":492.030015
+                        "x":603.000000,
+                        "y":570.519043
                     },
                     "p4":{
-                        "x":2.000001,
-                        "y":492.030015
+                        "x":537.000000,
+                        "y":570.519043
                     }
                 },
                 "breaktext":0.000000,
@@ -814,7 +814,7 @@
                     "r":164.000000
                 },
                 "font":"Liberation Sans",
-                "fontsize":34.000000,
+                "fontsize":25.000000,
                 "hasformatting":false,
                 "layer":0.000000,
                 "linespacing":1.000000,
@@ -822,11 +822,11 @@
                 "maximallinescount":0.000000,
                 "maximallinewidth":0.000000,
                 "minorid":17.000000,
-                "name":"Status",
+                "name":"ScoreLabel",
                 "overflowstrategy":0.000000,
                 "overflowstrategyforlines":0.000000,
                 "scene":3.000000,
-                "text":"Score: 500\nHighscore: 1000\nHealth: 5",
+                "text":"Score: ",
                 "textellipsisposition":0.000000,
                 "textellipsispositionforlines":0.000000,
                 "type":"sad::Label",
@@ -1166,6 +1166,241 @@
                     }
                 },
                 "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":502.000012,
+                        "y":571.593981
+                    },
+                    "p2":{
+                        "x":596.000012,
+                        "y":571.593981
+                    },
+                    "p3":{
+                        "x":596.000012,
+                        "y":547.326403
+                    },
+                    "p4":{
+                        "x":502.000012,
+                        "y":547.326403
+                    }
+                },
+                "breaktext":0.000000,
+                "color":{
+                    "a":0.000000,
+                    "b":0.000000,
+                    "g":0.000000,
+                    "r":164.000000
+                },
+                "font":"Liberation Sans",
+                "fontsize":24.000000,
+                "hasformatting":false,
+                "layer":2.000000,
+                "linespacing":1.000000,
+                "majorid":35.000000,
+                "maximallinescount":0.000000,
+                "maximallinewidth":0.000000,
+                "minorid":24.000000,
+                "name":"HighscoreLabel",
+                "overflowstrategy":0.000000,
+                "overflowstrategyforlines":0.000000,
+                "scene":3.000000,
+                "text":"Highscore:",
+                "textellipsisposition":0.000000,
+                "textellipsispositionforlines":0.000000,
+                "type":"sad::Label",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":2.000000,
+                        "y":596.000000
+                    },
+                    "p2":{
+                        "x":54.000000,
+                        "y":596.000000
+                    },
+                    "p3":{
+                        "x":54.000000,
+                        "y":560.812012
+                    },
+                    "p4":{
+                        "x":2.000000,
+                        "y":560.812012
+                    }
+                },
+                "breaktext":0.000000,
+                "color":{
+                    "a":0.000000,
+                    "b":0.000000,
+                    "g":0.000000,
+                    "r":164.000000
+                },
+                "font":"Liberation Sans",
+                "fontsize":34.000000,
+                "hasformatting":false,
+                "layer":3.000000,
+                "linespacing":1.000000,
+                "majorid":36.000000,
+                "maximallinescount":0.000000,
+                "maximallinewidth":0.000000,
+                "minorid":25.000000,
+                "name":"LifeLabel",
+                "overflowstrategy":0.000000,
+                "overflowstrategyforlines":0.000000,
+                "scene":3.000000,
+                "text":"Life:",
+                "textellipsisposition":0.000000,
+                "textellipsispositionforlines":0.000000,
+                "type":"sad::Label",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":97.000000,
+                        "y":596.000000
+                    },
+                    "p2":{
+                        "x":164.000000,
+                        "y":596.000000
+                    },
+                    "p3":{
+                        "x":164.000000,
+                        "y":560.812012
+                    },
+                    "p4":{
+                        "x":97.000000,
+                        "y":560.812012
+                    }
+                },
+                "breaktext":0.000000,
+                "color":{
+                    "a":0.000000,
+                    "b":0.000000,
+                    "g":0.000000,
+                    "r":164.000000
+                },
+                "font":"Liberation Sans",
+                "fontsize":34.000000,
+                "hasformatting":false,
+                "layer":4.000000,
+                "linespacing":1.000000,
+                "majorid":37.000000,
+                "maximallinescount":0.000000,
+                "maximallinewidth":0.000000,
+                "minorid":26.000000,
+                "name":"LifeMultiplier",
+                "overflowstrategy":0.000000,
+                "overflowstrategyforlines":0.000000,
+                "scene":3.000000,
+                "text":"x 100",
+                "textellipsisposition":0.000000,
+                "textellipsispositionforlines":0.000000,
+                "type":"sad::Label",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":603.000000,
+                        "y":595.000000
+                    },
+                    "p2":{
+                        "x":635.000000,
+                        "y":595.000000
+                    },
+                    "p3":{
+                        "x":635.000000,
+                        "y":570.732422
+                    },
+                    "p4":{
+                        "x":603.000000,
+                        "y":570.732422
+                    }
+                },
+                "breaktext":0.000000,
+                "color":{
+                    "a":0.000000,
+                    "b":0.000000,
+                    "g":0.000000,
+                    "r":164.000000
+                },
+                "font":"Liberation Sans",
+                "fontsize":24.000000,
+                "hasformatting":false,
+                "layer":5.000000,
+                "linespacing":1.000000,
+                "majorid":38.000000,
+                "maximallinescount":0.000000,
+                "maximallinewidth":0.000000,
+                "minorid":27.000000,
+                "name":"ScoreValue",
+                "overflowstrategy":0.000000,
+                "overflowstrategyforlines":0.000000,
+                "scene":3.000000,
+                "text":"100",
+                "textellipsisposition":0.000000,
+                "textellipsispositionforlines":0.000000,
+                "type":"sad::Label",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":602.000000,
+                        "y":571.000000
+                    },
+                    "p2":{
+                        "x":634.000000,
+                        "y":571.000000
+                    },
+                    "p3":{
+                        "x":634.000000,
+                        "y":546.732422
+                    },
+                    "p4":{
+                        "x":602.000000,
+                        "y":546.732422
+                    }
+                },
+                "breaktext":0.000000,
+                "color":{
+                    "a":0.000000,
+                    "b":0.000000,
+                    "g":0.000000,
+                    "r":164.000000
+                },
+                "font":"Liberation Sans",
+                "fontsize":24.000000,
+                "hasformatting":false,
+                "layer":6.000000,
+                "linespacing":1.000000,
+                "majorid":39.000000,
+                "maximallinescount":0.000000,
+                "maximallinewidth":0.000000,
+                "minorid":28.000000,
+                "name":"HighscoreValue",
+                "overflowstrategy":0.000000,
+                "overflowstrategyforlines":0.000000,
+                "scene":3.000000,
+                "text":"100",
+                "textellipsisposition":0.000000,
+                "textellipsispositionforlines":0.000000,
+                "type":"sad::Label",
                 "visible":true
             }
         ],
