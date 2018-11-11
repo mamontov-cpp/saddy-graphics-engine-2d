@@ -1,5 +1,7 @@
 #include "game.h"
 
+#include "game/healthbar.h"
+
 #include "threads/gamethread.h"
 
 #include "nodes/background.h"
@@ -1116,6 +1118,8 @@ void Game::changeSceneToPlayingScreen()
         sad::db::Database* db = main_renderer->database("gamescreen");
         this->m_moving_platform_registry.setDatabase(db);
         sad::db::populateScenesFromDatabase(main_renderer, db);
+        sad::Scene* scene = db->objectByName<sad::Scene>("gui");
+        scene->addNode(new game::HealthBar(this));
         this->initGamePhysics();
         // When loaded we should evaluate initialization script
         this->evaluateInitializationScript();

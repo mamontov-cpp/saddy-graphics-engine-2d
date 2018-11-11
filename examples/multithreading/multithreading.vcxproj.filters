@@ -201,6 +201,9 @@
     <ClCompile Include="bots\shootingstrategies\randomstrategy.cpp">
       <Filter>Файлы исходного кода\bots\shootingstrategies</Filter>
     </ClCompile>
+    <ClCompile Include="game\healthbar.cpp">
+      <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -349,6 +352,9 @@
     </ClInclude>
     <ClInclude Include="bots\shootingstrategies\randomstrategy.h">
       <Filter>Заголовочные файлы\bots\shootingstrategies</Filter>
+    </ClInclude>
+    <ClInclude Include="game\healthbar.h">
+      <Filter>Заголовочные файлы\game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
