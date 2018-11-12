@@ -1,6 +1,7 @@
 #include "game.h"
 
 #include "game/healthbar.h"
+#include "game/scorebar.h"
 
 #include "threads/gamethread.h"
 
@@ -65,6 +66,7 @@ DECLARE_COMMON_TYPE(Game);
 
 Game::Game()  : m_is_quitting(false),  // NOLINT(cppcoreguidelines-pro-type-member-init)
 m_main_menu_state(Game::GMMS_PLAY),
+m_score(0),
 m_highscore(0),
 m_loaded_options_database{false, false},
 m_loaded_lose_screen_database{false, false},
@@ -126,10 +128,13 @@ m_hit_animation_for_players(NULL)// NOLINT
     m_hit_animation_for_players->setLooped(false);
     m_hit_animation_for_players->setFrequency(20);
     m_player->setHurtAnimation(m_hit_animation_for_players);
+
+    m_score_bar = new game::ScoreBar(this);
 }
 
 Game::~Game()  // NOLINT
 {
+    delete m_score_bar;
     m_hit_animation_for_players->delRef();
     m_hit_animation_for_enemies->delRef();
 
@@ -639,6 +644,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
                 this->m_triggers.tryRun(this->m_player, this->m_eval_context);
                 this->m_unanimated_coins.animateNearestCoins(this->m_player->middle());
                 this->m_delayed_tasks.tryExecute();
+                this->m_score_bar->update();
 
                 this->m_task_lock.release();
             }
@@ -851,6 +857,29 @@ void Game::setHighscore(int highscore)
     m_highscore = highscore;
 }
 
+int Game::score() const
+{
+    return m_score;
+}
+
+void Game::setScore(int score)
+{
+    m_score = score;
+    setHighscore(std::max(m_score, m_highscore));
+}
+
+void Game::incrementScore(int dscore)
+{
+    m_score += dscore;
+    setHighscore(std::max(m_score, m_highscore));
+}
+
+void Game::decrementScore(int dscore)
+{
+    m_score -= dscore;
+    setHighscore(std::max(m_score, m_highscore));
+}
+
 void Game::tryStartStartingState()
 {
     this->initStartScreenForMainThread();
@@ -961,6 +990,8 @@ void Game::changeScene(const SceneTransitionOptions& opts) const
 
 void Game::changeSceneToStartingScreen()
 {
+    this->m_score_bar->deinit();
+
     m_footsteps.stop();
     m_triggers.clear();
     m_actors.clear();
@@ -1003,6 +1034,8 @@ void Game::changeSceneToStartingScreen()
 
 void Game::changeSceneToLoseScreen()
 {
+    this->m_score_bar->deinit();
+
     m_footsteps.stop();
     m_triggers.clear();
     m_actors.clear();
@@ -1022,7 +1055,14 @@ void Game::changeSceneToLoseScreen()
     options.mainThread().LoadFunction = [this]() { this->tryLoadLoseScreen(false); };
     options.inventoryThread().LoadFunction = [this]() { this->m_player->reset(); this->tryLoadLoseScreen(true); };
     options.mainThread().OnLoadedFunction = [=]() {
-        sad::db::populateScenesFromDatabase(main_renderer, main_renderer->database("lose_screen"));
+        sad::db::Database* db = main_renderer->database("lose_screen");
+        sad::Label* label = db->objectByName<sad::Label>("ScoreValue");
+        if (label)
+        {
+            label->setString(sad::String::number(this->score()));
+            label->setPoint(main_renderer->settings().width() / 2.0 - 8 - label->area().width() / 2.0, label->point().y());
+        }
+        sad::db::populateScenesFromDatabase(main_renderer, db);
     };
 
     options.inventoryThread().OnLoadedFunction = [inventory_renderer]() {
@@ -1043,6 +1083,8 @@ void Game::changeSceneToLoseScreen()
 
 void Game::changeSceneToWinScreen()
 {
+    this->m_score_bar->deinit();
+
     m_footsteps.stop();
     m_triggers.clear();
     m_actors.clear();
@@ -1062,7 +1104,14 @@ void Game::changeSceneToWinScreen()
     options.mainThread().LoadFunction = [this]() { this->tryLoadWinScreen(false); };
     options.inventoryThread().LoadFunction = [this]() { this->m_player->reset(); this->tryLoadWinScreen(true); };
     options.mainThread().OnLoadedFunction = [=]() {
-        sad::db::populateScenesFromDatabase(main_renderer, main_renderer->database("win_screen"));
+        sad::db::Database* db = main_renderer->database("win_screen");
+        sad::Label* label = db->objectByName<sad::Label>("ScoreValue");
+        if (label)
+        {
+            label->setString(sad::String::number(this->score()));
+            label->setPoint(main_renderer->settings().width() / 2.0 - label->area().width() / 2.0, label->point().y());
+        }
+        sad::db::populateScenesFromDatabase(main_renderer, db);
     };
 
     options.inventoryThread().OnLoadedFunction = [inventory_renderer]() {
@@ -1091,6 +1140,7 @@ void Game::changeSceneToWinScreen()
 void Game::changeSceneToPlayingScreen()
 {
     this->destroyWorld();
+    this->setScore(0);
     m_footsteps.stop();
     m_actors.clear();
     m_triggers.clear();
@@ -1117,6 +1167,7 @@ void Game::changeSceneToPlayingScreen()
     options.mainThread().OnLoadedFunction = [=]() {
         sad::db::Database* db = main_renderer->database("gamescreen");
         this->m_moving_platform_registry.setDatabase(db);
+        this->m_score_bar->init();
         sad::db::populateScenesFromDatabase(main_renderer, db);
         sad::Scene* scene = db->objectByName<sad::Scene>("gui");
         scene->addNode(new game::HealthBar(this));
@@ -1492,7 +1543,9 @@ game::Actor* Game::makeEnemy(const sad::String& optname, const sad::Point2D& mid
             actor->enableGravity();
             actor->init(true);
             actor->setHurtAnimation(m_hit_animation_for_enemies);
-            actor->onDeath([=](game::Actor* me) { me->die(); });
+            actor->onDeath([=](game::Actor* me) {
+                this->incrementScore(1); me->die();
+            });
 
             return actor;
         }
@@ -1589,8 +1642,17 @@ void Game::initContext()
         printf("%s\n", message.c_str());
         SL_LOCAL_DEBUG(message, *(m_main_thread->renderer()));
     };
-    std::function<void()> trigger_win_game = [=] {
+    std::function<void()> trigger_win_game = [=]() {
         this->triggerWinGame();
+    };
+    std::function<void(int)> increment_score = [=](int d) {
+        this->incrementScore(d);
+    };
+    std::function<void(int)> decrement_score = [=](int d) {
+        this->decrementScore(d);
+    };
+    std::function<int()> local_score = [=]() {
+        return this->score();
     };
 
     m_eval_context->registerCallable("makePlatformGoOnWay", sad::dukpp03::make_lambda::from(make_platform_go_on_way));
@@ -1598,6 +1660,9 @@ void Game::initContext()
     m_eval_context->registerCallable("addTriggerOnce", sad::dukpp03::make_lambda::from(add_trigger_once));
     m_eval_context->registerCallable("gamePrint", sad::dukpp03::make_lambda::from(print));
     m_eval_context->registerCallable("triggerWinGame", sad::dukpp03::make_lambda::from(trigger_win_game));
+    m_eval_context->registerCallable("incrementScore", sad::dukpp03::make_lambda::from(increment_score));
+    m_eval_context->registerCallable("decrementScore", sad::dukpp03::make_lambda::from(decrement_score));
+    m_eval_context->registerCallable("score", sad::dukpp03::make_lambda::from(local_score));
 
     scripting::exposeSpawnEnemy(m_eval_context, this);
     game::exposeActorOptions(m_eval_context, this);

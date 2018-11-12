@@ -29,7 +29,6 @@
 #include "game/unanimatedcoins.h"
 
 #include "weapons/bullet.h"
-#include "weapons/bulletsettings.h"
 
 #include "bots/botregistry.h"
 
@@ -52,6 +51,7 @@ class Blinking;
 namespace game
 {
 class Item;
+class ScoreBar;
 }
 
 namespace nodes
@@ -117,12 +117,29 @@ public:
      */
     void quitGame();
     /*! Returns highest score for a game
+     *  \return score
      */
     int highscore() const;
     /*! Sets new highscore for a game
         \param[in] highscore a highscore
      */
     void setHighscore(int highscore);
+    /*! Returns score for a game
+     *  \return score
+     */
+    int score() const;
+    /*! Sets score for a game
+     *  \param[in] score a score for a game
+     */
+    void setScore(int score);
+    /*! Increments score for a game
+     *  \param[in] dscore score delta
+     */
+    void incrementScore(int dscore);
+    /*! Decrements score for a game
+     *  \param[in] dscore score delta
+     */
+    void decrementScore(int dscore);
     /*! Start starting state
      */
     void tryStartStartingState();
@@ -408,7 +425,10 @@ private:
     /*! A state machine for paused state
      */
     sad::hfsm::Machine m_paused_state_machine;
-    /*! A highestscore for game
+    /*! Set score for game
+     */
+    int m_score;
+    /*! A highest score for game
      */
     int m_highscore;
     /*! Whether, we loaded options database
@@ -516,4 +536,7 @@ private:
     /*! A list of delayed tasks
      */
     DelayedTasks m_delayed_tasks;
+    /*! A score bar
+     */
+    game::ScoreBar* m_score_bar;
 };

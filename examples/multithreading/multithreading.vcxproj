@@ -223,6 +223,7 @@
     <ClCompile Include="game\player.cpp" />
     <ClCompile Include="game\item.cpp" />
     <ClCompile Include="game\options.cpp" />
+    <ClCompile Include="game\scorebar.cpp" />
     <ClCompile Include="game\triggers.cpp" />
     <ClCompile Include="game\unanimatedcoins.cpp" />
     <ClCompile Include="game\walls.cpp" />
@@ -275,6 +276,7 @@
     <ClInclude Include="game\player.h" />
     <ClInclude Include="game\item.h" />
     <ClInclude Include="game\options.h" />
+    <ClInclude Include="game\scorebar.h" />
     <ClInclude Include="game\triggers.h" />
     <ClInclude Include="game\unanimatedcoins.h" />
     <ClInclude Include="game\walls.h" />

@@ -230,6 +230,7 @@ void initCoins(Game* game, sad::p2d::World* world, sad::db::Database* db, sad::R
 
     std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_player_and_coins = [=](const sad::p2d::BasicCollisionEvent & ev) {
         game->playSound("coin");
+        game->incrementScore(1);
 
         sad::animations::Animation* a = db->objectByName<sad::animations::Animation>("coin_decay");
         if (a)

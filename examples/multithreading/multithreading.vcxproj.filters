@@ -204,6 +204,9 @@
     <ClCompile Include="game\healthbar.cpp">
       <Filter>Файлы исходного кода\game</Filter>
     </ClCompile>
+    <ClCompile Include="game\scorebar.cpp">
+      <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -354,6 +357,9 @@
       <Filter>Заголовочные файлы\bots\shootingstrategies</Filter>
     </ClInclude>
     <ClInclude Include="game\healthbar.h">
+      <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\scorebar.h">
       <Filter>Заголовочные файлы\game</Filter>
     </ClInclude>
   </ItemGroup>
