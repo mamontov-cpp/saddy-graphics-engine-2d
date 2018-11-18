@@ -80,6 +80,9 @@ public:
     /*! Marks textures as unloaded
      */
     void markTexturesAsUnloaded();
+    /*! Dumps glyph to file
+     */
+    void dumpToBMP();
 protected:
     /*! A builtin  linespacing
      */

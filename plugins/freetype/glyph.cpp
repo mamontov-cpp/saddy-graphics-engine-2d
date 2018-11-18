@@ -1,7 +1,10 @@
 #include "glyph.h"
 #include "towidechar.h"
 
+#include <imageformats/bmploader.h>
+
 #include "3rdparty/format/format.h"
+#include <sadstring.h>
 
 
 const float sad::freetype::Glyph::tan_20_degrees = 0.36397023426620234f;
@@ -64,7 +67,7 @@ sad::Maybe<FT_Glyph> sad::freetype::Glyph::glyph(FT_Face face, unsigned char c, 
         if (!FT_Get_Glyph(face->glyph, &glyph))
         {
             result.setValue(glyph);
-        }		
+        }
     }
     return result;
 }
@@ -81,6 +84,35 @@ sad::String sad::freetype::Glyph::dumpParametes() const
         << Descender << BearingY
         << AdvanceX
     );
+}
+
+void sad::freetype::Glyph::dumpToBMP() const
+{
+    const std::vector<unsigned char>& source_pixels=  Texture.Pixels;
+    std::vector<unsigned char> dest_pixels;
+    for(size_t y = 0; y < Texture.Height; y++)  // NOLINT(modernize-loop-convert)
+    { 
+        // NOLINT(modernize-loop-convert)
+        for (size_t x = 0; x < Texture.Width; x++) // NOLINT(modernize-loop-convert)
+        {
+            unsigned int i = 2 * (x + y * static_cast<unsigned int>(Texture.Width));
+//            unsigned char p0 = ((source_pixels[i] & 2) >> 1) * 170 + (source_pixels[i] & 1) * 85;
+//            unsigned char p1 = ((source_pixels[i] & 8) >> 3) * 170 + ((source_pixels[i] & 4) >> 2) * 85;
+//            unsigned char p2 = ((source_pixels[i] & 32) >> 5) * 170 + ((source_pixels[i] & 16) >> 4) * 85;
+//            unsigned char p3 = ((source_pixels[i] & 128) >> 7) * 170 + ((source_pixels[i] & 6) >> 6) * 85;
+
+            unsigned char red = source_pixels[i];
+            unsigned char green = source_pixels[i];
+            unsigned char blue = source_pixels[i];
+
+            dest_pixels.push_back(red);
+            dest_pixels.push_back(green);
+            dest_pixels.push_back(blue);
+        }
+    }
+
+    sad::String data = sad::String::number(Index) + ".bmp";
+    sad::imageformats::dumpToBMP(data, static_cast<unsigned int>(Texture.Width), static_cast<unsigned int>(Texture.Height), 3, &(dest_pixels[0]));
 }
 
 void sad::freetype::Glyph::makeGlyph(FT_Face face, FT_Glyph glyph)
@@ -118,6 +150,6 @@ void sad::freetype::Glyph::makeEmptyGlyph()
     Texture.IsOnGPU = false;
     Texture.Height = 2.0f;
     Texture.Width = 2.0f;
-    Texture.Pixels.resize(4);
-    std::fill_n(Texture.Pixels.begin(), 4, 0);
+    Texture.Pixels.resize(8);
+    std::fill_n(Texture.Pixels.begin(), 8, 0);
 }
