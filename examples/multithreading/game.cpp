@@ -457,6 +457,19 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
     );
 
     // A playing game screen
+    std::function<void()> stop_going_into_any_direction = [=]() {
+        // Stop going into any direction
+        this->player()->tryStopGoingLeft();
+        this->player()->tryStopGoingRight();
+        this->player()->tryStopGoingUp();
+        this->player()->tryStopGoingDown();
+    };
+    renderer->controls()->addLambda(
+        *sad::input::ET_Deactivate
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        stop_going_into_any_direction
+    );
     renderer->controls()->add(
         *sad::input::ET_KeyPress
         & m_conditions.ConditionsForMainRenderer.LeftKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_PRESSED]
