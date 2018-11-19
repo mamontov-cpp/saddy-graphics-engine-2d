@@ -38,17 +38,17 @@ void sad::freetype::Glyph::render(float x, float y, float topoffset)
 
     glBegin(GL_QUADS);
 
-    glTexCoord2f(0.0f,0.0f); 
-    glVertex2f(x + topoffset, y + BearingY);
+    glTexCoord2d(0.0f,0.0f); 
+    glVertex2d(x + topoffset, y + BearingY);
     
-    glTexCoord2f(0.0f, TexCoordinateHeight); 
-    glVertex2f(x, y + Descender);
+    glTexCoord2d(0.0f, TexCoordinateHeight); 
+    glVertex2d(x, y + Descender);
     
-    glTexCoord2f(TexCoordinateWidth, TexCoordinateHeight); 
-    glVertex2f(x + Width, y + Descender);
+    glTexCoord2d(TexCoordinateWidth, TexCoordinateHeight); 
+    glVertex2d(x + Width, y + Descender);
 
-    glTexCoord2f(TexCoordinateWidth, 0.0f); 
-    glVertex2f(x + Width + topoffset, y + BearingY);
+    glTexCoord2d(TexCoordinateWidth, 0.0f); 
+    glVertex2d(x + Width + topoffset, y + BearingY);
     
     glEnd();
 }
@@ -123,15 +123,15 @@ void sad::freetype::Glyph::makeGlyph(FT_Face face, FT_Glyph glyph)
 
     Texture.storeBitmap(bitmap);
 
-    Width = static_cast<float>(bitmap.width);
-    Height = static_cast<float>(bitmap.rows);
+    Width = static_cast<double>(bitmap.width);
+    Height = static_cast<double>(bitmap.rows);
     TexCoordinateWidth = Width / Texture.Width;
     TexCoordinateHeight = Height / Texture.Height;
 
-    float diff = static_cast<float>(static_cast<long>(bitmap_glyph->top) - static_cast<long>(bitmap.rows));
+    double diff = static_cast<double>(static_cast<long>(bitmap_glyph->top) - static_cast<long>(bitmap.rows));
     Descender = diff;
     BearingY = Height + Descender;
-    AdvanceX = static_cast<float>(face->glyph->advance.x >> 6);
+    AdvanceX = static_cast<double>(face->glyph->advance.x >> 6);
     YMax = face->bbox.yMax;
     YMin = face->bbox.yMin;
 
@@ -145,8 +145,8 @@ void sad::freetype::Glyph::makeEmptyGlyph()
     Descender = 0;
     BearingY = 0;
     AdvanceX = 0;
-    TexCoordinateWidth = 1.0f;
-    TexCoordinateHeight = 1.0f;
+    TexCoordinateWidth = 1.0;
+    TexCoordinateHeight = 1.0;
     Texture.IsOnGPU = false;
     Texture.Height = 2.0f;
     Texture.Width = 2.0f;
