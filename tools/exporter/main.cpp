@@ -5,8 +5,8 @@
 #include <QHash>
 #include <QApplication>
 #include <QTextCodec>
-#include <stdio.h>
-#include <math.h>
+#include <cstdio>
+#include <cmath>
 #include <cassert>
 #include <algorithm>
 
@@ -34,7 +34,7 @@ unsigned int next_power_of_two(unsigned int v1)
     
     inline QString __std2qstring(const std::string& s)
     {
-        if (s.size() == 0)
+        if (s.empty())
             return QString();
         return QString::fromLocal8Bit(s.c_str());
     }
@@ -62,7 +62,9 @@ int main(int argc, char *argv[])
     // 1. Parse command arguments
     if (argc<3)
     {
-        printf("Usage: exporter <font> <font size> <output file name>\n");
+        printf("Usage:                  exporter <font> <font size> <output file name>\n"
+               "Export string as image: exporter <font> <font size> <text> <output file name>\n"
+        );
         return 1;
     }
     QTextCodec * codec = QTextCodec::codecForLocale();
@@ -71,8 +73,7 @@ int main(int argc, char *argv[])
     // 2. Get font
     QFont font(argv[1], size);
     font.setPixelSize(size);
-    QString family = font.family();
-    if (font.exactMatch() == false)
+    if (!font.exactMatch())
     {
         printf("Font \"%s\" not found\n", argv[1]);
         return 2;
@@ -80,6 +81,35 @@ int main(int argc, char *argv[])
     // 3. create metrics
     QFontMetrics metrics(font);
     // 4. Compute bounding boxes
+    // 4.1. if we should render string, render it
+    if (argc == 5)
+    {
+        QRect sizes = metrics.boundingRect(argv[3]);
+
+        // Make image
+        QImage image(sizes.width(), sizes.height(), QImage::Format_ARGB32);
+        // The image must be transparent,otherwise we wll have problems with it's loading
+        image.fill(QColor(255,255,255,0).rgba());
+
+        QPainter painter;
+        painter.begin(&image);
+        //QPen textpen(QColor(0, 0, 0));
+        QPen textpen(QColor(255, 255, 255));
+        //QPen debugpen(QColor(255, 0, 0));
+        painter.setPen(textpen);
+        painter.setFont(font);
+
+        painter.drawText(0, 0, sizes.width(), sizes.height(), Qt::AlignHCenter | Qt::AlignVCenter, argv[3]);
+
+        painter.end();
+        QString file_name = argv[4];
+        file_name += ".png";
+        if (!image.save(file_name))
+        {
+            printf("Unable to save file");
+        }
+        return 0;
+    }
     char string[2] = "A";
     QString renderedstring;
     int linespacing = metrics.lineSpacing();
@@ -129,7 +159,7 @@ int main(int argc, char *argv[])
     painter.begin(&image);
     //QPen textpen(QColor(0, 0, 0));
     QPen textpen(QColor(255, 255, 255));
-    QPen debugpen(QColor(255, 0, 0));
+    //QPen debugpen(QColor(255, 0, 0));
     painter.setPen(textpen);
     painter.setFont(font);
     int current_x_pos = 0;
