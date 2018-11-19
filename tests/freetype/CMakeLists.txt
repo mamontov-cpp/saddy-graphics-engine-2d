@@ -10,6 +10,7 @@ file(GLOB HDRS *.h)
 
 set(SADDY_APPLICATION_NAME "tests-freetype")
 set(SADDY_LIBRARY_NAME "saddy")
+set(SADDY_FREETYPE_LIBRARY_NAME "saddy-ft")
 
 set(SADDY_CXX_DEBUG_FLAGS "-std=c++14 -Wno-reorder -Wno-unused -Wno-sign-compare -w")
 set(SADDY_CXX_RELEASE_FLAGS "-std=c++14 -O2 -Wno-reorder -Wno-unused -Wno-sign-compare -w")
@@ -60,8 +61,8 @@ ENDIF()
 
 add_executable(${SADDY_APPLICATION_NAME}  ${SRCS} ${HDRS})
 
-target_link_libraries(${SADDY_APPLICATION_NAME} "${SADDY_LIBRARY_NAME}")
 target_link_libraries(${SADDY_APPLICATION_NAME} "${SADDY_FREETYPE_LIBRARY_NAME}")
+target_link_libraries(${SADDY_APPLICATION_NAME} "${SADDY_LIBRARY_NAME}")
 target_link_libraries(${SADDY_APPLICATION_NAME} ${FREETYPE_LIBRARIES})
 target_link_libraries(${SADDY_APPLICATION_NAME} ${GLOBAL_LIBS})
 
