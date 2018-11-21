@@ -299,7 +299,7 @@
                 "font":"Arcade Classic",
                 "fontsize":22.000000,
                 "hasformatting":false,
-                "layer":3.000000,
+                "layer":2.000000,
                 "linespacing":1.000000,
                 "majorid":5.000000,
                 "maximallinescount":0.000000,
@@ -320,20 +320,20 @@
                 "angle":0.000000,
                 "area":{
                     "p1":{
-                        "x":159.500005,
-                        "y":345.367992
+                        "x":94.000000,
+                        "y":357.370000
                     },
                     "p2":{
-                        "x":627.500005,
-                        "y":345.367992
+                        "x":690.000000,
+                        "y":357.370000
                     },
                     "p3":{
-                        "x":627.500005,
-                        "y":322.313793
+                        "x":690.000000,
+                        "y":329.462285
                     },
                     "p4":{
-                        "x":159.500005,
-                        "y":322.313793
+                        "x":94.000000,
+                        "y":329.462285
                     }
                 },
                 "breaktext":0.000000,
@@ -344,9 +344,9 @@
                     "r":255.000000
                 },
                 "font":"Liberation Sans",
-                "fontsize":22.000000,
+                "fontsize":27.000000,
                 "hasformatting":false,
-                "layer":4.000000,
+                "layer":3.000000,
                 "linespacing":1.000000,
                 "majorid":6.000000,
                 "maximallinescount":0.000000,
@@ -356,7 +356,7 @@
                 "overflowstrategy":0.000000,
                 "overflowstrategyforlines":0.000000,
                 "scene":1.000000,
-                "text":"This is just a test game, how do yo even managed to die?",
+                "text":"This is just a test game, how do you even managed to die?",
                 "textellipsisposition":0.000000,
                 "textellipsispositionforlines":0.000000,
                 "type":"sad::Label",
@@ -391,7 +391,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":5.000000,
+                "layer":4.000000,
                 "majorid":7.000000,
                 "minorid":6.000000,
                 "name":"PlayerUnit",
