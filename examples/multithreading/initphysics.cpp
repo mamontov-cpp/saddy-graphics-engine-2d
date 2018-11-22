@@ -57,6 +57,7 @@ void initPhysicsPlatforms(sad::p2d::World* world, sad::Scene* main_scene, game::
     for (size_t i = 0; i < ungrouped_platform_sprites.size(); i++)
     {
         sad::p2d::Body* body = new sad::p2d::Body();
+        body->setWeight(sad::p2d::Weight::infinite());
         body->setCurrentAngularVelocity(0);
         body->setCurrentTangentialVelocity(sad::p2d::Vector(0, 0));
         body->attachObject(ungrouped_platform_sprites[i]);
@@ -107,6 +108,7 @@ void initPhysicsPlatforms(sad::p2d::World* world, sad::Scene* main_scene, game::
         if (sprites_in_group.size() > 1)
         {
             sad::p2d::Body* body = new sad::p2d::Body();
+            body->setWeight(sad::p2d::Weight::infinite());
             body->setCurrentAngularVelocity(0);
             body->setCurrentTangentialVelocity(sad::p2d::Vector(0, 0));
             sad::p2d::Rectangle* rect = new sad::p2d::Rectangle();
@@ -166,6 +168,7 @@ void initPhysicsPlatforms(sad::p2d::World* world, sad::Scene* main_scene, game::
         if (sprites_in_group.size() > 1)
         {
             sad::p2d::Body* body = new sad::p2d::Body();
+            body->setWeight(sad::p2d::Weight::infinite());
             body->setCurrentAngularVelocity(0);
             body->setCurrentTangentialVelocity(sad::p2d::Vector(0, 0));
             sad::p2d::Rectangle* rect = new sad::p2d::Rectangle();
@@ -190,6 +193,7 @@ void initPhysicsPlatforms(sad::p2d::World* world, sad::Scene* main_scene, game::
     for (size_t i = 0; i < platform_sprites.size(); i++)
     {
         sad::p2d::Body* body = new sad::p2d::Body();
+        body->setWeight(sad::p2d::Weight::infinite());
         body->setCurrentAngularVelocity(0);
         body->setCurrentTangentialVelocity(sad::p2d::Vector(0, 0));
         body->attachObject(platform_sprites[i]);

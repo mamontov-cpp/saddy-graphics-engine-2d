@@ -376,7 +376,7 @@ void game::Actor::reset()
     m_old_velocity = sad::p2d::Vector(0, 0);
     m_is_walking_animation_playing = false;
     m_is_jumping_animation_playing = false;
-
+    this->setWeapon(NULL);
     if (m_options)
     {
         m_is_floater = m_options->IsFloater;
