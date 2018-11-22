@@ -966,7 +966,6 @@ void Game::enterPausedState()
 
 void Game::triggerWinGame()
 {
-    // TODO: Copy score to highscore
     // We append task here to avoid dangers of dying inside physics loop
     this->rendererForMainThread()->pipeline()->appendTask([=] {
         this->m_player->toggleIsDead(true);
@@ -1905,13 +1904,14 @@ void Game::tryLoadIdenticalScreenDatabase(bool* loaded, const sad::String& db_na
 }
 
 Game::Game(const Game&)  // NOLINT
-: m_main_thread(NULL),
+:
+m_main_thread(NULL),
 m_inventory_thread(NULL),
 m_is_quitting(false),
-m_main_menu_state(Game::GMMS_PLAY),
+m_main_menu_state(Game::GMMS_PLAY), m_score(0),
 m_highscore(0),
 m_loaded_options_database{false, false},
-m_loaded_lose_screen_database{ false, false },
+m_loaded_lose_screen_database{false, false},
 m_loaded_win_screen_database{false, false},
 m_loaded_game_screen(false),
 m_theme_playing(NULL),
@@ -1927,7 +1927,8 @@ m_bounce_solver_for_bullets(NULL),
 m_is_rendering_world_bodies(false),
 m_max_level_x(0),
 m_hit_animation_for_enemies(NULL),
-m_hit_animation_for_players(NULL)
+m_hit_animation_for_players(NULL),
+m_score_bar(NULL)
 {
     throw std::logic_error("Not implemented");
 }
