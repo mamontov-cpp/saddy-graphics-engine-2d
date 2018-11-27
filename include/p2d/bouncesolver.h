@@ -176,14 +176,34 @@ public:
         \return a value
      */
     size_t maxSolverIterations() const;
-    /*! Toggles flags for ignoring contact points
-        \param[in] value a flag value
+    /*! Toggles flag value for ignoring contact points. Please, note, that this only
+        works for inelastic collision mode and could work only for it. Elastic
+        collisions ignore this flag and won't do work, if cannot determine contact points,
+        since solver needs them to determine normal and tangential part of speeds.
+        \param[in] value new flag value
      */
     void toggleIgnoreContactPoints(bool value);
-    /*! Returns flags for ignoring contact points
-        \return a flag
+    /*! Returns flag value for ignoring contact points. Please, note, that this only
+        works for inelastic collision mode and could work only for it. Elastic
+        collisions ignore this flag and won't do work, if cannot determine contact points,
+        since solver needs them to determine normal and tangential part of speeds.
+        \return a flag value
      */
     bool getIgnoreContactPointsFlag() const;
+    /*! Toggles flag value for ignoring negative time of impact. Please, note, that enabling this
+        can and will cause some strange artifacts, in case, when we went too deep into
+        other body, so use it wisely. It could sometimes solve issues, when spawned body
+        is already in other body
+        \param value new flag value
+     */
+    void toggleIgnoreNegativeTOI(bool value);
+    /*! Returns flag value for ignoring negative time of impact. Please, note, that enabling this
+        can and will cause some strange artifacts, in case, when we went too deep into
+        other body, so use it wisely. It could sometimes solve issues, when spawned body
+        is already in other body
+        \return a flag velu
+     */
+    bool getIgnoreNegativeTOIFlag() const;
 protected:
     p2d::FindContactPoints * m_find;  //!< Current algorithm for finding a contact poinnts
     p2d::Body * m_first;   //!< First body to test against
@@ -225,9 +245,12 @@ protected:
     /*! A maximal solver iterations for inelastic collisions
      */
     size_t    m_max_solver_iterations;
-    /*! Test if we should ignore contact points
+    /*! Flag, that indicates, that solver should ignore contact points.
      */
     bool m_ignore_no_contact_points;
+    /*! Flag, that indicates, that solver should ignore negative time of impact
+     */
+    bool m_ignore_negative_toi;
     /*! Inelastic bounce with fixed second body, where first body sticks to second
         \param[in] b1 first body
         \param[in] b2 second body

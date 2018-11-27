@@ -556,7 +556,10 @@ static void exposeBounceSolver(sad::dukpp03::Context* ctx)
     c->addMethod("maxSolverIterations", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::maxSolverIterations));
     c->addMethod("toggleIgnoreContactPoints", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::toggleIgnoreContactPoints));
     c->addMethod("getIgnoreContactPointsFlag", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::getIgnoreContactPointsFlag));
+    c->addMethod("toggleIgnoreNegativeTOI", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::toggleIgnoreNegativeTOI));
+    c->addMethod("getIgnoreNegativeTOIFlag", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::getIgnoreNegativeTOIFlag));
 
+	
     c->setPrototypeFunction("SadP2BounceSolver");
 
     ctx->addClassBinding("sad::p2d::BounceSolver", c);

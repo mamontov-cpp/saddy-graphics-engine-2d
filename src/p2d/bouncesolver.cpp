@@ -34,7 +34,8 @@ sad::p2d::BounceSolver::BounceSolver()
   m_recursion_counter(0),
   m_collision_precision_step(0.001),
   m_max_solver_iterations(100),
-  m_ignore_no_contact_points(false)
+  m_ignore_no_contact_points(false),
+  m_ignore_negative_toi(false)
 {
     m_find = new sad::p2d::FindContactPoints();
     m_first = NULL;
@@ -205,6 +206,16 @@ bool sad::p2d::BounceSolver::getIgnoreContactPointsFlag() const
     return m_ignore_no_contact_points;
 }
 
+void sad::p2d::BounceSolver::toggleIgnoreNegativeTOI(bool value)
+{
+    m_ignore_negative_toi = value;
+}
+
+bool sad::p2d::BounceSolver::getIgnoreNegativeTOIFlag() const
+{
+    return m_ignore_negative_toi;
+}
+
 // =========================================== PRIVATE METHODS =============================
 
 bool sad::p2d::BounceSolver::inelasticBounceWithFixedSecondBody(sad::p2d::Body* b1, sad::p2d::Body* b2)
@@ -228,7 +239,7 @@ bool sad::p2d::BounceSolver::inelasticBounceWithFixedSecondBody(sad::p2d::Body* 
             bool has_pairs_or_flag_is_set = !pairs.empty()  || m_ignore_no_contact_points;
 
             if (has_pairs_or_flag_is_set
-                &&  (m_toi > 0 || sad::is_fuzzy_zero(m_toi, COLLISION_PRECISION * 1000))
+                &&  ((m_toi > 0) || m_ignore_negative_toi || sad::is_fuzzy_zero(m_toi, COLLISION_PRECISION * 1000))
                 && ((m_toi < world_step)  || sad::is_fuzzy_equal(m_toi, world_step)))
             {
                 // Compute new collision position and speed
@@ -657,7 +668,7 @@ bool sad::p2d::BounceSolver::bounceNormal(sad::p2d::Body* b1, sad::p2d::Body* b2
     m_second = b2;
     p2d::SetOfPointsPair pairs;
     this->solveTOIFCP(pairs);
-    if (!pairs.empty() &&  (m_toi > 0 || sad::is_fuzzy_zero(m_toi, COLLISION_PRECISION * 1000)))
+    if (!pairs.empty() &&  ((m_toi > 0) || m_ignore_negative_toi || sad::is_fuzzy_zero(m_toi, COLLISION_PRECISION * 1000)))
     {
         this->performBouncing(pairs);
         this->resetCoefficients();
