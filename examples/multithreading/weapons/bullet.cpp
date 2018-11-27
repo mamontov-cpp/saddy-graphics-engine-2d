@@ -18,19 +18,23 @@
 
 DECLARE_SOBJ_INHERITANCE(weapons::Bullet, weapons::Projectile)
 
+/** A lowest bullet speed 
+ */
+#define LOWEST_BULLET_SPEED (10)
+
 weapons::Bullet::Bullet(Game* game, game::Actor* actor, double angle, const weapons::BulletSettings& settings)
 : m_sprite(NULL),
 m_body(NULL),
 m_is_ghost(false),
 m_bounce_count_left(0),
-m_bounce_resilience_coefficient(1.0),
+m_bounce_restitution_coefficient(1.0),
 m_is_piercing(false),
 m_should_decay(true)
 {
     m_game = game;
     this->setIsGhost(settings.IsGhost);
     this->setBounceCountLeft(settings.MaxBounceCount);
-    this->setBounceResilienceCoefficient(settings.BounceResilienceCoefficient);
+    this->setBounceRestitutionCoefficient(settings.RestitutionCoefficient);
     this->setIsPiercing(settings.IsPiercing);
 
     bool is_player = game->player()->actor() == actor;
@@ -73,9 +77,15 @@ m_should_decay(true)
     sad::p2d::Rectangle* rectangle = new sad::p2d::Rectangle();
     rectangle->setRect(sprite->renderableArea());
 
+    double speed = settings.Speed;
+    if (fabs(speed) < LOWEST_BULLET_SPEED)
+    {
+        speed = LOWEST_BULLET_SPEED; // Set speed to 10 if zero, to avoid slowest bullets
+    }
+
     sad::p2d::Body* body = new sad::p2d::Body();
     body->setCurrentAngularVelocity(settings.AngularSpeed);
-    body->setCurrentTangentialVelocity(sad::p2d::Vector(settings.Speed * cos(angle), settings.Speed * sin(angle)));
+    body->setCurrentTangentialVelocity(sad::p2d::Vector(speed * cos(angle), speed * sin(angle)));
     body->attachObject(this);
     body->setShape(rectangle);
     body->initPosition(sprite->middle());
@@ -227,14 +237,14 @@ int weapons::Bullet::bounceCountLeft() const
     return m_bounce_count_left;
 }
 
-void weapons::Bullet::setBounceResilienceCoefficient(double value)
+void weapons::Bullet::setBounceRestitutionCoefficient(double value)
 {
-    m_bounce_resilience_coefficient = value;
+    m_bounce_restitution_coefficient = value;
 }
 
-double weapons::Bullet::bounceResilienceCoefficient() const
+double weapons::Bullet::bounceRestitutionCoefficient() const
 {
-    return m_bounce_resilience_coefficient;
+    return m_bounce_restitution_coefficient;
 }
 
 void weapons::Bullet::setIsPiercing(bool value)
@@ -264,8 +274,7 @@ void weapons::Bullet::onPlatformHit(sad::p2d::Body* b)
         {
             m_bounce_count_left -= 1;
             sad::p2d::BounceSolver* bs = m_game->bounceSolverForBullets();
-            bs->pushResilienceCoefficient(this->bounceResilienceCoefficient(), 1);
-            bs->pushResilienceCoefficient(this->bounceResilienceCoefficient(), 2);
+            bs->pushRestitutionCoefficient(this->bounceRestitutionCoefficient());
             sad::p2d::Weight w = b->weight();
             b->setWeight(sad::p2d::Weight::infinite());
             bs->bounce(m_body, b);

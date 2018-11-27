@@ -28,7 +28,7 @@ public:
         \return true value
      */
     double value() const;
-    /*! Sets a value for a weight
+    /*! Sets a value for a weight. Normalizes weight to 0.0001 if set to zero.
         \param[in] value a value for a weight
      */
     void setValue(double value);

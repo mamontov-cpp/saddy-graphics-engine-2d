@@ -36,9 +36,9 @@ public:
     /*! Maximal amount of bouncing, before bullet will be removed
      */
     int MaxBounceCount;
-    /*! A resilience coefficient for bouncing
+    /*! A restitution coefficient for bouncing
      */
-    double BounceResilienceCoefficient;
+    double RestitutionCoefficient;
     /*! If set to true bullet won't decay, when enemy is hit
      */
     bool IsPiercing;
@@ -58,7 +58,7 @@ public:
     AngularSpeed(0),
     IsGhost(false),
     MaxBounceCount(0),
-    BounceResilienceCoefficient(1.0),
+    RestitutionCoefficient(1.0),
     IsPiercing(false),
     IsNavigatingGravityToDirection(false)
     {

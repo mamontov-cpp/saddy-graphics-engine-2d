@@ -25,7 +25,7 @@ DECLARE_SOBJ(sad::p2d::BounceSolver);
 
 sad::p2d::BounceSolver::BounceSolver()
 : m_toi(0),
-  m_resilience{1.0, 1.0},
+  m_restitution_coefficient(1.0),
   m_rotationfriction{0.0, 0.0},
   m_shouldperformrotationfriction(true),
   m_inelastic_collisions(false),
@@ -720,17 +720,18 @@ void sad::p2d::BounceSolver::performBouncing(const sad::p2d::SetOfPointsPair & p
     sad::p2d::Vector tangentialPart2 = v2;
     tangentialPart2 -= normalPart2;
 
-    this->resolveNormalSpeed(m_first, normalPart1, m_second, cachedNormal2, 0);
+    this->resolveNormalSpeed(m_first, normalPart1, m_second, normalPart2, pairs);
     if (!m_inelastic_collisions) {
         m_first->correctTangentialVelocity(normalPart1 + tangentialPart1);
     }
-    m_first->correctPosition(m_av1 * m_toi);
+    double ctoi = m_toi - this->collisionPrecisionStep();
+    double after_toi_part = m_first->TimeStep - ctoi;
+    m_first->correctPosition(m_av1 * ctoi + (normalPart1 + tangentialPart1) * after_toi_part);
     this->tryResolveFriction(m_first, tangentialPart1, normalPart1 - cachedNormal1, 0, pivot1);
-    this->resolveNormalSpeed(m_second, normalPart2, m_first, cachedNormal1, 1);
     if (!m_inelastic_collisions) {
         m_second->correctTangentialVelocity(normalPart2 + tangentialPart2);
     }
-    m_second->correctPosition(m_av2 * m_toi);
+    m_second->correctPosition(m_av2 * ctoi + (normalPart2 + tangentialPart2) * after_toi_part);
     this->tryResolveFriction(m_second, tangentialPart2, normalPart2 - cachedNormal2, 1, pivot2);
 }
 
@@ -801,80 +802,104 @@ void sad::p2d::BounceSolver::solveTOIFCP(sad::p2d::SetOfPointsPair& pairs)
     );
 }
 
-static int boundspeed_solving_branches[3][3] =
+void sad::p2d::BounceSolver::resolveNormalSpeed(
+    sad::p2d::Body* b1,
+    sad::p2d::Vector& n1,
+    sad::p2d::Body* b2,
+    sad::p2d::Vector& n2,
+    const sad::p2d::SetOfPointsPair& /*pairs*/
+) const
 {
-    {0, 2, 2},
-    {1, 0, 2},
-    {1, 1, 0}
-};
-
-static int bound_solver_get_branch_index(sad::p2d::Body * b)
-{
-    int index = 0;
-    if (b->fixed())
+    bool is_body_1_fixed = b1->weight().isInfinite() || b1->fixed();
+    bool is_body_2_fixed = b2->weight().isInfinite() || b2->fixed();
+    if (is_body_1_fixed && is_body_2_fixed)
     {
-        index = 2;
+        is_body_1_fixed = b1->fixed();
+        is_body_2_fixed = b2->fixed();
+    }
+
+    // Took from https://en.wikipedia.org/wiki/Coefficient_of_restitution
+    // Formula looks as follows:
+    //        m1u1 + m2u2 + m2k(u2-u1)
+    //   v1 = ------------------------
+    //                m1 + m2
+    //
+    //        m1u1 + m2u2 + m1k(u1-u2)
+    //   v2 = ------------------------
+    //                m1 + m2
+    // where u1 = n1, u2 = n2
+    // If m1 is infinite, v1 = u1, v2 = u1 + k(u1-u2)
+    double k = m_restitution_coefficient;
+
+    double v1x = 0 , v2x = 0, v1y = 0, v2y = 0, m1 = 1.0, m2 = 1.0, must_compute_full_collision = true;
+    if (is_body_1_fixed)
+    {
+       if (is_body_2_fixed)
+       {
+           m1 = 1.0;
+           m2 = 1.0;
+       }
+       else
+       {
+           // b1 is fixed, b2 is not, take speed from other one
+           v1x = n1.x();
+           v1y = n1.y();
+
+           v2x = n1.x() + k * (n1.x() - n2.x());
+           v2y = n1.y() + k * (n1.y() - n2.y());
+
+           must_compute_full_collision = false;
+       }
     }
     else
     {
-        if (b->weight().isInfinite()) 
-            index = 1;
-    }
-    return index;
-
-}
-void sad::p2d::BounceSolver::resolveNormalSpeed(
-    sad::p2d::Body * b1, 
-    sad::p2d::Vector & n1, 
-    sad::p2d::Body * b2, 
-    const sad::p2d::Vector & n2,
-    int index
-)
-{
-    sad::p2d::Vector vn1 = n1;
-    n1 *= -1;
-    int index1 = bound_solver_get_branch_index(b1);
-    int index2 = bound_solver_get_branch_index(b2);
-
-    // Get outcome from table
-    int branch = boundspeed_solving_branches[index1][index2];
-
-    if ( branch == 0 )
-    {
-        double m1 = b1->weight().value();
-        double m2 = b2->weight().value();
-        // If both object has infinite weight, we resolve them as 
-        // equal weight objects
-        if (b1->weight().isInfinite())
+        if (is_body_2_fixed)
         {
-            m1 = 1;
-            m2 = 1;
+            // b2 is fixed, b1 is not, take speed from other one
+            v2x = n2.x();
+            v2y = n2.y();
+
+            v1x = n2.x() - k * (n1.x() - n2.x());
+            v1y = n2.y() - k * (n1.y() - n2.y());
+
+            must_compute_full_collision = false;
         }
-        n1 += ((vn1 * m1 + n2 * m2) / (m1 + m2)) * 2 ;
-        n1 *= m_resilience[index];
-        return;
+        else
+        {
+            m1 = (b1->weight().isInfinite()) ? 1.0 : (b1->weight().value());
+            m2 = (b2->weight().isInfinite()) ? 1.0 : (b2->weight().value());
+        }
     }
-    // If only first object has infinite weight
-    // his speed won't change
-    if (branch == 1)
+    if (must_compute_full_collision)
     {
-        n1 *= -(m_resilience[index]);
-        return;
+        double msum = m1 + m2;
+        // m1u1x+m2u2x
+        double vxmsum = m1 * n1.x() + m2 * n2.x();
+        // m1u1y+m2u2y
+        double vymsum = m1 * n1.y() + m2 * n2.y();
+        // k*(u2x -u1x)
+        double kxdiff = k * (n2.x() - n1.x());
+        // k*(u2y -u1y)
+        double kydiff = k * (n2.y() - n1.y());
+
+        v1x = (vxmsum + m2 * kxdiff) / msum;
+        v1y = (vymsum + m2 * kydiff) / msum;
+
+        v2x = (vxmsum - m1 * kxdiff) / msum;
+        v2y = (vymsum - m1 * kydiff) / msum;
     }
-    if (branch == 2)
-    {
-        n1 =  (n2 * 2 - vn1);
-        n1 *= m_resilience[index];
-        return;
-    }
-    
+
+    n1.setX(v1x);
+    n1.setY(v1y);
+
+    n2.setX(v2x);
+    n2.setY(v2y);
 }
 
 
 void sad::p2d::BounceSolver::resetCoefficients()
 {
-    m_resilience[0] = 1.0;
-    m_resilience[1] = 1.0;
+    m_restitution_coefficient = 1.0;
     m_rotationfriction[0] = 0.0;
     m_rotationfriction[1] = 0.0;
     m_shouldperformrotationfriction = true;

@@ -53,24 +53,23 @@ public:
     /*! Removes allocated algorithm for finding data
      */
     ~BounceSolver();
-    /*! Pushes resilience coefficient for two objects. A coefficients are restored to normal,
-        after performing bounce.
-        \param[in] r coefficient
-        \param[in] index an index
+    /*! Pushes restitution coefficient for two objects. A coefficient will be  restored to 1,
+        after performing bounce. If you set coefficient to 1, bounce solver will work with
+        bouncing as absolutely elastic, 0 - absolutely inelastic
+        \param[in] value a new value for recovery coefficient
      */
-    inline void pushResilienceCoefficient(double r, int index)
+    inline void pushRestitutionCoefficient(double value)
     {
-        assert(index == 1 || index == 2 );
-        m_resilience[index - 1] = r;
+        m_restitution_coefficient = value;
     }
-    /*! Pushes resilience coefficient for two objects. A coefficients are restored to normal,
-        after performing bounce.
-        \param[in] r coefficient
+    /*! Returns restitution coefficien for two objects. A coefficient will be  restored to 1,
+     *  after performing bounce. If you set coefficient to 1, bounce solver will work with
+     *  bouncing as absolutely elastic, 0 - absolutely inelastic
+     *  \return flag value
      */
-    inline void pushResilienceCoefficient(double r)
+    inline double getRestitutionCoefficient() const
     {
-        m_resilience[0] = r;
-        m_resilience[1] = r;
+        return m_restitution_coefficient;
     }
     /*! Pushes resilience coefficient for two objects. A coefficients are restored to normal,
         after performing bounce.
@@ -218,7 +217,7 @@ protected:
 
     double      m_toi;  //!< Current time of impact
 
-    double      m_resilience[2]; //!< A resilience coefficients for bodies
+    double      m_restitution_coefficient;  //!< A restitution coefficient
     double      m_rotationfriction[2];   //!< A tangential friction, which is applied to rotation
         
     bool        m_debug; //!< Whether debug logging is enabled
@@ -353,9 +352,9 @@ protected:
         \param[in,out] n1 normal part of first velocity
         \param[in] b2 second body
         \param[in,out] n2 normal part of second velocity
-        \param[in] index index for coefficients
+        \param[in] pairs a normal pairs
      */
-    void resolveNormalSpeed(p2d::Body * b1, p2d::Vector & n1, p2d::Body * b2, const p2d::Vector & n2, int index);
+    void resolveNormalSpeed(sad::p2d::Body* b1, sad::p2d::Vector& n1, sad::p2d::Body* b2, sad::p2d::Vector & n2, const sad::p2d::SetOfPointsPair& pairs) const;
     /*! Resets coefficients for bouncing
      */
     void resetCoefficients();

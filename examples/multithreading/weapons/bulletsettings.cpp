@@ -47,9 +47,9 @@ void weapons::exposeBulletSettings(void* c)
          sad::dukpp03::setter::from(&weapons::BulletSettings::MaxBounceCount)
     );
     binding->addAccessor(
-        "BounceResilienceCoefficient",
-         sad::dukpp03::getter::from(&weapons::BulletSettings::BounceResilienceCoefficient),
-         sad::dukpp03::setter::from(&weapons::BulletSettings::BounceResilienceCoefficient)
+        "RestitutionCoefficient",
+         sad::dukpp03::getter::from(&weapons::BulletSettings::RestitutionCoefficient),
+         sad::dukpp03::setter::from(&weapons::BulletSettings::RestitutionCoefficient)
     );
     binding->addAccessor(
         "IsPiercing",

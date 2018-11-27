@@ -17,10 +17,11 @@ addTriggerOnce(200, function() {
 	weapon.setMaxAngleDelta(/*min_angle * (-1)*/ 0);
 	var settings = new BulletSettings();
 	settings.IconName = "bullets/yellow/x_huge";
-	settings.MaxBounceCount = 0;
+	settings.MaxBounceCount = 200;
 	settings.ApplyGravity = false;
-	/*settings.GravityValue = new sad.Point2D(0, 300);*/
-	settings.BounceResilienceCoefficient = 0.9;
+	settings.GravityValue = new sad.Point2D(0, -300);
+	settings.RestitutionCoefficient = 0.9;
+    settings.Speed = 300;
 	weapon.setSettings(settings);
 	player().setWeapon(weapon);
 	gamePrint("Weapon is given");
@@ -45,7 +46,7 @@ addTriggerOnce(400, function() {
 	settings.IconName = "bullets/yellow/x_huge";
 	settings.MaxBounceCount = 0;
 	settings.ApplyGravity = false;
-	settings.BounceResilienceCoefficient = 0.9;
+	settings.RestitutionCoefficient = 0.9;
 	weapon.setSettings(settings);
 	actor.setWeapon(weapon);
 	/*

@@ -77,14 +77,14 @@ public:
         \return amount of bounces
      */
     int bounceCountLeft() const;
-    /*! Sets resilience coefficience for bullet
-        \param[in] value a value for resilience
+    /*! Sets restitution coefficient for bullet
+        \param[in] value a value for restitution
      */
-    void setBounceResilienceCoefficient(double value);
-    /*! Returns resilience coefficient
-        \return resilience coefficient
+    void setBounceRestitutionCoefficient(double value);
+    /*! Returns restitution coefficient
+        \return restitution coefficient
      */
-    double bounceResilienceCoefficient() const;
+    double bounceRestitutionCoefficient() const;
     /*! Sets value, whether bullet is piercing
         \param[in] value a value
      */
@@ -122,9 +122,9 @@ protected:
     /*! Bounce count left for bullet, before decay
      */
     int m_bounce_count_left;
-    /*! A bounce resilience coefficient
+    /*! A bounce restitution coefficient
      */
-    double m_bounce_resilience_coefficient;
+    double m_bounce_restitution_coefficient;
     /*! Whether bullet is piercing
      */
     bool m_is_piercing;
