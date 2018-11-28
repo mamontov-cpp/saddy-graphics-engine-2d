@@ -507,15 +507,6 @@ static void exposeBody(sad::dukpp03::Context* ctx)
 }
 
 
-static void __bounceSolverPushResilienceCoefficient(sad::p2d::BounceSolver* b, double r, int index)
-{
-    if (index != 1 && index != 2) 
-    {
-        throw new std::logic_error("Invalid coefficent index for resilience");
-    }
-    b->pushResilienceCoefficient(r, index);
-}
-
 static void __bounceSolverPushRotationFriction(sad::p2d::BounceSolver* b, double r, int index)
 {
     if (index != 1 && index != 2)
@@ -558,18 +549,17 @@ static void exposeBounceSolver(sad::dukpp03::Context* ctx)
     c->addMethod("getIgnoreContactPointsFlag", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::getIgnoreContactPointsFlag));
     c->addMethod("toggleIgnoreNegativeTOI", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::toggleIgnoreNegativeTOI));
     c->addMethod("getIgnoreNegativeTOIFlag", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::getIgnoreNegativeTOIFlag));
+    c->addMethod("pushRestitutionCoefficient", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::pushRestitutionCoefficient));
 
-	
+
     c->setPrototypeFunction("SadP2BounceSolver");
 
     ctx->addClassBinding("sad::p2d::BounceSolver", c);
 
-    ctx->registerCallable("SadP2DBounceSolverPushResilienceCoefficient", sad::dukpp03::make_function::from(__bounceSolverPushResilienceCoefficient));
     ctx->registerCallable("SadP2DBounceSolverPushRotationFriction", sad::dukpp03::make_function::from(__bounceSolverPushRotationFriction));
 
     PERFORM_AND_ASSERT(
         "sad.p2d.BounceSolver = SadP2BounceSolver;"
-        "sad.p2d.BounceSolver.prototype.pushResilienceCoefficient = function(r, index)   { if (typeof index == \"undefined\")  { SadP2DBounceSolverPushResilienceCoefficient(this, r, 1); SadP2DBounceSolverPushResilienceCoefficient(this, r, 2); } else SadP2DBounceSolverPushResilienceCoefficient(this, r, index);   };"
         "sad.p2d.BounceSolver.prototype.pushRotationFriction = function(r, index) { if (typeof index == \"undefined\")  { SadP2DBounceSolverPushRotationFriction(this, r, 1); SadP2DBounceSolverPushRotationFriction(this, r, 2); } else SadP2DBounceSolverPushRotationFriction(this, r, index); };"
         "sad.p2d.BounceSolver.InelasticCollisionType = {};"
         "sad.p2d.BounceSolver.InelasticCollisionType.ICT_NO_INELASTIC_COLLISION = 0;"
