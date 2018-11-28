@@ -51,7 +51,6 @@ m_lookup_angle(0),
 m_weapon(NULL)
 {
     m_key_states.reset();
-    m_on_death_action = [](game::Actor*) {};
 }
 
 game::Actor::~Actor()
@@ -1041,7 +1040,10 @@ void game::Actor::setLives(int lives)
     m_lives = lives;
     if (m_lives <= 0)
     {
-        m_on_death_action(this);
+        for(size_t i = 0; i < m_on_death_actions.size(); i++)
+        {
+            m_on_death_actions[i](this);
+        }
     }
 }
 
@@ -1055,7 +1057,10 @@ void game::Actor::decrementLives(int lives)
     m_lives -= lives;
     if (m_lives <= 0)
     {
-        m_on_death_action(this);
+        for (size_t i = 0; i < m_on_death_actions.size(); i++)
+        {
+            m_on_death_actions[i](this);
+        }
     }
 }
 
@@ -1066,7 +1071,10 @@ void game::Actor::tryDecrementLives(int lives)
         m_lives -= lives;
         if (m_lives <= 0)
         {
-            m_on_death_action(this);
+            for (size_t i = 0; i < m_on_death_actions.size(); i++)
+            {
+                m_on_death_actions[i](this);
+            }
         }
         else
         {
@@ -1084,7 +1092,13 @@ void game::Actor::tryDecrementLives(int lives)
 
 void game::Actor::onDeath(const std::function<void(game::Actor*)>& action)
 {
-    m_on_death_action = action;
+    m_on_death_actions.clear();
+    m_on_death_actions.push_back(action);
+}
+
+void game::Actor::onBeforeDeath(const std::function<void(game::Actor*)>& action)
+{
+    m_on_death_actions.insert(m_on_death_actions.begin(), action);
 }
 
 void game::Actor::setHurtAnimation(sad::animations::Animation* animation)

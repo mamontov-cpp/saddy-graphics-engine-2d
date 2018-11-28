@@ -272,6 +272,10 @@ public:
         \param[in] action for actor, that will be called, when actor is dead
      */
     void onDeath(const std::function<void(game::Actor*)>& action);
+    /*! Ensures, that action called before all other actions, when actor is dead
+        \param[in] action for actor, that will be called, when actor is dead
+     */
+    void onBeforeDeath(const std::function<void(game::Actor*)>& action);
     /*!  Sets animation, which is called, when actor is hurt
          \param[in] animation
      */
@@ -441,7 +445,7 @@ private:
     int m_lives;
     /*! An action, that should be called, when actor is dying
      */
-    std::function<void(game::Actor*)> m_on_death_action;
+    std::vector<std::function<void(game::Actor*)> > m_on_death_actions;
     /*! An animation, which is called, when actor is hurt
      */
     sad::animations::Animation* m_hurt_animation;
