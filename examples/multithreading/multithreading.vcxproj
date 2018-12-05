@@ -217,6 +217,7 @@
     <ClCompile Include="game\actoroptions.cpp" />
     <ClCompile Include="game\actors.cpp" />
     <ClCompile Include="game\conditions.cpp" />
+    <ClCompile Include="game\getpenetrationdepthforitem.cpp" />
     <ClCompile Include="game\healthbar.cpp" />
     <ClCompile Include="game\inventory.cpp" />
     <ClCompile Include="game\movingplatformregistry.cpp" />
@@ -269,6 +270,7 @@
     <ClInclude Include="game\actoroptions.h" />
     <ClInclude Include="game\actors.h" />
     <ClInclude Include="game\conditions.h" />
+    <ClInclude Include="game\getpenetrationdepthforitem.h" />
     <ClInclude Include="game\healthbar.h" />
     <ClInclude Include="game\inventory.h" />
     <ClInclude Include="game\movingplatformregistry.h" />

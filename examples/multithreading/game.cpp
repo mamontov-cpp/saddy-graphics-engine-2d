@@ -53,6 +53,7 @@
 
 #include "initphysics.h"
 #include "weapons/weapon.h"
+#include "bots/nullbot.h"
 
 const sad::Point2D Game::GravityForceValue(0.0, -300.0); // -300 is arbitrarily defined, to make player fall slowly
 
@@ -113,6 +114,7 @@ m_hit_animation_for_players(NULL)// NOLINT
     m_bounce_solver_for_bullets = new sad::p2d::BounceSolver();
 
     m_bot_registry.insert("random_60_500", new bots::RandomBot(50, 600));
+    m_bot_registry.insert("null", new bots::NullBot());
 
     m_player->setActorOptions(m_actor_options["player"]);
 
@@ -561,6 +563,14 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
         m_player->tryShoot();
     };
 
+    std::function<void()> perform_item_spawn = [this] {
+        sad::MaybePoint3D pnt = this->rendererForMainThread()->cursorPosition();
+        if (pnt.exists())
+        {
+            this->makeItemActor("icons_list/W_Sword021ng", pnt.value());
+        }
+    };
+
     renderer->controls()->addLambda(
         *sad::input::ET_MouseMove
         & ((&m_state_machine) * sad::String("playing"))
@@ -573,6 +583,13 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
         perform_action
+    );
+    renderer->controls()->addLambda(
+        *sad::input::ET_MousePress
+        & sad::MouseRight
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("playing")),
+        perform_item_spawn
     );
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
@@ -1565,6 +1582,72 @@ game::Actor* Game::makeEnemy(const sad::String& optname, const sad::Point2D& mid
     return NULL;
 }
 
+game::Actor* Game::makeItemActor(const sad::String& optname, const sad::Point2D& middle)
+{
+    sad::String real_opt_name = optname + "______item_actor";
+    if (!m_actor_options.contains(real_opt_name)) {
+        game::ActorOptions opts;
+        opts.IsFloater = false;
+        opts.CanEmitSound = false;
+        opts.WalkerHorizontalVelocity = 1;
+        opts.WalkerVerticalVelocity = 1;
+        opts.FloaterHorizontalVelocity = 1;
+        opts.FloaterVerticalVelocity = 1;
+        opts.WalkingAnimationTime = 1;
+        opts.JumpingAnimationTime = 1;
+
+        opts.StandingSprite = optname;
+        opts.WalkingSprite = optname;
+        opts.WalkingAnimationOptions.push_back(optname);
+        opts.JumpingAnimationOptions.push_back(optname);
+        opts.JumpingSprite = optname;
+        opts.FallingSprite = optname;
+        opts.DuckingSprite = optname;
+        opts.FloaterSprite = optname;
+        opts.FloaterFlyAnimationOptions.push_back(optname);
+
+        addActorOptions(real_opt_name, opts);
+    }
+    game::ActorOptions* options = m_actor_options[real_opt_name];
+
+    sad::Scene* scene = this->rendererForMainThread()->database("gamescreen")->objectByName<sad::Scene>("main");
+    if (scene)
+    {
+        sad::Sprite2D* sprite = new sad::Sprite2D();
+        sprite->setScene(scene);
+        sprite->setTreeName(this->rendererForMainThread(), "");
+        sprite->set(options->JumpingSprite);
+        sprite->moveTo(middle);
+        scene->add(sprite);
+
+        game::Actor* actor = new game::Actor();
+        actor->setLives(Game::BasicEnemyLivesCount);
+        actor->setGame(this);
+        actor->setSprite(sprite);
+        actor->setOptions(options);
+
+        sad::p2d::Body* body = new sad::p2d::Body();
+        body->setCurrentAngularVelocity(0);
+        body->setCurrentTangentialVelocity(sad::p2d::Vector(0, 0)); // Just to ensure follind
+        sad::p2d::Rectangle* rect = new sad::p2d::Rectangle();
+        rect->setRect(sprite->area());
+        body->setShape(rect);
+
+        body->attachObject(actor);
+        body->initPosition(sprite->middle());
+
+        this->m_physics_world->addBodyToGroup("items", body);
+        actor->setBody(body);
+        actor->enableGravity();
+        actor->init(true);
+        actor->setHurtAnimation(m_hit_animation_for_enemies);
+        this->addActor(actor, this->getFromRegistry("null")->clone());
+        
+        return actor;
+    }
+    return NULL;
+}
+
 bots::AbstractBot* Game::getFromRegistry(const sad::String& bot_name) const
 {
     return m_bot_registry.get(bot_name);
@@ -1792,10 +1875,33 @@ void Game::initGamePhysics()
             a->onPlatformCollision(ev);
         }
     };
+
+    std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_item_and_platforms = [=](const sad::p2d::BasicCollisionEvent & ev) {
+        game::Actor* a = dynamic_cast<game::Actor*>(ev.m_object_1->userObject());
+        if (!a->isFloater() && ev.m_object_2 == this->m_walls.bottomWall())
+        {
+            this->rendererForMainThread()->pipeline()->appendTask([=] {
+                this->killActorByBody(ev.m_object_1);
+            });
+            return;
+        }
+        if (a)
+        {
+            a->onPlatformCollision(ev);
+            if (a->isResting())
+            {
+                a->body()->setCurrentTangentialVelocity(sad::p2d::Vector(0, 0));
+                a->onPlatformCollision(ev);
+            }
+        }
+    };
+
     m_physics_world->addHandler("player", "platforms", collision_between_player_and_platforms);
     m_physics_world->addHandler("enemies", "platforms", collision_between_enemy_and_platforms);
+    m_physics_world->addHandler("items", "platforms", collision_between_item_and_platforms);
     m_physics_world->addHandler("player", "walls", collision_between_player_and_platforms);
     m_physics_world->addHandler("enemies", "walls", collision_between_enemy_and_platforms);
+    m_physics_world->addHandler("items", "walls", collision_between_item_and_platforms);
     std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_walls_and_bullet = [=](const sad::p2d::BasicCollisionEvent & ev) {
         sad::Object* a = ev.m_object_2->userObject();
         // This conditions only holds only in case of bullets,

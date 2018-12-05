@@ -62,6 +62,6 @@ addTriggerOnce(400, function() {
 	spawnPlatformPatrol("enemy_walker", new sad.Point2D(220, 300));
 });
 
-addTriggerOnce(550, function() {
+addTriggerOnce(750, function() {
 	triggerWinGame();
 });

@@ -21,6 +21,7 @@ void initPhysicsWorld(sad::p2d::World* world)
     world->addGroup("coins");
     world->addGroup("player_bullets");
     world->addGroup("enemy_bullets");
+    world->addGroup("items");
 }
 
 

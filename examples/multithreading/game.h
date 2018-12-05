@@ -325,10 +325,15 @@ public:
      */
     void addDelayedTask(double time, const std::function<void()>& fn);
     /*! Makes new enemy actor
-        \param[in] optname a name for options
+        \param[in] optname a name for options for actor
         \param[in] middle a middle of enemy
      */
     game::Actor* makeEnemy(const sad::String& optname, const sad::Point2D& middle);
+    /*! Makes new item
+        \param[in] optname a name for sprite for actor (not an options for actor)
+        \param[in] middle a middle of item
+     */
+    game::Actor* makeItemActor(const sad::String& optname, const sad::Point2D& middle);
     /*! Tries to fetch from registry abstract bot
         \param[in] bot_name a name of bot
         \return bot or  NULL if not found
