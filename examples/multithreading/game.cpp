@@ -1455,14 +1455,12 @@ sad::p2d::World* Game::physicsWorld() const
 
 void Game::killActorByBody(sad::p2d::Body* body)
 {
-    sad::db::Database* db = this->rendererForMainThread()->database("gamescreen");
-    sad::Scene* main_scene = db->objectByName<sad::Scene>("main");
-
     game::Actor* actor = static_cast<game::Actor*>(body->userObject());
     this->killProjectilesRelatedToActor(actor);
     this->rendererForMainThread()->animations()->stopProcessesRelatedToObject(actor->sprite());
     m_physics_world->removeBody(body);
-    main_scene->removeNode(actor->sprite());
+    sad::Scene* scene = actor->sprite()->scene();
+    scene->removeNode(actor->sprite());
     m_actors.remove(actor);
 }
 
@@ -1642,6 +1640,7 @@ game::Actor* Game::makeItemActor(const sad::String& optname, const sad::Point2D&
         actor->init(true);
         actor->setHurtAnimation(m_hit_animation_for_enemies);
         this->addActor(actor, this->getFromRegistry("null")->clone());
+        actor->scene()->setLayer(actor->sprite(), 0);
         
         return actor;
     }

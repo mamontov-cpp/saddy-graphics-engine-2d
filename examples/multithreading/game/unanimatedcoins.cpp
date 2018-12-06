@@ -53,6 +53,7 @@ void game::UnanimatedCoins::animateNearestCoins(const sad::Point2D& middle)
         { 
             for (size_t i = 0; i < m_sprites.size(); i++)
             {
+                m_sprites[i]->scene()->setLayer(m_sprites[i], 0);
                 double dist = middle.distance(m_sprites[i]->middle());
                 if (dist <= game::UnanimatedCoins::MaxDistance)
                 {
