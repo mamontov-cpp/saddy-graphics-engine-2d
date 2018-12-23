@@ -1639,7 +1639,9 @@ game::Actor* Game::makeItemActor(const sad::String& optname, const sad::Point2D&
         actor->enableGravity();
         actor->init(true);
         actor->setHurtAnimation(m_hit_animation_for_enemies);
+        // The item actor must not move
         this->addActor(actor, this->getFromRegistry("null")->clone());
+        // Makes actor appear behind every other object on scene
         actor->scene()->setLayer(actor->sprite(), 0);
         
         return actor;
