@@ -1624,6 +1624,12 @@ game::Actor* Game::makeItemActor(const sad::String& optname, const sad::Point2D&
         actor->setSprite(sprite);
         actor->setOptions(options);
 
+        // Make sprite larger (x3)
+        sprite->setChangeSizeWhenOptionsAreChanged(false);
+        sad::Point2D wh(game::Item::SpriteSize / 2, game::Item::SpriteSize / 2);
+        sad::Rect2D area(middle - wh, middle + wh);
+        sprite->setArea(area);
+
         sad::p2d::Body* body = new sad::p2d::Body();
         body->setCurrentAngularVelocity(0);
         body->setCurrentTangentialVelocity(sad::p2d::Vector(0, 0)); // Just to ensure follind
@@ -1637,6 +1643,7 @@ game::Actor* Game::makeItemActor(const sad::String& optname, const sad::Point2D&
         this->m_physics_world->addBodyToGroup("items", body);
         actor->setBody(body);
         actor->enableGravity();
+        actor->toggleFixedSize(true);
         actor->init(true);
         actor->setHurtAnimation(m_hit_animation_for_enemies);
         // The item actor must not move

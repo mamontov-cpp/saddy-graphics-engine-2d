@@ -16,6 +16,9 @@ namespace game
 class Item   // NOLINT(cppcoreguidelines-special-member-functions)
 {
 public:
+    /*! Size of item's sprite
+     */
+    static const int SpriteSize;
     /*! Constructs new item
      *  \param[in] icon an icon for item
      *  \param[in] title a title for item

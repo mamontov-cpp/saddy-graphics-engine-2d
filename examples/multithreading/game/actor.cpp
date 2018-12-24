@@ -48,7 +48,8 @@ m_is_invincible(false),
 m_lives(1),
 m_hurt_animation(NULL),
 m_lookup_angle(0),
-m_weapon(NULL)
+m_weapon(NULL),
+m_fixed_size(false)
 {
     m_key_states.reset();
 }
@@ -417,7 +418,7 @@ void game::Actor::init(bool no_sound)
             m_game->stopWalkingSound();
         }
 
-        m_sprite->set(m_options->FloaterSprite);
+        setOptionsForSprite(m_options->FloaterSprite);
         correctShape();
         this->disableGravity();
         this->setAngleForFloater();
@@ -512,7 +513,7 @@ void game::Actor::init(bool no_sound)
                 }
                 else
                 {
-                    m_sprite->set(m_options->StandingSprite);
+                    setOptionsForSprite(m_options->StandingSprite);
                 }
                 this->correctShape();
             }
@@ -522,7 +523,7 @@ void game::Actor::init(bool no_sound)
                 { 
                     this->setVerticalVelocity(m_options->WalkerVerticalVelocity);
                 }
-                m_sprite->set(m_options->JumpingSprite);
+                setOptionsForSprite(m_options->JumpingSprite);
                 this->correctShape();
                 if (m_options->CanEmitSound)
                 {
@@ -722,7 +723,7 @@ void game::Actor::restOnPlatform(sad::p2d::Body* b, const  sad::p2d::Vector& old
         {
              if (!already_resting)
              { 
-                m_sprite->set(m_options->StandingSprite);
+                 setOptionsForSprite(m_options->StandingSprite);
                 if (m_options->CanEmitSound)
                 {
                     m_game->playWalkingSound();
@@ -733,7 +734,7 @@ void game::Actor::restOnPlatform(sad::p2d::Body* b, const  sad::p2d::Vector& old
         {
             if (!already_resting)
             { 
-                m_sprite->set(m_options->WalkingSprite);
+                setOptionsForSprite(m_options->WalkingSprite);
                 if (m_options->CanEmitSound)
                 {
                     m_game->stopWalkingSound();
@@ -760,7 +761,7 @@ void game::Actor::disableResting()
     } 
     if (!m_is_floater)
     {       
-        this->m_sprite->set(m_options->JumpingSprite);
+        setOptionsForSprite(m_options->JumpingSprite);
     }
 }
 
@@ -870,14 +871,14 @@ void game::Actor::stopMovingHorizontally()
         {
             if (!m_is_ducking)
             {
-                this->m_sprite->set(m_options->StandingSprite);
+                setOptionsForSprite(m_options->StandingSprite);
             }
         }
         else
         {
             if (!m_is_free_fall)
             {
-                this->m_sprite->set(m_options->JumpingSprite);
+                setOptionsForSprite(m_options->JumpingSprite);
             }
         }
     }
@@ -913,7 +914,7 @@ void game::Actor::startFallingOrDuck()
         m_is_free_fall = true;
         this->cancelJumpingAnimation();
         this->incrementVerticalVelocity(m_options->WalkerVerticalVelocity * -1);
-        m_sprite->set(m_options->FallingSprite);
+        setOptionsForSprite(m_options->FallingSprite);
         this->correctShape();
     } else {
         this->duck();
@@ -930,7 +931,7 @@ void game::Actor::stopFallingOrStopDucking()
         m_is_free_fall = false;
         this->cancelJumpingAnimation();
         this->incrementVerticalVelocity(m_options->WalkerVerticalVelocity);
-        m_sprite->set(m_options->JumpingSprite);
+        setOptionsForSprite(m_options->JumpingSprite);
         this->correctShape();
     } else {
         this->stopDucking();
@@ -951,7 +952,7 @@ void game::Actor::duck()
         {
             m_game->stopWalkingSound();
         }
-        m_sprite->set(m_options->DuckingSprite);
+        setOptionsForSprite(m_options->DuckingSprite);
         correctShape();
     }
 }
@@ -964,11 +965,11 @@ void game::Actor::stopDucking()
         bool is_going_left = false, is_going_right = false;
         if (is_going_left || is_going_right)
         {
-            m_sprite->set(m_options->WalkingSprite);
+            setOptionsForSprite(m_options->WalkingSprite);
         }
         else
         {
-            m_sprite->set(m_options->StandingSprite);
+            setOptionsForSprite(m_options->StandingSprite);
         }
         this->correctShape();
 
@@ -1262,6 +1263,16 @@ void game::Actor::setShootingStrategy(bots::shootingstrategies::ShootingStrategy
     }
 }
 
+void game::Actor::toggleFixedSize(bool fixed_size)
+{
+    m_fixed_size  = fixed_size;
+}
+
+bool game::Actor::fixedSize() const
+{
+    return m_fixed_size;
+}
+
 // ===================================== PRIVATE METHODS =====================================
 
 void game::Actor::computeIsGoingUpDownFlags(bool& is_going_up, bool& is_going_down)
@@ -1509,7 +1520,7 @@ void game::Actor::startMoving(bool flip_flag, double velocity)
             {
                 if (!m_is_walking_animation_playing)
                 {
-                    m_sprite->set(m_options->WalkingSprite);
+                    setOptionsForSprite(m_options->WalkingSprite);
                 }
             }
         }
@@ -1525,6 +1536,16 @@ void game::Actor::correctShape() const
     sad::Rect2D corrected_rect(start_point, start_point + width_height);
     this->m_sprite->setArea(corrected_rect);
     shape->setRect(corrected_rect);
+}
+
+void game::Actor::setOptionsForSprite(const sad::String& o) const
+{
+    sad::Rect2D rect = m_sprite->area();
+    m_sprite->set(o);
+    if (m_fixed_size)
+    {
+        m_sprite->setArea(rect);
+    }
 }
 
 void game::exposeActor(void* c)

@@ -326,6 +326,14 @@ public:
      *  \param[in] s a strategy
      */
     void setShootingStrategy(bots::shootingstrategies::ShootingStrategy* s);
+    /*! Toggles fixed size for actor
+        \param[in] fixed_size a fixed size for actor
+     */
+    void toggleFixedSize(bool fixed_size);
+    /*! Returns whether sprite have fixed size
+     *  \return whether sprite have fixed size
+     */
+    bool fixedSize() const;
 private:
     /*! Compute whether floater should go up or down
         \param[out] is_going_up whether we should go up
@@ -374,6 +382,10 @@ private:
         Used for ducking
      */
     void correctShape() const;
+    /*! Sets options for sprite
+        \param[in] o options
+     */
+    void setOptionsForSprite(const sad::String& o) const;
     /*! A player's own horizontal velocity
      */
     double m_own_horizontal_velocity;
@@ -455,6 +467,9 @@ private:
     /*! A weapon for actor;
      */
     weapons::Weapon* m_weapon;
+    /*! Whether actor has fixed size
+     */
+    bool m_fixed_size;
 };
 
 /*! Exposes actor to context
