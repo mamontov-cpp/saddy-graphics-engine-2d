@@ -2,6 +2,7 @@
 
 #include "game/healthbar.h"
 #include "game/scorebar.h"
+#include "game/getpenetrationdepthforitem.h"
 
 #include "threads/gamethread.h"
 
@@ -1608,7 +1609,9 @@ game::Actor* Game::makeItemActor(const sad::String& optname, const sad::Point2D&
     }
     game::ActorOptions* options = m_actor_options[real_opt_name];
 
-    sad::Scene* scene = this->rendererForMainThread()->database("gamescreen")->objectByName<sad::Scene>("main");
+    sad::db::Database* gamescreen = this->rendererForMainThread()->database("gamescreen");
+    sad::Scene* scene = gamescreen->objectByName<sad::Scene>("main");
+    sad::animations::Animation* animation = gamescreen->objectByName<sad::animations::Animation>("item_falling");
     if (scene)
     {
         sad::Sprite2D* sprite = new sad::Sprite2D();
@@ -1626,7 +1629,7 @@ game::Actor* Game::makeItemActor(const sad::String& optname, const sad::Point2D&
 
         // Make sprite larger (x3)
         sprite->setChangeSizeWhenOptionsAreChanged(false);
-        sad::Point2D wh(game::Item::SpriteSize / 2, game::Item::SpriteSize / 2);
+        sad::Point2D wh(game::Item::SpriteSize / 2.0, game::Item::SpriteSize / 2.0);
         sad::Rect2D area(middle - wh, middle + wh);
         sprite->setArea(area);
 
@@ -1650,6 +1653,15 @@ game::Actor* Game::makeItemActor(const sad::String& optname, const sad::Point2D&
         this->addActor(actor, this->getFromRegistry("null")->clone());
         // Makes actor appear behind every other object on scene
         actor->scene()->setLayer(actor->sprite(), 0);
+
+        if (animation)
+        {
+            sad::animations::Instance* i = new sad::animations::Instance();
+            i->setObject(sprite);
+            i->setAnimation(animation);
+            i->disableStateRestoringOnFinish();
+            this->rendererForMainThread()->animations()->add(i);
+        }
         
         return actor;
     }
@@ -1900,6 +1912,17 @@ void Game::initGamePhysics()
             {
                 a->body()->setCurrentTangentialVelocity(sad::p2d::Vector(0, 0));
                 a->onPlatformCollision(ev);
+                this->rendererForMainThread()->pipeline()->appendTask([=] {
+                    this->rendererForMainThread()->animations()->stopProcessesRelatedToObject(a->sprite());
+                    sad::String opts = a->sprite()->optionsName();
+                    int depth = game::getPenetationDepthForItem(opts);
+                    if (depth != 0)
+                    {
+                        a->sprite()->setAngle(M_PI / 4);
+                        sad::Rect2D area = a->sprite()->area();
+                        a->sprite()->setArea(sad::Rect2D(area[0].x(), area[0].y() - depth, area[2].x(), area[2].y() - depth));
+                    }
+                });
             }
         }
     };

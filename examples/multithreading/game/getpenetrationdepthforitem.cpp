@@ -9,21 +9,22 @@ struct ItemNameToDepth {
 /*! An array of related to depth data
  */
 static ItemNameToDepth itemname_to_penetration_depth[] = {
-    {"ICE", 5},
-    {"THUNDER", 5},
-    {"BOW", 8},
-    {"MACE", 8},
-    {"DAGGER", 8},
-    {"KEY", 8},
-    {"AXE", 8},
-    {"TORCH", 8},
-    {"GUN", 8},
-    {"THROW", 8},
-    {"EYE", 5},
-    {"BATWING", 8},
-    {"CARROT", 5},
-    {"SPEAR", 8},
-    {"SWORD", 8},
+    {"SWORD021", 3},
+    {"ICE", 3},
+    {"THUNDER", 3},
+    {"BOW", 4},
+    {"MACE", 4},
+    {"DAGGER", 4},
+    {"KEY", 4},
+    {"AXE", 4},
+    {"TORCH", 4},
+    {"GUN", 4},
+    {"THROW", 4},
+    {"EYE", 3},
+    {"BATWING", 4},
+    {"CARROT", 3},
+    {"SPEAR", 4},
+    {"SWORD", 4},
     {NULL, 0}
 };
 
