@@ -1,3 +1,24 @@
+// Init penetration depth to earth for items
+setItemPenetrationDepth("SWORD021", 3);
+setItemPenetrationDepth("ICE", 3);
+setItemPenetrationDepth("THUNDER", 3);
+setItemPenetrationDepth("BOW", 4);
+setItemPenetrationDepth("MACE", 4);
+setItemPenetrationDepth("DAGGER", 4);
+setItemPenetrationDepth("KEY", 4);
+setItemPenetrationDepth("AXE", 4);
+setItemPenetrationDepth("TORCH", 4);
+setItemPenetrationDepth("GUN", 4);
+setItemPenetrationDepth("THROW", 4);
+setItemPenetrationDepth("EYE", 3);
+setItemPenetrationDepth("BATWING", 4);
+setItemPenetrationDepth("CARROT", 3);
+setItemPenetrationDepth("SPEAR", 4);
+setItemPenetrationDepth("SWORD", 4);
+
+setDroppedItemIcon("icons_list/W_Spear010ng");
+
+
 // Enum-ish direction
 var HDir = { "Right": 0, "Left": 1, "None" : 2};
 var VDir = { "Up": 0, "Down": 1,  "None": 2};

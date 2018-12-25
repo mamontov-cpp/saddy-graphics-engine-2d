@@ -4,7 +4,7 @@
 
 // ========================================== PUBLIC METHODS ==========================================
 
-const int game::Item::SpriteSize = 16;
+const int game::Item::SpriteSize = 24;
 
 game::Item::Item(const sad::String& icon, const sad::String& title, const sad::String& description, bool delete_after_apply)
 : m_icon(icon), 

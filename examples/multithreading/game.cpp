@@ -62,6 +62,8 @@ const int Game::BasicEnemyLivesCount = 3; //< Amount of lives for enemy
 
 const int Game::BasicPlayerLivesCount = 1; // Amount of lives for player
 
+static sad::String DroppedItemIcon = "icons_list/W_Sword021ng";
+
 DECLARE_COMMON_TYPE(Game);
 
 // ==================================== PUBLIC METHODS ====================================
@@ -568,7 +570,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
         sad::MaybePoint3D pnt = this->rendererForMainThread()->cursorPosition();
         if (pnt.exists())
         {
-            this->makeItemActor("icons_list/W_Sword021ng", pnt.value());
+            this->makeItemActor(DroppedItemIcon, pnt.value());
         }
     };
 
@@ -1203,6 +1205,7 @@ void Game::changeSceneToPlayingScreen()
         scene->addNode(new game::HealthBar(this));
         this->initGamePhysics();
         // When loaded we should evaluate initialization script
+        game::clearItemPenetationDepths();
         this->evaluateInitializationScript();
     };
 
@@ -1769,6 +1772,9 @@ void Game::initContext()
     std::function<int()> local_score = [=]() {
         return this->score();
     };
+    std::function<void(const sad::String&)> set_dropped_item_icon = [](const sad::String& s) {
+        DroppedItemIcon = s;
+    };
 
     m_eval_context->registerCallable("makePlatformGoOnWay", sad::dukpp03::make_lambda::from(make_platform_go_on_way));
     m_eval_context->registerCallable("addTrigger", sad::dukpp03::make_lambda::from(add_trigger));
@@ -1778,6 +1784,8 @@ void Game::initContext()
     m_eval_context->registerCallable("incrementScore", sad::dukpp03::make_lambda::from(increment_score));
     m_eval_context->registerCallable("decrementScore", sad::dukpp03::make_lambda::from(decrement_score));
     m_eval_context->registerCallable("score", sad::dukpp03::make_lambda::from(local_score));
+    m_eval_context->registerCallable("setDroppedItemIcon", sad::dukpp03::make_lambda::from(set_dropped_item_icon));
+    m_eval_context->registerCallable("setItemPenetrationDepth", sad::dukpp03::make_function::from(game::setItemPenetrationDepth));
 
     scripting::exposeSpawnEnemy(m_eval_context, this);
     game::exposeActorOptions(m_eval_context, this);
