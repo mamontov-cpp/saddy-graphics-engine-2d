@@ -1775,12 +1775,8 @@ void Game::initContext()
     std::function<void(const sad::String&)> set_dropped_item_icon = [](const sad::String& s) {
         DroppedItemIcon = s;
     };
-    std::function<void(const sad::String&)> _debug_print = [=](const sad::String& s) {
-        printf("%s\n", s.c_str());
-        SL_LOCAL_DEBUG(s, *(this->rendererForMainThread()));
-    };
 
-    std::function<bool(const sad::String&, const sad::String&, const sad::String&)> _addItemToPlayerInventory = [=](const sad::String& option_name, const sad::String& name, const sad::String& description) {
+    std::function<bool(const sad::String&, const sad::String&, const sad::String&)> _add_item_to_player_inventory = [=](const sad::String& option_name, const sad::String& name, const sad::String& description) {
         game::Item* item = this->makeItem(option_name, name, description);
         if (!this->m_player->inventory()->addItem(item)) {
             delete item;
@@ -1790,9 +1786,19 @@ void Game::initContext()
         }
     };
 
-    std::function<void(game::Actor*)> _sheduleKillActorByBody = [=](game::Actor* a) {
+    std::function<void(game::Actor*)> _shedule_kill_actor_by_body = [=](game::Actor* a) {
         this->rendererForMainThread()->pipeline()->appendTask([=] {
             this->killActorByBody(a->body());
+        });
+    };
+
+    std::function<void(game::Actor*)> _make_item_unpickable = [=](game::Actor* a) {
+        this->rendererForMainThread()->pipeline()->appendTask([=] {
+            sad::p2d::Body* b = a->body();
+            b->addRef();
+            this->m_physics_world->addBodyToGroup("items_unpickable", b);
+            this->m_physics_world->removeBodyFromGroup("items", b);
+            b->delRef();
         });
     };
 
@@ -1806,9 +1812,9 @@ void Game::initContext()
     m_eval_context->registerCallable("score", sad::dukpp03::make_lambda::from(local_score));
     m_eval_context->registerCallable("setDroppedItemIcon", sad::dukpp03::make_lambda::from(set_dropped_item_icon));
     m_eval_context->registerCallable("setItemPenetrationDepth", sad::dukpp03::make_function::from(game::setItemPenetrationDepth));
-    m_eval_context->registerCallable("_debug_print", sad::dukpp03::make_lambda::from(_debug_print));
-    m_eval_context->registerCallable("_addItemToPlayerInventory", sad::dukpp03::make_lambda::from(_addItemToPlayerInventory));
-    m_eval_context->registerCallable("_sheduleKillActorByBody", sad::dukpp03::make_lambda::from(_sheduleKillActorByBody));
+    m_eval_context->registerCallable("_addItemToPlayerInventory", sad::dukpp03::make_lambda::from(_add_item_to_player_inventory));
+    m_eval_context->registerCallable("_sheduleKillActorByBody", sad::dukpp03::make_lambda::from(_shedule_kill_actor_by_body));
+    m_eval_context->registerCallable("_makeItemUnpickable", sad::dukpp03::make_lambda::from(_make_item_unpickable));
 
     scripting::exposeSpawnEnemy(m_eval_context, this);
     game::exposeActorOptions(m_eval_context, this);
@@ -1967,9 +1973,12 @@ void Game::initGamePhysics()
     m_physics_world->addHandler("player", "platforms", collision_between_player_and_platforms);
     m_physics_world->addHandler("enemies", "platforms", collision_between_enemy_and_platforms);
     m_physics_world->addHandler("items", "platforms", collision_between_item_and_platforms);
+    m_physics_world->addHandler("items_unpickable", "platforms", collision_between_item_and_platforms);
+
     m_physics_world->addHandler("player", "walls", collision_between_player_and_platforms);
     m_physics_world->addHandler("enemies", "walls", collision_between_enemy_and_platforms);
     m_physics_world->addHandler("items", "walls", collision_between_item_and_platforms);
+    m_physics_world->addHandler("items_unpickable", "walls", collision_between_item_and_platforms);
 
     m_physics_world->addHandler("items", "player", collision_between_item_and_player);
 

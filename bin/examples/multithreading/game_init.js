@@ -270,22 +270,27 @@ function addItemToPlayerInventory(item) {
 function tryMoveItemFromGroundIntoPlayersInventory(actor) {
 	try {
 		var iconName = actor.sprite().optionsName();
+		var errorMessage = null;
 		if (typeof itemFactory == "function") {
 			var item = itemFactory(iconName);
 			if (item !== null) {
 				if (addItemToPlayerInventory(item)) {
 					_sheduleKillActorByBody(actor);
 				} else {
-					_debug_print("Failed to add item to inventory");
+					errorMessage = "Failed to add item to inventory";
 				}
 			} else {
-				_debug_print("Factory failed to create item");
+				errorMessage = "Factory failed to create item";
 			}
 		} else {
-			_debug_print("No factory set, disabled picking items from ground");
+			errorMessage = "No factory set, disabled picking items from ground";
+		}
+		if (errorMessage !== null) {
+			print(errorMessage);
+			_makeItemUnpickable(actor);
 		}
 	} catch(e) {
-		_debug_print("Exception: " + e.message + ". Stacktrace: " + e.stack);
+		print("Exception: " + e.message + ". Stacktrace: " + e.stack);
 	}
 }
 
