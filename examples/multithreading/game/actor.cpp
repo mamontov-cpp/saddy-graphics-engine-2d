@@ -1557,6 +1557,7 @@ void game::exposeActor(void* c)
     actor_binding->addMethod("isResting", sad::dukpp03::bind_method::from(&game::Actor::isResting));
     actor_binding->addMethod("area", sad::dukpp03::bind_method::from(&game::Actor::area));
     actor_binding->addMethod("middle", sad::dukpp03::bind_method::from(&game::Actor::middle));
+    actor_binding->addMethod("sprite", sad::dukpp03::bind_method::from(&game::Actor::sprite));
 
     actor_binding->addMethod("lives", sad::dukpp03::bind_method::from(&game::Actor::lives));
     actor_binding->addMethod("setLives", sad::dukpp03::bind_method::from(&game::Actor::setLives));

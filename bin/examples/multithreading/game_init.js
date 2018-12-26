@@ -233,3 +233,59 @@ enemyOptions.FloaterSprite = "enemies_list/enemyFloating_2ng";
 
 addActorOptions("enemy_walker", enemyOptions);
 
+/** Typesafe version of adding item into player's inventory
+ *  @param {Object} item An object. Must contain three fields - "icon", "name", "description"
+ *  @return {boolean} whether item has been added into inventory
+ */
+function addItemToPlayerInventory(item) {
+    if ((typeof item != "object") || (item === null)) {
+        throw new Error("An item must be valid object");
+    }
+    if (!("icon" in item)) {
+        throw new Error("An item must have a string \"icon\" property, which represents a name of icon resource in spritesheets. See icons.json in multithreading folder for a list of valid icons");
+    }
+    if (!("name" in item)) {
+        throw new Error("An item must have a string \"name\" property, which represents a name of item. Note, that this name will be used when looking for item script.");
+    }
+    if (!("description" in item)) {
+        throw new Error("An item must have a string \"description\" property, which represents a description of item.");
+    }
+    if (typeof (item["icon"])  !== "string") {
+        throw new Error("An \"icon\" property must be a string. Note, that \"String\" objects are not supported.  See icons.json in multithreading folder for a list of valid icons.");
+    }
+    if (typeof (item["name"])  !== "string") {
+        throw new Error("A \"name\" property must be a string. Note, that \"String\" objects are not supported.  This name will be used when looking for item script.");
+    }
+    if (typeof (item["description"])  !== "string") {
+        throw new Error("A \"description\" property must be a string. Note, that \"String\" objects are not supported. ");
+    }
+    return _addItemToPlayerInventory(item["icon"], item["name"], item["description"]);
+}
+
+/** Tries to move item from ground into player's inventory. Called from Game::initPhysics callbacks and receives an item's actor
+ *  To work properly, requires itemFactory function to be defined, which should return an object with props "icon", "name", "description"
+ *  by string icon name for item. Also, if it returns null, item won't be taken.
+ *  @param {Actor} icon item's icon from ground
+ */
+function tryMoveItemFromGroundIntoPlayersInventory(actor) {
+	try {
+		var iconName = actor.sprite().optionsName();
+		if (typeof itemFactory == "function") {
+			var item = itemFactory(iconName);
+			if (item !== null) {
+				if (addItemToPlayerInventory(item)) {
+					_sheduleKillActorByBody(actor);
+				} else {
+					_debug_print("Failed to add item to inventory");
+				}
+			} else {
+				_debug_print("Factory failed to create item");
+			}
+		} else {
+			_debug_print("No factory set, disabled picking items from ground");
+		}
+	} catch(e) {
+		_debug_print("Exception: " + e.message + ". Stacktrace: " + e.stack);
+	}
+}
+

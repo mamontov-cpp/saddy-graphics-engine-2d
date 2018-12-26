@@ -1775,6 +1775,26 @@ void Game::initContext()
     std::function<void(const sad::String&)> set_dropped_item_icon = [](const sad::String& s) {
         DroppedItemIcon = s;
     };
+    std::function<void(const sad::String&)> _debug_print = [=](const sad::String& s) {
+        printf("%s\n", s.c_str());
+        SL_LOCAL_DEBUG(s, *(this->rendererForMainThread()));
+    };
+
+    std::function<bool(const sad::String&, const sad::String&, const sad::String&)> _addItemToPlayerInventory = [=](const sad::String& option_name, const sad::String& name, const sad::String& description) {
+        game::Item* item = this->makeItem(option_name, name, description);
+        if (!this->m_player->inventory()->addItem(item)) {
+            delete item;
+            return false;
+        } else {
+            return true;
+        }
+    };
+
+    std::function<void(game::Actor*)> _sheduleKillActorByBody = [=](game::Actor* a) {
+        this->rendererForMainThread()->pipeline()->appendTask([=] {
+            this->killActorByBody(a->body());
+        });
+    };
 
     m_eval_context->registerCallable("makePlatformGoOnWay", sad::dukpp03::make_lambda::from(make_platform_go_on_way));
     m_eval_context->registerCallable("addTrigger", sad::dukpp03::make_lambda::from(add_trigger));
@@ -1786,6 +1806,9 @@ void Game::initContext()
     m_eval_context->registerCallable("score", sad::dukpp03::make_lambda::from(local_score));
     m_eval_context->registerCallable("setDroppedItemIcon", sad::dukpp03::make_lambda::from(set_dropped_item_icon));
     m_eval_context->registerCallable("setItemPenetrationDepth", sad::dukpp03::make_function::from(game::setItemPenetrationDepth));
+    m_eval_context->registerCallable("_debug_print", sad::dukpp03::make_lambda::from(_debug_print));
+    m_eval_context->registerCallable("_addItemToPlayerInventory", sad::dukpp03::make_lambda::from(_addItemToPlayerInventory));
+    m_eval_context->registerCallable("_sheduleKillActorByBody", sad::dukpp03::make_lambda::from(_sheduleKillActorByBody));
 
     scripting::exposeSpawnEnemy(m_eval_context, this);
     game::exposeActorOptions(m_eval_context, this);
@@ -1935,12 +1958,21 @@ void Game::initGamePhysics()
         }
     };
 
+    std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_item_and_player = [=](const sad::p2d::BasicCollisionEvent & ev) {
+        game::Actor* a = dynamic_cast<game::Actor*>(ev.m_object_1->userObject());
+        this->m_eval_context->callGlobalFunction("tryMoveItemFromGroundIntoPlayersInventory", a);
+        this->m_eval_context->cleanStack();
+    };
+
     m_physics_world->addHandler("player", "platforms", collision_between_player_and_platforms);
     m_physics_world->addHandler("enemies", "platforms", collision_between_enemy_and_platforms);
     m_physics_world->addHandler("items", "platforms", collision_between_item_and_platforms);
     m_physics_world->addHandler("player", "walls", collision_between_player_and_platforms);
     m_physics_world->addHandler("enemies", "walls", collision_between_enemy_and_platforms);
     m_physics_world->addHandler("items", "walls", collision_between_item_and_platforms);
+
+    m_physics_world->addHandler("items", "player", collision_between_item_and_player);
+
     std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_walls_and_bullet = [=](const sad::p2d::BasicCollisionEvent & ev) {
         sad::Object* a = ev.m_object_2->userObject();
         // This conditions only holds only in case of bullets,
