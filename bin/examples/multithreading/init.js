@@ -33,7 +33,7 @@ var itemToObject = {
     "icons_list/W_Spear010ng" : {
         "icon" : "icons_list/W_Spear010ng",
         "name" : "Simple spear",
-        "description": "A simple spear\nto damage enemies.\nMakes 1 damage,\nwhen equipped and adds\n1 passive damage\nwhen in inventory.\nAlso, last picked weapon\nitem is equipped by\ndefault"
+        "description": "A simple spear combined with axe\n.\nMakes 1 damage,\nwhen equipped and adds\n1 passive damage\nwhen in inventory.\nAlso, last picked weapon\nitem is equipped by\ndefault"
     }
     
 };
