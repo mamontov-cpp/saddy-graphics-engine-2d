@@ -1,4 +1,5 @@
 #include "player.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include <object.h>
 
 #include "../game.h"
@@ -47,6 +48,7 @@ void game::Player::reset()
     m_inventory.reset();
     m_actor.reset();
     m_is_dead = false;
+    setFloaterState(false);
     this->setLives(Game::BasicPlayerLivesCount);
 }
 
@@ -257,15 +259,15 @@ bool game::Player::isDead() const
     return m_is_dead;
 }
 
-void game::Player::setWeapon(weapons::Weapon* w)
+void game::Player::pushWeapon(weapons::Weapon* w)
 {
-    m_actor.setWeapon(w);
+    m_actor.pushWeapon(w);
 }
 
 
-void game::Player::removeWeapon()
+void game::Player::popWeapon()
 {
-    m_actor.removeWeapon();
+    m_actor.popWeapon();
 }
 
 weapons::Weapon* game::Player::weapon() const
@@ -303,8 +305,6 @@ void game::Player::initPhysics(sad::p2d::World* world, sad::db::Database* db)
 
 void game::Player::die()
 {
-    // TODO: Copy score to highscore
-
     Game* game = this->game();
     this->toggleIsDead(true);
     sad::Sprite2D* local_sprite = m_actor.sprite();
@@ -321,6 +321,36 @@ void game::Player::onBottomWallCollision()
     {
         this->die();
     }
+}
+
+void game::Player::incrementAttackModifier(int attack_delta)
+{
+    m_actor.incrementAttackModifier(attack_delta);
+}
+
+void game::Player::decrementAttackModifier(int attack_delta)
+{
+    m_actor.decrementAttackModifier(attack_delta);
+}
+
+void game::Player::incrementDefense(int delta)
+{
+    m_actor.incrementDefense(delta);
+}
+
+void game::Player::decrementDefense(int delta)
+{
+    m_actor.decrementDefense(delta);
+}
+
+int game::Player::defense() const
+{
+    return m_actor.defense();
+}
+
+void game::Player::takeDamage(int base_dmg)
+{
+    m_actor.takeDamage(base_dmg);
 }
 
 // ===================================== UTILITY FUNCTIONS =====================================
@@ -382,10 +412,17 @@ void game::exposePlayer(void* c, Game* game)
     player_binding->addMethod("testResting", sad::dukpp03::bind_method::from(&game::Player::testResting));
     player_binding->addMethod("enableGravity", sad::dukpp03::bind_method::from(&game::Player::enableGravity));
 
-    player_binding->addMethod("setWeapon", sad::dukpp03::bind_method::from(&game::Player::setWeapon));
-    player_binding->addMethod("removeWeapon", sad::dukpp03::bind_method::from(&game::Player::removeWeapon));
+    player_binding->addMethod("pushWeapon", sad::dukpp03::bind_method::from(&game::Player::pushWeapon));
+    player_binding->addMethod("popWeapon", sad::dukpp03::bind_method::from(&game::Player::popWeapon));
     player_binding->addMethod("weapon", sad::dukpp03::bind_method::from(&game::Player::weapon));
     player_binding->addMethod("tryShoot", sad::dukpp03::bind_method::from(&game::Player::tryShoot));
+
+    player_binding->addMethod("incrementAttackModifier", sad::dukpp03::bind_method::from(&game::Player::incrementAttackModifier));
+    player_binding->addMethod("decrementAttackModifier", sad::dukpp03::bind_method::from(&game::Player::decrementAttackModifier));
+    player_binding->addMethod("incrementDefense", sad::dukpp03::bind_method::from(&game::Player::incrementDefense));
+    player_binding->addMethod("decrementDefense", sad::dukpp03::bind_method::from(&game::Player::decrementDefense));
+    player_binding->addMethod("defense", sad::dukpp03::bind_method::from(&game::Player::defense));
+
 
     ctx->addClassBinding("game::Player", player_binding);
     std::function<game::Player*()> player = [=]() { return game->player(); };

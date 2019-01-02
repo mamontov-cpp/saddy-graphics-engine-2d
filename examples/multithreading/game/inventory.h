@@ -7,6 +7,7 @@
 #include <sadhash.h>
 #include <sadrect.h>
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <utility>
 #include <functional>
 
@@ -127,6 +128,10 @@ public:
      *  \param[in] p point
      */
     void tryReleaseDraggedItem(const sad::Point2D& p);
+    /*! Returns true if inventory is full
+     *  \return true, if inventory is full
+     */
+    bool isFull() const;
     /*! A maximal horizontal cells of inventory
      */
     static const int Width;
@@ -155,6 +160,9 @@ protected:
     /*! An item being dragged
      */
     sad::Triplet<int, int, game::Item*> m_item_being_dragged;
+    /*! Whether inventory is full
+     */
+    int m_free_slots;
 private:
     /*! Deletes all items from inventory
      */

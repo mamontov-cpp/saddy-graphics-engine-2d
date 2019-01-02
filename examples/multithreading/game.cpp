@@ -1865,7 +1865,8 @@ sad::String* Game::tryGetScriptForItem(const sad::String& title)
     }
 
     sad::String escaped_title = title;
-    sad::String escaped_characters = "\\/`~!@#$%^&*-+=\"\'[]{}<>,.?";  
+    escaped_title.toLower();
+    sad::String escaped_characters = "\\/`~!@#$%^&*-+=\"\'[]{}<>,.? ";
     for(size_t i = 0; i < escaped_characters.length(); i++)
     {
         escaped_title.replaceAllOccurences(sad::String(&(escaped_characters[i]), 1), "_");
@@ -1965,9 +1966,12 @@ void Game::initGamePhysics()
     };
 
     std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_item_and_player = [=](const sad::p2d::BasicCollisionEvent & ev) {
-        game::Actor* a = dynamic_cast<game::Actor*>(ev.m_object_1->userObject());
-        this->m_eval_context->callGlobalFunction("tryMoveItemFromGroundIntoPlayersInventory", a);
-        this->m_eval_context->cleanStack();
+        // Avoid hard computations for item on ground
+        if (!this->player()->inventory()->isFull()) {
+            game::Actor* a = dynamic_cast<game::Actor*>(ev.m_object_1->userObject());
+            this->m_eval_context->callGlobalFunction("tryMoveItemFromGroundIntoPlayersInventory", a);
+            this->m_eval_context->cleanStack();
+        }
     };
 
     m_physics_world->addHandler("player", "platforms", collision_between_player_and_platforms);
@@ -2001,14 +2005,14 @@ void Game::initGamePhysics()
         game::Actor* actor = static_cast<game::Actor*>(ev.m_object_1->userObject());
         weapons::Projectile* projectile = static_cast<weapons::Projectile*>(ev.m_object_2->userObject());
         projectile->onEnemyHit(actor);
-        actor->tryDecrementLives(projectile->damage());
+        actor->takeDamage(projectile->damage());
     };
 
     std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_player_and_bullet = [=](const sad::p2d::BasicCollisionEvent & ev) {
         weapons::Projectile* projectile = static_cast<weapons::Projectile*>(ev.m_object_2->userObject());
         int dmg = projectile->damage();
         projectile->onPlayerHit(m_player);
-        this->player()->tryDecrementLives(dmg);
+        this->player()->takeDamage(dmg);
     };
 
     std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_player_and_enemies = [=](const sad::p2d::BasicCollisionEvent & ev) {

@@ -185,7 +185,7 @@ void weapons::Weapon::spawnProjectile(Game* game, game::Actor* actor, double ang
     {
         return;
     }
-    double base_dmg = this->baseDamage();
+    int base_dmg = this->baseDamage();
     if (sad::is_fuzzy_zero(delay))
     {
         if (game->isDead(actor))

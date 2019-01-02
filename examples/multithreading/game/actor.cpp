@@ -48,8 +48,9 @@ m_is_invincible(false),
 m_lives(1),
 m_hurt_animation(NULL),
 m_lookup_angle(0),
-m_weapon(NULL),
-m_fixed_size(false)
+m_fixed_size(false),
+m_attack_modifier(0),
+m_defense(0)
 {
     m_key_states.reset();
 }
@@ -61,10 +62,11 @@ game::Actor::~Actor()
         m_options->delRef();
     }
 
-    if (m_weapon)
+    for(size_t i = 0; i < m_weapons.size(); i++)
     {
-        m_weapon->delRef();
+        m_weapons[i]->delRef();
     }
+    m_weapons.clear();
 
     if (m_walking_instance)
     {
@@ -376,7 +378,15 @@ void game::Actor::reset()
     m_old_velocity = sad::p2d::Vector(0, 0);
     m_is_walking_animation_playing = false;
     m_is_jumping_animation_playing = false;
-    this->setWeapon(NULL);
+    m_attack_modifier = 0;
+    m_defense = 0;
+
+    for (size_t i = 0; i < m_weapons.size(); i++)
+    {
+        m_weapons[i]->delRef();
+    }
+    m_weapons.clear();
+
     if (m_options)
     {
         m_is_floater = m_options->IsFloater;
@@ -1041,9 +1051,9 @@ void game::Actor::setLives(int lives)
     m_lives = lives;
     if (m_lives <= 0)
     {
-        for(size_t i = 0; i < m_on_death_actions.size(); i++)
+        for (auto& m_on_death_action : m_on_death_actions)
         {
-            m_on_death_actions[i](this);
+            m_on_death_action(this);
         }
     }
 }
@@ -1058,9 +1068,9 @@ void game::Actor::decrementLives(int lives)
     m_lives -= lives;
     if (m_lives <= 0)
     {
-        for (size_t i = 0; i < m_on_death_actions.size(); i++)
+        for (auto& m_on_death_action : m_on_death_actions)
         {
-            m_on_death_actions[i](this);
+            m_on_death_action(this);
         }
     }
 }
@@ -1072,9 +1082,9 @@ void game::Actor::tryDecrementLives(int lives)
         m_lives -= lives;
         if (m_lives <= 0)
         {
-            for (size_t i = 0; i < m_on_death_actions.size(); i++)
+            for (auto& m_on_death_action : m_on_death_actions)
             {
-                m_on_death_actions[i](this);
+                m_on_death_action(this);
             }
         }
         else
@@ -1111,7 +1121,7 @@ void game::Actor::setHurtAnimation(sad::animations::Animation* animation)
 // ReSharper disable once CppMemberFunctionMayBeConst
 int game::Actor::modifyDamage(int base_dmg)
 {
-    return base_dmg;
+    return base_dmg + m_attack_modifier;
 }
 
 double game::Actor::lookupAngle() const
@@ -1124,34 +1134,43 @@ void game::Actor::setLookupAngle(double angle)
     m_lookup_angle = angle;
 }
 
-void game::Actor::setWeapon(weapons::Weapon* w)
+void game::Actor::pushWeapon(weapons::Weapon* w)
 {
-    if (m_weapon)
+    if (w)
     {
-        m_weapon->delRef();
-    }
-    m_weapon = w;
-    if (m_weapon)
-    {
-        m_weapon->addRef();
+        w->addRef();
+        m_weapons.push_back(w);
     }
 }
 
-void game::Actor::removeWeapon()
+void game::Actor::popWeapon()
 {
-    setWeapon(NULL);
+    if (!m_weapons.empty())
+    { 
+        weapons::Weapon* w = m_weapons.back();
+        m_weapons.pop_back();
+        if (w)
+        { 
+            w->delRef();
+        }
+    }
 }
 
 weapons::Weapon* game::Actor::weapon() const
 {
-    return m_weapon;
+    if (!m_weapons.empty())
+    {
+        return m_weapons[m_weapons.size() - 1];
+    }
+    return NULL;
 }
 
 void game::Actor::tryShoot()
 {
-    if (m_weapon)
+    weapons::Weapon* weapon = this->weapon();
+    if (weapon)
     {
-        m_weapon->tryShoot(this->game(), this);
+        weapon->tryShoot(this->game(), this);
     }
 }
 
@@ -1271,6 +1290,40 @@ void game::Actor::toggleFixedSize(bool fixed_size)
 bool game::Actor::fixedSize() const
 {
     return m_fixed_size;
+}
+
+void game::Actor::incrementAttackModifier(int attack_delta)
+{
+    m_attack_modifier += attack_delta;
+}
+
+void game::Actor::decrementAttackModifier(int attack_delta)
+{
+    m_attack_modifier -= attack_delta;
+}
+
+void game::Actor::incrementDefense(int delta)
+{
+    m_defense += delta;
+}
+
+void game::Actor::decrementDefense(int delta)
+{
+    m_defense -= delta;
+}
+
+int game::Actor::defense() const
+{
+    return m_defense;
+}
+
+void game::Actor::takeDamage(int base_dmg)
+{
+    int dmg = base_dmg - this->defense();
+    if (dmg > 0)
+    {
+        this->tryDecrementLives(dmg);
+    }
 }
 
 // ===================================== PRIVATE METHODS =====================================
@@ -1583,12 +1636,17 @@ void game::exposeActor(void* c)
     actor_binding->addMethod("lookupAngle", sad::dukpp03::bind_method::from(&game::Actor::lookupAngle));
     actor_binding->addMethod("setLookupAngle", sad::dukpp03::bind_method::from(&game::Actor::setLookupAngle));
 
-    actor_binding->addMethod("setWeapon", sad::dukpp03::bind_method::from(&game::Actor::setWeapon));
-    actor_binding->addMethod("removeWeapon", sad::dukpp03::bind_method::from(&game::Actor::removeWeapon));
+    actor_binding->addMethod("pushWeapon", sad::dukpp03::bind_method::from(&game::Actor::pushWeapon));
+    actor_binding->addMethod("popWeapon", sad::dukpp03::bind_method::from(&game::Actor::popWeapon));
     actor_binding->addMethod("weapon", sad::dukpp03::bind_method::from(&game::Actor::weapon));
     actor_binding->addMethod("tryShoot", sad::dukpp03::bind_method::from(&game::Actor::tryShoot));
 
     actor_binding->addMethod("setShootingStrategy", sad::dukpp03::bind_method::from(&game::Actor::setShootingStrategy));
+    actor_binding->addMethod("incrementAttackModifier", sad::dukpp03::bind_method::from(&game::Actor::incrementAttackModifier));
+    actor_binding->addMethod("decrementAttackModifier", sad::dukpp03::bind_method::from(&game::Actor::decrementAttackModifier));
+    actor_binding->addMethod("incrementDefense", sad::dukpp03::bind_method::from(&game::Actor::incrementDefense));
+    actor_binding->addMethod("decrementDefense", sad::dukpp03::bind_method::from(&game::Actor::decrementDefense));
+    actor_binding->addMethod("defense", sad::dukpp03::bind_method::from(&game::Actor::defense));
 
 
     ctx->addClassBinding("game::Actor", actor_binding);

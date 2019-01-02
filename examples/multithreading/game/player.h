@@ -162,10 +162,10 @@ public:
     /*! Sets weaponry for actor
      *  \param[in] w weapon
      */
-    void setWeapon(weapons::Weapon* w);
+    void pushWeapon(weapons::Weapon* w);
     /*! Removes weaponry from actor
      */
-    void removeWeapon();
+    void popWeapon();
     /*! Returns weaponry for actor
      *  \return weapon
      */
@@ -184,6 +184,30 @@ public:
     /*! Called on bototm wall collision
      */
     void onBottomWallCollision();
+    /*! Increments attack modifier
+     *  \param[in] attack_delta amount of points, modifier will be incremented
+     */
+    void incrementAttackModifier(int attack_delta);
+    /*! Decrements attack modifier
+     *  \param[in] attack_delta amount of points, modifier will be incremented
+     */
+    void decrementAttackModifier(int attack_delta);
+    /*! Increments defense amount for actor
+     *  \param[in] delta amount of defense
+     */
+    void incrementDefense(int delta);
+    /*! Decrement defense amount for actor
+     *  \param[in] delta amount of defense
+     */
+    void decrementDefense(int delta);
+    /*! Returns defense amount
+     *  \return defense
+     */
+    int defense() const;
+    /*! Makes actor take damage
+     *  \param[in] base_dmg a base damage for projectile
+     */
+    void takeDamage(int base_dmg);
 private:
     /*! Player's inventory, that will be carried around
      */

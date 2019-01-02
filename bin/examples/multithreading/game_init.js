@@ -268,29 +268,29 @@ function addItemToPlayerInventory(item) {
  *  @param {Actor} icon item's icon from ground
  */
 function tryMoveItemFromGroundIntoPlayersInventory(actor) {
-	try {
-		var iconName = actor.sprite().optionsName();
-		var errorMessage = null;
-		if (typeof itemFactory == "function") {
-			var item = itemFactory(iconName);
-			if (item !== null) {
-				if (addItemToPlayerInventory(item)) {
-					_sheduleKillActorByBody(actor);
-				} else {
-					errorMessage = "Failed to add item to inventory";
-				}
-			} else {
-				errorMessage = "Factory failed to create item";
-			}
-		} else {
-			errorMessage = "No factory set, disabled picking items from ground";
-		}
-		if (errorMessage !== null) {
-			print(errorMessage);
-			_makeItemUnpickable(actor);
-		}
-	} catch(e) {
-		print("Exception: " + e.message + ". Stacktrace: " + e.stack);
-	}
+    try {
+        var iconName = actor.sprite().optionsName();
+        var errorMessage = null;
+        if (typeof itemFactory == "function") {
+            var item = itemFactory(iconName);
+            if (item !== null) {
+                if (addItemToPlayerInventory(item)) {
+                    _sheduleKillActorByBody(actor);
+                } else {
+                    errorMessage = "Failed to add item to inventory";
+                }
+            } else {
+                errorMessage = "Factory failed to create item";
+            }
+        } else {
+            errorMessage = "No factory set, disabled picking item from ground";
+        }
+        if (errorMessage !== null) {
+            print(errorMessage);
+            _makeItemUnpickable(actor);
+        }
+    } catch(e) {
+        print("Exception: " + e.message + ". Stacktrace: " + e.stack);
+    }
 }
 

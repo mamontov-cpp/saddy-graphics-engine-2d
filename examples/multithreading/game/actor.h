@@ -295,10 +295,10 @@ public:
     /*! Sets weaponry for actor
      *  \param[in] w weapon
      */
-    void setWeapon(weapons::Weapon* w);
+    void pushWeapon(weapons::Weapon* w);
     /*! Removes weaponry from actor
      */
-    void removeWeapon();
+    void popWeapon();
     /*! Returns weaponry for actor
      *  \return weapon
      */
@@ -334,6 +334,30 @@ public:
      *  \return whether sprite have fixed size
      */
     bool fixedSize() const;
+    /*! Increments attack modifier
+     *  \param[in] attack_delta amount of points, modifier will be incremented
+     */
+    void incrementAttackModifier(int attack_delta);
+    /*! Decrements attack modifier
+     *  \param[in] attack_delta amount of points, modifier will be incremented 
+     */
+    void decrementAttackModifier(int attack_delta);
+    /*! Increments defense amount for actor
+     *  \param[in] delta amount of defense
+     */
+    void incrementDefense(int delta);
+    /*! Decrement defense amount for actor
+     *  \param[in] delta amount of defense
+     */
+    void decrementDefense(int delta);
+    /*! Returns defense amount
+     *  \return defense
+     */
+    int defense() const;
+    /*! Makes actor take damage
+     *  \param[in] base_dmg a base damage for projectile
+     */
+    void takeDamage(int base_dmg);
 private:
     /*! Compute whether floater should go up or down
         \param[out] is_going_up whether we should go up
@@ -466,10 +490,16 @@ private:
     double m_lookup_angle;
     /*! A weapon for actor;
      */
-    weapons::Weapon* m_weapon;
+    sad::Vector<weapons::Weapon*> m_weapons;
     /*! Whether actor has fixed size
      */
     bool m_fixed_size;
+    /*! Attack modifiers stack up and add damage to attack of weapon
+     */
+    int m_attack_modifier;
+    /*! A defence modifier increments defence for actor
+     */
+    int m_defense;
 };
 
 /*! Exposes actor to context
