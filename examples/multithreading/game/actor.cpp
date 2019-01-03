@@ -1138,20 +1138,35 @@ void game::Actor::pushWeapon(weapons::Weapon* w)
 {
     if (w)
     {
-        w->addRef();
-        m_weapons.push_back(w);
+        sad::Vector<weapons::Weapon*>::iterator it = std::find(m_weapons.begin(), m_weapons.end(), w);
+        if (it == m_weapons.end())
+        {
+            w->addRef();
+            m_weapons.push_back(w);
+        }
+        else
+        {
+            m_weapons.erase(it);
+            m_weapons.push_back(w);
+        }
     }
 }
 
-void game::Actor::popWeapon()
+void game::Actor::removeWeapon(weapons::Weapon* w)
 {
     if (!m_weapons.empty())
     { 
-        weapons::Weapon* w = m_weapons.back();
-        m_weapons.pop_back();
-        if (w)
-        { 
-            w->delRef();
+        for(size_t i = 0; i < m_weapons.size(); ++i)
+        {
+            if (m_weapons[i] == w)
+            {
+                if (w)
+                {
+                    w->delRef();
+                }
+                m_weapons.removeAt(i);
+                return;
+            }
         }
     }
 }
@@ -1637,7 +1652,7 @@ void game::exposeActor(void* c)
     actor_binding->addMethod("setLookupAngle", sad::dukpp03::bind_method::from(&game::Actor::setLookupAngle));
 
     actor_binding->addMethod("pushWeapon", sad::dukpp03::bind_method::from(&game::Actor::pushWeapon));
-    actor_binding->addMethod("popWeapon", sad::dukpp03::bind_method::from(&game::Actor::popWeapon));
+    actor_binding->addMethod("removeWeapon", sad::dukpp03::bind_method::from(&game::Actor::removeWeapon));
     actor_binding->addMethod("weapon", sad::dukpp03::bind_method::from(&game::Actor::weapon));
     actor_binding->addMethod("tryShoot", sad::dukpp03::bind_method::from(&game::Actor::tryShoot));
 

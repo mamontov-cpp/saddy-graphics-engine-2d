@@ -150,12 +150,8 @@ Game::~Game()  // NOLINT
     delete m_main_thread;
     delete m_inventory_thread;
 
-    delete m_player;
     delete m_eval_context;
-    for (sad::Hash<sad::String, sad::String*>::iterator it = m_item_names_to_scripts.begin(); it != m_item_names_to_scripts.end(); ++it)
-    {
-        delete it.value();
-    }
+    delete m_player;
 
     for (sad::Hash<sad::String, game::ActorOptions*>::iterator ao = m_actor_options.begin(); ao != m_actor_options.end(); ++ao)
     {
@@ -164,6 +160,8 @@ Game::~Game()  // NOLINT
     this->clearProjectiles(false);
     this->destroyWorld();
     delete m_step_task;
+
+    clearItemDefinitions();
 }
 
 /*! A padding, that will be used in main menu between label and player choice
@@ -182,7 +180,7 @@ void Game::runMainGameThread()
         picojson::value val = maybe_json.value();
         if (val.is<double>())
         {
-            setHighscore(val.get<double>());
+            setHighscore(static_cast<int>(val.get<double>()));
         }
     }
     // We wait for inventory thread later to get initialization result,
@@ -393,7 +391,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
         }
         else
         {
-            this->m_main_menu_state = static_cast<Game::MainMenuState>(static_cast<int>(this->m_main_menu_state) + 1);  // NOLINT(misc-misplaced-widening-cast)
+            this->m_main_menu_state = static_cast<Game::MainMenuState>(static_cast<int>(this->m_main_menu_state) + 1);  // NOLINT(misc-misplaced-widening-cast, bugprone-misplaced-widening-cast)
         }
         this->playSound("misc_menu");
         this->putPlayerPickAccordingToMenuState(this->m_main_menu_state);
@@ -766,17 +764,6 @@ void Game::setControlsForInventoryThread(sad::Renderer* renderer)
     );
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForInventoryRenderer.JumpActionConditions[game::Conditions::CS_PLAYGAME_PLAYING]
-        & ((&m_state_machine) * sad::String("playing"))
-        & ((&m_paused_state_machine) * sad::String("playing")),
-        [this]() {
-            game::Item* item = this->makeItem("icons_list/Ac_Medal01ng", "A medal", "[DATA EXPUNGED]");
-            if (!this->m_player->inventory()->addItem(item)) {
-                delete item;
-            }
-    });
-    renderer->controls()->addLambda(
-        *sad::input::ET_KeyPress
         & m_conditions.ConditionsForInventoryRenderer.PauseCondition
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
@@ -812,10 +799,10 @@ void Game::setControlsForInventoryThread(sad::Renderer* renderer)
         {
             game::Item* item  = result_data.value().p3();
             this->playSound("apply_item");
-            item->applyActiveEffect();
+            item->applyActiveEffect(this->m_player->inventory()->owner());
             if (item->shouldDeleteWhenApplied())
             {
-                delete this->m_player->inventory()->takeItem(result_data.value().p1(), result_data.value().p2());
+                this->m_player->inventory()->takeItem(result_data.value().p1(), result_data.value().p2())->delRef();
                 if (this->m_inventory_popup)
                 {
                     this->m_inventory_popup->setVisible(false);
@@ -1086,19 +1073,24 @@ void Game::changeSceneToLoseScreen()
 
     options.mainThread().LoadFunction = [this]() { this->tryLoadLoseScreen(false); };
     options.inventoryThread().LoadFunction = [this]() { this->m_player->reset(); this->tryLoadLoseScreen(true); };
-    options.mainThread().OnLoadedFunction = [=]() {
-        sad::db::Database* db = main_renderer->database("lose_screen");
+
+    std::function<void(sad::Renderer*)> init_screen = [=](sad::Renderer* r) {
+        sad::db::Database* db = r->database("lose_screen");
         sad::Label* label = db->objectByName<sad::Label>("ScoreValue");
         if (label)
         {
             label->setString(sad::String::number(this->score()));
-            label->setPoint(main_renderer->settings().width() / 2.0 - 8 - label->area().width() / 2.0, label->point().y());
+            label->setPoint(r->settings().width() / 2.0 - 8 - label->area().width() / 2.0, label->point().y());
         }
-        sad::db::populateScenesFromDatabase(main_renderer, db);
+        sad::db::populateScenesFromDatabase(r, db);
     };
 
-    options.inventoryThread().OnLoadedFunction = [inventory_renderer]() {
-        sad::db::populateScenesFromDatabase(inventory_renderer, inventory_renderer->database("lose_screen"));
+    options.mainThread().OnLoadedFunction = [=]() {
+        init_screen(main_renderer);
+    };
+
+    options.inventoryThread().OnLoadedFunction = [=]() {
+        init_screen(inventory_renderer);
     };
 
     options.mainThread().OnFinishedFunction = [this]() {
@@ -1135,19 +1127,22 @@ void Game::changeSceneToWinScreen()
 
     options.mainThread().LoadFunction = [this]() { this->tryLoadWinScreen(false); };
     options.inventoryThread().LoadFunction = [this]() { this->m_player->reset(); this->tryLoadWinScreen(true); };
-    options.mainThread().OnLoadedFunction = [=]() {
-        sad::db::Database* db = main_renderer->database("win_screen");
+    std::function<void(sad::Renderer*)> init_screen_for_renderer = [=](sad::Renderer* r) {
+        sad::db::Database* db = r->database("win_screen");
         sad::Label* label = db->objectByName<sad::Label>("ScoreValue");
         if (label)
         {
             label->setString(sad::String::number(this->score()));
-            label->setPoint(main_renderer->settings().width() / 2.0 - label->area().width() / 2.0, label->point().y());
+            label->setPoint(r->settings().width() / 2.0 - label->area().width() / 2.0, label->point().y());
         }
-        sad::db::populateScenesFromDatabase(main_renderer, db);
+        sad::db::populateScenesFromDatabase(r, db);
+    };
+    options.mainThread().OnLoadedFunction = [=]() {
+        init_screen_for_renderer(main_renderer);
     };
 
-    options.inventoryThread().OnLoadedFunction = [inventory_renderer]() {
-        sad::db::populateScenesFromDatabase(inventory_renderer, inventory_renderer->database("win_screen"));
+    options.inventoryThread().OnLoadedFunction = [=]() {
+        init_screen_for_renderer(inventory_renderer);
     };
 
     options.mainThread().OnFinishedFunction = [this]() {
@@ -1190,9 +1185,22 @@ void Game::changeSceneToPlayingScreen()
     sad::Renderer* inventory_renderer = m_inventory_thread->renderer();
 
     m_player->reset();
-    m_player->inventory()->addItem(this->makeItem("icons_list/Ac_Medal01ng", "A medal", "Data "));
-    m_player->inventory()->addItem(this->makeItem("icons_list/Ac_Medal02ng", "An item", "Data 2", true));
-    m_player->inventory()->addItem(this->makeItem("icons_list/Ac_Medal03ng", "A stuff", "Data 3"));
+    m_player->inventory()->setOwner(m_player->actor());
+
+    game::Item::Definition* medal1 = new game::Item::Definition("icons_list/Ac_Medal01ng", "A medal", "Data ");
+    m_item_definitions.insert("icons_list/Ac_Medal01ng", medal1);
+    medal1->addRef();
+    m_player->inventory()->addItem(this->makeItem("icons_list/Ac_Medal01ng"));
+
+    game::Item::Definition* medal2 = new game::Item::Definition("icons_list/Ac_Medal02ng", "An item", "Data 2", true );
+    m_item_definitions.insert("icons_list/Ac_Medal02ng", medal2);
+    medal2->addRef();
+    m_player->inventory()->addItem(this->makeItem("icons_list/Ac_Medal02ng"));
+
+    game::Item::Definition* medal3 = new game::Item::Definition("icons_list/Ac_Medal03ng", "A stuff", "Data 3");
+    m_item_definitions.insert("icons_list/Ac_Medal03ng", medal3);
+    medal3->addRef();
+    m_player->inventory()->addItem(this->makeItem("icons_list/Ac_Medal03ng"));
 
     options.mainThread().LoadFunction = [this]() {  this->tryLoadGameScreen(); };
 
@@ -1206,6 +1214,7 @@ void Game::changeSceneToPlayingScreen()
         this->initGamePhysics();
         // When loaded we should evaluate initialization script
         game::clearItemPenetationDepths();
+        this->clearItemDefinitions();
         this->evaluateInitializationScript();
     };
 
@@ -1429,12 +1438,26 @@ void Game::evaluateInitializationScript() const
     }
 }
 
-game::Item* Game::makeItem(const sad::String& icon, const sad::String& title, const sad::String& description, bool delete_after_apply)
+game::Item* Game::makeItem(const sad::String& icon)
 {
-    game::Item* item = new game::Item(icon, title, description, delete_after_apply);
+    if (!m_item_definitions.contains(icon))
+    {
+        return NULL;
+    }
+    game::Item* item = new game::Item(m_item_definitions[icon]);
     item->setGame(this);
-    item->setEvaluatedScript(this->tryGetScriptForItem(title));
     return item;
+}
+
+void Game::makeItemUnpickable(game::Actor* actor)
+{
+    this->rendererForMainThread()->pipeline()->appendTask([=] {
+        sad::p2d::Body* b = actor->body();
+        b->addRef();
+        this->m_physics_world->addBodyToGroup("items_unpickable", b);
+        this->m_physics_world->removeBodyFromGroup("items", b);
+        b->delRef();
+    });
 }
 
 void Game::enableGravity(sad::p2d::Body* b)
@@ -1712,6 +1735,24 @@ sad::p2d::BounceSolver* Game::bounceSolverForBullets() const
     return m_bounce_solver_for_bullets;
 }
 
+sad::dukpp03::Context* Game::context() const
+{
+    return m_eval_context;
+}
+
+void Game::clearItemDefinitions()
+{
+    for(sad::Hash<sad::String, game::Item::Definition*>::iterator it = m_item_definitions.begin(); it != m_item_definitions.end(); ++it)
+    {
+        game::Item::Definition* definition = it.value();
+        if (definition)
+        {
+            definition->delRef();
+        }
+    }
+    m_item_definitions.clear();
+}
+
 void Game::disableGravity(sad::p2d::Body* b)
 {
     Game::setGravityForBody(b, sad::p2d::Vector(0.0, 0.0));
@@ -1776,14 +1817,33 @@ void Game::initContext()
         DroppedItemIcon = s;
     };
 
-    std::function<bool(const sad::String&, const sad::String&, const sad::String&)> _add_item_to_player_inventory = [=](const sad::String& option_name, const sad::String& name, const sad::String& description) {
-        game::Item* item = this->makeItem(option_name, name, description);
-        if (!this->m_player->inventory()->addItem(item)) {
-            delete item;
+    std::function<bool(const sad::String&,
+                       const sad::String&,
+                       const sad::String&,
+                       bool,
+                       sad::dukpp03::CompiledFunction,
+                       sad::dukpp03::CompiledFunction,
+                       sad::dukpp03::CompiledFunction
+                       )> _add_item_definition = [=](
+                       const sad::String& option_name,
+                       const sad::String& title,
+                       const sad::String& description,
+                       bool delete_after_applied,
+                       sad::dukpp03::CompiledFunction on_item_added,
+                       sad::dukpp03::CompiledFunction on_item_removed,
+                       sad::dukpp03::CompiledFunction apply_item
+    ) -> bool {
+        if (this->m_item_definitions.contains(option_name))
+        {
             return false;
-        } else {
-            return true;
         }
+        game::Item::Definition* definition = new game::Item::Definition(option_name, title, description, delete_after_applied);
+        definition->OnItemAdded = on_item_added;
+        definition->OnItemRemoved = on_item_removed;
+        definition->ApplyCallback = apply_item;
+        this->m_item_definitions.insert(option_name, definition);
+        definition->addRef();
+        return true;
     };
 
     std::function<void(game::Actor*)> _shedule_kill_actor_by_body = [=](game::Actor* a) {
@@ -1793,13 +1853,15 @@ void Game::initContext()
     };
 
     std::function<void(game::Actor*)> _make_item_unpickable = [=](game::Actor* a) {
-        this->rendererForMainThread()->pipeline()->appendTask([=] {
-            sad::p2d::Body* b = a->body();
-            b->addRef();
-            this->m_physics_world->addBodyToGroup("items_unpickable", b);
-            this->m_physics_world->removeBodyFromGroup("items", b);
-            b->delRef();
-        });
+        this->makeItemUnpickable(a);
+    };
+
+    std::function<bool(const sad::String& options)> give_item_to_player = [=](const sad::String& opts) -> bool{
+        if (this->m_item_definitions.contains(opts))
+        {
+            this->player()->inventory()->addItem(this->makeItem(opts));
+        }
+        return false;
     };
 
     m_eval_context->registerCallable("makePlatformGoOnWay", sad::dukpp03::make_lambda::from(make_platform_go_on_way));
@@ -1812,9 +1874,10 @@ void Game::initContext()
     m_eval_context->registerCallable("score", sad::dukpp03::make_lambda::from(local_score));
     m_eval_context->registerCallable("setDroppedItemIcon", sad::dukpp03::make_lambda::from(set_dropped_item_icon));
     m_eval_context->registerCallable("setItemPenetrationDepth", sad::dukpp03::make_function::from(game::setItemPenetrationDepth));
-    m_eval_context->registerCallable("_addItemToPlayerInventory", sad::dukpp03::make_lambda::from(_add_item_to_player_inventory));
+    m_eval_context->registerCallable("_addItemDefinition", sad::dukpp03::make_lambda::from(_add_item_definition));
     m_eval_context->registerCallable("_sheduleKillActorByBody", sad::dukpp03::make_lambda::from(_shedule_kill_actor_by_body));
     m_eval_context->registerCallable("_makeItemUnpickable", sad::dukpp03::make_lambda::from(_make_item_unpickable));
+    m_eval_context->registerCallable("giveItemToPlayer", sad::dukpp03::make_lambda::from(give_item_to_player));
 
     scripting::exposeSpawnEnemy(m_eval_context, this);
     game::exposeActorOptions(m_eval_context, this);
@@ -1824,6 +1887,7 @@ void Game::initContext()
     weapons::exposeWeapon(m_eval_context);
     game::exposePlayer(m_eval_context, this);
     game::exposeActor(m_eval_context);
+    game::exposeItem(m_eval_context);
     bots::shootingstrategies::exposeShootingStrategy(m_eval_context);
     bots::shootingstrategies::exposeFixedAngleStrategy(m_eval_context);
     bots::shootingstrategies::exposePlayerLocationStrategy(m_eval_context);
@@ -1855,31 +1919,6 @@ void Game::clearProjectiles(bool kill)
         m_projectiles[i]->delRef();
     }
     m_projectiles.clear();
-}
-
-sad::String* Game::tryGetScriptForItem(const sad::String& title)
-{
-    if (m_item_names_to_scripts.contains(title))
-    {
-        return m_item_names_to_scripts[title];
-    }
-
-    sad::String escaped_title = title;
-    escaped_title.toLower();
-    sad::String escaped_characters = "\\/`~!@#$%^&*-+=\"\'[]{}<>,.? ";
-    for(size_t i = 0; i < escaped_characters.length(); i++)
-    {
-        escaped_title.replaceAllOccurences(sad::String(&(escaped_characters[i]), 1), "_");
-    }
-    sad::Renderer* renderer = m_main_thread->renderer();
-    sad::Maybe<sad::String> maybe_js = sad::slurp(sad::String("examples/multithreading/") + escaped_title + ".js", renderer);
-    sad::String* result = new sad::String();
-    if (maybe_js.exists())
-    {
-        *result = maybe_js.value();
-    }
-    m_item_names_to_scripts.insert(title, result);
-    return result;
 }
 
 void Game::destroyWorld()
@@ -1969,8 +2008,20 @@ void Game::initGamePhysics()
         // Avoid hard computations for item on ground
         if (!this->player()->inventory()->isFull()) {
             game::Actor* a = dynamic_cast<game::Actor*>(ev.m_object_1->userObject());
-            this->m_eval_context->callGlobalFunction("tryMoveItemFromGroundIntoPlayersInventory", a);
-            this->m_eval_context->cleanStack();
+            const sad::String& options = a->sprite()->optionsName();
+            if (this->m_item_definitions.contains(options)) 
+            {
+                this->player()->inventory()->addItem(this->makeItem(options));
+                this->playSound("item_taken");
+                this->rendererForMainThread()->pipeline()->appendTask([=] {
+                    this->killActorByBody(a->body());
+                });
+            } 
+            else
+            {
+                SL_LOCAL_DEBUG(sad::String("No item definition: ") + options, *(this->rendererForMainThread()));
+                this->makeItemUnpickable(a);
+            }
         }
     };
 

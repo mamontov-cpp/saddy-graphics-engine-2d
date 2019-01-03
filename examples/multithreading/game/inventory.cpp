@@ -11,7 +11,7 @@ const int game::Inventory::Height = 5; // 6,7-th row is reserved for recycle bin
 
 // ============================================ PUBLIC METHODS  ============================================
 
-game::Inventory::Inventory() : m_node(NULL), m_started_dragging_item(false), m_free_slots(0)
+game::Inventory::Inventory() : m_node(NULL), m_started_dragging_item(false), m_free_slots(0), m_owner(NULL)
 {
     m_free_slots = game::Inventory::Height * game::Inventory::Width;
     for(size_t i = 0; i < game::Inventory::Height; i++)
@@ -67,11 +67,15 @@ bool game::Inventory::addItem(game::Item* item)
     {
         return false;
     }
-    for (int i = 0; i < Height; i++) {
-        for (int j = 0; j < Width; j++) {
-            if (m_items[i][j] == NULL) {
+    for (int i = 0; i < Height; i++) 
+    {
+        for (int j = 0; j < Width; j++) 
+        {
+            if (m_items[i][j] == NULL) 
+            {
                 m_items[i][j] = item;
-                item->notifyAdded();
+                item->addRef();
+                item->notifyAdded(this->owner());
                 m_free_slots -= 1;
                 if (m_node)
                 {
@@ -105,29 +109,6 @@ bool game::Inventory::replaceItem(int i1, int j1, int i2, int j2)
     return true;
 }
 
-bool game::Inventory::storeItem(int i, int j, game::Item* item)
-{
-    if (!m_items.contains(i))
-    {
-        return false;
-    }
-    if (!m_items[i].contains(j))
-    {
-        return false;
-    }
-    if (m_items[i][j] != NULL)
-    {
-        return false;
-    }
-    m_items[i][j] = item;
-    m_free_slots -= 1;
-    if (m_node)
-    {
-        m_node->tryMakeSpriteAndStore(i, j, item);
-    }
-    return true;
-}
-
 game::Item* game::Inventory::takeItem(int i, int j)
 {
     if (!m_items.contains(i))
@@ -145,7 +126,7 @@ game::Item* game::Inventory::takeItem(int i, int j)
     game::Item* item = m_items[i][j];
     if (item)
     {
-        item->notifyRemoved();
+        item->notifyRemoved(this->owner());
         m_free_slots += 1;
     }
     m_items[i][j] = NULL;
@@ -300,7 +281,8 @@ void game::Inventory::tryReleaseDraggedItem(const sad::Point2D& p)
         }
         if (this->isInBasketArea(p))
         {
-            delete this->takeItem(m_item_being_dragged.p1(), m_item_being_dragged.p2());
+            game::Item* item = this->takeItem(m_item_being_dragged.p1(), m_item_being_dragged.p2());
+            item->delRef();
             m_free_slots += 1;
         }
         else
@@ -315,6 +297,17 @@ bool game::Inventory::isFull() const
     return m_free_slots == 0;
 }
 
+void game::Inventory::setOwner(game::Actor* actor)
+{
+    m_owner = actor;
+}
+
+game::Actor* game::Inventory::owner() const
+{
+    return m_owner;
+}
+
+
 // ============================================ PRIVATE METHODS  ============================================
 
 
@@ -325,14 +318,17 @@ void game::Inventory::deleteAllItems()
         sad::Hash<int, game::Item *>& items = it.value();
         for (sad::Hash<int, game::Item *>::iterator jt = items.begin(); jt != items.end(); ++jt)
         {
-            delete jt.value();
+            if (jt.value())
+            {
+                jt.value()->delRef();
+            }
             jt.value() = NULL;
         }
     }
     m_free_slots = game::Inventory::Height * game::Inventory::Width;
 }
 
-game::Inventory::Inventory(const game::Inventory&) : m_node(NULL), m_started_dragging_item(false), m_free_slots(0)
+game::Inventory::Inventory(const game::Inventory&) : m_node(NULL), m_started_dragging_item(false), m_free_slots(0), m_owner(NULL)
 {
     m_free_slots = game::Inventory::Height * game::Inventory::Width;
 }

@@ -234,10 +234,15 @@ enemyOptions.FloaterSprite = "enemies_list/enemyFloating_2ng";
 addActorOptions("enemy_walker", enemyOptions);
 
 /** Typesafe version of adding item into player's inventory
- *  @param {Object} item An object. Must contain three fields - "icon", "name", "description"
+ *  @param {Object} item An object. Must contain fields for item definition
  *  @return {boolean} whether item has been added into inventory
  */
-function addItemToPlayerInventory(item) {
+function addItemDefinition(item) {
+    var delete_after_apply = false;
+    var on_added_callback = function(item, actor) {};
+    var on_removed_callback = function(item, actor) {};
+    var apply_callback = function(item, actor) {};
+    
     if ((typeof item != "object") || (item === null)) {
         throw new Error("An item must be valid object");
     }
@@ -259,38 +264,28 @@ function addItemToPlayerInventory(item) {
     if (typeof (item["description"])  !== "string") {
         throw new Error("A \"description\" property must be a string. Note, that \"String\" objects are not supported. ");
     }
-    return _addItemToPlayerInventory(item["icon"], item["name"], item["description"]);
+    if ("delete_after_apply" in item) {
+        if (item["delete_after_apply"] === true) {
+            delete_after_apply = true;
+        }
+    }
+    if ("on_added" in item) {
+        if (typeof (item["on_added"]) === "function") {
+            on_added_callback = item["on_added"];
+        }
+    }
+    if ("on_removed" in item) {
+        if (typeof (item["on_removed"]) === "function") {
+            on_removed_callback = item["on_removed"];
+        }
+    }
+    if ("on_apply" in item) {
+        if (typeof (item["on_apply"]) === "function") {
+            apply_callback = item["on_apply"];
+        }
+    }
+    
+    return _addItemDefinition(item["icon"], item["name"], item["description"], delete_after_apply, on_added_callback, on_removed_callback, apply_callback);
 }
 
-/** Tries to move item from ground into player's inventory. Called from Game::initPhysics callbacks and receives an item's actor
- *  To work properly, requires itemFactory function to be defined, which should return an object with props "icon", "name", "description"
- *  by string icon name for item. Also, if it returns null, item won't be taken.
- *  @param {Actor} icon item's icon from ground
- */
-function tryMoveItemFromGroundIntoPlayersInventory(actor) {
-    try {
-        var iconName = actor.sprite().optionsName();
-        var errorMessage = null;
-        if (typeof itemFactory == "function") {
-            var item = itemFactory(iconName);
-            if (item !== null) {
-                if (addItemToPlayerInventory(item)) {
-                    _sheduleKillActorByBody(actor);
-                } else {
-                    errorMessage = "Failed to add item to inventory";
-                }
-            } else {
-                errorMessage = "Factory failed to create item";
-            }
-        } else {
-            errorMessage = "No factory set, disabled picking item from ground";
-        }
-        if (errorMessage !== null) {
-            print(errorMessage);
-            _makeItemUnpickable(actor);
-        }
-    } catch(e) {
-        print("Exception: " + e.message + ". Stacktrace: " + e.stack);
-    }
-}
 

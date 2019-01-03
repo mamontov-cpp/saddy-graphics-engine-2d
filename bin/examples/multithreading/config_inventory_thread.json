@@ -19,7 +19,6 @@
 		"filename": "examples/multithreading/Liberation Sans/LiberationSans-Regular.ttf"
 	},
 	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/Bit Quest.mp3", "name" : "main_theme" },
-	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/Drinking-Alone.mp3", "name" : "lose_theme" },
 	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/Jerry Five.mp3", "name" : "title_theme" },
 	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/misc_menu.wav", "name" : "misc_menu" },
 	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/misc_menu_2.wav", "name" : "misc_menu_2" },
@@ -37,5 +36,6 @@
 	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/lose_screen.mp3", "name" : "lose_screen" },
 	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/coin.mp3", "name" : "coin" },
 	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/win.mp3", "name" : "win" },
-	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/win_screen.mp3", "name" : "win_screen" }
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/win_screen.mp3", "name" : "win_screen" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/item_taken.wav", "name" : "item_taken" }
 ]

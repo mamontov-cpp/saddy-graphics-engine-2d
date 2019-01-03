@@ -28,23 +28,40 @@ setItemPenetrationDepth("SWORD", 8);
 setItemPenetrationDepth("BOOK", 9);
 
 setDroppedItemIcon("icons_list/W_Spear010ng");
-
-var itemToObject = {
-    "icons_list/W_Spear010ng" : {
-        "icon" : "icons_list/W_Spear010ng",
-        "name" : "Simple spear",
-        "description": "A simple spear combined with axe\n.\nMakes 1 damage,\nwhen equipped and adds\n1 passive damage\nwhen in inventory.\nAlso, last picked weapon\nitem is equipped by\ndefault"
+// Swords
+addItemDefinition({
+    "icon" : "icons_list/W_Spear010ng",
+    "name" : "Simple spear",
+    "description": "A simple spear combined with axe.\nMakes 1 damage, when equipped\nand adds 1 passive damage\nwhen in inventory. Also, last picked\nweapon item is equipped by\ndefault",
+    "on_added" : function(item, actor)  {
+        print("Started adding");
+        print("Added " + item.title());
+        actor.incrementAttackModifier(1);
+        var weapon = new Weapon();
+        weapon.setShootingInterval(200);
+        weapon.setAmountOfProjectiles(1);
+        weapon.setDelay(200);
+        weapon.setBaseDamage(0);
+        weapon.setMinAngleDelta(0);
+        weapon.setMaxAngleDelta(0);
+        var settings = new SwingSettings();
+        settings.IconName = "icons_list/W_Spear010ng";
+        settings.ScaleFactor = 2.0;
+        settings.DecayTime = 200;
+        settings.SoundName = "swing";
+        weapon.setSettings(settings);
+        item.setGivenWeapon(weapon);
+        actor.pushWeapon(weapon);
+    },
+    "on_removed": function(item, actor) {
+        actor.decrementAttackModifier(1);
+        item.removeGivenWeaponFrom(actor);
+        print("Removed " + item.title());
+    },
+    "on_apply" : function(item, actor) {
+        
     }
-    
-};
-
-var itemFactory = function(icon) {
-    if (icon in itemToObject) {
-        return itemToObject[icon];
-    }
-    return null;
-}
-
+});
 
 // Enum-ish direction
 var HDir = { "Right": 0, "Left": 1, "None" : 2};

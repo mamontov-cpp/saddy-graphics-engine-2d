@@ -20,6 +20,8 @@ class InventoryNode;
 namespace game
 {
 
+class Actor;
+
  /*! \class game::Inventory
   *
   *  An inventory for storing each item
@@ -64,13 +66,6 @@ public:
      *  \return false if invalid indexes specified
      */
     bool replaceItem(int i1, int j1, int i2, int j2);
-    /*! Tries to store item into inventory
-     *  \param[in] i a row index
-     *  \param[in] j a column index
-     *  \param[in] item an item
-     *  \return false if place already taken
-     */
-    bool storeItem(int i, int j, game::Item* item);
     /*! Takes item, returning it but removing also an item
      *  \param[in] i an index
      *  \param[in] j an index
@@ -132,6 +127,14 @@ public:
      *  \return true, if inventory is full
      */
     bool isFull() const;
+    /*! Sets owner actor for inventory
+     *  \param[in] actor an actor for inventory
+     */
+    void setOwner(game::Actor* actor);
+    /*! Returns owner actor
+     *  \return owner actor
+     */
+    game::Actor* owner() const;
     /*! A maximal horizontal cells of inventory
      */
     static const int Width;
@@ -163,6 +166,9 @@ protected:
     /*! Whether inventory is full
      */
     int m_free_slots;
+    /*! An actor for inventory
+     */
+    game::Actor* m_owner;
 private:
     /*! Deletes all items from inventory
      */

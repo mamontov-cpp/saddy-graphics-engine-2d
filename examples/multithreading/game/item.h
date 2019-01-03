@@ -5,27 +5,66 @@
 #pragma once
 #include <sadstring.h>
 #include <sprite2d.h>
+#include <dukpp-03/context.h>
 
 class Game;
+
+namespace weapons
+{
+class Weapon;
+}
 
 namespace game 
 {
 
+class Actor;
+
  /*! A basic in-game item
   */
-class Item   // NOLINT(cppcoreguidelines-special-member-functions)
+class Item: public sad::Object   // NOLINT(cppcoreguidelines-special-member-functions)
 {
+SAD_OBJECT
 public:
+/*! A definition for item
+ */
+struct Definition: public sad::RefCountable
+{
+    sad::String Icon;           //!< An icon
+    sad::String Title;          //!<  A title
+    sad::String Description;    //!< A description for item
+    /*! Whether we should delete an item, after it was applied
+     */
+    bool DeleteAfterApply;
+    /*! Constructs new definition for item
+     *  \param[in] icon an icon data
+     *  \param[in] title a title for item
+     *  \param[in] description a description for item
+     *  \param[in] delete_after_apply whether we should delete item, after it was applied
+     */
+    Definition(
+        const sad::String& icon, 
+        const sad::String& title, 
+        const sad::String& description,
+        bool delete_after_apply = false
+    );
+    /*! A callback on item added
+     */
+    sad::dukpp03::CompiledFunction OnItemAdded;
+    /*! A callback on item removed
+     */
+    sad::dukpp03::CompiledFunction OnItemRemoved;
+    /*! A callback on item applied
+     */
+    sad::dukpp03::CompiledFunction ApplyCallback;
+};
+
     /*! Size of item's sprite
      */
     static const int SpriteSize;
     /*! Constructs new item
-     *  \param[in] icon an icon for item
-     *  \param[in] title a title for item
-     *  \param[in] description a description for item
-     *  \param[in] delete_after_apply whether we should apply an item data
+     *  \param[in] definition a definition for item
      */
-    Item(const sad::String& icon, const sad::String& title, const sad::String& description, bool delete_after_apply = false);
+    Item(game::Item::Definition* definition);
     /*! An item can be inherited to implement own items
      */
     virtual ~Item();
@@ -53,49 +92,55 @@ public:
      *  \param[in] game a game data
      */
     void setGame(Game* game);
-    /*! Sets evaluated script
-     *  \param[in] s script
-     */
-    void setEvaluatedScript(sad::String* s);
     /*! Called when item is added to inventory
+     *  \param[in] owner an actor owner
      */
-    void notifyAdded() const;
+    void notifyAdded(game::Actor* owner);
     /*! Called, when item is removed from inventory
+     *  \param[in] owner an actor owner
      */
-    void notifyRemoved() const;
+    void notifyRemoved(game::Actor* owner);
     /*! Applies active effect on item
+     *  \param[in] owner an actor owner
      */
-    void applyActiveEffect() const;
+    void applyActiveEffect(game::Actor* owner);
     /*! Whether we should delete item, when applied
      *  \return whether we should delete item when applied
      */
     bool shouldDeleteWhenApplied() const;
-protected:
-    /*! Eval's item script
-     *  \return whether item's script evaluation was successfull
+    /*! Sets given weapon for item
+     *  \param[in] weapon a weapon
      */
-    bool evalItemScript() const;
+    void setGivenWeapon(weapons::Weapon* weapon);
+    /*! Removes given weapon from owner
+     *  \param[in] owner an owner
+     */
+    void removeGivenWeaponFrom(game::Actor* owner);
+protected:
+    /*! Invokes compiled function
+     *  \param[in] f function
+     *  \param[in] owner an owner
+     */
+    void invokeCompiledFunction(sad::dukpp03::CompiledFunction* f, game::Actor* owner);
     /*! A game data
      */
     Game* m_game{NULL};
-    /*! An icon for item
-     */
-    sad::String m_icon;
-    /*! A highlight title for item
-     */
-    sad::String m_title;
-    /*! A description for item
-     */
-    sad::String m_description;
     /*! A sprite for an item
      */
     sad::Sprite2D* m_sprite{NULL};
-    /*! An evaluated script for applying item data
+    /*! A definition for item
      */
-    sad::String* m_script{NULL};
-    /*! Whether we should delete an item, after it was applied
+    game::Item::Definition* m_definition;
+    /*! A local weapon for item, given for user
      */
-    bool m_delete_after_apply;
+    weapons::Weapon* m_weapon;
 };
 
+/*! Exposes player to context
+    \param[in] c context
+ */
+void exposeItem(void* c);
+
 }
+
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(game::Item);

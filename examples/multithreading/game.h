@@ -255,12 +255,13 @@ public:
     void evaluateInitializationScript() const;
     /*! Constructs new item
     *  \param[in] icon an icon for item
-    *  \param[in] title a title for item
-    *  \param[in] description a description for item
-    *  \param[in] delete_after_apply whether we should apply an item data
     *  \return new item
     */
-    game::Item* makeItem(const sad::String& icon, const sad::String& title, const sad::String& description, bool delete_after_apply = false);
+    game::Item* makeItem(const sad::String& icon);
+    /*! Makes actor unpickable
+     *  \param[in] actor an item actor
+     */
+    void makeItemUnpickable(game::Actor* actor);
     /*! Enables gravity for body
      *  \param[in] b body
      */
@@ -367,6 +368,13 @@ public:
      * \return solver for bullets
      */
     sad::p2d::BounceSolver* bounceSolverForBullets() const;
+    /*! Returns context for game
+     *  \return context
+     */
+    sad::dukpp03::Context* context() const;
+    /*! Clears item defintions
+     */
+    void clearItemDefinitions();
 private:
     /*! Inits evaluation context
      */
@@ -375,11 +383,6 @@ private:
      *  \param[in] kill whether we should call kill on each of them
      */
     void clearProjectiles(bool kill = true);
-    /*! Tries to get script for item
-     *  \param[in] title item's title
-     *  \return name for title
-     */
-    sad::String* tryGetScriptForItem(const sad::String& title);
     /*! Destroys physics world
      */
     void destroyWorld();
@@ -496,12 +499,12 @@ private:
     /*! A context for game
      */
     sad::dukpp03::Context* m_eval_context;
-    /*! An item names to related scripts for item
-     */
-    sad::Hash<sad::String, sad::String*> m_item_names_to_scripts;
     /*! An actor options list;
      */
     sad::Hash<sad::String, game::ActorOptions*> m_actor_options;
+    /*! An item definitions
+     */
+    sad::Hash<sad::String, game::Item::Definition*> m_item_definitions;
     /*! A bot registry for storing all types for bots
      */
     bots::BotRegistry m_bot_registry;

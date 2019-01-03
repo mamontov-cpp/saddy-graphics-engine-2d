@@ -164,8 +164,9 @@ public:
      */
     void pushWeapon(weapons::Weapon* w);
     /*! Removes weaponry from actor
+     *  \param[in] w weapon
      */
-    void popWeapon();
+    void removeWeapon(weapons::Weapon* w);
     /*! Returns weaponry for actor
      *  \return weapon
      */

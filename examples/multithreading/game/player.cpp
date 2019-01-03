@@ -14,6 +14,8 @@ game::Player::Player() : m_is_dead(false)
     this->onDeath([=](game::Actor*) {
         this->die();
     });
+    // Actor is destroyed automatically, added to make sure actor won't be destroyed by context
+    m_actor.addRef();
 }
 
 
@@ -265,9 +267,9 @@ void game::Player::pushWeapon(weapons::Weapon* w)
 }
 
 
-void game::Player::popWeapon()
+void game::Player::removeWeapon(weapons::Weapon* w)
 {
-    m_actor.popWeapon();
+    m_actor.removeWeapon(w);
 }
 
 weapons::Weapon* game::Player::weapon() const
@@ -390,6 +392,7 @@ void game::exposePlayer(void* c, Game* game)
     player_binding->addMethod("reset", sad::dukpp03::bind_method::from(&game::Player::reset));
     player_binding->addMethod("middle", sad::dukpp03::bind_method::from(&game::Player::middle));
     player_binding->addMethod("area", sad::dukpp03::bind_method::from(&game::Player::area));
+    player_binding->addMethod("actor", sad::dukpp03::bind_method::from(&game::Player::actor));
     player_binding->addMethod("isFloater", sad::dukpp03::bind_method::from(&game::Player::isFloater));
     player_binding->addMethod("setFloaterState", sad::dukpp03::bind_method::from(&game::Player::setFloaterState));
 
@@ -413,7 +416,7 @@ void game::exposePlayer(void* c, Game* game)
     player_binding->addMethod("enableGravity", sad::dukpp03::bind_method::from(&game::Player::enableGravity));
 
     player_binding->addMethod("pushWeapon", sad::dukpp03::bind_method::from(&game::Player::pushWeapon));
-    player_binding->addMethod("popWeapon", sad::dukpp03::bind_method::from(&game::Player::popWeapon));
+    player_binding->addMethod("removeWeapon", sad::dukpp03::bind_method::from(&game::Player::removeWeapon));
     player_binding->addMethod("weapon", sad::dukpp03::bind_method::from(&game::Player::weapon));
     player_binding->addMethod("tryShoot", sad::dukpp03::bind_method::from(&game::Player::tryShoot));
 
