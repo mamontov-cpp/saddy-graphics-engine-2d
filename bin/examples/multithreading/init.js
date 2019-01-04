@@ -27,7 +27,16 @@ setItemPenetrationDepth("SPEAR", 8);
 setItemPenetrationDepth("SWORD", 8);
 setItemPenetrationDepth("BOOK", 9);
 
-setDroppedItemIcon("icons_list/W_Spear010ng");
+setDroppedItemIcon("icons_list/W_Mace004ng");
+
+var synonyms = {
+// Swords
+    "Simple spear": "icons_list/W_Spear010ng",
+    "Crystal sword": "icons_list/W_Spear014ng",
+    "Large axe": "icons_list/W_Axe003ng",
+    "Mace of Destruction": "icons_list/W_Mace004ng"
+};
+
 // Swords
 addItemDefinition({
     "icon" : "icons_list/W_Spear010ng",
@@ -55,6 +64,112 @@ addItemDefinition({
     },
     "on_removed": function(item, actor) {
         actor.decrementAttackModifier(1);
+        item.removeGivenWeaponFrom(actor);
+        print("Removed " + item.title());
+    },
+    "on_apply" : function(item, actor) {
+        
+    }
+});
+
+addItemDefinition({
+    "icon" : "icons_list/W_Spear014ng",
+    "name" : "Crystal sword",
+    "description": "A sword, made of crystal.\nMakes 1 real damage, when equipped\nand adds 1 passive damage\nwhen in inventory.",
+    "on_added" : function(item, actor)  {
+        print("Started adding");
+        print("Added " + item.title());
+        actor.incrementAttackModifier(1);
+        var weapon = new Weapon();
+        weapon.setShootingInterval(400);
+        weapon.setAmountOfProjectiles(1);
+        weapon.setDelay(500);
+        weapon.setBaseDamage(1);
+        weapon.setMinAngleDelta(0);
+        weapon.setMaxAngleDelta(0);
+        var settings = new SwingSettings();
+        settings.IconName = "icons_list/W_Spear014ng";
+        settings.ScaleFactor = 3.0;
+        settings.DecayTime = 200;
+        settings.SoundName = "swing";
+        weapon.setSettings(settings);
+        item.setGivenWeapon(weapon);
+        actor.pushWeapon(weapon);
+    },
+    "on_removed": function(item, actor) {
+        actor.decrementAttackModifier(1);
+        item.removeGivenWeaponFrom(actor);
+        print("Removed " + item.title());
+    },
+    "on_apply" : function(item, actor) {
+        
+    }
+});
+
+
+
+addItemDefinition({
+    "icon" : "icons_list/W_Axe003ng",
+    "name" : "Large axe",
+    "description": "A large axe.\nMakes 10 real damage, when\nequipped and adds 1 passive\ndamage when in inventory.\nReally slow to cut something.",
+    "on_added" : function(item, actor)  {
+        print("Started adding");
+        print("Added " + item.title());
+        actor.incrementAttackModifier(1);
+        var weapon = new Weapon();
+        weapon.setShootingInterval(1000);
+        weapon.setAmountOfProjectiles(1);
+        weapon.setDelay(500);
+        weapon.setBaseDamage(10);
+        weapon.setMinAngleDelta(0);
+        weapon.setMaxAngleDelta(0);
+        var settings = new SwingSettings();
+        settings.IconName = "icons_list/W_Axe003ng";
+        settings.ScaleFactor = 3.0;
+        settings.DecayTime = 800;
+        settings.SoundName = "swing";
+        weapon.setSettings(settings);
+        item.setGivenWeapon(weapon);
+        actor.pushWeapon(weapon);
+    },
+    "on_removed": function(item, actor) {
+        actor.decrementAttackModifier(1);
+        item.removeGivenWeaponFrom(actor);
+        print("Removed " + item.title());
+    },
+    "on_apply" : function(item, actor) {
+        
+    }
+});
+
+
+
+addItemDefinition({
+    "icon" : "icons_list/W_Mace004ng",
+    "name" : "Mace of Destruction",
+    "description": "A large mace.\nMakes 3 real damage, when\nequipped and adds 2 passive\ndamage when in inventory.\nFaster than axe,\nbut makes lesss damage.",
+    "on_added" : function(item, actor)  {
+        print("Started adding");
+        print("Added " + item.title());
+        actor.incrementAttackModifier(5);
+        var weapon = new Weapon();
+        weapon.setShootingInterval(500);
+        weapon.setAmountOfProjectiles(1);
+        weapon.setDelay(500);
+        weapon.setBaseDamage(5);
+        weapon.setMinAngleDelta(0);
+        weapon.setMaxAngleDelta(0);
+        var settings = new SwingSettings();
+        settings.IconName = "icons_list/W_Mace004ng";
+        settings.ScaleFactor = 4.5;
+        settings.DecayTime = 800;
+        settings.SoundName = "swing";
+        weapon.setSettings(settings);
+        item.setGivenWeapon(weapon);
+        actor.pushWeapon(weapon);
+    },
+    "on_removed": function(item, actor) {
+        actor.decrementAttackModifier(5);
         item.removeGivenWeaponFrom(actor);
         print("Removed " + item.title());
     },
