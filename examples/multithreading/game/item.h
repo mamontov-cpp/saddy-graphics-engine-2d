@@ -116,6 +116,10 @@ struct Definition: public sad::RefCountable
      *  \param[in] owner an owner
      */
     void removeGivenWeaponFrom(game::Actor* owner);
+    /*! Returns given weapon for item
+     *  \return given weapon
+     */
+    weapons::Weapon* givenWeapon() const;
 protected:
     /*! Invokes compiled function
      *  \param[in] f function

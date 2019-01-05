@@ -50,7 +50,8 @@ m_hurt_animation(NULL),
 m_lookup_angle(0),
 m_fixed_size(false),
 m_attack_modifier(0),
-m_defense(0)
+m_defense(0),
+m_floater_state_counter(0)
 {
     m_key_states.reset();
 }
@@ -380,6 +381,7 @@ void game::Actor::reset()
     m_is_jumping_animation_playing = false;
     m_attack_modifier = 0;
     m_defense = 0;
+    m_floater_state_counter = 0;
 
     for (size_t i = 0; i < m_weapons.size(); i++)
     {
@@ -1171,6 +1173,14 @@ void game::Actor::removeWeapon(weapons::Weapon* w)
     }
 }
 
+void game::Actor::removeWeaponWithItem(weapons::Weapon* w, Game* g)
+{
+    if (this == g->player()->actor())
+    {
+        g->removeItemFromPlayersInventoryWithWeapon(w);
+    }
+}
+
 weapons::Weapon* game::Actor::weapon() const
 {
     if (!m_weapons.empty())
@@ -1338,6 +1348,30 @@ void game::Actor::takeDamage(int base_dmg)
     if (dmg > 0)
     {
         this->tryDecrementLives(dmg);
+    }
+}
+
+void game::Actor::incrementFloaterStateCounter()
+{
+    ++m_floater_state_counter;
+    if (!this->isFloater()) 
+    {
+        if (m_floater_state_counter > 0)
+        {
+            this->setFloaterState(true);
+        }
+    }
+}
+
+void game::Actor::decrementFloaterStateCounter()
+{
+    --m_floater_state_counter;
+    if (this->isFloater())
+    { 
+        if (m_floater_state_counter <= 0)
+        {
+            this->setFloaterState(false);
+        }
     }
 }
 
@@ -1662,7 +1696,8 @@ void game::exposeActor(void* c)
     actor_binding->addMethod("incrementDefense", sad::dukpp03::bind_method::from(&game::Actor::incrementDefense));
     actor_binding->addMethod("decrementDefense", sad::dukpp03::bind_method::from(&game::Actor::decrementDefense));
     actor_binding->addMethod("defense", sad::dukpp03::bind_method::from(&game::Actor::defense));
-
+    actor_binding->addMethod("incrementFloaterStateCounter", sad::dukpp03::bind_method::from(&game::Actor::incrementFloaterStateCounter));
+    actor_binding->addMethod("decrementFloaterStateCounter", sad::dukpp03::bind_method::from(&game::Actor::decrementFloaterStateCounter));
 
     ctx->addClassBinding("game::Actor", actor_binding);
 }

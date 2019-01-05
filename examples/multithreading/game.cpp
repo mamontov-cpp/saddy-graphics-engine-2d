@@ -355,6 +355,15 @@ void Game::putPlayerPickAccordingToMenuState(Game::MainMenuState state)
     choice_pointer->setMiddle(sad::Point2D(x, y));
 }
 
+void Game::removeItemFromPlayersInventoryWithWeapon(weapons::Weapon* weapon) const
+{
+    this->m_player->inventory()->removeItemWithWeapon(weapon);
+    if (this->m_inventory_popup)
+    {
+        this->m_inventory_popup->setVisible(false);
+    }
+}
+
 void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
 {
     // Set pointer for the main menu options
@@ -681,7 +690,6 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
             }
         }
     });
-    
 }
 
 void Game::setControlsForInventoryThread(sad::Renderer* renderer)
@@ -1863,6 +1871,12 @@ void Game::initContext()
         }
         return false;
     };
+    std::function<void(game::Actor*, int)> increment_floater_state_counter_delayed = [=](game::Actor* actor, int delay) -> void {
+        this->addDelayedTask(delay, [=]() { actor->incrementFloaterStateCounter(); });
+    };
+    std::function<void(game::Actor*, int)> decrement_floater_state_counter_delayed = [=](game::Actor* actor, int delay) -> void {
+        this->addDelayedTask(delay, [=]() { actor->decrementFloaterStateCounter(); });
+    };
 
     m_eval_context->registerCallable("makePlatformGoOnWay", sad::dukpp03::make_lambda::from(make_platform_go_on_way));
     m_eval_context->registerCallable("addTrigger", sad::dukpp03::make_lambda::from(add_trigger));
@@ -1878,6 +1892,8 @@ void Game::initContext()
     m_eval_context->registerCallable("_sheduleKillActorByBody", sad::dukpp03::make_lambda::from(_shedule_kill_actor_by_body));
     m_eval_context->registerCallable("_makeItemUnpickable", sad::dukpp03::make_lambda::from(_make_item_unpickable));
     m_eval_context->registerCallable("giveItemToPlayer", sad::dukpp03::make_lambda::from(give_item_to_player));
+    m_eval_context->registerCallable("incrementFloaterStateCounterDelayed", sad::dukpp03::make_lambda::from(increment_floater_state_counter_delayed));
+    m_eval_context->registerCallable("decrementFloaterStateCounterDelayed", sad::dukpp03::make_lambda::from(decrement_floater_state_counter_delayed));
 
     scripting::exposeSpawnEnemy(m_eval_context, this);
     game::exposeActorOptions(m_eval_context, this);

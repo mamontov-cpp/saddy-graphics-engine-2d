@@ -128,6 +128,12 @@ void game::Item::removeGivenWeaponFrom(game::Actor* owner)
         m_weapon = NULL;
     }
 }
+
+weapons::Weapon* game::Item::givenWeapon() const
+{
+    return m_weapon;
+}
+
 // ========================================== PRIVATE METHODS ==========================================
 
 

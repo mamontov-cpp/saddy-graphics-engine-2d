@@ -118,6 +118,10 @@ enum Type
     /*! Resumes weapon
      */
     void resume();
+    /*! Toggles flag, that erases weapon after it was shot
+        \param[in] value a flag value
+     */
+    void toggleEraseAfterShoot(bool value);
 protected:
     /*! Spawns projectiles for weapon
      *  \param[in] game a game
@@ -154,6 +158,9 @@ protected:
     /*! A maximal angle for spreads
      */
     double m_max_dangle;
+    /*! Erases weapon and linked item after weapon is shot
+     */
+    bool m_erase_after_shot;
 struct
 {
     /*! A type of weapon

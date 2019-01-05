@@ -180,6 +180,11 @@
             "texrect":"8;58;5;5"
         },
         {
+            "name":"bullets\/blue\/tiny_laser",
+            "size":"3;3",
+            "texrect":"9;59;3;3"
+        },
+        {
             "name":"bullets\/blue\/small",
             "size":"8;8",
             "texrect":"15;57;8;8"
@@ -249,6 +254,11 @@
             "name":"bullets\/bubble\/5",
             "size":"12;12",
             "texrect":"15;67;12;12"
+        },
+        {
+            "name":"bullets\/bubble\/5_laser",
+            "size":"6;6",
+            "texrect":"18;70;6;6"
         },
         {
             "name":"bullets\/bubble\/6",

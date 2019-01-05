@@ -16,6 +16,11 @@ namespace nodes
 class InventoryNode;
 }
 
+namespace weapons
+{
+class Weapon;
+}
+
 
 namespace game
 {
@@ -72,6 +77,10 @@ public:
      *  \return pointer to item or NULL if not found
      */
     game::Item* takeItem(int i, int j);
+    /*! Removes item with weapon from inventory
+     *  \param[in] weapon a weapon
+     */
+    void removeItemWithWeapon(weapons::Weapon* weapon);
     /*! Returns an item from inventory
      *  \param[in] i an index for row
      *  \param[in] j an index for column

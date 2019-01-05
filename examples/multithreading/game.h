@@ -104,6 +104,10 @@ public:
         \param[in] state picked option
      */
     void putPlayerPickAccordingToMenuState(Game::MainMenuState state);
+    /*! Removes item from players inventory with weapon
+     *  \param[in] weapon weapon to remove from item
+     */
+    void removeItemFromPlayersInventoryWithWeapon(weapons::Weapon* weapon) const;
     /*! Sets controls for main thread
         \param[in] renderer a renderer for main thread
         \param[in] db database

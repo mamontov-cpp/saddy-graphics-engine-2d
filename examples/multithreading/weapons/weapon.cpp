@@ -22,7 +22,8 @@ m_amount_of_projectiles(1),
 m_delay(0),
 m_base_damage(1),
 m_min_dangle(0),
-m_max_dangle(0)
+m_max_dangle(0),
+m_erase_after_shot(false)
 {
     m_timer.start();
     m_settings.Type = weapons::Weapon::WWT_NONE;
@@ -121,6 +122,8 @@ void weapons::Weapon::setSettings(const weapons::LaserSettings& s)
     if (m_settings.Settings.Laser->SoundName.empty()) m_settings.Settings.Laser->SoundName = "shooting_2";
 }
 
+// Time, after weapon could be removed
+#define TIME_BEFORE_REMOVAL (50)
 
 void weapons::Weapon::tryShoot(Game* game, game::Actor* actor)
 {
@@ -162,6 +165,17 @@ void weapons::Weapon::tryShoot(Game* game, game::Actor* actor)
         cur_angle += dangle;
         local_delay += m_delay;
     }
+
+    if (m_erase_after_shot)
+    {
+        game->addDelayedTask(local_delay * m_amount_of_projectiles + TIME_BEFORE_REMOVAL, [=] {
+            if (game->isDead(actor))
+            {
+                return;
+            }
+            actor->removeWeaponWithItem(this, game);
+        });
+    }
 }
 
 
@@ -174,6 +188,11 @@ void weapons::Weapon::pause()
 void weapons::Weapon::resume()
 {
     m_timer.resume();
+}
+
+void weapons::Weapon::toggleEraseAfterShoot(bool value)
+{
+    m_erase_after_shot = value;
 }
 
 
@@ -286,6 +305,7 @@ void weapons::exposeWeapon(void* c)
     weapon_binding->addMethod("minAngleDelta", sad::dukpp03::bind_method::from(&weapons::Weapon::minAngleDelta));
     weapon_binding->addMethod("setMaxAngleDelta", sad::dukpp03::bind_method::from(&weapons::Weapon::setMaxAngleDelta));
     weapon_binding->addMethod("maxAngleDelta", sad::dukpp03::bind_method::from(&weapons::Weapon::maxAngleDelta));
+    weapon_binding->addMethod("toggleEraseAfterShoot", sad::dukpp03::bind_method::from(&weapons::Weapon::toggleEraseAfterShoot));
 
     void (weapons::Weapon::*m_s1)(const weapons::SwingSettings&) = &weapons::Weapon::setSettings;
     void (weapons::Weapon::*m_s2)(const weapons::BulletSettings&) = &weapons::Weapon::setSettings;

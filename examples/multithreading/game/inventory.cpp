@@ -133,6 +133,34 @@ game::Item* game::Inventory::takeItem(int i, int j)
     return item;;
 }
 
+void game::Inventory::removeItemWithWeapon(weapons::Weapon* weapon)
+{
+    for (int i = 0; i < Height; i++)
+    {
+        for (int j = 0; j < Width; j++)
+        {
+            game::Item* item = m_items[i][j];
+            if (item != NULL)
+            {
+                if (item->givenWeapon() == weapon)
+                {
+                    if (item)
+                    {
+                        if (m_node)
+                        {
+                            m_node->eraseSprite(i, j);
+                        }
+                        item->notifyRemoved(this->owner());
+                        item->delRef();
+                        m_free_slots += 1;
+                    }
+                    m_items[i][j] = NULL;
+                }
+            }
+        }
+    }
+}
+
 game::Item* game::Inventory::item(int i, int j)
 {
     if (!m_items.contains(i))

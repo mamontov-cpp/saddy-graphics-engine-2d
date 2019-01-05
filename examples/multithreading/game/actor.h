@@ -300,6 +300,11 @@ public:
      *  \param[in] w weapon
      */
     void removeWeapon(weapons::Weapon* w);
+    /*! Removes weapon from actor, together with weapon item
+     *  \param[in] w weapon
+     *  \param[in] g game
+     */
+    void removeWeaponWithItem(weapons::Weapon* w, Game* g);
     /*! Returns weaponry for actor
      *  \return weapon
      */
@@ -359,6 +364,12 @@ public:
      *  \param[in] base_dmg a base damage for projectile
      */
     void takeDamage(int base_dmg);
+    /*! Increments floater state counter. If it's bigger that 0, makes actor float
+     */
+    void incrementFloaterStateCounter();
+    /*! Decrements floater state counter. If it's bigger that 0, makes actor not float
+     */
+    void decrementFloaterStateCounter();
 private:
     /*! Compute whether floater should go up or down
         \param[out] is_going_up whether we should go up
@@ -501,6 +512,9 @@ private:
     /*! A defence modifier increments defence for actor
      */
     int m_defense;
+    /*! A counter for floater state
+     */
+    int m_floater_state_counter;
 };
 
 /*! Exposes actor to context
