@@ -27,7 +27,6 @@ setItemPenetrationDepth("SPEAR", 8);
 setItemPenetrationDepth("SWORD", 8);
 setItemPenetrationDepth("BOOK", 9);
 
-setDroppedItemIcon("icons_list/W_Book03ng");
 
 var synonyms = {
 // Swords
@@ -60,6 +59,25 @@ var synonyms = {
 // Books
     "Book of Flight": "icons_list/I_Bookng",
     "Book of Permanent Flight": "icons_list/W_Book03ng"
+};
+
+var spawnItem = function(name, point) {
+    if (name in synonyms) {
+        return _spawnItem(synonyms[name], point);
+    }
+    return null;
+};
+
+var setLootForActor = function(actor, base_loot ) {
+    var loot = {};
+    for(var name in base_loot) {
+        if (base_loot.hasOwnProperty(name)) {
+            if (name in synonyms) {
+                loot[synonyms[name]] = base_loot[name];
+            }
+        }
+    }
+    return _setLootForActor(actor, loot);
 };
 
 // Swords
@@ -676,30 +694,12 @@ makePlatformGoOnWay("MovingPlatform4", "Way1");
 // Just a simple JS trigger
 
 addTriggerOnce(200, function() {
-    gamePrint("Have a nice weapon!");
-    var min_angle = Math.PI * (-0.25);
-    var weapon = new Weapon();
-    weapon.setShootingInterval(1000);
-    weapon.setAmountOfProjectiles(6);
-    weapon.setDelay(50);
-    weapon.setBaseDamage(1);
-    weapon.setMinAngleDelta(/*min_angle*/ 0);
-    weapon.setMaxAngleDelta(/*min_angle * (-1)*/ 0);
-    var settings = new BulletSettings();
-    settings.IconName = "bullets/yellow/x_huge";
-    settings.MaxBounceCount = 200;
-    settings.ApplyGravity = false;
-    settings.GravityValue = new sad.Point2D(0, -300);
-    settings.RestitutionCoefficient = 0.9;
-    settings.Speed = 300;
-    weapon.setSettings(settings);
-    player().pushWeapon(weapon);
-    gamePrint("Weapon is given");
+    spawnItem("Simple spear", new sad.Point2D(400, 500));
 });
 
 addTriggerOnce(400, function() {
     gamePrint("Player has reached point of " + player().middle().x  + "," + player().middle().y + " which is more than 400\n");
-    player().tryStartGoingUp();
+    //player().tryStartGoingUp();
     //spawnEnemyWalkerAt("player", new sad.Point2D(400, 500), "random_60_500");
     //spawnAnimatedFloater("animated_floater_1", new sad.Point2D(500, 500), 50, 750, 40);
     //spawnAnimatedFloater("animated_floater_2", new sad.Point2D(600, 500), 50, 750, 40);
@@ -729,7 +729,8 @@ addTriggerOnce(400, function() {
     
     actor.setShootingStrategy(strategy); 
     
-    spawnPlatformPatrol("enemy_walker", new sad.Point2D(220, 300));
+    var actor = spawnPlatformPatrol("enemy_walker", new sad.Point2D(220, 300));
+    setLootForActor(actor, {"Gold coin" : 50, "Helmet": 50});
 });
 
 addTriggerOnce(750, function() {

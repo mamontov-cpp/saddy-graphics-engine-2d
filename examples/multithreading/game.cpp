@@ -62,7 +62,6 @@ const int Game::BasicEnemyLivesCount = 3; //< Amount of lives for enemy
 
 const int Game::BasicPlayerLivesCount = 1; // Amount of lives for player
 
-static sad::String DroppedItemIcon = "icons_list/W_Sword021ng";
 
 DECLARE_COMMON_TYPE(Game);
 
@@ -573,13 +572,8 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
         m_player->tryShoot();
     };
 
-    std::function<void()> perform_item_spawn = [this] {
-        sad::MaybePoint3D pnt = this->rendererForMainThread()->cursorPosition();
-        if (pnt.exists())
-        {
-            this->makeItemActor(DroppedItemIcon, pnt.value());
-        }
-    };
+    // This handler is reserved for future purposes
+    std::function<void()> right_click_handler = [=] {};
 
     renderer->controls()->addLambda(
         *sad::input::ET_MouseMove
@@ -599,7 +593,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
         & sad::MouseRight
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
-        perform_item_spawn
+        right_click_handler
     );
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
@@ -1821,10 +1815,6 @@ void Game::initContext()
     std::function<int()> local_score = [=]() {
         return this->score();
     };
-    std::function<void(const sad::String&)> set_dropped_item_icon = [](const sad::String& s) {
-        DroppedItemIcon = s;
-    };
-
     std::function<bool(const sad::String&,
                        const sad::String&,
                        const sad::String&,
@@ -1877,6 +1867,47 @@ void Game::initContext()
     std::function<void(game::Actor*, int)> decrement_floater_state_counter_delayed = [=](game::Actor* actor, int delay) -> void {
         this->addDelayedTask(delay, [=]() { actor->decrementFloaterStateCounter(); });
     };
+    std::function<game::Actor*(const sad::String&, const sad::Point2D& p)> _spawn_item = [=](const sad::String& name, const sad::Point2D& p) -> game::Actor* {
+        game::Actor* a = this->makeItemActor(name, p);
+        if (a)
+        {
+            this->playSound("item_drop");
+            a->setVelocity(sad::p2d::Vector(0, 200)); // Made basic velocity small just to move item a little
+        }
+        return a;
+    };
+    std::function<void(game::Actor*, const sad::Hash<sad::String, int>&)> _set_loot_for_actor = [=](game::Actor* actor, const sad::Hash<sad::String, int>& loot) {
+        actor->onBeforeDeath([=](game::Actor* a) {
+            int sum = 0;
+            for(sad::Hash<sad::String, int>::const_iterator it = loot.const_begin(); it != loot.const_end(); ++it) {
+                sum += it.value();
+            }
+            sad::Maybe<sad::String> result;
+            double value = (static_cast<double>(rand()) / static_cast<double>(RAND_MAX)) * 100.0;
+            double begin;
+            double end = 0;
+            for (sad::Hash<sad::String, int>::const_iterator it = loot.const_begin(); it != loot.const_end(); ++it) 
+            {
+                if (!result.exists()) 
+                {
+                    begin = end;
+                    end = begin + static_cast<double>(it.value()) / sum * 100.0;
+                    if (value >= begin && value <= end) 
+                    {
+                      result.setValue(it.key());
+                    }
+                }
+            }
+            if (result.exists())
+            { 
+                _spawn_item(result.value(), a->middle());
+            }
+        });
+    };
+
+    std::function<void(const sad::String&)> play_sound = [=](const sad::String& name) {
+        this->playSound(name);
+    };
 
     m_eval_context->registerCallable("makePlatformGoOnWay", sad::dukpp03::make_lambda::from(make_platform_go_on_way));
     m_eval_context->registerCallable("addTrigger", sad::dukpp03::make_lambda::from(add_trigger));
@@ -1886,7 +1917,6 @@ void Game::initContext()
     m_eval_context->registerCallable("incrementScore", sad::dukpp03::make_lambda::from(increment_score));
     m_eval_context->registerCallable("decrementScore", sad::dukpp03::make_lambda::from(decrement_score));
     m_eval_context->registerCallable("score", sad::dukpp03::make_lambda::from(local_score));
-    m_eval_context->registerCallable("setDroppedItemIcon", sad::dukpp03::make_lambda::from(set_dropped_item_icon));
     m_eval_context->registerCallable("setItemPenetrationDepth", sad::dukpp03::make_function::from(game::setItemPenetrationDepth));
     m_eval_context->registerCallable("_addItemDefinition", sad::dukpp03::make_lambda::from(_add_item_definition));
     m_eval_context->registerCallable("_sheduleKillActorByBody", sad::dukpp03::make_lambda::from(_shedule_kill_actor_by_body));
@@ -1894,6 +1924,9 @@ void Game::initContext()
     m_eval_context->registerCallable("giveItemToPlayer", sad::dukpp03::make_lambda::from(give_item_to_player));
     m_eval_context->registerCallable("incrementFloaterStateCounterDelayed", sad::dukpp03::make_lambda::from(increment_floater_state_counter_delayed));
     m_eval_context->registerCallable("decrementFloaterStateCounterDelayed", sad::dukpp03::make_lambda::from(decrement_floater_state_counter_delayed));
+    m_eval_context->registerCallable("_spawnItem", sad::dukpp03::make_lambda::from(_spawn_item));
+    m_eval_context->registerCallable("playSound", sad::dukpp03::make_lambda::from(play_sound));
+    m_eval_context->registerCallable("_setLootForActor", sad::dukpp03::make_lambda::from(_set_loot_for_actor));
 
     scripting::exposeSpawnEnemy(m_eval_context, this);
     game::exposeActorOptions(m_eval_context, this);
