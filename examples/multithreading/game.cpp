@@ -185,17 +185,18 @@ void Game::runMainGameThread()
     // We wait for inventory thread later to get initialization result,
     // so initialize flag now
     m_inventory_thread->needsToBeNotifiedFromLater();
-    SL_LOCAL_DEBUG("Initializing main thread\n", renderer);
+    SL_LOCAL_DEBUG("Initializing main thread", renderer);
     // Attempt to load resouces
     m_main_thread->tryInitialize(
+        "M",
         "main_thread.txt",
         "examples/multithreading/config_main_thread.json",
         "Platformer (MultiWindow)"
     );
-    SL_LOCAL_DEBUG("Waiting for inventory thread\n", renderer);
+    SL_LOCAL_DEBUG("Waiting for inventory thread", renderer);
     // Wait for inventory to load it's resources
     m_inventory_thread->waitForNotify();
-    SL_LOCAL_DEBUG("Checking status\n", renderer);
+    SL_LOCAL_DEBUG("Checking status", renderer);
     if (m_main_thread->hasErrors() || m_inventory_thread->hasErrors())
     {
         // Format errors
@@ -239,16 +240,6 @@ void Game::runMainGameThread()
 
     sad::db::populateScenesFromDatabase(&renderer, db);
 
-    sad::Scene* scene = renderer.scenes()[0];
-    // Use introspection to dump or debug some objects
-    SL_LOCAL_DEBUG(fmt::Format("Scene has {0} objects") << scene->objectCount(), renderer);
-    const sad::Vector<sad::SceneNode*>& objects = scene->objects();
-    for(size_t i = 0; i < scene->objectCount(); i++)
-    {
-        sad::SceneNode* node = objects[i];
-        SL_LOCAL_DEBUG(fmt::Format("Object {0}: {1}") << i << node->metaData()->name(), renderer);
-    }
-
     tryStartStartingState();
 
     setControlsForMainThread(&renderer, db);
@@ -261,7 +252,7 @@ void Game::runMainGameThread()
         }
     );
 
-    SL_LOCAL_DEBUG("Starting\n", renderer);
+    SL_LOCAL_DEBUG("Starting", renderer);
     renderer.controls()->addLambda(
         *sad::input::ET_Quit,
         [this]() -> void {
@@ -287,14 +278,15 @@ void Game::runInventoryThread()
     // so initialize flag now
     m_main_thread->needsToBeNotifiedFromLater();
     // Attempt to load resouces
-    SL_LOCAL_DEBUG("Initializing inventory thread\n", renderer);
+    SL_LOCAL_DEBUG("Initializing inventory thread", renderer);
     m_inventory_thread->tryInitialize(
+        "I",
         "inventory_thread.txt",
         "examples/multithreading/config_inventory_thread.json",
         "Inventory"
     );
     m_inventory_thread->notify();
-    SL_LOCAL_DEBUG("Waiting for main thread\n", renderer);
+    SL_LOCAL_DEBUG("Waiting for main thread", renderer);
     // Wait for signal (kill or resume from main thread)
     m_main_thread->waitForNotify();
     if (m_inventory_thread->isKilled())
@@ -305,7 +297,7 @@ void Game::runInventoryThread()
 
     this->initStartScreenForInventoryThread();
 
-    SL_LOCAL_DEBUG("Starting new renderer\n", renderer);
+    SL_LOCAL_DEBUG("Starting new renderer", renderer);
     m_inventory_thread->markAsRendererStarted();
     // Kill other window, if closed
     renderer.controls()->addLambda(
@@ -1049,7 +1041,7 @@ void Game::changeSceneToStartingScreen()
 
     this->enterTransitioningState();
     this->waitForPipelineTasks();
-    printf("Starting to change screen to starting\n");
+    SL_LOCAL_DEBUG("Starting to change screen to starting", *(this->rendererForMainThread()));
     changeScene(options);
 }
 
@@ -1103,7 +1095,7 @@ void Game::changeSceneToLoseScreen()
 
     this->enterTransitioningState();
     this->waitForPipelineTasks();
-    printf("Starting to change screen to losing\n");
+    SL_LOCAL_DEBUG("Starting to change screen to losing", *(this->rendererForMainThread()));
     changeScene(options);
 }
 
@@ -1162,7 +1154,7 @@ void Game::changeSceneToWinScreen()
 
     this->enterTransitioningState();
     this->waitForPipelineTasks();
-    printf("Starting to change screen to winning\n");
+    SL_LOCAL_DEBUG("Starting to change screen to winning", *(this->rendererForMainThread()));
     changeScene(options);
 }
 
@@ -1800,7 +1792,6 @@ void Game::initContext()
         this->m_triggers.add(x, f, true);
     };
     std::function<void(const sad::String&)> print = [=](const sad::String& message) {
-        printf("%s\n", message.c_str());
         SL_LOCAL_DEBUG(message, *(m_main_thread->renderer()));
     };
     std::function<void()> trigger_win_game = [=]() {

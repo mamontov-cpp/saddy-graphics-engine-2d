@@ -4,6 +4,7 @@
 
 #include <freetype/font.h>
 
+#include <log/consoletarget.h>
 #include <log/filetarget.h>
 
 #include <pipeline/pipeline.h>
@@ -65,6 +66,7 @@ bool threads::GameThread::isKilled() const
 }
 
 void threads::GameThread::tryInitialize(
+    const sad::String& log_prefix,
     const sad::String& log_name,
     const sad::String& config_name,
     const sad::String& window_title
@@ -78,10 +80,16 @@ void threads::GameThread::tryInitialize(
     m_renderer->tree()->factory()->registerResource<sad::irrklang::Sound>();
     m_renderer->tree()->factory()->registerDefaultFileTypeFor<sad::irrklang::Sound>();
 
+    sad::String console_format = "{0},";
+    console_format += log_prefix;
+    console_format += ": [{1}] {3}{2}{4}";
+    sad::log::ConsoleTarget* ct = new sad::log::ConsoleTarget(console_format);
+    m_renderer->log()->addTarget(ct);
+
     /* Setup the logging. We redirect all messages to a file, passed as parameter to thread
        variable
      */
-    sad::log::FileTarget * fl = new sad::log::FileTarget();
+    sad::log::FileTarget* fl = new sad::log::FileTarget();
     bool b = fl->open(log_name.c_str());
     if (!b)
     {

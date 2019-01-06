@@ -348,8 +348,7 @@ void game::Actor::onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev)
     if ((sad::is_fuzzy_equal(max_platform_y, min_player_y) || (min_player_y > max_platform_y))
         && (sad::p2d::collides(player_part, platform_part)))
     {
-        printf("Resting collision\n");
-
+        SL_LOCAL_DEBUG("Making bodies rest", *(this->game()->rendererForMainThread()));
         sad::p2d::Vector v = ev.m_object_2->tangentialVelocity();
         this->restOnPlatform(ev.m_object_2, v);
     }
@@ -668,7 +667,9 @@ void game::Actor::incrementVerticalVelocity(double value)
         v.setY(0.0);
     }
     this->m_body->setCurrentTangentialVelocity(v + sad::p2d::Vector(0, value));
-    printf("Next tangential velocity after increment: %lf, %lf\n", m_body->nextTangentialVelocity().x(), m_body->nextTangentialVelocity().y());
+    SL_LOCAL_DEBUG(fmt::Format("Next tangential velocity after increment: {0}, {1}") << m_body->nextTangentialVelocity().x() << m_body->nextTangentialVelocity().y(),
+        *(this->game()->rendererForMainThread())
+    );
 }
 
 void game::Actor::enableGravity() const

@@ -45,7 +45,8 @@ void bots::JSBot::perform(Game* game, game::Actor* actor)
         }
         else
         {
-            printf("No state is left, does it exists");
+            sad::Renderer* r = actor->game()->rendererForMainThread();
+            SL_LOCAL_DEBUG("No state is left, does it exists?", *r);
         }
     }
 

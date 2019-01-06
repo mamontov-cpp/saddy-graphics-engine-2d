@@ -20,15 +20,7 @@
 
 /* This macro manupilation is to make console window hidden in MSVC window
  */
-#ifdef WIN32
-#ifdef MSVC_RELEASE
-int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
-#else
 int main(int argc, char** argv)
-#endif
-#else
-int main(int argc, char** argv)
-#endif
 {
     Game main_game;
     // Here we create two waitable threads
