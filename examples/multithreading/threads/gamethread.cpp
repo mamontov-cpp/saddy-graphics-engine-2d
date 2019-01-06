@@ -84,6 +84,7 @@ void threads::GameThread::tryInitialize(
     console_format += log_prefix;
     console_format += ": [{1}] {3}{2}{4}";
     sad::log::ConsoleTarget* ct = new sad::log::ConsoleTarget(console_format);
+    ct->setColorForPriorityAndColoredOutput(sad::log::DEBUG, sad::log::WHITE);
     m_renderer->log()->addTarget(ct);
 
     /* Setup the logging. We redirect all messages to a file, passed as parameter to thread

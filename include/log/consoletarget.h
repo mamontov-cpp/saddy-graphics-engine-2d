@@ -55,6 +55,11 @@ public:
         \param[in] message received message
      */
     virtual void receive(const sad::log::Message & message);
+    /*! Sets color for specific priority and colored output
+       \param[in] p priority
+       \param[in] c color
+     */
+    void setColorForPriorityAndColoredOutput(sad::log::Priority p, sad::log::Color c);
     /*! Restores default color mode for console, saving problems
       */
     ~ConsoleTarget();
