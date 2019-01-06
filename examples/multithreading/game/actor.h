@@ -370,6 +370,17 @@ public:
     /*! Decrements floater state counter. If it's bigger that 0, makes actor not float
      */
     void decrementFloaterStateCounter();
+    /*! Toggles, whether actor is affected by wind
+     *  \param[in] affected true if affected
+     */
+    void toggleIsAffectedByWind(bool affected);
+    /*! Returns true if actor  is affected by wind
+     *  \return true if actor is affected by wind
+     */
+    bool isAffectedByWind() const;
+    /*! Updates horizontal speed for actor
+     */
+    void updateHorizontalVelocity();
 private:
     /*! Compute whether floater should go up or down
         \param[out] is_going_up whether we should go up
@@ -515,6 +526,9 @@ private:
     /*! A counter for floater state
      */
     int m_floater_state_counter;
+    /*! Toggles whether actor is affected by wind
+     */
+    bool m_affected_by_wind;
 };
 
 /*! Exposes actor to context

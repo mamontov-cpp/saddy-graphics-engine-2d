@@ -51,7 +51,8 @@ m_lookup_angle(0),
 m_fixed_size(false),
 m_attack_modifier(0),
 m_defense(0),
-m_floater_state_counter(0)
+m_floater_state_counter(0),
+m_affected_by_wind(false)
 {
     m_key_states.reset();
 }
@@ -488,6 +489,11 @@ void game::Actor::init(bool no_sound)
             }
         }
 
+        if (isAffectedByWind() && m_game)
+        {
+            new_velocity_x += m_game->windSpeed();
+        }
+
         m_body->setCurrentTangentialVelocity(sad::p2d::Vector(new_velocity_x, new_velocity_y));
     }
     else
@@ -633,6 +639,10 @@ void game::Actor::setHorizontalVelocity(double value)
         v.setX(0.0);
     }
     v.setX(v.x() + value);
+    if (isAffectedByWind() && m_game)
+    {
+        v.setX(v.x() + m_game->windSpeed());
+    }
     this->m_body->setCurrentTangentialVelocity(v);
     
     m_own_horizontal_velocity = value;
@@ -727,6 +737,10 @@ void game::Actor::restOnPlatform(sad::p2d::Body* b, const  sad::p2d::Vector& old
     else
     { 
         own_velocity.setX(own_velocity.x() + m_own_horizontal_velocity);
+        if (isAffectedByWind() && m_game)
+        {
+            own_velocity.setX(own_velocity.x() + m_game->windSpeed());
+        }
     }
     m_body->setCurrentTangentialVelocity(own_velocity);
 
@@ -846,6 +860,10 @@ void game::Actor::testResting()
             else
             {
                 own_velocity.setX(own_velocity.x() + m_own_horizontal_velocity);
+                if (isAffectedByWind() && m_game)
+                {
+                    own_velocity.setX(own_velocity.x() + m_game->windSpeed());
+                }
             }
             m_body->setCurrentTangentialVelocity(own_velocity);
         }
@@ -1376,6 +1394,22 @@ void game::Actor::decrementFloaterStateCounter()
     }
 }
 
+void game::Actor::toggleIsAffectedByWind(bool affected)
+{
+    m_affected_by_wind = affected;
+}
+
+bool game::Actor::isAffectedByWind() const
+{
+    return m_affected_by_wind;
+}
+
+void game::Actor::updateHorizontalVelocity()
+{
+    // Force recompute for horizontal velocity for actor
+    setHorizontalVelocity(m_own_horizontal_velocity);
+}
+
 // ===================================== PRIVATE METHODS =====================================
 
 void game::Actor::computeIsGoingUpDownFlags(bool& is_going_up, bool& is_going_down)
@@ -1514,6 +1548,11 @@ sad::p2d::Vector game::Actor::computeVelocityForFloater()
         {
             result.setX(m_options->FloaterHorizontalVelocity);
         }
+    }
+
+    if (isAffectedByWind() && m_game)
+    {
+       result.setX(result.x()  + m_game->windSpeed());
     }
 
     if (is_going_up)

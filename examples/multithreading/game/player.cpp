@@ -16,6 +16,7 @@ game::Player::Player() : m_is_dead(false)
     });
     // Actor is destroyed automatically, added to make sure actor won't be destroyed by context
     m_actor.addRef();
+    m_actor.toggleIsAffectedByWind(true);
 }
 
 
@@ -353,6 +354,11 @@ int game::Player::defense() const
 void game::Player::takeDamage(int base_dmg)
 {
     m_actor.takeDamage(base_dmg);
+}
+
+void game::Player::updateHorizontalVelocity()
+{
+    m_actor.updateHorizontalVelocity();
 }
 
 // ===================================== UTILITY FUNCTIONS =====================================

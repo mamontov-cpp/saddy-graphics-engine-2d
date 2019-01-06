@@ -694,10 +694,13 @@ makePlatformGoOnWay("MovingPlatform4", "Way1");
 // Just a simple JS trigger
 
 addTriggerOnce(200, function() {
-    spawnItem("Simple spear", new sad.Point2D(400, 500));
+    //setWindSpeed(-20);
+    setWindSpeed(20);
+    spawnItem("Book of Permanent Flight", new sad.Point2D(400, 500));
 });
 
 addTriggerOnce(400, function() {
+    setWindSpeed(0);
     gamePrint("Player has reached point of " + player().middle().x  + "," + player().middle().y + " which is more than 400\n");
     //player().tryStartGoingUp();
     //spawnEnemyWalkerAt("player", new sad.Point2D(400, 500), "random_60_500");

@@ -379,6 +379,14 @@ public:
     /*! Clears item defintions
      */
     void clearItemDefinitions();
+    /*! Returns in-game wind speed
+     *  \param[in] speed of wind
+     */
+    double windSpeed() const;
+    /*! Sets wind speed
+     *  \param[in] wind_speed speed of wind
+     */
+    void setWindSpeed(double wind_speed);
 private:
     /*! Inits evaluation context
      */
@@ -551,4 +559,7 @@ private:
     /*! A score bar
      */
     game::ScoreBar* m_score_bar;
+    /*! A wind speed for game
+     */
+    double m_wind_speed;
 };

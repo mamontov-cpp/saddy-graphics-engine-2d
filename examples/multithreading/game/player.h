@@ -209,6 +209,9 @@ public:
      *  \param[in] base_dmg a base damage for projectile
      */
     void takeDamage(int base_dmg);
+    /*! Updates horizontal speed for actor
+     */
+    void updateHorizontalVelocity();
 private:
     /*! Player's inventory, that will be carried around
      */

@@ -83,7 +83,8 @@ m_physics_world(NULL),
 m_is_rendering_world_bodies(false),
 m_max_level_x(0.0),
 m_hit_animation_for_enemies(NULL),
-m_hit_animation_for_players(NULL)// NOLINT
+m_hit_animation_for_players(NULL),
+m_wind_speed(0)    // NOLINT
 {
     m_main_thread = new threads::GameThread();
     m_inventory_thread = new threads::GameThread();
@@ -1167,6 +1168,7 @@ void Game::changeSceneToPlayingScreen()
     m_triggers.clear();
     m_moving_platform_registry.clear();
     m_delayed_tasks.clear();
+    m_wind_speed = 0;
     this->clearProjectiles();
 
     SceneTransitionOptions options;
@@ -1180,21 +1182,6 @@ void Game::changeSceneToPlayingScreen()
 
     m_player->reset();
     m_player->inventory()->setOwner(m_player->actor());
-
-    game::Item::Definition* medal1 = new game::Item::Definition("icons_list/Ac_Medal01ng", "A medal", "Data ");
-    m_item_definitions.insert("icons_list/Ac_Medal01ng", medal1);
-    medal1->addRef();
-    m_player->inventory()->addItem(this->makeItem("icons_list/Ac_Medal01ng"));
-
-    game::Item::Definition* medal2 = new game::Item::Definition("icons_list/Ac_Medal02ng", "An item", "Data 2", true );
-    m_item_definitions.insert("icons_list/Ac_Medal02ng", medal2);
-    medal2->addRef();
-    m_player->inventory()->addItem(this->makeItem("icons_list/Ac_Medal02ng"));
-
-    game::Item::Definition* medal3 = new game::Item::Definition("icons_list/Ac_Medal03ng", "A stuff", "Data 3");
-    m_item_definitions.insert("icons_list/Ac_Medal03ng", medal3);
-    medal3->addRef();
-    m_player->inventory()->addItem(this->makeItem("icons_list/Ac_Medal03ng"));
 
     options.mainThread().LoadFunction = [this]() {  this->tryLoadGameScreen(); };
 
@@ -1747,6 +1734,16 @@ void Game::clearItemDefinitions()
     m_item_definitions.clear();
 }
 
+double Game::windSpeed() const
+{
+    return m_wind_speed;
+}
+
+void Game::setWindSpeed(double wind_speed)
+{
+    m_wind_speed = wind_speed;
+}
+
 void Game::disableGravity(sad::p2d::Body* b)
 {
     Game::setGravityForBody(b, sad::p2d::Vector(0.0, 0.0));
@@ -1899,6 +1896,11 @@ void Game::initContext()
     std::function<void(const sad::String&)> play_sound = [=](const sad::String& name) {
         this->playSound(name);
     };
+    std::function<void(double)> set_wind_speed = [=](double speed) {
+        this->setWindSpeed(speed);
+        this->player()->updateHorizontalVelocity();
+    };
+    
 
     m_eval_context->registerCallable("makePlatformGoOnWay", sad::dukpp03::make_lambda::from(make_platform_go_on_way));
     m_eval_context->registerCallable("addTrigger", sad::dukpp03::make_lambda::from(add_trigger));
@@ -1918,6 +1920,7 @@ void Game::initContext()
     m_eval_context->registerCallable("_spawnItem", sad::dukpp03::make_lambda::from(_spawn_item));
     m_eval_context->registerCallable("playSound", sad::dukpp03::make_lambda::from(play_sound));
     m_eval_context->registerCallable("_setLootForActor", sad::dukpp03::make_lambda::from(_set_loot_for_actor));
+    m_eval_context->registerCallable("setWindSpeed", sad::dukpp03::make_lambda::from(set_wind_speed));
 
     scripting::exposeSpawnEnemy(m_eval_context, this);
     game::exposeActorOptions(m_eval_context, this);
@@ -2209,7 +2212,8 @@ m_is_rendering_world_bodies(false),
 m_max_level_x(0),
 m_hit_animation_for_enemies(NULL),
 m_hit_animation_for_players(NULL),
-m_score_bar(NULL)
+m_score_bar(NULL),
+m_wind_speed(0)
 {
     throw std::logic_error("Not implemented");
 }
