@@ -691,16 +691,27 @@ var HDir = { "Right": 0, "Left": 1, "None" : 2};
 var VDir = { "Up": 0, "Down": 1,  "None": 2};
 
 makePlatformGoOnWay("MovingPlatform4", "Way1");
+
+var snow = snowParticles();
+snow.setFallingSpeed(300);
+snow.setSpeedupCoefficient(3.0);
+snow.setSpawnParticleDelay(100);
+snow.setSpawnParticleDelaySpan(50);
+snow.setMinAmountOfParticlesSpawned(1);
+snow.setMaxAmountOfParticlesSpawned(5);
+snow.setParticleName("bullets/red/xx_huge");
 // Just a simple JS trigger
 
 addTriggerOnce(200, function() {
     //setWindSpeed(-20);
-    setWindSpeed(20);
+    setWindSpeed(60);
+	snow.start();
     spawnItem("Book of Permanent Flight", new sad.Point2D(400, 500));
 });
 
 addTriggerOnce(400, function() {
     setWindSpeed(0);
+	snow.stop();
     gamePrint("Player has reached point of " + player().middle().x  + "," + player().middle().y + " which is more than 400\n");
     //player().tryStartGoingUp();
     //spawnEnemyWalkerAt("player", new sad.Point2D(400, 500), "random_60_500");

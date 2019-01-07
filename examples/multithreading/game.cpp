@@ -3,6 +3,7 @@
 #include "game/healthbar.h"
 #include "game/scorebar.h"
 #include "game/getpenetrationdepthforitem.h"
+#include "game/snowparticles.h"
 
 #include "threads/gamethread.h"
 
@@ -84,10 +85,13 @@ m_is_rendering_world_bodies(false),
 m_max_level_x(0.0),
 m_hit_animation_for_enemies(NULL),
 m_hit_animation_for_players(NULL),
-m_wind_speed(0)    // NOLINT
+m_wind_speed(0),
+m_snow_particles(NULL)// NOLINT
 {
     m_main_thread = new threads::GameThread();
     m_inventory_thread = new threads::GameThread();
+    m_snow_particles = new game::SnowParticles();
+    m_snow_particles->addRef();
 
     this->initContext();
 
@@ -139,6 +143,7 @@ m_wind_speed(0)    // NOLINT
 
 Game::~Game()  // NOLINT
 {
+    m_snow_particles->delRef();
     delete m_score_bar;
     m_hit_animation_for_players->delRef();
     m_hit_animation_for_enemies->delRef();
@@ -665,6 +670,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
                 this->m_player->testResting();
                 this->m_actors.testResting();
                 this->m_actors.process(this);
+                this->m_snow_particles->process();
                 this->m_step_task->enable();
                 this->m_step_task->process();
                 this->tryRenderDebugShapes();
@@ -1010,6 +1016,7 @@ void Game::changeSceneToStartingScreen()
     m_triggers.clear();
     m_actors.clear();
     m_delayed_tasks.clear();
+    m_snow_particles->clearParticleList();
     this->clearProjectiles();
 
     m_is_rendering_world_bodies = false;
@@ -1054,6 +1061,7 @@ void Game::changeSceneToLoseScreen()
     m_triggers.clear();
     m_actors.clear();
     m_delayed_tasks.clear();
+    m_snow_particles->clearParticleList();
     this->clearProjectiles();
 
     m_is_rendering_world_bodies = false;
@@ -1108,6 +1116,7 @@ void Game::changeSceneToWinScreen()
     m_triggers.clear();
     m_actors.clear();
     m_delayed_tasks.clear();
+    m_snow_particles->clearParticleList();
     this->clearProjectiles();
 
     m_is_rendering_world_bodies = false;
@@ -1192,6 +1201,7 @@ void Game::changeSceneToPlayingScreen()
         sad::db::populateScenesFromDatabase(main_renderer, db);
         sad::Scene* scene = db->objectByName<sad::Scene>("gui");
         scene->addNode(new game::HealthBar(this));
+        m_snow_particles->setGame(this);
         this->initGamePhysics();
         // When loaded we should evaluate initialization script
         game::clearItemPenetationDepths();
@@ -1744,6 +1754,16 @@ void Game::setWindSpeed(double wind_speed)
     m_wind_speed = wind_speed;
 }
 
+bool Game::isPaused() const
+{
+    return this->m_paused_state_machine.isInState("paused");
+}
+
+bool Game::isNowPlaying() const
+{
+    return this->m_state_machine.isInState("playing");
+}
+
 void Game::disableGravity(sad::p2d::Body* b)
 {
     Game::setGravityForBody(b, sad::p2d::Vector(0.0, 0.0));
@@ -1900,6 +1920,9 @@ void Game::initContext()
         this->setWindSpeed(speed);
         this->player()->updateHorizontalVelocity();
     };
+    std::function<game::SnowParticles*()> snow_particles = [=]() -> game::SnowParticles* {
+        return m_snow_particles;
+    };
     
 
     m_eval_context->registerCallable("makePlatformGoOnWay", sad::dukpp03::make_lambda::from(make_platform_go_on_way));
@@ -1921,6 +1944,7 @@ void Game::initContext()
     m_eval_context->registerCallable("playSound", sad::dukpp03::make_lambda::from(play_sound));
     m_eval_context->registerCallable("_setLootForActor", sad::dukpp03::make_lambda::from(_set_loot_for_actor));
     m_eval_context->registerCallable("setWindSpeed", sad::dukpp03::make_lambda::from(set_wind_speed));
+    m_eval_context->registerCallable("snowParticles", sad::dukpp03::make_lambda::from(snow_particles));
 
     scripting::exposeSpawnEnemy(m_eval_context, this);
     game::exposeActorOptions(m_eval_context, this);
@@ -1931,6 +1955,7 @@ void Game::initContext()
     game::exposePlayer(m_eval_context, this);
     game::exposeActor(m_eval_context);
     game::exposeItem(m_eval_context);
+    game::exposeSnowParticles(m_eval_context);
     bots::shootingstrategies::exposeShootingStrategy(m_eval_context);
     bots::shootingstrategies::exposeFixedAngleStrategy(m_eval_context);
     bots::shootingstrategies::exposePlayerLocationStrategy(m_eval_context);
@@ -2188,32 +2213,33 @@ void Game::tryLoadIdenticalScreenDatabase(bool* loaded, const sad::String& db_na
 }
 
 Game::Game(const Game&)  // NOLINT
-:
-m_main_thread(NULL),
-m_inventory_thread(NULL),
-m_is_quitting(false),
-m_main_menu_state(Game::GMMS_PLAY), m_score(0),
-m_highscore(0),
-m_loaded_options_database{false, false},
-m_loaded_lose_screen_database{false, false},
-m_loaded_win_screen_database{false, false},
-m_loaded_game_screen(false),
-m_theme_playing(NULL),
-m_transition_process(NULL),
-m_inventory_node(NULL),
-m_inventory_popup(NULL),
-m_player(NULL),
-m_eval_context(NULL),
-m_physics_world(NULL),
-m_step_task(NULL),
-m_bounce_solver(NULL),
-m_bounce_solver_for_bullets(NULL),
-m_is_rendering_world_bodies(false),
-m_max_level_x(0),
-m_hit_animation_for_enemies(NULL),
-m_hit_animation_for_players(NULL),
-m_score_bar(NULL),
-m_wind_speed(0)
+    :
+    m_main_thread(NULL),
+    m_inventory_thread(NULL),
+    m_is_quitting(false),
+    m_main_menu_state(Game::GMMS_PLAY), m_score(0),
+    m_highscore(0),
+    m_loaded_options_database{false, false},
+    m_loaded_lose_screen_database{false, false},
+    m_loaded_win_screen_database{false, false},
+    m_loaded_game_screen(false),
+    m_theme_playing(NULL),
+    m_transition_process(NULL),
+    m_inventory_node(NULL),
+    m_inventory_popup(NULL),
+    m_player(NULL),
+    m_eval_context(NULL),
+    m_physics_world(NULL),
+    m_step_task(NULL),
+    m_bounce_solver(NULL),
+    m_bounce_solver_for_bullets(NULL),
+    m_is_rendering_world_bodies(false),
+    m_max_level_x(0),
+    m_hit_animation_for_enemies(NULL),
+    m_hit_animation_for_players(NULL),
+    m_score_bar(NULL),
+    m_wind_speed(0),
+    m_snow_particles(NULL)
 {
     throw std::logic_error("Not implemented");
 }

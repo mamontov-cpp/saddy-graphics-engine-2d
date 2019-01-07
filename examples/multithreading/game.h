@@ -52,6 +52,7 @@ namespace game
 {
 class Item;
 class ScoreBar;
+class SnowParticles;
 }
 
 namespace nodes
@@ -380,13 +381,21 @@ public:
      */
     void clearItemDefinitions();
     /*! Returns in-game wind speed
-     *  \param[in] speed of wind
+     *  \return speed of wind
      */
     double windSpeed() const;
     /*! Sets wind speed
      *  \param[in] wind_speed speed of wind
      */
     void setWindSpeed(double wind_speed);
+    /*! Returns whether game is paused
+     *  \return whether game is paused
+     */
+    bool isPaused() const;
+    /*! Returns is game is now playing
+     *  \return whether game is now playing
+     */
+    bool isNowPlaying() const;
 private:
     /*! Inits evaluation context
      */
@@ -562,4 +571,7 @@ private:
     /*! A wind speed for game
      */
     double m_wind_speed;
+    /*! A snow particles for game
+     */
+    game::SnowParticles* m_snow_particles;
 };
