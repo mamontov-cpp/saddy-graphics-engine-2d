@@ -186,7 +186,7 @@ void game::SnowParticles::spawnParticles()
                 sprite->setScene(m_source_scene);
                 sprite->setTreeName(m_source_scene->renderer(), "");
                 sprite->set(this->particleName());
-                double lx = x;
+                double lx;
                 double ly = y;
                 if ((rand() > RAND_MAX / 2) || sad::is_fuzzy_zero(m_game->windSpeed())) 
                 {

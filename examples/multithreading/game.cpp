@@ -1962,7 +1962,6 @@ void Game::initContext()
     bots::shootingstrategies::exposeRandomStrategy(m_eval_context);
     bots::shootingstrategies::exposeTurningStrategy(m_eval_context);
 
-
     // Fetch and run game initialization script
     sad::Maybe<sad::String> maybe_script = sad::slurp("examples/multithreading/game_init.js", m_main_thread->renderer());
     if (maybe_script.exists())
