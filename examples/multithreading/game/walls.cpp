@@ -162,7 +162,7 @@ void game::Walls::initShapes() const
         );
         r->setRect(rect);
         m_right_wall->setShape(r);
-        m_left_wall->initPosition((rect[0] + rect[2]) / 2.0);
+        m_right_wall->initPosition((rect[0] + rect[2]) / 2.0);
     }
 
     if (m_bottom_wall)

@@ -38,5 +38,6 @@
 	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/win.mp3", "name" : "win" },
 	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/win_screen.mp3", "name" : "win_screen" },
 	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/item_taken.wav", "name" : "item_taken" },
-	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/item_drop.wav", "name" : "item_drop" }
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/item_drop.wav", "name" : "item_drop" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/next_part.wav", "name" : "next_part" }
 ]

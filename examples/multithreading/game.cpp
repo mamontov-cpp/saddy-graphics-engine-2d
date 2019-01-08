@@ -1090,7 +1090,6 @@ void Game::changeSceneToLoseScreen()
 
     options.mainThread().OnLoadedFunction = [=]() {
         init_screen(main_renderer);
-        main_renderer->setGlobalTranslationOffset(sad::Point2D(0, 0));
     };
 
     options.inventoryThread().OnLoadedFunction = [=]() {
@@ -1144,7 +1143,6 @@ void Game::changeSceneToWinScreen()
     };
     options.mainThread().OnLoadedFunction = [=]() {
         init_screen_for_renderer(main_renderer);
-        main_renderer->setGlobalTranslationOffset(sad::Point2D(0, 0));
     };
 
     options.inventoryThread().OnLoadedFunction = [=]() {
@@ -1189,7 +1187,6 @@ void Game::changeSceneToPlayingScreen()
     
 
     sad::Renderer* main_renderer = m_main_thread->renderer();
-    main_renderer->setGlobalTranslationOffset(sad::Point2D(0, 0));
     sad::Renderer* inventory_renderer = m_inventory_thread->renderer();
 
     m_player->reset();
@@ -1259,7 +1256,6 @@ void Game::changeSceneToOptions()
 
     SceneTransitionOptions options;
     sad::Renderer* main_renderer = m_main_thread->renderer();
-    main_renderer->setGlobalTranslationOffset(sad::Point2D(0, 0));
 
     sad::Renderer* inventory_renderer = m_inventory_thread->renderer();
 

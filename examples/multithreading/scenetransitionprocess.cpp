@@ -34,8 +34,17 @@ void SceneTransitionProcess::start(const SceneTransitionOptions& options)
 
     m_game->enterTransitioningState();
 
+    double px = main->Renderer->globalTranslationOffset().x(), py = main->Renderer->globalTranslationOffset().y();
+    double w = main->Sprite->area().width(), h = main->Sprite->area().height();
     main->Sprite->setColor(sad::AColor(0, 0, 0, 255));
+    main->Sprite->setArea(sad::Rect2D(-px, 0, -px + w, py + h));
+
     inventory->Sprite->setColor(sad::AColor(0, 0, 0, 255));
+    px = inventory->Renderer->globalTranslationOffset().x();
+    py = inventory->Renderer->globalTranslationOffset().y();
+    w = inventory->Sprite->area().width();
+    h = inventory->Sprite->area().height();
+    inventory->Sprite->setArea(sad::Rect2D(-px, 0, -px + w, py + h));
 
     main->ExecutedOnLoaded = false;
     main->FinishedDarkening = false;
@@ -76,6 +85,11 @@ void SceneTransitionProcess::start(const SceneTransitionOptions& options)
             delete main->Thread;
             main->Thread = NULL;
             inventory->LoadWaitingLock.unlock();
+
+            r->setGlobalTranslationOffset(sad::Point2D(0, 0));
+            double lpx = main->Renderer->globalTranslationOffset().x(), lpy = main->Renderer->globalTranslationOffset().y();
+            double lw = main->Sprite->area().width(), lh = main->Sprite->area().height();
+            main->Sprite->setArea(sad::Rect2D(-lpx, 0, -lpx + lw, lpy + lh));
 
             (opts->mainThread().OnLoadedFunction)();
             r->scenes()[r->scenes().size() - 1]->removeNode(main->Sprite);
@@ -121,6 +135,13 @@ void SceneTransitionProcess::start(const SceneTransitionOptions& options)
             delete inventory->Thread;
             inventory->Thread = NULL;
             main->LoadWaitingLock.unlock();
+            // Reset offset and translation (and also sprite position)
+            r->setGlobalTranslationOffset(sad::Point2D(0, 0));
+            double lpx = inventory->Renderer->globalTranslationOffset().x();
+            double lpy = inventory->Renderer->globalTranslationOffset().y();
+            double lw = inventory->Sprite->area().width();
+            double lh = inventory->Sprite->area().height();
+            inventory->Sprite->setArea(sad::Rect2D(-lpx, 0, -lpx + lw, lpy + lh));
 
             (opts->inventoryThread().OnLoadedFunction)();
             r->scenes()[r->scenes().size() - 1]->removeNode(inventory->Sprite);
