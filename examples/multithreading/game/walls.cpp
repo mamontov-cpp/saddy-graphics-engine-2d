@@ -147,8 +147,9 @@ void game::Walls::initShapes() const
             m_top_bound + game::Walls::LENGTH
         );
         r->setRect(rect);
+        sad::Point2D center = (rect[0] + rect[2]) / 2.0;
         m_left_wall->setShape(r);
-        m_left_wall->initPosition((rect[0] + rect[2]) / 2.0);
+        m_left_wall->move(center - m_left_wall->currentShape()->center());
     }
 
     if (m_right_wall)
@@ -161,8 +162,9 @@ void game::Walls::initShapes() const
             m_top_bound + game::Walls::LENGTH
         );
         r->setRect(rect);
+        sad::Point2D center = (rect[0] + rect[2]) / 2.0;
         m_right_wall->setShape(r);
-        m_right_wall->initPosition((rect[0] + rect[2]) / 2.0);
+        m_right_wall->move(center - m_right_wall->currentShape()->center());
     }
 
     if (m_bottom_wall)
@@ -175,8 +177,9 @@ void game::Walls::initShapes() const
             m_bottom_bound
         );
         r->setRect(rect);
+        sad::Point2D center = (rect[0] + rect[2]) / 2.0;
         m_bottom_wall->setShape(r);
-        m_bottom_wall->initPosition((rect[0] + rect[2]) / 2.0);
+        m_bottom_wall->move(center - m_bottom_wall->currentShape()->center());
     }
 
     if (m_top_wall)
@@ -189,8 +192,9 @@ void game::Walls::initShapes() const
             m_top_bound + game::Walls::LENGTH
         );
         r->setRect(rect);
+        sad::Point2D center = (rect[0] + rect[2]) / 2.0;
         m_top_wall->setShape(r);
-        m_top_wall->initPosition((rect[0] + rect[2]) / 2.0);
+        m_top_wall->move(center - m_top_wall->currentShape()->center());
     }
 }
 
