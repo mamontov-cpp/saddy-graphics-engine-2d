@@ -23,7 +23,7 @@
         "global_renderer_offset":{
             "type":"sad::Point3D",
             "value":{
-                "x":-2400.000000,
+                "x":0.000000,
                 "y":0.000000,
                 "z":0.000000
             }
@@ -531,6 +531,62 @@
                 "angle":0.000000,
                 "area":{
                     "p1":{
+                        "x":0.000000,
+                        "y":0.000000
+                    },
+                    "p2":{
+                        "x":800.000000,
+                        "y":0.000000
+                    },
+                    "p3":{
+                        "x":800.000000,
+                        "y":600.000000
+                    },
+                    "p4":{
+                        "x":0.000000,
+                        "y":600.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":6.000000,
+                "majorid":13.000000,
+                "minorid":8.000000,
+                "name":"FgTile",
+                "options":"backgrounds_list\/set3_hillsng",
+                "scene":2.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":1.000000,
+                        "y":965.000000
+                    },
+                    "p2":{
+                        "x":641.000000,
+                        "y":965.000000
+                    },
+                    "p3":{
+                        "x":641.000000,
+                        "y":1445.000000
+                    },
+                    "p4":{
+                        "x":1.000000,
+                        "y":1445.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
                         "x":650.000000,
                         "y":79.000000
                     },
@@ -611,27 +667,27 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":2.000000,
-                "majorid":13.000000,
-                "minorid":8.000000,
-                "name":"FgTile",
-                "options":"backgrounds_list\/set3_hillsng",
+                "layer":3.000000,
+                "majorid":14.000000,
+                "minorid":9.000000,
+                "name":"BgTile",
+                "options":"backgrounds_list\/set3_tilesng",
                 "scene":2.000000,
                 "texturecoordinates":{
                     "p1":{
-                        "x":1.000000,
+                        "x":643.000000,
                         "y":965.000000
                     },
                     "p2":{
-                        "x":641.000000,
+                        "x":1283.000000,
                         "y":965.000000
                     },
                     "p3":{
-                        "x":641.000000,
+                        "x":1283.000000,
                         "y":1445.000000
                     },
                     "p4":{
-                        "x":1.000000,
+                        "x":643.000000,
                         "y":1445.000000
                     }
                 },
@@ -683,62 +739,6 @@
                 "textellipsisposition":0.000000,
                 "textellipsispositionforlines":0.000000,
                 "type":"sad::Label",
-                "visible":true
-            },
-            {
-                "active":true,
-                "angle":0.000000,
-                "area":{
-                    "p1":{
-                        "x":0.000000,
-                        "y":0.000000
-                    },
-                    "p2":{
-                        "x":800.000000,
-                        "y":0.000000
-                    },
-                    "p3":{
-                        "x":800.000000,
-                        "y":600.000000
-                    },
-                    "p4":{
-                        "x":0.000000,
-                        "y":600.000000
-                    }
-                },
-                "color":{
-                    "a":0.000000,
-                    "b":255.000000,
-                    "g":255.000000,
-                    "r":255.000000
-                },
-                "flipx":false,
-                "flipy":false,
-                "layer":1.000000,
-                "majorid":14.000000,
-                "minorid":9.000000,
-                "name":"BgTile",
-                "options":"backgrounds_list\/set3_tilesng",
-                "scene":2.000000,
-                "texturecoordinates":{
-                    "p1":{
-                        "x":643.000000,
-                        "y":965.000000
-                    },
-                    "p2":{
-                        "x":1283.000000,
-                        "y":965.000000
-                    },
-                    "p3":{
-                        "x":1283.000000,
-                        "y":1445.000000
-                    },
-                    "p4":{
-                        "x":643.000000,
-                        "y":1445.000000
-                    }
-                },
-                "type":"sad::Sprite2D",
                 "visible":true
             },
             {
@@ -1453,7 +1453,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":3.000000,
+                "layer":1.000000,
                 "majorid":42.000000,
                 "minorid":29.000000,
                 "name":"Background2",
@@ -1565,7 +1565,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":5.000000,
+                "layer":7.000000,
                 "majorid":44.000000,
                 "minorid":31.000000,
                 "name":"FgTile2",
@@ -1621,7 +1621,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":6.000000,
+                "layer":2.000000,
                 "majorid":45.000000,
                 "minorid":32.000000,
                 "name":"Background3",
@@ -1677,7 +1677,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":7.000000,
+                "layer":5.000000,
                 "majorid":46.000000,
                 "minorid":33.000000,
                 "name":"BgTile3",

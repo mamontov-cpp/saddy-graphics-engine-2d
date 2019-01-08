@@ -677,9 +677,6 @@ void game::Actor::incrementVerticalVelocity(double value)
         v.setY(0.0);
     }
     this->m_body->setCurrentTangentialVelocity(v + sad::p2d::Vector(0, value));
-    SL_LOCAL_DEBUG(fmt::Format("Next tangential velocity after increment: {0}, {1}") << m_body->nextTangentialVelocity().x() << m_body->nextTangentialVelocity().y(),
-        *(this->game()->rendererForMainThread())
-    );
 }
 
 void game::Actor::enableGravity() const

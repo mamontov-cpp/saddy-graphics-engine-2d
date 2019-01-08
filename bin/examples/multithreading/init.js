@@ -701,8 +701,13 @@ snow.setMinAmountOfParticlesSpawned(1);
 snow.setMaxAmountOfParticlesSpawned(5);
 snow.setParticleName("bullets/red/xx_huge");
 
-setMaxLevelX(2400);
-setRightBound(2400);
+cameraMovement().setMoveLeftBoundary(350);
+cameraMovement().setMoveRightBoundary(450);
+cameraMovement().setMaxShiftTime(2000);
+cameraMovement().setArrowPosition(new sad.Point2D(775,300));
+
+setMaxLevelX(3200);
+setRightBound(3200);
 
 // Just a simple JS trigger
 
@@ -711,7 +716,8 @@ addTriggerOnce(200, function() {
     setWindSpeed(60);
     snow.start();
     spawnItem("Book of Permanent Flight", new sad.Point2D(400, 500));
-    setGlobalOffset(new sad.Point2D(-50, 0));
+    cameraMovement().showArrow();
+    //setGlobalOffset(new sad.Point2D(-50, 0));
 });
 
 addTriggerOnce(400, function() {
@@ -737,7 +743,7 @@ addTriggerOnce(400, function() {
     settings.ApplyGravity = false;
     settings.RestitutionCoefficient = 0.9;
     weapon.setSettings(settings);
-    actor.pushWeapon(weapon);
+    //actor.pushWeapon(weapon);
     /*
     var strategy = new FixedAngleStrategy(Math.PI);
     var strategy = new TurningStrategy(2.0);
@@ -746,12 +752,20 @@ addTriggerOnce(400, function() {
     var strategy = new RandomStrategy();
     strategy.setInterval(100);
     
-    actor.setShootingStrategy(strategy); 
+    //actor.setShootingStrategy(strategy); 
     
     var actor = spawnPlatformPatrol("enemy_walker", new sad.Point2D(220, 300));
     setLootForActor(actor, {"Gold coin" : 50, "Helmet": 50});
 });
 
 addTriggerOnce(750, function() {
+    lockScreen();
+    //cameraMovement().showArrow();
+    //triggerWinGame();
+});
+
+addTriggerOnce(950, function() {
+    unlockScreen();
+    //cameraMovement().showArrow();
     //triggerWinGame();
 });

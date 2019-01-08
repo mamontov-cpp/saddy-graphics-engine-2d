@@ -57,6 +57,8 @@
 #include "weapons/weapon.h"
 #include "bots/nullbot.h"
 
+#include "cameramovement.h"
+
 const sad::Point2D Game::GravityForceValue(0.0, -300.0); // -300 is arbitrarily defined, to make player fall slowly
 
 const int Game::BasicEnemyLivesCount = 3; //< Amount of lives for enemy
@@ -86,7 +88,9 @@ m_max_level_x(0.0),
 m_hit_animation_for_enemies(NULL),
 m_hit_animation_for_players(NULL),
 m_wind_speed(0),
-m_snow_particles(NULL)// NOLINT
+m_snow_particles(NULL),
+m_camera_movement(NULL),
+m_winning(false)// NOLINT
 {
     m_main_thread = new threads::GameThread();
     m_inventory_thread = new threads::GameThread();
@@ -139,11 +143,16 @@ m_snow_particles(NULL)// NOLINT
     m_player->setHurtAnimation(m_hit_animation_for_players);
 
     m_score_bar = new game::ScoreBar(this);
+
+    m_camera_movement = new CameraMovement(this);
+    m_camera_movement->addRef();
 }
 
 Game::~Game()  // NOLINT
 {
     m_snow_particles->delRef();
+    m_camera_movement->delRef();
+
     delete m_score_bar;
     m_hit_animation_for_players->delRef();
     m_hit_animation_for_enemies->delRef();
@@ -670,6 +679,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
                 this->m_player->testResting();
                 this->m_actors.testResting();
                 this->m_actors.process(this);
+                this->m_camera_movement->process();
                 this->m_snow_particles->process();
                 this->m_step_task->enable();
                 this->m_step_task->process();
@@ -974,6 +984,7 @@ void Game::enterPausedState()
 
 void Game::triggerWinGame()
 {
+    m_winning = true;;
     // We append task here to avoid dangers of dying inside physics loop
     this->rendererForMainThread()->pipeline()->appendTask([=] {
         this->m_player->toggleIsDead(true);
@@ -1178,6 +1189,7 @@ void Game::changeSceneToPlayingScreen()
     m_moving_platform_registry.clear();
     m_delayed_tasks.clear();
     m_wind_speed = 0;
+    m_winning = false;
     this->clearProjectiles();
 
     SceneTransitionOptions options;
@@ -1198,6 +1210,7 @@ void Game::changeSceneToPlayingScreen()
         sad::db::Database* db = main_renderer->database("gamescreen");
         this->m_moving_platform_registry.setDatabase(db);
         this->m_score_bar->init();
+        this->m_camera_movement->init();
         sad::db::populateScenesFromDatabase(main_renderer, db);
         sad::Scene* scene = db->objectByName<sad::Scene>("gui");
         scene->addNode(new game::HealthBar(this));
@@ -1765,6 +1778,16 @@ bool Game::isNowPlaying() const
     return this->m_state_machine.isInState("playing");
 }
 
+double Game::maxLevelX() const
+{
+    return m_max_level_x;
+}
+
+bool Game::isWinning() const
+{
+    return m_winning;
+}
+
 void Game::disableGravity(sad::p2d::Body* b)
 {
     Game::setGravityForBody(b, sad::p2d::Vector(0.0, 0.0));
@@ -1924,6 +1947,9 @@ void Game::initContext()
     std::function<game::SnowParticles*()> snow_particles = [=]() -> game::SnowParticles* {
         return m_snow_particles;
     };
+    std::function<CameraMovement*()> camera_movement = [=]() -> CameraMovement* {
+        return m_camera_movement;
+    };
     std::function<void(const sad::Point2D&)> set_global_offset = [=](const sad::Point2D& p) {
         this->rendererForMainThread()->setGlobalTranslationOffset(p);
     };
@@ -1935,6 +1961,19 @@ void Game::initContext()
     };
     std::function<void(double)> set_right_bound = [=](double x) {
         this->m_walls.setRightBound(x);
+    };
+    std::function<void()> lock_screen = [=]() {
+        sad::Point2D p = this->rendererForMainThread()->globalTranslationOffset();
+        this->m_walls.setLeftBound(p.x() * -1.0);
+        this->m_walls.setRightBound(p.x() * -1.0 + this->rendererForMainThread()->settings().width());
+        this->m_camera_movement->lock();
+    };
+
+    std::function<void()> unlock_screen = [=]() {
+        this->m_walls.setLeftBound(0);
+        this->m_walls.setRightBound(this->maxLevelX());
+        this->m_camera_movement->unlock();
+        this->m_camera_movement->showArrow();
     };
 
 
@@ -1962,6 +2001,9 @@ void Game::initContext()
     m_eval_context->registerCallable("setMaxLevelX", sad::dukpp03::make_lambda::from(set_max_level_x));
     m_eval_context->registerCallable("setLeftBound", sad::dukpp03::make_lambda::from(set_left_bound));
     m_eval_context->registerCallable("setRightBound", sad::dukpp03::make_lambda::from(set_right_bound));
+    m_eval_context->registerCallable("cameraMovement", sad::dukpp03::make_lambda::from(camera_movement));
+    m_eval_context->registerCallable("lockScreen", sad::dukpp03::make_lambda::from(lock_screen));
+    m_eval_context->registerCallable("unlockScreen", sad::dukpp03::make_lambda::from(unlock_screen));
 
     scripting::exposeSpawnEnemy(m_eval_context, this);
     game::exposeActorOptions(m_eval_context, this);
@@ -1973,6 +2015,7 @@ void Game::initContext()
     game::exposeActor(m_eval_context);
     game::exposeItem(m_eval_context);
     game::exposeSnowParticles(m_eval_context);
+    exposeCameraMovement(m_eval_context);
     bots::shootingstrategies::exposeShootingStrategy(m_eval_context);
     bots::shootingstrategies::exposeFixedAngleStrategy(m_eval_context);
     bots::shootingstrategies::exposePlayerLocationStrategy(m_eval_context);
@@ -2255,7 +2298,9 @@ Game::Game(const Game&)  // NOLINT
     m_hit_animation_for_players(NULL),
     m_score_bar(NULL),
     m_wind_speed(0),
-    m_snow_particles(NULL)
+    m_snow_particles(NULL),
+    m_camera_movement(NULL),
+    m_winning(false)
 {
     throw std::logic_error("Not implemented");
 }

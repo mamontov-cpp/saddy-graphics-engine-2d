@@ -213,6 +213,9 @@
     <ClCompile Include="game\snowparticles.cpp">
       <Filter>Файлы исходного кода\game</Filter>
     </ClCompile>
+    <ClCompile Include="cameramovement.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -373,6 +376,9 @@
     </ClInclude>
     <ClInclude Include="game\snowparticles.h">
       <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="cameramovement.h">
+      <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

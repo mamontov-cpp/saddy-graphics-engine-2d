@@ -35,6 +35,9 @@
 #include "scenetransitionprocess.h"
 #include "delayedtasks.h"
 #include "optionsscreen.h"
+
+class CameraMovement;
+
 namespace sad
 {
 
@@ -396,6 +399,15 @@ public:
      *  \return whether game is now playing
      */
     bool isNowPlaying() const;
+    /*! Returns max level x constant, that respresents
+     *  how far does level go
+     *  \return max level constant
+     */
+    double maxLevelX() const;
+    /*! Whether user is winning
+     *  \return whether user is winning
+     */
+    bool isWinning() const;
 private:
     /*! Inits evaluation context
      */
@@ -574,4 +586,10 @@ private:
     /*! A snow particles for game
      */
     game::SnowParticles* m_snow_particles;
+    /*! A camera movement data
+     */
+    CameraMovement* m_camera_movement;
+    /*! Whether user is winning
+     */
+    bool m_winning;
 };
