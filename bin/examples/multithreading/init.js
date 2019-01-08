@@ -700,18 +700,23 @@ snow.setSpawnParticleDelaySpan(50);
 snow.setMinAmountOfParticlesSpawned(1);
 snow.setMaxAmountOfParticlesSpawned(5);
 snow.setParticleName("bullets/red/xx_huge");
+
+setMaxLevelX(2400);
+setRightBound(2400);
+
 // Just a simple JS trigger
 
 addTriggerOnce(200, function() {
     //setWindSpeed(-20);
     setWindSpeed(60);
-	snow.start();
+    snow.start();
     spawnItem("Book of Permanent Flight", new sad.Point2D(400, 500));
+    setGlobalOffset(new sad.Point2D(-50, 0));
 });
 
 addTriggerOnce(400, function() {
     setWindSpeed(0);
-	snow.stop();
+    snow.stop();
     gamePrint("Player has reached point of " + player().middle().x  + "," + player().middle().y + " which is more than 400\n");
     //player().tryStartGoingUp();
     //spawnEnemyWalkerAt("player", new sad.Point2D(400, 500), "random_60_500");
@@ -748,5 +753,5 @@ addTriggerOnce(400, function() {
 });
 
 addTriggerOnce(750, function() {
-    triggerWinGame();
+    //triggerWinGame();
 });

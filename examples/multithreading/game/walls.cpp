@@ -123,7 +123,7 @@ void game::Walls::setBottomBound(double bound)
 
 void game::Walls::addToWorld(sad::p2d::World* world) const
 {
-    if (world->doesGroupExists("walls") == false)
+    if (!world->doesGroupExists("walls"))
     {
         world->addGroup("walls");
     }

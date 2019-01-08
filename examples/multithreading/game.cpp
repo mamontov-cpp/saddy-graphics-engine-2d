@@ -1090,6 +1090,7 @@ void Game::changeSceneToLoseScreen()
 
     options.mainThread().OnLoadedFunction = [=]() {
         init_screen(main_renderer);
+        main_renderer->setGlobalTranslationOffset(sad::Point2D(0, 0));
     };
 
     options.inventoryThread().OnLoadedFunction = [=]() {
@@ -1143,6 +1144,7 @@ void Game::changeSceneToWinScreen()
     };
     options.mainThread().OnLoadedFunction = [=]() {
         init_screen_for_renderer(main_renderer);
+        main_renderer->setGlobalTranslationOffset(sad::Point2D(0, 0));
     };
 
     options.inventoryThread().OnLoadedFunction = [=]() {
@@ -1187,6 +1189,7 @@ void Game::changeSceneToPlayingScreen()
     
 
     sad::Renderer* main_renderer = m_main_thread->renderer();
+    main_renderer->setGlobalTranslationOffset(sad::Point2D(0, 0));
     sad::Renderer* inventory_renderer = m_inventory_thread->renderer();
 
     m_player->reset();
@@ -1256,6 +1259,8 @@ void Game::changeSceneToOptions()
 
     SceneTransitionOptions options;
     sad::Renderer* main_renderer = m_main_thread->renderer();
+    main_renderer->setGlobalTranslationOffset(sad::Point2D(0, 0));
+
     sad::Renderer* inventory_renderer = m_inventory_thread->renderer();
 
     options.mainThread().LoadFunction = [this]() {  this->tryLoadOptionsScreen(false); };
@@ -1923,7 +1928,19 @@ void Game::initContext()
     std::function<game::SnowParticles*()> snow_particles = [=]() -> game::SnowParticles* {
         return m_snow_particles;
     };
-    
+    std::function<void(const sad::Point2D&)> set_global_offset = [=](const sad::Point2D& p) {
+        this->rendererForMainThread()->setGlobalTranslationOffset(p);
+    };
+    std::function<void(double)> set_max_level_x = [=](double x)  {
+        this->m_max_level_x = x;
+    };
+    std::function<void(double)> set_left_bound = [=](double x) {
+        this->m_walls.setLeftBound(x);
+    };
+    std::function<void(double)> set_right_bound = [=](double x) {
+        this->m_walls.setRightBound(x);
+    };
+
 
     m_eval_context->registerCallable("makePlatformGoOnWay", sad::dukpp03::make_lambda::from(make_platform_go_on_way));
     m_eval_context->registerCallable("addTrigger", sad::dukpp03::make_lambda::from(add_trigger));
@@ -1945,6 +1962,10 @@ void Game::initContext()
     m_eval_context->registerCallable("_setLootForActor", sad::dukpp03::make_lambda::from(_set_loot_for_actor));
     m_eval_context->registerCallable("setWindSpeed", sad::dukpp03::make_lambda::from(set_wind_speed));
     m_eval_context->registerCallable("snowParticles", sad::dukpp03::make_lambda::from(snow_particles));
+    m_eval_context->registerCallable("setGlobalOffset", sad::dukpp03::make_lambda::from(set_global_offset));
+    m_eval_context->registerCallable("setMaxLevelX", sad::dukpp03::make_lambda::from(set_max_level_x));
+    m_eval_context->registerCallable("setLeftBound", sad::dukpp03::make_lambda::from(set_left_bound));
+    m_eval_context->registerCallable("setRightBound", sad::dukpp03::make_lambda::from(set_right_bound));
 
     scripting::exposeSpawnEnemy(m_eval_context, this);
     game::exposeActorOptions(m_eval_context, this);

@@ -48,10 +48,11 @@ void game::SnowParticles::process()
             double t = 1.0 / m_game->rendererForMainThread()->fps();
 
             sad::Point2D dp(h_speed * t, v_speed * t * (-1));
+            double oy = m_game->rendererForMainThread()->globalTranslationOffset().y();
             for(size_t i = 0 ; i < m_particles.size(); i++)
             {
                 m_particles[i]->moveBy(dp);
-                if (m_particles[i]->area()[2].y() < 0)
+                if (m_particles[i]->area()[2].y() < oy)
                 {
                     m_source_scene->removeNode(m_particles[i]);
                     m_particles.removeAt(i);
@@ -179,6 +180,9 @@ void game::SnowParticles::spawnParticles()
             double y = settings.height();
             double x = settings.width();
 
+            double ox = m_game->rendererForMainThread()->globalTranslationOffset().x();
+            double oy = m_game->rendererForMainThread()->globalTranslationOffset().y();
+
             int amount = static_cast<int>(ceil(static_cast<double>(rand()) / RAND_MAX * (m_max_amount_of_particles_spawned - m_min_amount_of_particles_spawned)) + m_min_amount_of_particles_spawned);
             for (int i = 0; i < amount; i++)
             {
@@ -187,22 +191,22 @@ void game::SnowParticles::spawnParticles()
                 sprite->setTreeName(m_source_scene->renderer(), "");
                 sprite->set(this->particleName());
                 double lx;
-                double ly = y;
+                double ly = y + oy;
                 if ((rand() > RAND_MAX / 2) || sad::is_fuzzy_zero(m_game->windSpeed())) 
                 {
-                    lx = static_cast<double>(rand()) / RAND_MAX * x;
+                    lx = static_cast<double>(rand()) / RAND_MAX * x - ox;
                 }
                 else
                 {
                     if (m_game->windSpeed() < 0)
                     {
-                        ly = static_cast<double>(rand()) / RAND_MAX * y;
-                        lx = x * (0.75 + static_cast<double>(rand()) / RAND_MAX * 0.25);
+                        ly = static_cast<double>(rand()) / RAND_MAX * y + oy;
+                        lx = x * (0.75 + static_cast<double>(rand()) / RAND_MAX * 0.25) - ox;
                     }
                     else
                     {
-                        ly = static_cast<double>(rand()) / RAND_MAX * y;
-                        lx = x * (0.00 + static_cast<double>(rand()) / RAND_MAX * 0.25);
+                        ly = static_cast<double>(rand()) / RAND_MAX * y + oy;
+                        lx = x * (0.00 + static_cast<double>(rand()) / RAND_MAX * 0.25) - ox;
                     }
                 }
                 sprite->moveTo(sad::Point2D(lx, ly));

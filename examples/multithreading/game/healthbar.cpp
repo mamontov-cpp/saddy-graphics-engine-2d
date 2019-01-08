@@ -62,8 +62,9 @@ void game::HealthBar::rendererChanged()
 void game::HealthBar::render()
 {
     int lives = m_game->player()->lives();
-    double x = m_scene->camera().TranslationOffset.x();
-    double y = m_scene->camera().TranslationOffset.y();
+    sad::Point2D gox = m_game->rendererForMainThread()->globalTranslationOffset();
+    double x = gox.x() * (-1);
+    double y = gox.y();
     m_multiplier_label->setVisible(lives > MAX_VISIBLE_HEARTS);
 
     m_multiplier_label->setPoint(m_multiplier_label_point + sad::Point2D(x, y));

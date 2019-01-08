@@ -67,7 +67,8 @@ void game::ScoreBar::update() const
 {
     if (m_scene)
     {
-        sad::Point2D offset(m_scene->camera().TranslationOffset.x(), m_scene->camera().TranslationOffset.y());
+        sad::Point2D offset(m_scene->renderer()->globalTranslationOffset());
+        offset.setX(offset.x() * (-1.0));
         m_score_label->setPoint(offset + m_score_offset);
         m_highscore_label->setPoint(offset + m_highscore_offset);
 
