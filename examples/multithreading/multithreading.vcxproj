@@ -213,6 +213,7 @@
     <ClCompile Include="cameramovement.cpp" />
     <ClCompile Include="delayedtask.cpp" />
     <ClCompile Include="delayedtasks.cpp" />
+    <ClCompile Include="enemycounter.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="game\actor.cpp" />
     <ClCompile Include="game\actoroptions.cpp" />
@@ -268,6 +269,7 @@
     <ClInclude Include="cameramovement.h" />
     <ClInclude Include="delayedtask.h" />
     <ClInclude Include="delayedtasks.h" />
+    <ClInclude Include="enemycounter.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="game\actor.h" />
     <ClInclude Include="game\actoroptions.h" />

@@ -381,6 +381,9 @@ public:
     /*! Updates horizontal speed for actor
      */
     void updateHorizontalVelocity();
+    /*! Fires on death events for actor
+     */
+    void fireOnDeathEvents();
 private:
     /*! Compute whether floater should go up or down
         \param[out] is_going_up whether we should go up

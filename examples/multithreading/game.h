@@ -37,6 +37,7 @@
 #include "optionsscreen.h"
 
 class CameraMovement;
+class EnemyCounter;
 
 namespace sad
 {
@@ -592,4 +593,7 @@ private:
     /*! Whether user is winning
      */
     bool m_winning;
+    /*! An enemy counter
+     */
+    EnemyCounter* m_enemy_counter;
 };

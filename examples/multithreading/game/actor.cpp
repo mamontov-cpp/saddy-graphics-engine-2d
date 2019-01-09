@@ -1069,10 +1069,7 @@ void game::Actor::setLives(int lives)
     m_lives = lives;
     if (m_lives <= 0)
     {
-        for (auto& m_on_death_action : m_on_death_actions)
-        {
-            m_on_death_action(this);
-        }
+        this->fireOnDeathEvents();
     }
 }
 
@@ -1086,10 +1083,7 @@ void game::Actor::decrementLives(int lives)
     m_lives -= lives;
     if (m_lives <= 0)
     {
-        for (auto& m_on_death_action : m_on_death_actions)
-        {
-            m_on_death_action(this);
-        }
+        this->fireOnDeathEvents();
     }
 }
 
@@ -1100,10 +1094,7 @@ void game::Actor::tryDecrementLives(int lives)
         m_lives -= lives;
         if (m_lives <= 0)
         {
-            for (auto& m_on_death_action : m_on_death_actions)
-            {
-                m_on_death_action(this);
-            }
+            this->fireOnDeathEvents();
         }
         else
         {
@@ -1405,6 +1396,14 @@ void game::Actor::updateHorizontalVelocity()
 {
     // Force recompute for horizontal velocity for actor
     setHorizontalVelocity(m_own_horizontal_velocity);
+}
+
+void game::Actor::fireOnDeathEvents()
+{
+    for (auto& m_on_death_action : m_on_death_actions)
+    {
+        m_on_death_action(this);
+    }
 }
 
 // ===================================== PRIVATE METHODS =====================================

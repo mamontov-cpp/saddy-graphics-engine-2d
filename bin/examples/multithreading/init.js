@@ -708,6 +708,7 @@ cameraMovement().setArrowPosition(new sad.Point2D(775,300));
 
 setMaxLevelX(3200);
 setRightBound(3200);
+resetEnemyCounter();
 
 // Just a simple JS trigger
 
@@ -715,14 +716,19 @@ addTriggerOnce(200, function() {
     //setWindSpeed(-20);
     setWindSpeed(60);
     snow.start();
-    spawnItem("Book of Permanent Flight", new sad.Point2D(400, 500));
-    cameraMovement().showArrow();
+    spawnItem("Simple spear", new sad.Point2D(400, 500));
+    //cameraMovement().showArrow();
     //setGlobalOffset(new sad.Point2D(-50, 0));
 });
 
 addTriggerOnce(400, function() {
     setWindSpeed(0);
     snow.stop();
+
+    lockScreen();
+    setEnemyCounter(2);
+    onZeroEnemies(function() { unlockScreen(); });
+
     gamePrint("Player has reached point of " + player().middle().x  + "," + player().middle().y + " which is more than 400\n");
     //player().tryStartGoingUp();
     //spawnEnemyWalkerAt("player", new sad.Point2D(400, 500), "random_60_500");
@@ -733,6 +739,8 @@ addTriggerOnce(400, function() {
     spawnEnemyInDirection("green_floater", new sad.Point2D(600, 500), HDir.Right, VDir.Down);
     */
     var actor = spawnEnemyInDirection("green_walker", new sad.Point2D(200, 300), HDir.Right, VDir.None);
+    decrementCounterOnActorDeath(actor);
+
     var weapon = new Weapon();
     weapon.setShootingInterval(100);
     weapon.setAmountOfProjectiles(1);
@@ -755,17 +763,19 @@ addTriggerOnce(400, function() {
     //actor.setShootingStrategy(strategy); 
     
     var actor = spawnPlatformPatrol("enemy_walker", new sad.Point2D(220, 300));
+    decrementCounterOnActorDeath(actor);
+
     setLootForActor(actor, {"Gold coin" : 50, "Helmet": 50});
 });
 
 addTriggerOnce(750, function() {
-    lockScreen();
+    //lockScreen();
     //cameraMovement().showArrow();
     //triggerWinGame();
 });
 
 addTriggerOnce(950, function() {
-    unlockScreen();
+    //unlockScreen();
     //cameraMovement().showArrow();
     //triggerWinGame();
 });

@@ -58,6 +58,7 @@
 #include "bots/nullbot.h"
 
 #include "cameramovement.h"
+#include "enemycounter.h"
 
 const sad::Point2D Game::GravityForceValue(0.0, -300.0); // -300 is arbitrarily defined, to make player fall slowly
 
@@ -146,6 +147,9 @@ m_winning(false)// NOLINT
 
     m_camera_movement = new CameraMovement(this);
     m_camera_movement->addRef();
+
+    m_enemy_counter = new EnemyCounter();
+    m_enemy_counter->addRef();
 }
 
 Game::~Game()  // NOLINT
@@ -176,6 +180,7 @@ Game::~Game()  // NOLINT
     delete m_step_task;
 
     clearItemDefinitions();
+    m_enemy_counter->delRef();
 }
 
 /*! A padding, that will be used in main menu between label and player choice
@@ -1190,6 +1195,7 @@ void Game::changeSceneToPlayingScreen()
     m_delayed_tasks.clear();
     m_wind_speed = 0;
     m_winning = false;
+    m_enemy_counter->reset();
     this->clearProjectiles();
 
     SceneTransitionOptions options;
@@ -1976,6 +1982,33 @@ void Game::initContext()
         this->m_camera_movement->showArrow();
     };
 
+    std::function<void()> reset_enemy_counter = [=]() {
+        this->m_enemy_counter->reset();
+    };
+    std::function<void()> clear_enemy_counter = [=]() {
+        this->m_enemy_counter->clear();
+    };
+    std::function<void(int)> set_enemy_counter = [=](int d) {
+        this->m_enemy_counter->set(d);
+    };
+    std::function<void()> decrement_enemy_counter = [=]() {
+        this->m_enemy_counter->decrement();
+    };
+    std::function<void()> increment_enemy_counter = [=]() {
+        this->m_enemy_counter->increment();
+    };
+    std::function<void(sad::dukpp03::CompiledFunction)> on_zero_enemies = [=](sad::dukpp03::CompiledFunction f) {
+        this->m_enemy_counter->onZeroEnemies([=] {
+            sad::dukpp03::CompiledFunction mf = f;
+            mf.call(this->context());
+        });
+    };
+    std::function<void(game::Actor*)> decrement_counter_on_actor_death = [=](game::Actor* a) {
+        a->onBeforeDeath([=](game::Actor*) {
+            this->m_enemy_counter->decrement();
+        });
+    };
+
 
     m_eval_context->registerCallable("makePlatformGoOnWay", sad::dukpp03::make_lambda::from(make_platform_go_on_way));
     m_eval_context->registerCallable("addTrigger", sad::dukpp03::make_lambda::from(add_trigger));
@@ -2004,6 +2037,13 @@ void Game::initContext()
     m_eval_context->registerCallable("cameraMovement", sad::dukpp03::make_lambda::from(camera_movement));
     m_eval_context->registerCallable("lockScreen", sad::dukpp03::make_lambda::from(lock_screen));
     m_eval_context->registerCallable("unlockScreen", sad::dukpp03::make_lambda::from(unlock_screen));
+    m_eval_context->registerCallable("resetEnemyCounter", sad::dukpp03::make_lambda::from(reset_enemy_counter));
+    m_eval_context->registerCallable("clearEnemyCounter", sad::dukpp03::make_lambda::from(clear_enemy_counter));
+    m_eval_context->registerCallable("setEnemyCounter", sad::dukpp03::make_lambda::from(set_enemy_counter));
+    m_eval_context->registerCallable("decrementEnemyCounter", sad::dukpp03::make_lambda::from(decrement_enemy_counter));
+    m_eval_context->registerCallable("incrementEnemyCounter", sad::dukpp03::make_lambda::from(increment_enemy_counter));
+    m_eval_context->registerCallable("onZeroEnemies", sad::dukpp03::make_lambda::from(on_zero_enemies));
+    m_eval_context->registerCallable("decrementCounterOnActorDeath", sad::dukpp03::make_lambda::from(decrement_counter_on_actor_death));
 
     scripting::exposeSpawnEnemy(m_eval_context, this);
     game::exposeActorOptions(m_eval_context, this);
@@ -2090,6 +2130,7 @@ void Game::initGamePhysics()
         game::Actor* a = dynamic_cast<game::Actor*>(ev.m_object_1->userObject());
         if (!a->isFloater() && ev.m_object_2 == this->m_walls.bottomWall())
         {
+            a->fireOnDeathEvents();
             this->killActorWithoutSprite(a);
             a->playDeathAnimation();
             return;
