@@ -1922,12 +1922,14 @@ void Game::initContext()
             }
             sad::Maybe<sad::String> result;
             double value = (static_cast<double>(rand()) / static_cast<double>(RAND_MAX)) * 100.0;
+            // ReSharper disable once CppJoinDeclarationAndAssignment
             double begin;
             double end = 0;
             for (sad::Hash<sad::String, int>::const_iterator it = loot.const_begin(); it != loot.const_end(); ++it) 
             {
                 if (!result.exists()) 
                 {
+                    // ReSharper disable once CppJoinDeclarationAndAssignment
                     begin = end;
                     end = begin + static_cast<double>(it.value()) / sum * 100.0;
                     if (value >= begin && value <= end) 
@@ -2341,7 +2343,8 @@ Game::Game(const Game&)  // NOLINT
     m_wind_speed(0),
     m_snow_particles(NULL),
     m_camera_movement(NULL),
-    m_winning(false)
+    m_winning(false), 
+    m_enemy_counter(NULL)
 {
     throw std::logic_error("Not implemented");
 }
