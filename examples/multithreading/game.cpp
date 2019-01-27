@@ -652,21 +652,21 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
     // A paused game screen
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForMainRenderer.UpKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED]
+        & m_conditions.ConditionsForMainRenderer.UpKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_PRESSED]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("paused")),
         empty_callback
     );
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForMainRenderer.DownKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED]
+        & m_conditions.ConditionsForMainRenderer.DownKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_PRESSED]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("paused")),
         empty_callback
     );
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForMainRenderer.JumpActionConditions[game::Conditions::CS_PLAYGAME_PAUSED]
+        & m_conditions.ConditionsForMainRenderer.JumpActionConditions[game::Conditions::CS_PLAYGAME_PAUSED_PRESSED]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("paused")),
         empty_callback
@@ -677,6 +677,35 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("paused")),
         this, &Game::tryExitPause
+    );
+    // A paused key release handlers
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyRelease
+        & m_conditions.ConditionsForMainRenderer.LeftKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_RELEASED]
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("paused")),
+        [=]() { this->player()->tryStopGoingLeft(); }
+    );
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyRelease
+        & m_conditions.ConditionsForMainRenderer.RightKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_RELEASED]
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("paused")),
+        [=]() { this->player()->tryStopGoingRight(); }
+    );
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyRelease
+        & m_conditions.ConditionsForMainRenderer.UpKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_RELEASED]
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("paused")),
+        [=]() { this->player()->tryStopGoingUp(); }
+    );
+    renderer->controls()->addLambda(
+        *sad::input::ET_KeyRelease
+        & m_conditions.ConditionsForMainRenderer.DownKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_RELEASED]
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("paused")),
+        [=]() { this->player()->tryStopGoingDown(); }
     );
     
     // Processing of physics events
@@ -797,21 +826,21 @@ void Game::setControlsForInventoryThread(sad::Renderer* renderer)
     // A paused game screen
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForInventoryRenderer.UpKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED]
+        & m_conditions.ConditionsForInventoryRenderer.UpKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_PRESSED]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("paused")),
         empty_callback
     );
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForInventoryRenderer.DownKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED]
+        & m_conditions.ConditionsForInventoryRenderer.DownKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_PRESSED]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("paused")),
         empty_callback
     );
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
-        & m_conditions.ConditionsForInventoryRenderer.JumpActionConditions[game::Conditions::CS_PLAYGAME_PAUSED]
+        & m_conditions.ConditionsForInventoryRenderer.JumpActionConditions[game::Conditions::CS_PLAYGAME_PAUSED_PRESSED]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("paused")),
         empty_callback

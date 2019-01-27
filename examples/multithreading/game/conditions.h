@@ -23,7 +23,8 @@ struct Conditions
         CS_OPTIONS_SCREEN   = 1,           //!< An options screen
         CS_PLAYGAME_PLAYING_PRESSED  = 2,  //!< A press on playing screen(common version)
         CS_PLAYGAME_PLAYING_RELEASED = 3,  //!< A press on playing screen, when released
-        CS_PLAYGAME_PAUSED  = 4            //!< A playing screen, when paused
+        CS_PLAYGAME_PAUSED_PRESSED  = 4,   //!< A playing screen, when paused (common version)
+        CS_PLAYGAME_PAUSED_RELEASED = 5    //!< A press on paused screen, when released
     };
 
 /*! A conditions for specified renderer
@@ -32,19 +33,19 @@ struct ConditionsForRenderer
 {
     /*! A list of conditions, that depends on left key
      */
-    sad::KeyHoldCondition* LeftKeyConditions[5];
+    sad::KeyHoldCondition* LeftKeyConditions[6];
     /*! A list of conditions, that depends on right key
      */
-    sad::KeyHoldCondition* RightKeyConditions[5];
+    sad::KeyHoldCondition* RightKeyConditions[6];
     /*! A list of conditions, that depends on up key
     */
-    sad::KeyHoldCondition* UpKeyConditions[5];
+    sad::KeyHoldCondition* UpKeyConditions[6];
     /*! A list of conditions, that depends on down key
      */
-    sad::KeyHoldCondition* DownKeyConditions[5];
+    sad::KeyHoldCondition* DownKeyConditions[6];
     /*! A list of conditions, that depends on jump/action key
     */
-    sad::KeyHoldCondition* JumpActionConditions[5];
+    sad::KeyHoldCondition* JumpActionConditions[6];
     /*! A pause key condition, depends only if key is pause and in case if use is playing
      */
     sad::KeyHoldCondition* PauseCondition;
@@ -85,7 +86,7 @@ struct ConditionsForRenderer
         \param[in] key a keyboard key
         \param[in] length a length of array
      */
-    static void setKeyForConditions(sad::KeyHoldCondition* c[], sad::KeyboardKey key, size_t length = 5);
+    static void setKeyForConditions(sad::KeyHoldCondition* c[], sad::KeyboardKey key, size_t length = 6);
 };
     /*! Constructs a conditions
      */

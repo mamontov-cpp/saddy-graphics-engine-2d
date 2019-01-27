@@ -11,12 +11,14 @@ void game::Conditions::ConditionsForRenderer::init(bool is_inventory_thread)
     if (is_inventory_thread)
     {
          LeftKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED] = NULL;
+         LeftKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_RELEASED] = NULL;
     }
     else
     {
         LeftKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED] = new sad::KeyHoldCondition(sad::KeyRight);
+        LeftKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_RELEASED] = new sad::KeyHoldCondition(sad::KeyRight);
     }
-    LeftKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED] = NULL;
+    LeftKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_PRESSED] = NULL;
 
     // Unused on starting screen and on  paused screen
     RightKeyConditions[game::Conditions::CS_START_SCREEN] = NULL;
@@ -25,12 +27,14 @@ void game::Conditions::ConditionsForRenderer::init(bool is_inventory_thread)
     if (is_inventory_thread)
     {
         RightKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED]= NULL;
+        RightKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_RELEASED] = NULL;
     }
     else
     {
         RightKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED] = new sad::KeyHoldCondition(sad::KeyRight);
+        RightKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_RELEASED] = new sad::KeyHoldCondition(sad::KeyRight);
     }
-    RightKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED] = NULL;
+    RightKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_PRESSED] = NULL;
 
     if (is_inventory_thread)
     {
@@ -44,13 +48,15 @@ void game::Conditions::ConditionsForRenderer::init(bool is_inventory_thread)
     UpKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_PRESSED] = new sad::KeyHoldCondition(sad::KeyUp);
     if (is_inventory_thread)
     {
-        UpKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED] = NULL; 
+        UpKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED] = NULL;
+        UpKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_RELEASED] = NULL;
     }
     else
     {
-        UpKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED] = new sad::KeyHoldCondition(sad::KeyUp); 
+        UpKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED] = new sad::KeyHoldCondition(sad::KeyUp);
+        UpKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_RELEASED] = new sad::KeyHoldCondition(sad::KeyUp);
     }
-    UpKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED] = new sad::KeyHoldCondition(sad::KeyUp);
+    UpKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_PRESSED] = new sad::KeyHoldCondition(sad::KeyUp);
 
 
     if (is_inventory_thread)
@@ -66,12 +72,14 @@ void game::Conditions::ConditionsForRenderer::init(bool is_inventory_thread)
     if (is_inventory_thread)
     {
         DownKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED] = NULL;
+        DownKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_RELEASED] = NULL;
     }
     else
     { 
         DownKeyConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED] = new sad::KeyHoldCondition(sad::KeyDown);
+        DownKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_RELEASED] = new sad::KeyHoldCondition(sad::KeyDown);
     }
-    DownKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED] = new sad::KeyHoldCondition(sad::KeyDown);
+    DownKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_PRESSED] = new sad::KeyHoldCondition(sad::KeyDown);
 
     if (is_inventory_thread)
     {
@@ -85,7 +93,8 @@ void game::Conditions::ConditionsForRenderer::init(bool is_inventory_thread)
     JumpActionConditions[game::Conditions::CS_OPTIONS_SCREEN] = new sad::KeyHoldCondition(sad::Space);
     JumpActionConditions[game::Conditions::CS_PLAYGAME_PLAYING_PRESSED] = new sad::KeyHoldCondition(sad::Space);
     JumpActionConditions[game::Conditions::CS_PLAYGAME_PLAYING_RELEASED] = NULL;
-    JumpActionConditions[game::Conditions::CS_PLAYGAME_PAUSED] = new sad::KeyHoldCondition(sad::Space);
+    JumpActionConditions[game::Conditions::CS_PLAYGAME_PAUSED_PRESSED] = new sad::KeyHoldCondition(sad::Space);
+    JumpActionConditions[game::Conditions::CS_PLAYGAME_PAUSED_RELEASED] = NULL;
 
     PauseCondition = new sad::KeyHoldCondition(sad::P);
     PauseConditionWhenPaused = new sad::KeyHoldCondition(sad::P);
