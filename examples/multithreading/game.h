@@ -409,6 +409,12 @@ public:
      *  \return whether user is winning
      */
     bool isWinning() const;
+    /*! Tries to enter pause state for game
+     */
+    void tryEnterPause();
+    /*! Tries to exist pause state for game
+     */
+    void tryExitPause();
 private:
     /*! Inits evaluation context
      */

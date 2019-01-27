@@ -5,7 +5,6 @@
 #pragma once
 #include "options.h"
 #include <keymouseconditions.h>
-#include <sadvector.h>
 
 // A condition for enum
 #define CS_PLAYGAME_PLAYING CS_PLAYGAME_PLAYING_PRESSED
@@ -49,6 +48,9 @@ struct ConditionsForRenderer
     /*! A pause key condition, depends only if key is pause and in case if use is playing
      */
     sad::KeyHoldCondition* PauseCondition;
+    /*! A pause key condition, which should be checked when game is paused
+     */
+    sad::KeyHoldCondition* PauseConditionWhenPaused;
     /*! Inits a structure for specified thread
         \param[in] is_inventory_thread whether thread, that uses conditions is inventory thread
      */

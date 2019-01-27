@@ -614,12 +614,12 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
         & ((&m_paused_state_machine) * sad::String("playing")),
         perform_action
     );
-    renderer->controls()->addLambda(
+    renderer->controls()->add(
         *sad::input::ET_KeyPress
         & m_conditions.ConditionsForMainRenderer.PauseCondition
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
-        empty_callback
+        this, &Game::tryEnterPause
     );
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
@@ -635,6 +635,7 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
         & ((&m_paused_state_machine) * sad::String("playing")),
         [this]() { this->changeSceneToStartingScreen();  }
     );
+    // Kill all bodies, simple cheat code :)
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
         & sad::End
@@ -669,6 +670,13 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("paused")),
         empty_callback
+    );
+    renderer->controls()->add(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForMainRenderer.PauseConditionWhenPaused
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("paused")),
+        this, &Game::tryExitPause
     );
     
     // Processing of physics events
@@ -778,12 +786,12 @@ void Game::setControlsForInventoryThread(sad::Renderer* renderer)
         & ((&m_paused_state_machine) * sad::String("playing")),
         empty_callback
     );
-    renderer->controls()->addLambda(
+    renderer->controls()->add(
         *sad::input::ET_KeyPress
         & m_conditions.ConditionsForInventoryRenderer.PauseCondition
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("playing")),
-        empty_callback
+        this, &Game::tryEnterPause
     );
 
     // A paused game screen
@@ -807,6 +815,13 @@ void Game::setControlsForInventoryThread(sad::Renderer* renderer)
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("paused")),
         empty_callback
+    );
+    renderer->controls()->add(
+        *sad::input::ET_KeyPress
+        & m_conditions.ConditionsForInventoryRenderer.PauseConditionWhenPaused
+        & ((&m_state_machine) * sad::String("playing"))
+        & ((&m_paused_state_machine) * sad::String("paused")),
+        this, &Game::tryExitPause
     );
 
     std::function<void(const sad::input::MousePressEvent& e)> left_button_click = [=](const sad::input::MousePressEvent& e) {
@@ -1476,6 +1491,28 @@ void Game::enableGravity(sad::p2d::Body* b)
     Game::setGravityForBody(b, Game::GravityForceValue);
 }
 
+void Game::disableGravity(sad::p2d::Body* b)
+{
+    Game::setGravityForBody(b, sad::p2d::Vector(0.0, 0.0));
+}
+
+void Game::setGravityForBody(sad::p2d::Body* b, const sad::p2d::Vector& v)
+{
+    if (!b)
+    {
+        return;
+    }
+    const sad::Vector<sad::p2d::Force<sad::p2d::Vector>* >& forces = b->tangentialForcesList();
+    if (forces.empty())
+    {
+        b->addForce(new sad::p2d::TangentialForce(Game::GravityForceValue));
+    }
+    else
+    {
+        forces[0]->setValue(v);
+    }
+}
+
 void Game::waitForPipelineTasks()
 {
     m_task_lock.waitForTasks();
@@ -1794,27 +1831,30 @@ bool Game::isWinning() const
     return m_winning;
 }
 
-void Game::disableGravity(sad::p2d::Body* b)
+void Game::tryEnterPause()
 {
-    Game::setGravityForBody(b, sad::p2d::Vector(0.0, 0.0));
+    if (this->isNowPlaying() && !this->isPaused() && !isWinning())
+    {
+        this->rendererForMainThread()->pipeline()->appendTask([=]() {
+            this->playSound("pause");
+            this->m_paused_state_machine.enterState("paused");
+            this->m_theme_playing->setIsPaused(true);
+        });
+    }
 }
 
-void Game::setGravityForBody(sad::p2d::Body* b, const sad::p2d::Vector& v)
+void Game::tryExitPause()
 {
-    if (!b)
+    if (this->isNowPlaying() && this->isPaused() && !isWinning())
     {
-        return;
-    }
-    const sad::Vector<sad::p2d::Force<sad::p2d::Vector>* >& forces = b->tangentialForcesList();
-    if (forces.empty())
-    {
-        b->addForce(new sad::p2d::TangentialForce(Game::GravityForceValue)); 
-    }
-    else
-    {
-        forces[0]->setValue(v);
+        this->rendererForMainThread()->pipeline()->appendTask([=]() {
+            this->playSound("pause");
+            this->m_paused_state_machine.enterState("playing");
+            this->m_theme_playing->setIsPaused(false);
+        });
     }
 }
+
 
 // ==================================== PRIVATE METHODS ====================================
 

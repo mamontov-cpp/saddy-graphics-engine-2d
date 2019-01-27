@@ -779,3 +779,8 @@ addTriggerOnce(950, function() {
     //cameraMovement().showArrow();
     //triggerWinGame();
 });
+
+addTriggerOnce(3100, function() {
+    triggerWinGame();
+});
+

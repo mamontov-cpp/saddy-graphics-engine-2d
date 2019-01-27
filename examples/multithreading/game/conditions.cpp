@@ -88,6 +88,7 @@ void game::Conditions::ConditionsForRenderer::init(bool is_inventory_thread)
     JumpActionConditions[game::Conditions::CS_PLAYGAME_PAUSED] = new sad::KeyHoldCondition(sad::Space);
 
     PauseCondition = new sad::KeyHoldCondition(sad::P);
+    PauseConditionWhenPaused = new sad::KeyHoldCondition(sad::P);
 }
 
 
@@ -119,11 +120,12 @@ void game::Conditions::ConditionsForRenderer::setJumpActionKey(sad::KeyboardKey 
 void game::Conditions::ConditionsForRenderer::setPauseKey(sad::KeyboardKey key) const
 {
     PauseCondition->setKey(key);
+    PauseConditionWhenPaused->setKey(key);
 }
 
 void game::Conditions::ConditionsForRenderer::setKeyForConditions(sad::KeyHoldCondition* c[], sad::KeyboardKey key,size_t length)
 {
-    for(int i = 0; i < length; i++)
+    for(size_t i = 0; i < length; i++)
     {
         if (c[i])
         {
