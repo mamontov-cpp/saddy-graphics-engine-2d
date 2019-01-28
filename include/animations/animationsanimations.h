@@ -475,6 +475,12 @@ public:
         \param[in] process a process
      */
     void notifyProcessRemoval(sad::animations::Process* process);
+    /*! Pauses all animations
+     */
+    void pause();
+    /*! Resumes animations
+     */
+    void resume();
 protected:
     /*! Throws exception, as this object is non-copyable
         \param[in] o object
@@ -590,12 +596,6 @@ protected:
     /*! Performs all queued actions, clearing command queue
      */
     void performQueuedActions();
-    /*! Pauses all animations
-     */
-    void pause();
-    /*! Resumes animations
-     */
-    void resume();
     /*! Performs an action or queues it
         \param[in] f function
      */

@@ -38,6 +38,7 @@
 
 class CameraMovement;
 class EnemyCounter;
+class Sounds;
 
 namespace sad
 {
@@ -231,10 +232,10 @@ public:
     void playSound(const sad::String& sound_name) const;
     /*! Plays walking sound
      */
-    void playWalkingSound();
+    void playWalkingSound() const;
     /*! Stops walking sound
      */ 
-    void stopWalkingSound();
+    void stopWalkingSound() const;
     /*! Returns in-game options
         \return game options
      */
@@ -498,6 +499,9 @@ private:
     /*! A theme playing song
      */
     ::irrklang::ISound* m_theme_playing;
+    /*! A list of ingame sounds
+     */
+    Sounds* m_sounds;
 
     /*! A transition process
      */

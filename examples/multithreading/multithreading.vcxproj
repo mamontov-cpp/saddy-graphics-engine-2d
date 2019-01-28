@@ -240,6 +240,7 @@
     <ClCompile Include="scenetransitionoptions.cpp" />
     <ClCompile Include="scenetransitionprocess.cpp" />
     <ClCompile Include="scripting\exposespawnenemy.cpp" />
+    <ClCompile Include="sounds.cpp" />
     <ClCompile Include="threads\gamethread.cpp" />
     <ClCompile Include="threads\tasklock.cpp" />
     <ClCompile Include="weapons\bullet.cpp" />
@@ -296,6 +297,7 @@
     <ClInclude Include="scenetransitionoptions.h" />
     <ClInclude Include="scenetransitionprocess.h" />
     <ClInclude Include="scripting\exposespawnenemy.h" />
+    <ClInclude Include="sounds.h" />
     <ClInclude Include="threads\gamestate.h" />
     <ClInclude Include="threads\gamethread.h" />
     <ClInclude Include="threads\tasklock.h" />

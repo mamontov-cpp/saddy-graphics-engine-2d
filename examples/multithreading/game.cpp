@@ -59,6 +59,7 @@
 
 #include "cameramovement.h"
 #include "enemycounter.h"
+#include "sounds.h"
 
 const sad::Point2D Game::GravityForceValue(0.0, -300.0); // -300 is arbitrarily defined, to make player fall slowly
 
@@ -80,6 +81,7 @@ m_loaded_lose_screen_database{false, false},
 m_loaded_win_screen_database{false, false},
 m_loaded_game_screen(false),
 m_theme_playing(NULL),
+m_sounds(NULL),
 m_inventory_node(NULL),
 m_inventory_popup(NULL),
 m_eval_context(NULL),
@@ -95,6 +97,9 @@ m_winning(false)// NOLINT
 {
     m_main_thread = new threads::GameThread();
     m_inventory_thread = new threads::GameThread();
+
+    m_sounds = new Sounds(m_inventory_thread->renderer());
+
     m_snow_particles = new game::SnowParticles();
     m_snow_particles->addRef();
 
@@ -1072,7 +1077,7 @@ void Game::changeSceneToStartingScreen()
 {
     this->m_score_bar->deinit();
 
-    m_footsteps.stop();
+    m_sounds->stopWalkingSound();
     m_triggers.clear();
     m_actors.clear();
     m_delayed_tasks.clear();
@@ -1117,7 +1122,7 @@ void Game::changeSceneToLoseScreen()
 {
     this->m_score_bar->deinit();
 
-    m_footsteps.stop();
+    m_sounds->stopWalkingSound();
     m_triggers.clear();
     m_actors.clear();
     m_delayed_tasks.clear();
@@ -1172,7 +1177,7 @@ void Game::changeSceneToWinScreen()
 {
     this->m_score_bar->deinit();
 
-    m_footsteps.stop();
+    m_sounds->stopWalkingSound();
     m_triggers.clear();
     m_actors.clear();
     m_delayed_tasks.clear();
@@ -1232,7 +1237,7 @@ void Game::changeSceneToPlayingScreen()
 {
     this->destroyWorld();
     this->setScore(0);
-    m_footsteps.stop();
+    m_sounds->stopWalkingSound();
     m_actors.clear();
     m_triggers.clear();
     m_moving_platform_registry.clear();
@@ -1303,7 +1308,7 @@ void Game::changeSceneToPlayingScreen()
 
 void Game::changeSceneToOptions()
 {
-    m_footsteps.stop();
+    m_sounds->stopWalkingSound();
     m_triggers.clear();
     m_actors.clear();
     this->clearProjectiles();
@@ -1399,19 +1404,17 @@ OptionsScreen& Game::optionsScreen()
 
 void Game::playSound(const sad::String& sound_name) const
 {
-    sad::irrklang::Sound* theme_data = m_inventory_thread->renderer()->tree("")->get<sad::irrklang::Sound>(sound_name);
-    theme_data->play2D(m_options.SoundVolume, false);
+    m_sounds->playSound(sound_name, m_options.SoundVolume);
 }
 
-void Game::playWalkingSound()
+void Game::playWalkingSound() const
 {
-    sad::irrklang::Sound* theme_data = m_inventory_thread->renderer()->tree("")->get<sad::irrklang::Sound>("footstep");
-    m_footsteps.play2D(theme_data, m_options.MusicVolume);
+    m_sounds->playWalkingSound(m_options.MusicVolume);
 }
 
-void Game::stopWalkingSound()
+void Game::stopWalkingSound() const
 {
-    m_footsteps.stop();
+    m_sounds->stopWalkingSound();
 }
 
 game::Options* Game::options()
@@ -1865,9 +1868,14 @@ void Game::tryEnterPause()
     if (this->isNowPlaying() && !this->isPaused() && !isWinning())
     {
         this->rendererForMainThread()->pipeline()->appendTask([=]() {
-            this->playSound("pause");
             this->m_paused_state_machine.enterState("paused");
+            this->rendererForMainThread()->animations()->pause();
+        });
+        this->rendererForInventoryThread()->pipeline()->appendTask([=]() {
+            this->rendererForInventoryThread()->animations()->pause();
             this->m_theme_playing->setIsPaused(true);
+            Sounds::pause();
+            this->playSound("pause");
         });
     }
 }
@@ -1877,9 +1885,14 @@ void Game::tryExitPause()
     if (this->isNowPlaying() && this->isPaused() && !isWinning())
     {
         this->rendererForMainThread()->pipeline()->appendTask([=]() {
-            this->playSound("pause");
             this->m_paused_state_machine.enterState("playing");
+            this->rendererForMainThread()->animations()->resume();
+        });
+        this->rendererForInventoryThread()->pipeline()->appendTask([=]() {
+            this->rendererForInventoryThread()->animations()->resume();
+            Sounds::resume();
             this->m_theme_playing->setIsPaused(false);
+            this->playSound("pause");
         });
     }
 }
@@ -2395,6 +2408,7 @@ Game::Game(const Game&)  // NOLINT
     m_loaded_win_screen_database{false, false},
     m_loaded_game_screen(false),
     m_theme_playing(NULL),
+    m_sounds(NULL),
     m_transition_process(NULL),
     m_inventory_node(NULL),
     m_inventory_popup(NULL),

@@ -4,7 +4,6 @@
  */
 #pragma once
 #include <sadhash.h>
-#include <memory>
 
 namespace irrklang
 {
@@ -31,37 +30,36 @@ public:
      *  \param[in] r renderer
      */
     Sounds(sad::Renderer* r);
+    /*! Destructs an object
+     */
+    ~Sounds();
     /**
      * Plays sound, storing it in container
      * \param[in] sound_name sound name
      * \param[in] volume a volume
      */
-    void playSound(const sad::String& sound_name, double volume);
+    void playSound(const sad::String& sound_name, double volume) const;
     /**
      * Plays walking sound
      * \param[in] volume a new volume
      */
-    void playWalkingSound(double volume);
-
+    void playWalkingSound(double volume) const;
     /*! Stops walking sound
      */
-    void stopWalkingSound();
+    void stopWalkingSound() const;
     /*! Pauses all sounds
      */
-    void pause();
+    static void pause();
     /*! Resumes all sounds
      */
-    void resume();
+    static void resume();
 private:
-    /*! A list of sounds to lookup
-     */
-    sad::Hash<::irrklang::ISound*, ::irrklang::ISound*> m_sounds;
     /*! A footstep sound
      */
     ::irrklang::ISound* m_footstep_sound;
     /*! A footsteps sound is playing
      */
-    std::unique_ptr<sad::irrklang::SingleSound> m_footsteps;
+    sad::irrklang::SingleSound* m_footsteps;
     /*! A renderer, where all sounds are stored
      */
     sad::Renderer* m_renderer;
