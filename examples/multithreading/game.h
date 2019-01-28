@@ -498,9 +498,6 @@ private:
     /*! A theme playing song
      */
     ::irrklang::ISound* m_theme_playing;
-    /*! A footsteps sound is playing
-     */
-    sad::irrklang::SingleSound m_footsteps;
 
     /*! A transition process
      */
