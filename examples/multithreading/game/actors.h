@@ -81,6 +81,12 @@ public:
     /*! Clears actors list
      */
     void clear();
+    /*! Pauses weapon reloading for actor
+     */
+    void pause();
+    /*! Resumes weapon reloading for actor
+     */
+    void resume();
 private:
     /*! Copies state of actors from other actor
      * \param[in] o object

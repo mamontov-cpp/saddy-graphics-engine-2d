@@ -1,6 +1,6 @@
 #include "delayedtasks.h"
 
-DelayedTasks::DelayedTasks()
+DelayedTasks::DelayedTasks() : m_paused(false)
 {
 
 }
@@ -13,6 +13,10 @@ void DelayedTasks::clear()
 void DelayedTasks::add(const DelayedTask& task)
 {
     m_tasks << task;
+    if (m_paused)
+    {
+        m_tasks[m_tasks.size() - 1].pause();
+    }
 }
 
 void DelayedTasks::tryExecute()
@@ -29,6 +33,7 @@ void DelayedTasks::tryExecute()
 
 void DelayedTasks::pause()
 {
+    m_paused = true;
     for (size_t i = 0; i < m_tasks.size(); i++)
     {
         m_tasks[i].pause();
@@ -37,6 +42,7 @@ void DelayedTasks::pause()
 
 void DelayedTasks::resume()
 {
+    m_paused = false;
     for (size_t i = 0; i < m_tasks.size(); i++)
     {
         m_tasks[i].resume();

@@ -345,12 +345,9 @@ void Game::runInventoryThread()
         {
             if (!(this->m_player->inventory()->isStartedDraggingItem()))
             {
-                if (!(this->m_paused_state_machine.isInState("paused")))
+                if (this->m_inventory_popup)
                 {
-                    if (this->m_inventory_popup)
-                    {
-                        this->m_inventory_popup->render();
-                    }
+                    this->m_inventory_popup->render();
                 }
             }
         }
@@ -878,8 +875,7 @@ void Game::setControlsForInventoryThread(sad::Renderer* renderer)
     renderer->controls()->addLambda(
         *sad::input::ET_MousePress
         & sad::MouseLeft
-        & ((&m_state_machine) * sad::String("playing"))
-        & ((&m_paused_state_machine) * sad::String("playing")),
+        & ((&m_state_machine) * sad::String("playing")),
         left_button_click
     );
 
@@ -889,8 +885,7 @@ void Game::setControlsForInventoryThread(sad::Renderer* renderer)
     renderer->controls()->addLambda(
         *sad::input::ET_MousePress
         & sad::MouseRight
-        & ((&m_state_machine) * sad::String("playing"))
-        & ((&m_paused_state_machine) * sad::String("playing")),
+        & ((&m_state_machine) * sad::String("playing")),
         right_button_click
     );
 
@@ -900,8 +895,7 @@ void Game::setControlsForInventoryThread(sad::Renderer* renderer)
     renderer->controls()->addLambda(
         *sad::input::ET_MouseRelease
         & sad::MouseRight
-        & ((&m_state_machine) * sad::String("playing"))
-        & ((&m_paused_state_machine) * sad::String("playing")),
+        & ((&m_state_machine) * sad::String("playing")),
         right_button_release
     );
 
@@ -911,8 +905,7 @@ void Game::setControlsForInventoryThread(sad::Renderer* renderer)
     };
     renderer->controls()->addLambda(
         *sad::input::ET_MouseMove
-        & ((&m_state_machine) * sad::String("playing"))
-        & ((&m_paused_state_machine) * sad::String("playing")),
+        & ((&m_state_machine) * sad::String("playing")),
         move_callback
     );
 }
@@ -1870,6 +1863,9 @@ void Game::tryEnterPause()
         this->rendererForMainThread()->pipeline()->appendTask([=]() {
             this->m_paused_state_machine.enterState("paused");
             this->rendererForMainThread()->animations()->pause();
+            this->m_delayed_tasks.pause();
+            this->m_player->pauseWeaponsReloading();
+            this->m_actors.pause();
         });
         this->rendererForInventoryThread()->pipeline()->appendTask([=]() {
             this->rendererForInventoryThread()->animations()->pause();
@@ -1887,6 +1883,9 @@ void Game::tryExitPause()
         this->rendererForMainThread()->pipeline()->appendTask([=]() {
             this->m_paused_state_machine.enterState("playing");
             this->rendererForMainThread()->animations()->resume();
+            this->m_delayed_tasks.resume();
+            this->m_player->resumeWeaponsReloading();
+            this->m_actors.resume();
         });
         this->rendererForInventoryThread()->pipeline()->appendTask([=]() {
             this->rendererForInventoryThread()->animations()->resume();

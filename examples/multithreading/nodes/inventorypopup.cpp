@@ -137,7 +137,7 @@ void nodes::InventoryPopup::recomputePopupPosition()
     }
 }
 
-void nodes::InventoryPopup::setAreaForPopup(double px,  double py, double width, double height)
+void nodes::InventoryPopup::setAreaForPopup(double px,  double py, double width, double height) const
 {
     m_background_underlay->setArea(sad::Rect2D(px, py - height, px + width, py));
     m_background_overlay->setArea(sad::Rect2D(

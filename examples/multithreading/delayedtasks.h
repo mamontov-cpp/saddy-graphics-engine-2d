@@ -34,4 +34,7 @@ private:
     /*! A list of delayed tasks
      */
     sad::Vector<DelayedTask> m_tasks;
+    /*! Whether tasks are paused
+     */
+    bool m_paused;
 };

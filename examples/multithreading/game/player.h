@@ -212,6 +212,12 @@ public:
     /*! Updates horizontal speed for actor
      */
     void updateHorizontalVelocity();
+    /*! Pauses weapon reloading for actor
+     */
+    void pauseWeaponsReloading();
+    /*! Resumes weapon reloading for actor
+     */
+    void resumeWeaponsReloading();
 private:
     /*! Player's inventory, that will be carried around
      */

@@ -361,6 +361,17 @@ void game::Player::updateHorizontalVelocity()
     m_actor.updateHorizontalVelocity();
 }
 
+void game::Player::pauseWeaponsReloading()
+{
+    m_actor.pauseWeaponsReloading();
+}
+
+void game::Player::resumeWeaponsReloading()
+{
+    m_actor.resumeWeaponsReloading();
+}
+
+
 // ===================================== UTILITY FUNCTIONS =====================================
 
 // Player cannot be copied so, disable it here to ensure context proper initialization

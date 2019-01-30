@@ -1,6 +1,8 @@
 #include "actors.h"
 #include "../game.h"
 
+#include "../bots/shootingstrategies/shootingstrategy.h"
+
 // ============================================ PUBLIC METHODS ============================================
 
 game::Actors::Actors(const game::Actors& o)
@@ -127,6 +129,48 @@ void game::Actors::testResting()
 void game::Actors::clear()
 {
     this->destroy();
+}
+
+void game::Actors::pause()
+{
+    for  (size_t i = 0; i < m_actors.size(); i++)
+    {
+        bots::AbstractBot* bot = m_actors[i]->Bot;
+        if (bot)
+        {
+            bots::shootingstrategies::ShootingStrategy* strategy =  bot->strategy();
+            if (strategy)
+            { 
+                strategy->pause();
+            }
+        }
+        game::Actor* actor = m_actors[i]->Actor;
+        if (actor)
+        {
+            actor->pauseWeaponsReloading();
+        }
+    }
+}
+
+void game::Actors::resume()
+{
+    for (size_t i = 0; i < m_actors.size(); i++)
+    {
+        bots::AbstractBot* bot = m_actors[i]->Bot;
+        if (bot)
+        {
+            bots::shootingstrategies::ShootingStrategy* strategy = bot->strategy();
+            if (strategy)
+            {
+                strategy->resume();
+            }
+        }
+        game::Actor* actor = m_actors[i]->Actor;
+        if (actor)
+        {
+            actor->resumeWeaponsReloading();
+        }
+    }
 }
 
 // ============================================ PRIVATE METHODS ============================================

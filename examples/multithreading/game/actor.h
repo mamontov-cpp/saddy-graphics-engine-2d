@@ -384,6 +384,12 @@ public:
     /*! Fires on death events for actor
      */
     void fireOnDeathEvents();
+    /*! Pauses weapon reloading for actor
+     */
+    void pauseWeaponsReloading();
+    /*! Resumes weapon reloading for actor
+     */
+    void resumeWeaponsReloading();
 private:
     /*! Compute whether floater should go up or down
         \param[out] is_going_up whether we should go up

@@ -1406,6 +1406,28 @@ void game::Actor::fireOnDeathEvents()
     }
 }
 
+void game::Actor::pauseWeaponsReloading()
+{
+    for (size_t i = 0; i < m_weapons.size(); i++)
+    {
+        if (m_weapons[i])
+        { 
+            m_weapons[i]->pause();
+        }
+    }
+}
+
+void game::Actor::resumeWeaponsReloading()
+{
+    for (size_t i = 0; i < m_weapons.size(); i++)
+    {
+        if (m_weapons[i])
+        {
+            m_weapons[i]->resume();
+        }
+    }
+}
+
 // ===================================== PRIVATE METHODS =====================================
 
 void game::Actor::computeIsGoingUpDownFlags(bool& is_going_up, bool& is_going_down)

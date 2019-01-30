@@ -57,7 +57,7 @@ private:
         \param[in] width a width for popup
         \param[in] height a height for popup
      */
-    void setAreaForPopup(double px,  double py, double width, double height);
+    void setAreaForPopup(double px,  double py, double width, double height) const;
     /*! Background is non-copyable, to make implementation simpler
         \param[in] b other background
     */

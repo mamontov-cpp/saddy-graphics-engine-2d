@@ -716,6 +716,8 @@ addTriggerOnce(200, function() {
     //setWindSpeed(-20);
     setWindSpeed(60);
     snow.start();
+    //spawnItem("Book of Flight", new sad.Point2D(400, 500));
+    //spawnItem("Red potion", new sad.Point2D(350, 500));
     spawnItem("Simple spear", new sad.Point2D(400, 500));
     //cameraMovement().showArrow();
     //setGlobalOffset(new sad.Point2D(-50, 0));
