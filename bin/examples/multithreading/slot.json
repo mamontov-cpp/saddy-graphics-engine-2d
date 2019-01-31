@@ -4,6 +4,26 @@
             "name":"slots\/slot",
             "size":"64;64",
             "texrect":"0;0;64;64"
+        },
+        {
+            "name":"slots\/slot_upper",
+            "size":"64;8",
+            "texrect":"0;0;64;8"
+        },
+        {
+            "name":"slots\/slot_lower",
+            "size":"64;8",
+            "texrect":"0;56;64;8"
+        },
+        {
+            "name":"slots\/slot_vertical",
+            "size":"0;0",
+            "texrect":"0;0;8;64"
+        },
+        {
+            "name":"slots\/slot_inner",
+            "size":"48;48",
+            "texrect":"8;8;48;48"
         }
     ],
     "file":"slot.png",
