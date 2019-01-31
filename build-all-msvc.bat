@@ -30,7 +30,7 @@ msbuild tools/exporter/exporter.vcxproj /m /verbosity:minimal /p:Configuration="
 msbuild plugins/irrklang/irrklang.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
 msbuild plugins/dukpp-03-irrklang/dukpp-03-irrklang.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
 msbuild plugins/imgui/imgui.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
-msbuild tools/ifaceed/ifaceed/ifaceed.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
+REM msbuild tools/ifaceed/ifaceed/ifaceed.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
 msbuild examples/game/game.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
 msbuild examples/multithreading/multithreading.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
 msbuild examples/stress-physics/stress-physics.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
