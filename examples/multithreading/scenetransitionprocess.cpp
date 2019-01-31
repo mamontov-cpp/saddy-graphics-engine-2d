@@ -71,7 +71,8 @@ void SceneTransitionProcess::start(const SceneTransitionOptions& options)
         main->Thread->run();
         sad::Renderer* r = main->Renderer;
         r->animations()->clear();
-        r->scenes()[r->scenes().size() - 1]->addNode(main->Sprite);
+        sad::Scene* local_scene = SceneTransitionProcess::lastActiveScene(r);
+        local_scene->addNode(main->Sprite);
         main->LoadWaitingLock.lock();
 
         std::function<void()> on_main_darkening_end = [r, game, main, inventory, opts]() {
@@ -92,8 +93,9 @@ void SceneTransitionProcess::start(const SceneTransitionOptions& options)
             main->Sprite->setArea(sad::Rect2D(-lpx, 0, -lpx + lw, lpy + lh));
 
             (opts->mainThread().OnLoadedFunction)();
-            r->scenes()[r->scenes().size() - 1]->removeNode(main->Sprite);
-            r->scenes()[r->scenes().size() - 1]->addNode(main->Sprite);
+            sad::Scene* current_last_scene = SceneTransitionProcess::lastActiveScene(r);
+            current_last_scene->removeNode(main->Sprite);
+            current_last_scene->addNode(main->Sprite);
             main->Sprite->setColor(sad::AColor(0, 0, 0, 0));
             main->ExecutedOnLoaded = true;
             while (!inventory->ExecutedOnLoaded)
@@ -108,7 +110,8 @@ void SceneTransitionProcess::start(const SceneTransitionOptions& options)
                     sad::sleep(100);
                 }
                 (opts->mainThread().OnFinishedFunction)();
-                r->scenes()[r->scenes().size() - 1]->removeNode(main->Sprite);
+                sad::Scene* end_last_scene = SceneTransitionProcess::lastActiveScene(r);
+                end_last_scene->removeNode(main->Sprite);
                 game->enterPlayingState();
             });
             r->animations()->add(main->LighteningAnimationInstance);
@@ -122,7 +125,8 @@ void SceneTransitionProcess::start(const SceneTransitionOptions& options)
         inventory->Thread->run();
         sad::Renderer* r = inventory->Renderer;
         r->animations()->clear();
-        r->scenes()[r->scenes().size() - 1]->addNode(inventory->Sprite);
+        sad::Scene* local_scene = SceneTransitionProcess::lastActiveScene(r);
+        local_scene->addNode(inventory->Sprite);
         inventory->LoadWaitingLock.lock();
         std::function<void()> on_inventory_darkening_end = [r, game, main, inventory, opts]() {
             // Wait for other thread to complete
@@ -144,8 +148,9 @@ void SceneTransitionProcess::start(const SceneTransitionOptions& options)
             inventory->Sprite->setArea(sad::Rect2D(-lpx, 0, -lpx + lw, lpy + lh));
 
             (opts->inventoryThread().OnLoadedFunction)();
-            r->scenes()[r->scenes().size() - 1]->removeNode(inventory->Sprite);
-            r->scenes()[r->scenes().size() - 1]->addNode(inventory->Sprite);
+            sad::Scene* current_last_scene = SceneTransitionProcess::lastActiveScene(r);
+            current_last_scene->removeNode(inventory->Sprite);
+            current_last_scene->addNode(inventory->Sprite);
             inventory->Sprite->setColor(sad::AColor(0, 0, 0, 0));
             inventory->ExecutedOnLoaded = true;
             while (!main->ExecutedOnLoaded)
@@ -160,7 +165,8 @@ void SceneTransitionProcess::start(const SceneTransitionOptions& options)
                     sad::sleep(100);
                 }
                 (opts->inventoryThread().OnFinishedFunction)();
-                r->scenes()[r->scenes().size() - 1]->removeNode(inventory->Sprite);
+                sad::Scene* end_last_scene = SceneTransitionProcess::lastActiveScene(r);
+                end_last_scene->removeNode(inventory->Sprite);
                 game->enterPlayingState();
             });
             r->animations()->add(inventory->LighteningAnimationInstance);
@@ -182,6 +188,22 @@ void SceneTransitionProcess::unloadTexturesForMainThread() const
 void SceneTransitionProcess::unloadTexturesForInventoryThread() const
 {
     unloadTextureIfOnGPU(m_main_thread_data.Texture);
+}
+
+sad::Scene* SceneTransitionProcess::lastActiveScene(sad::Renderer* r)
+{
+    if (!r)
+    {
+        return NULL;
+    }
+    for(int i = r->scenes().size() -1; i > -1; i--)
+    {
+        if (r->scenes()[i]->active())
+        {
+            return r->scenes()[i];
+        }
+    }
+    return NULL;
 }
 
 

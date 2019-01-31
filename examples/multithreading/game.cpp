@@ -33,6 +33,7 @@
 
 #include <slurpjson.h>
 #include <spitjson.h>
+#include <camera.h>
 
 #include <functional>
 
@@ -1256,6 +1257,11 @@ void Game::changeSceneToPlayingScreen()
 
     options.mainThread().OnLoadedFunction = [=]() {
         sad::db::Database* db = main_renderer->database("gamescreen");
+        sad::Scene* pause_scene = db->objectByName<sad::Scene>("pause");
+        if (pause_scene)
+        {
+            pause_scene->setActive(false);
+        }
         this->m_moving_platform_registry.setDatabase(db);
         this->m_score_bar->init();
         this->m_camera_movement->init();
@@ -1861,11 +1867,28 @@ void Game::tryEnterPause()
     if (this->isNowPlaying() && !this->isPaused() && !isWinning())
     {
         this->rendererForMainThread()->pipeline()->appendTask([=]() {
+            sad::Renderer* r = this->rendererForMainThread();
             this->m_paused_state_machine.enterState("paused");
             this->rendererForMainThread()->animations()->pause();
             this->m_delayed_tasks.pause();
             this->m_player->pauseWeaponsReloading();
             this->m_actors.pause();
+            sad::db::Database* gamescreen = r->database("gamescreen");
+            sad::Scene* pause_scene = gamescreen->objectByName<sad::Scene>("pause");
+            if (pause_scene)
+            {
+                sad::Label* label = gamescreen->objectByName<sad::Label>("PauseResume");
+                sad::Sprite2D* sprite = gamescreen->objectByName<sad::Sprite2D>("PauseArrow");
+                if (label && sprite)
+                {
+                    sad::Rect2D old_area = sprite->area();
+                    double y = label->area().p0().y() - (label->area().height()  - old_area.height()) / 2.0 - 3.0; // Simple offset to solve font size inconsistency
+                    sprite->setArea(sad::Rect2D(old_area.p0().x(), y - old_area.height(), old_area.p2().x(), y));
+                }
+
+                pause_scene->camera().TranslationOffset.setX(r->globalTranslationOffset().x() * (-1.0));
+                pause_scene->setActive(true);
+            }
         });
         this->rendererForInventoryThread()->pipeline()->appendTask([=]() {
             this->rendererForInventoryThread()->animations()->pause();
@@ -1886,6 +1909,11 @@ void Game::tryExitPause()
             this->m_delayed_tasks.resume();
             this->m_player->resumeWeaponsReloading();
             this->m_actors.resume();
+            sad::Scene* pause_scene = this->rendererForMainThread()->database("gamescreen")->objectByName<sad::Scene>("pause");
+            if (pause_scene)
+            {
+                pause_scene->setActive(false);
+            }
         });
         this->rendererForInventoryThread()->pipeline()->appendTask([=]() {
             this->rendererForInventoryThread()->animations()->resume();

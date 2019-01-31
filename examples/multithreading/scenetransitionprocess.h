@@ -80,6 +80,11 @@ struct ThreadData
     /*! Unloads textures for inventory thread
      */
     void unloadTexturesForInventoryThread() const;
+    /*! Returns last active scene for renderer
+     *  \param[in] r renderer
+     *  \return last active scene
+     */
+    static sad::Scene* lastActiveScene(sad::Renderer* r);
 private:
     /*! Unloads texture if it's on GPU
         \param[in] t texture
