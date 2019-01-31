@@ -20,7 +20,7 @@ class Renderer;
 
 namespace game
 {
-class Options;
+struct Options;
 }
 
 class Game;
