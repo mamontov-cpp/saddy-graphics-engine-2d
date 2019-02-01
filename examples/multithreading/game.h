@@ -84,6 +84,13 @@ public:
         GMMS_OPTIONS  = 1,  //!< Options are selected
         GMMS_EXIT     = 2   //!< An exit state is selected
     };
+    /*! A paused menu state
+     */
+    enum PauseMenuState
+    {
+        GPMS_RESUME = 0,  //!< A resume option is chosen,
+        GPMS_EXIT = 1, //!< An exit option is chosen
+    };
     /*! A default gravity forcevalue
      */
     static const sad::Point2D GravityForceValue;
@@ -413,10 +420,17 @@ public:
     /*! Tries to enter pause state for game
      */
     void tryEnterPause();
-    /*! Tries to exist pause state for game
+    /*! Tries to exit pause state for game
      */
     void tryExitPause();
+    /*! Tries to exit pause state for game
+     *  \param[in] on_exit_main a callback,  that should be called in main thread when exited from pause
+     */
+    void tryExitPause(const std::function<void()>& on_exit_main);
 private:
+    /*! Shows current pause menu option
+     */
+    void showCurrentPauseMenuOption() const;
     /*! Inits evaluation context
      */
     void initContext();
@@ -463,6 +477,9 @@ private:
     /*!  A main menu state for main menu
      */
     Game::MainMenuState  m_main_menu_state;
+    /*! A pause menu state for paused menu
+     */
+    Game::PauseMenuState m_pause_menu_state;
     /*! A mappping, that maps a state index from Game::MainMenuState
         to a label, where should be placed marker (player stuff)
      */

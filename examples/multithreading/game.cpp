@@ -75,6 +75,7 @@ DECLARE_COMMON_TYPE(Game);
 
 Game::Game()  : m_is_quitting(false),  // NOLINT(cppcoreguidelines-pro-type-member-init)
 m_main_menu_state(Game::GMMS_PLAY),
+m_pause_menu_state(Game::GPMS_RESUME),
 m_score(0),
 m_highscore(0),
 m_loaded_options_database{false, false},
@@ -653,33 +654,52 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
     });
 
     // A paused game screen
+    std::function<void()> pause_menu_next_option = [=]() {
+        this->m_pause_menu_state = (this->m_pause_menu_state == Game::GPMS_RESUME) ? Game::GPMS_EXIT : Game::GPMS_RESUME;
+        this->showCurrentPauseMenuOption();
+    };
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
         & m_conditions.ConditionsForMainRenderer.UpKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_PRESSED]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("paused")),
-        empty_callback
+        pause_menu_next_option
     );
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
         & m_conditions.ConditionsForMainRenderer.DownKeyConditions[game::Conditions::CS_PLAYGAME_PAUSED_PRESSED]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("paused")),
-        empty_callback
+        pause_menu_next_option
     );
+    // On pressed state
     renderer->controls()->addLambda(
         *sad::input::ET_KeyPress
         & m_conditions.ConditionsForMainRenderer.JumpActionConditions[game::Conditions::CS_PLAYGAME_PAUSED_PRESSED]
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("paused")),
-        empty_callback
-    );
+        [=]() {
+        if (this->m_pause_menu_state == Game::GPMS_RESUME)
+        {
+            this->tryExitPause([=]() {
+                this->playSound("misc_menu_2");
+            });
+        }
+        if (this->m_pause_menu_state == Game::GPMS_EXIT)
+        {
+            this->tryExitPause([=]() {
+                this->changeSceneToStartingScreen();
+                this->playSound("misc_menu_2");
+            });
+        }
+    });
+    void (Game::*try_exit_pause)() = &Game::tryExitPause;
     renderer->controls()->add(
         *sad::input::ET_KeyPress
         & m_conditions.ConditionsForMainRenderer.PauseConditionWhenPaused
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("paused")),
-        this, &Game::tryExitPause
+        this, try_exit_pause
     );
     // A paused key release handlers
     renderer->controls()->addLambda(
@@ -848,12 +868,13 @@ void Game::setControlsForInventoryThread(sad::Renderer* renderer)
         & ((&m_paused_state_machine) * sad::String("paused")),
         empty_callback
     );
+    void (Game::*try_exit_pause)() = &Game::tryExitPause;
     renderer->controls()->add(
         *sad::input::ET_KeyPress
         & m_conditions.ConditionsForInventoryRenderer.PauseConditionWhenPaused
         & ((&m_state_machine) * sad::String("playing"))
         & ((&m_paused_state_machine) * sad::String("paused")),
-        this, &Game::tryExitPause
+        this, try_exit_pause
     );
 
     std::function<void(const sad::input::MousePressEvent& e)> left_button_click = [=](const sad::input::MousePressEvent& e) {
@@ -1873,19 +1894,12 @@ void Game::tryEnterPause()
             this->m_delayed_tasks.pause();
             this->m_player->pauseWeaponsReloading();
             this->m_actors.pause();
+            this->m_pause_menu_state = Game::GPMS_RESUME;
             sad::db::Database* gamescreen = r->database("gamescreen");
             sad::Scene* pause_scene = gamescreen->objectByName<sad::Scene>("pause");
             if (pause_scene)
             {
-                sad::Label* label = gamescreen->objectByName<sad::Label>("PauseResume");
-                sad::Sprite2D* sprite = gamescreen->objectByName<sad::Sprite2D>("PauseArrow");
-                if (label && sprite)
-                {
-                    sad::Rect2D old_area = sprite->area();
-                    double y = label->area().p0().y() - (label->area().height()  - old_area.height()) / 2.0 - 3.0; // Simple offset to solve font size inconsistency
-                    sprite->setArea(sad::Rect2D(old_area.p0().x(), y - old_area.height(), old_area.p2().x(), y));
-                }
-
+                this->showCurrentPauseMenuOption();
                 pause_scene->camera().TranslationOffset.setX(r->globalTranslationOffset().x() * (-1.0));
                 pause_scene->setActive(true);
             }
@@ -1901,6 +1915,11 @@ void Game::tryEnterPause()
 
 void Game::tryExitPause()
 {
+    this->tryExitPause([]() {});
+}
+
+void Game::tryExitPause(const std::function<void()>& on_exit_main)
+{
     if (this->isNowPlaying() && this->isPaused() && !isWinning())
     {
         this->rendererForMainThread()->pipeline()->appendTask([=]() {
@@ -1914,6 +1933,7 @@ void Game::tryExitPause()
             {
                 pause_scene->setActive(false);
             }
+            on_exit_main();
         });
         this->rendererForInventoryThread()->pipeline()->appendTask([=]() {
             this->rendererForInventoryThread()->animations()->resume();
@@ -1926,6 +1946,25 @@ void Game::tryExitPause()
 
 
 // ==================================== PRIVATE METHODS ====================================
+
+void Game::showCurrentPauseMenuOption() const
+{
+    sad::Renderer* r = this->rendererForMainThread();
+    sad::db::Database* gamescreen = r->database("gamescreen");
+    sad::Scene* pause_scene = gamescreen->objectByName<sad::Scene>("pause");
+    if (pause_scene)
+    {
+        const char* label_name = (this->m_pause_menu_state == Game::GPMS_RESUME) ? "PauseResume" : "PauseExit";
+        sad::Label* label = gamescreen->objectByName<sad::Label>(label_name);
+        sad::Sprite2D* sprite = gamescreen->objectByName<sad::Sprite2D>("PauseArrow");
+        if (label && sprite)
+        {
+            sad::Rect2D old_area = sprite->area();
+            double y = label->area().p0().y() - (label->area().height() - old_area.height()) / 2.0 - 3.0; // Simple offset to solve font size inconsistency
+            sprite->setArea(sad::Rect2D(old_area.p0().x(), y - old_area.height(), old_area.p2().x(), y));
+        }
+    }
+}
 
 void Game::initContext()
 {
@@ -2428,7 +2467,9 @@ Game::Game(const Game&)  // NOLINT
     m_main_thread(NULL),
     m_inventory_thread(NULL),
     m_is_quitting(false),
-    m_main_menu_state(Game::GMMS_PLAY), m_score(0),
+    m_main_menu_state(Game::GMMS_PLAY),
+    m_pause_menu_state(Game::GPMS_RESUME),
+    m_score(0),
     m_highscore(0),
     m_loaded_options_database{false, false},
     m_loaded_lose_screen_database{false, false},
