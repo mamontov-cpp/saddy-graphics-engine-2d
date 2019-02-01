@@ -37,7 +37,7 @@ cd ../..
 REM cd tools/ifaceed
 REM qmake CONFIG+=%QtConfig% ifaceed.pro
 REM mingw32-make
-cd ../..
+REM cd ../..
 cd plugins/dukpp-03
 call %BatchToRun% || goto :error
 cd ../..
