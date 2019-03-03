@@ -10,14 +10,6 @@
 #include <sadthread.h>
 #include "game.h"
 
-#ifdef WIN32
-#ifdef MSVC_RELEASE
-#include <Windows.h>
-#endif
-#endif
-
-
-
 /* This macro manupilation is to make console window hidden in MSVC window
  */
 int main(int argc, char** argv)
