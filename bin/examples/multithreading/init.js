@@ -714,8 +714,8 @@ resetEnemyCounter();
 
 addTriggerOnce(200, function() {
     //setWindSpeed(-20);
-    setWindSpeed(60);
-    snow.start();
+    //setWindSpeed(60);
+    //snow.start();
     //spawnItem("Book of Flight", new sad.Point2D(400, 500));
     //spawnItem("Red potion", new sad.Point2D(350, 500));
     spawnItem("Simple spear", new sad.Point2D(400, 500));
@@ -724,14 +724,13 @@ addTriggerOnce(200, function() {
 });
 
 addTriggerOnce(400, function() {
-    setWindSpeed(0);
-    snow.stop();
+    //setWindSpeed(0);
+    //snow.stop();
 
     lockScreen();
     setEnemyCounter(2);
     onZeroEnemies(function() { unlockScreen(); });
 
-    gamePrint("Player has reached point of " + player().middle().x  + "," + player().middle().y + " which is more than 400\n");
     //player().tryStartGoingUp();
     //spawnEnemyWalkerAt("player", new sad.Point2D(400, 500), "random_60_500");
     //spawnAnimatedFloater("animated_floater_1", new sad.Point2D(500, 500), 50, 750, 40);
@@ -743,8 +742,24 @@ addTriggerOnce(400, function() {
     var actor = spawnEnemyInDirection("green_walker", new sad.Point2D(200, 300), HDir.Right, VDir.None);
     decrementCounterOnActorDeath(actor);
 
+    
+    var actor = spawnPlatformPatrol("enemy_walker", new sad.Point2D(220, 300));
+    decrementCounterOnActorDeath(actor);
+
+    setLootForActor(actor, {"Gold coin" : 34, "Helmet": 33, "Red potion": 33});
+});
+
+addTriggerOnce(810, function() {
+    lockScreen();
+    setEnemyCounter(2);
+    onZeroEnemies(function() { unlockScreen(); });
+
+    var actor = spawnPlatformPatrol("enemy_walker", new sad.Point2D(964, 275));
+    setLootForActor(actor, {"Gold coin" : 50, "Red potion": 50});
+    decrementCounterOnActorDeath(actor);
+
     var weapon = new Weapon();
-    weapon.setShootingInterval(100);
+    weapon.setShootingInterval(2000);
     weapon.setAmountOfProjectiles(1);
     weapon.setBaseDamage(1);
     var settings = new BulletSettings();
@@ -753,27 +768,26 @@ addTriggerOnce(400, function() {
     settings.ApplyGravity = false;
     settings.RestitutionCoefficient = 0.9;
     weapon.setSettings(settings);
-    //actor.pushWeapon(weapon);
+    actor.pushWeapon(weapon);
+    
     /*
     var strategy = new FixedAngleStrategy(Math.PI);
     var strategy = new TurningStrategy(2.0);
     var strategy = new PlayerLocatingStrategy();
     */
-    var strategy = new RandomStrategy();
-    strategy.setInterval(100);
+    var strategy = new PlayerLocatingStrategy();
+    strategy.setInterval(200);
     
-    //actor.setShootingStrategy(strategy); 
+    actor.setShootingStrategy(strategy); 
     
-    var actor = spawnPlatformPatrol("enemy_walker", new sad.Point2D(220, 300));
+    actor = spawnPlatformPatrol("enemy_walker", new sad.Point2D(1195, 275));
+    setLootForActor(actor, {"Gold coin" : 50, "Red potion": 50});
     decrementCounterOnActorDeath(actor);
-
-    setLootForActor(actor, {"Gold coin" : 50, "Helmet": 50});
-});
-
-addTriggerOnce(750, function() {
-    //lockScreen();
-    //cameraMovement().showArrow();
-    //triggerWinGame();
+    actor.pushWeapon(weapon);
+    var strategy = new PlayerLocatingStrategy();
+    strategy.setInterval(200);
+    
+    actor.setShootingStrategy(strategy); 
 });
 
 addTriggerOnce(950, function() {
