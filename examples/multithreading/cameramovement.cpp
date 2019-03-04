@@ -162,6 +162,102 @@ bool CameraMovement::isLocked() const
     return m_locked;
 }
 
+
+void CameraMovement::moveCameraLeft(double offset, bool change_global_offset)
+{
+    sad::Renderer* r = m_game->rendererForMainThread();
+    double w = static_cast<double>(r->settings().width());
+    double ox = r->globalTranslationOffset().x();
+
+    if (change_global_offset)
+    {
+        double oy = r->globalTranslationOffset().y();
+        r->setGlobalTranslationOffset(sad::Point2D(ox + offset, oy));
+    }
+
+    sad::Point2D  dp(offset, 0);
+    for (auto& fg_tile : m_fg_tiles)
+    {
+        fg_tile->moveBy(dp);
+    }
+
+    // Swap positions of tiles if need to
+    sad::Sprite2D* s = m_backgrounds[2];
+    ox = r->globalTranslationOffset().x();
+    dp.setX(w * (-2.0));
+    if (s->area().p0().x() + ox > w)
+    {
+        s->moveBy(dp);
+#define LSHIFT(ARR)  { sad::Sprite2D* m = (ARR)[2]; (ARR)[2] = (ARR)[1]; (ARR)[1] = (ARR)[0]; (ARR)[0] = m;  }
+        LSHIFT(m_backgrounds);
+
+        s = m_bg_tiles[2];
+        s->moveBy(dp);
+        LSHIFT(m_bg_tiles);
+    }
+    for (int i = 2; i > -1; i--)
+    {
+        s = m_fg_tiles[i];
+        double local_x = s->area().p0().x();
+        if (local_x + ox > w)
+        {
+            double min_x = m_fg_tiles[0]->area().p0().x() - w;
+            s->moveBy(sad::Point2D(min_x - local_x, 0));
+            LSHIFT(m_fg_tiles);
+        }
+    }
+}
+
+void CameraMovement::moveCameraRight(double offset, bool change_global_offset)
+{
+    sad::Renderer* r = m_game->rendererForMainThread();
+    double w = static_cast<double>(r->settings().width());
+    double ox = r->globalTranslationOffset().x();
+
+    if (change_global_offset)
+    {
+        double oy = r->globalTranslationOffset().y();
+        r->setGlobalTranslationOffset(sad::Point2D(ox - offset, oy));
+    }
+
+    sad::Point2D dp = sad::Point2D(offset, 0);
+    for (auto& fg_tile : m_fg_tiles)
+    {
+        fg_tile->moveBy(dp);
+    }
+
+    // Swap positions of tiles if need to
+    sad::Sprite2D* s = m_backgrounds[0];
+    ox = r->globalTranslationOffset().x();
+    dp.setX(w * 2.0);
+
+    if (s->area().p2().x() + ox < 0)
+    {
+#define RSHIFT(ARR)  { sad::Sprite2D* m = (ARR)[0]; (ARR)[0] = (ARR)[1]; (ARR)[1] = (ARR)[2]; (ARR)[2] = m;  }
+
+        s->moveBy(dp);
+        RSHIFT(m_backgrounds);
+
+        s = m_bg_tiles[0];
+        s->moveBy(dp);
+        RSHIFT(m_bg_tiles);
+
+    }
+
+    for (int i = 0; i < 3; i++) // NOLINT
+    {
+        s = m_fg_tiles[i];
+        double local_x = s->area().p2().x();
+        if (local_x + ox < 0)
+        {
+            double max_x = m_fg_tiles[2]->area().p2().x() + w;
+            s->moveBy(sad::Point2D(max_x - local_x, 0));
+            RSHIFT(m_fg_tiles);
+        }
+    }
+}
+
+
 void CameraMovement::correctOffsetAndBackgrounds()
 {
     sad::Renderer* r = m_game->rendererForMainThread();
@@ -189,37 +285,7 @@ void CameraMovement::correctOffsetAndBackgrounds()
             }
 
             // Move foreground tiles
-            sad::Point2D  dp(dx * 0.125, 0);
-            for (auto& fg_tile : m_fg_tiles)
-            {
-                fg_tile->moveBy(dp);
-            }
-
-            // Swap positions of tiles if need to
-            sad::Sprite2D* s = m_backgrounds[2];
-            ox = r->globalTranslationOffset().x();
-            dp.setX(w * (-2.0));
-            if (s->area().p0().x() + ox > w)
-            {
-                s->moveBy(dp);
-#define LSHIFT(ARR)  { sad::Sprite2D* m = (ARR)[2]; (ARR)[2] = (ARR)[1]; (ARR)[1] = (ARR)[0]; (ARR)[0] = m;  }
-                LSHIFT(m_backgrounds);
-
-                s = m_bg_tiles[2];
-                s->moveBy(dp);
-                LSHIFT(m_bg_tiles);
-            }
-            for (int i = 2; i > -1; i--)
-            {
-                s = m_fg_tiles[i];
-                double local_x = s->area().p0().x();
-                if (local_x + ox > w)
-                {
-                    double min_x = m_fg_tiles[0]->area().p0().x() - w;
-                    s->moveBy(sad::Point2D(min_x - local_x, 0));
-                    LSHIFT(m_fg_tiles);
-                }
-            }
+            moveCameraLeft(dx * 0.125, false);
         }
     }
     if (px + ox > m_move_right_boundary)
@@ -240,42 +306,7 @@ void CameraMovement::correctOffsetAndBackgrounds()
                 r->setGlobalTranslationOffset(sad::Point2D(nox, oy));
             }
 
-            // Move foreground tiles
-            sad::Point2D dp = sad::Point2D(dx * 0.125, 0);
-            for (auto& fg_tile : m_fg_tiles)
-            {
-                fg_tile->moveBy(dp);
-            }
-
-            // Swap positions of tiles if need to
-            sad::Sprite2D* s = m_backgrounds[0];
-            ox = r->globalTranslationOffset().x();
-            dp.setX(w * 2.0);
-
-            if (s->area().p2().x() + ox < 0)
-            {
-#define RSHIFT(ARR)  { sad::Sprite2D* m = (ARR)[0]; (ARR)[0] = (ARR)[1]; (ARR)[1] = (ARR)[2]; (ARR)[2] = m;  }
-
-                s->moveBy(dp);
-                RSHIFT(m_backgrounds);
-
-                s = m_bg_tiles[0];
-                s->moveBy(dp);
-                RSHIFT(m_bg_tiles);
-
-            }
-
-            for (int i = 0; i < 3; i++) // NOLINT
-            {
-                s = m_fg_tiles[i];
-                double local_x = s->area().p2().x();
-                if (local_x + ox < 0)
-                {
-                    double max_x = m_fg_tiles[2]->area().p2().x() + w;
-                    s->moveBy(sad::Point2D(max_x - local_x, 0));
-                    RSHIFT(m_fg_tiles);
-                }
-            }
+            moveCameraRight(dx * 0.125, false);
         }
     }
 }

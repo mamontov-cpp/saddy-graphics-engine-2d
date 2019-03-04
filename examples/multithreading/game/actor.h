@@ -390,6 +390,14 @@ public:
     /*! Resumes weapon reloading for actor
      */
     void resumeWeaponsReloading();
+    /*! Returns whether actor is clipping through boundaries
+     *  \return whether actor is clipping through boundaries
+     */
+    bool isClipThroughBoundaries() const;
+    /*! Whether actor, should clip through boundaries
+     *  \param[in] is_clipping values
+     */
+    void setClipThroughBoundaries(bool is_clipping);
 private:
     /*! Compute whether floater should go up or down
         \param[out] is_going_up whether we should go up
@@ -538,6 +546,9 @@ private:
     /*! Toggles whether actor is affected by wind
      */
     bool m_affected_by_wind;
+    /*! Whether actor will clip through boundaries
+     */
+    bool m_clip_through_boundaries;
 };
 
 /*! Exposes actor to context

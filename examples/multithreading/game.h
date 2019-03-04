@@ -427,6 +427,13 @@ public:
      *  \param[in] on_exit_main a callback,  that should be called in main thread when exited from pause
      */
     void tryExitPause(const std::function<void()>& on_exit_main);
+    /*! Returns camera movement for game
+     *  \return camera movement
+     */
+    CameraMovement* cameraMovement() const;
+    /*! Sets walls for game, according to offset
+     */
+    void setWallsAccordingToOffset();
 private:
     /*! Shows current pause menu option
      */

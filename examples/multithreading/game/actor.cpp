@@ -4,7 +4,6 @@
 #include "../weapons/weapon.h"
 
 #include <cmath>
-#include <cstdio>
 
 #include <p2d/world.h>
 #include <p2d/collides1d.h>
@@ -52,7 +51,8 @@ m_fixed_size(false),
 m_attack_modifier(0),
 m_defense(0),
 m_floater_state_counter(0),
-m_affected_by_wind(false)
+m_affected_by_wind(false),
+m_clip_through_boundaries(false)
 {
     m_key_states.reset();
 }
@@ -1426,6 +1426,16 @@ void game::Actor::resumeWeaponsReloading()
             m_weapons[i]->resume();
         }
     }
+}
+
+bool game::Actor::isClipThroughBoundaries() const
+{
+    return m_clip_through_boundaries;
+}
+
+void game::Actor::setClipThroughBoundaries(bool is_clipping)
+{
+    m_clip_through_boundaries = is_clipping;
 }
 
 // ===================================== PRIVATE METHODS =====================================

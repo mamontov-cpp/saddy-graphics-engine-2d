@@ -71,6 +71,16 @@ public:
     /*! Returns is movement is locked
      */
     bool isLocked() const;
+    /*! Moves camera left
+     *  \param[in] offset an offset for camera to change
+     *  \param[in] change_global_offset whether we should change global offset for camera
+     */
+    void moveCameraLeft(double offset, bool change_global_offset);
+    /*! Moves camera right
+     *  \param[in] offset an offset for camera to change
+     *  \param[in] change_global_offset whether we should change global offset for camera
+     */
+    void moveCameraRight(double offset, bool change_global_offset);
 private:
     /*! Correct global offset and backgrounds
      */

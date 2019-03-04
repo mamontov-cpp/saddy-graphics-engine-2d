@@ -98,7 +98,7 @@ addItemDefinition({
         weapon.setMaxAngleDelta(0);
         var settings = new SwingSettings();
         settings.IconName = "icons_list/W_Spear010ng";
-        settings.ScaleFactor = 2.0;
+        settings.ScaleFactor = 1.2;
         settings.DecayTime = 200;
         settings.SoundName = "swing";
         weapon.setSettings(settings);
@@ -711,7 +711,7 @@ setRightBound(3200);
 resetEnemyCounter();
 
 var playEnemySpawnSound = function() {
-	playSound("item_drop");
+    playSound("item_drop");
 };
 
 // Just a simple JS trigger
@@ -734,7 +734,7 @@ addTriggerOnce(400, function() {
     lockScreen();
     setEnemyCounter(2);
     onZeroEnemies(function() { unlockScreen(); });
-	playEnemySpawnSound();
+    playEnemySpawnSound();
 
     //player().tryStartGoingUp();
     //spawnEnemyWalkerAt("player", new sad.Point2D(400, 500), "random_60_500");
@@ -755,12 +755,12 @@ addTriggerOnce(400, function() {
 });
 
 addTriggerOnce(810, function() {
-    lockScreen();
+    startPlayingCameraLockAnimation(-635.0, 1400.0);
     setEnemyCounter(2);
-    onZeroEnemies(function() { unlockScreen(); });
+    onZeroEnemies(function() { unlockScreen();  spawnItem("Laser pointer", new sad.Point2D(1285, 285)); });
     
-	playEnemySpawnSound();
-    var actor = spawnPlatformPatrol("enemy_walker", new sad.Point2D(964, 275));
+    playEnemySpawnSound();
+    var actor = spawnPlatformPatrol("enemy_walker", new sad.Point2D(964, 300));
     setLootForActor(actor, {"Gold coin" : 50, "Red potion": 50});
     decrementCounterOnActorDeath(actor);
 
@@ -786,7 +786,7 @@ addTriggerOnce(810, function() {
     
     actor.setShootingStrategy(strategy); 
     
-    actor = spawnPlatformPatrol("enemy_walker", new sad.Point2D(1195, 275));
+    actor = spawnPlatformPatrol("enemy_walker", new sad.Point2D(1195, 300));
     setLootForActor(actor, {"Gold coin" : 50, "Red potion": 50});
     decrementCounterOnActorDeath(actor);
     actor.pushWeapon(weapon);

@@ -61,6 +61,7 @@
 #include "cameramovement.h"
 #include "enemycounter.h"
 #include "sounds.h"
+#include "cameralockanimation.h"
 
 const sad::Point2D Game::GravityForceValue(0.0, -300.0); // -300 is arbitrarily defined, to make player fall slowly
 
@@ -1944,6 +1945,18 @@ void Game::tryExitPause(const std::function<void()>& on_exit_main)
     }
 }
 
+CameraMovement* Game::cameraMovement() const
+{
+    return m_camera_movement;
+}
+
+
+void Game::setWallsAccordingToOffset()
+{
+    sad::Point2D p = this->rendererForMainThread()->globalTranslationOffset();
+    this->m_walls.setLeftBound(p.x() * -1.0);
+    this->m_walls.setRightBound(p.x() * -1.0 + this->rendererForMainThread()->settings().width());
+}
 
 // ==================================== PRIVATE METHODS ====================================
 
@@ -2053,6 +2066,9 @@ void Game::initContext()
     std::function<void(game::Actor*, int)> decrement_floater_state_counter_delayed = [=](game::Actor* actor, int delay) -> void {
         this->addDelayedTask(delay, [=]() { actor->decrementFloaterStateCounter(); });
     };
+    std::function<void(game::Actor*, bool)> turn_clipping_through_boundaries = [=](game::Actor* actor, bool value) -> void {
+        actor->setClipThroughBoundaries(value);
+    };
     std::function<game::Actor*(const sad::String&, const sad::Point2D& p)> _spawn_item = [=](const sad::String& name, const sad::Point2D& p) -> game::Actor* {
         game::Actor* a = this->makeItemActor(name, p);
         if (a)
@@ -2119,9 +2135,7 @@ void Game::initContext()
         this->m_walls.setRightBound(x);
     };
     std::function<void()> lock_screen = [=]() {
-        sad::Point2D p = this->rendererForMainThread()->globalTranslationOffset();
-        this->m_walls.setLeftBound(p.x() * -1.0);
-        this->m_walls.setRightBound(p.x() * -1.0 + this->rendererForMainThread()->settings().width());
+        this->setWallsAccordingToOffset();
         this->m_camera_movement->lock();
     };
 
@@ -2158,6 +2172,10 @@ void Game::initContext()
             this->m_enemy_counter->decrement();
         });
     };
+    std::function<void(double, double)> start_playing_camera_lock_animation = [=](double finishing_offset, double total_time) {
+        this->m_camera_movement->lock();
+        this->rendererForMainThread()->pipeline()->prepend(new  CameraLockAnimation(this, finishing_offset, total_time));
+    };
 
 
     m_eval_context->registerCallable("makePlatformGoOnWay", sad::dukpp03::make_lambda::from(make_platform_go_on_way));
@@ -2175,6 +2193,7 @@ void Game::initContext()
     m_eval_context->registerCallable("giveItemToPlayer", sad::dukpp03::make_lambda::from(give_item_to_player));
     m_eval_context->registerCallable("incrementFloaterStateCounterDelayed", sad::dukpp03::make_lambda::from(increment_floater_state_counter_delayed));
     m_eval_context->registerCallable("decrementFloaterStateCounterDelayed", sad::dukpp03::make_lambda::from(decrement_floater_state_counter_delayed));
+    m_eval_context->registerCallable("turnClippingThroughBoundaries", sad::dukpp03::make_lambda::from(turn_clipping_through_boundaries)); // turns for actor
     m_eval_context->registerCallable("_spawnItem", sad::dukpp03::make_lambda::from(_spawn_item));
     m_eval_context->registerCallable("playSound", sad::dukpp03::make_lambda::from(play_sound));
     m_eval_context->registerCallable("_setLootForActor", sad::dukpp03::make_lambda::from(_set_loot_for_actor));
@@ -2194,7 +2213,8 @@ void Game::initContext()
     m_eval_context->registerCallable("incrementEnemyCounter", sad::dukpp03::make_lambda::from(increment_enemy_counter));
     m_eval_context->registerCallable("onZeroEnemies", sad::dukpp03::make_lambda::from(on_zero_enemies));
     m_eval_context->registerCallable("decrementCounterOnActorDeath", sad::dukpp03::make_lambda::from(decrement_counter_on_actor_death));
-
+    m_eval_context->registerCallable("startPlayingCameraLockAnimation", sad::dukpp03::make_lambda::from(start_playing_camera_lock_animation));
+    
     scripting::exposeSpawnEnemy(m_eval_context, this);
     game::exposeActorOptions(m_eval_context, this);
     weapons::exposeSwingSettings(m_eval_context);
@@ -2290,6 +2310,23 @@ void Game::initGamePhysics()
             a->onPlatformCollision(ev);
         }
     };
+    std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_enemy_and_walls = [=](const sad::p2d::BasicCollisionEvent & ev) {
+        game::Actor* a = dynamic_cast<game::Actor*>(ev.m_object_1->userObject());
+        if (!a->isFloater() && ev.m_object_2 == this->m_walls.bottomWall())
+        {
+            a->fireOnDeathEvents();
+            this->killActorWithoutSprite(a);
+            a->playDeathAnimation();
+            return;
+        }
+        if (a)
+        {
+            if (!a->isClipThroughBoundaries())
+            { 
+                a->onPlatformCollision(ev);
+            }
+        }
+    };
 
     std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_item_and_platforms = [=](const sad::p2d::BasicCollisionEvent & ev) {
         game::Actor* a = dynamic_cast<game::Actor*>(ev.m_object_1->userObject());
@@ -2349,7 +2386,7 @@ void Game::initGamePhysics()
     m_physics_world->addHandler("items_unpickable", "platforms", collision_between_item_and_platforms);
 
     m_physics_world->addHandler("player", "walls", collision_between_player_and_platforms);
-    m_physics_world->addHandler("enemies", "walls", collision_between_enemy_and_platforms);
+    m_physics_world->addHandler("enemies", "walls", collision_between_enemy_and_walls);
     m_physics_world->addHandler("items", "walls", collision_between_item_and_platforms);
     m_physics_world->addHandler("items_unpickable", "walls", collision_between_item_and_platforms);
 
