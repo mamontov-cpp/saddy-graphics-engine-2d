@@ -710,6 +710,10 @@ setMaxLevelX(3200);
 setRightBound(3200);
 resetEnemyCounter();
 
+var playEnemySpawnSound = function() {
+	playSound("item_drop");
+};
+
 // Just a simple JS trigger
 
 addTriggerOnce(200, function() {
@@ -730,6 +734,7 @@ addTriggerOnce(400, function() {
     lockScreen();
     setEnemyCounter(2);
     onZeroEnemies(function() { unlockScreen(); });
+	playEnemySpawnSound();
 
     //player().tryStartGoingUp();
     //spawnEnemyWalkerAt("player", new sad.Point2D(400, 500), "random_60_500");
@@ -753,7 +758,8 @@ addTriggerOnce(810, function() {
     lockScreen();
     setEnemyCounter(2);
     onZeroEnemies(function() { unlockScreen(); });
-
+    
+	playEnemySpawnSound();
     var actor = spawnPlatformPatrol("enemy_walker", new sad.Point2D(964, 275));
     setLootForActor(actor, {"Gold coin" : 50, "Red potion": 50});
     decrementCounterOnActorDeath(actor);
