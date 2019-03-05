@@ -2131,6 +2131,14 @@ void Game::initContext()
     std::function<void(game::Actor*, int)> decrement_floater_state_counter_delayed = [=](game::Actor* actor, int delay) -> void {
         this->addDelayedTask(delay, [=]() { actor->decrementFloaterStateCounter(); });
     };
+
+    std::function<void(double, sad::dukpp03::CompiledFunction)> add_delayed_task = [=](double delay, sad::dukpp03::CompiledFunction f) {
+        this->addDelayedTask(delay, [=]() {
+            sad::dukpp03::CompiledFunction mf = f;
+            mf.call(this->context());
+        });
+    };
+
     std::function<void(game::Actor*, bool)> turn_clipping_through_boundaries = [=](game::Actor* actor, bool value) -> void {
         actor->setClipThroughBoundaries(value);
     };
@@ -2301,6 +2309,7 @@ void Game::initContext()
     m_eval_context->registerCallable("shakeCamera", sad::dukpp03::make_lambda::from(shake_camera));
     m_eval_context->registerCallable("removePlatform", sad::dukpp03::make_lambda::from(remove_platform));
     m_eval_context->registerCallable("setOnPlayerRestingOnPlatform", sad::dukpp03::make_lambda::from(set_on_player_resting_on_platform));
+    m_eval_context->registerCallable("addDelayedTask", sad::dukpp03::make_lambda::from(add_delayed_task));
 
     scripting::exposeSpawnEnemy(m_eval_context, this);
     game::exposeActorOptions(m_eval_context, this);
