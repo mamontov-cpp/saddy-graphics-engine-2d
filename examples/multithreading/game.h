@@ -58,6 +58,7 @@ namespace game
 class Item;
 class ScoreBar;
 class SnowParticles;
+class PlatformBlinking;
 }
 
 namespace nodes
@@ -645,4 +646,7 @@ private:
     /*! A callbacks, which should be called, when actor is resting on callbacks
      */
     sad::Hash<game::Actor*, sad::Hash<sad::String, std::function<void()> > > m_actor_on_rest_callbacks;
+    /*! A blinking platform processes
+     */
+    sad::Hash<sad::Sprite2D*, game::PlatformBlinking*> m_blinking_platforms;
 };

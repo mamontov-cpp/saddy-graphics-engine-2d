@@ -4,6 +4,7 @@
 #include "game/scorebar.h"
 #include "game/getpenetrationdepthforitem.h"
 #include "game/snowparticles.h"
+#include "game/blinking_platforms.h"
 
 #include "threads/gamethread.h"
 
@@ -189,6 +190,11 @@ Game::~Game()  // NOLINT
 
     clearItemDefinitions();
     m_enemy_counter->delRef();
+
+    for(size_t i = 0; i < m_blinking_platforms.size(); i++)
+    {
+        delete m_blinking_platforms[i].value();
+    }
 }
 
 /*! A padding, that will be used in main menu between label and player choice
