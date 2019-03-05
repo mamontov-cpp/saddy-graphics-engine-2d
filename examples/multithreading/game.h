@@ -450,7 +450,39 @@ public:
      * \param[in] cb callback
      */
     void setCallbackOnRestingOnPlatform(game::Actor* a, const sad::String& platform_name, const std::function<void()>& cb);
+    /*! Kills platform blinking process by process  pointer. Note, that this DESTROYS object, so it shouldn't be called, you
+     *  should call disablePlatformBlinking instead 
+     *  \param[in] process a process to be killed
+     */
+    void killPlatformBlinkingProcess(game::PlatformBlinking* process);
+    /*! Disable platforms blinking for game
+     *  \param[in] platform_name a name for platform
+     */
+    void disablePlatformBlinking(const sad::String& platform_name);
+    /*! Enables platforms blinking for game
+     *  \param[in] platform_name a name for platform
+     *  \param[in] time a time for platform
+     */
+    void enablePlatformBlinking(const sad::String& platform_name, double time);
+    /*! Registers resting actor on body, needed to handle body of platform removal
+     *  \param[in] b body of platform
+     *  \param[in] a actor
+     */
+    void registerRestingBody(sad::p2d::Body* b, game::Actor* a);
+    /*! Unregisters resting actor on body, needed to handle body of platform removal
+     *  \param[in] b body of platform
+     *  \param[in] a actor
+     */
+    void unregisterRestingBody(sad::p2d::Body* b, game::Actor* a);
+    /*! Disables resting for bodies on platform
+     *  \param[in] b body of platform
+     */
+    void disableRestingForBodiesOnPlatform(sad::p2d::Body* b);
 private:
+    /*! Erases sprite from resting bodies to actors
+     *  \param[in] a actor
+     */
+    void eraseActorFromRestingBodiesToActors(game::Actor* a);
     /*! Shows current pause menu option
      */
     void showCurrentPauseMenuOption() const;
@@ -649,4 +681,7 @@ private:
     /*! A blinking platform processes
      */
     sad::Hash<sad::Sprite2D*, game::PlatformBlinking*> m_blinking_platforms;
+    /*! A list of platforms, linked to actors
+     */
+    sad::Hash<sad::p2d::Body*, sad::Vector<game::Actor*> > m_platforms_to_actors;
 };

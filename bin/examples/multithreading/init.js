@@ -789,6 +789,11 @@ addTriggerOnce(1072, function() {
     actor = spawnPlatformPatrol("enemy_walker", new sad.Point2D(1195, 300));
     setLootForActor(actor, {"Gold coin" : 50, "Red potion": 50});
     decrementCounterOnActorDeath(actor);
+    weapon = new Weapon();
+    weapon.setShootingInterval(2000);
+    weapon.setAmountOfProjectiles(1);
+    weapon.setBaseDamage(1);
+    weapon.setSettings(settings);
     actor.pushWeapon(weapon);
     var strategy = new PlayerLocatingStrategy();
     strategy.setInterval(200);

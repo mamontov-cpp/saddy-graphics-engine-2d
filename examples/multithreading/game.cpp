@@ -4,7 +4,7 @@
 #include "game/scorebar.h"
 #include "game/getpenetrationdepthforitem.h"
 #include "game/snowparticles.h"
-#include "game/blinking_platforms.h"
+#include "game/platformblinking.h"
 
 #include "threads/gamethread.h"
 
@@ -191,9 +191,9 @@ Game::~Game()  // NOLINT
     clearItemDefinitions();
     m_enemy_counter->delRef();
 
-    for(size_t i = 0; i < m_blinking_platforms.size(); i++)
+    for(sad::Hash<sad::Sprite2D*, game::PlatformBlinking*>::iterator it = m_blinking_platforms.begin(); it != m_blinking_platforms.end(); ++it)
     {
-        delete m_blinking_platforms[i].value();
+        delete it.value();
     }
 }
 
@@ -1265,6 +1265,7 @@ void Game::changeSceneToPlayingScreen()
     m_moving_platform_registry.clear();
     m_delayed_tasks.clear();
     m_actor_on_rest_callbacks.clear();
+    m_platforms_to_actors.clear();
     m_wind_speed = 0;
     m_winning = false;
     m_enemy_counter->reset();
@@ -1597,6 +1598,7 @@ void Game::killActorByBody(sad::p2d::Body* body)
     sad::Scene* scene = actor->sprite()->scene();
     scene->removeNode(actor->sprite());
     m_actors.remove(actor);
+    eraseActorFromRestingBodiesToActors(actor);
 }
 
 void Game::killActorWithoutSprite(game::Actor* actor)
@@ -1605,6 +1607,7 @@ void Game::killActorWithoutSprite(game::Actor* actor)
     this->rendererForMainThread()->animations()->stopProcessesRelatedToObject(actor->sprite());
     m_physics_world->removeBody(actor->body());
     m_actors.remove(actor);
+    eraseActorFromRestingBodiesToActors(actor);
 }
 
 game::Player* Game::player() const
@@ -1989,6 +1992,7 @@ void Game::removePlatform(const sad::String& name)
                 }
                 if (found)
                 {
+                    disableRestingForBodiesOnPlatform(bodies[i]);
                     m_physics_world->removeBody(bodies[i]);
                     bodies.removeAt(i);
                     --i;
@@ -2029,7 +2033,114 @@ void Game::setCallbackOnRestingOnPlatform(game::Actor* a, const sad::String& pla
     }
 }
 
+void Game::killPlatformBlinkingProcess(game::PlatformBlinking* process)
+{
+    for (sad::Hash<sad::Sprite2D*, game::PlatformBlinking*>::iterator it = m_blinking_platforms.begin(); it != m_blinking_platforms.end(); ++it)
+    {
+        if (it.value() == process)
+        {
+            delete it.value();
+            m_blinking_platforms.remove(it.key());
+            return;
+        }
+    }
+}
+
+void Game::disablePlatformBlinking(const sad::String& platform_name)
+{
+    sad::Renderer* renderer = this->rendererForMainThread();
+    sad::db::Database* db = renderer->database("gamescreen");
+    if (db)
+    { 
+        sad::Sprite2D* sprite = db->objectByName<sad::Sprite2D>(platform_name);
+        if (sprite)
+        { 
+            if (m_blinking_platforms.contains(sprite))
+            {
+                m_blinking_platforms[sprite]->disable();
+            }
+        }
+    }
+}
+
+void Game::enablePlatformBlinking(const sad::String& platform_name, double time)
+{
+    sad::Renderer* renderer = this->rendererForMainThread();
+    sad::db::Database* db = renderer->database("gamescreen");
+    if (db)
+    {
+        sad::Sprite2D* sprite = db->objectByName<sad::Sprite2D>(platform_name);
+        if (sprite)
+        {
+            if (m_blinking_platforms.contains(sprite))
+            {
+                game::PlatformBlinking* blinking = m_blinking_platforms[sprite];
+                blinking->enable();
+                blinking->setTime(time);
+            }
+            else
+            {
+                m_blinking_platforms.insert(sprite, new game::PlatformBlinking(this, sprite, time));
+            }
+        }
+    }
+}
+
+void Game::registerRestingBody(sad::p2d::Body* b, game::Actor* a)
+{
+    if (!m_platforms_to_actors.contains(b))
+    {
+        m_platforms_to_actors.insert(b, sad::Vector<game::Actor*>());
+    }
+    sad::Vector<game::Actor*>&  v = m_platforms_to_actors[b];
+    if (std::find(v.begin(), v.end(), a) == v.end())
+    {
+        v.push_back(a);
+    }
+}
+
+
+
+void Game::unregisterRestingBody(sad::p2d::Body* b, game::Actor* a)
+{
+    if (m_platforms_to_actors.contains(b))
+    {
+        sad::Vector<game::Actor*>&  v = m_platforms_to_actors[b];
+        v.removeAll(a);
+    }
+}
+
+void Game::disableRestingForBodiesOnPlatform(sad::p2d::Body* b)
+{
+    if (m_platforms_to_actors.contains(b))
+    {
+        sad::Vector<game::Actor*>  v = m_platforms_to_actors[b];
+        for(size_t i = 0; i < v.size(); i++)
+        {
+            v[i]->disableResting();
+        }
+    }
+}
+
+
+
 // ==================================== PRIVATE METHODS ====================================
+
+void Game::eraseActorFromRestingBodiesToActors(game::Actor* a)
+{
+    for (sad::Hash<sad::p2d::Body*, sad::Vector<game::Actor*> >::iterator it = m_platforms_to_actors.begin(); it != m_platforms_to_actors.end(); ++it)
+    {
+        sad::Vector<game::Actor*>&  actors = it.value();
+        for (size_t i = 0; i < actors.size(); i++)
+        {
+            if (actors[i] == a)
+            {
+                actors.removeAt(i);
+                break;
+            }
+        }
+    }
+}
 
 void Game::showCurrentPauseMenuOption() const
 {
@@ -2274,6 +2385,12 @@ void Game::initContext()
             mf.call(this->context());
         });
     };
+    std::function<void(const sad::String&, double)> enable_platform_blinking = [=](const sad::String& platform_name, double time) {
+        this->enablePlatformBlinking(platform_name, time);
+    };
+    std::function<void(const sad::String&)> disable_platform_blinking = [=](const sad::String& platform_name) {
+        this->disablePlatformBlinking(platform_name);
+    };
 
 
     m_eval_context->registerCallable("makePlatformGoOnWay", sad::dukpp03::make_lambda::from(make_platform_go_on_way));
@@ -2316,6 +2433,8 @@ void Game::initContext()
     m_eval_context->registerCallable("removePlatform", sad::dukpp03::make_lambda::from(remove_platform));
     m_eval_context->registerCallable("setOnPlayerRestingOnPlatform", sad::dukpp03::make_lambda::from(set_on_player_resting_on_platform));
     m_eval_context->registerCallable("addDelayedTask", sad::dukpp03::make_lambda::from(add_delayed_task));
+    m_eval_context->registerCallable("enablePlatformBlinking", sad::dukpp03::make_lambda::from(enable_platform_blinking));
+    m_eval_context->registerCallable("disablePlatformBlinking", sad::dukpp03::make_lambda::from(disable_platform_blinking));
 
     scripting::exposeSpawnEnemy(m_eval_context, this);
     game::exposeActorOptions(m_eval_context, this);

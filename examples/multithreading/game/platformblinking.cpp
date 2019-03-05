@@ -42,7 +42,7 @@ game::PlatformBlinking::PlatformBlinking(Game* game, sad::Sprite2D* platform, do
 
    m_hide_callback = [=]() {
        if (!this->m_enabled) {
-          // m_game->killPlatformBlinkingProcess(this);
+           m_game->killPlatformBlinkingProcess(this);
            return;
        }
        this->m_hidden = true;
@@ -51,7 +51,7 @@ game::PlatformBlinking::PlatformBlinking(Game* game, sad::Sprite2D* platform, do
    };
    m_show_callback = [=]() {
        if (!this->m_enabled) {
-           //m_game->killPlatformBlinkingProcess(this);
+           m_game->killPlatformBlinkingProcess(this);
            return;
        }
        this->m_hidden = false;
@@ -98,7 +98,7 @@ void game::PlatformBlinking::setTime(double time)
 
 // ==================================== PRIVATE METHODS ====================================
 
-void game::PlatformBlinking::showPlatform()
+void game::PlatformBlinking::showPlatform() const
 {
     if (m_platform->visible())
     {
@@ -124,7 +124,7 @@ void game::PlatformBlinking::showPlatform()
 }
 
 
-void game::PlatformBlinking::hidePlatform()
+void game::PlatformBlinking::hidePlatform() const
 {
     if (!m_platform->visible())
     {
@@ -133,6 +133,7 @@ void game::PlatformBlinking::hidePlatform()
 
     if (m_body)
     {
+        m_game->disableRestingForBodiesOnPlatform(this->m_body);
         m_game->physicsWorld()->removeBody(this->m_body);
     }
     m_platform->setVisible(false);

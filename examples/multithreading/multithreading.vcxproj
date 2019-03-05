@@ -224,6 +224,7 @@
     <ClCompile Include="game\healthbar.cpp" />
     <ClCompile Include="game\inventory.cpp" />
     <ClCompile Include="game\movingplatformregistry.cpp" />
+    <ClCompile Include="game\platformblinking.cpp" />
     <ClCompile Include="game\player.cpp" />
     <ClCompile Include="game\item.cpp" />
     <ClCompile Include="game\options.cpp" />
@@ -283,6 +284,7 @@
     <ClInclude Include="game\inventory.h" />
     <ClInclude Include="game\movingplatformregistry.h" />
     <ClInclude Include="game\movingplatformstate.h" />
+    <ClInclude Include="game\platformblinking.h" />
     <ClInclude Include="game\player.h" />
     <ClInclude Include="game\item.h" />
     <ClInclude Include="game\options.h" />

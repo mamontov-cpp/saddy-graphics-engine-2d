@@ -724,7 +724,15 @@ void game::Actor::restOnPlatform(sad::p2d::Body* b, const  sad::p2d::Vector& old
         m_is_free_fall = false;
         m_is_ducking = false;
     }
+    if (m_resting_platform != NULL)
+    {
+        m_game->unregisterRestingBody(b, this);
+    }
     m_resting_platform = b;
+    if (b)
+    {
+        m_game->registerRestingBody(b, this);
+    }
 
     sad::p2d::Vector own_velocity = old_velocity;
     if (m_is_floater)
@@ -779,6 +787,10 @@ void game::Actor::disableResting()
         return;
     }
     this->enableGravity();
+    if (m_resting_platform != NULL)
+    {
+        m_game->unregisterRestingBody(m_resting_platform, this);
+    }
     m_is_resting = false;
     m_resting_platform = NULL;
     

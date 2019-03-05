@@ -39,10 +39,10 @@ public:
 private:
     /*! Shows platform
      */
-    void showPlatform();
+    void showPlatform() const;
     /*! Hides platform
      */
-    void hidePlatform();
+    void hidePlatform() const;
     /*! A game part
      */
     Game* m_game;
