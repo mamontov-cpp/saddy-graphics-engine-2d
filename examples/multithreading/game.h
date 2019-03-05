@@ -438,6 +438,17 @@ public:
      *  \param[in] name name for platform
      */
     void removePlatform(const sad::String& name);
+    /*! Tries to invoke callback, when player is resting on platform
+     * \param[in] a an actor
+     * \param[in] platform_name a platform name
+     */
+    void tryInvokeCallbackOnRestingOnPlatform(game::Actor* a, const sad::String& platform_name);
+    /*! Sets calbback on resting on platform
+     * \param[in] a an actor
+     * \param[in] platform_name a platform name
+     * \param[in] cb callback
+     */
+    void setCallbackOnRestingOnPlatform(game::Actor* a, const sad::String& platform_name, const std::function<void()>& cb);
 private:
     /*! Shows current pause menu option
      */
@@ -631,4 +642,7 @@ private:
     /*! An enemy counter
      */
     EnemyCounter* m_enemy_counter;
+    /*! A callbacks, which should be called, when actor is resting on callbacks
+     */
+    sad::Hash<game::Actor*, sad::Hash<sad::String, std::function<void()> > > m_actor_on_rest_callbacks;
 };

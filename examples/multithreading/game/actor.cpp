@@ -766,6 +766,10 @@ void game::Actor::restOnPlatform(sad::p2d::Body* b, const  sad::p2d::Vector& old
             }
         }
     }
+    if (b->userObject())
+    {
+        m_game->tryInvokeCallbackOnRestingOnPlatform(this, b->userObject()->objectName());
+    }
 }
 
 void game::Actor::disableResting()

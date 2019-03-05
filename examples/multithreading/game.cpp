@@ -1258,6 +1258,7 @@ void Game::changeSceneToPlayingScreen()
     m_triggers.clear();
     m_moving_platform_registry.clear();
     m_delayed_tasks.clear();
+    m_actor_on_rest_callbacks.clear();
     m_wind_speed = 0;
     m_winning = false;
     m_enemy_counter->reset();
@@ -1994,6 +1995,34 @@ void Game::removePlatform(const sad::String& name)
     }
 }
 
+void Game::tryInvokeCallbackOnRestingOnPlatform(game::Actor* a, const sad::String& platform_name)
+{
+    if (m_actor_on_rest_callbacks.contains(a))
+    {
+        if (m_actor_on_rest_callbacks[a].contains(platform_name))
+        {
+            m_actor_on_rest_callbacks[a][platform_name]();
+        }
+    }
+}
+
+void Game::setCallbackOnRestingOnPlatform(game::Actor* a, const sad::String& platform_name, const std::function<void()>& cb)
+{
+    if (!m_actor_on_rest_callbacks.contains(a))
+    {
+        m_actor_on_rest_callbacks.insert(a, sad::Hash<sad::String, std::function<void()> >());
+    }
+
+    if (!m_actor_on_rest_callbacks[a].contains(platform_name))
+    {
+        m_actor_on_rest_callbacks[a].insert(platform_name, cb);
+    }
+    else
+    {
+        m_actor_on_rest_callbacks[a][platform_name] = cb;
+    }
+}
+
 // ==================================== PRIVATE METHODS ====================================
 
 void Game::showCurrentPauseMenuOption() const
@@ -2225,6 +2254,12 @@ void Game::initContext()
     std::function<void(const sad::String& s)> remove_platform = [=](const sad::String& s) {
         this->removePlatform(s);
     };
+    std::function<void(const sad::String& platform_name, sad::dukpp03::CompiledFunction)> set_on_player_resting_on_platform = [=](const sad::String& platform_name, sad::dukpp03::CompiledFunction f) -> void {
+        setCallbackOnRestingOnPlatform(this->player()->actor(), platform_name, [=]() {
+            sad::dukpp03::CompiledFunction mf = f;
+            mf.call(this->context());
+        });
+    };
 
 
     m_eval_context->registerCallable("makePlatformGoOnWay", sad::dukpp03::make_lambda::from(make_platform_go_on_way));
@@ -2265,6 +2300,7 @@ void Game::initContext()
     m_eval_context->registerCallable("startPlayingCameraLockAnimation", sad::dukpp03::make_lambda::from(start_playing_camera_lock_animation));
     m_eval_context->registerCallable("shakeCamera", sad::dukpp03::make_lambda::from(shake_camera));
     m_eval_context->registerCallable("removePlatform", sad::dukpp03::make_lambda::from(remove_platform));
+    m_eval_context->registerCallable("setOnPlayerRestingOnPlatform", sad::dukpp03::make_lambda::from(set_on_player_resting_on_platform));
 
     scripting::exposeSpawnEnemy(m_eval_context, this);
     game::exposeActorOptions(m_eval_context, this);
