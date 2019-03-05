@@ -754,7 +754,7 @@ addTriggerOnce(400, function() {
     setLootForActor(actor, {"Gold coin" : 34, "Helmet": 33, "Red potion": 33});
 });
 
-addTriggerOnce(810, function() {
+addTriggerOnce(1072, function() {
     startPlayingCameraLockAnimation(-635.0, 1400.0);
     setEnemyCounter(2);
     onZeroEnemies(function() { unlockScreen();  spawnItem("Laser pointer", new sad.Point2D(1285, 285)); });

@@ -434,6 +434,10 @@ public:
     /*! Sets walls for game, according to offset
      */
     void setWallsAccordingToOffset();
+    /*! Removes platform from the game
+     *  \param[in] name name for platform
+     */
+    void removePlatform(const sad::String& name);
 private:
     /*! Shows current pause menu option
      */

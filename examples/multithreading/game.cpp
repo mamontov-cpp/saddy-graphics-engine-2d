@@ -1958,6 +1958,42 @@ void Game::setWallsAccordingToOffset()
     this->m_walls.setRightBound(p.x() * -1.0 + this->rendererForMainThread()->settings().width());
 }
 
+void Game::removePlatform(const sad::String& name)
+{
+    sad::Renderer* r = this->rendererForMainThread();
+    sad::db::Database* gamescreen = r->database("gamescreen");
+    if (gamescreen)
+    {
+        sad::Sprite2D* sprite = gamescreen->objectByName<sad::Sprite2D>(name);
+        sprite->addRef();
+        if (sprite)
+        {
+            sad::Vector<sad::p2d::Body*> bodies = m_physics_world->allBodiesInGroup("platforms");
+            for (size_t i = 0; i < bodies.size(); i++)
+            {
+                bool found = false;
+                sad::Vector<sad::Object*> o = bodies[i]->userObjects();
+                for(size_t j = 0; j < o.size(); j++)
+                {
+                    if (o[j] == sprite)
+                    {
+                        found = true;
+                    }
+                }
+                if (found)
+                {
+                    m_physics_world->removeBody(bodies[i]);
+                    bodies.removeAt(i);
+                    --i;
+                }
+            }
+
+            sprite->scene()->removeNode(sprite);
+            sprite->delRef();
+        }
+    }
+}
+
 // ==================================== PRIVATE METHODS ====================================
 
 void Game::showCurrentPauseMenuOption() const
@@ -2176,6 +2212,19 @@ void Game::initContext()
         this->m_camera_movement->lock();
         this->rendererForMainThread()->pipeline()->prepend(new  CameraLockAnimation(this, finishing_offset, total_time));
     };
+    std::function<void()> shake_camera = [=]() {
+        sad::Renderer* r = this->rendererForMainThread();
+        sad::db::Database* db = r->database("gamescreen");
+        if (db)
+        {
+            sad::animations::Group* quake = db->objectByName<sad::animations::Group>("quake");
+            quake->clearFinished();
+            r->animations()->add(quake);
+        }
+    };
+    std::function<void(const sad::String& s)> remove_platform = [=](const sad::String& s) {
+        this->removePlatform(s);
+    };
 
 
     m_eval_context->registerCallable("makePlatformGoOnWay", sad::dukpp03::make_lambda::from(make_platform_go_on_way));
@@ -2214,7 +2263,9 @@ void Game::initContext()
     m_eval_context->registerCallable("onZeroEnemies", sad::dukpp03::make_lambda::from(on_zero_enemies));
     m_eval_context->registerCallable("decrementCounterOnActorDeath", sad::dukpp03::make_lambda::from(decrement_counter_on_actor_death));
     m_eval_context->registerCallable("startPlayingCameraLockAnimation", sad::dukpp03::make_lambda::from(start_playing_camera_lock_animation));
-    
+    m_eval_context->registerCallable("shakeCamera", sad::dukpp03::make_lambda::from(shake_camera));
+    m_eval_context->registerCallable("removePlatform", sad::dukpp03::make_lambda::from(remove_platform));
+
     scripting::exposeSpawnEnemy(m_eval_context, this);
     game::exposeActorOptions(m_eval_context, this);
     weapons::exposeSwingSettings(m_eval_context);
