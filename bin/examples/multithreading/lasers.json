@@ -1,0 +1,12 @@
+{
+    "atlas":[
+        {
+            "name":"lasers\/laser1",
+            "size":"14;1000",
+            "texrect":"1;1;14;1000"
+        }
+    ],
+    "file":"examples/multithreading/lasers.png",
+    "no-mipmaps":true,
+    "resource":"lasers_atlas"
+}

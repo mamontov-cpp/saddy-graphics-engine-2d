@@ -1,0 +1,11 @@
+{
+  "config": "lasers.json",
+  "texture": "lasers.png",
+  "resource": "lasers_atlas",
+  "sprites": [
+    {
+      "texture": "laser1.png",
+      "name": "lasers/laser1"
+    }
+  ]
+}
