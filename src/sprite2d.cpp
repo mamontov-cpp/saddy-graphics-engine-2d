@@ -39,7 +39,7 @@ bool sad::Sprite2D::Options::load(
     if (stream.good())
     {
         picojson::value v;
-        stream >> v;		
+        stream >> v;
         if (picojson::get_last_error().size() == 0)
         {
             result  = this->load(v);
@@ -90,7 +90,7 @@ m_color(sad::AColor(255,255,255,0))
     m_texture.add(this, &sad::Sprite2D::onTextureChange);
 }
 
-sad::Sprite2D::Sprite2D(		
+sad::Sprite2D::Sprite2D(
     sad::Texture * texture,
     const sad::Rect2D & texturecoordinates,
     const sad::Rect2D & area,

@@ -17,9 +17,14 @@ void weapons::exposeLaserSettings(void* c)
          sad::dukpp03::setter::from(&weapons::LaserSettings::IconName)
     );
     binding->addAccessor(
-        "Width",
-         sad::dukpp03::getter::from(&weapons::LaserSettings::Width),
-         sad::dukpp03::setter::from(&weapons::LaserSettings::Width)
+        "SpriteWidth",
+         sad::dukpp03::getter::from(&weapons::LaserSettings::SpriteWidth),
+         sad::dukpp03::setter::from(&weapons::LaserSettings::SpriteWidth)
+    );
+    binding->addAccessor(
+        "PhysicalWidth",
+        sad::dukpp03::getter::from(&weapons::LaserSettings::PhysicalWidth),
+        sad::dukpp03::setter::from(&weapons::LaserSettings::PhysicalWidth)
     );
     binding->addAccessor(
         "Height",

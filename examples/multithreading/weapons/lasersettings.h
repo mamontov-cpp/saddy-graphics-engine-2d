@@ -19,7 +19,10 @@ public:
     sad::String IconName;
     /*! A width for sprite
      */
-    double Width;
+    double SpriteWidth;
+    /*! A physical width for a sprite
+     */
+    double PhysicalWidth;
     /*! A height for sprite
      */
     double Height;
@@ -32,7 +35,7 @@ public:
 
     /*! A settings for laser
      */
-    inline LaserSettings() : IconName("bullets/green/x_huge"), Width(10), Height(600), Time(500)
+    inline LaserSettings() : IconName("bullets/green/x_huge"), SpriteWidth(10), PhysicalWidth(10), Height(600), Time(500)
     {
 
     }

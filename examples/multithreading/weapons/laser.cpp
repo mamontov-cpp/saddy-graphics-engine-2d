@@ -10,10 +10,12 @@
 #include "../game/player.h"
 
 
+// ============================================= PUBLIC METHODS =============================================
+
 DECLARE_SOBJ_INHERITANCE(weapons::Laser, weapons::Projectile)
 
 weapons::Laser::Laser(Game* game, game::Actor* actor, double angle, const weapons::LaserSettings& settings)
-: m_actor(actor), m_sprite(NULL), m_body(NULL), m_max_time(settings.Time), m_dangle(0), m_width(0), m_height(0)
+: m_actor(actor), m_sprite(NULL), m_body(NULL), m_max_time(settings.Time), m_dangle(0), m_sprite_width(0), m_physical_width(0), m_height(0)
 {
     m_game = game;
     bool is_player =  game->player()->actor() == actor;
@@ -21,10 +23,10 @@ weapons::Laser::Laser(Game* game, game::Actor* actor, double angle, const weapon
     sad::Point2D point = actor->pointForProjectileSpawn(angle);
     sad::Renderer* r = game->rendererForMainThread();
     sad::Sprite2D::Options* opts = r->tree()->get<sad::Sprite2D::Options>(settings.IconName);
-    double width = settings.Width;
     double height = settings.Height;
     m_height = height;
-    m_width = width;
+    m_sprite_width = settings.SpriteWidth;
+    m_physical_width = settings.PhysicalWidth;
     if (opts)
     {
         sad::db::Database* db = r->database("gamescreen");
@@ -37,15 +39,15 @@ weapons::Laser::Laser(Game* game, game::Actor* actor, double angle, const weapon
         sad::Point2D middle(point.x() + height / 2.0 * cos(angle), point.y() + height / 2.0 *  sin(angle));
 
         sad::Rect2D rect(
-            middle.x() - height / 2.0, middle.y() - width / 2.0,
-            middle.x() + height / 2.0, middle.y() + width / 2.0
+            middle.x() - height / 2.0, middle.y() - m_sprite_width / 2.0,
+            middle.x() + height / 2.0, middle.y() + m_sprite_width / 2.0
         );
         sprite->setArea(rect);
         sprite->setAngle(angle);
         main_scene->addNode(sprite);
 
         sad::p2d::Rectangle* rectangle = new sad::p2d::Rectangle();
-        rectangle->setRect(sprite->renderableArea());
+        rectangle->setRect(weapons::Laser::rect(middle, m_physical_width, m_height, angle));
 
         sad::p2d::Body* body = new sad::p2d::Body();
         body->setCurrentAngularVelocity(0);
@@ -106,13 +108,13 @@ void weapons::Laser::update()
         sad::Point2D middle(point.x() + m_height / 2.0 * cos(angle), point.y() + m_height / 2.0 *  sin(angle));
 
         sad::Rect2D rect(
-            middle.x() - m_height / 2.0, middle.y() - m_width / 2.0,
-            middle.x() + m_height / 2.0, middle.y() + m_width / 2.0
+            middle.x() - m_height / 2.0, middle.y() - m_sprite_width / 2.0,
+            middle.x() + m_height / 2.0, middle.y() + m_sprite_width / 2.0
         );
         m_sprite->setArea(rect);
         m_sprite->setAngle(angle);
 
-        static_cast<sad::p2d::Rectangle*>(m_body->currentShape())->setRect(m_sprite->renderableArea());
+        static_cast<sad::p2d::Rectangle*>(m_body->currentShape())->setRect(weapons::Laser::rect(middle, m_physical_width, m_height, angle));
         m_body->initPosition(m_sprite->middle());
 
 
@@ -123,4 +125,16 @@ void weapons::Laser::update()
             m_game->killProjectile(this);
         }
     }
+}
+
+// ============================================= PRIVATE METHODS =============================================
+
+sad::Rect2D weapons::Laser::rect(const sad::Point2D& middle, double width, double height, double angle)
+{
+    sad::Rect2D result(
+        middle.x() - height / 2.0, middle.y() - width / 2.0,
+        middle.x() + height / 2.0, middle.y() + width / 2.0
+    );
+    sad::rotate(result, angle);
+    return result;
 }

@@ -2,8 +2,8 @@
     "atlas":[
         {
             "name":"lasers\/laser1",
-            "size":"14;1000",
-            "texrect":"1;1;14;1000"
+            "size":"1000;14",
+            "texrect":"1;1;1000;14"
         }
     ],
     "file":"examples/multithreading/lasers.png",

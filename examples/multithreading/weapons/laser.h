@@ -44,6 +44,14 @@ SAD_OBJECT
      */
     virtual void update();
 private:
+    /*! Constructs rectangle for laser
+     *  \param[in] middle a middle data
+     *  \param[in] width a width of beam
+     *  \param[in] height a height of beam
+     *  \param[in] angle an angle for laser
+     *  \return rectangle
+     */
+    static sad::Rect2D rect(const sad::Point2D& middle, double width, double height, double angle);
     /*! A local actor
      */
     game::Actor* m_actor;
@@ -62,9 +70,12 @@ private:
     /*! A delta angle for placing laser
      */
     double m_dangle;
-    /*! A width for laser
+    /*! A sprite width for laser
      */
-    double m_width;
+    double m_sprite_width;
+    /*! A physical width for laser
+     */
+    double m_physical_width;
     /*! A height for laser
      */
     double m_height;
