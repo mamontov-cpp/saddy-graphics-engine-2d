@@ -1992,6 +1992,7 @@ void Game::removePlatform(const sad::String& name)
                 }
                 if (found)
                 {
+                    m_moving_platform_registry.remove(bodies[i]);
                     disableRestingForBodiesOnPlatform(bodies[i]);
                     m_physics_world->removeBody(bodies[i]);
                     bodies.removeAt(i);
@@ -2362,6 +2363,12 @@ void Game::initContext()
             this->m_enemy_counter->decrement();
         });
     };
+    std::function<void(game::Actor*, sad::dukpp03::CompiledFunction)> add_on_actor_death_action = [=](game::Actor* a, sad::dukpp03::CompiledFunction f) -> void {
+        a->onBeforeDeath([=](game::Actor*) {
+            sad::dukpp03::CompiledFunction mf = f;
+            mf.call(this->context());
+        });
+    };
     std::function<void(double, double)> start_playing_camera_lock_animation = [=](double finishing_offset, double total_time) {
         this->m_camera_movement->lock();
         this->rendererForMainThread()->pipeline()->prepend(new  CameraLockAnimation(this, finishing_offset, total_time));
@@ -2412,6 +2419,7 @@ void Game::initContext()
     m_eval_context->registerCallable("_spawnItem", sad::dukpp03::make_lambda::from(_spawn_item));
     m_eval_context->registerCallable("playSound", sad::dukpp03::make_lambda::from(play_sound));
     m_eval_context->registerCallable("_setLootForActor", sad::dukpp03::make_lambda::from(_set_loot_for_actor));
+    m_eval_context->registerCallable("addOnActorDeathAction", sad::dukpp03::make_lambda::from(add_on_actor_death_action));
     m_eval_context->registerCallable("setWindSpeed", sad::dukpp03::make_lambda::from(set_wind_speed));
     m_eval_context->registerCallable("snowParticles", sad::dukpp03::make_lambda::from(snow_particles));
     m_eval_context->registerCallable("setGlobalOffset", sad::dukpp03::make_lambda::from(set_global_offset));

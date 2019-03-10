@@ -707,8 +707,8 @@ cameraMovement().setMoveRightBoundary(450);
 cameraMovement().setMaxShiftTime(2000);
 cameraMovement().setArrowPosition(new sad.Point2D(775,300));
 
-setMaxLevelX(5713);
-setRightBound(5713);
+setMaxLevelX(7338);
+setRightBound(7338);
 resetEnemyCounter();
 
 var playEnemySpawnSound = function() {
@@ -716,6 +716,9 @@ var playEnemySpawnSound = function() {
 };
 
 player().setLives(15);
+
+var isWindEnabled = true;
+var notFoundActors = [ null, null, null, null, null ];
 
 // Just a simple JS trigger
 
@@ -1029,6 +1032,7 @@ addTriggerOnce(3152, function() {
 });
 
 addTriggerOnce(4100, function() {
+    playEnemySpawnSound();
     var settings = new BulletSettings();
     settings.IconName = "bullets/blue/xx_huge";
     settings.Speed = 150;
@@ -1041,7 +1045,7 @@ addTriggerOnce(4100, function() {
     var strategy = new PlayerLocatingStrategy();
     strategy.setInterval(2000);
     a.setShootingStrategy(strategy);
-    a.setLives(11);
+    a.setLives(8);
     
     var weapon = new Weapon();
     weapon.setShootingInterval(3000);
@@ -1056,7 +1060,7 @@ addTriggerOnce(4100, function() {
     strategy = new PlayerLocatingStrategy();
     strategy.setInterval(2000);
     a.setShootingStrategy(strategy);
-    a.setLives(11);
+    a.setLives(8);
     
     weapon = new Weapon();
     weapon.setShootingInterval(3000);
@@ -1071,7 +1075,7 @@ addTriggerOnce(4100, function() {
     strategy = new PlayerLocatingStrategy();
     strategy.setInterval(2000);
     a.setShootingStrategy(strategy);
-    a.setLives(11);
+    a.setLives(8);
     
     weapon = new Weapon();
     weapon.setShootingInterval(3000);
@@ -1082,8 +1086,86 @@ addTriggerOnce(4100, function() {
     a.pushWeapon(weapon);
 });
 
+addTriggerOnce(5082, function() {
+    playEnemySpawnSound();
+    makePlatformGoOnWay("MovingPlatform5", "LongWay1");
+    
+    var a = spawnWayFloater("animated_floater_1", new sad.Point2D(5308, 29), 0,  "Way5");
+    a.setLives(15);
+    notFoundActors[0] = a;
+    addOnActorDeathAction(a, function() { notFoundActors[0] = null; });
+    
+    a = spawnWayFloater("animated_floater_1", new sad.Point2D(5476, 29), 0,  "Way6");
+    a.setLives(15);
+    notFoundActors[1] = a;
+    addOnActorDeathAction(a, function() { notFoundActors[1] = null; });
 
-addTriggerOnce(5635, function() {
+    a = spawnWayFloater("animated_floater_1", new sad.Point2D(5622, 29), 0,  "Way7");
+    a.setLives(15);
+    notFoundActors[2] = a;
+    addOnActorDeathAction(a, function() { notFoundActors[2] = null; });
+});
+
+addTriggerOnce(5800, function() {
+    playEnemySpawnSound();
+
+    var settings = new BulletSettings();
+    settings.IconName = "bullets/red/xx_huge";
+    settings.Speed = 500;
+    settings.MaxBounceCount = 3;
+    settings.ApplyGravity = true;
+    settings.RestitutionCoefficient = 1.1;
+
+    var a = spawnPlatformPatrol("green_walker", new sad.Point2D(5997, 275));
+    setLootForActor(a, {"Light blob": 50, "Advanced fire spell": 50});
+    var weapon = new Weapon();
+    weapon.setShootingInterval(1000);
+    weapon.setAmountOfProjectiles(1);
+    weapon.setBaseDamage(3);
+    weapon.setDelay(500);
+    weapon.setSettings(settings);
+    a.pushWeapon(weapon);
+    
+    var strategy = new PlayerLocatingStrategy();
+    strategy.setInterval(2000);
+    a.setShootingStrategy(strategy);
+    a.setLives(15);
+    notFoundActors[3] = a;
+    addOnActorDeathAction(a, function() { notFoundActors[3] = null; });
+    
+    
+    a = spawnPlatformPatrol("green_walker", new sad.Point2D(6382, 275));
+    setLootForActor(a, {"Light blob": 50, "Advanced fire spell": 50});
+    strategy = new PlayerLocatingStrategy();
+    strategy.setInterval(2000);
+    
+    weapon = new Weapon();
+    weapon.setShootingInterval(1000);
+    weapon.setAmountOfProjectiles(1);
+    weapon.setBaseDamage(3);
+    weapon.setDelay(500);
+    weapon.setSettings(settings);
+    a.pushWeapon(weapon);
+
+    a.setShootingStrategy(strategy);
+    a.setLives(15);
+    notFoundActors[4] = a;
+    addOnActorDeathAction(a, function() { notFoundActors[4] = null; });
+});
+
+addTriggerOnce(6570, function() {
+    removePlatform("MovingPlatform5");
+    removePlatform("Floor28");
+    removePlatform("Floor29");
+    for (var i = 0; i < 5; i++) {
+        if (notFoundActors[i] != null) {
+            _sheduleKillActorByBody(notFoundActors[i]);
+            notFoundActors[i] = null;
+        }
+    }
+});
+
+addTriggerOnce(7279, function() {
     triggerWinGame();
 });
 
