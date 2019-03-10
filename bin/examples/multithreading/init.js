@@ -367,15 +367,14 @@ addItemDefinition({
 addItemDefinition({
     "icon" : "icons_list/W_Mace011ng",
     "name" : "Laser pointer",
-    "description": "Fires small laser.\nMakes no real damage, when\nequipped and adds 2 passive\ndamage when in inventory.\nShoots very fast",
+    "description": "Fires small laser.\nMakes no real damage, when\nequipped.\nShoots fast",
     "on_added" : function(item, actor)  {
         print("Started adding");
         print("Added " + item.title());
-        actor.incrementAttackModifier(2);
         var weapon = new Weapon();
-        weapon.setShootingInterval(500);
+        weapon.setShootingInterval(1500);
         weapon.setAmountOfProjectiles(1);
-        weapon.setDelay(500);
+        weapon.setDelay(1500);
         weapon.setBaseDamage(0);
         weapon.setMinAngleDelta(0);
         weapon.setMaxAngleDelta(0);
@@ -391,7 +390,6 @@ addItemDefinition({
         actor.pushWeapon(weapon);
     },
     "on_removed": function(item, actor) {
-        actor.decrementAttackModifier(2);
         item.removeGivenWeaponFrom(actor);
         print("Removed " + item.title());
     },
@@ -709,13 +707,15 @@ cameraMovement().setMoveRightBoundary(450);
 cameraMovement().setMaxShiftTime(2000);
 cameraMovement().setArrowPosition(new sad.Point2D(775,300));
 
-setMaxLevelX(3200);
-setRightBound(3200);
+setMaxLevelX(5713);
+setRightBound(5713);
 resetEnemyCounter();
 
 var playEnemySpawnSound = function() {
     playSound("item_drop");
 };
+
+player().setLives(15);
 
 // Just a simple JS trigger
 
@@ -804,13 +804,286 @@ addTriggerOnce(1072, function() {
     actor.setShootingStrategy(strategy); 
 });
 
-addTriggerOnce(950, function() {
-    //unlockScreen();
-    //cameraMovement().showArrow();
-    //triggerWinGame();
+addTriggerOnce(1762, function() {
+    startPlayingCameraLockAnimation(-1357.0, 1400.0);
+    setEnemyCounter(6);
+    onZeroEnemies(function() { unlockScreen(); });
+    addDelayedTask(1500.0, function() {
+        shakeCamera();
+        addDelayedTask(500.0, function() {
+            removePlatform("Floor5");
+            removePlatform("Floor72");
+        });
+        addDelayedTask(600.0, function() {
+            playEnemySpawnSound();
+            
+            var settings = new BulletSettings();
+            settings.IconName = "bullets/green/xx_huge";
+            settings.MaxBounceCount = 2;
+            settings.Speed = 150;
+            settings.ApplyGravity = false;
+            settings.RestitutionCoefficient = 0.9;
+    
+            var actors = [
+                spawnFollowPlayerFloater("animated_floater_1", new sad.Point2D(1558, 432)),
+                spawnFollowPlayerFloater("animated_floater_1", new sad.Point2D(1754, 432))
+            ];
+            for(var i = 0; i < actors.length; i++)
+            {
+                var a = actors[i];
+                a.setLives(2);
+                decrementCounterOnActorDeath(a);
+                
+                weapon = new Weapon();
+                weapon.setShootingInterval(3000);
+                weapon.setAmountOfProjectiles(1);
+                weapon.setBaseDamage(1);
+                weapon.setSettings(settings);
+                a.pushWeapon(weapon);
+                
+                var strategy = new RandomStrategy();
+                strategy.setInterval(3000);
+                a.setShootingStrategy(strategy); 
+            }
+            setLootForActor(actors[0], {"Gold coin" : 50, "Red potion": 50});
+            setLootForActor(actors[1], {"Helmet" : 50, "Gauntlets": 50});
+        });
+        addDelayedTask(700.0, function() {
+            playEnemySpawnSound();
+            
+            var settings = new BulletSettings();
+            settings.IconName = "bullets/red/xx_huge";
+            settings.Speed = 150;
+            settings.MaxBounceCount = 2;
+            settings.ApplyGravity = false;
+            settings.RestitutionCoefficient = 0.9;
+    
+            var actors = [
+                spawnFollowPlayerFloater("animated_floater_1", new sad.Point2D(1558, 456)),
+                spawnFollowPlayerFloater("animated_floater_1", new sad.Point2D(1754, 456))
+            ];
+            for(var i = 0; i < actors.length; i++)
+            {
+                var a = actors[i];
+                a.setLives(2);
+                decrementCounterOnActorDeath(a);
+                
+                weapon = new Weapon();
+                weapon.setShootingInterval(3000);
+                weapon.setAmountOfProjectiles(1);
+                weapon.setBaseDamage(1);
+                weapon.setSettings(settings);
+                a.pushWeapon(weapon);
+                
+                var strategy = new RandomStrategy();
+                strategy.setInterval(3000);
+                a.setShootingStrategy(strategy); 
+            }
+            setLootForActor(actors[0], {"Gold coin" : 75, "Book of Flight": 25});
+            setLootForActor(actors[1], {"Crystal sword" : 70, "Large axe": 20, "Mace of Destruction": 10});
+        });
+        addDelayedTask(800.0, function() {
+            playEnemySpawnSound();
+            
+            var settings = new BulletSettings();
+            settings.IconName = "bullets/red/xx_huge";
+            settings.Speed = 150;
+            settings.MaxBounceCount = 2;
+            settings.ApplyGravity = false;
+            settings.RestitutionCoefficient = 0.9;
+    
+            var actors = [
+                spawnFollowPlayerFloater("animated_floater_1", new sad.Point2D(1400, 321))
+            ];
+            for(var i = 0; i < actors.length; i++)
+            {
+                var a = actors[i];
+                a.setLives(2);
+                decrementCounterOnActorDeath(a);
+                
+                weapon = new Weapon();
+                weapon.setShootingInterval(3000);
+                weapon.setAmountOfProjectiles(1);
+                weapon.setBaseDamage(1);
+                weapon.setSettings(settings);
+                a.pushWeapon(weapon);
+                
+                var strategy = new RandomStrategy();
+                strategy.setInterval(3000);
+                a.setShootingStrategy(strategy); 
+            }
+            setLootForActor(actors[0], {"Book of Flight": 100});
+        });
+        addDelayedTask(900.0, function() {
+            playEnemySpawnSound();
+
+            var settings = new BulletSettings();
+            settings.IconName = "bullets/red/xx_huge";
+            settings.Speed = 150;
+            settings.MaxBounceCount = 2;
+            settings.ApplyGravity = false;
+            settings.RestitutionCoefficient = 0.9;
+    
+            var actors = [
+                spawnFollowPlayerFloater("animated_floater_1", new sad.Point2D(2134, 321))
+            ];
+            for(var i = 0; i < actors.length; i++)
+            {
+                var a = actors[i];
+                a.setLives(2);
+                decrementCounterOnActorDeath(a);
+                
+                weapon = new Weapon();
+                weapon.setShootingInterval(3000);
+                weapon.setAmountOfProjectiles(1);
+                weapon.setBaseDamage(1);
+                weapon.setSettings(settings);
+                a.pushWeapon(weapon);
+                
+                var strategy = new RandomStrategy();
+                strategy.setInterval(3000);
+                a.setShootingStrategy(strategy); 
+            }
+        });
+    });;
 });
 
-addTriggerOnce(3100, function() {
+addTriggerOnce(2294, function() {
+    startPlayingCameraLockAnimation(-2286.0, 500.0);
+    setEnemyCounter(2);
+    onZeroEnemies(function() { unlockScreen(); spawnItem("Blade of fire", new sad.Point2D(2609, 161));  spawnItem("Red potion", new sad.Point2D(2702, 161)); });
+    playEnemySpawnSound();
+
+    var a = spawnWayFloater("animated_floater_1", new sad.Point2D(2465, 16), 0,  "Way2");
+    decrementCounterOnActorDeath(a);
+    var settings = new BulletSettings();
+    settings.IconName = "bullets/green/xx_huge";
+    settings.Speed = 150;
+    settings.MaxBounceCount = 0;
+    settings.ApplyGravity = false;
+    settings.RestitutionCoefficient = 0.9;
+    
+    var strategy = new PlayerLocatingStrategy();
+    strategy.setInterval(3000);
+    a.setShootingStrategy(strategy);
+    
+    var weapon = new Weapon();
+    weapon.setShootingInterval(2000);
+    weapon.setAmountOfProjectiles(3);
+    weapon.setBaseDamage(1);
+    weapon.setDelay(500);
+    weapon.setSettings(settings);
+    a.pushWeapon(weapon);
+    
+    a = spawnWayFloater("animated_floater_1", new sad.Point2D(2837, 306), 0,  "Way3");
+    decrementCounterOnActorDeath(a);
+    strategy = new PlayerLocatingStrategy();
+    strategy.setInterval(3000);
+    a.setShootingStrategy(strategy);
+    
+    weapon = new Weapon();
+    weapon.setShootingInterval(2000);
+    weapon.setAmountOfProjectiles(3);
+    weapon.setBaseDamage(1);
+    weapon.setDelay(500);
+    weapon.setSettings(settings);
+    a.pushWeapon(weapon);
+});
+
+addTriggerOnce(3152, function() {
+    startPlayingCameraLockAnimation(-3116.0, 500.0);
+    setEnemyCounter(6);
+    onZeroEnemies(function() { unlockScreen(); });
+    playEnemySpawnSound();
+    if (Math.random() > 0.75) {
+        spawnItem("Phandaal\'s Excellent Prismatic Spray", new sad.Point2D(3513, 390));
+    }
+
+
+    var c = 10000.0 / 6.0;
+    var settings = new BulletSettings();
+    settings.IconName = "bullets/green/xx_huge";
+    settings.Speed = 50;
+    settings.MaxBounceCount = 0;
+    settings.ApplyGravity = false;
+    settings.RestitutionCoefficient = 0.9;
+
+    for (var i = 0; i < 6; i++)
+    {
+        var a = spawnWayFloater("animated_floater_1", new sad.Point2D(3592, 294), c * i,  "Way4");
+        decrementCounterOnActorDeath(a);
+        
+        var strategy = new PlayerLocatingStrategy();
+        strategy.setInterval(2000);
+        a.setShootingStrategy(strategy);
+        a.setLives(9);
+        
+        var weapon = new Weapon();
+        weapon.setShootingInterval(4000);
+        weapon.setAmountOfProjectiles(3);
+        weapon.setBaseDamage(2);
+        weapon.setDelay(500);
+        weapon.setSettings(settings);
+        a.pushWeapon(weapon);
+    }
+});
+
+addTriggerOnce(4100, function() {
+    var settings = new BulletSettings();
+    settings.IconName = "bullets/blue/xx_huge";
+    settings.Speed = 150;
+    settings.MaxBounceCount = 0;
+    settings.ApplyGravity = false;
+    settings.RestitutionCoefficient = 0.9;
+    
+    var a = spawnEnemyInDirection("green_walker", new sad.Point2D(4460, 236), HDir.Left, VDir.None);
+    setLootForActor(a, {"Red potion": 100});
+    var strategy = new PlayerLocatingStrategy();
+    strategy.setInterval(2000);
+    a.setShootingStrategy(strategy);
+    a.setLives(11);
+    
+    var weapon = new Weapon();
+    weapon.setShootingInterval(3000);
+    weapon.setAmountOfProjectiles(3);
+    weapon.setBaseDamage(2);
+    weapon.setDelay(500);
+    weapon.setSettings(settings);
+    a.pushWeapon(weapon);
+    
+    a = spawnEnemyInDirection("green_walker", new sad.Point2D(4583, 300), HDir.Left, VDir.None);
+    setLootForActor(a, {"Red potion": 100});
+    strategy = new PlayerLocatingStrategy();
+    strategy.setInterval(2000);
+    a.setShootingStrategy(strategy);
+    a.setLives(11);
+    
+    weapon = new Weapon();
+    weapon.setShootingInterval(3000);
+    weapon.setAmountOfProjectiles(3);
+    weapon.setBaseDamage(2);
+    weapon.setDelay(500);
+    weapon.setSettings(settings);
+    a.pushWeapon(weapon);
+    
+    a = spawnEnemyInDirection("green_walker", new sad.Point2D(4750, 410), HDir.Left, VDir.None);
+    setLootForActor(a, {"Red potion": 100});
+    strategy = new PlayerLocatingStrategy();
+    strategy.setInterval(2000);
+    a.setShootingStrategy(strategy);
+    a.setLives(11);
+    
+    weapon = new Weapon();
+    weapon.setShootingInterval(3000);
+    weapon.setAmountOfProjectiles(3);
+    weapon.setBaseDamage(2);
+    weapon.setDelay(500);
+    weapon.setSettings(settings);
+    a.pushWeapon(weapon);
+});
+
+
+addTriggerOnce(5635, function() {
     triggerWinGame();
 });
 

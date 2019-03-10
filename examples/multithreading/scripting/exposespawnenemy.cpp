@@ -10,11 +10,11 @@
 #include "../game/actoroptions.h"
 
 #include "../bots/jsbot.h"
-#include "../bots/randombot.h"
 #include "../bots/divingfloaterbot.h"
 #include "../bots/followplayerfloater.h"
 #include "../bots/directionbot.h"
 #include "../bots/platformpatrolbot.h"
+#include "../bots/wayfloater.h"
 
 
 void scripting::exposeSpawnEnemy(void* c, Game* game)
@@ -128,6 +128,23 @@ void scripting::exposeSpawnEnemy(void* c, Game* game)
         }
         return actor;
     };
+    std::function<game::Actor*(const sad::String&,
+        const sad::Point2D&,
+        double time,
+        const sad::String&
+    )
+    > spawn_way_floater = [=](const sad::String& optname,
+        const sad::Point2D& middle,
+        double time,
+        const sad::String& way
+        ) {
+        game::Actor* actor = game->makeEnemy(optname, middle);
+        if (actor)
+        {
+            game->addActor(actor, new bots::WayFloater(time, way));
+        }
+        return actor;
+    };
     sad::dukpp03::MultiMethod* spawn_enemy_walker_at = new sad::dukpp03::MultiMethod();
     spawn_enemy_walker_at->add(sad::dukpp03::make_lambda::from(spawn_enemy_walker));
     spawn_enemy_walker_at->add(sad::dukpp03::make_lambda::from(spawn_enemy_walker2));
@@ -136,4 +153,5 @@ void scripting::exposeSpawnEnemy(void* c, Game* game)
     ctx->registerCallable("spawnFollowPlayerFloater", sad::dukpp03::make_lambda::from(spawn_follow_player_floater));
     ctx->registerCallable("spawnEnemyInDirection", sad::dukpp03::make_lambda::from(spawn_enemy_in_direction));
     ctx->registerCallable("spawnPlatformPatrol", sad::dukpp03::make_lambda::from(spawn_platform_patrol));
+    ctx->registerCallable("spawnWayFloater", sad::dukpp03::make_lambda::from(spawn_way_floater));
 }

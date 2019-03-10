@@ -164,13 +164,15 @@ public:
      */
     void disableResting();
     /*! Fetches area for user
+     *  \return area for actor
      */
     sad::Rect2D area() const;
     /*! Returns middle of actor
      *  \return middle of actor
      */
     sad::Point2D middle() const;
-    /*! Moves player by point
+    /*! Moves actor by specified vector
+     *  \param[in] p point
      */
     void move(const sad::Point2D& p) const;
     /*! Returns body for player

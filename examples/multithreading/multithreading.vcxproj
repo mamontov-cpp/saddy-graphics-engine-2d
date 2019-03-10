@@ -210,6 +210,7 @@
     <ClCompile Include="bots\shootingstrategies\randomstrategy.cpp" />
     <ClCompile Include="bots\shootingstrategies\shootingstrategy.cpp" />
     <ClCompile Include="bots\shootingstrategies\turningstrategy.cpp" />
+    <ClCompile Include="bots\wayfloater.cpp" />
     <ClCompile Include="cameralockanimation.cpp" />
     <ClCompile Include="cameramovement.cpp" />
     <ClCompile Include="delayedtask.cpp" />
@@ -269,6 +270,7 @@
     <ClInclude Include="bots\shootingstrategies\randomstrategy.h" />
     <ClInclude Include="bots\shootingstrategies\shootingstrategy.h" />
     <ClInclude Include="bots\shootingstrategies\turningstrategy.h" />
+    <ClInclude Include="bots\wayfloater.h" />
     <ClInclude Include="cameralockanimation.h" />
     <ClInclude Include="cameramovement.h" />
     <ClInclude Include="delayedtask.h" />

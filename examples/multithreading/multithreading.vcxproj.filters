@@ -228,6 +228,9 @@
     <ClCompile Include="game\platformblinking.cpp">
       <Filter>Файлы исходного кода\game</Filter>
     </ClCompile>
+    <ClCompile Include="bots\wayfloater.cpp">
+      <Filter>Файлы исходного кода\bots</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -403,6 +406,9 @@
     </ClInclude>
     <ClInclude Include="game\platformblinking.h">
       <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="bots\wayfloater.h">
+      <Filter>Заголовочные файлы\bots</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

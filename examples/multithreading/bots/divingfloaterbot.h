@@ -15,7 +15,7 @@ namespace bots
 class DivingFloaterBot: public bots::AbstractBot
 {
 public:
-    /*! Creates new floater which
+    /*! Creates new floater, which periodically dives, moving on lie
      * \param from a left offset
      * \param to  a right offset
      * \param top a top offset
