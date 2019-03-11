@@ -11,6 +11,15 @@ environment:
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       PLATFORM: x86
       TOOLS: "MinGW"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      PLATFORM: x86
+      TOOLS: "MSVC-IFaceEd"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      PLATFORM: x64
+      TOOLS: "MSVC-IFaceEd"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      PLATFORM: x86
+      TOOLS: "MinGW-IFaceEd"
 
 configuration:
   - Debug
@@ -39,11 +48,17 @@ install:
   - cmd: git submodule update
   - cmd: git submodule status
   - ps: if($env:TOOLS -eq 'MinGW') { Get-Command sh.exe -All | Remove-Item }
+  - ps: if($env:TOOLS -eq 'MinGW-IFaceEd') { Get-Command sh.exe -All | Remove-Item }
   - cmd: if [%TOOLS%]==[MSVC] "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools\VsDevCmd.bat"
   - cmd: if [%TOOLS%]==[MSVC] set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\;%MSVCQTDIR\bin%;%PATH%
   - cmd: if [%TOOLS%]==[MSVC] set QTDIR=%MSVCQTDIR%
   - cmd: if [%TOOLS%]==[MinGW] SET PATH=%MINGWPATH%;%MINGWQTDIR%\bin;%PATH%
   - cmd: if [%TOOLS%]==[MinGW] set QTDIR=%MINGWQTDIR%
+  - cmd: if [%TOOLS%]==[MSVC-IFaceEd] "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools\VsDevCmd.bat"
+  - cmd: if [%TOOLS%]==[MSVC-IFaceEd] set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\;%MSVCQTDIR\bin%;%PATH%
+  - cmd: if [%TOOLS%]==[MSVC-IFaceEd] set QTDIR=%MSVCQTDIR%
+  - cmd: if [%TOOLS%]==[MinGW-IFaceEd] SET PATH=%MINGWPATH%;%MINGWQTDIR%\bin;%PATH%
+  - cmd: if [%TOOLS%]==[MinGW-IFaceEd] set QTDIR=%MINGWQTDIR%
   - cmd: set FREETYPE_DIR=%cd%\%FREETYPE_DIR_SUFFIX%\
   - cmd: set FREETYPE_INCLUDE=%FREETYPE_DIR%include\
   - cmd: set FREETYPE_LIB=%FREETYPE_DIR%lib\
@@ -52,7 +67,9 @@ install:
 build_script:
   - if [%TOOLS%]==[MSVC] "build-all-msvc.bat" %CONFIGURATION% %ARCH%
   - if [%TOOLS%]==[MinGW] "build-all-mingw.bat" %CONFIGURATION%
+  - if [%TOOLS%]==[MSVC-IFaceEd] "build-ifaceed-msvc.bat" %CONFIGURATION% %ARCH%
+  - if [%TOOLS%]==[MinGW-IFaceEd] "build-ifaceed-mingw.bat" %CONFIGURATION%
 test_script:
   - "tests_prepare.bat"
   - cd  bin
-  - if [%CONFIGURATION%]==[Debug] ( "tests-debug.bat" ) ELSE ( "tests-release.bat" )
+  - if [%TOOLS%] NEQ [MSVC-IFaceEd] ( if [%TOOLS%] NEQ [MinGW-IFaceEd] ( if [%CONFIGURATION%]==[Debug] ( "tests-debug.bat" ) ELSE ( "tests-release.bat" )  ) )
