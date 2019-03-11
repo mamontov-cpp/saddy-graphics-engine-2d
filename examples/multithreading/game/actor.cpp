@@ -349,7 +349,6 @@ void game::Actor::onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev)
     if ((sad::is_fuzzy_equal(max_platform_y, min_player_y) || (min_player_y > max_platform_y))
         && (sad::p2d::collides(player_part, platform_part)))
     {
-        SL_LOCAL_DEBUG("Making bodies rest", *(this->game()->rendererForMainThread()));
         sad::p2d::Vector v = ev.m_object_2->tangentialVelocity();
         this->restOnPlatform(ev.m_object_2, v);
     }
