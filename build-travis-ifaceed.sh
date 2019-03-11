@@ -1,7 +1,7 @@
-if [[ $1 == "Debug"]] ; then QtConfig="debug"; else QtConfig="release" ; fi
-if [[ $1 == "Debug"]] ; then export QtConfig="debug"; else export QtConfig="release" ; fi
-if [[ $1 == "Debug"]] ; then CHECKQTVERTOOL="bin/isqt580-debug"; else CHECKQTVERTOOL="bin/isqt580-release" ; fi
-if [[ $1 == "Debug"]] ; then export CHECKQTVERTOOL="bin/isqt580-debug"; else export CHECKQTVERTOOL="bin/isqt580-release" ; fi  
+if [[ $1 == "Debug"]] ; then QtConfig="debug"; else QtConfig="release"; fi
+if [[ $1 == "Debug"]] ; then export QtConfig="debug"; else export QtConfig="release"; fi
+if [[ $1 == "Debug"]] ; then CHECKQTVERTOOL="bin/isqt580-debug"; else CHECKQTVERTOOL="bin/isqt580-release"; fi
+if [[ $1 == "Debug"]] ; then export CHECKQTVERTOOL="bin/isqt580-debug"; else export CHECKQTVERTOOL="bin/isqt580-release"; fi  
 set -e
 (cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$1 && make) || (exit 1)
 cd plugins/freetype
