@@ -36,7 +36,10 @@ before_install:
   - IRRKLANG_ROOT="$(pwd)/3rdparty/irrKlang/x64/"
   - export IRRKLANG_ROOT="$(pwd)/3rdparty/irrKlang/x64/"
   - ls $IRRKLANG_ROOT
-  - if [[  $USEQT == "Y" ]] ; then sudo apt-get --yes install qt5-default libqt5opengl5 libqt5opengl5-dev libqt5widgets5 libqt5gui5; fi
+  - if [[  $USEQT == "Y" ]] ; then sudo apt-add-repository --yes ppa:beineri/opt-qt-5.12.1-xenial  ; fi
+  - if [[  $USEQT == "Y" ]] ; then sudo apt-get -qq update  ; fi
+  - if [[  $USEQT == "Y" ]] ; then sudo apt-get --yes install qt512base qt512imageformats qt512svg qt512svg qt512tools  ; fi
+  - if [[  $USEQT == "Y" ]] ; then source /opt/qt5*/bin/qt5*-env.sh; fi
   - if [[  $USEQT == "Y" ]] ; then ./build-travis-ifaceed.sh $CONFIGURATION; else ./build-travis.sh $CONFIGURATION; fi
 script: 
   - cd bin/
