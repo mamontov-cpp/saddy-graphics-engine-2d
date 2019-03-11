@@ -20,6 +20,8 @@ git:
 env:
   - CONFIGURATION=Debug TESTS=./tests-debug.sh
   - CONFIGURATION=Release TESTS=./tests-release.sh
+  - CONFIGURATION=Debug TESTS=./tests-debug.sh USEQT=Y
+  - CONFIGURATION=Release TESTS=./tests-release.sh USEQT=Y
 
 before_install:
   - sudo ln -s /usr/bin/gcc-8 /usr/local/bin/gcc
