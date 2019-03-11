@@ -600,4 +600,11 @@ win32 {
         LIBS += -lglu32 -lopengl32 -lkernel32 -luser32 -lgdi32 -lwinspool  -lshell32 -lcomdlg32 -ladvapi32 -lfreetype
 }
 
-QMAKE_CXXFLAGS += -Wa,-mbig-obj -Wno-reorder -Wno-unused -Wno-sign-compare -w
+unix {
+    QMAKE_CXXFLAGS += -Wa,-mbig-obj -Wno-reorder -Wno-unused -Wno-sign-compare -w
+}
+
+win32 {
+    QMAKE_CXXFLAGS += -Wno-reorder -Wno-unused -Wno-sign-compare -w
+}
+

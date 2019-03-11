@@ -28,7 +28,7 @@ before_install:
   - sudo ln -s /usr/bin/g++-8 /usr/local/bin/g++
   - export CC=/usr/bin/gcc-8
   - export CXX=/usr/bin/g++-8
-  - gcc -v && g++ -v && cmake --version && as -v
+  - gcc -v && g++ -v && cmake --version
   - ruby prepare_build.rb
   - sudo chmod +x build-travis.sh
   - sudo chmod +x bin/tests-debug.sh
