@@ -11,6 +11,9 @@ addons:
       - g++-8
       - cmake
       - libstdc++-8-dev
+      - mesa-common-dev
+      - libglu1-mesa-dev 
+      - freeglut3-dev
 os: linux
 git:
   submodules: true
