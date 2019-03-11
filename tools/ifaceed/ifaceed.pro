@@ -601,10 +601,10 @@ win32 {
 }
 
 unix {
-    QMAKE_CXXFLAGS += -Wa,-mbig-obj -Wno-reorder -Wno-unused -Wno-sign-compare -w
+    QMAKE_CXXFLAGS += -Wno-reorder -Wno-unused -Wno-sign-compare -w
 }
 
 win32 {
-    QMAKE_CXXFLAGS += -Wno-reorder -Wno-unused -Wno-sign-compare -w
+    QMAKE_CXXFLAGS += -Wa,-mbig-obj -Wno-reorder -Wno-unused -Wno-sign-compare -w
 }
 
