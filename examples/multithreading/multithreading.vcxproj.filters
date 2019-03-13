@@ -231,6 +231,9 @@
     <ClCompile Include="bots\wayfloater.cpp">
       <Filter>Файлы исходного кода\bots</Filter>
     </ClCompile>
+    <ClCompile Include="game\staticobjectcontainer.cpp">
+      <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -409,6 +412,12 @@
     </ClInclude>
     <ClInclude Include="bots\wayfloater.h">
       <Filter>Заголовочные файлы\bots</Filter>
+    </ClInclude>
+    <ClInclude Include="game\staticobjectcontainer.h">
+      <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\storedobject.h">
+      <Filter>Заголовочные файлы\game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,8 +1,9 @@
-/*! \file objectwithcounter.h
+/*! \file storedobject.h
  *
  *  Describes an object with counter an actual flag, which points if object can be used in computation
  */
 #pragma once
+// ReSharper disable once CppUnusedIncludeDirective
 #include <cstdlib>
 #include <sadvector.h>
 
