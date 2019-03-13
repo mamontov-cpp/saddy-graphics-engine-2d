@@ -1,6 +1,8 @@
 #include "initphysics.h"
 #include "game.h"
 
+#include "game/staticobjectcontainer.h"
+
 #include <p2d/multisamplingcollisiondetector.h>
 
 #include <pipeline/pipeline.h>
@@ -26,7 +28,7 @@ void initPhysicsWorld(sad::p2d::World* world)
 }
 
 
-void initPhysicsPlatforms(sad::p2d::World* world, sad::Scene* main_scene, game::MovingPlatformRegistry* registry)
+void initPhysicsPlatforms(sad::p2d::World* world, sad::Scene* main_scene, game::MovingPlatformRegistry* registry, game::StaticObjectContainer* container)
 {
     const sad::Vector<sad::SceneNode*>&  nodes = main_scene->objects();
     // Filter grouped and ungrouped platforms
@@ -41,6 +43,7 @@ void initPhysicsPlatforms(sad::p2d::World* world, sad::Scene* main_scene, game::
             if ((name.getOccurence("FLOOR") != -1) || (name.getOccurence("PLATFORM") != -1))
             {
                 sad::Sprite2D* node = dynamic_cast<sad::Sprite2D*>(nodes[i]);
+                container->PlatformSprites.push_back(node);
                 if (node)
                 {
                     if (name.getOccurence("MOVING") != -1)
@@ -72,6 +75,7 @@ void initPhysicsPlatforms(sad::p2d::World* world, sad::Scene* main_scene, game::
         body->initPosition(ungrouped_platform_sprites[i]->middle());
         registry->addPlatform(ungrouped_platform_sprites[i]->objectName(), body);
 
+        container->PlatformBodies.push_back(body);
         world->addBodyToGroup("platforms", body);
     }
     // Sort sprites according from left to right
@@ -125,6 +129,7 @@ void initPhysicsPlatforms(sad::p2d::World* world, sad::Scene* main_scene, game::
             body->attachObjects(sprites_in_group);
             body->initPosition((common_rectangle[0] + common_rectangle[2]) / 2.0);
 
+            container->PlatformBodies.push_back(body);
             world->addBodyToGroup("platforms", body);
             for (size_t k = 0; k < sprites_in_group.size(); k++)
             {
@@ -181,7 +186,7 @@ void initPhysicsPlatforms(sad::p2d::World* world, sad::Scene* main_scene, game::
             body->attachObjects(sprites_in_group);
             body->initPosition((common_rectangle[0] + common_rectangle[2]) / 2.0);
 
-
+            container->PlatformBodies.push_back(body);
             world->addBodyToGroup("platforms", body);
             for (size_t k = 0; k < sprites_in_group.size(); k++)
             {
@@ -211,11 +216,12 @@ void initPhysicsPlatforms(sad::p2d::World* world, sad::Scene* main_scene, game::
         body->setShape(rect);
         body->initPosition(platform_sprites[i]->middle());
 
+        container->PlatformBodies.push_back(body);
         world->addBodyToGroup("platforms", body);
     }
 }
 
-void initCoins(Game* game, sad::p2d::World* world, sad::db::Database* db, sad::Renderer* r, game::UnanimatedCoins* coins)
+void initCoins(Game* game, sad::p2d::World* world, sad::db::Database* db, sad::Renderer* r, game::UnanimatedCoins* coins, game::StaticObjectContainer* container)
 {
     sad::Vector<sad::Sprite2D*> coin_sprites = game::UnanimatedCoins::fetchCoinSprites(db);
     coins->init(coin_sprites, db, r);

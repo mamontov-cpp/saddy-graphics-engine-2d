@@ -5,6 +5,7 @@
 #include "game/getpenetrationdepthforitem.h"
 #include "game/snowparticles.h"
 #include "game/platformblinking.h"
+#include "game/staticobjectcontainer.h"
 
 #include "threads/gamethread.h"
 
@@ -2509,8 +2510,10 @@ void Game::initGamePhysics()
     sad::Scene* main_scene = db->objectByName<sad::Scene>("main");
     if (main_scene)
     {
-        initPhysicsPlatforms(m_physics_world, main_scene, &m_moving_platform_registry);
-        initCoins(this, m_physics_world, db, this->rendererForMainThread(), &m_unanimated_coins);
+        game::StaticObjectContainer* container = new game::StaticObjectContainer();
+        initPhysicsPlatforms(m_physics_world, main_scene, &m_moving_platform_registry, container);
+        initCoins(this, m_physics_world, db, this->rendererForMainThread(), &m_unanimated_coins, container);
+        delete container;
     }
     m_max_level_x = 800;
     m_walls.init(0, m_max_level_x, 600, 0);
