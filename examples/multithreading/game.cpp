@@ -2673,6 +2673,8 @@ void Game::tryRenderDebugShapes() const
     }
     sad::Renderer* renderer = m_main_thread->renderer();
     sad::Vector<sad::p2d::Body*> bodies = m_physics_world->allBodies();
+    // As we already reset view matrix, shift rendered shapres by offset manually
+    sad::Point2D p = renderer->globalTranslationOffset();
     if (!bodies.empty())
     {
         for (size_t i = 0; i < bodies.size(); i++)
@@ -2680,7 +2682,9 @@ void Game::tryRenderDebugShapes() const
             sad::p2d::CollisionShape* shape = bodies[i]->currentShape();
             if (shape->metaIndex() == sad::p2d::Rectangle::globalMetaIndex())
             {
-                renderer->render()->rectangle(dynamic_cast<sad::p2d::Rectangle*>(shape)->rect(), sad::AColor(0, 0, 255, 255));
+                sad::Rect2D r = dynamic_cast<sad::p2d::Rectangle*>(shape)->rect();
+                sad::moveBy(p, r);
+                renderer->render()->rectangle(r, sad::AColor(0, 0, 255, 255));
             }
             if (shape->metaIndex() == sad::p2d::Circle::globalMetaIndex())
             {
@@ -2688,13 +2692,13 @@ void Game::tryRenderDebugShapes() const
                 shape->populatePoints(list_of_points);
                 for (size_t j = 0; j < (list_of_points.size() - 1); j++)
                 {
-                    renderer->render()->line(list_of_points[j], list_of_points[j + 1], sad::AColor(0, 0, 255, 255));
+                    renderer->render()->line(list_of_points[j] + p, list_of_points[j + 1] + p, sad::AColor(0, 0, 255, 255));
                 }
             }
             if (shape->metaIndex() == sad::p2d::Line::globalMetaIndex())
             {
                 sad::p2d::Line* line = dynamic_cast<sad::p2d::Line*>(shape);
-                renderer->render()->line(line->cutter().p1(), line->cutter().p2(), sad::AColor(0, 0, 255, 255));
+                renderer->render()->line(line->cutter().p1() + p, line->cutter().p2() + p,  sad::AColor(0, 0, 255, 255));
             }
         }
     }

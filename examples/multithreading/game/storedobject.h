@@ -6,21 +6,19 @@
 // ReSharper disable once CppUnusedIncludeDirective
 #include <cstdlib>
 #include <sadvector.h>
+#include <cassert>
 
 namespace game
 {
 /*!
  * Describes an object with rooms with actual flag
  */
-template<
-    typename _Object
->
 class StoredObject
 {
 public:
     /*! An item, which describes an item with counter
      */
-    _Object* Item;
+    void* Item;
     /*! A counter item for object
      */
     int Counter;
@@ -41,9 +39,9 @@ public:
      * Constructs default object with data
      * \param[in] o object
      */
-    inline StoredObject(_Object* o) : Item(o), Counter(0), Active(true)
+    inline StoredObject(void* o) : Item(o), Counter(0), Active(true)
     {
-
+        assert(!o);
     }
 };
 
