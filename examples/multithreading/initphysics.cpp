@@ -75,6 +75,7 @@ void initPhysicsPlatforms(sad::p2d::World* world, sad::Scene* main_scene, game::
         body->initPosition(ungrouped_platform_sprites[i]->middle());
         registry->addPlatform(ungrouped_platform_sprites[i]->objectName(), body);
 
+        container->PlatformSprites.push_back(ungrouped_platform_sprites[i]);
         container->PlatformBodies.push_back(body);
         world->addBodyToGroup("platforms", body);
     }
@@ -133,6 +134,7 @@ void initPhysicsPlatforms(sad::p2d::World* world, sad::Scene* main_scene, game::
             world->addBodyToGroup("platforms", body);
             for (size_t k = 0; k < sprites_in_group.size(); k++)
             {
+                container->PlatformSprites.push_back(sprites_in_group[k]);
                 platform_sprites.removeFirst(sprites_in_group[k]);
             }
             // Decrement, so we can iterate through other platforms
@@ -190,6 +192,7 @@ void initPhysicsPlatforms(sad::p2d::World* world, sad::Scene* main_scene, game::
             world->addBodyToGroup("platforms", body);
             for (size_t k = 0; k < sprites_in_group.size(); k++)
             {
+                container->PlatformSprites.push_back(sprites_in_group[k]);
                 platform_sprites.removeFirst(sprites_in_group[k]);
             }
             // Decrement, so we can iterate through other platforms
@@ -216,6 +219,7 @@ void initPhysicsPlatforms(sad::p2d::World* world, sad::Scene* main_scene, game::
         body->setShape(rect);
         body->initPosition(platform_sprites[i]->middle());
 
+        container->PlatformSprites.push_back(platform_sprites[i]);
         container->PlatformBodies.push_back(body);
         world->addBodyToGroup("platforms", body);
     }
@@ -238,6 +242,8 @@ void initCoins(Game* game, sad::p2d::World* world, sad::db::Database* db, sad::R
         body->initPosition(coin_sprites[i]->middle());
 
         world->addBodyToGroup("coins", body);
+        container->CoinSprites.push_back(coin_sprites[i]);
+        container->CoinBodies.push_back(body);
     }
 
     std::function<void(const sad::p2d::BasicCollisionEvent &)> collision_between_player_and_coins = [=](const sad::p2d::BasicCollisionEvent & ev) {
