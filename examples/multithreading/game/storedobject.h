@@ -31,7 +31,7 @@ public:
 
     /*! Constructs default object link
      */
-    inline StoredObject() : Item(NULL), Counter(0), Active(false)
+    inline StoredObject() : Item(NULL), Counter(1), Active(false)
     {
 
     }

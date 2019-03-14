@@ -52,17 +52,9 @@ public:
      */
     ~RoomStorageLoader();
     /*! Removed object from loader
+     *  \param[in] object an object data
      */
     void removeItem(void* object);
-    /*! Tries to load relevant room for loader
-     */
-    void tryLoadRelevantRoom(const sad::Rect2D& rect);
-private:
-    /*! Splits objects from items array into rooms, filling data for radius
-     *  \param[in] areas a list of areas
-     *  \param[in] room_radius a room radius
-     */
-    void splitIntoRooms(const sad::Vector<sad::Rect2D>& areas, double room_radius);
     /*! Loads specified room
      *  \param[in] index index of room
      */
@@ -71,25 +63,29 @@ private:
      *  \param[in] index index of unloaded room
      */
     void unloadRoom(int index);
-    /*! Makes simple normalized room number for loader by coordinate
-     * \param[in] coord a coordinate
-     * \return data
+    /*! Returns row count for storage
+     * \return room count
      */
-    inline int normalizedRoomNumber(double coord);
-    /*! Tries to match 1 room to 2 old
-     *  \param[in] min_index a minimal room index
+    int roomCount() const;
+    /*! Sets room count for storage loader
+     * \param room_count a count for storage loader
      */
-    void tryMatch1RoomFor2Old(int min_index);
-    /*! Tries to match 2 room to 1 old
-     *  \param[in] min_index a minimal room index
-     *  \param[in] max_index a maximal room index
+    void setRoomCount(int room_count);
+    /*! Increments counter for room
+     * \param[in] index index for room
      */
-    void tryMatch2RoomsFor1Old(int min_index, int max_index);
-    /*! Tries to match 2 room to 1 old
-     *  \param[in] min_index a minimal room index
-     *  \param[in] max_index a maximal room index
+    void incrementCounterForRoom(int index);
+    /*! Unloads specific items if room is not min or max
+     * \param min minimal stuff
+     * \param max maximal stuff
      */
-    void tryMatch2RoomsFor2Old(int min_index, int max_index);
+    void unloadIfCounterIsZeroExceptFor(int min, int max);
+private:
+    /*! Splits objects from items array into rooms, filling data for radius
+     *  \param[in] areas a list of areas
+     *  \param[in] room_radius a room radius
+     */
+    void splitIntoRooms(const sad::Vector<sad::Rect2D>& areas, double room_radius);
     /*! A room detection radius for player to store items
      */
     double m_detection_radius;
@@ -108,12 +104,6 @@ private:
     /*! A callback for unloading item for room
      */
     std::function<void(void*)> m_unload_item;
-    /*! First active room
-     */
-    int m_active_room_1;
-    /*! Second active room
-     */
-    int m_active_room_2;
 };
 
 }
