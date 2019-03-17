@@ -1307,7 +1307,9 @@ void Game::changeSceneToPlayingScreen()
         this->m_camera_movement->init();
         sad::db::populateScenesFromDatabase(main_renderer, db);
         sad::Scene* scene = db->objectByName<sad::Scene>("gui");
-        scene->addNode(new game::HealthBar(this));
+        game::HealthBar* bar = new game::HealthBar(this);
+        scene->addNode(bar);
+        scene->setLayer(bar, 0);
         m_snow_particles->setGame(this);
         this->initGamePhysics();
         // When loaded we should evaluate initialization script
@@ -2194,6 +2196,9 @@ void Game::initContext()
     std::function<void(const sad::String&, const sad::String&)> make_platform_go_on_way = [=](const sad::String& platform, const sad::String& way) {
         this->m_moving_platform_registry.add(platform, way);
     };
+    std::function<void(const sad::String&)> stop_moving_platform_on_way = [=](const sad::String& platform) {
+        this->m_moving_platform_registry.remove(platform);
+    };
     std::function<void(double, const sad::dukpp03::CompiledFunction&)> add_trigger = [=](double x, const sad::dukpp03::CompiledFunction& f) {
         this->m_triggers.add(x, f, false);
     };
@@ -2419,6 +2424,7 @@ void Game::initContext()
 
 
     m_eval_context->registerCallable("makePlatformGoOnWay", sad::dukpp03::make_lambda::from(make_platform_go_on_way));
+    m_eval_context->registerCallable("stopMovingPlatformOnWay", sad::dukpp03::make_lambda::from(stop_moving_platform_on_way));
     m_eval_context->registerCallable("addTrigger", sad::dukpp03::make_lambda::from(add_trigger));
     m_eval_context->registerCallable("addTriggerOnce", sad::dukpp03::make_lambda::from(add_trigger_once));
     m_eval_context->registerCallable("gamePrint", sad::dukpp03::make_lambda::from(print));

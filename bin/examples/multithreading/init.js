@@ -259,21 +259,21 @@ addItemDefinition({
 addItemDefinition({
     "icon" : "icons_list/S_Light02ng",
     "name" : "Light blob",
-    "description": "Slowly fires light bullets.\nMakes 10 real damage, when\nequipped. Shoots very fast",
+    "description": "Slowly fires fast light bullets.\nMakes 10 real damage, when\nequipped. Shoots very fast",
     "on_added" : function(item, actor)  {
         print("Started adding");
         print("Added " + item.title());
         //actor.incrementAttackModifier(1);
         var weapon = new Weapon();
-        weapon.setShootingInterval(500);
-        weapon.setAmountOfProjectiles(3);
-        weapon.setDelay(0);
+        weapon.setShootingInterval(2000);
+        weapon.setAmountOfProjectiles(5);
+        weapon.setDelay(500);
         weapon.setBaseDamage(10);
         weapon.setMinAngleDelta(-Math.PI / 10);
         weapon.setMaxAngleDelta(Math.PI / 10);
         var settings = new BulletSettings();
         settings.IconName = "bullets/yellow/xxx_huge";
-        settings.Speed = 100;
+        settings.Speed = 3000;
         settings.ApplyGravity = false;
         settings.SoundName = "shooting_1";
         weapon.setSettings(settings);
@@ -1045,7 +1045,7 @@ addTriggerOnce(4100, function() {
     var strategy = new PlayerLocatingStrategy();
     strategy.setInterval(2000);
     a.setShootingStrategy(strategy);
-    a.setLives(8);
+    a.setLives(6);
     
     var weapon = new Weapon();
     weapon.setShootingInterval(3000);
@@ -1060,7 +1060,7 @@ addTriggerOnce(4100, function() {
     strategy = new PlayerLocatingStrategy();
     strategy.setInterval(2000);
     a.setShootingStrategy(strategy);
-    a.setLives(8);
+    a.setLives(6);
     
     weapon = new Weapon();
     weapon.setShootingInterval(3000);
@@ -1075,7 +1075,7 @@ addTriggerOnce(4100, function() {
     strategy = new PlayerLocatingStrategy();
     strategy.setInterval(2000);
     a.setShootingStrategy(strategy);
-    a.setLives(8);
+    a.setLives(6);
     
     weapon = new Weapon();
     weapon.setShootingInterval(3000);
@@ -1089,6 +1089,7 @@ addTriggerOnce(4100, function() {
 addTriggerOnce(5082, function() {
     playEnemySpawnSound();
     makePlatformGoOnWay("MovingPlatform5", "LongWay1");
+    addDelayedTask(40000, function() { stopMovingPlatformOnWay("MovingPlatform5") });
     
     var a = spawnWayFloater("animated_floater_1", new sad.Point2D(5308, 29), 0,  "Way5");
     a.setLives(15);
@@ -1110,7 +1111,7 @@ addTriggerOnce(5800, function() {
     playEnemySpawnSound();
 
     var settings = new BulletSettings();
-    settings.IconName = "bullets/red/xx_huge";
+    settings.IconName = "bullets/yellow/xxx_huge";
     settings.Speed = 500;
     settings.MaxBounceCount = 3;
     settings.ApplyGravity = true;
@@ -1127,7 +1128,7 @@ addTriggerOnce(5800, function() {
     a.pushWeapon(weapon);
     
     var strategy = new PlayerLocatingStrategy();
-    strategy.setInterval(2000);
+    strategy.setInterval(3000);
     a.setShootingStrategy(strategy);
     a.setLives(15);
     notFoundActors[3] = a;
@@ -1154,9 +1155,10 @@ addTriggerOnce(5800, function() {
 });
 
 addTriggerOnce(6570, function() {
-    removePlatform("MovingPlatform5");
-    removePlatform("Floor28");
-    removePlatform("Floor29");
+    // No reason to remove those now
+    //removePlatform("MovingPlatform5");
+    //removePlatform("Floor28");
+    //removePlatform("Floor29");
     for (var i = 0; i < 5; i++) {
         if (notFoundActors[i] != null) {
             _sheduleKillActorByBody(notFoundActors[i]);

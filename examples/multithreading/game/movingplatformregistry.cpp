@@ -78,10 +78,7 @@ bool game::MovingPlatformRegistry::add(const sad::String& platform_name, const s
     {
         return add(m_platforms[platform_name], way);
     }
-    else
-    {
-        return false;
-    }
+    return false;
 }
 
 
@@ -92,11 +89,20 @@ void game::MovingPlatformRegistry::remove(sad::p2d::Body* platform)
         if (m_states[i].Platform == platform)
         {
             game::MovingPlatformState& state = m_states[i];
+            state.Platform->setCurrentTangentialVelocity(sad::p2d::Vector(0, 0));
             state.Platform->delRef();
             state.Way->delRef();
             m_states.removeAt(i);
             --i;
         }
+    }
+}
+
+void game::MovingPlatformRegistry::remove(const sad::String& platform_name)
+{
+    if (m_platforms.contains(platform_name))
+    {
+        return remove(m_platforms[platform_name]);
     }
 }
 

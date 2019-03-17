@@ -59,6 +59,10 @@ public:
      *  \param[in, out] platform
      */
     void remove(sad::p2d::Body* platform);
+    /*! Removes an instance of platform in registry, stopping it
+     *  \param[in] platform_name a name for platform
+     */
+    void remove(const sad::String& platform_name);
     /*! Clears the registry
      */
     void clear();
