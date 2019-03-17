@@ -37,6 +37,7 @@
 #include <slurpjson.h>
 #include <spitjson.h>
 #include <camera.h>
+#include <window.h>
 
 #include <functional>
 
@@ -303,6 +304,9 @@ void Game::runMainGameThread()
             }
         }
     );
+    renderer.pipeline()->appendTask([&] {
+        this->rendererForMainThread()->window()->setRect(sad::Rect2I(0, 0, 800, 600));
+    });
     m_main_thread->markAsRendererStarted();
     renderer.run();
 }
@@ -365,7 +369,9 @@ void Game::runInventoryThread()
         }
         this->m_task_lock.release();
     });
-
+    renderer.pipeline()->appendTask([&] {
+        this->rendererForInventoryThread()->window()->setRect(sad::Rect2I(800, 0, 1600, 600));
+    });
     renderer.run();
 }
 
