@@ -8,6 +8,8 @@
 #include <sadvector.h>
 #include <cassert>
 
+#include <refcountable.h>
+
 namespace game
 {
 /*!
@@ -18,7 +20,7 @@ class StoredObject
 public:
     /*! An item, which describes an item with counter
      */
-    void* Item;
+    sad::RefCountable* Item;
     /*! A counter item for object
      */
     int Counter;
@@ -39,9 +41,19 @@ public:
      * Constructs default object with data
      * \param[in] o object
      */
-    inline StoredObject(void* o) : Item(o), Counter(0), Active(true)
+    inline StoredObject(sad::RefCountable* o) : Item(o), Counter(0), Active(true)
     {
-        assert(!o);
+        assert(o);
+        Item->addRef();
+    }
+
+    inline ~StoredObject()
+    {
+        if (Active)
+        {
+            Item->delRef();
+            Item = NULL;
+        }
     }
 };
 

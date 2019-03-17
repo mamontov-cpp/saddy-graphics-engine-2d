@@ -6,6 +6,7 @@
 #include "game/snowparticles.h"
 #include "game/platformblinking.h"
 #include "game/staticobjectcontainer.h"
+#include "game/levelstorageloader.h"
 
 #include "threads/gamethread.h"
 
@@ -98,7 +99,8 @@ m_hit_animation_for_players(NULL),
 m_wind_speed(0),
 m_snow_particles(NULL),
 m_camera_movement(NULL),
-m_winning(false)// NOLINT
+m_winning(false),
+m_level_storage_loader(NULL)// NOLINT
 {
     m_main_thread = new threads::GameThread();
     m_inventory_thread = new threads::GameThread();
@@ -746,7 +748,6 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
             if (this->m_paused_state_machine.isInState("playing"))
             {
                 this->m_task_lock.acquire();
-
                 this->m_moving_platform_registry.movePlatforms(m_step_task->stepTick());
                 this->updateProjectiles();
                 this->m_player->testResting();
@@ -756,6 +757,10 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
                 this->m_snow_particles->process();
                 this->m_step_task->enable();
                 this->m_step_task->process();
+                if (m_level_storage_loader)
+                {
+                    m_level_storage_loader->tryLoadRelevantRoom(this->m_player->area());
+                }
                 this->tryRenderDebugShapes();
                 this->m_triggers.tryRun(this->m_player, this->m_eval_context);
                 this->m_unanimated_coins.animateNearestCoins(this->m_player->middle());
@@ -1112,7 +1117,8 @@ void Game::changeSceneToStartingScreen()
     SceneTransitionOptions options;
 
     m_inventory_popup = NULL;
-    
+    clearLevelStorageLoader();
+
 
     sad::Renderer* main_renderer = m_main_thread->renderer();
     sad::Renderer* inventory_renderer = m_inventory_thread->renderer();
@@ -1157,6 +1163,7 @@ void Game::changeSceneToLoseScreen()
     SceneTransitionOptions options;
 
     m_inventory_popup = NULL;
+    clearLevelStorageLoader();
 
 
     sad::Renderer* main_renderer = m_main_thread->renderer();
@@ -1212,6 +1219,7 @@ void Game::changeSceneToWinScreen()
     SceneTransitionOptions options;
 
     m_inventory_popup = NULL;
+    clearLevelStorageLoader();
 
 
     sad::Renderer* main_renderer = m_main_thread->renderer();
@@ -1283,6 +1291,7 @@ void Game::changeSceneToPlayingScreen()
 
     m_player->reset();
     m_player->inventory()->setOwner(m_player->actor());
+    clearLevelStorageLoader();
 
     options.mainThread().LoadFunction = [this]() {  this->tryLoadGameScreen(); };
 
@@ -1293,7 +1302,7 @@ void Game::changeSceneToPlayingScreen()
         {
             pause_scene->setActive(false);
         }
-        this->m_moving_platform_registry.setDatabase(db);
+        this->m_moving_platform_registry.setDatabase(this, db);
         this->m_score_bar->init();
         this->m_camera_movement->init();
         sad::db::populateScenesFromDatabase(main_renderer, db);
@@ -1350,7 +1359,8 @@ void Game::changeSceneToOptions()
 
 
     m_inventory_popup = NULL;
-    
+    clearLevelStorageLoader();
+
 
     SceneTransitionOptions options;
     sad::Renderer* main_renderer = m_main_thread->renderer();
@@ -1993,6 +2003,8 @@ void Game::removePlatform(const sad::String& name)
                 }
                 if (found)
                 {
+                    m_level_storage_loader->removeBody(bodies[i]);
+                    m_level_storage_loader->removeSprite(sprite);
                     m_moving_platform_registry.remove(bodies[i]);
                     disableRestingForBodiesOnPlatform(bodies[i]);
                     m_physics_world->removeBody(bodies[i]);
@@ -2122,6 +2134,11 @@ void Game::disableRestingForBodiesOnPlatform(sad::p2d::Body* b)
             v[i]->disableResting();
         }
     }
+}
+
+game::LevelStorageLoader* Game::levelStorageLoader() const
+{
+    return m_level_storage_loader;
 }
 
 
@@ -2513,6 +2530,7 @@ void Game::initGamePhysics()
         game::StaticObjectContainer* container = new game::StaticObjectContainer();
         initPhysicsPlatforms(m_physics_world, main_scene, &m_moving_platform_registry, container);
         initCoins(this, m_physics_world, db, this->rendererForMainThread(), &m_unanimated_coins, container);
+        m_level_storage_loader = new game::LevelStorageLoader(container, m_physics_world, m_player->area());
         delete container;
     }
     m_max_level_x = 800;
@@ -2735,6 +2753,15 @@ void Game::tryLoadIdenticalScreenDatabase(bool* loaded, const sad::String& db_na
     }
 }
 
+void Game::clearLevelStorageLoader()
+{
+    if (m_level_storage_loader)
+    {
+        delete m_level_storage_loader;
+        m_level_storage_loader = NULL;
+    }
+}
+
 Game::Game(const Game&)  // NOLINT
     :
     m_main_thread(NULL),
@@ -2768,7 +2795,8 @@ Game::Game(const Game&)  // NOLINT
     m_snow_particles(NULL),
     m_camera_movement(NULL),
     m_winning(false), 
-    m_enemy_counter(NULL)
+    m_enemy_counter(NULL),
+    m_level_storage_loader(NULL)
 {
     throw std::logic_error("Not implemented");
 }

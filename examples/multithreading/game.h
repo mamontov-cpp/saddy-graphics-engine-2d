@@ -59,6 +59,7 @@ class Item;
 class ScoreBar;
 class SnowParticles;
 class PlatformBlinking;
+class LevelStorageLoader;
 }
 
 namespace nodes
@@ -478,6 +479,10 @@ public:
      *  \param[in] b body of platform
      */
     void disableRestingForBodiesOnPlatform(sad::p2d::Body* b);
+    /*! Returns level storage loader
+     *  \return level storage loader
+     */
+    game::LevelStorageLoader* levelStorageLoader() const;
 private:
     /*! Erases sprite from resting bodies to actors
      *  \param[in] a actor
@@ -512,6 +517,9 @@ private:
         \param[in] is_inventory_thread inventory thread
      */
     void tryLoadIdenticalScreenDatabase(bool* loaded, const sad::String& db_name, const sad::String& file_name, bool is_inventory_thread) const;
+    /*! Clears level storage loader
+     */
+    void clearLevelStorageLoader();
     /*! Disabled constructor
      */
     Game(const Game&);
@@ -684,4 +692,7 @@ private:
     /*! A list of platforms, linked to actors
      */
     sad::Hash<sad::p2d::Body*, sad::Vector<game::Actor*> > m_platforms_to_actors;
+    /*! A level storage loader for optimizing streaming of  bodies and objects to a level
+     */
+    game::LevelStorageLoader* m_level_storage_loader;
 };

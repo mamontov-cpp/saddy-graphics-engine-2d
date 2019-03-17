@@ -19,6 +19,9 @@ public:
     /* Default detection radius
      */
     static const int DETECTION_RADIUS;
+    /*! A radius for physics room
+     */
+    static const int PHYSICS_ROOM_RADIUS;
     /*! A sprite room radius
      */
     static const int SPRITE_ROOM_RADIUS;
@@ -28,14 +31,17 @@ public:
      *  \param[in] r rectangle a rectangle for player to pool
      */
     LevelStorageLoader(game::StaticObjectContainer* container, sad::p2d::World* world, const sad::Rect2D& r);
+    /*! Frees memory from other loaders
+     */
+    ~LevelStorageLoader();
     /*! Removes sprite from loader
      *  \param[in] s sprite
      */
-    void removeSprite(sad::Sprite2D* s);
+    void removeSprite(sad::Sprite2D* s) const;
     /*! Removes body from loader
      *  \param[in] b body from loader
      */
-    void removeBody(sad::p2d::Body* b);
+    void removeBody(sad::p2d::Body* b) const;
     /*! Tries to load relevant room for loader
      *  \param[in] rect a rectangle for player
      */
@@ -44,16 +50,16 @@ private:
     /*! Loads specified room
      *  \param[in] index index of room
      */
-    void loadRoom(int index);
+    void loadRoom(int index) const;
     /*! Unloads specified room
      *  \param[in] index index of unloaded room
      */
-    void unloadRoom(int index);
+    void unloadRoom(int index)  const;
     /*! Makes simple normalized room number for loader by coordinate
      * \param[in] coord a coordinate
      * \return data
      */
-    inline int normalizedRoomNumber(double coord);
+    inline int normalizedRoomNumber(double coord)  const;
     /*! Tries to match 1 room to 2 old
      *  \param[in] min_index a minimal room index
      */

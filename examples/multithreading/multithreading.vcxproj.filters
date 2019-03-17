@@ -234,6 +234,12 @@
     <ClCompile Include="game\staticobjectcontainer.cpp">
       <Filter>Файлы исходного кода\game</Filter>
     </ClCompile>
+    <ClCompile Include="game\levelstorageloader.cpp">
+      <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
+    <ClCompile Include="game\roomstorageloader.cpp">
+      <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -417,6 +423,12 @@
       <Filter>Заголовочные файлы\game</Filter>
     </ClInclude>
     <ClInclude Include="game\storedobject.h">
+      <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\levelstorageloader.h">
+      <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\roomstorageloader.h">
       <Filter>Заголовочные файлы\game</Filter>
     </ClInclude>
   </ItemGroup>

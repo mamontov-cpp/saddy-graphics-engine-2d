@@ -1,14 +1,15 @@
 #include "movingplatformregistry.h"
-
+#include "levelstorageloader.h"
+#include "../game.h"
 
 // =================================== PUBLIC METHODS ==================================
 
-game::MovingPlatformRegistry::MovingPlatformRegistry() : m_db(NULL)
+game::MovingPlatformRegistry::MovingPlatformRegistry() : m_db(NULL), m_game(NULL)
 {
 
 }
 
-game::MovingPlatformRegistry::MovingPlatformRegistry(const game::MovingPlatformRegistry& o) : m_db(o.m_db)
+game::MovingPlatformRegistry::MovingPlatformRegistry(const game::MovingPlatformRegistry& o) : m_db(o.m_db), m_game(o.m_game)
 {
     this->copyState(o);
 }
@@ -25,8 +26,9 @@ game::MovingPlatformRegistry::~MovingPlatformRegistry()
     this->destroy();
 }
 
-void game::MovingPlatformRegistry::setDatabase(sad::db::Database* db)
+void game::MovingPlatformRegistry::setDatabase(Game* game, sad::db::Database* db)
 {
+    this->m_game= game;
     this->m_db = db;
 }
 
@@ -46,6 +48,15 @@ bool game::MovingPlatformRegistry::add(sad::p2d::Body* platform, sad::p2d::app::
     platform->addRef();
     way->addRef();
     platform->setCurrentPosition(way->getPointInTime(0.0, 0.0));
+    m_game->physicsWorld()->addBodyToGroup("platforms", platform);
+    m_game->levelStorageLoader()->removeBody(platform);
+    const sad::Vector<sad::Object*>& v = platform->userObjects();
+    for(size_t i = 0 ; i < v.size(); i++)
+    {
+        sad::Sprite2D* sprite = static_cast<sad::Sprite2D*>(v[i]);
+        sprite->setVisible(true);
+        m_game->levelStorageLoader()->removeSprite(sprite);
+    }
 
     game::MovingPlatformState state{platform, way, 0.0, false};
     m_states << state;

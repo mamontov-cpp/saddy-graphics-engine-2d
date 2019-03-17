@@ -1,6 +1,7 @@
 #include "levelstorageloader.h"
 
 const int game::LevelStorageLoader::DETECTION_RADIUS = 800;
+const int game::LevelStorageLoader::PHYSICS_ROOM_RADIUS = 1200;
 const int game::LevelStorageLoader::SPRITE_ROOM_RADIUS = 2400;
 
 // ======================================= PUBLIC METHODS =======================================
@@ -15,7 +16,7 @@ game::LevelStorageLoader::LevelStorageLoader(game::StaticObjectContainer* contai
     );
     m_platform_body_loader = new  game::RoomStorageLoader(
         container->PlatformBodies,
-        game::LevelStorageLoader::SPRITE_ROOM_RADIUS,
+        game::LevelStorageLoader::PHYSICS_ROOM_RADIUS,
         game::LevelStorageLoader::DETECTION_RADIUS,
         [=](void* o) { world->addBodyToGroup("platforms", static_cast<sad::p2d::Body*>(o)); },
         [=](void* o) { world->removeBodyFromGroup("platforms", static_cast<sad::p2d::Body*>(o)); }
@@ -29,7 +30,7 @@ game::LevelStorageLoader::LevelStorageLoader(game::StaticObjectContainer* contai
     );
     m_coin_body_loader = new  game::RoomStorageLoader(
         container->CoinBodies,
-        game::LevelStorageLoader::SPRITE_ROOM_RADIUS,
+        game::LevelStorageLoader::PHYSICS_ROOM_RADIUS,
         game::LevelStorageLoader::DETECTION_RADIUS,
         [=](void* o) { world->addBodyToGroup("coins", static_cast<sad::p2d::Body*>(o)); },
         [=](void* o) { world->removeBodyFromGroup("coins", static_cast<sad::p2d::Body*>(o)); }
@@ -51,42 +52,50 @@ game::LevelStorageLoader::LevelStorageLoader(game::StaticObjectContainer* contai
     int min_index =  this->normalizedRoomNumber(min);
     int max_index = this->normalizedRoomNumber(max);
 
-    m_coin_body_loader->loadRoom(min);
-    m_platform_body_loader->loadRoom(min);
+    m_coin_body_loader->loadRoom(min_index);
+    m_platform_body_loader->loadRoom(min_index);
 
-    m_platform_sprite_loader->incrementCounterForRoom(min);
-    m_coin_sprite_loader->incrementCounterForRoom(min);
+    m_platform_sprite_loader->incrementCounterForRoom(min_index);
+    m_coin_sprite_loader->incrementCounterForRoom(min_index);
 
 
-    if (min == max)
+    if (min_index == max_index)
     {
-        m_active_room_1 = min;
+        m_active_room_1 = min_index;
         m_active_room_2 = -1;
     }
     else
     {
-        m_coin_body_loader->loadRoom(max);
-        m_platform_body_loader->loadRoom(max);
+        m_coin_body_loader->loadRoom(max_index);
+        m_platform_body_loader->loadRoom(max_index);
 
-        m_platform_sprite_loader->incrementCounterForRoom(max);
-        m_coin_sprite_loader->incrementCounterForRoom(max);
+        m_platform_sprite_loader->incrementCounterForRoom(max_index);
+        m_coin_sprite_loader->incrementCounterForRoom(max_index);
 
-        m_active_room_1 = min;
-        m_active_room_2 = max;
+        m_active_room_1 = min_index;
+        m_active_room_2 = max_index;
     }
 
-    m_coin_sprite_loader->unloadIfCounterIsZeroExceptFor(min, max);
-    m_platform_sprite_loader->unloadIfCounterIsZeroExceptFor(min, max);
+    m_coin_sprite_loader->unloadIfCounterIsZeroExceptFor(min_index, max_index);
+    m_platform_sprite_loader->unloadIfCounterIsZeroExceptFor(min_index, max_index);
 
 }
 
-void game::LevelStorageLoader::removeSprite(sad::Sprite2D* s)
+game::LevelStorageLoader::~LevelStorageLoader()
+{
+    delete m_platform_sprite_loader;
+    delete m_platform_body_loader;
+    delete m_coin_sprite_loader;
+    delete m_coin_body_loader;
+}
+
+void game::LevelStorageLoader::removeSprite(sad::Sprite2D* s) const
 {
     m_coin_sprite_loader->removeItem(s);
     m_platform_sprite_loader->removeItem(s);
 }
 
-void game::LevelStorageLoader::removeBody(sad::p2d::Body* b)
+void game::LevelStorageLoader::removeBody(sad::p2d::Body* b) const
 {
     m_coin_body_loader->removeItem(b);
     m_platform_body_loader->removeItem(b);
@@ -141,7 +150,7 @@ void game::LevelStorageLoader::tryLoadRelevantRoom(const sad::Rect2D& rect)
 // ======================================= PRIVATE METHODS =======================================
 
 
-void  game::LevelStorageLoader::loadRoom(int index)
+void  game::LevelStorageLoader::loadRoom(int index) const
 {
     m_coin_sprite_loader->loadRoom(index);
     m_coin_body_loader->loadRoom(index);
@@ -150,7 +159,7 @@ void  game::LevelStorageLoader::loadRoom(int index)
     m_platform_sprite_loader->loadRoom(index);
 }
 
-void game::LevelStorageLoader::unloadRoom(int index)
+void game::LevelStorageLoader::unloadRoom(int index) const
 {
     m_coin_sprite_loader->unloadRoom(index);
     m_coin_body_loader->unloadRoom(index);
@@ -160,7 +169,7 @@ void game::LevelStorageLoader::unloadRoom(int index)
 }
 
 
-int game::LevelStorageLoader::normalizedRoomNumber(double coord)
+int game::LevelStorageLoader::normalizedRoomNumber(double coord) const
 {
     int index =  static_cast<int>((coord / game::LevelStorageLoader::DETECTION_RADIUS));
     if (index < 0) {
@@ -176,7 +185,7 @@ void game::LevelStorageLoader::tryMatch1RoomFor2Old(int min_index)
 {
     if (m_active_room_1 == min_index)
     {
-        // TODO: CHECK ARGUMENTS
+        // CHECK ARGUMENTS
         unloadRoom(m_active_room_2);
         m_active_room_2 = -1;
     }
@@ -184,14 +193,14 @@ void game::LevelStorageLoader::tryMatch1RoomFor2Old(int min_index)
     {
         if (m_active_room_2 == min_index)
         {
-            // TODO: CHECK ARGUMENTS
+            // CHECK ARGUMENTS
             unloadRoom(m_active_room_1);
             m_active_room_1 = min_index;
             m_active_room_2 = -1;
         }
         else
         {
-            // TODO: CHECK ARGUMENTS
+            //  CHECK ARGUMENTS
             unloadRoom(m_active_room_1);
             unloadRoom(m_active_room_2);
             loadRoom(min_index);

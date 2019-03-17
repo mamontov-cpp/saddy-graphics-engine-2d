@@ -118,7 +118,7 @@ void game::PlatformBlinking::showPlatform() const
         m_body->setShape(rect);
         m_body->initPosition(m_platform->middle());
 
-        m_game->physicsWorld()->addBodyToGroup("platforms", this->m_body);
+        this->m_body->setIsGhost(false);
     }
     m_platform->setVisible(true);
 }
@@ -134,7 +134,7 @@ void game::PlatformBlinking::hidePlatform() const
     if (m_body)
     {
         m_game->disableRestingForBodiesOnPlatform(this->m_body);
-        m_game->physicsWorld()->removeBody(this->m_body);
+        this->m_body->setIsGhost(true);
     }
     m_platform->setVisible(false);
 }

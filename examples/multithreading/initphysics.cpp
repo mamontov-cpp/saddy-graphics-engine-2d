@@ -2,6 +2,7 @@
 #include "game.h"
 
 #include "game/staticobjectcontainer.h"
+#include "game/levelstorageloader.h"
 
 #include <p2d/multisamplingcollisiondetector.h>
 
@@ -258,10 +259,10 @@ void initCoins(Game* game, sad::p2d::World* /*world*/, sad::db::Database* db, sa
             sad::animations::Instance* instance = new sad::animations::Instance();
             instance->setAnimation(a);
             instance->setObject(local_sprite);
-            instance->end([=] { local_sprite->scene()->removeNode(local_sprite);  });
+            instance->end([=] { game->levelStorageLoader()->removeSprite(local_sprite); local_sprite->scene()->removeNode(local_sprite);  });
             game->rendererForMainThread()->animations()->add(instance);
 
-            game->rendererForMainThread()->pipeline()->appendTask([=] { game->physicsWorld()->removeBody(ev.m_object_1); });
+            game->rendererForMainThread()->pipeline()->appendTask([=] { game->levelStorageLoader()->removeBody(ev.m_object_1);  game->physicsWorld()->removeBody(ev.m_object_1); });
         }
     };
     game->physicsWorld()->addHandler("coins", "player", collision_between_player_and_coins);

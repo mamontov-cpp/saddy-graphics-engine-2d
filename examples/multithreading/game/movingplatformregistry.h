@@ -11,6 +11,8 @@
 
 #include "movingplatformstate.h"
 
+class Game;
+
 namespace game
 {
 
@@ -35,9 +37,10 @@ public:
      */
     ~MovingPlatformRegistry();
     /*! Sets database fpr searching for ways
+     *  \param[in] game a game for working with
      *  \param[in] db database
      */
-    void setDatabase(sad::db::Database* db);
+    void setDatabase(Game* game, sad::db::Database* db);
     /*! Adds a pair to registry to start them moving. Does nothing, if platform already
      *  exists
      *  \param[in] platform a platform
@@ -85,6 +88,9 @@ private:
     /*! A linked database for searching for ways
      */
     sad::db::Database* m_db;
+    /*! A game link
+     */
+    Game* m_game;
 };
 
 }
