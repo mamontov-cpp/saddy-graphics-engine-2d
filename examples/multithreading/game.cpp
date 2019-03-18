@@ -1531,7 +1531,12 @@ void Game::tryShowInventoryPopup(const sad::Point2D& p) const
             game::Item* item = result_data.value().p3();
             if (m_inventory_popup)
             {
-                m_inventory_popup->setDescription(item->title(), item->description());
+                sad::String title = item->title();
+                if (item->givenWeapon() == m_player->weapon())
+                {
+                    title += " [ACTIVE]";
+                }
+                m_inventory_popup->setDescription(title, item->description());
                 m_inventory_popup->showAt(p);
                 m_inventory_popup->setVisible(true);
                 handled = true;

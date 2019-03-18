@@ -167,6 +167,10 @@ public:
      *  \param[in] w weapon
      */
     void removeWeapon(weapons::Weapon* w);
+    /*! Activates weapon for actor
+     *  \param[in] w weapon
+     */
+    void activateWeapon(weapons::Weapon* w);
     /*! Returns weaponry for actor
      *  \return weapon
      */

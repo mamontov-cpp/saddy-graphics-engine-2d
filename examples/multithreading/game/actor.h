@@ -302,6 +302,10 @@ public:
      *  \param[in] w weapon
      */
     void removeWeapon(weapons::Weapon* w);
+    /*! Activates weapon for actor
+     *  \param[in] w weapon
+     */
+    void activateWeapon(weapons::Weapon* w);
     /*! Removes weapon from actor, together with weapon item
      *  \param[in] w weapon
      *  \param[in] g game

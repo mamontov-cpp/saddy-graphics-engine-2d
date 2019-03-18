@@ -111,7 +111,7 @@ addItemDefinition({
         print("Removed " + item.title());
     },
     "on_apply" : function(item, actor) {
-        
+        item.activateGivenWeapon(actor);
     }
 });
 
@@ -145,7 +145,7 @@ addItemDefinition({
         print("Removed " + item.title());
     },
     "on_apply" : function(item, actor) {
-        
+        item.activateGivenWeapon(actor);
     }
 });
 
@@ -181,7 +181,7 @@ addItemDefinition({
         print("Removed " + item.title());
     },
     "on_apply" : function(item, actor) {
-        
+        item.activateGivenWeapon(actor);
     }
 });
 
@@ -217,7 +217,7 @@ addItemDefinition({
         print("Removed " + item.title());
     },
     "on_apply" : function(item, actor) {
-        
+        item.activateGivenWeapon(actor);
     }
 });
 
@@ -252,7 +252,7 @@ addItemDefinition({
         print("Removed " + item.title());
     },
     "on_apply" : function(item, actor) {
-        
+        item.activateGivenWeapon(actor);
     }
 });
 
@@ -287,7 +287,7 @@ addItemDefinition({
         print("Removed " + item.title());
     },
     "on_apply" : function(item, actor) {
-        
+        item.activateGivenWeapon(actor);
     }
 });
 
@@ -323,7 +323,7 @@ addItemDefinition({
         print("Removed " + item.title());
     },
     "on_apply" : function(item, actor) {
-        
+        item.activateGivenWeapon(actor);
     }
 });
 
@@ -360,7 +360,7 @@ addItemDefinition({
         print("Removed " + item.title());
     },
     "on_apply" : function(item, actor) {
-        
+        item.activateGivenWeapon(actor);
     }
 });
 
@@ -395,7 +395,7 @@ addItemDefinition({
         print("Removed " + item.title());
     },
     "on_apply" : function(item, actor) {
-        
+        item.activateGivenWeapon(actor);
     }
 });
 
@@ -431,7 +431,7 @@ addItemDefinition({
         print("Removed " + item.title());
     },
     "on_apply" : function(item, actor) {
-        
+        item.activateGivenWeapon(actor);
     }
 });
 
@@ -468,7 +468,7 @@ addItemDefinition({
         print("Removed " + item.title());
     },
     "on_apply" : function(item, actor) {
-        
+        item.activateGivenWeapon(actor);
     }
 });
 
@@ -504,7 +504,7 @@ addItemDefinition({
         print("Removed " + item.title());
     },
     "on_apply" : function(item, actor) {
-        
+        item.activateGivenWeapon(actor);
     }
 });
 

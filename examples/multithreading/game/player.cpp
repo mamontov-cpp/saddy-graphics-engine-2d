@@ -273,6 +273,11 @@ void game::Player::removeWeapon(weapons::Weapon* w)
     m_actor.removeWeapon(w);
 }
 
+void game::Player::activateWeapon(weapons::Weapon* w)
+{
+    m_actor.activateWeapon(w);
+}
+
 weapons::Weapon* game::Player::weapon() const
 {
     return m_actor.weapon();
@@ -434,6 +439,7 @@ void game::exposePlayer(void* c, Game* game)
 
     player_binding->addMethod("pushWeapon", sad::dukpp03::bind_method::from(&game::Player::pushWeapon));
     player_binding->addMethod("removeWeapon", sad::dukpp03::bind_method::from(&game::Player::removeWeapon));
+    player_binding->addMethod("activateWeapon", sad::dukpp03::bind_method::from(&game::Player::activateWeapon));
     player_binding->addMethod("weapon", sad::dukpp03::bind_method::from(&game::Player::weapon));
     player_binding->addMethod("tryShoot", sad::dukpp03::bind_method::from(&game::Player::tryShoot));
 

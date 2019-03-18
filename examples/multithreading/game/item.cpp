@@ -129,6 +129,14 @@ void game::Item::removeGivenWeaponFrom(game::Actor* owner)
     }
 }
 
+void game::Item::activateGivenWeapon(game::Actor* owner)
+{
+    if (m_weapon && owner)
+    {
+        owner->activateWeapon(m_weapon);
+    }
+}
+
 weapons::Weapon* game::Item::givenWeapon() const
 {
     return m_weapon;
@@ -161,6 +169,7 @@ void game::exposeItem(void* c)
     item_binding->addMethod("title", sad::dukpp03::bind_method::from(&game::Item::title));
     item_binding->addMethod("setGivenWeapon", sad::dukpp03::bind_method::from(&game::Item::setGivenWeapon));
     item_binding->addMethod("removeGivenWeaponFrom", sad::dukpp03::bind_method::from(&game::Item::removeGivenWeaponFrom));
+    item_binding->addMethod("activateGivenWeapon", sad::dukpp03::bind_method::from(&game::Item::activateGivenWeapon));
 
     ctx->addClassBinding("game::Item", item_binding);
 }
