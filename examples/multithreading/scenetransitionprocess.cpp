@@ -190,6 +190,15 @@ void SceneTransitionProcess::unloadTexturesForInventoryThread() const
     unloadTextureIfOnGPU(m_main_thread_data.Texture);
 }
 
+void SceneTransitionProcess::setTimeMultiplier(double mul_dark, double mul_light) const
+{
+    m_main_thread_data.DarkeningAnimation->setTime(TRANSITION_TIME * mul_dark);
+    m_main_thread_data.LighteningAnimation->setTime(TRANSITION_TIME * mul_light);
+
+    m_inventory_thread_data.DarkeningAnimation->setTime(TRANSITION_TIME * mul_dark);
+    m_inventory_thread_data.LighteningAnimation->setTime(TRANSITION_TIME * mul_light);
+}
+
 sad::Scene* SceneTransitionProcess::lastActiveScene(sad::Renderer* r)
 {
     if (!r)

@@ -190,8 +190,10 @@ public:
     void triggerWinGame();
     /*! Transitions the game from current scene to the next one
         \param[in] opts options
+        \param[in] mul_dark multiplier for transitioning between scenes (darkening)
+        \param[in] mul_light multiplier for transitioning between scenes (lightening)
      */
-    void changeScene(const SceneTransitionOptions& opts) const;
+    void changeScene(const SceneTransitionOptions& opts, double mul_dark = 1.0, double mul_light = 1.0) const;
     /*! Change scene to playing screen
      */
     void changeSceneToPlayingScreen();

@@ -80,6 +80,11 @@ struct ThreadData
     /*! Unloads textures for inventory thread
      */
     void unloadTexturesForInventoryThread() const;
+    /*! A time multiplier for transition
+     *  \param[in] mul_dark darkening multiplier
+     *  \param[in] mul_light lightening multiplier
+     */
+    void setTimeMultiplier(double mul_dark, double mul_light) const;
     /*! Returns last active scene for renderer
      *  \param[in] r renderer
      *  \return last active scene

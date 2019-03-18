@@ -505,8 +505,6 @@ void Game::setControlsForMainThread(sad::Renderer* renderer, sad::db::Database*)
         // Stop going into any direction
         this->player()->tryStopGoingLeft();
         this->player()->tryStopGoingRight();
-        this->player()->tryStopGoingUp();
-        this->player()->tryStopGoingDown();
     };
     renderer->controls()->addLambda(
         *sad::input::ET_Deactivate
@@ -1103,8 +1101,9 @@ void Game::triggerWinGame()
     });
 }
 
-void Game::changeScene(const SceneTransitionOptions& opts) const
+void Game::changeScene(const SceneTransitionOptions& opts, double mul_dark, double mul_light) const
 {
+    m_transition_process->setTimeMultiplier(mul_dark, mul_light);
     m_transition_process->start(opts);
 }
 
@@ -1375,7 +1374,7 @@ void Game::changeSceneToPlayingScreen()
     this->enterTransitioningState();
     this->waitForPipelineTasks();
 
-    changeScene(options);
+    changeScene(options, 4.0);
 }
 
 void Game::changeSceneToOptions()
