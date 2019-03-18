@@ -274,6 +274,7 @@ addItemDefinition({
         var settings = new BulletSettings();
         settings.IconName = "bullets/yellow/xxx_huge";
         settings.Speed = 3000;
+		settings.IsGhost = true;
         settings.ApplyGravity = false;
         settings.SoundName = "shooting_1";
         weapon.setSettings(settings);
@@ -739,7 +740,7 @@ addTriggerOnce(400, function() {
 
     lockScreen();
     setEnemyCounter(2);
-    onZeroEnemies(function() { unlockScreen(); });
+    onZeroEnemies(function() { unlockScreen(); spawnItem("Red potion", new sad.Point2D(350, 500)); spawnItem("Red potion", new sad.Point2D(450, 500)); });
     playEnemySpawnSound();
 
     //player().tryStartGoingUp();
@@ -757,7 +758,7 @@ addTriggerOnce(400, function() {
     var actor = spawnPlatformPatrol("enemy_walker", new sad.Point2D(220, 300));
     decrementCounterOnActorDeath(actor);
 
-    setLootForActor(actor, {"Gold coin" : 34, "Helmet": 33, "Red potion": 33});
+    setLootForActor(actor, {"Helmet": 50, "Red potion": 33});
 });
 
 addTriggerOnce(1072, function() {

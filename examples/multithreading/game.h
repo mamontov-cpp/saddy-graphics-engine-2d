@@ -483,6 +483,9 @@ public:
      *  \return level storage loader
      */
     game::LevelStorageLoader* levelStorageLoader() const;
+    /*! Runs initialization script game_init.js
+     */
+    void runGameInitializationScript();
 private:
     /*! Erases sprite from resting bodies to actors
      *  \param[in] a actor

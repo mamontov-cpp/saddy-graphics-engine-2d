@@ -112,6 +112,7 @@ m_level_storage_loader(NULL)// NOLINT
     m_snow_particles->addRef();
 
     this->initContext();
+    this->runGameInitializationScript();
 
     m_player = new game::Player();
     m_player->setGame(this);
@@ -304,7 +305,7 @@ void Game::runMainGameThread()
             }
         }
     );
-    renderer.pipeline()->appendTask([&] {
+    renderer.pipeline()->appendTask([this] {
         this->rendererForMainThread()->window()->setRect(sad::Rect2I(0, 0, 800, 600));
     });
     m_main_thread->markAsRendererStarted();
@@ -369,7 +370,7 @@ void Game::runInventoryThread()
         }
         this->m_task_lock.release();
     });
-    renderer.pipeline()->appendTask([&] {
+    renderer.pipeline()->appendTask([this] {
         this->rendererForInventoryThread()->window()->setRect(sad::Rect2I(800, 0, 1600, 600));
     });
     renderer.run();
@@ -1299,9 +1300,15 @@ void Game::changeSceneToPlayingScreen()
     m_player->inventory()->setOwner(m_player->actor());
     clearLevelStorageLoader();
 
+    sad::Timer* timer = new sad::Timer();
+    timer->start();
+
     options.mainThread().LoadFunction = [this]() {  this->tryLoadGameScreen(); };
 
     options.mainThread().OnLoadedFunction = [=]() {
+        timer->stop();
+        SL_LOCAL_DEBUG(str(fmt::Format("Loaded level in {0} ms") << timer->elapsed()), *main_renderer);
+        timer->start();
         sad::db::Database* db = main_renderer->database("gamescreen");
         sad::Scene* pause_scene = db->objectByName<sad::Scene>("pause");
         if (pause_scene)
@@ -1311,17 +1318,35 @@ void Game::changeSceneToPlayingScreen()
         this->m_moving_platform_registry.setDatabase(this, db);
         this->m_score_bar->init();
         this->m_camera_movement->init();
+        timer->stop();
+        SL_LOCAL_DEBUG(str(fmt::Format("Inititalization of primitive objects took {0} ms") << timer->elapsed()), *main_renderer);
+        timer->start();
         sad::db::populateScenesFromDatabase(main_renderer, db);
+        timer->stop();
+        SL_LOCAL_DEBUG(str(fmt::Format("sad::db::populateScenesFromDatabase took {0} ms") << timer->elapsed()), *main_renderer);
+        timer->start();
         sad::Scene* scene = db->objectByName<sad::Scene>("gui");
         game::HealthBar* bar = new game::HealthBar(this);
         scene->addNode(bar);
         scene->setLayer(bar, 0);
         m_snow_particles->setGame(this);
+        timer->stop();
+        SL_LOCAL_DEBUG(str(fmt::Format("Post-populating init took {0} ms") << timer->elapsed()), *main_renderer);
+        timer->start();
         this->initGamePhysics();
+        timer->stop();
+        SL_LOCAL_DEBUG(str(fmt::Format("initGamePhysics() took {0} ms") << timer->elapsed()), *main_renderer);
+        timer->start();
         // When loaded we should evaluate initialization script
         game::clearItemPenetationDepths();
         this->clearItemDefinitions();
+        timer->stop();
+        SL_LOCAL_DEBUG(str(fmt::Format("Clearing of item penetration depths and definitions took {0} ms") << timer->elapsed()), *main_renderer);
+        timer->start();
         this->evaluateInitializationScript();
+        timer->stop();
+        SL_LOCAL_DEBUG(str(fmt::Format("evaluateInitializationScript() took {0} ms") << timer->elapsed()), *main_renderer);
+        delete timer;
     };
 
     options.inventoryThread().OnLoadedFunction = [=]() {
@@ -2150,6 +2175,20 @@ game::LevelStorageLoader* Game::levelStorageLoader() const
 }
 
 
+void Game::runGameInitializationScript()
+{
+    // Fetch and run game initialization script
+    sad::Maybe<sad::String> maybe_script = sad::slurp("examples/multithreading/game_init.js", m_main_thread->renderer());
+    if (maybe_script.exists())
+    {
+        this->evalScript(maybe_script.value());
+    }
+    else
+    {
+        SL_LOCAL_FATAL("Unable to run game initialization script", *(m_main_thread->renderer()));
+    }
+}
+
 
 // ==================================== PRIVATE METHODS ====================================
 
@@ -2490,17 +2529,6 @@ void Game::initContext()
     bots::shootingstrategies::exposePlayerLocationStrategy(m_eval_context);
     bots::shootingstrategies::exposeRandomStrategy(m_eval_context);
     bots::shootingstrategies::exposeTurningStrategy(m_eval_context);
-
-    // Fetch and run game initialization script
-    sad::Maybe<sad::String> maybe_script = sad::slurp("examples/multithreading/game_init.js", m_main_thread->renderer());
-    if (maybe_script.exists())
-    {
-        this->evalScript(maybe_script.value());
-    }
-    else
-    {
-        SL_LOCAL_FATAL("Unable to run game initialization script", *(m_main_thread->renderer()));
-    }
 }
 
 
