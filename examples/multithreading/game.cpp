@@ -7,6 +7,7 @@
 #include "game/platformblinking.h"
 #include "game/staticobjectcontainer.h"
 #include "game/levelstorageloader.h"
+#include "game/mainlevelloader.h"
 
 #include "threads/gamethread.h"
 
@@ -86,7 +87,7 @@ m_highscore(0),
 m_loaded_options_database{false, false},
 m_loaded_lose_screen_database{false, false},
 m_loaded_win_screen_database{false, false},
-m_loaded_game_screen(false),
+m_main_level_loader(NULL),
 m_theme_playing(NULL),
 m_sounds(NULL),
 m_inventory_node(NULL),
@@ -164,6 +165,8 @@ m_level_storage_loader(NULL)// NOLINT
 
     m_enemy_counter = new EnemyCounter();
     m_enemy_counter->addRef();
+
+    m_main_level_loader = new game::MainLevelLoader(m_main_thread->renderer());
 }
 
 Game::~Game()  // NOLINT
@@ -200,6 +203,7 @@ Game::~Game()  // NOLINT
     {
         delete it.value();
     }
+    delete m_main_level_loader;
 }
 
 /*! A padding, that will be used in main menu between label and player choice
@@ -306,6 +310,7 @@ void Game::runMainGameThread()
         }
     );
     renderer.pipeline()->appendTask([this] {
+        this->m_main_level_loader->runLoaderThread();
         this->rendererForMainThread()->window()->setRect(sad::Rect2I(0, 0, 800, 600));
     });
     m_main_thread->markAsRendererStarted();
@@ -1374,7 +1379,7 @@ void Game::changeSceneToPlayingScreen()
     this->enterTransitioningState();
     this->waitForPipelineTasks();
 
-    changeScene(options, 4.0);
+    changeScene(options, 2.0);
 }
 
 void Game::changeSceneToOptions()
@@ -1453,20 +1458,7 @@ void Game::tryLoadWinScreen(bool is_inventory_thread)
 
 void Game::tryLoadGameScreen()
 {
-    sad::Renderer* renderer = m_main_thread->renderer();
-    if (m_loaded_game_screen)
-    {
-        renderer->database("gamescreen")->restoreSnapshot();
-    }
-    else
-    {
-        sad::db::Database* database = new sad::db::Database();
-        database->setRenderer(renderer);
-        database->tryLoadFrom("examples/multithreading/game_screen.json");
-        database->saveSnapshot();
-        renderer->addDatabase("gamescreen", database);
-        m_loaded_game_screen = true;
-    }
+    this->m_main_level_loader->loadGameScreen();
 }
 
 OptionsScreen& Game::optionsScreen()
@@ -2818,7 +2810,7 @@ Game::Game(const Game&)  // NOLINT
     m_loaded_options_database{false, false},
     m_loaded_lose_screen_database{false, false},
     m_loaded_win_screen_database{false, false},
-    m_loaded_game_screen(false),
+    m_main_level_loader(NULL),
     m_theme_playing(NULL),
     m_sounds(NULL),
     m_transition_process(NULL),

@@ -60,6 +60,7 @@ class ScoreBar;
 class SnowParticles;
 class PlatformBlinking;
 class LevelStorageLoader;
+class MainLevelLoader;
 }
 
 namespace nodes
@@ -574,9 +575,9 @@ private:
     /*! Whether we loaded win screen database
      */
     bool m_loaded_win_screen_database[2];
-    /*! Whether we loaded game screen
+    /*! A main level loader
      */
-    bool m_loaded_game_screen;
+   game::MainLevelLoader* m_main_level_loader;
 
     /*! A theme sound, that should be played
      */

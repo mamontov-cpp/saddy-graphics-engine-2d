@@ -90,6 +90,9 @@
     <ClCompile Include="game\conditions.cpp">
       <Filter>Файлы исходного кода\game</Filter>
     </ClCompile>
+    <ClCompile Include="game\mainlevelloader.cpp">
+      <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
     <ClCompile Include="optionsscreen.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
@@ -273,6 +276,9 @@
       <Filter>Заголовочные файлы\game</Filter>
     </ClInclude>
     <ClInclude Include="game\conditions.h">
+      <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\mainlevelloader.h">
       <Filter>Заголовочные файлы\game</Filter>
     </ClInclude>
     <ClInclude Include="optionsscreen.h">
