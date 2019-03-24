@@ -23,7 +23,7 @@ public:
     ~MainLevelLoader();
     /*! Runs loader thread for level
      */
-    void runLoaderThread();
+    void runLoaderThread() const;
     /*! Loads game screen from data
      */
     void loadGameScreen();

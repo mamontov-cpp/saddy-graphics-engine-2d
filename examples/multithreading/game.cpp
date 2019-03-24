@@ -909,11 +909,13 @@ void Game::setControlsForInventoryThread(sad::Renderer* renderer)
             item->applyActiveEffect(this->m_player->inventory()->owner());
             if (item->shouldDeleteWhenApplied())
             {
-                this->m_player->inventory()->takeItem(result_data.value().p1(), result_data.value().p2())->delRef();
-                if (this->m_inventory_popup)
-                {
-                    this->m_inventory_popup->setVisible(false);
-                }
+                this->rendererForMainThread()->pipeline()->appendTask([=]() {
+                    this->m_player->inventory()->takeItem(result_data.value().p1(), result_data.value().p2())->delRef();
+                    if (this->m_inventory_popup)
+                    {
+                        this->m_inventory_popup->setVisible(false);
+                    }
+                });
             }
         }
     };
@@ -2123,8 +2125,15 @@ void Game::enablePlatformBlinking(const sad::String& platform_name, double time)
             }
             else
             {
-                m_blinking_platforms.insert(sprite, new game::PlatformBlinking(this, sprite, time));
+                game::PlatformBlinking* blinking = new game::PlatformBlinking(this, sprite, time);
+                m_blinking_platforms.insert(sprite, blinking);
+                blinking->enable();
+                blinking->setTime(time);
             }
+        }
+        else
+        {
+            SL_LOCAL_DEBUG(sad::String("Cannot enable blinking for ") + platform_name + sad::String(": object not found"), *renderer);
         }
     }
 }

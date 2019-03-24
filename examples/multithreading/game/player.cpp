@@ -363,7 +363,10 @@ void game::Player::takeDamage(int base_dmg)
 
 void game::Player::updateHorizontalVelocity()
 {
-    m_actor.updateHorizontalVelocity();
+    if (!isDead())
+    { 
+        m_actor.updateHorizontalVelocity();
+    }
 }
 
 void game::Player::pauseWeaponsReloading()

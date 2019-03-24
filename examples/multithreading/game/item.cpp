@@ -4,6 +4,8 @@
 
 #include "../weapons/weapon.h"
 
+#include <pipeline/pipeline.h>
+
 // ========================================== game::Item::Definition ==========================================
 
 game::Item::Definition::Definition(const sad::String& icon, const sad::String& title, const sad::String& description, bool delete_after_apply)
@@ -147,16 +149,23 @@ weapons::Weapon* game::Item::givenWeapon() const
 
 void game::Item::invokeCompiledFunction(sad::dukpp03::CompiledFunction* f, game::Actor* owner)
 {
-    sad::dukpp03::Context* ctx = m_game->context();
-    ::dukpp03::PushValue<game::Item*, sad::dukpp03::BasicContext>::perform(ctx, this);
-    ::dukpp03::PushValue<game::Actor*, sad::dukpp03::BasicContext>::perform(ctx, owner);
-    f->call(ctx);
-    ::dukpp03::Maybe<std::string>  maybe_error = ctx->errorOnStack(-1);
-    if (maybe_error.exists())
-    {
-        ctx->renderer()->log()->critical(maybe_error.value().c_str(), __FILE__, __LINE__);
-    }
-    ctx->cleanStack();
+    // DO NOT DESTROY ITEM, IF IT'S REMOVED
+    this->addRef();
+
+    m_game->rendererForMainThread()->pipeline()->appendTask([=]() {
+        sad::dukpp03::Context* ctx = m_game->context();
+        ::dukpp03::PushValue<game::Item*, sad::dukpp03::BasicContext>::perform(ctx, this);
+        ::dukpp03::PushValue<game::Actor*, sad::dukpp03::BasicContext>::perform(ctx, owner);
+        f->call(ctx);
+        ::dukpp03::Maybe<std::string>  maybe_error = ctx->errorOnStack(-1);
+        if (maybe_error.exists())
+        {
+            ctx->renderer()->log()->critical(maybe_error.value().c_str(), __FILE__, __LINE__);
+        }
+        ctx->cleanStack();
+
+        this->delRef();
+    });
 }
 
 

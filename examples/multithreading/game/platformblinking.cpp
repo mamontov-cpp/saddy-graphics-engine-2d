@@ -78,15 +78,15 @@ void game::PlatformBlinking::disable()
 
 void game::PlatformBlinking::enable()
 {
+    m_enabled = true;
     if (m_hidden)
     {
-        this->hidePlatform();
+        (this->m_hide_callback)();
     }
     else
     {
-        this->showPlatform();
+        (this->m_show_callback)();
     }
-    m_enabled = true;
 }
 
 
@@ -115,6 +115,7 @@ void game::PlatformBlinking::showPlatform() const
         }
         sad::p2d::Rectangle* rect = new sad::p2d::Rectangle();
         rect->setRect(common_rectangle);
+        m_body->initPosition(sad::Point2D(0, 0));
         m_body->setShape(rect);
         m_body->initPosition(m_platform->middle());
 

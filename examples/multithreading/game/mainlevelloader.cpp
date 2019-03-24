@@ -7,7 +7,7 @@
 
 game::MainLevelLoader::MainLevelLoader(sad::Renderer* renderer) : m_loaded_game_screen(false), m_first_time_loaded_game_screen(false), m_thread(NULL), m_renderer(renderer)
 {
-    std::function<void()> loader = [=, this]() {
+    std::function<void()> loader = [=]() {
         sad::db::Database* database = new sad::db::Database();
         database->setRenderer(renderer);
         database->tryLoadFrom("examples/multithreading/game_screen.json");
@@ -25,7 +25,7 @@ game::MainLevelLoader::~MainLevelLoader()
 }
 
 
-void game::MainLevelLoader::runLoaderThread()
+void game::MainLevelLoader::runLoaderThread() const
 {
     bool result = m_thread->run();
     assert( result );
@@ -40,15 +40,12 @@ void game::MainLevelLoader::loadGameScreen()
         {
             m_thread->wait();
         }
+        m_first_time_loaded_game_screen = false;
     }
     else
     {
-        if (m_first_time_loaded_game_screen)
-        {
-            m_first_time_loaded_game_screen = false;
-        }
-        else
-        {
+        if (!m_first_time_loaded_game_screen)
+        { 
             m_renderer->database("gamescreen")->restoreSnapshot();
         }
     }

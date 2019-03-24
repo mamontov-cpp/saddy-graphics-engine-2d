@@ -3,7 +3,12 @@
         {
             "name":"lasers\/laser1",
             "size":"1000;14",
-            "texrect":"1;1;1000;14"
+            "texrect":"1;43;1000;14"
+        },
+        {
+            "name":"lasers\/laser2",
+            "size":"1000;40",
+            "texrect":"1;1;1000;40"
         }
     ],
     "file":"examples/multithreading/lasers.png",

@@ -323,6 +323,11 @@ void game::Actor::tryStopGoingRight()
 void game::Actor::onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev)
 {
     sad::p2d::BounceSolver* bounce_solver = m_game->bounceSolver();
+    bool is_collision_with_resting_platform = this->isResting() && (m_resting_platform == ev.m_object_2) && !m_is_floater;
+    if (is_collision_with_resting_platform)
+    {
+        return;
+    }
     if (!bounce_solver->bounce(ev.m_object_1, ev.m_object_2))
     {
         return;
@@ -754,7 +759,7 @@ void game::Actor::restOnPlatform(sad::p2d::Body* b, const  sad::p2d::Vector& old
         {
              if (!already_resting)
              { 
-                 setOptionsForSprite(m_options->StandingSprite);
+                setOptionsForSprite(m_options->StandingSprite);
                 if (m_options->CanEmitSound)
                 {
                     m_game->playWalkingSound();
@@ -851,7 +856,7 @@ void game::Actor::testResting()
 
         sad::p2d::Cutter1D player_part(std::min(shape_1[0].x(), shape_1[2].x()), std::max(shape_1[0].x(), shape_1[2].x()));
         sad::p2d::Cutter1D platform_part(std::min(shape_2[0].x(), shape_2[2].x()), std::max(shape_2[0].x(), shape_2[2].x()));
-        if (!sad::p2d::collides(player_part, platform_part))
+        if (!sad::p2d::collides(player_part, platform_part) || (m_resting_platform->isGhost()))
         {
             this->disableResting();
             // Restore speed for floater
@@ -879,7 +884,6 @@ void game::Actor::testResting()
             }
             m_body->setCurrentTangentialVelocity(own_velocity);
         }
-
     }
 }
 void game::Actor::startMovingLeft()

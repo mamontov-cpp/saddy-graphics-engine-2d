@@ -265,16 +265,16 @@ addItemDefinition({
         print("Added " + item.title());
         //actor.incrementAttackModifier(1);
         var weapon = new Weapon();
-        weapon.setShootingInterval(2000);
+        weapon.setShootingInterval(1000);
         weapon.setAmountOfProjectiles(5);
-        weapon.setDelay(500);
+        weapon.setDelay(100);
         weapon.setBaseDamage(10);
-        weapon.setMinAngleDelta(-Math.PI / 10);
-        weapon.setMaxAngleDelta(Math.PI / 10);
+        weapon.setMinAngleDelta(0);
+        weapon.setMaxAngleDelta(0);
         var settings = new BulletSettings();
         settings.IconName = "bullets/yellow/xxx_huge";
         settings.Speed = 3000;
-		settings.IsGhost = true;
+        settings.IsGhost = true;
         settings.ApplyGravity = false;
         settings.SoundName = "shooting_1";
         weapon.setSettings(settings);
@@ -373,6 +373,7 @@ addItemDefinition({
         print("Started adding");
         print("Added " + item.title());
         var weapon = new Weapon();
+        //weapon.setShootingInterval(100);
         weapon.setShootingInterval(1500);
         weapon.setAmountOfProjectiles(1);
         weapon.setDelay(1500);
@@ -408,18 +409,19 @@ addItemDefinition({
         print("Added " + item.title());
         actor.incrementAttackModifier(3);
         var weapon = new Weapon();
-        weapon.setShootingInterval(400);
+        weapon.setShootingInterval(1000);
         weapon.setAmountOfProjectiles(1);
-        weapon.setDelay(500);
+        weapon.setDelay(0);
         weapon.setBaseDamage(0);
         weapon.setMinAngleDelta(0);
         weapon.setMaxAngleDelta(0);
+
         var settings = new LaserSettings();
-        settings.IconName = "bullets/bubble/5_laser";
-        settings.SpriteWidth = 8;
-        settings.PhysicalWidth = 8;
+        settings.IconName = "lasers/laser2";
+        settings.SpriteWidth = 40;
+        settings.PhysicalWidth = 40;
         settings.Height = 1000;
-        settings.Time = 200;
+        settings.Time = 800;
         settings.SoundName = "shooting_3";
         weapon.setSettings(settings);
         item.setGivenWeapon(weapon);
@@ -708,8 +710,8 @@ cameraMovement().setMoveRightBoundary(450);
 cameraMovement().setMaxShiftTime(2000);
 cameraMovement().setArrowPosition(new sad.Point2D(775,300));
 
-setMaxLevelX(7338);
-setRightBound(7338);
+setMaxLevelX(9830);
+setRightBound(9830);
 resetEnemyCounter();
 
 var playEnemySpawnSound = function() {
@@ -730,6 +732,15 @@ addTriggerOnce(200, function() {
     //spawnItem("Book of Flight", new sad.Point2D(400, 500));
     //spawnItem("Red potion", new sad.Point2D(350, 500));
     spawnItem("Simple spear", new sad.Point2D(400, 500));
+    
+    spawnItem("Phandaal\'s Excellent Prismatic Spray", new sad.Point2D(500, 600));
+    spawnItem("Phandaal\'s Excellent Prismatic Spray", new sad.Point2D(500, 650));
+    spawnItem("Phandaal\'s Excellent Prismatic Spray", new sad.Point2D(500, 700));
+    
+    spawnItem("Phandaal\'s Excellent Prismatic Spray", new sad.Point2D(500, 600));
+    spawnItem("Phandaal\'s Excellent Prismatic Spray", new sad.Point2D(500, 650));
+    spawnItem("Phandaal\'s Excellent Prismatic Spray", new sad.Point2D(500, 700));
+    //spawnItem("Wand of death", new sad.Point2D(400, 500));
     //cameraMovement().showArrow();
     //setGlobalOffset(new sad.Point2D(-50, 0));
 });
@@ -747,10 +758,9 @@ addTriggerOnce(400, function() {
     //spawnEnemyWalkerAt("player", new sad.Point2D(400, 500), "random_60_500");
     //spawnAnimatedFloater("animated_floater_1", new sad.Point2D(500, 500), 50, 750, 40);
     //spawnAnimatedFloater("animated_floater_2", new sad.Point2D(600, 500), 50, 750, 40);
-    /*
-    spawnEnemyInDirection("red_disc", new sad.Point2D(500, 500), HDir.Right, VDir.Down);
-    spawnEnemyInDirection("green_floater", new sad.Point2D(600, 500), HDir.Right, VDir.Down);
-    */
+    //spawnEnemyInDirection("red_disc", new sad.Point2D(500, 500), HDir.Right, VDir.Down);
+    //spawnEnemyInDirection("green_floater", new sad.Point2D(600, 500), HDir.Right, VDir.Down);
+    
     var actor = spawnEnemyInDirection("green_walker", new sad.Point2D(200, 300), HDir.Right, VDir.None);
     decrementCounterOnActorDeath(actor);
 
@@ -783,11 +793,10 @@ addTriggerOnce(1072, function() {
     weapon.setSettings(settings);
     actor.pushWeapon(weapon);
     
-    /*
-    var strategy = new FixedAngleStrategy(Math.PI);
-    var strategy = new TurningStrategy(2.0);
-    var strategy = new PlayerLocatingStrategy();
-    */
+    //var strategy = new FixedAngleStrategy(Math.PI);
+    //var strategy = new TurningStrategy(2.0);
+    //var strategy = new PlayerLocatingStrategy();
+    
     var strategy = new PlayerLocatingStrategy();
     strategy.setInterval(200);
     
@@ -1087,11 +1096,11 @@ addTriggerOnce(4100, function() {
     a.pushWeapon(weapon);
 });
 
+
 addTriggerOnce(5082, function() {
     playEnemySpawnSound();
     makePlatformGoOnWay("MovingPlatform5", "LongWay1");
-    addDelayedTask(40000, function() { stopMovingPlatformOnWay("MovingPlatform5") });
-    
+    addDelayedTask(50000, function() { stopMovingPlatformOnWay("MovingPlatform5"); });
     var a = spawnWayFloater("animated_floater_1", new sad.Point2D(5308, 29), 0,  "Way5");
     a.setLives(15);
     notFoundActors[0] = a;
@@ -1168,7 +1177,69 @@ addTriggerOnce(6570, function() {
     }
 });
 
+var isWindEnabled = false;
+var tryChangeWindSpeed = function() {
+    if (!isWindEnabled) {
+        return;
+    }
+    var val = Math.random() * 100;
+    var speed = 0;
+    if (val >= 0 && val < 20) {
+        speed = -60;
+    }
+    if (val >= 20 && val < 40) {
+        speed = -20;
+    }
+    if (val >= 40 && val < 60) {
+        speed = 0;
+    }
+    if (val >= 60 && val < 80) {
+        speed = 20;
+    }
+    if (val >= 80 && val <= 100) {
+        speed = 60;
+    }
+    setWindSpeed(speed);
+    addDelayedTask(4000.0, tryChangeWindSpeed);
+}
+var startWind = function() {
+    isWindEnabled = true;
+    snow.start();
+    tryChangeWindSpeed();
+};
+var stopWind  = function() {
+    isWindEnabled = false;
+    snow.stop();
+};
+
 addTriggerOnce(7279, function() {
-    triggerWinGame();
+    //triggerWinGame();
+    startWind();
 });
 
+addTriggerOnce(8229, function() {
+    makePlatformGoOnWay("MovingPlatform6", "Way8");
+    makePlatformGoOnWay("MovingPlatform7", "Way9");
+    makePlatformGoOnWay("MovingPlatform8", "Way10");
+    makePlatformGoOnWay("MovingPlatform9", "Way11");
+    makePlatformGoOnWay("MovingPlatform10", "Way12");
+    makePlatformGoOnWay("MovingPlatform11", "Way13");
+});
+
+addTriggerOnce(9030, function() {
+    enablePlatformBlinking("MovingPlatform13", 3000);
+    enablePlatformBlinking("MovingPlatform15", 3000);
+    addDelayedTask(1000.0, function() {
+        enablePlatformBlinking("MovingPlatform14", 10000);
+        enablePlatformBlinking("MovingPlatform16", 10000);
+    });
+});
+
+addTriggerOnce(9830, function() {
+    stopMovingPlatformOnWay("MovingPlatform6");
+    stopMovingPlatformOnWay("MovingPlatform7");
+    stopMovingPlatformOnWay("MovingPlatform8");
+    stopMovingPlatformOnWay("MovingPlatform9");
+    stopMovingPlatformOnWay("MovingPlatform10");
+    stopMovingPlatformOnWay("MovingPlatform11");
+});

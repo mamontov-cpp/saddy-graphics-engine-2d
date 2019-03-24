@@ -6,6 +6,10 @@
     {
       "texture": "laser1.png",
       "name": "lasers/laser1"
+    },
+    {
+      "texture": "laser2.png",
+      "name": "lasers/laser2"
     }
   ]
 }
