@@ -710,8 +710,8 @@ cameraMovement().setMoveRightBoundary(450);
 cameraMovement().setMaxShiftTime(2000);
 cameraMovement().setArrowPosition(new sad.Point2D(775,300));
 
-setMaxLevelX(9830);
-setRightBound(9830);
+setMaxLevelX(10630);
+setRightBound(10630);
 resetEnemyCounter();
 
 var playEnemySpawnSound = function() {
@@ -722,6 +722,7 @@ player().setLives(15);
 
 var isWindEnabled = true;
 var notFoundActors = [ null, null, null, null, null ];
+var easyMode = false;
 
 // Just a simple JS trigger
 
@@ -731,19 +732,16 @@ addTriggerOnce(200, function() {
     //snow.start();
     //spawnItem("Book of Flight", new sad.Point2D(400, 500));
     //spawnItem("Red potion", new sad.Point2D(350, 500));
-    spawnItem("Simple spear", new sad.Point2D(400, 500));
-    
-    spawnItem("Phandaal\'s Excellent Prismatic Spray", new sad.Point2D(500, 600));
-    spawnItem("Phandaal\'s Excellent Prismatic Spray", new sad.Point2D(500, 650));
-    spawnItem("Phandaal\'s Excellent Prismatic Spray", new sad.Point2D(500, 700));
-    
-    spawnItem("Phandaal\'s Excellent Prismatic Spray", new sad.Point2D(500, 600));
-    spawnItem("Phandaal\'s Excellent Prismatic Spray", new sad.Point2D(500, 650));
-    spawnItem("Phandaal\'s Excellent Prismatic Spray", new sad.Point2D(500, 700));
-    //spawnItem("Wand of death", new sad.Point2D(400, 500));
+    if (easyMode) {
+        spawnItem("Wand of death", new sad.Point2D(400, 500));
+    } else {
+        spawnItem("Simple spear", new sad.Point2D(400, 500));
+    }
     //cameraMovement().showArrow();
     //setGlobalOffset(new sad.Point2D(-50, 0));
 });
+
+if (!easyMode) {
 
 addTriggerOnce(400, function() {
     //setWindSpeed(0);
@@ -960,6 +958,8 @@ addTriggerOnce(1762, function() {
         });
     });;
 });
+
+}
 
 addTriggerOnce(2294, function() {
     startPlayingCameraLockAnimation(-2286.0, 500.0);
@@ -1213,33 +1213,85 @@ var stopWind  = function() {
 };
 
 addTriggerOnce(7279, function() {
-    //triggerWinGame();
     startWind();
 });
 
 addTriggerOnce(8229, function() {
-    makePlatformGoOnWay("MovingPlatform6", "Way8");
-    makePlatformGoOnWay("MovingPlatform7", "Way9");
-    makePlatformGoOnWay("MovingPlatform8", "Way10");
-    makePlatformGoOnWay("MovingPlatform9", "Way11");
-    makePlatformGoOnWay("MovingPlatform10", "Way12");
-    makePlatformGoOnWay("MovingPlatform11", "Way13");
+    if (!easyMode) {
+        makePlatformGoOnWay("MovingPlatform6", "Way8");
+        makePlatformGoOnWay("MovingPlatform7", "Way9");
+        makePlatformGoOnWay("MovingPlatform8", "Way10");
+        makePlatformGoOnWay("MovingPlatform9", "Way11");
+        makePlatformGoOnWay("MovingPlatform10", "Way12");
+        makePlatformGoOnWay("MovingPlatform11", "Way13");
+    }
 });
 
 addTriggerOnce(9030, function() {
-    enablePlatformBlinking("MovingPlatform13", 3000);
-    enablePlatformBlinking("MovingPlatform15", 3000);
-    addDelayedTask(1000.0, function() {
-        enablePlatformBlinking("MovingPlatform14", 10000);
-        enablePlatformBlinking("MovingPlatform16", 10000);
-    });
+   if (!easyMode) {
+        enablePlatformBlinking("MovingPlatform13", 3000);
+        enablePlatformBlinking("MovingPlatform15", 3000);
+        addDelayedTask(1000.0, function() {
+            enablePlatformBlinking("MovingPlatform14", 10000);
+            enablePlatformBlinking("MovingPlatform16", 10000);
+        });
+   }
 });
 
 addTriggerOnce(9830, function() {
-    stopMovingPlatformOnWay("MovingPlatform6");
-    stopMovingPlatformOnWay("MovingPlatform7");
-    stopMovingPlatformOnWay("MovingPlatform8");
-    stopMovingPlatformOnWay("MovingPlatform9");
-    stopMovingPlatformOnWay("MovingPlatform10");
-    stopMovingPlatformOnWay("MovingPlatform11");
+    if (!easyMode) {
+        stopMovingPlatformOnWay("MovingPlatform6");
+        stopMovingPlatformOnWay("MovingPlatform7");
+        stopMovingPlatformOnWay("MovingPlatform8");
+        stopMovingPlatformOnWay("MovingPlatform9");
+        stopMovingPlatformOnWay("MovingPlatform10");
+        stopMovingPlatformOnWay("MovingPlatform11");
+    }
+});
+
+
+var spawnPlatformPatrol2 = function(p) {
+    actor = spawnPlatformPatrol("enemy_walker", p);
+    actor.setLives(15);
+    decrementCounterOnActorDeath(actor);
+    
+    var settings = new BulletSettings();
+    settings.IconName = "bullets/green/xx_huge";
+    settings.MaxBounceCount = 0;
+    settings.ApplyGravity = false;
+    settings.RestitutionCoefficient = 0.9;
+    
+    weapon = new Weapon();
+    weapon.setShootingInterval(1000);
+    weapon.setAmountOfProjectiles(1);
+    weapon.setBaseDamage(1);
+    weapon.setSettings(settings);
+    actor.pushWeapon(weapon);
+    var strategy = new PlayerLocatingStrategy();
+    strategy.setInterval(200);
+    
+    actor.setShootingStrategy(strategy); 
+};
+
+addTriggerOnce(9890, function() {
+    if (!easyMode) {
+        disablePlatformBlinking("MovingPlatform13");
+        disablePlatformBlinking("MovingPlatform14");
+        disablePlatformBlinking("MovingPlatform15");
+        disablePlatformBlinking("MovingPlatform16");
+    }
+
+    startPlayingCameraLockAnimation(-9830.0, 800.0);
+    setEnemyCounter(3);
+    onZeroEnemies(function() { 
+        unlockScreen();
+        addTriggerOnce(10588, function() {
+            triggerWinGame();
+        });
+    });
+    playEnemySpawnSound();
+    spawnItem("Magic wand", new sad.Point2D(9930, 200));
+    spawnPlatformPatrol2(new sad.Point2D(9952, 200));
+    spawnPlatformPatrol2(new sad.Point2D(10245, 200));
+    spawnPlatformPatrol2(new sad.Point2D(10551, 200));
 });
