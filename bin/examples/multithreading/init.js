@@ -1295,3 +1295,8 @@ addTriggerOnce(9890, function() {
     spawnPlatformPatrol2(new sad.Point2D(10245, 200));
     spawnPlatformPatrol2(new sad.Point2D(10551, 200));
 });
+
+addTriggerOnce(10690, function() {
+    stopWind();
+    setWindSpeed(0);
+});
