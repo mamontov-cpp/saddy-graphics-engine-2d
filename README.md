@@ -86,11 +86,11 @@ For Saddy v1.6.1 and before:
   
 ## Example screenshots
 
-![Game Example (screenshot 1)](http://s4.postimg.org/yk1zz3mu5/screen1.png)   ![Game Example (screnshot 2)](http://s9.postimg.org/ypqdxqpan/screen2.png)
+![Game Example (screenshot 1)](http://s4.postimg.cc/yk1zz3mu5/screen1.png)   ![Game Example (screnshot 2)](http://s9.postimg.cc/ypqdxqpan/screen2.png)
 
-![Physics (screenshot 1)](http://s27.postimg.org/44xxl1yeb/screen3.png) ![Physics  (screenshot 2)](http://s15.postimg.org/4u7mh2e8b/screen4.png)
+![Physics (screenshot 1)](http://s27.postimg.cc/44xxl1yeb/screen3.png) ![Physics  (screenshot 2)](http://s15.postimg.cc/4u7mh2e8b/screen4.png)
 
-![Instrumented game](https://s13.postimg.org/hplvp4i3b/gameinstrumented.png)
+![Instrumented game](https://s13.postimg.cc/hplvp4i3b/gameinstrumented.png)
 
 ## Ran into a problem? Don't know where to start?
 
