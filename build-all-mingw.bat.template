@@ -34,10 +34,10 @@ cd ../..
 cd plugins/freetype
 call %BatchToRun% || goto :error
 cd ../..
-cd tools/ifaceed
-qmake CONFIG+=%QtConfig% ifaceed.pro
-mingw32-make
-cd ../..
+REM cd tools/ifaceed
+REM qmake CONFIG+=%QtConfig% ifaceed.pro
+REM mingw32-make
+REM cd ../..
 cd plugins/dukpp-03
 call %BatchToRun% || goto :error
 cd ../..

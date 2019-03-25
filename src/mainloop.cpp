@@ -111,6 +111,8 @@ void sad::MainLoop::run(bool once)
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
+        // Dispatch windows events
+        this->runAndCleanDispatches();
 #endif
 
 #ifdef X11
@@ -176,6 +178,29 @@ void sad::MainLoop::deinitMainLoop()
 {
     unregisterRenderer();
 }
+
+#ifdef _WIN32
+
+void sad::MainLoop::pushDispatch(const std::function<void()>& f)
+{
+    this->m_event_dispatches_lock.lock();
+    this->m_event_dispatches << f;
+    this->m_event_dispatches_lock.unlock();
+}
+
+void sad::MainLoop::runAndCleanDispatches()
+{
+    this->m_event_dispatches_lock.lock();
+    for(size_t i = 0; i < this->m_event_dispatches.size(); i++)
+    {
+        this->m_event_dispatches[i]();
+    }
+    this->m_event_dispatches.clear();
+    this->m_event_dispatches_lock.unlock();
+
+}
+
+#endif
 
 void sad::MainLoop::tryElevatePriority()
 {

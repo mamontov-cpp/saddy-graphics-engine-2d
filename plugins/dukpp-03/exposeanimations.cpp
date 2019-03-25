@@ -779,6 +779,8 @@ static void exposeInstance(sad::dukpp03::Context* ctx)
     c->addMethod("resume", sad::dukpp03::bind_method::from(&sad::animations::Instance::resume));
     c->addMethod("cancel", sad::dukpp03::bind_method::from(&sad::animations::Instance::cancel));
     c->addMethod("markAsValid", sad::dukpp03::bind_method::from(&sad::animations::Instance::markAsValid));
+    c->addMethod("disableStateRestoringOnFinish", sad::dukpp03::bind_method::from(&sad::animations::Instance::disableStateRestoringOnFinish));
+    c->addMethod("enableStateRestoringOnFinish", sad::dukpp03::bind_method::from(&sad::animations::Instance::enableStateRestoringOnFinish));
 
     std::function<sad::dukpp03::JSAnimationCallback*(sad::animations::Instance*, sad::dukpp03::Context*, sad::dukpp03::CompiledFunction)> add_on_start = [](sad::animations::Instance* i,  sad::dukpp03::Context* context, sad::dukpp03::CompiledFunction f) {
         sad::dukpp03::JSAnimationCallback* cb = new sad::dukpp03::JSAnimationCallback(context, f);

@@ -539,6 +539,11 @@
             "name":"tiles_list\/tileYellow_27ng",
             "size":"16;13",
             "texrect":"793;166;64;53"
+        },
+        {
+            "name":"interface\/heart",
+            "size":"24;20",
+            "texrect":"925;0;24;20"
         }
     ],
     "file":"examples/multithreading/tiles.png",

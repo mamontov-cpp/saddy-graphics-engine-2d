@@ -40,6 +40,11 @@ bool sad::db::Object::load(const picojson::value& v)
     return false;
 }
 
+void sad::db::Object::reset()
+{
+
+}
+
 sad::db::Table* sad::db::Object::table() const
 {
     return m_table;
@@ -64,10 +69,10 @@ sad::db::schema::Schema* sad::db::Object::basicSchema()
             DbObjectBasicSchema->add("majorid", sad::db::define_field(&sad::db::Object::MajorId));
             DbObjectBasicSchema->add("minorid", sad::db::define_field(&sad::db::Object::MinorId));
             DbObjectBasicSchema->add(
-                "name"   , 
+                "name",
                 new sad::db::MethodPair<sad::db::Object, sad::String>(
-                    &sad::db::Object::objectName,	
-                    &sad::db::Object::setObjectName				
+                    &sad::db::Object::objectName,
+                    &sad::db::Object::setObjectName
                 )
             );
             DbObjectBasicSchema->add("active" , sad::db::define_field(&sad::db::Object::Active));

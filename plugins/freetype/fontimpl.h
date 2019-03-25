@@ -87,6 +87,10 @@ public:
         \return string of glyph parameters
      */
     sad::String dumpGlyphParameters() const;
+    /*! Dumps data to BMP
+     * \param[in] size size
+     */
+    void dumpToBMP(unsigned int size) const;
 protected:
     /*! Creates and returns current size for data
         \param[in] size a new size for data

@@ -29,6 +29,10 @@ public:
         \param[in] world a world
      */
     void setWorld(sad::p2d::World* world);
+    /*! Returns step tick for task
+        \return step tick
+     */
+    double stepTick();
     /*! Decreases reference count for world 
      */
     ~WorldStepTask();

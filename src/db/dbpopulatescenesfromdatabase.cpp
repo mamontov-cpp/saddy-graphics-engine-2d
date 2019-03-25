@@ -13,15 +13,15 @@ struct scene_comparator_t
         sad::Scene * bb = static_cast<sad::Scene*>(b);
 
         return aa->sceneLayer() < bb->sceneLayer();
-    }	
+    }
 };
 
 struct scenenodes_comparator_t
 {
     bool operator()(sad::SceneNode* a, sad::SceneNode* b) 
-    {				
+    {
         return a->cachedLayer() < b->cachedLayer();
-    }	
+    }
 };
 
 void sad::db::populateScenesFromDatabase(sad::Renderer * r, sad::db::Database * db, bool clear)

@@ -221,7 +221,7 @@ dukpp03::Maybe<sad::db::Object*> dukpp03::GetValue<sad::db::Object*,  sad::dukpp
     }
     if (duk_is_boolean(ctx->context(), pos))
     {
-        result.setValue(static_cast<bool>(duk_to_string(ctx->context(), pos) != NULL));
+        result.setValue(duk_to_boolean(ctx->context(), pos) > 0);
     }
     if (duk_is_number(ctx->context(), pos))
     {

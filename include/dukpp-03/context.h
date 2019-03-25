@@ -17,6 +17,7 @@ class Renderer;
 namespace dukpp03
 {
 
+typedef ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> MultiMethod;
 typedef ::dukpp03::make_fun<sad::dukpp03::BasicContext> make_function;
 typedef ::dukpp03::register_constructor<sad::dukpp03::BasicContext> register_constructor;
 typedef ::dukpp03::make_method<sad::dukpp03::BasicContext> make_method;

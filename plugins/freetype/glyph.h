@@ -29,27 +29,27 @@ public:
     unsigned int  Index;
     /*! Bitmap width
      */
-    float  Width;
+    double  Width;
     /*! Bitmap height
      */
-    float  Height;
+    double  Height;
     /*! A width in texture coordinates
      */
-    float TexCoordinateWidth;
+    double TexCoordinateWidth;
     /*! A height in texture coordinates
      */
-    float TexCoordinateHeight;
+    double TexCoordinateHeight;
     /*! A vertical bearing  as
         distance from baseline to top point of glyph
      */ 
-    float BearingY;
+    double BearingY;
     /*! A vertical distance from baseline to bottom point
         of glyph
      */
-    float Descender;
+    double Descender;
     /*! How long should pen move, after glyph was rendered
      */
-    float AdvanceX;
+    double AdvanceX;
 
     /*! Maximum Y of bounding box
      */
@@ -86,6 +86,9 @@ public:
         \return parameters
      */
     sad::String dumpParametes() const;
+    /*! Dumps glyph to file
+     */
+    void dumpToBMP() const;
 private:
     /*! Sets all metrics of glyph from specified freetype glyph
         \param[in] face  a global face

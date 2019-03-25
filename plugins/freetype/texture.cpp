@@ -30,10 +30,10 @@ void sad::freetype::Texture::storeBitmap(FT_Bitmap & bitmap)
     // Fallback to empty texture in  case when bitmap is empty
     if (bitmap.width == 0 && bitmap.rows == 0)
     {
-        Pixels.resize(4);
+        Pixels.resize(8);
         Width = 2.0f;
         Height = 2.0f;
-        std::fill_n(Pixels.begin(), 4, 0);
+        std::fill_n(Pixels.begin(), 8, 0);
         return;
     }
 
@@ -41,7 +41,7 @@ void sad::freetype::Texture::storeBitmap(FT_Bitmap & bitmap)
     unsigned int h = sad::freetype::next_power_of_two( bitmap.rows );
     Width = (float)w;
     Height = (float)h;
-    Pixels.resize(2 * w * h);
+    Pixels.resize(2 * w * h, 0);
 
     //Fill the data
     for(unsigned int j = 0; j < h; j++) 

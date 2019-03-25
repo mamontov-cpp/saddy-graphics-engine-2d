@@ -28,7 +28,7 @@ struct ThreadOptions
      */
     SceneTransitionOptions::ThreadOptions& onLoaded(std::function<void()> load);
     /*! Sets function ,that should be executed, when transition finished
-        \param[in] load a function
+        \param[in] finished a function, that should be called, when loading is finished
         \return self-reference
      */
     SceneTransitionOptions::ThreadOptions& onFinishedFunction(std::function<void()> finished);

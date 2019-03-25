@@ -104,7 +104,7 @@ bool sad::os::GLContextImpl::createFor(sad::Window * win)
     {
         if (wglMakeCurrent(win->handles()->DC, m_handle.Context) == FALSE)
         {
-            SL_COND_LOCAL_INTERNAL("Cannot bing simple context!", this->renderer());
+            SL_COND_LOCAL_INTERNAL("Cannot bind simple context!", this->renderer());
         }
         result = true;
         // Try to parse version from context

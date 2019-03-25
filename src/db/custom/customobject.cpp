@@ -133,9 +133,19 @@ void sad::db::custom::Object::setMaximalLineWidth(unsigned int width)
     m_label->setMaximalLineWidth(width);
 }
 
+bool sad::db::custom::Object::canBeRotated() const
+{
+   return true;
+}
+
+void sad::db::custom::Object::rotate(double angle)
+{
+    this->setAngle(this->angle() + angle);
+}
+
 double sad::db::custom::Object::angle() const
 {
-    return m_label->angle();	
+    return m_label->angle();
 }
 
 void sad::db::custom::Object::setAngle(double a)

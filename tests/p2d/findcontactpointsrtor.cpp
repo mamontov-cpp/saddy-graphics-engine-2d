@@ -1,7 +1,7 @@
 #pragma warning(push)
 #pragma warning(disable: 4273)
 #pragma warning(disable: 4351)
-#include <stdio.h>
+#include <cstdio>
 #include <3rdparty/tpunit++/tpunit++.hpp>
 #include <sadvector.h>
 #include <p2d/findcontactpoints.h>
@@ -33,7 +33,8 @@ struct TestFindContactPointsRtoR : tpunit::TestFixture
        TEST(TestFindContactPointsRtoR::test15),
        TEST(TestFindContactPointsRtoR::test16),
        TEST(TestFindContactPointsRtoR::test17),
-       TEST(TestFindContactPointsRtoR::test18)	
+       TEST(TestFindContactPointsRtoR::test18),
+       TEST(TestFindContactPointsRtoR::test19)
    ) {}
 
    void test1()
@@ -455,6 +456,23 @@ struct TestFindContactPointsRtoR : tpunit::TestFixture
        sad::p2d::SetOfPointsPair pairs = m.invoke(s1, v1, s2, v2);
        ASSERT_TRUE( pairs.size() == 0);
     }
+
+   void test19()
+   {
+       sad::p2d::Rectangle r1;
+       sad::p2d::Rectangle r2;
+       sad::p2d::Vector v1(-10, -10);
+       sad::p2d::Vector v2(0, 0);
+       r1.setRect(sad::Rect2D(2, 2, 4, 4));
+       r2.setRect(sad::Rect2D(0, 0, 1, 3));
+       sad::p2d::FindContactPoints m;
+       sad::p2d::CollisionShape * s1 = &r1;
+       sad::p2d::CollisionShape * s2 = &r2;
+       sad::p2d::SetOfPointsPair pairs = m.invoke(s1, v1, s2, v2);
+       ASSERT_TRUE(pairs.size() == 2);
+       ASSERT_TRUE(sad::p2d::hasPair(pairs, 2, 2, 1, 1));
+       ASSERT_TRUE(sad::p2d::hasPair(pairs, 2, 4, 1, 3));
+   }
 
 
 

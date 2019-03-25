@@ -1,4 +1,4 @@
-/*! \mainpage Strees Test For Physics
+/*! \mainpage Stress Test For Physics
     
     Describes a small test for physics engine in a game
  */

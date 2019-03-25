@@ -28,6 +28,10 @@ public:
     /*! You can freely inherit and implement your own scene
      */
     virtual ~Scene(); 
+    /*! Resets object's non-serialized state, when restoring snapshot to 
+        ensure idempotency of restoring objects
+     */
+    virtual void reset();
     /*! A basic schema for object
         \return a schema 
      */

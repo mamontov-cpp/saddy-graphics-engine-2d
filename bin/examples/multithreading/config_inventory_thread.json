@@ -1,14 +1,45 @@
 [
 	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/backgrounds.json" },
+	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/enemies.json" },
 	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/icons.json" },
 	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/tiles.json" },
 	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/labels.json" },
+	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/white_square.json" },
+	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/slot.json" },
+	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/coins.json" },
+	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/coins_decay.json" },
 	{ 
 		"type": "sad::freetype::Font",
 		"name": "Arcade Classic",
 		"filename": "examples/multithreading/ARCADECLASSIC.TTF"
 	},
+	{ 
+		"type": "sad::freetype::Font",
+		"name": "Liberation Sans",
+		"filename": "examples/multithreading/Liberation Sans/LiberationSans-Regular.ttf"
+	},
 	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/Bit Quest.mp3", "name" : "main_theme" },
-	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/Drinking-Alone.mp3", "name" : "lose_theme" },
-	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/Jerry Five.mp3", "name" : "title_theme" }
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/Jerry Five.mp3", "name" : "title_theme" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/misc_menu.wav", "name" : "misc_menu" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/misc_menu_2.wav", "name" : "misc_menu_2" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/applyitem.wav", "name" : "apply_item" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/jump2.wav", "name" : "jump" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/footstep.wav", "name" : "footstep" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/swing.mp3", "name" : "swing" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/shooting_1.mp3", "name" : "shooting_1" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/shooting_2.mp3", "name" : "shooting_2" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/shooting_3.mp3", "name" : "shooting_3" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/hit.mp3", "name" : "hit" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/hit_enemy.wav", "name" : "hit_enemy" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/hurt.wav", "name" : "hurt" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/lose.mp3", "name" : "lose" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/lose_screen.mp3", "name" : "lose_screen" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/coin.mp3", "name" : "coin" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/win.mp3", "name" : "win" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/win_screen.mp3", "name" : "win_screen" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/item_taken.wav", "name" : "item_taken" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/item_drop.wav", "name" : "item_drop" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/next_part.wav", "name" : "next_part" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/pause.wav", "name" : "pause" },
+	{ "type": "sad::irrklang::Sound", "filename": "examples/multithreading/quake.wav", "name" : "quake" }
 ]

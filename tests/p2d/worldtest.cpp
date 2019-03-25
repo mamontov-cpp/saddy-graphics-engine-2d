@@ -1,7 +1,7 @@
 #pragma warning(push)
 #pragma warning(disable: 4273)
 #pragma warning(disable: 4351)
-#include <stdio.h>
+#include <cstdio>
 #include "3rdparty/tpunit++/tpunit++.hpp"
 #include "p2d/world.h"
 #pragma warning(pop)
@@ -134,7 +134,8 @@ struct WorldTest : tpunit::TestFixture
         TEST(WorldTest::testRemoveHandlerFromGroups),
         TEST(WorldTest::testClearHandlers),
         TEST(WorldTest::testClearHandlersForGroups),
-        TEST(WorldTest::testClearWorld)
+        TEST(WorldTest::testClearWorld),
+        TEST(WorldTest::testWeirdCollision)
     ), eventperformed(0) {}
 
     int eventperformed;
@@ -1245,6 +1246,48 @@ struct WorldTest : tpunit::TestFixture
 
 
         delete w;
+    }
+
+    /*! Tests weird collision
+     */
+    // ReSharper disable once CppMemberFunctionMayBeStatic
+    // ReSharper disable once CppMemberFunctionMayBeConst
+    void testWeirdCollision()
+    {
+        int collided = 0;
+        sad::p2d::World w;
+        w.setDetector(new sad::p2d::MultisamplingCollisionDetector(2));
+        sad::p2d::Body* b1 = new sad::p2d::Body();
+        sad::p2d::Rectangle* rectangle1 = new sad::p2d::Rectangle();
+        rectangle1->setRect(sad::Rect2D(529.67406745369135, 415.75313813818025, 548.67406745369169, 438.75313813818002));
+        b1->setShape(rectangle1);
+        b1->initPosition((rectangle1->rect().p0() + rectangle1->rect().p2()) / 2.0);
+        b1->setCurrentTangentialVelocity(sad::p2d::Vector(93.580876765675427, -73.110056066363725));
+
+        sad::p2d::Body* b2 = new sad::p2d::Body();
+        sad::p2d::Rectangle* rectangle2 = new sad::p2d::Rectangle();
+        rectangle2->setRect(sad::Rect2D(529.98120318352142, 334.81156101684974, 609.98120318352153, 413.81156101684826));
+        b2->setShape(rectangle2);
+        b2->initPosition((rectangle2->rect().p0() + rectangle2->rect().p2()) / 2.0);
+        b2->setCurrentTangentialVelocity(sad::p2d::Vector(93.580876765675427, -73.110056066363725));
+
+        w.addGroup("player");
+        w.addBodyToGroup("player", b1);
+        w.addGroup("platform");
+        w.addBodyToGroup("platform", b2);
+
+        w.addHandler("player", "platform", [&collided](const sad::p2d::BasicCollisionEvent& ev)  {
+            collided++;
+        });
+
+        for (size_t i = 0; i < 10; i++)
+        {
+            w.step(0.016667222511736197);
+            b1->setCurrentTangentialVelocity(b1->tangentialVelocity() + sad::p2d::Vector(1.0, 1.0));
+            b2->setCurrentTangentialVelocity(b2->tangentialVelocity() + sad::p2d::Vector(1.0, 1.0));
+        }
+
+        ASSERT_TRUE(collided == 0);
     }
 
 } _world_test;

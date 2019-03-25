@@ -4,9 +4,21 @@
 	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/icons.json" },
 	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/tiles.json" },
 	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/labels.json" },
+	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/white_square.json" },
+	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/platforms.json" },
+	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/bullets.json" },
+	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/coins.json" },
+	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/coins_decay.json" },
+	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/slot.json" },
+	{ "type": "sad::resource::TextureAtlasFile", "filename": "examples/multithreading/lasers.json" },
 	{ 
 		"type": "sad::freetype::Font",
 		"name": "Arcade Classic",
 		"filename": "examples/multithreading/ARCADECLASSIC.TTF"
+	},
+	{ 
+		"type": "sad::freetype::Font",
+		"name": "Liberation Sans",
+		"filename": "examples/multithreading/Liberation Sans/LiberationSans-Regular.ttf"
 	}
 ]

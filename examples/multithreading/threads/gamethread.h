@@ -43,11 +43,13 @@ public:
      */
     bool isKilled() const;
     /*! Tries to initialize a current thread
+        \param[in] log_prefix a log prefix for console
         \param[in] log_name a name for log item
         \param[in] config_name a config item
         \param[in] window_title a title for window
      */
     void tryInitialize(
+        const sad::String& log_prefix,
         const sad::String& log_name,
         const sad::String& config_name,
         const sad::String& window_title

@@ -13,6 +13,12 @@ WND(wnd), MSG(msg), WParam(wparam), LParam(lparam)
 
 }
 
+sad::os::SystemWindowEvent::SystemWindowEvent(const sad::os::SystemWindowEvent& o)
+: WND(o.WND), MSG(o.MSG), WParam(o.WParam), LParam(o.LParam)
+{
+    
+}
+
 #endif
 
 #ifdef X11

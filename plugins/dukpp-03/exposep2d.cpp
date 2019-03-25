@@ -379,8 +379,8 @@ static void exposeBody(sad::dukpp03::Context* ctx)
     c->addMethod("userType", sad::dukpp03::bind_method::from(&sad::p2d::Body::userType));
 
     {
-         void (sad::p2d::Body::*addForce1)(sad::p2d::Force<sad::p2d::Vector>*) = &sad::p2d::Body::addForce;
-         void (sad::p2d::Body::*addForce2)(sad::p2d::Force<double>* ) =  &sad::p2d::Body::addForce;
+         void (sad::p2d::Body::*addForce1)(sad::p2d::Force<sad::p2d::Vector>*) const = &sad::p2d::Body::addForce;
+         void (sad::p2d::Body::*addForce2)(sad::p2d::Force<double>* ) const =  &sad::p2d::Body::addForce;
 
 
         ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * overload = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
@@ -391,11 +391,11 @@ static void exposeBody(sad::dukpp03::Context* ctx)
     }
 
     {
-         void (sad::p2d::Body::*addForce1)(sad::p2d::Force<sad::p2d::Vector>*) = &sad::p2d::Body::sheduleAddForce;
-         void (sad::p2d::Body::*addForce2)(sad::p2d::Force<double>* ) =  &sad::p2d::Body::sheduleAddForce;
+         void (sad::p2d::Body::*addForce1)(sad::p2d::Force<sad::p2d::Vector>*) const = &sad::p2d::Body::sheduleAddForce;
+         void (sad::p2d::Body::*addForce2)(sad::p2d::Force<double>* ) const =  &sad::p2d::Body::sheduleAddForce;
 
-         void (sad::p2d::Body::*addForce3)(sad::p2d::Force<sad::p2d::Vector>*, double) = &sad::p2d::Body::sheduleAddForce;
-         void (sad::p2d::Body::*addForce4)(sad::p2d::Force<double>*, double ) =  &sad::p2d::Body::sheduleAddForce;
+         void (sad::p2d::Body::*addForce3)(sad::p2d::Force<sad::p2d::Vector>*, double) const = &sad::p2d::Body::sheduleAddForce;
+         void (sad::p2d::Body::*addForce4)(sad::p2d::Force<double>*, double ) const =  &sad::p2d::Body::sheduleAddForce;
 
 
         ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * overload = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
@@ -408,8 +408,8 @@ static void exposeBody(sad::dukpp03::Context* ctx)
     }
 
     {
-         void (sad::p2d::Body::*removeForce1)(sad::p2d::Force<sad::p2d::Vector>*) = &sad::p2d::Body::removeForce;
-         void (sad::p2d::Body::*removeForce2)(sad::p2d::Force<double>* ) =  &sad::p2d::Body::removeForce;
+         void (sad::p2d::Body::*removeForce1)(sad::p2d::Force<sad::p2d::Vector>*) const = &sad::p2d::Body::removeForce;
+         void (sad::p2d::Body::*removeForce2)(sad::p2d::Force<double>* ) const =  &sad::p2d::Body::removeForce;
 
 
         ::dukpp03::MultiMethod<sad::dukpp03::BasicContext> * overload = new ::dukpp03::MultiMethod<sad::dukpp03::BasicContext>();
@@ -438,6 +438,9 @@ static void exposeBody(sad::dukpp03::Context* ctx)
     c->addMethod("isGhost", sad::dukpp03::bind_method::from(&sad::p2d::Body::isGhost));
     c->addMethod("setWorld", sad::dukpp03::bind_method::from(&sad::p2d::Body::setWorld));
     c->addMethod("world", sad::dukpp03::bind_method::from(&sad::p2d::Body::world));
+
+    c->addMethod("initPosition", sad::dukpp03::bind_method::from(&sad::p2d::Body::initPosition));
+    c->addMethod("initAngle", sad::dukpp03::bind_method::from(&sad::p2d::Body::initAngle));
 
     c->addMethod("setCurrentPosition", sad::dukpp03::bind_method::from(&sad::p2d::Body::setCurrentPosition));
     c->addMethod("shedulePosition", sad::dukpp03::bind_method::from(&sad::p2d::Body::shedulePosition));
@@ -504,15 +507,6 @@ static void exposeBody(sad::dukpp03::Context* ctx)
 }
 
 
-static void __bounceSolverPushResilienceCoefficient(sad::p2d::BounceSolver* b, double r, int index)
-{
-    if (index != 1 && index != 2) 
-    {
-        throw new std::logic_error("Invalid coefficent index for resilience");
-    }
-    b->pushResilienceCoefficient(r, index);
-}
-
 static void __bounceSolverPushRotationFriction(sad::p2d::BounceSolver* b, double r, int index)
 {
     if (index != 1 && index != 2)
@@ -537,18 +531,40 @@ static void exposeBounceSolver(sad::dukpp03::Context* ctx)
     c->addMethod("bounce", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::bounce));
     c->addMethod("enableDebug", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::enableDebug));
     c->addMethod("dump", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::dump));
+    c->addMethod("toggleInelasticCollisions", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::toggleInelasticCollisions));
+    c->addMethod("isEnabledInelasticCollisions", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::isEnabledInelasticCollisions));
+    c->addMethod("toi", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::toi));
+    c->addMethod("correctedTOI", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::correctedTOI));
+    c->addMethod("toggleInelasticCollisions", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::toggleInelasticCollisions));
+    c->addMethod("isEnabledInelasticCollisions", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::isEnabledInelasticCollisions));
+    c->addMethod("setInelasticCollisionType", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::setInelasticCollisionTypeAsUnsignedInt));
+    c->addMethod("inelasticCollisionType", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::inelasticCollisionTypeAsUnsignedInt));
+    c->addMethod("setRecursionLimit", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::setRecursionLimit));
+    c->addMethod("recursionLimit", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::recursionLimit));
+    c->addMethod("setCollisionPrecisionStep", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::setCollisionPrecisionStep));
+    c->addMethod("collisionPrecisionStep", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::collisionPrecisionStep));
+    c->addMethod("setMaxSolverIterations", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::setMaxSolverIterations));
+    c->addMethod("maxSolverIterations", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::maxSolverIterations));
+    c->addMethod("toggleIgnoreContactPoints", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::toggleIgnoreContactPoints));
+    c->addMethod("getIgnoreContactPointsFlag", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::getIgnoreContactPointsFlag));
+    c->addMethod("toggleIgnoreNegativeTOI", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::toggleIgnoreNegativeTOI));
+    c->addMethod("getIgnoreNegativeTOIFlag", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::getIgnoreNegativeTOIFlag));
+    c->addMethod("pushRestitutionCoefficient", sad::dukpp03::bind_method::from(&sad::p2d::BounceSolver::pushRestitutionCoefficient));
+
 
     c->setPrototypeFunction("SadP2BounceSolver");
 
     ctx->addClassBinding("sad::p2d::BounceSolver", c);
 
-    ctx->registerCallable("SadP2DBounceSolverPushResilienceCoefficient", sad::dukpp03::make_function::from(__bounceSolverPushResilienceCoefficient));
     ctx->registerCallable("SadP2DBounceSolverPushRotationFriction", sad::dukpp03::make_function::from(__bounceSolverPushRotationFriction));
 
     PERFORM_AND_ASSERT(
         "sad.p2d.BounceSolver = SadP2BounceSolver;"
-        "sad.p2d.BounceSolver.prototype.pushResilienceCoefficient = function(r, index)   { if (typeof index == \"undefined\")  { SadP2DBounceSolverPushResilienceCoefficient(this, r, 1); SadP2DBounceSolverPushResilienceCoefficient(this, r, 2); } else SadP2DBounceSolverPushResilienceCoefficient(this, r, index);   };"
         "sad.p2d.BounceSolver.prototype.pushRotationFriction = function(r, index) { if (typeof index == \"undefined\")  { SadP2DBounceSolverPushRotationFriction(this, r, 1); SadP2DBounceSolverPushRotationFriction(this, r, 2); } else SadP2DBounceSolverPushRotationFriction(this, r, index); };"
+        "sad.p2d.BounceSolver.InelasticCollisionType = {};"
+        "sad.p2d.BounceSolver.InelasticCollisionType.ICT_NO_INELASTIC_COLLISION = 0;"
+        "sad.p2d.BounceSolver.InelasticCollisionType.ICT_FIRST = 1;"
+        "sad.p2d.BounceSolver.InelasticCollisionType.ICT_SECOND = 2;"
     );
 }
 

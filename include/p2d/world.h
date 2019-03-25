@@ -27,7 +27,7 @@ class Body;
 /*! A world is defined as a set if simulated items, stored in groups and a set of
     callbacks used to define interactions between objects in a different groups.
  */
-class World: public sad::Object
+class World: public sad::Object  // NOLINT(cppcoreguidelines-special-member-functions)
 {
 SAD_OBJECT
 public:
@@ -55,9 +55,9 @@ public:
             this->Active = false;
         }
     };
-    /*! A body location defines, how body is stored in all bodies vector and in groups
+    /*! A body location defines, how body is stored in all bodies vector and in groups 
      */
-    struct BodyLocation
+    struct BodyLocation // NOLINT(cppcoreguidelines-pro-type-member-init)
     {
         /*! Offset of body in a list of all bodies
          */
@@ -85,13 +85,6 @@ public:
             \param[in] f function
          */
         void performAction(const std::function<void(sad::p2d::Body*)>& f);
-        /*! Performs action on all active bodies with specified time step
-            \param time_step a time step
-         */
-        void performActionWithTimeStep(
-            void (sad::p2d::Body::*action)(double),
-            double time_step
-        );
         /*! Sets sampling count for all active bodies
             \param[in] sample_count a sample count
          */
@@ -367,7 +360,7 @@ public:
     };
     /*! A queued command as a set of parameters
      */
-    struct QueuedCommand
+    struct QueuedCommand  // NOLINT(cppcoreguidelines-pro-type-member-init)
     {
         /*! A type of command
          */
@@ -502,6 +495,10 @@ public:
         \param[in] d detector
      */
     void setDetector(sad::p2d::CollisionDetector * d);
+    /*! Returns a collision detector for a world
+        \return detector
+     */
+    sad::p2d::CollisionDetector* detector() const;
     /*! Returns current time step for a world
         \return a time step for a world
      */
@@ -884,13 +881,13 @@ protected:
     void performQueuedCommands();
 
     /*! Peforms adding a body to a world
-        \param[in] o body
+        \param[in] b body
      */
-    void addBodyNow(sad::p2d::Body* o);
+    void addBodyNow(sad::p2d::Body* b);
     /*! Peforms removing a body from all groups and a world
-        \param[in] o body
+        \param[in] b body
      */
-    void removeBodyNow(sad::p2d::Body* o);
+    void removeBodyNow(sad::p2d::Body* b);
     /*! Clears all bodies, erasing them from a world
      */
     void clearBodiesNow();

@@ -31,6 +31,30 @@
     <Filter Include="Файлы исходного кода\game">
       <UniqueIdentifier>{520d2f08-8961-4050-9357-72f5430bb5cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы исходного кода\bots">
+      <UniqueIdentifier>{a6321d70-1b03-449c-b8a5-5a21336e2a69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\bots">
+      <UniqueIdentifier>{2318091c-a1ed-40c3-a11c-14113c6faa5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\weapons">
+      <UniqueIdentifier>{16ac72c4-554b-4469-b2b2-6ba0ae065133}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\weapons">
+      <UniqueIdentifier>{34d68fc5-34df-4472-bf6a-2fa9303d8a95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\scripting">
+      <UniqueIdentifier>{afb741d3-3228-47c5-9304-1a886d749125}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\scripting">
+      <UniqueIdentifier>{f385f50c-588d-496a-b375-0b88c8168ebd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\bots\shootingstrategies">
+      <UniqueIdentifier>{556e5272-3b37-4fa0-a264-8ae79b92394a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\bots\shootingstrategies">
+      <UniqueIdentifier>{215822aa-bae8-4129-ac11-ac618a4f0954}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -51,6 +75,174 @@
     <ClCompile Include="game\inventory.cpp">
       <Filter>Файлы исходного кода\game</Filter>
     </ClCompile>
+    <ClCompile Include="game\player.cpp">
+      <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
+    <ClCompile Include="scenetransitionoptions.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="scenetransitionprocess.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="game\options.cpp">
+      <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
+    <ClCompile Include="game\conditions.cpp">
+      <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
+    <ClCompile Include="game\mainlevelloader.cpp">
+      <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
+    <ClCompile Include="optionsscreen.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="nodes\inventorynode.cpp">
+      <Filter>Файлы исходного кода\nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="nodes\inventorypopup.cpp">
+      <Filter>Файлы исходного кода\nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="game\actor.cpp">
+      <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
+    <ClCompile Include="threads\tasklock.cpp">
+      <Filter>Файлы исходного кода\threads</Filter>
+    </ClCompile>
+    <ClCompile Include="game\triggers.cpp">
+      <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
+    <ClCompile Include="game\movingplatformregistry.cpp">
+      <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
+    <ClCompile Include="game\actors.cpp">
+      <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
+    <ClCompile Include="game\actoroptions.cpp">
+      <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
+    <ClCompile Include="game\walls.cpp">
+      <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
+    <ClCompile Include="bots\botregistry.cpp">
+      <Filter>Файлы исходного кода\bots</Filter>
+    </ClCompile>
+    <ClCompile Include="bots\abstractbot.cpp">
+      <Filter>Файлы исходного кода\bots</Filter>
+    </ClCompile>
+    <ClCompile Include="bots\jsbot.cpp">
+      <Filter>Файлы исходного кода\bots</Filter>
+    </ClCompile>
+    <ClCompile Include="bots\randombot.cpp">
+      <Filter>Файлы исходного кода\bots</Filter>
+    </ClCompile>
+    <ClCompile Include="bots\nullbot.cpp">
+      <Filter>Файлы исходного кода\bots</Filter>
+    </ClCompile>
+    <ClCompile Include="bots\platformpatrolbot.cpp">
+      <Filter>Файлы исходного кода\bots</Filter>
+    </ClCompile>
+    <ClCompile Include="bots\directionbot.cpp">
+      <Filter>Файлы исходного кода\bots</Filter>
+    </ClCompile>
+    <ClCompile Include="bots\divingfloaterbot.cpp">
+      <Filter>Файлы исходного кода\bots</Filter>
+    </ClCompile>
+    <ClCompile Include="bots\followplayerfloater.cpp">
+      <Filter>Файлы исходного кода\bots</Filter>
+    </ClCompile>
+    <ClCompile Include="weapons\swing.cpp">
+      <Filter>Файлы исходного кода\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="weapons\laser.cpp">
+      <Filter>Файлы исходного кода\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="weapons\projectile.cpp">
+      <Filter>Файлы исходного кода\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="weapons\bullet.cpp">
+      <Filter>Файлы исходного кода\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="game\unanimatedcoins.cpp">
+      <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
+    <ClCompile Include="delayedtasks.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="delayedtask.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="weapons\swingsettings.cpp">
+      <Filter>Файлы исходного кода\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="weapons\weapon.cpp">
+      <Filter>Файлы исходного кода\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="weapons\bulletsettings.cpp">
+      <Filter>Файлы исходного кода\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="weapons\lasersettings.cpp">
+      <Filter>Файлы исходного кода\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\exposespawnenemy.cpp">
+      <Filter>Файлы исходного кода\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="initphysics.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="bots\shootingstrategies\shootingstrategy.cpp">
+      <Filter>Файлы исходного кода\bots\shootingstrategies</Filter>
+    </ClCompile>
+    <ClCompile Include="bots\shootingstrategies\fixedanglestrategy.cpp">
+      <Filter>Файлы исходного кода\bots\shootingstrategies</Filter>
+    </ClCompile>
+    <ClCompile Include="bots\shootingstrategies\turningstrategy.cpp">
+      <Filter>Файлы исходного кода\bots\shootingstrategies</Filter>
+    </ClCompile>
+    <ClCompile Include="bots\shootingstrategies\playerlocatingstrategy.cpp">
+      <Filter>Файлы исходного кода\bots\shootingstrategies</Filter>
+    </ClCompile>
+    <ClCompile Include="bots\shootingstrategies\randomstrategy.cpp">
+      <Filter>Файлы исходного кода\bots\shootingstrategies</Filter>
+    </ClCompile>
+    <ClCompile Include="game\healthbar.cpp">
+      <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
+    <ClCompile Include="game\scorebar.cpp">
+      <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
+    <ClCompile Include="game\getpenetrationdepthforitem.cpp">
+      <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
+    <ClCompile Include="game\snowparticles.cpp">
+      <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
+    <ClCompile Include="cameramovement.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="enemycounter.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="sounds.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="cameralockanimation.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="game\platformblinking.cpp">
+      <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
+    <ClCompile Include="bots\wayfloater.cpp">
+      <Filter>Файлы исходного кода\bots</Filter>
+    </ClCompile>
+    <ClCompile Include="game\staticobjectcontainer.cpp">
+      <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
+    <ClCompile Include="game\levelstorageloader.cpp">
+      <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
+    <ClCompile Include="game\roomstorageloader.cpp">
+      <Filter>Файлы исходного кода\game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -69,6 +261,180 @@
       <Filter>Заголовочные файлы\game</Filter>
     </ClInclude>
     <ClInclude Include="game\item.h">
+      <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\player.h">
+      <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="scenetransitionoptions.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="scenetransitionprocess.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="game\options.h">
+      <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\conditions.h">
+      <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\mainlevelloader.h">
+      <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="optionsscreen.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="nodes\inventorynode.h">
+      <Filter>Заголовочные файлы\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="nodes\inventorypopup.h">
+      <Filter>Заголовочные файлы\nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="game\actoroptions.h">
+      <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\actor.h">
+      <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="threads\tasklock.h">
+      <Filter>Заголовочные файлы\threads</Filter>
+    </ClInclude>
+    <ClInclude Include="game\movingplatformstate.h">
+      <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\triggers.h">
+      <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\movingplatformregistry.h">
+      <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\actors.h">
+      <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\walls.h">
+      <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="bots\abstractbot.h">
+      <Filter>Заголовочные файлы\bots</Filter>
+    </ClInclude>
+    <ClInclude Include="bots\botregistry.h">
+      <Filter>Заголовочные файлы\bots</Filter>
+    </ClInclude>
+    <ClInclude Include="bots\jsbot.h">
+      <Filter>Заголовочные файлы\bots</Filter>
+    </ClInclude>
+    <ClInclude Include="bots\randombot.h">
+      <Filter>Заголовочные файлы\bots</Filter>
+    </ClInclude>
+    <ClInclude Include="bots\nullbot.h">
+      <Filter>Заголовочные файлы\bots</Filter>
+    </ClInclude>
+    <ClInclude Include="bots\followplayerfloater.h">
+      <Filter>Заголовочные файлы\bots</Filter>
+    </ClInclude>
+    <ClInclude Include="bots\platformpatrolbot.h">
+      <Filter>Заголовочные файлы\bots</Filter>
+    </ClInclude>
+    <ClInclude Include="bots\directionbot.h">
+      <Filter>Заголовочные файлы\bots</Filter>
+    </ClInclude>
+    <ClInclude Include="bots\divingfloaterbot.h">
+      <Filter>Заголовочные файлы\bots</Filter>
+    </ClInclude>
+    <ClInclude Include="weapons\swing.h">
+      <Filter>Заголовочные файлы\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="weapons\laser.h">
+      <Filter>Заголовочные файлы\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="weapons\projectile.h">
+      <Filter>Заголовочные файлы\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="weapons\bullet.h">
+      <Filter>Заголовочные файлы\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="game\unanimatedcoins.h">
+      <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="delayedtasks.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="delayedtask.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="weapons\weapon.h">
+      <Filter>Заголовочные файлы\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="weapons\bulletsettings.h">
+      <Filter>Заголовочные файлы\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="weapons\lasersettings.h">
+      <Filter>Заголовочные файлы\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="weapons\swingsettings.h">
+      <Filter>Заголовочные файлы\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\exposespawnenemy.h">
+      <Filter>Заголовочные файлы\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="initphysics.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="bots\shootingstrategies\shootingstrategy.h">
+      <Filter>Заголовочные файлы\bots\shootingstrategies</Filter>
+    </ClInclude>
+    <ClInclude Include="bots\shootingstrategies\fixedanglestrategy.h">
+      <Filter>Заголовочные файлы\bots\shootingstrategies</Filter>
+    </ClInclude>
+    <ClInclude Include="bots\shootingstrategies\turningstrategy.h">
+      <Filter>Заголовочные файлы\bots\shootingstrategies</Filter>
+    </ClInclude>
+    <ClInclude Include="bots\shootingstrategies\playerlocatingstrategy.h">
+      <Filter>Заголовочные файлы\bots\shootingstrategies</Filter>
+    </ClInclude>
+    <ClInclude Include="bots\shootingstrategies\randomstrategy.h">
+      <Filter>Заголовочные файлы\bots\shootingstrategies</Filter>
+    </ClInclude>
+    <ClInclude Include="game\healthbar.h">
+      <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\scorebar.h">
+      <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\getpenetrationdepthforitem.h">
+      <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\snowparticles.h">
+      <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="cameramovement.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="enemycounter.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="sounds.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="cameralockanimation.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="game\platformblinking.h">
+      <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="bots\wayfloater.h">
+      <Filter>Заголовочные файлы\bots</Filter>
+    </ClInclude>
+    <ClInclude Include="game\staticobjectcontainer.h">
+      <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\storedobject.h">
+      <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\levelstorageloader.h">
+      <Filter>Заголовочные файлы\game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\roomstorageloader.h">
       <Filter>Заголовочные файлы\game</Filter>
     </ClInclude>
   </ItemGroup>

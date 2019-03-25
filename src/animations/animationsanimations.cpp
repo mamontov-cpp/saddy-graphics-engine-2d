@@ -2,7 +2,7 @@
 
 // ========================= PUBLIC METHODS =========================
 
-sad::animations::Animations::Animations() : m_lock_changes(false)
+sad::animations::Animations::Animations() : m_lock_changes(false), m_paused(false)
 {
     
 }
@@ -516,7 +516,7 @@ void sad::animations::Animations::swap(sad::animations::Process* first, sad::ani
     performOrQueue(command);
 }
 
-void sad::animations::Animations::swap(const sad::String& name1, const sad::String name2)
+void sad::animations::Animations::swap(const sad::String& name1, const sad::String name2)  // NOLINT(performance-unnecessary-value-param)
 {
     std::function<std::function<bool(sad::animations::Process*)>(sad::String)> make_matcher = [](sad::String name) {
         return [name](sad::animations::Process* p) -> bool {
@@ -540,7 +540,7 @@ void sad::animations::Animations::swap(const sad::String& name1, const sad::Stri
     performOrQueue(command);
 }
 
-void sad::animations::Animations::swap(const sad::String& type1, const sad::String& name1, const sad::String& type2, const sad::String name2)
+void sad::animations::Animations::swap(const sad::String& type1, const sad::String& name1, const sad::String& type2, const sad::String name2)  // NOLINT(performance-unnecessary-value-param)
 {
     std::function<std::function<bool(sad::animations::Process*)>(sad::String, sad::String)> make_matcher = [](sad::String type, sad::String name) {
         return [type, name](sad::animations::Process* p) -> bool {
@@ -1005,58 +1005,58 @@ bool sad::animations::Animations::hasProcesses(sad::animations::Process* o)
 
 bool sad::animations::Animations::hasProcessesByName(const sad::String& name)
 {
-    return queryProcessesByName(name).size() != 0;
+    return !queryProcessesByName(name).empty();
 }
 
 bool sad::animations::Animations::hasProcessesByTypeAndName(const sad::String& type, const sad::String& name)
 {
-    return queryProcessesByTypeAndName(type, name).size() != 0;
+    return !queryProcessesByTypeAndName(type, name).empty();
 }
 
 bool sad::animations::Animations::hasProcessesByMajorId(unsigned long long major_id)
 {
-    return queryProcessesByMajorId(major_id).size() != 0;
+    return !queryProcessesByMajorId(major_id).empty();
 }
 
 bool sad::animations::Animations::hasProcessesRelatedToObject(sad::db::Object* o)
 {
-    return queryProcessesRelatedToObject(o).size() != 0;
+    return !queryProcessesRelatedToObject(o).empty();
 }
 
 bool sad::animations::Animations::hasProcessesRelatedToObjectByName(const sad::String& name)
 {
-    return queryProcessesRelatedToObjectByName(name).size() != 0;
+    return !queryProcessesRelatedToObjectByName(name).empty();
 }
 
 bool sad::animations::Animations::hasProcessesRelatedToObjectByTypeAndName(const sad::String& type, const sad::String& name)
 {
-    return queryProcessesRelatedToObjectByTypeAndName(type, name).size() != 0;
+    return !queryProcessesRelatedToObjectByTypeAndName(type, name).empty();
 }
 
 bool sad::animations::Animations::hasProcessesRelatedToObjectByMajorId(unsigned long long major_id)
 {
-    return queryProcessesRelatedToObjectByMajorId(major_id).size() != 0;
+    return !queryProcessesRelatedToObjectByMajorId(major_id).empty();
 }
 
 
 bool sad::animations::Animations::hasProcessesRelatedToAnimation(sad::animations::Animation* o)
 {
-    return queryProcessesRelatedToAnimation(o).size() != 0;
+    return !queryProcessesRelatedToAnimation(o).empty();
 }
 
 bool sad::animations::Animations::hasProcessesRelatedToAnimationByName(const sad::String& name)
 {
-    return queryProcessesRelatedToAnimationByName(name).size() != 0;
+    return !queryProcessesRelatedToAnimationByName(name).empty();
 }
 
 bool sad::animations::Animations::hasProcessesRelatedToAnimationByTypeAndName(const sad::String& type, const sad::String& name)
 {
-    return queryProcessesRelatedToAnimationByTypeAndName(type, name).size() != 0;
+    return !queryProcessesRelatedToAnimationByTypeAndName(type, name).empty();
 }
 
 bool sad::animations::Animations::hasProcessesRelatedToAnimationByMajorId(unsigned long long major_id)
 {
-    return queryProcessesRelatedToAnimationByMajorId(major_id).size() != 0;
+    return !queryProcessesRelatedToAnimationByMajorId(major_id).empty();
 }
 
 void sad::animations::Animations::notifyProcessRemoval(sad::animations::Process* process)
@@ -1066,7 +1066,7 @@ void sad::animations::Animations::notifyProcessRemoval(sad::animations::Process*
 
 // ========================= PROTECTED METHODS =========================
 
-sad::animations::Animations::Animations(const sad::animations::Animations& o) : m_lock_changes(false)
+sad::animations::Animations::Animations(const sad::animations::Animations&) : m_lock_changes(false), m_paused(false)  // NOLINT(bugprone-copy-constructor-init)
 {
     throw std::logic_error("sad::animations::Animations cannot be copied");
 }
@@ -1242,7 +1242,7 @@ void sad::animations::Animations::insertAfterLastMatched(const std::function<boo
     }
     else
     {
-        if ((pos + 1) >= m_list.size())
+        if ((pos + 1) >= static_cast<int>(m_list.size()))
         {
             addNow(o);
         }
@@ -1337,13 +1337,35 @@ bool sad::animations::Animations::containerLocked()
 
 void sad::animations::Animations::performQueuedActions()
 {
-   m_command_queue_lock.lock();
-   for(size_t i = 0; i < m_command_queue.count(); i++)
-   {
-       m_command_queue[i]();
-   }
-   m_command_queue.clear();
-   m_command_queue_lock.unlock();
+    if (!m_paused)
+    { 
+        m_command_queue_lock.lock();
+        for(size_t i = 0; i < m_command_queue.count(); i++)
+        {
+           m_command_queue[i]();
+        }
+        m_command_queue.clear();
+        m_command_queue_lock.unlock();
+    }
+}
+
+void sad::animations::Animations::pause()
+{
+    m_paused = true;
+    for(size_t i = 0; i < m_list.size(); i++)
+    {
+        m_list[i]->pause();
+    }
+}
+
+
+void sad::animations::Animations::resume()
+{
+    m_paused = false;
+    for (size_t i = 0; i < m_list.size(); i++)
+    {
+        m_list[i]->resume();
+    }
 }
 
 

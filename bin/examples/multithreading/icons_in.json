@@ -1,0 +1,103 @@
+{
+  "config": "icons",
+  "texture": "icons.png",
+  "resource": "icons",
+  "sprites": [
+    {
+      "texture": "420_pixel_art_icons/S_Sword01.png",
+      "name": "icons_list/S_Sword01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/E_Wood04.png",
+      "name": "icons_list/E_Wood04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Spear010.png",
+      "name": "icons_list/W_Spear010ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Spear014.png",
+      "name": "icons_list/W_Spear014ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Axe003.png",
+      "name": "icons_list/W_Axe003ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Mace004.png",
+      "name": "icons_list/W_Mace004ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Fire01.png",
+      "name": "icons_list/S_Fire01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Light02.png",
+      "name": "icons_list/S_Light02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Fire03.png",
+      "name": "icons_list/S_Fire03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Magic02.png",
+      "name": "icons_list/S_Magic02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Mace012.png",
+      "name": "icons_list/W_Mace012ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Mace011.png",
+      "name": "icons_list/W_Mace011ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Mace008.png",
+      "name": "icons_list/W_Mace008ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Mace014.png",
+      "name": "icons_list/W_Mace014ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/C_Elm04.png",
+      "name": "icons_list/C_Elm04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Fist002.png",
+      "name": "icons_list/W_Fist002ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/A_Armour02.png",
+      "name": "icons_list/A_Armour02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/A_Shoes05.png",
+      "name": "icons_list/A_Shoes05ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Red01.png",
+      "name": "icons_list/P_Red01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_GoldCoin.png",
+      "name": "icons_list/I_GoldCoinng"
+    },
+    {
+      "texture": "420_pixel_art_icons/Ac_Necklace03.png",
+      "name": "icons_list/Ac_Necklace03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/Ac_Medal04.png",
+      "name": "icons_list/Ac_Medal04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Book.png",
+      "name": "icons_list/I_Bookng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Book03.png",
+      "name": "icons_list/W_Book03ng"
+    }
+  ]
+}

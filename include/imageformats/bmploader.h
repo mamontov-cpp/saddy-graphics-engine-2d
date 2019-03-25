@@ -7,6 +7,8 @@
 #include "loader.h"
 
 #include <streambuf>
+#include <vector>
+#include <string>
 
 namespace sad
 {
@@ -40,6 +42,24 @@ protected:
      */
     virtual bool load(std::streambuf * file, sad::Texture * texture);
 };
+/*! Dumps components to BMP
+ *  \param[in] width  a width for texture
+ *  \param[in] height a height for texture
+ *  \param[in] components a components for loade (must be 3 or 4)
+ *  \param[in] texture a texture data
+ *  \return fully serializable to file data
+ */
+std::vector<unsigned char> dumpToBMP(unsigned int width, unsigned int height, int components, void* texture);
+
+/*! Dumps components to BMP
+ *  \param[in] file_name name of file
+ *  \param[in] width  a width for texture
+ *  \param[in] height a height for texture
+ *  \param[in] components a components for loade (must be 3 or 4)
+ *  \param[in] texture a texture data
+ *  \return whether file was serialized
+ */
+bool dumpToBMP(const std::string& file_name, unsigned int width, unsigned int height, int components, void* texture);
 
 }
 

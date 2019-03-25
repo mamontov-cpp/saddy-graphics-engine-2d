@@ -60,7 +60,7 @@ public:
 protected:
     /*! Converts point to client point
      */
-    sad::Point2D toClient(const sad::Point2D& p);
+    sad::Point2D toClient(const sad::Point2D& p) const;
     /*! Processes event, when window is being closed
         \param[in] e system event
      */
@@ -122,7 +122,7 @@ protected:
         \param[in] e event
         \return whether a new region if needed
      */
-    sad::os::SystemWindowEventDispatchResult  processHitTest(SystemWindowEvent & e);
+    sad::os::SystemWindowEventDispatchResult  processHitTest(SystemWindowEvent & e) const;
 #endif
     /*! Attached renderer to a dispatcher
      */

@@ -30,7 +30,7 @@ class Table;
     Defines a basic serializable object
  */
 class Object: public sad::RefCountable
-{	
+{
 public:	
     /*! A default object constructor
      */
@@ -47,6 +47,10 @@ public:
         \return  whether it as successfull
      */
     virtual bool load(const picojson::value& v);
+    /*! Resets object's non-serialized state, when restoring snapshot to 
+        ensure idempotency of restoring objects
+     */
+    virtual void reset();
     /*! Returns a table, where object belongs
         \return table
      */

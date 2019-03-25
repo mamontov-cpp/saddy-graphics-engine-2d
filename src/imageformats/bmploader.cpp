@@ -166,3 +166,74 @@ bool sad::imageformats::BMPLoader::load(std::streambuf* buf, sad::Texture* textu
     return true;
 }
 
+std::vector<unsigned char> sad::imageformats::dumpToBMP(unsigned int width, unsigned int height, int components, void* texture)
+{
+    std::vector<unsigned char> result;
+    if ((components != 3) && (components != 4))
+    {
+        throw std::logic_error("Error! Invalid amount of components.");
+    }
+    unsigned int pad_size =  4 - ((width * 3) % 4);
+    if (pad_size == 4)
+    {
+        pad_size = 0;
+    }
+    unsigned int padded_width = width + pad_size;
+    unsigned int image_size = (width + padded_width) * height * 3;
+    unsigned int full_file_size  = sizeof(sad::imageformats::BMPHeader) + sizeof(sad::imageformats::BMPImageHeader) + image_size;
+    result.resize(full_file_size);
+    unsigned char* pointer_to_start = result.data();
+    sad::imageformats::BMPHeader* bmp_header = reinterpret_cast<sad::imageformats::BMPHeader*>(pointer_to_start);
+    bmp_header->type = bmp_magic_number;
+    bmp_header->size = full_file_size;
+    bmp_header->reserv1 = 0;
+    bmp_header->reserv2 = 0;
+    bmp_header->offsetbits = sizeof(sad::imageformats::BMPHeader) + sizeof(sad::imageformats::BMPImageHeader); // Offset of two headers
+
+    sad::imageformats::BMPImageHeader* bmp_image_header = reinterpret_cast<sad::imageformats::BMPImageHeader*>(pointer_to_start + sizeof(sad::imageformats::BMPHeader));
+    bmp_image_header->size = sizeof(sad::imageformats::BMPImageHeader);
+    bmp_image_header->width = width;
+    bmp_image_header->height = height;
+    bmp_image_header->planes = 0;
+    bmp_image_header->bitcount = 3 * 8; // RGB
+    bmp_image_header->compression = 0;
+    bmp_image_header->sizeimage = image_size;
+    bmp_image_header->xpels = 0;
+    bmp_image_header->ypels = 0;
+    bmp_image_header->cused = 0;
+    bmp_image_header->cimportant = 0;
+
+    unsigned char* current = pointer_to_start + sizeof(sad::imageformats::BMPHeader) + sizeof(sad::imageformats::BMPImageHeader);
+    unsigned char* current_texture_pointer = reinterpret_cast<unsigned char*>(texture);
+    for(int y = height - 1; y > -1; y--)
+    {
+        for(int x = 0; x < width; x++) {
+            unsigned char* pixel_begin = current_texture_pointer + (y * width + x) * components;
+            current[0] = pixel_begin[2];
+            current[1] = pixel_begin[1];
+            current[2] = pixel_begin[0];
+            //current[3] = 0;
+            current += 3;
+        }
+        for(size_t i = 0; i < pad_size; i++)
+        {
+            *current = 0;
+            current += 1;
+        }
+    }
+
+    return result;
+}
+
+bool sad::imageformats::dumpToBMP(const std::string& file_name, unsigned int width, unsigned int height, int components, void* texture)
+{
+    std::vector<unsigned char> file_data = sad::imageformats::dumpToBMP(width, height, components, texture);
+    FILE* file = fopen(file_name.c_str(), "wb");
+    if (!file)
+    {
+        return false;
+    }
+    bool ok = fwrite(&(file_data[0]),1, file_data.size(), file) != file_data.size();
+    fclose(file);
+    return ok;
+}

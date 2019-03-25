@@ -22,7 +22,7 @@
     <ProjectGuid>{CE7D663B-668A-4260-9290-2BF1A66136F5}</ProjectGuid>
     <RootNamespace>saddy</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -98,13 +98,13 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>GLU32.lib;OPENGL32.lib;..\..\lib\saddy-debug.lib;..\..\lib\saddy-ft-debug.lib;$(FREETYPE_LIB)\freetype.lib;..\..\lib\saddy-irrklang-debug.lib;irrKlang.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>GLU32.lib;OPENGL32.lib;..\..\lib\saddy-debug.lib;..\..\lib\saddy-ft-debug.lib;$(FREETYPE_LIB)\freetype.lib;..\..\lib\saddy-irrklang-debug.lib;..\..\lib\saddy-dukpp-03-debug.lib;..\..\lib\saddy-dukpp-03-irrklang-debug.lib;irrKlang.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(TargetPath)</OutputFile>
       <AdditionalLibraryDirectories>$(IRRKLANG_ROOT)/lib/Win32-visualStudio/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EntryPointSymbol>
       </EntryPointSymbol>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
@@ -126,13 +126,13 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>GLU32.lib;OPENGL32.lib;..\..\lib\saddy-debug.lib;$(FREETYPE_LIB)\freetype.lib;..\..\lib\saddy-ft-debug.lib;..\..\lib\saddy-irrklang-debug.lib;irrKlang.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>GLU32.lib;OPENGL32.lib;..\..\lib\saddy-debug.lib;$(FREETYPE_LIB)\freetype.lib;..\..\lib\saddy-ft-debug.lib;..\..\lib\saddy-irrklang-debug.lib;..\..\lib\saddy-dukpp-03-debug.lib;..\..\lib\saddy-dukpp-03-irrklang-debug.lib;irrKlang.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(TargetPath)</OutputFile>
       <AdditionalLibraryDirectories>$(IRRKLANG_ROOT)/lib/Win32-visualStudio/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EntryPointSymbol>
       </EntryPointSymbol>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
@@ -155,7 +155,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>GLU32.lib;OPENGL32.lib;..\..\lib\saddy-release.lib;..\..\lib\saddy-ft-release.lib;..\..\lib\saddy-irrklang-release.lib;irrKlang.lib;$(FREETYPE_LIB)\freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>GLU32.lib;OPENGL32.lib;..\..\lib\saddy-release.lib;..\..\lib\saddy-ft-release.lib;..\..\lib\saddy-irrklang-release.lib;..\..\lib\saddy-dukpp-03-release.lib;..\..\lib\saddy-dukpp-03-irrklang-release.lib;irrKlang.lib;$(FREETYPE_LIB)\freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(TargetPath)</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
@@ -183,7 +183,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>GLU32.lib;OPENGL32.lib;..\..\lib\saddy-release.lib;$(FREETYPE_LIB)\freetype.lib;..\..\lib\saddy-ft-release.lib;..\..\lib\saddy-irrklang-release.lib;irrKlang.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>GLU32.lib;OPENGL32.lib;..\..\lib\saddy-release.lib;$(FREETYPE_LIB)\freetype.lib;..\..\lib\saddy-ft-release.lib;..\..\lib\saddy-irrklang-release.lib;..\..\lib\saddy-dukpp-03-release.lib;..\..\lib\saddy-dukpp-03-irrklang-release.lib;irrKlang.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(TargetPath)</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
@@ -196,20 +196,134 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bots\abstractbot.cpp" />
+    <ClCompile Include="bots\botregistry.cpp" />
+    <ClCompile Include="bots\directionbot.cpp" />
+    <ClCompile Include="bots\divingfloaterbot.cpp" />
+    <ClCompile Include="bots\followplayerfloater.cpp" />
+    <ClCompile Include="bots\jsbot.cpp" />
+    <ClCompile Include="bots\nullbot.cpp" />
+    <ClCompile Include="bots\platformpatrolbot.cpp" />
+    <ClCompile Include="bots\randombot.cpp" />
+    <ClCompile Include="bots\shootingstrategies\fixedanglestrategy.cpp" />
+    <ClCompile Include="bots\shootingstrategies\playerlocatingstrategy.cpp" />
+    <ClCompile Include="bots\shootingstrategies\randomstrategy.cpp" />
+    <ClCompile Include="bots\shootingstrategies\shootingstrategy.cpp" />
+    <ClCompile Include="bots\shootingstrategies\turningstrategy.cpp" />
+    <ClCompile Include="bots\wayfloater.cpp" />
+    <ClCompile Include="cameralockanimation.cpp" />
+    <ClCompile Include="cameramovement.cpp" />
+    <ClCompile Include="delayedtask.cpp" />
+    <ClCompile Include="delayedtasks.cpp" />
+    <ClCompile Include="enemycounter.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="game\actor.cpp" />
+    <ClCompile Include="game\actoroptions.cpp" />
+    <ClCompile Include="game\actors.cpp" />
+    <ClCompile Include="game\conditions.cpp" />
+    <ClCompile Include="game\getpenetrationdepthforitem.cpp" />
+    <ClCompile Include="game\healthbar.cpp" />
     <ClCompile Include="game\inventory.cpp" />
+    <ClCompile Include="game\levelstorageloader.cpp" />
+    <ClCompile Include="game\movingplatformregistry.cpp" />
+    <ClCompile Include="game\platformblinking.cpp" />
+    <ClCompile Include="game\player.cpp" />
     <ClCompile Include="game\item.cpp" />
+    <ClCompile Include="game\options.cpp" />
+    <ClCompile Include="game\roomstorageloader.cpp" />
+    <ClCompile Include="game\scorebar.cpp" />
+    <ClCompile Include="game\snowparticles.cpp" />
+    <ClCompile Include="game\staticobjectcontainer.cpp" />
+    <ClCompile Include="game\triggers.cpp" />
+    <ClCompile Include="game\unanimatedcoins.cpp" />
+    <ClCompile Include="game\walls.cpp" />
+    <ClCompile Include="game\mainlevelloader.cpp" />
+    <ClCompile Include="initphysics.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="nodes\background.cpp" />
+    <ClCompile Include="nodes\inventorynode.cpp" />
+    <ClCompile Include="nodes\inventorypopup.cpp" />
+    <ClCompile Include="optionsscreen.cpp" />
+    <ClCompile Include="scenetransitionoptions.cpp" />
+    <ClCompile Include="scenetransitionprocess.cpp" />
+    <ClCompile Include="scripting\exposespawnenemy.cpp" />
+    <ClCompile Include="sounds.cpp" />
     <ClCompile Include="threads\gamethread.cpp" />
+    <ClCompile Include="threads\tasklock.cpp" />
+    <ClCompile Include="weapons\bullet.cpp" />
+    <ClCompile Include="weapons\bulletsettings.cpp" />
+    <ClCompile Include="weapons\laser.cpp" />
+    <ClCompile Include="weapons\lasersettings.cpp" />
+    <ClCompile Include="weapons\projectile.cpp" />
+    <ClCompile Include="weapons\swing.cpp" />
+    <ClCompile Include="weapons\swingsettings.cpp" />
+    <ClCompile Include="weapons\weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bots\abstractbot.h" />
+    <ClInclude Include="bots\botregistry.h" />
+    <ClInclude Include="bots\directionbot.h" />
+    <ClInclude Include="bots\divingfloaterbot.h" />
+    <ClInclude Include="bots\followplayerfloater.h" />
+    <ClInclude Include="bots\jsbot.h" />
+    <ClInclude Include="bots\nullbot.h" />
+    <ClInclude Include="bots\platformpatrolbot.h" />
+    <ClInclude Include="bots\randombot.h" />
+    <ClInclude Include="bots\shootingstrategies\fixedanglestrategy.h" />
+    <ClInclude Include="bots\shootingstrategies\playerlocatingstrategy.h" />
+    <ClInclude Include="bots\shootingstrategies\randomstrategy.h" />
+    <ClInclude Include="bots\shootingstrategies\shootingstrategy.h" />
+    <ClInclude Include="bots\shootingstrategies\turningstrategy.h" />
+    <ClInclude Include="bots\wayfloater.h" />
+    <ClInclude Include="cameralockanimation.h" />
+    <ClInclude Include="cameramovement.h" />
+    <ClInclude Include="delayedtask.h" />
+    <ClInclude Include="delayedtasks.h" />
+    <ClInclude Include="enemycounter.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="game\actor.h" />
+    <ClInclude Include="game\actoroptions.h" />
+    <ClInclude Include="game\actors.h" />
+    <ClInclude Include="game\conditions.h" />
+    <ClInclude Include="game\getpenetrationdepthforitem.h" />
+    <ClInclude Include="game\healthbar.h" />
     <ClInclude Include="game\inventory.h" />
+    <ClInclude Include="game\levelstorageloader.h" />
+    <ClInclude Include="game\movingplatformregistry.h" />
+    <ClInclude Include="game\movingplatformstate.h" />
+    <ClInclude Include="game\platformblinking.h" />
+    <ClInclude Include="game\mainlevelloader.h" />
+    <ClInclude Include="game\player.h" />
     <ClInclude Include="game\item.h" />
+    <ClInclude Include="game\options.h" />
+    <ClInclude Include="game\roomstorageloader.h" />
+    <ClInclude Include="game\scorebar.h" />
+    <ClInclude Include="game\snowparticles.h" />
+    <ClInclude Include="game\staticobjectcontainer.h" />
+    <ClInclude Include="game\storedobject.h" />
+    <ClInclude Include="game\triggers.h" />
+    <ClInclude Include="game\unanimatedcoins.h" />
+    <ClInclude Include="game\walls.h" />
+    <ClInclude Include="initphysics.h" />
     <ClInclude Include="nodes\background.h" />
+    <ClInclude Include="nodes\inventorynode.h" />
+    <ClInclude Include="nodes\inventorypopup.h" />
+    <ClInclude Include="optionsscreen.h" />
+    <ClInclude Include="scenetransitionoptions.h" />
+    <ClInclude Include="scenetransitionprocess.h" />
+    <ClInclude Include="scripting\exposespawnenemy.h" />
+    <ClInclude Include="sounds.h" />
     <ClInclude Include="threads\gamestate.h" />
     <ClInclude Include="threads\gamethread.h" />
+    <ClInclude Include="threads\tasklock.h" />
+    <ClInclude Include="weapons\bullet.h" />
+    <ClInclude Include="weapons\bulletsettings.h" />
+    <ClInclude Include="weapons\laser.h" />
+    <ClInclude Include="weapons\lasersettings.h" />
+    <ClInclude Include="weapons\projectile.h" />
+    <ClInclude Include="weapons\swing.h" />
+    <ClInclude Include="weapons\swingsettings.h" />
+    <ClInclude Include="weapons\weapon.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

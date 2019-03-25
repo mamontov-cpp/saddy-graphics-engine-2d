@@ -537,7 +537,7 @@ Options:\n\
 "-add-pixel, --add-pixel - add one pixel boundary to textures to avoid rounding errors (default: off)\n"
 "-do-not-add-pixel, --do-not-add-pixel - disable adding one pixel boundary to textures to avoid rounding errors (default: on)\n"
 "-write-to-tar <filename>, --write-to-tar <filename> - write output to tar files\n"
-"-no-mipmaps, --no-mipmaps - disable building mipmamps when loading texture\n"
+"-no-mipmaps, --no-mipmaps - disable building mipmaps when loading texture\n"
                   );
         }
     } 

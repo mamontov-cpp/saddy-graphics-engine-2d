@@ -1,0 +1,1615 @@
+{
+  "config": "icons",
+  "texture": "icons.png",
+  "resource": "icons",
+  "sprites": [
+    {
+      "texture": "420_pixel_art_icons/Ac_Medal01.png",
+      "name": "icons_list/Ac_Medal01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/Ac_Medal02.png",
+      "name": "icons_list/Ac_Medal02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/Ac_Medal03.png",
+      "name": "icons_list/Ac_Medal03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/Ac_Medal04.png",
+      "name": "icons_list/Ac_Medal04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/Ac_Necklace01.png",
+      "name": "icons_list/Ac_Necklace01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/Ac_Necklace02.png",
+      "name": "icons_list/Ac_Necklace02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/Ac_Necklace03.png",
+      "name": "icons_list/Ac_Necklace03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/Ac_Necklace04.png",
+      "name": "icons_list/Ac_Necklace04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/Ac_Ring04.png",
+      "name": "icons_list/Ac_Ring04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/A_Armor04.png",
+      "name": "icons_list/A_Armor04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/A_Armor05.png",
+      "name": "icons_list/A_Armor05ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/A_Armour01.png",
+      "name": "icons_list/A_Armour01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/A_Armour02.png",
+      "name": "icons_list/A_Armour02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/A_Armour03.png",
+      "name": "icons_list/A_Armour03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/A_Clothing01.png",
+      "name": "icons_list/A_Clothing01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/A_Clothing02.png",
+      "name": "icons_list/A_Clothing02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/A_Shoes01.png",
+      "name": "icons_list/A_Shoes01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/A_Shoes02.png",
+      "name": "icons_list/A_Shoes02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/A_Shoes03.png",
+      "name": "icons_list/A_Shoes03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/A_Shoes04.png",
+      "name": "icons_list/A_Shoes04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/A_Shoes05.png",
+      "name": "icons_list/A_Shoes05ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/A_Shoes06.png",
+      "name": "icons_list/A_Shoes06ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/A_Shoes07.png",
+      "name": "icons_list/A_Shoes07ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/C_Elm01.png",
+      "name": "icons_list/C_Elm01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/C_Elm03.png",
+      "name": "icons_list/C_Elm03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/C_Elm04.png",
+      "name": "icons_list/C_Elm04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/C_Hat01.png",
+      "name": "icons_list/C_Hat01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/C_Hat02.png",
+      "name": "icons_list/C_Hat02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/E_Bones02.png",
+      "name": "icons_list/E_Bones02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/E_Bones03.png",
+      "name": "icons_list/E_Bones03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/E_Gold01.png",
+      "name": "icons_list/E_Gold01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/E_Gold02.png",
+      "name": "icons_list/E_Gold02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/E_Metal01.png",
+      "name": "icons_list/E_Metal01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/E_Metal02.png",
+      "name": "icons_list/E_Metal02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/E_Metal03.png",
+      "name": "icons_list/E_Metal03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/E_Metal04.png",
+      "name": "icons_list/E_Metal04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/E_Metal05.png",
+      "name": "icons_list/E_Metal05ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/E_Wood01.png",
+      "name": "icons_list/E_Wood01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/E_Wood02.png",
+      "name": "icons_list/E_Wood02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/E_Wood03.png",
+      "name": "icons_list/E_Wood03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/E_Wood04.png",
+      "name": "icons_list/E_Wood04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Agate.png",
+      "name": "icons_list/I_Agateng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Amethist.png",
+      "name": "icons_list/I_Amethistng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Antidote.png",
+      "name": "icons_list/I_Antidoteng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_BatWing.png",
+      "name": "icons_list/I_BatWingng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_BirdsBeak.png",
+      "name": "icons_list/I_BirdsBeakng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Bone.png",
+      "name": "icons_list/I_Boneng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Book.png",
+      "name": "icons_list/I_Bookng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Bottle01.png",
+      "name": "icons_list/I_Bottle01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Bottle02.png",
+      "name": "icons_list/I_Bottle02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Bottle03.png",
+      "name": "icons_list/I_Bottle03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Bottle04.png",
+      "name": "icons_list/I_Bottle04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_BronzeBar.png",
+      "name": "icons_list/I_BronzeBarng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_BronzeCoin.png",
+      "name": "icons_list/I_BronzeCoinng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Cannon01.png",
+      "name": "icons_list/I_Cannon01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Cannon02.png",
+      "name": "icons_list/I_Cannon02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Cannon03.png",
+      "name": "icons_list/I_Cannon03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Cannon04.png",
+      "name": "icons_list/I_Cannon04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Cannon05.png",
+      "name": "icons_list/I_Cannon05ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Chest01.png",
+      "name": "icons_list/I_Chest01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Chest02.png",
+      "name": "icons_list/I_Chest02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Coal.png",
+      "name": "icons_list/I_Coalng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Crystal01.png",
+      "name": "icons_list/I_Crystal01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Crystal02.png",
+      "name": "icons_list/I_Crystal02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Crystal03.png",
+      "name": "icons_list/I_Crystal03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_C_Banana.png",
+      "name": "icons_list/I_C_Bananang"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_C_Bread.png",
+      "name": "icons_list/I_C_Breadng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_C_Carrot.png",
+      "name": "icons_list/I_C_Carrotng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_C_Cheese.png",
+      "name": "icons_list/I_C_Cheeseng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_C_Cherry.png",
+      "name": "icons_list/I_C_Cherryng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_C_Fish.png",
+      "name": "icons_list/I_C_Fishng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_C_Grapes.png",
+      "name": "icons_list/I_C_Grapesng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_C_GreenGrapes.png",
+      "name": "icons_list/I_C_GreenGrapesng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_C_GreenPepper.png",
+      "name": "icons_list/I_C_GreenPepperng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_C_Lemon.png",
+      "name": "icons_list/I_C_Lemonng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_C_Meat.png",
+      "name": "icons_list/I_C_Meatng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_C_Mulberry.png",
+      "name": "icons_list/I_C_Mulberryng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_C_Mushroom.png",
+      "name": "icons_list/I_C_Mushroomng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_C_Nut.png",
+      "name": "icons_list/I_C_Nutng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_C_Orange.png",
+      "name": "icons_list/I_C_Orangeng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_C_Pear.png",
+      "name": "icons_list/I_C_Pearng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_C_Pie.png",
+      "name": "icons_list/I_C_Pieng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_C_Pineapple.png",
+      "name": "icons_list/I_C_Pineappleng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_C_Radish.png",
+      "name": "icons_list/I_C_Radishng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_C_RawFish.png",
+      "name": "icons_list/I_C_RawFishng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_C_RawMeat.png",
+      "name": "icons_list/I_C_RawMeatng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_C_RedPepper.png",
+      "name": "icons_list/I_C_RedPepperng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_C_Strawberry.png",
+      "name": "icons_list/I_C_Strawberryng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_C_Watermellon.png",
+      "name": "icons_list/I_C_Watermellonng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_C_YellowPepper.png",
+      "name": "icons_list/I_C_YellowPepperng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Diamond.png",
+      "name": "icons_list/I_Diamondng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Eye.png",
+      "name": "icons_list/I_Eyeng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Fabric.png",
+      "name": "icons_list/I_Fabricng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Fang.png",
+      "name": "icons_list/I_Fangng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Feather01.png",
+      "name": "icons_list/I_Feather01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Feather02.png",
+      "name": "icons_list/I_Feather02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_FishTail.png",
+      "name": "icons_list/I_FishTailng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_FoxTail.png",
+      "name": "icons_list/I_FoxTailng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_FrogLeg.png",
+      "name": "icons_list/I_FrogLegng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_GoldBar.png",
+      "name": "icons_list/I_GoldBarng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_GoldCoin.png",
+      "name": "icons_list/I_GoldCoinng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Ink.png",
+      "name": "icons_list/I_Inkng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_IronBall.png",
+      "name": "icons_list/I_IronBallng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Jade.png",
+      "name": "icons_list/I_Jadeng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Key01.png",
+      "name": "icons_list/I_Key01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Key02.png",
+      "name": "icons_list/I_Key02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Key03.png",
+      "name": "icons_list/I_Key03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Key04.png",
+      "name": "icons_list/I_Key04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Key05.png",
+      "name": "icons_list/I_Key05ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Key06.png",
+      "name": "icons_list/I_Key06ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Key07.png",
+      "name": "icons_list/I_Key07ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Leaf.png",
+      "name": "icons_list/I_Leafng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Map.png",
+      "name": "icons_list/I_Mapng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Mirror.png",
+      "name": "icons_list/I_Mirrorng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Opal.png",
+      "name": "icons_list/I_Opalng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Rock01.png",
+      "name": "icons_list/I_Rock01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Rock02.png",
+      "name": "icons_list/I_Rock02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Rock03.png",
+      "name": "icons_list/I_Rock03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Rock04.png",
+      "name": "icons_list/I_Rock04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Rock05.png",
+      "name": "icons_list/I_Rock05ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Rubi.png",
+      "name": "icons_list/I_Rubing"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Saphire.png",
+      "name": "icons_list/I_Saphireng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_ScorpionClaw.png",
+      "name": "icons_list/I_ScorpionClawng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Scroll.png",
+      "name": "icons_list/I_Scrollng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Scroll02.png",
+      "name": "icons_list/I_Scroll02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_SilverBar.png",
+      "name": "icons_list/I_SilverBarng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_SilverCoin.png",
+      "name": "icons_list/I_SilverCoinng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_SnailShell.png",
+      "name": "icons_list/I_SnailShellng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_SolidShell.png",
+      "name": "icons_list/I_SolidShellng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Telescope.png",
+      "name": "icons_list/I_Telescopeng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Tentacle.png",
+      "name": "icons_list/I_Tentacleng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Torch01.png",
+      "name": "icons_list/I_Torch01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Torch02.png",
+      "name": "icons_list/I_Torch02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_Water.png",
+      "name": "icons_list/I_Waterng"
+    },
+    {
+      "texture": "420_pixel_art_icons/I_WolfFur.png",
+      "name": "icons_list/I_WolfFurng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Blue01.png",
+      "name": "icons_list/P_Blue01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Blue02.png",
+      "name": "icons_list/P_Blue02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Blue03.png",
+      "name": "icons_list/P_Blue03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Blue04.png",
+      "name": "icons_list/P_Blue04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Green01.png",
+      "name": "icons_list/P_Green01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Green02.png",
+      "name": "icons_list/P_Green02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Green03.png",
+      "name": "icons_list/P_Green03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Green04.png",
+      "name": "icons_list/P_Green04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Medicine01.png",
+      "name": "icons_list/P_Medicine01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Medicine02.png",
+      "name": "icons_list/P_Medicine02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Medicine03.png",
+      "name": "icons_list/P_Medicine03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Medicine04.png",
+      "name": "icons_list/P_Medicine04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Medicine05.png",
+      "name": "icons_list/P_Medicine05ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Medicine06.png",
+      "name": "icons_list/P_Medicine06ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Medicine07.png",
+      "name": "icons_list/P_Medicine07ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Medicine08.png",
+      "name": "icons_list/P_Medicine08ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Medicine09.png",
+      "name": "icons_list/P_Medicine09ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Orange01.png",
+      "name": "icons_list/P_Orange01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Orange02.png",
+      "name": "icons_list/P_Orange02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Orange03.png",
+      "name": "icons_list/P_Orange03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Orange04.png",
+      "name": "icons_list/P_Orange04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Pink01.png",
+      "name": "icons_list/P_Pink01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Pink02.png",
+      "name": "icons_list/P_Pink02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Pink03.png",
+      "name": "icons_list/P_Pink03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Pink04.png",
+      "name": "icons_list/P_Pink04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Red01.png",
+      "name": "icons_list/P_Red01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Red02.png",
+      "name": "icons_list/P_Red02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Red03.png",
+      "name": "icons_list/P_Red03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Red04.png",
+      "name": "icons_list/P_Red04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_White01.png",
+      "name": "icons_list/P_White01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_White02.png",
+      "name": "icons_list/P_White02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_White03.png",
+      "name": "icons_list/P_White03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_White04.png",
+      "name": "icons_list/P_White04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Yellow01.png",
+      "name": "icons_list/P_Yellow01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Yellow02.png",
+      "name": "icons_list/P_Yellow02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Yellow03.png",
+      "name": "icons_list/P_Yellow03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/P_Yellow04.png",
+      "name": "icons_list/P_Yellow04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Bow01.png",
+      "name": "icons_list/S_Bow01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Bow02.png",
+      "name": "icons_list/S_Bow02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Bow03.png",
+      "name": "icons_list/S_Bow03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Bow04.png",
+      "name": "icons_list/S_Bow04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Bow05.png",
+      "name": "icons_list/S_Bow05ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Bow06.png",
+      "name": "icons_list/S_Bow06ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Bow07.png",
+      "name": "icons_list/S_Bow07ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Bow08.png",
+      "name": "icons_list/S_Bow08ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Bow09.png",
+      "name": "icons_list/S_Bow09ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Bow10.png",
+      "name": "icons_list/S_Bow10ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Bow11.png",
+      "name": "icons_list/S_Bow11ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Bow12.png",
+      "name": "icons_list/S_Bow12ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Bow13.png",
+      "name": "icons_list/S_Bow13ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Bow14.png",
+      "name": "icons_list/S_Bow14ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Buff01.png",
+      "name": "icons_list/S_Buff01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Buff02.png",
+      "name": "icons_list/S_Buff02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Buff03.png",
+      "name": "icons_list/S_Buff03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Buff04.png",
+      "name": "icons_list/S_Buff04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Buff05.png",
+      "name": "icons_list/S_Buff05ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Buff06.png",
+      "name": "icons_list/S_Buff06ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Buff07.png",
+      "name": "icons_list/S_Buff07ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Buff08.png",
+      "name": "icons_list/S_Buff08ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Buff09.png",
+      "name": "icons_list/S_Buff09ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Buff10.png",
+      "name": "icons_list/S_Buff10ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Buff11.png",
+      "name": "icons_list/S_Buff11ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Buff12.png",
+      "name": "icons_list/S_Buff12ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Buff13.png",
+      "name": "icons_list/S_Buff13ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Buff14.png",
+      "name": "icons_list/S_Buff14ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Death01.png",
+      "name": "icons_list/S_Death01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Death02.png",
+      "name": "icons_list/S_Death02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Earth01.png",
+      "name": "icons_list/S_Earth01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Earth02.png",
+      "name": "icons_list/S_Earth02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Earth03.png",
+      "name": "icons_list/S_Earth03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Earth04.png",
+      "name": "icons_list/S_Earth04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Earth05.png",
+      "name": "icons_list/S_Earth05ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Earth06.png",
+      "name": "icons_list/S_Earth06ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Earth07.png",
+      "name": "icons_list/S_Earth07ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Fire01.png",
+      "name": "icons_list/S_Fire01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Fire02.png",
+      "name": "icons_list/S_Fire02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Fire03.png",
+      "name": "icons_list/S_Fire03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Fire04.png",
+      "name": "icons_list/S_Fire04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Fire05.png",
+      "name": "icons_list/S_Fire05ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Fire06.png",
+      "name": "icons_list/S_Fire06ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Fire07.png",
+      "name": "icons_list/S_Fire07ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Holy01.png",
+      "name": "icons_list/S_Holy01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Holy02.png",
+      "name": "icons_list/S_Holy02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Holy03.png",
+      "name": "icons_list/S_Holy03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Holy04.png",
+      "name": "icons_list/S_Holy04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Holy05.png",
+      "name": "icons_list/S_Holy05ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Holy06.png",
+      "name": "icons_list/S_Holy06ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Holy07.png",
+      "name": "icons_list/S_Holy07ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Ice01.png",
+      "name": "icons_list/S_Ice01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Ice02.png",
+      "name": "icons_list/S_Ice02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Ice03.png",
+      "name": "icons_list/S_Ice03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Ice04.png",
+      "name": "icons_list/S_Ice04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Ice05.png",
+      "name": "icons_list/S_Ice05ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Ice06.png",
+      "name": "icons_list/S_Ice06ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Ice07.png",
+      "name": "icons_list/S_Ice07ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Light01.png",
+      "name": "icons_list/S_Light01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Light02.png",
+      "name": "icons_list/S_Light02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Light03.png",
+      "name": "icons_list/S_Light03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Magic01.png",
+      "name": "icons_list/S_Magic01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Magic02.png",
+      "name": "icons_list/S_Magic02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Magic03.png",
+      "name": "icons_list/S_Magic03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Magic04.png",
+      "name": "icons_list/S_Magic04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Physic01.png",
+      "name": "icons_list/S_Physic01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Physic02.png",
+      "name": "icons_list/S_Physic02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Poison01.png",
+      "name": "icons_list/S_Poison01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Poison02.png",
+      "name": "icons_list/S_Poison02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Poison03.png",
+      "name": "icons_list/S_Poison03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Poison04.png",
+      "name": "icons_list/S_Poison04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Poison05.png",
+      "name": "icons_list/S_Poison05ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Poison06.png",
+      "name": "icons_list/S_Poison06ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Poison07.png",
+      "name": "icons_list/S_Poison07ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Shadow01.png",
+      "name": "icons_list/S_Shadow01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Shadow02.png",
+      "name": "icons_list/S_Shadow02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Shadow03.png",
+      "name": "icons_list/S_Shadow03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Shadow04.png",
+      "name": "icons_list/S_Shadow04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Shadow05.png",
+      "name": "icons_list/S_Shadow05ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Shadow06.png",
+      "name": "icons_list/S_Shadow06ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Shadow07.png",
+      "name": "icons_list/S_Shadow07ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Sword01.png",
+      "name": "icons_list/S_Sword01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Sword02.png",
+      "name": "icons_list/S_Sword02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Sword03.png",
+      "name": "icons_list/S_Sword03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Sword04.png",
+      "name": "icons_list/S_Sword04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Sword05.png",
+      "name": "icons_list/S_Sword05ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Sword06.png",
+      "name": "icons_list/S_Sword06ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Sword07.png",
+      "name": "icons_list/S_Sword07ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Sword08.png",
+      "name": "icons_list/S_Sword08ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Sword09.png",
+      "name": "icons_list/S_Sword09ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Sword10.png",
+      "name": "icons_list/S_Sword10ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Thunder01.png",
+      "name": "icons_list/S_Thunder01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Thunder02.png",
+      "name": "icons_list/S_Thunder02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Thunder03.png",
+      "name": "icons_list/S_Thunder03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Thunder04.png",
+      "name": "icons_list/S_Thunder04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Thunder05.png",
+      "name": "icons_list/S_Thunder05ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Thunder06.png",
+      "name": "icons_list/S_Thunder06ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Thunder07.png",
+      "name": "icons_list/S_Thunder07ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Water01.png",
+      "name": "icons_list/S_Water01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Water02.png",
+      "name": "icons_list/S_Water02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Water03.png",
+      "name": "icons_list/S_Water03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Water04.png",
+      "name": "icons_list/S_Water04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Water05.png",
+      "name": "icons_list/S_Water05ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Water06.png",
+      "name": "icons_list/S_Water06ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Water07.png",
+      "name": "icons_list/S_Water07ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Wind01.png",
+      "name": "icons_list/S_Wind01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Wind02.png",
+      "name": "icons_list/S_Wind02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Wind03.png",
+      "name": "icons_list/S_Wind03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Wind04.png",
+      "name": "icons_list/S_Wind04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Wind05.png",
+      "name": "icons_list/S_Wind05ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Wind06.png",
+      "name": "icons_list/S_Wind06ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/S_Wind07.png",
+      "name": "icons_list/S_Wind07ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Axe001.png",
+      "name": "icons_list/W_Axe001ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Axe002.png",
+      "name": "icons_list/W_Axe002ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Axe003.png",
+      "name": "icons_list/W_Axe003ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Axe004.png",
+      "name": "icons_list/W_Axe004ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Axe005.png",
+      "name": "icons_list/W_Axe005ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Axe006.png",
+      "name": "icons_list/W_Axe006ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Axe007.png",
+      "name": "icons_list/W_Axe007ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Axe008.png",
+      "name": "icons_list/W_Axe008ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Axe009.png",
+      "name": "icons_list/W_Axe009ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Axe010.png",
+      "name": "icons_list/W_Axe010ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Axe011.png",
+      "name": "icons_list/W_Axe011ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Axe012.png",
+      "name": "icons_list/W_Axe012ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Axe013.png",
+      "name": "icons_list/W_Axe013ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Axe014.png",
+      "name": "icons_list/W_Axe014ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Book01.png",
+      "name": "icons_list/W_Book01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Book02.png",
+      "name": "icons_list/W_Book02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Book03.png",
+      "name": "icons_list/W_Book03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Book04.png",
+      "name": "icons_list/W_Book04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Book05.png",
+      "name": "icons_list/W_Book05ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Book06.png",
+      "name": "icons_list/W_Book06ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Book07.png",
+      "name": "icons_list/W_Book07ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Bow01.png",
+      "name": "icons_list/W_Bow01ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Bow02.png",
+      "name": "icons_list/W_Bow02ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Bow03.png",
+      "name": "icons_list/W_Bow03ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Bow04.png",
+      "name": "icons_list/W_Bow04ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Bow05.png",
+      "name": "icons_list/W_Bow05ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Bow06.png",
+      "name": "icons_list/W_Bow06ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Bow07.png",
+      "name": "icons_list/W_Bow07ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Bow08.png",
+      "name": "icons_list/W_Bow08ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Bow09.png",
+      "name": "icons_list/W_Bow09ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Bow10.png",
+      "name": "icons_list/W_Bow10ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Bow11.png",
+      "name": "icons_list/W_Bow11ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Bow12.png",
+      "name": "icons_list/W_Bow12ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Bow13.png",
+      "name": "icons_list/W_Bow13ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Bow14.png",
+      "name": "icons_list/W_Bow14ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Dagger001.png",
+      "name": "icons_list/W_Dagger001ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Dagger002.png",
+      "name": "icons_list/W_Dagger002ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Dagger003.png",
+      "name": "icons_list/W_Dagger003ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Dagger004.png",
+      "name": "icons_list/W_Dagger004ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Dagger005.png",
+      "name": "icons_list/W_Dagger005ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Dagger006.png",
+      "name": "icons_list/W_Dagger006ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Dagger007.png",
+      "name": "icons_list/W_Dagger007ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Dagger008.png",
+      "name": "icons_list/W_Dagger008ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Dagger009.png",
+      "name": "icons_list/W_Dagger009ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Dagger010.png",
+      "name": "icons_list/W_Dagger010ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Dagger011.png",
+      "name": "icons_list/W_Dagger011ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Dagger012.png",
+      "name": "icons_list/W_Dagger012ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Dagger013.png",
+      "name": "icons_list/W_Dagger013ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Dagger014.png",
+      "name": "icons_list/W_Dagger014ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Dagger015.png",
+      "name": "icons_list/W_Dagger015ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Dagger016.png",
+      "name": "icons_list/W_Dagger016ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Dagger017.png",
+      "name": "icons_list/W_Dagger017ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Dagger018.png",
+      "name": "icons_list/W_Dagger018ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Dagger019.png",
+      "name": "icons_list/W_Dagger019ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Dagger020.png",
+      "name": "icons_list/W_Dagger020ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Dagger021.png",
+      "name": "icons_list/W_Dagger021ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Fist001.png",
+      "name": "icons_list/W_Fist001ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Fist002.png",
+      "name": "icons_list/W_Fist002ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Fist003.png",
+      "name": "icons_list/W_Fist003ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Fist004.png",
+      "name": "icons_list/W_Fist004ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Fist005.png",
+      "name": "icons_list/W_Fist005ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Gun001.png",
+      "name": "icons_list/W_Gun001ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Gun002.png",
+      "name": "icons_list/W_Gun002ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Gun003.png",
+      "name": "icons_list/W_Gun003ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Mace001.png",
+      "name": "icons_list/W_Mace001ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Mace002.png",
+      "name": "icons_list/W_Mace002ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Mace003.png",
+      "name": "icons_list/W_Mace003ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Mace004.png",
+      "name": "icons_list/W_Mace004ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Mace005.png",
+      "name": "icons_list/W_Mace005ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Mace006.png",
+      "name": "icons_list/W_Mace006ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Mace007.png",
+      "name": "icons_list/W_Mace007ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Mace008.png",
+      "name": "icons_list/W_Mace008ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Mace009.png",
+      "name": "icons_list/W_Mace009ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Mace010.png",
+      "name": "icons_list/W_Mace010ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Mace011.png",
+      "name": "icons_list/W_Mace011ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Mace012.png",
+      "name": "icons_list/W_Mace012ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Mace013.png",
+      "name": "icons_list/W_Mace013ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Mace014.png",
+      "name": "icons_list/W_Mace014ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Spear001.png",
+      "name": "icons_list/W_Spear001ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Spear002.png",
+      "name": "icons_list/W_Spear002ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Spear003.png",
+      "name": "icons_list/W_Spear003ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Spear004.png",
+      "name": "icons_list/W_Spear004ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Spear005.png",
+      "name": "icons_list/W_Spear005ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Spear006.png",
+      "name": "icons_list/W_Spear006ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Spear007.png",
+      "name": "icons_list/W_Spear007ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Spear008.png",
+      "name": "icons_list/W_Spear008ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Spear009.png",
+      "name": "icons_list/W_Spear009ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Spear010.png",
+      "name": "icons_list/W_Spear010ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Spear011.png",
+      "name": "icons_list/W_Spear011ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Spear012.png",
+      "name": "icons_list/W_Spear012ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Spear013.png",
+      "name": "icons_list/W_Spear013ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Spear014.png",
+      "name": "icons_list/W_Spear014ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Sword001.png",
+      "name": "icons_list/W_Sword001ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Sword002.png",
+      "name": "icons_list/W_Sword002ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Sword003.png",
+      "name": "icons_list/W_Sword003ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Sword004.png",
+      "name": "icons_list/W_Sword004ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Sword005.png",
+      "name": "icons_list/W_Sword005ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Sword006.png",
+      "name": "icons_list/W_Sword006ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Sword007.png",
+      "name": "icons_list/W_Sword007ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Sword008.png",
+      "name": "icons_list/W_Sword008ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Sword009.png",
+      "name": "icons_list/W_Sword009ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Sword010.png",
+      "name": "icons_list/W_Sword010ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Sword011.png",
+      "name": "icons_list/W_Sword011ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Sword012.png",
+      "name": "icons_list/W_Sword012ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Sword013.png",
+      "name": "icons_list/W_Sword013ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Sword014.png",
+      "name": "icons_list/W_Sword014ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Sword015.png",
+      "name": "icons_list/W_Sword015ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Sword016.png",
+      "name": "icons_list/W_Sword016ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Sword017.png",
+      "name": "icons_list/W_Sword017ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Sword018.png",
+      "name": "icons_list/W_Sword018ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Sword019.png",
+      "name": "icons_list/W_Sword019ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Sword020.png",
+      "name": "icons_list/W_Sword020ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Sword021.png",
+      "name": "icons_list/W_Sword021ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Throw001.png",
+      "name": "icons_list/W_Throw001ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Throw002.png",
+      "name": "icons_list/W_Throw002ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Throw003.png",
+      "name": "icons_list/W_Throw003ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Throw004.png",
+      "name": "icons_list/W_Throw004ng"
+    },
+    {
+      "texture": "420_pixel_art_icons/W_Throw05.png",
+      "name": "icons_list/W_Throw05ng"
+    }
+  ]
+}

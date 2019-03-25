@@ -1,5 +1,7 @@
 #include <p2d/weight.h>
 
+#include <fuzzyequal.h>
+
 #include <limits>
 
 sad::p2d::Weight::Weight(double value, bool finite) 
@@ -34,5 +36,9 @@ sad::p2d::Weight sad::p2d::Weight::infinite()
 void sad::p2d::Weight::setValue(double value)
 {
     m_value = value;
+    if (sad::is_fuzzy_zero(m_value))
+    {
+        m_value = 0.0001;
+    }
     m_finite = true;
 }

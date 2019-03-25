@@ -138,6 +138,14 @@ public:
         \param[in] p a new center for a sprite
      */
     void moveTo(const sad::Point3D & p);
+    /*! Returns true
+        \return if node can be rotated
+     */
+    virtual bool canBeRotated() const;
+    /*! Equivalent to rotate(angle, 0)
+        \param[in]  angle an angle, which defines how sprite should be rotated
+     */
+    virtual void rotate(double angle);
     /*! Rotates a sprite around his middle point in three dimensions
         \param[in]  alpha angle of rotation on XY axis
         \param[in]  theta angle of rotation on YZ axis

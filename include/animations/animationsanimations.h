@@ -475,6 +475,12 @@ public:
         \param[in] process a process
      */
     void notifyProcessRemoval(sad::animations::Process* process);
+    /*! Pauses all animations
+     */
+    void pause();
+    /*! Resumes animations
+     */
+    void resume();
 protected:
     /*! Throws exception, as this object is non-copyable
         \param[in] o object
@@ -628,6 +634,9 @@ protected:
     /*! A lock for protected m_lock_changed flag
      */
     sad::Mutex                 m_lock_changes_lock;
+    /*! Whether animations are paused
+     */
+    bool m_paused;
 };
 
 }

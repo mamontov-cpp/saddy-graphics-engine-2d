@@ -29,6 +29,11 @@ void sad::log::ConsoleTarget::receive(const sad::log::Message & message)
     m_console->print(mesg.c_str());
 }
 
+void sad::log::ConsoleTarget::setColorForPriorityAndColoredOutput(sad::log::Priority p, sad::log::Color c)
+{
+    m_coloring[p].set2(c);
+}
+
 sad::log::ConsoleTarget::~ConsoleTarget()
 {
     m_console->clearColorMode();

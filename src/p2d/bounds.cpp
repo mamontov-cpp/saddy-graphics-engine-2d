@@ -136,3 +136,8 @@ unsigned int sad::p2d::Bound::globalMetaIndex()
 {
     return 3;
 }
+
+void sad::p2d::Bound::deleteBlock(sad::p2d::CollisionShape* block)
+{
+    delete[] static_cast<sad::p2d::Bound*>(block);
+}

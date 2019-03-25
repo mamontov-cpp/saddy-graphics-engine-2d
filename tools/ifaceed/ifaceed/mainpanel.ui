@@ -1574,7 +1574,7 @@ all cells</string>
         </rect>
        </property>
        <property name="maximum">
-        <double>10000.000000000000000</double>
+        <double>100000.000000000000000</double>
        </property>
       </widget>
       <widget class="QLabel" name="lblWayName">
@@ -3575,7 +3575,7 @@ rect:</string>
        <rect>
         <x>10</x>
         <y>30</y>
-        <width>171</width>
+        <width>179</width>
         <height>351</height>
        </rect>
       </property>

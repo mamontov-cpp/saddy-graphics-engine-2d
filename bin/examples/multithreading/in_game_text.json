@@ -1,0 +1,22 @@
+{
+    "atlas":[
+        {
+            "name":"in_game_text\/highscore",
+            "size":"102;25",
+            "texrect":"1;1;102;25"
+        },
+        {
+            "name":"in_game_text\/score",
+            "size":"62;25",
+            "texrect":"1;66;62;25"
+        },
+        {
+            "name":"in_game_text\/life",
+            "size":"58;36",
+            "texrect":"1;28;58;36"
+        }
+    ],
+    "file":"in_game_text.png",
+    "no-mipmaps":true,
+    "resource":"in_game_text_texture"
+}

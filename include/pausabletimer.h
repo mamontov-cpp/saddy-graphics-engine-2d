@@ -40,6 +40,14 @@ public:
         \return time in milliseconds
      */
     double elapsed() const;
+    /*! Whether timer is running
+        \return whether timer is running
+     */
+    inline bool running() const { return m_running; }
+    /*! Whether timer is paused
+        \return whether timer is paused
+     */
+    inline bool paused() const { return !m_running; }
 protected:
     /*! Whether timer is running
      */

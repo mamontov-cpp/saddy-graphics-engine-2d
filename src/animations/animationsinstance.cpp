@@ -393,6 +393,11 @@ void sad::animations::Instance::disableStateRestoringOnFinish()
     m_restore_on_finished = false;
 }
 
+void sad::animations::Instance::enableStateRestoringOnFinish()
+{
+    m_restore_on_finished = true;
+}
+
 
 void sad::animations::Instance::process(sad::animations::Animations* animations)
 {

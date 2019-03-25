@@ -75,6 +75,10 @@ public:
         type of object, since we must keep shapes as POD as possible
      */
     virtual unsigned int metaIndex() = 0;
+    /*! Frees block of memory, correctly, casting an object to specified type
+     *  \param[in] block a block of memory
+     */
+    virtual void deleteBlock(sad::p2d::CollisionShape* block) = 0;
 };
 
 }

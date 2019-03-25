@@ -1,7 +1,7 @@
 #pragma warning(push)
 #pragma warning(disable: 4273)
 #pragma warning(disable: 4351)
-#include <stdio.h>
+#include <cstdio>
 #include <3rdparty/tpunit++/tpunit++.hpp>
 #include <sadvector.h>
 #include <p2d/convexhull.h>

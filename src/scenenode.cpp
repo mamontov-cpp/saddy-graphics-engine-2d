@@ -1,3 +1,5 @@
+#include <stdexcept>
+
 #include "scenenode.h"
 #include "scene.h"
 #include "sadmutex.h"
@@ -29,6 +31,12 @@ sad::SceneNode::~SceneNode()
 static sad::db::schema::Schema* SceneNodeBasicSchema = NULL;
 static sad::Mutex SceneNodeBasicSchemaInit;
 
+void sad::SceneNode::reset()
+{
+    m_scene = NULL;
+    this->sad::db::Object::reset();
+}
+
 sad::db::schema::Schema* sad::SceneNode::basicSchema()
 {
     if (SceneNodeBasicSchema == NULL)
@@ -44,14 +52,14 @@ sad::db::schema::Schema* sad::SceneNode::basicSchema()
                     &sad::SceneNode::visible,
                     &sad::SceneNode::setVisible
                 )
-            );	
+            );
             SceneNodeBasicSchema->add(
                 "scene", 
                 new sad::db::MethodPair<sad::SceneNode, unsigned long long>(
                     &sad::SceneNode::sceneId,
                     &sad::SceneNode::setCachedSceneId
                 )
-            );	
+            );
             SceneNodeBasicSchema->add(
                 "layer", 
                 new sad::db::MethodPair<sad::SceneNode, unsigned int>(
@@ -132,4 +140,14 @@ unsigned long long  sad::SceneNode::sceneId() const
 void sad::SceneNode::moveBy(const sad::Point2D& p)
 {
     
+}
+
+bool sad::SceneNode::canBeRotated() const
+{
+    return false;
+}
+
+void sad::SceneNode::rotate(double delta)
+{
+    throw new std::logic_error("this node cannot be rotated");
 }
