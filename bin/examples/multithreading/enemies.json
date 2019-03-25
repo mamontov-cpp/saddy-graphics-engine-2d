@@ -306,22 +306,22 @@
             "texrect":"521;1;64;45"
         },
         {
-            "name":"enemies_list\/flagGreen_downng",
+            "name":"flags\/flagGreen_downng",
             "size":"7;30",
             "texrect":"753;141;15;61"
         },
         {
-            "name":"enemies_list\/flagGreen_upng",
+            "name":"flags\/flagGreen_upng",
             "size":"29;30",
             "texrect":"133;397;59;61"
         },
         {
-            "name":"enemies_list\/flagRed_downng",
+            "name":"flags\/flagRed_downng",
             "size":"7;30",
             "texrect":"627;81;15;61"
         },
         {
-            "name":"enemies_list\/flagRed_upng",
+            "name":"flags\/flagRed_upng",
             "size":"29;30",
             "texrect":"194;397;59;61"
         },
@@ -931,47 +931,47 @@
             "texrect":"841;462;48;39"
         },
         {
-            "name":"enemies_list\/signArrow_BLng",
+            "name":"signs\/signArrow_BLng",
             "size":"21;27",
             "texrect":"653;105;42;55"
         },
         {
-            "name":"enemies_list\/signArrow_BRng",
+            "name":"signs\/signArrow_BRng",
             "size":"20;27",
             "texrect":"653;396;41;55"
         },
         {
-            "name":"enemies_list\/signArrow_downng",
+            "name":"signs\/signArrow_downng",
             "size":"19;29",
             "texrect":"653;276;39;58"
         },
         {
-            "name":"enemies_list\/signArrow_leftng",
+            "name":"signs\/signArrow_leftng",
             "size":"24;27",
             "texrect":"521;143;48;55"
         },
         {
-            "name":"enemies_list\/signArrow_rightng",
+            "name":"signs\/signArrow_rightng",
             "size":"24;27",
             "texrect":"521;200;48;55"
         },
         {
-            "name":"enemies_list\/signArrow_TLng",
+            "name":"signs\/signArrow_TLng",
             "size":"21;27",
             "texrect":"653;162;42;55"
         },
         {
-            "name":"enemies_list\/signArrow_TRng",
+            "name":"signs\/signArrow_TRng",
             "size":"21;27",
             "texrect":"653;219;42;55"
         },
         {
-            "name":"enemies_list\/signArrow_upng",
+            "name":"signs\/signArrow_upng",
             "size":"19;29",
             "texrect":"653;336;39;58"
         },
         {
-            "name":"enemies_list\/signLargeng",
+            "name":"signs\/signLargeng",
             "size":"32;27",
             "texrect":"255;397;64;55"
         },

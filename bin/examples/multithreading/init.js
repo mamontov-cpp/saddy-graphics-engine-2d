@@ -710,19 +710,24 @@ cameraMovement().setMoveRightBoundary(450);
 cameraMovement().setMaxShiftTime(2000);
 cameraMovement().setArrowPosition(new sad.Point2D(775,300));
 
-setMaxLevelX(10630);
-setRightBound(10630);
+setMaxLevelX(13030);
+setRightBound(13030);
 resetEnemyCounter();
 
 var playEnemySpawnSound = function() {
     playSound("item_drop");
 };
 
-player().setLives(15);
+var easyMode = false;
+
+if (easyMode) {
+    player().setLives(15);
+} else {
+    player().setLives(6);
+}
 
 var isWindEnabled = true;
 var notFoundActors = [ null, null, null, null, null ];
-var easyMode = false;
 
 // Just a simple JS trigger
 
@@ -1097,7 +1102,7 @@ addTriggerOnce(4100, function() {
 });
 
 
-addTriggerOnce(5082, function() {
+addTriggerOnce(5072, function() {
     playEnemySpawnSound();
     makePlatformGoOnWay("MovingPlatform5", "LongWay1");
     addDelayedTask(50000, function() { stopMovingPlatformOnWay("MovingPlatform5"); });
@@ -1285,9 +1290,6 @@ addTriggerOnce(9890, function() {
     setEnemyCounter(3);
     onZeroEnemies(function() { 
         unlockScreen();
-        addTriggerOnce(10588, function() {
-            triggerWinGame();
-        });
     });
     playEnemySpawnSound();
     spawnItem("Magic wand", new sad.Point2D(9930, 200));
@@ -1296,7 +1298,172 @@ addTriggerOnce(9890, function() {
     spawnPlatformPatrol2(new sad.Point2D(10551, 200));
 });
 
-addTriggerOnce(10690, function() {
+
+var shouldRespawnEnemy1 = true;
+
+var spawnPlatformPatrol3 = function(p, fn) {
+    actor = spawnPlatformPatrol("green_walker", p);
+    actor.setLives(17);
+    addOnActorDeathAction(actor, fn);
+
+    var settings = new BulletSettings();
+    settings.IconName = "bullets/green/xx_huge";
+    settings.MaxBounceCount = 0;
+    settings.ApplyGravity = false;
+    settings.RestitutionCoefficient = 0.9;
+    
+    weapon = new Weapon();
+    weapon.setShootingInterval(1000);
+    weapon.setAmountOfProjectiles(1);
+    weapon.setBaseDamage(1);
+    weapon.setSettings(settings);
+    actor.pushWeapon(weapon);
+    var strategy = new PlayerLocatingStrategy();
+    strategy.setInterval(200);
+    
+    actor.setShootingStrategy(strategy);
+    
+    return actor;
+};
+
+var spawnFloater4 = function(p, fn) {
+    actor = spawnFollowPlayerFloater("red_disc", p);
+    actor.setLives(17);
+    addOnActorDeathAction(actor, fn);
+
+    var settings = new BulletSettings();
+    settings.IconName = "bullets/green/xx_huge";
+    settings.MaxBounceCount = 0;
+    settings.ApplyGravity = false;
+    settings.RestitutionCoefficient = 0.9;
+    
+    weapon = new Weapon();
+    weapon.setShootingInterval(1000);
+    weapon.setAmountOfProjectiles(1);
+    weapon.setBaseDamage(1);
+    weapon.setSettings(settings);
+    actor.pushWeapon(weapon);
+    var strategy = new PlayerLocatingStrategy();
+    strategy.setInterval(200);
+    
+    actor.setShootingStrategy(strategy); 
+    
+    return actor;
+};
+
+var eternal_enemies1 = [null, null, null, null];
+
+var onDeathSpecialActor1 = function() {
+    eternal_enemies1[0] = null;
+    if (shouldRespawnEnemy1) {
+        playEnemySpawnSound();
+        eternal_enemies1[0] = spawnPlatformPatrol3(new sad.Point2D(10755, 130), onDeathSpecialActor1);
+    }
+}
+
+var onDeathSpecialActor2 = function() {
+    eternal_enemies1[1] = null;
+
+    if (shouldRespawnEnemy1) {
+        playEnemySpawnSound();
+        eternal_enemies1[1] = spawnPlatformPatrol3(new sad.Point2D(11194, 206), onDeathSpecialActor2);
+    }
+}
+
+var onDeathSpecialActor3 = function() {
+    eternal_enemies1[2] = null;
+
+    if (shouldRespawnEnemy1) {
+        playEnemySpawnSound();
+        eternal_enemies1[2] = spawnFloater4(new sad.Point2D(10954, 585), onDeathSpecialActor3);
+    }
+}
+
+
+var onDeathSpecialActor4 = function() {
+    eternal_enemies1[3] = null;
+    
+    if (shouldRespawnEnemy1) {
+        playEnemySpawnSound();
+        eternal_enemies1[3] = spawnFloater4(new sad.Point2D(11365, 585), onDeathSpecialActor4);
+    }
+}
+
+addTriggerOnce(10650, function() {
     stopWind();
     setWindSpeed(0);
+    
+    playEnemySpawnSound();
+    eternal_enemies1[0] = spawnPlatformPatrol3(new sad.Point2D(10755, 130), onDeathSpecialActor1);
+    eternal_enemies1[1] = spawnPlatformPatrol3(new sad.Point2D(11194, 206), onDeathSpecialActor2);
+    eternal_enemies1[2] = spawnFloater4(new sad.Point2D(10954, 585), onDeathSpecialActor3);
+    eternal_enemies1[3] = spawnFloater4(new sad.Point2D(11365, 585), onDeathSpecialActor4);
 });
+
+addTriggerOnce(11374, function() {
+    shouldRespawnEnemy1 = false;
+});
+
+var eternal_enemies2 = [null, null, null];
+var shouldRespawnEnemy2 = false;
+
+var onDeathSpecialActor11 = function() {
+    eternal_enemies2[0] = null;
+    if (shouldRespawnEnemy2) {
+        playEnemySpawnSound();
+        eternal_enemies2[0] = spawnFloater4(new sad.Point2D(11531, 590), onDeathSpecialActor11);
+    }
+}
+
+var onDeathSpecialActor12 = function() {
+    eternal_enemies2[1] = null;
+
+    if (shouldRespawnEnemy2) {
+        playEnemySpawnSound();
+        eternal_enemies2[1] = spawnFloater4(new sad.Point2D(12210, 416), onDeathSpecialActor12);
+    }
+}
+
+var onDeathSpecialActor13 = function() {
+    eternal_enemies2[2] = null;
+
+    if (shouldRespawnEnemy2) {
+        playEnemySpawnSound();
+        eternal_enemies2[2] = spawnFloater4(new sad.Point2D(11527, 310), onDeathSpecialActor13);
+    }
+}
+
+
+addTriggerOnce(11574, function() {
+    shouldRespawnEnemy1 = false;
+    for (var i = 0; i < 4; i++) {
+        if (eternal_enemies1[i] != null) {
+            _sheduleKillActorByBody(eternal_enemies1[i]);
+            eternal_enemies1[i] = null;
+        }
+    }
+    playEnemySpawnSound();
+    eternal_enemies2[0] = spawnFloater4(new sad.Point2D(11531, 590), onDeathSpecialActor11);
+    eternal_enemies2[1] = spawnFloater4(new sad.Point2D(12210, 416), onDeathSpecialActor12);
+    eternal_enemies2[2] = spawnFloater4(new sad.Point2D(11527, 310), onDeathSpecialActor13);
+});
+
+
+addTriggerOnce(12000, function() {
+    shouldRespawnEnemy2 = false;
+});
+
+
+addTriggerOnce(12363, function() {
+    for (var i = 0; i < 3; i++) {
+        if (eternal_enemies2[i] != null) {
+            _sheduleKillActorByBody(eternal_enemies2[i]);
+            eternal_enemies2[i] = null;
+        }
+    }
+});
+
+addTriggerOnce(12990, function() {
+    triggerWinGame();
+});
+

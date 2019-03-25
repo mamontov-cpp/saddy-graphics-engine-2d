@@ -23,7 +23,7 @@
         "global_renderer_offset":{
             "type":"sad::Point3D",
             "value":{
-                "x":-9830.000000,
+                "x":-12230.000000,
                 "y":0.000000,
                 "z":0.000000
             }
@@ -514,7 +514,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":34.000000,
+                "layer":33.000000,
                 "majorid":90.000000,
                 "minorid":72.000000,
                 "name":"Floor75",
@@ -570,7 +570,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":97.000000,
+                "layer":96.000000,
                 "majorid":161.000000,
                 "minorid":136.000000,
                 "name":"Coin43",
@@ -626,7 +626,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":105.000000,
+                "layer":104.000000,
                 "majorid":169.000000,
                 "minorid":144.000000,
                 "name":"Coin51",
@@ -682,7 +682,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":104.000000,
+                "layer":103.000000,
                 "majorid":168.000000,
                 "minorid":143.000000,
                 "name":"Coin50",
@@ -738,7 +738,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":103.000000,
+                "layer":102.000000,
                 "majorid":167.000000,
                 "minorid":142.000000,
                 "name":"Coin49",
@@ -794,7 +794,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":102.000000,
+                "layer":101.000000,
                 "majorid":166.000000,
                 "minorid":141.000000,
                 "name":"Coin48",
@@ -906,7 +906,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":101.000000,
+                "layer":100.000000,
                 "majorid":165.000000,
                 "minorid":140.000000,
                 "name":"Coin47",
@@ -962,7 +962,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":100.000000,
+                "layer":99.000000,
                 "majorid":164.000000,
                 "minorid":139.000000,
                 "name":"Coin46",
@@ -1074,7 +1074,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":99.000000,
+                "layer":98.000000,
                 "majorid":163.000000,
                 "minorid":138.000000,
                 "name":"Coin45",
@@ -1186,7 +1186,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":35.000000,
+                "layer":34.000000,
                 "majorid":91.000000,
                 "minorid":73.000000,
                 "name":"Floor76",
@@ -1242,7 +1242,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":98.000000,
+                "layer":97.000000,
                 "majorid":162.000000,
                 "minorid":137.000000,
                 "name":"Coin44",
@@ -1298,7 +1298,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":96.000000,
+                "layer":95.000000,
                 "majorid":160.000000,
                 "minorid":135.000000,
                 "name":"Coin42",
@@ -1354,7 +1354,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":95.000000,
+                "layer":94.000000,
                 "majorid":159.000000,
                 "minorid":134.000000,
                 "name":"Coin41",
@@ -1410,7 +1410,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":94.000000,
+                "layer":93.000000,
                 "majorid":158.000000,
                 "minorid":133.000000,
                 "name":"Coin40",
@@ -1466,7 +1466,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":93.000000,
+                "layer":92.000000,
                 "majorid":157.000000,
                 "minorid":132.000000,
                 "name":"Coin39",
@@ -1522,7 +1522,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":92.000000,
+                "layer":91.000000,
                 "majorid":156.000000,
                 "minorid":131.000000,
                 "name":"Coin38",
@@ -1578,7 +1578,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":91.000000,
+                "layer":90.000000,
                 "majorid":155.000000,
                 "minorid":130.000000,
                 "name":"Floor32",
@@ -1634,7 +1634,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":90.000000,
+                "layer":89.000000,
                 "majorid":154.000000,
                 "minorid":129.000000,
                 "name":"Floor31",
@@ -1690,7 +1690,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":89.000000,
+                "layer":88.000000,
                 "majorid":153.000000,
                 "minorid":128.000000,
                 "name":"Floor30",
@@ -1746,7 +1746,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":88.000000,
+                "layer":87.000000,
                 "majorid":152.000000,
                 "minorid":127.000000,
                 "name":"Floor29",
@@ -1802,7 +1802,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":87.000000,
+                "layer":86.000000,
                 "majorid":151.000000,
                 "minorid":126.000000,
                 "name":"Floor28",
@@ -1858,7 +1858,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":86.000000,
+                "layer":85.000000,
                 "majorid":146.000000,
                 "minorid":125.000000,
                 "name":"Coin37",
@@ -1914,7 +1914,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":85.000000,
+                "layer":84.000000,
                 "majorid":145.000000,
                 "minorid":124.000000,
                 "name":"Coin36",
@@ -1970,7 +1970,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":84.000000,
+                "layer":83.000000,
                 "majorid":144.000000,
                 "minorid":123.000000,
                 "name":"Coin35",
@@ -2026,7 +2026,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":83.000000,
+                "layer":82.000000,
                 "majorid":143.000000,
                 "minorid":122.000000,
                 "name":"Floor27",
@@ -2082,7 +2082,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":82.000000,
+                "layer":81.000000,
                 "majorid":142.000000,
                 "minorid":121.000000,
                 "name":"Floor26",
@@ -2138,7 +2138,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":81.000000,
+                "layer":80.000000,
                 "majorid":141.000000,
                 "minorid":120.000000,
                 "name":"Floor25",
@@ -2194,7 +2194,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":80.000000,
+                "layer":79.000000,
                 "majorid":140.000000,
                 "minorid":119.000000,
                 "name":"Floor24",
@@ -2250,7 +2250,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":79.000000,
+                "layer":78.000000,
                 "majorid":139.000000,
                 "minorid":118.000000,
                 "name":"MovingPlatform5",
@@ -2306,7 +2306,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":78.000000,
+                "layer":77.000000,
                 "majorid":138.000000,
                 "minorid":117.000000,
                 "name":"Coin34",
@@ -2362,7 +2362,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":77.000000,
+                "layer":76.000000,
                 "majorid":137.000000,
                 "minorid":116.000000,
                 "name":"Coin33",
@@ -2418,7 +2418,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":76.000000,
+                "layer":75.000000,
                 "majorid":136.000000,
                 "minorid":115.000000,
                 "name":"Coin32",
@@ -2530,7 +2530,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":75.000000,
+                "layer":74.000000,
                 "majorid":135.000000,
                 "minorid":114.000000,
                 "name":"Coin31",
@@ -2642,7 +2642,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":74.000000,
+                "layer":73.000000,
                 "majorid":134.000000,
                 "minorid":113.000000,
                 "name":"Coin30",
@@ -2698,7 +2698,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":73.000000,
+                "layer":72.000000,
                 "majorid":133.000000,
                 "minorid":112.000000,
                 "name":"Coin29",
@@ -2801,7 +2801,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":72.000000,
+                "layer":71.000000,
                 "majorid":131.000000,
                 "minorid":110.000000,
                 "name":"Floor22",
@@ -2857,7 +2857,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":71.000000,
+                "layer":70.000000,
                 "majorid":130.000000,
                 "minorid":109.000000,
                 "name":"Floor21",
@@ -2913,7 +2913,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":70.000000,
+                "layer":69.000000,
                 "majorid":129.000000,
                 "minorid":108.000000,
                 "name":"Floor21",
@@ -2969,7 +2969,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":69.000000,
+                "layer":68.000000,
                 "majorid":128.000000,
                 "minorid":107.000000,
                 "name":"Floor20",
@@ -3025,7 +3025,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":68.000000,
+                "layer":67.000000,
                 "majorid":127.000000,
                 "minorid":106.000000,
                 "name":"Floor19",
@@ -3081,7 +3081,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":67.000000,
+                "layer":66.000000,
                 "majorid":126.000000,
                 "minorid":105.000000,
                 "name":"Coin28",
@@ -3137,7 +3137,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":66.000000,
+                "layer":65.000000,
                 "majorid":125.000000,
                 "minorid":104.000000,
                 "name":"Coin27",
@@ -3193,7 +3193,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":65.000000,
+                "layer":64.000000,
                 "majorid":124.000000,
                 "minorid":103.000000,
                 "name":"Coin26",
@@ -3249,7 +3249,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":64.000000,
+                "layer":63.000000,
                 "majorid":123.000000,
                 "minorid":102.000000,
                 "name":"Coin25",
@@ -3305,7 +3305,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":63.000000,
+                "layer":62.000000,
                 "majorid":122.000000,
                 "minorid":101.000000,
                 "name":"Coin24",
@@ -3361,7 +3361,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":62.000000,
+                "layer":61.000000,
                 "majorid":121.000000,
                 "minorid":100.000000,
                 "name":"Coin23",
@@ -3417,7 +3417,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":61.000000,
+                "layer":60.000000,
                 "majorid":120.000000,
                 "minorid":99.000000,
                 "name":"Coin22",
@@ -3473,7 +3473,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":60.000000,
+                "layer":59.000000,
                 "majorid":119.000000,
                 "minorid":98.000000,
                 "name":"Coin21",
@@ -3529,7 +3529,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":59.000000,
+                "layer":58.000000,
                 "majorid":118.000000,
                 "minorid":97.000000,
                 "name":"Floor18",
@@ -3585,7 +3585,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":58.000000,
+                "layer":57.000000,
                 "majorid":116.000000,
                 "minorid":96.000000,
                 "name":"Floor17",
@@ -3641,7 +3641,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":57.000000,
+                "layer":56.000000,
                 "majorid":115.000000,
                 "minorid":95.000000,
                 "name":"Floor16",
@@ -3697,7 +3697,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":56.000000,
+                "layer":55.000000,
                 "majorid":112.000000,
                 "minorid":94.000000,
                 "name":"Floor15",
@@ -3753,7 +3753,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":55.000000,
+                "layer":54.000000,
                 "majorid":111.000000,
                 "minorid":93.000000,
                 "name":"Floor14",
@@ -3809,7 +3809,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":54.000000,
+                "layer":53.000000,
                 "majorid":110.000000,
                 "minorid":92.000000,
                 "name":"Floor13",
@@ -3865,7 +3865,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":53.000000,
+                "layer":52.000000,
                 "majorid":109.000000,
                 "minorid":91.000000,
                 "name":"Floor714",
@@ -3921,7 +3921,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":52.000000,
+                "layer":51.000000,
                 "majorid":108.000000,
                 "minorid":90.000000,
                 "name":"Floor713",
@@ -3977,7 +3977,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":51.000000,
+                "layer":50.000000,
                 "majorid":107.000000,
                 "minorid":89.000000,
                 "name":"Floor712",
@@ -4089,7 +4089,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":50.000000,
+                "layer":49.000000,
                 "majorid":106.000000,
                 "minorid":88.000000,
                 "name":"Floor711",
@@ -4201,7 +4201,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":49.000000,
+                "layer":48.000000,
                 "majorid":105.000000,
                 "minorid":87.000000,
                 "name":"Floor710",
@@ -4360,7 +4360,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":48.000000,
+                "layer":47.000000,
                 "majorid":104.000000,
                 "minorid":86.000000,
                 "name":"Coin20",
@@ -4416,7 +4416,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":18.000000,
+                "layer":17.000000,
                 "majorid":57.000000,
                 "minorid":44.000000,
                 "name":"Floor12",
@@ -4640,7 +4640,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":25.000000,
+                "layer":24.000000,
                 "majorid":77.000000,
                 "minorid":63.000000,
                 "name":"Coin6",
@@ -4696,7 +4696,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":26.000000,
+                "layer":25.000000,
                 "majorid":78.000000,
                 "minorid":64.000000,
                 "name":"Coin7",
@@ -4752,7 +4752,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":20.000000,
+                "layer":19.000000,
                 "majorid":72.000000,
                 "minorid":58.000000,
                 "name":"Floor14",
@@ -4808,7 +4808,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":16.000000,
+                "layer":15.000000,
                 "majorid":54.000000,
                 "minorid":41.000000,
                 "name":"Floor9",
@@ -4920,7 +4920,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":29.000000,
+                "layer":28.000000,
                 "majorid":81.000000,
                 "minorid":67.000000,
                 "name":"Coin10",
@@ -5032,7 +5032,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":28.000000,
+                "layer":27.000000,
                 "majorid":80.000000,
                 "minorid":66.000000,
                 "name":"Coin9",
@@ -5088,7 +5088,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":21.000000,
+                "layer":20.000000,
                 "majorid":73.000000,
                 "minorid":59.000000,
                 "name":"Floor15",
@@ -5144,7 +5144,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":17.000000,
+                "layer":16.000000,
                 "majorid":55.000000,
                 "minorid":42.000000,
                 "name":"Floor10",
@@ -5200,7 +5200,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":24.000000,
+                "layer":23.000000,
                 "majorid":76.000000,
                 "minorid":62.000000,
                 "name":"Coin5",
@@ -5256,7 +5256,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":23.000000,
+                "layer":22.000000,
                 "majorid":75.000000,
                 "minorid":61.000000,
                 "name":"Floor17",
@@ -5312,7 +5312,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":22.000000,
+                "layer":21.000000,
                 "majorid":74.000000,
                 "minorid":60.000000,
                 "name":"Floor16",
@@ -5368,7 +5368,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":19.000000,
+                "layer":18.000000,
                 "majorid":71.000000,
                 "minorid":57.000000,
                 "name":"Floor13",
@@ -5424,7 +5424,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":15.000000,
+                "layer":14.000000,
                 "majorid":53.000000,
                 "minorid":40.000000,
                 "name":"Floor8",
@@ -5480,7 +5480,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":14.000000,
+                "layer":13.000000,
                 "majorid":52.000000,
                 "minorid":39.000000,
                 "name":"Floor7",
@@ -5536,7 +5536,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":36.000000,
+                "layer":35.000000,
                 "majorid":92.000000,
                 "minorid":74.000000,
                 "name":"Floor77",
@@ -5592,7 +5592,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":12.000000,
+                "layer":11.000000,
                 "majorid":50.000000,
                 "minorid":37.000000,
                 "name":"Floor5",
@@ -5648,7 +5648,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":33.000000,
+                "layer":32.000000,
                 "majorid":89.000000,
                 "minorid":71.000000,
                 "name":"Floor74",
@@ -5928,7 +5928,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":27.000000,
+                "layer":26.000000,
                 "majorid":79.000000,
                 "minorid":65.000000,
                 "name":"Coin8",
@@ -5984,7 +5984,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":7.000000,
+                "layer":194.000000,
                 "majorid":2.000000,
                 "minorid":1.000000,
                 "name":"Player",
@@ -6040,7 +6040,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":42.000000,
+                "layer":41.000000,
                 "majorid":98.000000,
                 "minorid":80.000000,
                 "name":"Coin14",
@@ -6199,7 +6199,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":13.000000,
+                "layer":12.000000,
                 "majorid":51.000000,
                 "minorid":38.000000,
                 "name":"Floor6",
@@ -6423,7 +6423,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":8.000000,
+                "layer":7.000000,
                 "majorid":30.000000,
                 "minorid":19.000000,
                 "name":"Coin1",
@@ -6947,7 +6947,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":10.000000,
+                "layer":9.000000,
                 "majorid":32.000000,
                 "minorid":21.000000,
                 "name":"Coin3",
@@ -7003,7 +7003,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":11.000000,
+                "layer":10.000000,
                 "majorid":33.000000,
                 "minorid":22.000000,
                 "name":"Coin4",
@@ -7106,7 +7106,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":9.000000,
+                "layer":8.000000,
                 "majorid":31.000000,
                 "minorid":20.000000,
                 "name":"Coin2",
@@ -7162,7 +7162,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":30.000000,
+                "layer":29.000000,
                 "majorid":86.000000,
                 "minorid":68.000000,
                 "name":"Floor71",
@@ -7218,7 +7218,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":31.000000,
+                "layer":30.000000,
                 "majorid":87.000000,
                 "minorid":69.000000,
                 "name":"Floor72",
@@ -7274,7 +7274,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":32.000000,
+                "layer":31.000000,
                 "majorid":88.000000,
                 "minorid":70.000000,
                 "name":"Floor73",
@@ -7330,7 +7330,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":37.000000,
+                "layer":36.000000,
                 "majorid":93.000000,
                 "minorid":75.000000,
                 "name":"Floor78",
@@ -7386,7 +7386,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":38.000000,
+                "layer":37.000000,
                 "majorid":94.000000,
                 "minorid":76.000000,
                 "name":"Floor79",
@@ -7442,7 +7442,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":39.000000,
+                "layer":38.000000,
                 "majorid":95.000000,
                 "minorid":77.000000,
                 "name":"Coin11",
@@ -7498,7 +7498,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":40.000000,
+                "layer":39.000000,
                 "majorid":96.000000,
                 "minorid":78.000000,
                 "name":"Coin12",
@@ -7554,7 +7554,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":41.000000,
+                "layer":40.000000,
                 "majorid":97.000000,
                 "minorid":79.000000,
                 "name":"Coin13",
@@ -7610,7 +7610,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":43.000000,
+                "layer":42.000000,
                 "majorid":99.000000,
                 "minorid":81.000000,
                 "name":"Coin15",
@@ -7666,7 +7666,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":44.000000,
+                "layer":43.000000,
                 "majorid":100.000000,
                 "minorid":82.000000,
                 "name":"Coin16",
@@ -7722,7 +7722,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":45.000000,
+                "layer":44.000000,
                 "majorid":101.000000,
                 "minorid":83.000000,
                 "name":"Coin17",
@@ -7778,7 +7778,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":46.000000,
+                "layer":45.000000,
                 "majorid":102.000000,
                 "minorid":84.000000,
                 "name":"Coin18",
@@ -7834,7 +7834,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":47.000000,
+                "layer":46.000000,
                 "majorid":103.000000,
                 "minorid":85.000000,
                 "name":"Coin19",
@@ -7890,7 +7890,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":106.000000,
+                "layer":105.000000,
                 "majorid":170.000000,
                 "minorid":145.000000,
                 "name":"Floor33",
@@ -7946,7 +7946,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":107.000000,
+                "layer":106.000000,
                 "majorid":171.000000,
                 "minorid":146.000000,
                 "name":"Floor34",
@@ -8002,7 +8002,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":108.000000,
+                "layer":107.000000,
                 "majorid":172.000000,
                 "minorid":147.000000,
                 "name":"Floor35",
@@ -8058,7 +8058,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":109.000000,
+                "layer":108.000000,
                 "majorid":173.000000,
                 "minorid":148.000000,
                 "name":"Floor36",
@@ -8114,7 +8114,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":112.000000,
+                "layer":109.000000,
                 "majorid":176.000000,
                 "minorid":151.000000,
                 "name":"Floor37",
@@ -8170,7 +8170,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":113.000000,
+                "layer":110.000000,
                 "majorid":177.000000,
                 "minorid":152.000000,
                 "name":"Floor38",
@@ -8226,7 +8226,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":114.000000,
+                "layer":111.000000,
                 "majorid":178.000000,
                 "minorid":153.000000,
                 "name":"MovingPlatform6",
@@ -8282,7 +8282,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":115.000000,
+                "layer":112.000000,
                 "majorid":179.000000,
                 "minorid":154.000000,
                 "name":"MovingPlatform7",
@@ -8338,7 +8338,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":116.000000,
+                "layer":113.000000,
                 "majorid":180.000000,
                 "minorid":155.000000,
                 "name":"MovingPlatform8",
@@ -8394,7 +8394,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":117.000000,
+                "layer":114.000000,
                 "majorid":181.000000,
                 "minorid":156.000000,
                 "name":"MovingPlatform9",
@@ -8450,7 +8450,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":118.000000,
+                "layer":115.000000,
                 "majorid":182.000000,
                 "minorid":157.000000,
                 "name":"MovingPlatform10",
@@ -8506,7 +8506,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":119.000000,
+                "layer":116.000000,
                 "majorid":183.000000,
                 "minorid":158.000000,
                 "name":"MovingPlatform11",
@@ -8562,7 +8562,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":120.000000,
+                "layer":117.000000,
                 "majorid":190.000000,
                 "minorid":159.000000,
                 "name":"MovingPlatform12",
@@ -8618,7 +8618,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":121.000000,
+                "layer":118.000000,
                 "majorid":191.000000,
                 "minorid":160.000000,
                 "name":"MovingPlatform13",
@@ -8674,7 +8674,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":122.000000,
+                "layer":119.000000,
                 "majorid":192.000000,
                 "minorid":161.000000,
                 "name":"MovingPlatform14",
@@ -8730,7 +8730,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":123.000000,
+                "layer":120.000000,
                 "majorid":193.000000,
                 "minorid":162.000000,
                 "name":"MovingPlatform15",
@@ -8786,7 +8786,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":124.000000,
+                "layer":121.000000,
                 "majorid":194.000000,
                 "minorid":163.000000,
                 "name":"MovingPlatform16",
@@ -8842,7 +8842,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":125.000000,
+                "layer":122.000000,
                 "majorid":195.000000,
                 "minorid":164.000000,
                 "name":"MovingPlatform17",
@@ -8898,7 +8898,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":126.000000,
+                "layer":123.000000,
                 "majorid":196.000000,
                 "minorid":165.000000,
                 "name":"Floor39",
@@ -8954,7 +8954,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":127.000000,
+                "layer":124.000000,
                 "majorid":197.000000,
                 "minorid":166.000000,
                 "name":"Floor40",
@@ -9010,7 +9010,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":128.000000,
+                "layer":125.000000,
                 "majorid":198.000000,
                 "minorid":167.000000,
                 "name":"Floor41",
@@ -9066,7 +9066,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":129.000000,
+                "layer":126.000000,
                 "majorid":199.000000,
                 "minorid":168.000000,
                 "name":"Floor42",
@@ -9122,7 +9122,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":130.000000,
+                "layer":127.000000,
                 "majorid":200.000000,
                 "minorid":169.000000,
                 "name":"Floor43",
@@ -9178,7 +9178,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":131.000000,
+                "layer":128.000000,
                 "majorid":201.000000,
                 "minorid":170.000000,
                 "name":"Coin52",
@@ -9234,7 +9234,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":132.000000,
+                "layer":129.000000,
                 "majorid":202.000000,
                 "minorid":171.000000,
                 "name":"Coin53",
@@ -9290,7 +9290,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":133.000000,
+                "layer":130.000000,
                 "majorid":203.000000,
                 "minorid":172.000000,
                 "name":"Coin54",
@@ -9346,7 +9346,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":134.000000,
+                "layer":131.000000,
                 "majorid":204.000000,
                 "minorid":173.000000,
                 "name":"Coin55",
@@ -9402,7 +9402,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":135.000000,
+                "layer":132.000000,
                 "majorid":205.000000,
                 "minorid":174.000000,
                 "name":"Coin56",
@@ -9458,7 +9458,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":136.000000,
+                "layer":133.000000,
                 "majorid":206.000000,
                 "minorid":175.000000,
                 "name":"Coin57",
@@ -9514,7 +9514,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":137.000000,
+                "layer":134.000000,
                 "majorid":207.000000,
                 "minorid":176.000000,
                 "name":"Coin58",
@@ -9570,7 +9570,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":138.000000,
+                "layer":135.000000,
                 "majorid":208.000000,
                 "minorid":177.000000,
                 "name":"Coin59",
@@ -9626,7 +9626,7 @@
                 },
                 "flipx":false,
                 "flipy":false,
-                "layer":139.000000,
+                "layer":136.000000,
                 "majorid":209.000000,
                 "minorid":178.000000,
                 "name":"Coin60",
@@ -9760,6 +9760,3198 @@
                     "p4":{
                         "x":643.000000,
                         "y":963.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":10683.000000,
+                        "y":0.000000
+                    },
+                    "p2":{
+                        "x":10802.000000,
+                        "y":0.000000
+                    },
+                    "p3":{
+                        "x":10802.000000,
+                        "y":79.000000
+                    },
+                    "p4":{
+                        "x":10683.000000,
+                        "y":79.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":138.000000,
+                "majorid":212.000000,
+                "minorid":181.000000,
+                "name":"Floor44",
+                "options":"platforms_list\/3x2",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":603.000000,
+                        "y":82.000000
+                    },
+                    "p2":{
+                        "x":722.000000,
+                        "y":82.000000
+                    },
+                    "p3":{
+                        "x":722.000000,
+                        "y":161.000000
+                    },
+                    "p4":{
+                        "x":603.000000,
+                        "y":161.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":11094.000000,
+                        "y":0.000000
+                    },
+                    "p2":{
+                        "x":11213.000000,
+                        "y":0.000000
+                    },
+                    "p3":{
+                        "x":11213.000000,
+                        "y":79.000000
+                    },
+                    "p4":{
+                        "x":11094.000000,
+                        "y":79.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":139.000000,
+                "majorid":213.000000,
+                "minorid":182.000000,
+                "name":"Floor45",
+                "options":"platforms_list\/3x2",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":603.000000,
+                        "y":82.000000
+                    },
+                    "p2":{
+                        "x":722.000000,
+                        "y":82.000000
+                    },
+                    "p3":{
+                        "x":722.000000,
+                        "y":161.000000
+                    },
+                    "p4":{
+                        "x":603.000000,
+                        "y":161.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":10869.500000,
+                        "y":154.000000
+                    },
+                    "p2":{
+                        "x":11068.500000,
+                        "y":154.000000
+                    },
+                    "p3":{
+                        "x":11068.500000,
+                        "y":233.000000
+                    },
+                    "p4":{
+                        "x":10869.500000,
+                        "y":233.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":140.000000,
+                "majorid":214.000000,
+                "minorid":183.000000,
+                "name":"Floor46",
+                "options":"platforms_list\/5x2",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":402.000000,
+                        "y":82.000000
+                    },
+                    "p2":{
+                        "x":601.000000,
+                        "y":82.000000
+                    },
+                    "p3":{
+                        "x":601.000000,
+                        "y":161.000000
+                    },
+                    "p4":{
+                        "x":402.000000,
+                        "y":161.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":11228.000000,
+                        "y":154.000000
+                    },
+                    "p2":{
+                        "x":11427.000000,
+                        "y":154.000000
+                    },
+                    "p3":{
+                        "x":11427.000000,
+                        "y":233.000000
+                    },
+                    "p4":{
+                        "x":11228.000000,
+                        "y":233.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":141.000000,
+                "majorid":215.000000,
+                "minorid":184.000000,
+                "name":"Floor47",
+                "options":"platforms_list\/5x2",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":402.000000,
+                        "y":82.000000
+                    },
+                    "p2":{
+                        "x":601.000000,
+                        "y":82.000000
+                    },
+                    "p3":{
+                        "x":601.000000,
+                        "y":161.000000
+                    },
+                    "p4":{
+                        "x":402.000000,
+                        "y":161.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":10807.000001,
+                        "y":91.000000
+                    },
+                    "p2":{
+                        "x":10846.000001,
+                        "y":91.000000
+                    },
+                    "p3":{
+                        "x":10846.000001,
+                        "y":123.000000
+                    },
+                    "p4":{
+                        "x":10807.000001,
+                        "y":123.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":142.000000,
+                "majorid":216.000000,
+                "minorid":185.000000,
+                "name":"Floor48",
+                "options":"platforms_list\/1x1",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":724.000000,
+                        "y":82.000000
+                    },
+                    "p2":{
+                        "x":763.000000,
+                        "y":82.000000
+                    },
+                    "p3":{
+                        "x":763.000000,
+                        "y":114.000000
+                    },
+                    "p4":{
+                        "x":724.000000,
+                        "y":114.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":10826.500005,
+                        "y":136.999996
+                    },
+                    "p2":{
+                        "x":10865.500005,
+                        "y":136.999996
+                    },
+                    "p3":{
+                        "x":10865.500005,
+                        "y":168.999996
+                    },
+                    "p4":{
+                        "x":10826.500005,
+                        "y":168.999996
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":143.000000,
+                "majorid":217.000000,
+                "minorid":186.000000,
+                "name":"Floor49",
+                "options":"platforms_list\/1x1",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":724.000000,
+                        "y":82.000000
+                    },
+                    "p2":{
+                        "x":763.000000,
+                        "y":82.000000
+                    },
+                    "p3":{
+                        "x":763.000000,
+                        "y":114.000000
+                    },
+                    "p4":{
+                        "x":724.000000,
+                        "y":114.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":11070.500010,
+                        "y":139.999996
+                    },
+                    "p2":{
+                        "x":11109.500010,
+                        "y":139.999996
+                    },
+                    "p3":{
+                        "x":11109.500010,
+                        "y":171.999996
+                    },
+                    "p4":{
+                        "x":11070.500010,
+                        "y":171.999996
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":144.000000,
+                "majorid":218.000000,
+                "minorid":187.000000,
+                "name":"Floor49",
+                "options":"platforms_list\/1x1",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":724.000000,
+                        "y":82.000000
+                    },
+                    "p2":{
+                        "x":763.000000,
+                        "y":82.000000
+                    },
+                    "p3":{
+                        "x":763.000000,
+                        "y":114.000000
+                    },
+                    "p4":{
+                        "x":724.000000,
+                        "y":114.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":11134.000000,
+                        "y":40.000000
+                    },
+                    "p2":{
+                        "x":11173.000000,
+                        "y":40.000000
+                    },
+                    "p3":{
+                        "x":11173.000000,
+                        "y":119.000000
+                    },
+                    "p4":{
+                        "x":11134.000000,
+                        "y":119.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":145.000000,
+                "majorid":219.000000,
+                "minorid":188.000000,
+                "name":"Floor51",
+                "options":"platforms_list\/1x2",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":802.000000,
+                        "y":403.000000
+                    },
+                    "p2":{
+                        "x":841.000000,
+                        "y":403.000000
+                    },
+                    "p3":{
+                        "x":841.000000,
+                        "y":482.000000
+                    },
+                    "p4":{
+                        "x":802.000000,
+                        "y":482.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":11174.000000,
+                        "y":0.000000
+                    },
+                    "p2":{
+                        "x":11213.000000,
+                        "y":0.000000
+                    },
+                    "p3":{
+                        "x":11213.000000,
+                        "y":159.000000
+                    },
+                    "p4":{
+                        "x":11174.000000,
+                        "y":159.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":146.000000,
+                "majorid":220.000000,
+                "minorid":189.000000,
+                "name":"Floor52",
+                "options":"platforms_list\/1x4",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":802.000000,
+                        "y":242.000000
+                    },
+                    "p2":{
+                        "x":841.000000,
+                        "y":242.000000
+                    },
+                    "p3":{
+                        "x":841.000000,
+                        "y":401.000000
+                    },
+                    "p4":{
+                        "x":802.000000,
+                        "y":401.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":10695.000000,
+                        "y":79.000000
+                    },
+                    "p2":{
+                        "x":10717.000000,
+                        "y":79.000000
+                    },
+                    "p3":{
+                        "x":10717.000000,
+                        "y":101.000000
+                    },
+                    "p4":{
+                        "x":10695.000000,
+                        "y":101.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":147.000000,
+                "majorid":221.000000,
+                "minorid":190.000000,
+                "name":"Green",
+                "options":"enemies_list\/plantGreen_1ng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":719.000000,
+                        "y":355.000000
+                    },
+                    "p2":{
+                        "x":763.000000,
+                        "y":355.000000
+                    },
+                    "p3":{
+                        "x":763.000000,
+                        "y":399.000000
+                    },
+                    "p4":{
+                        "x":719.000000,
+                        "y":399.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":10734.000000,
+                        "y":79.000000
+                    },
+                    "p2":{
+                        "x":10756.000000,
+                        "y":79.000000
+                    },
+                    "p3":{
+                        "x":10756.000000,
+                        "y":101.000000
+                    },
+                    "p4":{
+                        "x":10734.000000,
+                        "y":101.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":148.000000,
+                "majorid":222.000000,
+                "minorid":191.000000,
+                "name":"Green",
+                "options":"enemies_list\/plantGreen_1ng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":719.000000,
+                        "y":355.000000
+                    },
+                    "p2":{
+                        "x":763.000000,
+                        "y":355.000000
+                    },
+                    "p3":{
+                        "x":763.000000,
+                        "y":399.000000
+                    },
+                    "p4":{
+                        "x":719.000000,
+                        "y":399.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":10772.000000,
+                        "y":79.000000
+                    },
+                    "p2":{
+                        "x":10794.000000,
+                        "y":79.000000
+                    },
+                    "p3":{
+                        "x":10794.000000,
+                        "y":101.000000
+                    },
+                    "p4":{
+                        "x":10772.000000,
+                        "y":101.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":137.000000,
+                "majorid":223.000000,
+                "minorid":192.000000,
+                "name":"Green",
+                "options":"enemies_list\/plantGreen_1ng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":719.000000,
+                        "y":355.000000
+                    },
+                    "p2":{
+                        "x":763.000000,
+                        "y":355.000000
+                    },
+                    "p3":{
+                        "x":763.000000,
+                        "y":399.000000
+                    },
+                    "p4":{
+                        "x":719.000000,
+                        "y":399.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":11102.000000,
+                        "y":79.000000
+                    },
+                    "p2":{
+                        "x":11124.000000,
+                        "y":79.000000
+                    },
+                    "p3":{
+                        "x":11124.000000,
+                        "y":101.000000
+                    },
+                    "p4":{
+                        "x":11102.000000,
+                        "y":101.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":149.000000,
+                "majorid":224.000000,
+                "minorid":193.000000,
+                "name":"Green",
+                "options":"enemies_list\/plantGreen_1ng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":719.000000,
+                        "y":355.000000
+                    },
+                    "p2":{
+                        "x":763.000000,
+                        "y":355.000000
+                    },
+                    "p3":{
+                        "x":763.000000,
+                        "y":399.000000
+                    },
+                    "p4":{
+                        "x":719.000000,
+                        "y":399.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":11144.000000,
+                        "y":119.000000
+                    },
+                    "p2":{
+                        "x":11166.000000,
+                        "y":119.000000
+                    },
+                    "p3":{
+                        "x":11166.000000,
+                        "y":141.000000
+                    },
+                    "p4":{
+                        "x":11144.000000,
+                        "y":141.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":150.000000,
+                "majorid":225.000000,
+                "minorid":194.000000,
+                "name":"Green",
+                "options":"enemies_list\/plantGreen_1ng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":719.000000,
+                        "y":355.000000
+                    },
+                    "p2":{
+                        "x":763.000000,
+                        "y":355.000000
+                    },
+                    "p3":{
+                        "x":763.000000,
+                        "y":399.000000
+                    },
+                    "p4":{
+                        "x":719.000000,
+                        "y":399.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":11182.000000,
+                        "y":159.000000
+                    },
+                    "p2":{
+                        "x":11204.000000,
+                        "y":159.000000
+                    },
+                    "p3":{
+                        "x":11204.000000,
+                        "y":181.000000
+                    },
+                    "p4":{
+                        "x":11182.000000,
+                        "y":181.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":151.000000,
+                "majorid":226.000000,
+                "minorid":195.000000,
+                "name":"Green",
+                "options":"enemies_list\/plantGreen_1ng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":719.000000,
+                        "y":355.000000
+                    },
+                    "p2":{
+                        "x":763.000000,
+                        "y":355.000000
+                    },
+                    "p3":{
+                        "x":763.000000,
+                        "y":399.000000
+                    },
+                    "p4":{
+                        "x":719.000000,
+                        "y":399.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":10917.500000,
+                        "y":233.000000
+                    },
+                    "p2":{
+                        "x":10946.500000,
+                        "y":233.000000
+                    },
+                    "p3":{
+                        "x":10946.500000,
+                        "y":263.000000
+                    },
+                    "p4":{
+                        "x":10917.500000,
+                        "y":263.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":152.000000,
+                "majorid":227.000000,
+                "minorid":196.000000,
+                "name":"Green",
+                "options":"flags\/flagRed_upng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":194.000000,
+                        "y":397.000000
+                    },
+                    "p2":{
+                        "x":253.000000,
+                        "y":397.000000
+                    },
+                    "p3":{
+                        "x":253.000000,
+                        "y":458.000000
+                    },
+                    "p4":{
+                        "x":194.000000,
+                        "y":458.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":10995.500000,
+                        "y":233.000000
+                    },
+                    "p2":{
+                        "x":11024.500000,
+                        "y":233.000000
+                    },
+                    "p3":{
+                        "x":11024.500000,
+                        "y":263.000000
+                    },
+                    "p4":{
+                        "x":10995.500000,
+                        "y":263.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":153.000000,
+                "majorid":228.000000,
+                "minorid":197.000000,
+                "name":"Green",
+                "options":"flags\/flagRed_upng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":194.000000,
+                        "y":397.000000
+                    },
+                    "p2":{
+                        "x":253.000000,
+                        "y":397.000000
+                    },
+                    "p3":{
+                        "x":253.000000,
+                        "y":458.000000
+                    },
+                    "p4":{
+                        "x":194.000000,
+                        "y":458.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":11273.500000,
+                        "y":233.000000
+                    },
+                    "p2":{
+                        "x":11302.500000,
+                        "y":233.000000
+                    },
+                    "p3":{
+                        "x":11302.500000,
+                        "y":263.000000
+                    },
+                    "p4":{
+                        "x":11273.500000,
+                        "y":263.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":154.000000,
+                "majorid":229.000000,
+                "minorid":198.000000,
+                "name":"Green",
+                "options":"flags\/flagRed_upng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":194.000000,
+                        "y":397.000000
+                    },
+                    "p2":{
+                        "x":253.000000,
+                        "y":397.000000
+                    },
+                    "p3":{
+                        "x":253.000000,
+                        "y":458.000000
+                    },
+                    "p4":{
+                        "x":194.000000,
+                        "y":458.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":11349.500000,
+                        "y":233.000000
+                    },
+                    "p2":{
+                        "x":11378.500000,
+                        "y":233.000000
+                    },
+                    "p3":{
+                        "x":11378.500000,
+                        "y":263.000000
+                    },
+                    "p4":{
+                        "x":11349.500000,
+                        "y":263.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":155.000000,
+                "majorid":230.000000,
+                "minorid":199.000000,
+                "name":"Green",
+                "options":"flags\/flagRed_upng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":194.000000,
+                        "y":397.000000
+                    },
+                    "p2":{
+                        "x":253.000000,
+                        "y":397.000000
+                    },
+                    "p3":{
+                        "x":253.000000,
+                        "y":458.000000
+                    },
+                    "p4":{
+                        "x":194.000000,
+                        "y":458.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":10876.000006,
+                        "y":238.999994
+                    },
+                    "p2":{
+                        "x":10908.000006,
+                        "y":238.999994
+                    },
+                    "p3":{
+                        "x":10908.000006,
+                        "y":270.999994
+                    },
+                    "p4":{
+                        "x":10876.000006,
+                        "y":270.999994
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":156.000000,
+                "majorid":231.000000,
+                "minorid":200.000000,
+                "name":"Coin61",
+                "options":"coins\/1",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":1.000000,
+                        "y":1.000000
+                    },
+                    "p2":{
+                        "x":33.000000,
+                        "y":1.000000
+                    },
+                    "p3":{
+                        "x":33.000000,
+                        "y":33.000000
+                    },
+                    "p4":{
+                        "x":1.000000,
+                        "y":33.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":10954.000000,
+                        "y":239.000000
+                    },
+                    "p2":{
+                        "x":10986.000000,
+                        "y":239.000000
+                    },
+                    "p3":{
+                        "x":10986.000000,
+                        "y":271.000000
+                    },
+                    "p4":{
+                        "x":10954.000000,
+                        "y":271.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":157.000000,
+                "majorid":232.000000,
+                "minorid":201.000000,
+                "name":"Coin62",
+                "options":"coins\/1",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":1.000000,
+                        "y":1.000000
+                    },
+                    "p2":{
+                        "x":33.000000,
+                        "y":1.000000
+                    },
+                    "p3":{
+                        "x":33.000000,
+                        "y":33.000000
+                    },
+                    "p4":{
+                        "x":1.000000,
+                        "y":33.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":11032.000000,
+                        "y":238.000000
+                    },
+                    "p2":{
+                        "x":11064.000000,
+                        "y":238.000000
+                    },
+                    "p3":{
+                        "x":11064.000000,
+                        "y":270.000000
+                    },
+                    "p4":{
+                        "x":11032.000000,
+                        "y":270.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":158.000000,
+                "majorid":233.000000,
+                "minorid":202.000000,
+                "name":"Coin63",
+                "options":"coins\/1",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":1.000000,
+                        "y":1.000000
+                    },
+                    "p2":{
+                        "x":33.000000,
+                        "y":1.000000
+                    },
+                    "p3":{
+                        "x":33.000000,
+                        "y":33.000000
+                    },
+                    "p4":{
+                        "x":1.000000,
+                        "y":33.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":11233.000014,
+                        "y":237.999994
+                    },
+                    "p2":{
+                        "x":11265.000014,
+                        "y":237.999994
+                    },
+                    "p3":{
+                        "x":11265.000014,
+                        "y":269.999994
+                    },
+                    "p4":{
+                        "x":11233.000014,
+                        "y":269.999994
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":159.000000,
+                "majorid":234.000000,
+                "minorid":203.000000,
+                "name":"Coin64",
+                "options":"coins\/1",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":1.000000,
+                        "y":1.000000
+                    },
+                    "p2":{
+                        "x":33.000000,
+                        "y":1.000000
+                    },
+                    "p3":{
+                        "x":33.000000,
+                        "y":33.000000
+                    },
+                    "p4":{
+                        "x":1.000000,
+                        "y":33.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":11311.000016,
+                        "y":237.999994
+                    },
+                    "p2":{
+                        "x":11343.000016,
+                        "y":237.999994
+                    },
+                    "p3":{
+                        "x":11343.000016,
+                        "y":269.999994
+                    },
+                    "p4":{
+                        "x":11311.000016,
+                        "y":269.999994
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":160.000000,
+                "majorid":235.000000,
+                "minorid":204.000000,
+                "name":"Coin65",
+                "options":"coins\/1",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":1.000000,
+                        "y":1.000000
+                    },
+                    "p2":{
+                        "x":33.000000,
+                        "y":1.000000
+                    },
+                    "p3":{
+                        "x":33.000000,
+                        "y":33.000000
+                    },
+                    "p4":{
+                        "x":1.000000,
+                        "y":33.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":11391.000017,
+                        "y":236.999994
+                    },
+                    "p2":{
+                        "x":11423.000017,
+                        "y":236.999994
+                    },
+                    "p3":{
+                        "x":11423.000017,
+                        "y":268.999994
+                    },
+                    "p4":{
+                        "x":11391.000017,
+                        "y":268.999994
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":161.000000,
+                "majorid":236.000000,
+                "minorid":205.000000,
+                "name":"Coin66",
+                "options":"coins\/1",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":1.000000,
+                        "y":1.000000
+                    },
+                    "p2":{
+                        "x":33.000000,
+                        "y":1.000000
+                    },
+                    "p3":{
+                        "x":33.000000,
+                        "y":33.000000
+                    },
+                    "p4":{
+                        "x":1.000000,
+                        "y":33.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":11451.000000,
+                        "y":0.000000
+                    },
+                    "p2":{
+                        "x":12250.000000,
+                        "y":0.000000
+                    },
+                    "p3":{
+                        "x":12250.000000,
+                        "y":79.000000
+                    },
+                    "p4":{
+                        "x":11451.000000,
+                        "y":79.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":169.000000,
+                "majorid":237.000000,
+                "minorid":206.000000,
+                "name":"MovingPlatform15",
+                "options":"platforms_list\/20x2_mono",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":1.000000,
+                        "y":1.000000
+                    },
+                    "p2":{
+                        "x":800.000000,
+                        "y":1.000000
+                    },
+                    "p3":{
+                        "x":800.000000,
+                        "y":80.000000
+                    },
+                    "p4":{
+                        "x":1.000000,
+                        "y":80.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":11571.500004,
+                        "y":0.499998
+                    },
+                    "p2":{
+                        "x":11650.500004,
+                        "y":0.499998
+                    },
+                    "p3":{
+                        "x":11650.500004,
+                        "y":159.499998
+                    },
+                    "p4":{
+                        "x":11571.500004,
+                        "y":159.499998
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":170.000000,
+                "majorid":238.000000,
+                "minorid":207.000000,
+                "name":"MovingPlatform16",
+                "options":"platforms_list\/2x4",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":1.000000,
+                        "y":404.000000
+                    },
+                    "p2":{
+                        "x":80.000000,
+                        "y":404.000000
+                    },
+                    "p3":{
+                        "x":80.000000,
+                        "y":563.000000
+                    },
+                    "p4":{
+                        "x":1.000000,
+                        "y":563.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":11651.000000,
+                        "y":0.000000
+                    },
+                    "p2":{
+                        "x":11730.000000,
+                        "y":0.000000
+                    },
+                    "p3":{
+                        "x":11730.000000,
+                        "y":239.000000
+                    },
+                    "p4":{
+                        "x":11651.000000,
+                        "y":239.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":171.000000,
+                "majorid":239.000000,
+                "minorid":208.000000,
+                "name":"MovingPlatform17",
+                "options":"platforms_list\/2x6",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":1.000000,
+                        "y":163.000000
+                    },
+                    "p2":{
+                        "x":80.000000,
+                        "y":163.000000
+                    },
+                    "p3":{
+                        "x":80.000000,
+                        "y":402.000000
+                    },
+                    "p4":{
+                        "x":1.000000,
+                        "y":402.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":11731.000000,
+                        "y":0.000000
+                    },
+                    "p2":{
+                        "x":11810.000000,
+                        "y":0.000000
+                    },
+                    "p3":{
+                        "x":11810.000000,
+                        "y":159.000000
+                    },
+                    "p4":{
+                        "x":11731.000000,
+                        "y":159.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":172.000000,
+                "majorid":240.000000,
+                "minorid":209.000000,
+                "name":"MovingPlatform18",
+                "options":"platforms_list\/2x4",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":1.000000,
+                        "y":404.000000
+                    },
+                    "p2":{
+                        "x":80.000000,
+                        "y":404.000000
+                    },
+                    "p3":{
+                        "x":80.000000,
+                        "y":563.000000
+                    },
+                    "p4":{
+                        "x":1.000000,
+                        "y":563.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":12011.000000,
+                        "y":0.000000
+                    },
+                    "p2":{
+                        "x":12090.000000,
+                        "y":0.000000
+                    },
+                    "p3":{
+                        "x":12090.000000,
+                        "y":159.000000
+                    },
+                    "p4":{
+                        "x":12011.000000,
+                        "y":159.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":173.000000,
+                "majorid":241.000000,
+                "minorid":210.000000,
+                "name":"MovingPlatform19",
+                "options":"platforms_list\/2x4",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":1.000000,
+                        "y":404.000000
+                    },
+                    "p2":{
+                        "x":80.000000,
+                        "y":404.000000
+                    },
+                    "p3":{
+                        "x":80.000000,
+                        "y":563.000000
+                    },
+                    "p4":{
+                        "x":1.000000,
+                        "y":563.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":12131.000000,
+                        "y":0.000000
+                    },
+                    "p2":{
+                        "x":12210.000000,
+                        "y":0.000000
+                    },
+                    "p3":{
+                        "x":12210.000000,
+                        "y":239.000000
+                    },
+                    "p4":{
+                        "x":12131.000000,
+                        "y":239.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":174.000000,
+                "majorid":242.000000,
+                "minorid":211.000000,
+                "name":"MovingPlatform20",
+                "options":"platforms_list\/2x6",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":1.000000,
+                        "y":163.000000
+                    },
+                    "p2":{
+                        "x":80.000000,
+                        "y":163.000000
+                    },
+                    "p3":{
+                        "x":80.000000,
+                        "y":402.000000
+                    },
+                    "p4":{
+                        "x":1.000000,
+                        "y":402.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":12171.000000,
+                        "y":80.000000
+                    },
+                    "p2":{
+                        "x":12210.000000,
+                        "y":80.000000
+                    },
+                    "p3":{
+                        "x":12210.000000,
+                        "y":319.000000
+                    },
+                    "p4":{
+                        "x":12171.000000,
+                        "y":319.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":175.000000,
+                "majorid":243.000000,
+                "minorid":212.000000,
+                "name":"MovingPlatform21",
+                "options":"platforms_list\/1x6",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":802.000000,
+                        "y":1.000000
+                    },
+                    "p2":{
+                        "x":841.000000,
+                        "y":1.000000
+                    },
+                    "p3":{
+                        "x":841.000000,
+                        "y":240.000000
+                    },
+                    "p4":{
+                        "x":802.000000,
+                        "y":240.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":11503.500002,
+                        "y":78.499998
+                    },
+                    "p2":{
+                        "x":11522.500002,
+                        "y":78.499998
+                    },
+                    "p3":{
+                        "x":11522.500002,
+                        "y":107.499998
+                    },
+                    "p4":{
+                        "x":11503.500002,
+                        "y":107.499998
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":162.000000,
+                "majorid":245.000000,
+                "minorid":214.000000,
+                "name":"Sign1",
+                "options":"signs\/signArrow_upng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":653.000000,
+                        "y":336.000000
+                    },
+                    "p2":{
+                        "x":692.000000,
+                        "y":336.000000
+                    },
+                    "p3":{
+                        "x":692.000000,
+                        "y":394.000000
+                    },
+                    "p4":{
+                        "x":653.000000,
+                        "y":394.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":11536.500003,
+                        "y":78.499998
+                    },
+                    "p2":{
+                        "x":11555.500003,
+                        "y":78.499998
+                    },
+                    "p3":{
+                        "x":11555.500003,
+                        "y":107.499998
+                    },
+                    "p4":{
+                        "x":11536.500003,
+                        "y":107.499998
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":163.000000,
+                "majorid":246.000000,
+                "minorid":215.000000,
+                "name":"Sign1",
+                "options":"signs\/signArrow_upng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":653.000000,
+                        "y":336.000000
+                    },
+                    "p2":{
+                        "x":692.000000,
+                        "y":336.000000
+                    },
+                    "p3":{
+                        "x":692.000000,
+                        "y":394.000000
+                    },
+                    "p4":{
+                        "x":653.000000,
+                        "y":394.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":11595.000004,
+                        "y":159.499996
+                    },
+                    "p2":{
+                        "x":11627.000004,
+                        "y":159.499996
+                    },
+                    "p3":{
+                        "x":11627.000004,
+                        "y":186.499996
+                    },
+                    "p4":{
+                        "x":11595.000004,
+                        "y":186.499996
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":164.000000,
+                "majorid":247.000000,
+                "minorid":216.000000,
+                "name":"Sign1",
+                "options":"signs\/signLargeng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":255.000000,
+                        "y":397.000000
+                    },
+                    "p2":{
+                        "x":319.000000,
+                        "y":397.000000
+                    },
+                    "p3":{
+                        "x":319.000000,
+                        "y":452.000000
+                    },
+                    "p4":{
+                        "x":255.000000,
+                        "y":452.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":11674.000006,
+                        "y":239.499994
+                    },
+                    "p2":{
+                        "x":11706.000006,
+                        "y":239.499994
+                    },
+                    "p3":{
+                        "x":11706.000006,
+                        "y":266.499994
+                    },
+                    "p4":{
+                        "x":11674.000006,
+                        "y":266.499994
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":165.000000,
+                "majorid":248.000000,
+                "minorid":217.000000,
+                "name":"Sign1",
+                "options":"signs\/signLargeng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":255.000000,
+                        "y":397.000000
+                    },
+                    "p2":{
+                        "x":319.000000,
+                        "y":397.000000
+                    },
+                    "p3":{
+                        "x":319.000000,
+                        "y":452.000000
+                    },
+                    "p4":{
+                        "x":255.000000,
+                        "y":452.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":11753.000008,
+                        "y":158.499996
+                    },
+                    "p2":{
+                        "x":11785.000008,
+                        "y":158.499996
+                    },
+                    "p3":{
+                        "x":11785.000008,
+                        "y":185.499996
+                    },
+                    "p4":{
+                        "x":11753.000008,
+                        "y":185.499996
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":166.000000,
+                "majorid":249.000000,
+                "minorid":218.000000,
+                "name":"Sign1",
+                "options":"signs\/signLargeng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":255.000000,
+                        "y":397.000000
+                    },
+                    "p2":{
+                        "x":319.000000,
+                        "y":397.000000
+                    },
+                    "p3":{
+                        "x":319.000000,
+                        "y":452.000000
+                    },
+                    "p4":{
+                        "x":255.000000,
+                        "y":452.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":11979.500012,
+                        "y":78.499998
+                    },
+                    "p2":{
+                        "x":11998.500012,
+                        "y":78.499998
+                    },
+                    "p3":{
+                        "x":11998.500012,
+                        "y":107.499998
+                    },
+                    "p4":{
+                        "x":11979.500012,
+                        "y":107.499998
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":167.000000,
+                "majorid":250.000000,
+                "minorid":219.000000,
+                "name":"Sign1",
+                "options":"signs\/signArrow_upng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":653.000000,
+                        "y":336.000000
+                    },
+                    "p2":{
+                        "x":692.000000,
+                        "y":336.000000
+                    },
+                    "p3":{
+                        "x":692.000000,
+                        "y":394.000000
+                    },
+                    "p4":{
+                        "x":653.000000,
+                        "y":394.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":12035.000000,
+                        "y":160.000000
+                    },
+                    "p2":{
+                        "x":12067.000000,
+                        "y":160.000000
+                    },
+                    "p3":{
+                        "x":12067.000000,
+                        "y":187.000000
+                    },
+                    "p4":{
+                        "x":12035.000000,
+                        "y":187.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":176.000000,
+                "majorid":251.000000,
+                "minorid":220.000000,
+                "name":"Sign1",
+                "options":"signs\/signLargeng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":255.000000,
+                        "y":397.000000
+                    },
+                    "p2":{
+                        "x":319.000000,
+                        "y":397.000000
+                    },
+                    "p3":{
+                        "x":319.000000,
+                        "y":452.000000
+                    },
+                    "p4":{
+                        "x":255.000000,
+                        "y":452.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":12180.000017,
+                        "y":318.499992
+                    },
+                    "p2":{
+                        "x":12204.000017,
+                        "y":318.499992
+                    },
+                    "p3":{
+                        "x":12204.000017,
+                        "y":345.499992
+                    },
+                    "p4":{
+                        "x":12180.000017,
+                        "y":345.499992
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":168.000000,
+                "majorid":252.000000,
+                "minorid":221.000000,
+                "name":"Sign1",
+                "options":"signs\/signArrow_rightng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":521.000000,
+                        "y":200.000000
+                    },
+                    "p2":{
+                        "x":569.000000,
+                        "y":200.000000
+                    },
+                    "p3":{
+                        "x":569.000000,
+                        "y":255.000000
+                    },
+                    "p4":{
+                        "x":521.000000,
+                        "y":255.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":12295.000000,
+                        "y":0.000000
+                    },
+                    "p2":{
+                        "x":13094.000000,
+                        "y":0.000000
+                    },
+                    "p3":{
+                        "x":13094.000000,
+                        "y":79.000000
+                    },
+                    "p4":{
+                        "x":12295.000000,
+                        "y":79.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":177.000000,
+                "majorid":253.000000,
+                "minorid":222.000000,
+                "name":"Floor53",
+                "options":"platforms_list\/20x2_mono",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":1.000000,
+                        "y":1.000000
+                    },
+                    "p2":{
+                        "x":800.000000,
+                        "y":1.000000
+                    },
+                    "p3":{
+                        "x":800.000000,
+                        "y":80.000000
+                    },
+                    "p4":{
+                        "x":1.000000,
+                        "y":80.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":12301.000000,
+                        "y":79.000000
+                    },
+                    "p2":{
+                        "x":12325.000000,
+                        "y":79.000000
+                    },
+                    "p3":{
+                        "x":12325.000000,
+                        "y":106.000000
+                    },
+                    "p4":{
+                        "x":12301.000000,
+                        "y":106.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":178.000000,
+                "majorid":255.000000,
+                "minorid":224.000000,
+                "name":"Sign2",
+                "options":"signs\/signArrow_rightng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":521.000000,
+                        "y":200.000000
+                    },
+                    "p2":{
+                        "x":569.000000,
+                        "y":200.000000
+                    },
+                    "p3":{
+                        "x":569.000000,
+                        "y":255.000000
+                    },
+                    "p4":{
+                        "x":521.000000,
+                        "y":255.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":12339.000000,
+                        "y":79.000000
+                    },
+                    "p2":{
+                        "x":12363.000000,
+                        "y":79.000000
+                    },
+                    "p3":{
+                        "x":12363.000000,
+                        "y":106.000000
+                    },
+                    "p4":{
+                        "x":12339.000000,
+                        "y":106.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":179.000000,
+                "majorid":256.000000,
+                "minorid":225.000000,
+                "name":"Sign2",
+                "options":"signs\/signArrow_rightng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":521.000000,
+                        "y":200.000000
+                    },
+                    "p2":{
+                        "x":569.000000,
+                        "y":200.000000
+                    },
+                    "p3":{
+                        "x":569.000000,
+                        "y":255.000000
+                    },
+                    "p4":{
+                        "x":521.000000,
+                        "y":255.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":12380.000000,
+                        "y":79.000000
+                    },
+                    "p2":{
+                        "x":12404.000000,
+                        "y":79.000000
+                    },
+                    "p3":{
+                        "x":12404.000000,
+                        "y":106.000000
+                    },
+                    "p4":{
+                        "x":12380.000000,
+                        "y":106.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":180.000000,
+                "majorid":257.000000,
+                "minorid":226.000000,
+                "name":"Sign2",
+                "options":"signs\/signArrow_rightng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":521.000000,
+                        "y":200.000000
+                    },
+                    "p2":{
+                        "x":569.000000,
+                        "y":200.000000
+                    },
+                    "p3":{
+                        "x":569.000000,
+                        "y":255.000000
+                    },
+                    "p4":{
+                        "x":521.000000,
+                        "y":255.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":12422.000000,
+                        "y":79.000000
+                    },
+                    "p2":{
+                        "x":12446.000000,
+                        "y":79.000000
+                    },
+                    "p3":{
+                        "x":12446.000000,
+                        "y":106.000000
+                    },
+                    "p4":{
+                        "x":12422.000000,
+                        "y":106.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":181.000000,
+                "majorid":258.000000,
+                "minorid":227.000000,
+                "name":"Sign2",
+                "options":"signs\/signArrow_rightng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":521.000000,
+                        "y":200.000000
+                    },
+                    "p2":{
+                        "x":569.000000,
+                        "y":200.000000
+                    },
+                    "p3":{
+                        "x":569.000000,
+                        "y":255.000000
+                    },
+                    "p4":{
+                        "x":521.000000,
+                        "y":255.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":12464.000000,
+                        "y":79.000000
+                    },
+                    "p2":{
+                        "x":12488.000000,
+                        "y":79.000000
+                    },
+                    "p3":{
+                        "x":12488.000000,
+                        "y":106.000000
+                    },
+                    "p4":{
+                        "x":12464.000000,
+                        "y":106.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":182.000000,
+                "majorid":259.000000,
+                "minorid":228.000000,
+                "name":"Sign2",
+                "options":"signs\/signArrow_rightng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":521.000000,
+                        "y":200.000000
+                    },
+                    "p2":{
+                        "x":569.000000,
+                        "y":200.000000
+                    },
+                    "p3":{
+                        "x":569.000000,
+                        "y":255.000000
+                    },
+                    "p4":{
+                        "x":521.000000,
+                        "y":255.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":12503.000000,
+                        "y":79.000000
+                    },
+                    "p2":{
+                        "x":12527.000000,
+                        "y":79.000000
+                    },
+                    "p3":{
+                        "x":12527.000000,
+                        "y":106.000000
+                    },
+                    "p4":{
+                        "x":12503.000000,
+                        "y":106.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":183.000000,
+                "majorid":260.000000,
+                "minorid":229.000000,
+                "name":"Sign2",
+                "options":"signs\/signArrow_rightng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":521.000000,
+                        "y":200.000000
+                    },
+                    "p2":{
+                        "x":569.000000,
+                        "y":200.000000
+                    },
+                    "p3":{
+                        "x":569.000000,
+                        "y":255.000000
+                    },
+                    "p4":{
+                        "x":521.000000,
+                        "y":255.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":12543.000000,
+                        "y":79.000000
+                    },
+                    "p2":{
+                        "x":12567.000000,
+                        "y":79.000000
+                    },
+                    "p3":{
+                        "x":12567.000000,
+                        "y":106.000000
+                    },
+                    "p4":{
+                        "x":12543.000000,
+                        "y":106.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":184.000000,
+                "majorid":261.000000,
+                "minorid":230.000000,
+                "name":"Sign2",
+                "options":"signs\/signArrow_rightng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":521.000000,
+                        "y":200.000000
+                    },
+                    "p2":{
+                        "x":569.000000,
+                        "y":200.000000
+                    },
+                    "p3":{
+                        "x":569.000000,
+                        "y":255.000000
+                    },
+                    "p4":{
+                        "x":521.000000,
+                        "y":255.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":12583.000000,
+                        "y":79.000000
+                    },
+                    "p2":{
+                        "x":12607.000000,
+                        "y":79.000000
+                    },
+                    "p3":{
+                        "x":12607.000000,
+                        "y":106.000000
+                    },
+                    "p4":{
+                        "x":12583.000000,
+                        "y":106.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":185.000000,
+                "majorid":262.000000,
+                "minorid":231.000000,
+                "name":"Sign2",
+                "options":"signs\/signArrow_rightng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":521.000000,
+                        "y":200.000000
+                    },
+                    "p2":{
+                        "x":569.000000,
+                        "y":200.000000
+                    },
+                    "p3":{
+                        "x":569.000000,
+                        "y":255.000000
+                    },
+                    "p4":{
+                        "x":521.000000,
+                        "y":255.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":12621.000000,
+                        "y":79.000000
+                    },
+                    "p2":{
+                        "x":12645.000000,
+                        "y":79.000000
+                    },
+                    "p3":{
+                        "x":12645.000000,
+                        "y":106.000000
+                    },
+                    "p4":{
+                        "x":12621.000000,
+                        "y":106.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":186.000000,
+                "majorid":263.000000,
+                "minorid":232.000000,
+                "name":"Sign2",
+                "options":"signs\/signArrow_rightng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":521.000000,
+                        "y":200.000000
+                    },
+                    "p2":{
+                        "x":569.000000,
+                        "y":200.000000
+                    },
+                    "p3":{
+                        "x":569.000000,
+                        "y":255.000000
+                    },
+                    "p4":{
+                        "x":521.000000,
+                        "y":255.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":12660.000000,
+                        "y":79.000000
+                    },
+                    "p2":{
+                        "x":12684.000000,
+                        "y":79.000000
+                    },
+                    "p3":{
+                        "x":12684.000000,
+                        "y":106.000000
+                    },
+                    "p4":{
+                        "x":12660.000000,
+                        "y":106.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":187.000000,
+                "majorid":264.000000,
+                "minorid":233.000000,
+                "name":"Sign2",
+                "options":"signs\/signArrow_rightng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":521.000000,
+                        "y":200.000000
+                    },
+                    "p2":{
+                        "x":569.000000,
+                        "y":200.000000
+                    },
+                    "p3":{
+                        "x":569.000000,
+                        "y":255.000000
+                    },
+                    "p4":{
+                        "x":521.000000,
+                        "y":255.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":12701.000000,
+                        "y":79.000000
+                    },
+                    "p2":{
+                        "x":12725.000000,
+                        "y":79.000000
+                    },
+                    "p3":{
+                        "x":12725.000000,
+                        "y":106.000000
+                    },
+                    "p4":{
+                        "x":12701.000000,
+                        "y":106.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":188.000000,
+                "majorid":265.000000,
+                "minorid":234.000000,
+                "name":"Sign2",
+                "options":"signs\/signArrow_rightng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":521.000000,
+                        "y":200.000000
+                    },
+                    "p2":{
+                        "x":569.000000,
+                        "y":200.000000
+                    },
+                    "p3":{
+                        "x":569.000000,
+                        "y":255.000000
+                    },
+                    "p4":{
+                        "x":521.000000,
+                        "y":255.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":12741.000000,
+                        "y":79.000000
+                    },
+                    "p2":{
+                        "x":12765.000000,
+                        "y":79.000000
+                    },
+                    "p3":{
+                        "x":12765.000000,
+                        "y":106.000000
+                    },
+                    "p4":{
+                        "x":12741.000000,
+                        "y":106.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":189.000000,
+                "majorid":266.000000,
+                "minorid":235.000000,
+                "name":"Sign2",
+                "options":"signs\/signArrow_rightng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":521.000000,
+                        "y":200.000000
+                    },
+                    "p2":{
+                        "x":569.000000,
+                        "y":200.000000
+                    },
+                    "p3":{
+                        "x":569.000000,
+                        "y":255.000000
+                    },
+                    "p4":{
+                        "x":521.000000,
+                        "y":255.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":12780.000000,
+                        "y":79.000000
+                    },
+                    "p2":{
+                        "x":12804.000000,
+                        "y":79.000000
+                    },
+                    "p3":{
+                        "x":12804.000000,
+                        "y":106.000000
+                    },
+                    "p4":{
+                        "x":12780.000000,
+                        "y":106.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":190.000000,
+                "majorid":267.000000,
+                "minorid":236.000000,
+                "name":"Sign2",
+                "options":"signs\/signArrow_rightng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":521.000000,
+                        "y":200.000000
+                    },
+                    "p2":{
+                        "x":569.000000,
+                        "y":200.000000
+                    },
+                    "p3":{
+                        "x":569.000000,
+                        "y":255.000000
+                    },
+                    "p4":{
+                        "x":521.000000,
+                        "y":255.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":12823.000000,
+                        "y":79.000000
+                    },
+                    "p2":{
+                        "x":12847.000000,
+                        "y":79.000000
+                    },
+                    "p3":{
+                        "x":12847.000000,
+                        "y":106.000000
+                    },
+                    "p4":{
+                        "x":12823.000000,
+                        "y":106.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":191.000000,
+                "majorid":268.000000,
+                "minorid":237.000000,
+                "name":"Sign2",
+                "options":"signs\/signArrow_rightng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":521.000000,
+                        "y":200.000000
+                    },
+                    "p2":{
+                        "x":569.000000,
+                        "y":200.000000
+                    },
+                    "p3":{
+                        "x":569.000000,
+                        "y":255.000000
+                    },
+                    "p4":{
+                        "x":521.000000,
+                        "y":255.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":12862.000000,
+                        "y":79.000000
+                    },
+                    "p2":{
+                        "x":12886.000000,
+                        "y":79.000000
+                    },
+                    "p3":{
+                        "x":12886.000000,
+                        "y":106.000000
+                    },
+                    "p4":{
+                        "x":12862.000000,
+                        "y":106.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":192.000000,
+                "majorid":269.000000,
+                "minorid":238.000000,
+                "name":"Sign2",
+                "options":"signs\/signArrow_rightng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":521.000000,
+                        "y":200.000000
+                    },
+                    "p2":{
+                        "x":569.000000,
+                        "y":200.000000
+                    },
+                    "p3":{
+                        "x":569.000000,
+                        "y":255.000000
+                    },
+                    "p4":{
+                        "x":521.000000,
+                        "y":255.000000
+                    }
+                },
+                "type":"sad::Sprite2D",
+                "visible":true
+            },
+            {
+                "active":true,
+                "angle":0.000000,
+                "area":{
+                    "p1":{
+                        "x":12973.000000,
+                        "y":79.000000
+                    },
+                    "p2":{
+                        "x":13030.000000,
+                        "y":79.000000
+                    },
+                    "p3":{
+                        "x":13030.000000,
+                        "y":136.000000
+                    },
+                    "p4":{
+                        "x":12973.000000,
+                        "y":136.000000
+                    }
+                },
+                "color":{
+                    "a":0.000000,
+                    "b":255.000000,
+                    "g":255.000000,
+                    "r":255.000000
+                },
+                "flipx":false,
+                "flipy":false,
+                "layer":193.000000,
+                "majorid":271.000000,
+                "minorid":240.000000,
+                "name":"Sign2",
+                "options":"enemies_list\/doorRed_topng",
+                "scene":1.000000,
+                "texturecoordinates":{
+                    "p1":{
+                        "x":265.000000,
+                        "y":199.000000
+                    },
+                    "p2":{
+                        "x":329.000000,
+                        "y":199.000000
+                    },
+                    "p3":{
+                        "x":329.000000,
+                        "y":263.000000
+                    },
+                    "p4":{
+                        "x":265.000000,
+                        "y":263.000000
                     }
                 },
                 "type":"sad::Sprite2D",
