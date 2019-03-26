@@ -8,7 +8,7 @@
 
 sad::qt::Renderer::Renderer() : m_initialized(false), m_widget(NULL)
 {
-    delete m_main_loop;	
+    sad::MainLoop* old_loop = m_main_loop;
     m_main_loop = new sad::qt::MainLoop();
     m_main_loop->setRenderer(this);
 
@@ -26,6 +26,8 @@ sad::qt::Renderer::Renderer() : m_initialized(false), m_widget(NULL)
 
     this->sad::Renderer::setCursor(new sad::qt::MouseCursor());
     this->sad::Renderer::cursor()->setRenderer(this);
+
+    delete old_loop;
 }
 
 

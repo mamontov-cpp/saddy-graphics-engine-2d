@@ -5,6 +5,7 @@
 #pragma once
 #include <QOpenGLWidget>
 #include <QTimer>
+#include <QMutex>
 
 #include "sadqtrenderer.h"
 
@@ -149,6 +150,9 @@ protected:
     /*! An old max size for window
     */
     QSize m_old_max_size;
+    /*! Mutex for widget
+     */
+    QMutex m_mtx;
 };
 
 

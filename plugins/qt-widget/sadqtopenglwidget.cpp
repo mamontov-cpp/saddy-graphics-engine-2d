@@ -56,6 +56,7 @@ sad::qt::OpenGLWidget::~OpenGLWidget()
 
 void sad::qt::OpenGLWidget::setRenderer(sad::qt::Renderer* renderer)
 {
+    m_mtx.lock();
     if (renderer)
     {
         if (renderer != m_renderer)
@@ -74,6 +75,7 @@ void sad::qt::OpenGLWidget::setRenderer(sad::qt::Renderer* renderer)
             m_renderer->setWidget(this);
         }
     }
+    m_mtx.unlock();
 }
 
 sad::qt::Renderer* sad::qt::OpenGLWidget::renderer() const
@@ -126,6 +128,7 @@ void sad::qt::OpenGLWidget::paintGL()
         m_window = this->window();
         m_window->installEventFilter(this);
     }
+    m_mtx.lock();
     if (m_renderer)
     {
         if (m_reshaped == false && m_renderer->initialized())
@@ -141,10 +144,12 @@ void sad::qt::OpenGLWidget::paintGL()
             m_renderer->runOnce();
         }
     }
+    m_mtx.unlock();
 }
 
 void sad::qt::OpenGLWidget::enterEvent(QEvent* ev)
 {
+    m_mtx.lock();
     if (this->m_renderer)
     {
         if (m_renderer->initialized())
@@ -156,12 +161,13 @@ void sad::qt::OpenGLWidget::enterEvent(QEvent* ev)
             m_renderer->submitEvent(sev);
         }
     }
-
+    m_mtx.unlock();
     this->QOpenGLWidget::enterEvent(ev);
 }
 
 void sad::qt::OpenGLWidget::wheelEvent(QWheelEvent* ev)
 {
+    m_mtx.lock();
     if (this->m_renderer)
     {
         if (m_renderer->initialized())
@@ -172,11 +178,13 @@ void sad::qt::OpenGLWidget::wheelEvent(QWheelEvent* ev)
             m_renderer->submitEvent(sev);
         }
     }
+    m_mtx.unlock();
     this->QOpenGLWidget::wheelEvent(ev);
 }
 
 void sad::qt::OpenGLWidget::mouseDoubleClickEvent(QMouseEvent* ev)
 {
+    m_mtx.lock();
     if (this->m_renderer)
     {
         if (m_renderer->initialized())
@@ -186,11 +194,13 @@ void sad::qt::OpenGLWidget::mouseDoubleClickEvent(QMouseEvent* ev)
             m_renderer->submitEvent(sev);
         }
     }
+    m_mtx.unlock();
     this->QOpenGLWidget::mouseDoubleClickEvent(ev);
 }
 
 void sad::qt::OpenGLWidget::mousePressEvent(QMouseEvent* ev)
 {
+    m_mtx.lock();
     if (this->m_renderer)
     {
         if (m_renderer->initialized())
@@ -200,12 +210,14 @@ void sad::qt::OpenGLWidget::mousePressEvent(QMouseEvent* ev)
             m_renderer->submitEvent(sev);
         }
     }
+    m_mtx.unlock();
     this->QOpenGLWidget::mousePressEvent(ev);
 }
 
 
 void sad::qt::OpenGLWidget::mouseMoveEvent(QMouseEvent* ev)
 {
+    m_mtx.lock();
     if (this->m_renderer)
     {
         if (m_renderer->initialized())
@@ -215,11 +227,13 @@ void sad::qt::OpenGLWidget::mouseMoveEvent(QMouseEvent* ev)
             m_renderer->submitEvent(sev);
         }
     }
+    m_mtx.unlock();
     this->QOpenGLWidget::mouseMoveEvent(ev);
 }
 
 void sad::qt::OpenGLWidget::mouseReleaseEvent(QMouseEvent* ev)
 {
+    m_mtx.lock();
     if (this->m_renderer)
     {
         if (m_renderer->initialized())
@@ -229,12 +243,14 @@ void sad::qt::OpenGLWidget::mouseReleaseEvent(QMouseEvent* ev)
             m_renderer->submitEvent(sev);
         }
     }
+    m_mtx.unlock();
     this->QOpenGLWidget::mouseReleaseEvent(ev);
 }
 
 
 void sad::qt::OpenGLWidget::leaveEvent(QEvent* ev)
 {
+    m_mtx.lock();
     if (m_renderer)
     {
         if (m_renderer->initialized())
@@ -242,11 +258,13 @@ void sad::qt::OpenGLWidget::leaveEvent(QEvent* ev)
             m_renderer->submitEvent(new sad::input::MouseLeaveEvent());
         }
     }
+    m_mtx.unlock();
     this->QOpenGLWidget::leaveEvent(ev);
 }
 
 void sad::qt::OpenGLWidget::keyPressEvent(QKeyEvent* ev)
 {
+    m_mtx.lock();
     if (m_renderer)
     {
         if (m_renderer->initialized())
@@ -256,11 +274,13 @@ void sad::qt::OpenGLWidget::keyPressEvent(QKeyEvent* ev)
             m_renderer->submitEvent(sev);
         }
     }
+    m_mtx.unlock();
     this->QOpenGLWidget::keyPressEvent(ev);
 }
 
 void sad::qt::OpenGLWidget::keyReleaseEvent(QKeyEvent* ev)
 {
+    m_mtx.lock();
     if (m_renderer)
     {
         if (m_renderer->initialized())
@@ -270,6 +290,7 @@ void sad::qt::OpenGLWidget::keyReleaseEvent(QKeyEvent* ev)
             m_renderer->submitEvent(sev);
         }
     }
+    m_mtx.unlock();
     this->QOpenGLWidget::keyReleaseEvent(ev);
 }
 
@@ -294,6 +315,7 @@ bool sad::qt::OpenGLWidget::eventFilter(QObject* obj, QEvent* ev)
 
 void sad::qt::OpenGLWidget::applicationQuit()
 {
+    m_mtx.lock();
     if (m_renderer)
     {
         if (m_renderer->initialized())
@@ -301,6 +323,7 @@ void sad::qt::OpenGLWidget::applicationQuit()
             m_renderer->submitEvent(new sad::input::QuitEvent(), true);
         }
     }
+    m_mtx.unlock();
 }
 
 void sad::qt::OpenGLWidget::goFullscreen()
