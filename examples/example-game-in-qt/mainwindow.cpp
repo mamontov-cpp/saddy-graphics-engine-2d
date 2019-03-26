@@ -49,8 +49,10 @@ void MainWindow::startGame()
 void MainWindow::quitGame()
 {
     ui.glWidget->setRenderer(new sad::qt::Renderer());
-    delete m_game;
-    m_game = NULL;
+    QTimer::singleShot(100, [=]() {
+        delete m_game;
+        m_game = NULL;
+    });
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst

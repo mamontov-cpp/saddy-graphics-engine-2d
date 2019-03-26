@@ -108,6 +108,12 @@ public slots:
     /*! Resizes widget, so it fits the window
      */
     virtual void fitWidgetToWindow();
+    /*! Sets renderer immediately
+     * \param r renderer
+     */
+    virtual void immediateSetRenderer(void* r);
+signals:
+    void rendererChanged(void* r);
 protected:
     /*! Tries to intercept activation event
         \param[in] ev event

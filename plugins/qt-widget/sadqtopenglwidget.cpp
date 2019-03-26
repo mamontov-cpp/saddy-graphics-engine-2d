@@ -31,6 +31,7 @@ sad::qt::OpenGLWidget::OpenGLWidget(QWidget* parent, Qt::WindowFlags f) : QOpenG
     
     connect(QApplication::instance(), SIGNAL(lastWindowClosed()), this, SLOT(applicationQuit()));
     connect(&m_timer, SIGNAL(timeout()), this, SLOT(update()));
+    connect(this, SIGNAL(rendererChanged(void*)), this, SLOT(immediateSetRenderer(void*)));
     m_timer.setInterval(0);
     m_timer.start();
 
@@ -56,6 +57,12 @@ sad::qt::OpenGLWidget::~OpenGLWidget()
 
 void sad::qt::OpenGLWidget::setRenderer(sad::qt::Renderer* renderer)
 {
+    emit rendererChanged(renderer);
+}
+
+void sad::qt::OpenGLWidget::immediateSetRenderer(void* r)
+{
+    sad::qt::Renderer* renderer = reinterpret_cast<sad::qt::Renderer*>(r);
     m_mtx.lock();
     if (renderer)
     {
@@ -117,6 +124,7 @@ void sad::qt::OpenGLWidget::resizeGL(int width, int height)
     this->update();
     m_old_size = sad::Size2I(width, height);
 }
+
 void sad::qt::OpenGLWidget::paintGL()
 {
     if (this->window() != m_window)
