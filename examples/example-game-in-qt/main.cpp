@@ -14,6 +14,9 @@ int main(int argc, char *argv[])
     MainWindow* w = new MainWindow();
     w->show();
     int result = a.exec();
+    Game* game = w->game();
     delete w;
+    // Kill game, when everything is done
+    MainWindow::freeGame(game);
     return result;
 }

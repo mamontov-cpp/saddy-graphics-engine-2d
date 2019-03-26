@@ -23,11 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    if (m_game != NULL)
-    {
-        m_game->quit();
-    }
-    delete m_game;
+
 }
 
 
@@ -79,5 +75,14 @@ void MainWindow::killEnemies()
     if (m_game)
     {
         m_game->killEnemies();
+    }
+}
+
+
+void MainWindow::freeGame(Game* game)
+{
+    if (game)
+    {
+        delete game;
     }
 }

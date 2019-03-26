@@ -29,6 +29,13 @@ public slots:
     /*! If game is being played, kills all enemies
      */
     void killEnemies();
+    /*! Returns game, stored in window
+     *  \return game in window
+     */
+    inline Game* game() const { return m_game; }
+    /*! Frees a game, destroying a game
+     */
+    static void freeGame(Game* game);
 private:
     /*! An inner UI
      */
