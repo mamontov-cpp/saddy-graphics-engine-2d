@@ -85,7 +85,7 @@ public:
     void tryStopGoingRight();
 
     /*! Called on platform collision
-        \patam[in] ev collision event
+        \param[in] ev collision event
      */
     void onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev);
 

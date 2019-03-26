@@ -1,4 +1,4 @@
-/*! \file db/dbstronglink.h
+/*! \file resource/resourcestronglink.h
     
     
     Describes a strong link to database object, used to link object from a database, storing a reference to it.

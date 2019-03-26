@@ -55,6 +55,7 @@ public:
         \param[in] o object, which method call os performed on
         \param[in] f first called method
         \param[in] g second called method
+        \param[in] interval an interval, after which function will be called
      */
     template<
         typename _Object,

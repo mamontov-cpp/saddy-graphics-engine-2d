@@ -29,7 +29,7 @@ public:
      */
     bool setActorOptions(game::ActorOptions* opts);
     /*! Called on platform collision
-        \patam[in] ev collision event
+        \param[in] ev collision event
      */
     void onPlatformCollision(const sad::p2d::BasicCollisionEvent & ev);
     /*! Sets game for player

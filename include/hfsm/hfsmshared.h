@@ -28,6 +28,7 @@ public:
     virtual ~Shared();
     /*! Sets state variable
         \param[in] name a name for variable
+        \param[in] v a value for variable
      */
     virtual void setVariable(const sad::String& name, const sad::db::Variant& v);
     /*! Returns state variable

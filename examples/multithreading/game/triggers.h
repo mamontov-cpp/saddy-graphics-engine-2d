@@ -34,7 +34,7 @@ public:
      */
     void clear();
     /*! Tries to run triggers
-     *  \param[in] player, whose location we should check
+     *  \param[in] p player, whose location we should check
      *  \param[in] ctx context ot be runned in
      */
     void tryRun(game::Player* p, sad::dukpp03::Context* ctx);

@@ -170,7 +170,7 @@ public:
      */
     void initStartScreenForInventoryThread();
     /*! Plays theme for a game
-        \parma[in] theme a theme for game
+        \param[in] theme a theme for game
      */
     void playTheme(const sad::String& theme);
     /*! Sets music volume

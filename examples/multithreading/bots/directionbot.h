@@ -30,7 +30,7 @@ enum VDir
     DBVD_NONE = 2
 };
     /*! A new bot
-        \param[in] horinzontal_direction a horizontal direction (value from bots::DirectionBot::HDir enum)
+        \param[in] horizontal_direction a horizontal direction (value from bots::DirectionBot::HDir enum)
         \param[in] vertical_direction a vertical direction (value from bots::DirectionBot::VDir enum)
      */
     DirectionBot(int horizontal_direction, int vertical_direction);
