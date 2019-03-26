@@ -324,6 +324,8 @@ struct SadTextureTest : tpunit::TestFixture
         const sad::Vector<sad::String>& messages = t->messages();
         const sad::Vector<sad::String>& files = t->files();
         ASSERT_TRUE(messages.size() > 0);
+        // In Linux texture would auto-create context and won't fail
+#ifndef LINUX
         bool found_unhandled_error = false;
         for (size_t i = 0; i < files.size(); i++)
         {
@@ -336,6 +338,7 @@ struct SadTextureTest : tpunit::TestFixture
             }
         }
         ASSERT_TRUE(found_unhandled_error);
+#endif
     }
 
 } _sad_texture_test;
