@@ -11,11 +11,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui.setupUi(this);
 
-    sad::qt::Renderer* a = new sad::qt::Renderer();
-    sad::qt::Renderer* b = new sad::qt::Renderer();
-    delete a;
-    delete b;
-
     this->setFixedSize(this->geometry().width(), this->geometry().height());
 
     connect(ui.btnStartGame, SIGNAL(clicked()), this, SLOT(startGame()));
