@@ -29,10 +29,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::startGame()
 {
+    m_call_protector.lock();
     m_game = new Game(ui.glWidget->renderer());
     if (!m_game->trySetup())
     {
         QMessageBox::critical(NULL, "Unable to start game", "Failed to launch the game");
+        m_call_protector.unlock();
         quitGame();
     }
     else
@@ -40,15 +42,19 @@ void MainWindow::startGame()
         m_game->initialize();
         m_game->run();
     }
+    m_call_protector.unlock();
 }
 
 void MainWindow::quitGame()
 {
+    m_call_protector.lock();
     ui.glWidget->setRenderer(new sad::qt::Renderer());
+    Game* local_game = m_game;
+    m_game = NULL;
     QTimer::singleShot(100, [=]() {
-        delete m_game;
-        m_game = NULL;
+        delete local_game;
     });
+    m_call_protector.unlock();
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst

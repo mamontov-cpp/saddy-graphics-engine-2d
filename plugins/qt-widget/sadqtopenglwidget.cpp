@@ -12,7 +12,7 @@
 #include <QMouseEvent>
 #include <QWheelEvent>
 
-sad::qt::OpenGLWidget::OpenGLWidget(QWidget* parent, Qt::WindowFlags f) : QOpenGLWidget(parent, f), m_window(NULL), m_first(true), m_reshaped(false)
+sad::qt::OpenGLWidget::OpenGLWidget(QWidget* parent, Qt::WindowFlags f) : QOpenGLWidget(parent, f), m_window(NULL), m_first(true), m_reshaped(false), m_mtx(QMutex::Recursive)
 {
     QSurfaceFormat fmt = QSurfaceFormat::defaultFormat();
     fmt.setProfile(QSurfaceFormat::CompatibilityProfile);
@@ -74,7 +74,7 @@ void sad::qt::OpenGLWidget::immediateSetRenderer(void* r)
             {
                 if (m_renderer->initialized())
                 {
-                    m_renderer->submitEvent(new sad::input::QuitEvent(), true);
+                    //m_renderer->submitEvent(new sad::input::QuitEvent(), true);
                 }
             }
             delete m_renderer;
@@ -92,6 +92,7 @@ sad::qt::Renderer* sad::qt::OpenGLWidget::renderer() const
 
 void sad::qt::OpenGLWidget::resizeGL(int width, int height)
 {
+    m_mtx.lock();
     if (width == 0)
     {
         width = 1;
@@ -123,6 +124,7 @@ void sad::qt::OpenGLWidget::resizeGL(int width, int height)
     }
     this->update();
     m_old_size = sad::Size2I(width, height);
+    m_mtx.unlock();
 }
 
 void sad::qt::OpenGLWidget::paintGL()
@@ -372,6 +374,7 @@ void sad::qt::OpenGLWidget::tryHandleActivateEvent(QEvent* ev) const
 {
     if (ev->type() == QEvent::ActivationChange)
     {
+        const_cast<sad::qt::OpenGLWidget*>(this)->m_mtx.lock();
         if (m_renderer)
         {
             if (m_renderer->initialized())
@@ -386,6 +389,7 @@ void sad::qt::OpenGLWidget::tryHandleActivateEvent(QEvent* ev) const
                 }
             }
         }
+        const_cast<sad::qt::OpenGLWidget*>(this)->m_mtx.unlock();
     }
 }
 
@@ -395,10 +399,12 @@ void sad::qt::OpenGLWidget::tryHandleMinimization(QEvent* ev) const
     {
         if (this->window()->isMinimized() && (this->m_renderer != NULL))
         {
+            const_cast<sad::qt::OpenGLWidget*>(this)->m_mtx.lock();
             if (m_renderer->initialized())
             {
                 this->m_renderer->fpsInterpolation()->reset();
             }
+            const_cast<sad::qt::OpenGLWidget*>(this)->m_mtx.unlock();
         }
     }
 }

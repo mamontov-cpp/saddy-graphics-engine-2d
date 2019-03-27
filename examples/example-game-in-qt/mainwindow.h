@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QtWidgets/QMainWindow>
+#include <QMutex>
 #include "ui_mainwindow.h"
 
 class Game;
@@ -43,6 +44,9 @@ private:
     /*! A game, that should be displayed in widget
      */
     Game* m_game;
+    /*! A call protection mutex
+     */
+    QMutex m_call_protector;
 };
 
 #endif // MAINWINDOW_H
