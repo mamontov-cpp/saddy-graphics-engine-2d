@@ -34,6 +34,7 @@ void game::MainLevelLoader::runLoaderThread() const
 
 void game::MainLevelLoader::loadGameScreen()
 {
+    SL_LOCAL_DEBUG(str(fmt::Format("Is loaded game screen?: {0}, Is loaded game screen first time?: {1}") << m_loaded_game_screen << m_first_time_loaded_game_screen), *m_renderer);
     if (!m_loaded_game_screen)
     {
         if (m_thread->running())
@@ -47,6 +48,10 @@ void game::MainLevelLoader::loadGameScreen()
         if (!m_first_time_loaded_game_screen)
         { 
             m_renderer->database("gamescreen")->restoreSnapshot();
+        }
+        else
+        {
+            m_first_time_loaded_game_screen = false;
         }
     }
 }
