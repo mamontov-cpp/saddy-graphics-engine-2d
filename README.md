@@ -8,6 +8,8 @@ Saddy is an open-source crossplatform 2D graphic engine, based on OpenGL, which 
 
 Note, that starting from 1.7.0, Saddy will only support compilers, that support C++14.
 
+* **30.03.19** Saddy [1.7.0](https://github.com/mamontov-cpp/saddy/releases/tag/1.7.0) released!
+
 * **11.03.17** Saddy [1.6.1](https://github.com/mamontov-cpp/saddy/releases/tag/1.6.1) released!
 
 * **22.08.16** Saddy [1.6.0](https://github.com/mamontov-cpp/saddy/releases/tag/1.6.0) released!
@@ -76,6 +78,11 @@ For Saddy v1.6.1 and before:
 ![Physics (screenshot 1)](http://s27.postimg.cc/44xxl1yeb/screen3.png) ![Physics  (screenshot 2)](http://s15.postimg.cc/4u7mh2e8b/screen4.png)
 
 ![Instrumented game](https://s13.postimg.cc/hplvp4i3b/gameinstrumented.png)
+
+Multithreading example. Uses [420 pixel art icons](https://www.deviantart.com/7soul1/art/420-Pixel-Art-Icons-for-RPG-129892453) and [Abstract Platformer](https://www.kenney.nl/assets/abstract-platformer) for art.
+
+![screen 1](https://i.postimg.cc/cJPRx7RD/sc1.png)
+![screen 2](https://i.postimg.cc/BbpPK2Ff/sc2.png)
 
 ## Ran into a problem? Don't know where to start?
 
