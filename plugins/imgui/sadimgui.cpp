@@ -368,26 +368,24 @@ void new_frame()
     // Setup display size (every frame to accommodate for window resizing)
     int w, h;
     sad::Rect2I r = sad::Renderer::ref()->window()->rect();
-    w = r.width();
-    h = r.height();
+    w = static_cast<int>(r.width());
+    h = static_cast<int>(r.height());
 
     io.DisplaySize = ImVec2((float)w, (float)h);
     io.DisplayFramebufferScale = ImVec2(1, 1);
 
     // Setup time step
-    io.DeltaTime = 1.0 / sad::Renderer::ref()->fps();
+    io.DeltaTime = static_cast<float>(1.0 / sad::Renderer::ref()->fps());
 
     // Setup inputs
-    // (we already got mouse wheel, keyboard keys & characters from glfw callbacks polled in glfwPollEvents())
     if ((sad::Renderer::ref()->window()->hidden() == false) && (sad::Renderer::ref()->window()->minimized() == false))
     {
-        if (io.WantMoveMouse)
+        if (io.WantSetMousePos)
         {
             sad::Renderer::ref()->setCursorPosition(sad::Point2D((double)io.MousePos.x, (double)io.MousePos.y));
         }
         else
         {
-            double mouse_x, mouse_y;
             sad::MaybePoint3D mp = sad::Renderer::ref()->cursorPosition();
             if (mp.exists() == false)
             {
@@ -422,7 +420,7 @@ static void mouse_move_callback(const sad::input::MouseMoveEvent& ev)
     {
         sad::Rect2I r = sad::Renderer::ref()->window()->rect();
         ImGuiIO& io = ImGui::GetIO();
-        io.MousePos = ImVec2((float)(ev.Point.x()), (ev.Point.y()));
+        io.MousePos = ImVec2((float)(ev.Point.x()), (float)(ev.Point.y()));
     }
 }
 
@@ -532,7 +530,7 @@ static void mouse_wheel_callback(const sad::input::MouseWheelEvent& ev)
     if (sad::imgui::ImGui::isEventProcessingEnabled())
     {
         ImGuiIO& io = ImGui::GetIO();
-        io.MouseWheel = ev.Delta;
+        io.MouseWheel = static_cast<float>(ev.Delta);
     }
 }
 
