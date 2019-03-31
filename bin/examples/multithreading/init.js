@@ -1102,7 +1102,7 @@ addTriggerOnce(4100, function() {
 });
 
 
-addTriggerOnce(5072, function() {
+addTriggerOnce(5062, function() {
     playEnemySpawnSound();
     makePlatformGoOnWay("MovingPlatform5", "LongWay1");
     addDelayedTask(50000, function() { stopMovingPlatformOnWay("MovingPlatform5"); });
@@ -1405,7 +1405,7 @@ addTriggerOnce(11374, function() {
 });
 
 var eternal_enemies2 = [null, null, null];
-var shouldRespawnEnemy2 = false;
+var shouldRespawnEnemy2 = true;
 
 var onDeathSpecialActor11 = function() {
     eternal_enemies2[0] = null;
