@@ -2,7 +2,7 @@
 
 # Saddy 
 
-Saddy is an open-source crossplatform 2D graphic engine, based on OpenGL, which can be used to create simple games.
+[![Logo](https://raw.githubusercontent.com/mamontov-cpp/saddy-graphics-engine-2d/master/logo.png)] Saddy is an open-source crossplatform 2D graphic engine, based on OpenGL, which can be used to create simple games.
 
 ## News
 
