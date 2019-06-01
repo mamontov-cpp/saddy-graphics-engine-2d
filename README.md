@@ -1,8 +1,8 @@
 [![AppVeyor](https://ci.appveyor.com/api/projects/status/u99u4tsb9dv6qwx3?svg=true&branch=master)](https://ci.appveyor.com/project/mamontov-cpp/saddy-graphics-engine-2d) [![Travis](https://travis-ci.org/mamontov-cpp/saddy-graphics-engine-2d.svg?branch=master)](https://travis-ci.org/mamontov-cpp/saddy-graphics-engine-2d) [![Join the chat at https://gitter.im/saddy-graphics-engine-2d/Lobby](https://badges.gitter.im/saddy-graphics-engine-2d/Lobby.svg)](https://gitter.im/saddy-graphics-engine-2d/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-# Saddy 
+# ![Logo](https://raw.githubusercontent.com/mamontov-cpp/saddy-graphics-engine-2d/master/logo.png) Saddy Graphics Engine 
 
-[![Logo](https://raw.githubusercontent.com/mamontov-cpp/saddy-graphics-engine-2d/master/logo.png)] Saddy is an open-source crossplatform 2D graphic engine, based on OpenGL, which can be used to create simple games.
+Saddy is an open-source crossplatform 2D graphic engine, based on OpenGL, which can be used to create simple games.
 
 ## News
 
