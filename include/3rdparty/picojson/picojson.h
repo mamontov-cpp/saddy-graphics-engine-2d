@@ -48,6 +48,7 @@
     #pragma warning(push)
     #pragma warning(disable : 4244) // conversion from int to char
     #pragma warning(disable : 4800) // conversion from int to bool
+    #pragma warning(disable : 26495)
 #else
     #define SNPRINTF snprintf
 #endif

@@ -30,6 +30,7 @@
 
 #ifdef _MSC_VER
     #pragma warning(disable: 4996)
+    #pragma warning(disable: 26495)
 #endif
 
 #ifndef _SCL_SECURE_NO_WARNINGS 
@@ -66,6 +67,7 @@ OutputIt copy(InputIt first, InputIt last,
     #include <stdint.h>
     #include <float.h>
     #pragma warning(disable:4996)
+    #pragma warning(disable:26495)
 #else
     #include <stddef.h>
     #include <stdint.h>	
