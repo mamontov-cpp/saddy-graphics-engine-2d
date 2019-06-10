@@ -5,6 +5,7 @@
 #pragma once
 #include "glheaders.h"
 #include "../sadstring.h"
+#include "../sadmutex.h"
 
 namespace sad
 {
@@ -25,8 +26,267 @@ class ExtensionFunctions
         \param[in] ogl opengl functions
      */
     void setParent(sad::OpenGL* ogl);
-    
+    /*! Attempts to initialize functions
+     */
     void tryInit();
+    /*! Invokes glUniformMatrix4x3fv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
+        \param[in] location location
+        \param[in] count count
+        \param[in] transpose transpose
+        \param[in] value value
+        \throws exception if cannot be invoked
+     */
+    void glUniformMatrix4x3fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value);
+    /*! Invokes glUniformMatrix3x4fv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
+        \param[in] location location
+        \param[in] count count
+        \param[in] transpose transpose
+        \param[in] value value
+        \throws exception if cannot be invoked
+     */
+    void glUniformMatrix3x4fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value);
+    /*! Invokes glUniformMatrix4x2fv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
+        \param[in] location location
+        \param[in] count count
+        \param[in] transpose transpose
+        \param[in] value value
+        \throws exception if cannot be invoked
+     */
+    void glUniformMatrix4x2fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value);
+    /*! Invokes glUniformMatrix2x4fv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
+        \param[in] location location
+        \param[in] count count
+        \param[in] transpose transpose
+        \param[in] value value
+        \throws exception if cannot be invoked
+     */
+    void glUniformMatrix2x4fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value);
+    /*! Invokes glUniformMatrix3x2fv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
+        \param[in] location location
+        \param[in] count count
+        \param[in] transpose transpose
+        \param[in] value value
+        \throws exception if cannot be invoked
+     */
+    void glUniformMatrix3x2fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value);
+    /*! Invokes glUniformMatrix2x3fv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
+        \param[in] location location
+        \param[in] count count
+        \param[in] transpose transpose
+        \param[in] value value
+        \throws exception if cannot be invoked
+     */
+    void glUniformMatrix2x3fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value);
+    /*! Invokes glUniformMatrix4fv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
+        \param[in] location location
+        \param[in] count count
+        \param[in] transpose transpose
+        \param[in] value value
+        \throws exception if cannot be invoked
+     */
+    void glUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value);
+    /*! Invokes glUniformMatrix3fv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
+        \param[in] location location
+        \param[in] count count
+        \param[in] transpose transpose
+        \param[in] value value
+        \throws exception if cannot be invoked
+     */
+    void glUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value);
+    /*! Invokes glUniformMatrix2fv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
+        \param[in] location location
+        \param[in] count count
+        \param[in] transpose transpose
+        \param[in] value value
+        \throws exception if cannot be invoked
+     */
+    void glUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value);
+    /*! Invokes glUniform4uiv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
+        \param[in] location location
+        \param[in] count count
+        \param[in] value value
+        \throws exception if cannot be invoked
+     */
+    void glUniform4uiv(GLint location, GLsizei count, const GLuint* value);
+    /*! Invokes glUniform3uiv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
+        \param[in] location location
+        \param[in] count count
+        \param[in] value value
+        \throws exception if cannot be invoked
+     */
+    void glUniform3uiv(GLint location, GLsizei count, const GLuint* value);
+    /*! Invokes glUniform2uiv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
+        \param[in] location location
+        \param[in] count count
+        \param[in] value value
+        \throws exception if cannot be invoked
+     */
+    void glUniform2uiv(GLint location, GLsizei count, const GLuint* value);
+    /*! Invokes glUniform1uiv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
+        \param[in] location location
+        \param[in] count count
+        \param[in] value value
+        \throws exception if cannot be invoked
+     */
+    void glUniform1uiv(GLint location, GLsizei count, const GLuint* value);
+    /*! Invokes glUniform4iv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
+        \param[in] location location
+        \param[in] count count
+        \param[in] value value
+        \throws exception if cannot be invoked
+     */
+    void glUniform4iv(GLint location, GLsizei count, const GLint* value);
+    /*! Invokes glUniform3iv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
+        \param[in] location location
+        \param[in] count count
+        \param[in] value value
+        \throws exception if cannot be invoked
+     */
+    void glUniform3iv(GLint location, GLsizei count, const GLint* value);
+    /*! Invokes glUniform2iv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
+        \param[in] location location
+        \param[in] count count
+        \param[in] value value
+        \throws exception if cannot be invoked
+     */
+    void glUniform2iv(GLint location, GLsizei count, const GLint* value);
+    /*! Invokes glUniform1iv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
+        \param[in] location location
+        \param[in] count count
+        \param[in] value value
+        \throws exception if cannot be invoked
+     */
+    void glUniform1iv(GLint location, GLsizei count, const GLint* value);
+    /*! Invokes glUniform4fv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
+        \param[in] location location
+        \param[in] count count
+        \param[in] value value
+        \throws exception if cannot be invoked
+     */
+    void glUniform4fv(GLint location, GLsizei count, const GLfloat* value);
+    /*! Invokes glUniform3fv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
+        \param[in] location location
+        \param[in] count count
+        \param[in] value value
+        \throws exception if cannot be invoked
+     */
+    void glUniform3fv(GLint location, GLsizei count, const GLfloat* value);
+    /*! Invokes glUniform2fv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
+        \param[in] location location
+        \param[in] count count
+        \param[in] value value
+        \throws exception if cannot be invoked
+     */
+    void glUniform2fv(GLint location, GLsizei count, const GLfloat* value);
+    /*! Invokes glUniform1fv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
+        \param[in] location location
+        \param[in] count count
+        \param[in] value value
+        \throws exception if cannot be invoked
+     */
+    void glUniform1fv(GLint location, GLsizei count, const GLfloat* value);
+    /*! Invokes glUniform4ui. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
+        \param[in] location location
+        \param[in] v0 v0
+        \param[in] v1 v1
+        \param[in] v2 v2
+        \param[in] v3 v3
+        \throws exception if cannot be invoked
+     */
+    void glUniform4ui(GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3);
+    /*! Invokes glUniform3ui. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
+        \param[in] location location
+        \param[in] v0 v0
+        \param[in] v1 v1
+        \param[in] v2 v2
+        \throws exception if cannot be invoked
+     */
+    void glUniform3ui(GLint location, GLuint v0, GLuint v1, GLuint v2);
+    /*! Invokes glUniform2ui. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
+        \param[in] location location
+        \param[in] v0 v0
+        \param[in] v1 v1
+        \throws exception if cannot be invoked
+     */
+    void glUniform2ui(GLint location, GLuint v0, GLuint v1);
+    /*! Invokes glUniform1ui. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
+        \param[in] location location
+        \param[in] v0 v0
+        \throws exception if cannot be invoked
+     */
+    void glUniform1ui(GLint location, GLuint v0);
+    /*! Invokes glUniform4i. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
+        \param[in] location location
+        \param[in] v0 v0
+        \param[in] v1 v1
+        \param[in] v2 v2
+        \param[in] v3 v3
+        \throws exception if cannot be invoked
+     */
+    void glUniform4i(GLint location, GLint v0, GLint v1, GLint v2, GLint v3);
+    /*! Invokes glUniform3i. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
+        \param[in] location location
+        \param[in] v0 v0
+        \param[in] v1 v1
+        \param[in] v2 v2
+        \throws exception if cannot be invoked
+     */
+    void glUniform3i(GLint location, GLint v0, GLint v1, GLint v2);
+    /*! Invokes glUniform2i. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
+        \param[in] location location
+        \param[in] v0 v0
+        \param[in] v1 v1
+        \throws exception if cannot be invoked
+     */
+    void glUniform2i(GLint location, GLint v0, GLint v1);
+    /*! Invokes glUniform1i. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
+        \param[in] location location
+        \param[in] v0 v0
+        \throws exception if cannot be invoked
+     */
+    void glUniform1i(GLint location, GLint v0);
+    /*! Invokes glUniform4f. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
+        \param[in] location location
+        \param[in] v0 v0
+        \param[in] v1 v1
+        \param[in] v2 v2
+        \param[in] v3 v3
+        \throws exception if cannot be invoked
+     */
+    void glUniform4f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3);
+    /*! Invokes glUniform3f. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
+        \param[in] location location
+        \param[in] v0 v0
+        \param[in] v1 v1
+        \param[in] v2 v2
+        \throws exception if cannot be invoked
+     */
+    void glUniform3f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2);
+    /*! Invokes glUniform2f. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
+        \param[in] location location
+        \param[in] v0 v0
+        \param[in] v1 v1
+        \throws exception if cannot be invoked
+     */
+    void glUniform2f(GLint location, GLfloat v0, GLfloat v1);
+    /*! Invokes glUniform1f. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
+        \param[in] location location
+        \param[in] v0 v0
+        \throws exception if cannot be invoked
+     */
+    void glUniform1f(GLint location, GLfloat v0);
+    /*! Invokes glGetUniformLocation. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glGetUniformLocation.xhtml
+        \param[in] program Specifies the program object to be queried
+        \param[in] name Points to a null terminated string containing the name of the uniform variable whose location is to be queried
+        \return uniform location
+        \throws exception if cannot be invoked
+     */
+    GLint glGetUniformLocation(GLuint program, const GLchar* name);
+    /*! Invokes glUseProgram. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUseProgram.xhtml
+        \param[in] program Specifies the handle of the program object whose executables are to be used as part of current rendering state.
+        \throws exception if cannot be invoked
+     */
+    void glUseProgram(GLuint program);
 private:
     /*! Appends info that get proc address if failed to renderer (main if OpenGL) is not set
      */
@@ -178,6 +438,9 @@ private:
     /*! A parent object for Logging
      */
     sad::OpenGL* m_parent;
+    /*! Initialization mutex
+     */
+    sad::Mutex m_init_mtx;
 };
 
     
