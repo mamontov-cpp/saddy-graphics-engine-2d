@@ -572,6 +572,7 @@ GLint sad::os::ExtensionFunctions::glGetUniformLocation(GLuint program, const GL
     {
         throw std::logic_error("glGetUniformLocation() is unavailable on this platform");
     }
+    // ReSharper disable once CppUnreachableCode
     return 0;
 }
 
@@ -588,9 +589,169 @@ void sad::os::ExtensionFunctions::glUseProgram(GLuint program)
     }
 }
 
+void sad::os::ExtensionFunctions::glGetProgramInfoLog(GLuint program, GLsizei maxLength, GLsizei* length, GLchar* infoLog)
+{
+    this->tryInit();
+    if (this->m_glGetProgramInfoLog)
+    {
+        (this->m_glGetProgramInfoLog)(program, maxLength, length, infoLog);
+    }
+    else
+    {
+        throw std::logic_error("glGetProgramInfoLog() is unavailable on this platform");
+    }
+}
+
+void sad::os::ExtensionFunctions::glGetProgramiv(GLuint program, GLenum pname, GLint* params)
+{
+    this->tryInit();
+    if (this->m_glGetProgramiv)
+    {
+        (this->m_glGetProgramiv)(program, pname, params);
+    }
+    else
+    {
+        throw std::logic_error("glGetProgramiv() is unavailable on this platform");
+    }
+}
+
+void sad::os::ExtensionFunctions::glLinkProgram(GLuint program)
+{
+    this->tryInit();
+    if (this->m_glLinkProgram)
+    {
+        (this->m_glLinkProgram)(program);
+    }
+    else
+    {
+        throw std::logic_error("glLinkProgram() is unavailable on this platform");
+    }
+}
+
+void sad::os::ExtensionFunctions::glAttachShader(GLuint program, GLuint shader)
+{
+    this->tryInit();
+    if (this->m_glAttachShader)
+    {
+        (this->m_glAttachShader)(program, shader);
+    }
+    else
+    {
+        throw std::logic_error("glAttachShader() is unavailable on this platform");
+    }
+}
+
+void sad::os::ExtensionFunctions::glGetShaderInfoLog(GLuint shader, GLsizei maxLength, GLsizei* length, GLchar* infoLog)
+{
+    this->tryInit();
+    if (this->m_glGetShaderInfoLog)
+    {
+        (this->m_glGetShaderInfoLog)(shader, maxLength, length, infoLog);
+    }
+    else
+    {
+        throw std::logic_error("glGetShaderInfoLog() is unavailable on this platform");
+    }
+}
+
+void sad::os::ExtensionFunctions::glGetShaderiv(GLuint shader, GLenum pname, GLint* params)
+{
+    this->tryInit();
+    if (this->m_glGetShaderiv)
+    {
+        (this->m_glGetShaderiv)(shader, pname, params);
+    }
+    else
+    {
+        throw std::logic_error("glGetShaderiv() is unavailable on this platform");
+    }
+}
+
+void sad::os::ExtensionFunctions::glCompileShader(GLuint shader)
+{
+    this->tryInit();
+    if (this->m_glCompileShader)
+    {
+        (this->m_glCompileShader)(shader);
+    }
+    else
+    {
+        throw std::logic_error("glCompileShader() is unavailable on this platform");
+    }
+}
+
+void sad::os::ExtensionFunctions::glShaderSource(GLuint shader, GLsizei count, const GLchar** string, const GLint* length)
+{
+    this->tryInit();
+    if (this->m_glShaderSource)
+    {
+        (this->m_glShaderSource)(shader, count, string, length);
+    }
+    else
+    {
+        throw std::logic_error("glShaderSource() is unavailable on this platform");
+    }
+}
+
+GLuint sad::os::ExtensionFunctions::glCreateShader(GLenum shaderType)
+{
+    this->tryInit();
+    if (this->m_glCreateShader)
+    {
+        return (this->m_glCreateShader)(shaderType);
+    }
+    else
+    {
+        throw std::logic_error("glShaderSource() is unavailable on this platform");
+    }
+    // ReSharper disable once CppUnreachableCode
+    return 0;
+}
+
+void sad::os::ExtensionFunctions::glDeleteShader(GLuint shader)
+{
+    this->tryInit();
+    if (this->m_glDeleteShader)
+    {
+        (this->m_glDeleteShader)(shader);
+    }
+    else
+    {
+        throw std::logic_error("glDeleteShader() is unavailable on this platform");
+    }
+}
+
+GLuint sad::os::ExtensionFunctions::glCreateProgram()
+{
+    this->tryInit();
+    if (this->m_glCreateProgram)
+    {
+        return (this->m_glCreateProgram)();
+    }
+    else
+    {
+        throw std::logic_error("glShaderSource() is unavailable on this platform");
+    }
+    // ReSharper disable once CppUnreachableCode
+    return 0;
+}
+
+void sad::os::ExtensionFunctions::glDeleteProgram(GLuint program)
+{
+    this->tryInit();
+    if (this->m_glDeleteProgram)
+    {
+        (this->m_glDeleteProgram)(program);
+    }
+    else
+    {
+        throw std::logic_error("glDeleteProgram() is unavailable on this platform");
+    }
+}
+
 // ===================================== PRIVATE METHODS =====================================
 
-void sad::os::ExtensionFunctions::showGetProcAddressFailedError(const sad::String& name)
+void sad::os::ExtensionFunctions::showGetProcAddressFailedError(const sad::String& name) const
 {
     sad::Renderer* r = sad::Renderer::ref();
     if (m_parent)

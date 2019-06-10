@@ -33,7 +33,7 @@
 #ifdef GLX_ARB_get_proc_adress
     #define getProcAdress(X) glXGetProcAddressARB((const GLubyte *)(X))
 #else
-    #define getProcAdress glXGetProcAddress
+    #define getProcAdress(X) glXGetProcAddress((const GLubyte *)(X))
 #endif
 
 #endif

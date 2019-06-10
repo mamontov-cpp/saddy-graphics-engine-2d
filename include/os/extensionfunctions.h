@@ -19,6 +19,7 @@ namespace os
  */
 class ExtensionFunctions
 {
+public:
     /*! Makes new extension functions
      */
     ExtensionFunctions();
@@ -287,10 +288,79 @@ class ExtensionFunctions
         \throws exception if cannot be invoked
      */
     void glUseProgram(GLuint program);
+    /*! Invokes glGetProgramInfoLog. @see https://www.khronos.org/registry/OpenGL-Refpages/es2.0/xhtml/glGetProgramInfoLog.xml
+        \param[in] program   Specifies the program object whose information log is to be queried.
+        \param[in] maxLength Specifies the size of the character buffer for storing the returned information log.
+        \param[in] length Returns the length of the string returned in infoLog (excluding the null terminator).
+        \param[in] infoLog Specifies an array of characters that is used to return the information log.
+        \throws exception if cannot be invoked
+     */
+    void glGetProgramInfoLog(GLuint program, GLsizei maxLength, GLsizei* length, GLchar* infoLog);
+    /*! Invokes glGetProgramiv. @see https://www.khronos.org/registry/OpenGL-Refpages/es2.0/xhtml/glGetProgramiv.xml
+        \param[in] program Specifies the program object to be queried.
+        \param[in] pname   Specifies the object parameter.
+        \param[in] params Returns the requested object parameter.
+        \throws exception if cannot be invoked
+     */
+    void glGetProgramiv(GLuint program, GLenum pname, GLint* params);
+    /*! Invokes glLinkProgram. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glLinkProgram.xhtml
+        \param[in] program Specifies the handle of the program object to be linked.
+        \throws exception if cannot be invoked
+     */
+    void glLinkProgram(GLuint program);
+    /*! Invokes glAttachShader. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glAttachShader.xhtml
+        \param[in] program Specifies the program object to which a shader object will be attached.
+        \param[in] shader Specifies the shader object that is to be attached.
+        \throws exception if cannot be invoked
+     */
+    void glAttachShader(GLuint program, GLuint shader);
+    /*! Invokes glGetShaderInfoLog. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glGetShaderInfoLog.xhtml
+        \param[in] shader    Specifies the shader object whose information log is to be queried.
+        \param[in] maxLength Specifies the size of the character buffer for storing the returned information log.
+        \param[in] length Returns the length of the string returned in infoLog (excluding the null terminator).
+        \param[in] infoLog Specifies an array of characters that is used to return the information log.
+        \throws exception if cannot be invoked
+     */
+    void glGetShaderInfoLog(GLuint shader, GLsizei maxLength, GLsizei* length, GLchar* infoLog);
+    /*! Invokes glGetShaderiv. @see https://www.khronos.org/registry/OpenGL-Refpages/es2.0/xhtml/glGetShaderiv.xml
+        \param[in] shader    Specifies the shader object whose information log is to be queried.
+        \param[in] pname     Specifies the object parameter. Accepted symbolic names are GL_SHADER_TYPE, GL_DELETE_STATUS, GL_COMPILE_STATUS, GL_INFO_LOG_LENGTH, GL_SHADER_SOURCE_LENGTH. 
+        \param[in] params    Returns the requested object parameter.
+        \throws exception if cannot be invoked
+     */
+    void glGetShaderiv(GLuint shader, GLenum pname, GLint* params);
+    /*! Specifies the shader object to be compiled. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glCompileShader.xhtml
+        \param[in] shader Specifies the shader object to be compiled.
+     */
+    void glCompileShader(GLuint shader);
+    /*! Replaces the source code in a shader object. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glShaderSource.xhtml
+        \param[in] shader Specifies the handle of the shader object whose source code is to be replaced.
+        \param[in] count  Specifies the number of elements in the string and length arrays.
+        \param[in] string Specifies an array of pointers to strings containing the source code to be loaded into the shader.
+        \param[in] length Specifies an array of string lengths.
+     */
+    void glShaderSource(GLuint shader, GLsizei count, const GLchar** string, const GLint* length);
+    /*! Invokes glCreateShader. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glCreateShader.xhtml
+        \param[in] shaderType Specifies the type of shader to be created. Must be one of GL_COMPUTE_SHADER, GL_VERTEX_SHADER, GL_TESS_CONTROL_SHADER, GL_TESS_EVALUATION_SHADER, GL_GEOMETRY_SHADER, or GL_FRAGMENT_SHADER.
+        \return empty shader's handle
+     */
+    GLuint glCreateShader(GLenum shaderType);
+    /*! Invokes glDeleteShader. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glDeleteShader.xhtml
+        \param[in] shader Specifies the shader object to be deleted.
+     */
+    void glDeleteShader(GLuint shader);
+    /*! Invokes glCreateProgram. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glCreateProgram.xhtml
+        \return empty program's handle
+     */
+    GLuint glCreateProgram();
+    /*! Invokes glDeleteProgram. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glDeleteProgram.xhtml
+        \param[in] program Specifies the program object to be deleted.
+     */
+    void glDeleteProgram(GLuint program);
 private:
     /*! Appends info that get proc address if failed to renderer (main if OpenGL) is not set
      */
-    void showGetProcAddressFailedError(const sad::String& name);
+    void showGetProcAddressFailedError(const sad::String& name) const;
     /*! glUniformMatrix4x3fv procedure
      */
     PFNGLUNIFORMMATRIX4X3FVPROC m_glUniformMatrix4x3fv;

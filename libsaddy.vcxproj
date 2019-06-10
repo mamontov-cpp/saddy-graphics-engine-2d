@@ -190,6 +190,7 @@
     <ClCompile Include="src\objectdependentfpsinterpolation.cpp" />
     <ClCompile Include="src\opengl.cpp" />
     <ClCompile Include="src\orthographiccamera.cpp" />
+    <ClCompile Include="src\os\extensionfunctions.cpp" />
     <ClCompile Include="src\os\shaderimpl.cpp" />
     <ClCompile Include="src\pausabletimer.cpp" />
     <ClCompile Include="src\periodicalevent.cpp" />
@@ -414,6 +415,7 @@
     <ClInclude Include="include\objectdependentfpsinterpolation.h" />
     <ClInclude Include="include\opengl.h" />
     <ClInclude Include="include\orthographiccamera.h" />
+    <ClInclude Include="include\os\extensionfunctions.h" />
     <ClInclude Include="include\os\shaderimpl.h" />
     <ClInclude Include="include\pausabletimer.h" />
     <ClInclude Include="include\periodicalevent.h" />
