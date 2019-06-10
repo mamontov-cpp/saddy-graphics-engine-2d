@@ -1,12 +1,12 @@
 #include "os/shaderimpl.h"
 
-#include "../renderer.h"
-#include "../opengl.h"
-#include "../slurp.h"
+#include "renderer.h"
+#include "opengl.h"
+#include "slurp.h"
 
-#include "../log/log.h"
+#include "log/log.h"
 
-#include "../os/extensionfunctions.h"
+#include "os/extensionfunctions.h"
 
 // ======================================== PUBLIC METHODS  ========================================
 
