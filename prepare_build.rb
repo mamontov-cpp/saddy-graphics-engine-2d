@@ -7,6 +7,8 @@ def replace_in_file(file_name, regex, entry)
   File.open(file_name, "w") {|file| file.puts new_contents }
 end
 
+replace_in_file("libsaddy.vcxproj", /<PlatformToolset>v142<\/PlatformToolset>/, "<PlatformToolset>v141</PlatformToolset>")
+
 replace_in_file("tools/atlasgen/atlasgen.vcxproj.user", /<QTDIR>[^<]+<\/QTDIR>/, "<QTDIR>$(QTDIR)</QTDIR>")
 replace_in_file("tools/atlasgen/atlasgen.vcxproj", /<AdditionalIncludeDirectories>/, "<AdditionalIncludeDirectories>$(QTDIR)\\include\\QtANGLE;")
 
