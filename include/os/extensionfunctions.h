@@ -393,7 +393,7 @@ private:
     /*! glGetUniformLocation procedure;
      */
     PFNGLGETUNIFORMLOCATIONPROC m_glGetUniformLocation;
-    /*! glUserProgram prcedure;
+    /*! glUseProgram procedure;
      */
     PFNGLUSEPROGRAMPROC  m_glUseProgram;
     /*! glGetProgramInfoLog procedure
