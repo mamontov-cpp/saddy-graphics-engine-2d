@@ -267,7 +267,7 @@ GLuint  sad::os::ShaderImpl::tryCompileShader(GLenum shader_type, const sad::Str
         {
             message += "fragment";
         }
-        message += "shader with error, listed below\n";
+        message += " shader with error, listed below\n";
         message += info_log;
         message += "\nCompiled shader was:\n";
         message += program_text;

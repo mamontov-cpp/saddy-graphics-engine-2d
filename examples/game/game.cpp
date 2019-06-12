@@ -22,6 +22,9 @@
 #include <keymouseconditions.h>
 #include <objectdependentfpsinterpolation.h>
 #include <mousecursor.h>
+#include <shader.h>
+#include <shaderednode.h>
+#include <glcontext.h>
 
 const sad::String GameState::START = "start";
 const sad::String GameState::PLAYING = "playing";
@@ -394,8 +397,39 @@ void Game::enterPlayingScreen()
         sad::Rect2D(0, 0, 512, 512),
         sad::Rect2D(0, 0, 640, 480)
     );
-    sc->add(background);
 
+    if (m_renderer->context()->isOpenGL3compatible())
+    {
+        sad::Shader* shader = new sad::Shader();
+        shader->setRenderer(m_renderer);
+        shader->setVertexProgram(
+            "#version 330\n" \
+            "layout(location = 0) in vec3 position;\n" \
+            "out vec4 vertexColor;\n" \
+            "void main()\n" \
+            "{\n" \
+            "gl_Position = gl_ModelViewProjectionMatrix * vec4(position, 1.0);\n" \
+            "vertexColor = vec4(0.5f, 0.0f, 0.0f, 1.0f);\n" \
+            "}"
+        );
+        shader->setFragmentProgram(
+            "#version 330\n" \
+            "in vec4 vertexColor;\n" \
+            "out vec4 color;\n" \
+            "void main()\n" \
+            "{\n" \
+            "color = vertexColor;\n" \
+            "}"
+        );
+        sad::ShaderedNode* local_node = new sad::ShaderedNode();
+        local_node->setNode(background);
+        local_node->setShader(shader);
+        sc->add(local_node);
+    }
+    else
+    {
+        sc->add(background);
+    }
     sad::FormattedLabel * label = new sad::FormattedLabel();
     label->setFont("font");
     label->setTreeName(m_renderer, "");
