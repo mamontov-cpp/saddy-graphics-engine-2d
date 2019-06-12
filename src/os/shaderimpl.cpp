@@ -44,6 +44,7 @@ sad::os::ShaderImpl::~ShaderImpl()
 
 void sad::os::ShaderImpl::setRenderer(sad::Renderer* r)
 {
+    tryDestroy();
     m_renderer = r;
 }
 
@@ -54,11 +55,13 @@ sad::Renderer* sad::os::ShaderImpl::renderer() const
 
 void sad::os::ShaderImpl::setVertexProgram(const sad::String& vertexProgram)
 {
+    tryDestroy();
     m_vertex_program = vertexProgram;
 }
 
 void sad::os::ShaderImpl::setFragmentProgram(const sad::String& fragmentProgram)
 {
+    tryDestroy();
     m_fragment_program = fragmentProgram;
 }
 
@@ -72,6 +75,7 @@ bool sad::os::ShaderImpl::loadVertexProgramFromFile(const sad::String& fileName)
     sad::Maybe<sad::String> maybe_string = sad::slurp(fileName, r);
     if (maybe_string.exists())
     {
+        tryDestroy();
         m_vertex_program = maybe_string.value();
         return true;
     }
@@ -88,6 +92,7 @@ bool sad::os::ShaderImpl::loadFragmentProgramFromFile(const sad::String& fileNam
     sad::Maybe<sad::String> maybe_string = sad::slurp(fileName, r);
     if (maybe_string.exists())
     {
+        tryDestroy();
         m_fragment_program = maybe_string.value();
         return true;
     }
@@ -104,7 +109,7 @@ void sad::os::ShaderImpl::tryUpload()
             r = m_renderer;
         }
 
-        sad::os::ExtensionFunctions* f = m_renderer->opengl()->extensionFunctions();
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
 
         GLint success = 0;
         const int info_log_length = 1024;

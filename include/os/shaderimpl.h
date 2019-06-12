@@ -39,6 +39,7 @@ class ExtensionFunctions;
  */
 class ShaderImpl
 {
+public:
     /*! Makes new implementation
      */
     ShaderImpl();

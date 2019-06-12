@@ -212,6 +212,7 @@
     <ClCompile Include="src\scene.cpp" />
     <ClCompile Include="src\scenenode.cpp" />
     <ClCompile Include="src\settings.cpp" />
+    <ClCompile Include="src\shader.cpp" />
     <ClCompile Include="src\slurp.cpp" />
     <ClCompile Include="src\slurpjson.cpp" />
     <ClCompile Include="src\spit.cpp" />
@@ -448,6 +449,7 @@
     <ClInclude Include="include\scene.h" />
     <ClInclude Include="include\scenenode.h" />
     <ClInclude Include="include\settings.h" />
+    <ClInclude Include="include\shader.h" />
     <ClInclude Include="include\slurp.h" />
     <ClInclude Include="include\slurpjson.h" />
     <ClInclude Include="include\spit.h" />

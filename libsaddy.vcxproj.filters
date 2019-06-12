@@ -789,6 +789,9 @@
     <ClCompile Include="src\os\extensionfunctions.cpp">
       <Filter>Файлы исходного кода\os</Filter>
     </ClCompile>
+    <ClCompile Include="src\shader.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\camera.h">
@@ -1681,6 +1684,9 @@
     </ClInclude>
     <ClInclude Include="include\os\extensionfunctions.h">
       <Filter>Заголовочные файлы\os</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shader.h">
+      <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
