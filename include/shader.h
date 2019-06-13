@@ -4,9 +4,9 @@
  */
 #pragma once
 
-#include "../sadstring.h"
+#include "sadstring.h"
 
-#include "../object.h"
+#include "object.h"
 
 #include <functional>
 
