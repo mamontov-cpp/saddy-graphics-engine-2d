@@ -46,8 +46,8 @@ replace_in_file("tests/dukpp-03/main.cpp", /\#define[ ]+TEST_INTERACTIVE/, "//#d
 
 
 
-replace_in_file("examples/shaders/shaders.vcxproj", /<WindowsTargetPlatformVersion>10.0<\/WindowsTargetPlatformVersion>/, "<WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>")
-replace_in_file("examples/shaders/shaders.vcxproj", /<PlatformToolset>v142<\/PlatformToolset>/, "<PlatformToolset>v141</PlatformToolset>")
+#replace_in_file("examples/shaders/shaders.vcxproj", /<WindowsTargetPlatformVersion>10.0<\/WindowsTargetPlatformVersion>/, "<WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>")
+#replace_in_file("examples/shaders/shaders.vcxproj", /<PlatformToolset>v142<\/PlatformToolset>/, "<PlatformToolset>v141</PlatformToolset>")
 
 replace_in_file("examples/game/game.vcxproj", /<WindowsTargetPlatformVersion>10.0<\/WindowsTargetPlatformVersion>/, "<WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>")
 replace_in_file("examples/game/game.vcxproj", /<PlatformToolset>v142<\/PlatformToolset>/, "<PlatformToolset>v141</PlatformToolset>")
