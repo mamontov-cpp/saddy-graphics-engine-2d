@@ -1,32 +1,13 @@
 #version 330
-layout(location = 0) in vec3 position;
+layout(location = 0) in vec4 position;
 uniform mat4 _sglProjectionMatrix;
 uniform mat4 _sglModelViewMatrix;
 out vec4 vertexColor;
-/* viewport_width = 640 */
-/* viewport_height = 480 */
-/* zNear = 0.1 */
-/* zFar = 100.0 */
-/* x_max = viewport_width - 1.0 */
-/* y_max = viewport_height - 1.0 */
-/*
-| 2/x_max   0        0                     -1             |
-|    0  -2/y_max     0                      1             |
-|    0      0   2/(zFar-zNear)  (zNear+zFar)/(zNear-zFar) |
-|    0      0        0                      1             |
-*/
-/*
-mat4 projectionMatrix = mat4( 2.0/639.0, 0.0, 0.0, -1.0,
-                             0.0, -2.0/479.0, 0.0, 1.0,
-                             0.0, 0.0, 2/99.9, 100.1/99.9,
-                             0.0, 0.0, 0.0, 1.0);
-*/
-mat4 projectionMatrix = mat4( 2.0/639.0, 0.0       , 0.0,        0.0,
-                             0.0       , -2.0/479.0, 0.0,        0.0,
-                             0.0       , 0.0       , 2/99.9,     0.0,
-                             -1.0      , 1.0       , 100.1/99.9, 1.0);
 void main()
 {
-    gl_Position = /* _sglProjectionMatrix *  */ _sglModelViewMatrix  * vec4(position, 1.0f);
-    vertexColor = vec4(0.5f, 0.0f, 0.0f, 1.0f);
+    gl_Position.x = position.x / 320.0 - 1.0;
+	gl_Position.y = position.y / 240.0 - 1.0;
+	gl_Position.z = position.z;
+	gl_Position.w = position.w;
+    vertexColor = vec4(((gl_Position.x + 1.0) / 2.0), ((gl_Position.y + 1.0) / 2.0), 0.0f, 1.0f);
 }
