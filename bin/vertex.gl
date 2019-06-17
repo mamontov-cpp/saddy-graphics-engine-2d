@@ -3,8 +3,13 @@ layout(location = 0) in vec4 position;
 uniform mat4 _sglProjectionMatrix;
 uniform mat4 _sglModelViewMatrix;
 out vec4 vertexColor;
+
+in vec2 vertTexCoord;
+out vec2 fragTexCoord;
+
 void main()
 {
+    fragTexCoord = vertTexCoord;
     gl_Position.x = position.x / 320.0 - 1.0;
 	gl_Position.y = position.y / 240.0 - 1.0;
 	gl_Position.z = position.z;
