@@ -357,6 +357,10 @@ public:
         \param[in] program Specifies the program object to be deleted.
      */
     void glDeleteProgram(GLuint program);
+	/*! Invokes glActiveTexture. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glActiveTexture.xhtml
+        \param[in] tex Specifies unit to be activated.
+     */
+    void glActiveTexture(GLenum tex);
 private:
     /*! Appends info that get proc address if failed to renderer (main if OpenGL) is not set
      */
@@ -502,6 +506,9 @@ private:
     /*! glDeleteProgram procedure
      */
     PFNGLDELETEPROGRAMPROC m_glDeleteProgram;
+	/*! glActiveTexture procedure
+	 */
+	PFNGLACTIVETEXTUREPROC m_glActiveTexture;
     /*! Whether it was initialized
      */
     bool m_init;

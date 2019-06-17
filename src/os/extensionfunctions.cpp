@@ -57,6 +57,7 @@ m_glCreateShader(NULL),
 m_glDeleteShader(NULL),
 m_glCreateProgram(NULL),
 m_glDeleteProgram(NULL),
+m_glActiveTexture(NULL),
 m_init(false),
 m_parent(NULL)
 {
@@ -126,6 +127,7 @@ void sad::os::ExtensionFunctions::tryInit()
             TRY_GET_PROC_ADDRESS(PFNGLDELETESHADERPROC, glDeleteShader);
             TRY_GET_PROC_ADDRESS(PFNGLCREATEPROGRAMPROC, glCreateProgram);
             TRY_GET_PROC_ADDRESS(PFNGLDELETEPROGRAMPROC, glDeleteProgram);
+            TRY_GET_PROC_ADDRESS(PFNGLACTIVETEXTUREPROC, glActiveTexture);
         }
         m_init_mtx.unlock();
     }
@@ -343,9 +345,9 @@ void sad::os::ExtensionFunctions::glUniform2iv(GLint location, GLsizei count, co
 void sad::os::ExtensionFunctions::glUniform1iv(GLint location, GLsizei count, const GLint* value)
 {
     this->tryInit();
-    if (this->m_glUniform2iv)
+    if (this->m_glUniform1iv)
     {
-        (this->m_glUniform2iv)(location, count, value);
+        (this->m_glUniform1iv)(location, count, value);
     }
     else
     {
@@ -410,7 +412,7 @@ void sad::os::ExtensionFunctions::glUniform4ui(GLint location, GLuint v0, GLuint
     this->tryInit();
     if (this->m_glUniform4ui)
     {
-        (this->glUniform4ui)(location, v0, v1, v2, v3);
+        (this->m_glUniform4ui)(location, v0, v1, v2, v3);
     }
     else
     {
@@ -423,7 +425,7 @@ void sad::os::ExtensionFunctions::glUniform3ui(GLint location, GLuint v0, GLuint
     this->tryInit();
     if (this->m_glUniform3ui)
     {
-        (this->glUniform3ui)(location, v0, v1, v2);
+        (this->m_glUniform3ui)(location, v0, v1, v2);
     }
     else
     {
@@ -436,7 +438,7 @@ void sad::os::ExtensionFunctions::glUniform2ui(GLint location, GLuint v0, GLuint
     this->tryInit();
     if (this->m_glUniform2ui)
     {
-        (this->glUniform2ui)(location, v0, v1);
+        (this->m_glUniform2ui)(location, v0, v1);
     }
     else
     {
@@ -449,7 +451,7 @@ void sad::os::ExtensionFunctions::glUniform1ui(GLint location, GLuint v0)
     this->tryInit();
     if (this->m_glUniform1ui)
     {
-        (this->glUniform1ui)(location, v0);
+        (this->m_glUniform1ui)(location, v0);
     }
     else
     {
@@ -462,7 +464,7 @@ void sad::os::ExtensionFunctions::glUniform4i(GLint location, GLint v0, GLint v1
     this->tryInit();
     if (this->m_glUniform4i)
     {
-        (this->glUniform4i)(location, v0, v1, v2, v3);
+        (this->m_glUniform4i)(location, v0, v1, v2, v3);
     }
     else
     {
@@ -475,7 +477,7 @@ void sad::os::ExtensionFunctions::glUniform3i(GLint location, GLint v0, GLint v1
     this->tryInit();
     if (this->m_glUniform3i)
     {
-        (this->glUniform3i)(location, v0, v1, v2);
+        (this->m_glUniform3i)(location, v0, v1, v2);
     }
     else
     {
@@ -488,7 +490,7 @@ void sad::os::ExtensionFunctions::glUniform2i(GLint location, GLint v0, GLint v1
     this->tryInit();
     if (this->m_glUniform2i)
     {
-        (this->glUniform2i)(location, v0, v1);
+        (this->m_glUniform2i)(location, v0, v1);
     }
     else
     {
@@ -501,7 +503,7 @@ void sad::os::ExtensionFunctions::glUniform1i(GLint location, GLint v0)
     this->tryInit();
     if (this->m_glUniform1i)
     {
-        (this->glUniform1i)(location, v0);
+        (this->m_glUniform1i)(location, v0);
     }
     else
     {
@@ -514,7 +516,7 @@ void sad::os::ExtensionFunctions::glUniform4f(GLint location, GLfloat v0, GLfloa
     this->tryInit();
     if (this->m_glUniform4f)
     {
-        (this->glUniform4f)(location, v0, v1, v2, v3);
+        (this->m_glUniform4f)(location, v0, v1, v2, v3);
     }
     else
     {
@@ -527,7 +529,7 @@ void sad::os::ExtensionFunctions::glUniform3f(GLint location, GLfloat v0, GLfloa
     this->tryInit();
     if (this->m_glUniform3f)
     {
-        (this->glUniform3f)(location, v0, v1, v2);
+        (this->m_glUniform3f)(location, v0, v1, v2);
     }
     else
     {
@@ -540,7 +542,7 @@ void sad::os::ExtensionFunctions::glUniform2f(GLint location, GLfloat v0, GLfloa
     this->tryInit();
     if (this->m_glUniform2f)
     {
-        (this->glUniform2f)(location, v0, v1);
+        (this->m_glUniform2f)(location, v0, v1);
     }
     else
     {
@@ -553,7 +555,7 @@ void sad::os::ExtensionFunctions::glUniform1f(GLint location, GLfloat v0)
     this->tryInit();
     if (this->m_glUniform1f)
     {
-        (this->glUniform1f)(location, v0);
+        (this->m_glUniform1f)(location, v0);
     }
     else
     {
@@ -748,6 +750,21 @@ void sad::os::ExtensionFunctions::glDeleteProgram(GLuint program)
         throw std::logic_error("glDeleteProgram() is unavailable on this platform");
     }
 }
+
+void sad::os::ExtensionFunctions::glActiveTexture(GLenum tex)
+{
+    this->tryInit();
+    if (this->m_glActiveTexture)
+    {
+        (this->m_glActiveTexture)(tex);
+    }
+    else
+    {
+        throw std::logic_error("glActiveTexture() is unavailable on this platform");
+    }
+}
+
+
 
 // ===================================== PRIVATE METHODS =====================================
 

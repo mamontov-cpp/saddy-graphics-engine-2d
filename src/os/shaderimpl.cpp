@@ -326,7 +326,8 @@ void sad::os::ShaderImpl::useProgram(GLuint program, bool force)
             if (program != 0) {
                 GLuint matrixId = f->glGetUniformLocation(program, "_sglProjectionMatrix");
                 this->tryLogGlError("glGetUniformLocation(program, \"_sglProjectionMatrix\")");
-                if (matrixId != 0) {
+                if (matrixId != 0) 
+                {
                     GLfloat mat[16];
                     glGetFloatv(GL_PROJECTION_MATRIX, &(mat[0]));
                     this->tryLogGlError("glGetFloatv(GL_PROJECTION_MATRIX, &(mat[0]));");
@@ -335,13 +336,22 @@ void sad::os::ShaderImpl::useProgram(GLuint program, bool force)
                 }
                 
                 matrixId = f->glGetUniformLocation(program, "_sglModelViewMatrix");
-                if (matrixId != 0) {
+                if (matrixId != 0) 
+                {
                     GLfloat mat[16];
                     GLenum errCode = 0;
                     glGetFloatv(GL_MODELVIEW_MATRIX, &(mat[0]));
                     this->tryLogGlError("glGetFloatv(GL_MODELVIEW_MATRIX, &(mat[0]));");
                     f->glUniformMatrix4fv(matrixId, 1, GL_FALSE, &(mat[0]));
                     this->tryLogGlError("f->glUniformMatrix4fv(matrixId, 1, GL_FALSE, &(mat[0]));");
+                }
+                f->glActiveTexture(GL_TEXTURE0);
+                GLuint texId = f->glGetUniformLocation(program, "_defaultTexture");
+                this->tryLogGlError("glGetUniformLocation(program, \"_defaultTexture\")");
+                if (texId != 0) 
+                {
+                     f->glUniform1i(texId, 0);
+                     this->tryLogGlError(" f->glUniformMatrix1i(texId, 0);");
                 }
             }
         }
