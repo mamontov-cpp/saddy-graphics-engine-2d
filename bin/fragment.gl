@@ -4,5 +4,11 @@ out vec4 color;
 uniform sampler2D _defaultTexture;
 void main()
 {
-    color = texture2D(_defaultTexture, vec2(vertexColor.r, 1.0 - vertexColor.g));
+    float angle = 0;
+	float len = 0;
+	if (abs(vertexColor.g) > 0.001) {
+	    angle = (atan(vertexColor.r / vertexColor.g) + 1.57) / 3.1415926;
+	} 
+	len = sqrt(vertexColor.r * vertexColor.r + vertexColor.g * vertexColor.g) / 1.41421356;
+    color = texture2D(_defaultTexture, vec2(angle, len));
 }
