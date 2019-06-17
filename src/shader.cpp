@@ -44,9 +44,19 @@ void sad::Shader::setVertexProgram(const sad::String& vertexProgram) const
     m_impl->setVertexProgram(vertexProgram);
 }
 
+void sad::Shader::clearVertexProgram() const
+{
+    m_impl->clearVertexProgram();
+}
+
 void sad::Shader::setFragmentProgram(const sad::String& fragmentProgram) const
 {
     m_impl->setFragmentProgram(fragmentProgram);
+}
+
+void sad::Shader::clearFragmentProgram() const
+{
+    m_impl->clearFragmentProgram();
 }
 
 bool sad::Shader::loadVertexProgramFromFile(const sad::String& fileName) const

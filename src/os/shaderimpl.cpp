@@ -56,14 +56,25 @@ sad::Renderer* sad::os::ShaderImpl::renderer() const
 void sad::os::ShaderImpl::setVertexProgram(const sad::String& vertexProgram)
 {
     tryDestroy();
-    m_vertex_program = vertexProgram;
+    m_vertex_program.setValue(vertexProgram);
+}
+
+void sad::os::ShaderImpl::clearVertexProgram()
+{
+    m_vertex_program.clear();
 }
 
 void sad::os::ShaderImpl::setFragmentProgram(const sad::String& fragmentProgram)
 {
     tryDestroy();
-    m_fragment_program = fragmentProgram;
+    m_fragment_program.setValue(fragmentProgram);
 }
+
+void sad::os::ShaderImpl::clearFragmentProgram()
+{
+    m_fragment_program.clear();
+}
+
 
 bool sad::os::ShaderImpl::loadVertexProgramFromFile(const sad::String& fileName)
 {
@@ -115,10 +126,10 @@ void sad::os::ShaderImpl::tryUpload()
         const int info_log_length = 1024;
         GLchar info_log[info_log_length];
 
-        GLuint vertex_program = this->tryCompileShader(GL_VERTEX_SHADER, m_vertex_program);
+        GLuint vertex_program = this->tryCompileShader(GL_VERTEX_SHADER, m_vertex_program.mutableValue());
         if (vertex_program)
         {
-            GLuint fragment_program = this->tryCompileShader(GL_FRAGMENT_SHADER, m_fragment_program);
+            GLuint fragment_program = this->tryCompileShader(GL_FRAGMENT_SHADER, m_fragment_program.mutableValue());
             if (fragment_program)
             {
                 m_program = f->glCreateProgram();
@@ -236,6 +247,26 @@ void sad::os::ShaderImpl::tryDestroy()
 
 // ======================================== PRIVATE METHODS  ========================================
 
+void sad::os::ShaderImpl::tryLogGlError(const char* op)
+{
+    sad::Renderer* r = sad::Renderer::ref();
+    if (m_renderer)
+    {
+        r = m_renderer;
+    }
+    
+    GLenum err_code = glGetError();
+    if (err_code != GL_NO_ERROR) 
+    {
+        sad::String error_string = reinterpret_cast<const char*>(gluErrorString(err_code));
+        bool handled = false;
+        sad::String error_data = op;
+        error_data += ": ";
+        error_data += error_string;
+        SL_LOCAL_WARNING(error_data, *r);
+    }
+}
+
 GLuint  sad::os::ShaderImpl::tryCompileShader(GLenum shader_type, const sad::String& program_text) const
 {
     sad::Renderer* r = sad::Renderer::ref();
@@ -292,12 +323,34 @@ void sad::os::ShaderImpl::useProgram(GLuint program, bool force)
         {
             sad::os::ExtensionFunctions* f = m_renderer->opengl()->extensionFunctions();
             f->glUseProgram(program);
+            if (program != 0) {
+                GLuint matrixId = f->glGetUniformLocation(program, "_sglProjectionMatrix");
+                this->tryLogGlError("glGetUniformLocation(program, \"_sglProjectionMatrix\")");
+                if (matrixId != 0) {
+                    GLfloat mat[16];
+                    glGetFloatv(GL_PROJECTION_MATRIX, &(mat[0]));
+                    this->tryLogGlError("glGetFloatv(GL_PROJECTION_MATRIX, &(mat[0]));");
+                    f->glUniformMatrix4fv(matrixId, 1, GL_FALSE, &(mat[0]));
+                    this->tryLogGlError("f->glUniformMatrix4fv(matrixId, 1, GL_FALSE, &(mat[0]));");
+                }
+                
+                matrixId = f->glGetUniformLocation(program, "_sglModelViewMatrix");
+                if (matrixId != 0) {
+                    GLfloat mat[16];
+                    GLenum errCode = 0;
+                    glGetFloatv(GL_MODELVIEW_MATRIX, &(mat[0]));
+                    this->tryLogGlError("glGetFloatv(GL_MODELVIEW_MATRIX, &(mat[0]));");
+                    f->glUniformMatrix4fv(matrixId, 1, GL_FALSE, &(mat[0]));
+                    this->tryLogGlError("f->glUniformMatrix4fv(matrixId, 1, GL_FALSE, &(mat[0]));");
+                }
+            }
         }
     }
     catch (std::logic_error& ex) {
         SL_LOCAL_FATAL(ex.what(), *r);
     }
 }
+
 
 sad::os::ExtensionFunctions* sad::os::ShaderImpl::f() const
 {

@@ -402,25 +402,8 @@ void Game::enterPlayingScreen()
     {
         sad::Shader* shader = new sad::Shader();
         shader->setRenderer(m_renderer);
-        shader->setVertexProgram(
-            "#version 330\n" \
-            "layout(location = 0) in vec3 position;\n" \
-            "out vec4 vertexColor;\n" \
-            "void main()\n" \
-            "{\n" \
-            "gl_Position = gl_ModelViewProjectionMatrix * vec4(position, 1.0);\n" \
-            "vertexColor = vec4(0.5f, 0.0f, 0.0f, 1.0f);\n" \
-            "}"
-        );
-        shader->setFragmentProgram(
-            "#version 330\n" \
-            "in vec4 vertexColor;\n" \
-            "out vec4 color;\n" \
-            "void main()\n" \
-            "{\n" \
-            "color = vertexColor;\n" \
-            "}"
-        );
+        shader->loadVertexProgramFromFile("vertex.gl");
+        shader->loadFragmentProgramFromFile("fragment.gl");
         sad::ShaderedNode* local_node = new sad::ShaderedNode();
         local_node->setNode(background);
         local_node->setShader(shader);

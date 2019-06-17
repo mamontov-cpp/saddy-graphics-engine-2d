@@ -56,10 +56,16 @@ public:
      *  \param[in] vertexProgram a vertex program
      */
     void setVertexProgram(const sad::String& vertexProgram) const;
+    /*! Clears vertex program
+     */
+    void clearVertexProgram() const;
     /*! Sets fragment program for shader
      *  \param[in] fragmentProgram a fragment program
      */
     void setFragmentProgram(const sad::String& fragmentProgram) const;
+    /*! Clears vertex program
+     */
+    void clearFragmentProgram() const;
     /*! Tries to load vertex program from file
      *  \param[in] fileName a path to file
      *  \return true on success, false otherwise

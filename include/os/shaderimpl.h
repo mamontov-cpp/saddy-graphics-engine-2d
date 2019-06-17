@@ -5,8 +5,7 @@
 #pragma once
 
 #include "../sadstring.h"
-
-
+#include "../maybe.h"
 
 #ifdef WIN32
     #ifndef NOMINMAX
@@ -67,10 +66,16 @@ public:
      *  \param[in] vertexProgram a vertex program
      */
     void setVertexProgram(const sad::String& vertexProgram);
+    /*! Clears vertex program
+     */
+    void clearVertexProgram();
     /*! Sets fragment program for shader
      *  \param[in] fragmentProgram a fragment program
      */
     void setFragmentProgram(const sad::String& fragmentProgram);
+    /*! Clears fragment program
+     */
+    void clearFragmentProgram();
     /*! Tries to load vertex program from file
      *  \param[in] fileName a path to file
      *  \return true on success, false otherwise
@@ -172,6 +177,9 @@ public:
      */
     void tryDestroy();
 private:
+    /*! Tries to log OpenGL error if occured
+     */
+    void tryLogGlError(const char* op);
     /*! Tries to compile shader
      *  \param[in] shader_type type of shader
      *  \param[in] program_text a program text
@@ -228,10 +236,10 @@ private:
     GLuint m_program;
     /*! A vertex shader program text
      */
-    sad::String m_vertex_program;
+    sad::Maybe<sad::String> m_vertex_program;
     /*! A fragment shader program text
      */
-    sad::String m_fragment_program;
+    sad::Maybe<sad::String> m_fragment_program;
     /*! A renderer for implementation
      */
     sad::Renderer* m_renderer;
