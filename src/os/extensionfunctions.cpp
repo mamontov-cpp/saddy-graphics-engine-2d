@@ -58,6 +58,13 @@ m_glDeleteShader(NULL),
 m_glCreateProgram(NULL),
 m_glDeleteProgram(NULL),
 m_glActiveTexture(NULL),
+m_glGenBuffers(NULL),
+m_glBindBuffer(NULL),
+m_glBufferData(NULL),
+m_glDeleteBuffers(NULL),
+m_glEnableVertexAttribArray(NULL),
+m_glVertexAttribPointer(NULL),
+m_glDisableVertexAttribArray(NULL),
 m_init(false),
 m_parent(NULL)
 {
@@ -128,6 +135,14 @@ void sad::os::ExtensionFunctions::tryInit()
             TRY_GET_PROC_ADDRESS(PFNGLCREATEPROGRAMPROC, glCreateProgram);
             TRY_GET_PROC_ADDRESS(PFNGLDELETEPROGRAMPROC, glDeleteProgram);
             TRY_GET_PROC_ADDRESS(PFNGLACTIVETEXTUREPROC, glActiveTexture);
+
+            TRY_GET_PROC_ADDRESS(PFNGLGENBUFFERSPROC, glGenBuffers);
+            TRY_GET_PROC_ADDRESS(PFNGLBINDBUFFERPROC, glBindBuffer);
+            TRY_GET_PROC_ADDRESS(PFNGLBUFFERDATAPROC, glBufferData);
+            TRY_GET_PROC_ADDRESS(PFNGLDELETEBUFFERSPROC, glDeleteBuffers);
+            TRY_GET_PROC_ADDRESS(PFNGLENABLEVERTEXATTRIBARRAYPROC, glEnableVertexAttribArray);
+            TRY_GET_PROC_ADDRESS(PFNGLVERTEXATTRIBPOINTERPROC, glVertexAttribPointer);
+            TRY_GET_PROC_ADDRESS(PFNGLDISABLEVERTEXATTRIBARRAYPROC, glDisableVertexAttribArray);
         }
         m_init_mtx.unlock();
     }
@@ -764,7 +779,104 @@ void sad::os::ExtensionFunctions::glActiveTexture(GLenum tex)
     }
 }
 
+void sad::os::ExtensionFunctions::glGenBuffers(GLsizei n, GLuint* buffers)
+{
+    this->tryInit();
+    if (this->m_glGenBuffers)
+    {
+        (this->m_glGenBuffers)(n, buffers);
+    }
+    else
+    {
+        throw std::logic_error("glGenBuffers() is unavailable on this platform");
+    }
+}
 
+void sad::os::ExtensionFunctions::glBindBuffer(GLenum target, GLuint buffer)
+{
+    this->tryInit();
+    if (this->m_glBindBuffer)
+    {
+        (this->m_glBindBuffer)(target, buffer);
+    }
+    else
+    {
+        throw std::logic_error("glBindBuffer() is unavailable on this platform");
+    }
+}
+
+
+void sad::os::ExtensionFunctions::glBufferData(GLenum target, GLsizeiptr size, const GLvoid* data, GLenum usage)
+{
+    this->tryInit();
+    if (this->m_glBufferData)
+    {
+        (this->m_glBufferData)(target, size, data, usage);
+    }
+    else
+    {
+        throw std::logic_error("glBufferData() is unavailable on this platform");
+    }
+}
+
+void sad::os::ExtensionFunctions::glDeleteBuffers(GLsizei n, const GLuint* buffers)
+{
+    this->tryInit();
+    if (this->m_glDeleteBuffers)
+    {
+        (this->m_glDeleteBuffers)(n, buffers);
+    }
+    else
+    {
+        throw std::logic_error("glDeleteBuffers() is unavailable on this platform");
+    }
+}
+
+void sad::os::ExtensionFunctions::glEnableVertexAttribArray(GLuint index)
+{
+    this->tryInit();
+    if (this->m_glEnableVertexAttribArray)
+    {
+        (this->m_glEnableVertexAttribArray)(index);
+    }
+    else
+    {
+        throw std::logic_error("glEnableVertexAttribArray() is unavailable on this platform");
+    }
+}
+
+
+void sad::os::ExtensionFunctions::glDisableVertexAttribArray(GLuint index)
+{
+    this->tryInit();
+    if (this->m_glDisableVertexAttribArray)
+    {
+        (this->m_glDisableVertexAttribArray)(index);
+    }
+    else
+    {
+        throw std::logic_error("glDisableVertexAttribArray() is unavailable on this platform");
+    }
+}
+
+void sad::os::ExtensionFunctions::glVertexAttribPointer(GLuint index,
+    GLint size,
+    GLenum type,
+    GLboolean normalized,
+    GLsizei stride,
+    const GLvoid* pointer
+)
+{
+    this->tryInit();
+    if (this->m_glVertexAttribPointer)
+    {
+        (this->m_glVertexAttribPointer)(index, size, type, normalized, stride, pointer);
+    }
+    else
+    {
+        throw std::logic_error("glVertexAttribPointer() is unavailable on this platform");
+    }
+}
 
 // ===================================== PRIVATE METHODS =====================================
 

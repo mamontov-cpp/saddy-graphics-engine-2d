@@ -361,6 +361,51 @@ public:
         \param[in] tex Specifies unit to be activated.
      */
     void glActiveTexture(GLenum tex);
+    /*! Invokes glGenBuffers. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glGenBuffers.xhtml
+     *  \param[in] n Specifies the number of buffer object names to be generated.
+     *  \param[out] buffers Specifies an array in which the generated buffer object names are stored.
+     */
+    void glGenBuffers(GLsizei n, GLuint* buffers);
+    /*! Invokes glBindBuffer. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glBindBuffer.xhtml
+     *  \param[in] target a target buffer type
+     *  \param[in] buffer Specifies the name of a buffer object.
+     */
+    void glBindBuffer(GLenum target, GLuint buffer);
+    /*! Invokes glBufferData, @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glBufferData.xhtml
+     *  \param[in] target a target buffer type
+     *  \param[in] size Specifies the size in bytes of the buffer object's new data store.
+     *  \param[in] data Specifies a pointer to data that will be copied into the data store for initialization, or NULL if no data is to be copied.
+     *  \param[in] usage Specifies the expected usage pattern of the data store.
+     */
+    void glBufferData(GLenum target, GLsizeiptr size, const GLvoid* data, GLenum usage);
+    /*! Invokes glDeleteBuffers, @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glDeleteBuffers.xhtml
+     *  \param[in] n Specifies the number of buffer objects to be deleted.
+     *  \param[in] buffers Specifies an array of buffer objects to be deleted.
+     */
+    void glDeleteBuffers(GLsizei n, const GLuint* buffers);
+    /*! Invokes glEnableVertexAttribArray, @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glEnableVertexAttribArray.xhtml
+     *  \param[in] index Specifies the index of the generic vertex attribute to be enabled or disabled.
+     */
+    void glEnableVertexAttribArray(GLuint index);
+    /*! Invokes glDisableVertexAttribArray, @see https://www.khronos.org/registry/OpenGL-Refpages/es2.0/xhtml/glDisableVertexAttribArray.xml
+     *  \param[in] index Specifies the index of the generic vertex attribute to be enabled or disabled.
+     */
+    void glDisableVertexAttribArray(GLuint index);
+    /*! Invokes glVertexAttribPointer, @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glVertexAttribPointer.xhtml
+     *  \param[in] index Specifies the index of the generic vertex attribute to be modified.
+     *  \param[in] size Specifies the number of components per generic vertex attribute.
+     *  \param[in] type Specifies the data type of each component in the array
+     *  \param[in] normalized For glVertexAttribPointer, specifies whether fixed-point data values should be normalized (GL_TRUE) or converted directly as fixed-point values (GL_FALSE) when they are accessed.
+     *  \param[in] stride Specifies the byte offset between consecutive generic vertex attributes. If stride is 0, the generic vertex attributes are understood to be tightly packed in the array. The initial value is 0.
+     *  \param[in] pointer Specifies a offset of the first component of the first generic vertex attribute in the array in the data store of the buffer currently bound to the GL_ARRAY_BUFFER target. The initial value is 0
+     */
+    void glVertexAttribPointer(GLuint index,
+        GLint size,
+        GLenum type,
+        GLboolean normalized,
+        GLsizei stride,
+        const GLvoid* pointer
+    );
 private:
     /*! Appends info that get proc address if failed to renderer (main if OpenGL) is not set
      */
@@ -509,6 +554,28 @@ private:
     /*! glActiveTexture procedure
      */
     PFNGLACTIVETEXTUREPROC m_glActiveTexture;
+    /*! glGenBuffers procedure
+     */
+    PFNGLGENBUFFERSPROC m_glGenBuffers;
+    /*! glBindBuffer procedure
+     */
+    PFNGLBINDBUFFERPROC m_glBindBuffer;
+    /*! glBufferData procedure
+     */
+    PFNGLBUFFERDATAPROC m_glBufferData;
+    /*! glDeleteBufferes procedure
+     */
+    PFNGLDELETEBUFFERSPROC m_glDeleteBuffers;
+    /*! glEnableVertexAttribArray procedure
+     */
+    PFNGLENABLEVERTEXATTRIBARRAYPROC m_glEnableVertexAttribArray;
+    /*! glEnableVertexAttribPointer procedure
+     */
+    PFNGLVERTEXATTRIBPOINTERPROC m_glVertexAttribPointer;
+    /*! glDisableVertexAttribArray procedure
+     */
+    PFNGLDISABLEVERTEXATTRIBARRAYPROC m_glDisableVertexAttribArray;
+
     /*! Whether it was initialized
      */
     bool m_init;
