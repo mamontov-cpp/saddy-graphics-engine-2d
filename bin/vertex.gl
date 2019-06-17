@@ -10,9 +10,6 @@ out vec2 fragTexCoord;
 void main()
 {
     fragTexCoord = vertTexCoord;
-    gl_Position.x = position.x / 320.0 - 1.0;
-	gl_Position.y = position.y / 240.0 - 1.0;
-	gl_Position.z = position.z;
-	gl_Position.w = position.w;
+    gl_Position = _sglProjectionMatrix * _sglModelViewMatrix * position;
     vertexColor = vec4(((gl_Position.x + 1.0) / 2.0), ((gl_Position.y + 1.0) / 2.0), 0.0f, 1.0f);
 }
