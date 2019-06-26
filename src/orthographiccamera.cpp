@@ -27,8 +27,8 @@ void sad::OrthographicCamera::apply()
     if (!m_fetched)
     {
         m_fetched = true;
-        m_width = Scene->renderer()->settings().width();
-        m_height = Scene->renderer()->settings().height();
+        m_width = m_scene->renderer()->settings().width();
+        m_height = m_scene->renderer()->settings().height();
     }
 
     glPushAttrib(GL_TRANSFORM_BIT);

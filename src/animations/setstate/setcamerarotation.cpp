@@ -14,9 +14,9 @@ sad::animations::setstate::SetCameraRotation::clone() const
 void sad::animations::setstate::SetCameraRotation::call(const double& angle)
 {
     sad::Camera& c = m_scene->camera();
-    c.Angle = angle;
-    c.RotationVectorDirection = sad::Vector3D(0, 0, 1);
-    c.TemporaryRotationOffset = m_pivot;
+    c.setAngle(angle);
+    c.setRotationVectorDirection(sad::Vector3D(0, 0, 1));
+    c.setTemporaryRotationOffset(m_pivot);
 }
 
 sad::animations::setstate::SetCameraRotation::~SetCameraRotation()

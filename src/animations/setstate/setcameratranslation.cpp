@@ -15,7 +15,7 @@ sad::animations::setstate::SetCameraTranslation::clone() const
 void sad::animations::setstate::SetCameraTranslation::call(const sad::Point3D& offset)
 {
     sad::Camera& c = m_scene->camera();
-    c.TranslationOffset = offset;
+    c.setTranslationOffset(offset);
 }
 
 sad::animations::setstate::SetCameraTranslation::~SetCameraTranslation()

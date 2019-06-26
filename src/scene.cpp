@@ -19,13 +19,13 @@
 #include "db/dbmethodpair.h"
 
 // ReSharper disable once CppUnusedIncludeDirective
-#include <time.h>
+#include <ctime>
 
 sad::Scene::Scene()
 : m_active(true), m_cached_layer(0), m_camera(new sad::OrthographicCamera()), m_renderer(NULL)
 {
     m_camera->addRef();
-    m_camera->Scene = this;
+    m_camera->setScene(this);
 }
 
 sad::Scene::~Scene()
@@ -106,7 +106,7 @@ void sad::Scene::setCamera(sad::Camera * camera)
     m_camera = camera;
     if (m_camera)
     {
-        m_camera->Scene = this;
+        m_camera->setScene(this);
         m_camera->addRef();
     }
 }

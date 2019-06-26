@@ -1,6 +1,7 @@
 #include "renderer.h"
 
 #include "scene.h"
+#include "camera.h"
 #include "window.h"
 #include "sadscopedlock.h"
 #include "glcontext.h"
@@ -786,6 +787,12 @@ void sad::Renderer::addEmergencyShutdownCallback(void (*cb)())
 void sad::Renderer::setGlobalTranslationOffset(const sad::Vector3D& v)
 {
     m_global_translation_offset = v;
+    for(auto scene : m_scenes) {
+         if (scene) {
+            sad::Camera& camera = scene->camera();
+            camera.clearTransformCache();
+        }
+    }
 }
 
 const sad::Vector3D& sad::Renderer::globalTranslationOffset() const
