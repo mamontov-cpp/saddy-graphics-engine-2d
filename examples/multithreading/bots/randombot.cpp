@@ -34,8 +34,8 @@ void bots::RandomBot::perform(Game*, game::Actor* actor)
     }
     if (m_real_right_offset < 0)
     { 
-        m_real_right_offset = m_max_right_offset + scene->camera().TranslationOffset.x();
-        m_real_left_offset = m_min_left_offset + scene->camera().TranslationOffset.x();
+        m_real_right_offset = m_max_right_offset + scene->camera().translationOffset().x();
+        m_real_left_offset = m_min_left_offset + scene->camera().translationOffset().x();
     }
 
     if (actor->isResting()) 

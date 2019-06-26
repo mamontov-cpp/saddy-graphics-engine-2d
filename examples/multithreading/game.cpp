@@ -1953,7 +1953,9 @@ void Game::tryEnterPause()
             if (pause_scene)
             {
                 this->showCurrentPauseMenuOption();
-                pause_scene->camera().TranslationOffset.setX(r->globalTranslationOffset().x() * (-1.0));
+				sad::Vector3D v = r->globalTranslationOffset();
+				v.setX(v.x() * (-1.0));
+                pause_scene->camera().setTranslationOffset(v);
                 pause_scene->setActive(true);
             }
         });
