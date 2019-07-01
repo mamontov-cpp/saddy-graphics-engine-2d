@@ -16,6 +16,7 @@
 #include "os/windowhandles.h"
 #include "os/glheaders.h"
 #include "os/threadimpl.h"
+#include "os/extensionfunctions.h"
 
 #include "db/dbdatabase.h"
 #include "db/dbtypename.h"
@@ -362,6 +363,14 @@ void sad::Renderer::emergencyShutdown()
     for(size_t i = 0; i < m_emergency_shutdown_callbacks.size(); i++)
     {
         m_emergency_shutdown_callbacks[i]->call(this);
+    }
+
+    sad::os::ExtensionFunctions* f = this->opengl()->extensionFunctions();
+    for (auto it = m_sizes_to_buffers.begin(); it != m_sizes_to_buffers.end(); ++it) {
+        for (auto jt = it.value().begin(); jt != it.value().end() ; ++jt) {
+            unsigned int buf = jt.value();
+            f->glDeleteBuffers(1, &buf);
+        }
     }
     
 

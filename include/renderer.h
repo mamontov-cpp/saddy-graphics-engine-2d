@@ -516,6 +516,9 @@ protected:
     /*! A global translation offset, that should be applied to all of scenes cameras
      */
     sad::Vector3D m_global_translation_offset;
+    /*! Sizes to buffers for renderer
+     */
+    sad::Hash<int, sad::Hash<int, unsigned int> > m_sizes_to_buffers;
 
     /*! Copying a renderer, due to held system resources is disabled
     \param[in] o other renderer
