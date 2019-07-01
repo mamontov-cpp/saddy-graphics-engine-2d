@@ -406,6 +406,16 @@ public:
         GLsizei stride,
         const GLvoid* pointer
     );
+    /*! Invokes glMapBuffer, @see https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glMapBuffer.xml
+     *  \param[in] target Specifies the target buffer object being mapped. The symbolic constant must be GL_ARRAY_BUFFER, GL_ELEMENT_ARRAY_BUFFER, GL_PIXEL_PACK_BUFFER, or GL_PIXEL_UNPACK_BUFFER.
+     *  \param[in] access Specifies the access policy, indicating whether it will be possible to read from, write to, or both read from and write to the buffer object's mapped data store. The symbolic constant must be GL_READ_ONLY, GL_WRITE_ONLY, or GL_READ_WRITE.
+     *  \return pointer to mapped memory
+     */
+    void* glMapBuffer(GLenum target, GLenum access);
+    /*! Invokes, glUnmapBuffer, @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUnmapBuffer.xhtml
+     * \param target target Specifies the target buffer object being mapped. The symbolic constant must be GL_ARRAY_BUFFER, GL_ELEMENT_ARRAY_BUFFER, GL_PIXEL_PACK_BUFFER, or GL_PIXEL_UNPACK_BUFFER.
+     */
+    void glUnmapBuffer(GLenum target);
 private:
     /*! Appends info that get proc address if failed to renderer (main if OpenGL) is not set
      */
@@ -575,7 +585,12 @@ private:
     /*! glDisableVertexAttribArray procedure
      */
     PFNGLDISABLEVERTEXATTRIBARRAYPROC m_glDisableVertexAttribArray;
-
+    /*! glMapBuffer procedure
+     */
+    PFNGLMAPBUFFERPROC m_glMapBuffer;
+    /*! glUnmapBuffer procedure
+     */
+    PFNGLUNMAPBUFFERPROC m_glUnmapBuffer;
     /*! Whether it was initialized
      */
     bool m_init;

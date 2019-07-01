@@ -65,6 +65,8 @@ m_glDeleteBuffers(NULL),
 m_glEnableVertexAttribArray(NULL),
 m_glVertexAttribPointer(NULL),
 m_glDisableVertexAttribArray(NULL),
+m_glMapBuffer(NULL),
+m_glUnmapBuffer(NULL),
 m_init(false),
 m_parent(NULL)
 {
@@ -143,6 +145,8 @@ void sad::os::ExtensionFunctions::tryInit()
             TRY_GET_PROC_ADDRESS(PFNGLENABLEVERTEXATTRIBARRAYPROC, glEnableVertexAttribArray);
             TRY_GET_PROC_ADDRESS(PFNGLVERTEXATTRIBPOINTERPROC, glVertexAttribPointer);
             TRY_GET_PROC_ADDRESS(PFNGLDISABLEVERTEXATTRIBARRAYPROC, glDisableVertexAttribArray);
+            TRY_GET_PROC_ADDRESS(PFNGLMAPBUFFERPROC, glMapBuffer);
+            TRY_GET_PROC_ADDRESS(PFNGLUNMAPBUFFERPROC, glUnmapBuffer);
         }
         m_init_mtx.unlock();
     }
@@ -875,6 +879,33 @@ void sad::os::ExtensionFunctions::glVertexAttribPointer(GLuint index,
     else
     {
         throw std::logic_error("glVertexAttribPointer() is unavailable on this platform");
+    }
+}
+
+void* sad::os::ExtensionFunctions::glMapBuffer(GLenum target, GLenum access)
+{
+    this->tryInit();
+    if (this->m_glMapBuffer)
+    {
+        return (this->m_glMapBuffer)(target, access);
+    }
+    else
+    {
+        throw std::logic_error("glMapBuffer() is unavailable on this platform");
+    }
+    return NULL;
+}
+
+void sad::os::ExtensionFunctions::glUnmapBuffer(GLenum target)
+{
+    this->tryInit();
+    if (this->m_glUnmapBuffer)
+    {
+        (this->m_glUnmapBuffer)(target);
+    }
+    else
+    {
+        throw std::logic_error("glUnmapBuffer() is unavailable on this platform");
     }
 }
 
