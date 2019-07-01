@@ -245,6 +245,495 @@ void sad::os::ShaderImpl::tryDestroy()
     }
 }
 
+int sad::os::ShaderImpl::getUniformLocation(const sad::String& name)
+{
+    if (name.length() == 0)
+    {
+        return 0;
+    }
+    if (m_is_on_gpu)
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glGetUniformLocation(m_program, name.c_str());
+    }
+    return 0;
+}
+
+void sad::os::ShaderImpl::setUniformMatrix4x3(int location, int count, bool transpose, const float* value)
+{
+    if (m_is_on_gpu && (location != 0))
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glUniformMatrix4x3fv(location, count, (transpose) ? GL_TRUE : GL_FALSE, value);
+    }
+}
+
+void sad::os::ShaderImpl::setUniformMatrix3x4(int location, int count, bool transpose,const float* value)
+{
+    if (m_is_on_gpu && (location != 0))
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glUniformMatrix3x4fv(location, count, (transpose) ? GL_TRUE : GL_FALSE, value);
+    }
+}
+
+void sad::os::ShaderImpl::setUniformMatrix4x2(int location, int count, bool transpose,const float* value)
+{
+    if (m_is_on_gpu && (location != 0))
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glUniformMatrix4x2fv(location, count, (transpose) ? GL_TRUE : GL_FALSE, value);
+    }
+}
+
+void sad::os::ShaderImpl::setUniformMatrix2x4(int location, int count, bool transpose,const float* value)
+{
+    if (m_is_on_gpu && (location != 0))
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glUniformMatrix2x4fv(location, count, (transpose) ? GL_TRUE : GL_FALSE, value);
+    }
+}
+
+void sad::os::ShaderImpl::setUniformMatrix3x2(int location, int count, bool transpose,const float* value)
+{
+    if (m_is_on_gpu && (location != 0))
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glUniformMatrix3x2fv(location, count, (transpose) ? GL_TRUE : GL_FALSE, value);
+    }
+}
+
+void sad::os::ShaderImpl::setUniformMatrix2x3(int location, int count, bool transpose,const float* value)
+{
+    if (m_is_on_gpu && (location != 0))
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glUniformMatrix2x3fv(location, count, (transpose) ? GL_TRUE : GL_FALSE, value);
+    }
+}
+
+void sad::os::ShaderImpl::setUniformMatrix4(int location, int count, bool transpose,const float* value)
+{
+    if (m_is_on_gpu && (location != 0))
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glUniformMatrix4fv(location, count, (transpose) ? GL_TRUE : GL_FALSE, value);
+    }
+}
+
+void sad::os::ShaderImpl::setUniformMatrix3(int location, int count, bool transpose,const float* value)
+{
+    if (m_is_on_gpu && (location != 0))
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glUniformMatrix3fv(location, count, (transpose) ? GL_TRUE : GL_FALSE, value);
+    }
+}
+
+
+void sad::os::ShaderImpl::setUniformMatrix2(int location, int count, bool transpose,const float* value)
+{
+    if (m_is_on_gpu && (location != 0))
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glUniformMatrix3fv(location, count, (transpose) ? GL_TRUE : GL_FALSE, value);
+    }
+}
+
+void sad::os::ShaderImpl::setUniform4(int location, int count, const unsigned int* value)
+{
+    if (m_is_on_gpu && (location != 0))
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glUniform4uiv(location, count, value);
+    }
+}
+
+void sad::os::ShaderImpl::setUniform3(int location, int count, const unsigned int* value)
+{
+    if (m_is_on_gpu && (location != 0))
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glUniform3uiv(location, count, value);
+    }
+}
+
+void sad::os::ShaderImpl::setUniform2(int location, int count, const unsigned int* value)
+{
+    if (m_is_on_gpu && (location != 0))
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glUniform2uiv(location, count, value);
+    }
+}
+
+void sad::os::ShaderImpl::setUniform1(int location, int count, const unsigned int* value)
+{
+    if (m_is_on_gpu && (location != 0))
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glUniform1uiv(location, count, value);
+    }
+}
+
+
+void sad::os::ShaderImpl::setUniform4(int location, int count, const int* value)
+{
+    if (m_is_on_gpu && (location != 0))
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glUniform4iv(location, count, value);
+    }
+}
+
+void sad::os::ShaderImpl::setUniform3(int location, int count, const int* value)
+{
+    if (m_is_on_gpu && (location != 0))
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glUniform3iv(location, count, value);
+    }
+}
+
+void sad::os::ShaderImpl::setUniform2(int location, int count, const int* value)
+{
+    if (m_is_on_gpu && (location != 0))
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glUniform2iv(location, count, value);
+    }
+}
+
+void sad::os::ShaderImpl::setUniform1(int location, int count, const int* value)
+{
+    if (m_is_on_gpu && (location != 0))
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glUniform1iv(location, count, value);
+    }
+}
+
+
+void sad::os::ShaderImpl::setUniform4(int location, int count, const float* value)
+{
+    if (m_is_on_gpu && (location != 0))
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glUniform4fv(location, count, value);
+    }
+}
+
+void sad::os::ShaderImpl::setUniform3(int location, int count, const float* value)
+{
+    if (m_is_on_gpu && (location != 0))
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glUniform3fv(location, count, value);
+    }
+}
+
+void sad::os::ShaderImpl::setUniform2(int location, int count, const float* value)
+{
+    if (m_is_on_gpu && (location != 0))
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glUniform2fv(location, count, value);
+    }
+}
+
+void sad::os::ShaderImpl::setUniform1(int location, int count, const float* value)
+{
+    if (m_is_on_gpu && (location != 0))
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glUniform1fv(location, count, value);
+    }
+}
+
+void sad::os::ShaderImpl::setUniform(int location, unsigned int v0, unsigned int v1, unsigned int v2, unsigned int v3)
+{
+    if (m_is_on_gpu && (location != 0))
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glUniform4ui(location, v0, v1, v2, v3);
+    }
+}
+
+void sad::os::ShaderImpl::setUniform(int location, unsigned int v0, unsigned int v1, unsigned int v2)
+{
+    if (m_is_on_gpu && (location != 0))
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glUniform3ui(location, v0, v1, v2);
+    }
+}
+
+
+void sad::os::ShaderImpl::setUniform(int location, unsigned int v0, unsigned int v1)
+{
+    if (m_is_on_gpu && (location != 0))
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glUniform2ui(location, v0, v1);
+    }
+}
+
+
+void sad::os::ShaderImpl::setUniform(int location, unsigned int v0)
+{
+    if (m_is_on_gpu && (location != 0))
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glUniform1ui(location, v0);
+    }
+}
+
+void sad::os::ShaderImpl::setUniform(int location, int v0, int v1, int v2, int v3)
+{
+    if (m_is_on_gpu && (location != 0))
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glUniform4i(location, v0, v1, v2, v3);
+    }
+}
+
+void sad::os::ShaderImpl::setUniform(int location, int v0, int v1, int v2)
+{
+    if (m_is_on_gpu && (location != 0))
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glUniform3i(location, v0, v1, v2);
+    }
+}
+
+void sad::os::ShaderImpl::setUniform(int location, int v0, int v1)
+{
+    if (m_is_on_gpu && (location != 0))
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glUniform2i(location, v0, v1);
+    }
+}
+
+
+void sad::os::ShaderImpl::setUniform(int location, int v0)
+{
+    if (m_is_on_gpu && (location != 0))
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glUniform1i(location, v0);
+    }
+}
+
+void sad::os::ShaderImpl::setUniform(int location, float v0, float v1, float v2, float v3)
+{
+    if (m_is_on_gpu && (location != 0))
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glUniform4f(location, v0, v1, v2, v3);
+    }
+}
+
+void sad::os::ShaderImpl::setUniform(int location, float v0, float v1, float v2)
+{
+    if (m_is_on_gpu && (location != 0))
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glUniform3f(location, v0, v1, v2);
+    }
+}
+
+void sad::os::ShaderImpl::setUniform(int location, float v0, float v1)
+{
+    if (m_is_on_gpu && (location != 0))
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glUniform2f(location, v0, v1);
+    }
+}
+
+void sad::os::ShaderImpl::setUniform(int location, float v0)
+{
+    if (m_is_on_gpu && (location != 0))
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glUniform1f(location, v0);
+    }
+}
+
+
+
 // ======================================== PRIVATE METHODS  ========================================
 
 void sad::os::ShaderImpl::tryLogGlError(const char* op)

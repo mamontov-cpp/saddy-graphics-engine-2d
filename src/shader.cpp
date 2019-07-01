@@ -169,3 +169,174 @@ void sad::Shader::tryDestroy() const
 {
     m_impl->tryDestroy();
 }
+
+int sad::Shader::getUniformLocation(const sad::String& name)
+{
+    return m_impl->getUniformLocation(name);
+}
+
+void sad::Shader::setUniformMatrix4x3(int location, int count, bool transpose,const float* value)
+{
+    m_impl->setUniformMatrix4x3(location, count, transpose, value);
+}
+
+void sad::Shader::setUniformMatrix3x4(int location, int count, bool transpose,const float* value)
+{
+    m_impl->setUniformMatrix3x4(location, count, transpose, value);
+}
+
+void sad::Shader::setUniformMatrix4x2(int location, int count, bool transpose,const float* value)
+{
+    m_impl->setUniformMatrix4x2(location, count, transpose, value);
+}
+
+void  sad::Shader::setUniformMatrix2x4(int location, int count, bool transpose,const float* value)
+{
+    m_impl->setUniformMatrix2x4(location, count, transpose, value);
+}
+
+void sad::Shader::setUniformMatrix3x2(int location, int count, bool transpose,const float* value)
+{
+    m_impl->setUniformMatrix3x2(location, count, transpose, value);
+}
+
+void sad::Shader::setUniformMatrix2x3(int location, int count, bool transpose,const float* value)
+{
+    m_impl->setUniformMatrix2x3(location, count, transpose, value);
+}
+
+void sad::Shader::setUniformMatrix4(int location, int count, bool transpose,const float* value)
+{
+    m_impl->setUniformMatrix4(location, count, transpose, value);
+}
+
+void sad::Shader::setUniformMatrix3(int location, int count, bool transpose,const float* value)
+{
+    m_impl->setUniformMatrix3(location, count, transpose, value);
+}
+
+void sad::Shader::setUniformMatrix2(int location, int count, bool transpose,const float* value)
+{
+    m_impl->setUniformMatrix2(location, count, transpose, value);
+}
+
+void sad::Shader::setUniform4(int location, int count, const unsigned int* value)
+{
+    m_impl->setUniform4(location, count, value);
+}
+
+void sad::Shader::setUniform3(int location, int count, const unsigned int* value)
+{
+    m_impl->setUniform3(location, count, value);
+}
+
+void sad::Shader::setUniform2(int location, int count, const unsigned int* value)
+{
+    m_impl->setUniform2(location, count, value);
+}
+
+void sad::Shader::setUniform1(int location, int count, const unsigned int* value)
+{
+    m_impl->setUniform1(location, count, value);
+}
+
+void sad::Shader::setUniform4(int location, int count, const int* value)
+{
+    m_impl->setUniform4(location, count, value);
+}
+
+void sad::Shader::setUniform3(int location, int count, const int* value)
+{
+    m_impl->setUniform3(location, count, value);
+}
+
+void sad::Shader::setUniform2(int location, int count, const int* value)
+{
+    m_impl->setUniform2(location, count, value);
+}
+
+void sad::Shader::setUniform1(int location, int count, const int* value)
+{
+    m_impl->setUniform1(location, count, value);
+}
+
+
+void sad::Shader::setUniform4(int location, int count, const float* value)
+{
+    m_impl->setUniform4(location, count, value);
+}
+
+void sad::Shader::setUniform3(int location, int count, const float* value)
+{
+    m_impl->setUniform3(location, count, value);
+}
+
+void sad::Shader::setUniform2(int location, int count, const float* value)
+{
+    m_impl->setUniform2(location, count, value);
+}
+
+void sad::Shader::setUniform1(int location, int count, const float* value)
+{
+    m_impl->setUniform1(location, count, value);
+}
+
+void sad::Shader::setUniform(int location, unsigned int v0, unsigned int v1, unsigned int v2, unsigned int v3)
+{
+    m_impl->setUniform(location, v0, v1, v2, v3);
+}
+
+void sad::Shader::setUniform(int location, unsigned int v0, unsigned int v1, unsigned int v2)
+{
+    m_impl->setUniform(location, v0, v1, v2);
+}
+
+void sad::Shader::setUniform(int location, unsigned int v0, unsigned int v1)
+{
+    m_impl->setUniform(location, v0, v1);
+}
+
+void sad::Shader::setUniform(int location, unsigned int v0)
+{
+    m_impl->setUniform(location, v0);
+}
+
+void sad::Shader::setUniform(int location, int v0, int v1, int v2, int v3)
+{
+    m_impl->setUniform(location, v0, v1, v2, v3);
+}
+
+void sad::Shader::setUniform(int location, int v0, int v1, int v2)
+{
+    m_impl->setUniform(location, v0, v1, v2);
+}
+
+void sad::Shader::setUniform(int location, int v0, int v1)
+{
+    m_impl->setUniform(location, v0, v1);
+}
+
+void sad::Shader::setUniform(int location, int v0)
+{
+    m_impl->setUniform(location, v0);
+}
+
+void sad::Shader::setUniform(int location, float v0, float v1, float v2, float v3)
+{
+    m_impl->setUniform(location, v0, v1, v2, v3);
+}
+
+void sad::Shader::setUniform(int location, float v0, float v1, float v2)
+{
+    m_impl->setUniform(location, v0, v1, v2);
+}
+
+void sad::Shader::setUniform(int location, float v0, float v1)
+{
+    m_impl->setUniform(location, v0, v1);
+}
+
+void sad::Shader::setUniform(int location, float v0)
+{
+    m_impl->setUniform(location, v0);
+}
