@@ -17,6 +17,7 @@
 #include "os/glheaders.h"
 #include "os/threadimpl.h"
 #include "os/extensionfunctions.h"
+#include "os/glgeometry.h"
 
 #include "db/dbdatabase.h"
 #include "db/dbtypename.h"
@@ -127,7 +128,12 @@ sad::Renderer::~Renderer(void)
         ++it)
     {
         it.value()->delRef();
-    }   
+    }
+
+    for(auto it = m_sizes_to_geometry.begin(); it != m_sizes_to_geometry.end(); ++it)
+    {
+        delete it.value();
+    }
 }
 
 void sad::Renderer::setScene(Scene * scene)
@@ -365,12 +371,8 @@ void sad::Renderer::emergencyShutdown()
         m_emergency_shutdown_callbacks[i]->call(this);
     }
 
-    sad::os::ExtensionFunctions* f = this->opengl()->extensionFunctions();
-    for (auto it = m_sizes_to_buffers.begin(); it != m_sizes_to_buffers.end(); ++it) {
-        for (auto jt = it.value().begin(); jt != it.value().end() ; ++jt) {
-            unsigned int buf = jt.value();
-            f->glDeleteBuffers(1, &buf);
-        }
+    for (auto it = m_sizes_to_geometry.begin(); it != m_sizes_to_geometry.end(); ++it) {
+        it.value()->unload();
     }
     
 
@@ -809,6 +811,24 @@ const sad::Vector3D& sad::Renderer::globalTranslationOffset() const
     return m_global_translation_offset;
 }
 
+sad::os::GLGeometry* sad::Renderer::geometryForPoints(unsigned int points)
+{
+    if (points == 0)
+    {
+        return NULL;
+    }
+    if (!m_sizes_to_geometry.contains(points))
+    {
+        sad::os::GLGeometry* g = new sad::os::GLGeometry(this, points);
+        m_sizes_to_geometry.insert(points, g);
+        return g;
+    }
+    else
+    {
+        return m_sizes_to_geometry[points];
+    }
+}
+
 // ============================================================ PROTECTED METHODS ============================================================
 
 bool sad::Renderer::initRendererBeforeLoop()
@@ -869,6 +889,10 @@ void sad::Renderer::deinitRendererAfterLoop()
     this->mainLoop()->deinitMainLoop();
     cursor()->removeHandlersIfNeeded();
     cleanPipeline();
+    for (auto it = m_sizes_to_geometry.begin(); it != m_sizes_to_geometry.end(); ++it)
+    {
+        it.value()->unload();
+    }
 
     m_context->destroy();
     m_window->destroy();

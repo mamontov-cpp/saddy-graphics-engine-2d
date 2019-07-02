@@ -9,6 +9,9 @@ namespace sad
 {
 class Renderer;
 
+namespace os
+{
+
 /*! A geometry for rendering
  */
 class GLGeometry
@@ -36,6 +39,10 @@ public:
     /*! Unloads resources from GPU
      */
     void unload();
+    /*! Draws array list
+     * \param mode a mode
+     */
+    void drawArrays(GLenum mode);
 private:
     /*! A renderer for geometry
      */
@@ -57,5 +64,6 @@ private:
     bool m_is_on_gpu;
 };
 
+}
 
 }

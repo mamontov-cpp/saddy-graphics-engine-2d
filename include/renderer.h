@@ -4,7 +4,7 @@
     give idea for improving a documentation, we would appreciate your help
  */
 /*! \file   include/renderer.h
-    \author FreakyBlast
+    \author FreakyBlast, mamontov-cpp
 
     \brief  Declaration of Renderer - main class, for running 
     application is placed here.
@@ -64,6 +64,11 @@ namespace db
 namespace util
 {
     class SwapLayersTask;
+}
+
+namespace os
+{
+    class GLGeometry;
 }
 
 /*! Can be a point or none, depending on context
@@ -434,6 +439,11 @@ public:
         \return global translation offset
      */
     const sad::Vector3D& globalTranslationOffset() const;
+    /*! Returns geometry for specified points
+     *  \param[in] points a points for geometry
+     *  \return geometry data
+     */
+    sad::os::GLGeometry* geometryForPoints(unsigned int points);
 protected:
     /*! A global instance for renderer, to make it local creation is
         procedures unnecessary. It's not a singleton, but can
@@ -516,9 +526,9 @@ protected:
     /*! A global translation offset, that should be applied to all of scenes cameras
      */
     sad::Vector3D m_global_translation_offset;
-    /*! Sizes to buffers for renderer
+    /*! Sizes to geometry
      */
-    sad::Hash<int, sad::Hash<int, unsigned int> > m_sizes_to_buffers;
+    sad::Hash<unsigned int, sad::os::GLGeometry*> m_sizes_to_geometry;
 
     /*! Copying a renderer, due to held system resources is disabled
     \param[in] o other renderer

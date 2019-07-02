@@ -306,6 +306,9 @@
     <ClCompile Include="src\os\consoleimpl.cpp">
       <Filter>Файлы исходного кода\os</Filter>
     </ClCompile>
+    <ClCompile Include="src\os\glgeometry.cpp">
+      <Filter>Файлы исходного кода\os</Filter>
+    </ClCompile>
     <ClCompile Include="src\os\generatemipmaps30.cpp">
       <Filter>Файлы исходного кода\os</Filter>
     </ClCompile>
@@ -996,6 +999,9 @@
       <Filter>Заголовочные файлы\cli</Filter>
     </ClInclude>
     <ClInclude Include="include\os\consoleimpl.h">
+      <Filter>Заголовочные файлы\os</Filter>
+    </ClInclude>
+    <ClInclude Include="include\os\glgeometry.h">
       <Filter>Заголовочные файлы\os</Filter>
     </ClInclude>
     <ClInclude Include="include\os\generatemipmaps30.h">
