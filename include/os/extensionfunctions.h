@@ -416,6 +416,20 @@ public:
      * \param target target Specifies the target buffer object being mapped. The symbolic constant must be GL_ARRAY_BUFFER, GL_ELEMENT_ARRAY_BUFFER, GL_PIXEL_PACK_BUFFER, or GL_PIXEL_UNPACK_BUFFER.
      */
     void glUnmapBuffer(GLenum target);
+    /*! Invokes glGenVertexArrays, @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glGenVertexArrays.xhtml
+     * \param[in] n Specifies the number of vertex array object names to generate.
+     * \param[out] arrays Specifies an array in which the generated vertex array object names are stored.
+     */
+    void glGenVertexArrays(GLsizei n, GLuint* arrays);
+    /*! Invokes glBindVertexArray, @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glBindVertexArray.xhtml
+     * \param[in] array Specifies the name of the vertex array to bind.
+     */
+    void glBindVertexArray(GLuint array);
+    /*! Invokes glDeleteVertexArrays, @see  https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glDeleteVertexArrays.xhtml
+     *  \param[in] n Specifies the number of vertex array objects to be deleted.
+     *  \param[in] arrays Specifies the address of an array containing the n names of the objects to be deleted.
+     */
+    void glDeleteVertexArrays(GLsizei n, const GLuint* arrays);
 private:
     /*! Appends info that get proc address if failed to renderer (main if OpenGL) is not set
      */
@@ -591,6 +605,15 @@ private:
     /*! glUnmapBuffer procedure
      */
     PFNGLUNMAPBUFFERPROC m_glUnmapBuffer;
+    /*! glGenVertexArrays procedure
+     */
+    PFNGLGENVERTEXARRAYSPROC m_glGenVertexArrays;
+    /*! glBindVertexArray procedure
+     */
+    PFNGLBINDVERTEXARRAYPROC m_glBindVertexArray;
+    /*! glDeleteVertexArrays procedure
+     */
+    PFNGLDELETEVERTEXARRAYSPROC m_glDeleteVertexArrays;
     /*! Whether it was initialized
      */
     bool m_init;

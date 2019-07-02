@@ -67,6 +67,9 @@ m_glVertexAttribPointer(NULL),
 m_glDisableVertexAttribArray(NULL),
 m_glMapBuffer(NULL),
 m_glUnmapBuffer(NULL),
+m_glGenVertexArrays(NULL),
+m_glBindVertexArray(NULL),
+m_glDeleteVertexArrays(NULL),
 m_init(false),
 m_parent(NULL)
 {
@@ -78,7 +81,7 @@ void sad::os::ExtensionFunctions::setParent(sad::OpenGL* ogl)
     m_parent = ogl;
 }
 
-#define TRY_GET_PROC_ADDRESS(TYPE, VARIABLE)  m_##VARIABLE = ( TYPE )getProcAdress(#VARIABLE); m_init = m_init && (m_##VARIABLE != NULL); if (m_##VARIABLE == NULL) this->showGetProcAddressFailedError(#VARIABLE);
+#define TRY_GET_PROC_ADDRESS(TYPE, VARIABLE)  m_##VARIABLE = reinterpret_cast< TYPE >(getProcAdress(#VARIABLE)); m_init = m_init && (m_##VARIABLE != NULL); if (m_##VARIABLE == NULL) this->showGetProcAddressFailedError(#VARIABLE);
 
 void sad::os::ExtensionFunctions::tryInit()
 {
@@ -147,6 +150,9 @@ void sad::os::ExtensionFunctions::tryInit()
             TRY_GET_PROC_ADDRESS(PFNGLDISABLEVERTEXATTRIBARRAYPROC, glDisableVertexAttribArray);
             TRY_GET_PROC_ADDRESS(PFNGLMAPBUFFERPROC, glMapBuffer);
             TRY_GET_PROC_ADDRESS(PFNGLUNMAPBUFFERPROC, glUnmapBuffer);
+            TRY_GET_PROC_ADDRESS(PFNGLGENVERTEXARRAYSPROC, glGenVertexArrays);
+            TRY_GET_PROC_ADDRESS(PFNGLBINDVERTEXARRAYPROC, glBindVertexArray);
+            TRY_GET_PROC_ADDRESS(PFNGLDELETEVERTEXARRAYSPROC, glDeleteVertexArrays);
         }
         m_init_mtx.unlock();
     }
@@ -909,6 +915,45 @@ void sad::os::ExtensionFunctions::glUnmapBuffer(GLenum target)
     }
 }
 
+void sad::os::ExtensionFunctions::glGenVertexArrays(GLsizei n, GLuint* arrays)
+{
+    this->tryInit();
+    if (this->m_glGenVertexArrays)
+    {
+        (this->m_glGenVertexArrays)(n, arrays);
+    }
+    else
+    {
+        throw std::logic_error("glGenVertexArrays() is unavailable on this platform");
+    }
+}
+
+void sad::os::ExtensionFunctions::glBindVertexArray(GLuint array)
+{
+    this->tryInit();
+    if (this->m_glBindVertexArray)
+    {
+        (this->m_glBindVertexArray)(array);
+    }
+    else
+    {
+        throw std::logic_error("glBindVertexArray() is unavailable on this platform");
+    }
+}
+
+
+void sad::os::ExtensionFunctions::glDeleteVertexArrays(GLsizei n, const GLuint* arrays)
+{
+    this->tryInit();
+    if (this->m_glDeleteVertexArrays)
+    {
+        (this->m_glDeleteVertexArrays)(n, arrays);
+    }
+    else
+    {
+        throw std::logic_error("glDeleteVertexArrays() is unavailable on this platform");
+    }
+}
 // ===================================== PRIVATE METHODS =====================================
 
 void sad::os::ExtensionFunctions::showGetProcAddressFailedError(const sad::String& name) const
