@@ -62,7 +62,7 @@ void sad::ShaderFunction::setTexture(sad::Texture* tex)
 
 void sad::ShaderFunction::apply(sad::SceneNode* node)
 {
-    if (!node || !shader)
+    if (!node || !m_shader)
     {
         return;
     }
