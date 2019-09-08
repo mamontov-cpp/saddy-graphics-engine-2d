@@ -51,3 +51,20 @@ replace_in_file("tests/dukpp-03/main.cpp", /\#define[ ]+TEST_INTERACTIVE/, "//#d
 
 replace_in_file("examples/game/game.vcxproj", /<WindowsTargetPlatformVersion>10.0<\/WindowsTargetPlatformVersion>/, "<WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>")
 replace_in_file("examples/game/game.vcxproj", /<PlatformToolset>v142<\/PlatformToolset>/, "<PlatformToolset>v141</PlatformToolset>")
+
+
+replace_in_file("examples/multithreading/multithreading.vcxproj", /<WindowsTargetPlatformVersion>10.0<\/WindowsTargetPlatformVersion>/, "<WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>")
+replace_in_file("examples/multithreading/multithreading.vcxproj", /<PlatformToolset>v142<\/PlatformToolset>/, "<PlatformToolset>v141</PlatformToolset>")
+
+replace_in_file("plugins/dukpp-03-irrklang/dukpp-03-irrklang.vcxproj", /<WindowsTargetPlatformVersion>10.0<\/WindowsTargetPlatformVersion>/, "<WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>")
+replace_in_file("plugins/dukpp-03-irrklang/dukpp-03-irrklang.vcxproj", /<PlatformToolset>v142<\/PlatformToolset>/, "<PlatformToolset>v141</PlatformToolset>")
+
+
+replace_in_file("plugins/dukpp-03/dukpp-03.vcxproj", /<WindowsTargetPlatformVersion>10.0<\/WindowsTargetPlatformVersion>/, "<WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>")
+replace_in_file("plugins/dukpp-03/dukpp-03.vcxproj", /<PlatformToolset>v142<\/PlatformToolset>/, "<PlatformToolset>v141</PlatformToolset>")
+
+replace_in_file("plugins/freetype/saddy-ft.vcxproj", /<WindowsTargetPlatformVersion>10.0<\/WindowsTargetPlatformVersion>/, "<WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>")
+replace_in_file("plugins/freetype/saddy-ft.vcxproj", /<PlatformToolset>v142<\/PlatformToolset>/, "<PlatformToolset>v141</PlatformToolset>")
+
+replace_in_file("plugins/irrklang/irrklang.vcxproj", /<WindowsTargetPlatformVersion>10.0<\/WindowsTargetPlatformVersion>/, "<WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>")
+replace_in_file("plugins/irrklang/irrklang.vcxproj", /<PlatformToolset>v142<\/PlatformToolset>/, "<PlatformToolset>v141</PlatformToolset>")
