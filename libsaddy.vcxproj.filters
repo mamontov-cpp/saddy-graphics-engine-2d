@@ -798,6 +798,9 @@
     <ClCompile Include="src\shaderednode.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
+    <ClCompile Include="src\shaderfunction.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\camera.h">
@@ -1698,6 +1701,9 @@
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="include\shaderednode.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaderfunction.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>

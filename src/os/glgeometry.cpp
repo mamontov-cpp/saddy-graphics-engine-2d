@@ -23,7 +23,7 @@ sad::os::GLGeometry::~GLGeometry()
 }
 
 
-void sad::os::GLGeometry::setVertices(const float* vertexes)
+void sad::os::GLGeometry::setVertices(const float* vertexes) const
 {
     if (!m_is_on_gpu)
     {
@@ -43,7 +43,7 @@ void sad::os::GLGeometry::setVertices(const float* vertexes)
 
 
 
-void sad::os::GLGeometry::setTextureCoordinates(const float* textureCoordinates)
+void sad::os::GLGeometry::setTextureCoordinates(const float* textureCoordinates) const
 {
     if (!m_is_on_gpu)
     {
@@ -75,7 +75,7 @@ void sad::os::GLGeometry::loadToGPU()
         float* buffer = new float[3 * m_point_count * sizeof(float)];
         std::fill_n(buffer, 3 * m_point_count, 0.0f);
         f->glBufferData(GL_ARRAY_BUFFER, 3 * m_point_count * sizeof(float), buffer, GL_DYNAMIC_DRAW);
-        delete buffer;
+        delete[] buffer;
 
         // Create texture coordinates buffer
         f->glGenBuffers(1, &m_texture_buffer);
@@ -83,7 +83,7 @@ void sad::os::GLGeometry::loadToGPU()
         buffer = new float[2 * m_point_count * sizeof(float)];
         std::fill_n(buffer, 2 * m_point_count, 0.0f);
         f->glBufferData(GL_ARRAY_BUFFER, 2 * m_point_count * sizeof(float), buffer, GL_DYNAMIC_DRAW);
-        delete buffer;
+        delete[] buffer;
 
         m_is_on_gpu = true;
     }
@@ -123,7 +123,7 @@ void sad::os::GLGeometry::drawArrays(GLenum mode)
        GL_FLOAT,
        GL_FALSE,
        0,
-       (void*)0
+       static_cast<void*>(0)
     );
 
     f->glEnableVertexAttribArray(1);
@@ -134,7 +134,7 @@ void sad::os::GLGeometry::drawArrays(GLenum mode)
         GL_FLOAT,
         GL_FALSE,
         0,
-        (void*)0
+        static_cast<void*>(0)
     );
 
     // Render arrays

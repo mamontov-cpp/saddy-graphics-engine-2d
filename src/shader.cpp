@@ -4,13 +4,14 @@
 
 DECLARE_SOBJ(sad::Shader)
 
+
+
 sad::Shader::Shader() : m_impl(new sad::os::ShaderImpl())
 {
-    m_on_use = []() {};
-    m_on_destroy = []() {};
+
 }
 
-sad::Shader::Shader(const sad::Shader& o) : m_impl(new sad::os::ShaderImpl(*(o.m_impl))), m_on_use(o.m_on_use), m_on_destroy(o.m_on_destroy)
+sad::Shader::Shader(const sad::Shader& o) : m_impl(new sad::os::ShaderImpl(*(o.m_impl)))  // NOLINT(bugprone-copy-constructor-init)
 {
 }
 
@@ -18,14 +19,11 @@ sad::Shader& sad::Shader::operator=(const sad::Shader& o)
 {
     delete m_impl;
     m_impl = new sad::os::ShaderImpl(*(o.m_impl));
-    m_on_use = o.m_on_use;
-    m_on_destroy = o.m_on_destroy;
     return *this;
 }
 
 sad::Shader::~Shader()
 {
-    m_on_destroy();
     delete m_impl;
 }
 
@@ -74,35 +72,19 @@ void sad::Shader::tryUpload() const
     m_impl->tryUpload();
 }
 
+void sad::Shader::tryDestroy()
+{
+    m_impl->tryDestroy();
+}
+
 void sad::Shader::use() const
 {
     m_impl->use();
-    m_on_use();
 }
 
 void sad::Shader::disable() const
 {
     m_impl->disable();
-}
-
-void sad::Shader::setOnUseCallback(const std::function<void()>& cb)
-{
-    m_on_use = cb;
-}
-
-void sad::Shader::setOnDestroyCallback(const std::function<void()>& cb)
-{
-    m_on_destroy = cb;
-}
-
-const std::function<void()>& sad::Shader::onUseCallback() const
-{
-    return m_on_use;
-}
-
-const std::function<void()>& sad::Shader::onDestroyCallback() const
-{
-    return m_on_destroy;
 }
 
 void sad::Shader::setUniformVariable(const sad::String& loc_name, int v0) const
@@ -339,4 +321,9 @@ void sad::Shader::setUniform(int location, float v0, float v1)
 void sad::Shader::setUniform(int location, float v0)
 {
     m_impl->setUniform(location, v0);
+}
+
+void sad::Shader::tryLogGlError(const char* op)
+{
+    m_impl->tryLogGlError(op);
 }

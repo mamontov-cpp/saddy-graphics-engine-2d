@@ -114,6 +114,26 @@ sad::Renderer::~Renderer(void)
     }
     m_resource_trees.clear();
 
+    if (m_default_texture_shader_function != NULL)
+    {
+        m_default_texture_shader_function->delRef();
+    }
+
+    if (m_default_no_textures_shader_function != NULL)
+    {
+        m_default_no_textures_shader_function->delRef();
+    }
+
+    if (m_default_textures_shader != NULL)
+    {
+        m_default_textures_shader->delRef();
+    }
+
+    if (m_default_no_textures_shader != NULL)
+    {
+        m_default_no_textures_shader->delRef();
+    }
+
     delete m_pipeline;
     delete m_controls;
     delete m_window;
@@ -374,7 +394,17 @@ void sad::Renderer::emergencyShutdown()
     for (auto it = m_sizes_to_geometry.begin(); it != m_sizes_to_geometry.end(); ++it) {
         it.value()->unload();
     }
-    
+
+    if (m_default_textures_shader != NULL)
+    {
+        m_default_textures_shader->tryDestroy();
+    }
+
+    if (m_default_no_textures_shader != NULL)
+    {
+        m_default_no_textures_shader->tryDestroy();
+    }
+
 
     // Destroy context and window, so nothing could go wrong
     this->context()->destroy();
@@ -829,6 +859,20 @@ sad::os::GLGeometry* sad::Renderer::geometryForPoints(unsigned int points)
     }
 }
 
+sad::ShaderFunction* sad::Renderer::defaultShaderFunctionForTextures() 
+{
+    this->tryInitShaders();
+    return m_default_texture_shader_function;
+}
+
+sad::ShaderFunction* sad::Renderer::defaultShaderFunctionWithoutTextures()
+{
+    this->tryInitShaders();
+    return m_default_no_textures_shader_function;
+}
+
+
+
 // ============================================================ PROTECTED METHODS ============================================================
 
 bool sad::Renderer::initRendererBeforeLoop()
@@ -1052,6 +1096,76 @@ void sad::Renderer::insertNow(sad::Scene* s, size_t position)
     {
         s->addRef();
         m_scenes.insert(s, position);
+    }
+}
+
+void sad::Renderer::tryInitShaders()
+{
+    if (this->m_default_textures_shader == NULL)
+    {
+        m_shader_init_mutex.lock();
+
+        m_default_textures_shader = new sad::Shader();
+        m_default_textures_shader->addRef();
+        m_default_textures_shader->setRenderer(this);
+        m_default_textures_shader->setVertexProgram(
+            "#version 330\n"
+            "layout(location = 0) in vec4 position;\n"
+            "uniform mat4 _sglProjectionMatrix;\n"
+            "uniform mat4 _sglModelViewMatrix;\n"
+            "in vec2 vertTexCoord;\n"
+            "out vec2 fragTexCoord;\n"
+            "\n"
+            "void main()\n"
+            "{\n"
+            "    fragTexCoord = vertTexCoord;\n"
+            "    gl_Position = _sglProjectionMatrix * _sglModelViewMatrix * position;\n"
+            "}\n"
+        );
+        m_default_textures_shader->setFragmentProgram(
+            "#version 330\n"
+            "in vec2 fragTexCoord;\n"
+            "out vec4 color;\n"
+            "uniform sampler2D _defaultTexture;\n"
+            "void main()\n"
+            "{"
+            "    color = texture(_defaultTexture, fragTexCoord);\n"
+            "}"
+        );
+
+        m_default_no_textures_shader = new sad::Shader();
+        m_default_no_textures_shader->addRef();
+        m_default_no_textures_shader->setRenderer(this);
+        m_default_no_textures_shader->setVertexProgram(
+            "#version 330\n"
+            "layout(location = 0) in vec4 position;\n"
+            "uniform mat4 _sglProjectionMatrix;\n"
+            "uniform mat4 _sglModelViewMatrix;\n"
+            "\n"
+            "void main()\n"
+            "{\n"
+            "    gl_Position = _sglProjectionMatrix * _sglModelViewMatrix * position;\n"
+            "}\n"
+        );
+        m_default_no_textures_shader->setFragmentProgram(
+            "#version 330\n"
+            "out vec4 color;\n"
+            "void main()\n"
+            "{"
+            "    color = vec4(1.0, 1.0, 1.0, 0.0);\n"
+            "}"
+        );
+
+        m_default_texture_shader_function = new sad::ShaderFunction();
+        m_default_texture_shader_function->setShader(m_default_textures_shader);
+        m_default_texture_shader_function->addRef();
+
+        m_default_no_textures_shader_function = new sad::ShaderFunction();
+        m_default_no_textures_shader_function->setShader(m_default_no_textures_shader);
+        m_default_no_textures_shader_function->addRef();
+
+
+        m_shader_init_mutex.unlock();
     }
 }
 

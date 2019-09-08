@@ -28,11 +28,11 @@ public:
     /*! Sets vertices for vertex buffer
      *  \param[in] vertexes
      */
-    void setVertices(const float* vertexes);
+    void setVertices(const float* vertexes) const;
     /*! Sets texture coordinates for texture buffer
-     *  \param[in] texture coordinates texture coordinates
+     *  \param[in] textureCoordinates texture coordinates
      */
-    void setTextureCoordinates(const float* textureCoordinates);
+    void setTextureCoordinates(const float* textureCoordinates) const;
     /*! Tries to upload geometry to GPU
      */
     void loadToGPU();

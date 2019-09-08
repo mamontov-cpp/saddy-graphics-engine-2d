@@ -29,6 +29,7 @@
 #include "primitiverenderer.h"
 #include "texture.h"
 #include "clipboard.h"
+#include "shaderfunction.h"
 
 #include "imageformats/loader.h"
 
@@ -444,6 +445,14 @@ public:
      *  \return geometry data
      */
     sad::os::GLGeometry* geometryForPoints(unsigned int points);
+    /*! Returns default shader function for textures
+     *  \return default shader function for textures
+     */
+    sad::ShaderFunction* defaultShaderFunctionForTextures();
+    /*! Returns default shader function without textures
+     *  \return default shader function without textures
+     */
+    sad::ShaderFunction* defaultShaderFunctionWithoutTextures();
 protected:
     /*! A global instance for renderer, to make it local creation is
         procedures unnecessary. It's not a singleton, but can
@@ -529,6 +538,21 @@ protected:
     /*! Sizes to geometry
      */
     sad::Hash<unsigned int, sad::os::GLGeometry*> m_sizes_to_geometry;
+    /*! A default shader for using textures
+     */
+    sad::Shader* m_default_textures_shader;
+    /*! A default shader function for using textures
+     */
+    sad::ShaderFunction* m_default_texture_shader_function;
+    /*! A default shader for not using textures
+     */
+    sad::Shader* m_default_no_textures_shader;
+    /*! A default shader function for using textures
+     */
+    sad::ShaderFunction* m_default_no_textures_shader_function;
+    /*! An initialization mutex for shaders
+     */
+    sad::Mutex   m_shader_init_mutex;
 
     /*! Copying a renderer, due to held system resources is disabled
     \param[in] o other renderer
@@ -593,6 +617,9 @@ protected:
         \param[in] position a used position
      */
     virtual void insertNow(sad::Scene* s, size_t position);
+    /*! Tries to init shaders for rendering
+     */
+    void tryInitShaders();
 };
 
 }

@@ -394,10 +394,10 @@ public:
     * \param[in] v0 v0
     */
    void setUniform(int location, float v0);
+   /*! Tries to log OpenGL error if occured
+    */
+   void tryLogGlError(const char* op);
 private:
-    /*! Tries to log OpenGL error if occured
-     */
-    void tryLogGlError(const char* op);
     /*! Tries to compile shader
      *  \param[in] shader_type type of shader
      *  \param[in] program_text a program text

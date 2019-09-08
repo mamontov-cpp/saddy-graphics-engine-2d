@@ -8,9 +8,6 @@
 
 #include "object.h"
 
-#include <functional>
-
-
 namespace sad
 {
 
@@ -79,28 +76,15 @@ public:
     /*! Tries to upload shader on GPU
      */
     void tryUpload() const;
+    /*! Tries to destroy shader from GPU
+     */
+    void tryDestroy();
     /*! Uses shader implementation
      */
     void use() const;
     /*! Disables shader
      */
     void disable() const;
-    /*! Sets callback, which will be called, when shader is used
-     *  \param[in] cb callback
-     */
-    void setOnUseCallback(const std::function<void()>& cb);
-    /*! Sets callback, which will be called, when shader is deleted
-     *  \param[in] cb callback
-     */
-    void setOnDestroyCallback(const std::function<void()>& cb);
-    /*! Returns callback, which will be called, when shader is used
-     *  \return callback
-     */
-    const std::function<void()>& onUseCallback() const;
-    /*! Returns callback, which will be called, when shader is deleted
-     *  \return callback
-     */
-    const std::function<void()>& onDestroyCallback() const;
     /*! Sets uniform variable
      *  \param[in] loc_name location name
      *  \param[in] v0 a first argument
@@ -400,16 +384,13 @@ public:
     * \param[in] v0 v0
     */
    void setUniform(int location, float v0);
+   /*! Tries to log OpenGL error if occured
+    */
+   void tryLogGlError(const char* op);
 private:
     /*! Implementation of shader
      */
     sad::os::ShaderImpl* m_impl;
-    /*! On use callback
-     */
-    std::function<void()> m_on_use;
-    /*! On destroy callback
-     */
-    std::function<void()> m_on_destroy;
 };
 
 }
