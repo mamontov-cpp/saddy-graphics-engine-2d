@@ -40,9 +40,11 @@ public:
      */
     void unload();
     /*! Draws array list
-     * \param mode a mode
+     * \param[in] mode a mode
+     * \param[in] vertexes vertexes
+     * \param[in] tc texture coordinates
      */
-    void drawArrays(GLenum mode);
+    void drawArrays(GLenum mode, const float* vertexes, const float* tc);
 private:
     /*! A renderer for geometry
      */

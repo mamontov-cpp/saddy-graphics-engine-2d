@@ -102,7 +102,7 @@ void sad::os::GLGeometry::unload()
     }
 }
 
-void sad::os::GLGeometry::drawArrays(GLenum mode)
+void sad::os::GLGeometry::drawArrays(GLenum mode, const float* vertexes, const float* tc)
 {
     if (!m_is_on_gpu)
     {
@@ -111,6 +111,11 @@ void sad::os::GLGeometry::drawArrays(GLenum mode)
     if (!m_is_on_gpu)
     {
         return;
+    }
+    setVertices(vertexes);
+    if (tc)
+    {
+        setTextureCoordinates(tc);
     }
     sad::os::ExtensionFunctions* f = m_renderer->opengl()->extensionFunctions();
     f->glBindVertexArray(m_vertex_array);

@@ -13,7 +13,7 @@
 
 DECLARE_SOBJ(sad::SceneNode);
 
-sad::SceneNode::SceneNode() : m_visible(true), m_scene(NULL), m_cached_layer(0), m_cached_scene_id(0)
+sad::SceneNode::SceneNode() : m_visible(true), m_scene(NULL), m_cached_layer(0), m_cached_scene_id(0), m_shader_function(NULL)
 {
 
 }
@@ -150,4 +150,14 @@ bool sad::SceneNode::canBeRotated() const
 void sad::SceneNode::rotate(double delta)
 {
     throw new std::logic_error("this node cannot be rotated");
+}
+
+void sad::SceneNode::setShaderFunction(sad::ShaderFunction* fun)
+{
+    m_shader_function = fun;
+}
+
+sad::ShaderFunction* sad::SceneNode::shaderFunction() const
+{
+    return m_shader_function;
 }
