@@ -127,7 +127,25 @@ float* sad::Camera::projectionMatrix()
     if (!this->m_transform_is_cached)
     {
          glGetFloatv(GL_PROJECTION_MATRIX, &(this->m_projection_matrix[0]));
+         sad::Scene* localScene = scene();
+         sad::Renderer* r = localScene->renderer();
+         if (!r)
+         {
+             r = sad::Renderer::ref();
+         }
+         GLenum err_code = glGetError();
+         if (err_code != GL_NO_ERROR)
+         {
+             sad::String error_string = reinterpret_cast<const char*>(gluErrorString(err_code));
+             SL_LOCAL_WARNING(error_string, *r);
+         }
          glGetFloatv(GL_MODELVIEW_MATRIX, &(this->m_model_view_matrix[0]));
+         err_code = glGetError();
+         if (err_code != GL_NO_ERROR)
+         {
+             sad::String error_string = reinterpret_cast<const char*>(gluErrorString(err_code));
+             SL_LOCAL_WARNING(error_string, *r);
+         }
          this->m_transform_is_cached = true;
     }
     return &(this->m_projection_matrix[0]);
@@ -138,7 +156,25 @@ float* sad::Camera::modelViewMatrix()
     if (!this->m_transform_is_cached)
     {
          glGetFloatv(GL_PROJECTION_MATRIX, &(this->m_projection_matrix[0]));
+         sad::Scene* localScene = scene();
+         sad::Renderer* r = localScene->renderer();
+         if (!r)
+         {
+             r = sad::Renderer::ref();
+         }
+         GLenum err_code = glGetError();
+         if (err_code != GL_NO_ERROR)
+         {
+             sad::String error_string = reinterpret_cast<const char*>(gluErrorString(err_code));
+             SL_LOCAL_WARNING(error_string, *r);
+         }
          glGetFloatv(GL_MODELVIEW_MATRIX, &(this->m_model_view_matrix[0]));
+         err_code = glGetError();
+         if (err_code != GL_NO_ERROR)
+         {
+             sad::String error_string = reinterpret_cast<const char*>(gluErrorString(err_code));
+             SL_LOCAL_WARNING(error_string, *r);
+         }
          this->m_transform_is_cached = true;
     }
     return &(this->m_projection_matrix[0]);

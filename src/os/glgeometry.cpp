@@ -31,12 +31,19 @@ void sad::os::GLGeometry::setVertices(const float* vertexes) const
     }
     sad::os::ExtensionFunctions* f = m_renderer->opengl()->extensionFunctions();
     f->glBindVertexArray(m_vertex_array);
+    tryLogGlError("sad::os::GLGeometry::drawArrays: glBindVertexArray(m_vertex_array)");
+
     f->glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer);
+    tryLogGlError("sad::os::GLGeometry::drawArrays: glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer)");
+
     void* buf = f->glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE);
+    tryLogGlError("sad::os::GLGeometry::drawArrays: glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE)");
+
     if (buf)
     {
         memcpy(buf, vertexes, 3 *m_point_count * sizeof(float));
         f->glUnmapBuffer(GL_ARRAY_BUFFER);
+        tryLogGlError("sad::os::GLGeometry::drawArrays: glUnmapBuffer(GL_ARRAY_BUFFER)");
     }
 }
 
@@ -51,12 +58,19 @@ void sad::os::GLGeometry::setTextureCoordinates(const float* textureCoordinates)
     }
     sad::os::ExtensionFunctions* f = m_renderer->opengl()->extensionFunctions();
     f->glBindVertexArray(m_vertex_array);
+    tryLogGlError("sad::os::GLGeometry::drawArrays: glBindVertexArray(m_vertex_array)");
+
     f->glBindBuffer(GL_ARRAY_BUFFER, m_texture_buffer);
+    tryLogGlError("sad::os::GLGeometry::drawArrays: glBindBuffer(GL_ARRAY_BUFFER, m_texture_buffer)");
+
     void* buf = f->glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE);
+    tryLogGlError("sad::os::GLGeometry::drawArrays: glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE)");
+
     if (buf)
     {
         memcpy(buf, textureCoordinates, 2 * m_point_count * sizeof(float));
         f->glUnmapBuffer(GL_ARRAY_BUFFER);
+        tryLogGlError("sad::os::GLGeometry::drawArrays: glUnmapBuffer(GL_ARRAY_BUFFER)");
     }
 }
 
@@ -119,9 +133,13 @@ void sad::os::GLGeometry::drawArrays(GLenum mode, const float* vertexes, const f
     }
     sad::os::ExtensionFunctions* f = m_renderer->opengl()->extensionFunctions();
     f->glBindVertexArray(m_vertex_array);
+    tryLogGlError("sad::os::GLGeometry::drawArrays: glBindVertexArray(m_vertex_array)");
 
     f->glEnableVertexAttribArray(0);
+    tryLogGlError("sad::os::GLGeometry::drawArrays: glEnableVertexAttribArray(0)");
+
     f->glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer);
+    tryLogGlError("sad::os::GLGeometry::drawArrays: glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer)");
     f->glVertexAttribPointer(
        0,
        3,
@@ -130,9 +148,14 @@ void sad::os::GLGeometry::drawArrays(GLenum mode, const float* vertexes, const f
        0,
        static_cast<void*>(0)
     );
+    tryLogGlError("sad::os::GLGeometry::drawArrays: glVertexAttribPointer");
 
     f->glEnableVertexAttribArray(1);
+    tryLogGlError("sad::os::GLGeometry::drawArrays: glEnableVertexAttribArray(1)");
+
     f->glBindBuffer(GL_ARRAY_BUFFER, m_texture_buffer);
+    tryLogGlError("sad::os::GLGeometry::drawArrays: glBindBuffer(GL_ARRAY_BUFFER, m_texture_buffer)");
+
     f->glVertexAttribPointer(
         1,
         2,
@@ -141,12 +164,35 @@ void sad::os::GLGeometry::drawArrays(GLenum mode, const float* vertexes, const f
         0,
         static_cast<void*>(0)
     );
+    tryLogGlError("sad::os::GLGeometry::drawArrays: glVertexAttribPointer");
 
     // Render arrays
     glDrawArrays(mode, 0, m_point_count);
+    tryLogGlError("sad::os::GLGeometry::drawArrays: glDrawArrays(mode, 0, m_point_count)");
 
     f->glDisableVertexAttribArray(1);
+    tryLogGlError("sad::os::GLGeometry::drawArrays: glDisableVertexAttribArray(1)");
+
     f->glDisableVertexAttribArray(0);
+    tryLogGlError("sad::os::GLGeometry::drawArrays: glDisableVertexAttribArray(0)");
 }
 
+void sad::os::GLGeometry::tryLogGlError(const char* op) const
+{
+    sad::Renderer* r = sad::Renderer::ref();
+    if (m_renderer)
+    {
+        r = m_renderer;
+    }
 
+    GLenum err_code = glGetError();
+    if (err_code != GL_NO_ERROR)
+    {
+        sad::String error_string = reinterpret_cast<const char*>(gluErrorString(err_code));
+        bool handled = false;
+        sad::String error_data = op;
+        error_data += ": ";
+        error_data += error_string;
+        SL_LOCAL_WARNING(error_data, *r);
+    }
+}

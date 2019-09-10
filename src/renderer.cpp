@@ -56,7 +56,11 @@ m_primitiverenderer(new sad::PrimitiveRenderer()),
 m_controls(new sad::input::Controls()),
 m_animations(new sad::animations::Animations()),
 m_pipeline(new sad::pipeline::Pipeline()),
-m_added_system_pipeline_tasks(false)
+m_added_system_pipeline_tasks(false),
+m_default_textures_shader(NULL),
+m_default_texture_shader_function(NULL),
+m_default_no_textures_shader(NULL),
+m_default_no_textures_shader_function(NULL)
 {
 #ifdef X11
     SafeXInitThreads();

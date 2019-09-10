@@ -80,27 +80,31 @@ void sad::ShaderFunction::apply(sad::SceneNode* node)
     sad::Camera* cam = node->scene()->getCamera();
     try
     {
+        m_shader->tryLogGlError("sad::ShaderFunction::apply: on start filling data");
         int matrixId = m_shader->getUniformLocation("_sglProjectionMatrix");
+        m_shader->tryLogGlError("sad::ShaderFunction::apply: glGetUniformLocation(_sglProjectionMatrix)");
         if (matrixId != 0)
         {
             f->glUniformMatrix4fv(matrixId, 1, GL_FALSE, cam->projectionMatrix());
-            m_shader->tryLogGlError("f->glUniformMatrix4fv(matrixId, 1, GL_FALSE, cam->projectionMatrix());");
+            m_shader->tryLogGlError("sad::ShaderFunction::apply: f->glUniformMatrix4fv(matrixId, 1, GL_FALSE, cam->projectionMatrix());");
         }
 
         matrixId = m_shader->getUniformLocation( "_sglModelViewMatrix");
+        m_shader->tryLogGlError("sad::ShaderFunction::apply: glGetUniformLocation(_sglModelViewMatrix)");
         if (matrixId != 0)
         {
             f->glUniformMatrix4fv(matrixId, 1, GL_FALSE, cam->modelViewMatrix());
-            m_shader->tryLogGlError("f->glUniformMatrix4fv(matrixId, 1, GL_FALSE, cam->modelViewMatrix()");
+            m_shader->tryLogGlError("sad::ShaderFunction::apply: f->glUniformMatrix4fv(matrixId, 1, GL_FALSE, cam->modelViewMatrix()");
         }
         if (m_texture != NULL)
         {
             f->glActiveTexture(GL_TEXTURE0);
             int texId =  m_shader->getUniformLocation( "_defaultTexture");
+            m_shader->tryLogGlError("sad::ShaderFunction::apply: sad::ShaderFunction::apply: glGetUniformLocation(_defaultTexture)");
             if (texId != 0)
             {
                 f->glUniform1i(texId, 0);
-                m_shader->tryLogGlError(" f->glUniform1i(texId, 0);");
+                m_shader->tryLogGlError("sad::ShaderFunction::apply: f->glUniform1i(texId, 0);");
             }
         }
     }

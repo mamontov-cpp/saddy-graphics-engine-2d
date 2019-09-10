@@ -259,7 +259,7 @@ void sad::Sprite2D::render()
     if (r->context()->isOpenGL3compatible())
     {
         sad::ShaderFunction* shader = this->shaderFunction();
-        if (shader)
+        if (!shader)
         {
             shader = (tex) ? r->defaultShaderFunctionForTextures() : r->defaultShaderFunctionWithoutTextures();
         }

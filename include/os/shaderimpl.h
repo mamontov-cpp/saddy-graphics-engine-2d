@@ -395,6 +395,7 @@ public:
     */
    void setUniform(int location, float v0);
    /*! Tries to log OpenGL error if occured
+    *  \param[in] op log info
     */
    void tryLogGlError(const char* op);
 private:

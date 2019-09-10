@@ -45,6 +45,10 @@ public:
      * \param[in] tc texture coordinates
      */
     void drawArrays(GLenum mode, const float* vertexes, const float* tc);
+    /*! Tries to log OpenGL error if occured
+     *  \param[in] op log info
+     */
+    void tryLogGlError(const char* op) const;
 private:
     /*! A renderer for geometry
      */
