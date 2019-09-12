@@ -407,8 +407,9 @@ private:
     /*! Uses program, denoted by identifier, or disables it, using 0
      *  \param[in] program a program
      *  \param[in] force forces program, disable if needed
+     *  \param[in] use_internal use intenal data if can
      */
-    void useProgram(GLuint program, bool force = false);
+    void useProgram(GLuint program, bool force = false, bool use_internal = false);
     /*! Returns extension functions
      *  \return extension functions
      */

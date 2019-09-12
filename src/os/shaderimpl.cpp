@@ -162,12 +162,12 @@ void sad::os::ShaderImpl::tryUpload()
 
 void sad::os::ShaderImpl::use()
 {
-    useProgram(m_program, false);
+    useProgram(m_program, false, true);
 }
 
 void sad::os::ShaderImpl::disable()
 {
-    useProgram(0, true);
+    useProgram(0, true, false);
 }
 
 void sad::os::ShaderImpl::setUniformVariable(const sad::String& loc_name, int v0)
@@ -798,7 +798,7 @@ GLuint  sad::os::ShaderImpl::tryCompileShader(GLenum shader_type, const sad::Str
     return program;
 }
 
-void sad::os::ShaderImpl::useProgram(GLuint program, bool force)
+void sad::os::ShaderImpl::useProgram(GLuint program, bool force, bool use_internal)
 {
     sad::Renderer* r = sad::Renderer::ref();
     if (m_renderer)
@@ -808,6 +808,10 @@ void sad::os::ShaderImpl::useProgram(GLuint program, bool force)
 
     try {
         this->tryUpload();
+        if (use_internal)
+        {
+            program = m_program;
+        }
         if ((program != 0) || force)
         {
             sad::os::ExtensionFunctions* f = m_renderer->opengl()->extensionFunctions();

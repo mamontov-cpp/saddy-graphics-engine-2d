@@ -32,7 +32,7 @@ int main(int argc, char** argv)
     r->log()->addTarget(new sad::log::ConsoleTarget());
     sad::Scene* scene = new sad::Scene();
     scene->setCamera(new sad::OrthographicCamera(640, 480));
-    sad::Sprite2D* sprite2d = new sad::Sprite2D(NULL, sad::Rect2D(0, 0, 512, 512), sad::Rect2D(-1, -1, 480, 480));
+    sad::Sprite2D* sprite2d = new sad::Sprite2D(NULL, sad::Rect2D(0, 0, 512, 512), sad::Rect2D(160, 160, 320, 480));
     sprite2d->setColor(sad::AColor(255, 0, 0));
     scene->addNode(sprite2d);
     r->addScene(scene);

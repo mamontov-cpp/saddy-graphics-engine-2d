@@ -1142,13 +1142,14 @@ void sad::Renderer::tryInitShaders()
         m_default_no_textures_shader->setRenderer(this);
         m_default_no_textures_shader->setVertexProgram(
             "#version 330\n"
-            "layout(location = 0) in vec4 position;\n"
+            "layout(location = 0) in vec3 position;\n"
             "uniform mat4 _sglProjectionMatrix;\n"
             "uniform mat4 _sglModelViewMatrix;\n"
             "\n"
             "void main()\n"
             "{\n"
-            "    gl_Position = _sglProjectionMatrix * _sglModelViewMatrix * position;\n"
+            "    vec4 tmp = vec4(position.x, position.y, position.z, 1.0);\n"
+            "    gl_Position = (_sglProjectionMatrix *_sglModelViewMatrix)  * tmp;\n"
             "}\n"
         );
         m_default_no_textures_shader->setFragmentProgram(
@@ -1156,7 +1157,7 @@ void sad::Renderer::tryInitShaders()
             "out vec4 color;\n"
             "void main()\n"
             "{"
-            "    color = vec4(1.0, 1.0, 1.0, 0.0);\n"
+            "    color = vec4(1.0, 1.0, 1.0, 1.0);\n"
             "}"
         );
 

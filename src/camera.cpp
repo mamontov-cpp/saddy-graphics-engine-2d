@@ -177,7 +177,7 @@ float* sad::Camera::modelViewMatrix()
          }
          this->m_transform_is_cached = true;
     }
-    return &(this->m_projection_matrix[0]);
+    return &(this->m_model_view_matrix[0]);
 }
 
 sad::Camera::~Camera()
