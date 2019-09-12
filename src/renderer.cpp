@@ -941,6 +941,15 @@ void sad::Renderer::deinitRendererAfterLoop()
     {
         it.value()->unload();
     }
+    if (m_default_textures_shader != NULL)
+    {
+        m_default_textures_shader->tryDestroy();
+    }
+
+    if (m_default_no_textures_shader != NULL)
+    {
+        m_default_no_textures_shader->tryDestroy();
+    }
 
     m_context->destroy();
     m_window->destroy();
@@ -1154,10 +1163,11 @@ void sad::Renderer::tryInitShaders()
         );
         m_default_no_textures_shader->setFragmentProgram(
             "#version 330\n"
+            "uniform vec4 _gl_Color;"
             "out vec4 color;\n"
             "void main()\n"
             "{"
-            "    color = vec4(1.0, 1.0, 1.0, 1.0);\n"
+            "    color = _gl_Color;\n"
             "}"
         );
 

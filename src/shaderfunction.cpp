@@ -4,12 +4,12 @@
 #include "camera.h"
 #include "os/extensionfunctions.h"
 
-sad::ShaderFunction::ShaderFunction() : m_shader(NULL), m_texture(NULL)
+sad::ShaderFunction::ShaderFunction() : m_shader(NULL)
 {
     
 }
 
-sad::ShaderFunction::ShaderFunction(const sad::ShaderFunction& fun) : m_shader(fun.m_shader), m_texture(fun.m_texture)  // NOLINT(bugprone-copy-constructor-init)
+sad::ShaderFunction::ShaderFunction(const sad::ShaderFunction& fun) : m_shader(fun.m_shader) // NOLINT(bugprone-copy-constructor-init)
 {
     if (m_shader)
     {
@@ -25,7 +25,6 @@ sad::ShaderFunction& sad::ShaderFunction::operator=(const sad::ShaderFunction& f
     }
 
     m_shader = fun.m_shader;
-    m_texture = fun.m_texture;
 
     if (m_shader)
     {
@@ -55,12 +54,9 @@ sad::Shader* sad::ShaderFunction::shader() const
     return m_shader;
 }
 
-void sad::ShaderFunction::setTexture(sad::Texture* tex)
-{
-    m_texture = tex;
-}
 
-void sad::ShaderFunction::apply(sad::SceneNode* node)
+
+void sad::ShaderFunction::apply(sad::SceneNode* node, sad::Texture* tex, sad::AColor* clr)
 {
     if (!node || !m_shader)
     {
@@ -96,7 +92,7 @@ void sad::ShaderFunction::apply(sad::SceneNode* node)
             f->glUniformMatrix4fv(matrixId, 1, GL_FALSE, cam->modelViewMatrix());
             m_shader->tryLogGlError("sad::ShaderFunction::apply: f->glUniformMatrix4fv(matrixId, 1, GL_FALSE, cam->modelViewMatrix()");
         }
-        if (m_texture != NULL)
+        if (tex != NULL)
         {
             f->glActiveTexture(GL_TEXTURE0);
             int texId =  m_shader->getUniformLocation( "_defaultTexture");
@@ -105,6 +101,16 @@ void sad::ShaderFunction::apply(sad::SceneNode* node)
             {
                 f->glUniform1i(texId, 0);
                 m_shader->tryLogGlError("sad::ShaderFunction::apply: f->glUniform1i(texId, 0);");
+            }
+        }
+        if (clr != NULL)
+        {
+            int clrId = m_shader->getUniformLocation("_gl_Color");
+            m_shader->tryLogGlError("sad::ShaderFunction::apply: sad::ShaderFunction::apply: glGetUniformLocation(_gl_Color)");
+            if (clrId != -1)
+            {
+                f->glUniform4f(clrId, static_cast<float>(clr->r()) / 255.0f, static_cast<float>(clr->g()) / 255.0f, static_cast<float>(clr->b()) / 255.0f, 1.0f - static_cast<float>(clr->a()) / 255.0f);
+                m_shader->tryLogGlError("sad::ShaderFunction::apply: f->glUniform4f(clrId, ...);");
             }
         }
     }

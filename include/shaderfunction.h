@@ -38,12 +38,12 @@ public:
      *  \return shader data
      */
     sad::Shader* shader() const;
-    /*! Sets texture for shader
-     */
-    virtual void setTexture(sad::Texture* tex);
     /*! An inner function, which should be called when rendering node, @see sad::Sprite2D for implementation
+     * \param[in] node node, on which shader should be applied
+     * \param[in] tex texture, which should be applied
+     * \param[in] clr color, which should be used in blending
      */
-    virtual void apply(sad::SceneNode* node);
+    virtual void apply(sad::SceneNode* node, sad::Texture* tex = NULL, sad::AColor* clr = NULL);
     /*! Disables shader function
      */
     virtual void disable();
@@ -54,9 +54,6 @@ private:
     /*! An inner shader
      */
     sad::Shader* m_shader;
-    /*! A texture data
-     */
-    sad::Texture* m_texture;
 };
 
 }

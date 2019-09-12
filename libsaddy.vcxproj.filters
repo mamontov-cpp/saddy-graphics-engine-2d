@@ -795,9 +795,6 @@
     <ClCompile Include="src\shader.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="src\shaderednode.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="src\shaderfunction.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
@@ -1698,9 +1695,6 @@
       <Filter>Заголовочные файлы\os</Filter>
     </ClInclude>
     <ClInclude Include="include\shader.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaderednode.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="include\shaderfunction.h">

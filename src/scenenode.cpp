@@ -25,7 +25,10 @@ void sad::SceneNode::regions(sad::Vector<sad::Rect2D> & r)
 
 sad::SceneNode::~SceneNode()
 {
-
+    if (m_shader_function)
+    {
+        m_shader_function->delRef();
+    }
 }
 
 static sad::db::schema::Schema* SceneNodeBasicSchema = NULL;
@@ -149,12 +152,20 @@ bool sad::SceneNode::canBeRotated() const
 
 void sad::SceneNode::rotate(double delta)
 {
-    throw new std::logic_error("this node cannot be rotated");
+    throw std::logic_error("this node cannot be rotated");
 }
 
 void sad::SceneNode::setShaderFunction(sad::ShaderFunction* fun)
 {
+    if (m_shader_function)
+    {
+        m_shader_function->delRef();
+    }
     m_shader_function = fun;
+    if (m_shader_function)
+    {
+        m_shader_function->addRef();
+    }
 }
 
 sad::ShaderFunction* sad::SceneNode::shaderFunction() const

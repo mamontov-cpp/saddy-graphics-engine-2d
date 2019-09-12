@@ -263,27 +263,23 @@ void sad::Sprite2D::render()
         {
             shader = (tex) ? r->defaultShaderFunctionForTextures() : r->defaultShaderFunctionWithoutTextures();
         }
-        glGetIntegerv(GL_CURRENT_COLOR, m_current_color_buffer);
-        glColor4ub(m_color.r(), m_color.g(), m_color.b(), 255 - m_color.a());
-        shader->setTexture(tex);
-        shader->apply(this);
+        shader->apply(this, tex, &m_color);
         float points[12] = {
             static_cast<float>(m_renderable_area[0].x()), static_cast<float>(m_renderable_area[0].y()), 0.0f,
+            static_cast<float>(m_renderable_area[3].x()), static_cast<float>(m_renderable_area[3].y()), 0.0f,
             static_cast<float>(m_renderable_area[1].x()), static_cast<float>(m_renderable_area[1].y()), 0.0f,
-            static_cast<float>(m_renderable_area[2].x()), static_cast<float>(m_renderable_area[2].y()), 0.0f,
-            static_cast<float>(m_renderable_area[3].x()), static_cast<float>(m_renderable_area[3].y()), 0.0f
+            static_cast<float>(m_renderable_area[2].x()), static_cast<float>(m_renderable_area[2].y()), 0.0f
         };
         float tc[8] = {
             static_cast<float>(m_normalized_texture_coordinates[0].x()), static_cast<float>(m_normalized_texture_coordinates[0].y()),
-            static_cast<float>(m_normalized_texture_coordinates[1].x()), static_cast<float>(m_normalized_texture_coordinates[1].y()),
-            static_cast<float>(m_normalized_texture_coordinates[2].x()), static_cast<float>(m_normalized_texture_coordinates[2].y()),
             static_cast<float>(m_normalized_texture_coordinates[3].x()), static_cast<float>(m_normalized_texture_coordinates[3].y()),
+            static_cast<float>(m_normalized_texture_coordinates[1].x()), static_cast<float>(m_normalized_texture_coordinates[1].y()),
+            static_cast<float>(m_normalized_texture_coordinates[2].x()), static_cast<float>(m_normalized_texture_coordinates[2].y())
         };
 
         sad::os::GLGeometry* geometry = r->geometryForPoints(4);
-        geometry->drawArrays(GL_QUADS, points, tc);
-
-        glColor4iv(m_current_color_buffer);
+        geometry->drawArrays(GL_TRIANGLE_STRIP, points, tc);
+        shader->disable();
     }
     else
     {

@@ -214,7 +214,6 @@
     <ClCompile Include="src\scenenode.cpp" />
     <ClCompile Include="src\settings.cpp" />
     <ClCompile Include="src\shader.cpp" />
-    <ClCompile Include="src\shaderednode.cpp" />
     <ClCompile Include="src\shaderfunction.cpp" />
     <ClCompile Include="src\slurp.cpp" />
     <ClCompile Include="src\slurpjson.cpp" />
@@ -454,7 +453,6 @@
     <ClInclude Include="include\scenenode.h" />
     <ClInclude Include="include\settings.h" />
     <ClInclude Include="include\shader.h" />
-    <ClInclude Include="include\shaderednode.h" />
     <ClInclude Include="include\shaderfunction.h" />
     <ClInclude Include="include\slurp.h" />
     <ClInclude Include="include\slurpjson.h" />
