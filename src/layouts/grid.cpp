@@ -91,7 +91,7 @@ void sad::layouts::Grid::renderWithColor(const sad::AColor& clr)
                     {
                         cl->Rendered = true;
                         // No reasons to have inner grids being rendered, they must either be added to scene or be rendered by holder node
-                        r->render()->rectangle(cl->AssignedArea, clr);
+                        r->render()->rectangle(this->scene(), cl->AssignedArea, clr, this->m_shader_function);
                     }
                 }
             }

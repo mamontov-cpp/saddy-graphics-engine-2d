@@ -1648,7 +1648,7 @@ void sad::Label::renderWithFormatting(sad::Font* font)
                     sad::Point2D p1(x, ky), p2(x + part_width, ky);
                     sad::AColor clr = fnt->color();
                     clr.setA(255 - clr.a());
-                    renderer->render()->line(p1, p2, clr);
+                    renderer->render()->line(this->scene(), p1, p2, clr);
                 }
                 if (c.Underlined)
                 {
@@ -1656,7 +1656,7 @@ void sad::Label::renderWithFormatting(sad::Font* font)
                     sad::Point2D p1(x, ky), p2(x + part_width, ky);
                     sad::AColor clr = fnt->color();
                     clr.setA(255 - clr.a());
-                    renderer->render()->line(p1, p2, clr);
+                    renderer->render()->line(this->scene(), p1, p2, clr);
                 }
             }
             x += part_width;

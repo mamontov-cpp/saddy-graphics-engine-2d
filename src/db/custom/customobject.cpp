@@ -82,6 +82,7 @@ void sad::db::custom::Object::render()
 {
     if (m_current_rendered_object)
     {
+        m_current_rendered_object->setScene(m_scene);
         m_current_rendered_object->render();
     }
 }
@@ -480,6 +481,13 @@ void sad::db::custom::Object::clearRenderingStringLimit()
 void sad::db::custom::Object::setRenderingStringLimitAsRatioToLength(double limit)
 {
     m_label->setRenderingStringLimitAsRatioToLength(limit);
+}
+
+void sad::db::custom::Object::setShaderFunction(sad::ShaderFunction* fun)
+{
+    m_sprite2d->setShaderFunction(fun);
+    m_label ->setShaderFunction(fun);
+    this->sad::SceneNode::setShaderFunction(fun);
 }
 
 bool sad::db::custom::Object::load(const picojson::value& v)

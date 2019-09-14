@@ -9,6 +9,7 @@
 namespace sad
 {
 
+class Scene;
 class SceneNode;
 class Texture;
 
@@ -43,7 +44,13 @@ public:
      * \param[in] tex texture, which should be applied
      * \param[in] clr color, which should be used in blending
      */
-    virtual void apply(sad::SceneNode* node, sad::Texture* tex = NULL, sad::AColor* clr = NULL);
+    virtual void apply(sad::SceneNode* node, sad::Texture* tex = NULL, const sad::AColor* clr = NULL);
+    /*! An inner function, which should be called when rendering node, @see sad::Sprite2D for implementation
+     * \param[in] scene a scene, where shader is applied
+     * \param[in] tex texture, which should be applied
+     * \param[in] clr color, which should be used in blending
+     */
+    virtual void apply(sad::Scene* scene, sad::Texture* tex = NULL, const sad::AColor* clr = NULL);
     /*! Disables shader function
      */
     virtual void disable();

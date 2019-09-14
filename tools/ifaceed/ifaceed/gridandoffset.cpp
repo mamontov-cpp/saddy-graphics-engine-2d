@@ -99,7 +99,6 @@ sad::AColor GridAndOffsets::gridColor() const
 {
     sad::AColor clr;
     core::typeconverters::QColorToSadAColor::convert(m_ui.clrGridColor->backgroundColor(), clr);
-    clr.setA(255);
     return clr;
 }
 
@@ -153,7 +152,6 @@ void GridAndOffsets::changeGridColorClicked()
         m_ui.clrGridColor->setBackgroundColor(clr.value());
         sad::AColor aclr;
         core::typeconverters::QColorToSadAColor::convert(m_ui.clrGridColor->backgroundColor(), aclr);
-        aclr.setA(255);
         emit gridColorChanged(aclr);
     }
 }

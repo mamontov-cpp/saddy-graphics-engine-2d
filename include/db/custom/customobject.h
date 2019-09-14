@@ -329,6 +329,10 @@ public:
         \param[in] limit  a limit value
      */
     void setRenderingStringLimitAsRatioToLength(double limit);
+    /*! Sets shader function
+     *  \param[in] fun a function
+     */
+    virtual void setShaderFunction(sad::ShaderFunction* fun);
 protected:
     /*! Fills custom object with defailt item properties
      */

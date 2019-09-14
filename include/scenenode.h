@@ -139,11 +139,11 @@ public:
     /*! Sets shader function
      *  \param[in] fun a function
      */
-    void setShaderFunction(sad::ShaderFunction* fun);
+    virtual void setShaderFunction(sad::ShaderFunction* fun);
     /*! Returns shader function
      *  \return shader function
      */
-    sad::ShaderFunction* shaderFunction() const;
+    virtual sad::ShaderFunction* shaderFunction() const;
 protected:
     /*! Determines, whether scene node is visible and should be rendered. It's same as m_active but can be used for different purposes,
         when object is active, but hidden by somewhere else in chain of responsibility of application.

@@ -56,13 +56,22 @@ sad::Shader* sad::ShaderFunction::shader() const
 
 
 
-void sad::ShaderFunction::apply(sad::SceneNode* node, sad::Texture* tex, sad::AColor* clr)
+void sad::ShaderFunction::apply(sad::SceneNode* node, sad::Texture* tex, const sad::AColor* clr)
 {
     if (!node || !m_shader)
     {
         return;
     }
     if (node->scene() == NULL)
+    {
+        return;
+    }
+    this->apply(node->scene(), tex, clr);
+}
+
+void sad::ShaderFunction::apply(sad::Scene* scene, sad::Texture* tex, const sad::AColor* clr)
+{
+    if (!scene || !m_shader)
     {
         return;
     }
@@ -73,7 +82,7 @@ void sad::ShaderFunction::apply(sad::SceneNode* node, sad::Texture* tex, sad::AC
         r = m_shader->renderer();
     }
     sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
-    sad::Camera* cam = node->scene()->getCamera();
+    sad::Camera* cam = scene->getCamera();
     try
     {
         m_shader->tryLogGlError("sad::ShaderFunction::apply: on start filling data");
@@ -85,7 +94,7 @@ void sad::ShaderFunction::apply(sad::SceneNode* node, sad::Texture* tex, sad::AC
             m_shader->tryLogGlError("sad::ShaderFunction::apply: f->glUniformMatrix4fv(matrixId, 1, GL_FALSE, cam->projectionMatrix());");
         }
 
-        matrixId = m_shader->getUniformLocation( "_sglModelViewMatrix");
+        matrixId = m_shader->getUniformLocation("_sglModelViewMatrix");
         m_shader->tryLogGlError("sad::ShaderFunction::apply: glGetUniformLocation(_sglModelViewMatrix)");
         if (matrixId != -1)
         {
@@ -97,7 +106,7 @@ void sad::ShaderFunction::apply(sad::SceneNode* node, sad::Texture* tex, sad::AC
             f->glActiveTexture(GL_TEXTURE0);
             tex->bind();
             m_shader->tryLogGlError("sad::ShaderFunction::apply: tex->bind()");
-            int texId =  m_shader->getUniformLocation( "_defaultTexture");
+            int texId = m_shader->getUniformLocation("_defaultTexture");
             m_shader->tryLogGlError("sad::ShaderFunction::apply: sad::ShaderFunction::apply: glGetUniformLocation(_defaultTexture)");
             if (texId != -1)
             {

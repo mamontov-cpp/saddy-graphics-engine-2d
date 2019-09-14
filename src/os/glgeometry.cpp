@@ -104,6 +104,78 @@ void sad::os::GLGeometry::setVertices(const sad::Rect< sad::Point3D >& vertices)
     }
 }
 
+void sad::os::GLGeometry::setVertices(const sad::Point2D& p1, const sad::Point2D& p2) const
+{
+    if (!m_is_on_gpu)
+    {
+        return;
+    }
+    sad::os::ExtensionFunctions* f = m_renderer->opengl()->extensionFunctions();
+    f->glBindVertexArray(m_vertex_array);
+    tryLogGlError("sad::os::GLGeometry::drawArrays: glBindVertexArray(m_vertex_array)");
+
+    f->glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer);
+    tryLogGlError("sad::os::GLGeometry::drawArrays: glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer)");
+
+    float* buf = reinterpret_cast<float*>(f->glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE));
+    tryLogGlError("sad::os::GLGeometry::drawArrays: glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE)");
+
+    if (buf)
+    {
+        int i = 0;
+        buf[i++] = static_cast<float>(p1.x());
+        buf[i++] = static_cast<float>(p1.y());
+        buf[i++] = 0.0f;
+
+        buf[i++] = static_cast<float>(p2.x());
+        buf[i++] = static_cast<float>(p2.y());
+        buf[i] = 0.0f;
+
+        f->glUnmapBuffer(GL_ARRAY_BUFFER);
+        tryLogGlError("sad::os::GLGeometry::drawArrays: glUnmapBuffer(GL_ARRAY_BUFFER)");
+    }
+}
+
+void sad::os::GLGeometry::setSequentialVertices(const sad::Rect2D& vertices) const
+{
+    if (!m_is_on_gpu)
+    {
+        return;
+    }
+    sad::os::ExtensionFunctions* f = m_renderer->opengl()->extensionFunctions();
+    f->glBindVertexArray(m_vertex_array);
+    tryLogGlError("sad::os::GLGeometry::drawArrays: glBindVertexArray(m_vertex_array)");
+
+    f->glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer);
+    tryLogGlError("sad::os::GLGeometry::drawArrays: glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer)");
+
+    float* buf = reinterpret_cast<float*>(f->glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE));
+    tryLogGlError("sad::os::GLGeometry::drawArrays: glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE)");
+
+    if (buf)
+    {
+        int i = 0;
+        buf[i++] = static_cast<float>(vertices[0].x());
+        buf[i++] = static_cast<float>(vertices[0].y());
+        buf[i++] = 0.0f;
+
+        buf[i++] = static_cast<float>(vertices[1].x());
+        buf[i++] = static_cast<float>(vertices[1].y());
+        buf[i++] = 0.0f;
+
+        buf[i++] = static_cast<float>(vertices[2].x());
+        buf[i++] = static_cast<float>(vertices[2].y());
+        buf[i++] = 0.0f;
+
+        buf[i++] = static_cast<float>(vertices[3].x());
+        buf[i++] = static_cast<float>(vertices[3].y());
+        buf[i] = 0.0f;
+
+        f->glUnmapBuffer(GL_ARRAY_BUFFER);
+        tryLogGlError("sad::os::GLGeometry::drawArrays: glUnmapBuffer(GL_ARRAY_BUFFER)");
+    }
+}
+
 void sad::os::GLGeometry::setVertices(const float* vertexes) const
 {
     if (!m_is_on_gpu)
@@ -279,6 +351,34 @@ void sad::os::GLGeometry::drawArrays(GLenum mode, const sad::Rect<sad::Point3D>&
     setVertices(vertexes);
     setTextureCoordinates(tc);
     this->drawArrays(mode);
+}
+
+void sad::os::GLGeometry::drawLine(const sad::Point2D& p1, const sad::Point2D& p2)
+{
+    if (!m_is_on_gpu)
+    {
+        this->loadToGPU();
+    }
+    if (!m_is_on_gpu)
+    {
+        return;
+    }
+    setVertices(p1, p2);
+    this->drawArrays(GL_LINES);
+}
+
+void sad::os::GLGeometry::drawRectLines(const sad::Rect2D& r)
+{
+    if (!m_is_on_gpu)
+    {
+        this->loadToGPU();
+    }
+    if (!m_is_on_gpu)
+    {
+        return;
+    }
+    setSequentialVertices(r);
+    this->drawArrays(GL_LINE_LOOP);
 }
 
 

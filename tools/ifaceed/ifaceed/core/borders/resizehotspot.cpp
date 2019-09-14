@@ -24,6 +24,11 @@ core::borders::ResizeHotspot::~ResizeHotspot()
     delete m_sprite;
 }
 
+void core::borders::ResizeHotspot::setScene(sad::Scene* scene) const
+{
+    m_sprite->setScene(scene);
+}
+
 void core::borders::ResizeHotspot::render(const sad::Rect2D & r)
 {
     if (m_sprite_options_set == false)

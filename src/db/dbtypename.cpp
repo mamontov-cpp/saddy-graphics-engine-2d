@@ -25,6 +25,7 @@
 #include "scene.h"
 #include "timer.h"
 #include "sadthread.h"
+#include "shaderfunction.h"
 
 #include "dialogue/dialogue.h"
 #include "dialogue/phrase.h"
@@ -280,3 +281,4 @@ DECLARE_COMMON_TYPE(sad::db::Variant)
 
 
 DECLARE_COMMON_TYPE(sad::Maybe<sad::String>)
+DECLARE_COMMON_TYPE(sad::ShaderFunction)

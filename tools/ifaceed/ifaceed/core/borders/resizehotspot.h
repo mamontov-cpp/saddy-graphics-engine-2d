@@ -34,6 +34,10 @@ public:
     /*! Could be inherited
      */
     virtual ~ResizeHotspot();
+    /*! A scene to be used for rendering
+        \param[in] scene a scene
+     */
+    void setScene(sad::Scene* scene) const;
     /*! Tries to render hotspot
         \param[in] region a bounding region for object
      */

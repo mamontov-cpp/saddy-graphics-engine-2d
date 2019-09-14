@@ -36,6 +36,15 @@ public:
      */
     void setVertices(const sad::Rect< sad::Point3D >& vertices) const;
     /*! Sets vertices for vertex buffer
+     *  \param[in] p1 first point
+     *  \param[in] p2 second point
+     */
+    void setVertices(const sad::Point2D& p1, const sad::Point2D& p2) const;
+    /*! Sets vertices for vertex buffer
+     *  \param[in] vertices vertice rectangle
+     */
+    void setSequentialVertices(const sad::Rect2D& vertices) const;
+    /*! Sets vertices for vertex buffer
      *  \param[in] vertices vertice rectangle
      */
     void setVertices(const float* vertices) const;
@@ -71,6 +80,15 @@ public:
       * \param[in] tc texture coordinates
       */
     void drawArrays(GLenum mode, const sad::Rect<sad::Point3D>& vertexes, const sad::Rect2D& tc);
+    /*! Draws line for geometry
+     *  \param[in] p1 first point
+     *  \param[in] p2 second point
+     */
+    void drawLine(const sad::Point2D& p1, const sad::Point2D& p2);
+    /*! Draws rectangle with lines
+     *  \param[in] r rectangle
+     */
+    void drawRectLines(const sad::Rect2D& r);
     /*! Tries to log OpenGL error if occured
      *  \param[in] op log info
      */

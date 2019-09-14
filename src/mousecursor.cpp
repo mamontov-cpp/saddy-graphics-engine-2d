@@ -45,8 +45,8 @@ sad::MouseCursorSprite::~MouseCursorSprite()
 
 sad::MouseCursor::MouseCursor()
 : m_usecustomcursor(false),
-m_hidden(false),
 m_hidecustomcursor(false),
+m_hidden(false),
 m_cursor(NULL),
 m_renderer(NULL),
 m_enter_handler(NULL),
@@ -78,6 +78,7 @@ sad::MaybePoint3D  sad::MouseCursor::position() const
     {
         if (m_renderer->hasValidContext())
         {
+            // ReSharper disable once CppInitializedValueIsAlwaysRewritten
             bool successfullyqueried = false;
             sad::Point2D point;
     

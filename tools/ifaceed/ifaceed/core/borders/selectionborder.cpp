@@ -62,14 +62,16 @@ void core::borders::SelectionBorder::_process()
         sad::Vector<sad::Rect2D> regions;
         o->regions(regions);
         sad::Renderer::ref()->render()
-                            ->rectangle(regions[0], sad::AColor(0, 255, 255, 255));
+                            ->rectangle(o->scene(), regions[0], sad::AColor(0, 255, 255));
         if (m_show_hotspots)
         {
+            m_delete_hotspot->setScene(o->scene());
             m_delete_hotspot->render(regions[0]);
             if (this->m_data->isSelectionResizeable())
             {
                 for(size_t i = 0; i < 4; i++)
                 {
+                    m_resize_hotspots[i]->setScene(o->scene());
                     m_resize_hotspots[i]->render(regions[0]);
                 }
             }

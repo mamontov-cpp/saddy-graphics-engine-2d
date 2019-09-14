@@ -18,8 +18,8 @@
 gui::RenderWays::RenderWays(core::Editor* editor)
 : m_editor(editor),
 m_init(false),
-m_default(0, 255, 255, 255),
-m_red(255, 0, 0, 255)
+m_default(0, 255, 255),
+m_red(255, 0, 0)
 {
     m_enabled = false;
     m_scene = new sad::Scene();
@@ -49,8 +49,11 @@ void gui::RenderWays::_process()
     if (!m_init)
     {
         m_init = true;
+        m_default_sprite->setScene(m_scene);
         m_default_sprite->setTreeName(sad::Renderer::ref(), "icons");
         m_default_sprite->set("default");
+
+        m_red_sprite->setScene(m_scene);
         m_red_sprite->setTreeName(sad::Renderer::ref(), "icons");
         m_red_sprite->set("default-red");
     }
@@ -80,11 +83,11 @@ void gui::RenderWays::_process()
                     const sad::Vector<sad::Point2D>& pts = way->wayPoints();
                     for(int j = 1; j < pts.size(); j++)
                     {
-                        this->renderArrow(pts[j-1], pts[j], *c);
+                        this->renderArrow(m_scene, pts[j-1], pts[j], *c);
                     }
                     if (way->closed() && pts.size() > 1)
                     {
-                        this->renderArrow(pts[pts.size() - 1], pts[0], *c);
+                        this->renderArrow(m_scene, pts[pts.size() - 1], pts[0], *c);
                     }  
                     gui::uiblocks::UIWayBlock* ui_way_block = m_editor->uiBlocks()->uiWayBlock();
                     int currentrow = ui_way_block->lstWayPoints->currentRow();
@@ -94,7 +97,7 @@ void gui::RenderWays::_process()
                         s->render();
                         if (selected && j == currentrow)
                         {
-                            sad::Renderer::ref()->render()->rectangle(s->area(), *c);
+                            sad::Renderer::ref()->render()->rectangle(m_scene, s->area(), *c);
                         }                        
                     }
                 }
@@ -105,9 +108,10 @@ void gui::RenderWays::_process()
 }
 
 void gui::RenderWays::renderArrow(
-        const sad::Point2D& begin, 
-        const sad::Point2D& end, 
-        const sad::AColor& c
+    sad::Scene* scene,
+    const sad::Point2D& begin, 
+    const sad::Point2D& end, 
+    const sad::AColor& c
 )
 {
     sad::PrimitiveRenderer* r = sad::Renderer::ref()->render();
@@ -128,8 +132,8 @@ void gui::RenderWays::renderArrow(
         minpoint.setX(minpoint.x() - arrowpartlength * cos(minangle));
         minpoint.setY(minpoint.y() - arrowpartlength * sin(minangle));
 
-        r->line(linepivot, maxpoint, c);
-        r->line(linepivot, minpoint, c);
-        r->line(begin, end, c);
+        r->line(scene, linepivot, maxpoint, c);
+        r->line(scene, linepivot, minpoint, c);
+        r->line(scene, begin, end, c);
     }
 }

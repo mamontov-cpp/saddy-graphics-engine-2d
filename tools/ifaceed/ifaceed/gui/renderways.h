@@ -58,11 +58,13 @@ protected:
      */ 
     virtual void _process();
     /*! Renders arrow from begin to end
+        \param[in] scene a scene to be used
         \param[in] begin a beginning of arrow
         \param[in] end an ending of arrow
         \param[in] c color
      */
     void renderArrow(
+        sad::Scene* scene,
         const sad::Point2D& begin, 
         const sad::Point2D& end, 
         const sad::AColor& c
