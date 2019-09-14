@@ -4,6 +4,8 @@
  */
 #pragma once
 #include "glheaders.h"
+#include "geometry2d.h"
+#include "geometry3d.h"
 
 namespace sad
 {
@@ -26,13 +28,25 @@ public:
      */
     ~GLGeometry();
     /*! Sets vertices for vertex buffer
-     *  \param[in] vertexes
+     *  \param[in] vertices vertice rectangle
      */
-    void setVertices(const float* vertexes) const;
+    void setVertices(const sad::Rect2D& vertices) const;
+    /*! Sets vertices for vertex buffer
+     *  \param[in] vertices vertice rectangle
+     */
+    void setVertices(const sad::Rect< sad::Point3D >& vertices) const;
+    /*! Sets vertices for vertex buffer
+     *  \param[in] vertices vertice rectangle
+     */
+    void setVertices(const float* vertices) const;
     /*! Sets texture coordinates for texture buffer
      *  \param[in] textureCoordinates texture coordinates
      */
     void setTextureCoordinates(const float* textureCoordinates) const;
+    /*! Sets texture coordinates for texture buffer
+     *  \param[in] textureCoordinates texture coordinates
+     */
+    void setTextureCoordinates(const sad::Rect2D& textureCoordinates) const;
     /*! Tries to upload geometry to GPU
      */
     void loadToGPU();
@@ -45,11 +59,27 @@ public:
      * \param[in] tc texture coordinates
      */
     void drawArrays(GLenum mode, const float* vertexes, const float* tc);
+    /*! Draws array list
+     * \param[in] mode a mode
+      * \param[in] vertexes vertexes
+      * \param[in] tc texture coordinates
+      */
+    void drawArrays(GLenum mode, const sad::Rect2D& vertexes, const sad::Rect2D& tc);
+    /*! Draws array list
+     *  \param[in] mode a mode
+      * \param[in] vertexes vertexes
+      * \param[in] tc texture coordinates
+      */
+    void drawArrays(GLenum mode, const sad::Rect<sad::Point3D>& vertexes, const sad::Rect2D& tc);
     /*! Tries to log OpenGL error if occured
      *  \param[in] op log info
      */
     void tryLogGlError(const char* op) const;
 private:
+    /*! Draws array list
+     * \param[in] mode a mode
+     */
+    void drawArrays(GLenum mode) const;
     /*! A renderer for geometry
      */
     sad::Renderer* m_renderer;

@@ -23,9 +23,16 @@ void sad::MouseCursorSprite::setPos(const sad::Point2D & p)
     m_a->moveTo(p);
 }
 
-void sad::MouseCursorSprite::render()
+void sad::MouseCursorSprite::render(sad::Renderer* r)
 {
-    m_a->render();
+    if (r)
+    {
+        if (!r->scenes().empty())
+        {
+            m_a->setScene(r->scenes()[0]);
+            m_a->render();
+        }
+    }
 }
 
 sad::MouseCursorSprite::~MouseCursorSprite()
@@ -328,7 +335,7 @@ void sad::MouseCursor::renderCursorIfNeedTo()
     if (m_usecustomcursor && m_hidden && !m_hidecustomcursor && m_cursor != NULL)
     {
         this->applyCursorTransformations();
-        m_cursor->render();
+        m_cursor->render(m_renderer);
     }
 }
 

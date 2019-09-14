@@ -23,7 +23,6 @@
 #include <objectdependentfpsinterpolation.h>
 #include <mousecursor.h>
 #include <shader.h>
-#include <shaderednode.h>
 #include <glcontext.h>
 
 const sad::String GameState::START = "start";
@@ -398,21 +397,7 @@ void Game::enterPlayingScreen()
         sad::Rect2D(0, 0, 640, 480)
     );
 
-    if (m_renderer->context()->isOpenGL3compatible())
-    {
-        sad::Shader* shader = new sad::Shader();
-        shader->setRenderer(m_renderer);
-        shader->loadVertexProgramFromFile("vertex.gl");
-        shader->loadFragmentProgramFromFile("fragment.gl");
-        sad::ShaderedNode* local_node = new sad::ShaderedNode();
-        local_node->setNode(background);
-        local_node->setShader(shader);
-        sc->add(local_node);
-    }
-    else
-    {
-        sc->add(background);
-    }
+    sc->add(background);
     sad::FormattedLabel * label = new sad::FormattedLabel();
     label->setFont("font");
     label->setTreeName(m_renderer, "");

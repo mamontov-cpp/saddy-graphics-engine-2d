@@ -2,8 +2,10 @@
 #include <geometry3d.h>
 #include <renderer.h>
 #include <sadmutex.h>
+#include <glcontext.h>
 
 #include <os/glheaders.h>
+#include <os/glgeometry.h>
 
 #include <math.h>
 
@@ -178,27 +180,64 @@ sad::db::schema::Schema* sad::Sprite3D::schema() const
 
 void sad::Sprite3D::render()
 {
-  sad::Texture * texture = m_texture.get();
-  if (!texture)
-      return;
-   glGetIntegerv(GL_CURRENT_COLOR, m_current_color_buffer);   
-   glColor4ub(m_color.r(),m_color.g(),m_color.b(),255-m_color.a());	   
-   texture->bind();	
-   glBegin(GL_QUADS);
-   for (int i = 0;i < 4; i++)
-   {
-        glTexCoord2f(
-          (GLfloat)(m_normalized_texture_coordinates[i].x()),
-          (GLfloat)(m_normalized_texture_coordinates[i].y())
-        );
-        glVertex3f(
-            (GLfloat)(m_renderable_area[i].x()),
-            (GLfloat)(m_renderable_area[i].y()),
-            (GLfloat)(m_renderable_area[i].z())
-        );
-   }  
-   glEnd();
-   glColor4iv(m_current_color_buffer);
+    sad::Scene* scene = this->scene();
+    if (!scene)
+    {
+        return;
+    }
+    sad::Renderer* r = scene->renderer();
+    if (!r)
+    {
+        return;
+    }
+    sad::Texture * texture = m_texture.get();
+    if (r->context()->isOpenGL3compatible())
+    {
+        sad::ShaderFunction* shader = this->shaderFunction();
+        if (!shader)
+        {
+            shader = (texture) ? r->defaultShaderFunctionForTextures() : r->defaultShaderFunctionWithoutTextures();
+        }
+        shader->apply(this, texture, &m_color);
+        sad::os::GLGeometry* geometry = r->geometryForPoints(4);
+        geometry->drawArrays(GL_TRIANGLE_STRIP, m_renderable_area, m_normalized_texture_coordinates);
+        shader->disable();
+    }
+    else
+    {
+        glGetIntegerv(GL_CURRENT_COLOR, m_current_color_buffer);
+        glColor4ub(m_color.r(), m_color.g(), m_color.b(), 255 - m_color.a());
+        if (texture)
+        {
+            texture->bind();
+        }
+        else
+        {
+            glDisable(GL_TEXTURE_2D);
+        }
+        glBegin(GL_QUADS);
+        for (int i = 0; i < 4; i++)
+        {
+            if (texture)
+            {
+                glTexCoord2f(
+                    static_cast<GLfloat>(m_normalized_texture_coordinates[i].x()),
+                    static_cast<GLfloat>(m_normalized_texture_coordinates[i].y())
+                );
+            }
+            glVertex3f(
+                static_cast<GLfloat>(m_renderable_area[i].x()),
+                static_cast<GLfloat>(m_renderable_area[i].y()),
+                static_cast<GLfloat>(m_renderable_area[i].z())
+            );
+        }
+        glEnd();
+        glColor4iv(m_current_color_buffer);
+        if (!texture)
+        {
+            glEnable(GL_TEXTURE_2D);
+        }
+    }
 }
 
 void sad::Sprite3D::rendererChanged()

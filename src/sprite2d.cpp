@@ -2,7 +2,7 @@
 #include <geometry2d.h>
 #include <renderer.h>
 #include <sadmutex.h>
-#include "glcontext.h"
+#include <glcontext.h>
 
 #include <os/glheaders.h>
 #include <os/glgeometry.h>
@@ -264,44 +264,43 @@ void sad::Sprite2D::render()
             shader = (tex) ? r->defaultShaderFunctionForTextures() : r->defaultShaderFunctionWithoutTextures();
         }
         shader->apply(this, tex, &m_color);
-        float points[12] = {
-            static_cast<float>(m_renderable_area[0].x()), static_cast<float>(m_renderable_area[0].y()), 0.0f,
-            static_cast<float>(m_renderable_area[3].x()), static_cast<float>(m_renderable_area[3].y()), 0.0f,
-            static_cast<float>(m_renderable_area[1].x()), static_cast<float>(m_renderable_area[1].y()), 0.0f,
-            static_cast<float>(m_renderable_area[2].x()), static_cast<float>(m_renderable_area[2].y()), 0.0f
-        };
-        float tc[8] = {
-            static_cast<float>(m_normalized_texture_coordinates[0].x()), static_cast<float>(m_normalized_texture_coordinates[0].y()),
-            static_cast<float>(m_normalized_texture_coordinates[3].x()), static_cast<float>(m_normalized_texture_coordinates[3].y()),
-            static_cast<float>(m_normalized_texture_coordinates[1].x()), static_cast<float>(m_normalized_texture_coordinates[1].y()),
-            static_cast<float>(m_normalized_texture_coordinates[2].x()), static_cast<float>(m_normalized_texture_coordinates[2].y())
-        };
-
         sad::os::GLGeometry* geometry = r->geometryForPoints(4);
-        geometry->drawArrays(GL_TRIANGLE_STRIP, points, tc);
+        geometry->drawArrays(GL_TRIANGLE_STRIP, m_renderable_area, m_normalized_texture_coordinates);
         shader->disable();
     }
     else
     {
-        if (!tex)
-            return;
         glGetIntegerv(GL_CURRENT_COLOR, m_current_color_buffer);
         glColor4ub(m_color.r(), m_color.g(), m_color.b(), 255 - m_color.a());
-        tex->bind();
+        if (tex)
+        {
+            tex->bind();
+        }
+        else
+        {
+            glDisable(GL_TEXTURE_2D);
+        }
         glBegin(GL_QUADS);
         for (int i = 0; i < 4; i++)
         {
-            glTexCoord2f(
-                (GLfloat)(m_normalized_texture_coordinates[i].x()),
-                (GLfloat)(m_normalized_texture_coordinates[i].y())
-            );
+            if (tex)
+            {
+                glTexCoord2f(
+                    static_cast<GLfloat>(m_normalized_texture_coordinates[i].x()),
+                    static_cast<GLfloat>(m_normalized_texture_coordinates[i].y())
+                );
+            }
             glVertex2f(
-                (GLfloat)(m_renderable_area[i].x()),
-                (GLfloat)(m_renderable_area[i].y())
+                static_cast<GLfloat>(m_renderable_area[i].x()),
+                static_cast<GLfloat>(m_renderable_area[i].y())
             );
         }
         glEnd();
         glColor4iv(m_current_color_buffer);
+        if (!tex)
+        {
+            glEnable(GL_TEXTURE_2D);
+        }
     }
 }
 

@@ -1123,7 +1123,7 @@ void sad::Renderer::tryInitShaders()
         m_default_textures_shader->setRenderer(this);
         m_default_textures_shader->setVertexProgram(
             "#version 330\n"
-            "layout(location = 0) in vec4 position;\n"
+            "layout(location = 0) in vec3 position;\n"
             "uniform mat4 _sglProjectionMatrix;\n"
             "uniform mat4 _sglModelViewMatrix;\n"
             "in vec2 vertTexCoord;\n"
@@ -1132,7 +1132,8 @@ void sad::Renderer::tryInitShaders()
             "void main()\n"
             "{\n"
             "    fragTexCoord = vertTexCoord;\n"
-            "    gl_Position = _sglProjectionMatrix * _sglModelViewMatrix * position;\n"
+            "    vec4 tmp = vec4(position.x, position.y, position.z, 1.0);\n"
+            "    gl_Position = (_sglProjectionMatrix * _sglModelViewMatrix) * tmp;\n"
             "}\n"
         );
         m_default_textures_shader->setFragmentProgram(
@@ -1140,9 +1141,10 @@ void sad::Renderer::tryInitShaders()
             "in vec2 fragTexCoord;\n"
             "out vec4 color;\n"
             "uniform sampler2D _defaultTexture;\n"
+            "uniform vec4 _gl_Color;"
             "void main()\n"
             "{"
-            "    color = texture(_defaultTexture, fragTexCoord);\n"
+            "    color = texture(_defaultTexture, fragTexCoord) * _gl_Color;\n"
             "}"
         );
 

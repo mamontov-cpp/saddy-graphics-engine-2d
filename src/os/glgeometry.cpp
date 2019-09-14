@@ -6,6 +6,7 @@
 
 #include <cassert>
 
+// ===================================== PUBLIC METHODS =====================================
 
 sad::os::GLGeometry::GLGeometry(sad::Renderer* renderer, unsigned int points)
 : m_renderer(renderer), m_vertex_array(0), m_vertex_buffer(0), m_texture_buffer(0), m_point_count(points), m_is_on_gpu(false)
@@ -22,6 +23,86 @@ sad::os::GLGeometry::~GLGeometry()
 
 }
 
+void sad::os::GLGeometry::setVertices(const sad::Rect2D& vertices) const
+{
+    if (!m_is_on_gpu)
+    {
+        return;
+    }
+    sad::os::ExtensionFunctions* f = m_renderer->opengl()->extensionFunctions();
+    f->glBindVertexArray(m_vertex_array);
+    tryLogGlError("sad::os::GLGeometry::drawArrays: glBindVertexArray(m_vertex_array)");
+
+    f->glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer);
+    tryLogGlError("sad::os::GLGeometry::drawArrays: glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer)");
+
+    float* buf = reinterpret_cast<float*>(f->glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE));
+    tryLogGlError("sad::os::GLGeometry::drawArrays: glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE)");
+
+    if (buf)
+    {
+        int i = 0;
+        buf[i++] = static_cast<float>(vertices[0].x());
+        buf[i++] = static_cast<float>(vertices[0].y());
+        buf[i++] = 0.0f;
+
+        buf[i++] = static_cast<float>(vertices[3].x());
+        buf[i++] = static_cast<float>(vertices[3].y());
+        buf[i++] = 0.0f;
+
+        buf[i++] = static_cast<float>(vertices[1].x());
+        buf[i++] = static_cast<float>(vertices[1].y());
+        buf[i++] = 0.0f;
+
+        buf[i++] = static_cast<float>(vertices[2].x());
+        buf[i++] = static_cast<float>(vertices[2].y());
+        buf[i] = 0.0f;
+
+        f->glUnmapBuffer(GL_ARRAY_BUFFER);
+        tryLogGlError("sad::os::GLGeometry::drawArrays: glUnmapBuffer(GL_ARRAY_BUFFER)");
+    }
+}
+
+
+void sad::os::GLGeometry::setVertices(const sad::Rect< sad::Point3D >& vertices) const
+{
+    if (!m_is_on_gpu)
+    {
+        return;
+    }
+    sad::os::ExtensionFunctions* f = m_renderer->opengl()->extensionFunctions();
+    f->glBindVertexArray(m_vertex_array);
+    tryLogGlError("sad::os::GLGeometry::drawArrays: glBindVertexArray(m_vertex_array)");
+
+    f->glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer);
+    tryLogGlError("sad::os::GLGeometry::drawArrays: glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer)");
+
+    float* buf = reinterpret_cast<float*>(f->glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE));
+    tryLogGlError("sad::os::GLGeometry::drawArrays: glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE)");
+
+    if (buf)
+    {
+        int i = 0;
+        buf[i++] = static_cast<float>(vertices[0].x());
+        buf[i++] = static_cast<float>(vertices[0].y());
+        buf[i++] = static_cast<float>(vertices[0].z());
+
+        buf[i++] = static_cast<float>(vertices[3].x());
+        buf[i++] = static_cast<float>(vertices[3].y());
+        buf[i++] = static_cast<float>(vertices[3].z());
+
+        buf[i++] = static_cast<float>(vertices[1].x());
+        buf[i++] = static_cast<float>(vertices[1].y());
+        buf[i++] = static_cast<float>(vertices[1].z());
+
+        buf[i++] = static_cast<float>(vertices[2].x());
+        buf[i++] = static_cast<float>(vertices[2].y());
+        buf[i]   = static_cast<float>(vertices[2].z());
+
+        f->glUnmapBuffer(GL_ARRAY_BUFFER);
+        tryLogGlError("sad::os::GLGeometry::drawArrays: glUnmapBuffer(GL_ARRAY_BUFFER)");
+    }
+}
 
 void sad::os::GLGeometry::setVertices(const float* vertexes) const
 {
@@ -69,6 +150,42 @@ void sad::os::GLGeometry::setTextureCoordinates(const float* textureCoordinates)
     if (buf)
     {
         memcpy(buf, textureCoordinates, 2 * m_point_count * sizeof(float));
+        f->glUnmapBuffer(GL_ARRAY_BUFFER);
+        tryLogGlError("sad::os::GLGeometry::drawArrays: glUnmapBuffer(GL_ARRAY_BUFFER)");
+    }
+}
+
+void sad::os::GLGeometry::setTextureCoordinates(const sad::Rect2D& textureCoordinates) const
+{
+    if (!m_is_on_gpu)
+    {
+        return;
+    }
+    sad::os::ExtensionFunctions* f = m_renderer->opengl()->extensionFunctions();
+    f->glBindVertexArray(m_vertex_array);
+    tryLogGlError("sad::os::GLGeometry::drawArrays: glBindVertexArray(m_vertex_array)");
+
+    f->glBindBuffer(GL_ARRAY_BUFFER, m_texture_buffer);
+    tryLogGlError("sad::os::GLGeometry::drawArrays: glBindBuffer(GL_ARRAY_BUFFER, m_texture_buffer)");
+
+    float* buf = reinterpret_cast<float*>(f->glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE));
+    tryLogGlError("sad::os::GLGeometry::drawArrays: glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE)");
+
+    if (buf)
+    {
+        int i = 0;
+        buf[i++] = static_cast<float>(textureCoordinates[0].x());
+        buf[i++] = static_cast<float>(textureCoordinates[0].y());
+
+        buf[i++] = static_cast<float>(textureCoordinates[3].x());
+        buf[i++] = static_cast<float>(textureCoordinates[3].y());
+
+        buf[i++] = static_cast<float>(textureCoordinates[1].x());
+        buf[i++] = static_cast<float>(textureCoordinates[1].y());
+
+        buf[i++] = static_cast<float>(textureCoordinates[2].x());
+        buf[i] = static_cast<float>(textureCoordinates[2].y());
+
         f->glUnmapBuffer(GL_ARRAY_BUFFER);
         tryLogGlError("sad::os::GLGeometry::drawArrays: glUnmapBuffer(GL_ARRAY_BUFFER)");
     }
@@ -131,6 +248,64 @@ void sad::os::GLGeometry::drawArrays(GLenum mode, const float* vertexes, const f
     {
         setTextureCoordinates(tc);
     }
+    this->drawArrays(mode);
+}
+
+void sad::os::GLGeometry::drawArrays(GLenum mode, const sad::Rect2D& vertexes, const sad::Rect2D& tc)
+{
+    if (!m_is_on_gpu)
+    {
+        this->loadToGPU();
+    }
+    if (!m_is_on_gpu)
+    {
+        return;
+    }
+    setVertices(vertexes);
+    setTextureCoordinates(tc);
+    this->drawArrays(mode);
+}
+
+void sad::os::GLGeometry::drawArrays(GLenum mode, const sad::Rect<sad::Point3D>& vertexes, const sad::Rect2D& tc)
+{
+    if (!m_is_on_gpu)
+    {
+        this->loadToGPU();
+    }
+    if (!m_is_on_gpu)
+    {
+        return;
+    }
+    setVertices(vertexes);
+    setTextureCoordinates(tc);
+    this->drawArrays(mode);
+}
+
+
+void sad::os::GLGeometry::tryLogGlError(const char* op) const
+{
+    sad::Renderer* r = sad::Renderer::ref();
+    if (m_renderer)
+    {
+        r = m_renderer;
+    }
+
+    GLenum err_code = glGetError();
+    if (err_code != GL_NO_ERROR)
+    {
+        sad::String error_string = reinterpret_cast<const char*>(gluErrorString(err_code));
+        bool handled = false;
+        sad::String error_data = op;
+        error_data += ": ";
+        error_data += error_string;
+        SL_LOCAL_WARNING(error_data, *r);
+    }
+}
+
+// ===================================== PRIVATE METHODS =====================================
+
+void sad::os::GLGeometry::drawArrays(GLenum mode) const
+{
     sad::os::ExtensionFunctions* f = m_renderer->opengl()->extensionFunctions();
     f->glBindVertexArray(m_vertex_array);
     tryLogGlError("sad::os::GLGeometry::drawArrays: glBindVertexArray(m_vertex_array)");
@@ -141,12 +316,12 @@ void sad::os::GLGeometry::drawArrays(GLenum mode, const float* vertexes, const f
     f->glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer);
     tryLogGlError("sad::os::GLGeometry::drawArrays: glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer)");
     f->glVertexAttribPointer(
-       0,
-       3,
-       GL_FLOAT,
-       GL_FALSE,
-       0,
-       static_cast<void*>(0)
+        0,
+        3,
+        GL_FLOAT,
+        GL_FALSE,
+        0,
+        static_cast<void*>(0)
     );
     tryLogGlError("sad::os::GLGeometry::drawArrays: glVertexAttribPointer");
 
@@ -175,24 +350,4 @@ void sad::os::GLGeometry::drawArrays(GLenum mode, const float* vertexes, const f
 
     f->glDisableVertexAttribArray(0);
     tryLogGlError("sad::os::GLGeometry::drawArrays: glDisableVertexAttribArray(0)");
-}
-
-void sad::os::GLGeometry::tryLogGlError(const char* op) const
-{
-    sad::Renderer* r = sad::Renderer::ref();
-    if (m_renderer)
-    {
-        r = m_renderer;
-    }
-
-    GLenum err_code = glGetError();
-    if (err_code != GL_NO_ERROR)
-    {
-        sad::String error_string = reinterpret_cast<const char*>(gluErrorString(err_code));
-        bool handled = false;
-        sad::String error_data = op;
-        error_data += ": ";
-        error_data += error_string;
-        SL_LOCAL_WARNING(error_data, *r);
-    }
 }

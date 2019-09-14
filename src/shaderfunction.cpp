@@ -95,6 +95,8 @@ void sad::ShaderFunction::apply(sad::SceneNode* node, sad::Texture* tex, sad::AC
         if (tex != NULL)
         {
             f->glActiveTexture(GL_TEXTURE0);
+            tex->bind();
+            m_shader->tryLogGlError("sad::ShaderFunction::apply: tex->bind()");
             int texId =  m_shader->getUniformLocation( "_defaultTexture");
             m_shader->tryLogGlError("sad::ShaderFunction::apply: sad::ShaderFunction::apply: glGetUniformLocation(_defaultTexture)");
             if (texId != -1)
