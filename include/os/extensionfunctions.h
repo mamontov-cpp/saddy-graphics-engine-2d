@@ -430,6 +430,45 @@ public:
      *  \param[in] arrays Specifies the address of an array containing the n names of the objects to be deleted.
      */
     void glDeleteVertexArrays(GLsizei n, const GLuint* arrays);
+    /*! Invokes glGetUniformBlockIndex, @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glGetUniformBlockIndex.xhtml
+     *  \param[in] program Specifies the name of a program containing the uniform block.
+     *  \param[in] uniformBlockName Specifies the address an array of characters to containing the name of the uniform block whose index to retrieve.
+     *  \return index of a uniform block within program
+     */
+    GLuint glGetUniformBlockIndex(GLuint program, const GLchar* uniformBlockName);
+    /*! Assign a binding point to an active uniform block, @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniformBlockBinding.xhtml
+     *  \param[in] program The name of a program object containing the active uniform block whose binding to assign.
+     *  \param[in] uniformBlockIndex The index of the active uniform block within program whose binding to assign.
+     *  \param[in] uniformBlockBinding Specifies the binding point to which to bind the uniform block with index uniformBlockIndex within program.
+     */
+    void glUniformBlockBinding(GLuint program, GLuint uniformBlockIndex, GLuint uniformBlockBinding);
+    /*! Updates a subset of a buffer object's data store, @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glBufferSubData.xhtml
+     *  \param[in] target Specifies the target to which the buffer object is bound for glBufferSubData
+     *  \param[in] offset Specifies the offset into the buffer object's data store where data replacement will begin, measured in bytes
+     *  \param[in] size   Specifies the size in bytes of the data store region being replaced
+     *  \param[in] data   Specifies a pointer to the new data that will be copied into the data store
+     */
+    void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid* data);
+    /*! Bind a buffer object to an indexed buffer target
+     *  \param[in] target Specifies the target of the bind operation. target must be one of GL_ATOMIC_COUNTER_BUFFER, GL_TRANSFORM_FEEDBACK_BUFFER, GL_UNIFORM_BUFFER or GL_SHADER_STORAGE_BUFFER
+     *  \param[in] index  Specifies the index of the binding point within the array specified by target
+     *  \param[in] buffer The name of a buffer object to bind to the specified binding point
+     */
+    void glBindBufferBase(GLenum target, GLuint index, GLuint buffer);
+    /*! Bind a range within a buffer object to an indexed buffer target
+     *  \param[in] target Specifies the target of the bind operation. target must be one of GL_ATOMIC_COUNTER_BUFFER, GL_TRANSFORM_FEEDBACK_BUFFER, GL_UNIFORM_BUFFER, or GL_SHADER_STORAGE_BUFFER.
+     *  \param[in] index  Specifies the index of the binding point within the array specified by target
+     *  \param[in] buffer The name of a buffer object to bind to the specified binding point
+     *  \param[in] offset The starting offset in basic machine units into the buffer object buffer
+     *  \param[in] size   The amount of data in machine units that can be read from the buffer object while used as an indexed target
+     */
+    void glBindBufferRange(
+        GLenum target,
+        GLuint index,
+        GLuint buffer,
+        GLintptr offset,
+        GLsizeiptr size
+    );
 private:
     /*! Appends info that get proc address if failed to renderer (main if OpenGL) is not set
      */
@@ -614,6 +653,22 @@ private:
     /*! glDeleteVertexArrays procedure
      */
     PFNGLDELETEVERTEXARRAYSPROC m_glDeleteVertexArrays;
+
+    /*! glGetUniformBlockIndex procedure
+     */
+    PFNGLGETUNIFORMBLOCKINDEXPROC m_glGetUniformBlockIndex;
+    /*! glUniformBlockBinding procedure
+     */
+    PFNGLUNIFORMBLOCKBINDINGPROC  m_glUniformBlockBinding;
+    /*! glBufferSubData procedure
+     */
+    PFNGLBUFFERSUBDATAPROC m_glBufferSubData;
+    /*! glBindBufferBase procedure
+     */
+    PFNGLBINDBUFFERBASEPROC m_glBindBufferBase;
+    /*! glBindBufferRange procedure 
+     */
+    PFNGLBINDBUFFERRANGEPROC m_glBindBufferRange;
     /*! Whether it was initialized
      */
     bool m_init;

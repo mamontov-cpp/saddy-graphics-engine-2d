@@ -70,6 +70,11 @@ m_glUnmapBuffer(NULL),
 m_glGenVertexArrays(NULL),
 m_glBindVertexArray(NULL),
 m_glDeleteVertexArrays(NULL),
+m_glGetUniformBlockIndex(NULL),
+m_glUniformBlockBinding(NULL),
+m_glBufferSubData(NULL),
+m_glBindBufferBase(NULL),
+m_glBindBufferRange(NULL),
 m_init(false),
 m_parent(NULL)
 {
@@ -153,6 +158,12 @@ void sad::os::ExtensionFunctions::tryInit()
             TRY_GET_PROC_ADDRESS(PFNGLGENVERTEXARRAYSPROC, glGenVertexArrays);
             TRY_GET_PROC_ADDRESS(PFNGLBINDVERTEXARRAYPROC, glBindVertexArray);
             TRY_GET_PROC_ADDRESS(PFNGLDELETEVERTEXARRAYSPROC, glDeleteVertexArrays);
+
+            TRY_GET_PROC_ADDRESS(PFNGLGETUNIFORMBLOCKINDEXPROC, glGetUniformBlockIndex);
+            TRY_GET_PROC_ADDRESS(PFNGLUNIFORMBLOCKBINDINGPROC, glUniformBlockBinding);
+            TRY_GET_PROC_ADDRESS(PFNGLBUFFERSUBDATAPROC, glBufferSubData);
+            TRY_GET_PROC_ADDRESS(PFNGLBINDBUFFERBASEPROC, glBindBufferBase);
+            TRY_GET_PROC_ADDRESS(PFNGLBINDBUFFERRANGEPROC, glBindBufferRange);
         }
         m_init_mtx.unlock();
     }
@@ -953,6 +964,74 @@ void sad::os::ExtensionFunctions::glDeleteVertexArrays(GLsizei n, const GLuint* 
         throw std::logic_error("glDeleteVertexArrays() is unavailable on this platform");
     }
 }
+
+GLuint sad::os::ExtensionFunctions::glGetUniformBlockIndex(GLuint program, const GLchar* uniformBlockName)
+{
+    if (this->m_glGetUniformBlockIndex)
+    {
+        return (this->m_glGetUniformBlockIndex)(program, uniformBlockName);
+    }
+    else
+    {
+        throw std::logic_error("glGetUniformBlockIndex() is unavailable on this platform");
+    }
+}
+
+void sad::os::ExtensionFunctions::glUniformBlockBinding(GLuint program, GLuint uniformBlockIndex, GLuint uniformBlockBinding)
+{
+    if (this->m_glUniformBlockBinding)
+    {
+        (this->m_glUniformBlockBinding)(program, uniformBlockIndex, uniformBlockBinding);
+    }
+    else
+    {
+        throw std::logic_error("glUniformBlockBinding() is unavailable on this platform");
+    }
+}
+
+void sad::os::ExtensionFunctions::glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid* data)
+{
+    if (this->m_glBufferSubData)
+    {
+        (this->m_glBufferSubData)(target, offset, size, data);
+    }
+    else
+    {
+        throw std::logic_error("glBufferSubData() is unavailable on this platform");
+    }
+}
+
+void sad::os::ExtensionFunctions::glBindBufferBase(GLenum target, GLuint index, GLuint buffer)
+{
+    if (this->m_glBindBufferBase)
+    {
+        (this->m_glBindBufferBase)(target, index, buffer);
+    }
+    else
+    {
+        throw std::logic_error("glBindBufferBase() is unavailable on this platform");
+    }
+}
+
+
+void sad::os::ExtensionFunctions::glBindBufferRange(
+    GLenum target,
+    GLuint index,
+    GLuint buffer,
+    GLintptr offset,
+    GLsizeiptr size
+)
+{
+    if (this->m_glBindBufferRange)
+    {
+        (this->m_glBindBufferRange)(target, index, buffer, offset, size);
+    }
+    else
+    {
+        throw std::logic_error("glBindBufferRange() is unavailable on this platform");
+    }
+}
+
 // ===================================== PRIVATE METHODS =====================================
 
 void sad::os::ExtensionFunctions::showGetProcAddressFailedError(const sad::String& name) const
