@@ -160,7 +160,6 @@ void sad::os::ExtensionFunctions::tryInit()
 
 void sad::os::ExtensionFunctions::glUniformMatrix4x3fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value)
 {
-    this->tryInit();
     if (this->m_glUniformMatrix4x3fv)
     {
         (this->m_glUniformMatrix4x3fv)(location, count, transpose, value);
@@ -173,7 +172,7 @@ void sad::os::ExtensionFunctions::glUniformMatrix4x3fv(GLint location, GLsizei c
 
 void sad::os::ExtensionFunctions::glUniformMatrix3x4fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value)
 {
-    this->tryInit();
+    
     if (this->m_glUniformMatrix3x4fv)
     {
         (this->m_glUniformMatrix3x4fv)(location, count, transpose, value);
@@ -186,7 +185,7 @@ void sad::os::ExtensionFunctions::glUniformMatrix3x4fv(GLint location, GLsizei c
 
 void sad::os::ExtensionFunctions::glUniformMatrix4x2fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value)
 {
-    this->tryInit();
+    
     if (this->m_glUniformMatrix4x2fv)
     {
         (this->m_glUniformMatrix4x2fv)(location, count, transpose, value);
@@ -199,7 +198,7 @@ void sad::os::ExtensionFunctions::glUniformMatrix4x2fv(GLint location, GLsizei c
 
 void sad::os::ExtensionFunctions::glUniformMatrix2x4fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value)
 {
-    this->tryInit();
+    
     if (this->m_glUniformMatrix2x4fv)
     {
         (this->m_glUniformMatrix2x4fv)(location, count, transpose, value);
@@ -212,7 +211,7 @@ void sad::os::ExtensionFunctions::glUniformMatrix2x4fv(GLint location, GLsizei c
 
 void sad::os::ExtensionFunctions::glUniformMatrix3x2fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value)
 {
-    this->tryInit();
+    
     if (this->m_glUniformMatrix3x2fv)
     {
         (this->m_glUniformMatrix3x2fv)(location, count, transpose, value);
@@ -225,7 +224,7 @@ void sad::os::ExtensionFunctions::glUniformMatrix3x2fv(GLint location, GLsizei c
 
 void sad::os::ExtensionFunctions::glUniformMatrix2x3fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value)
 {
-    this->tryInit();
+    
     if (this->m_glUniformMatrix2x3fv)
     {
         (this->m_glUniformMatrix2x3fv)(location, count, transpose, value);
@@ -238,7 +237,7 @@ void sad::os::ExtensionFunctions::glUniformMatrix2x3fv(GLint location, GLsizei c
 
 void sad::os::ExtensionFunctions::glUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value)
 {
-    this->tryInit();
+    
     if (this->m_glUniformMatrix4fv)
     {
         (this->m_glUniformMatrix4fv)(location, count, transpose, value);
@@ -251,7 +250,7 @@ void sad::os::ExtensionFunctions::glUniformMatrix4fv(GLint location, GLsizei cou
 
 void sad::os::ExtensionFunctions::glUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value)
 {
-    this->tryInit();
+    
     if (this->m_glUniformMatrix3fv)
     {
         (this->m_glUniformMatrix3fv)(location, count, transpose, value);
@@ -264,7 +263,7 @@ void sad::os::ExtensionFunctions::glUniformMatrix3fv(GLint location, GLsizei cou
 
 void sad::os::ExtensionFunctions::glUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose,const GLfloat* value)
 {
-    this->tryInit();
+    
     if (this->m_glUniformMatrix2fv)
     {
         (this->m_glUniformMatrix2fv)(location, count, transpose, value);
@@ -277,7 +276,7 @@ void sad::os::ExtensionFunctions::glUniformMatrix2fv(GLint location, GLsizei cou
 
 void sad::os::ExtensionFunctions::glUniform4uiv(GLint location, GLsizei count, const GLuint* value)
 {
-    this->tryInit();
+    
     if (this->m_glUniform4uiv)
     {
         (this->m_glUniform4uiv)(location, count, value);
@@ -290,7 +289,7 @@ void sad::os::ExtensionFunctions::glUniform4uiv(GLint location, GLsizei count, c
 
 void sad::os::ExtensionFunctions::glUniform3uiv(GLint location, GLsizei count, const GLuint* value)
 {
-    this->tryInit();
+    
     if (this->m_glUniform3uiv)
     {
         (this->m_glUniform3uiv)(location, count, value);
@@ -303,7 +302,7 @@ void sad::os::ExtensionFunctions::glUniform3uiv(GLint location, GLsizei count, c
 
 void sad::os::ExtensionFunctions::glUniform2uiv(GLint location, GLsizei count, const GLuint* value)
 {
-    this->tryInit();
+    
     if (this->m_glUniform2uiv)
     {
         (this->m_glUniform2uiv)(location, count, value);
@@ -317,7 +316,7 @@ void sad::os::ExtensionFunctions::glUniform2uiv(GLint location, GLsizei count, c
 
 void sad::os::ExtensionFunctions::glUniform1uiv(GLint location, GLsizei count, const GLuint* value)
 {
-    this->tryInit();
+    
     if (this->m_glUniform1uiv)
     {
         (this->m_glUniform1uiv)(location, count, value);
@@ -330,7 +329,7 @@ void sad::os::ExtensionFunctions::glUniform1uiv(GLint location, GLsizei count, c
 
 void sad::os::ExtensionFunctions::glUniform4iv(GLint location, GLsizei count, const GLint* value)
 {
-    this->tryInit();
+    
     if (this->m_glUniform4iv)
     {
         (this->m_glUniform4iv)(location, count, value);
@@ -343,7 +342,7 @@ void sad::os::ExtensionFunctions::glUniform4iv(GLint location, GLsizei count, co
 
 void sad::os::ExtensionFunctions::glUniform3iv(GLint location, GLsizei count, const GLint* value)
 {
-    this->tryInit();
+    
     if (this->m_glUniform3iv)
     {
         (this->m_glUniform3iv)(location, count, value);
@@ -356,7 +355,7 @@ void sad::os::ExtensionFunctions::glUniform3iv(GLint location, GLsizei count, co
 
 void sad::os::ExtensionFunctions::glUniform2iv(GLint location, GLsizei count, const GLint* value)
 {
-    this->tryInit();
+    
     if (this->m_glUniform2iv)
     {
         (this->m_glUniform2iv)(location, count, value);
@@ -369,7 +368,7 @@ void sad::os::ExtensionFunctions::glUniform2iv(GLint location, GLsizei count, co
 
 void sad::os::ExtensionFunctions::glUniform1iv(GLint location, GLsizei count, const GLint* value)
 {
-    this->tryInit();
+    
     if (this->m_glUniform1iv)
     {
         (this->m_glUniform1iv)(location, count, value);
@@ -382,7 +381,7 @@ void sad::os::ExtensionFunctions::glUniform1iv(GLint location, GLsizei count, co
 
 void sad::os::ExtensionFunctions::glUniform4fv(GLint location, GLsizei count, const GLfloat* value)
 {
-    this->tryInit();
+    
     if (this->m_glUniform4fv)
     {
         (this->m_glUniform4fv)(location, count, value);
@@ -395,7 +394,7 @@ void sad::os::ExtensionFunctions::glUniform4fv(GLint location, GLsizei count, co
 
 void sad::os::ExtensionFunctions::glUniform3fv(GLint location, GLsizei count, const GLfloat* value)
 {
-    this->tryInit();
+    
     if (this->m_glUniform3fv)
     {
         (this->m_glUniform3fv)(location, count, value);
@@ -408,7 +407,7 @@ void sad::os::ExtensionFunctions::glUniform3fv(GLint location, GLsizei count, co
 
 void sad::os::ExtensionFunctions::glUniform2fv(GLint location, GLsizei count, const GLfloat* value)
 {
-    this->tryInit();
+    
     if (this->m_glUniform2fv)
     {
         (this->m_glUniform2fv)(location, count, value);
@@ -421,7 +420,7 @@ void sad::os::ExtensionFunctions::glUniform2fv(GLint location, GLsizei count, co
 
 void sad::os::ExtensionFunctions::glUniform1fv(GLint location, GLsizei count, const GLfloat* value)
 {
-    this->tryInit();
+    
     if (this->m_glUniform1fv)
     {
         (this->m_glUniform1fv)(location, count, value);
@@ -434,7 +433,7 @@ void sad::os::ExtensionFunctions::glUniform1fv(GLint location, GLsizei count, co
 
 void sad::os::ExtensionFunctions::glUniform4ui(GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3)
 {
-    this->tryInit();
+    
     if (this->m_glUniform4ui)
     {
         (this->m_glUniform4ui)(location, v0, v1, v2, v3);
@@ -447,7 +446,7 @@ void sad::os::ExtensionFunctions::glUniform4ui(GLint location, GLuint v0, GLuint
 
 void sad::os::ExtensionFunctions::glUniform3ui(GLint location, GLuint v0, GLuint v1, GLuint v2)
 {
-    this->tryInit();
+    
     if (this->m_glUniform3ui)
     {
         (this->m_glUniform3ui)(location, v0, v1, v2);
@@ -460,7 +459,7 @@ void sad::os::ExtensionFunctions::glUniform3ui(GLint location, GLuint v0, GLuint
 
 void sad::os::ExtensionFunctions::glUniform2ui(GLint location, GLuint v0, GLuint v1)
 {
-    this->tryInit();
+    
     if (this->m_glUniform2ui)
     {
         (this->m_glUniform2ui)(location, v0, v1);
@@ -473,7 +472,7 @@ void sad::os::ExtensionFunctions::glUniform2ui(GLint location, GLuint v0, GLuint
 
 void sad::os::ExtensionFunctions::glUniform1ui(GLint location, GLuint v0)
 {
-    this->tryInit();
+    
     if (this->m_glUniform1ui)
     {
         (this->m_glUniform1ui)(location, v0);
@@ -486,7 +485,7 @@ void sad::os::ExtensionFunctions::glUniform1ui(GLint location, GLuint v0)
 
 void sad::os::ExtensionFunctions::glUniform4i(GLint location, GLint v0, GLint v1, GLint v2, GLint v3)
 {
-    this->tryInit();
+    
     if (this->m_glUniform4i)
     {
         (this->m_glUniform4i)(location, v0, v1, v2, v3);
@@ -499,7 +498,7 @@ void sad::os::ExtensionFunctions::glUniform4i(GLint location, GLint v0, GLint v1
 
 void sad::os::ExtensionFunctions::glUniform3i(GLint location, GLint v0, GLint v1, GLint v2)
 {
-    this->tryInit();
+    
     if (this->m_glUniform3i)
     {
         (this->m_glUniform3i)(location, v0, v1, v2);
@@ -512,7 +511,7 @@ void sad::os::ExtensionFunctions::glUniform3i(GLint location, GLint v0, GLint v1
 
 void sad::os::ExtensionFunctions::glUniform2i(GLint location, GLint v0, GLint v1)
 {
-    this->tryInit();
+    
     if (this->m_glUniform2i)
     {
         (this->m_glUniform2i)(location, v0, v1);
@@ -525,7 +524,7 @@ void sad::os::ExtensionFunctions::glUniform2i(GLint location, GLint v0, GLint v1
 
 void sad::os::ExtensionFunctions::glUniform1i(GLint location, GLint v0)
 {
-    this->tryInit();
+    
     if (this->m_glUniform1i)
     {
         (this->m_glUniform1i)(location, v0);
@@ -538,7 +537,7 @@ void sad::os::ExtensionFunctions::glUniform1i(GLint location, GLint v0)
 
 void sad::os::ExtensionFunctions::glUniform4f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3)
 {
-    this->tryInit();
+    
     if (this->m_glUniform4f)
     {
         (this->m_glUniform4f)(location, v0, v1, v2, v3);
@@ -551,7 +550,7 @@ void sad::os::ExtensionFunctions::glUniform4f(GLint location, GLfloat v0, GLfloa
 
 void sad::os::ExtensionFunctions::glUniform3f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2)
 {
-    this->tryInit();
+    
     if (this->m_glUniform3f)
     {
         (this->m_glUniform3f)(location, v0, v1, v2);
@@ -564,7 +563,7 @@ void sad::os::ExtensionFunctions::glUniform3f(GLint location, GLfloat v0, GLfloa
 
 void sad::os::ExtensionFunctions::glUniform2f(GLint location, GLfloat v0, GLfloat v1)
 {
-    this->tryInit();
+    
     if (this->m_glUniform2f)
     {
         (this->m_glUniform2f)(location, v0, v1);
@@ -577,7 +576,7 @@ void sad::os::ExtensionFunctions::glUniform2f(GLint location, GLfloat v0, GLfloa
 
 void sad::os::ExtensionFunctions::glUniform1f(GLint location, GLfloat v0)
 {
-    this->tryInit();
+    
     if (this->m_glUniform1f)
     {
         (this->m_glUniform1f)(location, v0);
@@ -590,7 +589,7 @@ void sad::os::ExtensionFunctions::glUniform1f(GLint location, GLfloat v0)
 
 GLint sad::os::ExtensionFunctions::glGetUniformLocation(GLuint program, const GLchar* name)
 {
-    this->tryInit();
+    
     if (this->m_glGetUniformLocation)
     {
         return (this->m_glGetUniformLocation)(program, name);
@@ -605,7 +604,7 @@ GLint sad::os::ExtensionFunctions::glGetUniformLocation(GLuint program, const GL
 
 void sad::os::ExtensionFunctions::glUseProgram(GLuint program)
 {
-    this->tryInit();
+    
     if (this->m_glUseProgram)
     {
         (this->m_glUseProgram)(program);
@@ -618,7 +617,7 @@ void sad::os::ExtensionFunctions::glUseProgram(GLuint program)
 
 void sad::os::ExtensionFunctions::glGetProgramInfoLog(GLuint program, GLsizei maxLength, GLsizei* length, GLchar* infoLog)
 {
-    this->tryInit();
+    
     if (this->m_glGetProgramInfoLog)
     {
         (this->m_glGetProgramInfoLog)(program, maxLength, length, infoLog);
@@ -631,7 +630,7 @@ void sad::os::ExtensionFunctions::glGetProgramInfoLog(GLuint program, GLsizei ma
 
 void sad::os::ExtensionFunctions::glGetProgramiv(GLuint program, GLenum pname, GLint* params)
 {
-    this->tryInit();
+    
     if (this->m_glGetProgramiv)
     {
         (this->m_glGetProgramiv)(program, pname, params);
@@ -644,7 +643,7 @@ void sad::os::ExtensionFunctions::glGetProgramiv(GLuint program, GLenum pname, G
 
 void sad::os::ExtensionFunctions::glLinkProgram(GLuint program)
 {
-    this->tryInit();
+    
     if (this->m_glLinkProgram)
     {
         (this->m_glLinkProgram)(program);
@@ -657,7 +656,7 @@ void sad::os::ExtensionFunctions::glLinkProgram(GLuint program)
 
 void sad::os::ExtensionFunctions::glAttachShader(GLuint program, GLuint shader)
 {
-    this->tryInit();
+    
     if (this->m_glAttachShader)
     {
         (this->m_glAttachShader)(program, shader);
@@ -670,7 +669,7 @@ void sad::os::ExtensionFunctions::glAttachShader(GLuint program, GLuint shader)
 
 void sad::os::ExtensionFunctions::glGetShaderInfoLog(GLuint shader, GLsizei maxLength, GLsizei* length, GLchar* infoLog)
 {
-    this->tryInit();
+    
     if (this->m_glGetShaderInfoLog)
     {
         (this->m_glGetShaderInfoLog)(shader, maxLength, length, infoLog);
@@ -683,7 +682,7 @@ void sad::os::ExtensionFunctions::glGetShaderInfoLog(GLuint shader, GLsizei maxL
 
 void sad::os::ExtensionFunctions::glGetShaderiv(GLuint shader, GLenum pname, GLint* params)
 {
-    this->tryInit();
+    
     if (this->m_glGetShaderiv)
     {
         (this->m_glGetShaderiv)(shader, pname, params);
@@ -696,7 +695,7 @@ void sad::os::ExtensionFunctions::glGetShaderiv(GLuint shader, GLenum pname, GLi
 
 void sad::os::ExtensionFunctions::glCompileShader(GLuint shader)
 {
-    this->tryInit();
+    
     if (this->m_glCompileShader)
     {
         (this->m_glCompileShader)(shader);
@@ -709,7 +708,7 @@ void sad::os::ExtensionFunctions::glCompileShader(GLuint shader)
 
 void sad::os::ExtensionFunctions::glShaderSource(GLuint shader, GLsizei count, const GLchar** string, const GLint* length)
 {
-    this->tryInit();
+    
     if (this->m_glShaderSource)
     {
         (this->m_glShaderSource)(shader, count, string, length);
@@ -722,7 +721,7 @@ void sad::os::ExtensionFunctions::glShaderSource(GLuint shader, GLsizei count, c
 
 GLuint sad::os::ExtensionFunctions::glCreateShader(GLenum shaderType)
 {
-    this->tryInit();
+    
     if (this->m_glCreateShader)
     {
         return (this->m_glCreateShader)(shaderType);
@@ -737,7 +736,7 @@ GLuint sad::os::ExtensionFunctions::glCreateShader(GLenum shaderType)
 
 void sad::os::ExtensionFunctions::glDeleteShader(GLuint shader)
 {
-    this->tryInit();
+    
     if (this->m_glDeleteShader)
     {
         (this->m_glDeleteShader)(shader);
@@ -750,7 +749,7 @@ void sad::os::ExtensionFunctions::glDeleteShader(GLuint shader)
 
 GLuint sad::os::ExtensionFunctions::glCreateProgram()
 {
-    this->tryInit();
+    
     if (this->m_glCreateProgram)
     {
         return (this->m_glCreateProgram)();
@@ -765,7 +764,7 @@ GLuint sad::os::ExtensionFunctions::glCreateProgram()
 
 void sad::os::ExtensionFunctions::glDeleteProgram(GLuint program)
 {
-    this->tryInit();
+    
     if (this->m_glDeleteProgram)
     {
         (this->m_glDeleteProgram)(program);
@@ -778,7 +777,7 @@ void sad::os::ExtensionFunctions::glDeleteProgram(GLuint program)
 
 void sad::os::ExtensionFunctions::glActiveTexture(GLenum tex)
 {
-    this->tryInit();
+    
     if (this->m_glActiveTexture)
     {
         (this->m_glActiveTexture)(tex);
@@ -791,7 +790,7 @@ void sad::os::ExtensionFunctions::glActiveTexture(GLenum tex)
 
 void sad::os::ExtensionFunctions::glGenBuffers(GLsizei n, GLuint* buffers)
 {
-    this->tryInit();
+    
     if (this->m_glGenBuffers)
     {
         (this->m_glGenBuffers)(n, buffers);
@@ -804,7 +803,7 @@ void sad::os::ExtensionFunctions::glGenBuffers(GLsizei n, GLuint* buffers)
 
 void sad::os::ExtensionFunctions::glBindBuffer(GLenum target, GLuint buffer)
 {
-    this->tryInit();
+    
     if (this->m_glBindBuffer)
     {
         (this->m_glBindBuffer)(target, buffer);
@@ -818,7 +817,7 @@ void sad::os::ExtensionFunctions::glBindBuffer(GLenum target, GLuint buffer)
 
 void sad::os::ExtensionFunctions::glBufferData(GLenum target, GLsizeiptr size, const GLvoid* data, GLenum usage)
 {
-    this->tryInit();
+    
     if (this->m_glBufferData)
     {
         (this->m_glBufferData)(target, size, data, usage);
@@ -831,7 +830,7 @@ void sad::os::ExtensionFunctions::glBufferData(GLenum target, GLsizeiptr size, c
 
 void sad::os::ExtensionFunctions::glDeleteBuffers(GLsizei n, const GLuint* buffers)
 {
-    this->tryInit();
+    
     if (this->m_glDeleteBuffers)
     {
         (this->m_glDeleteBuffers)(n, buffers);
@@ -844,7 +843,7 @@ void sad::os::ExtensionFunctions::glDeleteBuffers(GLsizei n, const GLuint* buffe
 
 void sad::os::ExtensionFunctions::glEnableVertexAttribArray(GLuint index)
 {
-    this->tryInit();
+    
     if (this->m_glEnableVertexAttribArray)
     {
         (this->m_glEnableVertexAttribArray)(index);
@@ -858,7 +857,7 @@ void sad::os::ExtensionFunctions::glEnableVertexAttribArray(GLuint index)
 
 void sad::os::ExtensionFunctions::glDisableVertexAttribArray(GLuint index)
 {
-    this->tryInit();
+    
     if (this->m_glDisableVertexAttribArray)
     {
         (this->m_glDisableVertexAttribArray)(index);
@@ -877,7 +876,7 @@ void sad::os::ExtensionFunctions::glVertexAttribPointer(GLuint index,
     const GLvoid* pointer
 )
 {
-    this->tryInit();
+    
     if (this->m_glVertexAttribPointer)
     {
         (this->m_glVertexAttribPointer)(index, size, type, normalized, stride, pointer);
@@ -890,7 +889,7 @@ void sad::os::ExtensionFunctions::glVertexAttribPointer(GLuint index,
 
 void* sad::os::ExtensionFunctions::glMapBuffer(GLenum target, GLenum access)
 {
-    this->tryInit();
+    
     if (this->m_glMapBuffer)
     {
         return (this->m_glMapBuffer)(target, access);
@@ -904,7 +903,7 @@ void* sad::os::ExtensionFunctions::glMapBuffer(GLenum target, GLenum access)
 
 void sad::os::ExtensionFunctions::glUnmapBuffer(GLenum target)
 {
-    this->tryInit();
+    
     if (this->m_glUnmapBuffer)
     {
         (this->m_glUnmapBuffer)(target);
@@ -917,7 +916,7 @@ void sad::os::ExtensionFunctions::glUnmapBuffer(GLenum target)
 
 void sad::os::ExtensionFunctions::glGenVertexArrays(GLsizei n, GLuint* arrays)
 {
-    this->tryInit();
+    
     if (this->m_glGenVertexArrays)
     {
         (this->m_glGenVertexArrays)(n, arrays);
@@ -930,7 +929,7 @@ void sad::os::ExtensionFunctions::glGenVertexArrays(GLsizei n, GLuint* arrays)
 
 void sad::os::ExtensionFunctions::glBindVertexArray(GLuint array)
 {
-    this->tryInit();
+    
     if (this->m_glBindVertexArray)
     {
         (this->m_glBindVertexArray)(array);
@@ -944,7 +943,7 @@ void sad::os::ExtensionFunctions::glBindVertexArray(GLuint array)
 
 void sad::os::ExtensionFunctions::glDeleteVertexArrays(GLsizei n, const GLuint* arrays)
 {
-    this->tryInit();
+    
     if (this->m_glDeleteVertexArrays)
     {
         (this->m_glDeleteVertexArrays)(n, arrays);

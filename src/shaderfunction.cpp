@@ -4,12 +4,24 @@
 #include "camera.h"
 #include "os/extensionfunctions.h"
 
-sad::ShaderFunction::ShaderFunction() : m_shader(NULL)
+sad::ShaderFunction::ShaderFunction() 
+: m_shader(NULL), 
+m_locations_are_cahed(false),
+m_projection_loc_id(-1),
+m_modelview_loc_id(-1),
+m_tex_loc_id(-1),
+m_clr_loc_id(-1)
 {
     
 }
 
-sad::ShaderFunction::ShaderFunction(const sad::ShaderFunction& fun) : m_shader(fun.m_shader) // NOLINT(bugprone-copy-constructor-init)
+sad::ShaderFunction::ShaderFunction(const sad::ShaderFunction& fun) 
+: m_shader(fun.m_shader),
+m_locations_are_cahed(false),
+m_projection_loc_id(-1),
+m_modelview_loc_id(-1),
+m_tex_loc_id(-1),
+m_clr_loc_id(-1)// NOLINT(bugprone-copy-constructor-init)
 {
     if (m_shader)
     {
@@ -25,6 +37,7 @@ sad::ShaderFunction& sad::ShaderFunction::operator=(const sad::ShaderFunction& f
     }
 
     m_shader = fun.m_shader;
+    m_locations_are_cahed = false;
 
     if (m_shader)
     {
@@ -42,6 +55,7 @@ void sad::ShaderFunction::setShader(sad::Shader* shader)
     }
 
     m_shader = shader;
+    m_locations_are_cahed = false;
 
     if (m_shader)
     {
@@ -83,22 +97,19 @@ void sad::ShaderFunction::apply(sad::Scene* scene, sad::Texture* tex, const sad:
     }
     sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
     sad::Camera* cam = scene->getCamera();
+    this->tryCacheLocations();
     try
     {
         m_shader->tryLogGlError("sad::ShaderFunction::apply: on start filling data");
-        int matrixId = m_shader->getUniformLocation("_sglProjectionMatrix");
-        m_shader->tryLogGlError("sad::ShaderFunction::apply: glGetUniformLocation(_sglProjectionMatrix)");
-        if (matrixId != -1)
+        if (m_projection_loc_id != -1)
         {
-            f->glUniformMatrix4fv(matrixId, 1, GL_FALSE, cam->projectionMatrix());
+            f->glUniformMatrix4fv(m_projection_loc_id, 1, GL_FALSE, cam->projectionMatrix());
             m_shader->tryLogGlError("sad::ShaderFunction::apply: f->glUniformMatrix4fv(matrixId, 1, GL_FALSE, cam->projectionMatrix());");
         }
 
-        matrixId = m_shader->getUniformLocation("_sglModelViewMatrix");
-        m_shader->tryLogGlError("sad::ShaderFunction::apply: glGetUniformLocation(_sglModelViewMatrix)");
-        if (matrixId != -1)
+        if (m_modelview_loc_id != -1)
         {
-            f->glUniformMatrix4fv(matrixId, 1, GL_FALSE, cam->modelViewMatrix());
+            f->glUniformMatrix4fv(m_modelview_loc_id, 1, GL_FALSE, cam->modelViewMatrix());
             m_shader->tryLogGlError("sad::ShaderFunction::apply: f->glUniformMatrix4fv(matrixId, 1, GL_FALSE, cam->modelViewMatrix()");
         }
         if (tex != NULL)
@@ -106,21 +117,18 @@ void sad::ShaderFunction::apply(sad::Scene* scene, sad::Texture* tex, const sad:
             f->glActiveTexture(GL_TEXTURE0);
             tex->bind();
             m_shader->tryLogGlError("sad::ShaderFunction::apply: tex->bind()");
-            int texId = m_shader->getUniformLocation("_defaultTexture");
-            m_shader->tryLogGlError("sad::ShaderFunction::apply: sad::ShaderFunction::apply: glGetUniformLocation(_defaultTexture)");
-            if (texId != -1)
+
+            if (m_tex_loc_id != -1)
             {
-                f->glUniform1i(texId, 0);
+                f->glUniform1i(m_tex_loc_id, 0);
                 m_shader->tryLogGlError("sad::ShaderFunction::apply: f->glUniform1i(texId, 0);");
             }
         }
         if (clr != NULL)
         {
-            int clrId = m_shader->getUniformLocation("_gl_Color");
-            m_shader->tryLogGlError("sad::ShaderFunction::apply: sad::ShaderFunction::apply: glGetUniformLocation(_gl_Color)");
-            if (clrId != -1)
+            if (m_clr_loc_id != -1)
             {
-                f->glUniform4f(clrId, static_cast<float>(clr->r()) / 255.0f, static_cast<float>(clr->g()) / 255.0f, static_cast<float>(clr->b()) / 255.0f, 1.0f - static_cast<float>(clr->a()) / 255.0f);
+                f->glUniform4f(m_clr_loc_id, static_cast<float>(clr->r()) / 255.0f, static_cast<float>(clr->g()) / 255.0f, static_cast<float>(clr->b()) / 255.0f, 1.0f - static_cast<float>(clr->a()) / 255.0f);
                 m_shader->tryLogGlError("sad::ShaderFunction::apply: f->glUniform4f(clrId, ...);");
             }
         }
@@ -140,5 +148,26 @@ sad::ShaderFunction::~ShaderFunction()
     if (m_shader)
     {
         m_shader->delRef();
+    }
+}
+
+
+void sad::ShaderFunction::tryCacheLocations()
+{
+    if (!m_locations_are_cahed)
+    {
+        m_locations_are_cahed = true;
+
+        m_projection_loc_id = m_shader->getUniformLocation("_sglProjectionMatrix");
+        m_shader->tryLogGlError("sad::ShaderFunction::apply: glGetUniformLocation(_sglProjectionMatrix)");
+
+        m_modelview_loc_id = m_shader->getUniformLocation("_sglModelViewMatrix");
+        m_shader->tryLogGlError("sad::ShaderFunction::apply: glGetUniformLocation(_sglModelViewMatrix)");
+
+        m_tex_loc_id = m_shader->getUniformLocation("_defaultTexture");
+        m_shader->tryLogGlError("sad::ShaderFunction::apply: sad::ShaderFunction::apply: glGetUniformLocation(_defaultTexture)");
+
+        m_clr_loc_id = m_shader->getUniformLocation("_gl_Color");
+        m_shader->tryLogGlError("sad::ShaderFunction::apply: sad::ShaderFunction::apply: glGetUniformLocation(_gl_Color)");
     }
 }

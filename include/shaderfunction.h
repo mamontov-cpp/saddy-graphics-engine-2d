@@ -58,9 +58,27 @@ public:
      */
     virtual ~ShaderFunction();
 private:
+    /*! Tries to cache some locations
+     */
+    void tryCacheLocations();
     /*! An inner shader
      */
     sad::Shader* m_shader;
+    /*! Locations are cached
+     */
+    bool m_locations_are_cahed;
+    /*! A projection location id
+     */
+    int m_projection_loc_id;
+    /*! A modelview location id
+     */
+    int m_modelview_loc_id;
+    /*! A texture location id
+     */
+    int m_tex_loc_id;
+    /*! A color location id
+     */
+    int m_clr_loc_id;
 };
 
 }

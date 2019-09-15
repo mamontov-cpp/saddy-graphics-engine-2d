@@ -266,7 +266,7 @@ int sad::os::ShaderImpl::getUniformLocation(const sad::String& name)
 
 void sad::os::ShaderImpl::setUniformMatrix4x3(int location, int count, bool transpose, const float* value)
 {
-    if (m_is_on_gpu && (location != 0))
+    if (m_is_on_gpu && (location != -1))
     {
         sad::Renderer* r = m_renderer;
         if (!r)
@@ -280,7 +280,7 @@ void sad::os::ShaderImpl::setUniformMatrix4x3(int location, int count, bool tran
 
 void sad::os::ShaderImpl::setUniformMatrix3x4(int location, int count, bool transpose,const float* value)
 {
-    if (m_is_on_gpu && (location != 0))
+    if (m_is_on_gpu && (location != -1))
     {
         sad::Renderer* r = m_renderer;
         if (!r)
@@ -294,7 +294,7 @@ void sad::os::ShaderImpl::setUniformMatrix3x4(int location, int count, bool tran
 
 void sad::os::ShaderImpl::setUniformMatrix4x2(int location, int count, bool transpose,const float* value)
 {
-    if (m_is_on_gpu && (location != 0))
+    if (m_is_on_gpu && (location != -1))
     {
         sad::Renderer* r = m_renderer;
         if (!r)
@@ -308,7 +308,7 @@ void sad::os::ShaderImpl::setUniformMatrix4x2(int location, int count, bool tran
 
 void sad::os::ShaderImpl::setUniformMatrix2x4(int location, int count, bool transpose,const float* value)
 {
-    if (m_is_on_gpu && (location != 0))
+    if (m_is_on_gpu && (location != -1))
     {
         sad::Renderer* r = m_renderer;
         if (!r)
@@ -322,7 +322,7 @@ void sad::os::ShaderImpl::setUniformMatrix2x4(int location, int count, bool tran
 
 void sad::os::ShaderImpl::setUniformMatrix3x2(int location, int count, bool transpose,const float* value)
 {
-    if (m_is_on_gpu && (location != 0))
+    if (m_is_on_gpu && (location != -1))
     {
         sad::Renderer* r = m_renderer;
         if (!r)
@@ -336,7 +336,7 @@ void sad::os::ShaderImpl::setUniformMatrix3x2(int location, int count, bool tran
 
 void sad::os::ShaderImpl::setUniformMatrix2x3(int location, int count, bool transpose,const float* value)
 {
-    if (m_is_on_gpu && (location != 0))
+    if (m_is_on_gpu && (location != -1))
     {
         sad::Renderer* r = m_renderer;
         if (!r)
@@ -350,7 +350,7 @@ void sad::os::ShaderImpl::setUniformMatrix2x3(int location, int count, bool tran
 
 void sad::os::ShaderImpl::setUniformMatrix4(int location, int count, bool transpose,const float* value)
 {
-    if (m_is_on_gpu && (location != 0))
+    if (m_is_on_gpu && (location != -1))
     {
         sad::Renderer* r = m_renderer;
         if (!r)
@@ -364,7 +364,7 @@ void sad::os::ShaderImpl::setUniformMatrix4(int location, int count, bool transp
 
 void sad::os::ShaderImpl::setUniformMatrix3(int location, int count, bool transpose,const float* value)
 {
-    if (m_is_on_gpu && (location != 0))
+    if (m_is_on_gpu && (location != -1))
     {
         sad::Renderer* r = m_renderer;
         if (!r)
@@ -379,7 +379,7 @@ void sad::os::ShaderImpl::setUniformMatrix3(int location, int count, bool transp
 
 void sad::os::ShaderImpl::setUniformMatrix2(int location, int count, bool transpose,const float* value)
 {
-    if (m_is_on_gpu && (location != 0))
+    if (m_is_on_gpu && (location != -1))
     {
         sad::Renderer* r = m_renderer;
         if (!r)
@@ -393,7 +393,7 @@ void sad::os::ShaderImpl::setUniformMatrix2(int location, int count, bool transp
 
 void sad::os::ShaderImpl::setUniform4(int location, int count, const unsigned int* value)
 {
-    if (m_is_on_gpu && (location != 0))
+    if (m_is_on_gpu && (location != -1))
     {
         sad::Renderer* r = m_renderer;
         if (!r)
@@ -407,7 +407,7 @@ void sad::os::ShaderImpl::setUniform4(int location, int count, const unsigned in
 
 void sad::os::ShaderImpl::setUniform3(int location, int count, const unsigned int* value)
 {
-    if (m_is_on_gpu && (location != 0))
+    if (m_is_on_gpu && (location != -1))
     {
         sad::Renderer* r = m_renderer;
         if (!r)
@@ -421,7 +421,7 @@ void sad::os::ShaderImpl::setUniform3(int location, int count, const unsigned in
 
 void sad::os::ShaderImpl::setUniform2(int location, int count, const unsigned int* value)
 {
-    if (m_is_on_gpu && (location != 0))
+    if (m_is_on_gpu && (location != -1))
     {
         sad::Renderer* r = m_renderer;
         if (!r)
@@ -435,7 +435,7 @@ void sad::os::ShaderImpl::setUniform2(int location, int count, const unsigned in
 
 void sad::os::ShaderImpl::setUniform1(int location, int count, const unsigned int* value)
 {
-    if (m_is_on_gpu && (location != 0))
+    if (m_is_on_gpu && (location != -1))
     {
         sad::Renderer* r = m_renderer;
         if (!r)
@@ -450,7 +450,7 @@ void sad::os::ShaderImpl::setUniform1(int location, int count, const unsigned in
 
 void sad::os::ShaderImpl::setUniform4(int location, int count, const int* value)
 {
-    if (m_is_on_gpu && (location != 0))
+    if (m_is_on_gpu && (location != -1))
     {
         sad::Renderer* r = m_renderer;
         if (!r)
@@ -464,7 +464,7 @@ void sad::os::ShaderImpl::setUniform4(int location, int count, const int* value)
 
 void sad::os::ShaderImpl::setUniform3(int location, int count, const int* value)
 {
-    if (m_is_on_gpu && (location != 0))
+    if (m_is_on_gpu && (location != -1))
     {
         sad::Renderer* r = m_renderer;
         if (!r)
@@ -478,7 +478,7 @@ void sad::os::ShaderImpl::setUniform3(int location, int count, const int* value)
 
 void sad::os::ShaderImpl::setUniform2(int location, int count, const int* value)
 {
-    if (m_is_on_gpu && (location != 0))
+    if (m_is_on_gpu && (location != -1))
     {
         sad::Renderer* r = m_renderer;
         if (!r)
@@ -492,7 +492,7 @@ void sad::os::ShaderImpl::setUniform2(int location, int count, const int* value)
 
 void sad::os::ShaderImpl::setUniform1(int location, int count, const int* value)
 {
-    if (m_is_on_gpu && (location != 0))
+    if (m_is_on_gpu && (location != -1))
     {
         sad::Renderer* r = m_renderer;
         if (!r)
@@ -507,7 +507,7 @@ void sad::os::ShaderImpl::setUniform1(int location, int count, const int* value)
 
 void sad::os::ShaderImpl::setUniform4(int location, int count, const float* value)
 {
-    if (m_is_on_gpu && (location != 0))
+    if (m_is_on_gpu && (location != -1))
     {
         sad::Renderer* r = m_renderer;
         if (!r)
@@ -521,7 +521,7 @@ void sad::os::ShaderImpl::setUniform4(int location, int count, const float* valu
 
 void sad::os::ShaderImpl::setUniform3(int location, int count, const float* value)
 {
-    if (m_is_on_gpu && (location != 0))
+    if (m_is_on_gpu && (location != -1))
     {
         sad::Renderer* r = m_renderer;
         if (!r)
@@ -535,7 +535,7 @@ void sad::os::ShaderImpl::setUniform3(int location, int count, const float* valu
 
 void sad::os::ShaderImpl::setUniform2(int location, int count, const float* value)
 {
-    if (m_is_on_gpu && (location != 0))
+    if (m_is_on_gpu && (location != -1))
     {
         sad::Renderer* r = m_renderer;
         if (!r)
@@ -549,7 +549,7 @@ void sad::os::ShaderImpl::setUniform2(int location, int count, const float* valu
 
 void sad::os::ShaderImpl::setUniform1(int location, int count, const float* value)
 {
-    if (m_is_on_gpu && (location != 0))
+    if (m_is_on_gpu && (location != -1))
     {
         sad::Renderer* r = m_renderer;
         if (!r)
@@ -563,7 +563,7 @@ void sad::os::ShaderImpl::setUniform1(int location, int count, const float* valu
 
 void sad::os::ShaderImpl::setUniform(int location, unsigned int v0, unsigned int v1, unsigned int v2, unsigned int v3)
 {
-    if (m_is_on_gpu && (location != 0))
+    if (m_is_on_gpu && (location != -1))
     {
         sad::Renderer* r = m_renderer;
         if (!r)
@@ -577,7 +577,7 @@ void sad::os::ShaderImpl::setUniform(int location, unsigned int v0, unsigned int
 
 void sad::os::ShaderImpl::setUniform(int location, unsigned int v0, unsigned int v1, unsigned int v2)
 {
-    if (m_is_on_gpu && (location != 0))
+    if (m_is_on_gpu && (location != -1))
     {
         sad::Renderer* r = m_renderer;
         if (!r)
@@ -592,7 +592,7 @@ void sad::os::ShaderImpl::setUniform(int location, unsigned int v0, unsigned int
 
 void sad::os::ShaderImpl::setUniform(int location, unsigned int v0, unsigned int v1)
 {
-    if (m_is_on_gpu && (location != 0))
+    if (m_is_on_gpu && (location != -1))
     {
         sad::Renderer* r = m_renderer;
         if (!r)
@@ -607,7 +607,7 @@ void sad::os::ShaderImpl::setUniform(int location, unsigned int v0, unsigned int
 
 void sad::os::ShaderImpl::setUniform(int location, unsigned int v0)
 {
-    if (m_is_on_gpu && (location != 0))
+    if (m_is_on_gpu && (location != -1))
     {
         sad::Renderer* r = m_renderer;
         if (!r)
@@ -621,7 +621,7 @@ void sad::os::ShaderImpl::setUniform(int location, unsigned int v0)
 
 void sad::os::ShaderImpl::setUniform(int location, int v0, int v1, int v2, int v3)
 {
-    if (m_is_on_gpu && (location != 0))
+    if (m_is_on_gpu && (location != -1))
     {
         sad::Renderer* r = m_renderer;
         if (!r)
@@ -635,7 +635,7 @@ void sad::os::ShaderImpl::setUniform(int location, int v0, int v1, int v2, int v
 
 void sad::os::ShaderImpl::setUniform(int location, int v0, int v1, int v2)
 {
-    if (m_is_on_gpu && (location != 0))
+    if (m_is_on_gpu && (location != -1))
     {
         sad::Renderer* r = m_renderer;
         if (!r)
@@ -649,7 +649,7 @@ void sad::os::ShaderImpl::setUniform(int location, int v0, int v1, int v2)
 
 void sad::os::ShaderImpl::setUniform(int location, int v0, int v1)
 {
-    if (m_is_on_gpu && (location != 0))
+    if (m_is_on_gpu && (location != -1))
     {
         sad::Renderer* r = m_renderer;
         if (!r)
@@ -664,7 +664,7 @@ void sad::os::ShaderImpl::setUniform(int location, int v0, int v1)
 
 void sad::os::ShaderImpl::setUniform(int location, int v0)
 {
-    if (m_is_on_gpu && (location != 0))
+    if (m_is_on_gpu && (location != -1))
     {
         sad::Renderer* r = m_renderer;
         if (!r)
@@ -678,7 +678,7 @@ void sad::os::ShaderImpl::setUniform(int location, int v0)
 
 void sad::os::ShaderImpl::setUniform(int location, float v0, float v1, float v2, float v3)
 {
-    if (m_is_on_gpu && (location != 0))
+    if (m_is_on_gpu && (location != -1))
     {
         sad::Renderer* r = m_renderer;
         if (!r)
@@ -692,7 +692,7 @@ void sad::os::ShaderImpl::setUniform(int location, float v0, float v1, float v2,
 
 void sad::os::ShaderImpl::setUniform(int location, float v0, float v1, float v2)
 {
-    if (m_is_on_gpu && (location != 0))
+    if (m_is_on_gpu && (location != -1))
     {
         sad::Renderer* r = m_renderer;
         if (!r)
@@ -706,7 +706,7 @@ void sad::os::ShaderImpl::setUniform(int location, float v0, float v1, float v2)
 
 void sad::os::ShaderImpl::setUniform(int location, float v0, float v1)
 {
-    if (m_is_on_gpu && (location != 0))
+    if (m_is_on_gpu && (location != -1))
     {
         sad::Renderer* r = m_renderer;
         if (!r)
@@ -720,7 +720,7 @@ void sad::os::ShaderImpl::setUniform(int location, float v0, float v1)
 
 void sad::os::ShaderImpl::setUniform(int location, float v0)
 {
-    if (m_is_on_gpu && (location != 0))
+    if (m_is_on_gpu && (location != -1))
     {
         sad::Renderer* r = m_renderer;
         if (!r)

@@ -916,6 +916,7 @@ bool sad::Renderer::initRendererBeforeLoop()
         this->initPipeline();
         this->cursor()->insertHandlersIfNeeded();
         this->mainLoop()->initMainLoop();
+        this->opengl()->extensionFunctions()->tryInit();
     }
 
     return success;
