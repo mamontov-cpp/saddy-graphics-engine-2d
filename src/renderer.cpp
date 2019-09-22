@@ -18,6 +18,7 @@
 #include "os/threadimpl.h"
 #include "os/extensionfunctions.h"
 #include "os/glgeometry.h"
+#include "os/ubo.h"
 
 #include "db/dbdatabase.h"
 #include "db/dbtypename.h"
@@ -71,6 +72,8 @@ m_default_no_textures_shader_function(NULL)
     m_opengl->setRenderer(this);
     m_main_loop->setRenderer(this);
 
+    m_camera_buffer = new sad::os::UBO(this, 32 * sizeof(GLfloat));
+
     setTextureLoader("BMP", new sad::imageformats::BMPLoader());
     setTextureLoader("TGA", new sad::imageformats::TGALoader());
     setTextureLoader("PNG", new sad::imageformats::PNGLoader());
@@ -106,6 +109,7 @@ sad::Renderer::~Renderer(void)
 
     delete m_animations;
     delete m_primitiverenderer;
+    delete m_camera_buffer;
     m_cursor->delRef();
 
     // Force freeing resources, to make sure, that pointer to context will be valid, when resource
@@ -408,6 +412,8 @@ void sad::Renderer::emergencyShutdown()
     {
         m_default_no_textures_shader->tryDestroy();
     }
+
+    m_camera_buffer->tryUnload();
 
 
     // Destroy context and window, so nothing could go wrong
@@ -875,7 +881,10 @@ sad::ShaderFunction* sad::Renderer::defaultShaderFunctionWithoutTextures()
     return m_default_no_textures_shader_function;
 }
 
-
+sad::os::UBO* sad::Renderer::cameraObjectBuffer() const
+{
+    return m_camera_buffer;
+}
 
 // ============================================================ PROTECTED METHODS ============================================================
 
@@ -951,6 +960,7 @@ void sad::Renderer::deinitRendererAfterLoop()
     {
         m_default_no_textures_shader->tryDestroy();
     }
+    m_camera_buffer->tryUnload();
 
     m_context->destroy();
     m_window->destroy();
@@ -1125,8 +1135,11 @@ void sad::Renderer::tryInitShaders()
         m_default_textures_shader->setVertexProgram(
             "#version 330\n"
             "layout(location = 0) in vec3 position;\n"
-            "uniform mat4 _sglProjectionMatrix;\n"
-            "uniform mat4 _sglModelViewMatrix;\n"
+            "layout (std140) uniform _SGLCameraInfo\n"
+            "{\n"
+            "mat4 _sglModelViewMatrix;\n"
+            "mat4 _sglProjectionMatrix;\n"
+            "};\n"
             "in vec2 vertTexCoord;\n"
             "out vec2 fragTexCoord;\n"
             "\n"
@@ -1155,8 +1168,11 @@ void sad::Renderer::tryInitShaders()
         m_default_no_textures_shader->setVertexProgram(
             "#version 330\n"
             "layout(location = 0) in vec3 position;\n"
-            "uniform mat4 _sglProjectionMatrix;\n"
-            "uniform mat4 _sglModelViewMatrix;\n"
+            "layout (std140) uniform _SGLCameraInfo\n"
+            "{\n"
+            "mat4 _sglModelViewMatrix;\n"
+            "mat4 _sglProjectionMatrix;\n"
+            "};\n"
             "\n"
             "void main()\n"
             "{\n"

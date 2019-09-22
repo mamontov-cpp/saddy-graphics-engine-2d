@@ -1,6 +1,10 @@
 #include <camera.h>
 #include <scene.h>
 #include <renderer.h>
+#include <opengl.h>
+#include <renderer.h>
+#include <glcontext.h>
+#include <os/ubo.h>
 
 #ifdef WIN32
 // ReSharper disable once CppUnusedIncludeDirective
@@ -110,6 +114,20 @@ void sad::Camera::apply()
         static_cast<GLfloat>(-(m_temporary_rotation_offset.y())),
         static_cast<GLfloat>(-(m_temporary_rotation_offset.z()))
     );
+    sad::Renderer* renderer = sad::Renderer::ref();
+    if (scene)
+    {
+        sad::Renderer* renderer = m_scene->renderer();
+        if (!renderer)
+        {
+            renderer = sad::Renderer::ref();
+        }
+    }
+    if (renderer->context()->isOpenGL3compatible())
+    {
+        renderer->cameraObjectBuffer()->setSubData(0, 16 * sizeof(float), this->modelViewMatrix());
+        renderer->cameraObjectBuffer()->setSubData(16 * sizeof(float), 16 * sizeof(float), this->projectionMatrix());
+    }
 }
 
 void sad::Camera::clearTransformCache()

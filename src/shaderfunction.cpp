@@ -3,12 +3,12 @@
 #include "opengl.h"
 #include "camera.h"
 #include "os/extensionfunctions.h"
+#include "os/ubo.h"
 
 sad::ShaderFunction::ShaderFunction() 
 : m_shader(NULL), 
 m_locations_are_cahed(false),
-m_projection_loc_id(-1),
-m_modelview_loc_id(-1),
+m_gl_camera_info_loc_id(-1),
 m_tex_loc_id(-1),
 m_clr_loc_id(-1)
 {
@@ -18,8 +18,7 @@ m_clr_loc_id(-1)
 sad::ShaderFunction::ShaderFunction(const sad::ShaderFunction& fun) 
 : m_shader(fun.m_shader),
 m_locations_are_cahed(false),
-m_projection_loc_id(-1),
-m_modelview_loc_id(-1),
+m_gl_camera_info_loc_id(-1),
 m_tex_loc_id(-1),
 m_clr_loc_id(-1)// NOLINT(bugprone-copy-constructor-init)
 {
@@ -96,22 +95,19 @@ void sad::ShaderFunction::apply(sad::Scene* scene, sad::Texture* tex, const sad:
         r = m_shader->renderer();
     }
     sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
-    sad::Camera* cam = scene->getCamera();
     this->tryCacheLocations();
     try
     {
         m_shader->tryLogGlError("sad::ShaderFunction::apply: on start filling data");
-        if (m_projection_loc_id != -1)
+        if (m_gl_camera_info_loc_id != GL_INVALID_INDEX)
         {
-            f->glUniformMatrix4fv(m_projection_loc_id, 1, GL_FALSE, cam->projectionMatrix());
-            m_shader->tryLogGlError("sad::ShaderFunction::apply: f->glUniformMatrix4fv(matrixId, 1, GL_FALSE, cam->projectionMatrix());");
+            sad::os::UBO* ubo = r->cameraObjectBuffer();
+            m_shader->uniformBlockBinding(m_gl_camera_info_loc_id, 0);
+            m_shader->tryLogGlError("sad::ShaderFunction::apply: f->glUniformBlockBinding(m_gl_camera_info_loc_id, 0)");
+
+            ubo->bind(0, 0);
         }
 
-        if (m_modelview_loc_id != -1)
-        {
-            f->glUniformMatrix4fv(m_modelview_loc_id, 1, GL_FALSE, cam->modelViewMatrix());
-            m_shader->tryLogGlError("sad::ShaderFunction::apply: f->glUniformMatrix4fv(matrixId, 1, GL_FALSE, cam->modelViewMatrix()");
-        }
         if (tex != NULL)
         {
             f->glActiveTexture(GL_TEXTURE0);
@@ -158,11 +154,8 @@ void sad::ShaderFunction::tryCacheLocations()
     {
         m_locations_are_cahed = true;
 
-        m_projection_loc_id = m_shader->getUniformLocation("_sglProjectionMatrix");
-        m_shader->tryLogGlError("sad::ShaderFunction::apply: glGetUniformLocation(_sglProjectionMatrix)");
-
-        m_modelview_loc_id = m_shader->getUniformLocation("_sglModelViewMatrix");
-        m_shader->tryLogGlError("sad::ShaderFunction::apply: glGetUniformLocation(_sglModelViewMatrix)");
+        m_gl_camera_info_loc_id =  m_shader->getUniformBlockIndex("_SGLCameraInfo");
+        m_shader->tryLogGlError("sad::ShaderFunction::apply: glGetUniformBlockIndex(_SGLCameraInfo)");
 
         m_tex_loc_id = m_shader->getUniformLocation("_defaultTexture");
         m_shader->tryLogGlError("sad::ShaderFunction::apply: sad::ShaderFunction::apply: glGetUniformLocation(_defaultTexture)");

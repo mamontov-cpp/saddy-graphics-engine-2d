@@ -181,6 +181,16 @@ public:
      *  \return  location or 0 if not found
      */
    int getUniformLocation(const sad::String& name);
+   /*! Returns uniform block index
+       \param[in] name name of index
+       \return result (GL_INVALID_INDEX)
+    */
+   unsigned int getUniformBlockIndex(const sad::String& name);
+   /*! Assigns a binding point to an active uniform block
+      \param[in] index
+      \param[in] binding a binding point
+    */
+   void uniformBlockBinding(unsigned int uniformBlockIndex, unsigned int uniformBlockBinding);
    /*! Analogue for glUniformMatrix4x3fv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
     * \param[in] location a location
     * \param[in] count a count
@@ -398,6 +408,10 @@ public:
     *  \param[in] op log info
     */
    void tryLogGlError(const char* op);
+   /*! Returns shader id
+       \return id of shader
+    */
+   unsigned int shaderId() const;
 private:
     /*! Tries to compile shader
      *  \param[in] shader_type type of shader

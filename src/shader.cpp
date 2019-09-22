@@ -157,6 +157,16 @@ int sad::Shader::getUniformLocation(const sad::String& name)
     return m_impl->getUniformLocation(name);
 }
 
+unsigned int sad::Shader::getUniformBlockIndex(const sad::String& name)
+{
+    return m_impl->getUniformBlockIndex(name);
+}
+
+void sad::Shader::uniformBlockBinding(unsigned int uniformBlockIndex, unsigned int uniformBlockBinding)
+{
+    m_impl->uniformBlockBinding(uniformBlockIndex, uniformBlockBinding);
+}
+
 void sad::Shader::setUniformMatrix4x3(int location, int count, bool transpose,const float* value)
 {
     m_impl->setUniformMatrix4x3(location, count, transpose, value);
@@ -326,4 +336,9 @@ void sad::Shader::setUniform(int location, float v0)
 void sad::Shader::tryLogGlError(const char* op)
 {
     m_impl->tryLogGlError(op);
+}
+
+unsigned int sad::Shader::shaderId() const
+{
+    return m_impl->shaderId();
 }

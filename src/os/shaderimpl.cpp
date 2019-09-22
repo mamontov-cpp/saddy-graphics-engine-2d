@@ -264,6 +264,40 @@ int sad::os::ShaderImpl::getUniformLocation(const sad::String& name)
     return 0;
 }
 
+unsigned int sad::os::ShaderImpl::getUniformBlockIndex(const sad::String& name)
+{
+    if (name.length() == 0)
+    {
+        return GL_INVALID_INDEX;
+    }
+    if (m_is_on_gpu)
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        return f->glGetUniformBlockIndex(m_program, name.c_str());
+    }
+    return GL_INVALID_INDEX;
+}
+
+void sad::os::ShaderImpl::uniformBlockBinding(unsigned int uniformBlockIndex, unsigned int uniformBlockBinding)
+{
+    if (m_is_on_gpu)
+    {
+        sad::Renderer* r = m_renderer;
+        if (!r)
+        {
+            r = sad::Renderer::ref();
+        }
+        sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+        f->glUniformBlockBinding(m_program, uniformBlockIndex, uniformBlockBinding);
+    }
+
+}
+
 void sad::os::ShaderImpl::setUniformMatrix4x3(int location, int count, bool transpose, const float* value)
 {
     if (m_is_on_gpu && (location != -1))
@@ -732,10 +766,6 @@ void sad::os::ShaderImpl::setUniform(int location, float v0)
     }
 }
 
-
-
-// ======================================== PRIVATE METHODS  ========================================
-
 void sad::os::ShaderImpl::tryLogGlError(const char* op)
 {
     sad::Renderer* r = sad::Renderer::ref();
@@ -743,9 +773,9 @@ void sad::os::ShaderImpl::tryLogGlError(const char* op)
     {
         r = m_renderer;
     }
-    
+
     GLenum err_code = glGetError();
-    if (err_code != GL_NO_ERROR) 
+    if (err_code != GL_NO_ERROR)
     {
         sad::String error_string = reinterpret_cast<const char*>(gluErrorString(err_code));
         bool handled = false;
@@ -755,6 +785,13 @@ void sad::os::ShaderImpl::tryLogGlError(const char* op)
         SL_LOCAL_WARNING(error_data, *r);
     }
 }
+
+unsigned int sad::os::ShaderImpl::shaderId() const
+{
+    return m_program;
+}
+
+// ======================================== PRIVATE METHODS  ========================================
 
 GLuint  sad::os::ShaderImpl::tryCompileShader(GLenum shader_type, const sad::String& program_text) const
 {
