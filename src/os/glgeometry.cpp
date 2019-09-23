@@ -36,31 +36,27 @@ void sad::os::GLGeometry::setVertices(const sad::Rect2D& vertices) const
     f->glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer);
     tryLogGlError("sad::os::GLGeometry::drawArrays: glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer)");
 
-    float* buf = reinterpret_cast<float*>(f->glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE));
-    tryLogGlError("sad::os::GLGeometry::drawArrays: glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE)");
 
-    if (buf)
-    {
-        int i = 0;
-        buf[i++] = static_cast<float>(vertices[0].x());
-        buf[i++] = static_cast<float>(vertices[0].y());
-        buf[i++] = 0.0f;
+    float buf[12];
+    int i = 0;
+    buf[i++] = static_cast<float>(vertices[0].x());
+    buf[i++] = static_cast<float>(vertices[0].y());
+    buf[i++] = 0.0f;
 
-        buf[i++] = static_cast<float>(vertices[3].x());
-        buf[i++] = static_cast<float>(vertices[3].y());
-        buf[i++] = 0.0f;
+    buf[i++] = static_cast<float>(vertices[3].x());
+    buf[i++] = static_cast<float>(vertices[3].y());
+    buf[i++] = 0.0f;
 
-        buf[i++] = static_cast<float>(vertices[1].x());
-        buf[i++] = static_cast<float>(vertices[1].y());
-        buf[i++] = 0.0f;
+    buf[i++] = static_cast<float>(vertices[1].x());
+    buf[i++] = static_cast<float>(vertices[1].y());
+    buf[i++] = 0.0f;
 
-        buf[i++] = static_cast<float>(vertices[2].x());
-        buf[i++] = static_cast<float>(vertices[2].y());
-        buf[i] = 0.0f;
+    buf[i++] = static_cast<float>(vertices[2].x());
+    buf[i++] = static_cast<float>(vertices[2].y());
+    buf[i] = 0.0f;
 
-        f->glUnmapBuffer(GL_ARRAY_BUFFER);
-        tryLogGlError("sad::os::GLGeometry::drawArrays: glUnmapBuffer(GL_ARRAY_BUFFER)");
-    }
+    f->glBufferSubData(GL_ARRAY_BUFFER, 0, 12 * sizeof(float), buf);
+    tryLogGlError("sad::os::GLGeometry::setVertices: glBufferSubData()");
 }
 
 
@@ -77,31 +73,26 @@ void sad::os::GLGeometry::setVertices(const sad::Rect< sad::Point3D >& vertices)
     f->glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer);
     tryLogGlError("sad::os::GLGeometry::drawArrays: glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer)");
 
-    float* buf = reinterpret_cast<float*>(f->glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE));
-    tryLogGlError("sad::os::GLGeometry::drawArrays: glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE)");
+    float buf[12];
+    int i = 0;
+    buf[i++] = static_cast<float>(vertices[0].x());
+    buf[i++] = static_cast<float>(vertices[0].y());
+    buf[i++] = static_cast<float>(vertices[0].z());
 
-    if (buf)
-    {
-        int i = 0;
-        buf[i++] = static_cast<float>(vertices[0].x());
-        buf[i++] = static_cast<float>(vertices[0].y());
-        buf[i++] = static_cast<float>(vertices[0].z());
+    buf[i++] = static_cast<float>(vertices[3].x());
+    buf[i++] = static_cast<float>(vertices[3].y());
+    buf[i++] = static_cast<float>(vertices[3].z());
 
-        buf[i++] = static_cast<float>(vertices[3].x());
-        buf[i++] = static_cast<float>(vertices[3].y());
-        buf[i++] = static_cast<float>(vertices[3].z());
+    buf[i++] = static_cast<float>(vertices[1].x());
+    buf[i++] = static_cast<float>(vertices[1].y());
+    buf[i++] = static_cast<float>(vertices[1].z());
 
-        buf[i++] = static_cast<float>(vertices[1].x());
-        buf[i++] = static_cast<float>(vertices[1].y());
-        buf[i++] = static_cast<float>(vertices[1].z());
+    buf[i++] = static_cast<float>(vertices[2].x());
+    buf[i++] = static_cast<float>(vertices[2].y());
+    buf[i] = static_cast<float>(vertices[2].z());
 
-        buf[i++] = static_cast<float>(vertices[2].x());
-        buf[i++] = static_cast<float>(vertices[2].y());
-        buf[i]   = static_cast<float>(vertices[2].z());
-
-        f->glUnmapBuffer(GL_ARRAY_BUFFER);
-        tryLogGlError("sad::os::GLGeometry::drawArrays: glUnmapBuffer(GL_ARRAY_BUFFER)");
-    }
+    f->glBufferSubData(GL_ARRAY_BUFFER, 0, 12 * sizeof(float), buf);
+    tryLogGlError("sad::os::GLGeometry::setVertices: glBufferSubData()");
 }
 
 void sad::os::GLGeometry::setVertices(const sad::Point2D& p1, const sad::Point2D& p2) const
@@ -117,23 +108,18 @@ void sad::os::GLGeometry::setVertices(const sad::Point2D& p1, const sad::Point2D
     f->glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer);
     tryLogGlError("sad::os::GLGeometry::drawArrays: glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer)");
 
-    float* buf = reinterpret_cast<float*>(f->glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE));
-    tryLogGlError("sad::os::GLGeometry::drawArrays: glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE)");
+    float buf[6];
+    int i = 0;
+    buf[i++] = static_cast<float>(p1.x());
+    buf[i++] = static_cast<float>(p1.y());
+    buf[i++] = 0.0f;
 
-    if (buf)
-    {
-        int i = 0;
-        buf[i++] = static_cast<float>(p1.x());
-        buf[i++] = static_cast<float>(p1.y());
-        buf[i++] = 0.0f;
+    buf[i++] = static_cast<float>(p2.x());
+    buf[i++] = static_cast<float>(p2.y());
+    buf[i] = 0.0f;
 
-        buf[i++] = static_cast<float>(p2.x());
-        buf[i++] = static_cast<float>(p2.y());
-        buf[i] = 0.0f;
-
-        f->glUnmapBuffer(GL_ARRAY_BUFFER);
-        tryLogGlError("sad::os::GLGeometry::drawArrays: glUnmapBuffer(GL_ARRAY_BUFFER)");
-    }
+    f->glBufferSubData(GL_ARRAY_BUFFER, 0, 6 * sizeof(float), buf);
+    tryLogGlError("sad::os::GLGeometry::setVertices: glBufferSubData()");
 }
 
 void sad::os::GLGeometry::setSequentialVertices(const sad::Rect2D& vertices) const
@@ -149,31 +135,27 @@ void sad::os::GLGeometry::setSequentialVertices(const sad::Rect2D& vertices) con
     f->glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer);
     tryLogGlError("sad::os::GLGeometry::drawArrays: glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer)");
 
-    float* buf = reinterpret_cast<float*>(f->glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE));
-    tryLogGlError("sad::os::GLGeometry::drawArrays: glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE)");
+    float buf[12];
 
-    if (buf)
-    {
-        int i = 0;
-        buf[i++] = static_cast<float>(vertices[0].x());
-        buf[i++] = static_cast<float>(vertices[0].y());
-        buf[i++] = 0.0f;
+    int i = 0;
+    buf[i++] = static_cast<float>(vertices[0].x());
+    buf[i++] = static_cast<float>(vertices[0].y());
+    buf[i++] = 0.0f;
 
-        buf[i++] = static_cast<float>(vertices[1].x());
-        buf[i++] = static_cast<float>(vertices[1].y());
-        buf[i++] = 0.0f;
+    buf[i++] = static_cast<float>(vertices[1].x());
+    buf[i++] = static_cast<float>(vertices[1].y());
+    buf[i++] = 0.0f;
 
-        buf[i++] = static_cast<float>(vertices[2].x());
-        buf[i++] = static_cast<float>(vertices[2].y());
-        buf[i++] = 0.0f;
+    buf[i++] = static_cast<float>(vertices[2].x());
+    buf[i++] = static_cast<float>(vertices[2].y());
+    buf[i++] = 0.0f;
 
-        buf[i++] = static_cast<float>(vertices[3].x());
-        buf[i++] = static_cast<float>(vertices[3].y());
-        buf[i] = 0.0f;
+    buf[i++] = static_cast<float>(vertices[3].x());
+    buf[i++] = static_cast<float>(vertices[3].y());
+    buf[i] = 0.0f;
 
-        f->glUnmapBuffer(GL_ARRAY_BUFFER);
-        tryLogGlError("sad::os::GLGeometry::drawArrays: glUnmapBuffer(GL_ARRAY_BUFFER)");
-    }
+    f->glBufferSubData(GL_ARRAY_BUFFER, 0, 12 * sizeof(float), buf);
+    tryLogGlError("sad::os::GLGeometry::setSequentialVertices: glBufferSubData()");
 }
 
 void sad::os::GLGeometry::setVertices(const float* vertexes) const
@@ -240,27 +222,22 @@ void sad::os::GLGeometry::setTextureCoordinates(const sad::Rect2D& textureCoordi
     f->glBindBuffer(GL_ARRAY_BUFFER, m_texture_buffer);
     tryLogGlError("sad::os::GLGeometry::drawArrays: glBindBuffer(GL_ARRAY_BUFFER, m_texture_buffer)");
 
-    float* buf = reinterpret_cast<float*>(f->glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE));
-    tryLogGlError("sad::os::GLGeometry::drawArrays: glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE)");
+    float buf[8];
+    int i = 0;
+    buf[i++] = static_cast<float>(textureCoordinates[0].x());
+    buf[i++] = static_cast<float>(textureCoordinates[0].y());
 
-    if (buf)
-    {
-        int i = 0;
-        buf[i++] = static_cast<float>(textureCoordinates[0].x());
-        buf[i++] = static_cast<float>(textureCoordinates[0].y());
+    buf[i++] = static_cast<float>(textureCoordinates[3].x());
+    buf[i++] = static_cast<float>(textureCoordinates[3].y());
 
-        buf[i++] = static_cast<float>(textureCoordinates[3].x());
-        buf[i++] = static_cast<float>(textureCoordinates[3].y());
+    buf[i++] = static_cast<float>(textureCoordinates[1].x());
+    buf[i++] = static_cast<float>(textureCoordinates[1].y());
 
-        buf[i++] = static_cast<float>(textureCoordinates[1].x());
-        buf[i++] = static_cast<float>(textureCoordinates[1].y());
+    buf[i++] = static_cast<float>(textureCoordinates[2].x());
+    buf[i] = static_cast<float>(textureCoordinates[2].y());
 
-        buf[i++] = static_cast<float>(textureCoordinates[2].x());
-        buf[i] = static_cast<float>(textureCoordinates[2].y());
-
-        f->glUnmapBuffer(GL_ARRAY_BUFFER);
-        tryLogGlError("sad::os::GLGeometry::drawArrays: glUnmapBuffer(GL_ARRAY_BUFFER)");
-    }
+    f->glBufferSubData(GL_ARRAY_BUFFER, 0, 8 * sizeof(float), buf);
+    tryLogGlError("sad::os::GLGeometry::setTextureCoordinates: glBufferSubData()");
 }
 
 void sad::os::GLGeometry::loadToGPU()
