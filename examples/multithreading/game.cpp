@@ -2745,6 +2745,7 @@ void Game::tryRenderDebugShapes() const
     sad::Vector<sad::p2d::Body*> bodies = m_physics_world->allBodies();
     // As we already reset view matrix, shift rendered shapres by offset manually
     sad::Point2D p = renderer->globalTranslationOffset();
+    //p = sad::Point2D(0, 0);
     if (!bodies.empty())
     {
         for (size_t i = 0; i < bodies.size(); i++)

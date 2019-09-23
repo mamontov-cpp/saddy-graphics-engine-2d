@@ -3,7 +3,7 @@
 #include "opengl.h"
 #include "renderer.h"
 
-sad::os::UBO::UBO(sad::Renderer* renderer, size_t buffer_size) : m_renderer(renderer), m_id(-1), m_buffer_size(buffer_size), m_f(NULL)
+sad::os::UBO::UBO(sad::Renderer* renderer, size_t buffer_size) : m_renderer(renderer), m_id(-1), m_buffer_size(buffer_size), m_f(NULL), m_user_data(NULL)
 {
     if (!m_renderer)
     {
@@ -12,7 +12,7 @@ sad::os::UBO::UBO(sad::Renderer* renderer, size_t buffer_size) : m_renderer(rend
     m_f = m_renderer->opengl()->extensionFunctions();
 }
 
-sad::os::UBO::UBO(const sad::os::UBO& ubo) : m_renderer(ubo.m_renderer), m_id(-1), m_buffer_size(ubo.m_buffer_size), m_f(ubo.m_f)
+sad::os::UBO::UBO(const sad::os::UBO& ubo) : m_renderer(ubo.m_renderer), m_id(-1), m_buffer_size(ubo.m_buffer_size), m_f(ubo.m_f), m_user_data(ubo.m_user_data)
 {
 
 }
@@ -27,6 +27,7 @@ sad::os::UBO& sad::os::UBO::operator=(const sad::os::UBO& ubo)
     m_id = ubo.m_id;
     m_buffer_size = ubo.m_buffer_size;
     m_f = ubo.m_f;
+    m_user_data = ubo.m_user_data;
     return *this;
 }
 
@@ -74,6 +75,16 @@ void sad::os::UBO::setSubData(GLintptr offset, GLsizeiptr size, const GLvoid* da
 
     f->glBindBuffer(GL_UNIFORM_BUFFER, 0);
     this->tryLogGlError("sad::os::UBO::tryLoadToGPU: glBindBuffer(GL_UNIFORM_BUFFER, 0)");
+}
+
+void sad::os::UBO::setUserData(void* user_data)
+{
+    m_user_data = user_data;
+}
+
+void* sad::os::UBO::userData() const
+{
+    return m_user_data;
 }
 
 void sad::os::UBO::bind(GLintptr offset, GLuint uniformBlockBinding)

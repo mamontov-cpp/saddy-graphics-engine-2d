@@ -44,6 +44,14 @@ public:
         \param[in] data a data parameter
      */
     void setSubData(GLintptr offset, GLsizeiptr size, const GLvoid* data);
+    /*! Sets user data for UBO
+        \param[in] userData data
+     */
+    void setUserData(void* user_data);
+    /*! Returns user data
+        \return user data
+     */
+    void* userData() const;
     /*! Binds buffer
         \param[in] offset offset data
         \param[in] program a program
@@ -73,6 +81,9 @@ private:
     /*! Functions
      */
     sad::os::ExtensionFunctions* m_f;
+    /*! Last specific user data for checked application
+     */
+    void* m_user_data;
 };
 
 }

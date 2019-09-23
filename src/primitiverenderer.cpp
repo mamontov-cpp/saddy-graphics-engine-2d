@@ -9,6 +9,7 @@
 #include "scene.h"
 #include "renderer.h"
 #include "glcontext.h"
+#include "camera.h"
 
 sad::PrimitiveRenderer::PrimitiveRenderer()
 {
@@ -44,6 +45,7 @@ void sad::PrimitiveRenderer::line(
         {
             f = r->defaultShaderFunctionWithoutTextures();
         }
+        scene->getCamera()->moveMatricesIntoCameraBuffer();
         f->apply(scene, NULL, &c);
         sad::os::GLGeometry* geometry = r->geometryForPoints(2);
         geometry->drawLine(p1, p2);
@@ -91,6 +93,7 @@ void sad::PrimitiveRenderer::rectangle(
         {
             f = renderer->defaultShaderFunctionWithoutTextures();
         }
+        scene->getCamera()->moveMatricesIntoCameraBuffer();
         f->apply(scene, NULL, &c);
         sad::os::GLGeometry* geometry = renderer->geometryForPoints(4);
         geometry->drawRectLines(r);
