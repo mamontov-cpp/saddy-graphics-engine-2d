@@ -117,10 +117,10 @@ void sad::Camera::apply()
     sad::Renderer* renderer = sad::Renderer::ref();
     if (scene)
     {
-        sad::Renderer* renderer = m_scene->renderer();
-        if (!renderer)
+        sad::Renderer* local_renderer = m_scene->renderer();
+        if (local_renderer)
         {
-            renderer = sad::Renderer::ref();
+            renderer = local_renderer;
         }
     }
     if (renderer->context()->isOpenGL3compatible())
