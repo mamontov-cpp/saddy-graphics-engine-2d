@@ -67,12 +67,9 @@ private:
     /*! Locations are cached
      */
     bool m_locations_are_cahed;
-    /*! A projection location id
+    /*! A camera location block id
      */
-    int m_projection_loc_id;
-    /*! A modelview location id
-     */
-    int m_modelview_loc_id;
+    int m_gl_camera_info_loc_id;
     /*! A texture location id
      */
     int m_tex_loc_id;

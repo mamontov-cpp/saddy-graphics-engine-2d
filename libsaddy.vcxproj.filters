@@ -786,9 +786,6 @@
     <ClCompile Include="src\clipboard.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="src\os\shaderimpl.cpp">
-      <Filter>Файлы исходного кода\os</Filter>
-    </ClCompile>
     <ClCompile Include="src\os\extensionfunctions.cpp">
       <Filter>Файлы исходного кода\os</Filter>
     </ClCompile>
@@ -797,6 +794,9 @@
     </ClCompile>
     <ClCompile Include="src\shaderfunction.cpp">
       <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\os\ubo.cpp">
+      <Filter>Файлы исходного кода\os</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1688,9 +1688,6 @@
     <ClInclude Include="include\clipboard.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="include\os\shaderimpl.h">
-      <Filter>Заголовочные файлы\os</Filter>
-    </ClInclude>
     <ClInclude Include="include\os\extensionfunctions.h">
       <Filter>Заголовочные файлы\os</Filter>
     </ClInclude>
@@ -1699,6 +1696,9 @@
     </ClInclude>
     <ClInclude Include="include\shaderfunction.h">
       <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\os\ubo.h">
+      <Filter>Заголовочные файлы\os</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

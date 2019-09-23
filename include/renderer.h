@@ -70,6 +70,7 @@ namespace util
 namespace os
 {
     class GLGeometry;
+    class UBO;
 }
 
 /*! Can be a point or none, depending on context
@@ -453,6 +454,10 @@ public:
      *  \return default shader function without textures
      */
     sad::ShaderFunction* defaultShaderFunctionWithoutTextures();
+    /*! Returns camera buffer object
+        \return camera buffer object
+     */
+    sad::os::UBO* cameraObjectBuffer() const;
 protected:
     /*! A global instance for renderer, to make it local creation is
         procedures unnecessary. It's not a singleton, but can
@@ -553,6 +558,9 @@ protected:
     /*! An initialization mutex for shaders
      */
     sad::Mutex   m_shader_init_mutex;
+    /*! Camera buffer object
+     */
+    sad::os::UBO* m_camera_buffer;
 
     /*! Copying a renderer, due to held system resources is disabled
     \param[in] o other renderer

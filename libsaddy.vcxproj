@@ -192,7 +192,7 @@
     <ClCompile Include="src\orthographiccamera.cpp" />
     <ClCompile Include="src\os\extensionfunctions.cpp" />
     <ClCompile Include="src\os\glgeometry.cpp" />
-    <ClCompile Include="src\os\shaderimpl.cpp" />
+    <ClCompile Include="src\os\ubo.cpp" />
     <ClCompile Include="src\pausabletimer.cpp" />
     <ClCompile Include="src\periodicalevent.cpp" />
     <ClCompile Include="src\pipeline\pipelinedelayedtask.cpp" />
@@ -420,7 +420,7 @@
     <ClInclude Include="include\orthographiccamera.h" />
     <ClInclude Include="include\os\extensionfunctions.h" />
     <ClInclude Include="include\os\glgeometry.h" />
-    <ClInclude Include="include\os\shaderimpl.h" />
+    <ClInclude Include="include\os\ubo.h" />
     <ClInclude Include="include\pausabletimer.h" />
     <ClInclude Include="include\periodicalevent.h" />
     <ClInclude Include="include\pipeline\pipelinedelayedtask.h" />

@@ -1,6 +1,10 @@
 #include <camera.h>
 #include <scene.h>
 #include <renderer.h>
+#include <opengl.h>
+#include <renderer.h>
+#include <glcontext.h>
+#include <os/ubo.h>
 
 #ifdef WIN32
 // ReSharper disable once CppUnusedIncludeDirective
@@ -110,6 +114,46 @@ void sad::Camera::apply()
         static_cast<GLfloat>(-(m_temporary_rotation_offset.y())),
         static_cast<GLfloat>(-(m_temporary_rotation_offset.z()))
     );
+    sad::Renderer* renderer = sad::Renderer::ref();
+    if (scene)
+    {
+        sad::Renderer* local_renderer = m_scene->renderer();
+        if (local_renderer)
+        {
+            renderer = local_renderer;
+        }
+    }
+    if (renderer->context()->isOpenGL3compatible())
+    {
+        sad::os::UBO* ubo = renderer->cameraObjectBuffer();
+        ubo->setSubData(0, 16 * sizeof(float), this->modelViewMatrix());
+        ubo->setSubData(16 * sizeof(float), 16 * sizeof(float), this->projectionMatrix());
+        ubo->setUserData(this);
+    }
+}
+
+void sad::Camera::moveMatricesIntoCameraBuffer()
+{
+    sad::Renderer* renderer = sad::Renderer::ref();
+    sad::Scene* scene = m_scene;
+    if (scene)
+    {
+        sad::Renderer* local_renderer = m_scene->renderer();
+        if (local_renderer)
+        {
+            renderer = local_renderer;
+        }
+    }
+    if (renderer->context()->isOpenGL3compatible())
+    {
+        sad::os::UBO* ubo = renderer->cameraObjectBuffer();
+        if (ubo->userData() != this)
+        {
+            ubo->setSubData(0, 16 * sizeof(float), this->modelViewMatrix());
+            ubo->setSubData(16 * sizeof(float), 16 * sizeof(float), this->projectionMatrix());
+            ubo->setUserData(this);
+        }
+    }
 }
 
 void sad::Camera::clearTransformCache()
@@ -146,6 +190,7 @@ float* sad::Camera::projectionMatrix()
              sad::String error_string = reinterpret_cast<const char*>(gluErrorString(err_code));
              SL_LOCAL_WARNING(error_string, *r);
          }
+         r->cameraObjectBuffer()->setUserData(NULL);
          this->m_transform_is_cached = true;
     }
     return &(this->m_projection_matrix[0]);
@@ -175,6 +220,7 @@ float* sad::Camera::modelViewMatrix()
              sad::String error_string = reinterpret_cast<const char*>(gluErrorString(err_code));
              SL_LOCAL_WARNING(error_string, *r);
          }
+         r->cameraObjectBuffer()->setUserData(NULL);
          this->m_transform_is_cached = true;
     }
     return &(this->m_model_view_matrix[0]);

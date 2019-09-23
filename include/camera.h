@@ -94,6 +94,9 @@ public:
     /*! Clears transform cache for camera
      */
     void clearTransformCache();
+    /*! Forces moving matrices into camera buffer
+     */
+    void moveMatricesIntoCameraBuffer();
     /*! You can define your camera, which can be used if you want to bound rotation,
         move around point and other stuff
      */
