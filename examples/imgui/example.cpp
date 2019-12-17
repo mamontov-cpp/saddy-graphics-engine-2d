@@ -28,7 +28,7 @@ int main(int argc, char** argv)
         if (ImGui::Button("Test Window")) show_test_window ^= 1;
         ImGui::End();
 
-        ImGui::SetNextWindowPos(ImVec2(250, 20), ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowPos(ImVec2(320, 240), ImGuiCond_FirstUseEver);
         if (show_test_window)
         {
             ImGui::ShowDemoWindow(&show_test_window);
