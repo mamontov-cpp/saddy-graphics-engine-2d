@@ -108,18 +108,16 @@ void sad::ShaderFunction::apply(sad::Scene* scene, sad::Texture* tex, const sad:
             ubo->bind(0, 0);
         }
 
-        if (tex != NULL)
-        {
-            f->glActiveTexture(GL_TEXTURE0);
-            tex->bind();
-            m_shader->tryLogGlError("sad::ShaderFunction::apply: tex->bind()");
+        f->glActiveTexture(GL_TEXTURE0);
+        tex->bind();
+        m_shader->tryLogGlError("sad::ShaderFunction::apply: tex->bind()");
 
-            if (m_tex_loc_id != -1)
-            {
-                f->glUniform1i(m_tex_loc_id, 0);
-                m_shader->tryLogGlError("sad::ShaderFunction::apply: f->glUniform1i(texId, 0);");
-            }
+        if (m_tex_loc_id != -1)
+        {
+            f->glUniform1i(m_tex_loc_id, 0);
+            m_shader->tryLogGlError("sad::ShaderFunction::apply: f->glUniform1i(texId, 0);");
         }
+
         if (clr != NULL)
         {
             if (m_clr_loc_id != -1)

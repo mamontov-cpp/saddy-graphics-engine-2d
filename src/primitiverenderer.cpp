@@ -46,7 +46,7 @@ void sad::PrimitiveRenderer::line(
             f = r->defaultShaderFunctionWithoutTextures2d();
         }
         scene->getCamera()->moveMatricesIntoCameraBuffer();
-        f->apply(scene, NULL, &c);
+        f->apply(scene, &c);
         sad::os::GLUntexturedGeometry2D* geometry = r->untexturedGeometry2DForPoints(2);
         geometry->drawLine(p1, p2);
         f->disable();
@@ -94,7 +94,7 @@ void sad::PrimitiveRenderer::rectangle(
             f = renderer->defaultShaderFunctionWithoutTextures2d();
         }
         scene->getCamera()->moveMatricesIntoCameraBuffer();
-        f->apply(scene, NULL, &c);
+        f->apply(scene, &c);
         sad::os::GLUntexturedGeometry2D* geometry = renderer->untexturedGeometry2DForPoints(4);
         geometry->drawRectLines(r);
         f->disable();
