@@ -16,36 +16,32 @@ namespace os
 
 /*! A geometry for rendering
  */
-class GLGeometry
+class GLGeometry2D
 {
 public:
     /*! Makes new geometry
      *  \param[in] renderer a renderer
      *  \param[in] points a point count
      */
-    GLGeometry(sad::Renderer* renderer, unsigned int points);
+    GLGeometry2D(sad::Renderer* renderer, unsigned int points);
     /*! Destroys geometry
      */
-    ~GLGeometry();
+    ~GLGeometry2D();
     /*! Sets vertices for vertex buffer
-     *  \param[in] vertices vertice rectangle
+     *  \param[in] vertices rectangle
      */
     void setVertices(const sad::Rect2D& vertices) const;
-    /*! Sets vertices for vertex buffer
-     *  \param[in] vertices vertice rectangle
-     */
-    void setVertices(const sad::Rect< sad::Point3D >& vertices) const;
     /*! Sets vertices for vertex buffer
      *  \param[in] p1 first point
      *  \param[in] p2 second point
      */
     void setVertices(const sad::Point2D& p1, const sad::Point2D& p2) const;
     /*! Sets vertices for vertex buffer
-     *  \param[in] vertices vertice rectangle
+     *  \param[in] vertices rectangle
      */
     void setSequentialVertices(const sad::Rect2D& vertices) const;
     /*! Sets vertices for vertex buffer
-     *  \param[in] vertices vertice rectangle
+     *  \param[in] vertices rectangle
      */
     void setVertices(const float* vertices) const;
     /*! Sets texture coordinates for texture buffer
@@ -74,12 +70,6 @@ public:
       * \param[in] tc texture coordinates
       */
     void drawArrays(GLenum mode, const sad::Rect2D& vertexes, const sad::Rect2D& tc);
-    /*! Draws array list
-     *  \param[in] mode a mode
-      * \param[in] vertexes vertexes
-      * \param[in] tc texture coordinates
-      */
-    void drawArrays(GLenum mode, const sad::Rect<sad::Point3D>& vertexes, const sad::Rect2D& tc);
     /*! Draws line for geometry
      *  \param[in] p1 first point
      *  \param[in] p2 second point
@@ -89,7 +79,7 @@ public:
      *  \param[in] r rectangle
      */
     void drawRectLines(const sad::Rect2D& r);
-    /*! Tries to log OpenGL error if occured
+    /*! Tries to log OpenGL error if occurred
      *  \param[in] op log info
      */
     void tryLogGlError(const char* op) const;

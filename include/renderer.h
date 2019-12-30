@@ -69,7 +69,8 @@ namespace util
 
 namespace os
 {
-    class GLGeometry;
+    class GLGeometry3D;
+    class GLGeometry2D;
     class UBO;
 }
 
@@ -441,19 +442,32 @@ public:
         \return global translation offset
      */
     const sad::Vector3D& globalTranslationOffset() const;
-    /*! Returns geometry for specified points
+    /*! Returns 3d geometry data for specified points
      *  \param[in] points a points for geometry
      *  \return geometry data
      */
-    sad::os::GLGeometry* geometryForPoints(unsigned int points);
-    /*! Returns default shader function for textures
-     *  \return default shader function for textures
+    sad::os::GLGeometry3D* geometry3DForPoints(unsigned int points);
+    /*! Returns 2d geometry data for specified points
+     *  \param[in] points a points for geometry
+     *  \return geometry data
      */
-    sad::ShaderFunction* defaultShaderFunctionForTextures();
-    /*! Returns default shader function without textures
-     *  \return default shader function without textures
+    sad::os::GLGeometry2D* geometry2DForPoints(unsigned int points);
+    /*! Returns default shader function for textures for 3d objects
+     *  \return default shader function for textures for 3d objects
      */
-    sad::ShaderFunction* defaultShaderFunctionWithoutTextures();
+    sad::ShaderFunction* defaultShaderFunctionForTextures3d();
+    /*! Returns default shader function without textures for 3d objects
+     *  \return default shader function without textures for 3d objects
+     */
+    sad::ShaderFunction* defaultShaderFunctionWithoutTextures3d();
+    /*! Returns default shader function for textures for 2d objects
+     *  \return default shader function for textures for 2d objects
+     */
+    sad::ShaderFunction* defaultShaderFunctionForTextures2d();
+    /*! Returns default shader function without textures for 2d objects
+     *  \return default shader function without textures for 2d objects
+     */
+    sad::ShaderFunction* defaultShaderFunctionWithoutTextures2d();
     /*! Returns camera buffer object
         \return camera buffer object
      */
@@ -513,7 +527,7 @@ protected:
      */
     sad::Clipboard m_clipboard;
     
-    /*! A pipeline, as processes and tasks, which wille be performed in any time
+    /*! A pipeline, as processes and tasks, which will be performed in any time
         of runtime
      */
     sad::pipeline::Pipeline*  m_pipeline;
@@ -527,7 +541,7 @@ protected:
     /*! A settings for a renderer
      */
     sad::Settings        m_glsettings;  
-    /*! A context thread id, storead as void
+    /*! A context thread id, stored as void
      */
     void*   m_context_thread;
     /*! A mutex, which locks rendering of scenes
@@ -540,21 +554,38 @@ protected:
     /*! A global translation offset, that should be applied to all of scenes cameras
      */
     sad::Vector3D m_global_translation_offset;
-    /*! Sizes to geometry
+    /*! Sizes to geometry 3d
      */
-    sad::Hash<unsigned int, sad::os::GLGeometry*> m_sizes_to_geometry;
-    /*! A default shader for using textures
+    sad::Hash<unsigned int, sad::os::GLGeometry3D*> m_sizes_to_geometry_3d;
+    /*! Sizes to geometry 2d
      */
-    sad::Shader* m_default_textures_shader;
-    /*! A default shader function for using textures
+    sad::Hash<unsigned int, sad::os::GLGeometry2D*> m_sizes_to_geometry_2d;
+    /*! A default shader for using textures for 3D objects
      */
-    sad::ShaderFunction* m_default_texture_shader_function;
-    /*! A default shader for not using textures
+    sad::Shader* m_default_textures_shader_3d;
+    /*! A default shader function for using textures for 3D objects
      */
-    sad::Shader* m_default_no_textures_shader;
-    /*! A default shader function for using textures
+    sad::ShaderFunction* m_default_texture_shader_function_3d;
+    /*! A default shader for not using textures for 3D objects
      */
-    sad::ShaderFunction* m_default_no_textures_shader_function;
+    sad::Shader* m_default_no_textures_shader_3d;
+    /*! A default shader function for using textures for 3D objects
+     */
+    sad::ShaderFunction* m_default_no_textures_shader_function_3d;
+    /*! A default shader for using textures for 2D objects
+     */
+    sad::Shader* m_default_textures_shader_2d;
+    /*! A default shader function for using textures for 2D objects
+     */
+    sad::ShaderFunction* m_default_texture_shader_function_2d;
+    /*! A default shader for not using textures for 2D objects
+     */
+    sad::Shader* m_default_no_textures_shader_2d;
+    /*! A default shader function for using textures for 2D objects
+     */
+    sad::ShaderFunction* m_default_no_textures_shader_function_2d;
+
+
     /*! An initialization mutex for shaders
      */
     sad::Mutex   m_shader_init_mutex;
@@ -563,12 +594,12 @@ protected:
     sad::os::UBO* m_camera_buffer;
 
     /*! Copying a renderer, due to held system resources is disabled
-    \param[in] o other renderer
+        \param[in] o other renderer
     */
     Renderer(const Renderer& o);
     /*! Copying a renderer, due to held system resources is disabled
-    \param[in] o other renderer
-    \return self-rederence
+        \param[in] o other renderer
+        \return self-reference
     */
     Renderer& operator=(const Renderer& o);
     /*! Initializes window and context. Do not call this functions, unless you want to run renderer's loop manualy,
@@ -593,10 +624,10 @@ protected:
         \return success of operation
      */
     bool initGLRendering();
-    /*! Inits pipeline with data
+    /*! Initializes pipeline with callbacks, required for rendering
      */
     virtual void initPipeline();
-    /*! Cleans a pipeline from renderer data
+    /*! Cleans a pipeline from callbacks, required for rendering
      */
     virtual void cleanPipeline();
     /*! Called before rendering of scene

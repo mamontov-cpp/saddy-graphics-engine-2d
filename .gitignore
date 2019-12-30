@@ -17,3 +17,5 @@ bin/*.exe
 bin/log.txt
 lib/*
 Debug/*
+examples/stress-physics/log.txt
+.vs/config/applicationhost.config
