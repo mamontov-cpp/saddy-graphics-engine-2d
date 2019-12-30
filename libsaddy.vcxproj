@@ -191,8 +191,10 @@
     <ClCompile Include="src\opengl.cpp" />
     <ClCompile Include="src\orthographiccamera.cpp" />
     <ClCompile Include="src\os\extensionfunctions.cpp" />
-    <ClCompile Include="src\os\glgeometry2d.cpp" />
-    <ClCompile Include="src\os\glgeometry3d.cpp" />
+    <ClCompile Include="src\os\gltexturedgeometry2d.cpp" />
+    <ClCompile Include="src\os\gltexturedgeometry3d.cpp" />
+    <ClCompile Include="src\os\gluntexturedgeometry2d.cpp" />
+    <ClCompile Include="src\os\gluntexturedgeometry3d.cpp" />
     <ClCompile Include="src\os\ubo.cpp" />
     <ClCompile Include="src\pausabletimer.cpp" />
     <ClCompile Include="src\periodicalevent.cpp" />
@@ -420,8 +422,10 @@
     <ClInclude Include="include\opengl.h" />
     <ClInclude Include="include\orthographiccamera.h" />
     <ClInclude Include="include\os\extensionfunctions.h" />
-    <ClInclude Include="include\os\glgeometry2d.h" />
-    <ClInclude Include="include\os\glgeometry3d.h" />
+    <ClInclude Include="include\os\gltexturedgeometry2d.h" />
+    <ClInclude Include="include\os\gltexturedgeometry3d.h" />
+    <ClInclude Include="include\os\gluntexturedgeometry2d.h" />
+    <ClInclude Include="include\os\gluntexturedgeometry3d.h" />
     <ClInclude Include="include\os\ubo.h" />
     <ClInclude Include="include\pausabletimer.h" />
     <ClInclude Include="include\periodicalevent.h" />

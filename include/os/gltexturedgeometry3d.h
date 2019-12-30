@@ -1,4 +1,4 @@
-/*! \file glgeometry.h
+/*! \file gltexturedgeometry3d.h
 
     A geometry as set of points, required for rendering and texturing
  */
@@ -16,17 +16,17 @@ namespace os
 
 /*! A geometry for rendering
  */
-class GLGeometry3D
+class GLTexturedGeometry3D
 {
 public:
     /*! Makes new geometry
      *  \param[in] renderer a renderer
      *  \param[in] points a point count
      */
-    GLGeometry3D(sad::Renderer* renderer, unsigned int points);
+    GLTexturedGeometry3D(sad::Renderer* renderer, unsigned int points);
     /*! Destroys geometry
      */
-    ~GLGeometry3D();
+    ~GLTexturedGeometry3D();
     /*! Sets vertices for vertex buffer
      *  \param[in] vertices rectangle
      */

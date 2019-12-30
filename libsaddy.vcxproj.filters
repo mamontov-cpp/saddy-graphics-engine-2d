@@ -795,10 +795,16 @@
     <ClCompile Include="src\os\ubo.cpp">
       <Filter>Файлы исходного кода\os</Filter>
     </ClCompile>
-    <ClCompile Include="src\os\glgeometry3d.cpp">
+    <ClCompile Include="src\os\gltexturedgeometry3d.cpp">
       <Filter>Файлы исходного кода\os</Filter>
     </ClCompile>
-    <ClCompile Include="src\os\glgeometry2d.cpp">
+    <ClCompile Include="src\os\gltexturedgeometry2d.cpp">
+      <Filter>Файлы исходного кода\os</Filter>
+    </ClCompile>
+    <ClCompile Include="src\os\gluntexturedgeometry2d.cpp">
+      <Filter>Файлы исходного кода\os</Filter>
+    </ClCompile>
+    <ClCompile Include="src\os\gluntexturedgeometry3d.cpp">
       <Filter>Файлы исходного кода\os</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1700,10 +1706,16 @@
     <ClInclude Include="include\os\ubo.h">
       <Filter>Заголовочные файлы\os</Filter>
     </ClInclude>
-    <ClInclude Include="include\os\glgeometry3d.h">
+    <ClInclude Include="include\os\gltexturedgeometry3d.h">
       <Filter>Заголовочные файлы\os</Filter>
     </ClInclude>
-    <ClInclude Include="include\os\glgeometry2d.h">
+    <ClInclude Include="include\os\gltexturedgeometry2d.h">
+      <Filter>Заголовочные файлы\os</Filter>
+    </ClInclude>
+    <ClInclude Include="include\os\gluntexturedgeometry2d.h">
+      <Filter>Заголовочные файлы\os</Filter>
+    </ClInclude>
+    <ClInclude Include="include\os\gluntexturedgeometry3d.h">
       <Filter>Заголовочные файлы\os</Filter>
     </ClInclude>
   </ItemGroup>

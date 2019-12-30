@@ -5,7 +5,8 @@
 #include <glcontext.h>
 
 #include <os/glheaders.h>
-#include <os/glgeometry2d.h>
+#include <os/gltexturedgeometry2d.h>
+#include <os/gluntexturedgeometry2d.h>
 
 #include <util/fs.h>
 
@@ -264,8 +265,16 @@ void sad::Sprite2D::render()
             shader = (tex) ? r->defaultShaderFunctionForTextures2d() : r->defaultShaderFunctionWithoutTextures2d();
         }
         shader->apply(this, tex, &m_color);
-        sad::os::GLGeometry2D* geometry = r->geometry2DForPoints(4);
-        geometry->drawArrays(GL_TRIANGLE_STRIP, m_renderable_area, m_normalized_texture_coordinates);
+        if (tex)
+        {
+            sad::os::GLTexturedGeometry2D* geometry = r->texturedGeometry2DForPoints(4);
+            geometry->drawArrays(GL_TRIANGLE_STRIP, m_renderable_area, m_normalized_texture_coordinates);
+        } 
+        else
+        {
+            sad::os::GLUntexturedGeometry2D* geometry = r->untexturedGeometry2DForPoints(4);
+            geometry->drawArrays(GL_TRIANGLE_STRIP, m_renderable_area);
+        }
         shader->disable();
     }
     else

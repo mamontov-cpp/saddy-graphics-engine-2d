@@ -17,14 +17,17 @@
 #include "os/glheaders.h"
 #include "os/threadimpl.h"
 #include "os/extensionfunctions.h"
-#include "os/glgeometry3d.h"
-#include "os/glgeometry2d.h"
+#include "os/gltexturedgeometry3d.h"
+#include "os/gltexturedgeometry2d.h"
+#include "os/gluntexturedgeometry3d.h"
+#include "os/gluntexturedgeometry2d.h"
 #include "os/ubo.h"
 
 #include "db/dbdatabase.h"
 #include "db/dbtypename.h"
 
 #include "util/swaplayerstask.h"
+#include "util/free.h"
 
 #include "imageformats/bmploader.h"
 #include "imageformats/pngloader.h"
@@ -172,15 +175,10 @@ sad::Renderer::~Renderer(void)
         it.value()->delRef();
     }
 
-    for(auto it = m_sizes_to_geometry_3d.begin(); it != m_sizes_to_geometry_3d.end(); ++it)
-    {
-        delete it.value();
-    }
-
-    for (auto it = m_sizes_to_geometry_2d.begin(); it != m_sizes_to_geometry_2d.end(); ++it)
-    {
-        delete it.value();
-    }
+    sad::util::free_values(m_sizes_to_textured_geometry_3d);
+    sad::util::free_values(m_sizes_to_textured_geometry_2d);
+    sad::util::free_values(m_sizes_to_untextured_geometry_3d);
+    sad::util::free_values(m_sizes_to_untextured_geometry_2d);
 }
 
 void sad::Renderer::setScene(Scene * scene)
@@ -402,10 +400,19 @@ sad::Texture * sad::Renderer::texture(
     return resource<sad::Texture>(resourcename, treename);  
 }
 
+template<typename K, typename V>
+inline void unload_resources_from_hash(const sad::Hash<K, V>& resources)
+{
+    for (auto it = resources.const_begin(); it != resources.const_end(); ++it) 
+    {
+        it->second->unload();
+    }
+}
+
 void sad::Renderer::emergencyShutdown()
 {
     // Unload all textures, because after shutdown context will be lost
-    // and glDeleteTextures could lead to segfault
+    // and glDeleteTextures could lead to segmentation fault
     for(sad::PtrHash<sad::String, sad::resource::Tree>::iterator it = m_resource_trees.begin();
         it != m_resource_trees.end();
         ++it)
@@ -418,13 +425,10 @@ void sad::Renderer::emergencyShutdown()
         m_emergency_shutdown_callbacks[i]->call(this);
     }
 
-    for (auto it = m_sizes_to_geometry_3d.begin(); it != m_sizes_to_geometry_3d.end(); ++it) {
-        it.value()->unload();
-    }
-
-    for (auto it = m_sizes_to_geometry_2d.begin(); it != m_sizes_to_geometry_2d.end(); ++it) {
-        it.value()->unload();
-    }
+    unload_resources_from_hash(m_sizes_to_textured_geometry_3d);
+    unload_resources_from_hash(m_sizes_to_textured_geometry_2d);
+    unload_resources_from_hash(m_sizes_to_untextured_geometry_3d);
+    unload_resources_from_hash(m_sizes_to_untextured_geometry_2d);
 
     destroy_shader_if_not_null(m_default_textures_shader_3d);
     destroy_shader_if_not_null(m_default_no_textures_shader_3d);
@@ -869,39 +873,75 @@ const sad::Vector3D& sad::Renderer::globalTranslationOffset() const
     return m_global_translation_offset;
 }
 
-sad::os::GLGeometry3D* sad::Renderer::geometry3DForPoints(unsigned int points)
+sad::os::GLTexturedGeometry3D* sad::Renderer::texturedGeometry3DForPoints(unsigned int points)
 {
     if (points == 0)
     {
         return NULL;
     }
-    if (!m_sizes_to_geometry_3d.contains(points))
+    if (!m_sizes_to_textured_geometry_3d.contains(points))
     {
-        sad::os::GLGeometry3D* g = new sad::os::GLGeometry3D(this, points);
-        m_sizes_to_geometry_3d.insert(points, g);
+        sad::os::GLTexturedGeometry3D* g = new sad::os::GLTexturedGeometry3D(this, points);
+        m_sizes_to_textured_geometry_3d.insert(points, g);
         return g;
     }
     else
     {
-        return m_sizes_to_geometry_3d[points];
+        return m_sizes_to_textured_geometry_3d[points];
     }
 }
 
-sad::os::GLGeometry2D* sad::Renderer::geometry2DForPoints(unsigned int points)
+sad::os::GLTexturedGeometry2D* sad::Renderer::texturedGeometry2DForPoints(unsigned int points)
 {
     if (points == 0)
     {
         return NULL;
     }
-    if (!m_sizes_to_geometry_2d.contains(points))
+    if (!m_sizes_to_textured_geometry_2d.contains(points))
     {
-        sad::os::GLGeometry2D* g = new sad::os::GLGeometry2D(this, points);
-        m_sizes_to_geometry_2d.insert(points, g);
+        sad::os::GLTexturedGeometry2D* g = new sad::os::GLTexturedGeometry2D(this, points);
+        m_sizes_to_textured_geometry_2d.insert(points, g);
         return g;
     }
     else
     {
-        return m_sizes_to_geometry_2d[points];
+        return m_sizes_to_textured_geometry_2d[points];
+    }
+}
+
+sad::os::GLUntexturedGeometry3D* sad::Renderer::untexturedGeometry3DForPoints(unsigned int points)
+{
+    if (points == 0)
+    {
+        return NULL;
+    }
+    if (!m_sizes_to_untextured_geometry_3d.contains(points))
+    {
+        sad::os::GLUntexturedGeometry3D* g = new sad::os::GLUntexturedGeometry3D(this, points);
+        m_sizes_to_untextured_geometry_3d.insert(points, g);
+        return g;
+    }
+    else
+    {
+        return m_sizes_to_untextured_geometry_3d[points];
+    }
+}
+
+sad::os::GLUntexturedGeometry2D* sad::Renderer::untexturedGeometry2DForPoints(unsigned int points)
+{
+    if (points == 0)
+    {
+        return NULL;
+    }
+    if (!m_sizes_to_untextured_geometry_2d.contains(points))
+    {
+        sad::os::GLUntexturedGeometry2D* g = new sad::os::GLUntexturedGeometry2D(this, points);
+        m_sizes_to_untextured_geometry_2d.insert(points, g);
+        return g;
+    }
+    else
+    {
+        return m_sizes_to_untextured_geometry_2d[points];
     }
 }
 
@@ -996,14 +1036,11 @@ void sad::Renderer::deinitRendererAfterLoop()
     this->mainLoop()->deinitMainLoop();
     cursor()->removeHandlersIfNeeded();
     cleanPipeline();
-    for (auto it = m_sizes_to_geometry_3d.begin(); it != m_sizes_to_geometry_3d.end(); ++it)
-    {
-        it.value()->unload();
-    }
-    for (auto it = m_sizes_to_geometry_2d.begin(); it != m_sizes_to_geometry_2d.end(); ++it)
-    {
-        it.value()->unload();
-    }
+
+    unload_resources_from_hash(m_sizes_to_textured_geometry_3d);
+    unload_resources_from_hash(m_sizes_to_textured_geometry_2d);
+    unload_resources_from_hash(m_sizes_to_untextured_geometry_3d);
+    unload_resources_from_hash(m_sizes_to_untextured_geometry_2d);
 
     destroy_shader_if_not_null(m_default_textures_shader_3d);
     destroy_shader_if_not_null(m_default_no_textures_shader_3d);

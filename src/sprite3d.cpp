@@ -5,7 +5,8 @@
 #include <glcontext.h>
 
 #include <os/glheaders.h>
-#include <os/glgeometry3d.h>
+#include <os/gltexturedgeometry3d.h>
+#include <os/gluntexturedgeometry3d.h>
 
 #include <math.h>
 
@@ -199,8 +200,16 @@ void sad::Sprite3D::render()
             shader = (texture) ? r->defaultShaderFunctionForTextures3d() : r->defaultShaderFunctionWithoutTextures3d();
         }
         shader->apply(this, texture, &m_color);
-        sad::os::GLGeometry3D* geometry = r->geometry3DForPoints(4);
-        geometry->drawArrays(GL_TRIANGLE_STRIP, m_renderable_area, m_normalized_texture_coordinates);
+        if (texture)
+        {
+            sad::os::GLTexturedGeometry3D* geometry = r->texturedGeometry3DForPoints(4);
+            geometry->drawArrays(GL_TRIANGLE_STRIP, m_renderable_area, m_normalized_texture_coordinates);
+        }
+        else
+        {
+            sad::os::GLUntexturedGeometry3D* geometry = r->untexturedGeometry3DForPoints(4);
+            geometry->drawArrays(GL_TRIANGLE_STRIP, m_renderable_area);
+        }
         shader->disable();
     }
     else

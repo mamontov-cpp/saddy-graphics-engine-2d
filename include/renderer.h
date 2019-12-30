@@ -69,8 +69,10 @@ namespace util
 
 namespace os
 {
-    class GLGeometry3D;
-    class GLGeometry2D;
+    class GLTexturedGeometry3D;
+    class GLTexturedGeometry2D;
+    class GLUntexturedGeometry3D;
+    class GLUntexturedGeometry2D;
     class UBO;
 }
 
@@ -442,16 +444,26 @@ public:
         \return global translation offset
      */
     const sad::Vector3D& globalTranslationOffset() const;
-    /*! Returns 3d geometry data for specified points
+    /*! Returns 3d geometry data for specified points with support of textures
      *  \param[in] points a points for geometry
      *  \return geometry data
      */
-    sad::os::GLGeometry3D* geometry3DForPoints(unsigned int points);
-    /*! Returns 2d geometry data for specified points
+    sad::os::GLTexturedGeometry3D* texturedGeometry3DForPoints(unsigned int points);
+    /*! Returns 2d geometry data for specified points with support of textures
      *  \param[in] points a points for geometry
      *  \return geometry data
      */
-    sad::os::GLGeometry2D* geometry2DForPoints(unsigned int points);
+    sad::os::GLTexturedGeometry2D* texturedGeometry2DForPoints(unsigned int points);
+    /*! Returns 3d geometry data for specified points without support of textures
+     *  \param[in] points a points for geometry
+     *  \return geometry data
+     */
+    sad::os::GLUntexturedGeometry3D* untexturedGeometry3DForPoints(unsigned int points);
+    /*! Returns 2d geometry data for specified points without support of textures
+     *  \param[in] points a points for geometry
+     *  \return geometry data
+     */
+    sad::os::GLUntexturedGeometry2D* untexturedGeometry2DForPoints(unsigned int points);
     /*! Returns default shader function for textures for 3d objects
      *  \return default shader function for textures for 3d objects
      */
@@ -554,12 +566,18 @@ protected:
     /*! A global translation offset, that should be applied to all of scenes cameras
      */
     sad::Vector3D m_global_translation_offset;
-    /*! Sizes to geometry 3d
+    /*! Sizes to textured geometry 3d
      */
-    sad::Hash<unsigned int, sad::os::GLGeometry3D*> m_sizes_to_geometry_3d;
-    /*! Sizes to geometry 2d
+    sad::Hash<unsigned int, sad::os::GLTexturedGeometry3D*> m_sizes_to_textured_geometry_3d;
+    /*! Sizes to textured geometry 2d
      */
-    sad::Hash<unsigned int, sad::os::GLGeometry2D*> m_sizes_to_geometry_2d;
+    sad::Hash<unsigned int, sad::os::GLTexturedGeometry2D*> m_sizes_to_textured_geometry_2d;
+    /*! Sizes to untextured geometry 3d
+     */
+    sad::Hash<unsigned int, sad::os::GLUntexturedGeometry3D*> m_sizes_to_untextured_geometry_3d;
+    /*! Sizes to untextured geometry 2d
+     */
+    sad::Hash<unsigned int, sad::os::GLUntexturedGeometry2D*> m_sizes_to_untextured_geometry_2d;
     /*! A default shader for using textures for 3D objects
      */
     sad::Shader* m_default_textures_shader_3d;

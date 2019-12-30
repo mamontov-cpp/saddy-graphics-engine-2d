@@ -1,4 +1,4 @@
-/*! \file glgeometry.h
+/*! \file gltexturedgeometry2d.h
 
     A geometry as set of points, required for rendering and texturing
  */
@@ -16,17 +16,17 @@ namespace os
 
 /*! A geometry for rendering
  */
-class GLGeometry2D
+class GLTexturedGeometry2D
 {
 public:
     /*! Makes new geometry
      *  \param[in] renderer a renderer
      *  \param[in] points a point count
      */
-    GLGeometry2D(sad::Renderer* renderer, unsigned int points);
+    GLTexturedGeometry2D(sad::Renderer* renderer, unsigned int points);
     /*! Destroys geometry
      */
-    ~GLGeometry2D();
+    ~GLTexturedGeometry2D();
     /*! Sets vertices for vertex buffer
      *  \param[in] vertices rectangle
      */
