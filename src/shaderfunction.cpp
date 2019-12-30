@@ -134,6 +134,60 @@ void sad::ShaderFunction::apply(sad::Scene* scene, sad::Texture* tex, const sad:
     }
 }
 
+void sad::ShaderFunction::apply(sad::SceneNode* node, const sad::AColor* clr)
+{
+    if (!node || !m_shader)
+    {
+        return;
+    }
+    if (node->scene() == NULL)
+    {
+        return;
+    }
+    this->apply(node->scene(), clr);
+}
+
+
+void sad::ShaderFunction::apply(sad::Scene* scene, const sad::AColor* clr)
+{
+    if (!scene || !m_shader)
+    {
+        return;
+    }
+    m_shader->use();
+    sad::Renderer* r = sad::Renderer::ref();
+    if (m_shader->renderer())
+    {
+        r = m_shader->renderer();
+    }
+    sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+    this->tryCacheLocations();
+    try
+    {
+        m_shader->tryLogGlError("sad::ShaderFunction::apply: on start filling data");
+        if (m_gl_camera_info_loc_id != GL_INVALID_INDEX)
+        {
+            sad::os::UBO* ubo = r->cameraObjectBuffer();
+            m_shader->uniformBlockBinding(m_gl_camera_info_loc_id, 0);
+            m_shader->tryLogGlError("sad::ShaderFunction::apply: f->glUniformBlockBinding(m_gl_camera_info_loc_id, 0)");
+
+            ubo->bind(0, 0);
+        }
+
+        if (clr != NULL)
+        {
+            if (m_clr_loc_id != -1)
+            {
+                f->glUniform4f(m_clr_loc_id, static_cast<float>(clr->r()) / 255.0f, static_cast<float>(clr->g()) / 255.0f, static_cast<float>(clr->b()) / 255.0f, 1.0f - static_cast<float>(clr->a()) / 255.0f);
+                m_shader->tryLogGlError("sad::ShaderFunction::apply: f->glUniform4f(clrId, ...);");
+            }
+        }
+    }
+    catch (std::logic_error& ex) {
+        SL_LOCAL_FATAL(ex.what(), *r);
+    }
+}
+
 void sad::ShaderFunction::disable()
 {
     m_shader->disable();

@@ -199,14 +199,15 @@ void sad::Sprite3D::render()
         {
             shader = (texture) ? r->defaultShaderFunctionForTextures3d() : r->defaultShaderFunctionWithoutTextures3d();
         }
-        shader->apply(this, texture, &m_color);
         if (texture)
         {
+            shader->apply(this, texture, &m_color);
             sad::os::GLTexturedGeometry3D* geometry = r->texturedGeometry3DForPoints(4);
             geometry->drawArrays(GL_TRIANGLE_STRIP, m_renderable_area, m_normalized_texture_coordinates);
         }
         else
         {
+            shader->apply(this, &m_color);
             sad::os::GLUntexturedGeometry3D* geometry = r->untexturedGeometry3DForPoints(4);
             geometry->drawArrays(GL_TRIANGLE_STRIP, m_renderable_area);
         }

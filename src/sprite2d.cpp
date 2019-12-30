@@ -264,14 +264,15 @@ void sad::Sprite2D::render()
         {
             shader = (tex) ? r->defaultShaderFunctionForTextures2d() : r->defaultShaderFunctionWithoutTextures2d();
         }
-        shader->apply(this, tex, &m_color);
         if (tex)
         {
+            shader->apply(this, tex, &m_color);
             sad::os::GLTexturedGeometry2D* geometry = r->texturedGeometry2DForPoints(4);
             geometry->drawArrays(GL_TRIANGLE_STRIP, m_renderable_area, m_normalized_texture_coordinates);
         } 
         else
         {
+            shader->apply(this, &m_color);
             sad::os::GLUntexturedGeometry2D* geometry = r->untexturedGeometry2DForPoints(4);
             geometry->drawArrays(GL_TRIANGLE_STRIP, m_renderable_area);
         }
