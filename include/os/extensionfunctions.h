@@ -469,6 +469,36 @@ public:
         GLintptr offset,
         GLsizeiptr size
     );
+    /*! glDrawElements specifies multiple geometric primitives with very few subroutine calls.
+     *  Instead of calling a GL function to pass each individual vertex, normal, texture coordinate, edge flag, or color,
+     *  you can prespecify separate arrays of vertices, normals, and so on, and use them to construct a sequence of
+     *  primitives with a single call to glDrawElements.
+     *  \param[in] mode    Specifies what kind of primitives to render
+     *  \param[in] count   Specifies the number of elements to be rendered
+     *  \param[in] type    Specifies the type of the values in indices. Must be one of GL_UNSIGNED_BYTE, GL_UNSIGNED_SHORT, or GL_UNSIGNED_INT
+     *  \param[in] indices Specifies a pointer to the location where the indices are stored.
+     */
+    void glDrawElements(
+        GLenum mode,
+        GLsizei count,
+        GLenum type,
+        const void * indices
+    );
+    /*! glCopyNamedBufferSubData copy part of the data store attached to a source buffer object to the data store
+     *  attached to a destination buffer object
+     *  \param[in] readBuffer Specifies the target to which the source buffer object is bound for glCopyBufferSubData
+     *  \param[in] writeBuffer Specifies the target to which the destination buffer object is bound for glCopyBufferSubData
+     *  \param[in] readOffset Specifies the offset, in basic machine units, within the data store of the source buffer object at which data will be read
+     *  \param[in] writeOffset Specifies the offset, in basic machine units, within the data store of the destination buffer object at which data will be written
+     *  \param[in] size Specifies the size, in basic machine units, of the data to be copied from the source buffer object to the destination buffer object
+     */
+    void glCopyNamedBufferSubData(
+        GLuint readBuffer,
+        GLuint writeBuffer,
+        GLintptr readOffset,
+        GLintptr writeOffset,
+        GLsizeiptr size
+    );
 private:
     /*! Appends info that get proc address if failed to renderer (main if OpenGL) is not set
      */
@@ -669,6 +699,12 @@ private:
     /*! glBindBufferRange procedure 
      */
     PFNGLBINDBUFFERRANGEPROC m_glBindBufferRange;
+    /*! glDrawElements procedure
+     */
+    PFNGLDRAWELEMENTSPROC m_glDrawElements;
+    /*! glCopyNamedBufferSubData procedure
+     */
+    PFNGLCOPYNAMEDBUFFERSUBDATAPROC m_glCopyNamedBufferSubData;
     /*! Whether it was initialized
      */
     bool m_init;

@@ -5,7 +5,6 @@
 #pragma once
 #include "glheaders.h"
 #include "geometry2d.h"
-#include "geometry3d.h"
 
 namespace sad
 {
@@ -34,7 +33,7 @@ public:
     /*! Sets vertices for vertex buffer
      *  \param[in] vertices rectangle
      */
-    void setVertices(const float* vertices) const;
+    void setVertices(const double* vertices) const;
     /*! Tries to upload geometry to GPU
      */
     void loadToGPU();
@@ -45,22 +44,21 @@ public:
      * \param[in] mode a mode
      * \param[in] vertexes vertexes
      */
-    void drawArrays(GLenum mode, const float* vertexes);
+    void drawArrays(GLenum mode, const double* vertexes);
     /*! Draws array list
      *  \param[in] mode a mode
       * \param[in] vertexes vertexes
-      * \param[in] tc texture coordinates
       */
     void drawArrays(GLenum mode, const sad::Rect<sad::Point3D>& vertexes);
-    /*! Tries to log OpenGL error if occurred
-     *  \param[in] op log info
-     */
-    void tryLogGlError(const char* op) const;
 private:
     /*! Draws array list
      * \param[in] mode a mode
      */
-    void drawArrays(GLenum mode) const;
+    inline void drawArrays(GLenum mode) const;
+    /*! Tries to log OpenGL error if occurred
+     *  \param[in] op log info
+     */
+    inline void tryLogGlError(const char* op) const;
     /*! A renderer for geometry
      */
     sad::Renderer* m_renderer;

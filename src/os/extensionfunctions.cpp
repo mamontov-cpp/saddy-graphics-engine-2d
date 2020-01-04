@@ -75,6 +75,8 @@ m_glUniformBlockBinding(NULL),
 m_glBufferSubData(NULL),
 m_glBindBufferBase(NULL),
 m_glBindBufferRange(NULL),
+m_glDrawElements(NULL),
+m_glCopyNamedBufferSubData(NULL),
 m_init(false),
 m_parent(NULL)
 {
@@ -164,6 +166,9 @@ void sad::os::ExtensionFunctions::tryInit()
             TRY_GET_PROC_ADDRESS(PFNGLBUFFERSUBDATAPROC, glBufferSubData);
             TRY_GET_PROC_ADDRESS(PFNGLBINDBUFFERBASEPROC, glBindBufferBase);
             TRY_GET_PROC_ADDRESS(PFNGLBINDBUFFERRANGEPROC, glBindBufferRange);
+
+            TRY_GET_PROC_ADDRESS(PFNGLDRAWELEMENTSPROC, glDrawElements);
+            TRY_GET_PROC_ADDRESS(PFNGLCOPYNAMEDBUFFERSUBDATAPROC, glCopyNamedBufferSubData);
         }
         m_init_mtx.unlock();
     }
@@ -1029,6 +1034,41 @@ void sad::os::ExtensionFunctions::glBindBufferRange(
     else
     {
         throw std::logic_error("glBindBufferRange() is unavailable on this platform");
+    }
+}
+
+void sad::os::ExtensionFunctions::glDrawElements(
+    GLenum mode,
+    GLsizei count,
+    GLenum type,
+    const void * indices
+)
+{
+    if (this->m_glDrawElements)
+    {
+        (this->m_glDrawElements)(mode, count, type, indices);
+    }
+    else
+    {
+        throw std::logic_error("glDrawElements() is unavailable on this platform");
+    }
+}
+
+void sad::os::ExtensionFunctions::glCopyNamedBufferSubData(
+    GLuint readBuffer,
+    GLuint writeBuffer,
+    GLintptr readOffset,
+    GLintptr writeOffset,
+    GLsizeiptr size
+)
+{
+    if (this->m_glCopyNamedBufferSubData)
+    {
+        (this->m_glCopyNamedBufferSubData)(readBuffer, writeBuffer, readOffset, writeOffset, size);
+    }
+    else
+    {
+        throw std::logic_error("glCopyNamedBufferSubData() is unavailable on this platform");
     }
 }
 

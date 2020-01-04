@@ -5,7 +5,7 @@
 #pragma once
 #include "glheaders.h"
 #include "geometry2d.h"
-#include "geometry3d.h"
+
 
 namespace sad
 {
@@ -39,15 +39,11 @@ public:
     /*! Sets vertices for vertex buffer
      *  \param[in] vertices rectangle
      */
-    void setSequentialVertices(const sad::Rect2D& vertices) const;
-    /*! Sets vertices for vertex buffer
-     *  \param[in] vertices rectangle
-     */
-    void setVertices(const float* vertices) const;
+    void setVertices(const double* vertices) const;
     /*! Sets texture coordinates for texture buffer
      *  \param[in] textureCoordinates texture coordinates
      */
-    void setTextureCoordinates(const float* textureCoordinates) const;
+    void setTextureCoordinates(const double* textureCoordinates) const;
     /*! Sets texture coordinates for texture buffer
      *  \param[in] textureCoordinates texture coordinates
      */
@@ -63,7 +59,7 @@ public:
      * \param[in] vertexes vertexes
      * \param[in] tc texture coordinates
      */
-    void drawArrays(GLenum mode, const float* vertexes, const float* tc);
+    void drawArrays(GLenum mode, const double* vertexes, const double* tc);
     /*! Draws array list
      * \param[in] mode a mode
       * \param[in] vertexes vertexes
@@ -79,15 +75,15 @@ public:
      *  \param[in] r rectangle
      */
     void drawRectLines(const sad::Rect2D& r);
-    /*! Tries to log OpenGL error if occurred
-     *  \param[in] op log info
-     */
-    void tryLogGlError(const char* op) const;
 private:
     /*! Draws array list
      * \param[in] mode a mode
      */
-    void drawArrays(GLenum mode) const;
+    inline void drawArrays(GLenum mode) const;
+    /*! Tries to log OpenGL error if occurred
+     *  \param[in] op log info
+     */
+    inline void tryLogGlError(const char* op) const;
     /*! A renderer for geometry
      */
     sad::Renderer* m_renderer;
