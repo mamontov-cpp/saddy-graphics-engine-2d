@@ -1219,7 +1219,7 @@ void sad::Renderer::tryInitShaders()
         m_default_textures_shader_3d->addRef();
         m_default_textures_shader_3d->setRenderer(this);
         m_default_textures_shader_3d->setVertexProgram(
-            "#version 330\n"
+            "#version 300 es\n"
             "layout(location = 0) in vec3 position;\n"
             "layout (std140) uniform _SGLCameraInfo\n"
             "{\n"
@@ -1237,7 +1237,8 @@ void sad::Renderer::tryInitShaders()
             "}\n"
         );
         m_default_textures_shader_3d->setFragmentProgram(
-            "#version 330\n"
+            "#version 300 es\n"
+            "precision mediump float;"
             "in vec2 fragTexCoord;\n"
             "out vec4 color;\n"
             "uniform sampler2D _defaultTexture;\n"
@@ -1252,7 +1253,7 @@ void sad::Renderer::tryInitShaders()
         m_default_no_textures_shader_3d->addRef();
         m_default_no_textures_shader_3d->setRenderer(this);
         m_default_no_textures_shader_3d->setVertexProgram(
-            "#version 330\n"
+            "#version 300 es\n"
             "layout(location = 0) in vec3 position;\n"
             "layout (std140) uniform _SGLCameraInfo\n"
             "{\n"
@@ -1267,7 +1268,8 @@ void sad::Renderer::tryInitShaders()
             "}\n"
         );
         m_default_no_textures_shader_3d->setFragmentProgram(
-            "#version 330\n"
+            "#version 300 es\n"
+            "precision mediump float;"
             "uniform vec4 _gl_Color;"
             "out vec4 color;\n"
             "void main()\n"
@@ -1281,7 +1283,7 @@ void sad::Renderer::tryInitShaders()
         m_default_textures_shader_2d->addRef();
         m_default_textures_shader_2d->setRenderer(this);
         m_default_textures_shader_2d->setVertexProgram(
-            "#version 330\n"
+            "#version 300 es\n"
             "layout(location = 0) in vec2 position;\n"
             "layout (std140) uniform _SGLCameraInfo\n"
             "{\n"
@@ -1299,7 +1301,8 @@ void sad::Renderer::tryInitShaders()
             "}\n"
         );
         m_default_textures_shader_2d->setFragmentProgram(
-            "#version 330\n"
+            "#version 300 es\n"
+            "precision mediump float;"
             "in vec2 fragTexCoord;\n"
             "out vec4 color;\n"
             "uniform sampler2D _defaultTexture;\n"
@@ -1314,7 +1317,7 @@ void sad::Renderer::tryInitShaders()
         m_default_no_textures_shader_2d->addRef();
         m_default_no_textures_shader_2d->setRenderer(this);
         m_default_no_textures_shader_2d->setVertexProgram(
-            "#version 330\n"
+            "#version 300 es\n"
             "layout(location = 0) in vec2 position;\n"
             "layout (std140) uniform _SGLCameraInfo\n"
             "{\n"
@@ -1329,7 +1332,8 @@ void sad::Renderer::tryInitShaders()
             "}\n"
         );
         m_default_no_textures_shader_2d->setFragmentProgram(
-            "#version 330\n"
+            "#version 300 es\n"
+            "precision mediump float;"
             "uniform vec4 _gl_Color;"
             "out vec4 color;\n"
             "void main()\n"
