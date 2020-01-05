@@ -469,21 +469,6 @@ public:
         GLintptr offset,
         GLsizeiptr size
     );
-    /*! glCopyNamedBufferSubData copy part of the data store attached to a source buffer object to the data store
-     *  attached to a destination buffer object
-     *  \param[in] readBuffer Specifies the target to which the source buffer object is bound for glCopyBufferSubData
-     *  \param[in] writeBuffer Specifies the target to which the destination buffer object is bound for glCopyBufferSubData
-     *  \param[in] readOffset Specifies the offset, in basic machine units, within the data store of the source buffer object at which data will be read
-     *  \param[in] writeOffset Specifies the offset, in basic machine units, within the data store of the destination buffer object at which data will be written
-     *  \param[in] size Specifies the size, in basic machine units, of the data to be copied from the source buffer object to the destination buffer object
-     */
-    void glCopyNamedBufferSubData(
-        GLuint readBuffer,
-        GLuint writeBuffer,
-        GLintptr readOffset,
-        GLintptr writeOffset,
-        GLsizeiptr size
-    );
 private:
     /*! Appends info that get proc address if failed to renderer (main if OpenGL) is not set
      */
@@ -684,9 +669,6 @@ private:
     /*! glBindBufferRange procedure 
      */
     PFNGLBINDBUFFERRANGEPROC m_glBindBufferRange;
-    /*! glCopyNamedBufferSubData procedure
-     */
-    PFNGLCOPYNAMEDBUFFERSUBDATAPROC m_glCopyNamedBufferSubData;
     /*! Whether it was initialized
      */
     bool m_init;
