@@ -1718,5 +1718,11 @@
     <ClInclude Include="include\os\gluntexturedgeometry3d.h">
       <Filter>Заголовочные файлы\os</Filter>
     </ClInclude>
+    <ClInclude Include="include\os\glspritegeometrystorage.h">
+      <Filter>Заголовочные файлы\os</Filter>
+    </ClInclude>
+    <ClInclude Include="include\os\glspritegeometrystorages.h">
+      <Filter>Заголовочные файлы\os</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

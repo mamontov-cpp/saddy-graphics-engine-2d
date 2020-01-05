@@ -13,6 +13,8 @@ class Renderer;
 namespace os
 {
 
+class ExtensionFunctions;
+
 /*! A geometry for rendering
  */
 class GLTexturedGeometry3D
@@ -56,10 +58,13 @@ public:
     void drawArrays(GLenum mode, const double* vertexes, const double* tc);
     /*! Draws array list
      *  \param[in] mode a mode
-      * \param[in] vertexes vertexes
-      * \param[in] tc texture coordinates
-      */
+     * \param[in] vertexes vertexes
+     * \param[in] tc texture coordinates
+     */
     void drawArrays(GLenum mode, const sad::Rect<sad::Point3D>& vertexes, const sad::Rect2D& tc);
+    /*! Draws indexed quad via GL_TRIANGLE_STRIP and quad
+     */
+    void drawIndexedQuad() const;
 private:
     /*! Draws array list
      * \param[in] mode a mode
@@ -87,6 +92,9 @@ private:
     /*! Whether geometry is already uploaded to GPU
      */
     bool m_is_on_gpu;
+    /*! Extension functions
+     */
+    sad::os::ExtensionFunctions* m_f;
 };
 
 }

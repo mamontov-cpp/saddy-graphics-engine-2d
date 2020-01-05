@@ -13,6 +13,8 @@ class Renderer;
 namespace os
 {
 
+class ExtensionFunctions;
+
 /*! A geometry for rendering
  */
 class GLUntexturedGeometry2D
@@ -55,6 +57,9 @@ public:
       * \param[in] vertexes vertexes
       */
     void drawArrays(GLenum mode, const sad::Rect2D& vertexes);
+    /*! Draws indexed quad via GL_TRIANGLE_STRIP and quad
+     */
+    void drawIndexedQuad() const;
     /*! Draws line for geometry
      *  \param[in] p1 first point
      *  \param[in] p2 second point
@@ -88,6 +93,9 @@ private:
     /*! Whether geometry is already uploaded to GPU
      */
     bool m_is_on_gpu;
+    /*! Extension functions
+     */
+    sad::os::ExtensionFunctions* m_f;
 };
 
 }

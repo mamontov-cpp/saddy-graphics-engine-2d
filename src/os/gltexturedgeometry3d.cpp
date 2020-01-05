@@ -15,6 +15,7 @@ sad::os::GLTexturedGeometry3D::GLTexturedGeometry3D(sad::Renderer* renderer, uns
     {
         m_renderer = sad::Renderer::ref();
     }
+    m_f = m_renderer->opengl()->extensionFunctions();
     assert(points > 0);
 }
 
@@ -31,7 +32,7 @@ void sad::os::GLTexturedGeometry3D::setVertices(const sad::Rect< sad::Point3D >&
     {
         return;
     }
-    sad::os::ExtensionFunctions* f = m_renderer->opengl()->extensionFunctions();
+    sad::os::ExtensionFunctions* f = m_f;
     f->glBindVertexArray(m_vertex_array);
     tryLogGlError("sad::os::GLTexturedGeometry3D::setVertices: glBindVertexArray(m_vertex_array)");
 
@@ -48,7 +49,7 @@ void sad::os::GLTexturedGeometry3D::setVertices(const double* vertexes) const
     {
         return;
     }
-    sad::os::ExtensionFunctions* f = m_renderer->opengl()->extensionFunctions();
+    sad::os::ExtensionFunctions* f = m_f;
     f->glBindVertexArray(m_vertex_array);
     tryLogGlError("sad::os::GLTexturedGeometry3D::setVertices: glBindVertexArray(m_vertex_array)");
 
@@ -68,7 +69,7 @@ void sad::os::GLTexturedGeometry3D::setTextureCoordinates(const double* textureC
     {
         return;
     }
-    sad::os::ExtensionFunctions* f = m_renderer->opengl()->extensionFunctions();
+    sad::os::ExtensionFunctions* f = m_f;
     f->glBindVertexArray(m_vertex_array);
     tryLogGlError("sad::os::GLTexturedGeometry3D::setTextureCoordinates: glBindVertexArray(m_vertex_array)");
 
@@ -85,7 +86,7 @@ void sad::os::GLTexturedGeometry3D::setTextureCoordinates(const sad::Rect2D& tex
     {
         return;
     }
-    sad::os::ExtensionFunctions* f = m_renderer->opengl()->extensionFunctions();
+    sad::os::ExtensionFunctions* f = m_f;
     f->glBindVertexArray(m_vertex_array);
     tryLogGlError("sad::os::GLTexturedGeometry3D::setTextureCoordinates: glBindVertexArray(m_vertex_array)");
 
@@ -100,7 +101,7 @@ void sad::os::GLTexturedGeometry3D::loadToGPU()
 {
     if (!m_is_on_gpu)
     {
-        sad::os::ExtensionFunctions* f = m_renderer->opengl()->extensionFunctions();
+        sad::os::ExtensionFunctions* f = m_f;
 
         f->glGenVertexArrays(1, &m_vertex_array);
         f->glBindVertexArray(m_vertex_array);
@@ -160,7 +161,7 @@ void sad::os::GLTexturedGeometry3D::unload()
 {
     if (m_is_on_gpu)
     {
-        sad::os::ExtensionFunctions* f = m_renderer->opengl()->extensionFunctions();
+        sad::os::ExtensionFunctions* f = m_f;
         f->glDeleteBuffers(1, &m_vertex_buffer);
         f->glDeleteBuffers(1, &m_texture_buffer);
         f->glDeleteVertexArrays(1, &m_vertex_array);
@@ -202,7 +203,7 @@ void sad::os::GLTexturedGeometry3D::drawArrays(GLenum mode, const sad::Rect<sad:
     setVertices(vertexes);
     setTextureCoordinates(tc);
 
-    sad::os::ExtensionFunctions* f = m_renderer->opengl()->extensionFunctions();
+    sad::os::ExtensionFunctions* f = m_f;
     f->glBindVertexArray(m_vertex_array);
     tryLogGlError("sad::os::GLTexturedGeometry3D::drawArrays: glBindVertexArray(m_vertex_array)");
 
@@ -215,6 +216,29 @@ void sad::os::GLTexturedGeometry3D::drawArrays(GLenum mode, const sad::Rect<sad:
     // Render arrays
     glDrawElements(mode, 4, GL_UNSIGNED_BYTE, __indices);
     tryLogGlError("sad::os::GLTexturedGeometry3D::drawArrays: glDrawElements(mode, 4, GL_UNSIGNED_BYTE, __indices)");
+
+    f->glDisableVertexAttribArray(1);
+    tryLogGlError("sad::os::GLTexturedGeometry3D::drawArrays: glDisableVertexAttribArray(1)");
+
+    f->glDisableVertexAttribArray(0);
+    tryLogGlError("sad::os::GLTexturedGeometry3D::drawArrays: glDisableVertexAttribArray(0)");
+}
+
+void sad::os::GLTexturedGeometry3D::drawIndexedQuad() const
+{
+    sad::os::ExtensionFunctions* f = m_f;
+    f->glBindVertexArray(m_vertex_array);
+    tryLogGlError("sad::os::GLTexturedGeometry3D::drawArrays: glBindVertexArray(m_vertex_array)");
+
+    f->glEnableVertexAttribArray(0);
+    tryLogGlError("sad::os::GLTexturedGeometry3D::drawArrays: glEnableVertexAttribArray(0)");
+
+    f->glEnableVertexAttribArray(1);
+    tryLogGlError("sad::os::GLTexturedGeometry3D::drawArrays: glEnableVertexAttribArray(1)");
+
+    // Render arrays
+    glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_BYTE, __indices);
+    tryLogGlError("sad::os::GLTexturedGeometry3D::drawArrays: glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_BYTE, __indices)");
 
     f->glDisableVertexAttribArray(1);
     tryLogGlError("sad::os::GLTexturedGeometry3D::drawArrays: glDisableVertexAttribArray(1)");
@@ -246,7 +270,7 @@ void sad::os::GLTexturedGeometry3D::tryLogGlError(const char* op) const
 
 void sad::os::GLTexturedGeometry3D::drawArrays(GLenum mode) const
 {
-    sad::os::ExtensionFunctions* f = m_renderer->opengl()->extensionFunctions();
+    sad::os::ExtensionFunctions* f = m_f;
     f->glBindVertexArray(m_vertex_array);
     tryLogGlError("sad::os::GLTexturedGeometry3D::drawArrays: glBindVertexArray(m_vertex_array)");
 

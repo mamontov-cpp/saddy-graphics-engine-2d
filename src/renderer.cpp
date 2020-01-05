@@ -22,6 +22,7 @@
 #include "os/gluntexturedgeometry3d.h"
 #include "os/gluntexturedgeometry2d.h"
 #include "os/ubo.h"
+#include "os/glspritegeometrystorages.h"
 
 #include "db/dbdatabase.h"
 #include "db/dbtypename.h"
@@ -69,7 +70,8 @@ m_default_no_textures_shader_function_3d(NULL),
 m_default_textures_shader_2d(NULL),
 m_default_texture_shader_function_2d(NULL),
 m_default_no_textures_shader_2d(NULL),
-m_default_no_textures_shader_function_2d(NULL)
+m_default_no_textures_shader_function_2d(NULL),
+m_gl_sprite_geometry_storages(NULL)
 {
 #ifdef X11
     SafeXInitThreads();
@@ -99,6 +101,9 @@ m_default_no_textures_shader_function_2d(NULL)
     // Add stopping a main loop to quite events of controls to make window close
     // when user closes a window
     m_controls->add(*(sad::input::ET_Quit), m_main_loop, &sad::MainLoop::stop);
+
+    m_gl_sprite_geometry_storages = new sad::os::GLSpriteGeometryStorages();
+    m_gl_sprite_geometry_storages->setRenderer(this);
 
     // Set context thread
     m_context_thread = reinterpret_cast<void*>(sad::os::current_thread_id()); 
@@ -179,6 +184,7 @@ sad::Renderer::~Renderer(void)
     sad::util::free_values(m_sizes_to_textured_geometry_2d);
     sad::util::free_values(m_sizes_to_untextured_geometry_3d);
     sad::util::free_values(m_sizes_to_untextured_geometry_2d);
+    delete m_gl_sprite_geometry_storages;
 }
 
 void sad::Renderer::setScene(Scene * scene)
@@ -429,6 +435,7 @@ void sad::Renderer::emergencyShutdown()
     unload_resources_from_hash(m_sizes_to_textured_geometry_2d);
     unload_resources_from_hash(m_sizes_to_untextured_geometry_3d);
     unload_resources_from_hash(m_sizes_to_untextured_geometry_2d);
+    m_gl_sprite_geometry_storages->unloadFromGPU();
 
     destroy_shader_if_not_null(m_default_textures_shader_3d);
     destroy_shader_if_not_null(m_default_no_textures_shader_3d);
@@ -973,6 +980,46 @@ sad::ShaderFunction* sad::Renderer::defaultShaderFunctionWithoutTextures2d()
 sad::os::UBO* sad::Renderer::cameraObjectBuffer() const
 {
     return m_camera_buffer;
+}
+
+sad::os::GLTexturedGeometry2D* sad::Renderer::takeTextured2D()  const
+{
+    return m_gl_sprite_geometry_storages->takeTextured2D();
+}
+
+sad::os::GLTexturedGeometry3D* sad::Renderer::takeTextured3D() const
+{
+    return m_gl_sprite_geometry_storages->takeTextured3D();
+}
+
+sad::os::GLUntexturedGeometry2D* sad::Renderer::takeUntextured2D() const
+{
+    return m_gl_sprite_geometry_storages->takeUntextured2D();
+}
+
+sad::os::GLUntexturedGeometry3D* sad::Renderer::takeUntextured3D() const
+{
+    return m_gl_sprite_geometry_storages->takeUntextured3D();
+}
+
+void sad::Renderer::storeGeometry(sad::os::GLTexturedGeometry2D* g)
+{
+    m_gl_sprite_geometry_storages->store(g);
+}
+
+void sad::Renderer::storeGeometry(sad::os::GLTexturedGeometry3D* g)
+{
+    m_gl_sprite_geometry_storages->store(g);
+}
+
+void sad::Renderer::storeGeometry(sad::os::GLUntexturedGeometry2D* g)
+{
+    m_gl_sprite_geometry_storages->store(g);
+}
+
+void sad::Renderer::storeGeometry(sad::os::GLUntexturedGeometry3D* g)
+{
+    m_gl_sprite_geometry_storages->store(g);
 }
 
 // ============================================================ PROTECTED METHODS ============================================================

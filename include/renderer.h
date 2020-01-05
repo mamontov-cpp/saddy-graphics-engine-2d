@@ -73,6 +73,7 @@ namespace os
     class GLTexturedGeometry2D;
     class GLUntexturedGeometry3D;
     class GLUntexturedGeometry2D;
+    class GLSpriteGeometryStorages;
     class UBO;
 }
 
@@ -484,6 +485,38 @@ public:
         \return camera buffer object
      */
     sad::os::UBO* cameraObjectBuffer() const;
+    /*! Returns new geometry, allocating it or taking from stack
+    *  \return value
+    */
+    sad::os::GLTexturedGeometry2D* takeTextured2D() const;
+    /*! Returns new geometry, allocating it or taking from stack
+     *  \return value
+     */
+    sad::os::GLTexturedGeometry3D* takeTextured3D() const;
+    /*! Returns new geometry, allocating it or taking from stack
+     *  \return value
+     */
+    sad::os::GLUntexturedGeometry2D* takeUntextured2D() const;
+    /*! Returns new geometry, allocating it or taking from stack
+     *  \return value
+     */
+    sad::os::GLUntexturedGeometry3D* takeUntextured3D()  const;
+    /*! Stores geometry into list
+     *  \param[in] g geometry
+     */
+    void storeGeometry(sad::os::GLTexturedGeometry2D* g);
+    /*! Stores geometry into list
+     *  \param[in] g geometry
+     */
+    void storeGeometry(sad::os::GLTexturedGeometry3D* g);
+    /*! Stores geometry into list
+     *  \param[in] g geometry
+     */
+    void storeGeometry(sad::os::GLUntexturedGeometry2D* g);
+    /*! Stores geometry into list
+     *  \param[in] g geometry
+     */
+    void storeGeometry(sad::os::GLUntexturedGeometry3D* g);
 protected:
     /*! A global instance for renderer, to make it local creation is
         procedures unnecessary. It's not a singleton, but can
@@ -602,6 +635,9 @@ protected:
     /*! A default shader function for using textures for 2D objects
      */
     sad::ShaderFunction* m_default_no_textures_shader_function_2d;
+    /*! Sprite geometry storages
+     */
+    sad::os::GLSpriteGeometryStorages* m_gl_sprite_geometry_storages;
 
 
     /*! An initialization mutex for shaders
