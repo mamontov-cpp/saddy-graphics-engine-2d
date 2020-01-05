@@ -134,6 +134,12 @@ public:
       *  \param[in] fun a function
       */
      virtual void setShaderFunction(sad::ShaderFunction* fun);
+     /*! Called, when object is added to scene
+      */
+     void onAddedToScene();
+     /*! Called, when object is removed from scene
+      */
+     void onRemovedFromScene();
 protected:
      /*! A body is representation for a game object in physics engine, needed
       */
