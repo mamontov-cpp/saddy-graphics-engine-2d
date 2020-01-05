@@ -490,6 +490,24 @@ void sad::db::custom::Object::setShaderFunction(sad::ShaderFunction* fun)
     this->sad::SceneNode::setShaderFunction(fun);
 }
 
+void sad::db::custom::Object::rendererChanged()
+{
+    m_sprite2d->rendererChanged();
+    m_label->rendererChanged();
+}
+
+void sad::db::custom::Object::onAddedToScene()
+{
+    m_sprite2d->onAddedToScene();
+    m_label->onAddedToScene();
+}
+
+void sad::db::custom::Object::onRemovedFromScene()
+{
+    m_sprite2d->onRemovedFromScene();
+    m_label->onRemovedFromScene();
+}
+
 bool sad::db::custom::Object::load(const picojson::value& v)
 {
     m_sprite2d->toggleLoadingMode(true);

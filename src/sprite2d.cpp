@@ -387,34 +387,6 @@ void sad::Sprite2D::rendererChanged()
     tryReturnGeometry();
 }
 
-void sad::Sprite2D::tryReturnGeometry()
-{
-    if (m_old_renderer && !m_geometry_dirty)
-    {
-        if (m_was_textured)
-        {
-            if (m_g.m_textured_geometry)
-            {
-                m_old_renderer->storeGeometry(m_g.m_textured_geometry);
-            }
-        }
-        else
-        {
-            if (m_g.m_untextured_geometry)
-            {
-                m_old_renderer->storeGeometry(m_g.m_untextured_geometry);
-            }
-        }
-    }
-    m_geometry_dirty = true;
-    m_tc_dirty = true;
-    m_vertexes_dirty = true;
-}
-
-void sad::Sprite2D::onRemovedFromScene()
-{
-    tryReturnGeometry();
-}
 
 void sad::Sprite2D::setTextureCoordinates(const sad::Rect2D & texturecoordinates)
 {
@@ -783,6 +755,11 @@ void sad::Sprite2D::setTreeName(sad::Renderer* r, const sad::String & tree_name)
     tryReturnGeometry();
 }
 
+void sad::Sprite2D::onRemovedFromScene()
+{
+    tryReturnGeometry();
+}
+
 void sad::Sprite2D::initFromRectangleFast(const sad::Rect2D& rect)
 {
     m_angle = 0;
@@ -855,6 +832,30 @@ void sad::Sprite2D::normalizeTextureCoordinates(sad::Texture * tex)
             std::swap(m_normalized_texture_coordinates[1], m_normalized_texture_coordinates[2]);
         }
     }
+}
+
+void sad::Sprite2D::tryReturnGeometry()
+{
+    if (m_old_renderer && !m_geometry_dirty)
+    {
+        if (m_was_textured)
+        {
+            if (m_g.m_textured_geometry)
+            {
+                m_old_renderer->storeGeometry(m_g.m_textured_geometry);
+            }
+        }
+        else
+        {
+            if (m_g.m_untextured_geometry)
+            {
+                m_old_renderer->storeGeometry(m_g.m_untextured_geometry);
+            }
+        }
+    }
+    m_geometry_dirty = true;
+    m_tc_dirty = true;
+    m_vertexes_dirty = true;
 }
 
 void sad::Sprite2D::onOptionsChange(sad::Sprite2D::Options * opts)

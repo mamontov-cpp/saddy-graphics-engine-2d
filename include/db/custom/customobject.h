@@ -333,6 +333,15 @@ public:
      *  \param[in] fun a function
      */
     virtual void setShaderFunction(sad::ShaderFunction* fun);
+    /*! Called, when renderer is changed
+     */
+    virtual void rendererChanged();
+    /*! Called, when added  to scene
+     */
+    virtual void onAddedToScene();
+    /*! Called, when removed from scene 
+     */
+    virtual void onRemovedFromScene();
 protected:
     /*! Fills custom object with defailt item properties
      */
