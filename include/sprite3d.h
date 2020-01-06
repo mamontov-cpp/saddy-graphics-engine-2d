@@ -13,7 +13,12 @@
 
 namespace sad
 {
- 
+
+namespace os
+{
+    class GLTexturedGeometry3D;
+    class GLUntexturedGeometry3D;
+}
 /*! \class Sprite3D
 
     A simple colored sprite in 3-dimensional space, that can be rotated, moved and
@@ -221,6 +226,9 @@ public:
         \param[in] tree_name a name for an item for object
      */
     virtual void setTreeName(sad::Renderer* r, const sad::String & tree_name);
+    /*! Called, when node is removed from scene
+     */
+    virtual void onRemovedFromScene();
 protected:
     /*! Fast version of 3D sprite initialization from rectangle. Just sets it as
         current renderable rectangle, all angles to zero
@@ -240,6 +248,9 @@ protected:
     /*! Normalizes texture coordinates, filling a normalized a texture coordinates
      */
     void normalizeTextureCoordinates();
+    /*! Tries to return geometry
+     */
+    void tryReturnGeometry();
     /*! A rotation angle in  XY plane
      */
     double     m_alpha;
@@ -278,6 +289,28 @@ protected:
     /*! A current color buffer, used when getting current color of scene
      */ 
     int  m_current_color_buffer[4];
+    /*! Geometry data
+ */
+    union
+    {
+        sad::os::GLTexturedGeometry3D*   m_textured_geometry;
+        sad::os::GLUntexturedGeometry3D* m_untextured_geometry;
+    } m_g;
+    /*! Old renderer
+     */
+    sad::Renderer* m_old_renderer;
+    /*! Whether quad was textured before
+     */
+    bool m_was_textured;
+    /*! Whether geometry is dirty and needs to be updated
+     */
+    bool m_geometry_dirty;
+    /*! Whether texture is dirty and needs to be updated
+     */
+    bool m_tc_dirty;
+    /*! Whether vertexes is dirty and needs to be updated
+     */
+    bool m_vertexes_dirty;
 };
 
 }

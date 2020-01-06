@@ -218,13 +218,17 @@ const sad::String& sad::Scene::serializableName() const
 void sad::Scene::addNow(sad::SceneNode * node)
 {
     node->addRef();
-    bool mustchangerenderer = node->renderer() == NULL;
+    bool mustchangerenderer = (node->renderer() == NULL) || (m_renderer != node->renderer());
     node->setScene(this);
     if (mustchangerenderer)
     {
         node->rendererChanged();
     }
     m_layers << node;
+    if (node)
+    {
+        node->onAddedToScene();
+    }
 }
 
 void sad::Scene::removeNow(sad::SceneNode * node)
@@ -233,6 +237,10 @@ void sad::Scene::removeNow(sad::SceneNode * node)
     {
         if (node == m_layers[i])
         {
+            if (node)
+            {
+                node->onRemovedFromScene();
+            }
             node->delRef();
             m_layers.removeAt(i);
             --i;

@@ -15,6 +15,8 @@
 #pragma warning( disable : 4244 )
 #endif
 
+#pragma pack(push, 1)
+
 namespace sad
 {
 
@@ -182,6 +184,8 @@ inline sad::Rect2I _(const sad::Rect2D & r)
 }
 
 }
+
+#pragma pack(pop)
 
 #ifdef _MSC_VER
 #pragma warning( pop )

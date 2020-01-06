@@ -27,7 +27,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>game</ProjectName>
+    <ProjectName>shaders</ProjectName>
     <ProjectGuid>{CE7D663B-668A-4260-9290-2BF1A66136F5}</ProjectGuid>
     <RootNamespace>saddy</RootNamespace>
     <Keyword>Win32Proj</Keyword>

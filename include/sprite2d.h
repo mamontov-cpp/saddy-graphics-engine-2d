@@ -3,6 +3,7 @@
 
     Contains a definition of sprite in 2-dimensional space.
  */
+#pragma once
 #include "resource/resource.h"
 #include "resource/link.h"
 #include "scene.h"
@@ -11,10 +12,15 @@
 #include "sadstring.h"
 #include "sadsize.h"
 #include "texture.h"
-#pragma once
 
 namespace sad
 {
+
+namespace os
+{
+class GLTexturedGeometry2D;
+class GLUntexturedGeometry2D;
+}
 
 /*! \class Sprite2D
 
@@ -324,6 +330,9 @@ public:
         \param[in] tree_name a name for an item for object
      */
     virtual void setTreeName(sad::Renderer* r, const sad::String & tree_name);
+    /*! Called, when node is removed from scene
+     */
+    virtual void onRemovedFromScene();
 protected:
     /*! Performed, when texture is changed
         \param[in] tex a new texture
@@ -355,6 +364,9 @@ protected:
         \param[in] tex a texture, which coordinates must be normalized with
      */
     void normalizeTextureCoordinates(sad::Texture * tex);
+    /*! Tries to return geometry
+     */
+    void tryReturnGeometry();
     /*! A counter-clockwise rotation angle
      */
     double     m_angle;
@@ -404,6 +416,28 @@ protected:
         options
      */
     bool m_loading;
+    /*! Geometry data
+     */
+    union
+    {
+        sad::os::GLTexturedGeometry2D*   m_textured_geometry;
+        sad::os::GLUntexturedGeometry2D* m_untextured_geometry;
+    } m_g;
+    /*! Old renderer
+     */
+    sad::Renderer* m_old_renderer;
+    /*! Whether quad was textured before
+     */
+    bool m_was_textured;
+    /*! Whether geometry is dirty and needs to be updated
+     */
+    bool m_geometry_dirty;
+    /*! Whether texture is dirty and needs to be updated
+     */
+    bool m_tc_dirty;
+    /*! Whether vertexes is dirty and needs to be updated
+     */
+    bool m_vertexes_dirty;
 };
 
 }

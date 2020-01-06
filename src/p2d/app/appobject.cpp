@@ -71,7 +71,6 @@ void sad::p2d::app::Object::notifyRotate(const double & angle)
 
 void sad::p2d::app::Object::render()
 {
-    m_sprite->setScene(m_scene);
     m_sprite->render();
 }
 
@@ -176,4 +175,14 @@ void sad::p2d::app::Object::setShaderFunction(sad::ShaderFunction* fun)
 {
     m_sprite->setShaderFunction(fun);
     this->sad::SceneNode::setShaderFunction(fun);
+}
+
+void sad::p2d::app::Object::onAddedToScene()
+{
+    m_sprite->onAddedToScene();
+}
+
+void sad::p2d::app::Object::onRemovedFromScene()
+{
+    m_sprite->onRemovedFromScene();
 }

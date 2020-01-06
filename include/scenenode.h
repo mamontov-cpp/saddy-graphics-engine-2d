@@ -47,7 +47,7 @@ public:
     {
         sad::Vector<sad::Rect2D> r;
         regions(r);
-        return (r.size() == 0) ? sad::Rect2D() : r[0];
+        return (r.empty()) ? sad::Rect2D() : r[0];
     }
     /*! Called, when renderer is changed for a scene
      */
@@ -144,6 +144,12 @@ public:
      *  \return shader function
      */
     virtual sad::ShaderFunction* shaderFunction() const;
+    /*! Called, when node is added to scene
+     */
+    virtual void onAddedToScene();
+    /*! Called, when node is removed from scene
+     */
+    virtual void onRemovedFromScene();
 protected:
     /*! Determines, whether scene node is visible and should be rendered. It's same as m_active but can be used for different purposes,
         when object is active, but hidden by somewhere else in chain of responsibility of application.

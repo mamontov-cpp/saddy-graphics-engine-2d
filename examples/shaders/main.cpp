@@ -60,6 +60,12 @@ int main(int argc, char** argv)
         sprite2d->setColor(sad::AColor(0, 255, 0));
         scene->addNode(sprite2d);
     }
+    {
+        sad::Sprite3D* sprite3d = new sad::Sprite3D(NULL, sad::Rect2D(1, 1, 86, 86), sad::Rect<sad::Point3D>(sad::Point3D(360, 240, 0.0), sad::Point3D(440, 480, 0.0)));
+        sprite3d->rotate(0.75, 0);
+        sprite3d->setColor(sad::AColor(255, 128, 255, 128.0));
+        scene->addNode(sprite3d);
+    }
     r->addScene(scene);
     r->run();
     // If we are here, this means, that window is closed and we can exit the main loop

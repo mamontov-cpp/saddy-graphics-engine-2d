@@ -164,6 +164,7 @@ void sad::os::ExtensionFunctions::tryInit()
             TRY_GET_PROC_ADDRESS(PFNGLBUFFERSUBDATAPROC, glBufferSubData);
             TRY_GET_PROC_ADDRESS(PFNGLBINDBUFFERBASEPROC, glBindBufferBase);
             TRY_GET_PROC_ADDRESS(PFNGLBINDBUFFERRANGEPROC, glBindBufferRange);
+
         }
         m_init_mtx.unlock();
     }

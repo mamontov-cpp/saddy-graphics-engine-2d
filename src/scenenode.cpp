@@ -172,3 +172,14 @@ sad::ShaderFunction* sad::SceneNode::shaderFunction() const
 {
     return m_shader_function;
 }
+
+void sad::SceneNode::onAddedToScene()
+{
+    
+}
+
+
+void sad::SceneNode::onRemovedFromScene()
+{
+    
+}
