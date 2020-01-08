@@ -6,6 +6,7 @@
 #pragma once
 #include "texture.h"
 #include "sadstring.h"
+#include "../../include/sadrect.h"
 
 #include <maybe.h>
 
@@ -39,6 +40,9 @@ public:
     /*! A height in texture coordinates
      */
     double TexCoordinateHeight;
+    /*! Texture rectangle for rendering glyph
+     */
+    sad::Rect2D TextureRectangle;
     /*! A vertical bearing  as
         distance from baseline to top point of glyph
      */ 

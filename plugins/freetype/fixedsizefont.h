@@ -103,6 +103,9 @@ protected:
         and column is current
      */
     float m_kerning_table[256][256];
+    /*! A global texture atlas to store
+     */
+    sad::freetype::Texture* m_texture;
     /*! Sets bounding box size to specified height
         \param[in] library a library
         \param[in] face a face

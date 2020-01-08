@@ -1,5 +1,6 @@
 #include "fixedsizefont.h"
 #include "towidechar.h"
+#include "packer.h"
 
 #include <sadmutex.h>
 
@@ -32,6 +33,8 @@ sad::freetype::FixedSizeFont::FixedSizeFont(
         m_glyphs[i] = new sad::freetype::Glyph(face, static_cast<unsigned char>(i));
     }
 
+    m_texture = sad::freetype::Packer::pack(m_glyphs);
+
     computeKerning(face);
 }
 
@@ -42,16 +45,14 @@ sad::freetype::FixedSizeFont::~FixedSizeFont()
     {
         delete m_glyphs[i];
     }
+    delete m_texture;
 }
 
 void sad::freetype::FixedSizeFont::uploadedTextures(sad::Vector<unsigned int> & textures)
 {
-    for(unsigned int i = 0; i < 256; i++)
+    if (m_texture->IsOnGPU)
     {
-        if (m_glyphs[i]->Texture.IsOnGPU)
-        {
-            textures << m_glyphs[i]->Texture.Id;
-        }
+        textures << m_texture->Id;
     }
 }
 
@@ -62,10 +63,7 @@ float sad::freetype::FixedSizeFont::ascent() const
 
 void sad::freetype::FixedSizeFont::markTexturesAsUnloaded()
 {
-    for(unsigned int i = 0; i < 256; i++)
-    {
-        m_glyphs[i]->Texture.IsOnGPU = false;
-    }
+    m_texture->IsOnGPU = false;
 }
 
 void sad::freetype::FixedSizeFont::dumpToBMP()
@@ -91,10 +89,7 @@ void sad::freetype::FixedSizeFont::render(
 
     if (!m_on_gpu)
     {
-        for(unsigned int i = 0; i < 256; i++)
-        {
-            m_glyphs[i]->Texture.upload();
-        }
+        m_texture->upload();
         m_on_gpu = true;
     }
 
@@ -113,7 +108,8 @@ void sad::freetype::FixedSizeFont::render(
     {
         topoffset = 0;
     }
-    
+
+    m_texture->bind();
     for(unsigned int i = 0; i < list.size(); i++)
     {
         for(unsigned int j = 0; j < list[i].size(); j++)

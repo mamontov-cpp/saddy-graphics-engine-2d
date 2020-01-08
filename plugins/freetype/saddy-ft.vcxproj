@@ -154,6 +154,7 @@
     <ClCompile Include="fontimpl.cpp" />
     <ClCompile Include="glyph.cpp" />
     <ClCompile Include="nextpoweroftwo.cpp" />
+    <ClCompile Include="packer.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="towidechar.cpp" />
   </ItemGroup>
@@ -163,6 +164,7 @@
     <ClInclude Include="fontimpl.h" />
     <ClInclude Include="glyph.h" />
     <ClInclude Include="nextpoweroftwo.h" />
+    <ClInclude Include="packer.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="towidechar.h" />
   </ItemGroup>

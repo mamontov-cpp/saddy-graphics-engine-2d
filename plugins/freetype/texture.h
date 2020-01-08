@@ -67,6 +67,33 @@ public:
     /*! Unloads texture from GPU
      */ 
     void unload();
+    /*! Copies pixel data
+     *  \param[in] dx destination col
+     *  \param[in] dy destination row
+     *  \param[in] sx source column
+     *  \param[in] sy source row
+     *  \param[in] tex recture
+     */
+    void copyPixel(int dx, int dy, int sx, int sy, const sad::freetype::Texture* tex);
+    /*! Copies row data
+     *  \param[in] dx destination col
+     *  \param[in] dy destination row
+     *  \param[in] sx source column
+     *  \param[in] sy source row
+     *  \param[in] width a width data
+     *  \param[in] tex recture
+     */
+    void copyRow(int dx, int dy, int sx, int sy, int width, const sad::freetype::Texture* tex);
+    /*! Copies row data
+     *  \param[in] dx destination col
+     *  \param[in] dy destination row
+     *  \param[in] sx source column
+     *  \param[in] sy source row
+     *  \param[in] width a width data
+     *  \param[in] tex recture
+     */
+    void copySubImage(int dx, int dy, int sx, int sy, int width, int height, const sad::freetype::Texture* tex);
+
 };
 
 }
