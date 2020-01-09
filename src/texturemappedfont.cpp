@@ -176,7 +176,7 @@ void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D 
         *sad::Renderer::ref()
     );
 #endif
-    glBegin(GL_QUADS);
+    glBegin(GL_TRIANGLES);
 
     float italicoffset = ((float)m_size) * TAN_20_DEGREES;
     for(unsigned int i = 0;  i < string.length(); i++)
@@ -206,14 +206,20 @@ void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D 
                 glTexCoord2f((GLfloat)glyph[0].x(), (GLfloat)glyph[0].y());
                 glVertex2f((GLfloat)(x + i  + topoffset), (GLfloat)y);
 
+                glTexCoord2f((GLfloat)(glyph[3].x()), (GLfloat)(glyph[3].y()));
+                glVertex2f((GLfloat)(x + i), (GLfloat)(y - glyphheight));
+
+                glTexCoord2f((GLfloat)glyph[1].x(), (GLfloat)glyph[1].y());
+                glVertex2f((GLfloat)(x + glyphwidth + i + topoffset), (GLfloat)y);
+
+                glTexCoord2f((GLfloat)(glyph[3].x()), (GLfloat)(glyph[3].y()));
+                glVertex2f((GLfloat)(x + i), (GLfloat)(y - glyphheight));
+
                 glTexCoord2f((GLfloat)glyph[1].x(), (GLfloat)glyph[1].y());
                 glVertex2f((GLfloat)(x + glyphwidth + i + topoffset), (GLfloat)y);
 
                 glTexCoord2f((GLfloat)glyph[2].x(), (GLfloat)glyph[2].y());
                 glVertex2f((GLfloat)(x + glyphwidth + i), (GLfloat)(y - glyphheight));
-
-                glTexCoord2f((GLfloat)(glyph[3].x()), (GLfloat)(glyph[3].y()));
-                glVertex2f((GLfloat)(x + i), (GLfloat)(y - glyphheight));
             }
         }
         if (string[i] != '\n')

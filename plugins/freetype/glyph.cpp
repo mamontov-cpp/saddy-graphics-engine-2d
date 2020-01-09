@@ -34,20 +34,26 @@ sad::freetype::Glyph::Glyph(FT_Face face, unsigned char c)
 
 void sad::freetype::Glyph::render(float x, float y, float topoffset)
 {
-    glBegin(GL_QUADS);
+    glBegin(GL_TRIANGLES);
 
     glTexCoord2d(TextureRectangle.p0().x(), TextureRectangle.p0().y());
     glVertex2d(x + topoffset, y + BearingY);
     
     glTexCoord2d(TextureRectangle.p3().x(), TextureRectangle.p3().y());
     glVertex2d(x, y + Descender);
-    
-    glTexCoord2d(TextureRectangle.p2().x(), TextureRectangle.p2().y());
-    glVertex2d(x + Width, y + Descender);
 
     glTexCoord2d(TextureRectangle.p1().x(), TextureRectangle.p1().y());
     glVertex2d(x + Width + topoffset, y + BearingY);
-    
+
+    glTexCoord2d(TextureRectangle.p3().x(), TextureRectangle.p3().y());
+    glVertex2d(x, y + Descender);
+
+    glTexCoord2d(TextureRectangle.p1().x(), TextureRectangle.p1().y());
+    glVertex2d(x + Width + topoffset, y + BearingY);
+
+    glTexCoord2d(TextureRectangle.p2().x(), TextureRectangle.p2().y());
+    glVertex2d(x + Width, y + Descender);
+
     glEnd();
 }
 
