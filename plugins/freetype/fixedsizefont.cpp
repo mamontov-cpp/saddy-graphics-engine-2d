@@ -66,14 +66,6 @@ void sad::freetype::FixedSizeFont::markTexturesAsUnloaded()
     m_texture->IsOnGPU = false;
 }
 
-void sad::freetype::FixedSizeFont::dumpToBMP()
-{
-    for (unsigned int i = 0; i < 256; i++)
-    {
-        m_glyphs[i]->dumpToBMP();
-    }
-}
-
 // Why this even exists? It's not like were doing something horrible here
 // Also, we encounter bad Linux behaviour here
 // static sad::Mutex sad_freetype_font_lock;

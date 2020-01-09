@@ -92,11 +92,6 @@ sad::String sad::freetype::Font::dumpGlyphParameters() const
     return m_dptr->dumpGlyphParameters();
 }
 
-void sad::freetype::Font::dumpToBMP(unsigned int size) const
-{
-    m_dptr->dumpToBMP(size);
-}
-
 // Uncommend to enable glyph rendering debug
 // #define FREETYPE_GLYPH_DEBUG
 

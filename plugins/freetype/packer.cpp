@@ -3,9 +3,9 @@
 #include <functional>
 #include <algorithm>
 
-#include "../../../include/3rdparty/framepacker/framepacker.hpp"
-#include "../../../include/texture.h"
-#include "../../../include/imageformats/bmploader.h"
+#include "../../include/3rdparty/framepacker/framepacker.hpp"
+#include "../../include/texture.h"
+#include "../../include/imageformats/bmploader.h"
 
 // ============================  sad::freetype::Packer::T methods ============================
 

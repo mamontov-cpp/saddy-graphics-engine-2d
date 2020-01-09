@@ -90,9 +90,6 @@ public:
         \return parameters
      */
     sad::String dumpParametes() const;
-    /*! Dumps glyph to file
-     */
-    void dumpToBMP() const;
 private:
     /*! Sets all metrics of glyph from specified freetype glyph
         \param[in] face  a global face

@@ -143,11 +143,6 @@ sad::String sad::freetype::FontImpl::dumpGlyphParameters() const
     return this->fontForSize(m_cached_size)->dumpGlyphParameters();
 }
 
-void sad::freetype::FontImpl::dumpToBMP(unsigned int size) const
-{
-    this->fontForSize(size)->dumpToBMP();
-}
-
 sad::freetype::FixedSizeFont * sad::freetype::FontImpl::fontForSize(
     unsigned int size
 ) const

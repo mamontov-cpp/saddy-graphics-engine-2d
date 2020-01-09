@@ -83,7 +83,7 @@ sad::String sad::freetype::Glyph::dumpParametes() const
         << AdvanceX
     );
 }
-
+/*
 void sad::freetype::Glyph::dumpToBMP() const
 {
     const std::vector<unsigned char>& source_pixels=  Texture.Pixels;
@@ -112,6 +112,7 @@ void sad::freetype::Glyph::dumpToBMP() const
     sad::String data = sad::String::number(Index) + ".bmp";
     sad::imageformats::dumpToBMP(data, static_cast<unsigned int>(Texture.Width), static_cast<unsigned int>(Texture.Height), 3, &(dest_pixels[0]));
 }
+*/
 
 void sad::freetype::Glyph::makeGlyph(FT_Face face, FT_Glyph glyph)
 {
