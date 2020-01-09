@@ -192,6 +192,7 @@
     <ClCompile Include="src\opengl.cpp" />
     <ClCompile Include="src\orthographiccamera.cpp" />
     <ClCompile Include="src\os\extensionfunctions.cpp" />
+    <ClCompile Include="src\os\glfontgeometry.cpp" />
     <ClCompile Include="src\os\gltexturedgeometry2d.cpp" />
     <ClCompile Include="src\os\gltexturedgeometry3d.cpp" />
     <ClCompile Include="src\os\gluntexturedgeometry2d.cpp" />
@@ -424,6 +425,7 @@
     <ClInclude Include="include\opengl.h" />
     <ClInclude Include="include\orthographiccamera.h" />
     <ClInclude Include="include\os\extensionfunctions.h" />
+    <ClInclude Include="include\os\glfontgeometry.h" />
     <ClInclude Include="include\os\glspritegeometrystorage.h" />
     <ClInclude Include="include\os\glspritegeometrystorages.h" />
     <ClInclude Include="include\os\gltexturedgeometry2d.h" />

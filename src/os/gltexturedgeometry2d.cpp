@@ -76,9 +76,6 @@ void sad::os::GLTexturedGeometry2D::setVertices(const double* vertexes) const
     tryLogGlError("sad::os::GLTexturedGeometry2D::setVertices: glBufferSubData()");
 }
 
-
-
-
 void sad::os::GLTexturedGeometry2D::setTextureCoordinates(const double* textureCoordinates) const
 {
     if (!m_is_on_gpu)
