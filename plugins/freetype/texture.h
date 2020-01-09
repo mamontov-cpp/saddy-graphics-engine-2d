@@ -72,27 +72,27 @@ public:
      *  \param[in] dy destination row
      *  \param[in] sx source column
      *  \param[in] sy source row
-     *  \param[in] tex recture
+     *  \param[in] bitmap source bitmap
      */
-    void copyPixel(int dx, int dy, int sx, int sy, const sad::freetype::Texture* tex);
+    void copyPixel(int dx, int dy, int sx, int sy, FT_Bitmap & bitmap);
     /*! Copies row data
      *  \param[in] dx destination col
      *  \param[in] dy destination row
      *  \param[in] sx source column
      *  \param[in] sy source row
      *  \param[in] width a width data
-     *  \param[in] tex recture
+     *  \param[in] bitmap source bitmap
      */
-    void copyRow(int dx, int dy, int sx, int sy, int width, const sad::freetype::Texture* tex);
+    void copyRow(int dx, int dy, int sx, int sy, int width, FT_Bitmap & bitmap);
     /*! Copies row data
      *  \param[in] dx destination col
      *  \param[in] dy destination row
      *  \param[in] sx source column
      *  \param[in] sy source row
      *  \param[in] width a width data
-     *  \param[in] tex recture
+     *  \param[in] bitmap source bitmap
      */
-    void copySubImage(int dx, int dy, int sx, int sy, int width, int height, const sad::freetype::Texture* tex);
+    void copySubImage(int dx, int dy, int sx, int sy, int width, int height, FT_Bitmap & bitmap);
 
 };
 

@@ -54,6 +54,9 @@ public:
     /*! How long should pen move, after glyph was rendered
      */
     double AdvanceX;
+    /*! Inner glyph
+     */
+    void* Data;
 
     /*! Maximum Y of bounding box
      */
@@ -69,8 +72,9 @@ public:
     /*! Creates a new glyph for specified character, building a texture for it
         \param[in] face a face
         \param[in] c a character, which is stored in glyph
+        \param[in] store_texture whether we should store texture
      */
-    Glyph(FT_Face face, unsigned char c);
+    Glyph(FT_Face face, unsigned char c, bool store_texture);
     
     /*! Renders a glyph at specified baseline position. Note, that this
         is BASELINE position. 
@@ -90,12 +94,16 @@ public:
         \return parameters
      */
     sad::String dumpParametes() const;
+    /*! Frees inner glyph
+     */
+    void freeInnerGlyph();
 private:
     /*! Sets all metrics of glyph from specified freetype glyph
         \param[in] face  a global face
         \param[in] glyph a freetype glyph
+        \param[in] store_texture whether we should store texture
      */
-    void makeGlyph(FT_Face face, FT_Glyph glyph);
+    void makeGlyph(FT_Face face, FT_Glyph glyph, bool store_texture);
     /*! Makes empty glyph, if no glyph data available
      */
     void makeEmptyGlyph();

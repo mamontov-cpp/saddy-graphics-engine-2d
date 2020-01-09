@@ -30,10 +30,15 @@ sad::freetype::FixedSizeFont::FixedSizeFont(
     
     for(unsigned int i = 0; i < 256; i++)
     {
-        m_glyphs[i] = new sad::freetype::Glyph(face, static_cast<unsigned char>(i));
+        m_glyphs[i] = new sad::freetype::Glyph(face, static_cast<unsigned char>(i), false);
     }
 
     m_texture = sad::freetype::Packer::pack(m_glyphs);
+
+    for (unsigned int i = 0; i < 256; i++)
+    {
+        m_glyphs[i]->freeInnerGlyph();
+    }
 
     computeKerning(face);
 }
@@ -187,7 +192,7 @@ sad::Texture * sad::freetype::FixedSizeFont::renderToTexture(
     int y_max = -1; 
     for(unsigned int i = 0; i < tmp.size(); i++)
     {
-        glyphs[i] = new sad::freetype::Glyph(face, tmp[i]);
+        glyphs[i] = new sad::freetype::Glyph(face, tmp[i], true);
         y_max = std::max(y_max, static_cast<int>(glyphs[i]->Height));
     }
     // Place glyphs

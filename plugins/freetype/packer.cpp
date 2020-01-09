@@ -23,8 +23,8 @@ sad::freetype::Packer::T::T(sad::freetype::Glyph* t) :
     m_height(0.0),
     m_t(t)
 {
-    m_width = t->TexCoordinateWidth * t->Texture.Width + PADDING;
-    m_height = t->TexCoordinateHeight * t->Texture.Height + PADDING;
+    m_width = t->Width + PADDING;
+    m_height = t->Height + PADDING;
 }
 
 int sad::freetype::Packer::T::width() const
@@ -131,30 +131,32 @@ sad::freetype::Texture* sad::freetype::Packer::pack(sad::freetype::Glyph* glyphs
     for (int  c = 0; c < 256; c++)
     {
         const sad::Rect2D& texRect = glyphs[c]->TextureRectangle;
-        const sad::freetype::Texture& src = glyphs[c]->Texture;
-
+        
         int p0x = static_cast<int>(texRect.p0().x());
         int p0y = static_cast<int>(texRect.p0().y());
-        int src_tc_width = static_cast<int>(glyphs[c]->TexCoordinateWidth * glyphs[c]->Texture.Width);
-        int src_tc_height = static_cast<int>(glyphs[c]->TexCoordinateHeight  * glyphs[c]->Texture.Height);
+        int src_tc_width = static_cast<int>(glyphs[c]->Width);
+        int src_tc_height = static_cast<int>(glyphs[c]->Height);
 
 
-        // Top part
-        if (src_tc_width != 0  && src_tc_height != 0)
+        if (src_tc_width != 0  && src_tc_height != 0 && (glyphs[c]->Data != NULL))
         {
-            t->copyPixel(p0x, p0y, 0, 0, &src);
-            t->copyRow(p0x + 1, p0y, 0, 0, src_tc_width, &src);
-            t->copyPixel(p0x + src_tc_width - 1, p0y, src_tc_width - 1, 0, &src);
+            FT_BitmapGlyph bitmap_glyph = reinterpret_cast<FT_BitmapGlyph>(glyphs[c]->Data);
+            FT_Bitmap & bitmap = bitmap_glyph->bitmap;
+
+            // Top part
+            t->copyPixel(p0x, p0y, 0, 0, bitmap);
+            t->copyRow(p0x + 1, p0y, 0, 0, src_tc_width, bitmap);
+            t->copyPixel(p0x + src_tc_width - 1, p0y, src_tc_width - 1, 0, bitmap);
 
             // Middle
-            t->copySubImage(p0x, p0y + 1, 0, 0, 1, src_tc_height, &src);
-            t->copySubImage(p0x + 1, p0y + 1, 0, 0, src_tc_width, src_tc_height, &src);
-            t->copySubImage(p0x + src_tc_width - 1, p0y + 1, src_tc_width - 1, 0, 1, src_tc_height, &src);
+            t->copySubImage(p0x, p0y + 1, 0, 0, 1, src_tc_height, bitmap);
+            t->copySubImage(p0x + 1, p0y + 1, 0, 0, src_tc_width, src_tc_height, bitmap);
+            t->copySubImage(p0x + src_tc_width - 1, p0y + 1, src_tc_width - 1, 0, 1, src_tc_height, bitmap);
 
             // Bottom part
-            t->copyPixel(p0x, p0y + src_tc_height - 1, 0, src_tc_height - 1,  &src);
-            t->copyRow(p0x + 1, p0y + src_tc_height - 1, 0, src_tc_height - 1, src_tc_width, &src);
-            t->copyPixel(p0x + src_tc_width - 1, p0y + src_tc_height - 1, src_tc_width - 1, src_tc_height - 1, &src);
+            t->copyPixel(p0x, p0y + src_tc_height - 1, 0, src_tc_height - 1, bitmap);
+            t->copyRow(p0x + 1, p0y + src_tc_height - 1, 0, src_tc_height - 1, src_tc_width, bitmap);
+            t->copyPixel(p0x + src_tc_width - 1, p0y + src_tc_height - 1, src_tc_width - 1, src_tc_height - 1, bitmap);
         }
 
         double dx = static_cast<double>(p0x + 1.0) / static_cast<double>(wh);
