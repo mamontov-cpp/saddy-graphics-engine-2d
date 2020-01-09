@@ -17,6 +17,8 @@
 #include <objectdependentfpsinterpolation.h>
 #include <orthographiccamera.h>
 #include <log/consoletarget.h>
+#include <freetype/font.h>
+#include <label.h>
 
 #include <math.h>
 #include <time.h>
@@ -36,6 +38,14 @@ int main(int argc, char** argv)
         return 1;
     }
     sad::util::free(errors);
+
+    sad::freetype::Font* font = new sad::freetype::Font();
+    if (!font->load("examples/multithreading/ARCADECLASSIC.TTF"))
+    {
+        SL_LOCAL_FATAL("Unable to load font", *r);
+        return 2;
+    }
+    r->tree("")->root()->addResource("ft_font", font);
 
     r->init(sad::Settings(640, 480, false));
 
@@ -65,6 +75,24 @@ int main(int argc, char** argv)
         sprite3d->rotate(0.75, 0);
         sprite3d->setColor(sad::AColor(255, 128, 255, 128.0));
         scene->addNode(sprite3d);
+    }
+    {
+        sad::Label* label = new sad::Label(r->resource<sad::Font>("font"), sad::Point2D(150, 200), "Test Me");
+        label->setString("Test <font color=\"#ff0000\">Me</font>");
+        label->setHasFormatting(true);
+        label->setSize(50);
+        label->setColor(sad::AColor(255, 255, 255));
+        label->setAngle(45);
+        scene->addNode(label);
+    }
+    {
+        sad::Label* label = new sad::Label(r->resource<sad::Font>("ft_font"), sad::Point2D(350, 200), "Test Me");
+        label->setString("Test <font color=\"#ff0000\">Me</font>");
+        label->setHasFormatting(true);
+        label->setSize(52);
+        label->setColor(sad::AColor(255, 255, 255));
+        label->setAngle(-45);
+        scene->addNode(label);
     }
     r->addScene(scene);
     r->run();

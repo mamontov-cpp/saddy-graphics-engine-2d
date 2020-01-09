@@ -1406,10 +1406,13 @@ void sad::Renderer::tryInitShaders()
         );
 
 
+        m_default_font_shader = new sad::Shader();
+        m_default_font_shader->addRef();
+        m_default_font_shader->setRenderer(this);
         m_default_font_shader->setVertexProgram(
             "#version 300 es\n"
             "layout(location = 0) in vec2 position;\n"
-            "layout(location = 1) in vec2 vertTexCoord;\n"
+            "layout(location = 1) in vec3 vertTexCoord;\n"
             "layout(location = 2) in vec4 vertColorData;\n"
             "layout (std140) uniform _SGLCameraInfo\n"
             "{\n"
@@ -1420,11 +1423,12 @@ void sad::Renderer::tryInitShaders()
             "out vec4 fragColorData;\n"
             "uniform vec2 center;\n"
             "uniform float angle;\n"
+            "uniform vec4 _gl_Color;\n"
             "\n"
             "void main()\n"
             "{\n"
-            "    fragTexCoord = vertTexCoord;\n"
-            "    fragColorData = vertColorData;\n"
+            "    fragTexCoord = vec2(vertTexCoord.x, vertTexCoord.y)\n"
+            "    fragColorData = vertColorData * vertTexCoord.z + _gl_Color * (1.0 - vertTexCoord.z);\n"
             "    float dx = (position.x - center.x);"
             "    float dy = (position.y - center.y);"
             "    float x  = center.x + (dx * cos(angle) - dy * sin(angle));"
@@ -1440,7 +1444,6 @@ void sad::Renderer::tryInitShaders()
             "in vec4 fragColorData;\n"
             "out vec4 color;\n"
             "uniform sampler2D _defaultTexture;\n"
-            "uniform vec4 _gl_Color;"
             "void main()\n"
             "{"
             "    color = texture(_defaultTexture, fragTexCoord) * fragColorData;\n"

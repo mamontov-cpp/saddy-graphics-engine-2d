@@ -126,12 +126,12 @@ void sad::os::GLFontGeometry::loadToGPU()
         f->glEnableVertexAttribArray(1);
         tryLogGlError("sad::os::GLFontGeometry::loadToGPU: glEnableVertexAttribArray(1)");
         f->glBindBuffer(GL_ARRAY_BUFFER, m_texture_buffer);
-        buffer = new double[2 * m_point_count];
-        std::fill_n(buffer, 2 * m_point_count, 0.0);
+        buffer = new double[3 * m_point_count];
+        std::fill_n(buffer, 3 * m_point_count, 0.0);
         f->glBufferData(GL_ARRAY_BUFFER, 2 * m_point_count * sizeof(double), buffer, GL_DYNAMIC_DRAW);
         f->glVertexAttribPointer(
             1,
-            2,
+            3,
             GL_DOUBLE,
             GL_FALSE,
             0,
