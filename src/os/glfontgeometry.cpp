@@ -91,6 +91,10 @@ void sad::os::GLFontGeometry::unload()
 
 void sad::os::GLFontGeometry::loadToGPU()
 {
+    if (m_point_count == 0)
+    {
+        return;
+    }
     if (!m_is_on_gpu)
     {
         sad::os::ExtensionFunctions* f = m_f;
@@ -173,6 +177,10 @@ void sad::os::GLFontGeometry::loadToGPU()
 
 void sad::os::GLFontGeometry::draw()
 {
+    if (m_point_count == 0) 
+    {
+        return;
+    }
     if (!m_is_on_gpu)
     {
         this->loadToGPU();
@@ -181,6 +189,7 @@ void sad::os::GLFontGeometry::draw()
     {
         return;
     }
+    
 
     sad::os::ExtensionFunctions* f = m_f;
     f->glBindVertexArray(m_vertex_array);
@@ -208,6 +217,26 @@ void sad::os::GLFontGeometry::draw()
     f->glDisableVertexAttribArray(0);
     tryLogGlError("sad::os::GLFontGeometry::draw: glDisableVertexAttribArray(0)");
 
+}
+
+void sad::os::GLFontGeometry::resize(unsigned int point_coint)
+{
+    if (m_is_on_gpu)
+    {
+        unload();
+        m_is_on_gpu = false;
+    }
+    m_point_count = point_coint;
+}
+
+void sad::os::GLFontGeometry::setRenderer(sad::Renderer* r)
+{
+    m_renderer = r;
+}
+
+sad::Renderer* sad::os::GLFontGeometry::renderer() const
+{
+    return m_renderer;
 }
 
 // ===================================== PRIVATE METHODS =====================================

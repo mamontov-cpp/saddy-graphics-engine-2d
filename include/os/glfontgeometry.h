@@ -51,6 +51,17 @@ public:
     /*! Draws objects
      */
     void draw();
+    /*! Resizes point count
+     */
+    void resize(unsigned int point_coint);
+    /*! Sets renderer for geometry
+        \param[in] r renderer
+     */
+    void setRenderer(sad::Renderer* r);
+    /*! Returns renderer
+        \return renderer
+     */
+    sad::Renderer* renderer() const;
 private:
     /*! Tries to log OpenGL error if occurred
      *  \param[in] op log info
