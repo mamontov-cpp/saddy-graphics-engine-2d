@@ -12,8 +12,7 @@ struct RawFreetypeTest : tpunit::TestFixture
 {
 public:
     RawFreetypeTest() : tpunit::TestFixture(
-        TEST(RawFreetypeTest::test),
-        TEST(RawFreetypeTest::testDumpToBMP)
+        TEST(RawFreetypeTest::test)
     ) {}
    
     void test()
@@ -74,16 +73,5 @@ public:
         FT_Done_Face(face);
         FT_Done_FreeType(library);
     }
-
-    void testDumpToBMP()
-    {
-        sad::freetype::Font fnt;
-        ASSERT_TRUE(fnt.load("examples/multithreading/Liberation Sans/LiberationSans-Regular.ttf")  );
-        fnt.dumpToBMP(24);
-    }
-
-
-
-    
 
 } _raw_freetype_test;
