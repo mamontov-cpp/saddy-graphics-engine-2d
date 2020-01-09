@@ -64,13 +64,16 @@ public:
     /*! Disables shader function
      */
     virtual void disable();
+    /*! Describes if can be used for fonts
+     */
+    bool canBeUsedForFonts() const;
     /*! Can be inherited
      */
     virtual ~ShaderFunction();
-private:
+protected:
     /*! Tries to cache some locations
      */
-    void tryCacheLocations();
+    virtual void tryCacheLocations();
     /*! An inner shader
      */
     sad::Shader* m_shader;

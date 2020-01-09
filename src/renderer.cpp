@@ -35,6 +35,8 @@
 #include "imageformats/tgaloader.h"
 #include "imageformats/srgbaloader.h"
 
+#include "fontshaderfunction.h"
+
 #ifdef LINUX
     #include <stdio.h>
     #include <unistd.h>
@@ -71,6 +73,8 @@ m_default_textures_shader_2d(NULL),
 m_default_texture_shader_function_2d(NULL),
 m_default_no_textures_shader_2d(NULL),
 m_default_no_textures_shader_function_2d(NULL),
+m_default_font_shader(NULL),
+m_default_font_shader_function(NULL),
 m_gl_sprite_geometry_storages(NULL)
 {
 #ifdef X11
@@ -163,6 +167,10 @@ sad::Renderer::~Renderer(void)
     del_ref_if_not_null(m_default_no_textures_shader_function_2d);
     del_ref_if_not_null(m_default_textures_shader_2d);
     del_ref_if_not_null(m_default_no_textures_shader_2d);
+
+    del_ref_if_not_null(m_default_font_shader_function);
+    del_ref_if_not_null(m_default_font_shader);
+
 
     delete m_pipeline;
     delete m_controls;
@@ -441,6 +449,7 @@ void sad::Renderer::emergencyShutdown()
     destroy_shader_if_not_null(m_default_no_textures_shader_3d);
     destroy_shader_if_not_null(m_default_textures_shader_2d);
     destroy_shader_if_not_null(m_default_no_textures_shader_2d);
+    destroy_shader_if_not_null(m_default_font_shader);
 
     m_camera_buffer->tryUnload();
 
@@ -976,6 +985,12 @@ sad::ShaderFunction* sad::Renderer::defaultShaderFunctionWithoutTextures2d()
     return m_default_no_textures_shader_function_2d;
 }
 
+sad::FontShaderFunction* sad::Renderer::defaultFontShaderFunction()
+{
+    this->tryInitShaders();
+    return m_default_font_shader_function;
+}
+
 
 sad::os::UBO* sad::Renderer::cameraObjectBuffer() const
 {
@@ -1093,6 +1108,7 @@ void sad::Renderer::deinitRendererAfterLoop()
     destroy_shader_if_not_null(m_default_no_textures_shader_3d);
     destroy_shader_if_not_null(m_default_textures_shader_2d);
     destroy_shader_if_not_null(m_default_no_textures_shader_2d);
+    destroy_shader_if_not_null(m_default_font_shader);
     m_camera_buffer->tryUnload();
 
     m_context->destroy();
@@ -1389,6 +1405,44 @@ void sad::Renderer::tryInitShaders()
             "}"
         );
 
+
+        m_default_font_shader->setVertexProgram(
+            "#version 300 es\n"
+            "layout(location = 0) in vec2 position;\n"
+            "layout (std140) uniform _SGLCameraInfo\n"
+            "{\n"
+            "mat4 _sglModelViewMatrix;\n"
+            "mat4 _sglProjectionMatrix;\n"
+            "};\n"
+            "in vec2 vertTexCoord;\n"
+            "out vec2 fragTexCoord;\n"
+            "uniform vec2 center;\n"
+            "uniform float angle;\n"
+            "\n"
+            "void main()\n"
+            "{\n"
+            "    fragTexCoord = vertTexCoord;\n"
+            "    float dx = (position.x - center.x);"
+            "    float dy = (position.y - center.y);"
+            "    float x  = center.x + (dx * cos(angle) - dy * sin(angle));"
+            "    float y  = center.y + (dx * sin(angle) + dy * cos(angle));"
+            "    vec4 tmp = vec4(x, y, 0.0, 1.0);\n"
+            "    gl_Position = (_sglProjectionMatrix * _sglModelViewMatrix) * tmp;\n"
+            "}\n"
+        );
+        m_default_font_shader->setFragmentProgram(
+            "#version 300 es\n"
+            "precision mediump float;"
+            "in vec2 fragTexCoord;\n"
+            "out vec4 color;\n"
+            "uniform sampler2D _defaultTexture;\n"
+            "uniform vec4 _gl_Color;"
+            "void main()\n"
+            "{"
+            "    color = texture(_defaultTexture, fragTexCoord) * _gl_Color;\n"
+            "}"
+        );
+
         m_default_texture_shader_function_3d = new sad::ShaderFunction();
         m_default_texture_shader_function_3d->setShader(m_default_textures_shader_3d);
         m_default_texture_shader_function_3d->addRef();
@@ -1404,6 +1458,10 @@ void sad::Renderer::tryInitShaders()
         m_default_no_textures_shader_function_2d = new sad::ShaderFunction();
         m_default_no_textures_shader_function_2d->setShader(m_default_no_textures_shader_2d);
         m_default_no_textures_shader_function_2d->addRef();
+
+        m_default_font_shader_function = new sad::FontShaderFunction();
+        m_default_font_shader_function->setShader(m_default_font_shader);
+        m_default_font_shader_function->addRef();
 
         m_shader_init_mutex.unlock();
     }

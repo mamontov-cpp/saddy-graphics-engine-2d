@@ -191,6 +191,11 @@ void sad::ShaderFunction::disable()
     m_shader->disable();
 }
 
+bool sad::ShaderFunction::canBeUsedForFonts() const
+{
+    return false;
+}
+
 sad::ShaderFunction::~ShaderFunction()
 {
     if (m_shader)

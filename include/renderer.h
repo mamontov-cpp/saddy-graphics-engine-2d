@@ -47,6 +47,7 @@ class MainLoop;
 class MouseCursor;
 class OpenGL;
 class FPSInterpolation;
+class FontShaderFunction;
 
 namespace pipeline
 {
@@ -481,6 +482,10 @@ public:
      *  \return default shader function without textures for 2d objects
      */
     sad::ShaderFunction* defaultShaderFunctionWithoutTextures2d();
+    /*! Returns default font shader function
+     *  \return default font shader function 
+     */
+    sad::FontShaderFunction* defaultFontShaderFunction();
     /*! Returns camera buffer object
         \return camera buffer object
      */
@@ -635,6 +640,12 @@ protected:
     /*! A default shader function for using textures for 2D objects
      */
     sad::ShaderFunction* m_default_no_textures_shader_function_2d;
+    /*! A default shader font
+     */
+    sad::Shader* m_default_font_shader;
+    /*! A default shader font function
+     */
+    sad::FontShaderFunction* m_default_font_shader_function;
     /*! Sprite geometry storages
      */
     sad::os::GLSpriteGeometryStorages* m_gl_sprite_geometry_storages;

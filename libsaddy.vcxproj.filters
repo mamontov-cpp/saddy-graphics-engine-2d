@@ -807,6 +807,9 @@
     <ClCompile Include="src\os\gluntexturedgeometry3d.cpp">
       <Filter>Файлы исходного кода\os</Filter>
     </ClCompile>
+    <ClCompile Include="src\fontshaderfunction.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\camera.h">
@@ -1723,6 +1726,9 @@
     </ClInclude>
     <ClInclude Include="include\os\glspritegeometrystorages.h">
       <Filter>Заголовочные файлы\os</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fontshaderfunction.h">
+      <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

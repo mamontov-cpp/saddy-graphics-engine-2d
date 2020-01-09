@@ -170,6 +170,7 @@
     <ClCompile Include="src\clipboard.cpp" />
     <ClCompile Include="src\closure.cpp" />
     <ClCompile Include="src\font.cpp" />
+    <ClCompile Include="src\fontshaderfunction.cpp" />
     <ClCompile Include="src\formattedlabel.cpp" />
     <ClCompile Include="src\fpsinterpolation.cpp" />
     <ClCompile Include="src\fuzzyequal.cpp" />
@@ -393,6 +394,7 @@
     <ClInclude Include="include\db\dbuntypedstronglink.h" />
     <ClInclude Include="include\equalto.h" />
     <ClInclude Include="include\font.h" />
+    <ClInclude Include="include\fontshaderfunction.h" />
     <ClInclude Include="include\formattedlabel.h" />
     <ClInclude Include="include\fpsinterpolation.h" />
     <ClInclude Include="include\fuzzyequal.h" />
