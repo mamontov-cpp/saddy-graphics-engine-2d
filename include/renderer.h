@@ -75,6 +75,7 @@ namespace os
     class GLUntexturedGeometry3D;
     class GLUntexturedGeometry2D;
     class GLSpriteGeometryStorages;
+    class GLFontGeometries;
     class UBO;
 }
 
@@ -522,6 +523,14 @@ public:
      *  \param[in] g geometry
      */
     void storeGeometry(sad::os::GLUntexturedGeometry3D* g);
+    /*! Adds font geometries to store and free due to finishing
+        \param[in] g geometries
+     */
+    void addFontGeometries(sad::os::GLFontGeometries* g);
+    /*! Removes font geometries
+        \param[in] g geometries
+     */
+    void removeFontGeometries(sad::os::GLFontGeometries* g);
 protected:
     /*! A global instance for renderer, to make it local creation is
         procedures unnecessary. It's not a singleton, but can
@@ -649,6 +658,9 @@ protected:
     /*! Sprite geometry storages
      */
     sad::os::GLSpriteGeometryStorages* m_gl_sprite_geometry_storages;
+    /*! Font geometries to cleanup it
+     */
+    sad::Vector<sad::os::GLFontGeometries*> m_gl_font_geometries;
 
 
     /*! An initialization mutex for shaders

@@ -23,6 +23,7 @@
 #include "os/gluntexturedgeometry2d.h"
 #include "os/ubo.h"
 #include "os/glspritegeometrystorages.h"
+#include "os/glfontgeometries.h"
 
 #include "db/dbdatabase.h"
 #include "db/dbtypename.h"
@@ -450,6 +451,11 @@ void sad::Renderer::emergencyShutdown()
     destroy_shader_if_not_null(m_default_textures_shader_2d);
     destroy_shader_if_not_null(m_default_no_textures_shader_2d);
     destroy_shader_if_not_null(m_default_font_shader);
+
+    for (size_t i = 0; i < m_gl_font_geometries.size(); i++)
+    {
+        m_gl_font_geometries[i]->unload();
+    }
 
     m_camera_buffer->tryUnload();
 
@@ -1037,6 +1043,20 @@ void sad::Renderer::storeGeometry(sad::os::GLUntexturedGeometry3D* g)
     m_gl_sprite_geometry_storages->store(g);
 }
 
+void sad::Renderer::addFontGeometries(sad::os::GLFontGeometries* g)
+{
+    m_gl_font_geometries.add(g);
+}
+
+void sad::Renderer::removeFontGeometries(sad::os::GLFontGeometries* g)
+{
+    m_gl_font_geometries.removeFirst(g);
+    if (g)
+    {
+        g->unload();
+    }
+}
+
 // ============================================================ PROTECTED METHODS ============================================================
 
 bool sad::Renderer::initRendererBeforeLoop()
@@ -1110,6 +1130,12 @@ void sad::Renderer::deinitRendererAfterLoop()
     destroy_shader_if_not_null(m_default_no_textures_shader_2d);
     destroy_shader_if_not_null(m_default_font_shader);
     m_camera_buffer->tryUnload();
+
+    for (size_t i = 0; i < m_gl_font_geometries.size(); i++)
+    {
+        m_gl_font_geometries[i]->unload();
+    }
+
 
     m_context->destroy();
     m_window->destroy();
