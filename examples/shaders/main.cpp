@@ -78,18 +78,18 @@ int main(int argc, char** argv)
     }
     {
         sad::Label* label = new sad::Label(r->resource<sad::Font>("font"), sad::Point2D(150, 200), "Test Me");
-        label->setString("Test <font color=\"#ff0000\">Me</font>");
+        label->setString("Test <font size=\"60px\" color=\"#ff0000\">Me</font>");
         label->setHasFormatting(true);
-        label->setSize(50);
+        label->setSize(36);
         label->setColor(sad::AColor(255, 255, 255));
         label->setAngle(45);
         scene->addNode(label);
     }
     {
         sad::Label* label = new sad::Label(r->resource<sad::Font>("ft_font"), sad::Point2D(350, 200), "Test Me");
-        label->setString("Test <font color=\"#ff0000\">Me</font>");
+        label->setString("Test <font size=\"60px\" color=\"#ff0000\">Me</font>");
         label->setHasFormatting(true);
-        label->setSize(52);
+        label->setSize(38);
         label->setColor(sad::AColor(255, 255, 255));
         label->setAngle(-45);
         scene->addNode(label);
