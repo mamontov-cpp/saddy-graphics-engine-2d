@@ -31,13 +31,15 @@ public:
         \param[in] p2 a second point of renderer
         \param[in] c  a color, with which line should be rendered
         \param[in] fun a shading function to apply (NULL for default)
+        \param[in] no_shader_fun do not apply shader function
      */
     virtual void line(
         sad::Scene* scene,
         const sad::Point2D& p1,
         const sad::Point2D& p2,
         const sad::AColor& c,
-        sad::ShaderFunction* fun = NULL
+        sad::ShaderFunction* fun = NULL,
+        bool no_shader_fun = false
     );
     /*! Renders a rectangle with specified color
         \param[in] scene a scene

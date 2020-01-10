@@ -26,7 +26,8 @@ void sad::PrimitiveRenderer::line(
     const sad::Point2D & p1,
     const sad::Point2D & p2,
     const sad::AColor & c,
-    sad::ShaderFunction* fun
+    sad::ShaderFunction* fun,
+    bool no_shader_fun
 )
 {
     if (!scene)
@@ -45,11 +46,17 @@ void sad::PrimitiveRenderer::line(
         {
             f = r->defaultShaderFunctionWithoutTextures2d();
         }
-        scene->getCamera()->moveMatricesIntoCameraBuffer();
-        f->apply(scene, &c);
+        if (!no_shader_fun)
+        {
+            scene->getCamera()->moveMatricesIntoCameraBuffer();
+            f->apply(scene, &c);
+        }
         sad::os::GLUntexturedGeometry2D* geometry = r->untexturedGeometry2DForPoints(2);
         geometry->drawLine(p1, p2);
-        f->disable();
+        if (!no_shader_fun)
+        {
+            f->disable();
+        }
     }
     else
     {

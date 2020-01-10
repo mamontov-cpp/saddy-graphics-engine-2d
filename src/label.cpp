@@ -3,6 +3,8 @@
 #include "renderer.h"
 #include "sadmutex.h"
 #include "sadscopedlock.h"
+#include "renderer.h"
+#include "glcontext.h"
 
 #include "db/schema/schema.h"
 #include "db/dbproperty.h"
@@ -41,7 +43,8 @@ m_computed_rendering_string(false),
 m_computed_rendering_point(false),
 m_rendered_chars(0),
 m_geometries(new sad::os::GLFontGeometries()),
-m_geometries_dirty(true)
+m_geometries_dirty(true),
+m_line_shader_function(NULL)
 {
     
 }
@@ -65,7 +68,8 @@ m_formatted(false),
 m_computed_rendering_string(false),
 m_computed_rendering_point(false),
 m_geometries(new sad::os::GLFontGeometries()),
-m_geometries_dirty(true)
+m_geometries_dirty(true),
+m_line_shader_function(NULL)
 {
     m_font.attach(font);
     recomputeRenderedString();
@@ -91,7 +95,8 @@ m_formatted(false),
 m_computed_rendering_string(false),
 m_computed_rendering_point(false),
 m_geometries(new sad::os::GLFontGeometries()),
-m_geometries_dirty(true)
+m_geometries_dirty(true),
+m_line_shader_function(NULL)
 {
     m_font.setTree(NULL, tree);
     m_font.setPath(font);
@@ -1671,6 +1676,11 @@ void sad::Label::renderWithFormatting(sad::Font* font)
     sad::Point2D point = m_halfpadding;
     sad::Renderer* renderer = this->renderer();
     int rendered_count = 0;
+    bool isOpenGL3supported = false;
+    if (renderer)
+    {
+        isOpenGL3supported = renderer->context()->isOpenGL3compatible();
+    }
     for (size_t row = 0; row < m_document.size(); row++)
     {
         double x = point.x();
@@ -1731,16 +1741,56 @@ void sad::Label::renderWithFormatting(sad::Font* font)
                     double ky = point.y() - m_document_metrics[row].Ascender + c.Ascender/ 4;
                     sad::Point2D p1(x, ky), p2(x + part_width, ky);
                     sad::AColor clr = fnt->color();
-                    clr.setA(255 - clr.a());
-                    renderer->render()->line(this->scene(), p1, p2, clr);
+                    sad::FontShaderFunction* sf = NULL;
+                    if (isOpenGL3supported)
+                    {
+                        if (m_line_shader_function)
+                        {
+                            sf = m_line_shader_function;
+                        } 
+                        else
+                        {
+                            sf = renderer->defaultFontLineShaderFunction();
+                        }
+                        sf->apply(this, &clr, m_center, m_angle);
+                    }
+                    else
+                    {
+                        clr.setA(255 - clr.a());
+                    }
+                    renderer->render()->line(this->scene(), p1, p2, clr, sf, true);
+                    if (sf)
+                    {
+                        sf->disable();
+                    }
                 }
                 if (c.Underlined)
                 {
                     double ky = point.y() - m_document_metrics[row].Ascender - 2;
                     sad::Point2D p1(x, ky), p2(x + part_width, ky);
                     sad::AColor clr = fnt->color();
-                    clr.setA(255 - clr.a());
-                    renderer->render()->line(this->scene(), p1, p2, clr);
+                    sad::FontShaderFunction* sf = NULL;
+                    if (isOpenGL3supported)
+                    {
+                        if (m_line_shader_function)
+                        {
+                            sf = m_line_shader_function;
+                        }
+                        else
+                        {
+                            sf = renderer->defaultFontLineShaderFunction();
+                        }
+                        sf->apply(this, &clr, m_center, m_angle);
+                    }
+                    else
+                    {
+                        clr.setA(255 - clr.a());
+                    }
+                    renderer->render()->line(this->scene(), p1, p2, clr, sf, true);
+                    if (sf)
+                    {
+                        sf->disable();
+                    }
                 }
             }
             x += part_width;
