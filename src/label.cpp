@@ -11,6 +11,7 @@
 #include "db/dbmethodpair.h"
 
 #include "os/glfontgeometries.h"
+#include "fontshaderfunction.h"
 
 #ifdef WIN32
 #include <windows.h>
@@ -1348,6 +1349,7 @@ void sad::Label::onRemovedFromScene()
         m_geometries->renderer()->removeFontGeometries(m_geometries);
     }
     m_geometries->setRenderer(NULL);
+    m_geometries_dirty = true;
 }
 
 void sad::Label::setShaderFunction(sad::ShaderFunction* fun)
@@ -1359,7 +1361,23 @@ void sad::Label::setShaderFunction(sad::ShaderFunction* fun)
     this->sad::SceneNode::setShaderFunction(fun);
 }
 
+void sad::Label::setLineShaderFunction(sad::FontShaderFunction* fun)
+{
+    if (m_line_shader_function)
+    {
+        m_line_shader_function->delRef();
+    }
+    m_line_shader_function = fun;
+    if (m_line_shader_function)
+    {
+        m_line_shader_function->addRef();
+    }
+}
 
+sad::FontShaderFunction* sad::Label::lineShaderFunction() const
+{
+    return m_line_shader_function;
+}
 
 void sad::Label::reloadFont()
 {

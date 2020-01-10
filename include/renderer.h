@@ -487,6 +487,10 @@ public:
      *  \return default font shader function 
      */
     sad::FontShaderFunction* defaultFontShaderFunction();
+    /*! Returns default font line shader function
+     *  \return default font  line shader function
+     */
+    sad::FontShaderFunction* defaultFontLineShaderFunction();
     /*! Returns camera buffer object
         \return camera buffer object
      */
@@ -655,6 +659,12 @@ protected:
     /*! A default shader font function
      */
     sad::FontShaderFunction* m_default_font_shader_function;
+    /*! A default font line shader
+     */
+    sad::Shader* m_default_font_line_shader;
+    /*! A default shader font line function
+     */
+    sad::FontShaderFunction* m_default_font_line_shader_function;
     /*! Sprite geometry storages
      */
     sad::os::GLSpriteGeometryStorages* m_gl_sprite_geometry_storages;

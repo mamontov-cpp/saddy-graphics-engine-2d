@@ -22,6 +22,7 @@ namespace os
 class GLFontGeometries;
 }
 class Renderer;
+class FontShaderFunction;
 /*! \class Label
     
     Class, that renders a simple multiline text on scene.
@@ -557,6 +558,14 @@ public:
      *  \param[in] fun a function
      */
     virtual void setShaderFunction(sad::ShaderFunction* fun);
+    /*! Sets line shader function
+     *  \param[in] fun line shader function
+     */
+    virtual void setLineShaderFunction(sad::FontShaderFunction* fun);
+    /*! Returns line shader function
+     *  \return line shader function
+     */
+    sad::FontShaderFunction* lineShaderFunction() const;
 private:
     /*! Reloads font for a label from scene
      */
@@ -700,6 +709,9 @@ private:
     /*! Whether geometries are dirty
      */
     bool m_geometries_dirty;
+    /*! A shader function for lines
+     */
+    sad::FontShaderFunction* m_line_shader_function;
 };
 
 }

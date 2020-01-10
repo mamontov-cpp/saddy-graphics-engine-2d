@@ -23,7 +23,7 @@ public:
      *  \return self-reference
      */
     sad::FontShaderFunction& operator=(const sad::FontShaderFunction& fun);
-    /*! An inner function, which should be called when rendering node, @see sad::Sprite2D for implementation
+    /*! An inner function, which should be called when rendering node, @see sad::Label for implementation
      * \param[in] node node, on which shader should be applied
      * \param[in] tex texture, which should be applied
      * \param[in] clr color, which should be used in blending
@@ -31,6 +31,13 @@ public:
      * \param[in] double angle
      */
     virtual void apply(sad::SceneNode* node, sad::Bindable* tex, const sad::AColor* clr, const sad::Point2D& center, double angle);
+    /*! An inner function, which should be called when rendering node lines, @see sad::Label for implementation
+     * \param[in] tex texture, which should be applied
+     * \param[in] clr color, which should be used in blending
+     * \param[in] center center
+     * \param[in] double angle
+     */
+    virtual void apply(sad::SceneNode* node, const sad::AColor* clr, const sad::Point2D& center, double angle);
     /*! Describes if can be used for fonts
      */
     virtual bool canBeUsedForFonts() const;

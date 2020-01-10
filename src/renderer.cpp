@@ -76,6 +76,8 @@ m_default_no_textures_shader_2d(NULL),
 m_default_no_textures_shader_function_2d(NULL),
 m_default_font_shader(NULL),
 m_default_font_shader_function(NULL),
+m_default_font_line_shader(NULL),
+m_default_font_line_shader_function(NULL),
 m_gl_sprite_geometry_storages(NULL)
 {
 #ifdef X11
@@ -171,6 +173,9 @@ sad::Renderer::~Renderer(void)
 
     del_ref_if_not_null(m_default_font_shader_function);
     del_ref_if_not_null(m_default_font_shader);
+
+    del_ref_if_not_null(m_default_font_line_shader);
+    del_ref_if_not_null(m_default_font_line_shader_function);
 
 
     delete m_pipeline;
@@ -451,6 +456,7 @@ void sad::Renderer::emergencyShutdown()
     destroy_shader_if_not_null(m_default_textures_shader_2d);
     destroy_shader_if_not_null(m_default_no_textures_shader_2d);
     destroy_shader_if_not_null(m_default_font_shader);
+    destroy_shader_if_not_null(m_default_font_line_shader);
 
     for (size_t i = 0; i < m_gl_font_geometries.size(); i++)
     {
@@ -997,6 +1003,12 @@ sad::FontShaderFunction* sad::Renderer::defaultFontShaderFunction()
     return m_default_font_shader_function;
 }
 
+sad::FontShaderFunction* sad::Renderer::defaultFontLineShaderFunction()
+{
+    this->tryInitShaders();
+    return m_default_font_line_shader_function;
+}
+
 
 sad::os::UBO* sad::Renderer::cameraObjectBuffer() const
 {
@@ -1129,6 +1141,7 @@ void sad::Renderer::deinitRendererAfterLoop()
     destroy_shader_if_not_null(m_default_textures_shader_2d);
     destroy_shader_if_not_null(m_default_no_textures_shader_2d);
     destroy_shader_if_not_null(m_default_font_shader);
+    destroy_shader_if_not_null(m_default_font_line_shader);
     m_camera_buffer->tryUnload();
 
     for (size_t i = 0; i < m_gl_font_geometries.size(); i++)
@@ -1476,6 +1489,42 @@ void sad::Renderer::tryInitShaders()
             "}"
         );
 
+
+        m_default_font_line_shader = new sad::Shader();
+        m_default_font_line_shader->addRef();
+        m_default_font_line_shader->setRenderer(this);
+        m_default_font_line_shader->setVertexProgram(
+            "#version 300 es\n"
+            "layout(location = 0) in vec2 position;\n"
+            "layout (std140) uniform _SGLCameraInfo\n"
+            "{\n"
+            "mat4 _sglModelViewMatrix;\n"
+            "mat4 _sglProjectionMatrix;\n"
+            "};\n"
+            "uniform vec2 center;\n"
+            "uniform float angle;\n"
+            "\n"
+            "void main()\n"
+            "{\n"
+            "    float dx = (position.x - center.x);"
+            "    float dy = (position.y - center.y);"
+            "    float x  = center.x + (dx * cos(angle) - dy * sin(angle));"
+            "    float y  = center.y + (dx * sin(angle) + dy * cos(angle));"
+            "    vec4 tmp = vec4(x, y, 0.0, 1.0);\n"
+            "    gl_Position = (_sglProjectionMatrix * _sglModelViewMatrix) * tmp;\n"
+            "}\n"
+        );
+        m_default_font_line_shader->setFragmentProgram(
+            "#version 300 es\n"
+            "precision mediump float;"
+            "uniform vec4 _gl_Color;"
+            "out vec4 color;\n"
+            "void main()\n"
+            "{"
+            "    color = _gl_Color;\n"
+            "}"
+        );
+
         m_default_texture_shader_function_3d = new sad::ShaderFunction();
         m_default_texture_shader_function_3d->setShader(m_default_textures_shader_3d);
         m_default_texture_shader_function_3d->addRef();
@@ -1495,6 +1544,10 @@ void sad::Renderer::tryInitShaders()
         m_default_font_shader_function = new sad::FontShaderFunction();
         m_default_font_shader_function->setShader(m_default_font_shader);
         m_default_font_shader_function->addRef();
+
+        m_default_font_line_shader_function = new sad::FontShaderFunction();
+        m_default_font_line_shader_function->setShader(m_default_font_line_shader);
+        m_default_font_line_shader_function->addRef();
 
         m_shader_init_mutex.unlock();
     }
