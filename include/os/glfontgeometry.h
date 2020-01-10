@@ -4,7 +4,8 @@
  */
 #pragma once
 #include "glheaders.h"
-#include "geometry2d.h"
+#include "../geometry2d.h"
+#include "../bindable.h"
 #include "../sadvector.h"
 
 
@@ -53,7 +54,7 @@ public:
     void draw();
     /*! Resizes point count
      */
-    void resize(unsigned int point_coint);
+    void resize(unsigned int point_count);
     /*! Sets renderer for geometry
         \param[in] r renderer
      */
@@ -62,6 +63,14 @@ public:
         \return renderer
      */
     sad::Renderer* renderer() const;
+    /*! Sets bindable geometry
+        \param[in] bindable
+     */
+    void setBindable(sad::Bindable* bindable);
+    /*! Returns bindable
+        \return bindable
+     */
+    sad::Bindable* bindable() const;
 private:
     /*! Tries to log OpenGL error if occurred
      *  \param[in] op log info
@@ -85,12 +94,18 @@ private:
     /*! A point count for rendering points
      */
     unsigned int m_point_count;
+    /*! A used points amount
+     */
+    unsigned int m_used_points;
     /*! Whether geometry is already uploaded to GPU
      */
     bool m_is_on_gpu;
     /*! Extension functions
      */
     sad::os::ExtensionFunctions* m_f;
+    /*! Texture
+     */
+    sad::Bindable* m_bindable;
 };
 
 }

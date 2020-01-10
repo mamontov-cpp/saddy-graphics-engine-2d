@@ -21,7 +21,7 @@ sad::FontShaderFunction& sad::FontShaderFunction::operator=(const sad::FontShade
     return *this;
 }
 
-void sad::FontShaderFunction::apply(sad::SceneNode* node, sad::Texture* tex, const sad::AColor* clr, const sad::Point2D& center, double angle)
+void sad::FontShaderFunction::apply(sad::SceneNode* node, sad::Bindable* tex, const sad::AColor* clr, const sad::Point2D& center, double angle)
 {
     this->sad::ShaderFunction::apply(node, tex, clr);
     sad::Renderer* r = sad::Renderer::ref();

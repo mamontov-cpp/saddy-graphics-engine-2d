@@ -69,7 +69,7 @@ sad::Shader* sad::ShaderFunction::shader() const
 
 
 
-void sad::ShaderFunction::apply(sad::SceneNode* node, sad::Texture* tex, const sad::AColor* clr)
+void sad::ShaderFunction::apply(sad::SceneNode* node, sad::Bindable* tex, const sad::AColor* clr)
 {
     if (!node || !m_shader)
     {
@@ -82,7 +82,7 @@ void sad::ShaderFunction::apply(sad::SceneNode* node, sad::Texture* tex, const s
     this->apply(node->scene(), tex, clr);
 }
 
-void sad::ShaderFunction::apply(sad::Scene* scene, sad::Texture* tex, const sad::AColor* clr)
+void sad::ShaderFunction::apply(sad::Scene* scene, sad::Bindable* tex, const sad::AColor* clr)
 {
     if (!scene || !m_shader)
     {

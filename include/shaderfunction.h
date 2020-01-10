@@ -11,7 +11,7 @@ namespace sad
 
 class Scene;
 class SceneNode;
-class Texture;
+class Bindable;
 
 /*! A shader function stores the state and the shader, that can be shared across nodes
  *  and also have it's own state to animate shader
@@ -44,13 +44,13 @@ public:
      * \param[in] tex texture, which should be applied
      * \param[in] clr color, which should be used in blending
      */
-    virtual void apply(sad::SceneNode* node, sad::Texture* tex, const sad::AColor* clr = NULL);
+    virtual void apply(sad::SceneNode* node, sad::Bindable* tex, const sad::AColor* clr = NULL);
     /*! An inner function, which should be called when rendering node, @see sad::Sprite2D for implementation
      * \param[in] scene a scene, where shader is applied
      * \param[in] tex texture, which should be applied
      * \param[in] clr color, which should be used in blending
      */
-    virtual void apply(sad::Scene* scene, sad::Texture* tex, const sad::AColor* clr = NULL);
+    virtual void apply(sad::Scene* scene, sad::Bindable* tex, const sad::AColor* clr = NULL);
     /*! An inner function, which should be called when rendering node, @see sad::Sprite2D for implementation
      * \param[in] node node, on which shader should be applied
      * \param[in] clr color, which should be used in blending
@@ -66,7 +66,7 @@ public:
     virtual void disable();
     /*! Describes if can be used for fonts
      */
-    bool canBeUsedForFonts() const;
+    virtual bool canBeUsedForFonts() const;
     /*! Can be inherited
      */
     virtual ~ShaderFunction();

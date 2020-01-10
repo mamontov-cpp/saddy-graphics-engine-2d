@@ -9,7 +9,7 @@
 // ===================================== PUBLIC METHODS =====================================
 
 sad::os::GLFontGeometry::GLFontGeometry(sad::Renderer* renderer, unsigned int points)
-: m_renderer(renderer), m_vertex_array(0), m_vertex_buffer(0), m_texture_buffer(0), m_color_buffer(0), m_point_count(points), m_is_on_gpu(false)
+: m_renderer(renderer), m_vertex_array(0), m_vertex_buffer(0), m_texture_buffer(0), m_color_buffer(0), m_point_count(points), m_used_points(points), m_is_on_gpu(false), m_bindable(NULL)
 {
     if (m_renderer == NULL)
     {
@@ -177,7 +177,7 @@ void sad::os::GLFontGeometry::loadToGPU()
 
 void sad::os::GLFontGeometry::draw()
 {
-    if (m_point_count == 0) 
+    if (m_used_points == 0)
     {
         return;
     }
@@ -190,6 +190,10 @@ void sad::os::GLFontGeometry::draw()
         return;
     }
     
+    if (m_bindable)
+    {
+        m_bindable->bind();
+    }
 
     sad::os::ExtensionFunctions* f = m_f;
     f->glBindVertexArray(m_vertex_array);
@@ -205,7 +209,7 @@ void sad::os::GLFontGeometry::draw()
     tryLogGlError("sad::os::GLFontGeometry::draw: glEnableVertexAttribArray(2)");
 
     // Render arrays
-    glDrawArrays(GL_TRIANGLES, 0, m_point_count);
+    glDrawArrays(GL_TRIANGLES, 0, m_used_points);
     tryLogGlError("sad::os::GLFontGeometry::draw: glDrawArrays(GL_TRIANGLES, 0, m_point_count)");
 
     f->glDisableVertexAttribArray(2);
@@ -219,14 +223,22 @@ void sad::os::GLFontGeometry::draw()
 
 }
 
-void sad::os::GLFontGeometry::resize(unsigned int point_coint)
+void sad::os::GLFontGeometry::resize(unsigned int point_count)
 {
-    if (m_is_on_gpu)
+    if (point_count <= m_point_count)
     {
-        unload();
-        m_is_on_gpu = false;
+        m_used_points = point_count;
     }
-    m_point_count = point_coint;
+    else
+    {
+        if (m_is_on_gpu)
+        {
+            unload();
+            m_is_on_gpu = false;
+        }
+        m_point_count = point_count;
+        m_used_points = point_count;
+    }
 }
 
 void sad::os::GLFontGeometry::setRenderer(sad::Renderer* r)
@@ -237,6 +249,16 @@ void sad::os::GLFontGeometry::setRenderer(sad::Renderer* r)
 sad::Renderer* sad::os::GLFontGeometry::renderer() const
 {
     return m_renderer;
+}
+
+void sad::os::GLFontGeometry::setBindable(sad::Bindable* bindable)
+{
+    m_bindable = bindable;
+}
+
+sad::Bindable* sad::os::GLFontGeometry::bindable() const
+{
+    return m_bindable;
 }
 
 // ===================================== PRIVATE METHODS =====================================

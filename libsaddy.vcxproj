@@ -163,6 +163,7 @@
     <ClCompile Include="src\animations\animationstexturecoordinateslist.cpp" />
     <ClCompile Include="src\animations\easing\easingfunction.cpp" />
     <ClCompile Include="src\animations\easing\easingtypes.cpp" />
+    <ClCompile Include="src\bindable.cpp" />
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\classmetadata.cpp" />
     <ClCompile Include="src\classmetadatacastfunction.cpp" />
@@ -383,6 +384,7 @@
     <ClInclude Include="include\animations\animationssimplemovement.h" />
     <ClInclude Include="include\animations\easing\easingfunction.h" />
     <ClInclude Include="include\animations\easing\easingtypes.h" />
+    <ClInclude Include="include\bindable.h" />
     <ClInclude Include="include\camera.h" />
     <ClInclude Include="include\classmetadata.h" />
     <ClInclude Include="include\classmetadatacastfunction.h" />

@@ -30,10 +30,10 @@ public:
      * \param[in] center center
      * \param[in] double angle
      */
-    virtual void apply(sad::SceneNode* node, sad::Texture* tex, const sad::AColor* clr, const sad::Point2D& center, double angle);
+    virtual void apply(sad::SceneNode* node, sad::Bindable* tex, const sad::AColor* clr, const sad::Point2D& center, double angle);
     /*! Describes if can be used for fonts
      */
-    bool canBeUsedForFonts() const;
+    virtual bool canBeUsedForFonts() const;
     /*! Can be inherited
      */
     virtual ~FontShaderFunction();

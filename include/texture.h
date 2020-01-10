@@ -10,6 +10,7 @@
 #include "sadstring.h"
 #include "sadwstring.h"
 #include "sadvector.h"
+#include "bindable.h"
 
 #ifndef TEXTURE_LOADER_TEST
 #include "resource/resource.h"
@@ -32,7 +33,7 @@ class Renderer;
  */
 class Texture
 #ifndef TEXTURE_LOADER_TEST
-: public sad::resource::Resource
+: public sad::resource::Resource, public sad::Bindable
 #endif
 {
 #ifndef TEXTURE_LOADER_TEST 
