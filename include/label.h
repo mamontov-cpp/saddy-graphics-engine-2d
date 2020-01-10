@@ -16,6 +16,11 @@
 
 namespace sad
 {
+
+namespace os
+{
+class GLFontGeometries;
+}
 class Renderer;
 /*! \class Label
     
@@ -545,6 +550,13 @@ public:
         \param[in] limit  a limit value
      */
     void setRenderingStringLimitAsRatioToLength(double limit);
+    /*! Called, when label is removed from scene
+     */
+    virtual void onRemovedFromScene();
+    /*! Sets shader function
+     *  \param[in] fun a function
+     */
+    virtual void setShaderFunction(sad::ShaderFunction* fun);
 private:
     /*! Reloads font for a label from scene
      */
@@ -682,6 +694,12 @@ private:
     /*! A limit for rendering character
      */
     sad::Maybe<unsigned int> m_rendering_character_limit;
+    /*! A geometries data
+     */
+    sad::os::GLFontGeometries* m_geometries;
+    /*! Whether geometries are dirty
+     */
+    bool m_geometries_dirty;
 };
 
 }

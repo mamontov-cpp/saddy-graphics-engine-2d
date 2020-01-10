@@ -10,6 +10,8 @@
 #include "db/load.h"
 #include "db/dbmethodpair.h"
 
+#include "os/glfontgeometries.h"
+
 #ifdef WIN32
 #include <windows.h>
 #endif
@@ -36,7 +38,9 @@ m_text_ellipsis_position_for_lines(sad::Label::LTEP_MIDDLE),
 m_formatted(false),
 m_computed_rendering_string(false),
 m_computed_rendering_point(false),
-m_rendered_chars(0)
+m_rendered_chars(0),
+m_geometries(new sad::os::GLFontGeometries()),
+m_geometries_dirty(true)
 {
     
 }
@@ -58,7 +62,9 @@ m_overflow_strategy_for_lines(sad::Label::LOS_VISIBLE),
 m_text_ellipsis_position_for_lines(sad::Label::LTEP_MIDDLE),
 m_formatted(false),
 m_computed_rendering_string(false),
-m_computed_rendering_point(false)
+m_computed_rendering_point(false),
+m_geometries(new sad::os::GLFontGeometries()),
+m_geometries_dirty(true)
 {
     m_font.attach(font);
     recomputeRenderedString();
@@ -82,7 +88,9 @@ m_overflow_strategy_for_lines(sad::Label::LOS_VISIBLE),
 m_text_ellipsis_position_for_lines(sad::Label::LTEP_MIDDLE),
 m_formatted(false),
 m_computed_rendering_string(false),
-m_computed_rendering_point(false)
+m_computed_rendering_point(false),
+m_geometries(new sad::os::GLFontGeometries()),
+m_geometries_dirty(true)
 {
     m_font.setTree(NULL, tree);
     m_font.setPath(font);
@@ -93,6 +101,7 @@ void sad::Label::setTreeName(sad::Renderer* r, const sad::String& treename)
 {
     m_font.setTree(r, treename);
     m_font_cache.setTree(r, treename);
+    m_geometries_dirty = true;
 }
 
 void sad::Label::regions(sad::Vector<sad::Rect2D> & r)
@@ -286,11 +295,21 @@ void sad::Label::render()
 
 void sad::Label::rendererChanged()
 {
+    sad::Renderer* new_renderer = this->renderer();
     if (m_font.dependsOnRenderer())
     {
-        m_font.setRenderer(this->renderer());
-        m_font_cache.setRenderer(this->renderer());
+        m_font.setRenderer(new_renderer);
+        m_font_cache.setRenderer(new_renderer);
     }
+    if (m_geometries->renderer())
+    {
+        m_geometries->renderer()->removeFontGeometries(m_geometries);
+    }
+    if (new_renderer)
+    {
+        new_renderer->addFontGeometries(m_geometries);
+    }
+    m_geometries_dirty = true;
 }
 
 void sad::Label::setArea(const sad::Rect2D & r)
@@ -332,6 +351,7 @@ sad::Rect2D sad::Label::region() const
 sad::Label::~Label()
 {
     clearFontsCache();
+    delete m_geometries;
 }
 
 void sad::Label::setScene(sad::Scene * scene)
@@ -342,6 +362,15 @@ void sad::Label::setScene(sad::Scene * scene)
         m_font.setRenderer(scene->renderer());
         reloadFont();
     }
+    if (m_geometries->renderer())
+    {
+        m_geometries->renderer()->removeFontGeometries(m_geometries);
+    }
+    if (scene->renderer())
+    {
+        scene->renderer()->addFontGeometries(m_geometries);
+    }
+    m_geometries_dirty = true;
 }
 
 bool sad::Label::canBeRotated() const
@@ -370,12 +399,14 @@ void sad::Label::setFontName(const sad::String & name)
 {
     m_font.setPath(name);
     reloadFont();
+    m_geometries_dirty = true;
 }
 
 void sad::Label::setFont(sad::Font * font)
 {
     m_font.attach(font);
     recomputeRenderingPoint();
+    m_geometries_dirty = true;
 }
 
 void sad::Label::setFont(const sad::String & name, sad::Renderer * r, const sad::String & tree)
@@ -384,11 +415,13 @@ void sad::Label::setFont(const sad::String & name, sad::Renderer * r, const sad:
         r = sad::Renderer::ref();
     m_font.setPath(name);
     m_font.setTree(r, tree);
+    m_geometries_dirty = true;
 }
 
 void sad::Label::setString(const sad::String & string)
 {
     m_string = string;
+    m_geometries_dirty = true;
     recomputeRenderedString();
 }
 
@@ -423,12 +456,14 @@ void sad::Label::setTreeName(const sad::String & treename)
 {
     m_font.setTree(m_font.renderer(), treename);
     m_font_cache.setTree(m_font.renderer(), treename);
+    m_geometries_dirty = true;
     recomputeRenderingPoint();
 }
 
 void sad::Label::setMaximalLineWidth(unsigned int width)
 {
     m_maximal_line_width = width;
+    m_geometries_dirty = true;
     recomputeRenderedString();
 }
 
@@ -440,6 +475,7 @@ unsigned int sad::Label::maximalLineWidth() const
 void sad::Label::setOverflowStrategy(sad::Label::OverflowStrategy s)
 {
     m_overflow_strategy = s;
+    m_geometries_dirty = true;
     recomputeRenderedString();
 }
 
@@ -465,6 +501,7 @@ unsigned int sad::Label::overflowStrategyAsIndex() const
 void sad::Label::setBreakText(sad::Label::BreakText value)
 {
     m_break_text = value;
+    m_geometries_dirty = true;
     recomputeRenderedString();
 }
 
@@ -491,6 +528,7 @@ unsigned int sad::Label::breakTextAsIndex() const
 void sad::Label::setTextEllipsisPosition(sad::Label::TextEllipsisPosition value)
 {
     m_text_ellipsis_position = value;
+    m_geometries_dirty = true;
     recomputeRenderedString();
 }
 
@@ -500,6 +538,7 @@ void sad::Label::setTextEllipsisPositionAsIndex(unsigned int value)
     {
         value = static_cast<unsigned int>(sad::Label::LTEP_END);
     }
+    m_geometries_dirty = true;
     setTextEllipsisPosition(static_cast<sad::Label::TextEllipsisPosition>(value));
 }
 
@@ -516,6 +555,7 @@ unsigned int sad::Label::textEllipsisAsIndex() const
 void sad::Label::setMaximalLinesCount(unsigned int line_count)
 {
     m_maximum_lines = line_count;
+    m_geometries_dirty = true;
     recomputeRenderedString();
 }
 
@@ -527,6 +567,7 @@ unsigned int sad::Label::maximalLinesCount() const
 void sad::Label::setOverflowStrategyForLines(sad::Label::OverflowStrategy s)
 {
     m_overflow_strategy_for_lines = s;
+    m_geometries_dirty = true;
     recomputeRenderedString();
 }
 
@@ -536,6 +577,7 @@ void sad::Label::setOverflowStrategyForLinesFromIndex(unsigned int s)
     {
         s = static_cast<unsigned int>(sad::Label::LOS_ELLIPSIS);
     }
+    m_geometries_dirty = true;
     setOverflowStrategyForLines(static_cast<sad::Label::OverflowStrategy>(s));    
 }
 
@@ -552,6 +594,7 @@ unsigned int sad::Label::overflowStrategyForLinesAsIndex() const
 void sad::Label::setTextEllipsisPositionForLines(sad::Label::TextEllipsisPosition value)
 {
     m_text_ellipsis_position_for_lines = value;
+    m_geometries_dirty = true;
     recomputeRenderedString();
 }
 
@@ -561,6 +604,7 @@ void sad::Label::setTextEllipsisPositionForLinesAsIndex(unsigned int value)
     {
         value = static_cast<unsigned int>(sad::Label::LTEP_END);
     }
+    m_geometries_dirty = true;
     setTextEllipsisPositionForLines(static_cast<sad::Label::TextEllipsisPosition>(value));
 }
 
@@ -582,6 +626,7 @@ bool sad::Label::hasFormatting() const
 void sad::Label::setHasFormatting(bool value)
 {
     m_formatted = value;
+    m_geometries_dirty = true;
     recomputeRenderedString();
 }
 
@@ -1282,6 +1327,7 @@ unsigned int sad::Label::renderedStringLength() const
 
 void sad::Label::setRenderingStringLimit(unsigned int limit)
 {
+    m_geometries_dirty = true;
     m_rendering_character_limit.setValue(limit);
 }
 
@@ -1294,6 +1340,26 @@ void sad::Label::setRenderingStringLimitAsRatioToLength(double limit)
 {
     this->setRenderingStringLimit(static_cast<unsigned int>(limit * this->renderedStringLength()));
 }
+
+void sad::Label::onRemovedFromScene()
+{
+    if (m_geometries->renderer())
+    {
+        m_geometries->renderer()->removeFontGeometries(m_geometries);
+    }
+    m_geometries->setRenderer(NULL);
+}
+
+void sad::Label::setShaderFunction(sad::ShaderFunction* fun)
+{
+    if (fun)
+    {
+        assert(fun->canBeUsedForFonts());
+    }
+    this->sad::SceneNode::setShaderFunction(fun);
+}
+
+
 
 void sad::Label::reloadFont()
 {
