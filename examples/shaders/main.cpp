@@ -78,7 +78,7 @@ int main(int argc, char** argv)
     }
     {
         sad::Label* label = new sad::Label(r->resource<sad::Font>("font"), sad::Point2D(150, 200), "Test Me");
-        label->setString("Test <font underline=\"true\" strikethrough=\"true\" bold=\"true\" italic=\"true\"  size=\"60px\" color=\"#ff0000\">Me</font>");
+        label->setString("Test <font underline=\"true\" strikethrough=\"true\" bold=\"true\" italic=\"true\" size=\"60px\" color=\"#ff0000\">Me</font>");
         label->setHasFormatting(true);
         label->setSize(36);
         label->setColor(sad::AColor(255, 255, 255));

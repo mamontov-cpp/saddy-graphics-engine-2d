@@ -459,7 +459,7 @@ void sad::Label::setFontName(const sad::String & name)
 void sad::Label::setFont(sad::Font * font)
 {
     m_font.attach(font);
-    recomputeRenderingPoint();
+    recomputeRenderedString();
     m_geometries_dirty = true;
 }
 
@@ -470,6 +470,7 @@ void sad::Label::setFont(const sad::String & name, sad::Renderer * r, const sad:
     m_font.setPath(name);
     m_font.setTree(r, tree);
     m_geometries_dirty = true;
+    recomputeRenderedString();
 }
 
 void sad::Label::setString(const sad::String & string)
@@ -483,7 +484,7 @@ void sad::Label::setSize(unsigned int size)
 {
     m_size = size;
     m_geometries_dirty = true;
-    recomputeRenderingPoint();
+    recomputeRenderedString();
 }
 
 float sad::Label::builtinLineSpacing() const
@@ -505,7 +506,7 @@ void sad::Label::setLineSpacingRatio(float ratio)
 {
     m_linespacing_ratio = ratio;
     m_geometries_dirty = true;
-    recomputeRenderingPoint();
+    recomputeRenderedString();
 }
 
 void sad::Label::setTreeName(const sad::String & treename)
@@ -513,7 +514,7 @@ void sad::Label::setTreeName(const sad::String & treename)
     m_font.setTree(m_font.renderer(), treename);
     m_font_cache.setTree(m_font.renderer(), treename);
     m_geometries_dirty = true;
-    recomputeRenderingPoint();
+    recomputeRenderedString();
 }
 
 void sad::Label::setMaximalLineWidth(unsigned int width)
@@ -1966,7 +1967,7 @@ void sad::Label::buildGeometriesWithFormatting(sad::Font* font)
                 }
             }
             else
-            {                
+            {
                 fnt->fillGeometries(geometry_render_data, *m_geometries, c.Content, sad::Point2D(x, y), flags);
             }
             if (renderer)
