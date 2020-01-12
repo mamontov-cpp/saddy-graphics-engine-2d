@@ -49,6 +49,14 @@ public:
         \param[in] flags a flag value
      */
     virtual void render(const sad::String & str,const sad::Point2D & p, sad::Font::RenderFlags flags = sad::Font::FRF_None);
+    /*! Fills geometries with related font data
+     *  \param[in] data a data
+     *  \param[in] g geometries
+     *  \param[in] str string
+     *  \param[in] p   upper-left point in viewport coordinates
+     *  \param[in] flags a flags for rendering
+     */
+    virtual void fillGeometries(const sad::Font::GeometryRenderData& data, sad::os::GLFontGeometries& g, const sad::String & str, const sad::Point2D & p, sad::Font::RenderFlags flags = sad::Font::FRF_None);
     /*! Renders text line to a texture. Before output all new line string are stripped.
         Texture's memory should be freed manually
         \param[in] string a string texture

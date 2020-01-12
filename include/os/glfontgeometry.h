@@ -4,7 +4,7 @@
  */
 #pragma once
 #include "glheaders.h"
-#include "../geometry2d.h"
+#include "../sadcolor.h"
 #include "../bindable.h"
 #include "../sadvector.h"
 
@@ -32,17 +32,13 @@ public:
         */
     ~GLFontGeometry();
     /*! Sets vertices for vertex buffer
-     *  \param[in] vertices rectangle
+     *  \param[in] points rectangle
      */
     void setVertices(const sad::Vector<double>& points) const;
     /*! Sets texture coordinates for texture buffer
      *  \param[in] textureCoordinates texture coordinates
      */
     void setTextureCoordinates(const sad::Vector<double>& textureCoordinates) const;
-    /*! Sets colors for color buffer
-     *  \param[in] colors for color buffer
-     */
-    void setColors(const sad::Vector <float> & colors) const;
     /*! Tries to upload geometry to GPU
      */
     void loadToGPU();
@@ -71,6 +67,34 @@ public:
         \return bindable
      */
     sad::Bindable* bindable() const;
+    /*! Sets if we own color
+        \param[in] own_color
+     */
+    inline void setOwnColor(bool own_color)
+    {
+        m_own_color = own_color;
+    }
+    /*! Returns whether we own color
+        \return own color
+     */
+    inline bool ownColor() const
+    {
+        return m_own_color;
+    }
+    /*! Sets color for geometry
+        \param[in] clr color
+     */
+    inline void setColor(const sad::AColor& clr)
+    {
+        m_color = clr;
+    }
+    /*! Returns color
+        \return color
+     */
+    inline sad::AColor& color()
+    {
+        return m_color;
+    }
 private:
     /*! Tries to log OpenGL error if occurred
      *  \param[in] op log info
@@ -88,9 +112,12 @@ private:
     /*! A texture buffer
      */
     GLuint m_texture_buffer;
-    /*! A color buffer
+    /*! Whether we own color, or should render global font color
      */
-    GLuint m_color_buffer;
+    bool m_own_color;
+    /*! Color for rendering
+     */
+    sad::AColor m_color;
     /*! A point count for rendering points
      */
     unsigned int m_point_count;

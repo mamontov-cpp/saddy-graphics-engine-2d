@@ -75,14 +75,21 @@ public:
         \param[in] store_texture whether we should store texture
      */
     Glyph(FT_Face face, unsigned char c, bool store_texture);
-    
     /*! Renders a glyph at specified baseline position. Note, that this
-        is BASELINE position. 
+        is BASELINE position.
         \param[in] x X coordinate position
         \param[in] y Y coordinate position
         \param[in] topoffset a top offset for italic font
      */
     void render(float x, float y, float topoffset);
+    /*! Fills geometries
+        \param[in] x X coordinate position
+        \param[in] y Y coordinate position
+        \param[in] topoffset a top offset for italic font
+        \param[in] vertexes vertexes
+        \param[in] tcs texture coordinates
+     */
+    void fillGeometries(double x, double y, double topoffset, sad::Vector<double>& vertexes, sad::Vector<double>& tcs) const;
     /*! Tries to get a glyph for a face and char c
         \param[in] face face to be used
         \param[in] c character

@@ -39,6 +39,15 @@ public:
         \param[in] flags a flag value
      */
     void render(const sad::String & s, const sad::Point2D & p, float ratio, sad::Font::RenderFlags flags);
+    /*! Fills geometries with related font data
+        \param[in] data a data
+        \param[in] g geometries
+        \param[in] str string
+        \param[in] p   upper-left point in viewport coordinates
+        \param[in] flags a flags for rendering
+        \param[in] ratio ratio for line-spacing
+     */
+    virtual void fillGeometries(const sad::Font::GeometryRenderData& data, sad::os::GLFontGeometries& g, const sad::String & str, const sad::Point2D & p, sad::Font::RenderFlags flags, float ratio);
     /*! Dumps all parameters of glyphs to string
         \return string of glyph parameters
      */

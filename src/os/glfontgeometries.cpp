@@ -1,4 +1,5 @@
 #include "os/glfontgeometries.h"
+#include "label.h"
 
 #include <cassert>
 
@@ -12,12 +13,26 @@ sad::os::GLFontGeometries::~GLFontGeometries()
 
 }
 
-void sad::os::GLFontGeometries::draw()
+void sad::os::GLFontGeometries::draw(sad::Label* node, const sad::AColor& color, const sad::Point2D& center, double angle, sad::FontShaderFunction* fun)
 {
+    if (m_rendered_geometries == 0)
+    {
+        return;
+    }
+    fun->apply(node, &color, center, angle);
     for (size_t i = 0; i < m_rendered_geometries; ++i)
     {
+        if (m_font_geometries[i].ownColor())
+        {
+            fun->setColor(m_font_geometries[i].color());
+        }
+        else
+        {
+            fun->setColor(color);
+        }
         m_font_geometries[i].draw();
     }
+    fun->disable();
 }
 
 
@@ -65,10 +80,16 @@ void sad::os::GLFontGeometries::startRebuilding()
     m_rendered_geometries = 0;
 }
 
-void sad::os::GLFontGeometries::append(sad::Renderer* r, sad::Bindable* b, const sad::Vector<double>& points, const sad::Vector<double>& tc, const sad::Vector<float>& colors)
+void sad::os::GLFontGeometries::append(
+    sad::Renderer* r,
+    sad::Bindable* b, 
+    const sad::Vector<double>& points, 
+    const sad::Vector<double>& tc, 
+    bool own_color,
+    const sad::AColor& color
+)
 {
-    assert(points.size() / 2 == tc.size() / 3);
-    assert(points.size() / 2 == colors.size() / 4);
+    assert(points.size() / 2 == tc.size() / 2);
 
     if (m_rendered_geometries < m_font_geometries.size())
     {
@@ -79,7 +100,8 @@ void sad::os::GLFontGeometries::append(sad::Renderer* r, sad::Bindable* b, const
         g.loadToGPU();
         g.setVertices(points);
         g.setTextureCoordinates(tc);
-        g.setColors(colors);
+        g.setOwnColor(own_color);
+        g.setColor(color);
         ++m_rendered_geometries;
     }
     else 
@@ -90,7 +112,8 @@ void sad::os::GLFontGeometries::append(sad::Renderer* r, sad::Bindable* b, const
         g.loadToGPU();
         g.setVertices(points);
         g.setTextureCoordinates(tc);
-        g.setColors(colors);
+        g.setOwnColor(own_color);
+        g.setColor(color);
         ++m_rendered_geometries;
     }
 }

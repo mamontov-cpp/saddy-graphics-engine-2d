@@ -71,6 +71,20 @@ public:
 
         }
     };
+    /*! A data fopr rendering lines
+     */
+    struct LineRenderedData
+    {
+        /*! Owns color or uses global
+         */
+        sad::Maybe<sad::AColor> Color;
+        /*! First point
+         */
+        sad::Point2D P1;
+        /*! Second point
+         */
+        sad::Point2D P2;
+    };
     /*! Creates a default broken sprite at (0,0) and no string
      */
     Label();
@@ -616,6 +630,14 @@ private:
         \param[in] font a font
      */
     void renderWithoutFormatting(sad::Font* font);
+    /*! Builds geometries with formatting
+        \param[in] font a font
+     */
+    void buildGeometriesWithFormatting(sad::Font* font);
+    /*! Builds geometries without formatting
+        \param[in] font a font
+     */
+    void buildGeometriesWithoutFormatting(sad::Font* font);
     /*! A link to font, that label is being renderd with
      */
     sad::resource::Link<sad::Font> m_font;
@@ -712,6 +734,12 @@ private:
     /*! A shader function for lines
      */
     sad::FontShaderFunction* m_line_shader_function;
+    /*! A rendered lines for rendering with shanders
+     */
+    sad::Vector<sad::Label::LineRenderedData> m_rendered_lines;
+    /*! Label size
+     */
+    sad::Size2D m_label_size;
 };
 
 }

@@ -57,6 +57,27 @@ void sad::freetype::Glyph::render(float x, float y, float topoffset)
     glEnd();
 }
 
+void sad::freetype::Glyph::fillGeometries(double x, double y, double topoffset, sad::Vector<double>& vertexes, sad::Vector<double>& tcs)  const
+{
+    tcs << TextureRectangle.p0().x() << TextureRectangle.p0().y();
+    vertexes      << x + topoffset             << y + BearingY;
+
+    tcs << TextureRectangle.p3().x() << TextureRectangle.p3().y();
+    vertexes << x  << y + Descender;
+
+    tcs << TextureRectangle.p1().x()  << TextureRectangle.p1().y();
+    vertexes << x + Width + topoffset  << y + BearingY;
+
+    tcs << TextureRectangle.p3().x() << TextureRectangle.p3().y();
+    vertexes << x << y + Descender;
+
+    tcs << TextureRectangle.p1().x() << TextureRectangle.p1().y();
+    vertexes << x + Width + topoffset << y + BearingY;
+
+    tcs << TextureRectangle.p2().x() << TextureRectangle.p2().y();
+    vertexes << x + Width  << y + Descender;
+}
+
 
 sad::Maybe<FT_Glyph> sad::freetype::Glyph::glyph(FT_Face face, unsigned char c, unsigned int & index)
 {

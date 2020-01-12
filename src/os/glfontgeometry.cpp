@@ -9,7 +9,7 @@
 // ===================================== PUBLIC METHODS =====================================
 
 sad::os::GLFontGeometry::GLFontGeometry(sad::Renderer* renderer, unsigned int points)
-: m_renderer(renderer), m_vertex_array(0), m_vertex_buffer(0), m_texture_buffer(0), m_color_buffer(0), m_point_count(points), m_used_points(points), m_is_on_gpu(false), m_bindable(NULL)
+: m_renderer(renderer), m_vertex_array(0), m_vertex_buffer(0), m_texture_buffer(0), m_own_color(false), m_point_count(points), m_used_points(points), m_is_on_gpu(false), m_bindable(NULL)
 {
     if (m_renderer == NULL)
     {
@@ -57,24 +57,6 @@ void sad::os::GLFontGeometry::setTextureCoordinates(const sad::Vector<double>& t
     tryLogGlError("sad::os::GLFontGeometry::setTextureCoordinates: glBufferSubData()");
 }
 
-void sad::os::GLFontGeometry::setColors(const sad::Vector <float> & colors) const
-{
-    if (!m_is_on_gpu)
-    {
-        return;
-    }
-    sad::os::ExtensionFunctions* f = m_f;
-    f->glBindVertexArray(m_vertex_array);
-    tryLogGlError("sad::os::GLFontGeometry::setColors: glBindVertexArray(m_vertex_array)");
-
-    f->glBindBuffer(GL_ARRAY_BUFFER, m_color_buffer);
-    tryLogGlError("sad::os::GLFontGeometry::setColors: glBindBuffer(GL_ARRAY_BUFFER, m_color_buffer)");
-
-    f->glBufferSubData(GL_ARRAY_BUFFER, 0, colors.size() * sizeof(float), reinterpret_cast<const float*>(&(colors[0])));
-    tryLogGlError("sad::os::GLFontGeometry::setColors: glBufferSubData()");
-}
-
-
 void sad::os::GLFontGeometry::unload()
 {
     if (m_is_on_gpu)
@@ -82,7 +64,6 @@ void sad::os::GLFontGeometry::unload()
         sad::os::ExtensionFunctions* f = m_f;
         f->glDeleteBuffers(1, &m_vertex_buffer);
         f->glDeleteBuffers(1, &m_texture_buffer);
-        f->glDeleteBuffers(1, &m_color_buffer);
         f->glDeleteVertexArrays(1, &m_vertex_array);
 
         m_is_on_gpu = false;
@@ -126,12 +107,12 @@ void sad::os::GLFontGeometry::loadToGPU()
         f->glEnableVertexAttribArray(1);
         tryLogGlError("sad::os::GLFontGeometry::loadToGPU: glEnableVertexAttribArray(1)");
         f->glBindBuffer(GL_ARRAY_BUFFER, m_texture_buffer);
-        buffer = new double[3 * m_point_count];
-        std::fill_n(buffer, 3 * m_point_count, 0.0);
+        buffer = new double[2 * m_point_count];
+        std::fill_n(buffer, 2 * m_point_count, 0.0);
         f->glBufferData(GL_ARRAY_BUFFER, 2 * m_point_count * sizeof(double), buffer, GL_DYNAMIC_DRAW);
         f->glVertexAttribPointer(
             1,
-            3,
+            2,
             GL_DOUBLE,
             GL_FALSE,
             0,
@@ -139,28 +120,6 @@ void sad::os::GLFontGeometry::loadToGPU()
         );
         tryLogGlError("sad::os::GLFontGeometry::loadToGPU: glVertexAttribPointer");
         delete[] buffer;
-
-        // Create color buffer
-        f->glGenBuffers(2, &m_color_buffer);
-        f->glEnableVertexAttribArray(2);
-        tryLogGlError("sad::os::GLFontGeometry::loadToGPU: glEnableVertexAttribArray(1)");
-        f->glBindBuffer(GL_ARRAY_BUFFER, m_color_buffer);
-        float* kbuffer = new float[2 * m_point_count];
-        std::fill_n(buffer, 2 * m_point_count, 0.0);
-        f->glBufferData(GL_ARRAY_BUFFER, 4 * m_point_count * sizeof(float), kbuffer, GL_DYNAMIC_DRAW);
-        f->glVertexAttribPointer(
-            2,
-            4,
-            GL_FLOAT,
-            GL_FALSE,
-            0,
-            static_cast<void*>(0)
-        );
-        tryLogGlError("sad::os::GLFontGeometry::loadToGPU: glVertexAttribPointer");
-        delete[] kbuffer;
-
-        f->glDisableVertexAttribArray(2);
-        tryLogGlError("sad::os::GLFontGeometry::loadToGPU: glDisableVertexAttribArray(2)");
 
         f->glDisableVertexAttribArray(1);
         tryLogGlError("sad::os::GLFontGeometry::loadToGPU: glDisableVertexAttribArray(1)");
@@ -205,15 +164,9 @@ void sad::os::GLFontGeometry::draw()
     f->glEnableVertexAttribArray(1);
     tryLogGlError("sad::os::GLFontGeometry::draw: glEnableVertexAttribArray(1)");
 
-    f->glEnableVertexAttribArray(2);
-    tryLogGlError("sad::os::GLFontGeometry::draw: glEnableVertexAttribArray(2)");
-
     // Render arrays
     glDrawArrays(GL_TRIANGLES, 0, m_used_points);
     tryLogGlError("sad::os::GLFontGeometry::draw: glDrawArrays(GL_TRIANGLES, 0, m_point_count)");
-
-    f->glDisableVertexAttribArray(2);
-    tryLogGlError("sad::os::GLFontGeometry::draw: glDisableVertexAttribArray(2)");
 
     f->glDisableVertexAttribArray(1);
     tryLogGlError("sad::os::GLFontGeometry::draw: glDisableVertexAttribArray(1)");

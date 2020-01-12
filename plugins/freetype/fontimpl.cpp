@@ -70,6 +70,11 @@ void sad::freetype::FontImpl::render(
     glPopAttrib();
 }
 
+void sad::freetype::FontImpl::fillGeometries(const sad::Font::GeometryRenderData& data, sad::os::GLFontGeometries& g, const sad::String & str, const sad::Point2D & p, sad::Font::RenderFlags flags, float ratio)
+{
+    this->fontForSize(m_cached_size)->fillGeometries(data, g, str, p, flags, ratio);
+}
+
 sad::Texture * sad::freetype::FontImpl::renderToTexture(
     const sad::String & string,
     unsigned int height 

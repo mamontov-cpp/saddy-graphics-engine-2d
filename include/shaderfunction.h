@@ -61,6 +61,10 @@ public:
      * \param[in] clr color, which should be used in blending
      */
     virtual void apply(sad::Scene* scene, const sad::AColor* clr = NULL);
+    /*! Tries to set color
+     *  \param[in] clr color
+     */
+    void setColor(const sad::AColor& clr) const;
     /*! Disables shader function
      */
     virtual void disable();

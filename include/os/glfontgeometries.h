@@ -4,10 +4,14 @@
  */
 #pragma once
 #include "../sadvector.h"
+#include "../sadpoint.h"
+#include "../fontshaderfunction.h"
 #include "glfontgeometry.h"
 
 namespace sad
 {
+
+class Label;
 
 namespace os
 {
@@ -24,8 +28,13 @@ public:
      */
     ~GLFontGeometries();
     /*! Draw geometries
+     *  \param[in] node a node to use
+     *  \param[in] color color data
+     *  \param[in] center a point center
+     *  \param[in] angle an angle
+     *  \param[in] fun render function
      */
-    void draw();
+    void draw(sad::Label* node, const sad::AColor& color, const sad::Point2D& center, double angle, sad::FontShaderFunction* fun);
     /*! Unloads resources from GPU
      */
     void unload();
@@ -51,11 +60,19 @@ public:
     /*! Appends new geometry
         \param[in] r renderer
         \param[in] b bindable object
-        \param[in] point points
+        \param[in] points points
         \param[in] tc texture coordinates
-        \param[in] colors colors data
+        \param[in] own_color whether we own color
+        \param[in] color a color stuff
      */
-    void append(sad::Renderer* r, sad::Bindable* b, const sad::Vector<double>& points, const sad::Vector<double>& tc, const sad::Vector<float>& colors);
+    void append(
+        sad::Renderer* r,
+        sad::Bindable* b, 
+        const sad::Vector<double>& points, 
+        const sad::Vector<double>& tc, 
+        bool own_color,
+        const sad::AColor& color
+    );
 private:
     /*! List of font geometries
      */

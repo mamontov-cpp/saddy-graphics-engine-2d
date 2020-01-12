@@ -132,6 +132,21 @@ void sad::ShaderFunction::apply(sad::Scene* scene, sad::Bindable* tex, const sad
     }
 }
 
+void sad::ShaderFunction::setColor(const sad::AColor& clr) const
+{
+    sad::Renderer* r = sad::Renderer::ref();
+    if (m_shader->renderer())
+    {
+        r = m_shader->renderer();
+    }
+    sad::os::ExtensionFunctions* f = r->opengl()->extensionFunctions();
+    if(m_clr_loc_id != -1)
+    {
+        f->glUniform4f(m_clr_loc_id, static_cast<float>(clr.r()) / 255.0f, static_cast<float>(clr.g()) / 255.0f, static_cast<float>(clr.b()) / 255.0f, 1.0f - static_cast<float>(clr.a()) / 255.0f);
+        m_shader->tryLogGlError("sad::ShaderFunction::apply: f->glUniform4f(clrId, ...);");
+    }
+}
+
 void sad::ShaderFunction::apply(sad::SceneNode* node, const sad::AColor* clr)
 {
     if (!node || !m_shader)

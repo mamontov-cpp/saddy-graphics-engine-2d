@@ -739,8 +739,14 @@ void sad::dukpp03::Context::exposeRenderer()
     this->addClassBinding("sad::dukpp03::Renderer", cext); 
 
     sad::dukpp03::ClassBinding* prenderer = new sad::dukpp03::ClassBinding();
-    prenderer->addMethod("line", sad::dukpp03::bind_method::from(&sad::PrimitiveRenderer::line));
-    prenderer->addMethod("rectangle", sad::dukpp03::bind_method::from(&sad::PrimitiveRenderer::rectangle));
+    std::function<void(sad::PrimitiveRenderer*, sad::Scene*, const sad::Point2D&, const sad::Point2D&, const sad::AColor&)> line = [](sad::PrimitiveRenderer* r, sad::Scene* s, const sad::Point2D& p1, const sad::Point2D&  p2, const sad::AColor& clr) -> void {
+        r->line(s, p1, p2, clr);
+    };
+    prenderer->addMethod("line", sad::dukpp03::bind_lambda::from(line));
+    std::function<void(sad::PrimitiveRenderer*, sad::Scene*, const sad::Rect2D&, const sad::AColor&)> rect = [](sad::PrimitiveRenderer* r, sad::Scene* s, const sad::Rect2D& rc,  const sad::AColor& clr) -> void {
+        r->rectangle(s, rc, clr);
+    };
+    prenderer->addMethod("rectangle", sad::dukpp03::bind_lambda::from(rect));
 
     this->addClassBinding("sad::PrimitiveRenderer", prenderer); 
 
