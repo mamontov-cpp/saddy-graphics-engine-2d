@@ -1830,59 +1830,19 @@ void sad::Label::renderWithFormatting(sad::Font* font)
                     // We assume that capital letters are bigger than 
                     // lowercase in no more than two times, so dividing ascender by 4 would give us
                     // a position in middle of lower case
-                    double ky = point.y() - m_document_metrics[row].Ascender + c.Ascender/ 4;
+                    double ky = point.y() - m_document_metrics[row].Ascender + c.Ascender / 4;
                     sad::Point2D p1(x, ky), p2(x + part_width, ky);
                     sad::AColor clr = fnt->color();
-                    sad::FontShaderFunction* sf = NULL;
-                    if (isOpenGL3supported)
-                    {
-                        if (m_line_shader_function)
-                        {
-                            sf = m_line_shader_function;
-                        } 
-                        else
-                        {
-                            sf = renderer->defaultFontLineShaderFunction();
-                        }
-                        sf->apply(this, &clr, m_center, m_angle);
-                    }
-                    else
-                    {
-                        clr.setA(255 - clr.a());
-                    }
-                    renderer->render()->line(this->scene(), p1, p2, clr, sf, true);
-                    if (sf)
-                    {
-                        sf->disable();
-                    }
+                    //clr.setA(255 - clr.a());
+                    renderer->render()->line(this->scene(), p1, p2, clr);
                 }
                 if (c.Underlined)
                 {
                     double ky = point.y() - m_document_metrics[row].Ascender - 2;
                     sad::Point2D p1(x, ky), p2(x + part_width, ky);
                     sad::AColor clr = fnt->color();
-                    sad::FontShaderFunction* sf = NULL;
-                    if (isOpenGL3supported)
-                    {
-                        if (m_line_shader_function)
-                        {
-                            sf = m_line_shader_function;
-                        }
-                        else
-                        {
-                            sf = renderer->defaultFontLineShaderFunction();
-                        }
-                        sf->apply(this, &clr, m_center, m_angle);
-                    }
-                    else
-                    {
-                        clr.setA(255 - clr.a());
-                    }
-                    renderer->render()->line(this->scene(), p1, p2, clr, sf, true);
-                    if (sf)
-                    {
-                        sf->disable();
-                    }
+                    //clr.setA(255 - clr.a());
+                    renderer->render()->line(this->scene(), p1, p2, clr);
                 }
             }
             x += part_width;
