@@ -20,7 +20,25 @@ DECLARE_SOBJ(sad::Camera)
 sad::Camera::Camera() 
 : m_translation_offset(0,0,0), m_angle(0), m_temporary_rotation_offset(0, 0, 0), m_rotation_vector_direction(0, 0, 0), m_scene(NULL), m_transform_is_cached(false), m_projection_matrix{0}, m_model_view_matrix{0}
 {
+    m_projection_matrix[0] = 1.0f;
+    m_projection_matrix[4] = 0;
+    m_projection_matrix[8] = 0;
+    m_projection_matrix[12] = 0;
 
+    m_projection_matrix[1] = 0;
+    m_projection_matrix[5] = 1.0f;
+    m_projection_matrix[9] = 0;
+    m_projection_matrix[13] = 0;
+
+    m_projection_matrix[2] = 0;
+    m_projection_matrix[6] = 0;
+    m_projection_matrix[10] = 1.0f;
+    m_projection_matrix[14] = 0;
+
+    m_projection_matrix[3] = 0;
+    m_projection_matrix[7] = 0;
+    m_projection_matrix[11] = 0;
+    m_projection_matrix[15] = 1.0f;
 }
 
 void sad::Camera::setScene(sad::Scene* s)
@@ -168,31 +186,6 @@ void sad::Camera::restore()
 
 float* sad::Camera::projectionMatrix()
 {
-    if (!this->m_transform_is_cached)
-    {
-         glGetFloatv(GL_PROJECTION_MATRIX, &(this->m_projection_matrix[0]));
-         sad::Scene* localScene = scene();
-         sad::Renderer* r = localScene->renderer();
-         if (!r)
-         {
-             r = sad::Renderer::ref();
-         }
-         GLenum err_code = glGetError();
-         if (err_code != GL_NO_ERROR)
-         {
-             sad::String error_string = reinterpret_cast<const char*>(gluErrorString(err_code));
-             SL_LOCAL_WARNING(error_string, *r);
-         }
-         glGetFloatv(GL_MODELVIEW_MATRIX, &(this->m_model_view_matrix[0]));
-         err_code = glGetError();
-         if (err_code != GL_NO_ERROR)
-         {
-             sad::String error_string = reinterpret_cast<const char*>(gluErrorString(err_code));
-             SL_LOCAL_WARNING(error_string, *r);
-         }
-         r->cameraObjectBuffer()->setUserData(NULL);
-         this->m_transform_is_cached = true;
-    }
     return &(this->m_projection_matrix[0]);
 }
 
@@ -200,21 +193,14 @@ float* sad::Camera::modelViewMatrix()
 {
     if (!this->m_transform_is_cached)
     {
-         glGetFloatv(GL_PROJECTION_MATRIX, &(this->m_projection_matrix[0]));
          sad::Scene* localScene = scene();
          sad::Renderer* r = localScene->renderer();
          if (!r)
          {
              r = sad::Renderer::ref();
          }
-         GLenum err_code = glGetError();
-         if (err_code != GL_NO_ERROR)
-         {
-             sad::String error_string = reinterpret_cast<const char*>(gluErrorString(err_code));
-             SL_LOCAL_WARNING(error_string, *r);
-         }
          glGetFloatv(GL_MODELVIEW_MATRIX, &(this->m_model_view_matrix[0]));
-         err_code = glGetError();
+         GLenum err_code = glGetError();
          if (err_code != GL_NO_ERROR)
          {
              sad::String error_string = reinterpret_cast<const char*>(gluErrorString(err_code));

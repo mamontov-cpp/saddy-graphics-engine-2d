@@ -40,6 +40,9 @@ public:
      */
     virtual ~OrthographicCamera();
 private:
+    /*! Fills projection matrix
+     */
+    void fillProjectionMatrix();
     /*! Whether width and height is already set in camera
      */
     bool m_fetched;  
