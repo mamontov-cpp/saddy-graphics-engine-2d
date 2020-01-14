@@ -35,6 +35,7 @@ msbuild examples/game/game.vcxproj /m /verbosity:minimal /p:Configuration="%1" /
 msbuild examples/multithreading/multithreading.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
 msbuild examples/stress-physics/stress-physics.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
 msbuild examples/imgui/imgui.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
+msbuild examples/shaders/shaders.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
 msbuild tests/animations/alltests.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
 msbuild tests/db/alltests.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
 msbuild tests/dukpp-03/alltests.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
