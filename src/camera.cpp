@@ -104,18 +104,8 @@ const sad::Vector3D& sad::Camera::temporaryRotationOffset() const
 
 void sad::Camera::apply()
 {
-    sad::Vector3D vector3 = m_translation_offset;
-    sad::Scene* scene = m_scene;
-    if (scene)
-    {
-        sad::Renderer* renderer  = m_scene->renderer();
-        if (renderer)
-        {
-            vector3 += renderer->globalTranslationOffset();
-        }
-    }
     sad::Renderer* renderer = sad::Renderer::ref();
-    if (scene)
+    if (m_scene)
     {
         sad::Renderer* local_renderer = m_scene->renderer();
         if (local_renderer)
@@ -125,34 +115,7 @@ void sad::Camera::apply()
     }
     if (renderer->context()->isOpenGL3compatible())
     {
-        float arr[16] = {
-            1, 0, 0, static_cast<float>(vector3.x() + m_temporary_rotation_offset.x()),
-            0, 1, 0, static_cast<float>(vector3.y() + m_temporary_rotation_offset.y()),
-            0, 0, 1, static_cast<float>(vector3.z() + m_temporary_rotation_offset.z()),
-            0, 0, 0, 1
-        };
-        glm::mat4x4 model = glm::make_mat4x4(arr);
-        if (sad::non_fuzzy_zero(m_angle)) {
-            glm::vec3  rotvector(
-                static_cast<float>(m_rotation_vector_direction.x()),
-                static_cast<float>(m_rotation_vector_direction.y()),
-                static_cast<float>(m_rotation_vector_direction.z())
-            );
-            model = glm::rotate(model, static_cast<float>(m_angle), rotvector);
-            glm::vec3  retvector(
-                static_cast<float>(-m_temporary_rotation_offset.x()),
-                static_cast<float>(-m_temporary_rotation_offset.y()),
-                static_cast<float>(-m_temporary_rotation_offset.z())
-            );
-            model = glm::translate(model, rotvector);
-        }
-        model = glm::transpose(model);
-        const float* src = static_cast<const float*>(glm::value_ptr(model));
-        for (int i = 0; i < 16; ++i) {
-            m_model_view_matrix[i] = src[i];
-        }
-        m_transform_is_cached = true;
-
+        forceRecomputeMatrices();
         sad::os::UBO* ubo = renderer->cameraObjectBuffer();
         ubo->setSubData(0, 16 * sizeof(float), this->modelViewMatrix());
         ubo->setSubData(16 * sizeof(float), 16 * sizeof(float), this->projectionMatrix());
@@ -160,6 +123,8 @@ void sad::Camera::apply()
     }
     else
     {
+        sad::Vector3D vector3 = m_translation_offset;
+        vector3 += renderer->globalTranslationOffset();
         glPushMatrix();
         glTranslatef(
             static_cast<GLfloat>(vector3.x()),
@@ -207,6 +172,48 @@ void sad::Camera::moveMatricesIntoCameraBuffer()
             ubo->setUserData(this);
         }
     }
+}
+
+void sad::Camera::forceRecomputeMatrices()
+{
+    sad::Vector3D vector3 = m_translation_offset;
+    sad::Scene* scene = m_scene;
+    if (scene)
+    {
+        sad::Renderer* renderer = m_scene->renderer();
+        if (renderer)
+        {
+            vector3 += renderer->globalTranslationOffset();
+        }
+    }
+
+    float arr[16] = {
+            1, 0, 0, static_cast<float>(vector3.x() + m_temporary_rotation_offset.x()),
+            0, 1, 0, static_cast<float>(vector3.y() + m_temporary_rotation_offset.y()),
+            0, 0, 1, static_cast<float>(vector3.z() + m_temporary_rotation_offset.z()),
+            0, 0, 0, 1
+    };
+    glm::mat4x4 model = glm::make_mat4x4(arr);
+    if (sad::non_fuzzy_zero(m_angle)) {
+        glm::vec3  rotvector(
+            static_cast<float>(m_rotation_vector_direction.x()),
+            static_cast<float>(m_rotation_vector_direction.y()),
+            static_cast<float>(m_rotation_vector_direction.z())
+        );
+        model = glm::rotate(model, static_cast<float>(m_angle), rotvector);
+        glm::vec3  retvector(
+            static_cast<float>(-m_temporary_rotation_offset.x()),
+            static_cast<float>(-m_temporary_rotation_offset.y()),
+            static_cast<float>(-m_temporary_rotation_offset.z())
+        );
+        model = glm::translate(model, rotvector);
+    }
+    model = glm::transpose(model);
+    const float* src = static_cast<const float*>(glm::value_ptr(model));
+    for (int i = 0; i < 16; ++i) {
+        m_model_view_matrix[i] = src[i];
+    }
+    m_transform_is_cached = true;
 }
 
 void sad::Camera::clearTransformCache()
