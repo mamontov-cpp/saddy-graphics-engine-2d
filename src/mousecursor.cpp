@@ -29,10 +29,24 @@ void sad::MouseCursorSprite::render(sad::Renderer* r)
     {
         if (!r->scenes().empty())
         {
-            m_a->setScene(r->scenes()[0]);
+            sad::Scene* s = r->scenes()[0];
+            if (m_a->scene() != s)
+            {
+                m_a->setScene(s);
+            }
             m_a->render();
         }
     }
+}
+
+void sad::MouseCursorSprite::setShaderFunction(sad::ShaderFunction* shader_function)
+{
+    m_a->setShaderFunction(shader_function);
+}
+
+sad::ShaderFunction* sad::MouseCursorSprite::shaderFunction() const
+{
+    return m_a->shaderFunction();
 }
 
 sad::MouseCursorSprite::~MouseCursorSprite()

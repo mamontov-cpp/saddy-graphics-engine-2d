@@ -4,6 +4,7 @@
 #include <opengl.h>
 #include <renderer.h>
 #include <glcontext.h>
+#include <fuzzyequal.h>
 #include <os/ubo.h>
 
 #ifdef WIN32
@@ -14,6 +15,9 @@
 #include <GL/gl.h>                                                      
 // ReSharper disable once CppUnusedIncludeDirective
 #include <GL/glu.h>
+
+#include <../3rdparty/glm/glm/glm.hpp>
+#include <../3rdparty/glm/glm/ext.hpp>
 
 DECLARE_SOBJ(sad::Camera)
 
@@ -110,28 +114,6 @@ void sad::Camera::apply()
             vector3 += renderer->globalTranslationOffset();
         }
     }
-    glPushMatrix();
-    glTranslatef(
-        static_cast<GLfloat>(vector3.x()),
-        static_cast<GLfloat>(vector3.y()),
-        static_cast<GLfloat>(vector3.z())
-    );
-    glTranslatef(
-        static_cast<GLfloat>(m_temporary_rotation_offset.x()),
-        static_cast<GLfloat>(m_temporary_rotation_offset.y()),
-        static_cast<GLfloat>(m_temporary_rotation_offset.z())
-    );
-    glRotatef(
-        static_cast<GLfloat>(m_angle),
-        static_cast<GLfloat>(m_rotation_vector_direction.x()),
-        static_cast<GLfloat>(m_rotation_vector_direction.y()),
-        static_cast<GLfloat>(m_rotation_vector_direction.z())
-    );
-    glTranslatef(
-        static_cast<GLfloat>(-(m_temporary_rotation_offset.x())),
-        static_cast<GLfloat>(-(m_temporary_rotation_offset.y())),
-        static_cast<GLfloat>(-(m_temporary_rotation_offset.z()))
-    );
     sad::Renderer* renderer = sad::Renderer::ref();
     if (scene)
     {
@@ -143,10 +125,63 @@ void sad::Camera::apply()
     }
     if (renderer->context()->isOpenGL3compatible())
     {
+        float arr[16] = {
+            1, 0, 0, static_cast<float>(vector3.x() + m_temporary_rotation_offset.x()),
+            0, 1, 0, static_cast<float>(vector3.y() + m_temporary_rotation_offset.y()),
+            0, 0, 1, static_cast<float>(vector3.z() + m_temporary_rotation_offset.z()),
+            0, 0, 0, 1
+        };
+        glm::mat4x4 model = glm::make_mat4x4(arr);
+        if (sad::non_fuzzy_zero(m_angle)) {
+            glm::vec3  rotvector(
+                static_cast<float>(m_rotation_vector_direction.x()),
+                static_cast<float>(m_rotation_vector_direction.y()),
+                static_cast<float>(m_rotation_vector_direction.z())
+            );
+            model = glm::rotate(model, static_cast<float>(m_angle), rotvector);
+            glm::vec3  retvector(
+                static_cast<float>(-m_temporary_rotation_offset.x()),
+                static_cast<float>(-m_temporary_rotation_offset.y()),
+                static_cast<float>(-m_temporary_rotation_offset.z())
+            );
+            model = glm::translate(model, rotvector);
+        }
+        model = glm::transpose(model);
+        const float* src = static_cast<const float*>(glm::value_ptr(model));
+        for (int i = 0; i < 16; ++i) {
+            m_model_view_matrix[i] = src[i];
+        }
+        m_transform_is_cached = true;
+
         sad::os::UBO* ubo = renderer->cameraObjectBuffer();
         ubo->setSubData(0, 16 * sizeof(float), this->modelViewMatrix());
         ubo->setSubData(16 * sizeof(float), 16 * sizeof(float), this->projectionMatrix());
         ubo->setUserData(this);
+    }
+    else
+    {
+        glPushMatrix();
+        glTranslatef(
+            static_cast<GLfloat>(vector3.x()),
+            static_cast<GLfloat>(vector3.y()),
+            static_cast<GLfloat>(vector3.z())
+        );
+        glTranslatef(
+            static_cast<GLfloat>(m_temporary_rotation_offset.x()),
+            static_cast<GLfloat>(m_temporary_rotation_offset.y()),
+            static_cast<GLfloat>(m_temporary_rotation_offset.z())
+        );
+        glRotatef(
+            static_cast<GLfloat>(m_angle),
+            static_cast<GLfloat>(m_rotation_vector_direction.x()),
+            static_cast<GLfloat>(m_rotation_vector_direction.y()),
+            static_cast<GLfloat>(m_rotation_vector_direction.z())
+        );
+        glTranslatef(
+            static_cast<GLfloat>(-(m_temporary_rotation_offset.x())),
+            static_cast<GLfloat>(-(m_temporary_rotation_offset.y())),
+            static_cast<GLfloat>(-(m_temporary_rotation_offset.z()))
+        );
     }
 }
 
@@ -181,7 +216,19 @@ void sad::Camera::clearTransformCache()
 
 void sad::Camera::restore()
 {
-    glPopMatrix();
+    sad::Renderer* renderer = sad::Renderer::ref();
+    if (m_scene)
+    {
+        sad::Renderer* local_renderer = m_scene->renderer();
+        if (local_renderer)
+        {
+            renderer = local_renderer;
+        }
+    }
+    if (!(renderer->context()->isOpenGL3compatible()))
+    {
+        glPopMatrix();
+    }
 }
 
 float* sad::Camera::projectionMatrix()
