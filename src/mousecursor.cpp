@@ -3,7 +3,9 @@
 #include "window.h"
 #include "glcontext.h"
 #include "sprite2d.h"
+#include "camera.h"
 #include "os/windowhandles.h"
+#include "os/ubo.h"
 #include "input/controls.h"
 
 #include "db/dbtypename.h"
@@ -34,6 +36,13 @@ void sad::MouseCursorSprite::render(sad::Renderer* r)
             {
                 m_a->setScene(s);
             }
+			if (r->context()->isOpenGL3compatible() && s)
+			{
+				if (r->cameraObjectBuffer()->userData() == NULL)
+				{
+					s->getCamera()->apply();
+				}
+			}
             m_a->render();
         }
     }
