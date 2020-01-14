@@ -12,8 +12,8 @@
 #include "3rdparty/glext/wglext.h"
 #endif
 
-#include <../../3rdparty/glm/glm/glm.hpp>
-#include <../../3rdparty/glm/glm/ext.hpp>
+#include "../../3rdparty/glm/glm/glm.hpp"
+#include "../../3rdparty/glm/glm/ext.hpp"
 
 
 #ifdef X11
