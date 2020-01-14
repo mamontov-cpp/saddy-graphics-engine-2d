@@ -26,6 +26,10 @@
 #include <input/controls.h>
 #include <input/events.h>
 
+#include <3rdparty/glext/glext.h>
+#include <opengl.h>
+#include <renderer.h>
+#include <os/glheaders.h>
 
 bool sad::imgui::ImGui::m_event_processing_enabled = false;
 
@@ -194,6 +198,9 @@ void sad::imgui::ImGui::runPipeline()
     }
 }
 
+static PFNGLUSEPROGRAMPROC glUseProgram;
+static bool glUseProgramFetched = false;
+
 /*! A rendering callback for ImGui
     \param[in] draw_data a data for drawing
  */
@@ -226,8 +233,15 @@ void render_draw_lists(ImDrawData* draw_data)
     glEnableClientState(GL_COLOR_ARRAY);
     glEnable(GL_TEXTURE_2D);
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    //glUseProgram(0); // You may want this if using this code in an OpenGL 3+ context where shaders may be bound
-
+    if (!glUseProgramFetched)
+    {
+        glUseProgram = reinterpret_cast<PFNGLUSEPROGRAMPROC>(getProcAdress("glUseProgram"));
+        glUseProgramFetched = true;
+    }
+    if (glUseProgram)
+    {
+        glUseProgram(0); // You may want this if using this code in an OpenGL 3+ context where shaders may be bound
+    }
     // Setup viewport, orthographic projection matrix
     glViewport(0, 0, (GLsizei)fb_width, (GLsizei)fb_height);
     glMatrixMode(GL_PROJECTION);

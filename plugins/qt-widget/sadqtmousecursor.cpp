@@ -31,6 +31,7 @@ sad::MaybePoint3D  sad::qt::MouseCursor::position() const
                 QPoint p = QCursor::pos();
                 p = w->mapFromGlobal(p);
                 result.setValue(w->toViewport(p));
+                return result;
             }
         }
     }
