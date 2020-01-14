@@ -158,7 +158,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>GLU32.lib;OPENGL32.lib;..\..\lib\saddy-debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>GLU32.lib;OPENGL32.lib;..\..\lib\saddy-debug.lib;$(FREETYPE_LIB)\freetype.lib;..\..\lib\saddy-ft-debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>..\..\bin\saddy-test-debug.exe</OutputFile>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
@@ -216,7 +216,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>GLU32.lib;OPENGL32.lib;..\..\lib\saddy-release.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>GLU32.lib;OPENGL32.lib;..\..\lib\saddy-release.lib;$(FREETYPE_LIB)\freetype.lib;..\..\lib\saddy-ft-release.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>..\..\bin\saddy-test-release.exe</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
