@@ -469,6 +469,37 @@ public:
         GLintptr offset,
         GLsizeiptr size
     );
+    /*! Specifies the equation used for both the RGB blend equation and the Alpha blend equation
+        \param[in] mode Specifies how source and destination colors are combined
+     */
+    void glBlendEquation(GLenum mode);
+    /*! Binds a named sampler to texturing target
+        \param[in] unit texture unit
+        \param[in] sampler sampler
+     */
+    void glBindSampler(GLuint unit, GLuint sampler);
+    /*! Sets the RGB blend equation and the alpha blend equation separately
+        \param[in] modeRGB a mode for RGB
+        \param[in] modeAlpha a mode for alpha
+     */
+    void glBlendEquationSeparate(GLenum modeRGB, GLenum modeAlpha);
+    /*! Specifies pixel arithmetic for RGB and alpha components separately
+        \param[in] srcRGB Specifies how the red, green, and blue blending factors are computed. The initial value is GL_ONE.
+        \param[in] dstRGB Specifies how the red, green, and blue destination blending factors are computed. The initial value is GL_ZERO.
+        \param[in] srcAlpha Specifies how the alpha source blending factor is computed. The initial value is GL_ONE
+        \param[in] dstAlpha Specifies how the alpha destination blending factor is computed. The initial value is GL_ZERO
+     */
+    void glBlendFuncSeparate(GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha);
+    /*! Returns the location of an attribute variable
+        \param[in] program a program object
+        \param[in] name a name
+     */
+    GLint glGetAttribLocation(GLuint program, const GLchar* name);
+    /*! Detaches shader from program
+        \param[in] program a program name
+        \param[in] shader a shader name
+     */
+    void glDetachShader(GLuint program, GLuint shader);
 private:
     /*! Appends info that get proc address if failed to renderer (main if OpenGL) is not set
      */
@@ -669,6 +700,24 @@ private:
     /*! glBindBufferRange procedure 
      */
     PFNGLBINDBUFFERRANGEPROC m_glBindBufferRange;
+    /*! glBlendEquation procedure
+     */
+    PFNGLBLENDEQUATIONPROC m_glBlendEquation;
+    /*! glBindSampler procedure
+     */
+    PFNGLBINDSAMPLERPROC  m_glBindSampler;
+    /*! glBlendEquationSeparate procedure
+     */
+    PFNGLBLENDEQUATIONSEPARATEPROC m_glBlendEquationSeparate;
+    /*! glBlendFuncSeparate procedure
+     */
+    PFNGLBLENDFUNCSEPARATEPROC m_glBlendFuncSeparate;
+    /*! glGetAttribLocation procedure
+     */
+    PFNGLGETATTRIBLOCATIONPROC m_glGetAttribLocation;
+    /*! glDetachShader procedure
+     */
+    PFNGLDETACHSHADERPROC m_glDetachShader;
     /*! Whether it was initialized
      */
     bool m_init;
