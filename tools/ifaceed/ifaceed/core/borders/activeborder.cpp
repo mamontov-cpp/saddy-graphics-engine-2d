@@ -25,7 +25,7 @@ void core::borders::ActiveBorder::_process()
             o->regions(regions);
             o->scene()->camera().apply();
             sad::Renderer::ref()->render()
-                                ->rectangle(regions[0], sad::AColor(255, 0, 0, 255));
+                                ->rectangle(o->scene(), regions[0], sad::AColor(255, 0, 0));
             o->scene()->camera().restore();
         }
     }

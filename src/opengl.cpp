@@ -14,11 +14,19 @@
 #include <GL/glu.h>
 #include <3rdparty/glext/glext.h>
 
+#include "os/extensionfunctions.h"
+
 
 sad::OpenGL::OpenGL()
-: m_renderer(NULL), m_fetched(false), m_major(0), m_minor(0)
+: m_renderer(NULL), m_fetched(false), m_major(0), m_minor(0), m_extension_functions(new sad::os::ExtensionFunctions())
 {
+    m_extension_functions->setParent(this);
+}
 
+
+sad::OpenGL::~OpenGL()
+{
+    delete m_extension_functions;
 }
 
 void sad::OpenGL::setRenderer(sad::Renderer * r)
@@ -85,6 +93,11 @@ bool sad::OpenGL::supportsExtension(const sad::String & extension)
 {
     tryFetchStrings();
     return m_extensions.getOccurence(extension) != -1;
+}
+
+sad::os::ExtensionFunctions* sad::OpenGL::extensionFunctions() const
+{
+    return m_extension_functions;
 }
 
 

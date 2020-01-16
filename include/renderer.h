@@ -4,7 +4,7 @@
     give idea for improving a documentation, we would appreciate your help
  */
 /*! \file   include/renderer.h
-    \author FreakyBlast
+    \author FreakyBlast, mamontov-cpp
 
     \brief  Declaration of Renderer - main class, for running 
     application is placed here.
@@ -29,6 +29,7 @@
 #include "primitiverenderer.h"
 #include "texture.h"
 #include "clipboard.h"
+#include "shaderfunction.h"
 
 #include "imageformats/loader.h"
 
@@ -46,6 +47,7 @@ class MainLoop;
 class MouseCursor;
 class OpenGL;
 class FPSInterpolation;
+class FontShaderFunction;
 
 namespace pipeline
 {
@@ -64,6 +66,17 @@ namespace db
 namespace util
 {
     class SwapLayersTask;
+}
+
+namespace os
+{
+    class GLTexturedGeometry3D;
+    class GLTexturedGeometry2D;
+    class GLUntexturedGeometry3D;
+    class GLUntexturedGeometry2D;
+    class GLSpriteGeometryStorages;
+    class GLFontGeometries;
+    class UBO;
 }
 
 /*! Can be a point or none, depending on context
@@ -434,6 +447,94 @@ public:
         \return global translation offset
      */
     const sad::Vector3D& globalTranslationOffset() const;
+    /*! Returns 3d geometry data for specified points with support of textures
+     *  \param[in] points a points for geometry
+     *  \return geometry data
+     */
+    sad::os::GLTexturedGeometry3D* texturedGeometry3DForPoints(unsigned int points);
+    /*! Returns 2d geometry data for specified points with support of textures
+     *  \param[in] points a points for geometry
+     *  \return geometry data
+     */
+    sad::os::GLTexturedGeometry2D* texturedGeometry2DForPoints(unsigned int points);
+    /*! Returns 3d geometry data for specified points without support of textures
+     *  \param[in] points a points for geometry
+     *  \return geometry data
+     */
+    sad::os::GLUntexturedGeometry3D* untexturedGeometry3DForPoints(unsigned int points);
+    /*! Returns 2d geometry data for specified points without support of textures
+     *  \param[in] points a points for geometry
+     *  \return geometry data
+     */
+    sad::os::GLUntexturedGeometry2D* untexturedGeometry2DForPoints(unsigned int points);
+    /*! Returns default shader function for textures for 3d objects
+     *  \return default shader function for textures for 3d objects
+     */
+    sad::ShaderFunction* defaultShaderFunctionForTextures3d();
+    /*! Returns default shader function without textures for 3d objects
+     *  \return default shader function without textures for 3d objects
+     */
+    sad::ShaderFunction* defaultShaderFunctionWithoutTextures3d();
+    /*! Returns default shader function for textures for 2d objects
+     *  \return default shader function for textures for 2d objects
+     */
+    sad::ShaderFunction* defaultShaderFunctionForTextures2d();
+    /*! Returns default shader function without textures for 2d objects
+     *  \return default shader function without textures for 2d objects
+     */
+    sad::ShaderFunction* defaultShaderFunctionWithoutTextures2d();
+    /*! Returns default font shader function
+     *  \return default font shader function 
+     */
+    sad::FontShaderFunction* defaultFontShaderFunction();
+    /*! Returns default font line shader function
+     *  \return default font  line shader function
+     */
+    sad::FontShaderFunction* defaultFontLineShaderFunction();
+    /*! Returns camera buffer object
+        \return camera buffer object
+     */
+    sad::os::UBO* cameraObjectBuffer() const;
+    /*! Returns new geometry, allocating it or taking from stack
+    *  \return value
+    */
+    sad::os::GLTexturedGeometry2D* takeTextured2D() const;
+    /*! Returns new geometry, allocating it or taking from stack
+     *  \return value
+     */
+    sad::os::GLTexturedGeometry3D* takeTextured3D() const;
+    /*! Returns new geometry, allocating it or taking from stack
+     *  \return value
+     */
+    sad::os::GLUntexturedGeometry2D* takeUntextured2D() const;
+    /*! Returns new geometry, allocating it or taking from stack
+     *  \return value
+     */
+    sad::os::GLUntexturedGeometry3D* takeUntextured3D()  const;
+    /*! Stores geometry into list
+     *  \param[in] g geometry
+     */
+    void storeGeometry(sad::os::GLTexturedGeometry2D* g);
+    /*! Stores geometry into list
+     *  \param[in] g geometry
+     */
+    void storeGeometry(sad::os::GLTexturedGeometry3D* g);
+    /*! Stores geometry into list
+     *  \param[in] g geometry
+     */
+    void storeGeometry(sad::os::GLUntexturedGeometry2D* g);
+    /*! Stores geometry into list
+     *  \param[in] g geometry
+     */
+    void storeGeometry(sad::os::GLUntexturedGeometry3D* g);
+    /*! Adds font geometries to store and free due to finishing
+        \param[in] g geometries
+     */
+    void addFontGeometries(sad::os::GLFontGeometries* g);
+    /*! Removes font geometries
+        \param[in] g geometries
+     */
+    void removeFontGeometries(sad::os::GLFontGeometries* g);
 protected:
     /*! A global instance for renderer, to make it local creation is
         procedures unnecessary. It's not a singleton, but can
@@ -489,7 +590,7 @@ protected:
      */
     sad::Clipboard m_clipboard;
     
-    /*! A pipeline, as processes and tasks, which wille be performed in any time
+    /*! A pipeline, as processes and tasks, which will be performed in any time
         of runtime
      */
     sad::pipeline::Pipeline*  m_pipeline;
@@ -503,7 +604,7 @@ protected:
     /*! A settings for a renderer
      */
     sad::Settings        m_glsettings;  
-    /*! A context thread id, storead as void
+    /*! A context thread id, stored as void
      */
     void*   m_context_thread;
     /*! A mutex, which locks rendering of scenes
@@ -516,14 +617,76 @@ protected:
     /*! A global translation offset, that should be applied to all of scenes cameras
      */
     sad::Vector3D m_global_translation_offset;
+    /*! Sizes to textured geometry 3d
+     */
+    sad::Hash<unsigned int, sad::os::GLTexturedGeometry3D*> m_sizes_to_textured_geometry_3d;
+    /*! Sizes to textured geometry 2d
+     */
+    sad::Hash<unsigned int, sad::os::GLTexturedGeometry2D*> m_sizes_to_textured_geometry_2d;
+    /*! Sizes to untextured geometry 3d
+     */
+    sad::Hash<unsigned int, sad::os::GLUntexturedGeometry3D*> m_sizes_to_untextured_geometry_3d;
+    /*! Sizes to untextured geometry 2d
+     */
+    sad::Hash<unsigned int, sad::os::GLUntexturedGeometry2D*> m_sizes_to_untextured_geometry_2d;
+    /*! A default shader for using textures for 3D objects
+     */
+    sad::Shader* m_default_textures_shader_3d;
+    /*! A default shader function for using textures for 3D objects
+     */
+    sad::ShaderFunction* m_default_texture_shader_function_3d;
+    /*! A default shader for not using textures for 3D objects
+     */
+    sad::Shader* m_default_no_textures_shader_3d;
+    /*! A default shader function for using textures for 3D objects
+     */
+    sad::ShaderFunction* m_default_no_textures_shader_function_3d;
+    /*! A default shader for using textures for 2D objects
+     */
+    sad::Shader* m_default_textures_shader_2d;
+    /*! A default shader function for using textures for 2D objects
+     */
+    sad::ShaderFunction* m_default_texture_shader_function_2d;
+    /*! A default shader for not using textures for 2D objects
+     */
+    sad::Shader* m_default_no_textures_shader_2d;
+    /*! A default shader function for using textures for 2D objects
+     */
+    sad::ShaderFunction* m_default_no_textures_shader_function_2d;
+    /*! A default shader font
+     */
+    sad::Shader* m_default_font_shader;
+    /*! A default shader font function
+     */
+    sad::FontShaderFunction* m_default_font_shader_function;
+    /*! A default font line shader
+     */
+    sad::Shader* m_default_font_line_shader;
+    /*! A default shader font line function
+     */
+    sad::FontShaderFunction* m_default_font_line_shader_function;
+    /*! Sprite geometry storages
+     */
+    sad::os::GLSpriteGeometryStorages* m_gl_sprite_geometry_storages;
+    /*! Font geometries to cleanup it
+     */
+    sad::Vector<sad::os::GLFontGeometries*> m_gl_font_geometries;
+
+
+    /*! An initialization mutex for shaders
+     */
+    sad::Mutex   m_shader_init_mutex;
+    /*! Camera buffer object
+     */
+    sad::os::UBO* m_camera_buffer;
 
     /*! Copying a renderer, due to held system resources is disabled
-    \param[in] o other renderer
+        \param[in] o other renderer
     */
     Renderer(const Renderer& o);
     /*! Copying a renderer, due to held system resources is disabled
-    \param[in] o other renderer
-    \return self-rederence
+        \param[in] o other renderer
+        \return self-reference
     */
     Renderer& operator=(const Renderer& o);
     /*! Initializes window and context. Do not call this functions, unless you want to run renderer's loop manualy,
@@ -548,10 +711,10 @@ protected:
         \return success of operation
      */
     bool initGLRendering();
-    /*! Inits pipeline with data
+    /*! Initializes pipeline with callbacks, required for rendering
      */
     virtual void initPipeline();
-    /*! Cleans a pipeline from renderer data
+    /*! Cleans a pipeline from callbacks, required for rendering
      */
     virtual void cleanPipeline();
     /*! Called before rendering of scene
@@ -580,6 +743,9 @@ protected:
         \param[in] position a used position
      */
     virtual void insertNow(sad::Scene* s, size_t position);
+    /*! Tries to init shaders for rendering
+     */
+    void tryInitShaders();
 };
 
 }

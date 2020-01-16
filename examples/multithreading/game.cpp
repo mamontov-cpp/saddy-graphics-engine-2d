@@ -1953,7 +1953,9 @@ void Game::tryEnterPause()
             if (pause_scene)
             {
                 this->showCurrentPauseMenuOption();
-                pause_scene->camera().TranslationOffset.setX(r->globalTranslationOffset().x() * (-1.0));
+				sad::Vector3D v = r->globalTranslationOffset();
+				v.setX(v.x() * (-1.0));
+                pause_scene->camera().setTranslationOffset(v);
                 pause_scene->setActive(true);
             }
         });
@@ -2735,9 +2737,15 @@ void Game::tryRenderDebugShapes() const
         return;
     }
     sad::Renderer* renderer = m_main_thread->renderer();
+    if (renderer->scenes().empty())
+    {
+        return;
+    }
+    sad::Scene* scene = renderer->scenes()[renderer->scenes().size() - 1];
     sad::Vector<sad::p2d::Body*> bodies = m_physics_world->allBodies();
     // As we already reset view matrix, shift rendered shapres by offset manually
     sad::Point2D p = renderer->globalTranslationOffset();
+    //p = sad::Point2D(0, 0);
     if (!bodies.empty())
     {
         for (size_t i = 0; i < bodies.size(); i++)
@@ -2747,7 +2755,7 @@ void Game::tryRenderDebugShapes() const
             {
                 sad::Rect2D r = dynamic_cast<sad::p2d::Rectangle*>(shape)->rect();
                 sad::moveBy(p, r);
-                renderer->render()->rectangle(r, sad::AColor(0, 0, 255, 255));
+                renderer->render()->rectangle(scene, r, sad::AColor(0, 0, 255));
             }
             if (shape->metaIndex() == sad::p2d::Circle::globalMetaIndex())
             {
@@ -2755,13 +2763,13 @@ void Game::tryRenderDebugShapes() const
                 shape->populatePoints(list_of_points);
                 for (size_t j = 0; j < (list_of_points.size() - 1); j++)
                 {
-                    renderer->render()->line(list_of_points[j] + p, list_of_points[j + 1] + p, sad::AColor(0, 0, 255, 255));
+                    renderer->render()->line(scene, list_of_points[j] + p, list_of_points[j + 1] + p, sad::AColor(0, 0, 255));
                 }
             }
             if (shape->metaIndex() == sad::p2d::Line::globalMetaIndex())
             {
                 sad::p2d::Line* line = dynamic_cast<sad::p2d::Line*>(shape);
-                renderer->render()->line(line->cutter().p1() + p, line->cutter().p2() + p,  sad::AColor(0, 0, 255, 255));
+                renderer->render()->line(scene, line->cutter().p1() + p, line->cutter().p2() + p,  sad::AColor(0, 0, 255));
             }
         }
     }

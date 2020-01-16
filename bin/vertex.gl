@@ -1,0 +1,15 @@
+#version 330
+layout(location = 0) in vec4 position;
+uniform mat4 _sglProjectionMatrix;
+uniform mat4 _sglModelViewMatrix;
+out vec4 vertexColor;
+
+in vec2 vertTexCoord;
+out vec2 fragTexCoord;
+
+void main()
+{
+    fragTexCoord = vertTexCoord;
+    gl_Position = _sglProjectionMatrix * _sglModelViewMatrix * position;
+    vertexColor = vec4(((gl_Position.x + 1.0) / 2.0), ((gl_Position.y + 1.0) / 2.0), 0.0f, 1.0f);
+}

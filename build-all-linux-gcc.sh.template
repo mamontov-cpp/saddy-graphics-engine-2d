@@ -63,6 +63,9 @@ cd ../..
 cd examples/imgui
 eval $BatchToRun
 cd ../..
+cd examples/shaders
+eval $BatchToRun
+cd ../..
 cd tests/animations
 eval $BatchToRun
 cd ../..

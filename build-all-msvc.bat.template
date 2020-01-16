@@ -22,37 +22,38 @@ if [%VALID%] EQU [0]  (
 	exit /B 1
 )
 @echo on
-devenv libsaddy.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv tools/atlasgen/atlasgen.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv plugins/dukpp-03/dukpp-03.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv plugins/freetype/saddy-ft.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv tools/exporter/exporter.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv plugins/irrklang/irrklang.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv plugins/dukpp-03-irrklang/dukpp-03-irrklang.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv plugins/imgui/imgui.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-REM devenv tools/ifaceed/ifaceed/ifaceed.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv examples/game/game.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv examples/multithreading/multithreading.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv examples/stress-physics/stress-physics.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv examples/imgui/imgui.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv tests/animations/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv tests/db/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv tests/dukpp-03/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv tests/freetype/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv tests/hfsm/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv tests/input/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv tests/irrklang/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv tests/dukpp-03-irrklang/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv tests/p2d/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv tests/pipeline/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv tests/resource/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv tests/sad/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv tests/layouts/alltests.vcxproj /Build "%1|%2" /out lastsolutionbuild.log || goto :error
-devenv tools/isqt580/isqt580.vcxproj  /Build "%1|%2" /out lastsolutionbuild.log || goto :error
+msbuild libsaddy.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
+msbuild tools/atlasgen/atlasgen.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
+msbuild plugins/dukpp-03/dukpp-03.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
+msbuild plugins/freetype/saddy-ft.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
+msbuild tools/exporter/exporter.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
+msbuild plugins/irrklang/irrklang.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
+msbuild plugins/dukpp-03-irrklang/dukpp-03-irrklang.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
+msbuild plugins/imgui/imgui.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
+REM msbuild tools/ifaceed/ifaceed/ifaceed.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
+msbuild examples/game/game.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
+msbuild examples/multithreading/multithreading.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
+msbuild examples/stress-physics/stress-physics.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
+msbuild examples/imgui/imgui.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
+msbuild examples/shaders/shaders.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
+msbuild tests/animations/alltests.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
+msbuild tests/db/alltests.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
+msbuild tests/dukpp-03/alltests.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
+msbuild tests/freetype/alltests.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
+msbuild tests/hfsm/alltests.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
+msbuild tests/input/alltests.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
+msbuild tests/irrklang/alltests.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
+msbuild tests/dukpp-03-irrklang/alltests.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
+msbuild tests/p2d/alltests.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
+msbuild tests/pipeline/alltests.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
+msbuild tests/resource/alltests.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
+msbuild tests/sad/alltests.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
+msbuild tests/layouts/alltests.vcxproj /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
+msbuild tools/isqt580/isqt580.vcxproj  /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
 %CHECKQTVERTOOL%
 if errorlevel 1 (
-  devenv plugins/qt-widget/qt-widget.vcxproj  /Build "%1|%2" /out lastsolutionbuild.log
-  devenv examples/example-game-in-qt/example-game-in-qt.vcxproj  /Build "%1|%2" /out lastsolutionbuild.log
+  msbuild plugins/qt-widget/qt-widget.vcxproj  /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false || goto :error
+  msbuild examples/example-game-in-qt/example-game-in-qt.vcxproj  /m /verbosity:minimal /p:Configuration="%1" /p:Platform="%2"  /p:BuildProjectReferences=false  || goto :error
 )
 goto :EOF
 

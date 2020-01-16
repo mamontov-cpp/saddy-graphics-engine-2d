@@ -2,7 +2,7 @@
 #include "texture.h"
 #include "renderer.h"
 #include "os/glheaders.h"
-
+#include "os/glfontgeometries.h"
 #include "resource/resourcefile.h"
 
 #include "util/fs.h"
@@ -176,7 +176,7 @@ void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D 
         *sad::Renderer::ref()
     );
 #endif
-    glBegin(GL_QUADS);
+    glBegin(GL_TRIANGLES);
 
     float italicoffset = ((float)m_size) * TAN_20_DEGREES;
     for(unsigned int i = 0;  i < string.length(); i++)
@@ -206,14 +206,20 @@ void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D 
                 glTexCoord2f((GLfloat)glyph[0].x(), (GLfloat)glyph[0].y());
                 glVertex2f((GLfloat)(x + i  + topoffset), (GLfloat)y);
 
+                glTexCoord2f((GLfloat)(glyph[3].x()), (GLfloat)(glyph[3].y()));
+                glVertex2f((GLfloat)(x + i), (GLfloat)(y - glyphheight));
+
+                glTexCoord2f((GLfloat)glyph[1].x(), (GLfloat)glyph[1].y());
+                glVertex2f((GLfloat)(x + glyphwidth + i + topoffset), (GLfloat)y);
+
+                glTexCoord2f((GLfloat)(glyph[3].x()), (GLfloat)(glyph[3].y()));
+                glVertex2f((GLfloat)(x + i), (GLfloat)(y - glyphheight));
+
                 glTexCoord2f((GLfloat)glyph[1].x(), (GLfloat)glyph[1].y());
                 glVertex2f((GLfloat)(x + glyphwidth + i + topoffset), (GLfloat)y);
 
                 glTexCoord2f((GLfloat)glyph[2].x(), (GLfloat)glyph[2].y());
                 glVertex2f((GLfloat)(x + glyphwidth + i), (GLfloat)(y - glyphheight));
-
-                glTexCoord2f((GLfloat)(glyph[3].x()), (GLfloat)(glyph[3].y()));
-                glVertex2f((GLfloat)(x + i), (GLfloat)(y - glyphheight));
             }
         }
         if (string[i] != '\n')
@@ -262,6 +268,105 @@ void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D 
         *sad::Renderer::ref()
     );
 #endif
+}
+
+
+void sad::TextureMappedFont::fillGeometries(const sad::Font::GeometryRenderData& data, sad::os::GLFontGeometries& g, const sad::String & str, const sad::Point2D & p, sad::Font::RenderFlags flags)
+{
+    // If loading was failed, do nothing
+    if (m_texture == NULL)
+        return;
+
+    double x = p.x();
+    double y = p.y();
+
+    sad::Vector<double> vertexes, tcs;
+    sad::Vector<float> colors;
+
+    sad::String string = str;
+    string.removeAllOccurences("\r");
+
+    unsigned int glyphwidth = 0;
+
+    float italicoffset = TAN_20_DEGREES * static_cast<float>(m_size);
+    for (unsigned int i = 0; i < string.length(); i++)
+    {
+        unsigned char glyphchar = *reinterpret_cast<unsigned char*>(&(string[i]));
+        sad::Rect2D & glyph = m_glyphs[glyphchar];
+
+        if (string[i] != '\n' && string[i] != '\r')
+        {
+            x += m_size_ratio * static_cast<float>(m_leftbearings[string[i]]);
+            unsigned int glyphheight = static_cast<unsigned int>(m_sizes[glyphchar].Height * m_size_ratio);
+            glyphwidth = static_cast<unsigned int>(m_sizes[glyphchar].Width * m_size_ratio);
+
+            size_t count = 1;
+            if ((flags & sad::Font::FRF_Bold) != 0)
+            {
+                count = 3;
+            }
+            float topoffset = 0;
+            if ((flags & sad::Font::FRF_Italic) != 0)
+            {
+                topoffset = italicoffset;
+            }
+
+            for (size_t j = 0; j < count; j++)
+            {
+                tcs.push_back(glyph[0].x());
+                tcs.push_back(glyph[0].y());
+
+                vertexes.push_back(x + j + topoffset);
+                vertexes.push_back(y);
+
+                tcs.push_back(glyph[3].x());
+                tcs.push_back(glyph[3].y());
+
+                vertexes.push_back(x + j);
+                vertexes.push_back(y - glyphheight);
+
+                tcs.push_back(glyph[1].x());
+                tcs.push_back(glyph[1].y());
+
+                vertexes.push_back(x + glyphwidth + j + topoffset);
+                vertexes.push_back(y);
+
+                tcs.push_back(glyph[3].x());
+                tcs.push_back(glyph[3].y());
+
+                vertexes.push_back(x + j);
+                vertexes.push_back(y - glyphheight);
+
+                tcs.push_back(glyph[1].x());
+                tcs.push_back(glyph[1].y());
+
+                vertexes.push_back(x + glyphwidth + j + topoffset);
+                vertexes.push_back(y);
+
+                tcs.push_back(glyph[2].x());
+                tcs.push_back(glyph[2].y());
+
+                vertexes.push_back(x + glyphwidth + j);
+                vertexes.push_back(y - glyphheight);
+            }
+        }
+        if (string[i] != '\n')
+        {
+            x += glyphwidth;
+            if ((flags & sad::Font::FRF_Bold) != 0)
+            {
+                x += 2.0;
+            }
+            x += m_size_ratio * static_cast<float>(m_rightbearings[string[i]]);
+        }
+        else
+        {
+            x = p.x();
+            y -= m_builtin_linespacing * m_size_ratio * m_linespacing_ratio;
+        }
+    }
+
+    g.append(data.Renderer, m_texture, vertexes, tcs, data.OwnColor, data.Color);
 }
 
 sad::Texture * sad::TextureMappedFont::renderToTexture(const sad::String & str)

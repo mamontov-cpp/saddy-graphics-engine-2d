@@ -5,11 +5,15 @@
 
 #include "sadmutex.h"
 #include "renderer.h"
+#include "camera.h"
 #include "log/log.h"
 #include "3rdparty/glext/glext.h"
 #ifdef WIN32
 #include "3rdparty/glext/wglext.h"
 #endif
+
+#include "../../3rdparty/glm/glm/glm.hpp"
+#include "../../3rdparty/glm/glm/ext.hpp"
 
 
 #ifdef X11
@@ -408,10 +412,6 @@ sad::Point3D sad::os::GLContextImpl::mapToViewport(const sad::Point2D & p, bool 
     GLfloat winx=0,winy=0,winz=0;
     GLdouble result[3];
     
-    glGetDoublev(GL_MODELVIEW_MATRIX,modelview);
-    glGetDoublev(GL_PROJECTION_MATRIX,projection);
-    glGetIntegerv(GL_VIEWPORT,viewport);
-
     winx=(float)p.x();
 #ifdef WIN32  // On win32 we explicitly handle coordinates
     winy=(float)(p.y());
@@ -423,12 +423,47 @@ sad::Point3D sad::os::GLContextImpl::mapToViewport(const sad::Point2D & p, bool 
     else
         winz = DEFAULT_DEPTH_VALUE;
 
+    glGetIntegerv(GL_VIEWPORT, viewport);
 
-    gluUnProject(winx,winy,winz,modelview,projection,viewport,result,result+1,result+2);
+    if (this->isOpenGL3compatible())
+    {
+        glm::mat4x4 model, projection;
+        if (this->renderer()->scenes().size())
+        {
+            sad::Camera* cam = this->renderer()->scenes()[0]->getCamera();
+            cam->forceRecomputeMatrices();
+            model = glm::make_mat4x4(cam->modelViewMatrix());
+            //model = glm::transpose(model);
+            projection = glm::make_mat4x4(cam->projectionMatrix());
+            //projection = glm::transpose(projection);
+        }
+        else
+        {
+            float id[16] = {
+                1, 0, 0, 0,
+                0, 1, 0, 0,
+                0, 0, 1, 0,
+                0, 0, 0, 1
+            };
+            model = glm::make_mat4x4(id);
+            projection = glm::make_mat4x4(id);
+        }
+
+        glm::vec3 r = glm::unProject(glm::vec3(winx, winy, winz), model, projection, glm::make_vec4(viewport));
+        result[0] = r[0];
+        result[1] = r[1];
+        result[2] = r[2];
+    }
+    else
+    {
+        glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+        glGetDoublev(GL_PROJECTION_MATRIX, projection);
+
+        gluUnProject(winx, winy, winz, modelview, projection, viewport, result, result + 1, result + 2);
+        result[0] -= this->renderer()->globalTranslationOffset().x();
+        result[1] -= this->renderer()->globalTranslationOffset().y();
+    }
     
-    result[0] -= this->renderer()->globalTranslationOffset().x();
-    result[1] -= this->renderer()->globalTranslationOffset().y();
-        
     return sad::Point3D(result[0], result[1], result[2]);
 }
 

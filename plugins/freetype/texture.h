@@ -19,6 +19,8 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
+#include "bindable.h"
+
 
 namespace sad
 {
@@ -27,7 +29,7 @@ namespace freetype
 {
 /*! A mini-texture class, needed to provide lazy upload of textures
  */
-class Texture
+class Texture: public sad::Bindable
 {
 public:
     /*! A pixels, stored in RGB2
@@ -52,7 +54,7 @@ public:
     Texture();
     /*! Frees a texture id if on GPU
      */
-    ~Texture();
+    virtual ~Texture();
     
     /*! Stores a bitmap in texture, providing necessary operations
         \param[in] bitmap a bitmap to store
@@ -63,10 +65,37 @@ public:
     void upload();
     /*! Marks texture as current
      */
-    void bind();
+    virtual void bind();
     /*! Unloads texture from GPU
      */ 
     void unload();
+    /*! Copies pixel data
+     *  \param[in] dx destination col
+     *  \param[in] dy destination row
+     *  \param[in] sx source column
+     *  \param[in] sy source row
+     *  \param[in] bitmap source bitmap
+     */
+    void copyPixel(int dx, int dy, int sx, int sy, FT_Bitmap & bitmap);
+    /*! Copies row data
+     *  \param[in] dx destination col
+     *  \param[in] dy destination row
+     *  \param[in] sx source column
+     *  \param[in] sy source row
+     *  \param[in] width a width data
+     *  \param[in] bitmap source bitmap
+     */
+    void copyRow(int dx, int dy, int sx, int sy, int width, FT_Bitmap & bitmap);
+    /*! Copies row data
+     *  \param[in] dx destination col
+     *  \param[in] dy destination row
+     *  \param[in] sx source column
+     *  \param[in] sy source row
+     *  \param[in] width a width data
+     *  \param[in] bitmap source bitmap
+     */
+    void copySubImage(int dx, int dy, int sx, int sy, int width, int height, FT_Bitmap & bitmap);
+
 };
 
 }

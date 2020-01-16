@@ -6,6 +6,10 @@
 #pragma once
 #include <string.h>
 
+#ifdef _MSC_VER
+    #pragma warning(disable:26495)
+#endif
+
 namespace sad
 {
 /*! A class, that represents a value or absent value

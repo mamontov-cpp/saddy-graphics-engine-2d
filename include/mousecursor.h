@@ -26,8 +26,9 @@ public:
      */
     virtual void setPos(const sad::Point2D & p) = 0;
     /*! There inherited class should render image at center, defined by setPos call
+     *  \param[in] r renderer
      */
-    virtual void render() = 0;
+    virtual void render(sad::Renderer* r) = 0;
     /*! This is abstract class, that should be implemented by user
      */
     virtual ~MouseCursorImage();
@@ -49,8 +50,17 @@ public:
      */
     virtual void setPos(const sad::Point2D & p);
     /*! There inherited class should render image at center, defined by setPos call
+     *  \param[in] r renderer
      */
-    virtual void render();
+    virtual void render(sad::Renderer* r);
+    /*! Sets shader function
+        \param[in] shader_function a shader function
+     */
+    void setShaderFunction(sad::ShaderFunction* shader_function);
+    /*! Returns shader function shader function
+        \return shader function
+     */
+    sad::ShaderFunction* shaderFunction() const;
     /*! This is abstract class, that should be implemented by user
      */
     virtual ~MouseCursorSprite();

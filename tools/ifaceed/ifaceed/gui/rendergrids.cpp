@@ -185,8 +185,8 @@ gui::RenderGrids::~RenderGrids()
 
 //============================== PROTECTED METHOD ==============================
 
-sad::AColor gui::RenderGrids::m_default_color(255, 0, 0, 255);
-sad::AColor gui::RenderGrids::m_selected_color(0, 255, 255, 255);
+sad::AColor gui::RenderGrids::m_default_color(255, 0, 0);
+sad::AColor gui::RenderGrids::m_selected_color(0, 255, 255);
 
 void gui::RenderGrids::_process()
 {

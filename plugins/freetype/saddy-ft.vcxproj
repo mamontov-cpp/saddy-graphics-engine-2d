@@ -23,7 +23,7 @@
     <ProjectGuid>{B8982BA2-5A2D-436C-AE44-89770836D966}</ProjectGuid>
     <RootNamespace>saddyfreetype</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -154,6 +154,7 @@
     <ClCompile Include="fontimpl.cpp" />
     <ClCompile Include="glyph.cpp" />
     <ClCompile Include="nextpoweroftwo.cpp" />
+    <ClCompile Include="packer.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="towidechar.cpp" />
   </ItemGroup>
@@ -163,6 +164,7 @@
     <ClInclude Include="fontimpl.h" />
     <ClInclude Include="glyph.h" />
     <ClInclude Include="nextpoweroftwo.h" />
+    <ClInclude Include="packer.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="towidechar.h" />
   </ItemGroup>

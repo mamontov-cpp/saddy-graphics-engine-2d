@@ -3,7 +3,9 @@
 #include "window.h"
 #include "glcontext.h"
 #include "sprite2d.h"
+#include "camera.h"
 #include "os/windowhandles.h"
+#include "os/ubo.h"
 #include "input/controls.h"
 
 #include "db/dbtypename.h"
@@ -23,9 +25,37 @@ void sad::MouseCursorSprite::setPos(const sad::Point2D & p)
     m_a->moveTo(p);
 }
 
-void sad::MouseCursorSprite::render()
+void sad::MouseCursorSprite::render(sad::Renderer* r)
 {
-    m_a->render();
+    if (r)
+    {
+        if (!r->scenes().empty())
+        {
+            sad::Scene* s = r->scenes()[0];
+            if (m_a->scene() != s)
+            {
+                m_a->setScene(s);
+            }
+            if (r->context()->isOpenGL3compatible() && s)
+            {
+                if (r->cameraObjectBuffer()->userData() != s->getCamera())
+                {
+                    s->getCamera()->apply();
+                }
+            }
+            m_a->render();
+        }
+    }
+}
+
+void sad::MouseCursorSprite::setShaderFunction(sad::ShaderFunction* shader_function)
+{
+    m_a->setShaderFunction(shader_function);
+}
+
+sad::ShaderFunction* sad::MouseCursorSprite::shaderFunction() const
+{
+    return m_a->shaderFunction();
 }
 
 sad::MouseCursorSprite::~MouseCursorSprite()
@@ -38,8 +68,8 @@ sad::MouseCursorSprite::~MouseCursorSprite()
 
 sad::MouseCursor::MouseCursor()
 : m_usecustomcursor(false),
-m_hidden(false),
 m_hidecustomcursor(false),
+m_hidden(false),
 m_cursor(NULL),
 m_renderer(NULL),
 m_enter_handler(NULL),
@@ -71,6 +101,7 @@ sad::MaybePoint3D  sad::MouseCursor::position() const
     {
         if (m_renderer->hasValidContext())
         {
+            // ReSharper disable once CppInitializedValueIsAlwaysRewritten
             bool successfullyqueried = false;
             sad::Point2D point;
     
@@ -328,7 +359,7 @@ void sad::MouseCursor::renderCursorIfNeedTo()
     if (m_usecustomcursor && m_hidden && !m_hidecustomcursor && m_cursor != NULL)
     {
         this->applyCursorTransformations();
-        m_cursor->render();
+        m_cursor->render(m_renderer);
     }
 }
 

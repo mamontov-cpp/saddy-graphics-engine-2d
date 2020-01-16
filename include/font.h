@@ -14,6 +14,11 @@
 namespace sad
 {
 
+namespace os
+{
+class   GLFontGeometries;
+}
+
 /*! A basic class for font, which renders all fonts in Saddy engine
  */ 
 class Font: public sad::resource::Resource
@@ -29,6 +34,20 @@ public:
         FRF_Italic = 2,     //!< Italic flag
         FRF_Bold_Italic = 3 //!< Bold and italic flag
     };
+    /*! A data, related to geometry for rendering
+     */
+    struct GeometryRenderData
+    {
+        /*! Renderer
+         */
+        sad::Renderer* Renderer;
+        /*! Whether own color
+         */
+        bool OwnColor;
+        /*! A color data
+         */
+        sad::AColor Color;
+    };
     /*! Constructs new font with size of 14px
      */
     Font();
@@ -37,7 +56,15 @@ public:
         \param[in] p   upper-left point in viewport coordinates
         \param[in] flags a flags for rendering
      */
-    virtual void render(const sad::String & str,const sad::Point2D & p, sad::Font::RenderFlags flags = sad::Font::FRF_None) = 0; 
+    virtual void render(const sad::String & str,const sad::Point2D & p, sad::Font::RenderFlags flags = sad::Font::FRF_None) = 0;
+    /*! Fills geometries with related font data
+     *  \param[in] data a data
+     *  \param[in] g geometries
+     *  \param[in] str string
+     *  \param[in] p   upper-left point in viewport coordinates
+     *  \param[in] flags a flags for rendering
+     */
+    virtual void fillGeometries(const sad::Font::GeometryRenderData& data, sad::os::GLFontGeometries& g, const sad::String & str, const sad::Point2D & p, sad::Font::RenderFlags flags = sad::Font::FRF_None) = 0;
     /*! Sets a color, which label will be rendered with, if label is rendered,
         using this font
         \param[in] c color of font

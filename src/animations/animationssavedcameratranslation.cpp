@@ -5,7 +5,7 @@ sad::animations::SavedCameraTranslation::SavedCameraTranslation(sad::db::Object*
 {
     sad::Scene* scene = static_cast<sad::Scene*>(o);
     sad::Camera& camera = scene->camera();
-    m_translation = camera.TranslationOffset;
+    m_translation = camera.translationOffset();
 }
 
 sad::animations::SavedCameraTranslation::~SavedCameraTranslation()
@@ -17,5 +17,5 @@ void sad::animations::SavedCameraTranslation::restore()
 {
     sad::Scene* scene = static_cast<sad::Scene*>(this->m_object);
     sad::Camera& camera = scene->camera();
-    camera.TranslationOffset = m_translation;
+    camera.setTranslationOffset(m_translation);
 }

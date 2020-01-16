@@ -25,12 +25,18 @@ find_path(
 	/usr/include
 	"$ENV{IRRKLANG_ROOT}/irrklang-1.5.0/include"
 	"$ENV{IRRKLANG_ROOT}/irrKlang-64bit-1.5.0/include"
+	"$ENV{IRRKLANG_ROOT}/irrklang-1.6.0/include"
+	"$ENV{IRRKLANG_ROOT}/irrKlang-64bit-1.6.0/include"
   PATH_SUFFIXES
 	include
 	irrKlang-1.5.0/include
 	irrKlang-64bit-1.5.0/include
 	"irrKlang-1.5.0\\include"
 	"irrKlang-64bit-1.5.0\\include"
+	irrKlang-1.6.0/include
+	irrKlang-64bit-1.5.0/include
+	"irrKlang-1.6.0\\include"
+	"irrKlang-64bit-1.6.0\\include"
 )
 
 IF (WIN32)
@@ -48,6 +54,7 @@ IF (WIN32)
 			    lib
 				lib/Winx64-visualStudio
 				irrKlang-64bit-1.5.0/lib/Winx64-visualStudio
+				irrKlang-64bit-1.6.0/lib/Winx64-visualStudio
 				Winx64-visualStudio
 			)
 			
@@ -66,6 +73,7 @@ IF (WIN32)
 			    lib
 				lib/Win32-visualStudio
 				irrKlang-1.5.0/lib/Win32-visualStudio
+				irrKlang-1.6.0/lib/Win32-visualStudio
 				Win32-visualStudio
 			)
 			
@@ -83,13 +91,17 @@ IF (WIN32)
 			ENV IRRKLANG_ROOT
 		  PATHS
 			/usr/lib
+            "$ENV{IRRKLANG_ROOT}/lib/Win32-gcc"
 			"$ENV{IRRKLANG_ROOT}/irrklang-1.5.0/lib/Win32-gcc"
+			"$ENV{IRRKLANG_ROOT}/irrklang-1.6.0/lib/Win32-gcc"
 		  PATH_SUFFIXES
 			lib
 			lib/Win32-gcc
 			"lib\\Win32-gcc"
 			irrKlang-1.5.0/lib/Win32-gcc
 			"irrKlang-1.5.0\\lib\\Win32-gcc"
+			irrKlang-1.6.0/lib/Win32-gcc
+			"irrKlang-1.6.0\\lib\\Win32-gcc"
 			Win32-gcc
 		)
 			
@@ -113,6 +125,7 @@ ELSE()
 			bin
 			linux-gcc-64
 			irrKlang-64bit-1.5.0/bin/linux-gcc-64
+			irrKlang-64bit-1.6.0/bin/linux-gcc-64
 		)
 	ELSE()
 		set(IRRKLANG_LIBRARIES "")
@@ -131,6 +144,7 @@ ELSE()
 			bin
 			linux-gcc
 			irrKlang-1.5.0/bin/linux-gcc
+			irrKlang-1.6.0/bin/linux-gcc
 		)	
 	ENDIF()
 ENDIF()

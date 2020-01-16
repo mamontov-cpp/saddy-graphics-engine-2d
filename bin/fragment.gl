@@ -1,0 +1,24 @@
+#version 330
+in vec4 vertexColor;
+out vec4 color;
+uniform sampler2D _defaultTexture;
+void main()
+{
+    float angle = 0;
+	float len = 0;
+	if (abs(vertexColor.g) > 0.001) {
+	    angle = (atan(vertexColor.r / vertexColor.g) + 1.57) / 3.1415926;
+	} 
+	len = sqrt(vertexColor.r * vertexColor.r + vertexColor.g * vertexColor.g) / 1.41421356;
+     color = texture2D(_defaultTexture, vec2(angle, len));
+//    color = vec4(1.0f);
+	color.r = max(color.r, vertexColor.r);
+	color.b = max(color.b, vertexColor.g);
+	color.g = min(color.g, vertexColor.r);
+	
+	color.g = 0.0f;
+//	color.a = max(0.0f, color.a);
+	color.a = min(0.5f, color.a);
+	color.a = max(1.0f, color.a);
+//	color.a = 1.0f;
+}

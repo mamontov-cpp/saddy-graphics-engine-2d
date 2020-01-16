@@ -21,6 +21,31 @@ void sad::freetype::Texture::unload()
     }
 }
 
+void sad::freetype::Texture::copyPixel(int dx, int dy, int sx, int sy, FT_Bitmap& bitmap)
+{
+    int dwidth = static_cast<int>(Width);
+    int swidth = static_cast<int>(bitmap.width);
+    unsigned char value = ((int)sx >= bitmap.width || (int)sy >= bitmap.rows) ? 0 : bitmap.buffer[sx + bitmap.width*sy];
+    Pixels[2 * (dx + dy * dwidth)] = value;
+    Pixels[2 * (dx + dy * dwidth) + 1] = value;
+}
+
+void sad::freetype::Texture::copyRow(int dx, int dy, int sx, int sy, int width, FT_Bitmap& bitmap)
+{
+    for (int i = 0; i < width; i++)
+    {
+        copyPixel(dx + i, dy, sx + i, sy, bitmap);
+    }
+}
+
+void sad::freetype::Texture::copySubImage(int dx, int dy, int sx, int sy, int width, int height, FT_Bitmap& bitmap)
+{
+    for (int j = 0; j < height; j++)
+    {
+        copyRow(dx, dy + j, sx, sy + j, width, bitmap);
+    }
+}
+
 void sad::freetype::Texture::storeBitmap(FT_Bitmap & bitmap)
 {
     // storeBitmap is not re-entrant

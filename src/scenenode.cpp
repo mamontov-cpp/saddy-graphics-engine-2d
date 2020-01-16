@@ -13,7 +13,7 @@
 
 DECLARE_SOBJ(sad::SceneNode);
 
-sad::SceneNode::SceneNode() : m_visible(true), m_scene(NULL), m_cached_layer(0), m_cached_scene_id(0)
+sad::SceneNode::SceneNode() : m_visible(true), m_scene(NULL), m_cached_layer(0), m_cached_scene_id(0), m_shader_function(NULL)
 {
 
 }
@@ -25,7 +25,10 @@ void sad::SceneNode::regions(sad::Vector<sad::Rect2D> & r)
 
 sad::SceneNode::~SceneNode()
 {
-
+    if (m_shader_function)
+    {
+        m_shader_function->delRef();
+    }
 }
 
 static sad::db::schema::Schema* SceneNodeBasicSchema = NULL;
@@ -149,5 +152,34 @@ bool sad::SceneNode::canBeRotated() const
 
 void sad::SceneNode::rotate(double delta)
 {
-    throw new std::logic_error("this node cannot be rotated");
+    throw std::logic_error("this node cannot be rotated");
+}
+
+void sad::SceneNode::setShaderFunction(sad::ShaderFunction* fun)
+{
+    if (m_shader_function)
+    {
+        m_shader_function->delRef();
+    }
+    m_shader_function = fun;
+    if (m_shader_function)
+    {
+        m_shader_function->addRef();
+    }
+}
+
+sad::ShaderFunction* sad::SceneNode::shaderFunction() const
+{
+    return m_shader_function;
+}
+
+void sad::SceneNode::onAddedToScene()
+{
+    
+}
+
+
+void sad::SceneNode::onRemovedFromScene()
+{
+    
 }

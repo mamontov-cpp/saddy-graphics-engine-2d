@@ -48,6 +48,13 @@ void sad::freetype::Font::render(const sad::String & str,const sad::Point2D & p,
 }
 
 
+void sad::freetype::Font::fillGeometries(const sad::Font::GeometryRenderData& data, sad::os::GLFontGeometries& g, const sad::String & str, const sad::Point2D & p, sad::Font::RenderFlags flags)
+{
+    m_dptr->setSize(m_size);
+    m_dptr->fillGeometries(data, g, str, p, flags, m_linespacing_ratio);
+}
+
+
 sad::Texture * sad::freetype::Font::renderToTexture(
     const sad::String & string,
     unsigned int height 
@@ -90,11 +97,6 @@ sad::freetype::Font::~Font()
 sad::String sad::freetype::Font::dumpGlyphParameters() const
 {
     return m_dptr->dumpGlyphParameters();
-}
-
-void sad::freetype::Font::dumpToBMP(unsigned int size) const
-{
-    m_dptr->dumpToBMP(size);
 }
 
 // Uncommend to enable glyph rendering debug

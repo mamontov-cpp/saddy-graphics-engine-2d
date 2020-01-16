@@ -1,5 +1,8 @@
 #include "fixedsizefont.h"
 #include "towidechar.h"
+#include "packer.h"
+
+#include "os/glfontgeometries.h"
 
 #include <sadmutex.h>
 
@@ -29,7 +32,14 @@ sad::freetype::FixedSizeFont::FixedSizeFont(
     
     for(unsigned int i = 0; i < 256; i++)
     {
-        m_glyphs[i] = new sad::freetype::Glyph(face, static_cast<unsigned char>(i));
+        m_glyphs[i] = new sad::freetype::Glyph(face, static_cast<unsigned char>(i), false);
+    }
+
+    m_texture = sad::freetype::Packer::pack(m_glyphs);
+
+    for (unsigned int i = 0; i < 256; i++)
+    {
+        m_glyphs[i]->freeInnerGlyph();
     }
 
     computeKerning(face);
@@ -42,16 +52,14 @@ sad::freetype::FixedSizeFont::~FixedSizeFont()
     {
         delete m_glyphs[i];
     }
+    delete m_texture;
 }
 
 void sad::freetype::FixedSizeFont::uploadedTextures(sad::Vector<unsigned int> & textures)
 {
-    for(unsigned int i = 0; i < 256; i++)
+    if (m_texture->IsOnGPU)
     {
-        if (m_glyphs[i]->Texture.IsOnGPU)
-        {
-            textures << m_glyphs[i]->Texture.Id;
-        }
+        textures << m_texture->Id;
     }
 }
 
@@ -62,18 +70,7 @@ float sad::freetype::FixedSizeFont::ascent() const
 
 void sad::freetype::FixedSizeFont::markTexturesAsUnloaded()
 {
-    for(unsigned int i = 0; i < 256; i++)
-    {
-        m_glyphs[i]->Texture.IsOnGPU = false;
-    }
-}
-
-void sad::freetype::FixedSizeFont::dumpToBMP()
-{
-    for (unsigned int i = 0; i < 256; i++)
-    {
-        m_glyphs[i]->dumpToBMP();
-    }
+    m_texture->IsOnGPU = false;
 }
 
 // Why this even exists? It's not like were doing something horrible here
@@ -91,10 +88,7 @@ void sad::freetype::FixedSizeFont::render(
 
     if (!m_on_gpu)
     {
-        for(unsigned int i = 0; i < 256; i++)
-        {
-            m_glyphs[i]->Texture.upload();
-        }
+        m_texture->upload();
         m_on_gpu = true;
     }
 
@@ -104,16 +98,17 @@ void sad::freetype::FixedSizeFont::render(
 
     bool previous = false;
     unsigned char prevchar = 0;
-    float xbegin = static_cast<float>(p.x());
+    float xbegin = p.x();
     float curx = xbegin;
-    float cury = static_cast<float>(p.y() - m_bearing_y);
+    float cury = p.y() - m_bearing_y;
     float topoffset = m_height * sad::freetype::Glyph::tan_20_degrees;
     bool italic = ((flags & sad::Font::FRF_Italic) != 0);
     if (!italic)
     {
         topoffset = 0;
     }
-    
+
+    m_texture->bind();
     for(unsigned int i = 0; i < list.size(); i++)
     {
         for(unsigned int j = 0; j < list[i].size(); j++)
@@ -145,6 +140,66 @@ void sad::freetype::FixedSizeFont::render(
     }
 
     // sad_freetype_font_lock.unlock();
+}
+
+void sad::freetype::FixedSizeFont::fillGeometries(const sad::Font::GeometryRenderData& data, sad::os::GLFontGeometries& geometries, const sad::String & str, const sad::Point2D & p, sad::Font::RenderFlags flags, float ratio)
+{
+    sad::Vector<double> vertexes;
+    sad::Vector<double> texturecoords;
+
+    if (!m_on_gpu)
+    {
+        m_texture->upload();
+        m_on_gpu = true;
+    }
+
+    sad::String tmp = str;
+    tmp.removeAllOccurences("\r");
+    sad::StringList list = tmp.split("\n", sad::String::KEEP_EMPTY_PARTS);
+
+    bool previous = false;
+    unsigned char prevchar = 0;
+    double xbegin = static_cast<float>(p.x());
+    double curx = xbegin;
+    double cury = static_cast<float>(p.y() - m_bearing_y);
+    double topoffset = m_height * sad::freetype::Glyph::tan_20_degrees;
+    bool italic = ((flags & sad::Font::FRF_Italic) != 0);
+    if (!italic)
+    {
+        topoffset = 0;
+    }
+
+    for (unsigned int i = 0; i < list.size(); i++)
+    {
+        for (unsigned int j = 0; j < list[i].size(); j++)
+        {
+            unsigned char curchar = list[i][j];
+            if (previous)
+            {
+                curx += m_kerning_table[prevchar][curchar];
+            }
+
+            sad::freetype::Glyph * g = m_glyphs[curchar];
+
+            g->fillGeometries(curx, cury, topoffset, vertexes, texturecoords);
+            if ((flags & sad::Font::FRF_Bold) != 0)
+            {
+                curx += 1.0;
+                g->fillGeometries(curx, cury, topoffset, vertexes, texturecoords);
+                curx += 1.0;
+                g->fillGeometries(curx, cury, topoffset, vertexes, texturecoords);
+            }
+
+            curx += g->AdvanceX;
+            prevchar = curchar;
+            previous = true;
+        }
+        cury -= m_builtin_linespacing * ratio;
+        curx = xbegin;
+        previous = false;
+    }
+
+    geometries.append(data.Renderer, m_texture, vertexes, texturecoords, data.OwnColor, data.Color);
 }
 
 sad::String sad::freetype::FixedSizeFont::dumpGlyphParameters() const
@@ -199,7 +254,7 @@ sad::Texture * sad::freetype::FixedSizeFont::renderToTexture(
     int y_max = -1; 
     for(unsigned int i = 0; i < tmp.size(); i++)
     {
-        glyphs[i] = new sad::freetype::Glyph(face, tmp[i]);
+        glyphs[i] = new sad::freetype::Glyph(face, tmp[i], true);
         y_max = std::max(y_max, static_cast<int>(glyphs[i]->Height));
     }
     // Place glyphs

@@ -5,13 +5,17 @@
     Note, that this class does not require valid context to get 
     OpenGL specific data (it tries to create one by itself, if can)
  */
-#pragma
+#pragma once
 #include "sadstring.h"
 #include "sadpair.h"
 
 namespace sad
 {
 class Renderer;
+namespace os
+{
+class ExtensionFunctions;
+}
 
 
 /*! A main class, for getting OpenGL implementation data.
@@ -26,6 +30,9 @@ public:
         instead).
      */
     OpenGL();
+    /*! Destroys related memory objects
+     */
+    ~OpenGL();
     /*! Attaches an implementation to renderer
         \param[in] r renderer
      */
@@ -67,6 +74,10 @@ public:
         \return whether OpenGL extension is presented
      */
     bool supportsExtension(const sad::String & extension);
+    /*! Returns related extension functions
+     *  \return extensionFunctions related functions
+     */
+    sad::os::ExtensionFunctions* extensionFunctions() const;
 protected:
     /*! Tries to fetch OpenGL strings via glGetString
      */
@@ -78,7 +89,7 @@ protected:
     void trySetString(sad::String & s, unsigned int e);
     /*! An attached renderer to implementation
      */
-    sad::Renderer * m_renderer;
+    sad::Renderer* m_renderer;
     /*! Whether data is fetched (tryFetchStrings finished successfully)
      */
     bool m_fetched;
@@ -103,6 +114,9 @@ protected:
     /*! An extensions string
      */
     sad::String m_extensions;
+    /*! An extension functions for opengl
+     */
+    sad::os::ExtensionFunctions* m_extension_functions;
 };
 
 }

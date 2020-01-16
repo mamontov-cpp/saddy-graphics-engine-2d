@@ -130,6 +130,17 @@ sad::resource::Tree* sad::resource::AbstractLink::tree() const
 void sad::resource::AbstractLink::setTree(sad::Renderer * r, const sad::String& treename)
 {
     bool changed = m_render_dependent == false || m_tree == NULL || r != m_renderer || treename != m_treename;
+    if (m_render_dependent && (m_tree != NULL) && (r == m_renderer))
+    {
+        if (r != NULL)
+        {
+            changed = changed || (m_tree != r->tree(treename));
+            if (changed)
+            {
+                m_tree = NULL;
+            }
+        }
+    }
     m_render_dependent = true;
     m_renderer = r;
     m_treename = treename;

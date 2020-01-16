@@ -50,6 +50,7 @@ void sad::p2d::app::Object::setApp(p2d::app::App * g)
 
 void sad::p2d::app::Object::setScene(sad::Scene * s)
 {
+    this->sad::SceneNode::setScene(s);
     m_sprite->setScene(s);
 }
 
@@ -170,3 +171,18 @@ void sad::p2d::app::Object::setTangentialVelocity(const sad::p2d::Vector & v)
     this->body()->setCurrentTangentialVelocity(v);
 }
 
+void sad::p2d::app::Object::setShaderFunction(sad::ShaderFunction* fun)
+{
+    m_sprite->setShaderFunction(fun);
+    this->sad::SceneNode::setShaderFunction(fun);
+}
+
+void sad::p2d::app::Object::onAddedToScene()
+{
+    m_sprite->onAddedToScene();
+}
+
+void sad::p2d::app::Object::onRemovedFromScene()
+{
+    m_sprite->onRemovedFromScene();
+}

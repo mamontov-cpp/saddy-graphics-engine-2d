@@ -24,6 +24,11 @@ static const int HotSpotPointsAndAdjacentPoints[4][3] = {
     {3, 0, 2}
 };
 
+void core::borders::DeleteHotspot::setScene(sad::Scene* scene) const
+{
+    this->m_sprite->setScene(scene);
+}
+
 void core::borders::DeleteHotspot::render(const sad::Rect2D & r)
 {
     if (m_sprite_options_set == false)

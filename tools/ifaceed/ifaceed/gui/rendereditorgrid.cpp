@@ -5,7 +5,7 @@
 
 // ========================= PUBLIC METHODS =========================
 
-gui::RenderEditorGrid::RenderEditorGrid() : Color(0, 255, 255, 255), GridSpaceX(0), GridSpaceY(0)
+gui::RenderEditorGrid::RenderEditorGrid() : Color(0, 255, 255), GridSpaceX(0), GridSpaceY(0)
 {
     this->Step::disable();
 }
@@ -47,7 +47,7 @@ void gui::RenderEditorGrid::_process()
         int x = startxx;
         while(x < endx)
         {
-            r->render()->line(sad::Point2D(x, starty), sad::Point2D(x, endy), this->Color);
+            r->render()->line(&m_scene, sad::Point2D(x, starty), sad::Point2D(x, endy), this->Color);
             x += this->GridSpaceX;
         }
     }
@@ -66,7 +66,7 @@ void gui::RenderEditorGrid::_process()
         int y = startyy;
         while(y < endy)
         {
-            r->render()->line(sad::Point2D(startx, y), sad::Point2D(endx, y), this->Color);
+            r->render()->line(&m_scene, sad::Point2D(startx, y), sad::Point2D(endx, y), this->Color);
             y += this->GridSpaceY;
         }
     }

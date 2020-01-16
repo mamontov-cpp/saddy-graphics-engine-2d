@@ -22,6 +22,8 @@
 #include <keymouseconditions.h>
 #include <objectdependentfpsinterpolation.h>
 #include <mousecursor.h>
+#include <shader.h>
+#include <glcontext.h>
 
 const sad::String GameState::START = "start";
 const sad::String GameState::PLAYING = "playing";
@@ -394,8 +396,8 @@ void Game::enterPlayingScreen()
         sad::Rect2D(0, 0, 512, 512),
         sad::Rect2D(0, 0, 640, 480)
     );
-    sc->add(background);
 
+    sc->add(background);
     sad::FormattedLabel * label = new sad::FormattedLabel();
     label->setFont("font");
     label->setTreeName(m_renderer, "");

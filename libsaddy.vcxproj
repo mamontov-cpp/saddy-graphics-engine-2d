@@ -23,7 +23,7 @@
     <ProjectGuid>{4F41A547-C004-4A32-A69A-36EBAFA5EB93}</ProjectGuid>
     <RootNamespace>libsaddy</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -163,6 +163,7 @@
     <ClCompile Include="src\animations\animationstexturecoordinateslist.cpp" />
     <ClCompile Include="src\animations\easing\easingfunction.cpp" />
     <ClCompile Include="src\animations\easing\easingtypes.cpp" />
+    <ClCompile Include="src\bindable.cpp" />
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\classmetadata.cpp" />
     <ClCompile Include="src\classmetadatacastfunction.cpp" />
@@ -170,6 +171,7 @@
     <ClCompile Include="src\clipboard.cpp" />
     <ClCompile Include="src\closure.cpp" />
     <ClCompile Include="src\font.cpp" />
+    <ClCompile Include="src\fontshaderfunction.cpp" />
     <ClCompile Include="src\formattedlabel.cpp" />
     <ClCompile Include="src\fpsinterpolation.cpp" />
     <ClCompile Include="src\fuzzyequal.cpp" />
@@ -190,6 +192,14 @@
     <ClCompile Include="src\objectdependentfpsinterpolation.cpp" />
     <ClCompile Include="src\opengl.cpp" />
     <ClCompile Include="src\orthographiccamera.cpp" />
+    <ClCompile Include="src\os\extensionfunctions.cpp" />
+    <ClCompile Include="src\os\glfontgeometries.cpp" />
+    <ClCompile Include="src\os\glfontgeometry.cpp" />
+    <ClCompile Include="src\os\gltexturedgeometry2d.cpp" />
+    <ClCompile Include="src\os\gltexturedgeometry3d.cpp" />
+    <ClCompile Include="src\os\gluntexturedgeometry2d.cpp" />
+    <ClCompile Include="src\os\gluntexturedgeometry3d.cpp" />
+    <ClCompile Include="src\os\ubo.cpp" />
     <ClCompile Include="src\pausabletimer.cpp" />
     <ClCompile Include="src\periodicalevent.cpp" />
     <ClCompile Include="src\pipeline\pipelinedelayedtask.cpp" />
@@ -210,6 +220,8 @@
     <ClCompile Include="src\scene.cpp" />
     <ClCompile Include="src\scenenode.cpp" />
     <ClCompile Include="src\settings.cpp" />
+    <ClCompile Include="src\shader.cpp" />
+    <ClCompile Include="src\shaderfunction.cpp" />
     <ClCompile Include="src\slurp.cpp" />
     <ClCompile Include="src\slurpjson.cpp" />
     <ClCompile Include="src\spit.cpp" />
@@ -373,6 +385,7 @@
     <ClInclude Include="include\animations\animationssimplemovement.h" />
     <ClInclude Include="include\animations\easing\easingfunction.h" />
     <ClInclude Include="include\animations\easing\easingtypes.h" />
+    <ClInclude Include="include\bindable.h" />
     <ClInclude Include="include\camera.h" />
     <ClInclude Include="include\classmetadata.h" />
     <ClInclude Include="include\classmetadatacastfunction.h" />
@@ -385,6 +398,7 @@
     <ClInclude Include="include\db\dbuntypedstronglink.h" />
     <ClInclude Include="include\equalto.h" />
     <ClInclude Include="include\font.h" />
+    <ClInclude Include="include\fontshaderfunction.h" />
     <ClInclude Include="include\formattedlabel.h" />
     <ClInclude Include="include\fpsinterpolation.h" />
     <ClInclude Include="include\fuzzyequal.h" />
@@ -413,6 +427,16 @@
     <ClInclude Include="include\objectdependentfpsinterpolation.h" />
     <ClInclude Include="include\opengl.h" />
     <ClInclude Include="include\orthographiccamera.h" />
+    <ClInclude Include="include\os\extensionfunctions.h" />
+    <ClInclude Include="include\os\glfontgeometries.h" />
+    <ClInclude Include="include\os\glfontgeometry.h" />
+    <ClInclude Include="include\os\glspritegeometrystorage.h" />
+    <ClInclude Include="include\os\glspritegeometrystorages.h" />
+    <ClInclude Include="include\os\gltexturedgeometry2d.h" />
+    <ClInclude Include="include\os\gltexturedgeometry3d.h" />
+    <ClInclude Include="include\os\gluntexturedgeometry2d.h" />
+    <ClInclude Include="include\os\gluntexturedgeometry3d.h" />
+    <ClInclude Include="include\os\ubo.h" />
     <ClInclude Include="include\pausabletimer.h" />
     <ClInclude Include="include\periodicalevent.h" />
     <ClInclude Include="include\pipeline\pipelinedelayedtask.h" />
@@ -444,6 +468,8 @@
     <ClInclude Include="include\scene.h" />
     <ClInclude Include="include\scenenode.h" />
     <ClInclude Include="include\settings.h" />
+    <ClInclude Include="include\shader.h" />
+    <ClInclude Include="include\shaderfunction.h" />
     <ClInclude Include="include\slurp.h" />
     <ClInclude Include="include\slurpjson.h" />
     <ClInclude Include="include\spit.h" />

@@ -7,6 +7,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
+#pragma pack(push, 1)
 
 namespace sad
 {
@@ -353,3 +354,5 @@ typedef sad::Point3D Vector3D;
 typedef sad::Point2D Vector2D;
 
 }
+
+#pragma pack(pop)

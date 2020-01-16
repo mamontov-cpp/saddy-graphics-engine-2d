@@ -739,8 +739,14 @@ void sad::dukpp03::Context::exposeRenderer()
     this->addClassBinding("sad::dukpp03::Renderer", cext); 
 
     sad::dukpp03::ClassBinding* prenderer = new sad::dukpp03::ClassBinding();
-    prenderer->addMethod("line", sad::dukpp03::bind_method::from(&sad::PrimitiveRenderer::line));
-    prenderer->addMethod("rectangle", sad::dukpp03::bind_method::from(&sad::PrimitiveRenderer::rectangle));
+    std::function<void(sad::PrimitiveRenderer*, sad::Scene*, const sad::Point2D&, const sad::Point2D&, const sad::AColor&)> line = [](sad::PrimitiveRenderer* r, sad::Scene* s, const sad::Point2D& p1, const sad::Point2D&  p2, const sad::AColor& clr) -> void {
+        r->line(s, p1, p2, clr);
+    };
+    prenderer->addMethod("line", sad::dukpp03::bind_lambda::from(line));
+    std::function<void(sad::PrimitiveRenderer*, sad::Scene*, const sad::Rect2D&, const sad::AColor&)> rect = [](sad::PrimitiveRenderer* r, sad::Scene* s, const sad::Rect2D& rc,  const sad::AColor& clr) -> void {
+        r->rectangle(s, rc, clr);
+    };
+    prenderer->addMethod("rectangle", sad::dukpp03::bind_lambda::from(rect));
 
     this->addClassBinding("sad::PrimitiveRenderer", prenderer); 
 
@@ -764,10 +770,18 @@ void  sad::dukpp03::Context::exposeCamera()
 {
     sad::dukpp03::ClassBinding* c = new sad::dukpp03::ClassBinding();
     c->addObjectConstructor<sad::Camera>("SadCamera");
-    c->addAccessor("TranslationOffset", sad::dukpp03::getter::from(&sad::Camera::TranslationOffset), sad::dukpp03::setter::from(&sad::Camera::TranslationOffset));
-    c->addAccessor("Angle", sad::dukpp03::getter::from(&sad::Camera::Angle), sad::dukpp03::setter::from(&sad::Camera::Angle));
-    c->addAccessor("TemporaryRotationOffset", sad::dukpp03::getter::from(&sad::Camera::TemporaryRotationOffset), sad::dukpp03::setter::from(&sad::Camera::TemporaryRotationOffset));
-    c->addAccessor("RotationVectorDirection", sad::dukpp03::getter::from(&sad::Camera::RotationVectorDirection), sad::dukpp03::setter::from(&sad::Camera::RotationVectorDirection));
+	
+	c->addMethod("translationOffset", sad::dukpp03::bind_method::from(&sad::Camera::translationOffset));
+	c->addMethod("setTranslationOffset", sad::dukpp03::bind_method::from(&sad::Camera::setTranslationOffset));
+
+	c->addMethod("angle", sad::dukpp03::bind_method::from(&sad::Camera::angle));
+	c->addMethod("setAngle", sad::dukpp03::bind_method::from(&sad::Camera::setAngle));
+
+	c->addMethod("temporaryRotationOffset", sad::dukpp03::bind_method::from(&sad::Camera::temporaryRotationOffset));
+	c->addMethod("setTemporaryRotationOffset", sad::dukpp03::bind_method::from(&sad::Camera::setTemporaryRotationOffset));
+
+	c->addMethod("rotationVectorDirection", sad::dukpp03::bind_method::from(&sad::Camera::rotationVectorDirection));
+	c->addMethod("setRotationVectorDirection", sad::dukpp03::bind_method::from(&sad::Camera::setRotationVectorDirection));
 
     void (sad::Camera::*move3d)(const sad::Vector3D & v) = &sad::Camera::move;
 

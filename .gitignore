@@ -8,7 +8,14 @@
 *.idb
 *.ipch
 *.log
+bin/*.dll
+bin/freetype-config
+bin/highscore.json
+bin/examples/multithreading/options.json
+examples/multithreading/*.txt
 bin/*.exe
 bin/log.txt
 lib/*
 Debug/*
+examples/stress-physics/log.txt
+.vs/config/applicationhost.config

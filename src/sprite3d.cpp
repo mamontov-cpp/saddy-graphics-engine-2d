@@ -2,8 +2,11 @@
 #include <geometry3d.h>
 #include <renderer.h>
 #include <sadmutex.h>
+#include <glcontext.h>
 
 #include <os/glheaders.h>
+#include <os/gltexturedgeometry3d.h>
+#include <os/gluntexturedgeometry3d.h>
 
 #include <math.h>
 
@@ -28,9 +31,15 @@ m_texture_coordinates(0,0,0,0),
 m_middle(0,0,0),
 m_size(0,0),
 m_renderable_area(sad::Point3D(0, 0), sad::Point3D(0, 0)),
-m_color(sad::AColor(255,255,255,0))
+m_color(sad::AColor(255,255,255,0)),
+m_old_renderer(NULL),
+m_was_textured(false),
+m_geometry_dirty(true),
+m_tc_dirty(true),
+m_vertexes_dirty(true)
 {
-    
+    m_g.m_textured_geometry = NULL;
+    m_g.m_untextured_geometry = NULL;
 }
 
 sad::Sprite3D::Sprite3D(		 //-V730
@@ -44,7 +53,12 @@ m_flipx(false),
 m_flipy(false),
 m_normalized_texture_coordinates(0, 0, 0, 0),
 m_texture_coordinates(texturecoordinates),
-m_color(sad::AColor(255,255,255,0))
+m_color(sad::AColor(255,255,255,0)),
+m_old_renderer(NULL),
+m_was_textured(false),
+m_geometry_dirty(true),
+m_tc_dirty(true),
+m_vertexes_dirty(true)
 {
     m_texture.attach(texture);
     normalizeTextureCoordinates();
@@ -57,6 +71,8 @@ m_color(sad::AColor(255,255,255,0))
         initFromRectangle(area);
         buildRenderableArea();
     }
+    m_g.m_textured_geometry = NULL;
+    m_g.m_untextured_geometry = NULL;
 }
 
 sad::Sprite3D::Sprite3D( //-V730
@@ -73,7 +89,12 @@ m_alpha(0),
 m_theta(0),
 m_normalized_texture_coordinates(0, 0, 0, 0),
 m_texture_coordinates(texturecoordinates),
-m_color(sad::AColor(255,255,255,0))
+m_color(sad::AColor(255,255,255,0)),
+m_old_renderer(NULL),
+m_was_textured(false),
+m_geometry_dirty(true),
+m_tc_dirty(true),
+m_vertexes_dirty(true)
 {
     m_texture.setTree(NULL, tree);
     m_texture.setPath(texture);
@@ -87,6 +108,8 @@ m_color(sad::AColor(255,255,255,0))
         initFromRectangle(area);
         buildRenderableArea();
     }
+    m_g.m_textured_geometry = NULL;
+    m_g.m_untextured_geometry = NULL;
 }
 
 sad::Sprite3D::~Sprite3D()
@@ -178,27 +201,107 @@ sad::db::schema::Schema* sad::Sprite3D::schema() const
 
 void sad::Sprite3D::render()
 {
-  sad::Texture * texture = m_texture.get();
-  if (!texture)
-      return;
-   glGetIntegerv(GL_CURRENT_COLOR, m_current_color_buffer);   
-   glColor4ub(m_color.r(),m_color.g(),m_color.b(),255-m_color.a());	   
-   texture->bind();	
-   glBegin(GL_QUADS);
-   for (int i = 0;i < 4; i++)
-   {
-        glTexCoord2f(
-          (GLfloat)(m_normalized_texture_coordinates[i].x()),
-          (GLfloat)(m_normalized_texture_coordinates[i].y())
-        );
-        glVertex3f(
-            (GLfloat)(m_renderable_area[i].x()),
-            (GLfloat)(m_renderable_area[i].y()),
-            (GLfloat)(m_renderable_area[i].z())
-        );
-   }  
-   glEnd();
-   glColor4iv(m_current_color_buffer);
+    sad::Scene* scene = this->scene();
+    if (!scene)
+    {
+        return;
+    }
+    sad::Renderer* r = scene->renderer();
+    if (!r)
+    {
+        return;
+    }
+    sad::Texture * texture = m_texture.get();
+    if (r->context()->isOpenGL3compatible())
+    {
+        sad::ShaderFunction* shader = this->shaderFunction();
+        if (!shader)
+        {
+            shader = (texture) ? r->defaultShaderFunctionForTextures3d() : r->defaultShaderFunctionWithoutTextures3d();
+        }
+        if (texture)
+        {
+            m_was_textured = true;
+            if (m_geometry_dirty)
+            {
+                m_g.m_textured_geometry = r->takeTextured3D();
+                m_geometry_dirty = false;
+            }
+            sad::os::GLTexturedGeometry3D* g = m_g.m_textured_geometry;
+            g->loadToGPU();
+            if (m_tc_dirty)
+            {
+                g->setTextureCoordinates(m_normalized_texture_coordinates);
+                m_tc_dirty = false;
+            }
+            if (m_vertexes_dirty)
+            {
+                g->setVertices(m_renderable_area);
+                m_vertexes_dirty = false;
+            }
+            shader->apply(this, texture, &m_color);
+            g->drawIndexedQuad();
+        }
+        else
+        {
+            m_was_textured = false;
+            m_was_textured = false;
+            if (m_geometry_dirty)
+            {
+                m_g.m_untextured_geometry = r->takeUntextured3D();
+                m_geometry_dirty = false;
+            }
+            sad::os::GLUntexturedGeometry3D* g = m_g.m_untextured_geometry;
+            g->loadToGPU();
+            if (m_tc_dirty)
+            {
+                m_tc_dirty = false;
+            }
+            if (m_vertexes_dirty)
+            {
+                g->setVertices(m_renderable_area);
+                m_vertexes_dirty = false;
+            }
+            shader->apply(this, &m_color);
+            g->drawIndexedQuad();
+        }
+        shader->disable();
+    }
+    else
+    {
+        glGetIntegerv(GL_CURRENT_COLOR, m_current_color_buffer);
+        glColor4ub(m_color.r(), m_color.g(), m_color.b(), 255 - m_color.a());
+        if (texture)
+        {
+            texture->bind();
+        }
+        else
+        {
+            glDisable(GL_TEXTURE_2D);
+        }
+        glBegin(GL_QUADS);
+        for (int i = 0; i < 4; i++)
+        {
+            if (texture)
+            {
+                glTexCoord2f(
+                    static_cast<GLfloat>(m_normalized_texture_coordinates[i].x()),
+                    static_cast<GLfloat>(m_normalized_texture_coordinates[i].y())
+                );
+            }
+            glVertex3f(
+                static_cast<GLfloat>(m_renderable_area[i].x()),
+                static_cast<GLfloat>(m_renderable_area[i].y()),
+                static_cast<GLfloat>(m_renderable_area[i].z())
+            );
+        }
+        glEnd();
+        glColor4iv(m_current_color_buffer);
+        if (!texture)
+        {
+            glEnable(GL_TEXTURE_2D);
+        }
+    }
 }
 
 void sad::Sprite3D::rendererChanged()
@@ -207,12 +310,14 @@ void sad::Sprite3D::rendererChanged()
     {
         m_texture.setRenderer(this->renderer());
     }
+    tryReturnGeometry();
 }
 
 void sad::Sprite3D::setTextureCoordinates(const sad::Rect2D & texturecoordinates)
 {
     m_texture_coordinates = texturecoordinates;
     normalizeTextureCoordinates();
+    m_tc_dirty = true;
 }
 
 void sad::Sprite3D::setTextureCoordinate(int index, const sad::Point2D & point)
@@ -249,6 +354,7 @@ void sad::Sprite3D::setTextureCoordinate(int index, const sad::Point2D & point)
             };
         }
 
+        m_tc_dirty = true;
         m_normalized_texture_coordinates[newindex] = relativepoint;
     }
 }
@@ -268,6 +374,7 @@ void sad::Sprite3D::setRenderableArea(const sad::Rect<sad::Point3D> & rect)
 {
     initFromRectangle(rect);
     buildRenderableArea();
+    m_vertexes_dirty = true;
 }
 
 sad::Rect<sad::Point3D> sad::Sprite3D::area() const
@@ -299,6 +406,7 @@ const sad::Point3D & sad::Sprite3D::middle() const
 void sad::Sprite3D::setMiddle(const sad::Point3D & p)
 {
     m_middle = p;
+    m_vertexes_dirty = true;
     buildRenderableArea();
 }
 
@@ -310,6 +418,7 @@ const sad::Size2D &  sad::Sprite3D::size() const
 void sad::Sprite3D::setSize(const sad::Size2D & size)
 {
     m_size = size;
+    m_vertexes_dirty = true;
     buildRenderableArea();
 }
 
@@ -320,11 +429,13 @@ void sad::Sprite3D::moveBy(const sad::Point3D & dist)
     {
         m_renderable_area[i] += dist;
     }
+    m_vertexes_dirty = true;
 }
 
 void sad::Sprite3D::moveBy(const sad::Point2D& p)
 {
     sad::Point3D tmp(p.x(), p.y(), 0);
+    m_vertexes_dirty = true;
     moveBy(tmp);
 }
 
@@ -332,6 +443,7 @@ void sad::Sprite3D::moveTo(const sad::Point3D & p)
 {
     sad::Point3D  dist = p;
     dist -= middle();
+    m_vertexes_dirty = true;
     moveBy(dist);
 }
 
@@ -349,18 +461,21 @@ void sad::Sprite3D::rotate(double alpha, double theta)
 {
     m_alpha += alpha;
     m_theta += theta;
+    m_vertexes_dirty = true;
     buildRenderableArea();
 }
 
 void sad::Sprite3D::setAlpha(double alpha)
 {
     m_alpha = alpha;
+    m_vertexes_dirty = true;
     buildRenderableArea();
 }
 
 void sad::Sprite3D::setTheta(double theta)
 {
     m_theta = theta;
+    m_vertexes_dirty = true;
     buildRenderableArea();
 }
 
@@ -386,6 +501,7 @@ const sad::AColor & sad::Sprite3D::color() const
 
 void sad::Sprite3D::setFlipX(bool flipx)
 {
+    m_tc_dirty = true;
     bool changed = m_flipx != flipx;
     m_flipx = flipx;
     if (changed)
@@ -396,6 +512,7 @@ void sad::Sprite3D::setFlipX(bool flipx)
 
 void sad::Sprite3D::setFlipY(bool flipy)
 {
+    m_tc_dirty = true;
     bool changed = m_flipy != flipy;
     m_flipy = flipy;
     if (changed)
@@ -418,6 +535,8 @@ void sad::Sprite3D::setTexture(sad::Texture * texture)
 {
     m_texture.attach(texture);
     normalizeTextureCoordinates();
+
+    tryReturnGeometry();
 }
 
 sad::Texture * sad::Sprite3D::texture() const
@@ -428,6 +547,8 @@ sad::Texture * sad::Sprite3D::texture() const
 void sad::Sprite3D::setTextureName(const sad::String & name)
 {
     m_texture.setPath(name);
+
+    tryReturnGeometry();
     reloadTexture();
 }
 
@@ -444,18 +565,26 @@ void sad::Sprite3D::setScene(sad::Scene * scene)
         m_texture.setRenderer(scene->renderer());
         reloadTexture();
     }
+    tryReturnGeometry();
 }
 
 void sad::Sprite3D::setTreeName(const sad::String & treename)
 {
     m_texture.setTree(m_texture.renderer(), treename);
     reloadTexture();
+    tryReturnGeometry();
 }
 
 void sad::Sprite3D::setTreeName(sad::Renderer* r, const sad::String & tree_name)
 {
     m_texture.setTree(r, tree_name);
     reloadTexture();
+    tryReturnGeometry();
+}
+
+void sad::Sprite3D::onRemovedFromScene()
+{
+    tryReturnGeometry();
 }
 
 void sad::Sprite3D::initFromRectangleFast(const sad::Rect<sad::Point3D> & rect)
@@ -521,4 +650,28 @@ void sad::Sprite3D::normalizeTextureCoordinates()
             std::swap(m_normalized_texture_coordinates[1], m_normalized_texture_coordinates[2]);
         }
     }
+}
+
+void sad::Sprite3D::tryReturnGeometry()
+{
+    if (m_old_renderer && !m_geometry_dirty)
+    {
+        if (m_was_textured)
+        {
+            if (m_g.m_textured_geometry)
+            {
+                m_old_renderer->storeGeometry(m_g.m_textured_geometry);
+            }
+        }
+        else
+        {
+            if (m_g.m_untextured_geometry)
+            {
+                m_old_renderer->storeGeometry(m_g.m_untextured_geometry);
+            }
+        }
+    }
+    m_geometry_dirty = true;
+    m_tc_dirty = true;
+    m_vertexes_dirty = true;
 }

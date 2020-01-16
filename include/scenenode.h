@@ -7,6 +7,7 @@
 #include "object.h"
 #include "sadvector.h"
 #include "sadrect.h"
+#include "shaderfunction.h"
 
 namespace sad
 {
@@ -46,7 +47,7 @@ public:
     {
         sad::Vector<sad::Rect2D> r;
         regions(r);
-        return (r.size() == 0) ? sad::Rect2D() : r[0];
+        return (r.empty()) ? sad::Rect2D() : r[0];
     }
     /*! Called, when renderer is changed for a scene
      */
@@ -135,6 +136,20 @@ public:
         \param[in] delta a delta for node
      */
     virtual void rotate(double delta);
+    /*! Sets shader function
+     *  \param[in] fun a function
+     */
+    virtual void setShaderFunction(sad::ShaderFunction* fun);
+    /*! Returns shader function
+     *  \return shader function
+     */
+    virtual sad::ShaderFunction* shaderFunction() const;
+    /*! Called, when node is added to scene
+     */
+    virtual void onAddedToScene();
+    /*! Called, when node is removed from scene
+     */
+    virtual void onRemovedFromScene();
 protected:
     /*! Determines, whether scene node is visible and should be rendered. It's same as m_active but can be used for different purposes,
         when object is active, but hidden by somewhere else in chain of responsibility of application.
@@ -149,6 +164,9 @@ protected:
     /*! A cached scene minor id
      */
     unsigned long long m_cached_scene_id;
+    /*! A shader function for scene node
+     */
+    sad::ShaderFunction* m_shader_function;
 };
 
 }

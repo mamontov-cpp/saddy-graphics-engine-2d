@@ -27,6 +27,9 @@ cd ../..
 cd examples/imgui
 (cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$1 && make) || (exit 1)
 cd ../..
+cd examples/shaders
+(cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$1 && make) || (exit 1)
+cd ../..
 cd tests/animations
 (cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$1 && make) || (exit 1)
 cd ../..

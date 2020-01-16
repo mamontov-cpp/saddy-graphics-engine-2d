@@ -49,7 +49,16 @@ public:
         const sad::Point2D & p,
         float ratio,
         sad::Font::RenderFlags flags
-    ); 
+    );
+    /*! Fills geometries with related font data
+        \param[in] data a data
+        \param[in] g geometries
+        \param[in] str string
+        \param[in] p   upper-left point in viewport coordinates
+        \param[in] flags a flags for rendering
+        \param[in] ratio ratio for line-spacing
+     */
+    virtual void fillGeometries(const sad::Font::GeometryRenderData& data, sad::os::GLFontGeometries& g, const sad::String & str, const sad::Point2D & p, sad::Font::RenderFlags flags, float ratio);
     /*! Renders text line to a texture. Before output all new line string are stripped.
         Texture's memory should be freed manually
         \param[in] string a string texture
@@ -87,10 +96,6 @@ public:
         \return string of glyph parameters
      */
     sad::String dumpGlyphParameters() const;
-    /*! Dumps data to BMP
-     * \param[in] size size
-     */
-    void dumpToBMP(unsigned int size) const;
 protected:
     /*! Creates and returns current size for data
         \param[in] size a new size for data

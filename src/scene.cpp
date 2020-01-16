@@ -19,13 +19,13 @@
 #include "db/dbmethodpair.h"
 
 // ReSharper disable once CppUnusedIncludeDirective
-#include <time.h>
+#include <ctime>
 
 sad::Scene::Scene()
 : m_active(true), m_cached_layer(0), m_camera(new sad::OrthographicCamera()), m_renderer(NULL)
 {
     m_camera->addRef();
-    m_camera->Scene = this;
+    m_camera->setScene(this);
 }
 
 sad::Scene::~Scene()
@@ -106,7 +106,7 @@ void sad::Scene::setCamera(sad::Camera * camera)
     m_camera = camera;
     if (m_camera)
     {
-        m_camera->Scene = this;
+        m_camera->setScene(this);
         m_camera->addRef();
     }
 }
@@ -218,13 +218,17 @@ const sad::String& sad::Scene::serializableName() const
 void sad::Scene::addNow(sad::SceneNode * node)
 {
     node->addRef();
-    bool mustchangerenderer = node->renderer() == NULL;
+    bool mustchangerenderer = (node->renderer() == NULL) || (m_renderer != node->renderer());
     node->setScene(this);
     if (mustchangerenderer)
     {
         node->rendererChanged();
     }
     m_layers << node;
+    if (node)
+    {
+        node->onAddedToScene();
+    }
 }
 
 void sad::Scene::removeNow(sad::SceneNode * node)
@@ -233,6 +237,10 @@ void sad::Scene::removeNow(sad::SceneNode * node)
     {
         if (node == m_layers[i])
         {
+            if (node)
+            {
+                node->onRemovedFromScene();
+            }
             node->delRef();
             m_layers.removeAt(i);
             --i;

@@ -16,7 +16,13 @@
 
 namespace sad
 {
+
+namespace os
+{
+class GLFontGeometries;
+}
 class Renderer;
+class FontShaderFunction;
 /*! \class Label
     
     Class, that renders a simple multiline text on scene.
@@ -64,6 +70,20 @@ public:
         {
 
         }
+    };
+    /*! A data fopr rendering lines
+     */
+    struct LineRenderedData
+    {
+        /*! Owns color or uses global
+         */
+        sad::Maybe<sad::AColor> Color;
+        /*! First point
+         */
+        sad::Point2D P1;
+        /*! Second point
+         */
+        sad::Point2D P2;
     };
     /*! Creates a default broken sprite at (0,0) and no string
      */
@@ -545,6 +565,21 @@ public:
         \param[in] limit  a limit value
      */
     void setRenderingStringLimitAsRatioToLength(double limit);
+    /*! Called, when label is removed from scene
+     */
+    virtual void onRemovedFromScene();
+    /*! Sets shader function
+     *  \param[in] fun a function
+     */
+    virtual void setShaderFunction(sad::ShaderFunction* fun);
+    /*! Sets line shader function
+     *  \param[in] fun line shader function
+     */
+    virtual void setLineShaderFunction(sad::FontShaderFunction* fun);
+    /*! Returns line shader function
+     *  \return line shader function
+     */
+    sad::FontShaderFunction* lineShaderFunction() const;
 private:
     /*! Reloads font for a label from scene
      */
@@ -595,6 +630,14 @@ private:
         \param[in] font a font
      */
     void renderWithoutFormatting(sad::Font* font);
+    /*! Builds geometries with formatting
+        \param[in] font a font
+     */
+    void buildGeometriesWithFormatting(sad::Font* font);
+    /*! Builds geometries without formatting
+        \param[in] font a font
+     */
+    void buildGeometriesWithoutFormatting(sad::Font* font);
     /*! A link to font, that label is being renderd with
      */
     sad::resource::Link<sad::Font> m_font;
@@ -682,6 +725,21 @@ private:
     /*! A limit for rendering character
      */
     sad::Maybe<unsigned int> m_rendering_character_limit;
+    /*! A geometries data
+     */
+    sad::os::GLFontGeometries* m_geometries;
+    /*! Whether geometries are dirty
+     */
+    bool m_geometries_dirty;
+    /*! A shader function for lines
+     */
+    sad::FontShaderFunction* m_line_shader_function;
+    /*! A rendered lines for rendering with shanders
+     */
+    sad::Vector<sad::Label::LineRenderedData> m_rendered_lines;
+    /*! Label size
+     */
+    sad::Size2D m_label_size;
 };
 
 }
