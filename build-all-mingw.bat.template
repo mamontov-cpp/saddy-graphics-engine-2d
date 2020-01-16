@@ -62,6 +62,9 @@ cd ../..
 cd examples/imgui
 call %BatchToRun% || goto :error
 cd ../..
+cd examples/shaders
+call %BatchToRun% || goto :error
+cd ../..
 cd tests/animations
 call %BatchToRun% || goto :error
 cd ../..

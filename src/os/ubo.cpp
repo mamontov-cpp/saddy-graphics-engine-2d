@@ -54,7 +54,7 @@ void sad::os::UBO::tryUnload()
     {
         sad::os::ExtensionFunctions* f = m_f;
         f->glDeleteBuffers(1, &m_id);
-        this->tryLogGlError("sad::os::UBO::tryLoadToGPU: glBindBuffer(GL_UNIFORM_BUFFER, 0)");
+        this->tryLogGlError("sad::os::UBO::tryUnload: glBindBuffer(GL_UNIFORM_BUFFER, 0)");
         m_id = -1;
     }
 }
@@ -68,13 +68,13 @@ void sad::os::UBO::setSubData(GLintptr offset, GLsizeiptr size, const GLvoid* da
     sad::os::ExtensionFunctions* f = m_f;
 
     f->glBindBuffer(GL_UNIFORM_BUFFER, m_id);
-    this->tryLogGlError("sad::os::UBO::tryLoadToGPU: glBindBuffer(GL_UNIFORM_BUFFER, m_id)");
+    this->tryLogGlError("sad::os::UBO::setSubData: glBindBuffer(GL_UNIFORM_BUFFER, m_id)");
 
     f->glBufferSubData(GL_UNIFORM_BUFFER, offset, size, data);
-    this->tryLogGlError("sad::os::UBO::tryLoadToGPU: glBufferSubData");
+    this->tryLogGlError("sad::os::UBO::setSubData: glBufferSubData");
 
     f->glBindBuffer(GL_UNIFORM_BUFFER, 0);
-    this->tryLogGlError("sad::os::UBO::tryLoadToGPU: glBindBuffer(GL_UNIFORM_BUFFER, 0)");
+    this->tryLogGlError("sad::os::UBO::setSubData: glBindBuffer(GL_UNIFORM_BUFFER, 0)");
 }
 
 void sad::os::UBO::setUserData(void* user_data)

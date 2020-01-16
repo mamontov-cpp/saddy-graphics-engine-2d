@@ -75,6 +75,12 @@ m_glUniformBlockBinding(NULL),
 m_glBufferSubData(NULL),
 m_glBindBufferBase(NULL),
 m_glBindBufferRange(NULL),
+m_glBlendEquation(NULL),
+m_glBindSampler(NULL),
+m_glBlendEquationSeparate(NULL),
+m_glBlendFuncSeparate(NULL),
+m_glGetAttribLocation(NULL),
+m_glDetachShader(NULL),
 m_init(false),
 m_parent(NULL)
 {
@@ -165,6 +171,12 @@ void sad::os::ExtensionFunctions::tryInit()
             TRY_GET_PROC_ADDRESS(PFNGLBINDBUFFERBASEPROC, glBindBufferBase);
             TRY_GET_PROC_ADDRESS(PFNGLBINDBUFFERRANGEPROC, glBindBufferRange);
 
+            TRY_GET_PROC_ADDRESS(PFNGLBLENDEQUATIONPROC, glBlendEquation);
+            TRY_GET_PROC_ADDRESS(PFNGLBINDSAMPLERPROC, glBindSampler);
+            TRY_GET_PROC_ADDRESS(PFNGLBLENDEQUATIONSEPARATEPROC, glBlendEquationSeparate);
+            TRY_GET_PROC_ADDRESS(PFNGLBLENDFUNCSEPARATEPROC, glBlendFuncSeparate);
+            TRY_GET_PROC_ADDRESS(PFNGLGETATTRIBLOCATIONPROC, glGetAttribLocation);
+            TRY_GET_PROC_ADDRESS(PFNGLDETACHSHADERPROC, glDetachShader);
         }
         m_init_mtx.unlock();
     }
@@ -1030,6 +1042,78 @@ void sad::os::ExtensionFunctions::glBindBufferRange(
     else
     {
         throw std::logic_error("glBindBufferRange() is unavailable on this platform");
+    }
+}
+
+void sad::os::ExtensionFunctions::glBlendEquation(GLenum mode)
+{
+    if (this->m_glBlendEquation)
+    {
+        (this->m_glBlendEquation)(mode);
+    }
+    else
+    {
+        throw std::logic_error("glBlendEquation() is unavailable on this platform");
+    }
+}
+
+void sad::os::ExtensionFunctions::glBindSampler(GLuint unit, GLuint sampler)
+{
+    if (this->m_glBindSampler)
+    {
+        (this->m_glBindSampler)(unit, sampler);
+    }
+    else
+    {
+        throw std::logic_error("glBindSampler() is unavailable on this platform");
+    }
+}
+
+void sad::os::ExtensionFunctions::glBlendEquationSeparate(GLenum modeRGB, GLenum modeAlpha)
+{
+    if (this->m_glBlendEquationSeparate)
+    {
+        (this->m_glBlendEquationSeparate)(modeRGB, modeAlpha);
+    }
+    else
+    {
+        throw std::logic_error("glBlendEquationSeparate() is unavailable on this platform");
+    }
+}
+
+void sad::os::ExtensionFunctions::glBlendFuncSeparate(GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha)
+{
+    if (this->m_glBlendFuncSeparate)
+    {
+        (this->m_glBlendFuncSeparate)(srcRGB, dstRGB, srcAlpha, dstAlpha);
+    }
+    else
+    {
+        throw std::logic_error("glBlendFuncSeparate() is unavailable on this platform");
+    }
+}
+
+GLint sad::os::ExtensionFunctions::glGetAttribLocation(GLuint program, const GLchar* name)
+{
+    if (this->m_glGetAttribLocation)
+    {
+        return (this->m_glGetAttribLocation)(program, name);
+    }
+    else
+    {
+        throw std::logic_error("glGetAttribLocation() is unavailable on this platform");
+    }
+}
+
+void sad::os::ExtensionFunctions::glDetachShader(GLuint program, GLuint shader)
+{
+    if (this->m_glDetachShader)
+    {
+        (this->m_glDetachShader)(program, shader);
+    }
+    else
+    {
+        throw std::logic_error("glDetachShader() is unavailable on this platform");
     }
 }
 

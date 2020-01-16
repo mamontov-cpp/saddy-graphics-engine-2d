@@ -26,6 +26,23 @@
 #include <input/controls.h>
 #include <input/events.h>
 
+#include <3rdparty/glext/glext.h>
+#include <opengl.h>
+#include <renderer.h>
+#include <glcontext.h>
+#include <os/glheaders.h>
+
+// Backend API
+bool     ImGui_ImplOpenGL3_Init(const char* glsl_version = NULL);
+void     ImGui_ImplOpenGL3_Shutdown();
+void     ImGui_ImplOpenGL3_NewFrame();
+void     ImGui_ImplOpenGL3_RenderDrawData(ImDrawData* draw_data);
+
+// (Optional) Called by Init/NewFrame/Shutdown
+bool     ImGui_ImplOpenGL3_CreateFontsTexture();
+void     ImGui_ImplOpenGL3_DestroyFontsTexture();
+bool     ImGui_ImplOpenGL3_CreateDeviceObjects();
+void     ImGui_ImplOpenGL3_DestroyDeviceObjects();
 
 bool sad::imgui::ImGui::m_event_processing_enabled = false;
 
@@ -194,6 +211,9 @@ void sad::imgui::ImGui::runPipeline()
     }
 }
 
+static PFNGLUSEPROGRAMPROC glUseProgram;
+static bool glUseProgramFetched = false;
+
 /*! A rendering callback for ImGui
     \param[in] draw_data a data for drawing
  */
@@ -201,6 +221,16 @@ void render_draw_lists(ImDrawData* draw_data)
 // Note that this implementation is little overcomplicated because we are saving/setting up/restoring every OpenGL state explicitly, in order to be able to run within any OpenGL engine that doesn't do so.
 // If text or lines are blurry when integrating ImGui in your engine: in your Render function, try translating your projection matrix by (0.5f,0.5f) or (0.375f,0.375f)
 {
+
+    if (sad::Renderer::ref()->context()->isOpenGL3compatible())
+    {
+        //ImGui::Render();
+        //glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
+        //glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
+        //glClear(GL_COLOR_BUFFER_BIT);
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        return;
+    }
     // Avoid rendering when minimized, scale coordinates for retina displays (screen coordinates != framebuffer coordinates)
     ImGuiIO& io = ImGui::GetIO();
     int fb_width = (int)(io.DisplaySize.x * io.DisplayFramebufferScale.x);
@@ -226,8 +256,15 @@ void render_draw_lists(ImDrawData* draw_data)
     glEnableClientState(GL_COLOR_ARRAY);
     glEnable(GL_TEXTURE_2D);
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    //glUseProgram(0); // You may want this if using this code in an OpenGL 3+ context where shaders may be bound
-
+    if (!glUseProgramFetched)
+    {
+        glUseProgram = reinterpret_cast<PFNGLUSEPROGRAMPROC>(getProcAdress("glUseProgram"));
+        glUseProgramFetched = true;
+    }
+    if (glUseProgram)
+    {
+        glUseProgram(0); // You may want this if using this code in an OpenGL 3+ context where shaders may be bound
+    }
     // Setup viewport, orthographic projection matrix
     glViewport(0, 0, (GLsizei)fb_width, (GLsizei)fb_height);
     glMatrixMode(GL_PROJECTION);
@@ -354,6 +391,11 @@ static void shutdown()
     invalidate_device_objects();
     // Seems to be unused in new versios of ImGui
     // ImGui::Shutdown();
+    const char* glsl_version = "#version 130";
+    if (sad::Renderer::ref()->context()->isOpenGL3compatible())
+    {
+        ImGui_ImplOpenGL3_Shutdown();
+    }
     ImGui::DestroyContext();
 }
 
@@ -361,8 +403,17 @@ static void shutdown()
  */
 void new_frame()
 {
-    if (!font_texture)
+    bool should_init = false;
+    if (!font_texture) 
+    {
+        const char* glsl_version = "#version 130";
+        if (sad::Renderer::ref()->context()->isOpenGL3compatible())
+        {
+            ImGui_ImplOpenGL3_Init(glsl_version);
+        }
         create_device_objects();
+        should_init = true;
+    }
     ImGuiIO& io = ImGui::GetIO();
 
     // Setup display size (every frame to accommodate for window resizing)
@@ -406,7 +457,10 @@ void new_frame()
     } else {
         sad::Renderer::ref()->cursor()->show();
     }
-
+    if (sad::Renderer::ref()->context()->isOpenGL3compatible())
+    {
+        ImGui_ImplOpenGL3_NewFrame();
+    }
     // Start the frame
     ImGui::NewFrame();
 }

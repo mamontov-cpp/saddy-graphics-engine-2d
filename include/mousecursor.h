@@ -53,6 +53,14 @@ public:
      *  \param[in] r renderer
      */
     virtual void render(sad::Renderer* r);
+    /*! Sets shader function
+        \param[in] shader_function a shader function
+     */
+    void setShaderFunction(sad::ShaderFunction* shader_function);
+    /*! Returns shader function shader function
+        \return shader function
+     */
+    sad::ShaderFunction* shaderFunction() const;
     /*! This is abstract class, that should be implemented by user
      */
     virtual ~MouseCursorSprite();
