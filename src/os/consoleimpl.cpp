@@ -102,7 +102,7 @@ void sad::os::ConsoleImpl::setColorMode(sad::log::Color foreground, sad::log::Co
     this->clearColorMode();
     printf("\033[%s%s%s%s", 
     fg[(int)foreground], 
-    (background != sad::log::NONE) ? ";" : "",
+    (background != sad::log::Color::NONE) ? ";" : "",
     bg[(int)background], "m");
 #endif
 }
