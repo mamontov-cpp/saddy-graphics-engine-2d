@@ -541,7 +541,7 @@ void sad::os::KeyDecoder::init()
     for(i = 0; i < totalmappingsize; i += 2)
     {
         sad::os::SystemKey syskey = static_cast<sad::os::SystemKey>(mapping[i]);
-        sad::KeyboardKey sadkey = static_cast<sad::KeyboardKey>(mapping[i+1)];
+        sad::KeyboardKey sadkey = static_cast<sad::KeyboardKey>(mapping[i+1]);
         m_table.insert(syskey, sadkey);
     }
 #endif
