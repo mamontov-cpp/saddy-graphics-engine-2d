@@ -22,9 +22,9 @@ m_renderer(r),
 m_root(new sad::resource::Folder()), 
 m_factory(new sad::resource::Factory()),
 m_storelinks(false),
-m_temporary_root_folder(NULL)
+m_temporary_root_folder(nullptr)
 {
-    if (r == NULL)
+    if (r == nullptr)
     {
         m_renderer = sad::Renderer::ref();
     }
@@ -43,7 +43,7 @@ sad::resource::Tree::~Tree()
 
 sad::Vector<sad::resource::Error*> sad::resource::Tree::loadFromString(const sad::String & string)
 {
-    m_temporary_root_folder = NULL;
+    m_temporary_root_folder = nullptr;
     sad::Vector<sad::resource::Error*> errors;
     
     // Check string for emptiness - should we do anything	
@@ -130,7 +130,7 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::loadFromString(const sad
     {
         m_current_root = m_temporary_root;
     }
-    m_temporary_root_folder = NULL; //-V519
+    m_temporary_root_folder = nullptr; //-V519
     return errors;
 }
 
@@ -262,7 +262,7 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::load(
                 if (resourcename.exists())
                 {
                     // Sometimes resource could be duplicated
-                    if (temporary->resource(resourcename.value()) != NULL)
+                    if (temporary->resource(resourcename.value()) != nullptr)
                     {
                         errors << new sad::resource::ResourceAlreadyExists(resourcename.value());
                         delete resource;
@@ -427,7 +427,7 @@ sad::resource::ResourceFile* sad::resource::Tree::file(const sad::String& name)
         if (m_files[i]->name() == name)
             return m_files[i];
     }
-    return NULL;
+    return nullptr;
 }
 
 const sad::Vector<sad::resource::ResourceFile*>& sad::resource::Tree::files() const
@@ -529,7 +529,7 @@ tar7z::Entry* sad::resource::Tree::archiveEntry(const sad::String& archive, cons
     }
     
     delete ar;
-    return NULL;    
+    return nullptr;    
 }
 
 

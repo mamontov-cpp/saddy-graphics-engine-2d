@@ -40,9 +40,9 @@ class Tree: public sad::RefCountable
 {	
 public:	
     /*! Constructs a new empty tree
-        \param[in] r used renderer (NULL for global)
+        \param[in] r used renderer (nullptr for global)
      */
-    Tree(sad::Renderer * r = NULL);
+    Tree(sad::Renderer * r = nullptr);
     /*! This class can be inherited 
      */
     virtual ~Tree();
@@ -88,7 +88,7 @@ public:
         \param[in] typehint a hint for type of file to be loaded
         \param[in] filename a name of file to be loaded
         \param[in] resourcename a name of resource, if any should be loaded
-        \param[in] store where new resources, should be stored (NULL for current root)
+        \param[in] store where new resources, should be stored (nullptr for current root)
         \param[in] v  a parsed JSON value
         \param[out] files list of files, where new resources should be stored
         \return list of errors
@@ -119,7 +119,7 @@ public:
     sad::resource::Folder* root() const;
     /*! Returns registered file by a name
         \param[in] name a file name
-        \return file or NULL if not found
+        \return file or nullptr if not found
      */
     sad::resource::ResourceFile* file(const sad::String& name);
     /*! Returns a vector of files
@@ -166,7 +166,7 @@ public:
     >
     _ResourceType* get(const sad::String & name)
     {
-        _ResourceType* result = NULL;
+        _ResourceType* result = nullptr;
         sad::resource::Resource* r = root()->resource(name);
         if (r)
         {

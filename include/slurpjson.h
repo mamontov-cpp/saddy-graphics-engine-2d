@@ -17,6 +17,6 @@ namespace sad
     \param[in] renderer used renderer if can be used
     \return a content of file if it can be round
  */
-sad::Maybe<picojson::value> slurpJson(const sad::String fileName, sad::Renderer* renderer = NULL);
+sad::Maybe<picojson::value> slurpJson(const sad::String fileName, sad::Renderer* renderer = nullptr);
 
 }

@@ -16,14 +16,14 @@ typedef unsigned char uchar;
  */
 struct ColorDiff
 {
-    double R; //!< A red componenet
+    double R; //!< A red component
     double G; //!< A green component
     double B; //!< A blue component
 
     /*! Multiplies a difference by value
         \param[in] a argument
      */
-    inline ColorDiff operator*(double a)
+    inline ColorDiff operator*(double a) const
     {
         ColorDiff result;
         result.R = this->R * a;
@@ -49,7 +49,7 @@ public:
     inline Color(): m_r(0), m_g(0), m_b(0)
     {
     }
-     /*! Parametric constuctor of following color
+     /*! Parametric constructor of following color
          \param[in] r red component
          \param[in] g green component
          \param[in] b blue component
@@ -81,7 +81,6 @@ public:
     }
     /*! Sets the red component
         \param[in] r red component
-        \return self-reference
     */
     inline void setR(sad::uchar r) 
     { 
@@ -89,7 +88,6 @@ public:
     }
     /*! Sets the green component
         \param[in] g green component
-        \return self-reference
     */
     inline void setG(sad::uchar g)
     {
@@ -97,7 +95,6 @@ public:
     }
     /*! Sets the blue component
         \param[in] b blue component
-        \return self-reference
     */
     inline void setB(sad::uchar b)
     {
@@ -146,7 +143,7 @@ public:
     /*! Multiplies a difference by value
         \param[in] a argument
      */
-    inline AColorDiff operator*(double a)
+    inline AColorDiff operator*(double a) const
     {
         AColorDiff result;
         result.R = this->R * a;
@@ -174,7 +171,7 @@ class AColor: public Color
     inline AColor() : sad::Color(), m_a(0)
     {
     }
-    /*! Constructs new color with alphachannel with following parameters
+    /*! Constructs new color with alpha channel with following parameters
         \param[in] r red component
         \param[in] g green component
         \param[in] b blue component
@@ -184,7 +181,7 @@ class AColor: public Color
     : sad::Color(r, g, b), m_a(a)
     {
     }
-    /*! Constructs new color with alphachannel with following parameters
+    /*! Constructs new color with alpha channel with following parameters
         \param[in] r red component
         \param[in] g green component
         \param[in] b blue component

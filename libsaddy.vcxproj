@@ -486,8 +486,6 @@
     <ClInclude Include="include\util\fileistreambuf.h" />
     <ClInclude Include="include\util\fontcache.h" />
     <ClInclude Include="include\util\markup.h" />
-    <ClInclude Include="include\util\sadhash.h" />
-    <ClInclude Include="include\util\sadhash_src.h" />
     <ClInclude Include="include\util\texturedefaultimage.h" />
     <ClInclude Include="include\window.h" />
     <ClInclude Include="include\cli\args.h" />

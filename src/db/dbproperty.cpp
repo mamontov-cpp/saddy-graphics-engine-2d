@@ -4,7 +4,7 @@
 sad::db::Property::Property()
 : m_pointer_stars_count(0),
 m_type_is_kind_of_sad_object(false),
-m_default_value(NULL) 
+m_default_value(nullptr) 
 {
 
 }
@@ -85,13 +85,13 @@ bool sad::db::Property::makeNonRequiredWithDefaultValue(
 bool sad::db::Property::makeRequired()
 {
     delete m_default_value;
-    m_default_value = NULL;
+    m_default_value = nullptr;
     return true;
 }
 
 bool sad::db::Property::hasDefaultValue() const
 {
-    return m_default_value != NULL;
+    return m_default_value != nullptr;
 }
 
 sad::db::Variant* sad::db::Property::defaultValue() const

@@ -143,17 +143,17 @@ bool sad::db::custom::Schema::load(const picojson::value& v)
                             if (p)
                             {
                                 sad::db::Variant value;
-                                p->get(NULL, value);
+                                p->get(nullptr, value);
                                 if (value.load(*maybevalueentry)) 
                                 {
-                                    if (p->set(NULL, value))
+                                    if (p->set(nullptr, value))
                                     {
                                         bool caninsert = true;
                                         if (maybedefaultentry)
                                         {
                                             caninsert = false;
                                             sad::db::Variant* default_value = new sad::db::Variant();
-                                            p->get(NULL, *default_value);
+                                            p->get(nullptr, *default_value);
                                             if (default_value->load(*maybedefaultentry)) 
                                             {
                                                 if (p->couldBeSetFrom(*default_value))
@@ -261,7 +261,7 @@ void sad::db::custom::Schema::getNamesOfCustomProperties(sad::Vector<sad::String
     m_properties_lock.unlock();
 }
 
-sad::db::custom::Schema::Schema(const sad::db::custom::Schema& s) : m_factory(NULL)
+sad::db::custom::Schema::Schema(const sad::db::custom::Schema& s) : m_factory(nullptr)
 {
     throw std::logic_error("Not implemented!");
 }

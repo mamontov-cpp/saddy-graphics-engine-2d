@@ -1,7 +1,7 @@
 /*! \file geometry3d.h
     
 
-    Describes an opetations in 3D space
+    Describes an operations in 3D space
  */
 #pragma once
 #include "geometry2d.h"
@@ -29,13 +29,13 @@ bool isValid(const sad::Rect<sad::Point3D> & rect);
 /*! Rotates a 3D rectangle around in centers around Z axis and Y axis
     sequentially
     \param[in] rect a rectangle to be rotated
-    \param[out] outrect a rectangle, which will be rotated
+    \param[out] out_rectangle a rectangle, which will be rotated
     \param[in] alpha an angle for counter-clockwise rotation around Z axis
     \param[in] theta an angle for counter-clockwise rotation around Y axis
  */
 void rotate(
     const sad::Rect<sad::Point3D> & rect,
-    sad::Rect<sad::Point3D> & outrect,
+    sad::Rect<sad::Point3D> & out_rectangle,
     double alpha,
     double theta
 );
@@ -53,7 +53,7 @@ void getBaseRect(
     sad::Rect<sad::Point3D> & base,
     double & alpha,
     double & theta,
-    bool * error = NULL
+    bool * error = nullptr
 );
 
 }

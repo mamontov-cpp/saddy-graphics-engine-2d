@@ -25,7 +25,7 @@
 namespace sad
 {
 
-class AbsractThreadExecutableFunction;
+class AbstractThreadExecutableFunction;
 
 namespace os
 {
@@ -52,7 +52,7 @@ public:
     /*! Constructs new implementation for thread
         \param[in] f function, which should be executed when thread is run
      */
-    ThreadImpl(sad::AbsractThreadExecutableFunction * f);
+    ThreadImpl(sad::AbstractThreadExecutableFunction * f);
     /*! Copies a thread implementation
         \param[in] o other implementation
      */
@@ -84,7 +84,7 @@ public:
 protected:
     /*! Defines executed code
      */
-    sad::AbsractThreadExecutableFunction * m_function;
+    sad::AbstractThreadExecutableFunction * m_function;
 #ifdef WIN32
     /*! A handle, working with thread
      */

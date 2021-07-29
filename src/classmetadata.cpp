@@ -47,7 +47,7 @@ sad::Object * sad::ClassMetaData::castTo(sad::Object * o, const sad::String & na
     {
         return o;
     }
-    return NULL;
+    return nullptr;
 }
 
 void sad::ClassMetaData::addAncestor(const sad::String & name)

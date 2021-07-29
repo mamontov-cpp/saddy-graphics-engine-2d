@@ -9,7 +9,7 @@
 
 // ===================================  PUBLIC METHODS ===================================
 
-sad::db::Database::Database() : m_max_major_id(1), m_renderer(NULL)
+sad::db::Database::Database() : m_max_major_id(1), m_renderer(nullptr)
 {
     m_factory = new sad::db::ObjectFactory();
     m_prop_factory = new sad::db::StoredPropertyFactory();
@@ -128,7 +128,7 @@ bool sad::db::Database::loadFromFile(const sad::String& name, sad::Renderer * r)
     {
         if (util::isAbsolutePath(name) == false)
         {
-            if (r == NULL)
+            if (r == nullptr)
             {
                 r = this->renderer();
             }
@@ -188,7 +188,7 @@ void sad::db::Database::removeProperty(const sad::String & name)
 
 sad::db::Property* sad::db::Database::propertyByName(const sad::String & name) const
 {
-    sad::db::Property* p = NULL;
+    sad::db::Property* p = nullptr;
     if (m_properties.contains(name))
     {
         p = m_properties[name];
@@ -203,14 +203,14 @@ bool sad::db::Database::setDBProperty(const sad::String& name, sad::db::Variant&
     bool result = false;
     if (prop)
     {
-        result = prop->set(NULL, v);
+        result = prop->set(nullptr, v);
     }
     return result;
 }
 
 bool sad::db::Database::hasDBProperty(const sad::String& name) const
 {
-    return this->propertyByName(name) != NULL;
+    return this->propertyByName(name) != nullptr;
 }
 
 // ReSharper disable once CppMemberFunctionMayBeConst
@@ -220,7 +220,7 @@ sad::Maybe<sad::db::Variant> sad::db::Database::getDBProperty(const sad::String&
     if (prop)
     {
         sad::db::Variant v;
-        prop->get(NULL, v);
+        prop->get(nullptr, v);
         return sad::Maybe<sad::db::Variant>(v);
     }
     return sad::Maybe<sad::db::Variant>();
@@ -272,7 +272,7 @@ void sad::db::Database::removeTable(const sad::String& name)
 
 sad::db::Table* sad::db::Database::table(const sad::String& name)
 {
-    sad::db::Table* result = NULL;	
+    sad::db::Table* result = nullptr;	
     if (m_names_to_tables.contains(name))
     {
         result = m_names_to_tables[name];
@@ -310,7 +310,7 @@ sad::db::Object* sad::db::Database::objectByName(const sad::String & name) const
             return o[0];
         }
     }
-    return NULL;	
+    return nullptr;	
 }
 
 sad::Vector<sad::db::Object *> sad::db::Database::queryByMinorId(unsigned long long id) const
@@ -331,7 +331,7 @@ sad::Vector<sad::db::Object *> sad::db::Database::queryByMinorId(unsigned long l
 
 sad::db::Object* sad::db::Database::queryByMajorId(unsigned long long id) const
 {
-    sad::db::Object* result = NULL;
+    sad::db::Object* result = nullptr;
     if (m_majorid_to_table.contains(id))
     {
         result = m_majorid_to_table[id]->queryByMajorId(id);
@@ -499,7 +499,7 @@ bool sad::db::Database::restoreSnapshot(unsigned long index)
     // Add absent tables
     for(size_t i = 0; i < snapshot.Tables.size(); i++)
     {
-        if (this->table(snapshot.Tables[i].p1()) == NULL)
+        if (this->table(snapshot.Tables[i].p1()) == nullptr)
         {
             addTable(snapshot.Tables[i].p1(), new sad::db::Table());                
         }
@@ -611,12 +611,12 @@ void sad::db::Database::clearProperties()
         if (it->second.is<picojson::object>())
         {
             picojson::object o = it->second.get<picojson::object>();
-            const picojson::value* maybetype = NULL;
+            const picojson::value* maybetype = nullptr;
             if (o.find("type") != o.end())
             {
                 maybetype = &(o["type"]);
             }			
-            const picojson::value* maybevalue = NULL;
+            const picojson::value* maybevalue = nullptr;
             if (o.find("value") != o.end())
             {
                 maybevalue = &(o["value"]);
@@ -630,11 +630,11 @@ void sad::db::Database::clearProperties()
                     if (p)
                     {
                         sad::db::Variant value;
-                        p->get(NULL, value);
+                        p->get(nullptr, value);
                         deserialized = value.load(*maybevalue);
                         if (deserialized)
                         {
-                            deserialized = p->set(NULL, value);
+                            deserialized = p->set(nullptr, value);
                             if (deserialized)
                             {
                                 newproperties.insert(it->first, p);
@@ -749,7 +749,7 @@ void sad::db::Database::saveProperties(picojson::object& o)
         picojson::value prop(picojson::object_type, false);
         prop.insert("type", it.value()->serializableType());
         sad::db::Variant tmp;
-        it.value()->get(NULL, tmp);
+        it.value()->get(nullptr, tmp);
         prop.insert("value", tmp.save());
         o.insert(std::make_pair(it.key(), prop));
     }

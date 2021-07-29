@@ -1,12 +1,14 @@
+// ReSharper disable once CppDoxygenUnresolvedReference
 /*! \file ../include/object.h
     
 
-    Defines a universal object class, used as container for metadataa
+    Defines a universal object class, used as container for metadata
  */
 #pragma once
 #include "classmetadatacontainer.h"
 #include "db/dbtypename.h"
 #include "db/dbobject.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "3rdparty/picojson/picojson.h"
 
 namespace sad
@@ -30,15 +32,15 @@ class Object:public sad::db::Object
      /*! Returns name of class for metadata
          \return name of class for metadata
      */
-     virtual const sad::String& serializableName() const;
+     virtual const sad::String& serializableName() const override;
      /*! An object data
       */
-     virtual ~Object();
+     virtual ~Object() override;
      /*! A basic introspection capability. Checks, whether object has specified type
         \param[in] name name of class
         \return in basic implementation - false
      */
-     virtual bool isInstanceOf(const sad::String& name);
+     virtual bool isInstanceOf(const sad::String& name) override;
      /*! Performs checked casting to object, throws exception on error
          \return type if it can be casted, otherwise throws an exception
       */
@@ -58,31 +60,31 @@ class InvalidCastException
  private:
      /*! A name of real type of object
       */
-     sad::String m_fromname;
+     sad::String m_from_name;
      /*! A name of type, which we were casting to
       */
-     sad::String m_toname;
+     sad::String m_to_name;
      /*! A message for type
       */
      sad::String m_message;
  public:
      /*! Creates new exception with specified parameters
-         \param[in] fromname real type of object
-         \param[in] toname type, which we were casting to
+         \param[in] from_name real type of object
+         \param[in] to_name type, which we were casting to
       */
-     InvalidCastException(const sad::String & fromname, const sad::String & toname);
+     InvalidCastException(const sad::String & from_name, const sad::String & to_name);
      /*! A real type of object
          \return real type of object
       */
-     const sad::String & fromName();
+     const sad::String & fromName() const;
      /*! A type, which we were casting to
          \return type, which we were casting to
       */ 
-     const sad::String & toName();
+     const sad::String & toName() const;
      /*! A human-readable message for object
          \return a message for exception
       */
-     const sad::String & message();
+     const sad::String & message() const;
 };
 
 
@@ -104,18 +106,18 @@ namespace sad
     \param[in] arg argument
     \return result of cast
  */
-template<typename _Dest, typename _Src> _Dest * checked_cast(_Src * arg)                
+template<typename _Dest, typename _Src> _Dest * checked_cast(_Src * arg)
 {                                                                
     _Dest * result;                                       
-    const sad::String & destname = _Dest::globalMetaData()->name();      
-    if (arg->metaData()->canBeCastedTo(destname) == false)      
+    const sad::String & dest_name = _Dest::globalMetaData()->name();      
+    if (arg->metaData()->canBeCastedTo(dest_name) == false)      
     {                                                            
-        throw sad::InvalidCastException(arg->metaData()->name(), destname); 
+        throw sad::InvalidCastException(arg->metaData()->name(), dest_name); 
     }          
 
-    if (arg->metaData()->casts().contains(destname))
+    if (arg->metaData()->casts().contains(dest_name))
     {
-        sad::Object * o = arg->metaData()->casts()[destname]->cast(static_cast<void*>(arg));
+        sad::Object * o = arg->metaData()->casts()[dest_name]->cast(static_cast<void*>(arg));
         result = reinterpret_cast<_Dest*>(o); 
     }
     else
@@ -167,10 +169,10 @@ public:															\
  */
 #define DECLARE_SOBJ_INHERITANCE(NAMEDCLASS, PARENT)			                                                   \
 DECLARE_TYPE_AS_SAD_OBJECT( NAMEDCLASS )                                                                           \
-sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	                                                       \
+sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=nullptr;	                                                       \
 sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 	                                                   \
 {																                                                   \
-    if (m_global_metadata != NULL) return m_global_metadata;                                                       \
+    if (m_global_metadata != nullptr) return m_global_metadata;                                                       \
     m_global_metadata = sad::ClassMetaDataContainer::ref()->getWithParent< SAD_TYPE_PASTE(PARENT) >(#NAMEDCLASS);  \
     return m_global_metadata;																	                   \
 }																								                   \
@@ -186,10 +188,10 @@ sad::ClassMetaData * NAMEDCLASS ::metaData() const												                  
  */
 #define DECLARE_SOBJ_INHERITANCE_TEMPLATE(NAMEDCLASS, PARENT)			                                           \
 DECLARE_TYPE_AS_SAD_OBJECT( NAMEDCLASS )                                                                           \
-template<> sad::ClassMetaData * NAMEDCLASS ::m_global_metadata = NULL;	                                           \
+template<> sad::ClassMetaData * NAMEDCLASS ::m_global_metadata = nullptr;	                                           \
 template<> sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 	                                       \
 {																                                                   \
-    if (m_global_metadata != NULL) return m_global_metadata;                                                       \
+    if (m_global_metadata != nullptr) return m_global_metadata;                                                       \
     m_global_metadata = sad::ClassMetaDataContainer::ref()->getWithParent< SAD_TYPE_PASTE(PARENT) >(#NAMEDCLASS);  \
     return m_global_metadata;																	                   \
 }																								                   \
@@ -205,10 +207,10 @@ template<> sad::ClassMetaData * NAMEDCLASS ::metaData() const												       
  */
 #define DECLARE_SOBJ_INHERITANCE_WITH_CAST(NAMEDCLASS, PARENT, CASTCLASS, CASTMETHOD)			 \
 DECLARE_TYPE_AS_SAD_OBJECT( NAMEDCLASS )                                                         \
-sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	                                     \
+sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=nullptr;	                                     \
 sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 	                                 \
 {																                                 \
-    if (m_global_metadata != NULL) return m_global_metadata;                                     \
+    if (m_global_metadata != nullptr) return m_global_metadata;                                     \
     sad::AbstractClassMetaDataCastFunction * f =                                                 \
     sad::MetaDataCastFunctionFamily< NAMEDCLASS >::cast(CASTMETHOD);                             \
     m_global_metadata = sad::ClassMetaDataContainer::ref()->getWithParentAndCast<                \
@@ -233,10 +235,10 @@ sad::ClassMetaData * NAMEDCLASS ::metaData() const												 \
  */
 #define DECLARE_SOBJ_INHERITANCE2(NAMEDCLASS, PARENT1, PARENT2)			 \
 DECLARE_TYPE_AS_SAD_OBJECT_EXPLICIT( NAMEDCLASS )                        \
-sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	             \
+sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=nullptr;	             \
 sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 			 \
 {																		 \
-    if (m_global_metadata != NULL) return m_global_metadata;             \
+    if (m_global_metadata != nullptr) return m_global_metadata;             \
     m_global_metadata = sad::ClassMetaDataContainer::ref()->getWithParent< SAD_TYPE_PASTE(PARENT1),  SAD_TYPE_PASTE(PARENT2) >(#NAMEDCLASS);  \
     return m_global_metadata;																	                                              \
 }																								\
@@ -252,10 +254,10 @@ sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
  */
 #define DECLARE_SOBJ_INHERITANCE3(NAMEDCLASS, PARENT1, PARENT2, PARENT3) \
 DECLARE_TYPE_AS_SAD_OBJECT_EXPLICIT( NAMEDCLASS )                        \
-sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	             \
+sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=nullptr;	             \
 sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 			 \
 {																		 \
-    if (m_global_metadata != NULL) return m_global_metadata;             \
+    if (m_global_metadata != nullptr) return m_global_metadata;             \
     m_global_metadata = sad::ClassMetaDataContainer::ref()->getWithParent< SAD_TYPE_PASTE(PARENT1),  SAD_TYPE_PASTE(PARENT2), SAD_TYPE_PASTE(PARENT3)  >(#NAMEDCLASS);  \
     return m_global_metadata;																	                                                                        \
 }																								\
@@ -271,10 +273,10 @@ sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
  */
 #define DECLARE_SOBJ_INHERITANCE4(NAMEDCLASS, PARENT1, PARENT2, PARENT3, PARENT4) \
 DECLARE_TYPE_AS_SAD_OBJECT_EXPLICIT( NAMEDCLASS )                                 \
-sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	                      \
+sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=nullptr;	                      \
 sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 					  \
 {																				  \
-    if (m_global_metadata != NULL) return m_global_metadata;                      \
+    if (m_global_metadata != nullptr) return m_global_metadata;                      \
     m_global_metadata = sad::ClassMetaDataContainer::ref()->getWithParent< SAD_TYPE_PASTE(PARENT1),  SAD_TYPE_PASTE(PARENT2), SAD_TYPE_PASTE(PARENT3), SAD_TYPE_PASTE(PARENT4)  >(#NAMEDCLASS);  \
     return m_global_metadata;																	                                                                                                 \
 }																								\
@@ -291,10 +293,10 @@ sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
     INDEX should be used as private Index in tables
  */
 #define DECLARE_SOBJ_INHERITANCE_WITH_INDEX(NAMEDCLASS, PARENT, INDEX)	 \
-sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	     \
+sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=nullptr;	     \
 sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 	 \
 {																 \
-    if (m_global_metadata != NULL) return m_global_metadata;     \
+    if (m_global_metadata != nullptr) return m_global_metadata;     \
     m_global_metadata = sad::ClassMetaDataContainer::ref()->getWithParentAndIndex< SAD_TYPE_PASTE(PARENT) >(#NAMEDCLASS, INDEX);  \
     return m_global_metadata;																	                                  \
 }																								\

@@ -29,7 +29,7 @@ public:
     /*! Creates new empty schema
         \param[in] parent a parent data for schema
      */
-    Schema(sad::db::schema::Schema* parent = NULL); 
+    Schema(sad::db::schema::Schema* parent = nullptr); 
     /*! This class can be inherited 
      */
     virtual ~Schema();
@@ -45,7 +45,7 @@ public:
     virtual void remove(const sad::String & s);
     /*! Gets a property from schema
         \param[in] s a string
-        \return  a property (NULL if not found)
+        \return  a property (nullptr if not found)
      */
     virtual sad::db::Property* getProperty(const sad::String& s) const;
     /*! Checks json value against schema

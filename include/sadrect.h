@@ -6,9 +6,9 @@
     This file contains a definition of rectangle, used 
     to be a bounding box or define shape.
 */
+#pragma once
 #include "sadpoint.h"
 #include <algorithm>
-#pragma once
 
 #ifdef _MSC_VER
 #pragma warning( push )

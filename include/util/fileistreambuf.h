@@ -6,6 +6,7 @@
 #pragma once
 #include <streambuf>
 #include <vector>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <cstdlib>
 #include <cstdio>
 
@@ -15,7 +16,7 @@ namespace sad
 namespace util
 {
     
-/*! A default implementation of FILE* stream buffer as streambuf object, aken from 
+/*! A default implementation of FILE* stream buffer as streambuf object, taken from 
     http://www.mr-edd.co.uk/blog/beginners_guide_streambuf .
  */
 class FileIStreamBuf : public std::streambuf
@@ -31,7 +32,7 @@ private:
     /*! Returns character on underflow
         \return character on underflow
      */
-    virtual int_type underflow();
+    virtual int_type underflow() override;
     /*! Seeks off in stream buf
         \param[in] off offset
         \param[in] way a way
@@ -41,13 +42,13 @@ private:
         std::streamoff off, 
         std::ios_base::seekdir way,
         std::ios_base::openmode which
-    );
+    ) override;
     /*! Reads data from stream
         \param[in] s data
         \param[in] sz stream
         \return amount of read bytes
      */
-    virtual std::streamsize xsgetn(char* s, std::streamsize sz);
+    virtual std::streamsize xsgetn(char* s, std::streamsize sz) override;
 
     /*! Copying is disabled
         \param[in] o object

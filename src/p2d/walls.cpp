@@ -87,13 +87,13 @@ sad::p2d::Walls::~Walls()
 
 sad::p2d::Wall::Wall(double padding) : m_padding(padding)
 {
-    m_body = NULL;
-    m_opposite_body = NULL;
+    m_body = nullptr;
+    m_opposite_body = nullptr;
 }
 
 void sad::p2d::Wall::tryTeleport(sad::p2d::Body * b)
 {
-    if (this->m_opposite_body == NULL)
+    if (this->m_opposite_body == nullptr)
     {
         return;
     }
@@ -140,7 +140,7 @@ void sad::p2d::Wall::setOppositeBody(p2d::Body * b)
 
 sad::p2d::BoundType  sad::p2d::Wall::type() const
 {
-    if (this->m_body == NULL)
+    if (this->m_body == nullptr)
     {
         return sad::p2d::BT_LEFT;
     }

@@ -21,7 +21,7 @@ public:
      */
     PeriodicalEvent();
     /*! Sets interval
-        \param[in] interval
+        \param[in] interval interval in milliseconds
      */
     void setInterval(double interval);
     /*! Returns an interval
@@ -48,7 +48,7 @@ protected:
      */
     virtual void perform() = 0;
     bool  m_enabled;   //!< Whether periodical event is enabled
-    double m_interval; //!< Interval of perforiming in milliseconds
+    double m_interval; //!< Interval of performing in milliseconds
     sad::Timer m_timer;  //!< A timer
 };
 
@@ -68,13 +68,13 @@ public:
         \return event
      */
     PeriodicalEvent * e();
-    /*! Sets a peiodical event
+    /*! Sets a periodical event
         \param[in] e event
      */
     void setEvent(PeriodicalEvent * e);
     /*! Destroys event
      */
-    virtual ~PeriodicalEventPollProcess();
+    virtual ~PeriodicalEventPollProcess() override;
     /*! Creates new periodical task for specified event
         \return task
      */
@@ -86,7 +86,7 @@ public:
 protected:
     /*! Calls sad::PeriodicalEvent::tryPerform() if called
      */
-    virtual void _process();
+    virtual void _process() override;
 };
 
 }

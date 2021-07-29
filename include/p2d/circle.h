@@ -20,7 +20,7 @@ class CircleToHullTransformer;
 class Circle: public p2d::CollisionShape
 {
 public:
-    inline Circle() : m_radius(0) { m_transformer = NULL; }
+    inline Circle() : m_radius(0) { m_transformer = nullptr; }
     /*! Sets new center
         \param[in] p point
      */

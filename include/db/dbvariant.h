@@ -185,7 +185,7 @@ public:
         \return value or throws exception if cannot cast
      */
     template<typename T>
-    sad::Maybe<T> get(bool ref = false, sad::db::ConversionTable* tbl = NULL) const
+    sad::Maybe<T> get(bool ref = false, sad::db::ConversionTable* tbl = nullptr) const
     {
         sad::Maybe<T> result;
         sad::db::TypeName<T>::init();       
@@ -220,7 +220,7 @@ public:
                 // From sad::db::Object to sad::Object
                 sad::String real_type = this->castToSadDbObjectAndGetSerializableName(m_object);
                 bool created = false;
-                if (sad::ClassMetaDataContainer::ref()->get(real_type, created) != NULL)
+                if (sad::ClassMetaDataContainer::ref()->get(real_type, created) != nullptr)
                 {
                     sad::util::CommonCheckedCast<T, sad::db::TypeName<T>::CAN_BE_CASTED_TO_OBJECT >::perform(
                         result,

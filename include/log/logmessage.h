@@ -30,7 +30,7 @@ public:
      */
     inline Message(const sad::String & message, //-V730
                    sad::log::Priority priority,
-                   const char * file = NULL,
+                   const char * file = nullptr,
                    int line = 0,
                    const sad::String & subsystem = sad::String(),
                    const sad::String & user_priority = sad::String()
@@ -38,7 +38,7 @@ public:
     : m_message(message), m_priority(priority), m_file(file),
       m_line(line), m_subsystem(subsystem), m_user_priority(user_priority)
     {
-        m_time = ::time(NULL);
+        m_time = ::time(nullptr);
     }
     /*! Returns subsystem, passed into constructor.
         \return subsystem

@@ -68,7 +68,7 @@ sad::animations::Animation* sad::animations::Factory::create(const sad::String& 
     {
         return m_delegates[s]->create();
     }
-    return NULL;
+    return nullptr;
 }
 
 void sad::animations::Factory::clear()

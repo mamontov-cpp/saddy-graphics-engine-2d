@@ -27,11 +27,11 @@ sad::animations::Instance::Instance()
 m_started(false),
 m_finished(false),
 m_start_time(0),
-m_state_command(NULL),
+m_state_command(nullptr),
 m_state_command_own(false),
 m_valid(true),
-m_shape(NULL),
-m_body(NULL),
+m_shape(nullptr),
+m_body(nullptr),
 m_tree_link_active(true),
 m_object_referenced(false),
 m_restore_on_finished(true)
@@ -114,16 +114,16 @@ sad::animations::Instance::~Instance()
     delete m_shape;
 }
 
-static sad::db::schema::Schema* AnimationInstanceSchema = NULL;
+static sad::db::schema::Schema* AnimationInstanceSchema = nullptr;
 
 static sad::Mutex AnimationInstanceSchemaLock;
 
 sad::db::schema::Schema* sad::animations::Instance::basicSchema()
 {
-    if (AnimationInstanceSchema == NULL)
+    if (AnimationInstanceSchema == nullptr)
     {
         AnimationInstanceSchemaLock.lock();
-        if (AnimationInstanceSchema == NULL)
+        if (AnimationInstanceSchema == nullptr)
         {
             AnimationInstanceSchema = new sad::db::schema::Schema();
             AnimationInstanceSchema->addParent(sad::db::Object::basicSchema());
@@ -528,7 +528,7 @@ void sad::animations::Instance::setBody(sad::p2d::Body* body)
     }
     else
     {
-        m_shape = NULL;
+        m_shape = nullptr;
     }
 }
 
@@ -751,7 +751,7 @@ void sad::animations::Instance::clearSetState()
     {
         delete m_state_command;
     }
-    m_state_command = NULL;
+    m_state_command = nullptr;
 }
 
 void sad::animations::Instance::copyState(const sad::animations::Instance& o)

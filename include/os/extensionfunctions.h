@@ -374,7 +374,7 @@ public:
     /*! Invokes glBufferData, @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glBufferData.xhtml
      *  \param[in] target a target buffer type
      *  \param[in] size Specifies the size in bytes of the buffer object's new data store.
-     *  \param[in] data Specifies a pointer to data that will be copied into the data store for initialization, or NULL if no data is to be copied.
+     *  \param[in] data Specifies a pointer to data that will be copied into the data store for initialization, or nullptr if no data is to be copied.
      *  \param[in] usage Specifies the expected usage pattern of the data store.
      */
     void glBufferData(GLenum target, GLsizeiptr size, const GLvoid* data, GLenum usage);

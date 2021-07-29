@@ -18,7 +18,7 @@ sad::db::custom::Object::Object()
     m_label = new sad::Label();
     m_my_schema = new sad::db::schema::Schema();
     m_custom_schema = new sad::db::schema::Schema();
-    m_current_rendered_object = NULL;
+    m_current_rendered_object = nullptr;
     // Make schema renderer-dependent
     m_schema.setTree(sad::Renderer::ref());
     m_schema.add(this, &sad::db::custom::Object::updateConfiguration);
@@ -220,7 +220,7 @@ unsigned int sad::db::custom::Object::maximalLineWidth() const
 
 bool sad::db::custom::Object::canBeRendered() const
 {
-    return m_current_rendered_object != NULL;
+    return m_current_rendered_object != nullptr;
 }
 
 static sad::Hash<sad::String, sad::db::Property*>  SadDbCustomObjectEmptyProperties;
@@ -406,7 +406,7 @@ bool sad::db::custom::Object::copyCustomPropertyValuesFrom(sad::db::custom::Obje
                 bool can_copy_property = false;
                 sad::db::Property* myprop = this->getObjectProperty(names[i]);
                 sad::db::Property* oprop = o->getObjectProperty(names[i]);
-                if (myprop != NULL && oprop != NULL)
+                if (myprop != nullptr && oprop != nullptr)
                 {
                     sad::db::Variant v;
                     oprop->get(o, v);
@@ -423,7 +423,7 @@ bool sad::db::custom::Object::copyCustomPropertyValuesFrom(sad::db::custom::Obje
         {
             sad::db::Property* myprop = this->getObjectProperty(names[i]);
             sad::db::Property* oprop = o->getObjectProperty(names[i]);
-            if (myprop != NULL && oprop != NULL)
+            if (myprop != nullptr && oprop != nullptr)
             {
                 sad::db::Variant v;
                 oprop->get(o, v);
@@ -672,19 +672,19 @@ void sad::db::custom::Object::updateConfiguration(sad::db::custom::Schema * s)
     if (s)
     {
         sad::Renderer * renderer = sad::Renderer::ref();
-        if (m_schema.renderer() != NULL)
+        if (m_schema.renderer() != nullptr)
         {
             renderer = m_schema.renderer();
         }
         sad::resource::Tree * tree = renderer->tree(m_schema.treeName());
-        sad::resource::Resource* resource = NULL;
+        sad::resource::Resource* resource = nullptr;
         if (tree)
         {
             resource = tree->root()->resource(s->treeItemName());
         }
         if (resource)
         {
-            m_current_rendered_object = NULL;
+            m_current_rendered_object = nullptr;
             if (resource->metaData()->canBeCastedTo("sad::Font"))
             {
                 m_label->setTreeName(m_schema.treeName());
@@ -709,14 +709,14 @@ void sad::db::custom::Object::updateConfiguration(sad::db::custom::Schema * s)
                 ++it)
             {
                 // DO NOT INSERT EXISTING PROPS
-                if (m_my_schema->getProperty(it.key()) != NULL)
+                if (m_my_schema->getProperty(it.key()) != nullptr)
                 {
                     delete it.value();
                 }
                 else
                 {
                     sad::db::Property* myprop = m_custom_schema->getProperty(it.key());
-                    if (myprop != NULL)
+                    if (myprop != nullptr)
                     {
                         propstoberemoved.remove(it.key());
                         if (myprop->hasEqualTypeAs(it.value()))
@@ -770,7 +770,7 @@ void sad::db::custom::Object::updateConfiguration(sad::db::custom::Schema * s)
         }
         else
         {
-            m_current_rendered_object = NULL;
+            m_current_rendered_object = nullptr;
         }
     }
     else
@@ -778,6 +778,6 @@ void sad::db::custom::Object::updateConfiguration(sad::db::custom::Schema * s)
         delete m_custom_schema;
         m_custom_schema = new sad::db::custom::Schema();
         m_custom_schema->addParent(m_my_schema);
-        m_current_rendered_object = NULL;
+        m_current_rendered_object = nullptr;
     }
 }

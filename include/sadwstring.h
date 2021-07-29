@@ -5,15 +5,17 @@
     A wide string definition is placed here
 */
 #pragma once
-#include "sadvector.h"
 #include "sadstring.h"
-#include <wchar.h>
-#include <stdlib.h>
+#include "sadvector.h"
+// ReSharper disable once CppUnusedIncludeDirective
+#include <cwchar>
+// ReSharper disable once CppUnusedIncludeDirective
+#include <cstdlib>
 #include <string>
 
 namespace sad
 {
-  /*! \class wstring
+  /*! \class WString
       
       Definition a wide char string is placed here
   */
@@ -53,7 +55,7 @@ namespace sad
                \return self-reference
            */
            WString & insert(unsigned int i,const WString & str);
-           /*! Concats two strings 
+           /*! Concatenates two strings 
                \param[in] str other string
                \return sum of strings
            */
@@ -71,14 +73,14 @@ namespace sad
            /*! Splits a wide string
                \param[in] o splitter
                \param[in] b behaviour
-               \return splitted parts
+               \return split parts
            */
            sad::Vector<sad::WString> split(const sad::WString & o, sad::String::SplitBehaviour b = sad::String::OMIT_EMPTY_PARTS);
-           /*! Removes first occurence from a wide string
+           /*! Removes first occurrence from a wide string
                \param[in] o other string
            */
            void removeFirst(const WString & o);
-           /*! Removes last occurence from a wide string
+           /*! Removes last occurrence from a wide string
                \param[in] o other string
            */
            void removeLast(const WString & o);

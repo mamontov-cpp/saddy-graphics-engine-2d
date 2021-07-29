@@ -5,6 +5,7 @@
 
 #include "animations/animationssavedcameratranslation.h"
 #include "animations/setstate/setcameratranslation.h"
+#include "animations/setstate/dummycommand.h"
 
 #include "fuzzyequal.h"
 #include "scene.h"
@@ -45,16 +46,16 @@ sad::animations::CameraShaking::~CameraShaking()
     
 }
 
-static sad::db::schema::Schema* AnimationCameraShakingSchema = NULL;
+static sad::db::schema::Schema* AnimationCameraShakingSchema = nullptr;
 
 static sad::Mutex AnimationCameraShakingSchemaInit;
 
 sad::db::schema::Schema* sad::animations::CameraShaking::basicSchema()
 {
-    if (AnimationCameraShakingSchema == NULL)
+    if (AnimationCameraShakingSchema == nullptr)
     {
         AnimationCameraShakingSchemaInit.lock();
-        if (AnimationCameraShakingSchema == NULL)
+        if (AnimationCameraShakingSchema == nullptr)
         {
             AnimationCameraShakingSchema = new sad::db::schema::Schema();
             AnimationCameraShakingSchema->addParent(sad::animations::Animation::basicSchema());

@@ -2,6 +2,7 @@
 #include "animations/animationsinstance.h"
 
 #include "animations/easing/easingfunction.h"
+#include "animations/setstate/dummycommand.h"
 
 #include "fuzzyequal.h"
 #include "scene.h"
@@ -40,16 +41,16 @@ sad::animations::CameraRotation::~CameraRotation()
     
 }
 
-static sad::db::schema::Schema* AnimationCameraRotationSchema = NULL;
+static sad::db::schema::Schema* AnimationCameraRotationSchema = nullptr;
 
 static sad::Mutex AnimationCameraRotationSchemaInit;
 
 sad::db::schema::Schema* sad::animations::CameraRotation::basicSchema()
 {
-    if (AnimationCameraRotationSchema == NULL)
+    if (AnimationCameraRotationSchema == nullptr)
     {
         AnimationCameraRotationSchemaInit.lock();
-        if (AnimationCameraRotationSchema == NULL)
+        if (AnimationCameraRotationSchema == nullptr)
         {
             AnimationCameraRotationSchema = new sad::db::schema::Schema();
             AnimationCameraRotationSchema->addParent(sad::animations::Animation::basicSchema());

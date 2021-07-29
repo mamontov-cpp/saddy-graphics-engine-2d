@@ -148,7 +148,7 @@ public:
         \return count of resources in folder
      */
     unsigned int resourceCount() const;
-    /*! A parent folder for current folder NULL for top-most
+    /*! A parent folder for current folder nullptr for top-most
         \param[in] folder parent folder
      */
     void setParent(sad::resource::Folder * folder);
@@ -186,7 +186,7 @@ protected:
     /*! A resources, stored in folder
      */
     sad::PtrHash<sad::String, sad::resource::Resource> m_resources;
-    /*! A parent folder for current folder (NULL for top)
+    /*! A parent folder for current folder (nullptr for top)
      */
     sad::resource::Folder * m_parent;
 };

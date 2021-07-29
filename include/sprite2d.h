@@ -7,6 +7,7 @@
 #include "resource/resource.h"
 #include "resource/link.h"
 #include "scene.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "maybe.h"
 #include "sadrect.h"
 #include "sadstring.h"
@@ -42,7 +43,7 @@ public:
           /*! A texture name, that defines a texture in sprite
            */
           sad::String Texture;       
-          /*! Stored texture coordinates in pixelds
+          /*! Stored texture coordinates in pixels
            */
           sad::Rect2D TextureRectangle;  
           /*! A rectangle, which defines current quad to be rendered
@@ -65,7 +66,7 @@ public:
 
           /*! Loads an options from specified file, using specified renderer for building mip maps.
               \param[in] file a file, via which a resource should be loaded
-              \param[in] r  a renderer, which resource should be linked to (NULL if global renderer)
+              \param[in] r  a renderer, which resource should be linked to (nullptr if global renderer)
               \param[in] options  an options for loading a resource
               \return whether loading was successfull
            */
@@ -73,18 +74,18 @@ public:
                 const sad::resource::ResourceFile & file,
                 sad::Renderer * r,
                 const picojson::value& options
-           );
+           ) override;
            /*! Load an options from value
                \param[in] v an options to be loaded
                \return whether loading was successfull
             */
-           bool load(const picojson::value& v);
+           virtual bool load(const picojson::value& v) override;
     };
     /*! Creates default invalid sprite, which must be initialized via setter methods
      */
     Sprite2D();
     /*! Creates a new sprite from supplied parameters
-        \param[in] texture a texture, supplied for sprite (NULL to make sprite not viewable)
+        \param[in] texture a texture, supplied for sprite (nullptr to make sprite not viewable)
         \param[in] texturecoordinates a texture coordinates from top left to bottom right
                                       in pixels
         \param[in] area     a rectangle, where sprite should be rendered
@@ -114,12 +115,12 @@ public:
     /*! You can inherit the sprite, using various implementation
         defined behaviour
      */
-    virtual ~Sprite2D();
+    virtual ~Sprite2D() override;
     /*! Fills vector of regions with data, that could be used for identifying bounds of item.
         As default, no regions are produced.
         \param[out] r a vector of regions
      */
-    virtual void regions(sad::Vector<sad::Rect2D> & r);
+    virtual void regions(sad::Vector<sad::Rect2D> & r) override;
     /*! A basic schema for object
         \return a schema 
      */
@@ -127,13 +128,13 @@ public:
     /*! Returns schema for an object
         \return schema
      */
-    virtual sad::db::schema::Schema* schema() const;
+    virtual sad::db::schema::Schema* schema() const override;
     /*! Renders a sprite as a simple quad 
      */
-    virtual void render();
+    virtual void render() override;
     /*! Called, when renderer for scene is changed
      */
-    virtual void rendererChanged();
+    virtual void rendererChanged() override;
     /*! Sets a texture coordinates for sprites
         \param[in] texturecoordinates a texture coordinates for a sprite in notation, defined in 
                                       constructor
@@ -196,7 +197,7 @@ public:
     /*! Moves a sprite by following vector
         \param[in] dist a distance to be moved
      */
-    virtual void moveBy(const sad::Point2D & dist);
+    virtual void moveBy(const sad::Point2D & dist) override;
     /*! Moves a sprite center to a point
         \param[in] p a new center for a sprite
      */
@@ -204,11 +205,11 @@ public:
     /*! Returns true
         \return if node can be rotated
      */
-    virtual bool canBeRotated() const;
+    virtual bool canBeRotated() const override;
     /*! Rotates a sprite around his middle point counter-clockwise
         \param[in]  angle an angle, which defines how sprite should be rotated
      */
-    virtual void rotate(double angle);
+    virtual void rotate(double angle) override;
     /*! Sets sprite counter-clockwise rotation angle
         \param[in] alpha alpha rotation angle
      */
@@ -305,7 +306,7 @@ public:
         itself from scene's renderer
         \param[in] scene a scene, which will render a node
      */
-    virtual void setScene(sad::Scene * scene);
+    virtual void setScene(sad::Scene * scene) override;
     /*! Sets, whether or not sprite should change size, when options for a sprite are changed
         \param[in] flag whether or  not
      */
@@ -324,15 +325,15 @@ public:
         \param[in] v a picojson object
         \return  whether it as successfull
      */
-    virtual bool load(const picojson::value& v);
+    virtual bool load(const picojson::value& v) override;
     /*! Sets a tree name for object with specified renderer
         \param[in] r renderer, which tree should be fetched from
         \param[in] tree_name a name for an item for object
      */
-    virtual void setTreeName(sad::Renderer* r, const sad::String & tree_name);
+    virtual void setTreeName(sad::Renderer* r, const sad::String & tree_name) override;
     /*! Called, when node is removed from scene
      */
-    virtual void onRemovedFromScene();
+    virtual void onRemovedFromScene() override;
 protected:
     /*! Performed, when texture is changed
         \param[in] tex a new texture

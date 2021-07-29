@@ -189,7 +189,7 @@ class CollisionMultiMethod
             {
                 for(int j = 0; j < MULTIMETHOD_REGISTERED_TYPES; j++)
                 {
-                    m_instances[i][j] = NULL;
+                    m_instances[i][j] = nullptr;
                 }
             }
         }
@@ -203,7 +203,7 @@ class CollisionMultiMethod
             unsigned int snd = _Second::globalMetaIndex();
             assert( fst < MULTIMETHOD_REGISTERED_TYPES );
             assert( snd < MULTIMETHOD_REGISTERED_TYPES );
-            if (m_instances[fst][snd] == NULL)
+            if (m_instances[fst][snd] == nullptr)
             {
                 p2d::CollisionMultiMethodInstance<_ReturnType, _First, _Second>
                 * a = 
@@ -214,7 +214,7 @@ class CollisionMultiMethod
                 m_instances[fst][snd] = a;
             }
             // Try insert reverse call
-            if (m_instances[snd][fst] == NULL)
+            if (m_instances[snd][fst] == nullptr)
             {
                 p2d::CollisionMultiMethodInstance<_ReturnType, _First, _Second>
                 * a = 
@@ -234,7 +234,7 @@ class CollisionMultiMethod
         {
             unsigned int type1 = a->metaIndex();
             unsigned int type2 = b->metaIndex();
-            instance_t * result = NULL;
+            instance_t * result = nullptr;
             result  = m_instances[type1][type2];;
             return result;
         }
@@ -292,7 +292,7 @@ class CollisionMultiMethodWithArg
             {
                 for(int j = 0; j < MULTIMETHOD_REGISTERED_TYPES; j++)
                 {
-                    m_instances[i][j] = NULL;
+                    m_instances[i][j] = nullptr;
                 }
             }		
         }
@@ -306,7 +306,7 @@ class CollisionMultiMethodWithArg
             unsigned int snd = _Second::globalMetaIndex();
             assert( fst < MULTIMETHOD_REGISTERED_TYPES );
             assert( snd < MULTIMETHOD_REGISTERED_TYPES );
-            if (m_instances[fst][snd] == NULL)
+            if (m_instances[fst][snd] == nullptr)
             {
                 p2d::CollisionMultiMethodInstanceWithArg<_ReturnType, _Arg, _First, _Second>
                 * a = 
@@ -317,7 +317,7 @@ class CollisionMultiMethodWithArg
                 m_instances[fst][snd] = a;
             }
             // Try insert reverse call
-            if (m_instances[snd][fst] == NULL)
+            if (m_instances[snd][fst] == nullptr)
             {
                 p2d::CollisionMultiMethodInstanceWithArg<_ReturnType, _Arg, _First, _Second>
                 * a = 
@@ -337,7 +337,7 @@ class CollisionMultiMethodWithArg
         {
             unsigned int type1 = a->metaIndex();
             unsigned int type2 = b->metaIndex();
-            instance_t * result = NULL;
+            instance_t * result = nullptr;
             result  = m_instances[type1][type2];;
             return result;
         }

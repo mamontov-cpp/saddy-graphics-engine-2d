@@ -6,7 +6,9 @@
 #pragma once
 #include <streambuf>
 #include <vector>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <cstdlib>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <cstdio>
 
 namespace sad
@@ -31,20 +33,20 @@ private:
     /*! Returns character on underflow
         \return character on underflow
      */
-    virtual int_type underflow();
+    virtual int_type underflow() override;
     /*! Returns character on underflow and advance position
         \return character on underflow
      */
-    virtual int_type uflow();
+    virtual int_type uflow() override;
     /*! Put character back in the case of backup underflow
         \param[in] ch character
         \return character back
      */
-    virtual int_type pbackfail(int_type ch);
+    virtual int_type pbackfail(int_type ch) override;
     /*! Returns number of character available
         \return number of character available
      */
-    virtual std::streamsize showmanyc();
+    virtual std::streamsize showmanyc() override;
     /*! Seeks off in stream buf
         \param[in] off offset
         \param[in] way a way
@@ -54,13 +56,13 @@ private:
         std::streamoff off, 
         std::ios_base::seekdir way,
         std::ios_base::openmode which
-    );
+    ) override;
     /*! Reads data from stream
         \param[in] s data
         \param[in] sz stream
         \return amount of read bytes
      */
-    virtual std::streamsize xsgetn(char* s, std::streamsize sz);	
+    virtual std::streamsize xsgetn(char* s, std::streamsize sz) override;
 
     /*! Copying is disabled
         \param[in] o object

@@ -9,23 +9,23 @@ namespace util
 /*! Defines an empty code, which only returns zero on execution
  */
 class EmptyThreadExecutableFunction
-:public sad::AbsractThreadExecutableFunction 
+:public sad::AbstractThreadExecutableFunction 
 {
 public:
     /*! Returns zero
         \return 0
      */
-    virtual int execute();
+    virtual int execute() override;
     /*! Creates a clone of executable function
         \returns exact copy of current thread executable function
      */
-    virtual AbsractThreadExecutableFunction * clone() const;
+    virtual AbstractThreadExecutableFunction * clone() const override;
 };
 
 /*! Executes a function with zero arguments and returns zero
  */
 class FreeZeroArgVoidExecutableFunction
-:public sad::AbsractThreadExecutableFunction
+:public sad::AbstractThreadExecutableFunction
 {
 public:
     /*! Creates a function
@@ -37,11 +37,11 @@ public:
     /*! Executes code  and returns zero
         \return 0
      */
-    virtual int execute();
+    virtual int execute() override;
     /*! Creates a clone of executable function
         \returns exact copy of current thread executable function
      */
-    virtual AbsractThreadExecutableFunction * clone() const;
+    virtual AbstractThreadExecutableFunction * clone() const override;
 protected:
     void (*m_f)();
 };
@@ -49,7 +49,7 @@ protected:
 /*! Executes a function with zero arguments and returns code
  */
 class FreeZeroArgIntExecutableFunction
-:public sad::AbsractThreadExecutableFunction
+:public sad::AbstractThreadExecutableFunction
 {
 public:
     /*! Creates a function
@@ -61,11 +61,11 @@ public:
     /*! Executes code  and returns returned function
         \return 0
      */
-    virtual int execute();
+    virtual int execute() override;
     /*! Creates a clone of executable function
         \returns exact copy of current thread executable function
      */
-    virtual AbsractThreadExecutableFunction * clone() const;
+    virtual AbstractThreadExecutableFunction * clone() const override;
 protected:
     int (*m_f)();
 };
@@ -76,7 +76,7 @@ template<
     typename _FunctionType
 >
 class FreeZeroArgStdExecutableFunction
-    :public sad::AbsractThreadExecutableFunction
+    :public sad::AbstractThreadExecutableFunction
 {
 public:
     /*! Creates a function
@@ -88,7 +88,7 @@ public:
     /*! Executes code  and returns zero
         \return 0
     */
-    virtual int execute()
+    virtual int execute() override
     {
         (m_f)();
         return 0;
@@ -96,7 +96,7 @@ public:
     /*! Creates a clone of executable function
         \returns exact copy of current thread executable function
     */
-    virtual AbsractThreadExecutableFunction * clone() const
+    virtual AbstractThreadExecutableFunction * clone() const override
     {
         return new sad::util::FreeZeroArgStdExecutableFunction<_FunctionType>(*this);
     }
@@ -107,7 +107,7 @@ protected:
 /*! Executes a function with zero arguments and returns zero
 */
 class FreeZeroArgStdIntExecutableFunction
-    :public sad::AbsractThreadExecutableFunction
+    :public sad::AbstractThreadExecutableFunction
 {
 public:
     /*! Creates a function
@@ -119,14 +119,14 @@ public:
     /*! Executes code  and returns zero
         \return 0
     */
-    virtual int execute()
+    virtual int execute() override
     {
         return (m_f)();
     }
     /*! Creates a clone of executable function
         \returns exact copy of current thread executable function
     */
-    virtual AbsractThreadExecutableFunction * clone() const
+    virtual AbstractThreadExecutableFunction * clone() const override
     {
         return new sad::util::FreeZeroArgStdIntExecutableFunction(*this);
     }
@@ -141,7 +141,7 @@ template<
     typename _CalledArg
 >
 class FreeOneArgVoidExecutableFunction
-:public sad::AbsractThreadExecutableFunction
+:public sad::AbstractThreadExecutableFunction
 {
 public:
     /*! Creates a function
@@ -157,7 +157,7 @@ public:
     /*! Executes code  and returns zero
         \return 0
      */
-    virtual int execute()
+    virtual int execute() override
     {
         m_f(m_arg);
         return 0;
@@ -165,7 +165,7 @@ public:
     /*! Creates a clone of executable function
         \returns exact copy of current thread executable function
      */
-    virtual AbsractThreadExecutableFunction * clone() const
+    virtual AbstractThreadExecutableFunction * clone() const override
     {
         return new sad::util::FreeOneArgVoidExecutableFunction<_FunctionArg, _CalledArg>(*this);
     }
@@ -181,7 +181,7 @@ template<
     typename _CalledArg
 >
 class FreeOneArgIntExecutableFunction
-: public sad::AbsractThreadExecutableFunction
+: public sad::AbstractThreadExecutableFunction
 {
 public:
     /*! Creates a function
@@ -197,14 +197,14 @@ public:
     /*! Executes code  and returns zero
         \return 0
      */
-    virtual int execute()
+    virtual int execute() override
     {
         return m_f(m_arg);
     }
     /*! Creates a clone of executable function
         \returns exact copy of current thread executable function
      */
-    virtual AbsractThreadExecutableFunction * clone() const
+    virtual AbstractThreadExecutableFunction * clone() const override
     {
         return new sad::util::FreeOneArgIntExecutableFunction<_FunctionArg, _CalledArg>(*this);
     }
@@ -221,7 +221,7 @@ template<
     typename _InvokedClassName
 >
 class FreeZeroArgVoidMethodExecutableFunction
-:public sad::AbsractThreadExecutableFunction
+:public sad::AbstractThreadExecutableFunction
 {
 public:
     /*! Creates a function
@@ -237,7 +237,7 @@ public:
     /*! Executes code  and returns zero
         \return 0
      */
-    virtual int execute()
+    virtual int execute() override
     {
         (m_o->*m_m)();
         return 0;
@@ -245,7 +245,7 @@ public:
     /*! Creates a clone of executable function
         \returns exact copy of current thread executable function
      */
-    virtual AbsractThreadExecutableFunction * clone() const
+    virtual AbstractThreadExecutableFunction * clone() const override
     {
         return new sad::util::FreeZeroArgVoidMethodExecutableFunction<
             _ClassName, 
@@ -264,7 +264,7 @@ template<
     typename _InvokedClassName
 >
 class FreeZeroArgIntMethodExecutableFunction
-:public sad::AbsractThreadExecutableFunction
+:public sad::AbstractThreadExecutableFunction
 {
 public:
     /*! Creates a function
@@ -280,14 +280,14 @@ public:
     /*! Executes code  and returns zero
         \return 0
      */
-    virtual int execute()
+    virtual int execute() override
     {
         return (m_o->*m_m)();
     }
     /*! Creates a clone of executable function
         \returns exact copy of current thread executable function
      */
-    virtual AbsractThreadExecutableFunction * clone() const
+    virtual AbstractThreadExecutableFunction * clone() const override
     {
         return new sad::util::FreeZeroArgIntMethodExecutableFunction<
             _ClassName, 
@@ -308,7 +308,7 @@ template<
     typename _InvokedArg
 >
 class FreeOneArgVoidMethodExecutableFunction
-:public sad::AbsractThreadExecutableFunction
+:public sad::AbstractThreadExecutableFunction
 {
 public:
     /*! Creates a function
@@ -326,7 +326,7 @@ public:
     /*! Executes code  and returns zero
         \return 0
      */
-    virtual int execute()
+    virtual int execute() override
     {
         (m_o->*m_m)(m_a);
         return 0;
@@ -334,7 +334,7 @@ public:
     /*! Creates a clone of executable function
         \returns exact copy of current thread executable function
      */
-    virtual AbsractThreadExecutableFunction * clone() const
+    virtual AbstractThreadExecutableFunction * clone() const override
     {
         return new sad::util::FreeOneArgVoidMethodExecutableFunction<
             _ClassName,
@@ -360,7 +360,7 @@ template<
     typename _InvokedArg
 >
 class FreeOneArgIntMethodExecutableFunction
-:public sad::AbsractThreadExecutableFunction
+:public sad::AbstractThreadExecutableFunction
 {
 public:
     /*! Creates a function
@@ -378,14 +378,14 @@ public:
     /*! Executes code  and returns zero
         \return 0
      */
-    virtual int execute()
+    virtual int execute() override
     {
         return (m_o->*m_m)(m_a);
     }
     /*! Creates a clone of executable function
         \returns exact copy of current thread executable function
      */
-    virtual AbsractThreadExecutableFunction * clone() const
+    virtual AbstractThreadExecutableFunction * clone() const override
     {
         return new sad::util::FreeOneArgIntMethodExecutableFunction<
             _ClassName,

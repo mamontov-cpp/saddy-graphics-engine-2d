@@ -1,7 +1,7 @@
 #include "hfsm/hfsmtransitionrepository.h"
 
 sad::hfsm::TransitionRepository::TransitionRepository()
-: m_machine(NULL)
+: m_machine(nullptr)
 {
 }
 
@@ -92,7 +92,7 @@ sad::hfsm::Transition * sad::hfsm::TransitionRepository::transition(
             return c[to];
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 void sad::hfsm::TransitionRepository::invoke(

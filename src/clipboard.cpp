@@ -5,18 +5,18 @@
 
 sad::Clipboard::Clipboard()
 {
-    m_clipboard = clipboard_new(NULL);
+    m_clipboard = clipboard_new(nullptr);
 }
 
 sad::Clipboard::Clipboard(const sad::Clipboard& o)
 {
-    m_clipboard = clipboard_new(NULL);
+    m_clipboard = clipboard_new(nullptr);
 }
 
 
 sad::Clipboard& sad::Clipboard::operator=(const sad::Clipboard& o)
 {
-    m_clipboard = clipboard_new(NULL);
+    m_clipboard = clipboard_new(nullptr);
     return *this;
 }
 

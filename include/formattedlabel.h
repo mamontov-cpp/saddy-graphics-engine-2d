@@ -11,7 +11,7 @@
 namespace sad
 {
 
-/*! A special label which can display formattedtext
+/*! A special label which can display formatted text
     that changes dynamically in runtime, using callbacks
  */
 class FormattedLabel: public sad::Label
@@ -41,10 +41,10 @@ public:
      virtual void update();
      /*! Renders a label
       */
-     virtual void render();
+     virtual void render() override;
      /*! A formatted label for data
       */
-     virtual ~FormattedLabel();
+     virtual ~FormattedLabel() override;
 
      /*! Adds an argument to label
          \param[in] a argument
@@ -161,7 +161,7 @@ public:
      /*! Adds fps argument, taken from specified renderer
          \param[in] r renderer
       */
-     FormattedLabel * argFPS(sad::Renderer * r = NULL);
+     FormattedLabel * argFPS(sad::Renderer * r = nullptr);
  protected:
      /*! A formatted string, which contains current format
       */

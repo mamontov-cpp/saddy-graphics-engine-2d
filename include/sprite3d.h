@@ -33,7 +33,7 @@ public:
      */
     Sprite3D();
     /*! Creates a new sprite from supplied parameters
-        \param[in] texture a texture, supplied for sprite (NULL to make sprite not viewable)
+        \param[in] texture a texture, supplied for sprite (nullptr to make sprite not viewable)
         \param[in] texturecoordinates a texture coordinates from top left to bottom right
                                       in pixels
         \param[in] area     a rectangle, where sprite should be rendered
@@ -63,7 +63,7 @@ public:
     /*! You can inherit the sprite, using various implementation
         defined behaviour
      */
-    virtual ~Sprite3D();
+    virtual ~Sprite3D() override;
     /*! A basic schema for object
         \return a schema 
      */
@@ -71,13 +71,13 @@ public:
     /*! Returns schema for an object
         \return schema
      */
-    virtual sad::db::schema::Schema* schema() const;
+    virtual sad::db::schema::Schema* schema() const override;
     /*! Renders a sprite as a simple quad 
      */
-    virtual void render();
+    virtual void render() override;
     /*! Called, when renderer for scene is changed
      */
-    virtual void rendererChanged();
+    virtual void rendererChanged() override;
     /*! Sets a texture coordinates for sprites
         \param[in] texturecoordinates a texture coordinates for a sprite in notation, defined in 
                                       constructor
@@ -138,7 +138,7 @@ public:
     /*! Moves a sprite by following vector
         \param[in] p a distance to be moved
      */    
-    virtual void moveBy(const sad::Point2D& p);
+    virtual void moveBy(const sad::Point2D& p) override;
     /*! Moves a sprite center to a point
         \param[in] p a new center for a sprite
      */
@@ -146,11 +146,11 @@ public:
     /*! Returns true
         \return if node can be rotated
      */
-    virtual bool canBeRotated() const;
+    virtual bool canBeRotated() const override;
     /*! Equivalent to rotate(angle, 0)
         \param[in]  angle an angle, which defines how sprite should be rotated
      */
-    virtual void rotate(double angle);
+    virtual void rotate(double angle) override;
     /*! Rotates a sprite around his middle point in three dimensions
         \param[in]  alpha angle of rotation on XY axis
         \param[in]  theta angle of rotation on YZ axis
@@ -212,23 +212,23 @@ public:
         \return texture name
      */
     const sad::String& textureName();
-    /*! Sets treename for a sprite
-        \param[in] treename a name for a tree
+    /*! Sets tree name for a sprite
+        \param[in] tree_name a name for a tree
      */
-    void setTreeName(const sad::String & treename);
+    void setTreeName(const sad::String & tree_name);
     /*! When set scene and texture name is defined 3D sprite tries to reload
         itself from scene's renderer
         \param[in] scene a scene, which will render a node
      */
-    virtual void setScene(sad::Scene * scene);
+    virtual void setScene(sad::Scene * scene) override;
     /*! Sets a tree name for object with specified renderer
         \param[in] r renderer, which tree should be fetched from
         \param[in] tree_name a name for an item for object
      */
-    virtual void setTreeName(sad::Renderer* r, const sad::String & tree_name);
+    virtual void setTreeName(sad::Renderer* r, const sad::String & tree_name) override;
     /*! Called, when node is removed from scene
      */
-    virtual void onRemovedFromScene();
+    virtual void onRemovedFromScene() override;
 protected:
     /*! Fast version of 3D sprite initialization from rectangle. Just sets it as
         current renderable rectangle, all angles to zero

@@ -47,20 +47,20 @@ public:
     }
     /*! Must be inherited
      */
-    virtual ~FunctionCall()
+    virtual ~FunctionCall() override
     {
         
     }
     /*! Invokes a callback
      */
-    virtual void invoke()
+    virtual void invoke() override
     {
         m_f();
     }
     /*! Clones a callback
         \return copy of callback
      */
-    virtual sad::animations::Callback* clone() const
+    virtual sad::animations::Callback* clone() const override
     {
         return new sad::animations::FunctionCall<_Fun>(m_f);
     }
@@ -93,14 +93,14 @@ public:
     }
     /*! Invokes a callback
      */
-    virtual void invoke()
+    virtual void invoke() override
     {
         (m_o->*m_f)();
     }
     /*! Clones a callback
         \return copy of callback
      */
-    virtual sad::animations::Callback* clone() const
+    virtual sad::animations::Callback* clone() const override
     {
         return new sad::animations::MethodCall0<_Object, _Method>(m_o, m_f);
     }
@@ -137,14 +137,14 @@ public:
     }
     /*! Invokes a callback
      */
-    virtual void invoke()
+    virtual void invoke() override
     {
         (m_o->*m_f)(m_a);
     }
     /*! Clones a callback
         \return copy of callback
      */
-    virtual sad::animations::Callback* clone() const
+    virtual sad::animations::Callback* clone() const override
     {
         return new sad::animations::MethodCall1<_Object, _Method, _Arg>(m_o, m_f, m_a);
     }
@@ -186,14 +186,14 @@ public:
     }
     /*! Invokes a callback
      */
-    virtual void invoke()
+    virtual void invoke() override
     {
         (m_o->*m_f)(m_a1, m_a2);
     }
     /*! Clones a callback
         \return copy of callback
      */
-    virtual sad::animations::Callback* clone() const
+    virtual sad::animations::Callback* clone() const override
     {
         return new sad::animations::MethodCall2<_Object, _Method, _Arg1, _Arg2>(m_o, m_f, m_a1, m_a2);
     }
@@ -238,14 +238,14 @@ public:
     }
     /*! Invokes a callback
      */
-    virtual void invoke()
+    virtual void invoke() override
     {
         (m_o->*m_f)(m_a1, m_a2, m_a3);
     }
     /*! Clones a callback
         \return copy of callback
      */
-    virtual sad::animations::Callback* clone() const
+    virtual sad::animations::Callback* clone() const override
     {
         return new sad::animations::MethodCall3<_Object, _Method, _Arg1, _Arg2, _Arg3>(m_o, m_f, m_a1, m_a2, m_a3);
     }

@@ -7,7 +7,6 @@
 #include "animationsanimation.h"
 
 #include "../sadptrvector.h"
-#include "../sadpair.h"
 #include "../sadhash.h"
 #include "../treedblink.h"
 #include "../maybe.h"
@@ -40,15 +39,15 @@ public:
     sad::animations::Composite& operator=(const sad::animations::Composite& a);
     /*! Destroys animation
      */
-    ~Composite();
+    ~Composite() override;
     /*! Called, when animation is started loading from database
         \param[in] t table
      */
-    virtual void setTable(sad::db::Table* t);
+    virtual void setTable(sad::db::Table* t) override;
     /*! Sets tree from links, from physical file
         \param[in] file a file data
      */
-    virtual void setPhysicalFile(sad::resource::ResourceFile * file);
+    virtual void setPhysicalFile(sad::resource::ResourceFile * file) override;
     /*! A basic schema for object
         \return a schema
      */
@@ -56,32 +55,32 @@ public:
     /*! Returns schema for an object
         \return schema
      */
-    virtual sad::db::schema::Schema* schema() const;
+    virtual sad::db::schema::Schema* schema() const override;
     /*! This function will be applied, when animation is loaded from database.	
         \param[in] v value
-        \return whether loading was successfull
+        \return whether loading was successful
      */
-    virtual bool load(const picojson::value & v);
+    virtual bool load(const picojson::value & v) override;  // NOLINT(clang-diagnostic-overloaded-virtual)
     /*! Tries to load animation from value
         \param[in] v value
-        \return whether it was successfull
+        \return whether it was successful
      */
-    virtual bool loadFromValue(const picojson::value& v);
+    virtual bool loadFromValue(const picojson::value& v) override;
     /*! Starts an animation. Called on start of instance.
         Calls start on each of animation
         \param[in] i animation instance
      */
-    virtual void start(sad::animations::Instance* i);
+    virtual void start(sad::animations::Instance* i) override;
     /*! Checks, whether animation is applicable to an object. It's applicable if it's applicable
         to every animation.
         \param[in] o object
         \return whether animation is applicable to that object
      */
-    virtual bool applicableTo(sad::db::Object* o);
+    virtual bool applicableTo(sad::db::Object* o) override;
     /*! Returns creators for saving object states
         \return creators list
      */
-    virtual const sad::Vector<sad::animations::AbstractSavedObjectStateCreator*>& creators() const;
+    virtual const sad::Vector<sad::animations::AbstractSavedObjectStateCreator*>& creators() const override;
     /*! Adds new animation to list by major id
         \param[in] majorid a major id of animation
      */
@@ -136,11 +135,11 @@ public:
         \return animation major ids
      */
     sad::Vector<unsigned long long> animationMajorIds() const;
-    /*! Returns NULL, because animation manages other stuff by itself
+    /*! Returns nullptr, because animation manages other stuff by itself
         \param[in] o object
         \return state command
      */
-    virtual sad::animations::setstate::AbstractSetStateCommand* stateCommand(sad::db::Object* o);
+    virtual sad::animations::setstate::AbstractSetStateCommand* stateCommand(sad::db::Object* o) override;
 protected:
     /*! Commands list
      */

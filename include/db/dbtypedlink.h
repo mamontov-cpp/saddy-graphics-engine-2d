@@ -22,7 +22,7 @@ class TypedLink: public sad::db::Link
 public:    
     /*! Creates new typed link
      */
-    TypedLink() : m_old_resource_value(NULL), m_cached_link_value(NULL)
+    TypedLink() : m_old_resource_value(nullptr), m_cached_link_value(nullptr)
     {
         
     }
@@ -33,7 +33,7 @@ public:
         
     }
     /*! Like get() but typed
-        \return value (NULL if not found or incompatible types)
+        \return value (nullptr if not found or incompatible types)
      */
     T* value()
     {
@@ -41,7 +41,7 @@ public:
         if (m_old_resource_value != o)
         {
             m_old_resource_value = o;
-            m_cached_link_value = NULL;
+            m_cached_link_value = nullptr;
             if (o)
             {
                 sad::db::TypeName<T>::init();

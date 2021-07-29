@@ -3,6 +3,7 @@
     A simple graphics engine for games. If you see any errors in documentation, or can
     give idea for improving a documentation, we would appreciate your help
  */
+// ReSharper disable once CppDoxygenUnresolvedReference
 /*! \file   include/renderer.h
     \author FreakyBlast, mamontov-cpp
 
@@ -20,10 +21,12 @@
 #include "scene.h"
 #include "sadpoint.h"
 #include "sadptrhash.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "timer.h"
 #include "maybe.h"
 #include "temporarilyimmutablecontainer.h"
 #include "sadptrvector.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "sadptrhash.h"
 #include "sadmutex.h"
 #include "primitiverenderer.h"
@@ -109,19 +112,18 @@ public:
         \param[in] scene  a new scene
       */
     virtual void setScene(Scene * scene);
-    /*! Returns a current rendererd scene
+    /*! Returns a current rendered scene
         \return current scene
      */
     virtual const sad::Vector<sad::Scene*>& scenes() const;
     /*! Initializes renderer with specified settings
-         \param[in] _settings settings 
-         \return Success of operation
+        \param[in] _settings settings 
      */
     virtual void init(const sad::Settings& _settings);
     /*! Runs a renderer. Note that execution flow will not exit this method, until
         window is closed. 
         If renderer is already running, does nothing
-        \return whether successfully runned
+        \return whether successfully launched
      */
     virtual bool run();
     /*! Closes a window, shutting down a main loop, allowing execution flow 
@@ -215,46 +217,46 @@ public:
         \return controls
      */
     virtual sad::input::Controls* controls() const;
-    /*! Loads resources to tree (default if treename is not supplied) from filename
+    /*! Loads resources to tree (default if tree name is not supplied) from filename
         \param[in] filename a name of loaded files
-        \param[in] treename a name of tree
+        \param[in] tree_name a name of tree
         \return error list
      */
     sad::Vector<sad::resource::Error *> loadResources(
         const sad::String & filename,
-        const sad::String & treename = ""
+        const sad::String & tree_name = ""
     );
-    /*! Loads resources to tree (default if treename is not supplied) from filename
+    /*! Loads resources to tree (default if tree name is not supplied) from filename
         \param[in] filename a name of loaded files
-        \param[in] treename a name of tree
+        \param[in] tree_name a name of tree
         \return error list
      */
     sad::Maybe<sad::String> tryLoadResources(
         const sad::String & filename,
-        const sad::String & treename = ""
+        const sad::String & tree_name = ""
     );
     /*! Gets resource by name for a specified tree
-        \param[in] resourcename a resource name
-        \param[in] treename a name of tree, where resource should be taken from
+        \param[in] resource_name a resource name
+        \param[in] tree_name a name of tree, where resource should be taken from
      */
     template<
         typename _ResourceType
     >
-    _ResourceType * resource(const sad::String & resourcename, const sad::String & treename = "")
+    _ResourceType * resource(const sad::String & resource_name, const sad::String & tree_name = "")
     {
-        sad::resource::Tree * tree = this->tree(treename);
-        _ResourceType * result = NULL;
+        sad::resource::Tree * tree = this->tree(tree_name);
+        _ResourceType * result = nullptr;
         if (tree)
         {
-            result = tree->get<_ResourceType>(resourcename);
+            result = tree->get<_ResourceType>(resource_name);
         }
         return result;
     }
     /*! Gets texture by name for a specified tree
-        \param[in] resourcename a resource name
-        \param[in] treename a name of tree, where resource should be taken from
+        \param[in] resource_name a resource name
+        \param[in] tree_name a name of tree, where resource should be taken from
      */
-    sad::Texture * texture(const sad::String & resourcename, const sad::String & treename = "");
+    sad::Texture * texture(const sad::String & resource_name, const sad::String & tree_name = "");
     /*! This method is called, when somebody performs emergency shutdown.
         In current implementation, this method is called when  console window
         of application is closed on Windows OS. Note, that you SHOULD NOT call
@@ -283,7 +285,7 @@ public:
         \param[in] s scene
         \param[in] position a position
      */
-    void insert(sad::Scene* s, size_t position);
+    void insert(sad::Scene* s, size_t position);  // NOLINT(clang-diagnostic-overloaded-virtual)
     /*! Inserts scene into renderer
         \param[in] s scene
         \param[in] position a position
@@ -308,7 +310,7 @@ public:
     /*! Adds new scene to scene container
         \param[in] scene a scene to be rendered
      */
-    void add(sad::Scene* scene);
+    void add(sad::Scene* scene); // NOLINT(clang-diagnostic-overloaded-virtual)
     /*! Swap layers between two scenes
         \param[in] s1 first scene
         \param[in] s2 second scene
@@ -341,24 +343,24 @@ public:
         \return executable path
      */
     const sad::String & executablePath() const;
-    /*! Returns a resource tree, by it's mark in rendererer. By default, returns default tree,
+    /*! Returns a resource tree, by it's mark in renderer. By default, returns default tree,
         which guaranteed to exist, unless being explicitly removed by programmer
         \param[in] name name of resource tree
-        \return tree if exists, or NULL if not found
+        \return tree if exists, or nullptr if not found
      */
     sad::resource::Tree * tree(const sad::String & name = "") const;
     /*! Removes a tree from a renderer an returns owning pointer to it
         \param[in] name a name for resource tree
-        \return tree if exists, or NULL if not found
+        \return tree if exists, or nullptr if not found
      */
     sad::resource::Tree * takeTree(const sad::String & name);
     /*! Inserts new tree, replacing existing tree if needed. Existing tree's memory will be freed, if needed.
-        If tree is NULL, nothing is done.
+        If tree is nullptr, nothing is done.
         \param[in] name a name for a tree
         \param[in] tree an inserted tree
      */
     void addTree(const sad::String & name, sad::resource::Tree * tree);
-    /*! Removes a tree, freeeing it's  memory if it's exiss
+    /*! Removes a tree, freeing it's  memory if it's exists
         \param[in] name a name for a tree
      */
     void removeTree(const sad::String & name);
@@ -379,7 +381,7 @@ public:
     void removeDatabase(const sad::String & name);
     /*! Returns stored database by it's name
         \param[in] name a name for database
-        \return database or  NULL if not found
+        \return database or  nullptr if not found
      */
     sad::db::Database * database(const sad::String & name) const;
     /*! An animations list of renderer
@@ -398,7 +400,7 @@ public:
     void setTextureLoader(const sad::String& format, sad::imageformats::Loader* loader);
     /*! Returns a loader for texture
         \param[in] format a format
-        \return NULL, if loader not found
+        \return nullptr, if loader not found
      */
     sad::imageformats::Loader* textureLoader(const sad::String& format) const;
     /*! Shows message box for error message
@@ -567,7 +569,7 @@ protected:
     sad::PtrVector<sad::Scene> m_scenes; 
     /*! A renderer for the primitives
      */ 
-    sad::PrimitiveRenderer *  m_primitiverenderer;
+    sad::PrimitiveRenderer *  m_primitive_renderer;
     /*! An input controls for user action callbacks
      */
     sad::input::Controls*     m_controls;
@@ -603,13 +605,13 @@ protected:
     
     /*! A settings for a renderer
      */
-    sad::Settings        m_glsettings;  
+    sad::Settings        m_gl_settings;
     /*! A context thread id, stored as void
      */
     void*   m_context_thread;
     /*! A mutex, which locks rendering of scenes
      */
-    sad::Mutex m_lockrendering;
+    sad::Mutex m_lock_rendering;
     /*! An emergency shutdown callbacks
      */
     sad::PtrVector<sad::util::PointerCallback<sad::Renderer> > m_emergency_shutdown_callbacks;
@@ -729,20 +731,20 @@ protected:
     /*! Adds a scene to scene list
         \param[in] s scene to be added
      */
-    virtual void addNow(sad::Scene * s);
+    virtual void addNow(sad::Scene * s) override;
     /*! Removes a scene to scene list
         \param[in] s scene to be removed
      */
-    virtual void removeNow(sad::Scene * s);
+    virtual void removeNow(sad::Scene * s) override;
     /*! Clears scene from a scene list
      */
-    virtual void clearNow();
+    virtual void clearNow() override;
     /*! Inserts a scene into specified position.
         This function is hidden, since it should be used in some advanced containers
         \param[in] s a scene to be added
         \param[in] position a used position
      */
-    virtual void insertNow(sad::Scene* s, size_t position);
+    virtual void insertNow(sad::Scene* s, size_t position) override;
     /*! Tries to init shaders for rendering
      */
     void tryInitShaders();

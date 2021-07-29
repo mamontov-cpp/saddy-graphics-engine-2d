@@ -23,7 +23,7 @@ inline  picojson::value const * get_property(
     const sad::String & propertyname
 )
 {
-    picojson::value const * result = NULL;
+    picojson::value const * result = nullptr;
     if (v.is<picojson::object>())
     {	
         const picojson::object & o  = v.get<picojson::object>();

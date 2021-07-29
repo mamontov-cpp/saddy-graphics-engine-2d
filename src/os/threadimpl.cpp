@@ -126,7 +126,7 @@ static void register_finished_thread(int code)
 
 #endif
 
-sad::os::ThreadImpl::ThreadImpl(sad::AbsractThreadExecutableFunction * f)
+sad::os::ThreadImpl::ThreadImpl(sad::AbstractThreadExecutableFunction * f)
 : m_function(f),
 #ifdef WIN32
   m_handle(INVALID_HANDLE_VALUE)
@@ -169,8 +169,8 @@ sad::os::ThreadImpl::~ThreadImpl()
 
 static unsigned int WINAPI thread_implementation_function(LPVOID function)
 {
-    sad::AbsractThreadExecutableFunction * f = reinterpret_cast<
-        sad::AbsractThreadExecutableFunction *
+    sad::AbstractThreadExecutableFunction * f = reinterpret_cast<
+        sad::AbstractThreadExecutableFunction *
     >(function);
     int code = f->execute();
     _endthreadex(code);
@@ -188,13 +188,13 @@ static void * thread_implementation_function(void * function)
     
     int code = sad::Thread::Cancelled;
     // Make thread set status on cancel
-    pthread_cleanup_push(register_cancelled_thread, NULL);
+    pthread_cleanup_push(register_cancelled_thread, nullptr);
     // Register thread 	
     register_running_thread(pthread_self());	
    
     // Execute code
-    sad::AbsractThreadExecutableFunction * f = reinterpret_cast<
-        sad::AbsractThreadExecutableFunction *
+    sad::AbstractThreadExecutableFunction * f = reinterpret_cast<
+        sad::AbstractThreadExecutableFunction *
     >(function);
     code = f->execute();
     // Register finished thread
@@ -213,8 +213,8 @@ bool sad::os::ThreadImpl::run()
     if (running())
         return false;
 #ifdef WIN32    
-    m_handle = reinterpret_cast<HANDLE>(_beginthreadex(NULL, 0, thread_implementation_function, m_function,0,NULL));
-    return m_handle!=NULL;
+    m_handle = reinterpret_cast<HANDLE>(_beginthreadex(nullptr, 0, thread_implementation_function, m_function,0,nullptr));
+    return m_handle!=nullptr;
 #else
     pthread_attr_t attrs;
     pthread_attr_init(&attrs);
@@ -280,7 +280,7 @@ void sad::os::ThreadImpl::wait()
 #ifdef WIN32
         WaitForSingleObject(m_handle, INFINITE);
 #else
-        void * result = NULL;
+        void * result = nullptr;
         pthread_join(m_handle,&result);
 #endif
     }
@@ -304,7 +304,7 @@ void sad::os::ThreadImpl::wait(unsigned int milliseconds)
             ts.tv_sec += 1;
             ts.tv_nsec -= 1000000000;
         }
-        void * result = NULL;
+        void * result = nullptr;
         pthread_timedjoin_np(m_handle, &result, &ts);
 #else
         if (milliseconds < 2)

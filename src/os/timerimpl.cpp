@@ -8,12 +8,12 @@ void sad::os::put_last_error() {
     DWORD errCode = GetLastError();
     char *err;
     if (!FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-                       NULL,
+                       nullptr,
                        errCode,
                        MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // default language
                        (LPTSTR) &err,
                        0,
-                       NULL))
+                       nullptr))
     {
         SL_CRITICAL("Can't format error message!");
     }

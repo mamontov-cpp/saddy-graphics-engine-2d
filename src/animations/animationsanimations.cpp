@@ -516,7 +516,7 @@ void sad::animations::Animations::swap(sad::animations::Process* first, sad::ani
     performOrQueue(command);
 }
 
-void sad::animations::Animations::swap(const sad::String& name1, const sad::String name2)  // NOLINT(performance-unnecessary-value-param)
+void sad::animations::Animations::swap(const sad::String& name1, const sad::String& name2)  // NOLINT(performance-unnecessary-value-param)
 {
     std::function<std::function<bool(sad::animations::Process*)>(sad::String)> make_matcher = [](sad::String name) {
         return [name](sad::animations::Process* p) -> bool {

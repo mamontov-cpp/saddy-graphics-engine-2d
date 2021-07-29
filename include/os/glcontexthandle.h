@@ -39,11 +39,11 @@ public:
     void cleanup()
     {
 #ifdef WIN32
-        Context = NULL;
+        Context = nullptr;
 #endif
 
 #ifdef X11
-        Context = NULL;
+        Context = nullptr;
 #endif
     }
     /*! Checks, whether handle is valid
@@ -52,11 +52,11 @@ public:
     bool valid() const
     {
 #ifdef WIN32
-        return Context != NULL;
+        return Context != nullptr;
 #endif
 
 #ifdef X11
-        return Context != NULL;
+        return Context != nullptr;
 #endif
     }
 };

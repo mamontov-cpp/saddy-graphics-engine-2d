@@ -30,7 +30,7 @@ void sad::p2d::Force<double>::step(sad::p2d::Body* body, double time)
 
 sad::p2d::Body* sad::p2d::Force<double>::dependsFromBody() const
 {
-    return NULL;
+    return nullptr;
 }
 
 void sad::p2d::ImpulseForce<double>::step(sad::p2d::Body* body, double time)

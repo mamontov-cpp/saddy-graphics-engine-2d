@@ -5,7 +5,7 @@
  */
 #pragma once
 #define _USE_MATH_DEFINES
-#include <math.h>
+#include <cmath>
 
 #pragma pack(push, 1)
 
@@ -162,8 +162,8 @@ public:
     >
     inline void toType(sad::Point2<_OtherType> & o) const
     {
-        o.m_x = (_OtherType)m_x;
-        o.m_y = (_OtherType)m_y;
+        o.m_x = static_cast<_OtherType>(m_x);
+        o.m_y = static_cast<_OtherType>(m_y);
     }
 protected:
     _Type m_x;        //!< X coordinate
@@ -324,9 +324,9 @@ public:
     >
     inline void toType(sad::Point3<_OtherType> & o) const
     {
-        o.m_x = (_OtherType)(this->m_x);
-        o.m_y = (_OtherType)(this->m_y);
-        o.m_z = (_OtherType)(this->m_z);
+        o.m_x = static_cast<_OtherType>(this->m_x);
+        o.m_y = static_cast<_OtherType>(this->m_y);
+        o.m_z = static_cast<_OtherType>(this->m_z);
     }
 protected:
     _Type m_z;

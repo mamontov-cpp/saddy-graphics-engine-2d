@@ -17,7 +17,7 @@ class String;
 
 typedef sad::Vector<sad::String> StringList;
 
-/*! \class  string
+/*! \class  String
     \brief  String class
 
     String class, written to extend standard class with some useful methods
@@ -98,23 +98,23 @@ public:
              \return self-reference
          */
          String & insert(const String & o,long i);
-         /*! Removes rlen symbols, beginning from beg
+         /*! Removes right_length symbols, beginning from beg
              \param[in] beg  beginning index
-             \param[in] rlen length of range
+             \param[in] right_length length of range
              \return self-reference
          */
-         String & removeRange(long beg,long rlen);
-         /*! Concates two strings
+         String & removeRange(long beg,long right_length);
+         /*! Concatenates two strings
              \param[in] o other string
              \return concatenated symbols
          */
          String  operator+(const String & o) const;
-         /*! Concates two strings
+         /*! Concatenates two strings
              \param[in] o other string
              \return concatenated symbols
          */
          String  operator+(const char * o) const;
-         /*! Concates two strings
+         /*! Concatenates two strings
              \param[in] o other string
              \return concatenated symbols
          */
@@ -130,13 +130,13 @@ public:
          */
          String  getExtension() const;
          /*! Adds a file extension to string
-             \param[in] newext new extension
+             \param[in] new_extension new extension
          */
-         void  addExtension(const String & newext);
+         void  addExtension(const String & new_extension);
          /*! Changes a file extension to string
-             \param[in] newext new extension
+             \param[in] new_extension new extension
          */
-         void  changeExtension(const String & newext);
+         void  changeExtension(const String & new_extension);
          /*! Removes file extension or does nothing if no extension found
          */
          void  removeExtension();
@@ -156,52 +156,52 @@ public:
              \return substring
          */
          String  getLeftPart(long len) const;
-         /*! Count occurences of string sstr int this string.
-             \param[in] sstr string, which occurences will be counted
-             \return -1 if no occurences, otherwise amount of occurences
+         /*! Count occurrences of string sub_string int this string.
+             \param[in] sub_string string, which occurrences will be counted
+             \return -1 if no occurrences, otherwise amount of occurrences
          */
-         long getOccurences(const String & sstr) const;
+         long getOccurrences(const String & sub_string) const;
          /*! Returns a position of substring.
-            \param[in] sstr  searching string
-            \param[in] omax  searching occurence of string.0 - for first.
+            \param[in] sub_string  searching string
+            \param[in] o_max  searching occurrence of string.0 - for first.
             \return -1  if not found, otherwise - index
          */
-         long getOccurence(const String & sstr,long omax=0) const;
-         /*! Returns index of last occurence of one string from this string
-             \param[in] sstr substring to be removed
+         long getOccurrence(const String & sub_string, long o_max = 0) const;
+         /*! Returns index of last occurrence of one string from this string
+             \param[in] sub_string substring to be removed
              \return -1 if not found, otherwise index of substring
          */
-         long getLastOccurence(const String & sstr) const;
-         /*! Removes last occurence of one string from this string
-             \param[in] sstr substring to be removed
-             \param[in] omax index of occurence
+         long getLastOccurrence(const String & sub_string) const;
+         /*! Removes last occurrence of one string from this string
+             \param[in] sub_string substring to be removed
+             \param[in] o_max index of occurrence
          */
-         void removeOccurence(const String & sstr,long omax=0);
-         /*! Removes last occurence of one string from this string
-             \param[in] sstr substring to be removed
+         void removeOccurrence(const String & sub_string, long o_max = 0);
+         /*! Removes last occurrence of one string from this string
+             \param[in] sub_string substring to be removed
          */
-         void removeLastOccurence(const String & sstr);
-         /*! Removes all occurences of one string from this string
-             \param[in] sstr substring to be removed
+         void removeLastOccurrence(const String & sub_string);
+         /*! Removes all occurrences of one string from this string
+             \param[in] sub_string substring to be removed
          */
-         void removeAllOccurences(const String & sstr);
-         /*! Replaces following occurence of one string to other. If this occurence
+         void removeAllOccurrences(const String & sub_string);
+         /*! Replaces following occurrence of one string to other. If this occurrence
              isn't found, nothing will be done
-             \param[in] sstr string to be replaced
+             \param[in] sub_string string to be replaced
              \param[in] to   replacing string
-             \param[in] omax index of occurence
+             \param[in] o_max index of occurrence
          */
-         void replaceOccurence(const String & sstr,const String & to,long omax=0);
-         /*! Replaces last occurence of one string to other
-             \param[in] sstr string to be replaced
-             \param[in] to   replacing string
-         */
-         void replaceLastOccurence(const String & sstr,const String & to);
-         /*! Replaces all occurences of one string to other
-             \param[in] sstr string to be replaced
+         void replaceOccurrence(const String & sub_string,const String & to,long o_max=0);
+         /*! Replaces last occurrence of one string to other
+             \param[in] sub_string string to be replaced
              \param[in] to   replacing string
          */
-         void replaceAllOccurences(const String & sstr,const String & to);
+         void replaceLastOccurrence(const String & sub_string,const String & to);
+         /*! Replaces all occurrences of one string to other
+             \param[in] sub_string string to be replaced
+             \param[in] to   replacing string
+         */
+         void replaceAllOccurrences(const String & sub_string,const String & to);
          //Trivial
          void removeSpaces();                                  //!< Removes all spaces from a string
          void trimSpaces();                                    //!< Removes a spaces from begin and end of string
@@ -213,17 +213,17 @@ public:
          static String number(int a,int radix=10);
          /*! Converts pointer definition from string to long
              \param[in]  str  string to query
-             \param[out] addr  integral address
+             \param[out] address  integral address
              \return    true if success
          */
-         static bool  queryPointer(const String & str, long * addr);
+         static bool  queryPointer(const String & str, long* address);
          /*! String conversion to integral type. Uses sscanf() to convert
              \param[in] str string to be converted
              \return    result of conversion
          */
          static int  toInt(const String & str);
          /*! An unsafe fast version of parsing unsigned int
-             \param[in]  begin begining of buffer
+             \param[in]  begin beginning of buffer
              \param[in]  end last character of buffer
              \param[out] r resulting number
              \return whether parsing was successfull
@@ -244,7 +244,7 @@ public:
              \return result
           */
          bool consistsOfWhitespaceCharacters() const;
-         /*! Trims a whitespace characters, like tabs, spaces or newlinws from both sides
+         /*! Trims a whitespace characters, like tabs, spaces or newlines from both sides
           */
          void trim();
          /*! Trims a whitespace characters on left side of string
@@ -283,16 +283,16 @@ public:
     \param[in] list list of strings
     \param[in] sep  separator
  */
-sad::String join(const sad::StringList list, const sad::String & sep);
+sad::String join(const sad::StringList& list, const sad::String & sep);
 
 };
 
 /*! Writes a string to output stream
     \param[in] stream output stream
-    \param[in] sadstring a string data
+    \param[in] string a string data
  */
-inline std::ostream & operator<<(std::ostream & stream, const sad::String & sadstring)
+inline std::ostream & operator<<(std::ostream & stream, const sad::String & string)
 {
-    return stream << static_cast<const std::string&>(sadstring);
+    return stream << static_cast<const std::string&>(string);
 }
 

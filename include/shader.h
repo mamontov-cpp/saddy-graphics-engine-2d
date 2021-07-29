@@ -176,8 +176,8 @@ public:
     */
    unsigned int getUniformBlockIndex(const sad::String& name);
    /*! Assigns a binding point to an active uniform block
-      \param[in] index
-      \param[in] binding a binding point
+      \param[in] uniformBlockIndex a block index
+      \param[in] uniformBlockBinding a binding point
     */
    void uniformBlockBinding(unsigned int uniformBlockIndex, unsigned int uniformBlockBinding);
    /*! Analogue for glUniformMatrix4x3fv. @see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml for details
@@ -393,7 +393,7 @@ public:
     * \param[in] v0 v0
     */
    void setUniform(int location, float v0);
-   /*! Tries to log OpenGL error if occured
+   /*! Tries to log OpenGL error if occurred
     */
    void tryLogGlError(const char* op);
    /*! Returns shader id

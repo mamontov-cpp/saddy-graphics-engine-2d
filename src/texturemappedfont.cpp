@@ -14,7 +14,7 @@ DECLARE_SOBJ_INHERITANCE(sad::TextureMappedFont, sad::Font);
 
 sad::TextureMappedFont::TextureMappedFont()  //-V730
 : sad::Font(), 
-  m_texture(NULL),
+  m_texture(nullptr),
   m_builtin_linespacing(0), 
   m_size_ratio(1.0),
   m_ascent(0)
@@ -36,7 +36,7 @@ sad::Size2D sad::TextureMappedFont::size(const sad::String & str, sad::Font::Ren
 {
     sad::Size2D result;
     // If loading was failed, return (0, 0) as size
-    if (m_texture == NULL)
+    if (m_texture == nullptr)
         return result;
     
     // A font can have various sizes, so we need ratio to compute new width
@@ -45,7 +45,7 @@ sad::Size2D sad::TextureMappedFont::size(const sad::String & str, sad::Font::Ren
 
     // Lets break string into lines
     sad::String tmp = str;
-    tmp.removeAllOccurences("\r");
+    tmp.removeAllOccurrences("\r");
     sad::StringList lines = str.split("\n", sad::String::KEEP_EMPTY_PARTS);
     
     double italicoffset = ((double)m_size) * TAN_20_DEGREES;
@@ -93,7 +93,7 @@ sad::Size2D sad::TextureMappedFont::size(const sad::String & str, sad::Font::Ren
 void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D & p, sad::Font::RenderFlags flags)
 {
     // If loading was failed, do nothing
-    if (m_texture == NULL)
+    if (m_texture == nullptr)
         return;
 
     double x = p.x();
@@ -101,7 +101,7 @@ void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D 
 
     
     sad::String string = str;
-    string.removeAllOccurences("\r");
+    string.removeAllOccurrences("\r");
 #ifdef LOG_RENDERING
     SL_LOCAL_INTERNAL(
         fmt::Format("Before binding texture {0}")
@@ -274,7 +274,7 @@ void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D 
 void sad::TextureMappedFont::fillGeometries(const sad::Font::GeometryRenderData& data, sad::os::GLFontGeometries& g, const sad::String & str, const sad::Point2D & p, sad::Font::RenderFlags flags)
 {
     // If loading was failed, do nothing
-    if (m_texture == NULL)
+    if (m_texture == nullptr)
         return;
 
     double x = p.x();
@@ -284,7 +284,7 @@ void sad::TextureMappedFont::fillGeometries(const sad::Font::GeometryRenderData&
     sad::Vector<float> colors;
 
     sad::String string = str;
-    string.removeAllOccurences("\r");
+    string.removeAllOccurrences("\r");
 
     unsigned int glyphwidth = 0;
 
@@ -371,14 +371,14 @@ void sad::TextureMappedFont::fillGeometries(const sad::Font::GeometryRenderData&
 
 sad::Texture * sad::TextureMappedFont::renderToTexture(const sad::String & str)
 {
-    if (m_texture == NULL)
-        return NULL;
+    if (m_texture == nullptr)
+        return nullptr;
 
     sad::Texture * result = new sad::Texture();
     
     sad::String rendered_string = str;
-    rendered_string.removeAllOccurences("\n");
-    rendered_string.removeAllOccurences("\r");
+    rendered_string.removeAllOccurrences("\n");
+    rendered_string.removeAllOccurrences("\r");
 
     sad::Vector<sad::Point2I> from;
     sad::Vector<sad::Point2I> to;
@@ -493,7 +493,7 @@ bool sad::TextureMappedFont::load(
 )
 {
     // If renderer is null, set renderer to global
-    if (r == NULL)
+    if (r == nullptr)
         r = sad::Renderer::ref();
 
     // Trying to load a textures

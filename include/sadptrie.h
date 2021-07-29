@@ -50,7 +50,7 @@ namespace sad
                     ~node();
                 } * m_root;                      //!< Root node of tree
                 /*! Jumps to node of specified key, if possible.
-                    Otherwise returns NULL;
+                    Otherwise returns nullptr;
                     \param[in] key key value
                 */
                 typename Ptrie::node * jump(const Key & key) const;
@@ -232,12 +232,12 @@ namespace sad
                */
                Ptrie & add(const Key & key, const T & val);
                /*! Returns a constant pointer to element, if it exists in Ptrie.
-                   Otherwise returns NULL.
+                   Otherwise returns nullptr.
                    \param[in] key key
                */
                T const * operator[](const Key & key) const;
                /*! Returns a pointer to element, if it exists in Ptrie.
-                   Otherwise returns NULL.
+                   Otherwise returns nullptr.
                    \param[in] key key
                */
                T  * operator[](const Key & key) ;

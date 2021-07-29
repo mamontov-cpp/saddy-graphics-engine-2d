@@ -4,8 +4,8 @@
 
     Contains a simple hash, with pointers, which is freed automatically
 */
-#include "sadhash.h"
 #pragma once
+#include "sadhash.h"
 
 namespace sad
 {
@@ -22,7 +22,7 @@ class PtrHash: public sad::Hash<Key, T *>
      ~PtrHash()
      {
         typename sad::PtrHash<Key, T>::iterator it = this->begin();
-        for(it; it != this->end(); ++it)
+        for(; it != this->end(); ++it)
         {
             delete it.value();
         }

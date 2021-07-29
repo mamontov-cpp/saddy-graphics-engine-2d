@@ -30,7 +30,7 @@ public:
     Animations();
     /*! Removes links to processes, destroying object
      */
-    virtual ~Animations();
+    virtual ~Animations() override;
 
     /*! Adds new process to container
         \param[in] o an animation process
@@ -65,7 +65,7 @@ public:
         \param[in] position  a position for removal of object
      */
     void removeAt(unsigned int position);
-    /*! Returs amount of processes of list
+    /*! Returns amount of processes of list
         \return amount of processes in list
      */
     unsigned int count() const;
@@ -215,7 +215,7 @@ public:
         \param[in] name1 first name
         \param[in] name2 second name
      */
-    void swap(const sad::String& name1, const sad::String name2);
+    void swap(const sad::String& name1, const sad::String& name2);
     /*! Swaps first process named name1 with type1 position of name2 with type2
         \param[in] type1 first type
         \param[in] name1 first name
@@ -409,65 +409,65 @@ public:
 
     /*! Returns, whether there are  processes, related for passed by pointer
         \param[in] o process
-        \return whether there are reated processes
+        \return whether there are related processes
      */
     bool hasProcesses(sad::animations::Process* o);
     /*! Returns, whether there are  processes, related to one with name
         \param[in] name a name of process
-        \return whether there are reated processes
+        \return whether there are related processes
      */
     bool hasProcessesByName(const sad::String& name);
     /*! Returns, whether there are  processes, related to one with type and name
         \param[in] type a type of process
         \param[in] name a name of process
-        \return whether there are reated processes
+        \return whether there are related processes
      */
     bool hasProcessesByTypeAndName(const sad::String& type, const sad::String& name);
     /*! Returns, whether there are  processes, related to one with major id
         \param[in] major_id a major id of process
-        \return whether there are reated processes
+        \return whether there are related processes
      */
     bool hasProcessesByMajorId(unsigned long long major_id);
     /*! Returns, whether there are  processes, related to object
         \param[in] o process
-        \return whether there are reated processes
+        \return whether there are related processes
      */
     bool hasProcessesRelatedToObject(sad::db::Object* o);
     /*! Returns, whether there are  processes, related to object with name
         \param[in] name a name of process
-        \return whether there are reated processes
+        \return whether there are related processes
      */
     bool hasProcessesRelatedToObjectByName(const sad::String& name);
     /*! Returns, whether there are  processes, related to object with type and name
         \param[in] type a type of process
         \param[in] name a name of process
-        \return whether there are reated processes
+        \return whether there are related processes
      */
     bool hasProcessesRelatedToObjectByTypeAndName(const sad::String& type, const sad::String& name);
     /*! Returns, whether there are  processes, related to object with major id
         \param[in] major_id a major id of process
-        \return whether there are reated processes
+        \return whether there are related processes
      */
     bool hasProcessesRelatedToObjectByMajorId(unsigned long long major_id);
     /*! Returns, whether there are  processes, related to animation
         \param[in] o process
-        \return whether there are reated processes
+        \return whether there are related processes
      */
     bool hasProcessesRelatedToAnimation(sad::animations::Animation* o);
     /*! Returns, whether there are  processes, related to animation with name
         \param[in] name a name of process
-        \return whether there are reated processes
+        \return whether there are related processes
      */
     bool hasProcessesRelatedToAnimationByName(const sad::String& name);
     /*! Returns, whether there are  processes, related to animation with type and name
         \param[in] type a type of process
         \param[in] name a name of process
-        \return whether there are reated processes
+        \return whether there are related processes
      */
     bool hasProcessesRelatedToAnimationByTypeAndName(const sad::String& type, const sad::String& name);
     /*! Returns, whether there are  processes, related to animation with major id
         \param[in] major_id a major id of process
-        \return whether there are reated processes
+        \return whether there are related processes
      */
     bool hasProcessesRelatedToAnimationByMajorId(unsigned long long major_id);
 
@@ -493,7 +493,7 @@ protected:
     Animations& operator=(const sad::animations::Animations& o);
     /*! Runs every process
      */ 
-    virtual void _process();
+    virtual void _process() override;
     /*! Adds an animation process to list
         \param[in] o object
      */
@@ -600,15 +600,15 @@ protected:
         \param[in] f function
      */
     void performOrQueue(const std::function<void()>& f);
-    /*! Querys processes
+    /*! Find processes by predicate
         \param[in] f a functional object for predicate
     */
     sad::Vector<sad::animations::Process*> queryProcesses(const std::function<bool(sad::animations::Process*)>& f);
-    /*! Querys processes, related to matched object
+    /*! Find processes, related to matched object
         \param[in] f a functional object for predicate
      */
     sad::Vector<sad::animations::Process*> queryProcessesRelatedToMatchedObject(const std::function<bool(sad::db::Object*)>& f);
-    /*! Querys processes, related to matched animation
+    /*! Find processes, related to matched animation
         \param[in] f a functional object for predicate
     */
     sad::Vector<sad::animations::Process*> queryProcessesRelatedToMatchedAnimation(const std::function<bool(sad::animations::Animation*)>& f);

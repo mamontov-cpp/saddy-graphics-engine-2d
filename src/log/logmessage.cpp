@@ -36,7 +36,7 @@ sad::String sad::log::Message::fileline() const
     sad::String o;
     const char * chslash = strrchr(m_file, '/');
     const char * chbslash = strrchr(m_file, '\\');
-    const char * chk = NULL;
+    const char * chk = nullptr;
     if (chslash)
     {
         if (chbslash)

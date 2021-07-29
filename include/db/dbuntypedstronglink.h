@@ -20,14 +20,14 @@ class UntypedStrongLink
 public:
     /*! Constructs new strong link for database objects
      */
-    inline UntypedStrongLink() : m_cached_object(NULL), m_changed(true)
+    inline UntypedStrongLink() : m_cached_object(nullptr), m_changed(true)
     {
         
     }
     /*! Constructs new link via copying
         \param[in] o other object
      */ 
-    inline UntypedStrongLink(const sad::db::UntypedStrongLink& o) : m_cached_object(NULL), m_changed(true), m_link(o.m_link)
+    inline UntypedStrongLink(const sad::db::UntypedStrongLink& o) : m_cached_object(nullptr), m_changed(true), m_link(o.m_link)
     {
         
     }
@@ -42,7 +42,7 @@ public:
             m_cached_object->delRef();
         }
         m_link = o.m_link;
-        m_cached_object = NULL;
+        m_cached_object = nullptr;
         m_changed = true;
         return *this;
     }
@@ -136,7 +136,7 @@ public:
         {
             return m_cached_object;
         }
-        sad::db::Object* result = NULL;
+        sad::db::Object* result = nullptr;
         sad::db::Object* o = me->m_link.get();
         if (o)
         {

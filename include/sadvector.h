@@ -64,27 +64,27 @@ public:
         \return self-reference
      */
     sad::Vector<T> & removeAt(unsigned long i);
-    /*! Removes occurences of element  obj
+    /*! Removes occurrences of element  obj
         \param[in] obj object to be removed
         \return self-reference
      */
     sad::Vector<T> & removeAll(const T & obj);
-    /*! Removes first occurence of element  obj
+    /*! Removes first occurrence of element  obj
         \param[in] obj object to be removed
         \return self-reference
      */
     sad::Vector<T> & removeFirst(const T & obj);
-    /*! Removes last occurence of element  obj
+    /*! Removes last occurrence of element  obj
         \param[in] obj object to be removed
         \return self-reference
      */
     sad::Vector<T> & removeLast(const T & obj);
-    /*! Removes an elements in range from imin to imax
-        \param[in] imin minimum  range index
-        \param[in] imax maximum  range index
+    /*! Removes an elements in range from i_min to i_max
+        \param[in] i_min minimum  range index
+        \param[in] i_max maximum  range index
         \return self-reference
      */
-    sad::Vector<T> & removeRange(unsigned long imin,unsigned long imax);
+    sad::Vector<T> & removeRange(unsigned long i_min,unsigned long i_max);
 };
 
 }

@@ -4,7 +4,7 @@
 
 
 sad::log::FileTarget::FileTarget(const sad::String & format, int minpriority)
-: m_min_priority(minpriority), m_format(format), m_file(NULL)
+: m_min_priority(minpriority), m_format(format), m_file(nullptr)
 {
 }
 
@@ -13,12 +13,12 @@ bool sad::log::FileTarget::open(const sad::String & filename)
 {
     close();
     m_file = fopen(filename.data(), "wt");
-    return m_file != NULL;
+    return m_file != nullptr;
 }
 
 void sad::log::FileTarget::receive(const sad::log::Message & message)
 {
-    if (((int)message.priority()) < m_min_priority || m_file == NULL)
+    if (((int)message.priority()) < m_min_priority || m_file == nullptr)
         return;
     std::string mesg = str(fmt::Format(m_format) 
                            << message.stime() 
@@ -59,7 +59,7 @@ void sad::log::FileTarget::close()
 {
     if (m_file) 
         fclose(m_file);
-    m_file = NULL;
+    m_file = nullptr;
 }
 
 DECLARE_COMMON_TYPE(sad::log::FileTarget);

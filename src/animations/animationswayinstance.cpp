@@ -61,16 +61,16 @@ sad::animations::WayInstance::~WayInstance()
     
 }
 
-static sad::db::schema::Schema* WayAnimationInstanceSchema = NULL;
+static sad::db::schema::Schema* WayAnimationInstanceSchema = nullptr;
 
 static sad::Mutex WayAnimationInstanceSchemaInit;
 
 sad::db::schema::Schema* sad::animations::WayInstance::basicSchema()
 {
-if (WayAnimationInstanceSchema == NULL)
+if (WayAnimationInstanceSchema == nullptr)
     {
         WayAnimationInstanceSchemaInit.lock();
-        if (WayAnimationInstanceSchema == NULL)
+        if (WayAnimationInstanceSchema == nullptr)
         {
             WayAnimationInstanceSchema = new sad::db::schema::Schema();
             WayAnimationInstanceSchema->addParent(sad::animations::Instance::basicSchema());

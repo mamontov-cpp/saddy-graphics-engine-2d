@@ -681,7 +681,7 @@ namespace picojson {
   
   template <typename Iter> inline Iter parse(value& out, const Iter& first, const Iter& last, std::string* err) {
     input<Iter> in(first, last);
-    if (! _parse(out, in) && err != NULL) {
+    if (! _parse(out, in) && err != nullptr) {
       char buf[64];
       SNPRINTF(buf, sizeof(buf), "syntax error at line %d near: ", in.line());
       *err = buf;

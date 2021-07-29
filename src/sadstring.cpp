@@ -59,7 +59,7 @@ sad::StringList sad::String::split(
   for(unsigned long i = 0; i < this->length(); i++)
   {
     char cur = (*this)[i];
-    if (strrchr(delimiters,cur) != NULL)
+    if (strrchr(delimiters,cur) != nullptr)
     {
         if (buffer.empty() == false || b == sad::String::KEEP_EMPTY_PARTS)
             result << buffer;
@@ -101,14 +101,14 @@ void sad::String::removeExtension()
    if (pos == std::string::npos)  return;
    this->erase(this->begin() + pos, this->end());
 }
-void  sad::String::addExtension(const sad::String & newext)
+void  sad::String::addExtension(const sad::String & new_extension)
 {
-    (*this)<<'.'<<newext;
+    (*this)<<'.'<<new_extension;
 }
-void  sad::String::changeExtension(const sad::String & newext)
+void  sad::String::changeExtension(const sad::String & new_extension)
 {
  removeExtension();
- addExtension(newext);
+ addExtension(new_extension);
 }
 sad::String  sad::String::operator+(const sad::String & o) const
 {
@@ -157,13 +157,13 @@ void sad::String::trimSpaces()
 }
 void sad::String::removeSpaces()
 {
-    this->removeAllOccurences(sad::String(" "));
+    this->removeAllOccurrences(sad::String(" "));
 }
 
-sad::String & sad::String::removeRange(long beg,long rlen)
+sad::String & sad::String::removeRange(long beg,long right_length)
 {
     long k;
-    for (k=0;k<rlen;k++) 
+    for (k=0;k<right_length;k++) 
          this->remove(beg);   
     return *this;
 }
@@ -187,7 +187,7 @@ sad::String  sad::String::number(int a,int radix)
    if (radix==16) {sprintf(buffer,"%X",a);return sad::String(buffer);}
    return sad::String();
 }
-bool  sad::String::queryPointer(const sad::String & str, long * addr)
+bool  sad::String::queryPointer(const sad::String & str, long * address)
 {
    long cwt=-32768;
    if (str.empty())
@@ -195,10 +195,10 @@ bool  sad::String::queryPointer(const sad::String & str, long * addr)
        return 0;
    }
    sscanf(str.data(),"%lX",&cwt);
-   *addr=0;
+   *address=0;
    if (cwt>=0)
    {
-       *addr=cwt; return 1;
+       *address=cwt; return 1;
    }
    return 0;
 }
@@ -266,87 +266,88 @@ sad::String  sad::String::getLeftPart(long len) const
 {
     return subString(0,len);
 }
-long sad::String::getOccurences(const sad::String & sstr) const
+long sad::String::getOccurrences(const sad::String & sub_string) const
 {
     long count = 0;
-    size_t pos = this->find(sstr);
+    size_t pos = this->find(sub_string);
     while(pos != std::string::npos)
     {
         ++count;
-        pos = this->find(sstr, pos + sstr.length());
+        pos = this->find(sub_string, pos + sub_string.length());
     }
     return count;
 }
-long sad::String::getOccurence(const sad::String & sstr,long omax) const
+long sad::String::getOccurrence(const sad::String & sub_string,long o_max) const
 {
   long result = -1;
   long count = 0;
-  size_t pos = this->find(sstr);
+  size_t pos = this->find(sub_string);
   while(pos != std::string::npos)
   {
-    if (count == omax)
+    if (count == o_max)
         result = pos;
     ++count;
-    pos = this->find(sstr, pos + sstr.length());
+    pos = this->find(sub_string, pos + sub_string.length());
   }
   return result;
 }
-long sad::String::getLastOccurence(const sad::String & sstr) const
+long sad::String::getLastOccurrence(const sad::String & sub_string) const
 {
   long result = -1;
-  size_t pos = this->find(sstr);
+  size_t pos = this->find(sub_string);
   while(pos != std::string::npos)
   {
     result = pos;
-    pos = this->find(sstr, pos + sstr.length());
+    pos = this->find(sub_string, pos + sub_string.length());
   }
   return result;
 }
-void sad::String::removeOccurence(const sad::String & sstr,long omax)
+void sad::String::removeOccurrence(const sad::String & sub_string,long o_max)
 {
-   long pos=getOccurence(sstr,omax);
-   if (pos!=-1) removeRange(pos,sstr.length());
+   long pos=getOccurrence(sub_string,o_max);
+   if (pos!=-1) removeRange(pos,sub_string.length());
 }
-void sad::String::removeAllOccurences(const sad::String & sstr)
+
+void sad::String::removeAllOccurrences(const sad::String & sub_string)
 {
-   long pos=getOccurence(sstr,0);
+   long pos=getOccurrence(sub_string,0);
    while (pos!=-1)
    {
-       removeRange(pos,sstr.length());
-       pos=getOccurence(sstr,0);
+       removeRange(pos,sub_string.length());
+       pos=getOccurrence(sub_string,0);
    }
 }
-void sad::String::removeLastOccurence(const sad::String & sstr)
+void sad::String::removeLastOccurrence(const sad::String & sub_string)
 {
-   long pos=getLastOccurence(sstr);
-   if (pos!=-1) removeRange(pos,sstr.length());
+   long pos=getLastOccurrence(sub_string);
+   if (pos!=-1) removeRange(pos,sub_string.length());
 }
-void sad::String::replaceOccurence(const sad::String & sstr,const sad::String & to,long omax)
+void sad::String::replaceOccurrence(const sad::String & sub_string,const sad::String & to,long o_max)
 {
-   long pos=getOccurence(sstr,omax);
+   long pos=getOccurrence(sub_string,o_max);
    if (pos!=-1)
    {
-       removeRange(pos,sstr.length());
+       removeRange(pos,sub_string.length());
        insert(to,pos);
    }
 }
-void sad::String::replaceAllOccurences(const sad::String & sstr,const sad::String & to)
+void sad::String::replaceAllOccurrences(const sad::String & sub_string,const sad::String & to)
 {
-   long pos=getOccurence(sstr,0);
+   long pos=getOccurrence(sub_string,0);
    while (pos!=-1)
    {
-       removeRange(pos,sstr.length());
+       removeRange(pos,sub_string.length());
        insert(to,pos);
-       pos=getOccurence(sstr,0);
+       pos=getOccurrence(sub_string,0);
    }
 }
 
-void sad::String::replaceLastOccurence(const sad::String & sstr,const sad::String & to)
+void sad::String::replaceLastOccurrence(const sad::String & sub_string,const sad::String & to)
 {
-   long pos=getLastOccurence(sstr);
+   long pos=getLastOccurrence(sub_string);
    if (pos!=-1)
    {
-       removeRange(pos,sstr.length());
+       removeRange(pos,sub_string.length());
        insert(to,pos);
    }
 }
@@ -487,7 +488,7 @@ bool sad::String::isNumeric(bool allowMinus) const
     return true;
 }
 
-sad::String sad::join(const sad::StringList list, const sad::String & sep)
+sad::String sad::join(const sad::StringList& list, const sad::String & sep)
 {
     if (list.count() == 0)
         return sad::String();

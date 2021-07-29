@@ -27,7 +27,7 @@ bool sad::db::can_be_casted_from_to(
     {
         if (from_pointer_star_count == to_pointer_star_count && to_pointer_star_count == 0) 
         {
-            result = sad::db::ConversionTable::ref()->converter(from_base_name, to_base_name) != NULL;
+            result = sad::db::ConversionTable::ref()->converter(from_base_name, to_base_name) != nullptr;
         }
     }
     return result;

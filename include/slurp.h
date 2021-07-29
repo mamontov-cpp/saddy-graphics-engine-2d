@@ -19,6 +19,6 @@ class Renderer;
     \param[in] renderer used renderer if can be used
     \return a content of file if it can be round
  */
-sad::Maybe<sad::String> slurp(const sad::String& fileName, sad::Renderer* renderer = NULL);
+sad::Maybe<sad::String> slurp(const sad::String& fileName, sad::Renderer* renderer = nullptr);
 
 }

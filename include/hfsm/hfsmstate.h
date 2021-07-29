@@ -48,11 +48,11 @@ public:
     sad::hfsm::Machine * machine() const;
     /*! Adds new children state. Deletes old state, if state with such name already exists
         \param[in] name name for a state
-        \param[in] state  a state (NULL to create default sad::hfsm::State)
+        \param[in] state  a state (nullptr to create default sad::hfsm::State)
      */
-    void addChild(const sad::String & name, sad::hfsm::State * state = NULL);
+    void addChild(const sad::String & name, sad::hfsm::State * state = nullptr);
     /*! Returns child state by it's name
-        \return state data or NULL if not found
+        \return state data or nullptr if not found
      */
     sad::hfsm::State * child(const sad::String & name) const;
     /*! Returns a children for state map
@@ -152,7 +152,7 @@ public:
         \param[in] state a parent state
      */
     virtual void setParent(sad::hfsm::State * state);
-    /*! Returns parent state for state (NULL if it's top-level state)
+    /*! Returns parent state for state (nullptr if it's top-level state)
         \return parent state
      */
     virtual sad::hfsm::State * parent() const;

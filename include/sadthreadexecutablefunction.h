@@ -1,3 +1,4 @@
+// ReSharper disable once CppDoxygenUnresolvedReference
 /*! \file ../include/sadthreadexecutablefunction.h
     
 
@@ -10,20 +11,20 @@ namespace sad
 
 /*! A basic interface, which can be executed in thread
  */
-class AbsractThreadExecutableFunction
+class AbstractThreadExecutableFunction
 {
 public:
     /*! Executes a function in thread
         \return code, which will be returned in thread
      */
     virtual int execute() = 0;
-    /*! Cretes a clone of executable function
+    /*! Creates a clone of executable function
         \returns exact copy of current thread executable function
      */
-    virtual AbsractThreadExecutableFunction * clone() const = 0;
+    virtual AbstractThreadExecutableFunction * clone() const = 0;
     /*! Kept for purpose of inheritance
      */
-    virtual ~AbsractThreadExecutableFunction();
+    virtual ~AbstractThreadExecutableFunction();  // NOLINT(clang-diagnostic-deprecated-copy-dtor)
 };
 
 }

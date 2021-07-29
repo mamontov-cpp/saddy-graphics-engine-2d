@@ -3,6 +3,7 @@
 
     Sets area via method call
  */
+#pragma once
 #include "typedcommand.h"
 
 #include "../../sadrect.h"
@@ -24,7 +25,7 @@ namespace setstate
 template<
     typename _Object
 >
-class SetPositionViaMethodCall : public sad::animations::setstate::TypedCommmand<sad::Point2D>
+class SetPositionViaMethodCall: public sad::animations::setstate::TypedCommand<sad::Point2D>
 {
 public:
     /*! Constructs new empty cached call
@@ -33,21 +34,21 @@ public:
     inline SetPositionViaMethodCall(sad::db::Object* o) : m_o(o) {}
     /*! Could be inherited
      */
-    virtual ~SetPositionViaMethodCall() {}
+    virtual ~SetPositionViaMethodCall() override {}
     /*! Clones command
         \return command
      */
-    virtual sad::animations::setstate::AbstractSetStateCommand* clone() const
+    virtual sad::animations::setstate::AbstractSetStateCommand* clone() const override
     {
         return new sad::animations::setstate::SetPositionViaMethodCall<_Object>(m_o);
     }
     /*! Sets a position for argument
         \param[in] a argument
      */
-    virtual void call(const sad::Point2D& a)
+    virtual void call(const sad::Point2D& a) override
     {
         sad::Rect2D area = static_cast<_Object*>(m_o)->area();
-        sad::Point2D center = (area[0] + area[2]) / 2.0;
+        const sad::Point2D center = (area[0] + area[2]) / 2.0;
 
         sad::moveBy(a - center, area);
         static_cast<_Object*>(m_o)->setArea(area);

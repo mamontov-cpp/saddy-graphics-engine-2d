@@ -1,11 +1,11 @@
 #include <sadthreadexecutablefunction.h>
 
-sad::AbsractThreadExecutableFunction::~AbsractThreadExecutableFunction()
+sad::AbstractThreadExecutableFunction::~AbstractThreadExecutableFunction()
 {
 
 }
 
-sad::AbsractThreadExecutableFunction * sad::util::EmptyThreadExecutableFunction::clone() const
+sad::AbstractThreadExecutableFunction * sad::util::EmptyThreadExecutableFunction::clone() const
 {
     return new sad::util::EmptyThreadExecutableFunction();
 }
@@ -22,7 +22,7 @@ int sad::util::FreeZeroArgVoidExecutableFunction::execute()
     return 0;
 }
 
-sad::AbsractThreadExecutableFunction * sad::util::FreeZeroArgVoidExecutableFunction::clone() const
+sad::AbstractThreadExecutableFunction * sad::util::FreeZeroArgVoidExecutableFunction::clone() const
 {
     return new sad::util::FreeZeroArgVoidExecutableFunction(*this);
 }
@@ -32,7 +32,7 @@ int sad::util::FreeZeroArgIntExecutableFunction::execute()
     return m_f();
 }
 
-sad::AbsractThreadExecutableFunction * sad::util::FreeZeroArgIntExecutableFunction::clone() const
+sad::AbstractThreadExecutableFunction * sad::util::FreeZeroArgIntExecutableFunction::clone() const
 {
     return new sad::util::FreeZeroArgIntExecutableFunction(*this);
 }

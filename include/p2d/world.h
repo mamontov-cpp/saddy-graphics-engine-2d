@@ -395,7 +395,7 @@ public:
         sad::Vector<sad::p2d::BasicCollisionHandler*>* CallbackList;
         /*! Makes empty structure for event with callback
          */
-        inline EventWithCallback() : CallbackList(NULL)
+        inline EventWithCallback() : CallbackList(nullptr)
         {
 
         }

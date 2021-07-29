@@ -40,7 +40,7 @@ public:
     Function(sad::animations::easing::Types type, double overshootAmplitude, double period);
     /*! Could be inherited
      */
-    virtual ~Function();
+    virtual ~Function() override;
     /*! Clones an object
         \return cloned object
      */
@@ -94,7 +94,7 @@ public:
     /*! Returns schema for an object
         \return schema
      */
-    virtual sad::db::schema::Schema* schema() const;
+    virtual sad::db::schema::Schema* schema() const  override;
     /*! Returns a factory for deserializing this type from value
         \return a factory 
      */

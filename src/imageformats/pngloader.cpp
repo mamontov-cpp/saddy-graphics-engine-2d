@@ -11,14 +11,14 @@
 
 bool sad::imageformats::PNGLoader::load(FILE * file, sad::Texture * texture)
 {
-    if (file == NULL || texture == NULL)
+    if (file == nullptr || texture == nullptr)
         return false;
 
     int components = 4;
     int width = 0, height = 0;
     unsigned char* data = stbi_load_from_file(file, &width, &height, &components, 4);
     
-    bool ok = data != NULL;
+    bool ok = data != nullptr;
     if (ok)
     {
         texture->width() = static_cast<unsigned int>(width);
@@ -33,14 +33,14 @@ bool sad::imageformats::PNGLoader::load(FILE * file, sad::Texture * texture)
 
 bool sad::imageformats::PNGLoader::load(tar7z::Entry* entry, sad::Texture* texture)
 {
-    if (entry == NULL || texture == NULL)
+    if (entry == nullptr || texture == nullptr)
         return false;
 
     int components = 4;
     int width = 0, height = 0;
     unsigned char* data = stbi_load_from_memory(reinterpret_cast<unsigned char*>(entry->contents()), entry->Size, &width, &height, &components, 4);
 
-    bool ok = data != NULL;
+    bool ok = data != nullptr;
     if (ok)
     {
         texture->width() = static_cast<unsigned int>(width);

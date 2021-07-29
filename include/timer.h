@@ -1,7 +1,7 @@
 /*! \file timer.h
     
 
-    Contains crossplatform implementation for a timer
+    Contains cross-platform implementation for a timer
  */
 #pragma once
 
@@ -13,7 +13,7 @@ namespace os
 class TimerImpl;
 }
 
-/*! A crossplatform implementation for a timer
+/*! A cross-platform implementation for a timer
  */
 class Timer
 {
@@ -38,7 +38,7 @@ public:
      */
     void stop();
     /*! Returns elapsed time, between calls of sad::Timer::start() and
-        sad::Timer::stop() using high-perfomance counter, if possible. For
+        sad::Timer::stop() using high-performance counter, if possible. For
         some chipsets could fall to wallclock time, since correct information
         won't be available
         \return time in milliseconds

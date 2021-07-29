@@ -7,6 +7,7 @@
 #include "classmetadata.h"
 #include "sadhash.h"
 #include "sadmutex.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "sadptrvector.h"
 
 namespace sad
@@ -47,7 +48,7 @@ public:
     sad::ClassMetaData* getWithParent(const sad::String& name)
     {
         sad::ClassMetaData* parentMetaData = _Parent::globalMetaData();
-        if (parentMetaData != NULL)
+        if (parentMetaData != nullptr)
         {
             m_lock.lock();
             bool created = false;
@@ -56,7 +57,7 @@ public:
             m_lock.unlock();
             return myMetaData;
         }
-        return NULL;
+        return nullptr;
     }
 
     /*! Returns a metadata for class with name and one parent.  name. If metadata for name does not exists, creates it, with
@@ -69,7 +70,7 @@ public:
     sad::ClassMetaData* getWithParentAndIndex(const sad::String& name, unsigned int index)
     {
         sad::ClassMetaData* parentMetaData = _Parent::globalMetaData();
-        if (parentMetaData != NULL)
+        if (parentMetaData != nullptr)
         {
             m_lock.lock();
             bool created = false;
@@ -79,7 +80,7 @@ public:
             m_lock.unlock();
             return myMetaData;
         }
-        return NULL;
+        return nullptr;
     }
     /*! Returns a metadata for class with name and two parents.  name. If metadata for name does not exists, creates it, with
         initialized class ame and inserts it to container.
@@ -92,7 +93,7 @@ public:
         sad::ClassMetaData* parent1MetaData = _Parent1::globalMetaData();
         sad::ClassMetaData* parent2MetaData = _Parent2::globalMetaData();
 
-        if (parent1MetaData != NULL && parent2MetaData != NULL)
+        if (parent1MetaData != nullptr && parent2MetaData != nullptr)
         {
             m_lock.lock();
             bool created = false;
@@ -102,7 +103,7 @@ public:
             m_lock.unlock();
             return myMetaData;
         }
-        return NULL;
+        return nullptr;
     }
     /*! Returns a metadata for class with name and three parents.  name. If metadata for name does not exists, creates it, with
         initialized class ame and inserts it to container.
@@ -116,7 +117,7 @@ public:
         sad::ClassMetaData* parent2MetaData = _Parent2::globalMetaData();
         sad::ClassMetaData* parent3MetaData = _Parent3::globalMetaData();
 
-        if (parent1MetaData != NULL && parent2MetaData != NULL && parent3MetaData != NULL)
+        if (parent1MetaData != nullptr && parent2MetaData != nullptr && parent3MetaData != nullptr)
         {
             m_lock.lock();
             bool created = false;
@@ -127,7 +128,7 @@ public:
             m_lock.unlock();
             return myMetaData;
         }
-        return NULL;
+        return nullptr;
     }
 
     /*! Returns a metadata for class with name and three parents.  name. If metadata for name does not exists, creates it, with
@@ -143,7 +144,7 @@ public:
         sad::ClassMetaData* parent3MetaData = _Parent3::globalMetaData();
         sad::ClassMetaData* parent4MetaData = _Parent4::globalMetaData();
 
-        if (parent1MetaData != NULL && parent2MetaData != NULL && parent3MetaData != NULL && parent4MetaData != NULL)
+        if (parent1MetaData != nullptr && parent2MetaData != nullptr && parent3MetaData != nullptr && parent4MetaData != nullptr)
         {
             m_lock.lock();
             bool created = false;
@@ -156,7 +157,7 @@ public:
             m_lock.unlock();
             return myMetaData;
         }
-        return NULL;
+        return nullptr;
     }
 
     /*! Returns a metadata for class with name and one parent, and cast function to cast_class via method.  name. If metadata for name does not exists, creates it, with
@@ -172,7 +173,7 @@ public:
     sad::ClassMetaData* getWithParentAndCast(const sad::String& name, const sad::String cast_class, sad::AbstractClassMetaDataCastFunction* f)
     {
         sad::ClassMetaData* parentMetaData = _Parent::globalMetaData();
-        if (parentMetaData != NULL)
+        if (parentMetaData != nullptr)
         {
             m_lock.lock();
             bool created = false;
@@ -182,7 +183,7 @@ public:
             m_lock.unlock();
             return myMetaData;
         }
-        return NULL;
+        return nullptr;
     }
     /*! Returns true if class meta data container contains specified type
         \param[in] name name of class
@@ -216,7 +217,7 @@ private:
     /*! Locked for singleton usage
      */
     ClassMetaDataContainer(const ClassMetaDataContainer & c);
-    /*! Locked for signaleton usaged
+    /*! Locked for singleton usage
         \param[in] c container
         \return self-reference
      */ 

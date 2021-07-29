@@ -8,8 +8,8 @@ sad::os::MutexImpl::MutexImpl()
 #ifdef WIN32
     InitializeCriticalSection(&m_m);
 #else
-    pthread_mutex_init(&m_m,NULL);
-    pthread_mutex_init(&m_guard,NULL);
+    pthread_mutex_init(&m_m,nullptr);
+    pthread_mutex_init(&m_guard,nullptr);
 #endif
 }
 

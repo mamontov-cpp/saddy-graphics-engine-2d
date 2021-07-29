@@ -10,7 +10,7 @@ namespace sad
 /*! \class  LinkedList
     \brief  doubly-linked list
 
-    Defines a template class of doubly linked list, with queuue functions.
+    Defines a template class of doubly linked list, with queue functions.
 */
 template<
     typename T
@@ -237,7 +237,7 @@ public:
        \return self-reference
     */
     sad::LinkedList<T>& operator<<(const sad::LinkedList<T>& obj);
-    /*! Copys a last object in list to reference, with removing it from list.
+    /*! Copies a last object in list to reference, with removing it from list.
        \param[in] obj reference, where object will be stored
        \return self-reference
     */
@@ -268,18 +268,18 @@ public:
        \return self-reference
     */
     sad::LinkedList<T>& removeAt(long i);
-    /*! Removes all occurences of element obj.
-      \param[in] obj object, which occurences are being removed
+    /*! Removes all occurrences of element obj.
+      \param[in] obj object, which occurrences are being removed
       \return self-reference
     */
     sad::LinkedList<T>& remove(const T& obj);
-    /*! Removes first occurence of element obj.
-      \param[in] obj object, which occurences are being removed
+    /*! Removes first occurrences of element obj.
+      \param[in] obj object, which occurrences are being removed
       \return self-reference
     */
     sad::LinkedList<T>& removeFirst(const T& obj);
-    /*! Removes last occurence of element obj.
-      \param[in] obj object, which occurences are being removed
+    /*! Removes last occurrence of element obj.
+      \param[in] obj object, which occurrence are being removed
       \return self-reference
     */
     sad::LinkedList<T>& removeLast(const T& obj);

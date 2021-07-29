@@ -56,7 +56,7 @@ sad::Renderer* sad::os::GLFontGeometries::renderer() const
 {
     if (m_font_geometries.size() == 0)
     {
-        return NULL;
+        return nullptr;
     }
     return m_font_geometries[0].renderer();
 }
@@ -65,7 +65,7 @@ sad::Bindable* sad::os::GLFontGeometries::bindable() const
 {
     if (m_font_geometries.size() == 0)
     {
-        return NULL;
+        return nullptr;
     }
     return m_font_geometries[0].bindable();
 }

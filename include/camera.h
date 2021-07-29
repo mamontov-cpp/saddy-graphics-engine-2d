@@ -40,7 +40,7 @@ public:
      *  \param[in] s scene
      */
     void setScene(sad::Scene* s);
-    /*! Returns scene for camer
+    /*! Returns scene for camera
      *  \return scene
      */
     sad::Scene* scene() const;
@@ -48,8 +48,8 @@ public:
      *  \param[in] v vector
      */
     void setTranslationOffset(const sad::Vector3D& v);
-    /*! Returns translation offset for camers
-     *  \return translation offsrt
+    /*! Returns translation offset for camera
+     *  \return translation offset
      */
     const sad::Vector3D& translationOffset() const;
     /*! Sets rotation vector direction
@@ -97,7 +97,7 @@ public:
     /*! Forces moving matrices into camera buffer
      */
     void moveMatricesIntoCameraBuffer();
-    /*! Forces matrices recomputation
+    /*! Forces re-computing matrices 
      */
     void forceRecomputeMatrices();
     /*! You can define your camera, which can be used if you want to bound rotation,
@@ -117,7 +117,7 @@ protected:
     /*! An offset, that is substituted to glTranslatef
      */
     sad::Vector3D  m_translation_offset;
-    /*! An angle, subsituted to camera
+    /*! An angle, substituted to camera
      */
     double m_angle;
     /*! An offset for temporary rotation

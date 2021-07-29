@@ -39,16 +39,16 @@ sad::animations::Animation::~Animation()
     m_easing->delRef();
 }
 
-static sad::db::schema::Schema* AnimationAnimationSchema = NULL;
+static sad::db::schema::Schema* AnimationAnimationSchema = nullptr;
 
 static sad::Mutex AnimationAnimationSchemaInitLock;
 
 sad::db::schema::Schema* sad::animations::Animation::basicSchema()
 {
-    if (AnimationAnimationSchema == NULL)
+    if (AnimationAnimationSchema == nullptr)
     {
         AnimationAnimationSchemaInitLock.lock();
-        if (AnimationAnimationSchema == NULL)
+        if (AnimationAnimationSchema == nullptr)
         {
             AnimationAnimationSchema = new sad::db::schema::Schema();
             AnimationAnimationSchema->addParent(sad::db::Object::basicSchema());

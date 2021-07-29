@@ -11,7 +11,7 @@
 sad::os::GLUntexturedGeometry3D::GLUntexturedGeometry3D(sad::Renderer* renderer, unsigned int points)
 : m_renderer(renderer), m_vertex_array(0), m_vertex_buffer(0), m_point_count(points), m_is_on_gpu(false)
 {
-    if (m_renderer == NULL)
+    if (m_renderer == nullptr)
     {
         m_renderer = sad::Renderer::ref();
     }

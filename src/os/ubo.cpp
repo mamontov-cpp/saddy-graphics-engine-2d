@@ -3,7 +3,7 @@
 #include "opengl.h"
 #include "renderer.h"
 
-sad::os::UBO::UBO(sad::Renderer* renderer, size_t buffer_size) : m_renderer(renderer), m_id(-1), m_buffer_size(buffer_size), m_f(NULL), m_user_data(NULL)
+sad::os::UBO::UBO(sad::Renderer* renderer, size_t buffer_size) : m_renderer(renderer), m_id(-1), m_buffer_size(buffer_size), m_f(nullptr), m_user_data(nullptr)
 {
     if (!m_renderer)
     {
@@ -41,7 +41,7 @@ void sad::os::UBO::tryLoadToGPU()
     f->glBindBuffer(GL_UNIFORM_BUFFER, m_id);
     this->tryLogGlError("sad::os::UBO::tryLoadToGPU: glBindBuffer(GL_UNIFORM_BUFFER, m_id)");
 
-    f->glBufferData(GL_UNIFORM_BUFFER, m_buffer_size, NULL, GL_DYNAMIC_DRAW);
+    f->glBufferData(GL_UNIFORM_BUFFER, m_buffer_size, nullptr, GL_DYNAMIC_DRAW);
     this->tryLogGlError("sad::os::UBO::tryLoadToGPU: glBufferData");
 
     f->glBindBuffer(GL_UNIFORM_BUFFER, 0);

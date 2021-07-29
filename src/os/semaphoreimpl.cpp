@@ -14,7 +14,7 @@
 sad::os::SemaphoreImpl::SemaphoreImpl(unsigned int currentvalue, unsigned int maxvalue)
 : m_max_value(maxvalue)
 { 
-    m_s = CreateSemaphoreA(NULL,currentvalue,maxvalue,NULL);
+    m_s = CreateSemaphoreA(nullptr,currentvalue,maxvalue,nullptr);
 }
 
 #else
@@ -55,7 +55,7 @@ void sad::os::SemaphoreImpl::consume(unsigned int v)
 void sad::os::SemaphoreImpl::release(unsigned int v)
 {
 #ifdef WIN32
-    ReleaseSemaphore(m_s,(LONG)v,NULL);
+    ReleaseSemaphore(m_s,(LONG)v,nullptr);
 #else
     for (unsigned int i = 0; i < v; i++)  
     {

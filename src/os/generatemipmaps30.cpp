@@ -2,12 +2,12 @@
 #include "log/log.h"
 #include "renderer.h"
 
-static PFNGLGENERATEMIPMAPEXTPROC _generateMipMaps  = NULL;
+static PFNGLGENERATEMIPMAPEXTPROC _generateMipMaps  = nullptr;
 
 bool sad::os::generateMipMaps30(sad::Renderer * r, GLenum target)
 {
     PFNGLGENERATEMIPMAPEXTPROC __generateMipMaps = _generateMipMaps;
-    if (_generateMipMaps == NULL)
+    if (_generateMipMaps == nullptr)
     {
 #ifdef WIN32
         __generateMipMaps = (PFNGLGENERATEMIPMAPEXTPROC)getProcAdress("glGenerateMipmap");

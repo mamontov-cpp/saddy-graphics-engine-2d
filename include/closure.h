@@ -17,7 +17,7 @@ class ClosureBasic
  public:
     /*! Executes a closure
      */
-    virtual void run()=0;
+    virtual void run() = 0;
     /*! Destroys a closure
      */
     virtual ~ClosureBasic();

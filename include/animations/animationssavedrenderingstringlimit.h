@@ -27,10 +27,10 @@ public:
     SavedRenderingStringLimit(sad::db::Object* o);
     /*! Can be inherited
      */
-    virtual ~SavedRenderingStringLimit();
+    virtual ~SavedRenderingStringLimit() override;
     /*! Restores last object state
      */
-    virtual void restore();
+    virtual void restore() override;
 protected:
     /*! Whether saved object is label
      */

@@ -4,7 +4,8 @@
      Describes a value, that can be presented or not exists
  */
 #pragma once
-#include <string.h>
+// ReSharper disable once CppUnusedIncludeDirective
+#include <cstring>
 
 #ifdef _MSC_VER
     #pragma warning(disable:26495)
@@ -24,11 +25,11 @@ class Maybe
   public:
       /*! Creates new non-existent value
        */
-      Maybe() : m_reference(NULL), m_exists(false) { } //-V730
+      Maybe() : m_reference(nullptr), m_exists(false) { } //-V730
       /*! Creates a new presented value
           \param[in] data an inner data for value
        */
-      Maybe(const  T & data) :  m_exists(true), m_data(data), m_reference(NULL) { }
+      Maybe(const  T & data) :  m_data(data), m_reference(nullptr), m_exists(true) { }
       /*! Creates new value for a reference to data
           \param[in] data a data to be set
        */
@@ -50,7 +51,7 @@ class Maybe
       /*! Returns true if object can be referenceable
           \return whether object can be referenceable
        */
-      bool referenceable() const { return m_reference != NULL; }
+      bool referenceable() const { return m_reference != nullptr; }
       /*! Returns inner value. If value is not set, default value is returned,
           which is undefined for basic POD types.
           \return inner value

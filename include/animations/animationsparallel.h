@@ -26,17 +26,17 @@ public:
     Parallel();
     /*! Could be inherited
      */
-    virtual ~Parallel();
+    virtual ~Parallel() override;
     /*! Sets state of object from animation
         \param[in] i an animation instance
         \param[in] time a time of playing of animation
      */
-    virtual void setState(sad::animations::Instance* i, double time);
+    virtual void setState(sad::animations::Instance* i, double time) override;
     /*! Non-applicable. Only forces to update time of animation from
         source animation
-        \param time
+        \param time a time of animation
      */
-    virtual void setTime(double time);
+    virtual void setTime(double time) override;
 };
 
 }

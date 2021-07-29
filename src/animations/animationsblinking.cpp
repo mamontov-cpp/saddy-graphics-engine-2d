@@ -3,6 +3,7 @@
 
 #include "animations/setstate/methodcall.h"
 #include "animations/setstate/setproperty.h"
+#include "animations/setstate/dummycommand.h"
 
 #include "animations/easing/easingfunction.h"
 
@@ -45,16 +46,16 @@ sad::animations::Blinking::~Blinking()
 }
 
 
-static sad::db::schema::Schema* AnimationBlinkingSchema = NULL;
+static sad::db::schema::Schema* AnimationBlinkingSchema = nullptr;
 
 static sad::Mutex AnimationsBlinkingSchemaInit;
 
 sad::db::schema::Schema* sad::animations::Blinking::basicSchema()
 {
-    if (AnimationBlinkingSchema == NULL)
+    if (AnimationBlinkingSchema == nullptr)
     {
         AnimationsBlinkingSchemaInit.lock();
-        if (AnimationBlinkingSchema == NULL)
+        if (AnimationBlinkingSchema == nullptr)
         {
             AnimationBlinkingSchema = new sad::db::schema::Schema();
             AnimationBlinkingSchema->addParent(sad::animations::Animation::basicSchema());
@@ -99,9 +100,9 @@ bool sad::animations::Blinking::loadFromValue(const picojson::value& v)
 }
 
 
-void sad::animations::Blinking::setFrequency(unsigned int value)
+void sad::animations::Blinking::setFrequency(unsigned int freq)
 {
-    m_frequency = value;
+    m_frequency = freq;
     m_inner_valid = m_frequency != 0;
     this->updateValidFlag();
 }

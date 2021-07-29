@@ -28,7 +28,7 @@ static int predicate(Display *, XEvent * e, char *);
 #endif
 
 sad::MainLoop::MainLoop() : 
-m_renderer(NULL),
+m_renderer(nullptr),
 m_running(false),
 m_dispatcher(new sad::os::SystemEventDispatcher())
 {
@@ -118,7 +118,7 @@ void sad::MainLoop::run(bool once)
 #ifdef X11
         // In fact in linux we get big slowdown if 
         // all events is not dispatched
-        while (XCheckIfEvent(m_renderer->window()->handles()->Dpy, &(msg.Event), predicate, NULL) != False)
+        while (XCheckIfEvent(m_renderer->window()->handles()->Dpy, &(msg.Event), predicate, nullptr) != False)
         {
             m_dispatcher->dispatch(msg);
         }
@@ -169,7 +169,7 @@ bool sad::MainLoop::running() const
 void sad::MainLoop::initMainLoop()
 {
     tryElevatePriority();
-    trySetEmergencyShudownHandler();
+    trySetEmergencyShutdownHandler();
     registerRenderer();
     initKeyboardInput();
 }
@@ -204,7 +204,7 @@ void sad::MainLoop::runAndCleanDispatches()
 
 void sad::MainLoop::tryElevatePriority()
 {
-    if (this->renderer() == NULL) 
+    if (this->renderer() == nullptr) 
     {
         return;
     }
@@ -220,12 +220,12 @@ void sad::MainLoop::tryElevatePriority()
     // Copies from here
     char   lpBuffer[256] = "?";
     ::FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM,                 // It´s a system error
-                    NULL,                                      // No string to be formatted needed
+                    nullptr,                                      // No string to be formatted needed
                     dwLastError,                               // Hey Windows: Please explain this error!
                     MAKELANGID(LANG_NEUTRAL,SUBLANG_DEFAULT),  // Do it in the standard language
                     lpBuffer,              // Put the message here
                     255,                     // Number of bytes to store the message
-                    NULL);
+                    nullptr);
     sad::String affinityerror = lpBuffer;
     if (!affinityresult)
     {
@@ -281,7 +281,7 @@ static int WINAPI  handle_console_close_event(DWORD dwCtrlType)
 
 #endif
 
-void sad::MainLoop::trySetEmergencyShudownHandler()
+void sad::MainLoop::trySetEmergencyShutdownHandler()
 {
 #ifdef WIN32
     SetConsoleCtrlHandler(handle_console_close_event, FALSE);
@@ -292,7 +292,7 @@ void sad::MainLoop::trySetEmergencyShudownHandler()
 
 void sad::MainLoop::registerRenderer()
 {
-    if (this->renderer() == NULL) 
+    if (this->renderer() == nullptr) 
     {
         return;
     }
@@ -314,7 +314,7 @@ void sad::MainLoop::registerRenderer()
 
 void sad::MainLoop::unregisterRenderer()
 {
-    if (this->renderer() == NULL) 
+    if (this->renderer() == nullptr) 
     {
         return;
     }
@@ -328,7 +328,7 @@ void sad::MainLoop::unregisterRenderer()
 }
 
 #ifdef X11
-    static char * main_loop_locale_block = NULL;
+    static char * main_loop_locale_block = nullptr;
     sad::Mutex  main_loop_locale_mtx;
 
     void main_loop_destroy_modifiers()
@@ -344,7 +344,7 @@ void sad::MainLoop::initKeyboardInput()
     main_loop_locale_mtx.lock();
     char* oldvalue =  main_loop_locale_block;
     main_loop_locale_block = XSetLocaleModifiers("");
-    if (main_loop_locale_block != NULL &&  oldvalue == NULL)
+    if (main_loop_locale_block != nullptr &&  oldvalue == nullptr)
     {
         atexit(main_loop_destroy_modifiers);
     }

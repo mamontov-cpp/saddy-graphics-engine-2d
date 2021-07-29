@@ -128,7 +128,7 @@ typedef struct
     int numbuttons;
     const SDL_MessageBoxButtonData *buttons;
 
-    const SDL_MessageBoxColorScheme *colorScheme;   /**< ::SDL_MessageBoxColorScheme, can be NULL to use system settings */
+    const SDL_MessageBoxColorScheme *colorScheme;   /**< ::SDL_MessageBoxColorScheme, can be nullptr to use system settings */
 } SDL_MessageBoxData;
 
 #define MAX_BUTTONS             8       /* Maximum number of buttons supported */
@@ -259,16 +259,16 @@ X11_MessageBoxInit( SDL_MessageBoxDataX11 *data, const SDL_MessageBoxData * mess
     data->numbuttons = numbuttons;
     data->pbuttonid = pbuttonid;
 
-    data->display = XOpenDisplay( NULL );
+    data->display = XOpenDisplay( nullptr );
     if ( !data->display ) {
         //printf("No display\n");
         return -1;
     }
 
     data->font_struct = XLoadQueryFont( data->display, g_MessageBoxFontLatin1 );
-    if ( data->font_struct == NULL ) {
+    if ( data->font_struct == nullptr ) {
         data->font_struct = XLoadQueryFont( data->display, g_MessageBoxFont);
-        if (data->font_struct == NULL) {
+        if (data->font_struct == nullptr) {
             //printf("No such font\n");
             return -1;
         }
@@ -408,14 +408,14 @@ X11_MessageBoxInitPositions( SDL_MessageBoxDataX11 *data )
 static void
 X11_MessageBoxShutdown( SDL_MessageBoxDataX11 *data )
 {
-    if ( data->font_set != NULL ) {
+    if ( data->font_set != nullptr ) {
         XFreeFontSet( data->display, data->font_set );
-        data->font_set = NULL;
+        data->font_set = nullptr;
     }
 
-    if ( data->font_struct != NULL ) {
+    if ( data->font_struct != nullptr ) {
         XFreeFont( data->display, data->font_struct );
-        data->font_struct = NULL;
+        data->font_struct = nullptr;
     }
 
     if ( data->display ) {
@@ -426,7 +426,7 @@ X11_MessageBoxShutdown( SDL_MessageBoxDataX11 *data )
         }
 
         XCloseDisplay( data->display );
-        data->display = NULL;
+        data->display = nullptr;
     }
 }
 
@@ -438,7 +438,7 @@ X11_MessageBoxCreateWindow( SDL_MessageBoxDataX11 *data )
     XSizeHints *sizehints;
     XSetWindowAttributes wnd_attr;
     Display *display = data->display;
-    SDL_WindowData *windowdata = NULL;
+    SDL_WindowData *windowdata = nullptr;
     const SDL_MessageBoxData *messageboxdata = data->messageboxdata;
 
     data->screen = DefaultScreen( display );
@@ -725,10 +725,10 @@ X11_ShowMessageBoxImpl(const SDL_MessageBoxData *messageboxdata, int *buttonid)
 
 
 #if SDL_SET_LOCALE
-    origlocale = setlocale(LC_ALL, NULL);
-    if (origlocale != NULL) {
+    origlocale = setlocale(LC_ALL, nullptr);
+    if (origlocale != nullptr) {
         origlocale = SDL_strdup(origlocale);
-        if (origlocale == NULL) {
+        if (origlocale == nullptr) {
             return -1;
         }
         setlocale(LC_ALL, "");
@@ -814,7 +814,7 @@ SDL_ShowSimpleMessageBox(Uint32 flags, const char *title, const char *message)
     button.flags |= SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT;
     button.text = "OK";
 
-    return SDL_ShowMessageBox(&data, NULL);
+    return SDL_ShowMessageBox(&data, nullptr);
 }
 
 bool SDL_MessageBoxError(
@@ -869,7 +869,7 @@ bool SDL_MessageBoxError(
 )
 {
     return MessageBoxA(
-        NULL,
+        nullptr,
         title,
         message,
         MB_ICONERROR|MB_OK
@@ -882,7 +882,7 @@ bool SDL_MessageBoxInformation(
 )
 {
     return MessageBoxA(
-        NULL,
+        nullptr,
         title,
         message,
         MB_ICONINFORMATION|MB_OK
@@ -895,7 +895,7 @@ bool SDL_MessageBoxWarning(
 )
 {
     return MessageBoxA(
-        NULL,
+        nullptr,
         title,
         message,
         MB_ICONWARNING|MB_OK

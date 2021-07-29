@@ -5,12 +5,12 @@
 #pragma once
 #include "db/dbobject.h"
 #include "sadvector.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "sadhash.h"
 #include "temporarilyimmutablecontainer.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "sadmutex.h"
 #include "scenenode.h"
-
-#include <assert.h>
 
 
 namespace sad
@@ -27,11 +27,11 @@ public:
     Scene();                   
     /*! You can freely inherit and implement your own scene
      */
-    virtual ~Scene(); 
+    virtual ~Scene() override; 
     /*! Resets object's non-serialized state, when restoring snapshot to 
-        ensure idempotency of restoring objects
+        ensure idempotent  restoring objects
      */
-    virtual void reset();
+    virtual void reset() override;
     /*! A basic schema for object
         \return a schema 
      */
@@ -39,7 +39,7 @@ public:
     /*! Returns schema for an object
         \return schema
      */
-    virtual sad::db::schema::Schema* schema() const;
+    virtual sad::db::schema::Schema* schema() const override;
     /*! Returns current camera
         \return camera
      */
@@ -109,7 +109,7 @@ public:
     /*! Returns scene activity flag, which determines, whether it should be rendered
         \return whether scene is active
      */
-    inline bool active()
+    inline bool active() const
     {
         return m_active;
     }
@@ -128,7 +128,7 @@ public:
     /*! A name, under which object could be serialized
         \return name, under which object will be serialized
      */
-    virtual const sad::String& serializableName() const;
+    virtual const sad::String& serializableName() const override;
 
     /*! Adds new node
         \param[in] s a scene node
@@ -167,16 +167,16 @@ protected:
      */
     sad::Renderer*        m_renderer;       
     /*! Adds an object to scene
-        \param[in] node 
+        \param[in] node  a node to be added
      */
-    virtual void addNow(sad::SceneNode* node);
+    virtual void addNow(sad::SceneNode* node)  override;
     /*! Removes object from scene
-        \param[in] node
+        \param[in] node a node to be removed
      */
-    virtual void removeNow(sad::SceneNode* node);
+    virtual void removeNow(sad::SceneNode* node) override;
     /*! Clears a scene
      */
-    virtual void clearNow();
+    virtual void clearNow() override;
 };
 
 }

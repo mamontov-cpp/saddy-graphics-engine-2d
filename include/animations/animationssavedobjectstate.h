@@ -4,6 +4,7 @@
     A saved object state, which could be restored, when animation is finished
  */
 #pragma once
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../db/dbobject.h"
 
 namespace sad

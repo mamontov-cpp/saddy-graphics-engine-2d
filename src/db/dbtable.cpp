@@ -6,7 +6,7 @@
 #include "renderer.h"
 
 
-sad::db::Table::Table() : m_max_minor_id(1), m_database(NULL)
+sad::db::Table::Table() : m_max_minor_id(1), m_database(nullptr)
 {
     
 }
@@ -174,14 +174,14 @@ void sad::db::Table::remove(sad::db::Object* a)
             m_objects_by_minorid.remove(a->MinorId);
         }
         
-        a->setTable(NULL);
+        a->setTable(nullptr);
         a->delRef();		
     }
 }
 
 sad::db::Object* sad::db::Table::queryById(unsigned long long major_id, unsigned long long minor_id)
 {
-    sad::db::Object* result = NULL;
+    sad::db::Object* result = nullptr;
     if (m_objects_by_majorid.contains(major_id) && m_objects_by_minorid.contains(minor_id))
     {
         sad::db::Object*  f1 = m_objects_by_majorid[major_id];
@@ -196,7 +196,7 @@ sad::db::Object* sad::db::Table::queryById(unsigned long long major_id, unsigned
 
 sad::db::Object* sad::db::Table::queryByMinorId(unsigned long long minor_id)
 {
-    sad::db::Object* result = NULL;
+    sad::db::Object* result = nullptr;
     if (m_objects_by_minorid.contains(minor_id))
     {
         result = m_objects_by_minorid[minor_id];
@@ -221,12 +221,12 @@ sad::db::Object* sad::db::Table::objectByName(const sad::String& name)
     {
         return objects[0];
     }
-    return NULL;
+    return nullptr;
 }
 
 sad::db::Object* sad::db::Table::queryByMajorId(unsigned long long major_id)
 {
-    sad::db::Object* result = NULL;
+    sad::db::Object* result = nullptr;
     if (m_objects_by_majorid.contains(major_id))
     {
         result = m_objects_by_majorid[major_id];
@@ -241,7 +241,7 @@ bool sad::db::Table::load(
     const sad::String& treename
 )
 {
-    if (renderer == NULL)
+    if (renderer == nullptr)
     {
         renderer = sad::Renderer::ref();
     }

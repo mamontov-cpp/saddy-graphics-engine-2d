@@ -1,5 +1,6 @@
 #include "animations/animationsfontsize.h"
 #include "animations/animationsinstance.h"
+#include "animations/setstate/dummycommand.h"
 
 #include "animations/easing/easingfunction.h"
 
@@ -42,16 +43,16 @@ sad::animations::FontSize::~FontSize()
     
 }
 
-static sad::db::schema::Schema* AnimationFontSizeSchema = NULL;
+static sad::db::schema::Schema* AnimationFontSizeSchema = nullptr;
 
 static sad::Mutex AnimationFontSizeSchemaInit;
 
 sad::db::schema::Schema* sad::animations::FontSize::basicSchema()
 {
-    if (AnimationFontSizeSchema == NULL)
+    if (AnimationFontSizeSchema == nullptr)
     {
         AnimationFontSizeSchemaInit.lock();
-        if (AnimationFontSizeSchema == NULL)
+        if (AnimationFontSizeSchema == nullptr)
         {
             AnimationFontSizeSchema = new sad::db::schema::Schema();
             AnimationFontSizeSchema->addParent(sad::animations::Animation::basicSchema());
@@ -144,7 +145,7 @@ sad::animations::setstate::AbstractSetStateCommand* sad::animations::FontSize::s
 {
     if (this->applicableTo(o))
     {
-        sad::animations::setstate::AbstractSetStateCommand* c = NULL;
+        sad::animations::setstate::AbstractSetStateCommand* c = nullptr;
         if (o->isInstanceOf("sad::Label"))
         {
             c = sad::animations::setstate::make(

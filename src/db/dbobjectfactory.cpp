@@ -76,7 +76,7 @@ void sad::db::ObjectFactory::add(
 sad::db::schema::Schema* sad::db::ObjectFactory::schema(const sad::String& name)
 {
     sad::ScopedLock lock(&m_lock);
-    sad::db::schema::Schema* result = NULL;
+    sad::db::schema::Schema* result = nullptr;
     if (m_metadata_container.contains(name))
     {
         result = m_metadata_container[name]->Schema;
@@ -87,7 +87,7 @@ sad::db::schema::Schema* sad::db::ObjectFactory::schema(const sad::String& name)
 sad::db::Object* sad::db::ObjectFactory::create(const sad::String& name)
 {
     sad::ScopedLock lock(&m_lock);
-    sad::db::Object* result = NULL;
+    sad::db::Object* result = nullptr;
     if (m_metadata_container.contains(name))
     {
         result = m_metadata_container[name]->Delegate->create();
@@ -100,7 +100,7 @@ sad::db::Object* sad::db::ObjectFactory::createFromEntry(const picojson::value &
     sad::ScopedLock lock(&m_lock);
     const picojson::value * type = picojson::get_property(v, "type");
     const picojson::value * name = picojson::get_property(v, "name");
-    sad::db::Object*  result = NULL;
+    sad::db::Object*  result = nullptr;
     if (type)
     {
         sad::Maybe<sad::String> maybetype = picojson::ValueToType<sad::String>::get(*type);
@@ -120,7 +120,7 @@ sad::db::Object* sad::db::ObjectFactory::createFromEntry(const picojson::value &
                     result =  m_special_custom_handlers[maybename.value()]->create();
                 }
             }
-            if (result == NULL)
+            if (result == nullptr)
             {
                 result = this->create(maybetype.value());
             }
@@ -145,7 +145,7 @@ void sad::db::ObjectFactory::initWithDefaultCallbacks()
     add<sad::Sprite3D>("sad::Sprite3D", sad::Sprite3D::basicSchema(), false);
 
     // Custom object has no schema at all
-    add<sad::db::custom::Object>("sad::db::custom::Object", NULL, false);
+    add<sad::db::custom::Object>("sad::db::custom::Object", nullptr, false);
 
     add<sad::p2d::app::Way>("sad::p2d::app::Way", sad::p2d::app::Way::basicSchema(), false);
 

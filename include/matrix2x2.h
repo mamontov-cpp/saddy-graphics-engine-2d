@@ -1,13 +1,12 @@
 /*! \file matrix2x2.h
     
 
-    Defines a 2x2 matrix, used for mutiplication and rotation operations in sprites
+    Defines a 2x2 matrix, used for multiplication and rotation operations in sprites
     and rectangles
  */
 #pragma once
 #include "sadpoint.h"
 #include "sadpair.h"
-#include <assert.h>
 
 namespace sad 
 {
@@ -69,7 +68,7 @@ public:
      */
     T get(unsigned int i, unsigned int j) const
     {
-        if (i >= 2 || j >= 2) return (T)0;
+        if (i >= 2 || j >= 2) return static_cast<T>(0);
         return m_o[i][j];
     }
 };
@@ -83,18 +82,18 @@ public:
     \return point
  */
 template<typename T>
-typename sad::Point2<T> 
+sad::Point2<T> 
 operator*
 (
-const typename sad::Point2<T> & p,
-const typename sad::Matrix2x2<T> & m
+const sad::Point2<T> & p,
+const sad::Matrix2x2<T> & m
 )
 {
     T x = p.x() * m.get(0, 0) 
         + p.y() * m.get(1, 0);
     T y = p.x() * m.get(0, 1) 
         + p.y() * m.get(1, 1);
-    return typename sad::Point2<T>(x,y);
+    return sad::Point2<T>(x,y);
 }
 
 /*! Multiplies a matrix by a point. A current rotation functions use
@@ -104,17 +103,17 @@ const typename sad::Matrix2x2<T> & m
     \return point
  */
 template<typename T>
-typename sad::Point2<T> 
+sad::Point2<T> 
 operator*
 (
-const typename sad::Matrix2x2<T> & m,
-const typename sad::Point2<T> & p
+const sad::Matrix2x2<T> & m,
+const sad::Point2<T> & p
 )
 {
     T x = m.get(0, 0) * p.x() 
         + m.get(0, 1) * p.y();
     T y = m.get(1, 0) * p.x() 
         + m.get(1, 1) * p.y();
-    return typename sad::Point2<T>(x,y);
+    return sad::Point2<T>(x,y);
 }
 

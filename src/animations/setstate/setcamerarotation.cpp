@@ -1,4 +1,5 @@
 #include "animations/setstate/setcamerarotation.h"
+#include "camera.h"
 
 sad::animations::setstate::SetCameraRotation::SetCameraRotation(sad::Scene* s, const sad::Point3D& p) : m_scene(s), m_pivot(p)
 {

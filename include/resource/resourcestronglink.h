@@ -23,14 +23,14 @@ class StrongLink
 public:
     /*! Constructs new strong link for database objects
      */
-    StrongLink() : m_cached_object(NULL), m_changed(true)
+    StrongLink() : m_cached_object(nullptr), m_changed(true)
     {
         
     }
     /*! Constructs new link via copying
         \param[in] o other object
      */ 
-    StrongLink(const sad::resource::StrongLink<T>& o) : m_cached_object(NULL), m_changed(true), m_link(o.m_link)
+    StrongLink(const sad::resource::StrongLink<T>& o) : m_cached_object(nullptr), m_changed(true), m_link(o.m_link)
     {
         
     }
@@ -45,7 +45,7 @@ public:
             m_cached_object->delRef();
         }
         m_link = o.m_link;
-        m_cached_object = NULL;
+        m_cached_object = nullptr;
         m_changed = true;
         return *this;
     }
@@ -76,7 +76,7 @@ public:
             r->addRef();
         }
     }
-    /*! Sets resource link to object to NULL
+    /*! Sets resource link to object to nullptr
      */
     void detach()
     {
@@ -85,7 +85,7 @@ public:
             m_cached_object->delRef();
        }
        m_changed = true;
-       m_cached_object = NULL;
+       m_cached_object = nullptr;
        m_link.detach();
     }
     /*! Sets database for a link
@@ -175,7 +175,7 @@ public:
         {
             return m_cached_object;
         }
-        T* result = NULL;
+        T* result = nullptr;
         sad::resource::Resource* o = me->m_link.resource();
         if (o)
         {

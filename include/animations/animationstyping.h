@@ -24,26 +24,26 @@ public:
     Typing();
     /*! Can be inherited
      */
-    virtual ~Typing();
+    virtual ~Typing() override;
     /*! An animations instance
         \param[in] i an instance of animations
      */
-    virtual void start(sad::animations::Instance* i);
+    virtual void start(sad::animations::Instance* i) override;
     /*! Sets state of object from animation
         \param[in] i an animation instance
         \param[in] time a time of playing of animation
      */
-    virtual void setState(sad::animations::Instance* i, double time);
+    virtual void setState(sad::animations::Instance* i, double time) override;
     /*! Creates a state command for an object
         \param[in] o object
         \return state command
      */
-    virtual sad::animations::setstate::AbstractSetStateCommand* stateCommand(sad::db::Object* o);
+    virtual sad::animations::setstate::AbstractSetStateCommand* stateCommand(sad::db::Object* o) override;
     /*! Checks, whether animation is applicable to an object
         \param[in] o object
         \return whether animation is applicable to that object
      */
-    virtual bool applicableTo(sad::db::Object* o);
+    virtual bool applicableTo(sad::db::Object* o) override;
 };
 
 }

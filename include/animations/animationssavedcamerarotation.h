@@ -27,10 +27,10 @@ public:
     SavedCameraRotation(sad::db::Object* o);
     /*! Can be inherited
      */
-    virtual ~SavedCameraRotation();
+    virtual ~SavedCameraRotation() override;
     /*! Restores last object state
      */
-    virtual void restore();
+    virtual void restore() override;
 protected:
     /*! An old angle for camera
      */
@@ -40,7 +40,7 @@ protected:
     sad::Vector3D m_pivot;
     /*! An old rotation vector
      */
-    sad::Vector3D m_rotationdirection;
+    sad::Vector3D m_rotation_direction;
 };
 
 }

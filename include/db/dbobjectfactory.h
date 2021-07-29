@@ -114,17 +114,17 @@ public:
     }
     /*! Returns schema for an object's class
         \param[in] name  a name of object's class
-        \return schema or NULL, if no schema specified
+        \return schema or nullptr, if no schema specified
      */
     virtual sad::db::schema::Schema* schema(const sad::String& name);
     /*! Creates new object, specified by class name
         \param[in] name a name of object's class
-        \return object or NULL, if can't create object 
+        \return object or nullptr, if can't create object 
      */
     virtual sad::db::Object* create(const sad::String& name);
     /*! Creates new object, fetching type from JSON value, mostly checking "type" value
         \param[in] v a value
-        \return object or NULL, if can't create object
+        \return object or nullptr, if can't create object
      */
     virtual sad::db::Object* createFromEntry(const picojson::value & v);
     /*! This class can be inherited

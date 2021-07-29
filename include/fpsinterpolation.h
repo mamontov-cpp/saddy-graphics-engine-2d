@@ -39,21 +39,21 @@ public:
      */
     virtual double fps();
 protected:
-    /*! A timer, for computng FPS
+    /*! A timer, for computing FPS
      */
-    sad::Timer		     m_timer; 
+    sad::Timer           m_timer; 
     /*! A warmup timer for FPS
      */ 
     sad::Timer           m_warmup_timer;
     /*! An elapsed frames count
      */
-    int                  m_frames;      
+    int                  m_frames;
     /*! Whether timer should be reset on next iteration
      */
-    bool                 m_reset;          
+    bool                 m_reset;
     /*! Whether we should immediately set FPS 
      */
-    bool				 m_setimmediately; 
+    bool                 m_is_set_immediately; 
     /*!  Current FPS value
      */
     double               m_fps; 

@@ -95,7 +95,7 @@ static const char* other_keys[] = {
     STRINGIFY(RightControl)  ,  //!< A right control key
     STRINGIFY(LeftAlt)       ,  //!< A left alt key
     STRINGIFY(RightAlt)      ,  //!< A right alt key
-    NULL
+    nullptr
 };
 
 #undef STRINGIFY

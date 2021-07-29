@@ -54,16 +54,16 @@ const sad::Point2D& sad::animations::SimpleMovement::endingPoint() const
     return m_end_point;    
 }
 
-static sad::db::schema::Schema* AnimationSimpleMovementSchema = NULL;
+static sad::db::schema::Schema* AnimationSimpleMovementSchema = nullptr;
 
 static sad::Mutex AnimationSimpleMovementInit;
 
 sad::db::schema::Schema* sad::animations::SimpleMovement::basicSchema()
 {
-    if (AnimationSimpleMovementSchema == NULL)
+    if (AnimationSimpleMovementSchema == nullptr)
     {
         AnimationSimpleMovementInit.lock();
-        if (AnimationSimpleMovementSchema == NULL)
+        if (AnimationSimpleMovementSchema == nullptr)
         {
             AnimationSimpleMovementSchema = new sad::db::schema::Schema();
             AnimationSimpleMovementSchema->addParent(sad::animations::Animation::basicSchema());

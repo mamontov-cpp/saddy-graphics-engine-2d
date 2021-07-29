@@ -319,7 +319,7 @@ protected:
      {
          if (m_acceleration_is_cached)
              p += m_acceleration_cache;
-         if (m_weight != NULL)
+         if (m_weight != nullptr)
          {
             if (m_weight->isInfinite() == false )
             {
@@ -337,7 +337,7 @@ public:
       */
      Movement()
      {
-         m_weight = NULL;
+         m_weight = nullptr;
          m_velocity = p2d::TickableDefaultValue<_Value>::zero();
          m_position = p2d::TickableDefaultValue<_Value>::zero(); //-V656
          m_acceleration_is_cached = false;

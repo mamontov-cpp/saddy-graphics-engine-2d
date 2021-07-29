@@ -6,8 +6,8 @@
 #include "os/ubo.h"
 
 sad::ShaderFunction::ShaderFunction() 
-: m_shader(NULL), 
-m_locations_are_cahed(false),
+: m_shader(nullptr), 
+m_locations_are_cached(false),
 m_gl_camera_info_loc_id(-1),
 m_tex_loc_id(-1),
 m_clr_loc_id(-1)
@@ -17,7 +17,7 @@ m_clr_loc_id(-1)
 
 sad::ShaderFunction::ShaderFunction(const sad::ShaderFunction& fun) 
 : m_shader(fun.m_shader),
-m_locations_are_cahed(false),
+m_locations_are_cached(false),
 m_gl_camera_info_loc_id(-1),
 m_tex_loc_id(-1),
 m_clr_loc_id(-1)// NOLINT(bugprone-copy-constructor-init)
@@ -36,7 +36,7 @@ sad::ShaderFunction& sad::ShaderFunction::operator=(const sad::ShaderFunction& f
     }
 
     m_shader = fun.m_shader;
-    m_locations_are_cahed = false;
+    m_locations_are_cached = false;
 
     if (m_shader)
     {
@@ -54,7 +54,7 @@ void sad::ShaderFunction::setShader(sad::Shader* shader)
     }
 
     m_shader = shader;
-    m_locations_are_cahed = false;
+    m_locations_are_cached = false;
 
     if (m_shader)
     {
@@ -75,7 +75,7 @@ void sad::ShaderFunction::apply(sad::SceneNode* node, sad::Bindable* tex, const 
     {
         return;
     }
-    if (node->scene() == NULL)
+    if (node->scene() == nullptr)
     {
         return;
     }
@@ -118,7 +118,7 @@ void sad::ShaderFunction::apply(sad::Scene* scene, sad::Bindable* tex, const sad
             m_shader->tryLogGlError("sad::ShaderFunction::apply: f->glUniform1i(texId, 0);");
         }
 
-        if (clr != NULL)
+        if (clr != nullptr)
         {
             if (m_clr_loc_id != -1)
             {
@@ -153,7 +153,7 @@ void sad::ShaderFunction::apply(sad::SceneNode* node, const sad::AColor* clr)
     {
         return;
     }
-    if (node->scene() == NULL)
+    if (node->scene() == nullptr)
     {
         return;
     }
@@ -187,7 +187,7 @@ void sad::ShaderFunction::apply(sad::Scene* scene, const sad::AColor* clr)
             ubo->bind(0, 0);
         }
 
-        if (clr != NULL)
+        if (clr != nullptr)
         {
             if (m_clr_loc_id != -1)
             {
@@ -222,9 +222,9 @@ sad::ShaderFunction::~ShaderFunction()
 
 void sad::ShaderFunction::tryCacheLocations()
 {
-    if (!m_locations_are_cahed)
+    if (!m_locations_are_cached)
     {
-        m_locations_are_cahed = true;
+        m_locations_are_cached = true;
 
         m_gl_camera_info_loc_id =  m_shader->getUniformBlockIndex("_SGLCameraInfo");
         m_shader->tryLogGlError("sad::ShaderFunction::apply: glGetUniformBlockIndex(_SGLCameraInfo)");

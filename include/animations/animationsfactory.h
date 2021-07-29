@@ -48,26 +48,22 @@ public:
     /*! Does nothing
      */
     inline Delegate()
-    {
-        
-    }
+    = default;
     /*! Can be inherited
      */
-    virtual ~Delegate()
-    {
-        
-    }
+    virtual ~Delegate() override
+    = default;
     /*! Copies a delegate 
         \return copy of delegate
      */
-    virtual sad::animations::Factory::AbstractDelegate* clone() const
+    virtual sad::animations::Factory::AbstractDelegate* clone() const override
     {
         return new sad::animations::Factory::Delegate<T>();
     }
     /*! Makes new animation
         \return new animation
      */
-    virtual sad::animations::Animation* create() const
+    virtual sad::animations::Animation* create() const override
     {
         return new T();
     }	
@@ -88,7 +84,7 @@ public:
     virtual ~Factory();
     /*! Creates new animations by name
         \param[in] s string
-        \return new animation (NULL if cannot be created)
+        \return new animation (nullptr if cannot be created)
      */
     virtual sad::animations::Animation* create(const sad::String& s);
     /*! Clears a factory, deleting all items

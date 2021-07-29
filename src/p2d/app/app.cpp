@@ -4,7 +4,7 @@
 #include <renderer.h>
 #include <pipeline/pipeline.h>
 
-sad::p2d::app::App::App() : m_layer(0), m_world(NULL), m_steptask(NULL), m_renderer(NULL)
+sad::p2d::app::App::App() : m_layer(0), m_world(nullptr), m_steptask(nullptr), m_renderer(nullptr)
 {
 }
 
@@ -20,13 +20,13 @@ void sad::p2d::app::App::initApp(unsigned int layer, sad::Renderer * r)
 {
     m_layer = layer;
     // Fetch global renderer, if needed
-    if (r == NULL)
+    if (r == nullptr)
     {
         r = sad::Renderer::ref();
     }
 
     m_renderer = r;
-    m_world = NULL;
+    m_world = nullptr;
     createWorld();
 
     // Inserts world step task to an end of pipeline

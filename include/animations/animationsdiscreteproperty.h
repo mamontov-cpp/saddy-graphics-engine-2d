@@ -12,9 +12,11 @@
 #include "../sadmutex.h"
 
 #include "../db/schema/schema.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../db/dbproperty.h"
 #include "../db/save.h"
 #include "../db/load.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../db/dbfield.h"
 #include "../db/dbmethodpair.h"
 #include "../db/dbtable.h"
@@ -24,6 +26,7 @@
 
 #include "easing/easingfunction.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include "animationssavedobjectproperty.h"
 #include "setstate/setproperty.h"
 
@@ -50,21 +53,21 @@ public:
     static sad::ClassMetaData* globalMetaData()
     {
         sad::db::TypeName<T>::init();
-        sad::String typeofname = sad::db::TypeName<T>::baseName();
-        unsigned int pointercount = sad::db::TypeName<T>::POINTER_STARS_COUNT;
-        for(int i = 0; i < pointercount;i++)
+        sad::String type_of_name = sad::db::TypeName<T>::baseName();
+        const unsigned int pointer_count = sad::db::TypeName<T>::POINTER_STARS_COUNT;
+        for(int i = 0; i < pointer_count;i++)
         {
-            typeofname += "*";
+            type_of_name += "*";
         }
-        sad::String myname = "sad::animations::DiscreteProperty<";
-        myname << typeofname;
-        myname << ">";
+        sad::String my_name = "sad::animations::DiscreteProperty<";
+        my_name << type_of_name;
+        my_name << ">";
 
         bool created = false;
-        sad::ClassMetaData* m = sad::ClassMetaDataContainer::ref()->get(myname, created);
+        sad::ClassMetaData* m = sad::ClassMetaDataContainer::ref()->get(my_name, created);
         if (created)
         {
-            if (sad::animations::Animation::globalMetaData() == NULL) return NULL;
+            if (sad::animations::Animation::globalMetaData() == nullptr) return nullptr;
             m->addAncestor("sad::animations::Animation");
         }
         return m;
@@ -72,7 +75,7 @@ public:
     /*! Return object meta data
         \return object meta data
      */
-    sad::ClassMetaData * metaData() const
+    sad::ClassMetaData * metaData() const override
     {
         return sad::animations::DiscreteProperty<T>::globalMetaData();
     }
@@ -85,7 +88,7 @@ public:
     }
     /*! Can be inherited
      */
-    virtual ~DiscreteProperty()
+    virtual ~DiscreteProperty() override
     {
         
     }
@@ -94,12 +97,12 @@ public:
      */
     static sad::db::schema::Schema* basicSchema()
     {
-        static sad::db::schema::Schema* Schema = NULL;
+        static sad::db::schema::Schema* Schema = nullptr;
         static sad::Mutex SchemaMutex;
-        if (Schema == NULL)
+        if (Schema == nullptr)
         {
             SchemaMutex.lock();
-            if (Schema == NULL)
+            if (Schema == nullptr)
             {
                 Schema = new sad::db::schema::Schema();
                 Schema->addParent(sad::animations::Animation::basicSchema());
@@ -128,15 +131,15 @@ public:
     /*! Returns schema for an object
         \return schema
      */
-    sad::db::schema::Schema* schema() const
+    sad::db::schema::Schema* schema() const override
     {
         return sad::animations::DiscreteProperty<T>::basicSchema();
     }
     /*! Tries to load animation from value
         \param[in] v value
-        \return whether it was successfull
+        \return whether it was successful
      */
-    virtual bool loadFromValue(const picojson::value& v)
+    virtual bool loadFromValue(const picojson::value& v) override
     {
         bool flag = this->sad::animations::Animation::loadFromValue(v);
         if (flag)
@@ -144,14 +147,14 @@ public:
             sad::Maybe<sad::Vector<T> > list = picojson::to_type<sad::Vector<T> >(
                                                    picojson::get_property(v, "list")
                                                );
-            sad::Maybe<sad::String> propertyname = picojson::to_type<sad::String>(
+            const sad::Maybe<sad::String> property_name = picojson::to_type<sad::String>(
                                                     picojson::get_property(v, "property")
                                                 );
-            bool result = list.exists() && propertyname.exists();
+            const bool result = list.exists() && property_name.exists();
             if (result)
             {
                 setList(list.value());
-                setPropertyName(propertyname.value());
+                setPropertyName(property_name.value());
             }
 
             flag = flag && result;
@@ -195,24 +198,24 @@ public:
         \param[in] i an animation instance
         \param[in] time a time of playing of animation
      */
-    virtual void setState(sad::animations::Instance* i, double time)
+    virtual void setState(sad::animations::Instance* i, double time) override
     {
         if (!m_valid)
             return;
 
-        double time_position = m_easing->evalBounded(time, m_time);
-        double value = static_cast<double>(m_list.size()) * time_position;
-        unsigned int kvalue = static_cast<unsigned int>(value);
-        if (kvalue < m_list.size())
+        const double time_position = m_easing->evalBounded(time, m_time);
+        const double value = static_cast<double>(m_list.size()) * time_position;
+        unsigned int k_value = static_cast<unsigned int>(value);
+        if (k_value < m_list.size())
         {
-            i->object()->setProperty(m_property_name, m_list[kvalue]);
+            i->object()->setProperty(m_property_name, m_list[k_value]);
         }
     }
     /*! Creates a state command for an object
         \param[in] o object
         \return state command
      */
-    virtual sad::animations::setstate::AbstractSetStateCommand* stateCommand(sad::db::Object* o)
+    virtual sad::animations::setstate::AbstractSetStateCommand* stateCommand(sad::db::Object* o) override
     {
         return new sad::animations::setstate::SetProperty<T>(o, m_property_name);
     }
@@ -221,13 +224,13 @@ public:
         \param[in] o object
         \return whether animation is applicable to that object
      */
-    virtual bool applicableTo(sad::db::Object* o)
+    virtual bool applicableTo(sad::db::Object* o) override
     {
         bool result = false;
         if (o && m_valid)
         {
-            sad::Maybe<T> maybevalue = o->getProperty<T>(m_property_name);
-            result = maybevalue.exists();
+            sad::Maybe<T> maybe_value = o->getProperty<T>(m_property_name);
+            result = maybe_value.exists();
         }
         return result;
     }

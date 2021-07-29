@@ -91,9 +91,9 @@ sad::FontShaderFunction::~FontShaderFunction()
 
 void sad::FontShaderFunction::tryCacheLocations()
 {
-    if (!m_locations_are_cahed)
+    if (!m_locations_are_cached)
     {
-        m_locations_are_cahed = true;
+        m_locations_are_cached = true;
 
         m_gl_camera_info_loc_id = m_shader->getUniformBlockIndex("_SGLCameraInfo");
         m_shader->tryLogGlError("sad::ShaderFunction::apply: glGetUniformBlockIndex(_SGLCameraInfo)");

@@ -5,6 +5,7 @@
 
 #include "animations/setstate/methodcall.h"
 #include "animations/setstate/setproperty.h"
+#include "animations/setstate/dummycommand.h"
 
 #include "sprite2d.h"
 #include "db/custom/customobject.h"
@@ -43,16 +44,16 @@ sad::animations::OptionList::~OptionList()
     
 }
 
-static sad::db::schema::Schema* AnimationOptionListSchema = NULL;
+static sad::db::schema::Schema* AnimationOptionListSchema = nullptr;
 
 static sad::Mutex AnimationOptionListSchemaLock;
 
 sad::db::schema::Schema* sad::animations::OptionList::basicSchema()
 {
-    if (AnimationOptionListSchema == NULL)
+    if (AnimationOptionListSchema == nullptr)
     {
         AnimationOptionListSchemaLock.lock();
-        if (AnimationOptionListSchema == NULL)
+        if (AnimationOptionListSchema == nullptr)
         {
             AnimationOptionListSchema = new sad::db::schema::Schema();
             AnimationOptionListSchema->addParent(sad::animations::Animation::basicSchema());
@@ -126,7 +127,7 @@ sad::animations::setstate::AbstractSetStateCommand* sad::animations::OptionList:
 {
     if (this->applicableTo(o))
     {
-        sad::animations::setstate::AbstractSetStateCommand* c = NULL;
+        sad::animations::setstate::AbstractSetStateCommand* c = nullptr;
         if (o->isInstanceOf("sad::Sprite2D"))
         {
             void (sad::Sprite2D::*f)(const sad::String&) = &sad::Sprite2D::set;

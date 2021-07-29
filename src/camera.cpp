@@ -22,7 +22,7 @@
 DECLARE_SOBJ(sad::Camera)
 
 sad::Camera::Camera() 
-: m_translation_offset(0,0,0), m_angle(0), m_temporary_rotation_offset(0, 0, 0), m_rotation_vector_direction(0, 0, 0), m_scene(NULL), m_transform_is_cached(false), m_projection_matrix{0}, m_model_view_matrix{0}
+: m_translation_offset(0,0,0), m_angle(0), m_temporary_rotation_offset(0, 0, 0), m_rotation_vector_direction(0, 0, 0), m_scene(nullptr), m_transform_is_cached(false), m_projection_matrix{0}, m_model_view_matrix{0}
 {
     m_projection_matrix[0] = 1.0f;
     m_projection_matrix[4] = 0;
@@ -260,7 +260,7 @@ float* sad::Camera::modelViewMatrix()
              sad::String error_string = reinterpret_cast<const char*>(gluErrorString(err_code));
              SL_LOCAL_WARNING(error_string, *r);
          }
-         r->cameraObjectBuffer()->setUserData(NULL);
+         r->cameraObjectBuffer()->setUserData(nullptr);
          this->m_transform_is_cached = true;
     }
     return &(this->m_model_view_matrix[0]);

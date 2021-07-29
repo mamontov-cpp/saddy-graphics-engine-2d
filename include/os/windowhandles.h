@@ -112,14 +112,14 @@ public:
     inline void cleanup()
     {
 #ifdef WIN32
-        ProcessInstance = NULL;
-        WND = NULL;
-        DC = NULL;
+        ProcessInstance = nullptr;
+        WND = nullptr;
+        DC = nullptr;
         Class.clear();
 #endif
 
 #ifdef X11
-        Dpy = NULL;
+        Dpy = nullptr;
         Screen = 0;
         Win = None;
         VisualInfo = 0;

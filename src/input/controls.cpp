@@ -120,7 +120,7 @@ void sad::input::Controls::removeNow(sad::input::AbstractHandler* o)
 void sad::input::Controls::freeHandlerAndConditions(sad::input::Controls::HandlerAndConditions & o)
 {
     delete o.p2();
-    o.set2(NULL);
+    o.set2(nullptr);
     for(unsigned int i = 0; i < o._1().size(); i++) 
     {
         delete o._1()[i];

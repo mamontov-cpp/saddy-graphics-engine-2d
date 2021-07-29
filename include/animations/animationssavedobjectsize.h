@@ -28,22 +28,22 @@ public:
     SavedObjectSize(sad::db::Object* o);
     /*! Can be inherited
      */
-    virtual ~SavedObjectSize();
+    virtual ~SavedObjectSize() override;
     /*! Restores last object state
      */
-    virtual void restore();
+    virtual void restore() override;
     /*! Stores body state to restore it, after animation is done.
         Default implementation does nothing
         \param[in] b body
      */
-    virtual void storeBodyState(sad::p2d::Body* b);
+    virtual void storeBodyState(sad::p2d::Body* b) override;
 protected:
     /*! Old area of object
      */
-    sad::Rect2D m_oldarea;
+    sad::Rect2D m_old_area;
     /*! An old center
      */
-    sad::Point2D m_oldcenter;
+    sad::Point2D m_old_center;
     /*! A body, which must be reset
      */
     sad::p2d::Body* m_body;

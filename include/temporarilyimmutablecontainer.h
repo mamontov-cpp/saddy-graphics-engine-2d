@@ -12,7 +12,7 @@
 namespace sad
 {
 
-/*! A heterogenic temporarily immutable container, where 
+/*! A heterogeneous temporarily immutable container, where 
     added and removed objects can have different type
  */
 template<
@@ -129,7 +129,7 @@ protected:
          _AddedObjectType  Added;      //!< An object, which is being added
          _RemovedObjectType Removed;    //!< An object, which is being removed
          size_t Position;               //!< A position for inserting object into queue
-         /*! By default command is left unitialized
+         /*! By default command is left uninitialized
           */
          inline QueuedCommand() : Type(CT_ADD), Position(0) //-V730
          {
@@ -201,6 +201,7 @@ protected:
                 case CT_REMOVE: removeNow(c.Removed); break;
                 case CT_CLEAR:  clearNow(); break;
                 case CT_INSERT: insertNow(c.Added, c.Position); break;
+                default: break;
             };
         }
         m_command_queue.clear();
@@ -222,7 +223,7 @@ public:
     {
 
     }	   
-    /*! Reimplement this, to handle potential memory leaks in event queue
+    /*! Re-implement this, to handle potential memory leaks in event queue
      */
     virtual ~TemporarilyImmutableContainer() 
     {

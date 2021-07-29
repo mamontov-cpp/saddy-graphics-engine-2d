@@ -82,10 +82,10 @@ public:
     bool tryLoadFrom(const sad::String& name);
     /*! Loads database from file, using specifying name. Saves a snapshot if successfull.
         \param[in] name a name for file
-        \param[in] r renderer, which is used to determine global path's (NULL for global)
+        \param[in] r renderer, which is used to determine global path's (nullptr for global)
         \return whether load was successfull
      */
-    bool loadFromFile(const sad::String& name, sad::Renderer * r = NULL);
+    bool loadFromFile(const sad::String& name, sad::Renderer * r = nullptr);
     /*! Adds new custom property to database. Replaces another property, if such property exists.
         \param[in] name name of property
         \param[in] p a property
@@ -146,7 +146,7 @@ public:
             if (canbecasted)
             {
                 sad::db::Variant v(value);
-                result = prop->set(NULL, v);
+                result = prop->set(nullptr, v);
             }
         }
         return result;
@@ -176,7 +176,7 @@ public:
             if (canbecasted)
             {
                 sad::db::Variant v;
-                prop->get(NULL, v);
+                prop->get(nullptr, v);
                 result = v.get<T>();
             }
         }
@@ -240,7 +240,7 @@ public:
     template<typename T>
     T*  objectByName(const sad::String & name) const
     {
-        T* result = NULL;
+        T* result = nullptr;
         sad::Vector<sad::db::Object *> o = queryByName(name);        
         this->filterObjectByType<T>(result, o);    
         return result;
@@ -269,7 +269,7 @@ public:
     template<typename T>
     T*  objectByMinorId(unsigned long long id) const
     {
-        T* result = NULL;
+        T* result = nullptr;
         sad::Vector<sad::db::Object *> o = queryByMinorId(id);        
         this->filterObjectByType<T>(result, o);    
         return result;
@@ -286,7 +286,7 @@ public:
     template<typename T>
     T*  objectByMajorId(unsigned long long id) const
     {
-        T* result = NULL;
+        T* result = nullptr;
         sad::db::Object* o = queryByMajorId(id);
         if (o)
         {
@@ -446,8 +446,8 @@ protected:
     static void filterObjectByType(T*& result, const sad::Vector<sad::db::Object*>& o)
     {
         sad::db::TypeName<T>::init();
-        result = NULL;
-        for(size_t i = 0; i < o.size() && result == NULL; i++)
+        result = nullptr;
+        for(size_t i = 0; i < o.size() && result == nullptr; i++)
         {
             if (o[i]->isInstanceOf(sad::db::TypeName<T>::name()))
             {

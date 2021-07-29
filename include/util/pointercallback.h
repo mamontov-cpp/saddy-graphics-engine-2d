@@ -58,20 +58,20 @@ public:
     /*! Calls a callback
         \param[in] o a new object
      */
-    virtual void call(T * o)
+    virtual void call(T * o) override
     {
         m_f();
     }
     /*! Copies a pointer callback
         \return copy
      */
-    virtual sad::util::PointerCallback<T> * copy()
+    virtual sad::util::PointerCallback<T> * copy() override
     {
         return new sad::util::FreeZeroArgCallback<T>(m_f);
     }
     /*! You can implement your own callback
      */
-    virtual ~FreeZeroArgCallback()
+    virtual ~FreeZeroArgCallback() override
     {
         
     }	
@@ -97,20 +97,20 @@ public:
     /*! Calls a callback
         \param[in] o a new object
      */
-    virtual void call(T * o)
+    virtual void call(T * o) override
     {
         m_f(o);
     }
     /*! Copies a pointer callback
         \return copy
      */
-    virtual sad::util::PointerCallback<T> * copy()
+    virtual sad::util::PointerCallback<T> * copy() override
     {
         return new sad::util::FreeOneArgCallback<T>(m_f);
     }
     /*! You can implement your own callback
      */
-    virtual ~FreeOneArgCallback()
+    virtual ~FreeOneArgCallback() override
     {
         
     }	
@@ -141,20 +141,20 @@ public:
     /*! Calls a callback
         \param[in] o a new object
      */
-    virtual void call(_Type * o)
+    virtual void call(_Type * o) override
     {
         (m_o->*m_f)();
     }
     /*! Copies a pointer callback
         \return copy
      */
-    virtual sad::util::PointerCallback<_Type> * copy()
+    virtual sad::util::PointerCallback<_Type> * copy() override
     {
         return new sad::util::MethodZeroArgCallback<_Type, _Object, _CalledObject>(m_o, m_f);
     }
     /*! You can implement your own callback
      */
-    virtual ~MethodZeroArgCallback()
+    virtual ~MethodZeroArgCallback() override
     {
         
     }	
@@ -185,20 +185,20 @@ public:
     /*! Calls a callback
         \param[in] o a new object
      */
-    virtual void call(_Type * o)
+    virtual void call(_Type * o) override
     {
         (m_o->*m_f)();
     }
     /*! Copies a pointer callback
         \return copy
      */
-    virtual sad::util::PointerCallback<_Type> * copy()
+    virtual sad::util::PointerCallback<_Type> * copy() override
     {
         return new sad::util::ConstMethodZeroArgCallback<_Type, _Object, _CalledObject>(m_o, m_f);
     }
     /*! You can implement your own callback
      */
-    virtual ~ConstMethodZeroArgCallback()
+    virtual ~ConstMethodZeroArgCallback() override
     {
         
     }	
@@ -229,20 +229,20 @@ public:
     /*! Calls a callback
         \param[in] o a new object
      */
-    virtual void call(_Type * o)
+    virtual void call(_Type * o) override
     {
         (m_o->*m_f)(o);
     }
     /*! Copies a pointer callback
         \return copy
      */
-    virtual sad::util::PointerCallback<_Type> * copy()
+    virtual sad::util::PointerCallback<_Type> * copy() override
     {
         return new sad::util::MethodOneArgCallback<_Type, _Object, _CalledObject>(m_o, m_f);
     }
     /*! You can implement your own callback
      */
-    virtual ~MethodOneArgCallback()
+    virtual ~MethodOneArgCallback() override
     {
         
     }	
@@ -273,14 +273,14 @@ public:
     /*! Calls a callback
         \param[in] o a new object
      */
-    virtual void call(_Type * o)
+    virtual void call(_Type * o) override
     {
         (m_o->*m_f)(o);
     }
     /*! Copies a pointer callback
         \return copy
      */
-    virtual sad::util::PointerCallback<_Type> * copy()
+    virtual sad::util::PointerCallback<_Type> * copy() override
     {
         return new sad::util::ConstMethodOneArgCallback<_Type, _Object, _CalledObject>(m_o, m_f);
     }
@@ -325,14 +325,14 @@ public:
     /*! Calls a callback
         \param[in] o a new object
      */
-    virtual void call(_Type * o)
+    virtual void call(_Type * o) override
     {
         (((m_o->*m_f)()) ->* m_g)();
     }
     /*! Copies a pointer callback
         \return copy
      */
-    virtual sad::util::PointerCallback<_Type> * copy()
+    virtual sad::util::PointerCallback<_Type> * copy() override
     {
         return new sad::util::CompositionZeroArgCallback<_Type, _Object, _FCalledObject, _RetObject, _GCalledObject>(m_o, m_f, m_g);
     }
@@ -377,14 +377,14 @@ public:
     /*! Calls a callback
         \param[in] o a new object
      */
-    virtual void call(_Type * o)
+    virtual void call(_Type * o) override
     {
         (((m_o->*m_f)()) ->* m_g)();
     }
     /*! Copies a pointer callback
         \return copy
      */
-    virtual sad::util::PointerCallback<_Type> * copy()
+    virtual sad::util::PointerCallback<_Type> * copy() override
     {
         return new sad::util::CompositionZeroArgCallbackC1<_Type, _Object, _FCalledObject, _RetObject, _GCalledObject>(m_o, m_f, m_g);
     }
@@ -429,14 +429,14 @@ public:
     /*! Calls a callback
         \param[in] o a new object
      */
-    virtual void call(_Type * o)
+    virtual void call(_Type * o) override
     {
         (((m_o->*m_f)()) ->* m_g)();
     }
     /*! Copies a pointer callback
         \return copy
      */
-    virtual sad::util::PointerCallback<_Type> * copy()
+    virtual sad::util::PointerCallback<_Type> * copy() override
     {
         return new sad::util::CompositionZeroArgCallbackC2<_Type, _Object, _FCalledObject, _RetObject, _GCalledObject>(m_o, m_f, m_g);
     }
@@ -481,14 +481,14 @@ public:
     /*! Calls a callback
         \param[in] o a new object
      */
-    virtual void call(_Type * o)
+    virtual void call(_Type * o) override
     {
         (((m_o->*m_f)()) ->* m_g)();
     }
     /*! Copies a pointer callback
         \return copy
      */
-    virtual sad::util::PointerCallback<_Type> * copy()
+    virtual sad::util::PointerCallback<_Type> * copy() override
     {
         return new sad::util::CompositionZeroArgCallbackC12<_Type, _Object, _FCalledObject, _RetObject, _GCalledObject>(m_o, m_f, m_g);
     }
@@ -533,14 +533,14 @@ public:
     /*! Calls a callback
         \param[in] o a new object
      */
-    virtual void call(_Type * o)
+    virtual void call(_Type * o) override
     {
         (((m_o->*m_f)()) ->* m_g)(o);
     }
     /*! Copies a pointer callback
         \return copy
      */
-    virtual sad::util::PointerCallback<_Type> * copy()
+    virtual sad::util::PointerCallback<_Type> * copy() override
     {
         return new sad::util::CompositionOneArgCallback<_Type, _Object, _FCalledObject, _RetObject, _GCalledObject>(m_o, m_f, m_g);
     }
@@ -585,14 +585,14 @@ public:
     /*! Calls a callback
         \param[in] o a new object
      */
-    virtual void call(_Type * o)
+    virtual void call(_Type * o) override
     {
         (((m_o->*m_f)()) ->* m_g)(o);
     }
     /*! Copies a pointer callback
         \return copy
      */
-    virtual sad::util::PointerCallback<_Type> * copy()
+    virtual sad::util::PointerCallback<_Type> * copy() override
     {
         return new sad::util::CompositionOneArgCallbackC1<_Type, _Object, _FCalledObject, _RetObject, _GCalledObject>(m_o, m_f, m_g);
     }
@@ -637,14 +637,14 @@ public:
     /*! Calls a callback
         \param[in] o a new object
      */
-    virtual void call(_Type * o)
+    virtual void call(_Type * o) override
     {
         (((m_o->*m_f)()) ->* m_g)(o);
     }
     /*! Copies a pointer callback
         \return copy
      */
-    virtual sad::util::PointerCallback<_Type> * copy()
+    virtual sad::util::PointerCallback<_Type> * copy() override
     {
         return new sad::util::CompositionOneArgCallbackC2<_Type, _Object, _FCalledObject, _RetObject, _GCalledObject>(m_o, m_f, m_g);
     }
@@ -689,14 +689,14 @@ public:
     /*! Calls a callback
         \param[in] o a new object
      */
-    virtual void call(_Type * o)
+    virtual void call(_Type * o) override
     {
         (((m_o->*m_f)()) ->* m_g)(o);
     }
     /*! Copies a pointer callback
         \return copy
      */
-    virtual sad::util::PointerCallback<_Type> * copy()
+    virtual sad::util::PointerCallback<_Type> * copy() override
     {
         return new sad::util::CompositionOneArgCallbackC12<_Type, _Object, _FCalledObject, _RetObject, _GCalledObject>(m_o, m_f, m_g);
     }

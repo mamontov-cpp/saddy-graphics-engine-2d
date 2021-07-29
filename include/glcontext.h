@@ -42,7 +42,7 @@ public:
     /*! Maps a point from client coordinates to OpenGL viewport
         \param[in] p point
         \param[in] ztest whether ztesting should be performed
-        \return mapped point in vierport
+        \return mapped point in viewport
      */
     virtual sad::Point3D mapToViewport(const sad::Point2D & p, bool ztest = false);
     /*! Returns current OpenGL context
@@ -66,7 +66,7 @@ public:
     /*! Tries to create context for specified window. Does nothing, if it's
         already created. DO NOT USE IT!
         \param[in] win a window
-        \return whether it was successfull
+        \return whether it was successful
      */
     virtual bool createFor(sad::Window * win);
     /*! Destroys a context. DO NOT USE IT!

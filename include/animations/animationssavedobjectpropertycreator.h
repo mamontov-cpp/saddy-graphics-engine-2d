@@ -32,7 +32,7 @@ public:
     }
     /*! Could be inherited
      */
-    virtual ~SavedObjectPropertyCreator()
+    virtual ~SavedObjectPropertyCreator() override
     {
 
     }
@@ -46,7 +46,7 @@ public:
     /*! Clones a saved object state creator
         \return new copy of creator
      */
-    virtual AbstractSavedObjectStateCreator* clone() const
+    virtual AbstractSavedObjectStateCreator* clone() const override
     {
         return new sad::animations::SavedObjectPropertyCreator<T>(m_name, m_property_name);
     }
@@ -54,7 +54,7 @@ public:
         \param o a specified object for creator
         \return a saved object state
      */
-    virtual sad::animations::SavedObjectState* create(sad::db::Object* o)
+    virtual sad::animations::SavedObjectState* create(sad::db::Object* o) override
     {
         return new sad::animations::SavedObjectProperty<T>(o, m_property_name);
     }

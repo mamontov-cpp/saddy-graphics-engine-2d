@@ -1,14 +1,13 @@
 /*! \file matrix3x3.h
     
 
-    Defines a 3x3 matrix, used for mutiplication and rotation operations in sprites
+    Defines a 3x3 matrix, used for multiplication and rotation operations in sprites
     and rectangles
  */
 #pragma once
 #include "sadpoint.h"
 #include "sadpair.h"
-#include <assert.h>
-#include <math.h>
+#include <cmath>
 
 namespace sad
 {
@@ -54,14 +53,15 @@ public:
      */
     static sad::Matrix3x3<double> rotationXandZ(double alpha, double theta)
     {
-        double cosa = cos(alpha);
-        double sina = sin(alpha);
-        double cost = cos(theta);
-        double sint = sin(theta);
-        return sad::Matrix3x3<double>(			
-                                      cosa, -1 * sina * cost,      sina * sint,
+	    const double cosa = cos(alpha);
+	    const double sina = sin(alpha);
+	    const double cost = cos(theta);
+	    const double sint = sin(theta);
+        return {
+	                                  cosa, -1 * sina * cost,      sina * sint,
                                       sina,      cosa * cost, -1 * cosa * sint,
-                                       0.0,             sint,             cost);
+                                       0.0,             sint,             cost
+        };
     }
     
 
@@ -72,7 +72,7 @@ public:
      */
     T get(unsigned int i , unsigned int j) const
     {
-        if (i >= 3 || j >= 3) return (T)0;
+        if (i >= 3 || j >= 3) return static_cast<T>(0);
         return m_o[i][j];
     }
 
@@ -94,11 +94,11 @@ public:
     \return point
  */
 template<typename T>
-typename sad::Point3<T> 
+sad::Point3<T> 
 operator*
 (
- const typename sad::Point3<T> & p,
- const typename sad::Matrix3x3<T> & m
+ const sad::Point3<T> & p,
+ const sad::Matrix3x3<T> & m
 )
 {
     T x = p.x() * m.get(0, 0) 
@@ -110,7 +110,7 @@ operator*
     T z = p.x() * m.get(0, 2)  
         + p.y() * m.get(1, 2) 
         + p.z() * m.get(2, 2);
-    return typename sad::Point3<T>(x, y, z);
+    return sad::Point3<T>(x, y, z);
 }
 
 
@@ -122,11 +122,11 @@ operator*
     \return point
  */
 template<typename T>
-typename sad::Point3<T> 
+sad::Point3<T> 
 operator*
 (
- const typename sad::Matrix3x3<T> & m,
- const typename sad::Point3<T> & p
+ const sad::Matrix3x3<T> & m,
+ const sad::Point3<T> & p
 )
 {
     T x = m.get(0, 0) * p.x() 
@@ -138,5 +138,5 @@ operator*
     T z = m.get(2, 0) * p.x() 
         + m.get(2, 1) * p.y()
         + m.get(2, 2) * p.z();
-    return typename sad::Point3<T>(x, y, z);
+    return sad::Point3<T>(x, y, z);
 }

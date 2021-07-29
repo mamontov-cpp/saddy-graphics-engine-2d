@@ -37,7 +37,7 @@ void sad::p2d::Circle::move(const sad::p2d::Vector & d)
 sad::p2d::ConvexHull sad::p2d::Circle::toHull() const
 {
     sad::p2d::CircleToHullTransformer * t = this->m_transformer;
-    if (t == NULL) t = sad::p2d::CircleToHullTransformer::ref();
+    if (t == nullptr) t = sad::p2d::CircleToHullTransformer::ref();
     return t->toHull(this);
 }
 
@@ -57,7 +57,7 @@ size_t sad::p2d::Circle::sizeOfType() const
 void sad::p2d::Circle::populatePoints(sad::Vector<p2d::Point> & v) const
 {
     sad::p2d::CircleToHullTransformer * t = this->m_transformer;
-    if (t == NULL) t = sad::p2d::CircleToHullTransformer::ref();
+    if (t == nullptr) t = sad::p2d::CircleToHullTransformer::ref();
     t->populate(this, v);
 }
 

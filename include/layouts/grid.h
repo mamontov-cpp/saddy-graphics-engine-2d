@@ -282,10 +282,10 @@ private:
      */
     void shrinkColumns(size_t oldcols, size_t newcols);
     /*! Regenerates cell views array, according to current settings
-        \param[in] prows a pointer, which should point to current rows count (NULL for current rows)
-        \param[in] pcols a pointer, which should point to current columns count (NULL for current columns)
+        \param[in] prows a pointer, which should point to current rows count (nullptr for current rows)
+        \param[in] pcols a pointer, which should point to current columns count (nullptr for current columns)
      */
-    void makeCellViews(size_t* prows = NULL, size_t* pcols = NULL);
+    void makeCellViews(size_t* prows = nullptr, size_t* pcols = nullptr);
     /*! Validates list of cells, returning whether it's valid
         \return whether list of cells is valid
      */

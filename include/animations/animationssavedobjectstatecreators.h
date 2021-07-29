@@ -35,15 +35,15 @@ public:
     sad::animations::SavedObjectStateCreators& operator=(const sad::animations::SavedObjectStateCreators& o);
     /*! Frees all stored creators
      */
-    virtual ~SavedObjectStateCreators();
+    virtual ~SavedObjectStateCreators() override;
     /*! Pushes new saved property creator to container
         \param[in] name  a key to be stored in container
-        \param[in] propname a property name, which should be saved
+        \param[in] property_name a property name, which should be saved
      */
     template<typename T>
-    void pushProperty(const sad::String& name, const sad::String& propname)
+    void pushProperty(const sad::String& name, const sad::String& property_name)
     {
-        this->push_back( new sad::animations::SavedObjectPropertyCreator<T>(name, propname) );
+        this->push_back( new sad::animations::SavedObjectPropertyCreator<T>(name, property_name) );
     }
     /*! Pushes new saved object state creator for type T to container
         \param[in] name a name for creator to be stored in container

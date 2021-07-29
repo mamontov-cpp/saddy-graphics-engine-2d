@@ -9,8 +9,8 @@ namespace formattedlabel
 class Arg
 {
 public:
-    /*! Returns substuted arg in notions of format library
-        \return substitituted argument
+    /*! Returns substituted arg in notions of format library
+        \return substituted argument
      */
     virtual fmt::BasicFormatter<char>::Arg * substitute() = 0;
     virtual ~Arg();
@@ -24,7 +24,7 @@ private:
     _Value m_arg; //!< Argument for substitution
 public:
     StaticArg(const _Value & arg) : m_arg(arg) { }
-    virtual fmt::BasicFormatter<char>::Arg * substitute() 
+    virtual fmt::BasicFormatter<char>::Arg * substitute()  override
     { 
         return new fmt::BasicFormatter<char>::Arg(m_arg);
     }
@@ -38,7 +38,7 @@ private:
     _Value (*m_f)(); 
 public:
     ZeroFunctionArg(_Value  (*f)()) : m_f(f) { }
-    virtual fmt::BasicFormatter<char>::Arg * substitute() 
+    virtual fmt::BasicFormatter<char>::Arg * substitute()  override
     { 
         return new fmt::BasicFormatter<char>::Arg( m_f() );
     }
@@ -54,7 +54,7 @@ private:
     _Value (_Class::*m_f)(); 
 public:
     ZeroMethodArg(_Class * o, _Value (_Class::*f)()) : m_o(o), m_f(f) { }
-    virtual fmt::BasicFormatter<char>::Arg * substitute() 
+    virtual fmt::BasicFormatter<char>::Arg * substitute()  override
     { 
         return new fmt::BasicFormatter<char>::Arg( (m_o->*m_f)() );
     }
@@ -70,7 +70,7 @@ private:
     _Value (_Class::*m_f)() const; 
 public:
     ZeroConstMethodArg(_Class * o, _Value (_Class::*f)() const) : m_o(o), m_f(f) { }
-    virtual fmt::BasicFormatter<char>::Arg * substitute() 
+    virtual fmt::BasicFormatter<char>::Arg * substitute()  override
     { 
         return new fmt::BasicFormatter<char>::Arg( (m_o->*m_f)() );
     }
@@ -87,9 +87,9 @@ private:
     _Value (_Class::*m_f)() const; 
 public:
     ZeroCastedConstMethodArg(_Class * o, _Value (_Class::*f)() const) : m_o(o), m_f(f) { }
-    virtual fmt::BasicFormatter<char>::Arg * substitute() 
+    virtual fmt::BasicFormatter<char>::Arg * substitute()  override
     { 
-        return new fmt::BasicFormatter<char>::Arg( (_RetValue)((m_o->*m_f)()) );
+        return new fmt::BasicFormatter<char>::Arg( static_cast<_RetValue>((m_o->*m_f)()) );
     }
 };
 template<
@@ -110,7 +110,7 @@ public:
                               _Value (_Class2::*g)() ) : m_o(o), m_f(f), m_g(g) 
     { 
     }
-    virtual fmt::BasicFormatter<char>::Arg * substitute() 
+    virtual fmt::BasicFormatter<char>::Arg * substitute()  override
     { 
         _Class2 * p = (m_o->*m_f)();
         return new fmt::BasicFormatter<char>::Arg( (p->*m_g)() );
@@ -135,7 +135,7 @@ public:
                                 _Value (_Class3::*g)() const ) : m_o(o), m_f(f), m_g(g) 
     { 
     }
-    virtual fmt::BasicFormatter<char>::Arg * substitute() 
+    virtual fmt::BasicFormatter<char>::Arg * substitute()  override
     { 
         _Class2 * p = (m_o->*m_f)();
         _Class3 * k = static_cast<_Class3*>(p);

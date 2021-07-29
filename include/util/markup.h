@@ -4,6 +4,7 @@
  */
 #pragma once
 #include "../sadvector.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../sadhash.h"
 #include "../sadstring.h"
 #include "../sadcolor.h"
@@ -30,16 +31,16 @@ struct Markup
  */
 enum FontSizeType
 {
-    MFZST_POINTS = 0, //!< Size specifed in points
-    MFZST_PIXELS = 1  //!< Size specifed in pixels
+    MFZST_POINTS = 0, //!< Size specified in points
+    MFZST_PIXELS = 1  //!< Size specified in pixels
 };
 
 /*! A linespacing size type for markup
  */
 enum LineSpacingSizeType
 {
-    MLST_PERCENTS = 0, //!< Size specifed in percents
-    MLST_PIXELS = 1,   //!< Size specifed in pixels
+    MLST_PERCENTS = 0, //!< Size specified in percents
+    MLST_PIXELS = 1,   //!< Size specified in pixels
 };
 
 /*! A font size, used in markup
@@ -55,7 +56,7 @@ struct FontSize
 
     /*! A default constructor
      */
-    inline FontSize() : Size(0), Type(sad::util::Markup::MFZST_PIXELS)
+    inline FontSize() : Size(0), Type(sad::util::Markup::FontSizeType::MFZST_PIXELS)
     {
 
     }
@@ -252,7 +253,7 @@ static sad::Maybe<sad::AColor> parseColor(const char* s, sad::Maybe<sad::AColor>
 
 /*! Tries to push next line if is_div specified
     \param[in] is_div flag
-    \param[in, out] result document line
+    \param[in,out] result document line
  */
 static void tryPushNextLine(bool is_div, sad::util::Markup::DocumentLine& result);
 

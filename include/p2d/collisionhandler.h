@@ -77,7 +77,7 @@ public:
      */
     virtual void invoke(const sad::p2d::BasicCollisionEvent & ev)
     {
-        if (ev.m_object_1 != NULL && ev.m_object_2 != NULL)
+        if (ev.m_object_1 != nullptr && ev.m_object_2 != nullptr)
         {
               bool ok = true;
               if (m_checked)
@@ -85,7 +85,7 @@ public:
                   // We must check those, because, when multiple collisions are found with same object
                   // object and his userObject can be removed. So we MUST check userObject to make
                   // sure not to work with deleted metadata
-                  ok = (ev.m_object_1->userObject() != NULL) &&  (ev.m_object_2->userObject() != NULL);
+                  ok = (ev.m_object_1->userObject() != nullptr) &&  (ev.m_object_2->userObject() != nullptr);
               }
               if (ok)
               {
@@ -95,23 +95,23 @@ public:
                   e.m_time = ev.m_time;
                   try
                   {
-                      e.m_object_1 = (ev.m_object_1->userObject()) ? sad::checked_cast<_Object1>(ev.m_object_1->userObject()) : NULL;
+                      e.m_object_1 = (ev.m_object_1->userObject()) ? sad::checked_cast<_Object1>(ev.m_object_1->userObject()) : nullptr;
                   }
                   catch (sad::InvalidCastException ex)
                   {
-                      e.m_object_1 = NULL;
+                      e.m_object_1 = nullptr;
                   }
 
                   try
                   {
-                      e.m_object_2 = (ev.m_object_2->userObject()) ? sad::checked_cast<_Object2>(ev.m_object_2->userObject()) : NULL;
+                      e.m_object_2 = (ev.m_object_2->userObject()) ? sad::checked_cast<_Object2>(ev.m_object_2->userObject()) : nullptr;
                   }
                   catch (sad::InvalidCastException ex)
                   {
-                      e.m_object_2 = NULL;
+                      e.m_object_2 = nullptr;
                   }
                   // Exit if one of arguments is incorrect
-                  if (e.m_object_1 == NULL || e.m_object_2 == NULL)
+                  if (e.m_object_1 == nullptr || e.m_object_2 == nullptr)
                   {
                       return;
                   }

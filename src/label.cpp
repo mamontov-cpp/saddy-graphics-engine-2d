@@ -44,7 +44,7 @@ m_computed_rendering_point(false),
 m_rendered_chars(0),
 m_geometries(new sad::os::GLFontGeometries()),
 m_geometries_dirty(true),
-m_line_shader_function(NULL)
+m_line_shader_function(nullptr)
 {
     
 }
@@ -69,7 +69,7 @@ m_computed_rendering_string(false),
 m_computed_rendering_point(false),
 m_geometries(new sad::os::GLFontGeometries()),
 m_geometries_dirty(true),
-m_line_shader_function(NULL)
+m_line_shader_function(nullptr)
 {
     m_font.attach(font);
     recomputeRenderedString();
@@ -96,17 +96,17 @@ m_computed_rendering_string(false),
 m_computed_rendering_point(false),
 m_geometries(new sad::os::GLFontGeometries()),
 m_geometries_dirty(true),
-m_line_shader_function(NULL)
+m_line_shader_function(nullptr)
 {
-    m_font.setTree(NULL, tree);
+    m_font.setTree(nullptr, tree);
     m_font.setPath(font);
     recomputeRenderedString();
 }
 
-void sad::Label::setTreeName(sad::Renderer* r, const sad::String& treename)
+void sad::Label::setTreeName(sad::Renderer* r, const sad::String& tree_name)
 {
-    m_font.setTree(r, treename);
-    m_font_cache.setTree(r, treename);
+    m_font.setTree(r, tree_name);
+    m_font_cache.setTree(r, tree_name);
     m_geometries_dirty = true;
 }
 
@@ -115,16 +115,16 @@ void sad::Label::regions(sad::Vector<sad::Rect2D> & r)
     r << m_cached_region;
 }
 
-static sad::db::schema::Schema* LabelBasicSchema = NULL;
+static sad::db::schema::Schema* LabelBasicSchema = nullptr;
 
 static sad::Mutex LabelBasicSchemaInit;
 
 sad::db::schema::Schema* sad::Label::basicSchema()
 {
-    if (LabelBasicSchema == NULL)
+    if (LabelBasicSchema == nullptr)
     {
         LabelBasicSchemaInit.lock();
-        if (LabelBasicSchema == NULL)
+        if (LabelBasicSchema == nullptr)
         {
             LabelBasicSchema = new sad::db::schema::Schema();
             LabelBasicSchema->addParent(sad::SceneNode::basicSchema());
@@ -379,7 +379,7 @@ sad::Rect2D sad::Label::area() const
     {
         const_cast<sad::Label *>(this)->recomputeRenderingPoint();
     }
-    sad::Size2D  size(m_halfpadding.x() * (-2), m_halfpadding.y() * 2);
+    sad::Size2D  size(m_half_padding.x() * (-2), m_half_padding.y() * 2);
     if (m_computed_rendering_point == false)
     {
         size.Width = 0;
@@ -509,10 +509,10 @@ void sad::Label::setLineSpacingRatio(float ratio)
     recomputeRenderedString();
 }
 
-void sad::Label::setTreeName(const sad::String & treename)
+void sad::Label::setTreeName(const sad::String & tree_name)
 {
-    m_font.setTree(m_font.renderer(), treename);
-    m_font_cache.setTree(m_font.renderer(), treename);
+    m_font.setTree(m_font.renderer(), tree_name);
+    m_font_cache.setTree(m_font.renderer(), tree_name);
     m_geometries_dirty = true;
     recomputeRenderedString();
 }
@@ -739,20 +739,20 @@ sad::String sad::Label::makeRenderingString(
     } 
     else
     {
-        bool has_n =  string.getLastOccurence("\n") != -1;
-        bool has_r =  string.getLastOccurence("\r") != -1;
+        bool has_n =  string.getLastOccurrence("\n") != -1;
+        bool has_r =  string.getLastOccurrence("\r") != -1;
         sad::String tmp = string;
         if (has_n && has_r)
         {
             // Windows string preprocessing
-            tmp.replaceAllOccurences("\r", "");
+            tmp.replaceAllOccurrences("\r", "");
         } 
         else
         {
             // MacOSX 
             if (!has_n && has_r)
             {
-                tmp.replaceAllOccurences("\r", "\n");
+                tmp.replaceAllOccurrences("\r", "\n");
             }
         }
         bool last_line_changed = false;
@@ -775,7 +775,7 @@ sad::String sad::Label::makeRenderingString(
                     // In case that word  is larger than line width - we can do nothing to prevent it from 
                     // becoming larger
                     sad::String candidate_word = words[j];
-                    candidate_word.replaceAllOccurences("\n", "");
+                    candidate_word.replaceAllOccurrences("\n", "");
                     if (candidate_word.length() > maximal_line_width && current_word->length() == 0)
                     {
                         *current_word = sad::Label::formatTextLine(
@@ -813,7 +813,7 @@ sad::String sad::Label::makeRenderingString(
             if (bt == sad::Label::LBT_NORMAL)
             {
                 sad::String line = lines[i];
-                line.replaceAllOccurences("\n", "");
+                line.replaceAllOccurrences("\n", "");
                 new_lines << sad::Label::formatTextLine(
                     line,
                     maximal_line_width,
@@ -1404,7 +1404,7 @@ void sad::Label::onRemovedFromScene()
     {
         m_geometries->renderer()->removeFontGeometries(m_geometries);
     }
-    m_geometries->setRenderer(NULL);
+    m_geometries->setRenderer(nullptr);
     m_geometries_dirty = true;
 }
 
@@ -1458,8 +1458,8 @@ void sad::Label::recomputeRenderingPoint(bool lock)
     {
         m_center.setX(m_point.x() + m_label_size.Width / 2);
         m_center.setY(m_point.y() - m_label_size.Height / 2);
-        m_halfpadding.setX(m_label_size.Width / -2.0);
-        m_halfpadding.setY(m_label_size.Height / 2.0);
+        m_half_padding.setX(m_label_size.Width / -2.0);
+        m_half_padding.setY(m_label_size.Height / 2.0);
 
         m_computed_rendering_point = true;
 
@@ -1671,8 +1671,8 @@ sad::Pair<sad::Font*, sad::Font::RenderFlags> sad::Label::applyFontCommand(sad::
     {
         switch (c.Size.value().Type)
         {
-        case sad::util::Markup::MFZST_PIXELS: fnt->setSize(c.Size.value().Size); break;
-        case sad::util::Markup::MFZST_POINTS: fnt->setSizeInPoints(c.Size.value().Size); break;
+        case sad::util::Markup::FontSizeType::MFZST_PIXELS: fnt->setSize(c.Size.value().Size); break;
+        case sad::util::Markup::FontSizeType::MFZST_POINTS: fnt->setSizeInPoints(c.Size.value().Size); break;
         };
     }
     else
@@ -1718,11 +1718,11 @@ void sad::Label::renderWithoutFormatting(sad::Font* font)
             }
         }
         sad::String result = m_rendered_string.subString(0, length);
-        font->render(result, m_halfpadding);
+        font->render(result, m_half_padding);
     }
     else
     {
-        font->render(m_rendered_string, m_halfpadding);
+        font->render(m_rendered_string, m_half_padding);
     }
 }
 
@@ -1754,18 +1754,18 @@ void sad::Label::buildGeometriesWithoutFormatting(sad::Font* font)
             }
         }
         sad::String result = m_rendered_string.subString(0, length);
-        font->fillGeometries(geometry_render_data, *m_geometries, result, m_halfpadding);
+        font->fillGeometries(geometry_render_data, *m_geometries, result, m_half_padding);
     }
     else
     {
-        font->fillGeometries(geometry_render_data, *m_geometries, m_rendered_string, m_halfpadding);
+        font->fillGeometries(geometry_render_data, *m_geometries, m_rendered_string, m_half_padding);
     }
 }
 
 void sad::Label::renderWithFormatting(sad::Font* font)
 {
     assert(m_document.size() == m_document_metrics.size());
-    sad::Point2D point = m_halfpadding;
+    sad::Point2D point = m_half_padding;
     sad::Renderer* renderer = this->renderer();
     int rendered_count = 0;
     bool isOpenGL3supported = false;
@@ -1854,7 +1854,7 @@ void sad::Label::renderWithFormatting(sad::Font* font)
 #ifdef DEBUG_FORMATTED_RENDERING
     if (renderer)
     {
-        renderer->render()->rectangle(sad::Rect2D(m_halfpadding, m_halfpadding * (-1)), sad::AColor(255, 0, 0, 255));
+        renderer->render()->rectangle(sad::Rect2D(m_half_padding, m_half_padding * (-1)), sad::AColor(255, 0, 0, 255));
     }
 #endif
 }
@@ -1864,7 +1864,7 @@ void sad::Label::buildGeometriesWithFormatting(sad::Font* font)
 {
     assert(m_document.size() == m_document_metrics.size());
 
-    sad::Point2D point = m_halfpadding;
+    sad::Point2D point = m_half_padding;
     sad::Renderer* renderer = this->renderer();
     int rendered_count = 0;
     for (size_t row = 0; row < m_document.size(); row++)

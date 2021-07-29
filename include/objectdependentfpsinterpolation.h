@@ -4,6 +4,7 @@
     A class for computing FPS, with timing and interpolation between frames
  */
 #pragma once
+// ReSharper disable once CppUnusedIncludeDirective
 #include "timer.h"
 #include "fpsinterpolation.h"
 #include "maybe.h"
@@ -22,30 +23,30 @@ public:
     ObjectDependentFPSInterpolation();
     /*! Can be inherited
      */
-    virtual ~ObjectDependentFPSInterpolation();
+    virtual ~ObjectDependentFPSInterpolation() override;
     /*! Starts new ObjectFPSInterpolation iteration. Must be called at beginning
         of new main loop
      */
-    virtual void reset();
+    virtual void reset() override;
     /*! Starts measuring time for computing time interval
      */
-    virtual void start();
+    virtual void start() override;
     /*! Stops measuring time for computing time interval
      */
-    virtual void stop();
+    virtual void stop() override;
     /*! Resets timing for FPS interpolation. Used to remove FPS jumps, when
         window is not active
      */
-    virtual void resetTimer();
+    virtual void resetTimer() override;
     /*! Returns current FPS
         \return FPS
      */
-    virtual double fps();
+    virtual double fps() override;
     /*! Sets a renderer for interpolation
      */
     void setRenderer(sad::Renderer * renderer);
 protected:
-    /*! Returns amount of rendererd items per time
+    /*! Returns amount of rendered items per time
      */
     unsigned int m_total_renderer_items;
     /*! Returns an interval of renderer per item

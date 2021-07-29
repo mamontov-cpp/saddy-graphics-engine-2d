@@ -38,8 +38,8 @@ sad::p2d::BounceSolver::BounceSolver()
   m_ignore_negative_toi(false)
 {
     m_find = new sad::p2d::FindContactPoints();
-    m_first = NULL;
-    m_second = NULL;
+    m_first = nullptr;
+    m_second = nullptr;
     m_debug = false;
     this->resetCoefficients();
 }

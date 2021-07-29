@@ -3,7 +3,7 @@
 
 
 sad::ObjectDependentFPSInterpolation::ObjectDependentFPSInterpolation(): 
-m_renderer(NULL),
+m_renderer(nullptr),
 m_total_renderer_items(0)
 {
     m_interval_per_item.clear();
@@ -18,7 +18,7 @@ sad::ObjectDependentFPSInterpolation::~ObjectDependentFPSInterpolation()
 void sad::ObjectDependentFPSInterpolation::reset()
 {
     m_fps = 75;
-    m_setimmediately = true;
+    m_is_set_immediately = true;
     m_reset =  false;
     m_frames = 0;
     
@@ -29,7 +29,7 @@ void sad::ObjectDependentFPSInterpolation::reset()
 
 void sad::ObjectDependentFPSInterpolation::start()
 {
-    if (m_setimmediately || m_reset)
+    if (m_is_set_immediately || m_reset)
     {
         m_timer.start();
         m_reset = false;
@@ -45,7 +45,7 @@ void sad::ObjectDependentFPSInterpolation::stop()
     {
         m_total_renderer_items = std::max(m_total_renderer_items, m_renderer->totalSceneObjects());
     }
-    if (m_setimmediately || elapsed > 100.0)
+    if (m_is_set_immediately || elapsed > 100.0)
     {
         double newfps = 1000.0 * m_frames / elapsed; 
         m_fps =  newfps;
@@ -60,7 +60,7 @@ void sad::ObjectDependentFPSInterpolation::stop()
         }
         m_frames = 0;
         m_reset = true;
-        m_setimmediately = false;
+        m_is_set_immediately = false;
         m_total_renderer_items = 0;
     }
 }

@@ -23,7 +23,7 @@ sad::ClassMetaDataContainer& sad::ClassMetaDataContainer::operator=(const sad::C
     return *this;
 }
 
-sad::ClassMetaDataContainer * sad::ClassMetaDataContainer::m_instance = NULL;
+sad::ClassMetaDataContainer * sad::ClassMetaDataContainer::m_instance = nullptr;
 
 
 
@@ -33,14 +33,14 @@ void sad::ClassMetaDataContainer::destroyInstance()
 {
     creationlock.lock();
     delete sad::ClassMetaDataContainer::m_instance;
-    sad::ClassMetaDataContainer::m_instance = NULL;
+    sad::ClassMetaDataContainer::m_instance = nullptr;
     creationlock.unlock();
 }
 
 sad::ClassMetaDataContainer * sad::ClassMetaDataContainer::ref()
 {
     creationlock.lock();
-    if (sad::ClassMetaDataContainer::m_instance == NULL)
+    if (sad::ClassMetaDataContainer::m_instance == nullptr)
     {
         sad::ClassMetaDataContainer::m_instance = new sad::ClassMetaDataContainer();
         atexit(sad::ClassMetaDataContainer::destroyInstance);
@@ -65,7 +65,7 @@ sad::ClassMetaDataContainer::~ClassMetaDataContainer()
 
 sad::ClassMetaData * sad::ClassMetaDataContainer::get(const sad::String & name, bool & created, bool lock)
 {
-    sad::ClassMetaData * result = NULL;
+    sad::ClassMetaData * result = nullptr;
     if (lock)
     {
         m_lock.lock();

@@ -1,4 +1,5 @@
 #include "animations/animationsgroup.h"
+#include "animations/setstate/dummycommand.h"
 
 #include <util/fs.h>
 
@@ -30,7 +31,7 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::Group, sad::animations::Process)
 sad::animations::Group::Group() : 
 m_looped(false), 
 m_started(true), 
-m_parent(NULL),
+m_parent(nullptr),
 m_sequential(false), 
 m_current_instance(0)
 {
@@ -54,16 +55,16 @@ sad::animations::Group::~Group()
     clearLinks();
 }
 
-static sad::db::schema::Schema* AnimationGroupSchema = NULL;
+static sad::db::schema::Schema* AnimationGroupSchema = nullptr;
 
 static sad::Mutex AnimationGroupSchemaInit;
 
 sad::db::schema::Schema* sad::animations::Group::basicSchema()
 {
-    if (AnimationGroupSchema == NULL)
+    if (AnimationGroupSchema == nullptr)
     {
         AnimationGroupSchemaInit.lock();
-        if (AnimationGroupSchema == NULL)
+        if (AnimationGroupSchema == nullptr)
         {
             AnimationGroupSchema = new sad::db::schema::Schema();
             AnimationGroupSchema->addParent(sad::db::Object::basicSchema());
@@ -225,7 +226,7 @@ sad::animations::Instance* sad::animations::Group::get(int pos)
     sad::ScopedLock own_lock(&m_lock);
     if ((pos < 0) || (pos >= m_instance_links.size()))
     {
-        return NULL;
+        return nullptr;
     }
     return m_instance_links[pos]->get();
 }
@@ -236,7 +237,7 @@ unsigned long long sad::animations::Group::getMajorId(int pos)
     sad::ScopedLock own_lock(&m_lock);
     if ((pos < 0) || (pos >= m_instance_links.size()))
     {
-        return NULL;
+        return 0;
     }
     return m_instance_links[pos]->majorId();
 }

@@ -1,8 +1,8 @@
 #include <sadsemaphore.h>
 #include <os/semaphoreimpl.h>
 
-sad::Semaphore::Semaphore(unsigned int currentvalue, unsigned int maxvalue)
-: m_dptr(new sad::os::SemaphoreImpl(currentvalue, maxvalue))
+sad::Semaphore::Semaphore(unsigned int current_value, unsigned int max_value)
+: m_dptr(new sad::os::SemaphoreImpl(current_value, max_value))
 {
 
 }

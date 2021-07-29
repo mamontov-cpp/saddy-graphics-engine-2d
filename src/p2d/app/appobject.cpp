@@ -7,7 +7,7 @@ sad::p2d::app::Object::Object()
 {
     // We don't init sprite as valid, to preserve working with simple
     // objects
-    m_sprite = new Sprite2D(NULL, sad::Rect2D(), sad::Rect2D());
+    m_sprite = new Sprite2D(nullptr, sad::Rect2D(), sad::Rect2D());
     m_body = new sad::p2d::Body();
     m_body->addRef();
     m_sprite->addRef();

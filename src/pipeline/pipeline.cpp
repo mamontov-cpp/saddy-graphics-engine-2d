@@ -9,13 +9,13 @@ sad::pipeline::Pipeline::Pipeline()
 
 bool sad::pipeline::Pipeline::contains(const sad::String & mark)
 {
-    return findByMark(mark).p1() != NULL;
+    return findByMark(mark).p1() != nullptr;
 }
 
 void sad::pipeline::Pipeline::enableByMark(const sad::String& mark)
 {
     StepListPosition po = findByMark(mark);
-    if (po.p1() != NULL) 
+    if (po.p1() != nullptr) 
     {
         (*po.p1())[po.p2()]->enable();
     }
@@ -24,7 +24,7 @@ void sad::pipeline::Pipeline::enableByMark(const sad::String& mark)
 void sad::pipeline::Pipeline::disableByMark(const sad::String& mark)
 {
     StepListPosition po = findByMark(mark);
-    if (po.p1() != NULL) 
+    if (po.p1() != nullptr) 
     {
         (*po.p1())[po.p2()]->disable();
     }
@@ -33,7 +33,7 @@ void sad::pipeline::Pipeline::disableByMark(const sad::String& mark)
 bool sad::pipeline::Pipeline::isStepEnabled(const sad::String& mark)
 {
     StepListPosition po = findByMark(mark);
-    if (po.p1() != NULL) 
+    if (po.p1() != nullptr) 
     {
         return (*po.p1())[po.p2()]->enabled();
     } 
@@ -43,7 +43,7 @@ bool sad::pipeline::Pipeline::isStepEnabled(const sad::String& mark)
 void sad::pipeline::Pipeline::removeByMarkWith(const sad::String& mark, bool clean_memory)
 {
     StepListPosition po = findByMark(mark);
-    if (po.p1() != NULL) 
+    if (po.p1() != nullptr) 
     {
         if (clean_memory)
         {
@@ -178,7 +178,7 @@ sad::pipeline::Pipeline::findByMark(StepsList* steps, const sad::String & mark)
             }
         }
     }
-    return sad::pipeline::Pipeline::StepListPosition(NULL, 0);
+    return sad::pipeline::Pipeline::StepListPosition(nullptr, 0);
 }
 
 
@@ -193,7 +193,7 @@ sad::pipeline::Pipeline::findByStep(StepsList* steps, sad::pipeline::Step* step)
             return sad::pipeline::Pipeline::StepListPosition(steps, i);
         }
     }
-    return sad::pipeline::Pipeline::StepListPosition(NULL, 0);
+    return sad::pipeline::Pipeline::StepListPosition(nullptr, 0);
 }
 
 sad::pipeline::Pipeline::StepListPosition 
@@ -204,8 +204,8 @@ sad::pipeline::Pipeline::findByMark(const sad::String & mark)
         &m_user_steps,
         &m_system_steps_after_user
     };
-    sad::pipeline::Pipeline::StepListPosition pos(NULL, 0);
-    for(int i = 0; i < 3 && pos.p1() == NULL; i++)
+    sad::pipeline::Pipeline::StepListPosition pos(nullptr, 0);
+    for(int i = 0; i < 3 && pos.p1() == nullptr; i++)
     {
         pos = sad::pipeline::Pipeline::findByMark(lists[i], mark);
     }
@@ -221,8 +221,8 @@ sad::pipeline::Pipeline::findByStep(sad::pipeline::Step* step)
         &m_user_steps,
         &m_system_steps_after_user
     };
-    sad::pipeline::Pipeline::StepListPosition pos(NULL, 0);
-    for(int i = 0; i < 3 && pos.p1() == NULL; i++)
+    sad::pipeline::Pipeline::StepListPosition pos(nullptr, 0);
+    for(int i = 0; i < 3 && pos.p1() == nullptr; i++)
     {
         pos = sad::pipeline::Pipeline::findByStep(lists[i], step);
     }
@@ -273,7 +273,7 @@ void sad::pipeline::Pipeline::addNow(PipelineInsertionData o)
             StepListPosition pos = findByMark(o.p2().value());
             StepsList * list = pos.p1();
             size_t position = pos.p2();
-            if (list != NULL)
+            if (list != nullptr)
             {
                 list->insert(o.p3(), position);
             }
@@ -284,7 +284,7 @@ void sad::pipeline::Pipeline::addNow(PipelineInsertionData o)
             StepListPosition pos = findByMark(o.p2().value());
             StepsList * list = pos.p1();
             size_t position = pos.p2();
-            if (list != NULL)
+            if (list != nullptr)
             {
                 if (list->size() - 1 == position)
                 {
@@ -310,7 +310,7 @@ void sad::pipeline::Pipeline::removeFromPipeline(sad::pipeline::Step * o, bool c
     StepListPosition pos = findByStep(o);
     StepsList * list = pos.p1();
     size_t position = pos.p2();
-    if (list != NULL)
+    if (list != nullptr)
     {
         list->removeAt(position);
         if (clean_memory)

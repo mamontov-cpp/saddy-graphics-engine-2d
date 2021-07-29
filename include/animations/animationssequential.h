@@ -27,24 +27,24 @@ public:
     Sequential();
     /*! Could be inherited
      */
-    virtual ~Sequential();
+    virtual ~Sequential() override;
     /*! Sets state of object from animation
         \param[in] i an animation instance
         \param[in] time a time of playing of animation
      */
-    virtual void setState(sad::animations::Instance* i, double time);
+    virtual void setState(sad::animations::Instance* i, double time) override;
     /*! Non-applicable. Only forces to update time of animation from
         source animation
         \param time
      */
-    virtual void setTime(double time);
+    virtual void setTime(double time) override;
     /*! Fetches time of animation, like sum of times of all animations
         \return time
      */
-    virtual double time() const;
+    virtual double time() const override;
     /*! Update animation before starting to play
      */
-    virtual void updateBeforePlaying();
+    virtual void updateBeforePlaying() override;
 };
 
 }

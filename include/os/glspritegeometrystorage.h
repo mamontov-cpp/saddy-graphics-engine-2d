@@ -28,7 +28,7 @@ class GLSpriteGeometryStorage
 public:
     /*! Inits default, broken storage. To fix it, call  setRenderer
      */
-    inline GLSpriteGeometryStorage() : m_renderer(NULL)
+    inline GLSpriteGeometryStorage() : m_renderer(nullptr)
     {
         
     }

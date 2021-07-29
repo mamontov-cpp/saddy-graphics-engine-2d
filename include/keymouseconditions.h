@@ -30,7 +30,7 @@ public:
         \param[in] e event
         \return whether we should  run an event
      */
-    virtual bool check(const sad::input::AbstractEvent & e);
+    virtual bool check(const sad::input::AbstractEvent & e) override;
     /*! Sets key value for condition
         \param[in] key a key code value
      */
@@ -38,7 +38,7 @@ public:
     /*! Clones a condition
         \return clone a condition
      */
-    virtual sad::input::AbstractHanderCondition * clone();
+    virtual sad::input::AbstractHanderCondition * clone() override;
 
 private:
     /*! A keyboard key, which event will be tested against
@@ -60,7 +60,7 @@ public:
         \param[in] e event
         \return whether we should  run an event
      */
-    virtual bool check(const sad::input::AbstractEvent & e);
+    virtual bool check(const sad::input::AbstractEvent & e) override;
     /*! Sets key value for condition
         \param[in] key a key code value
      */
@@ -68,7 +68,7 @@ public:
     /*! Clones a condition
         \return clone a condition
      */
-    virtual sad::input::AbstractHanderCondition* clone();
+    virtual sad::input::AbstractHanderCondition* clone() override;
 protected:
     sad::SpecialKey m_key;
 };
@@ -91,7 +91,7 @@ public:
         \param[in] e event
         \return whether we should  run an event
      */
-    virtual bool check(const sad::input::AbstractEvent & e);
+    virtual bool check(const sad::input::AbstractEvent & e) override;
     /*! Sets button value for condition
         \param[in] button a button value
      */
@@ -99,7 +99,7 @@ public:
     /*! Clones a condition
         \return clone a condition
      */
-    virtual sad::input::AbstractHanderCondition * clone();
+    virtual sad::input::AbstractHanderCondition * clone() override;
 private:
     /*! A keyboard key, which event will be tested against
      */
@@ -120,7 +120,7 @@ inline sad::input::HandlerTypeAndConditions operator&(
     sad::KeyboardKey key
 )
 {
-    sad::input::HandlerTypeAndConditions & mt = const_cast<sad::input::HandlerTypeAndConditions &>(t);
+	auto& mt = const_cast<sad::input::HandlerTypeAndConditions &>(t);
     mt._2() << new sad::KeyHoldCondition(key);
     return t;
 }
@@ -137,9 +137,8 @@ inline sad::input::HandlerTypeAndConditions operator&(
     sad::SpecialKey key
 )
 {
-    sad::input::HandlerTypeAndConditions & mt = const_cast<sad::input::HandlerTypeAndConditions &>(t);
-    sad::input::AbstractHanderCondition * h = NULL;
-    h = new sad::SpecialKeyHoldCondition(key);
+	auto& mt = const_cast<sad::input::HandlerTypeAndConditions &>(t);
+	sad::input::AbstractHanderCondition* h = new sad::SpecialKeyHoldCondition(key);
     mt._2() << h;
     return t;
 }
@@ -156,7 +155,7 @@ inline sad::input::HandlerTypeAndConditions operator&(
     sad::MouseButton button
 )
 {
-    sad::input::HandlerTypeAndConditions & mt = const_cast<sad::input::HandlerTypeAndConditions &>(t);
+	auto& mt = const_cast<sad::input::HandlerTypeAndConditions &>(t);
     mt._2() << new sad::MouseButtonHoldCondition(button);
     return t;
 }

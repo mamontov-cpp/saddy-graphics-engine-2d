@@ -95,7 +95,7 @@ public:
     }
     /*! Creates a property by it's type of value
         \param[in] name a name of property's type of value
-        \return  property or NULL if unable to created
+        \return  property or nullptr if unable to created
      */
     virtual sad::db::Property * create(const sad::String & name) const;
     /*! Whether factory can create property by it's type of value

@@ -3,6 +3,7 @@
 
     Defines a command, which casts object to class invokes a method on it
  */
+#pragma once
 #include "typedcommand.h"
 
 #include "../../db/dbobject.h"
@@ -23,7 +24,7 @@ template<
     typename _Method,
     typename _Argument
 >
-class MethodCall : public sad::animations::setstate::TypedCommmand<_Argument>
+class MethodCall : public sad::animations::setstate::TypedCommand<_Argument>
 {
 public:
     /*! Constructs new empty method call object
@@ -34,18 +35,18 @@ public:
     /*! Clones command
         \return command
      */
-    virtual sad::animations::setstate::AbstractSetStateCommand* clone() const
+    virtual sad::animations::setstate::AbstractSetStateCommand* clone() const override
     {
         return new sad::animations::setstate::MethodCall<_Object, _Method, _Argument>(m_o, m_f);
     }
     /*! Calls a method with specified argument
         \param[in] a argument
      */
-    virtual void call(const _Argument& a)
+    virtual void call(const _Argument& a) override
     {
         (static_cast<_Object *>(m_o)->*m_f)(a);
     }
-    virtual ~MethodCall() { }
+    virtual ~MethodCall() override { }
 protected:
     /*! An object link for fast call
      */

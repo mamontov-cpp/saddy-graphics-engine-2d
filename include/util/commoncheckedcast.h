@@ -79,7 +79,7 @@ public:
         sad::db::TypeName<T>::init();
         if (sad::ClassMetaDataContainer::ref()->get(_typename, created)->canBeCastedTo(sad::db::TypeName<T>::name()) == true)
         {
-            sad::Object ** o = (sad::Object**)object;
+            sad::Object ** o = static_cast<sad::Object**>(object);
             try 
             {
                 result.setValue(sad::checked_cast<T, sad::Object>(*o));
@@ -117,7 +117,7 @@ public:
      */
     inline static void perform(Maybe<sad::db::Object*> & result, void * object)
     {
-        sad::Object ** o = (sad::Object**)object;
+        sad::Object ** o = static_cast<sad::Object**>(object);
         result.setValue(reinterpret_cast<sad::db::Object*>(*o));
     }
 };

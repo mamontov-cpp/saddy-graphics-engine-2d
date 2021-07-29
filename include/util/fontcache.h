@@ -39,15 +39,15 @@ public:
     void clear();
     /*! Tries to get font. If not found, returns default font, which is passed as link
         \param[in] s string
-        \param[in] parentfnt a default font
+        \param[in] parent_font a default font
         \return font, if can be found
     */
-    sad::Font* get(const sad::String& s, sad::resource::Link<sad::Font>& parentfnt);
+    sad::Font* get(const sad::String& s, sad::resource::Link<sad::Font>& parent_font);
     /*! Sets tree for cache
         \param[in] r renderer, which tree belongs to
-        \param[in] treename a name for tree
+        \param[in] tree_name a name for tree
      */
-    void setTree(sad::Renderer* r, const sad::String& treename);
+    void setTree(sad::Renderer* r, const sad::String& tree_name);
     /*! Sets renderer for cache
         \param[in] r renderer, which tree belongs to
      */

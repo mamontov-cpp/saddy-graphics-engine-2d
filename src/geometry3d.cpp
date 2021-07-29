@@ -56,7 +56,7 @@ bool sad::isValid(const sad::Rect<sad::Point3D> & rect)
 
 void sad::rotate(
     const sad::Rect<sad::Point3D> & rect,
-    sad::Rect<sad::Point3D> & outrect,
+    sad::Rect<sad::Point3D> & out_rectangle,
     double alpha,
     double theta
 )
@@ -73,8 +73,8 @@ void sad::rotate(
     for(int i = 0; i < 4; i++)
     {
         sad::Point3D p = rect[i] - middle;
-        outrect[i] = m * p ;
-        outrect[i] += middle;
+        out_rectangle[i] = m * p ;
+        out_rectangle[i] += middle;
     }
 }
 

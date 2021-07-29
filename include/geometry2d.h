@@ -11,7 +11,7 @@
 #ifndef _USE_MATH_DEFINES
     #define _USE_MATH_DEFINES
 #endif
-#include <math.h>
+#include <cmath>
 #ifndef M_PI
     #define M_PI (3.14159265358979323846)
 #endif
@@ -56,7 +56,7 @@ void moveBy(const sad::Point2D & dp , sad::Rect2D & r);
 void rotate(sad::Rect2D & r, float angle);
 /*! Rotates counter-clockwise a vector 
     around his center by specified angle
-    \param[in, out] v vector
+    \param[in,out] v vector
     \param[in] angle angle
  */
 void rotate(sad::Vector2D & v, float angle);
@@ -124,7 +124,7 @@ void getBaseRect(
     const sad::Rect2D & rect, 
     sad::Rect2D & base,
     double & alpha,
-    bool * error = NULL
+    bool * error = nullptr
 );
 
 /*! Determines, whether two 1-dimensional cutters collide

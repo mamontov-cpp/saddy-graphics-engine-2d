@@ -41,7 +41,7 @@ public:
     sad::animations::Group& operator=(const sad::animations::Group& o);
     /*! Another group
      */
-    ~Group();
+    virtual ~Group() override;
     /*! A basic schema for object
         \return a schema
      */
@@ -49,7 +49,7 @@ public:
     /*! Returns schema for an object
         \return schema
      */
-    virtual sad::db::schema::Schema* schema() const;
+    virtual sad::db::schema::Schema* schema() const override;
     /*! Returns whether instances in group should be played sequentially
         \return flag value
     */
@@ -90,11 +90,11 @@ public:
     /*! Sets a table
         \param[in] t a table
      */
-    virtual void setTable(sad::db::Table* t);
+    virtual void setTable(sad::db::Table* t) override;
     /*! Returns serializable name for an instance
         \return a serializable name
      */
-    virtual const sad::String& serializableName() const;
+    virtual const sad::String& serializableName() const override;
     /*! Sets instances links
         \param[in] v vector
      */
@@ -132,36 +132,36 @@ public:
     /*! Restarts an animation group
         \param[in] animations an animations process
      */
-    virtual void restart(sad::animations::Animations* animations);
+    virtual void restart(sad::animations::Animations* animations) override;
     /*! Restarts every animation, which was finished
      */
-    virtual void clearFinished();
+    virtual void clearFinished() override;
     /*! Whether group is finished
      */
-    virtual bool finished() const;
+    virtual bool finished() const override;
     /*! Called on every step of group work
         \param[in] animations an animation pipeline, which should hold a state cache
      */
-    virtual void process(sad::animations::Animations* animations);
+    virtual void process(sad::animations::Animations* animations) override;
     /*! Pauses a group
      */
-    virtual void pause();
+    virtual void pause() override;
     /*! Resumes a group
      */
-    virtual void resume();
+    virtual void resume() override;
     /*! Cancels an animation group
         \param[in] animations an animations pipeline
      */
-    virtual void cancel(sad::animations::Animations* animations);
+    virtual void cancel(sad::animations::Animations* animations) override;
     /*! Called, when process is added to pipeline
      */
-    virtual void addedToPipeline();
+    virtual void addedToPipeline() override;
     /*! Called, when process is removed from pipeline
      */
-    virtual void removedFromPipeline();
+    virtual void removedFromPipeline() override;
     /*! Adds new callback in animation group, which should be called,
         when group is done playing
-        \param[in] c
+        \param[in] c callback
         \return callback
      */
     sad::animations::Callback* addCallbackOnEnd(sad::animations::Callback* c);
@@ -298,32 +298,32 @@ public:
         \param[in] f function for testing
         \return true if related
      */
-    virtual bool isRelatedToMatchedObject(const std::function<bool(sad::db::Object*)>& f);
+    virtual bool isRelatedToMatchedObject(const std::function<bool(sad::db::Object*)>& f) override;
     /*! If current instance is related to matched objects, stops related part
         \param[in] f function for testing
         \param[in] a animations list
      */
-    virtual void stopInstancesRelatedToMatchedObject(const std::function<bool(sad::db::Object*)>& f, sad::animations::Animations* a);
+    virtual void stopInstancesRelatedToMatchedObject(const std::function<bool(sad::db::Object*)>& f, sad::animations::Animations* a) override;
     /*! Returns true of if process is related to animation, matched by function
         \param[in] f function for testing
         \return true if related
      */
-    virtual bool isRelatedToMatchedAnimation(const std::function<bool(sad::animations::Animation*)>& f);
+    virtual bool isRelatedToMatchedAnimation(const std::function<bool(sad::animations::Animation*)>& f) override;
     /*! If current instance is related to matched objects, stops related part
         \param[in] f function for testing
         \param[in] a animations list
      */
-    virtual void stopInstancesRelatedToMatchedAnimation(const std::function<bool(sad::animations::Animation*)>& f, sad::animations::Animations* a);
+    virtual void stopInstancesRelatedToMatchedAnimation(const std::function<bool(sad::animations::Animation*)>& f, sad::animations::Animations* a) override;
     /*! Returns true of if process is related to instance, matched by function
         \param[in] f function for testing
         \return true if related
      */
-    virtual bool isRelatedToMatchedProcess(const std::function<bool(sad::animations::Process*)>& f);
+    virtual bool isRelatedToMatchedProcess(const std::function<bool(sad::animations::Process*)>& f) override;
     /*! If current instance is related to matched objects, stops related part
         \param[in] f function for testing
         \param[in] a animations list
      */
-    virtual void stopInstancesRelatedToMatchedProcess(const std::function<bool(sad::animations::Process*)>& f, sad::animations::Animations* a);
+    virtual void stopInstancesRelatedToMatchedProcess(const std::function<bool(sad::animations::Process*)>& f, sad::animations::Animations* a) override;
 protected:
     /*! Clears links in group
      */

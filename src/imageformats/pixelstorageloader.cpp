@@ -71,7 +71,7 @@ bool sad::imageformats::PixelStorageLoader::load(FILE * file, sad::Texture * tex
 
 bool sad::imageformats::PixelStorageLoader::load(tar7z::Entry* entry, sad::Texture* texture)
 {
-    if (entry == NULL || texture == NULL)
+    if (entry == nullptr || texture == nullptr)
         return false;
 
     const char* buffer = entry->contents();

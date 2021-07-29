@@ -79,7 +79,7 @@ protected:
         sad::resource::ResourceFile * NewTextureFile;
         /*! Creates new texture load
          */ 
-        inline TextureLoadResult() : OldTexture(NULL), NewTexture(NULL), NewTextureFile(NULL)
+        inline TextureLoadResult() : OldTexture(nullptr), NewTexture(nullptr), NewTextureFile(nullptr)
         {
             
         }

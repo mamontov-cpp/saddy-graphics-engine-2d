@@ -49,7 +49,7 @@ sad::Object * sad::p2d::Body::userObject() const
 {
     if (m_user_objects.empty())
     {
-        return NULL;
+        return nullptr;
     }
     return m_user_objects[0];
 }
@@ -107,7 +107,7 @@ void sad::p2d::Body::trySetTransformer() const
     }
 }
 
-sad::p2d::Body::Body() : m_is_ghost(false), m_world(NULL), m_shapesize(0)
+sad::p2d::Body::Body() : m_is_ghost(false), m_world(nullptr), m_shapesize(0)
 {    
     m_tangential = new p2d::TangentialMovement();
     m_tangential->addListener( new const_move_t(this, &p2d::Body::notifyMove) );
@@ -123,7 +123,7 @@ sad::p2d::Body::Body() : m_is_ghost(false), m_world(NULL), m_shapesize(0)
     l->setCutter(p2d::cutter(0,0,0,0));
     m_current =  l;
 
-    Temporary = NULL;
+    Temporary = nullptr;
     m_lastsampleindex = -1;
     m_samples_are_cached = false;
 
@@ -190,7 +190,7 @@ void sad::p2d::Body::setShape(sad::p2d::CollisionShape * shape)
     this->killTemporaryShapes();
     m_shapesize = m_current->sizeOfType();
 
-    Temporary = NULL;
+    Temporary = nullptr;
     if (m_lastsampleindex > -1)
         Temporary = m_current->clone(m_lastsampleindex + 1);    
 }
@@ -560,6 +560,6 @@ void sad::p2d::Body::killTemporaryShapes()
     if (this->Temporary)
     {
         this->Temporary->deleteBlock(this->Temporary);
-        this->Temporary = NULL;
+        this->Temporary = nullptr;
     }
 }

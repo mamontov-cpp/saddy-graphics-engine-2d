@@ -62,7 +62,7 @@ void sad::resource::ResourceFileIdentifier::parse(const sad::String& string, sad
 
 
 sad::resource::ResourceFile::ResourceFile(const sad::String & name) 
-: m_name(name), m_tree(NULL)
+: m_name(name), m_tree(nullptr)
 {
     if (m_name.size())
     {

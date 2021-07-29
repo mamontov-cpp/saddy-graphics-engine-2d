@@ -5,6 +5,7 @@
 
 #include "animations/setstate/methodcall.h"
 #include "animations/setstate/setproperty.h"
+#include "animations/setstate/dummycommand.h"
 
 #include "label.h"
 #include "sprite2d.h"
@@ -43,16 +44,16 @@ sad::animations::Color::~Color()
 }
 
 
-static sad::db::schema::Schema* AnimationColorSchema = NULL;
+static sad::db::schema::Schema* AnimationColorSchema = nullptr;
 
 static sad::Mutex AnimationColorSchemaInit;
 
 sad::db::schema::Schema* sad::animations::Color::basicSchema()
 {
-    if (AnimationColorSchema == NULL)
+    if (AnimationColorSchema == nullptr)
     {
         AnimationColorSchemaInit.lock();
-        if (AnimationColorSchema == NULL)
+        if (AnimationColorSchema == nullptr)
         {
             AnimationColorSchema = new sad::db::schema::Schema();
             AnimationColorSchema->addParent(sad::animations::Animation::basicSchema());

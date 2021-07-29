@@ -4,6 +4,7 @@
     Describes proxy for getters
  */
 #pragma once
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../db/dbvariant.h"
 
 namespace sad
@@ -62,7 +63,7 @@ public:
         \param[in] o object, for which proxy should be get
         \return field type name
      */
-    virtual _FieldTypeName get(_Object const* o) 
+    virtual _FieldTypeName get(_Object const* o)  override
     {
         return (const_cast<_Object *>(o)->*m_f)();
     }
@@ -70,13 +71,13 @@ public:
     /*! Clones a proxy
         \return proxy object
      */
-    virtual sad::util::getter::Proxy<_Object, _FieldTypeName> * clone()
+    virtual sad::util::getter::Proxy<_Object, _FieldTypeName> * clone() override
     {
         return new sad::util::getter::ProxyNCNR<_Object, _FieldTypeName>(m_f);
     }
     /*! Can be inherited
      */
-    virtual ~ProxyNCNR()
+    virtual ~ProxyNCNR() override
     {
 
     }
@@ -101,20 +102,20 @@ public:
         \param[in] o object, for which proxy should be get
         \return field type name
      */
-    virtual _FieldTypeName get(_Object const* o) 
+    virtual _FieldTypeName get(_Object const* o)  override
     {
         return (o->*m_f)();
     }
     /*! Clones a proxy
         \return proxy object
      */
-    virtual sad::util::getter::Proxy<_Object, _FieldTypeName> * clone()
+    virtual sad::util::getter::Proxy<_Object, _FieldTypeName> * clone() override
     {
         return new sad::util::getter::ProxyCNR<_Object, _FieldTypeName>(m_f);
     }
     /*! Can be inherited
      */
-    virtual ~ProxyCNR()
+    virtual ~ProxyCNR() override
     {
 
     }
@@ -140,20 +141,20 @@ public:
         \param[in] o object, for which proxy should be get
         \return field type name
      */
-    virtual _FieldTypeName get(_Object const* o)
+    virtual _FieldTypeName get(_Object const* o) override
     {
         return (const_cast<_Object *>(o)->*m_f)();
     }
     /*! Clones a proxy
         \return proxy object
      */
-    virtual sad::util::getter::Proxy<_Object, _FieldTypeName> * clone()
+    virtual sad::util::getter::Proxy<_Object, _FieldTypeName> * clone() override
     {
         return new sad::util::getter::ProxyNCMR<_Object, _FieldTypeName>(m_f);
     }
     /*! Can be inherited
      */
-    virtual ~ProxyNCMR()
+    virtual ~ProxyNCMR() override
     {
 
     }
@@ -178,20 +179,20 @@ public:
         \param[in] o object, for which proxy should be get
         \return field type name
      */
-    virtual _FieldTypeName get(_Object const* o)
+    virtual _FieldTypeName get(_Object const* o) override
     {
         return (o->*m_f)();
     }
     /*! Clones a proxy
         \return proxy object
      */
-    virtual sad::util::getter::Proxy<_Object, _FieldTypeName> * clone()
+    virtual sad::util::getter::Proxy<_Object, _FieldTypeName> * clone() override
     {
         return new sad::util::getter::ProxyCMR<_Object, _FieldTypeName>(m_f);
     }
     /*! Can be inherited
      */
-    virtual ~ProxyCMR()
+    virtual ~ProxyCMR() override
     {
 
     }
@@ -216,20 +217,20 @@ public:
         \param[in] o object, for which proxy should be get
         \return field type name
      */
-    virtual _FieldTypeName get(_Object const* o)
+    virtual _FieldTypeName get(_Object const* o) override
     {
         return (const_cast<_Object*>(o)->*m_f)();
     }
     /*! Clones a proxy
         \return proxy object
      */
-    virtual sad::util::getter::Proxy<_Object, _FieldTypeName> * clone()
+    virtual sad::util::getter::Proxy<_Object, _FieldTypeName> * clone() override
     {
         return new sad::util::getter::ProxyNCCR<_Object, _FieldTypeName>(m_f);
     }
     /*! Can be inherited
      */
-    virtual ~ProxyNCCR()
+    virtual ~ProxyNCCR() override
     {
 
     }
@@ -254,20 +255,20 @@ public:
         \param[in] o object, for which proxy should be get
         \return field type name
      */
-    virtual _FieldTypeName get(_Object const* o) 
+    virtual _FieldTypeName get(_Object const* o)  override
     {
         return (o->*m_f)();
     }
     /*! Clones a proxy
         \return proxy object
      */
-    virtual sad::util::getter::Proxy<_Object, _FieldTypeName> * clone()
+    virtual sad::util::getter::Proxy<_Object, _FieldTypeName> * clone() override
     {
         return new sad::util::getter::ProxyCCR<_Object, _FieldTypeName>(m_f);
     }
     /*! Can be inherited
      */
-    virtual ~ProxyCCR()
+    virtual ~ProxyCCR() override
     {
 
     }

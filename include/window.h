@@ -6,6 +6,7 @@
 #pragma once
 #include "sadsize.h"
 #include "sadrect.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "sadvector.h"
 #include "sadstring.h"
 
@@ -153,7 +154,6 @@ public:
     /*! Destroys a window, freeing all resources. 
         Note, that you should not call this functions, since
         sad::Renderer automatically does it for you. DO NOT USE IT!
-        \return whether destruction was successfull 
      */
     virtual void destroy();
     /*! Used by loop to mark window as active or not

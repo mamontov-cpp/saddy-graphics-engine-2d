@@ -29,7 +29,7 @@ m_padding_right(0),
 m_fixed_width(false),
 m_fixed_height(false),
 m_render_color(255,0 ,0),
-m_renderer(NULL),
+m_renderer(nullptr),
 m_loading(false)
 {
     
@@ -42,7 +42,7 @@ sad::layouts::Grid::~Grid()
 
 sad::layouts::Cell* sad::layouts::Grid::cell(unsigned int row, unsigned int col)
 {
-    sad::layouts::Cell* result = NULL;
+    sad::layouts::Cell* result = nullptr;
     size_t pos = row * m_cols + col;
     if (pos < m_cell_views.size())
     {
@@ -128,15 +128,15 @@ bool sad::layouts::Grid::load(const picojson::value& v)
     return result;
 }
 
-static sad::db::schema::Schema* LayoutsGridSchema = NULL;
+static sad::db::schema::Schema* LayoutsGridSchema = nullptr;
 static sad::Mutex LayoutsGridSchemaInit;
 
 sad::db::schema::Schema* sad::layouts::Grid::basicSchema()
 {
-    if (LayoutsGridSchema == NULL)
+    if (LayoutsGridSchema == nullptr)
     {
         LayoutsGridSchemaInit.lock();
-        if (LayoutsGridSchema == NULL)
+        if (LayoutsGridSchema == nullptr)
         {
             LayoutsGridSchema = new sad::db::schema::Schema();
             LayoutsGridSchema->addParent(sad::SceneNode::basicSchema());
@@ -460,7 +460,7 @@ void sad::layouts::Grid::setCells(const sad::Vector<sad::layouts::SerializableCe
 {
     sad::Vector<sad::layouts::Cell*> oldcells = static_cast<sad::Vector<sad::layouts::Cell*>&>(m_cells);    
     m_cells.clear();
-    sad::db::Database* db = NULL;
+    sad::db::Database* db = nullptr;
     sad::db::Table* tbl = this->table();
     if (tbl) {
         db = tbl->database();
@@ -496,7 +496,7 @@ void sad::layouts::Grid::setCells(const sad::Vector<sad::layouts::SerializableCe
 
 sad::layouts::Cell* sad::layouts::Grid::cell(size_t pos) const
 {
-    sad::layouts::Cell* result = NULL;
+    sad::layouts::Cell* result = nullptr;
     if (pos < m_cells.size())
     {
         result = m_cells[pos];
@@ -836,7 +836,7 @@ size_t sad::layouts::Grid::allocatedCellCount() const
 void sad::layouts::Grid::setTable(sad::db::Table* t)
 {
     this->sad::SceneNode::setTable(t);
-    sad::db::Database* db = NULL;
+    sad::db::Database* db = nullptr;
     if (t)
     {
         db = t->database();
@@ -886,7 +886,7 @@ sad::layouts::Grid& sad::layouts::Grid::operator=(const sad::layouts::Grid& o)
 
 void sad::layouts::Grid::expandRows(size_t oldrows, size_t newrows)
 {
-    sad::db::Database* db = NULL;
+    sad::db::Database* db = nullptr;
     sad::db::Table* table = this->table();
     if (table) 
     {
@@ -910,7 +910,7 @@ void sad::layouts::Grid::expandRows(size_t oldrows, size_t newrows)
     }
     CellComparator less;
     std::sort(m_cells.begin(), m_cells.end(), less);
-    makeCellViews(&newrows, NULL);
+    makeCellViews(&newrows, nullptr);
 }
 
 void sad::layouts::Grid::shrinkRows(size_t oldrows, size_t newrows)
@@ -943,12 +943,12 @@ void sad::layouts::Grid::shrinkRows(size_t oldrows, size_t newrows)
     }
     CellComparator less;
     std::sort(m_cells.begin(), m_cells.end(), less);
-    makeCellViews(&newrows, NULL);
+    makeCellViews(&newrows, nullptr);
 }
 
 void sad::layouts::Grid::expandColumns(size_t oldcols, size_t newcols)
 {
-    sad::db::Database* db = NULL;
+    sad::db::Database* db = nullptr;
     sad::db::Table* table = this->table();
     if (table) 
     {
@@ -972,7 +972,7 @@ void sad::layouts::Grid::expandColumns(size_t oldcols, size_t newcols)
     }
     CellComparator less;
     std::sort(m_cells.begin(), m_cells.end(), less);
-    makeCellViews(NULL, &newcols);
+    makeCellViews(nullptr, &newcols);
 }
 
 void sad::layouts::Grid::shrinkColumns(size_t oldcols, size_t newcols)
@@ -1005,7 +1005,7 @@ void sad::layouts::Grid::shrinkColumns(size_t oldcols, size_t newcols)
     }
     CellComparator less;
     std::sort(m_cells.begin(), m_cells.end(), less);
-    makeCellViews(NULL, &newcols);
+    makeCellViews(nullptr, &newcols);
 }
 
 void sad::layouts::Grid::makeCellViews(size_t* prows, size_t* pcols)
@@ -1110,7 +1110,7 @@ void sad::layouts::Grid::buildCoverage(sad::Hash<size_t, sad::Hash<size_t, sad::
 
 sad::layouts::Cell* sad::layouts::Grid::makeCell(size_t row, size_t col, size_t rowspan, size_t colspan)
 {
-    sad::db::Database* db = NULL;
+    sad::db::Database* db = nullptr;
     if (this->table())
     {
         db = this->table()->database();

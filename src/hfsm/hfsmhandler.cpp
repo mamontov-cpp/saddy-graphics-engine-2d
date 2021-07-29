@@ -5,7 +5,7 @@
 #include "db/dbtypename.h"
 
 sad::hfsm::AbstractHandler::AbstractHandler()
-: m_state(NULL), m_transition(NULL)
+: m_state(nullptr), m_transition(nullptr)
 {
 
 }
@@ -39,7 +39,7 @@ sad::hfsm::Machine * sad::hfsm::AbstractHandler::machine() const
     sad::hfsm::Transition * t = transition();
     if (t)
         return t->machine();
-    return NULL;
+    return nullptr;
 }
 
 sad::hfsm::AbstractHandler::~AbstractHandler()

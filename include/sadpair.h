@@ -26,7 +26,7 @@ class Pair
           Pair();
           /*! Parametric constructor
               \param[in] m1 first property
-              \param[in] m2 second propery
+              \param[in] m2 second property
           */
           Pair(const T1 & m1, const T2 & m2);
           /*! Copy constructor
@@ -42,13 +42,13 @@ class Pair
           */
           Pair & operator=(const Pair & o);
 
-          /*! Equiualence operator
+          /*! Equivalence operator
               \param[in] o other Pair
               \return true if equal
           */
           bool operator==(const Pair & o) const;
 
-          /*! Equiualence operator
+          /*! Equivalence operator
               \param[in] o other Pair
               \return true if not equal
           */
@@ -100,7 +100,7 @@ class Triplet
           Triplet();
           /*! Parametric
               \param[in] m1 first property
-              \param[in] m2 second propery
+              \param[in] m2 second property
               \param[in] m3 third property
           */
           Triplet(const T1 & m1, const T2 & m2,const T3 & m3);
@@ -117,13 +117,13 @@ class Triplet
           */
           Triplet & operator=(const Triplet & o);
 
-          /*! Equiualence operator
+          /*! Equivalence operator
               \param[in] o other Pair
               \return true if equal
           */
           bool operator==(const Triplet & o);
 
-          /*! Equiualence operator
+          /*! Equivalence operator
               \param[in] o other Pair
               \return true if not equal
           */
@@ -190,7 +190,7 @@ class Quadruplet
           Quadruplet();
           /*! Parametric
               \param[in] m1 first property
-              \param[in] m2 second propery
+              \param[in] m2 second property
               \param[in] m3 third property
               \param[in] m4 fourth property
           */
@@ -208,13 +208,13 @@ class Quadruplet
           */
           Quadruplet & operator=(const Quadruplet & o);
 
-          /*! Equiualence operator
+          /*! Equivalence operator
               \param[in] o other Pair
               \return true if equal
           */
           bool operator==(const Quadruplet & o);
 
-          /*! Equiualence operator
+          /*! Equivalence operator
               \param[in] o other Pair
               \return true if not equal
           */

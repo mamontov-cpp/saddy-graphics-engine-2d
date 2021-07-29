@@ -54,11 +54,11 @@ public:
     virtual void rendererChanged();
     /*! Must be implemented in order to get node destroyed
      */
-    virtual ~SceneNode();
+    virtual ~SceneNode() override;
     /*! Resets object's non-serialized state, when restoring snapshot to 
-        ensure idempotency of restoring objects
+        ensure idempotent restoring objects
      */
-    virtual void reset();
+    virtual void reset()  override;
     /*! A basic schema for object
         \return a schema 
      */
@@ -66,7 +66,7 @@ public:
     /*! Returns schema for an object
         \return schema
      */
-    virtual sad::db::schema::Schema* schema() const;
+    virtual sad::db::schema::Schema* schema() const override;
     /*! Sets scene 
         \param[in] scene a scene, which will render a node
      */
@@ -78,7 +78,7 @@ public:
     /*! Returns a renderer, which scene is belongs to
         \returns a renderer
      */
-    sad::Renderer * renderer() const;
+    virtual sad::Renderer * renderer() const;
     /*! Sets scene activity flag, which determines, whether it should be rendered
         \param[in] active an activity flag
      */
@@ -89,11 +89,11 @@ public:
     /*! Returns scene node activity flag, which determines, whether it should be rendered
         \return whether scene node is active
      */
-    inline bool active()
+    inline bool active() const
     {
         return this->Active;
     }
-    /*! Sets scene visibilty flag, which determines, whether it should be rendered
+    /*! Sets scene visibility flag, which determines, whether it should be rendered
         \param[in] visible a visibility flag
      */
     inline void setVisible(bool visible)
@@ -103,13 +103,13 @@ public:
     /*! Returns scene node visibility flag, which determines, whether it should be rendered
         \return whether scene node is visible
      */
-    inline bool visible()
+    inline bool visible() const
     {
         return m_visible;
     }
     /*! Sets cached layer value. If scene is set for node, forces node to set it's layer. 
         Note, that value will not be preserved, when a layer set after that.
-        \param[in] layer a layer valye
+        \param[in] layer a layer value
      */
     void setCachedLayer(unsigned int layer);
     /*! Returns cached value for scene node, if scene is not set, otherwise returns node's layer.
@@ -117,10 +117,10 @@ public:
      */
     unsigned int cachedLayer() const;
     /*! Sets cached scene id for scene node
-        \param[in] sceneid a cached scene id
+        \param[in] scene_id a cached scene id
      */
-    void setCachedSceneId(unsigned long long sceneid);
-    /*! Returns scene id, if scene is set, otherwiser returns cached scene id
+    void setCachedSceneId(unsigned long long scene_id);
+    /*! Returns scene id, if scene is set, otherwise returns cached scene id
         \return scene id
      */
     unsigned long long sceneId() const;

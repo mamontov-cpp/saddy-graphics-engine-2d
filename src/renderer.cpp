@@ -50,7 +50,7 @@
 // ============================================================ PUBLIC METHODS ============================================================
 
 
-sad::Renderer * sad::Renderer::m_instance = NULL;
+sad::Renderer * sad::Renderer::m_instance = nullptr;
 
 sad::Renderer::Renderer()
 : 
@@ -61,24 +61,24 @@ m_cursor(new sad::MouseCursor()),
 m_opengl(new sad::OpenGL()),
 m_main_loop(new sad::MainLoop()),
 m_fps_interpolation(new sad::FPSInterpolation()),
-m_primitiverenderer(new sad::PrimitiveRenderer()),
+m_primitive_renderer(new sad::PrimitiveRenderer()),
 m_controls(new sad::input::Controls()),
 m_animations(new sad::animations::Animations()),
 m_pipeline(new sad::pipeline::Pipeline()),
 m_added_system_pipeline_tasks(false),
-m_default_textures_shader_3d(NULL),
-m_default_texture_shader_function_3d(NULL),
-m_default_no_textures_shader_3d(NULL),
-m_default_no_textures_shader_function_3d(NULL),
-m_default_textures_shader_2d(NULL),
-m_default_texture_shader_function_2d(NULL),
-m_default_no_textures_shader_2d(NULL),
-m_default_no_textures_shader_function_2d(NULL),
-m_default_font_shader(NULL),
-m_default_font_shader_function(NULL),
-m_default_font_line_shader(NULL),
-m_default_font_line_shader_function(NULL),
-m_gl_sprite_geometry_storages(NULL)
+m_default_textures_shader_3d(nullptr),
+m_default_texture_shader_function_3d(nullptr),
+m_default_no_textures_shader_3d(nullptr),
+m_default_no_textures_shader_function_3d(nullptr),
+m_default_textures_shader_2d(nullptr),
+m_default_texture_shader_function_2d(nullptr),
+m_default_no_textures_shader_2d(nullptr),
+m_default_no_textures_shader_function_2d(nullptr),
+m_default_font_shader(nullptr),
+m_default_font_shader_function(nullptr),
+m_default_font_line_shader(nullptr),
+m_default_font_line_shader_function(nullptr),
+m_gl_sprite_geometry_storages(nullptr)
 {
 #ifdef X11
     SafeXInitThreads();
@@ -122,16 +122,16 @@ m_gl_sprite_geometry_storages(NULL)
 template<typename T>
 inline void del_ref_if_not_null(T*& obj)
 {
-    if (obj != NULL)
+    if (obj != nullptr)
     {
         obj->delRef();
-        obj = NULL;
+        obj = nullptr;
     }
 }
 
 inline void destroy_shader_if_not_null(sad::Shader* shader)
 {
-    if (shader != NULL)
+    if (shader != nullptr)
     {
         shader->tryDestroy();
     }
@@ -146,7 +146,7 @@ sad::Renderer::~Renderer(void)
     }
 
     delete m_animations;
-    delete m_primitiverenderer;
+    delete m_primitive_renderer;
     delete m_camera_buffer;
     m_cursor->delRef();
 
@@ -216,8 +216,8 @@ const sad::Vector<sad::Scene*>& sad::Renderer::scenes() const
 void sad::Renderer::init(const sad::Settings& _settings)
 {
     SL_INTERNAL_SCOPE("sad::Renderer::init", (*this));
-    m_glsettings = _settings;
-    m_window->setCreationSize(m_glsettings.width(), m_glsettings.height());
+    m_gl_settings = _settings;
+    m_window->setCreationSize(m_gl_settings.width(), m_gl_settings.height());
 }
 
 bool sad::Renderer::run()
@@ -247,10 +247,10 @@ static sad::Mutex sad_renderer_instance_lock;
 
 sad::Renderer* sad::Renderer::ref()
 {
-    if (sad::Renderer::m_instance == NULL)
+    if (sad::Renderer::m_instance == nullptr)
     {
         sad_renderer_instance_lock.lock();
-        if (sad::Renderer::m_instance == NULL)
+        if (sad::Renderer::m_instance == nullptr)
         {
             sad::Renderer::m_instance = new sad::Renderer();
             atexit(sad::Renderer::destroyInstance);
@@ -339,7 +339,7 @@ sad::Clipboard* sad::Renderer::clipboard()
 
 const sad::Settings & sad::Renderer::settings() const
 {
-    return m_glsettings;
+    return m_gl_settings;
 }
 
 sad::MouseCursor* sad::Renderer::cursor() const
@@ -388,17 +388,17 @@ sad::input::Controls* sad::Renderer::controls() const
 
 sad::Vector<sad::resource::Error *> sad::Renderer::loadResources(
         const sad::String & filename,
-        const sad::String & treename
+        const sad::String & tree_name
 )
 {
     sad::Vector<sad::resource::Error *> result;
-    if (m_resource_trees.contains(treename))
+    if (m_resource_trees.contains(tree_name))
     {
-        result = m_resource_trees[treename]->loadFromFile(filename);
+        result = m_resource_trees[tree_name]->loadFromFile(filename);
     }
     else
     {
-        result << new sad::resource::TreeNotFound(treename);
+        result << new sad::resource::TreeNotFound(tree_name);
     }
     return result;
 }
@@ -406,18 +406,18 @@ sad::Vector<sad::resource::Error *> sad::Renderer::loadResources(
 
 sad::Maybe<sad::String> sad::Renderer::tryLoadResources(
     const sad::String & filename,
-    const sad::String & treename
+    const sad::String & tree_name
 )
 {
-    return sad::resource::errorsToString(this->loadResources(filename, treename));
+    return sad::resource::errorsToString(this->loadResources(filename, tree_name));
 }
 
 sad::Texture * sad::Renderer::texture(
-    const sad::String & resourcename, 
-    const sad::String & treename
+    const sad::String & resource_name, 
+    const sad::String & tree_name
 )
 {
-    return resource<sad::Texture>(resourcename, treename);  
+    return resource<sad::Texture>(resource_name, tree_name);  
 }
 
 template<typename K, typename V>
@@ -479,7 +479,7 @@ sad::Point3D sad::Renderer::mapToViewport(const sad::Point2D & p)
     if (window()->valid() && context()->valid())
     {
         sad::Point2D windowpoint = this->window()->toClient(p);
-        result = this->context()->mapToViewport(windowpoint, m_glsettings.ztest());
+        result = this->context()->mapToViewport(windowpoint, m_gl_settings.ztest());
     }
     return result;
 }
@@ -501,10 +501,10 @@ void sad::Renderer::reshape(int width, int height)
     //  Set perspective projection
     GLfloat aspectratio = static_cast<GLfloat>(width)/static_cast<GLfloat>(height);
     gluPerspective(
-        m_glsettings.fov(), 
+        m_gl_settings.fov(), 
         aspectratio,
-        m_glsettings.znear(), 
-        m_glsettings.zfar()
+        m_gl_settings.znear(), 
+        m_gl_settings.zfar()
     );      
     
     // Clear model-view matrix
@@ -589,14 +589,14 @@ unsigned int sad::Renderer::totalSceneObjects() const
 // ReSharper disable once CppMemberFunctionMayBeConst
 void sad::Renderer::setPrimitiveRenderer(sad::PrimitiveRenderer * r)
 {
-    delete m_primitiverenderer; 
-    m_primitiverenderer = r;
+    delete m_primitive_renderer; 
+    m_primitive_renderer = r;
 }
 
 
 sad::PrimitiveRenderer * sad::Renderer::render() const
 {
-    return m_primitiverenderer;
+    return m_primitive_renderer;
 }
 
 #ifdef LINUX
@@ -608,13 +608,13 @@ static char *readlink_malloc(const char *filename)
     while (1) 
     {
         char *buff = (char*)malloc(size);
-        if (buff == NULL)
-            return NULL;
+        if (buff == nullptr)
+            return nullptr;
         int nchars = readlink(filename, buff, size);
         if (nchars < 0)
         {
             free(buff);
-            return NULL;
+            return nullptr;
         }
         if (nchars < size) 
         {
@@ -633,10 +633,10 @@ const sad::String & sad::Renderer::executablePath() const
     {
 #ifdef WIN32
         char result[_MAX_PATH+1];
-        GetModuleFileNameA(NULL, result, _MAX_PATH);
+        GetModuleFileNameA(nullptr, result, _MAX_PATH);
         sad::String * path = &(const_cast<sad::Renderer*>(this)->m_executable_cached_path);
         *path =  result;        
-        int pos = path->getLastOccurence("\\");
+        int pos = path->getLastOccurrence("\\");
         if (pos > 0)
         {
             *path = path->subString(0, pos);
@@ -652,7 +652,7 @@ const sad::String & sad::Renderer::executablePath() const
             sad::String * path = &(const_cast<sad::Renderer*>(this)->m_executable_cached_path);     
             *path = buffer;
             free(buffer);
-            int pos = path->getLastOccurence("/");
+            int pos = path->getLastOccurrence("/");
             if (pos > 0)
             {
                 *path = path->subString(0, pos);
@@ -669,7 +669,7 @@ sad::resource::Tree * sad::Renderer::tree(const sad::String & name) const
     {
         return m_resource_trees[name];
     }
-    return NULL;
+    return nullptr;
 }
 
 sad::resource::Tree * sad::Renderer::takeTree(const sad::String & name)
@@ -677,12 +677,12 @@ sad::resource::Tree * sad::Renderer::takeTree(const sad::String & name)
     if (m_resource_trees.contains(name))
     {
         sad::resource::Tree * result =  m_resource_trees[name];
-        result->setRenderer(NULL);
+        result->setRenderer(nullptr);
         m_resource_trees.remove(name);
         // A caller should call delRef() after done
         return result;
     }
-    return NULL;
+    return nullptr;
 }
 
 void sad::Renderer::addTree(const sad::String & name, sad::resource::Tree * tree)
@@ -750,7 +750,7 @@ sad::db::Database * sad::Renderer::database(const sad::String & name) const
     {
         return m_databases[name];
     }
-    return NULL;
+    return nullptr;
 }
 
 sad::animations::Animations* sad::Renderer::animations() const
@@ -760,12 +760,12 @@ sad::animations::Animations* sad::Renderer::animations() const
 
 void sad::Renderer::lockRendering()
 {
-    m_lockrendering.lock(); 
+    m_lock_rendering.lock(); 
 }
 
 void sad::Renderer::unlockRendering()
 {
-    m_lockrendering.unlock();   
+    m_lock_rendering.unlock();   
 }
 
 void sad::Renderer::setTextureLoader(const sad::String& format, sad::imageformats::Loader* loader)
@@ -783,7 +783,7 @@ void sad::Renderer::setTextureLoader(const sad::String& format, sad::imageformat
 
 sad::imageformats::Loader* sad::Renderer::textureLoader(const sad::String& format) const
 {
-    sad::imageformats::Loader* l = NULL;
+    sad::imageformats::Loader* l = nullptr;
     if (m_texture_loaders.contains(format))
     {
         l = m_texture_loaders[format];
@@ -905,7 +905,7 @@ sad::os::GLTexturedGeometry3D* sad::Renderer::texturedGeometry3DForPoints(unsign
 {
     if (points == 0)
     {
-        return NULL;
+        return nullptr;
     }
     if (!m_sizes_to_textured_geometry_3d.contains(points))
     {
@@ -923,7 +923,7 @@ sad::os::GLTexturedGeometry2D* sad::Renderer::texturedGeometry2DForPoints(unsign
 {
     if (points == 0)
     {
-        return NULL;
+        return nullptr;
     }
     if (!m_sizes_to_textured_geometry_2d.contains(points))
     {
@@ -941,7 +941,7 @@ sad::os::GLUntexturedGeometry3D* sad::Renderer::untexturedGeometry3DForPoints(un
 {
     if (points == 0)
     {
-        return NULL;
+        return nullptr;
     }
     if (!m_sizes_to_untextured_geometry_3d.contains(points))
     {
@@ -959,7 +959,7 @@ sad::os::GLUntexturedGeometry2D* sad::Renderer::untexturedGeometry2DForPoints(un
 {
     if (points == 0)
     {
-        return NULL;
+        return nullptr;
     }
     if (!m_sizes_to_untextured_geometry_2d.contains(points))
     {
@@ -1174,7 +1174,7 @@ bool sad::Renderer::initGLRendering()
     glHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST);
     
     const char * version = reinterpret_cast<const char *>(glGetString(GL_VERSION));
-    if (version!=NULL)
+    if (version!=nullptr)
     {
         SL_LOCAL_INTERNAL(sad::String("running OpenGL ")+sad::String(version), *this);
         if (version[0]>'1' || version[2] >= '4')
@@ -1186,7 +1186,7 @@ bool sad::Renderer::initGLRendering()
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_COLOR_MATERIAL);
     
-    reshape(m_glsettings.width(),m_glsettings.height());
+    reshape(m_gl_settings.width(),m_gl_settings.height());
     
     glFinish();
     return true;
@@ -1313,7 +1313,7 @@ void sad::Renderer::insertNow(sad::Scene* s, size_t position)
 
 void sad::Renderer::tryInitShaders()
 {
-    if (this->m_default_textures_shader_3d == NULL)
+    if (this->m_default_textures_shader_3d == nullptr)
     {
         m_shader_init_mutex.lock();
 

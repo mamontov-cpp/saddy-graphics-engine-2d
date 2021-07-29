@@ -1,7 +1,7 @@
 /*! \file animations/setstate/typedcommand.h
     
 
-    Defines a comand to be invoked with specified argument
+    Defines a command to be invoked with specified argument
  */
 #pragma  once
 #include "abstractsetstatecommand.h"
@@ -20,7 +20,7 @@ namespace setstate
 template<
     typename T
 >
-class TypedCommmand: public sad::animations::setstate::AbstractSetStateCommand
+class TypedCommand: public sad::animations::setstate::AbstractSetStateCommand
 {
 public:
     /*! Invokes a command with specified argument
@@ -29,7 +29,7 @@ public:
     virtual void call(const T& a) = 0;
     /*! Must be inherited
      */
-    virtual ~TypedCommmand() { }
+    virtual ~TypedCommand() override { }
 };
 
 };

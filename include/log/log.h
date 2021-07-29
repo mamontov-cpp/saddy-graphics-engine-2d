@@ -56,7 +56,7 @@ public:
         \param[in] line source file line, where message was created
      */
     template<typename T> 
-    void fatal(const T & mesg, const char * file = NULL, int line = 0)
+    void fatal(const T & mesg, const char * file = nullptr, int line = 0)
     {
         _createAndBroadcast(mesg, sad::log::FATAL, file, line);
     }
@@ -66,7 +66,7 @@ public:
         \param[in] line source file line, where message was created
      */
     template<typename T> 
-    void critical(const T & mesg, const char * file = NULL, int line = 0)
+    void critical(const T & mesg, const char * file = nullptr, int line = 0)
     {
         _createAndBroadcast(mesg, sad::log::CRITICAL, file, line);
     }
@@ -76,7 +76,7 @@ public:
         \param[in] line source file line, where message was created
      */		
     template<typename T> 
-    void warning(const T & mesg, const char * file = NULL, int line = 0)
+    void warning(const T & mesg, const char * file = nullptr, int line = 0)
     {
         _createAndBroadcast(mesg, sad::log::WARNING, file, line);
     }
@@ -86,7 +86,7 @@ public:
         \param[in] line source file line, where message was created
      */		
     template<typename T> 
-    void message(const T & mesg, const char * file = NULL, int line = 0)
+    void message(const T & mesg, const char * file = nullptr, int line = 0)
     {
         _createAndBroadcast(mesg, sad::log::MESSAGE, file, line);
     }
@@ -96,7 +96,7 @@ public:
         \param[in] line source file line, where message was created
      */		
     template<typename T> 
-    void debug(const T & mesg, const char * file = NULL, int line = 0)
+    void debug(const T & mesg, const char * file = nullptr, int line = 0)
     {
         _createAndBroadcast(mesg, sad::log::DEBUG, file, line);
     }
@@ -109,7 +109,7 @@ public:
     template<typename T> 
     void user(
         const T & mesg, 
-        const char * file = NULL, 
+        const char * file = nullptr, 
         int line = 0, 
         const sad::String & user =  sad::String()
     )
@@ -124,7 +124,7 @@ public:
     template<typename T> 
     void saddyInternal(
         const T & mesg, 
-        const char * file = NULL, 
+        const char * file = nullptr, 
         int line = 0
     )
     {
@@ -135,7 +135,7 @@ public:
         \param[in] file source file name, where message was created
         \param[in] line source file line, where message was created
      */
-    void fatal(const char * mesg, const char * file = NULL, int line = 0)
+    void fatal(const char * mesg, const char * file = nullptr, int line = 0)
     {
         _createAndBroadcast(sad::String(mesg), sad::log::FATAL, file, line);
     }
@@ -144,7 +144,7 @@ public:
         \param[in] file source file name, where message was created
         \param[in] line source file line, where message was created
      */
-    void critical(const char * mesg, const char * file = NULL, int line = 0)
+    void critical(const char * mesg, const char * file = nullptr, int line = 0)
     {
         _createAndBroadcast(sad::String(mesg), sad::log::CRITICAL, file, line);
     }
@@ -153,7 +153,7 @@ public:
         \param[in] file source file name, where message was created
         \param[in] line source file line, where message was created
      */		
-    void warning(const char * mesg, const char * file = NULL, int line = 0)
+    void warning(const char * mesg, const char * file = nullptr, int line = 0)
     {
         _createAndBroadcast(sad::String(mesg), sad::log::WARNING, file, line);
     }
@@ -162,7 +162,7 @@ public:
         \param[in] file source file name, where message was created
         \param[in] line source file line, where message was created
      */		
-    void message(const char * mesg, const char * file = NULL, int line = 0)
+    void message(const char * mesg, const char * file = nullptr, int line = 0)
     {
         _createAndBroadcast(sad::String(mesg), sad::log::MESSAGE, file, line);
     }
@@ -171,7 +171,7 @@ public:
         \param[in] file source file name, where message was created
         \param[in] line source file line, where message was created
      */		
-    void debug(const char  * mesg, const char * file = NULL, int line = 0)
+    void debug(const char  * mesg, const char * file = nullptr, int line = 0)
     {
         _createAndBroadcast(sad::String(mesg), sad::log::DEBUG, file, line);
     }
@@ -181,7 +181,7 @@ public:
         \param[in] line source file line, where message was created
         \param[in] user a user priority name
      */		
-    void user(const char *  mesg, const char * file = NULL, int line = 0, const sad::String & user =  sad::String())
+    void user(const char *  mesg, const char * file = nullptr, int line = 0, const sad::String & user =  sad::String())
     {
         _createAndBroadcast(sad::String(mesg), sad::log::USER, file, line, user);
     }
@@ -193,7 +193,7 @@ public:
     template<typename T> 
     void saddyInternal(
         const char * mesg, 
-        const char * file = NULL, 
+        const char * file = nullptr, 
         int line = 0
     )
     {
@@ -261,7 +261,7 @@ protected:
     virtual void createAndBroadcast(
         const sad::String & mesg, 
         sad::log::Priority priority,
-        const char * file = NULL, 
+        const char * file = nullptr, 
         int line = 0,
         const sad::String & upriority = sad::String()
     );
@@ -277,7 +277,7 @@ protected:
     void _createAndBroadcast(
         const T & mesg, 
         sad::log::Priority priority,
-        const char * file = NULL, 
+        const char * file = nullptr, 
         int line = 0,
         const sad::String & upriority = sad::String()
     )

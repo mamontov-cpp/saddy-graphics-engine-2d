@@ -9,7 +9,7 @@ void sad::resource::free(const sad::resource::ResourceEntryList & list)
     }
 }
 
-sad::resource::Folder::Folder() : m_parent(NULL)
+sad::resource::Folder::Folder() : m_parent(nullptr)
 {
 
 }
@@ -39,7 +39,7 @@ bool sad::resource::Folder::addFolder(const sad::String& path, sad::resource::Fo
 {
     sad::String foldername;
     sad::resource::Folder * parent = navigateParentFolder(path, true, foldername);
-    if (parent == NULL)
+    if (parent == nullptr)
     {
         return false;
     }
@@ -89,7 +89,7 @@ sad::Vector<sad::String> sad::resource::Folder::duplicatesBetween(
     sad::Vector<sad::String> result;
     for(size_t i = 0; i < list.size(); i++)
     {
-        if (this->resource(list[i].p1()) != NULL)
+        if (this->resource(list[i].p1()) != nullptr)
         {
             result << list[i].p1();
         }
@@ -101,7 +101,7 @@ bool sad::resource::Folder::addResource(const sad::String & path, sad::resource:
 {
     sad::String resourcename;
     sad::resource::Folder * parent = navigateParentFolder(path, true, resourcename);
-    if (parent == NULL)
+    if (parent == nullptr)
     {
         return false;
     }
@@ -122,13 +122,13 @@ void sad::resource::Folder::removeFolder(const sad::String& path, bool free)
 {
     sad::String foldername;
     sad::resource::Folder * parent = navigateParentFolder(path, false, foldername);
-    if (parent == NULL)
+    if (parent == nullptr)
     {
         return;
     }
     if (parent->m_subfolders.contains(foldername))
     {
-        parent->setParent(NULL);
+        parent->setParent(nullptr);
         if (free) 
         {
             delete parent->m_subfolders[foldername]; //-V515
@@ -141,13 +141,13 @@ void sad::resource::Folder::removeResource(const sad::String& path, bool free)
 {
     sad::String resourcename;
     sad::resource::Folder * parent = navigateParentFolder(path, false, resourcename);
-    if (parent == NULL)
+    if (parent == nullptr)
     {
         return;
     }
     if (parent->m_resources.contains(resourcename))
     {
-        parent->setParent(NULL);
+        parent->setParent(nullptr);
         if (free) 
         {
             parent->m_resources[resourcename]->delRef();
@@ -161,7 +161,7 @@ sad::resource::Folder* sad::resource::Folder::folder(const sad::String& path)
 {
     sad::String foldername;
     resource::Folder * parent = this->navigateParentFolder(path, false, foldername);
-    resource::Folder * result = NULL;
+    resource::Folder * result = nullptr;
     if (parent)
     {
         if (parent->m_subfolders.contains(foldername))
@@ -176,7 +176,7 @@ sad::resource::Resource* sad::resource::Folder::resource(const sad::String& path
 {
     sad::String foldername;
     resource::Folder * parent = this->navigateParentFolder(path, false, foldername);
-    resource::Resource * result = NULL;
+    resource::Resource * result = nullptr;
     if (parent)
     {
         if (parent->m_resources.contains(foldername))
@@ -309,12 +309,12 @@ sad::resource::Folder * sad::resource::Folder::navigateParentFolder(
 )
 {
     if (path.size() == 0 )
-        return NULL;
-    if (path.getOccurences("/") > 1024)
-        return NULL;
+        return nullptr;
+    if (path.getOccurrences("/") > 1024)
+        return nullptr;
     sad::Vector<sad::String> splitpath = path.split("/");
     if (splitpath.size() == 0)
-        return NULL;
+        return nullptr;
     sad::resource::Folder * parent = this;
     for(int i = 0; i < (int)(splitpath.size()) - 1; i++)
     {
@@ -326,7 +326,7 @@ sad::resource::Folder * sad::resource::Folder::navigateParentFolder(
             }
             else
             {
-                return NULL;
+                return nullptr;
             }
         }
         parent = parent->m_subfolders[splitpath[i]];

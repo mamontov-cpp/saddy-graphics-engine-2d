@@ -164,7 +164,7 @@ public:
         return const_iterator(this->std::unordered_map<Key, T>::end());
     }
 
-    /*! Inits an empty hash
+    /*! Init an empty hash
      */
     Hash() //-V730
     {

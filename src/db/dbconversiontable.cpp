@@ -153,7 +153,7 @@ void sad::db::ConversionTable::add(
 )
 {
     m_converters_lock.lock();
-    sad::Hash<sad::String, sad::db::AbstractTypeConverter*> * h = NULL;
+    sad::Hash<sad::String, sad::db::AbstractTypeConverter*> * h = nullptr;
     if (m_converters.contains(from) == false)
     {
         m_converters.insert(from, sad::Hash<sad::String, sad::db::AbstractTypeConverter*>());
@@ -173,7 +173,7 @@ sad::db::AbstractTypeConverter *   sad::db::ConversionTable::converter(
 )
 {
     m_converters_lock.lock();
-    sad::db::AbstractTypeConverter * result = NULL;
+    sad::db::AbstractTypeConverter * result = nullptr;
     if (m_converters.contains(from))
     {
         sad::Hash<sad::String, sad::db::AbstractTypeConverter*> & h = m_converters[from];
@@ -190,10 +190,10 @@ static sad::Mutex sad_db_conversion_table_lock;
 
 sad::db::ConversionTable * sad::db::ConversionTable::ref()
 {
-    if (sad::db::ConversionTable::m_instance == NULL)
+    if (sad::db::ConversionTable::m_instance == nullptr)
     {
         sad_db_conversion_table_lock.lock();
-        if (sad::db::ConversionTable::m_instance == NULL)
+        if (sad::db::ConversionTable::m_instance == nullptr)
         {
             sad::db::ConversionTable::m_instance = new sad::db::ConversionTable();
             atexit(sad::db::ConversionTable::freeInstance);
@@ -210,4 +210,4 @@ void sad::db::ConversionTable::freeInstance()
 }
 
 
-sad::db::ConversionTable* sad::db::ConversionTable::m_instance = NULL;
+sad::db::ConversionTable* sad::db::ConversionTable::m_instance = nullptr;

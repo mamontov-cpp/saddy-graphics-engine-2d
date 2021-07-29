@@ -5,6 +5,7 @@
 
 #include "animations/setstate/methodcall.h"
 #include "animations/setstate/setproperty.h"
+#include "animations/setstate/dummycommand.h"
 
 #include "sprite2d.h"
 #include "sadmutex.h"
@@ -35,9 +36,9 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::TextureCoordinatesList, sad::animation
 // =============================== PUBLIC METHODS ==========================
 
 sad::animations::TextureCoordinatesList::TextureCoordinatesList() 
-: m_cache_folder(NULL), 
-m_cache_root_folder(NULL),
-m_renderer(NULL)
+: m_cache_folder(nullptr), 
+m_cache_root_folder(nullptr),
+m_renderer(nullptr)
 {
     m_creators.pushProperty<sad::Rect2D>("texturecoordinates", "texturecoordinates");
 }
@@ -47,15 +48,15 @@ sad::animations::TextureCoordinatesList::~TextureCoordinatesList()
     
 }
 
-static sad::db::schema::Schema* AnimationTextureCoordinatesListSchema = NULL;
+static sad::db::schema::Schema* AnimationTextureCoordinatesListSchema = nullptr;
 
 static sad::Mutex AnimationTextureCoordinatesListSchemaInit;
 sad::db::schema::Schema* sad::animations::TextureCoordinatesList::basicSchema()
 {
-    if (AnimationTextureCoordinatesListSchema == NULL)
+    if (AnimationTextureCoordinatesListSchema == nullptr)
     {
         AnimationTextureCoordinatesListSchemaInit.lock();
-        if (AnimationTextureCoordinatesListSchema == NULL)
+        if (AnimationTextureCoordinatesListSchema == nullptr)
         {
             AnimationTextureCoordinatesListSchema = new sad::db::schema::Schema();
             AnimationTextureCoordinatesListSchema->addParent(sad::animations::Animation::basicSchema());
@@ -82,11 +83,11 @@ sad::db::schema::Schema* sad::animations::TextureCoordinatesList::schema() const
 
 void sad::animations::TextureCoordinatesList::setTreeName(
     sad::Renderer* renderer,
-    const sad::String& treename
+    const sad::String& tree_name
 )
 {
     m_renderer = renderer;
-    m_tree_name = treename;
+    m_tree_name = tree_name;
 }
 
 bool sad::animations::TextureCoordinatesList::loadFromValue(const picojson::value& v)
@@ -182,22 +183,22 @@ bool sad::animations::TextureCoordinatesList::applicableTo(sad::db::Object* o)
 
 sad::Rect2D* sad::animations::TextureCoordinatesList::coordinates(const sad::String& c)
 {
-    if (m_folder == NULL)
+    if (m_folder == nullptr)
     {
-        if (m_table && m_renderer == NULL)
+        if (m_table && m_renderer == nullptr)
         {
             if (m_table->database())
             {
                 m_renderer = m_table->database()->renderer();
             }
         }
-        if (m_renderer != NULL)
+        if (m_renderer != nullptr)
         {
             m_folder = m_renderer->tree(m_tree_name)->root();
         }
-        if (m_folder == NULL)
+        if (m_folder == nullptr)
         {
-            return NULL;
+            return nullptr;
         }
     }
 
@@ -206,7 +207,7 @@ sad::Rect2D* sad::animations::TextureCoordinatesList::coordinates(const sad::Str
         m_cache.clear();
         m_cache_folder = m_folder;
         m_cache_root_folder = m_folder;
-        while(m_cache_root_folder->parent() != NULL)
+        while(m_cache_root_folder->parent() != nullptr)
         {
             m_cache_root_folder = m_cache_root_folder->parent();
         }
@@ -219,7 +220,7 @@ sad::Rect2D* sad::animations::TextureCoordinatesList::coordinates(const sad::Str
     }
     else
     {
-        result = NULL;
+        result = nullptr;
         sad::resource::Resource* r = m_cache_root_folder->resource(c);
         if (r)
         {

@@ -58,13 +58,13 @@ public:
     }
     /*! Returns a true if class has ancestor with specified name
         \param[in] name name of ancestor
-        \return whther it can be cated to type
+        \return whether it can be casted to type
      */
     bool canBeCastedTo(const sad::String & name);
     /*! Tries to cast one type to other if can
         \param[in] o an object
         \param[in] name name of type of other object
-        \return result (NULL if can't)
+        \return result (nullptr if can't)
      */
     sad::Object * castTo(sad::Object * o, const sad::String & name);
     /*! Returns true if class can be casted from this class to another class
@@ -72,7 +72,7 @@ public:
         \return whether it can be casted to this type
      */
     bool canBeCastedFrom(const sad::String & name);
-    /*! Returns special index, which can be used in open-adressed tables
+    /*! Returns special index, which can be used in open-address tables
         \return index
      */
     unsigned int privateIndex() const;
@@ -82,7 +82,7 @@ public:
 private:
     /*! A special private index for class
      */
-    unsigned int   m_private_index;
+    unsigned int   m_private_index = 0;
     /*! A name for class data
      */
     sad::String m_name;

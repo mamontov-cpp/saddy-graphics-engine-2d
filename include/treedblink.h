@@ -24,7 +24,7 @@ class TreeDbLink
 public:
     /*! Constructs new empty link
      */
-    TreeDbLink() : m_referenced(false), m_point_to_resource(false), m_is_weak(false), m_parent(NULL)
+    TreeDbLink(): m_point_to_resource(false), m_referenced(false), m_is_weak(false), m_parent(nullptr)
     {
 
     }
@@ -32,11 +32,11 @@ public:
         \param[in] o other link
      */
     TreeDbLink(const sad::TreeDbLink<T>& o)
-    : m_referenced(o.m_referenced),
-    m_resource(o.m_resource),
-    m_db(o.m_db),
-    m_point_to_resource(o.m_point_to_resource),
+    : m_point_to_resource(o.m_point_to_resource),
+    m_referenced(o.m_referenced),
     m_is_weak (o.m_is_weak),
+    m_db(o.m_db),
+    m_resource(o.m_resource),
     m_parent(o.m_parent)
     {
         if (m_referenced)
@@ -47,7 +47,7 @@ public:
             {
                 obj->addRef();
                 obj->addParent(m_parent);
-                m_is_weak = false;              
+                m_is_weak = false;
             }
         }
     }
@@ -57,6 +57,10 @@ public:
      */
     sad::TreeDbLink<T>& operator=(const sad::TreeDbLink<T>& o)
     {
+        if (this == &o)
+        {
+            return *this;
+        }
         if (m_referenced && !m_is_weak)
         {
             object(false)->removeParent(m_parent);
@@ -92,16 +96,16 @@ public:
     }
     /*! Sets tree for a name
         \param[in] r renderer
-        \param[in] treename a name for tree
+        \param[in] tree_name a name for tree
      */
-    void setTree(sad::Renderer * r, const sad::String& treename = "")
+    void setTree(sad::Renderer * r, const sad::String& tree_name = "")
     {
         if (m_referenced  && !m_is_weak)
         {
             object(false)->removeParent(m_parent);
             object(false)->delRef();
         }
-        m_resource.setTree(r, treename);
+        m_resource.setTree(r, tree_name);
         m_point_to_resource = true;
         m_referenced = false;
         m_is_weak = false;
@@ -161,13 +165,13 @@ public:
         m_point_to_resource = false;
     }
     /*! Returns an object
-        \param[in] check  whether typecheck should be performed
-        \return object (NULL if not found)
+        \param[in] check  whether type check should be performed
+        \return object (nullptr if not found)
      */
     T* object(bool check = true) const
     {
         sad::TreeDbLink<T>* me = const_cast<sad::TreeDbLink<T>*>(this);
-        T* result = NULL;
+        T* result = nullptr;
         if (m_point_to_resource)
         {
             result = m_resource.get();
@@ -269,7 +273,7 @@ public:
 protected:
     /*! Tests if current object is parent for local parent object
      */
-    bool isParent(sad::MRObject* parent)
+    bool isParent(sad::MRObject* parent) const
     {
         if (!parent)
         {

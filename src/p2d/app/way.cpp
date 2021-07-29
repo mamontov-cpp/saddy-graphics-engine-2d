@@ -196,11 +196,11 @@ const sad::String&  sad::p2d::app::Way::serializableName() const
     return SadP2DAppWayName;
 }
 
-static sad::db::schema::Schema* SadP2DAppWaySchema = NULL;
+static sad::db::schema::Schema* SadP2DAppWaySchema = nullptr;
 
 sad::db::schema::Schema* sad::p2d::app::Way::basicSchema()
 {
-    if (SadP2DAppWaySchema == NULL)
+    if (SadP2DAppWaySchema == nullptr)
     {
         SadP2DAppWaySchema = new sad::db::schema::Schema();
         SadP2DAppWaySchema->addParent(sad::db::Object::basicSchema());

@@ -5,6 +5,7 @@
 
 #include "animations/setstate/methodcall.h"
 #include "animations/setstate/setproperty.h"
+#include "animations/setstate/dummycommand.h"
 
 #include "label.h"
 #include "sprite2d.h"
@@ -43,16 +44,16 @@ sad::animations::Rotate::~Rotate()
     
 }
 
-static sad::db::schema::Schema* AnimationRotateSchema = NULL;
+static sad::db::schema::Schema* AnimationRotateSchema = nullptr;
 
 static sad::Mutex AnimationRotateSchemaLock;
 
 sad::db::schema::Schema* sad::animations::Rotate::basicSchema()
 {
-    if (AnimationRotateSchema == NULL)
+    if (AnimationRotateSchema == nullptr)
     {
         AnimationRotateSchemaLock.lock();
-        if (AnimationRotateSchema == NULL)
+        if (AnimationRotateSchema == nullptr)
         {
             AnimationRotateSchema = new sad::db::schema::Schema();
             AnimationRotateSchema->addParent(sad::animations::Animation::basicSchema());

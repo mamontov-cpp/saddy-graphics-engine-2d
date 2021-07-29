@@ -21,7 +21,7 @@ public:
 	/*! Default constructor with empty delegate
 		\param[in] interval an interval for task
 	*/
-	DelayedTask(double interval) : m_interval(interval), m_delegate(NULL), m_performed(false)
+	DelayedTask(double interval) : m_interval(interval), m_delegate(nullptr), m_performed(false)
 	{
 		m_timer.start();
 	}

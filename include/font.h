@@ -105,14 +105,14 @@ public:
      */
     inline void setSizeInPoints(unsigned int size)
     {
-        setSize((unsigned int)(size * 1.333));
+        setSize(static_cast<unsigned>(size * 1.333));
     }
     /*! Returns size of font in points
         \return size of points
      */
     inline unsigned int sizeInPoints() const
     {
-        return (unsigned int)(m_size / 1.333);
+        return static_cast<unsigned>(m_size / 1.333);
     }
     /*! Returns a line spacing ratio, relative to built-in
         \return line spacing ratio

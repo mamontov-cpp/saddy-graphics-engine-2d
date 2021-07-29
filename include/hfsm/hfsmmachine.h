@@ -44,18 +44,18 @@ public:
     /*! Returns state by it's full name enumerated from top to bottom with "/" as delimiter.
         Pass empty string for root state
         \param[in] s state path
-        \return pointer to state (NULL if not found)
+        \return pointer to state (nullptr if not found)
      */ 
     virtual sad::hfsm::State * state(const sad::String & s);
     /*! Adds new state where fullpath determines a parent node to add, defined from top to bottom
         with "/". Any existing node will be replaced. Pass empty string for top node. Also you can
         force adding absent nodes with default states, setting force flag to true
         \param[in] fullpath a path for parent node to add
-        \param[in] state    a state to be added (NULL will construct default state as object of class sad::hfsm:State)
+        \param[in] state    a state to be added (nullptr will construct default state as object of class sad::hfsm:State)
         \param[in] force    force inserting new intermediate states
         \return whether state was successfully inserted
      */
-    virtual bool addState(const sad::String fullpath, sad::hfsm::State * state = NULL, bool force = false);
+    virtual bool addState(const sad::String fullpath, sad::hfsm::State * state = nullptr, bool force = false);
     /*! Removes a state by full path, that determines a parent node. 
         That top level state could be removed, but it will be replaced by new state, not preserving 
         hierarchy. If state full path is not found, it will be removed.
@@ -89,7 +89,7 @@ public:
         const sad::String & from, 
         const sad::String & to	
     );
-    /*! Returns a transition between two states (NULL if not found)
+    /*! Returns a transition between two states (nullptr if not found)
         \param[in] from a full name of state from which transition is performed
         \param[in] to   a full name of state to which transition is performed
      */

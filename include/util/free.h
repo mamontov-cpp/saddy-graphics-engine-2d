@@ -32,7 +32,7 @@ void free(const sad::Vector<T*>& v)
 template<typename K, typename V>
 void free_values(const sad::Hash<K, V>& v)
 {
-    for (typename sad::Hash<K, V>::const_iterator it = v.const_begin(); it != v.const_end(); it++)
+    for (typename sad::Hash<K, V>::const_iterator it = v.const_begin(); it != v.const_end(); ++it)
     {
         delete (it->second);
     }

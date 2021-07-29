@@ -29,7 +29,7 @@ sad::Thread::~Thread()
 }
 
 
-void sad::Thread::initialize(sad::AbsractThreadExecutableFunction * f)
+void sad::Thread::initialize(sad::AbstractThreadExecutableFunction * f)
 {
     m_dptr = new sad::os::ThreadImpl(f);
 }

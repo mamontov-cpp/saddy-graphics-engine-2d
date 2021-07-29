@@ -11,14 +11,12 @@ sad::FPSInterpolation::FPSInterpolation()
 }
 
 sad::FPSInterpolation::~FPSInterpolation()
-{
-    
-}
+= default;
 
 void sad::FPSInterpolation::reset()
 {
     m_fps = 75;
-    m_setimmediately = true;
+    m_is_set_immediately = true;
     m_reset =  false;
     m_frames = 0;
 }
@@ -26,11 +24,11 @@ void sad::FPSInterpolation::reset()
 
 void sad::FPSInterpolation::start()
 {
-    if (m_setimmediately)
+    if (m_is_set_immediately)
     {
         m_warmup_timer.start();
         m_reset = true;
-        m_setimmediately = false;
+        m_is_set_immediately = false;
     }
     if (m_reset)
     {

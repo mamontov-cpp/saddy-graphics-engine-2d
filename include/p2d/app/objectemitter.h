@@ -30,7 +30,7 @@ public:
         /*! Sets application for emitter
             \param[in] app application
          */
-        inline AbstractObjectEmitter(p2d::app::App * app = NULL) : m_app(app) {}
+        inline AbstractObjectEmitter(p2d::app::App * app = nullptr) : m_app(app) {}
         /*! An emitter does not own application
          */
         virtual ~AbstractObjectEmitter() {}
@@ -86,7 +86,7 @@ template<
 class RandomDirectionObjectEmitter: public p2d::app::AbstractObjectEmitter
 {
 public:
-    RandomDirectionObjectEmitter(p2d::app::App * app = NULL)
+    RandomDirectionObjectEmitter(p2d::app::App * app = nullptr)
     : p2d::app::AbstractObjectEmitter(app)
     {
         m_min_angle = 0;

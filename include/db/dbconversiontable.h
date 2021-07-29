@@ -132,7 +132,7 @@ public:
     /*! Gets converter from one type to another
         \param[in] from a typename for conversion from type
         \param[in] to a typename for conversion to 
-        \return NULL, if not found or converter
+        \return nullptr, if not found or converter
      */
     sad::db::AbstractTypeConverter * converter(
         const sad::String & from, 

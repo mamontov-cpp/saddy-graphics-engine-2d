@@ -40,14 +40,14 @@ public:
     /*! Loads a resource from specified file, using specified renderer for resolving some 
         properties.
         \param[in] file a file, via which a resource should be loaded
-        \param[in] r  a renderer, which resource should be linked to (NULL if global renderer)
+        \param[in] r  a renderer, which resource should be linked to (nullptr if global renderer)
         \param[in] options  an options for loading a resource
         \param[in] store_links hints, whether we should store a links
         \return whether loading was successfull
      */
     virtual bool tryLoad(
         const sad::resource::ResourceFile & file,
-        sad::Renderer * r = NULL,
+        sad::Renderer * r = nullptr,
         const picojson::value& options = picojson::value(picojson::object_type, false),
         bool store_links = true
     );
@@ -125,7 +125,7 @@ protected:
     /*! Loads a resource from specified file, using specified renderer for resolving some 
         properties.
         \param[in] file a file, via which a resource should be loaded
-        \param[in] r  a renderer, which resource should be linked to (NULL if global renderer)
+        \param[in] r  a renderer, which resource should be linked to (nullptr if global renderer)
         \param[in] options  an options for loading a resource
         \return whether loading was successfull
      */

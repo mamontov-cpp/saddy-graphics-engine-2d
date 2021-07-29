@@ -52,7 +52,7 @@ public:
     sad::animations::Instance& operator=(const sad::animations::Instance& o);
     /*! Could be inherited
      */
-    virtual ~Instance();
+    virtual ~Instance() override;
     /*! A basic schema for object
         \return a schema
      */
@@ -60,20 +60,20 @@ public:
     /*! Returns schema for an object
         \return schema
      */
-    virtual sad::db::schema::Schema* schema() const;
+    virtual sad::db::schema::Schema* schema() const override;
     /*! Sets a tree name for object with specified renderer
         \param[in] r renderer, which tree should be fetched from
         \param[in] tree_name a name for an item for object
      */
-    virtual void setTreeName(sad::Renderer* r, const sad::String & tree_name);
+    virtual void setTreeName(sad::Renderer* r, const sad::String & tree_name) override;
     /*! Sets a table
         \param[in] t a table
      */
-    virtual void setTable(sad::db::Table* t);
+    virtual void setTable(sad::db::Table* t) override;
     /*! Returns serializable name for an instance
         \return a serializable name
      */
-    virtual const sad::String& serializableName() const;
+    virtual const sad::String& serializableName() const override;
     /*! Sets animation object for link
         \param[in] o animation object
      */
@@ -99,13 +99,13 @@ public:
         \return animation name
      */
     const sad::String& animationName() const;
-    /*! Sets a mahor id for animation. If id is not equal to zero maked animation be linked to
+    /*! Sets a major id for animation. If id is not to zero, makes animation to be linked to
         a database
         \param[in] majorid an id
      */
     void setAnimationMajorId(unsigned long long majorid);
     /*! Returns a major id for animation. 0 if animation is not linked to database
-        \return a major id for aimation.
+        \return a major id for animation.
      */
     unsigned long long animationMajorId();
     /*! Sets time, which will be added to timer when playing animation
@@ -271,13 +271,13 @@ public:
     /*! Restarts an animation process
         \param[in] animations an animations process
      */
-    virtual void restart(sad::animations::Animations* animations);
+    virtual void restart(sad::animations::Animations* animations) override;
     /*! Clears finished flag
      */
-    virtual void clearFinished();
+    virtual void clearFinished() override;
     /*! Whether animation is finished
      */
-    virtual bool finished() const;
+    virtual bool finished() const override;
     /*! Disable state restoring for object on finish
      */
     virtual void disableStateRestoringOnFinish();
@@ -287,7 +287,7 @@ public:
     /*! Called on every step of instance work
         \param[in] animations animations, container, which contains all cached data
      */
-    virtual void process(sad::animations::Animations* animations);
+    virtual void process(sad::animations::Animations* animations) override;
     /*! Called on every step of instance work
         \param[in] animations animations, container, which contains all cached data
         \param[in] restore whether we should restore everything on finish
@@ -295,20 +295,20 @@ public:
     virtual void process(sad::animations::Animations* animations, bool restore);
     /*! Pauses an instance
      */
-    virtual void pause();
+    virtual void pause() override;
     /*! Resumes an instance
      */
-    virtual void resume();
+    virtual void resume() override;
     /*! Cancels an animation
         \param[in] animations an animations for work
      */
-    virtual void cancel(sad::animations::Animations* animations);
+    virtual void cancel(sad::animations::Animations* animations) override;
     /*! Called, when process is added to pipeline
      */
-    virtual void addedToPipeline();
+    virtual void addedToPipeline() override;
     /*! Called, when process is removed from pipeline
      */
-    virtual void removedFromPipeline();
+    virtual void removedFromPipeline() override;
     /*! Sets a command for setting state
         \param[in] call a command to be set
         \param[in] own whether instance owns state command
@@ -324,11 +324,11 @@ public:
     template<
         typename T
     >
-    sad::animations::setstate::TypedCommmand<T>* stateCommandAs() const
+    sad::animations::setstate::TypedCommand<T>* stateCommandAs() const
     {
-        return static_cast<sad::animations::setstate::TypedCommmand<T> *>(this->stateCommand());
+        return static_cast<sad::animations::setstate::TypedCommand<T> *>(this->stateCommand());
     }
-    /*! Marks animatimation instance as valid
+    /*! Marks animation instance as valid
      */
     inline void markAsValid()
     {
@@ -382,32 +382,32 @@ public:
         \param[in] f function for testing
         \return true if related
      */
-    virtual bool isRelatedToMatchedObject(const std::function<bool(sad::db::Object*)>& f);
+    virtual bool isRelatedToMatchedObject(const std::function<bool(sad::db::Object*)>& f) override;
     /*! If current instance is related to matched objects, stops related part
         \param[in] f function for testing
         \param[in] a animations list
      */
-    virtual void stopInstancesRelatedToMatchedObject(const std::function<bool(sad::db::Object*)>& f, sad::animations::Animations* a);
+    virtual void stopInstancesRelatedToMatchedObject(const std::function<bool(sad::db::Object*)>& f, sad::animations::Animations* a) override;
     /*! Returns true of if process is related to animation, matched by function
         \param[in] f function for testing
         \return true if related
      */
-    virtual bool isRelatedToMatchedAnimation(const std::function<bool(sad::animations::Animation*)>& f);
+    virtual bool isRelatedToMatchedAnimation(const std::function<bool(sad::animations::Animation*)>& f) override;
     /*! If current instance is related to matched objects, stops related part
         \param[in] f function for testing
         \param[in] a animations list
      */
-    virtual void stopInstancesRelatedToMatchedAnimation(const std::function<bool(sad::animations::Animation*)>& f, sad::animations::Animations* a);
+    virtual void stopInstancesRelatedToMatchedAnimation(const std::function<bool(sad::animations::Animation*)>& f, sad::animations::Animations* a) override;
     /*! Returns true of if process is related to instance, matched by function
         \param[in] f function for testing
         \return true if related
      */
-    virtual bool isRelatedToMatchedProcess(const std::function<bool(sad::animations::Process*)>& f);
+    virtual bool isRelatedToMatchedProcess(const std::function<bool(sad::animations::Process*)>& f) override;
     /*! If current instance is related to matched objects, stops related part
         \param[in] f function for testing
         \param[in] a animations list
      */
-    virtual void stopInstancesRelatedToMatchedProcess(const std::function<bool(sad::animations::Process*)>& f, sad::animations::Animations* a);
+    virtual void stopInstancesRelatedToMatchedProcess(const std::function<bool(sad::animations::Process*)>& f, sad::animations::Animations* a) override;
 
     /*! Tries to restore object state from cache
         \param[in] animations animations an animations
@@ -433,10 +433,10 @@ protected:
      */
     virtual void start(sad::animations::Animations* animations);
     /*! Checks if animations instance is valid, updating flags
-        \param[in] animations
+        \param[in] animations list of animations
      */
     virtual void checkIfValid(sad::animations::Animations* animations);
-    /*! Compiles fast call and saves an animtions
+    /*! Compiles fast call and saves an animations
         \param[in] animations an animations
      */
     virtual void saveStateAndCompile(sad::animations::Animations* animations);
@@ -513,7 +513,7 @@ protected:
     /*! Whether object is referenced in animation
      */
     bool m_object_referenced;
-    /*! Whether we should restor instance if finished
+    /*! Whether we should restore instance on finishing playing animation
      */
     bool m_restore_on_finished;
 };

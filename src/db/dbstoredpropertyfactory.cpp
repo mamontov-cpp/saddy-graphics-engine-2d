@@ -67,7 +67,7 @@ void sad::db::StoredPropertyFactory::add(
 
  sad::db::Property *  sad::db::StoredPropertyFactory::create(const sad::String & name) const
 {
-    sad::db::Property* p = NULL;
+    sad::db::Property* p = nullptr;
     if (m_delegates.contains(name))
     {
         p = m_delegates[name]->create();

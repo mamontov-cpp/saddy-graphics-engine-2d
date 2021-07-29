@@ -20,7 +20,7 @@ bool sad::db::schema::Schema::add(const sad::String& s, sad::db::Property* prop)
     bool ok = false;
     m_lock.lock();
     m_already_locked = true;
-    if (this->getProperty(s) == NULL)
+    if (this->getProperty(s) == nullptr)
     {
         m_properties.insert(s, prop);
         ok = true;
@@ -46,16 +46,16 @@ sad::db::Property* sad::db::schema::Schema::getProperty(const sad::String& s) co
     {
         me->m_lock.lock();
     }
-    sad::db::Property * result = NULL;
+    sad::db::Property * result = nullptr;
     if (m_parent.size())
     {
-        for(size_t i = 0; i < m_parent.size() && result == NULL; i++)
+        for(size_t i = 0; i < m_parent.size() && result == nullptr; i++)
         {
             result = m_parent[i]->getProperty(s);
         }
     }
 
-    if (result == NULL && m_properties.contains(s))
+    if (result == nullptr && m_properties.contains(s))
     {
         result = m_properties[s];
     }

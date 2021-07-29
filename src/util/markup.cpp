@@ -13,8 +13,8 @@ sad::util::Markup::Document sad::util::Markup::parseDocument(
     sad::util::Markup::Document result;
     pugi::xml_document xml_document;
     sad::String string = s;
-    string.replaceAllOccurences("\r\n", "\n");
-    string.replaceAllOccurences("\r", "\n");
+    string.replaceAllOccurrences("\r\n", "\n");
+    string.replaceAllOccurrences("\r", "\n");
     xml_document.load_string(string.c_str(), pugi::parse_fragment);
     sad::util::Markup::DocumentLine doc =  sad::util::Markup::parseTag(xml_document, basic);
     
@@ -157,7 +157,7 @@ bool sad::util::Markup::parseBoolValue(const char* value, bool parent)
 sad::Maybe<sad::util::Markup::FontSize> sad::util::Markup::parseSize(const sad::String& s, const sad::Maybe<sad::util::Markup::FontSize>& parentSize)
 {
     // Perform substring
-    sad::util::Markup::FontSizeType type = sad::util::Markup::MFZST_PIXELS;
+    sad::util::Markup::FontSizeType type = sad::util::Markup::FontSizeType::MFZST_PIXELS;
     sad::String data = s;
     if (s.size() > 2)
     {
@@ -166,7 +166,7 @@ sad::Maybe<sad::util::Markup::FontSize> sad::util::Markup::parseSize(const sad::
         if (result == "pt" || result == "px")
         {
             data = s.subString(0, s.length() - 2);
-            type = (result == "pt") ? sad::util::Markup::MFZST_POINTS : sad::util::Markup::MFZST_PIXELS;
+            type = (result == "pt") ? sad::util::Markup::FontSizeType::MFZST_POINTS : sad::util::Markup::FontSizeType::MFZST_PIXELS;
         }
     }
     // Parse as just a string, that contains number

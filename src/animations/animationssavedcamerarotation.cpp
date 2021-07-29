@@ -7,7 +7,7 @@ sad::animations::SavedCameraRotation::SavedCameraRotation(sad::db::Object* o)
     sad::Camera& camera = scene->camera();
     m_angle = camera.angle();
     m_pivot = camera.temporaryRotationOffset();
-    m_rotationdirection = camera.rotationVectorDirection();
+    m_rotation_direction = camera.rotationVectorDirection();
 }
 
 sad::animations::SavedCameraRotation::~SavedCameraRotation()
@@ -21,5 +21,5 @@ void sad::animations::SavedCameraRotation::restore()
     sad::Camera& camera = scene->camera();
     camera.setAngle(m_angle);
     camera.setTemporaryRotationOffset(m_pivot);
-    camera.setRotationVectorDirection(m_rotationdirection);
+    camera.setRotationVectorDirection(m_rotation_direction);
 }

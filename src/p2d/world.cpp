@@ -1363,7 +1363,7 @@ void sad::p2d::World::addBodyNow(sad::p2d::Body* b)
         return;
     }
     addBodyToGroupNow("p2d::Body", b);
-    if (b->userObject() != NULL)
+    if (b->userObject() != nullptr)
     {
         const sad::String& name = b->userObject()->metaData()->name();
         addBodyToGroupNow(name, b);

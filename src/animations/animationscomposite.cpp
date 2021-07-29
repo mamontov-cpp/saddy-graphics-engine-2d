@@ -80,16 +80,16 @@ void sad::animations::Composite::setPhysicalFile(sad::resource::ResourceFile * f
     }
 }
 
-static sad::db::schema::Schema* AnimationCompositeSchema = NULL;
+static sad::db::schema::Schema* AnimationCompositeSchema = nullptr;
 
 static sad::Mutex AnimationCompositeSchemaInit;
 
 sad::db::schema::Schema* sad::animations::Composite::basicSchema()
 {
-    if (AnimationCompositeSchema == NULL)
+    if (AnimationCompositeSchema == nullptr)
     {
         AnimationCompositeSchemaInit.lock();
-        if (AnimationCompositeSchema == NULL)
+        if (AnimationCompositeSchema == nullptr)
         {
             AnimationCompositeSchema = new sad::db::schema::Schema();
             AnimationCompositeSchema->addParent(sad::animations::Animation::basicSchema());
@@ -408,7 +408,7 @@ sad::Vector<unsigned long long> sad::animations::Composite::animationMajorIds() 
 
 sad::animations::setstate::AbstractSetStateCommand* sad::animations::Composite::stateCommand(sad::db::Object* o)
 {
-    return NULL;
+    return nullptr;
 }
 
 // ====================================== PROTECTED METHODS ======================================

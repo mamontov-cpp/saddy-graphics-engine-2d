@@ -58,7 +58,7 @@ static const unsigned char supported_image_types[supported_image_types_count] = 
 
 bool sad::imageformats::TGALoader::load(FILE * file, sad::Texture * texture)
 {
-    if (file == NULL || texture == NULL)
+    if (file == nullptr || texture == nullptr)
     {
         return false;
     }
@@ -66,13 +66,13 @@ bool sad::imageformats::TGALoader::load(FILE * file, sad::Texture * texture)
     std::istream stream(&buf);
     m_file = &stream;
     bool result = this->load(texture);
-    m_file = NULL;
+    m_file = nullptr;
     return result;
 }
 
 bool sad::imageformats::TGALoader::load(tar7z::Entry* entry, sad::Texture* texture)
 {
-    if (entry == NULL || texture == NULL)
+    if (entry == nullptr || texture == nullptr)
     {
         return false;
     }
@@ -80,7 +80,7 @@ bool sad::imageformats::TGALoader::load(tar7z::Entry* entry, sad::Texture* textu
     std::istream stream(&buf);
     m_file = &stream;
     bool result =  this->load(texture);
-    m_file = NULL;
+    m_file = nullptr;
     return result;
 }
 

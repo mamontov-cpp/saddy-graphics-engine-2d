@@ -99,8 +99,8 @@ public:
 
     inline DynamicConstants()
     {
-        this->Options = NULL;
-        this->Shape = NULL;
+        this->Options = nullptr;
+        this->Shape = nullptr;
         Velocity = 0;
         Interval = 0;
     }

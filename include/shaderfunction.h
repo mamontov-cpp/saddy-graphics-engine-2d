@@ -44,23 +44,23 @@ public:
      * \param[in] tex texture, which should be applied
      * \param[in] clr color, which should be used in blending
      */
-    virtual void apply(sad::SceneNode* node, sad::Bindable* tex, const sad::AColor* clr = NULL);
+    virtual void apply(sad::SceneNode* node, sad::Bindable* tex, const sad::AColor* clr = nullptr);
     /*! An inner function, which should be called when rendering node, @see sad::Sprite2D for implementation
      * \param[in] scene a scene, where shader is applied
      * \param[in] tex texture, which should be applied
      * \param[in] clr color, which should be used in blending
      */
-    virtual void apply(sad::Scene* scene, sad::Bindable* tex, const sad::AColor* clr = NULL);
+    virtual void apply(sad::Scene* scene, sad::Bindable* tex, const sad::AColor* clr = nullptr);
     /*! An inner function, which should be called when rendering node, @see sad::Sprite2D for implementation
      * \param[in] node node, on which shader should be applied
      * \param[in] clr color, which should be used in blending
      */
-    virtual void apply(sad::SceneNode* node, const sad::AColor* clr = NULL);
+    virtual void apply(sad::SceneNode* node, const sad::AColor* clr = nullptr);
     /*! An inner function, which should be called when rendering node, @see sad::Sprite2D for implementation
      * \param[in] scene a scene, where shader is applied
      * \param[in] clr color, which should be used in blending
      */
-    virtual void apply(sad::Scene* scene, const sad::AColor* clr = NULL);
+    virtual void apply(sad::Scene* scene, const sad::AColor* clr = nullptr);
     /*! Tries to set color
      *  \param[in] clr color
      */
@@ -83,7 +83,7 @@ protected:
     sad::Shader* m_shader;
     /*! Locations are cached
      */
-    bool m_locations_are_cahed;
+    bool m_locations_are_cached;
     /*! A camera location block id
      */
     int m_gl_camera_info_loc_id;

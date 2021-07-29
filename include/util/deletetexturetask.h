@@ -35,7 +35,7 @@ public:
 protected:
     /*! Removes linked texture by it's id
      */ 
-    virtual void _process();
+    virtual void _process() override;
     /*! An ids of textures to be deleted
      */
     sad::Vector<unsigned int> m_texture_ids;

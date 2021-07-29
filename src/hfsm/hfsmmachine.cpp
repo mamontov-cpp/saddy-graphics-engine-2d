@@ -23,7 +23,7 @@ void sad::hfsm::Machine::enterState(const sad::String & state)
 
     sad::hfsm::State * previousstate  = this->state(m_currentstate);
     sad::hfsm::State * currentstate   = this->state(trimmedstate);
-    if (trimmedstate == m_currentstate || currentstate == NULL)
+    if (trimmedstate == m_currentstate || currentstate == nullptr)
         return;
     
     m_previousstate = m_currentstate;
@@ -47,13 +47,13 @@ sad::hfsm::State * sad::hfsm::Machine::state(const sad::String & s)
     {
         sad::hfsm::State * result = m_top;
         sad::StringList path = statename.split("/");
-        for(unsigned int i = 0; (i < path.size()) && (result != NULL); i++)
+        for(unsigned int i = 0; (i < path.size()) && (result != nullptr); i++)
         {
             result = result->child(path[i]);
         }
         return result;
     }
-    return NULL;
+    return nullptr;
 }
 
 bool sad::hfsm::Machine::addState(
@@ -64,7 +64,7 @@ bool sad::hfsm::Machine::addState(
 {
     bool statecreatedinside =  false;
     bool failedtoinsert = false;
-    if (state == NULL)
+    if (state == nullptr)
     {
         state = new sad::hfsm::State();
         statecreatedinside = true;
@@ -85,11 +85,11 @@ bool sad::hfsm::Machine::addState(
     {
         sad::hfsm::State * result = m_top;
         sad::StringList path = trimmedfullpath.split("/");
-        for(unsigned int i = 0; (i < path.size() - 1) && (result != NULL); i++)
+        for(unsigned int i = 0; (i < path.size() - 1) && (result != nullptr); i++)
         {
             sad::hfsm::State * parent = result;
             result = result->child(path[i]);
-            if (result == NULL)
+            if (result == nullptr)
             {
                 if (force)
                 {
@@ -134,7 +134,7 @@ void sad::hfsm::Machine::removeState(const sad::String fullpath)
     {
         sad::hfsm::State * result = m_top;
         sad::StringList path = trimmedfullpath.split("/");
-        for(unsigned int i = 0; (i < path.size() - 1) && (result != NULL); i++)
+        for(unsigned int i = 0; (i < path.size() - 1) && (result != nullptr); i++)
         {
             result = result->child(path[i]);
         }
@@ -148,7 +148,7 @@ void sad::hfsm::Machine::removeState(const sad::String fullpath)
 
 bool sad::hfsm::Machine::stateExists(const sad::String & s)
 {
-    return state(s) != NULL;
+    return state(s) != nullptr;
 }
 
 sad::hfsm::TransitionRepository * sad::hfsm::Machine::transitions() const

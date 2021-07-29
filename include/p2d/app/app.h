@@ -66,9 +66,9 @@ protected:
     virtual void createWorld();
     /*! Inits application
         \param[in] layer a layer of scene, where world will be attached
-        \param[in] r renderer (NULL for global renderer)
+        \param[in] r renderer (nullptr for global renderer)
      */
-    virtual void initApp(unsigned int layer = 0, sad::Renderer * r = NULL);
+    virtual void initApp(unsigned int layer = 0, sad::Renderer * r = nullptr);
 };
 
 }

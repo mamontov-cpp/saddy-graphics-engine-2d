@@ -88,7 +88,7 @@ m_color(sad::AColor(255,255,255,0)),
 m_changesizeifoptionssizechanged(true),
 m_explicit_set(false),
 m_loading(false),
-m_old_renderer(NULL),
+m_old_renderer(nullptr),
 m_was_textured(false),
 m_geometry_dirty(true),
 m_tc_dirty(true),
@@ -97,8 +97,8 @@ m_vertexes_dirty(true)
     m_options.add(this, &sad::Sprite2D::onOptionsChange);
     m_texture.add(this, &sad::Sprite2D::onTextureChange);
 
-    m_g.m_textured_geometry = NULL;
-    m_g.m_untextured_geometry = NULL;
+    m_g.m_textured_geometry = nullptr;
+    m_g.m_untextured_geometry = nullptr;
 }
 
 sad::Sprite2D::Sprite2D(
@@ -116,7 +116,7 @@ m_color(sad::AColor(255,255,255,0)),
 m_changesizeifoptionssizechanged(true),
 m_explicit_set(false),
 m_loading(false),
-m_old_renderer(NULL),
+m_old_renderer(nullptr),
 m_was_textured(false),
 m_geometry_dirty(true),
 m_tc_dirty(true),
@@ -136,8 +136,8 @@ m_vertexes_dirty(true)
     m_options.add(this, &sad::Sprite2D::onOptionsChange);
     m_texture.add(this, &sad::Sprite2D::onTextureChange);
 
-    m_g.m_textured_geometry = NULL;
-    m_g.m_untextured_geometry = NULL;
+    m_g.m_textured_geometry = nullptr;
+    m_g.m_untextured_geometry = nullptr;
 }
 
 sad::Sprite2D::Sprite2D(
@@ -156,13 +156,13 @@ m_texture_coordinates(texturecoordinates),
 m_color(sad::AColor(255,255,255,0)),
 m_changesizeifoptionssizechanged(true),
 m_explicit_set(false),
-m_old_renderer(NULL),
+m_old_renderer(nullptr),
 m_was_textured(false),
 m_geometry_dirty(true),
 m_tc_dirty(true),
 m_vertexes_dirty(true)
 {
-    m_texture.setTree(NULL, treename);
+    m_texture.setTree(nullptr, treename);
     m_texture.setPath(texture);
     normalizeTextureCoordinates();
     if (fast)
@@ -177,8 +177,8 @@ m_vertexes_dirty(true)
     m_options.add(this, &sad::Sprite2D::onOptionsChange);
     m_texture.add(this, &sad::Sprite2D::onTextureChange);
 
-    m_g.m_textured_geometry = NULL;
-    m_g.m_untextured_geometry = NULL;
+    m_g.m_textured_geometry = nullptr;
+    m_g.m_untextured_geometry = nullptr;
 }
 
 sad::Sprite2D::~Sprite2D()
@@ -191,16 +191,16 @@ void sad::Sprite2D::regions(sad::Vector<sad::Rect2D> & r)
     r << this->renderableArea();
 }
 
-static sad::db::schema::Schema* Sprite2DBasicSchema = NULL;
+static sad::db::schema::Schema* Sprite2DBasicSchema = nullptr;
 
 static sad::Mutex Sprite2DBasicSchemaInit;
 
 sad::db::schema::Schema* sad::Sprite2D::basicSchema()
 {
-    if (Sprite2DBasicSchema == NULL)
+    if (Sprite2DBasicSchema == nullptr)
     {
         Sprite2DBasicSchemaInit.lock();
-        if (Sprite2DBasicSchema == NULL)
+        if (Sprite2DBasicSchema == nullptr)
         {
             Sprite2DBasicSchema = new sad::db::schema::Schema();
             Sprite2DBasicSchema->addParent(sad::SceneNode::basicSchema());
@@ -627,7 +627,7 @@ void sad::Sprite2D::set(const sad::Sprite2D::Options & o)
         m_explicit_set = true;
     }
     // Make texture render dependent
-    if (this->renderer() != NULL)
+    if (this->renderer() != nullptr)
     {
         m_texture.setRenderer(this->renderer());
     }
@@ -640,7 +640,7 @@ void sad::Sprite2D::set(const sad::String & optionsname)
     m_explicit_set = true;
     m_options.setPath(optionsname);
     // Make texture render dependent
-    if (this->renderer() != NULL)
+    if (this->renderer() != nullptr)
     {
         m_options.setRenderer(this->renderer());
         m_texture.setRenderer(this->renderer());
@@ -861,7 +861,7 @@ void sad::Sprite2D::tryReturnGeometry()
 void sad::Sprite2D::onOptionsChange(sad::Sprite2D::Options * opts)
 {
     sad::Renderer* r = this->renderer();
-    if (r == NULL)
+    if (r == nullptr)
     {
         r = m_options.renderer();
     }

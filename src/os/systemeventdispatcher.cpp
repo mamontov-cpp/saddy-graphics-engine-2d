@@ -27,7 +27,7 @@
 //#define EVENT_LOGGING
 
 sad::os::SystemEventDispatcher::SystemEventDispatcher() //-V730
-: m_renderer(NULL),
+: m_renderer(nullptr),
 m_decoder_for_keypress_events(new sad::os::KeyDecoder()),
 m_decoder_for_keyrelease_events(new sad::os::KeyDecoder())
 #ifdef WIN32
@@ -192,7 +192,7 @@ sad::os::SystemWindowEventDispatchResult sad::os::SystemEventDispatcher::dispatc
     sad::os::SystemWindowEventDispatchResult result;
     XEvent & xev = e.Event;
     sad::String atomname;
-    char* rawatomname  = NULL;
+    char* rawatomname  = nullptr;
     switch(xev.type)
     {
         case ClientMessage:

@@ -6,7 +6,7 @@
 
 #include <string.h>
 
-sad::hfsm::Transition::Transition() : m_repository(NULL)
+sad::hfsm::Transition::Transition() : m_repository(nullptr)
 {
 
 }
@@ -34,7 +34,7 @@ sad::hfsm::Machine * sad::hfsm::Transition::machine() const
 {
     if (m_repository)
         return m_repository->machine();
-    return NULL;	
+    return nullptr;	
 }
 
 

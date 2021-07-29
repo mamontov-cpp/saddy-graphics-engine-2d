@@ -1,4 +1,5 @@
 #include "animations/setstate/setcameratranslation.h"
+#include "scene.h"
 
 sad::animations::setstate::SetCameraTranslation::SetCameraTranslation(sad::Scene* s) : m_scene(s)
 {

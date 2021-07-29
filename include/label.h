@@ -3,10 +3,13 @@
 
     Contains a definition of simple label node, that can be added to scene
 */
+// ReSharper disable CppInconsistentNaming
+#pragma once
 #include "scene.h"
 #include "font.h"
 #include "sadrect.h"
 #include "3rdparty/format/format.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "timer.h"
 #include "resource/link.h"
 #include "util/markup.h"
@@ -47,7 +50,7 @@ public:
      */
     enum BreakText
     {
-        LBT_NORMAL = 0,     //!< A text should be rendered as one line, unless line feed is occured,
+        LBT_NORMAL = 0,     //!< A text should be rendered as one line, unless line feed is occurred,
         LBT_BREAK_WORD = 1  //!< A text should be split into lines in case, if line hash length greater then maximal line width. In case it's zero, behaves like LBT_NORMAL
     };
     /*! Defines where suspension point should be placed in case that overflow strategy is LOS_ELLIPSIS
@@ -71,7 +74,7 @@ public:
 
         }
     };
-    /*! A data fopr rendering lines
+    /*! A data for rendering lines
      */
     struct LineRenderedData
     {
@@ -112,15 +115,15 @@ public:
         const sad::String & string,
         const sad::String & tree = ""
     );
-    /*! Sets links resources to a treename and renderer
+    /*! Sets links resources to a tree_name and renderer
         \param[in] r renderer
-        \param[in] treename a name for tree
+        \param[in] tree_name a name for tree
      */
-    virtual void setTreeName(sad::Renderer* r, const sad::String& treename);
+    virtual void setTreeName(sad::Renderer* r, const sad::String& tree_name) override;
     /*! Fills vector of regions with region of label
         \param[out] r a vector of regions
      */
-    virtual void regions(sad::Vector<sad::Rect2D> & r);
+    virtual void regions(sad::Vector<sad::Rect2D> & r) override;
     /*! A basic schema for object
         \return a schema 
      */
@@ -128,13 +131,13 @@ public:
     /*! Returns schema for an object
         \return schema
      */
-    virtual sad::db::schema::Schema* schema() const;
+    virtual sad::db::schema::Schema* schema() const override;
     /*! Renders a string of text inside of label
      */
-    virtual void render();
+    virtual void render() override;
     /*! Called, when renderer for scene is changed
      */
-    virtual void rendererChanged();
+    virtual void rendererChanged() override;
     /*! Sets non-rotated renderable area
         \param[in] r non-rotated renderable area
      */
@@ -163,7 +166,7 @@ public:
         \param[in] r a renderer
         \param[in] tree a tree, where font should be located
      */
-    void setFont(const sad::String & name, sad::Renderer * r = NULL, const sad::String & tree = "");
+    void setFont(const sad::String & name, sad::Renderer * r = nullptr, const sad::String & tree = "");
     /*!  Returns a string for a label
             \return a string
      */
@@ -208,11 +211,11 @@ public:
     /*! Returns true
         \return if node can be rotated
      */
-    virtual bool canBeRotated() const;
+    virtual bool canBeRotated() const override;
     /*! Rotates a sprite around his middle point counter-clockwise
         \param[in]  angle an angle, which defines how sprite should be rotated
      */
-    virtual void rotate(double angle);
+    virtual void rotate(double angle) override;
     /*! Returns counter-clockwise rotation angle for a label
         \return angle
      */
@@ -243,7 +246,7 @@ public:
      */
     void setSize(unsigned int size);
     /*!  Sets size for a font, used in label in pixels
-            \param[in] size size of lalbe font in pixels
+            \param[in] size size of label font in pixels
      */
     inline void setPointSize(unsigned int size)
     {
@@ -301,18 +304,18 @@ public:
     }
     /*! Destructs it
      */
-    virtual ~Label();
+    virtual ~Label() override;
     /*! When set scene and font name is defined label tries to reload
         itself from scene's renderer
         \param[in] scene a scene, which will render a node
      */
-    virtual void setScene(sad::Scene * scene);
-    /*! Sets treename for a sprite
-        \param[in] treename a name for a tree
+    virtual void setScene(sad::Scene * scene) override;
+    /*! Sets tree name for a sprite
+        \param[in] tree_name a name for a tree
      */
-    void setTreeName(const sad::String & treename);
+    void setTreeName(const sad::String & tree_name);
     /*! Sets maximal line width for rendering a label in characters.
-        If a current line is wider than limit, than it'll be splitted in multiple lines.
+        If a current line is wider than limit, than it'll be split in multiple lines.
         0 must be passed, for label to have no constrain for rendering a label.
         \param[in] width a width for label
      */
@@ -337,7 +340,7 @@ public:
      */
     sad::Label::OverflowStrategy overflowStrategy() const;
     /*! Returns overflow strategy for label as index 
-        \return oveflow strategy
+        \return overflow strategy
      */
     unsigned int overflowStrategyAsIndex() const;
     /*! Sets, whether we should break lines in case, that maximal line width is set
@@ -345,7 +348,7 @@ public:
      */
     void setBreakText(sad::Label::BreakText value);
     /*! Sets, whether we should break lines in case, that maximal line width is set. Clamps a value to enumeration bounds if needed.
-        \param[in] value 
+        \param[in] value a value for index
      */
     void setBreakTextFromIndex(unsigned int value);
     /*! Returns whether we should break text in lines
@@ -360,8 +363,8 @@ public:
         \param[in] value value
      */
     void setTextEllipsisPosition(sad::Label::TextEllipsisPosition value);
-    /*! Sets text ellipsisis position in text. Clamps a value to enumeration bounds if needed.
-        \param[in] value 
+    /*! Sets text ellipsis position in text. Clamps a value to enumeration bounds if needed.
+        \param[in] value a value for index
      */
     void setTextEllipsisPositionAsIndex(unsigned int value);
     /*! Returns text ellipsis position
@@ -393,16 +396,16 @@ public:
         \return overflow strategy
      */
     sad::Label::OverflowStrategy overflowStrategyForLines() const;
-    /*! Returns overflow strategy for label as index  ffor lines in label
-        \return oveflow strategy
+    /*! Returns overflow strategy for label as index  for lines in label
+        \return overflow strategy
      */
     unsigned int overflowStrategyForLinesAsIndex() const;
     /*! Sets text ellipsis position in text for lines
         \param[in] value value
      */
     void setTextEllipsisPositionForLines(sad::Label::TextEllipsisPosition value);
-    /*! Sets text ellipsisis position in text for lines. Clamps a value to enumeration bounds if needed.
-        \param[in] value 
+    /*! Sets text ellipsis position in text for lines. Clamps a value to enumeration bounds if needed.
+        \param[in] value a value
      */
     void setTextEllipsisPositionForLinesAsIndex(unsigned int value);
     /*! Returns text ellipsis position for lines
@@ -534,7 +537,7 @@ public:
      */
     static bool consistsOfWhitespaceCharacters(const sad::Vector<sad::util::Markup::Command>& row);
     /*! Trims a row of commands
-        \param[in, out] row a row to edit
+        \param[in,out] row a row to edit
         \param[in] left whether we should trim left part
         \param[in] right whether we should trim right part
      */
@@ -548,7 +551,7 @@ public:
     /*! Moves object by specified vector
         \param[in] p point
      */
-    virtual void moveBy(const sad::Point2D& p);
+    virtual void moveBy(const sad::Point2D& p) override;
     /*! Returns rendered string length
         \return length of rendered string
      */
@@ -567,11 +570,11 @@ public:
     void setRenderingStringLimitAsRatioToLength(double limit);
     /*! Called, when label is removed from scene
      */
-    virtual void onRemovedFromScene();
+    virtual void onRemovedFromScene() override;
     /*! Sets shader function
      *  \param[in] fun a function
      */
-    virtual void setShaderFunction(sad::ShaderFunction* fun);
+    virtual void setShaderFunction(sad::ShaderFunction* fun) override;
     /*! Sets line shader function
      *  \param[in] fun line shader function
      */
@@ -614,7 +617,6 @@ private:
     /*! Applies font command to font
         \param[in] font a font
         \param[in] c command
-        \param[in] font with applied command data
         \return font with flags
      */
     sad::Pair<sad::Font*, sad::Font::RenderFlags> applyFontCommand(sad::Font* font, const sad::util::Markup::Command& c);
@@ -638,7 +640,7 @@ private:
         \param[in] font a font
      */
     void buildGeometriesWithoutFormatting(sad::Font* font);
-    /*! A link to font, that label is being renderd with
+    /*! A link to font, that label is being rendered with
      */
     sad::resource::Link<sad::Font> m_font;
     /*! A stored string, used in label
@@ -648,7 +650,7 @@ private:
      */
     sad::String      m_rendered_string;
     /*! A maximal line width for rendering a label in characters.
-        If a current line is wider than limit, than it'll be splitted in multiple lines.
+        If a current line is wider than limit, than it'll be split in multiple lines.
         0 must be passed, for label to have no constrain for rendering a label.
      */
     unsigned int  m_maximal_line_width;
@@ -672,7 +674,7 @@ private:
     sad::Point2D     m_center;
     /*! A half size with negative parts, needed to render a font
      */
-    sad::Point2D     m_halfpadding;
+    sad::Point2D     m_half_padding;
     /*! A cached region for label
      */
     sad::Rect2D      m_cached_region;
@@ -734,7 +736,7 @@ private:
     /*! A shader function for lines
      */
     sad::FontShaderFunction* m_line_shader_function;
-    /*! A rendered lines for rendering with shanders
+    /*! A rendered lines for rendering with shaders
      */
     sad::Vector<sad::Label::LineRenderedData> m_rendered_lines;
     /*! Label size

@@ -5,6 +5,7 @@
 
 #include "animations/setstate/methodcall.h"
 #include "animations/setstate/setproperty.h"
+#include "animations/setstate/dummycommand.h"
 
 #include "sprite2d.h"
 #include "db/custom/customobject.h"
@@ -42,16 +43,16 @@ sad::animations::TextureCoordinatesContinuous::~TextureCoordinatesContinuous()
     
 }
 
-static sad::db::schema::Schema* AnimationTextureCoordinatesContinuousSchema = NULL;
+static sad::db::schema::Schema* AnimationTextureCoordinatesContinuousSchema = nullptr;
 
 static sad::Mutex AnimationTextureCoordinatesContinuousSchemaInit;
 
 sad::db::schema::Schema* sad::animations::TextureCoordinatesContinuous::basicSchema()
 {
-    if (AnimationTextureCoordinatesContinuousSchema == NULL)
+    if (AnimationTextureCoordinatesContinuousSchema == nullptr)
     {
         AnimationTextureCoordinatesContinuousSchemaInit.lock();
-        if (AnimationTextureCoordinatesContinuousSchema == NULL)
+        if (AnimationTextureCoordinatesContinuousSchema == nullptr)
         {
             AnimationTextureCoordinatesContinuousSchema = new sad::db::schema::Schema();
             AnimationTextureCoordinatesContinuousSchema->addParent(sad::animations::Animation::basicSchema());

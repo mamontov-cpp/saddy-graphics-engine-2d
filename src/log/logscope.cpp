@@ -11,7 +11,7 @@ sad::log::Scope::Scope(
 )
 : m_saddyinternal(saddyinternal)
 {
-    if (log == NULL)
+    if (log == nullptr)
     {
         m_log = sad::log::Log::ref();
     }
@@ -33,7 +33,7 @@ sad::log::Scope::Scope(
 )
 : m_saddyinternal(saddyinternal)
 {
-    if (log == NULL)
+    if (log == nullptr)
     {
         m_log = sad::log::Log::ref();
     }
@@ -55,7 +55,7 @@ sad::log::Scope::Scope(
 )
 :m_saddyinternal(saddyinternal)
 {
-    if (log == NULL)
+    if (log == nullptr)
     {
         m_log = sad::log::Log::ref();
     }
@@ -77,7 +77,7 @@ sad::log::Scope::Scope(
 )
 :m_saddyinternal(saddyinternal)
 {
-    if (log == NULL)
+    if (log == nullptr)
     {
         m_log = sad::log::Log::ref();
     }

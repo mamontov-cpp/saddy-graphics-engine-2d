@@ -3,6 +3,7 @@
 
 #include "animations/setstate/methodcall.h"
 #include "animations/setstate/setproperty.h"
+#include "animations/setstate/dummycommand.h"
 
 #include "label.h"
 #include "sadmutex.h"
@@ -43,16 +44,16 @@ sad::animations::FontList::~FontList()
     
 }
 
-static sad::db::schema::Schema* AnimationFontListSchema = NULL;
+static sad::db::schema::Schema* AnimationFontListSchema = nullptr;
 
 static sad::Mutex AnimationFontListSchemaInit;
 
 sad::db::schema::Schema* sad::animations::FontList::basicSchema()
 {
-    if (AnimationFontListSchema == NULL)
+    if (AnimationFontListSchema == nullptr)
     {
         AnimationFontListSchemaInit.lock();
-        if (AnimationFontListSchema == NULL)
+        if (AnimationFontListSchema == nullptr)
         {
             AnimationFontListSchema = new sad::db::schema::Schema();
             AnimationFontListSchema->addParent(sad::animations::Animation::basicSchema());
@@ -124,7 +125,7 @@ sad::animations::setstate::AbstractSetStateCommand* sad::animations::FontList::s
 {
     if (this->applicableTo(o))
     {
-        sad::animations::setstate::AbstractSetStateCommand* c = NULL;
+        sad::animations::setstate::AbstractSetStateCommand* c = nullptr;
         if (o->isInstanceOf("sad::Label"))
         {
             c = sad::animations::setstate::make(

@@ -13,7 +13,7 @@
 
 DECLARE_SOBJ(sad::SceneNode);
 
-sad::SceneNode::SceneNode() : m_visible(true), m_scene(NULL), m_cached_layer(0), m_cached_scene_id(0), m_shader_function(NULL)
+sad::SceneNode::SceneNode() : m_visible(true), m_scene(nullptr), m_cached_layer(0), m_cached_scene_id(0), m_shader_function(nullptr)
 {
 
 }
@@ -31,21 +31,21 @@ sad::SceneNode::~SceneNode()
     }
 }
 
-static sad::db::schema::Schema* SceneNodeBasicSchema = NULL;
+static sad::db::schema::Schema* SceneNodeBasicSchema = nullptr;
 static sad::Mutex SceneNodeBasicSchemaInit;
 
 void sad::SceneNode::reset()
 {
-    m_scene = NULL;
+    m_scene = nullptr;
     this->sad::db::Object::reset();
 }
 
 sad::db::schema::Schema* sad::SceneNode::basicSchema()
 {
-    if (SceneNodeBasicSchema == NULL)
+    if (SceneNodeBasicSchema == nullptr)
     {
         SceneNodeBasicSchemaInit.lock();
-        if (SceneNodeBasicSchema == NULL)
+        if (SceneNodeBasicSchema == nullptr)
         {
             SceneNodeBasicSchema = new sad::db::schema::Schema();
             SceneNodeBasicSchema->addParent(sad::db::Object::basicSchema());
@@ -104,7 +104,7 @@ sad::Renderer * sad::SceneNode::renderer() const
     {
         return scene()->renderer();
     }
-    return NULL;
+    return nullptr;
 }
 
 void sad::SceneNode::setCachedLayer(unsigned int layer)
@@ -126,9 +126,9 @@ unsigned int sad::SceneNode::cachedLayer() const
     return m_cached_layer;
 }
 
-void sad::SceneNode::setCachedSceneId(unsigned long long sceneid)
+void sad::SceneNode::setCachedSceneId(unsigned long long scene_id)
 {
-    m_cached_scene_id = sceneid;
+    m_cached_scene_id = scene_id;
 }
 
 unsigned long long  sad::SceneNode::sceneId() const

@@ -48,11 +48,11 @@ public:
     /*! Sets a position for cursor image.
         \param[in] p point 
      */
-    virtual void setPos(const sad::Point2D & p);
+    virtual void setPos(const sad::Point2D & p) override;
     /*! There inherited class should render image at center, defined by setPos call
      *  \param[in] r renderer
      */
-    virtual void render(sad::Renderer* r);
+    virtual void render(sad::Renderer* r) override;
     /*! Sets shader function
         \param[in] shader_function a shader function
      */
@@ -63,7 +63,7 @@ public:
     sad::ShaderFunction* shaderFunction() const;
     /*! This is abstract class, that should be implemented by user
      */
-    virtual ~MouseCursorSprite();
+    virtual ~MouseCursorSprite() override;
 protected:
     /*! A sprite, which should be rendered
      */
@@ -110,7 +110,7 @@ public:
      */
     virtual sad::MouseCursorImage * cursorImage() const;
     /*! Sets cursor image
-        \param[in] image
+        \param[in] image image of cursor
      */
     virtual void setImage(sad::MouseCursorImage * image);
     /*! Sets image as 2D sprite
@@ -126,7 +126,7 @@ public:
      */
     virtual void removeHandlersIfNeeded();
 protected:
-    /*! Applies required cursor transfomration for rendering 
+    /*! Applies required cursor transformation for rendering 
         custom cursor
      */
     virtual void applyCursorTransformations();
@@ -152,10 +152,10 @@ protected:
     virtual void moveCustomCursor(const sad::input::MouseMoveEvent & e);
     /*! Whether we should show custom cursor when we are entering here
      */
-    bool       m_usecustomcursor;
+    bool       m_use_custom_cursor;
     /*! Whether we should hide custom cursor
      */ 
-    bool       m_hidecustomcursor;
+    bool       m_hide_custom_cursor;
     /*! A flag, determines whether mouse cursor is hidden
      */
     bool       m_hidden;

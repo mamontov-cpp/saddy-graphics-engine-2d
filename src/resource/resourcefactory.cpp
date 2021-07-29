@@ -53,7 +53,7 @@ void sad::resource::Factory::add(const sad::String & name, resource::Creator * c
 
 sad::resource::Resource* sad::resource::Factory::create(const sad::String& name)
 {
-    sad::resource::Resource* result = NULL;
+    sad::resource::Resource* result = nullptr;
     if (m_creators.contains(name))
     {
         resource::Creator * c = m_creators[name];
@@ -88,7 +88,7 @@ sad::resource::ResourceFile * sad::resource::Factory::fileByType(const sad::Stri
     {
         return m_file_creators[typehint]->create();
     }
-    return NULL;
+    return nullptr;
 }
 
 void sad::resource::Factory::setStoredPropertyFactory(sad::db::StoredPropertyFactory * factory)

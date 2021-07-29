@@ -31,13 +31,13 @@ public:
     }
     /*! Can be inherited
      */
-    virtual ~SavedObjectProperty()
+    virtual ~SavedObjectProperty() override
     {
         
     }
     /*! Restores last object state
      */
-    virtual void restore()
+    virtual void restore() override
     {
         m_object->setProperty(m_property_name, m_property_value);
     }

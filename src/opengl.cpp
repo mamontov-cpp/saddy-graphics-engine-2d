@@ -18,7 +18,7 @@
 
 
 sad::OpenGL::OpenGL()
-: m_renderer(NULL), m_fetched(false), m_major(0), m_minor(0), m_extension_functions(new sad::os::ExtensionFunctions())
+: m_renderer(nullptr), m_fetched(false), m_major(0), m_minor(0), m_extension_functions(new sad::os::ExtensionFunctions())
 {
     m_extension_functions->setParent(this);
 }
@@ -92,7 +92,7 @@ const sad::String & sad::OpenGL::extensions()
 bool sad::OpenGL::supportsExtension(const sad::String & extension)
 {
     tryFetchStrings();
-    return m_extensions.getOccurence(extension) != -1;
+    return m_extensions.getOccurrence(extension) != -1;
 }
 
 sad::os::ExtensionFunctions* sad::OpenGL::extensionFunctions() const
@@ -166,7 +166,7 @@ void sad::OpenGL::tryFetchStrings()
 
 void sad::OpenGL::trySetString(sad::String & s, unsigned int e)
 {
-    const char * tmp = NULL;
+    const char * tmp = nullptr;
     tmp = (const char *)glGetString((GLenum)e);
     if (tmp)
         s = tmp;

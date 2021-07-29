@@ -3,6 +3,7 @@
 
     Describes a cross-platform implementation of thread
  */
+// ReSharper disable CppRedundantInlineSpecifier
 #pragma once
 #include "sadthreadexecutablefunction.h"
 
@@ -14,7 +15,7 @@ namespace os
     class ThreadImpl;
 }
 
-/*! Describes a crossplatform thread, that can be read
+/*! Describes a cross-platform thread, that can be read
  */
 class Thread
 {
@@ -25,14 +26,14 @@ public:
     static const int Cancelled;
     /*! Creates new empty thread
      */
-    inline Thread()
+    inline Thread() // NOLINT(cppcoreguidelines-pro-type-member-init)
     {
         this->initialize(new sad::util::EmptyThreadExecutableFunction() );
     }
     /*! Initializes thread with empty executable function
         \param[in] f function
      */
-    inline Thread(sad::AbsractThreadExecutableFunction * f)
+    inline Thread(sad::AbstractThreadExecutableFunction * f) // NOLINT(cppcoreguidelines-pro-type-member-init)
     {
         this->initialize(f);
     }
@@ -49,14 +50,14 @@ public:
     /*! Constructs new thread with specified function
         \param[in] f function
      */
-    inline Thread(void (*f)() )
+    inline Thread(void (*f)() )  // NOLINT(cppcoreguidelines-pro-type-member-init)
     {
         this->initialize(new sad::util::FreeZeroArgVoidExecutableFunction(f) );
     }
     /*! Constructs new thread with specified function, returning it's code when exiting
         \param[in] f function
      */
-    inline Thread(int (*f)() )
+    inline Thread(int (*f)() ) // NOLINT(cppcoreguidelines-pro-type-member-init)
     {
         this->initialize(new sad::util::FreeZeroArgIntExecutableFunction(f) );
     }
@@ -73,7 +74,7 @@ public:
     /*! Constructs new thread with specified function
         \param[in] f function
      */
-    inline Thread(const std::function<int()>& f )
+    inline Thread(const std::function<int()>& f ) // NOLINT(cppcoreguidelines-pro-type-member-init)
     {
         this->initialize(new sad::util::FreeZeroArgStdIntExecutableFunction(f) );
     }
@@ -220,7 +221,7 @@ protected:
         Note, that this is done with purpose of separating construction of sad::Thread
         with template argument from construction of platform-dependent sad::os::ThreadImpl
      */
-    void initialize(sad::AbsractThreadExecutableFunction * f);
+    void initialize(sad::AbstractThreadExecutableFunction * f);
 };
 
 

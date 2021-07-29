@@ -32,14 +32,14 @@ m_middle(0,0,0),
 m_size(0,0),
 m_renderable_area(sad::Point3D(0, 0), sad::Point3D(0, 0)),
 m_color(sad::AColor(255,255,255,0)),
-m_old_renderer(NULL),
+m_old_renderer(nullptr),
 m_was_textured(false),
 m_geometry_dirty(true),
 m_tc_dirty(true),
 m_vertexes_dirty(true)
 {
-    m_g.m_textured_geometry = NULL;
-    m_g.m_untextured_geometry = NULL;
+    m_g.m_textured_geometry = nullptr;
+    m_g.m_untextured_geometry = nullptr;
 }
 
 sad::Sprite3D::Sprite3D(		 //-V730
@@ -54,7 +54,7 @@ m_flipy(false),
 m_normalized_texture_coordinates(0, 0, 0, 0),
 m_texture_coordinates(texturecoordinates),
 m_color(sad::AColor(255,255,255,0)),
-m_old_renderer(NULL),
+m_old_renderer(nullptr),
 m_was_textured(false),
 m_geometry_dirty(true),
 m_tc_dirty(true),
@@ -71,8 +71,8 @@ m_vertexes_dirty(true)
         initFromRectangle(area);
         buildRenderableArea();
     }
-    m_g.m_textured_geometry = NULL;
-    m_g.m_untextured_geometry = NULL;
+    m_g.m_textured_geometry = nullptr;
+    m_g.m_untextured_geometry = nullptr;
 }
 
 sad::Sprite3D::Sprite3D( //-V730
@@ -90,13 +90,13 @@ m_theta(0),
 m_normalized_texture_coordinates(0, 0, 0, 0),
 m_texture_coordinates(texturecoordinates),
 m_color(sad::AColor(255,255,255,0)),
-m_old_renderer(NULL),
+m_old_renderer(nullptr),
 m_was_textured(false),
 m_geometry_dirty(true),
 m_tc_dirty(true),
 m_vertexes_dirty(true)
 {
-    m_texture.setTree(NULL, tree);
+    m_texture.setTree(nullptr, tree);
     m_texture.setPath(texture);
     normalizeTextureCoordinates();
     if (fast)
@@ -108,8 +108,8 @@ m_vertexes_dirty(true)
         initFromRectangle(area);
         buildRenderableArea();
     }
-    m_g.m_textured_geometry = NULL;
-    m_g.m_untextured_geometry = NULL;
+    m_g.m_textured_geometry = nullptr;
+    m_g.m_untextured_geometry = nullptr;
 }
 
 sad::Sprite3D::~Sprite3D()
@@ -117,16 +117,16 @@ sad::Sprite3D::~Sprite3D()
 
 }
 
-static sad::db::schema::Schema* Sprite3DBasicSchema = NULL;
+static sad::db::schema::Schema* Sprite3DBasicSchema = nullptr;
 
 static sad::Mutex Sprite3DBasicSchemaInit;
 
 sad::db::schema::Schema* sad::Sprite3D::basicSchema()
 {
-    if (Sprite3DBasicSchema == NULL)
+    if (Sprite3DBasicSchema == nullptr)
     {
         Sprite3DBasicSchemaInit.lock();
-        if (Sprite3DBasicSchema == NULL)
+        if (Sprite3DBasicSchema == nullptr)
         {
             Sprite3DBasicSchema = new sad::db::schema::Schema();
             Sprite3DBasicSchema->addParent(sad::SceneNode::basicSchema());
@@ -568,9 +568,9 @@ void sad::Sprite3D::setScene(sad::Scene * scene)
     tryReturnGeometry();
 }
 
-void sad::Sprite3D::setTreeName(const sad::String & treename)
+void sad::Sprite3D::setTreeName(const sad::String & tree_name)
 {
-    m_texture.setTree(m_texture.renderer(), treename);
+    m_texture.setTree(m_texture.renderer(), tree_name);
     reloadTexture();
     tryReturnGeometry();
 }

@@ -18,7 +18,7 @@ public:
     /*! Constructs default pausable timer
      */
     PausableTimer();
-    /*! Implemented mainly for safety reasons, doesn't do anything
+    /*! Implemented mainly for safety reasons, does not do anything
      */
     ~PausableTimer();
     /*! Starts new iteration of timer, erasing local elapsed time
@@ -34,7 +34,7 @@ public:
      */
     void resume();
     /*! Returns elapsed time, between calls of sad::Timer::start() and
-        sad::Timer::stop() using high-perfomance counter, if possible. For
+        sad::Timer::stop() using high-performance counter, if possible. For
         some chipsets could fall to wallclock time, since correct information
         won't be available
         \return time in milliseconds

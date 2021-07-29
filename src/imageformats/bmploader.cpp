@@ -54,7 +54,7 @@ static const short bmp_magic_number = 19778;
 
 bool sad::imageformats::BMPLoader::load(FILE * file, sad::Texture * texture)
 {
-    if (file == NULL || texture == NULL)
+    if (file == nullptr || texture == nullptr)
         return false;
 
     sad::util::FileIStreamBuf buf(file);
@@ -63,7 +63,7 @@ bool sad::imageformats::BMPLoader::load(FILE * file, sad::Texture * texture)
 
 bool sad::imageformats::BMPLoader::load(tar7z::Entry* entry, sad::Texture* texture)
 {
-    if (entry == NULL || texture == NULL)
+    if (entry == nullptr || texture == nullptr)
     {
         return false;
     }
@@ -80,7 +80,7 @@ sad::imageformats::BMPLoader::~BMPLoader()
 
 bool sad::imageformats::BMPLoader::load(std::streambuf* buf, sad::Texture* texture)
 {
-    if (buf == NULL || texture == NULL)
+    if (buf == nullptr || texture == nullptr)
         return false;
 
     std::istream stream(buf);

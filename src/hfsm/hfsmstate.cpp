@@ -4,7 +4,7 @@
 #include "db/dbtypename.h"
 
 sad::hfsm::State::State()
-: m_machine(NULL), m_shared(NULL), m_parent(NULL)
+: m_machine(nullptr), m_shared(nullptr), m_parent(nullptr)
 {
 
 }
@@ -33,7 +33,7 @@ sad::hfsm::Machine * sad::hfsm::State::machine() const
 
 void sad::hfsm::State::addChild(const sad::String & name, sad::hfsm::State * state)
 {
-    if (state == NULL)
+    if (state == nullptr)
     {
         state = new sad::hfsm::State();
     }
@@ -60,7 +60,7 @@ sad::hfsm::State * sad::hfsm::State::child(const sad::String & name) const
 {
     if (m_children.contains(name) == false)
     {
-        return NULL;
+        return nullptr;
     }
     return m_children[name];
 }

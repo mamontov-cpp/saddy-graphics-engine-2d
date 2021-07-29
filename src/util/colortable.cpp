@@ -1311,7 +1311,7 @@ static const char* color_names[] = {
 "zaffre",
 "zinnwaldite_brown",
 "zomp",
-NULL
+nullptr
 };
 
 static sad::AColor colors[] = {

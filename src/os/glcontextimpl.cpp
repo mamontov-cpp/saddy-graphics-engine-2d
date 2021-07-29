@@ -70,7 +70,7 @@ static bool isExtensionSupported(const char *extList, const char *extension)
 
 
 sad::os::GLContextImpl::GLContextImpl()
-: m_win(NULL), m_handle(), m_isopengl3compatible(false)
+: m_win(nullptr), m_handle(), m_isopengl3compatible(false)
 {
 
 }
@@ -114,7 +114,7 @@ bool sad::os::GLContextImpl::createFor(sad::Window * win)
         // Try to parse version from context
         int major = 0, minor = 0;
         const char *verstr = (const char *) glGetString(GL_VERSION);
-        if ((verstr == NULL) || (sscanf(verstr,"%d.%d", &major, &minor) != 2))
+        if ((verstr == nullptr) || (sscanf(verstr,"%d.%d", &major, &minor) != 2))
         {
             major = minor = 0;
         }
@@ -122,9 +122,9 @@ bool sad::os::GLContextImpl::createFor(sad::Window * win)
         if (major * 10 + minor >= 30)
         {
             SL_COND_LOCAL_INTERNAL("Attempting to create OpenGL3+ context", this->renderer());
-            PFNWGLCREATECONTEXTATTRIBSARBPROC wglCreateContextAttribsARB = NULL;
+            PFNWGLCREATECONTEXTATTRIBSARBPROC wglCreateContextAttribsARB = nullptr;
             wglCreateContextAttribsARB = (PFNWGLCREATECONTEXTATTRIBSARBPROC)wglGetProcAddress("wglCreateContextAttribsARB");
-            if (wglCreateContextAttribsARB != NULL)
+            if (wglCreateContextAttribsARB != nullptr)
             {
                 int attributes[] =
                 {
@@ -141,7 +141,7 @@ bool sad::os::GLContextImpl::createFor(sad::Window * win)
                     0, 
                     attributes
                 );
-                if (newContext != NULL)
+                if (newContext != nullptr)
                 {
                     SL_COND_LOCAL_INTERNAL("OpenGL3+ successfully created", this->renderer());
             
@@ -210,7 +210,7 @@ bool sad::os::GLContextImpl::createFor(sad::Window * win)
         SL_COND_LOCAL_INTERNAL("Checking extension support", this->renderer());
         
         if ( !isExtensionSupported( extensions, "GLX_ARB_create_context" ) 
-            ||  glXCreateContextAttribsARB == NULL )
+            ||  glXCreateContextAttribsARB == nullptr )
         {
             XSync( m_win->handles()->Dpy, False );
             
@@ -223,7 +223,7 @@ bool sad::os::GLContextImpl::createFor(sad::Window * win)
                 0, 
                 True 
             );
-            result = m_handle.Context != NULL;
+            result = m_handle.Context != nullptr;
             glXMakeCurrent(m_win->handles()->Dpy, m_win->handles()->Win, m_handle.Context);  
         }
         else
@@ -270,7 +270,7 @@ bool sad::os::GLContextImpl::tryCreateOpenGL3Context(glXCreateContextAttribsARBP
         // Try to parse version from context
         int major = 0, minor = 0;
         const char *verstr = (const char *) glGetString(GL_VERSION);
-        if ((verstr == NULL) || (sscanf(verstr,"%d.%d", &major, &minor) != 2))
+        if ((verstr == nullptr) || (sscanf(verstr,"%d.%d", &major, &minor) != 2))
         {
             major = minor = 0;
         }
@@ -299,7 +299,7 @@ bool sad::os::GLContextImpl::tryCreateOpenGL3Context(glXCreateContextAttribsARBP
             
             XSync( m_win->handles()->Dpy, False );
             
-            if (context != NULL)
+            if (context != nullptr)
             {
                 SL_COND_LOCAL_INTERNAL("OpenGL3+ context successfully created", this->renderer());			
 
@@ -335,7 +335,7 @@ bool sad::os::GLContextImpl::makeDefaultContext()
         0, 
         GL_TRUE
     );
-    if (m_handle.Context != NULL)
+    if (m_handle.Context != nullptr)
     {
         SL_COND_LOCAL_INTERNAL("Successfully created simple OpenGL context", this->renderer());			
         glXMakeCurrent(
@@ -490,7 +490,7 @@ sad::Renderer * sad::os::GLContextImpl::renderer() const
     {
         return m_win->renderer();
     }
-    return NULL;
+    return nullptr;
 }
 
 

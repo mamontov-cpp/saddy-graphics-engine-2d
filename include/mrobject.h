@@ -16,9 +16,7 @@ class MRObject
 public:
     /*! Constructs object with zero parent references
      */
-    inline MRObject()
-    {
-    }
+    inline MRObject() = default;
     /*! Adds parent object to object
         \param[in] m a new parent object
      */
@@ -56,7 +54,7 @@ public:
      */ 
     inline bool isParent(sad::MRObject* m) const
     {
-        sad::Vector<const sad::MRObject*> local;
+        const sad::Vector<const sad::MRObject*> local;
         return this->isParent(m, local);
     }
     /*! Returns true if current object is parent for some other objects

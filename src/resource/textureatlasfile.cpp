@@ -14,7 +14,7 @@
 #include <fstream>
 
 sad::resource::TextureAtlasFile::TextureAtlasFile(const sad::String& name) 
-: sad::resource::ResourceFile(name), m_my_texture(NULL)
+: sad::resource::ResourceFile(name), m_my_texture(nullptr)
 {
     
 }
@@ -79,7 +79,7 @@ sad::Vector<sad::resource::Error*> sad::resource::TextureAtlasFile::load(
                 delete linkedresource;
                 delete m_my_texture;
                 errors << new sad::resource::ResourceLoadError(result.ResourceName);
-                m_my_texture = NULL;
+                m_my_texture = nullptr;
                 return errors;
             }
         }
@@ -270,7 +270,7 @@ void sad::resource::TextureAtlasFile::tryLoadNewTexture(
 {
     result.OldTexture = this->tree()->root()->resource(parsed.ResourceName);
     result.NewTexture = new sad::Texture();
-    sad::resource::ResourceFile * file  = NULL;
+    sad::resource::ResourceFile * file  = nullptr;
     bool force_reload_texture = false;
     // Try load texture
     if (result.OldTexture)
@@ -332,7 +332,7 @@ void sad::resource::TextureAtlasFile::commit(
     {
         sad::resource::ResourceFile* oldfile = result.OldTexture->file();
         this->tree()->root()->replaceResource(parsed.ResourceName, result.NewTexture);
-        if (m_my_texture == NULL)
+        if (m_my_texture == nullptr)
         {
             oldfile->replace(result.OldTexture, result.NewTexture);
             result.NewTexture->setPhysicalFile(oldfile);

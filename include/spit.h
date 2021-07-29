@@ -12,7 +12,7 @@ namespace sad
     
 class Renderer;
 /*! Tries to write file into a specified path. If path is relative, tries to write contents
-    into a path, relative, to executable path, pointed by renderer. If renderer is NULL, global
+    into a path, relative, to executable path, pointed by renderer. If renderer is nullptr, global
     renderer is used.
     \param[in] fileName name of file, which should be written
     \param[in] contents a contents of file
@@ -22,7 +22,7 @@ class Renderer;
 bool spit(
     const sad::String& fileName, 
     const sad::String& contents,
-    sad::Renderer* renderer = NULL
+    sad::Renderer* renderer = nullptr
 );
 
 }

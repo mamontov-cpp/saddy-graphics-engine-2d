@@ -30,10 +30,10 @@ public:
     SwapLayersTask(sad::Renderer* r, sad::Scene * s1, sad::Scene * s2, int l1, int l2);
     /*! Swaps layers for a renderer
      */ 
-    virtual void _process();
+    virtual void _process() override;
     /*! Destroys swap object
      */
-    virtual ~SwapLayersTask();
+    virtual ~SwapLayersTask() override;
 protected:
     /*! A renderer
      */

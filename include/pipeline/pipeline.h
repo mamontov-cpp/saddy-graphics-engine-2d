@@ -420,21 +420,21 @@ protected:
      */
     void invokeSteps(StepsList & steps);
     /*! Finds a position in step list by mark. If not found first item in position will be
-        NULL.
+        nullptr.
         \param[in] steps a steps container
         \param[in] mark a string mark, which will be found in step
         \return found position. If not found, first item of position, will be null
      */
     static StepListPosition findByMark(StepsList* steps, const sad::String & mark);
     /*! Finds a position in step list by step. If not found first item in position will be
-        NULL.
+        nullptr.
         \param[in] steps a steps container
         \param[in] step to be found
         \return found position. If not found, first item of position, will be null
      */
     static StepListPosition findByStep(StepsList* steps, sad::pipeline::Step* step);
     /*! Finds a position of item with specified mark. If not found first item in position will be
-        NULL.
+        nullptr.
         \param[in] mark a string mark, which will be found in step
         \return found position. If not found, first item of position, will be null
      */

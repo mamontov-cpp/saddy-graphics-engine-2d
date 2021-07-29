@@ -16,7 +16,8 @@
 #include "resource/resource.h"
 #endif
 
-#include <stdio.h>
+// ReSharper disable once CppUnusedIncludeDirective
+#include <cstdio>
 
 namespace tar7z
 {
@@ -64,10 +65,10 @@ public:
     /*! Returns buffer contents for a texture
         \return buffer
      */ 
-    virtual sad::uchar* buffer() const;
+    virtual sad::uchar* buffer() const override;
     /*! A destructor for buffer
      */ 
-    virtual ~DefaultBuffer();
+    virtual ~DefaultBuffer() override;
     /*! A texture pixels stored as bytes, according to texture format
      */
     sad::Vector<sad::uchar> Data;
@@ -84,10 +85,10 @@ public:
     /*! Returns buffer contents for a texture
         \return buffer
      */
-    virtual sad::uchar* buffer() const;
+    virtual sad::uchar* buffer() const override;
     /*! A destructor for buffer
      */
-    virtual ~PointerBuffer();
+    virtual ~PointerBuffer() override;
     /*! A texture pixels stored as bytes, according to texture format
      */
     sad::uchar* Data;
@@ -103,10 +104,10 @@ public:
     /*! Returns buffer contents for a texture
         \return buffer
      */ 
-    virtual sad::uchar* buffer() const;
+    virtual sad::uchar* buffer() const override;
     /*! A destructor for buffer
      */ 
-    virtual ~Tar7zArchiveBuffer();
+    virtual ~Tar7zArchiveBuffer() override;
 
     /*! Archive for buffer
      */
@@ -127,10 +128,10 @@ public:
     /*! Returns buffer contents for a texture
         \return buffer
      */ 
-    virtual sad::uchar* buffer() const;
+    virtual sad::uchar* buffer() const override;
     /*! A destructor for buffer
      */ 
-    virtual ~DefaultImageBuffer();
+    virtual ~DefaultImageBuffer() override;
 };
 /*! Describes a format of engine's texture
  */
@@ -171,7 +172,7 @@ enum InternalFormat
     /*! You can inherit texture to implement it procedural generation and other
         interesting stuff.
      */
-    virtual ~Texture();
+    virtual ~Texture() override;
     /*! Gets a pointer to pixel 
         \param[in] i  row
         \param[in] j  col
@@ -198,15 +199,15 @@ enum InternalFormat
     void loadDefaultTexture();
     /*! Unloads all resources from GPU. By default does nothing
      */
-    virtual void unloadFromGPU();
+    virtual void unloadFromGPU() override;
     /*! Returns whether resource supports loading from archive
         \return true. This resource supports loading from archives.
      */
-    virtual bool supportsLoadingFromTar7z() const;
+    virtual bool supportsLoadingFromTar7z() const override;
 #ifndef TEXTURE_LOADER_TEST
     /*! Loads a texture from specified file, using specified renderer for building mip maps.
         \param[in] file a file, via which a resource should be loaded
-        \param[in] r  a renderer, which resource should be linked to (NULL if global renderer)
+        \param[in] r  a renderer, which resource should be linked to (nullptr if global renderer)
         \param[in] options  an options for loading a resource
         \return whether loading was successfull
      */
@@ -214,30 +215,30 @@ enum InternalFormat
         const sad::resource::ResourceFile & file,
         sad::Renderer * r,
         const picojson::value& options
-    );
+    ) override;
     /*! Tries to load image from archive entry
         \param[in] e entry entry, containing data
         \param[in] r renderer
         \return whether load was successfull
      */
-    bool load(tar7z::Entry* e, sad::Renderer* r = NULL);
+    bool load(tar7z::Entry* e, sad::Renderer* r = nullptr);
     /*! Loads an image, depending of file extension
         \param[in] filename name of file
         \param[in] r renderer where texture loader is getting from
         \return whether load was successfull
      */
-    bool load(const sad::String & filename, sad::Renderer * r = NULL);
+    bool load(const sad::String & filename, sad::Renderer * r = nullptr);
     /*! Loads an image, depending of file extension
         \param[in] filename name of file
         \param[in] r renderer where texture loader is getting from
         \return whether load was successfull
      */
-    bool load(const sad::WString & filename, sad::Renderer * r = NULL);
+    bool load(const sad::WString & filename, sad::Renderer * r = nullptr);
 #endif
     /*! Binds a texture, making it current in context. Can upload a texture, if needed.
      */
-    void bind();
-    /*! Unloads a texture from videocard memory
+    virtual void bind() override;
+    /*! Unloads a texture from video card memory
      */
     void unload();
     /*! Sets an alpha-channel value for a color
@@ -320,7 +321,7 @@ protected:
     sad::Renderer * m_renderer;
 private:
     /*! Checks for errors in work of OpenGL and converts them into string
-        \return string with error description (NULL if there wasn't any error)
+        \return string with error description (nullptr if there wasn't any error)
     */
     unsigned char const * getGLError();
 };

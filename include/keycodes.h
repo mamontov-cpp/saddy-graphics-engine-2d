@@ -81,7 +81,7 @@ enum KeyboardKey
     /*! A key, where slash is located
      */
     Slash = '/',
-    /*! A key, where apostrope is located
+    /*! A key, where apostrophe is located
      */
     Apostrophe = '\'',
     Esc          = 256,  //!< An Escape key
@@ -128,7 +128,7 @@ enum KeyboardKey
 };
 
 
-/*! Specified set of mouse maninpulator buttons, passed into window events
+/*! Specified set of mouse manipulator buttons, passed into window events
  */
 enum MouseButton
 {

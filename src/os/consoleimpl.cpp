@@ -126,9 +126,9 @@ void sad::os::ConsoleImpl::print(const char * text)
     if (m_console != INVALID_HANDLE_VALUE)
     {
         DWORD p = 0;
-        WriteFile(m_console, text, strlen(text), &p, NULL);
+        WriteFile(m_console, text, strlen(text), &p, nullptr);
         char c = '\n';
-        WriteFile(m_console, &c, 1, &p, NULL);		
+        WriteFile(m_console, &c, 1, &p, nullptr);		
     }
 #else
     printf("%s", text);

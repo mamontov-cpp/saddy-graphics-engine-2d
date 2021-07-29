@@ -21,7 +21,7 @@ public:
      */
     inline sad::Object * cast(void * o)
     {
-        return this->cast(reinterpret_cast<sad::Object *>(o));
+        return this->cast(static_cast<sad::Object *>(o));
     }
     /*! Casts one object to another
         \param[in] o a metadata function for class
@@ -54,7 +54,7 @@ public:
     }
     /*! Clones a casted function
      */
-    virtual AbstractClassMetaDataCastFunction * clone() const
+    virtual AbstractClassMetaDataCastFunction * clone() const override
     {
         return new ClassMetaDataCastMethod<_SourceType, _Method>(m_f);
     }
@@ -62,7 +62,7 @@ public:
         \param[in] o a metadata function for class
         \return other object, which was casted
      */
-    virtual sad::Object * cast(sad::Object * o)
+    virtual sad::Object * cast(sad::Object * o) override
     {
         return (static_cast<_SourceType*>(o)->*m_f)();
     }

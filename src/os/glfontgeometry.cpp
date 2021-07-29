@@ -9,9 +9,9 @@
 // ===================================== PUBLIC METHODS =====================================
 
 sad::os::GLFontGeometry::GLFontGeometry(sad::Renderer* renderer, unsigned int points)
-: m_renderer(renderer), m_vertex_array(0), m_vertex_buffer(0), m_texture_buffer(0), m_own_color(false), m_point_count(points), m_used_points(points), m_is_on_gpu(false), m_bindable(NULL)
+: m_renderer(renderer), m_vertex_array(0), m_vertex_buffer(0), m_texture_buffer(0), m_own_color(false), m_point_count(points), m_used_points(points), m_is_on_gpu(false), m_bindable(nullptr)
 {
-    if (m_renderer == NULL)
+    if (m_renderer == nullptr)
     {
         m_renderer = sad::Renderer::ref();
     }

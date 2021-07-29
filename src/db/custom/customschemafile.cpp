@@ -55,7 +55,7 @@ sad::Vector<sad::resource::Error*>  sad::db::custom::SchemaFile::reload()
 {
     sad::Vector<sad::resource::Error*> errors;
     sad::db::custom::SchemaFile::parse_result result;
-    this->tryParsePartial(result, errors, NULL);
+    this->tryParsePartial(result, errors, nullptr);
     if (errors.size() == 0)
     {
         sad::resource::ResourceEntryList resourcelist,  oldresourcelist;
@@ -219,13 +219,13 @@ bool sad::db::custom::SchemaFile::tryParseEntry(
                             {
                                 sad::db::Property * p = m_factory->create(maybeproptype.value());
                                 sad::db::Variant v;
-                                p->get(NULL, v);
+                                p->get(nullptr, v);
                                 bool canbeloadedandset = v.load(*maybevalueentry);
-                                canbeloadedandset = canbeloadedandset && p->set(NULL, v);
+                                canbeloadedandset = canbeloadedandset && p->set(nullptr, v);
                                 if (maybedefaultentry && canbeloadedandset)
                                 {
                                     sad::db::Variant testdefault;
-                                    p->get(NULL, testdefault);
+                                    p->get(nullptr, testdefault);
                                     canbeloadedandset = canbeloadedandset && testdefault.load(*maybedefaultentry);
                                     if (canbeloadedandset)
                                     {
@@ -298,7 +298,7 @@ bool sad::db::custom::SchemaFile::validateTreeReferences(
 )
 {
     bool result = true;
-    sad::resource::Resource * resource = NULL;
+    sad::resource::Resource * resource = nullptr;
     if (this->tree()->temporaryRoot()) 
     {
         resource = this->tree()->temporaryRoot()->resource(parse_result._2());
@@ -332,14 +332,14 @@ void sad::db::custom::SchemaFile::convertNonUniqueResourceNamesToErrors(
 )
 {
     sad::resource::Folder * r = this->tree()->root();
-    if (this->tree()->temporaryRoot() != NULL)
+    if (this->tree()->temporaryRoot() != nullptr)
     {
         r = this->tree()->temporaryRoot();
     }
     for(size_t i = 0; i < parse_result.size(); i++)
     {
         sad::resource::Resource* res = r->resource(parse_result[i]._1());
-        if (res != NULL)
+        if (res != nullptr)
         {
             errors << new sad::resource::ResourceAlreadyExists(parse_result[i]._1());
         }
@@ -370,14 +370,14 @@ void sad::db::custom::SchemaFile::fillOptionsList(
         {
             sad::db::Property * p = m_factory->create(props[j].p2());
             sad::db::Variant v;
-            p->get(NULL, v);
+            p->get(nullptr, v);
             v.load(props[j].p3());
-            p->set(NULL, v);
+            p->set(nullptr, v);
             const sad::Maybe<picojson::value>& mbdefault = props[j].p4();
             if (mbdefault.exists())
             {
                 sad::db::Variant* defaultvalue = new sad::db::Variant();
-                p->get(NULL, *defaultvalue);
+                p->get(nullptr, *defaultvalue);
                 defaultvalue->load(mbdefault.value());
                 // ReSharper disable once CppEntityNeverUsed
                 bool making_non_required_value = p->makeNonRequiredWithDefaultValue(defaultvalue);

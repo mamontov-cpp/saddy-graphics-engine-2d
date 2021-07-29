@@ -3,6 +3,7 @@
 
     Defines a command, which sets property on an object
  */
+#pragma once
 #include "typedcommand.h"
 
 #include "../../db/dbobject.h"
@@ -21,7 +22,7 @@ namespace setstate
 template<
     typename _Argument
 >
-class SetProperty : public sad::animations::setstate::TypedCommmand<_Argument>
+class SetProperty : public sad::animations::setstate::TypedCommand<_Argument>
 {
 public:
     /*! Constructs new empty cached call
@@ -32,14 +33,14 @@ public:
     /*! Clones command
         \return command
      */
-    virtual sad::animations::setstate::AbstractSetStateCommand* clone() const
+    virtual sad::animations::setstate::AbstractSetStateCommand* clone() const override
     {
         return new sad::animations::setstate::SetProperty<_Argument>(m_o, m_property_name);
     }    
     /*! Calls an animation delegate for specified argument
         \param[in] a argument
      */
-    virtual void call(const _Argument& a)
+    virtual void call(const _Argument& a) override
     {
         m_o->setProperty(m_property_name, a);
     }

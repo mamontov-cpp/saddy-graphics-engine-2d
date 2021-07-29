@@ -22,8 +22,8 @@ struct BasicCollisionEvent
 
     inline BasicCollisionEvent()
     {
-        m_object_1 = NULL;
-        m_object_2 = NULL;
+        m_object_1 = nullptr;
+        m_object_2 = nullptr;
         m_time = 0;
     }
 

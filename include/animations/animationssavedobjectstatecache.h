@@ -37,7 +37,7 @@ public:
     /*! Lookups, whether saved state is present for cache
         \param[in] o object
         \param[in] name name of state name
-        \return whether saved stae is present
+        \return whether saved state is present
      */
     bool lookup(sad::db::Object* o, const sad::String& name) const;
     /*! Increments reference count to saved state

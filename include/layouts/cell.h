@@ -168,7 +168,7 @@ public:
         \param[in] update_grid whether we should update grid after it.
      */
     void setChildren(const sad::Vector<sad::SceneNode*>& nodes, bool update_grid = true);
-    /*! Returns list of nodes for a cells. Note, that could return NULL
+    /*! Returns list of nodes for a cells. Note, that could return nullptr
         if nodes are not found
         \return list of children as nodes
      */

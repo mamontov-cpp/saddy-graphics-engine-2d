@@ -29,15 +29,15 @@ sad::String sad::util::canonicalizePath(const sad::String& path)
 {
     sad::String escaped = path;
     sad::String delimiter = "/";
-    if (escaped.getOccurence("\\")!=-1) 
+    if (escaped.getOccurrence("\\")!=-1) 
     {
-        if (escaped.getOccurence("/")!=-1)
-            escaped.replaceAllOccurences("/","\\");
+        if (escaped.getOccurrence("/")!=-1)
+            escaped.replaceAllOccurrences("/","\\");
         delimiter = "\\";
     }
     else
     {
-        escaped.replaceAllOccurences("\\", "/");
+        escaped.replaceAllOccurrences("\\", "/");
     }
     sad::StringList list = escaped.split(delimiter[0]);
     bool isAbsolute = sad::util::isAbsolutePath(path);
@@ -158,13 +158,13 @@ sad::String sad::util::concatPaths(const sad::String & parent,const sad::String 
     }
     sad::String escaped = parent;
     // Handle windows path
-    if (escaped.getOccurence("\\")!=-1) 
+    if (escaped.getOccurrence("\\")!=-1) 
     {
         if (escaped[escaped.length()-1] == '\\')
-            escaped.removeLastOccurence("\\");
+            escaped.removeLastOccurrence("\\");
         sad::String escpath = path;
-        if (escpath.getOccurence("/")!=-1)
-            escpath.replaceAllOccurences("/","\\");
+        if (escpath.getOccurrence("/")!=-1)
+            escpath.replaceAllOccurrences("/","\\");
         if (escpath[0] == '\\')
             escpath.remove(0);
         sad::String result = escaped + "\\" + escpath;
@@ -173,10 +173,10 @@ sad::String sad::util::concatPaths(const sad::String & parent,const sad::String 
     }
 
     if (escaped[escaped.length()-1] == '/')
-        escaped.removeLastOccurence("/");
+        escaped.removeLastOccurrence("/");
     sad::String escpath = path;
     // Replace old path with new
-    escpath.replaceAllOccurences("\\","/");
+    escpath.replaceAllOccurrences("\\","/");
     if (escpath.length() == 0)
         return sad::String();
     if (escpath[0] == '/')
@@ -193,13 +193,13 @@ sad::String sad::util::folder(const sad::String & path)
     sad::String escaped = path;
     // Extract path when on windows
     char delimiter[2]="/";
-    if (escaped.getOccurence("\\")!=-1) 
+    if (escaped.getOccurrence("\\")!=-1) 
     {
         delimiter[0]='\\';
     }
 
     if (escaped[escaped.length()-1] == delimiter[0])
-        escaped.removeLastOccurence(delimiter);
+        escaped.removeLastOccurrence(delimiter);
     sad::StringList pathparts = escaped.split(delimiter[0]);
     pathparts.removeAt(pathparts.count()-1);
     if (pathparts.count() == 0) 

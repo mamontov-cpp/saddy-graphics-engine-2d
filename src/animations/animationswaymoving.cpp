@@ -50,16 +50,16 @@ sad::animations::WayMoving::~WayMoving()
 }
 
 
-static sad::db::schema::Schema* AnimationWayMovingSchema = NULL;
+static sad::db::schema::Schema* AnimationWayMovingSchema = nullptr;
 
 static sad::Mutex AnimationWayMovingSchemaInit;
 
 sad::db::schema::Schema* sad::animations::WayMoving::basicSchema()
 {
-    if (AnimationWayMovingSchema == NULL)
+    if (AnimationWayMovingSchema == nullptr)
     {
         AnimationWayMovingSchemaInit.lock();
-        if (AnimationWayMovingSchema == NULL)
+        if (AnimationWayMovingSchema == nullptr)
         {
             AnimationWayMovingSchema = new sad::db::schema::Schema();
             AnimationWayMovingSchema->addParent(sad::animations::Animation::basicSchema());
@@ -173,7 +173,7 @@ sad::animations::setstate::AbstractSetStateCommand* sad::animations::WayMoving::
 bool sad::animations::WayMoving::applicableTo(sad::db::Object* o)
 {
     bool result = false;
-    if (o && way() != NULL)
+    if (o && way() != nullptr)
     {
         double waytime = way()->totalTime();
         bool areapropertyexists = o->getProperty<sad::Rect2D>("area").exists();

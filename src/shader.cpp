@@ -29,7 +29,7 @@ DECLARE_SOBJ(sad::Shader)
 
 
 
-sad::Shader::Shader() : m_is_on_gpu(false), m_program(0), m_renderer(NULL), m_f(NULL)
+sad::Shader::Shader() : m_is_on_gpu(false), m_program(0), m_renderer(nullptr), m_f(nullptr)
 {
     m_renderer = sad::Renderer::ref();
     m_f = m_renderer->opengl()->extensionFunctions();
@@ -154,7 +154,7 @@ void sad::Shader::tryUpload()
                 f->glGetProgramiv(m_program, GL_LINK_STATUS, &success);
                 if (!success)
                 {
-                    f->glGetProgramInfoLog(m_program, info_log_length, NULL, info_log);
+                    f->glGetProgramInfoLog(m_program, info_log_length, nullptr, info_log);
                     f->glDeleteProgram(m_program);
                     sad::String message = "Unable to link program with error, listed below:\n";
                     message += info_log;
@@ -256,6 +256,16 @@ void sad::Shader::setUniformVariable(const sad::String& loc_name, unsigned int v
 void sad::Shader::setUniformVariable(const sad::String& loc_name, float v0, float v1, float v2, float v3)
 {
     this->invoke(&sad::os::ExtensionFunctions::glUniform4f, loc_name, v0, v1, v2, v3);
+}
+
+void sad::Shader::tryDestroy() const
+{
+    if (m_is_on_gpu)
+    {
+        m_f->glDeleteProgram(m_program);
+        const_cast<sad::Shader*>(this)->m_is_on_gpu = false;
+        const_cast<sad::Shader*>(this)->m_program = 0;
+    }
 }
 
 void sad::Shader::tryDestroy()
@@ -608,12 +618,12 @@ unsigned int  sad::Shader::tryCompileShader(unsigned int shader_type, const sad:
 
     GLuint  program = f->glCreateShader(shader_type);
     const GLchar* source = program_text.c_str();
-    f->glShaderSource(program, 1, &source, NULL);
+    f->glShaderSource(program, 1, &source, nullptr);
     f->glCompileShader(program);
     f->glGetShaderiv(program, GL_COMPILE_STATUS, &success);
     if (!success)
     {
-        f->glGetShaderInfoLog(program, info_log_length, NULL, info_log);
+        f->glGetShaderInfoLog(program, info_log_length, nullptr, info_log);
         sad::String message = "Unable to compile ";
         if (shader_type == GL_VERTEX_SHADER)
         {

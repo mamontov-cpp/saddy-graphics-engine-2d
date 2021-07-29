@@ -4,6 +4,7 @@
 #include "animations/easing/easingfunction.h"
 
 #include "animations/setstate/methodcall.h"
+#include "animations/setstate/dummycommand.h"
 
 #include "animations/animationssavedrenderingstringlimit.h"
 

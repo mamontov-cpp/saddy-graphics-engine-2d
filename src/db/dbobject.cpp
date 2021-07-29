@@ -11,7 +11,7 @@
 #include "sadmutex.h"
 #include "classmetadatacontainer.h"
 
-sad::db::Object::Object() : m_table(NULL), MajorId(0), MinorId(0), Active(true)
+sad::db::Object::Object() : m_table(nullptr), MajorId(0), MinorId(0), Active(true)
 {
 
 }
@@ -56,14 +56,14 @@ void sad::db::Object::setTable(sad::db::Table* t)
 }
 
 
-static sad::db::schema::Schema* DbObjectBasicSchema = NULL;
+static sad::db::schema::Schema* DbObjectBasicSchema = nullptr;
 static sad::Mutex DbObjectBasicSchemaInit;
 sad::db::schema::Schema* sad::db::Object::basicSchema()
 {
-    if (DbObjectBasicSchema == NULL)
+    if (DbObjectBasicSchema == nullptr)
     {
         DbObjectBasicSchemaInit.lock();
-        if (DbObjectBasicSchema == NULL)
+        if (DbObjectBasicSchema == nullptr)
         {
             DbObjectBasicSchema = new sad::db::schema::Schema();
             DbObjectBasicSchema->add("majorid", sad::db::define_field(&sad::db::Object::MajorId));
@@ -122,7 +122,7 @@ void sad::db::Object::setTreeName(
 sad::db::Property* sad::db::Object::getObjectProperty(const sad::String& s) const
 {
     sad::db::schema::Schema* schema = this->schema();
-    sad::db::Property* result = NULL;
+    sad::db::Property* result = nullptr;
     if (schema)
     {
         result = schema->getProperty(s);

@@ -26,7 +26,7 @@ class Creator
 {
 public:
     /*! Creates a resource
-        \return created resource (NULL if cannot)
+        \return created resource (nullptr if cannot)
      */ 
     virtual sad::resource::Resource* create() = 0;
     /*! A creator must be inherited to create some stuff
@@ -43,7 +43,7 @@ class CreatorFor: public resource::Creator
 {
 public:
     /*! Creates a resource
-        \return created resource (NULL if cannot)
+        \return created resource (nullptr if cannot)
      */ 
     virtual sad::resource::Resource* create()
     {
@@ -63,7 +63,7 @@ class FileCreator
 {
 public:
     /*! Creates a resource
-        \return created resource (NULL if cannot)
+        \return created resource (nullptr if cannot)
      */ 
     virtual sad::resource::ResourceFile* create() = 0;
     /*! A creator must be inherited to create some stuff
@@ -80,7 +80,7 @@ class FileCreatorFor: public resource::FileCreator
 {
 public:
     /*! Creates a resource
-        \return created resource (NULL if cannot)
+        \return created resource (nullptr if cannot)
      */ 
     virtual sad::resource::ResourceFile* create()
     {
@@ -139,7 +139,7 @@ public:
         \param[in] c a creator for it
      */
     virtual void add(const sad::String & name, resource::Creator * c);
-    /*! Produces a resource by a string (NULL if cannot)
+    /*! Produces a resource by a string (nullptr if cannot)
         \param[in] name a resource name
         \return created resource
      */

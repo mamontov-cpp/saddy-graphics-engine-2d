@@ -163,11 +163,11 @@ sad::Vector<T> & sad::Vector<T>::removeLast(const T& obj)
 template<
     typename T
 >
-sad::Vector<T> & sad::Vector<T>::removeRange(unsigned long imin,unsigned long imax)
+sad::Vector<T> & sad::Vector<T>::removeRange(unsigned long i_min,unsigned long i_max)
 {
     unsigned long i;
-    for (i = imin;i <= imax;i++)
-       removeAt(imin);
+    for (i = i_min;i <= i_max;i++)
+       removeAt(i_min);
     return *this;
 }
 

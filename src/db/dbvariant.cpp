@@ -3,14 +3,14 @@
 #include "db/dbobject.h"
 
 sad::db::Variant::Variant() : 
-m_object(NULL), 
+m_object(nullptr), 
 m_pointers_stars_count(0), 
 m_is_sad_object(false),
 m_typename(""), 
-m_copy(NULL),
-m_delete(NULL),
-m_save(NULL),
-m_load(NULL)
+m_copy(nullptr),
+m_delete(nullptr),
+m_save(nullptr),
+m_load(nullptr)
 {
 
 }
@@ -118,13 +118,13 @@ void sad::db::Variant::assign(const sad::db::Variant & v)
     }
     else
     {
-        m_object = NULL;
+        m_object = nullptr;
         m_is_sad_object = false;
         m_typename = "";
-        m_copy = NULL;
-        m_delete = NULL;
-        m_save = NULL;
-        m_load = NULL;
+        m_copy = nullptr;
+        m_delete = nullptr;
+        m_save = nullptr;
+        m_load = nullptr;
         m_pointers_stars_count = 0;
         m_base_name.clear();
     }

@@ -116,15 +116,15 @@ const sad::String& sad::dialogue::Dialogue::serializableName() const
     return SadDialogDialogueName;
 }
 
-static sad::db::schema::Schema* SadDialogueDialogueSchema = NULL;
+static sad::db::schema::Schema* SadDialogueDialogueSchema = nullptr;
 
 static sad::Mutex SadDialogueDialogueSchemaInit;
 sad::db::schema::Schema* sad::dialogue::Dialogue::basicSchema()
 {
-    if (SadDialogueDialogueSchema == NULL)
+    if (SadDialogueDialogueSchema == nullptr)
     {
         SadDialogueDialogueSchemaInit.lock();
-        if (SadDialogueDialogueSchema == NULL)
+        if (SadDialogueDialogueSchema == nullptr)
         {
             SadDialogueDialogueSchema = new sad::db::schema::Schema();
             SadDialogueDialogueSchema->addParent(sad::db::Object::basicSchema());

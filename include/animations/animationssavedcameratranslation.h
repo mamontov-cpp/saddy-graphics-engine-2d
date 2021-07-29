@@ -27,10 +27,10 @@ public:
     SavedCameraTranslation(sad::db::Object* o);
     /*! Can be inherited
      */
-    virtual ~SavedCameraTranslation();
+    virtual ~SavedCameraTranslation() override;
     /*! Restores last object state
      */
-    virtual void restore();
+    virtual void restore() override;
 protected:
     /*! An old pivot for translation vector
      */

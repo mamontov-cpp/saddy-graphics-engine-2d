@@ -54,7 +54,7 @@ public:
         const sad::String & from, 
         const sad::String & to	
     );
-    /*! Returns a transition between two states (NULL if not found)
+    /*! Returns a transition between two states (nullptr if not found)
         \param[in] from a full name of state from which transition is performed
         \param[in] to   a full name of state to which transition is performed
      */

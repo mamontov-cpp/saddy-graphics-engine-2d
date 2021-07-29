@@ -117,15 +117,15 @@ double sad::animations::easing::Function::period() const
     return m_period;
 }
 
-static sad::db::schema::Schema* AnimationsEasingFunctionSchema = NULL;
+static sad::db::schema::Schema* AnimationsEasingFunctionSchema = nullptr;
 static sad::Mutex AnimationsEasingFunctionSchemaInit;
 
 sad::db::schema::Schema* sad::animations::easing::Function::basicSchema()
 {
-    if (AnimationsEasingFunctionSchema == NULL)
+    if (AnimationsEasingFunctionSchema == nullptr)
     {
         AnimationsEasingFunctionSchemaInit.lock();
-        if (AnimationsEasingFunctionSchema == NULL)
+        if (AnimationsEasingFunctionSchema == nullptr)
         {
             AnimationsEasingFunctionSchema = new sad::db::schema::Schema();
             AnimationsEasingFunctionSchema->addParent(sad::Object::basicSchema());

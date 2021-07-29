@@ -11,7 +11,7 @@ sad::WString::WString() {}
 
 sad::WString sad::widestring_from_charpointer(const char * p)
 {
-    if (p == NULL) return sad::WString();
+    if (p == nullptr) return sad::WString();
     std::string tmp(p);
     std::wstring tmpres(tmp.begin(), tmp.end());
     return sad::WString(tmpres);
@@ -71,14 +71,14 @@ sad::Vector<sad::WString> sad::WString::split(const sad::WString & o,  sad::Stri
     do
     {
         th=wcsstr(last,o.c_str());
-        if (th!=NULL)
+        if (th!=nullptr)
         {
             *th=0;
             res<<sad::WString(last);
             run=true;
             last=th+o.length();
         }
-    } while (th!=NULL);
+    } while (th!=nullptr);
     res<<sad::WString(last);
     for (size_t i=0;i<res.count();i++)
     {

@@ -1,13 +1,12 @@
 /*! \file animations/setstate/setcameratranslation.h
     
 
-    Defines a comand, which translates camera around a pivot
+    Defines a command, which translates camera around a pivot
  */
 #pragma  once
 #include "typedcommand.h"
 
 #include "../../camera.h"
-#include "../../scene.h"
 #include "../../sadpoint.h"
 
 namespace sad
@@ -19,7 +18,7 @@ namespace animations
 namespace setstate
 {
 
-class SetCameraTranslation: public sad::animations::setstate::TypedCommmand<sad::Point3D>
+class SetCameraTranslation: public sad::animations::setstate::TypedCommand<sad::Point3D>
 {
 public:
     /*! Sets a scene and pivot for translation
@@ -29,11 +28,11 @@ public:
     /*! Clones command
         \return command
      */
-    virtual sad::animations::setstate::AbstractSetStateCommand* clone() const;
+    virtual sad::animations::setstate::AbstractSetStateCommand* clone() const override;
     /*! Invokes a command with specified command
         \param[in] offset a specified offset
      */
-    virtual void call(const sad::Point3D& offset);
+    virtual void call(const sad::Point3D& offset) override;
     /*! Must be inherited
      */
     virtual ~SetCameraTranslation();

@@ -6,7 +6,6 @@
 */
 #pragma once
 #include "camera.h"
-#include <cstring>
 
 namespace sad
 {
@@ -26,7 +25,7 @@ public:
      */
     OrthographicCamera();
     /*! Creates a camera, width and height of orthographic projections, 
-        so all viwed objects will be within
+        so all viewed objects will be within
         width and specified height
         \param[in]  width of bounding rectangle
         \param[in]  height of bounding rectangle
@@ -35,10 +34,10 @@ public:
     /*! Applies an orthographic projection matrices, using gluOrtho2D function, clearing
         another matrices. After that applies matrix transformation
      */
-    virtual void apply();
+    virtual void apply() override;
     /*! Kept for purpose of inheritance
      */
-    virtual ~OrthographicCamera();
+    virtual ~OrthographicCamera() override;
 private:
     /*! Fills projection matrix
      */
@@ -46,8 +45,8 @@ private:
     /*! Whether width and height is already set in camera
      */
     bool m_fetched;  
-    int  m_width;    //!< Width or viewed maximal X coordinate 
-    int  m_height;   //!< Height  or viewed maximal Y coordinate 
+    int  m_width;    //!< Width or viewed maximal X coordinate
+    int  m_height;   //!< Height  or viewed maximal Y coordinate
 };
 
 }

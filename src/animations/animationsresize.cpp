@@ -6,6 +6,7 @@
 
 #include "animations/setstate/methodcall.h"
 #include "animations/setstate/setproperty.h"
+#include "animations/setstate/dummycommand.h"
 
 #include "fuzzyequal.h"
 #include "scene.h"
@@ -49,15 +50,15 @@ sad::animations::Resize::~Resize()
     
 }
 
-static sad::db::schema::Schema* AnimationResizeSchema = NULL;
+static sad::db::schema::Schema* AnimationResizeSchema = nullptr;
 
 static sad::Mutex AnimationResizeSchemaLock;
 sad::db::schema::Schema* sad::animations::Resize::basicSchema()
 {
-    if (AnimationResizeSchema == NULL)
+    if (AnimationResizeSchema == nullptr)
     {
         AnimationResizeSchemaLock.lock();
-        if (AnimationResizeSchema == NULL)
+        if (AnimationResizeSchema == nullptr)
         {
             AnimationResizeSchema = new sad::db::schema::Schema();
             AnimationResizeSchema->addParent(sad::animations::Animation::basicSchema());
@@ -190,7 +191,7 @@ sad::animations::setstate::AbstractSetStateCommand* sad::animations::Resize::sta
 {
     if (this->applicableTo(o))
     {
-        sad::animations::setstate::AbstractSetStateCommand* c = NULL;
+        sad::animations::setstate::AbstractSetStateCommand* c = nullptr;
         if (o->isInstanceOf("sad::Label"))
         {
             c = sad::animations::setstate::make(

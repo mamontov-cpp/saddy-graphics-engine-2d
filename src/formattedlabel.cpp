@@ -9,7 +9,7 @@ sad::formattedlabel::Arg::~Arg()
 }
 
 sad::FormattedLabel::FormattedLabel() 
-: sad::Label(NULL, sad::Point2D(), "")
+: sad::Label(nullptr, sad::Point2D(), "")
 {
     m_update_interval = 200;
     m_created = true;

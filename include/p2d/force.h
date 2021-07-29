@@ -112,7 +112,7 @@ public:
      */
     virtual sad::p2d::Body* dependsFromBody() const
     {
-        return NULL;
+        return nullptr;
     }
 protected:
     bool m_alive;  //!< If false, this force should be removed from container 
@@ -306,7 +306,7 @@ protected:
      */
     void checkBody(sad::p2d::Force<T> * force)
     {
-        if ((force->dependsFromBody() == m_body) && m_body != NULL)
+        if ((force->dependsFromBody() == m_body) && m_body != nullptr)
         {
             throw std::logic_error("Attempted to add force, related to current body");
         }

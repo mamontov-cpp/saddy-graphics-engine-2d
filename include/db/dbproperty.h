@@ -77,7 +77,7 @@ public:
     /*! Makes a property non-required with default value
         \param[in] default_value
         \return true if successfull, false in case property could not be set from
-                     specified type or default_value is NULL.
+                     specified type or default_value is nullptr.
      */
     bool makeNonRequiredWithDefaultValue(
         sad::db::Variant* default_value   

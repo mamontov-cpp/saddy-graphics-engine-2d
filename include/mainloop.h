@@ -83,7 +83,7 @@ protected:
     /*! Tries to set emergency handler, which should handle case, when user
         closes console window on Windows
      */
-    void trySetEmergencyShudownHandler();
+    void trySetEmergencyShutdownHandler();
     /*! Registers current renderer in a Windows platform in table of current 
         renderers. That is done because of implementation of event system on
         windows platform.
@@ -94,7 +94,7 @@ protected:
         windows platform.
      */
     virtual void unregisterRenderer();
-    /*! Initializes keyboard locales on Linux, allowing to handle keyboard langugage
+    /*! Initializes keyboard locales on Linux, allowing to handle keyboard language
         switch.
      */
     virtual void initKeyboardInput();
@@ -107,7 +107,7 @@ protected:
     /*! A renderer, linked to loop
      */
     sad::Renderer * m_renderer;
-    /*! A system event disptacher for dispachign all events
+    /*! A system event dispatcher for dispatching all events
      */
     sad::os::SystemEventDispatcher * m_dispatcher;
 #ifdef _WIN32
@@ -120,11 +120,13 @@ private:
     /*! Disabled to made main loop non-copyable
         \param[in] o other main loop
      */
+    // ReSharper disable once CppPrivateSpecialMemberFunctionIsNotImplemented
     MainLoop(const sad::MainLoop & o);
     /*! Disabled to made main loop non-copyable
         \param[in] o other main loop
         \return this
      */
+    // ReSharper disable once CppPrivateSpecialMemberFunctionIsNotImplemented
     const MainLoop & operator=(const sad::MainLoop & o);
 };
 

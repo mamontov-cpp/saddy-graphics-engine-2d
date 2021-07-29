@@ -22,7 +22,7 @@
 #include <ctime>
 
 sad::Scene::Scene()
-: m_active(true), m_cached_layer(0), m_camera(new sad::OrthographicCamera()), m_renderer(NULL)
+: m_active(true), m_cached_layer(0), m_camera(new sad::OrthographicCamera()), m_renderer(nullptr)
 {
     m_camera->addRef();
     m_camera->setScene(this);
@@ -46,10 +46,10 @@ static sad::Mutex SadSceneSchemaInit;
 
 sad::db::schema::Schema* sad::Scene::basicSchema()
 {
-    if (SadSceneSchema == NULL)
+    if (SadSceneSchema == nullptr)
     {
         SadSceneSchemaInit.lock();
-        if (SadSceneSchema == NULL)
+        if (SadSceneSchema == nullptr)
         {
             SadSceneSchema = new sad::db::schema::Schema();
             SadSceneSchema->addParent(sad::db::Object::basicSchema());  
@@ -84,7 +84,7 @@ void sad::Scene::setRenderer(sad::Renderer * renderer)
 
 void sad::Scene::clearRenderer()
 {
-    m_renderer = NULL;
+    m_renderer = nullptr;
 }
 
 sad::Camera* sad::Scene::getCamera() const
@@ -218,7 +218,7 @@ const sad::String& sad::Scene::serializableName() const
 void sad::Scene::addNow(sad::SceneNode * node)
 {
     node->addRef();
-    bool mustchangerenderer = (node->renderer() == NULL) || (m_renderer != node->renderer());
+    bool mustchangerenderer = (node->renderer() == nullptr) || (m_renderer != node->renderer());
     node->setScene(this);
     if (mustchangerenderer)
     {

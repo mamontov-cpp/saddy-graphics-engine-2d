@@ -38,9 +38,9 @@ public:
      */
     struct SolverTask
     {
-        sad::p2d::CollisionShape* First{NULL};          //!<  A first moving shape
+        sad::p2d::CollisionShape* First{nullptr};          //!<  A first moving shape
         sad::p2d::Vector          FirstVelocity;        //!<  A first velocity for solving
-        sad::p2d::CollisionShape* Second{NULL};         //!<  A second moving shape
+        sad::p2d::CollisionShape* Second{nullptr};         //!<  A second moving shape
         sad::p2d::Vector          SecondVelocity;       //!<  A second velocity for solving
         double PivotTime{0};                            //!< A pivot time for solving, 0 is for start
         /*! Kills task

@@ -17,7 +17,7 @@ m_hidden(false),
 m_active(true),
 m_creation_size(320, 240),
 m_window_rect_stack(),
-m_renderer(NULL),
+m_renderer(nullptr),
 #ifdef WIN32
 m_style(0),
 #endif
@@ -37,10 +37,10 @@ sad::os::WindowImpl::~WindowImpl()
         destroy();
     }
 #ifdef X11
-    if (m_handles.VisualInfo != NULL)
+    if (m_handles.VisualInfo != nullptr)
     {
         XFree(m_handles.VisualInfo);
-        m_handles.VisualInfo  = NULL;
+        m_handles.VisualInfo  = nullptr;
     }
 #endif
 }
@@ -129,7 +129,7 @@ bool sad::os::WindowImpl::registerWindowClass(bool lastresult)
         return false;
     }
 
-    m_handles.ProcessInstance = GetModuleHandle(NULL);
+    m_handles.ProcessInstance = GetModuleHandle(nullptr);
 
     WNDCLASSA    wc;
     wc.style       = CS_HREDRAW | CS_VREDRAW | CS_OWNDC | CS_DBLCLKS;
@@ -137,10 +137,10 @@ bool sad::os::WindowImpl::registerWindowClass(bool lastresult)
     wc.cbClsExtra  =  0;
     wc.cbWndExtra  =  0;
     wc.hInstance   =  m_handles.ProcessInstance;
-    wc.hIcon       =  LoadIcon(NULL,IDI_WINLOGO);
-    wc.hCursor     =  LoadCursor(NULL,IDC_ARROW);
-    wc.hbrBackground = NULL;
-    wc.lpszMenuName  = NULL;
+    wc.hIcon       =  LoadIcon(nullptr,IDI_WINLOGO);
+    wc.hCursor     =  LoadCursor(nullptr,IDC_ARROW);
+    wc.hbrBackground = nullptr;
+    wc.lpszMenuName  = nullptr;
 
     m_handles.Class = "sad::os::WindowImpl at ";
     char pointernamebuffer[20];
@@ -158,7 +158,7 @@ bool sad::os::WindowImpl::registerWindowClass(bool lastresult)
             this->renderer()
         );
 
-        m_handles.ProcessInstance = NULL;
+        m_handles.ProcessInstance = nullptr;
         m_handles.Class.clear();
     }
     return result;
@@ -174,7 +174,7 @@ void sad::os::WindowImpl::unregisterWindowClass()
         UnregisterClassA(m_handles.Class.data(), m_handles.ProcessInstance);
 
         m_handles.Class.clear();
-        m_handles.ProcessInstance = NULL;
+        m_handles.ProcessInstance = nullptr;
     }
 }
 
@@ -238,14 +238,14 @@ bool sad::os::WindowImpl::makeWindowAndObtainDeviceContext(bool lastresult)
         m_handles.AdjustedWindowRect.top,
         m_handles.AdjustedWindowRect.right,
         m_handles.AdjustedWindowRect.bottom,
-        NULL,
-        NULL,
+        nullptr,
+        nullptr,
         m_handles.ProcessInstance,
-        NULL
+        nullptr
     );
 
-    bool result = (m_handles.WND != NULL);
-    if (m_handles.WND == NULL)
+    bool result = (m_handles.WND != nullptr);
+    if (m_handles.WND == nullptr)
     {
         sad::String msg = str(
                 fmt::Format("CreateWindowExA() failed with code {0}")
@@ -256,7 +256,7 @@ bool sad::os::WindowImpl::makeWindowAndObtainDeviceContext(bool lastresult)
     else
     {
         m_handles.DC = GetDC(m_handles.WND);
-        if (m_handles.DC == NULL)
+        if (m_handles.DC == nullptr)
         {
             result = false;
             SL_COND_LOCAL_INTERNAL("GetDC() failed", this->renderer());
@@ -311,17 +311,17 @@ void sad::os::WindowImpl::releaseContextAndDestroyWindow()
     if (m_handles.DC && !ReleaseDC(m_handles.WND,m_handles.DC))
     {
         SL_COND_LOCAL_INTERNAL("ReleaseDC() failed", this->renderer());
-        m_handles.DC = NULL;
+        m_handles.DC = nullptr;
     }
 
     if (m_handles.WND && !DestroyWindow(m_handles.WND))
     {
         SL_COND_LOCAL_INTERNAL("DestroyWindow() failed", this->renderer());
-        m_handles.WND = NULL;
+        m_handles.WND = nullptr;
     }
 #ifdef X11
     XFree(m_handles.VisualInfo);
-    m_handles.VisualInfo = NULL;
+    m_handles.VisualInfo = nullptr;
 #endif
 }
 
@@ -390,7 +390,7 @@ bool sad::os::WindowImpl::openConnectionAndScreen(bool lastresult)
     XSetLocaleModifiers("");
     m_handles.Dpy = XOpenDisplay(0);
     unsigned long dpy = reinterpret_cast<unsigned long>(m_handles.Dpy);
-    if (m_handles.Dpy == NULL)
+    if (m_handles.Dpy == nullptr)
     {
         m_handles.Screen = 0;
         SL_COND_LOCAL_INTERNAL("XOpenDisplay(0) failed", this->renderer());
@@ -494,7 +494,7 @@ void sad::os::WindowImpl::closeConnection()
         XDestroyWindow(m_handles.Dpy, m_handles.Win);
     }
     XFreeColormap(m_handles.Dpy, m_handles.ColorMap);
-    if (m_handles.Dpy != NULL)
+    if (m_handles.Dpy != nullptr)
     {
         XCloseDisplay(m_handles.Dpy);
     }
@@ -554,7 +554,7 @@ bool sad::os::WindowImpl::chooseVisualInfo(bool lastresult)
         attrlistdoublebuffered
     );
 
-    if (m_handles.VisualInfo == NULL)
+    if (m_handles.VisualInfo == nullptr)
     {
         m_handles.VisualInfo = glXChooseVisual(
             m_handles.Dpy,
@@ -567,7 +567,7 @@ bool sad::os::WindowImpl::chooseVisualInfo(bool lastresult)
         );
 
     }
-    if (m_handles.VisualInfo == NULL)
+    if (m_handles.VisualInfo == nullptr)
     {
         SL_COND_LOCAL_INTERNAL(
             "glXChooseVisual() failed for singlebuffering",
@@ -642,29 +642,29 @@ bool sad::os::WindowImpl::createWindow(bool lastresult)
         m_window_title.data(),
         m_window_title.data(),
         None,
-        NULL,
+        nullptr,
         0,
-        NULL
+        nullptr
     );
 
     // Do input query
-    m_handles.IM = XOpenIM(  m_handles.Dpy, NULL, NULL, NULL);
-    if (m_handles.IM == NULL)
+    m_handles.IM = XOpenIM(  m_handles.Dpy, nullptr, nullptr, nullptr);
+    if (m_handles.IM == nullptr)
     {
       SL_COND_LOCAL_INTERNAL("XOpenIM() failed", this->renderer());
       return false;
     }
 
-    char* failed_arg = XGetIMValues(m_handles.IM, XNQueryInputStyle, &(m_handles.Styles), NULL);
+    char* failed_arg = XGetIMValues(m_handles.IM, XNQueryInputStyle, &(m_handles.Styles), nullptr);
 
-    if (failed_arg != NULL)
+    if (failed_arg != nullptr)
     {
       SL_COND_LOCAL_INTERNAL("Can\'t get styles", this->renderer());
       return false;
     }
 
-    m_handles.IC = XCreateIC(m_handles.IM, XNInputStyle, XIMPreeditNothing | XIMStatusNothing, XNClientWindow, m_handles.Win, NULL);
-    if (m_handles.IC == NULL) {
+    m_handles.IC = XCreateIC(m_handles.IM, XNInputStyle, XIMPreeditNothing | XIMStatusNothing, XNClientWindow, m_handles.Win, nullptr);
+    if (m_handles.IC == nullptr) {
         SL_COND_LOCAL_INTERNAL("XCreateIC() failed", this->renderer());
         return false;
     }
@@ -744,7 +744,7 @@ void sad::os::WindowImpl::destroy()
 bool sad::os::WindowImpl::valid() const
 {
 #ifdef WIN32
-    return m_handles.WND != NULL;
+    return m_handles.WND != nullptr;
 #endif
 
 #ifdef X11
@@ -777,7 +777,7 @@ void sad::os::WindowImpl::makeFixedSize()
 
 #ifdef X11
     sad::Rect2I rect = this->rect();
-    XSizeHints * sizehints = NULL;
+    XSizeHints * sizehints = nullptr;
     sizehints = XAllocSizeHints();
     sizehints->flags = PMinSize | PMaxSize;
     sizehints->min_width = rect.width();
@@ -806,7 +806,7 @@ void sad::os::WindowImpl::makeResizeable()
 #endif
 
 #ifdef X11
-    XSizeHints * sizehints = NULL;
+    XSizeHints * sizehints = nullptr;
     sizehints = XAllocSizeHints();
     sizehints->flags = PMinSize | PMaxSize;
     sizehints->min_width = 1;
@@ -1090,7 +1090,7 @@ const sad::String & sad::os::WindowImpl::title() const
 #endif
 
 #ifdef X11
-    char * title = NULL;
+    char * title = nullptr;
     XFetchName(m_handles.Dpy, m_handles.Win, &title);
     impl->m_window_title = title;
     XFree(title);

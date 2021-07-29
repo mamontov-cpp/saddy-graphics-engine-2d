@@ -22,8 +22,8 @@ m_padding_top(0),
 m_padding_bottom(0),
 m_padding_left(0),
 m_padding_right(0),
-m_grid(NULL),
-m_db(NULL)
+m_grid(nullptr),
+m_db(nullptr)
 {
     m_width.Unit = sad::layouts::LU_Auto;
     m_height.Unit = sad::layouts::LU_Auto;
@@ -495,7 +495,7 @@ size_t sad::layouts::Cell::childrenCount() const
 
 sad::SceneNode* sad::layouts::Cell::child(unsigned int pos) const
 {
-    sad::SceneNode* result = NULL;
+    sad::SceneNode* result = nullptr;
     if (pos < m_children.size())
     {
         result = m_children[pos]->value();
@@ -505,7 +505,7 @@ sad::SceneNode* sad::layouts::Cell::child(unsigned int pos) const
 
 unsigned long long sad::layouts::Cell::childMajorId(unsigned int pos) const
 {
-    unsigned long long result = NULL;
+    unsigned long long result = 0;
     if (pos < m_children.size())
     {
         result = m_children[pos]->majorId();

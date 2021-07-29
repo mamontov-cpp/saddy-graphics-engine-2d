@@ -1613,12 +1613,6 @@
     <ClInclude Include="include\db\dbtypedlink.h">
       <Filter>Заголовочные файлы\db</Filter>
     </ClInclude>
-    <ClInclude Include="include\util\sadhash_src.h">
-      <Filter>Заголовочные файлы\util</Filter>
-    </ClInclude>
-    <ClInclude Include="include\util\sadhash.h">
-      <Filter>Заголовочные файлы\util</Filter>
-    </ClInclude>
     <ClInclude Include="include\animations\easing\easingfunction.h">
       <Filter>Заголовочные файлы\animations\easing</Filter>
     </ClInclude>

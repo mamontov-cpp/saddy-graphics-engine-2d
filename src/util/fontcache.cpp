@@ -41,29 +41,29 @@ void sad::util::FontCache::clear()
     m_mtx.unlock();
 }
 
-sad::Font* sad::util::FontCache::get(const sad::String& s, sad::resource::Link<sad::Font>& parentfnt)
+sad::Font* sad::util::FontCache::get(const sad::String& s, sad::resource::Link<sad::Font>& parent_font)
 {
     sad::ScopedLock lock(&m_mtx);
 
     if (m_fonts_for_document.contains(s))
     {
         sad::Font* fnt = m_fonts_for_document[s]->get();
-        if (fnt == NULL)
+        if (fnt == nullptr)
         {
-            return parentfnt.get();
+            return parent_font.get();
         }
         else
         {
             return fnt;
         }
     }
-    sad::resource::Link<sad::Font>* copy = new sad::resource::Link<sad::Font>(parentfnt);
+    sad::resource::Link<sad::Font>* copy = new sad::resource::Link<sad::Font>(parent_font);
     copy->setPath(s);
     sad::Font* fnt = copy->get();
-    if (fnt == NULL)
+    if (fnt == nullptr)
     {
         delete copy;
-        return parentfnt.get();
+        return parent_font.get();
     }
     else
     {
@@ -72,7 +72,7 @@ sad::Font* sad::util::FontCache::get(const sad::String& s, sad::resource::Link<s
     }
 }
 
-void sad::util::FontCache::setTree(sad::Renderer* r, const sad::String& treename)
+void sad::util::FontCache::setTree(sad::Renderer* r, const sad::String& tree_name)
 {
     sad::ScopedLock lock(&m_mtx);
 
@@ -81,7 +81,7 @@ void sad::util::FontCache::setTree(sad::Renderer* r, const sad::String& treename
         ++it
         )
     {
-        it.value()->setTree(r, treename);
+        it.value()->setTree(r, tree_name);
     }
 }
 

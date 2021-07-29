@@ -1,7 +1,7 @@
 /*! \file animations/animationscontinuousproperty.h
     
 
-    An animations as animation of continous property changing
+    An animations as animation of continuous property changing
  */
 #pragma once
 
@@ -11,6 +11,7 @@
 #include "../sadmutex.h"
 
 #include "../db/schema/schema.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../db/dbproperty.h"
 #include "../db/save.h"
 #include "../db/load.h"
@@ -23,6 +24,7 @@
 
 #include "easing/easingfunction.h"
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include "animationssavedobjectproperty.h"
 #include "setstate/setproperty.h"
 
@@ -49,21 +51,21 @@ public:
     static sad::ClassMetaData* globalMetaData()
     {
         sad::db::TypeName<T>::init();
-        sad::String typeofname = sad::db::TypeName<T>::baseName();
-        unsigned int pointercount = sad::db::TypeName<T>::POINTER_STARS_COUNT;
-        for(int i = 0; i < pointercount;i++)
+        sad::String type_of_name = sad::db::TypeName<T>::baseName();
+        const unsigned int pointer_count = sad::db::TypeName<T>::POINTER_STARS_COUNT;
+        for(int i = 0; i < pointer_count;i++)
         {
-            typeofname += "*";
+            type_of_name += "*";
         }
-        sad::String myname = "sad::animations::ContinuousProperty<";
-        myname << typeofname;
-        myname << ">";
+        sad::String my_name = "sad::animations::ContinuousProperty<";
+        my_name << type_of_name;
+        my_name << ">";
 
         bool created = false;
-        sad::ClassMetaData* m = sad::ClassMetaDataContainer::ref()->get(myname, created);
+        sad::ClassMetaData* m = sad::ClassMetaDataContainer::ref()->get(my_name, created);
         if (created)
         {
-            if (sad::animations::Animation::globalMetaData() == NULL) return NULL;
+            if (sad::animations::Animation::globalMetaData() == nullptr) return nullptr;
             m->addAncestor("sad::animations::Animation");
         }
         return m;
@@ -71,7 +73,7 @@ public:
     /*! Return object meta data
         \return object meta data
      */
-    sad::ClassMetaData * metaData() const
+    sad::ClassMetaData * metaData() const override
     {
         return sad::animations::ContinuousProperty<T>::globalMetaData();
     }
@@ -84,7 +86,7 @@ public:
     }
     /*! Can be inherited
      */
-    virtual ~ContinuousProperty()
+    virtual ~ContinuousProperty() override
     {
 
     }
@@ -93,12 +95,12 @@ public:
      */
     static sad::db::schema::Schema* basicSchema()
     {
-        static sad::db::schema::Schema* Schema = NULL;
+        static sad::db::schema::Schema* Schema = nullptr;
         static sad::Mutex SchemaInit;
-        if (Schema == NULL)
+        if (Schema == nullptr)
         {
             SchemaInit.lock();
-            if (Schema == NULL)
+            if (Schema == nullptr)
             {
                 Schema = new sad::db::schema::Schema();
                 Schema->addParent(sad::animations::Animation::basicSchema());
@@ -134,34 +136,34 @@ public:
     /*! Returns schema for an object
         \return schema
      */
-    sad::db::schema::Schema* schema() const
+    sad::db::schema::Schema* schema() const override
     {
         return sad::animations::ContinuousProperty<T>::basicSchema();
     }
     /*! Tries to load animation from value
         \param[in] v value
-        \return whether it was successfull
+        \return whether it was successful
      */
-    virtual bool loadFromValue(const picojson::value& v)
+    virtual bool loadFromValue(const picojson::value& v) override
     {
         bool flag = this->sad::animations::Animation::loadFromValue(v);
         if (flag)
         {
-            sad::Maybe<T> minsize = picojson::to_type<T>(
+            sad::Maybe<T> min_size = picojson::to_type<T>(
                                                     picojson::get_property(v, "min_value")
                                                 );
-            sad::Maybe<T> maxsize = picojson::to_type<T>(
+            sad::Maybe<T> max_size = picojson::to_type<T>(
                                                     picojson::get_property(v, "max_value")
                                                 );
-            sad::Maybe<sad::String> propertyname = picojson::to_type<sad::String>(
+            const sad::Maybe<sad::String> property_name = picojson::to_type<sad::String>(
                                                     picojson::get_property(v, "property")
                                                 );
-            bool result = minsize.exists() && maxsize.exists() && propertyname.exists();
+            const bool result = min_size.exists() && max_size.exists() && property_name.exists();
             if (result)
             {
-                m_min_value = minsize.value();
-                m_max_value = maxsize.value();
-                setPropertyName(propertyname.value());
+                m_min_value = min_size.value();
+                m_max_value = max_size.value();
+                setPropertyName(property_name.value());
             }
 
             flag = flag && result;
@@ -217,7 +219,7 @@ public:
         \param[in] i an animation instance
         \param[in] time a time of playing of animation
      */
-    virtual void setState(sad::animations::Instance* i, double time)
+    virtual void setState(sad::animations::Instance* i, double time) override
     {
         if (!m_valid)
             return;
@@ -238,7 +240,7 @@ public:
         \param[in] o object
         \return state command
      */
-    virtual sad::animations::setstate::AbstractSetStateCommand* stateCommand(sad::db::Object* o)
+    virtual sad::animations::setstate::AbstractSetStateCommand* stateCommand(sad::db::Object* o) override
     {
         return new sad::animations::setstate::SetProperty<T>(o, m_property_name);
     }
@@ -247,13 +249,13 @@ public:
         \param[in] o object
         \return whether animation is applicable to that object
      */
-    virtual bool applicableTo(sad::db::Object* o)
+    virtual bool applicableTo(sad::db::Object* o) override
     {
         bool result = false;
         if (o && m_valid)
         {
-            sad::Maybe<T> maybevalue = o->getProperty<T>(m_property_name);
-            result = maybevalue.exists();
+            sad::Maybe<T> maybe_value = o->getProperty<T>(m_property_name);
+            result = maybe_value.exists();
         }
         return result;
     }
