@@ -34,10 +34,10 @@ public:
     /*! A partial result to schema file
      */
     typedef sad::Vector< parse_result_entry > parse_result;
-    /*! Creates new flle with specified name. Supposedly it must be path to specified file.
+    /*! Creates new file with specified name. Supposedly it must be path to specified file.
         \param[in] name a filename (with or without path) to it
      */
-    SchemaFile(const sad::String& name = "");   
+    SchemaFile(const sad::String& name = "");
     /*! Whether texture atlas file is found
      */
     ~SchemaFile();
@@ -52,15 +52,15 @@ public:
     /*! Loads a file. 
         \param[in] parent a parent folder, where all created resources should be stored
      */
-    virtual sad::Vector<sad::resource::Error*> load(sad::resource::Folder * parent);
+    virtual sad::Vector<sad::resource::Error*> load(sad::resource::Folder * parent) override;
     /*! Reloads all resources from a file
-        \return errors if any occured on resources
+        \return errors if any occurred on resources
      */
-    virtual sad::Vector<sad::resource::Error*> reload();
+    virtual sad::Vector<sad::resource::Error*> reload()  override;
     /*! Returns whether resource supports loading from archive
         \return true. This resource supports loading from archives.
      */
-    virtual bool supportsLoadingFromTar7z() const;
+    virtual bool supportsLoadingFromTar7z() const override;
 protected:
     /*! Parses file with schemas
         \param[out] result a parsed data

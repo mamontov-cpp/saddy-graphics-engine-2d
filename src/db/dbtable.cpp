@@ -238,7 +238,7 @@ bool sad::db::Table::load(
     const picojson::value & v, 
     sad::db::ObjectFactory* factory,
     sad::Renderer* renderer,
-    const sad::String& treename
+    const sad::String& tree_name
 )
 {
     if (renderer == nullptr)
@@ -261,7 +261,7 @@ bool sad::db::Table::load(
             }
             else
             {
-                tmp->setTreeName(renderer, treename);
+                tmp->setTreeName(renderer, tree_name);
                 ok = ok && tmp->load(entries[i]);
                 if (!ok)
                 {
@@ -363,7 +363,7 @@ sad::Vector<sad::db::Object*>  sad::db::Table::objectListOfType(const sad::Strin
 
 void sad::db::Table::changeObjectName(
         sad::db::Object * o, 
-        const sad::String & oldname,
+        const sad::String & old_name,
         const sad::String & name
     )
 {
@@ -373,11 +373,11 @@ void sad::db::Table::changeObjectName(
         return;
     }
 
-    if (oldname.length())
+    if (old_name.length())
     {
-        if (m_object_by_name.contains(oldname))
+        if (m_object_by_name.contains(old_name))
         {
-            sad::Vector<sad::db::Object*>& objects = m_object_by_name[oldname];
+            sad::Vector<sad::db::Object*>& objects = m_object_by_name[old_name];
             objects.removeAll(o);
         }
     }

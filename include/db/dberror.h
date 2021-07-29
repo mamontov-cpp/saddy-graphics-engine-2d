@@ -35,7 +35,7 @@ public:
     }
     /*! This class can be inherited 
      */
-    virtual ~Error() throw();
+    virtual ~Error() override;
 };
 
 /*! \class NotImplemented
@@ -66,7 +66,7 @@ public:
 
     /*! This class can be inherited 
      */
-    virtual ~NotImplemented() throw();
+    virtual ~NotImplemented()  override;
 protected:
     /*! A name of file.
      */
@@ -83,7 +83,6 @@ SAD_OBJECT
 public:
 
     /*! Constructs a error
-        \param[in] method a name of method
      */
     inline InvalidPointer()
     : sad::db::Error("Pointer to object is invalid, while saving an object")
@@ -93,7 +92,7 @@ public:
 
     /*! This class can be inherited 
      */
-    virtual ~InvalidPointer() throw();
+    virtual ~InvalidPointer() override;
 };
 
 }

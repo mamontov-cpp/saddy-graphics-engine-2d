@@ -7,7 +7,7 @@
 #include "dbproperty.h"
 #include "dbvariant.h"
 #include <cassert>
-#include <cstdio>
+#include <utility>
 
 namespace sad
 {
@@ -24,9 +24,9 @@ class StoredProperty: public sad::db::Property
 {
 public:
     /*! Creates new field for a class
-        \param[in] o a field data
+        \param[in] v a field data
      */
-    StoredProperty(_FieldTypeName v = _FieldTypeName()) : m_value(v)
+    StoredProperty(_FieldTypeName v = _FieldTypeName()) : m_value(std::move(v))
     {
         sad::db::TypeName<_FieldTypeName>::init();
         m_base_type = sad::db::TypeName<_FieldTypeName>::baseName();
@@ -35,14 +35,11 @@ public:
     }
     /*! A field data
      */
-    virtual ~StoredProperty()
-    {
-
-    }
+	virtual ~StoredProperty()  override = default;
     /*! Clones a property
         \return a property clone
      */
-    virtual sad::db::Property* clone() const
+    virtual sad::db::Property* clone() const override
     {
         sad::db::StoredProperty<_FieldTypeName>* result = new sad::db::StoredProperty<_FieldTypeName>(m_value);
         if (m_default_value)
@@ -56,7 +53,7 @@ public:
         \param[in] v a value for property
         \return whether value is set successfully
      */
-    virtual bool set(sad::db::Object * o, const sad::db::Variant & v)
+    virtual bool set(sad::db::Object * o, const sad::db::Variant & v) override
     {
         sad::Maybe<_FieldTypeName> value = v.get<_FieldTypeName>();
         bool result = false;
@@ -71,7 +68,7 @@ public:
         \param[in] o an object
         \param[in] v a value for a property
      */
-    virtual void  get(sad::db::Object const* o, sad::db::Variant & v) const 
+    virtual void  get(sad::db::Object const* o, sad::db::Variant & v) const  override
     {
         v.set(m_value);
     }
@@ -80,7 +77,7 @@ public:
         \param[in] v value
         \return whether field has following type
      */
-    virtual bool check(const sad::String& key, const picojson::value& v) 
+    virtual bool check(const sad::String& key, const picojson::value& v)  override
     {
         bool result = false;
         if (v.is<picojson::object>())
@@ -97,7 +94,7 @@ public:
         \param[in] v value
         \return whether it could be set from value
      */ 
-    virtual bool couldBeSetFrom(const sad::db::Variant& v)
+    virtual bool couldBeSetFrom(const sad::db::Variant& v) override
     {
         return v.get<_FieldTypeName>().exists();
     }

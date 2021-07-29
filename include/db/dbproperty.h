@@ -32,7 +32,7 @@ public:
      */
     virtual const sad::String & baseType() const;
     /*! Returns whether type of property is kind of sad::Object
-        \return whether type of property is kind of sadd::Object
+        \return whether type of property is kind of sad::Object
      */
     virtual bool typeIsKindOfSadObject() const;
     /*! Returns count for pointer stars count
@@ -75,12 +75,12 @@ public:
      */
     sad::String serializableType() const;
     /*! Makes a property non-required with default value
-        \param[in] default_value
+        \param[in] default_value a default value for property
         \return true if successfull, false in case property could not be set from
                      specified type or default_value is nullptr.
      */
     bool makeNonRequiredWithDefaultValue(
-        sad::db::Variant* default_value   
+        sad::db::Variant* default_value
     );
     /*! Makes a property required
         \return always true

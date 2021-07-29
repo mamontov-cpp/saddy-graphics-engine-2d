@@ -23,13 +23,13 @@ namespace schema
 
     Defines a schema object for an object
  */
-class Schema: public sad::db::Object  
+class Schema: public sad::db::Object
 {	
 public:		
     /*! Creates new empty schema
         \param[in] parent a parent data for schema
      */
-    Schema(sad::db::schema::Schema* parent = nullptr); 
+    Schema(sad::db::schema::Schema* parent = nullptr);
     /*! This class can be inherited 
      */
     virtual ~Schema();
@@ -58,12 +58,12 @@ public:
         \param[in] v a value for object
         \return whether it was successfull
      */
-    bool load(sad::db::Object * o, const picojson::value& v);
+    bool load(sad::db::Object * o, const picojson::value& v);  // NOLINT(clang-diagnostic-overloaded-virtual)
     /*! Saved linked object from a schema
         \param[in] linked a linked object
         \param[out] v a value, which will be filled with data from schema
      */
-    void save(sad::db::Object * linked, picojson::value & v);
+    void save(sad::db::Object * linked, picojson::value & v);  // NOLINT(clang-diagnostic-overloaded-virtual)
     /*! Return parent schema
         \return parent schema
      */

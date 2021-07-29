@@ -6,6 +6,7 @@
 #pragma once
 #include "../../scenenode.h"
 #include "../../resource/link.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "../../resource/tree.h"
 #include "customschema.h"
 #include "label.h"
@@ -33,11 +34,11 @@ public:
     Object();
     /*! Deletes own schema and data
      */
-    virtual ~Object();
+    virtual ~Object() override;
     /*! Sets scene 
         \param[in] scene a scene, which will render a node
      */
-    virtual void setScene(sad::Scene * scene);
+    virtual void setScene(sad::Scene * scene) override;
     /*! Whether inner object is one of specified types
         \param[in] type a name of type
         \return whether it is of specified type
@@ -47,23 +48,23 @@ public:
         \param[in] r renderer, which tree should be fetched from
         \param[in] tree_name a name for an item for object
      */
-    virtual void setTreeName(sad::Renderer* r, const sad::String & tree_name);
+    virtual void setTreeName(sad::Renderer* r, const sad::String & tree_name) override;
     /*! Returns schema for an object
         \return schema
      */
-    virtual sad::db::schema::Schema* schema() const;
+    virtual sad::db::schema::Schema* schema() const override;
     /*! Fills vector of regions with data, that could be used for identifying bounds of item.
         As default, no regions are produced.
         \param[out] r a vector of regions
      */
-    virtual void regions(sad::Vector<sad::Rect2D> & r);
+    virtual void regions(sad::Vector<sad::Rect2D> & r) override;
     /*! Returns fully rotated region for object
         \return region
      */
     virtual sad::Rect2D renderableArea() const;
     /*! Renders a current rendered object
      */ 
-    virtual void render();
+    virtual void render() override;
     /*! Sets new schema name for an object
         \param[in] s a string name
      */
@@ -79,7 +80,7 @@ public:
     /*! Sets size of font, used in label
         \param[in] size a size of custom object
      */
-    void setFontSize(unsigned int);
+    void setFontSize(unsigned int size);
     /*! Sets font name for custom object
         \return font name
      */
@@ -103,11 +104,11 @@ public:
     /*! Returns true
         \return if node can be rotated
      */
-    virtual bool canBeRotated() const;
+    virtual bool canBeRotated() const override;
     /*! Rotates a sprite around his middle point counter-clockwise
         \param[in]  angle an angle, which defines how sprite should be rotated
      */
-    virtual void rotate(double angle);
+    virtual void rotate(double angle) override;
     /*! Returns angle, used in object
         \return angle in object
      */
@@ -121,7 +122,7 @@ public:
      */
     sad::Rect2D area() const;
     /*! Sets non-rotated object area
-        \param[in] object area
+        \param[in] area area for custom object
      */
     void setArea(const sad::Rect2D & area);
     /*! Returns a string for label
@@ -137,7 +138,7 @@ public:
      */
     const sad::AColor& color() const;
     /*! Sets color for sprite and label
-        \return color
+        \param[in] c color
      */
     void setColor(const sad::AColor & c);
     /*! Whether sprite is flipped horizontally
@@ -145,7 +146,7 @@ public:
      */
     bool flipX() const;
     /*! Whether sprite is flipped horizontally 
-        \param[in] whether sprite is flipped horizontally
+        \param[in] f whether sprite is flipped horizontally
      */
     void setFlipX(bool f);
     /*! Whether sprite is flipped vertically
@@ -180,12 +181,12 @@ public:
         \param[in] v a picojson object
         \return  whether it as successfull
      */
-    virtual bool load(const picojson::value& v);
+    virtual bool load(const picojson::value& v) override;
     /*! Sets a texture coordinates for sprites
-        \param[in] texturecoordinates a texture coordinates for a sprite in notation, defined in 
+        \param[in] texture_coordinates a texture coordinates for a sprite in notation, defined in 
                                       constructor
      */
-    void setTextureCoordinates(const sad::Rect2D & texturecoordinates);
+    void setTextureCoordinates(const sad::Rect2D & texture_coordinates);
     /*! Returns a texture coordinates
         \return a texture coordinates
      */
@@ -193,7 +194,7 @@ public:
     /*! Sets the strategy for text overflow, which should be applied,
         when text overflows a line with one word in case that BreakText parameter set to LBT_BREAK_WORD or
         maximal line width is non-zero and BreakText parameter is set to LBT_NORMAL.
-        \param[in] ovstrategy a strategy value
+        \param[in] s a strategy value
      */
     void setOverflowStrategy(sad::Label::OverflowStrategy s);
     /*! Sets the strategy for text overflow. Clamps a value to enumeration bounds if needed.
@@ -205,7 +206,7 @@ public:
      */
     sad::Label::OverflowStrategy overflowStrategy() const;
     /*! Returns overflow strategy for label as index 
-        \return oveflow strategy
+        \return overflow strategy
      */
     unsigned int overflowStrategyAsIndex() const;
     /*! Sets, whether we should break lines in case, that maximal line width is set
@@ -213,7 +214,7 @@ public:
      */
     void setBreakText(sad::Label::BreakText value);
     /*! Sets, whether we should break lines in case, that maximal line width is set. Clamps a value to enumeration bounds if needed.
-        \param[in] value 
+        \param[in] value value for breaking lines as index 
      */
     void setBreakTextFromIndex(unsigned int value);
     /*! Returns whether we should break text in lines
@@ -228,8 +229,8 @@ public:
         \param[in] value value
      */
     void setTextEllipsisPosition(sad::Label::TextEllipsisPosition value);
-    /*! Sets text ellipsisis position in text. Clamps a value to enumeration bounds if needed.
-        \param[in] value 
+    /*! Sets text ellipsis position in text. Clamps a value to enumeration bounds if needed.
+        \param[in] value for ellipsis value as index
      */
     void setTextEllipsisPositionAsIndex(unsigned int value);
     /*! Returns text ellipsis position
@@ -250,7 +251,7 @@ public:
     unsigned int maximalLinesCount() const;
     /*! Sets the strategy for text overflow, which should be applied,
         when text overflows amount of lines. 
-        \param[in] ovstrategy a strategy value
+        \param[in] s a strategy value
      */
     void setOverflowStrategyForLines(sad::Label::OverflowStrategy s);
     /*! Sets the strategy for text overflow for lines. Clamps a value to enumeration bounds if needed.
@@ -261,16 +262,16 @@ public:
         \return overflow strategy
      */
     sad::Label::OverflowStrategy overflowStrategyForLines() const;
-    /*! Returns overflow strategy for label as index  ffor lines in label
-        \return oveflow strategy
+    /*! Returns overflow strategy for label as index  for lines in label
+        \return overflow strategy
      */
     unsigned int overflowStrategyForLinesAsIndex() const;
     /*! Sets text ellipsis position in text for lines
         \param[in] value value
      */
     void setTextEllipsisPositionForLines(sad::Label::TextEllipsisPosition value);
-    /*! Sets text ellipsisis position in text for lines. Clamps a value to enumeration bounds if needed.
-        \param[in] value 
+    /*! Sets text ellipsis position in text for lines. Clamps a value to enumeration bounds if needed.
+        \param[in] value  value for text ellipsis
      */
     void setTextEllipsisPositionForLinesAsIndex(unsigned int value);
     /*! Returns text ellipsis position for lines
@@ -296,7 +297,7 @@ public:
      */
     void disableFormatting();
     /*! Copies state of custom property values from other object. Please, note that this will overwrite
-        in  case that this object has properties, which o doesn't, if they have same schema and fail otherwise
+        in  case that this object has properties, which o does not, if they have same schema and fail otherwise
         \param[in] o other object
         \return whether it was successfull. In case of non-successfull old values are preserved
      */
@@ -312,7 +313,7 @@ public:
     /*! Moves custom object by specified number
         \param[in] dist a distance
      */
-    virtual void moveBy(const sad::Point2D & dist);
+    virtual void moveBy(const sad::Point2D & dist) override;
     /*! Returns rendered string length
         \return length of rendered string
      */
@@ -332,18 +333,18 @@ public:
     /*! Sets shader function
      *  \param[in] fun a function
      */
-    virtual void setShaderFunction(sad::ShaderFunction* fun);
+    virtual void setShaderFunction(sad::ShaderFunction* fun) override;
     /*! Called, when renderer is changed
      */
-    virtual void rendererChanged();
+    virtual void rendererChanged() override;
     /*! Called, when added  to scene
      */
-    virtual void onAddedToScene();
+    virtual void onAddedToScene() override;
     /*! Called, when removed from scene 
      */
-    virtual void onRemovedFromScene();
+    virtual void onRemovedFromScene() override;
 protected:
-    /*! Fills custom object with defailt item properties
+    /*! Fills custom object with default item properties
      */
     void initDefaultSchema();
     /*! Updates configuration of object, basing on schema
@@ -366,7 +367,6 @@ protected:
      */
     sad::db::schema::Schema * m_my_schema;
     /*! A schema for an object
-        \param[in] schema for object
      */
     sad::resource::Link<sad::db::custom::Schema> m_schema;
 };

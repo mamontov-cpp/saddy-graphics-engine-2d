@@ -29,7 +29,7 @@ namespace variant
 template<typename T>
 void * copy_value(void * o)
 {
-    return new T(*(reinterpret_cast<T*>(o)));       
+    return new T(*(static_cast<T*>(o)));
 }
 
 /*! Deletes a variant value
@@ -39,7 +39,7 @@ void * copy_value(void * o)
 template<typename T>
 void delete_value(void * o)
 {
-    delete reinterpret_cast<T*>(o);     
+    delete static_cast<T*>(o);
 }
 
 }
@@ -84,7 +84,6 @@ protected:
     void release();
     /*! Assigns a value
         \param[in] v value
-        \return value
      */
     void assign(const sad::db::Variant & v);
     /*! Casts to object and gets serializable name
@@ -193,11 +192,11 @@ public:
         {
             if (ref)
             {
-                result.setReference(reinterpret_cast<T*>(m_object));
+                result.setReference(static_cast<T*>(m_object));
             }
             else
             {
-                result.setValue(*((T*)m_object));
+                result.setValue(*static_cast<T*>(m_object));
             }
             return result;
         }

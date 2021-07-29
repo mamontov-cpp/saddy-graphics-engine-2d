@@ -244,9 +244,9 @@ const sad::String& sad::db::custom::Object::options() const
     return m_sprite2d->optionsName();
 }
 
-void sad::db::custom::Object::setTextureCoordinates(const sad::Rect2D & texturecoordinates)
+void sad::db::custom::Object::setTextureCoordinates(const sad::Rect2D & texture_coordinates)
 {
-    m_sprite2d->setTextureCoordinates(texturecoordinates);
+    m_sprite2d->setTextureCoordinates(texture_coordinates);
 }
 
 const sad::Rect2D & sad::db::custom::Object::textureCoordinates() const

@@ -32,9 +32,9 @@ void sad::dialogue::Phrase::setDuration(double duration)
     this->m_duration  = duration;
 }
 
-void sad::dialogue::Phrase::setViewHint(const sad::String& viewhint)
+void sad::dialogue::Phrase::setViewHint(const sad::String& view_hint)
 {
-    this->m_view_hint = viewhint;
+    this->m_view_hint = view_hint;
 }
  
 const sad::String& sad::dialogue::Phrase::actorName() const

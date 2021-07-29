@@ -101,19 +101,19 @@ const sad::String& sad::db::Object::objectName() const
     return this->m_name;
 }
 
-void sad::db::Object::setObjectName(const sad::String & newname)
+void sad::db::Object::setObjectName(const sad::String & new_name)
 {
     if (table())
     {
-        this->table()->changeObjectName(this, this->m_name, newname);
+        this->table()->changeObjectName(this, this->m_name, new_name);
     }
-    this->m_name = newname;
+    this->m_name = new_name;
 }
 
 
 void sad::db::Object::setTreeName(
     sad::Renderer* renderer,
-    const sad::String& treename
+    const sad::String& tree_name
 )
 {
 

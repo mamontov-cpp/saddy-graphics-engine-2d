@@ -599,7 +599,7 @@ void sad::db::Database::clearProperties()
 
  bool sad::db::Database::loadProperties(
         const picojson::object& properties, 
-        sad::Hash<sad::String, sad::db::Property*>& newproperties
+        sad::Hash<sad::String, sad::db::Property*>& new_properties
 )
 {
     bool result = true;
@@ -637,7 +637,7 @@ void sad::db::Database::clearProperties()
                             deserialized = p->set(nullptr, value);
                             if (deserialized)
                             {
-                                newproperties.insert(it->first, p);
+                                new_properties.insert(it->first, p);
                             }
                         }
                         if (deserialized == false)
@@ -654,11 +654,11 @@ void sad::db::Database::clearProperties()
     return result;
 }
 
-void sad::db::Database::setPropertiesFrom(const sad::Hash<sad::String, sad::db::Property*>& newproperties)
+void sad::db::Database::setPropertiesFrom(const sad::Hash<sad::String, sad::db::Property*>& new_properties)
 {
     clearProperties();
-    for(sad::Hash<sad::String, sad::db::Property*>::const_iterator it = newproperties.const_begin();
-        it != newproperties.const_end();
+    for(sad::Hash<sad::String, sad::db::Property*>::const_iterator it = new_properties.const_begin();
+        it != new_properties.const_end();
         ++it)
     {
         m_properties.insert(it.key(), it.value());

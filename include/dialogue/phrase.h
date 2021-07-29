@@ -41,9 +41,9 @@ public:
      */ 
     virtual void setDuration(double duration);
     /*! Sets view hint for a phrase
-        \param[in] viewhint a hint for viewing phrase
+        \param[in] view_hint a hint for viewing phrase
      */
-    virtual void setViewHint(const sad::String& viewhint);
+    virtual void setViewHint(const sad::String& view_hint);
     /*! Returns actor name
         \return actor name
      */

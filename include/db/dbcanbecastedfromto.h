@@ -1,4 +1,4 @@
-/*! \file dbcanbecasted.h
+/*! \file dbcanbecastedfromto.h
     
 
     Here defined a function,  which determines, whether we could cast 

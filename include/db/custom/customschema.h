@@ -53,12 +53,12 @@ public:
         const sad::resource::ResourceFile & file,
         sad::Renderer * r,
         const picojson::value& options
-    );
+    ) override;
     /*! Load an options from value
         \param[in] v an options to be loaded
         \return whether loading was successfull
      */
-    virtual bool load(const picojson::value& v);
+    virtual bool load(const picojson::value& v) override;
     /*! Returns all custom properties, needed to define an object
         \param[out] props a new property list
      */

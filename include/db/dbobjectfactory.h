@@ -45,23 +45,17 @@ public:
     public:
         /*! A default delegate for object
          */
-        inline Delegate()
-        {
-        
-        }
+        inline Delegate() = default;
         /*! Creates new object
             \return object
          */
-        virtual sad::db::Object * create()
+        virtual sad::db::Object * create() override
         {
             return new T();
         }
         /*! This class can be inherited
          */
-        virtual ~Delegate()
-        {
-        
-        }
+        virtual ~Delegate() override = default;
     };
     /*! Creates new factory with default objects
      */
@@ -85,7 +79,7 @@ public:
         sad::db::ObjectFactory::AbstractDelegate * d
     );
     /*! Adds new metadata to factory
-        \param[in] name a class name forobject
+        \param[in] name a class name for object
         \param[in] schema a pointer to schema
         \param[in] own  whether factory owns schema
      */	
@@ -160,7 +154,7 @@ protected:
         ~Entry();
     };
 
-    /*! Inits factory with default callbacks
+    /*! Initializes factory with default callbacks
      */
     void initWithDefaultCallbacks();
     /*!  A special custom handlers for name and sad::db::custom::Object

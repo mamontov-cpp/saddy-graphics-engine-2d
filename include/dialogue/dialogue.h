@@ -35,7 +35,7 @@ public:
     sad::dialogue::Dialogue& operator=(const sad::dialogue::Dialogue& d);
     /*! Could be inherited
      */
-    virtual ~Dialogue();
+    virtual ~Dialogue() override;
     /*! Clears dialogue, removing all phrases
      */
     void clear();
@@ -70,7 +70,7 @@ public:
      */
     size_t phraseCount() const;
     /*! Sets phrases
-        \param[in] phrases
+        \param[in] phrases a new phrases list
      */
     void setPhrases(const sad::Vector<sad::dialogue::Phrase*>& phrases);
     /*! Returns phrases
@@ -84,7 +84,7 @@ public:
     /*! Returns string "sad::dialogue::Dialogue"
         \return name, under which object will be serialized
      */
-    virtual const sad::String& serializableName() const;
+    virtual const sad::String& serializableName() const override;
     /*! Returns schema for all kinds of dialogue
         \return schema
      */
@@ -92,7 +92,7 @@ public:
     /*! Returns schema for an object
         \return schema
      */
-    virtual sad::db::schema::Schema* schema() const;
+    virtual sad::db::schema::Schema* schema() const override;
 protected:
     /*! Copies phrases from another dialogue
         \param[in] d dialogue

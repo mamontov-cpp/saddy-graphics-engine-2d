@@ -37,6 +37,10 @@ public:
      */
     inline sad::db::UntypedStrongLink& operator=(const sad::db::UntypedStrongLink& o)
     {
+        if (this == &o)
+        {
+             return *this;
+        }
         if (m_cached_object)
         {
             m_cached_object->delRef();
@@ -131,7 +135,7 @@ public:
      */
     inline sad::db::Object* get() const
     {
-        sad::db::UntypedStrongLink* me = const_cast<sad::db::UntypedStrongLink *>(this);
+        auto* me = const_cast<sad::db::UntypedStrongLink *>(this);
         if (!m_changed)
         {
             return m_cached_object;
@@ -158,7 +162,7 @@ protected:
     /*! A cached object
      */
     sad::db::Object* m_cached_object;
-    /*! Whether innert value for strong link is changed
+    /*! Whether inner value for strong link is changed
      */
     bool m_changed;
     /*! An inner link for objects

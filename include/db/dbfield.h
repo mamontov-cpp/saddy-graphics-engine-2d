@@ -24,9 +24,9 @@ class Field: public sad::db::Property
 {
 public:
     /*! Creates new field for a class
-        \param[in] o a field data
+        \param[in] f a field data
      */
-    Field(_FieldTypeName (_Object::*f)) : sad::db::Property(), m_f(f)
+    Field(_FieldTypeName _Object::*f) : sad::db::Property(), m_f(f)
     {
         sad::db::TypeName<_FieldTypeName>::init();
         m_base_type = sad::db::TypeName<_FieldTypeName>::baseName();
@@ -42,7 +42,7 @@ public:
     /*! Clones a property
         \return a property clone
      */
-    virtual sad::db::Property* clone() const
+    virtual sad::db::Property* clone() const override
     {
         sad::db::Field<_Object,_FieldTypeName>* result = new sad::db::Field<_Object,_FieldTypeName>(m_f);
         if (m_default_value)
@@ -56,7 +56,7 @@ public:
         \param[in] v a value for property
         \return whether value is set successfully
      */
-    virtual bool set(sad::db::Object * o, const sad::db::Variant & v)
+    virtual bool set(sad::db::Object * o, const sad::db::Variant & v) override
     {
         assert( o );
         sad::Maybe<_FieldTypeName> value = v.get<_FieldTypeName>();
@@ -72,7 +72,7 @@ public:
         \param[in] o an object
         \param[in] v a value for a property
      */
-    virtual void  get(sad::db::Object const* o, sad::db::Variant & v) const 
+    virtual void  get(sad::db::Object const* o, sad::db::Variant & v) const  override
     {
         if (o)
         {
@@ -84,7 +84,7 @@ public:
         \param[in] v value
         \return whether field has following type
      */
-    virtual bool check(const sad::String& key, const picojson::value& v) 
+    virtual bool check(const sad::String& key, const picojson::value& v)  override
     {
         bool result = false;
         if (v.is<picojson::object>())
@@ -101,14 +101,14 @@ public:
         \param[in] v value
         \return whether it could be set from value
      */ 
-    virtual bool couldBeSetFrom(const sad::db::Variant& v)
+    virtual bool couldBeSetFrom(const sad::db::Variant& v) override
     {
         return v.get<_FieldTypeName>().exists();
     }
 protected:
     /*! A field of class
      */
-    _FieldTypeName (_Object::*m_f);
+    _FieldTypeName _Object::*m_f;
 };
 
 /*! Returns a new field by valye
@@ -119,7 +119,7 @@ template<
     typename _Object,
     typename _FieldTypeName
 >
-Field<_Object, _FieldTypeName> * define_field(_FieldTypeName (_Object::*f))
+Field<_Object, _FieldTypeName> * define_field(_FieldTypeName _Object::*f)
 {
     return new Field<_Object, _FieldTypeName>(f);
 }

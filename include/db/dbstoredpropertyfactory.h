@@ -47,30 +47,24 @@ class Delegate: public sad::db::StoredPropertyFactory::AbstractDelegate
 public:
     /*! This class could be instantiated
      */
-    Delegate()
-    {
-        
-    }
+	Delegate() = default;
     /*! Creates a property
         \return property
      */
-    virtual sad::db::Property* create()
+    virtual sad::db::Property* create() override
     {
         return new sad::db::StoredProperty<T>();
     }
     /*! Clones a delegate
         \return new delegate copy
      */
-    virtual sad::db::StoredPropertyFactory::AbstractDelegate* clone()
+    virtual sad::db::StoredPropertyFactory::AbstractDelegate* clone() override
     {
         return new sad::db::StoredPropertyFactory::Delegate<T>();
     }
     /*! Can be inherited
      */
-    virtual ~Delegate()
-    {
-        
-    }
+	virtual ~Delegate()  override = default;
 };
     /*! A default factory
      */

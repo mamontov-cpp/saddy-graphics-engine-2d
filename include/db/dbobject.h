@@ -37,7 +37,7 @@ public:
     Object();
     /*! This class can be inherited 
      */
-    virtual ~Object();
+    virtual ~Object() override;  // NOLINT(clang-diagnostic-deprecated-copy-dtor)
     /*! Saves object to a picojson::value
         \param[in] v a value for object
      */
@@ -48,7 +48,7 @@ public:
      */
     virtual bool load(const picojson::value& v);
     /*! Resets object's non-serialized state, when restoring snapshot to 
-        ensure idempotency of restoring objects
+        ensure proper restoring objects
      */
     virtual void reset();
     /*! Returns a table, where object belongs
@@ -76,9 +76,9 @@ public:
      */
     const sad::String& objectName() const;
     /*! Sets new name for an object
-        \param[in] newname a name for object
+        \param[in] new_name a name for object
      */
-    void setObjectName(const sad::String & newname);
+    void setObjectName(const sad::String & new_name);
     /*! Tries to fetch property value from an object
         \param[in] s name of property
         \return property value if it could be fetched
@@ -93,7 +93,7 @@ public:
         if (prop)
         {
             sad::db::TypeName<T>::init();
-            bool canbecasted = sad::db::can_be_casted_from_to(
+            const bool can_be_casted = sad::db::can_be_casted_from_to(
                 prop->baseType(), 
                 prop->typeIsKindOfSadObject(),
                 prop->pointerStarsCount(),
@@ -101,7 +101,7 @@ public:
                 sad::db::TypeName<T>::isSadObject(),
                 sad::db::TypeName<T>::POINTER_STARS_COUNT
             );
-            if (canbecasted)
+            if (can_be_casted)
             {
                 sad::db::Variant v;
                 prop->get(this, v);
@@ -124,8 +124,8 @@ public:
         bool result = false;
         if (prop)
         {
-            sad::db::TypeName<T>::init();			
-            bool canbecasted = sad::db::can_be_casted_from_to(
+            sad::db::TypeName<T>::init();
+            const bool can_be_casted = sad::db::can_be_casted_from_to(
                 sad::db::TypeName<T>::baseName(),
                 sad::db::TypeName<T>::isSadObject(),
                 sad::db::TypeName<T>::POINTER_STARS_COUNT,
@@ -133,9 +133,9 @@ public:
                 prop->typeIsKindOfSadObject(),
                 prop->pointerStarsCount()
             );
-            if (canbecasted)
+            if (can_be_casted)
             {
-                sad::db::Variant v(o);
+                const sad::db::Variant v(o);
                 result = prop->set(this, v);
             }
         }
@@ -144,11 +144,11 @@ public:
     /*! Called, when loading an object. Here, object must make all resource path links depend on specified tree.
         By default, does nothing
         \param[in] renderer a renderer
-        \param[in] treename a tree name
+        \param[in] tree_name a tree name
      */
     virtual void setTreeName(
         sad::Renderer* renderer,
-        const sad::String& treename
+        const sad::String& tree_name
     );
     /*! Fetches property for an object with specified game
         \param[in] s string

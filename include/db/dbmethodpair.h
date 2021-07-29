@@ -61,7 +61,7 @@ public:
     }
     /*! Frees all proxies
      */
-    virtual ~MethodPair()
+    virtual ~MethodPair() override
     {
         delete m_getter;
         delete m_setter;
@@ -70,9 +70,9 @@ public:
     /*! Clones a property
         \return a property clone
      */
-    virtual sad::db::Property* clone() const
+    virtual sad::db::Property* clone() const override
     {
-        sad::db::MethodPair<_Object,_FieldTypeName>* result = new sad::db::MethodPair<_Object,_FieldTypeName>(m_getter->clone(), m_setter->clone());
+	    auto* result = new sad::db::MethodPair<_Object,_FieldTypeName>(m_getter->clone(), m_setter->clone());
         if (m_default_value)
         {
             result->m_default_value = new sad::db::Variant(*m_default_value);
@@ -84,7 +84,7 @@ public:
         \param[in] v a value for property
         \return whether value is set successfully
      */
-    virtual bool set(sad::db::Object * o, const sad::db::Variant & v)
+    virtual bool set(sad::db::Object * o, const sad::db::Variant & v) override
     {
         assert( o );
         sad::Maybe<_FieldTypeName> value = v.get<_FieldTypeName>();
@@ -100,7 +100,7 @@ public:
         \param[in] o an object
         \param[in] v a value for a property
      */
-    virtual void get(sad::db::Object const* o, sad::db::Variant & v) const
+    virtual void get(sad::db::Object const* o, sad::db::Variant & v) const override
     {
         assert( o );
         if (o)
@@ -114,12 +114,12 @@ public:
         \param[in] v value
         \return whether field has following type
      */
-    virtual bool check(const sad::String& key, const picojson::value& v)
+    virtual bool check(const sad::String& key, const picojson::value& v) override
     {
         bool result = false;
         if (v.is<picojson::object>())
         {
-            picojson::value data = v.get(key);
+	        const picojson::value& data = v.get(key);
             if (data.is<picojson::null>() == false) 
             {
                 result = picojson::ValueToType<_FieldTypeName>().get(data).exists();
@@ -131,7 +131,7 @@ public:
         \param[in] v value
         \return whether it could be set from value
      */ 
-    virtual bool couldBeSetFrom(const sad::db::Variant& v)
+    virtual bool couldBeSetFrom(const sad::db::Variant& v) override
     {
         return v.get<_FieldTypeName>().exists();
     }

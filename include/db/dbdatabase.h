@@ -11,6 +11,7 @@
 #include "dberror.h"
 #include "dbtable.h"
 #include "dbstoredpropertyfactory.h"
+// ReSharper disable once CppUnusedIncludeDirective
 #include "dbstoredproperty.h"
 #include "dbcanbecastedfromto.h"
 #include "dbvariant.h"
@@ -46,7 +47,7 @@ public:
     typedef picojson::object PropertiesSnapshot;
     /*! Defines a snapshot for database
      */
-    struct Snapshot
+    struct Snapshot  // NOLINT(cppcoreguidelines-pro-type-member-init)
     {
         TablesSnapshot Tables;         //!< A snapshot for tables
         PropertiesSnapshot Properties; //!< A snapshot for properties
@@ -69,12 +70,13 @@ public:
     /*! Saves database to file
         \param[in] filename a name of file
      */
-    void saveToFile(const sad::String& filename);
+    // ReSharper disable once CppInconsistentNaming
+    void saveToFile(const sad::String& filename);  // NOLINT(readability-inconsistent-declaration-parameter-name)
     /*! Loads database from specified string. Saves a snapshot if successfull.
-        \param[in] text a text with JSON description of database
+        \param[in] input a text with JSON description of database
         \return whether load was successfull
      */
-    bool load(const sad::String& input);
+    bool load(const sad::String& input);  // NOLINT(readability-inconsistent-declaration-parameter-name)
     /*! Loads database from file, using specifying name. Saves a snapshot if successfull.
         \param[in] name a name for file
         \return whether load was successfull
@@ -88,7 +90,7 @@ public:
     bool loadFromFile(const sad::String& name, sad::Renderer * r = nullptr);
     /*! Adds new custom property to database. Replaces another property, if such property exists.
         \param[in] name name of property
-        \param[in] p a property
+        \param[in] type a property
      */
     virtual void addPropertyOfType(const sad::String & name,  const sad::String& type);
     /*! Adds new custom property to database. Replaces another property, if such property exists.
@@ -135,7 +137,7 @@ public:
         if (prop && this) //-V704
         {
             sad::db::TypeName<T>::init();
-            bool canbecasted = sad::db::can_be_casted_from_to(
+            const bool can_be_casted = sad::db::can_be_casted_from_to(
                 sad::db::TypeName<T>::baseName(),
                 sad::db::TypeName<T>::isSadObject(),
                 sad::db::TypeName<T>::POINTER_STARS_COUNT,
@@ -143,9 +145,9 @@ public:
                 prop->typeIsKindOfSadObject(),
                 prop->pointerStarsCount()
             );
-            if (canbecasted)
+            if (can_be_casted)
             {
-                sad::db::Variant v(value);
+                const sad::db::Variant v(value);
                 result = prop->set(nullptr, v);
             }
         }
@@ -165,7 +167,7 @@ public:
         if (prop)
         {
             sad::db::TypeName<T>::init();
-            bool canbecasted = sad::db::can_be_casted_from_to(
+            const bool can_be_casted = sad::db::can_be_casted_from_to(
                 prop->baseType(), 
                 prop->typeIsKindOfSadObject(),
                 prop->pointerStarsCount(),
@@ -173,7 +175,7 @@ public:
                 sad::db::TypeName<T>::isSadObject(),
                 sad::db::TypeName<T>::POINTER_STARS_COUNT
             );
-            if (canbecasted)
+            if (can_be_casted)
             {
                 sad::db::Variant v;
                 prop->get(nullptr, v);
@@ -222,30 +224,30 @@ public:
      */
     sad::db::Object* objectByName(const sad::String & name) const;
     /*! Tries to get objects by name
-        \param[in] id object id
+        \param[in] name object name
         \return objects
      */
     template<typename T>
     sad::Vector<T*>  objectsByName(const sad::String & name) const
     {
         sad::Vector<T*> result;
-        sad::Vector<sad::db::Object *> o = queryByName(name);        
-        this->filterObjectsByType<T>(result, o);    
+        const sad::Vector<sad::db::Object *> o = queryByName(name);
+        this->filterObjectsByType<T>(result, o);
         return result;
     }
     /*! Tries to get objects by name
-        \param[in] id object id
+        \param[in] name object name
         \return object
      */
     template<typename T>
     T*  objectByName(const sad::String & name) const
     {
         T* result = nullptr;
-        sad::Vector<sad::db::Object *> o = queryByName(name);        
-        this->filterObjectByType<T>(result, o);    
+        const auto o = queryByName(name);
+        this->filterObjectByType<T>(result, o);
         return result;
     }
-    /*! Queries all tables in seatch of object by minor id
+    /*! Queries all tables in search of object by minor id
         \param[in] id a minor id of searched objects
         \return a vector of objects by name
      */
@@ -258,8 +260,8 @@ public:
     sad::Vector<T*>  objectsByMinorId(unsigned long long id) const
     {
         sad::Vector<T*> result;
-        sad::Vector<sad::db::Object *> o = queryByMinorId(id);        
-        this->filterObjectsByType<T>(result, o);    
+        const auto o = queryByMinorId(id);
+        this->filterObjectsByType<T>(result, o);
         return result;
     }
     /*! Tries to get objects by minor id
@@ -270,8 +272,8 @@ public:
     T*  objectByMinorId(unsigned long long id) const
     {
         T* result = nullptr;
-        sad::Vector<sad::db::Object *> o = queryByMinorId(id);        
-        this->filterObjectByType<T>(result, o);    
+        const auto o = queryByMinorId(id);
+        this->filterObjectByType<T>(result, o);
         return result;
     }
     /*! Queries tables by major id
@@ -362,7 +364,7 @@ public:
      */
     bool restoreSnapshot(unsigned long index = 0);
     /*! Tests, whether all tables are empty
-        \reutrn true if all tables are empty
+        \return true if all tables are empty
      */
     bool tablesAreEmpty() const;
 protected: 
@@ -371,16 +373,16 @@ protected:
     void clearProperties();
     /*! Loads properties from value
         \param[in] properties a data for properties
-        \param[out] newproperties a new properties for database
+        \param[out] new_properties a new properties for database
      */
     bool loadProperties(
         const picojson::object& properties, 
-        sad::Hash<sad::String, sad::db::Property*>& newproperties
+        sad::Hash<sad::String, sad::db::Property*>& new_properties
     );
     /*! Sets properties from specified hash
-        \param[in] newproperties a container for properties
+        \param[in] new_properties a container for properties
      */
-    void setPropertiesFrom(const sad::Hash<sad::String, sad::db::Property*>& newproperties);
+    void setPropertiesFrom(const sad::Hash<sad::String, sad::db::Property*>& new_properties);
     /*! Loads properties and tavles from a database
         \param[in] properties a property items
         \param[in] tables a tables from database

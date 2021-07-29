@@ -44,23 +44,18 @@ public:
     /*! Creates new converter
      */
     inline ImplicitTypeConverter()
-    {
-        
-    }
+    = default;
     /*! Converts source value from another and to another type
         \param[in] source source converted type
         \param[in] dest destination converted type
      */
-    virtual void convert(void * source, void * dest)
+    virtual void convert(void * source, void * dest) override
     {
-        *((_ToType *)dest) =  (_ToType)(*(_FromType *)source);
+        *static_cast<_ToType*>(dest) =  static_cast<_ToType>(*static_cast<_FromType*>(source));
     }
     /*! Can be inherited
      */
-    virtual ~ImplicitTypeConverter()
-    {
-        
-    }
+	virtual ~ImplicitTypeConverter() override = default;
 };
 
 /**
@@ -77,24 +72,18 @@ class ConverterViaConstructor: public sad::db::AbstractTypeConverter
 public:
     /*! Creates new converter
      */
-    inline ConverterViaConstructor()
-    {
-        
-    }
+	inline ConverterViaConstructor() = default;
     /*! Converts source value from another and to another type
         \param[in] source source converted type
         \param[in] dest destination converted type
      */
-    virtual void convert(void * source, void * dest)
+    virtual void convert(void * source, void * dest) override
     {
-        *((_ToType *)dest) =  _ToType(*(_FromType *)source);
+        *static_cast<_ToType*>(dest) =  _ToType(*static_cast<_FromType*>(source));
     }
     /*! Can be inherited
      */
-    virtual ~ConverterViaConstructor()
-    {
-        
-    }
+	virtual ~ConverterViaConstructor()  override = default;
 };
 
 /** A list of conversion table for conversions of types
@@ -108,7 +97,7 @@ public:
     /*! Destroys a conversion table
      */
     ~ConversionTable();
-    /*! Inserts a conveter into table. Replaces an existing converter, erasing it, if
+    /*! Inserts a converter into table. Replaces an existing converter, erasing it, if
         needed
         \param[in] from a typename from which conversion is performed
         \param[in] to a typename, which we should confirm
@@ -161,7 +150,7 @@ public:
     inline bool isSadObject(const sad::String & name) const 
     {
         bool result = false;
-        sad::db::ConversionTable* me = const_cast<sad::db::ConversionTable*>(this);
+        auto* me = const_cast<sad::db::ConversionTable*>(this);
         me->m_sad_object_flags_lock.lock();
         if (m_sad_object_flags.contains(name))
         {

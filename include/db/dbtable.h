@@ -44,7 +44,7 @@ public:
      */
     virtual sad::db::Object* queryById(unsigned long long major_id, unsigned long long minor_id);
     /*! Query table by minor id
-        \param[in] minor id a minor id
+        \param[in] minor_id a minor id
         \return a found object (nullptr if not found)
      */
     virtual sad::db::Object* queryByMinorId(unsigned long long minor_id);
@@ -67,14 +67,14 @@ public:
         \param[in] v value
         \param[in] factory a factory
         \param[in] renderer a renderer, where should resources, linked to objects be stored
-        \param[in] treename a name for tree, where should resourced, linked to objects be stored
+        \param[in] tree_name a name for tree, where should resourced, linked to objects be stored
         \return whether value was successfull
      */
     virtual bool load(
         const picojson::value & v, 
         sad::db::ObjectFactory* factory,
         sad::Renderer* renderer = nullptr,
-        const sad::String& treename = ""
+        const sad::String& tree_name = ""
     );
     /*! Saves a table to a value
         \param[out] v a value for table
@@ -110,7 +110,7 @@ public:
     void objectsOfType(sad::Vector<T*> & o)
     {
         sad::db::TypeName<T>::init();
-        sad::String type_name = (sad::db::TypeName<T>::name());
+        const sad::String type_name = (sad::db::TypeName<T>::name());
         o.clear();
         for(sad::Hash<unsigned long long, sad::db::Object*>::iterator it = m_objects_by_minorid.begin(); 
         it != m_objects_by_minorid.end();
@@ -122,14 +122,14 @@ public:
            }
         }
     }
-    /*! Changes object name in hash table to make container consistend
+    /*! Changes object name in hash table to make container consistent
         \param[in] o object
-        \param[in] oldname old name of object
+        \param[in] old_name old name of object
         \param[in] name a name of object
      */
     virtual void changeObjectName(
         sad::db::Object * o, 
-        const sad::String & oldname,
+        const sad::String & old_name,
         const sad::String & name
     );
     /*! Clears a table

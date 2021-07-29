@@ -166,7 +166,7 @@ protected:
     /*! A cached object
      */
     T* m_cached_object;
-    /*! Whether innert value for strong link is changed
+    /*! Whether inner value for strong link is changed
      */
     bool m_changed;
     /*! An inner link for objects
