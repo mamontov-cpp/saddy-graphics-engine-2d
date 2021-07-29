@@ -127,12 +127,12 @@ protected:
       */
     virtual sad::cli::Token createToken(const sad::String & v);
     /*!  Leaves a state, setting values if needed and proceeding to next state
-         \param[in, out] t token
-         \param[in, out] currentkeyword keyword value by state
-         \param[in, out] state state value
+         \param[in,out] t token
+         \param[in,out] current_keyword keyword value by state
+         \param[in,out] state state value
      */
-    virtual void leaveState(sad::cli::Token & t, sad::String & currentkeyword, int & state);
-    /*! Default option is an option, which does not belong to any optionsm, defined by keywords. 
+    virtual void leaveState(sad::cli::Token & t, sad::String & current_keyword, int & state);
+    /*! Default option is an option, which does not belong to any options, defined by keywords. 
         It can be file name or any kind of default options.
      */ 
     sad::Maybe<sad::String>         m_default_option;

@@ -23,17 +23,17 @@ namespace pipeline
 
 /*! Declares type of insertion into pipeline
  */
-enum PipelineInsertionType
+enum class PipelineInsertionType: int
 {
     PIT_AFTER,                          //!< Tells to insert after specified event mark
     PIT_SYSTEM_AFTER_LAST_USER_ACTION,  //!< Tells to insert into system actions after last user action
     PIT_BEFORE,                         //!< Tells to insert before specified event mark
     PIT_SYSTEM_BEFORE_FIRST_USER_ACTION,//!< Tells to insert into system actions before first user action
     PIT_BEGIN,                          //!< Tells to insert into beginning of pipeline (user or system, depending on source)
-    PIT_END								//!< Tells to insert into ending of pipeline (user or system, depending on source)
+    PIT_END                             //!< Tells to insert into ending of pipeline (user or system, depending on source)
 };
 
-/*! Declares data, definiting a command fo addding commands into pipeline
+/*! Declares data, defining a command fo adding commands into pipeline
  */
 typedef sad::Triplet< 
     sad::pipeline::PipelineInsertionType, 
@@ -117,8 +117,8 @@ public:
     )
     {
         sad::pipeline::Process * step = new sad::pipeline::Process(o, f);
-        step->setSource(sad::pipeline::ST_SYSTEM);
-        return insertStep(sad::pipeline::PIT_SYSTEM_BEFORE_FIRST_USER_ACTION, step);
+        step->setSource(sad::pipeline::StepSource::ST_SYSTEM);
+        return insertStep(sad::pipeline::PipelineInsertionType::PIT_SYSTEM_BEFORE_FIRST_USER_ACTION, step);
     }
     /*! A system method to prepend scene rendering with specified chained method call. Note, that this
         methods are reserved for sad::Renderer only
@@ -135,8 +135,8 @@ public:
     )
     {
         sad::pipeline::Process * step = new sad::pipeline::Process(o, f, g);
-        step->setSource(sad::pipeline::ST_SYSTEM);
-        return insertStep(sad::pipeline::PIT_SYSTEM_BEFORE_FIRST_USER_ACTION, step);
+        step->setSource(sad::pipeline::StepSource::ST_SYSTEM);
+        return insertStep(sad::pipeline::PipelineInsertionType::PIT_SYSTEM_BEFORE_FIRST_USER_ACTION, step);
     }
     /*! A system method to append process to a container. Note, that this method is reserved for
         renderer only
@@ -151,8 +151,8 @@ public:
     )
     {
         sad::pipeline::Process * step = new sad::pipeline::Process(o, f);
-        step->setSource(sad::pipeline::ST_SYSTEM);
-        return insertStep(sad::pipeline::PIT_END, step);
+        step->setSource(sad::pipeline::StepSource::ST_SYSTEM);
+        return insertStep(sad::pipeline::PipelineInsertionType::PIT_END, step);
     }
     /*! A system method to append process as a chained method call to container. 
     Note, that this method is reserved for
@@ -170,8 +170,8 @@ public:
     )
     {
         sad::pipeline::Process * step = new sad::pipeline::Process(o, f, g);
-        step->setSource(sad::pipeline::ST_SYSTEM);
-        return insertStep(sad::pipeline::PIT_END, step);
+        step->setSource(sad::pipeline::StepSource::ST_SYSTEM);
+        return insertStep(sad::pipeline::PipelineInsertionType::PIT_END, step);
     }
     /*! Inserts a function call as process into beginning of user actions, 
         before any user action new process with specified
@@ -183,8 +183,8 @@ public:
     sad::pipeline::Step * prependProcess(_Callable f) 
     {
         sad::pipeline::Process * step = new sad::pipeline::Process(f);
-        step->setSource(sad::pipeline::ST_USER);
-        return insertStep(sad::pipeline::PIT_BEGIN, step);
+        step->setSource(sad::pipeline::StepSource::ST_USER);
+        return insertStep(sad::pipeline::PipelineInsertionType::PIT_BEGIN, step);
     }
     /*! Inserts a method call as process into beginning of user actions,
         before any user action new process with specified
@@ -196,8 +196,8 @@ public:
     sad::pipeline::Step * prependProcess(_Object * o, _Method f) 
     {
         sad::pipeline::Process * step = new sad::pipeline::Process(o, f);
-        step->setSource(sad::pipeline::ST_USER);
-        return insertStep(sad::pipeline::PIT_BEGIN, step);
+        step->setSource(sad::pipeline::StepSource::ST_USER);
+        return insertStep(sad::pipeline::PipelineInsertionType::PIT_BEGIN, step);
     }
     /*! Inserts a chained method call as process into beginning of user actions,
         before any user action new process with specified
@@ -214,8 +214,8 @@ public:
     ) 
     {
         sad::pipeline::Process * step = new sad::pipeline::Process(o, f, g);
-        step->setSource(sad::pipeline::ST_USER);
-        return insertStep(sad::pipeline::PIT_BEGIN, step);
+        step->setSource(sad::pipeline::StepSource::ST_USER);
+        return insertStep(sad::pipeline::PipelineInsertionType::PIT_BEGIN, step);
     }
     /*! Inserts a function call as task into beginning of user actions, 
         before any user action new process with specified
@@ -227,8 +227,8 @@ public:
     sad::pipeline::Step * prependTask(_Callable f) 
     {
         sad::pipeline::Task * step = new sad::pipeline::Task(f);
-        step->setSource(sad::pipeline::ST_USER);
-        return insertStep(sad::pipeline::PIT_BEGIN, step);
+        step->setSource(sad::pipeline::StepSource::ST_USER);
+        return insertStep(sad::pipeline::PipelineInsertionType::PIT_BEGIN, step);
     }
     /*! Inserts a method call as task into beginning of user actions,
         before any user action new process with specified
@@ -240,8 +240,8 @@ public:
     sad::pipeline::Step * prependTask(_Object * o, _Method f) 
     {
         sad::pipeline::Task * step = new sad::pipeline::Task(o, f);
-        step->setSource(sad::pipeline::ST_USER);
-        return insertStep(sad::pipeline::PIT_BEGIN, step);
+        step->setSource(sad::pipeline::StepSource::ST_USER);
+        return insertStep(sad::pipeline::PipelineInsertionType::PIT_BEGIN, step);
     }
     /*! Inserts a chained method call as task into beginning of user actions,
         before any user action new process with specified
@@ -258,8 +258,8 @@ public:
     ) 
     {
         sad::pipeline::Task * step = new sad::pipeline::Task(o, f, g);
-        step->setSource(sad::pipeline::ST_USER);
-        return insertStep(sad::pipeline::PIT_BEGIN, step);
+        step->setSource(sad::pipeline::StepSource::ST_USER);
+        return insertStep(sad::pipeline::PipelineInsertionType::PIT_BEGIN, step);
     }
     /*! Inserts a function call as process into end of user actions, 
         after all of user actions is performed
@@ -271,8 +271,8 @@ public:
     sad::pipeline::Step * appendProcess(_Callable f) 
     {
         sad::pipeline::Process * step = new sad::pipeline::Process(f);
-        step->setSource(sad::pipeline::ST_USER);
-        return insertStep(sad::pipeline::PIT_END, step);
+        step->setSource(sad::pipeline::StepSource::ST_USER);
+        return insertStep(sad::pipeline::PipelineInsertionType::PIT_END, step);
     }
     /*! Inserts a method call as process into end of user actions, 
         after all of user actions is performed
@@ -284,8 +284,8 @@ public:
     sad::pipeline::Step * appendProcess(_Object * o, _Method f) 
     {
         sad::pipeline::Process * step = new sad::pipeline::Process(o, f);
-        step->setSource(sad::pipeline::ST_USER);
-        return insertStep(sad::pipeline::PIT_END, step);
+        step->setSource(sad::pipeline::StepSource::ST_USER);
+        return insertStep(sad::pipeline::PipelineInsertionType::PIT_END, step);
     }
     /*! Inserts a chained method call as process into into end of user actions, 
         after all of user actions is performed
@@ -302,8 +302,8 @@ public:
     ) 
     {
         sad::pipeline::Process * step = new sad::pipeline::Process(o, f, g);
-        step->setSource(sad::pipeline::ST_USER);
-        return insertStep(sad::pipeline::PIT_END, step);
+        step->setSource(sad::pipeline::StepSource::ST_USER);
+        return insertStep(sad::pipeline::PipelineInsertionType::PIT_END, step);
     }
     /*! Inserts a function call as task into end of user actions, 
         after all of user actions is performed
@@ -315,8 +315,8 @@ public:
     sad::pipeline::Step * appendTask(_Callable f) 
     {
         sad::pipeline::Task * step = new sad::pipeline::Task(f);
-        step->setSource(sad::pipeline::ST_USER);
-        return insertStep(sad::pipeline::PIT_END, step);
+        step->setSource(sad::pipeline::StepSource::ST_USER);
+        return insertStep(sad::pipeline::PipelineInsertionType::PIT_END, step);
     }
     /*! Inserts a method call as task into end of user actions, 
         after all of user actions is performed
@@ -328,8 +328,8 @@ public:
     sad::pipeline::Step * appendTask(_Object * o, _Method f) 
     {
         sad::pipeline::Task * step = new sad::pipeline::Task(o, f);
-        step->setSource(sad::pipeline::ST_USER);
-        return insertStep(sad::pipeline::PIT_END, step);
+        step->setSource(sad::pipeline::StepSource::ST_USER);
+        return insertStep(sad::pipeline::PipelineInsertionType::PIT_END, step);
     }
     /*! Inserts a chained method call as task into into end of user actions, 
         after all of user actions is performed
@@ -346,8 +346,8 @@ public:
     ) 
     {
         sad::pipeline::Task * step = new sad::pipeline::Task(o, f, g);
-        step->setSource(sad::pipeline::ST_USER);
-        return insertStep(sad::pipeline::PIT_END, step);
+        step->setSource(sad::pipeline::StepSource::ST_USER);
+        return insertStep(sad::pipeline::PipelineInsertionType::PIT_END, step);
     }
     /*! Inserts step before specified step. If step with mark is not found, step will not be inserted
         \param[in] before a mark, which marks step, which our step will be inserted before
@@ -357,12 +357,12 @@ public:
     inline
     sad::pipeline::Step * insertBefore(const sad::String & before, sad::pipeline::Step * step, const sad::String & mark = "")
     {
-        step->setSource(sad::pipeline::ST_USER);
-        if (mark.size())
+        step->setSource(sad::pipeline::StepSource::ST_USER);
+        if (!mark.empty())
         {
             step->mark(mark);
         }
-        return insertStep(sad::pipeline::PIT_BEFORE, before, step);
+        return insertStep(sad::pipeline::PipelineInsertionType::PIT_BEFORE, before, step);
     }
 
     /*! Inserts step after specified step. If step with mark is not found, step will not be inserted
@@ -373,12 +373,12 @@ public:
     inline
     sad::pipeline::Step * insertAfter(const sad::String & after, sad::pipeline::Step * step, const sad::String & mark = "")
     {
-        step->setSource(sad::pipeline::ST_USER);
-        if (mark.size())
+        step->setSource(sad::pipeline::StepSource::ST_USER);
+        if (!mark.empty())
         {
             step->mark(mark);
         }
-        return insertStep(sad::pipeline::PIT_AFTER, after, step);
+        return insertStep(sad::pipeline::PipelineInsertionType::PIT_AFTER, after, step);
     }
     /*! Appends a transition of state of machine, at end of pipeline
         \param[in] machine a machine
@@ -393,7 +393,7 @@ public:
         of frame and to not render next frame.
         \param[in] o inserted data
      */
-    virtual void add(const sad::pipeline::PipelineInsertionData & o);
+    virtual void add(const sad::pipeline::PipelineInsertionData & o) override;
     /*! Appends a user step into pipeline. Note, that step source will be marked as user.
         \param[in] step a step to be appended
         \return reference to step
@@ -407,7 +407,7 @@ public:
     sad::pipeline::Step * prepend(sad::pipeline::Step * step);
     /*! Destroys all steps of pipeline
      */
-    ~Pipeline();
+    ~Pipeline() override;
 protected:
     /*! Defines a list of steps in pipeline
      */
@@ -451,11 +451,11 @@ protected:
     /*! Performs immediate insertion to pipeline
         \param[in] o an insertion command data
      */
-    virtual void addNow(PipelineInsertionData o);
+    virtual void addNow(PipelineInsertionData o) override;
     /*! Immediately removed a step from container
         \param[in] o immediately removes a pipeline data
      */
-    virtual void removeNow(sad::pipeline::Step * o);
+    virtual void removeNow(sad::pipeline::Step * o) override;
     /*! Removes a pipeline with memory cleaning option
         \param[in] o option
         \param[in] clean_memory whether we should clean memory
@@ -463,10 +463,10 @@ protected:
     virtual void removeFromPipeline(sad::pipeline::Step * o, bool clean_memory);
     /*! Immediately removes all data from pipeline
      */
-    virtual void clearNow();
-    /*! Performs some quued actions
+    virtual void clearNow() override;
+    /*! Performs some queued actions
      */
-    virtual void performQueuedActions();
+    virtual void performQueuedActions() override;
     /*! All system steps of pipeline, executed before user steps 
      */
     StepsList m_system_steps_before_user;

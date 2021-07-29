@@ -17,7 +17,7 @@ namespace p2d
 
 /*! Bound type defines how bound behaves
  */
-enum BoundType
+enum class BoundType: int
 {
     BT_LEFT  = 0, //!<  A left bound reacts on objects from left
     BT_RIGHT = 1, //!<  A right bound reacts on objects from right
@@ -30,7 +30,7 @@ class Bound: public p2d::CollisionShape
 public:
      /*! As a default bound of zero as down
       */
-     inline Bound() { m_type = p2d::BT_DOWN; m_p = 0; }
+     inline Bound() { m_type = p2d::BoundType::BT_DOWN; m_p = 0; }
      /*! Defines a type 
          \return type
       */
@@ -79,8 +79,8 @@ public:
     {
         p2d::BoundType bt1 = this->type();
         p2d::BoundType bt2 = b2->type();
-        return ((bt1 == BT_LEFT || bt1 == BT_RIGHT) && (bt2  == BT_UP || bt2 == BT_DOWN))  ||
-               ((bt1 == BT_UP || bt1 == BT_DOWN) && (bt2  == BT_LEFT || bt2 == BT_RIGHT));		
+        return ((bt1 == BoundType::BT_LEFT || bt1 == BoundType::BT_RIGHT) && (bt2  == BoundType::BT_UP || bt2 == BoundType::BT_DOWN))  ||
+               ((bt1 == BoundType::BT_UP || bt1 == BoundType::BT_DOWN) && (bt2  == BoundType::BT_LEFT || bt2 == BoundType::BT_RIGHT));
     }
     /*! A direction normal from bound
         \return normal

@@ -256,15 +256,15 @@ void sad::MouseCursor::insertHandlersIfNeeded()
     if (m_use_custom_cursor)
     {
         m_enter_handler = m_renderer->controls()->add(
-            *sad::input::ET_MouseEnter, 
+            *sad::input::EventType::ET_MouseEnter, 
             this, &sad::MouseCursor::showCustomCursorIfNeedTo
         );
         m_leave_handler = m_renderer->controls()->add(
-            *sad::input::ET_MouseLeave, 
+            *sad::input::EventType::ET_MouseLeave, 
             this, &sad::MouseCursor::hideCustomCursorIfNeedTo
         );
         m_move_handler = m_renderer->controls()->add(
-            *sad::input::ET_MouseMove,  
+            *sad::input::EventType::ET_MouseMove,  
             this, &sad::MouseCursor::moveCustomCursor
         );
     }

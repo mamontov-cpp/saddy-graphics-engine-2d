@@ -206,7 +206,7 @@ sad::p2d::Point sad::p2d::intersectionWithNormalFrom(
 )
 {
     sad::p2d::InfiniteLine l1 = sad::p2d::InfiniteLine::fromCutter(c);
-    sad::p2d::Vector v = sad::p2d::ortho(l1.direction(), sad::p2d::OVI_DEG_90);
+    sad::p2d::Vector v = sad::p2d::ortho(l1.direction(), sad::p2d::OrthoVectorIndex::OVI_DEG_90);
     sad::p2d::InfiniteLine l2 = sad::p2d::InfiniteLine::appliedVector(p, v);
     return l1.intersection(l2).value();
 }
@@ -523,8 +523,8 @@ sad::p2d::SetOfPointsPair sad::p2d::FindContactPoints::getBtoB(
     double maxv = std::numeric_limits<double>::max();
 
     sad::p2d::Vector v = v2 - v1;
-    if ( (s1->type() == sad::p2d::BT_LEFT && s2->type() == sad::p2d::BT_RIGHT)
-        || (s1->type() == sad::p2d::BT_RIGHT && s2->type() == sad::p2d::BT_LEFT))
+    if ( (s1->type() == sad::p2d::BoundType::BT_LEFT && s2->type() == sad::p2d::BoundType::BT_RIGHT)
+        || (s1->type() == sad::p2d::BoundType::BT_RIGHT && s2->type() == sad::p2d::BoundType::BT_LEFT))
     {
         if (sad::non_fuzzy_zero(v.x()))
         {
@@ -535,8 +535,8 @@ sad::p2d::SetOfPointsPair sad::p2d::FindContactPoints::getBtoB(
         }
     }
 
-    if ( (s1->type() == sad::p2d::BT_UP && s2->type() == sad::p2d::BT_DOWN)
-        || (s2->type() == sad::p2d::BT_UP && s1->type() == sad::p2d::BT_DOWN))
+    if ( (s1->type() == sad::p2d::BoundType::BT_UP && s2->type() == sad::p2d::BoundType::BT_DOWN)
+        || (s2->type() == sad::p2d::BoundType::BT_UP && s1->type() == sad::p2d::BoundType::BT_DOWN))
     {
         if (sad::non_fuzzy_zero(v.y()))
         {

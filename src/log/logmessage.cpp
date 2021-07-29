@@ -12,7 +12,7 @@ static const char * logmesgs[7] = {
 
 const char * sad::log::Message::spriority() const
 {
-    if (m_priority != sad::log::USER || m_user_priority.length() == 0)
+    if (m_priority != sad::log::Priority::USER || m_user_priority.length() == 0)
     {
         return logmesgs[(int)m_priority];
     }

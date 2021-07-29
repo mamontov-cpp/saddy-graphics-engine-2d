@@ -132,7 +132,7 @@ const sad::uchar SR4G4B4A4signature[] =  {'S', 'R', '4', 'G', '4', 'B', '4', 'A'
 
 const sad::uchar SR3G3B2signature[]   =  {'S', 'R', '3', 'G', '3', 'B', '2'};
 
-sad::imageformats::PixelStorageLoader::Settings sad::imageformats::PixelStorageLoader::SRGBASettings(SRGBAsignature, 5, 32, sad::Texture::SFT_R8_G8_B8_A8);
-sad::imageformats::PixelStorageLoader::Settings sad::imageformats::PixelStorageLoader::SR5G6B5Settings(SR5G6B5signature, 7, 16, sad::Texture::SFT_R5_G6_B5);
-sad::imageformats::PixelStorageLoader::Settings sad::imageformats::PixelStorageLoader::SR4G4B4A4Settings(SR4G4B4A4signature, 9, 16, sad::Texture::SFT_R4_G4_B4_A4);
-sad::imageformats::PixelStorageLoader::Settings sad::imageformats::PixelStorageLoader::SR3G3B2Settings(SR3G3B2signature, 7, 8, sad::Texture::SFT_R3_G3_B2);
+sad::imageformats::PixelStorageLoader::Settings sad::imageformats::PixelStorageLoader::SRGBASettings(SRGBAsignature, 5, 32, static_cast<unsigned int>(sad::Texture::InternalFormat::SFT_R8_G8_B8_A8));
+sad::imageformats::PixelStorageLoader::Settings sad::imageformats::PixelStorageLoader::SR5G6B5Settings(SR5G6B5signature, 7, 16, static_cast<unsigned int>(sad::Texture::InternalFormat::SFT_R5_G6_B5));
+sad::imageformats::PixelStorageLoader::Settings sad::imageformats::PixelStorageLoader::SR4G4B4A4Settings(SR4G4B4A4signature, 9, 16, static_cast<unsigned int>(sad::Texture::InternalFormat::SFT_R4_G4_B4_A4));
+sad::imageformats::PixelStorageLoader::Settings sad::imageformats::PixelStorageLoader::SR3G3B2Settings(SR3G3B2signature, 7, 8, static_cast<unsigned int>(sad::Texture::InternalFormat::SFT_R3_G3_B2));

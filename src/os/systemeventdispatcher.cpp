@@ -77,7 +77,7 @@ void sad::os::SystemEventDispatcher::reset()
         ev.Point = sad::Point2D(pt.value().x(), pt.value().y());
         ev.Point3D = pt.value();
         m_renderer->mainLoop()->pushDispatch([=]() {
-            m_renderer->controls()->postEvent(sad::input::ET_MouseEnter, ev);
+            m_renderer->controls()->postEvent(sad::input::EventType::ET_MouseEnter, ev);
         });
     }
     sad::Rect2I  r = m_renderer->window()->rect();
@@ -260,7 +260,7 @@ void sad::os::SystemEventDispatcher::processQuit(sad::os::SystemWindowEvent & e)
 #ifdef _WIN32
         m_renderer->mainLoop()->pushDispatch([=]() {
 #endif
-        m_renderer->controls()->postEvent(sad::input::ET_Quit, ev);
+        m_renderer->controls()->postEvent(sad::input::EventType::ET_Quit, ev);
 #ifdef _WIN32
         });
 #endif
@@ -280,7 +280,7 @@ void sad::os::SystemEventDispatcher::processActivate(sad::os::SystemWindowEvent 
 #ifdef _WIN32
         m_renderer->mainLoop()->pushDispatch([=]() {
 #endif
-        m_renderer->controls()->postEvent(sad::input::ET_Activate, ev);
+        m_renderer->controls()->postEvent(sad::input::EventType::ET_Activate, ev);
 #ifdef _WIN32
         });
 #endif
@@ -299,7 +299,7 @@ void sad::os::SystemEventDispatcher::processDeactivate(sad::os::SystemWindowEven
 #ifdef _WIN32
         m_renderer->mainLoop()->pushDispatch([=]() {
 #endif
-        m_renderer->controls()->postEvent(sad::input::ET_Deactivate, ev);
+        m_renderer->controls()->postEvent(sad::input::EventType::ET_Deactivate, ev);
 #ifdef _WIN32
         });
 #endif
@@ -330,7 +330,7 @@ void sad::os::SystemEventDispatcher::processMouseMove(sad::os::SystemWindowEvent
 #ifdef _WIN32
         m_renderer->mainLoop()->pushDispatch([=]() {
 #endif
-            m_renderer->controls()->postEvent(sad::input::ET_MouseEnter, ev);
+            m_renderer->controls()->postEvent(sad::input::EventType::ET_MouseEnter, ev);
 #ifdef _WIN32
         });
 #endif
@@ -347,7 +347,7 @@ void sad::os::SystemEventDispatcher::processMouseMove(sad::os::SystemWindowEvent
 #ifdef _WIN32
         m_renderer->mainLoop()->pushDispatch([=]() {
 #endif
-        m_renderer->controls()->postEvent(sad::input::ET_MouseMove, mmev);
+        m_renderer->controls()->postEvent(sad::input::EventType::ET_MouseMove, mmev);
 #ifdef _WIN32
         });
 #endif
@@ -358,7 +358,7 @@ void sad::os::SystemEventDispatcher::processMouseMove(sad::os::SystemWindowEvent
     sad::input::MouseMoveEvent mmev;
     mmev.Point = this->toClient(p);
     mmev.Point3D = op;
-    m_renderer->controls()->postEvent(sad::input::ET_MouseMove, mmev);
+    m_renderer->controls()->postEvent(sad::input::EventType::ET_MouseMove, mmev);
 #endif
 }
 
@@ -371,7 +371,7 @@ void sad::os::SystemEventDispatcher::processMouseLeave(sad::os::SystemWindowEven
 #ifdef _WIN32
     m_renderer->mainLoop()->pushDispatch([=]() {
 #endif
-    m_renderer->controls()->postEvent(sad::input::ET_MouseLeave, mlev);
+    m_renderer->controls()->postEvent(sad::input::EventType::ET_MouseLeave, mlev);
 #ifdef _WIN32
     });
 #endif
@@ -413,7 +413,7 @@ void sad::os::SystemEventDispatcher::processMouseWheel(sad::os::SystemWindowEven
 #ifdef _WIN32
     m_renderer->mainLoop()->pushDispatch([=]() {
 #endif
-    m_renderer->controls()->postEvent(sad::input::ET_MouseWheel, ev);
+    m_renderer->controls()->postEvent(sad::input::EventType::ET_MouseWheel, ev);
 #ifdef _WIN32
     });
 #endif
@@ -446,7 +446,7 @@ void sad::os::SystemEventDispatcher::processResize(sad::os::SystemWindowEvent & 
 #ifdef _WIN32
             m_renderer->mainLoop()->pushDispatch([=]() {
 #endif
-            m_renderer->controls()->postEvent(sad::input::ET_Resize, ev);
+            m_renderer->controls()->postEvent(sad::input::EventType::ET_Resize, ev);
             m_renderer->reshape(size.Width, size.Height);
             m_old_window_size = size;
 #ifdef _WIN32
@@ -478,7 +478,7 @@ void sad::os::SystemEventDispatcher::processResize(sad::os::SystemWindowEvent & 
         sad::input::ResizeEvent ev;
         ev.OldSize = m_old_window_size;
         ev.NewSize = size;
-        m_renderer->controls()->postEvent(sad::input::ET_Resize, ev);
+        m_renderer->controls()->postEvent(sad::input::EventType::ET_Resize, ev);
         m_renderer->reshape(size.Width, size.Height);
         m_old_window_size = size;
     }
@@ -526,7 +526,7 @@ void sad::os::SystemEventDispatcher::processKeyPress(
 #ifdef _WIN32
     m_renderer->mainLoop()->pushDispatch([=]() {
 #endif
-        m_renderer->controls()->postEvent(sad::input::ET_KeyPress, ev);
+        m_renderer->controls()->postEvent(sad::input::EventType::ET_KeyPress, ev);
 #ifdef _WIN32
     });
 #endif
@@ -571,7 +571,7 @@ void sad::os::SystemEventDispatcher::processKeyRelease(
 #ifdef _WIN32
     m_renderer->mainLoop()->pushDispatch([=]() {
 #endif
-    m_renderer->controls()->postEvent(sad::input::ET_KeyRelease, ev);
+    m_renderer->controls()->postEvent(sad::input::EventType::ET_KeyRelease, ev);
 #ifdef _WIN32
     });
 #endif
@@ -581,12 +581,12 @@ void sad::os::SystemEventDispatcher::processMousePress(sad::os::SystemWindowEven
 {
     sad::Maybe<sad::input::MouseDoubleClickEvent> maybedcev;
 #ifdef WIN32
-    sad::MouseButton btn = sad::MouseLeft;
+    sad::MouseButton btn = sad::MouseButton::MouseLeft;
     // ReSharper disable once CppDefaultCaseNotHandledInSwitchStatement
     switch(e.MSG)
     {
-        case WM_RBUTTONDOWN: btn = sad::MouseRight; break;
-        case WM_MBUTTONDOWN: btn = sad::MouseMiddle; break;
+	    case WM_RBUTTONDOWN: btn = sad::MouseButton::MouseRight; break;
+		case WM_MBUTTONDOWN: btn = sad::MouseButton::MouseMiddle; break;
     };
     sad::Point2D p(GET_X_LPARAM(e.LParam), GET_Y_LPARAM(e.LParam));
     sad::Point3D viewportpoint = m_renderer->mapToViewport(p);
@@ -603,9 +603,9 @@ void sad::os::SystemEventDispatcher::processMousePress(sad::os::SystemWindowEven
     sad::MouseButton btn = sad::MouseLeft;
     switch(e.Event.xbutton.button)
     {
-        case Button1: btn = sad::MouseLeft; break;
-        case Button2: btn = sad::MouseMiddle; break;
-        case Button3: btn = sad::MouseRight; break;
+        case Button1: btn = sad::MouseButton::MouseLeft; break;
+        case Button2: btn = sad::MouseButton::MouseMiddle; break;
+        case Button3: btn = sad::MouseButton::MouseRight; break;
     };
 
     sad::Point2D p(e.Event.xbutton.x, e.Event.xbutton.y);
@@ -654,7 +654,7 @@ void sad::os::SystemEventDispatcher::processMousePress(sad::os::SystemWindowEven
 #ifdef _WIN32
     m_renderer->mainLoop()->pushDispatch([=]() {
 #endif
-    m_renderer->controls()->postEvent(sad::input::ET_MousePress, ev);
+    m_renderer->controls()->postEvent(sad::input::EventType::ET_MousePress, ev);
 #ifdef _WIN32
     });
 #endif
@@ -674,7 +674,7 @@ void sad::os::SystemEventDispatcher::processMousePress(sad::os::SystemWindowEven
 #ifdef _WIN32
         m_renderer->mainLoop()->pushDispatch([=]() {
 #endif
-        m_renderer->controls()->postEvent(sad::input::ET_MouseDoubleClick, maybedcev.value());
+        m_renderer->controls()->postEvent(sad::input::EventType::ET_MouseDoubleClick, maybedcev.value());
 #ifdef _WIN32
         });
 #endif
@@ -686,12 +686,12 @@ void sad::os::SystemEventDispatcher::processMousePress(sad::os::SystemWindowEven
 void sad::os::SystemEventDispatcher::processMouseRelease(sad::os::SystemWindowEvent & e)
 {
 #ifdef WIN32
-    sad::MouseButton btn = sad::MouseLeft;
+    sad::MouseButton btn = sad::MouseButton::MouseLeft;
     // ReSharper disable once CppDefaultCaseNotHandledInSwitchStatement
     switch(e.MSG)
     {
-        case WM_RBUTTONUP: btn = sad::MouseRight; break;
-        case WM_MBUTTONUP: btn = sad::MouseMiddle; break;
+        case WM_RBUTTONUP: btn = sad::MouseButton::MouseRight; break;
+        case WM_MBUTTONUP: btn = sad::MouseButton::MouseMiddle; break;
     };
     sad::Point2D p(GET_X_LPARAM(e.LParam), GET_Y_LPARAM(e.LParam));
     sad::Point3D viewportpoint = m_renderer->mapToViewport(p);
@@ -707,8 +707,8 @@ void sad::os::SystemEventDispatcher::processMouseRelease(sad::os::SystemWindowEv
     sad::MouseButton btn = sad::MouseLeft;
     switch(e.Event.xbutton.button)
     {
-        case Button2: btn = sad::MouseRight; break;
-        case Button3: btn = sad::MouseMiddle; break;
+        case Button2: btn = sad::MouseButton::MouseRight; break;
+        case Button3: btn = sad::MouseButton::MouseMiddle; break;
     };
     sad::Point2D p(e.Event.xbutton.x, e.Event.xbutton.y);
     sad::Point3D viewportpoint = m_renderer->mapToViewport(p);
@@ -731,7 +731,7 @@ void sad::os::SystemEventDispatcher::processMouseRelease(sad::os::SystemWindowEv
 #ifdef _WIN32
     m_renderer->mainLoop()->pushDispatch([=]() {
 #endif
-    m_renderer->controls()->postEvent(sad::input::ET_MouseRelease, ev);
+    m_renderer->controls()->postEvent(sad::input::EventType::ET_MouseRelease, ev);
 #ifdef _WIN32
     });
 #endif
@@ -747,7 +747,7 @@ void sad::os::SystemEventDispatcher::processMouseEnter(sad::os::SystemWindowEven
     sad::input::MouseEnterEvent ev;
     ev.Point = this->toClient(p);
     ev.Point3D = op;
-    m_renderer->controls()->postEvent(sad::input::ET_MouseEnter, ev);
+    m_renderer->controls()->postEvent(sad::input::EventType::ET_MouseEnter, ev);
 #ifdef EVENT_LOGGING
     SL_LOCAL_INTERNAL(fmt::Format("Triggered MouseEnterEvent({0}, {1}, {2})") << op.x() << op.y() << op.z(), *m_renderer);
 #endif
@@ -761,12 +761,12 @@ void sad::os::SystemEventDispatcher::processMouseEnter(sad::os::SystemWindowEven
 // ReSharper disable once CppMemberFunctionMayBeConst
 void sad::os::SystemEventDispatcher::processMouseDoubleClick(sad::os::SystemWindowEvent & e)
 {
-    sad::MouseButton btn = sad::MouseLeft;
+    sad::MouseButton btn = sad::MouseButton::MouseLeft;
     // ReSharper disable once CppDefaultCaseNotHandledInSwitchStatement
     switch(e.MSG)
     {
-        case WM_RBUTTONDBLCLK: btn = sad::MouseRight; break;
-        case WM_MBUTTONDBLCLK: btn = sad::MouseMiddle; break;
+        case WM_RBUTTONDBLCLK: btn = sad::MouseButton::MouseRight; break;
+        case WM_MBUTTONDBLCLK: btn = sad::MouseButton::MouseMiddle; break;
     };
     sad::Point2D p(GET_X_LPARAM(e.LParam), GET_Y_LPARAM(e.LParam));
     sad::Point3D viewportpoint = m_renderer->mapToViewport(p);
@@ -789,7 +789,7 @@ void sad::os::SystemEventDispatcher::processMouseDoubleClick(sad::os::SystemWind
 #ifdef _WIN32
     m_renderer->mainLoop()->pushDispatch([=]() {
 #endif
-    m_renderer->controls()->postEvent(sad::input::ET_MouseDoubleClick, ev);
+    m_renderer->controls()->postEvent(sad::input::EventType::ET_MouseDoubleClick, ev);
 #ifdef _WIN32
     });
 #endif

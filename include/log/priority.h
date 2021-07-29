@@ -15,7 +15,7 @@ namespace log
     Messages can be disabled by it's priority.
     Also, when possible, they can be represented on screen by different colors
  */
-enum Priority
+enum class Priority: int
 {
     FATAL = 6,    //!< A fatal message, is a message of which app cannot recover
     CRITICAL = 5, //!< A critical message marks serious error

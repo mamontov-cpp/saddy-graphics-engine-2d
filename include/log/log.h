@@ -39,7 +39,7 @@ public:
      */
     virtual void broadcast(const sad::log::Message & m);
     /*! Adds a target to a list of targets. A messages, created with 
-        sad::log::Log::broadcast() will be broadcasted to this target.
+        sad::log::Log::broadcast() will be broadcast to this target.
         \param[in] t target 
      */
     virtual sad::log::Log & addTarget(sad::log::Target * t);
@@ -58,7 +58,7 @@ public:
     template<typename T> 
     void fatal(const T & mesg, const char * file = nullptr, int line = 0)
     {
-        _createAndBroadcast(mesg, sad::log::FATAL, file, line);
+        _createAndBroadcast(mesg, sad::log::Priority::FATAL, file, line);
     }
     /*! Broadcasts a message of priority CRITICAL to all targets
         \param[in] mesg message
@@ -68,7 +68,7 @@ public:
     template<typename T> 
     void critical(const T & mesg, const char * file = nullptr, int line = 0)
     {
-        _createAndBroadcast(mesg, sad::log::CRITICAL, file, line);
+        _createAndBroadcast(mesg, sad::log::Priority::CRITICAL, file, line);
     }
     /*! Broadcasts a message of priority WARNING to all targets
         \param[in] mesg message
@@ -78,7 +78,7 @@ public:
     template<typename T> 
     void warning(const T & mesg, const char * file = nullptr, int line = 0)
     {
-        _createAndBroadcast(mesg, sad::log::WARNING, file, line);
+        _createAndBroadcast(mesg, sad::log::Priority::WARNING, file, line);
     }
     /*! Broadcasts a message of priority MESSAGE to all targets
         \param[in] mesg message
@@ -88,7 +88,7 @@ public:
     template<typename T> 
     void message(const T & mesg, const char * file = nullptr, int line = 0)
     {
-        _createAndBroadcast(mesg, sad::log::MESSAGE, file, line);
+        _createAndBroadcast(mesg, sad::log::Priority::MESSAGE, file, line);
     }
     /*! Broadcasts a message of priority DEBUG to all targets
         \param[in] mesg message
@@ -98,7 +98,7 @@ public:
     template<typename T> 
     void debug(const T & mesg, const char * file = nullptr, int line = 0)
     {
-        _createAndBroadcast(mesg, sad::log::DEBUG, file, line);
+        _createAndBroadcast(mesg, sad::log::Priority::DEBUG, file, line);
     }
     /*! Broadcasts a message of user priority to all targets
         \param[in] mesg message
@@ -114,7 +114,7 @@ public:
         const sad::String & user =  sad::String()
     )
     {
-        _createAndBroadcast(mesg, sad::log::USER, file, line, user);
+        _createAndBroadcast(mesg, sad::log::Priority::USER, file, line, user);
     }
     /*! Broadcasts a message of SADDY_INTERNAL to all targets
         \param[in] mesg message
@@ -128,7 +128,7 @@ public:
         int line = 0
     )
     {
-        _createAndBroadcast(mesg, sad::log::SADDY_INTERNAL, file, line);
+        _createAndBroadcast(mesg, sad::log::Priority::SADDY_INTERNAL, file, line);
     }
     /*! Broadcasts a message of priority FATAL to all targets
         \param[in] mesg message
@@ -137,7 +137,7 @@ public:
      */
     void fatal(const char * mesg, const char * file = nullptr, int line = 0)
     {
-        _createAndBroadcast(sad::String(mesg), sad::log::FATAL, file, line);
+        _createAndBroadcast(sad::String(mesg), sad::log::Priority::FATAL, file, line);
     }
     /*! Broadcasts a message of priority CRITICAL to all targets
         \param[in] mesg message
@@ -146,7 +146,7 @@ public:
      */
     void critical(const char * mesg, const char * file = nullptr, int line = 0)
     {
-        _createAndBroadcast(sad::String(mesg), sad::log::CRITICAL, file, line);
+        _createAndBroadcast(sad::String(mesg), sad::log::Priority::CRITICAL, file, line);
     }
     /*! Broadcasts a message of priority WARNING to all targets
         \param[in] mesg message
@@ -155,7 +155,7 @@ public:
      */		
     void warning(const char * mesg, const char * file = nullptr, int line = 0)
     {
-        _createAndBroadcast(sad::String(mesg), sad::log::WARNING, file, line);
+        _createAndBroadcast(sad::String(mesg), sad::log::Priority::WARNING, file, line);
     }
     /*! Broadcasts a message of priority MESSAGE to all targets
         \param[in] mesg message
@@ -164,7 +164,7 @@ public:
      */		
     void message(const char * mesg, const char * file = nullptr, int line = 0)
     {
-        _createAndBroadcast(sad::String(mesg), sad::log::MESSAGE, file, line);
+        _createAndBroadcast(sad::String(mesg), sad::log::Priority::MESSAGE, file, line);
     }
     /*! Broadcasts a message of priority DEBUG to all targets
         \param[in] mesg message
@@ -173,7 +173,7 @@ public:
      */		
     void debug(const char  * mesg, const char * file = nullptr, int line = 0)
     {
-        _createAndBroadcast(sad::String(mesg), sad::log::DEBUG, file, line);
+        _createAndBroadcast(sad::String(mesg), sad::log::Priority::DEBUG, file, line);
     }
     /*! Broadcasts a message of user priority to all targets
         \param[in] mesg message
@@ -183,7 +183,7 @@ public:
      */		
     void user(const char *  mesg, const char * file = nullptr, int line = 0, const sad::String & user =  sad::String())
     {
-        _createAndBroadcast(sad::String(mesg), sad::log::USER, file, line, user);
+        _createAndBroadcast(sad::String(mesg), sad::log::Priority::USER, file, line, user);
     }
     /*! Broadcasts a message of SADDY_INTERNAL to all targets
         \param[in] mesg message
@@ -197,7 +197,7 @@ public:
         int line = 0
     )
     {
-        _createAndBroadcast(sad::String(mesg), sad::log::SADDY_INTERNAL, file, line);
+        _createAndBroadcast(sad::String(mesg), sad::log::Priority::SADDY_INTERNAL, file, line);
     }
     /*! Pushes current subsystem name into stack of subsystem names
         \param[in] str string
@@ -233,11 +233,11 @@ public:
         m_internal_mode = mode;
     }
 protected:
-    /*! Locks, for making this compatible with multithreading applications
+    /*! Locks, for making this compatible with multi-threading applications
      */
     ::sad::Mutex m_lock;
     /*! Determines, whether log is in internal mode. If internal mode, 
-        sad::log::Log::pushAction creates an internal messaage
+        sad::log::Log::pushAction creates an internal message
      */ 
     bool        m_internal_mode;
     /*! A vector of targets, for broadcasting file
@@ -255,8 +255,8 @@ protected:
         \param[in] mesg text message, that is being logged
         \param[in] priority  a priority for message
         \param[in] file      a name of file, where message was emitted
-        \param[in] line		 a lnumber of line, where message was emitted
-        \param[in] upriority 
+        \param[in] line      a line number of line, where message was emitted
+        \param[in] upriority use-defined priority
      */
     virtual void createAndBroadcast(
         const sad::String & mesg, 
@@ -270,8 +270,8 @@ protected:
         \param[in] mesg       message, that is being logged
         \param[in] priority  a priority for message
         \param[in] file      a name of file, where message was emitted
-        \param[in] line		 a lnumber of line, where message was emitted
-        \param[in] upriority 
+        \param[in] line      a lnumber of line, where message was emitted
+        \param[in] upriority  user-defined priority
      */
     template<typename T>
     void _createAndBroadcast(

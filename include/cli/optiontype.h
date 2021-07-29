@@ -12,7 +12,7 @@ namespace cli
 {
 /*! An option type, which defines a type for an options, passed to parser
  */
-enum OptionType
+enum class OptionType: int
 {
     /*!
      * A flag is processed as passing single keyword, like

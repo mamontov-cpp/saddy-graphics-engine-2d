@@ -61,7 +61,7 @@ sad::StringList sad::String::split(
     char cur = (*this)[i];
     if (strrchr(delimiters,cur) != nullptr)
     {
-        if (buffer.empty() == false || b == sad::String::KEEP_EMPTY_PARTS)
+        if (buffer.empty() == false || b == sad::String::SplitBehaviour::KEEP_EMPTY_PARTS)
             result << buffer;
         buffer.clear();
     }

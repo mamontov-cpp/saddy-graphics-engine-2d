@@ -62,25 +62,25 @@ std::string sad::log::ConsoleTarget::formatFileLine(const sad::log::Message & me
 
 void sad::log::ConsoleTarget::createColoredOutput()
 {
-    m_coloring.insert(sad::log::FATAL, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::LIGHT_RED));
-    m_coloring.insert(sad::log::CRITICAL, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::LIGHT_MAGENTA));
-    m_coloring.insert(sad::log::WARNING, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::LIGHT_YELLOW));
-    m_coloring.insert(sad::log::MESSAGE, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::WHITE));
-    m_coloring.insert(sad::log::DEBUG, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::LIGHT_BLUE));
-    m_coloring.insert(sad::log::USER, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::LIGHT_CYAN));
-    m_coloring.insert(sad::log::SADDY_INTERNAL, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::DARK_MAGENTA));
+    m_coloring.insert(sad::log::Priority::FATAL, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::Color::NONE, sad::log::Color::LIGHT_RED));
+    m_coloring.insert(sad::log::Priority::CRITICAL, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::Color::NONE, sad::log::Color::LIGHT_MAGENTA));
+    m_coloring.insert(sad::log::Priority::WARNING, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::Color::NONE, sad::log::Color::LIGHT_YELLOW));
+    m_coloring.insert(sad::log::Priority::MESSAGE, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::Color::NONE, sad::log::Color::WHITE));
+    m_coloring.insert(sad::log::Priority::DEBUG, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::Color::NONE, sad::log::Color::LIGHT_BLUE));
+    m_coloring.insert(sad::log::Priority::USER, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::Color::NONE, sad::log::Color::LIGHT_CYAN));
+    m_coloring.insert(sad::log::Priority::SADDY_INTERNAL, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::Color::NONE, sad::log::Color::DARK_MAGENTA));
 }
 
 
 void sad::log::ConsoleTarget::createNormalOutput()
 {
-    m_coloring.insert(sad::log::FATAL, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::NONE));
-    m_coloring.insert(sad::log::CRITICAL, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::NONE));
-    m_coloring.insert(sad::log::WARNING, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::NONE));
-    m_coloring.insert(sad::log::MESSAGE, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::NONE));
-    m_coloring.insert(sad::log::DEBUG, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::NONE));
-    m_coloring.insert(sad::log::USER, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::NONE));
-    m_coloring.insert(sad::log::SADDY_INTERNAL, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::NONE));
+    m_coloring.insert(sad::log::Priority::FATAL, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::Color::NONE, sad::log::Color::NONE));
+    m_coloring.insert(sad::log::Priority::CRITICAL, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::Color::NONE, sad::log::Color::NONE));
+    m_coloring.insert(sad::log::Priority::WARNING, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::Color::NONE, sad::log::Color::NONE));
+    m_coloring.insert(sad::log::Priority::MESSAGE, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::Color::NONE, sad::log::Color::NONE));
+    m_coloring.insert(sad::log::Priority::DEBUG, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::Color::NONE, sad::log::Color::NONE));
+    m_coloring.insert(sad::log::Priority::USER, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::Color::NONE, sad::log::Color::NONE));
+    m_coloring.insert(sad::log::Priority::SADDY_INTERNAL, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::Color::NONE, sad::log::Color::NONE));
 }
 
 DECLARE_COMMON_TYPE(sad::log::ConsoleTarget)

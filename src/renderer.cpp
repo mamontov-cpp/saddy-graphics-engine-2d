@@ -107,7 +107,7 @@ m_gl_sprite_geometry_storages(nullptr)
     
     // Add stopping a main loop to quite events of controls to make window close
     // when user closes a window
-    m_controls->add(*(sad::input::ET_Quit), m_main_loop, &sad::MainLoop::stop);
+    m_controls->add(*(sad::input::EventType::ET_Quit), m_main_loop, &sad::MainLoop::stop);
 
     m_gl_sprite_geometry_storages = new sad::os::GLSpriteGeometryStorages();
     m_gl_sprite_geometry_storages->setRenderer(this);
@@ -535,7 +535,7 @@ void sad::Renderer::swapLayers(sad::Scene* s1, sad::Scene* s2)
     if (layer1 != -1 && layer2 != -2)
     {
         sad::pipeline::AbstractTask* t = new sad::util::SwapLayersTask(this, s1, s2, layer1, layer2);
-        this->pipeline()->insertStep(sad::pipeline::PIT_END, t);
+        this->pipeline()->insertStep(sad::pipeline::PipelineInsertionType::PIT_END, t);
     }
 }
 

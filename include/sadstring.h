@@ -27,7 +27,7 @@ class String: public std::string
 public:
         /*! Settings for splitting parts of string
          */
-        enum SplitBehaviour
+        enum class SplitBehaviour: int
         {
             /*! Keep empty parts of string
              */
@@ -65,7 +65,7 @@ public:
          */
          sad::StringList split(
              char delimiter,
-             sad::String::SplitBehaviour b = sad::String::OMIT_EMPTY_PARTS
+             sad::String::SplitBehaviour b = sad::String::SplitBehaviour::OMIT_EMPTY_PARTS
          ) const;
          /*! Splits a string by delimiters, returning a list of strings
              \param[in] delimiters delimiter char, removing empty strings between two delimiters
@@ -74,7 +74,7 @@ public:
          */
          sad::StringList split(
              const char * delimiters, 
-             sad::String::SplitBehaviour b = sad::String::OMIT_EMPTY_PARTS
+             sad::String::SplitBehaviour b = sad::String::SplitBehaviour::OMIT_EMPTY_PARTS
          ) const;
          /*! Places a character to end of string
              \param[in] c character

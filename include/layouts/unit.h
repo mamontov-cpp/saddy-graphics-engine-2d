@@ -12,7 +12,7 @@ namespace layouts
 
 /*! Describes a type of values, which is used to describe, how width or height of cell is measured
  */ 
-enum Unit
+enum class Unit: int
 {
 /*! Width or height should be computed automatically
  */	

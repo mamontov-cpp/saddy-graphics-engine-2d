@@ -48,7 +48,7 @@ sad::input::ResizeEvent::~ResizeEvent()
 #define SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(TYPE)             \
 const sad::input::EventType sad::input::EnumValueForEventType< \
     sad::input:: TYPE ## Event >::Type                         \
-    = ET_ ## TYPE;     
+    =  sad::input::EventType :: ET_ ## TYPE;
 
 SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(Quit)
 SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(Activate)

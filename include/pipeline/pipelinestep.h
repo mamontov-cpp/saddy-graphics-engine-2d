@@ -21,7 +21,7 @@ namespace pipeline
 
     Note, that sad::Scene::render will have user as step source.
  */
-enum StepSource
+enum class StepSource: int
 {
     /*! A system type defines a type of step, added by sad::Renderer and other related classed
         on insertion to beginning they are being inserted to a beginning of pipeline, and on appending
@@ -47,7 +47,7 @@ public:
     /*! Default step has no mark, and also it cannot be located.
         By default - 
      */
-    inline Step() : m_enabled(true), m_source(sad::pipeline::ST_USER)
+    inline Step() : m_enabled(true), m_source(sad::pipeline::StepSource::ST_USER)
     {
     }
     /*! You can inherit step and implement your own steps

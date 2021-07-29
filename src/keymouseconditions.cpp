@@ -30,16 +30,16 @@ bool sad::SpecialKeyHoldCondition::check(const sad::input::AbstractEvent & e)
     bool result = false;
     switch(m_key)
     {
-        case sad::HoldsControl: result = k.CtrlHeld; break;
-        case sad::HoldsAlt: result = k.AltHeld; break;
-        case sad::HoldsShift: result = k.ShiftHeld; break;
+        case sad::SpecialKey::HoldsControl: result = k.CtrlHeld; break;
+        case sad::SpecialKey::HoldsAlt: result = k.AltHeld; break;
+        case sad::SpecialKey::HoldsShift: result = k.ShiftHeld; break;
     }
     return result;
 }
 
 void sad::SpecialKeyHoldCondition::setKey(sad::SpecialKey key)
 {
-    m_key = key;    
+    m_key = key;
 }
 
 sad::input::AbstractHanderCondition* sad::SpecialKeyHoldCondition::clone()

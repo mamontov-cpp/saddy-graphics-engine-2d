@@ -60,7 +60,7 @@ sad::p2d::Vector  sad::p2d::ConvexHull::normal(int number) const
     sad::p2d::Cutter2D c = side(number);
     sad::p2d::Point center = (c.p1() + c.p2()) / 2.0;
     sad::p2d::Vector sidevector = c.p2() - c.p1();
-    sad::p2d::Vector result = sad::p2d::ortho(sidevector, sad::p2d::OVI_DEG_90);	
+    sad::p2d::Vector result = sad::p2d::ortho(sidevector, sad::p2d::OrthoVectorIndex::OVI_DEG_90);	
     size_t count = points();
     bool notanormal = false;
     for(size_t point = 0; (point < count) && !notanormal; point++)
@@ -81,7 +81,7 @@ sad::p2d::Vector  sad::p2d::ConvexHull::normal(int number) const
         }
     }
     if (notanormal)
-        result = sad::p2d::ortho( sidevector, sad::p2d::OVI_DEG_270);
+        result = sad::p2d::ortho( sidevector, sad::p2d::OrthoVectorIndex::OVI_DEG_270);
     return result;
 }
 
@@ -112,7 +112,7 @@ void sad::p2d::ConvexHull::appendAxisForSide(
 {
     sad::p2d::Cutter2D k = side(number);
     this->tryInsertAxle(container, sad::p2d::axle(k.p1(), k.p2()));
-    sad::p2d::Axle ortho =  sad::p2d::ortho(k.p2() - k.p1(), OVI_DEG_90);
+    sad::p2d::Axle ortho =  sad::p2d::ortho(k.p2() - k.p1(), sad::p2d::OrthoVectorIndex::OVI_DEG_90);
     this->tryInsertAxle(container, ortho);
 }
 

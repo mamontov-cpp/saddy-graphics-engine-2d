@@ -82,7 +82,7 @@ sad::Vector<sad::WString> sad::WString::split(const sad::WString & o,  sad::Stri
     res<<sad::WString(last);
     for (size_t i=0;i<res.count();i++)
     {
-        if (res[i].empty() || b != sad::String::KEEP_EMPTY_PARTS)
+        if (res[i].empty() || b != sad::String::SplitBehaviour::KEEP_EMPTY_PARTS)
         {
          res.removeAt(i);
          --i;

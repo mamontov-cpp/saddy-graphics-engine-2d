@@ -332,7 +332,7 @@ static sad::animations::easing::FunctionCallback callbacks[] = {
 
 sad::animations::easing::FunctionCallback sad::animations::easing::callbackByType(sad::animations::easing::Types t)
 {
-    if (static_cast<int>(t) < 0 || static_cast<int>(t) > sad::animations::easing::ATTT_InOutBounce)
+    if (static_cast<int>(t) < 0 || static_cast<int>(t) > static_cast<int>(sad::animations::easing::Types::ATTT_InOutBounce))
     {
         return easeLinear;
     }

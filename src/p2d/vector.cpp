@@ -38,7 +38,7 @@ void sad::p2d::mutableUnit(sad::p2d::Vector & v)
 sad::p2d::Vector sad::p2d::ortho(const sad::p2d::Vector & v, sad::p2d::OrthoVectorIndex i)
 {
     p2d::Vector unit = sad::p2d::unit(v);
-    if (i == p2d::OVI_DEG_90) 
+    if (i == p2d::OrthoVectorIndex::OVI_DEG_90) 
     {
         return sad::p2d::Vector(unit.y(), - unit.x());
     }
@@ -48,7 +48,7 @@ sad::p2d::Vector sad::p2d::ortho(const sad::p2d::Vector & v, sad::p2d::OrthoVect
 
 void sad::p2d::mutableNormalizedOrtho(sad::p2d::Vector & v, sad::p2d::OrthoVectorIndex i)
 {
-    if (i == sad::p2d::OVI_DEG_90) 
+    if (i == sad::p2d::OrthoVectorIndex::OVI_DEG_90) 
     {
         double x = v.x();
         v.setX(v.y());

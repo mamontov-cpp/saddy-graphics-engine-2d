@@ -35,7 +35,7 @@ namespace p2d
     /*! A class for orthogonal vector index, used to
         restrict range of optional vector index
      */
-    enum OrthoVectorIndex 
+    enum class OrthoVectorIndex : int
     {
         OVI_DEG_90  = 0,  //!< An orthogonal vector as a rotation to 90 degrees
         OVI_DEG_270 = 1   //!< An orthogonal vector as a rotation to 270 degrees

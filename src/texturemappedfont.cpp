@@ -32,7 +32,7 @@ sad::TextureMappedFont::~TextureMappedFont()
 
 
 
-sad::Size2D sad::TextureMappedFont::size(const sad::String & str, sad::Font::RenderFlags flags)
+sad::Size2D sad::TextureMappedFont::size(const sad::String & str, int flags)
 {
     sad::Size2D result;
     // If loading was failed, return (0, 0) as size
@@ -46,7 +46,7 @@ sad::Size2D sad::TextureMappedFont::size(const sad::String & str, sad::Font::Ren
     // Lets break string into lines
     sad::String tmp = str;
     tmp.removeAllOccurrences("\r");
-    sad::StringList lines = str.split("\n", sad::String::KEEP_EMPTY_PARTS);
+    sad::StringList lines = str.split("\n", sad::String::SplitBehaviour::KEEP_EMPTY_PARTS);
     
     double italicoffset = ((double)m_size) * TAN_20_DEGREES;
 
@@ -60,7 +60,7 @@ sad::Size2D sad::TextureMappedFont::size(const sad::String & str, sad::Font::Ren
             unsigned char c = *reinterpret_cast<unsigned char*>(&(string[j]));
             linewidth += m_leftbearings[c] * m_size_ratio;
             linewidth += m_sizes[c].Width * m_size_ratio;
-            if ((flags & sad::Font::FRF_Bold) != 0)
+            if ((flags & static_cast<int>(sad::Font::RenderFlags::FRF_Bold)) != 0)
             {
                 linewidth += 2;
             }
@@ -71,7 +71,7 @@ sad::Size2D sad::TextureMappedFont::size(const sad::String & str, sad::Font::Ren
                 linewidth += m_rightbearings[c] * m_size_ratio;
             }
         }
-        if ((flags & sad::Font::FRF_Italic) != 0)
+        if ((flags & static_cast<int>(sad::Font::RenderFlags::FRF_Italic)) != 0)
         {
             linewidth += italicoffset;
         }
@@ -90,7 +90,7 @@ sad::Size2D sad::TextureMappedFont::size(const sad::String & str, sad::Font::Ren
 }
 
 
-void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D & p, sad::Font::RenderFlags flags)
+void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D & p, int flags)
 {
     // If loading was failed, do nothing
     if (m_texture == nullptr)
@@ -191,12 +191,12 @@ void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D 
             glyphwidth =  (unsigned int)(m_sizes[glyphchar].Width * m_size_ratio);
 
             int count = 1;
-            if ((flags & sad::Font::FRF_Bold) != 0) 
+            if ((flags & sad::Font::RenderFlags::FRF_Bold) != 0) 
             {
                 count = 3;
             }
             float topoffset = 0;
-            if ((flags & sad::Font::FRF_Italic) != 0)
+            if ((flags & sad::Font::RenderFlags::FRF_Italic) != 0)
             {
                 topoffset = italicoffset;
             }
@@ -225,7 +225,7 @@ void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D 
         if (string[i] != '\n')
         {
             x += glyphwidth;
-            if ((flags & sad::Font::FRF_Bold) != 0)
+            if ((flags & sad::Font::RenderFlags::FRF_Bold) != 0)
             {
                 x += 2;
             }
@@ -271,7 +271,7 @@ void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D 
 }
 
 
-void sad::TextureMappedFont::fillGeometries(const sad::Font::GeometryRenderData& data, sad::os::GLFontGeometries& g, const sad::String & str, const sad::Point2D & p, sad::Font::RenderFlags flags)
+void sad::TextureMappedFont::fillGeometries(const sad::Font::GeometryRenderData& data, sad::os::GLFontGeometries& g, const sad::String & str, const sad::Point2D & p, int flags)
 {
     // If loading was failed, do nothing
     if (m_texture == nullptr)
@@ -301,12 +301,12 @@ void sad::TextureMappedFont::fillGeometries(const sad::Font::GeometryRenderData&
             glyphwidth = static_cast<unsigned int>(m_sizes[glyphchar].Width * m_size_ratio);
 
             size_t count = 1;
-            if ((flags & sad::Font::FRF_Bold) != 0)
+            if ((flags & sad::Font::RenderFlags::FRF_Bold) != 0)
             {
                 count = 3;
             }
             float topoffset = 0;
-            if ((flags & sad::Font::FRF_Italic) != 0)
+            if ((flags & sad::Font::RenderFlags::FRF_Italic) != 0)
             {
                 topoffset = italicoffset;
             }
@@ -353,7 +353,7 @@ void sad::TextureMappedFont::fillGeometries(const sad::Font::GeometryRenderData&
         if (string[i] != '\n')
         {
             x += glyphwidth;
-            if ((flags & sad::Font::FRF_Bold) != 0)
+            if ((flags & sad::Font::RenderFlags::FRF_Bold) != 0)
             {
                 x += 2.0;
             }

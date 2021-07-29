@@ -27,7 +27,7 @@ SAD_OBJECT
 public:
     /*! A render flags for font
      */
-    enum RenderFlags
+    enum class RenderFlags: int
     {
         FRF_None = 0,       //!< No flags
         FRF_Bold = 1,       //!< Bold flag
@@ -56,7 +56,7 @@ public:
         \param[in] p   upper-left point in viewport coordinates
         \param[in] flags a flags for rendering
      */
-    virtual void render(const sad::String & str,const sad::Point2D & p, sad::Font::RenderFlags flags = sad::Font::FRF_None) = 0;
+    virtual void render(const sad::String & str,const sad::Point2D & p, int flags = 0) = 0;
     /*! Fills geometries with related font data
      *  \param[in] data a data
      *  \param[in] g geometries
@@ -64,7 +64,7 @@ public:
      *  \param[in] p   upper-left point in viewport coordinates
      *  \param[in] flags a flags for rendering
      */
-    virtual void fillGeometries(const sad::Font::GeometryRenderData& data, sad::os::GLFontGeometries& g, const sad::String & str, const sad::Point2D & p, sad::Font::RenderFlags flags = sad::Font::FRF_None) = 0;
+    virtual void fillGeometries(const sad::Font::GeometryRenderData& data, sad::os::GLFontGeometries& g, const sad::String & str, const sad::Point2D & p, int flags = 0) = 0;
     /*! Sets a color, which label will be rendered with, if label is rendered,
         using this font
         \param[in] c color of font
@@ -80,7 +80,7 @@ public:
         \param[in] flags a flags for rendering
         \return size of label
      */
-    virtual sad::Size2D size(const sad::String & str, sad::Font::RenderFlags flags = sad::Font::FRF_None) = 0;
+    virtual sad::Size2D size(const sad::String & str, int flags = 0) = 0;
     /*! Returns size of font in pixels
         \return size of font in pixels
      */
@@ -169,3 +169,19 @@ protected:
 }
 
 DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::Font)
+
+
+inline int operator|(sad::Font::RenderFlags a, sad::Font::RenderFlags b)
+{
+    return static_cast<int>(a) | static_cast<int>(b);
+}
+
+inline int operator|(int a, sad::Font::RenderFlags b)
+{
+    return a | static_cast<int>(b);
+}
+
+inline int operator&(int a, sad::Font::RenderFlags b)
+{
+    return a & static_cast<int>(b);
+}

@@ -79,7 +79,7 @@ void sad::p2d::Line::normalToPointOnSurface(const p2d::Point & p, p2d::Vector & 
 {
     n = m_c.p2() - m_c.p1();
     sad::p2d::mutableUnit(n);
-    sad::p2d::mutableNormalizedOrtho(n, p2d::OVI_DEG_90);
+    sad::p2d::mutableNormalizedOrtho(n, p2d::OrthoVectorIndex::OVI_DEG_90);
 }
 
 

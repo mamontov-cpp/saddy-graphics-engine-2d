@@ -148,7 +148,7 @@ public:
 
     /*! Defines, whether sad::Object cast could be applied
      */
-    enum ObjectCastValueHelper
+    enum  ObjectCastValueHelper
     {
         CAN_BE_CASTED_TO_OBJECT  = (sad::db::TypeName<_Type>::POINTER_STARS_COUNT == 0) && sad::db::TypeName<_Type>::SFINAE_BASE_CHECK,
         POINTER_STARS_COUNT = (sad::db::TypeName<_Type>::POINTER_STARS_COUNT + 1),

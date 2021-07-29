@@ -19,7 +19,7 @@ namespace input
 
 /*! Determines emitted event type
  */
-enum EventType
+enum class EventType: int
 {
     /*! A type for quit event
      */
@@ -151,7 +151,7 @@ public:
     /*! Creates new empty key event
      */
     inline KeyEvent() 
-    : Key(sad::KeyNone), 
+    : Key(sad::KeyboardKey::KeyNone), 
       AltHeld(false), 
       ShiftHeld(false), 
       CtrlHeld(false) 
@@ -161,7 +161,7 @@ public:
 
     inline int key() const
     {
-        return Key;
+        return static_cast<int>(Key);
     }
     /*! Kept, for purpose of inheritance
      */
@@ -267,14 +267,14 @@ public:
 
     /*! Inits event with no mouse pressed and zero points
      */
-    inline MouseEvent() : MouseCursorEvent(), Button(sad::MouseNone) 
+    inline MouseEvent() : MouseCursorEvent(), Button(sad::MouseButton::MouseNone) 
     {
 
     }
 
     inline int button() const
     {
-        return Button;
+        return static_cast<int>(Button);
     }
     /*! Kept, for purpose of inheritance
      */
@@ -359,7 +359,7 @@ public:
 };
 
 
-/*! Provides a helper for getting enum value for specified event type
+/*! Provides a helper for getting enum class value for specified event type: int
  */
 template<
 typename _EventType

@@ -301,9 +301,9 @@ void sad::resource::TextureAtlasFile::tryLoadNewTexture(
     v.insert("type",     picojson::value(sad::Texture::globalMetaData()->name()));
     v.insert("filename", picojson::value(result.NewTextureFile->name()));
     v.insert("name", picojson::value(parsed.ResourceName));
-    if (result.NewTextureFile->rfi().Type == sad::resource::RFT_TAR7Z_INNER_FILE)
+    if (result.NewTextureFile->rfi().Type == sad::resource::ResourceFileType::RFT_TAR7Z_INNER_FILE)
     {
-        if (this->rfi().Type == sad::resource::RFT_TAR7Z_INNER_FILE)
+        if (this->rfi().Type == sad::resource::ResourceFileType::RFT_TAR7Z_INNER_FILE)
         {
             force_reload_texture = !(result.NewTextureFile->rfi().ArchiveName == this->rfi().ArchiveName);
         }

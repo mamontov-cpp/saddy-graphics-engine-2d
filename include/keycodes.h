@@ -13,7 +13,7 @@ namespace sad
 {
 /*! All keyboard keys, handled by input are stored here
  */
-enum KeyboardKey
+enum class KeyboardKey: int
 {
     Numeric0 = '0',  //!< A numeric key code for 0 
     Numeric1 = '1',  //!< A numeric key code for 1
@@ -130,7 +130,7 @@ enum KeyboardKey
 
 /*! Specified set of mouse manipulator buttons, passed into window events
  */
-enum MouseButton
+enum class MouseButton: int
 {
     MouseLeft   = -16535,   //!< Left mouse button
     MouseMiddle = -16534,   //!< Middle mouse button
@@ -140,7 +140,7 @@ enum MouseButton
 
 /*! A special key codes, which is composed with other buttons, presses by user
  */
-enum SpecialKey
+enum class SpecialKey: int
 {
     HoldsControl =  -16538,  //!< User holds control button
     HoldsAlt     =  -16537,  //!< User holds alt button

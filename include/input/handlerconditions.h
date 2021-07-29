@@ -52,7 +52,7 @@ public:
      */
     inline HandlerTypeAndConditions()
     {
-        set1(sad::input::ET_Quit);
+        set1(sad::input::EventType::ET_Quit);
     }
     /*! A conversion hack for putting event type to handler insertion
         \param[in] t type of event

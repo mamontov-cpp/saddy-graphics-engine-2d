@@ -639,11 +639,11 @@ void sad::layouts::Grid::update()
         sad::layouts::Cell* cell = m_cells[i];
         sad::Size2D computedSize = cell->computedSize();
         sad::Size2D size = cell->preferredSize();
-        if (cell->width().Unit != sad::layouts::LU_Auto)
+        if (cell->width().Unit != sad::layouts::Unit::LU_Auto)
         {
             size.Width = computedSize.Width;            
         }
-        if (cell->height().Unit != sad::layouts::LU_Auto)
+        if (cell->height().Unit != sad::layouts::Unit::LU_Auto)
         {
             size.Height = computedSize.Height;
         }

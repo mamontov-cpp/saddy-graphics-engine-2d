@@ -10,14 +10,14 @@ bool sad::isValidKeyboardKey(int key)
         result = true;
     if (key >= 'A' && key <= 'Z')
         result = true;
-    if (key >= sad::Esc && key <= sad::RightAlt)
+    if (key >= static_cast<int>(sad::KeyboardKey::Esc) && key <= static_cast<int>(sad::KeyboardKey::RightAlt))
         result = true;
     return result;
 }
 
 sad::KeyboardKey sad::defaultKeyIfNotValid(sad::KeyboardKey key, sad::KeyboardKey d)
 {
-    if (sad::isValidKeyboardKey(key))
+    if (sad::isValidKeyboardKey(static_cast<int>(key)))
     {
         return key;
     }
@@ -25,17 +25,17 @@ sad::KeyboardKey sad::defaultKeyIfNotValid(sad::KeyboardKey key, sad::KeyboardKe
 }
 
 static sad::KeyboardKey basic_keys[11] = {
-    sad::Minus,	 
-    sad::Equal,	  
-    sad::BackSlash, 
-    sad::Tilde, 
-    sad::OpeningSquareBracket,
-    sad::ClosingSquareBracket,
-    sad::Semicolon,
-    sad::Comma,
-    sad::Period,
-    sad::Slash,
-    sad::Apostrophe,
+    sad::KeyboardKey::Minus,
+    sad::KeyboardKey::Equal,
+    sad::KeyboardKey::BackSlash,
+    sad::KeyboardKey::Tilde,
+    sad::KeyboardKey::OpeningSquareBracket,
+    sad::KeyboardKey::ClosingSquareBracket,
+    sad::KeyboardKey::Semicolon,
+    sad::KeyboardKey::Comma,
+    sad::KeyboardKey::Period,
+    sad::KeyboardKey::Slash,
+    sad::KeyboardKey::Apostrophe,
 };
 
 static char basic_keys_chars[11] = {
@@ -102,12 +102,13 @@ static const char* other_keys[] = {
 
 sad::String sad::keyToString(sad::KeyboardKey key)
 {
-    if (!sad::isValidKeyboardKey(key))
+	const int int_key = static_cast<int>(key);
+    if (!sad::isValidKeyboardKey(int_key))
         return "Unknown";
     char buf[2] = {0, 0};
-    if ((key >= '0' && key <= '9') ||( key >= 'A' && key <= 'Z'))
+    if ((int_key >= '0' && int_key <= '9') ||( int_key >= 'A' && int_key <= 'Z'))
     {
-        buf[0] = key;
+        buf[0] = static_cast<char>(int_key);
         return sad::String(buf);
     }
     for(int i = 0; i < 11; i++)
@@ -118,15 +119,15 @@ sad::String sad::keyToString(sad::KeyboardKey key)
             return sad::String(buf);
         }
     }
-    if (key >= sad::Esc && key <= sad::RightAlt) {
-        return other_keys[ static_cast<int>(key) - static_cast<int>(sad::Esc)];
+    if (int_key >= static_cast<int>(sad::KeyboardKey::Esc) && int_key <= static_cast<int>(sad::KeyboardKey::RightAlt)) {
+        return other_keys[ int_key - static_cast<int>(sad::KeyboardKey::Esc)];
     }
     return "Unknown";
 }
 
 int sad::defaultKeyIfNotValidAsInt(int key, int d)
 {
-    return static_cast<sad::KeyboardKey>(sad::defaultKeyIfNotValid(static_cast<sad::KeyboardKey>(key), static_cast<sad::KeyboardKey>(d)));
+    return static_cast<int>(sad::defaultKeyIfNotValid(static_cast<sad::KeyboardKey>(key), static_cast<sad::KeyboardKey>(d)));
 }
 
 sad::String sad::keyToStringAsInt(int key)

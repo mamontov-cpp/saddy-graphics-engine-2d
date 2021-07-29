@@ -160,7 +160,7 @@ struct AxleFor
     {
         _Class1 * c1 = static_cast<_Class1 *>(s1);
         _Class2 * c2 = static_cast<_Class2 *>(s2);
-        axle = sad::p2d::ortho(sad::p2d::axle( (c2->*p1)(), (c2->*p2)() ), sad::p2d::OVI_DEG_90);
+        axle = sad::p2d::ortho(sad::p2d::axle( (c2->*p1)(), (c2->*p2)() ), sad::p2d::OrthoVectorIndex::OVI_DEG_90);
     }
 
 
@@ -191,7 +191,7 @@ struct AxleFor
     {
         _Class1 * c1 = static_cast<_Class1 *>(s1);
         _Class2 * c2 = static_cast<_Class2 *>(s2);
-        axle = sad::p2d::ortho(sad::p2d::axle( (c1->*p1)(), (c1->*p2)() ), sad::p2d::OVI_DEG_90);
+        axle = sad::p2d::ortho(sad::p2d::axle( (c1->*p1)(), (c1->*p2)() ), sad::p2d::OrthoVectorIndex::OVI_DEG_90);
     }
 
     template<
@@ -217,7 +217,7 @@ struct AxleFor
     {
         _Class1 * c1 = static_cast<_Class1 *>(s1);
         _Class2 * c2 = static_cast<_Class2 *>(s2);
-        axle = sad::p2d::ortho(sad::p2d::axle( (c1->*p1)(), (c2->*p2)() ), sad::p2d::OVI_DEG_90);
+        axle = sad::p2d::ortho(sad::p2d::axle( (c1->*p1)(), (c2->*p2)() ), sad::p2d::OrthoVectorIndex::OVI_DEG_90);
     }
 
 };
@@ -321,13 +321,13 @@ bool sad::p2d::CollisionTest::collidesBtoB(sad::p2d::Bound * p1, sad::p2d::Bound
         return true;
     }
     // Check opposite
-    if ((bt1 == sad::p2d::BT_LEFT  &&  bt2 == sad::p2d::BT_RIGHT)
-        || (bt1 == sad::p2d::BT_DOWN  &&  bt2 == sad::p2d::BT_UP))
+    if ((bt1 == sad::p2d::BoundType::BT_LEFT  &&  bt2 == sad::p2d::BoundType::BT_RIGHT)
+        || (bt1 == sad::p2d::BoundType::BT_DOWN  &&  bt2 == sad::p2d::BoundType::BT_UP))
     {
         return p1->position() >= p2->position();	
     }
-    if ((bt1 == sad::p2d::BT_RIGHT  &&  bt2 == sad::p2d::BT_LEFT)
-        || (bt1 == sad::p2d::BT_UP  &&  bt2 == sad::p2d::BT_DOWN))
+    if ((bt1 == sad::p2d::BoundType::BT_RIGHT  &&  bt2 == sad::p2d::BoundType::BT_LEFT)
+        || (bt1 == sad::p2d::BoundType::BT_UP  &&  bt2 == sad::p2d::BoundType::BT_DOWN))
     {
         return p1->position() <= p2->position();	
     }
@@ -342,22 +342,22 @@ bool sad::p2d::CollisionTest::collidesBtoR(sad::p2d::Bound * p1, sad::p2d::Recta
 
 bool sad::p2d::CollisionTest::collidesBtoC(sad::p2d::Bound * p1, sad::p2d::Circle * p2)
 {
-    if (p1->type() == sad::p2d::BT_LEFT)
+    if (p1->type() == sad::p2d::BoundType::BT_LEFT)
     {
         double p = p2->center().x() - p2->radius();
         return p <= p1->position();
     }
-    if (p1->type() == sad::p2d::BT_RIGHT)
+    if (p1->type() == sad::p2d::BoundType::BT_RIGHT)
     {
         double p = p2->center().x() + p2->radius();
         return p >= p1->position();
     }
-    if (p1->type() == sad::p2d::BT_UP)
+    if (p1->type() == sad::p2d::BoundType::BT_UP)
     {
         double p = p2->center().y() + p2->radius();
         return p >= p1->position();
     }
-    if (p1->type() == sad::p2d::BT_DOWN)
+    if (p1->type() == sad::p2d::BoundType::BT_DOWN)
     {
         double p = p2->center().y() - p2->radius();
         return p <= p1->position();
@@ -372,25 +372,25 @@ bool sad::p2d::CollisionTest::collidesBtoL(sad::p2d::Bound * p1, sad::p2d::Line 
 
 bool sad::p2d::CollisionTest::collidesBtoS(sad::p2d::Bound * p1, sad::p2d::CollisionShape * p2)
 {
-    if (p1->type() == sad::p2d::BT_LEFT)
+    if (p1->type() == sad::p2d::BoundType::BT_LEFT)
     {
         sad::p2d::Vector v(1, 0);
         sad::p2d::Cutter1D c = p2->project(v);
         return c.p1() <= p1->position();
     }
-    if (p1->type() == sad::p2d::BT_RIGHT)
+    if (p1->type() == sad::p2d::BoundType::BT_RIGHT)
     {
         sad::p2d::Vector v(1, 0);
         sad::p2d::Cutter1D c = p2->project(v);
         return c.p2() >= p1->position();
     }
-    if (p1->type() == sad::p2d::BT_UP)
+    if (p1->type() == sad::p2d::BoundType::BT_UP)
     {
         sad::p2d::Vector v(0, 1);
         sad::p2d::Cutter1D c = p2->project(v);
         return c.p2() >= p1->position();
     }
-    if (p1->type() == sad::p2d::BT_DOWN)
+    if (p1->type() == sad::p2d::BoundType::BT_DOWN)
     {
         sad::p2d::Vector v(0, 1);
         sad::p2d::Cutter1D c = p2->project(v);

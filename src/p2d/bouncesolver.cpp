@@ -29,7 +29,7 @@ sad::p2d::BounceSolver::BounceSolver()
   m_rotationfriction{0.0, 0.0},
   m_shouldperformrotationfriction(true),
   m_inelastic_collisions(false),
-  m_inelastic_collision_type(sad::p2d::BounceSolver::ICT_NO_INELASTIC_COLLISION),
+  m_inelastic_collision_type(sad::p2d::BounceSolver::InelasticCollisionType::ICT_NO_INELASTIC_COLLISION),
   m_recursion_limit(100),
   m_recursion_counter(0),
   m_collision_precision_step(0.001),
@@ -58,13 +58,13 @@ bool sad::p2d::BounceSolver::bounce(sad::p2d::Body* b1, sad::p2d::Body* b2)
         return false;
     }
     bool result;
-    if (m_inelastic_collision_type == sad::p2d::BounceSolver::ICT_NO_INELASTIC_COLLISION)
+    if (m_inelastic_collision_type == sad::p2d::BounceSolver::InelasticCollisionType::ICT_NO_INELASTIC_COLLISION)
     {
          result = this->bounceNormal(b1, b2);
     }
     else
     {
-        if (m_inelastic_collision_type == sad::p2d::BounceSolver::ICT_FIRST)
+        if (m_inelastic_collision_type == sad::p2d::BounceSolver::InelasticCollisionType::ICT_FIRST)
         {
             result = this->inelasticBounceWithFixedSecondBody(b1, b2);
         }
@@ -140,21 +140,21 @@ bool sad::p2d::BounceSolver::isEnabledInelasticCollisions() const
 void sad::p2d::BounceSolver::setInelasticCollisionType(sad::p2d::BounceSolver::InelasticCollisionType type)
 {
     m_inelastic_collision_type = type;
-    m_inelastic_collisions = (type != sad::p2d::BounceSolver::ICT_NO_INELASTIC_COLLISION);
+    m_inelastic_collisions = (type != sad::p2d::BounceSolver::InelasticCollisionType::ICT_NO_INELASTIC_COLLISION);
 }
 
 void sad::p2d::BounceSolver::setInelasticCollisionTypeAsUnsignedInt(unsigned int type)
 {
-    if (type > sad::p2d::BounceSolver::ICT_SECOND)
+    if (type > static_cast<int>(sad::p2d::BounceSolver::InelasticCollisionType::ICT_SECOND))
     {
-        type = sad::p2d::BounceSolver::ICT_SECOND;
+        type = static_cast<int>(sad::p2d::BounceSolver::InelasticCollisionType::ICT_SECOND);
     }
     this->setInelasticCollisionType(static_cast<sad::p2d::BounceSolver::InelasticCollisionType>(type));
 }
 
 unsigned int sad::p2d::BounceSolver::inelasticCollisionTypeAsUnsignedInt() const
 {
-    return this->inelasticCollisionType();
+    return static_cast<unsigned int>(this->inelasticCollisionType());
 }
 
 
@@ -921,7 +921,7 @@ void sad::p2d::BounceSolver::tryResolveFriction(
         double w = b->angularVelocityAt(m_toi);
         sad::p2d::Vector tangential = m_force_moment[index];
         sad::p2d::mutableUnit(tangential);
-        sad::p2d::mutableNormalizedOrtho(tangential, sad::p2d::OVI_DEG_90);
+        sad::p2d::mutableNormalizedOrtho(tangential, sad::p2d::OrthoVectorIndex::OVI_DEG_90);
 
         sad::p2d::Vector tangentialUnit = tangential;
         double forcemomentlength = sad::p2d::modulo(m_force_moment[index]);

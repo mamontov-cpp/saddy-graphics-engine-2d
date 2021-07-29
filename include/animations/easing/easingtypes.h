@@ -55,7 +55,7 @@ namespace easing
     
 /*! A types of easing functions
  */
-enum Types
+enum class Types: int
 {
     ATTT_Linear = 0,
     ATTT_InSine = 1,

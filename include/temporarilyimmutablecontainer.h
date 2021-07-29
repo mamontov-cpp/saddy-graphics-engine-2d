@@ -36,7 +36,7 @@ public:
         if (m_lock_changes)
         {
             QueuedCommand  c;
-            c.Type = CT_ADD;
+            c.Type = CommandType::CT_ADD;
             c.Added = o;
             pushCommand(c);
         }
@@ -55,7 +55,7 @@ public:
         if (m_lock_changes)
         {
             QueuedCommand  c;
-            c.Type = CT_REMOVE;
+            c.Type = CommandType::CT_REMOVE;
             c.Removed = o;
             pushCommand(c);
         }
@@ -73,7 +73,7 @@ public:
         if (m_lock_changes)
         {
             QueuedCommand  c;
-            c.Type = CT_CLEAR;
+            c.Type = CommandType::CT_CLEAR;
             pushCommand(c);
         }
         else
@@ -99,7 +99,7 @@ protected:
         if (m_lock_changes)
         {
             QueuedCommand  c;
-            c.Type = CT_INSERT;
+            c.Type = CommandType::CT_INSERT;
             c.Added = o;
             c.Position = position;
             pushCommand(c);
@@ -114,7 +114,7 @@ protected:
 
      /*! A described command type for queue of commands
       */
-     enum CommandType
+     enum class CommandType: int
      {
         CT_ADD,
         CT_REMOVE,
@@ -131,7 +131,7 @@ protected:
          size_t Position;               //!< A position for inserting object into queue
          /*! By default command is left uninitialized
           */
-         inline QueuedCommand() : Type(CT_ADD), Position(0) //-V730
+         inline QueuedCommand() : Type(CommandType::CT_ADD), Position(0) //-V730
          {
 
          }
@@ -197,10 +197,10 @@ protected:
             QueuedCommand & c = m_command_queue[i];
             switch(c.Type)
             {
-                case CT_ADD : addNow(c.Added); break;
-                case CT_REMOVE: removeNow(c.Removed); break;
-                case CT_CLEAR:  clearNow(); break;
-                case CT_INSERT: insertNow(c.Added, c.Position); break;
+                case CommandType::CT_ADD : addNow(c.Added); break;
+                case CommandType::CT_REMOVE: removeNow(c.Removed); break;
+                case CommandType::CT_CLEAR:  clearNow(); break;
+                case CommandType::CT_INSERT: insertNow(c.Added, c.Position); break;
                 default: break;
             };
         }

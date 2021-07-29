@@ -110,7 +110,7 @@ DECLARE_SOBJ_INHERITANCE(sad::Texture, sad::resource::Resource);
 #endif
 
 sad::Texture::Texture() 
-: BuildMipMaps(true), Buffer(new sad::Texture::DefaultBuffer()), Bpp(32), Format(sad::Texture::SFT_R8_G8_B8_A8), Width(0), Height(0), Id(0), OnGPU(false), m_renderer(nullptr)
+: BuildMipMaps(true), Buffer(new sad::Texture::DefaultBuffer()), Bpp(32), Format(sad::Texture::InternalFormat::SFT_R8_G8_B8_A8), Width(0), Height(0), Id(0), OnGPU(false), m_renderer(nullptr)
 {
 
 }
@@ -169,21 +169,21 @@ void sad::Texture::upload()
     }
     switch(Format)
     {
-    case sad::Texture::SFT_R5_G6_B5:
+    case sad::Texture::InternalFormat::SFT_R5_G6_B5:
         opengl_format = GL_RGB;
         opengl_internalformat = GL_RGB;
         opengl_type = GL_UNSIGNED_SHORT_5_6_5;
         opengl10_type = GL_UNSIGNED_SHORT_5_6_5; // GLU counterpart for this doesn't seem to be defined on any platform
         components = 3;
         break;
-    case sad::Texture::SFT_R3_G3_B2:
+    case sad::Texture::InternalFormat::SFT_R3_G3_B2:
         opengl_format = GL_RGB;
         opengl_internalformat = GL_RGB;
         opengl_type = GL_UNSIGNED_BYTE_3_3_2;
         opengl10_type = GL_UNSIGNED_BYTE_3_3_2; // GLU counterpart for this doesn't seem to be defined on any platform
         components = 3;
         break;
-    case sad::Texture::SFT_R4_G4_B4_A4:
+    case sad::Texture::InternalFormat::SFT_R4_G4_B4_A4:
         opengl_format = GL_RGBA;
         opengl_internalformat = GL_RGBA;
         opengl_type = GL_UNSIGNED_SHORT_4_4_4_4;
@@ -381,7 +381,7 @@ bool sad::Texture::load(
     bool result = false;
     if (ri.Valid)
     {   
-        if (ri.Type == sad::resource::RFT_FILE)
+        if (ri.Type == sad::resource::ResourceFileType::RFT_FILE)
         {
             result = load(ri.FileName, r);
             if (!result && !util::isAbsolutePath(ri.FileName))
@@ -391,7 +391,7 @@ bool sad::Texture::load(
             }
         }
         
-        if (ri.Type == sad::resource::RFT_TAR7Z_INNER_FILE)
+        if (ri.Type == sad::resource::ResourceFileType::RFT_TAR7Z_INNER_FILE)
         {
             bool force_reload = picojson::get_property_or_default(options, "force_archive_reload", false);
             tar7z::Entry* e = file.tree()->archiveEntry(ri.ArchiveName, ri.FileName, force_reload);

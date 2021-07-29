@@ -135,7 +135,7 @@ public:
 };
 /*! Describes a format of engine's texture
  */
-enum InternalFormat 
+enum class InternalFormat : int
 {
     SFT_R8_G8_B8_A8, //!< A default true-color format of texture
     SFT_R5_G6_B5,    //!< A format, which has 5 bits for red component, 6 bits for green component, 5 bits for blue component

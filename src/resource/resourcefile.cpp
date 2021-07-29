@@ -23,7 +23,7 @@ void sad::resource::ResourceFileIdentifier::parse(const sad::String& string, sad
     const int tar7zlength = 6;
     if (string.startsWith("tar7z:", tar7zlength))
     {
-        ri.Type = sad::resource::RFT_TAR7Z_INNER_FILE;
+        ri.Type = sad::resource::ResourceFileType::RFT_TAR7Z_INNER_FILE;
         ri.Valid  = false;
         const char* endstring = string.c_str() + string.size();
         const char* numbuf = string.c_str() + tar7zlength; 
@@ -53,7 +53,7 @@ void sad::resource::ResourceFileIdentifier::parse(const sad::String& string, sad
     else
     {
         ri.Valid = true;
-        ri.Type = sad::resource::RFT_FILE;
+        ri.Type = sad::resource::ResourceFileType::RFT_FILE;
         ri.FileName = string;
     }
 }
@@ -233,7 +233,7 @@ sad::Maybe<sad::String> sad::resource::ResourceFile::tryReadToString(bool force_
     sad::Maybe<sad::String> result;
     if (m_type.Valid)
     {
-        if (m_type.Type == sad::resource::RFT_FILE)
+        if (m_type.Type == sad::resource::ResourceFileType::RFT_FILE)
         {
             std::ifstream stream(m_name.c_str());
             if (stream.good())
@@ -263,7 +263,7 @@ sad::Maybe<sad::String> sad::resource::ResourceFile::tryReadToString(bool force_
             }            
         }
 
-        if (m_type.Type == sad::resource::RFT_TAR7Z_INNER_FILE)
+        if (m_type.Type == sad::resource::ResourceFileType::RFT_TAR7Z_INNER_FILE)
         {
             tar7z::Entry* e = this->tree()->archiveEntry(m_type.ArchiveName, m_type.FileName, force_reload);
             if (e)

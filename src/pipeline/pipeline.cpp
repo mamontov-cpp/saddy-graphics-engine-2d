@@ -67,10 +67,10 @@ sad::pipeline::Step * sad::pipeline::Pipeline::insertStep(
     )
 {
     assert(
-        type == sad::pipeline::PIT_BEGIN 
-     || type == sad::pipeline::PIT_END
-     || type == sad::pipeline::PIT_SYSTEM_BEFORE_FIRST_USER_ACTION
-     || type == sad::pipeline::PIT_SYSTEM_AFTER_LAST_USER_ACTION 
+        type == sad::pipeline::PipelineInsertionType::PIT_BEGIN 
+     || type == sad::pipeline::PipelineInsertionType::PIT_END
+     || type == sad::pipeline::PipelineInsertionType::PIT_SYSTEM_BEFORE_FIRST_USER_ACTION
+     || type == sad::pipeline::PipelineInsertionType::PIT_SYSTEM_AFTER_LAST_USER_ACTION 
     );
     sad::pipeline::PipelineInsertionData data;
     data.set1(type);
@@ -109,15 +109,15 @@ void sad::pipeline::Pipeline::run()
 
 sad::pipeline::Step * sad::pipeline::Pipeline::append(sad::pipeline::Step * step)
 {
-    step->setSource(sad::pipeline::ST_USER);
-    this->insertStep(sad::pipeline::PIT_END, step);
+    step->setSource(sad::pipeline::StepSource::ST_USER);
+    this->insertStep(sad::pipeline::PipelineInsertionType::PIT_END, step);
     return step;
 }
 
 sad::pipeline::Step * sad::pipeline::Pipeline::prepend(sad::pipeline::Step * step)
 {
-    step->setSource(sad::pipeline::ST_USER);
-    this->insertStep(sad::pipeline::PIT_BEGIN, step);
+    step->setSource(sad::pipeline::StepSource::ST_USER);
+    this->insertStep(sad::pipeline::PipelineInsertionType::PIT_BEGIN, step);
     return step;	
 }
 
@@ -136,7 +136,7 @@ sad::pipeline::Pipeline::~Pipeline()
 
 void sad::pipeline::Pipeline::add(const sad::pipeline::PipelineInsertionData & o)
 {
-    if (o.p1() == sad::pipeline::PIT_END && o.p3()->source() == sad::pipeline::ST_USER)
+    if (o.p1() == sad::pipeline::PipelineInsertionType::PIT_END && o.p3()->source() == sad::pipeline::StepSource::ST_USER)
     {
         addNow(o);
     }
@@ -242,33 +242,33 @@ void sad::pipeline::Pipeline::addNow(PipelineInsertionData o)
 {
     switch(o.p1())
     {
-        case sad::pipeline::PIT_BEGIN: 
+        case sad::pipeline::PipelineInsertionType::PIT_BEGIN: 
         {
-            if (o.p3()->source() == sad::pipeline::ST_SYSTEM)
+            if (o.p3()->source() == sad::pipeline::StepSource::ST_SYSTEM)
                 m_system_steps_before_user.insert(o.p3(), 0);
             else
                 m_user_steps.insert(o.p3(), 0);
             break;
         }
-        case sad::pipeline::PIT_END:
+        case sad::pipeline::PipelineInsertionType::PIT_END:
         {
-            if (o.p3()->source() == sad::pipeline::ST_SYSTEM)
+            if (o.p3()->source() == sad::pipeline::StepSource::ST_SYSTEM)
                 m_system_steps_after_user << o.p3();
             else
                 m_user_steps << o.p3();
             break;
         }
-        case sad::pipeline::PIT_SYSTEM_BEFORE_FIRST_USER_ACTION:
+        case sad::pipeline::PipelineInsertionType::PIT_SYSTEM_BEFORE_FIRST_USER_ACTION:
         {
             m_system_steps_before_user << o.p3();
             break;
         }
-        case sad::pipeline::PIT_SYSTEM_AFTER_LAST_USER_ACTION:
+        case sad::pipeline::PipelineInsertionType::PIT_SYSTEM_AFTER_LAST_USER_ACTION:
         {
             m_system_steps_after_user << o.p3();
             break;
         }
-        case sad::pipeline::PIT_BEFORE:
+        case sad::pipeline::PipelineInsertionType::PIT_BEFORE:
         {
             StepListPosition pos = findByMark(o.p2().value());
             StepsList * list = pos.p1();
@@ -279,7 +279,7 @@ void sad::pipeline::Pipeline::addNow(PipelineInsertionData o)
             }
             break;
         }
-        case sad::pipeline::PIT_AFTER:
+        case sad::pipeline::PipelineInsertionType::PIT_AFTER:
         {
             StepListPosition pos = findByMark(o.p2().value());
             StepsList * list = pos.p1();

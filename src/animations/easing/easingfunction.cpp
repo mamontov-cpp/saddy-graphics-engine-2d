@@ -11,7 +11,7 @@
 DECLARE_SOBJ(sad::animations::easing::Function)
 
 sad::animations::easing::Function::Function()
-: m_type(sad::animations::easing::ATTT_Linear),
+: m_type(sad::animations::easing::Types::ATTT_Linear),
 m_overshoot_amplitude(0),
 m_period(0)
 {
@@ -21,9 +21,9 @@ m_period(0)
 
 sad::animations::easing::Function::Function(unsigned int type, double overshootAmplitude, double period) : m_overshoot_amplitude(overshootAmplitude), m_period(period)
 {
-    if (type > static_cast<unsigned int>(sad::animations::easing::ATTT_InOutBounce))
+    if (type > static_cast<unsigned int>(sad::animations::easing::Types::ATTT_InOutBounce))
     {
-        type = sad::animations::easing::ATTT_InOutBounce;
+        type = static_cast<unsigned int>(sad::animations::easing::Types::ATTT_InOutBounce);
     }
     m_type = static_cast<sad::animations::easing::Types>(type);
     m_callback = sad::animations::easing::callbackByType(m_type);
@@ -70,9 +70,9 @@ double sad::animations::easing::Function::evalBounded(double time, double durati
 
 void sad::animations::easing::Function::setFunctionTypeAsUnsignedInt(unsigned int type)
 {
-    if (static_cast<int>(type) > sad::animations::easing::ATTT_InOutBounce)
+    if (type > static_cast<unsigned int>(sad::animations::easing::Types::ATTT_InOutBounce))
     {
-        m_type = sad::animations::easing::ATTT_Linear;
+        m_type = sad::animations::easing::Types::ATTT_Linear;
     }
     else
     {

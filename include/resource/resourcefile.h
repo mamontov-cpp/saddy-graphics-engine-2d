@@ -30,7 +30,7 @@ typedef sad::Vector<sad::resource::ResourceEntry> ResourceEntryList;
 
 /*! A type of resource identifier, determining how resource is stored
  */
-enum ResourceFileType
+enum class ResourceFileType: int
 {
     /*! Just plain file in filesystem
      */
@@ -61,7 +61,7 @@ struct ResourceFileIdentifier
 
     /*! By default identifier is invalid file
      */
-    inline ResourceFileIdentifier() : Valid(false), Type(sad::resource::RFT_FILE)
+    inline ResourceFileIdentifier() : Valid(false), Type(sad::resource::ResourceFileType::RFT_FILE)
     {
         
     }

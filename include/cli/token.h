@@ -13,7 +13,7 @@ namespace cli
 {
 /*! Describes a token type
  */
-enum TokenType
+enum class TokenType: int
 {
     TT_KEYWORD, //!< A token is a keyword
     TT_VALUE,   //!< A token is a value

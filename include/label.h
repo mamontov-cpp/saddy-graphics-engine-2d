@@ -40,7 +40,7 @@ public:
         when text overflows a line with one word in case that BreakText parameter set to LBT_BREAK_WORD or
         maximal line width is non-zero and BreakText parameter is set to LBT_NORMAL.
      */
-    enum OverflowStrategy
+    enum class OverflowStrategy: int
     {
         LOS_VISIBLE = 0,   //!< A line should be rendered, even if it has length, greater than maximal line width
         LOS_HIDDEN =  1,   //!< A line should be cut, to maximal line width
@@ -48,14 +48,14 @@ public:
     };
     /*! Whether we should break lines in case, that maximal line width is set
      */
-    enum BreakText
+    enum class BreakText: int
     {
         LBT_NORMAL = 0,     //!< A text should be rendered as one line, unless line feed is occurred,
         LBT_BREAK_WORD = 1  //!< A text should be split into lines in case, if line hash length greater then maximal line width. In case it's zero, behaves like LBT_NORMAL
     };
     /*! Defines where suspension point should be placed in case that overflow strategy is LOS_ELLIPSIS
      */ 
-    enum TextEllipsisPosition
+    enum class TextEllipsisPosition: int
     {
         LTEP_BEGIN = 0,   //!< In the beginning of string
         LTEP_MIDDLE  = 1, //!< In the middle of string
@@ -458,8 +458,8 @@ public:
         sad::Label::BreakText bt,
         sad::Label::TextEllipsisPosition tep,
         unsigned int maximum_lines = 0,
-        sad::Label::OverflowStrategy overflow_for_lines = sad::Label::LOS_ELLIPSIS,
-        sad::Label::TextEllipsisPosition text_ellipsis_for_lines = sad::Label::LTEP_BEGIN
+        sad::Label::OverflowStrategy overflow_for_lines = sad::Label::OverflowStrategy::LOS_ELLIPSIS,
+        sad::Label::TextEllipsisPosition text_ellipsis_for_lines = sad::Label::TextEllipsisPosition::LTEP_BEGIN
     );
 
     /*! Creates string, that could be rendered with label,
@@ -482,8 +482,8 @@ public:
         sad::Label::BreakText bt,
         sad::Label::TextEllipsisPosition tep,
         unsigned int maximum_lines = 0,
-        sad::Label::OverflowStrategy overflow_for_lines = sad::Label::LOS_ELLIPSIS,
-        sad::Label::TextEllipsisPosition text_ellipsis_for_lines = sad::Label::LTEP_BEGIN
+        sad::Label::OverflowStrategy overflow_for_lines = sad::Label::OverflowStrategy::LOS_ELLIPSIS,
+        sad::Label::TextEllipsisPosition text_ellipsis_for_lines = sad::Label::TextEllipsisPosition::LTEP_BEGIN
     );
     /*! Computes length for command
         \param[in] c a command for markup
@@ -619,7 +619,7 @@ private:
         \param[in] c command
         \return font with flags
      */
-    sad::Pair<sad::Font*, sad::Font::RenderFlags> applyFontCommand(sad::Font* font, const sad::util::Markup::Command& c);
+    sad::Pair<sad::Font*, int> applyFontCommand(sad::Font* font, const sad::util::Markup::Command& c);
     /*! Tries to get font for document. If not found, returns default font
         \param[in] s string
      */

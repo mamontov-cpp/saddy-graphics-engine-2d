@@ -1,7 +1,7 @@
 #include "layouts/lengthvalue.h"
 
 sad::layouts::LengthValue::LengthValue()
-: Unit(sad::layouts::LU_Pixels), Value(0)
+: Unit(sad::layouts::Unit::LU_Pixels), Value(0)
 {
     
 }

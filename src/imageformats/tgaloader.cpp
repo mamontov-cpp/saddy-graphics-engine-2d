@@ -17,7 +17,7 @@ namespace sad
 namespace imageformats
 {
 
-enum ImageType
+enum class ImageType: int
 {
     IT_NO_DATA        = 0,      /*!< Image doesn't contains any data.                    */
     IT_COLORMAP       = 1,      /*!< Color map without RLE compression.                  */
@@ -52,8 +52,8 @@ struct TGAHeader
 
 static const unsigned int  supported_image_types_count = 2;
 static const unsigned char supported_image_types[supported_image_types_count] = { 
-    sad::imageformats::IT_TRUECOLOR, 
-    sad::imageformats::IT_TRUECOLOR_RLE 
+    static_cast<int>(sad::imageformats::ImageType::IT_TRUECOLOR), 
+    static_cast<int>(sad::imageformats::ImageType::IT_TRUECOLOR_RLE) 
 };
 
 bool sad::imageformats::TGALoader::load(FILE * file, sad::Texture * texture)
@@ -117,8 +117,8 @@ bool sad::imageformats::TGALoader::load(sad::Texture* texture)
     header.bitsPerPix       = header_buffer[16];
     header.imageDescriptor  = header_buffer[17];
 
-    bool image_unsupported = header.imageType != sad::imageformats::IT_TRUECOLOR
-                          && header.imageType != sad::imageformats::IT_TRUECOLOR_RLE;
+    bool image_unsupported = header.imageType != static_cast<int>(sad::imageformats::ImageType::IT_TRUECOLOR)
+                          && header.imageType != static_cast<int>(sad::imageformats::ImageType::IT_TRUECOLOR_RLE);
     if (header.width == 0 || header.height == 0 || image_unsupported)
     {
         return false;
@@ -132,17 +132,17 @@ bool sad::imageformats::TGALoader::load(sad::Texture* texture)
     texture->width() = header.width;
     texture->height() = header.height;
     texture->bpp() = 32;
-    texture->Format = sad::Texture::SFT_R8_G8_B8_A8;
+    texture->Format = sad::Texture::InternalFormat::SFT_R8_G8_B8_A8;
     buffer->Data.resize(header.width * header.height * 4, 255);
     
     // Set bytes per pixel
     m_bypp = header.bitsPerPix / 8;
     bool result = false;
-    if (header.imageType == IT_TRUECOLOR_RLE) 
+    if (header.imageType == static_cast<int>(ImageType::IT_TRUECOLOR_RLE)) 
     {
         result = loadCompressed(texture);
     }
-    if ( header.imageType == IT_TRUECOLOR ) 
+    if ( header.imageType == static_cast<int>(ImageType::IT_TRUECOLOR)) 
     {
         result = loadRaw(texture);
     }

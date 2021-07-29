@@ -47,10 +47,10 @@ sad::p2d::Vector sad::p2d::Bound::normal()
     sad::p2d::Vector result;
     switch(this->m_type)
     {
-        case BT_LEFT: { result = sad::p2d::Vector(1, 0); break; }
-        case BT_RIGHT: { result = sad::p2d::Vector(-1, 0); break; }
-        case BT_DOWN: { result = sad::p2d::Vector(0, 1); break; }
-        case BT_UP: { result = sad::p2d::Vector(0, -1); break; }
+        case BoundType::BT_LEFT: { result = sad::p2d::Vector(1, 0); break; }
+        case BoundType::BT_RIGHT: { result = sad::p2d::Vector(-1, 0); break; }
+        case BoundType::BT_DOWN: { result = sad::p2d::Vector(0, 1); break; }
+        case BoundType::BT_UP: { result = sad::p2d::Vector(0, -1); break; }
     }
     return result;
 }
@@ -59,7 +59,7 @@ sad::p2d::Vector sad::p2d::Bound::normal()
 sad::p2d::InfiniteLine sad::p2d::Bound::boundingLine()
 {
     sad::p2d::InfiniteLine result;
-    if (this->type() == sad::p2d::BT_LEFT || this->type() == sad::p2d::BT_RIGHT)
+    if (this->type() == sad::p2d::BoundType::BT_LEFT || this->type() == sad::p2d::BoundType::BT_RIGHT)
     {
         result = sad::p2d::InfiniteLine::appliedVector( 
             sad::p2d::Point(m_p, 0), 
@@ -83,7 +83,7 @@ size_t sad::p2d::Bound::sizeOfType() const
 
 void sad::p2d::Bound::populatePoints(sad::Vector<sad::p2d::Point> & v) const
 {
-    if (this->type() == sad::p2d::BT_LEFT || this->type() == sad::p2d::BT_RIGHT)
+    if (this->type() == sad::p2d::BoundType::BT_LEFT || this->type() == sad::p2d::BoundType::BT_RIGHT)
     {
         // Evade overflow
         v << sad::p2d::Point(m_p, std::numeric_limits<double>::max() * - 0.99999);
@@ -103,10 +103,10 @@ void sad::p2d::Bound::normalToPointOnSurface(const sad::p2d::Point & p, sad::p2d
     double y;
     switch(this->m_type)
     {
-        case sad::p2d::BT_LEFT:  { x =  1; y =  0;  break; }
-        case sad::p2d::BT_RIGHT: { x = -1; y =  0;  break; }
-        case sad::p2d::BT_DOWN:  { x =  0; y =  1;  break; }
-        case sad::p2d::BT_UP:    { x =  0; y = -1;  break; }
+        case sad::p2d::BoundType::BT_LEFT:  { x =  1; y =  0;  break; }
+        case sad::p2d::BoundType::BT_RIGHT: { x = -1; y =  0;  break; }
+        case sad::p2d::BoundType::BT_DOWN:  { x =  0; y =  1;  break; }
+        case sad::p2d::BoundType::BT_UP:    { x =  0; y = -1;  break; }
     }
     n.setX(x);
     n.setY(y);
@@ -117,10 +117,10 @@ sad::String sad::p2d::Bound::dump() const
     sad::String type;
     switch(this->m_type)
     {
-        case sad::p2d::BT_LEFT:  { type = "Left";  break; }
-        case sad::p2d::BT_RIGHT: { type = "Right";  break; }
-        case sad::p2d::BT_DOWN:  { type = "Bottom";  break; }
-        case sad::p2d::BT_UP:    { type = "Top";  break; }
+        case sad::p2d::BoundType::BT_LEFT:  { type = "Left";  break; }
+        case sad::p2d::BoundType::BT_RIGHT: { type = "Right";  break; }
+        case sad::p2d::BoundType::BT_DOWN:  { type = "Bottom";  break; }
+        case sad::p2d::BoundType::BT_UP:    { type = "Top";  break; }
     }
     return str(fmt::Format("{0} bound at {1}")
                             << type << m_p

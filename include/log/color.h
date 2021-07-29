@@ -14,7 +14,7 @@ namespace log
 /*! Defines a color, for color scheme, which text will be colored, when log message
     is represented on screen
  */
-enum Color
+enum class Color: int
 {
     NONE =  0,
     LIGHT_RED = 1,

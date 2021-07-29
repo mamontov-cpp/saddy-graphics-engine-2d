@@ -22,7 +22,7 @@ sad::util::Markup::Document sad::util::Markup::parseDocument(
     sad::util::Markup::DocumentLine tmp;
     for(size_t i = 0; i < doc.size(); i++)
     {
-        sad::StringList content = doc[i].Content.split("\n", sad::String::KEEP_EMPTY_PARTS);
+        sad::StringList content = doc[i].Content.split("\n", sad::String::SplitBehaviour::KEEP_EMPTY_PARTS);
         if (doc[i].Content.endsWith("\n", 1))
         {
             content << "";
@@ -184,7 +184,7 @@ sad::Maybe<sad::util::Markup::FontSize> sad::util::Markup::parseSize(const sad::
 sad::Maybe<sad::util::Markup::LineSpacingSize> sad::util::Markup::parseLineSpacingSize(const sad::String& s, const sad::Maybe<sad::util::Markup::LineSpacingSize>& parentLineSpacing)
 {
     // Perform substring
-    sad::util::Markup::LineSpacingSizeType type = sad::util::Markup::MLST_PIXELS;
+    sad::util::Markup::LineSpacingSizeType type = sad::util::Markup::LineSpacingSizeType::MLST_PIXELS;
     sad::String data = s;
     if (s.size() >= 2)
     {
@@ -193,12 +193,12 @@ sad::Maybe<sad::util::Markup::LineSpacingSize> sad::util::Markup::parseLineSpaci
         if (result == "px")
         {
             data = s.subString(0, s.length() - 2);
-            type = sad::util::Markup::MLST_PIXELS;
+            type = sad::util::Markup::LineSpacingSizeType::MLST_PIXELS;
         }
         if (result[1] == '%')
         {
             data = s.subString(0, s.length() - 1);
-            type = sad::util::Markup::MLST_PERCENTS;
+            type = sad::util::Markup::LineSpacingSizeType::MLST_PERCENTS;
         }
     }
     else

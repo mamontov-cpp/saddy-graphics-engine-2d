@@ -12,7 +12,7 @@ namespace layouts
 
 /*! Describes, how inner objects should be stacked in cell
  */ 
-enum StackingType
+enum class StackingType: int
 {
 /*! Forces objects to be stacked horizontally
  */	

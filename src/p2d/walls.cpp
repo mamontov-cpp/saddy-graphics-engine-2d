@@ -30,10 +30,10 @@ void sad::p2d::Walls::makeWalls(double width, double height)
     double h = height;
     
     sad::Vector< sad::Pair<p2d::BoundType, double> > pairs;
-    pairs << sad::Pair<p2d::BoundType, double>( sad::p2d::BT_LEFT, -m_padding );
-    pairs << sad::Pair<p2d::BoundType, double>( sad::p2d::BT_RIGHT, w + m_padding);
-    pairs << sad::Pair<p2d::BoundType, double>( sad::p2d::BT_UP, h + m_padding );
-    pairs << sad::Pair<p2d::BoundType, double>( sad::p2d::BT_DOWN, -m_padding );
+    pairs << sad::Pair<p2d::BoundType, double>( sad::p2d::BoundType::BT_LEFT, -m_padding );
+    pairs << sad::Pair<p2d::BoundType, double>( sad::p2d::BoundType::BT_RIGHT, w + m_padding);
+    pairs << sad::Pair<p2d::BoundType, double>( sad::p2d::BoundType::BT_UP, h + m_padding );
+    pairs << sad::Pair<p2d::BoundType, double>( sad::p2d::BoundType::BT_DOWN, -m_padding );
 
     for(size_t i = 0; i < pairs.size(); i++)
     {
@@ -142,7 +142,7 @@ sad::p2d::BoundType  sad::p2d::Wall::type() const
 {
     if (this->m_body == nullptr)
     {
-        return sad::p2d::BT_LEFT;
+        return sad::p2d::BoundType::BT_LEFT;
     }
     return  static_cast<p2d::Bound *>(this->body()->currentShape())
             ->type();

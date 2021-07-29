@@ -29,7 +29,7 @@ struct Markup
 
 /*! Font size type for markup
  */
-enum FontSizeType
+enum class FontSizeType: int
 {
     MFZST_POINTS = 0, //!< Size specified in points
     MFZST_PIXELS = 1  //!< Size specified in pixels
@@ -37,7 +37,7 @@ enum FontSizeType
 
 /*! A linespacing size type for markup
  */
-enum LineSpacingSizeType
+enum class LineSpacingSizeType: int
 {
     MLST_PERCENTS = 0, //!< Size specified in percents
     MLST_PIXELS = 1,   //!< Size specified in pixels
@@ -94,7 +94,7 @@ struct LineSpacingSize
 
     /*! A default constructor
      */
-    inline LineSpacingSize() : Size(0), Type(sad::util::Markup::MLST_PIXELS)
+    inline LineSpacingSize() : Size(0), Type(sad::util::Markup::LineSpacingSizeType::MLST_PIXELS)
     {
 
     }

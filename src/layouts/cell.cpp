@@ -15,9 +15,9 @@ sad::layouts::Cell::Cell()
 : Rendered(false), Row(0), Col(0),
 m_row_span(1),
 m_col_span(1),
-m_valign(sad::layouts::LVA_Middle),
-m_halign(sad::layouts::LHA_Middle),
-m_stacking_type(sad::layouts::LST_Horizontal),
+m_valign(sad::layouts::VerticalAlignment::LVA_Middle),
+m_halign(sad::layouts::HorizontalAlignment::LHA_Middle),
+m_stacking_type(sad::layouts::StackingType::LST_Horizontal),
 m_padding_top(0),
 m_padding_bottom(0),
 m_padding_left(0),
@@ -25,8 +25,8 @@ m_padding_right(0),
 m_grid(nullptr),
 m_db(nullptr)
 {
-    m_width.Unit = sad::layouts::LU_Auto;
-    m_height.Unit = sad::layouts::LU_Auto;
+    m_width.Unit = sad::layouts::Unit::LU_Auto;
+    m_height.Unit = sad::layouts::Unit::LU_Auto;
 }
 
 sad::layouts::Cell::~Cell()
@@ -237,9 +237,9 @@ void sad::layouts::Cell::update()
     size.Height -= this->paddingTop() + this->paddingBottom();
     switch(this->stackingType())
     {
-    case sad::layouts::LST_Horizontal: this->applyHorizontalAlignment(minpoint, maxpoint, assignedheight, size); break;
-    case sad::layouts::LST_Vertical  : this->applyVerticalAlignment(minpoint, maxpoint, assignedwidth, size); break;
-    case sad::layouts::LST_NoStacking: this->applyNoStackingAlinment(minpoint, maxpoint, assignedwidth, assignedheight, size); break;
+	case sad::layouts::StackingType::LST_Horizontal: this->applyHorizontalAlignment(minpoint, maxpoint, assignedheight, size); break;
+    case sad::layouts::StackingType::LST_Vertical  : this->applyVerticalAlignment(minpoint, maxpoint, assignedwidth, size); break;
+    case sad::layouts::StackingType::LST_NoStacking: this->applyNoStackingAlinment(minpoint, maxpoint, assignedwidth, assignedheight, size); break;
     default: this->applyNoStackingAlinment(minpoint, maxpoint, assignedwidth, assignedheight, size); 
     };
 }
@@ -585,7 +585,7 @@ sad::Size2D sad::layouts::Cell::preferredSize() const
     }
     double height = 0;
     double width = 0;
-    if (this->stackingType() == sad::layouts::LST_Horizontal)
+    if (this->stackingType() == sad::layouts::StackingType::LST_Horizontal)
     {
         for(size_t i = 0; i < rects.size(); i++)
         {
@@ -595,7 +595,7 @@ sad::Size2D sad::layouts::Cell::preferredSize() const
     }
     else
     {
-        if (this->stackingType() == sad::layouts::LST_Vertical) 
+        if (this->stackingType() == sad::layouts::StackingType::LST_Vertical) 
         {
             for(size_t i = 0; i < rects.size(); i++)
             {
@@ -620,11 +620,11 @@ sad::Size2D sad::layouts::Cell::preferredSize() const
 sad::Size2D sad::layouts::Cell::computedSize() const
 {
     sad::Size2D result;
-    if (m_width.Unit == sad::layouts::LU_Pixels)
+    if (m_width.Unit == sad::layouts::Unit::LU_Pixels)
     {
         result.Width = m_width.Value;
     }
-    if (m_width.Unit == sad::layouts::LU_Percents)
+    if (m_width.Unit == sad::layouts::Unit::LU_Percents)
     {
         if (m_grid)
         {
@@ -636,11 +636,11 @@ sad::Size2D sad::layouts::Cell::computedSize() const
     }
 
 
-    if (m_height.Unit == sad::layouts::LU_Pixels)
+    if (m_height.Unit == sad::layouts::Unit::LU_Pixels)
     {
         result.Height = m_height.Value;
     }
-    if (m_height.Unit == sad::layouts::LU_Percents)
+    if (m_height.Unit == sad::layouts::Unit::LU_Percents)
     {
         if (m_grid)
         {
@@ -769,13 +769,13 @@ void sad::layouts::Cell::applyHorizontalAlignment(const sad::Point2D& minpoint,c
     double startingpointx = 0;
     switch(this->horizontalAlignment())
     {
-    case sad::layouts::LHA_Left:
+	case sad::layouts::HorizontalAlignment::LHA_Left:
         startingpointx = minpoint.x() + this->paddingLeft();
         break;
-    case sad::layouts::LHA_Middle:
+    case sad::layouts::HorizontalAlignment::LHA_Middle:
         startingpointx = this->paddingLeft() + (minpoint.x() + maxpoint.x() - this->paddingLeft() - this->paddingRight() - size.Width * factor) / 2;
         break;
-    case sad::layouts::LHA_Right:
+    case sad::layouts::HorizontalAlignment::LHA_Right:
         startingpointx = maxpoint.x() - size.Width * factor - this->paddingRight();
         break;
     };
@@ -789,11 +789,11 @@ void sad::layouts::Cell::applyHorizontalAlignment(const sad::Point2D& minpoint,c
             double childheight = childrect.p2().y() - childrect.p1().y();
             double childwidth = childrect.p2().x() - childrect.p1().x();
             double posy = maxpoint.y() - this->paddingTop();
-            if (this->verticalAlignment() == sad::layouts::LVA_Bottom)
+            if (this->verticalAlignment() == sad::layouts::VerticalAlignment::LVA_Bottom)
             {
                 posy = minpoint.y() + this->paddingBottom() + childheight;
             }
-            if (this->verticalAlignment() == sad::layouts::LVA_Middle)
+            if (this->verticalAlignment() == sad::layouts::VerticalAlignment::LVA_Middle)
             {
                 posy = minpoint.y() + this->paddingBottom() + (assignedheight - this->paddingTop() - this->paddingBottom() + childheight) / 2.0;
             }
@@ -819,13 +819,13 @@ void sad::layouts::Cell::applyVerticalAlignment(const sad::Point2D& minpoint,con
     double startingpointy = 0;
     switch(this->verticalAlignment())
     {
-        case sad::layouts::LVA_Top:
+        case sad::layouts::VerticalAlignment::LVA_Top:
             startingpointy = maxpoint.y() - this->paddingTop();
             break;
-        case sad::layouts::LVA_Middle:
+        case sad::layouts::VerticalAlignment::LVA_Middle:
             startingpointy = (minpoint.y() + maxpoint.y() - this->paddingBottom() - this->paddingTop() + size.Height * factor) / 2 + this->paddingBottom();
             break;
-        case sad::layouts::LVA_Bottom:
+        case sad::layouts::VerticalAlignment::LVA_Bottom:
             startingpointy = minpoint.y() + size.Height * factor + this->paddingBottom();
             break;
     };
@@ -839,11 +839,11 @@ void sad::layouts::Cell::applyVerticalAlignment(const sad::Point2D& minpoint,con
             double childheight = childrect.p2().y() - childrect.p1().y();
             double childwidth = childrect.p2().x() - childrect.p1().x();
             double posx = minpoint.x() + this->paddingLeft();
-            if (this->horizontalAlignment() == sad::layouts::LHA_Right)
+            if (this->horizontalAlignment() == sad::layouts::HorizontalAlignment::LHA_Right)
             {
                 posx = maxpoint.x() - childwidth - this->paddingRight();
             }
-            if (this->horizontalAlignment() == sad::layouts::LHA_Middle)
+            if (this->horizontalAlignment() == sad::layouts::HorizontalAlignment::LHA_Middle)
             {
                 posx = minpoint.x() + this->paddingLeft() + (assignedwidth  - this->paddingLeft() - this->paddingRight()  - childwidth) / 2.0;
             }
@@ -869,21 +869,21 @@ void sad::layouts::Cell::applyNoStackingAlinment(const sad::Point2D& minpoint, c
             double childheight = childrect.p2().y() - childrect.p1().y();
             double childwidth = childrect.p2().x() - childrect.p1().x();
             double posx = minpoint.x() + this->paddingLeft();
-            if (this->horizontalAlignment() == sad::layouts::LHA_Right)
+            if (this->horizontalAlignment() == sad::layouts::HorizontalAlignment::LHA_Right)
             {
                 posx = maxpoint.x() - childwidth - this->paddingRight();
             }
-            if (this->horizontalAlignment() == sad::layouts::LHA_Middle)
+            if (this->horizontalAlignment() == sad::layouts::HorizontalAlignment::LHA_Middle)
             {
                 posx = minpoint.x() + this->paddingLeft() + (assignedwidth - padx - childwidth) / 2.0;
             }
 
             double posy = maxpoint.y() - this->paddingTop();
-            if (this->verticalAlignment() == sad::layouts::LVA_Bottom)
+            if (this->verticalAlignment() == sad::layouts::VerticalAlignment::LVA_Bottom)
             {
                 posy = minpoint.y() + childheight + this->paddingBottom();
             }
-            if (this->verticalAlignment() == sad::layouts::LVA_Middle)
+            if (this->verticalAlignment() == sad::layouts::VerticalAlignment::LVA_Middle)
             {
                 posy = minpoint.y() + this->paddingBottom() + (assignedheight - pady + childheight) / 2.0;
             }

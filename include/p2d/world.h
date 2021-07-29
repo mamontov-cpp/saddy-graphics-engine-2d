@@ -335,7 +335,7 @@ public:
     };
     /*! A queued command type for queued commands
      */
-    enum QueuedCommandType
+    enum class QueuedCommandType: int
     {
         P2D_WORLD_QCT_ADD_BODY = 0,     //!< Add body command
         P2D_WORLD_QCT_REMOVE_BODY = 1,  //!< Remove body command

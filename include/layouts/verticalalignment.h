@@ -12,7 +12,7 @@ namespace layouts
 
 /*! Describes a types of vertical alignment of cell
  */ 
-enum VerticalAlignment
+enum class VerticalAlignment: int
 {
 /*! Place objects on top of cell
  */	

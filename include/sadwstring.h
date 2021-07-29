@@ -75,7 +75,7 @@ namespace sad
                \param[in] b behaviour
                \return split parts
            */
-           sad::Vector<sad::WString> split(const sad::WString & o, sad::String::SplitBehaviour b = sad::String::OMIT_EMPTY_PARTS);
+           sad::Vector<sad::WString> split(const sad::WString & o, sad::String::SplitBehaviour b = sad::String::SplitBehaviour::OMIT_EMPTY_PARTS);
            /*! Removes first occurrence from a wide string
                \param[in] o other string
            */

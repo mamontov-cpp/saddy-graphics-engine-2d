@@ -683,17 +683,17 @@ sad::p2d::World::~World()
         sad::p2d::World::QueuedCommand& cmd = (*m_command_queue)[i];
         switch(cmd.Type)
         {
-            case sad::p2d::World::P2D_WORLD_QCT_ADD_BODY:
-            case sad::p2d::World::P2D_WORLD_QCT_REMOVE_BODY:
-            case sad::p2d::World::P2D_WORLD_QCT_ADD_BODY_TO_GROUP:
-            case sad::p2d::World::P2D_WORLD_QCT_REMOVE_BODY_FROM_GROUP:
+            case sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_ADD_BODY:
+            case sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_REMOVE_BODY:
+            case sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_ADD_BODY_TO_GROUP:
+            case sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_REMOVE_BODY_FROM_GROUP:
             {
                 cmd.Body->delRef();
                 break;
             }
-            case sad::p2d::World::P2D_WORLD_QCT_ADD_HANDLER:
-            case sad::p2d::World::P2D_WORLD_QCT_REMOVE_HANDLER_FROM_GROUPS:
-            case sad::p2d::World::P2D_WORLD_QCT_REMOVE_HANDLER:
+            case sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_ADD_HANDLER:
+            case sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_REMOVE_HANDLER_FROM_GROUPS:
+            case sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_REMOVE_HANDLER:
             {
                 cmd.Handler->delRef();
                 break;
@@ -741,7 +741,7 @@ void sad::p2d::World::addBody(sad::p2d::Body* b)
     if (isLockedForChanges())
     {
         sad::p2d::World::QueuedCommand cmd;
-        cmd.Type = sad::p2d::World::P2D_WORLD_QCT_ADD_BODY;
+        cmd.Type = sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_ADD_BODY;
         cmd.Body = b;
         b->addRef();
         addCommand(cmd);
@@ -757,7 +757,7 @@ void sad::p2d::World::removeBody(sad::p2d::Body* b)
     if (isLockedForChanges())
     {
         sad::p2d::World::QueuedCommand cmd;
-        cmd.Type = sad::p2d::World::P2D_WORLD_QCT_REMOVE_BODY;
+        cmd.Type = sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_REMOVE_BODY;
         cmd.Body = b;
         b->addRef();
         addCommand(cmd);
@@ -773,7 +773,7 @@ void sad::p2d::World::clearBodies()
     if (isLockedForChanges())
     {
         sad::p2d::World::QueuedCommand cmd;
-        cmd.Type = sad::p2d::World::P2D_WORLD_QCT_CLEAR_BODIES;
+        cmd.Type = sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_CLEAR_BODIES;
         addCommand(cmd);
     }
     else
@@ -787,7 +787,7 @@ void sad::p2d::World::addBodyToGroup(const sad::String& group_name, sad::p2d::Bo
     if (isLockedForChanges())
     {
         sad::p2d::World::QueuedCommand cmd;
-        cmd.Type = sad::p2d::World::P2D_WORLD_QCT_ADD_BODY_TO_GROUP;
+        cmd.Type = sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_ADD_BODY_TO_GROUP;
         cmd.Body = b;
         cmd.GroupName = group_name;
         b->addRef();
@@ -804,7 +804,7 @@ void sad::p2d::World::removeBodyFromGroup(const sad::String& group_name, sad::p2
     if (isLockedForChanges())
     {
         sad::p2d::World::QueuedCommand cmd;
-        cmd.Type = sad::p2d::World::P2D_WORLD_QCT_REMOVE_BODY_FROM_GROUP;
+        cmd.Type = sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_REMOVE_BODY_FROM_GROUP;
         cmd.Body = b;
         cmd.GroupName = group_name;
         b->addRef();
@@ -821,7 +821,7 @@ void sad::p2d::World::clearGroup(const sad::String& group_name)
     if (isLockedForChanges())
     {
         sad::p2d::World::QueuedCommand cmd;
-        cmd.Type = sad::p2d::World::P2D_WORLD_QCT_CLEAR_GROUP;
+        cmd.Type = sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_CLEAR_GROUP;
         cmd.GroupName = group_name;
         addCommand(cmd);
     }
@@ -837,7 +837,7 @@ void sad::p2d::World::addGroup(const sad::String& group_name)
     if (isLockedForChanges())
     {
         sad::p2d::World::QueuedCommand cmd;
-        cmd.Type = sad::p2d::World::P2D_WORLD_QCT_ADD_GROUP;
+        cmd.Type = sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_ADD_GROUP;
         cmd.GroupName = group_name;
         addCommand(cmd);
     }
@@ -852,7 +852,7 @@ void sad::p2d::World::removeGroup(const sad::String& group_name)
     if (isLockedForChanges())
     {
         sad::p2d::World::QueuedCommand cmd;
-        cmd.Type = sad::p2d::World::P2D_WORLD_QCT_REMOVE_GROUP;
+        cmd.Type = sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_REMOVE_GROUP;
         cmd.GroupName = group_name;
         addCommand(cmd);
     }
@@ -868,7 +868,7 @@ void sad::p2d::World::clearGroups()
     if (isLockedForChanges())
     {
         sad::p2d::World::QueuedCommand cmd;
-        cmd.Type = sad::p2d::World::P2D_WORLD_QCT_CLEAR_GROUPS;
+        cmd.Type = sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_CLEAR_GROUPS;
         addCommand(cmd);
     }
     else
@@ -886,7 +886,7 @@ sad::p2d::BasicCollisionHandler* sad::p2d::World::addHandler(
     if (isLockedForChanges())
     {
         sad::p2d::World::QueuedCommand cmd;
-        cmd.Type = sad::p2d::World::P2D_WORLD_QCT_ADD_HANDLER;
+        cmd.Type = sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_ADD_HANDLER;
         cmd.GroupName = first_group_name;
         cmd.SecondGroupName = second_group_name;
         cmd.Handler = h;
@@ -905,7 +905,7 @@ void sad::p2d::World::removeHandler(sad::p2d::BasicCollisionHandler *h)
     if (isLockedForChanges())
     {
         sad::p2d::World::QueuedCommand cmd;
-        cmd.Type = sad::p2d::World::P2D_WORLD_QCT_REMOVE_HANDLER;
+        cmd.Type = sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_REMOVE_HANDLER;
         cmd.Handler = h;
         h->addRef();
         addCommand(cmd);
@@ -925,7 +925,7 @@ void sad::p2d::World::removeHandlerFromGroups(
     if (isLockedForChanges())
     {
         sad::p2d::World::QueuedCommand cmd;
-        cmd.Type = sad::p2d::World::P2D_WORLD_QCT_REMOVE_HANDLER_FROM_GROUPS;
+        cmd.Type = sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_REMOVE_HANDLER_FROM_GROUPS;
         cmd.GroupName = first_group_name;
         cmd.SecondGroupName = second_group_name;
         cmd.Handler = h;
@@ -943,7 +943,7 @@ void sad::p2d::World::clearHandlers()
     if (isLockedForChanges())
     {
         sad::p2d::World::QueuedCommand cmd;
-        cmd.Type = sad::p2d::World::P2D_WORLD_QCT_CLEAR_HANDLERS;
+        cmd.Type = sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_CLEAR_HANDLERS;
         addCommand(cmd);
     }
     else
@@ -957,7 +957,7 @@ void sad::p2d::World::clearHandlersForGroups(const sad::String& first_group, con
     if (isLockedForChanges())
     {
         sad::p2d::World::QueuedCommand cmd;
-        cmd.Type = sad::p2d::World::P2D_WORLD_QCT_CLEAR_HANDLERS_FOR_GROUPS;
+        cmd.Type = sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_CLEAR_HANDLERS_FOR_GROUPS;
         cmd.GroupName = first_group;
         cmd.SecondGroupName = second_group;
         addCommand(cmd);
@@ -973,7 +973,7 @@ void sad::p2d::World::clear()
     if (isLockedForChanges())
     {
         sad::p2d::World::QueuedCommand cmd;
-        cmd.Type = sad::p2d::World::P2D_WORLD_QCT_CLEAR;
+        cmd.Type = sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_CLEAR;
         addCommand(cmd);
     }
     else
@@ -987,7 +987,7 @@ void sad::p2d::World::step(double time)
     if (isLockedForChanges())
     {
         sad::p2d::World::QueuedCommand cmd;
-        cmd.Type = sad::p2d::World::P2D_WORLD_QCT_STEP;
+        cmd.Type = sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_STEP;
         cmd.StepValue = time;
         addCommand(cmd);
     }
@@ -1260,89 +1260,89 @@ void sad::p2d::World::performQueuedCommands()
             sad::p2d::World::QueuedCommand& cmd = (*queue)[i];
             switch(cmd.Type)
             {
-                case sad::p2d::World::P2D_WORLD_QCT_ADD_BODY:
+                case sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_ADD_BODY:
                 {
                     addBodyNow(cmd.Body);
                     cmd.Body->delRef();
                     break;
                 }
-                case sad::p2d::World::P2D_WORLD_QCT_REMOVE_BODY:
+                case sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_REMOVE_BODY:
                 {
                     removeBodyNow(cmd.Body);
                     cmd.Body->delRef();
                     break;
                 }
-                case sad::p2d::World::P2D_WORLD_QCT_CLEAR_BODIES:
+                case sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_CLEAR_BODIES:
                 {
                     clearBodiesNow();
                     break;
                 }
-                case sad::p2d::World::P2D_WORLD_QCT_ADD_BODY_TO_GROUP:
+                case sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_ADD_BODY_TO_GROUP:
                 {
                     addBodyToGroupNow(cmd.GroupName, cmd.Body);
                     cmd.Body->delRef();
                     break;
                 }
-                case sad::p2d::World::P2D_WORLD_QCT_REMOVE_BODY_FROM_GROUP:
+                case sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_REMOVE_BODY_FROM_GROUP:
                 {
                     removeBodyFromGroupNow(cmd.GroupName, cmd.Body);
                     cmd.Body->delRef();
                     break;
                 }
-                case sad::p2d::World::P2D_WORLD_QCT_ADD_GROUP:
+                case sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_ADD_GROUP:
                 {
                     addGroupNow(cmd.GroupName);
                     break;
                 }
-                case sad::p2d::World::P2D_WORLD_QCT_REMOVE_GROUP:
+                case sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_REMOVE_GROUP:
                 {
                     removeGroupNow(cmd.GroupName);
                     break;
                 }
-                case sad::p2d::World::P2D_WORLD_QCT_CLEAR_GROUP:
+                case sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_CLEAR_GROUP:
                 {
                     clearGroupNow(cmd.GroupName);
                     break;
                 }
-                case sad::p2d::World::P2D_WORLD_QCT_CLEAR_GROUPS:
+                case sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_CLEAR_GROUPS:
                 {
                     clearGroupsNow();
                     break;
                 }
-                case sad::p2d::World::P2D_WORLD_QCT_ADD_HANDLER:
+                case sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_ADD_HANDLER:
                 {
                     addHandlerNow(cmd.GroupName, cmd.SecondGroupName, cmd.Handler);
                     cmd.Handler->delRef();
                     break;
                 }
-                case sad::p2d::World::P2D_WORLD_QCT_REMOVE_HANDLER_FROM_GROUPS:
+                case sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_REMOVE_HANDLER_FROM_GROUPS:
                 {
                     removeHandlerFromGroupsNow(cmd.GroupName, cmd.SecondGroupName, cmd.Handler);
                     cmd.Handler->delRef();
                     break;
                 }
-                case sad::p2d::World::P2D_WORLD_QCT_REMOVE_HANDLER:
+                case sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_REMOVE_HANDLER:
                 {
                     removeHandlerNow(cmd.Handler);
                     cmd.Handler->delRef();
                     break;
                 }
-                case sad::p2d::World::P2D_WORLD_QCT_CLEAR_HANDLERS:
+                case sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_CLEAR_HANDLERS:
                 {
                     clearHandlersNow();
                     break;
                 }
-                case sad::p2d::World::P2D_WORLD_QCT_CLEAR_HANDLERS_FOR_GROUPS:
+                case sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_CLEAR_HANDLERS_FOR_GROUPS:
                 {
                     clearHandlersForGroupsNow(cmd.GroupName, cmd.SecondGroupName);
                     break;
                 }
-                case sad::p2d::World::P2D_WORLD_QCT_CLEAR:
+                case sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_CLEAR:
                 {
                     clearNow();
                     break;
                 }
-                case sad::p2d::World::P2D_WORLD_QCT_STEP:
+                case sad::p2d::World::QueuedCommandType::P2D_WORLD_QCT_STEP:
                 {
                     stepNow(cmd.StepValue);
                     break;

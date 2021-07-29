@@ -203,22 +203,22 @@ public:
                 {
                     result.mutableValue().ColSpan = 1;
                 }
-                if (maybeVAlign.value() > static_cast<unsigned int>(sad::layouts::LVA_Bottom))
+                if (maybeVAlign.value() > static_cast<unsigned int>(sad::layouts::VerticalAlignment::LVA_Bottom))
                 {
-                    maybeVAlign.setValue(static_cast<unsigned int>(sad::layouts::LVA_Bottom));
+                    maybeVAlign.setValue(static_cast<unsigned int>(sad::layouts::VerticalAlignment::LVA_Bottom));
                 }
                 result.mutableValue().VAlign = static_cast<sad::layouts::VerticalAlignment>(maybeVAlign.value());
 
-                if (maybeHAlign.value() > static_cast<unsigned int>(sad::layouts::LHA_Right))
+                if (maybeHAlign.value() > static_cast<unsigned int>(sad::layouts::HorizontalAlignment::LHA_Right))
                 {
-                    maybeHAlign.setValue(static_cast<unsigned int>(sad::layouts::LHA_Right));
+                    maybeHAlign.setValue(static_cast<unsigned int>(sad::layouts::HorizontalAlignment::LHA_Right));
                 }
                 result.mutableValue().HAlign = static_cast<sad::layouts::HorizontalAlignment>(maybeHAlign.value());
                 result.mutableValue().Children = maybeChildren.mutableValue();
 
-                if (maybeStackingType.value() > static_cast<unsigned int>(sad::layouts::LST_NoStacking))
+                if (maybeStackingType.value() > static_cast<unsigned int>(sad::layouts::StackingType::LST_NoStacking))
                 {
-                    maybeStackingType.setValue(static_cast<unsigned int>(sad::layouts::LST_NoStacking));
+                    maybeStackingType.setValue(static_cast<unsigned int>(sad::layouts::StackingType::LST_NoStacking));
                 }
                 result.mutableValue().StackingType = static_cast<sad::layouts::StackingType>(maybeStackingType.value());
 

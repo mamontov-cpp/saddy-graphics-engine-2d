@@ -82,9 +82,9 @@ protected:
     /*! Tries to fetch OpenGL strings via glGetString
      */
     void tryFetchStrings();
-    /*! Tries to set a by fetching string with enum value via glGetString
+    /*! Tries to set a by fetching string with enum class value via glGetString: int
         \param[out] s string
-        \param[in]  e enum value 
+        \param[in]  e enum class value : int
      */
     void trySetString(sad::String & s, unsigned int e);
     /*! An attached renderer to implementation

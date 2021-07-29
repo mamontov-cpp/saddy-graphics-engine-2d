@@ -12,7 +12,7 @@ namespace layouts
 
 /*! Describes a types of horizontal alignment of cell
  */ 
-enum HorizontalAlignment
+enum class HorizontalAlignment: int
 {
 /*! Left alignment
  */	

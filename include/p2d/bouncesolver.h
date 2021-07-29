@@ -28,7 +28,7 @@ SAD_OBJECT
 public:
     /*! A type of inelastic collisions for solver
      */
-    enum InelasticCollisionType
+    enum class InelasticCollisionType: int
     {
        ICT_NO_INELASTIC_COLLISION = 0,   //!< Resolve all collisions as elastic, do not enable special routine for inelastic collisions
        ICT_FIRST = 1,                    //!< First body in collision will stick to other body and move as one with it, other won't change it's speed
