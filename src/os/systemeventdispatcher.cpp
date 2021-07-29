@@ -181,7 +181,7 @@ void sad::os::SystemEventDispatcher::reset()
         sad::input::MouseEnterEvent ev;
         ev.Point = sad::Point2D(pnt.value().x(), pnt.value().y()); // Dumb, but what else?
         ev.Point3D = pnt.value();
-        m_renderer->controls()->postEvent(sad::input::ET_MouseEnter, ev);
+        m_renderer->controls()->postEvent(sad::input::EventType::ET_MouseEnter, ev);
     }
 }
 
@@ -504,7 +504,7 @@ void sad::os::SystemEventDispatcher::processKeyPress(
 #endif
 
 #ifdef X11
-    if (ev.Key == sad::LeftAlt || ev.Key == sad::RightAlt)
+    if (ev.Key == sad::KeyboardKey::LeftAlt || ev.Key == sad::KeyboardKey::RightAlt)
     {
         m_alt_is_held = true;
     }
@@ -548,7 +548,7 @@ void sad::os::SystemEventDispatcher::processKeyRelease(
 
 
 #ifdef X11
-    if (ev.Key == sad::LeftAlt || ev.Key == sad::RightAlt)
+    if (ev.Key == sad::KeyboardKey::LeftAlt || ev.Key == sad::KeyboardKey::RightAlt)
     {
         m_alt_is_held = false;
     }
@@ -600,7 +600,7 @@ void sad::os::SystemEventDispatcher::processMousePress(sad::os::SystemWindowEven
         return;
     }
 
-    sad::MouseButton btn = sad::MouseLeft;
+    sad::MouseButton btn = sad::MouseButton::MouseLeft;
     switch(e.Event.xbutton.button)
     {
         case Button1: btn = sad::MouseButton::MouseLeft; break;
@@ -704,7 +704,7 @@ void sad::os::SystemEventDispatcher::processMouseRelease(sad::os::SystemWindowEv
     {
         return;
     }
-    sad::MouseButton btn = sad::MouseLeft;
+    sad::MouseButton btn = sad::MouseButton::MouseLeft;
     switch(e.Event.xbutton.button)
     {
         case Button2: btn = sad::MouseButton::MouseRight; break;
