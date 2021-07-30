@@ -617,7 +617,7 @@ void sad::os::SystemEventDispatcher::processMousePress(sad::os::SystemWindowEven
         if (btn == m_doubleclick_button)
         {
             m_doubleclick_timer.stop();
-            if (m_doubleclick_timer.elapsed() <= m_renderer->controls()->doubleClickSensivity())
+            if (m_doubleclick_timer.elapsed() <= m_renderer->controls()->doubleClickSensitivity())
             {
                 sad::input::MouseDoubleClickEvent dlclev;
                 dlclev.Point = this->toClient(p);
